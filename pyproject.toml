@@ -1,0 +1,28 @@
+[build-system]
+requires = ["maturin>=1.5,<2"]
+build-backend = "maturin"
+
+[project]
+name = "kshana"
+description = "Open hybrid quantum/classical PNT performance simulator"
+requires-python = ">=3.9"
+license = "Apache-2.0"
+authors = [{ name = "Chakshu Baweja", email = "contact@ashforde.org" }]
+readme = "README.md"
+keywords = ["pnt", "navigation", "quantum", "gnss", "simulation"]
+classifiers = [
+  "Programming Language :: Rust",
+  "Programming Language :: Python :: 3",
+  "Topic :: Scientific/Engineering",
+  "Intended Audience :: Science/Research",
+]
+dynamic = ["version"]
+
+[project.urls]
+Repository = "https://github.com/AshfordeOU/kshana"
+
+[tool.maturin]
+# Build the extension module from the `python` Cargo feature; abi3 wheels work
+# across CPython >= 3.9. maturin sets the macOS `-undefined dynamic_lookup` link
+# flag automatically.
+features = ["python"]
