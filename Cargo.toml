@@ -16,6 +16,8 @@ rust-version = "1.75"
 [lib]
 name = "kshana"
 path = "src/lib.rs"
+# rlib for the CLI and tests; cdylib for the Python / WebAssembly extension modules.
+crate-type = ["rlib", "cdylib"]
 
 [[bin]]
 name = "kshana"
@@ -30,3 +32,11 @@ serde_json = "1"
 toml = "0.8"
 sha2 = "0.10"
 hex = "0.4"
+
+# Optional bindings. Off by default: the core library, CLI, tests, and the
+# dependency-audit gate never compile or scan these unless the feature is enabled.
+pyo3 = { version = "0.22", features = ["extension-module", "abi3-py39"], optional = true }
+
+[features]
+# Python extension module, built with maturin (`maturin build --features python`).
+python = ["dep:pyo3"]

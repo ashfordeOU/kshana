@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 pub mod allan;
+pub mod api;
 pub mod estimator;
 pub mod fom;
 pub mod hybrid;
@@ -7,6 +8,8 @@ pub mod inertial;
 pub mod kalman;
 pub mod models;
 pub mod orbit;
+#[cfg(feature = "python")]
+pub mod python;
 pub mod report;
 pub mod run;
 pub mod scenario;

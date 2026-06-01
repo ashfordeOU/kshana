@@ -90,12 +90,40 @@ cargo run -- scenarios/timetransfer.toml
 cargo run -- scenarios/hybrid-pnt.toml
 ```
 
+```bash
+cargo run -- scenarios/orbit-gnss-challenged.toml
+```
+
 Example output:
 
 ```
 scenario fe4295669702 | quantum PNT-holdover 6600s (t 6600s/p 6600s) | classical PNT-holdover 350s (t 6600s/p 350s)
 wrote scenarios/hybrid-pnt.result.json and scenarios/hybrid-pnt.chart.svg
 ```
+
+### Python
+
+An optional Python extension (PyO3, abi3) wraps the same engine. Build and install
+it with [maturin](https://www.maturin.rs/):
+
+```bash
+pip install maturin
+maturin develop --features python   # or: maturin build --features python
+```
+
+```python
+import json, kshana
+
+result = json.loads(kshana.run(open("scenarios/clock-holdover.toml").read()))
+print(result["quantum"]["fom"]["integrity"])
+
+# json, svg, and a one-line summary at once:
+result_json, chart_svg, summary = kshana.run_full(open("scenarios/orbit-gnss-challenged.toml").read())
+print(kshana.version(), summary)
+```
+
+Wheels are built for Linux, macOS, and Windows by the `wheels` workflow on each
+release tag.
 
 ## Scenario format
 
@@ -205,15 +233,21 @@ kshana/
 │   ├── estimator.rs    # HoldoverEstimator (quadratic offset+aging removal)
 │   ├── fom.rs          # figure-of-merit scoring
 │   ├── allan.rs        # overlapping Allan deviation
+│   ├── kalman.rs       # two-state Kalman clock estimator + integrity bound
 │   ├── report.rs       # result schema, scenario hash, SVG chart (clock)
-│   ├── run.rs          # clock run pipeline
-│   ├── inertial.rs     # Pack 2: accelerometer dead-reckoning + position FoMs
+│   ├── run.rs          # clock + orbit-clock run pipelines
+│   ├── inertial.rs     # Pack 2: inertial dead-reckoning (accel + gyro) + FoMs
 │   ├── timetransfer.rs # Pack 3: optical/RF time-transfer link
 │   ├── hybrid.rs       # Pack 4: combined PNT suite + ISL clock-aiding
+│   ├── orbit.rs        # orbit propagation + GNSS line-of-sight visibility
+│   ├── api.rs          # scenario dispatch shared by the CLI and bindings
+│   ├── python.rs       # optional PyO3 extension (feature = "python")
 │   └── main.rs         # CLI
-├── scenarios/          # one cited scenario per pack
+├── scenarios/          # cited scenarios (one per pack + a geometry-driven one)
 ├── scripts/            # reproducibility + repo-hygiene guards
 ├── docs/               # ARCHITECTURE, VALIDATION, design notes
+├── .github/workflows/  # CI gate, release, and wheel-build pipelines
+├── pyproject.toml      # Python packaging (maturin)
 ├── CHANGELOG.md        # Keep a Changelog + SemVer
 └── CONTRIBUTING.md
 ```
@@ -234,11 +268,12 @@ kshana/
 ## Roadmap
 
 See [`CHANGELOG.md`](CHANGELOG.md) for released history and the `[Unreleased]`
-section for what's next (Python + WebAssembly bindings). A flicker (1/f) FM clock
-floor, a gyro channel (bias + angular random walk with gravity-tilt coupling),
-segment-aware multi-window holdover scoring, a two-state Kalman clock estimator
-(driving the Integrity figure of merit), and geometry-derived GNSS availability
-(orbit propagation + line-of-sight visibility) have landed on `main`.
+section for what's next (WebAssembly bindings; higher-fidelity orbit propagation).
+A flicker (1/f) FM clock floor, a gyro channel (bias + angular random walk with
+gravity-tilt coupling), segment-aware multi-window holdover scoring, a two-state
+Kalman clock estimator (driving the Integrity figure of merit), geometry-derived
+GNSS availability (orbit propagation + line-of-sight visibility), and an optional
+Python (PyO3) extension have landed on `main`.
 
 ## Contributing
 
