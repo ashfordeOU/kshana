@@ -35,3 +35,13 @@ fn lab_sr_scenario_runs_and_beats_classical() {
     assert!(r.quantum.fom.timing_p95_ns < r.classical.fom.timing_p95_ns);
     assert!(r.quantum.fom.holdover_s >= r.classical.fom.holdover_s);
 }
+
+#[test]
+fn timetransfer_optical_beats_rf() {
+    let src = std::fs::read_to_string("scenarios/timetransfer.toml").unwrap();
+    let scn: kshana::timetransfer::TimeTransferScenario = toml::from_str(&src).unwrap();
+    let r = kshana::timetransfer::run_timetransfer(&scn);
+    assert!(r.quantum.fom.sync_p95_ps < r.classical.fom.sync_p95_ps);
+    assert!(r.quantum.fom.range_rms_mm < r.classical.fom.range_rms_mm);
+    assert!(r.quantum.fom.within_spec_fraction >= r.classical.fom.within_spec_fraction);
+}
