@@ -9,6 +9,11 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Changed
+- Release notes are now generated from the curated CHANGELOG section for the tag
+  (`scripts/changelog-extract.sh`), so each GitHub release highlights what changed
+  instead of listing raw commits.
+
 ### Planned
 - Higher-fidelity orbit propagation (precise ephemerides / perturbations),
   beyond the current circular-orbit model.
