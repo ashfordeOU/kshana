@@ -1,0 +1,25 @@
+cff-version: 1.2.0
+title: "Kshana — hybrid quantum/classical PNT performance simulator"
+message: "If you use Kshana in your work, please cite it using this metadata."
+type: software
+authors:
+  - family-names: Baweja
+    given-names: Chakshu
+    email: contact@ashforde.org
+repository-code: "https://github.com/AshfordeOU/kshana"
+url: "https://github.com/AshfordeOU/kshana"
+abstract: >-
+  Open, reproducible simulator for hybrid quantum/classical positioning,
+  navigation and timing (PNT). Quantifies the performance, autonomy, and
+  resilience advantage of quantum clocks, quantum inertial sensors, and optical
+  time transfer over classical PNT, scored against operational figures of merit,
+  with every sensor parameter traceable to a published source.
+keywords:
+  - PNT
+  - navigation
+  - quantum
+  - GNSS
+  - simulation
+license: Apache-2.0
+version: 0.1.0
+date-released: "2026-06-01"
