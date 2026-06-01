@@ -10,7 +10,7 @@ pub struct Sample {
     pub gnss: GnssState,
 }
 
-/// ESA's six figures of merit (Integrity/Security not modeled in v0.1).
+/// The six operational PNT figures of merit (Integrity/Security not modeled in v0.1).
 #[derive(Clone, Debug, Serialize)]
 pub struct FoMScores {
     pub timing_rms_ns: f64,

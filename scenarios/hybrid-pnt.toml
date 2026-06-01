@@ -21,8 +21,8 @@ interval_s = 60.0
 sigma_j_s = 1.0e-12
 
 [clock_quantum]
-id = "optical-soc"
-provenance = "ESA SOC Sr optical lattice clock, space goal sigma_y(1s)=1e-15 (arXiv:1503.08457)"
+id = "optical-sr-lattice"
+provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (arXiv:1503.08457)"
 y0 = 5.0e-17
 q_wf = 1.0e-30
 q_rw = 0.0
