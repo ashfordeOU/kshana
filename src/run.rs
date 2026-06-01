@@ -66,6 +66,30 @@ fn run_clock(scn: &Scenario, cfg: &ClockCfg, seed: u64) -> ClockRun {
     }
 }
 
+/// Run a clock-holdover scenario whose GNSS availability is derived from orbital
+/// geometry. The user orbit, constellation, and elevation mask produce a
+/// visibility timeline, which then drives the standard clock-holdover run.
+pub fn run_orbit_clock(scn: &crate::orbit::OrbitClockScenario) -> RunResult {
+    let user = scn.user.to_orbit();
+    let sats = scn.constellation.satellites();
+    let timeline = crate::orbit::build_timeline(
+        &user,
+        &sats,
+        scn.time.step_s,
+        scn.time.duration_s,
+        scn.mask_deg,
+    );
+    let inner = Scenario {
+        seed: scn.seed,
+        threshold_ns: scn.threshold_ns,
+        time: scn.time.clone(),
+        gnss: timeline,
+        clock_quantum: scn.clock_quantum.clone(),
+        clock_classical: scn.clock_classical.clone(),
+    };
+    run(&inner)
+}
+
 /// Run the clock-holdover scenario for both clocks and assemble the result.
 pub fn run(scn: &Scenario) -> RunResult {
     RunResult {

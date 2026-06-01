@@ -18,7 +18,6 @@ breaking changes are called out explicitly.
   walk drive an attitude (tilt) error that couples gravity into a horizontal
   specific-force error, the dominant strapdown error-growth mechanism. Off by
   default; enabled per sensor via the optional `gyro_bias` and `q_arw` fields.
-
 - Two-state (phase, frequency) Kalman clock estimator with exact van Loan
   process-noise discretisation. Coasting from a known state reproduces the
   analytic holdover error growth (`q_wf*T + q_rw*T^3/3`) exactly, and the filter
@@ -26,6 +25,11 @@ breaking changes are called out explicitly.
 - The clock run now reports the **Integrity** figure of merit (previously
   unpopulated): the fraction of outage samples whose error stays inside the
   filter's 3-sigma protection bound, surfaced in the JSON result and CLI summary.
+- Geometry-derived GNSS availability: circular-orbit propagation, a Walker-delta
+  constellation generator, and line-of-sight visibility (Earth-occultation plus
+  elevation mask) produce the availability timeline from real orbital geometry.
+  New `orbit` scenario kind and the `orbit-gnss-challenged.toml` reference
+  scenario (a spacecraft inside the GNSS shell with intermittent coverage).
 
 ### Changed
 - Holdover scoring is now segment-aware: outage timelines are split into
@@ -36,7 +40,9 @@ breaking changes are called out explicitly.
   reflecting the combined accelerometer and gyro channels.
 
 ### Planned
-- Orbit-based scenarios (precise time + propagation libraries) and position error.
+- Higher-fidelity orbit propagation (precise ephemerides / perturbations) and a
+  position-domain error from the geometry (e.g. GDOP), beyond the current
+  circular-orbit availability model.
 - Python (PyO3) and WebAssembly bindings.
 
 ## [0.1.0] - 2026-06-01
