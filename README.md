@@ -143,8 +143,8 @@ console.log(version(), result.classical.fom.timing_p95_ns);
 ## Scenario format
 
 Scenarios are declarative TOML. A top-level `kind` selects the pack
-(`clock` is the default if omitted; `inertial`, `timetransfer`, `hybrid`). Common
-fields: `seed`, a `[time]` grid, a `[gnss]` availability timeline (the outage
+(`clock` is the default if omitted; `inertial`, `timetransfer`, `hybrid`, `orbit`).
+Common fields: `seed`, a `[time]` grid, a `[gnss]` availability timeline (the outage
 driver), and per-sensor blocks with `provenance` strings citing the source of every
 figure. Example (clock):
 
@@ -173,6 +173,35 @@ y0 = 5.0e-10
 q_wf = 9.0e-20
 q_rw = 0.0
 drift = 0.0
+```
+
+Optional fields (off when absent): a clock may add `flicker_floor` (1/f FM Allan
+floor); an inertial sensor may add `gyro_bias` and `q_arw` (gyro bias and angular
+random walk, which couple gravity into the position error).
+
+An `orbit` scenario derives the `[gnss]` timeline from geometry instead of authoring
+it — give a `[user]` orbit, a `[constellation]`, an elevation `mask_deg`, and the two
+clock blocks:
+
+```toml
+kind = "orbit"
+seed = 7
+threshold_ns = 5.0
+mask_deg = 10.0
+[time]
+step_s = 60.0
+duration_s = 86400.0
+[user]                       # spacecraft (altitude in km, angles in deg)
+altitude_km = 8000.0
+inclination_deg = 0.0
+[constellation]              # Walker-delta GNSS (GPS-like)
+altitude_km = 20180.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
+[clock_quantum]  # ... as above
+[clock_classical]  # ... as above
 ```
 
 See `scenarios/` for one example of every kind.
@@ -211,27 +240,30 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    main["main.rs — CLI, dispatch by kind"]
+    cli["CLI · Python · WebAssembly"] --> api["api — run_toml: dispatch by kind"]
     subgraph shared["Shared core"]
       types["types"]
       scenario["scenario · GNSS timeline"]
       allan["allan — Allan deviation"]
     end
     subgraph p1["Pack 1 · Clock"]
-      models["models — ClockModel"]
+      models["models — ClockModel (+ flicker)"]
       estimator["estimator — holdover"]
+      kalman["kalman — Integrity bound"]
       fom["fom · report · run"]
     end
-    p2["Pack 2 · inertial — dead-reckoning"]
+    p2["Pack 2 · inertial — accel + gyro"]
     p3["Pack 3 · timetransfer — optical/RF link"]
     p4["Pack 4 · hybrid — fused PNT suite"]
-    main --> p1
-    main --> p2
-    main --> p3
-    main --> p4
+    orbit["orbit — geometry → GNSS timeline"]
+    api --> p1
+    api --> p2
+    api --> p3
+    api --> p4
     p1 --> shared
     p2 --> shared
     p3 --> shared
+    orbit --> p1
     p4 -. composes .-> p1
     p4 -. composes .-> p2
     p4 -. composes .-> p3
