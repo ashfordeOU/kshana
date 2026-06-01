@@ -1,5 +1,10 @@
 # Kshana
 
+[![CI](https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml/badge.svg)](https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml)
+[![Release](https://img.shields.io/github/v/release/ashfordeOU/kshana?sort=semver)](https://github.com/ashfordeOU/kshana/releases)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![Rust](https://img.shields.io/badge/rust-1.75%2B-orange.svg)](Cargo.toml)
+
 **Kshana** (क्षण, Sanskrit: *"the precise instant"*) is an open, reproducible simulator
 for **hybrid quantum/classical PNT** — positioning, navigation, and timing.
 
@@ -12,11 +17,13 @@ and every sensor parameter is traceable to a published source.
 *Free and open source under Apache-2.0, professionally developed and maintained by
 Ashforde OÜ — commercial support, integration, and proprietary extensions available.*
 
-> **Status: research-grade, v0.1.0.** Four sensor packs implemented, calibrated to
-> published data, and validated against the standard relations. Read
-> [`docs/VALIDATION.md`](docs/VALIDATION.md) before citing any number — each noise
-> term is labelled `validated` or `not modeled`, and optical-clock figures are
-> *space goals on ground hardware* (no strontium optical clock has flown).
+> **Status: research-grade, v0.2.0.** Four sensor packs, a Kalman estimator driving an
+> integrity bound, and geometry-derived GNSS availability — all calibrated to published
+> data and validated against the standard relations, with optional Python and
+> WebAssembly bindings. Read [`docs/VALIDATION.md`](docs/VALIDATION.md) before citing
+> any number — each noise term is labelled `validated` or `not modeled`, and
+> optical-clock figures are *space goals on ground hardware* (no strontium optical
+> clock has flown).
 
 ---
 
@@ -75,7 +82,7 @@ Requires a Rust toolchain (≥ 1.75; developed on 1.93).
 git clone https://github.com/AshfordeOU/kshana
 cd kshana
 cargo build --release
-cargo test          # 37 tests
+cargo test          # all tests pass
 ```
 
 ## Usage
@@ -88,17 +95,14 @@ cargo run -- scenarios/clock-holdover.toml
 cargo run -- scenarios/imu-deadreckoning.toml
 cargo run -- scenarios/timetransfer.toml
 cargo run -- scenarios/hybrid-pnt.toml
-```
-
-```bash
 cargo run -- scenarios/orbit-gnss-challenged.toml
 ```
 
-Example output:
+Example output (clock holdover — note the Integrity figure of merit):
 
 ```
-scenario fe4295669702 | quantum PNT-holdover 6600s (t 6600s/p 6600s) | classical PNT-holdover 350s (t 6600s/p 350s)
-wrote scenarios/hybrid-pnt.result.json and scenarios/hybrid-pnt.chart.svg
+scenario c827e5d40d25 | quantum holdover 6600s p95 0.0ns integrity 1.000 | classical holdover 2610s p95 19.7ns integrity 1.000
+wrote scenarios/clock-holdover.result.json and scenarios/clock-holdover.chart.svg
 ```
 
 ### Python
@@ -328,6 +332,12 @@ Python (PyO3) and WebAssembly (wasm-bindgen) bindings have landed on `main`.
 See [`CONTRIBUTING.md`](CONTRIBUTING.md). In short: tests pass (`cargo test`), the
 two guard scripts pass, Conventional Commits, and a `CHANGELOG.md` `[Unreleased]`
 entry for every user-visible change.
+
+## Citing
+
+If you use Kshana in academic or technical work, please cite it. Machine-readable
+metadata is in [`CITATION.cff`](CITATION.cff) (GitHub renders a "Cite this repository"
+button from it); cite the version you used (e.g. `v0.2.0`).
 
 ## License
 
