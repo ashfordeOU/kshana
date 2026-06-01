@@ -24,7 +24,10 @@ fn csac_white_fm_adev_matches_datasheet() {
     let phase = simulate_phase(target * target, 8192, 7);
     let adev1 = overlapping_adev(&phase, 1.0, 1);
     let rel = (adev1 - target).abs() / target;
-    assert!(rel < 0.2, "CSAC ADEV(1s)={adev1} vs target {target}, rel={rel}");
+    assert!(
+        rel < 0.2,
+        "CSAC ADEV(1s)={adev1} vs target {target}, rel={rel}"
+    );
 }
 
 #[test]
@@ -34,7 +37,10 @@ fn optical_white_fm_adev_matches_soc_goal() {
     let phase = simulate_phase(target * target, 8192, 7);
     let adev1 = overlapping_adev(&phase, 1.0, 1);
     let rel = (adev1 - target).abs() / target;
-    assert!(rel < 0.2, "optical ADEV(1s)={adev1} vs target {target}, rel={rel}");
+    assert!(
+        rel < 0.2,
+        "optical ADEV(1s)={adev1} vs target {target}, rel={rel}"
+    );
 }
 
 #[test]
@@ -67,7 +73,10 @@ fn random_walk_fm_adev_matches_tau_over_3() {
         let mut c = ClockModel::new("rw", "unit", 0.0, 0.0, q_rw);
         let mut rng = ChaCha8Rng::seed_from_u64(seed);
         let mut phase = vec![0.0];
-        for _ in 1..n { c.step(1.0, &mut rng); phase.push(c.phase()); }
+        for _ in 1..n {
+            c.step(1.0, &mut rng);
+            phase.push(c.phase());
+        }
         let adev = overlapping_adev(&phase, 1.0, m);
         var_sum += adev * adev;
     }
@@ -75,5 +84,8 @@ fn random_walk_fm_adev_matches_tau_over_3() {
     let adev_mean = avar_mean.sqrt();
     let expected = (q_rw * tau / 3.0).sqrt();
     let rel = (adev_mean - expected).abs() / expected;
-    assert!(rel < 0.2, "RWFM adev_mean={adev_mean} expected={expected} rel={rel}");
+    assert!(
+        rel < 0.2,
+        "RWFM adev_mean={adev_mean} expected={expected} rel={rel}"
+    );
 }

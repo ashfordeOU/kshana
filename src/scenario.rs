@@ -1,9 +1,13 @@
-use serde::{Deserialize, Serialize};
 use crate::types::Seconds;
+use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
-pub enum GnssState { Nominal, Degraded, Denied }
+pub enum GnssState {
+    Nominal,
+    Degraded,
+    Denied,
+}
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct GnssWindow {
@@ -21,7 +25,9 @@ impl GnssTimeline {
     /// Half-open lookup [t0, t1); any time outside all windows is treated as Denied.
     pub fn state_at(&self, t: Seconds) -> GnssState {
         for w in &self.windows {
-            if t >= w.t0 && t < w.t1 { return w.state; }
+            if t >= w.t0 && t < w.t1 {
+                return w.state;
+            }
         }
         GnssState::Denied
     }
@@ -58,10 +64,20 @@ pub struct Scenario {
 mod tests {
     use super::*;
     fn tl() -> GnssTimeline {
-        GnssTimeline { windows: vec![
-            GnssWindow { t0: 0.0, t1: 1.0, state: GnssState::Nominal },
-            GnssWindow { t0: 1.0, t1: 4.0, state: GnssState::Denied },
-        ]}
+        GnssTimeline {
+            windows: vec![
+                GnssWindow {
+                    t0: 0.0,
+                    t1: 1.0,
+                    state: GnssState::Nominal,
+                },
+                GnssWindow {
+                    t0: 1.0,
+                    t1: 4.0,
+                    state: GnssState::Denied,
+                },
+            ],
+        }
     }
     #[test]
     fn state_lookup_is_half_open() {
