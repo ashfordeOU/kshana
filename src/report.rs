@@ -19,6 +19,7 @@ pub struct RunResult {
     pub engine_version: String,
     pub scenario_hash: String,
     pub seed: u64,
+    pub threshold_ns: f64,
     pub quantum: ClockRun,
     pub classical: ClockRun,
 }
@@ -29,6 +30,86 @@ pub fn hash_scenario(scn: &Scenario) -> String {
     let mut h = Sha256::new();
     h.update(canonical.as_bytes());
     hex::encode(h.finalize())
+}
+
+/// Render the quantum-vs-classical timing-error divergence as a standalone SVG
+/// (no dependencies). |error| in ns vs time, with the spec threshold line.
+pub fn to_svg(result: &RunResult) -> String {
+    use crate::fom::Sample;
+    let (w, h) = (820.0_f64, 420.0_f64);
+    let (ml, mr, mt, mb) = (70.0_f64, 20.0_f64, 30.0_f64, 50.0_f64);
+    let pw = w - ml - mr;
+    let ph = h - mt - mb;
+    let c = &result.classical.series;
+    let q = &result.quantum.series;
+    let t_max = c.iter().map(|s| s.t).fold(1.0_f64, f64::max);
+    let mut y_max = result.threshold_ns * 1.3;
+    for s in c.iter().chain(q.iter()) {
+        y_max = y_max.max(s.error_ns.abs());
+    }
+    if y_max <= 0.0 { y_max = 1.0; }
+    let xof = |t: f64| ml + (t / t_max) * pw;
+    let yof = |e: f64| mt + ph - (e.min(y_max) / y_max) * ph;
+    let points = |series: &[Sample]| {
+        series
+            .iter()
+            .map(|s| format!("{:.1},{:.1}", xof(s.t), yof(s.error_ns.abs())))
+            .collect::<Vec<_>>()
+            .join(" ")
+    };
+    let thr_y = yof(result.threshold_ns);
+    let axis_y = mt + ph;
+    let mut svg = String::new();
+    svg.push_str(&format!(
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\">"
+    ));
+    svg.push_str(&format!("<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"white\"/>"));
+    svg.push_str(&format!(
+        "<text x=\"{:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">Clock holdover: timing error during GNSS outage</text>",
+        ml
+    ));
+    svg.push_str(&format!(
+        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#888\"/>"
+    ));
+    svg.push_str(&format!(
+        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#888\"/>",
+        ml + pw
+    ));
+    svg.push_str(&format!(
+        "<line x1=\"{ml:.0}\" y1=\"{thr_y:.1}\" x2=\"{:.0}\" y2=\"{thr_y:.1}\" stroke=\"#d33\" stroke-dasharray=\"6 4\"/>",
+        ml + pw
+    ));
+    svg.push_str(&format!(
+        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"#d33\">spec {:.0} ns</text>",
+        ml + 4.0,
+        thr_y - 4.0,
+        result.threshold_ns
+    ));
+    svg.push_str(&format!(
+        "<polyline fill=\"none\" stroke=\"#c0392b\" stroke-width=\"2\" points=\"{}\"/>",
+        points(c)
+    ));
+    svg.push_str(&format!(
+        "<polyline fill=\"none\" stroke=\"#2471a3\" stroke-width=\"2\" points=\"{}\"/>",
+        points(q)
+    ));
+    svg.push_str(&format!(
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\">time (s)</text>",
+        ml + pw / 2.0,
+        h - 12.0
+    ));
+    svg.push_str(&format!(
+        "<text x=\"{:.0}\" y=\"44\" fill=\"#c0392b\">classical: {}</text>",
+        ml + 10.0,
+        result.classical.spec.id
+    ));
+    svg.push_str(&format!(
+        "<text x=\"{:.0}\" y=\"60\" fill=\"#2471a3\">quantum: {}</text>",
+        ml + 10.0,
+        result.quantum.spec.id
+    ));
+    svg.push_str("</svg>");
+    svg
 }
 
 #[cfg(test)]
@@ -58,5 +139,57 @@ mod tests {
         let mut other = demo();
         other.seed = 2;
         assert_ne!(a, hash_scenario(&other));
+    }
+}
+
+#[cfg(test)]
+mod svg_tests {
+    use super::*;
+    use crate::fom::{FoMScores, Sample};
+    use crate::scenario::GnssState::Denied;
+    use crate::types::ModelSpec;
+
+    fn run_of(id: &str, errs: &[f64]) -> ClockRun {
+        let series = errs
+            .iter()
+            .enumerate()
+            .map(|(i, &e)| Sample { t: i as f64, error_ns: e, gnss: Denied })
+            .collect();
+        ClockRun {
+            spec: ModelSpec {
+                id: id.into(),
+                kind: "clock".into(),
+                provenance: "x".into(),
+                params: serde_json::json!({}),
+            },
+            series,
+            fom: FoMScores {
+                timing_rms_ns: 0.0,
+                timing_p95_ns: 0.0,
+                holdover_s: 0.0,
+                resilience_slope_ns_per_s: 0.0,
+                availability: 1.0,
+                integrity: None,
+                security: None,
+            },
+        }
+    }
+
+    #[test]
+    fn to_svg_produces_valid_chart() {
+        let r = RunResult {
+            schema_version: "0.1".into(),
+            engine_version: "test".into(),
+            scenario_hash: "abc".into(),
+            seed: 1,
+            threshold_ns: 20.0,
+            quantum: run_of("optical", &[0.0, 0.0, 0.1]),
+            classical: run_of("csac", &[0.0, 15.0, 40.0]),
+        };
+        let svg = to_svg(&r);
+        assert!(svg.starts_with("<svg"));
+        assert_eq!(svg.matches("<polyline").count(), 2);
+        assert!(svg.contains("spec 20 ns"));
+        assert!(svg.ends_with("</svg>"));
     }
 }
