@@ -51,3 +51,22 @@ Honest framing: the cold-atom advantage is **long-term bias stability** (~2600x 
 | twstft-rf | 0.5 ns (5e-10 s) | measured single-session | BIPM/PTB/NIST TWSTFT |
 
 Honest framing: the optical figure is OpSTAR's stated picosecond on-orbit TARGET (not flown). The terrestrial optical lab floor is ~1 fs (far better); a well-engineered microwave link (ACES MWL, ~0.3 ps) can rival optical, so the "RF = 0.5 ns" baseline is specifically ordinary TWSTFT. Ranging conversion is one-way (range = c*dt); two-way/round-trip halves it (range = c*dt/2).
+
+## Pack 4 — hybrid fusion (capstone)
+
+Composes Pack 1 (clock), Pack 2 (inertial), and Pack 3 (time-transfer) into one PNT
+suite. The suite must keep BOTH timing (< timing spec) and position (< position spec)
+within bounds; `pnt_holdover_s` is the time until either breaches. Optional optical
+inter-satellite time-transfer re-syncs the clock during the outage (time aiding only —
+position is not re-synced, since time transfer gives time, not position).
+
+| Aspect | Status | Evidence |
+|--------|--------|----------|
+| Combined PNT scoring (timing AND position) | `validated` | `src/hybrid.rs` hand-derived `score_hybrid` test (pnt_holdover = first of timing/position to breach). |
+| Composition of validated sub-models | inherits | clock/inertial/time-transfer terms are validated in their own packs. |
+| Sensor cross-aiding fidelity (full Kalman/factor-graph fusion) | `not modeled` | This is a system-level composition + time-aiding, not yet a full optimal estimator. |
+
+Result: the all-quantum suite holds full PNT through a 1.8 h outage; the all-classical
+suite is **position-limited** (nav-grade IMU breaches first). Optical ISL time-transfer
+keeps even the classical CLOCK locked, isolating the inertial sensor as the classical
+suite's weak link — the core argument for quantum inertial + optical timing together.
