@@ -9,6 +9,24 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+- Continuous integration workflow (`.github/workflows/ci.yml`) running `cargo fmt`,
+  `cargo clippy -D warnings`, `cargo test --all`, the reproducibility guard, and the
+  repository-hygiene guard, plus a minimum-supported-Rust-version (MSRV 1.75) build job.
+- Full `Cargo.toml` package metadata: authors, repository, homepage, documentation,
+  readme, keywords, categories, and `rust-version`.
+- Toolchain pin (`rust-toolchain.toml`) and formatting/editor configuration
+  (`rustfmt.toml`, `.editorconfig`).
+- `SECURITY.md` (including a dual-use / export-control note) and `CODE_OF_CONDUCT.md`
+  (Contributor Covenant v2.1).
+- GitHub issue templates (bug report, feature request), pull-request template, and
+  Dependabot configuration for Cargo and GitHub Actions.
+
+### Changed
+- Reproducibility guard (`scripts/check-reproducible.sh`) now detects `sha256sum` or
+  `shasum -a 256` so it runs on both Linux CI images and macOS.
+- Internal planning documents moved out of the public repository into a private overlay.
+
 ### Planned
 - Flicker-FM floor modeling for clocks (the remaining honest noise gap).
 - Full Kalman / factor-graph fusion replacing the analytic holdover predictor.
