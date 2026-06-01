@@ -35,7 +35,10 @@ breaking changes are called out explicitly.
   and Windows by a release-tag `wheels` workflow. The binding is a feature-gated,
   optional dependency: the default build, tests, and dependency-audit gate are
   unaffected.
-- Shared `api::run_toml` dispatch used by the CLI and the Python binding, so the
+- Optional WebAssembly module (wasm-bindgen) exposing `run`, `chart_svg`, and
+  `version`, built with wasm-pack under the `wasm` feature; `getrandom` is
+  target-gated to use the browser entropy source on `wasm32`.
+- Shared `api::run_toml` dispatch used by the CLI and both bindings, so the
   command line and the bindings cannot drift.
 
 ### Changed
@@ -50,7 +53,7 @@ breaking changes are called out explicitly.
 - Higher-fidelity orbit propagation (precise ephemerides / perturbations) and a
   position-domain error from the geometry (e.g. GDOP), beyond the current
   circular-orbit availability model.
-- WebAssembly bindings (the engine already builds for `wasm32-unknown-unknown`).
+- Published packages (crates.io, PyPI, npm).
 
 ## [0.1.0] - 2026-06-01
 

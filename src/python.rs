@@ -7,6 +7,10 @@
 //! print(kshana.version())
 //! ```
 
+// The #[pyfunction] macro expands to a `.into()` on the PyErr return, which Clippy
+// flags as a useless conversion in macro-generated code we don't control.
+#![allow(clippy::useless_conversion)]
+
 use pyo3::exceptions::PyValueError;
 use pyo3::prelude::*;
 

@@ -15,3 +15,5 @@ pub mod run;
 pub mod scenario;
 pub mod timetransfer;
 pub mod types;
+#[cfg(feature = "wasm")]
+pub mod wasm;
