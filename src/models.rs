@@ -32,6 +32,7 @@ impl ClockModel {
 
 impl ErrorModel for ClockModel {
     fn step(&mut self, dt: Seconds, rng: &mut dyn RngCore) {
+        if dt <= 0.0 { return; }
         if self.q_rw > 0.0 {
             let n = Normal::new(0.0, (self.q_rw * dt).sqrt()).unwrap();
             self.freq += n.sample(rng);

@@ -23,42 +23,60 @@ pub struct FoMScores {
 }
 
 /// Score a series against a timing spec threshold (ns).
+///
+/// Timing RMS/p95 and resilience are measured over the holdover (outage) period
+/// — the metric of interest — while `availability` is over the whole run.
+/// `holdover_s` is bounded by the time-grid resolution; treat it as a lower bound.
 pub fn score(samples: &[Sample], threshold_ns: f64) -> FoMScores {
     let n = samples.len().max(1) as f64;
 
-    let sumsq: f64 = samples.iter().map(|s| s.error_ns * s.error_ns).sum();
-    let timing_rms_ns = (sumsq / n).sqrt();
-
-    let mut abs: Vec<f64> = samples.iter().map(|s| s.error_ns.abs()).collect();
-    abs.sort_by(|a, b| a.partial_cmp(b).unwrap());
-    let idx = (((abs.len().saturating_sub(1)) as f64) * 0.95).round() as usize;
-    let timing_p95_ns = abs.get(idx).copied().unwrap_or(0.0);
-
+    // Availability over the whole run: fraction of time with an in-spec solution.
     let within = samples.iter().filter(|s| s.error_ns.abs() <= threshold_ns).count();
     let availability = within as f64 / n;
 
+    // The holdover (outage) subset drives the timing/resilience metrics.
     let outage: Vec<&Sample> =
         samples.iter().filter(|s| s.gnss != GnssState::Nominal).collect();
 
-    let (holdover_s, resilience_slope_ns_per_s) = if outage.is_empty() {
-        (0.0, 0.0)
-    } else {
-        let t0 = outage.first().unwrap().t;
-        let holdover = match outage.iter().find(|s| s.error_ns.abs() > threshold_ns) {
-            Some(s) => s.t - t0,
-            None => outage.last().unwrap().t - t0,
+    if outage.is_empty() {
+        return FoMScores {
+            timing_rms_ns: 0.0,
+            timing_p95_ns: 0.0,
+            holdover_s: 0.0,
+            resilience_slope_ns_per_s: 0.0,
+            availability,
+            integrity: None,
+            security: None,
         };
-        let m = outage.len() as f64;
-        let mean_t = outage.iter().map(|s| s.t).sum::<f64>() / m;
-        let mean_y = outage.iter().map(|s| s.error_ns.abs()).sum::<f64>() / m;
-        let mut num = 0.0;
-        let mut den = 0.0;
-        for s in &outage {
-            num += (s.t - mean_t) * (s.error_ns.abs() - mean_y);
-            den += (s.t - mean_t) * (s.t - mean_t);
-        }
-        (holdover, if den > 0.0 { num / den } else { 0.0 })
+    }
+
+    let m = outage.len() as f64;
+
+    let sumsq: f64 = outage.iter().map(|s| s.error_ns * s.error_ns).sum();
+    let timing_rms_ns = (sumsq / m).sqrt();
+
+    let mut abs: Vec<f64> = outage.iter().map(|s| s.error_ns.abs()).collect();
+    abs.sort_by(|a, b| a.total_cmp(b));
+    let idx = (((abs.len().saturating_sub(1)) as f64) * 0.95).round() as usize;
+    let timing_p95_ns = abs.get(idx).copied().unwrap_or(0.0);
+
+    // Holdover: elapsed time from outage start to first spec violation (lower bound).
+    let t0 = outage.first().unwrap().t;
+    let holdover_s = match outage.iter().find(|s| s.error_ns.abs() > threshold_ns) {
+        Some(s) => s.t - t0,
+        None => outage.last().unwrap().t - t0,
     };
+
+    // Resilience: least-squares slope of |error| vs time over the outage.
+    let mean_t = outage.iter().map(|s| s.t).sum::<f64>() / m;
+    let mean_y = outage.iter().map(|s| s.error_ns.abs()).sum::<f64>() / m;
+    let mut num = 0.0;
+    let mut den = 0.0;
+    for s in &outage {
+        num += (s.t - mean_t) * (s.error_ns.abs() - mean_y);
+        den += (s.t - mean_t) * (s.t - mean_t);
+    }
+    let resilience_slope_ns_per_s = if den > 0.0 { num / den } else { 0.0 };
 
     FoMScores {
         timing_rms_ns,
