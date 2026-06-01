@@ -9,8 +9,9 @@ use rand_chacha::ChaCha8Rng;
 
 fn run_clock(scn: &Scenario, cfg: &ClockCfg, seed: u64) -> ClockRun {
     let mut rng = ChaCha8Rng::seed_from_u64(seed);
-    let mut clock =
-        ClockModel::new(&cfg.id, &cfg.provenance, cfg.y0, cfg.q_wf, cfg.q_rw).with_drift(cfg.drift);
+    let mut clock = ClockModel::new(&cfg.id, &cfg.provenance, cfg.y0, cfg.q_wf, cfg.q_rw)
+        .with_drift(cfg.drift)
+        .with_flicker(cfg.flicker_floor);
     let mut est = HoldoverEstimator::new();
     let dt = scn.time.step_s;
     let n = (scn.time.duration_s / dt).round() as usize;
@@ -87,6 +88,7 @@ mod tests {
                 q_wf: 1e-26,
                 q_rw: 1e-34,
                 drift: 0.0,
+                flicker_floor: 0.0,
             },
             clock_classical: ClockCfg {
                 id: "csac".into(),
@@ -95,6 +97,7 @@ mod tests {
                 q_wf: 1e-24,
                 q_rw: 1e-32,
                 drift: 0.0,
+                flicker_floor: 0.0,
             },
         }
     }
