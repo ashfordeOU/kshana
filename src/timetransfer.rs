@@ -122,8 +122,8 @@ fn hash_tt(scn: &TimeTransferScenario) -> String {
     hex::encode(h.finalize())
 }
 
-fn run_link(scn: &TimeTransferScenario, cfg: &LinkCfg) -> LinkRun {
-    let mut rng = ChaCha8Rng::seed_from_u64(scn.seed);
+fn run_link(scn: &TimeTransferScenario, cfg: &LinkCfg, seed: u64) -> LinkRun {
+    let mut rng = ChaCha8Rng::seed_from_u64(seed);
     let link = TimeTransferLink::new(&cfg.id, &cfg.provenance, cfg.sigma_j_s);
     let mut series = Vec::with_capacity(scn.samples);
     for i in 0..scn.samples {
@@ -143,8 +143,8 @@ pub fn run_timetransfer(scn: &TimeTransferScenario) -> TimeTransferResult {
         scenario_hash: hash_tt(scn),
         seed: scn.seed,
         range_spec_mm: scn.range_spec_mm,
-        quantum: run_link(scn, &scn.link_quantum),
-        classical: run_link(scn, &scn.link_classical),
+        quantum: run_link(scn, &scn.link_quantum, scn.seed),
+        classical: run_link(scn, &scn.link_classical, scn.seed.wrapping_add(0x9e3779b97f4a7c15)),
     }
 }
 
