@@ -92,9 +92,17 @@ impl KalmanClock {
     }
 
     /// Measurement update from a phase observation `z` (s). Scalar update with
-    /// observation matrix `H = [1, 0]` and measurement-noise variance `r`.
+    /// observation matrix `H = [1, 0]` and the filter's measurement-noise
+    /// variance `r`.
     pub fn update(&mut self, z: f64) {
-        let s = self.p[0][0] + self.r;
+        self.update_with_r(z, self.r);
+    }
+
+    /// Measurement update from a phase observation `z` (s) using an explicit
+    /// measurement-noise variance `r` (s^2) for this update only — e.g. a noisier
+    /// re-anchor (optical time-transfer) versus GNSS disciplining.
+    pub fn update_with_r(&mut self, z: f64, r: f64) {
+        let s = self.p[0][0] + r;
         if s <= 0.0 {
             return;
         }
