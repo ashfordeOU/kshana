@@ -4,6 +4,7 @@ pub mod estimator;
 pub mod fom;
 pub mod hybrid;
 pub mod inertial;
+pub mod kalman;
 pub mod models;
 pub mod report;
 pub mod run;
