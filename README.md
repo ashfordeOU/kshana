@@ -125,6 +125,21 @@ print(kshana.version(), summary)
 Wheels are built for Linux, macOS, and Windows by the `wheels` workflow on each
 release tag.
 
+### WebAssembly
+
+The engine also runs in the browser via [wasm-pack](https://rustwasm.github.io/wasm-pack/):
+
+```bash
+wasm-pack build --target web -- --features wasm
+```
+
+```js
+import init, { run, chart_svg, version } from "./pkg/kshana.js";
+await init();
+const result = JSON.parse(run(tomlText));
+console.log(version(), result.classical.fom.timing_p95_ns);
+```
+
 ## Scenario format
 
 Scenarios are declarative TOML. A top-level `kind` selects the pack
@@ -242,6 +257,7 @@ kshana/
 │   ├── orbit.rs        # orbit propagation + GNSS line-of-sight visibility
 │   ├── api.rs          # scenario dispatch shared by the CLI and bindings
 │   ├── python.rs       # optional PyO3 extension (feature = "python")
+│   ├── wasm.rs         # optional wasm-bindgen module (feature = "wasm")
 │   └── main.rs         # CLI
 ├── scenarios/          # cited scenarios (one per pack + a geometry-driven one)
 ├── scripts/            # reproducibility + repo-hygiene guards
@@ -268,12 +284,12 @@ kshana/
 ## Roadmap
 
 See [`CHANGELOG.md`](CHANGELOG.md) for released history and the `[Unreleased]`
-section for what's next (WebAssembly bindings; higher-fidelity orbit propagation).
+section for what's next (higher-fidelity orbit propagation; published packages).
 A flicker (1/f) FM clock floor, a gyro channel (bias + angular random walk with
 gravity-tilt coupling), segment-aware multi-window holdover scoring, a two-state
 Kalman clock estimator (driving the Integrity figure of merit), geometry-derived
-GNSS availability (orbit propagation + line-of-sight visibility), and an optional
-Python (PyO3) extension have landed on `main`.
+GNSS availability (orbit propagation + line-of-sight visibility), and optional
+Python (PyO3) and WebAssembly (wasm-bindgen) bindings have landed on `main`.
 
 ## Contributing
 
