@@ -226,9 +226,10 @@ kshana/
 ## Roadmap
 
 See [`CHANGELOG.md`](CHANGELOG.md) for released history and the `[Unreleased]`
-section for what's next (flicker-floor modeling, full Kalman/factor-graph fusion,
-multi-window holdover, gyro/ARW, orbit-based scenarios, Python + WebAssembly
-bindings).
+section for what's next (full Kalman/factor-graph fusion, orbit-based scenarios,
+Python + WebAssembly bindings). A flicker (1/f) FM clock floor, a gyro channel
+(bias + angular random walk with gravity-tilt coupling), and segment-aware
+multi-window holdover scoring have landed on `main`.
 
 ## Contributing
 
