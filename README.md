@@ -139,7 +139,7 @@ merit follow the standard operational PNT figures of merit:
 | Autonomy | holdover duration — time in-spec after GNSS loss |
 | Resilience | error-growth slope during the outage |
 | Availability | fraction of the run with an in-spec solution |
-| Integrity | protection-level containment *(roadmap)* |
+| Integrity | protection-level containment — fraction of outage samples whose error stays inside the Kalman filter's k-sigma bound (clock pack) |
 | Security | spoof/threat-model response *(roadmap — export-sensitive)* |
 
 ## Architecture
@@ -226,10 +226,11 @@ kshana/
 ## Roadmap
 
 See [`CHANGELOG.md`](CHANGELOG.md) for released history and the `[Unreleased]`
-section for what's next (full Kalman/factor-graph fusion, orbit-based scenarios,
-Python + WebAssembly bindings). A flicker (1/f) FM clock floor, a gyro channel
-(bias + angular random walk with gravity-tilt coupling), and segment-aware
-multi-window holdover scoring have landed on `main`.
+section for what's next (orbit-based scenarios, Python + WebAssembly bindings).
+A flicker (1/f) FM clock floor, a gyro channel (bias + angular random walk with
+gravity-tilt coupling), segment-aware multi-window holdover scoring, and a
+two-state Kalman clock estimator (driving the Integrity figure of merit) have
+landed on `main`.
 
 ## Contributing
 
