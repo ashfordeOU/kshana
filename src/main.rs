@@ -134,13 +134,16 @@ fn main() -> ExitCode {
         eprintln!("error: cannot write {}: {e}", svg_path.display());
         return ExitCode::FAILURE;
     }
+    let integ = |i: Option<f64>| i.map_or_else(|| "n/a".to_string(), |v| format!("{v:.3}"));
     println!(
-        "scenario {} | quantum holdover {:.0}s p95 {:.1}ns | classical holdover {:.0}s p95 {:.1}ns",
+        "scenario {} | quantum holdover {:.0}s p95 {:.1}ns integrity {} | classical holdover {:.0}s p95 {:.1}ns integrity {}",
         &result.scenario_hash[..12],
         result.quantum.fom.holdover_s,
         result.quantum.fom.timing_p95_ns,
+        integ(result.quantum.fom.integrity),
         result.classical.fom.holdover_s,
         result.classical.fom.timing_p95_ns,
+        integ(result.classical.fom.integrity),
     );
     println!("wrote {} and {}", out.display(), svg_path.display());
     ExitCode::SUCCESS

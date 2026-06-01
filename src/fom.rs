@@ -53,7 +53,9 @@ pub struct Sample {
     pub gnss: GnssState,
 }
 
-/// The six operational PNT figures of merit (Integrity/Security not modeled in v0.1).
+/// The six operational PNT figures of merit. Integrity is populated by the run
+/// layer from the Kalman protection bound (the fraction of outage samples whose
+/// error stays inside the k-sigma bound); Security is not yet modeled.
 #[derive(Clone, Debug, Serialize)]
 pub struct FoMScores {
     pub timing_rms_ns: f64,

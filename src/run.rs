@@ -1,11 +1,20 @@
 // SPDX-License-Identifier: Apache-2.0
 use crate::estimator::HoldoverEstimator;
 use crate::fom::{score, Sample};
+use crate::kalman::KalmanClock;
 use crate::models::{ClockModel, ErrorModel};
 use crate::report::{ClockRun, RunResult};
-use crate::scenario::{ClockCfg, Scenario};
+use crate::scenario::{ClockCfg, GnssState, Scenario};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
+
+/// GNSS-disciplined phase measurement noise (variance, s^2). Represents the
+/// timing noise on the truth observation available while GNSS is nominal
+/// (~0.1 ns, 1-sigma); it sets the synchronised covariance floor for the filter.
+const PHASE_MEAS_VAR_S2: f64 = 1e-20;
+
+/// 3-sigma protection level for the integrity check.
+const PROTECTION_K: f64 = 3.0;
 
 fn run_clock(scn: &Scenario, cfg: &ClockCfg, seed: u64) -> ClockRun {
     let mut rng = ChaCha8Rng::seed_from_u64(seed);
@@ -13,23 +22,43 @@ fn run_clock(scn: &Scenario, cfg: &ClockCfg, seed: u64) -> ClockRun {
         .with_drift(cfg.drift)
         .with_flicker(cfg.flicker_floor);
     let mut est = HoldoverEstimator::new();
+    // Kalman estimator running alongside the analytic predictor: it is disciplined
+    // to the truth while GNSS is nominal and coasts open-loop during the outage,
+    // where its 1-sigma phase uncertainty is the protection bound. Integrity is the
+    // fraction of outage samples whose actual error stays inside the k-sigma bound.
+    let mut kf = KalmanClock::new(cfg.q_wf, cfg.q_rw, PHASE_MEAS_VAR_S2);
     let dt = scn.time.step_s;
     let n = (scn.time.duration_s / dt).round() as usize;
     let mut series = Vec::with_capacity(n + 1);
+    let (mut outage_samples, mut contained) = (0u64, 0u64);
     for i in 0..=n {
         let t = i as f64 * dt;
         if i > 0 {
             clock.step(dt, &mut rng);
+            kf.predict(dt);
         }
         let gnss = scn.gnss.state_at(t);
         let err_s = est.timing_error(t, clock.phase(), clock.det_freq(), clock.drift_rate(), gnss);
+        if gnss == GnssState::Nominal {
+            // Truth is observed: the timing error is zero and the filter re-syncs.
+            kf.update(0.0);
+        } else {
+            outage_samples += 1;
+            if err_s.abs() <= PROTECTION_K * kf.phase_sigma() {
+                contained += 1;
+            }
+        }
         series.push(Sample {
             t,
             error_ns: err_s * 1e9,
             gnss,
         });
     }
-    let fom = score(&series, scn.threshold_ns);
+    let mut fom = score(&series, scn.threshold_ns);
+    // Integrity: how reliably the filter's protection bound contains the truth.
+    if outage_samples > 0 {
+        fom.integrity = Some(contained as f64 / outage_samples as f64);
+    }
     ClockRun {
         spec: clock.spec(),
         series,
@@ -113,5 +142,26 @@ mod tests {
         let r = run(&demo());
         assert!(r.quantum.fom.timing_p95_ns < r.classical.fom.timing_p95_ns);
         assert!(r.quantum.fom.availability >= r.classical.fom.availability);
+    }
+
+    #[test]
+    fn integrity_is_populated_and_bound_is_reliable() {
+        // The Kalman protection bound, whose process noise matches the truth model,
+        // should contain the actual error on the overwhelming majority of outage
+        // samples (3-sigma => ~99.7% for a well-matched filter).
+        let r = run(&demo());
+        let qi = r
+            .quantum
+            .fom
+            .integrity
+            .expect("quantum integrity populated");
+        let ci = r
+            .classical
+            .fom
+            .integrity
+            .expect("classical integrity populated");
+        assert!(qi >= 0.95, "quantum integrity too low: {qi}");
+        assert!(ci >= 0.95, "classical integrity too low: {ci}");
+        assert!(qi <= 1.0 && ci <= 1.0);
     }
 }

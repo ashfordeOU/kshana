@@ -22,7 +22,10 @@ breaking changes are called out explicitly.
 - Two-state (phase, frequency) Kalman clock estimator with exact van Loan
   process-noise discretisation. Coasting from a known state reproduces the
   analytic holdover error growth (`q_wf*T + q_rw*T^3/3`) exactly, and the filter
-  additionally yields an online 1-sigma uncertainty bound usable for integrity.
+  additionally yields an online 1-sigma uncertainty bound.
+- The clock run now reports the **Integrity** figure of merit (previously
+  unpopulated): the fraction of outage samples whose error stays inside the
+  filter's 3-sigma protection bound, surfaced in the JSON result and CLI summary.
 
 ### Changed
 - Holdover scoring is now segment-aware: outage timelines are split into
@@ -33,8 +36,6 @@ breaking changes are called out explicitly.
   reflecting the combined accelerometer and gyro channels.
 
 ### Planned
-- Wire the Kalman estimator into the run pipeline as the primary estimator,
-  reporting the online uncertainty alongside the timing error.
 - Orbit-based scenarios (precise time + propagation libraries) and position error.
 - Python (PyO3) and WebAssembly bindings.
 
