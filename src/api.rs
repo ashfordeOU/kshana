@@ -31,6 +31,14 @@ fn integ(i: Option<f64>) -> String {
     i.map_or_else(|| "n/a".to_string(), |v| format!("{v:.3}"))
 }
 
+fn fnum(v: Option<f64>) -> String {
+    v.map_or_else(|| "n/a".to_string(), |v| format!("{v:.2}"))
+}
+
+fn posm(v: Option<f64>) -> String {
+    v.map_or_else(|| "n/a".to_string(), |v| format!("{v:.2}m"))
+}
+
 /// Parse, dispatch, and run a scenario given as a TOML string.
 pub fn run_toml(src: &str) -> Result<RunOutput, String> {
     let kind: Kind = toml::from_str(src).unwrap_or(Kind {
@@ -89,6 +97,14 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
             let scn: crate::orbit::OrbitClockScenario =
                 toml::from_str(src).map_err(|e| format!("invalid orbit scenario: {e}"))?;
             let r = crate::run::run_orbit_clock(&scn);
+            let geometry = crate::orbit::summarize_dop(
+                &scn.user.to_orbit(),
+                &scn.constellation.satellites(),
+                scn.time.step_s,
+                scn.time.duration_s,
+                scn.mask_deg,
+                scn.sigma_uere_m,
+            );
             let nominal = r
                 .quantum
                 .series
@@ -96,14 +112,21 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
                 .filter(|s| s.gnss == GnssState::Nominal)
                 .count();
             let summary = format!(
-                "scenario {} | {}/{} samples GNSS-nominal | quantum holdover {:.0}s p95 {:.1}ns integrity {} security {} | classical holdover {:.0}s p95 {:.1}ns integrity {} security {}",
+                "scenario {} | {}/{} samples GNSS-nominal | best PDOP {} pos {} | quantum holdover {:.0}s p95 {:.1}ns integrity {} security {} | classical holdover {:.0}s p95 {:.1}ns integrity {} security {}",
                 &r.scenario_hash[..12],
                 nominal, r.quantum.series.len(),
+                fnum(geometry.best_pdop), posm(geometry.best_position_sigma_m),
                 r.quantum.fom.holdover_s, r.quantum.fom.timing_p95_ns, integ(r.quantum.fom.integrity), integ(r.quantum.fom.security),
                 r.classical.fom.holdover_s, r.classical.fom.timing_p95_ns, integ(r.classical.fom.integrity), integ(r.classical.fom.security),
             );
+            #[derive(serde::Serialize)]
+            struct OrbitOutput<'a> {
+                #[serde(flatten)]
+                run: &'a crate::report::RunResult,
+                geometry: crate::orbit::DopSummary,
+            }
             Ok(RunOutput {
-                json: json_of(&r),
+                json: json_of(&OrbitOutput { run: &r, geometry }),
                 svg: crate::report::to_svg(&r),
                 summary,
             })

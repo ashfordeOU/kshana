@@ -14,6 +14,10 @@ seed = 7
 threshold_ns = 5.0
 # Elevation mask (deg) above the user's local horizontal.
 mask_deg = 10.0
+# 1-sigma user-equivalent range error (m) for the position-accuracy summary;
+# position sigma = position-DOP * this. ~1 m is a representative modern
+# dual-frequency UERE (Kaplan & Hegarty, Understanding GPS/GNSS).
+sigma_uere_m = 1.0
 
 [time]
 step_s = 60.0

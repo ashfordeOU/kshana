@@ -31,6 +31,21 @@ fn sub(a: Vec3, b: Vec3) -> Vec3 {
 fn norm(a: Vec3) -> f64 {
     dot(a, a).sqrt()
 }
+fn cross(a: Vec3, b: Vec3) -> Vec3 {
+    [
+        a[1] * b[2] - a[2] * b[1],
+        a[2] * b[0] - a[0] * b[2],
+        a[0] * b[1] - a[1] * b[0],
+    ]
+}
+fn normalize(a: Vec3) -> Option<Vec3> {
+    let n = norm(a);
+    if n == 0.0 {
+        None
+    } else {
+        Some([a[0] / n, a[1] / n, a[2] / n])
+    }
+}
 
 /// A circular orbit: radius (m), inclination and right ascension of the
 /// ascending node (rad), and argument of latitude at t=0 (rad).
@@ -135,6 +150,142 @@ pub fn gnss_state(visible: usize) -> GnssState {
     }
 }
 
+/// Default user-equivalent range error (m, 1-sigma): the per-satellite
+/// pseudorange error budget that, scaled by the position dilution of precision,
+/// gives the position accuracy. ~1 m is representative of a modern dual-frequency
+/// GNSS user-equivalent range error (Kaplan & Hegarty, *Understanding GPS/GNSS*).
+pub const DEFAULT_UERE_M: f64 = 1.0;
+fn default_uere_m() -> f64 {
+    DEFAULT_UERE_M
+}
+
+/// Unit line-of-sight vector from `user` to `sat`; `None` if they coincide.
+pub fn los_unit(user: Vec3, sat: Vec3) -> Option<Vec3> {
+    normalize(sub(sat, user))
+}
+
+/// Local East-North-Up basis (each a unit vector in the inertial frame) at the
+/// `user` position: Up is the geocentric radial, East is perpendicular to both
+/// the polar axis and Up, North completes the right-handed set. `None` at the
+/// geocentre. Near the poles (Up ∥ polar axis) the x-axis seeds East instead.
+pub fn enu_basis(user: Vec3) -> Option<(Vec3, Vec3, Vec3)> {
+    let up = normalize(user)?;
+    let seed = if cross([0.0, 0.0, 1.0], up)
+        .iter()
+        .map(|c| c * c)
+        .sum::<f64>()
+        > 1e-12
+    {
+        [0.0, 0.0, 1.0]
+    } else {
+        [1.0, 0.0, 0.0]
+    };
+    let east = normalize(cross(seed, up))?;
+    let north = cross(up, east);
+    Some((east, north, up))
+}
+
+/// Invert a 4x4 matrix by Gauss-Jordan elimination with partial pivoting.
+/// `None` if the matrix is singular (rank-deficient geometry).
+fn invert4(mut a: [[f64; 4]; 4]) -> Option<[[f64; 4]; 4]> {
+    let mut inv = [[0.0; 4]; 4];
+    for (i, row) in inv.iter_mut().enumerate() {
+        row[i] = 1.0;
+    }
+    for col in 0..4 {
+        let mut piv = col;
+        for r in (col + 1)..4 {
+            if a[r][col].abs() > a[piv][col].abs() {
+                piv = r;
+            }
+        }
+        if a[piv][col].abs() < 1e-12 {
+            return None;
+        }
+        a.swap(col, piv);
+        inv.swap(col, piv);
+        let d = a[col][col];
+        for j in 0..4 {
+            a[col][j] /= d;
+            inv[col][j] /= d;
+        }
+        for r in 0..4 {
+            if r == col {
+                continue;
+            }
+            let f = a[r][col];
+            if f != 0.0 {
+                for j in 0..4 {
+                    a[r][j] -= f * a[col][j];
+                    inv[r][j] -= f * inv[col][j];
+                }
+            }
+        }
+    }
+    Some(inv)
+}
+
+/// Dilution-of-precision factors from the geometry of the visible satellites:
+/// geometric, position, horizontal, vertical, and time DOP. Multiply by the
+/// user-equivalent range error (1-sigma) to get the corresponding accuracy.
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+pub struct Dop {
+    pub gdop: f64,
+    pub pdop: f64,
+    pub hdop: f64,
+    pub vdop: f64,
+    pub tdop: f64,
+}
+
+/// Dilution of precision at `user` from the line-of-sight geometry to the
+/// visible satellites. Each satellite contributes a row `[-e_x, -e_y, -e_z, 1]`
+/// (unit line of sight plus the clock term) to the design matrix `H`; the
+/// covariance factor is `Q = (HᵀH)⁻¹`. Returns `None` with fewer than four
+/// usable satellites or a singular (e.g. coplanar) geometry. HDOP/VDOP are taken
+/// in the user's local East-North-Up frame.
+pub fn dop(user: Vec3, sats: &[Vec3]) -> Option<Dop> {
+    let mut a = [[0.0_f64; 4]; 4];
+    let mut used = 0usize;
+    for &s in sats {
+        let Some(e) = los_unit(user, s) else {
+            continue;
+        };
+        let row = [-e[0], -e[1], -e[2], 1.0];
+        for i in 0..4 {
+            for j in 0..4 {
+                a[i][j] += row[i] * row[j];
+            }
+        }
+        used += 1;
+    }
+    if used < 4 {
+        return None;
+    }
+    let q = invert4(a)?;
+    let pdop = (q[0][0] + q[1][1] + q[2][2]).sqrt();
+    let tdop = q[3][3].sqrt();
+    let gdop = (q[0][0] + q[1][1] + q[2][2] + q[3][3]).sqrt();
+    let (east, north, up) = enu_basis(user)?;
+    // Variance of the position solution along a unit direction v: vᵀ Q_pos v.
+    let var_along = |v: Vec3| -> f64 {
+        let qv = [
+            q[0][0] * v[0] + q[0][1] * v[1] + q[0][2] * v[2],
+            q[1][0] * v[0] + q[1][1] * v[1] + q[1][2] * v[2],
+            q[2][0] * v[0] + q[2][1] * v[1] + q[2][2] * v[2],
+        ];
+        (v[0] * qv[0] + v[1] * qv[1] + v[2] * qv[2]).max(0.0)
+    };
+    let hdop = (var_along(east) + var_along(north)).sqrt();
+    let vdop = var_along(up).sqrt();
+    Some(Dop {
+        gdop,
+        pdop,
+        hdop,
+        vdop,
+        tdop,
+    })
+}
+
 /// A single orbit, configured by altitude and angles in friendly units.
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct OrbitCfg {
@@ -212,6 +363,87 @@ pub fn build_timeline(
     GnssTimeline { windows }
 }
 
+/// Positions of the GNSS satellites visible from the user at time `t`: not
+/// Earth-occulted and at or above the elevation mask.
+pub fn visible_positions(
+    user: &CircularOrbit,
+    gnss: &[CircularOrbit],
+    t: f64,
+    mask_deg: f64,
+) -> Vec<Vec3> {
+    let up = user.position_eci(t);
+    gnss.iter()
+        .filter_map(|g| {
+            let sp = g.position_eci(t);
+            (!earth_occults(up, sp) && elevation_deg(up, sp) >= mask_deg).then_some(sp)
+        })
+        .collect()
+}
+
+/// A geometry summary over the run: how often a position fix is possible and the
+/// resulting position accuracy (position DOP times the user-equivalent range
+/// error). Best is the most favourable geometry, median the typical one.
+#[derive(Clone, Debug, PartialEq, Serialize)]
+pub struct DopSummary {
+    pub samples_total: usize,
+    pub samples_with_fix: usize,
+    pub sigma_uere_m: f64,
+    pub best_pdop: Option<f64>,
+    pub median_pdop: Option<f64>,
+    pub best_position_sigma_m: Option<f64>,
+    pub median_position_sigma_m: Option<f64>,
+}
+
+fn median_sorted(mut v: Vec<f64>) -> Option<f64> {
+    if v.is_empty() {
+        return None;
+    }
+    v.sort_by(f64::total_cmp);
+    let n = v.len();
+    Some(if n % 2 == 1 {
+        v[n / 2]
+    } else {
+        0.5 * (v[n / 2 - 1] + v[n / 2])
+    })
+}
+
+/// Sample the position dilution of precision on the time grid and summarise it.
+/// `sigma_uere_m` is the 1-sigma user-equivalent range error; the position
+/// accuracy at each sample is `pdop * sigma_uere_m`.
+pub fn summarize_dop(
+    user: &CircularOrbit,
+    gnss: &[CircularOrbit],
+    step_s: f64,
+    duration_s: f64,
+    mask_deg: f64,
+    sigma_uere_m: f64,
+) -> DopSummary {
+    let n = (duration_s / step_s).round() as usize;
+    let mut pdops = Vec::new();
+    for i in 0..=n {
+        let t = i as f64 * step_s;
+        if let Some(d) = dop(
+            user.position_eci(t),
+            &visible_positions(user, gnss, t, mask_deg),
+        ) {
+            pdops.push(d.pdop);
+        }
+    }
+    let best_pdop = pdops.iter().copied().fold(None, |acc: Option<f64>, p| {
+        Some(acc.map_or(p, |a| a.min(p)))
+    });
+    let median_pdop = median_sorted(pdops.clone());
+    DopSummary {
+        samples_total: n + 1,
+        samples_with_fix: pdops.len(),
+        sigma_uere_m,
+        best_pdop,
+        median_pdop,
+        best_position_sigma_m: best_pdop.map(|p| p * sigma_uere_m),
+        median_position_sigma_m: median_pdop.map(|p| p * sigma_uere_m),
+    }
+}
+
 /// A clock-holdover scenario whose GNSS availability is derived from orbital
 /// geometry: a user spacecraft, a GNSS constellation, and an elevation mask,
 /// rather than hand-authored windows.
@@ -220,6 +452,9 @@ pub struct OrbitClockScenario {
     pub seed: u64,
     pub threshold_ns: f64,
     pub mask_deg: f64,
+    /// 1-sigma user-equivalent range error (m) for the position-accuracy summary.
+    #[serde(default = "default_uere_m")]
+    pub sigma_uere_m: f64,
     pub time: TimeCfg,
     pub user: OrbitCfg,
     pub constellation: ConstellationCfg,
@@ -317,6 +552,7 @@ mod tests {
             seed: 7,
             threshold_ns: 100.0,
             mask_deg: 5.0,
+            sigma_uere_m: 1.0,
             time: TimeCfg {
                 step_s: 60.0,
                 duration_s: 7200.0,
@@ -381,6 +617,98 @@ mod tests {
             (r.quantum.fom.timing_p95_ns, r.classical.fom.timing_p95_ns)
         };
         assert_eq!(run(), run());
+    }
+
+    #[test]
+    fn invert4_recovers_identity_and_diagonal() {
+        let id = [
+            [1.0, 0.0, 0.0, 0.0],
+            [0.0, 1.0, 0.0, 0.0],
+            [0.0, 0.0, 1.0, 0.0],
+            [0.0, 0.0, 0.0, 1.0],
+        ];
+        assert_eq!(invert4(id), Some(id));
+        let diag = [
+            [2.0, 0.0, 0.0, 0.0],
+            [0.0, 4.0, 0.0, 0.0],
+            [0.0, 0.0, 0.5, 0.0],
+            [0.0, 0.0, 0.0, 8.0],
+        ];
+        let inv = invert4(diag).expect("non-singular");
+        for (i, recip) in [0.5, 0.25, 2.0, 0.125].iter().enumerate() {
+            assert!((inv[i][i] - recip).abs() < 1e-12, "diag {i}");
+        }
+        // A singular matrix (zero column) has no inverse.
+        assert_eq!(invert4([[0.0; 4]; 4]), None);
+    }
+
+    #[test]
+    fn dop_needs_four_satellites() {
+        let user = [7.0e6, 0.0, 0.0];
+        let three = [[2e7, 0.0, 0.0], [0.0, 2e7, 0.0], [0.0, 0.0, 2e7]];
+        assert_eq!(dop(user, &three), None);
+    }
+
+    #[test]
+    fn dop_of_a_regular_tetrahedron_is_the_closed_form() {
+        // Four lines of sight along regular-tetrahedron unit vectors sum to zero
+        // and give sum(e e^T) = (4/3) I, so Q = diag(3/4, 3/4, 3/4, 1/4):
+        //   PDOP = sqrt(9/4) = 1.5         TDOP = sqrt(1/4) = 0.5
+        //   GDOP = sqrt(10/4) = 1.5811388  (isotropic position cov)
+        //   HDOP = sqrt(3/4 + 3/4) = 1.2247449   VDOP = sqrt(3/4) = 0.8660254
+        let s = 3.0_f64.sqrt();
+        let dirs = [
+            [1.0 / s, 1.0 / s, 1.0 / s],
+            [1.0 / s, -1.0 / s, -1.0 / s],
+            [-1.0 / s, 1.0 / s, -1.0 / s],
+            [-1.0 / s, -1.0 / s, 1.0 / s],
+        ];
+        let user = [7.0e6, 0.0, 0.0];
+        // Place each satellite along its line of sight so los_unit recovers `dir`.
+        let sats: Vec<Vec3> = dirs
+            .iter()
+            .map(|d| {
+                [
+                    user[0] + 2e7 * d[0],
+                    user[1] + 2e7 * d[1],
+                    user[2] + 2e7 * d[2],
+                ]
+            })
+            .collect();
+        let dop = dop(user, &sats).expect("non-singular tetrahedron");
+        assert!((dop.pdop - 1.5).abs() < 1e-9, "pdop={}", dop.pdop);
+        assert!((dop.tdop - 0.5).abs() < 1e-9, "tdop={}", dop.tdop);
+        assert!(
+            (dop.gdop - 2.5_f64.sqrt()).abs() < 1e-9,
+            "gdop={}",
+            dop.gdop
+        );
+        assert!(
+            (dop.hdop - 1.5_f64.sqrt()).abs() < 1e-9,
+            "hdop={}",
+            dop.hdop
+        );
+        assert!(
+            (dop.vdop - 0.75_f64.sqrt()).abs() < 1e-9,
+            "vdop={}",
+            dop.vdop
+        );
+    }
+
+    #[test]
+    fn dop_summary_reports_fixes_and_position_accuracy() {
+        // A full GPS-like constellation seen from a 7000 km user gives a position
+        // fix at every sample; position sigma = pdop * uere with a known ratio.
+        let scn = scenario(6, 4);
+        let user = CircularOrbit::new(7.0e6, 0.0, 0.0, 0.0);
+        let sats = scn.constellation.satellites();
+        let summary = summarize_dop(&user, &sats, 300.0, 3600.0, 5.0, 2.0);
+        assert_eq!(summary.samples_total, 3600 / 300 + 1);
+        assert!(summary.samples_with_fix > 0);
+        let best = summary.best_pdop.expect("a fix exists");
+        assert!(best > 0.0 && best < 100.0, "best pdop {best}");
+        // Position accuracy is the PDOP scaled by the UERE.
+        assert!((summary.best_position_sigma_m.unwrap() - best * 2.0).abs() < 1e-9);
     }
 
     #[test]
