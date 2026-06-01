@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: Apache-2.0
 use serde::{Deserialize, Serialize};
 
 pub type Seconds = f64;
