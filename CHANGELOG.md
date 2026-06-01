@@ -14,11 +14,18 @@ breaking changes are called out explicitly.
   log-spaced Ornstein-Uhlenbeck processes and calibrated so the flat
   Allan-deviation floor sits at a configurable level. Off by default; enabled
   per clock via the optional `flicker_floor` scenario field.
+- Gyro channel for the inertial model: residual gyro bias and angular random
+  walk drive an attitude (tilt) error that couples gravity into a horizontal
+  specific-force error, the dominant strapdown error-growth mechanism. Off by
+  default; enabled per sensor via the optional `gyro_bias` and `q_arw` fields.
+
+### Changed
+- The inertial model's reported `kind` is now `inertial` (was `accelerometer`),
+  reflecting the combined accelerometer and gyro channels.
 
 ### Planned
 - Full Kalman / factor-graph fusion replacing the analytic holdover predictor.
 - Multi-window (segment-aware) holdover scoring.
-- Gyroscope / angular-random-walk in the inertial pack.
 - Orbit-based scenarios (precise time + propagation libraries) and position error.
 - Python (PyO3) and WebAssembly bindings.
 
