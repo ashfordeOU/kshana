@@ -235,7 +235,12 @@ entry for every user-visible change.
 
 ## License
 
-Apache-2.0 — see [`LICENSE`](LICENSE).
+Apache-2.0 — see [`LICENSE`](LICENSE). Contributions are accepted under the same
+license (inbound = outbound); sign commits off per the Developer Certificate of
+Origin with `git commit -s`.
+
+**Trademark.** "Kshana" and its marks are trademarks of Ashforde OÜ. The license
+covers the code, not the name — please rename forks and derivative distributions.
 
 ## Key references
 

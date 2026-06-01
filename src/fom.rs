@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: Apache-2.0
 use crate::scenario::GnssState;
 use crate::types::Seconds;
 use serde::Serialize;

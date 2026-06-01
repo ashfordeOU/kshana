@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: Apache-2.0
 use crate::estimator::HoldoverEstimator;
 use crate::fom::{score, Sample};
 use crate::models::{ClockModel, ErrorModel};

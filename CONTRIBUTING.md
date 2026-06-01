@@ -79,3 +79,7 @@ If unsure, ask before contributing it.
 ## License
 
 By contributing you agree your contributions are licensed under Apache-2.0.
+
+Sign off each commit to certify the [Developer Certificate of Origin](https://developercertificate.org/):
+`git commit -s` (adds a `Signed-off-by` line). Inbound contributions are under the
+same Apache-2.0 license as the project (inbound = outbound); there is no CLA.

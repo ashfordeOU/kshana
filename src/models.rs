@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: Apache-2.0
 use crate::types::{ModelSpec, Seconds};
 use rand::RngCore;
 use rand_distr::{Distribution, Normal};
