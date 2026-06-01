@@ -81,23 +81,20 @@ pub fn score_hybrid(
             pnt_availability,
         };
     }
-    // NOTE: holdover is measured from the first outage sample; assumes a single
-    // contiguous outage window (true for all current scenarios). Multi-window
-    // timelines need segment-aware holdover (future work).
-    let t0 = outage.first().unwrap().t;
-    let last = outage.last().unwrap().t;
-    let holdover = |breached: Option<&&HybridSample>| match breached {
-        Some(s) => s.t - t0,
-        None => last - t0,
-    };
-    let timing_holdover_s = holdover(outage.iter().find(|s| s.timing_ns.abs() > timing_spec_ns));
-    let position_holdover_s =
-        holdover(outage.iter().find(|s| s.position_m.abs() > position_spec_m));
-    let pnt_holdover_s = holdover(
-        outage
+    // Holdover: worst-case (shortest) coast across outage segments, grid-bounded,
+    // computed independently for timing, position, and the combined PNT solution.
+    use crate::fom::worst_case_holdover;
+    let holdover = |breach: &dyn Fn(&HybridSample) -> bool| {
+        let segs: Vec<(Seconds, bool, bool)> = samples
             .iter()
-            .find(|s| s.timing_ns.abs() > timing_spec_ns || s.position_m.abs() > position_spec_m),
-    );
+            .map(|s| (s.t, s.gnss != GnssState::Nominal, breach(s)))
+            .collect();
+        worst_case_holdover(&segs)
+    };
+    let timing_holdover_s = holdover(&|s| s.timing_ns.abs() > timing_spec_ns);
+    let position_holdover_s = holdover(&|s| s.position_m.abs() > position_spec_m);
+    let pnt_holdover_s =
+        holdover(&|s| s.timing_ns.abs() > timing_spec_ns || s.position_m.abs() > position_spec_m);
 
     let p95 = |mut v: Vec<f64>| {
         v.sort_by(|a, b| a.total_cmp(b));
