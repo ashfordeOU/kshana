@@ -48,6 +48,9 @@ Initial release.
   contributing guide, security policy, and code of conduct; Apache-2.0 license;
   issue/PR templates and Dependabot configuration.
 - Vendor-neutral throughout; peer-reviewed scientific and metrology citations retained.
+- Apache-2.0 license hygiene: SPDX headers on all sources, a `NOTICE` with trademark
+  notice, Developer Certificate of Origin (DCO) sign-off for contributions, and
+  `cargo-deny` enforcement of dependency licenses/advisories in CI.
 
 [Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/AshfordeOU/kshana/releases/tag/v0.1.0
