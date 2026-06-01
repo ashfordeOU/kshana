@@ -9,7 +9,7 @@ PNT — scored against the operational figures of merit that matter for resilien
 navigation. Every result is reproducible from `scenario + seed + engine version`,
 and every sensor parameter is traceable to a published source.
 
-> **Status: research-grade, v0.7.1.** Four sensor packs implemented, calibrated to
+> **Status: research-grade, v0.1.0.** Four sensor packs implemented, calibrated to
 > published data, and validated against the standard relations. Read
 > [`docs/VALIDATION.md`](docs/VALIDATION.md) before citing any number — each noise
 > term is labelled `validated` or `not modeled`, and optical-clock figures are
