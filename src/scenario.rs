@@ -40,6 +40,8 @@ pub struct ClockCfg {
     pub y0: f64,
     pub q_wf: f64,
     pub q_rw: f64,
+    #[serde(default)]
+    pub drift: f64,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]

@@ -8,9 +8,9 @@ use crate::scenario::{ClockCfg, Scenario};
 
 fn run_clock(scn: &Scenario, cfg: &ClockCfg) -> ClockRun {
     let mut rng = ChaCha8Rng::seed_from_u64(scn.seed);
-    let mut clock = ClockModel::new(&cfg.id, &cfg.provenance, cfg.y0, cfg.q_wf, cfg.q_rw);
+    let mut clock = ClockModel::new(&cfg.id, &cfg.provenance, cfg.y0, cfg.q_wf, cfg.q_rw)
+        .with_drift(cfg.drift);
     let mut est = HoldoverEstimator::new();
-
     let dt = scn.time.step_s;
     let n = (scn.time.duration_s / dt).round() as usize;
     let mut series = Vec::with_capacity(n + 1);
@@ -18,7 +18,7 @@ fn run_clock(scn: &Scenario, cfg: &ClockCfg) -> ClockRun {
         let t = i as f64 * dt;
         if i > 0 { clock.step(dt, &mut rng); }
         let gnss = scn.gnss.state_at(t);
-        let err_s = est.timing_error(t, clock.phase(), clock.freq_offset(), gnss);
+        let err_s = est.timing_error(t, clock.phase(), clock.det_freq(), clock.drift_rate(), gnss);
         series.push(Sample { t, error_ns: err_s * 1e9, gnss });
     }
     let fom = score(&series, scn.threshold_ns);
@@ -50,8 +50,8 @@ mod tests {
                 GnssWindow { t0: 0.0, t1: 600.0, state: GnssState::Nominal },
                 GnssWindow { t0: 600.0, t1: 3600.0, state: GnssState::Denied },
             ]},
-            clock_quantum:   ClockCfg { id: "optical".into(), provenance: "demo".into(), y0: 1e-13, q_wf: 1e-26, q_rw: 1e-34 },
-            clock_classical: ClockCfg { id: "csac".into(),    provenance: "demo".into(), y0: 1e-11, q_wf: 1e-24, q_rw: 1e-32 },
+            clock_quantum:   ClockCfg { id: "optical".into(), provenance: "demo".into(), y0: 1e-13, q_wf: 1e-26, q_rw: 1e-34, drift: 0.0 },
+            clock_classical: ClockCfg { id: "csac".into(),    provenance: "demo".into(), y0: 1e-11, q_wf: 1e-24, q_rw: 1e-32, drift: 0.0 },
         }
     }
 
