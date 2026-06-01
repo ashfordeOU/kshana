@@ -19,6 +19,11 @@ breaking changes are called out explicitly.
   specific-force error, the dominant strapdown error-growth mechanism. Off by
   default; enabled per sensor via the optional `gyro_bias` and `q_arw` fields.
 
+- Two-state (phase, frequency) Kalman clock estimator with exact van Loan
+  process-noise discretisation. Coasting from a known state reproduces the
+  analytic holdover error growth (`q_wf*T + q_rw*T^3/3`) exactly, and the filter
+  additionally yields an online 1-sigma uncertainty bound usable for integrity.
+
 ### Changed
 - Holdover scoring is now segment-aware: outage timelines are split into
   contiguous segments at GNSS re-acquisition, and the reported holdover is the
@@ -28,7 +33,8 @@ breaking changes are called out explicitly.
   reflecting the combined accelerometer and gyro channels.
 
 ### Planned
-- Full Kalman / factor-graph fusion replacing the analytic holdover predictor.
+- Wire the Kalman estimator into the run pipeline as the primary estimator,
+  reporting the online uncertainty alongside the timing error.
 - Orbit-based scenarios (precise time + propagation libraries) and position error.
 - Python (PyO3) and WebAssembly bindings.
 
