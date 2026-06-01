@@ -65,6 +65,31 @@ fn main() -> ExitCode {
         println!("wrote {} and {}", out.display(), svg_path.display());
         return ExitCode::SUCCESS;
     }
+    if kind.kind == "hybrid" {
+        let scn: kshana::hybrid::HybridScenario = match toml::from_str(&src) {
+            Ok(s) => s,
+            Err(e) => { eprintln!("error: invalid hybrid scenario: {e}"); return ExitCode::FAILURE; }
+        };
+        let result = kshana::hybrid::run_hybrid(&scn);
+        let out = path.with_extension("result.json");
+        let json = serde_json::to_string_pretty(&result).expect("serialize");
+        if let Err(e) = std::fs::write(&out, json) {
+            eprintln!("error: cannot write {}: {e}", out.display()); return ExitCode::FAILURE;
+        }
+        let svg = kshana::hybrid::to_svg(&result);
+        let svg_path = path.with_extension("chart.svg");
+        if let Err(e) = std::fs::write(&svg_path, svg) {
+            eprintln!("error: cannot write {}: {e}", svg_path.display()); return ExitCode::FAILURE;
+        }
+        println!(
+            "scenario {} | quantum PNT-holdover {:.0}s (t {:.0}s/p {:.0}s) | classical PNT-holdover {:.0}s (t {:.0}s/p {:.0}s)",
+            &result.scenario_hash[..12],
+            result.quantum.fom.pnt_holdover_s, result.quantum.fom.timing_holdover_s, result.quantum.fom.position_holdover_s,
+            result.classical.fom.pnt_holdover_s, result.classical.fom.timing_holdover_s, result.classical.fom.position_holdover_s,
+        );
+        println!("wrote {} and {}", out.display(), svg_path.display());
+        return ExitCode::SUCCESS;
+    }
     let scn: kshana::scenario::Scenario = match toml::from_str(&src) {
         Ok(s) => s,
         Err(e) => { eprintln!("error: invalid scenario: {e}"); return ExitCode::FAILURE; }
