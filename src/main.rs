@@ -22,12 +22,18 @@ fn main() -> ExitCode {
     if let Err(e) = std::fs::write(&out, json) {
         eprintln!("error: cannot write {}: {e}", out.display()); return ExitCode::FAILURE;
     }
+    let svg = kshana::report::to_svg(&result);
+    let svg_path = path.with_extension("chart.svg");
+    if let Err(e) = std::fs::write(&svg_path, svg) {
+        eprintln!("error: cannot write {}: {e}", svg_path.display());
+        return ExitCode::FAILURE;
+    }
     println!(
         "scenario {} | quantum holdover {:.0}s p95 {:.1}ns | classical holdover {:.0}s p95 {:.1}ns",
         &result.scenario_hash[..12],
         result.quantum.fom.holdover_s, result.quantum.fom.timing_p95_ns,
         result.classical.fom.holdover_s, result.classical.fom.timing_p95_ns,
     );
-    println!("wrote {}", out.display());
+    println!("wrote {} and {}", out.display(), svg_path.display());
     ExitCode::SUCCESS
 }
