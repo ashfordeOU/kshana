@@ -35,9 +35,12 @@ mod tests {
     fn hand_derived_adev() {
         // phase = [0,1,3,6], tau0=1, m=1, N=4:
         // second diffs: (3-2+0)=1, (6-6+1)=1 -> sumsq=2
-        // sigma^2 = 1/(2*(4-2)*1^2)*2 = 0.5 -> ADEV = sqrt(0.5) = 0.7071067811865476
+        // sigma^2 = 1/(2*(4-2)*1^2)*2 = 0.5 -> ADEV = sqrt(0.5) = 1/sqrt(2)
         let phase = [0.0, 1.0, 3.0, 6.0];
         let adev = overlapping_adev(&phase, 1.0, 1);
-        assert!((adev - 0.7071067811865476).abs() < 1e-12, "adev={adev}");
+        assert!(
+            (adev - std::f64::consts::FRAC_1_SQRT_2).abs() < 1e-12,
+            "adev={adev}"
+        );
     }
 }
