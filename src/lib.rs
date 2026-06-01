@@ -8,3 +8,4 @@ pub mod run;
 pub mod allan;
 pub mod inertial;
 pub mod timetransfer;
+pub mod hybrid;
