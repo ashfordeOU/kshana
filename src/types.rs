@@ -31,7 +31,10 @@ mod tests {
     use super::*;
     #[test]
     fn time_grid_inclusive_endpoints() {
-        let g = TimeGrid { step: 1.0, duration: 5.0 };
+        let g = TimeGrid {
+            step: 1.0,
+            duration: 5.0,
+        };
         assert_eq!(g.times(), vec![0.0, 1.0, 2.0, 3.0, 4.0, 5.0]);
     }
 }

@@ -1,10 +1,10 @@
+use crate::scenario::{GnssState, GnssTimeline, TimeCfg};
+use crate::types::{ModelSpec, Seconds};
 use rand::{RngCore, SeedableRng};
 use rand_chacha::ChaCha8Rng;
 use rand_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
-use crate::scenario::{GnssState, GnssTimeline, TimeCfg};
-use crate::types::{ModelSpec, Seconds};
 
 /// Accelerometer error model for dead-reckoning a static platform: a residual
 /// (post-GNSS-calibration) bias plus white acceleration noise (velocity random
@@ -22,13 +22,27 @@ pub struct AccelModel {
 
 impl AccelModel {
     pub fn new(id: &str, provenance: &str, bias: f64, q_va: f64) -> Self {
-        Self { id: id.into(), provenance: provenance.into(), bias, q_va, vel: 0.0, pos: 0.0 }
+        Self {
+            id: id.into(),
+            provenance: provenance.into(),
+            bias,
+            q_va,
+            vel: 0.0,
+            pos: 0.0,
+        }
     }
     /// Re-align to GNSS truth: zero the accumulated dead-reckoning error.
-    pub fn reset(&mut self) { self.vel = 0.0; self.pos = 0.0; }
-    pub fn pos(&self) -> f64 { self.pos }
+    pub fn reset(&mut self) {
+        self.vel = 0.0;
+        self.pos = 0.0;
+    }
+    pub fn pos(&self) -> f64 {
+        self.pos
+    }
     pub fn step(&mut self, dt: Seconds, rng: &mut dyn RngCore) {
-        if dt <= 0.0 { return; }
+        if dt <= 0.0 {
+            return;
+        }
         self.vel += self.bias * dt;
         if self.q_va > 0.0 {
             // velocity random walk: integrating white accel (PSD S_a) over dt
@@ -73,15 +87,25 @@ pub struct PositionFoM {
 /// availability is over the whole run. `holdover_s` is grid-resolution-bounded.
 pub fn score_position(samples: &[PosSample], threshold_m: f64) -> PositionFoM {
     let n = samples.len().max(1) as f64;
-    let within = samples.iter().filter(|s| s.error_m.abs() <= threshold_m).count();
+    let within = samples
+        .iter()
+        .filter(|s| s.error_m.abs() <= threshold_m)
+        .count();
     let availability = within as f64 / n;
 
-    let outage: Vec<&PosSample> =
-        samples.iter().filter(|s| s.gnss != GnssState::Nominal).collect();
+    let outage: Vec<&PosSample> = samples
+        .iter()
+        .filter(|s| s.gnss != GnssState::Nominal)
+        .collect();
     if outage.is_empty() {
         return PositionFoM {
-            pos_rms_m: 0.0, pos_p95_m: 0.0, holdover_s: 0.0,
-            drift_slope_m_per_s: 0.0, availability, integrity: None, security: None,
+            pos_rms_m: 0.0,
+            pos_p95_m: 0.0,
+            holdover_s: 0.0,
+            drift_slope_m_per_s: 0.0,
+            availability,
+            integrity: None,
+            security: None,
         };
     }
     let m = outage.len() as f64;
@@ -108,7 +132,15 @@ pub fn score_position(samples: &[PosSample], threshold_m: f64) -> PositionFoM {
         den += (s.t - mean_t) * (s.t - mean_t);
     }
     let drift_slope_m_per_s = if den > 0.0 { num / den } else { 0.0 };
-    PositionFoM { pos_rms_m, pos_p95_m, holdover_s, drift_slope_m_per_s, availability, integrity: None, security: None }
+    PositionFoM {
+        pos_rms_m,
+        pos_p95_m,
+        holdover_s,
+        drift_slope_m_per_s,
+        availability,
+        integrity: None,
+        security: None,
+    }
 }
 
 /// Accelerometer configuration in an inertial scenario file.
@@ -166,16 +198,25 @@ fn run_accel(scn: &InertialScenario, cfg: &AccelCfg, seed: u64) -> AccelRun {
     let mut series = Vec::with_capacity(n + 1);
     for i in 0..=n {
         let t = i as f64 * dt;
-        if i > 0 { a.step(dt, &mut rng); }
+        if i > 0 {
+            a.step(dt, &mut rng);
+        }
         let gnss = scn.gnss.state_at(t);
         let error_m = match gnss {
-            GnssState::Nominal => { a.reset(); 0.0 }
+            GnssState::Nominal => {
+                a.reset();
+                0.0
+            }
             _ => a.pos(),
         };
         series.push(PosSample { t, error_m, gnss });
     }
     let fom = score_position(&series, scn.threshold_m);
-    AccelRun { spec: a.spec(), series, fom }
+    AccelRun {
+        spec: a.spec(),
+        series,
+        fom,
+    }
 }
 
 /// Run a dead-reckoning scenario for both accelerometers.
@@ -187,7 +228,11 @@ pub fn run_inertial(scn: &InertialScenario) -> InertialResult {
         seed: scn.seed,
         threshold_m: scn.threshold_m,
         quantum: run_accel(scn, &scn.accel_quantum, scn.seed),
-        classical: run_accel(scn, &scn.accel_classical, scn.seed.wrapping_add(0x9e3779b97f4a7c15)),
+        classical: run_accel(
+            scn,
+            &scn.accel_classical,
+            scn.seed.wrapping_add(0x9e3779b97f4a7c15),
+        ),
     }
 }
 
@@ -204,11 +249,14 @@ pub fn to_svg(result: &InertialResult) -> String {
     for s in c.iter().chain(q.iter()) {
         y_max = y_max.max(s.error_m.abs());
     }
-    if y_max <= 0.0 { y_max = 1.0; }
+    if y_max <= 0.0 {
+        y_max = 1.0;
+    }
     let xof = |t: f64| ml + (t / t_max) * pw;
     let yof = |e: f64| mt + ph - (e.min(y_max) / y_max) * ph;
     let points = |series: &[PosSample]| {
-        series.iter()
+        series
+            .iter()
             .map(|s| format!("{:.1},{:.1}", xof(s.t), yof(s.error_m.abs())))
             .collect::<Vec<_>>()
             .join(" ")
@@ -217,17 +265,47 @@ pub fn to_svg(result: &InertialResult) -> String {
     let axis_y = mt + ph;
     let mut svg = String::new();
     svg.push_str(&format!("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\">"));
-    svg.push_str(&format!("<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"white\"/>"));
+    svg.push_str(&format!(
+        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"white\"/>"
+    ));
     svg.push_str(&format!("<text x=\"{:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">Dead-reckoning position error during GNSS outage</text>", ml));
-    svg.push_str(&format!("<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#888\"/>"));
-    svg.push_str(&format!("<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#888\"/>", ml + pw));
+    svg.push_str(&format!(
+        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#888\"/>"
+    ));
+    svg.push_str(&format!(
+        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#888\"/>",
+        ml + pw
+    ));
     svg.push_str(&format!("<line x1=\"{ml:.0}\" y1=\"{thr_y:.1}\" x2=\"{:.0}\" y2=\"{thr_y:.1}\" stroke=\"#d33\" stroke-dasharray=\"6 4\"/>", ml + pw));
-    svg.push_str(&format!("<text x=\"{:.0}\" y=\"{:.1}\" fill=\"#d33\">spec {:.0} m</text>", ml + 4.0, thr_y - 4.0, result.threshold_m));
-    svg.push_str(&format!("<polyline fill=\"none\" stroke=\"#c0392b\" stroke-width=\"2\" points=\"{}\"/>", points(c)));
-    svg.push_str(&format!("<polyline fill=\"none\" stroke=\"#2471a3\" stroke-width=\"2\" points=\"{}\"/>", points(q)));
-    svg.push_str(&format!("<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\">time (s)</text>", ml + pw / 2.0, h - 12.0));
-    svg.push_str(&format!("<text x=\"{:.0}\" y=\"44\" fill=\"#c0392b\">classical: {}</text>", ml + 10.0, result.classical.spec.id));
-    svg.push_str(&format!("<text x=\"{:.0}\" y=\"60\" fill=\"#2471a3\">quantum: {}</text>", ml + 10.0, result.quantum.spec.id));
+    svg.push_str(&format!(
+        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"#d33\">spec {:.0} m</text>",
+        ml + 4.0,
+        thr_y - 4.0,
+        result.threshold_m
+    ));
+    svg.push_str(&format!(
+        "<polyline fill=\"none\" stroke=\"#c0392b\" stroke-width=\"2\" points=\"{}\"/>",
+        points(c)
+    ));
+    svg.push_str(&format!(
+        "<polyline fill=\"none\" stroke=\"#2471a3\" stroke-width=\"2\" points=\"{}\"/>",
+        points(q)
+    ));
+    svg.push_str(&format!(
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\">time (s)</text>",
+        ml + pw / 2.0,
+        h - 12.0
+    ));
+    svg.push_str(&format!(
+        "<text x=\"{:.0}\" y=\"44\" fill=\"#c0392b\">classical: {}</text>",
+        ml + 10.0,
+        result.classical.spec.id
+    ));
+    svg.push_str(&format!(
+        "<text x=\"{:.0}\" y=\"60\" fill=\"#2471a3\">quantum: {}</text>",
+        ml + 10.0,
+        result.quantum.spec.id
+    ));
     svg.push_str("</svg>");
     svg
 }
@@ -243,7 +321,9 @@ mod tests {
         // b=1e-3, N=4 -> 1e-3 * (4*5/2)=1e-3*10 = 1e-2.
         let mut a = AccelModel::new("b", "unit", 1e-3, 0.0);
         let mut rng = ChaCha8Rng::seed_from_u64(1);
-        for _ in 0..4 { a.step(1.0, &mut rng); }
+        for _ in 0..4 {
+            a.step(1.0, &mut rng);
+        }
         assert!((a.pos() - 1e-2).abs() < 1e-15);
     }
 
@@ -251,7 +331,9 @@ mod tests {
     fn reset_zeroes_error() {
         let mut a = AccelModel::new("b", "unit", 1e-3, 0.0);
         let mut rng = ChaCha8Rng::seed_from_u64(1);
-        for _ in 0..4 { a.step(1.0, &mut rng); }
+        for _ in 0..4 {
+            a.step(1.0, &mut rng);
+        }
         a.reset();
         assert_eq!(a.pos(), 0.0);
     }
@@ -261,7 +343,9 @@ mod tests {
         let run = || {
             let mut a = AccelModel::new("q", "unit", 0.0, 4e-8);
             let mut rng = ChaCha8Rng::seed_from_u64(5);
-            for _ in 0..200 { a.step(1.0, &mut rng); }
+            for _ in 0..200 {
+                a.step(1.0, &mut rng);
+            }
             a.pos()
         };
         assert_eq!(run(), run());
@@ -269,7 +353,11 @@ mod tests {
 
     #[test]
     fn hand_derived_position_scores() {
-        let s = |t: f64, e: f64| PosSample { t, error_m: e, gnss: Denied };
+        let s = |t: f64, e: f64| PosSample {
+            t,
+            error_m: e,
+            gnss: Denied,
+        };
         let samples = vec![s(0.0, 0.0), s(1.0, 100.0), s(2.0, 200.0)];
         let f = score_position(&samples, 150.0);
         assert!((f.pos_rms_m - 129.0994).abs() < 1e-3);
@@ -292,7 +380,9 @@ mod tests {
         for &seed in &seeds {
             let mut a = AccelModel::new("vrw", "unit", 0.0, s_a);
             let mut rng = ChaCha8Rng::seed_from_u64(seed);
-            for _ in 0..n { a.step(dt, &mut rng); }
+            for _ in 0..n {
+                a.step(dt, &mut rng);
+            }
             sumsq += a.pos() * a.pos();
         }
         let sd = (sumsq / seeds.len() as f64).sqrt();

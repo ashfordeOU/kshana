@@ -1,6 +1,6 @@
+use crate::types::{ModelSpec, Seconds};
 use rand::RngCore;
 use rand_distr::{Distribution, Normal};
-use crate::types::{ModelSpec, Seconds};
 
 /// A sensor/clock error model: evolve internal error state, expose a spec.
 pub trait ErrorModel {
@@ -25,21 +25,41 @@ pub struct ClockModel {
 
 impl ClockModel {
     pub fn new(id: &str, provenance: &str, y0: f64, q_wf: f64, q_rw: f64) -> Self {
-        Self { id: id.into(), provenance: provenance.into(), y0, q_wf, q_rw,
-               drift: 0.0, phase: 0.0, freq: 0.0, t: 0.0 }
+        Self {
+            id: id.into(),
+            provenance: provenance.into(),
+            y0,
+            q_wf,
+            q_rw,
+            drift: 0.0,
+            phase: 0.0,
+            freq: 0.0,
+            t: 0.0,
+        }
     }
     /// Builder: set linear fractional-frequency aging rate (per second).
-    pub fn with_drift(mut self, drift: f64) -> Self { self.drift = drift; self }
-    pub fn phase(&self) -> Seconds { self.phase }
+    pub fn with_drift(mut self, drift: f64) -> Self {
+        self.drift = drift;
+        self
+    }
+    pub fn phase(&self) -> Seconds {
+        self.phase
+    }
     /// Instantaneous deterministic (calibratable) frequency = y0 + drift*t.
-    pub fn det_freq(&self) -> f64 { self.y0 + self.drift * self.t }
+    pub fn det_freq(&self) -> f64 {
+        self.y0 + self.drift * self.t
+    }
     /// Deterministic aging rate (per second).
-    pub fn drift_rate(&self) -> f64 { self.drift }
+    pub fn drift_rate(&self) -> f64 {
+        self.drift
+    }
 }
 
 impl ErrorModel for ClockModel {
     fn step(&mut self, dt: Seconds, rng: &mut dyn RngCore) {
-        if dt <= 0.0 { return; }
+        if dt <= 0.0 {
+            return;
+        }
         if self.q_rw > 0.0 {
             let n = Normal::new(0.0, (self.q_rw * dt).sqrt()).unwrap();
             self.freq += n.sample(rng);
@@ -73,7 +93,9 @@ mod tests {
     fn deterministic_freq_offset_no_noise() {
         let mut c = ClockModel::new("test", "unit", 1e-9, 0.0, 0.0);
         let mut rng = ChaCha8Rng::seed_from_u64(1);
-        for _ in 0..10 { c.step(1.0, &mut rng); }
+        for _ in 0..10 {
+            c.step(1.0, &mut rng);
+        }
         assert!((c.phase() - 1e-8).abs() < 1e-18);
     }
 
@@ -82,7 +104,9 @@ mod tests {
         let run = || {
             let mut c = ClockModel::new("q", "unit", 0.0, 1e-20, 1e-24);
             let mut rng = ChaCha8Rng::seed_from_u64(42);
-            for _ in 0..100 { c.step(1.0, &mut rng); }
+            for _ in 0..100 {
+                c.step(1.0, &mut rng);
+            }
             c.phase()
         };
         assert_eq!(run(), run());
@@ -93,7 +117,9 @@ mod tests {
         // drift d, y0=0, no noise, dt=1, N steps: phase = d * sum_{i=0}^{N-1} i = d*N(N-1)/2
         let mut c = ClockModel::new("age", "unit", 0.0, 0.0, 0.0).with_drift(1e-9);
         let mut rng = ChaCha8Rng::seed_from_u64(1);
-        for _ in 0..4 { c.step(1.0, &mut rng); } // 1e-9 * (4*3/2)=6 -> 6e-9
+        for _ in 0..4 {
+            c.step(1.0, &mut rng);
+        } // 1e-9 * (4*3/2)=6 -> 6e-9
         assert!((c.phase() - 6e-9).abs() < 1e-20);
     }
 }
