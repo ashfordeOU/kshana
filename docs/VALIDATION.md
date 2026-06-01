@@ -5,14 +5,14 @@
 | White FM (short-term) | `validated` | `tests/calibration.rs`: simulated overlapping ADEV reproduces published sigma_y(1 s) to ~2%, and the white-FM curve sigma_y(tau)=sigma_y(1s)/sqrt(tau) across tau = 1, 10, 100 s to <25% (matches CSAC datasheet 3e-10 / 1e-10 / 3e-11). |
 | Random-walk FM (long-term) | `validated` | `tests/calibration.rs`: simulated ADEV matches sigma_y^2(tau)=q_rw*tau/3 (Riley NIST SP 1065) to ~20% (seed-averaged). |
 | Aging / linear drift | `modeled` + calibrated-out | Deterministic; the holdover estimator removes offset and aging via a quadratic predictor, so the residual is the stochastic limit. Tested in `src/estimator.rs` / `src/models.rs`. |
-| Flicker FM (floor) | `not modeled` | The remaining honest gap. CSAC is white-FM-dominated across its datasheet range (1-1000 s), so flicker is below the validated region; the optical-clock systematic floor (~5e-17) is represented by its accuracy figure, not a flicker process. |
+| Flicker FM (floor) | `modeled` (off by default) | Synthesised as a sum of log-spaced Ornstein-Uhlenbeck processes calibrated to a configurable flat ADEV floor; `src/models.rs` validates the floor is flat across averaging time and sits at the configured level (seed-averaged). Enabled per clock via `flicker_floor`. The cited reference scenarios leave it off: CSAC is white-FM-dominated across its datasheet range (1-1000 s) and the optical-clock systematic floor (~5e-17) is represented by its accuracy figure. |
 
 | Clock | sigma_y(1 s) | Source |
 |-------|--------------|--------|
 | csac-sa45s (CSAC)        | 3.0e-10 | Microchip SA65 / SA.45s datasheet |
 | optical-sr-lattice (Sr lattice) | 1.0e-15 | strontium optical lattice clock, space-oriented goal, arXiv:1503.08457 |
 
-**Status: white FM and random-walk FM validated; aging modeled and calibrated-out; flicker not modeled.**
+**Status: white FM and random-walk FM validated; aging modeled and calibrated-out; flicker FM modeled and validated (off by default in the cited scenarios).**
 
 Maturity: the optical-clock figures are the *space-oriented goal* on ground hardware --
 no strontium optical clock has flown. Laboratory Sr clocks reach 4.8e-17 (Oelker et al.
@@ -28,7 +28,8 @@ frequency Wiener process of diffusion q_rw.
 |------|--------|----------|
 | Constant/residual bias -> position | `validated` | pos error = 0.5*b*T^2 family (Groves AESS Tutorial); hand-derived discrete test in `src/inertial.rs`. |
 | Velocity random walk (white accel) | `validated` | `src/inertial.rs`: simulated position-error SD matches sigma_x(T)=sqrt(S_a*T^3/3) (Groves eq.54) to ~12% (seed-averaged). |
-| Bias instability (slow drift), scale factor, gyro/ARW | `not modeled` | Residual bias is modeled as a constant at the published bias-stability level; finer bias-instability dynamics and rotation are future work. |
+| Gyro bias + angular random walk -> tilt -> gravity coupling | `modeled` (off by default) | A residual gyro bias and ARW drive an attitude error; the tilt couples gravity (`g*theta`) into horizontal specific-force error. `src/inertial.rs` validates the pure-bias cubic position growth exactly and the ARW attitude growth as a Wiener process (seed-averaged). Enabled per sensor via `gyro_bias` and `q_arw`; off in the cited accelerometer-only scenarios. |
+| Bias instability (slow drift), scale factor | `not modeled` | Residual bias is modeled as a constant at the published bias-stability level; finer bias-instability dynamics and scale-factor error are future work. |
 
 | Sensor | bias stability | noise root-PSD | Source |
 |--------|----------------|----------------|--------|
@@ -71,8 +72,8 @@ suite is **position-limited** (nav-grade IMU breaches first). Optical ISL time-t
 keeps even the classical CLOCK locked, isolating the inertial sensor as the classical
 suite's weak link — the core argument for quantum inertial + optical timing together.
 
-## Known limitations (v0.7)
+## Known limitations
 
 - Quantum and classical runs now use independent RNG seeds (classical seed = seed + 0x9e3779b97f4a7c15) so their noise realizations are uncorrelated — fixed after review.
-- `holdover_s` assumes a single contiguous GNSS-outage window (all current scenarios). Multi-window timelines need segment-aware holdover (future work).
+- `holdover_s` is segment-aware: outage timelines are split into contiguous segments at GNSS re-acquisition and the reported value is the worst-case (shortest) coast across them. It remains bounded by the time-grid resolution (a lower bound).
 - ISL time-transfer re-sync models the residual link uncertainty as fresh zero-mean jitter per measurement step plus re-anchoring at the configured interval.
