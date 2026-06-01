@@ -9,6 +9,14 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Planned
+- Higher-fidelity orbit propagation (precise ephemerides / perturbations) and a
+  position-domain error from the geometry (e.g. GDOP), beyond the current
+  circular-orbit availability model.
+- Published packages (crates.io, PyPI, npm).
+
+## [0.2.0] - 2026-06-02
+
 ### Added
 - Flicker (1/f) FM floor for the clock error model, synthesised as a sum of
   log-spaced Ornstein-Uhlenbeck processes and calibrated so the flat
@@ -49,12 +57,6 @@ breaking changes are called out explicitly.
 - The inertial model's reported `kind` is now `inertial` (was `accelerometer`),
   reflecting the combined accelerometer and gyro channels.
 
-### Planned
-- Higher-fidelity orbit propagation (precise ephemerides / perturbations) and a
-  position-domain error from the geometry (e.g. GDOP), beyond the current
-  circular-orbit availability model.
-- Published packages (crates.io, PyPI, npm).
-
 ## [0.1.0] - 2026-06-01
 
 Initial release.
@@ -94,5 +96,6 @@ Initial release.
   services, not license fees.
 - `CITATION.cff` so the software can be cited.
 
-[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/AshfordeOU/kshana/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/AshfordeOU/kshana/releases/tag/v0.1.0
