@@ -91,6 +91,9 @@ pub fn score_position(samples: &[PosSample], threshold_m: f64) -> PositionFoM {
     abs.sort_by(|a, b| a.total_cmp(b));
     let idx = (((abs.len().saturating_sub(1)) as f64) * 0.95).round() as usize;
     let pos_p95_m = abs.get(idx).copied().unwrap_or(0.0);
+    // NOTE: holdover is measured from the first outage sample; assumes a single
+    // contiguous outage window (true for all current scenarios). Multi-window
+    // timelines need segment-aware holdover (future work).
     let t0 = outage.first().unwrap().t;
     let holdover_s = match outage.iter().find(|s| s.error_m.abs() > threshold_m) {
         Some(s) => s.t - t0,
@@ -155,8 +158,8 @@ fn hash_inertial(scn: &InertialScenario) -> String {
     hex::encode(h.finalize())
 }
 
-fn run_accel(scn: &InertialScenario, cfg: &AccelCfg) -> AccelRun {
-    let mut rng = ChaCha8Rng::seed_from_u64(scn.seed);
+fn run_accel(scn: &InertialScenario, cfg: &AccelCfg, seed: u64) -> AccelRun {
+    let mut rng = ChaCha8Rng::seed_from_u64(seed);
     let mut a = AccelModel::new(&cfg.id, &cfg.provenance, cfg.bias, cfg.q_va);
     let dt = scn.time.step_s;
     let n = (scn.time.duration_s / dt).round() as usize;
@@ -183,8 +186,8 @@ pub fn run_inertial(scn: &InertialScenario) -> InertialResult {
         scenario_hash: hash_inertial(scn),
         seed: scn.seed,
         threshold_m: scn.threshold_m,
-        quantum: run_accel(scn, &scn.accel_quantum),
-        classical: run_accel(scn, &scn.accel_classical),
+        quantum: run_accel(scn, &scn.accel_quantum, scn.seed),
+        classical: run_accel(scn, &scn.accel_classical, scn.seed.wrapping_add(0x9e3779b97f4a7c15)),
     }
 }
 
