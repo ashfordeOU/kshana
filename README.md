@@ -1,12 +1,18 @@
-# Kshana
+<h1 align="center">
+  <img src="docs/assets/kshana-banner.svg" alt="Kshana — the precise instant. Open, reproducible hybrid quantum/classical PNT performance simulation." width="760">
+</h1>
 
-[![CI](https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml/badge.svg)](https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml)
-[![Release](https://img.shields.io/github/v/release/ashfordeOU/kshana?sort=semver)](https://github.com/ashfordeOU/kshana/releases)
-[![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
-[![Rust](https://img.shields.io/badge/rust-1.75%2B-orange.svg)](Cargo.toml)
+<p align="center">
+  <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/github/v/release/ashfordeOU/kshana?sort=semver" alt="Release"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="License: Apache-2.0"></a>
+  <a href="Cargo.toml"><img src="https://img.shields.io/badge/rust-1.75%2B-orange.svg" alt="Rust 1.75+"></a>
+</p>
 
-**Kshana** (क्षण, Sanskrit: *"the precise instant"*) is an open, reproducible simulator
-for **hybrid quantum/classical PNT** — positioning, navigation, and timing.
+<p align="center">
+  <strong>Kshana</strong> (क्षण, Sanskrit: <em>"the precise instant"</em>) is an open, reproducible
+  simulator for <strong>hybrid quantum/classical PNT</strong> — positioning, navigation, and timing.
+</p>
 
 It quantifies, in hard and reproducible numbers, what quantum clocks, quantum
 inertial sensors, and optical time-transfer buy a navigation system over classical
