@@ -291,6 +291,14 @@ pub fn to_svg(result: &HybridResult) -> String {
         "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"white\"/>"
     ));
     svg.push_str(&format!("<text x=\"{:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">Hybrid PNT spec utilization during GNSS outage (1.0 = spec)</text>", ml));
+    svg.push_str(&crate::chart::y_axis(
+        ml,
+        mt,
+        pw,
+        ph,
+        y_max,
+        "spec utilization",
+    ));
     svg.push_str(&format!(
         "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#888\"/>"
     ));
