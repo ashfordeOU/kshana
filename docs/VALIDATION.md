@@ -6,6 +6,7 @@
 | Random-walk FM (long-term) | `validated` | `tests/calibration.rs`: simulated ADEV matches sigma_y^2(tau)=q_rw*tau/3 (Riley NIST SP 1065) to ~20% (seed-averaged). |
 | Aging / linear drift | `modeled` + calibrated-out | Deterministic; the holdover estimator removes offset and aging via a quadratic predictor, so the residual is the stochastic limit. Tested in `src/estimator.rs` / `src/models.rs`. |
 | Kalman estimator + integrity bound | `validated` | `src/kalman.rs`: a two-state (phase, frequency) filter whose exact van Loan process noise matches the truth model; coasting reproduces the analytic holdover variance `q_wf*T + q_rw*T^3/3` to 1e-9. The run layer reports Integrity as the fraction of outage samples inside the 3-sigma protection bound (`src/run.rs`). |
+| Security (spoof-detection score) | `validated` (model) | `src/security.rs`: the monitor 1-sigma floor `sqrt(r/m + q_wf*tau + q_rw*tau^3/3)` and the resulting `k`-sigma minimum-detectable offset and `[0,1]` score are hand-derived and unit-tested. The model (innovation / RAIM-style clock-aided detection) is sound; the *parameters* (monitoring window `tau`, detection multiplier `k`, measurement noise `r`) are representative, not fitted to a specific receiver. |
 | Flicker FM (floor) | `modeled` (off by default) | Synthesised as a sum of log-spaced Ornstein-Uhlenbeck processes calibrated to a configurable flat ADEV floor; `src/models.rs` validates the floor is flat across averaging time and sits at the configured level (seed-averaged). Enabled per clock via `flicker_floor`. The cited reference scenarios leave it off: CSAC is white-FM-dominated across its datasheet range (1-1000 s) and the optical-clock systematic floor (~5e-17) is represented by its accuracy figure. |
 
 | Clock | sigma_y(1 s) | Source |
@@ -80,11 +81,13 @@ suite's weak link — the core argument for quantum inertial + optical timing to
 | Circular two-body propagation | `validated` | `src/orbit.rs`: period `T=2 pi sqrt(r^3/mu)` (mu = 3.986004418e14), position returns after one period, equatorial/polar planarity — hand-derived tests. |
 | Line-of-sight visibility (Earth occultation + elevation mask) | `validated` | Antipodal sat occulted, radially-outward sat at 90 deg elevation, tangential sat on the horizon — exact hand-derived tests. |
 | Visibility -> GNSS state -> timeline | `validated` | `>=4` visible = nominal, 1-3 degraded, 0 denied; Walker-delta generator; integration test drives a clock-holdover run from the derived timeline. |
-| Higher-fidelity propagation / position-domain (GDOP) | `not modeled` | Circular orbits and a spherical Earth; no perturbations, ephemerides, or DOP-based position error yet. |
+| Dilution of precision (GDOP/PDOP/HDOP/VDOP/TDOP) -> position accuracy | `validated` | `src/orbit.rs`: `Q=(HᵀH)⁻¹` from the line-of-sight design matrix; a regular-tetrahedron geometry reproduces the closed-form DOPs (PDOP 1.5, TDOP 0.5, GDOP √2.5, HDOP √1.5, VDOP √0.75) to 1e-9. Position sigma = PDOP × user-equivalent range error. |
+| Higher-fidelity propagation (ephemerides / perturbations) | `not modeled` | Circular orbits and a spherical Earth; no perturbations or precise ephemerides yet. |
 
 Honest framing: this is a deterministic geometry layer (circular orbits, spherical
-Earth of mean radius 6371 km, pure line-of-sight). It establishes *availability* from
-real geometry, not a precise-ephemeris navigation solution. The
+Earth of mean radius 6371 km, pure line-of-sight). It establishes *availability* and
+the *geometric* position accuracy (dilution of precision × a representative range-error
+budget) from real geometry, not a precise-ephemeris navigation solution. The
 `orbit-gnss-challenged.toml` reference puts a spacecraft inside the GNSS shell: it holds
 a fix only ~59% of the day, the quantum clock keeps a 5 ns timing solution through every
 gap (availability 1.0) while the chip-scale clock holds ~0.83.

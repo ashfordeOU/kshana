@@ -9,15 +9,36 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
-### Added
-- Labelled y-axes on the SVG charts: gridlines, numeric tick labels, and a
-  units axis title (via a shared `chart` helper), so magnitudes are readable.
-
 ### Planned
-- Higher-fidelity orbit propagation (precise ephemerides / perturbations) and a
-  position-domain error from the geometry (e.g. GDOP), beyond the current
-  circular-orbit availability model.
-- Published packages (crates.io, PyPI, npm).
+- Higher-fidelity orbit propagation (precise ephemerides / perturbations),
+  beyond the current circular-orbit model.
+
+## [0.3.0] - 2026-06-02
+
+### Added
+- **Security** figure of merit (previously unpopulated): a clock-aided
+  spoof-detection score for the clock-holdover and orbit packs. It models an
+  integrity monitor that cross-checks GNSS-derived time against the clock's own
+  coasted prediction over a coherent window; the detection floor combines the
+  averaged measurement noise with the clock's coast uncertainty, so a quieter
+  clock detects smaller, slower time-spoofs. The score is reported in `[0, 1]`
+  relative to the timing spec, completing the six operational figures of merit.
+- Geometry-derived **position accuracy** for the orbit pack: from the
+  line-of-sight geometry to the visible satellites it forms the design matrix
+  and its covariance factor `Q = (HᵀH)⁻¹`, yielding the dilution-of-precision
+  factors (GDOP/PDOP/HDOP/VDOP/TDOP). Position accuracy is the position DOP
+  scaled by a configurable user-equivalent range error (new optional
+  `sigma_uere_m` scenario field). An orbit result now carries a geometry summary
+  (fraction of samples with a fix, best and median PDOP and position sigma).
+- An in-browser **playground** (`web/`) that runs the engine client-side as
+  WebAssembly: pick a reference scenario or edit the TOML, run it, and see the
+  summary, chart, and full JSON, with nothing uploaded. A `pages` workflow
+  builds and publishes it to GitHub Pages, and a new `summary` WebAssembly export
+  backs the readout.
+- Labelled y-axes on the SVG charts: gridlines, numeric tick labels, and a units
+  axis title (via a shared `chart` helper), so magnitudes are readable.
+- Package-publishing workflow (`publish`) for crates.io, PyPI, and npm, each
+  gated on its registry token and triggered by a published release.
 
 ## [0.2.0] - 2026-06-02
 
@@ -100,6 +121,7 @@ Initial release.
   services, not license fees.
 - `CITATION.cff` so the software can be cited.
 
-[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.2.0...HEAD
+[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/AshfordeOU/kshana/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/AshfordeOU/kshana/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/AshfordeOU/kshana/releases/tag/v0.1.0

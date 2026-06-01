@@ -30,6 +30,7 @@ flowchart TD
       models["models.rs<br/>ErrorModel · ClockModel (incl. flicker FM)"]
       estimator["estimator.rs<br/>HoldoverEstimator"]
       kalman["kalman.rs<br/>KalmanClock → Integrity bound"]
+      security["security.rs<br/>clock-aided spoof detection → Security"]
       fom["fom.rs<br/>Sample · FoMScores · score · worst_case_holdover"]
       report["report.rs<br/>RunResult · hash · to_svg"]
       run["run.rs<br/>run / run_clock / run_orbit_clock"]
@@ -38,7 +39,7 @@ flowchart TD
     inertial["inertial.rs<br/>Pack 2 · AccelModel (accel + gyro) · run_inertial"]
     timetransfer["timetransfer.rs<br/>Pack 3 · TimeTransferLink · run_timetransfer"]
     hybrid["hybrid.rs<br/>Pack 4 · run_suite · score_hybrid · run_hybrid"]
-    orbit["orbit.rs<br/>CircularOrbit · Walker constellation · visibility · build_timeline"]
+    orbit["orbit.rs<br/>CircularOrbit · Walker constellation · visibility · DOP · build_timeline"]
 
     main --> api
     py --> api
@@ -51,6 +52,7 @@ flowchart TD
     run --> models
     run --> estimator
     run --> kalman
+    run --> security
     run --> fom
     run --> report
     run --> orbit
@@ -210,7 +212,9 @@ The core compiles unchanged to native, to a Python extension, and to WebAssembly
 The Python (`python.rs`, PyO3 abi3) and WebAssembly (`wasm.rs`, wasm-bindgen) modules
 are optional, feature-gated dependencies (`--features python` / `--features wasm`):
 the default build, the test suite, and the dependency-audit gate never compile or
-scan them. Both call `api::run_toml`, so every surface returns identical results.
+scan them. Both call `api::run_toml`, so every surface returns identical results. The
+WebAssembly module backs the browser playground in `web/` (`run`, `chart_svg`,
+`summary`, `version`).
 
 ## 8. Determinism & reproducibility
 
@@ -224,7 +228,8 @@ scan them. Both call `api::run_toml`, so every surface returns identical results
 ## 9. Deferred / future structure
 
 Tracked in [CHANGELOG](../CHANGELOG.md) `[Unreleased]`: higher-fidelity orbit
-propagation (precise ephemerides / perturbations) with a position-domain (GDOP) error,
-a Security threat-model figure of merit, and published packages (crates.io / PyPI /
-npm). A private overlay repo holds export-sensitive resilience depth; it plugs in via
-the same `ErrorModel` interface without changing the public engine.
+propagation (precise ephemerides / perturbations) beyond the current circular-orbit
+model. The position-domain dilution of precision, the Security figure of merit, and a
+package-publishing workflow have shipped. A private overlay repo holds export-sensitive
+resilience depth; it plugs in via the same `ErrorModel` interface without changing the
+public engine.
