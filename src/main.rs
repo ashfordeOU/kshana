@@ -40,6 +40,31 @@ fn main() -> ExitCode {
         println!("wrote {} and {}", out.display(), svg_path.display());
         return ExitCode::SUCCESS;
     }
+    if kind.kind == "timetransfer" {
+        let scn: kshana::timetransfer::TimeTransferScenario = match toml::from_str(&src) {
+            Ok(s) => s,
+            Err(e) => { eprintln!("error: invalid time-transfer scenario: {e}"); return ExitCode::FAILURE; }
+        };
+        let result = kshana::timetransfer::run_timetransfer(&scn);
+        let out = path.with_extension("result.json");
+        let json = serde_json::to_string_pretty(&result).expect("serialize");
+        if let Err(e) = std::fs::write(&out, json) {
+            eprintln!("error: cannot write {}: {e}", out.display()); return ExitCode::FAILURE;
+        }
+        let svg = kshana::timetransfer::to_svg(&result);
+        let svg_path = path.with_extension("chart.svg");
+        if let Err(e) = std::fs::write(&svg_path, svg) {
+            eprintln!("error: cannot write {}: {e}", svg_path.display()); return ExitCode::FAILURE;
+        }
+        println!(
+            "scenario {} | optical sync_rms {:.2}ps range_rms {:.3}mm | RF sync_rms {:.1}ps range_rms {:.1}mm",
+            &result.scenario_hash[..12],
+            result.quantum.fom.sync_rms_ps, result.quantum.fom.range_rms_mm,
+            result.classical.fom.sync_rms_ps, result.classical.fom.range_rms_mm,
+        );
+        println!("wrote {} and {}", out.display(), svg_path.display());
+        return ExitCode::SUCCESS;
+    }
     let scn: kshana::scenario::Scenario = match toml::from_str(&src) {
         Ok(s) => s,
         Err(e) => { eprintln!("error: invalid scenario: {e}"); return ExitCode::FAILURE; }
