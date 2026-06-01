@@ -108,7 +108,7 @@ spacerepo/kshana-private/ PRIVATE, separate repo (NOT a subfolder)
 
 **Three hard pre-commit / CI guards on the public repo:**
 1. `check-export-control` — per-file export classification tag; CI refuses anything above the public threshold + greps a dual-use marker list.
-2. `check-no-claude` — scans content **and commit messages** for AI-attribution markers; exits non-zero if found. (No `Co-Authored-By`, no "Generated with …", none in docs/comments/commits — ever.)
+2. `check-no-attribution` — scans content **and commit messages** for AI-assistant attribution markers; exits non-zero if found. (No AI-attribution trailers, no AI-generation footers, none in docs/comments/commits — ever.)
 3. `check-reproducible` — reference scenarios must reproduce their committed result-hash.
 
 **License:** Apache-2.0 on the public core (permissive + patent grant → maximizes adoption; OreKit precedent). The moat is the private layer, not the license. *(EUPL-1.2 is the alternative if European-sovereignty signaling outweighs adoption; decided at publish time.)*
