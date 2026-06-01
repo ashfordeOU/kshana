@@ -21,8 +21,10 @@ breaking changes are called out explicitly.
   (Contributor Covenant v2.1).
 - GitHub issue templates (bug report, feature request), pull-request template, and
   Dependabot configuration for Cargo and GitHub Actions.
+- Hardened CI (least-privilege permissions, concurrency cancellation, advisory cargo-audit job) and a tag-gated release pipeline that re-runs all checks before publishing a GitHub release.
 
 ### Changed
+- Public repository made vendor-neutral: agency/mission/programme/company names removed from docs, scenarios, and comments; peer-reviewed scientific and metrology citations retained.
 - Reproducibility guard (`scripts/check-reproducible.sh`) now detects `sha256sum` or
   `shasum -a 256` so it runs on both Linux CI images and macOS.
 - Internal planning documents moved out of the public repository into a private overlay.
@@ -70,9 +72,9 @@ breaking changes are called out explicitly.
 ### Added
 - **Pack 3 — time transfer:** `timetransfer.rs` models an optical vs RF two-way
   time-transfer link (white timing jitter → synchronization precision → one-way
-  ranging), with sync/ranging figures of merit. Maps to ESA's OpSTAR optical
-  inter-satellite link.
-- `timetransfer.toml` scenario (optical OpSTAR-target 1 ps vs RF TWSTFT 0.5 ns), CLI
+  ranging), with sync/ranging figures of merit. Models optical inter-satellite
+  time transfer.
+- `timetransfer.toml` scenario (optical inter-satellite time transfer, 1 ps vs RF TWSTFT 0.5 ns), CLI
   dispatch for `kind = "timetransfer"`, and an SVG chart.
 - Validation: simulated sync RMS reproduces the link jitter; `σ/√N` averaging; exact
   `1 ps = 0.299792458 mm` ranging conversion.
@@ -121,7 +123,7 @@ breaking changes are called out explicitly.
 ### Added
 - Initial clock-holdover-during-GNSS-outage engine: time grid, GNSS availability
   timeline, two-state `ClockModel` (white FM + random-walk FM), GNSS-disciplined
-  `HoldoverEstimator`, figure-of-merit scoring against ESA's six PNT criteria,
+  `HoldoverEstimator`, figure-of-merit scoring against the six operational PNT figures of merit,
   versioned result schema with scenario hash, and a CLI.
 - Reference scenario, golden + reproducibility tests, repository guards
   (`check-reproducible.sh`, `check-no-attribution.sh`), and the Apache-2.0 license.

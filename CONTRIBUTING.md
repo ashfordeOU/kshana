@@ -51,6 +51,10 @@ cargo fmt
 - **Conventional Commits** (`feat:`, `fix:`, `docs:`, `test:`, `chore:` …).
 - **Semantic Versioning.** Pre-1.0, the scenario/result schema may change; call out
   breaking changes.
+- **Publishing to crates.io is a manual maintainer step.** It requires a registry
+  token and is run by hand (`cargo publish`). The CI and Release pipelines never
+  publish to external registries automatically; the tag-gated Release workflow only
+  re-runs all checks and attaches a build artifact to a GitHub release.
 
 ## Changelog maintenance (required)
 

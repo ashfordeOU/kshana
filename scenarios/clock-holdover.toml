@@ -15,8 +15,8 @@ windows = [
 ]
 
 [clock_quantum]
-id = "optical-soc"
-provenance = "ESA SOC Sr optical lattice clock, space goal sigma_y(1s)=1e-15 (Origlia/Schiller/Bongs et al., arXiv:1503.08457); q_wf=sigma_y(1s)^2; ground-demonstrator maturity, not flown; flicker/aging not modeled"
+id = "optical-sr-lattice"
+provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (Origlia/Schiller/Bongs et al., arXiv:1503.08457); q_wf=sigma_y(1s)^2; ground-demonstrator maturity, not flown; flicker/aging not modeled"
 y0   = 5.0e-17
 q_wf = 1.0e-30
 q_rw = 0.0
