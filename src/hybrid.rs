@@ -148,7 +148,8 @@ fn run_suite(
         &accel_cfg.provenance,
         accel_cfg.bias,
         accel_cfg.q_va,
-    );
+    )
+    .with_gyro(accel_cfg.gyro_bias, accel_cfg.q_arw);
     let link = if scn.resync.enabled {
         Some(TimeTransferLink::new(
             "optical-isl",

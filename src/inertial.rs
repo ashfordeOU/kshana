@@ -7,16 +7,28 @@ use rand_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
-/// Accelerometer error model for dead-reckoning a static platform: a residual
-/// (post-GNSS-calibration) bias plus white acceleration noise (velocity random
-/// walk). Integrates twice, so `pos()` is the accumulated dead-reckoning
-/// position error (m). Static-platform truth (true acceleration = 0).
+/// Standard gravity (m/s^2), the conventional value (CGPM 1901).
+pub const G_M_PER_S2: f64 = 9.806_65;
+
+/// Inertial error model for dead-reckoning a static platform.
+///
+/// Accelerometer channel: a residual (post-GNSS-calibration) bias plus white
+/// acceleration noise (velocity random walk). Gyro channel (optional): an
+/// attitude error `theta` driven by a residual gyro bias and angular random
+/// walk; a tilt error couples gravity into a horizontal specific-force error of
+/// `g * theta` — the dominant error-growth mechanism in strapdown inertial
+/// navigation (Groves). The specific-force error integrates twice, so `pos()`
+/// is the accumulated dead-reckoning position error (m). Static-platform truth
+/// (true acceleration = 0, true attitude rate = 0).
 #[derive(Clone, Debug)]
 pub struct AccelModel {
     pub id: String,
     pub provenance: String,
-    pub bias: f64, // residual bias (m/s^2), post-GNSS-calibration (= sensor bias stability)
+    pub bias: f64, // residual accel bias (m/s^2), post-GNSS-calibration (= bias stability)
     pub q_va: f64, // white acceleration PSD S_a ((m/s^2)^2/Hz) -> velocity random walk
+    pub gyro_bias: f64, // residual gyro bias (rad/s)
+    pub q_arw: f64, // white angular-rate PSD ((rad/s)^2/Hz) -> angular random walk
+    theta: f64,    // accumulated attitude (tilt) error (rad)
     vel: f64,
     pos: f64,
 }
@@ -28,23 +40,45 @@ impl AccelModel {
             provenance: provenance.into(),
             bias,
             q_va,
+            gyro_bias: 0.0,
+            q_arw: 0.0,
+            theta: 0.0,
             vel: 0.0,
             pos: 0.0,
         }
     }
-    /// Re-align to GNSS truth: zero the accumulated dead-reckoning error.
+    /// Builder: add a gyro channel with residual bias (rad/s) and angular-random-walk
+    /// PSD `q_arw` ((rad/s)^2/Hz). Tilt error couples gravity into horizontal error.
+    pub fn with_gyro(mut self, gyro_bias: f64, q_arw: f64) -> Self {
+        self.gyro_bias = gyro_bias;
+        self.q_arw = q_arw;
+        self
+    }
+    /// Re-align to GNSS truth: zero the accumulated dead-reckoning error and tilt.
     pub fn reset(&mut self) {
+        self.theta = 0.0;
         self.vel = 0.0;
         self.pos = 0.0;
     }
     pub fn pos(&self) -> f64 {
         self.pos
     }
+    /// Accumulated attitude (tilt) error (rad).
+    pub fn theta(&self) -> f64 {
+        self.theta
+    }
     pub fn step(&mut self, dt: Seconds, rng: &mut dyn RngCore) {
         if dt <= 0.0 {
             return;
         }
-        self.vel += self.bias * dt;
+        // Attitude error: gyro bias + angular random walk.
+        self.theta += self.gyro_bias * dt;
+        if self.q_arw > 0.0 {
+            let n = Normal::new(0.0, (self.q_arw * dt).sqrt()).unwrap();
+            self.theta += n.sample(rng);
+        }
+        // Specific-force error: accel bias + tilt-coupled gravity (g * theta).
+        self.vel += (self.bias + G_M_PER_S2 * self.theta) * dt;
         if self.q_va > 0.0 {
             // velocity random walk: integrating white accel (PSD S_a) over dt
             // adds a velocity increment of variance S_a*dt.
@@ -56,9 +90,14 @@ impl AccelModel {
     pub fn spec(&self) -> ModelSpec {
         ModelSpec {
             id: self.id.clone(),
-            kind: "accelerometer".into(),
+            kind: "inertial".into(),
             provenance: self.provenance.clone(),
-            params: serde_json::json!({ "bias": self.bias, "q_va": self.q_va }),
+            params: serde_json::json!({
+                "bias": self.bias,
+                "q_va": self.q_va,
+                "gyro_bias": self.gyro_bias,
+                "q_arw": self.q_arw,
+            }),
         }
     }
 }
@@ -144,13 +183,19 @@ pub fn score_position(samples: &[PosSample], threshold_m: f64) -> PositionFoM {
     }
 }
 
-/// Accelerometer configuration in an inertial scenario file.
+/// Inertial-sensor configuration in a scenario file.
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct AccelCfg {
     pub id: String,
     pub provenance: String,
     pub bias: f64,
     pub q_va: f64,
+    /// Optional residual gyro bias (rad/s). Zero/absent = no gyro channel.
+    #[serde(default)]
+    pub gyro_bias: f64,
+    /// Optional angular-random-walk PSD ((rad/s)^2/Hz). Zero/absent = none.
+    #[serde(default)]
+    pub q_arw: f64,
 }
 
 /// A dead-reckoning (GNSS-denied inertial navigation) scenario.
@@ -193,7 +238,8 @@ fn hash_inertial(scn: &InertialScenario) -> String {
 
 fn run_accel(scn: &InertialScenario, cfg: &AccelCfg, seed: u64) -> AccelRun {
     let mut rng = ChaCha8Rng::seed_from_u64(seed);
-    let mut a = AccelModel::new(&cfg.id, &cfg.provenance, cfg.bias, cfg.q_va);
+    let mut a = AccelModel::new(&cfg.id, &cfg.provenance, cfg.bias, cfg.q_va)
+        .with_gyro(cfg.gyro_bias, cfg.q_arw);
     let dt = scn.time.step_s;
     let n = (scn.time.duration_s / dt).round() as usize;
     let mut series = Vec::with_capacity(n + 1);
@@ -330,13 +376,54 @@ mod tests {
 
     #[test]
     fn reset_zeroes_error() {
-        let mut a = AccelModel::new("b", "unit", 1e-3, 0.0);
+        let mut a = AccelModel::new("b", "unit", 1e-3, 0.0).with_gyro(1e-5, 0.0);
         let mut rng = ChaCha8Rng::seed_from_u64(1);
         for _ in 0..4 {
             a.step(1.0, &mut rng);
         }
         a.reset();
         assert_eq!(a.pos(), 0.0);
+        assert_eq!(a.theta(), 0.0);
+    }
+
+    #[test]
+    fn pure_gyro_bias_triple_integrates_through_gravity() {
+        // Gyro bias b_g tilts the platform: theta_k = b_g*dt*k. The tilt couples
+        // gravity into a horizontal specific-force error g*theta, which double
+        // integrates. With theta updated before the velocity update each step,
+        // pos_N = g * b_g * dt^3 * N(N+1)(N+2)/6.
+        // b_g=1e-6, dt=1, N=4: g*1e-6*1*(4*5*6/6) = g*1e-6*20 = 9.80665e-6*20.
+        let mut a = AccelModel::new("g", "unit", 0.0, 0.0).with_gyro(1e-6, 0.0);
+        let mut rng = ChaCha8Rng::seed_from_u64(1);
+        for _ in 0..4 {
+            a.step(1.0, &mut rng);
+        }
+        let expected = G_M_PER_S2 * 1e-6 * 20.0;
+        assert!((a.pos() - expected).abs() < 1e-15, "pos={}", a.pos());
+    }
+
+    #[test]
+    fn angular_random_walk_attitude_grows_as_wiener() {
+        // Pure ARW: theta is a Wiener process with Var(theta_T) = q_arw * T, so
+        // sigma_theta(T) = sqrt(q_arw * T). Seed-averaged check.
+        let q_arw = 4.0e-10;
+        let dt = 1.0;
+        let n = 100usize;
+        let t_total = n as f64 * dt;
+        let seeds: Vec<u64> = (1..=64).collect();
+        let mut sumsq = 0.0;
+        for &seed in &seeds {
+            let mut a = AccelModel::new("arw", "unit", 0.0, 0.0).with_gyro(0.0, q_arw);
+            let mut rng = ChaCha8Rng::seed_from_u64(seed);
+            for _ in 0..n {
+                a.step(dt, &mut rng);
+            }
+            sumsq += a.theta() * a.theta();
+        }
+        let sd = (sumsq / seeds.len() as f64).sqrt();
+        let expected = (q_arw * t_total).sqrt();
+        let rel = (sd - expected).abs() / expected;
+        assert!(rel < 0.2, "ARW theta sd={sd} expected={expected} rel={rel}");
     }
 
     #[test]
