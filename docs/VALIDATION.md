@@ -36,3 +36,18 @@ frequency Wiener process of diffusion q_rw.
 | nav-grade-quartz (classical) | 1.57e-3 m/s^2 (~160 ug) | ~20 ug/sqrtHz = 1.96e-4 (m/s^2)/sqrtHz | Honeywell QA-2000 / Groves AESS Tutorial |
 
 Honest framing: the cold-atom advantage is **long-term bias stability** (~2600x lower), which dominates a long GNSS outage via 0.5*b*T^2. Short-term noise is comparable (quantum ~22 vs classical ~20 ug/sqrtHz) — the quantum sensor wins the marathon, not the sprint. Maturity: cold-atom accelerometers are laboratory/early (JRC122785), navigation-grade quartz is deployed.
+
+## Pack 3 — time transfer (optical vs RF, maps to ESA OpSTAR)
+
+| Term | Status | Evidence |
+|------|--------|----------|
+| White timing jitter -> sync precision | `validated` | `src/timetransfer.rs`: simulated sync RMS reproduces the link jitter sigma_j; sample-mean averages as sigma/sqrt(N) to <20% (seed-averaged). |
+| Timing -> one-way ranging | `validated` | range = c * dt, c=299792458 m/s; 1 ps = 0.299792458 mm (exact, hand-derived test). |
+| Flicker/TDEV floor, two-way reciprocity residual | `not modeled` | Jitter is modeled as white; long-averaging floors and reciprocity residuals are future work. |
+
+| Link | single-sample jitter | type | source |
+|------|---------------------|------|--------|
+| optical-isl-opstar | 1 ps (1e-12 s) | OpSTAR on-orbit TARGET | ESA FutureNAV OpSTAR (OHB/DLR); lab O-TWTFT ~1 fs (Giorgetta 2013 / Deschenes 2016) |
+| twstft-rf | 0.5 ns (5e-10 s) | measured single-session | BIPM/PTB/NIST TWSTFT |
+
+Honest framing: the optical figure is OpSTAR's stated picosecond on-orbit TARGET (not flown). The terrestrial optical lab floor is ~1 fs (far better); a well-engineered microwave link (ACES MWL, ~0.3 ps) can rival optical, so the "RF = 0.5 ns" baseline is specifically ordinary TWSTFT. Ranging conversion is one-way (range = c*dt); two-way/round-trip halves it (range = c*dt/2).
