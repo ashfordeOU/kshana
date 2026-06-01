@@ -95,7 +95,7 @@ The scenario/result schema is versioned and stable; if others adopt it as an int
 The plugin trait *is* the boundary. Two repos, **never nested**:
 
 ```
-spacerepo/kshana/         PUBLIC, own clean git → github.com/kshana/kshana
+spacerepo/kshana/         PUBLIC, own clean git → github.com/AshfordeOU/kshana
   crates/ (engine + generic models) · scenarios/ · examples/ · docs/
   LICENSE (Apache-2.0) · CONTRIBUTING + EXPORT-NOTICE · .github/ (CI guards)
 
