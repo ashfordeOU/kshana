@@ -1,6 +1,8 @@
 # Kshana reference scenario: 2 h run, 10 min GNSS sync then ~1.8 h denied.
+# Clock white-FM noise calibrated to published sigma_y(1 s): q_wf = sigma_y(1s)^2.
+# Validated against simulated Allan deviation in tests/calibration.rs (~2%).
 seed = 42
-threshold_ns = 100.0
+threshold_ns = 20.0
 
 [time]
 step_s = 10.0
@@ -13,15 +15,15 @@ windows = [
 ]
 
 [clock_quantum]
-id = "optical-demo"
-provenance = "v0.1 placeholder - pending calibration to published ACES/SOC Allan deviation"
-y0   = 1.0e-13
-q_wf = 1.0e-26
-q_rw = 1.0e-34
+id = "optical-soc"
+provenance = "ESA SOC Sr optical lattice clock, space goal sigma_y(1s)=1e-15 (Origlia/Schiller/Bongs et al., arXiv:1503.08457); q_wf=sigma_y(1s)^2; ground-demonstrator maturity, not flown; flicker/aging not modeled"
+y0   = 5.0e-17
+q_wf = 1.0e-30
+q_rw = 0.0
 
 [clock_classical]
-id = "csac-demo"
-provenance = "v0.1 placeholder - pending calibration to published CSAC Allan deviation"
-y0   = 1.0e-11
-q_wf = 1.0e-24
-q_rw = 1.0e-32
+id = "csac-sa45s"
+provenance = "Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_wf=sigma_y(1s)^2; flicker/aging not modeled"
+y0   = 5.0e-10
+q_wf = 9.0e-20
+q_rw = 0.0
