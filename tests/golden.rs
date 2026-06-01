@@ -45,3 +45,15 @@ fn timetransfer_optical_beats_rf() {
     assert!(r.quantum.fom.range_rms_mm < r.classical.fom.range_rms_mm);
     assert!(r.quantum.fom.within_spec_fraction >= r.classical.fom.within_spec_fraction);
 }
+
+#[test]
+fn hybrid_quantum_suite_outlasts_classical() {
+    let src = std::fs::read_to_string("scenarios/hybrid-pnt.toml").unwrap();
+    let scn: kshana::hybrid::HybridScenario = toml::from_str(&src).unwrap();
+    let r = kshana::hybrid::run_hybrid(&scn);
+    assert!(r.quantum.fom.pnt_holdover_s > r.classical.fom.pnt_holdover_s);
+    assert!(r.quantum.fom.pnt_availability >= r.classical.fom.pnt_availability);
+    // Fusion check: with optical ISL aiding, the classical clock's TIMING holds far
+    // longer than its position (position is the classical suite's limiter).
+    assert!(r.classical.fom.timing_holdover_s >= r.classical.fom.position_holdover_s);
+}
