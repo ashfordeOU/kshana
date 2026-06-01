@@ -9,6 +9,9 @@ PNT — scored against the operational figures of merit that matter for resilien
 navigation. Every result is reproducible from `scenario + seed + engine version`,
 and every sensor parameter is traceable to a published source.
 
+*Free and open source under Apache-2.0, professionally developed and maintained by
+Ashforde OÜ — commercial support, integration, and proprietary extensions available.*
+
 > **Status: research-grade, v0.1.0.** Four sensor packs implemented, calibrated to
 > published data, and validated against the standard relations. Read
 > [`docs/VALIDATION.md`](docs/VALIDATION.md) before citing any number — each noise
@@ -241,6 +244,24 @@ Origin with `git commit -s`.
 
 **Trademark.** "Kshana" and its marks are trademarks of Ashforde OÜ. The license
 covers the code, not the name — please rename forks and derivative distributions.
+
+## Support & professional services
+
+Kshana is free and open source under Apache-2.0 and **professionally developed and
+maintained by Ashforde OÜ** (Estonia). The open engine is complete and usable on its
+own. For organisations that need more, Ashforde OÜ offers:
+
+- **Commercial support & integration** — embedding Kshana in your toolchain, custom
+  scenarios, and priority fixes.
+- **Custom sensor models** — calibrated to your hardware, including export-sensitive
+  resilience models maintained in a private overlay.
+- **Kshana Pro** — proprietary model-based systems-engineering and programme tooling
+  that plugs into the open engine to complete the workflow.
+- **Training & consulting** on quantum/classical PNT performance analysis.
+
+This is the open-core model: the engine is, and stays, openly licensed; the sustaining
+business is expertise, support, and the proprietary extensions — not license fees.
+Contact **contact@ashforde.org**.
 
 ## Key references
 
