@@ -9,8 +9,13 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+- Flicker (1/f) FM floor for the clock error model, synthesised as a sum of
+  log-spaced Ornstein-Uhlenbeck processes and calibrated so the flat
+  Allan-deviation floor sits at a configurable level. Off by default; enabled
+  per clock via the optional `flicker_floor` scenario field.
+
 ### Planned
-- Flicker-FM floor modeling for clocks (the remaining honest noise gap).
 - Full Kalman / factor-graph fusion replacing the analytic holdover predictor.
 - Multi-window (segment-aware) holdover scoring.
 - Gyroscope / angular-random-walk in the inertial pack.

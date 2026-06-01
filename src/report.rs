@@ -151,6 +151,7 @@ mod tests {
                 q_wf: 1e-26,
                 q_rw: 1e-32,
                 drift: 0.0,
+                flicker_floor: 0.0,
             },
             clock_classical: ClockCfg {
                 id: "c".into(),
@@ -159,6 +160,7 @@ mod tests {
                 q_wf: 1e-24,
                 q_rw: 1e-30,
                 drift: 0.0,
+                flicker_floor: 0.0,
             },
         }
     }

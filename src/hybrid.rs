@@ -140,7 +140,8 @@ fn run_suite(
         clock_cfg.q_wf,
         clock_cfg.q_rw,
     )
-    .with_drift(clock_cfg.drift);
+    .with_drift(clock_cfg.drift)
+    .with_flicker(clock_cfg.flicker_floor);
     let mut est = HoldoverEstimator::new();
     let mut accel = AccelModel::new(
         &accel_cfg.id,
