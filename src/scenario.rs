@@ -49,6 +49,9 @@ pub struct ClockCfg {
     pub q_rw: f64,
     #[serde(default)]
     pub drift: f64,
+    /// Optional flicker (1/f) FM Allan-deviation floor. Zero/absent = no flicker.
+    #[serde(default)]
+    pub flicker_floor: f64,
 }
 
 #[derive(Clone, Debug, Deserialize, Serialize)]
