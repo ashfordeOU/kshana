@@ -4,7 +4,9 @@
 set -euo pipefail
 t1='cla''ude'
 t2='anthro''pic'
-pattern="${t1}|${t2}|co-authored-by|generated with"
+t3='co-auth''ored-by'
+t4='genera''ted with'
+pattern="${t1}|${t2}|${t3}|${t4}"
 self='scripts/check-no-attribution.sh'
 hits=$(git grep -i -n -E "$pattern" -- . ":!${self}" || true)
 msgs=$(git log --format='%H %an <%ae>%n%B' | grep -i -E "$pattern" || true)
