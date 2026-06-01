@@ -36,7 +36,15 @@ hex = "0.4"
 # Optional bindings. Off by default: the core library, CLI, tests, and the
 # dependency-audit gate never compile or scan these unless the feature is enabled.
 pyo3 = { version = "0.22", features = ["extension-module", "abi3-py39"], optional = true }
+wasm-bindgen = { version = "0.2", optional = true }
+
+# On wasm32 the (transitive) getrandom must use the browser/JS entropy source.
+# Target-gated, so native builds and the dependency-audit gate are unaffected.
+[target.'cfg(target_arch = "wasm32")'.dependencies]
+getrandom = { version = "0.2", features = ["js"] }
 
 [features]
 # Python extension module, built with maturin (`maturin build --features python`).
 python = ["dep:pyo3"]
+# WebAssembly module, built with wasm-pack (`wasm-pack build -- --features wasm`).
+wasm = ["dep:wasm-bindgen"]
