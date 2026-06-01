@@ -23,13 +23,19 @@ and every sensor parameter is traceable to a published source.
 *Free and open source under Apache-2.0, professionally developed and maintained by
 Ashforde OÜ — commercial support, integration, and proprietary extensions available.*
 
-> **Status: research-grade, v0.2.0.** Four sensor packs, a Kalman estimator driving an
-> integrity bound, and geometry-derived GNSS availability — all calibrated to published
-> data and validated against the standard relations, with optional Python and
-> WebAssembly bindings. Read [`docs/VALIDATION.md`](docs/VALIDATION.md) before citing
-> any number — each noise term is labelled `validated` or `not modeled`, and
-> optical-clock figures are *space goals on ground hardware* (no strontium optical
+> **Status: research-grade, v0.3.0.** Four sensor packs, a Kalman estimator driving an
+> integrity bound, a clock-aided spoof-detection security score, and geometry-derived
+> GNSS availability *and* position accuracy (dilution of precision) — all calibrated to
+> published data and validated against the standard relations, with optional Python and
+> WebAssembly bindings and a browser playground. Read [`docs/VALIDATION.md`](docs/VALIDATION.md)
+> before citing any number — each noise term is labelled `validated` or `not modeled`,
+> and optical-clock figures are *space goals on ground hardware* (no strontium optical
 > clock has flown).
+
+> **Try it in your browser:** the [playground](web/) runs the engine client-side as
+> WebAssembly — pick a scenario, edit the parameters, and see the result, with nothing
+> uploaded. Build it locally with `./web/build.sh` (see [`web/README.md`](web/README.md)),
+> or publish it to GitHub Pages via the `pages` workflow.
 
 > **New to this?** In plain terms: GPS-style satellite signals tell things *where they
 > are* and *what time it is*. When those signals are lost (jammed, blocked, or out of
@@ -129,12 +135,18 @@ cargo run -- scenarios/hybrid-pnt.toml
 cargo run -- scenarios/orbit-gnss-challenged.toml
 ```
 
-Example output (clock holdover — note the Integrity figure of merit):
+Example output (clock holdover — note the Integrity and Security figures of merit):
 
 ```
-scenario c827e5d40d25 | quantum holdover 6600s p95 0.0ns integrity 1.000 | classical holdover 2610s p95 19.7ns integrity 1.000
+scenario c827e5d40d25 | quantum holdover 6600s p95 0.0ns integrity 1.000 security 0.997 | classical holdover 2610s p95 19.7ns integrity 1.000 security 0.000
 wrote scenarios/clock-holdover.result.json and scenarios/clock-holdover.chart.svg
 ```
+
+The optical clock's tight detection floor keeps `security 0.997`; the chip-scale
+clock's own noise over the monitoring window exceeds the 20 ns spec, so it has no
+spoof-detection margin (`security 0.000`). The orbit scenario additionally reports a
+geometry block — fraction of samples with a fix, and best/median PDOP and position
+accuracy — alongside the clock result.
 
 ### Python
 
@@ -216,13 +228,16 @@ random walk, which couple gravity into the position error).
 
 An `orbit` scenario derives the `[gnss]` timeline from geometry instead of authoring
 it — give a `[user]` orbit, a `[constellation]`, an elevation `mask_deg`, and the two
-clock blocks:
+clock blocks. It also reports position accuracy from the satellite geometry; the
+optional `sigma_uere_m` (1-sigma user-equivalent range error, default 1 m) scales the
+position dilution of precision into a position sigma:
 
 ```toml
 kind = "orbit"
 seed = 7
 threshold_ns = 5.0
 mask_deg = 10.0
+sigma_uere_m = 1.0           # optional; position sigma = position-DOP * this
 [time]
 step_s = 60.0
 duration_s = 86400.0
@@ -255,7 +270,7 @@ merit follow the standard operational PNT figures of merit:
 | Resilience | error-growth slope during the outage |
 | Availability | fraction of the run with an in-spec solution |
 | Integrity | protection-level containment — fraction of outage samples whose error stays inside the Kalman filter's k-sigma bound (clock pack) |
-| Security | spoof/threat-model response *(roadmap — export-sensitive)* |
+| Security | clock-aided spoof-detection score — how far below the timing spec a time-spoof can be flagged by cross-checking GNSS time against the clock's own coasted prediction (clock and orbit packs) |
 
 New to these terms? Each is defined in plain language in the [glossary](docs/GLOSSARY.md).
 
@@ -287,12 +302,13 @@ flowchart TD
       models["models — ClockModel (+ flicker)"]
       estimator["estimator — holdover"]
       kalman["kalman — Integrity bound"]
+      security["security — spoof-detection score"]
       fom["fom · report · run"]
     end
     p2["Pack 2 · inertial — accel + gyro"]
     p3["Pack 3 · timetransfer — optical/RF link"]
     p4["Pack 4 · hybrid — fused PNT suite"]
-    orbit["orbit — geometry → GNSS timeline"]
+    orbit["orbit — geometry → GNSS timeline + DOP"]
     api --> p1
     api --> p2
     api --> p3
@@ -342,6 +358,7 @@ kshana/
 | Document | For whom | What's in it |
 |----------|----------|--------------|
 | [Concepts primer](docs/CONCEPTS.md) | everyone, start here | what Kshana does and why, from zero to the physics |
+| [Playground](web/README.md) | everyone | run the engine in your browser (WebAssembly); build &amp; deploy notes |
 | [Glossary](docs/GLOSSARY.md) | everyone | plain-language definitions of every term |
 | [Architecture](docs/ARCHITECTURE.md) | developers / reviewers | module map, engine pipeline, dispatch, and diagrams |
 | [Validation status](docs/VALIDATION.md) | reviewers / citers | what is `validated` vs `not modeled`, with evidence |
@@ -418,11 +435,12 @@ CPython versions).
 ## Roadmap
 
 See [`CHANGELOG.md`](CHANGELOG.md) for released history and the `[Unreleased]`
-section for what's next (higher-fidelity orbit propagation; published packages).
-A flicker (1/f) FM clock floor, a gyro channel (bias + angular random walk with
-gravity-tilt coupling), segment-aware multi-window holdover scoring, a two-state
-Kalman clock estimator (driving the Integrity figure of merit), geometry-derived
-GNSS availability (orbit propagation + line-of-sight visibility), and optional
+section for what's next (higher-fidelity orbit propagation). A flicker (1/f) FM
+clock floor, a gyro channel (bias + angular random walk with gravity-tilt
+coupling), segment-aware multi-window holdover scoring, a two-state Kalman clock
+estimator (driving the Integrity figure of merit), a clock-aided spoof-detection
+Security score, geometry-derived GNSS availability *and* position accuracy
+(dilution of precision), an in-browser WebAssembly playground, and optional
 Python (PyO3) and WebAssembly (wasm-bindgen) bindings have landed on `main`.
 
 ## Contributing
@@ -437,7 +455,7 @@ entry for every user-visible change. Participation is governed by our
 
 If you use Kshana in academic or technical work, please cite it. Machine-readable
 metadata is in [`CITATION.cff`](CITATION.cff) (GitHub renders a "Cite this repository"
-button from it); cite the version you used (e.g. `v0.2.0`).
+button from it); cite the version you used (e.g. `v0.3.0`).
 
 ## License
 

@@ -1,6 +1,6 @@
 [package]
 name = "kshana"
-version = "0.2.0"
+version = "0.3.0"
 edition = "2021"
 description = "Open hybrid quantum/classical PNT performance simulator"
 license = "Apache-2.0"
@@ -12,6 +12,9 @@ readme = "README.md"
 keywords = ["pnt", "navigation", "quantum", "gnss", "simulation"]
 categories = ["science", "simulation"]
 rust-version = "1.75"
+# Keep the published crate lean: the browser playground and CI config aren't part
+# of the library distribution.
+exclude = ["/web", "/.github"]
 
 [lib]
 name = "kshana"
