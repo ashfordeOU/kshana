@@ -1,0 +1,52 @@
+# GNSS availability derived from orbital geometry (not hand-authored windows).
+#
+# A spacecraft well inside the GNSS shell (here ~8,000 km altitude) does not have
+# continuous coverage: as the constellation moves, the count of satellites that
+# clear the elevation mask and are not occulted by Earth rises and falls. The
+# visible count is computed from line-of-sight geometry at each step and mapped to
+# a GNSS state (>=4 visible = nominal fix, 1-3 = degraded, 0 = denied). When the
+# fix drops, the onboard clock must hold time across the gap; the quantum clock
+# coasts far longer within a tight timing bound than the chip-scale reference.
+# Vendor-neutral; constellation and clock parameters are public/cited.
+
+kind = "orbit"
+seed = 7
+threshold_ns = 5.0
+# Elevation mask (deg) above the user's local horizontal.
+mask_deg = 10.0
+
+[time]
+step_s = 60.0
+duration_s = 86400.0   # one day
+
+# User spacecraft at ~8,000 km altitude, inside the GNSS shell.
+[user]
+altitude_km = 8000.0
+inclination_deg = 0.0
+raan_deg = 0.0
+u0_deg = 0.0
+
+# GPS-like Walker-delta constellation: 24 satellites, 6 planes, 55 deg inclination,
+# ~20,180 km altitude (GPS public constellation parameters; IS-GPS-200 / USCG NAVCEN).
+[constellation]
+altitude_km = 20180.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
+
+# Quantum: strontium optical lattice clock (space-oriented goal on ground hardware).
+[clock_quantum]
+id = "optical-sr-lattice"
+provenance = "Strontium optical lattice clock, space-oriented stability goal sigma_y(1s)=1e-15 (arXiv:1503.08457); lab Sr reaches 4.8e-17 (Oelker et al., Nature Photonics 2019). Not flown."
+y0 = 1.0e-15
+q_wf = 1.0e-30
+q_rw = 1.0e-40
+
+# Classical: chip-scale atomic clock (deployed commercial part).
+[clock_classical]
+id = "csac-sa45s"
+provenance = "Microchip SA.45s / SA65 chip-scale atomic clock, sigma_y(1s)=3.0e-10 (datasheet); deployed commercial part."
+y0 = 1.0e-11
+q_wf = 9.0e-20
+q_rw = 1.0e-28

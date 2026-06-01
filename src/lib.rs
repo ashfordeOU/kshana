@@ -6,6 +6,7 @@ pub mod hybrid;
 pub mod inertial;
 pub mod kalman;
 pub mod models;
+pub mod orbit;
 pub mod report;
 pub mod run;
 pub mod scenario;
