@@ -6,8 +6,8 @@ use crate::models::{ClockModel, ErrorModel};
 use crate::report::{ClockRun, RunResult};
 use crate::scenario::{ClockCfg, Scenario};
 
-fn run_clock(scn: &Scenario, cfg: &ClockCfg) -> ClockRun {
-    let mut rng = ChaCha8Rng::seed_from_u64(scn.seed);
+fn run_clock(scn: &Scenario, cfg: &ClockCfg, seed: u64) -> ClockRun {
+    let mut rng = ChaCha8Rng::seed_from_u64(seed);
     let mut clock = ClockModel::new(&cfg.id, &cfg.provenance, cfg.y0, cfg.q_wf, cfg.q_rw)
         .with_drift(cfg.drift);
     let mut est = HoldoverEstimator::new();
@@ -33,8 +33,8 @@ pub fn run(scn: &Scenario) -> RunResult {
         scenario_hash: crate::report::hash_scenario(scn),
         seed: scn.seed,
         threshold_ns: scn.threshold_ns,
-        quantum: run_clock(scn, &scn.clock_quantum),
-        classical: run_clock(scn, &scn.clock_classical),
+        quantum: run_clock(scn, &scn.clock_quantum, scn.seed),
+        classical: run_clock(scn, &scn.clock_classical, scn.seed.wrapping_add(0x9e3779b97f4a7c15)),
     }
 }
 

@@ -70,6 +70,9 @@ pub fn score_hybrid(samples: &[HybridSample], timing_spec_ns: f64, position_spec
             timing_p95_ns: 0.0, position_p95_m: 0.0, pnt_availability,
         };
     }
+    // NOTE: holdover is measured from the first outage sample; assumes a single
+    // contiguous outage window (true for all current scenarios). Multi-window
+    // timelines need segment-aware holdover (future work).
     let t0 = outage.first().unwrap().t;
     let last = outage.last().unwrap().t;
     let holdover = |breached: Option<&&HybridSample>| match breached {
@@ -105,8 +108,8 @@ pub struct SuiteRun {
     pub fom: HybridFoM,
 }
 
-fn run_suite(scn: &HybridScenario, clock_cfg: &ClockCfg, accel_cfg: &AccelCfg) -> SuiteRun {
-    let mut rng = ChaCha8Rng::seed_from_u64(scn.seed);
+fn run_suite(scn: &HybridScenario, clock_cfg: &ClockCfg, accel_cfg: &AccelCfg, seed: u64) -> SuiteRun {
+    let mut rng = ChaCha8Rng::seed_from_u64(seed);
     let mut clock = ClockModel::new(&clock_cfg.id, &clock_cfg.provenance, clock_cfg.y0, clock_cfg.q_wf, clock_cfg.q_rw)
         .with_drift(clock_cfg.drift);
     let mut est = HoldoverEstimator::new();
@@ -121,7 +124,6 @@ fn run_suite(scn: &HybridScenario, clock_cfg: &ClockCfg, accel_cfg: &AccelCfg) -
     let n = (scn.time.duration_s / dt).round() as usize;
     let mut series = Vec::with_capacity(n + 1);
     let mut last_resync = 0.0;
-    let mut floor = 0.0; // post-sync timing residual (0 at GNSS sync; link jitter at ISL re-sync)
 
     for i in 0..=n {
         let t = i as f64 * dt;
@@ -135,22 +137,22 @@ fn run_suite(scn: &HybridScenario, clock_cfg: &ClockCfg, accel_cfg: &AccelCfg) -
                 est.timing_error(t, clock.phase(), clock.det_freq(), clock.drift_rate(), GnssState::Nominal);
                 accel.reset();
                 last_resync = t;
-                floor = 0.0;
                 (0.0, 0.0)
             }
             _ => {
-                if let Some(link) = &link {
+                let jitter = if let Some(link) = &link {
                     if t - last_resync >= scn.resync.interval_s {
-                        // optical ISL re-sync: re-anchor the clock prediction to truth,
-                        // leaving only the link jitter as the timing floor. (Position is
-                        // NOT re-synced: time transfer gives time, not position.)
+                        // optical ISL re-sync: re-anchor the clock prediction to truth.
                         est.timing_error(t, clock.phase(), clock.det_freq(), clock.drift_rate(), GnssState::Nominal);
-                        floor = link.sample(&mut rng);
                         last_resync = t;
                     }
-                }
+                    // residual link measurement uncertainty, fresh (zero-mean) each step
+                    link.sample(&mut rng)
+                } else {
+                    0.0
+                };
                 let timing_s =
-                    est.timing_error(t, clock.phase(), clock.det_freq(), clock.drift_rate(), gnss) + floor;
+                    est.timing_error(t, clock.phase(), clock.det_freq(), clock.drift_rate(), gnss) + jitter;
                 (timing_s * 1e9, accel.pos())
             }
         };
@@ -188,8 +190,8 @@ pub fn run_hybrid(scn: &HybridScenario) -> HybridResult {
         seed: scn.seed,
         timing_spec_ns: scn.timing_spec_ns,
         position_spec_m: scn.position_spec_m,
-        quantum: run_suite(scn, &scn.clock_quantum, &scn.accel_quantum),
-        classical: run_suite(scn, &scn.clock_classical, &scn.accel_classical),
+        quantum: run_suite(scn, &scn.clock_quantum, &scn.accel_quantum, scn.seed),
+        classical: run_suite(scn, &scn.clock_classical, &scn.accel_classical, scn.seed.wrapping_add(0x9e3779b97f4a7c15)),
     }
 }
 

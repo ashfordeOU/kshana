@@ -61,6 +61,9 @@ pub fn score(samples: &[Sample], threshold_ns: f64) -> FoMScores {
     let timing_p95_ns = abs.get(idx).copied().unwrap_or(0.0);
 
     // Holdover: elapsed time from outage start to first spec violation (lower bound).
+    // NOTE: holdover is measured from the first outage sample; assumes a single
+    // contiguous outage window (true for all current scenarios). Multi-window
+    // timelines need segment-aware holdover (future work).
     let t0 = outage.first().unwrap().t;
     let holdover_s = match outage.iter().find(|s| s.error_ns.abs() > threshold_ns) {
         Some(s) => s.t - t0,
