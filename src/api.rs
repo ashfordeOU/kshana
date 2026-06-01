@@ -96,11 +96,11 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
                 .filter(|s| s.gnss == GnssState::Nominal)
                 .count();
             let summary = format!(
-                "scenario {} | {}/{} samples GNSS-nominal | quantum holdover {:.0}s p95 {:.1}ns integrity {} | classical holdover {:.0}s p95 {:.1}ns integrity {}",
+                "scenario {} | {}/{} samples GNSS-nominal | quantum holdover {:.0}s p95 {:.1}ns integrity {} security {} | classical holdover {:.0}s p95 {:.1}ns integrity {} security {}",
                 &r.scenario_hash[..12],
                 nominal, r.quantum.series.len(),
-                r.quantum.fom.holdover_s, r.quantum.fom.timing_p95_ns, integ(r.quantum.fom.integrity),
-                r.classical.fom.holdover_s, r.classical.fom.timing_p95_ns, integ(r.classical.fom.integrity),
+                r.quantum.fom.holdover_s, r.quantum.fom.timing_p95_ns, integ(r.quantum.fom.integrity), integ(r.quantum.fom.security),
+                r.classical.fom.holdover_s, r.classical.fom.timing_p95_ns, integ(r.classical.fom.integrity), integ(r.classical.fom.security),
             );
             Ok(RunOutput {
                 json: json_of(&r),
@@ -113,10 +113,10 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
                 toml::from_str(src).map_err(|e| format!("invalid scenario: {e}"))?;
             let r = crate::run::run(&scn);
             let summary = format!(
-                "scenario {} | quantum holdover {:.0}s p95 {:.1}ns integrity {} | classical holdover {:.0}s p95 {:.1}ns integrity {}",
+                "scenario {} | quantum holdover {:.0}s p95 {:.1}ns integrity {} security {} | classical holdover {:.0}s p95 {:.1}ns integrity {} security {}",
                 &r.scenario_hash[..12],
-                r.quantum.fom.holdover_s, r.quantum.fom.timing_p95_ns, integ(r.quantum.fom.integrity),
-                r.classical.fom.holdover_s, r.classical.fom.timing_p95_ns, integ(r.classical.fom.integrity),
+                r.quantum.fom.holdover_s, r.quantum.fom.timing_p95_ns, integ(r.quantum.fom.integrity), integ(r.quantum.fom.security),
+                r.classical.fom.holdover_s, r.classical.fom.timing_p95_ns, integ(r.classical.fom.integrity), integ(r.classical.fom.security),
             );
             Ok(RunOutput {
                 json: json_of(&r),
