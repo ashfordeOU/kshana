@@ -13,6 +13,15 @@ cargo clippy        # keep it warning-clean
 cargo fmt
 ```
 
+The optional language bindings are feature-gated and off by default (so the build
+above and the dependency-audit gate never touch them). To work on them:
+
+```bash
+maturin develop --features python                 # Python extension (needs maturin)
+wasm-pack build --target web -- --features wasm    # WebAssembly module
+cargo clippy --features python --features wasm     # lint the binding modules
+```
+
 ## Before every commit, both guards must pass
 
 ```bash
