@@ -73,6 +73,22 @@ suite is **position-limited** (nav-grade IMU breaches first). Optical ISL time-t
 keeps even the classical CLOCK locked, isolating the inertial sensor as the classical
 suite's weak link — the core argument for quantum inertial + optical timing together.
 
+## Geometry — GNSS availability from orbits
+
+| Aspect | Status | Evidence |
+|--------|--------|----------|
+| Circular two-body propagation | `validated` | `src/orbit.rs`: period `T=2 pi sqrt(r^3/mu)` (mu = 3.986004418e14), position returns after one period, equatorial/polar planarity — hand-derived tests. |
+| Line-of-sight visibility (Earth occultation + elevation mask) | `validated` | Antipodal sat occulted, radially-outward sat at 90 deg elevation, tangential sat on the horizon — exact hand-derived tests. |
+| Visibility -> GNSS state -> timeline | `validated` | `>=4` visible = nominal, 1-3 degraded, 0 denied; Walker-delta generator; integration test drives a clock-holdover run from the derived timeline. |
+| Higher-fidelity propagation / position-domain (GDOP) | `not modeled` | Circular orbits and a spherical Earth; no perturbations, ephemerides, or DOP-based position error yet. |
+
+Honest framing: this is a deterministic geometry layer (circular orbits, spherical
+Earth of mean radius 6371 km, pure line-of-sight). It establishes *availability* from
+real geometry, not a precise-ephemeris navigation solution. The
+`orbit-gnss-challenged.toml` reference puts a spacecraft inside the GNSS shell: it holds
+a fix only ~59% of the day, the quantum clock keeps a 5 ns timing solution through every
+gap (availability 1.0) while the chip-scale clock holds ~0.83.
+
 ## Known limitations
 
 - Quantum and classical runs now use independent RNG seeds (classical seed = seed + 0x9e3779b97f4a7c15) so their noise realizations are uncorrelated — fixed after review.

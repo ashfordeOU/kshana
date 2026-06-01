@@ -114,6 +114,49 @@ fn main() -> ExitCode {
         println!("wrote {} and {}", out.display(), svg_path.display());
         return ExitCode::SUCCESS;
     }
+    if kind.kind == "orbit" {
+        let scn: kshana::orbit::OrbitClockScenario = match toml::from_str(&src) {
+            Ok(s) => s,
+            Err(e) => {
+                eprintln!("error: invalid orbit scenario: {e}");
+                return ExitCode::FAILURE;
+            }
+        };
+        let result = kshana::run::run_orbit_clock(&scn);
+        let out = path.with_extension("result.json");
+        let json = serde_json::to_string_pretty(&result).expect("serialize");
+        if let Err(e) = std::fs::write(&out, json) {
+            eprintln!("error: cannot write {}: {e}", out.display());
+            return ExitCode::FAILURE;
+        }
+        let svg = kshana::report::to_svg(&result);
+        let svg_path = path.with_extension("chart.svg");
+        if let Err(e) = std::fs::write(&svg_path, svg) {
+            eprintln!("error: cannot write {}: {e}", svg_path.display());
+            return ExitCode::FAILURE;
+        }
+        let integ = |i: Option<f64>| i.map_or_else(|| "n/a".to_string(), |v| format!("{v:.3}"));
+        let nominal = result
+            .quantum
+            .series
+            .iter()
+            .filter(|s| s.gnss == kshana::scenario::GnssState::Nominal)
+            .count();
+        println!(
+            "scenario {} | {}/{} samples GNSS-nominal | quantum holdover {:.0}s p95 {:.1}ns integrity {} | classical holdover {:.0}s p95 {:.1}ns integrity {}",
+            &result.scenario_hash[..12],
+            nominal,
+            result.quantum.series.len(),
+            result.quantum.fom.holdover_s,
+            result.quantum.fom.timing_p95_ns,
+            integ(result.quantum.fom.integrity),
+            result.classical.fom.holdover_s,
+            result.classical.fom.timing_p95_ns,
+            integ(result.classical.fom.integrity),
+        );
+        println!("wrote {} and {}", out.display(), svg_path.display());
+        return ExitCode::SUCCESS;
+    }
     let scn: kshana::scenario::Scenario = match toml::from_str(&src) {
         Ok(s) => s,
         Err(e) => {
