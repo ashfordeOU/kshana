@@ -9,3 +9,6 @@
 __pycache__/
 *.egg-info/
 .venv/
+
+# WebAssembly package (wasm-pack output)
+/pkg
