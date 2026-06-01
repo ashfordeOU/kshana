@@ -1,9 +1,9 @@
+use crate::types::{ModelSpec, Seconds};
 use rand::{RngCore, SeedableRng};
 use rand_chacha::ChaCha8Rng;
 use rand_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
-use crate::types::{ModelSpec, Seconds};
 
 /// Speed of light (m/s), exact.
 pub const C_M_PER_S: f64 = 299_792_458.0;
@@ -23,10 +23,16 @@ pub struct TimeTransferLink {
 
 impl TimeTransferLink {
     pub fn new(id: &str, provenance: &str, sigma_j: f64) -> Self {
-        Self { id: id.into(), provenance: provenance.into(), sigma_j }
+        Self {
+            id: id.into(),
+            provenance: provenance.into(),
+            sigma_j,
+        }
     }
     pub fn sample(&self, rng: &mut dyn RngCore) -> f64 {
-        if self.sigma_j <= 0.0 { return 0.0; }
+        if self.sigma_j <= 0.0 {
+            return 0.0;
+        }
         Normal::new(0.0, self.sigma_j).unwrap().sample(rng)
     }
     pub fn spec(&self) -> ModelSpec {
@@ -59,7 +65,10 @@ pub struct LinkFoM {
 /// Score a sync-error series against a one-way ranging spec (mm).
 pub fn score_link(samples: &[SyncSample], range_spec_mm: f64) -> LinkFoM {
     let n = samples.len().max(1) as f64;
-    let sumsq: f64 = samples.iter().map(|s| s.sync_error_s * s.sync_error_s).sum();
+    let sumsq: f64 = samples
+        .iter()
+        .map(|s| s.sync_error_s * s.sync_error_s)
+        .sum();
     let sync_rms_s = (sumsq / n).sqrt();
     let mut abs: Vec<f64> = samples.iter().map(|s| s.sync_error_s.abs()).collect();
     abs.sort_by(|a, b| a.total_cmp(b));
@@ -132,7 +141,11 @@ fn run_link(scn: &TimeTransferScenario, cfg: &LinkCfg, seed: u64) -> LinkRun {
         series.push(SyncSample { t, sync_error_s: e });
     }
     let fom = score_link(&series, scn.range_spec_mm);
-    LinkRun { spec: link.spec(), series, fom }
+    LinkRun {
+        spec: link.spec(),
+        series,
+        fom,
+    }
 }
 
 /// Run a time-transfer scenario for the optical (quantum) and RF (classical) links.
@@ -144,7 +157,11 @@ pub fn run_timetransfer(scn: &TimeTransferScenario) -> TimeTransferResult {
         seed: scn.seed,
         range_spec_mm: scn.range_spec_mm,
         quantum: run_link(scn, &scn.link_quantum, scn.seed),
-        classical: run_link(scn, &scn.link_classical, scn.seed.wrapping_add(0x9e3779b97f4a7c15)),
+        classical: run_link(
+            scn,
+            &scn.link_classical,
+            scn.seed.wrapping_add(0x9e3779b97f4a7c15),
+        ),
     }
 }
 
@@ -163,11 +180,14 @@ pub fn to_svg(result: &TimeTransferResult) -> String {
     for s in c.iter().chain(q.iter()) {
         y_max = y_max.max(s.sync_error_s.abs() * 1e12);
     }
-    if y_max <= 0.0 { y_max = 1.0; }
+    if y_max <= 0.0 {
+        y_max = 1.0;
+    }
     let xof = |t: f64| ml + (t / t_max) * pw;
     let yof = |ps: f64| mt + ph - (ps.min(y_max) / y_max) * ph;
     let points = |series: &[SyncSample]| {
-        series.iter()
+        series
+            .iter()
             .map(|s| format!("{:.1},{:.1}", xof(s.t), yof(s.sync_error_s.abs() * 1e12)))
             .collect::<Vec<_>>()
             .join(" ")
@@ -176,17 +196,48 @@ pub fn to_svg(result: &TimeTransferResult) -> String {
     let axis_y = mt + ph;
     let mut svg = String::new();
     svg.push_str(&format!("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\">"));
-    svg.push_str(&format!("<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"white\"/>"));
+    svg.push_str(&format!(
+        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"white\"/>"
+    ));
     svg.push_str(&format!("<text x=\"{:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">Time-transfer synchronization error (optical vs RF)</text>", ml));
-    svg.push_str(&format!("<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#888\"/>"));
-    svg.push_str(&format!("<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#888\"/>", ml + pw));
+    svg.push_str(&format!(
+        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#888\"/>"
+    ));
+    svg.push_str(&format!(
+        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#888\"/>",
+        ml + pw
+    ));
     svg.push_str(&format!("<line x1=\"{ml:.0}\" y1=\"{thr_y:.1}\" x2=\"{:.0}\" y2=\"{thr_y:.1}\" stroke=\"#d33\" stroke-dasharray=\"6 4\"/>", ml + pw));
-    svg.push_str(&format!("<text x=\"{:.0}\" y=\"{:.1}\" fill=\"#d33\">spec {:.0} mm = {:.1} ps</text>", ml + 4.0, thr_y - 4.0, result.range_spec_mm, spec_ps));
-    svg.push_str(&format!("<polyline fill=\"none\" stroke=\"#c0392b\" stroke-width=\"2\" points=\"{}\"/>", points(c)));
-    svg.push_str(&format!("<polyline fill=\"none\" stroke=\"#2471a3\" stroke-width=\"2\" points=\"{}\"/>", points(q)));
-    svg.push_str(&format!("<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\">measurement time (s)</text>", ml + pw / 2.0, h - 12.0));
-    svg.push_str(&format!("<text x=\"{:.0}\" y=\"44\" fill=\"#c0392b\">RF: {}</text>", ml + 10.0, result.classical.spec.id));
-    svg.push_str(&format!("<text x=\"{:.0}\" y=\"60\" fill=\"#2471a3\">optical: {}</text>", ml + 10.0, result.quantum.spec.id));
+    svg.push_str(&format!(
+        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"#d33\">spec {:.0} mm = {:.1} ps</text>",
+        ml + 4.0,
+        thr_y - 4.0,
+        result.range_spec_mm,
+        spec_ps
+    ));
+    svg.push_str(&format!(
+        "<polyline fill=\"none\" stroke=\"#c0392b\" stroke-width=\"2\" points=\"{}\"/>",
+        points(c)
+    ));
+    svg.push_str(&format!(
+        "<polyline fill=\"none\" stroke=\"#2471a3\" stroke-width=\"2\" points=\"{}\"/>",
+        points(q)
+    ));
+    svg.push_str(&format!(
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\">measurement time (s)</text>",
+        ml + pw / 2.0,
+        h - 12.0
+    ));
+    svg.push_str(&format!(
+        "<text x=\"{:.0}\" y=\"44\" fill=\"#c0392b\">RF: {}</text>",
+        ml + 10.0,
+        result.classical.spec.id
+    ));
+    svg.push_str(&format!(
+        "<text x=\"{:.0}\" y=\"60\" fill=\"#2471a3\">optical: {}</text>",
+        ml + 10.0,
+        result.quantum.spec.id
+    ));
     svg.push_str("</svg>");
     svg
 }
@@ -207,22 +258,40 @@ mod tests {
         let link = TimeTransferLink::new("opt", "unit", 1e-12);
         let mut rng = ChaCha8Rng::seed_from_u64(7);
         let series: Vec<SyncSample> = (0..10000)
-            .map(|i| SyncSample { t: i as f64, sync_error_s: link.sample(&mut rng) })
+            .map(|i| SyncSample {
+                t: i as f64,
+                sync_error_s: link.sample(&mut rng),
+            })
             .collect();
         let f = score_link(&series, 10.0);
         // RMS of N(0, (1 ps)^2) -> ~1 ps.
-        assert!((f.sync_rms_ps - 1.0).abs() / 1.0 < 0.05, "rms={}", f.sync_rms_ps);
+        assert!(
+            (f.sync_rms_ps - 1.0).abs() / 1.0 < 0.05,
+            "rms={}",
+            f.sync_rms_ps
+        );
     }
 
     #[test]
     fn hand_derived_link_scores() {
-        let s = |e_ps: f64| SyncSample { t: 0.0, sync_error_s: e_ps * 1e-12 };
+        let s = |e_ps: f64| SyncSample {
+            t: 0.0,
+            sync_error_s: e_ps * 1e-12,
+        };
         let series = vec![s(0.0), s(100.0), s(200.0)];
         let f = score_link(&series, 1000.0);
         // RMS of [0,100,200] ps = 129.0994 ps; range_rms_mm = 129.0994 * 0.299792458
-        assert!((f.sync_rms_ps - 129.0994).abs() < 1e-3, "sync_rms_ps={}", f.sync_rms_ps);
+        assert!(
+            (f.sync_rms_ps - 129.0994).abs() < 1e-3,
+            "sync_rms_ps={}",
+            f.sync_rms_ps
+        );
         assert_eq!(f.sync_p95_ps, 200.0);
-        assert!((f.range_rms_mm - 129.0994 * 0.299792458).abs() < 1e-3, "range_rms_mm={}", f.range_rms_mm);
+        assert!(
+            (f.range_rms_mm - 129.0994 * 0.299792458).abs() < 1e-3,
+            "range_rms_mm={}",
+            f.range_rms_mm
+        );
     }
 
     #[test]
@@ -240,6 +309,9 @@ mod tests {
         }
         let sd_of_mean = (sumsq_mean / seeds.len() as f64).sqrt();
         let expected = sigma / (n as f64).sqrt();
-        assert!((sd_of_mean - expected).abs() / expected < 0.2, "sd={sd_of_mean} expected={expected}");
+        assert!(
+            (sd_of_mean - expected).abs() / expected < 0.2,
+            "sd={sd_of_mean} expected={expected}"
+        );
     }
 }
