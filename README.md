@@ -59,6 +59,14 @@ The capstone shows the fusion thesis: optical inter-satellite time-transfer keep
 a classical *clock* locked, isolating the *inertial* sensor as the classical suite's
 weak link — i.e. quantum inertial + optical timing together.
 
+A further scenario, `orbit-gnss-challenged.toml`, derives GNSS availability from
+**orbital geometry** rather than hand-authored windows: a spacecraft inside the GNSS
+shell is propagated against a GPS-like Walker constellation, and the visible-satellite
+count (line-of-sight, Earth-occultation, elevation mask) sets the fix state at each
+step. Over a day the user is in fix only ~59% of the time; the quantum clock holds a
+5 ns timing solution through every gap (availability **1.0**), the chip-scale clock
+only **~0.83**.
+
 ## Install & build
 
 Requires a Rust toolchain (≥ 1.75; developed on 1.93).
@@ -226,11 +234,11 @@ kshana/
 ## Roadmap
 
 See [`CHANGELOG.md`](CHANGELOG.md) for released history and the `[Unreleased]`
-section for what's next (orbit-based scenarios, Python + WebAssembly bindings).
-A flicker (1/f) FM clock floor, a gyro channel (bias + angular random walk with
-gravity-tilt coupling), segment-aware multi-window holdover scoring, and a
-two-state Kalman clock estimator (driving the Integrity figure of merit) have
-landed on `main`.
+section for what's next (Python + WebAssembly bindings). A flicker (1/f) FM clock
+floor, a gyro channel (bias + angular random walk with gravity-tilt coupling),
+segment-aware multi-window holdover scoring, a two-state Kalman clock estimator
+(driving the Integrity figure of merit), and geometry-derived GNSS availability
+(orbit propagation + line-of-sight visibility) have landed on `main`.
 
 ## Contributing
 
