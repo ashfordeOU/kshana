@@ -28,5 +28,5 @@ rand_distr = "0.4"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 toml = "0.8"
-sha2 = "0.10"
+sha2 = "0.11"
 hex = "0.4"
