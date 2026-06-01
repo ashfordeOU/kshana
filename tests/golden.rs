@@ -19,6 +19,15 @@ fn run_is_reproducible() {
 }
 
 #[test]
+fn imu_scenario_quantum_beats_classical() {
+    let src = std::fs::read_to_string("scenarios/imu-deadreckoning.toml").unwrap();
+    let scn: kshana::inertial::InertialScenario = toml::from_str(&src).unwrap();
+    let r = kshana::inertial::run_inertial(&scn);
+    assert!(r.quantum.fom.pos_p95_m < r.classical.fom.pos_p95_m);
+    assert!(r.quantum.fom.holdover_s >= r.classical.fom.holdover_s);
+}
+
+#[test]
 fn lab_sr_scenario_runs_and_beats_classical() {
     let src = std::fs::read_to_string("scenarios/clock-holdover-labsr.toml").unwrap();
     let scn: kshana::scenario::Scenario = toml::from_str(&src).unwrap();

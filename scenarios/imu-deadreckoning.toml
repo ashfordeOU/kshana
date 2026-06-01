@@ -1,0 +1,27 @@
+# Dead-reckoning during GNSS outage: cold-atom quantum accelerometer vs navigation-grade.
+# Bias = post-GNSS-calibration residual = published bias stability; q_va = (noise root-PSD)^2.
+kind = "inertial"
+seed = 42
+threshold_m = 100.0
+
+[time]
+step_s = 10.0
+duration_s = 7200.0
+
+[gnss]
+windows = [
+  { t0 = 0.0,   t1 = 600.0,  state = "nominal" },
+  { t0 = 600.0, t1 = 7200.0, state = "denied" },
+]
+
+[accel_quantum]
+id = "cold-atom-quat"
+provenance = "Exail hybrid quantum accelerometer triad: bias stability 6e-8 g = 5.88e-7 m/s^2 after 24 h (Templier et al., Science Advances 2022, arXiv:2209.13209); noise 22 ug/sqrtHz = 2.16e-4 (m/s^2)/sqrtHz; laboratory maturity, not deployed"
+bias = 5.88e-7
+q_va = 4.6656e-8
+
+[accel_classical]
+id = "nav-grade-quartz"
+provenance = "Navigation-grade quartz accelerometer (Honeywell QA-2000 / Groves AESS Tutorial): bias stability ~160 ug = 1.57e-3 m/s^2; noise ~20 ug/sqrtHz = 1.96e-4 (m/s^2)/sqrtHz"
+bias = 1.57e-3
+q_va = 3.8416e-8
