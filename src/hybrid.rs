@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: Apache-2.0
 use crate::estimator::HoldoverEstimator;
 use crate::inertial::{AccelCfg, AccelModel};
+use crate::kalman::KalmanClock;
 use crate::models::{ClockModel, ErrorModel};
+use crate::run::{PHASE_MEAS_VAR_S2, PROTECTION_K};
 use crate::scenario::{ClockCfg, GnssState, GnssTimeline, TimeCfg};
+use crate::security::{spoof_detection_score, SPOOF_DETECT_K, SPOOF_MONITOR_S};
 use crate::timetransfer::TimeTransferLink;
 use crate::types::{ModelSpec, Seconds};
 use rand::SeedableRng;
@@ -43,7 +46,9 @@ pub struct HybridSample {
     pub gnss: GnssState,
 }
 
-/// Combined PNT figures of merit.
+/// Combined PNT figures of merit. `integrity` and `security` are populated by the
+/// run layer (the timing-channel Kalman protection bound and the clock-aided
+/// spoof-detection score); the rest are scored from the sample series.
 #[derive(Clone, Debug, Serialize)]
 pub struct HybridFoM {
     pub timing_holdover_s: f64,
@@ -52,6 +57,8 @@ pub struct HybridFoM {
     pub timing_p95_ns: f64,
     pub position_p95_m: f64,
     pub pnt_availability: f64,
+    pub integrity: Option<f64>,
+    pub security: Option<f64>,
 }
 
 /// Score combined PNT against a timing spec (ns) and a position spec (m).
@@ -79,6 +86,8 @@ pub fn score_hybrid(
             timing_p95_ns: 0.0,
             position_p95_m: 0.0,
             pnt_availability,
+            integrity: None,
+            security: None,
         };
     }
     // Holdover: worst-case (shortest) coast across outage segments, grid-bounded,
@@ -111,6 +120,8 @@ pub fn score_hybrid(
         timing_p95_ns,
         position_p95_m,
         pnt_availability,
+        integrity: None,
+        security: None,
     }
 }
 
@@ -156,17 +167,24 @@ fn run_suite(
     } else {
         None
     };
+    // Kalman timing estimator running alongside, disciplined to truth while GNSS is
+    // nominal and re-anchored (more loosely) at each optical re-sync; its 1-sigma
+    // bound is the timing-integrity protection level during the outage.
+    let mut kf = KalmanClock::new(clock_cfg.q_wf, clock_cfg.q_rw, PHASE_MEAS_VAR_S2);
+    let resync_var = scn.resync.sigma_j_s * scn.resync.sigma_j_s;
 
     let dt = scn.time.step_s;
     let n = (scn.time.duration_s / dt).round() as usize;
     let mut series = Vec::with_capacity(n + 1);
     let mut last_resync = 0.0;
+    let (mut outage_timing, mut contained) = (0u64, 0u64);
 
     for i in 0..=n {
         let t = i as f64 * dt;
         if i > 0 {
             clock.step(dt, &mut rng);
             accel.step(dt, &mut rng);
+            kf.predict(dt);
         }
         let gnss = scn.gnss.state_at(t);
         let (timing_ns, position_m) = match gnss {
@@ -180,9 +198,11 @@ fn run_suite(
                 );
                 accel.reset();
                 last_resync = t;
+                kf.update_with_r(0.0, PHASE_MEAS_VAR_S2);
                 (0.0, 0.0)
             }
             _ => {
+                let mut did_resync = false;
                 let jitter = if let Some(link) = &link {
                     if t - last_resync >= scn.resync.interval_s {
                         // optical ISL re-sync: re-anchor the clock prediction to truth.
@@ -194,6 +214,7 @@ fn run_suite(
                             GnssState::Nominal,
                         );
                         last_resync = t;
+                        did_resync = true;
                     }
                     // residual link measurement uncertainty, fresh (zero-mean) each step
                     link.sample(&mut rng)
@@ -203,6 +224,19 @@ fn run_suite(
                 let timing_s =
                     est.timing_error(t, clock.phase(), clock.det_freq(), clock.drift_rate(), gnss)
                         + jitter;
+                if did_resync {
+                    // Re-anchor the filter at the (noisier) link uncertainty.
+                    kf.update_with_r(0.0, resync_var);
+                }
+                outage_timing += 1;
+                // The delivered timing solution carries the link's fresh per-step
+                // jitter on top of the clock estimate, so the protection bound is
+                // the filter variance plus that measurement-noise floor.
+                let floor = if scn.resync.enabled { resync_var } else { 0.0 };
+                let bound = PROTECTION_K * (kf.phase_var() + floor).sqrt();
+                if timing_s.abs() <= bound {
+                    contained += 1;
+                }
                 (timing_s * 1e9, accel.pos())
             }
         };
@@ -213,7 +247,19 @@ fn run_suite(
             gnss,
         });
     }
-    let fom = score_hybrid(&series, scn.timing_spec_ns, scn.position_spec_m);
+    let mut fom = score_hybrid(&series, scn.timing_spec_ns, scn.position_spec_m);
+    if outage_timing > 0 {
+        fom.integrity = Some(contained as f64 / outage_timing as f64);
+    }
+    fom.security = Some(spoof_detection_score(
+        clock_cfg.q_wf,
+        clock_cfg.q_rw,
+        PHASE_MEAS_VAR_S2,
+        scn.timing_spec_ns,
+        SPOOF_MONITOR_S,
+        dt,
+        SPOOF_DETECT_K,
+    ));
     SuiteRun {
         clock_spec: clock.spec(),
         accel_spec: accel.spec(),
@@ -359,5 +405,24 @@ mod tests {
         assert!((f.pnt_availability - 1.0 / 3.0).abs() < 1e-9); // only t=0 has both in spec
         assert_eq!(f.timing_p95_ns, 30.0);
         assert_eq!(f.position_p95_m, 200.0);
+        assert!(f.integrity.is_none() && f.security.is_none());
+    }
+
+    #[test]
+    fn run_populates_integrity_and_security() {
+        let scn: HybridScenario =
+            toml::from_str(include_str!("../scenarios/hybrid-pnt.toml")).expect("scenario parses");
+        let r = run_hybrid(&scn);
+        for suite in [&r.quantum, &r.classical] {
+            let integ = suite.fom.integrity.expect("integrity populated");
+            let sec = suite.fom.security.expect("security populated");
+            // The protection bound (filter variance + link-jitter floor) must
+            // contain the delivered timing error on the large majority of samples,
+            // for the link-aided quantum suite as well as the classical one.
+            assert!((0.9..=1.0).contains(&integ), "integrity {integ}");
+            assert!((0.0..=1.0).contains(&sec), "security {sec}");
+        }
+        // The quieter quantum clock has at least as high a spoof-detection score.
+        assert!(r.quantum.fom.security.unwrap() >= r.classical.fom.security.unwrap());
     }
 }
