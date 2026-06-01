@@ -17,3 +17,12 @@ fn run_is_reproducible() {
     let b = serde_json::to_string(&kshana::run::run(&scn)).unwrap();
     assert_eq!(a, b);
 }
+
+#[test]
+fn lab_sr_scenario_runs_and_beats_classical() {
+    let src = std::fs::read_to_string("scenarios/clock-holdover-labsr.toml").unwrap();
+    let scn: kshana::scenario::Scenario = toml::from_str(&src).unwrap();
+    let r = kshana::run::run(&scn);
+    assert!(r.quantum.fom.timing_p95_ns < r.classical.fom.timing_p95_ns);
+    assert!(r.quantum.fom.holdover_s >= r.classical.fom.holdover_s);
+}
