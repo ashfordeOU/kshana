@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Kshana — PNT simulator playground</title>
+    <meta
+      name="description"
+      content="Run the Kshana hybrid quantum/classical PNT performance simulator in your browser. Nothing is uploaded; the engine runs locally as WebAssembly."
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="site-head">
+      <img class="banner" src="assets/kshana-banner.svg" alt="Kshana" />
+      <p class="lead">
+        An open, reproducible simulator for hybrid quantum/classical positioning,
+        navigation, and timing. Pick a scenario, edit the parameters, and run it —
+        <strong>everything runs locally in your browser</strong>; nothing is uploaded.
+      </p>
+    </header>
+
+    <main>
+      <section class="controls" aria-label="Scenario controls">
+        <div class="row">
+          <label for="scenario">Scenario</label>
+          <select id="scenario" aria-describedby="scenario-help"></select>
+          <button id="run" type="button" disabled>Run</button>
+          <span id="status" class="status" role="status">Loading engine…</span>
+        </div>
+        <p id="scenario-help" class="help">
+          The four sensor packs plus a geometry-driven availability scenario. The
+          panel below is editable TOML — change a number and run again.
+        </p>
+        <textarea
+          id="toml"
+          spellcheck="false"
+          aria-label="Scenario definition (TOML)"
+        ></textarea>
+      </section>
+
+      <section class="results" aria-label="Results" hidden>
+        <p id="summary" class="summary"></p>
+        <div id="chart" class="chart" aria-label="Result chart"></div>
+        <details id="json-wrap">
+          <summary>Full result (JSON)</summary>
+          <pre id="json" class="json"></pre>
+        </details>
+      </section>
+
+      <p id="error" class="error" role="alert" hidden></p>
+    </main>
+
+    <footer class="site-foot">
+      <p>
+        Kshana is free and open source (Apache-2.0). Engine version
+        <span id="version">…</span>.
+        <a href="https://github.com/AshfordeOU/kshana">Source &amp; documentation on GitHub</a>.
+      </p>
+      <p class="fine">
+        A performance simulator for studies and trade-offs — not a navigation product.
+        Results are reproducible from <code>scenario + seed + engine version</code>.
+      </p>
+    </footer>
+
+    <script type="module" src="app.js"></script>
+  </body>
+</html>

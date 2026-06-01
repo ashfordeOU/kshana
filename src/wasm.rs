@@ -27,6 +27,14 @@ pub fn chart_svg(toml: &str) -> Result<String, JsValue> {
         .map_err(|e| JsValue::from_str(&e))
 }
 
+/// Run a scenario and return its one-line human-readable summary.
+#[wasm_bindgen]
+pub fn summary(toml: &str) -> Result<String, JsValue> {
+    crate::api::run_toml(toml)
+        .map(|o| o.summary)
+        .map_err(|e| JsValue::from_str(&e))
+}
+
 /// Engine version (the crate version).
 #[wasm_bindgen]
 pub fn version() -> String {

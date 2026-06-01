@@ -12,3 +12,8 @@ __pycache__/
 
 # WebAssembly package (wasm-pack output)
 /pkg
+
+# Playground build outputs (generated/copied by web/build.sh and the Pages workflow)
+/web/pkg
+/web/scenarios
+/web/assets
