@@ -1,13 +1,13 @@
-use rand::SeedableRng;
-use rand_chacha::ChaCha8Rng;
-use serde::{Deserialize, Serialize};
-use sha2::{Digest, Sha256};
 use crate::estimator::HoldoverEstimator;
 use crate::inertial::{AccelCfg, AccelModel};
 use crate::models::{ClockModel, ErrorModel};
 use crate::scenario::{ClockCfg, GnssState, GnssTimeline, TimeCfg};
 use crate::timetransfer::TimeTransferLink;
 use crate::types::{ModelSpec, Seconds};
+use rand::SeedableRng;
+use rand_chacha::ChaCha8Rng;
+use serde::{Deserialize, Serialize};
+use sha2::{Digest, Sha256};
 
 /// Optional optical inter-satellite time-transfer clock-aiding during outage.
 #[derive(Clone, Debug, Deserialize, Serialize)]
@@ -54,7 +54,11 @@ pub struct HybridFoM {
 }
 
 /// Score combined PNT against a timing spec (ns) and a position spec (m).
-pub fn score_hybrid(samples: &[HybridSample], timing_spec_ns: f64, position_spec_m: f64) -> HybridFoM {
+pub fn score_hybrid(
+    samples: &[HybridSample],
+    timing_spec_ns: f64,
+    position_spec_m: f64,
+) -> HybridFoM {
     let n = samples.len().max(1) as f64;
     let both_in_spec = samples
         .iter()
@@ -62,12 +66,18 @@ pub fn score_hybrid(samples: &[HybridSample], timing_spec_ns: f64, position_spec
         .count();
     let pnt_availability = both_in_spec as f64 / n;
 
-    let outage: Vec<&HybridSample> =
-        samples.iter().filter(|s| s.gnss != GnssState::Nominal).collect();
+    let outage: Vec<&HybridSample> = samples
+        .iter()
+        .filter(|s| s.gnss != GnssState::Nominal)
+        .collect();
     if outage.is_empty() {
         return HybridFoM {
-            timing_holdover_s: 0.0, position_holdover_s: 0.0, pnt_holdover_s: 0.0,
-            timing_p95_ns: 0.0, position_p95_m: 0.0, pnt_availability,
+            timing_holdover_s: 0.0,
+            position_holdover_s: 0.0,
+            pnt_holdover_s: 0.0,
+            timing_p95_ns: 0.0,
+            position_p95_m: 0.0,
+            pnt_availability,
         };
     }
     // NOTE: holdover is measured from the first outage sample; assumes a single
@@ -80,10 +90,13 @@ pub fn score_hybrid(samples: &[HybridSample], timing_spec_ns: f64, position_spec
         None => last - t0,
     };
     let timing_holdover_s = holdover(outage.iter().find(|s| s.timing_ns.abs() > timing_spec_ns));
-    let position_holdover_s = holdover(outage.iter().find(|s| s.position_m.abs() > position_spec_m));
-    let pnt_holdover_s = holdover(outage.iter().find(|s| {
-        s.timing_ns.abs() > timing_spec_ns || s.position_m.abs() > position_spec_m
-    }));
+    let position_holdover_s =
+        holdover(outage.iter().find(|s| s.position_m.abs() > position_spec_m));
+    let pnt_holdover_s = holdover(
+        outage
+            .iter()
+            .find(|s| s.timing_ns.abs() > timing_spec_ns || s.position_m.abs() > position_spec_m),
+    );
 
     let p95 = |mut v: Vec<f64>| {
         v.sort_by(|a, b| a.total_cmp(b));
@@ -94,8 +107,12 @@ pub fn score_hybrid(samples: &[HybridSample], timing_spec_ns: f64, position_spec
     let position_p95_m = p95(outage.iter().map(|s| s.position_m.abs()).collect());
 
     HybridFoM {
-        timing_holdover_s, position_holdover_s, pnt_holdover_s,
-        timing_p95_ns, position_p95_m, pnt_availability,
+        timing_holdover_s,
+        position_holdover_s,
+        pnt_holdover_s,
+        timing_p95_ns,
+        position_p95_m,
+        pnt_availability,
     }
 }
 
@@ -108,14 +125,34 @@ pub struct SuiteRun {
     pub fom: HybridFoM,
 }
 
-fn run_suite(scn: &HybridScenario, clock_cfg: &ClockCfg, accel_cfg: &AccelCfg, seed: u64) -> SuiteRun {
+fn run_suite(
+    scn: &HybridScenario,
+    clock_cfg: &ClockCfg,
+    accel_cfg: &AccelCfg,
+    seed: u64,
+) -> SuiteRun {
     let mut rng = ChaCha8Rng::seed_from_u64(seed);
-    let mut clock = ClockModel::new(&clock_cfg.id, &clock_cfg.provenance, clock_cfg.y0, clock_cfg.q_wf, clock_cfg.q_rw)
-        .with_drift(clock_cfg.drift);
+    let mut clock = ClockModel::new(
+        &clock_cfg.id,
+        &clock_cfg.provenance,
+        clock_cfg.y0,
+        clock_cfg.q_wf,
+        clock_cfg.q_rw,
+    )
+    .with_drift(clock_cfg.drift);
     let mut est = HoldoverEstimator::new();
-    let mut accel = AccelModel::new(&accel_cfg.id, &accel_cfg.provenance, accel_cfg.bias, accel_cfg.q_va);
+    let mut accel = AccelModel::new(
+        &accel_cfg.id,
+        &accel_cfg.provenance,
+        accel_cfg.bias,
+        accel_cfg.q_va,
+    );
     let link = if scn.resync.enabled {
-        Some(TimeTransferLink::new("optical-isl", "time-transfer clock-aiding", scn.resync.sigma_j_s))
+        Some(TimeTransferLink::new(
+            "optical-isl",
+            "time-transfer clock-aiding",
+            scn.resync.sigma_j_s,
+        ))
     } else {
         None
     };
@@ -134,7 +171,13 @@ fn run_suite(scn: &HybridScenario, clock_cfg: &ClockCfg, accel_cfg: &AccelCfg, s
         let gnss = scn.gnss.state_at(t);
         let (timing_ns, position_m) = match gnss {
             GnssState::Nominal => {
-                est.timing_error(t, clock.phase(), clock.det_freq(), clock.drift_rate(), GnssState::Nominal);
+                est.timing_error(
+                    t,
+                    clock.phase(),
+                    clock.det_freq(),
+                    clock.drift_rate(),
+                    GnssState::Nominal,
+                );
                 accel.reset();
                 last_resync = t;
                 (0.0, 0.0)
@@ -143,7 +186,13 @@ fn run_suite(scn: &HybridScenario, clock_cfg: &ClockCfg, accel_cfg: &AccelCfg, s
                 let jitter = if let Some(link) = &link {
                     if t - last_resync >= scn.resync.interval_s {
                         // optical ISL re-sync: re-anchor the clock prediction to truth.
-                        est.timing_error(t, clock.phase(), clock.det_freq(), clock.drift_rate(), GnssState::Nominal);
+                        est.timing_error(
+                            t,
+                            clock.phase(),
+                            clock.det_freq(),
+                            clock.drift_rate(),
+                            GnssState::Nominal,
+                        );
                         last_resync = t;
                     }
                     // residual link measurement uncertainty, fresh (zero-mean) each step
@@ -152,14 +201,25 @@ fn run_suite(scn: &HybridScenario, clock_cfg: &ClockCfg, accel_cfg: &AccelCfg, s
                     0.0
                 };
                 let timing_s =
-                    est.timing_error(t, clock.phase(), clock.det_freq(), clock.drift_rate(), gnss) + jitter;
+                    est.timing_error(t, clock.phase(), clock.det_freq(), clock.drift_rate(), gnss)
+                        + jitter;
                 (timing_s * 1e9, accel.pos())
             }
         };
-        series.push(HybridSample { t, timing_ns, position_m, gnss });
+        series.push(HybridSample {
+            t,
+            timing_ns,
+            position_m,
+            gnss,
+        });
     }
     let fom = score_hybrid(&series, scn.timing_spec_ns, scn.position_spec_m);
-    SuiteRun { clock_spec: clock.spec(), accel_spec: accel.spec(), series, fom }
+    SuiteRun {
+        clock_spec: clock.spec(),
+        accel_spec: accel.spec(),
+        series,
+        fom,
+    }
 }
 
 #[derive(Clone, Debug, Serialize)]
@@ -191,7 +251,12 @@ pub fn run_hybrid(scn: &HybridScenario) -> HybridResult {
         timing_spec_ns: scn.timing_spec_ns,
         position_spec_m: scn.position_spec_m,
         quantum: run_suite(scn, &scn.clock_quantum, &scn.accel_quantum, scn.seed),
-        classical: run_suite(scn, &scn.clock_classical, &scn.accel_classical, scn.seed.wrapping_add(0x9e3779b97f4a7c15)),
+        classical: run_suite(
+            scn,
+            &scn.clock_classical,
+            &scn.accel_classical,
+            scn.seed.wrapping_add(0x9e3779b97f4a7c15),
+        ),
     }
 }
 
@@ -212,7 +277,8 @@ pub fn to_svg(result: &HybridResult) -> String {
     let xof = |t: f64| ml + (t / t_max) * pw;
     let yof = |u: f64| mt + ph - (u.min(y_max) / y_max) * ph;
     let points = |series: &[HybridSample]| {
-        series.iter()
+        series
+            .iter()
             .map(|s| format!("{:.1},{:.1}", xof(s.t), yof(util(s))))
             .collect::<Vec<_>>()
             .join(" ")
@@ -221,17 +287,44 @@ pub fn to_svg(result: &HybridResult) -> String {
     let axis_y = mt + ph;
     let mut svg = String::new();
     svg.push_str(&format!("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\">"));
-    svg.push_str(&format!("<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"white\"/>"));
+    svg.push_str(&format!(
+        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"white\"/>"
+    ));
     svg.push_str(&format!("<text x=\"{:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">Hybrid PNT spec utilization during GNSS outage (1.0 = spec)</text>", ml));
-    svg.push_str(&format!("<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#888\"/>"));
-    svg.push_str(&format!("<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#888\"/>", ml + pw));
+    svg.push_str(&format!(
+        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#888\"/>"
+    ));
+    svg.push_str(&format!(
+        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#888\"/>",
+        ml + pw
+    ));
     svg.push_str(&format!("<line x1=\"{ml:.0}\" y1=\"{thr_y:.1}\" x2=\"{:.0}\" y2=\"{thr_y:.1}\" stroke=\"#d33\" stroke-dasharray=\"6 4\"/>", ml + pw));
-    svg.push_str(&format!("<text x=\"{:.0}\" y=\"{:.1}\" fill=\"#d33\">spec (1.0)</text>", ml + 4.0, thr_y - 4.0));
-    svg.push_str(&format!("<polyline fill=\"none\" stroke=\"#c0392b\" stroke-width=\"2\" points=\"{}\"/>", points(c)));
-    svg.push_str(&format!("<polyline fill=\"none\" stroke=\"#2471a3\" stroke-width=\"2\" points=\"{}\"/>", points(q)));
-    svg.push_str(&format!("<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\">time (s)</text>", ml + pw / 2.0, h - 12.0));
-    svg.push_str(&format!("<text x=\"{:.0}\" y=\"44\" fill=\"#c0392b\">classical suite</text>", ml + 10.0));
-    svg.push_str(&format!("<text x=\"{:.0}\" y=\"60\" fill=\"#2471a3\">quantum suite</text>", ml + 10.0));
+    svg.push_str(&format!(
+        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"#d33\">spec (1.0)</text>",
+        ml + 4.0,
+        thr_y - 4.0
+    ));
+    svg.push_str(&format!(
+        "<polyline fill=\"none\" stroke=\"#c0392b\" stroke-width=\"2\" points=\"{}\"/>",
+        points(c)
+    ));
+    svg.push_str(&format!(
+        "<polyline fill=\"none\" stroke=\"#2471a3\" stroke-width=\"2\" points=\"{}\"/>",
+        points(q)
+    ));
+    svg.push_str(&format!(
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\">time (s)</text>",
+        ml + pw / 2.0,
+        h - 12.0
+    ));
+    svg.push_str(&format!(
+        "<text x=\"{:.0}\" y=\"44\" fill=\"#c0392b\">classical suite</text>",
+        ml + 10.0
+    ));
+    svg.push_str(&format!(
+        "<text x=\"{:.0}\" y=\"60\" fill=\"#2471a3\">quantum suite</text>",
+        ml + 10.0
+    ));
     svg.push_str("</svg>");
     svg
 }
@@ -243,13 +336,18 @@ mod tests {
 
     #[test]
     fn hand_derived_hybrid_scores() {
-        let s = |t: f64, tn: f64, pm: f64| HybridSample { t, timing_ns: tn, position_m: pm, gnss: Denied };
+        let s = |t: f64, tn: f64, pm: f64| HybridSample {
+            t,
+            timing_ns: tn,
+            position_m: pm,
+            gnss: Denied,
+        };
         // timing_spec=20 ns, position_spec=100 m.
         let samples = vec![s(0.0, 0.0, 0.0), s(1.0, 10.0, 150.0), s(2.0, 30.0, 200.0)];
         let f = score_hybrid(&samples, 20.0, 100.0);
         assert_eq!(f.position_holdover_s, 1.0); // position breaches first at t=1 (150>100)
-        assert_eq!(f.timing_holdover_s, 2.0);   // timing breaches at t=2 (30>20)
-        assert_eq!(f.pnt_holdover_s, 1.0);       // either: position at t=1
+        assert_eq!(f.timing_holdover_s, 2.0); // timing breaches at t=2 (30>20)
+        assert_eq!(f.pnt_holdover_s, 1.0); // either: position at t=1
         assert!((f.pnt_availability - 1.0 / 3.0).abs() < 1e-9); // only t=0 has both in spec
         assert_eq!(f.timing_p95_ns, 30.0);
         assert_eq!(f.position_p95_m, 200.0);

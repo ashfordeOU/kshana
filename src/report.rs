@@ -1,8 +1,8 @@
-use serde::Serialize;
-use sha2::{Digest, Sha256};
 use crate::fom::{FoMScores, Sample};
 use crate::scenario::Scenario;
 use crate::types::ModelSpec;
+use serde::Serialize;
+use sha2::{Digest, Sha256};
 
 /// One clock's run: its spec, full error series, and scored FoMs.
 #[derive(Clone, Debug, Serialize)]
@@ -47,7 +47,9 @@ pub fn to_svg(result: &RunResult) -> String {
     for s in c.iter().chain(q.iter()) {
         y_max = y_max.max(s.error_ns.abs());
     }
-    if y_max <= 0.0 { y_max = 1.0; }
+    if y_max <= 0.0 {
+        y_max = 1.0;
+    }
     let xof = |t: f64| ml + (t / t_max) * pw;
     let yof = |e: f64| mt + ph - (e.min(y_max) / y_max) * ph;
     let points = |series: &[Sample]| {
@@ -63,7 +65,9 @@ pub fn to_svg(result: &RunResult) -> String {
     svg.push_str(&format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\">"
     ));
-    svg.push_str(&format!("<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"white\"/>"));
+    svg.push_str(&format!(
+        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"white\"/>"
+    ));
     svg.push_str(&format!(
         "<text x=\"{:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">Clock holdover: timing error during GNSS outage</text>",
         ml
@@ -119,14 +123,42 @@ mod tests {
 
     fn demo() -> Scenario {
         Scenario {
-            seed: 1, threshold_ns: 100.0,
-            time: TimeCfg { step_s: 10.0, duration_s: 60.0 },
-            gnss: GnssTimeline { windows: vec![
-                GnssWindow { t0: 0.0, t1: 30.0, state: GnssState::Nominal },
-                GnssWindow { t0: 30.0, t1: 60.0, state: GnssState::Denied },
-            ]},
-            clock_quantum: ClockCfg { id: "q".into(), provenance: "d".into(), y0: 1e-13, q_wf: 1e-26, q_rw: 1e-32, drift: 0.0 },
-            clock_classical: ClockCfg { id: "c".into(), provenance: "d".into(), y0: 1e-11, q_wf: 1e-24, q_rw: 1e-30, drift: 0.0 },
+            seed: 1,
+            threshold_ns: 100.0,
+            time: TimeCfg {
+                step_s: 10.0,
+                duration_s: 60.0,
+            },
+            gnss: GnssTimeline {
+                windows: vec![
+                    GnssWindow {
+                        t0: 0.0,
+                        t1: 30.0,
+                        state: GnssState::Nominal,
+                    },
+                    GnssWindow {
+                        t0: 30.0,
+                        t1: 60.0,
+                        state: GnssState::Denied,
+                    },
+                ],
+            },
+            clock_quantum: ClockCfg {
+                id: "q".into(),
+                provenance: "d".into(),
+                y0: 1e-13,
+                q_wf: 1e-26,
+                q_rw: 1e-32,
+                drift: 0.0,
+            },
+            clock_classical: ClockCfg {
+                id: "c".into(),
+                provenance: "d".into(),
+                y0: 1e-11,
+                q_wf: 1e-24,
+                q_rw: 1e-30,
+                drift: 0.0,
+            },
         }
     }
 
@@ -153,7 +185,11 @@ mod svg_tests {
         let series = errs
             .iter()
             .enumerate()
-            .map(|(i, &e)| Sample { t: i as f64, error_ns: e, gnss: Denied })
+            .map(|(i, &e)| Sample {
+                t: i as f64,
+                error_ns: e,
+                gnss: Denied,
+            })
             .collect();
         ClockRun {
             spec: ModelSpec {
