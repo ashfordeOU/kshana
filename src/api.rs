@@ -82,10 +82,10 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
                 toml::from_str(src).map_err(|e| format!("invalid hybrid scenario: {e}"))?;
             let r = crate::hybrid::run_hybrid(&scn);
             let summary = format!(
-                "scenario {} | quantum PNT-holdover {:.0}s (t {:.0}s/p {:.0}s) | classical PNT-holdover {:.0}s (t {:.0}s/p {:.0}s)",
+                "scenario {} | quantum PNT-holdover {:.0}s (t {:.0}s/p {:.0}s) integrity {} security {} | classical PNT-holdover {:.0}s (t {:.0}s/p {:.0}s) integrity {} security {}",
                 &r.scenario_hash[..12],
-                r.quantum.fom.pnt_holdover_s, r.quantum.fom.timing_holdover_s, r.quantum.fom.position_holdover_s,
-                r.classical.fom.pnt_holdover_s, r.classical.fom.timing_holdover_s, r.classical.fom.position_holdover_s,
+                r.quantum.fom.pnt_holdover_s, r.quantum.fom.timing_holdover_s, r.quantum.fom.position_holdover_s, integ(r.quantum.fom.integrity), integ(r.quantum.fom.security),
+                r.classical.fom.pnt_holdover_s, r.classical.fom.timing_holdover_s, r.classical.fom.position_holdover_s, integ(r.classical.fom.integrity), integ(r.classical.fom.security),
             );
             Ok(RunOutput {
                 json: json_of(&r),

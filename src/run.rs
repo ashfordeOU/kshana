@@ -12,10 +12,10 @@ use rand_chacha::ChaCha8Rng;
 /// GNSS-disciplined phase measurement noise (variance, s^2). Represents the
 /// timing noise on the truth observation available while GNSS is nominal
 /// (~0.1 ns, 1-sigma); it sets the synchronised covariance floor for the filter.
-const PHASE_MEAS_VAR_S2: f64 = 1e-20;
+pub(crate) const PHASE_MEAS_VAR_S2: f64 = 1e-20;
 
 /// 3-sigma protection level for the integrity check.
-const PROTECTION_K: f64 = 3.0;
+pub(crate) const PROTECTION_K: f64 = 3.0;
 
 fn run_clock(scn: &Scenario, cfg: &ClockCfg, seed: u64) -> ClockRun {
     let mut rng = ChaCha8Rng::seed_from_u64(seed);
