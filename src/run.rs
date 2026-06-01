@@ -32,6 +32,7 @@ pub fn run(scn: &Scenario) -> RunResult {
         engine_version: env!("CARGO_PKG_VERSION").into(),
         scenario_hash: crate::report::hash_scenario(scn),
         seed: scn.seed,
+        threshold_ns: scn.threshold_ns,
         quantum: run_clock(scn, &scn.clock_quantum),
         classical: run_clock(scn, &scn.clock_classical),
     }
