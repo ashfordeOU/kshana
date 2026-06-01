@@ -1,0 +1,49 @@
+# Hybrid PNT capstone: all-quantum suite (optical clock + cold-atom IMU + optical ISL
+# time-transfer aiding) vs all-classical suite (CSAC + nav-grade IMU + RF). GNSS denied 1.8 h.
+kind = "hybrid"
+seed = 42
+timing_spec_ns = 20.0
+position_spec_m = 100.0
+
+[time]
+step_s = 10.0
+duration_s = 7200.0
+
+[gnss]
+windows = [
+  { t0 = 0.0,   t1 = 600.0,  state = "nominal" },
+  { t0 = 600.0, t1 = 7200.0, state = "denied" },
+]
+
+[resync]
+enabled = true
+interval_s = 60.0
+sigma_j_s = 1.0e-12
+
+[clock_quantum]
+id = "optical-soc"
+provenance = "ESA SOC Sr optical lattice clock, space goal sigma_y(1s)=1e-15 (arXiv:1503.08457)"
+y0 = 5.0e-17
+q_wf = 1.0e-30
+q_rw = 0.0
+drift = 0.0
+
+[clock_classical]
+id = "csac-sa45s"
+provenance = "Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10"
+y0 = 5.0e-10
+q_wf = 9.0e-20
+q_rw = 0.0
+drift = 0.0
+
+[accel_quantum]
+id = "cold-atom-quat"
+provenance = "Exail hybrid quantum accelerometer triad, bias stability 5.88e-7 m/s^2 (Templier et al. 2022, arXiv:2209.13209)"
+bias = 5.88e-7
+q_va = 4.6656e-8
+
+[accel_classical]
+id = "nav-grade-quartz"
+provenance = "Navigation-grade quartz accelerometer (Honeywell QA-2000 / Groves), bias stability 1.57e-3 m/s^2"
+bias = 1.57e-3
+q_va = 3.8416e-8
