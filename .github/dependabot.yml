@@ -20,3 +20,9 @@ updates:
     groups:
       actions:
         patterns: ["*"]
+    ignore:
+      # MSRV pin — managed by hand, not by Dependabot (and its tag detection is wrong here).
+      - dependency-name: "dtolnay/rust-toolchain"
+      # We take action major bumps deliberately.
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
