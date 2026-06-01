@@ -44,8 +44,8 @@ mod tests {
                 GnssWindow { t0: 0.0, t1: 30.0, state: GnssState::Nominal },
                 GnssWindow { t0: 30.0, t1: 60.0, state: GnssState::Denied },
             ]},
-            clock_quantum: ClockCfg { id: "q".into(), provenance: "d".into(), y0: 1e-13, q_wf: 1e-26, q_rw: 1e-32 },
-            clock_classical: ClockCfg { id: "c".into(), provenance: "d".into(), y0: 1e-11, q_wf: 1e-24, q_rw: 1e-30 },
+            clock_quantum: ClockCfg { id: "q".into(), provenance: "d".into(), y0: 1e-13, q_wf: 1e-26, q_rw: 1e-32, drift: 0.0 },
+            clock_classical: ClockCfg { id: "c".into(), provenance: "d".into(), y0: 1e-11, q_wf: 1e-24, q_rw: 1e-30, drift: 0.0 },
         }
     }
 
