@@ -54,6 +54,7 @@ Initial release.
 - Open-core positioning (README): a free Apache-2.0 engine plus available commercial
   support, integration, and proprietary extensions from Ashforde OÜ — sustained by
   services, not license fees.
+- `CITATION.cff` so the software can be cited.
 
 [Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.1.0...HEAD
 [0.1.0]: https://github.com/AshfordeOU/kshana/releases/tag/v0.1.0
