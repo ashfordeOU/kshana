@@ -1,10 +1,22 @@
 version: 2
 updates:
+  # Rust dependencies: one grouped PR per month, patch/minor only.
+  # Major bumps are breaking API changes — we take those deliberately, by hand.
   - package-ecosystem: cargo
     directory: "/"
     schedule:
-      interval: weekly
+      interval: monthly
+    groups:
+      cargo:
+        patterns: ["*"]
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+  # GitHub Actions: one grouped PR per month.
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
-      interval: weekly
+      interval: monthly
+    groups:
+      actions:
+        patterns: ["*"]
