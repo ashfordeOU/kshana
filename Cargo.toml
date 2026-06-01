@@ -1,6 +1,6 @@
 [package]
 name = "kshana"
-version = "0.7.0"
+version = "0.1.0"
 edition = "2021"
 description = "Open hybrid quantum/classical PNT performance simulator"
 license = "Apache-2.0"
