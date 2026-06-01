@@ -55,7 +55,8 @@ pub struct Sample {
 
 /// The six operational PNT figures of merit. Integrity is populated by the run
 /// layer from the Kalman protection bound (the fraction of outage samples whose
-/// error stays inside the k-sigma bound); Security is not yet modeled.
+/// error stays inside the k-sigma bound); Security is the clock-aided
+/// spoof-detection score (see [`crate::security`]).
 #[derive(Clone, Debug, Serialize)]
 pub struct FoMScores {
     pub timing_rms_ns: f64,
