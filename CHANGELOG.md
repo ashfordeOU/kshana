@@ -9,6 +9,15 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+- The hybrid (combined-PNT) pack now reports **Integrity** and **Security**, so all
+  four packs cover the full set of operational figures of merit. Integrity is the
+  timing-channel protection-bound containment from a Kalman estimator disciplined to
+  truth while GNSS is nominal and re-anchored (more loosely) at each optical re-sync;
+  its bound includes the link's measurement-noise floor, so a clock far better than
+  the link is scored against the delivered solution's actual noise. Security is the
+  clock-aided spoof-detection score against the timing spec.
+
 ### Changed
 - Release notes are now generated from the curated CHANGELOG section for the tag
   (`scripts/changelog-extract.sh`), so each GitHub release highlights what changed
