@@ -70,3 +70,9 @@ Result: the all-quantum suite holds full PNT through a 1.8 h outage; the all-cla
 suite is **position-limited** (nav-grade IMU breaches first). Optical ISL time-transfer
 keeps even the classical CLOCK locked, isolating the inertial sensor as the classical
 suite's weak link — the core argument for quantum inertial + optical timing together.
+
+## Known limitations (v0.7)
+
+- Quantum and classical runs now use independent RNG seeds (classical seed = seed + 0x9e3779b97f4a7c15) so their noise realizations are uncorrelated — fixed after review.
+- `holdover_s` assumes a single contiguous GNSS-outage window (all current scenarios). Multi-window timelines need segment-aware holdover (future work).
+- ISL time-transfer re-sync models the residual link uncertainty as fresh zero-mean jitter per measurement step plus re-anchoring at the configured interval.
