@@ -9,6 +9,10 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+- Labelled y-axes on the SVG charts: gridlines, numeric tick labels, and a
+  units axis title (via a shared `chart` helper), so magnitudes are readable.
+
 ### Planned
 - Higher-fidelity orbit propagation (precise ephemerides / perturbations) and a
   position-domain error from the geometry (e.g. GDOP), beyond the current
