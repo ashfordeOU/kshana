@@ -1,0 +1,27 @@
+# Kshana reference scenario: 2 h run, 10 min GNSS sync then ~1.8 h denied.
+seed = 42
+threshold_ns = 100.0
+
+[time]
+step_s = 10.0
+duration_s = 7200.0
+
+[gnss]
+windows = [
+  { t0 = 0.0,    t1 = 600.0,  state = "nominal" },
+  { t0 = 600.0,  t1 = 7200.0, state = "denied" },
+]
+
+[clock_quantum]
+id = "optical-demo"
+provenance = "v0.1 placeholder - pending calibration to published ACES/SOC Allan deviation"
+y0   = 1.0e-13
+q_wf = 1.0e-26
+q_rw = 1.0e-34
+
+[clock_classical]
+id = "csac-demo"
+provenance = "v0.1 placeholder - pending calibration to published CSAC Allan deviation"
+y0   = 1.0e-11
+q_wf = 1.0e-24
+q_rw = 1.0e-32
