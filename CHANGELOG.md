@@ -20,12 +20,15 @@ breaking changes are called out explicitly.
   default; enabled per sensor via the optional `gyro_bias` and `q_arw` fields.
 
 ### Changed
+- Holdover scoring is now segment-aware: outage timelines are split into
+  contiguous segments at GNSS re-acquisition, and the reported holdover is the
+  worst-case (shortest) coast across them. Single-outage scenarios are
+  unchanged. Applies to the clock, inertial, and hybrid scorers.
 - The inertial model's reported `kind` is now `inertial` (was `accelerometer`),
   reflecting the combined accelerometer and gyro channels.
 
 ### Planned
 - Full Kalman / factor-graph fusion replacing the analytic holdover predictor.
-- Multi-window (segment-aware) holdover scoring.
 - Orbit-based scenarios (precise time + propagation libraries) and position error.
 - Python (PyO3) and WebAssembly bindings.
 

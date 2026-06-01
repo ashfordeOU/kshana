@@ -155,14 +155,18 @@ pub fn score_position(samples: &[PosSample], threshold_m: f64) -> PositionFoM {
     abs.sort_by(|a, b| a.total_cmp(b));
     let idx = (((abs.len().saturating_sub(1)) as f64) * 0.95).round() as usize;
     let pos_p95_m = abs.get(idx).copied().unwrap_or(0.0);
-    // NOTE: holdover is measured from the first outage sample; assumes a single
-    // contiguous outage window (true for all current scenarios). Multi-window
-    // timelines need segment-aware holdover (future work).
-    let t0 = outage.first().unwrap().t;
-    let holdover_s = match outage.iter().find(|s| s.error_m.abs() > threshold_m) {
-        Some(s) => s.t - t0,
-        None => outage.last().unwrap().t - t0,
-    };
+    // Holdover: worst-case (shortest) coast across outage segments, grid-bounded.
+    let segs: Vec<(Seconds, bool, bool)> = samples
+        .iter()
+        .map(|s| {
+            (
+                s.t,
+                s.gnss != GnssState::Nominal,
+                s.error_m.abs() > threshold_m,
+            )
+        })
+        .collect();
+    let holdover_s = crate::fom::worst_case_holdover(&segs);
     let mean_t = outage.iter().map(|s| s.t).sum::<f64>() / m;
     let mean_y = outage.iter().map(|s| s.error_m.abs()).sum::<f64>() / m;
     let mut num = 0.0;
