@@ -30,6 +30,13 @@ breaking changes are called out explicitly.
   elevation mask) produce the availability timeline from real orbital geometry.
   New `orbit` scenario kind and the `orbit-gnss-challenged.toml` reference
   scenario (a spacecraft inside the GNSS shell with intermittent coverage).
+- Optional Python extension (PyO3, abi3) exposing `run`, `run_full`, and
+  `version`, packaged with maturin (`pyproject.toml`) and built for Linux, macOS,
+  and Windows by a release-tag `wheels` workflow. The binding is a feature-gated,
+  optional dependency: the default build, tests, and dependency-audit gate are
+  unaffected.
+- Shared `api::run_toml` dispatch used by the CLI and the Python binding, so the
+  command line and the bindings cannot drift.
 
 ### Changed
 - Holdover scoring is now segment-aware: outage timelines are split into
@@ -43,7 +50,7 @@ breaking changes are called out explicitly.
 - Higher-fidelity orbit propagation (precise ephemerides / perturbations) and a
   position-domain error from the geometry (e.g. GDOP), beyond the current
   circular-orbit availability model.
-- Python (PyO3) and WebAssembly bindings.
+- WebAssembly bindings (the engine already builds for `wasm32-unknown-unknown`).
 
 ## [0.1.0] - 2026-06-01
 
