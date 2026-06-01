@@ -5,3 +5,4 @@ pub mod estimator;
 pub mod fom;
 pub mod report;
 pub mod run;
+pub mod allan;
