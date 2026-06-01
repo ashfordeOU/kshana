@@ -49,7 +49,7 @@ Each scenario compares a quantum sensor against its classical counterpart throug
 |------|----------|---------|-----------|
 | **1 — Clock holdover** | `clock-holdover.toml` (20 ns spec) | optical clock holds the full outage | CSAC breaches the spec mid-outage |
 | **2 — Inertial dead-reckoning** | `imu-deadreckoning.toml` (100 m spec) | cold-atom: **~41 m**, holds full outage | nav-grade: breaches in **~350 s** → tens of km |
-| **3 — Time transfer** (→ ESA OpSTAR) | `timetransfer.toml` | optical: **~0.3 mm** ranging | RF (TWSTFT): **~150 mm** ranging |
+| **3 — Time transfer** (optical inter-satellite link) | `timetransfer.toml` | optical: **~0.3 mm** ranging | RF (TWSTFT): **~150 mm** ranging |
 | **4 — Hybrid fusion** (capstone) | `hybrid-pnt.toml` | full position+timing for the whole outage | **position-limited at ~350 s** |
 
 The capstone shows the fusion thesis: optical inter-satellite time-transfer keeps even
@@ -106,8 +106,8 @@ windows = [
   { t0 = 600.0, t1 = 7200.0, state = "denied"  },  # ~1.8 h outage
 ]
 [clock_quantum]
-id = "optical-soc"
-provenance = "ESA SOC Sr optical lattice clock, space goal sigma_y(1s)=1e-15 (arXiv:1503.08457)"
+id = "optical-sr-lattice"
+provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (arXiv:1503.08457)"
 y0 = 5.0e-17
 q_wf = 1.0e-30   # white FM:  q_wf = sigma_y(1s)^2
 q_rw = 0.0       # random-walk FM
@@ -128,10 +128,10 @@ See `scenarios/` for one example of every kind.
 The result artifact is versioned, self-describing JSON: per-step time series, the
 scored figures of merit, the active model specs (with provenance), the seed, and a
 **scenario hash** — so any chart can be reproduced from the file. The figures of
-merit follow ESA's six PNT criteria:
+merit follow the standard operational PNT figures of merit:
 
-| ESA figure of merit | How Kshana computes it |
-|---------------------|------------------------|
+| Figure of merit | How Kshana computes it |
+|-----------------|------------------------|
 | Positioning / Timing Performance | RMS + 95th-percentile error over the outage |
 | Autonomy | holdover duration — time in-spec after GNSS loss |
 | Resilience | error-growth slope during the outage |
@@ -150,7 +150,7 @@ flowchart LR
     subgraph ENG["Engine (per step)"]
       direction TB
       M["Error model<br/>step(): evolve noise state"] --> E["Estimator<br/>GNSS-disciplined holdover"]
-      E --> F["FoM scoring<br/>vs ESA's 6 figures of merit"]
+      E --> F["FoM scoring<br/>vs the 6 figures of merit"]
     end
     ENG --> OUT["result.json + chart.svg<br/>(reproducible: scenario+seed+version)"]
 ```
@@ -240,9 +240,9 @@ Apache-2.0 — see [`LICENSE`](LICENSE).
 ## Key references
 
 - Riley, *Handbook of Frequency Stability Analysis*, NIST SP 1065 (Allan-deviation relations).
-- Origlia, Schiller, Bongs et al., arXiv:1503.08457 (ESA SOC strontium optical lattice clock).
+- Origlia, Schiller, Bongs et al., arXiv:1503.08457 (strontium optical lattice clock, space-oriented goal).
 - Oelker et al., *Nature Photonics* (2019) (laboratory Sr clock, 4.8×10⁻¹⁷).
 - Templier et al., *Science Advances* (2022), arXiv:2209.13209 (hybrid quantum accelerometer triad).
 - Groves, *Principles of GNSS, Inertial, and Multisensor Integrated Navigation* / IEEE AESS Tutorial (dead-reckoning error growth).
 - Giorgetta et al., *Nature Photonics* 7, 434 (2013); Deschênes et al., *Phys. Rev. X* 6, 021016 (2016) (optical two-way time-frequency transfer).
-- ESA FutureNAV / OpSTAR (optical inter-satellite link, picosecond sync, mm ranging — mission targets).
+- Optical inter-satellite time-transfer concept — see Giorgetta and Deschênes above.

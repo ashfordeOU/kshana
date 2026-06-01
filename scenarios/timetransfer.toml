@@ -1,4 +1,4 @@
-# Optical inter-satellite time transfer (OpSTAR-class) vs classical RF (TWSTFT).
+# Optical inter-satellite time transfer vs classical RF (TWSTFT).
 kind = "timetransfer"
 seed = 42
 samples = 600
@@ -6,8 +6,8 @@ step_s = 1.0
 range_spec_mm = 10.0
 
 [link_quantum]
-id = "optical-isl-opstar"
-provenance = "Optical inter-satellite link, OpSTAR picosecond-sync TARGET (ESA FutureNAV; OHB/DLR Phase A/B1, 2025). Free-space O-TWTFT lab floor is ~1 fs (Giorgetta 2013, Nature Photonics; Deschenes 2016, PRX); using OpSTAR 1 ps on-orbit target as the credible figure."
+id = "optical-isl"
+provenance = "Optical inter-satellite link, picosecond-level synchronization target; free-space optical two-way time-frequency transfer lab floor ~1 fs (Giorgetta 2013, Nature Photonics; Deschenes 2016, PRX). Using a 1 ps target as the on-orbit-credible figure."
 sigma_j_s = 1.0e-12
 
 [link_classical]

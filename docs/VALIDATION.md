@@ -10,11 +10,11 @@
 | Clock | sigma_y(1 s) | Source |
 |-------|--------------|--------|
 | csac-sa45s (CSAC)        | 3.0e-10 | Microchip SA65 / SA.45s datasheet |
-| optical-soc (Sr lattice) | 1.0e-15 | ESA SOC space goal, arXiv:1503.08457 |
+| optical-sr-lattice (Sr lattice) | 1.0e-15 | strontium optical lattice clock, space-oriented goal, arXiv:1503.08457 |
 
 **Status: white FM and random-walk FM validated; aging modeled and calibrated-out; flicker not modeled.**
 
-Maturity: the optical-clock figures are the ESA SOC *space goal* on ground hardware --
+Maturity: the optical-clock figures are the *space-oriented goal* on ground hardware --
 no strontium optical clock has flown. Laboratory Sr clocks reach 4.8e-17 (Oelker et al.
 2019, Nature Photonics). CSAC figures are from a deployed commercial part.
 
@@ -37,7 +37,7 @@ frequency Wiener process of diffusion q_rw.
 
 Honest framing: the cold-atom advantage is **long-term bias stability** (~2600x lower), which dominates a long GNSS outage via 0.5*b*T^2. Short-term noise is comparable (quantum ~22 vs classical ~20 ug/sqrtHz) — the quantum sensor wins the marathon, not the sprint. Maturity: cold-atom accelerometers are laboratory/early (JRC122785), navigation-grade quartz is deployed.
 
-## Pack 3 — time transfer (optical vs RF, maps to ESA OpSTAR)
+## Pack 3 — time transfer (optical vs RF, optical inter-satellite link)
 
 | Term | Status | Evidence |
 |------|--------|----------|
@@ -47,10 +47,10 @@ Honest framing: the cold-atom advantage is **long-term bias stability** (~2600x 
 
 | Link | single-sample jitter | type | source |
 |------|---------------------|------|--------|
-| optical-isl-opstar | 1 ps (1e-12 s) | OpSTAR on-orbit TARGET | ESA FutureNAV OpSTAR (OHB/DLR); lab O-TWTFT ~1 fs (Giorgetta 2013 / Deschenes 2016) |
+| optical-isl | 1 ps (1e-12 s) | on-orbit-credible target | optical inter-satellite link, picosecond sync target; lab O-TWTFT ~1 fs (Giorgetta 2013 / Deschenes 2016) |
 | twstft-rf | 0.5 ns (5e-10 s) | measured single-session | BIPM/PTB/NIST TWSTFT |
 
-Honest framing: the optical figure is OpSTAR's stated picosecond on-orbit TARGET (not flown). The terrestrial optical lab floor is ~1 fs (far better); a well-engineered microwave link (ACES MWL, ~0.3 ps) can rival optical, so the "RF = 0.5 ns" baseline is specifically ordinary TWSTFT. Ranging conversion is one-way (range = c*dt); two-way/round-trip halves it (range = c*dt/2).
+Honest framing: the optical figure is a picosecond-level on-orbit synchronization target (not flown). The terrestrial optical lab floor is ~1 fs (far better); a well-engineered microwave link (ACES MWL, ~0.3 ps) can rival optical, so the "RF = 0.5 ns" baseline is specifically ordinary TWSTFT. Ranging conversion is one-way (range = c*dt); two-way/round-trip halves it (range = c*dt/2).
 
 ## Pack 4 — hybrid fusion (capstone)
 
