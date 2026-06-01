@@ -1,6 +1,6 @@
-use serde::Serialize;
 use crate::scenario::GnssState;
 use crate::types::Seconds;
+use serde::Serialize;
 
 /// One scored sample: timing error in nanoseconds and the GNSS state at that time.
 #[derive(Clone, Debug, Serialize)]
@@ -31,12 +31,17 @@ pub fn score(samples: &[Sample], threshold_ns: f64) -> FoMScores {
     let n = samples.len().max(1) as f64;
 
     // Availability over the whole run: fraction of time with an in-spec solution.
-    let within = samples.iter().filter(|s| s.error_ns.abs() <= threshold_ns).count();
+    let within = samples
+        .iter()
+        .filter(|s| s.error_ns.abs() <= threshold_ns)
+        .count();
     let availability = within as f64 / n;
 
     // The holdover (outage) subset drives the timing/resilience metrics.
-    let outage: Vec<&Sample> =
-        samples.iter().filter(|s| s.gnss != GnssState::Nominal).collect();
+    let outage: Vec<&Sample> = samples
+        .iter()
+        .filter(|s| s.gnss != GnssState::Nominal)
+        .collect();
 
     if outage.is_empty() {
         return FoMScores {
@@ -97,7 +102,13 @@ mod tests {
     use super::*;
     use crate::scenario::GnssState::Denied;
 
-    fn s(t: f64, e: f64) -> Sample { Sample { t, error_ns: e, gnss: Denied } }
+    fn s(t: f64, e: f64) -> Sample {
+        Sample {
+            t,
+            error_ns: e,
+            gnss: Denied,
+        }
+    }
 
     #[test]
     fn hand_derived_scores() {

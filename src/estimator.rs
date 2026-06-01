@@ -16,7 +16,13 @@ pub struct HoldoverEstimator {
 
 impl HoldoverEstimator {
     pub fn new() -> Self {
-        Self { f_s: 0.0, drift_est: 0.0, last_sync_t: 0.0, last_sync_phase: 0.0, synced: false }
+        Self {
+            f_s: 0.0,
+            drift_est: 0.0,
+            last_sync_t: 0.0,
+            last_sync_phase: 0.0,
+            synced: false,
+        }
     }
 
     pub fn timing_error(
@@ -37,7 +43,9 @@ impl HoldoverEstimator {
                 0.0
             }
             _ => {
-                if !self.synced { return 0.0; }
+                if !self.synced {
+                    return 0.0;
+                }
                 let dt = t - self.last_sync_t;
                 let predicted =
                     self.last_sync_phase + self.f_s * dt + 0.5 * self.drift_est * dt * dt;
@@ -48,7 +56,9 @@ impl HoldoverEstimator {
 }
 
 impl Default for HoldoverEstimator {
-    fn default() -> Self { Self::new() }
+    fn default() -> Self {
+        Self::new()
+    }
 }
 
 #[cfg(test)]
