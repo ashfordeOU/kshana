@@ -14,6 +14,7 @@ pub mod python;
 pub mod report;
 pub mod run;
 pub mod scenario;
+pub mod security;
 pub mod timetransfer;
 pub mod types;
 #[cfg(feature = "wasm")]

@@ -5,6 +5,7 @@ use crate::kalman::KalmanClock;
 use crate::models::{ClockModel, ErrorModel};
 use crate::report::{ClockRun, RunResult};
 use crate::scenario::{ClockCfg, GnssState, Scenario};
+use crate::security::{spoof_detection_score, SPOOF_DETECT_K, SPOOF_MONITOR_S};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
 
@@ -59,6 +60,16 @@ fn run_clock(scn: &Scenario, cfg: &ClockCfg, seed: u64) -> ClockRun {
     if outage_samples > 0 {
         fom.integrity = Some(contained as f64 / outage_samples as f64);
     }
+    // Security: clock-aided spoof-detection score relative to the timing spec.
+    fom.security = Some(spoof_detection_score(
+        cfg.q_wf,
+        cfg.q_rw,
+        PHASE_MEAS_VAR_S2,
+        scn.threshold_ns,
+        SPOOF_MONITOR_S,
+        dt,
+        SPOOF_DETECT_K,
+    ));
     ClockRun {
         spec: clock.spec(),
         series,
@@ -187,5 +198,20 @@ mod tests {
         assert!(qi >= 0.95, "quantum integrity too low: {qi}");
         assert!(ci >= 0.95, "classical integrity too low: {ci}");
         assert!(qi <= 1.0 && ci <= 1.0);
+    }
+
+    #[test]
+    fn security_is_populated_and_quantum_leads() {
+        // Both clocks report a spoof-detection score; the quieter quantum clock
+        // has a tighter detection floor and so scores at least as high.
+        let r = run(&demo());
+        let qs = r.quantum.fom.security.expect("quantum security populated");
+        let cs = r
+            .classical
+            .fom
+            .security
+            .expect("classical security populated");
+        assert!((0.0..=1.0).contains(&qs) && (0.0..=1.0).contains(&cs));
+        assert!(qs >= cs, "quantum security {qs} < classical {cs}");
     }
 }
