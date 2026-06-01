@@ -265,10 +265,10 @@ Contact **contact@ashforde.org**.
 
 ## Key references
 
-- Riley, *Handbook of Frequency Stability Analysis*, NIST SP 1065 (Allan-deviation relations).
-- Origlia, Schiller, Bongs et al., arXiv:1503.08457 (strontium optical lattice clock, space-oriented goal).
-- Oelker et al., *Nature Photonics* (2019) (laboratory Sr clock, 4.8×10⁻¹⁷).
-- Templier et al., *Science Advances* (2022), arXiv:2209.13209 (hybrid quantum accelerometer triad).
-- Groves, *Principles of GNSS, Inertial, and Multisensor Integrated Navigation* / IEEE AESS Tutorial (dead-reckoning error growth).
-- Giorgetta et al., *Nature Photonics* 7, 434 (2013); Deschênes et al., *Phys. Rev. X* 6, 021016 (2016) (optical two-way time-frequency transfer).
+- Riley, *Handbook of Frequency Stability Analysis* — [NIST SP 1065](https://tf.nist.gov/general/pdf/2220.pdf) (Allan-deviation relations).
+- Origlia, Schiller, Bongs et al. — [arXiv:1503.08457](https://arxiv.org/abs/1503.08457) (strontium optical lattice clock, space-oriented goal).
+- Oelker et al., *Nature Photonics* (2019) — [JILA PDF](https://jila-pfc.colorado.edu/sites/default/files/2019-09/Oelker-Sr%20record%20stability_2019-Nature_Photonics.pdf) (laboratory Sr clock, 4.8×10⁻¹⁷).
+- Templier et al., *Science Advances* (2022) — [arXiv:2209.13209](https://arxiv.org/abs/2209.13209) (hybrid quantum accelerometer triad).
+- Groves, *Principles of GNSS, Inertial, and Multisensor Integrated Navigation* — [IEEE AESS tutorial (UCL Discovery)](https://discovery.ucl.ac.uk/id/eprint/1470141/) (dead-reckoning error growth).
+- Giorgetta et al., *Nature Photonics* 7, 434 (2013) — [arXiv:1211.4902](https://arxiv.org/abs/1211.4902); Deschênes et al., *Phys. Rev. X* 6, 021016 (2016) — [APS](https://journals.aps.org/prx/abstract/10.1103/PhysRevX.6.021016) (optical two-way time-frequency transfer).
 - Optical inter-satellite time-transfer concept — see Giorgetta and Deschênes above.
