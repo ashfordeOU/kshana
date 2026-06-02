@@ -9,6 +9,12 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Planned
+- Higher-fidelity orbit propagation (precise ephemerides / perturbations),
+  beyond the current two-body + J2-secular model.
+
+## [0.4.0] - 2026-06-02
+
 ### Added
 - **Trade-study parameter sweeps.** A new `sweep` scenario kind varies one
   parameter (`threshold_ns`, `duration_s`, `quantum_q_wf`, or `classical_q_wf`)
@@ -40,10 +46,6 @@ breaking changes are called out explicitly.
 - Release notes are now generated from the curated CHANGELOG section for the tag
   (`scripts/changelog-extract.sh`), so each GitHub release highlights what changed
   instead of listing raw commits.
-
-### Planned
-- Higher-fidelity orbit propagation (precise ephemerides / perturbations),
-  beyond the current circular-orbit model.
 
 ## [0.3.0] - 2026-06-02
 
@@ -153,7 +155,8 @@ Initial release.
   services, not license fees.
 - `CITATION.cff` so the software can be cited.
 
-[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/AshfordeOU/kshana/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/AshfordeOU/kshana/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/AshfordeOU/kshana/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/AshfordeOU/kshana/releases/tag/v0.1.0

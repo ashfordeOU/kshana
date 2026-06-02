@@ -8,6 +8,7 @@
 | Kalman estimator + integrity bound | `validated` | `src/kalman.rs`: a two-state (phase, frequency) filter whose exact van Loan process noise matches the truth model; coasting reproduces the analytic holdover variance `q_wf*T + q_rw*T^3/3` to 1e-9. The run layer reports Integrity as the fraction of outage samples inside the 3-sigma protection bound (`src/run.rs`). |
 | Security (spoof-detection score) | `validated` (model) | `src/security.rs`: the monitor 1-sigma floor `sqrt(r/m + q_wf*tau + q_rw*tau^3/3)` and the resulting `k`-sigma minimum-detectable offset and `[0,1]` score are hand-derived and unit-tested. The model (innovation / RAIM-style clock-aided detection) is sound; the *parameters* (monitoring window `tau`, detection multiplier `k`, measurement noise `r`) are representative, not fitted to a specific receiver. |
 | Flicker FM (floor) | `modeled` (off by default) | Synthesised as a sum of log-spaced Ornstein-Uhlenbeck processes calibrated to a configurable flat ADEV floor; `src/models.rs` validates the floor is flat across averaging time and sits at the configured level (seed-averaged). Enabled per clock via `flicker_floor`. The cited reference scenarios leave it off: CSAC is white-FM-dominated across its datasheet range (1-1000 s) and the optical-clock systematic floor (~5e-17) is represented by its accuracy figure. |
+| Monte Carlo ensemble statistics | `validated` (aggregation) | `src/ensemble.rs`: nearest-rank percentiles and mean over `runs` reproducible realizations; a single run collapses the spread, the per-timestep band is ordered `p05 <= p50 <= p95`, and reruns are bit-identical. This is statistical aggregation over the already-validated single run, not a new physical model. |
 
 | Clock | sigma_y(1 s) | Source |
 |-------|--------------|--------|
@@ -66,6 +67,7 @@ position is not re-synced, since time transfer gives time, not position).
 | Aspect | Status | Evidence |
 |--------|--------|----------|
 | Combined PNT scoring (timing AND position) | `validated` | `src/hybrid.rs` hand-derived `score_hybrid` test (pnt_holdover = first of timing/position to breach). |
+| Integrity + Security for the hybrid pack | `validated` | `src/hybrid.rs`: a Kalman timing estimator disciplined to truth (nominal) and re-anchored at each optical re-sync; Integrity is the protection-bound containment (bound includes the link-jitter floor), Security the spoof-detection score. Tested for both suites including the link-aided case. |
 | Composition of validated sub-models | inherits | clock/inertial/time-transfer terms are validated in their own packs. |
 | Sensor cross-aiding fidelity (full Kalman/factor-graph fusion) | `not modeled` | This is a system-level composition + time-aiding, not yet a full optimal estimator. |
 
@@ -79,6 +81,8 @@ suite's weak link — the core argument for quantum inertial + optical timing to
 | Aspect | Status | Evidence |
 |--------|--------|----------|
 | Circular two-body propagation | `validated` | `src/orbit.rs`: period `T=2 pi sqrt(r^3/mu)` (mu = 3.986004418e14), position returns after one period, equatorial/polar planarity — hand-derived tests. |
+| Eccentric (Keplerian) propagation | `validated` | `src/orbit.rs`: Kepler's equation `M = E - e sin E` solved by Newton (residual < 1e-12); perigee/apogee radii `a(1∓e)`; circular case matches the closed-form path to 1e-9. |
+| J2 secular nodal/apsidal drift | `validated` | `src/orbit.rs`: `Omega_dot = -1.5 n J2 (Re/p)^2 cos i`, `argp_dot = 0.75 n J2 (Re/p)^2 (5cos^2 i - 1)` (Vallado); node regresses (prograde) / advances (retrograde) / is stationary (polar), and apsides freeze at the critical inclination 63.4 deg — hand-derived sign/zero tests. Two-body + secular only, not osculating. |
 | Line-of-sight visibility (Earth occultation + elevation mask) | `validated` | Antipodal sat occulted, radially-outward sat at 90 deg elevation, tangential sat on the horizon — exact hand-derived tests. |
 | Visibility -> GNSS state -> timeline | `validated` | `>=4` visible = nominal, 1-3 degraded, 0 denied; Walker-delta generator; integration test drives a clock-holdover run from the derived timeline. |
 | Dilution of precision (GDOP/PDOP/HDOP/VDOP/TDOP) -> position accuracy | `validated` | `src/orbit.rs`: `Q=(HᵀH)⁻¹` from the line-of-sight design matrix; a regular-tetrahedron geometry reproduces the closed-form DOPs (PDOP 1.5, TDOP 0.5, GDOP √2.5, HDOP √1.5, VDOP √0.75) to 1e-9. Position sigma = PDOP × user-equivalent range error. |

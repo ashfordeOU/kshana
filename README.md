@@ -23,14 +23,16 @@ and every sensor parameter is traceable to a published source.
 *Free and open source under Apache-2.0, professionally developed and maintained by
 Ashforde OÜ — commercial support, integration, and proprietary extensions available.*
 
-> **Status: research-grade, v0.3.0.** Four sensor packs, a Kalman estimator driving an
-> integrity bound, a clock-aided spoof-detection security score, and geometry-derived
-> GNSS availability *and* position accuracy (dilution of precision) — all calibrated to
-> published data and validated against the standard relations, with optional Python and
-> WebAssembly bindings and a browser playground. Read [`docs/VALIDATION.md`](docs/VALIDATION.md)
-> before citing any number — each noise term is labelled `validated` or `not modeled`,
-> and optical-clock figures are *space goals on ground hardware* (no strontium optical
-> clock has flown).
+> **Status: research-grade, v0.4.0.** Four sensor packs that each report all six
+> operational figures of merit (including a clock-aided spoof-detection security
+> score), a Kalman estimator driving the integrity bound, geometry-derived GNSS
+> availability *and* position accuracy (dilution of precision) from Keplerian orbits
+> with optional eccentricity and J2 drift, Monte Carlo confidence bands, and
+> trade-study parameter sweeps — all calibrated to published data and validated
+> against the standard relations, with optional Python and WebAssembly bindings and a
+> browser playground. Read [`docs/VALIDATION.md`](docs/VALIDATION.md) before citing any
+> number — each noise term is labelled `validated` or `not modeled`, and optical-clock
+> figures are *space goals on ground hardware* (no strontium optical clock has flown).
 
 > **Try it in your browser:** the [playground](web/) runs the engine client-side as
 > WebAssembly — pick a scenario, edit the parameters, and see the result, with nothing
@@ -224,13 +226,24 @@ drift = 0.0
 
 Optional fields (off when absent): a clock may add `flicker_floor` (1/f FM Allan
 floor); an inertial sensor may add `gyro_bias` and `q_arw` (gyro bias and angular
-random walk, which couple gravity into the position error).
+random walk, which couple gravity into the position error). A clock-holdover
+scenario may add `runs` (> 1) to run a **Monte Carlo ensemble** — each figure of
+merit is then reported as a mean with a 5th–95th-percentile spread and the chart
+shades the error confidence band (see `scenarios/clock-ensemble.toml`).
+
+A `sweep` scenario runs a **trade study**: it varies one `parameter` (`threshold_ns`,
+`duration_s`, `quantum_q_wf`, or `classical_q_wf`) from `start` to `stop` over `steps`
+points on a `lin` or `log` `scale`, records a `metric` (e.g. `holdover_s`) for both
+clocks, and charts the two curves. The base scenario goes under `[base]` (see
+`scenarios/sweep-clock-stability.toml`).
 
 An `orbit` scenario derives the `[gnss]` timeline from geometry instead of authoring
 it — give a `[user]` orbit, a `[constellation]`, an elevation `mask_deg`, and the two
 clock blocks. It also reports position accuracy from the satellite geometry; the
 optional `sigma_uere_m` (1-sigma user-equivalent range error, default 1 m) scales the
-position dilution of precision into a position sigma:
+position dilution of precision into a position sigma. The user orbit may be made
+**eccentric** with `eccentricity` and `argp_deg`, and `j2 = true` adds Earth-oblateness
+secular drift (see `scenarios/orbit-molniya.toml`):
 
 ```toml
 kind = "orbit"
@@ -439,9 +452,11 @@ section for what's next (higher-fidelity orbit propagation). A flicker (1/f) FM
 clock floor, a gyro channel (bias + angular random walk with gravity-tilt
 coupling), segment-aware multi-window holdover scoring, a two-state Kalman clock
 estimator (driving the Integrity figure of merit), a clock-aided spoof-detection
-Security score, geometry-derived GNSS availability *and* position accuracy
-(dilution of precision), an in-browser WebAssembly playground, and optional
-Python (PyO3) and WebAssembly (wasm-bindgen) bindings have landed on `main`.
+Security score across all four packs, geometry-derived GNSS availability *and*
+position accuracy (dilution of precision) from Keplerian orbits with eccentricity
+and J2 drift, Monte Carlo confidence bands, trade-study parameter sweeps, an
+in-browser WebAssembly playground, and optional Python (PyO3) and WebAssembly
+(wasm-bindgen) bindings have landed on `main`.
 
 ## Contributing
 
@@ -455,7 +470,7 @@ entry for every user-visible change. Participation is governed by our
 
 If you use Kshana in academic or technical work, please cite it. Machine-readable
 metadata is in [`CITATION.cff`](CITATION.cff) (GitHub renders a "Cite this repository"
-button from it); cite the version you used (e.g. `v0.3.0`).
+button from it); cite the version you used (e.g. `v0.4.0`).
 
 ## License
 

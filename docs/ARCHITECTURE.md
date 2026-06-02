@@ -38,8 +38,10 @@ flowchart TD
 
     inertial["inertial.rs<br/>Pack 2 · AccelModel (accel + gyro) · run_inertial"]
     timetransfer["timetransfer.rs<br/>Pack 3 · TimeTransferLink · run_timetransfer"]
-    hybrid["hybrid.rs<br/>Pack 4 · run_suite · score_hybrid · run_hybrid"]
-    orbit["orbit.rs<br/>CircularOrbit · Walker constellation · visibility · DOP · build_timeline"]
+    hybrid["hybrid.rs<br/>Pack 4 · run_suite · score_hybrid · run_hybrid (+ integrity/security)"]
+    orbit["orbit.rs<br/>Keplerian orbit (+ e, J2) · Walker constellation · visibility · DOP"]
+    ensemble["ensemble.rs<br/>Monte Carlo confidence bands"]
+    sweep["sweep.rs<br/>trade-study parameter sweeps"]
 
     main --> api
     py --> api
@@ -48,6 +50,10 @@ flowchart TD
     api --> inertial
     api --> timetransfer
     api --> hybrid
+    api --> ensemble
+    api --> sweep
+    ensemble --> run
+    sweep --> run
 
     run --> models
     run --> estimator
@@ -228,8 +234,9 @@ WebAssembly module backs the browser playground in `web/` (`run`, `chart_svg`,
 ## 9. Deferred / future structure
 
 Tracked in [CHANGELOG](../CHANGELOG.md) `[Unreleased]`: higher-fidelity orbit
-propagation (precise ephemerides / perturbations) beyond the current circular-orbit
-model. The position-domain dilution of precision, the Security figure of merit, and a
-package-publishing workflow have shipped. A private overlay repo holds export-sensitive
-resilience depth; it plugs in via the same `ErrorModel` interface without changing the
-public engine.
+propagation (precise ephemerides / perturbations) beyond the current two-body +
+J2-secular model. The position-domain dilution of precision, the Security figure of
+merit (across all four packs), eccentric/J2 orbits, Monte Carlo confidence bands,
+trade-study sweeps, and a package-publishing workflow have shipped. A private overlay
+repo holds export-sensitive resilience depth; it plugs in via the same `ErrorModel`
+interface without changing the public engine.
