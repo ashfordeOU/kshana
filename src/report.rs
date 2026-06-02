@@ -5,12 +5,15 @@ use crate::types::ModelSpec;
 use serde::Serialize;
 use sha2::{Digest, Sha256};
 
-/// One clock's run: its spec, full error series, and scored FoMs.
+/// One clock's run: its spec, full error series, scored FoMs, and the
+/// overlapping Allan-deviation curve of the clock's phase over the run.
 #[derive(Clone, Debug, Serialize)]
 pub struct ClockRun {
     pub spec: ModelSpec,
     pub series: Vec<Sample>,
     pub fom: FoMScores,
+    #[serde(default)]
+    pub adev_curve: Vec<crate::allan::AdevPoint>,
 }
 
 /// Top-level result artifact (versioned, self-describing, reproducible).
@@ -220,6 +223,7 @@ mod svg_tests {
                 integrity: None,
                 security: None,
             },
+            adev_curve: vec![],
         }
     }
 

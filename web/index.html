@@ -111,6 +111,13 @@
       <section class="results" aria-label="Results" hidden>
         <p id="summary" class="summary"></p>
         <div id="chart" class="chart" aria-label="Result chart"></div>
+        <div id="adev-wrap" class="adev-wrap" hidden>
+          <h3 class="adev-title">Clock stability (overlapping Allan deviation)</h3>
+          <div id="adev" class="chart" aria-label="Allan deviation chart"></div>
+          <p class="adev-note">Lower is better. The Allan deviation &sigma;<sub>y</sub>(&tau;) shows
+          how a clock's fractional-frequency stability changes with averaging time &tau; — a
+          quieter clock coasts longer through a GNSS outage.</p>
+        </div>
         <details id="json-wrap">
           <summary>Full result (JSON)</summary>
           <pre id="json" class="json"></pre>
