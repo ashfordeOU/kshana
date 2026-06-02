@@ -52,14 +52,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@1.93.0
       - uses: actions/setup-python@v5
         with:
           python-version: "3.x"
-      - name: Install maturin and pytest
-        run: pip install maturin pytest
+      # Build the wheel with PyO3/maturin-action, which runs maturin inside a
+      # manylinux container. This deliberately avoids a raw host `maturin build`
+      # + dtolnay/rust-toolchain combination: on the ubuntu-latest runner image
+      # that path intermittently fails when rustup tries to install the
+      # rustfmt-preview component and collides with the image's pre-installed
+      # `~/.cargo/bin/cargo-fmt` ("detected conflict: 'bin/cargo-fmt'"). The
+      # container ships its own clean toolchain, so the conflict cannot occur.
       - name: Build the Python wheel
-        run: maturin build --features python --out dist
+        uses: PyO3/maturin-action@v1
+        with:
+          command: build
+          args: --features python --out dist
+      - name: Install pytest
+        run: pip install pytest
       - name: Install the wheel
         run: pip install --no-index --find-links dist kshana
       - name: Run binding smoke tests
