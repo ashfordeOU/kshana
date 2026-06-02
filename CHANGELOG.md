@@ -10,8 +10,28 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Planned
-- Higher-fidelity SGP4 orbit propagation, beyond the current two-body + J2-secular
-  mean-element model.
+- Velocity-domain outputs from the SGP4 propagator (currently position drives the
+  availability and dilution-of-precision geometry).
+
+## [0.7.0] - 2026-06-02
+
+### Added
+- **SGP4/SDP4 orbit propagation.** A full, dependency-free implementation of the
+  standard simplified-perturbations propagator — near-Earth SGP4 together with the
+  deep-space SDP4 extension (lunar-solar secular and periodic perturbations and
+  12 h / 24 h geopotential resonance). It is validated against the official AIAA
+  2006-6753 ("Revisiting Spacetrack Report #3") verification vectors: all 666
+  reference states across the near-Earth, deep-space, resonant, and error-code
+  cases match to a worst-case position error of about 4 mm. This is the model
+  two-line element sets are defined against, so it represents real constellations
+  — notably the ~12 h GNSS orbits, which are deep-space and resonant and which the
+  earlier two-body + J2-secular model cannot capture.
+- A constellation given as **full two-line element sets** (line 1 + line 2) is now
+  propagated with SGP4/SDP4; a constellation given as line-2-only elements keeps
+  the analytic Keplerian two-body propagation, unchanged. The two forms can be
+  mixed in one block. New `orbit-sgp4-gps.toml` reference scenario (a GPS-like MEO
+  constellation in real two-line format, propagated with SGP4) — drop in a current
+  Celestrak "gps-ops" set to study the live constellation.
 
 ## [0.6.0] - 2026-06-02
 
@@ -195,7 +215,8 @@ Initial release.
   services, not license fees.
 - `CITATION.cff` so the software can be cited.
 
-[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.6.0...HEAD
+[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.7.0...HEAD
+[0.7.0]: https://github.com/AshfordeOU/kshana/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/AshfordeOU/kshana/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/AshfordeOU/kshana/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/AshfordeOU/kshana/compare/v0.3.0...v0.4.0
