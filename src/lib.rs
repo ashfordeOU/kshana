@@ -14,6 +14,7 @@ pub mod models;
 pub mod orbit;
 #[cfg(feature = "python")]
 pub mod python;
+pub mod raim;
 pub mod report;
 pub mod run;
 pub mod scenario;
