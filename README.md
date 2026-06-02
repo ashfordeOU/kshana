@@ -42,7 +42,8 @@ Ashforde OÜ — commercial support, integration, and proprietary extensions ava
 > before citing any number — each noise term is labelled `validated` or `not modeled`,
 > and optical-clock figures are *space goals on ground hardware* (no strontium optical
 > clock has flown). What it is **not**: a 3-axis IMU triad, a coupled GNSS/INS filter, a
-> first-principles quantum simulator, or aviation-grade RAIM/HPL/VPL integrity — see
+> first-principles quantum simulator, or aviation-grade RAIM/HPL/VPL integrity. The full
+> honest scope map is in [`docs/CAPABILITY.md`](docs/CAPABILITY.md); see also
 > [`docs/INTEGRITY.md`](docs/INTEGRITY.md) and the claims table in
 > [`docs/VALIDATION.md`](docs/VALIDATION.md).
 
@@ -324,7 +325,8 @@ scored figures of merit, the active model specs (with provenance), the seed, a
 an `adev_curve` (`[{tau_s, adev, n_samples}]`): the overlapping Allan deviation across
 octave-spaced averaging times, the standard way to read a clock's stability. The
 browser playground renders it as a log-log "Clock stability (ADEV)" chart. (MDEV/TDEV/HDEV
-and confidence intervals are not yet computed — roadmap.) The figures of
+and confidence intervals are not yet computed — roadmap.) Every field, with units and a
+source pointer, is documented in [`docs/SCHEMA.md`](docs/SCHEMA.md). The figures of
 merit follow the standard operational PNT figures of merit:
 
 | Figure of merit | How Kshana computes it |
