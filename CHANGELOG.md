@@ -43,6 +43,11 @@ breaking changes are called out explicitly.
   encodes the whole scenario into the URL fragment (nothing is uploaded) so a link
   reproduces the exact run on load. The codec is unit-tested (`web/share.test.mjs`,
   run in CI).
+- **N-dimensional parameter sweeps (`src/sweep.rs`).** `nd_sweep` evaluates a
+  metric over the full Cartesian product of several `SweepAxis` ranges (the
+  multi-parameter trade study), in row-major order, deterministically. Additive —
+  the existing 1-D sweep API is unchanged. Per-node bootstrap confidence intervals
+  and generalisation beyond the clock pack remain on the roadmap.
 - **Real snapshot RAIM (`src/raim.rs`).** Genuine position-domain Receiver
   Autonomous Integrity Monitoring: it builds the line-of-sight geometry to the
   visible satellites, forms the least-squares solution and residuals, runs a χ²

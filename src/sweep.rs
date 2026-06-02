@@ -215,6 +215,116 @@ pub fn to_svg(result: &SweepResult) -> String {
     svg
 }
 
+// ---------------------------------------------------------------------------
+// N-dimensional sweeps
+//
+// The 1-D `SweepScenario` above varies a single parameter. An N-D sweep takes a
+// list of axes and evaluates the metric over the full Cartesian product of their
+// sample values — the multi-parameter trade study ("how does holdover depend on
+// both clock stability *and* outage duration?"). Additive: the 1-D API is
+// unchanged. Bootstrap confidence intervals per grid node, and generalisation
+// beyond the clock pack, are the remaining parts of the sweep roadmap.
+// ---------------------------------------------------------------------------
+
+/// One axis of an N-dimensional sweep: which parameter to vary, over what range,
+/// with how many samples and what spacing.
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct SweepAxis {
+    /// One of the parameters accepted by the 1-D sweep (`threshold_ns`,
+    /// `duration_s`, `quantum_q_wf`, `classical_q_wf`).
+    pub parameter: String,
+    pub start: f64,
+    pub stop: f64,
+    pub steps: usize,
+    #[serde(default = "default_scale")]
+    pub scale: String,
+}
+
+impl SweepAxis {
+    /// The sample values along this axis (at least two, endpoints included).
+    pub fn values(&self) -> Vec<f64> {
+        let n = self.steps.max(2);
+        (0..n)
+            .map(|i| {
+                let f = i as f64 / (n - 1) as f64;
+                if self.scale == "log" {
+                    (self.start.ln() + (self.stop.ln() - self.start.ln()) * f).exp()
+                } else {
+                    self.start + (self.stop - self.start) * f
+                }
+            })
+            .collect()
+    }
+}
+
+/// One node of an N-D sweep grid: the coordinate (one value per axis, in axis
+/// order) and the metric for each clock at that point.
+#[derive(Clone, Debug, Serialize)]
+pub struct NdPoint {
+    pub coords: Vec<f64>,
+    pub quantum: f64,
+    pub classical: f64,
+}
+
+/// The result of an N-D sweep: the axis parameters, the metric, the grid shape
+/// (samples per axis), and the points in row-major order (the last axis varies
+/// fastest).
+#[derive(Clone, Debug, Serialize)]
+pub struct NdSweepResult {
+    pub schema_version: String,
+    pub engine_version: String,
+    pub parameters: Vec<String>,
+    pub metric: String,
+    pub shape: Vec<usize>,
+    pub points: Vec<NdPoint>,
+}
+
+/// Run an N-D sweep: evaluate `metric` over the Cartesian product of the `axes`
+/// sample values applied to `base`, for both clocks. Points are emitted in
+/// row-major order (last axis fastest). Deterministic.
+pub fn nd_sweep(
+    base: &Scenario,
+    axes: &[SweepAxis],
+    metric: &str,
+) -> Result<NdSweepResult, String> {
+    if axes.is_empty() {
+        return Err("nd_sweep needs at least one axis".into());
+    }
+    let axis_values: Vec<Vec<f64>> = axes.iter().map(|a| a.values()).collect();
+    let shape: Vec<usize> = axis_values.iter().map(|v| v.len()).collect();
+    let total: usize = shape.iter().product();
+    let mut points = Vec::with_capacity(total);
+    for flat in 0..total {
+        // Decode the flat index into a per-axis coordinate (last axis fastest).
+        let mut idx = flat;
+        let mut coords = vec![0.0_f64; axes.len()];
+        for d in (0..axes.len()).rev() {
+            let len = shape[d];
+            coords[d] = axis_values[d][idx % len];
+            idx /= len;
+        }
+        // Apply every axis value to the base scenario, then run the clock pack.
+        let mut s = base.clone();
+        for (a, &v) in axes.iter().zip(&coords) {
+            s = apply(&s, &a.parameter, v)?;
+        }
+        let r = crate::run::run(&s);
+        points.push(NdPoint {
+            coords,
+            quantum: metric_of(&r.quantum.fom, metric)?,
+            classical: metric_of(&r.classical.fom, metric)?,
+        });
+    }
+    Ok(NdSweepResult {
+        schema_version: "0.7".into(),
+        engine_version: env!("CARGO_PKG_VERSION").into(),
+        parameters: axes.iter().map(|a| a.parameter.clone()).collect(),
+        metric: metric.into(),
+        shape,
+        points,
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -347,5 +457,103 @@ mod tests {
         assert_eq!(svg.matches("<polyline").count(), 2);
         assert!(svg.contains("holdover_s vs classical_q_wf"));
         assert!(svg.ends_with("</svg>"));
+    }
+
+    fn axis(parameter: &str, start: f64, stop: f64, steps: usize, scale: &str) -> SweepAxis {
+        SweepAxis {
+            parameter: parameter.into(),
+            start,
+            stop,
+            steps,
+            scale: scale.into(),
+        }
+    }
+
+    #[test]
+    fn nd_sweep_covers_the_full_grid_in_row_major_order() {
+        let axes = [
+            axis("threshold_ns", 10.0, 30.0, 2, "lin"),
+            axis("duration_s", 3600.0, 7200.0, 3, "lin"),
+        ];
+        let r = nd_sweep(&base(), &axes, "holdover_s").unwrap();
+        assert_eq!(r.shape, vec![2, 3]);
+        assert_eq!(r.points.len(), 6);
+        // Row-major: the last axis (duration) varies fastest.
+        assert_eq!(r.points[0].coords, vec![10.0, 3600.0]);
+        assert_eq!(r.points[1].coords, vec![10.0, 5400.0]);
+        assert_eq!(r.points[2].coords, vec![10.0, 7200.0]);
+        assert_eq!(r.points[3].coords, vec![30.0, 3600.0]);
+        assert_eq!(r.parameters, vec!["threshold_ns", "duration_s"]);
+    }
+
+    #[test]
+    fn nd_sweep_node_matches_a_direct_run() {
+        // The metric at a grid node must equal a direct run with both parameters
+        // applied — the N-D sweep is just that, gridded.
+        let t_axis = axis("threshold_ns", 15.0, 25.0, 2, "lin");
+        let q_axis = axis("classical_q_wf", 1e-22, 1e-20, 2, "log");
+        // Use the axis-computed endpoint values (a log endpoint is not bit-exactly
+        // the literal after the ln/exp round-trip).
+        let tv = *t_axis.values().last().unwrap();
+        let qv = *q_axis.values().last().unwrap();
+        let r = nd_sweep(&base(), &[t_axis, q_axis], "timing_p95_ns").unwrap();
+        let s = apply(
+            &apply(&base(), "threshold_ns", tv).unwrap(),
+            "classical_q_wf",
+            qv,
+        )
+        .unwrap();
+        let direct = crate::run::run(&s);
+        let node = r.points.iter().find(|p| p.coords == vec![tv, qv]).unwrap();
+        assert_eq!(node.classical, direct.classical.fom.timing_p95_ns);
+        assert_eq!(node.quantum, direct.quantum.fom.timing_p95_ns);
+    }
+
+    #[test]
+    fn nd_sweep_is_deterministic_and_validates_inputs() {
+        let axes = [axis("classical_q_wf", 1e-24, 1e-19, 4, "log")];
+        let a = nd_sweep(&base(), &axes, "holdover_s").unwrap();
+        let b = nd_sweep(&base(), &axes, "holdover_s").unwrap();
+        assert_eq!(
+            a.points.iter().map(|p| p.classical).collect::<Vec<_>>(),
+            b.points.iter().map(|p| p.classical).collect::<Vec<_>>()
+        );
+        // A single-axis N-D sweep matches the 1-D sweep values.
+        let one_d = run_sweep(&sweep(
+            "classical_q_wf",
+            "holdover_s",
+            1e-24,
+            1e-19,
+            4,
+            "log",
+        ))
+        .unwrap();
+        for (nd, od) in a.points.iter().zip(&one_d.points) {
+            assert_eq!(nd.classical, od.classical);
+        }
+        assert!(nd_sweep(&base(), &[], "holdover_s").is_err());
+        assert!(nd_sweep(&base(), &[axis("nope", 1.0, 2.0, 2, "lin")], "holdover_s").is_err());
+        assert!(nd_sweep(
+            &base(),
+            &[axis("classical_q_wf", 1.0, 2.0, 2, "lin")],
+            "nope"
+        )
+        .is_err());
+    }
+
+    #[test]
+    fn nd_sweep_holdover_falls_off_along_the_noise_axis() {
+        // Holding threshold fixed, a noisier classical clock holds over no longer.
+        let axes = [
+            axis("threshold_ns", 20.0, 20.0, 1, "lin"), // fixed (steps=1 -> 2 identical samples)
+            axis("classical_q_wf", 1e-24, 1e-19, 5, "log"),
+        ];
+        let r = nd_sweep(&base(), &axes, "holdover_s").unwrap();
+        // For each fixed-threshold row, classical holdover is non-increasing in noise.
+        for row in r.points.chunks(r.shape[1]) {
+            for w in row.windows(2) {
+                assert!(w[1].classical <= w[0].classical, "holdover grew with noise");
+            }
+        }
     }
 }
