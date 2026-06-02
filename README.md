@@ -28,7 +28,7 @@ and every sensor parameter is traceable to a published source.
 *Free and open source under Apache-2.0, professionally developed and maintained by
 Ashforde OÜ — commercial support, integration, and proprietary extensions available.*
 
-> **Status: v0.7.0 — a simulation substrate, not yet a product.** Four sensor packs
+> **Status: v0.8.0 — a simulation substrate, not yet a product.** Four sensor packs
 > that each report all six operational figures of merit (including a clock-stability-based
 > spoof-*detectability* bound — analytic, meaningful only with a configured attack —
 > demonstrated by an active spoofing-attack scenario), two independent Kalman error
