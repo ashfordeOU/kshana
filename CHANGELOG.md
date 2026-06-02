@@ -9,6 +9,12 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Planned
+- Higher-fidelity SGP4 orbit propagation, beyond the current two-body + J2-secular
+  mean-element model.
+
+## [0.6.0] - 2026-06-02
+
 ### Added
 - **Active spoofing-attack demonstrator.** A new `spoof` scenario kind injects a
   ramping false-time spoof and runs each clock's clock-aided integrity monitor,
@@ -19,10 +25,6 @@ breaking changes are called out explicitly.
   constellations (a `[[constellations]]` list alongside the primary
   `[constellation]`) for multi-GNSS availability and dilution of precision — e.g.
   GPS plus Galileo. New `orbit-multignss.toml` reference scenario.
-
-### Planned
-- Higher-fidelity orbit propagation (precise SGP4 ephemerides / perturbations),
-  beyond the current two-body + J2-secular mean-element model.
 
 ## [0.5.0] - 2026-06-02
 
@@ -193,7 +195,8 @@ Initial release.
   services, not license fees.
 - `CITATION.cff` so the software can be cited.
 
-[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.5.0...HEAD
+[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.6.0...HEAD
+[0.6.0]: https://github.com/AshfordeOU/kshana/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/AshfordeOU/kshana/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/AshfordeOU/kshana/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/AshfordeOU/kshana/compare/v0.2.0...v0.3.0
