@@ -177,6 +177,28 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
                 summary,
             })
         }
+        "spoof" => {
+            let scn: crate::spoof::SpoofScenario =
+                toml::from_str(src).map_err(|e| format!("invalid spoof scenario: {e}"))?;
+            let r = crate::spoof::run_spoof(&scn);
+            let det = |c: &crate::spoof::SpoofClock| {
+                c.detect_time_s
+                    .map_or_else(|| "undetected".to_string(), |t| format!("detected {t:.0}s"))
+            };
+            let summary = format!(
+                "scenario {} | spoof {:.2} ns/s vs {:.0} ns spec | quantum bound {:.3}ns {} ({}) | classical bound {:.2}ns {} ({})",
+                &r.scenario_hash[..12], scn.attack.rate_ns_per_s, r.threshold_ns,
+                r.quantum.min_detectable_ns, det(&r.quantum),
+                if r.quantum.breaches_spec_undetected { "spoof succeeds" } else { "caught before spec" },
+                r.classical.min_detectable_ns, det(&r.classical),
+                if r.classical.breaches_spec_undetected { "spoof succeeds" } else { "caught before spec" },
+            );
+            Ok(RunOutput {
+                json: json_of(&r),
+                svg: crate::spoof::to_svg(&r),
+                summary,
+            })
+        }
         "sweep" => {
             let scn: crate::sweep::SweepScenario =
                 toml::from_str(src).map_err(|e| format!("invalid sweep scenario: {e}"))?;
@@ -287,6 +309,7 @@ mod tests {
             include_str!("../scenarios/orbit-multignss.toml"),
             include_str!("../scenarios/orbit-real-tle.toml"),
             include_str!("../scenarios/sweep-clock-stability.toml"),
+            include_str!("../scenarios/spoof-attack.toml"),
         ] {
             let out = run_toml(src).expect("scenario runs");
             assert!(out.json.starts_with('{'));
