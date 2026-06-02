@@ -23,16 +23,18 @@ and every sensor parameter is traceable to a published source.
 *Free and open source under Apache-2.0, professionally developed and maintained by
 Ashforde OÜ — commercial support, integration, and proprietary extensions available.*
 
-> **Status: research-grade, v0.4.0.** Four sensor packs that each report all six
+> **Status: research-grade, v0.5.0.** Four sensor packs that each report all six
 > operational figures of merit (including a clock-aided spoof-detection security
-> score), a Kalman estimator driving the integrity bound, geometry-derived GNSS
-> availability *and* position accuracy (dilution of precision) from Keplerian orbits
-> with optional eccentricity and J2 drift, Monte Carlo confidence bands, and
-> trade-study parameter sweeps — all calibrated to published data and validated
-> against the standard relations, with optional Python and WebAssembly bindings and a
-> browser playground. Read [`docs/VALIDATION.md`](docs/VALIDATION.md) before citing any
-> number — each noise term is labelled `validated` or `not modeled`, and optical-clock
-> figures are *space goals on ground hardware* (no strontium optical clock has flown).
+> score), a joint Kalman fusion estimator and an integrity bound, geometry-derived
+> GNSS availability *and* position accuracy (dilution of precision) from Keplerian
+> orbits — synthetic Walker or real two-line element sets — with optional eccentricity
+> and J2 drift, a full IMU Allan-variance noise model, Monte Carlo confidence bands,
+> trade-study parameter sweeps, and a shareable HTML scorecard — all calibrated to
+> published data and validated against the standard relations, with optional Python and
+> WebAssembly bindings and a browser playground. Read [`docs/VALIDATION.md`](docs/VALIDATION.md)
+> before citing any number — each noise term is labelled `validated` or `not modeled`,
+> and optical-clock figures are *space goals on ground hardware* (no strontium optical
+> clock has flown).
 
 > **Try it in your browser:** the [playground](web/) runs the engine client-side as
 > WebAssembly — pick a scenario, edit the parameters, and see the result, with nothing
@@ -226,10 +228,16 @@ drift = 0.0
 
 Optional fields (off when absent): a clock may add `flicker_floor` (1/f FM Allan
 floor); an inertial sensor may add `gyro_bias` and `q_arw` (gyro bias and angular
-random walk, which couple gravity into the position error). A clock-holdover
-scenario may add `runs` (> 1) to run a **Monte Carlo ensemble** — each figure of
-merit is then reported as a mean with a 5th–95th-percentile spread and the chart
-shades the error confidence band (see `scenarios/clock-ensemble.toml`).
+random walk), and `bias_instability` and `q_aa` (the Allan bias-instability floor and
+acceleration random walk), completing the IMU Allan-variance noise model. A
+clock-holdover scenario may add `runs` (> 1) to run a **Monte Carlo ensemble** — each
+figure of merit is then reported as a mean with a 5th–95th-percentile spread and the
+chart shades the error confidence band (see `scenarios/clock-ensemble.toml`).
+
+A `fusion` scenario (same blocks as `hybrid`) runs a single joint Kalman filter as the
+navigator — fusing the clock and position states, disciplined by GNSS and aided by
+optical time transfer — and reports fused holdover with a joint-covariance integrity
+(see `scenarios/fusion-pnt.toml`).
 
 A `sweep` scenario runs a **trade study**: it varies one `parameter` (`threshold_ns`,
 `duration_s`, `quantum_q_wf`, or `classical_q_wf`) from `start` to `stop` over `steps`
@@ -243,7 +251,9 @@ clock blocks. It also reports position accuracy from the satellite geometry; the
 optional `sigma_uere_m` (1-sigma user-equivalent range error, default 1 m) scales the
 position dilution of precision into a position sigma. The user orbit may be made
 **eccentric** with `eccentricity` and `argp_deg`, and `j2 = true` adds Earth-oblateness
-secular drift (see `scenarios/orbit-molniya.toml`):
+secular drift (see `scenarios/orbit-molniya.toml`). The constellation can instead be a
+**real one**: give `[constellation]` a `tle` block of two-line element sets and the
+satellites are parsed from it (see `scenarios/orbit-real-tle.toml`):
 
 ```toml
 kind = "orbit"
@@ -448,15 +458,14 @@ CPython versions).
 ## Roadmap
 
 See [`CHANGELOG.md`](CHANGELOG.md) for released history and the `[Unreleased]`
-section for what's next (higher-fidelity orbit propagation). A flicker (1/f) FM
-clock floor, a gyro channel (bias + angular random walk with gravity-tilt
-coupling), segment-aware multi-window holdover scoring, a two-state Kalman clock
-estimator (driving the Integrity figure of merit), a clock-aided spoof-detection
-Security score across all four packs, geometry-derived GNSS availability *and*
-position accuracy (dilution of precision) from Keplerian orbits with eccentricity
-and J2 drift, Monte Carlo confidence bands, trade-study parameter sweeps, an
-in-browser WebAssembly playground, and optional Python (PyO3) and WebAssembly
-(wasm-bindgen) bindings have landed on `main`.
+section for what's next (higher-fidelity SGP4 orbit propagation). A full IMU
+Allan-variance noise model, a joint Kalman fusion estimator, real constellation
+geometry from TLEs, an HTML scorecard report, a clock-aided spoof-detection Security
+score across all four packs, geometry-derived GNSS availability *and* position
+accuracy (dilution of precision) from Keplerian orbits with eccentricity and J2 drift,
+Monte Carlo confidence bands, trade-study parameter sweeps, an in-browser WebAssembly
+playground, and optional Python (PyO3) and WebAssembly (wasm-bindgen) bindings have
+landed on `main`.
 
 ## Contributing
 
@@ -470,7 +479,7 @@ entry for every user-visible change. Participation is governed by our
 
 If you use Kshana in academic or technical work, please cite it. Machine-readable
 metadata is in [`CITATION.cff`](CITATION.cff) (GitHub renders a "Cite this repository"
-button from it); cite the version you used (e.g. `v0.4.0`).
+button from it); cite the version you used (e.g. `v0.5.0`).
 
 ## License
 
