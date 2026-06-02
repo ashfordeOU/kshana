@@ -116,6 +116,7 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
         "inertial" => {
             let scn: crate::inertial::InertialScenario =
                 toml::from_str(src).map_err(|e| format!("invalid inertial scenario: {e}"))?;
+            scn.time.validate()?;
             let r = crate::inertial::run_inertial(&scn);
             let summary = format!(
                 "scenario {} | quantum holdover {:.0}s p95 {:.2}m | classical holdover {:.0}s p95 {:.1}m",
@@ -148,6 +149,7 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
         "hybrid" => {
             let scn: crate::hybrid::HybridScenario =
                 toml::from_str(src).map_err(|e| format!("invalid hybrid scenario: {e}"))?;
+            scn.time.validate()?;
             let r = crate::hybrid::run_hybrid(&scn);
             let summary = format!(
                 "scenario {} | quantum PNT-holdover {:.0}s (t {:.0}s/p {:.0}s) integrity {} security {} | classical PNT-holdover {:.0}s (t {:.0}s/p {:.0}s) integrity {} security {}",
@@ -164,6 +166,7 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
         "fusion" => {
             let scn: crate::hybrid::HybridScenario =
                 toml::from_str(src).map_err(|e| format!("invalid fusion scenario: {e}"))?;
+            scn.time.validate()?;
             let r = crate::fusion::run_fusion(&scn);
             let summary = format!(
                 "scenario {} | fused | quantum PNT-holdover {:.0}s (t {:.0}s/p {:.0}s) integrity {} security {} | classical PNT-holdover {:.0}s (t {:.0}s/p {:.0}s) integrity {} security {}",
@@ -180,6 +183,7 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
         "spoof" => {
             let scn: crate::spoof::SpoofScenario =
                 toml::from_str(src).map_err(|e| format!("invalid spoof scenario: {e}"))?;
+            scn.time.validate()?;
             let r = crate::spoof::run_spoof(&scn);
             let det = |c: &crate::spoof::SpoofClock| {
                 c.detect_time_s
@@ -202,6 +206,7 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
         "sweep" => {
             let scn: crate::sweep::SweepScenario =
                 toml::from_str(src).map_err(|e| format!("invalid sweep scenario: {e}"))?;
+            scn.base.time.validate()?;
             let r = crate::sweep::run_sweep(&scn)?;
             let (first, last) = (r.points.first(), r.points.last());
             let summary = format!(
@@ -220,6 +225,7 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
         "orbit" => {
             let scn: crate::orbit::OrbitClockScenario =
                 toml::from_str(src).map_err(|e| format!("invalid orbit scenario: {e}"))?;
+            scn.time.validate()?;
             let r = crate::run::run_orbit_clock(&scn)?;
             let geometry = crate::orbit::summarize_dop(
                 &scn.user.to_orbit(),
@@ -258,6 +264,7 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
         _ => {
             let scn: crate::scenario::Scenario =
                 toml::from_str(src).map_err(|e| format!("invalid scenario: {e}"))?;
+            scn.time.validate()?;
             if scn.runs > 1 {
                 // Monte Carlo ensemble: report confidence bands instead of one run.
                 let r = crate::ensemble::run_ensemble(&scn);

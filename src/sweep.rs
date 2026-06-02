@@ -109,7 +109,7 @@ pub fn run_sweep(scn: &SweepScenario) -> Result<SweepResult, String> {
         });
     }
     Ok(SweepResult {
-        schema_version: "0.1".into(),
+        schema_version: "0.7".into(),
         engine_version: env!("CARGO_PKG_VERSION").into(),
         parameter: scn.parameter.clone(),
         metric: scn.metric.clone(),
