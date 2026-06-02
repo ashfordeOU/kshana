@@ -122,8 +122,26 @@ impl NavState {
 
     /// Advance the state by `dt` seconds given a single IMU sample: the body-frame
     /// angular rate `gyro_b` (ω_ib^b, rad/s) and the body-frame specific force
-    /// `accel_f_b` (f_ib^b, m/s²).
+    /// `accel_f_b` (f_ib^b, m/s²). A thin wrapper over [`NavState::step_increments`]
+    /// with `Δθ = gyro·dt`, `Δv = accel·dt`.
     pub fn step(&mut self, gyro_b: Vec3, accel_f_b: Vec3, dt: f64) {
+        let dtheta = [gyro_b[0] * dt, gyro_b[1] * dt, gyro_b[2] * dt];
+        let dv = [accel_f_b[0] * dt, accel_f_b[1] * dt, accel_f_b[2] * dt];
+        self.step_increments(dtheta, dv, dt);
+    }
+
+    /// Advance the state by `dt` seconds given integrated IMU **increments**: the
+    /// body-frame angular increment `dtheta_b` (∫ω_ib dt, rad) and the body-frame
+    /// velocity increment `dv_b` (∫f_ib dt, m/s).
+    ///
+    /// This is the moderate-rate (velocity/position) stage of a two-speed
+    /// strapdown integration. When driven by a vibrating IMU, the caller should
+    /// fold the high-rate [`coning_increment`](super::attitude::coning_increment)
+    /// into `dtheta_b` and the high-rate [`sculling_increment`] into `dv_b` before
+    /// calling. The within-interval rotation/sculling term `½(Δθ × Δv)` is applied
+    /// here so the velocity increment is resolved consistently with the attitude
+    /// that is rotating across the interval.
+    pub fn step_increments(&mut self, dtheta_b: Vec3, dv_b: Vec3, dt: f64) {
         let omega_ie = self.omega_ie_n();
         let omega_en = self.omega_en_n();
         let omega_in = [
@@ -131,19 +149,37 @@ impl NavState {
             omega_ie[1] + omega_en[1],
             omega_ie[2] + omega_en[2],
         ];
-
-        // Resolve specific force through the pre-update attitude.
-        let f_n = self.q.rotate(accel_f_b);
+        let q_old = self.q;
 
         // --- Attitude update: q(+) = exp(-½ζ) ⊗ q ⊗ exp(½α). ---
-        let alpha = [gyro_b[0] * dt, gyro_b[1] * dt, gyro_b[2] * dt];
         let zeta = [omega_in[0] * dt, omega_in[1] * dt, omega_in[2] * dt];
         let neg_zeta = [-zeta[0], -zeta[1], -zeta[2]];
         let q_nav = Quaternion::from_rotation_vector(neg_zeta);
-        let q_body = Quaternion::from_rotation_vector(alpha);
-        let q_new = q_nav.mul(&self.q).mul(&q_body).normalized();
+        let q_body = Quaternion::from_rotation_vector(dtheta_b);
+        let q_new = q_nav.mul(&q_old).mul(&q_body).normalized();
 
-        // --- Velocity update: v̇ = f_n − (2ω_ie + ω_en) × v + g_n. ---
+        // --- Velocity update. Body-frame increment with rotation/sculling
+        // compensation ½(Δθ_rel × Δv), resolved through the pre-update attitude,
+        // then Coriolis/transport and gravity over the interval. The rotation
+        // that matters for resolving the increment into the nav frame is the
+        // body's rotation *relative to* the nav frame, Δθ_rel = Δθ_b − C_n^b ζ;
+        // for an Earth-fixed platform this is ≈ 0 (body and NED co-rotate), so
+        // the correction correctly vanishes, while a genuine vibration triggers
+        // the full sculling term. ---
+        let zeta_b = q_old.conjugate().rotate(zeta);
+        let dtheta_rel = [
+            dtheta_b[0] - zeta_b[0],
+            dtheta_b[1] - zeta_b[1],
+            dtheta_b[2] - zeta_b[2],
+        ];
+        let dv_rot = sculling_increment(dtheta_rel, dv_b);
+        let dv_body = [
+            dv_b[0] + dv_rot[0],
+            dv_b[1] + dv_rot[1],
+            dv_b[2] + dv_rot[2],
+        ];
+        let dv_n = q_old.rotate(dv_body);
+
         let g = normal_gravity(self.p_llh.lat_rad, self.p_llh.alt_m);
         let rot = [
             2.0 * omega_ie[0] + omega_en[0],
@@ -151,12 +187,11 @@ impl NavState {
             2.0 * omega_ie[2] + omega_en[2],
         ];
         let cor = cross(rot, self.v_ned);
-        let a_ned = [f_n[0] - cor[0], f_n[1] - cor[1], f_n[2] - cor[2] + g];
         let v_old = self.v_ned;
         let v_new = [
-            v_old[0] + a_ned[0] * dt,
-            v_old[1] + a_ned[1] * dt,
-            v_old[2] + a_ned[2] * dt,
+            v_old[0] + dv_n[0] - cor[0] * dt,
+            v_old[1] + dv_n[1] - cor[1] * dt,
+            v_old[2] + dv_n[2] + (g - cor[2]) * dt,
         ];
 
         // --- Position update (trapezoidal velocity over the interval). ---
@@ -179,6 +214,20 @@ impl NavState {
             alt_m: alt,
         };
     }
+}
+
+/// Within-interval rotation / sculling compensation for a body-frame velocity
+/// increment: `½ (Δθ_b × Δv_b)` (Groves eq. 5.82).
+///
+/// When the platform rotates and accelerates simultaneously within one update
+/// interval, naive resolution of the velocity increment under-integrates the
+/// true specific-force integral; this cross term restores it (the velocity-side
+/// analogue of the [`coning_increment`](super::attitude::coning_increment)
+/// attitude correction). It vanishes when rotation and acceleration are
+/// collinear.
+pub fn sculling_increment(dtheta_b: Vec3, dv_b: Vec3) -> Vec3 {
+    let c = cross(dtheta_b, dv_b);
+    [0.5 * c[0], 0.5 * c[1], 0.5 * c[2]]
 }
 
 #[cfg(test)]
@@ -296,5 +345,46 @@ mod tests {
         }
         // Equator: R_E == a.
         assert!((radius_transverse(0.0) - WGS84_A).abs() < 1e-6);
+    }
+
+    #[test]
+    fn sculling_increment_properties() {
+        // Collinear rotation and acceleration → no sculling.
+        assert_eq!(
+            sculling_increment([0.0, 0.0, 0.02], [0.0, 0.0, 1.5]),
+            [0.0, 0.0, 0.0]
+        );
+        // Quadrature: Δθ about x, Δv along y → ½(x̂ × ŷ) = ½ ẑ scaled.
+        let s = sculling_increment([0.01, 0.0, 0.0], [0.0, 2.0, 0.0]);
+        assert!((s[2] - 0.5 * 0.01 * 2.0).abs() < 1e-15);
+        assert!(s[0].abs() < 1e-18 && s[1].abs() < 1e-18);
+    }
+
+    #[test]
+    fn step_increments_matches_rate_step_in_the_smooth_limit() {
+        // With no vibration the increment form and the rate form must agree:
+        // the ½(Δθ × Δv) compensation is O(dt²) and vanishes for smooth inputs.
+        let start = Geodetic {
+            lat_rad: 0.4,
+            lon_rad: -1.1,
+            alt_m: 50.0,
+        };
+        let gyro = [1e-3, -2e-3, 5e-4];
+        let g = normal_gravity(0.4, 50.0);
+        let accel = [0.2, -0.1, -g];
+        let dt = 0.01;
+        let mut a = NavState::new(Quaternion::identity(), [3.0, 1.0, 0.0], start);
+        let mut b = a;
+        for _ in 0..500 {
+            a.step(gyro, accel, dt);
+            b.step_increments(
+                [gyro[0] * dt, gyro[1] * dt, gyro[2] * dt],
+                [accel[0] * dt, accel[1] * dt, accel[2] * dt],
+                dt,
+            );
+        }
+        // Identical path (step is defined in terms of step_increments).
+        assert!((a.v_ned[0] - b.v_ned[0]).abs() < 1e-12);
+        assert!((a.p_llh.lat_rad - b.p_llh.lat_rad).abs() < 1e-15);
     }
 }
