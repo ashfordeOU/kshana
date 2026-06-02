@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
+pub mod attitude;
+
 use crate::scenario::{GnssState, GnssTimeline, TimeCfg};
 use crate::types::{ModelSpec, Seconds};
 use rand::{RngCore, SeedableRng};
@@ -748,7 +750,7 @@ mod tests {
 
     fn ensemble_scenario(runs: usize) -> InertialScenario {
         let mut scn: InertialScenario =
-            toml::from_str(include_str!("../scenarios/imu-deadreckoning.toml"))
+            toml::from_str(include_str!("../../scenarios/imu-deadreckoning.toml"))
                 .expect("imu scenario parses");
         scn.runs = runs;
         scn
