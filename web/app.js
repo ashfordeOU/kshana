@@ -78,16 +78,38 @@ function renderChart(svgText) {
   img.src = chartUrl;
 }
 
+let runCount = 0;
+
+// Re-trigger the CSS flash animation on a node (remove, force reflow, re-add).
+function flash(node) {
+  node.classList.remove("updated");
+  void node.offsetWidth;
+  node.classList.add("updated");
+}
+
 function runScenario() {
   clearError();
   const src = tomlEl.value;
+  // The engine runs synchronously and in well under a frame, so there is no need
+  // to defer the call (deferring via requestAnimationFrame would also wedge the
+  // UI if the tab is backgrounded, since rAF does not fire there). The button's
+  // :active state gives the press feedback; the status line and the result flash
+  // below confirm completion — so every click is visible even when the output is
+  // byte-for-byte identical (the engine is deterministic).
   try {
     el("summary").textContent = summary(src);
     renderChart(chart_svg(src));
     el("json").textContent = JSON.stringify(JSON.parse(run(src)), null, 2);
     resultsEl.hidden = false;
+    runCount += 1;
+    const t = new Date().toLocaleTimeString();
+    statusEl.textContent = `Ran locally at ${t} — run ${runCount}.`;
+    statusEl.classList.add("ran");
+    flash(el("summary"));
   } catch (e) {
     showError(String(e && e.message ? e.message : e));
+    statusEl.textContent = "Run failed — see the error below.";
+    statusEl.classList.remove("ran");
   }
 }
 
