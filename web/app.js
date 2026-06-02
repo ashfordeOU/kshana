@@ -78,6 +78,68 @@ function renderChart(svgText) {
   img.src = chartUrl;
 }
 
+let adevUrl = null;
+
+// Build a log-log Allan-deviation chart (SVG string) from one or two named
+// adev_curve arrays [{tau_s, adev, n_samples}]. Pure data -> geometry; rendered
+// via a blob <img> like the engine chart, so no markup is injected into the DOM.
+function adevSvg(curves) {
+  const pts = curves.flatMap((c) => c.curve);
+  const taus = pts.map((p) => p.tau_s).filter((v) => v > 0);
+  const advs = pts.map((p) => p.adev).filter((v) => v > 0);
+  if (taus.length < 2 || advs.length < 2) return null;
+  const W = 760, H = 320, ml = 64, mr = 16, mt = 16, mb = 44;
+  const x0 = Math.log10(Math.min(...taus)), x1 = Math.log10(Math.max(...taus));
+  const y0 = Math.log10(Math.min(...advs)), y1 = Math.log10(Math.max(...advs));
+  const px = (t) => ml + ((Math.log10(t) - x0) / (x1 - x0 || 1)) * (W - ml - mr);
+  const py = (a) => mt + (1 - (Math.log10(a) - y0) / (y1 - y0 || 1)) * (H - mt - mb);
+  const colors = ["#2dd4bf", "#f59e0b"];
+  let s = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" font-family="system-ui,sans-serif" font-size="11">`;
+  s += `<rect width="${W}" height="${H}" fill="#0c1118"/>`;
+  // decade gridlines + labels
+  for (let e = Math.floor(x0); e <= Math.ceil(x1); e++) {
+    const x = px(10 ** e);
+    s += `<line x1="${x}" y1="${mt}" x2="${x}" y2="${H - mb}" stroke="#1b2230"/>`;
+    s += `<text x="${x}" y="${H - mb + 16}" text-anchor="middle" fill="#8b97ad">10^${e}s</text>`;
+  }
+  for (let e = Math.floor(y0); e <= Math.ceil(y1); e++) {
+    const y = py(10 ** e);
+    s += `<line x1="${ml}" y1="${y}" x2="${W - mr}" y2="${y}" stroke="#1b2230"/>`;
+    s += `<text x="${ml - 8}" y="${y + 4}" text-anchor="end" fill="#8b97ad">10^${e}</text>`;
+  }
+  s += `<text x="${ml}" y="${H - 6}" fill="#8b97ad">averaging time &#964; (s)</text>`;
+  s += `<text x="14" y="${mt + 6}" fill="#8b97ad" transform="rotate(-90 14 ${mt + 6})">&#963;&#7464;(&#964;)</text>`;
+  curves.forEach((c, i) => {
+    const valid = c.curve.filter((p) => p.tau_s > 0 && p.adev > 0);
+    if (!valid.length) return;
+    const poly = valid.map((p) => `${px(p.tau_s).toFixed(1)},${py(p.adev).toFixed(1)}`).join(" ");
+    const col = colors[i % colors.length];
+    s += `<polyline points="${poly}" fill="none" stroke="${col}" stroke-width="2"/>`;
+    valid.forEach((p) => { s += `<circle cx="${px(p.tau_s).toFixed(1)}" cy="${py(p.adev).toFixed(1)}" r="2.5" fill="${col}"/>`; });
+    s += `<text x="${W - mr - 4}" y="${mt + 14 + i * 16}" text-anchor="end" fill="${col}" font-weight="600">${c.label}</text>`;
+  });
+  s += `</svg>`;
+  return s;
+}
+
+function renderAdev(result) {
+  const wrap = el("adev-wrap");
+  const curves = [];
+  if (result && result.quantum && Array.isArray(result.quantum.adev_curve) && result.quantum.adev_curve.length)
+    curves.push({ label: result.quantum.spec ? result.quantum.spec.id : "quantum", curve: result.quantum.adev_curve });
+  if (result && result.classical && Array.isArray(result.classical.adev_curve) && result.classical.adev_curve.length)
+    curves.push({ label: result.classical.spec ? result.classical.spec.id : "classical", curve: result.classical.adev_curve });
+  const svg = curves.length ? adevSvg(curves) : null;
+  if (!svg) { wrap.hidden = true; return; }
+  if (adevUrl) URL.revokeObjectURL(adevUrl);
+  adevUrl = URL.createObjectURL(new Blob([svg], { type: "image/svg+xml" }));
+  const host = el("adev");
+  let img = host.querySelector("img");
+  if (!img) { img = document.createElement("img"); img.alt = "Allan deviation chart"; host.replaceChildren(img); }
+  img.src = adevUrl;
+  wrap.hidden = false;
+}
+
 let runCount = 0;
 
 // Re-trigger the CSS flash animation on a node (remove, force reflow, re-add).
@@ -99,7 +161,9 @@ function runScenario() {
   try {
     el("summary").textContent = summary(src);
     renderChart(chart_svg(src));
-    el("json").textContent = JSON.stringify(JSON.parse(run(src)), null, 2);
+    const result = JSON.parse(run(src));
+    renderAdev(result);
+    el("json").textContent = JSON.stringify(result, null, 2);
     resultsEl.hidden = false;
     runCount += 1;
     const t = new Date().toLocaleTimeString();
