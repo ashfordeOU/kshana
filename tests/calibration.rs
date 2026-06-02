@@ -89,3 +89,56 @@ fn random_walk_fm_adev_matches_tau_over_3() {
         "RWFM adev_mean={adev_mean} expected={expected} rel={rel}"
     );
 }
+
+#[test]
+fn flicker_fm_floor_is_flat_at_the_configured_level() {
+    // Flicker (1/f) FM has a flat Allan-deviation floor: sigma_y(tau) is constant
+    // across averaging time. The model's `with_flicker(sigma_floor)` is calibrated
+    // to place that floor exactly at sigma_floor. Validate both the magnitude and
+    // the flatness (the defining signature of flicker FM, distinct from white FM's
+    // -1/2 slope and RWFM's +1/2 slope). Flicker is the noisiest to estimate, so
+    // average the variance over seeds and across the flat band.
+    use kshana::models::{ClockModel, ErrorModel};
+    use rand::SeedableRng;
+    use rand_chacha::ChaCha8Rng;
+
+    let floor = 1.0e-13;
+    let n = 30000usize;
+    let seeds = [1u64, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    // Sample the floor at three octave-separated taus well inside the band.
+    let taus = [10usize, 40, 160];
+    let mut band_var = [0.0f64; 3];
+    for &seed in &seeds {
+        let mut c = ClockModel::new("fl", "unit", 0.0, 0.0, 0.0).with_flicker(floor);
+        let mut rng = ChaCha8Rng::seed_from_u64(seed);
+        let mut phase = vec![0.0];
+        for _ in 1..n {
+            c.step(1.0, &mut rng);
+            phase.push(c.phase());
+        }
+        for (k, &m) in taus.iter().enumerate() {
+            let a = overlapping_adev(&phase, 1.0, m);
+            band_var[k] += a * a;
+        }
+    }
+    let adev: Vec<f64> = band_var
+        .iter()
+        .map(|v| (v / seeds.len() as f64).sqrt())
+        .collect();
+    // Magnitude: each band point sits near the configured floor.
+    for (k, &a) in adev.iter().enumerate() {
+        let rel = (a - floor).abs() / floor;
+        assert!(
+            rel < 0.35,
+            "flicker floor at tau={}s: adev={a} vs {floor}, rel={rel}",
+            taus[k]
+        );
+    }
+    // Flatness: the floor does not slope like white FM (-1/2) or RWFM (+1/2). Over
+    // a 16x span in tau either of those would move ADEV by 4x; require well under.
+    let ratio = adev[2] / adev[0];
+    assert!(
+        (0.6..1.6).contains(&ratio),
+        "flicker floor not flat: adev ratio over 16x tau = {ratio}"
+    );
+}
