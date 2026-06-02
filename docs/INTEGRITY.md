@@ -43,21 +43,34 @@ the number is an analytic bound for a given clock, not an RAIM implementation, a
 it is meaningful only in the context of a configured spoofing scenario (see the
 `spoof` scenario kind, which injects an actual ramping attack).
 
-## The gap (roadmap)
+## Real snapshot RAIM (`src/raim.rs`)
 
-Real, position-domain integrity for GNSS users requires:
+A genuine, position-domain snapshot RAIM is now implemented in `src/raim.rs`,
+separate from the self-consistency FoM above:
 
-- multi-satellite **pseudorange residual** monitoring;
-- **RAIM / ARAIM** fault detection and exclusion across the visible constellation;
-- **HPL / VPL** protection levels and an **integrity risk (P_HMI)** budget against
-  defined alert limits;
-- the relevant ARAIM ISM / threat-model assumptions.
+- **Multi-satellite residual monitoring** — it builds the line-of-sight geometry
+  matrix to the visible satellites, forms the least-squares position/clock
+  solution, and tests the sum of squared residuals.
+- **χ² fault detection** — `SSE/σ²` is χ²(n−4) under the no-fault hypothesis; a
+  fault is declared above `chi2_{1-P_fa}(n-4)`. The χ² thresholds come from a
+  dependency-free regularized incomplete-gamma evaluation (exact, no tables).
+- **Slope-based HPL / VPL** — `max_i(slope_i)·pbias·σ`, where `slope_i` is the
+  per-satellite position-error sensitivity from the hat matrix and `pbias` is the
+  non-central-χ² bias that meets the configured missed-detection probability
+  `P_md`.
 
-These are **not** implemented today. They are the substance of the P1 "real
-integrity" milestone on the roadmap. Until then, treat the Integrity and Security
-FoMs as the self-consistency and analytic-detectability quantities described above
-— informative for comparing clocks and tuning filters, but not certification
-evidence.
+## The remaining gap (roadmap)
+
+What `raim.rs` does **not** yet do:
+
+- it is **not wired into the scenario pipeline FoM** — a scenario run still reports
+  the filter self-consistency Integrity figure above, not an HPL/VPL;
+- **fault exclusion (FDE)** beyond detection, and **alert-limit / P_HMI** budgeting;
+- **ARAIM** multi-hypothesis integrity-risk allocation and the ISM / threat model.
+
+So `raim.rs` is the real protection-level core, but the end-to-end scenario
+Integrity FoM and ARAIM-grade integrity risk are still roadmap items, and none of
+this is certification evidence.
 
 ## See also
 
