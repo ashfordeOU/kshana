@@ -1,8 +1,15 @@
 # Validation status
 
+> **On tolerances.** "Validated" below means a calibration test asserts the simulated
+> statistic matches the reference relation within an **enforced gate**, currently
+> **20–25% relative error** (seed-averaged) for the Allan/noise-budget relations. Median
+> observed agreement is often much tighter (a few percent), but the *guaranteed* bound is
+> the gate, not the median. Where a number like "~2%" appears it is a typical observation,
+> not the enforced tolerance. See [Claims vs. reality](#claims-vs-reality--quick-reference).
+
 | Noise term | Status | Evidence |
 |------------|--------|----------|
-| White FM (short-term) | `validated` | `tests/calibration.rs`: simulated overlapping ADEV reproduces published sigma_y(1 s) to ~2%, and the white-FM curve sigma_y(tau)=sigma_y(1s)/sqrt(tau) across tau = 1, 10, 100 s to <25% (matches CSAC datasheet 3e-10 / 1e-10 / 3e-11). |
+| White FM (short-term) | `validated` | `tests/calibration.rs`: simulated overlapping ADEV reproduces published sigma_y(1 s) — typically within a few percent, **enforced gate 25%** — and the white-FM curve sigma_y(tau)=sigma_y(1s)/sqrt(tau) across tau = 1, 10, 100 s within the same 25% gate (matches CSAC datasheet 3e-10 / 1e-10 / 3e-11). |
 | Random-walk FM (long-term) | `validated` | `tests/calibration.rs`: simulated ADEV matches sigma_y^2(tau)=q_rw*tau/3 (Riley NIST SP 1065) to ~20% (seed-averaged). |
 | Aging / linear drift | `modeled` + calibrated-out | Deterministic; the holdover estimator removes offset and aging via a quadratic predictor, so the residual is the stochastic limit. Tested in `src/estimator.rs` / `src/models.rs`. |
 | Kalman estimator + integrity bound | `validated` | `src/kalman.rs`: a two-state (phase, frequency) filter whose exact van Loan process noise matches the truth model; coasting reproduces the analytic holdover variance `q_wf*T + q_rw*T^3/3` to 1e-9. The run layer reports Integrity as the fraction of outage samples inside the 3-sigma protection bound (`src/run.rs`). |
@@ -107,3 +114,23 @@ gap (availability 1.0) while the chip-scale clock holds ~0.83.
 - Quantum and classical runs now use independent RNG seeds (classical seed = seed + 0x9e3779b97f4a7c15) so their noise realizations are uncorrelated — fixed after review.
 - `holdover_s` is segment-aware: outage timelines are split into contiguous segments at GNSS re-acquisition and the reported value is the worst-case (shortest) coast across them. It remains bounded by the time-grid resolution (a lower bound).
 - ISL time-transfer re-sync models the residual link uncertainty as fresh zero-mean jitter per measurement step plus re-anchoring at the configured interval.
+
+## Claims vs. reality — quick reference
+
+A hostile reviewer's checklist. For each term that could be read as more than it is:
+what Kshana does today, and where the real version sits on the roadmap.
+
+| Term you may see | What it actually is today | What it is **not** (yet) |
+|------------------|---------------------------|--------------------------|
+| "hybrid quantum/classical PNT simulator" | a classical stochastic simulator driven by published quantum-sensor Allan/noise coefficients | first-principles quantum physics (Mach–Zehnder phase, projection noise, systematics) — see [`QUANTUM-MODELS.md`](QUANTUM-MODELS.md) |
+| "joint Kalman fusion" / fusion pack | two **independent** Kalman estimators (clock, position) reported as a combined FoM | a coupled filter with cross-block covariance (roadmap) |
+| Security FoM | an **analytic spoof-detectability bound** from clock stability, meaningful only with a configured attack | a multi-satellite RAIM/ARAIM detector — see [`INTEGRITY.md`](INTEGRITY.md) |
+| "clock-aided spoof-detection RAIM" | a single-clock consistency monitor (innovation vs k·σ) | range-domain multi-SV RAIM with protection levels |
+| Integrity FoM | filter **self-consistency** (fraction of outage samples inside its own k·σ bound) | HPL/VPL, integrity risk / P_HMI, alert limits, DO-229E/316/ED-259A |
+| "full IMU Allan-variance model" / "IMU triad" | a **single-axis (1-DOF)** accelerometer/gyro error budget (VRW/ARW, bias-instability) | a 3-axis strapdown triad; no scale-factor, misalignment, g-sensitivity, cross-axis |
+| "Hybrid PNT integration" | open-loop dead-reckoning bracketed by truth-snap GNSS resets | a coupled (loose/tight) GNSS–INS Kalman blend |
+| "Positioning Performance" (clock packs) | clock-phase **timing** RMS in ns (`timing_rms_ns`) | a position-domain RMS/CEP/SEP/DOP-weighted accuracy |
+| inertial position FoM (`pos_rms_m`) | a **single-seed, single-axis** position RMS/p95 in metres | an ensemble CEP / 2DRMS distribution (roadmap: Monte-Carlo CEP) |
+| "validated to ~2%" | a *typical* observed agreement; the **enforced gate is 20–25%** relative error | a guaranteed 2% accuracy bound |
+| "reproducible / bit-identical" | bit-identical re-run on the **same OS + pinned toolchain** | a committed cross-platform golden-hash check (roadmap: reproducibility milestone) |
+| SGP4 GPS scenario (`orbit-sgp4-gps.toml`) | synthetic Walker TLEs (placeholder NORAD IDs) for geometry demonstration | the real `gps-ops` constellation — drop in a Celestrak snapshot (see [`REAL_TLE_GUIDE.md`](REAL_TLE_GUIDE.md)) |
