@@ -43,6 +43,14 @@ breaking changes are called out explicitly.
   encodes the whole scenario into the URL fragment (nothing is uploaded) so a link
   reproduces the exact run on load. The codec is unit-tested (`web/share.test.mjs`,
   run in CI).
+- **Time-scale foundation (`src/timescales.rs`).** A dependency-free Julian-date
+  API (Gregorian civil ↔ JD, MJD), the full IERS integer leap-second history
+  (UTC↔TAI, 10 s in 1972 to 37 s since 2017), the defined TAI→TT offset, the UT1
+  correction via a supplied DUT1, and the IAU-2000 Earth Rotation Angle. This is
+  the time substrate that Earth-fixed frame reduction (planned) sits on. Instants
+  are single-`f64` Julian Dates (~50 µs resolution near the present epoch; a
+  two-part JD is on the roadmap), and the pre-1972 rubber-second era is not
+  modelled — both documented in the module.
 - **Reproducibility & provenance.** A deterministic CycloneDX SBOM generator
   (`scripts/gen-sbom.sh`) and a SLSA build-provenance attestation on the release
   binary and SBOM; the release toolchain is pinned to match CI. Determinism
