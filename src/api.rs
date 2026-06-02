@@ -162,6 +162,7 @@ mod tests {
             include_str!("../scenarios/timetransfer.toml"),
             include_str!("../scenarios/hybrid-pnt.toml"),
             include_str!("../scenarios/orbit-gnss-challenged.toml"),
+            include_str!("../scenarios/orbit-molniya.toml"),
         ] {
             let out = run_toml(src).expect("scenario runs");
             assert!(out.json.starts_with('{'));
