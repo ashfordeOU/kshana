@@ -252,6 +252,10 @@ pub struct AccelCfg {
     pub bias_instability: f64,
 }
 
+fn one_run() -> usize {
+    1
+}
+
 /// A dead-reckoning (GNSS-denied inertial navigation) scenario.
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct InertialScenario {
@@ -261,6 +265,37 @@ pub struct InertialScenario {
     pub gnss: GnssTimeline,
     pub accel_quantum: AccelCfg,
     pub accel_classical: AccelCfg,
+    /// Number of Monte Carlo realizations. `1` (default) is a single deterministic
+    /// run; `> 1` runs an ensemble and reports per-metric mean / spread / bootstrap CI.
+    #[serde(default = "one_run")]
+    pub runs: usize,
+}
+
+/// Summary statistics of one inertial figure of merit across an ensemble, with a
+/// percentile-bootstrap 95% confidence interval on the mean.
+#[derive(Clone, Copy, Debug, Serialize)]
+pub struct MetricStat {
+    pub mean: f64,
+    pub std: f64,
+    pub p05: f64,
+    pub p50: f64,
+    pub p95: f64,
+    pub ci95_low: f64,
+    pub ci95_high: f64,
+}
+
+/// Ensemble statistics for an inertial run (populated only when `runs > 1`).
+///
+/// These are distributions of the **single-axis (1-DOF)** position-error metrics
+/// across seeds. They are deliberately NOT reported as CEP / 2DRMS: those are
+/// 2-D horizontal metrics and require the 3-axis mechanisation on the roadmap;
+/// reporting them from a 1-DOF model would overstate what is computed.
+#[derive(Clone, Copy, Debug, Serialize)]
+pub struct InertialEnsemble {
+    pub runs: usize,
+    pub pos_rms_m: MetricStat,
+    pub pos_p95_m: MetricStat,
+    pub holdover_s: MetricStat,
 }
 
 /// One accelerometer's run: spec, position-error series, scored FoMs.
@@ -269,6 +304,14 @@ pub struct AccelRun {
     pub spec: ModelSpec,
     pub series: Vec<PosSample>,
     pub fom: PositionFoM,
+    /// `true` when `fom`/`ensemble` summarise a Monte Carlo ensemble (`runs > 1`);
+    /// `false` for a single-seed deterministic run — a caveat that the FoMs are a
+    /// single realisation, not a distribution.
+    #[serde(default)]
+    pub monte_carlo: bool,
+    /// Ensemble statistics, present only when `runs > 1`.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub ensemble: Option<InertialEnsemble>,
 }
 
 /// Inertial result artifact.
@@ -319,23 +362,119 @@ fn run_accel(scn: &InertialScenario, cfg: &AccelCfg, seed: u64) -> AccelRun {
         spec: a.spec(),
         series,
         fom,
+        monte_carlo: false,
+        ensemble: None,
     }
 }
 
-/// Run a dead-reckoning scenario for both accelerometers.
+fn percentile(sorted: &[f64], p: f64) -> f64 {
+    if sorted.is_empty() {
+        return 0.0;
+    }
+    // Nearest-rank percentile (1-based rank), clamped to the array.
+    let rank = (p * sorted.len() as f64).ceil() as usize;
+    let idx = rank.saturating_sub(1).min(sorted.len() - 1);
+    sorted[idx]
+}
+
+/// Percentile-bootstrap 95% confidence interval on the mean of `xs`, using `b`
+/// resamples drawn with a fixed-seed RNG (so the CI is reproducible).
+fn bootstrap_ci95_mean(xs: &[f64], b: usize, seed: u64) -> (f64, f64) {
+    if xs.len() < 2 {
+        let m = xs.first().copied().unwrap_or(0.0);
+        return (m, m);
+    }
+    let mut rng = ChaCha8Rng::seed_from_u64(seed);
+    let n = xs.len();
+    let mut means: Vec<f64> = Vec::with_capacity(b);
+    for _ in 0..b {
+        let mut s = 0.0;
+        for _ in 0..n {
+            let j = (rng.next_u64() % n as u64) as usize;
+            s += xs[j];
+        }
+        means.push(s / n as f64);
+    }
+    means.sort_by(|a, c| a.total_cmp(c));
+    (percentile(&means, 0.025), percentile(&means, 0.975))
+}
+
+fn metric_stat(values: &[f64], boot_seed: u64) -> MetricStat {
+    let n = values.len().max(1) as f64;
+    let mean = values.iter().sum::<f64>() / n;
+    let var = values.iter().map(|v| (v - mean).powi(2)).sum::<f64>() / n;
+    let mut sorted = values.to_vec();
+    sorted.sort_by(|a, b| a.total_cmp(b));
+    let (ci_lo, ci_hi) = bootstrap_ci95_mean(values, 2000, boot_seed);
+    MetricStat {
+        mean,
+        std: var.sqrt(),
+        p05: percentile(&sorted, 0.05),
+        p50: percentile(&sorted, 0.50),
+        p95: percentile(&sorted, 0.95),
+        ci95_low: ci_lo,
+        ci95_high: ci_hi,
+    }
+}
+
+/// Run an N-seed ensemble for one accelerometer and summarise the metric spread.
+/// The representative `series`/`fom` are the first realisation (for the chart);
+/// the distribution is in `ensemble`.
+fn run_accel_ensemble(
+    scn: &InertialScenario,
+    cfg: &AccelCfg,
+    base_seed: u64,
+    runs: usize,
+) -> AccelRun {
+    let mut first: Option<AccelRun> = None;
+    let (mut rms, mut p95, mut hold) = (Vec::new(), Vec::new(), Vec::new());
+    for k in 0..runs {
+        let seed = base_seed.wrapping_add((k as u64).wrapping_mul(0x9e3779b97f4a7c15));
+        let run = run_accel(scn, cfg, seed);
+        rms.push(run.fom.pos_rms_m);
+        p95.push(run.fom.pos_p95_m);
+        hold.push(run.fom.holdover_s);
+        if first.is_none() {
+            first = Some(run);
+        }
+    }
+    let mut run = first.expect("runs >= 1");
+    run.monte_carlo = true;
+    run.ensemble = Some(InertialEnsemble {
+        runs,
+        pos_rms_m: metric_stat(&rms, base_seed ^ 0x1),
+        pos_p95_m: metric_stat(&p95, base_seed ^ 0x2),
+        holdover_s: metric_stat(&hold, base_seed ^ 0x3),
+    });
+    run
+}
+
+/// Run a dead-reckoning scenario for both accelerometers. With `runs > 1` each
+/// accelerometer is run as a Monte Carlo ensemble and the result carries per-metric
+/// statistics with bootstrap confidence intervals.
 pub fn run_inertial(scn: &InertialScenario) -> InertialResult {
+    let runs = scn.runs.max(1);
+    let q_seed = scn.seed;
+    let c_seed = scn.seed.wrapping_add(0x9e3779b97f4a7c15);
+    let (quantum, classical) = if runs > 1 {
+        (
+            run_accel_ensemble(scn, &scn.accel_quantum, q_seed, runs),
+            run_accel_ensemble(scn, &scn.accel_classical, c_seed, runs),
+        )
+    } else {
+        (
+            run_accel(scn, &scn.accel_quantum, q_seed),
+            run_accel(scn, &scn.accel_classical, c_seed),
+        )
+    };
     InertialResult {
         schema_version: "0.7".into(),
         engine_version: env!("CARGO_PKG_VERSION").into(),
         scenario_hash: hash_inertial(scn),
         seed: scn.seed,
         threshold_m: scn.threshold_m,
-        quantum: run_accel(scn, &scn.accel_quantum, scn.seed),
-        classical: run_accel(
-            scn,
-            &scn.accel_classical,
-            scn.seed.wrapping_add(0x9e3779b97f4a7c15),
-        ),
+        quantum,
+        classical,
     }
 }
 
@@ -605,5 +744,67 @@ mod tests {
         let expected = (s_a * t_total.powi(3) / 3.0).sqrt();
         let rel = (sd - expected).abs() / expected;
         assert!(rel < 0.2, "VRW pos sd={sd} expected={expected} rel={rel}");
+    }
+
+    fn ensemble_scenario(runs: usize) -> InertialScenario {
+        let mut scn: InertialScenario =
+            toml::from_str(include_str!("../scenarios/imu-deadreckoning.toml"))
+                .expect("imu scenario parses");
+        scn.runs = runs;
+        scn
+    }
+
+    #[test]
+    fn single_run_flags_not_monte_carlo() {
+        let r = run_inertial(&ensemble_scenario(1));
+        assert!(!r.quantum.monte_carlo);
+        assert!(r.quantum.ensemble.is_none());
+    }
+
+    #[test]
+    fn ensemble_reports_stats_and_ci_brackets_mean() {
+        let r = run_inertial(&ensemble_scenario(100));
+        assert!(r.quantum.monte_carlo);
+        let e = r.quantum.ensemble.expect("ensemble present");
+        assert_eq!(e.runs, 100);
+        for s in [e.pos_rms_m, e.pos_p95_m, e.holdover_s] {
+            assert!(s.std >= 0.0);
+            assert!(
+                s.ci95_low <= s.mean && s.mean <= s.ci95_high,
+                "CI must bracket mean: {s:?}"
+            );
+            assert!(
+                s.p05 <= s.p50 && s.p50 <= s.p95,
+                "percentiles ordered: {s:?}"
+            );
+        }
+        // Determinism: same scenario -> identical ensemble statistics.
+        let r2 = run_inertial(&ensemble_scenario(100));
+        assert_eq!(
+            r.quantum.ensemble.unwrap().pos_rms_m.mean,
+            r2.quantum.ensemble.unwrap().pos_rms_m.mean
+        );
+    }
+
+    #[test]
+    fn bootstrap_ci_narrows_with_more_runs() {
+        // The bootstrap CI on the mean shrinks ~1/sqrt(N): a 10x larger ensemble
+        // must give a clearly narrower interval for the position-RMS metric.
+        let small = run_inertial(&ensemble_scenario(20))
+            .quantum
+            .ensemble
+            .unwrap()
+            .pos_rms_m;
+        let large = run_inertial(&ensemble_scenario(200))
+            .quantum
+            .ensemble
+            .unwrap()
+            .pos_rms_m;
+        let w_small = small.ci95_high - small.ci95_low;
+        let w_large = large.ci95_high - large.ci95_low;
+        assert!(
+            w_large < w_small,
+            "CI should narrow with N: width(200)={w_large} !< width(20)={w_small}"
+        );
     }
 }
