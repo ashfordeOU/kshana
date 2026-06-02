@@ -402,7 +402,7 @@ pub fn enu_basis(user: Vec3) -> Option<(Vec3, Vec3, Vec3)> {
 
 /// Invert a 4x4 matrix by Gauss-Jordan elimination with partial pivoting.
 /// `None` if the matrix is singular (rank-deficient geometry).
-fn invert4(mut a: [[f64; 4]; 4]) -> Option<[[f64; 4]; 4]> {
+pub(crate) fn invert4(mut a: [[f64; 4]; 4]) -> Option<[[f64; 4]; 4]> {
     let mut inv = [[0.0; 4]; 4];
     for (i, row) in inv.iter_mut().enumerate() {
         row[i] = 1.0;
