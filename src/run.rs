@@ -17,7 +17,7 @@ pub(crate) const PHASE_MEAS_VAR_S2: f64 = 1e-20;
 /// 3-sigma protection level for the integrity check.
 pub(crate) const PROTECTION_K: f64 = 3.0;
 
-fn run_clock(scn: &Scenario, cfg: &ClockCfg, seed: u64) -> ClockRun {
+pub(crate) fn run_clock(scn: &Scenario, cfg: &ClockCfg, seed: u64) -> ClockRun {
     let mut rng = ChaCha8Rng::seed_from_u64(seed);
     let mut clock = ClockModel::new(&cfg.id, &cfg.provenance, cfg.y0, cfg.q_wf, cfg.q_rw)
         .with_drift(cfg.drift)
@@ -93,6 +93,7 @@ pub fn run_orbit_clock(scn: &crate::orbit::OrbitClockScenario) -> RunResult {
     let inner = Scenario {
         seed: scn.seed,
         threshold_ns: scn.threshold_ns,
+        runs: 1,
         time: scn.time.clone(),
         gnss: timeline,
         clock_quantum: scn.clock_quantum.clone(),
@@ -127,6 +128,7 @@ mod tests {
         Scenario {
             seed: 7,
             threshold_ns: 100.0,
+            runs: 1,
             time: TimeCfg {
                 step_s: 10.0,
                 duration_s: 3600.0,

@@ -134,6 +134,23 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
         _ => {
             let scn: crate::scenario::Scenario =
                 toml::from_str(src).map_err(|e| format!("invalid scenario: {e}"))?;
+            if scn.runs > 1 {
+                // Monte Carlo ensemble: report confidence bands instead of one run.
+                let r = crate::ensemble::run_ensemble(&scn);
+                let q = &r.quantum;
+                let c = &r.classical;
+                let summary = format!(
+                    "scenario {} | {} runs | quantum holdover {:.0}s [{:.0}-{:.0}] p95 {:.1}ns security {} | classical holdover {:.0}s [{:.0}-{:.0}] p95 {:.1}ns security {}",
+                    &r.scenario_hash[..12], r.runs,
+                    q.holdover_s.mean, q.holdover_s.p05, q.holdover_s.p95, q.timing_p95_ns.mean, integ(q.security),
+                    c.holdover_s.mean, c.holdover_s.p05, c.holdover_s.p95, c.timing_p95_ns.mean, integ(c.security),
+                );
+                return Ok(RunOutput {
+                    json: json_of(&r),
+                    svg: crate::ensemble::to_svg(&r),
+                    summary,
+                });
+            }
             let r = crate::run::run(&scn);
             let summary = format!(
                 "scenario {} | quantum holdover {:.0}s p95 {:.1}ns integrity {} security {} | classical holdover {:.0}s p95 {:.1}ns integrity {} security {}",
@@ -158,6 +175,7 @@ mod tests {
     fn dispatches_each_kind_and_emits_json_and_svg() {
         for src in [
             include_str!("../scenarios/clock-holdover.toml"),
+            include_str!("../scenarios/clock-ensemble.toml"),
             include_str!("../scenarios/imu-deadreckoning.toml"),
             include_str!("../scenarios/timetransfer.toml"),
             include_str!("../scenarios/hybrid-pnt.toml"),

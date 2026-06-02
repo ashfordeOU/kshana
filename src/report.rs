@@ -134,6 +134,7 @@ mod tests {
         Scenario {
             seed: 1,
             threshold_ns: 100.0,
+            runs: 1,
             time: TimeCfg {
                 step_s: 10.0,
                 duration_s: 60.0,
