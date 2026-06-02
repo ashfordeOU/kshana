@@ -398,4 +398,88 @@ mod tests {
         let v = [1.0, 2.0, 3.0];
         assert!(vclose(back.rotate(v), v, 1e-12));
     }
+
+    // Coning environment: the body angular-rate vector spins in the x–y plane at
+    // rate `omega_c` with amplitude `amp`, ω(t) = amp·ω_c·[−sin ω_c t, cos ω_c t, 0].
+    // Its naive time-integral over a cycle returns to zero, yet the *true*
+    // attitude precesses about z (coning drift). A two-sample coning correction
+    // recovers the bulk of that drift that simple increment-summing misses.
+    fn coning_rate(amp: f64, omega_c: f64, t: f64) -> Vec3 {
+        let p = omega_c * t;
+        [-amp * omega_c * p.sin(), amp * omega_c * p.cos(), 0.0]
+    }
+
+    fn integrate_interval(amp: f64, omega_c: f64, t0: f64, dt: f64, sub: usize) -> Vec3 {
+        // Summed angle increment over one coarse interval, via `sub` mid-point samples.
+        let h = dt / sub as f64;
+        let mut acc = [0.0, 0.0, 0.0];
+        for k in 0..sub {
+            let tm = t0 + (k as f64 + 0.5) * h;
+            let w = coning_rate(amp, omega_c, tm);
+            acc = [acc[0] + w[0] * h, acc[1] + w[1] * h, acc[2] + w[2] * h];
+        }
+        acc
+    }
+
+    #[test]
+    fn two_sample_coning_correction_beats_naive_summation() {
+        let amp = 0.10; // rad — cone half-angle scale
+        let omega_c = 2.0 * PI * 5.0; // 5 Hz coning
+        let total = 1.0; // 5 cycles
+
+        // Truth: integrate at a very fine rate with exact exp-map composition.
+        let fine = 500_000;
+        let dt_fine = total / fine as f64;
+        let mut q_truth = Quaternion::identity();
+        for i in 0..fine {
+            let t = i as f64 * dt_fine;
+            let w = coning_rate(amp, omega_c, t);
+            let phi = [w[0] * dt_fine, w[1] * dt_fine, w[2] * dt_fine];
+            q_truth = q_truth.integrate_rotation_vector(phi);
+        }
+
+        // Coarse rate (30 Hz, ~6 samples/cycle) — naive increment summing vs the
+        // two-sample intra-interval coning correction.
+        let coarse = 30;
+        let dt = total / coarse as f64;
+        let mut q_naive = Quaternion::identity();
+        let mut q_coning = Quaternion::identity();
+        for i in 0..coarse {
+            let t0 = i as f64 * dt;
+            // Two half-interval sub-samples for the coning cross-product.
+            let half = dt / 2.0;
+            let d1 = integrate_interval(amp, omega_c, t0, half, 256);
+            let d2 = integrate_interval(amp, omega_c, t0 + half, half, 256);
+            let dtheta = [d1[0] + d2[0], d1[1] + d2[1], d1[2] + d2[2]];
+            // Naive: just apply the summed increment.
+            q_naive = q_naive.integrate_rotation_vector(dtheta);
+            // Coning-corrected: add the intra-interval two-sample coning term.
+            let beta = coning_increment(d1, d2);
+            let phi = [
+                dtheta[0] + beta[0],
+                dtheta[1] + beta[1],
+                dtheta[2] + beta[2],
+            ];
+            q_coning = q_coning.integrate_rotation_vector(phi);
+        }
+
+        // Compare to truth via the angle of the residual rotation q_truth* ⊗ q.
+        let resid_angle = |q: &Quaternion| -> f64 {
+            let r = q_truth.conjugate().mul(q).normalized();
+            2.0 * r.w.abs().min(1.0).acos()
+        };
+        let err_naive = resid_angle(&q_naive);
+        let err_coning = resid_angle(&q_coning);
+
+        // The naive sum visibly drifts (coning rectification it cannot see); the
+        // two-sample coning correction cuts that error by at least 3×.
+        assert!(
+            err_naive > 1e-3,
+            "naive coning error too small: {err_naive}"
+        );
+        assert!(
+            err_coning < err_naive / 3.0,
+            "coning correction did not help: naive={err_naive} coning={err_coning}"
+        );
+    }
 }
