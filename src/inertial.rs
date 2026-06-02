@@ -26,8 +26,11 @@ pub struct AccelModel {
     pub provenance: String,
     pub bias: f64, // residual accel bias (m/s^2), post-GNSS-calibration (= bias stability)
     pub q_va: f64, // white acceleration PSD S_a ((m/s^2)^2/Hz) -> velocity random walk
+    pub q_aa: f64, // acceleration random-walk PSD ((m/s^2)^2/s) -> rate random walk
     pub gyro_bias: f64, // residual gyro bias (rad/s)
     pub q_arw: f64, // white angular-rate PSD ((rad/s)^2/Hz) -> angular random walk
+    bias_instability: Option<crate::models::Flicker>, // 1/f accel bias instability
+    bias_rw: f64,  // accumulated acceleration random-walk bias (m/s^2)
     theta: f64,    // accumulated attitude (tilt) error (rad)
     vel: f64,
     pos: f64,
@@ -40,8 +43,11 @@ impl AccelModel {
             provenance: provenance.into(),
             bias,
             q_va,
+            q_aa: 0.0,
             gyro_bias: 0.0,
             q_arw: 0.0,
+            bias_instability: None,
+            bias_rw: 0.0,
             theta: 0.0,
             vel: 0.0,
             pos: 0.0,
@@ -54,11 +60,31 @@ impl AccelModel {
         self.q_arw = q_arw;
         self
     }
-    /// Re-align to GNSS truth: zero the accumulated dead-reckoning error and tilt.
+    /// Builder: add accelerometer **bias instability** — a 1/f flicker floor whose
+    /// flat Allan deviation sits at `sigma_bi` (m/s^2), the standard IMU
+    /// bias-instability coefficient. Zero is a no-op.
+    pub fn with_bias_instability(mut self, sigma_bi: f64) -> Self {
+        if sigma_bi > 0.0 {
+            self.bias_instability = Some(crate::models::Flicker::new(sigma_bi, 1.0, 1e5, 4));
+        }
+        self
+    }
+    /// Builder: add **acceleration random walk** with PSD `q_aa` ((m/s^2)^2/s), the
+    /// random-walk term of the Allan curve (rate random walk).
+    pub fn with_accel_random_walk(mut self, q_aa: f64) -> Self {
+        self.q_aa = q_aa;
+        self
+    }
+    /// Re-align to GNSS truth: zero the accumulated dead-reckoning error, tilt, and
+    /// the residual sensor-bias drift (the fix re-calibrates the bias estimate).
     pub fn reset(&mut self) {
         self.theta = 0.0;
         self.vel = 0.0;
         self.pos = 0.0;
+        self.bias_rw = 0.0;
+        if let Some(f) = &mut self.bias_instability {
+            f.reset();
+        }
     }
     pub fn pos(&self) -> f64 {
         self.pos
@@ -66,6 +92,10 @@ impl AccelModel {
     /// Accumulated attitude (tilt) error (rad).
     pub fn theta(&self) -> f64 {
         self.theta
+    }
+    /// Accumulated acceleration random-walk bias (m/s^2).
+    pub fn accel_bias_rw(&self) -> f64 {
+        self.bias_rw
     }
     pub fn step(&mut self, dt: Seconds, rng: &mut dyn RngCore) {
         if dt <= 0.0 {
@@ -77,8 +107,20 @@ impl AccelModel {
             let n = Normal::new(0.0, (self.q_arw * dt).sqrt()).unwrap();
             self.theta += n.sample(rng);
         }
-        // Specific-force error: accel bias + tilt-coupled gravity (g * theta).
-        self.vel += (self.bias + G_M_PER_S2 * self.theta) * dt;
+        // Acceleration random walk: the bias does a random walk (increment variance
+        // q_aa*dt).
+        if self.q_aa > 0.0 {
+            let n = Normal::new(0.0, (self.q_aa * dt).sqrt()).unwrap();
+            self.bias_rw += n.sample(rng);
+        }
+        // 1/f bias instability contribution (acceleration).
+        let bi = self
+            .bias_instability
+            .as_mut()
+            .map_or(0.0, |f| f.step(dt, rng));
+        // Specific-force error: constant + random-walk + flicker bias, plus
+        // tilt-coupled gravity (g * theta).
+        self.vel += (self.bias + self.bias_rw + bi + G_M_PER_S2 * self.theta) * dt;
         if self.q_va > 0.0 {
             // velocity random walk: integrating white accel (PSD S_a) over dt
             // adds a velocity increment of variance S_a*dt.
@@ -95,8 +137,10 @@ impl AccelModel {
             params: serde_json::json!({
                 "bias": self.bias,
                 "q_va": self.q_va,
+                "q_aa": self.q_aa,
                 "gyro_bias": self.gyro_bias,
                 "q_arw": self.q_arw,
+                "bias_instability": self.bias_instability.is_some(),
             }),
         }
     }
@@ -200,6 +244,12 @@ pub struct AccelCfg {
     /// Optional angular-random-walk PSD ((rad/s)^2/Hz). Zero/absent = none.
     #[serde(default)]
     pub q_arw: f64,
+    /// Optional acceleration-random-walk PSD ((m/s^2)^2/s). Zero/absent = none.
+    #[serde(default)]
+    pub q_aa: f64,
+    /// Optional accelerometer bias-instability Allan floor (m/s^2). Zero/absent = none.
+    #[serde(default)]
+    pub bias_instability: f64,
 }
 
 /// A dead-reckoning (GNSS-denied inertial navigation) scenario.
@@ -243,7 +293,9 @@ fn hash_inertial(scn: &InertialScenario) -> String {
 fn run_accel(scn: &InertialScenario, cfg: &AccelCfg, seed: u64) -> AccelRun {
     let mut rng = ChaCha8Rng::seed_from_u64(seed);
     let mut a = AccelModel::new(&cfg.id, &cfg.provenance, cfg.bias, cfg.q_va)
-        .with_gyro(cfg.gyro_bias, cfg.q_arw);
+        .with_gyro(cfg.gyro_bias, cfg.q_arw)
+        .with_accel_random_walk(cfg.q_aa)
+        .with_bias_instability(cfg.bias_instability);
     let dt = scn.time.step_s;
     let n = (scn.time.duration_s / dt).round() as usize;
     let mut series = Vec::with_capacity(n + 1);
@@ -436,6 +488,70 @@ mod tests {
         let expected = (q_arw * t_total).sqrt();
         let rel = (sd - expected).abs() / expected;
         assert!(rel < 0.2, "ARW theta sd={sd} expected={expected} rel={rel}");
+    }
+
+    #[test]
+    fn accel_random_walk_bias_grows_as_wiener() {
+        // Pure acceleration random walk: the bias is a Wiener process with
+        // Var(bias_rw(T)) = q_aa * T, so sigma = sqrt(q_aa * T). Seed-averaged.
+        let q_aa = 9.0e-12;
+        let dt = 1.0;
+        let n = 100usize;
+        let t_total = n as f64 * dt;
+        let seeds: Vec<u64> = (1..=64).collect();
+        let mut sumsq = 0.0;
+        for &seed in &seeds {
+            let mut a = AccelModel::new("rw", "unit", 0.0, 0.0).with_accel_random_walk(q_aa);
+            let mut rng = ChaCha8Rng::seed_from_u64(seed);
+            for _ in 0..n {
+                a.step(dt, &mut rng);
+            }
+            sumsq += a.accel_bias_rw() * a.accel_bias_rw();
+        }
+        let sd = (sumsq / seeds.len() as f64).sqrt();
+        let expected = (q_aa * t_total).sqrt();
+        let rel = (sd - expected).abs() / expected;
+        assert!(
+            rel < 0.2,
+            "accel-RW bias sd={sd} expected={expected} rel={rel}"
+        );
+    }
+
+    #[test]
+    fn zero_bias_instability_is_a_noop() {
+        // with_bias_instability(0.0) must add nothing: identical position to the
+        // base accelerometer for the same seed.
+        let run = |bi: f64| {
+            let mut a = AccelModel::new("b", "unit", 1e-4, 4e-8).with_bias_instability(bi);
+            let mut rng = ChaCha8Rng::seed_from_u64(9);
+            for _ in 0..200 {
+                a.step(1.0, &mut rng);
+            }
+            a.pos()
+        };
+        assert_eq!(run(0.0), run(0.0));
+        // A real bias-instability floor changes the trajectory and is reproducible.
+        let with_bi = {
+            let mut a = AccelModel::new("b", "unit", 1e-4, 4e-8).with_bias_instability(1e-5);
+            let mut rng = ChaCha8Rng::seed_from_u64(9);
+            for _ in 0..200 {
+                a.step(1.0, &mut rng);
+            }
+            a.pos()
+        };
+        assert_ne!(with_bi, run(0.0));
+    }
+
+    #[test]
+    fn reset_clears_bias_random_walk() {
+        let mut a = AccelModel::new("b", "unit", 0.0, 0.0).with_accel_random_walk(1e-10);
+        let mut rng = ChaCha8Rng::seed_from_u64(3);
+        for _ in 0..50 {
+            a.step(1.0, &mut rng);
+        }
+        a.reset();
+        assert_eq!(a.accel_bias_rw(), 0.0);
+        assert_eq!(a.pos(), 0.0);
     }
 
     #[test]
