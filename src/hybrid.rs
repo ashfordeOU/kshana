@@ -157,7 +157,13 @@ fn run_suite(
         accel_cfg.bias,
         accel_cfg.q_va,
     )
-    .with_gyro(accel_cfg.gyro_bias, accel_cfg.q_arw);
+    .with_gyro(accel_cfg.gyro_bias, accel_cfg.q_arw)
+    // Previously dropped here: the hybrid suite built the accelerometer without
+    // its acceleration-random-walk and bias-instability terms, so two of the four
+    // IMU noise terms were silently ignored (the standalone inertial pack applies
+    // all four). Chain them so the hybrid run uses the same error budget.
+    .with_accel_random_walk(accel_cfg.q_aa)
+    .with_bias_instability(accel_cfg.bias_instability);
     let link = if scn.resync.enabled {
         Some(TimeTransferLink::new(
             "optical-isl",
@@ -424,5 +430,29 @@ mod tests {
         }
         // The quieter quantum clock has at least as high a spoof-detection score.
         assert!(r.quantum.fom.security.unwrap() >= r.classical.fom.security.unwrap());
+    }
+
+    #[test]
+    fn hybrid_applies_accel_random_walk_and_bias_instability() {
+        // Regression: run_suite used to drop q_aa and bias_instability, so the
+        // hybrid accelerometer ignored two of its four IMU noise terms. A run with
+        // those terms set must now differ from one without them.
+        let mut without: HybridScenario =
+            toml::from_str(include_str!("../scenarios/hybrid-pnt.toml")).unwrap();
+        without.accel_quantum.q_aa = 0.0;
+        without.accel_quantum.bias_instability = 0.0;
+
+        let mut with: HybridScenario =
+            toml::from_str(include_str!("../scenarios/hybrid-pnt.toml")).unwrap();
+        with.accel_quantum.q_aa = 1e-9;
+        with.accel_quantum.bias_instability = 1e-4;
+
+        let p_without = run_hybrid(&without).quantum.fom.position_p95_m;
+        let p_with = run_hybrid(&with).quantum.fom.position_p95_m;
+        assert!(
+            (p_with - p_without).abs() > 1e-9,
+            "accel random-walk and bias-instability must change the hybrid position FoM \
+             (with {p_with}, without {p_without})"
+        );
     }
 }
