@@ -93,6 +93,24 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
                 summary,
             })
         }
+        "sweep" => {
+            let scn: crate::sweep::SweepScenario =
+                toml::from_str(src).map_err(|e| format!("invalid sweep scenario: {e}"))?;
+            let r = crate::sweep::run_sweep(&scn)?;
+            let (first, last) = (r.points.first(), r.points.last());
+            let summary = format!(
+                "sweep {} over {} ({:.2e}..{:.2e}, {} pts, {} scale) | quantum {:.3}->{:.3} | classical {:.3}->{:.3}",
+                r.metric, r.parameter,
+                first.map_or(0.0, |p| p.value), last.map_or(0.0, |p| p.value), r.points.len(), r.scale,
+                first.map_or(0.0, |p| p.quantum), last.map_or(0.0, |p| p.quantum),
+                first.map_or(0.0, |p| p.classical), last.map_or(0.0, |p| p.classical),
+            );
+            Ok(RunOutput {
+                json: json_of(&r),
+                svg: crate::sweep::to_svg(&r),
+                summary,
+            })
+        }
         "orbit" => {
             let scn: crate::orbit::OrbitClockScenario =
                 toml::from_str(src).map_err(|e| format!("invalid orbit scenario: {e}"))?;
@@ -181,11 +199,12 @@ mod tests {
             include_str!("../scenarios/hybrid-pnt.toml"),
             include_str!("../scenarios/orbit-gnss-challenged.toml"),
             include_str!("../scenarios/orbit-molniya.toml"),
+            include_str!("../scenarios/sweep-clock-stability.toml"),
         ] {
             let out = run_toml(src).expect("scenario runs");
             assert!(out.json.starts_with('{'));
             assert!(out.svg.starts_with("<svg"));
-            assert!(out.summary.starts_with("scenario "));
+            assert!(!out.summary.is_empty());
         }
     }
 
