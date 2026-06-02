@@ -35,8 +35,25 @@ breaking changes are called out explicitly.
   Every inertial run now carries a `monte_carlo` flag, so a single-realisation FoM
   is no longer mistaken for a distribution. (CEP/2DRMS are intentionally not
   reported — they require the 3-axis model on the roadmap.)
+- **Guided playground mode.** The browser playground no longer drops you onto a
+  raw TOML wall: a "Start here" strip of one-click scenario cards loads and runs a
+  worked example, sliders expose the universal knobs (seed, timing threshold)
+  without touching the TOML, a "How to read this" note explains the result, and the
+  full TOML is one collapsible away. Every run is shareable — **Copy share link**
+  encodes the whole scenario into the URL fragment (nothing is uploaded) so a link
+  reproduces the exact run on load. The codec is unit-tested (`web/share.test.mjs`,
+  run in CI).
+- **Reproducibility & provenance.** A deterministic CycloneDX SBOM generator
+  (`scripts/gen-sbom.sh`) and a SLSA build-provenance attestation on the release
+  binary and SBOM; the release toolchain is pinned to match CI. Determinism
+  guarantees, the cross-platform `libm` caveat, and the golden-pinning approach are
+  documented in `docs/REPRODUCIBILITY.md`.
 
 ### Changed
+- Golden tests now **pin the figures of merit field-by-field** for the four
+  reference scenarios (with a tolerance that absorbs cross-platform `libm` jitter),
+  replacing the earlier inequality-only checks, so a silent numerical regression is
+  caught immediately.
 - `schema_version` in result artifacts bumped from `0.1` to `0.7` (it was frozen
   while the engine moved on).
 - `cargo-deny` now **denies** (not warns on) yanked dependencies.
