@@ -1,0 +1,36 @@
+# Active time-spoofing attack: can each clock's integrity monitor catch the spoof
+# before it does harm?
+#
+# An attacker injects a slowly-ramping false GNSS time (0.1 ns/s from t = 60 s).
+# The receiver cross-checks the asserted time against its own clock's coasted
+# prediction and flags the spoof when the discrepancy exceeds the detection bound
+# (5 sigma of the clock-aided monitor). The optical clock's bound is a fraction of
+# a nanosecond, so it detects the spoof almost immediately — far below the 20 ns
+# operational spec. The chip-scale clock's own coast noise over the monitoring
+# window already exceeds 20 ns, so it cannot distinguish the spoof from its own
+# drift and the attack reaches the spec undetected. Vendor-neutral.
+
+kind = "spoof"
+threshold_ns = 20.0
+
+[time]
+step_s = 10.0
+duration_s = 660.0
+
+[attack]
+start_s = 60.0
+rate_ns_per_s = 0.1
+
+[clock_quantum]
+id = "optical-sr-lattice"
+provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (arXiv:1503.08457); not flown."
+y0 = 5.0e-17
+q_wf = 1.0e-30
+q_rw = 0.0
+
+[clock_classical]
+id = "csac-sa45s"
+provenance = "Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_wf=sigma_y(1s)^2."
+y0 = 5.0e-10
+q_wf = 9.0e-20
+q_rw = 0.0
