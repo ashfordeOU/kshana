@@ -10,6 +10,11 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Active spoofing-attack demonstrator.** A new `spoof` scenario kind injects a
+  ramping false-time spoof and runs each clock's clock-aided integrity monitor,
+  reporting whether and when the spoof is detected and whether it reaches the
+  operational spec undetected — turning the Security figure of merit into a concrete
+  attack/defence demonstration. New `spoof-attack.toml` reference scenario.
 - **Multi-constellation availability.** An orbit scenario can combine several
   constellations (a `[[constellations]]` list alongside the primary
   `[constellation]`) for multi-GNSS availability and dilution of precision — e.g.

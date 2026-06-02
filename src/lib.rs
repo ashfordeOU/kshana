@@ -17,6 +17,7 @@ pub mod report;
 pub mod run;
 pub mod scenario;
 pub mod security;
+pub mod spoof;
 pub mod sweep;
 pub mod timetransfer;
 pub mod tle;
