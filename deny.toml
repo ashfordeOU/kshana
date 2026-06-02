@@ -1,6 +1,8 @@
 [advisories]
 version = 2
-yanked = "warn"
+# Fail (not just warn) if a dependency resolves to a yanked release, so a yanked
+# crate cannot silently enter the build.
+yanked = "deny"
 
 [licenses]
 version = 2

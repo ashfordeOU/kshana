@@ -133,7 +133,7 @@ fn hash_spoof(scn: &SpoofScenario) -> String {
 /// Run the spoofing attack against both clocks.
 pub fn run_spoof(scn: &SpoofScenario) -> SpoofResult {
     SpoofResult {
-        schema_version: "0.1".into(),
+        schema_version: "0.7".into(),
         engine_version: env!("CARGO_PKG_VERSION").into(),
         scenario_hash: hash_spoof(scn),
         threshold_ns: scn.threshold_ns,

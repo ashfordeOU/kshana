@@ -40,6 +40,45 @@ pub struct TimeCfg {
     pub duration_s: Seconds,
 }
 
+/// Upper bound on the number of time-grid samples a single run may allocate.
+/// A scenario asking for more is rejected rather than allocating a multi-gigabyte
+/// `Vec` (e.g. a 1-year duration at a 1 ms step would be ~31 billion samples).
+pub const MAX_TIME_STEPS: usize = 50_000_000;
+
+impl TimeCfg {
+    /// Validate the time grid before any per-step allocation. Rejects a
+    /// non-finite, zero, or negative step or duration, a step larger than the
+    /// duration, and a step count exceeding [`MAX_TIME_STEPS`]. Returns the number
+    /// of grid points (`n` such that the run iterates `0..=n`).
+    pub fn validate(&self) -> Result<usize, String> {
+        if !self.step_s.is_finite() || self.step_s <= 0.0 {
+            return Err(format!(
+                "time.step_s must be finite and > 0 (got {})",
+                self.step_s
+            ));
+        }
+        if !self.duration_s.is_finite() || self.duration_s <= 0.0 {
+            return Err(format!(
+                "time.duration_s must be finite and > 0 (got {})",
+                self.duration_s
+            ));
+        }
+        if self.step_s > self.duration_s {
+            return Err(format!(
+                "time.step_s ({}) must not exceed time.duration_s ({})",
+                self.step_s, self.duration_s
+            ));
+        }
+        let n = (self.duration_s / self.step_s).round();
+        if !n.is_finite() || n > MAX_TIME_STEPS as f64 {
+            return Err(format!(
+                "time grid too large: {n} steps exceeds MAX_TIME_STEPS ({MAX_TIME_STEPS}); use a coarser step or shorter duration"
+            ));
+        }
+        Ok(n as usize)
+    }
+}
+
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct ClockCfg {
     pub id: String,
@@ -128,5 +167,27 @@ q_rw = 1.0e-30
         assert_eq!(scn.time.duration_s, 60.0);
         assert_eq!(scn.gnss.windows.len(), 2);
         assert_eq!(scn.clock_classical.id, "csac");
+    }
+
+    #[test]
+    fn time_validate_rejects_bad_grids_and_caps_size() {
+        let t = |s, d| TimeCfg {
+            step_s: s,
+            duration_s: d,
+        };
+        // Valid grid returns the step count.
+        assert_eq!(t(10.0, 60.0).validate().unwrap(), 6);
+        // Zero / negative / non-finite step or duration.
+        assert!(t(0.0, 60.0).validate().is_err());
+        assert!(t(-1.0, 60.0).validate().is_err());
+        assert!(t(f64::NAN, 60.0).validate().is_err());
+        assert!(t(10.0, 0.0).validate().is_err());
+        assert!(t(10.0, f64::INFINITY).validate().is_err());
+        // Step larger than the duration.
+        assert!(t(61.0, 60.0).validate().is_err());
+        // A one-year duration is fine at a sane step (no OOM)...
+        assert!(t(10.0, 86_400.0 * 365.0).validate().is_ok());
+        // ...but a sub-millisecond step over a year exceeds the sample cap.
+        assert!(t(1e-3, 86_400.0 * 365.0).validate().is_err());
     }
 }
