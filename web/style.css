@@ -328,19 +328,93 @@ summary {
   white-space: pre-wrap;
 }
 
+/* Deep footer band, bookending the hero. */
 .site-foot {
-  max-width: 980px;
-  margin: 0 auto;
-  padding: 1.5rem 1.25rem 3rem;
-  border-top: 1px solid var(--line);
-  color: var(--muted);
+  margin-top: 3rem;
+  padding: 2.6rem 1.25rem 3.25rem;
+  background: linear-gradient(180deg, #0b1018 0%, #090d14 100%);
+  border-top: 1px solid #1b2230;
+  color: #8b97ad;
   font-size: 0.9rem;
 }
-.site-foot a {
-  color: var(--accent);
+.foot-grid {
+  max-width: 980px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem 2rem;
+  align-items: center;
+  justify-content: space-between;
+}
+.foot-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+.foot-emblem {
+  flex: none;
+  filter: drop-shadow(0 0 10px rgba(99, 102, 241, 0.22));
+}
+.foot-name {
+  margin: 0;
+  font-family: "Space Grotesk", var(--sans);
+  font-weight: 700;
+  font-size: 1.1rem;
+  letter-spacing: 0.01em;
+  color: #e6edf3;
+}
+.foot-sub {
+  margin: 0.1rem 0 0;
+  font-size: 0.78rem;
+  color: #6c7789;
+}
+.foot-sub .deva {
+  font-family: "Kshana Deva", serif;
+  font-size: 1.15em;
+  color: #8b97ad;
+  margin-right: 0.15em;
+}
+.foot-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.15rem;
+}
+.foot-links a {
+  font-family: "Space Grotesk", var(--sans);
+  font-weight: 600;
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
+  color: #aeb8cc;
+  text-decoration: none;
+}
+.foot-links a:hover {
+  color: #fff;
+}
+.foot-meta {
+  max-width: 980px;
+  margin: 1.7rem auto 0;
+  padding-top: 1.4rem;
+  border-top: 1px solid #1b2230;
+}
+.foot-copy {
+  margin: 0;
+  font-family: "Space Grotesk", var(--sans);
+  font-size: 0.85rem;
+  color: #9aa6ba;
+}
+.foot-copy strong {
+  color: #cdd5e2;
+  font-weight: 600;
 }
 .fine {
-  font-size: 0.82rem;
+  margin: 0.65rem 0 0;
+  font-size: 0.8rem;
+  line-height: 1.55;
+  color: #6c7789;
+  max-width: 80ch;
+}
+.fine strong {
+  color: #9aa6ba;
 }
 code {
   font-family: var(--mono);
