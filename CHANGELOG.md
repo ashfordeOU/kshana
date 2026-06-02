@@ -10,6 +10,12 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Trade-study parameter sweeps.** A new `sweep` scenario kind varies one
+  parameter (`threshold_ns`, `duration_s`, `quantum_q_wf`, or `classical_q_wf`)
+  across a linear or logarithmic range and records a chosen figure of merit at each
+  point for both clocks, producing the "how does holdover scale with clock
+  stability?" comparison chart a design trade needs. New `sweep-clock-stability.toml`
+  reference scenario.
 - **Monte Carlo confidence bands.** The clock-holdover scenario can run many
   realizations (new optional `runs` field): each figure of merit is then reported
   as a mean with a 5th–95th-percentile spread, and the chart shades the 5–95%
