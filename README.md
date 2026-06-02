@@ -23,12 +23,13 @@ and every sensor parameter is traceable to a published source.
 *Free and open source under Apache-2.0, professionally developed and maintained by
 Ashforde OÜ — commercial support, integration, and proprietary extensions available.*
 
-> **Status: research-grade, v0.5.0.** Four sensor packs that each report all six
+> **Status: research-grade, v0.6.0.** Four sensor packs that each report all six
 > operational figures of merit (including a clock-aided spoof-detection security
-> score), a joint Kalman fusion estimator and an integrity bound, geometry-derived
-> GNSS availability *and* position accuracy (dilution of precision) from Keplerian
-> orbits — synthetic Walker or real two-line element sets — with optional eccentricity
-> and J2 drift, a full IMU Allan-variance noise model, Monte Carlo confidence bands,
+> score, with an active spoofing-attack demonstrator), a joint Kalman fusion
+> estimator and an integrity bound, multi-constellation geometry-derived GNSS
+> availability *and* position accuracy (dilution of precision) from Keplerian orbits —
+> synthetic Walker or real two-line element sets — with optional eccentricity and J2
+> drift, a full IMU Allan-variance noise model, Monte Carlo confidence bands,
 > trade-study parameter sweeps, and a shareable HTML scorecard — all calibrated to
 > published data and validated against the standard relations, with optional Python and
 > WebAssembly bindings and a browser playground. Read [`docs/VALIDATION.md`](docs/VALIDATION.md)
@@ -239,6 +240,11 @@ navigator — fusing the clock and position states, disciplined by GNSS and aide
 optical time transfer — and reports fused holdover with a joint-covariance integrity
 (see `scenarios/fusion-pnt.toml`).
 
+A `spoof` scenario injects a ramping false-time spoof (an `[attack]` block with
+`start_s` and `rate_ns_per_s`) and runs each clock's integrity monitor, reporting
+whether and when the spoof is detected and whether it reaches the spec undetected — a
+concrete demonstration of the Security figure of merit (see `scenarios/spoof-attack.toml`).
+
 A `sweep` scenario runs a **trade study**: it varies one `parameter` (`threshold_ns`,
 `duration_s`, `quantum_q_wf`, or `classical_q_wf`) from `start` to `stop` over `steps`
 points on a `lin` or `log` `scale`, records a `metric` (e.g. `holdover_s`) for both
@@ -253,7 +259,9 @@ position dilution of precision into a position sigma. The user orbit may be made
 **eccentric** with `eccentricity` and `argp_deg`, and `j2 = true` adds Earth-oblateness
 secular drift (see `scenarios/orbit-molniya.toml`). The constellation can instead be a
 **real one**: give `[constellation]` a `tle` block of two-line element sets and the
-satellites are parsed from it (see `scenarios/orbit-real-tle.toml`):
+satellites are parsed from it (see `scenarios/orbit-real-tle.toml`). Add one or more
+`[[constellations]]` blocks for **multi-GNSS** (e.g. GPS + Galileo; see
+`scenarios/orbit-multignss.toml`):
 
 ```toml
 kind = "orbit"
@@ -458,7 +466,8 @@ CPython versions).
 ## Roadmap
 
 See [`CHANGELOG.md`](CHANGELOG.md) for released history and the `[Unreleased]`
-section for what's next (higher-fidelity SGP4 orbit propagation). A full IMU
+section for what's next (higher-fidelity SGP4 orbit propagation). An active
+spoofing-attack demonstrator, multi-constellation availability, a full IMU
 Allan-variance noise model, a joint Kalman fusion estimator, real constellation
 geometry from TLEs, an HTML scorecard report, a clock-aided spoof-detection Security
 score across all four packs, geometry-derived GNSS availability *and* position
@@ -479,7 +488,7 @@ entry for every user-visible change. Participation is governed by our
 
 If you use Kshana in academic or technical work, please cite it. Machine-readable
 metadata is in [`CITATION.cff`](CITATION.cff) (GitHub renders a "Cite this repository"
-button from it); cite the version you used (e.g. `v0.5.0`).
+button from it); cite the version you used (e.g. `v0.6.0`).
 
 ## License
 
