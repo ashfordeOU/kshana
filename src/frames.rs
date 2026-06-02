@@ -8,9 +8,9 @@
 //!   Time (the same IAU-1982 [`crate::sgp4::gstime`] the propagator uses, so the
 //!   reduction is consistent with the orbit model). This is the TEME→PEF rotation;
 //!   PEF is treated as ECEF (polar motion is neglected — see the scope note).
-//! - [`geodetic_to_ecef`] / [`ecef_to_geodetic`] — WGS-84 ellipsoid, with the
-//!   closed-form Bowring inverse (accurate to the millimetre for terrestrial and
-//!   near-Earth altitudes).
+//! - [`geodetic_to_ecef`] / [`ecef_to_geodetic`] — WGS-84 ellipsoid, the inverse
+//!   via a Bowring-seeded fixed-point iteration (machine-precision at every
+//!   latitude and altitude, including MEO/GEO).
 //! - [`look_angles`] — azimuth, elevation, and range of a satellite (ECEF) seen
 //!   from a geodetic ground station, via the local East-North-Up frame.
 //!
@@ -88,8 +88,11 @@ pub fn geodetic_to_ecef(g: Geodetic) -> Vec3 {
     ]
 }
 
-/// WGS-84 ECEF → geodetic, via Bowring's closed-form solution (no iteration;
-/// millimetre-accurate for terrestrial and near-Earth altitudes).
+/// WGS-84 ECEF → geodetic. Bowring's formula seeds a short fixed-point iteration
+/// on latitude; the loop converges to machine precision at every latitude and
+/// altitude (the single-pass closed form drifts at high — e.g. MEO — altitude).
+/// Height is taken by projection onto the local vertical, which is
+/// well-conditioned even at the poles.
 pub fn ecef_to_geodetic(r: Vec3) -> Geodetic {
     let (x, y, z) = (r[0], r[1], r[2]);
     let a = WGS84_A;
@@ -109,12 +112,24 @@ pub fn ecef_to_geodetic(r: Vec3) -> Geodetic {
         };
     }
 
+    // Bowring initial latitude.
     let theta = (z * a).atan2(p * b);
     let (sin_t, cos_t) = theta.sin_cos();
-    let lat = (z + ep2 * b * sin_t * sin_t * sin_t).atan2(p - e2 * a * cos_t * cos_t * cos_t);
+    let mut lat = (z + ep2 * b * sin_t * sin_t * sin_t).atan2(p - e2 * a * cos_t * cos_t * cos_t);
+
+    // Refine: lat = atan2(z, p (1 - e^2 N/(N+h))). Converges in a few steps.
+    let mut n = a;
+    for _ in 0..5 {
+        let sin_lat = lat.sin();
+        n = a / (1.0 - e2 * sin_lat * sin_lat).sqrt();
+        let cos_lat = lat.cos();
+        let h = p * cos_lat + z * sin_lat - n * (1.0 - e2 * sin_lat * sin_lat);
+        lat = z.atan2(p * (1.0 - e2 * n / (n + h)));
+    }
+
     let (sin_lat, cos_lat) = lat.sin_cos();
-    let n = a / (1.0 - e2 * sin_lat * sin_lat).sqrt();
-    let alt = p / cos_lat - n;
+    // Height by projection onto the local vertical (well-conditioned everywhere).
+    let alt = p * cos_lat + z * sin_lat - n * (1.0 - e2 * sin_lat * sin_lat);
     Geodetic {
         lat_rad: lat,
         lon_rad: lon,
