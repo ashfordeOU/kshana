@@ -550,3 +550,29 @@ code {
   max-width: 70ch;
   margin: 0.5rem 0 0;
 }
+
+/* Planned (not-yet-implemented) figure-of-merit note — greyed, clearly future. */
+.planned-fom {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin: 0.8rem 0;
+  padding: 0.7rem 0.9rem;
+  color: var(--muted);
+  background: var(--panel);
+  border: 1px dashed var(--line);
+  border-radius: var(--radius);
+  font-size: 0.88rem;
+  opacity: 0.85;
+}
+.planned-tag {
+  flex: 0 0 auto;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  border-radius: 999px;
+  padding: 0.05rem 0.5rem;
+}
