@@ -10,6 +10,13 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Joint sensor-fusion estimator.** A new `fusion` scenario kind runs a single
+  recursive Kalman filter as the navigation solution — fusing the clock state
+  `[phase, frequency]` and the position state `[position, velocity]`, disciplined by
+  GNSS (learning the frequency offset and velocity) and aided by optical time
+  transfer during the outage — rather than composing independent predictors. It
+  reports fused timing/position holdover and a joint-covariance integrity. New
+  `fusion-pnt.toml` reference scenario.
 - **Fuller IMU noise model.** The accelerometer now models the remaining
   Allan-variance terms beyond the constant bias and velocity random walk:
   **bias instability** (a 1/f flicker floor at the standard Allan bias-instability
