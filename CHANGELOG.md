@@ -9,6 +9,16 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+- **Geodetically-correct ground-station visibility (`src/frames.rs`).**
+  `elevation`, `is_visible`, and `visible_count` compute a satellite's elevation
+  above a ground station's horizon against the **WGS-84 ellipsoid normal** (the
+  true local vertical), not the geocentric radial — the two differ by up to the
+  ~0.19° geodetic deflection, enough to flip near-horizon satellites in or out of
+  an elevation mask. Verified end-to-end (a Walker constellation propagated,
+  rotated TEME→ECEF, and counted from a geodetic site) and against the
+  geocentric approximation.
+
 ## [0.8.0] - 2026-06-02
 
 ### Added
