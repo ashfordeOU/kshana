@@ -18,6 +18,7 @@ pub mod scenario;
 pub mod security;
 pub mod sweep;
 pub mod timetransfer;
+pub mod tle;
 pub mod types;
 #[cfg(feature = "wasm")]
 pub mod wasm;

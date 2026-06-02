@@ -114,10 +114,10 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
         "orbit" => {
             let scn: crate::orbit::OrbitClockScenario =
                 toml::from_str(src).map_err(|e| format!("invalid orbit scenario: {e}"))?;
-            let r = crate::run::run_orbit_clock(&scn);
+            let r = crate::run::run_orbit_clock(&scn)?;
             let geometry = crate::orbit::summarize_dop(
                 &scn.user.to_orbit(),
-                &scn.constellation.satellites(),
+                &scn.constellation.satellites()?,
                 scn.time.step_s,
                 scn.time.duration_s,
                 scn.mask_deg,
@@ -199,6 +199,7 @@ mod tests {
             include_str!("../scenarios/hybrid-pnt.toml"),
             include_str!("../scenarios/orbit-gnss-challenged.toml"),
             include_str!("../scenarios/orbit-molniya.toml"),
+            include_str!("../scenarios/orbit-real-tle.toml"),
             include_str!("../scenarios/sweep-clock-stability.toml"),
         ] {
             let out = run_toml(src).expect("scenario runs");
