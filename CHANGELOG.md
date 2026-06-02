@@ -9,6 +9,14 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+- **Real constellation geometry from TLEs.** A constellation can be given as a block
+  of two-line element sets (the standard NORAD/Celestrak format) via a `tle` field,
+  so availability and dilution of precision use a real constellation's published
+  geometry instead of a synthetic Walker pattern. The engine reads each TLE's mean
+  Keplerian elements and propagates them two-body — not SGP4 — which is sound for a
+  snapshot study from a common epoch. New `orbit-real-tle.toml` reference scenario.
+
 ### Planned
 - Higher-fidelity orbit propagation (precise ephemerides / perturbations),
   beyond the current two-body + J2-secular model.
