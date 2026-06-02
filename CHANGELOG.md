@@ -43,6 +43,15 @@ breaking changes are called out explicitly.
   encodes the whole scenario into the URL fragment (nothing is uploaded) so a link
   reproduces the exact run on load. The codec is unit-tested (`web/share.test.mjs`,
   run in CI).
+- **Real snapshot RAIM (`src/raim.rs`).** Genuine position-domain Receiver
+  Autonomous Integrity Monitoring: it builds the line-of-sight geometry to the
+  visible satellites, forms the least-squares solution and residuals, runs a χ²
+  residual fault-detection test (exact threshold from a dependency-free
+  incomplete-gamma χ²/non-central-χ²), and computes slope-based horizontal and
+  vertical protection levels (HPL/VPL) with the missed-detection bias derived for
+  the configured P_fa/P_md. This is distinct from — and is **not yet wired into** —
+  the scenario pipeline's filter-self-consistency Integrity figure; fault
+  exclusion, alert-limit/P_HMI budgeting, and ARAIM remain on the roadmap.
 - **Frequency-stability suite: MDEV, TDEV, HDEV + confidence intervals**
   (`src/allan.rs`). Alongside the overlapping ADEV: the modified Allan deviation
   (separates white from flicker phase noise), the time deviation
