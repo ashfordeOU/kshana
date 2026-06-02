@@ -9,6 +9,8 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-06-02
+
 ### Added
 - **Inertial velocity is exposed downstream.** `Propagator::velocity_eci` and
   `Propagator::state_eci` (returning `StateEci { r_m, v_m_s }`) thread the analytic
@@ -104,11 +106,6 @@ breaking changes are called out explicitly.
 - New docs: `CAPABILITY.md` (honest scope map), `SCHEMA.md` (result-field
   reference), `INTEGRITY.md`, `QUANTUM-MODELS.md`, `REAL_TLE_GUIDE.md`. A CI guard
   fails if the README version badge drifts from `Cargo.toml`.
-
-### Planned
-- Earth-fixed frame reduction (TEME&rarr;ECEF/ITRF) and explicit time systems
-  (UTC/UT1/TAI/TT with leap seconds) so the exposed velocity and position can be
-  expressed in an Earth-fixed frame.
 
 ## [0.7.0] - 2026-06-02
 
@@ -312,7 +309,8 @@ Initial release.
   services, not license fees.
 - `CITATION.cff` so the software can be cited.
 
-[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.7.0...HEAD
+[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.8.0...HEAD
+[0.8.0]: https://github.com/AshfordeOU/kshana/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/AshfordeOU/kshana/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/AshfordeOU/kshana/compare/v0.5.0...v0.6.0
 [0.5.0]: https://github.com/AshfordeOU/kshana/compare/v0.4.0...v0.5.0
