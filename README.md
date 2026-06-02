@@ -11,7 +11,10 @@
 
 <p align="center">
   <strong>Kshana</strong> (क्षण, Sanskrit: <em>"the precise instant"</em>) is an open, reproducible
-  simulator for <strong>hybrid quantum/classical PNT</strong> — positioning, navigation, and timing.
+  <strong>PNT-resilience simulator with quantum-sensor performance models</strong> —
+  positioning, navigation, and timing. It compares quantum and classical sensors using
+  published Allan/noise-budget coefficients; it is not a first-principles quantum-physics
+  simulator (see <a href="docs/QUANTUM-MODELS.md">docs/QUANTUM-MODELS.md</a>).
 </p>
 
 It quantifies, in hard and reproducible numbers, what quantum clocks, quantum
@@ -23,20 +26,25 @@ and every sensor parameter is traceable to a published source.
 *Free and open source under Apache-2.0, professionally developed and maintained by
 Ashforde OÜ — commercial support, integration, and proprietary extensions available.*
 
-> **Status: research-grade, v0.7.0.** Four sensor packs that each report all six
-> operational figures of merit (including a clock-aided spoof-detection security
-> score, with an active spoofing-attack demonstrator), a joint Kalman fusion
-> estimator and an integrity bound, multi-constellation geometry-derived GNSS
-> availability *and* position accuracy (dilution of precision) from orbits — synthetic
-> Walker, Keplerian mean elements, or full two-line element sets propagated with
-> **SGP4/SDP4** (validated against the AIAA 2006-6753 vectors) — a full IMU
-> Allan-variance noise model, Monte Carlo confidence bands,
-> trade-study parameter sweeps, and a shareable HTML scorecard — all calibrated to
-> published data and validated against the standard relations, with optional Python and
-> WebAssembly bindings and a browser playground. Read [`docs/VALIDATION.md`](docs/VALIDATION.md)
+> **Status: v0.7.0 — a simulation substrate, not yet a product.** Four sensor packs
+> that each report all six operational figures of merit (including a clock-stability-based
+> spoof-*detectability* bound — analytic, meaningful only with a configured attack —
+> demonstrated by an active spoofing-attack scenario), two independent Kalman error
+> budgets (clock and position) reported as a combined FoM, and a filter
+> self-consistency bound, multi-constellation geometry-derived GNSS availability *and*
+> dilution of precision from orbits — synthetic Walker, Keplerian mean elements, or
+> full two-line element sets propagated with **SGP4/SDP4** (validated against the AIAA
+> 2006-6753 vectors) — a single-axis (1-DOF) IMU error budget (velocity/angle random
+> walk and bias-instability), Monte Carlo confidence bands, trade-study parameter
+> sweeps, and a shareable HTML scorecard — all calibrated to published data and
+> validated against the standard relations, with optional Python and WebAssembly
+> bindings and a browser playground. Read [`docs/VALIDATION.md`](docs/VALIDATION.md)
 > before citing any number — each noise term is labelled `validated` or `not modeled`,
 > and optical-clock figures are *space goals on ground hardware* (no strontium optical
-> clock has flown).
+> clock has flown). What it is **not**: a 3-axis IMU triad, a coupled GNSS/INS filter, a
+> first-principles quantum simulator, or aviation-grade RAIM/HPL/VPL integrity — see
+> [`docs/INTEGRITY.md`](docs/INTEGRITY.md) and the claims table in
+> [`docs/VALIDATION.md`](docs/VALIDATION.md).
 
 > **Try it in your browser:** the [playground](web/) runs the engine client-side as
 > WebAssembly — pick a scenario, edit the parameters, and see the result, with nothing
@@ -163,6 +171,13 @@ spoof-detection margin (`security 0.000`). The orbit scenario additionally repor
 geometry block — fraction of samples with a fix, and best/median PDOP and position
 accuracy — alongside the clock result.
 
+> **Read these two numbers carefully.** `security` is an *analytic spoof-detectability
+> bound* derived from each clock's stability — it is meaningful only against a
+> configured spoofing scenario and is **not** a multi-satellite RAIM detector. `integrity`
+> is the filter's *self-consistency* (fraction of outage samples inside its own k-sigma
+> bound), **not** an aviation HPL/VPL integrity figure. See
+> [`docs/INTEGRITY.md`](docs/INTEGRITY.md).
+
 ### Python
 
 An optional Python extension (PyO3, abi3) wraps the same engine. Build and install
@@ -240,15 +255,19 @@ drift = 0.0
 Optional fields (off when absent): a clock may add `flicker_floor` (1/f FM Allan
 floor); an inertial sensor may add `gyro_bias` and `q_arw` (gyro bias and angular
 random walk), and `bias_instability` and `q_aa` (the Allan bias-instability floor and
-acceleration random walk), completing the IMU Allan-variance noise model. A
+acceleration random walk) — together a **single-axis (1-DOF) accelerometer error
+budget** (VRW/ARW and bias-instability), *not* a 3-axis IMU triad: scale-factor,
+misalignment, g-sensitivity, and cross-axis coupling are not modelled. A
 clock-holdover scenario may add `runs` (> 1) to run a **Monte Carlo ensemble** — each
 figure of merit is then reported as a mean with a 5th–95th-percentile spread and the
 chart shades the error confidence band (see `scenarios/clock-ensemble.toml`).
 
-A `fusion` scenario (same blocks as `hybrid`) runs a single joint Kalman filter as the
-navigator — fusing the clock and position states, disciplined by GNSS and aided by
-optical time transfer — and reports fused holdover with a joint-covariance integrity
-(see `scenarios/fusion-pnt.toml`).
+A `fusion` scenario (same blocks as `hybrid`) runs **two independent Kalman estimators**
+— one for the clock state, one for the position state — disciplined by GNSS and aided by
+optical time transfer, and reports a combined holdover FoM. The two blocks share no
+cross-covariance: this is a stacked pair of error budgets, **not** a true coupled
+clock+position joint filter (cross-block covariance is a roadmap item). See
+`scenarios/fusion-pnt.toml`.
 
 A `spoof` scenario injects a ramping false-time spoof (an `[attack]` block with
 `start_s` and `rate_ns_per_s`) and runs each clock's integrity monitor, reporting
@@ -306,12 +325,13 @@ merit follow the standard operational PNT figures of merit:
 
 | Figure of merit | How Kshana computes it |
 |-----------------|------------------------|
-| Positioning / Timing Performance | RMS + 95th-percentile error over the outage |
-| Autonomy | holdover duration — time in-spec after GNSS loss |
+| Timing Performance (clock/orbit packs) | clock-phase error RMS + 95th-percentile over the outage, in **nanoseconds** (`timing_rms_ns`) — a timing metric, not position |
+| Positioning Performance (inertial/hybrid packs) | 1-DOF position-error RMS + 95th-percentile over the outage, in **metres** (`pos_rms_m`) — single-axis, single-seed; **not** an ensemble CEP/2DRMS or a DOP-weighted position accuracy |
+| Autonomy | holdover duration — time in-spec after GNSS loss (grid-quantised: a lower bound) |
 | Resilience | error-growth slope during the outage |
 | Availability | fraction of the run with an in-spec solution |
-| Integrity | protection-level containment — fraction of outage samples whose error stays inside the Kalman filter's k-sigma bound (clock pack) |
-| Security | clock-aided spoof-detection score — how far below the timing spec a time-spoof can be flagged by cross-checking GNSS time against the clock's own coasted prediction (clock and orbit packs) |
+| Integrity | filter **self-consistency** — fraction of outage samples whose error stays inside the Kalman filter's own k-sigma bound. **Not** an aviation HPL/VPL/RAIM integrity figure (see [`docs/INTEGRITY.md`](docs/INTEGRITY.md)) |
+| Security | **analytic spoof-*detectability* bound** from clock stability — how small/slow a time-spoof a single-clock consistency monitor could flag. Meaningful only with a configured attack; **not** a multi-satellite RAIM detector |
 
 New to these terms? Each is defined in plain language in the [glossary](docs/GLOSSARY.md).
 
@@ -343,7 +363,7 @@ flowchart TD
       models["models — ClockModel (+ flicker)"]
       estimator["estimator — holdover"]
       kalman["kalman — Integrity bound"]
-      security["security — spoof-detection score"]
+      security["security — analytic spoof-detectability bound"]
       fom["fom · report · run"]
     end
     p2["Pack 2 · inertial — accel + gyro"]
@@ -480,11 +500,11 @@ section for what's next (Earth-fixed frame reduction — TEME&rarr;ECEF/ITRF —
 explicit time systems: UTC/UT1/TAI/TT with leap seconds). SGP4/SDP4 orbit
 propagation has **shipped** (v0.7.0, validated against the AIAA 2006-6753 vectors),
 and its inertial velocity is now exposed downstream. An active
-spoofing-attack demonstrator, multi-constellation availability, a full IMU
-Allan-variance noise model, a joint Kalman fusion estimator, real constellation
-geometry from TLEs, an HTML scorecard report, a clock-aided spoof-detection Security
-score across all four packs, geometry-derived GNSS availability *and* position
-accuracy (dilution of precision) from Keplerian orbits with eccentricity and J2 drift,
+spoofing-attack demonstrator, multi-constellation availability, a single-axis (1-DOF)
+IMU error budget, two independent (clock + position) Kalman estimators reported as a
+combined FoM, real constellation geometry from TLEs, an HTML scorecard report, a
+clock-stability-based spoof-detectability bound, geometry-derived GNSS availability
+*and* dilution of precision from Keplerian orbits with eccentricity and J2 drift,
 Monte Carlo confidence bands, trade-study parameter sweeps, an in-browser WebAssembly
 playground, and optional Python (PyO3) and WebAssembly (wasm-bindgen) bindings have
 landed on `main`.

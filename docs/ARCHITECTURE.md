@@ -256,8 +256,9 @@ Tracked in [CHANGELOG](../CHANGELOG.md) `[Unreleased]`: velocity-domain outputs 
 the SGP4 propagator. The position-domain dilution of precision, the Security figure of
 merit (across all four packs) with an active spoofing-attack demonstrator, eccentric/J2
 orbits, real TLE and multi-constellation geometry, the full SGP4/SDP4 propagator
-(deep-space and resonance, validated against the AIAA 2006-6753 vectors), the full IMU
-Allan-variance model, the joint Kalman fusion estimator, Monte Carlo confidence bands,
-trade-study sweeps, the HTML scorecard, and a package-publishing workflow have shipped.
+(deep-space and resonance, validated against the AIAA 2006-6753 vectors), a single-axis
+(1-DOF) IMU error budget, two independent (clock + position) Kalman estimators reported
+as a combined FoM, Monte Carlo confidence bands, trade-study sweeps, the HTML scorecard,
+and a package-publishing workflow have shipped.
 A private overlay repo holds export-sensitive resilience depth; it plugs in via the
 same `ErrorModel` interface without changing the public engine.
