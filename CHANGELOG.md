@@ -29,6 +29,12 @@ breaking changes are called out explicitly.
   negative, or oversized time grid (a step larger than the duration, or more than
   `MAX_TIME_STEPS` samples) before any allocation, so a malformed scenario returns
   an error instead of panicking or exhausting memory.
+- **Monte Carlo ensembles for the inertial pack.** `runs = N` on an inertial
+  scenario runs N seeds and reports each metric's mean, standard deviation,
+  percentiles, and a percentile-bootstrap 95% confidence interval (`ensemble`).
+  Every inertial run now carries a `monte_carlo` flag, so a single-realisation FoM
+  is no longer mistaken for a distribution. (CEP/2DRMS are intentionally not
+  reported — they require the 3-axis model on the roadmap.)
 
 ### Changed
 - `schema_version` in result artifacts bumped from `0.1` to `0.7` (it was frozen
