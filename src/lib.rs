@@ -20,6 +20,7 @@ pub mod security;
 pub mod sgp4;
 pub mod spoof;
 pub mod sweep;
+pub mod timescales;
 pub mod timetransfer;
 pub mod tle;
 pub mod types;
