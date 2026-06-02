@@ -23,7 +23,7 @@ and every sensor parameter is traceable to a published source.
 *Free and open source under Apache-2.0, professionally developed and maintained by
 Ashforde OÜ — commercial support, integration, and proprietary extensions available.*
 
-> **Status: research-grade, v0.6.0.** Four sensor packs that each report all six
+> **Status: research-grade, v0.7.0.** Four sensor packs that each report all six
 > operational figures of merit (including a clock-aided spoof-detection security
 > score, with an active spoofing-attack demonstrator), a joint Kalman fusion
 > estimator and an integrity bound, multi-constellation geometry-derived GNSS
@@ -476,7 +476,10 @@ CPython versions).
 ## Roadmap
 
 See [`CHANGELOG.md`](CHANGELOG.md) for released history and the `[Unreleased]`
-section for what's next (higher-fidelity SGP4 orbit propagation). An active
+section for what's next (Earth-fixed frame reduction — TEME&rarr;ECEF/ITRF — and
+explicit time systems: UTC/UT1/TAI/TT with leap seconds). SGP4/SDP4 orbit
+propagation has **shipped** (v0.7.0, validated against the AIAA 2006-6753 vectors),
+and its inertial velocity is now exposed downstream. An active
 spoofing-attack demonstrator, multi-constellation availability, a full IMU
 Allan-variance noise model, a joint Kalman fusion estimator, real constellation
 geometry from TLEs, an HTML scorecard report, a clock-aided spoof-detection Security
@@ -498,7 +501,7 @@ entry for every user-visible change. Participation is governed by our
 
 If you use Kshana in academic or technical work, please cite it. Machine-readable
 metadata is in [`CITATION.cff`](CITATION.cff) (GitHub renders a "Cite this repository"
-button from it); cite the version you used (e.g. `v0.6.0`).
+button from it); cite the version you used (e.g. `v0.7.0`).
 
 ## License
 

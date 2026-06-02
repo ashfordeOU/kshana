@@ -95,7 +95,9 @@ The six operational PNT figures of merit Kshana reports (see the README "Output"
 - **Integrity** — *can you trust the system's own estimate of its error?* Kshana reports
   the fraction of outage samples whose true error stays inside the filter's protective
   bound.
-- **Security** — robustness to spoofing/threats (not yet modelled; export-sensitive).
+- **Security** — robustness to spoofing: a clock-stability-based spoof-detectability
+  score (since v0.3.0), meaningful only when a spoofing-attack scenario is configured.
+  It is *not* aviation-grade integrity (no HPL/VPL/RAIM/ARAIM). Export-sensitive.
 
 ## Estimation & geometry
 
