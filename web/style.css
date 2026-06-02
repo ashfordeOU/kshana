@@ -25,6 +25,22 @@
   }
 }
 
+/* Self-hosted, subsetted typefaces (no external CDN; nothing leaves the browser).
+   Space Grotesk (OFL) for the wordmark and UI accents; Noto Sans Devanagari (OFL)
+   for the क्षण mark. */
+@font-face {
+  font-family: "Space Grotesk";
+  src: url("assets/fonts/SpaceGrotesk-subset.ttf") format("truetype");
+  font-weight: 300 700;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Kshana Deva";
+  src: url("assets/fonts/NotoSansDevanagari-subset.ttf") format("truetype");
+  font-weight: 400 700;
+  font-display: swap;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -41,25 +57,115 @@ main {
   padding: 0 1.25rem 3rem;
 }
 
+/* Precision-instrument hero: a deep, self-contained band (independent of the
+   page light/dark theme) with a faint fiducial grid and an aurora glow. */
 .site-head {
-  max-width: 980px;
-  margin: 0 auto;
-  padding: 2rem 1.25rem 0.5rem;
+  position: relative;
+  padding: 4.75rem 1.25rem 3.25rem;
   text-align: center;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      120% 95% at 50% -10%,
+      rgba(99, 102, 241, 0.16),
+      rgba(45, 212, 191, 0.05) 36%,
+      transparent 68%
+    ),
+    linear-gradient(180deg, #090d14 0%, #0b1018 100%);
+  border-bottom: 1px solid #1b2230;
 }
-.banner {
-  width: 100%;
-  max-width: 620px;
-  height: auto;
+/* faint instrument grid, faded out toward the edges */
+.site-head::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(150, 170, 210, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(150, 170, 210, 0.05) 1px, transparent 1px);
+  background-size: 58px 58px;
+  background-position: center;
+  -webkit-mask-image: radial-gradient(78% 70% at 50% 32%, #000 28%, transparent 76%);
+  mask-image: radial-gradient(78% 70% at 50% 32%, #000 28%, transparent 76%);
+  pointer-events: none;
+}
+
+.hero {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.emblem {
+  display: block;
+  margin-bottom: 1rem;
+  filter: drop-shadow(0 0 22px rgba(99, 102, 241, 0.28));
+}
+.eyebrow {
+  margin: 0;
+  font-family: "Space Grotesk", var(--sans);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.36em;
+  font-size: 0.8rem;
+  color: #8b97ad;
+  padding-left: 0.36em; /* optical balance for the tracking */
+}
+.eyebrow .deva {
+  font-family: "Kshana Deva", serif;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 1.3em;
+  color: #b7c1d6;
+  margin-right: 0.2em;
+  vertical-align: -0.05em;
+}
+.wordmark {
+  margin: 0.55rem 0 0;
+  font-family: "Space Grotesk", var(--sans);
+  font-weight: 700;
+  font-size: clamp(4rem, 13vw, 8.75rem);
+  line-height: 0.92;
+  letter-spacing: -0.025em;
+  background: linear-gradient(102deg, #5eead4 0%, #818cf8 48%, #c084fc 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.rule {
+  display: block;
+  margin: 1.15rem 0 1.3rem;
+}
+.tagline {
+  margin: 0;
+  font-family: "Space Grotesk", var(--sans);
+  font-weight: 500;
+  font-size: clamp(1.05rem, 2.3vw, 1.35rem);
+  color: #c4ccda;
+  letter-spacing: 0.01em;
+}
+.byline {
+  margin: 0.95rem 0 0;
+  font-family: "Space Grotesk", var(--sans);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.7rem;
+  color: #6c7789;
 }
 .lead {
-  color: var(--muted);
-  font-size: 1.05rem;
-  max-width: 64ch;
-  margin: 0.5rem auto 1.5rem;
+  position: relative;
+  z-index: 1;
+  color: #9aa6ba;
+  font-size: 1.02rem;
+  line-height: 1.6;
+  max-width: 60ch;
+  margin: 2.1rem auto 0;
 }
 .lead strong {
-  color: var(--fg);
+  color: #e6edf3;
 }
 
 .controls {
