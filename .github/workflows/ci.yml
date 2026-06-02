@@ -78,3 +78,5 @@ jobs:
           node-version: "20"
       - name: Run wasm smoke test
         run: node web/smoke.mjs
+      - name: Test the share-link codec
+        run: node web/share.test.mjs
