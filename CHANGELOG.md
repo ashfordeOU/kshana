@@ -10,6 +10,11 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Monte Carlo confidence bands.** The clock-holdover scenario can run many
+  realizations (new optional `runs` field): each figure of merit is then reported
+  as a mean with a 5th–95th-percentile spread, and the chart shades the 5–95%
+  error envelope around the median for each clock. A single run remains the default.
+  New `clock-ensemble.toml` reference scenario.
 - **Eccentric orbits and J2 drift.** The orbit type is now a full Keplerian orbit
   (semi-major axis, eccentricity, inclination, RAAN, argument of perigee, mean
   anomaly), propagated by solving Kepler's equation, with optional secular J2 nodal
