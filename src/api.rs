@@ -93,6 +93,22 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
                 summary,
             })
         }
+        "fusion" => {
+            let scn: crate::hybrid::HybridScenario =
+                toml::from_str(src).map_err(|e| format!("invalid fusion scenario: {e}"))?;
+            let r = crate::fusion::run_fusion(&scn);
+            let summary = format!(
+                "scenario {} | fused | quantum PNT-holdover {:.0}s (t {:.0}s/p {:.0}s) integrity {} security {} | classical PNT-holdover {:.0}s (t {:.0}s/p {:.0}s) integrity {} security {}",
+                &r.scenario_hash[..12],
+                r.quantum.fom.pnt_holdover_s, r.quantum.fom.timing_holdover_s, r.quantum.fom.position_holdover_s, integ(r.quantum.fom.integrity), integ(r.quantum.fom.security),
+                r.classical.fom.pnt_holdover_s, r.classical.fom.timing_holdover_s, r.classical.fom.position_holdover_s, integ(r.classical.fom.integrity), integ(r.classical.fom.security),
+            );
+            Ok(RunOutput {
+                json: json_of(&r),
+                svg: crate::hybrid::to_svg(&r),
+                summary,
+            })
+        }
         "sweep" => {
             let scn: crate::sweep::SweepScenario =
                 toml::from_str(src).map_err(|e| format!("invalid sweep scenario: {e}"))?;
@@ -197,6 +213,7 @@ mod tests {
             include_str!("../scenarios/imu-deadreckoning.toml"),
             include_str!("../scenarios/timetransfer.toml"),
             include_str!("../scenarios/hybrid-pnt.toml"),
+            include_str!("../scenarios/fusion-pnt.toml"),
             include_str!("../scenarios/orbit-gnss-challenged.toml"),
             include_str!("../scenarios/orbit-molniya.toml"),
             include_str!("../scenarios/orbit-real-tle.toml"),
