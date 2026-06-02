@@ -121,15 +121,45 @@
     </main>
 
     <footer class="site-foot">
-      <p>
-        Kshana is free and open source (Apache-2.0). Engine version
-        <span id="version">…</span>.
-        <a href="https://github.com/AshfordeOU/kshana">Source &amp; documentation on GitHub</a>.
-      </p>
-      <p class="fine">
-        A performance simulator for studies and trade-offs — not a navigation product.
-        Results are reproducible from <code>scenario + seed + engine version</code>.
-      </p>
+      <div class="foot-grid">
+        <div class="foot-brand">
+          <svg class="foot-emblem" viewBox="0 0 100 100" role="img" aria-label="Kshana" width="34" height="34">
+            <circle cx="50" cy="50" r="43" fill="none" stroke="#3a4660" stroke-width="4" stroke-dasharray="0.6 5.02" />
+            <g stroke="#566179" stroke-width="1.4">
+              <line x1="50" y1="14" x2="50" y2="34" /><line x1="50" y1="66" x2="50" y2="86" />
+              <line x1="14" y1="50" x2="34" y2="50" /><line x1="66" y1="50" x2="86" y2="50" />
+            </g>
+            <circle cx="50" cy="50" r="23" fill="none" stroke="url(#ke)" stroke-width="2.4" />
+            <line x1="50" y1="50" x2="50" y2="27" stroke="url(#ke)" stroke-width="3.4" stroke-linecap="round" />
+            <circle cx="50" cy="50" r="4.6" fill="url(#ke)" />
+          </svg>
+          <div>
+            <p class="foot-name">Kshana</p>
+            <p class="foot-sub"><span class="deva">क्षण</span> · the precise instant</p>
+          </div>
+        </div>
+
+        <nav class="foot-links" aria-label="Project links">
+          <a href="https://github.com/AshfordeOU/kshana">GitHub</a>
+          <a href="https://crates.io/crates/kshana">crates.io</a>
+          <a href="https://pypi.org/project/kshana/">PyPI</a>
+          <a href="https://www.npmjs.com/package/kshana">npm</a>
+          <a href="https://docs.rs/kshana">docs.rs</a>
+        </nav>
+      </div>
+
+      <div class="foot-meta">
+        <p class="foot-copy">
+          © 2026 <strong>Ashforde&nbsp;OÜ</strong> · Released under the Apache-2.0 license ·
+          Engine v<span id="version">…</span>
+        </p>
+        <p class="fine">
+          An open positioning, navigation &amp; timing instrument from Ashforde&nbsp;OÜ — a
+          performance simulator for studies and trade-offs, <strong>not a navigation
+          product</strong>. Every result is reproducible from
+          <code>scenario + seed + engine version</code>.
+        </p>
+      </div>
     </footer>
 
     <script type="module" src="app.js"></script>
