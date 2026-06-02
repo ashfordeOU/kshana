@@ -334,7 +334,7 @@ merit follow the standard operational PNT figures of merit:
 | Figure of merit | How Kshana computes it |
 |-----------------|------------------------|
 | Timing Performance (clock/orbit packs) | clock-phase error RMS + 95th-percentile over the outage, in **nanoseconds** (`timing_rms_ns`) — a timing metric, not position |
-| Positioning Performance (inertial/hybrid packs) | 1-DOF position-error RMS + 95th-percentile over the outage, in **metres** (`pos_rms_m`) — single-axis, single-seed; **not** an ensemble CEP/2DRMS or a DOP-weighted position accuracy |
+| Positioning Performance (inertial/hybrid packs) | 1-DOF position-error RMS + 95th-percentile over the outage, in **metres** (`pos_rms_m`); single-axis. A single run is flagged `monte_carlo: false`; set `runs = N` for a Monte Carlo ensemble that reports each metric's mean, spread, and bootstrap 95% CI. Still **not** a 2-D CEP/2DRMS or DOP-weighted accuracy (those need the 3-axis model — roadmap) |
 | Autonomy | holdover duration — time in-spec after GNSS loss (grid-quantised: a lower bound) |
 | Resilience | error-growth slope during the outage |
 | Availability | fraction of the run with an in-spec solution |
