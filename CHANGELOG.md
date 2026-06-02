@@ -43,6 +43,14 @@ breaking changes are called out explicitly.
   encodes the whole scenario into the URL fragment (nothing is uploaded) so a link
   reproduces the exact run on load. The codec is unit-tested (`web/share.test.mjs`,
   run in CI).
+- **Frequency-stability suite: MDEV, TDEV, HDEV + confidence intervals**
+  (`src/allan.rs`). Alongside the overlapping ADEV: the modified Allan deviation
+  (separates white from flicker phase noise), the time deviation
+  (`TDEV = tau/sqrt(3) * MDEV`), and the Hadamard deviation (rejects linear
+  frequency drift exactly and converges for divergent red-noise types). χ²-based
+  confidence intervals (`deviation_ci`) use a dependency-free normal/χ² quantile
+  pair (Acklam + Wilson-Hilferty) with a conservative non-overlapping edf;
+  noise-type-specific edf and Stable32 numeric parity remain on the roadmap.
 - **Reference-frame reduction (`src/frames.rs`).** GMST-based TEME↔ECEF rotation
   (using the same IAU-1982 sidereal time as the propagator), exact WGS-84
   geodetic↔ECEF with a Bowring-seeded iterative inverse (machine-precision at all
