@@ -27,9 +27,10 @@ Ashforde OÜ — commercial support, integration, and proprietary extensions ava
 > operational figures of merit (including a clock-aided spoof-detection security
 > score, with an active spoofing-attack demonstrator), a joint Kalman fusion
 > estimator and an integrity bound, multi-constellation geometry-derived GNSS
-> availability *and* position accuracy (dilution of precision) from Keplerian orbits —
-> synthetic Walker or real two-line element sets — with optional eccentricity and J2
-> drift, a full IMU Allan-variance noise model, Monte Carlo confidence bands,
+> availability *and* position accuracy (dilution of precision) from orbits — synthetic
+> Walker, Keplerian mean elements, or full two-line element sets propagated with
+> **SGP4/SDP4** (validated against the AIAA 2006-6753 vectors) — a full IMU
+> Allan-variance noise model, Monte Carlo confidence bands,
 > trade-study parameter sweeps, and a shareable HTML scorecard — all calibrated to
 > published data and validated against the standard relations, with optional Python and
 > WebAssembly bindings and a browser playground. Read [`docs/VALIDATION.md`](docs/VALIDATION.md)
@@ -116,6 +117,14 @@ step. Over a day the user is in fix only ~59% of the time; the quantum clock hol
 5 ns timing solution through every gap (availability **1.0**), the chip-scale clock
 only **~0.83**.
 
+The constellation can also be given as real two-line element sets. A *full* TLE
+(line 1 + line 2) is propagated with the full **SGP4/SDP4** model — including
+atmospheric drag and the deep-space lunar-solar and 12 h / 24 h resonance terms that
+matter for ~12 h GNSS orbits — validated against the official AIAA 2006-6753 vectors
+to a worst-case ≈ 4 mm (`scenarios/orbit-sgp4-gps.toml`). A line-2-only block keeps
+the analytic two-body propagation (`scenarios/orbit-real-tle.toml`); the two forms can
+be mixed in one constellation.
+
 ## Install & build
 
 Requires a Rust toolchain (≥ 1.75; developed on 1.93).
@@ -138,6 +147,7 @@ cargo run -- scenarios/imu-deadreckoning.toml
 cargo run -- scenarios/timetransfer.toml
 cargo run -- scenarios/hybrid-pnt.toml
 cargo run -- scenarios/orbit-gnss-challenged.toml
+cargo run -- scenarios/orbit-sgp4-gps.toml
 ```
 
 Example output (clock holdover — note the Integrity and Security figures of merit):
