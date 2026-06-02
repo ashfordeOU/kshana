@@ -9,9 +9,24 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+- **Inertial velocity is exposed downstream.** `Propagator::velocity_eci` and
+  `Propagator::state_eci` (returning `StateEci { r_m, v_m_s }`) thread the analytic
+  TEME velocity SGP4 already computes — previously discarded — through to callers in
+  m/s; `Orbit::velocity_eci` gives the Keplerian path a consistent velocity. The
+  AIAA 2006-6753 verification test now also checks velocity for every reference row
+  (worst velocity error 1.85e-9 km/s across all 666 states) and pins the compared
+  row count at exactly 666.
+- **Stricter, panic-free TLE parsing.** Lines are required to be ASCII and are
+  sliced safely (no more byte-index panics on multi-byte input); elements are
+  range-checked (inclination, eccentricity, mean motion); the column-69 checksum
+  can be enforced via `ParseOpts { strict_checksum }` / `parse_propagators_opts`
+  and the new `strict_checksum` flag on `ConstellationCfg` (lenient by default).
+
 ### Planned
-- Velocity-domain outputs from the SGP4 propagator (currently position drives the
-  availability and dilution-of-precision geometry).
+- Earth-fixed frame reduction (TEME&rarr;ECEF/ITRF) and explicit time systems
+  (UTC/UT1/TAI/TT with leap seconds) so the exposed velocity and position can be
+  expressed in an Earth-fixed frame.
 
 ## [0.7.0] - 2026-06-02
 
