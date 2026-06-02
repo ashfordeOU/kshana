@@ -43,6 +43,12 @@ breaking changes are called out explicitly.
   encodes the whole scenario into the URL fragment (nothing is uploaded) so a link
   reproduces the exact run on load. The codec is unit-tested (`web/share.test.mjs`,
   run in CI).
+- **Reference-frame reduction (`src/frames.rs`).** GMST-based TEME↔ECEF rotation
+  (using the same IAU-1982 sidereal time as the propagator), exact WGS-84
+  geodetic↔ECEF with a closed-form Bowring inverse, and a geodetic ground-station
+  observer that returns azimuth / elevation / range in the local East-North-Up
+  frame. Polar motion and sub-arcsecond nutation are not applied (GMST-only,
+  sub-kilometre on the ground track); an ITRF-precise CIO chain is on the roadmap.
 - **Time-scale foundation (`src/timescales.rs`).** A dependency-free Julian-date
   API (Gregorian civil ↔ JD, MJD), the full IERS integer leap-second history
   (UTC↔TAI, 10 s in 1972 to 37 s since 2017), the defined TAI→TT offset, the UT1

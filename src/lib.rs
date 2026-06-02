@@ -5,6 +5,7 @@ pub mod chart;
 pub mod ensemble;
 pub mod estimator;
 pub mod fom;
+pub mod frames;
 pub mod fusion;
 pub mod hybrid;
 pub mod inertial;
