@@ -90,26 +90,75 @@
     </header>
 
     <main>
+      <section class="guide" aria-label="Start here">
+        <h2 class="guide-title">Start here — pick a question to explore</h2>
+        <p class="guide-sub">
+          One click loads a worked scenario and runs it. No setup, no sign-up —
+          the engine runs in your browser. Tune it with the sliders, or open the
+          full TOML to change anything.
+        </p>
+        <div id="presets" class="presets" role="group" aria-label="One-click scenarios"></div>
+      </section>
+
       <section class="controls" aria-label="Scenario controls">
         <div class="row">
-          <label for="scenario">Scenario</label>
-          <select id="scenario" aria-describedby="scenario-help"></select>
+          <label for="scenario" class="sr-only">Scenario</label>
+          <select id="scenario" aria-label="Scenario" aria-describedby="scenario-help"></select>
           <button id="run" type="button" disabled>Run</button>
+          <button id="share" type="button" class="ghost" disabled title="Copy a link that reproduces this exact run">Copy share link</button>
           <span id="status" class="status" role="status">Loading engine…</span>
         </div>
-        <p id="scenario-help" class="help">
-          The four sensor packs plus a geometry-driven availability scenario. The
-          panel below is editable TOML — change a number and run again.
-        </p>
-        <textarea
-          id="toml"
-          spellcheck="false"
-          aria-label="Scenario definition (TOML)"
-        ></textarea>
+
+        <!-- Guided knobs: universal top-level parameters every scenario shares,
+             editable without touching the TOML. Patched into the editor live. -->
+        <div id="guided" class="guided" aria-label="Guided controls" hidden>
+          <div class="knob">
+            <label for="k-seed">Random seed
+              <span class="knob-help">a different seed = a different noise draw of the same physics</span>
+            </label>
+            <div class="knob-row">
+              <input id="k-seed" type="range" min="1" max="100" step="1" />
+              <output id="k-seed-out" class="knob-out"></output>
+            </div>
+          </div>
+          <div class="knob">
+            <label for="k-thresh">Timing spec threshold (ns)
+              <span class="knob-help">the in-spec budget; a solution is "available" while error stays under it</span>
+            </label>
+            <div class="knob-row">
+              <input id="k-thresh" type="range" min="1" max="100" step="1" />
+              <output id="k-thresh-out" class="knob-out"></output>
+            </div>
+          </div>
+        </div>
+
+        <details id="advanced" class="advanced">
+          <summary>Full scenario definition (TOML) — edit anything</summary>
+          <p id="scenario-help" class="help">
+            The four sensor packs plus geometry-driven scenarios. This panel is the
+            complete, editable scenario — change a number and run again.
+          </p>
+          <textarea
+            id="toml"
+            spellcheck="false"
+            aria-label="Scenario definition (TOML)"
+          ></textarea>
+        </details>
       </section>
 
       <section class="results" aria-label="Results" hidden>
         <p id="summary" class="summary"></p>
+        <details class="reading">
+          <summary>How to read this</summary>
+          <p>
+            The chart traces timing (or position) error over the run. While GNSS is
+            available both solutions track truth; when it cuts out, each coasts on
+            its own sensors. The <strong>quieter</strong> sensor stays inside the
+            spec threshold longer — that coast time is the <em>holdover</em>. The
+            summary reports holdover, error percentiles, and availability for the
+            quantum and classical options side by side.
+          </p>
+        </details>
         <div id="chart" class="chart" aria-label="Result chart"></div>
         <div id="adev-wrap" class="adev-wrap" hidden>
           <h3 class="adev-title">Clock stability (overlapping Allan deviation)</h3>
