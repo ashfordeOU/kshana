@@ -53,18 +53,32 @@ pub struct Sample {
     pub gnss: GnssState,
 }
 
-/// The six operational PNT figures of merit. Integrity is populated by the run
-/// layer from the Kalman protection bound (the fraction of outage samples whose
-/// error stays inside the k-sigma bound); Security is the clock-aided
-/// spoof-detection score (see [`crate::security`]).
+/// The operational PNT figures of merit for a clock/orbit run. Integrity is
+/// populated by the run layer from the Kalman protection bound (the fraction of
+/// outage samples whose error stays inside the k-sigma bound); Security is the
+/// analytic clock-stability spoof-detectability bound (see [`crate::security`]).
+/// Field units are annotated below; see `docs/SCHEMA.md` for the full schema.
 #[derive(Clone, Debug, Serialize)]
 pub struct FoMScores {
+    /// Timing (clock-phase) error RMS over the outage. Unit: nanoseconds. A timing
+    /// metric, not a position-domain metric.
     pub timing_rms_ns: f64,
+    /// 95th-percentile timing error over the outage. Unit: nanoseconds.
     pub timing_p95_ns: f64,
+    /// Worst-case (shortest) in-spec coast across outage segments. Unit: seconds.
+    /// Grid-bounded — a lower bound at the time-step resolution.
     pub holdover_s: f64,
+    /// Least-squares growth rate of |error| during the outage. Unit: ns per second.
     pub resilience_slope_ns_per_s: f64,
+    /// Fraction of the whole run with an in-spec solution. Unit: fraction in [0, 1].
     pub availability: f64,
+    /// Filter self-consistency: fraction of outage samples whose error stays inside
+    /// the Kalman k-sigma bound. Unit: fraction in [0, 1]. NOT an aviation
+    /// HPL/VPL/RAIM integrity figure (see `docs/INTEGRITY.md`).
     pub integrity: Option<f64>,
+    /// Analytic spoof-detectability bound from clock stability. Unit: fraction in
+    /// [0, 1]. Meaningful only with a configured attack; NOT a multi-satellite RAIM
+    /// detector (see `docs/INTEGRITY.md`).
     pub security: Option<f64>,
 }
 

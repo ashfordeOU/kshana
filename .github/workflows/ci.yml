@@ -28,6 +28,8 @@ jobs:
         run: ./scripts/check-reproducible.sh
       - name: Repository hygiene guard
         run: ./scripts/check-no-attribution.sh
+      - name: Version consistency guard
+        run: ./scripts/check-version-sync.sh
   msrv:
     runs-on: ubuntu-latest
     steps:
