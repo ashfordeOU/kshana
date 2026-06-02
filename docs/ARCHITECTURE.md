@@ -40,10 +40,11 @@ flowchart TD
     timetransfer["timetransfer.rs<br/>Pack 3 · TimeTransferLink · run_timetransfer"]
     hybrid["hybrid.rs<br/>Pack 4 · run_suite · score_hybrid · run_hybrid (+ integrity/security)"]
     fusion["fusion.rs<br/>joint Kalman PNT estimator · run_fusion"]
-    orbit["orbit.rs<br/>Keplerian orbit (+ e, J2) · Walker / TLE constellation · visibility · DOP"]
+    orbit["orbit.rs<br/>Keplerian orbit (+ e, J2) · Walker / TLE / multi-constellation · visibility · DOP"]
     tle["tle.rs<br/>two-line element parsing"]
     ensemble["ensemble.rs<br/>Monte Carlo confidence bands"]
     sweep["sweep.rs<br/>trade-study parameter sweeps"]
+    spoof["spoof.rs<br/>active spoofing-attack demonstrator"]
 
     main --> api
     py --> api
@@ -55,6 +56,8 @@ flowchart TD
     api --> ensemble
     api --> sweep
     api --> fusion
+    api --> spoof
+    spoof --> security
     ensemble --> run
     sweep --> run
     orbit --> tle
@@ -243,8 +246,9 @@ WebAssembly module backs the browser playground in `web/` (`run`, `chart_svg`,
 Tracked in [CHANGELOG](../CHANGELOG.md) `[Unreleased]`: higher-fidelity SGP4 orbit
 propagation beyond the current two-body + J2-secular mean-element model. The
 position-domain dilution of precision, the Security figure of merit (across all four
-packs), eccentric/J2 orbits, real TLE constellations, the full IMU Allan-variance
-model, the joint Kalman fusion estimator, Monte Carlo confidence bands, trade-study
-sweeps, the HTML scorecard, and a package-publishing workflow have shipped. A private
-overlay repo holds export-sensitive resilience depth; it plugs in via the same
-`ErrorModel` interface without changing the public engine.
+packs) with an active spoofing-attack demonstrator, eccentric/J2 orbits, real TLE and
+multi-constellation geometry, the full IMU Allan-variance model, the joint Kalman
+fusion estimator, Monte Carlo confidence bands, trade-study sweeps, the HTML scorecard,
+and a package-publishing workflow have shipped. A private overlay repo holds
+export-sensitive resilience depth; it plugs in via the same `ErrorModel` interface
+without changing the public engine.
