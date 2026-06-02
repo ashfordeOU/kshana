@@ -1,15 +1,19 @@
 # SPDX-License-Identifier: Apache-2.0
 # Publish Kshana to crates.io, PyPI, and npm.
 #
-# Each job is gated on its registry token: with the token unset the publish step
-# is skipped (the job still succeeds), so this workflow is inert until the
-# maintainer adds the corresponding secret. Runs when a GitHub release is
-# published, or on manual dispatch.
+# Triggered by pushing a release tag (vX.Y.Z) or by manual dispatch. (The
+# `release: published` event is intentionally not used: releases created by the
+# Release workflow's GITHUB_TOKEN do not trigger downstream workflows, so that
+# trigger would never fire.) Each job is gated on its registry token — with the
+# token unset the publish step is skipped and the job still succeeds, so the
+# workflow is inert until the maintainer adds the secret. Every publish is
+# idempotent: re-running after a version is already live is a no-op success, so a
+# partial failure (one registry) can be retried safely without touching the others.
 name: publish
 
 on:
-  release:
-    types: [published]
+  push:
+    tags: ["v*"]
   workflow_dispatch:
 
 permissions:
@@ -32,29 +36,44 @@ jobs:
       - name: Publish
         if: steps.gate.outputs.go == 'true'
         env:
-          TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-        run: cargo publish --token "$TOKEN"
+          # cargo reads CARGO_REGISTRY_TOKEN from the environment (no deprecated --token).
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: |
+          set +e
+          out="$(cargo publish 2>&1)"; rc=$?
+          printf '%s\n' "$out"
+          if [ "$rc" -ne 0 ]; then
+            printf '%s\n' "$out" | grep -qiE "already (exists|uploaded)|already been published|is already uploaded" \
+              && { echo "::notice::this version is already on crates.io — treating as success"; exit 0; }
+            exit "$rc"
+          fi
 
   pypi:
-    name: PyPI
-    runs-on: ubuntu-latest
+    name: PyPI (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: "3.x"
-      - name: Build wheels
+      - name: Build abi3 wheel
         uses: PyO3/maturin-action@v1
         with:
           command: build
           args: --release --features python --out dist
       - name: Build source distribution
+        if: matrix.os == 'ubuntu-latest'
         uses: PyO3/maturin-action@v1
         with:
           command: sdist
           args: --out dist
       - name: Gate on token
         id: gate
+        shell: bash
         env:
           TOKEN: ${{ secrets.PYPI_API_TOKEN }}
         run: |
@@ -66,6 +85,7 @@ jobs:
         env:
           MATURIN_PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
         with:
+          # --skip-existing makes re-runs (and the per-OS overlap on the sdist) safe.
           command: upload
           args: --skip-existing dist/*
 
@@ -96,4 +116,13 @@ jobs:
         if: steps.gate.outputs.go == 'true'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: npm publish ./web/pkg --access public
+        # ./-prefixed path so npm treats it as a directory, not a GitHub shorthand.
+        run: |
+          set +e
+          out="$(npm publish ./web/pkg --access public 2>&1)"; rc=$?
+          printf '%s\n' "$out"
+          if [ "$rc" -ne 0 ]; then
+            printf '%s\n' "$out" | grep -qiE "cannot publish over|previously published|EPUBLISHCONFLICT|cannot modify pre-existing version" \
+              && { echo "::notice::this version is already on npm — treating as success"; exit 0; }
+            exit "$rc"
+          fi
