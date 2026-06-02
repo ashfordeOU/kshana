@@ -45,7 +45,8 @@ breaking changes are called out explicitly.
   run in CI).
 - **Reference-frame reduction (`src/frames.rs`).** GMST-based TEME↔ECEF rotation
   (using the same IAU-1982 sidereal time as the propagator), exact WGS-84
-  geodetic↔ECEF with a closed-form Bowring inverse, and a geodetic ground-station
+  geodetic↔ECEF with a Bowring-seeded iterative inverse (machine-precision at all
+  altitudes, including MEO/GEO), and a geodetic ground-station
   observer that returns azimuth / elevation / range in the local East-North-Up
   frame. Polar motion and sub-arcsecond nutation are not applied (GMST-only,
   sub-kilometre on the ground track); an ITRF-precise CIO chain is on the roadmap.
@@ -62,6 +63,13 @@ breaking changes are called out explicitly.
   binary and SBOM; the release toolchain is pinned to match CI. Determinism
   guarantees, the cross-platform `libm` caveat, and the golden-pinning approach are
   documented in `docs/REPRODUCIBILITY.md`.
+
+- **Property-based and fuzz tests** (`tests/property.rs`). Deterministic
+  randomized tests (no new dependency) assert invariants over thousands of inputs:
+  the TLE and scenario parsers never panic on garbage, non-ASCII, mutated, or
+  truncated input; `TimeCfg::validate` never panics on NaN/inf/negative grids; the
+  TLE checksum is consistent and column-69-only; geodetic↔ECEF round-trips and the
+  TEME→ECEF rotation preserves norm across the globe and a wide altitude band.
 
 ### Changed
 - Golden tests now **pin the figures of merit field-by-field** for the four
