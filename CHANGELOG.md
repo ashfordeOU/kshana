@@ -10,6 +10,20 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Full three-axis strapdown mechanization in the NED frame (`src/inertial/mechanization.rs`).**
+  `NavState { q, v_ned, p_llh }` is advanced by `step(gyro_b, accel_f_b, dt)` using
+  the standard terrestrial-frame NED equations (Groves §5.4): body→NED attitude
+  corrected for the inertial-to-nav rate `ω_in = ω_ie + ω_en` (Earth rotation +
+  transport rate); specific force resolved body→NED through the DCM; velocity
+  integrating `v̇ = f_n − (2 ω_ie + ω_en) × v + g_n` (Coriolis/transport + gravity);
+  and geodetic position via the meridian/transverse radii of curvature. Gravity is
+  the WGS-84 closed-form Somigliana **normal (plumb-bob) gravity** with a NIMA
+  free-air altitude correction — never a hard-coded constant. This is the genuine
+  three-axis navigator that supersedes the 1-DOF scalar error-budget path. Verified
+  by physical invariants: a platform bolted to the rotating Earth at 45°N (sensing
+  Earth rate + 1 g) stays within 1 mm over 60 s; a level north specific force gives
+  `v_N ≈ a·t` and `½ a t²` displacement; normal gravity matches the known
+  equator/pole/45° surface values and the free-air lapse rate.
 - **Three-axis attitude representation for strapdown INS (`src/inertial/attitude.rs`).**
   A unit-quaternion `Quaternion` type (scalar-first, Hamilton convention) carrying
   body→nav rotation, with a DCM view (`to_dcm`/`from_dcm` via Shepperd's method),
