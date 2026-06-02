@@ -9,6 +9,12 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Planned
+- Higher-fidelity orbit propagation (precise SGP4 ephemerides / perturbations),
+  beyond the current two-body + J2-secular mean-element model.
+
+## [0.5.0] - 2026-06-02
+
 ### Added
 - **HTML scorecard report.** Every run now also produces a self-contained, branded
   HTML scorecard — the one-line summary, the chart (embedded as an inert data-URI
@@ -33,10 +39,6 @@ breaking changes are called out explicitly.
   geometry instead of a synthetic Walker pattern. The engine reads each TLE's mean
   Keplerian elements and propagates them two-body — not SGP4 — which is sound for a
   snapshot study from a common epoch. New `orbit-real-tle.toml` reference scenario.
-
-### Planned
-- Higher-fidelity orbit propagation (precise ephemerides / perturbations),
-  beyond the current two-body + J2-secular model.
 
 ## [0.4.0] - 2026-06-02
 
@@ -180,7 +182,8 @@ Initial release.
   services, not license fees.
 - `CITATION.cff` so the software can be cited.
 
-[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.5.0...HEAD
+[0.5.0]: https://github.com/AshfordeOU/kshana/compare/v0.4.0...v0.5.0
 [0.4.0]: https://github.com/AshfordeOU/kshana/compare/v0.3.0...v0.4.0
 [0.3.0]: https://github.com/AshfordeOU/kshana/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/AshfordeOU/kshana/compare/v0.1.0...v0.2.0

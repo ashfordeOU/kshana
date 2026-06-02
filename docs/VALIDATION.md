@@ -32,7 +32,9 @@ frequency Wiener process of diffusion q_rw.
 | Constant/residual bias -> position | `validated` | pos error = 0.5*b*T^2 family (Groves AESS Tutorial); hand-derived discrete test in `src/inertial.rs`. |
 | Velocity random walk (white accel) | `validated` | `src/inertial.rs`: simulated position-error SD matches sigma_x(T)=sqrt(S_a*T^3/3) (Groves eq.54) to ~12% (seed-averaged). |
 | Gyro bias + angular random walk -> tilt -> gravity coupling | `modeled` (off by default) | A residual gyro bias and ARW drive an attitude error; the tilt couples gravity (`g*theta`) into horizontal specific-force error. `src/inertial.rs` validates the pure-bias cubic position growth exactly and the ARW attitude growth as a Wiener process (seed-averaged). Enabled per sensor via `gyro_bias` and `q_arw`; off in the cited accelerometer-only scenarios. |
-| Bias instability (slow drift), scale factor | `not modeled` | Residual bias is modeled as a constant at the published bias-stability level; finer bias-instability dynamics and scale-factor error are future work. |
+| Bias instability (1/f flicker floor) | `modeled` (off by default) | `src/inertial.rs`: a 1/f flicker process (the same OU synthesis validated for the clock) whose flat Allan-deviation floor sits at the bias-instability coefficient; zero is a no-op, a non-zero floor changes the trajectory, both reproducible. Enabled per sensor via `bias_instability`. |
+| Acceleration random walk (rate random walk) | `validated` | `src/inertial.rs`: the bias is a Wiener process with `Var(bias_rw(T)) = q_aa*T`, checked seed-averaged to ~20%. Enabled per sensor via `q_aa`. |
+| Scale factor, finer cross-axis terms | `not modeled` | Scale-factor and cross-coupling errors are future work. |
 
 | Sensor | bias stability | noise root-PSD | Source |
 |--------|----------------|----------------|--------|
@@ -68,6 +70,7 @@ position is not re-synced, since time transfer gives time, not position).
 |--------|--------|----------|
 | Combined PNT scoring (timing AND position) | `validated` | `src/hybrid.rs` hand-derived `score_hybrid` test (pnt_holdover = first of timing/position to breach). |
 | Integrity + Security for the hybrid pack | `validated` | `src/hybrid.rs`: a Kalman timing estimator disciplined to truth (nominal) and re-anchored at each optical re-sync; Integrity is the protection-bound containment (bound includes the link-jitter floor), Security the spoof-detection score. Tested for both suites including the link-aided case. |
+| Joint fusion estimator | `validated` (model) | `src/fusion.rs`: a single joint Kalman filter ([phase, freq] ⊕ [pos, vel]) is the navigator, disciplined by GNSS (learning the offsets from non-zero initial covariance) and aided by time transfer; the joint covariance gives a joint integrity that is tested reliable (≥0.9) for both suites with noise-consistent sensors. For a static platform the optimal filter is block-diagonal; augmented-state constant-bias estimation and dynamic cross-aiding are future work. |
 | Composition of validated sub-models | inherits | clock/inertial/time-transfer terms are validated in their own packs. |
 | Sensor cross-aiding fidelity (full Kalman/factor-graph fusion) | `not modeled` | This is a system-level composition + time-aiding, not yet a full optimal estimator. |
 
@@ -86,7 +89,8 @@ suite's weak link — the core argument for quantum inertial + optical timing to
 | Line-of-sight visibility (Earth occultation + elevation mask) | `validated` | Antipodal sat occulted, radially-outward sat at 90 deg elevation, tangential sat on the horizon — exact hand-derived tests. |
 | Visibility -> GNSS state -> timeline | `validated` | `>=4` visible = nominal, 1-3 degraded, 0 denied; Walker-delta generator; integration test drives a clock-holdover run from the derived timeline. |
 | Dilution of precision (GDOP/PDOP/HDOP/VDOP/TDOP) -> position accuracy | `validated` | `src/orbit.rs`: `Q=(HᵀH)⁻¹` from the line-of-sight design matrix; a regular-tetrahedron geometry reproduces the closed-form DOPs (PDOP 1.5, TDOP 0.5, GDOP √2.5, HDOP √1.5, VDOP √0.75) to 1e-9. Position sigma = PDOP × user-equivalent range error. |
-| Higher-fidelity propagation (ephemerides / perturbations) | `not modeled` | Circular orbits and a spherical Earth; no perturbations or precise ephemerides yet. |
+| Real constellation geometry from TLEs | `validated` (parsing) | `src/tle.rs`: parses the line-2 mean Keplerian elements (semi-major axis from the mean motion); a known ISS element set round-trips to the correct elements and period. Propagation is the engine's two-body (+ optional J2) of the *mean* elements — not SGP4 — sound for a snapshot from a common epoch, drifting from SGP4 over time. |
+| Higher-fidelity SGP4 propagation (ephemerides / perturbations) | `not modeled` | Two-body + secular J2 of mean elements only; full SGP4 / precise ephemerides are future work. |
 
 Honest framing: this is a deterministic geometry layer (circular orbits, spherical
 Earth of mean radius 6371 km, pure line-of-sight). It establishes *availability* and
