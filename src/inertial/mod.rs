@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 pub mod attitude;
+pub mod mechanization;
 
 use crate::scenario::{GnssState, GnssTimeline, TimeCfg};
 use crate::types::{ModelSpec, Seconds};
