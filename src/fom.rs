@@ -82,6 +82,42 @@ pub struct FoMScores {
     pub security: Option<f64>,
 }
 
+/// The horizontal/3-D **position-domain** figures of merit (CEP, SEP, 2DRMS, and
+/// a horizontal protection level) that a multi-axis navigation solution reports.
+/// These are deliberately distinct from the timing-domain `FoMScores` and from
+/// the inertial pack's single-axis `pos_rms_m`: CEP/SEP/2DRMS are properties of a
+/// 2-D/3-D error distribution, and HPL is a protection level from a real
+/// multi-measurement integrity monitor — none of which the current 1-DOF models
+/// produce. This struct exists so the planned capability has an honest, named
+/// home rather than a position number masquerading as accuracy.
+#[derive(Clone, Debug, Serialize)]
+pub struct PositioningFom {
+    /// Circular Error Probable (50%) — horizontal. Metres.
+    pub cep_m: f64,
+    /// Spherical Error Probable (50%) — 3-D. Metres.
+    pub sep_m: f64,
+    /// Twice the distance RMS (~95% horizontal). Metres.
+    pub drms2_m: f64,
+    /// Horizontal Protection Level from an integrity monitor. Metres.
+    pub hpl_m: f64,
+}
+
+/// Position-domain figures of merit (CEP/SEP/2DRMS/HPL). **Not yet implemented:**
+/// these require a 2-D/3-D navigation solution (multi-axis INS fusion) and, for
+/// HPL, a real multi-measurement integrity monitor — neither of which the current
+/// single-axis models provide. Returns an explanatory error so callers (and the
+/// playground) surface the gap honestly instead of presenting a 1-DOF number as a
+/// position accuracy. The timing-domain metrics live in [`score`]/[`FoMScores`]
+/// and the inertial pack reports a single-axis `pos_rms_m`.
+pub fn positioning_performance() -> Result<PositioningFom, String> {
+    Err(
+        "Position-domain FoM (CEP, SEP, 2DRMS, HPL) requires a 2-D/3-D INS fusion \
+         solution and a multi-measurement integrity monitor — not available in this \
+         release. The inertial pack currently reports a single-axis pos_rms_m only."
+            .to_string(),
+    )
+}
+
 /// Score a series against a timing spec threshold (ns).
 ///
 /// Timing RMS/p95 and resilience are measured over the holdover (outage) period
@@ -235,6 +271,19 @@ mod tests {
         assert_eq!(
             worst_case_holdover(&[(0.0, false, false), (1.0, false, false)]),
             0.0
+        );
+    }
+
+    #[test]
+    fn positioning_performance_is_an_honest_stub() {
+        // The position-domain FoM is not implemented; it must return an error that
+        // names the missing capability, never a fabricated position number.
+        let r = positioning_performance();
+        assert!(r.is_err());
+        let msg = r.unwrap_err();
+        assert!(
+            msg.contains("CEP") && msg.contains("INS fusion"),
+            "stub message: {msg}"
         );
     }
 }
