@@ -10,6 +10,20 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Three-axis attitude representation for strapdown INS (`src/inertial/attitude.rs`).**
+  A unit-quaternion `Quaternion` type (scalar-first, Hamilton convention) carrying
+  body→nav rotation, with a DCM view (`to_dcm`/`from_dcm` via Shepperd's method),
+  Hamilton product, axis-angle and rotation-vector (exact exp-map) constructors,
+  and quaternion kinematics — both a first-order RK rate update (`q̇ = ½ q ⊗ ω`)
+  and a coning-corrected rotation-vector update. The two-sample `coning_increment`
+  (Savage / Bryan–Lewantowski, `½ Δθ_prev × Δθ_cur`) supplies the rotation-rate
+  cross-coupling term that scalar dead-reckoning omits. This is the attitude
+  foundation for the full 3-axis mechanization that replaces the legacy 1-DOF
+  error-budget path. Verified against closed-form rotations: constant-rate
+  propagation matches the axis-angle quaternion to 1e-6, DCMs are orthonormal with
+  unit determinant, and coning vanishes for single-axis motion. (`src/inertial.rs`
+  is now the `src/inertial/` module directory; the public path `crate::inertial`
+  is unchanged.)
 - **Geodetically-correct ground-station visibility (`src/frames.rs`).**
   `elevation`, `is_visible`, and `visible_count` compute a satellite's elevation
   above a ground station's horizon against the **WGS-84 ellipsoid normal** (the
