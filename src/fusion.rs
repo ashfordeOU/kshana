@@ -174,7 +174,7 @@ fn hash_fusion(scn: &HybridScenario) -> String {
 /// Run the joint-fusion PNT scenario for the all-quantum and all-classical suites.
 pub fn run_fusion(scn: &HybridScenario) -> HybridResult {
     HybridResult {
-        schema_version: "0.1".into(),
+        schema_version: "0.7".into(),
         engine_version: env!("CARGO_PKG_VERSION").into(),
         scenario_hash: hash_fusion(scn),
         seed: scn.seed,
