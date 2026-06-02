@@ -1,16 +1,19 @@
 // SPDX-License-Identifier: Apache-2.0
-//! Circular-orbit propagation and GNSS line-of-sight visibility.
+//! Keplerian-orbit propagation and GNSS line-of-sight visibility.
 //!
 //! A deterministic, dependency-free geometry layer that derives GNSS
-//! availability from real orbital geometry instead of hand-authored windows: a
-//! user spacecraft and a GNSS constellation are propagated on circular orbits,
-//! and a GNSS satellite counts as visible when Earth does not occult the
-//! line of sight and it clears the user's elevation mask. The visible-satellite
-//! count then maps to a [`GnssState`].
+//! availability and position dilution of precision from real orbital geometry
+//! instead of hand-authored windows: a user spacecraft and a GNSS constellation
+//! are propagated on Keplerian orbits (circular by default, with optional
+//! eccentricity and J2 secular nodal/apsidal drift), and a GNSS satellite counts
+//! as visible when Earth does not occult the line of sight and it clears the
+//! user's elevation mask. The visible-satellite count maps to a [`GnssState`].
 //!
 //! Constants: Earth gravitational parameter `mu = 3.986004418e14 m^3/s^2`
-//! (WGS-84 / EGM) and a spherical Earth of mean radius `6371.0 km` (IUGG mean) —
-//! the spherical-Earth simplification is intentional and documented.
+//! (WGS-84 / EGM), a spherical Earth of mean radius `6371.0 km` (IUGG mean) for
+//! occultation, the WGS-84 equatorial radius and J2 for the precession rates. The
+//! two-body + J2-secular model is intentional and documented; it is not a
+//! precise-ephemeris propagator.
 
 use crate::scenario::{ClockCfg, GnssState, GnssTimeline, GnssWindow, TimeCfg};
 use serde::{Deserialize, Serialize};
@@ -19,6 +22,10 @@ use serde::{Deserialize, Serialize};
 pub const MU_EARTH: f64 = 3.986_004_418e14;
 /// Spherical Earth mean radius (m), IUGG mean radius R1.
 pub const R_EARTH_M: f64 = 6_371_000.0;
+/// Earth equatorial radius (m), WGS-84 — used in the J2 precession rates.
+pub const R_EARTH_EQUATORIAL_M: f64 = 6_378_137.0;
+/// Earth second zonal harmonic J2 (dimensionless), EGM-96 / WGS-84.
+pub const J2_EARTH: f64 = 1.082_626_68e-3;
 
 type Vec3 = [f64; 3];
 
@@ -47,27 +54,101 @@ fn normalize(a: Vec3) -> Option<Vec3> {
     }
 }
 
-/// A circular orbit: radius (m), inclination and right ascension of the
-/// ascending node (rad), and argument of latitude at t=0 (rad).
-#[derive(Clone, Copy, Debug)]
-pub struct CircularOrbit {
-    pub radius_m: f64,
-    pub inclination_rad: f64,
-    pub raan_rad: f64,
-    pub u0_rad: f64,
+/// Solve Kepler's equation `M = E - e sin E` for the eccentric anomaly `E` (rad)
+/// by Newton-Raphson. Exact for the circular case (`e = 0` returns `M`).
+fn solve_kepler(mean_anomaly: f64, e: f64) -> f64 {
+    if e == 0.0 {
+        return mean_anomaly;
+    }
+    let mut ea = mean_anomaly;
+    for _ in 0..30 {
+        let d = (ea - e * ea.sin() - mean_anomaly) / (1.0 - e * ea.cos());
+        ea -= d;
+        if d.abs() < 1e-13 {
+            break;
+        }
+    }
+    ea
 }
 
-impl CircularOrbit {
+/// A Keplerian orbit from classical elements: semi-major axis (m), eccentricity,
+/// inclination, RAAN, argument of perigee, and mean anomaly at epoch (rad), plus
+/// optional secular drift rates for the node and perigee (e.g. from J2). A
+/// circular orbit is the `e = 0` special case, for which `u0_rad` is the argument
+/// of latitude at epoch.
+#[derive(Clone, Copy, Debug)]
+pub struct Orbit {
+    /// Semi-major axis (m); equals the orbital radius when circular.
+    pub radius_m: f64,
+    pub eccentricity: f64,
+    pub inclination_rad: f64,
+    pub raan_rad: f64,
+    pub argp_rad: f64,
+    /// Mean anomaly at epoch (rad); the argument of latitude when circular.
+    pub u0_rad: f64,
+    /// Secular RAAN rate (rad/s) — J2 nodal regression when set via [`with_j2`].
+    ///
+    /// [`with_j2`]: Self::with_j2
+    pub raan_dot: f64,
+    /// Secular argument-of-perigee rate (rad/s) — J2 apsidal precession.
+    pub argp_dot: f64,
+}
+
+impl Orbit {
+    /// A circular orbit: radius (m), inclination, RAAN, and argument of latitude
+    /// at epoch (rad).
     pub fn new(radius_m: f64, inclination_rad: f64, raan_rad: f64, u0_rad: f64) -> Self {
         Self {
             radius_m,
+            eccentricity: 0.0,
             inclination_rad,
             raan_rad,
+            argp_rad: 0.0,
             u0_rad,
+            raan_dot: 0.0,
+            argp_dot: 0.0,
         }
     }
 
-    /// Mean motion (rad/s) = sqrt(mu / r^3).
+    /// A Keplerian orbit from classical elements (angles in rad, `a` in m).
+    pub fn keplerian(
+        a: f64,
+        eccentricity: f64,
+        inclination_rad: f64,
+        raan_rad: f64,
+        argp_rad: f64,
+        mean_anomaly0_rad: f64,
+    ) -> Self {
+        Self {
+            radius_m: a,
+            eccentricity,
+            inclination_rad,
+            raan_rad,
+            argp_rad,
+            u0_rad: mean_anomaly0_rad,
+            raan_dot: 0.0,
+            argp_dot: 0.0,
+        }
+    }
+
+    /// Add the secular J2 nodal regression and apsidal precession rates for these
+    /// elements (Vallado, *Fundamentals of Astrodynamics and Applications*):
+    ///
+    /// ```text
+    ///   Omega_dot = -1.5 n J2 (Re/p)^2 cos i
+    ///   argp_dot  =  0.75 n J2 (Re/p)^2 (5 cos^2 i - 1),   p = a (1 - e^2).
+    /// ```
+    pub fn with_j2(mut self) -> Self {
+        let n = self.mean_motion();
+        let p = self.radius_m * (1.0 - self.eccentricity * self.eccentricity);
+        let factor = n * J2_EARTH * (R_EARTH_EQUATORIAL_M / p).powi(2);
+        let ci = self.inclination_rad.cos();
+        self.raan_dot = -1.5 * factor * ci;
+        self.argp_dot = 0.75 * factor * (5.0 * ci * ci - 1.0);
+        self
+    }
+
+    /// Mean motion (rad/s) = sqrt(mu / a^3).
     pub fn mean_motion(&self) -> f64 {
         (MU_EARTH / self.radius_m.powi(3)).sqrt()
     }
@@ -77,21 +158,42 @@ impl CircularOrbit {
         std::f64::consts::TAU / self.mean_motion()
     }
 
+    /// True when this is a plain circular orbit with no secular drift — the
+    /// closed-form fast path, preserved bit-for-bit.
+    pub fn is_circular(&self) -> bool {
+        self.eccentricity == 0.0 && self.raan_dot == 0.0 && self.argp_dot == 0.0
+    }
+
     /// Earth-centred inertial position (m) at time `t` (s).
     ///
-    /// In-plane position `(r cos u, r sin u, 0)` with `u = u0 + n t`, rotated by
-    /// the inclination about the x-axis then by the RAAN about the z-axis.
+    /// The mean anomaly advances as `M = u0 + n t`; Kepler's equation gives the
+    /// eccentric then true anomaly, the radius is `a(1 - e cos E)`, and the
+    /// in-plane position at argument of latitude `argp + nu` is rotated by the
+    /// inclination about x and the (drifting) RAAN about z.
     pub fn position_eci(&self, t: f64) -> Vec3 {
-        let u = self.u0_rad + self.mean_motion() * t;
-        let (su, cu) = u.sin_cos();
+        let n = self.mean_motion();
         let (si, ci) = self.inclination_rad.sin_cos();
-        let (so, co) = self.raan_rad.sin_cos();
-        let r = self.radius_m;
-        // After inclination rotation: (r cu, r su ci, r su si).
-        let x = r * cu;
-        let y = r * su * ci;
-        let z = r * su * si;
-        // After RAAN rotation about z:
+        if self.is_circular() {
+            // Closed-form circular case (identical to the original formulation).
+            let u = self.u0_rad + n * t;
+            let (su, cu) = u.sin_cos();
+            let (so, co) = self.raan_rad.sin_cos();
+            let r = self.radius_m;
+            let (x, y, z) = (r * cu, r * su * ci, r * su * si);
+            return [x * co - y * so, x * so + y * co, z];
+        }
+        let e = self.eccentricity;
+        let raan = self.raan_rad + self.raan_dot * t;
+        let argp = self.argp_rad + self.argp_dot * t;
+        let m = self.u0_rad + n * t;
+        let ea = solve_kepler(m, e);
+        let r = self.radius_m * (1.0 - e * ea.cos());
+        // True anomaly from the eccentric anomaly.
+        let nu =
+            2.0 * ((1.0 + e).sqrt() * (ea * 0.5).sin()).atan2((1.0 - e).sqrt() * (ea * 0.5).cos());
+        let (su, cu) = (argp + nu).sin_cos();
+        let (so, co) = raan.sin_cos();
+        let (x, y, z) = (r * cu, r * su * ci, r * su * si);
         [x * co - y * so, x * so + y * co, z]
     }
 }
@@ -130,7 +232,7 @@ pub fn elevation_deg(user: Vec3, sat: Vec3) -> f64 {
 
 /// Number of GNSS satellites visible from the user at time `t`: not Earth-occulted
 /// and at or above the `mask_deg` elevation mask.
-pub fn visible_count(user: &CircularOrbit, gnss: &[CircularOrbit], t: f64, mask_deg: f64) -> usize {
+pub fn visible_count(user: &Orbit, gnss: &[Orbit], t: f64, mask_deg: f64) -> usize {
     let up = user.position_eci(t);
     gnss.iter()
         .filter(|g| {
@@ -286,7 +388,11 @@ pub fn dop(user: Vec3, sats: &[Vec3]) -> Option<Dop> {
     })
 }
 
-/// A single orbit, configured by altitude and angles in friendly units.
+/// A single orbit, configured by altitude and angles in friendly units. With a
+/// non-zero `eccentricity`, `altitude_km` sets the semi-major-axis altitude
+/// (`a = mean Earth radius + altitude_km`), so perigee/apogee are `a(1 ∓ e)`, and
+/// `u0_deg` is read as the mean anomaly at epoch. Setting `j2 = true` adds the
+/// secular nodal regression and apsidal precession from Earth oblateness.
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct OrbitCfg {
     pub altitude_km: f64,
@@ -295,16 +401,29 @@ pub struct OrbitCfg {
     pub raan_deg: f64,
     #[serde(default)]
     pub u0_deg: f64,
+    #[serde(default)]
+    pub eccentricity: f64,
+    #[serde(default)]
+    pub argp_deg: f64,
+    #[serde(default)]
+    pub j2: bool,
 }
 
 impl OrbitCfg {
-    pub fn to_orbit(&self) -> CircularOrbit {
-        CircularOrbit::new(
+    pub fn to_orbit(&self) -> Orbit {
+        let o = Orbit::keplerian(
             R_EARTH_M + self.altitude_km * 1000.0,
+            self.eccentricity,
             self.inclination_deg.to_radians(),
             self.raan_deg.to_radians(),
+            self.argp_deg.to_radians(),
             self.u0_deg.to_radians(),
-        )
+        );
+        if self.j2 {
+            o.with_j2()
+        } else {
+            o
+        }
     }
 }
 
@@ -323,7 +442,7 @@ pub struct ConstellationCfg {
 
 impl ConstellationCfg {
     /// Generate the constellation's satellites.
-    pub fn satellites(&self) -> Vec<CircularOrbit> {
+    pub fn satellites(&self) -> Vec<Orbit> {
         let r = R_EARTH_M + self.altitude_km * 1000.0;
         let inc = self.inclination_deg.to_radians();
         let total = (self.planes * self.sats_per_plane) as f64;
@@ -333,7 +452,7 @@ impl ConstellationCfg {
             for s in 0..self.sats_per_plane {
                 let u = std::f64::consts::TAU
                     * (s as f64 / self.sats_per_plane as f64 + self.phasing_f * p as f64 / total);
-                sats.push(CircularOrbit::new(r, inc, raan, u));
+                sats.push(Orbit::new(r, inc, raan, u));
             }
         }
         sats
@@ -343,8 +462,8 @@ impl ConstellationCfg {
 /// Build a GNSS availability timeline by sampling the visible-satellite count on
 /// the time grid: each step becomes one half-open window with its derived state.
 pub fn build_timeline(
-    user: &CircularOrbit,
-    gnss: &[CircularOrbit],
+    user: &Orbit,
+    gnss: &[Orbit],
     step_s: f64,
     duration_s: f64,
     mask_deg: f64,
@@ -365,12 +484,7 @@ pub fn build_timeline(
 
 /// Positions of the GNSS satellites visible from the user at time `t`: not
 /// Earth-occulted and at or above the elevation mask.
-pub fn visible_positions(
-    user: &CircularOrbit,
-    gnss: &[CircularOrbit],
-    t: f64,
-    mask_deg: f64,
-) -> Vec<Vec3> {
+pub fn visible_positions(user: &Orbit, gnss: &[Orbit], t: f64, mask_deg: f64) -> Vec<Vec3> {
     let up = user.position_eci(t);
     gnss.iter()
         .filter_map(|g| {
@@ -411,8 +525,8 @@ fn median_sorted(mut v: Vec<f64>) -> Option<f64> {
 /// `sigma_uere_m` is the 1-sigma user-equivalent range error; the position
 /// accuracy at each sample is `pdop * sigma_uere_m`.
 pub fn summarize_dop(
-    user: &CircularOrbit,
-    gnss: &[CircularOrbit],
+    user: &Orbit,
+    gnss: &[Orbit],
     step_s: f64,
     duration_s: f64,
     mask_deg: f64,
@@ -469,13 +583,13 @@ mod tests {
 
     #[test]
     fn period_matches_mean_motion() {
-        let o = CircularOrbit::new(7.0e6, 0.0, 0.0, 0.0);
+        let o = Orbit::new(7.0e6, 0.0, 0.0, 0.0);
         assert!((o.mean_motion() * o.period_s() - std::f64::consts::TAU).abs() < 1e-9);
     }
 
     #[test]
     fn position_returns_after_one_period() {
-        let o = CircularOrbit::new(7.0e6, 0.9, 0.5, 0.3);
+        let o = Orbit::new(7.0e6, 0.9, 0.5, 0.3);
         let p0 = o.position_eci(0.0);
         let p1 = o.position_eci(o.period_s());
         for k in 0..3 {
@@ -490,7 +604,7 @@ mod tests {
 
     #[test]
     fn equatorial_orbit_is_planar() {
-        let o = CircularOrbit::new(7.0e6, 0.0, 0.0, 0.0);
+        let o = Orbit::new(7.0e6, 0.0, 0.0, 0.0);
         for i in 0..8 {
             let t = i as f64 * 300.0;
             assert!(o.position_eci(t)[2].abs() < 1e-6, "z not ~0 at t={t}");
@@ -502,11 +616,71 @@ mod tests {
     #[test]
     fn polar_orbit_stays_in_x_z_plane() {
         // i = 90 deg, RAAN = 0: the orbit plane contains the z-axis, so Y stays ~0.
-        let o = CircularOrbit::new(7.0e6, FRAC_PI_2, 0.0, 0.0);
+        let o = Orbit::new(7.0e6, FRAC_PI_2, 0.0, 0.0);
         for i in 0..8 {
             let t = i as f64 * 300.0;
             assert!(o.position_eci(t)[1].abs() < 1e-6, "y not ~0 at t={t}");
         }
+    }
+
+    #[test]
+    fn kepler_solution_satisfies_the_equation() {
+        // E must satisfy M = E - e sin E; check the residual across e and M.
+        for &(m, e) in &[(1.0, 0.3), (0.2, 0.7), (3.0, 0.1), (-1.5, 0.5)] {
+            let ea = solve_kepler(m, e);
+            assert!((ea - e * ea.sin() - m).abs() < 1e-12, "M={m} e={e}");
+        }
+        assert_eq!(solve_kepler(1.234, 0.0), 1.234); // circular is exact
+    }
+
+    #[test]
+    fn eccentric_orbit_hits_perigee_and_apogee_radii() {
+        // At epoch (M=0) the body is at perigee r=a(1-e); half a period later
+        // (M=pi) it is at apogee r=a(1+e). Equatorial, so it stays in the z=0 plane.
+        let (a, e) = (1.0e7, 0.2);
+        let o = Orbit::keplerian(a, e, 0.0, 0.0, 0.0, 0.0);
+        let rp = norm(o.position_eci(0.0));
+        let ra = norm(o.position_eci(o.period_s() * 0.5));
+        assert!((rp - a * (1.0 - e)).abs() < 1.0, "perigee {rp}");
+        assert!((ra - a * (1.0 + e)).abs() < 1.0, "apogee {ra}");
+        assert!(
+            o.position_eci(1234.0)[2].abs() < 1e-6,
+            "equatorial stays planar"
+        );
+    }
+
+    #[test]
+    fn keplerian_with_zero_eccentricity_matches_the_circular_orbit() {
+        let circ = Orbit::new(7.0e6, 0.6, 0.4, 0.3);
+        let kep = Orbit::keplerian(7.0e6, 0.0, 0.6, 0.4, 0.0, 0.3);
+        for i in 0..6 {
+            let t = i as f64 * 500.0;
+            let (c, k) = (circ.position_eci(t), kep.position_eci(t));
+            for axis in 0..3 {
+                assert!((c[axis] - k[axis]).abs() < 1e-9, "axis {axis} at t={t}");
+            }
+        }
+    }
+
+    #[test]
+    fn j2_precession_signs_and_critical_inclination() {
+        // Prograde (i<90 deg): the node regresses (Omega_dot < 0).
+        let prograde = Orbit::keplerian(7.0e6, 0.0, 0.9, 0.0, 0.0, 0.0).with_j2();
+        assert!(prograde.raan_dot < 0.0, "prograde node should regress");
+        // Polar (i=90 deg): no nodal regression.
+        let polar = Orbit::keplerian(7.0e6, 0.0, FRAC_PI_2, 0.0, 0.0, 0.0).with_j2();
+        assert!(
+            polar.raan_dot.abs() < 1e-12,
+            "polar raan_dot={}",
+            polar.raan_dot
+        );
+        // Retrograde (i>90 deg): the node advances.
+        let retro = Orbit::keplerian(7.0e6, 0.0, 2.0, 0.0, 0.0, 0.0).with_j2();
+        assert!(retro.raan_dot > 0.0, "retrograde node should advance");
+        // Critical inclination i = acos(1/sqrt(5)) ~ 63.43 deg: apsides do not drift.
+        let crit_i = (1.0_f64 / 5.0_f64.sqrt()).acos();
+        let crit = Orbit::keplerian(7.0e6, 0.01, crit_i, 0.0, 0.0, 0.0).with_j2();
+        assert!(crit.argp_dot.abs() < 1e-15, "argp_dot={}", crit.argp_dot);
     }
 
     #[test]
@@ -563,6 +737,9 @@ mod tests {
                 inclination_deg: 0.0,
                 raan_deg: 0.0,
                 u0_deg: 0.0,
+                eccentricity: 0.0,
+                argp_deg: 0.0,
+                j2: false,
             },
             // GPS-like Walker constellation (MEO ~20,180 km, 55 deg).
             constellation: ConstellationCfg {
@@ -700,7 +877,7 @@ mod tests {
         // A full GPS-like constellation seen from a 7000 km user gives a position
         // fix at every sample; position sigma = pdop * uere with a known ratio.
         let scn = scenario(6, 4);
-        let user = CircularOrbit::new(7.0e6, 0.0, 0.0, 0.0);
+        let user = Orbit::new(7.0e6, 0.0, 0.0, 0.0);
         let sats = scn.constellation.satellites();
         let summary = summarize_dop(&user, &sats, 300.0, 3600.0, 5.0, 2.0);
         assert_eq!(summary.samples_total, 3600 / 300 + 1);
@@ -718,13 +895,13 @@ mod tests {
         assert_eq!(gnss_state(4), GnssState::Nominal);
         // A user at 7000 km with four MEO satellites spread around it: the two on
         // the user's side are visible, the antipodal ones are Earth-occulted.
-        let user = CircularOrbit::new(7.0e6, 0.0, 0.0, 0.0); // at (7e6, 0, 0) at t=0
+        let user = Orbit::new(7.0e6, 0.0, 0.0, 0.0); // at (7e6, 0, 0) at t=0
         let meo = 2.0e7 + R_EARTH_M;
         let gnss = vec![
-            CircularOrbit::new(meo, 0.0, 0.0, 0.0), // overhead -> visible
-            CircularOrbit::new(meo, 0.0, 0.0, PI),  // antipodal -> occulted
-            CircularOrbit::new(meo, 0.0, 0.0, 0.3), // near side -> visible
-            CircularOrbit::new(meo, 0.0, 0.0, PI - 0.3), // far side -> occulted
+            Orbit::new(meo, 0.0, 0.0, 0.0),      // overhead -> visible
+            Orbit::new(meo, 0.0, 0.0, PI),       // antipodal -> occulted
+            Orbit::new(meo, 0.0, 0.0, 0.3),      // near side -> visible
+            Orbit::new(meo, 0.0, 0.0, PI - 0.3), // far side -> occulted
         ];
         assert_eq!(visible_count(&user, &gnss, 0.0, 0.0), 2);
     }

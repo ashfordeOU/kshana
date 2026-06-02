@@ -10,6 +10,13 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Eccentric orbits and J2 drift.** The orbit type is now a full Keplerian orbit
+  (semi-major axis, eccentricity, inclination, RAAN, argument of perigee, mean
+  anomaly), propagated by solving Kepler's equation, with optional secular J2 nodal
+  regression and apsidal precession. New optional `eccentricity`, `argp_deg`, and
+  `j2` scenario fields, and an `orbit-molniya.toml` reference scenario (a 12 h
+  highly-eccentric critically-inclined user). Circular orbits keep the original
+  closed-form path bit-for-bit.
 - The hybrid (combined-PNT) pack now reports **Integrity** and **Security**, so all
   four packs cover the full set of operational figures of merit. Integrity is the
   timing-channel protection-bound containment from a Kalman estimator disciplined to
