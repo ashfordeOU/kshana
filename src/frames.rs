@@ -182,6 +182,32 @@ pub fn look_angles(station: Geodetic, target_ecef: Vec3) -> AzElRange {
     }
 }
 
+/// Geodetic elevation (radians) of `target_ecef` above the local horizon at a
+/// geodetic `station` — measured against the **ellipsoid normal** (the local
+/// vertical a real observer uses), not the geocentric radial. The two differ by
+/// up to the geodetic-vs-geocentric latitude deflection (~0.19 deg near 45 deg
+/// latitude), which is enough to flip near-horizon satellites in or out of an
+/// elevation mask. Convenience wrapper over [`look_angles`].
+pub fn elevation(station: Geodetic, target_ecef: Vec3) -> f64 {
+    look_angles(station, target_ecef).el_rad
+}
+
+/// True when `target_ecef` is at or above the elevation mask `mask_deg` as seen
+/// from the geodetic `station` (geodetically correct — uses the ellipsoid normal).
+pub fn is_visible(station: Geodetic, target_ecef: Vec3, mask_deg: f64) -> bool {
+    elevation(station, target_ecef) >= mask_deg.to_radians()
+}
+
+/// Count how many of `targets_ecef` are visible (at or above `mask_deg`) from the
+/// geodetic `station`. The constellation-visibility figure for a ground station,
+/// computed on the WGS-84 ellipsoid rather than a sphere.
+pub fn visible_count(station: Geodetic, targets_ecef: &[Vec3], mask_deg: f64) -> usize {
+    targets_ecef
+        .iter()
+        .filter(|&&t| is_visible(station, t, mask_deg))
+        .count()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -300,6 +326,121 @@ mod tests {
             "az {} should be ~90° (east)",
             east.az_rad
         );
+    }
+
+    /// Geocentric elevation: angle of the line of sight above the plane
+    /// perpendicular to the *geocentric radial* at the station — the spherical-Earth
+    /// approximation, for comparison against the geodetic (ellipsoid-normal) value.
+    fn geocentric_elevation(station_ecef: Vec3, target_ecef: Vec3) -> f64 {
+        let r = norm(station_ecef);
+        let radial = [
+            station_ecef[0] / r,
+            station_ecef[1] / r,
+            station_ecef[2] / r,
+        ];
+        let d = [
+            target_ecef[0] - station_ecef[0],
+            target_ecef[1] - station_ecef[1],
+            target_ecef[2] - station_ecef[2],
+        ];
+        let dn = norm(d);
+        let sin_el = (radial[0] * d[0] + radial[1] * d[1] + radial[2] * d[2]) / dn;
+        sin_el.asin()
+    }
+
+    #[test]
+    fn geodetic_elevation_differs_from_geocentric_off_equator() {
+        // At 45 deg latitude the ellipsoid normal and the geocentric radial differ by
+        // ~0.19 deg, so the two elevation definitions disagree by that much. A
+        // satellite placed along the local vertical (ellipsoid normal) is at geodetic
+        // zenith (90 deg) but NOT at geocentric zenith. This is exactly the error a
+        // spherical-Earth visibility check makes.
+        let station = Geodetic {
+            lat_rad: 45.0_f64.to_radians(),
+            lon_rad: 10.0_f64.to_radians(),
+            alt_m: 0.0,
+        };
+        let s = geodetic_to_ecef(station);
+        // Unit ellipsoid normal at the station.
+        let (sla, cla) = station.lat_rad.sin_cos();
+        let (slo, clo) = station.lon_rad.sin_cos();
+        let normal = [cla * clo, cla * slo, sla];
+        // A satellite 20,000 km straight "up" along the geodetic vertical.
+        let sat = [
+            s[0] + 2.0e7 * normal[0],
+            s[1] + 2.0e7 * normal[1],
+            s[2] + 2.0e7 * normal[2],
+        ];
+
+        let geod = elevation(station, sat).to_degrees();
+        let geoc = geocentric_elevation(s, sat).to_degrees();
+        assert!(
+            (geod - 90.0).abs() < 1e-6,
+            "geodetic zenith should be 90 deg, got {geod}"
+        );
+        let diff = (geod - geoc).abs();
+        assert!(
+            diff > 0.1 && diff < 0.25,
+            "geodetic-vs-geocentric deflection ~0.19 deg, got {diff}"
+        );
+
+        // At the equator the two definitions coincide (normal == radial).
+        let eq = Geodetic {
+            lat_rad: 0.0,
+            lon_rad: 0.0,
+            alt_m: 0.0,
+        };
+        let es = geodetic_to_ecef(eq);
+        let esat = [es[0] + 2.0e7, es[1], es[2]];
+        assert!(
+            (elevation(eq, esat).to_degrees() - geocentric_elevation(es, esat).to_degrees()).abs()
+                < 1e-6
+        );
+    }
+
+    #[test]
+    fn ground_station_sees_a_subset_of_the_walker_constellation() {
+        // End-to-end: generate a Walker GNSS constellation, propagate it, rotate each
+        // satellite TEME -> ECEF, and count how many are visible above a 5 deg mask
+        // from a geodetic ground station. A ground site sees some-but-not-all of a
+        // global constellation (the far side is below the horizon).
+        use crate::orbit::ConstellationCfg;
+        let cfg = ConstellationCfg {
+            altitude_km: 20_200.0,
+            inclination_deg: 55.0,
+            planes: 6,
+            sats_per_plane: 4,
+            phasing_f: 1.0,
+            tle: None,
+            strict_checksum: false,
+        };
+        let sats = cfg.satellites().unwrap();
+        assert_eq!(sats.len(), 24);
+        let jd = 2_458_849.5; // 2020-01-01
+        let sats_ecef: Vec<Vec3> = sats
+            .iter()
+            .map(|p| teme_to_ecef(p.position_eci(0.0), jd))
+            .collect();
+
+        let station = Geodetic {
+            lat_rad: 0.42,
+            lon_rad: 0.0,
+            alt_m: 50.0,
+        };
+        let vis = visible_count(station, &sats_ecef, 5.0);
+        assert!(
+            vis > 0 && vis < sats.len(),
+            "ground station should see some-but-not-all: {vis}/24"
+        );
+        // The visible set must agree with the per-satellite elevation test.
+        let manual = sats_ecef
+            .iter()
+            .filter(|&&s| elevation(station, s).to_degrees() >= 5.0)
+            .count();
+        assert_eq!(vis, manual);
+        // A horizon mask of 90 deg admits at most one satellite (the near-zenith one);
+        // usually none for a sparse 24-sat constellation at an arbitrary instant.
+        assert!(visible_count(station, &sats_ecef, 90.0) <= 1);
     }
 
     #[test]
