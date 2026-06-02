@@ -420,3 +420,133 @@ code {
   font-family: var(--mono);
   font-size: 0.85em;
 }
+
+/* --- Guided mode: start-here panel, preset cards, knobs ----------------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.guide {
+  margin-bottom: 1rem;
+}
+.guide-title {
+  font-size: 1.15rem;
+  margin: 0 0 0.25rem;
+}
+.guide-sub {
+  color: var(--muted);
+  margin: 0 0 0.9rem;
+  max-width: 60ch;
+}
+.presets {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 0.7rem;
+}
+.preset {
+  /* Reset the gradient button styling: cards are quieter than the Run button. */
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  text-align: left;
+  padding: 0.8rem 0.9rem;
+  color: var(--fg);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition:
+    border-color 0.12s ease,
+    transform 0.06s ease,
+    box-shadow 0.12s ease;
+}
+.preset:hover:not(:disabled) {
+  filter: none;
+  border-color: var(--accent);
+  box-shadow: 0 2px 12px color-mix(in srgb, var(--accent) 22%, transparent);
+}
+.preset.is-active {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 1px var(--accent);
+}
+.preset-title {
+  font-weight: 700;
+}
+.preset-q {
+  color: var(--muted);
+  font-size: 0.86rem;
+  font-weight: 400;
+}
+.ghost {
+  color: var(--accent);
+  background: transparent;
+  border: 1px solid var(--line);
+}
+.ghost:hover:not(:disabled) {
+  filter: none;
+  border-color: var(--accent);
+  box-shadow: none;
+}
+.guided {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 0.9rem 1.4rem;
+  margin: 0.9rem 0 0.2rem;
+}
+.knob label {
+  display: block;
+  font-size: 0.92rem;
+}
+.knob-help {
+  display: block;
+  font-weight: 400;
+  color: var(--muted);
+  font-size: 0.8rem;
+  margin-top: 0.1rem;
+}
+.knob-row {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.35rem;
+}
+.knob-row input[type="range"] {
+  flex: 1 1 auto;
+  accent-color: var(--accent);
+}
+.knob-out {
+  min-width: 3.5ch;
+  font-family: var(--mono);
+  font-weight: 600;
+  color: var(--accent);
+}
+.advanced {
+  margin-top: 1rem;
+  border-top: 1px solid var(--line);
+  padding-top: 0.6rem;
+}
+.advanced > summary,
+.reading > summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--muted);
+}
+.advanced > summary:hover,
+.reading > summary:hover {
+  color: var(--accent);
+}
+.reading {
+  margin: 0.4rem 0 0.6rem;
+}
+.reading p {
+  color: var(--muted);
+  max-width: 70ch;
+  margin: 0.5rem 0 0;
+}
