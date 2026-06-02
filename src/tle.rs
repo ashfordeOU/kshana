@@ -156,9 +156,12 @@ pub fn parse_tle(line1: &str, line2: &str) -> Result<Tle, String> {
             .map_err(|_| format!("invalid {what} in TLE: {s:?}"))
     };
     // Epoch: two-digit year (57-99 -> 19xx, 00-56 -> 20xx) and day-of-year.
-    let yy: i64 = col(line1, 18, 20, "epoch year")?
-        .parse()
-        .map_err(|_| format!("invalid epoch year in TLE: {:?}", col(line1, 18, 20, "").ok()))?;
+    let yy: i64 = col(line1, 18, 20, "epoch year")?.parse().map_err(|_| {
+        format!(
+            "invalid epoch year in TLE: {:?}",
+            col(line1, 18, 20, "").ok()
+        )
+    })?;
     let year = if yy < 57 { 2000 + yy } else { 1900 + yy };
     let epochdays = num(col(line1, 20, 32, "epoch day")?, "epoch day")?;
     // SGP4 epoch in days since 1950 Jan 0.0 (day-of-year is 1-based; Jan 1.0 -> 1.0).
@@ -174,8 +177,14 @@ pub fn parse_tle(line1: &str, line2: &str) -> Result<Tle, String> {
 
     let inclo = num(col(line2, 8, 16, "inclination")?, "inclination")?;
     let nodeo = num(col(line2, 17, 25, "RAAN")?, "RAAN")?;
-    let ecco = num(&format!("0.{}", col(line2, 26, 33, "eccentricity")?), "eccentricity")?;
-    let argpo = num(col(line2, 34, 42, "argument of perigee")?, "argument of perigee")?;
+    let ecco = num(
+        &format!("0.{}", col(line2, 26, 33, "eccentricity")?),
+        "eccentricity",
+    )?;
+    let argpo = num(
+        col(line2, 34, 42, "argument of perigee")?,
+        "argument of perigee",
+    )?;
     let mo = num(col(line2, 43, 51, "mean anomaly")?, "mean anomaly")?;
     let no_rev_day = num(col(line2, 52, 63, "mean motion")?, "mean motion")?;
 
@@ -195,9 +204,15 @@ pub fn parse_tle(line1: &str, line2: &str) -> Result<Tle, String> {
 }
 
 /// Range-check the physical orbital elements shared by both parse paths.
-fn check_elements(inclination_deg: f64, eccentricity: f64, mean_motion_rev_day: f64) -> Result<(), String> {
+fn check_elements(
+    inclination_deg: f64,
+    eccentricity: f64,
+    mean_motion_rev_day: f64,
+) -> Result<(), String> {
     if !(0.0..=180.0).contains(&inclination_deg) {
-        return Err(format!("inclination out of range [0, 180] deg: {inclination_deg}"));
+        return Err(format!(
+            "inclination out of range [0, 180] deg: {inclination_deg}"
+        ));
     }
     if !(0.0..1.0).contains(&eccentricity) {
         return Err(format!("eccentricity out of range [0, 1): {eccentricity}"));
@@ -237,8 +252,14 @@ pub fn parse_line2(line2: &str) -> Result<Orbit, String> {
     };
     let inclination_deg = num(col(line2, 8, 16, "inclination")?, "inclination")?;
     let raan_deg = num(col(line2, 17, 25, "RAAN")?, "RAAN")?;
-    let ecc = num(&format!("0.{}", col(line2, 26, 33, "eccentricity")?), "eccentricity")?;
-    let argp_deg = num(col(line2, 34, 42, "argument of perigee")?, "argument of perigee")?;
+    let ecc = num(
+        &format!("0.{}", col(line2, 26, 33, "eccentricity")?),
+        "eccentricity",
+    )?;
+    let argp_deg = num(
+        col(line2, 34, 42, "argument of perigee")?,
+        "argument of perigee",
+    )?;
     let mean_anomaly_deg = num(col(line2, 43, 51, "mean anomaly")?, "mean anomaly")?;
     let mean_motion_rev_day = num(col(line2, 52, 63, "mean motion")?, "mean motion")?;
 
@@ -409,7 +430,9 @@ mod tests {
         assert_eq!(parse_propagators(&bad).unwrap().len(), 1);
 
         // Strict parsing enforces it: good passes, corrupt errors (no panic).
-        let strict = ParseOpts { strict_checksum: true };
+        let strict = ParseOpts {
+            strict_checksum: true,
+        };
         assert_eq!(parse_propagators_opts(&good, strict).unwrap().len(), 1);
         assert!(parse_propagators_opts(&bad, strict).is_err());
 
