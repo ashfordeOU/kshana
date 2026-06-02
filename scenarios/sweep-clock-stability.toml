@@ -1,0 +1,44 @@
+# Trade study: how does holdover scale with clock stability?
+#
+# Sweep the classical clock's white-FM noise PSD (q_wf = sigma_y(1s)^2) across
+# five decades and record the holdover time — the seconds the clock keeps the
+# timing solution inside the spec after GNSS is lost. The quantum clock is held
+# fixed, so its curve is flat and the gap to the classical curve is the stability
+# advantage as a function of clock grade. Vendor-neutral; the base scenario is the
+# 2 h clock-holdover reference.
+
+kind = "sweep"
+parameter = "classical_q_wf"   # vary the classical white-FM PSD
+metric = "holdover_s"          # record the holdover time
+start = 1.0e-24                # ~ optical-class sigma_y(1s)=1e-12
+stop = 1.0e-18                 # ~ poor oscillator sigma_y(1s)=1e-9
+steps = 25
+scale = "log"
+
+[base]
+seed = 42
+threshold_ns = 20.0
+
+[base.time]
+step_s = 10.0
+duration_s = 7200.0
+
+[base.gnss]
+windows = [
+  { t0 = 0.0,    t1 = 600.0,  state = "nominal" },
+  { t0 = 600.0,  t1 = 7200.0, state = "denied" },
+]
+
+[base.clock_quantum]
+id = "optical-sr-lattice"
+provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (arXiv:1503.08457); q_wf=sigma_y(1s)^2; not flown."
+y0   = 5.0e-17
+q_wf = 1.0e-30
+q_rw = 0.0
+
+[base.clock_classical]
+id = "csac-sa45s"
+provenance = "Microchip SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_wf is swept by this study."
+y0   = 5.0e-10
+q_wf = 9.0e-20
+q_rw = 0.0
