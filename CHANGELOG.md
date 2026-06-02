@@ -10,6 +10,15 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Coning and sculling compensation for the strapdown integrator.** The
+  attitude path adds the two-sample `coning_increment` (`½ Δθ_prev × Δθ_cur`); a
+  coarse-rate (30 Hz, 5-samples/cycle) integration of a 5 Hz coning environment
+  is verified to track fine-rate truth ≥ 3× better with the correction than naive
+  increment-summing. The velocity path adds `sculling_increment` (`½ Δθ × Δv`,
+  Groves eq. 5.82) and resolves the body velocity increment through a new
+  `NavState::step_increments` increment-based update using the body-relative
+  rotation `Δθ_rel = Δθ_b − C_n^b ζ`, so an Earth-fixed platform incurs no
+  spurious sculling while a genuine vibration triggers the full term.
 - **Full three-axis strapdown mechanization in the NED frame (`src/inertial/mechanization.rs`).**
   `NavState { q, v_ned, p_llh }` is advanced by `step(gyro_b, accel_f_b, dt)` using
   the standard terrestrial-frame NED equations (Groves §5.4): body→NED attitude
