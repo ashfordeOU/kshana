@@ -585,8 +585,24 @@ pub struct OrbitClockScenario {
     pub time: TimeCfg,
     pub user: OrbitCfg,
     pub constellation: ConstellationCfg,
+    /// Additional constellations combined with `constellation` for multi-GNSS
+    /// availability and dilution of precision (e.g. GPS plus Galileo).
+    #[serde(default)]
+    pub constellations: Vec<ConstellationCfg>,
     pub clock_quantum: ClockCfg,
     pub clock_classical: ClockCfg,
+}
+
+impl OrbitClockScenario {
+    /// All satellites visible to the user: the primary constellation plus any
+    /// additional ones, parsed and combined.
+    pub fn all_satellites(&self) -> Result<Vec<Orbit>, String> {
+        let mut sats = self.constellation.satellites()?;
+        for c in &self.constellations {
+            sats.extend(c.satellites()?);
+        }
+        Ok(sats)
+    }
 }
 
 #[cfg(test)]
@@ -763,6 +779,7 @@ mod tests {
                 phasing_f: 1.0,
                 tle: None,
             },
+            constellations: vec![],
             clock_quantum: clock("optical", 1e-13, 1e-26, 1e-34),
             clock_classical: clock("csac", 1e-11, 1e-24, 1e-32),
         }
@@ -800,6 +817,22 @@ mod tests {
         );
         assert!(r.quantum.fom.timing_p95_ns <= r.classical.fom.timing_p95_ns);
         assert!(r.quantum.fom.integrity.is_some());
+    }
+
+    #[test]
+    fn additional_constellations_add_their_satellites() {
+        // A second constellation combines with the first for visibility/DOP.
+        let mut scn = scenario(6, 4);
+        assert_eq!(scn.all_satellites().unwrap().len(), 24);
+        scn.constellations.push(ConstellationCfg {
+            altitude_km: 23222.0, // Galileo-like
+            inclination_deg: 56.0,
+            planes: 3,
+            sats_per_plane: 8,
+            phasing_f: 1.0,
+            tle: None,
+        });
+        assert_eq!(scn.all_satellites().unwrap().len(), 24 + 24);
     }
 
     #[test]

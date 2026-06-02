@@ -82,7 +82,7 @@ pub(crate) fn run_clock(scn: &Scenario, cfg: &ClockCfg, seed: u64) -> ClockRun {
 /// visibility timeline, which then drives the standard clock-holdover run.
 pub fn run_orbit_clock(scn: &crate::orbit::OrbitClockScenario) -> Result<RunResult, String> {
     let user = scn.user.to_orbit();
-    let sats = scn.constellation.satellites()?;
+    let sats = scn.all_satellites()?;
     let timeline = crate::orbit::build_timeline(
         &user,
         &sats,

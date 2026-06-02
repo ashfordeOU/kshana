@@ -9,6 +9,12 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+- **Multi-constellation availability.** An orbit scenario can combine several
+  constellations (a `[[constellations]]` list alongside the primary
+  `[constellation]`) for multi-GNSS availability and dilution of precision — e.g.
+  GPS plus Galileo. New `orbit-multignss.toml` reference scenario.
+
 ### Planned
 - Higher-fidelity orbit propagation (precise SGP4 ephemerides / perturbations),
   beyond the current two-body + J2-secular mean-element model.
