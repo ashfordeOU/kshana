@@ -5,9 +5,17 @@
 //! slowly drags its clock solution. The classical defence is a *clock-aided
 //! integrity monitor*: the receiver predicts time forward from its own clock and
 //! cross-checks the GNSS-derived time against that prediction, flagging a fault
-//! when the two disagree by more than a few sigma (innovation / RAIM-style fault
-//! detection — Brown, "A baseline GPS RAIM scheme"; Groves, *Principles of GNSS,
-//! Inertial, and Multisensor Integrated Navigation Systems*, integrity chapter).
+//! when the two disagree by more than a few sigma.
+//!
+//! This is a **single-clock consistency monitor**, NOT a multi-satellite RAIM
+//! detector: there are no pseudorange residuals across several satellites, no
+//! protection level, and no probability of hazardously misleading information.
+//! The innovation-vs-sigma test is mathematically the same shape as the fault
+//! detection in Brown, "A baseline GPS RAIM scheme" (and Groves, *Principles of
+//! GNSS, Inertial, and Multisensor Integrated Navigation Systems*, integrity
+//! chapter), but the score it produces is an analytic *spoof-detectability
+//! bound* for a given clock — not an implementation of RAIM. Real multi-SV
+//! RAIM/ARAIM with HPL/VPL is a roadmap item; see `docs/INTEGRITY.md`.
 //!
 //! Over a coherent monitoring window of length `tau`, the comparison uncertainty
 //! has two independent contributions:
