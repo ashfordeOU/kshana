@@ -198,6 +198,49 @@ impl Orbit {
     }
 }
 
+/// A satellite propagator: either the engine's analytic Keplerian [`Orbit`]
+/// (two-body, optionally with secular J2) or a full SGP4/SDP4 propagator built
+/// from a complete two-line element set. A constellation can mix the two — a
+/// block of line-2-only elements stays Keplerian, while full TLEs use SGP4.
+///
+/// Time is seconds from the scenario epoch; for SGP4 that epoch is each
+/// satellite's own TLE epoch, so a real constellation should be given from a
+/// common epoch (as a snapshot study assumes).
+#[derive(Clone, Debug)]
+pub enum Propagator {
+    Kepler(Orbit),
+    Sgp4(Box<crate::sgp4::Sgp4>),
+}
+
+impl Propagator {
+    /// Inertial position (m) at time `t` (s). For an SGP4 satellite this is the
+    /// TEME position; a propagation error (e.g. a decayed satellite) returns the
+    /// geocentre, which is then treated as not visible by the geometry checks.
+    pub fn position_eci(&self, t: f64) -> Vec3 {
+        match self {
+            Propagator::Kepler(o) => o.position_eci(t),
+            Propagator::Sgp4(s) => match s.propagate(t / 60.0) {
+                Ok((r_km, _v)) => [r_km[0] * 1000.0, r_km[1] * 1000.0, r_km[2] * 1000.0],
+                Err(_) => [0.0, 0.0, 0.0],
+            },
+        }
+    }
+
+    /// Nominal orbital period (s).
+    pub fn period_s(&self) -> f64 {
+        match self {
+            Propagator::Kepler(o) => o.period_s(),
+            Propagator::Sgp4(s) => s.period_s(),
+        }
+    }
+}
+
+impl From<Orbit> for Propagator {
+    fn from(o: Orbit) -> Self {
+        Propagator::Kepler(o)
+    }
+}
+
 /// True when the Earth sphere (radius `R_EARTH_M`) occults the line of sight
 /// between `user` and `sat`: the closest point of the segment to Earth's centre
 /// lies inside the sphere.
@@ -232,7 +275,7 @@ pub fn elevation_deg(user: Vec3, sat: Vec3) -> f64 {
 
 /// Number of GNSS satellites visible from the user at time `t`: not Earth-occulted
 /// and at or above the `mask_deg` elevation mask.
-pub fn visible_count(user: &Orbit, gnss: &[Orbit], t: f64, mask_deg: f64) -> usize {
+pub fn visible_count(user: &Orbit, gnss: &[Propagator], t: f64, mask_deg: f64) -> usize {
     let up = user.position_eci(t);
     gnss.iter()
         .filter(|g| {
@@ -450,11 +493,13 @@ pub struct ConstellationCfg {
 }
 
 impl ConstellationCfg {
-    /// Generate the constellation's satellites: parsed from the TLE block if one
-    /// is given, otherwise the synthetic Walker-delta pattern.
-    pub fn satellites(&self) -> Result<Vec<Orbit>, String> {
+    /// Generate the constellation's satellite propagators: parsed from the TLE
+    /// block if one is given (full two-line sets become SGP4 propagators,
+    /// line-2-only blocks stay analytic Keplerian), otherwise the synthetic
+    /// Walker-delta pattern (Keplerian).
+    pub fn satellites(&self) -> Result<Vec<Propagator>, String> {
         if let Some(text) = &self.tle {
-            return crate::tle::parse_set(text);
+            return crate::tle::parse_propagators(text);
         }
         let r = R_EARTH_M + self.altitude_km * 1000.0;
         let inc = self.inclination_deg.to_radians();
@@ -465,7 +510,7 @@ impl ConstellationCfg {
             for s in 0..self.sats_per_plane {
                 let u = std::f64::consts::TAU
                     * (s as f64 / self.sats_per_plane as f64 + self.phasing_f * p as f64 / total);
-                sats.push(Orbit::new(r, inc, raan, u));
+                sats.push(Propagator::Kepler(Orbit::new(r, inc, raan, u)));
             }
         }
         Ok(sats)
@@ -476,7 +521,7 @@ impl ConstellationCfg {
 /// the time grid: each step becomes one half-open window with its derived state.
 pub fn build_timeline(
     user: &Orbit,
-    gnss: &[Orbit],
+    gnss: &[Propagator],
     step_s: f64,
     duration_s: f64,
     mask_deg: f64,
@@ -497,7 +542,7 @@ pub fn build_timeline(
 
 /// Positions of the GNSS satellites visible from the user at time `t`: not
 /// Earth-occulted and at or above the elevation mask.
-pub fn visible_positions(user: &Orbit, gnss: &[Orbit], t: f64, mask_deg: f64) -> Vec<Vec3> {
+pub fn visible_positions(user: &Orbit, gnss: &[Propagator], t: f64, mask_deg: f64) -> Vec<Vec3> {
     let up = user.position_eci(t);
     gnss.iter()
         .filter_map(|g| {
@@ -539,7 +584,7 @@ fn median_sorted(mut v: Vec<f64>) -> Option<f64> {
 /// accuracy at each sample is `pdop * sigma_uere_m`.
 pub fn summarize_dop(
     user: &Orbit,
-    gnss: &[Orbit],
+    gnss: &[Propagator],
     step_s: f64,
     duration_s: f64,
     mask_deg: f64,
@@ -596,7 +641,7 @@ pub struct OrbitClockScenario {
 impl OrbitClockScenario {
     /// All satellites visible to the user: the primary constellation plus any
     /// additional ones, parsed and combined.
-    pub fn all_satellites(&self) -> Result<Vec<Orbit>, String> {
+    pub fn all_satellites(&self) -> Result<Vec<Propagator>, String> {
         let mut sats = self.constellation.satellites()?;
         for c in &self.constellations {
             sats.extend(c.satellites()?);
@@ -945,11 +990,11 @@ mod tests {
         // the user's side are visible, the antipodal ones are Earth-occulted.
         let user = Orbit::new(7.0e6, 0.0, 0.0, 0.0); // at (7e6, 0, 0) at t=0
         let meo = 2.0e7 + R_EARTH_M;
-        let gnss = vec![
-            Orbit::new(meo, 0.0, 0.0, 0.0),      // overhead -> visible
-            Orbit::new(meo, 0.0, 0.0, PI),       // antipodal -> occulted
-            Orbit::new(meo, 0.0, 0.0, 0.3),      // near side -> visible
-            Orbit::new(meo, 0.0, 0.0, PI - 0.3), // far side -> occulted
+        let gnss: Vec<Propagator> = vec![
+            Orbit::new(meo, 0.0, 0.0, 0.0).into(), // overhead -> visible
+            Orbit::new(meo, 0.0, 0.0, PI).into(),  // antipodal -> occulted
+            Orbit::new(meo, 0.0, 0.0, 0.3).into(), // near side -> visible
+            Orbit::new(meo, 0.0, 0.0, PI - 0.3).into(), // far side -> occulted
         ];
         assert_eq!(visible_count(&user, &gnss, 0.0, 0.0), 2);
     }

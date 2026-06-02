@@ -40,8 +40,9 @@ flowchart TD
     timetransfer["timetransfer.rs<br/>Pack 3 · TimeTransferLink · run_timetransfer"]
     hybrid["hybrid.rs<br/>Pack 4 · run_suite · score_hybrid · run_hybrid (+ integrity/security)"]
     fusion["fusion.rs<br/>joint Kalman PNT estimator · run_fusion"]
-    orbit["orbit.rs<br/>Keplerian orbit (+ e, J2) · Walker / TLE / multi-constellation · visibility · DOP"]
-    tle["tle.rs<br/>two-line element parsing"]
+    orbit["orbit.rs<br/>Propagator (Kepler | SGP4) · Walker / TLE / multi-constellation · visibility · DOP"]
+    tle["tle.rs<br/>two-line element parsing (line 2 → Kepler, full TLE → SGP4)"]
+    sgp4mod["sgp4.rs<br/>SGP4 / SDP4 propagator (deep-space + resonance)"]
     ensemble["ensemble.rs<br/>Monte Carlo confidence bands"]
     sweep["sweep.rs<br/>trade-study parameter sweeps"]
     spoof["spoof.rs<br/>active spoofing-attack demonstrator"]
@@ -61,6 +62,8 @@ flowchart TD
     ensemble --> run
     sweep --> run
     orbit --> tle
+    tle --> sgp4mod
+    orbit -. SGP4 propagator .-> sgp4mod
     fusion -. composes .-> models
     fusion -. composes .-> inertial
     fusion --> kalman
@@ -205,13 +208,19 @@ flowchart LR
 
 ## 6. Geometry-derived GNSS availability
 
-`orbit.rs` is a deterministic, dependency-free geometry layer (circular two-body
-propagation, a Walker-delta constellation generator, and line-of-sight visibility =
-Earth occultation + elevation mask). The visible-satellite count maps to a GNSS state
+`orbit.rs` is a deterministic, dependency-free geometry layer. A `Propagator` is
+either the analytic Keplerian `Orbit` (two-body, optionally secular J2) or a full
+`Sgp4` propagator built from a complete two-line element set; a Walker-delta
+generator produces synthetic constellations, and line-of-sight visibility = Earth
+occultation + elevation mask. The visible-satellite count maps to a GNSS state
 (≥4 = nominal, 1–3 = degraded, 0 = denied), and `build_timeline` turns that into the
 availability timeline that drives the standard clock-holdover run. Availability is
 therefore *derived from geometry* rather than hand-authored, while the run, estimator,
 and scoring stay unchanged.
+
+A constellation supplied as full TLEs is propagated with the SGP4/SDP4 model in
+`sgp4.rs` (validated against the AIAA 2006-6753 vectors); line-2-only elements keep
+the analytic two-body path. The two can be mixed within one constellation block.
 
 ```mermaid
 flowchart LR
@@ -243,12 +252,12 @@ WebAssembly module backs the browser playground in `web/` (`run`, `chart_svg`,
 
 ## 9. Deferred / future structure
 
-Tracked in [CHANGELOG](../CHANGELOG.md) `[Unreleased]`: higher-fidelity SGP4 orbit
-propagation beyond the current two-body + J2-secular mean-element model. The
-position-domain dilution of precision, the Security figure of merit (across all four
-packs) with an active spoofing-attack demonstrator, eccentric/J2 orbits, real TLE and
-multi-constellation geometry, the full IMU Allan-variance model, the joint Kalman
-fusion estimator, Monte Carlo confidence bands, trade-study sweeps, the HTML scorecard,
-and a package-publishing workflow have shipped. A private overlay repo holds
-export-sensitive resilience depth; it plugs in via the same `ErrorModel` interface
-without changing the public engine.
+Tracked in [CHANGELOG](../CHANGELOG.md) `[Unreleased]`: velocity-domain outputs from
+the SGP4 propagator. The position-domain dilution of precision, the Security figure of
+merit (across all four packs) with an active spoofing-attack demonstrator, eccentric/J2
+orbits, real TLE and multi-constellation geometry, the full SGP4/SDP4 propagator
+(deep-space and resonance, validated against the AIAA 2006-6753 vectors), the full IMU
+Allan-variance model, the joint Kalman fusion estimator, Monte Carlo confidence bands,
+trade-study sweeps, the HTML scorecard, and a package-publishing workflow have shipped.
+A private overlay repo holds export-sensitive resilience depth; it plugs in via the
+same `ErrorModel` interface without changing the public engine.
