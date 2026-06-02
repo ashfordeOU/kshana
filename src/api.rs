@@ -201,7 +201,7 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
             let r = crate::run::run_orbit_clock(&scn)?;
             let geometry = crate::orbit::summarize_dop(
                 &scn.user.to_orbit(),
-                &scn.constellation.satellites()?,
+                &scn.all_satellites()?,
                 scn.time.step_s,
                 scn.time.duration_s,
                 scn.mask_deg,
@@ -284,6 +284,7 @@ mod tests {
             include_str!("../scenarios/fusion-pnt.toml"),
             include_str!("../scenarios/orbit-gnss-challenged.toml"),
             include_str!("../scenarios/orbit-molniya.toml"),
+            include_str!("../scenarios/orbit-multignss.toml"),
             include_str!("../scenarios/orbit-real-tle.toml"),
             include_str!("../scenarios/sweep-clock-stability.toml"),
         ] {
