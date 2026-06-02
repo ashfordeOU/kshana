@@ -74,13 +74,81 @@ impl Tle {
     }
 }
 
+/// Reject a TLE line that is not pure ASCII. The fixed-column format is defined
+/// over single-byte characters; a multi-byte char would make the byte columns
+/// misalign (and a naive `&str` byte slice would panic on a char boundary), so a
+/// non-ASCII line is rejected up front rather than parsed.
+fn ascii_guard(line: &str, label: &str) -> Result<(), String> {
+    if line.is_ascii() {
+        Ok(())
+    } else {
+        Err(format!("non-ASCII characters in TLE {label}: {line:?}"))
+    }
+}
+
+/// Trimmed fixed-column field `[a, z)`. Returns an `Err` (never panics) if the
+/// line is too short for the range — callers have already run [`ascii_guard`], so
+/// byte offsets equal character offsets and `get` only guards the length.
+fn col<'a>(line: &'a str, a: usize, z: usize, what: &str) -> Result<&'a str, String> {
+    line.get(a..z)
+        .map(str::trim)
+        .ok_or_else(|| format!("TLE truncated reading {what} (columns {}..{})", a + 1, z))
+}
+
+/// The TLE line checksum: the sum of the digits in columns 1..68 (each `-` counts
+/// as 1, everything else as 0) taken modulo 10. The published line carries this
+/// value in column 69.
+pub fn tle_checksum(line: &str) -> u32 {
+    line.bytes()
+        .take(68)
+        .map(|b| match b {
+            b'0'..=b'9' => (b - b'0') as u32,
+            b'-' => 1,
+            _ => 0,
+        })
+        .sum::<u32>()
+        % 10
+}
+
+/// Verify the modulo-10 checksum in column 69 against the computed value.
+/// Used only in strict mode; many synthetic/teaching TLEs carry placeholder
+/// checksum digits, so lenient parsing skips this.
+pub fn verify_checksum(line: &str, label: &str) -> Result<(), String> {
+    let want = line
+        .as_bytes()
+        .get(68)
+        .copied()
+        .ok_or_else(|| format!("TLE {label} too short for a column-69 checksum"))?;
+    if !want.is_ascii_digit() {
+        return Err(format!("TLE {label} has no checksum digit in column 69"));
+    }
+    let want = (want - b'0') as u32;
+    let got = tle_checksum(line);
+    if want != got {
+        return Err(format!(
+            "TLE {label} checksum mismatch: column 69 says {want}, computed {got}"
+        ));
+    }
+    Ok(())
+}
+
 /// Parse a full TLE (line 1 + line 2) into [`Tle`] for SGP4 propagation. Fixed
 /// columns per the NORAD format; the exponent fields (`nddot`, `bstar`) carry an
 /// implied leading decimal point and a trailing power-of-ten.
+///
+/// Lines must be pure ASCII and at least the standard 63 columns; element values
+/// are range-checked (inclination in `[0, 180]`, eccentricity in `[0, 1)`, mean
+/// motion positive). Returns a descriptive `Err` — never panics — on malformed
+/// input. The column-69 checksum is *not* enforced here (see [`verify_checksum`]
+/// and [`parse_propagators_opts`] for strict-mode checking).
 pub fn parse_tle(line1: &str, line2: &str) -> Result<Tle, String> {
-    let l1 = line1;
-    if !l1.starts_with("1 ") || l1.len() < 63 {
-        return Err(format!("not a TLE line 1: {l1:?}"));
+    ascii_guard(line1, "line 1")?;
+    ascii_guard(line2, "line 2")?;
+    if !line1.starts_with("1 ") || line1.len() < 63 {
+        return Err(format!("not a TLE line 1: {line1:?}"));
+    }
+    if !line2.starts_with("2 ") || line2.len() < 63 {
+        return Err(format!("not a TLE line 2: {line2:?}"));
     }
     let num = |s: &str, what: &str| -> Result<f64, String> {
         s.trim()
@@ -88,28 +156,30 @@ pub fn parse_tle(line1: &str, line2: &str) -> Result<Tle, String> {
             .map_err(|_| format!("invalid {what} in TLE: {s:?}"))
     };
     // Epoch: two-digit year (57-99 -> 19xx, 00-56 -> 20xx) and day-of-year.
-    let yy: i64 = l1[18..20]
-        .trim()
+    let yy: i64 = col(line1, 18, 20, "epoch year")?
         .parse()
-        .map_err(|_| format!("invalid epoch year in TLE: {:?}", &l1[18..20]))?;
+        .map_err(|_| format!("invalid epoch year in TLE: {:?}", col(line1, 18, 20, "").ok()))?;
     let year = if yy < 57 { 2000 + yy } else { 1900 + yy };
-    let epochdays = num(&l1[20..32], "epoch day")?;
+    let epochdays = num(col(line1, 20, 32, "epoch day")?, "epoch day")?;
     // SGP4 epoch in days since 1950 Jan 0.0 (day-of-year is 1-based; Jan 1.0 -> 1.0).
     let epoch_days_1950 = days_1950_to_year(year) + epochdays;
 
     // bstar: sign at col 54, 5-digit mantissa, 2-char power of ten.
-    let bstar = parse_decimal_exp(&l1[53..54], &l1[54..59], &l1[59..61], "bstar")?;
+    let bstar = parse_decimal_exp(
+        col(line1, 53, 54, "bstar sign")?,
+        col(line1, 54, 59, "bstar mantissa")?,
+        col(line1, 59, 61, "bstar exponent")?,
+        "bstar",
+    )?;
 
-    if !line2.starts_with("2 ") || line2.len() < 63 {
-        return Err(format!("not a TLE line 2: {line2:?}"));
-    }
-    let f = |a: usize, z: usize| line2[a..z].trim();
-    let inclo = num(f(8, 16), "inclination")?;
-    let nodeo = num(f(17, 25), "RAAN")?;
-    let ecco = num(&format!("0.{}", f(26, 33)), "eccentricity")?;
-    let argpo = num(f(34, 42), "argument of perigee")?;
-    let mo = num(f(43, 51), "mean anomaly")?;
-    let no_rev_day = num(f(52, 63), "mean motion")?;
+    let inclo = num(col(line2, 8, 16, "inclination")?, "inclination")?;
+    let nodeo = num(col(line2, 17, 25, "RAAN")?, "RAAN")?;
+    let ecco = num(&format!("0.{}", col(line2, 26, 33, "eccentricity")?), "eccentricity")?;
+    let argpo = num(col(line2, 34, 42, "argument of perigee")?, "argument of perigee")?;
+    let mo = num(col(line2, 43, 51, "mean anomaly")?, "mean anomaly")?;
+    let no_rev_day = num(col(line2, 52, 63, "mean motion")?, "mean motion")?;
+
+    check_elements(inclo, ecco, no_rev_day)?;
 
     Ok(Tle {
         epoch_days_1950,
@@ -122,6 +192,20 @@ pub fn parse_tle(line1: &str, line2: &str) -> Result<Tle, String> {
         no_kozai_rad_min: no_rev_day * std::f64::consts::TAU / 1440.0,
         nodeo_rad: nodeo.to_radians(),
     })
+}
+
+/// Range-check the physical orbital elements shared by both parse paths.
+fn check_elements(inclination_deg: f64, eccentricity: f64, mean_motion_rev_day: f64) -> Result<(), String> {
+    if !(0.0..=180.0).contains(&inclination_deg) {
+        return Err(format!("inclination out of range [0, 180] deg: {inclination_deg}"));
+    }
+    if !(0.0..1.0).contains(&eccentricity) {
+        return Err(format!("eccentricity out of range [0, 1): {eccentricity}"));
+    }
+    if mean_motion_rev_day.is_nan() || mean_motion_rev_day <= 0.0 {
+        return Err(format!("non-positive mean motion: {mean_motion_rev_day}"));
+    }
+    Ok(())
 }
 
 /// Parse a TLE "assumed decimal point" exponential field: a sign character, a
@@ -143,26 +227,22 @@ fn parse_decimal_exp(sign: &str, mant: &str, exp: &str, what: &str) -> Result<f6
 /// be at least the standard 63 columns. Angles are read by their fixed columns;
 /// the eccentricity has an implied leading decimal point.
 pub fn parse_line2(line2: &str) -> Result<Orbit, String> {
-    let b = line2.as_bytes();
-    if !line2.starts_with("2 ") || b.len() < 63 {
+    ascii_guard(line2, "line 2")?;
+    if !line2.starts_with("2 ") || line2.len() < 63 {
         return Err(format!("not a TLE line 2: {line2:?}"));
     }
-    // Fixed-column fields (1-indexed in the spec; sliced 0-indexed here).
-    let field = |a: usize, z: usize| line2[a..z].trim();
     let num = |s: &str, what: &str| -> Result<f64, String> {
         s.parse::<f64>()
             .map_err(|_| format!("invalid {what} in TLE: {s:?}"))
     };
-    let inclination_deg = num(field(8, 16), "inclination")?;
-    let raan_deg = num(field(17, 25), "RAAN")?;
-    let ecc = num(&format!("0.{}", field(26, 33)), "eccentricity")?;
-    let argp_deg = num(field(34, 42), "argument of perigee")?;
-    let mean_anomaly_deg = num(field(43, 51), "mean anomaly")?;
-    let mean_motion_rev_day = num(field(52, 63), "mean motion")?;
+    let inclination_deg = num(col(line2, 8, 16, "inclination")?, "inclination")?;
+    let raan_deg = num(col(line2, 17, 25, "RAAN")?, "RAAN")?;
+    let ecc = num(&format!("0.{}", col(line2, 26, 33, "eccentricity")?), "eccentricity")?;
+    let argp_deg = num(col(line2, 34, 42, "argument of perigee")?, "argument of perigee")?;
+    let mean_anomaly_deg = num(col(line2, 43, 51, "mean anomaly")?, "mean anomaly")?;
+    let mean_motion_rev_day = num(col(line2, 52, 63, "mean motion")?, "mean motion")?;
 
-    if mean_motion_rev_day <= 0.0 {
-        return Err(format!("non-positive mean motion: {mean_motion_rev_day}"));
-    }
+    check_elements(inclination_deg, ecc, mean_motion_rev_day)?;
     // a = (mu / n^2)^(1/3) with n in rad/s.
     let n = mean_motion_rev_day * std::f64::consts::TAU / SECONDS_PER_DAY;
     let a = (MU_EARTH / (n * n)).cbrt();
@@ -189,12 +269,31 @@ pub fn parse_set(text: &str) -> Result<Vec<Orbit>, String> {
         .collect()
 }
 
+/// Options controlling how a TLE block is parsed.
+#[derive(Clone, Copy, Debug, Default)]
+pub struct ParseOpts {
+    /// When `true`, every TLE line's column-69 modulo-10 checksum must be valid
+    /// or parsing fails. Off by default, because synthetic Walker and teaching
+    /// element sets routinely carry placeholder checksum digits.
+    pub strict_checksum: bool,
+}
+
+/// Parse a block of TLEs into satellite propagators with the default (lenient)
+/// options. See [`parse_propagators_opts`].
+pub fn parse_propagators(text: &str) -> Result<Vec<crate::orbit::Propagator>, String> {
+    parse_propagators_opts(text, ParseOpts::default())
+}
+
 /// Parse a block of TLEs into satellite propagators. A line 2 immediately
 /// preceded by its line 1 becomes a full SGP4/SDP4 propagator (WGS-72, improved
 /// mode); a line 2 with no preceding line 1 is parsed as analytic Keplerian mean
 /// elements (the legacy two-body path). Name lines and stray text are ignored.
-/// The two forms can be mixed within one block.
-pub fn parse_propagators(text: &str) -> Result<Vec<crate::orbit::Propagator>, String> {
+/// The two forms can be mixed within one block. With `opts.strict_checksum` the
+/// column-69 checksum of each consumed line is verified first.
+pub fn parse_propagators_opts(
+    text: &str,
+    opts: ParseOpts,
+) -> Result<Vec<crate::orbit::Propagator>, String> {
     use crate::orbit::Propagator;
     let grav = crate::sgp4::wgs72();
     let mut out = Vec::new();
@@ -204,8 +303,14 @@ pub fn parse_propagators(text: &str) -> Result<Vec<crate::orbit::Propagator>, St
         if line.starts_with("1 ") && line.len() >= 63 {
             pending_l1 = Some(line);
         } else if line.starts_with("2 ") && line.len() >= 63 {
+            if opts.strict_checksum {
+                verify_checksum(line, "line 2")?;
+            }
             match pending_l1.take() {
                 Some(l1) => {
+                    if opts.strict_checksum {
+                        verify_checksum(l1, "line 1")?;
+                    }
                     let tle = parse_tle(l1, line)?;
                     out.push(Propagator::Sgp4(Box::new(tle.to_sgp4(grav, false))));
                 }
@@ -269,6 +374,47 @@ mod tests {
         assert!(parse_line2("1 25544U 98067A   24001.00000000").is_err());
         assert!(parse_line2("2 25544 51.64").is_err());
         assert!(parse_set("nothing here\n1 ...\n").unwrap().is_empty());
+    }
+
+    #[test]
+    fn rejects_non_ascii_line_without_panicking() {
+        // A non-ASCII byte in the fixed-column region must error (not panic on a
+        // char boundary, as the old byte-index slicing did).
+        let bad = ISS_L2.replacen("51.6400", "51.64é0", 1);
+        assert!(parse_line2(&bad).is_err());
+        assert!(parse_tle(VER_L1, &bad).is_err());
+        assert!(parse_tle(&bad.replacen("2 ", "1 ", 1), VER_L2).is_err());
+    }
+
+    #[test]
+    fn rejects_out_of_range_elements() {
+        // Inclination 251 deg is non-physical.
+        let bad_incl = "2 25544 251.6400 247.4627 0006703 130.5360 325.0288 15.72125391563537";
+        assert!(parse_line2(bad_incl).is_err());
+        // Zero mean motion is non-positive.
+        let zero_n = "2 25544  51.6400 247.4627 0006703 130.5360 325.0288 00.00000000000000";
+        assert!(parse_line2(zero_n).is_err());
+    }
+
+    #[test]
+    fn strict_checksum_rejects_corrupt_lenient_accepts() {
+        // Build a line 2 with a correct column-69 checksum, then corrupt it.
+        let base = &ISS_L2[..68]; // columns 1..68
+        let ck = tle_checksum(base);
+        let good = format!("{base}{ck}");
+        let bad = format!("{base}{}", (ck + 1) % 10);
+
+        // Lenient parsing ignores the checksum: both succeed.
+        assert_eq!(parse_propagators(&good).unwrap().len(), 1);
+        assert_eq!(parse_propagators(&bad).unwrap().len(), 1);
+
+        // Strict parsing enforces it: good passes, corrupt errors (no panic).
+        let strict = ParseOpts { strict_checksum: true };
+        assert_eq!(parse_propagators_opts(&good, strict).unwrap().len(), 1);
+        assert!(parse_propagators_opts(&bad, strict).is_err());
+
+        assert!(verify_checksum(&good, "l2").is_ok());
+        assert!(verify_checksum(&bad, "l2").is_err());
     }
 
     // The canonical AIAA verification object (TEME example), epoch 2000-06-28.

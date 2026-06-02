@@ -560,6 +560,11 @@ pub struct ConstellationCfg {
     /// Optional block of TLEs; if present, the constellation is parsed from it.
     #[serde(default)]
     pub tle: Option<String>,
+    /// When `true`, every TLE line's column-69 checksum must be valid. Defaults
+    /// to lenient because synthetic/teaching element sets carry placeholder
+    /// checksums (e.g. the bundled Walker scenarios).
+    #[serde(default)]
+    pub strict_checksum: bool,
 }
 
 impl ConstellationCfg {
@@ -569,7 +574,12 @@ impl ConstellationCfg {
     /// Walker-delta pattern (Keplerian).
     pub fn satellites(&self) -> Result<Vec<Propagator>, String> {
         if let Some(text) = &self.tle {
-            return crate::tle::parse_propagators(text);
+            return crate::tle::parse_propagators_opts(
+                text,
+                crate::tle::ParseOpts {
+                    strict_checksum: self.strict_checksum,
+                },
+            );
         }
         let r = R_EARTH_M + self.altitude_km * 1000.0;
         let inc = self.inclination_deg.to_radians();
@@ -935,6 +945,7 @@ mod tests {
                 sats_per_plane,
                 phasing_f: 1.0,
                 tle: None,
+                strict_checksum: false,
             },
             constellations: vec![],
             clock_quantum: clock("optical", 1e-13, 1e-26, 1e-34),
@@ -988,6 +999,7 @@ mod tests {
             sats_per_plane: 8,
             phasing_f: 1.0,
             tle: None,
+            strict_checksum: false,
         });
         assert_eq!(scn.all_satellites().unwrap().len(), 24 + 24);
     }
