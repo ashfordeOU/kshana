@@ -14,10 +14,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
+      # Pinned to the exact version in rust-toolchain.toml for a reproducible build.
+      - uses: dtolnay/rust-toolchain@1.93.0
         with:
           components: rustfmt, clippy
       - uses: Swatinem/rust-cache@v2
+      - name: Toolchain pin guard
+        run: ./scripts/check-toolchain.sh
       - name: Format
         run: cargo fmt --all -- --check
       - name: Clippy
@@ -43,3 +46,33 @@ jobs:
       - uses: EmbarkStudios/cargo-deny-action@v2
         with:
           command: check advisories licenses bans sources
+  test-python-bindings:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Install maturin and pytest
+        run: pip install maturin pytest
+      - name: Build the Python wheel
+        run: maturin build --features python --out dist
+      - name: Install the wheel
+        run: pip install --no-index --find-links dist kshana
+      - name: Run binding smoke tests
+        run: pytest -q tests/python
+  test-wasm-bindings:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.93.0
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+      - name: Build the WebAssembly module
+        run: wasm-pack build --target web --out-dir web/pkg --release -- --features wasm
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Run wasm smoke test
+        run: node web/smoke.mjs
