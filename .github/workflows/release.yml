@@ -12,9 +12,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
+      # Pinned to the channel in rust-toolchain.toml so the release build matches CI.
+      - uses: dtolnay/rust-toolchain@1.93.0
         with:
           components: rustfmt, clippy
+      - run: ./scripts/check-toolchain.sh
       - run: cargo fmt --all -- --check
       - run: cargo clippy --all-targets -- -D warnings
       - run: cargo test --all
@@ -25,15 +27,30 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      # Required for SLSA build-provenance attestation of the release artifacts.
+      id-token: write
+      attestations: write
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: dtolnay/rust-toolchain@1.93.0
       - run: cargo build --release
+      - name: Generate the CycloneDX SBOM
+        run: ./scripts/gen-sbom.sh > kshana-sbom.cdx.json
       - name: Generate release notes from CHANGELOG
         env:
           TAG: ${{ github.ref_name }}
         run: bash scripts/changelog-extract.sh "${TAG#v}" > RELEASE_NOTES.md
+      # Cryptographic build provenance (SLSA) for the binary and the SBOM, so a
+      # consumer can verify the artifacts were produced by this workflow.
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: |
+            target/release/kshana
+            kshana-sbom.cdx.json
       - uses: softprops/action-gh-release@v2
         with:
           body_path: RELEASE_NOTES.md
-          files: target/release/kshana
+          files: |
+            target/release/kshana
+            kshana-sbom.cdx.json
