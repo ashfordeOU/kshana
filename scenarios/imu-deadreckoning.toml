@@ -22,6 +22,8 @@ q_va = 4.6656e-8
 
 [accel_classical]
 id = "nav-grade-quartz"
-provenance = "Navigation-grade quartz accelerometer (Honeywell QA-2000 / Groves AESS Tutorial): bias stability ~160 ug = 1.57e-3 m/s^2; noise ~20 ug/sqrtHz = 1.96e-4 (m/s^2)/sqrtHz"
+provenance = "Navigation-grade quartz accelerometer (Honeywell QA-2000 / Groves AESS Tutorial): bias stability ~160 ug = 1.57e-3 m/s^2; noise ~20 ug/sqrtHz = 1.96e-4 (m/s^2)/sqrtHz; bias instability ~1 ug = 1e-5 m/s^2; modest acceleration random walk"
 bias = 1.57e-3
 q_va = 3.8416e-8
+bias_instability = 1.0e-5
+q_aa = 1.0e-13

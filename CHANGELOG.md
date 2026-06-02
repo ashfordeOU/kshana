@@ -10,6 +10,12 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Fuller IMU noise model.** The accelerometer now models the remaining
+  Allan-variance terms beyond the constant bias and velocity random walk:
+  **bias instability** (a 1/f flicker floor at the standard Allan bias-instability
+  coefficient, reusing the clock's flicker synthesis) and **acceleration random
+  walk**. New optional `bias_instability` and `q_aa` inertial scenario fields; a
+  GNSS re-fix re-calibrates the residual bias drift.
 - **Real constellation geometry from TLEs.** A constellation can be given as a block
   of two-line element sets (the standard NORAD/Celestrak format) via a `tle` field,
   so availability and dilution of precision use a real constellation's published
