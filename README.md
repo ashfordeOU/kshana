@@ -431,6 +431,7 @@ kshana/
 | [Glossary](docs/GLOSSARY.md) | everyone | plain-language definitions of every term |
 | [Architecture](docs/ARCHITECTURE.md) | developers / reviewers | module map, engine pipeline, dispatch, and diagrams |
 | [Validation status](docs/VALIDATION.md) | reviewers / citers | what is `validated` vs `not modeled`, with evidence |
+| [Reproducibility &amp; provenance](docs/REPRODUCIBILITY.md) | reviewers / packagers | determinism guarantees, golden-pinning, SBOM, build provenance |
 | [Changelog](CHANGELOG.md) | everyone | released history (Keep a Changelog + SemVer) |
 | [Contributing](CONTRIBUTING.md) | contributors | build, guards, test/citation discipline, DCO |
 | [Code of Conduct](CODE_OF_CONDUCT.md) | community | expected conduct (Contributor Covenant) |

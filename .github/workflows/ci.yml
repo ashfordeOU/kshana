@@ -33,6 +33,8 @@ jobs:
         run: ./scripts/check-no-attribution.sh
       - name: Version consistency guard
         run: ./scripts/check-version-sync.sh
+      - name: SBOM generation guard
+        run: ./scripts/gen-sbom.sh > /dev/null
   msrv:
     runs-on: ubuntu-latest
     steps:
