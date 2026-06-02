@@ -53,6 +53,165 @@ pub fn overlapping_adev_curve(phase: &[f64], tau0: Seconds) -> Vec<AdevPoint> {
     out
 }
 
+/// Overlapping **modified** Allan deviation (MDEV) at averaging factor `m`, from
+/// phase samples spaced `tau0`. MDEV adds an inner average over `m` samples,
+/// which lets it separate white phase modulation (slope -3/2) from flicker phase
+/// modulation (slope -1) — a distinction the plain ADEV cannot make.
+///
+/// Riley, NIST SP 1065:
+///   mod sigma_y^2(tau) = 1 / (2 m^2 tau^2 (N-3m+1))
+///        * sum_j ( sum_{i=j}^{j+m-1} (x_{i+2m} - 2 x_{i+m} + x_i) )^2
+pub fn modified_adev(phase: &[f64], tau0: Seconds, m: usize) -> f64 {
+    let n = phase.len();
+    assert!(m >= 1, "m must be >= 1");
+    assert!(n > 3 * m, "need at least 3m+1 phase samples for MDEV");
+    let tau = m as f64 * tau0;
+    let outer = n - 3 * m + 1; // number of outer terms
+                               // Initialise the inner second-difference sum for j = 0.
+    let second_diff = |i: usize| phase[i + 2 * m] - 2.0 * phase[i + m] + phase[i];
+    let mut inner: f64 = (0..m).map(second_diff).sum();
+    let mut acc = inner * inner;
+    // Slide the inner window: add the new term, drop the oldest. O(N) overall.
+    for j in 1..outer {
+        inner += second_diff(j + m - 1) - second_diff(j - 1);
+        acc += inner * inner;
+    }
+    let mm = m as f64;
+    (acc / (2.0 * mm * mm * tau * tau * outer as f64)).sqrt()
+}
+
+/// Time deviation (TDEV), seconds: `TDEV(tau) = tau / sqrt(3) * MDEV(tau)`. The
+/// standard time-domain stability measure, derived directly from MDEV.
+pub fn time_deviation(phase: &[f64], tau0: Seconds, m: usize) -> f64 {
+    let tau = m as f64 * tau0;
+    tau / 3.0_f64.sqrt() * modified_adev(phase, tau0, m)
+}
+
+/// Overlapping **Hadamard** deviation (HDEV) at averaging factor `m`. HDEV uses a
+/// third difference, so it is **insensitive to linear frequency drift** (it
+/// rejects it exactly) and converges for the divergent red-noise types (e.g.
+/// frequency random run) where ADEV does not.
+///
+/// Riley, NIST SP 1065:
+///   H sigma_y^2(tau) = 1 / (6 tau^2 (N-3m))
+///        * sum_i (x_{i+3m} - 3 x_{i+2m} + 3 x_{i+m} - x_i)^2
+pub fn hadamard_adev(phase: &[f64], tau0: Seconds, m: usize) -> f64 {
+    let n = phase.len();
+    assert!(m >= 1, "m must be >= 1");
+    assert!(n > 3 * m, "need more than 3m phase samples for HDEV");
+    let tau = m as f64 * tau0;
+    let count = n - 3 * m;
+    let mut sumsq = 0.0;
+    for i in 0..count {
+        let d = phase[i + 3 * m] - 3.0 * phase[i + 2 * m] + 3.0 * phase[i + m] - phase[i];
+        sumsq += d * d;
+    }
+    (sumsq / (6.0 * tau * tau * count as f64)).sqrt()
+}
+
+/// Inverse standard-normal CDF (quantile), Acklam's rational approximation
+/// (absolute error < 1.2e-9). Dependency-free; used for confidence intervals.
+fn normal_quantile(p: f64) -> f64 {
+    assert!(p > 0.0 && p < 1.0, "quantile probability must be in (0,1)");
+    // Coefficients.
+    const A: [f64; 6] = [
+        -3.969683028665376e+01,
+        2.209460984245205e+02,
+        -2.759285104469687e+02,
+        1.383_577_518_672_69e2,
+        -3.066479806614716e+01,
+        2.506628277459239e+00,
+    ];
+    const B: [f64; 5] = [
+        -5.447609879822406e+01,
+        1.615858368580409e+02,
+        -1.556989798598866e+02,
+        6.680131188771972e+01,
+        -1.328068155288572e+01,
+    ];
+    const C: [f64; 6] = [
+        -7.784894002430293e-03,
+        -3.223964580411365e-01,
+        -2.400758277161838e+00,
+        -2.549732539343734e+00,
+        4.374664141464968e+00,
+        2.938163982698783e+00,
+    ];
+    const D: [f64; 4] = [
+        7.784695709041462e-03,
+        3.224671290700398e-01,
+        2.445134137142996e+00,
+        3.754408661907416e+00,
+    ];
+    let plow = 0.02425;
+    let phigh = 1.0 - plow;
+    if p < plow {
+        let q = (-2.0 * p.ln()).sqrt();
+        (((((C[0] * q + C[1]) * q + C[2]) * q + C[3]) * q + C[4]) * q + C[5])
+            / ((((D[0] * q + D[1]) * q + D[2]) * q + D[3]) * q + 1.0)
+    } else if p <= phigh {
+        let q = p - 0.5;
+        let r = q * q;
+        (((((A[0] * r + A[1]) * r + A[2]) * r + A[3]) * r + A[4]) * r + A[5]) * q
+            / (((((B[0] * r + B[1]) * r + B[2]) * r + B[3]) * r + B[4]) * r + 1.0)
+    } else {
+        let q = (-2.0 * (1.0 - p).ln()).sqrt();
+        -(((((C[0] * q + C[1]) * q + C[2]) * q + C[3]) * q + C[4]) * q + C[5])
+            / ((((D[0] * q + D[1]) * q + D[2]) * q + D[3]) * q + 1.0)
+    }
+}
+
+/// Chi-squared quantile via the Wilson-Hilferty approximation: for `nu` degrees
+/// of freedom, `chi2_p(nu) ≈ nu * (1 - 2/(9nu) + z_p * sqrt(2/(9nu)))^3`, where
+/// `z_p` is the standard-normal quantile. Adequate for confidence-interval work.
+fn chi2_quantile(p: f64, nu: f64) -> f64 {
+    let z = normal_quantile(p);
+    let t = 2.0 / (9.0 * nu);
+    let base = 1.0 - t + z * t.sqrt();
+    nu * base * base * base
+}
+
+/// A deviation estimate with a confidence interval and its effective degrees of
+/// freedom (edf).
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct DeviationCi {
+    pub dev: f64,
+    pub lo: f64,
+    pub hi: f64,
+    pub edf: f64,
+}
+
+/// Chi-squared confidence interval for a deviation estimate `dev` with effective
+/// degrees of freedom `edf` at confidence level `conf` (e.g. 0.95). The variance
+/// estimate is chi-squared distributed, so
+///   [dev * sqrt(edf / chi2_{1-a/2}), dev * sqrt(edf / chi2_{a/2})],  a = 1-conf.
+///
+/// Pass the edf you trust for the estimator and noise type. For overlapping
+/// estimators a *conservative* choice is the count of non-overlapping estimates
+/// (see [`conservative_edf`]); Stable32's noise-type-specific edf is tighter and
+/// is a roadmap item.
+pub fn deviation_ci(dev: f64, edf: f64, conf: f64) -> DeviationCi {
+    assert!(edf > 0.0 && conf > 0.0 && conf < 1.0);
+    let alpha = 1.0 - conf;
+    let chi2_hi = chi2_quantile(1.0 - alpha / 2.0, edf); // upper chi2 -> lower sigma
+    let chi2_lo = chi2_quantile(alpha / 2.0, edf); // lower chi2 -> upper sigma
+    DeviationCi {
+        dev,
+        lo: dev * (edf / chi2_hi).sqrt(),
+        hi: dev * (edf / chi2_lo).sqrt(),
+        edf,
+    }
+}
+
+/// A conservative effective-degrees-of-freedom estimate for a deviation at
+/// averaging factor `m` over `n` phase samples: the number of *non-overlapping*
+/// estimates, `floor(n/m) - 1` (at least 1). This under-counts the information an
+/// overlapping estimator actually uses, so the resulting interval is wider than
+/// (i.e. conservative relative to) a noise-type-specific edf.
+pub fn conservative_edf(n: usize, m: usize) -> f64 {
+    ((n / m).saturating_sub(1)).max(1) as f64
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -373,5 +532,134 @@ mod tests {
         let a = overlapping_adev_curve(&phase, 1.0);
         let b = overlapping_adev_curve(&phase, 1.0);
         assert_eq!(a, b);
+    }
+
+    // ---------------------------------------------------------------------
+    // MDEV / TDEV / HDEV and confidence intervals
+    // ---------------------------------------------------------------------
+
+    fn loglog_slope_of<F: Fn(&[f64], f64, usize) -> f64>(phase: &[f64], f: F) -> f64 {
+        let pts: Vec<(f64, f64)> = [1usize, 2, 4, 8, 16, 32, 64]
+            .iter()
+            .map(|&m| (m as f64, f(phase, 1.0, m)))
+            .filter(|&(_, v)| v > 0.0)
+            .collect();
+        let n = pts.len() as f64;
+        let xs: Vec<f64> = pts.iter().map(|p| p.0.log10()).collect();
+        let ys: Vec<f64> = pts.iter().map(|p| p.1.log10()).collect();
+        let sx: f64 = xs.iter().sum();
+        let sy: f64 = ys.iter().sum();
+        let sxx: f64 = xs.iter().map(|x| x * x).sum();
+        let sxy: f64 = xs.iter().zip(&ys).map(|(x, y)| x * y).sum();
+        (n * sxy - sx * sy) / (n * sxx - sx * sx)
+    }
+
+    #[test]
+    fn mdev_hand_derived_small_case() {
+        // m=1: MDEV reduces to ADEV (the inner average is a single term), so on a
+        // hand example MDEV(m=1) must equal overlapping_adev(m=1).
+        let phase = [0.0, 1.0, 3.0, 6.0, 10.0, 15.0];
+        let md = modified_adev(&phase, 1.0, 1);
+        let ad = overlapping_adev(&phase, 1.0, 1);
+        assert!(
+            (md - ad).abs() < 1e-12,
+            "MDEV(m=1) {md} should equal ADEV(m=1) {ad}"
+        );
+    }
+
+    #[test]
+    fn tdev_is_tau_over_sqrt3_times_mdev() {
+        let phase = white_fm_phase(2.0e-12, 8192, 4);
+        for &m in &[1usize, 4, 16] {
+            let tau = m as f64;
+            let expect = tau / 3.0_f64.sqrt() * modified_adev(&phase, 1.0, m);
+            assert!((time_deviation(&phase, 1.0, m) - expect).abs() < 1e-18 * expect.max(1e-18));
+        }
+    }
+
+    #[test]
+    fn mdev_white_fm_slope_is_minus_half() {
+        // For white FM, MDEV and ADEV share the tau^(-1/2) slope.
+        let phase = white_fm_phase(3.0e-12, 1 << 14, 1234);
+        let slope = loglog_slope_of(&phase, modified_adev);
+        assert!(
+            (slope + 0.5).abs() < 0.1,
+            "MDEV white-FM slope {slope}, want -0.5"
+        );
+    }
+
+    #[test]
+    fn hadamard_rejects_linear_frequency_drift() {
+        // HDEV uses a third difference, which annihilates a quadratic phase (a pure
+        // linear frequency drift) exactly — so HDEV of a drift is ~0 while ADEV is
+        // a*tau/sqrt(2). This is the defining advantage of the Hadamard variance.
+        let a = 5.0e-12;
+        let phase: Vec<f64> = (0..2048)
+            .map(|i| 0.5 * a * (i as f64) * (i as f64))
+            .collect();
+        for &m in &[1usize, 4, 16] {
+            let h = hadamard_adev(&phase, 1.0, m);
+            let ad = overlapping_adev(&phase, 1.0, m);
+            assert!(h < 1e-9 * ad, "HDEV {h} should reject drift (ADEV {ad})");
+        }
+    }
+
+    #[test]
+    fn hadamard_white_fm_slope_is_minus_half() {
+        let phase = white_fm_phase(3.0e-12, 1 << 14, 4321);
+        let slope = loglog_slope_of(&phase, hadamard_adev);
+        assert!(
+            (slope + 0.5).abs() < 0.12,
+            "HDEV white-FM slope {slope}, want -0.5"
+        );
+    }
+
+    #[test]
+    fn normal_and_chi2_quantiles_match_known_values() {
+        // Standard normal quantiles.
+        assert!((normal_quantile(0.975) - 1.959_963_98).abs() < 1e-6);
+        assert!((normal_quantile(0.5)).abs() < 1e-9);
+        assert!((normal_quantile(0.025) + 1.959_963_98).abs() < 1e-6);
+        // Chi-squared median ~ nu*(1 - 2/(9nu))^3; for nu=10 the true median is 9.342.
+        assert!(
+            (chi2_quantile(0.5, 10.0) - 9.342).abs() < 0.05,
+            "{}",
+            chi2_quantile(0.5, 10.0)
+        );
+        // Wilson-Hilferty is accurate in the moderate-df regime CIs use:
+        // chi2_{0.95}(20) = 31.410, chi2_{0.025}(20) = 9.591. (It is only rough at
+        // very low df, e.g. nu=1 — documented; CI edf is typically well above that.)
+        assert!(
+            (chi2_quantile(0.95, 20.0) - 31.410).abs() < 0.1,
+            "{}",
+            chi2_quantile(0.95, 20.0)
+        );
+        assert!(
+            (chi2_quantile(0.025, 20.0) - 9.591).abs() < 0.1,
+            "{}",
+            chi2_quantile(0.025, 20.0)
+        );
+    }
+
+    #[test]
+    fn confidence_interval_brackets_and_tightens() {
+        let dev = 1.0e-12;
+        let ci = deviation_ci(dev, 30.0, 0.95);
+        assert!(ci.lo < dev && dev < ci.hi, "CI must bracket the estimate");
+        // More degrees of freedom -> tighter interval.
+        let wide = deviation_ci(dev, 5.0, 0.95);
+        assert!(
+            (wide.hi - wide.lo) > (ci.hi - ci.lo),
+            "fewer edf must give a wider interval"
+        );
+        // Higher confidence -> wider interval.
+        let c99 = deviation_ci(dev, 30.0, 0.99);
+        assert!(
+            (c99.hi - c99.lo) > (ci.hi - ci.lo),
+            "99% must be wider than 95%"
+        );
+        // Conservative edf is the non-overlapping count.
+        assert_eq!(conservative_edf(1000, 10), 99.0);
+        assert_eq!(conservative_edf(5, 10), 1.0); // floored at 1
     }
 }
