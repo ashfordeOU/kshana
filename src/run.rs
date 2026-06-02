@@ -110,7 +110,7 @@ pub fn run_orbit_clock(scn: &crate::orbit::OrbitClockScenario) -> Result<RunResu
 /// Run the clock-holdover scenario for both clocks and assemble the result.
 pub fn run(scn: &Scenario) -> RunResult {
     RunResult {
-        schema_version: "0.1".into(),
+        schema_version: "0.7".into(),
         engine_version: env!("CARGO_PKG_VERSION").into(),
         scenario_hash: crate::report::hash_scenario(scn),
         seed: scn.seed,

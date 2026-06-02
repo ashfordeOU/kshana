@@ -152,7 +152,7 @@ fn run_link(scn: &TimeTransferScenario, cfg: &LinkCfg, seed: u64) -> LinkRun {
 /// Run a time-transfer scenario for the optical (quantum) and RF (classical) links.
 pub fn run_timetransfer(scn: &TimeTransferScenario) -> TimeTransferResult {
     TimeTransferResult {
-        schema_version: "0.1".into(),
+        schema_version: "0.7".into(),
         engine_version: env!("CARGO_PKG_VERSION").into(),
         scenario_hash: hash_tt(scn),
         seed: scn.seed,

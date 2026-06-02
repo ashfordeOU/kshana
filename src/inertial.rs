@@ -325,7 +325,7 @@ fn run_accel(scn: &InertialScenario, cfg: &AccelCfg, seed: u64) -> AccelRun {
 /// Run a dead-reckoning scenario for both accelerometers.
 pub fn run_inertial(scn: &InertialScenario) -> InertialResult {
     InertialResult {
-        schema_version: "0.1".into(),
+        schema_version: "0.7".into(),
         engine_version: env!("CARGO_PKG_VERSION").into(),
         scenario_hash: hash_inertial(scn),
         seed: scn.seed,

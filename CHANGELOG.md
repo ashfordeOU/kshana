@@ -22,6 +22,21 @@ breaking changes are called out explicitly.
   range-checked (inclination, eccentricity, mean motion); the column-69 checksum
   can be enforced via `ParseOpts { strict_checksum }` / `parse_propagators_opts`
   and the new `strict_checksum` flag on `ConstellationCfg` (lenient by default).
+- **Allan-deviation curve in the output.** Each clock run now reports an
+  `adev_curve` (`[{tau_s, adev, n_samples}]`) and the browser playground renders a
+  log-log "Clock stability (ADEV)" chart.
+- **Time-grid input validation.** `TimeCfg::validate` rejects a non-finite, zero,
+  negative, or oversized time grid (a step larger than the duration, or more than
+  `MAX_TIME_STEPS` samples) before any allocation, so a malformed scenario returns
+  an error instead of panicking or exhausting memory.
+
+### Changed
+- `schema_version` in result artifacts bumped from `0.1` to `0.7` (it was frozen
+  while the engine moved on).
+- `cargo-deny` now **denies** (not warns on) yanked dependencies.
+- New docs: `CAPABILITY.md` (honest scope map), `SCHEMA.md` (result-field
+  reference), `INTEGRITY.md`, `QUANTUM-MODELS.md`, `REAL_TLE_GUIDE.md`. A CI guard
+  fails if the README version badge drifts from `Cargo.toml`.
 
 ### Planned
 - Earth-fixed frame reduction (TEME&rarr;ECEF/ITRF) and explicit time systems
