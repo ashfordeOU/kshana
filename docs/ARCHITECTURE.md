@@ -36,10 +36,12 @@ flowchart TD
       run["run.rs<br/>run / run_clock / run_orbit_clock"]
     end
 
-    inertial["inertial.rs<br/>Pack 2 · AccelModel (accel + gyro) · run_inertial"]
+    inertial["inertial.rs<br/>Pack 2 · AccelModel (accel + gyro + bias instability/RW) · run_inertial"]
     timetransfer["timetransfer.rs<br/>Pack 3 · TimeTransferLink · run_timetransfer"]
     hybrid["hybrid.rs<br/>Pack 4 · run_suite · score_hybrid · run_hybrid (+ integrity/security)"]
-    orbit["orbit.rs<br/>Keplerian orbit (+ e, J2) · Walker constellation · visibility · DOP"]
+    fusion["fusion.rs<br/>joint Kalman PNT estimator · run_fusion"]
+    orbit["orbit.rs<br/>Keplerian orbit (+ e, J2) · Walker / TLE constellation · visibility · DOP"]
+    tle["tle.rs<br/>two-line element parsing"]
     ensemble["ensemble.rs<br/>Monte Carlo confidence bands"]
     sweep["sweep.rs<br/>trade-study parameter sweeps"]
 
@@ -52,8 +54,13 @@ flowchart TD
     api --> hybrid
     api --> ensemble
     api --> sweep
+    api --> fusion
     ensemble --> run
     sweep --> run
+    orbit --> tle
+    fusion -. composes .-> models
+    fusion -. composes .-> inertial
+    fusion --> kalman
 
     run --> models
     run --> estimator
@@ -233,10 +240,11 @@ WebAssembly module backs the browser playground in `web/` (`run`, `chart_svg`,
 
 ## 9. Deferred / future structure
 
-Tracked in [CHANGELOG](../CHANGELOG.md) `[Unreleased]`: higher-fidelity orbit
-propagation (precise ephemerides / perturbations) beyond the current two-body +
-J2-secular model. The position-domain dilution of precision, the Security figure of
-merit (across all four packs), eccentric/J2 orbits, Monte Carlo confidence bands,
-trade-study sweeps, and a package-publishing workflow have shipped. A private overlay
-repo holds export-sensitive resilience depth; it plugs in via the same `ErrorModel`
-interface without changing the public engine.
+Tracked in [CHANGELOG](../CHANGELOG.md) `[Unreleased]`: higher-fidelity SGP4 orbit
+propagation beyond the current two-body + J2-secular mean-element model. The
+position-domain dilution of precision, the Security figure of merit (across all four
+packs), eccentric/J2 orbits, real TLE constellations, the full IMU Allan-variance
+model, the joint Kalman fusion estimator, Monte Carlo confidence bands, trade-study
+sweeps, the HTML scorecard, and a package-publishing workflow have shipped. A private
+overlay repo holds export-sensitive resilience depth; it plugs in via the same
+`ErrorModel` interface without changing the public engine.
