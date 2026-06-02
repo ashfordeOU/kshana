@@ -14,10 +14,11 @@
 use kshana::sgp4::wgs72;
 use kshana::tle::parse_tle;
 
-/// One reference time and the expected TEME position (km).
+/// One reference time and the expected TEME position (km) and velocity (km/s).
 struct Row {
     tsince: f64,
     pos: [f64; 3],
+    vel: [f64; 3],
 }
 
 /// Parse `tcppver.out` into per-satellite blocks of rows, in file order.
@@ -30,16 +31,20 @@ fn parse_expected(text: &str) -> Vec<Vec<Row>> {
             continue;
         }
         if toks.len() >= 7 {
-            if let (Ok(tsince), Ok(x), Ok(y), Ok(z)) = (
+            if let (Ok(tsince), Ok(x), Ok(y), Ok(z), Ok(vx), Ok(vy), Ok(vz)) = (
                 toks[0].parse::<f64>(),
                 toks[1].parse::<f64>(),
                 toks[2].parse::<f64>(),
                 toks[3].parse::<f64>(),
+                toks[4].parse::<f64>(),
+                toks[5].parse::<f64>(),
+                toks[6].parse::<f64>(),
             ) {
                 if let Some(b) = blocks.last_mut() {
                     b.push(Row {
                         tsince,
                         pos: [x, y, z],
+                        vel: [vx, vy, vz],
                     });
                 }
             }
@@ -87,9 +92,19 @@ fn matches_official_verification_vectors() {
     // reference to well under a metre; allow a little headroom for last-digit
     // rounding in the published table.
     const TOL_KM: f64 = 2.0e-5;
+    // Velocity tolerance (km/s). The reference table prints velocity to 9 decimal
+    // places; a faithful port reproduces it to well under 1e-6 km/s (1 mm/s).
+    const TOL_V_KMS: f64 = 1.0e-6;
+    // The number of reference rows we successfully compare is a fixed property of
+    // the bundled fixtures (the deliberate error cases stop early, exactly as the
+    // reference does). Pinning it stops a silent regression that quietly compares
+    // fewer rows from passing unnoticed.
+    const EXPECTED_COMPARED: usize = 666;
 
     let mut worst_overall = 0.0_f64;
     let mut worst_case = String::new();
+    let mut worst_vel = 0.0_f64;
+    let mut worst_vel_case = String::new();
     let mut compared = 0usize;
     let mut failures: Vec<String> = Vec::new();
 
@@ -103,17 +118,31 @@ fn matches_official_verification_vectors() {
         let mut worst_case_err = 0.0_f64;
         for r in rows {
             match prop.propagate(r.tsince) {
-                Ok((p, _v)) => {
+                Ok((p, v)) => {
                     let d = ((p[0] - r.pos[0]).powi(2)
                         + (p[1] - r.pos[1]).powi(2)
                         + (p[2] - r.pos[2]).powi(2))
                     .sqrt();
+                    let dv = ((v[0] - r.vel[0]).powi(2)
+                        + (v[1] - r.vel[1]).powi(2)
+                        + (v[2] - r.vel[2]).powi(2))
+                    .sqrt();
                     worst_case_err = worst_case_err.max(d);
+                    if dv > worst_vel {
+                        worst_vel = dv;
+                        worst_vel_case = satnum.to_string();
+                    }
                     compared += 1;
                     if d > TOL_KM {
                         failures.push(format!(
                             "sat {satnum} t={:.1} min: pos error {:.3e} km",
                             r.tsince, d
+                        ));
+                    }
+                    if dv > TOL_V_KMS {
+                        failures.push(format!(
+                            "sat {satnum} t={:.1} min: vel error {:.3e} km/s",
+                            r.tsince, dv
                         ));
                     }
                 }
@@ -129,18 +158,20 @@ fn matches_official_verification_vectors() {
     }
 
     eprintln!(
-        "SGP4 verification: compared {compared} rows; worst position error {:.3e} km (sat {worst_case})",
-        worst_overall
+        "SGP4 verification: compared {compared} rows; worst position error {:.3e} km (sat {worst_case}); \
+         worst velocity error {:.3e} km/s (sat {worst_vel_case})",
+        worst_overall, worst_vel
     );
-    assert!(
-        compared > 400,
-        "expected to compare many rows, only {compared}"
+    assert_eq!(
+        compared, EXPECTED_COMPARED,
+        "compared {compared} rows, expected exactly {EXPECTED_COMPARED} — fixture or skip behaviour changed"
     );
     assert!(
         failures.is_empty(),
-        "{} rows exceeded {:.1e} km tolerance; first few:\n{}",
+        "{} rows exceeded tolerance ({:.1e} km / {:.1e} km/s); first few:\n{}",
         failures.len(),
         TOL_KM,
+        TOL_V_KMS,
         failures
             .iter()
             .take(12)
