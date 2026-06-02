@@ -33,7 +33,17 @@ fn main() -> ExitCode {
         eprintln!("error: cannot write {}: {e}", svg_path.display());
         return ExitCode::FAILURE;
     }
+    let html_path = path.with_extension("report.html");
+    if let Err(e) = std::fs::write(&html_path, out.html_report()) {
+        eprintln!("error: cannot write {}: {e}", html_path.display());
+        return ExitCode::FAILURE;
+    }
     println!("{}", out.summary);
-    println!("wrote {} and {}", json_path.display(), svg_path.display());
+    println!(
+        "wrote {}, {}, and {}",
+        json_path.display(),
+        svg_path.display(),
+        html_path.display()
+    );
     ExitCode::SUCCESS
 }
