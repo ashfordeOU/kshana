@@ -1,15 +1,22 @@
 // SPDX-License-Identifier: Apache-2.0
 import init, { run, summary, chart_svg, version } from "./pkg/kshana.js";
+import { encodeFragment, decodeFragment, readScalar, patchScalar } from "./share.mjs";
 
 // Scenario catalogue: file in ./scenarios/ (copied from the repo at build) and a
 // friendly label. The first entry is also embedded below so the page works on
 // first paint and offline.
+// Each: [file, dropdown label, card title, one-line question the scenario answers].
 const SCENARIOS = [
-  ["clock-holdover.toml", "Clock holdover — chip-scale vs optical clock"],
-  ["imu-deadreckoning.toml", "Inertial dead-reckoning — cold-atom vs nav-grade"],
-  ["timetransfer.toml", "Time transfer — optical vs RF link"],
-  ["hybrid-pnt.toml", "Hybrid PNT — combined clock + inertial suite"],
-  ["orbit-gnss-challenged.toml", "GNSS availability from orbital geometry"],
+  ["clock-holdover.toml", "Clock holdover — chip-scale vs optical clock",
+    "Clock holdover", "How long can a clock keep time after GNSS drops out?"],
+  ["imu-deadreckoning.toml", "Inertial dead-reckoning — cold-atom vs nav-grade",
+    "Inertial dead-reckoning", "How far does position drift coasting on an IMU alone?"],
+  ["timetransfer.toml", "Time transfer — optical vs RF link",
+    "Time transfer", "How tightly can two sites stay synchronised over a link?"],
+  ["hybrid-pnt.toml", "Hybrid PNT — combined clock + inertial suite",
+    "Hybrid PNT", "What does a combined clock + inertial suite buy you?"],
+  ["orbit-gnss-challenged.toml", "GNSS availability from orbital geometry",
+    "GNSS availability", "When is a fix even possible from the satellite geometry?"],
 ];
 
 // Embedded default so the very first run needs no network fetch.
@@ -45,8 +52,11 @@ q_rw = 0.0
 const el = (id) => document.getElementById(id);
 const statusEl = el("status");
 const runBtn = el("run");
+const shareBtn = el("share");
 const tomlEl = el("toml");
 const selectEl = el("scenario");
+const presetsEl = el("presets");
+const guidedEl = el("guided");
 const resultsEl = document.querySelector(".results");
 const errorEl = el("error");
 
@@ -177,11 +187,92 @@ function runScenario() {
   }
 }
 
+// --- Guided sliders -------------------------------------------------------
+// Reflect the editor's universal top-level knobs (seed, threshold_ns) into the
+// sliders, and write slider changes back into the editor TOML. These keys exist
+// at the top level of every bundled scenario, so the guided panel works for all
+// of them without parsing the whole document.
+const KNOBS = [
+  { key: "seed", input: "k-seed", out: "k-seed-out", parse: (v) => parseInt(v, 10) },
+  { key: "threshold_ns", input: "k-thresh", out: "k-thresh-out", parse: (v) => parseFloat(v) },
+];
+
+function clamp(n, lo, hi) {
+  return Math.min(hi, Math.max(lo, n));
+}
+
+// Set sliders from the current editor TOML. Hides the panel only if neither key
+// is present (it always is for bundled scenarios, but a hand-pasted scenario
+// might omit one).
+function syncGuided() {
+  let any = false;
+  for (const k of KNOBS) {
+    const input = el(k.input);
+    const raw = readScalar(tomlEl.value, k.key);
+    const present = raw !== null && Number.isFinite(k.parse(raw));
+    input.disabled = !present;
+    el(k.out).textContent = present ? raw : "—";
+    if (present) {
+      any = true;
+      input.value = String(clamp(k.parse(raw), Number(input.min), Number(input.max)));
+    }
+  }
+  guidedEl.hidden = !any;
+}
+
+function onKnobInput(k) {
+  const input = el(k.input);
+  const value = k.parse(input.value);
+  el(k.out).textContent = String(value);
+  tomlEl.value = patchScalar(tomlEl.value, k.key, value);
+  runScenario();
+}
+
+// --- One-click preset cards ----------------------------------------------
+function buildPresets() {
+  for (const [file, , title, question] of SCENARIOS) {
+    const card = document.createElement("button");
+    card.type = "button";
+    card.className = "preset";
+    card.dataset.file = file;
+    card.innerHTML = `<span class="preset-title"></span><span class="preset-q"></span>`;
+    card.querySelector(".preset-title").textContent = title;
+    card.querySelector(".preset-q").textContent = question;
+    card.addEventListener("click", () => {
+      selectEl.value = file;
+      loadScenario(file);
+    });
+    presetsEl.appendChild(card);
+  }
+}
+
+function markActivePreset(file) {
+  for (const c of presetsEl.children) {
+    c.classList.toggle("is-active", c.dataset.file === file);
+  }
+}
+
+// --- Shareable link -------------------------------------------------------
+async function copyShareLink() {
+  const url = location.origin + location.pathname + encodeFragment(tomlEl.value);
+  // Reflect it in the address bar so a reload / bookmark reproduces the run.
+  history.replaceState(null, "", url);
+  try {
+    await navigator.clipboard.writeText(url);
+    shareBtn.textContent = "Link copied ✓";
+  } catch {
+    shareBtn.textContent = "Copied to address bar";
+  }
+  setTimeout(() => (shareBtn.textContent = "Copy share link"), 1800);
+}
+
 async function loadScenario(file) {
   try {
     const res = await fetch(`scenarios/${file}`, { cache: "no-store" });
     if (!res.ok) throw new Error(String(res.status));
     tomlEl.value = await res.text();
+    markActivePreset(file);
+    syncGuided();
     runScenario();
   } catch {
     // No server / file missing: keep whatever is already in the editor.
@@ -196,13 +287,18 @@ async function main() {
     opt.textContent = label;
     selectEl.appendChild(opt);
   }
-  tomlEl.value = DEFAULT_TOML;
+  buildPresets();
+
+  // A shared link (scenario in the URL fragment) wins over the default scenario.
+  const shared = decodeFragment(location.hash);
+  tomlEl.value = shared || DEFAULT_TOML;
 
   try {
     await init();
     el("version").textContent = version();
     statusEl.textContent = "Ready — runs locally in your browser.";
     runBtn.disabled = false;
+    shareBtn.disabled = false;
   } catch (e) {
     statusEl.textContent = "";
     showError(
@@ -214,7 +310,15 @@ async function main() {
   }
 
   runBtn.addEventListener("click", runScenario);
+  shareBtn.addEventListener("click", copyShareLink);
   selectEl.addEventListener("change", () => loadScenario(selectEl.value));
+  for (const k of KNOBS) el(k.input).addEventListener("input", () => onKnobInput(k));
+
+  if (shared) {
+    el("advanced").open = true; // a shared run may be hand-tuned: show the source
+    statusEl.textContent = "Loaded a shared scenario from the link.";
+  }
+  syncGuided();
   runScenario(); // show a result immediately
 }
 
