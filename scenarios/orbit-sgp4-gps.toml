@@ -8,10 +8,12 @@
 # lunar-solar and half-day geopotential-resonance terms are included, which the
 # two-body + J2-secular model cannot represent.
 #
-# The elements below are a synthetic GPS-like Walker pattern (6 planes x 4
-# satellites, i = 55 deg, e = 0.001, ~2 rev/day) written in the real NORAD/
-# Celestrak two-line format with valid checksums and a common epoch. Drop in the
-# current "gps-ops" set from celestrak.org to study the actual constellation.
+# NOTE: the elements below are a SYNTHETIC GPS-like Walker pattern (6 planes x 4
+# satellites, i = 55 deg, e = 0.001, ~2 rev/day) with PLACEHOLDER NORAD catalogue
+# IDs (80001+), written in the real NORAD/Celestrak two-line format with valid
+# checksums and a common epoch. The propagator is validated; the geometry here is
+# invented, not the live constellation. To study the ACTUAL GPS constellation, drop
+# in a current "gps-ops" snapshot from celestrak.org — see docs/REAL_TLE_GUIDE.md.
 # Vendor-neutral.
 
 kind = "orbit"
