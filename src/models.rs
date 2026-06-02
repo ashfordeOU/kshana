@@ -18,8 +18,13 @@ pub trait ErrorModel {
 /// Flicker FM has a flat Allan-deviation floor `sigma_y = sqrt(2 ln2 * h_-1)`, so
 /// choosing `sigma0^2 = sigma_floor^2 * ln(rho) / (2 ln2)` places the floor exactly
 /// at `sigma_floor`. References: NIST SP 1065 (Riley); Kasdin, Proc. IEEE 1995.
+///
+/// The process is unit-agnostic — it produces a stationary 1/f signal whose flat
+/// Allan-deviation floor is `sigma_floor` — so it models both clock flicker FM
+/// (fractional frequency) and accelerometer/gyro bias instability (the Allan
+/// bias-instability coefficient) with the same code.
 #[derive(Clone, Debug)]
-struct Flicker {
+pub(crate) struct Flicker {
     sigma_floor: f64,
     comp_var: f64,
     taus: Vec<f64>,
@@ -28,7 +33,7 @@ struct Flicker {
 }
 
 impl Flicker {
-    fn new(sigma_floor: f64, tau_min: f64, tau_max: f64, per_decade: usize) -> Self {
+    pub(crate) fn new(sigma_floor: f64, tau_min: f64, tau_max: f64, per_decade: usize) -> Self {
         assert!(tau_max > tau_min && tau_min > 0.0 && per_decade >= 1);
         let rho = 10f64.powf(1.0 / per_decade as f64);
         let ln_rho = rho.ln();
@@ -46,10 +51,21 @@ impl Flicker {
         }
     }
 
-    /// Advance every OU component by `dt` and return the summed fractional-frequency
-    /// flicker contribution. Components are lazily seeded from their stationary
-    /// distribution on first use so the process is stationary from t=0.
-    fn step(&mut self, dt: Seconds, rng: &mut dyn RngCore) -> f64 {
+    /// Reset to an unseeded zero state (re-seeds on the next [`step`]).
+    ///
+    /// [`step`]: Self::step
+    pub(crate) fn reset(&mut self) {
+        for s in &mut self.states {
+            *s = 0.0;
+        }
+        self.initialized = false;
+    }
+
+    /// Advance every OU component by `dt` and return the summed flicker
+    /// contribution (fractional frequency for a clock, acceleration for a sensor
+    /// bias). Components are lazily seeded from their stationary distribution on
+    /// first use so the process is stationary from t=0.
+    pub(crate) fn step(&mut self, dt: Seconds, rng: &mut dyn RngCore) -> f64 {
         let sd0 = self.comp_var.sqrt();
         if !self.initialized {
             let n0 = Normal::new(0.0, sd0).unwrap();
