@@ -1,6 +1,7 @@
 /target
 *.result.json
 *.chart.svg
+*.report.html
 
 # Python packaging / build artifacts (maturin)
 /dist

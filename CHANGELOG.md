@@ -10,6 +10,10 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **HTML scorecard report.** Every run now also produces a self-contained, branded
+  HTML scorecard — the one-line summary, the chart (embedded as an inert data-URI
+  image), and the full JSON — written by the CLI alongside the JSON and SVG. A
+  shareable single-file artifact for a study deliverable or annex.
 - **Joint sensor-fusion estimator.** A new `fusion` scenario kind runs a single
   recursive Kalman filter as the navigation solution — fusing the clock state
   `[phase, frequency]` and the position state `[position, velocity]`, disciplined by
