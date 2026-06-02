@@ -54,10 +54,18 @@ pub struct ClockCfg {
     pub flicker_floor: f64,
 }
 
+fn default_runs() -> usize {
+    1
+}
+
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct Scenario {
     pub seed: u64,
     pub threshold_ns: f64,
+    /// Number of Monte Carlo realizations. `1` (default) is a single deterministic
+    /// run; `> 1` runs an ensemble and reports confidence bands.
+    #[serde(default = "default_runs")]
+    pub runs: usize,
     pub time: TimeCfg,
     pub gnss: GnssTimeline,
     pub clock_quantum: ClockCfg,
