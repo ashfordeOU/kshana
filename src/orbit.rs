@@ -196,6 +196,27 @@ impl Orbit {
         let (x, y, z) = (r * cu, r * su * ci, r * su * si);
         [x * co - y * so, x * so + y * co, z]
     }
+
+    /// Earth-centred inertial velocity (m/s) at time `t` (s).
+    ///
+    /// Computed by a symmetric central difference of [`position_eci`] (error
+    /// `O(h^2)`); validated against the vis-viva speed `sqrt(mu(2/r - 1/a))` in
+    /// the unit tests. The Keplerian model has no analytic closed form once the
+    /// J2 secular drifts are switched on, so the difference quotient keeps a
+    /// single consistent velocity definition across the circular, eccentric and
+    /// drifting cases.
+    ///
+    /// [`position_eci`]: Self::position_eci
+    pub fn velocity_eci(&self, t: f64) -> Vec3 {
+        const H: f64 = 0.5; // seconds
+        let a = self.position_eci(t - H);
+        let b = self.position_eci(t + H);
+        [
+            (b[0] - a[0]) / (2.0 * H),
+            (b[1] - a[1]) / (2.0 * H),
+            (b[2] - a[2]) / (2.0 * H),
+        ]
+    }
 }
 
 /// A satellite propagator: either the engine's analytic Keplerian [`Orbit`]
@@ -212,6 +233,20 @@ pub enum Propagator {
     Sgp4(Box<crate::sgp4::Sgp4>),
 }
 
+/// Full inertial state of a propagated body at one instant: position (m) and
+/// velocity (m/s) in the same Earth-centred inertial frame as [`Propagator::position_eci`].
+///
+/// SGP4 computes the TEME velocity as part of every step; exposing it here lets
+/// downstream code (Doppler, range-rate, relative geometry) use it instead of
+/// recomputing or discarding it.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct StateEci {
+    /// Position (m).
+    pub r_m: Vec3,
+    /// Velocity (m/s).
+    pub v_m_s: Vec3,
+}
+
 impl Propagator {
     /// Inertial position (m) at time `t` (s). For an SGP4 satellite this is the
     /// TEME position; a propagation error (e.g. a decayed satellite) returns the
@@ -222,6 +257,41 @@ impl Propagator {
             Propagator::Sgp4(s) => match s.propagate(t / 60.0) {
                 Ok((r_km, _v)) => [r_km[0] * 1000.0, r_km[1] * 1000.0, r_km[2] * 1000.0],
                 Err(_) => [0.0, 0.0, 0.0],
+            },
+        }
+    }
+
+    /// Inertial velocity (m/s) at time `t` (s). For an SGP4 satellite this is the
+    /// analytic TEME velocity the propagator already computes (previously
+    /// discarded); a propagation error returns zero.
+    pub fn velocity_eci(&self, t: f64) -> Vec3 {
+        match self {
+            Propagator::Kepler(o) => o.velocity_eci(t),
+            Propagator::Sgp4(s) => match s.propagate(t / 60.0) {
+                Ok((_r, v_km_s)) => [v_km_s[0] * 1000.0, v_km_s[1] * 1000.0, v_km_s[2] * 1000.0],
+                Err(_) => [0.0, 0.0, 0.0],
+            },
+        }
+    }
+
+    /// Full inertial state (position m, velocity m/s) at time `t` (s). For SGP4
+    /// this returns both from a single propagation step rather than two; a
+    /// propagation error returns the zero state.
+    pub fn state_eci(&self, t: f64) -> StateEci {
+        match self {
+            Propagator::Kepler(o) => StateEci {
+                r_m: o.position_eci(t),
+                v_m_s: o.velocity_eci(t),
+            },
+            Propagator::Sgp4(s) => match s.propagate(t / 60.0) {
+                Ok((r_km, v_km_s)) => StateEci {
+                    r_m: [r_km[0] * 1000.0, r_km[1] * 1000.0, r_km[2] * 1000.0],
+                    v_m_s: [v_km_s[0] * 1000.0, v_km_s[1] * 1000.0, v_km_s[2] * 1000.0],
+                },
+                Err(_) => StateEci {
+                    r_m: [0.0, 0.0, 0.0],
+                    v_m_s: [0.0, 0.0, 0.0],
+                },
             },
         }
     }
@@ -685,6 +755,48 @@ mod tests {
         }
         // Radius is preserved.
         assert!((norm(o.position_eci(1234.0)) - 7.0e6).abs() < 1e-3);
+    }
+
+    #[test]
+    fn circular_velocity_matches_vis_viva() {
+        // For a circular orbit the speed is sqrt(mu/r) and v is perpendicular to r.
+        let o = Orbit::new(7.0e6, 0.6, 0.4, 0.2);
+        let expect = (MU_EARTH / 7.0e6).sqrt();
+        let r = o.position_eci(321.0);
+        let v = o.velocity_eci(321.0);
+        assert!(
+            (norm(v) - expect).abs() / expect < 1e-6,
+            "speed {} vs vis-viva {expect}",
+            norm(v)
+        );
+        let dot = r[0] * v[0] + r[1] * v[1] + r[2] * v[2];
+        assert!(
+            dot.abs() / (norm(r) * norm(v)) < 1e-5,
+            "r.v should be ~0 for a circular orbit, got {dot}"
+        );
+    }
+
+    #[test]
+    fn eccentric_velocity_matches_vis_viva() {
+        // vis-viva: v^2 = mu(2/r - 1/a) holds at every point of a Keplerian orbit.
+        let a = 8.0e6;
+        let e = 0.2;
+        let o = Orbit::keplerian(a, e, 0.5, 0.3, 0.1, 0.7);
+        for &t in &[0.0, 600.0, 1500.0, 3000.0] {
+            let r = norm(o.position_eci(t));
+            let v = norm(o.velocity_eci(t));
+            let expect = (MU_EARTH * (2.0 / r - 1.0 / a)).sqrt();
+            assert!((v - expect).abs() / expect < 1e-4, "t={t}: {v} vs {expect}");
+        }
+    }
+
+    #[test]
+    fn propagator_state_eci_is_consistent() {
+        // state_eci must agree with the separate position/velocity accessors.
+        let p = Propagator::Kepler(Orbit::new(7.0e6, 0.3, 0.0, 0.0));
+        let s = p.state_eci(500.0);
+        assert_eq!(s.r_m, p.position_eci(500.0));
+        assert_eq!(s.v_m_s, p.velocity_eci(500.0));
     }
 
     #[test]
