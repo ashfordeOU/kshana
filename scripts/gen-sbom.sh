@@ -17,12 +17,17 @@ fi
 
 # Fallback: build a CycloneDX 1.5 document from cargo metadata. No network, no
 # extra tooling — just the locked dependency set. Deterministic (sorted).
-# Pass the metadata through the environment so the heredoc keeps sole ownership
-# of the Python process's stdin.
-KSHANA_META="$(cargo metadata --format-version 1 --locked)" python3 <<'PY'
-import json, os, sys, hashlib
+# The metadata JSON is large, so write it to a temp file and pass the *path* as
+# argv: the heredoc keeps sole ownership of Python's stdin, and we avoid both the
+# stdin/pipe clash and the environment-size limit ("Argument list too long").
+meta_file="$(mktemp)"
+trap 'rm -f "$meta_file"' EXIT
+cargo metadata --format-version 1 --locked > "$meta_file"
+python3 - "$meta_file" <<'PY'
+import json, sys, hashlib
 
-meta = json.loads(os.environ["KSHANA_META"])
+with open(sys.argv[1]) as fh:
+    meta = json.load(fh)
 pkgs = sorted(meta["packages"], key=lambda p: (p["name"], p["version"]))
 
 def purl(p):
