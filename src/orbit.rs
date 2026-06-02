@@ -427,22 +427,35 @@ impl OrbitCfg {
     }
 }
 
-/// A Walker-delta GNSS constellation: `planes` equally-spaced orbital planes,
-/// `sats_per_plane` satellites equally spaced within each, a common altitude and
-/// inclination, and an inter-plane phasing factor `phasing_f` (Walker F).
+/// A GNSS constellation. Either a synthetic Walker-delta pattern (`planes`
+/// equally-spaced orbital planes, `sats_per_plane` satellites each, a common
+/// altitude and inclination, and an inter-plane phasing factor `phasing_f`), or,
+/// when `tle` is given, the real satellites parsed from a block of two-line
+/// element sets (the Walker fields are then ignored).
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct ConstellationCfg {
+    #[serde(default)]
     pub altitude_km: f64,
+    #[serde(default)]
     pub inclination_deg: f64,
+    #[serde(default)]
     pub planes: usize,
+    #[serde(default)]
     pub sats_per_plane: usize,
     #[serde(default)]
     pub phasing_f: f64,
+    /// Optional block of TLEs; if present, the constellation is parsed from it.
+    #[serde(default)]
+    pub tle: Option<String>,
 }
 
 impl ConstellationCfg {
-    /// Generate the constellation's satellites.
-    pub fn satellites(&self) -> Vec<Orbit> {
+    /// Generate the constellation's satellites: parsed from the TLE block if one
+    /// is given, otherwise the synthetic Walker-delta pattern.
+    pub fn satellites(&self) -> Result<Vec<Orbit>, String> {
+        if let Some(text) = &self.tle {
+            return crate::tle::parse_set(text);
+        }
         let r = R_EARTH_M + self.altitude_km * 1000.0;
         let inc = self.inclination_deg.to_radians();
         let total = (self.planes * self.sats_per_plane) as f64;
@@ -455,7 +468,7 @@ impl ConstellationCfg {
                 sats.push(Orbit::new(r, inc, raan, u));
             }
         }
-        sats
+        Ok(sats)
     }
 }
 
@@ -748,6 +761,7 @@ mod tests {
                 planes,
                 sats_per_plane,
                 phasing_f: 1.0,
+                tle: None,
             },
             clock_quantum: clock("optical", 1e-13, 1e-26, 1e-34),
             clock_classical: clock("csac", 1e-11, 1e-24, 1e-32),
@@ -757,10 +771,11 @@ mod tests {
     #[test]
     fn timeline_has_expected_length_and_walker_count() {
         let scn = scenario(6, 4);
-        assert_eq!(scn.constellation.satellites().len(), 24);
+        let sats = scn.constellation.satellites().unwrap();
+        assert_eq!(sats.len(), 24);
         let tl = build_timeline(
             &scn.user.to_orbit(),
-            &scn.constellation.satellites(),
+            &sats,
             scn.time.step_s,
             scn.time.duration_s,
             scn.mask_deg,
@@ -773,7 +788,7 @@ mod tests {
         // Three satellites can never give a 4-satellite fix, so every sample is a
         // GNSS outage: the run is pure holdover and the quantum clock must lead.
         let scn = scenario(1, 3);
-        let r = crate::run::run_orbit_clock(&scn);
+        let r = crate::run::run_orbit_clock(&scn).unwrap();
         let any_outage = r
             .quantum
             .series
@@ -790,7 +805,7 @@ mod tests {
     #[test]
     fn orbit_scenario_is_reproducible() {
         let run = || {
-            let r = crate::run::run_orbit_clock(&scenario(6, 4));
+            let r = crate::run::run_orbit_clock(&scenario(6, 4)).unwrap();
             (r.quantum.fom.timing_p95_ns, r.classical.fom.timing_p95_ns)
         };
         assert_eq!(run(), run());
@@ -878,7 +893,7 @@ mod tests {
         // fix at every sample; position sigma = pdop * uere with a known ratio.
         let scn = scenario(6, 4);
         let user = Orbit::new(7.0e6, 0.0, 0.0, 0.0);
-        let sats = scn.constellation.satellites();
+        let sats = scn.constellation.satellites().unwrap();
         let summary = summarize_dop(&user, &sats, 300.0, 3600.0, 5.0, 2.0);
         assert_eq!(summary.samples_total, 3600 / 300 + 1);
         assert!(summary.samples_with_fix > 0);
