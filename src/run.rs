@@ -31,6 +31,8 @@ pub(crate) fn run_clock(scn: &Scenario, cfg: &ClockCfg, seed: u64) -> ClockRun {
     let dt = scn.time.step_s;
     let n = (scn.time.duration_s / dt).round() as usize;
     let mut series = Vec::with_capacity(n + 1);
+    // Raw clock phase over the whole run, for the Allan-deviation curve.
+    let mut phase = Vec::with_capacity(n + 1);
     let (mut outage_samples, mut contained) = (0u64, 0u64);
     for i in 0..=n {
         let t = i as f64 * dt;
@@ -39,7 +41,9 @@ pub(crate) fn run_clock(scn: &Scenario, cfg: &ClockCfg, seed: u64) -> ClockRun {
             kf.predict(dt);
         }
         let gnss = scn.gnss.state_at(t);
-        let err_s = est.timing_error(t, clock.phase(), clock.det_freq(), clock.drift_rate(), gnss);
+        let ph = clock.phase();
+        phase.push(ph);
+        let err_s = est.timing_error(t, ph, clock.det_freq(), clock.drift_rate(), gnss);
         if gnss == GnssState::Nominal {
             // Truth is observed: the timing error is zero and the filter re-syncs.
             kf.update(0.0);
@@ -74,6 +78,7 @@ pub(crate) fn run_clock(scn: &Scenario, cfg: &ClockCfg, seed: u64) -> ClockRun {
         spec: clock.spec(),
         series,
         fom,
+        adev_curve: crate::allan::overlapping_adev_curve(&phase, dt),
     }
 }
 

@@ -319,8 +319,12 @@ See `scenarios/` for one example of every kind.
 ## Output
 
 The result artifact is versioned, self-describing JSON: per-step time series, the
-scored figures of merit, the active model specs (with provenance), the seed, and a
-**scenario hash** — so any chart can be reproduced from the file. The figures of
+scored figures of merit, the active model specs (with provenance), the seed, a
+**scenario hash** — so any chart can be reproduced from the file — and, for each clock,
+an `adev_curve` (`[{tau_s, adev, n_samples}]`): the overlapping Allan deviation across
+octave-spaced averaging times, the standard way to read a clock's stability. The
+browser playground renders it as a log-log "Clock stability (ADEV)" chart. (MDEV/TDEV/HDEV
+and confidence intervals are not yet computed — roadmap.) The figures of
 merit follow the standard operational PNT figures of merit:
 
 | Figure of merit | How Kshana computes it |

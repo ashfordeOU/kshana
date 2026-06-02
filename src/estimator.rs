@@ -36,6 +36,17 @@ impl HoldoverEstimator {
     ) -> Seconds {
         match gnss {
             GnssState::Nominal => {
+                // While GNSS is available we calibrate the deterministic frequency
+                // and drift and anchor to the observed phase, then coast on those
+                // during the outage; the reported holdover error is the *stochastic*
+                // clock wander (white/random-walk/flicker FM) that the deterministic
+                // predictor cannot remove. NOTE: this assumes the deterministic
+                // calibration is exact at hand-off. A real receiver estimates the
+                // frequency from a finite, noisy observation window, so a small
+                // residual frequency error would grow linearly through the coast;
+                // modelling that finite-window calibration error is a roadmap
+                // refinement (it would make holdover additionally sensitive to the
+                // pre-outage GNSS measurement noise, not only to clock stability).
                 self.f_s = det_freq;
                 self.drift_est = drift;
                 self.last_sync_t = t;
