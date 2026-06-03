@@ -35,36 +35,14 @@ and every sensor parameter is traceable to a published source.
 *Free and open source under Apache-2.0, professionally developed and maintained by
 Ashforde OÜ — commercial support, integration, and proprietary extensions available.*
 
-> **Status: v0.9.0 — a simulation substrate, not yet a product.** Four sensor packs
-> that each report all six operational figures of merit (including a clock-stability-based
-> spoof-*detectability* bound — analytic, meaningful only with a configured attack —
-> demonstrated by an active spoofing-attack scenario), two independent Kalman error
-> budgets (clock and position) reported as a combined FoM, and a filter
-> self-consistency bound, multi-constellation geometry-derived GNSS availability *and*
-> dilution of precision from orbits — synthetic Walker, Keplerian mean elements, or
-> full two-line element sets propagated with **SGP4/SDP4** (validated against the AIAA
-> 2006-6753 vectors) — a single-axis (1-DOF) IMU error budget in the shipped
-> inertial pack (velocity/angle random walk and bias-instability), Monte Carlo
-> confidence bands, trade-study parameter sweeps, and a shareable HTML scorecard.
-> As of v0.9.0 the library also carries a genuine **three-axis strapdown INS**
-> (quaternion attitude, WGS-84 NED mechanization, coning/sculling, a five-term IMU
-> error model), a **loosely-coupled GNSS/INS error-state EKF** with closed-loop
-> feedback, **real snapshot and solution-separation (ARAIM-style) RAIM** with
-> HPL/VPL and a runnable `integrity` scenario, and **RINEX-3 GPS ephemeris
-> ingestion** (broadcast orbit + clock). All calibrated to published data and
-> validated against the standard relations, with optional Python and WebAssembly
-> bindings and a browser playground. Read [`docs/VALIDATION.md`](docs/VALIDATION.md)
-> before citing any number — each noise term is labelled `validated` or `not modeled`,
-> and optical-clock figures are *space goals on ground hardware* (no strontium optical
-> clock has flown). What it is still **not**: the shipped `inertial` scenario pack
-> remains the 1-DOF budget (the three-axis navigator is library-level, not yet wired
-> into a pack); the GNSS/INS filter is *loosely* coupled only (tight/pseudorange
-> coupling is a documented stub); the RAIM is real but **not** formally certified to
-> DO-229/DO-178C aviation standards; and the quantum models are phenomenological, not
-> a first-principles quantum simulator. The full
-> honest scope map is in [`docs/CAPABILITY.md`](docs/CAPABILITY.md); see also
-> [`docs/INTEGRITY.md`](docs/INTEGRITY.md) and the claims table in
-> [`docs/VALIDATION.md`](docs/VALIDATION.md).
+> **Status — v0.9.0 · a simulation substrate, not yet a product.** A validated,
+> fully reproducible engine spanning the PNT stack — orbit geometry, inertial
+> navigation, GNSS/INS fusion, integrity, clocks, and timing. Honest by design:
+> every figure of merit is labelled *validated* or *not-modeled*, and optical-clock
+> figures are space goals on ground hardware (no strontium optical clock has flown).
+> See **[Capabilities](#capabilities)** for what it does, **[What it is / is not](#what-it-is--is-not)**
+> for scope, and [`docs/CAPABILITY.md`](docs/CAPABILITY.md) / [`docs/VALIDATION.md`](docs/VALIDATION.md)
+> for per-capability maturity and the claims table.
 
 > **Try it in your browser:** the [playground](web/) runs the engine client-side as
 > WebAssembly — pick a scenario, edit the parameters, and see the result, with nothing
