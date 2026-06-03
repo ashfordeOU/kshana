@@ -27,10 +27,10 @@
 //!
 //! Scope (this stage): the Keplerian broadcast systems — GPS (`G`), Galileo
 //! (`E`), QZSS (`J`), and BeiDou (`C`, MEO/IGSO; geostationary BeiDou is skipped
-//! pending validation, see `is_beidou_geo`). GLONASS (a state-vector model) is
-//! next (SP3 precise ephemerides are read by [`crate::sp3`]). Records for other
-//! systems are skipped using their own line count, not rejected, so a
-//! mixed-constellation file still yields the ephemerides it can decode.
+//! pending validation, see `is_beidou_geo`). GLONASS uses a state-vector model
+//! and is handled by [`crate::glonass`]; SP3 precise ephemerides by [`crate::sp3`].
+//! Records for other systems are skipped using their own line count, not rejected,
+//! so a mixed-constellation file still yields the ephemerides it can decode.
 
 /// A calendar epoch in UTC/GPS time, as carried in a RINEX record (the clock
 /// reference time `Toc`).
@@ -135,7 +135,7 @@ pub fn parse_d(s: &str) -> Result<f64, String> {
 
 /// Slice a fixed-width column `[lo, hi)` from `line`, clamped to its length
 /// (RINEX lines may be short when trailing fields are blank).
-fn col(line: &str, lo: usize, hi: usize) -> &str {
+pub(crate) fn col(line: &str, lo: usize, hi: usize) -> &str {
     let n = line.len();
     if lo >= n {
         return "";
@@ -145,7 +145,7 @@ fn col(line: &str, lo: usize, hi: usize) -> &str {
 
 /// The four 19-character data fields of a RINEX 3 `BROADCAST ORBIT` line, which
 /// start after a 4-space indent.
-fn orbit_fields(line: &str) -> Result<[f64; 4], String> {
+pub(crate) fn orbit_fields(line: &str) -> Result<[f64; 4], String> {
     Ok([
         parse_d(col(line, 4, 23))?,
         parse_d(col(line, 23, 42))?,

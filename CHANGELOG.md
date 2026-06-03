@@ -10,6 +10,16 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **GLONASS broadcast ephemeris (completes multi-GNSS RINEX nav).** New `glonass`
+  module: GLONASS doesn't broadcast Keplerian elements but a PZ-90 Earth-fixed
+  **state vector** (position, velocity, luni-solar acceleration). `parse_glonass_nav`
+  reads the RINEX 3 `R` records, and the satellite position at any time is obtained
+  by **4th-order Runge–Kutta integration** of the GLONASS ICD equations of motion
+  (central gravity + `J2` + Earth-rotation Coriolis/centrifugal terms + the
+  broadcast acceleration). Exposed as `Propagator::Glonass`, so GLONASS satellites
+  flow through the constellation/visibility/integrity pipeline alongside the
+  Keplerian systems; a single `rinex` constellation block can now mix GPS, Galileo,
+  QZSS, BeiDou, and GLONASS.
 - **Multi-GNSS RINEX navigation (GPS, Galileo, QZSS, BeiDou).** The RINEX 3
   navigation parser now decodes Galileo (`E`), QZSS (`J`), and BeiDou (`C`,
   MEO/IGSO) records alongside GPS (`G`) — they share the Keplerian layout and user
