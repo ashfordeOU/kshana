@@ -1,12 +1,13 @@
 <p align="center">
-  <img src="docs/assets/kshana-mark.svg" alt="Kshana mark — a precision reticle hung from the Devanagari shirorekha" width="104" height="104">
+  <img src="docs/assets/kshana-mark.svg" alt="Kshana mark — a precision reticle hung from the Devanagari shirorekha" width="96" height="96">
 </p>
 
-<h1 align="center">
-  <img src="docs/assets/kshana-banner.svg" alt="Kshana — the precise instant. Open, reproducible hybrid quantum/classical PNT performance simulation." width="760">
-</h1>
+<h1 align="center">Kshana</h1>
 
-<p align="center"><em><strong>Kshana</strong> · <span lang="sa">क्षण</span> — Sanskrit for <em>the precise instant</em>, the smallest measure of time.</em></p>
+<p align="center">
+  <strong>क्षण</strong> — Sanskrit for <em>the precise instant</em>, the smallest measure of time.<br>
+  Open, reproducible hybrid quantum / classical PNT performance simulation.
+</p>
 
 <p align="center">
   <a href="https://ashfordeou.github.io/kshana/"><img src="https://img.shields.io/badge/playground-try%20in%20browser-2dd4bf" alt="Live playground — run in your browser, no install"></a>
