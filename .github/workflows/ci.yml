@@ -45,9 +45,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: EmbarkStudios/cargo-deny-action@v2
+      # Install cargo-deny as a prebuilt binary from its GitHub release rather
+      # than via EmbarkStudios/cargo-deny-action, which builds a Docker image
+      # `FROM rust:...-alpine` on every run and intermittently fails when the
+      # Docker Hub registry pull times out ("dial tcp ...: i/o timeout"). The
+      # binary install has no Docker Hub dependency. cargo-deny reads
+      # Cargo.lock + deny.toml and needs no project compilation.
+      - uses: taiki-e/install-action@v2
         with:
-          command: check advisories licenses bans sources
+          tool: cargo-deny
+      - name: cargo-deny
+        run: cargo deny check advisories licenses bans sources
   test-python-bindings:
     runs-on: ubuntu-latest
     steps:
