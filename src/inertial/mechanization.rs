@@ -81,6 +81,15 @@ fn radius_transverse(lat_rad: f64) -> f64 {
     WGS84_A / (1.0 - e2 * s2).sqrt()
 }
 
+/// Meridian and transverse radii of curvature `(R_N, R_E)` at `lat_rad` (m).
+///
+/// Exposed so a closed-loop integrator can map a NED position/error increment to
+/// the geodetic rates with exactly the radii the mechanization uses, keeping the
+/// flat-Earth tangent-plane projection consistent with the propagation.
+pub fn radii_of_curvature(lat_rad: f64) -> (f64, f64) {
+    (radius_meridian(lat_rad), radius_transverse(lat_rad))
+}
+
 /// Strapdown navigation state in the local-level NED frame.
 ///
 /// - `q` carries the body→NED rotation (see [`Quaternion`]).
@@ -104,14 +113,14 @@ impl NavState {
     }
 
     /// Earth-rotation rate resolved in the current NED frame: `[ω cosL, 0, −ω sinL]`.
-    fn omega_ie_n(&self) -> Vec3 {
+    pub fn omega_ie_n(&self) -> Vec3 {
         let l = self.p_llh.lat_rad;
         [OMEGA_IE * l.cos(), 0.0, -OMEGA_IE * l.sin()]
     }
 
     /// Transport rate `ω_en^n` — the turn rate of the NED frame as the platform
     /// moves over the ellipsoid.
-    fn omega_en_n(&self) -> Vec3 {
+    pub fn omega_en_n(&self) -> Vec3 {
         let l = self.p_llh.lat_rad;
         let h = self.p_llh.alt_m;
         let rn = radius_meridian(l);
