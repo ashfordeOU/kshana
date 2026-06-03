@@ -36,7 +36,7 @@
             <circle cx="32" cy="36" r="4.4" fill="#84d2ea" />
           </svg>
           <span class="name">Kshana</span>
-          <span class="ver" id="ver-chip">v0.9.0</span>
+          <span class="ver" id="ver-chip">v0.9.2</span>
         </a>
         <nav class="nav" aria-label="Primary">
           <a href="#capabilities">Capabilities</a>
@@ -52,29 +52,89 @@
     <main id="top">
       <!-- ── Hero ─────────────────────────────────────────────────────── -->
       <section class="hero">
-        <div class="wrap">
-          <p class="eyebrow"><span class="deva">क्षण</span> · the precise instant</p>
-          <h1>Open <span class="hl">PNT performance</span> simulation, validated and reproducible.</h1>
-          <p class="lede">
-            A dependency-light engine for positioning, navigation and timing studies:
-            SGP4-validated orbit geometry, a three-axis strapdown INS, loosely-coupled
-            GNSS/INS fusion, real RAIM integrity with HPL/VPL, and RINEX
-            interoperability — scored against the operational figures of merit.
-          </p>
-          <p class="honest">
-            The open reference simulator for PNT performance — transparent, fully
-            reproducible, and validated against the standards engineers already trust.
-          </p>
-          <div class="cta-row">
-            <a class="btn primary" href="#playground">Run it in your browser</a>
-            <a class="btn" href="#capabilities">View capability matrix</a>
-            <a class="btn" href="https://github.com/AshfordeOU/kshana">Source &amp; docs</a>
+        <div class="wrap hero-grid">
+          <div class="hero-copy">
+            <p class="eyebrow"><span class="deva">क्षण</span> · the precise instant</p>
+            <h1>Open <span class="hl">PNT</span> performance simulation, validated and reproducible.</h1>
+            <p class="lede">
+              A dependency-light engine for positioning, navigation and timing studies:
+              SGP4-validated orbit geometry, a three-axis strapdown INS, loosely-coupled
+              GNSS/INS fusion, real RAIM integrity with HPL/VPL, and RINEX
+              interoperability — scored against the operational figures of merit.
+            </p>
+            <p class="honest">
+              The open reference simulator for PNT performance — transparent, fully
+              reproducible, and validated against the standards engineers already trust.
+            </p>
+            <div class="cta-row">
+              <a class="btn primary" href="#playground">Run it in your browser</a>
+              <a class="btn" href="#capabilities">View capability matrix</a>
+              <a class="btn ghost" href="https://github.com/AshfordeOU/kshana">Source &amp; docs</a>
+            </div>
+            <div class="badges" aria-label="Trust signals">
+              <span class="badge"><span class="dot"></span> SGP4 <b>666/666</b> AIAA vectors · <b>4.12 mm</b></span>
+              <span class="badge"><span class="dot"></span> <b>Apache-2.0</b> open source</span>
+              <span class="badge"><span class="dot"></span> Reproducible · <b>SBOM</b> + provenance</span>
+              <span class="badge"><span class="dot"></span> Runs <b>client-side</b> (WASM) · nothing uploaded</span>
+            </div>
           </div>
-          <div class="badges" aria-label="Trust signals">
-            <span class="badge"><span class="dot"></span> SGP4 <b>666/666</b> AIAA vectors · <b>4.12 mm</b></span>
-            <span class="badge"><span class="dot"></span> <b>Apache-2.0</b> open source</span>
-            <span class="badge"><span class="dot"></span> Reproducible · <b>SBOM</b> + provenance</span>
-            <span class="badge"><span class="dot"></span> Runs <b>client-side</b> (WASM) · nothing uploaded</span>
+
+          <!-- Living instrument — a slow orbital fix, drawn as the page settles. -->
+          <div class="instrument" aria-hidden="true">
+            <svg viewBox="0 0 360 360" class="inst-svg" role="presentation">
+              <defs>
+                <radialGradient id="ig-core" cx="50%" cy="50%" r="50%">
+                  <stop offset="0" stop-color="#d3ebf2" />
+                  <stop offset="0.5" stop-color="#95d3e6" />
+                  <stop offset="1" stop-color="#58aecb" />
+                </radialGradient>
+                <linearGradient id="ig-arc" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#58aecb" stop-opacity="0" />
+                  <stop offset="0.6" stop-color="#58aecb" stop-opacity="0.5" />
+                  <stop offset="1" stop-color="#95d3e6" />
+                </linearGradient>
+                <filter id="ig-glow" x="-50%" y="-50%" width="200%" height="200%">
+                  <feGaussianBlur stdDeviation="2.4" result="b" />
+                  <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+                </filter>
+              </defs>
+
+              <!-- graduated bezel -->
+              <circle class="inst-bezel" cx="180" cy="180" r="150" fill="none"
+                      stroke="#33414f" stroke-width="1" stroke-dasharray="0.5 7.35" stroke-linecap="round" />
+              <circle cx="180" cy="180" r="150" fill="none" stroke="var(--line-2)" stroke-width="1" opacity="0.5" />
+              <circle cx="180" cy="180" r="116" fill="none" stroke="var(--line)" stroke-width="1" />
+
+              <!-- crosshair reticle -->
+              <g stroke="#3a4757" stroke-width="1">
+                <line x1="180" y1="22" x2="180" y2="58" /><line x1="180" y1="302" x2="180" y2="338" />
+                <line x1="22" y1="180" x2="58" y2="180" /><line x1="302" y1="180" x2="338" y2="180" />
+              </g>
+
+              <!-- orbital ellipse (the path) -->
+              <ellipse cx="180" cy="180" rx="150" ry="74" fill="none"
+                       stroke="var(--line-2)" stroke-width="1" transform="rotate(-24 180 180)" />
+              <!-- luminous traced arc, drawn on load -->
+              <ellipse class="inst-arc" cx="180" cy="180" rx="150" ry="74" fill="none"
+                       stroke="url(#ig-arc)" stroke-width="2.2" stroke-linecap="round"
+                       transform="rotate(-24 180 180)" filter="url(#ig-glow)" />
+
+              <!-- inner resonance ring -->
+              <circle cx="180" cy="180" r="58" fill="none" stroke="var(--accent-line)" stroke-width="1.2" />
+
+              <!-- the fix: luminous core -->
+              <circle cx="180" cy="180" r="6.5" fill="url(#ig-core)" filter="url(#ig-glow)" />
+              <circle class="inst-pulse" cx="180" cy="180" r="6.5" fill="none"
+                      stroke="var(--accent)" stroke-width="1.4" />
+
+              <!-- satellite riding the orbit -->
+              <g transform="rotate(-24 180 180)">
+                <circle r="3.8" fill="#cdeef8" filter="url(#ig-glow)">
+                  <animateMotion dur="28s" repeatCount="indefinite" rotate="auto"
+                    path="M 30 180 a 150 74 0 1 0 300 0 a 150 74 0 1 0 -300 0" />
+                </circle>
+              </g>
+            </svg>
           </div>
         </div>
       </section>
@@ -257,6 +317,28 @@
       </div>
     </footer>
 
+    <!-- Quiet settling motion. Progressive enhancement: without JS, all content
+         is fully visible; reduced-motion preferences are honoured. -->
+    <script>
+      (function () {
+        var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        if (reduce) {
+          var svg = document.querySelector(".inst-svg");
+          if (svg && svg.pauseAnimations) { try { svg.pauseAnimations(); } catch (e) {} }
+          return;
+        }
+        if (!("IntersectionObserver" in window)) return;
+        var targets = document.querySelectorAll(
+          ".hero-copy, .sec-head, .cards, .matrix, .panel, .pg-grid, footer .foot-grid"
+        );
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+          });
+        }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
+        targets.forEach(function (el) { el.classList.add("reveal"); io.observe(el); });
+      })();
+    </script>
     <script type="module" src="app.js"></script>
   </body>
 </html>
