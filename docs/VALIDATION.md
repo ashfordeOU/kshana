@@ -127,7 +127,8 @@ what Kshana does today, and where the real version sits on the roadmap.
 | Security FoM | an **analytic spoof-detectability bound** from clock stability, meaningful only with a configured attack | a multi-satellite RAIM/ARAIM detector — see [`INTEGRITY.md`](INTEGRITY.md) |
 | "clock-aided spoof-detection RAIM" | a single-clock consistency monitor (innovation vs k·σ) | range-domain multi-SV RAIM with protection levels |
 | Integrity FoM | filter **self-consistency** (fraction of outage samples inside its own k·σ bound) | HPL/VPL, integrity risk / P_HMI, alert limits, DO-229E/316/ED-259A |
-| "full IMU Allan-variance model" / "IMU triad" | a **single-axis (1-DOF)** accelerometer/gyro error budget (VRW/ARW, bias-instability) | a 3-axis strapdown triad; no scale-factor, misalignment, g-sensitivity, cross-axis |
+| inertial scenario **pack** FoM | a **single-axis (1-DOF)** accelerometer/gyro error budget (VRW/ARW, bias-instability) — the *pack* has not yet been switched to the 3-axis path | the shipped pack does not yet drive the 3-axis strapdown library below |
+| 3-axis strapdown **library** (`src/inertial/`) | a verified quaternion/NED navigator with a deterministic IMU error model: **scale-factor, misalignment, g-sensitivity, quantization, rate-ramp** modelled (IEEE Std 952-1997 §A.2; Groves 2013 §4.3) | **not modelled:** vibration rectification error, temperature-gradient drift; and it is **not yet wired into the scenario pack / FoM** |
 | "Hybrid PNT integration" | open-loop dead-reckoning bracketed by truth-snap GNSS resets | a coupled (loose/tight) GNSS–INS Kalman blend |
 | "Positioning Performance" (clock packs) | clock-phase **timing** RMS in ns (`timing_rms_ns`) | a position-domain RMS/CEP/SEP/DOP-weighted accuracy |
 | inertial position FoM (`pos_rms_m`) | a **single-seed, single-axis** position RMS/p95 in metres | an ensemble CEP / 2DRMS distribution (roadmap: Monte-Carlo CEP) |
