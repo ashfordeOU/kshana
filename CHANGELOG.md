@@ -10,13 +10,16 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
-- **SP3-c/d precise-ephemeris reader.** New `sp3` module parses IGS/analysis-centre
-  SP3 precise orbit files (`parse_sp3`) — the post-processed ECEF position/clock
-  product that PPP engines (Ginan, RTKLIB, gLAB) treat as reference — into a
-  structured `Sp3File` (header, epoch grid, per-satellite position km→m, clock µs,
-  and velocity dm/s→m/s for `V` products), preserving the SP3 bad-value sentinels.
-  This is the read half of SP3 interop; epoch interpolation, a propagator source,
-  and SP3 export are next.
+- **SP3-c/d precise-ephemeris reader and writer.** New `sp3` module parses
+  IGS/analysis-centre SP3 precise orbit files (`parse_sp3`) — the post-processed
+  ECEF position/clock product that PPP engines (Ginan, RTKLIB, gLAB) treat as
+  reference — into a structured `Sp3File` (header, epoch grid, per-satellite
+  position km→m, clock µs, and velocity dm/s→m/s for `V` products), preserving the
+  SP3 bad-value sentinels. The reverse direction is also covered:
+  `Sp3File::from_propagators` builds an SP3 from a propagated constellation
+  (TEME→ECEF per epoch) and `to_sp3_string` serialises it, so Kshana orbits can be
+  exported in the format external PPP tools ingest — the read↔write round trip.
+  Epoch interpolation and an SP3 propagator source are next.
 - **RINEX broadcast ephemeris as a runnable constellation source.** A
   constellation now accepts an inline `rinex` block (RINEX 3 GPS navigation
   text) alongside the existing `tle` option, so a real broadcast file drives a

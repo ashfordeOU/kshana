@@ -43,7 +43,7 @@ a deliberate non-goal for now; Kshana is a PNT simulator, not GMAT/STK/Orekit.
 | Comms & link budgets | none | no RF/optical link, EIRP/G-T, access scheduling |
 | Ground segment & operations | none | no ground-station entity, pass scheduling, or ops timeline |
 | Telemetry / TT&C / CCSDS | none | bespoke TOML-in/JSON-out; CCSDS/SPICE interop is an interoperability roadmap item (P2) |
-| Interoperability & standards (RINEX/SP3/SPICE/CCSDS) | partial | RINEX 3 GPS NAV ingested + propagated + runnable as a constellation; SP3-c/d precise-ephemeris **reader** done. No SP3 export, no SPICE/CCSDS yet — **P2** "annex adjacent domains via standard formats" |
+| Interoperability & standards (RINEX/SP3/SPICE/CCSDS) | partial | RINEX 3 GPS NAV ingested + propagated + runnable as a constellation; SP3-c/d precise-ephemeris **read ↔ write round trip** (parse, plus export of propagated orbits for Ginan/RTKLIB/gLAB). No multi-GNSS, no SPICE/CCSDS yet — **P2** "annex adjacent domains via standard formats" |
 | Space weather / environment (iono/atmo/radiation) | none | iono/TEC is a known GNSS error source omitted even in the PNT niche; P2+ |
 | Gravity-map / alt-PNT navigation | none | no gravimeter/gradiometer or geoid reference; candidate niche, P3 |
 | Re-entry / EDL, Launch analysis, EO/payload | none | out of scope |

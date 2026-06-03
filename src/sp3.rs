@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-//! SP3-c/d precise-ephemeris reader.
+//! SP3-c/d precise-ephemeris reader and writer.
 //!
 //! SP3 (Standard Product 3) is the format the IGS and the analysis centres
 //! distribute precise GNSS orbits and clocks in: a tabulated time series of
@@ -13,11 +13,15 @@
 //! This module parses the SP3-c and SP3-d position records into an [`Sp3File`]:
 //! the header (version, epoch grid, satellite list) and, for each epoch, every
 //! satellite's ECEF position (converted km → m) and clock offset (µs), plus the
-//! velocity record when the file is a `V` (position+velocity) product.
+//! velocity record when the file is a `V` (position+velocity) product. It also
+//! goes the other way: [`Sp3File::from_propagators`] builds an SP3 from a
+//! propagated constellation (TEME → ECEF per epoch) and [`Sp3File::to_sp3_string`]
+//! serialises it — so Kshana orbits can be written in the format Ginan/RTKLIB/gLAB
+//! ingest, completing the read↔write round trip.
 //!
-//! Scope (this stage): parsing into a structured table. Polynomial interpolation
-//! between epochs and exposing SP3 as a [`crate::orbit::Propagator`] source — and
-//! SP3 *export* of Kshana states — are the next steps. The bad-value sentinels
+//! Scope (this stage): the read/write round trip over position records.
+//! Polynomial interpolation between epochs and exposing SP3 as a
+//! [`crate::orbit::Propagator`] source are the next steps. The bad-value sentinels
 //! (positions of exactly 0, clock 999999.999999) are preserved as parsed, not
 //! silently rewritten, so a caller can decide how to treat them.
 
@@ -107,6 +111,110 @@ impl Sp3File {
             .iter()
             .find(|s| s.sat == sat)
             .map(|s| s.pos_m)
+    }
+
+    /// Build an SP3 file from a propagated constellation: each satellite's
+    /// inertial (TEME) state is sampled on the time grid and rotated into the
+    /// Earth-fixed frame, giving the ECEF position series SP3 records. `start` is
+    /// the calendar time of epoch 0 (GPS time scale) and `start_jd_ut1` its UT1
+    /// Julian Date — the GMST argument the TEME→ECEF rotation needs; later epochs
+    /// advance both by `step_s`. Satellites carry no clock model, so every clock
+    /// field is the SP3 "unavailable" sentinel. This is the export half of SP3
+    /// interop: Kshana orbits out, in the format Ginan/RTKLIB/gLAB ingest.
+    pub fn from_propagators(
+        ids: &[String],
+        sats: &[crate::orbit::Propagator],
+        start: EpochUtc,
+        start_jd_ut1: f64,
+        step_s: f64,
+        num_epochs: usize,
+    ) -> Self {
+        let start_jd_cal = crate::timescales::julian_date(
+            start.year,
+            start.month,
+            start.day,
+            start.hour,
+            start.minute,
+            start.second,
+        );
+        let mut epochs = Vec::with_capacity(num_epochs);
+        for i in 0..num_epochs {
+            let t = i as f64 * step_s;
+            let jd_ut1 = start_jd_ut1 + t / 86_400.0;
+            let civil = crate::timescales::civil_from_jd(start_jd_cal + t / 86_400.0);
+            let mut states = Vec::with_capacity(sats.len());
+            for (id, sat) in ids.iter().zip(sats.iter()) {
+                let ecef = crate::frames::teme_to_ecef(sat.position_eci(t), jd_ut1);
+                states.push(Sp3SatState {
+                    sat: id.clone(),
+                    pos_m: ecef,
+                    clock_us: BAD_CLOCK_US,
+                    vel_m_s: None,
+                });
+            }
+            epochs.push(Sp3Epoch {
+                time: EpochUtc {
+                    year: civil.year,
+                    month: civil.month,
+                    day: civil.day,
+                    hour: civil.hour,
+                    minute: civil.minute,
+                    second: civil.second,
+                },
+                sats: states,
+            });
+        }
+        Sp3File {
+            header: Sp3Header {
+                version: 'c',
+                has_velocity: false,
+                start,
+                num_epochs,
+                sat_ids: ids.to_vec(),
+            },
+            epochs,
+        }
+    }
+
+    /// Serialise to SP3-c position-record text. The output round-trips through
+    /// [`parse_sp3`]: header line, the `+` satellite list, one `*` epoch header
+    /// per epoch with its `P` records (ECEF m → km, clock µs), and an `EOF`
+    /// trailer. Velocity records are not emitted (positions only).
+    pub fn to_sp3_string(&self) -> String {
+        let mut out = String::new();
+        let s = &self.header.start;
+        // Header line 1: version, position mode, start epoch, epoch count.
+        out.push_str(&format!(
+            "#cP{:4} {:2} {:2} {:2} {:2} {:11.8}  {:6} ORBIT IGS14 HLM KSHANA\n",
+            s.year, s.month, s.day, s.hour, s.minute, s.second, self.header.num_epochs,
+        ));
+        // `+` satellite list: count then three-character ids packed from column 9.
+        let mut plus = format!("+   {:2}   ", self.header.sat_ids.len());
+        for id in &self.header.sat_ids {
+            plus.push_str(id);
+        }
+        out.push_str(&plus);
+        out.push('\n');
+        // Epoch blocks.
+        for epoch in &self.epochs {
+            let t = &epoch.time;
+            out.push_str(&format!(
+                "*  {:4} {:2} {:2} {:2} {:2} {:11.8}\n",
+                t.year, t.month, t.day, t.hour, t.minute, t.second,
+            ));
+            for st in &epoch.sats {
+                out.push_str(&format!(
+                    "P{}{:14.6}{:14.6}{:14.6}{:14.6}\n",
+                    st.sat,
+                    st.pos_m[0] / 1000.0,
+                    st.pos_m[1] / 1000.0,
+                    st.pos_m[2] / 1000.0,
+                    st.clock_us,
+                ));
+            }
+        }
+        out.push_str("EOF\n");
+        out
     }
 }
 
@@ -353,5 +461,56 @@ EOF";
         assert!(parse_sp3("not an sp3 file").is_err());
         // Header but no epoch records.
         assert!(parse_sp3("#cP2023  1  1  0  0  0.00000000       0 ORBIT").is_err());
+    }
+
+    #[test]
+    fn write_then_read_round_trips() {
+        // Parse the fixture, serialise it back to SP3, and re-parse: the satellite
+        // list, positions, and bad-clock sentinel must survive the round trip.
+        let a = parse_sp3(SAMPLE).unwrap();
+        let text = a.to_sp3_string();
+        let b = parse_sp3(&text).expect("written SP3 re-parses");
+        assert_eq!(a.header.version, b.header.version);
+        assert_eq!(a.header.num_epochs, b.header.num_epochs);
+        assert_eq!(a.observed_satellites(), b.observed_satellites());
+        assert_eq!(a.position_of("G01", 0), b.position_of("G01", 0));
+        assert_eq!(a.position_of("G02", 1), b.position_of("G02", 1));
+        assert!(b.epochs[0].sats[1].clock_is_bad()); // G02 epoch 0 sentinel survives
+        assert_eq!(b.epochs[1].time.minute, 15);
+    }
+
+    #[test]
+    fn builds_an_sp3_from_propagated_orbits() {
+        use crate::orbit::{Orbit, Propagator};
+        // Two GPS-altitude satellites in different planes.
+        let a = 26_560_000.0;
+        let sats = vec![
+            Propagator::Kepler(Orbit::new(a, 0.96, 0.0, 0.0)),
+            Propagator::Kepler(Orbit::new(a, 0.96, std::f64::consts::PI, 1.0)),
+        ];
+        let ids = vec!["G01".to_string(), "G02".to_string()];
+        let start = EpochUtc {
+            year: 2023,
+            month: 1,
+            day: 1,
+            hour: 0,
+            minute: 0,
+            second: 0.0,
+        };
+        let jd = crate::timescales::julian_date(2023, 1, 1, 0, 0, 0.0);
+        let f = Sp3File::from_propagators(&ids, &sats, start, jd, 900.0, 3);
+        assert_eq!(f.header.sat_ids, ids);
+        assert_eq!(f.epochs.len(), 3);
+        // Earth-fixed rotation preserves the geocentric radius (GPS altitude).
+        let p = f.position_of("G01", 0).unwrap();
+        let r = (p[0].powi(2) + p[1].powi(2) + p[2].powi(2)).sqrt();
+        assert!((r - a).abs() < 1.0, "radius {r:.0} m");
+        // Clocks are the unavailable sentinel (no clock model).
+        assert!(f.epochs[0].sats[0].clock_is_bad());
+        // Third epoch is 2 × 900 s = 30 minutes after the start.
+        assert_eq!(f.epochs[2].time.minute, 30);
+        // And it serialises to something the reader accepts.
+        let reparsed = parse_sp3(&f.to_sp3_string()).expect("built SP3 re-parses");
+        assert_eq!(reparsed.observed_satellites(), ids);
     }
 }
