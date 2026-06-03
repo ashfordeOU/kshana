@@ -18,6 +18,20 @@ breaking changes are called out explicitly.
   published crate); see `tests/fixtures/igs/NOTICE`.
 
 ### Added
+- **CCSDS OEM (Orbit Ephemeris Message) writer.** New `oem` module exports a
+  propagated constellation as a valid CCSDS 502.0-B OEM 2.0 message —
+  the KVN ephemeris format GMAT, Orekit, STK, and most flight-dynamics tools
+  ingest. `OemFile::from_propagators` samples each satellite's inertial
+  (TEME) state — position **and** velocity, taken straight from the propagator
+  with no Earth-fixed rotation, unlike the SP3 export — onto a time grid, and
+  `OemFile::to_oem_string` serialises the `CCSDS_OEM_VERS`/`CREATION_DATE`/
+  `ORIGINATOR` header plus one `META_START … META_STOP` segment per satellite
+  (`OBJECT_NAME`/`OBJECT_ID`/`CENTER_NAME`/`REF_FRAME = TEME`/`TIME_SYSTEM = GPS`/
+  `START_TIME`/`STOP_TIME`) followed by its `epoch X Y Z X_DOT Y_DOT Z_DOT`
+  lines (km, km/s). The `CREATION_DATE` is caller-supplied, never wall-clock, so
+  output is byte-identical across runs (the reproducibility contract). This is the
+  spacecraft-ephemeris counterpart to the GNSS SP3 export: a Kshana orbit can now
+  be handed to a flight-dynamics tool in a standard format.
 - **SP3 precise ephemeris as a propagation source.** `Sp3File::interpolator`
   builds a per-satellite `Sp3Interpolator` that fills the position between the
   tabulated SP3 epochs with a 9th-order Lagrange polynomial (standard IGS
