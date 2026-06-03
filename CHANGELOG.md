@@ -10,6 +10,21 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Runnable RAIM availability over a constellation (`src/raim.rs`).** The
+  integrity module had no caller — `constellation_raim_availability` makes it a
+  genuine end-to-end entry point: at each epoch on a time grid it propagates the
+  visible satellites (the same SGP4/Keplerian `Propagator`s the engine uses),
+  computes the no-fault protection levels, and judges availability against the
+  horizontal/vertical alert limits, returning a `serde`-serializable
+  `RaimAvailabilityReport` (per-epoch `n_visible`/HPL/VPL/`available` plus the
+  availability fraction). A `RaimConfig` bundles `(sigma, P_fa, P_md, AL_H, AL_V)`
+  and the per-epoch `raim_availability_epoch` is exposed for callers that resolve
+  their own geometry. Three tests: an epoch judged available under APV-I limits on
+  a ten-satellite geometry, made unavailable by an impossibly tight limit, and
+  `None` levels below five satellites; and an end-to-end run over a 24-satellite
+  Walker constellation that yields a finite availability map and serializes. (Six
+  satellites — the residual-RAIM redundancy floor — honestly do *not* meet APV-I
+  even at 1 m ranging; APV-I availability needs the denser geometry the test uses.)
 - **Stanford(-ESA) integrity diagram accumulator (`src/raim.rs`).** The standard
   way to summarise an integrity monitor over many epochs: it plots actual
   position error (x) against protection level (y) and classifies each epoch, by
