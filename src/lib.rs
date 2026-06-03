@@ -21,6 +21,7 @@ pub mod run;
 pub mod scenario;
 pub mod security;
 pub mod sgp4;
+pub mod sp3;
 pub mod spoof;
 pub mod sweep;
 pub mod timescales;
