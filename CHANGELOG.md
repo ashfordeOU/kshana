@@ -20,10 +20,19 @@ breaking changes are called out explicitly.
   yields its GPS ephemerides. Four tests: `D`-exponent parsing (including blanks
   and errors), a full record decoded against known field values with a GPS
   semi-major-axis sanity check (√A² ≈ 26 560 km), non-GPS skipping, and the
-  empty-file case. Honest scope: this parses the navigation message only — it does
-  not yet evaluate SV positions from the ephemeris (IS-GPS-200 §20.3.3.4.3) or
-  expose a `Propagator` source; those, Galileo/BeiDou/GLONASS records, and SP3 are
-  the next steps. (`docs/CAPABILITY.md` updated to match.)
+  empty-file case.
+- **GPS broadcast-ephemeris → ECEF position (`src/rinex.rs`).**
+  `RinexEphemeris::sv_position_ecef(t_tow)` evaluates the satellite's Earth-fixed
+  position from the parsed ephemeris via the IS-GPS-200 §20.3.3.4.3.1 user
+  algorithm: Newton solution of Kepler's equation for the eccentric anomaly, the
+  second-harmonic argument-of-latitude / radius / inclination corrections, and the
+  rotation into ECEF accounting for Earth rotation since the reference epoch (with
+  the GPS `μ` and `Ω̇ₑ` mandated by the spec, and a week-rollover `tk` fold). Three
+  tests: the geocentric radius stays in the GPS band (≈ 26 560 km), the Earth-fixed
+  speed is ~3.9 km/s, and evaluating a full week away reproduces the same position.
+  Honest scope: this is the orbit evaluation only — the SV clock correction
+  (needs the `Toc` time-of-week), a `Propagator` source, Galileo/BeiDou/GLONASS,
+  and SP3 remain next steps. (`docs/CAPABILITY.md` updated to match.)
 - **User-runnable `integrity` scenario kind (`scenarios/integrity-raim.toml`).**
   The RAIM availability capability is now reachable from the CLI/TOML like every
   other pack: `kind = "integrity"` parses an `IntegrityScenario` (user orbit, one
