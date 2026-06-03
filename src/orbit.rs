@@ -231,13 +231,17 @@ impl Orbit {
 pub enum Propagator {
     Kepler(Orbit),
     Sgp4(Box<crate::sgp4::Sgp4>),
-    /// A GPS satellite driven by a broadcast ephemeris parsed from a RINEX
-    /// navigation file. Time `t` (s) is measured from the ephemeris reference
-    /// time `Toe`; position comes from the IS-GPS-200 user algorithm in ECEF,
-    /// rotated into the shared TEME inertial frame. This lets real broadcast
+    /// A GPS/Galileo/QZSS/BeiDou satellite driven by a broadcast ephemeris parsed
+    /// from a RINEX navigation file. Time `t` (s) is measured from the ephemeris
+    /// reference time `Toe`; position comes from the IS-GPS-200 user algorithm in
+    /// ECEF, rotated into the shared TEME inertial frame. This lets real broadcast
     /// data flow through the same geometry/visibility/integrity pipeline as the
     /// analytic propagators.
     Rinex(Box<crate::rinex::RinexEphemeris>),
+    /// A GLONASS satellite driven by a RINEX broadcast ephemeris: a PZ-90
+    /// state vector RK4-integrated from the reference epoch, then rotated into the
+    /// shared TEME inertial frame. Time `t` (s) is measured from that epoch.
+    Glonass(Box<crate::glonass::GlonassEphemeris>),
 }
 
 /// Time step (s) used to finite-difference a [`Propagator::Rinex`] position into
@@ -271,6 +275,7 @@ impl Propagator {
                 Err(_) => [0.0, 0.0, 0.0],
             },
             Propagator::Rinex(e) => e.sv_position_teme(e.toe + t),
+            Propagator::Glonass(e) => e.position_teme(t),
         }
     }
 
@@ -289,6 +294,15 @@ impl Propagator {
             Propagator::Rinex(e) => {
                 let ahead = e.sv_position_teme(e.toe + t + RINEX_VEL_DT_S);
                 let behind = e.sv_position_teme(e.toe + t - RINEX_VEL_DT_S);
+                [
+                    (ahead[0] - behind[0]) / (2.0 * RINEX_VEL_DT_S),
+                    (ahead[1] - behind[1]) / (2.0 * RINEX_VEL_DT_S),
+                    (ahead[2] - behind[2]) / (2.0 * RINEX_VEL_DT_S),
+                ]
+            }
+            Propagator::Glonass(e) => {
+                let ahead = e.position_teme(t + RINEX_VEL_DT_S);
+                let behind = e.position_teme(t - RINEX_VEL_DT_S);
                 [
                     (ahead[0] - behind[0]) / (2.0 * RINEX_VEL_DT_S),
                     (ahead[1] - behind[1]) / (2.0 * RINEX_VEL_DT_S),
@@ -317,7 +331,7 @@ impl Propagator {
                     v_m_s: [0.0, 0.0, 0.0],
                 },
             },
-            Propagator::Rinex(_) => StateEci {
+            Propagator::Rinex(_) | Propagator::Glonass(_) => StateEci {
                 r_m: self.position_eci(t),
                 v_m_s: self.velocity_eci(t),
             },
@@ -330,6 +344,7 @@ impl Propagator {
             Propagator::Kepler(o) => o.period_s(),
             Propagator::Sgp4(s) => s.period_s(),
             Propagator::Rinex(e) => e.orbital_period_s(),
+            Propagator::Glonass(e) => e.orbital_period_s(),
         }
     }
 }
@@ -343,6 +358,12 @@ impl From<Orbit> for Propagator {
 impl From<crate::rinex::RinexEphemeris> for Propagator {
     fn from(e: crate::rinex::RinexEphemeris) -> Self {
         Propagator::Rinex(Box::new(e))
+    }
+}
+
+impl From<crate::glonass::GlonassEphemeris> for Propagator {
+    fn from(e: crate::glonass::GlonassEphemeris) -> Self {
+        Propagator::Glonass(Box::new(e))
     }
 }
 
@@ -624,11 +645,22 @@ impl ConstellationCfg {
             );
         }
         if let Some(text) = &self.rinex {
-            let ephemerides = crate::rinex::parse_nav(text)?;
-            if ephemerides.is_empty() {
-                return Err("rinex block parsed but contained no GPS ephemerides".into());
+            // Keplerian systems (GPS/Galileo/QZSS/BeiDou) and the GLONASS
+            // state-vector model are parsed by their respective readers and
+            // combined into one constellation.
+            let mut sats: Vec<Propagator> = crate::rinex::parse_nav(text)?
+                .into_iter()
+                .map(Propagator::from)
+                .collect();
+            sats.extend(
+                crate::glonass::parse_glonass_nav(text)?
+                    .into_iter()
+                    .map(Propagator::from),
+            );
+            if sats.is_empty() {
+                return Err("rinex block parsed but contained no supported ephemerides".into());
             }
-            return Ok(ephemerides.into_iter().map(Propagator::from).collect());
+            return Ok(sats);
         }
         let r = R_EARTH_M + self.altitude_km * 1000.0;
         let inc = self.inclination_deg.to_radians();
@@ -966,6 +998,50 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
         let sats = cfg.satellites().expect("mixed constellation builds");
         assert_eq!(sats.len(), 2);
         assert!(sats.iter().all(|s| matches!(s, Propagator::Rinex(_))));
+    }
+
+    // A RINEX 3 GLONASS record (epoch + three state-vector lines).
+    const GLONASS_RECORD: &str =
+        "R01 2023 01 01 00 15 00-1.234567890123D-04 0.000000000000D+00 9.000000000000D+02
+     7.150123046875D+03 2.500000000000D+00 9.313225746155D-10 0.000000000000D+00
+    -1.512345678901D+04 2.800000000000D+00 0.000000000000D+00 1.000000000000D+00
+     1.890123456789D+04 1.300000000000D+00-1.862645149231D-09 0.000000000000D+00";
+
+    #[test]
+    fn glonass_propagator_is_a_glonass_orbit() {
+        let header = "     3.04           N: GNSS NAV DATA    R: GLONASS          RINEX VERSION / TYPE\n                                                            END OF HEADER\n";
+        let text = format!("{header}{GLONASS_RECORD}");
+        let eph = crate::glonass::parse_glonass_nav(&text).unwrap()[0];
+        let p: Propagator = eph.into();
+        assert!(matches!(p, Propagator::Glonass(_)));
+        // GLONASS satellites orbit at ~25 500 km; the period is ~11 h 15 m.
+        assert!((norm(p.position_eci(0.0)) - 25_500_000.0).abs() < 1_000_000.0);
+        assert!(
+            (3.9e4..4.2e4).contains(&p.period_s()),
+            "period {} s",
+            p.period_s()
+        );
+    }
+
+    #[test]
+    fn constellation_from_mixed_gps_and_glonass_rinex() {
+        // A block with a GPS record and a GLONASS record builds a two-satellite
+        // constellation — one Keplerian, one state-vector — through one rinex field.
+        let mixed = format!("{RINEX_SAMPLE}\n{GLONASS_RECORD}");
+        let cfg = ConstellationCfg {
+            altitude_km: 0.0,
+            inclination_deg: 0.0,
+            planes: 0,
+            sats_per_plane: 0,
+            phasing_f: 0.0,
+            tle: None,
+            rinex: Some(mixed),
+            strict_checksum: false,
+        };
+        let sats = cfg.satellites().expect("mixed GPS+GLONASS builds");
+        assert_eq!(sats.len(), 2);
+        assert!(sats.iter().any(|s| matches!(s, Propagator::Rinex(_))));
+        assert!(sats.iter().any(|s| matches!(s, Propagator::Glonass(_))));
     }
 
     #[test]
