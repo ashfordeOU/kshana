@@ -106,7 +106,7 @@ capability is documented in [`docs/CAPABILITY.md`](docs/CAPABILITY.md).
 | **Fusion** | Loosely-coupled GNSS/INS error-state EKF (15-state) with closed-loop feedback that coasts through GNSS outages on a calibrated inertial solution. |
 | **Integrity** | Snapshot and solution-separation (ARAIM-style) RAIM with horizontal/vertical protection levels (HPL/VPL), fault detection and identification, and Stanford integrity diagrams. |
 | **Clock & timing** | Two-state Kalman holdover, Allan-family stability (ADEV/MDEV/TDEV/HDEV) with confidence intervals, and optical/RF two-way time transfer. |
-| **Interoperability** | RINEX-3 GPS broadcast-ephemeris ingestion with IS-GPS-200 satellite position and clock evaluation. |
+| **Interoperability** | RINEX-3 GPS broadcast-ephemeris ingestion with IS-GPS-200 satellite position and clock evaluation, usable as a constellation source that drives a scenario directly (RINEX in, PNT geometry out). |
 | **Resilience** | Clock-aided spoof-detectability analysis against a configurable time-spoof attack. |
 
 Each capability is reachable as a Rust API, a runnable scenario `kind`, or both.
@@ -150,7 +150,10 @@ atmospheric drag and the deep-space lunar-solar and 12 h / 24 h resonance terms 
 matter for ~12 h GNSS orbits — validated against the official AIAA 2006-6753 vectors
 to a worst-case ≈ 4 mm (`scenarios/orbit-sgp4-gps.toml`). A line-2-only block keeps
 the analytic two-body propagation (`scenarios/orbit-real-tle.toml`); the two forms can
-be mixed in one constellation.
+be mixed in one constellation. A constellation can equally be built from a block of
+**RINEX-3 GPS broadcast-ephemeris** records — the format a receiver decodes —
+propagated by the IS-GPS-200 user algorithm and fed through the same geometry
+(`scenarios/orbit-rinex.toml`).
 
 ## Install & build
 
@@ -175,6 +178,7 @@ cargo run -- scenarios/timetransfer.toml
 cargo run -- scenarios/hybrid-pnt.toml
 cargo run -- scenarios/orbit-gnss-challenged.toml
 cargo run -- scenarios/orbit-sgp4-gps.toml
+cargo run -- scenarios/orbit-rinex.toml
 cargo run -- scenarios/integrity-raim.toml
 ```
 
