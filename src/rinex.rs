@@ -18,9 +18,14 @@
 //! bias including the relativistic correction
 //! ([`RinexEphemeris::sv_clock_bias_s`], §20.3.3.3.3.1).
 //!
+//! A parsed ephemeris is also a first-class propagation source: it converts to a
+//! [`crate::orbit::Propagator`] (via [`RinexEphemeris::sv_position_teme`]), so a
+//! real broadcast file can drive the same geometry, visibility, and integrity
+//! pipeline as the analytic propagators.
+//!
 //! Scope (this stage): the GPS (`G`) LNAV ephemeris block. Galileo F/I-NAV,
-//! BeiDou, and GLONASS records, and a [`crate::orbit::Propagator`] source built
-//! on the ephemeris are the next steps. Records for other systems are skipped,
+//! BeiDou, and GLONASS records, SP3 precise ephemerides, and a RINEX-file
+//! scenario kind are the next steps. Records for other systems are skipped,
 //! not rejected, so a mixed-constellation file still yields its GPS ephemerides.
 
 /// A calendar epoch in UTC/GPS time, as carried in a RINEX record (the clock
@@ -339,6 +344,37 @@ impl RinexEphemeris {
         let ci = i.cos();
         [xp * co - yp * ci * so, xp * so + yp * ci * co, yp * i.sin()]
     }
+
+    /// The UT1 Julian Date of GPS time-of-week `t_tow_s` in this ephemeris's GPS
+    /// week. GPS time runs ahead of UTC by the integer leap-second offset
+    /// (`GPS − UTC = (TAI − UTC) − 19 s`), and UT1 ≈ UTC: the sub-second DUT1
+    /// term is neglected, consistent with the GMST-only frame rotation in
+    /// [`crate::frames`]. This is the time argument the ECEF→TEME rotation needs.
+    pub fn jd_ut1(&self, t_tow_s: f64) -> f64 {
+        // GPS time epoch is 1980-01-06 00:00:00; whole weeks then the time of week.
+        let jd_gps = crate::timescales::julian_date(1980, 1, 6, 0, 0, 0.0)
+            + self.gps_week * 7.0
+            + t_tow_s / 86_400.0;
+        let gps_minus_utc = crate::timescales::tai_minus_utc(jd_gps) - 19.0;
+        jd_gps - gps_minus_utc / 86_400.0
+    }
+
+    /// The satellite's position (m) in the TEME inertial frame at GPS
+    /// time-of-week `t_tow_s`, obtained by rotating the Earth-fixed
+    /// [`Self::sv_position_ecef`] back through the Greenwich Mean Sidereal angle
+    /// for [`Self::jd_ut1`]. This is the inertial frame the orbit propagators
+    /// share, so it is what lets a broadcast ephemeris drive the same geometry,
+    /// visibility, and integrity pipeline as an SGP4 or Keplerian satellite.
+    pub fn sv_position_teme(&self, t_tow_s: f64) -> [f64; 3] {
+        crate::frames::ecef_to_teme(self.sv_position_ecef(t_tow_s), self.jd_ut1(t_tow_s))
+    }
+
+    /// Nominal Keplerian orbital period (s) from the broadcast semi-major axis,
+    /// `2π·√(A³/μ)` with the IS-GPS-200 gravitational constant.
+    pub fn orbital_period_s(&self) -> f64 {
+        let a = self.semi_major_axis();
+        std::f64::consts::TAU * (a * a * a / MU_GPS).sqrt()
+    }
 }
 
 #[cfg(test)]
@@ -442,6 +478,50 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
         let v =
             (((b[0] - a[0]).powi(2) + (b[1] - a[1]).powi(2) + (b[2] - a[2]).powi(2)).sqrt()) / dt;
         assert!((3.0e3..4.5e3).contains(&v), "ECEF speed {v:.1} m/s");
+    }
+
+    #[test]
+    fn jd_ut1_applies_the_gps_minus_utc_leap_offset() {
+        // The SAMPLE record is GPS week 2244, Toe = 172 800 s — i.e. 2023, when
+        // TAI−UTC = 37 s, so GPS−UTC = 37 − 19 = 18 s. jd_ut1 must therefore lag
+        // the raw GPS Julian Date by exactly 18 s.
+        let eph = &parse_nav(SAMPLE).unwrap()[0];
+        let jd_gps = crate::timescales::julian_date(1980, 1, 6, 0, 0, 0.0)
+            + eph.gps_week * 7.0
+            + eph.toe / 86_400.0;
+        // Both Julian Dates are ≈2.46×10⁶, so differencing them loses ~50 µs to
+        // f64 cancellation; a sub-millisecond tolerance still pins the integer
+        // 18 s offset unambiguously (vs 17 or 19).
+        let offset_s = (jd_gps - eph.jd_ut1(eph.toe)) * 86_400.0;
+        assert!(
+            (offset_s - 18.0).abs() < 1e-3,
+            "GPS−UTC offset = {offset_s:.6} s"
+        );
+    }
+
+    #[test]
+    fn sv_position_teme_preserves_the_geocentric_radius() {
+        // The ECEF→TEME map is a pure rotation about the z-axis, so it leaves the
+        // vector norm unchanged: the TEME radius must equal the ECEF radius.
+        let eph = &parse_nav(SAMPLE).unwrap()[0];
+        let ecef = eph.sv_position_ecef(eph.toe);
+        let teme = eph.sv_position_teme(eph.toe);
+        let r_ecef = (ecef[0].powi(2) + ecef[1].powi(2) + ecef[2].powi(2)).sqrt();
+        let r_teme = (teme[0].powi(2) + teme[1].powi(2) + teme[2].powi(2)).sqrt();
+        assert!(
+            (r_ecef - r_teme).abs() < 1e-3,
+            "ECEF {r_ecef:.3} vs TEME {r_teme:.3}"
+        );
+        // The z component is invariant under a z-rotation.
+        assert!((ecef[2] - teme[2]).abs() < 1e-6);
+    }
+
+    #[test]
+    fn orbital_period_is_about_twelve_hours() {
+        // A GPS satellite (a ≈ 26 560 km) has a ~11 h 58 m sidereal period.
+        let eph = &parse_nav(SAMPLE).unwrap()[0];
+        let t = eph.orbital_period_s();
+        assert!((4.2e4..4.4e4).contains(&t), "period {t:.0} s");
     }
 
     #[test]
