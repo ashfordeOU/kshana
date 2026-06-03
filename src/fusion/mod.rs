@@ -21,6 +21,8 @@
 //! augmented state is future work; this demo uses noise-driven sensors so the
 //! filter process noise is consistent with truth.
 
+pub mod gnss_ins_ekf;
+
 use crate::hybrid::{score_hybrid, HybridResult, HybridSample, HybridScenario, SuiteRun};
 use crate::inertial::{AccelCfg, AccelModel};
 use crate::kalman::KalmanClock;
@@ -195,7 +197,7 @@ mod tests {
     use super::*;
 
     fn scenario() -> HybridScenario {
-        toml::from_str(include_str!("../scenarios/fusion-pnt.toml"))
+        toml::from_str(include_str!("../../scenarios/fusion-pnt.toml"))
             .expect("fusion scenario parses")
     }
 
