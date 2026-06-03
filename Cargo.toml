@@ -12,9 +12,11 @@ readme = "README.md"
 keywords = ["pnt", "navigation", "quantum", "gnss", "simulation"]
 categories = ["science", "simulation"]
 rust-version = "1.75"
-# Keep the published crate lean: the browser playground and CI config aren't part
-# of the library distribution.
-exclude = ["/web", "/.github"]
+# Keep the published crate lean: the browser playground, CI config, and the
+# real-data validation test with its fixtures aren't part of the library
+# distribution. (The test reads the fixtures via include_str!, so the two must be
+# excluded together or a packaging verification build would fail to find them.)
+exclude = ["/web", "/.github", "/tests/fixtures", "/tests/igs_real_data.rs"]
 
 [lib]
 name = "kshana"
