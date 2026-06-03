@@ -10,14 +10,17 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
-- **Galileo broadcast ephemeris (multi-GNSS RINEX nav).** The RINEX 3 navigation
-  parser now decodes Galileo (`E`) records alongside GPS (`G`) — they share the
-  Keplerian layout and user algorithm — evaluated with Galileo's own gravitational
-  constant. A mixed-constellation file yields both, and Galileo satellites flow
-  through the constellation/visibility/integrity pipeline as `Propagator::Rinex`.
-  The record walker now uses per-system line counts, fixing a latent bug where
-  four-line GLONASS/SBAS records were skipped as if eight lines long. BeiDou/QZSS
-  and GLONASS (a state-vector model) are next.
+- **Multi-GNSS RINEX navigation (GPS, Galileo, QZSS, BeiDou).** The RINEX 3
+  navigation parser now decodes Galileo (`E`), QZSS (`J`), and BeiDou (`C`,
+  MEO/IGSO) records alongside GPS (`G`) — they share the Keplerian layout and user
+  algorithm — each evaluated with its own gravitational constant and Earth-rotation
+  rate (Galileo/BeiDou μ, BeiDou Ω̇ₑ). A mixed-constellation file yields all of
+  them, flowing through the constellation/visibility/integrity pipeline as
+  `Propagator::Rinex`. BeiDou geostationary satellites use a different coordinate
+  rotation and are skipped pending a reference fixture to validate against. The
+  record walker uses per-system line counts, fixing a latent bug where four-line
+  GLONASS/SBAS records were skipped as if eight lines long. GLONASS (a state-vector
+  model) is next.
 - **SP3-c/d precise-ephemeris reader and writer.** New `sp3` module parses
   IGS/analysis-centre SP3 precise orbit files (`parse_sp3`) — the post-processed
   ECEF position/clock product that PPP engines (Ginan, RTKLIB, gLAB) treat as

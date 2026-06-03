@@ -25,12 +25,12 @@
 //! real broadcast file can drive the same geometry, visibility, and integrity
 //! pipeline as the analytic propagators.
 //!
-//! Scope (this stage): the GPS (`G`) LNAV and Galileo (`E`) F/I-NAV Keplerian
-//! ephemeris blocks. BeiDou/QZSS/IRNSS (also Keplerian) and GLONASS (a
-//! state-vector model) are the next steps (SP3 precise ephemerides are read by
-//! [`crate::sp3`]). Records for other systems are skipped using their own line
-//! count, not rejected, so a mixed-constellation file still yields its GPS and
-//! Galileo ephemerides.
+//! Scope (this stage): the Keplerian broadcast systems — GPS (`G`), Galileo
+//! (`E`), QZSS (`J`), and BeiDou (`C`, MEO/IGSO; geostationary BeiDou is skipped
+//! pending validation, see `is_beidou_geo`). GLONASS (a state-vector model) is
+//! next (SP3 precise ephemerides are read by [`crate::sp3`]). Records for other
+//! systems are skipped using their own line count, not rejected, so a
+//! mixed-constellation file still yields the ephemerides it can decode.
 
 /// A calendar epoch in UTC/GPS time, as carried in a RINEX record (the clock
 /// reference time `Toc`).
@@ -44,15 +44,16 @@ pub struct EpochUtc {
     pub second: f64,
 }
 
-/// A GPS or Galileo broadcast ephemeris parsed from one RINEX 3 navigation
-/// record. Field names follow IS-GPS-200 (angles in radians, distances in metres,
-/// times in seconds, `sqrt_a` in √m); Galileo's fields map to the same slots. The
-/// eight source lines map to these as: the SV/epoch line carries the PRN, `Toc`,
-/// and the three clock polynomial terms; the seven `BROADCAST ORBIT` lines carry
-/// the rest in order.
+/// A Keplerian broadcast ephemeris parsed from one RINEX 3 navigation record
+/// (GPS, Galileo, QZSS, or BeiDou). Field names follow IS-GPS-200 (angles in
+/// radians, distances in metres, times in seconds, `sqrt_a` in √m); the other
+/// systems' fields map to the same slots. The eight source lines map to these as:
+/// the SV/epoch line carries the PRN, `Toc`, and the three clock polynomial terms;
+/// the seven `BROADCAST ORBIT` lines carry the rest in order.
 #[derive(Clone, Copy, Debug)]
 pub struct RinexEphemeris {
-    /// Satellite system identifier (`'G'` for GPS, `'E'` for Galileo).
+    /// Satellite system identifier: `'G'` GPS, `'E'` Galileo, `'J'` QZSS,
+    /// `'C'` BeiDou.
     pub system: char,
     /// PRN number within the system.
     pub prn: u8,
@@ -165,20 +166,33 @@ fn record_lines(system: char) -> usize {
     }
 }
 
-/// Whether this stage decodes `system` into a [`RinexEphemeris`]. GPS (`G`) and
-/// Galileo (`E`) share the same Keplerian broadcast layout and user algorithm and
-/// are parsed; other systems are skipped (by [`record_lines`]) but not rejected.
-/// BeiDou/QZSS/IRNSS (also Keplerian) and GLONASS (a state-vector model) are next.
+/// Whether this stage decodes `system` into a [`RinexEphemeris`]. GPS (`G`),
+/// Galileo (`E`), QZSS (`J`), and BeiDou (`C`) share the same Keplerian broadcast
+/// layout and the IS-GPS-200 user algorithm and are parsed; other systems are
+/// skipped (by [`record_lines`]) but not rejected. GLONASS (a state-vector model)
+/// is next. BeiDou geostationary (GEO) satellites are excluded — see
+/// [`is_beidou_geo`].
 fn is_parsed_system(system: char) -> bool {
-    matches!(system, 'G' | 'E')
+    matches!(system, 'G' | 'E' | 'J' | 'C')
 }
 
-/// Parse the GPS and Galileo broadcast ephemerides from a RINEX 3 navigation
-/// file. The header (up to and including the `END OF HEADER` line) is skipped;
-/// each Keplerian record is eight lines (one SV/epoch line plus seven orbit
-/// lines). Records for other systems are walked over using their own line count
-/// (GLONASS/SBAS are four lines), so a mixed-constellation file still yields its
-/// GPS and Galileo ephemerides.
+/// BeiDou geostationary (GEO) satellites use a different final coordinate rotation
+/// (the ICD's `R_X(-5°)·R_Z(Ω_e·t_k)` step) than the MEO/IGSO satellites, which
+/// follow the standard algorithm. The radius is rotation-invariant, so a GEO
+/// position cannot be self-validated here; rather than emit unverified positions,
+/// the GEO PRNs (BDS-2 `C01–C05`, BDS-3 `C59–C63`) are skipped until there is a
+/// reference fixture to check them against. Returns true for those PRNs.
+fn is_beidou_geo(prn: u8) -> bool {
+    matches!(prn, 1..=5 | 59..=63)
+}
+
+/// Parse the GPS, Galileo, QZSS, and BeiDou broadcast ephemerides from a RINEX 3
+/// navigation file. The header (up to and including the `END OF HEADER` line) is
+/// skipped; each Keplerian record is eight lines (one SV/epoch line plus seven
+/// orbit lines). Records for other systems are walked over using their own line
+/// count (GLONASS/SBAS are four lines); BeiDou geostationary satellites are
+/// skipped (see [`is_beidou_geo`]), so a mixed-constellation file yields the
+/// ephemerides it can validly decode.
 pub fn parse_nav(text: &str) -> Result<Vec<RinexEphemeris>, String> {
     let lines: Vec<&str> = text.lines().collect();
     // Find the end of the header.
@@ -212,6 +226,11 @@ pub fn parse_nav(text: &str) -> Result<Vec<RinexEphemeris>, String> {
             .trim()
             .parse()
             .map_err(|_| format!("bad PRN in {head:?}"))?;
+        if system == 'C' && is_beidou_geo(prn) {
+            // BeiDou GEO uses a different rotation; skip until it can be validated.
+            i += nlines;
+            continue;
+        }
         let toc = EpochUtc {
             year: col(head, 4, 8).trim().parse().map_err(|_| "bad year")?,
             month: col(head, 9, 11).trim().parse().map_err(|_| "bad month")?,
@@ -277,9 +296,13 @@ const MU_GPS: f64 = 3.986_005e14;
 /// figure — a metre-level position effect at the edge of the validity window, so
 /// Galileo ephemerides are evaluated with their own constant.
 const MU_GAL: f64 = 3.986_004_418e14;
-/// WGS-84 Earth rotation rate `Ω̇ₑ` (rad/s), per IS-GPS-200. Galileo specifies the
-/// identical value, so the Earth-fixed rotation is shared across both systems.
+/// WGS-84 Earth rotation rate `Ω̇ₑ` (rad/s), per IS-GPS-200. Galileo and QZSS
+/// specify the identical value.
 const OMEGA_E_DOT: f64 = 7.292_115_146_7e-5;
+/// BeiDou Earth rotation rate `Ω̇ₑ` (rad/s), per the BeiDou OS SIS ICD (CGCS2000).
+/// It differs from the GPS value at the seventh significant figure — a kilometre-
+/// level effect through the `Ω̇ₑ·Toe` term — so BeiDou is evaluated with its own.
+const OMEGA_E_DOT_BDS: f64 = 7.292_115e-5;
 /// Relativistic clock-correction constant `F = −2√μ/c²` (s/√m), IS-GPS-200.
 const F_REL: f64 = -4.442_807_633e-10;
 
@@ -311,11 +334,21 @@ impl RinexEphemeris {
     }
 
     /// The gravitational constant `μ` (m³/s²) this satellite's broadcast
-    /// algorithm uses: the Galileo value for `E`, the GPS value otherwise.
+    /// algorithm uses: the Galileo/CGCS2000 value for Galileo (`E`) and BeiDou
+    /// (`C`), the GPS value for GPS (`G`) and QZSS (`J`).
     fn gravitational_parameter(&self) -> f64 {
         match self.system {
-            'E' => MU_GAL,
+            'E' | 'C' => MU_GAL,
             _ => MU_GPS,
+        }
+    }
+
+    /// The Earth rotation rate `Ω̇ₑ` (rad/s) this satellite's algorithm uses: the
+    /// BeiDou value for `C`, the (shared GPS/Galileo/QZSS) value otherwise.
+    fn earth_rotation_rate(&self) -> f64 {
+        match self.system {
+            'C' => OMEGA_E_DOT_BDS,
+            _ => OMEGA_E_DOT,
         }
     }
 
@@ -382,7 +415,8 @@ impl RinexEphemeris {
         let i = self.i0 + di + self.idot * tk;
         let (xp, yp) = (r * u.cos(), r * u.sin());
         // Corrected longitude of the ascending node (Earth-fixed).
-        let omega_k = self.omega0 + (self.omega_dot - OMEGA_E_DOT) * tk - OMEGA_E_DOT * self.toe;
+        let omega_e = self.earth_rotation_rate();
+        let omega_k = self.omega0 + (self.omega_dot - omega_e) * tk - omega_e * self.toe;
         let (so, co) = (omega_k.sin(), omega_k.cos());
         let ci = i.cos();
         [xp * co - yp * ci * so, xp * so + yp * ci * co, yp * i.sin()]
@@ -517,6 +551,42 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
             "period {} s",
             ephs[0].orbital_period_s()
         );
+    }
+
+    #[test]
+    fn parses_a_qzss_ephemeris() {
+        // QZSS ('J') is GPS-interoperable; the sample re-labelled as QZSS parses
+        // with the same algorithm.
+        let qzss = SAMPLE.replace("G01 2023 01 01 00 00 00", "J01 2023 01 01 00 00 00");
+        let ephs = parse_nav(&qzss).expect("parses");
+        assert_eq!(ephs.len(), 1);
+        assert_eq!(ephs[0].system, 'J');
+    }
+
+    #[test]
+    fn parses_a_beidou_meo_ephemeris() {
+        // BeiDou ('C') MEO satellite (PRN 06 is not geostationary). Give it a
+        // BeiDou MEO semi-major axis; it must parse and propagate to ~27 900 km.
+        let bds = SAMPLE
+            .replace("G01 2023 01 01 00 00 00", "C06 2023 01 01 00 00 00")
+            .replace("5.153679868698D+03", "5.282615203857D+03");
+        let ephs = parse_nav(&bds).expect("parses");
+        assert_eq!(ephs.len(), 1);
+        assert_eq!(ephs[0].system, 'C');
+        assert_eq!(ephs[0].prn, 6);
+        let p = ephs[0].sv_position_ecef(ephs[0].toe);
+        let r = (p[0] * p[0] + p[1] * p[1] + p[2] * p[2]).sqrt();
+        assert!(
+            (r - 27_900_000.0).abs() < 800_000.0,
+            "BeiDou MEO radius {r:.0} m"
+        );
+    }
+
+    #[test]
+    fn skips_beidou_geo_satellites() {
+        // BeiDou GEO PRNs (here C03) use a different rotation and are not emitted.
+        let geo = SAMPLE.replace("G01 2023 01 01 00 00 00", "C03 2023 01 01 00 00 00");
+        assert!(parse_nav(&geo).unwrap().is_empty());
     }
 
     #[test]
