@@ -83,12 +83,12 @@ Ashforde OÜ — commercial support, integration, and proprietary extensions ava
 
 ## Contents
 
-- [Why](#why) · [What it is / is not](#what-it-is--is-not) · [Results](#results)
+- [Why](#why) · [What it is / is not](#what-it-is--is-not) · [Capabilities](#capabilities) · [Results](#results)
 - [Install & build](#install--build) · [Usage](#usage) ([Python](#python), [WebAssembly](#webassembly))
 - [Scenario format](#scenario-format) · [Output](#output) · [Architecture](#architecture)
 - [Repository layout](#repository-layout) · [Validation & honesty](#validation-reproducibility--honesty)
 - [Documentation](#documentation) · [FAQ](#faq) · [Troubleshooting](#troubleshooting)
-- [Roadmap](#roadmap) · [Contributing](#contributing) · [Citing](#citing) · [License](#license)
+- [Roadmap](#roadmap) · [Contributing](#contributing) · [Citing](#citing) · [Versioning & releases](#versioning--releases) · [License](#license)
 - [Support & professional services](#support--professional-services) · [References](#key-references)
 
 ## Why
@@ -106,13 +106,33 @@ noise realizations.
 
 ## What it is / is not
 
-**It is:** a deterministic engine that runs a GNSS-outage scenario, evolves
-calibrated sensor error models, runs a holdover/dead-reckoning estimator, and
-scores the result against six figures of merit, emitting a JSON result and an SVG
-chart.
+**It is:** a deterministic, dependency-light engine spanning the PNT stack — orbit
+geometry, inertial navigation, GNSS/INS fusion, integrity, clocks, and timing. It
+runs a scenario (often a GNSS outage), evolves calibrated sensor error models
+through the appropriate estimator, and scores the result against the operational
+figures of merit — emitting a reproducible JSON result and an SVG chart, from a
+Rust library, CLI, Python extension, or in-browser WebAssembly module.
 
-**It is not:** flight hardware, a quantum-payload design, or a full GNSS receiver.
-Quantum-hardware fidelity comes from published error models, not from this tool.
+**It is not:** flight hardware, a quantum-payload design, a full GNSS signal
+receiver, or a certified avionics product. Quantum-hardware fidelity comes from
+published error models, not from this tool. The granular maturity of each
+capability is documented in [`docs/CAPABILITY.md`](docs/CAPABILITY.md).
+
+## Capabilities
+
+| Domain | Capability |
+|--------|------------|
+| **Orbit & geometry** | SGP4/SDP4 propagation (validated to 4.12 mm against all 666 AIAA 2006-6753 vectors), real-TLE or synthetic Walker constellations, multi-constellation visibility, dilution of precision, and GNSS availability. |
+| **Inertial** | Three-axis strapdown INS — quaternion attitude, WGS-84 NED mechanization, coning/sculling compensation, and a deterministic IMU error model (scale-factor, misalignment, g-sensitivity, quantization, drift). |
+| **Fusion** | Loosely-coupled GNSS/INS error-state EKF (15-state) with closed-loop feedback that coasts through GNSS outages on a calibrated inertial solution. |
+| **Integrity** | Snapshot and solution-separation (ARAIM-style) RAIM with horizontal/vertical protection levels (HPL/VPL), fault detection and identification, and Stanford integrity diagrams. |
+| **Clock & timing** | Two-state Kalman holdover, Allan-family stability (ADEV/MDEV/TDEV/HDEV) with confidence intervals, and optical/RF two-way time transfer. |
+| **Interoperability** | RINEX-3 GPS broadcast-ephemeris ingestion with IS-GPS-200 satellite position and clock evaluation. |
+| **Resilience** | Clock-aided spoof-detectability analysis against a configurable time-spoof attack. |
+
+Each capability is reachable as a Rust API, a runnable scenario `kind`, or both.
+Maturity per capability — *validated*, *runnable*, or *library* — is tracked in
+[`docs/CAPABILITY.md`](docs/CAPABILITY.md).
 
 ## Results
 
@@ -565,7 +585,20 @@ entry for every user-visible change. Participation is governed by our
 
 If you use Kshana in academic or technical work, please cite it. Machine-readable
 metadata is in [`CITATION.cff`](CITATION.cff) (GitHub renders a "Cite this repository"
-button from it); cite the version you used (e.g. `v0.7.0`).
+button from it); cite the version you used (e.g. `v0.9.0`) together with the
+scenario and seed for full reproducibility. An archival DOI (Zenodo) is planned.
+
+> Baweja, C. (2026). *Kshana — hybrid quantum/classical PNT performance simulator*. Ashforde OÜ. https://github.com/AshfordeOU/kshana
+
+## Versioning & releases
+
+Kshana follows [Semantic Versioning](https://semver.org). While pre-1.0 the public
+scenario/result schema may still change; breaking changes are called out explicitly
+in the [`CHANGELOG.md`](CHANGELOG.md). Tagged releases are published to
+[crates.io](https://crates.io/crates/kshana), [PyPI](https://pypi.org/project/kshana/),
+and [npm](https://www.npmjs.com/package/kshana), and listed under
+[GitHub Releases](https://github.com/AshfordeOU/kshana/releases). Every result is
+reproducible from `scenario + seed + engine version`.
 
 ## License
 
