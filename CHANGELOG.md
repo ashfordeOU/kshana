@@ -10,6 +10,26 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Solution-separation (ARAIM-style) RAIM (`src/raim.rs`).** A
+  multiple-hypothesis integrity monitor alongside the existing residual/parity
+  chi-squared `snapshot_raim`. For the all-in-view least-squares solution and
+  every single-satellite exclusion sub-solution, it forms the separation
+  `Δ_k = x_k − x₀` — zero-mean Gaussian under no fault with covariance
+  `Cov(x_k) − Cov(x₀)` (the nested-estimator identity, valid because the
+  all-in-view solution is BLUE) — and so it both **detects** a fault and
+  **identifies** the faulted satellite (the one whose exclusion gives the largest
+  normalized separation). Horizontal/vertical protection levels follow the
+  standard MHSS allocation `PL = max(K_md·σ₀, max_k[K_fa·σ_ss,k + K_md·σ_k])`,
+  with `K_fa = Φ⁻¹(1−P_fa/2)`, `K_md = Φ⁻¹(1−P_md)`. New dependency-free
+  `normal_cdf`/`normal_quantile` built from the module's existing regularized
+  incomplete gamma (`erf(x) = P(½,x²)`). Four hand-derived tests: normal CDF /
+  quantile against textbook values (Φ(1.95996)=0.975, the 1e-7 tail = 5.1993,
+  symmetry); a fault-free geometry that does not alarm and yields finite, positive
+  HPL/VPL; a 60-σ single-satellite bias that is detected *and* correctly
+  identified (`excluded_sv == 2`); and the six-satellite redundancy floor. Closes
+  the audit's "tautological integrity — no real RAIM/HPL/VPL" P0 gap on the
+  algorithm side; gLAB-dataset validation and the Stanford-diagram accumulator
+  remain roadmap items.
 - **Closed-loop GNSS/INS integration (`src/fusion/closed_loop.rs`).**
   `ClosedLoopInsGnss` wires the error-state EKF kernel to the three-axis strapdown
   mechanization: each IMU sample is corrected by the running bias estimates,
