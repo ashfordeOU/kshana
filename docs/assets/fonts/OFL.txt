@@ -1,13 +1,15 @@
-Kshana bundles two subsetted typefaces, both under the SIL Open Font
-License 1.1. The full license text follows the copyright notices.
+Kshana bundles three typefaces, all under the SIL Open Font License 1.1.
+The full license text follows the copyright notices.
 
+Copyright The Inter Project Authors (https://github.com/rsms/inter)
+  (Inter — docs/assets/fonts/inter-var.woff2, Latin, variable weight 100–900.)
 Copyright 2020 The Space Grotesk Project Authors (https://github.com/floriankarsten/space-grotesk)
-  (Space Grotesk — docs/assets/fonts/SpaceGrotesk-subset.ttf, subset to Latin.)
+  (Space Grotesk — docs/assets/fonts/space-grotesk-var.woff2, Latin, variable weight 300–700.)
 Copyright 2022 The Noto Project Authors (https://github.com/notofonts/devanagari)
   (Noto Sans Devanagari — docs/assets/fonts/NotoSansDevanagari-subset.ttf, subset to the क्षण cluster.)
 
-Subsetting (glyph reduction) was performed with fontTools; no glyph outlines
-were otherwise modified.
+The Noto Sans Devanagari file is subsetted (glyph reduction via fontTools); no
+glyph outlines were otherwise modified.
 
 ----------------------------------------------------------------------
 
