@@ -242,6 +242,10 @@ pub enum Propagator {
     /// state vector RK4-integrated from the reference epoch, then rotated into the
     /// shared TEME inertial frame. Time `t` (s) is measured from that epoch.
     Glonass(Box<crate::glonass::GlonassEphemeris>),
+    /// A satellite driven by an SP3 precise ephemeris: the tabulated ECEF
+    /// positions are interpolated (9th-order Lagrange) and rotated into the shared
+    /// TEME inertial frame. Time `t` (s) is measured from the SP3 file start.
+    Sp3Precise(Box<crate::sp3::Sp3Interpolator>),
 }
 
 /// Time step (s) used to finite-difference a [`Propagator::Rinex`] position into
@@ -276,6 +280,7 @@ impl Propagator {
             },
             Propagator::Rinex(e) => e.sv_position_teme(e.toe + t),
             Propagator::Glonass(e) => e.position_teme(t),
+            Propagator::Sp3Precise(e) => e.position_teme(t),
         }
     }
 
@@ -309,6 +314,15 @@ impl Propagator {
                     (ahead[2] - behind[2]) / (2.0 * RINEX_VEL_DT_S),
                 ]
             }
+            Propagator::Sp3Precise(e) => {
+                let ahead = e.position_teme(t + RINEX_VEL_DT_S);
+                let behind = e.position_teme(t - RINEX_VEL_DT_S);
+                [
+                    (ahead[0] - behind[0]) / (2.0 * RINEX_VEL_DT_S),
+                    (ahead[1] - behind[1]) / (2.0 * RINEX_VEL_DT_S),
+                    (ahead[2] - behind[2]) / (2.0 * RINEX_VEL_DT_S),
+                ]
+            }
         }
     }
 
@@ -331,7 +345,7 @@ impl Propagator {
                     v_m_s: [0.0, 0.0, 0.0],
                 },
             },
-            Propagator::Rinex(_) | Propagator::Glonass(_) => StateEci {
+            Propagator::Rinex(_) | Propagator::Glonass(_) | Propagator::Sp3Precise(_) => StateEci {
                 r_m: self.position_eci(t),
                 v_m_s: self.velocity_eci(t),
             },
@@ -345,6 +359,7 @@ impl Propagator {
             Propagator::Sgp4(s) => s.period_s(),
             Propagator::Rinex(e) => e.orbital_period_s(),
             Propagator::Glonass(e) => e.orbital_period_s(),
+            Propagator::Sp3Precise(e) => e.approx_period_s(),
         }
     }
 }
@@ -364,6 +379,12 @@ impl From<crate::rinex::RinexEphemeris> for Propagator {
 impl From<crate::glonass::GlonassEphemeris> for Propagator {
     fn from(e: crate::glonass::GlonassEphemeris) -> Self {
         Propagator::Glonass(Box::new(e))
+    }
+}
+
+impl From<crate::sp3::Sp3Interpolator> for Propagator {
+    fn from(e: crate::sp3::Sp3Interpolator) -> Self {
+        Propagator::Sp3Precise(Box::new(e))
     }
 }
 
