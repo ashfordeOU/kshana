@@ -231,6 +231,64 @@ pub fn parse_nav(text: &str) -> Result<Vec<RinexEphemeris>, String> {
     Ok(out)
 }
 
+/// WGS-84 / GPS gravitational constant `μ` (m³/s²), the value mandated by
+/// IS-GPS-200 for broadcast-ephemeris evaluation (subtly different from the
+/// WGS-84 `GM`).
+const MU_GPS: f64 = 3.986_005e14;
+/// WGS-84 Earth rotation rate `Ω̇ₑ` (rad/s), per IS-GPS-200.
+const OMEGA_E_DOT: f64 = 7.292_115_146_7e-5;
+
+impl RinexEphemeris {
+    /// Semi-major axis `A = (√A)²` (m).
+    pub fn semi_major_axis(&self) -> f64 {
+        self.sqrt_a * self.sqrt_a
+    }
+
+    /// Evaluate the satellite's ECEF position (m) at GPS time-of-week `t_tow_s`
+    /// from the broadcast ephemeris, following the IS-GPS-200 user algorithm
+    /// (§20.3.3.4.3.1): solve Kepler's equation for the eccentric anomaly, apply
+    /// the second-harmonic argument-of-latitude / radius / inclination
+    /// corrections, then rotate the in-plane position into the Earth-fixed frame
+    /// accounting for Earth rotation since the reference time.
+    pub fn sv_position_ecef(&self, t_tow_s: f64) -> [f64; 3] {
+        let a = self.semi_major_axis();
+        let n0 = (MU_GPS / (a * a * a)).sqrt();
+        // Time from ephemeris reference epoch, corrected for week rollover.
+        let mut tk = t_tow_s - self.toe;
+        if tk > 302_400.0 {
+            tk -= 604_800.0;
+        } else if tk < -302_400.0 {
+            tk += 604_800.0;
+        }
+        let n = n0 + self.delta_n;
+        let mk = self.m0 + n * tk;
+        // Kepler's equation M = E − e·sin E, solved by Newton iteration.
+        let mut ek = mk;
+        for _ in 0..30 {
+            let d = (ek - self.e * ek.sin() - mk) / (1.0 - self.e * ek.cos());
+            ek -= d;
+            if d.abs() < 1e-13 {
+                break;
+            }
+        }
+        let nu = ((1.0 - self.e * self.e).sqrt() * ek.sin()).atan2(ek.cos() - self.e);
+        let phi = nu + self.omega;
+        let (s2, c2) = ((2.0 * phi).sin(), (2.0 * phi).cos());
+        let du = self.cus * s2 + self.cuc * c2;
+        let dr = self.crs * s2 + self.crc * c2;
+        let di = self.cis * s2 + self.cic * c2;
+        let u = phi + du;
+        let r = a * (1.0 - self.e * ek.cos()) + dr;
+        let i = self.i0 + di + self.idot * tk;
+        let (xp, yp) = (r * u.cos(), r * u.sin());
+        // Corrected longitude of the ascending node (Earth-fixed).
+        let omega_k = self.omega0 + (self.omega_dot - OMEGA_E_DOT) * tk - OMEGA_E_DOT * self.toe;
+        let (so, co) = (omega_k.sin(), omega_k.cos());
+        let ci = i.cos();
+        [xp * co - yp * ci * so, xp * so + yp * ci * co, yp * i.sin()]
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -302,6 +360,53 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
         let ephs = parse_nav(&mixed).expect("parses");
         assert_eq!(ephs.len(), 1);
         assert_eq!(ephs[0].system, 'G');
+    }
+
+    #[test]
+    fn sv_position_is_a_gps_orbit() {
+        let eph = &parse_nav(SAMPLE).unwrap()[0];
+        let p = eph.sv_position_ecef(eph.toe);
+        let r = (p[0] * p[0] + p[1] * p[1] + p[2] * p[2]).sqrt();
+        let a = eph.semi_major_axis();
+        // Geocentric radius stays within the eccentric band a(1±e), plus the
+        // bounded harmonic radius correction (|Crc|,|Crs| ≈ 260 m here).
+        let band = eph.e * a + 400.0;
+        assert!(
+            (r - a).abs() < band,
+            "radius {r:.0} m outside a±band ({a:.0} ± {band:.0})"
+        );
+        // A GPS satellite is ~26 560 km from the geocentre.
+        assert!((r - 26_560_000.0).abs() < 600_000.0, "r = {r:.0} m");
+    }
+
+    #[test]
+    fn sv_speed_matches_a_gps_orbit() {
+        // Finite-difference the ECEF position; a GPS satellite's Earth-fixed speed
+        // is ~3.9 km/s (orbital ~3.87 km/s, lightly modified by Earth rotation).
+        let eph = &parse_nav(SAMPLE).unwrap()[0];
+        let dt = 1.0;
+        let a = eph.sv_position_ecef(eph.toe);
+        let b = eph.sv_position_ecef(eph.toe + dt);
+        let v =
+            (((b[0] - a[0]).powi(2) + (b[1] - a[1]).powi(2) + (b[2] - a[2]).powi(2)).sqrt()) / dt;
+        assert!((3.0e3..4.5e3).contains(&v), "ECEF speed {v:.1} m/s");
+    }
+
+    #[test]
+    fn week_rollover_correction_is_symmetric() {
+        // Evaluating at toe and at toe ± a full week must give the same position
+        // (the tk rollover correction folds it back).
+        let eph = &parse_nav(SAMPLE).unwrap()[0];
+        let p0 = eph.sv_position_ecef(eph.toe);
+        let pw = eph.sv_position_ecef(eph.toe + 604_800.0);
+        for k in 0..3 {
+            assert!(
+                (p0[k] - pw[k]).abs() < 1e-3,
+                "axis {k}: {} vs {}",
+                p0[k],
+                pw[k]
+            );
+        }
     }
 
     #[test]
