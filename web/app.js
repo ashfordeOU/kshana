@@ -106,7 +106,7 @@ function adevSvg(curves) {
   const taus = pts.map((p) => p.tau_s).filter((v) => v > 0);
   const advs = pts.map((p) => p.adev).filter((v) => v > 0);
   if (taus.length < 2 || advs.length < 2) return null;
-  const W = 760, H = 320, ml = 64, mr = 16, mt = 16, mb = 44;
+  const W = 760, H = 320, ml = 66, mr = 18, mt = 18, mb = 52;
   const x0 = Math.log10(Math.min(...taus)), x1 = Math.log10(Math.max(...taus));
   const y0 = Math.log10(Math.min(...advs)), y1 = Math.log10(Math.max(...advs));
   const px = (t) => ml + ((Math.log10(t) - x0) / (x1 - x0 || 1)) * (W - ml - mr);
@@ -114,19 +114,24 @@ function adevSvg(curves) {
   const colors = ["#5cb8d6", "#d2b35e"];
   let s = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" font-family="system-ui,sans-serif" font-size="11">`;
   s += `<rect width="${W}" height="${H}" fill="#0c1118"/>`;
-  // decade gridlines + labels
-  for (let e = Math.floor(x0); e <= Math.ceil(x1); e++) {
+  // Decade gridlines + labels. Loop only over decades *inside* the data range
+  // (ceil(min)..floor(max)) so no label lands outside the plot and collides with
+  // the opposite axis; anchor the edge x-labels inward so they clear the y-axis.
+  for (let e = Math.ceil(x0); e <= Math.floor(x1); e++) {
     const x = px(10 ** e);
     s += `<line x1="${x}" y1="${mt}" x2="${x}" y2="${H - mb}" stroke="#1b2230"/>`;
-    s += `<text x="${x}" y="${H - mb + 16}" text-anchor="middle" fill="#8b97ad">10^${e}s</text>`;
+    const anchor = x < ml + 16 ? "start" : x > W - mr - 16 ? "end" : "middle";
+    const tx = anchor === "start" ? ml : anchor === "end" ? W - mr : x;
+    s += `<text x="${tx}" y="${H - mb + 18}" text-anchor="${anchor}" fill="#8593a3">10^${e}s</text>`;
   }
-  for (let e = Math.floor(y0); e <= Math.ceil(y1); e++) {
+  for (let e = Math.ceil(y0); e <= Math.floor(y1); e++) {
     const y = py(10 ** e);
     s += `<line x1="${ml}" y1="${y}" x2="${W - mr}" y2="${y}" stroke="#1b2230"/>`;
-    s += `<text x="${ml - 8}" y="${y + 4}" text-anchor="end" fill="#8b97ad">10^${e}</text>`;
+    s += `<text x="${ml - 9}" y="${y + 4}" text-anchor="end" fill="#8593a3">10^${e}</text>`;
   }
-  s += `<text x="${ml}" y="${H - 6}" fill="#8b97ad">averaging time &#964; (s)</text>`;
-  s += `<text x="14" y="${mt + 6}" fill="#8b97ad" transform="rotate(-90 14 ${mt + 6})">&#963;&#7464;(&#964;)</text>`;
+  // Axis titles, clear of the tick labels.
+  s += `<text x="${ml + (W - ml - mr) / 2}" y="${H - 8}" text-anchor="middle" fill="#8593a3">averaging time &#964; (s)</text>`;
+  s += `<text x="16" y="${mt + (H - mt - mb) / 2}" text-anchor="middle" fill="#8593a3" transform="rotate(-90 16 ${mt + (H - mt - mb) / 2})">&#963;&#7464;(&#964;)</text>`;
   curves.forEach((c, i) => {
     const valid = c.curve.filter((p) => p.tau_s > 0 && p.adev > 0);
     if (!valid.length) return;
@@ -315,14 +320,15 @@ async function renderCapabilities() {
       const card = document.createElement("div");
       card.className = "card feat";
 
+      const head = document.createElement("div");
+      head.className = "feat-head";
       const dom = document.createElement("p");
       dom.className = "eyebrow";
       dom.textContent = c.domain;
-
-      const h = document.createElement("h3");
-      h.textContent = c.name;
+      head.append(dom);
       if (c.run && knownScenario(c.run)) {
-        const run = document.createElement("span");
+        const run = document.createElement("button");
+        run.type = "button";
         run.className = "run";
         run.textContent = "▸ run";
         run.title = `Load and run ${c.name} in the playground`;
@@ -331,13 +337,16 @@ async function renderCapabilities() {
           loadScenario(c.run);
           document.getElementById("playground").scrollIntoView({ behavior: "smooth" });
         });
-        h.append(" ", run);
+        head.append(run);
       }
+
+      const h = document.createElement("h3");
+      h.textContent = c.name;
 
       const p = document.createElement("p");
       p.textContent = c.summary;
 
-      card.append(dom, h, p);
+      card.append(head, h, p);
       if (c.proof) {
         const proof = document.createElement("span");
         proof.className = "proof";
