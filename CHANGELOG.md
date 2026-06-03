@@ -10,6 +10,21 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Stanford(-ESA) integrity diagram accumulator (`src/raim.rs`).** The standard
+  way to summarise an integrity monitor over many epochs: it plots actual
+  position error (x) against protection level (y) and classifies each epoch, by
+  the diagonal `y = x` and the alert limit, into `Available` (PL bounds error,
+  within AL), `SystemUnavailable` (PL bounds error but exceeds AL — safe,
+  unusable), `MisleadingInformation` (PL < error ≤ AL), or
+  `HazardouslyMisleadingInformation` (PL < error and error > AL — the unsafe
+  failure). `classify_stanford` is the pure classifier; `StanfordDiagram`
+  accumulates `(error, PL)` points against a fixed alert limit, exposing region
+  counts, availability, integrity-event totals, and `serde`-serializable points
+  for plotting/JSON export. Four tests: every region (including the `error == PL`
+  bounded boundary), count/availability accumulation, and JSON round-trip. This
+  is the reporting surface for the RAIM protection levels; wiring it into the
+  constellation scenario and validating against a public dataset remain roadmap
+  items.
 - **Solution-separation (ARAIM-style) RAIM (`src/raim.rs`).** A
   multiple-hypothesis integrity monitor alongside the existing residual/parity
   chi-squared `snapshot_raim`. For the all-in-view least-squares solution and

@@ -39,6 +39,7 @@
 
 use crate::frames::Vec3;
 use crate::orbit::{enu_basis, invert4, los_unit};
+use serde::Serialize;
 
 /// Natural log of the gamma function (Lanczos approximation, g=7, n=9).
 fn ln_gamma(x: f64) -> f64 {
@@ -537,6 +538,125 @@ pub fn solution_separation_raim(
     })
 }
 
+/// One region of the Stanford(-ESA) integrity diagram, the standard way to
+/// summarise an integrity monitor over many epochs. The diagram plots, per
+/// epoch, the *actual* position error (x) against the *protection level* (y); the
+/// diagonal `y = x` and the alert limit `AL` divide the plane into the regions
+/// below. A monitor is sound when no epoch lands in [`MisleadingInformation`] or
+/// [`HazardouslyMisleadingInformation`].
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
+pub enum StanfordRegion {
+    /// `PL ≥ error` and `PL ≤ AL`: the protection level bounds the error and is
+    /// within the alert limit — nominal, available, and safe.
+    Available,
+    /// `PL ≥ error` but `PL > AL`: the protection level still bounds the error,
+    /// but exceeds the alert limit, so the system declares itself unavailable.
+    /// Conservative — safe, just not usable.
+    SystemUnavailable,
+    /// `PL < error ≤ AL`: the protection level failed to bound the error, but the
+    /// error is still within the alert limit. Misleading information (MI) — an
+    /// integrity event that did not become hazardous.
+    MisleadingInformation,
+    /// `PL < error` and `error > AL`: the error exceeds both the protection level
+    /// and the alert limit. Hazardously misleading information (HMI) — the unsafe
+    /// failure an integrity monitor exists to make improbable.
+    HazardouslyMisleadingInformation,
+}
+
+/// Classify one epoch into its [`StanfordRegion`] from the actual position error,
+/// the protection level, and the alert limit (all metres, same axis —
+/// horizontal or vertical). The boundary `error == PL` counts as bounded (safe).
+pub fn classify_stanford(error_m: f64, pl_m: f64, alert_limit_m: f64) -> StanfordRegion {
+    if pl_m >= error_m {
+        if pl_m <= alert_limit_m {
+            StanfordRegion::Available
+        } else {
+            StanfordRegion::SystemUnavailable
+        }
+    } else if error_m <= alert_limit_m {
+        StanfordRegion::MisleadingInformation
+    } else {
+        StanfordRegion::HazardouslyMisleadingInformation
+    }
+}
+
+/// One plotted epoch of a Stanford diagram.
+#[derive(Clone, Copy, Debug, Serialize)]
+pub struct StanfordPoint {
+    /// Actual position error (m) — the diagram's x-axis.
+    pub error_m: f64,
+    /// Protection level (m) — the diagram's y-axis.
+    pub pl_m: f64,
+    /// The region this epoch falls in.
+    pub region: StanfordRegion,
+}
+
+/// A Stanford-diagram accumulator: feed it `(error, PL)` per epoch against a fixed
+/// alert limit and it classifies and stores each point, ready for plotting or
+/// JSON export, and exposes the region counts an integrity claim is summarised by.
+#[derive(Clone, Debug, Serialize)]
+pub struct StanfordDiagram {
+    /// The alert limit (m) dividing safe from hazardous.
+    pub alert_limit_m: f64,
+    points: Vec<StanfordPoint>,
+}
+
+impl StanfordDiagram {
+    /// A new, empty diagram for the given alert limit (m).
+    pub fn new(alert_limit_m: f64) -> Self {
+        Self {
+            alert_limit_m,
+            points: Vec::new(),
+        }
+    }
+
+    /// Classify and record one epoch's `(error, PL)`; returns its region.
+    pub fn add(&mut self, error_m: f64, pl_m: f64) -> StanfordRegion {
+        let region = classify_stanford(error_m, pl_m, self.alert_limit_m);
+        self.points.push(StanfordPoint {
+            error_m,
+            pl_m,
+            region,
+        });
+        region
+    }
+
+    /// All recorded points.
+    pub fn points(&self) -> &[StanfordPoint] {
+        &self.points
+    }
+
+    /// Number of recorded epochs.
+    pub fn len(&self) -> usize {
+        self.points.len()
+    }
+
+    /// Whether no epochs have been recorded.
+    pub fn is_empty(&self) -> bool {
+        self.points.is_empty()
+    }
+
+    /// How many recorded epochs fall in `region`.
+    pub fn count(&self, region: StanfordRegion) -> usize {
+        self.points.iter().filter(|p| p.region == region).count()
+    }
+
+    /// Fraction of epochs that were available (nominal, safe, usable).
+    pub fn availability(&self) -> f64 {
+        if self.points.is_empty() {
+            return 0.0;
+        }
+        self.count(StanfordRegion::Available) as f64 / self.points.len() as f64
+    }
+
+    /// Number of integrity events — epochs where the protection level failed to
+    /// bound the error (`MisleadingInformation` + `HazardouslyMisleadingInformation`).
+    pub fn integrity_events(&self) -> usize {
+        self.count(StanfordRegion::MisleadingInformation)
+            + self.count(StanfordRegion::HazardouslyMisleadingInformation)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -734,5 +854,58 @@ mod tests {
         let sats = gps_like_constellation(station);
         let five = &sats[..5];
         assert!(solution_separation_raim(user, five, &[0.0; 5], 5.0, 1e-5, 1e-3).is_none());
+    }
+
+    #[test]
+    fn stanford_classifies_each_region() {
+        let al = 40.0; // APV-I horizontal alert limit (m)
+                       // PL bounds error, within AL → available.
+        assert_eq!(classify_stanford(10.0, 25.0, al), StanfordRegion::Available);
+        // Boundary error == PL counts as bounded (safe).
+        assert_eq!(classify_stanford(25.0, 25.0, al), StanfordRegion::Available);
+        // PL bounds error but PL exceeds AL → system unavailable (safe).
+        assert_eq!(
+            classify_stanford(30.0, 50.0, al),
+            StanfordRegion::SystemUnavailable
+        );
+        // PL fails to bound error, error within AL → misleading information.
+        assert_eq!(
+            classify_stanford(30.0, 20.0, al),
+            StanfordRegion::MisleadingInformation
+        );
+        // PL fails to bound error, error beyond AL → hazardously misleading.
+        assert_eq!(
+            classify_stanford(60.0, 20.0, al),
+            StanfordRegion::HazardouslyMisleadingInformation
+        );
+    }
+
+    #[test]
+    fn stanford_diagram_accumulates_counts_and_availability() {
+        let mut d = StanfordDiagram::new(40.0);
+        d.add(10.0, 25.0); // Available
+        d.add(15.0, 30.0); // Available
+        d.add(30.0, 50.0); // SystemUnavailable
+        d.add(30.0, 20.0); // MisleadingInformation
+        d.add(60.0, 20.0); // HazardouslyMisleadingInformation
+        assert_eq!(d.len(), 5);
+        assert_eq!(d.count(StanfordRegion::Available), 2);
+        assert_eq!(d.count(StanfordRegion::SystemUnavailable), 1);
+        assert_eq!(d.integrity_events(), 2);
+        assert!((d.availability() - 2.0 / 5.0).abs() < 1e-12);
+        // Points are retained in order for plotting/export.
+        assert_eq!(d.points().len(), 5);
+        assert_eq!(d.points()[0].region, StanfordRegion::Available);
+    }
+
+    #[test]
+    fn stanford_diagram_serializes_to_json() {
+        let mut d = StanfordDiagram::new(40.0);
+        d.add(10.0, 25.0);
+        d.add(60.0, 20.0);
+        let json = serde_json::to_string(&d).expect("serializes");
+        assert!(json.contains("alert_limit_m"));
+        assert!(json.contains("Available"));
+        assert!(json.contains("HazardouslyMisleadingInformation"));
     }
 }
