@@ -9,6 +9,13 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.9.1] - 2026-06-03
+
+### Changed
+- **Documentation.** Refreshed the README to institutional grade: a Capabilities
+  overview of the full v0.9.0 stack, a Versioning & releases section, a clean
+  header with the new mark, and a concise status line. No engine changes.
+
 ## [0.9.0] - 2026-06-03
 
 This release adds three substantial capability areas on top of the 0.8.0 SGP4
