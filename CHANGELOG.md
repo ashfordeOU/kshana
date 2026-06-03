@@ -9,6 +9,11 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.9.2] - 2026-06-03
+
+### Added
+- **Archival DOI.** Releases are now deposited to Zenodo and assigned a citable DOI.
+
 ## [0.9.1] - 2026-06-03
 
 ### Changed
