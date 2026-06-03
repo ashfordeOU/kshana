@@ -106,7 +106,7 @@ capability is documented in [`docs/CAPABILITY.md`](docs/CAPABILITY.md).
 | **Fusion** | Loosely-coupled GNSS/INS error-state EKF (15-state) with closed-loop feedback that coasts through GNSS outages on a calibrated inertial solution. |
 | **Integrity** | Snapshot and solution-separation (ARAIM-style) RAIM with horizontal/vertical protection levels (HPL/VPL), fault detection and identification, and Stanford integrity diagrams. |
 | **Clock & timing** | Two-state Kalman holdover, Allan-family stability (ADEV/MDEV/TDEV/HDEV) with confidence intervals, and optical/RF two-way time transfer. |
-| **Interoperability** | RINEX-3 GPS broadcast-ephemeris ingestion with IS-GPS-200 satellite position and clock evaluation, usable as a constellation source that drives a scenario directly (RINEX in, PNT geometry out). |
+| **Interoperability** | RINEX-3 GPS broadcast-ephemeris ingestion with IS-GPS-200 satellite position and clock evaluation, usable as a constellation source that drives a scenario directly (RINEX in, PNT geometry out); SP3-c/d precise-ephemeris reader for IGS/analysis-centre orbit products. |
 | **Resilience** | Clock-aided spoof-detectability analysis against a configurable time-spoof attack. |
 
 Each capability is reachable as a Rust API, a runnable scenario `kind`, or both.
