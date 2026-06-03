@@ -13,11 +13,15 @@
 //! meanings. The numeric fields use the Fortran `D`-exponent floating format
 //! (e.g. `-1.234567890123D-09`), handled by [`parse_d`].
 //!
+//! From a parsed [`RinexEphemeris`] this evaluates the satellite's ECEF position
+//! ([`RinexEphemeris::sv_position_ecef`], IS-GPS-200 §20.3.3.4.3.1) and its clock
+//! bias including the relativistic correction
+//! ([`RinexEphemeris::sv_clock_bias_s`], §20.3.3.3.3.1).
+//!
 //! Scope (this stage): the GPS (`G`) LNAV ephemeris block. Galileo F/I-NAV,
-//! BeiDou, and GLONASS records, the SV-position evaluation from the ephemeris
-//! (IS-GPS-200 §20.3.3.4.3), and a [`crate::orbit::Propagator`] source built on
-//! it are the next steps. Records for other systems are skipped, not rejected, so
-//! a mixed-constellation file still yields its GPS ephemerides.
+//! BeiDou, and GLONASS records, and a [`crate::orbit::Propagator`] source built
+//! on the ephemeris are the next steps. Records for other systems are skipped,
+//! not rejected, so a mixed-constellation file still yields its GPS ephemerides.
 
 /// A calendar epoch in UTC/GPS time, as carried in a RINEX record (the clock
 /// reference time `Toc`).
@@ -237,11 +241,77 @@ pub fn parse_nav(text: &str) -> Result<Vec<RinexEphemeris>, String> {
 const MU_GPS: f64 = 3.986_005e14;
 /// WGS-84 Earth rotation rate `Ω̇ₑ` (rad/s), per IS-GPS-200.
 const OMEGA_E_DOT: f64 = 7.292_115_146_7e-5;
+/// Relativistic clock-correction constant `F = −2√μ/c²` (s/√m), IS-GPS-200.
+const F_REL: f64 = -4.442_807_633e-10;
+
+/// Julian Day Number (integer, civil Gregorian) for `year-month-day` at noon.
+fn julian_day_number(year: i64, month: i64, day: i64) -> i64 {
+    let a = (14 - month) / 12;
+    let y = year + 4800 - a;
+    let m = month + 12 * a - 3;
+    day + (153 * m + 2) / 5 + 365 * y + y / 4 - y / 100 + y / 400 - 32045
+}
+
+impl EpochUtc {
+    /// GPS time-of-week (s) for this epoch: the seconds since the start (Sunday
+    /// 00:00) of the GPS week the epoch falls in. The GPS time scale has no leap
+    /// seconds and the RINEX navigation calendar is already in GPS time, so this
+    /// is plain calendar arithmetic from the GPS epoch (1980-01-06, a Sunday).
+    pub fn gps_time_of_week(&self) -> f64 {
+        let days = julian_day_number(self.year as i64, self.month as i64, self.day as i64)
+            - julian_day_number(1980, 1, 6);
+        let day_of_week = days.rem_euclid(7) as f64;
+        day_of_week * 86_400.0 + self.hour as f64 * 3600.0 + self.minute as f64 * 60.0 + self.second
+    }
+}
 
 impl RinexEphemeris {
     /// Semi-major axis `A = (√A)²` (m).
     pub fn semi_major_axis(&self) -> f64 {
         self.sqrt_a * self.sqrt_a
+    }
+
+    /// Time from the ephemeris reference epoch `Toe` (s), folded for week
+    /// rollover, and the eccentric anomaly `Ek` at GPS time-of-week `t_tow_s` —
+    /// the shared core of the position and clock evaluations.
+    fn tk_and_eccentric_anomaly(&self, t_tow_s: f64) -> (f64, f64) {
+        let a = self.semi_major_axis();
+        let n0 = (MU_GPS / (a * a * a)).sqrt();
+        let mut tk = t_tow_s - self.toe;
+        if tk > 302_400.0 {
+            tk -= 604_800.0;
+        } else if tk < -302_400.0 {
+            tk += 604_800.0;
+        }
+        let mk = self.m0 + (n0 + self.delta_n) * tk;
+        // Kepler's equation M = E − e·sin E, solved by Newton iteration.
+        let mut ek = mk;
+        for _ in 0..30 {
+            let d = (ek - self.e * ek.sin() - mk) / (1.0 - self.e * ek.cos());
+            ek -= d;
+            if d.abs() < 1e-13 {
+                break;
+            }
+        }
+        (tk, ek)
+    }
+
+    /// The SV clock bias (s) at GPS time-of-week `t_tow_s`: the broadcast clock
+    /// polynomial `af0 + af1·Δt + af2·Δt²` about the clock reference time `Toc`,
+    /// plus the relativistic eccentricity correction `F·e·√A·sin Ek` (IS-GPS-200
+    /// §20.3.3.3.3.1). The group-delay term `TGD` (a single-frequency L1
+    /// correction) is *not* applied here; it is available as [`Self::tgd`].
+    pub fn sv_clock_bias_s(&self, t_tow_s: f64) -> f64 {
+        let toc_tow = self.toc.gps_time_of_week();
+        let mut dt = t_tow_s - toc_tow;
+        if dt > 302_400.0 {
+            dt -= 604_800.0;
+        } else if dt < -302_400.0 {
+            dt += 604_800.0;
+        }
+        let (_, ek) = self.tk_and_eccentric_anomaly(t_tow_s);
+        let dtr = F_REL * self.e * self.sqrt_a * ek.sin();
+        self.af0 + self.af1 * dt + self.af2 * dt * dt + dtr
     }
 
     /// Evaluate the satellite's ECEF position (m) at GPS time-of-week `t_tow_s`
@@ -252,25 +322,7 @@ impl RinexEphemeris {
     /// accounting for Earth rotation since the reference time.
     pub fn sv_position_ecef(&self, t_tow_s: f64) -> [f64; 3] {
         let a = self.semi_major_axis();
-        let n0 = (MU_GPS / (a * a * a)).sqrt();
-        // Time from ephemeris reference epoch, corrected for week rollover.
-        let mut tk = t_tow_s - self.toe;
-        if tk > 302_400.0 {
-            tk -= 604_800.0;
-        } else if tk < -302_400.0 {
-            tk += 604_800.0;
-        }
-        let n = n0 + self.delta_n;
-        let mk = self.m0 + n * tk;
-        // Kepler's equation M = E − e·sin E, solved by Newton iteration.
-        let mut ek = mk;
-        for _ in 0..30 {
-            let d = (ek - self.e * ek.sin() - mk) / (1.0 - self.e * ek.cos());
-            ek -= d;
-            if d.abs() < 1e-13 {
-                break;
-            }
-        }
+        let (tk, ek) = self.tk_and_eccentric_anomaly(t_tow_s);
         let nu = ((1.0 - self.e * self.e).sqrt() * ek.sin()).atan2(ek.cos() - self.e);
         let phi = nu + self.omega;
         let (s2, c2) = ((2.0 * phi).sin(), (2.0 * phi).cos());
@@ -390,6 +442,54 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
         let v =
             (((b[0] - a[0]).powi(2) + (b[1] - a[1]).powi(2) + (b[2] - a[2]).powi(2)).sqrt()) / dt;
         assert!((3.0e3..4.5e3).contains(&v), "ECEF speed {v:.1} m/s");
+    }
+
+    #[test]
+    fn gps_time_of_week_for_known_dates() {
+        // 2023-01-01 was a Sunday → start of the GPS week, ToW 0.
+        let sunday = EpochUtc {
+            year: 2023,
+            month: 1,
+            day: 1,
+            hour: 0,
+            minute: 0,
+            second: 0.0,
+        };
+        assert_eq!(sunday.gps_time_of_week(), 0.0);
+        // Tuesday 12:00:00 → 2·86400 + 43200.
+        let tue = EpochUtc {
+            day: 3,
+            hour: 12,
+            ..sunday
+        };
+        assert_eq!(tue.gps_time_of_week(), 2.0 * 86_400.0 + 43_200.0);
+        // Saturday 23:59:59 → the last second of the week.
+        let sat = EpochUtc {
+            day: 7,
+            hour: 23,
+            minute: 59,
+            second: 59.0,
+            ..sunday
+        };
+        assert_eq!(sat.gps_time_of_week(), 6.0 * 86_400.0 + 86_399.0);
+    }
+
+    #[test]
+    fn sv_clock_bias_is_af0_dominated_with_a_relativistic_term() {
+        let eph = &parse_nav(SAMPLE).unwrap()[0];
+        // At the clock reference epoch (Δt = 0) the bias is af0 plus the small
+        // relativistic eccentricity term (|F·e·√A| ≈ 2.8e-8 s here).
+        let toc_tow = eph.toc.gps_time_of_week();
+        let bias = eph.sv_clock_bias_s(toc_tow);
+        assert!(bias.is_finite());
+        assert!(
+            (bias - eph.af0).abs() < 1e-7,
+            "bias {bias} vs af0 {}",
+            eph.af0
+        );
+        // The relativistic correction is present (non-zero) and bounded.
+        let dtr = bias - eph.af0;
+        assert!(dtr != 0.0 && dtr.abs() < 3e-8, "relativistic term {dtr}");
     }
 
     #[test]
