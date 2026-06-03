@@ -35,7 +35,7 @@ and every sensor parameter is traceable to a published source.
 *Free and open source under Apache-2.0, professionally developed and maintained by
 Ashforde OÜ — commercial support, integration, and proprietary extensions available.*
 
-> **Status — v0.9.0 · a simulation substrate, not yet a product.** A validated,
+> **Status: v0.9.1 · a simulation substrate, not yet a product.** A validated,
 > fully reproducible engine spanning the PNT stack — orbit geometry, inertial
 > navigation, GNSS/INS fusion, integrity, clocks, and timing. Honest by design:
 > every figure of merit is labelled *validated* or *not-modeled*, and optical-clock
@@ -563,7 +563,7 @@ entry for every user-visible change. Participation is governed by our
 
 If you use Kshana in academic or technical work, please cite it. Machine-readable
 metadata is in [`CITATION.cff`](CITATION.cff) (GitHub renders a "Cite this repository"
-button from it); cite the version you used (e.g. `v0.9.0`) together with the
+button from it); cite the version you used (e.g. `v0.9.1`) together with the
 scenario and seed for full reproducibility. An archival DOI (Zenodo) is planned.
 
 > Baweja, C. (2026). *Kshana — hybrid quantum/classical PNT performance simulator*. Ashforde OÜ. https://github.com/AshfordeOU/kshana
