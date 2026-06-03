@@ -12,6 +12,7 @@ pub mod hybrid;
 pub mod inertial;
 pub mod kalman;
 pub mod models;
+pub mod oem;
 pub mod orbit;
 #[cfg(feature = "python")]
 pub mod python;
