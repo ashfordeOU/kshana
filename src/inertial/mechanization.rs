@@ -26,7 +26,7 @@
 //! Integrated Navigation Systems*, 2nd ed., §2.4 (gravity), §5.4 (NED
 //! mechanization); NIMA TR8350.2 (WGS-84 gravity formula).
 
-use super::attitude::Quaternion;
+use super::attitude::{coning_increment, Quaternion};
 use crate::frames::{wgs84_e2, Geodetic, Vec3, WGS84_A, WGS84_F};
 
 /// WGS-84 Earth rotation rate (rad/s).
@@ -239,6 +239,45 @@ pub fn sculling_increment(dtheta_b: Vec3, dv_b: Vec3) -> Vec3 {
     [0.5 * c[0], 0.5 * c[1], 0.5 * c[2]]
 }
 
+/// Fold the high-rate coning and sculling/rotation terms of a coarse update out of
+/// its ordered high-rate sub-interval body increments `subs[i] = (Δθ_i, Δv_i)`,
+/// returning the coarse `(Δθ, Δv)` to drive [`NavState::step_increments`] at the
+/// moderate (coarse) rate. This is the high-rate stage of a two-speed strapdown
+/// integration: a fast loop accumulates the increments and these rectifying terms
+/// between the slower navigation updates.
+///
+/// Naive summation of the sub-increments under-integrates the motion when the body
+/// vibrates within the interval — the within-interval rotation rectifies into a
+/// net attitude (coning) and velocity (sculling, plus the rotation of the velocity
+/// increment by the angle accumulated so far). The folded increments are
+///
+/// ```text
+/// Δθ = Σ Δθ_i + Σ ½(Δθ_{i-1} × Δθ_i)                          (coning)
+/// Δv = Σ Δv_i + Σ [ (θ_{<i} × Δv_i) + ½(Δθ_i × Δv_i) ]        (rotation + sculling)
+/// ```
+///
+/// where `θ_{<i}` is the angle accumulated within the interval before sub-sample
+/// `i`. Driving the coarse step with these recovers the vibration-rectified motion
+/// a coarse step over the raw sums misses — see the `two_speed_*` validation test.
+pub fn coning_sculling_compensate(subs: &[(Vec3, Vec3)]) -> (Vec3, Vec3) {
+    let mut dtheta = [0.0; 3];
+    let mut dv = [0.0; 3];
+    let mut prev = [0.0; 3];
+    let mut theta_acc = [0.0; 3];
+    for (dth, dvi) in subs {
+        let cone = coning_increment(prev, *dth);
+        let rot = cross(theta_acc, *dvi);
+        let scul = sculling_increment(*dth, *dvi);
+        for k in 0..3 {
+            dtheta[k] += dth[k] + cone[k];
+            dv[k] += dvi[k] + rot[k] + scul[k];
+            theta_acc[k] += dth[k];
+        }
+        prev = *dth;
+    }
+    (dtheta, dv)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -395,5 +434,90 @@ mod tests {
         // Identical path (step is defined in terms of step_increments).
         assert!((a.v_ned[0] - b.v_ned[0]).abs() < 1e-12);
         assert!((a.p_llh.lat_rad - b.p_llh.lat_rad).abs() < 1e-15);
+    }
+
+    #[test]
+    fn two_speed_coning_sculling_recovers_vibration_rectified_position() {
+        // A coning + sculling vibration environment: the gyro rolls about the body
+        // x-axis while the accelerometer drives the body z-axis *in phase with the
+        // roll angle* (the configuration that rectifies, since the angle θ_x ∝ sin
+        // and the specific force ∝ sin are co-phase on orthogonal axes). Their
+        // within-interval cross-coupling integrates to a steady navigation-frame
+        // velocity — a real motion a strapdown integrator must reproduce.
+        //
+        // We integrate three ways over 60 s and compare final position (ECEF):
+        //  * truth   — fine rate (1 kHz), accurate.
+        //  * naive   — coarse rate (one 10 Hz vibration period per step) over the
+        //              raw summed sub-increments. Each coarse Δθ, Δv ≈ 0, so the
+        //              coarse step cannot see the rectified motion and drifts.
+        //  * folded  — same coarse rate, but the sub-increments are passed through
+        //              `coning_sculling_compensate`, restoring the high-rate terms.
+        //
+        // The fold must cut the position error by a large factor — proving the
+        // coning/sculling terms are load-bearing, not cosmetic. (The residual is a
+        // genuine one-period-coarse-step error, not the rectification, so this is
+        // an order-of-magnitude bound, not a millimetre one.)
+        let lat = PI / 4.0;
+        let p0 = Geodetic {
+            lat_rad: lat,
+            lon_rad: 0.0,
+            alt_m: 0.0,
+        };
+        let q0 = Quaternion::identity();
+        let (dur, dt_f, dt_c) = (60.0_f64, 0.001_f64, 0.1_f64);
+        let w0 = 2.0 * PI * 10.0; // 10 Hz vibration
+        let (amp_theta, amp_acc) = (0.03_f64, 0.15_f64);
+        let gyro = |t: f64| [amp_theta * w0 * (w0 * t).cos(), 0.0, 0.0];
+        let accel = |t: f64| [0.0, 0.0, amp_acc * (w0 * t).sin()];
+        let nf = (dt_c / dt_f).round() as usize;
+        let ncoarse = (dur / dt_c).round() as usize;
+
+        // Fine-rate truth.
+        let mut truth = NavState::new(q0, [0.0; 3], p0);
+        for k in 0..(ncoarse * nf) {
+            let t = k as f64 * dt_f;
+            let g = gyro(t);
+            let ac = accel(t);
+            truth.step_increments(
+                [g[0] * dt_f, g[1] * dt_f, g[2] * dt_f],
+                [ac[0] * dt_f, ac[1] * dt_f, ac[2] * dt_f],
+                dt_f,
+            );
+        }
+
+        // Coarse naive and coarse folded.
+        let mut naive = NavState::new(q0, [0.0; 3], p0);
+        let mut folded = NavState::new(q0, [0.0; 3], p0);
+        for ci in 0..ncoarse {
+            let mut subs = Vec::with_capacity(nf);
+            let mut sum_dth = [0.0; 3];
+            let mut sum_dv = [0.0; 3];
+            for k in 0..nf {
+                let t = (ci * nf + k) as f64 * dt_f;
+                let g = gyro(t);
+                let ac = accel(t);
+                let dth = [g[0] * dt_f, g[1] * dt_f, g[2] * dt_f];
+                let dv = [ac[0] * dt_f, ac[1] * dt_f, ac[2] * dt_f];
+                for i in 0..3 {
+                    sum_dth[i] += dth[i];
+                    sum_dv[i] += dv[i];
+                }
+                subs.push((dth, dv));
+            }
+            naive.step_increments(sum_dth, sum_dv, dt_c);
+            let (dth_c, dv_c) = coning_sculling_compensate(&subs);
+            folded.step_increments(dth_c, dv_c, dt_c);
+        }
+
+        let naive_err = ecef_distance(naive.p_llh, truth.p_llh);
+        let folded_err = ecef_distance(folded.p_llh, truth.p_llh);
+        // The naive coarse integrator drifts metres; the fold holds it well under
+        // half a metre and at least five times better.
+        assert!(naive_err > 2.0, "naive should drift, got {naive_err:.3} m");
+        assert!(folded_err < 0.5, "folded error {folded_err:.3} m");
+        assert!(
+            naive_err > 5.0 * folded_err,
+            "fold should cut error >=5x: naive {naive_err:.3} m vs folded {folded_err:.3} m",
+        );
     }
 }

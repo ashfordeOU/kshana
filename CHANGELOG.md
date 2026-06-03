@@ -18,6 +18,17 @@ breaking changes are called out explicitly.
   published crate); see `tests/fixtures/igs/NOTICE`.
 
 ### Added
+- **Two-speed coning/sculling compensation for the strapdown mechanization.**
+  `inertial::mechanization::coning_sculling_compensate` folds the high-rate coning
+  (attitude) and rotation+sculling (velocity) terms out of a coarse update's
+  ordered sub-interval IMU increments, so a moderate-rate `NavState::step_increments`
+  reproduces vibration-rectified motion a coarse step over the raw sums misses. A
+  validation test drives a 10 Hz coning+sculling environment for 60 s and compares
+  fine-rate truth, naive coarse integration, and the folded coarse integration:
+  the fold cuts the position error by ~18× (metres of naive drift → sub-decimetre),
+  confirming the coning/sculling terms are load-bearing. A `ScalarErrorBudget`
+  type alias names the legacy 1-DOF `AccelModel` for what it is, distinct from the
+  three-axis `NavState` navigator.
 - **RINEX observation-file parser.** New `rinex_obs` module reads the RINEX 3.0x /
   4.00 *observation* file — the receiver's actual measurements — completing the
   RINEX pair alongside the existing navigation-message parser. `parse_obs` decodes
