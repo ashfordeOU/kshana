@@ -38,8 +38,11 @@
 //! the genuine HPL/VPL an integrity claim rests on — not a self-consistency FoM.
 
 use crate::frames::Vec3;
-use crate::orbit::{enu_basis, invert4, los_unit, visible_positions, Orbit, Propagator};
-use serde::Serialize;
+use crate::orbit::{
+    enu_basis, invert4, los_unit, visible_positions, ConstellationCfg, Orbit, OrbitCfg, Propagator,
+};
+use crate::scenario::TimeCfg;
+use serde::{Deserialize, Serialize};
 
 /// Natural log of the gamma function (Lanczos approximation, g=7, n=9).
 fn ln_gamma(x: f64) -> f64 {
@@ -783,6 +786,193 @@ pub fn constellation_raim_availability(
         samples_available: available,
         epochs,
     }
+}
+
+/// A RAIM-availability scenario: a user orbit, one or more GNSS constellations,
+/// an elevation mask, and the integrity configuration. This is the TOML-driven,
+/// user-runnable form of [`constellation_raim_availability`] — the same shape as
+/// the orbit-clock scenario, but the output is an HPL/VPL availability map rather
+/// than a clock-holdover run.
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct IntegrityScenario {
+    /// Elevation mask (deg) below which satellites are not used.
+    pub mask_deg: f64,
+    /// 1-σ user-equivalent range error (m).
+    pub sigma_uere_m: f64,
+    /// Allowed false-alarm probability.
+    pub p_fa: f64,
+    /// Allowed missed-detection probability.
+    pub p_md: f64,
+    /// Horizontal alert limit (m).
+    pub al_h_m: f64,
+    /// Vertical alert limit (m).
+    pub al_v_m: f64,
+    /// Time grid.
+    pub time: TimeCfg,
+    /// User orbit / location.
+    pub user: OrbitCfg,
+    /// Primary GNSS constellation.
+    pub constellation: ConstellationCfg,
+    /// Additional constellations combined with `constellation` (multi-GNSS).
+    #[serde(default)]
+    pub constellations: Vec<ConstellationCfg>,
+}
+
+impl IntegrityScenario {
+    /// All satellites: the primary constellation plus any additional ones.
+    pub fn all_satellites(&self) -> Result<Vec<Propagator>, String> {
+        let mut sats = self.constellation.satellites()?;
+        for c in &self.constellations {
+            sats.extend(c.satellites()?);
+        }
+        Ok(sats)
+    }
+
+    /// Run the availability evaluation over the configured time grid.
+    pub fn run(&self) -> Result<RaimAvailabilityReport, String> {
+        let user = self.user.to_orbit();
+        let sats = self.all_satellites()?;
+        let cfg = RaimConfig {
+            sigma_m: self.sigma_uere_m,
+            p_fa: self.p_fa,
+            p_md: self.p_md,
+            al_h_m: self.al_h_m,
+            al_v_m: self.al_v_m,
+        };
+        Ok(constellation_raim_availability(
+            &user,
+            &sats,
+            self.time.step_s,
+            self.time.duration_s,
+            self.mask_deg,
+            &cfg,
+        ))
+    }
+}
+
+/// Render a RAIM availability report as a self-contained SVG: the horizontal and
+/// vertical protection levels over time against their alert limits, with an
+/// availability strip below the axis (green = available, red = not).
+pub fn availability_svg(report: &RaimAvailabilityReport) -> String {
+    let (w, h) = (820.0_f64, 420.0_f64);
+    let (ml, mr, mt, mb) = (70.0_f64, 20.0_f64, 30.0_f64, 70.0_f64);
+    let pw = w - ml - mr;
+    let ph = h - mt - mb;
+    let t_max = report.epochs.iter().map(|e| e.t_s).fold(1.0_f64, f64::max);
+    let mut y_max = report.al_h_m.max(report.al_v_m) * 1.4;
+    for e in &report.epochs {
+        if let Some(v) = e.hpl_m {
+            y_max = y_max.max(v);
+        }
+        if let Some(v) = e.vpl_m {
+            y_max = y_max.max(v);
+        }
+    }
+    if y_max <= 0.0 {
+        y_max = 1.0;
+    }
+    let xof = |t: f64| ml + (t / t_max) * pw;
+    let yof = |v: f64| mt + ph - (v.min(y_max) / y_max) * ph;
+    let axis_y = mt + ph;
+
+    // Build polyline segments for a per-epoch level series, breaking at gaps
+    // (epochs with no protected fix).
+    let segments = |pick: &dyn Fn(&RaimAvailabilityEpoch) -> Option<f64>| -> String {
+        let mut out = String::new();
+        let mut cur: Vec<String> = Vec::new();
+        for e in &report.epochs {
+            match pick(e) {
+                Some(v) => cur.push(format!("{:.1},{:.1}", xof(e.t_s), yof(v))),
+                None => {
+                    if cur.len() > 1 {
+                        out.push_str(&format!("<polyline points=\"{}\"/>", cur.join(" ")));
+                    }
+                    cur.clear();
+                }
+            }
+        }
+        if cur.len() > 1 {
+            out.push_str(&format!("<polyline points=\"{}\"/>", cur.join(" ")));
+        }
+        out
+    };
+
+    let mut svg = String::new();
+    svg.push_str(&format!(
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\">"
+    ));
+    svg.push_str(&format!(
+        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"white\"/>"
+    ));
+    svg.push_str(&format!(
+        "<text x=\"{ml:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">RAIM protection levels and availability ({:.0}% available)</text>",
+        report.availability() * 100.0
+    ));
+    svg.push_str(&crate::chart::y_axis(
+        ml,
+        mt,
+        pw,
+        ph,
+        y_max,
+        "protection level (m)",
+    ));
+    // Axes.
+    svg.push_str(&format!(
+        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#888\"/>"
+    ));
+    svg.push_str(&format!(
+        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#888\"/>",
+        ml + pw
+    ));
+    // Alert-limit lines.
+    for (al, colour, label) in [
+        (report.al_h_m, "#d33", "HAL"),
+        (report.al_v_m, "#e67e22", "VAL"),
+    ] {
+        let y = yof(al);
+        svg.push_str(&format!(
+            "<line x1=\"{ml:.0}\" y1=\"{y:.1}\" x2=\"{:.0}\" y2=\"{y:.1}\" stroke=\"{colour}\" stroke-dasharray=\"6 4\"/>",
+            ml + pw
+        ));
+        svg.push_str(&format!(
+            "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{colour}\">{label} {al:.0} m</text>",
+            ml + pw - 70.0,
+            y - 4.0
+        ));
+    }
+    // HPL / VPL polylines.
+    svg.push_str(&format!(
+        "<g fill=\"none\" stroke=\"#2471a3\" stroke-width=\"2\">{}</g>",
+        segments(&|e| e.hpl_m)
+    ));
+    svg.push_str(&format!(
+        "<g fill=\"none\" stroke=\"#8e44ad\" stroke-width=\"2\">{}</g>",
+        segments(&|e| e.vpl_m)
+    ));
+    // Availability strip below the axis.
+    let strip_y = axis_y + 12.0;
+    let bw = pw / report.epochs.len().max(1) as f64;
+    for (i, e) in report.epochs.iter().enumerate() {
+        let colour = if e.available { "#27ae60" } else { "#c0392b" };
+        svg.push_str(&format!(
+            "<rect x=\"{:.1}\" y=\"{strip_y:.0}\" width=\"{:.1}\" height=\"10\" fill=\"{colour}\"/>",
+            ml + i as f64 * bw,
+            bw.max(0.5)
+        ));
+    }
+    // Legend and axis label.
+    svg.push_str(&format!(
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\">time (s)</text>",
+        ml + pw / 2.0,
+        h - 12.0
+    ));
+    svg.push_str(&format!(
+        "<text x=\"{:.0}\" y=\"44\" fill=\"#2471a3\">HPL</text><text x=\"{:.0}\" y=\"60\" fill=\"#8e44ad\">VPL</text>",
+        ml + 10.0,
+        ml + 10.0
+    ));
+    svg.push_str("</svg>");
+    svg
 }
 
 #[cfg(test)]
