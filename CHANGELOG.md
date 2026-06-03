@@ -10,6 +10,21 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Deterministic IMU error model for the 3-axis strapdown navigator (`src/inertial/imu_errors.rs`).**
+  `ImuErrorModel` distorts a true body-frame `(ω, f)` pair into a measured one
+  through five systematic categories (IEEE Std 952-1997 §A.2; Groves 2013 §4.3,
+  Table 4.1): **scale-factor** (per-axis ppm gain error), **misalignment /
+  cross-coupling** (off-diagonal triad non-orthogonality), **g-sensitivity** (a
+  gyro rate bias proportional to specific force), **quantization** (rounding to
+  the output LSB), and **rate-ramp** (a linear-in-time drift — the third Allan
+  region), plus a constant turn-on bias. Every term defaults to zero, so
+  `ImuErrorModel::ideal()` is a transparent pass-through and existing scenarios
+  are unaffected. Each error source has an isolation test (scale linear to <0.01%,
+  misalignment cross-axis above the VRW floor, g-sensitivity bias, LSB grid,
+  linear ramp), and an end-to-end test drives a navigation error through the
+  mechanization from a distorted IMU. Not modelled: vibration rectification error,
+  temperature-gradient drift. (The shipped `inertial` scenario pack still runs the
+  legacy 1-DOF scalar budget; this model feeds the 3-axis library.)
 - **Coning and sculling compensation for the strapdown integrator.** The
   attitude path adds the two-sample `coning_increment` (`½ Δθ_prev × Δθ_cur`); a
   coarse-rate (30 Hz, 5-samples/cycle) integration of a 5 Hz coning environment
