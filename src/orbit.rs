@@ -595,6 +595,13 @@ pub struct ConstellationCfg {
     /// Optional block of TLEs; if present, the constellation is parsed from it.
     #[serde(default)]
     pub tle: Option<String>,
+    /// Optional inline RINEX 3 navigation text; if present (and no `tle` is
+    /// given), the constellation is the GPS broadcast-ephemeris satellites parsed
+    /// from it, each a [`Propagator::Rinex`]. This is how a real RINEX file drives
+    /// a scenario from the CLI or the in-browser playground (inline text, no file
+    /// I/O), feeding the same geometry/visibility/integrity pipeline.
+    #[serde(default)]
+    pub rinex: Option<String>,
     /// When `true`, every TLE line's column-69 checksum must be valid. Defaults
     /// to lenient because synthetic/teaching element sets carry placeholder
     /// checksums (e.g. the bundled Walker scenarios).
@@ -615,6 +622,13 @@ impl ConstellationCfg {
                     strict_checksum: self.strict_checksum,
                 },
             );
+        }
+        if let Some(text) = &self.rinex {
+            let ephemerides = crate::rinex::parse_nav(text)?;
+            if ephemerides.is_empty() {
+                return Err("rinex block parsed but contained no GPS ephemerides".into());
+            }
+            return Ok(ephemerides.into_iter().map(Propagator::from).collect());
         }
         let r = R_EARTH_M + self.altitude_km * 1000.0;
         let inc = self.inclination_deg.to_radians();
@@ -907,6 +921,43 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
     }
 
     #[test]
+    fn constellation_from_rinex_block_builds_broadcast_propagators() {
+        // A constellation configured with an inline RINEX block yields one
+        // Propagator::Rinex per parsed GPS ephemeris — the end-to-end path that
+        // lets a real broadcast file drive a scenario.
+        let cfg = ConstellationCfg {
+            altitude_km: 0.0,
+            inclination_deg: 0.0,
+            planes: 0,
+            sats_per_plane: 0,
+            phasing_f: 0.0,
+            tle: None,
+            rinex: Some(RINEX_SAMPLE.to_string()),
+            strict_checksum: false,
+        };
+        let sats = cfg.satellites().expect("rinex constellation builds");
+        assert_eq!(sats.len(), 1);
+        assert!(matches!(sats[0], Propagator::Rinex(_)));
+        // It propagates as a GPS orbit.
+        assert!((norm(sats[0].position_eci(0.0)) - 26_560_000.0).abs() < 600_000.0);
+    }
+
+    #[test]
+    fn constellation_rejects_a_rinex_block_with_no_gps_ephemerides() {
+        let cfg = ConstellationCfg {
+            altitude_km: 0.0,
+            inclination_deg: 0.0,
+            planes: 0,
+            sats_per_plane: 0,
+            phasing_f: 0.0,
+            tle: None,
+            rinex: Some("     3.04           N: GNSS NAV DATA\n        END OF HEADER".to_string()),
+            strict_checksum: false,
+        };
+        assert!(cfg.satellites().is_err());
+    }
+
+    #[test]
     fn polar_orbit_stays_in_x_z_plane() {
         // i = 90 deg, RAAN = 0: the orbit plane contains the z-axis, so Y stays ~0.
         let o = Orbit::new(7.0e6, FRAC_PI_2, 0.0, 0.0);
@@ -1042,6 +1093,7 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
                 sats_per_plane,
                 phasing_f: 1.0,
                 tle: None,
+                rinex: None,
                 strict_checksum: false,
             },
             constellations: vec![],
@@ -1096,6 +1148,7 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
             sats_per_plane: 8,
             phasing_f: 1.0,
             tle: None,
+            rinex: None,
             strict_checksum: false,
         });
         assert_eq!(scn.all_satellites().unwrap().len(), 24 + 24);
