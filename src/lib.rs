@@ -7,6 +7,7 @@ pub mod estimator;
 pub mod fom;
 pub mod frames;
 pub mod fusion;
+pub mod glonass;
 pub mod hybrid;
 pub mod inertial;
 pub mod kalman;
