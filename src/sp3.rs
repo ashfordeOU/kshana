@@ -19,11 +19,15 @@
 //! serialises it — so Kshana orbits can be written in the format Ginan/RTKLIB/gLAB
 //! ingest, completing the read↔write round trip.
 //!
-//! Scope (this stage): the read/write round trip over position records.
-//! Polynomial interpolation between epochs and exposing SP3 as a
-//! [`crate::orbit::Propagator`] source are the next steps. The bad-value sentinels
-//! (positions of exactly 0, clock 999999.999999) are preserved as parsed, not
-//! silently rewritten, so a caller can decide how to treat them.
+//! A parsed file is also a propagation source: [`Sp3File::interpolator`] builds a
+//! per-satellite [`Sp3Interpolator`] that fills the position between epochs with a
+//! 9th-order Lagrange polynomial (standard IGS practice) and rotates it into the
+//! shared TEME frame, exposed as a [`crate::orbit::Propagator`].
+//!
+//! Scope (this stage): the read/write round trip and Lagrange position
+//! interpolation. Clock interpolation and a RINEX/SP3 scenario kind are next. The
+//! bad-value sentinels (positions of exactly 0, clock 999999.999999) are preserved
+//! as parsed, not silently rewritten, so a caller can decide how to treat them.
 
 use crate::rinex::EpochUtc;
 use serde::Serialize;
@@ -215,6 +219,117 @@ impl Sp3File {
         }
         out.push_str("EOF\n");
         out
+    }
+
+    /// Build a position interpolator for one satellite, ready to be used as a
+    /// [`crate::orbit::Propagator`]. Returns `None` if the satellite is absent or
+    /// has fewer than two epochs. The UT1 reference is taken from the file's start
+    /// epoch (the SP3 time scale is GPS time and UT1 ≈ UTC ≈ GPS time at the
+    /// GMST-only level used for the Earth-fixed↔inertial rotation).
+    pub fn interpolator(&self, sat: &str) -> Option<Sp3Interpolator> {
+        let s0 = self.header.start;
+        let jd0 = crate::timescales::julian_date(
+            s0.year, s0.month, s0.day, s0.hour, s0.minute, s0.second,
+        );
+        let (mut t_s, mut x, mut y, mut z) = (Vec::new(), Vec::new(), Vec::new(), Vec::new());
+        for epoch in &self.epochs {
+            if let Some(st) = epoch.sats.iter().find(|s| s.sat == sat) {
+                let e = epoch.time;
+                let jd = crate::timescales::julian_date(
+                    e.year, e.month, e.day, e.hour, e.minute, e.second,
+                );
+                t_s.push((jd - jd0) * 86_400.0);
+                x.push(st.pos_m[0]);
+                y.push(st.pos_m[1]);
+                z.push(st.pos_m[2]);
+            }
+        }
+        if t_s.len() < 2 {
+            return None;
+        }
+        Some(Sp3Interpolator {
+            sat: sat.to_string(),
+            t_s,
+            x,
+            y,
+            z,
+            start_jd_ut1: jd0,
+        })
+    }
+}
+
+/// IGS-standard interpolation order for SP3 positions: a 9th-order (10-point)
+/// Lagrange polynomial over the epochs bracketing the query time.
+const SP3_INTERP_ORDER: usize = 9;
+
+/// Lagrange interpolation of the samples `(xs, ys)` evaluated at `x`. The nodes
+/// must be distinct. Exact at the nodes and for polynomials up to degree
+/// `xs.len() - 1`.
+fn lagrange(xs: &[f64], ys: &[f64], x: f64) -> f64 {
+    let mut sum = 0.0;
+    for j in 0..xs.len() {
+        let mut term = ys[j];
+        for k in 0..xs.len() {
+            if k != j {
+                term *= (x - xs[k]) / (xs[j] - xs[k]);
+            }
+        }
+        sum += term;
+    }
+    sum
+}
+
+/// A per-satellite SP3 position interpolator: the Earth-fixed (ECEF) position
+/// samples and their times relative to the file start, queried by 9th-order
+/// Lagrange interpolation (standard IGS practice) and rotated into the shared
+/// TEME inertial frame. This is what turns a precise-ephemeris file into a
+/// [`crate::orbit::Propagator`] source.
+#[derive(Clone, Debug)]
+pub struct Sp3Interpolator {
+    /// Satellite identifier this interpolator was built for.
+    pub sat: String,
+    t_s: Vec<f64>,
+    x: Vec<f64>,
+    y: Vec<f64>,
+    z: Vec<f64>,
+    start_jd_ut1: f64,
+}
+
+impl Sp3Interpolator {
+    /// The contiguous window of up to `SP3_INTERP_ORDER + 1` sample indices
+    /// centred on `t`, clamped to the available range at the ends.
+    fn window(&self, t: f64) -> (usize, usize) {
+        let n = self.t_s.len();
+        let npts = (SP3_INTERP_ORDER + 1).min(n);
+        let mut i = 0;
+        while i < n && self.t_s[i] < t {
+            i += 1;
+        }
+        let start = i.saturating_sub(npts / 2).min(n - npts);
+        (start, start + npts)
+    }
+
+    /// Interpolated ECEF position (m) at `t` seconds from the file start.
+    pub fn position_ecef(&self, t: f64) -> [f64; 3] {
+        let (a, b) = self.window(t);
+        let xs = &self.t_s[a..b];
+        [
+            lagrange(xs, &self.x[a..b], t),
+            lagrange(xs, &self.y[a..b], t),
+            lagrange(xs, &self.z[a..b], t),
+        ]
+    }
+
+    /// Interpolated position (m) in the shared TEME inertial frame at `t`.
+    pub fn position_teme(&self, t: f64) -> [f64; 3] {
+        crate::frames::ecef_to_teme(self.position_ecef(t), self.start_jd_ut1 + t / 86_400.0)
+    }
+
+    /// Approximate orbital period (s) from the radius at the first sample,
+    /// `2π·√(r³/μ⊕)`.
+    pub fn approx_period_s(&self) -> f64 {
+        let r = (self.x[0].powi(2) + self.y[0].powi(2) + self.z[0].powi(2)).sqrt();
+        std::f64::consts::TAU * (r * r * r / crate::orbit::MU_EARTH).sqrt()
     }
 }
 
@@ -477,6 +592,78 @@ EOF";
         assert_eq!(a.position_of("G02", 1), b.position_of("G02", 1));
         assert!(b.epochs[0].sats[1].clock_is_bad()); // G02 epoch 0 sentinel survives
         assert_eq!(b.epochs[1].time.minute, 15);
+    }
+
+    #[test]
+    fn lagrange_is_exact_for_a_low_degree_polynomial() {
+        // f(x) = 2x³ − x + 5 sampled at four nodes; Lagrange of four points
+        // recovers the cubic exactly at an interior point.
+        let f = |x: f64| 2.0 * x * x * x - x + 5.0;
+        let xs = [0.0, 1.0, 2.0, 3.0];
+        let ys = xs.map(f);
+        assert!((lagrange(&xs, &ys, 1.5) - f(1.5)).abs() < 1e-9);
+    }
+
+    #[test]
+    fn interpolator_reproduces_the_nodes_and_a_kepler_orbit() {
+        use crate::orbit::{Orbit, Propagator};
+        // Build an SP3 from a known Kepler orbit (20 epochs × 900 s), then
+        // interpolate. At a node the result is exact; at a midpoint it matches the
+        // true Kepler position to well under a metre (9th-order Lagrange at IGS
+        // spacing).
+        let a = 26_560_000.0;
+        let orbit = Orbit::keplerian(a, 0.01, 0.9, 0.3, 0.2, 0.4);
+        let sats = vec![Propagator::Kepler(orbit)];
+        let ids = vec!["G01".to_string()];
+        let start = EpochUtc {
+            year: 2023,
+            month: 1,
+            day: 1,
+            hour: 0,
+            minute: 0,
+            second: 0.0,
+        };
+        let jd = crate::timescales::julian_date(2023, 1, 1, 0, 0, 0.0);
+        let f = Sp3File::from_propagators(&ids, &sats, start, jd, 900.0, 20);
+        let interp = f.interpolator("G01").expect("interpolator builds");
+
+        // At a sample node (epoch 9 → t = 8100 s) it matches the Kepler orbit.
+        let t_node = 9.0 * 900.0;
+        let node = interp.position_teme(t_node);
+        let truth_node = orbit.position_eci(t_node);
+        for k in 0..3 {
+            assert!((node[k] - truth_node[k]).abs() < 1.0, "node axis {k}");
+        }
+        // At a midpoint (t = 8550 s) the Lagrange interpolation is still accurate.
+        let t_mid = 9.5 * 900.0;
+        let mid = interp.position_teme(t_mid);
+        let truth_mid = orbit.position_eci(t_mid);
+        let err = ((mid[0] - truth_mid[0]).powi(2)
+            + (mid[1] - truth_mid[1]).powi(2)
+            + (mid[2] - truth_mid[2]).powi(2))
+        .sqrt();
+        assert!(err < 100.0, "midpoint interpolation error {err:.3} m");
+
+        // As a Propagator it is a GPS-radius orbit with a ~12 h period.
+        let p: Propagator = interp.into();
+        assert!(matches!(p, Propagator::Sp3Precise(_)));
+        let r = (p.position_eci(t_mid)[0].powi(2)
+            + p.position_eci(t_mid)[1].powi(2)
+            + p.position_eci(t_mid)[2].powi(2))
+        .sqrt();
+        assert!((r - a).abs() < 400_000.0, "radius {r:.0} m");
+        assert!(
+            (4.2e4..4.4e4).contains(&p.period_s()),
+            "period {} s",
+            p.period_s()
+        );
+    }
+
+    #[test]
+    fn interpolator_needs_at_least_two_epochs() {
+        let f = parse_sp3(SAMPLE).unwrap();
+        assert!(f.interpolator("G01").is_some()); // two epochs
+        assert!(f.interpolator("G99").is_none()); // absent
     }
 
     #[test]
