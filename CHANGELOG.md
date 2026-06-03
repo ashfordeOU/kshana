@@ -30,9 +30,18 @@ breaking changes are called out explicitly.
   the GPS `μ` and `Ω̇ₑ` mandated by the spec, and a week-rollover `tk` fold). Three
   tests: the geocentric radius stays in the GPS band (≈ 26 560 km), the Earth-fixed
   speed is ~3.9 km/s, and evaluating a full week away reproduces the same position.
-  Honest scope: this is the orbit evaluation only — the SV clock correction
-  (needs the `Toc` time-of-week), a `Propagator` source, Galileo/BeiDou/GLONASS,
-  and SP3 remain next steps. (`docs/CAPABILITY.md` updated to match.)
+- **GPS SV clock bias with the relativistic correction (`src/rinex.rs`).**
+  `RinexEphemeris::sv_clock_bias_s(t_tow)` evaluates the broadcast clock
+  polynomial `af0 + af1·Δt + af2·Δt²` about `Toc` plus the relativistic
+  eccentricity term `F·e·√A·sin Ek` (IS-GPS-200 §20.3.3.3.3.1). A new
+  `EpochUtc::gps_time_of_week` converts the record's calendar epoch to GPS
+  time-of-week via Julian-day arithmetic from the GPS epoch (1980-01-06), and the
+  Kepler solve is shared with the position evaluation. Tests: GPS time-of-week for
+  a Sunday/Tuesday/Saturday (week boundaries), and the clock bias being
+  af0-dominated with a present, bounded relativistic term. The L1 group-delay
+  `TGD` is exposed but deliberately not folded in. Honest scope: a `Propagator`
+  source, Galileo/BeiDou/GLONASS, and SP3 remain next steps. (`docs/CAPABILITY.md`
+  updated to match.)
 - **User-runnable `integrity` scenario kind (`scenarios/integrity-raim.toml`).**
   The RAIM availability capability is now reachable from the CLI/TOML like every
   other pack: `kind = "integrity"` parses an `IntegrityScenario` (user orbit, one
