@@ -424,22 +424,25 @@ pre#json { font-family: var(--mono); font-size: 0.76rem; overflow: auto; max-hei
 .codeblock .k { color: var(--accent); }
 
 /* Capability feature cards */
-.card.feat { display: flex; flex-direction: column; gap: 0.45rem; }
+.card.feat { display: flex; flex-direction: column; gap: 0.5rem; }
+.card.feat .feat-head { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; min-height: 1.4rem; }
 .card.feat .eyebrow { color: var(--accent); margin: 0; }
-.card.feat h3 { font-size: 1.02rem; margin: 0; }
-.card.feat h3 .run {
+.card.feat h3 { font-size: 1.02rem; margin: 0; min-height: 2.4rem; display: flex; align-items: flex-start; }
+.card.feat .run {
+  font: inherit;
   font-family: var(--mono);
   font-size: 0.68rem;
   font-weight: 500;
   color: var(--accent);
+  background: transparent;
   border: 1px solid var(--accent-line);
   border-radius: 4px;
-  padding: 0.02rem 0.4rem;
-  margin-left: 0.5rem;
+  padding: 0.12rem 0.5rem;
   cursor: pointer;
-  vertical-align: middle;
+  white-space: nowrap;
+  flex: none;
 }
-.card.feat h3 .run:hover { background: var(--accent-tint); }
+.card.feat .run:hover { background: var(--accent-tint); }
 .card.feat p { margin: 0; }
 .card.feat .proof {
   margin-top: auto;

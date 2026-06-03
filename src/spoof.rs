@@ -171,10 +171,10 @@ pub fn to_svg(result: &SpoofResult) -> String {
     let axis_y = mt + ph;
     let mut svg = String::new();
     svg.push_str(&format!(
-        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\">"
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#cdd6e0\">"
     ));
     svg.push_str(&format!(
-        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"white\"/>"
+        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0e131b\"/>"
     ));
     svg.push_str(&format!(
         "<text x=\"{:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">Time-spoof detection: offset vs clock-aided detection bounds</text>",
@@ -189,10 +189,10 @@ pub fn to_svg(result: &SpoofResult) -> String {
         "spoof offset (ns)",
     ));
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#888\"/>"
+        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#3a4757\"/>"
     ));
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#888\"/>",
+        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#3a4757\"/>",
         ml + pw
     ));
     let right = ml + pw;
@@ -209,7 +209,7 @@ pub fn to_svg(result: &SpoofResult) -> String {
     ));
     // Per-clock detection bounds.
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{0}\" x2=\"{right:.0}\" y2=\"{0}\" stroke=\"#2471a3\" stroke-dasharray=\"3 3\"/>",
+        "<line x1=\"{ml:.0}\" y1=\"{0}\" x2=\"{right:.0}\" y2=\"{0}\" stroke=\"#5cb8d6\" stroke-dasharray=\"3 3\"/>",
         hline(result.quantum.min_detectable_ns)
     ));
     svg.push_str(&format!(
@@ -218,7 +218,7 @@ pub fn to_svg(result: &SpoofResult) -> String {
     ));
     // The spoof offset ramp.
     svg.push_str(&format!(
-        "<polyline fill=\"none\" stroke=\"#444\" stroke-width=\"2\" points=\"{ramp}\"/>"
+        "<polyline fill=\"none\" stroke=\"#3a4757\" stroke-width=\"2\" points=\"{ramp}\"/>"
     ));
     svg.push_str(&format!(
         "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\">time (s)</text>",
@@ -226,11 +226,11 @@ pub fn to_svg(result: &SpoofResult) -> String {
         h - 12.0
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"44\" fill=\"#444\">spoof offset</text>",
+        "<text x=\"{:.0}\" y=\"44\" fill=\"#8593a3\">spoof offset</text>",
         ml + 10.0
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"60\" fill=\"#2471a3\">quantum detect bound</text>",
+        "<text x=\"{:.0}\" y=\"60\" fill=\"#5cb8d6\">quantum detect bound</text>",
         ml + 10.0
     ));
     svg.push_str(&format!(
