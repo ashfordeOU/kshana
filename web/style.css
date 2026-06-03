@@ -25,31 +25,31 @@
 }
 
 :root {
-  /* Graphite base — warm-neutral near-black; layered surfaces for quiet depth.
-     Warmer than a cold blue-black, which reads more expensive on dark. */
-  --bg: #0b0c0e;
-  --bg-1: #101216;
-  --bg-2: #15181d;
-  --bg-3: #1c2027;
-  --line: #21242b;
-  --line-2: #2d323b;
+  /* Warm graphite base — a faintly brown-tinted near-black, like the bezel of
+     a brass instrument. Warm darks read more expensive than cold blue-black. */
+  --bg: #0c0b08;
+  --bg-1: #11100b;
+  --bg-2: #17140e;
+  --bg-3: #201b13;
+  --line: #262019;
+  --line-2: #342c21;
   /* Hairline highlight that catches light on top edges of surfaces */
-  --edge: rgba(255, 255, 255, 0.045);
+  --edge: rgba(255, 248, 235, 0.05);
 
-  /* Text — softened, neutral, never clinical blue-white */
-  --fg: #edeff3;
-  --fg-1: #b0b6c0;
-  --fg-2: #828a95;
-  --fg-3: #5a616c;
+  /* Text — warm off-white, never clinical blue-white */
+  --fg: #f1ece2;
+  --fg-1: #bcb3a3;
+  --fg-2: #8c8273;
+  --fg-3: #62594b;
 
-  /* Single signal accent — a refined steel-cyan, slightly muted so it glows
-     softly rather than buzzing. Restraint over saturation. */
-  --accent: #58aecb;
-  --accent-bright: #95d3e6;
-  --accent-deep: #2a6f87;
-  --accent-tint: rgba(88, 174, 203, 0.10);
-  --accent-line: rgba(88, 174, 203, 0.28);
-  --accent-glow: rgba(88, 174, 203, 0.16);
+  /* Single signal accent — a soft, warm honey-gold. Muted and warmed so it
+     glows gently like aged brass rather than glaring; easy on the eyes. */
+  --accent: #c79e63;
+  --accent-bright: #e0bd84;
+  --accent-deep: #6f5125;
+  --accent-tint: rgba(199, 158, 99, 0.09);
+  --accent-line: rgba(199, 158, 99, 0.26);
+  --accent-glow: rgba(199, 158, 99, 0.14);
 
   /* Functional status (maturity / health) */
   --ok: #46b67e;
@@ -110,8 +110,8 @@ body::after {
   pointer-events: none;
   z-index: 0;
   background:
-    radial-gradient(80% 50% at 64% -12%, rgba(88, 174, 203, 0.09), transparent 64%),
-    radial-gradient(90% 60% at 50% -20%, rgba(120, 140, 165, 0.05), transparent 70%);
+    radial-gradient(80% 50% at 64% -12%, rgba(199, 158, 99, 0.06), transparent 64%),
+    radial-gradient(90% 60% at 50% -20%, rgba(160, 145, 115, 0.035), transparent 70%);
 }
 
 main, header, footer { position: relative; z-index: 1; }
@@ -242,13 +242,13 @@ h1, h2, h3 {
 .btn.ghost:hover { color: var(--fg); border-color: var(--accent-line); box-shadow: none; }
 .btn.primary {
   background: linear-gradient(180deg, var(--accent-bright), var(--accent));
-  color: #07232c;
+  color: #2c2008;
   border-color: transparent;
   font-weight: 600;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 6px 18px -12px rgba(0,0,0,0.6);
+  box-shadow: inset 0 1px 0 rgba(255,245,225,0.22), 0 6px 18px -12px rgba(0,0,0,0.6);
 }
 .btn.primary:hover {
-  background: linear-gradient(180deg, #a5dded, var(--accent-bright));
+  background: linear-gradient(180deg, #ecca8e, var(--accent-bright));
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.28), 0 10px 24px -12px var(--accent-glow);
 }
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
