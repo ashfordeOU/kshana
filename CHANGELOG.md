@@ -10,6 +10,29 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Closed-loop GNSS/INS integration (`src/fusion/closed_loop.rs`).**
+  `ClosedLoopInsGnss` wires the error-state EKF kernel to the three-axis strapdown
+  mechanization: each IMU sample is corrected by the running bias estimates,
+  mechanized forward, and the EKF covariance time-propagated with the matching
+  navigation context; each GNSS position/velocity fix forms the INS−GNSS
+  innovation and feeds the estimated **position, velocity, attitude error (ψ, as a
+  quaternion rotation) and accelerometer/gyro biases** back into the solution,
+  resetting the error-state mean. Feeding the attitude back (not only the biases)
+  is required for stability — the tilt and accelerometer bias are a coupled pair,
+  so correcting one without the other diverges. INS and GNSS are compared in a
+  local tangent-plane NED frame using the mechanization's own radii of curvature
+  (new `mechanization::radii_of_curvature`; `NavState::omega_ie_n`/`omega_en_n`
+  exposed). This is the honest replacement for the hybrid pack's *truth-snap
+  reset*. Three tests: a closed loop nulling an injected 8 m / −5 m position error
+  to <0.1 m; an aided solution staying metre-bounded (<6 m) on a driving
+  trajectory while a free-running INS diverges past 100 m; and the milestone
+  benchmark — the fused solution's **Monte-Carlo position RMS over a 60 s GNSS
+  outage beats an unaided open-loop dead-reckoner by >2× (≈4× across seeds)**.
+  Honest limitation documented in the module: in loosely-coupled mode the accel
+  bias and tilt are only weakly separable (both couple through gravity), so the
+  delivered value is the bounded, corrected state and a clean outage-entry — not a
+  precise inertial calibration; richer dynamics and the tightly-coupled extension
+  remain roadmap items.
 - **Loosely-coupled GNSS/INS error-state EKF kernel (`src/fusion/gnss_ins_ekf.rs`).**
   A 15-state error-state extended Kalman filter — `δx = [δp, δv, ψ, b_a, b_g]` —
   with the strapdown error dynamics from Groves 2013 §14.2 (specific-force/tilt

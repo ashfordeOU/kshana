@@ -21,6 +21,7 @@
 //! augmented state is future work; this demo uses noise-driven sensors so the
 //! filter process noise is consistent with truth.
 
+pub mod closed_loop;
 pub mod gnss_ins_ekf;
 
 use crate::hybrid::{score_hybrid, HybridResult, HybridSample, HybridScenario, SuiteRun};
