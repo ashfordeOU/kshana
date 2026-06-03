@@ -10,6 +10,22 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Loosely-coupled GNSS/INS error-state EKF kernel (`src/fusion/gnss_ins_ekf.rs`).**
+  A 15-state error-state extended Kalman filter — `δx = [δp, δv, ψ, b_a, b_g]` —
+  with the strapdown error dynamics from Groves 2013 §14.2 (specific-force/tilt
+  coupling, Coriolis, body→nav bias projection, Gauss–Markov bias models), a
+  first-order discrete transition `Φ = I + F·dt`, and a loosely-coupled
+  position+velocity measurement update (`H = [I₃ 0 0 0 0; 0 I₃ 0 0 0]`) in Joseph
+  form. Dependency-free dense linear algebra (Gauss–Jordan inverse, Joseph
+  covariance update). A `tight_coupling` cargo feature gates a documented,
+  not-yet-implemented pseudorange/Doppler update. 7 tests with hand-derived
+  expectations: the skew/cross-product identity, a verified 3×3 inverse,
+  covariance staying symmetric/PSD under prediction (and position uncertainty
+  growing un-aided), a position fix shrinking the position covariance, exact
+  recovery of a known position error at the analytic Kalman gain `P/(P+R)`, and
+  smaller corrections under larger measurement noise. This is the kernel that
+  will replace the hybrid pack's open-loop truth-snap reset with closed-loop
+  feedback (pack wiring + NaveGo validation to follow).
 - **Deterministic IMU error model for the 3-axis strapdown navigator (`src/inertial/imu_errors.rs`).**
   `ImuErrorModel` distorts a true body-frame `(ω, f)` pair into a measured one
   through five systematic categories (IEEE Std 952-1997 §A.2; Groves 2013 §4.3,
@@ -70,6 +86,15 @@ breaking changes are called out explicitly.
   an elevation mask. Verified end-to-end (a Walker constellation propagated,
   rotated TEME→ECEF, and counted from a geodetic site) and against the
   geocentric approximation.
+
+### Changed
+- **CI reliability.** The `test-python-bindings` job now builds the wheel with
+  `PyO3/maturin-action` (manylinux container) instead of a raw host `maturin
+  build`, eliminating an intermittent `rustfmt-preview`/`cargo-fmt` rustup
+  conflict on the runner image. The `deny` job installs `cargo-deny` as a
+  prebuilt binary via `taiki-e/install-action` instead of the Docker-based
+  `cargo-deny-action`, removing a Docker Hub registry-pull timeout. Neither
+  change affects the checks performed.
 
 ## [0.8.0] - 2026-06-02
 
