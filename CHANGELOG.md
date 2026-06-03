@@ -18,6 +18,17 @@ breaking changes are called out explicitly.
   published crate); see `tests/fixtures/igs/NOTICE`.
 
 ### Added
+- **RINEX observation-file parser.** New `rinex_obs` module reads the RINEX 3.0x /
+  4.00 *observation* file — the receiver's actual measurements — completing the
+  RINEX pair alongside the existing navigation-message parser. `parse_obs` decodes
+  the header (version/type, the per-system `SYS / # / OBS TYPES` lists with
+  continuation lines, approximate position, interval, time of first observation)
+  and each epoch's per-satellite records: pseudorange, carrier phase, Doppler, and
+  signal strength, keyed by their RINEX 3 observation code (`C1C`, `L1C`, …) with
+  the loss-of-lock (LLI) and signal-strength (SSI) flags, a blank field preserved
+  as absent rather than zero. Honest scope: this is the standards-format *ingest*
+  (a real RTKLIB/gLAB/IGS-station observation log in, typed measurements out), not
+  a positioning engine — no pseudorange solution, PPP, or RTK here.
 - **CCSDS OEM (Orbit Ephemeris Message) writer.** New `oem` module exports a
   propagated constellation as a valid CCSDS 502.0-B OEM 2.0 message —
   the KVN ephemeris format GMAT, Orekit, STK, and most flight-dynamics tools
