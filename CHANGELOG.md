@@ -9,6 +9,16 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+- **RINEX broadcast ephemeris as a propagation source.** A parsed
+  `RinexEphemeris` now converts to an `orbit::Propagator` (`Propagator::Rinex`):
+  position is the IS-GPS-200 broadcast orbit rotated from ECEF into the shared
+  TEME inertial frame (`sv_position_teme`, with leap-second-correct GPS→UT1 time),
+  velocity by central finite difference, and the Keplerian orbital period. Real
+  GPS broadcast data can now drive the same geometry, visibility, and integrity
+  (RAIM) pipeline as the analytic SGP4/Keplerian propagators. (Not yet exposed as
+  a RINEX-file scenario kind — that and multi-GNSS/SP3 are next.)
+
 ## [0.9.2] - 2026-06-03
 
 ### Added
