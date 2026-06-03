@@ -10,6 +10,13 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **RINEX broadcast ephemeris as a runnable constellation source.** A
+  constellation now accepts an inline `rinex` block (RINEX 3 GPS navigation
+  text) alongside the existing `tle` option, so a real broadcast file drives a
+  scenario end-to-end from the CLI, Python, or the in-browser playground — RINEX
+  in, PNT geometry out. New `scenarios/orbit-rinex.toml` demonstrates GNSS
+  availability and DOP from eight GPS satellites built straight from broadcast
+  records. (GPS LNAV only; multi-GNSS and SP3 are next.)
 - **RINEX broadcast ephemeris as a propagation source.** A parsed
   `RinexEphemeris` now converts to an `orbit::Propagator` (`Propagator::Rinex`):
   position is the IS-GPS-200 broadcast orbit rotated from ECEF into the shared
