@@ -231,7 +231,19 @@ impl Orbit {
 pub enum Propagator {
     Kepler(Orbit),
     Sgp4(Box<crate::sgp4::Sgp4>),
+    /// A GPS satellite driven by a broadcast ephemeris parsed from a RINEX
+    /// navigation file. Time `t` (s) is measured from the ephemeris reference
+    /// time `Toe`; position comes from the IS-GPS-200 user algorithm in ECEF,
+    /// rotated into the shared TEME inertial frame. This lets real broadcast
+    /// data flow through the same geometry/visibility/integrity pipeline as the
+    /// analytic propagators.
+    Rinex(Box<crate::rinex::RinexEphemeris>),
 }
+
+/// Time step (s) used to finite-difference a [`Propagator::Rinex`] position into
+/// a velocity: the broadcast ephemeris gives position only. A one-second central
+/// difference resolves the ~3.9 km/s orbital velocity to better than a mm/s.
+const RINEX_VEL_DT_S: f64 = 1.0;
 
 /// Full inertial state of a propagated body at one instant: position (m) and
 /// velocity (m/s) in the same Earth-centred inertial frame as [`Propagator::position_eci`].
@@ -258,12 +270,15 @@ impl Propagator {
                 Ok((r_km, _v)) => [r_km[0] * 1000.0, r_km[1] * 1000.0, r_km[2] * 1000.0],
                 Err(_) => [0.0, 0.0, 0.0],
             },
+            Propagator::Rinex(e) => e.sv_position_teme(e.toe + t),
         }
     }
 
     /// Inertial velocity (m/s) at time `t` (s). For an SGP4 satellite this is the
     /// analytic TEME velocity the propagator already computes (previously
-    /// discarded); a propagation error returns zero.
+    /// discarded); a propagation error returns zero. A RINEX satellite has no
+    /// analytic velocity, so it is recovered by a central finite difference of
+    /// the inertial position.
     pub fn velocity_eci(&self, t: f64) -> Vec3 {
         match self {
             Propagator::Kepler(o) => o.velocity_eci(t),
@@ -271,6 +286,15 @@ impl Propagator {
                 Ok((_r, v_km_s)) => [v_km_s[0] * 1000.0, v_km_s[1] * 1000.0, v_km_s[2] * 1000.0],
                 Err(_) => [0.0, 0.0, 0.0],
             },
+            Propagator::Rinex(e) => {
+                let ahead = e.sv_position_teme(e.toe + t + RINEX_VEL_DT_S);
+                let behind = e.sv_position_teme(e.toe + t - RINEX_VEL_DT_S);
+                [
+                    (ahead[0] - behind[0]) / (2.0 * RINEX_VEL_DT_S),
+                    (ahead[1] - behind[1]) / (2.0 * RINEX_VEL_DT_S),
+                    (ahead[2] - behind[2]) / (2.0 * RINEX_VEL_DT_S),
+                ]
+            }
         }
     }
 
@@ -293,6 +317,10 @@ impl Propagator {
                     v_m_s: [0.0, 0.0, 0.0],
                 },
             },
+            Propagator::Rinex(_) => StateEci {
+                r_m: self.position_eci(t),
+                v_m_s: self.velocity_eci(t),
+            },
         }
     }
 
@@ -301,6 +329,7 @@ impl Propagator {
         match self {
             Propagator::Kepler(o) => o.period_s(),
             Propagator::Sgp4(s) => s.period_s(),
+            Propagator::Rinex(e) => e.orbital_period_s(),
         }
     }
 }
@@ -308,6 +337,12 @@ impl Propagator {
 impl From<Orbit> for Propagator {
     fn from(o: Orbit) -> Self {
         Propagator::Kepler(o)
+    }
+}
+
+impl From<crate::rinex::RinexEphemeris> for Propagator {
+    fn from(e: crate::rinex::RinexEphemeris) -> Self {
+        Propagator::Rinex(Box::new(e))
     }
 }
 
@@ -807,6 +842,68 @@ mod tests {
         let s = p.state_eci(500.0);
         assert_eq!(s.r_m, p.position_eci(500.0));
         assert_eq!(s.v_m_s, p.velocity_eci(500.0));
+    }
+
+    // A minimal RINEX 3 GPS navigation file (Toe = 172 800 s, GPS week 2244),
+    // reused from the parser's own fixture, to drive a Propagator::Rinex.
+    const RINEX_SAMPLE: &str = "\
+     3.04           N: GNSS NAV DATA    G: GPS              RINEX VERSION / TYPE
+                                                            END OF HEADER
+G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
+     6.500000000000D+01-1.234375000000D+01 4.567890123456D-09-1.234567890123D+00
+    -6.146728992462D-07 1.234567890123D-02 7.430091500282D-06 5.153679868698D+03
+     1.728000000000D+05 1.117587089539D-08-1.234567890123D+00 7.450580596924D-09
+     9.876543210987D-01 2.612500000000D+02 5.678901234567D-01-8.123456789012D-09
+    -2.345678901234D-10 1.000000000000D+00 2.244000000000D+03 0.000000000000D+00
+     2.000000000000D+00 0.000000000000D+00-1.117587089539D-08 6.500000000000D+01
+     1.674000000000D+05 4.000000000000D+00 0.000000000000D+00 0.000000000000D+00";
+
+    fn rinex_propagator() -> Propagator {
+        crate::rinex::parse_nav(RINEX_SAMPLE).unwrap()[0].into()
+    }
+
+    #[test]
+    fn rinex_propagator_position_is_a_gps_orbit_in_eci() {
+        // At t = 0 (the ephemeris reference time Toe) the inertial position must
+        // be the TEME rotation of the broadcast ECEF position, at GPS radius.
+        let p = rinex_propagator();
+        let eph = &crate::rinex::parse_nav(RINEX_SAMPLE).unwrap()[0];
+        assert_eq!(p.position_eci(0.0), eph.sv_position_teme(eph.toe));
+        let r = norm(p.position_eci(0.0));
+        assert!((r - 26_560_000.0).abs() < 600_000.0, "r = {r:.0} m");
+    }
+
+    #[test]
+    fn rinex_propagator_velocity_is_a_gps_orbital_speed() {
+        // A GPS satellite's inertial speed is ~3.9 km/s, and the velocity is
+        // nearly perpendicular to the radius (small radial term from e ≈ 0.012).
+        let p = rinex_propagator();
+        let r = p.position_eci(0.0);
+        let v = p.velocity_eci(0.0);
+        let speed = norm(v);
+        assert!(
+            (3.0e3..4.5e3).contains(&speed),
+            "inertial speed {speed:.1} m/s"
+        );
+        let cos_angle = dot(r, v).abs() / (norm(r) * speed);
+        assert!(
+            cos_angle < 0.2,
+            "r·v not near-perpendicular: cos = {cos_angle:.3}"
+        );
+    }
+
+    #[test]
+    fn rinex_propagator_state_eci_matches_accessors_and_period() {
+        let p = rinex_propagator();
+        let s = p.state_eci(300.0);
+        assert_eq!(s.r_m, p.position_eci(300.0));
+        assert_eq!(s.v_m_s, p.velocity_eci(300.0));
+        // ~11 h 58 m GPS period.
+        assert!(
+            (4.2e4..4.4e4).contains(&p.period_s()),
+            "period {} s",
+            p.period_s()
+        );
     }
 
     #[test]
