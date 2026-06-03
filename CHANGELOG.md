@@ -9,6 +9,14 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.9.0] - 2026-06-03
+
+This release adds three substantial capability areas on top of the 0.8.0 SGP4
+substrate: a genuine three-axis strapdown INS, a loosely-coupled GNSS/INS
+error-state EKF with closed-loop feedback, real snapshot and solution-separation
+(ARAIM-style) RAIM with HPL/VPL and a runnable `integrity` scenario, and the first
+step of GNSS-format interoperability (RINEX-3 GPS ephemeris ingestion).
+
 ### Added
 - **RINEX 3 GPS navigation-message parser (`src/rinex.rs`).** First step toward
   GNSS-format interoperability: `parse_nav` reads a RINEX 3.x navigation file and
