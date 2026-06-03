@@ -43,10 +43,10 @@ the number is an analytic bound for a given clock, not an RAIM implementation, a
 it is meaningful only in the context of a configured spoofing scenario (see the
 `spoof` scenario kind, which injects an actual ramping attack).
 
-## Real snapshot RAIM (`src/raim.rs`)
+## Real snapshot, solution-separation, and ARAIM RAIM (`src/raim.rs`)
 
-A genuine, position-domain snapshot RAIM is now implemented in `src/raim.rs`,
-separate from the self-consistency FoM above:
+A genuine, position-domain RAIM is implemented in `src/raim.rs`, separate from the
+self-consistency FoM above:
 
 - **Multi-satellite residual monitoring** — it builds the line-of-sight geometry
   matrix to the visible satellites, forms the least-squares position/clock
@@ -58,19 +58,38 @@ separate from the self-consistency FoM above:
   per-satellite position-error sensitivity from the hat matrix and `pbias` is the
   non-central-χ² bias that meets the configured missed-detection probability
   `P_md`.
+- **Solution-separation (MHSS) RAIM** — for the all-in-view solution and every
+  single-satellite exclusion sub-solution, the nested-estimator separation
+  `Δ_k = x_k − x₀` both **detects and identifies** the faulted satellite and feeds
+  the protection-level bound.
+- **ARAIM integrity-risk (P_HMI) budget** — `araim_raim` solves the smallest HPL/VPL
+  whose summed probability of hazardously-misleading information
+  `P_HMI = Σ_k p_fault,k · Q((PL − T_k)/σ_k)` (Blanch et al., *Baseline ARAIM*) meets
+  an explicit integrity-risk allocation, and reports the risk the levels achieve — so
+  integrity can be traded against the alert limit directly, instead of leaving it
+  implicit in a fixed `K_md` multiplier.
+- **Stanford(-ESA) integrity diagram** — a per-epoch accumulator classifies
+  `(error, PL)` into Available / System-Unavailable / Misleading / Hazardously-
+  Misleading regions for an availability summary.
+- **Reachable end-to-end** — the `integrity` scenario kind runs the above over an
+  SGP4/Keplerian constellation and emits a per-epoch HPL/VPL availability map against
+  the configured alert limits (`scenarios/integrity-raim.toml`).
 
 ## The remaining gap (roadmap)
 
 What `raim.rs` does **not** yet do:
 
-- it is **not wired into the scenario pipeline FoM** — a scenario run still reports
+- it is **not folded into the clock/holdover scenario FoM** — those packs still report
   the filter self-consistency Integrity figure above, not an HPL/VPL;
-- **fault exclusion (FDE)** beyond detection, and **alert-limit / P_HMI** budgeting;
-- **ARAIM** multi-hypothesis integrity-risk allocation and the ISM / threat model.
+- the ARAIM budget is **single-fault MHSS** — simultaneous **multi-SV-subset faults**,
+  the **constellation-wide fault mode**, and a real **ISM / threat model** are not
+  modelled, and **fault exclusion (FDE)** stops at identification;
+- it is validated on **synthetic geometry only** — no public reference (gLAB) dataset
+  cross-check yet.
 
-So `raim.rs` is the real protection-level core, but the end-to-end scenario
-Integrity FoM and ARAIM-grade integrity risk are still roadmap items, and none of
-this is certification evidence.
+So `raim.rs` is a real protection-level and integrity-risk core, reachable from the
+`integrity` scenario kind, but multi-fault ARAIM, reference-dataset validation, and
+clock-FoM integration remain roadmap items, and none of this is certification evidence.
 
 ## See also
 

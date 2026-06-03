@@ -18,6 +18,20 @@ breaking changes are called out explicitly.
   published crate); see `tests/fixtures/igs/NOTICE`.
 
 ### Added
+- **ARAIM integrity-risk (P_HMI) budget for the protection levels.** `raim::araim_raim`
+  derives the horizontal and vertical protection levels from an explicit integrity-risk
+  budget rather than a fixed `K_md` multiplier: for the all-in-view solution and every
+  single-satellite exclusion sub-solution it builds the per-mode `(prior, detection
+  threshold, σ)` on each axis, then `araim_protection_level` solves the smallest PL whose
+  summed probability of hazardously-misleading information (`araim_integrity_risk`,
+  `P_HMI = Σ_k p_fault,k · Q((PL − T_k)/σ_k)`, Blanch et al. *Baseline ARAIM*) meets the
+  allocated `P_HMI`. The result reports the integrity risk the levels actually achieve, so
+  a user can trade integrity against the alert limit explicitly. Six hand-derived tests
+  (fault-free and thresholded single-mode closed forms, multi-mode summation/monotonicity,
+  end-to-end fault-free protection with a 10⁵× tighter budget raising the PL, fault
+  detection/identification, and the six-satellite redundancy floor). Single-fault MHSS is
+  the ARAIM baseline; simultaneous multi-SV-subset faults, the constellation-wide fault
+  mode, and gLAB reference-dataset validation are documented extensions.
 - **Two-speed coning/sculling compensation for the strapdown mechanization.**
   `inertial::mechanization::coning_sculling_compensate` folds the high-rate coning
   (attitude) and rotation+sculling (velocity) terms out of a coarse update's
