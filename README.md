@@ -259,8 +259,16 @@ Optional fields (off when absent): a clock may add `flicker_floor` (1/f FM Allan
 floor); an inertial sensor may add `gyro_bias` and `q_arw` (gyro bias and angular
 random walk), and `bias_instability` and `q_aa` (the Allan bias-instability floor and
 acceleration random walk) — together a **single-axis (1-DOF) accelerometer error
-budget** (VRW/ARW and bias-instability), *not* a 3-axis IMU triad: scale-factor,
-misalignment, g-sensitivity, and cross-axis coupling are not modelled. A
+budget** (VRW/ARW and bias-instability). This is the error budget the shipped
+`inertial` scenario *pack* runs. Separately, the library now carries a verified
+**3-axis strapdown navigator** (`src/inertial/{attitude,mechanization,imu_errors}.rs`):
+quaternion attitude with coning/sculling compensation, a full NED mechanization
+(Earth-rate and transport-rate terms, WGS-84 Somigliana gravity), and a
+deterministic IMU error model in which **scale-factor, misalignment,
+g-sensitivity, quantization, and rate-ramp are modelled** (IEEE Std 952-1997
+§A.2; Groves 2013 §4.3). That 3-axis path is **not yet wired into the scenario
+pack/FoM** — switching the pack over, with a loosely-coupled GNSS/INS filter, is
+the next inertial milestone. A
 clock-holdover scenario may add `runs` (> 1) to run a **Monte Carlo ensemble** — each
 figure of merit is then reported as a mean with a 5th–95th-percentile spread and the
 chart shades the error confidence band (see `scenarios/clock-ensemble.toml`).
