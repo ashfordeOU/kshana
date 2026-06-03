@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Kshana">
+  <title>Kshana — the precise instant</title>
+  <defs>
+    <linearGradient id="kgrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5cb8d6"/>
+      <stop offset="1" stop-color="#84d2ea"/>
+    </linearGradient>
+  </defs>
+  <!-- Graduated precision bezel: the instrument / orbit. -->
+  <circle cx="32" cy="36" r="24" fill="none" stroke="#46586f" stroke-width="2.6"
+          stroke-dasharray="0.6 4.4" stroke-linecap="round"/>
+  <!-- Shirorekha — the Devanagari top bar the mark hangs from. -->
+  <line x1="9" y1="14" x2="55" y2="14" stroke="url(#kgrad)" stroke-width="4.2" stroke-linecap="round"/>
+  <!-- The precise instant: a plumb tick from the bar to the fix. -->
+  <line x1="32" y1="14" x2="32" y2="36" stroke="#5cb8d6" stroke-width="2.6"/>
+  <!-- Resonance ring. -->
+  <circle cx="32" cy="36" r="12.5" fill="none" stroke="url(#kgrad)" stroke-width="2.6"/>
+  <!-- Crosshair fix ticks. -->
+  <g stroke="#7f8ea1" stroke-width="1.8" stroke-linecap="round">
+    <line x1="32" y1="49.5" x2="32" y2="53"/>
+    <line x1="15" y1="36" x2="18.5" y2="36"/>
+    <line x1="45.5" y1="36" x2="49" y2="36"/>
+  </g>
+  <!-- The instant: the luminous core. -->
+  <circle cx="32" cy="36" r="4.4" fill="#84d2ea"/>
+</svg>
