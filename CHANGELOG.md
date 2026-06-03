@@ -9,6 +9,14 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Changed
+- **Real-data validation.** The multi-GNSS RINEX navigation parser, the GLONASS
+  RK4 propagator, and the SP3 reader are now exercised against genuine IGS/DLR
+  files (a real RINEX 3 mixed broadcast nav file and an IGS SP3-c orbit product),
+  not only self-authored samples — asserting non-empty satellite sets and finite,
+  physically-sized ECEF positions. The fixtures are test-only (excluded from the
+  published crate); see `tests/fixtures/igs/NOTICE`.
+
 ### Added
 - **SP3 precise ephemeris as a propagation source.** `Sp3File::interpolator`
   builds a per-satellite `Sp3Interpolator` that fills the position between the

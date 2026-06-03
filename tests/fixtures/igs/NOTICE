@@ -1,0 +1,24 @@
+Real GNSS data fixtures
+=======================
+
+These two files are genuine GNSS data, included so the parsers are validated
+against real broadcast/precise products rather than only self-authored samples
+(see tests/igs_real_data.rs). They are not part of the Kshana source and are not
+shipped in the published crates/packages — they exist only for the test suite.
+
+BRDM00DLR_R_20130010000_01D_MN.rnx
+  A RINEX 3.02 mixed (multi-GNSS) broadcast navigation file for 2013-01-01,
+  produced by the DLR/TUM CONGO + IGS MGEX tracking effort
+  (O. Montenbruck, DLR; P. Steigenberger, TUM). GNSS broadcast ephemerides are
+  open data distributed by the International GNSS Service (IGS).
+
+igs_sample.sp3
+  A RINEX/SP3-c precise-orbit excerpt for 2017-02-14 (IGS14 frame), the first
+  epoch of an IGS combined orbit product. The second epoch is truncated; the
+  file exercises the SP3 reader. IGS products are openly available.
+
+Both files were obtained from the test corpus of the georinex project
+(https://github.com/geospace-code/georinex, BSD-3-Clause, M. Hirsch), which
+redistributes them for testing. The underlying data are the property of, and
+courtesy of, the IGS and the contributing analysis centres (DLR/TUM). See
+https://igs.org for the IGS data and product use terms.
