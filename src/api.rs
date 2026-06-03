@@ -362,6 +362,18 @@ mod tests {
     }
 
     #[test]
+    fn rinex_constellation_scenario_runs_end_to_end() {
+        // A real RINEX 3 broadcast-ephemeris block drives an orbit scenario from
+        // the same entry point the CLI/Python/wasm bindings use: RINEX in, PNT
+        // geometry out.
+        let out = run_toml(include_str!("../scenarios/orbit-rinex.toml"))
+            .expect("rinex constellation scenario runs");
+        assert!(out.summary.contains("GNSS-nominal"));
+        assert!(out.json.contains("\"geometry\"") && out.json.contains("best_pdop"));
+        assert!(out.svg.starts_with("<svg"));
+    }
+
+    #[test]
     fn invalid_scenario_is_an_error() {
         assert!(run_toml("kind = \"orbit\"\nnot_valid = true").is_err());
     }

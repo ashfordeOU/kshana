@@ -1305,6 +1305,7 @@ mod tests {
             sats_per_plane: 4,
             phasing_f: 1.0,
             tle: None,
+            rinex: None,
             strict_checksum: false,
         };
         let gnss = cons.satellites().expect("constellation builds");

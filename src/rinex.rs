@@ -24,9 +24,9 @@
 //! pipeline as the analytic propagators.
 //!
 //! Scope (this stage): the GPS (`G`) LNAV ephemeris block. Galileo F/I-NAV,
-//! BeiDou, and GLONASS records, SP3 precise ephemerides, and a RINEX-file
-//! scenario kind are the next steps. Records for other systems are skipped,
-//! not rejected, so a mixed-constellation file still yields its GPS ephemerides.
+//! BeiDou, and GLONASS records, and SP3 precise ephemerides are the next steps.
+//! Records for other systems are skipped, not rejected, so a mixed-constellation
+//! file still yields its GPS ephemerides.
 
 /// A calendar epoch in UTC/GPS time, as carried in a RINEX record (the clock
 /// reference time `Toc`).
