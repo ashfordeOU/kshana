@@ -19,6 +19,7 @@ pub mod python;
 pub mod raim;
 pub mod report;
 pub mod rinex;
+pub mod rinex_obs;
 pub mod run;
 pub mod scenario;
 pub mod security;
