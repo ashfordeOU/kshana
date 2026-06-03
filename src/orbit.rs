@@ -943,6 +943,32 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
     }
 
     #[test]
+    fn constellation_from_mixed_gps_and_galileo_rinex() {
+        // A multi-GNSS RINEX block (one GPS + one Galileo record) builds a
+        // constellation containing both — Galileo now flows through the same
+        // pipeline as GPS.
+        let galileo = RINEX_SAMPLE
+            .replace("G01 2023 01 01 00 00 00", "E11 2023 01 01 00 00 00")
+            .replace("5.153679868698D+03", "5.440611572266D+03");
+        // Append the Galileo record (its 8 data lines) after the GPS one.
+        let gal_record = galileo.lines().skip(2).collect::<Vec<_>>().join("\n");
+        let mixed = format!("{RINEX_SAMPLE}\n{gal_record}");
+        let cfg = ConstellationCfg {
+            altitude_km: 0.0,
+            inclination_deg: 0.0,
+            planes: 0,
+            sats_per_plane: 0,
+            phasing_f: 0.0,
+            tle: None,
+            rinex: Some(mixed),
+            strict_checksum: false,
+        };
+        let sats = cfg.satellites().expect("mixed constellation builds");
+        assert_eq!(sats.len(), 2);
+        assert!(sats.iter().all(|s| matches!(s, Propagator::Rinex(_))));
+    }
+
+    #[test]
     fn constellation_rejects_a_rinex_block_with_no_gps_ephemerides() {
         let cfg = ConstellationCfg {
             altitude_km: 0.0,

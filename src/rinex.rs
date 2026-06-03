@@ -6,12 +6,14 @@
 //! Being able to ingest it is what lets this engine sit alongside RTKLIB, gLAB,
 //! and the IGS archives rather than in a synthetic-only silo.
 //!
-//! This module parses RINEX 3.x GPS navigation records — the broadcast ephemeris
-//! a satellite transmits — into a [`RinexEphemeris`] of Keplerian elements and
-//! clock corrections, following the field layout in the RINEX 3.04 specification
-//! (IGS/RTCM) and the GPS interface specification IS-GPS-200 for the parameter
-//! meanings. The numeric fields use the Fortran `D`-exponent floating format
-//! (e.g. `-1.234567890123D-09`), handled by [`parse_d`].
+//! This module parses RINEX 3.x GPS and Galileo navigation records — the
+//! broadcast ephemeris a satellite transmits — into a [`RinexEphemeris`] of
+//! Keplerian elements and clock corrections, following the field layout in the
+//! RINEX 3.04 specification (IGS/RTCM) and the GPS interface specification
+//! IS-GPS-200 for the parameter meanings (Galileo's OS SIS ICD shares the same
+//! layout and user algorithm, with its own gravitational constant). The numeric
+//! fields use the Fortran `D`-exponent floating format (e.g. `-1.234567890123D-09`),
+//! handled by [`parse_d`].
 //!
 //! From a parsed [`RinexEphemeris`] this evaluates the satellite's ECEF position
 //! ([`RinexEphemeris::sv_position_ecef`], IS-GPS-200 §20.3.3.4.3.1) and its clock
@@ -23,10 +25,12 @@
 //! real broadcast file can drive the same geometry, visibility, and integrity
 //! pipeline as the analytic propagators.
 //!
-//! Scope (this stage): the GPS (`G`) LNAV ephemeris block. Galileo F/I-NAV,
-//! BeiDou, and GLONASS records are the next steps (SP3 precise ephemerides are
-//! read by [`crate::sp3`]). Records for other systems are skipped, not rejected,
-//! so a mixed-constellation file still yields its GPS ephemerides.
+//! Scope (this stage): the GPS (`G`) LNAV and Galileo (`E`) F/I-NAV Keplerian
+//! ephemeris blocks. BeiDou/QZSS/IRNSS (also Keplerian) and GLONASS (a
+//! state-vector model) are the next steps (SP3 precise ephemerides are read by
+//! [`crate::sp3`]). Records for other systems are skipped using their own line
+//! count, not rejected, so a mixed-constellation file still yields its GPS and
+//! Galileo ephemerides.
 
 /// A calendar epoch in UTC/GPS time, as carried in a RINEX record (the clock
 /// reference time `Toc`).
@@ -40,14 +44,15 @@ pub struct EpochUtc {
     pub second: f64,
 }
 
-/// A GPS broadcast ephemeris parsed from one RINEX 3 navigation record. Field
-/// names follow IS-GPS-200 (angles in radians, distances in metres, times in
-/// seconds, `sqrt_a` in √m). The eight source lines map to these as: the SV/epoch
-/// line carries the PRN, `Toc`, and the three clock polynomial terms; the seven
-/// `BROADCAST ORBIT` lines carry the rest in order.
+/// A GPS or Galileo broadcast ephemeris parsed from one RINEX 3 navigation
+/// record. Field names follow IS-GPS-200 (angles in radians, distances in metres,
+/// times in seconds, `sqrt_a` in √m); Galileo's fields map to the same slots. The
+/// eight source lines map to these as: the SV/epoch line carries the PRN, `Toc`,
+/// and the three clock polynomial terms; the seven `BROADCAST ORBIT` lines carry
+/// the rest in order.
 #[derive(Clone, Copy, Debug)]
 pub struct RinexEphemeris {
-    /// Satellite system identifier (`'G'` for GPS).
+    /// Satellite system identifier (`'G'` for GPS, `'E'` for Galileo).
     pub system: char,
     /// PRN number within the system.
     pub prn: u8,
@@ -148,10 +153,32 @@ fn orbit_fields(line: &str) -> Result<[f64; 4], String> {
     ])
 }
 
-/// Parse all GPS ephemerides from a RINEX 3 navigation file. The header (up to
-/// and including the `END OF HEADER` line) is skipped; each GPS record is eight
-/// lines (one SV/epoch line plus seven orbit lines). Records for other satellite
-/// systems are skipped along with their orbit lines.
+/// The number of lines one navigation record occupies for satellite system
+/// `system`: GLONASS (`R`) and SBAS (`S`) carry a state-vector ephemeris in
+/// four lines (epoch + three orbit lines); the Keplerian systems (GPS, Galileo,
+/// BeiDou, QZSS, IRNSS) use eight (epoch + seven). Getting this right is what
+/// lets a mixed-constellation file be walked record by record.
+fn record_lines(system: char) -> usize {
+    match system {
+        'R' | 'S' => 4,
+        _ => 8,
+    }
+}
+
+/// Whether this stage decodes `system` into a [`RinexEphemeris`]. GPS (`G`) and
+/// Galileo (`E`) share the same Keplerian broadcast layout and user algorithm and
+/// are parsed; other systems are skipped (by [`record_lines`]) but not rejected.
+/// BeiDou/QZSS/IRNSS (also Keplerian) and GLONASS (a state-vector model) are next.
+fn is_parsed_system(system: char) -> bool {
+    matches!(system, 'G' | 'E')
+}
+
+/// Parse the GPS and Galileo broadcast ephemerides from a RINEX 3 navigation
+/// file. The header (up to and including the `END OF HEADER` line) is skipped;
+/// each Keplerian record is eight lines (one SV/epoch line plus seven orbit
+/// lines). Records for other systems are walked over using their own line count
+/// (GLONASS/SBAS are four lines), so a mixed-constellation file still yields its
+/// GPS and Galileo ephemerides.
 pub fn parse_nav(text: &str) -> Result<Vec<RinexEphemeris>, String> {
     let lines: Vec<&str> = text.lines().collect();
     // Find the end of the header.
@@ -171,13 +198,14 @@ pub fn parse_nav(text: &str) -> Result<Vec<RinexEphemeris>, String> {
             continue;
         }
         let system = head.chars().next().unwrap_or(' ');
-        // A record is the epoch line plus seven orbit lines.
-        if i + 7 >= lines.len() {
+        let nlines = record_lines(system);
+        // An incomplete trailing record cannot be read.
+        if i + nlines > lines.len() {
             break;
         }
-        if system != 'G' {
-            // Skip this record (all eight lines) without parsing.
-            i += 8;
+        if !is_parsed_system(system) {
+            // Skip this record (its own line count) without parsing.
+            i += nlines;
             continue;
         }
         let prn: u8 = col(head, 1, 3)
@@ -235,7 +263,7 @@ pub fn parse_nav(text: &str) -> Result<Vec<RinexEphemeris>, String> {
             iodc: l6[3],
             trans_time: l7[0],
         });
-        i += 8;
+        i += nlines;
     }
     Ok(out)
 }
@@ -244,7 +272,13 @@ pub fn parse_nav(text: &str) -> Result<Vec<RinexEphemeris>, String> {
 /// IS-GPS-200 for broadcast-ephemeris evaluation (subtly different from the
 /// WGS-84 `GM`).
 const MU_GPS: f64 = 3.986_005e14;
-/// WGS-84 Earth rotation rate `Ω̇ₑ` (rad/s), per IS-GPS-200.
+/// Galileo gravitational constant `μ` (m³/s²), per the Galileo OS SIS ICD (the
+/// GTRF/WGS-84 `GM`). It differs from the GPS value at the ninth significant
+/// figure — a metre-level position effect at the edge of the validity window, so
+/// Galileo ephemerides are evaluated with their own constant.
+const MU_GAL: f64 = 3.986_004_418e14;
+/// WGS-84 Earth rotation rate `Ω̇ₑ` (rad/s), per IS-GPS-200. Galileo specifies the
+/// identical value, so the Earth-fixed rotation is shared across both systems.
 const OMEGA_E_DOT: f64 = 7.292_115_146_7e-5;
 /// Relativistic clock-correction constant `F = −2√μ/c²` (s/√m), IS-GPS-200.
 const F_REL: f64 = -4.442_807_633e-10;
@@ -276,12 +310,21 @@ impl RinexEphemeris {
         self.sqrt_a * self.sqrt_a
     }
 
+    /// The gravitational constant `μ` (m³/s²) this satellite's broadcast
+    /// algorithm uses: the Galileo value for `E`, the GPS value otherwise.
+    fn gravitational_parameter(&self) -> f64 {
+        match self.system {
+            'E' => MU_GAL,
+            _ => MU_GPS,
+        }
+    }
+
     /// Time from the ephemeris reference epoch `Toe` (s), folded for week
     /// rollover, and the eccentric anomaly `Ek` at GPS time-of-week `t_tow_s` —
     /// the shared core of the position and clock evaluations.
     fn tk_and_eccentric_anomaly(&self, t_tow_s: f64) -> (f64, f64) {
         let a = self.semi_major_axis();
-        let n0 = (MU_GPS / (a * a * a)).sqrt();
+        let n0 = (self.gravitational_parameter() / (a * a * a)).sqrt();
         let mut tk = t_tow_s - self.toe;
         if tk > 302_400.0 {
             tk -= 604_800.0;
@@ -373,7 +416,7 @@ impl RinexEphemeris {
     /// `2π·√(A³/μ)` with the IS-GPS-200 gravitational constant.
     pub fn orbital_period_s(&self) -> f64 {
         let a = self.semi_major_axis();
-        std::f64::consts::TAU * (a * a * a / MU_GPS).sqrt()
+        std::f64::consts::TAU * (a * a * a / self.gravitational_parameter()).sqrt()
     }
 }
 
@@ -434,20 +477,46 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
     }
 
     #[test]
-    fn skips_non_gps_systems() {
-        // Prefix a Galileo record (which this stage does not decode) before the
-        // GPS one; only the GPS ephemeris should come back.
+    fn skips_glonass_with_its_own_record_length() {
+        // A GLONASS ('R') record is only four lines, not eight. The parser must
+        // skip exactly four so the GPS record that follows still parses — a
+        // record-length bug here would mis-frame everything after it.
+        let glonass = "R01 2023 01 01 00 00 00 0.0D+00 0.0D+00 0.0D+00\n     \
+0.0D+00 0.0D+00 0.0D+00 0.0D+00\n     0.0D+00 0.0D+00 0.0D+00 0.0D+00\n     \
+0.0D+00 0.0D+00 0.0D+00 0.0D+00";
         let mixed = SAMPLE.replace(
             "G01 2023 01 01 00 00 00",
-            "E11 2023 01 01 00 00 00 0.0D+00 0.0D+00 0.0D+00\n     \
-0.0D+00 0.0D+00 0.0D+00 0.0D+00\n     0.0D+00 0.0D+00 0.0D+00 0.0D+00\n     \
-0.0D+00 0.0D+00 0.0D+00 0.0D+00\n     0.0D+00 0.0D+00 0.0D+00 0.0D+00\n     \
-0.0D+00 0.0D+00 0.0D+00 0.0D+00\n     0.0D+00 0.0D+00 0.0D+00 0.0D+00\n     \
-0.0D+00 0.0D+00 0.0D+00 0.0D+00\nG01 2023 01 01 00 00 00",
+            &format!("{glonass}\nG01 2023 01 01 00 00 00"),
         );
         let ephs = parse_nav(&mixed).expect("parses");
         assert_eq!(ephs.len(), 1);
         assert_eq!(ephs[0].system, 'G');
+    }
+
+    #[test]
+    fn parses_a_galileo_ephemeris() {
+        // Galileo ('E') shares the GPS Keplerian layout. Re-label the sample as a
+        // Galileo satellite and give it a Galileo-sized semi-major axis; it must
+        // parse and propagate to the Galileo MEO radius (~29 600 km).
+        let gal = SAMPLE
+            .replace("G01 2023 01 01 00 00 00", "E11 2023 01 01 00 00 00")
+            .replace("5.153679868698D+03", "5.440611572266D+03");
+        let ephs = parse_nav(&gal).expect("parses");
+        assert_eq!(ephs.len(), 1);
+        assert_eq!(ephs[0].system, 'E');
+        assert_eq!(ephs[0].prn, 11);
+        let p = ephs[0].sv_position_ecef(ephs[0].toe);
+        let r = (p[0] * p[0] + p[1] * p[1] + p[2] * p[2]).sqrt();
+        assert!(
+            (r - 29_600_000.0).abs() < 800_000.0,
+            "Galileo radius {r:.0} m"
+        );
+        // The Galileo period is ~14 h (longer than GPS's ~12 h).
+        assert!(
+            (4.9e4..5.2e4).contains(&ephs[0].orbital_period_s()),
+            "period {} s",
+            ephs[0].orbital_period_s()
+        );
     }
 
     #[test]
