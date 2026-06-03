@@ -79,7 +79,9 @@
             </div>
           </div>
 
-          <!-- Living instrument — a slow orbital fix, drawn as the page settles. -->
+          <!-- Living instrument — Earth, an orbiting constellation, and a
+               positioning fix computed from satellite ranging. Drawn as the
+               page settles; honours prefers-reduced-motion. -->
           <div class="instrument" aria-hidden="true">
             <svg viewBox="0 0 360 360" class="inst-svg" role="presentation">
               <defs>
@@ -93,45 +95,124 @@
                   <stop offset="0.6" stop-color="#58aecb" stop-opacity="0.5" />
                   <stop offset="1" stop-color="#95d3e6" />
                 </linearGradient>
+                <!-- Earth: sunlit from the upper-left -->
+                <radialGradient id="earth-grad" cx="38%" cy="32%" r="72%">
+                  <stop offset="0" stop-color="#4a93ab" />
+                  <stop offset="0.42" stop-color="#235363" />
+                  <stop offset="0.78" stop-color="#12303c" />
+                  <stop offset="1" stop-color="#0a1d26" />
+                </radialGradient>
+                <linearGradient id="earth-night" x1="0.15" y1="0.05" x2="1" y2="1">
+                  <stop offset="0" stop-color="#060f14" stop-opacity="0" />
+                  <stop offset="0.58" stop-color="#060f14" stop-opacity="0" />
+                  <stop offset="1" stop-color="#040b0f" stop-opacity="0.7" />
+                </linearGradient>
+                <radialGradient id="earth-atmo" cx="50%" cy="50%" r="50%">
+                  <stop offset="0" stop-color="#58aecb" stop-opacity="0" />
+                  <stop offset="0.7" stop-color="#58aecb" stop-opacity="0" />
+                  <stop offset="0.8" stop-color="#7ec6de" stop-opacity="0.22" />
+                  <stop offset="1" stop-color="#58aecb" stop-opacity="0" />
+                </radialGradient>
                 <filter id="ig-glow" x="-50%" y="-50%" width="200%" height="200%">
                   <feGaussianBlur stdDeviation="2.4" result="b" />
                   <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
                 </filter>
+                <filter id="soft" x="-60%" y="-60%" width="220%" height="220%">
+                  <feGaussianBlur stdDeviation="2.4" />
+                </filter>
+                <clipPath id="earthClip"><circle cx="180" cy="180" r="38" /></clipPath>
               </defs>
 
-              <!-- graduated bezel -->
+              <!-- starfield -->
+              <g fill="#cdd6e0">
+                <circle cx="40" cy="60" r="0.8" opacity="0.5" />
+                <circle class="star-tw" style="animation-delay:0s" cx="312" cy="48" r="1" opacity="0.6" />
+                <circle cx="92" cy="40" r="0.7" opacity="0.4" />
+                <circle cx="330" cy="120" r="0.8" opacity="0.45" />
+                <circle class="star-tw" style="animation-delay:1.3s" cx="28" cy="150" r="1" opacity="0.55" />
+                <circle cx="56" cy="300" r="0.8" opacity="0.4" />
+                <circle class="star-tw" style="animation-delay:2.1s" cx="318" cy="286" r="1" opacity="0.6" />
+                <circle cx="300" cy="330" r="0.7" opacity="0.4" />
+                <circle cx="150" cy="26" r="0.7" opacity="0.4" />
+                <circle class="star-tw" style="animation-delay:0.8s" cx="240" cy="30" r="0.9" opacity="0.5" />
+                <circle cx="20" cy="230" r="0.7" opacity="0.4" />
+                <circle cx="344" cy="200" r="0.8" opacity="0.45" />
+                <circle class="star-tw" style="animation-delay:1.7s" cx="120" cy="332" r="0.9" opacity="0.5" />
+                <circle cx="208" cy="338" r="0.7" opacity="0.4" />
+              </g>
+
+              <!-- graduated bezel + crosshair reticle -->
               <circle class="inst-bezel" cx="180" cy="180" r="150" fill="none"
                       stroke="#33414f" stroke-width="1" stroke-dasharray="0.5 7.35" stroke-linecap="round" />
               <circle cx="180" cy="180" r="150" fill="none" stroke="var(--line-2)" stroke-width="1" opacity="0.5" />
-              <circle cx="180" cy="180" r="116" fill="none" stroke="var(--line)" stroke-width="1" />
-
-              <!-- crosshair reticle -->
               <g stroke="#3a4757" stroke-width="1">
                 <line x1="180" y1="22" x2="180" y2="58" /><line x1="180" y1="302" x2="180" y2="338" />
                 <line x1="22" y1="180" x2="58" y2="180" /><line x1="302" y1="180" x2="338" y2="180" />
               </g>
 
-              <!-- orbital ellipse (the path) -->
-              <ellipse cx="180" cy="180" rx="150" ry="74" fill="none"
-                       stroke="var(--line-2)" stroke-width="1" transform="rotate(-24 180 180)" />
+              <!-- three inclined orbital planes -->
+              <ellipse cx="180" cy="180" rx="150" ry="72" fill="none" stroke="var(--line-2)" stroke-width="1" transform="rotate(-24 180 180)" />
+              <ellipse cx="180" cy="180" rx="128" ry="92" fill="none" stroke="var(--line)" stroke-width="1" transform="rotate(22 180 180)" />
+              <ellipse cx="180" cy="180" rx="140" ry="48" fill="none" stroke="var(--line)" stroke-width="1" transform="rotate(-62 180 180)" />
               <!-- luminous traced arc, drawn on load -->
-              <ellipse class="inst-arc" cx="180" cy="180" rx="150" ry="74" fill="none"
+              <ellipse class="inst-arc" cx="180" cy="180" rx="150" ry="72" fill="none"
                        stroke="url(#ig-arc)" stroke-width="2.2" stroke-linecap="round"
                        transform="rotate(-24 180 180)" filter="url(#ig-glow)" />
 
-              <!-- inner resonance ring -->
-              <circle cx="180" cy="180" r="58" fill="none" stroke="var(--accent-line)" stroke-width="1.2" />
+              <!-- ranging links: signal pulses converging on the ground receiver -->
+              <g class="rng-base" stroke="#58aecb" stroke-width="1" opacity="0.16" fill="none">
+                <line x1="96" y1="120" x2="180" y2="146" /><line x1="284" y1="158" x2="180" y2="146" /><line x1="206" y1="298" x2="180" y2="146" />
+              </g>
+              <g stroke="#aee0f0" stroke-width="1.5" fill="none" stroke-linecap="round">
+                <path d="M96 120 L180 146" stroke-dasharray="5 600"><animate attributeName="stroke-dashoffset" from="0" to="-180" dur="2.4s" repeatCount="indefinite" /></path>
+                <path d="M284 158 L180 146" stroke-dasharray="5 600"><animate attributeName="stroke-dashoffset" from="0" to="-180" dur="2.4s" begin="0.8s" repeatCount="indefinite" /></path>
+                <path d="M206 298 L180 146" stroke-dasharray="5 600"><animate attributeName="stroke-dashoffset" from="0" to="-200" dur="2.6s" begin="1.5s" repeatCount="indefinite" /></path>
+              </g>
 
-              <!-- the fix: luminous core -->
-              <circle cx="180" cy="180" r="6.5" fill="url(#ig-core)" filter="url(#ig-glow)" />
-              <circle class="inst-pulse" cx="180" cy="180" r="6.5" fill="none"
-                      stroke="var(--accent)" stroke-width="1.4" />
+              <!-- Earth -->
+              <circle cx="180" cy="180" r="52" fill="url(#earth-atmo)" />
+              <circle cx="180" cy="180" r="38" fill="url(#earth-grad)" />
+              <g clip-path="url(#earthClip)">
+                <!-- rotating surface features -->
+                <g class="globe-spin" fill="#1c4d5d" opacity="0.5" filter="url(#soft)">
+                  <ellipse cx="168" cy="170" rx="11" ry="7" /><ellipse cx="192" cy="190" rx="8" ry="5" /><ellipse cx="158" cy="196" rx="6" ry="4" />
+                  <ellipse cx="244" cy="170" rx="11" ry="7" /><ellipse cx="268" cy="190" rx="8" ry="5" /><ellipse cx="234" cy="196" rx="6" ry="4" />
+                </g>
+                <!-- graticule -->
+                <g stroke="#2f6275" stroke-width="0.6" fill="none" opacity="0.45">
+                  <line x1="142" y1="180" x2="218" y2="180" />
+                  <ellipse cx="180" cy="180" rx="35" ry="13" /><ellipse cx="180" cy="180" rx="35" ry="26" />
+                </g>
+                <!-- night side -->
+                <circle cx="180" cy="180" r="38" fill="url(#earth-night)" />
+              </g>
+              <!-- sunlit atmosphere limb (upper-left) -->
+              <path d="M142 180 A38 38 0 0 1 180 142" fill="none" stroke="#9ed6e8" stroke-width="1.3" opacity="0.5" filter="url(#soft)" />
 
-              <!-- satellite riding the orbit -->
+              <!-- ground receiver: the fix -->
+              <circle class="inst-pulse" cx="180" cy="146" r="4" fill="none" stroke="var(--accent)" stroke-width="1.3" />
+              <circle cx="180" cy="146" r="3.2" fill="url(#ig-core)" filter="url(#ig-glow)" />
+              <g stroke="#bfe6f2" stroke-width="0.9" opacity="0.8">
+                <line x1="180" y1="138" x2="180" y2="133" /><line x1="180" y1="159" x2="180" y2="154" />
+                <line x1="172" y1="146" x2="167" y2="146" /><line x1="188" y1="146" x2="193" y2="146" />
+              </g>
+
+              <!-- in-view satellites being ranged -->
+              <g fill="#cdeef8" filter="url(#ig-glow)">
+                <circle cx="96" cy="120" r="2.8" /><circle cx="284" cy="158" r="2.8" /><circle cx="206" cy="298" r="2.8" />
+              </g>
+
+              <!-- moving constellation satellites -->
               <g transform="rotate(-24 180 180)">
-                <circle r="3.8" fill="#cdeef8" filter="url(#ig-glow)">
-                  <animateMotion dur="28s" repeatCount="indefinite" rotate="auto"
-                    path="M 30 180 a 150 74 0 1 0 300 0 a 150 74 0 1 0 -300 0" />
+                <circle r="3.2" fill="#dff1f8" filter="url(#ig-glow)">
+                  <animateMotion dur="30s" repeatCount="indefinite" rotate="auto"
+                    path="M 30 180 a 150 72 0 1 0 300 0 a 150 72 0 1 0 -300 0" />
+                </circle>
+              </g>
+              <g transform="rotate(22 180 180)">
+                <circle r="2.8" fill="#aee0f0" filter="url(#ig-glow)">
+                  <animateMotion dur="42s" repeatCount="indefinite" rotate="auto" keyPoints="1;0" keyTimes="0;1" calcMode="linear"
+                    path="M 52 180 a 128 92 0 1 0 256 0 a 128 92 0 1 0 -256 0" />
                 </circle>
               </g>
             </svg>

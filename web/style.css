@@ -293,6 +293,8 @@ h1, h2, h3 {
   transform-box: fill-box; transform-origin: center;
   animation: inst-pulse 3.6s ease-out infinite;
 }
+.globe-spin { animation: globe-rot 48s linear infinite; }
+.star-tw { animation: star-tw 4.5s ease-in-out infinite; }
 @keyframes inst-rotate { to { transform: rotate(360deg); } }
 @keyframes inst-draw { to { stroke-dashoffset: 0; } }
 @keyframes inst-pulse {
@@ -300,6 +302,8 @@ h1, h2, h3 {
   70%  { transform: scale(3.6); opacity: 0; }
   100% { transform: scale(3.6); opacity: 0; }
 }
+@keyframes globe-rot { to { transform: translateX(-76px); } }
+@keyframes star-tw { 0%, 100% { opacity: 0.18; } 50% { opacity: 0.72; } }
 
 @media (max-width: 900px) {
   .hero-grid { grid-template-columns: 1fr; }
@@ -307,7 +311,7 @@ h1, h2, h3 {
   .inst-svg { width: min(72%, 320px); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .inst-bezel, .inst-pulse { animation: none; }
+  .inst-bezel, .inst-pulse, .globe-spin, .star-tw { animation: none; }
   .inst-arc { animation: none; stroke-dashoffset: 0; }
 }
 
