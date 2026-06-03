@@ -10,6 +10,19 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **User-runnable `integrity` scenario kind (`scenarios/integrity-raim.toml`).**
+  The RAIM availability capability is now reachable from the CLI/TOML like every
+  other pack: `kind = "integrity"` parses an `IntegrityScenario` (user orbit, one
+  or more GNSS constellations, elevation mask, and the `(sigma, P_fa, P_md, AL_H,
+  AL_V)` integrity config), runs `constellation_raim_availability`, and emits the
+  per-epoch HPL/VPL availability map as JSON plus a self-contained SVG —
+  protection levels over time against the alert limits, with a green/red
+  availability strip. `kshana scenarios/integrity-raim.toml` writes the JSON, the
+  chart, and an HTML report. The bundled scenario (24-satellite Walker, 1 m
+  dual-frequency ranging, APV-I limits) reports ~95 % availability; it documents
+  that single-frequency RAIM does not meet the vertical APV-I limit on one
+  constellation, which is why vertical guidance uses SBAS/dual-frequency/ARAIM.
+  Tests cover the dispatch, the availability-map JSON, and the SVG.
 - **Runnable RAIM availability over a constellation (`src/raim.rs`).** The
   integrity module had no caller — `constellation_raim_availability` makes it a
   genuine end-to-end entry point: at each epoch on a time grid it propagates the

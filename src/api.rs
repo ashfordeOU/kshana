@@ -130,6 +130,28 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
                 summary,
             })
         }
+        "integrity" => {
+            let scn: crate::raim::IntegrityScenario =
+                toml::from_str(src).map_err(|e| format!("invalid integrity scenario: {e}"))?;
+            scn.time.validate()?;
+            let n_sats = scn.all_satellites()?.len();
+            let report = scn.run()?;
+            let summary = format!(
+                "integrity | {} satellites | {}/{} epochs available ({:.1}%) | HAL {:.0} m VAL {:.0} m | sigma {:.1} m",
+                n_sats,
+                report.samples_available,
+                report.samples_total,
+                report.availability() * 100.0,
+                report.al_h_m,
+                report.al_v_m,
+                scn.sigma_uere_m,
+            );
+            Ok(RunOutput {
+                json: json_of(&report),
+                svg: crate::raim::availability_svg(&report),
+                summary,
+            })
+        }
         "timetransfer" => {
             let scn: crate::timetransfer::TimeTransferScenario =
                 toml::from_str(src).map_err(|e| format!("invalid time-transfer scenario: {e}"))?;
@@ -317,12 +339,26 @@ mod tests {
             include_str!("../scenarios/orbit-real-tle.toml"),
             include_str!("../scenarios/sweep-clock-stability.toml"),
             include_str!("../scenarios/spoof-attack.toml"),
+            include_str!("../scenarios/integrity-raim.toml"),
         ] {
             let out = run_toml(src).expect("scenario runs");
             assert!(out.json.starts_with('{'));
             assert!(out.svg.starts_with("<svg"));
             assert!(!out.summary.is_empty());
         }
+    }
+
+    #[test]
+    fn integrity_scenario_reports_an_availability_map() {
+        let out = run_toml(include_str!("../scenarios/integrity-raim.toml"))
+            .expect("integrity scenario runs");
+        assert!(out.summary.contains("epochs available"));
+        // JSON carries the per-epoch availability map and the alert limits.
+        assert!(out.json.contains("samples_available"));
+        assert!(out.json.contains("\"epochs\""));
+        assert!(out.json.contains("hpl_m") && out.json.contains("vpl_m"));
+        // The chart is a self-contained protection-level/availability SVG.
+        assert!(out.svg.starts_with("<svg") && out.svg.contains("protection level"));
     }
 
     #[test]

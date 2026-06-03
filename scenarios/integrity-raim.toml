@@ -1,0 +1,39 @@
+# GNSS integrity (RAIM) availability over a GPS-like constellation.
+#
+# At each epoch the visible satellites are propagated, the snapshot-RAIM
+# horizontal/vertical protection levels are computed from the geometry and the
+# user-equivalent range error, and availability is judged against the APV-I
+# alert limits (HAL 40 m, VAL 50 m). The output is an HPL/VPL availability map:
+# per-epoch protection levels and the fraction of epochs that meet the limits.
+#
+# The ranging error here (1 m, 1-sigma) is representative of a modern
+# dual-frequency, carrier-smoothed receiver — single-frequency RAIM (~5-6 m) does
+# not meet the vertical APV-I limit on a single constellation, which is why
+# vertical guidance uses SBAS / dual-frequency / ARAIM. The constellation is a
+# synthetic 24-satellite Walker-delta pattern (6 planes of 4), illustrative of
+# GPS geometry; swap in a `tle` block for a real one.
+kind = "integrity"
+
+mask_deg = 5.0
+sigma_uere_m = 1.0   # 1-sigma user-equivalent range error (dual-frequency, smoothed)
+p_fa = 1.0e-5        # allowed false-alarm probability
+p_md = 1.0e-3        # allowed missed-detection probability
+al_h_m = 40.0        # horizontal alert limit (APV-I)
+al_v_m = 50.0        # vertical alert limit (APV-I)
+
+[time]
+step_s = 120.0
+duration_s = 43200.0  # 12 h
+
+[user]
+altitude_km = 0.4
+inclination_deg = 45.0
+raan_deg = 10.0
+u0_deg = 0.0
+
+[constellation]
+altitude_km = 20200.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
