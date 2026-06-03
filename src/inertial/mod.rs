@@ -40,6 +40,16 @@ pub struct AccelModel {
     pos: f64,
 }
 
+/// The legacy 1-DOF scalar error-budget dead-reckoner, by its descriptive name.
+///
+/// [`AccelModel`] is a *scalar* (single-axis) error-budget propagator: it grows a
+/// dead-reckoning position-error variance from accelerometer/gyro noise terms on
+/// one axis, not a full navigation state. The genuine three-axis navigator is
+/// [`mechanization::NavState`]. This alias names the scalar model for what it is,
+/// so a configuration or call site can refer to `ScalarErrorBudget` and make the
+/// distinction explicit; the type is unchanged.
+pub type ScalarErrorBudget = AccelModel;
+
 impl AccelModel {
     pub fn new(id: &str, provenance: &str, bias: f64, q_va: f64) -> Self {
         Self {
@@ -568,6 +578,18 @@ pub fn to_svg(result: &InertialResult) -> String {
 mod tests {
     use super::*;
     use crate::scenario::GnssState::Denied;
+
+    #[test]
+    fn scalar_error_budget_aliases_the_legacy_model() {
+        // `ScalarErrorBudget` is the legacy scalar model under its descriptive
+        // name; it constructs and behaves identically (b=1e-3, dt=1, N=4 ⇒ 1e-2).
+        let mut a: ScalarErrorBudget = ScalarErrorBudget::new("b", "unit", 1e-3, 0.0);
+        let mut rng = ChaCha8Rng::seed_from_u64(1);
+        for _ in 0..4 {
+            a.step(1.0, &mut rng);
+        }
+        assert!((a.pos() - 1e-2).abs() < 1e-15);
+    }
 
     #[test]
     fn pure_bias_double_integrates() {
