@@ -27,11 +27,11 @@ pub fn y_axis(ml: f64, mt: f64, pw: f64, ph: f64, y_max: f64, title: &str) -> St
         let y = mt + ph - frac * ph;
         let val = y_max * frac;
         s.push_str(&format!(
-            "<line x1=\"{ml:.0}\" y1=\"{y:.1}\" x2=\"{:.0}\" y2=\"{y:.1}\" stroke=\"#eee\"/>",
+            "<line x1=\"{ml:.0}\" y1=\"{y:.1}\" x2=\"{:.0}\" y2=\"{y:.1}\" stroke=\"#1e2733\"/>",
             ml + pw
         ));
         s.push_str(&format!(
-            "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" fill=\"#666\" font-size=\"11\">{}</text>",
+            "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" fill=\"#8593a3\" font-size=\"11\">{}</text>",
             ml - 6.0,
             y + 4.0,
             fmt_tick(val)
@@ -39,7 +39,7 @@ pub fn y_axis(ml: f64, mt: f64, pw: f64, ph: f64, y_max: f64, title: &str) -> St
     }
     let yc = mt + ph / 2.0;
     s.push_str(&format!(
-        "<text x=\"16\" y=\"{yc:.1}\" text-anchor=\"middle\" fill=\"#444\" font-size=\"12\" transform=\"rotate(-90 16 {yc:.1})\">{title}</text>"
+        "<text x=\"16\" y=\"{yc:.1}\" text-anchor=\"middle\" fill=\"#8593a3\" font-size=\"12\" transform=\"rotate(-90 16 {yc:.1})\">{title}</text>"
     ));
     s
 }
