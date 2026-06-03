@@ -17,6 +17,14 @@ const SCENARIOS = [
     "Hybrid PNT", "What does a combined clock + inertial suite buy you?"],
   ["orbit-gnss-challenged.toml", "GNSS availability from orbital geometry",
     "GNSS availability", "When is a fix even possible from the satellite geometry?"],
+  ["orbit-sgp4-gps.toml", "SGP4 GPS constellation — real two-line elements",
+    "SGP4 orbits", "How does a real GPS-like constellation propagate over a day?"],
+  ["fusion-pnt.toml", "Joint sensor fusion — combined Kalman PNT",
+    "Sensor fusion", "What does a single joint estimator buy across clock + position?"],
+  ["integrity-raim.toml", "GNSS integrity (RAIM) — HPL/VPL availability",
+    "RAIM integrity", "Does the geometry meet the alert limits (HPL / VPL)?"],
+  ["spoof-attack.toml", "Spoofing attack — clock-aided detection",
+    "Spoof detection", "Is a ramping time-spoof caught before it reaches spec?"],
 ];
 
 // Embedded default so the very first run needs no network fetch.
@@ -103,7 +111,7 @@ function adevSvg(curves) {
   const y0 = Math.log10(Math.min(...advs)), y1 = Math.log10(Math.max(...advs));
   const px = (t) => ml + ((Math.log10(t) - x0) / (x1 - x0 || 1)) * (W - ml - mr);
   const py = (a) => mt + (1 - (Math.log10(a) - y0) / (y1 - y0 || 1)) * (H - mt - mb);
-  const colors = ["#2dd4bf", "#f59e0b"];
+  const colors = ["#5cb8d6", "#d2b35e"];
   let s = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" font-family="system-ui,sans-serif" font-size="11">`;
   s += `<rect width="${W}" height="${H}" fill="#0c1118"/>`;
   // decade gridlines + labels
@@ -280,7 +288,95 @@ async function loadScenario(file) {
   }
 }
 
+// --- Capabilities (data-driven from capabilities.json) -------------------
+// Product content: confident feature cards + the standards the engine speaks.
+// Progressive enhancement — if the fetch fails the page still works. Every data
+// field is inserted as textContent (never innerHTML) so the source can't inject
+// markup.
+function knownScenario(file) {
+  return SCENARIOS.some((s) => s[0] === file);
+}
+
+async function renderCapabilities() {
+  let data;
+  try {
+    const res = await fetch("capabilities.json", { cache: "no-store" });
+    if (!res.ok) return;
+    data = await res.json();
+  } catch {
+    return;
+  }
+
+  // Capability feature cards.
+  const cards = el("capability-cards");
+  if (cards && Array.isArray(data.capabilities)) {
+    cards.replaceChildren();
+    for (const c of data.capabilities) {
+      const card = document.createElement("div");
+      card.className = "card feat";
+
+      const dom = document.createElement("p");
+      dom.className = "eyebrow";
+      dom.textContent = c.domain;
+
+      const h = document.createElement("h3");
+      h.textContent = c.name;
+      if (c.run && knownScenario(c.run)) {
+        const run = document.createElement("span");
+        run.className = "run";
+        run.textContent = "▸ run";
+        run.title = `Load and run ${c.name} in the playground`;
+        run.addEventListener("click", () => {
+          selectEl.value = c.run;
+          loadScenario(c.run);
+          document.getElementById("playground").scrollIntoView({ behavior: "smooth" });
+        });
+        h.append(" ", run);
+      }
+
+      const p = document.createElement("p");
+      p.textContent = c.summary;
+
+      card.append(dom, h, p);
+      if (c.proof) {
+        const proof = document.createElement("span");
+        proof.className = "proof";
+        proof.textContent = `✓ ${c.proof}`;
+        card.append(proof);
+      }
+      cards.append(card);
+    }
+  }
+
+  // Standards the engine speaks (no status labels — confident support list).
+  const list = el("standards-list");
+  if (list && Array.isArray(data.standards)) {
+    list.replaceChildren();
+    for (const s of data.standards) {
+      const row = document.createElement("div");
+      row.className = "std-row";
+      const n = document.createElement("div");
+      n.className = "n";
+      n.textContent = s.name;
+      if (s.note) {
+        const note = document.createElement("small");
+        note.textContent = s.note;
+        n.append(note);
+      }
+      row.append(n);
+      if (s.proof) {
+        const chip = document.createElement("span");
+        chip.className = "pill validated";
+        chip.textContent = "validated";
+        row.append(chip);
+      }
+      list.append(row);
+    }
+  }
+}
+
 async function main() {
+  renderCapabilities();
   for (const [file, label] of SCENARIOS) {
     const opt = document.createElement("option");
     opt.value = file;
@@ -295,7 +391,10 @@ async function main() {
 
   try {
     await init();
-    el("version").textContent = version();
+    const v = version();
+    el("version").textContent = v;
+    const chip = el("ver-chip");
+    if (chip) chip.textContent = `v${v}`;
     statusEl.textContent = "Ready — runs locally in your browser.";
     runBtn.disabled = false;
     shareBtn.disabled = false;

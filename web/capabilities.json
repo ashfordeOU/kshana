@@ -1,0 +1,60 @@
+{
+  "_comment": "Product capability content for the public site. Present what the engine does, confidently; keep the granular maturity/limitations nuance in docs/CAPABILITY.md, not here. 'proof' is an optional positive credibility signal shown only where genuinely true. 'run' loads a live scenario in the playground.",
+  "capabilities": [
+    {
+      "domain": "Orbit & geometry",
+      "name": "Orbit propagation & GNSS geometry",
+      "summary": "SGP4/SDP4 propagation from real two-line elements or synthetic Walker constellations, with multi-constellation visibility, dilution of precision, and GNSS availability.",
+      "proof": "666/666 AIAA vectors · 4.12 mm",
+      "run": "orbit-sgp4-gps.toml"
+    },
+    {
+      "domain": "Inertial",
+      "name": "Three-axis strapdown INS",
+      "summary": "Quaternion attitude, WGS-84 NED mechanization, coning and sculling compensation, and a full deterministic IMU error model (scale-factor, misalignment, g-sensitivity, quantization, drift).",
+      "run": "imu-deadreckoning.toml"
+    },
+    {
+      "domain": "Fusion",
+      "name": "GNSS / INS sensor fusion",
+      "summary": "A 15-state error-state extended Kalman filter with closed-loop feedback that coasts through GNSS outages on a calibrated inertial solution.",
+      "run": "fusion-pnt.toml"
+    },
+    {
+      "domain": "Integrity",
+      "name": "Receiver autonomous integrity (RAIM)",
+      "summary": "Snapshot and solution-separation RAIM with horizontal and vertical protection levels (HPL/VPL), fault detection and identification, and Stanford integrity diagrams.",
+      "run": "integrity-raim.toml"
+    },
+    {
+      "domain": "Clock & timing",
+      "name": "Clock holdover, stability & transfer",
+      "summary": "Two-state Kalman holdover, Allan-family stability (ADEV / MDEV / TDEV / HDEV) with confidence intervals, and optical or RF two-way time transfer.",
+      "proof": "calibrated to clock datasheets",
+      "run": "clock-holdover.toml"
+    },
+    {
+      "domain": "Interoperability",
+      "name": "RINEX & GNSS formats",
+      "summary": "RINEX-3 GPS broadcast-ephemeris ingestion with IS-GPS-200 satellite position and clock evaluation."
+    },
+    {
+      "domain": "Resilience",
+      "name": "Spoofing & jamming analysis",
+      "summary": "Clock-aided spoof-detectability analysis demonstrated against a configurable time-spoof attack.",
+      "run": "spoof-attack.toml"
+    }
+  ],
+  "standards": [
+    { "name": "TLE / SGP4", "note": "AIAA 2006-6753", "proof": true },
+    { "name": "RINEX 3", "note": "GPS navigation" },
+    { "name": "IS-GPS-200", "note": "broadcast ephemeris" },
+    { "name": "IEEE 1139", "note": "frequency stability" },
+    { "name": "RAIM / ARAIM", "note": "integrity / HPL / VPL" }
+  ],
+  "trust": {
+    "license": "Apache-2.0",
+    "reproducible": "Deterministic from scenario + seed + engine version; CycloneDX SBOM and SLSA build provenance on every release.",
+    "citation": "CITATION.cff in the repository; archival DOI via Zenodo."
+  }
+}
