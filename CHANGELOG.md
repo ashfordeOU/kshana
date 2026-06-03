@@ -10,6 +10,20 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **RINEX 3 GPS navigation-message parser (`src/rinex.rs`).** First step toward
+  GNSS-format interoperability: `parse_nav` reads a RINEX 3.x navigation file and
+  decodes each GPS (`G`) broadcast-ephemeris record — the eight-line SV/epoch +
+  `BROADCAST ORBIT` block — into a `RinexEphemeris` of Keplerian elements and
+  clock corrections, with field names and units per IS-GPS-200. Handles the
+  Fortran `D`-exponent float format (`parse_d`) and fixed-width column layout;
+  records for non-GPS systems are skipped, not rejected, so a mixed file still
+  yields its GPS ephemerides. Four tests: `D`-exponent parsing (including blanks
+  and errors), a full record decoded against known field values with a GPS
+  semi-major-axis sanity check (√A² ≈ 26 560 km), non-GPS skipping, and the
+  empty-file case. Honest scope: this parses the navigation message only — it does
+  not yet evaluate SV positions from the ephemeris (IS-GPS-200 §20.3.3.4.3) or
+  expose a `Propagator` source; those, Galileo/BeiDou/GLONASS records, and SP3 are
+  the next steps. (`docs/CAPABILITY.md` updated to match.)
 - **User-runnable `integrity` scenario kind (`scenarios/integrity-raim.toml`).**
   The RAIM availability capability is now reachable from the CLI/TOML like every
   other pack: `kind = "integrity"` parses an `IntegrityScenario` (user orbit, one

@@ -16,6 +16,7 @@ pub mod orbit;
 pub mod python;
 pub mod raim;
 pub mod report;
+pub mod rinex;
 pub mod run;
 pub mod scenario;
 pub mod security;
