@@ -541,6 +541,280 @@ pub fn solution_separation_raim(
     })
 }
 
+// ---------------------------------------------------------------------------
+// ARAIM integrity-risk budget.
+//
+// The solution-separation protection levels above are built from fixed `K_md`,
+// `K_fa` multipliers — a sound but heuristic geometry bound. Advanced RAIM
+// instead *allocates an integrity-risk budget* `P_HMI` across the fault
+// hypotheses and solves for the smallest protection level whose total
+// probability of hazardously-misleading information meets that budget. This is
+// the integrity claim an ARAIM availability map actually rests on, and it lets
+// a user trade integrity risk against the alert limit explicitly.
+// ---------------------------------------------------------------------------
+
+/// One fault hypothesis in the ARAIM integrity-risk budget, projected onto a
+/// single position axis: its prior probability, the detector threshold a
+/// just-undetectable bias can hide behind, and the estimate's standard
+/// deviation under that hypothesis.
+#[derive(Clone, Copy, Debug)]
+pub struct AraimMode {
+    /// Prior probability this hypothesis is the true state of the world over the
+    /// exposure interval. The fault-free hypothesis carries `1 − Σ p_fault,k`.
+    pub p_fault: f64,
+    /// Detection threshold `T_k` (m) on the axis — `K_fa·σ_ss,k` for a fault
+    /// mode (the largest bias that escapes the separation detector), `0` for the
+    /// fault-free hypothesis.
+    pub threshold_m: f64,
+    /// Standard deviation (m) of the position estimate on the axis under this
+    /// hypothesis: the all-in-view `σ₀` for fault-free, the SV-`k`-excluded
+    /// sub-solution `σ_k` for fault mode `k`.
+    pub sigma_m: f64,
+}
+
+/// Upper-tail standard normal `Q(z) = 1 − Φ(z)`. Accurate to the f64 floor for
+/// the `P_HMI ≳ 1e-12` budgets ARAIM uses (below that, `1 − Φ` cancellation
+/// would start to bite — flagged honestly rather than papered over).
+#[inline]
+fn normal_q(z: f64) -> f64 {
+    1.0 - normal_cdf(z)
+}
+
+/// The achieved one-sided integrity risk at protection level `pl_m`, summed over
+/// every fault hypothesis (Blanch et al., *Baseline Advanced RAIM User
+/// Algorithm*, the MHSS integrity equation):
+///
+/// ```text
+/// P_HMI(PL) = Σ_k  p_fault,k · Q( (PL − T_k) / σ_k )
+/// ```
+///
+/// Each term is the probability that, under hypothesis `k`, the position error
+/// crosses `PL` while the bias stays under the detector threshold `T_k`. The
+/// fault-free hypothesis (`T_0 = 0`) contributes `p_ff·Q(PL/σ_0)`. This is the
+/// risk in a single direction of the axis; allocate `P_HMI_axis / 2` to each
+/// side so the symmetric two-sided position-error bound meets the axis budget.
+pub fn araim_integrity_risk(pl_m: f64, modes: &[AraimMode]) -> f64 {
+    modes
+        .iter()
+        .map(|m| {
+            if m.sigma_m <= 0.0 {
+                0.0
+            } else {
+                m.p_fault * normal_q((pl_m - m.threshold_m) / m.sigma_m)
+            }
+        })
+        .sum()
+}
+
+/// The minimum protection level whose achieved integrity risk
+/// ([`araim_integrity_risk`]) does not exceed `budget_one_sided`, found by
+/// bisection on the monotone-decreasing risk-vs-`PL` curve. Allocate
+/// `P_HMI_axis / 2` as `budget_one_sided` (half the axis budget to each
+/// direction of the symmetric bound). Returns `+∞` for an empty mode set or a
+/// non-positive budget.
+pub fn araim_protection_level(modes: &[AraimMode], budget_one_sided: f64) -> f64 {
+    if modes.is_empty() || budget_one_sided <= 0.0 {
+        return f64::INFINITY;
+    }
+    let max_sigma = modes.iter().map(|m| m.sigma_m).fold(0.0, f64::max);
+    let max_thresh = modes.iter().map(|m| m.threshold_m).fold(0.0, f64::max);
+    if max_sigma <= 0.0 {
+        return 0.0;
+    }
+    // `PL = 0` has risk ≥ p_ff·Q(0) = p_ff/2 ≫ any useful budget, so it brackets
+    // the low side; `max_thresh + 40·max_sigma` drives every Q below the f64
+    // floor (`Q(40) ≈ 0`), bracketing the high side.
+    let ceiling = max_thresh + 40.0 * max_sigma;
+    if araim_integrity_risk(0.0, modes) <= budget_one_sided {
+        return 0.0;
+    }
+    let (mut lo, mut hi) = (0.0_f64, ceiling);
+    for _ in 0..200 {
+        let mid = 0.5 * (lo + hi);
+        if araim_integrity_risk(mid, modes) > budget_one_sided {
+            lo = mid;
+        } else {
+            hi = mid;
+        }
+    }
+    0.5 * (lo + hi)
+}
+
+/// Prior fault probabilities for the ARAIM budget. The single-constellation
+/// baseline treats each satellite as one independent single-fault hypothesis.
+#[derive(Clone, Copy, Debug)]
+pub struct FaultPriors {
+    /// Prior probability a given satellite carries an undetected fault over the
+    /// exposure interval (RTCA ARAIM ISM baseline `P_sat ≈ 1e-5`).
+    pub p_sat: f64,
+}
+
+/// The vertical/horizontal split of the total integrity-risk budget plus the
+/// false-alert (continuity) allocation that sets the detection thresholds.
+#[derive(Clone, Copy, Debug)]
+pub struct IntegrityBudget {
+    /// Integrity risk allocated to the vertical position error.
+    pub p_hmi_vert: f64,
+    /// Integrity risk allocated to the horizontal position error.
+    pub p_hmi_horz: f64,
+    /// Total continuity / false-alert budget. The per-mode detector multiplier
+    /// is `K_fa = Φ⁻¹(1 − P_fa / (2 N))` (a Bonferroni split across the `N`
+    /// single-fault hypotheses).
+    pub p_fa: f64,
+}
+
+/// ARAIM protection levels derived from an explicit integrity-risk budget,
+/// together with the integrity risk those levels actually achieve.
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+pub struct AraimResult {
+    /// Satellites in the all-in-view solution.
+    pub n_used: usize,
+    /// Horizontal protection level (m) meeting `P_HMI_horz`.
+    pub hpl_m: f64,
+    /// Vertical protection level (m) meeting `P_HMI_vert`.
+    pub vpl_m: f64,
+    /// Integrity risk the vertical PL achieves (≤ the allocated `P_HMI_vert`).
+    pub p_hmi_vert: f64,
+    /// Integrity risk the horizontal PL achieves (≤ the allocated `P_HMI_horz`).
+    pub p_hmi_horz: f64,
+    /// `true` when a single-SV sub-solution separates beyond its threshold.
+    pub fault_detected: bool,
+    /// The maximum-likelihood faulted satellite, when a fault is detected.
+    pub excluded_sv: Option<usize>,
+}
+
+/// Advanced RAIM (single-fault MHSS) protection levels from an integrity-risk
+/// budget. For the all-in-view solution and every single-satellite exclusion
+/// sub-solution this builds the per-mode `(p_fault, threshold, σ)` on the
+/// vertical and horizontal axes, then solves the smallest VPL/HPL whose summed
+/// `P_HMI` ([`araim_integrity_risk`]) meets the allocated budget. Detection
+/// reuses the solution-separation statistic with the same `K_fa` the thresholds
+/// are built from.
+///
+/// Unlike [`solution_separation_raim`] — whose fixed `K_md` multiplier fixes the
+/// integrity risk *implicitly* at the geometry's mercy — the protection level
+/// here is the explicit answer to "how large must the bound be so the residual
+/// risk of hazardously-misleading information stays within `P_HMI`?".
+///
+/// Returns `None` for fewer than six satellites (each exclusion sub-solution
+/// then lacks the `n−1 ≥ 5` redundancy) or a singular geometry. The
+/// single-fault hypothesis set is the ARAIM baseline; simultaneous multi-SV
+/// subset faults and the constellation-wide fault mode are a documented
+/// extension (each would add further hypotheses to the same budget sum).
+/// Validation against a public reference (gLAB) dataset remains a roadmap item.
+pub fn araim_raim(
+    user: Vec3,
+    sats: &[Vec3],
+    range_residual_m: &[f64],
+    sigma_m: f64,
+    priors: FaultPriors,
+    budget: IntegrityBudget,
+) -> Option<AraimResult> {
+    let n = sats.len();
+    if n != range_residual_m.len() || n < 6 || sigma_m <= 0.0 {
+        return None;
+    }
+    let mut g: Vec<[f64; 4]> = Vec::with_capacity(n);
+    for &s in sats {
+        let e = los_unit(user, s)?;
+        g.push([-e[0], -e[1], -e[2], 1.0]);
+    }
+    let (east, north, up) = enu_basis(user)?;
+
+    let (x0, a0) = lsq_solution(&g, range_residual_m)?;
+    let var0_v = axis_variance(&a0, up);
+    let var0_h = axis_variance(&a0, east) + axis_variance(&a0, north);
+
+    // Per-mode detector multiplier: Bonferroni-split the false-alert budget over
+    // the n single-fault hypotheses, two-sided.
+    let k_fa = normal_quantile(1.0 - budget.p_fa / (2.0 * n as f64));
+    let p_ff = (1.0 - n as f64 * priors.p_sat).max(0.0);
+
+    // Fault-free hypothesis (T = 0) opens each axis's mode list.
+    let mut modes_v = vec![AraimMode {
+        p_fault: p_ff,
+        threshold_m: 0.0,
+        sigma_m: sigma_m * var0_v.sqrt(),
+    }];
+    let mut modes_h = vec![AraimMode {
+        p_fault: p_ff,
+        threshold_m: 0.0,
+        sigma_m: sigma_m * var0_h.sqrt(),
+    }];
+
+    let mut fault_detected = false;
+    let mut excluded_sv = None;
+    let mut max_norm_sep = 0.0_f64;
+
+    for k in 0..n {
+        let g_sub: Vec<[f64; 4]> = (0..n).filter(|&i| i != k).map(|i| g[i]).collect();
+        let y_sub: Vec<f64> = (0..n)
+            .filter(|&i| i != k)
+            .map(|i| range_residual_m[i])
+            .collect();
+        let (xk, ak) = match lsq_solution(&g_sub, &y_sub) {
+            Some(v) => v,
+            None => continue,
+        };
+        let dx = [xk[0] - x0[0], xk[1] - x0[1], xk[2] - x0[2]];
+        let sep_v = dx[0] * up[0] + dx[1] * up[1] + dx[2] * up[2];
+        let sep_e = dx[0] * east[0] + dx[1] * east[1] + dx[2] * east[2];
+        let sep_n = dx[0] * north[0] + dx[1] * north[1] + dx[2] * north[2];
+        let sep_h = (sep_e * sep_e + sep_n * sep_n).sqrt();
+
+        let vark_v = axis_variance(&ak, up);
+        let vark_h = axis_variance(&ak, east) + axis_variance(&ak, north);
+        let sig_ss_v = sigma_m * (vark_v - var0_v).max(0.0).sqrt();
+        let sig_ss_h = sigma_m * (vark_h - var0_h).max(0.0).sqrt();
+
+        // Detection: normalised separation against the same K_fa.
+        let nrm_v = if sig_ss_v > 1e-9 {
+            sep_v.abs() / sig_ss_v
+        } else {
+            0.0
+        };
+        let nrm_h = if sig_ss_h > 1e-9 {
+            sep_h / sig_ss_h
+        } else {
+            0.0
+        };
+        let nrm = nrm_v.max(nrm_h);
+        if nrm > max_norm_sep {
+            max_norm_sep = nrm;
+            if nrm > k_fa {
+                fault_detected = true;
+                excluded_sv = Some(k);
+            }
+        }
+
+        // Integrity-budget contribution of fault mode k: a bias up to T_k =
+        // K_fa·σ_ss escapes detection, leaving the σ_k sub-solution noise.
+        modes_v.push(AraimMode {
+            p_fault: priors.p_sat,
+            threshold_m: k_fa * sig_ss_v,
+            sigma_m: sigma_m * vark_v.sqrt(),
+        });
+        modes_h.push(AraimMode {
+            p_fault: priors.p_sat,
+            threshold_m: k_fa * sig_ss_h,
+            sigma_m: sigma_m * vark_h.sqrt(),
+        });
+    }
+
+    let vpl = araim_protection_level(&modes_v, budget.p_hmi_vert / 2.0);
+    let hpl = araim_protection_level(&modes_h, budget.p_hmi_horz / 2.0);
+
+    Some(AraimResult {
+        n_used: n,
+        hpl_m: hpl,
+        vpl_m: vpl,
+        p_hmi_vert: 2.0 * araim_integrity_risk(vpl, &modes_v),
+        p_hmi_horz: 2.0 * araim_integrity_risk(hpl, &modes_h),
+        fault_detected,
+        excluded_sv,
+    })
+}
+
 /// One region of the Stanford(-ESA) integrity diagram, the standard way to
 /// summarise an integrity monitor over many epochs. The diagram plots, per
 /// epoch, the *actual* position error (x) against the *protection level* (y); the
@@ -1205,6 +1479,155 @@ mod tests {
         let sats = gps_like_constellation(station);
         let five = &sats[..5];
         assert!(solution_separation_raim(user, five, &[0.0; 5], 5.0, 1e-5, 1e-3).is_none());
+    }
+
+    #[test]
+    fn araim_integrity_risk_sums_the_per_mode_tail_probabilities() {
+        // A single unit-σ fault-free hypothesis: P_HMI(PL=2σ) = Q(2) = 1 − Φ(2)
+        // = 0.022750132 (hand value).
+        let modes = [AraimMode {
+            p_fault: 1.0,
+            threshold_m: 0.0,
+            sigma_m: 1.0,
+        }];
+        assert!((araim_integrity_risk(2.0, &modes) - 0.022_750_132).abs() < 1e-6);
+        // Two identical modes add: 2·Q(3) at PL = 3.
+        let two = [
+            AraimMode {
+                p_fault: 1e-4,
+                threshold_m: 0.0,
+                sigma_m: 1.0,
+            },
+            AraimMode {
+                p_fault: 1e-4,
+                threshold_m: 0.0,
+                sigma_m: 1.0,
+            },
+        ];
+        assert!((araim_integrity_risk(3.0, &two) - 2.0 * 1e-4 * 0.001_349_898).abs() < 1e-12);
+        // Risk is monotone-decreasing in PL.
+        assert!(araim_integrity_risk(2.0, &two) > araim_integrity_risk(4.0, &two));
+    }
+
+    #[test]
+    fn araim_protection_level_inverts_the_fault_free_budget() {
+        // Fault-free unit-σ mode: the PL meeting budget Q(2) is exactly 2σ.
+        let modes = [AraimMode {
+            p_fault: 1.0,
+            threshold_m: 0.0,
+            sigma_m: 1.0,
+        }];
+        let pl = araim_protection_level(&modes, 0.022_750_132);
+        assert!((pl - 2.0).abs() < 1e-3, "PL = {pl}, want 2.0");
+    }
+
+    #[test]
+    fn araim_protection_level_inverts_a_thresholded_fault_mode() {
+        // One fault mode (p=1e-4, threshold T=5, σ=2). Budget = p·Q(3) makes the
+        // PL = T + σ·Φ⁻¹(1−Q(3)) = 5 + 2·3 = 11 (hand-derived).
+        let modes = [AraimMode {
+            p_fault: 1e-4,
+            threshold_m: 5.0,
+            sigma_m: 2.0,
+        }];
+        let budget = 1e-4 * 0.001_349_898; // 1e-4 · Q(3)
+        let pl = araim_protection_level(&modes, budget);
+        assert!((pl - 11.0).abs() < 1e-2, "PL = {pl}, want 11.0");
+    }
+
+    #[test]
+    fn araim_raim_fault_free_protects_and_tighter_budget_raises_the_pl() {
+        let station = Geodetic {
+            lat_rad: 0.7,
+            lon_rad: 0.2,
+            alt_m: 50.0,
+        };
+        let user = geodetic_to_ecef(station);
+        let sats = dense_constellation(station);
+        let resid = vec![0.0; sats.len()];
+        let priors = FaultPriors { p_sat: 1e-5 };
+        let loose = IntegrityBudget {
+            p_hmi_vert: 1e-4,
+            p_hmi_horz: 1e-4,
+            p_fa: 1e-5,
+        };
+        let tight = IntegrityBudget {
+            p_hmi_vert: 1e-9,
+            p_hmi_horz: 1e-9,
+            p_fa: 1e-5,
+        };
+        let rl = araim_raim(user, &sats, &resid, 1.0, priors, loose).expect("araim runs");
+        let rt = araim_raim(user, &sats, &resid, 1.0, priors, tight).expect("araim runs");
+        assert!(!rl.fault_detected, "no fault should be flagged");
+        assert!(rl.vpl_m > 0.0 && rl.vpl_m.is_finite(), "VPL {}", rl.vpl_m);
+        assert!(rl.hpl_m > 0.0 && rl.hpl_m.is_finite(), "HPL {}", rl.hpl_m);
+        // The protection levels meet (do not exceed) the allocated budget.
+        assert!(
+            rl.p_hmi_vert <= loose.p_hmi_vert * 1.001,
+            "achieved P_HMI {} > allocated {}",
+            rl.p_hmi_vert,
+            loose.p_hmi_vert
+        );
+        // A 10⁵× tighter integrity budget demands a larger protection level.
+        assert!(
+            rt.vpl_m > rl.vpl_m,
+            "tighter budget VPL {} must exceed looser {}",
+            rt.vpl_m,
+            rl.vpl_m
+        );
+    }
+
+    #[test]
+    fn araim_raim_detects_and_identifies_a_faulty_satellite() {
+        let station = Geodetic {
+            lat_rad: 0.5,
+            lon_rad: -1.2,
+            alt_m: 0.0,
+        };
+        let user = geodetic_to_ecef(station);
+        let sats = gps_like_constellation(station);
+        let mut resid = vec![0.0; sats.len()];
+        resid[2] = 300.0; // 60-σ bias on satellite 2
+        let r = araim_raim(
+            user,
+            &sats,
+            &resid,
+            5.0,
+            FaultPriors { p_sat: 1e-5 },
+            IntegrityBudget {
+                p_hmi_vert: 1e-4,
+                p_hmi_horz: 1e-4,
+                p_fa: 1e-5,
+            },
+        )
+        .expect("araim runs");
+        assert!(r.fault_detected, "a 60-σ bias must be detected");
+        assert_eq!(r.excluded_sv, Some(2), "should identify SV 2 as faulted");
+    }
+
+    #[test]
+    fn araim_raim_needs_six_satellites() {
+        let station = Geodetic {
+            lat_rad: 0.2,
+            lon_rad: 0.4,
+            alt_m: 0.0,
+        };
+        let user = geodetic_to_ecef(station);
+        let sats = gps_like_constellation(station);
+        let five = &sats[..5];
+        assert!(araim_raim(
+            user,
+            five,
+            &[0.0; 5],
+            5.0,
+            FaultPriors { p_sat: 1e-5 },
+            IntegrityBudget {
+                p_hmi_vert: 1e-4,
+                p_hmi_horz: 1e-4,
+                p_fa: 1e-5,
+            },
+        )
+        .is_none());
     }
 
     #[test]
