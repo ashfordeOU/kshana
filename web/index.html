@@ -3,223 +3,253 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Kshana — PNT simulator playground</title>
+    <title>Kshana — open hybrid quantum/classical PNT performance simulator</title>
     <meta
       name="description"
-      content="Run the Kshana hybrid quantum/classical PNT performance simulator in your browser. Nothing is uploaded; the engine runs locally as WebAssembly."
+      content="Kshana is an open, reproducible simulator for positioning, navigation and timing (PNT) performance — SGP4-validated orbits, three-axis strapdown INS, GNSS/INS fusion, RAIM integrity with HPL/VPL, and RINEX interoperability. Runs locally in your browser as WebAssembly."
     />
     <link rel="stylesheet" href="style.css" />
+    <!-- Shared single-accent emblem definition. -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+      <defs>
+        <linearGradient id="ka" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#5cb8d6" />
+          <stop offset="1" stop-color="#84d2ea" />
+        </linearGradient>
+      </defs>
+    </svg>
   </head>
   <body>
-    <header class="site-head">
-      <div class="hero">
-        <!-- Precision-fiducial emblem: a graduated dial, a crosshair fix, and a
-             single luminous mark for "the precise instant". -->
-        <svg
-          class="emblem"
-          viewBox="0 0 100 100"
-          role="img"
-          aria-label="Kshana emblem"
-          width="76"
-          height="76"
-        >
-          <defs>
-            <linearGradient id="ke" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0" stop-color="#2dd4bf" />
-              <stop offset="0.55" stop-color="#6366f1" />
-              <stop offset="1" stop-color="#a855f7" />
-            </linearGradient>
-            <radialGradient id="kglow" cx="0.5" cy="0.5" r="0.5">
-              <stop offset="0" stop-color="#6366f1" stop-opacity="0.45" />
-              <stop offset="1" stop-color="#6366f1" stop-opacity="0" />
-            </radialGradient>
-          </defs>
-          <circle cx="50" cy="50" r="46" fill="url(#kglow)" />
-          <!-- graduated bezel (fine tick ring via a dashed stroke) -->
-          <circle
-            cx="50"
-            cy="50"
-            r="43"
-            fill="none"
-            stroke="#3a4660"
-            stroke-width="4"
-            stroke-dasharray="0.6 5.02"
-          />
-          <circle cx="50" cy="50" r="46.5" fill="none" stroke="#2b3344" stroke-width="1" />
-          <!-- crosshair fix -->
-          <g stroke="#566179" stroke-width="1">
-            <line x1="50" y1="9" x2="50" y2="34" />
-            <line x1="50" y1="66" x2="50" y2="91" />
-            <line x1="9" y1="50" x2="34" y2="50" />
-            <line x1="66" y1="50" x2="91" y2="50" />
-          </g>
-          <!-- resonance ring -->
-          <circle cx="50" cy="50" r="23" fill="none" stroke="url(#ke)" stroke-width="2.4" />
-          <!-- the instant: a luminous mark at the top of the dial + the core -->
-          <line
-            x1="50"
-            y1="50"
-            x2="50"
-            y2="27"
-            stroke="url(#ke)"
-            stroke-width="3.4"
-            stroke-linecap="round"
-          />
-          <circle cx="50" cy="50" r="4.6" fill="url(#ke)" />
-        </svg>
-
-        <p class="eyebrow"><span class="deva">क्षण</span> · The Precise Instant</p>
-        <h1 class="wordmark">Kshana</h1>
-        <svg class="rule" viewBox="0 0 240 12" width="240" height="12" aria-hidden="true">
-          <line x1="20" y1="6" x2="220" y2="6" stroke="url(#ke)" stroke-width="2" />
-          <line x1="20" y1="1.5" x2="20" y2="10.5" stroke="url(#ke)" stroke-width="2" />
-          <line x1="220" y1="1.5" x2="220" y2="10.5" stroke="url(#ke)" stroke-width="2" />
-        </svg>
-        <p class="tagline">
-          Open, reproducible hybrid quantum / classical PNT performance.
-        </p>
-        <p class="byline">Ashforde&nbsp;OÜ · Open positioning, navigation &amp; timing infrastructure</p>
-      </div>
-
-      <p class="lead">
-        A deterministic simulator that evolves real sensor error models through a
-        GNSS-denial scenario and scores them against the operational PNT figures of
-        merit. Pick a scenario, edit the parameters, and run it —
-        <strong>everything runs locally in your browser</strong>; nothing is uploaded.
-      </p>
-    </header>
-
-    <main>
-      <section class="guide" aria-label="Start here">
-        <h2 class="guide-title">Start here — pick a question to explore</h2>
-        <p class="guide-sub">
-          One click loads a worked scenario and runs it. No setup, no sign-up —
-          the engine runs in your browser. Tune it with the sliders, or open the
-          full TOML to change anything.
-        </p>
-        <div id="presets" class="presets" role="group" aria-label="One-click scenarios"></div>
-      </section>
-
-      <section class="controls" aria-label="Scenario controls">
-        <div class="row">
-          <label for="scenario" class="sr-only">Scenario</label>
-          <select id="scenario" aria-label="Scenario" aria-describedby="scenario-help"></select>
-          <button id="run" type="button" disabled>Run</button>
-          <button id="share" type="button" class="ghost" disabled title="Copy a link that reproduces this exact run">Copy share link</button>
-          <span id="status" class="status" role="status">Loading engine…</span>
-        </div>
-
-        <!-- Guided knobs: universal top-level parameters every scenario shares,
-             editable without touching the TOML. Patched into the editor live. -->
-        <div id="guided" class="guided" aria-label="Guided controls" hidden>
-          <div class="knob">
-            <label for="k-seed">Random seed
-              <span class="knob-help">a different seed = a different noise draw of the same physics</span>
-            </label>
-            <div class="knob-row">
-              <input id="k-seed" type="range" min="1" max="100" step="1" />
-              <output id="k-seed-out" class="knob-out"></output>
-            </div>
-          </div>
-          <div class="knob">
-            <label for="k-thresh">Timing spec threshold (ns)
-              <span class="knob-help">the in-spec budget; a solution is "available" while error stays under it</span>
-            </label>
-            <div class="knob-row">
-              <input id="k-thresh" type="range" min="1" max="100" step="1" />
-              <output id="k-thresh-out" class="knob-out"></output>
-            </div>
-          </div>
-        </div>
-
-        <details id="advanced" class="advanced">
-          <summary>Full scenario definition (TOML) — edit anything</summary>
-          <p id="scenario-help" class="help">
-            The four sensor packs plus geometry-driven scenarios. This panel is the
-            complete, editable scenario — change a number and run again.
-          </p>
-          <textarea
-            id="toml"
-            spellcheck="false"
-            aria-label="Scenario definition (TOML)"
-          ></textarea>
-        </details>
-      </section>
-
-      <section class="results" aria-label="Results" hidden>
-        <p id="summary" class="summary"></p>
-        <details class="reading">
-          <summary>How to read this</summary>
-          <p>
-            The chart traces timing (or position) error over the run. While GNSS is
-            available both solutions track truth; when it cuts out, each coasts on
-            its own sensors. The <strong>quieter</strong> sensor stays inside the
-            spec threshold longer — that coast time is the <em>holdover</em>. The
-            summary reports holdover, error percentiles, and availability for the
-            quantum and classical options side by side.
-          </p>
-        </details>
-        <div id="chart" class="chart" aria-label="Result chart"></div>
-        <div class="planned-fom" aria-label="Planned figure of merit">
-          <span class="planned-tag">Planned</span>
-          <span>Position-domain FoMs (CEP / SEP / 2DRMS / HPL) need a 2-D/3-D INS
-          fusion solution and a multi-measurement integrity monitor — not in this
-          release. Today the inertial pack reports a single-axis position RMS only.</span>
-        </div>
-        <div id="adev-wrap" class="adev-wrap" hidden>
-          <h3 class="adev-title">Clock stability (overlapping Allan deviation)</h3>
-          <div id="adev" class="chart" aria-label="Allan deviation chart"></div>
-          <p class="adev-note">Lower is better. The Allan deviation &sigma;<sub>y</sub>(&tau;) shows
-          how a clock's fractional-frequency stability changes with averaging time &tau; — a
-          quieter clock coasts longer through a GNSS outage.</p>
-        </div>
-        <details id="json-wrap">
-          <summary>Full result (JSON)</summary>
-          <pre id="json" class="json"></pre>
-        </details>
-      </section>
-
-      <p id="error" class="error" role="alert" hidden></p>
-    </main>
-
-    <footer class="site-foot">
-      <div class="foot-grid">
-        <div class="foot-brand">
-          <svg class="foot-emblem" viewBox="0 0 100 100" role="img" aria-label="Kshana" width="34" height="34">
-            <circle cx="50" cy="50" r="43" fill="none" stroke="#3a4660" stroke-width="4" stroke-dasharray="0.6 5.02" />
-            <g stroke="#566179" stroke-width="1.4">
-              <line x1="50" y1="14" x2="50" y2="34" /><line x1="50" y1="66" x2="50" y2="86" />
-              <line x1="14" y1="50" x2="34" y2="50" /><line x1="66" y1="50" x2="86" y2="50" />
+    <!-- ── Topbar ─────────────────────────────────────────────────────── -->
+    <header class="topbar">
+      <div class="wrap">
+        <a class="brand" href="#top" aria-label="Kshana home">
+          <svg class="mark" viewBox="0 0 100 100" role="img" aria-label="Kshana emblem">
+            <circle cx="50" cy="50" r="43" fill="none" stroke="#2a3645" stroke-width="4" stroke-dasharray="0.6 5.02" />
+            <g stroke="#3d4d63" stroke-width="1.4">
+              <line x1="50" y1="12" x2="50" y2="34" /><line x1="50" y1="66" x2="50" y2="88" />
+              <line x1="12" y1="50" x2="34" y2="50" /><line x1="66" y1="50" x2="88" y2="50" />
             </g>
-            <circle cx="50" cy="50" r="23" fill="none" stroke="url(#ke)" stroke-width="2.4" />
-            <line x1="50" y1="50" x2="50" y2="27" stroke="url(#ke)" stroke-width="3.4" stroke-linecap="round" />
-            <circle cx="50" cy="50" r="4.6" fill="url(#ke)" />
+            <circle cx="50" cy="50" r="23" fill="none" stroke="url(#ka)" stroke-width="2.6" />
+            <line x1="50" y1="50" x2="50" y2="27" stroke="url(#ka)" stroke-width="3.4" stroke-linecap="round" />
+            <circle cx="50" cy="50" r="4.6" fill="#84d2ea" />
           </svg>
-          <div>
-            <p class="foot-name">Kshana</p>
-            <p class="foot-sub"><span class="deva">क्षण</span> · the precise instant</p>
-          </div>
-        </div>
-
-        <nav class="foot-links" aria-label="Project links">
-          <a href="https://github.com/AshfordeOU/kshana">GitHub</a>
-          <a href="https://crates.io/crates/kshana">crates.io</a>
-          <a href="https://pypi.org/project/kshana/">PyPI</a>
-          <a href="https://www.npmjs.com/package/kshana">npm</a>
-          <a href="https://docs.rs/kshana">docs.rs</a>
+          <span class="name">Kshana</span>
+          <span class="ver" id="ver-chip">v0.9.0</span>
+        </a>
+        <nav class="nav" aria-label="Primary">
+          <a href="#capabilities">Capabilities</a>
+          <a href="#playground">Playground</a>
+          <a href="#validation">Validation</a>
+          <a href="#standards">Standards</a>
+          <a href="#cite">Cite</a>
+          <a class="gh" href="https://github.com/AshfordeOU/kshana">GitHub ↗</a>
         </nav>
       </div>
+    </header>
 
-      <div class="foot-meta">
-        <p class="foot-copy">
-          © 2026 <strong>Ashforde&nbsp;OÜ</strong> · Released under the Apache-2.0 license ·
-          Engine v<span id="version">…</span>
-        </p>
-        <p class="fine">
+    <main id="top">
+      <!-- ── Hero ─────────────────────────────────────────────────────── -->
+      <section class="hero">
+        <div class="wrap">
+          <p class="eyebrow"><span class="deva">क्षण</span> · the precise instant</p>
+          <h1>Open <span class="hl">PNT performance</span> simulation, validated and reproducible.</h1>
+          <p class="lede">
+            A dependency-light engine for positioning, navigation and timing studies:
+            SGP4-validated orbit geometry, a three-axis strapdown INS, loosely-coupled
+            GNSS/INS fusion, real RAIM integrity with HPL/VPL, and RINEX
+            interoperability — scored against the operational figures of merit.
+          </p>
+          <p class="honest">
+            The open reference simulator for PNT performance — transparent, fully
+            reproducible, and validated against the standards engineers already trust.
+          </p>
+          <div class="cta-row">
+            <a class="btn primary" href="#playground">Run it in your browser</a>
+            <a class="btn" href="#capabilities">View capability matrix</a>
+            <a class="btn" href="https://github.com/AshfordeOU/kshana">Source &amp; docs</a>
+          </div>
+          <div class="badges" aria-label="Trust signals">
+            <span class="badge"><span class="dot"></span> SGP4 <b>666/666</b> AIAA vectors · <b>4.12 mm</b></span>
+            <span class="badge"><span class="dot"></span> <b>Apache-2.0</b> open source</span>
+            <span class="badge"><span class="dot"></span> Reproducible · <b>SBOM</b> + provenance</span>
+            <span class="badge"><span class="dot"></span> Runs <b>client-side</b> (WASM) · nothing uploaded</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Capability matrix (data-driven) ──────────────────────────── -->
+      <section class="block" id="capabilities">
+        <div class="wrap">
+          <div class="sec-head">
+            <p class="eyebrow">Capabilities</p>
+            <h2>One engine across the full PNT stack</h2>
+            <p>
+              From orbit geometry to inertial navigation, sensor fusion, integrity, and
+              timing — a dependency-light core you can run, script, and embed.
+            </p>
+          </div>
+          <div class="cards" id="capability-cards"></div>
+        </div>
+      </section>
+
+      <!-- ── Playground ───────────────────────────────────────────────── -->
+      <section class="block" id="playground">
+        <div class="wrap">
+          <div class="sec-head">
+            <p class="eyebrow">Interactive playground</p>
+            <h2>Run a scenario — locally, in your browser</h2>
+            <p>
+              One click loads a worked scenario and runs the WebAssembly engine on your
+              machine; nothing is uploaded. Tune the universal knobs, or open the full
+              TOML to change anything. Every run is reproducible and shareable by link.
+            </p>
+          </div>
+
+          <div class="pg-grid">
+            <div class="panel">
+              <p class="panel-title">Start here — pick a question</p>
+              <div id="presets" class="presets" role="group" aria-label="One-click scenarios"></div>
+            </div>
+
+            <div class="panel">
+              <p class="panel-title">Controls</p>
+              <div class="controls-row">
+                <label for="scenario" style="position:absolute;left:-9999px">Scenario</label>
+                <select id="scenario" aria-label="Scenario"></select>
+                <button id="run" class="btn primary" type="button" disabled>Run</button>
+                <button id="share" class="btn" type="button" disabled title="Copy a link that reproduces this exact run">Copy share link</button>
+                <span id="status" class="status" role="status">Loading engine…</span>
+              </div>
+
+              <div id="guided" class="guided" aria-label="Guided controls" hidden>
+                <div class="knob">
+                  <label for="k-seed">Random seed <span class="dim">— a different noise draw of the same physics</span></label>
+                  <input id="k-seed" type="range" min="1" max="100" step="1" />
+                  <output id="k-seed-out"></output>
+                </div>
+                <div class="knob">
+                  <label for="k-thresh">Spec threshold (ns) <span class="dim">— in-spec budget; "available" while error stays under it</span></label>
+                  <input id="k-thresh" type="range" min="1" max="100" step="1" />
+                  <output id="k-thresh-out"></output>
+                </div>
+              </div>
+
+              <details id="advanced">
+                <summary>Full scenario definition (TOML) — edit anything</summary>
+                <textarea id="toml" spellcheck="false" aria-label="Scenario definition (TOML)"></textarea>
+              </details>
+            </div>
+
+            <div class="panel results" aria-label="Results" hidden>
+              <p class="panel-title">Result</p>
+              <p id="summary" class="summary"></p>
+              <div id="chart" class="chart" aria-label="Result chart"></div>
+              <div id="adev-wrap" hidden>
+                <h3 class="adev-title">Clock stability (overlapping Allan deviation)</h3>
+                <div id="adev" aria-label="Allan deviation chart"></div>
+                <p class="dim" style="font-size:0.82rem">Lower is better. σ<sub>y</sub>(τ) shows how a clock's fractional-frequency stability changes with averaging time τ.</p>
+              </div>
+              <details>
+                <summary class="dim" style="cursor:pointer;font-size:0.85rem">Full result (JSON)</summary>
+                <pre id="json"></pre>
+              </details>
+            </div>
+
+            <p id="error" class="errbox" role="alert" hidden></p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Validation & provenance ──────────────────────────────────── -->
+      <section class="block" id="validation">
+        <div class="wrap">
+          <div class="sec-head">
+            <p class="eyebrow">Validation &amp; provenance</p>
+            <h2>Evidence, not adjectives</h2>
+            <p>Institutional users can trace every claim. What is validated, against what, and how the build can be reproduced bit-for-bit.</p>
+          </div>
+          <div class="cards">
+            <div class="card">
+              <h3><span class="pill validated">Validated</span> Orbit propagation</h3>
+              <p>SGP4/SDP4 matches all <b>666</b> AIAA 2006-6753 verification states to a worst-case <b>4.12 mm</b> — near-Earth, deep-space, and resonant. This is the model TLEs are defined against.</p>
+            </div>
+            <div class="card">
+              <h3><span class="pill validated">Calibrated</span> Clock stability</h3>
+              <p>Allan-family deviations (ADEV/MDEV/TDEV/HDEV) computed by the standard overlapping estimators with confidence intervals, calibrated to published clock datasheets.</p>
+            </div>
+            <div class="card">
+              <h3>Reproducible builds</h3>
+              <p class="mono">Deterministic from scenario + seed + engine version. A CycloneDX SBOM and SLSA build provenance ship on every release; the release toolchain is pinned to CI.</p>
+            </div>
+            <div class="card">
+              <h3>Honest scope</h3>
+              <p>Optical-clock figures are <em>space goals on ground hardware</em> — no strontium optical clock has flown. See <a href="https://github.com/AshfordeOU/kshana/blob/main/docs/VALIDATION.md">VALIDATION.md</a> and <a href="https://github.com/AshfordeOU/kshana/blob/main/docs/CAPABILITY.md">CAPABILITY.md</a> before citing any number.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Standards & interoperability (data-driven) ───────────────── -->
+      <section class="block" id="standards">
+        <div class="wrap">
+          <div class="sec-head">
+            <p class="eyebrow">Standards &amp; interoperability</p>
+            <h2>Speaks the formats your tools already use</h2>
+            <p>Built on the open standards of the GNSS and timing community, so it drops into existing workflows.</p>
+          </div>
+          <div class="card" id="standards-list"></div>
+        </div>
+      </section>
+
+      <!-- ── Cite & use ───────────────────────────────────────────────── -->
+      <section class="block" id="cite">
+        <div class="wrap">
+          <div class="sec-head">
+            <p class="eyebrow">Cite &amp; use</p>
+            <h2>Built to be referenced</h2>
+            <p>Apache-2.0, citable, and installable from every major ecosystem.</p>
+          </div>
+          <div class="cards">
+            <div class="card">
+              <h3>Install</h3>
+              <div class="codeblock"><span class="k">cargo</span> add kshana
+<span class="k">pip</span> install kshana
+<span class="k">npm</span> install kshana</div>
+            </div>
+            <div class="card">
+              <h3>Cite</h3>
+              <p>A <code>CITATION.cff</code> is in the repository; an archival DOI is planned via Zenodo. Please cite the engine version and the scenario + seed for reproducibility.</p>
+            </div>
+            <div class="card">
+              <h3>For institutions</h3>
+              <p>Kshana is a study and trade-off instrument — a transparent, reproducible substrate for PNT performance analysis and digital-thread integration, not a flight product. Open by design for evaluation and extension.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ── Footer ───────────────────────────────────────────────────── -->
+    <footer>
+      <div class="wrap">
+        <div class="foot-grid">
+          <div>
+            <strong>Kshana</strong> · <span class="deva">क्षण</span> the precise instant<br />
+            © 2026 <strong>Ashforde&nbsp;OÜ</strong> · Apache-2.0 · Engine v<span id="version">…</span>
+          </div>
+          <nav class="nav" aria-label="Resources" style="position:static">
+            <a href="https://github.com/AshfordeOU/kshana">GitHub</a>
+            <a href="https://crates.io/crates/kshana">crates.io</a>
+            <a href="https://pypi.org/project/kshana/">PyPI</a>
+            <a href="https://www.npmjs.com/package/kshana">npm</a>
+            <a href="https://docs.rs/kshana">docs.rs</a>
+          </nav>
+        </div>
+        <p class="disclaimer">
           An open positioning, navigation &amp; timing instrument from Ashforde&nbsp;OÜ — a
-          performance simulator for studies and trade-offs, <strong>not a navigation
-          product</strong>. Every result is reproducible from
-          <code>scenario + seed + engine version</code>.
+          performance simulator for studies and trade-offs, not a navigation product.
+          Every result is reproducible from <code>scenario + seed + engine version</code>.
         </p>
       </div>
     </footer>
