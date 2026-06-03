@@ -10,6 +10,15 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **SP3 precise ephemeris as a propagation source.** `Sp3File::interpolator`
+  builds a per-satellite `Sp3Interpolator` that fills the position between the
+  tabulated SP3 epochs with a 9th-order Lagrange polynomial (standard IGS
+  practice) and rotates it into the shared TEME frame, exposed as
+  `Propagator::Sp3Precise`. An IGS/analysis-centre precise-orbit file can now drive
+  the same geometry/visibility/integrity pipeline as the broadcast and analytic
+  propagators. Validated round-trip: a Kepler orbit written to SP3 and re-read
+  through the interpolator matches the original to sub-metre at the nodes and
+  < 100 m mid-interval. Clock interpolation is next.
 - **GLONASS broadcast ephemeris (completes multi-GNSS RINEX nav).** New `glonass`
   module: GLONASS doesn't broadcast Keplerian elements but a PZ-90 Earth-fixed
   **state vector** (position, velocity, luni-solar acceleration). `parse_glonass_nav`
