@@ -159,6 +159,7 @@ cargo run -- scenarios/timetransfer.toml
 cargo run -- scenarios/hybrid-pnt.toml
 cargo run -- scenarios/orbit-gnss-challenged.toml
 cargo run -- scenarios/orbit-sgp4-gps.toml
+cargo run -- scenarios/integrity-raim.toml
 ```
 
 Example output (clock holdover — note the Integrity and Security figures of merit):
@@ -177,9 +178,16 @@ accuracy — alongside the clock result.
 > **Read these two numbers carefully.** `security` is an *analytic spoof-detectability
 > bound* derived from each clock's stability — it is meaningful only against a
 > configured spoofing scenario and is **not** a multi-satellite RAIM detector. `integrity`
-> is the filter's *self-consistency* (fraction of outage samples inside its own k-sigma
+> here is the filter's *self-consistency* (fraction of outage samples inside its own k-sigma
 > bound), **not** an aviation HPL/VPL integrity figure. See
 > [`docs/INTEGRITY.md`](docs/INTEGRITY.md).
+>
+> For genuine receiver-autonomous integrity, the **`integrity` scenario kind**
+> (`scenarios/integrity-raim.toml`) runs real snapshot and solution-separation
+> (ARAIM-style) RAIM over the propagated constellation geometry: it computes
+> horizontal/vertical **protection levels (HPL/VPL)** per epoch and reports the
+> fraction of epochs that meet the configured alert limits, with a Stanford
+> integrity diagram for error-vs-PL classification.
 
 ### Python
 
