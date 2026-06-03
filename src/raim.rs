@@ -38,7 +38,7 @@
 //! the genuine HPL/VPL an integrity claim rests on — not a self-consistency FoM.
 
 use crate::frames::Vec3;
-use crate::orbit::{enu_basis, invert4, los_unit};
+use crate::orbit::{enu_basis, invert4, los_unit, visible_positions, Orbit, Propagator};
 use serde::Serialize;
 
 /// Natural log of the gamma function (Lanczos approximation, g=7, n=9).
@@ -657,6 +657,134 @@ impl StanfordDiagram {
     }
 }
 
+/// Configuration for a RAIM availability evaluation: the user-equivalent range
+/// error and the fault-detection / missed-detection probabilities the protection
+/// levels are sized for, with the horizontal/vertical alert limits availability
+/// is judged against.
+#[derive(Clone, Copy, Debug, Serialize)]
+pub struct RaimConfig {
+    /// 1-σ user-equivalent range error (m).
+    pub sigma_m: f64,
+    /// Allowed false-alarm probability.
+    pub p_fa: f64,
+    /// Allowed missed-detection probability.
+    pub p_md: f64,
+    /// Horizontal alert limit (m) — e.g. 40 m for APV-I.
+    pub al_h_m: f64,
+    /// Vertical alert limit (m) — e.g. 50 m for APV-I.
+    pub al_v_m: f64,
+}
+
+/// RAIM at one epoch.
+#[derive(Clone, Copy, Debug, Serialize)]
+pub struct RaimAvailabilityEpoch {
+    /// Epoch time (s).
+    pub t_s: f64,
+    /// Number of satellites above the mask.
+    pub n_visible: usize,
+    /// Horizontal protection level (m); `None` when redundancy is insufficient.
+    pub hpl_m: Option<f64>,
+    /// Vertical protection level (m); `None` when redundancy is insufficient.
+    pub vpl_m: Option<f64>,
+    /// `true` when a fix is possible and `HPL ≤ AL_H` and `VPL ≤ AL_V`.
+    pub available: bool,
+}
+
+/// A RAIM availability map over a time grid: the per-epoch protection levels and
+/// the fraction of epochs at which the geometry meets the alert limits.
+#[derive(Clone, Debug, Serialize)]
+pub struct RaimAvailabilityReport {
+    /// Horizontal alert limit used (m).
+    pub al_h_m: f64,
+    /// Vertical alert limit used (m).
+    pub al_v_m: f64,
+    /// Total epochs sampled.
+    pub samples_total: usize,
+    /// Epochs that were RAIM-available.
+    pub samples_available: usize,
+    /// Per-epoch detail.
+    pub epochs: Vec<RaimAvailabilityEpoch>,
+}
+
+impl RaimAvailabilityReport {
+    /// Fraction of sampled epochs that were RAIM-available (0 if none sampled).
+    pub fn availability(&self) -> f64 {
+        if self.samples_total == 0 {
+            0.0
+        } else {
+            self.samples_available as f64 / self.samples_total as f64
+        }
+    }
+}
+
+/// Geometry-only RAIM at one epoch: the no-fault protection levels (snapshot RAIM
+/// with zero residuals, so the levels depend only on geometry and `sigma`) and
+/// whether they meet the alert limits. Fewer than five satellites ⇒ no protected
+/// fix, so `available = false` and the levels are `None`.
+pub fn raim_availability_epoch(
+    t_s: f64,
+    user_ecef: Vec3,
+    sats_ecef: &[Vec3],
+    cfg: &RaimConfig,
+) -> RaimAvailabilityEpoch {
+    let n_visible = sats_ecef.len();
+    let zero = vec![0.0; n_visible];
+    match snapshot_raim(user_ecef, sats_ecef, &zero, cfg.sigma_m, cfg.p_fa, cfg.p_md) {
+        Some(r) => {
+            let available = r.hpl_m <= cfg.al_h_m && r.vpl_m <= cfg.al_v_m;
+            RaimAvailabilityEpoch {
+                t_s,
+                n_visible,
+                hpl_m: Some(r.hpl_m),
+                vpl_m: Some(r.vpl_m),
+                available,
+            }
+        }
+        None => RaimAvailabilityEpoch {
+            t_s,
+            n_visible,
+            hpl_m: None,
+            vpl_m: None,
+            available: false,
+        },
+    }
+}
+
+/// Run a RAIM availability evaluation over a constellation: at each epoch on the
+/// `[0, duration]` grid, propagate the visible satellites, compute the protection
+/// levels, and judge availability against the alert limits. This is the runnable
+/// end-to-end integrity entry point — geometry in, an HPL/VPL availability map
+/// out — over the same SGP4/Keplerian propagators the engine already uses.
+pub fn constellation_raim_availability(
+    user: &Orbit,
+    gnss: &[Propagator],
+    step_s: f64,
+    duration_s: f64,
+    mask_deg: f64,
+    cfg: &RaimConfig,
+) -> RaimAvailabilityReport {
+    let n = (duration_s / step_s).round() as usize;
+    let mut epochs = Vec::with_capacity(n + 1);
+    let mut available = 0usize;
+    for i in 0..=n {
+        let t = i as f64 * step_s;
+        let user_ecef = user.position_eci(t);
+        let sats = visible_positions(user, gnss, t, mask_deg);
+        let e = raim_availability_epoch(t, user_ecef, &sats, cfg);
+        if e.available {
+            available += 1;
+        }
+        epochs.push(e);
+    }
+    RaimAvailabilityReport {
+        al_h_m: cfg.al_h_m,
+        al_v_m: cfg.al_v_m,
+        samples_total: epochs.len(),
+        samples_available: available,
+        epochs,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -713,6 +841,39 @@ mod tests {
             .map(|&(az, el)| {
                 let (azr, elr) = (az.to_radians(), el.to_radians());
                 // ENU direction from the station to the satellite.
+                let de = elr.cos() * azr.sin();
+                let dn = elr.cos() * azr.cos();
+                let du = elr.sin();
+                [
+                    s[0] + range * (de * east[0] + dn * north[0] + du * up[0]),
+                    s[1] + range * (de * east[1] + dn * north[1] + du * up[1]),
+                    s[2] + range * (de * east[2] + dn * north[2] + du * up[2]),
+                ]
+            })
+            .collect()
+    }
+
+    /// A well-redundant ten-satellite spread, enough geometry for the protection
+    /// levels to meet the APV-I alert limits at a few-metre ranging error.
+    fn dense_constellation(station: Geodetic) -> Vec<Vec3> {
+        let s = geodetic_to_ecef(station);
+        let (east, north, up) = enu_basis(s).unwrap();
+        let azel: [(f64, f64); 10] = [
+            (0.0, 78.0),
+            (40.0, 25.0),
+            (80.0, 52.0),
+            (120.0, 18.0),
+            (160.0, 40.0),
+            (200.0, 60.0),
+            (240.0, 22.0),
+            (280.0, 48.0),
+            (320.0, 30.0),
+            (350.0, 15.0),
+        ];
+        let range = 20_200_000.0;
+        azel.iter()
+            .map(|&(az, el)| {
+                let (azr, elr) = (az.to_radians(), el.to_radians());
                 let de = elr.cos() * azr.sin();
                 let dn = elr.cos() * azr.cos();
                 let du = elr.sin();
@@ -907,5 +1068,79 @@ mod tests {
         assert!(json.contains("alert_limit_m"));
         assert!(json.contains("Available"));
         assert!(json.contains("HazardouslyMisleadingInformation"));
+    }
+
+    #[test]
+    fn raim_availability_epoch_judges_against_alert_limits() {
+        let station = Geodetic {
+            lat_rad: 0.7,
+            lon_rad: 0.1,
+            alt_m: 0.0,
+        };
+        let user = geodetic_to_ecef(station);
+        let sats = dense_constellation(station);
+        // Good redundant geometry, tight ranging: protected and within APV-I limits.
+        let cfg = RaimConfig {
+            sigma_m: 1.0,
+            p_fa: 1e-5,
+            p_md: 1e-3,
+            al_h_m: 40.0,
+            al_v_m: 50.0,
+        };
+        let e = raim_availability_epoch(0.0, user, &sats, &cfg);
+        assert_eq!(e.n_visible, 10);
+        assert!(e.hpl_m.is_some() && e.vpl_m.is_some());
+        assert!(e.available, "HPL {:?} VPL {:?}", e.hpl_m, e.vpl_m);
+        // An impossibly tight alert limit makes the same geometry unavailable.
+        let strict = RaimConfig {
+            al_h_m: 1.0,
+            al_v_m: 1.0,
+            ..cfg
+        };
+        assert!(!raim_availability_epoch(0.0, user, &sats, &strict).available);
+        // Fewer than five satellites: no protected fix.
+        let e4 = raim_availability_epoch(0.0, user, &sats[..4], &cfg);
+        assert_eq!(e4.hpl_m, None);
+        assert!(!e4.available);
+    }
+
+    #[test]
+    fn constellation_raim_availability_runs_end_to_end_over_sgp4_geometry() {
+        use crate::orbit::{ConstellationCfg, Orbit, R_EARTH_M};
+        // A GPS-like 24-satellite Walker constellation (6 planes × 4), ~20 200 km.
+        let cons = ConstellationCfg {
+            altitude_km: 20_200.0,
+            inclination_deg: 55.0,
+            planes: 6,
+            sats_per_plane: 4,
+            phasing_f: 1.0,
+            tle: None,
+            strict_checksum: false,
+        };
+        let gnss = cons.satellites().expect("constellation builds");
+        // A user near the surface.
+        let user = Orbit::new(R_EARTH_M, 0.6, 0.2, 0.0);
+        let cfg = RaimConfig {
+            sigma_m: 6.0,
+            p_fa: 1e-5,
+            p_md: 1e-3,
+            al_h_m: 40.0,
+            al_v_m: 50.0,
+        };
+        let report = constellation_raim_availability(&user, &gnss, 300.0, 6000.0, 5.0, &cfg);
+        assert_eq!(report.samples_total, report.epochs.len());
+        assert!(report.samples_total > 1);
+        assert!((0.0..=1.0).contains(&report.availability()));
+        // The geometry yields a fix with redundancy at some epochs.
+        assert!(
+            report
+                .epochs
+                .iter()
+                .any(|e| e.n_visible >= 5 && e.hpl_m.is_some()),
+            "no epoch had a protected fix"
+        );
+        // Serializes for export.
+        let json = serde_json::to_string(&report).expect("serializes");
+        assert!(json.contains("samples_available"));
     }
 }
