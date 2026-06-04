@@ -67,6 +67,15 @@ This is the **P2 quantum-physics-layer** item from [`ROADMAP.md`](../ROADMAP.md)
 Mach–Zehnder phase, projection noise, scale factor, derived `q_va`, contrast decay, **and
 the vibration-coupling transfer function / white-PSD variance** are implemented and
 unit-tested against hand computation (including a numeric band-integral cross-check of the
-transfer function against its analytic `T³` result). The remaining follow-ons are the
-Coriolis and light-shift systematics, the `ImuKind::QuantumCAI` builder wiring, and the
-PHARAO/ACES and CARIOQA validation scenarios.
+transfer function against its analytic `T³` result).
+
+The model is also **wired into the runnable inertial scenario**: an accelerometer in an
+inertial-deadreckoning scenario resolves to `ImuKind::QuantumCai` when it carries a `[cai]`
+block (wavelength, pulse separation `T`, atom number `N`, contrast `C`, cycle time `T_c`,
+and an optional platform `vibration_psd`), and its velocity-random-walk PSD `q_va` is then
+**derived** from the interferometer physics — the shot-noise floor plus, when a vibration
+PSD is given, the vibration-limited contribution in quadrature — rather than supplied as a
+datasheet coefficient. Scenarios without a `[cai]` block are classical and byte-unchanged.
+
+The remaining follow-ons are the Coriolis and light-shift systematics, the PHARAO/ACES and
+CARIOQA validation scenarios, and a playground quantum-vs-classical comparison preset.

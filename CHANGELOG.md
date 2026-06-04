@@ -42,6 +42,18 @@ breaking changes are called out explicitly.
   scope in `docs/QUANTUM.md`: this spans the projection-noise floor and the vibration-limited
   regime above it; laser-phase noise, Coriolis and light-shift systematics, and the
   PHARAO/CARIOQA validation scenarios remain follow-ons.
+- **Quantum-CAI accelerometer wired into the inertial scenario.** An accelerometer in an
+  inertial dead-reckoning scenario now resolves to a new `ImuKind` — `Classical` (the
+  existing datasheet-coefficient sensor) or `QuantumCai` when it carries an optional `[cai]`
+  block (`CaiCfg`: wavelength, pulse separation, atom number, contrast, cycle time, and an
+  optional platform `vibration_psd`). A `quantum_cai` sensor's velocity-random-walk PSD
+  `q_va` is **derived** from the interferometer physics — the shot-noise floor plus, when a
+  vibration PSD is given, the vibration-limited contribution in quadrature — instead of a
+  supplied coefficient, and the run's provenance records that the noise is physics-derived.
+  The `cai` field is `skip_serializing_if = "Option::is_none"`, so existing scenarios omit it
+  and serialize byte-identically (the scenario hash is unchanged). Five tests cover the
+  derivation, the quadrature vibration sum, the `Classical`/`QuantumCai` selection, hash-stable
+  serialization, and an end-to-end CAI-driven run.
 - **Constellation-design optimiser and streets-of-coverage geometry.** `src/walker.rs`
   gains `optimize_walker_design`, a gradient-free grid optimiser that searches the
   `{planes × sats × inclination}` design space and returns the best Walker design under
