@@ -21,14 +21,16 @@ windows = [
 
 [clock_quantum]
 id = "optical-sr-lattice"
-provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (Origlia/Schiller/Bongs et al., arXiv:1503.08457); q_wf=sigma_y(1s)^2; ground-demonstrator maturity, not flown; flicker/aging not modeled"
+provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (Origlia/Schiller/Bongs et al., arXiv:1503.08457); q_wf=sigma_y(1s)^2; ground-demonstrator maturity, not flown; flicker floor modeled at sigma_y=1e-16"
 y0   = 5.0e-17
 q_wf = 1.0e-30
 q_rw = 0.0
+flicker_floor = 1.0e-16
 
 [clock_classical]
 id = "csac-sa45s"
-provenance = "Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_wf=sigma_y(1s)^2; flicker/aging not modeled"
+provenance = "Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_wf=sigma_y(1s)^2; flicker floor modeled at sigma_y=2e-11"
 y0   = 5.0e-10
 q_wf = 9.0e-20
 q_rw = 0.0
+flicker_floor = 2.0e-11
