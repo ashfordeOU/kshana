@@ -25,9 +25,10 @@
   positioning, navigation, and timing. It compares quantum and classical sensors mostly
   from published Allan/noise-budget coefficients, with a first-principles cold-atom-
   interferometer accelerometer layer (Mach–Zehnder phase, quantum projection noise,
-  contrast decay) that <em>derives</em> the noise coefficient rather than looking it up;
-  it is not yet a full quantum-physics simulator (no vibration tensor or systematics —
-  see <a href="docs/QUANTUM.md">docs/QUANTUM.md</a> and
+  contrast decay, and vibration coupling) that <em>derives</em> the noise coefficient
+  rather than looking it up; it is not yet a full quantum-physics simulator (Coriolis and
+  light-shift systematics remain coefficient-level — see
+  <a href="docs/QUANTUM.md">docs/QUANTUM.md</a> and
   <a href="docs/QUANTUM-MODELS.md">docs/QUANTUM-MODELS.md</a>).
 </p>
 
@@ -102,10 +103,11 @@ receiver, or a certified avionics product. Quantum-hardware fidelity comes from
 published error models, not from this tool. The granular maturity of each
 capability is documented in [`docs/CAPABILITY.md`](docs/CAPABILITY.md).
 
-**It is not (yet):** a *first-principles* atom-interferometry physics engine (it
-consumes published Allan/noise-budget coefficients — Mach–Zehnder CAI phase,
-projection noise, and the vibration tensor are a **P2** roadmap layer, see
-[`ROADMAP.md`](ROADMAP.md) and [`docs/QUANTUM-MODELS.md`](docs/QUANTUM-MODELS.md));
+**It is not (yet):** a *full* atom-interferometry physics engine (most quantum sensors
+consume published Allan/noise-budget coefficients; the CAI accelerometer has a
+first-principles layer — Mach–Zehnder phase, projection noise, contrast decay, and
+vibration coupling — but Coriolis and light-shift systematics remain a **P2** roadmap
+layer, see [`ROADMAP.md`](ROADMAP.md) and [`docs/QUANTUM-MODELS.md`](docs/QUANTUM-MODELS.md));
 a GNSS receiver or PVT solver (it models the measurement domain and resilience, not
 signal acquisition or a least-squares fix); or a mission-design / orbit-determination
 tool. Owning this scope is deliberate. If you need first-principles cold-atom
@@ -117,7 +119,7 @@ the P2 roadmap and [get in touch](#support--professional-services) to collaborat
 | Domain | Capability |
 |--------|------------|
 | **Orbit & geometry** | SGP4/SDP4 propagation (validated to 4.12 mm against all 666 AIAA 2006-6753 vectors), real-TLE or synthetic Walker constellations, multi-constellation visibility, dilution of precision, and GNSS availability. |
-| **Inertial** | Three-axis strapdown INS — quaternion attitude, WGS-84 NED mechanization, coning/sculling compensation, and a deterministic IMU error model (scale-factor, misalignment, g-sensitivity, quantization, drift); plus a **first-principles cold-atom-interferometer accelerometer** model (Mach–Zehnder phase, quantum projection noise, contrast decay) that derives the velocity-random-walk coefficient from the interferometer physics. |
+| **Inertial** | Three-axis strapdown INS — quaternion attitude, WGS-84 NED mechanization, coning/sculling compensation, and a deterministic IMU error model (scale-factor, misalignment, g-sensitivity, quantization, drift); plus a **first-principles cold-atom-interferometer accelerometer** model (Mach–Zehnder phase, quantum projection noise, contrast decay, and vibration coupling) that derives the velocity-random-walk coefficient from the interferometer physics. |
 | **Fusion** | Loosely-coupled GNSS/INS error-state EKF (15-state) with closed-loop feedback that coasts through GNSS outages on a calibrated inertial solution, runnable as the `gnss-ins` pack; plus a tightly-coupled pseudorange update that keeps correcting with fewer than four satellites. |
 | **Integrity** | Snapshot and solution-separation (ARAIM-style) RAIM with horizontal/vertical protection levels (HPL/VPL) — including levels solved from an explicit ARAIM integrity-risk (P_HMI) budget — fault detection and identification, and Stanford integrity diagrams. |
 | **Clock & timing** | Two-state Kalman holdover with a Joseph-stabilised covariance update and NIS/NEES filter-consistency health monitoring, Allan-family stability (ADEV/MDEV/TDEV/HDEV) with confidence intervals, and optical/RF two-way time transfer. |
@@ -625,9 +627,10 @@ per-capability roadmap. Near-term items include **ITRF-precise frame reduction**
 (polar motion and sub-arcsecond nutation on top of the shipped GMST-based
 TEME&harr;ECEF), two-part Julian dates, tightly-coupled carrier-phase fusion, and
 surfacing the loosely-/tightly-coupled GNSS/INS navigator across more packs. The
-**quantum physics layer** (first-principles Mach–Zehnder CAI phase, projection noise,
-vibration tensor) is a **P2** item — today the quantum sensors are driven by published
-Allan/noise-budget coefficients, not simulated from first principles. GMST-based TEME&harr;ECEF, the IERS
+**quantum physics layer** is a **P2** item: the CAI accelerometer is now simulated from
+first principles (Mach–Zehnder phase, projection noise, contrast decay, vibration
+coupling), while the clock/time-transfer sensors are still driven by published
+Allan/noise-budget coefficients. GMST-based TEME&harr;ECEF, the IERS
 leap-second time systems (UTC/TAI/TT/UT1), SGP4/SDP4 orbit propagation (v0.7.0,
 validated against the AIAA 2006-6753 vectors), and the runnable `gnss-ins` fusion
 pack have all **shipped**, and the inertial velocity is exposed downstream. An active
