@@ -53,6 +53,3 @@ getrandom = { version = "0.2", features = ["js"] }
 python = ["dep:pyo3"]
 # WebAssembly module, built with wasm-pack (`wasm-pack build -- --features wasm`).
 wasm = ["dep:wasm-bindgen"]
-# Tightly-coupled GNSS/INS update (pseudorange/Doppler). Interface contract only;
-# the implementation is a roadmap item, so the gated method returns an error.
-tight_coupling = []

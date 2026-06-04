@@ -159,6 +159,35 @@ impl ClosedLoopInsGnss {
             sigma_vel_mps,
         };
         let dx = self.ekf.update_loosely_coupled(ins_pos, ins_vel, meas);
+        self.apply_feedback(dx)
+    }
+
+    /// Fuse a tightly-coupled set of GNSS **pseudoranges** (satellite positions in
+    /// the same local NED frame as [`ins_ned`](Self::ins_ned), measured ranges
+    /// receiver-clock corrected) and feed the estimated errors back. Unlike
+    /// [`fuse`](Self::fuse) this needs no position fix and works with **fewer than
+    /// four satellites**. Returns the estimated position error corrected (NED, m),
+    /// or an error if the EKF update is rejected (empty/mismatched inputs).
+    pub fn fuse_tightly_coupled(
+        &mut self,
+        sat_positions_ned: &[Vec3],
+        pseudoranges_m: &[f64],
+        sigma_range_m: f64,
+    ) -> Result<Vec3, &'static str> {
+        let ins_pos = self.ins_ned();
+        let dx = self.ekf.update_tightly_coupled(
+            ins_pos,
+            sat_positions_ned,
+            pseudoranges_m,
+            sigma_range_m,
+        )?;
+        Ok(self.apply_feedback(dx))
+    }
+
+    /// Apply the estimated error state `dx` (15) to the strapdown solution and the
+    /// bias estimates, then reset the EKF error-state mean. Shared by the loosely-
+    /// and tightly-coupled fixes. Returns the position correction (NED, m).
+    fn apply_feedback(&mut self, dx: [f64; 15]) -> Vec3 {
         let dp = [dx[0], dx[1], dx[2]];
         let dv = [dx[3], dx[4], dx[5]];
         let psi = [dx[6], dx[7], dx[8]];
@@ -431,5 +460,94 @@ mod tests {
             rms_fused < rms_free / 2.0,
             "fused RMS {rms_fused} m vs free {rms_free} m (need >2× better)"
         );
+    }
+
+    fn norm(v: Vec3) -> f64 {
+        (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]).sqrt()
+    }
+
+    /// Horizontal (north/east) error of the navigator against a truth at the NED
+    /// origin (the tightly-coupled tests keep truth fixed at the tangent-plane
+    /// origin, so the measured pseudoranges are constant `|sat|`).
+    fn horiz_err(drv: &ClosedLoopInsGnss) -> f64 {
+        let p = drv.ins_ned();
+        (p[0] * p[0] + p[1] * p[1]).sqrt()
+    }
+
+    #[test]
+    fn tightly_coupled_nulls_an_injected_error_with_four_satellites() {
+        // Inject an 8 m north / −5 m east error, then aid with four satellites'
+        // pseudoranges (truth fixed at the origin, so each measured range is |sat|).
+        // The range-domain update must pull the INS back onto truth.
+        let start = origin();
+        let mut drv = navigator();
+        let (rn, re) = radii_of_curvature(LAT0);
+        drv.nav.p_llh.lat_rad += 8.0 / (rn + start.alt_m);
+        drv.nav.p_llh.lon_rad += -5.0 / ((re + start.alt_m) * LAT0.cos());
+        assert!((horiz_err(&drv) - (8.0_f64.powi(2) + 5.0_f64.powi(2)).sqrt()).abs() < 1e-6);
+
+        // Four satellites in NED (down is negative ⇒ up); good 3-D spread.
+        let sats = [
+            [0.0, 0.0, -20_000_000.0],
+            [18_000_000.0, 0.0, -8_000_000.0],
+            [0.0, 18_000_000.0, -8_000_000.0],
+            [-13_000_000.0, -13_000_000.0, -8_000_000.0],
+        ];
+        let ranges: Vec<f64> = sats.iter().map(|&s| norm(s)).collect();
+        let (gyro, accel) = static_truth(LAT0, start.alt_m);
+        for step in 0..200 {
+            drv.propagate(gyro, accel, 0.1);
+            if step % 10 == 9 {
+                drv.fuse_tightly_coupled(&sats, &ranges, 1.0).unwrap();
+            }
+        }
+        assert!(
+            horiz_err(&drv) < 0.1,
+            "tightly-coupled left {} m of horizontal error",
+            horiz_err(&drv)
+        );
+    }
+
+    #[test]
+    fn tightly_coupled_corrects_with_only_two_satellites() {
+        // The defining advantage: with only TWO satellites a loosely-coupled PVT
+        // fix does not exist, yet the range-domain filter still constrains the
+        // horizontal error along the two lines of sight. Two low-elevation
+        // satellites (strong north/east components) make the horizontal error
+        // observable, so it must shrink substantially.
+        let start = origin();
+        let mut drv = navigator();
+        let (rn, re) = radii_of_curvature(LAT0);
+        drv.nav.p_llh.lat_rad += 8.0 / (rn + start.alt_m);
+        drv.nav.p_llh.lon_rad += -5.0 / ((re + start.alt_m) * LAT0.cos());
+        let err0 = horiz_err(&drv);
+
+        let sats = [
+            [18_000_000.0, 0.0, -8_000_000.0], // north, low
+            [0.0, 18_000_000.0, -8_000_000.0], // east, low
+        ];
+        let ranges: Vec<f64> = sats.iter().map(|&s| norm(s)).collect();
+        let (gyro, accel) = static_truth(LAT0, start.alt_m);
+        for step in 0..300 {
+            drv.propagate(gyro, accel, 0.1);
+            if step % 10 == 9 {
+                drv.fuse_tightly_coupled(&sats, &ranges, 1.0).unwrap();
+            }
+        }
+        let err = horiz_err(&drv);
+        assert!(
+            err < 0.2 * err0,
+            "two-satellite tight coupling only cut {err0} m to {err} m"
+        );
+    }
+
+    #[test]
+    fn tightly_coupled_rejects_malformed_input() {
+        let mut drv = navigator();
+        let sats = [[0.0, 0.0, -20_000_000.0]];
+        // Mismatched lengths, empty, and non-positive sigma are all rejected.
+        assert!(drv.fuse_tightly_coupled(&sats, &[], 1.0).is_err());
+        assert!(drv.fuse_tightly_coupled(&[], &[1.0], 1.0).is_err());
+        assert!(drv.fuse_tightly_coupled(&sats, &[2.0e7], 0.0).is_err());
     }
 }
