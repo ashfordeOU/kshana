@@ -1,5 +1,5 @@
 cff-version: 1.2.0
-title: "Kshana — hybrid quantum/classical PNT performance simulator"
+title: "Kshana — a PNT-resilience simulator with quantum-sensor performance models"
 message: "If you use Kshana in your work, please cite it using this metadata."
 type: software
 authors:
@@ -17,11 +17,13 @@ identifiers:
     value: 10.5281/zenodo.20528628
     description: Version DOI for v0.9.2.
 abstract: >-
-  Open, reproducible simulator for hybrid quantum/classical positioning,
-  navigation and timing (PNT). Quantifies the performance, autonomy, and
-  resilience advantage of quantum clocks, quantum inertial sensors, and optical
-  time transfer over classical PNT, scored against operational figures of merit,
-  with every sensor parameter traceable to a published source.
+  Open, reproducible PNT-resilience simulator for positioning, navigation and
+  timing (PNT) with quantum-sensor performance models. Quantifies the performance,
+  autonomy, and resilience advantage of quantum clocks, quantum inertial sensors,
+  and optical time transfer over classical PNT, scored against operational figures
+  of merit, with every sensor parameter traceable to a published source. Quantum
+  sensors are driven by published Allan/noise-budget coefficients, not simulated
+  from first principles.
 keywords:
   - PNT
   - navigation
