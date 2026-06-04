@@ -27,6 +27,20 @@ breaking changes are called out explicitly.
   RINEX arc remains a roadmap item — it needs a pseudorange solution).
 
 ### Added
+- **Noise-type-specific effective degrees of freedom for the Allan confidence
+  intervals.** `allan::edf_overlapping_adev` implements the NIST SP 1065 Table 5
+  closed forms (the Stable32 simple set) for all five canonical power-law noise
+  types — white/flicker PM, white/flicker FM, random-walk FM — replacing the
+  conservative non-overlapping count as the χ² degrees of freedom. A new
+  `PowerLawNoise` enum and `classify_power_law` identify the dominant type from
+  the record's **modified** Allan-deviation slope (MDEV separates white from
+  flicker PM where ADEV cannot), and `overlapping_adev_curve` now attaches the
+  identified noise type, its edf, and a 95% confidence band to every point of the
+  exported ADEV curve (`AdevPoint` gains `noise`/`edf`/`ci_lo`/`ci_hi`, additive
+  with serde defaults). Validated two ways: the five formulas match hand-evaluated
+  values to 1e-12, and a 4 000-record Monte-Carlo white-FM ensemble confirms the
+  formula predicts the estimator's actual chi-squared edf within 20% (and that it
+  materially beats the conservative count). Eight new tests.
 - **Two-way time-transfer stochastic model.** `timetransfer::TwoWayLink` replaces the
   white-only sampler with a physically-grounded model: the reciprocal (common-mode) path
   delay cancels in the `(m_AB - m_BA)/2` estimate (`two_way_offset_estimate`, so two
