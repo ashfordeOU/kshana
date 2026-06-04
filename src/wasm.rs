@@ -35,6 +35,24 @@ pub fn summary(toml: &str) -> Result<String, JsValue> {
         .map_err(|e| JsValue::from_str(&e))
 }
 
+/// List the available scenario kinds and their metadata as a JSON array (name,
+/// description, required and optional fields), for programmatic introspection.
+#[wasm_bindgen]
+pub fn list_kinds() -> String {
+    crate::api::list_scenario_kinds_json()
+}
+
+/// Run a scenario; on failure return the structured error *kind* tag
+/// (`invalid_input`, `unsupported`, …) so the caller can branch on the failure
+/// category rather than parse the message. Returns an empty string on success.
+#[wasm_bindgen]
+pub fn error_kind(toml: &str) -> String {
+    crate::api::run_scenario(toml)
+        .err()
+        .map(|e| e.kind_tag().to_string())
+        .unwrap_or_default()
+}
+
 /// Engine version (the crate version).
 #[wasm_bindgen]
 pub fn version() -> String {

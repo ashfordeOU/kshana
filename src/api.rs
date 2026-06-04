@@ -11,6 +11,7 @@ use serde::Deserialize;
 
 /// The outputs of a scenario run: the result document, an SVG chart, and a
 /// human-readable one-line summary.
+#[derive(Clone, Debug)]
 pub struct RunOutput {
     pub json: String,
     pub svg: String,
@@ -107,13 +108,215 @@ fn posm(v: Option<f64>) -> String {
     v.map_or_else(|| "n/a".to_string(), |v| format!("{v:.2}m"))
 }
 
-/// Parse, dispatch, and run a scenario given as a TOML string.
+/// A structured failure taxonomy for the typed API, so binding callers can
+/// pattern-match on the *kind* of failure rather than parse an opaque string.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum KshanaError {
+    /// The scenario could not be parsed or violated an input constraint.
+    InvalidInput(String),
+    /// A solver failed to converge (reserved; the deterministic packs do not
+    /// currently produce this).
+    NonConvergence(String),
+    /// The requested scenario kind or feature is not supported.
+    Unsupported(String),
+    /// An I/O failure (reserved for file-backed callers).
+    IoError(String),
+}
+
+impl std::fmt::Display for KshanaError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        // The message passes through unchanged so the string-returning
+        // `run_toml` keeps producing the same human-readable text it always has.
+        match self {
+            KshanaError::InvalidInput(s)
+            | KshanaError::NonConvergence(s)
+            | KshanaError::Unsupported(s)
+            | KshanaError::IoError(s) => write!(f, "{s}"),
+        }
+    }
+}
+
+impl KshanaError {
+    /// A stable machine tag for the failure kind, so binding callers can branch on
+    /// it without parsing the human-readable message.
+    pub fn kind_tag(&self) -> &'static str {
+        match self {
+            KshanaError::InvalidInput(_) => "invalid_input",
+            KshanaError::NonConvergence(_) => "non_convergence",
+            KshanaError::Unsupported(_) => "unsupported",
+            KshanaError::IoError(_) => "io_error",
+        }
+    }
+}
+
+impl std::error::Error for KshanaError {}
+
+impl From<String> for KshanaError {
+    fn from(s: String) -> Self {
+        KshanaError::InvalidInput(s)
+    }
+}
+
+/// The scenario kinds the engine can dispatch — the typed replacement for matching
+/// on a raw `kind` string. [`ScenarioKind::classify`] resolves a TOML document's
+/// `kind` field to one of these; the dispatcher then matches exhaustively on the
+/// enum, so adding a pack is a compile-checked change rather than a string typo.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum ScenarioKind {
+    Clock,
+    Inertial,
+    Integrity,
+    TimeTransfer,
+    Hybrid,
+    Fusion,
+    GnssIns,
+    GnssSim,
+    Jamming,
+    Spoof,
+    Sweep,
+    SweepNd,
+    Orbit,
+}
+
+impl ScenarioKind {
+    /// The canonical `kind` string for this variant.
+    pub fn as_str(self) -> &'static str {
+        match self {
+            ScenarioKind::Clock => "clock",
+            ScenarioKind::Inertial => "inertial",
+            ScenarioKind::Integrity => "integrity",
+            ScenarioKind::TimeTransfer => "timetransfer",
+            ScenarioKind::Hybrid => "hybrid",
+            ScenarioKind::Fusion => "fusion",
+            ScenarioKind::GnssIns => "gnss-ins",
+            ScenarioKind::GnssSim => "gnss-sim",
+            ScenarioKind::Jamming => "jamming",
+            ScenarioKind::Spoof => "spoof",
+            ScenarioKind::Sweep => "sweep",
+            ScenarioKind::SweepNd => "sweep-nd",
+            ScenarioKind::Orbit => "orbit",
+        }
+    }
+
+    /// Resolve the `kind` field of a TOML scenario to a typed variant. An absent or
+    /// `clock` kind (and, for backward compatibility, any unrecognised kind) maps to
+    /// [`ScenarioKind::Clock`], the historical default pack.
+    pub fn classify(src: &str) -> Result<ScenarioKind, KshanaError> {
+        let kind: Kind = toml::from_str(src).unwrap_or(Kind {
+            kind: String::new(),
+        });
+        Ok(match kind.kind.as_str() {
+            "inertial" => ScenarioKind::Inertial,
+            "integrity" => ScenarioKind::Integrity,
+            "timetransfer" => ScenarioKind::TimeTransfer,
+            "hybrid" => ScenarioKind::Hybrid,
+            "fusion" => ScenarioKind::Fusion,
+            "gnss-ins" => ScenarioKind::GnssIns,
+            "gnss-sim" => ScenarioKind::GnssSim,
+            "jamming" => ScenarioKind::Jamming,
+            "spoof" => ScenarioKind::Spoof,
+            "sweep" => ScenarioKind::Sweep,
+            "sweep-nd" => ScenarioKind::SweepNd,
+            "orbit" => ScenarioKind::Orbit,
+            // Empty or unknown ⇒ the clock pack (historical default).
+            _ => ScenarioKind::Clock,
+        })
+    }
+}
+
+/// Metadata describing one scenario kind for programmatic introspection
+/// (auto-complete, UI, notebooks): the `kind` name, a one-line description, and the
+/// required / optional top-level fields.
+#[derive(Clone, Debug, serde::Serialize)]
+pub struct ScenarioMeta {
+    pub name: &'static str,
+    pub description: &'static str,
+    pub required_fields: &'static [&'static str],
+    pub optional_fields: &'static [&'static str],
+}
+
+/// List every built-in scenario kind with its metadata. Bindings expose this so a
+/// caller can discover the packs and their fields without reading the source.
+pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
+    vec![
+        ScenarioMeta { name: "clock", description: "Clock holdover vs spec; optional Monte-Carlo ensemble (runs > 1).", required_fields: &["threshold_ns", "time", "gnss", "clock_quantum", "clock_classical"], optional_fields: &["seed", "runs"] },
+        ScenarioMeta { name: "inertial", description: "1-DOF inertial dead-reckoning during a GNSS outage.", required_fields: &["threshold_m", "time", "gnss", "accel_quantum", "accel_classical"], optional_fields: &["seed", "runs"] },
+        ScenarioMeta { name: "orbit", description: "GNSS availability + DOP from an orbital constellation (Walker / TLE / RINEX).", required_fields: &["threshold_ns", "time", "user", "constellation", "clock_quantum", "clock_classical"], optional_fields: &["mask_deg", "sigma_uere_m", "seed"] },
+        ScenarioMeta { name: "integrity", description: "Snapshot / solution-separation / ARAIM RAIM with HPL/VPL and a Stanford diagram.", required_fields: &["time", "user", "constellation"], optional_fields: &["mask_deg", "sigma_uere_m", "p_fa", "p_md"] },
+        ScenarioMeta { name: "timetransfer", description: "Optical vs RF two-way time/frequency transfer.", required_fields: &["time", "optical", "rf"], optional_fields: &["seed"] },
+        ScenarioMeta { name: "hybrid", description: "Hybrid PNT capstone: clock + IMU + time-transfer aiding.", required_fields: &["timing_spec_ns", "position_spec_m", "time", "gnss", "clock_quantum", "clock_classical", "accel_quantum", "accel_classical"], optional_fields: &["resync", "seed"] },
+        ScenarioMeta { name: "fusion", description: "Joint Kalman sensor-fusion PNT over the same hybrid inputs.", required_fields: &["timing_spec_ns", "position_spec_m", "time", "gnss", "clock_quantum", "clock_classical", "accel_quantum", "accel_classical"], optional_fields: &["resync", "seed"] },
+        ScenarioMeta { name: "gnss-ins", description: "Loosely- and tightly-coupled GNSS/INS error-state EKF.", required_fields: &["time", "gnss", "imu_quantum", "imu_classical"], optional_fields: &["seed", "threshold_m", "fix_interval_s", "sigma_pos_m", "sigma_vel_mps", "lat_deg", "lon_deg", "alt_m"] },
+        ScenarioMeta { name: "gnss-sim", description: "Measurement-domain pseudorange simulation (Klobuchar iono, Saastamoinen/Niell tropo) + RAIM.", required_fields: &["seed", "time", "receiver", "constellation"], optional_fields: &["iono", "tropo", "mask_deg", "noise_sigma_m", "multipath_m", "sat_clock_rms_m", "uere_m", "p_fa", "p_md", "alert_limit_h_m", "alert_limit_v_m"] },
+        ScenarioMeta { name: "jamming", description: "Link-budget jamming: J/S → effective C/N₀ → loss of lock.", required_fields: &["seed", "time", "receiver", "constellation"], optional_fields: &["jammer", "mask_deg", "tracking_threshold_dbhz", "degraded_margin_db", "signal_power_dbw", "temp_k", "freq_hz", "chip_rate_hz"] },
+        ScenarioMeta { name: "spoof", description: "Stochastic time-spoof detector (Neyman–Pearson / χ²₁) with Monte-Carlo P_fa/P_md.", required_fields: &["threshold_ns", "time", "attack", "clock_quantum", "clock_classical"], optional_fields: &[] },
+        ScenarioMeta { name: "sweep", description: "1-D trade-study sweep over a clock-pack parameter.", required_fields: &["parameter", "metric", "start", "stop", "steps", "base"], optional_fields: &["scale"] },
+        ScenarioMeta { name: "sweep-nd", description: "Generic N-D sweep over any pack via dotted TOML keys / JSON metric paths.", required_fields: &["base", "axes", "metrics"], optional_fields: &[] },
+    ]
+}
+
+/// The built-in scenario kinds and their metadata as a JSON array — the form the
+/// language bindings expose for programmatic introspection.
+pub fn list_scenario_kinds_json() -> String {
+    json_of(&list_scenario_kinds())
+}
+
+/// The contract a scenario pack fulfils: run itself and produce the unified output
+/// envelope, returning a structured [`KshanaError`] on failure.
+pub trait Scenario {
+    fn run(&self) -> Result<RunOutput, KshanaError>;
+}
+
+/// Extension point for third-party packs: a registrable pack implements
+/// [`Scenario`] plus identifies its kind and metadata. See `ARCHITECTURE.md`
+/// (“Extending Kshana with an external pack”). The trait is intentionally small and
+/// semver-stable so out-of-tree packs do not need to fork core.
+pub trait ExternalPack: Scenario {
+    /// The `kind` string this pack answers to.
+    fn kind_name(&self) -> &'static str;
+    /// Introspection metadata, surfaced alongside the built-ins.
+    fn meta(&self) -> ScenarioMeta;
+}
+
+// A built-in pack implemented through the `Scenario` trait, as the worked example
+// the dispatcher and any external pack follow. (The other built-ins run inline in
+// `run_toml`; migrating each is a mechanical follow-on.)
+impl Scenario for crate::jamming::JammingScenario {
+    fn run(&self) -> Result<RunOutput, KshanaError> {
+        self.time.validate()?;
+        let r = crate::jamming::run_jamming(self);
+        let summary = format!(
+            "scenario {} | jamming {} | availability under jamming {:.2} (nominal {:.2}) | min tracking {} | mean J/S {}",
+            &r.scenario_hash[..12],
+            if r.jammer_present { "ON" } else { "OFF" },
+            r.fom.availability_under_jamming,
+            r.fom.availability_nominal,
+            r.fom.min_tracking,
+            if r.fom.mean_js_db.is_nan() { "n/a".to_string() } else { format!("{:.1} dB", r.fom.mean_js_db) },
+        );
+        Ok(RunOutput {
+            json: json_of(&r),
+            svg: crate::jamming::to_svg(&r),
+            summary,
+        })
+    }
+}
+
+/// Run a scenario and return a typed result with a structured error — the entry
+/// point binding callers should prefer over the string-error [`run_toml`].
+pub fn run_scenario(src: &str) -> Result<RunOutput, KshanaError> {
+    // Resolve the kind with the typed classifier (a real structured error), then
+    // run; pack-level parse/validation failures surface as `InvalidInput`.
+    ScenarioKind::classify(src)?;
+    run_toml(src).map_err(KshanaError::InvalidInput)
+}
+
+/// Parse, dispatch, and run a scenario given as a TOML string. Dispatch is on the
+/// typed [`ScenarioKind`]; the string-error signature is retained for the CLI and
+/// the existing bindings (see [`run_scenario`] for the structured-error variant).
 pub fn run_toml(src: &str) -> Result<RunOutput, String> {
-    let kind: Kind = toml::from_str(src).unwrap_or(Kind {
-        kind: String::new(),
-    });
-    match kind.kind.as_str() {
-        "inertial" => {
+    match ScenarioKind::classify(src).map_err(|e| e.to_string())? {
+        ScenarioKind::Inertial => {
             let scn: crate::inertial::InertialScenario =
                 toml::from_str(src).map_err(|e| format!("invalid inertial scenario: {e}"))?;
             scn.time.validate()?;
@@ -130,7 +333,7 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
                 summary,
             })
         }
-        "integrity" => {
+        ScenarioKind::Integrity => {
             let scn: crate::raim::IntegrityScenario =
                 toml::from_str(src).map_err(|e| format!("invalid integrity scenario: {e}"))?;
             scn.time.validate()?;
@@ -156,7 +359,7 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
                 summary,
             })
         }
-        "timetransfer" => {
+        ScenarioKind::TimeTransfer => {
             let scn: crate::timetransfer::TimeTransferScenario =
                 toml::from_str(src).map_err(|e| format!("invalid time-transfer scenario: {e}"))?;
             let r = crate::timetransfer::run_timetransfer(&scn);
@@ -172,7 +375,7 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
                 summary,
             })
         }
-        "hybrid" => {
+        ScenarioKind::Hybrid => {
             let scn: crate::hybrid::HybridScenario =
                 toml::from_str(src).map_err(|e| format!("invalid hybrid scenario: {e}"))?;
             scn.time.validate()?;
@@ -189,7 +392,7 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
                 summary,
             })
         }
-        "fusion" => {
+        ScenarioKind::Fusion => {
             let scn: crate::hybrid::HybridScenario =
                 toml::from_str(src).map_err(|e| format!("invalid fusion scenario: {e}"))?;
             scn.time.validate()?;
@@ -206,7 +409,7 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
                 summary,
             })
         }
-        "gnss-ins" => {
+        ScenarioKind::GnssIns => {
             let scn: crate::fusion::pack::GnssInsScenario =
                 toml::from_str(src).map_err(|e| format!("invalid gnss-ins scenario: {e}"))?;
             scn.time.validate()?;
@@ -223,7 +426,7 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
                 summary,
             })
         }
-        "gnss-sim" => {
+        ScenarioKind::GnssSim => {
             let scn: crate::gnss_sim::GnssSimScenario =
                 toml::from_str(src).map_err(|e| format!("invalid gnss-sim scenario: {e}"))?;
             scn.time.validate()?;
@@ -241,27 +444,13 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
                 summary,
             })
         }
-        "jamming" => {
+        ScenarioKind::Jamming => {
+            // Routed through the `Scenario` trait — the extension-point contract.
             let scn: crate::jamming::JammingScenario =
                 toml::from_str(src).map_err(|e| format!("invalid jamming scenario: {e}"))?;
-            scn.time.validate()?;
-            let r = crate::jamming::run_jamming(&scn);
-            let summary = format!(
-                "scenario {} | jamming {} | availability under jamming {:.2} (nominal {:.2}) | min tracking {} | mean J/S {}",
-                &r.scenario_hash[..12],
-                if r.jammer_present { "ON" } else { "OFF" },
-                r.fom.availability_under_jamming,
-                r.fom.availability_nominal,
-                r.fom.min_tracking,
-                if r.fom.mean_js_db.is_nan() { "n/a".to_string() } else { format!("{:.1} dB", r.fom.mean_js_db) },
-            );
-            Ok(RunOutput {
-                json: json_of(&r),
-                svg: crate::jamming::to_svg(&r),
-                summary,
-            })
+            scn.run().map_err(|e| e.to_string())
         }
-        "spoof" => {
+        ScenarioKind::Spoof => {
             let scn: crate::spoof::SpoofScenario =
                 toml::from_str(src).map_err(|e| format!("invalid spoof scenario: {e}"))?;
             scn.time.validate()?;
@@ -282,7 +471,7 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
                 summary,
             })
         }
-        "sweep" => {
+        ScenarioKind::Sweep => {
             let scn: crate::sweep::SweepScenario =
                 toml::from_str(src).map_err(|e| format!("invalid sweep scenario: {e}"))?;
             scn.base.time.validate()?;
@@ -301,7 +490,7 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
                 summary,
             })
         }
-        "sweep-nd" => {
+        ScenarioKind::SweepNd => {
             let scn: crate::sweep::GenericSweepScenario =
                 toml::from_str(src).map_err(|e| format!("invalid generic sweep scenario: {e}"))?;
             let r = crate::sweep::run_generic_sweep(&scn)?;
@@ -319,7 +508,7 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
                 summary,
             })
         }
-        "orbit" => {
+        ScenarioKind::Orbit => {
             let scn: crate::orbit::OrbitClockScenario =
                 toml::from_str(src).map_err(|e| format!("invalid orbit scenario: {e}"))?;
             scn.time.validate()?;
@@ -358,7 +547,7 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
                 summary,
             })
         }
-        _ => {
+        ScenarioKind::Clock => {
             let scn: crate::scenario::Scenario =
                 toml::from_str(src).map_err(|e| format!("invalid scenario: {e}"))?;
             scn.time.validate()?;
@@ -398,6 +587,72 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn scenario_kind_classifies_and_round_trips() {
+        // Every built-in kind classifies to its variant and back to its string.
+        for meta in list_scenario_kinds() {
+            let src = format!("kind = \"{}\"\n", meta.name);
+            let k = ScenarioKind::classify(&src).unwrap();
+            assert_eq!(k.as_str(), meta.name, "round-trip for {}", meta.name);
+        }
+        // An empty or unknown kind falls back to the clock pack (historical default).
+        assert_eq!(ScenarioKind::classify("").unwrap(), ScenarioKind::Clock);
+        assert_eq!(
+            ScenarioKind::classify("kind = \"frobnicate\"").unwrap(),
+            ScenarioKind::Clock
+        );
+    }
+
+    #[test]
+    fn list_scenario_kinds_covers_every_dispatch_variant() {
+        let names: std::collections::HashSet<_> =
+            list_scenario_kinds().iter().map(|m| m.name).collect();
+        for k in [
+            ScenarioKind::Clock,
+            ScenarioKind::Inertial,
+            ScenarioKind::Integrity,
+            ScenarioKind::TimeTransfer,
+            ScenarioKind::Hybrid,
+            ScenarioKind::Fusion,
+            ScenarioKind::GnssIns,
+            ScenarioKind::GnssSim,
+            ScenarioKind::Jamming,
+            ScenarioKind::Spoof,
+            ScenarioKind::Sweep,
+            ScenarioKind::SweepNd,
+            ScenarioKind::Orbit,
+        ] {
+            assert!(
+                names.contains(k.as_str()),
+                "metadata missing for {}",
+                k.as_str()
+            );
+        }
+        // The JSON form parses and is non-empty.
+        let j: serde_json::Value = serde_json::from_str(&list_scenario_kinds_json()).unwrap();
+        assert!(j.as_array().unwrap().len() >= 13);
+    }
+
+    #[test]
+    fn run_scenario_returns_a_structured_error_taxonomy() {
+        // A malformed scenario yields a typed InvalidInput, not an opaque string.
+        let err = run_scenario("kind = \"inertial\"\nthis is not valid toml = =").unwrap_err();
+        assert!(matches!(err, KshanaError::InvalidInput(_)));
+        // A valid scenario runs through the typed entry too.
+        let out = run_scenario(include_str!("../scenarios/jamming-demo.toml")).unwrap();
+        assert!(out.json.starts_with('{'));
+    }
+
+    #[test]
+    fn jamming_pack_runs_through_the_scenario_trait() {
+        // The trait is the real execution path for at least one built-in.
+        let scn: crate::jamming::JammingScenario =
+            toml::from_str(include_str!("../scenarios/jamming-demo.toml")).unwrap();
+        let out = Scenario::run(&scn).unwrap();
+        assert!(out.summary.contains("jamming"));
+        assert!(out.svg.starts_with("<svg"));
+    }
 
     #[test]
     fn dispatches_each_kind_and_emits_json_and_svg() {
