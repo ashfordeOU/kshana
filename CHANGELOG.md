@@ -27,6 +27,17 @@ breaking changes are called out explicitly.
   RINEX arc remains a roadmap item — it needs a pseudorange solution).
 
 ### Added
+- **Tightly-coupled (pseudorange) GNSS/INS update.** `GnssInsEkf::update_tightly_coupled`
+  (and the `ClosedLoopInsGnss::fuse_tightly_coupled` wrapper) implement the
+  previously-stubbed range-domain measurement: the innovation is the predicted
+  range from the INS position to each satellite versus the measured pseudorange,
+  with a line-of-sight Jacobian on the position error. Because each satellite is a
+  scalar measurement, the filter keeps correcting with **fewer than four
+  satellites** — where a loosely-coupled PVT fix does not exist. Five tests cover
+  four-satellite nulling, two-satellite correction (no PVT possible), single-
+  satellite along-line-of-sight observability, and input validation. Pseudorange-
+  only; carrier phase and an explicit receiver-clock state remain roadmap. The
+  unused `tight_coupling` cargo feature (which gated the old error stub) is removed.
 - **Loosely-coupled GNSS/INS scenario pack (`kind = "gnss-ins"`, `src/fusion/pack.rs`).**
   Wires the three-axis strapdown navigator and the 15-state error-state EKF
   (`closed_loop` / `gnss_ins_ekf`) into a runnable scenario with a figure of merit —
