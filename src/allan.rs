@@ -23,13 +23,26 @@ pub fn overlapping_adev(phase: &[f64], tau0: Seconds, m: usize) -> f64 {
 }
 
 /// One point on an Allan-deviation curve: the averaging time `tau`, the
-/// overlapping ADEV at that tau, and the number of overlapping differences that
-/// went into it (a confidence proxy — fewer samples at long tau).
+/// overlapping ADEV at that tau, the number of overlapping differences that went
+/// into it (a confidence proxy — fewer samples at long tau), and a
+/// noise-type-specific 95% confidence interval. `noise` is the power-law type
+/// identified for the whole record (shared by every point); `edf` is that type's
+/// effective degrees of freedom at this tau, and `[ci_lo, ci_hi]` the resulting
+/// chi-squared band on `adev`. When the record is too short to classify, `noise`
+/// is `None` and the interval falls back to the conservative non-overlapping edf.
 #[derive(Clone, Copy, Debug, Serialize, PartialEq)]
 pub struct AdevPoint {
     pub tau_s: f64,
     pub adev: f64,
     pub n_samples: usize,
+    #[serde(default)]
+    pub noise: Option<PowerLawNoise>,
+    #[serde(default)]
+    pub edf: f64,
+    #[serde(default)]
+    pub ci_lo: f64,
+    #[serde(default)]
+    pub ci_hi: f64,
 }
 
 /// Overlapping ADEV across octave-spaced averaging factors (m = 1, 2, 4, ...),
@@ -39,14 +52,28 @@ pub struct AdevPoint {
 /// noisy estimate. Returns an empty vector if there are too few samples.
 pub fn overlapping_adev_curve(phase: &[f64], tau0: Seconds) -> Vec<AdevPoint> {
     const MIN_OVERLAPS: usize = 8;
+    const CONF: f64 = 0.95;
     let n = phase.len();
+    // Identify the noise type once for the whole record; every point's edf and
+    // confidence band derive from it.
+    let noise = classify_power_law(phase, tau0);
     let mut out = Vec::new();
     let mut m = 1usize;
     while n > 2 * m && (n - 2 * m) >= MIN_OVERLAPS {
+        let adev = overlapping_adev(phase, tau0, m);
+        let edf = match noise {
+            Some(nz) => edf_overlapping_adev(nz, n, m),
+            None => conservative_edf(n, m),
+        };
+        let ci = deviation_ci(adev, edf, CONF);
         out.push(AdevPoint {
             tau_s: m as f64 * tau0,
-            adev: overlapping_adev(phase, tau0, m),
+            adev,
             n_samples: n - 2 * m,
+            noise,
+            edf,
+            ci_lo: ci.lo,
+            ci_hi: ci.hi,
         });
         m *= 2;
     }
@@ -188,8 +215,9 @@ pub struct DeviationCi {
 ///
 /// Pass the edf you trust for the estimator and noise type. For overlapping
 /// estimators a *conservative* choice is the count of non-overlapping estimates
-/// (see [`conservative_edf`]); Stable32's noise-type-specific edf is tighter and
-/// is a roadmap item.
+/// (see [`conservative_edf`]); the noise-type-specific edf
+/// ([`edf_overlapping_adev`]) is tighter and is what [`overlapping_adev_curve`]
+/// uses once it has classified the record.
 pub fn deviation_ci(dev: f64, edf: f64, conf: f64) -> DeviationCi {
     assert!(edf > 0.0 && conf > 0.0 && conf < 1.0);
     let alpha = 1.0 - conf;
@@ -207,9 +235,129 @@ pub fn deviation_ci(dev: f64, edf: f64, conf: f64) -> DeviationCi {
 /// averaging factor `m` over `n` phase samples: the number of *non-overlapping*
 /// estimates, `floor(n/m) - 1` (at least 1). This under-counts the information an
 /// overlapping estimator actually uses, so the resulting interval is wider than
-/// (i.e. conservative relative to) a noise-type-specific edf.
+/// (i.e. conservative relative to) a noise-type-specific edf. Use it as the
+/// fallback when the dominant noise type is unknown; prefer
+/// [`edf_overlapping_adev`] once it has been identified.
 pub fn conservative_edf(n: usize, m: usize) -> f64 {
     ((n / m).saturating_sub(1)).max(1) as f64
+}
+
+/// The five canonical power-law noise types of a clock, named by the exponent
+/// `alpha` of the fractional-frequency power spectral density `S_y(f) ∝ f^alpha`.
+/// The noise type sets the slope of the Allan deviation and — the reason it
+/// matters here — the *effective degrees of freedom* of a finite overlapping
+/// estimate: white PM is information-rich (high edf), random-walk FM is
+/// information-poor (low edf) for the very same record length.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
+pub enum PowerLawNoise {
+    /// White phase modulation, `S_y(f) ∝ f^2` (alpha = 2).
+    WhitePm,
+    /// Flicker phase modulation, `S_y(f) ∝ f^1` (alpha = 1).
+    FlickerPm,
+    /// White frequency modulation, `S_y(f) ∝ f^0` (alpha = 0).
+    WhiteFm,
+    /// Flicker frequency modulation, `S_y(f) ∝ f^-1` (alpha = -1).
+    FlickerFm,
+    /// Random-walk frequency modulation, `S_y(f) ∝ f^-2` (alpha = -2).
+    RandomWalkFm,
+}
+
+impl PowerLawNoise {
+    /// The PSD exponent `alpha` for `S_y(f) ∝ f^alpha` (+2 down to -2).
+    pub fn alpha(self) -> i32 {
+        match self {
+            PowerLawNoise::WhitePm => 2,
+            PowerLawNoise::FlickerPm => 1,
+            PowerLawNoise::WhiteFm => 0,
+            PowerLawNoise::FlickerFm => -1,
+            PowerLawNoise::RandomWalkFm => -2,
+        }
+    }
+
+    /// Classify from a **modified** Allan-deviation log-log slope `mu`
+    /// (`MDEV ∝ tau^mu`). MDEV is used rather than ADEV because the plain ADEV
+    /// cannot separate white from flicker PM (both ≈ `tau^-1`), whereas MDEV's
+    /// slope is one-to-one with the five types: WPM `-3/2`, FPM `-1`, WFM `-1/2`,
+    /// FFM `0`, RWFM `+1/2`. The nearest half-integer grid point wins (so `2*mu`
+    /// rounds to `-3..=1`), clamped to the modelled range.
+    pub fn from_mdev_slope(mu: f64) -> Self {
+        match ((2.0 * mu).round() as i32).clamp(-3, 1) {
+            -3 => PowerLawNoise::WhitePm,
+            -2 => PowerLawNoise::FlickerPm,
+            -1 => PowerLawNoise::WhiteFm,
+            0 => PowerLawNoise::FlickerFm,
+            _ => PowerLawNoise::RandomWalkFm,
+        }
+    }
+}
+
+/// Noise-type-specific effective degrees of freedom for the **overlapping Allan
+/// deviation** at averaging factor `m` over `n` phase samples, from the
+/// closed-form approximations of Riley, *NIST SP 1065* (Handbook of Frequency
+/// Stability Analysis), Table 5 — the same simple-formula set Stable32 reports.
+/// Feed the result to [`deviation_ci`] in place of the conservative
+/// non-overlapping count once the dominant noise type is known (see
+/// [`classify_power_law`]); the interval is correspondingly tighter and
+/// noise-aware. Clamped to at least one degree of freedom — the formula can dip
+/// below 1 for short flicker-/white-PM records or very large `m`, where one edf
+/// is the conservative floor for a usable interval.
+pub fn edf_overlapping_adev(noise: PowerLawNoise, n: usize, m: usize) -> f64 {
+    let nn = n as f64;
+    let mm = m as f64;
+    let edf = match noise {
+        PowerLawNoise::WhitePm => (nn + 1.0) * (nn - 2.0 * mm) / (2.0 * (nn - mm)),
+        PowerLawNoise::FlickerPm => {
+            let a = (nn - 1.0) / mm;
+            let b = (2.0 * mm + 1.0) * (nn - 1.0) / 4.0;
+            (a.ln() * b.ln()).sqrt().exp()
+        }
+        PowerLawNoise::WhiteFm => {
+            (3.0 * (nn - 1.0) / (2.0 * mm) - 2.0 * (nn - 2.0) / nn)
+                * (4.0 * mm * mm / (4.0 * mm * mm + 5.0))
+        }
+        PowerLawNoise::FlickerFm => {
+            if m == 1 {
+                2.0 * (nn - 2.0) / (2.3 * nn - 4.9)
+            } else {
+                5.0 * nn * nn / (4.0 * mm * (nn + 3.0 * mm))
+            }
+        }
+        PowerLawNoise::RandomWalkFm => {
+            let nm1 = nn - 1.0;
+            let a = (nn - 2.0) / (mm * nm1 * nm1);
+            let b = nm1 * nm1 - 3.0 * mm * nm1 + 4.0 * mm * mm;
+            a * b
+        }
+    };
+    edf.max(1.0)
+}
+
+/// Identify the dominant power-law noise type of a phase record from the
+/// least-squares log-log slope of its **modified** Allan deviation across
+/// octave-spaced averaging factors. Returns `None` when there are too few
+/// samples for a stable fit (fewer than three usable MDEV points). See
+/// [`PowerLawNoise::from_mdev_slope`] for why MDEV (not ADEV) is used.
+pub fn classify_power_law(phase: &[f64], tau0: Seconds) -> Option<PowerLawNoise> {
+    let n = phase.len();
+    let mut pts: Vec<(f64, f64)> = Vec::new();
+    let mut m = 1usize;
+    while n > 3 * m && (n - 3 * m + 1) >= 8 {
+        let md = modified_adev(phase, tau0, m);
+        if md > 0.0 {
+            pts.push(((m as f64 * tau0).log10(), md.log10()));
+        }
+        m *= 2;
+    }
+    if pts.len() < 3 {
+        return None;
+    }
+    let k = pts.len() as f64;
+    let sx: f64 = pts.iter().map(|p| p.0).sum();
+    let sy: f64 = pts.iter().map(|p| p.1).sum();
+    let sxx: f64 = pts.iter().map(|p| p.0 * p.0).sum();
+    let sxy: f64 = pts.iter().map(|p| p.0 * p.1).sum();
+    let slope = (k * sxy - sx * sy) / (k * sxx - sx * sx);
+    Some(PowerLawNoise::from_mdev_slope(slope))
 }
 
 #[cfg(test)]
@@ -661,5 +809,145 @@ mod tests {
         // Conservative edf is the non-overlapping count.
         assert_eq!(conservative_edf(1000, 10), 99.0);
         assert_eq!(conservative_edf(5, 10), 1.0); // floored at 1
+    }
+
+    // ---------------------------------------------------------------------
+    // Noise-type-specific effective degrees of freedom (NIST SP 1065 Table 5)
+    // ---------------------------------------------------------------------
+
+    #[test]
+    fn mdev_slope_maps_to_noise_type() {
+        use PowerLawNoise::*;
+        // MDEV log-log slope -> noise type, one-to-one on the half-integer grid.
+        assert_eq!(PowerLawNoise::from_mdev_slope(-1.5), WhitePm);
+        assert_eq!(PowerLawNoise::from_mdev_slope(-1.0), FlickerPm);
+        assert_eq!(PowerLawNoise::from_mdev_slope(-0.5), WhiteFm);
+        assert_eq!(PowerLawNoise::from_mdev_slope(0.0), FlickerFm);
+        assert_eq!(PowerLawNoise::from_mdev_slope(0.5), RandomWalkFm);
+        // Slopes off the grid clamp to the nearest modelled extreme.
+        assert_eq!(PowerLawNoise::from_mdev_slope(-3.0), WhitePm);
+        assert_eq!(PowerLawNoise::from_mdev_slope(2.0), RandomWalkFm);
+        // PSD exponents.
+        assert_eq!(WhitePm.alpha(), 2);
+        assert_eq!(WhiteFm.alpha(), 0);
+        assert_eq!(RandomWalkFm.alpha(), -2);
+    }
+
+    #[test]
+    fn edf_formulas_match_nist_sp1065_table5() {
+        // Transcription check: the five closed forms evaluated by hand at
+        // N=64, m=4 (Riley, NIST SP 1065, Table 5). Catches any operator-precedence
+        // or coefficient slip in the port. Exact rationals / closed forms.
+        use PowerLawNoise::*;
+        let cases = [
+            (WhitePm, 30.333_333_333_333_332_f64),
+            (FlickerPm, 40.270_309_312_727_306),
+            (WhiteFm, 20.115_942_028_985_508),
+            (FlickerFm, 16.842_105_263_157_894),
+            (RandomWalkFm, 12.797_556_059_460_822),
+        ];
+        for (nz, want) in cases {
+            let got = edf_overlapping_adev(nz, 64, 4);
+            assert!(
+                (got - want).abs() / want < 1e-12,
+                "{nz:?}: got {got}, want {want}"
+            );
+        }
+    }
+
+    #[test]
+    fn flicker_fm_at_m1_edf_floors_at_one() {
+        // The NIST formula yields ~0.87 edf for flicker FM at m=1 (information-poor);
+        // the implementation floors to one usable degree of freedom for the CI.
+        assert_eq!(edf_overlapping_adev(PowerLawNoise::FlickerFm, 64, 1), 1.0);
+    }
+
+    #[test]
+    fn edf_ordering_white_pm_richest_random_walk_poorest() {
+        // For a fixed record the edf falls monotonically as the spectrum reddens:
+        // white PM carries the most information per sample, random-walk FM the least.
+        use PowerLawNoise::*;
+        let (n, m) = (64, 8);
+        let wpm = edf_overlapping_adev(WhitePm, n, m);
+        let wfm = edf_overlapping_adev(WhiteFm, n, m);
+        let ffm = edf_overlapping_adev(FlickerFm, n, m);
+        let rwfm = edf_overlapping_adev(RandomWalkFm, n, m);
+        assert!(
+            wpm > wfm && wfm > ffm && ffm > rwfm,
+            "edf must fall as the spectrum reddens: WPM {wpm} WFM {wfm} FFM {ffm} RWFM {rwfm}"
+        );
+    }
+
+    #[test]
+    fn white_fm_edf_predicts_estimator_variance() {
+        // Non-circular validation. The overlapping-ADEV *variance* estimator is
+        // modelled as chi-squared with `edf` degrees of freedom, so across an
+        // ensemble Var(sigma^2) = 2 (true var)^2 / edf, i.e. the empirical
+        // edf = 2 * mean^2 / var. Over many independent white-FM records this
+        // measured edf must match the NIST SP 1065 formula — and must materially
+        // exceed the conservative non-overlapping count (the whole point of the
+        // noise-aware formula is a tighter, honest interval). Deterministic:
+        // ChaCha8 streams keyed by the loop index, so this is reproducible, not
+        // flaky.
+        const N: usize = 129;
+        const M: usize = 8;
+        const K: usize = 4000;
+        let vars: Vec<f64> = (0..K as u64)
+            .map(|seed| {
+                let a = overlapping_adev(&white_fm_phase(1.0, N, seed), 1.0, M);
+                a * a
+            })
+            .collect();
+        let k = K as f64;
+        let mean = vars.iter().sum::<f64>() / k;
+        let var = vars.iter().map(|v| (v - mean) * (v - mean)).sum::<f64>() / k;
+        let empirical_edf = 2.0 * mean * mean / var;
+        let formula = edf_overlapping_adev(PowerLawNoise::WhiteFm, N, M);
+        let rel = (empirical_edf - formula).abs() / formula;
+        assert!(
+            rel < 0.2,
+            "empirical edf {empirical_edf:.3} vs NIST formula {formula:.3}, rel={rel:.3}"
+        );
+        let conservative = conservative_edf(N, M);
+        assert!(
+            empirical_edf > conservative,
+            "empirical edf {empirical_edf:.3} should exceed conservative {conservative}"
+        );
+    }
+
+    #[test]
+    fn classify_power_law_identifies_white_fm() {
+        // A long white-FM record is identified from its MDEV slope (~ -1/2).
+        let phase = white_fm_phase(3.0e-12, 1 << 14, 2027);
+        assert_eq!(
+            classify_power_law(&phase, 1.0),
+            Some(PowerLawNoise::WhiteFm)
+        );
+    }
+
+    #[test]
+    fn adev_curve_carries_noise_typed_confidence_band() {
+        // The exported curve classifies the record once and attaches a
+        // noise-type-specific 95% band that brackets every ADEV point.
+        let phase = white_fm_phase(2.0e-12, 8192, 99);
+        let curve = overlapping_adev_curve(&phase, 1.0);
+        assert!(!curve.is_empty(), "curve must have points");
+        for p in &curve {
+            assert_eq!(
+                p.noise,
+                Some(PowerLawNoise::WhiteFm),
+                "white FM should be identified at tau={}",
+                p.tau_s
+            );
+            assert!(p.edf > 0.0, "edf must be positive at tau={}", p.tau_s);
+            assert!(
+                p.ci_lo > 0.0 && p.ci_lo <= p.adev && p.adev <= p.ci_hi,
+                "band must bracket adev at tau={}: [{}, {}] vs {}",
+                p.tau_s,
+                p.ci_lo,
+                p.ci_hi,
+                p.adev
+            );
+        }
     }
 }
