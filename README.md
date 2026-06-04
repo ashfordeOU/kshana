@@ -36,7 +36,7 @@ and every sensor parameter is traceable to a published source.
 *Free and open source under Apache-2.0, professionally developed and maintained by
 Ashforde OÜ — commercial support, integration, and proprietary extensions available.*
 
-> **Status: v0.9.2 · a simulation substrate, not yet a product.** A validated,
+> **Status: v0.10.0 · a simulation substrate, not yet a product.** A validated,
 > fully reproducible engine spanning the PNT stack — orbit geometry, inertial
 > navigation, GNSS/INS fusion, integrity, clocks, and timing. Honest by design:
 > every figure of merit is labelled *validated* or *not-modeled*, and optical-clock
@@ -568,7 +568,7 @@ entry for every user-visible change. Participation is governed by our
 
 If you use Kshana in academic or technical work, please cite it. Machine-readable
 metadata is in [`CITATION.cff`](CITATION.cff) (GitHub renders a "Cite this repository"
-button from it); cite the version you used (e.g. `v0.9.2`) together with the
+button from it); cite the version you used (e.g. `v0.10.0`) together with the
 scenario and seed for full reproducibility. Every release is archived on Zenodo with
 a citable DOI — the concept DOI [10.5281/zenodo.20528627](https://doi.org/10.5281/zenodo.20528627)
 always resolves to the latest version.
