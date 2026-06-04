@@ -31,5 +31,6 @@ pub mod timescales;
 pub mod timetransfer;
 pub mod tle;
 pub mod types;
+pub mod walker;
 #[cfg(feature = "wasm")]
 pub mod wasm;
