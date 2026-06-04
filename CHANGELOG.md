@@ -23,6 +23,16 @@ breaking changes are called out explicitly.
   API change.
 
 ### Added
+- **Constellation-design optimiser and streets-of-coverage geometry.** `src/walker.rs`
+  gains `optimize_walker_design`, a gradient-free grid optimiser that searches the
+  `{planes × sats × inclination}` design space and returns the best Walker design under
+  a chosen `DesignObjective` — `MinSatellitesForCoverage`, `MaxCoverage`, or
+  `MinWorstPdop` — over the already-validated PDOP sweep (a test confirms it returns the
+  brute-force winner). Plus the analytical **streets-of-coverage** closed forms
+  `coverage_half_angle_rad` (`λ = arccos(Re/r·cos ε) − ε`) and `street_half_width_rad`
+  (`cos c = cos λ / cos(π/s)`, Rider/Beste), hand-verified against textbook geometry and
+  detecting the under-population gap. The full Rider minimum-satellite global-coverage
+  solver, a 3-D playground globe, and an external-tool DOP cross-check remain follow-ons.
 - **SP3 precise-ephemeris export from the CLI.** A propagated orbit/constellation
   scenario can now be written to an SP3-c file: `kshana <orbit.toml> --export-sp3
   out.sp3`, or `export_sp3 = true` in the scenario auto-writes `<scenario>.sp3`
