@@ -223,6 +223,26 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
                 summary,
             })
         }
+        "jamming" => {
+            let scn: crate::jamming::JammingScenario =
+                toml::from_str(src).map_err(|e| format!("invalid jamming scenario: {e}"))?;
+            scn.time.validate()?;
+            let r = crate::jamming::run_jamming(&scn);
+            let summary = format!(
+                "scenario {} | jamming {} | availability under jamming {:.2} (nominal {:.2}) | min tracking {} | mean J/S {}",
+                &r.scenario_hash[..12],
+                if r.jammer_present { "ON" } else { "OFF" },
+                r.fom.availability_under_jamming,
+                r.fom.availability_nominal,
+                r.fom.min_tracking,
+                if r.fom.mean_js_db.is_nan() { "n/a".to_string() } else { format!("{:.1} dB", r.fom.mean_js_db) },
+            );
+            Ok(RunOutput {
+                json: json_of(&r),
+                svg: crate::jamming::to_svg(&r),
+                summary,
+            })
+        }
         "spoof" => {
             let scn: crate::spoof::SpoofScenario =
                 toml::from_str(src).map_err(|e| format!("invalid spoof scenario: {e}"))?;
@@ -380,6 +400,7 @@ mod tests {
             include_str!("../scenarios/sweep-clock-stability.toml"),
             include_str!("../scenarios/spoof-attack.toml"),
             include_str!("../scenarios/integrity-raim.toml"),
+            include_str!("../scenarios/jamming-demo.toml"),
         ] {
             let out = run_toml(src).expect("scenario runs");
             assert!(out.json.starts_with('{'));
