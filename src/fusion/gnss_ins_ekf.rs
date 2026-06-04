@@ -32,9 +32,14 @@
 //! position and velocity, `z = H δx + ν` with `H = [I₃ 0 0 0 0; 0 I₃ 0 0 0]`.
 //! The covariance update uses the Joseph form for numerical stability.
 //!
-//! Tightly-coupled operation (pseudorange/Doppler measurements rather than a PVT
-//! solution) is a documented but unimplemented extension — see
-//! [`update_tightly_coupled`].
+//! Tightly-coupled operation forms the innovation in the **range domain**: the
+//! predicted range from the INS position to each satellite versus the measured
+//! pseudorange, `z_i = ê_i · δp + ν_i` with the line-of-sight unit vector `ê_i`.
+//! Because each satellite contributes its own scalar measurement, the filter keeps
+//! correcting with **fewer than four satellites**, where a loosely-coupled PVT
+//! solution does not exist — see [`GnssInsEkf::update_tightly_coupled`]. (The
+//! pseudoranges are taken receiver-clock-corrected, i.e. single-differenced; an
+//! explicit receiver-clock state is a future extension.)
 //!
 //! No external linear-algebra dependency: the small dense matrices are handled
 //! by the helpers in this module.
@@ -479,21 +484,86 @@ impl GnssInsEkf {
         self.x = [0.0; N];
     }
 
-    /// Tightly-coupled update (pseudorange/Doppler measurements). **Not yet
-    /// implemented** — documented interface contract only. A tightly-coupled
-    /// filter forms the innovation in the range domain (predicted range from the
-    /// INS position to each satellite vs the measured pseudorange) and so keeps
-    /// working with fewer than four satellites, where a loosely-coupled PVT
-    /// solution is unavailable.
-    #[cfg(feature = "tight_coupling")]
+    /// Tightly-coupled pseudorange update. The innovation is formed in the range
+    /// domain: for each satellite the predicted range from the INS position
+    /// `ins_pos` to `sat_positions[i]` is compared to the measured (receiver-clock
+    /// corrected) `pseudoranges_m[i]`, and the line-of-sight unit vector `ê_i`
+    /// gives the measurement row `H_i = [ê_iᵀ, 0, 0, 0, 0]` mapping the position
+    /// error `δp` to the range residual. All positions must be in the same working
+    /// frame (the local NED tangent plane used by [`super::closed_loop`]).
+    ///
+    /// Unlike [`update_loosely_coupled`](Self::update_loosely_coupled) this needs
+    /// no PVT fix and so keeps correcting with **as few as one satellite** —
+    /// constraining the error along that line of sight. `sigma_range_m` is the 1-σ
+    /// pseudorange accuracy, applied isotropically. Returns the updated error state,
+    /// or an error if the inputs are empty, mismatched, or `sigma_range_m ≤ 0`.
     pub fn update_tightly_coupled(
         &mut self,
-        _sat_positions: &[Vec3],
-        _pseudoranges_m: &[f64],
-        _dopplers_mps: &[f64],
-        _sigma_range_m: f64,
+        ins_pos: Vec3,
+        sat_positions: &[Vec3],
+        pseudoranges_m: &[f64],
+        sigma_range_m: f64,
     ) -> Result<[f64; N], &'static str> {
-        Err("tightly-coupled GNSS/INS update is not implemented (roadmap)")
+        let m = sat_positions.len();
+        if m == 0 || m != pseudoranges_m.len() {
+            return Err("need one pseudorange per satellite, at least one");
+        }
+        if sigma_range_m.is_nan() || sigma_range_m <= 0.0 {
+            return Err("sigma_range_m must be positive");
+        }
+        // Build H (m×N) and the innovation ν = (z − H x̂), with
+        //   z_i = ρ̂_i(INS) − ρ_meas_i ≈ ê_i · δp.
+        let mut h = Mat::zeros(m, N);
+        let mut nu = vec![0.0; m];
+        for i in 0..m {
+            let d = [
+                ins_pos[0] - sat_positions[i][0],
+                ins_pos[1] - sat_positions[i][1],
+                ins_pos[2] - sat_positions[i][2],
+            ];
+            let range = (d[0] * d[0] + d[1] * d[1] + d[2] * d[2]).sqrt();
+            if range <= 0.0 {
+                return Err("degenerate geometry: user coincides with a satellite");
+            }
+            let e = [d[0] / range, d[1] / range, d[2] / range]; // LOS, sat→user
+            for (k, &ek) in e.iter().enumerate() {
+                h.set(i, k, ek); // observes δp
+            }
+            let z = range - pseudoranges_m[i];
+            let hx = e[0] * self.x[0] + e[1] * self.x[1] + e[2] * self.x[2];
+            nu[i] = z - hx;
+        }
+
+        // R (m×m diagonal), then the standard Joseph-form Kalman update.
+        let rr = sigma_range_m * sigma_range_m;
+        let mut r = Mat::zeros(m, m);
+        for i in 0..m {
+            r.set(i, i, rr);
+        }
+        let ht = h.transpose();
+        let pht = self.p.mul(&ht); // N×m
+        let s = h.mul(&pht).add(&r); // m×m innovation covariance
+        let s_inv = match s.inverse() {
+            Some(si) => si,
+            None => return Err("ill-conditioned innovation covariance"),
+        };
+        let k_gain = pht.mul(&s_inv); // N×m
+
+        let dk = k_gain.mul_vec(&nu);
+        for (xi, &dki) in self.x.iter_mut().zip(dk.iter()) {
+            *xi += dki;
+        }
+
+        let kh = k_gain.mul(&h); // N×N
+        let i_kh = Mat::identity(N).sub(&kh);
+        let mut p = i_kh
+            .mul(&self.p)
+            .mul(&i_kh.transpose())
+            .add(&k_gain.mul(&r).mul(&k_gain.transpose()));
+        p.symmetrize();
+        self.p = p;
+
+        Ok(self.x)
     }
 }
 
@@ -656,5 +726,42 @@ mod tests {
         ekf.reset_error_state();
         assert_eq!(ekf.error_state(), [0.0; N]);
         assert_eq!(ekf.position_cov_trace(), cov_before);
+    }
+
+    #[test]
+    fn tightly_coupled_observes_the_along_line_of_sight_error_only() {
+        // One satellite directly overhead (NED down = up). Its line of sight is
+        // purely vertical, so a pseudorange update can observe the DOWN component
+        // of the position error but not the horizontal — the range-domain
+        // selectivity that lets a tightly-coupled filter use one satellite.
+        let mut ekf = default_ekf();
+        let sat: Vec3 = [0.0, 0.0, -20_000_000.0];
+        let ins_pos: Vec3 = [0.0, 0.0, 0.0];
+        // True error is 10 m down: truth = ins − δp ⇒ measured range = |truth − sat|.
+        let truth: Vec3 = [0.0, 0.0, -10.0];
+        let dsat = [truth[0] - sat[0], truth[1] - sat[1], truth[2] - sat[2]];
+        let rho_meas = (dsat[0] * dsat[0] + dsat[1] * dsat[1] + dsat[2] * dsat[2]).sqrt();
+        let dx = ekf
+            .update_tightly_coupled(ins_pos, &[sat], &[rho_meas], 1.0)
+            .unwrap();
+        // The down error is recovered; the horizontal stays ~unobserved.
+        assert!((dx[2] - 10.0).abs() < 1.0, "down error estimate {}", dx[2]);
+        assert!(
+            dx[0].abs() < 1e-6 && dx[1].abs() < 1e-6,
+            "horizontal leaked"
+        );
+    }
+
+    #[test]
+    fn tightly_coupled_rejects_malformed_input() {
+        let mut ekf = default_ekf();
+        let sat = [0.0, 0.0, -2.0e7];
+        assert!(ekf.update_tightly_coupled([0.0; 3], &[], &[], 1.0).is_err());
+        assert!(ekf
+            .update_tightly_coupled([0.0; 3], &[sat], &[], 1.0)
+            .is_err());
+        assert!(ekf
+            .update_tightly_coupled([0.0; 3], &[sat], &[2.0e7], -1.0)
+            .is_err());
     }
 }
