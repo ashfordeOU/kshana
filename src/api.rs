@@ -265,6 +265,24 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
                 summary,
             })
         }
+        "sweep-nd" => {
+            let scn: crate::sweep::GenericSweepScenario =
+                toml::from_str(src).map_err(|e| format!("invalid generic sweep scenario: {e}"))?;
+            let r = crate::sweep::run_generic_sweep(&scn)?;
+            let summary = format!(
+                "generic sweep of `{}` over [{}] | {} nodes (shape {:?}) | metrics [{}]",
+                r.kind,
+                r.keys.join(", "),
+                r.points.len(),
+                r.shape,
+                r.metrics.join(", "),
+            );
+            Ok(RunOutput {
+                json: json_of(&r),
+                svg: crate::sweep::generic_to_svg(&r),
+                summary,
+            })
+        }
         "orbit" => {
             let scn: crate::orbit::OrbitClockScenario =
                 toml::from_str(src).map_err(|e| format!("invalid orbit scenario: {e}"))?;
