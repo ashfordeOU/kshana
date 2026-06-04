@@ -10,6 +10,16 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Measurement-domain GNSS simulation (`gnss-sim` kind).** A pseudorange-level
+  forward model: per visible satellite it synthesises `ρ = geometric range +
+  c·δt_rx − c·δt_sv + I + T + noise + multipath` and the L1 Doppler, with the
+  **Klobuchar** single-frequency ionosphere (IS-GPS-200 §20.3.3.5.2.5) and the
+  **Saastamoinen** zenith troposphere projected by the **Niell (1996)** mapping
+  function — exposed as `[iono]` and `[tropo]` TOML blocks. The residuals feed
+  snapshot RAIM for per-epoch HPL/VPL, and a `gnss_measurements[]` JSON array
+  carries each SV's pseudorange, Doppler, C/N₀, and iono/tropo corrections. A
+  zero-noise run reproduces geometry + corrections to sub-millimetre (CI test).
+  New `src/gnss_sim.rs` and `scenarios/gnss-sim-raim.toml`.
 - **Stochastic time-spoof detector (`spoof` kind).** The spoof pack now runs a real
   detector instead of a deterministic ramp-vs-bound comparison: four injection
   shapes (`linear_ramp`, `step_jump`, `meaconing`, `replay`), a two-sided χ²₁
