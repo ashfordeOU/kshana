@@ -103,7 +103,7 @@ capability is documented in [`docs/CAPABILITY.md`](docs/CAPABILITY.md).
 |--------|------------|
 | **Orbit & geometry** | SGP4/SDP4 propagation (validated to 4.12 mm against all 666 AIAA 2006-6753 vectors), real-TLE or synthetic Walker constellations, multi-constellation visibility, dilution of precision, and GNSS availability. |
 | **Inertial** | Three-axis strapdown INS — quaternion attitude, WGS-84 NED mechanization, coning/sculling compensation, and a deterministic IMU error model (scale-factor, misalignment, g-sensitivity, quantization, drift). |
-| **Fusion** | Loosely-coupled GNSS/INS error-state EKF (15-state) with closed-loop feedback that coasts through GNSS outages on a calibrated inertial solution. |
+| **Fusion** | Loosely-coupled GNSS/INS error-state EKF (15-state) with closed-loop feedback that coasts through GNSS outages on a calibrated inertial solution, runnable as the `gnss-ins` pack; plus a tightly-coupled pseudorange update that keeps correcting with fewer than four satellites. |
 | **Integrity** | Snapshot and solution-separation (ARAIM-style) RAIM with horizontal/vertical protection levels (HPL/VPL) — including levels solved from an explicit ARAIM integrity-risk (P_HMI) budget — fault detection and identification, and Stanford integrity diagrams. |
 | **Clock & timing** | Two-state Kalman holdover, Allan-family stability (ADEV/MDEV/TDEV/HDEV) with confidence intervals, and optical/RF two-way time transfer. |
 | **Interoperability** | RINEX-3 multi-GNSS broadcast-ephemeris ingestion (GPS, Galileo, QZSS, BeiDou MEO/IGSO via IS-GPS-200; GLONASS via PZ-90 state-vector RK4 propagation), usable as a constellation source that drives a scenario directly (RINEX in, PNT geometry out); RINEX-3/4 observation-file parser (pseudorange, carrier phase, Doppler, and signal strength by observation code); SP3-c/d precise-ephemeris reader/writer for IGS/analysis-centre orbit products, with 9th-order Lagrange interpolation that turns a precise-orbit file into a propagation source; CCSDS OEM 2.0 (Orbit Ephemeris Message) writer that exports a propagated constellation in the standard format flight-dynamics tools (GMAT, Orekit, STK) ingest. |
@@ -250,8 +250,9 @@ console.log(version(), result.classical.fom.timing_p95_ns);
 
 ## Scenario format
 
-Scenarios are declarative TOML. A top-level `kind` selects the pack
-(`clock` is the default if omitted; `inertial`, `timetransfer`, `hybrid`, `orbit`).
+Scenarios are declarative TOML. A top-level `kind` selects the pack (`clock` is
+the default if omitted; `inertial`, `timetransfer`, `hybrid`, `fusion`,
+`gnss-ins`, `orbit`, `integrity`, `spoof`, `sweep`).
 Common fields: `seed`, a `[time]` grid, a `[gnss]` availability timeline (the outage
 driver), and per-sensor blocks with `provenance` strings citing the source of every
 figure. Example (clock):
@@ -294,9 +295,13 @@ quaternion attitude with coning/sculling compensation, a full NED mechanization
 (Earth-rate and transport-rate terms, WGS-84 Somigliana gravity), and a
 deterministic IMU error model in which **scale-factor, misalignment,
 g-sensitivity, quantization, and rate-ramp are modelled** (IEEE Std 952-1997
-§A.2; Groves 2013 §4.3). That 3-axis path is **not yet wired into the scenario
-pack/FoM** — switching the pack over, with a loosely-coupled GNSS/INS filter, is
-the next inertial milestone. A
+§A.2; Groves 2013 §4.3). That 3-axis path is now **wired into a runnable
+loosely-coupled GNSS/INS pack** (`kind = "gnss-ins"`): a 15-state error-state EKF
+disciplines the strapdown solution against noisy fixes while GNSS is up, then
+coasts through the outage, reporting the fused horizontal error against the
+open-loop free-INS coast. A **tightly-coupled pseudorange** update is also
+available (it forms the innovation in the range domain, so it keeps correcting
+with fewer than four satellites). A
 clock-holdover scenario may add `runs` (> 1) to run a **Monte Carlo ensemble** — each
 figure of merit is then reported as a mean with a 5th–95th-percentile spread and the
 chart shades the error confidence band (see `scenarios/clock-ensemble.toml`).
@@ -360,10 +365,13 @@ See `scenarios/` for one example of every kind.
 The result artifact is versioned, self-describing JSON: per-step time series, the
 scored figures of merit, the active model specs (with provenance), the seed, a
 **scenario hash** — so any chart can be reproduced from the file — and, for each clock,
-an `adev_curve` (`[{tau_s, adev, n_samples}]`): the overlapping Allan deviation across
-octave-spaced averaging times, the standard way to read a clock's stability. The
-browser playground renders it as a log-log "Clock stability (ADEV)" chart. (MDEV/TDEV/HDEV
-and confidence intervals are not yet computed — roadmap.) Every field, with units and a
+an `adev_curve` (`[{tau_s, adev, n_samples, noise, edf, ci_lo, ci_hi}]`): the overlapping
+Allan deviation across octave-spaced averaging times — the standard way to read a clock's
+stability — now with a **noise-type-specific 95% confidence band** per point (the record's
+power-law type is identified from its modified-Allan slope, and the χ² interval uses the
+matching NIST SP 1065 effective degrees of freedom). The browser playground renders it as a
+log-log "Clock stability (ADEV)" chart. (MDEV, TDEV, and HDEV are available as library
+estimators; the exported result curve is the overlapping ADEV.) Every field, with units and a
 source pointer, is documented in [`docs/SCHEMA.md`](docs/SCHEMA.md). The figures of
 merit follow the standard operational PNT figures of merit:
 
@@ -542,11 +550,15 @@ CPython versions).
 
 ## Roadmap
 
-See [`CHANGELOG.md`](CHANGELOG.md) for released history and the `[Unreleased]`
-section for what's next (Earth-fixed frame reduction — TEME&rarr;ECEF/ITRF — and
-explicit time systems: UTC/UT1/TAI/TT with leap seconds). SGP4/SDP4 orbit
-propagation has **shipped** (v0.7.0, validated against the AIAA 2006-6753 vectors),
-and its inertial velocity is now exposed downstream. An active
+See [`CHANGELOG.md`](CHANGELOG.md) for released history and
+[`docs/CAPABILITY.md`](docs/CAPABILITY.md) for the per-capability roadmap. Near-term
+items include **ITRF-precise frame reduction** (polar motion and sub-arcsecond
+nutation on top of the shipped GMST-based TEME&harr;ECEF), two-part Julian dates,
+tightly-coupled carrier-phase fusion, and surfacing the loosely-/tightly-coupled
+GNSS/INS navigator across more packs. GMST-based TEME&harr;ECEF, the IERS
+leap-second time systems (UTC/TAI/TT/UT1), SGP4/SDP4 orbit propagation (v0.7.0,
+validated against the AIAA 2006-6753 vectors), and the runnable `gnss-ins` fusion
+pack have all **shipped**, and the inertial velocity is exposed downstream. An active
 spoofing-attack demonstrator, multi-constellation availability, a single-axis (1-DOF)
 IMU error budget, two independent (clock + position) Kalman estimators reported as a
 combined FoM, real constellation geometry from TLEs, an HTML scorecard report, a
