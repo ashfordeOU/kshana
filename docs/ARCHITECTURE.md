@@ -186,6 +186,50 @@ flowchart TD
 `serde` ignores the unknown `kind` field on each scenario struct, so existing
 single-kind scenarios deserialize unchanged.
 
+### Typed dispatch and the structured API
+
+Dispatch is on a typed `ScenarioKind` enum, not a raw string match:
+`ScenarioKind::classify(src)` resolves the `kind` field to a variant, and the
+dispatcher matches on it exhaustively — adding a pack is a compile-checked change,
+not a string typo. Three typed surfaces sit alongside the string-returning
+`run_toml` (kept for the CLI and existing bindings):
+
+- **`run_scenario(src) -> Result<RunOutput, KshanaError>`** — the typed entry, with
+  a structured error taxonomy (`InvalidInput`, `NonConvergence`, `Unsupported`,
+  `IoError`). Each error carries a stable `kind_tag()` so a caller can branch on the
+  failure category instead of parsing the message. The bindings expose this as
+  `error_kind(toml)`.
+- **`list_scenario_kinds() -> Vec<ScenarioMeta>`** (and `list_scenario_kinds_json()`,
+  exposed in the bindings as `list_kinds()`) — programmatic introspection: each
+  kind's name, description, and required/optional fields, for UI and notebook
+  auto-complete.
+
+### Extending Kshana with an external pack
+
+A third-party pack implements two small, semver-stable traits from `api`:
+
+```rust
+use kshana::api::{Scenario, ExternalPack, RunOutput, KshanaError, ScenarioMeta};
+
+struct MyPack { /* deserialized scenario fields */ }
+
+impl Scenario for MyPack {
+    fn run(&self) -> Result<RunOutput, KshanaError> {
+        // run the model; build { json, svg, summary }
+        # unimplemented!()
+    }
+}
+
+impl ExternalPack for MyPack {
+    fn kind_name(&self) -> &'static str { "my-pack" }
+    fn meta(&self) -> ScenarioMeta { /* name, description, fields */ }
+}
+```
+
+The built-in `jamming` pack is wired through `Scenario` as the worked example;
+out-of-tree packs follow the same contract without forking core (mirroring the
+`ErrorModel` extension point in §3, which the private resilience overlay uses).
+
 ## 5. The hybrid capstone
 
 The hybrid pack runs a *suite* (one clock + one inertial sensor) and requires **both**

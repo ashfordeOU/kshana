@@ -10,6 +10,16 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Typed scenario API.** Dispatch is now on a typed `ScenarioKind` enum instead
+  of a raw `kind` string match (`ScenarioKind::classify` + exhaustive dispatch), so
+  adding a pack is compile-checked. New typed surfaces alongside the unchanged
+  string-returning `run_toml`: `run_scenario(src) -> Result<RunOutput, KshanaError>`
+  with a structured error taxonomy (`InvalidInput` / `NonConvergence` /
+  `Unsupported` / `IoError`, each with a stable `kind_tag()`); a `Scenario` trait
+  and `ExternalPack` extension point (the `jamming` pack is wired through it as the
+  worked example); and `list_scenario_kinds()` introspection (name, description,
+  required/optional fields per kind). The Python and WebAssembly bindings gain
+  `list_kinds()` and `error_kind()`. Documented in `docs/ARCHITECTURE.md`.
 - **Real GPS constellation + operating-envelope coverage.**
   `scenarios/orbit-sgp4-gps.toml` now ships a **real Celestrak `gps-ops` snapshot**
   (2021-07-28, 30 satellites) instead of synthetic Walker TLEs, with
