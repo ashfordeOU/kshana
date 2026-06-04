@@ -6,7 +6,7 @@
 
 <p align="center">
   <strong>क्षण</strong> — Sanskrit for <em>the precise instant</em>, the smallest measure of time.<br>
-  Open, reproducible hybrid quantum / classical PNT performance simulation.
+  Open, reproducible PNT-resilience simulation with published quantum-sensor performance models.
 </p>
 
 <p align="center">
@@ -96,6 +96,16 @@ Rust library, CLI, Python extension, or in-browser WebAssembly module.
 receiver, or a certified avionics product. Quantum-hardware fidelity comes from
 published error models, not from this tool. The granular maturity of each
 capability is documented in [`docs/CAPABILITY.md`](docs/CAPABILITY.md).
+
+**It is not (yet):** a *first-principles* atom-interferometry physics engine (it
+consumes published Allan/noise-budget coefficients — Mach–Zehnder CAI phase,
+projection noise, and the vibration tensor are a **P2** roadmap layer, see
+[`ROADMAP.md`](ROADMAP.md) and [`docs/QUANTUM-MODELS.md`](docs/QUANTUM-MODELS.md));
+a GNSS receiver or PVT solver (it models the measurement domain and resilience, not
+signal acquisition or a least-squares fix); or a mission-design / orbit-determination
+tool. Owning this scope is deliberate. If you need first-principles cold-atom
+interferometer error budgets (e.g. CARIOQA-PMP-grade or X-37B-style validation), see
+the P2 roadmap and [get in touch](#support--professional-services) to collaborate.
 
 ## Capabilities
 
@@ -592,12 +602,15 @@ CPython versions).
 
 ## Roadmap
 
-See [`CHANGELOG.md`](CHANGELOG.md) for released history and
-[`docs/CAPABILITY.md`](docs/CAPABILITY.md) for the per-capability roadmap. Near-term
-items include **ITRF-precise frame reduction** (polar motion and sub-arcsecond
-nutation on top of the shipped GMST-based TEME&harr;ECEF), two-part Julian dates,
-tightly-coupled carrier-phase fusion, and surfacing the loosely-/tightly-coupled
-GNSS/INS navigator across more packs. GMST-based TEME&harr;ECEF, the IERS
+See [`ROADMAP.md`](ROADMAP.md) for the phased roadmap, [`CHANGELOG.md`](CHANGELOG.md)
+for released history, and [`docs/CAPABILITY.md`](docs/CAPABILITY.md) for the
+per-capability roadmap. Near-term items include **ITRF-precise frame reduction**
+(polar motion and sub-arcsecond nutation on top of the shipped GMST-based
+TEME&harr;ECEF), two-part Julian dates, tightly-coupled carrier-phase fusion, and
+surfacing the loosely-/tightly-coupled GNSS/INS navigator across more packs. The
+**quantum physics layer** (first-principles Mach–Zehnder CAI phase, projection noise,
+vibration tensor) is a **P2** item — today the quantum sensors are driven by published
+Allan/noise-budget coefficients, not simulated from first principles. GMST-based TEME&harr;ECEF, the IERS
 leap-second time systems (UTC/TAI/TT/UT1), SGP4/SDP4 orbit propagation (v0.7.0,
 validated against the AIAA 2006-6753 vectors), and the runnable `gnss-ins` fusion
 pack have all **shipped**, and the inertial velocity is exposed downstream. An active
@@ -629,7 +642,7 @@ scenario and seed for full reproducibility. Every release is archived on Zenodo 
 a citable DOI — the concept DOI [10.5281/zenodo.20528627](https://doi.org/10.5281/zenodo.20528627)
 always resolves to the latest version.
 
-> Baweja, C. (2026). *Kshana — hybrid quantum/classical PNT performance simulator*. Ashforde OÜ. https://doi.org/10.5281/zenodo.20528627
+> Baweja, C. (2026). *Kshana — a PNT-resilience simulator with quantum-sensor performance models*. Ashforde OÜ. https://doi.org/10.5281/zenodo.20528627
 
 ## Versioning & releases
 

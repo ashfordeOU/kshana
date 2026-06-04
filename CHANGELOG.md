@@ -9,6 +9,19 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Changed
+- **Honest framing for the quantum positioning.** The headline descriptor is now a
+  **"PNT-resilience simulator with quantum-sensor performance models"** consistently
+  across the README tagline, citation line, `CITATION.cff` (title + abstract), and
+  the banner artwork — replacing the looser "hybrid quantum/classical PNT simulator"
+  marketing phrasing. The README's *What it is / is not* section gains an explicit
+  **"It is not (yet)"** scope statement (not a first-principles atom-interferometry
+  physics engine, not a GNSS receiver/PVT solver, not a mission-design tool), and a
+  new top-level [`ROADMAP.md`](ROADMAP.md) makes the **Quantum physics layer a P2
+  item** (Mach–Zehnder CAI phase, projection noise, vibration tensor) so readers know
+  the first-principles physics is scoped-and-coming, not abandoned. No behaviour or
+  API change.
+
 ### Added
 - **Typed scenario API.** Dispatch is now on a typed `ScenarioKind` enum instead
   of a raw `kind` string match (`ScenarioKind::classify` + exhaustive dispatch), so
