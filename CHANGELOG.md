@@ -10,6 +10,16 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **RF jamming model (`jamming` kind).** A link-budget interference model that
+  turns a jammer's power and geometry into per-satellite loss of lock: the
+  jammer-to-signal ratio from free-space path loss and the per-direction
+  receive-antenna gain, the effective C/N₀ via the standard anti-jam equation
+  (despreading processing gain × the spectral-separation factor `Q`; Kaplan &
+  Hegarty §9.4), and a configurable tracking threshold, scored over a Walker
+  constellation as an `availability_under_jamming` figure of merit. New
+  `src/jamming.rs` and `scenarios/jamming-demo.toml`. Honest scope (no multipath,
+  terrain shadowing, AGC, or adaptive nulling) is documented in
+  `docs/CAPABILITY.md` / `docs/VALIDATION.md`.
 - **Generic N-D parameter sweep over any scenario kind (`sweep-nd`).** The
   previous N-D sweep was clock-pack only. `sweep-nd` varies dotted TOML keys of a
   `[base]` scenario over the Cartesian product of its axes, re-dispatches each
