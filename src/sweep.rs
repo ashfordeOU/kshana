@@ -222,8 +222,9 @@ pub fn to_svg(result: &SweepResult) -> String {
 // list of axes and evaluates the metric over the full Cartesian product of their
 // sample values — the multi-parameter trade study ("how does holdover depend on
 // both clock stability *and* outage duration?"). Additive: the 1-D API is
-// unchanged. Bootstrap confidence intervals per grid node, and generalisation
-// beyond the clock pack, are the remaining parts of the sweep roadmap.
+// unchanged. Bootstrap confidence intervals per grid node are provided by
+// `nd_sweep_ensemble`; generalisation beyond the clock pack is provided by the
+// generic sweep further below (`run_generic_sweep`).
 // ---------------------------------------------------------------------------
 
 /// One axis of an N-dimensional sweep: which parameter to vary, over what range,
@@ -409,6 +410,380 @@ pub fn nd_sweep_ensemble(
         runs,
         points,
     })
+}
+
+// ---------------------------------------------------------------------------
+// Generic N-D sweeps over any scenario kind
+//
+// The typed `nd_sweep` above is clock-pack only: it is hard-wired to
+// `crate::scenario::Scenario` and the clock FoM. A *generic* sweep varies dotted
+// TOML keys of ANY scenario — selected by its own `kind` — over the Cartesian
+// product of the axes, re-dispatching every grid node through `run_toml` and
+// reading one or more metrics out of the result JSON by dotted path. This
+// generalises sweeps to every pack (inertial, gnss-ins, integrity, spoof, …)
+// without coupling to each pack's Rust type, sidestepping a typed-scenario enum.
+//
+// Native evaluation is parallel across grid nodes via `std::thread::scope` — no
+// added dependency, so the dependency-light + wasm constraints hold; wasm (no
+// threads) falls back to sequential. Deterministic regardless of thread count:
+// each node is fully specified by its own TOML and written back at its exact
+// flat index, so the output never depends on scheduling.
+// ---------------------------------------------------------------------------
+
+/// One axis of a generic sweep: a dotted TOML key into the base scenario, the
+/// range, the sample count, and the spacing.
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct GenericAxis {
+    /// Dotted path to a scalar field of the base scenario, e.g. `time.duration_s`
+    /// or `imu_classical.gyro_bias` is **not** valid (arrays are not swept) —
+    /// only fields that deserialize from a single number.
+    pub key: String,
+    pub start: f64,
+    pub stop: f64,
+    pub steps: usize,
+    #[serde(default = "default_scale")]
+    pub scale: String,
+}
+
+impl GenericAxis {
+    /// The sample values along this axis (at least two, endpoints included).
+    pub fn values(&self) -> Vec<f64> {
+        let n = self.steps.max(2);
+        (0..n)
+            .map(|i| {
+                let f = i as f64 / (n - 1) as f64;
+                if self.scale == "log" {
+                    (self.start.ln() + (self.stop.ln() - self.start.ln()) * f).exp()
+                } else {
+                    self.start + (self.stop - self.start) * f
+                }
+            })
+            .collect()
+    }
+}
+
+/// A generic N-D sweep: a base scenario (as a TOML table carrying its own
+/// `kind`), the axes to vary, and the metrics to record as dotted JSON paths
+/// into each node's result (e.g. `quantum.fom.holdover_s`).
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct GenericSweepScenario {
+    /// The base scenario as a TOML table. Must carry its own `kind` (anything but
+    /// a sweep) so each grid node can be dispatched on its own.
+    pub base: toml::Value,
+    pub axes: Vec<GenericAxis>,
+    /// Dotted JSON paths into the per-node result document.
+    pub metrics: Vec<String>,
+}
+
+/// One node of a generic N-D sweep: the coordinate (one value per axis, axis
+/// order) and the recorded metrics (aligned with [`GenericSweepScenario::metrics`]).
+#[derive(Clone, Debug, Serialize)]
+pub struct GenericNdPoint {
+    pub coords: Vec<f64>,
+    pub metrics: Vec<f64>,
+}
+
+/// The result of a generic N-D sweep.
+#[derive(Clone, Debug, Serialize)]
+pub struct GenericNdSweepResult {
+    pub schema_version: String,
+    pub engine_version: String,
+    /// The `kind` of the swept base scenario.
+    pub kind: String,
+    pub keys: Vec<String>,
+    pub metrics: Vec<String>,
+    pub shape: Vec<usize>,
+    pub points: Vec<GenericNdPoint>,
+}
+
+/// Set a dotted key of a TOML table to a float. Errors if any path segment is
+/// missing or not a table — a mistyped sweep key must fail loudly, never
+/// silently create a field the scenario will ignore.
+fn set_dotted(root: &mut toml::Value, key: &str, value: f64) -> Result<(), String> {
+    let parts: Vec<&str> = key.split('.').collect();
+    if parts.iter().any(|p| p.is_empty()) {
+        return Err(format!("sweep key `{key}` is malformed"));
+    }
+    let mut cur = root;
+    for part in &parts[..parts.len() - 1] {
+        let tbl = cur
+            .as_table_mut()
+            .ok_or_else(|| format!("sweep key `{key}`: `{part}`'s parent is not a table"))?;
+        cur = tbl
+            .get_mut(*part)
+            .ok_or_else(|| format!("sweep key `{key}`: no field `{part}`"))?;
+    }
+    let last = parts[parts.len() - 1];
+    let tbl = cur
+        .as_table_mut()
+        .ok_or_else(|| format!("sweep key `{key}`: parent of `{last}` is not a table"))?;
+    let slot = tbl
+        .get_mut(last)
+        .ok_or_else(|| format!("sweep key `{key}`: no field `{last}`"))?;
+    *slot = toml::Value::Float(value);
+    Ok(())
+}
+
+/// Read a dotted path out of a result JSON document as a number.
+fn get_dotted_json(root: &serde_json::Value, path: &str) -> Result<f64, String> {
+    let mut cur = root;
+    for part in path.split('.') {
+        cur = cur
+            .get(part)
+            .ok_or_else(|| format!("metric `{path}`: no field `{part}` in result"))?;
+    }
+    cur.as_f64()
+        .ok_or_else(|| format!("metric `{path}`: value is not a number"))
+}
+
+/// Decode a flat row-major index into per-axis coordinates (last axis fastest).
+fn coords_of(flat: usize, axis_values: &[Vec<f64>], shape: &[usize]) -> Vec<f64> {
+    let mut idx = flat;
+    let mut coords = vec![0.0_f64; axis_values.len()];
+    for d in (0..axis_values.len()).rev() {
+        let len = shape[d];
+        coords[d] = axis_values[d][idx % len];
+        idx /= len;
+    }
+    coords
+}
+
+/// Evaluate a single grid node: patch the base scenario at this node's
+/// coordinates, dispatch it, and extract the metrics. Pure and thread-safe.
+fn eval_node(
+    base: &toml::Value,
+    axes: &[GenericAxis],
+    axis_values: &[Vec<f64>],
+    shape: &[usize],
+    metrics: &[String],
+    flat: usize,
+) -> Result<GenericNdPoint, String> {
+    let coords = coords_of(flat, axis_values, shape);
+    let mut node = base.clone();
+    for (a, &v) in axes.iter().zip(&coords) {
+        set_dotted(&mut node, &a.key, v)?;
+    }
+    let src = toml::to_string(&node).map_err(|e| format!("sweep node serialize: {e}"))?;
+    let out = crate::api::run_toml(&src)?;
+    let j: serde_json::Value =
+        serde_json::from_str(&out.json).map_err(|e| format!("sweep node result parse: {e}"))?;
+    let ms = metrics
+        .iter()
+        .map(|m| get_dotted_json(&j, m))
+        .collect::<Result<Vec<_>, _>>()?;
+    Ok(GenericNdPoint {
+        coords,
+        metrics: ms,
+    })
+}
+
+/// Evaluate every grid node, in parallel across OS threads on native targets.
+#[cfg(not(target_arch = "wasm32"))]
+fn eval_grid(
+    base: &toml::Value,
+    axes: &[GenericAxis],
+    axis_values: &[Vec<f64>],
+    shape: &[usize],
+    metrics: &[String],
+    total: usize,
+) -> Result<Vec<GenericNdPoint>, String> {
+    let nthreads = std::thread::available_parallelism()
+        .map(|n| n.get())
+        .unwrap_or(1)
+        .clamp(1, total.max(1));
+    if nthreads <= 1 || total <= 1 {
+        return (0..total)
+            .map(|f| eval_node(base, axes, axis_values, shape, metrics, f))
+            .collect();
+    }
+    let chunk = total.div_ceil(nthreads);
+    let chunk_results: Vec<Result<Vec<(usize, GenericNdPoint)>, String>> =
+        std::thread::scope(|scope| {
+            let handles: Vec<_> = (0..nthreads)
+                .map(|t| {
+                    scope.spawn(move || {
+                        let lo = t * chunk;
+                        let hi = ((t + 1) * chunk).min(total);
+                        let mut out = Vec::with_capacity(hi.saturating_sub(lo));
+                        for f in lo..hi {
+                            out.push((f, eval_node(base, axes, axis_values, shape, metrics, f)?));
+                        }
+                        Ok(out)
+                    })
+                })
+                .collect();
+            handles
+                .into_iter()
+                .map(|h| {
+                    h.join()
+                        .unwrap_or_else(|_| Err("sweep worker thread panicked".into()))
+                })
+                .collect()
+        });
+    // Place every node at its exact flat index — order is scheduling-independent.
+    let mut slots: Vec<Option<GenericNdPoint>> = (0..total).map(|_| None).collect();
+    for chunk in chunk_results {
+        for (f, p) in chunk? {
+            slots[f] = Some(p);
+        }
+    }
+    Ok(slots
+        .into_iter()
+        .map(|p| p.expect("every grid node was evaluated"))
+        .collect())
+}
+
+/// Sequential evaluation for wasm (no OS threads).
+#[cfg(target_arch = "wasm32")]
+fn eval_grid(
+    base: &toml::Value,
+    axes: &[GenericAxis],
+    axis_values: &[Vec<f64>],
+    shape: &[usize],
+    metrics: &[String],
+    total: usize,
+) -> Result<Vec<GenericNdPoint>, String> {
+    (0..total)
+        .map(|f| eval_node(base, axes, axis_values, shape, metrics, f))
+        .collect()
+}
+
+/// Run a generic N-D sweep over any scenario kind. Each grid node is the base
+/// scenario with its swept keys patched, dispatched through `run_toml`; the
+/// requested metrics are read from the result JSON. Points are row-major (last
+/// axis fastest), parallel on native, deterministic.
+pub fn run_generic_sweep(scn: &GenericSweepScenario) -> Result<GenericNdSweepResult, String> {
+    if scn.axes.is_empty() {
+        return Err("generic sweep needs at least one axis".into());
+    }
+    if scn.metrics.is_empty() {
+        return Err("generic sweep needs at least one metric".into());
+    }
+    let kind = scn
+        .base
+        .get("kind")
+        .and_then(|k| k.as_str())
+        .unwrap_or("")
+        .to_string();
+    if kind.is_empty() {
+        return Err("generic sweep `base` must carry its own `kind`".into());
+    }
+    if kind == "sweep" || kind == "sweep-nd" {
+        return Err("a generic sweep cannot sweep another sweep".into());
+    }
+    let axis_values: Vec<Vec<f64>> = scn.axes.iter().map(|a| a.values()).collect();
+    let shape: Vec<usize> = axis_values.iter().map(|v| v.len()).collect();
+    let total: usize = shape.iter().product();
+    let points = eval_grid(
+        &scn.base,
+        &scn.axes,
+        &axis_values,
+        &shape,
+        &scn.metrics,
+        total,
+    )?;
+    Ok(GenericNdSweepResult {
+        schema_version: "0.7".into(),
+        engine_version: env!("CARGO_PKG_VERSION").into(),
+        kind,
+        keys: scn.axes.iter().map(|a| a.key.clone()).collect(),
+        metrics: scn.metrics.clone(),
+        shape,
+        points,
+    })
+}
+
+/// Render a generic sweep: a 1-axis sweep is drawn as one line per metric versus
+/// the axis; higher-dimensional grids get a compact descriptor SVG (the full grid
+/// is in the JSON, which has no faithful 2-D line-chart form).
+pub fn generic_to_svg(result: &GenericNdSweepResult) -> String {
+    let (w, h) = (820.0_f64, 420.0_f64);
+    if result.shape.len() != 1 || result.points.is_empty() {
+        let mut svg = String::new();
+        svg.push_str(&format!("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"13\" fill=\"#cdd6e0\"><rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0e131b\"/>"));
+        svg.push_str(&format!(
+            "<text x=\"40\" y=\"40\" font-size=\"15\" font-weight=\"bold\">{}-D sweep of `{}` — {} nodes</text>",
+            result.shape.len(),
+            result.kind,
+            result.points.len()
+        ));
+        svg.push_str(&format!(
+            "<text x=\"40\" y=\"66\">axes: {} (shape {:?})</text>",
+            result.keys.join(" × "),
+            result.shape
+        ));
+        svg.push_str(&format!(
+            "<text x=\"40\" y=\"88\">metrics: {} — full grid in JSON</text>",
+            result.metrics.join(", ")
+        ));
+        svg.push_str("</svg>");
+        return svg;
+    }
+    let (ml, mr, mt, mb) = (70.0_f64, 20.0_f64, 30.0_f64, 55.0_f64);
+    let pw = w - ml - mr;
+    let ph = h - mt - mb;
+    let pts = &result.points;
+    let n = pts.len().max(2);
+    let finite = |x: f64| if x.is_finite() { x } else { 0.0 };
+    let mut y_max = 0.0_f64;
+    for p in pts {
+        for &m in &p.metrics {
+            y_max = y_max.max(finite(m));
+        }
+    }
+    if y_max <= 0.0 {
+        y_max = 1.0;
+    }
+    let xof = |i: usize| ml + (i as f64 / (n - 1) as f64) * pw;
+    let yof = |v: f64| mt + ph - (finite(v).min(y_max) / y_max) * ph;
+    let axis_y = mt + ph;
+    let palette = ["#5cb8d6", "#c0392b", "#27ae60", "#e0a020", "#9b59b6"];
+    let mut svg = String::new();
+    svg.push_str(&format!("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#cdd6e0\"><rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0e131b\"/>"));
+    svg.push_str(&format!(
+        "<text x=\"{ml:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">sweep of `{}` over {}</text>",
+        result.kind, result.keys[0]
+    ));
+    svg.push_str(&crate::chart::y_axis(ml, mt, pw, ph, y_max, "metric"));
+    svg.push_str(&format!(
+        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#3a4757\"/><line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#3a4757\"/>",
+        ml + pw
+    ));
+    for (mi, mname) in result.metrics.iter().enumerate() {
+        let color = palette[mi % palette.len()];
+        let line = pts
+            .iter()
+            .enumerate()
+            .map(|(i, p)| format!("{:.1},{:.1}", xof(i), yof(p.metrics[mi])))
+            .collect::<Vec<_>>()
+            .join(" ");
+        svg.push_str(&format!(
+            "<polyline fill=\"none\" stroke=\"{color}\" stroke-width=\"2\" points=\"{line}\"/>"
+        ));
+        svg.push_str(&format!(
+            "<text x=\"{:.0}\" y=\"{:.0}\" fill=\"{color}\">{mname}</text>",
+            ml + 10.0,
+            44.0 + 16.0 * mi as f64
+        ));
+    }
+    if let (Some(first), Some(last)) = (pts.first(), pts.last()) {
+        svg.push_str(&format!(
+            "<text x=\"{ml:.0}\" y=\"{:.0}\" text-anchor=\"start\">{}</text><text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"end\">{}</text>",
+            axis_y + 18.0,
+            fmt_value(first.coords[0]),
+            ml + pw,
+            axis_y + 18.0,
+            fmt_value(last.coords[0])
+        ));
+    }
+    svg.push_str(&format!(
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\">{}</text>",
+        ml + pw / 2.0,
+        h - 10.0,
+        result.keys[0]
+    ));
+    svg.push_str("</svg>");
+    svg
 }
 
 #[cfg(test)]
@@ -697,5 +1072,167 @@ mod tests {
             serde_json::to_string(&b).unwrap()
         );
         assert!(nd_sweep_ensemble(&base(), &[], "holdover_s", 4).is_err());
+    }
+
+    // --- generic sweep (any pack, via TOML/JSON boundary) ---
+
+    fn imu_base() -> toml::Value {
+        // A real, shipped non-clock scenario (the inertial dead-reckoning pack),
+        // proving the generic sweep generalises beyond the clock scenario type.
+        toml::from_str(include_str!("../scenarios/imu-deadreckoning.toml")).unwrap()
+    }
+
+    fn gaxis(key: &str, start: f64, stop: f64, steps: usize) -> GenericAxis {
+        GenericAxis {
+            key: key.into(),
+            start,
+            stop,
+            steps,
+            scale: "lin".into(),
+        }
+    }
+
+    #[test]
+    fn generic_sweep_generalises_to_a_non_clock_pack() {
+        let base = imu_base();
+        let scn = GenericSweepScenario {
+            base: base.clone(),
+            axes: vec![gaxis("threshold_m", 100.0, 500.0, 5)],
+            metrics: vec!["classical.fom.holdover_s".into()],
+        };
+        let r = run_generic_sweep(&scn).unwrap();
+        assert_eq!(r.kind, "inertial");
+        assert_eq!(r.shape, vec![5]);
+        assert_eq!(r.points.len(), 5);
+
+        // Oracle: node 0 sweeps threshold to the file's own 100.0 (a no-op patch),
+        // so it must equal a plain, unpatched run of the base scenario.
+        let oracle = crate::api::run_toml(&toml::to_string(&base).unwrap()).unwrap();
+        let oj: serde_json::Value = serde_json::from_str(&oracle.json).unwrap();
+        let oracle_holdover = get_dotted_json(&oj, "classical.fom.holdover_s").unwrap();
+        assert_eq!(r.points[0].coords, vec![100.0]);
+        assert_eq!(r.points[0].metrics[0], oracle_holdover);
+
+        // A higher position-error alert limit can only extend the holdover (drift
+        // crosses a larger bound later) — non-decreasing, and it genuinely moves,
+        // proving the swept key is actually applied to the dispatched scenario.
+        for w in r.points.windows(2) {
+            assert!(
+                w[1].metrics[0] >= w[0].metrics[0],
+                "holdover must be non-decreasing in threshold_m: {:?}",
+                r.points
+            );
+        }
+        assert!(r.points.last().unwrap().metrics[0] > r.points[0].metrics[0]);
+    }
+
+    #[test]
+    fn generic_sweep_runs_a_2d_grid_with_nested_keys_deterministically() {
+        let base = imu_base();
+        let scn = GenericSweepScenario {
+            base,
+            axes: vec![
+                gaxis("threshold_m", 100.0, 300.0, 2),
+                gaxis("accel_classical.bias", 1.0e-3, 3.0e-3, 3),
+            ],
+            metrics: vec![
+                "classical.fom.holdover_s".into(),
+                "classical.fom.pos_rms_m".into(),
+            ],
+        };
+        let r = run_generic_sweep(&scn).unwrap();
+        assert_eq!(r.shape, vec![2, 3]);
+        assert_eq!(r.points.len(), 6);
+        // Row-major: the last axis (bias) varies fastest.
+        assert_eq!(r.points[0].coords, vec![100.0, 1.0e-3]);
+        assert_eq!(r.points[1].coords, vec![100.0, 2.0e-3]);
+        assert_eq!(r.points[3].coords, vec![300.0, 1.0e-3]);
+        assert_eq!(r.points[0].metrics.len(), 2);
+        // The nested key actually moved the result: at fixed threshold, a larger
+        // accelerometer bias drives a larger drift RMS (pos_rms_m monotone in bias).
+        assert!(r.points[2].metrics[1] > r.points[0].metrics[1]);
+        // Deterministic — the parallel native path must be order-independent.
+        let r2 = run_generic_sweep(&scn).unwrap();
+        assert_eq!(
+            serde_json::to_string(&r).unwrap(),
+            serde_json::to_string(&r2).unwrap()
+        );
+    }
+
+    #[test]
+    fn generic_sweep_rejects_bad_keys_metrics_and_missing_kind() {
+        let base = imu_base();
+        let bad_key = GenericSweepScenario {
+            base: base.clone(),
+            axes: vec![gaxis("time.no_such_field", 1.0, 2.0, 2)],
+            metrics: vec!["classical.fom.holdover_s".into()],
+        };
+        assert!(run_generic_sweep(&bad_key).is_err());
+
+        let bad_metric = GenericSweepScenario {
+            base: base.clone(),
+            axes: vec![gaxis("threshold_m", 100.0, 200.0, 2)],
+            metrics: vec!["classical.fom.not_a_metric".into()],
+        };
+        assert!(run_generic_sweep(&bad_metric).is_err());
+
+        let mut no_kind = base.clone();
+        no_kind.as_table_mut().unwrap().remove("kind");
+        let missing_kind = GenericSweepScenario {
+            base: no_kind,
+            axes: vec![gaxis("threshold_m", 100.0, 200.0, 2)],
+            metrics: vec!["classical.fom.holdover_s".into()],
+        };
+        assert!(run_generic_sweep(&missing_kind).is_err());
+
+        let no_axes = GenericSweepScenario {
+            base,
+            axes: vec![],
+            metrics: vec!["classical.fom.holdover_s".into()],
+        };
+        assert!(run_generic_sweep(&no_axes).is_err());
+    }
+
+    #[test]
+    fn generic_sweep_dispatches_from_toml() {
+        let src = r#"
+kind = "sweep-nd"
+metrics = ["classical.fom.holdover_s"]
+
+[[axes]]
+key = "threshold_m"
+start = 100.0
+stop = 300.0
+steps = 3
+
+[base]
+kind = "inertial"
+seed = 42
+threshold_m = 100.0
+[base.time]
+step_s = 10.0
+duration_s = 7200.0
+[base.gnss]
+windows = [
+  { t0 = 0.0,   t1 = 600.0,  state = "nominal" },
+  { t0 = 600.0, t1 = 7200.0, state = "denied" },
+]
+[base.accel_quantum]
+id = "q"
+provenance = "test"
+bias = 5.88e-7
+q_va = 4.6656e-8
+[base.accel_classical]
+id = "c"
+provenance = "test"
+bias = 1.57e-3
+q_va = 3.8416e-8
+"#;
+        let out = crate::api::run_toml(src).unwrap();
+        let j: serde_json::Value = serde_json::from_str(&out.json).unwrap();
+        assert_eq!(j["kind"], "inertial");
+        assert_eq!(j["shape"][0], 3);
+        assert!(out.summary.contains("generic sweep"));
+        assert!(out.svg.contains("<svg"));
     }
 }

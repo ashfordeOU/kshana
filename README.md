@@ -252,7 +252,7 @@ console.log(version(), result.classical.fom.timing_p95_ns);
 
 Scenarios are declarative TOML. A top-level `kind` selects the pack (`clock` is
 the default if omitted; `inertial`, `timetransfer`, `hybrid`, `fusion`,
-`gnss-ins`, `orbit`, `integrity`, `spoof`, `sweep`).
+`gnss-ins`, `orbit`, `integrity`, `spoof`, `sweep`, `sweep-nd`).
 Common fields: `seed`, a `[time]` grid, a `[gnss]` availability timeline (the outage
 driver), and per-sensor blocks with `provenance` strings citing the source of every
 figure. Example (clock):
@@ -323,6 +323,14 @@ A `sweep` scenario runs a **trade study**: it varies one `parameter` (`threshold
 points on a `lin` or `log` `scale`, records a `metric` (e.g. `holdover_s`) for both
 clocks, and charts the two curves. The base scenario goes under `[base]` (see
 `scenarios/sweep-clock-stability.toml`).
+
+A `sweep-nd` scenario generalises this to **any pack and any number of axes**: it
+varies dotted TOML keys of a `[base]` scenario (of any `kind`) over the Cartesian
+product of `[[axes]]`, re-runs each grid node, and records `metrics` given as
+dotted JSON paths into the result (e.g. `classical.fom.holdover_s`). It works for
+every pack because it operates at the TOML/result boundary; native runs evaluate
+the grid in parallel (no extra dependency, wasm falls back to sequential) and the
+output is deterministic and row-major (see `scenarios/sweep-nd-inertial.toml`).
 
 An `orbit` scenario derives the `[gnss]` timeline from geometry instead of authoring
 it — give a `[user]` orbit, a `[constellation]`, an elevation `mask_deg`, and the two

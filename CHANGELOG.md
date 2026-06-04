@@ -10,6 +10,15 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Generic N-D parameter sweep over any scenario kind (`sweep-nd`).** The
+  previous N-D sweep was clock-pack only. `sweep-nd` varies dotted TOML keys of a
+  `[base]` scenario over the Cartesian product of its axes, re-dispatches each
+  grid node through the normal run path, and reads one or more metrics out of the
+  result by dotted JSON path — so it works for every pack (inertial, gnss-ins,
+  integrity, spoof, …) without coupling to each pack's Rust type. Grid nodes are
+  evaluated in parallel across OS threads on native targets (no added
+  dependency); wasm falls back to sequential. Deterministic and row-major
+  regardless of thread count. New `scenarios/sweep-nd-inertial.toml` example.
 - **TOML-configurable deterministic IMU error model in the `gnss-ins` pack.** The
   three-axis strapdown error chain (scale-factor, misalignment, g-sensitivity,
   quantization, rate-ramp; IEEE Std 952-1997 §A.2, Groves 2013 §4.3) is now
