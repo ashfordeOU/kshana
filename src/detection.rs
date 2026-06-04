@@ -131,6 +131,24 @@ pub fn chi2_1_threshold(p_fa: f64) -> f64 {
     z * z
 }
 
+/// Inverse CDF (quantile) of the χ² distribution with `dof` degrees of freedom,
+/// via the Wilson–Hilferty cube-root-normal approximation:
+/// `χ²_p(k) ≈ k·(1 − 2/(9k) + z·√(2/(9k)))³`, with `z = Φ⁻¹(p)`.
+///
+/// The cube-root of a χ² variable is very nearly Gaussian, so this is accurate to
+/// well under 1 % for `k ≥ 2` and to ~0.1 % by `k ≥ 10`; it is used here for the
+/// filter-consistency confidence bands, where the pooled degrees of freedom (one
+/// per sample) run into the thousands and the approximation is effectively exact.
+pub fn chi2_inv_cdf(p: f64, dof: f64) -> f64 {
+    let k = dof.max(1e-9);
+    let z = normal_inv_cdf(p.clamp(1e-12, 1.0 - 1e-12));
+    let a = 2.0 / (9.0 * k);
+    let t = 1.0 - a + z * a.sqrt();
+    // The cube-root model can dip below zero deep in the lower tail for tiny k;
+    // a χ² quantile is non-negative, so clamp.
+    (k * t * t * t).max(0.0)
+}
+
 /// Closed-form missed-detection probability for a spoof offset `mu` against noise
 /// `sigma` with the two-sided boundary `gamma`:
 /// `P_md = Φ((γ−μ)/σ) − Φ((−γ−μ)/σ)`.
@@ -206,6 +224,28 @@ mod tests {
         assert!(analytic_pmd(10.0, 1.0, gamma) < 1e-6);
         // chi2_1 threshold is gamma² for sigma=1.
         assert!((chi2_1_threshold(0.01) - gamma * gamma).abs() < 1e-9);
+    }
+
+    #[test]
+    fn chi2_inv_cdf_matches_table_values() {
+        // Upper 95th-percentile χ² quantiles (standard tables). Wilson–Hilferty
+        // tightens as the dof grows: ~1 % at k=2, ~0.1 % by k=10, exact by k≥50.
+        for &(p, dof, table, tol) in &[
+            (0.95, 2.0, 5.991, 0.06),
+            (0.95, 5.0, 11.070, 0.05),
+            (0.95, 10.0, 18.307, 0.03),
+            (0.95, 50.0, 67.505, 0.05),
+            (0.975, 100.0, 129.561, 0.1),
+            (0.025, 100.0, 74.222, 0.1),
+        ] {
+            let got = chi2_inv_cdf(p, dof);
+            assert!(
+                (got - table).abs() < tol,
+                "chi2_inv_cdf(p={p}, dof={dof}) = {got}, table {table}"
+            );
+        }
+        // The median of χ²(k) is ≈ k·(1 − 2/9k)³, just below k.
+        assert!(chi2_inv_cdf(0.5, 4.0) < 4.0 && chi2_inv_cdf(0.5, 4.0) > 3.0);
     }
 
     #[test]
