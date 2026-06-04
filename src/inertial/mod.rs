@@ -265,6 +265,106 @@ pub struct AccelCfg {
     /// Optional accelerometer bias-instability Allan floor (m/s^2). Zero/absent = none.
     #[serde(default)]
     pub bias_instability: f64,
+    /// Optional cold-atom-interferometer specification. When present, this sensor is
+    /// a `quantum_cai` kind and its `q_va` is **derived** from the interferometer
+    /// physics rather than the supplied `q_va`. Absent (the default) = classical;
+    /// existing scenarios omit it and serialize byte-identically (hash unchanged).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub cai: Option<CaiCfg>,
+}
+
+/// Cold-atom-interferometer accelerometer specification for a `quantum_cai` inertial
+/// sensor. When attached to an [`AccelCfg`], the velocity-random-walk PSD `q_va` is
+/// derived from the interferometer physics in [`crate::inertial::quantum_imu`].
+#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
+pub struct CaiCfg {
+    /// Raman wavelength (m); defaults to the Rb-87 D2 line.
+    #[serde(default = "default_cai_wavelength")]
+    pub wavelength_m: f64,
+    /// Pulse separation `T` (s).
+    pub pulse_sep_t: f64,
+    /// Detected atom number `N` per shot.
+    pub atom_number: f64,
+    /// Initial fringe contrast `C0` in (0, 1].
+    pub contrast: f64,
+    /// Measurement cycle time `T_c` (s).
+    pub cycle_time_s: f64,
+    /// Optional platform vibration PSD `S_a` ((m/s^2)^2/Hz) along the sensitive axis.
+    /// When > 0 its vibration-limited contribution is added in quadrature to the
+    /// shot-noise floor; absent/zero leaves only the shot-noise floor.
+    #[serde(default)]
+    pub vibration_psd: f64,
+}
+
+fn default_cai_wavelength() -> f64 {
+    quantum_imu::RB87_D2_WAVELENGTH_M
+}
+
+impl CaiCfg {
+    /// The physics model this config describes.
+    pub fn accelerometer(&self) -> quantum_imu::CaiAccelerometer {
+        quantum_imu::CaiAccelerometer {
+            wavelength_m: self.wavelength_m,
+            pulse_sep_t: self.pulse_sep_t,
+            atom_number: self.atom_number,
+            contrast: self.contrast,
+            cycle_time_s: self.cycle_time_s,
+        }
+    }
+
+    /// Derived white-acceleration PSD `q_va` ((m/s^2)^2/Hz): the shot-noise floor,
+    /// plus — when a platform vibration PSD is given — the vibration-limited
+    /// contribution added in quadrature (independent noise PSDs sum).
+    pub fn derived_q_va(&self) -> f64 {
+        let cai = self.accelerometer();
+        let shot = cai.q_va();
+        if self.vibration_psd > 0.0 {
+            let sigma_vib = cai.vibration_limited_accel(self.vibration_psd);
+            let n_vib = sigma_vib * self.cycle_time_s.max(0.0).sqrt();
+            shot + n_vib * n_vib
+        } else {
+            shot
+        }
+    }
+}
+
+/// Which accelerometer physics an [`AccelCfg`] resolves to: the classical
+/// datasheet-coefficient model, or a first-principles cold-atom-interferometer
+/// sensor whose `q_va` is derived from [`quantum_imu`].
+#[derive(Clone, Copy, Debug)]
+pub enum ImuKind {
+    /// `q_va` supplied directly (the existing behaviour).
+    Classical,
+    /// `q_va` derived from cold-atom-interferometer physics.
+    QuantumCai(quantum_imu::CaiAccelerometer),
+}
+
+impl AccelCfg {
+    /// The accelerometer kind this config resolves to — `QuantumCai` when a `cai`
+    /// block is present, else `Classical`.
+    pub fn kind(&self) -> ImuKind {
+        match &self.cai {
+            Some(c) => ImuKind::QuantumCai(c.accelerometer()),
+            None => ImuKind::Classical,
+        }
+    }
+
+    /// The velocity-random-walk PSD to use: derived from CAI physics when a `cai`
+    /// block is present, otherwise the supplied `q_va`.
+    pub fn effective_q_va(&self) -> f64 {
+        self.cai.as_ref().map_or(self.q_va, CaiCfg::derived_q_va)
+    }
+
+    /// Provenance string, annotated when the noise coefficient is physics-derived.
+    pub fn effective_provenance(&self) -> String {
+        match &self.cai {
+            Some(_) => format!(
+                "{} (q_va derived from cold-atom-interferometer physics)",
+                self.provenance
+            ),
+            None => self.provenance.clone(),
+        }
+    }
 }
 
 fn one_run() -> usize {
@@ -350,10 +450,15 @@ fn hash_inertial(scn: &InertialScenario) -> String {
 
 fn run_accel(scn: &InertialScenario, cfg: &AccelCfg, seed: u64) -> AccelRun {
     let mut rng = ChaCha8Rng::seed_from_u64(seed);
-    let mut a = AccelModel::new(&cfg.id, &cfg.provenance, cfg.bias, cfg.q_va)
-        .with_gyro(cfg.gyro_bias, cfg.q_arw)
-        .with_accel_random_walk(cfg.q_aa)
-        .with_bias_instability(cfg.bias_instability);
+    let mut a = AccelModel::new(
+        &cfg.id,
+        &cfg.effective_provenance(),
+        cfg.bias,
+        cfg.effective_q_va(),
+    )
+    .with_gyro(cfg.gyro_bias, cfg.q_arw)
+    .with_accel_random_walk(cfg.q_aa)
+    .with_bias_instability(cfg.bias_instability);
     let dt = scn.time.step_s;
     let n = (scn.time.duration_s / dt).round() as usize;
     let mut series = Vec::with_capacity(n + 1);
@@ -836,5 +941,120 @@ mod tests {
             w_large < w_small,
             "CI should narrow with N: width(200)={w_large} !< width(20)={w_small}"
         );
+    }
+
+    fn cai_cfg(vibration_psd: f64) -> CaiCfg {
+        CaiCfg {
+            wavelength_m: quantum_imu::RB87_D2_WAVELENGTH_M,
+            pulse_sep_t: 0.01,
+            atom_number: 1e6,
+            contrast: 0.5,
+            cycle_time_s: 0.5,
+            vibration_psd,
+        }
+    }
+
+    #[test]
+    fn cai_cfg_derives_q_va_from_physics() {
+        // With no platform vibration, the derived q_va is exactly the shot-noise floor
+        // q_va = n_a² of the underlying CaiAccelerometer.
+        let cfg = cai_cfg(0.0);
+        let expected = cfg.accelerometer().q_va();
+        assert!((cfg.derived_q_va() - expected).abs() < 1e-30);
+        // It is a sub-µg/√Hz floor: n_a = √q_va < 1e-6.
+        assert!(cfg.derived_q_va().sqrt() < 1e-6);
+    }
+
+    #[test]
+    fn cai_cfg_adds_vibration_in_quadrature() {
+        // A platform PSD S_a = 1e-10 (m/s²)²/Hz adds the vibration-limited contribution
+        // n_vib² = (σ_a,vib·√T_c)² in quadrature with the shot-noise floor.
+        // σ_a,vib = √(S_a/(3T)) = √(1e-10/0.03) ≈ 5.7735e-5; n_vib = ·√0.5 ≈ 4.0825e-5;
+        // n_vib² ≈ 1.6667e-9, which dominates the ~7.7e-13 shot floor.
+        let cfg = cai_cfg(1e-10);
+        let shot = cai_cfg(0.0).derived_q_va();
+        let total = cfg.derived_q_va();
+        assert!(
+            (total - (shot + 1.6667e-9)).abs() / total < 1e-3,
+            "q_va = {total}"
+        );
+        assert!(
+            total > 2000.0 * shot,
+            "vibration should dominate: {total} vs {shot}"
+        );
+    }
+
+    #[test]
+    fn accel_cfg_kind_and_effective_q_va_select_on_cai() {
+        // A classical config (no cai) keeps the supplied q_va and reports Classical.
+        let classical = AccelCfg {
+            id: "c".into(),
+            provenance: "datasheet".into(),
+            bias: 1e-4,
+            q_va: 4e-8,
+            gyro_bias: 0.0,
+            q_arw: 0.0,
+            q_aa: 0.0,
+            bias_instability: 0.0,
+            cai: None,
+        };
+        assert!(matches!(classical.kind(), ImuKind::Classical));
+        assert_eq!(classical.effective_q_va(), 4e-8);
+        assert_eq!(classical.effective_provenance(), "datasheet");
+
+        // Attaching a cai block flips it to QuantumCai with a physics-derived q_va that
+        // overrides the supplied placeholder, and annotates the provenance.
+        let quantum = AccelCfg {
+            cai: Some(cai_cfg(0.0)),
+            ..classical.clone()
+        };
+        assert!(matches!(quantum.kind(), ImuKind::QuantumCai(_)));
+        assert_eq!(quantum.effective_q_va(), cai_cfg(0.0).derived_q_va());
+        assert_ne!(quantum.effective_q_va(), 4e-8);
+        assert!(quantum
+            .effective_provenance()
+            .contains("cold-atom-interferometer"));
+    }
+
+    #[test]
+    fn classical_accel_cfg_serializes_without_cai_key() {
+        // Existing scenarios omit `cai`; serialization must not emit a `cai` field, so
+        // their TOML/JSON — and the scenario hash derived from it — is byte-unchanged.
+        let classical = AccelCfg {
+            id: "c".into(),
+            provenance: "datasheet".into(),
+            bias: 1e-4,
+            q_va: 4e-8,
+            gyro_bias: 0.0,
+            q_arw: 0.0,
+            q_aa: 0.0,
+            bias_instability: 0.0,
+            cai: None,
+        };
+        let json = serde_json::to_string(&classical).unwrap();
+        assert!(
+            !json.contains("cai"),
+            "classical config must omit cai: {json}"
+        );
+        // The bundled dead-reckoning scenario still parses unchanged.
+        let _ = ensemble_scenario(1);
+    }
+
+    #[test]
+    fn cai_driven_sensor_runs_and_drifts() {
+        // End-to-end: a CAI-configured accelerometer runs through the scenario and the
+        // dead-reckoning position error grows (finite, non-zero) under GNSS denial.
+        let mut scn = ensemble_scenario(1);
+        scn.accel_quantum.cai = Some(cai_cfg(1e-10));
+        scn.accel_quantum.q_va = 0.0; // ignored once cai is present
+        let r = run_inertial(&scn);
+        let drift = r.quantum.fom.pos_p95_m;
+        assert!(drift.is_finite() && drift > 0.0, "CAI drift = {drift}");
+        // The provenance records that the noise was physics-derived.
+        assert!(r
+            .quantum
+            .spec
+            .provenance
+            .contains("cold-atom-interferometer"));
     }
 }
