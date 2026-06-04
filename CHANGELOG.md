@@ -27,6 +27,20 @@ breaking changes are called out explicitly.
   RINEX arc remains a roadmap item — it needs a pseudorange solution).
 
 ### Added
+- **Loosely-coupled GNSS/INS scenario pack (`kind = "gnss-ins"`, `src/fusion/pack.rs`).**
+  Wires the three-axis strapdown navigator and the 15-state error-state EKF
+  (`closed_loop` / `gnss_ins_ekf`) into a runnable scenario with a figure of merit —
+  the EKF disciplines the mechanization against noisy GNSS fixes while coverage is
+  up, then coasts through the outage, replacing the legacy 1-DOF scalar pack's
+  truth-snap reset with genuine fusion. The result reports the fused horizontal
+  error series, the scored position FoM (availability / outage RMS / holdover), and
+  the open-loop free-INS RMS for comparison; a quantum/classical IMU pair differs
+  only in true bias. Dispatched from the CLI/Python/wasm entry point with a
+  `scenarios/gnss-ins.toml` example. Honest framing: loosely-coupled only, one
+  deterministic trajectory, and the fused outage error is floor-limited by the
+  hand-over attitude error (so it is not claimed to scale with bias) — the robust
+  findings are that fusion beats unaided dead-reckoning for a biased sensor and that
+  a lower-bias sensor has the better unaided coast.
 - **Constellation design on the validated SGP4 core (`src/walker.rs`).** A new
   `walker` module emits a designed Walker-delta pattern (`i: T/P/F`) as SGP4
   **mean elements**, so the synthetic constellation propagates through the same
