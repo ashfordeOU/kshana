@@ -43,4 +43,13 @@ if (!result.schema_version || !result.quantum || !result.quantum.adev_curve?.len
   process.exit(1);
 }
 
-console.log(`wasm smoke OK — kshana ${v}, ${result.quantum.adev_curve.length} ADEV points`);
+const fh = result.quantum.filter_health;
+if (!fh || typeof fh.nis_mean !== "number" || typeof fh.consistent !== "boolean") {
+  console.error("wasm run() produced no filter_health block");
+  process.exit(1);
+}
+
+console.log(
+  `wasm smoke OK — kshana ${v}, ${result.quantum.adev_curve.length} ADEV points, ` +
+    `filter NIS ${fh.nis_mean.toFixed(3)} (consistent=${fh.consistent})`,
+);

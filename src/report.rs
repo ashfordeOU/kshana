@@ -14,6 +14,10 @@ pub struct ClockRun {
     pub fom: FoMScores,
     #[serde(default)]
     pub adev_curve: Vec<crate::allan::AdevPoint>,
+    /// Kalman filter-consistency health (NIS/NEES vs χ² bands). `None` for runs
+    /// that do not assess it.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub filter_health: Option<crate::filter_health::FilterHealth>,
 }
 
 /// Top-level result artifact (versioned, self-describing, reproducible).
@@ -224,6 +228,7 @@ mod svg_tests {
                 security: None,
             },
             adev_curve: vec![],
+            filter_health: None,
         }
     }
 

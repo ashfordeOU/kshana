@@ -165,6 +165,50 @@ function renderAdev(result) {
   wrap.hidden = false;
 }
 
+// Render the per-clock Kalman filter-consistency health cards (NIS/NEES vs their
+// 95% χ² bands). Every value is inserted as textContent, never innerHTML.
+function renderFilterHealth(result) {
+  const wrap = el("health-wrap");
+  const host = el("health-cards");
+  if (!wrap || !host) return;
+  const clocks = [];
+  for (const key of ["quantum", "classical"]) {
+    const c = result && result[key];
+    if (c && c.filter_health) {
+      const label = c.spec && c.spec.id ? c.spec.id : key;
+      clocks.push([label, c.filter_health]);
+    }
+  }
+  if (!clocks.length) { wrap.hidden = true; return; }
+  host.replaceChildren();
+  for (const [label, h] of clocks) {
+    const card = document.createElement("div");
+    card.className = "health-card" + (h.consistent ? " ok" : " warn");
+
+    const head = document.createElement("div");
+    head.className = "health-head";
+    const name = document.createElement("span");
+    name.className = "health-name";
+    name.textContent = label;
+    const badge = document.createElement("span");
+    badge.className = "health-badge";
+    badge.textContent = h.consistent ? "✓ consistent" : "⚠ check tuning";
+    head.append(name, badge);
+
+    const fmt = (x) => (typeof x === "number" ? x.toFixed(3) : "—");
+    const nis = document.createElement("p");
+    nis.className = "health-stat";
+    nis.textContent = `NIS ${fmt(h.nis_mean)}  (95% band ${fmt(h.nis_chi2_lower_95)}–${fmt(h.nis_chi2_upper_95)}, target 1.0)`;
+    const nees = document.createElement("p");
+    nees.className = "health-stat";
+    nees.textContent = `NEES ${fmt(h.nees_mean)}  (95% band ${fmt(h.nees_chi2_lower_95)}–${fmt(h.nees_chi2_upper_95)}, target 2.0)`;
+
+    card.append(head, nis, nees);
+    host.append(card);
+  }
+  wrap.hidden = false;
+}
+
 let runCount = 0;
 
 // Re-trigger the CSS flash animation on a node (remove, force reflow, re-add).
@@ -188,6 +232,7 @@ function runScenario() {
     renderChart(chart_svg(src));
     const result = JSON.parse(run(src));
     renderAdev(result);
+    renderFilterHealth(result);
     el("json").textContent = JSON.stringify(result, null, 2);
     resultsEl.hidden = false;
     runCount += 1;
