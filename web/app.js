@@ -21,6 +21,8 @@ const SCENARIOS = [
     "SGP4 orbits", "How does a real GPS-like constellation propagate over a day?"],
   ["fusion-pnt.toml", "Joint sensor fusion — combined Kalman PNT",
     "Sensor fusion", "What does a single joint estimator buy across clock + position?"],
+  ["gnss-ins.toml", "GNSS/INS fusion — loosely-coupled error-state EKF",
+    "GNSS/INS fusion", "How well does an aided inertial navigator coast through a GNSS outage?"],
   ["integrity-raim.toml", "GNSS integrity (RAIM) — HPL/VPL availability",
     "RAIM integrity", "Does the geometry meet the alert limits (HPL / VPL)?"],
   ["spoof-attack.toml", "Spoofing attack — clock-aided detection",
