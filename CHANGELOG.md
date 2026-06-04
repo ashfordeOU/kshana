@@ -27,6 +27,14 @@ breaking changes are called out explicitly.
   RINEX arc remains a roadmap item — it needs a pseudorange solution).
 
 ### Added
+- **Per-node confidence intervals for the N-D parameter sweep** (`sweep::nd_sweep_ensemble`).
+  Each grid node of the N-dimensional Cartesian-product sweep can now be evaluated as a
+  Monte-Carlo ensemble of seeds, reporting the metric's mean, percentiles, and a
+  percentile-bootstrap 95% CI per node (for both clocks) — a statistically honest sweep
+  rather than one draw per node. Reuses the ensemble/bootstrap machinery (`metric_stat`);
+  deterministic; `runs = 1` reduces exactly to the single-seed `nd_sweep`. (Generalising
+  the sweep across all packs, entangled with the typed-Scenario refactor, and parallel
+  execution remain.)
 - **NaveGo cross-validation of the IMU-noise pipeline** (`tests/navego_imu_crossval.rs`).
   An external cross-check against NaveGo (R. Gonzalez's open-source INS/GNSS toolbox):
   reproduces the synthetic round-trip of `navego_example_allan.m` on its published
