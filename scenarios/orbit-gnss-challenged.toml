@@ -46,6 +46,7 @@ provenance = "Strontium optical lattice clock, space-oriented stability goal sig
 y0 = 1.0e-15
 q_wf = 1.0e-30
 q_rw = 1.0e-40
+flicker_floor = 1.0e-16
 
 # Classical: chip-scale atomic clock (deployed commercial part).
 [clock_classical]
@@ -54,3 +55,4 @@ provenance = "Microchip SA.45s / SA65 chip-scale atomic clock, sigma_y(1s)=3.0e-
 y0 = 1.0e-11
 q_wf = 9.0e-20
 q_rw = 1.0e-28
+flicker_floor = 2.0e-11
