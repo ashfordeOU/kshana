@@ -27,6 +27,13 @@ breaking changes are called out explicitly.
   RINEX arc remains a roadmap item — it needs a pseudorange solution).
 
 ### Added
+- **NaveGo cross-validation of the IMU-noise pipeline** (`tests/navego_imu_crossval.rs`).
+  An external cross-check against NaveGo (R. Gonzalez's open-source INS/GNSS toolbox):
+  reproduces the synthetic round-trip of `navego_example_allan.m` on its published
+  Microstrain 3DM-GX3-35 reference profile, confirming our overlapping-ADEV estimator
+  recovers NaveGo's velocity- and angle-random-walk coefficients (`ADEV(1 s) = σ·√dt`)
+  to under 5% with the expected −1/2 white-noise slope. (The 40 MB recorded STIM300
+  `.mat` log is not ingested — binary-format-gated.)
 - **Tightly-coupled (pseudorange) GNSS/INS update.** `GnssInsEkf::update_tightly_coupled`
   (and the `ClosedLoopInsGnss::fuse_tightly_coupled` wrapper) implement the
   previously-stubbed range-domain measurement: the innovation is the predicted
