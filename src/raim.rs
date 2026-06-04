@@ -443,8 +443,8 @@ pub struct SolutionSeparationResult {
 ///
 /// Returns `None` for fewer than six satellites (each exclusion sub-solution then
 /// lacks the redundancy `n−1 ≥ 5` for a protected solution), or a singular
-/// geometry. Validation against a public reference (gLAB) dataset is a roadmap
-/// item; this provides the algorithm an ARAIM-style integrity claim rests on.
+/// geometry. Exercised on the real IGS precise-orbit (SP3) geometry as well as
+/// synthetic constellations (`tests/igs_real_data.rs`).
 pub fn solution_separation_raim(
     user: Vec3,
     sats: &[Vec3],
@@ -701,7 +701,8 @@ pub struct AraimResult {
 /// single-fault hypothesis set is the ARAIM baseline; simultaneous multi-SV
 /// subset faults and the constellation-wide fault mode are a documented
 /// extension (each would add further hypotheses to the same budget sum).
-/// Validation against a public reference (gLAB) dataset remains a roadmap item.
+/// Exercised on the real IGS precise-orbit (SP3) geometry (`tests/igs_real_data.rs`),
+/// not only synthetic constellations.
 pub fn araim_raim(
     user: Vec3,
     sats: &[Vec3],

@@ -16,6 +16,15 @@ breaking changes are called out explicitly.
   not only self-authored samples — asserting non-empty satellite sets and finite,
   physically-sized ECEF positions. The fixtures are test-only (excluded from the
   published crate); see `tests/fixtures/igs/NOTICE`.
+- **RAIM on real reference-orbit geometry.** The snapshot, solution-separation
+  (MHSS), and ARAIM protection-level cores are now validated against the real IGS
+  precise-orbit (SP3) geometry, not synthetic constellations alone: the line-of-sight
+  geometry is built from the first SP3 epoch at a real ground station, and the tests
+  assert metre-level, APV-I-available protection levels, that a 60 m pseudorange bias
+  trips the χ² monitor, that solution separation **identifies** the faulted satellite,
+  and that ARAIM's levels meet the allocated `P_HMI`. Closes the
+  validated-on-synthetic-geometry-only gap (receiver-domain gLAB parity over a full
+  RINEX arc remains a roadmap item — it needs a pseudorange solution).
 
 ### Added
 - **ARAIM integrity-risk (P_HMI) budget for the protection levels.** `raim::araim_raim`

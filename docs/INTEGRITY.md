@@ -83,13 +83,22 @@ What `raim.rs` does **not** yet do:
   the filter self-consistency Integrity figure above, not an HPL/VPL;
 - the ARAIM budget is **single-fault MHSS** — simultaneous **multi-SV-subset faults**,
   the **constellation-wide fault mode**, and a real **ISM / threat model** are not
-  modelled, and **fault exclusion (FDE)** stops at identification;
-- it is validated on **synthetic geometry only** — no public reference (gLAB) dataset
-  cross-check yet.
+  modelled, and **fault exclusion (FDE)** stops at identification.
+
+The snapshot, solution-separation, and ARAIM cores are exercised on **real IGS
+precise-orbit (SP3) geometry**, not synthetic constellations alone: `tests/igs_real_data.rs`
+forms the line-of-sight geometry from the first epoch of a genuine IGS SP3 product at a
+real ground station, and checks that the protection levels are metre-level and
+APV-I-available, that a 60 m pseudorange bias trips the χ² monitor, that solution
+separation **identifies** the faulted satellite, and that ARAIM's levels meet the
+allocated `P_HMI`. (A deeper cross-check — diffing protection levels epoch-by-epoch
+against gLAB's own output over a full RINEX observation arc — would add receiver-domain
+parity, but requires a pseudorange *solution* Kshana does not yet compute.)
 
 So `raim.rs` is a real protection-level and integrity-risk core, reachable from the
-`integrity` scenario kind, but multi-fault ARAIM, reference-dataset validation, and
-clock-FoM integration remain roadmap items, and none of this is certification evidence.
+`integrity` scenario kind and validated on a real reference-orbit geometry, but
+multi-fault ARAIM, receiver-domain gLAB parity, and clock-FoM integration remain roadmap
+items, and none of this is certification evidence.
 
 ## See also
 
