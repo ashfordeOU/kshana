@@ -252,7 +252,7 @@ console.log(version(), result.classical.fom.timing_p95_ns);
 
 Scenarios are declarative TOML. A top-level `kind` selects the pack (`clock` is
 the default if omitted; `inertial`, `timetransfer`, `hybrid`, `fusion`,
-`gnss-ins`, `orbit`, `integrity`, `spoof`, `sweep`, `sweep-nd`).
+`gnss-ins`, `orbit`, `integrity`, `spoof`, `jamming`, `sweep`, `sweep-nd`).
 Common fields: `seed`, a `[time]` grid, a `[gnss]` availability timeline (the outage
 driver), and per-sensor blocks with `provenance` strings citing the source of every
 figure. Example (clock):
@@ -317,6 +317,17 @@ A `spoof` scenario injects a ramping false-time spoof (an `[attack]` block with
 `start_s` and `rate_ns_per_s`) and runs each clock's integrity monitor, reporting
 whether and when the spoof is detected and whether it reaches the spec undetected — a
 concrete demonstration of the Security figure of merit (see `scenarios/spoof-attack.toml`).
+
+A `jamming` scenario models RF interference as a **link budget**: a `[jammer]`
+(ECEF position, transmit `power_dbw`, type) raises the jammer-to-signal ratio at a
+`[receiver]` watching a Walker `[constellation]`. From the geometry (free-space
+path loss and the per-direction receive-antenna gain) it computes each satellite's
+`J/S`, the **effective C/N₀** via the standard anti-jam equation (despreading
+processing gain × the spectral-separation factor `Q`; Kaplan & Hegarty §9.4), and
+flags loss of lock below a configurable tracking threshold — reporting an
+`availability_under_jamming` figure of merit. A 10 W broadband jammer at 1 km
+denies the receiver entirely (J/S ≈ 72 dB); the same jammer at 100 km only
+degrades the links (see `scenarios/jamming-demo.toml`).
 
 A `sweep` scenario runs a **trade study**: it varies one `parameter` (`threshold_ns`,
 `duration_s`, `quantum_q_wf`, or `classical_q_wf`) from `start` to `stop` over `steps`
@@ -567,7 +578,8 @@ GNSS/INS navigator across more packs. GMST-based TEME&harr;ECEF, the IERS
 leap-second time systems (UTC/TAI/TT/UT1), SGP4/SDP4 orbit propagation (v0.7.0,
 validated against the AIAA 2006-6753 vectors), and the runnable `gnss-ins` fusion
 pack have all **shipped**, and the inertial velocity is exposed downstream. An active
-spoofing-attack demonstrator, multi-constellation availability, a single-axis (1-DOF)
+spoofing-attack demonstrator, a link-budget jamming model (J/S → effective C/N₀ →
+loss of lock), multi-constellation availability, a single-axis (1-DOF)
 IMU error budget, two independent (clock + position) Kalman estimators reported as a
 combined FoM, real constellation geometry from TLEs, an HTML scorecard report, a
 clock-stability-based spoof-detectability bound, geometry-derived GNSS availability
