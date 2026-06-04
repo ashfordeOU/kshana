@@ -9,6 +9,7 @@
 
 | Noise term | Status | Evidence |
 |------------|--------|----------|
+| Allan estimator parity (ADEV/MDEV/TDEV/OHDEV) | `validated` | `tests/allan_reference.rs`: the overlapping ADEV, modified ADEV, time deviation, and overlapping Hadamard estimators reproduce the **Stable32 reference deviations for the canonical NBS14 dataset** (Riley, NIST SP 1065 ~p.107) at tau = 1, 2 to a **1e-4** relative tolerance — agreement is actually ~1e-6 (e.g. OADEV(2) 85.952868 vs 85.95287). This pins the *estimator maths* against the reference tool, distinct from the noise-*calibration* rows below. |
 | White FM (short-term) | `validated` | `tests/calibration.rs`: simulated overlapping ADEV reproduces published sigma_y(1 s) — typically within a few percent, **enforced gate 25%** — and the white-FM curve sigma_y(tau)=sigma_y(1s)/sqrt(tau) across tau = 1, 10, 100 s within the same 25% gate (matches CSAC datasheet 3e-10 / 1e-10 / 3e-11). |
 | Random-walk FM (long-term) | `validated` | `tests/calibration.rs`: simulated ADEV matches sigma_y^2(tau)=q_rw*tau/3 (Riley NIST SP 1065) to ~20% (seed-averaged). |
 | Aging / linear drift | `modeled` + calibrated-out | Deterministic; the holdover estimator removes offset and aging via a quadratic predictor, so the residual is the stochastic limit. Tested in `src/estimator.rs` / `src/models.rs`. |
