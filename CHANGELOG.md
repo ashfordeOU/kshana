@@ -27,6 +27,14 @@ breaking changes are called out explicitly.
   RINEX arc remains a roadmap item — it needs a pseudorange solution).
 
 ### Added
+- **Stable32 numeric parity for the Allan-family estimators (NBS14).** `tests/allan_reference.rs`
+  validates the overlapping ADEV, modified ADEV, time deviation, and overlapping Hadamard
+  estimators against the Stable32 reference deviations for the canonical **NBS14** dataset
+  (W. J. Riley, *Handbook of Frequency Stability Analysis*, NIST SP 1065, ~p.107) at
+  tau = 1, 2 to a 1e-4 relative tolerance — actual agreement ~1e-6. This pins the
+  estimator mathematics against the de-facto reference implementation, not just against
+  the estimators' own analytic self-consistency. Only the public reference numbers are
+  used; no third-party code.
 - **Vertical Stanford integrity diagram exported by the `integrity` scenario.** The
   runnable `integrity` scenario kind now exports a vertical Stanford(-ESA) diagram
   alongside the HPL/VPL availability map: at each protected epoch a seeded, reproducible
