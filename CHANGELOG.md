@@ -27,6 +27,17 @@ breaking changes are called out explicitly.
   RINEX arc remains a roadmap item — it needs a pseudorange solution).
 
 ### Added
+- **Vertical Stanford integrity diagram exported by the `integrity` scenario.** The
+  runnable `integrity` scenario kind now exports a vertical Stanford(-ESA) diagram
+  alongside the HPL/VPL availability map: at each protected epoch a seeded, reproducible
+  no-fault range-error draw is mapped through the geometry to an actual vertical position
+  error and classified against the VPL and the vertical alert limit (Available /
+  System-Unavailable / Misleading / Hazardously-Misleading). The diagram (per-epoch
+  points + region counts) is carried in the result JSON and the integrity-event / HMI
+  counts in the CLI summary, so the Stanford classifier — previously library-only — is
+  reachable end-to-end. `IntegrityScenario` gains a `seed` field (default 0) controlling
+  the error realization; the availability map itself remains geometry-only and seed
+  independent.
 - **ARAIM integrity-risk (P_HMI) budget for the protection levels.** `raim::araim_raim`
   derives the horizontal and vertical protection levels from an explicit integrity-risk
   budget rather than a fixed `K_md` multiplier: for the all-in-view solution and every

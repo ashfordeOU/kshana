@@ -137,7 +137,7 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
             let n_sats = scn.all_satellites()?.len();
             let report = scn.run()?;
             let summary = format!(
-                "integrity | {} satellites | {}/{} epochs available ({:.1}%) | HAL {:.0} m VAL {:.0} m | sigma {:.1} m",
+                "integrity | {} satellites | {}/{} epochs available ({:.1}%) | HAL {:.0} m VAL {:.0} m | sigma {:.1} m | Stanford(V): {} integrity events, {} HMI",
                 n_sats,
                 report.samples_available,
                 report.samples_total,
@@ -145,6 +145,10 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
                 report.al_h_m,
                 report.al_v_m,
                 scn.sigma_uere_m,
+                report.stanford.integrity_events(),
+                report
+                    .stanford
+                    .count(crate::raim::StanfordRegion::HazardouslyMisleadingInformation),
             );
             Ok(RunOutput {
                 json: json_of(&report),
@@ -357,6 +361,11 @@ mod tests {
         assert!(out.json.contains("samples_available"));
         assert!(out.json.contains("\"epochs\""));
         assert!(out.json.contains("hpl_m") && out.json.contains("vpl_m"));
+        // The vertical Stanford integrity diagram is exported end-to-end, and the
+        // summary reports its integrity-event / HMI counts.
+        assert!(out.json.contains("\"stanford\"") && out.json.contains("alert_limit_m"));
+        assert!(out.json.contains("region") && out.json.contains("error_m"));
+        assert!(out.summary.contains("Stanford(V)") && out.summary.contains("HMI"));
         // The chart is a self-contained protection-level/availability SVG.
         assert!(out.svg.starts_with("<svg") && out.svg.contains("protection level"));
     }
