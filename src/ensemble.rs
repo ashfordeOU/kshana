@@ -52,6 +52,10 @@ pub struct EnsembleClock {
     pub integrity: Option<Stat>,
     /// Deterministic given the clock parameters, so a single value, not a spread.
     pub security: Option<f64>,
+    /// Filter-consistency health (NIS/NEES). A property of the clock's Kalman
+    /// tuning, not the realization, so one representative assessment, not a spread.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub filter_health: Option<crate::filter_health::FilterHealth>,
     pub band: Vec<BandPoint>,
 }
 
@@ -111,6 +115,9 @@ fn aggregate(runs: &[ClockRun]) -> EnsembleClock {
     };
     // Security depends only on the clock parameters, so it is identical across runs.
     let security = runs[0].fom.security;
+    // Filter health is likewise a property of the tuning (same q/r across runs), so
+    // a single representative assessment from the first realization.
+    let filter_health = runs[0].filter_health.clone();
 
     let n_samples = runs[0].series.len();
     let mut band = Vec::with_capacity(n_samples);
@@ -134,6 +141,7 @@ fn aggregate(runs: &[ClockRun]) -> EnsembleClock {
         availability,
         integrity,
         security,
+        filter_health,
         band,
     }
 }

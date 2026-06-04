@@ -111,12 +111,76 @@ impl KalmanClock {
         self.x[0] += k[0] * innov;
         self.x[1] += k[1] * innov;
 
-        // P = (I - K H) P, H = [1, 0].
+        // Covariance update in **Joseph stabilised form**:
+        //   P⁺ = (I − K H) P (I − K H)ᵀ + K R Kᵀ,   H = [1, 0].
+        // Unlike the algebraically-equivalent naive `P⁺ = (I − K H) P`, the Joseph
+        // form is a congruence transform of a PSD matrix plus a PSD rank-1 term, so
+        // it stays positive-semidefinite under finite-precision arithmetic even at
+        // extreme Q/R ratios where the naive form can lose symmetry/PSD-ness.
         let p = self.p;
-        self.p = [
-            [(1.0 - k[0]) * p[0][0], (1.0 - k[0]) * p[0][1]],
-            [p[1][0] - k[1] * p[0][0], p[1][1] - k[1] * p[0][1]],
+        // A = I − K H = [[1 − k0, 0], [−k1, 1]].
+        let a = [[1.0 - k[0], 0.0], [-k[1], 1.0]];
+        // AP = A · P.
+        let ap = [
+            [
+                a[0][0] * p[0][0] + a[0][1] * p[1][0],
+                a[0][0] * p[0][1] + a[0][1] * p[1][1],
+            ],
+            [
+                a[1][0] * p[0][0] + a[1][1] * p[1][0],
+                a[1][0] * p[0][1] + a[1][1] * p[1][1],
+            ],
         ];
+        // APAᵀ = (A P) · Aᵀ.
+        let mut np = [
+            [
+                ap[0][0] * a[0][0] + ap[0][1] * a[0][1],
+                ap[0][0] * a[1][0] + ap[0][1] * a[1][1],
+            ],
+            [
+                ap[1][0] * a[0][0] + ap[1][1] * a[0][1],
+                ap[1][0] * a[1][0] + ap[1][1] * a[1][1],
+            ],
+        ];
+        // + K R Kᵀ = r · [[k0², k0·k1], [k0·k1, k1²]].
+        np[0][0] += r * k[0] * k[0];
+        np[0][1] += r * k[0] * k[1];
+        np[1][0] += r * k[0] * k[1];
+        np[1][1] += r * k[1] * k[1];
+        self.p = np;
+    }
+
+    /// The 2×2 state covariance `P`.
+    pub fn covariance(&self) -> [[f64; 2]; 2] {
+        self.p
+    }
+
+    /// Innovation (predicted-measurement) variance `S = H P Hᵀ + r` for a phase
+    /// update with measurement-noise variance `r` — the denominator of the
+    /// Normalised Innovation Squared statistic.
+    pub fn innovation_var(&self, r: f64) -> f64 {
+        self.p[0][0] + r
+    }
+
+    /// Whether `P` is numerically positive-semidefinite, tested by attempting a
+    /// Cholesky factorisation (with a small relative tolerance for the rounding of
+    /// an exactly-singular matrix). A `false` here means an update has driven the
+    /// covariance non-PSD — the failure mode the Joseph form exists to prevent.
+    pub fn is_psd(&self) -> bool {
+        let p = self.p;
+        // Scale-relative tolerance for "≥ 0" on the Cholesky pivots.
+        let scale = p[0][0].abs().max(p[1][1].abs()).max(1e-300);
+        let tol = -1e-9 * scale;
+        if p[0][0] < tol {
+            return false;
+        }
+        let l00 = p[0][0].max(0.0).sqrt();
+        if l00 == 0.0 {
+            // First pivot is (numerically) zero: PSD iff the rest is non-negative.
+            return p[1][1] >= tol;
+        }
+        let l10 = p[1][0] / l00;
+        p[1][1] - l10 * l10 >= tol
     }
 
     /// Estimated phase error (s).
@@ -214,6 +278,49 @@ mod tests {
         }
         assert!(kf.phase_var() < 1e-22, "phase_var={}", kf.phase_var());
         assert!(kf.phase_est().abs() < 1e-9);
+    }
+
+    #[test]
+    fn joseph_update_stays_psd_at_extreme_q_over_r() {
+        // The finding's worst case: a colossal Q/R ratio (R=1e-26, Q≈1e-30 per
+        // step) where the naive (I−KH)P update can lose positive-semidefiniteness
+        // to rounding. The Joseph form must keep P Cholesky-decomposable through a
+        // long predict/update sequence.
+        let r = 1e-26;
+        let mut kf = KalmanClock::new(1e-30, 1e-34, r).with_initial_cov(1e-18, 1e-24);
+        for i in 0..500 {
+            kf.predict(1.0);
+            kf.update(1e-13 * (i as f64).sin());
+            assert!(
+                kf.is_psd(),
+                "covariance lost PSD-ness at step {i}: P={:?}",
+                kf.covariance()
+            );
+            // Variances are non-negative and the cross term obeys Cauchy–Schwarz.
+            let p = kf.covariance();
+            assert!(p[0][0] >= 0.0 && p[1][1] >= 0.0);
+            assert!(p[0][1] * p[1][0] <= p[0][0] * p[1][1] * (1.0 + 1e-6));
+        }
+    }
+
+    #[test]
+    fn joseph_form_matches_naive_update_when_well_conditioned() {
+        // Where the naive form is numerically fine, Joseph must agree with it (they
+        // are algebraically identical). Check the posterior variance against the
+        // closed form P⁺[0][0] = (1−k0)·P⁻[0][0] for one scalar update.
+        let mut kf = KalmanClock::new(1e-24, 1e-30, 1e-22);
+        for _ in 0..20 {
+            kf.predict(1.0);
+        }
+        let p_before = kf.covariance();
+        let r = 1e-22;
+        let s = p_before[0][0] + r;
+        let k0 = p_before[0][0] / s;
+        let expected_p00 = (1.0 - k0) * p_before[0][0]; // = r·P/(P+r)
+        kf.update(0.0);
+        let got = kf.covariance()[0][0];
+        let rel = (got - expected_p00).abs() / expected_p00;
+        assert!(rel < 1e-9, "joseph P00={got} expected={expected_p00}");
     }
 
     #[test]
