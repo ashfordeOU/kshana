@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
+use crate::allan::overlapping_adev;
+use crate::models::{ClockModel, ErrorModel};
 use crate::types::{ModelSpec, Seconds};
 use rand::{RngCore, SeedableRng};
 use rand_chacha::ChaCha8Rng;
@@ -46,6 +48,84 @@ impl TimeTransferLink {
     }
 }
 
+/// The two-way offset estimate from the two one-way measurements of a two-way
+/// time-transfer exchange. Station A → B measures `m_AB = offset + common + j1`;
+/// station B → A measures `m_BA = -offset + common + j2`, where `offset` is the
+/// clock offset to recover, `common` is the **reciprocal** (shared) path delay,
+/// and `j1, j2` are the per-direction measurement noises. The estimate is
+///
+/// ```text
+/// (m_AB - m_BA) / 2 = offset + (j1 - j2) / 2
+/// ```
+///
+/// so the reciprocal `common` delay (satellite transponder, bulk path) cancels
+/// exactly — the defining property of two-way transfer — and two independent
+/// white measurements average to `1/sqrt(2)` of a single one-way measurement.
+pub fn two_way_offset_estimate(offset: f64, common: f64, j1: f64, j2: f64) -> f64 {
+    let m_ab = offset + common + j1;
+    let m_ba = -offset + common + j2;
+    (m_ab - m_ba) / 2.0
+}
+
+/// A two-way time-transfer link with a realistic stochastic error model.
+///
+/// Reciprocal path delays cancel in the two-way estimate (see
+/// [`two_way_offset_estimate`]); what limits a real link is (a) white measurement
+/// jitter on the estimate and (b) the **non-reciprocal** differential delay —
+/// equipment-delay asymmetry and up/down-path (e.g. ionospheric) variation
+/// sampled at different instants — which does *not* cancel and is the dominant
+/// long-term TWSTFT error floor. This models (b) as a colored white-FM +
+/// random-walk-FM process (the validated [`ClockModel`]), so the synchronization
+/// error series has a realistic Allan signature instead of flat white noise. With
+/// `q_wf = q_rw = 0` it reduces exactly to the legacy white-jitter behaviour.
+pub struct TwoWayLink {
+    pub id: String,
+    pub provenance: String,
+    /// White jitter on the two-way estimate (s, 1-sigma per exchange).
+    pub sigma_j: f64,
+    /// Non-reciprocal differential-delay instability (white-FM + random-walk-FM).
+    diff: ClockModel,
+}
+
+impl TwoWayLink {
+    pub fn new(id: &str, provenance: &str, sigma_j: f64, q_wf: f64, q_rw: f64) -> Self {
+        Self {
+            id: id.into(),
+            provenance: provenance.into(),
+            sigma_j,
+            diff: ClockModel::new(&format!("{id}-diff"), provenance, 0.0, q_wf, q_rw),
+        }
+    }
+
+    /// Advance one two-way exchange of duration `dt` and return the residual
+    /// synchronization error (s): the evolved non-reciprocal differential delay
+    /// plus this exchange's white measurement residual.
+    pub fn step(&mut self, dt: Seconds, rng: &mut dyn RngCore) -> f64 {
+        if dt > 0.0 {
+            self.diff.step(dt, rng);
+        }
+        let white = if self.sigma_j > 0.0 {
+            Normal::new(0.0, self.sigma_j).unwrap().sample(rng)
+        } else {
+            0.0
+        };
+        self.diff.phase() + white
+    }
+
+    pub fn spec(&self) -> ModelSpec {
+        ModelSpec {
+            id: self.id.clone(),
+            kind: "two-way-time-transfer".into(),
+            provenance: self.provenance.clone(),
+            params: serde_json::json!({
+                "sigma_j_s": self.sigma_j,
+                "q_wf": self.diff.q_wf,
+                "q_rw": self.diff.q_rw,
+            }),
+        }
+    }
+}
+
 /// One synchronization measurement: timing (sync) error in seconds at time t.
 #[derive(Clone, Debug, Serialize)]
 pub struct SyncSample {
@@ -61,6 +141,10 @@ pub struct LinkFoM {
     pub range_rms_mm: f64,
     pub range_p95_mm: f64,
     pub within_spec_fraction: f64,
+    /// Overlapping Allan deviation of the sync-error series at the base averaging
+    /// time (tau = the measurement step). 0 when the series is too short. This is
+    /// the stochastic model's Allan signature surfaced as a reported quantity.
+    pub adev_tau0: f64,
 }
 
 /// Score a sync-error series against a one-way ranging spec (mm).
@@ -85,6 +169,7 @@ pub fn score_link(samples: &[SyncSample], range_spec_mm: f64) -> LinkFoM {
         range_rms_mm: range_error_m(sync_rms_s) * 1000.0,
         range_p95_mm: range_error_m(sync_p95_s) * 1000.0,
         within_spec_fraction: within as f64 / n,
+        adev_tau0: 0.0,
     }
 }
 
@@ -94,6 +179,15 @@ pub struct LinkCfg {
     pub id: String,
     pub provenance: String,
     pub sigma_j_s: f64,
+    /// White-FM intensity of the non-reciprocal differential delay (default 0 ⇒
+    /// pure white measurement jitter, the legacy model).
+    #[serde(default)]
+    pub q_wf_s: f64,
+    /// Random-walk-FM intensity of the non-reciprocal differential delay
+    /// (default 0). A non-zero value gives the link a realistic long-tau Allan
+    /// floor (`sigma_y^2(tau) = q_rw * tau / 3`).
+    #[serde(default)]
+    pub q_rw_s: f64,
 }
 
 /// A time-transfer scenario: N synchronization measurements over an optical and an RF link.
@@ -134,14 +228,25 @@ fn hash_tt(scn: &TimeTransferScenario) -> String {
 
 fn run_link(scn: &TimeTransferScenario, cfg: &LinkCfg, seed: u64) -> LinkRun {
     let mut rng = ChaCha8Rng::seed_from_u64(seed);
-    let link = TimeTransferLink::new(&cfg.id, &cfg.provenance, cfg.sigma_j_s);
+    let mut link = TwoWayLink::new(
+        &cfg.id,
+        &cfg.provenance,
+        cfg.sigma_j_s,
+        cfg.q_wf_s,
+        cfg.q_rw_s,
+    );
     let mut series = Vec::with_capacity(scn.samples);
     for i in 0..scn.samples {
         let t = i as f64 * scn.step_s;
-        let e = link.sample(&mut rng);
+        let e = link.step(scn.step_s, &mut rng);
         series.push(SyncSample { t, sync_error_s: e });
     }
-    let fom = score_link(&series, scn.range_spec_mm);
+    let mut fom = score_link(&series, scn.range_spec_mm);
+    // Surface the model's Allan signature at the base averaging time.
+    if series.len() > 2 {
+        let phase: Vec<f64> = series.iter().map(|s| s.sync_error_s).collect();
+        fom.adev_tau0 = overlapping_adev(&phase, scn.step_s, 1);
+    }
     LinkRun {
         spec: link.spec(),
         series,
@@ -322,5 +427,130 @@ mod tests {
             (sd_of_mean - expected).abs() / expected < 0.2,
             "sd={sd_of_mean} expected={expected}"
         );
+    }
+
+    #[test]
+    fn two_way_cancels_the_reciprocal_common_mode_delay() {
+        // The reciprocal delay cancels algebraically: the estimate is independent
+        // of `common` and equals offset + (j1 - j2)/2. (To floating-point
+        // precision — a path delay is ~0.25 s round-trip, not astronomical.)
+        let (offset, j1, j2) = (3e-9, 2e-13, -1e-13); // 3 ns offset, sub-ps noise
+        let e_geo = two_way_offset_estimate(offset, 0.25, j1, j2); // GEO ~0.25 s
+        let e_leo = two_way_offset_estimate(offset, 0.013, j1, j2); // a closer link
+        assert!(
+            (e_geo - e_leo).abs() < 1e-15,
+            "common-mode delay did not cancel: {e_geo} vs {e_leo}"
+        );
+        assert!((e_geo - (offset + (j1 - j2) / 2.0)).abs() < 1e-15);
+    }
+
+    #[test]
+    fn two_way_white_noise_beats_one_way_by_sqrt_two() {
+        // Two independent one-way measurements average to 1/sqrt(2) of one.
+        use rand_distr::Normal;
+        let sigma_ow = 1e-12;
+        let nrm = Normal::new(0.0, sigma_ow).unwrap();
+        let mut rng = ChaCha8Rng::seed_from_u64(42);
+        let n = 200_000usize;
+        let mut sumsq = 0.0;
+        for _ in 0..n {
+            let (j1, j2) = (nrm.sample(&mut rng), nrm.sample(&mut rng));
+            let resid = two_way_offset_estimate(0.0, 1.0e-9, j1, j2); // common cancels
+            sumsq += resid * resid;
+        }
+        let rms = (sumsq / n as f64).sqrt();
+        let expected = sigma_ow / 2.0_f64.sqrt();
+        assert!(
+            (rms - expected).abs() / expected < 0.02,
+            "two-way RMS {rms} vs expected {expected}"
+        );
+    }
+
+    #[test]
+    fn differential_random_walk_fm_follows_q_tau_over_3() {
+        // A TwoWayLink driven only by random-walk FM (no white jitter) has the
+        // textbook RWFM Allan signature sigma_y^2(tau) = q_rw * tau / 3, the same
+        // relation validated for the clock model — here through the link's own
+        // step(). Average the Allan variance over seeds to cut scatter.
+        let q_rw = 1.0e-24;
+        let m = 50usize;
+        let tau = m as f64;
+        let n = 20_000usize;
+        let seeds = [1u64, 2, 3, 4, 5, 6, 7, 8];
+        let mut var_sum = 0.0;
+        for &seed in &seeds {
+            let mut link = TwoWayLink::new("diff", "unit", 0.0, 0.0, q_rw);
+            let mut rng = ChaCha8Rng::seed_from_u64(seed);
+            let mut phase = vec![0.0];
+            for _ in 1..n {
+                phase.push(link.step(1.0, &mut rng));
+            }
+            let adev = overlapping_adev(&phase, 1.0, m);
+            var_sum += adev * adev;
+        }
+        let adev_mean = (var_sum / seeds.len() as f64).sqrt();
+        let expected = (q_rw * tau / 3.0).sqrt();
+        assert!(
+            (adev_mean - expected).abs() / expected < 0.2,
+            "RWFM adev_mean={adev_mean} expected={expected}"
+        );
+    }
+
+    #[test]
+    fn white_only_two_way_reduces_to_the_legacy_jitter() {
+        // With q_wf = q_rw = 0 the two-way link draws exactly the same white
+        // sequence as the legacy stateless link (backward compatibility).
+        let sigma = 1e-12;
+        let mut twoway = TwoWayLink::new("w", "unit", sigma, 0.0, 0.0);
+        let legacy = TimeTransferLink::new("w", "unit", sigma);
+        let mut r1 = ChaCha8Rng::seed_from_u64(7);
+        let mut r2 = ChaCha8Rng::seed_from_u64(7);
+        for _ in 0..1000 {
+            assert_eq!(twoway.step(1.0, &mut r1), legacy.sample(&mut r2));
+        }
+    }
+
+    #[test]
+    fn two_way_link_is_deterministic_in_seed() {
+        let mk = || TwoWayLink::new("d", "unit", 5e-13, 1e-26, 1e-26);
+        let series = |seed: u64| {
+            let mut link = mk();
+            let mut rng = ChaCha8Rng::seed_from_u64(seed);
+            (0..500)
+                .map(|_| link.step(1.0, &mut rng))
+                .collect::<Vec<_>>()
+        };
+        assert_eq!(series(11), series(11));
+    }
+
+    #[test]
+    fn colored_link_reports_a_nonzero_allan_signature_in_the_fom() {
+        // End-to-end: a scenario whose links carry random-walk FM reports a
+        // positive Allan deviation in the FoM (the model's signature is reachable).
+        let scn = TimeTransferScenario {
+            seed: 3,
+            samples: 2000,
+            step_s: 1.0,
+            range_spec_mm: 100.0,
+            link_quantum: LinkCfg {
+                id: "optical".into(),
+                provenance: "unit".into(),
+                sigma_j_s: 1e-13,
+                q_wf_s: 0.0,
+                q_rw_s: 1e-26,
+            },
+            link_classical: LinkCfg {
+                id: "rf".into(),
+                provenance: "unit".into(),
+                sigma_j_s: 1e-11,
+                q_wf_s: 0.0,
+                q_rw_s: 1e-24,
+            },
+        };
+        let r = run_timetransfer(&scn);
+        assert!(r.quantum.fom.adev_tau0 > 0.0);
+        assert!(r.classical.fom.adev_tau0 > 0.0);
+        // The noisier RF link has the larger short-tau Allan deviation.
+        assert!(r.classical.fom.adev_tau0 > r.quantum.fom.adev_tau0);
     }
 }

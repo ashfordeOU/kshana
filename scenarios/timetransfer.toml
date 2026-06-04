@@ -1,4 +1,11 @@
 # Optical inter-satellite time transfer vs classical RF (TWSTFT).
+#
+# Each link is a two-way exchange: the reciprocal (common-mode) path delay
+# cancels in the (m_AB - m_BA)/2 estimate, so the error is the white measurement
+# jitter (`sigma_j_s`) plus the NON-reciprocal differential delay, modelled as a
+# random-walk-FM floor (`q_rw_s`, sigma_y^2(tau) = q_rw*tau/3) — equipment-delay
+# asymmetry and up/down-path variation. The reported `adev_tau0` is the link's
+# Allan deviation at the 1 s base step.
 kind = "timetransfer"
 seed = 42
 samples = 600
@@ -9,8 +16,10 @@ range_spec_mm = 10.0
 id = "optical-isl"
 provenance = "Optical inter-satellite link, picosecond-level synchronization target; free-space optical two-way time-frequency transfer lab floor ~1 fs (Giorgetta 2013, Nature Photonics; Deschenes 2016, PRX). Using a 1 ps target as the on-orbit-credible figure."
 sigma_j_s = 1.0e-12
+q_rw_s = 1.0e-32   # near-white: an optical link's differential drift floor is tiny
 
 [link_classical]
 id = "twstft-rf"
 provenance = "Two-way satellite time and frequency transfer (TWSTFT, Ku-band), single-session ~0.5 ns (BIPM/PTB/NIST)."
 sigma_j_s = 5.0e-10
+q_rw_s = 1.0e-26   # diurnal/differential-delay random-walk floor of an RF link
