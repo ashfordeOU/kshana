@@ -42,6 +42,9 @@ use crate::orbit::{
     enu_basis, invert4, los_unit, visible_positions, ConstellationCfg, Orbit, OrbitCfg, Propagator,
 };
 use crate::scenario::TimeCfg;
+use rand::SeedableRng;
+use rand_chacha::ChaCha8Rng;
+use rand_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 
 /// Natural log of the gamma function (Lanczos approximation, g=7, n=9).
@@ -859,7 +862,7 @@ pub fn classify_stanford(error_m: f64, pl_m: f64, alert_limit_m: f64) -> Stanfor
 }
 
 /// One plotted epoch of a Stanford diagram.
-#[derive(Clone, Copy, Debug, Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
 pub struct StanfordPoint {
     /// Actual position error (m) — the diagram's x-axis.
     pub error_m: f64,
@@ -982,6 +985,12 @@ pub struct RaimAvailabilityReport {
     pub samples_available: usize,
     /// Per-epoch detail.
     pub epochs: Vec<RaimAvailabilityEpoch>,
+    /// Vertical-axis Stanford(-ESA) integrity diagram accumulated from a seeded
+    /// no-fault measurement-error realization: at each protected epoch the actual
+    /// vertical position error (from a Gaussian range-error draw mapped through
+    /// the geometry) is classified against the vertical protection level and the
+    /// vertical alert limit. Empty when no epoch had a protected fix.
+    pub stanford: StanfordDiagram,
 }
 
 impl RaimAvailabilityReport {
@@ -1033,6 +1042,12 @@ pub fn raim_availability_epoch(
 /// levels, and judge availability against the alert limits. This is the runnable
 /// end-to-end integrity entry point — geometry in, an HPL/VPL availability map
 /// out — over the same SGP4/Keplerian propagators the engine already uses.
+///
+/// Alongside the geometry availability map it accumulates a vertical Stanford
+/// diagram from a single seeded no-fault measurement-error realization: at each
+/// protected epoch a Gaussian range-error draw is mapped through the geometry to
+/// an actual vertical position error and classified against the vertical
+/// protection level and alert limit. The draw is fully deterministic in `seed`.
 pub fn constellation_raim_availability(
     user: &Orbit,
     gnss: &[Propagator],
@@ -1040,10 +1055,14 @@ pub fn constellation_raim_availability(
     duration_s: f64,
     mask_deg: f64,
     cfg: &RaimConfig,
+    seed: u64,
 ) -> RaimAvailabilityReport {
     let n = (duration_s / step_s).round() as usize;
     let mut epochs = Vec::with_capacity(n + 1);
     let mut available = 0usize;
+    let mut rng = ChaCha8Rng::seed_from_u64(seed);
+    let noise = Normal::new(0.0, cfg.sigma_m.max(0.0)).expect("finite sigma");
+    let mut stanford = StanfordDiagram::new(cfg.al_v_m);
     for i in 0..=n {
         let t = i as f64 * step_s;
         let user_ecef = user.position_eci(t);
@@ -1051,6 +1070,16 @@ pub fn constellation_raim_availability(
         let e = raim_availability_epoch(t, user_ecef, &sats, cfg);
         if e.available {
             available += 1;
+        }
+        // A protected fix (VPL present) gets one Stanford point: draw clean
+        // measurement noise, map it to the actual vertical error, classify it
+        // against the protection level. Draw every epoch so the realization is
+        // stable in `seed` regardless of which epochs are protected.
+        let residuals: Vec<f64> = (0..sats.len()).map(|_| noise.sample(&mut rng)).collect();
+        if let Some(vpl) = e.vpl_m {
+            if let Some(verr) = vertical_position_error(user_ecef, &sats, &residuals) {
+                stanford.add(verr.abs(), vpl);
+            }
         }
         epochs.push(e);
     }
@@ -1060,7 +1089,25 @@ pub fn constellation_raim_availability(
         samples_total: epochs.len(),
         samples_available: available,
         epochs,
+        stanford,
     }
+}
+
+/// The vertical (geocentric-up) component of the least-squares position error
+/// produced by the per-satellite range residuals `residuals` at geometry
+/// `(user, sats)`. `None` for a singular geometry or a missing line of sight.
+fn vertical_position_error(user: Vec3, sats: &[Vec3], residuals: &[f64]) -> Option<f64> {
+    if sats.len() != residuals.len() {
+        return None;
+    }
+    let mut g: Vec<[f64; 4]> = Vec::with_capacity(sats.len());
+    for &s in sats {
+        let e = los_unit(user, s)?;
+        g.push([-e[0], -e[1], -e[2], 1.0]);
+    }
+    let (_east, _north, up) = enu_basis(user)?;
+    let (x, _a) = lsq_solution(&g, residuals)?;
+    Some(x[0] * up[0] + x[1] * up[1] + x[2] * up[2])
 }
 
 /// A RAIM-availability scenario: a user orbit, one or more GNSS constellations,
@@ -1091,6 +1138,11 @@ pub struct IntegrityScenario {
     /// Additional constellations combined with `constellation` (multi-GNSS).
     #[serde(default)]
     pub constellations: Vec<ConstellationCfg>,
+    /// Seed for the no-fault measurement-error realization that fills the vertical
+    /// Stanford diagram. The availability map itself is geometry-only and seed
+    /// independent; only the Stanford error draw depends on this.
+    #[serde(default)]
+    pub seed: u64,
 }
 
 impl IntegrityScenario {
@@ -1121,6 +1173,7 @@ impl IntegrityScenario {
             self.time.duration_s,
             self.mask_deg,
             &cfg,
+            self.seed,
         ))
     }
 }
@@ -1742,20 +1795,34 @@ mod tests {
             al_h_m: 40.0,
             al_v_m: 50.0,
         };
-        let report = constellation_raim_availability(&user, &gnss, 300.0, 6000.0, 5.0, &cfg);
+        let report = constellation_raim_availability(&user, &gnss, 300.0, 6000.0, 5.0, &cfg, 7);
         assert_eq!(report.samples_total, report.epochs.len());
         assert!(report.samples_total > 1);
         assert!((0.0..=1.0).contains(&report.availability()));
         // The geometry yields a fix with redundancy at some epochs.
-        assert!(
+        let protected = report
+            .epochs
+            .iter()
+            .filter(|e| e.n_visible >= 5 && e.hpl_m.is_some())
+            .count();
+        assert!(protected > 0, "no epoch had a protected fix");
+        // The vertical Stanford diagram carries exactly one point per protected
+        // epoch, and a clean (no-fault) realization produces no hazardously
+        // misleading information — the protection level bounds the error.
+        assert_eq!(report.stanford.len(), protected);
+        assert_eq!(
             report
-                .epochs
-                .iter()
-                .any(|e| e.n_visible >= 5 && e.hpl_m.is_some()),
-            "no epoch had a protected fix"
+                .stanford
+                .count(StanfordRegion::HazardouslyMisleadingInformation),
+            0,
+            "a no-fault realization must not be hazardously misleading"
         );
+        // Determinism: the same seed reproduces the diagram exactly.
+        let again = constellation_raim_availability(&user, &gnss, 300.0, 6000.0, 5.0, &cfg, 7);
+        assert_eq!(report.stanford.points(), again.stanford.points());
         // Serializes for export.
         let json = serde_json::to_string(&report).expect("serializes");
         assert!(json.contains("samples_available"));
+        assert!(json.contains("stanford") && json.contains("alert_limit_m"));
     }
 }
