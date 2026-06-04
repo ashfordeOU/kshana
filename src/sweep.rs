@@ -325,6 +325,92 @@ pub fn nd_sweep(
     })
 }
 
+/// One node of an N-D sweep evaluated as a Monte-Carlo ensemble: the coordinate
+/// and, for each clock, the metric's summary statistics (mean, spread,
+/// percentiles, and a bootstrap 95% CI on the mean).
+#[derive(Clone, Debug, Serialize)]
+pub struct NdPointCi {
+    pub coords: Vec<f64>,
+    pub quantum: crate::inertial::MetricStat,
+    pub classical: crate::inertial::MetricStat,
+}
+
+/// The result of an ensemble N-D sweep: as [`NdSweepResult`] but every node
+/// carries per-metric statistics over `runs` seeds rather than a single value.
+#[derive(Clone, Debug, Serialize)]
+pub struct NdSweepCiResult {
+    pub schema_version: String,
+    pub engine_version: String,
+    pub parameters: Vec<String>,
+    pub metric: String,
+    pub shape: Vec<usize>,
+    pub runs: usize,
+    pub points: Vec<NdPointCi>,
+}
+
+/// Run an N-D sweep where each grid node is a Monte-Carlo ensemble of `runs`
+/// seeds, reporting the metric's mean, percentiles, and a percentile-bootstrap
+/// 95% confidence interval per node (for both clocks). This turns the
+/// single-realisation [`nd_sweep`] into a statistically honest sweep — each node
+/// shows the spread, not one draw. Points are emitted in the same row-major order;
+/// the per-node bootstrap CI reuses the ensemble machinery (`metric_stat`).
+/// Deterministic: the per-node seeds and the bootstrap are fixed-seed.
+pub fn nd_sweep_ensemble(
+    base: &Scenario,
+    axes: &[SweepAxis],
+    metric: &str,
+    runs: usize,
+) -> Result<NdSweepCiResult, String> {
+    if axes.is_empty() {
+        return Err("nd_sweep needs at least one axis".into());
+    }
+    let runs = runs.max(1);
+    let axis_values: Vec<Vec<f64>> = axes.iter().map(|a| a.values()).collect();
+    let shape: Vec<usize> = axis_values.iter().map(|v| v.len()).collect();
+    let total: usize = shape.iter().product();
+    let mut points = Vec::with_capacity(total);
+    for flat in 0..total {
+        let mut idx = flat;
+        let mut coords = vec![0.0_f64; axes.len()];
+        for d in (0..axes.len()).rev() {
+            let len = shape[d];
+            coords[d] = axis_values[d][idx % len];
+            idx /= len;
+        }
+        let mut s = base.clone();
+        for (a, &v) in axes.iter().zip(&coords) {
+            s = apply(&s, &a.parameter, v)?;
+        }
+        // Ensemble over seeds at this node (each run() is a single deterministic
+        // realisation; varying the seed gives the distribution).
+        let (mut qv, mut cv) = (Vec::with_capacity(runs), Vec::with_capacity(runs));
+        for k in 0..runs {
+            let mut sk = s.clone();
+            sk.seed = base
+                .seed
+                .wrapping_add((k as u64).wrapping_mul(0x9e37_79b9_7f4a_7c15));
+            let r = crate::run::run(&sk);
+            qv.push(metric_of(&r.quantum.fom, metric)?);
+            cv.push(metric_of(&r.classical.fom, metric)?);
+        }
+        let boot = base.seed ^ (flat as u64).wrapping_mul(0x100_0001);
+        points.push(NdPointCi {
+            coords,
+            quantum: crate::inertial::metric_stat(&qv, boot ^ 0xA),
+            classical: crate::inertial::metric_stat(&cv, boot ^ 0xB),
+        });
+    }
+    Ok(NdSweepCiResult {
+        schema_version: "0.7".into(),
+        engine_version: env!("CARGO_PKG_VERSION").into(),
+        parameters: axes.iter().map(|a| a.parameter.clone()).collect(),
+        metric: metric.into(),
+        shape,
+        runs,
+        points,
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -555,5 +641,61 @@ mod tests {
                 assert!(w[1].classical <= w[0].classical, "holdover grew with noise");
             }
         }
+    }
+
+    #[test]
+    fn nd_sweep_ensemble_shape_matches_and_brackets_the_mean() {
+        let axes = [
+            axis("threshold_ns", 15.0, 25.0, 2, "lin"),
+            axis("classical_q_wf", 1e-23, 1e-20, 3, "log"),
+        ];
+        let plain = nd_sweep(&base(), &axes, "timing_p95_ns").unwrap();
+        let ens = nd_sweep_ensemble(&base(), &axes, "timing_p95_ns", 12).unwrap();
+        assert_eq!(ens.shape, plain.shape);
+        assert_eq!(ens.points.len(), plain.points.len());
+        assert_eq!(ens.runs, 12);
+        for p in &ens.points {
+            for st in [&p.quantum, &p.classical] {
+                assert!(
+                    st.p05 <= st.p50 && st.p50 <= st.p95,
+                    "percentiles unordered"
+                );
+                assert!(
+                    st.ci95_low <= st.mean && st.mean <= st.ci95_high,
+                    "CI {:?}..{:?} must bracket mean {}",
+                    st.ci95_low,
+                    st.ci95_high,
+                    st.mean
+                );
+                assert!(st.std >= 0.0);
+            }
+        }
+    }
+
+    #[test]
+    fn nd_sweep_ensemble_runs_one_reduces_to_the_single_seed_sweep() {
+        // With a single run the node mean is exactly the deterministic nd_sweep
+        // value (both use the base seed), and the CI collapses to that point.
+        let axes = [axis("classical_q_wf", 1e-23, 1e-20, 4, "log")];
+        let plain = nd_sweep(&base(), &axes, "holdover_s").unwrap();
+        let ens = nd_sweep_ensemble(&base(), &axes, "holdover_s", 1).unwrap();
+        for (e, p) in ens.points.iter().zip(&plain.points) {
+            assert_eq!(e.quantum.mean, p.quantum);
+            assert_eq!(e.classical.mean, p.classical);
+            assert_eq!(e.classical.ci95_low, e.classical.mean);
+            assert_eq!(e.classical.ci95_high, e.classical.mean);
+        }
+    }
+
+    #[test]
+    fn nd_sweep_ensemble_is_deterministic() {
+        let axes = [axis("classical_q_wf", 1e-23, 1e-20, 3, "log")];
+        let a = nd_sweep_ensemble(&base(), &axes, "holdover_s", 8).unwrap();
+        let b = nd_sweep_ensemble(&base(), &axes, "holdover_s", 8).unwrap();
+        assert_eq!(
+            serde_json::to_string(&a).unwrap(),
+            serde_json::to_string(&b).unwrap()
+        );
+        assert!(nd_sweep_ensemble(&base(), &[], "holdover_s", 4).is_err());
     }
 }
