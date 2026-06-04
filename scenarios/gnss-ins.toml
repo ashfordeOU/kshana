@@ -1,0 +1,44 @@
+# Loosely-coupled GNSS/INS: the three-axis strapdown navigator disciplined by a
+# 15-state error-state EKF, then coasting through a 60 s GNSS outage. Unlike the
+# `inertial` pack (a 1-DOF scalar dead-reckoner with a truth-snap reset at every
+# fix), this runs the genuine closed-loop filter: it learns from noisy fixes while
+# GNSS is up and coasts on the corrected state during the gap. The reported error
+# is the real horizontal residual against truth; each sensor also carries its
+# open-loop free-INS RMS so the filter's value is explicit.
+#
+# Honest framing: loosely-coupled, a single deterministic driving trajectory, a
+# flat-Earth tangent-plane INS<->GNSS comparison. The lower-bias (quantum-grade)
+# sensor has the better *unaided* coast; the fused outage error is floor-limited
+# by the residual attitude error at hand-over (tilt and accel bias are only weakly
+# separable), so it is not claimed to scale with bias.
+kind = "gnss-ins"
+seed = 7
+threshold_m = 50.0
+fix_interval_s = 1.0
+sigma_pos_m = 1.0
+sigma_vel_mps = 0.05
+lat_deg = 45.0
+lon_deg = -57.3
+alt_m = 50.0
+
+[time]
+step_s = 0.1
+duration_s = 160.0
+
+[gnss]
+windows = [
+  { t0 = 0.0,   t1 = 100.0, state = "nominal" },
+  { t0 = 100.0, t1 = 160.0, state = "denied" },
+]
+
+[imu_quantum]
+id = "cold-atom-imu"
+provenance = "Quantum-grade inertial unit: low residual accelerometer/gyro bias (cold-atom-class); the better unaided coast"
+accel_bias = [0.015, 0.0, 0.0]
+gyro_bias = [0.0, 0.0, 5.0e-5]
+
+[imu_classical]
+id = "tactical-imu"
+provenance = "Tactical-grade MEMS/quartz inertial unit: larger residual bias; the free-running INS diverges much faster"
+accel_bias = [0.03, -0.02, 0.0]
+gyro_bias = [0.0, 0.0, 1.0e-4]
