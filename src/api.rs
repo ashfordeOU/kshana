@@ -206,6 +206,23 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
                 summary,
             })
         }
+        "gnss-ins" => {
+            let scn: crate::fusion::pack::GnssInsScenario =
+                toml::from_str(src).map_err(|e| format!("invalid gnss-ins scenario: {e}"))?;
+            scn.time.validate()?;
+            let r = crate::fusion::pack::run_gnss_ins(&scn);
+            let summary = format!(
+                "scenario {} | gnss-ins | quantum outage-RMS fused {:.1}m vs free {:.1}m (hold {:.0}s, avail {:.2}) | classical fused {:.1}m vs free {:.1}m (hold {:.0}s, avail {:.2})",
+                &r.scenario_hash[..12],
+                r.quantum.fused_outage_rms_m, r.quantum.free_outage_rms_m, r.quantum.fom.holdover_s, r.quantum.fom.availability,
+                r.classical.fused_outage_rms_m, r.classical.free_outage_rms_m, r.classical.fom.holdover_s, r.classical.fom.availability,
+            );
+            Ok(RunOutput {
+                json: json_of(&r),
+                svg: crate::fusion::pack::to_svg(&r),
+                summary,
+            })
+        }
         "spoof" => {
             let scn: crate::spoof::SpoofScenario =
                 toml::from_str(src).map_err(|e| format!("invalid spoof scenario: {e}"))?;
@@ -337,6 +354,7 @@ mod tests {
             include_str!("../scenarios/timetransfer.toml"),
             include_str!("../scenarios/hybrid-pnt.toml"),
             include_str!("../scenarios/fusion-pnt.toml"),
+            include_str!("../scenarios/gnss-ins.toml"),
             include_str!("../scenarios/orbit-gnss-challenged.toml"),
             include_str!("../scenarios/orbit-molniya.toml"),
             include_str!("../scenarios/orbit-multignss.toml"),
