@@ -301,8 +301,9 @@ the SGP4 propagator. The position-domain dilution of precision, the Security fig
 merit (across all four packs) with an active spoofing-attack demonstrator, eccentric/J2
 orbits, real TLE and multi-constellation geometry, the full SGP4/SDP4 propagator
 (deep-space and resonance, validated against the AIAA 2006-6753 vectors), a single-axis
-(1-DOF) IMU error budget, two independent (clock + position) Kalman estimators reported
-as a combined FoM, Monte Carlo confidence bands, trade-study sweeps, the HTML scorecard,
-and a package-publishing workflow have shipped.
+(1-DOF) IMU error budget, a separately-observed (clock + position) joint Kalman
+estimator plus a genuinely **coupled** clock+position filter with cross-block
+covariance for the pseudorange case (`fusion::coupled`), Monte Carlo confidence bands,
+trade-study sweeps, the HTML scorecard, and a package-publishing workflow have shipped.
 A private overlay repo holds export-sensitive resilience depth; it plugs in via the
 same `ErrorModel` interface without changing the public engine.
