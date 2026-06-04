@@ -27,6 +27,19 @@ breaking changes are called out explicitly.
   RINEX arc remains a roadmap item — it needs a pseudorange solution).
 
 ### Added
+- **Constellation design on the validated SGP4 core (`src/walker.rs`).** A new
+  `walker` module emits a designed Walker-delta pattern (`i: T/P/F`) as SGP4
+  **mean elements**, so the synthetic constellation propagates through the same
+  SGP4 path validated to 4.12 mm against the AIAA 2006-6753 vectors — not the
+  analytic Keplerian generator. On top of it: `pdop_sweep` tabulates coverage and
+  median/worst PDOP over a `{planes × sats × inclination}` design grid, and
+  `coverage_revisit` reports the coverage fraction and revisit gaps (worst/mean)
+  at a ground point. Validated by the physical monotonicities a trade must obey
+  (more satellites ⇒ higher coverage, lower PDOP, shorter revisit). Separately, a
+  genuine **Celestrak `gps-ops` TLE snapshot** (2021-07-28, 30 operational GPS
+  satellites) is added as a test-only fixture and the real-TLE → SGP4 → ECEF
+  geometry path validated against it (full MEO shell within 1%, nine-satellite
+  all-in-view at PDOP 1.64), alongside the existing SP3 and RINEX real-data paths.
 - **Noise-type-specific effective degrees of freedom for the Allan confidence
   intervals.** `allan::edf_overlapping_adev` implements the NIST SP 1065 Table 5
   closed forms (the Stable32 simple set) for all five canonical power-law noise
