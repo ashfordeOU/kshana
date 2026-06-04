@@ -31,6 +31,25 @@ fn run_full(toml: &str) -> PyResult<(String, String, String)> {
         .map_err(PyValueError::new_err)
 }
 
+/// List the available scenario kinds and their metadata as a JSON array (name,
+/// description, required and optional fields). Lets callers introspect the packs
+/// without reading the source — e.g. for notebook auto-complete.
+#[pyfunction]
+fn list_kinds() -> String {
+    crate::api::list_scenario_kinds_json()
+}
+
+/// Run a scenario; on failure return the structured error *kind* tag
+/// (`invalid_input`, `non_convergence`, `unsupported`, `io_error`) instead of
+/// raising, so a caller can pattern-match on the failure category. Returns `None`
+/// on success.
+#[pyfunction]
+fn error_kind(toml: &str) -> Option<String> {
+    crate::api::run_scenario(toml)
+        .err()
+        .map(|e| e.kind_tag().to_string())
+}
+
 /// Engine version (the crate version).
 #[pyfunction]
 fn version() -> &'static str {
@@ -41,6 +60,8 @@ fn version() -> &'static str {
 fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(run, m)?)?;
     m.add_function(wrap_pyfunction!(run_full, m)?)?;
+    m.add_function(wrap_pyfunction!(list_kinds, m)?)?;
+    m.add_function(wrap_pyfunction!(error_kind, m)?)?;
     m.add_function(wrap_pyfunction!(version, m)?)?;
     m.add("__version__", env!("CARGO_PKG_VERSION"))?;
     Ok(())
