@@ -59,8 +59,12 @@ physics so error budgets can be *derived*, not just *supplied*:
   `src/inertial/quantum_imu.rs`; see [`docs/QUANTUM.md`](docs/QUANTUM.md).)*
 - **Quantum projection / shot noise** from first principles (not only its net Allan
   contribution). *(Delivered — derives the `q_va` PSD the classical model consumes.)*
-- **Vibration-coupling tensor**, laser-phase noise, and sensor systematics. *(Still to
-  do — the dominant real-device terms; the model is currently the shot-noise floor.)*
+- **Vibration coupling** — the interferometer acceleration→phase transfer function
+  `|H(ω)| = (4/ω²)sin²(ωT/2)` and the white-PSD phase variance `σ_Φ² = k_eff²·S_a·T³/3`.
+  *(Delivered — `src/inertial/quantum_imu.rs`; the dominant real-device term, so error
+  budgets now span the shot-noise floor and the vibration-limited regime above it.)*
+- **Laser-phase noise** and remaining sensor systematics (Coriolis/rotation, light shift,
+  wavefront). *(Still to do.)*
 - Two-part JD-backed long-horizon timing; carrier-phase + explicit receiver-clock
   state in tight coupling; a trajectory library beyond the single deterministic path.
 

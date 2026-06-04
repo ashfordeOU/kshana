@@ -29,18 +29,19 @@ simulated — only the net Allan contribution, supplied as a coefficient. For th
 remaining systematics are still coefficient-level or unmodelled:
 
 - the atom-interferometer **Mach–Zehnder phase** (`Φ = k_eff·a·T²`), **quantum
-  projection / shot noise** (`σ_Φ = 1/(C·√N)`), interferometer **contrast** decay, and
-  **cycle time** *are now modelled from first principles* for the CAI accelerometer
-  (`src/inertial/quantum_imu.rs`), deriving the white-acceleration PSD `q_va` the
-  classical model consumes — see [`QUANTUM.md`](QUANTUM.md);
-- still **not** modelled: the **vibration-coupling tensor** (the dominant real-device
-  term), **laser-phase noise**, Coriolis and AC-Stark **systematics**, and clock-side
-  first-principles physics;
+  projection / shot noise** (`σ_Φ = 1/(C·√N)`), interferometer **contrast** decay,
+  **cycle time**, and the **vibration-coupling transfer function** (`|H(ω)| =
+  (4/ω²)sin²(ωT/2)`, white-PSD variance `σ_Φ² = k_eff²·S_a·T³/3`) *are now modelled from
+  first principles* for the CAI accelerometer (`src/inertial/quantum_imu.rs`), deriving
+  the white-acceleration PSD `q_va` the classical model consumes — see
+  [`QUANTUM.md`](QUANTUM.md);
+- still **not** modelled: **laser-phase noise**, Coriolis and AC-Stark **systematics**,
+  and clock-side first-principles physics;
 - no 3-axis mechanisation (the inertial model is 1-DOF — see the IMU note in the
   README and [`VALIDATION.md`](VALIDATION.md)).
 
-Completing the quantum-physics layer (vibration tensor, Coriolis, systematics) is the
-remaining P2 roadmap work.
+Completing the quantum-physics layer (laser-phase noise, Coriolis, light-shift
+systematics) is the remaining P2 roadmap work.
 
 ## Ground-lab vs. flight-qualified figures
 
