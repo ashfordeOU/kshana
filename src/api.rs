@@ -223,6 +223,24 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
                 summary,
             })
         }
+        "gnss-sim" => {
+            let scn: crate::gnss_sim::GnssSimScenario =
+                toml::from_str(src).map_err(|e| format!("invalid gnss-sim scenario: {e}"))?;
+            scn.time.validate()?;
+            let (alert_h, alert_v) = (scn.alert_limit_h_m, scn.alert_limit_v_m);
+            let r = crate::gnss_sim::run_gnss_sim(&scn);
+            let summary = format!(
+                "scenario {} | gnss-sim | mean iono {:.1}m tropo {:.1}m | RAIM avail {:.2} mean HPL {:.1}m VPL {:.1}m fault-rate {:.3}",
+                &r.scenario_hash[..12],
+                r.fom.mean_iono_m, r.fom.mean_tropo_m,
+                r.fom.raim_availability, r.fom.mean_hpl_m, r.fom.mean_vpl_m, r.fom.fault_rate,
+            );
+            Ok(RunOutput {
+                json: json_of(&r),
+                svg: crate::gnss_sim::to_svg(&r, alert_h, alert_v),
+                summary,
+            })
+        }
         "jamming" => {
             let scn: crate::jamming::JammingScenario =
                 toml::from_str(src).map_err(|e| format!("invalid jamming scenario: {e}"))?;
@@ -400,6 +418,7 @@ mod tests {
             include_str!("../scenarios/spoof-meaconing.toml"),
             include_str!("../scenarios/integrity-raim.toml"),
             include_str!("../scenarios/jamming-demo.toml"),
+            include_str!("../scenarios/gnss-sim-raim.toml"),
         ] {
             let out = run_toml(src).expect("scenario runs");
             assert!(out.json.starts_with('{'));

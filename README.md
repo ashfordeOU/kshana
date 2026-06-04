@@ -252,7 +252,7 @@ console.log(version(), result.classical.fom.timing_p95_ns);
 
 Scenarios are declarative TOML. A top-level `kind` selects the pack (`clock` is
 the default if omitted; `inertial`, `timetransfer`, `hybrid`, `fusion`,
-`gnss-ins`, `orbit`, `integrity`, `spoof`, `jamming`, `sweep`, `sweep-nd`).
+`gnss-ins`, `orbit`, `gnss-sim`, `integrity`, `spoof`, `jamming`, `sweep`, `sweep-nd`).
 Common fields: `seed`, a `[time]` grid, a `[gnss]` availability timeline (the outage
 driver), and per-sensor blocks with `provenance` strings citing the source of every
 figure. Example (clock):
@@ -324,6 +324,17 @@ Monte-Carlo (`mc_runs` trials per hypothesis — the two agree to a few ×1/√N
 magnitude, so a quiet clock that catches a spec-sized spoof scores ≈ 1 and a noisy
 one that often misses it scores lower (see `scenarios/spoof-attack.toml`,
 `scenarios/spoof-meaconing.toml`).
+
+A `gnss-sim` scenario is a **measurement-domain** simulation: for each visible
+satellite it synthesises the pseudorange `ρ = geometric range + c·δt_rx − c·δt_sv +
+I + T + noise + multipath` and the L1 Doppler, with the **Klobuchar** single-frequency
+ionosphere (`[iono]`, IS-GPS-200 §20.3.3.5.2.5) and the **Saastamoinen** zenith
+troposphere projected by the **Niell (1996)** mapping function (`[tropo]`). The
+residuals feed **snapshot RAIM** for per-epoch HPL/VPL, and every satellite's
+pseudorange, Doppler, C/N₀, and iono/tropo corrections are emitted in the JSON
+`gnss_measurements` array. It is a forward simulator (it generates measurements from
+a known truth), not a receiver/solver — a zero-noise run reproduces geometry plus the
+corrections to sub-millimetre (see `scenarios/gnss-sim-raim.toml`).
 
 A `jamming` scenario models RF interference as a **link budget**: a `[jammer]`
 (ECEF position, transmit `power_dbw`, type) raises the jammer-to-signal ratio at a
