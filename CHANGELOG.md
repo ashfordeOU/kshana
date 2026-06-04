@@ -23,6 +23,15 @@ breaking changes are called out explicitly.
   API change.
 
 ### Added
+- **SP3 precise-ephemeris export from the CLI.** A propagated orbit/constellation
+  scenario can now be written to an SP3-c file: `kshana <orbit.toml> --export-sp3
+  out.sp3`, or `export_sp3 = true` in the scenario auto-writes `<scenario>.sp3`
+  (`api::export_sp3` / `auto_export_sp3`, `OrbitClockScenario::to_sp3_string`, optional
+  `epoch`). A round-trip test (`tests/sp3_export_roundtrip.rs`) propagates the real
+  Celestrak `gps-ops` snapshot, exports it, re-parses it, and confirms the recovered
+  ECEF positions match the SGP4 truth over 24 h to **< 0.5 m** (well inside the 10 m
+  TLE-grade tolerance). README documents the interoperability role (RINEX → RTKLIB/gLAB,
+  SP3 → Ginan/precise-orbit products).
 - **Coupled clock+position Kalman filter (cross-block covariance).** `src/fusion/coupled.rs`
   `CoupledPntFilter` is a single stacked `[pos, vel, phase, freq]` filter (Joseph-form
   updates) whose **pseudorange** measurement `ρ = g·pos + c·phase + noise` genuinely

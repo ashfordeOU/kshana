@@ -818,7 +818,25 @@ pub struct OrbitClockScenario {
     pub constellations: Vec<ConstellationCfg>,
     pub clock_quantum: ClockCfg,
     pub clock_classical: ClockCfg,
+    /// Optional calendar epoch (UTC/GPS) labelling time `t = 0`, used when exporting
+    /// the propagated constellation to SP3. Defaults to 2000-01-01 00:00:00.
+    #[serde(default)]
+    pub epoch: Option<crate::rinex::EpochUtc>,
+    /// When `true`, the CLI also writes the propagated constellation to an SP3-c file
+    /// (`<scenario>.sp3`) alongside the usual result/chart/report outputs.
+    #[serde(default)]
+    pub export_sp3: bool,
 }
+
+/// Default SP3 start epoch when a scenario does not declare one: J2000 calendar date.
+pub(crate) const DEFAULT_SP3_EPOCH: crate::rinex::EpochUtc = crate::rinex::EpochUtc {
+    year: 2000,
+    month: 1,
+    day: 1,
+    hour: 0,
+    minute: 0,
+    second: 0.0,
+};
 
 impl OrbitClockScenario {
     /// All satellites visible to the user: the primary constellation plus any
@@ -829,6 +847,43 @@ impl OrbitClockScenario {
             sats.extend(c.satellites()?);
         }
         Ok(sats)
+    }
+
+    /// Export the propagated constellation as an SP3-c position file: each satellite
+    /// is sampled on the scenario's time grid and rotated into ECEF. Satellite IDs
+    /// are assigned positionally (`Gnn`) since the TLE name lines are not carried
+    /// through the propagators. The start epoch is the scenario's `epoch` (or the
+    /// J2000 default). This is the export half of SP3 interop — Kshana orbits out,
+    /// in the format Ginan/RTKLIB/gLAB ingest.
+    pub fn to_sp3_string(&self) -> Result<String, String> {
+        let sats = self.all_satellites()?;
+        if sats.is_empty() {
+            return Err("no satellites to export".into());
+        }
+        let ids: Vec<String> = (1..=sats.len()).map(|i| format!("G{i:02}")).collect();
+        let start = self.epoch.unwrap_or(DEFAULT_SP3_EPOCH);
+        let start_jd_ut1 = crate::timescales::julian_date(
+            start.year,
+            start.month,
+            start.day,
+            start.hour,
+            start.minute,
+            start.second,
+        );
+        let step_s = self.time.step_s;
+        if step_s <= 0.0 {
+            return Err("time.step_s must be positive for SP3 export".into());
+        }
+        let num_epochs = (self.time.duration_s / step_s).round() as usize + 1;
+        Ok(crate::sp3::Sp3File::from_propagators(
+            &ids,
+            &sats,
+            start,
+            start_jd_ut1,
+            step_s,
+            num_epochs,
+        )
+        .to_sp3_string())
     }
 }
 
@@ -1222,6 +1277,8 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
             constellations: vec![],
             clock_quantum: clock("optical", 1e-13, 1e-26, 1e-34),
             clock_classical: clock("csac", 1e-11, 1e-24, 1e-32),
+            epoch: None,
+            export_sp3: false,
         }
     }
 
