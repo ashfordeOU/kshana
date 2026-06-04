@@ -23,6 +23,18 @@ breaking changes are called out explicitly.
   API change.
 
 ### Added
+- **Kalman filter-consistency health monitoring (NIS/NEES).** The two-state clock
+  filter's covariance update is now in **Joseph stabilised form** `P⁺ = (I−KH)P(I−KH)ᵀ
+  + KRKᵀ`, which stays positive-semidefinite under extreme Q/R ratios (Cholesky-checked
+  in CI at `R=1e-26 / Q≈1e-30`). A new `src/filter_health.rs` runs a Monte-Carlo
+  consistency assessment (Bar-Shalom §5.4): pooled **NIS** (normalised innovation²,
+  target 1) and **NEES** (normalised estimation error², target 2) against 95% χ²
+  bands, surfaced as a `filter_health { nis_mean, nis_chi2_lower_95, nis_chi2_upper_95,
+  nees_mean, nees_chi2_lower_95, nees_chi2_upper_95, consistent }` block in the clock
+  result JSON and as a green/amber card in the playground. A Q/R-mismatch sweep test
+  proves the monitor flips to inconsistent when the process noise is mistuned by
+  ×0.1–×10. Adds a general χ² quantile (`detection::chi2_inv_cdf`, Wilson–Hilferty,
+  table-checked).
 - **`docs/PROVENANCE.md` — one citable provenance table.** Consolidates every sensor
   parameter (clocks, inertial, time-transfer), physical/algorithmic model (orbit, time
   systems, frames, iono/tropo, integrity, detection, jamming, Allan), and validation

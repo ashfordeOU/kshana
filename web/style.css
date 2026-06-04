@@ -481,6 +481,16 @@ details#advanced summary { cursor: pointer; color: var(--fg-1); font-size: 0.85r
 .chart, #adev { text-align: center; margin: 1rem 0; }
 .chart img, #adev img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); }
 .adev-title { font-size: 0.95rem; margin: 1rem 0 0.4rem; }
+.health-cards { display: flex; flex-wrap: wrap; gap: 0.6rem; }
+.health-card { flex: 1 1 220px; border: 1px solid var(--line); border-left-width: 3px; border-radius: 6px; padding: 0.6rem 0.75rem; background: var(--bg); }
+.health-card.ok { border-left-color: var(--ok); }
+.health-card.warn { border-left-color: #d8a24a; }
+.health-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; margin-bottom: 0.35rem; }
+.health-name { font-weight: 600; color: var(--fg); font-size: 0.9rem; }
+.health-badge { font-size: 0.78rem; font-weight: 600; }
+.health-card.ok .health-badge { color: var(--ok); }
+.health-card.warn .health-badge { color: #d8a24a; }
+.health-stat { font-family: var(--mono); font-size: 0.78rem; color: var(--fg-1); margin: 0.15rem 0; }
 pre#json { font-family: var(--mono); font-size: 0.76rem; overflow: auto; max-height: 460px; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 0.8rem; color: var(--fg-1); }
 
 /* ── Standards / cite cards ──────────────────────────────────────────── */

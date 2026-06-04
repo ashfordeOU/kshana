@@ -17,6 +17,14 @@ pub(crate) const PHASE_MEAS_VAR_S2: f64 = 1e-20;
 /// 3-sigma protection level for the integrity check.
 pub(crate) const PROTECTION_K: f64 = 3.0;
 
+/// Monte-Carlo ensemble size and length for the filter-health (NIS/NEES) check.
+/// `seeds × steps` pooled samples (≈ 12 800) give a tight χ² band while staying
+/// well under a millisecond per clock.
+const HEALTH_STEPS: usize = 200;
+const HEALTH_SEEDS: usize = 64;
+/// Decorrelate the health ensemble's seed stream from the scenario's run seed.
+const HEALTH_SEED_SALT: u64 = 0x0F11_7E12_8EA1_7777;
+
 pub(crate) fn run_clock(scn: &Scenario, cfg: &ClockCfg, seed: u64) -> ClockRun {
     let mut rng = ChaCha8Rng::seed_from_u64(seed);
     let mut clock = ClockModel::new(&cfg.id, &cfg.provenance, cfg.y0, cfg.q_wf, cfg.q_rw)
@@ -74,11 +82,26 @@ pub(crate) fn run_clock(scn: &Scenario, cfg: &ClockCfg, seed: u64) -> ClockRun {
         dt,
         SPOOF_DETECT_K,
     ));
+    // Filter-consistency health: a Monte-Carlo NIS/NEES check that the deployed
+    // Kalman tuning (Q matched to the truth model, q_factor = 1) is self-consistent.
+    let filter_health = Some(crate::filter_health::assess(
+        crate::filter_health::HealthConfig {
+            q_wf: cfg.q_wf,
+            q_rw: cfg.q_rw,
+            r: PHASE_MEAS_VAR_S2,
+            dt,
+            steps: HEALTH_STEPS,
+            seeds: HEALTH_SEEDS,
+            q_factor: 1.0,
+            base_seed: seed ^ HEALTH_SEED_SALT,
+        },
+    ));
     ClockRun {
         spec: clock.spec(),
         series,
         fom,
         adev_curve: crate::allan::overlapping_adev_curve(&phase, dt),
+        filter_health,
     }
 }
 

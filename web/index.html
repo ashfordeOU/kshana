@@ -293,6 +293,11 @@
                 <div id="adev" aria-label="Allan deviation chart"></div>
                 <p class="dim" style="font-size:0.82rem">Lower is better. σ<sub>y</sub>(τ) shows how a clock's fractional-frequency stability changes with averaging time τ.</p>
               </div>
+              <div id="health-wrap" hidden>
+                <h3 class="adev-title">Filter health (Kalman self-consistency)</h3>
+                <div id="health-cards" class="health-cards" aria-label="Kalman filter consistency"></div>
+                <p class="dim" style="font-size:0.82rem">A consistent filter's reported uncertainty matches its actual errors. NIS (normalised innovation²) should sit near 1 and NEES (normalised estimation error²) near 2, each inside its 95% χ² band — a Monte-Carlo check of the clock's Kalman tuning.</p>
+              </div>
               <details>
                 <summary class="dim" style="cursor:pointer;font-size:0.85rem">Full result (JSON)</summary>
                 <pre id="json"></pre>
