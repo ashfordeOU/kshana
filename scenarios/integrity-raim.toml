@@ -12,8 +12,15 @@
 # vertical guidance uses SBAS / dual-frequency / ARAIM. The constellation is a
 # synthetic 24-satellite Walker-delta pattern (6 planes of 4), illustrative of
 # GPS geometry; swap in a `tle` block for a real one.
+#
+# The result also carries a vertical Stanford(-ESA) integrity diagram: at each
+# protected epoch a seeded no-fault range-error draw is mapped through the
+# geometry to an actual vertical error and classified against the VPL and the
+# vertical alert limit (Available / System-Unavailable / Misleading / Hazardously
+# Misleading). `seed` makes that error realization reproducible.
 kind = "integrity"
 
+seed = 7
 mask_deg = 5.0
 sigma_uere_m = 1.0   # 1-sigma user-equivalent range error (dual-frequency, smoothed)
 p_fa = 1.0e-5        # allowed false-alarm probability
