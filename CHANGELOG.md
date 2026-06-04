@@ -9,6 +9,8 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.10.0] - 2026-06-04
+
 ### Changed
 - **Real-data validation.** The multi-GNSS RINEX navigation parser, the GLONASS
   RK4 propagator, and the SP3 reader are now exercised against genuine IGS/DLR
