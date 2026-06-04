@@ -2,6 +2,7 @@
 pub mod allan;
 pub mod api;
 pub mod chart;
+pub mod detection;
 pub mod ensemble;
 pub mod estimator;
 pub mod fom;

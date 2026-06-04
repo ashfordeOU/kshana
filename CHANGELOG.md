@@ -10,6 +10,24 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Stochastic time-spoof detector (`spoof` kind).** The spoof pack now runs a real
+  detector instead of a deterministic ramp-vs-bound comparison: four injection
+  shapes (`linear_ramp`, `step_jump`, `meaconing`, `replay`), a two-sided χ²₁
+  energy / Neyman–Pearson test on the clock-aided monitor statistic with the
+  threshold set from a target false-alarm budget `target_pfa`, and the
+  missed-detection probability `P_md` reported both closed-form and by Monte-Carlo
+  (`mc_runs` trials per hypothesis — the two agree to a few ×1/√N). The Security
+  figure of merit is now `1 − P_md` at the operationally-harmful (spec) magnitude.
+  New `src/detection.rs` (Gaussian tail functions, NP/energy test, Monte-Carlo
+  P_fa/P_md) and `scenarios/spoof-meaconing.toml`. Backward compatible: a bare
+  `[attack] rate_ns_per_s` is still accepted as a linear ramp.
+
+### Changed
+- **Security FoM definition (`spoof` kind):** from the analytic detectability
+  bound `1 − min_detectable/threshold` to the stochastic detector's `1 − P_md`.
+  The clock pack's `security` field remains the faster analytic proxy.
+
+### Added (continued)
 - **RF jamming model (`jamming` kind).** A link-budget interference model that
   turns a jammer's power and geometry into per-satellite loss of lock: the
   jammer-to-signal ratio from free-space path loss and the per-direction

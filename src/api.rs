@@ -253,12 +253,10 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
                     .map_or_else(|| "undetected".to_string(), |t| format!("detected {t:.0}s"))
             };
             let summary = format!(
-                "scenario {} | spoof {:.2} ns/s vs {:.0} ns spec | quantum bound {:.3}ns {} ({}) | classical bound {:.2}ns {} ({})",
-                &r.scenario_hash[..12], scn.attack.rate_ns_per_s, r.threshold_ns,
-                r.quantum.min_detectable_ns, det(&r.quantum),
-                if r.quantum.breaches_spec_undetected { "spoof succeeds" } else { "caught before spec" },
-                r.classical.min_detectable_ns, det(&r.classical),
-                if r.classical.breaches_spec_undetected { "spoof succeeds" } else { "caught before spec" },
+                "scenario {} | spoof {:?} vs {:.3} ns spec (P_fa {:.3}) | quantum security {:.3} (P_md {:.3}, MC {:.3}) {} | classical security {:.3} (P_md {:.3}, MC {:.3}) {}",
+                &r.scenario_hash[..12], scn.attack.resolved_shape(), r.threshold_ns, scn.attack.target_pfa,
+                r.quantum.security_fom, r.quantum.detection.analytic_pmd, r.quantum.detection.mc_pmd, det(&r.quantum),
+                r.classical.security_fom, r.classical.detection.analytic_pmd, r.classical.detection.mc_pmd, det(&r.classical),
             );
             Ok(RunOutput {
                 json: json_of(&r),
@@ -399,6 +397,7 @@ mod tests {
             include_str!("../scenarios/orbit-real-tle.toml"),
             include_str!("../scenarios/sweep-clock-stability.toml"),
             include_str!("../scenarios/spoof-attack.toml"),
+            include_str!("../scenarios/spoof-meaconing.toml"),
             include_str!("../scenarios/integrity-raim.toml"),
             include_str!("../scenarios/jamming-demo.toml"),
         ] {
