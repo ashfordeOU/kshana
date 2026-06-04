@@ -1,0 +1,15 @@
+Real GPS constellation TLE fixture
+==================================
+
+gps-ops_2021-07-28.txt
+  A genuine Celestrak `gps-ops` two-line-element snapshot of the operational GPS
+  constellation, catalogued 2021-07-28 (epoch day 209 of 2021), 30 satellites.
+  Two-line element sets are open data: they originate from the US Space Force /
+  18th Space Defense Squadron catalogue and are redistributed by Celestrak
+  (Dr T. S. Kelso). This file is used by tests/igs_real_data.rs to validate the
+  real-TLE -> SGP4 -> Earth-fixed geometry path against a real constellation,
+  rather than only synthetic Walker patterns.
+
+This file is not part of the Kshana source and is not shipped in the published
+crates/packages (see the `exclude` list in Cargo.toml); it exists only for the
+test suite.

@@ -8,16 +8,64 @@
 //! sets are non-empty, the positions are finite and at the right altitude, and the
 //! SP3 interpolator reproduces its sample nodes.
 
-use kshana::frames::{geodetic_to_ecef, is_visible, Geodetic};
+use kshana::frames::{geodetic_to_ecef, is_visible, teme_to_ecef, Geodetic};
 use kshana::glonass::parse_glonass_nav;
+use kshana::orbit::{dop, Propagator};
 use kshana::raim::{
     araim_raim, snapshot_raim, solution_separation_raim, FaultPriors, IntegrityBudget,
 };
 use kshana::rinex::parse_nav;
+use kshana::sgp4::wgs72;
 use kshana::sp3::parse_sp3;
+use kshana::tle::parse_tle;
 
 const REAL_NAV: &str = include_str!("fixtures/igs/BRDM00DLR_R_20130010000_01D_MN.rnx");
 const REAL_SP3: &str = include_str!("fixtures/igs/igs_sample.sp3");
+const REAL_GPS_TLE: &str = include_str!("fixtures/celestrak/gps-ops_2021-07-28.txt");
+
+/// Julian date of the SGP4 epoch (days since 1950 Jan 0.0 UT).
+fn jd_from_1950(days: f64) -> f64 {
+    2_433_281.5 + days
+}
+
+/// The real Celestrak `gps-ops` snapshot propagated through the validated SGP4
+/// core to a single common instant, expressed in ECEF. Each TLE carries its own
+/// epoch (the satellites were catalogued minutes apart), so every satellite is
+/// propagated to one reference instant — the first satellite's epoch — and the
+/// TEME state is rotated to ECEF with the matching sidereal time. This is the
+/// genuine real-TLE → SGP4 → Earth-fixed geometry path, distinct from the SP3
+/// (precise, ECEF) and RINEX (broadcast) paths exercised above.
+fn real_gps_tle_snapshot(station: Geodetic) -> (Vec<Propagator>, [f64; 3], Vec<[f64; 3]>) {
+    // Parse the fixture into (sgp4 propagator, jd_epoch) pairs.
+    let lines: Vec<&str> = REAL_GPS_TLE.lines().collect();
+    let mut sats: Vec<(Propagator, f64)> = Vec::new();
+    let mut i = 0;
+    while i < lines.len() {
+        if lines[i].starts_with("1 ") && i + 1 < lines.len() && lines[i + 1].starts_with("2 ") {
+            let tle = parse_tle(lines[i], lines[i + 1]).expect("real GPS TLE parses");
+            let jd_epoch = jd_from_1950(tle.epoch_days_1950);
+            sats.push((
+                Propagator::Sgp4(Box::new(tle.to_sgp4(wgs72(), false))),
+                jd_epoch,
+            ));
+            i += 2;
+        } else {
+            i += 1; // name line
+        }
+    }
+    let props: Vec<Propagator> = sats.iter().map(|(p, _)| p.clone()).collect();
+    let t_ref_jd = sats[0].1; // propagate everything to the first satellite's epoch
+    let user = geodetic_to_ecef(station);
+    let visible: Vec<[f64; 3]> = sats
+        .iter()
+        .map(|(prop, jd_epoch)| {
+            let t_sec = (t_ref_jd - jd_epoch) * 86_400.0;
+            teme_to_ecef(prop.position_eci(t_sec), t_ref_jd)
+        })
+        .filter(|&r_ecef| is_visible(station, r_ecef, 5.0))
+        .collect();
+    (props, user, visible)
+}
 
 fn radius(p: [f64; 3]) -> f64 {
     (p[0] * p[0] + p[1] * p[1] + p[2] * p[2]).sqrt()
@@ -228,4 +276,67 @@ fn real_sp3_geometry_araim_meets_the_integrity_budget() {
         r.p_hmi_horz
     );
     assert!(r.hpl_m < 40.0 && r.vpl_m < 50.0, "ARAIM APV-I unavailable");
+}
+
+#[test]
+fn real_gps_tle_snapshot_propagates_a_full_meo_constellation_through_sgp4() {
+    // The real Celestrak gps-ops snapshot must parse to the full operational GPS
+    // constellation, each satellite routed through the *validated* SGP4 core
+    // (the 4.12 mm / 666-vector path) and propagated to the GPS MEO shell.
+    let station = Geodetic {
+        lat_rad: 48.0_f64.to_radians(),
+        lon_rad: 11.0_f64.to_radians(),
+        alt_m: 600.0,
+    };
+    let (props, _user, _visible) = real_gps_tle_snapshot(station);
+    assert!(
+        (28..=32).contains(&props.len()),
+        "expected ~30 operational GPS satellites, got {}",
+        props.len()
+    );
+    for p in &props {
+        assert!(
+            matches!(p, Propagator::Sgp4(_)),
+            "real TLEs must propagate through SGP4, not a fallback"
+        );
+        // Propagated at its own epoch, every satellite sits on the GPS MEO shell
+        // (~26 560 km), confirming the mean elements drive SGP4 correctly.
+        let r = radius(p.position_eci(0.0));
+        assert!(
+            (26_000_000.0..27_000_000.0).contains(&r),
+            "GPS SGP4 radius {r:.0} m off the MEO shell"
+        );
+    }
+}
+
+#[test]
+fn real_gps_tle_geometry_gives_a_good_ground_fix() {
+    // Real all-in-view geometry from a mid-latitude open-sky site: a healthy
+    // GPS constellation gives a comfortable fix with sub-decametre dilution.
+    let station = Geodetic {
+        lat_rad: 48.0_f64.to_radians(),
+        lon_rad: 11.0_f64.to_radians(),
+        alt_m: 600.0,
+    };
+    let (_props, user, visible) = real_gps_tle_snapshot(station);
+    assert!(
+        (6..=13).contains(&visible.len()),
+        "expected a real GPS all-in-view of ~6-13 sats, got {}",
+        visible.len()
+    );
+    let d = dop(user, &visible).expect("a real GPS geometry yields a fix");
+    assert!(
+        (1.0..4.0).contains(&d.pdop),
+        "real GPS PDOP {:.2} outside the good-geometry band",
+        d.pdop
+    );
+    // For a ground user the vertical dilution always exceeds the horizontal
+    // (satellites are only ever above the horizon, never below).
+    assert!(
+        d.hdop < d.vdop,
+        "HDOP {:.2} should be below VDOP {:.2} for a ground user",
+        d.hdop,
+        d.vdop
+    );
+    assert!(d.gdop >= d.pdop, "GDOP must dominate PDOP");
 }
