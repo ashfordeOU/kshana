@@ -22,9 +22,13 @@
 <p align="center">
   <strong>Kshana</strong> (क्षण, Sanskrit: <em>"the precise instant"</em>) is an open, reproducible
   <strong>PNT-resilience simulator with quantum-sensor performance models</strong> —
-  positioning, navigation, and timing. It compares quantum and classical sensors using
-  published Allan/noise-budget coefficients; it is not a first-principles quantum-physics
-  simulator (see <a href="docs/QUANTUM-MODELS.md">docs/QUANTUM-MODELS.md</a>).
+  positioning, navigation, and timing. It compares quantum and classical sensors mostly
+  from published Allan/noise-budget coefficients, with a first-principles cold-atom-
+  interferometer accelerometer layer (Mach–Zehnder phase, quantum projection noise,
+  contrast decay) that <em>derives</em> the noise coefficient rather than looking it up;
+  it is not yet a full quantum-physics simulator (no vibration tensor or systematics —
+  see <a href="docs/QUANTUM.md">docs/QUANTUM.md</a> and
+  <a href="docs/QUANTUM-MODELS.md">docs/QUANTUM-MODELS.md</a>).
 </p>
 
 It quantifies, in hard and reproducible numbers, what quantum clocks, quantum
@@ -113,7 +117,7 @@ the P2 roadmap and [get in touch](#support--professional-services) to collaborat
 | Domain | Capability |
 |--------|------------|
 | **Orbit & geometry** | SGP4/SDP4 propagation (validated to 4.12 mm against all 666 AIAA 2006-6753 vectors), real-TLE or synthetic Walker constellations, multi-constellation visibility, dilution of precision, and GNSS availability. |
-| **Inertial** | Three-axis strapdown INS — quaternion attitude, WGS-84 NED mechanization, coning/sculling compensation, and a deterministic IMU error model (scale-factor, misalignment, g-sensitivity, quantization, drift). |
+| **Inertial** | Three-axis strapdown INS — quaternion attitude, WGS-84 NED mechanization, coning/sculling compensation, and a deterministic IMU error model (scale-factor, misalignment, g-sensitivity, quantization, drift); plus a **first-principles cold-atom-interferometer accelerometer** model (Mach–Zehnder phase, quantum projection noise, contrast decay) that derives the velocity-random-walk coefficient from the interferometer physics. |
 | **Fusion** | Loosely-coupled GNSS/INS error-state EKF (15-state) with closed-loop feedback that coasts through GNSS outages on a calibrated inertial solution, runnable as the `gnss-ins` pack; plus a tightly-coupled pseudorange update that keeps correcting with fewer than four satellites. |
 | **Integrity** | Snapshot and solution-separation (ARAIM-style) RAIM with horizontal/vertical protection levels (HPL/VPL) — including levels solved from an explicit ARAIM integrity-risk (P_HMI) budget — fault detection and identification, and Stanford integrity diagrams. |
 | **Clock & timing** | Two-state Kalman holdover with a Joseph-stabilised covariance update and NIS/NEES filter-consistency health monitoring, Allan-family stability (ADEV/MDEV/TDEV/HDEV) with confidence intervals, and optical/RF two-way time transfer. |

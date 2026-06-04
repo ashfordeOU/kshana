@@ -23,17 +23,24 @@ noise-budget parameters:
 
 ## What is NOT modelled
 
-None of the underlying quantum physics is simulated:
+For the clock and time-transfer sensors, none of the underlying quantum physics is
+simulated — only the net Allan contribution, supplied as a coefficient. For the
+**cold-atom accelerometer** a first-principles layer now exists (see below); the
+remaining systematics are still coefficient-level or unmodelled:
 
-- no atom-interferometer **Mach–Zehnder phase**, interferometer **contrast**, or
-  **cycle time**;
-- no **quantum projection / shot noise** from first principles (only its net Allan
-  contribution, if supplied as a coefficient);
-- no **vibration-coupling tensor**, **laser-phase noise**, or sensor **systematics**;
+- the atom-interferometer **Mach–Zehnder phase** (`Φ = k_eff·a·T²`), **quantum
+  projection / shot noise** (`σ_Φ = 1/(C·√N)`), interferometer **contrast** decay, and
+  **cycle time** *are now modelled from first principles* for the CAI accelerometer
+  (`src/inertial/quantum_imu.rs`), deriving the white-acceleration PSD `q_va` the
+  classical model consumes — see [`QUANTUM.md`](QUANTUM.md);
+- still **not** modelled: the **vibration-coupling tensor** (the dominant real-device
+  term), **laser-phase noise**, Coriolis and AC-Stark **systematics**, and clock-side
+  first-principles physics;
 - no 3-axis mechanisation (the inertial model is 1-DOF — see the IMU note in the
   README and [`VALIDATION.md`](VALIDATION.md)).
 
-Modelling these from first principles is a roadmap item.
+Completing the quantum-physics layer (vibration tensor, Coriolis, systematics) is the
+remaining P2 roadmap work.
 
 ## Ground-lab vs. flight-qualified figures
 
