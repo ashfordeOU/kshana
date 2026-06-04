@@ -413,7 +413,10 @@ fn bootstrap_ci95_mean(xs: &[f64], b: usize, seed: u64) -> (f64, f64) {
     (percentile(&means, 0.025), percentile(&means, 0.975))
 }
 
-fn metric_stat(values: &[f64], boot_seed: u64) -> MetricStat {
+/// Summarise a sample of one metric across an ensemble: mean, spread, percentiles,
+/// and a reproducible percentile-bootstrap 95% CI on the mean. Shared with the
+/// N-D parameter sweep so its per-node statistics use the same machinery.
+pub(crate) fn metric_stat(values: &[f64], boot_seed: u64) -> MetricStat {
     let n = values.len().max(1) as f64;
     let mean = values.iter().sum::<f64>() / n;
     let var = values.iter().map(|v| (v - mean).powi(2)).sum::<f64>() / n;
