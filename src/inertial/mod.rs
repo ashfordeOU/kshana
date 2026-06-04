@@ -2,6 +2,7 @@
 pub mod attitude;
 pub mod imu_errors;
 pub mod mechanization;
+pub mod quantum_imu;
 
 use crate::scenario::{GnssState, GnssTimeline, TimeCfg};
 use crate::types::{ModelSpec, Seconds};

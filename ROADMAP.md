@@ -55,10 +55,12 @@ coefficients** (ACES/SHM/CSAC/optical-clock datasheets), not simulated from firs
 principles. The P2 layer adds first-principles cold-atom-interferometer (CAI)
 physics so error budgets can be *derived*, not just *supplied*:
 
-- **Mach–Zehnder CAI phase**, interferometer contrast, and cycle time.
+- **Mach–Zehnder CAI phase**, interferometer contrast, and cycle time. *(Delivered —
+  `src/inertial/quantum_imu.rs`; see [`docs/QUANTUM.md`](docs/QUANTUM.md).)*
 - **Quantum projection / shot noise** from first principles (not only its net Allan
-  contribution).
-- **Vibration-coupling tensor**, laser-phase noise, and sensor systematics.
+  contribution). *(Delivered — derives the `q_va` PSD the classical model consumes.)*
+- **Vibration-coupling tensor**, laser-phase noise, and sensor systematics. *(Still to
+  do — the dominant real-device terms; the model is currently the shot-noise floor.)*
 - Two-part JD-backed long-horizon timing; carrier-phase + explicit receiver-clock
   state in tight coupling; a trajectory library beyond the single deterministic path.
 
