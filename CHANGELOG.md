@@ -23,6 +23,18 @@ breaking changes are called out explicitly.
   API change.
 
 ### Added
+- **Coupled clock+position Kalman filter (cross-block covariance).** `src/fusion/coupled.rs`
+  `CoupledPntFilter` is a single stacked `[pos, vel, phase, freq]` filter (Joseph-form
+  updates) whose **pseudorange** measurement `ρ = g·pos + c·phase + noise` genuinely
+  couples the position and clock blocks — unlike the legacy fusion pack's two
+  independent two-state filters, which keep the cross-block covariance exactly zero.
+  Validated: a shared pseudorange drives `P[pos,phase]` non-zero; two distinct
+  geometries jointly resolve injected position+clock offsets a single range cannot
+  separate; a **clock-only fix sharpens the position** through the cross-covariance
+  (the payoff decoupled filters cannot provide); and the Monte-Carlo NEES is
+  **χ²(4)-consistent**. This is the 1-DOF realization (the fusion pack's
+  dimensionality); the 3-D 8-state extension and wiring into the runnable pack are
+  tracked as follow-ons.
 - **Kalman filter-consistency health monitoring (NIS/NEES).** The two-state clock
   filter's covariance update is now in **Joseph stabilised form** `P⁺ = (I−KH)P(I−KH)ᵀ
   + KRKᵀ`, which stays positive-semidefinite under extreme Q/R ratios (Cholesky-checked

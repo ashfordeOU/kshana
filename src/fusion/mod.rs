@@ -11,8 +11,9 @@
 //! residual against truth, and the filter's joint covariance gives a joint
 //! integrity bound.
 //!
-//! For a static platform the clock-error and position-error states are dynamically
-//! independent, so the optimal joint filter is block-diagonal — each block is a
+//! For a static platform observed by a *separate* position fix and time fix the
+//! clock-error and position-error states are dynamically independent and observed
+//! independently, so the optimal estimator is block-diagonal — each block is a
 //! two-state Kalman filter ([`KalmanClock`] is reused for both, with `q_va` driving
 //! velocity in the position block, whose coast variance `q_va*T^3/3` is exactly the
 //! Groves velocity-random-walk position variance). The value over open-loop
@@ -20,8 +21,16 @@
 //! clean substrate for cross-aiding. Estimating constant sensor biases with an
 //! augmented state is future work; this demo uses noise-driven sensors so the
 //! filter process noise is consistent with truth.
+//!
+//! When the measurements are **pseudoranges** rather than separate position/time
+//! fixes, the position and clock are no longer independently observed and the
+//! optimal filter carries non-zero cross-block covariance. That genuinely coupled
+//! estimator is [`coupled::CoupledPntFilter`] — a single stacked
+//! `[pos, vel, phase, freq]` state whose pseudorange update couples the blocks, so a
+//! clock-only fix also sharpens the position (validated in that module).
 
 pub mod closed_loop;
+pub mod coupled;
 pub mod gnss_ins_ekf;
 pub mod pack;
 
