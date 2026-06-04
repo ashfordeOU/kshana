@@ -161,10 +161,10 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
                 toml::from_str(src).map_err(|e| format!("invalid time-transfer scenario: {e}"))?;
             let r = crate::timetransfer::run_timetransfer(&scn);
             let summary = format!(
-                "scenario {} | optical sync_rms {:.2}ps range_rms {:.3}mm | RF sync_rms {:.1}ps range_rms {:.1}mm",
+                "scenario {} | optical sync_rms {:.2}ps range_rms {:.3}mm adev(1s) {:.2e} | RF sync_rms {:.1}ps range_rms {:.1}mm adev(1s) {:.2e}",
                 &r.scenario_hash[..12],
-                r.quantum.fom.sync_rms_ps, r.quantum.fom.range_rms_mm,
-                r.classical.fom.sync_rms_ps, r.classical.fom.range_rms_mm,
+                r.quantum.fom.sync_rms_ps, r.quantum.fom.range_rms_mm, r.quantum.fom.adev_tau0,
+                r.classical.fom.sync_rms_ps, r.classical.fom.range_rms_mm, r.classical.fom.adev_tau0,
             );
             Ok(RunOutput {
                 json: json_of(&r),
