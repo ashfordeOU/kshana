@@ -118,6 +118,29 @@ budget) from real geometry, not a precise-ephemeris navigation solution. The
 a fix only ~59% of the day, the quantum clock keeps a 5 ns timing solution through every
 gap (availability 1.0) while the chip-scale clock holds ~0.83.
 
+## Operating envelope
+
+Each pack is exercised across its stated input envelope by
+`tests/scenario_coverage.rs`, which asserts every numeric output is finite (no
+NaN/Inf) and bounded. The table lists the tested input range per pack, the
+expected output behaviour, and the covering test.
+
+| Pack | Input swept | Tested range | Expected output | Covering test |
+|------|-------------|--------------|-----------------|---------------|
+| clock | `threshold_ns` (timing spec) | 1 – 500 ns | finite holdover/timing/security FoMs | `clock_pack_covers_the_spec_threshold_envelope` |
+| inertial | `accel.bias` | 1e-7 – 1e-2 m/s² (cold-atom → crude MEMS) | finite, bounded position RMS/p95 | `inertial_pack_covers_the_accel_bias_envelope` |
+| orbit | `mask_deg` (elevation mask) | 5° – 30° | finite DOP/availability; bounded | `orbit_pack_covers_the_elevation_mask_envelope` |
+| spoof | `attack.rate_ns_per_s` | 0.1 – 50 ns/s | finite P_md / security, bounded | `spoof_pack_covers_the_attack_rate_envelope` |
+| hybrid | `position_spec_m` | 10 – 1000 m | finite timing/position holdover | `hybrid_pack_covers_the_position_spec_envelope` |
+| orbit (real) | real Celestrak `gps-ops` TLEs | 30-satellite snapshot, checksum-strict | loads only with valid checksums; bounded geometry | `real_gps_constellation_scenario_loads_with_valid_checksums_and_bounded_output` |
+| clock (flicker) | `flicker_floor` on/off | 0 vs 1e-12 | enabling the 1/f floor **worsens** the timing-p95 coast | `flicker_fm_floor_degrades_the_clock_holdover_when_enabled` |
+| fusion (realism) | `accel.bias` 0 vs 5.88e-7 m/s² | zero vs realistic non-zero | filter still converges, within 3× the zero-bias error | `fusion_filter_converges_with_a_realistic_non_zero_bias` |
+
+The flicker-FM and fusion-bias rows close two specific realism gaps: the noise
+terms are **off by default but demonstrably affect output when enabled**, and the
+joint fusion filter **does not depend on biases being zeroed** — it converges with
+a realistic cold-atom-grade residual bias too.
+
 ## Known limitations
 
 - Quantum and classical runs now use independent RNG seeds (classical seed = seed + 0x9e3779b97f4a7c15) so their noise realizations are uncorrelated — fixed after review.

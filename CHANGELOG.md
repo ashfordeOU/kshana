@@ -10,6 +10,18 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Real GPS constellation + operating-envelope coverage.**
+  `scenarios/orbit-sgp4-gps.toml` now ships a **real Celestrak `gps-ops` snapshot**
+  (2021-07-28, 30 satellites) instead of synthetic Walker TLEs, with
+  `strict_checksum = true` so it only loads when every TLE checksum is valid;
+  `scripts/fetch_tles.sh` documents reproducible refresh and the README credits
+  the open-data source. New `tests/scenario_coverage.rs` exercises each pack across
+  ≥5 envelope variants asserting finite/bounded output, confirms the **flicker-FM
+  floor measurably degrades a clock's coast** when enabled (now set in three shipped
+  scenarios), and confirms the **fusion filter converges with a realistic non-zero
+  accelerometer bias** (within 3× the zeroed-bias case), closing the "fusion only
+  works with zeroed biases" realism gap. `docs/VALIDATION.md` gains an Operating
+  Envelope table.
 - **Measurement-domain GNSS simulation (`gnss-sim` kind).** A pseudorange-level
   forward model: per visible satellite it synthesises `ρ = geometric range +
   c·δt_rx − c·δt_sv + I + T + noise + multipath` and the L1 Doppler, with the

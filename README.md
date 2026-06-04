@@ -148,7 +148,12 @@ The constellation can also be given as real two-line element sets. A *full* TLE
 (line 1 + line 2) is propagated with the full **SGP4/SDP4** model — including
 atmospheric drag and the deep-space lunar-solar and 12 h / 24 h resonance terms that
 matter for ~12 h GNSS orbits — validated against the official AIAA 2006-6753 vectors
-to a worst-case ≈ 4 mm (`scenarios/orbit-sgp4-gps.toml`). A line-2-only block keeps
+to a worst-case ≈ 4 mm. `scenarios/orbit-sgp4-gps.toml` ships a **real Celestrak
+`gps-ops` snapshot** of the operational GPS constellation (2021-07-28, 30 satellites)
+and requires valid TLE checksums — two-line element sets are open data from the US
+Space Force / 18th Space Defense Squadron catalogue, redistributed by Celestrak
+(Dr T. S. Kelso, [celestrak.org](https://celestrak.org)); refresh with
+`scripts/fetch_tles.sh`. A line-2-only block keeps
 the analytic two-body propagation (`scenarios/orbit-real-tle.toml`); the two forms can
 be mixed in one constellation. A constellation can equally be built from a block of
 **RINEX-3 GPS broadcast-ephemeris** records — the format a receiver decodes —
