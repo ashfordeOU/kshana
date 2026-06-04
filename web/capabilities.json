@@ -17,8 +17,8 @@
     {
       "domain": "Fusion",
       "name": "GNSS / INS sensor fusion",
-      "summary": "A 15-state error-state extended Kalman filter with closed-loop feedback that coasts through GNSS outages on a calibrated inertial solution.",
-      "run": "fusion-pnt.toml"
+      "summary": "A 15-state error-state extended Kalman filter with closed-loop feedback that coasts through GNSS outages on a calibrated inertial solution — loosely-coupled, plus a tightly-coupled pseudorange mode that keeps correcting with fewer than four satellites.",
+      "run": "gnss-ins.toml"
     },
     {
       "domain": "Integrity",
@@ -36,7 +36,7 @@
     {
       "domain": "Interoperability",
       "name": "RINEX & GNSS formats",
-      "summary": "RINEX-3 GPS broadcast-ephemeris ingestion with IS-GPS-200 satellite position and clock evaluation."
+      "summary": "Multi-GNSS RINEX-3 broadcast-ephemeris ingestion (GPS, Galileo, QZSS, BeiDou, GLONASS), a RINEX-3/4 observation parser, an SP3 precise-ephemeris reader/writer, and a CCSDS OEM export for flight-dynamics tools."
     },
     {
       "domain": "Resilience",
