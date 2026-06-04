@@ -8,7 +8,11 @@
 //! sets are non-empty, the positions are finite and at the right altitude, and the
 //! SP3 interpolator reproduces its sample nodes.
 
+use kshana::frames::{geodetic_to_ecef, is_visible, Geodetic};
 use kshana::glonass::parse_glonass_nav;
+use kshana::raim::{
+    araim_raim, snapshot_raim, solution_separation_raim, FaultPriors, IntegrityBudget,
+};
 use kshana::rinex::parse_nav;
 use kshana::sp3::parse_sp3;
 
@@ -17,6 +21,29 @@ const REAL_SP3: &str = include_str!("fixtures/igs/igs_sample.sp3");
 
 fn radius(p: [f64; 3]) -> f64 {
     (p[0] * p[0] + p[1] * p[1] + p[2] * p[2]).sqrt()
+}
+
+/// A ground station near the file's own producer (DLR Oberpfaffenhofen, ~48°N
+/// 11°E) and the real GPS satellites visible above a 5° mask in the first SP3
+/// epoch of the precise-orbit fixture. SP3 positions are an ITRF/ECEF reference
+/// product, so this is the genuine real-geometry input the snapshot/MHSS/ARAIM
+/// RAIM cores consume — no synthetic constellation.
+fn real_gps_geometry() -> ([f64; 3], Vec<[f64; 3]>) {
+    let sp3 = parse_sp3(REAL_SP3).expect("real SP3 parses");
+    let station = Geodetic {
+        lat_rad: 48.0_f64.to_radians(),
+        lon_rad: 11.0_f64.to_radians(),
+        alt_m: 600.0,
+    };
+    let user = geodetic_to_ecef(station);
+    let first = sp3.epochs.first().expect("SP3 has a first epoch");
+    let sats: Vec<[f64; 3]> = first
+        .sats
+        .iter()
+        .filter(|s| s.sat.starts_with('G') && is_visible(station, s.pos_m, 5.0))
+        .map(|s| s.pos_m)
+        .collect();
+    (user, sats)
 }
 
 #[test]
@@ -90,4 +117,115 @@ fn real_sp3_reads_a_full_gps_constellation() {
         }
     }
     assert!(positions >= 30, "only {positions} SP3 positions");
+}
+
+#[test]
+fn real_sp3_geometry_drives_snapshot_and_solution_separation_raim() {
+    // RAIM was previously exercised only on synthetic constellations. Here the
+    // protection levels are formed from the real IGS precise-orbit geometry.
+    let (user, sats) = real_gps_geometry();
+    assert!(
+        (8..=12).contains(&sats.len()),
+        "expected a real GPS all-in-view of ~8-12 sats, got {}",
+        sats.len()
+    );
+
+    // Fault-free snapshot RAIM (zero residuals → geometry-only levels).
+    let zero = vec![0.0; sats.len()];
+    let snap = snapshot_raim(user, &sats, &zero, 1.0, 1e-3, 1e-3)
+        .expect("snapshot RAIM on the real geometry");
+    assert_eq!(snap.n_used, sats.len());
+    assert_eq!(snap.dof, sats.len() - 4);
+    assert!(!snap.fault_detected, "no fault with zero residuals");
+    assert!(snap.hpl_m.is_finite() && snap.vpl_m.is_finite());
+    // Real GPS, σ = 1 m: the protection levels are metre-level and the vertical
+    // axis is the weaker one — and both clear the APV-I alert limits (40/50 m).
+    assert!(
+        (0.5..10.0).contains(&snap.hpl_m),
+        "HPL {:.2} m off real-GPS scale",
+        snap.hpl_m
+    );
+    assert!(
+        (1.0..15.0).contains(&snap.vpl_m),
+        "VPL {:.2} m off real-GPS scale",
+        snap.vpl_m
+    );
+    assert!(
+        snap.vpl_m > snap.hpl_m,
+        "vertical PL should exceed horizontal"
+    );
+    assert!(snap.hpl_m < 40.0 && snap.vpl_m < 50.0, "APV-I unavailable");
+
+    // Solution-separation (MHSS) RAIM on the same real geometry.
+    let ss = solution_separation_raim(user, &sats, &zero, 1.0, 1e-3, 1e-3)
+        .expect("solution-separation RAIM on the real geometry");
+    assert!(!ss.fault_detected, "no separation with zero residuals");
+    assert!(ss.hpl_m.is_finite() && ss.hpl_m > 0.0);
+    assert!(ss.vpl_m.is_finite() && ss.vpl_m > 0.0);
+    assert!(ss.excluded_sv.is_none());
+}
+
+#[test]
+fn real_sp3_geometry_detects_and_identifies_an_injected_fault() {
+    let (user, sats) = real_gps_geometry();
+    // Bias the first visible satellite's pseudorange by 60 m; everything else clean.
+    let mut residual = vec![0.0; sats.len()];
+    residual[0] = 60.0;
+
+    // The χ² residual test fires far above its threshold.
+    let snap = snapshot_raim(user, &sats, &residual, 1.0, 1e-3, 1e-3)
+        .expect("snapshot RAIM on the real geometry");
+    assert!(snap.fault_detected, "60 m bias must trip the χ² monitor");
+    assert!(
+        snap.test_statistic > snap.threshold,
+        "stat {:.1} below threshold {:.1}",
+        snap.test_statistic,
+        snap.threshold
+    );
+
+    // Solution-separation both detects AND identifies the faulted satellite:
+    // excluding it removes the bias, so its sub-solution separation is largest.
+    let ss = solution_separation_raim(user, &sats, &residual, 1.0, 1e-3, 1e-3)
+        .expect("solution-separation RAIM on the real geometry");
+    assert!(ss.fault_detected, "MHSS must detect the fault");
+    assert_eq!(
+        ss.excluded_sv,
+        Some(0),
+        "MHSS must identify the biased satellite (index 0)"
+    );
+    assert!(ss.max_normalized_separation > 10.0, "weak separation");
+}
+
+#[test]
+fn real_sp3_geometry_araim_meets_the_integrity_budget() {
+    let (user, sats) = real_gps_geometry();
+    let zero = vec![0.0; sats.len()];
+    let priors = FaultPriors { p_sat: 1e-5 };
+    let budget = IntegrityBudget {
+        p_hmi_vert: 1e-7,
+        p_hmi_horz: 1e-7,
+        p_fa: 1e-5,
+    };
+    let r =
+        araim_raim(user, &sats, &zero, 1.0, priors, budget).expect("ARAIM on the real geometry");
+
+    assert_eq!(r.n_used, sats.len());
+    assert!(!r.fault_detected, "no fault with zero residuals");
+    assert!(r.hpl_m.is_finite() && r.hpl_m > 0.0);
+    assert!(r.vpl_m.is_finite() && r.vpl_m > 0.0);
+    assert!(r.vpl_m > r.hpl_m, "vertical PL should exceed horizontal");
+    // The achieved integrity risk must not exceed the allocated budget, and the
+    // explicit-risk levels are a touch more conservative than the slope bound but
+    // still metre-level and APV-I-available on this real geometry.
+    assert!(
+        r.p_hmi_vert <= budget.p_hmi_vert * (1.0 + 1e-6),
+        "achieved P_HMI {:.3e} over budget",
+        r.p_hmi_vert
+    );
+    assert!(
+        r.p_hmi_horz <= budget.p_hmi_horz * (1.0 + 1e-6),
+        "achieved horizontal P_HMI {:.3e} over budget",
+        r.p_hmi_horz
+    );
+    assert!(r.hpl_m < 40.0 && r.vpl_m < 50.0, "ARAIM APV-I unavailable");
 }
