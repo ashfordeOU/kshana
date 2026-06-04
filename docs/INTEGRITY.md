@@ -72,8 +72,13 @@ self-consistency FoM above:
   `(error, PL)` into Available / System-Unavailable / Misleading / Hazardously-
   Misleading regions for an availability summary.
 - **Reachable end-to-end** — the `integrity` scenario kind runs the above over an
-  SGP4/Keplerian constellation and emits a per-epoch HPL/VPL availability map against
-  the configured alert limits (`scenarios/integrity-raim.toml`).
+  SGP4/Keplerian (or real TLE / RINEX) constellation and emits a per-epoch HPL/VPL
+  availability map against the configured alert limits (`scenarios/integrity-raim.toml`).
+  The same run **exports a vertical Stanford diagram**: at each protected epoch a
+  seeded, reproducible no-fault range-error draw is mapped through the geometry to an
+  actual vertical error and classified against the VPL and the vertical alert limit, so
+  the JSON result and CLI summary carry the region counts (integrity events, HMI) — not
+  only an availability fraction.
 
 ## The remaining gap (roadmap)
 
