@@ -23,6 +23,14 @@ breaking changes are called out explicitly.
   API change.
 
 ### Added
+- **`docs/PROVENANCE.md` — one citable provenance table.** Consolidates every sensor
+  parameter (clocks, inertial, time-transfer), physical/algorithmic model (orbit, time
+  systems, frames, iono/tropo, integrity, detection, jamming, Allan), and validation
+  dataset (AIAA 2006-6753, Celestrak `gps-ops`) with its published source — datasheet,
+  paper, ICD, or standard — and an honest maturity label (flight-qualified /
+  ground-lab / space-goal-on-ground-hardware). Linked from the README intro and
+  Documentation table; complements the per-run `provenance` strings that already travel
+  in the result JSON.
 - **Typed scenario API.** Dispatch is now on a typed `ScenarioKind` enum instead
   of a raw `kind` string match (`ScenarioKind::classify` + exhaustive dispatch), so
   adding a pack is compile-checked. New typed surfaces alongside the unchanged

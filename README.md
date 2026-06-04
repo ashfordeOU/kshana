@@ -31,7 +31,8 @@ It quantifies, in hard and reproducible numbers, what quantum clocks, quantum
 inertial sensors, and optical time-transfer buy a navigation system over classical
 PNT — scored against the operational figures of merit that matter for resilient
 navigation. Every result is reproducible from `scenario + seed + engine version`,
-and every sensor parameter is traceable to a published source.
+and every sensor parameter is traceable to a published source — consolidated in one
+citable table in [`docs/PROVENANCE.md`](docs/PROVENANCE.md).
 
 *Free and open source under Apache-2.0, professionally developed and maintained by
 Ashforde OÜ — commercial support, integration, and proprietary extensions available.*
@@ -527,6 +528,7 @@ kshana/
 | [Glossary](docs/GLOSSARY.md) | everyone | plain-language definitions of every term |
 | [Architecture](docs/ARCHITECTURE.md) | developers / reviewers | module map, engine pipeline, dispatch, and diagrams |
 | [Validation status](docs/VALIDATION.md) | reviewers / citers | what is `validated` vs `not modeled`, with evidence |
+| [Provenance](docs/PROVENANCE.md) | reviewers / citers | every sensor parameter, model, and dataset traced to its published source, in one citable table |
 | [Reproducibility &amp; provenance](docs/REPRODUCIBILITY.md) | reviewers / packagers | determinism guarantees, golden-pinning, SBOM, build provenance |
 | [Positioning](docs/POSITIONING.md) | evaluators | where Kshana sits vs RTKLIB/gLAB (complementary), and the zero-install browser tier |
 | [SGP4 validation](docs/SGP4-VALIDATION.md) | reviewers / citers | agreement with the AIAA 2006-6753 reference (666 states, ~4 mm) |
