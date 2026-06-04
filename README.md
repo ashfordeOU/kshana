@@ -196,7 +196,18 @@ cargo run -- scenarios/orbit-gnss-challenged.toml
 cargo run -- scenarios/orbit-sgp4-gps.toml
 cargo run -- scenarios/orbit-rinex.toml
 cargo run -- scenarios/integrity-raim.toml
+
+# Export a propagated constellation to an SP3-c precise-ephemeris file:
+cargo run -- scenarios/orbit-sgp4-gps.toml --export-sp3 gps.sp3
 ```
+
+**Interoperability role.** Kshana is the *performance-simulation* layer that sits
+alongside the post-processing toolchain, not a replacement for it: feed its **RINEX**
+output into RTKLIB or gLAB for a position solution, and use its **SP3** output as a
+precise-orbit product for tools like Ginan — Kshana answers *what resilience a given
+PNT architecture buys* before you have real signals, in formats those tools already
+ingest (`--export-sp3`, or `export_sp3 = true` in an `orbit` scenario, writes
+`<scenario>.sp3`).
 
 Example output (clock holdover — note the Integrity and Security figures of merit):
 
