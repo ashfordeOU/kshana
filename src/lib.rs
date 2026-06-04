@@ -5,6 +5,7 @@ pub mod chart;
 pub mod detection;
 pub mod ensemble;
 pub mod estimator;
+pub mod filter_health;
 pub mod fom;
 pub mod frames;
 pub mod fusion;
