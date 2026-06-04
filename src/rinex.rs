@@ -34,7 +34,7 @@
 
 /// A calendar epoch in UTC/GPS time, as carried in a RINEX record (the clock
 /// reference time `Toc`).
-#[derive(Clone, Copy, Debug, PartialEq, serde::Serialize)]
+#[derive(Clone, Copy, Debug, PartialEq, serde::Serialize, serde::Deserialize)]
 pub struct EpochUtc {
     pub year: i32,
     pub month: u32,

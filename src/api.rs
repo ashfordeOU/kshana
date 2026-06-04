@@ -261,6 +261,38 @@ pub fn list_scenario_kinds_json() -> String {
     json_of(&list_scenario_kinds())
 }
 
+/// Export an orbit/constellation scenario's propagated constellation as SP3-c text.
+/// Errors if the scenario is not an `orbit` kind (only that pack has a constellation
+/// to write). This is the CLI `--export-sp3` path.
+pub fn export_sp3(src: &str) -> Result<String, String> {
+    match ScenarioKind::classify(src).map_err(|e| e.to_string())? {
+        ScenarioKind::Orbit => {
+            let scn: crate::orbit::OrbitClockScenario =
+                toml::from_str(src).map_err(|e| format!("invalid orbit scenario: {e}"))?;
+            scn.to_sp3_string()
+        }
+        k => Err(format!(
+            "SP3 export requires an orbit scenario, not '{}'",
+            k.as_str()
+        )),
+    }
+}
+
+/// If `src` is an orbit scenario with `export_sp3 = true`, return its SP3-c text;
+/// otherwise `None`. Lets the CLI auto-write an SP3 alongside the usual outputs.
+pub fn auto_export_sp3(src: &str) -> Result<Option<String>, String> {
+    if ScenarioKind::classify(src).map_err(|e| e.to_string())? != ScenarioKind::Orbit {
+        return Ok(None);
+    }
+    let scn: crate::orbit::OrbitClockScenario =
+        toml::from_str(src).map_err(|e| format!("invalid orbit scenario: {e}"))?;
+    if scn.export_sp3 {
+        Ok(Some(scn.to_sp3_string()?))
+    } else {
+        Ok(None)
+    }
+}
+
 /// The contract a scenario pack fulfils: run itself and produce the unified output
 /// envelope, returning a structured [`KshanaError`] on failure.
 pub trait Scenario {
