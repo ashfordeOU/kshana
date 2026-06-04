@@ -313,10 +313,17 @@ cross-covariance: this is a stacked pair of error budgets, **not** a true couple
 clock+position joint filter (cross-block covariance is a roadmap item). See
 `scenarios/fusion-pnt.toml`.
 
-A `spoof` scenario injects a ramping false-time spoof (an `[attack]` block with
-`start_s` and `rate_ns_per_s`) and runs each clock's integrity monitor, reporting
-whether and when the spoof is detected and whether it reaches the spec undetected — a
-concrete demonstration of the Security figure of merit (see `scenarios/spoof-attack.toml`).
+A `spoof` scenario injects a time-spoof — one of four `[attack.shape]` kinds
+(`linear_ramp`, `step_jump`, `meaconing`, `replay`; a bare `rate_ns_per_s` is still
+accepted as a linear ramp) — and runs each clock's spoof detector. The detector is a
+two-sided **χ²₁ energy / Neyman–Pearson test** on the clock-aided monitor statistic:
+the threshold is set from a target false-alarm budget `target_pfa`, and the
+**missed-detection probability `P_md`** is reported both closed-form and by
+Monte-Carlo (`mc_runs` trials per hypothesis — the two agree to a few ×1/√N). The
+**Security figure of merit is `1 − P_md`** at the operationally-harmful (spec)
+magnitude, so a quiet clock that catches a spec-sized spoof scores ≈ 1 and a noisy
+one that often misses it scores lower (see `scenarios/spoof-attack.toml`,
+`scenarios/spoof-meaconing.toml`).
 
 A `jamming` scenario models RF interference as a **link budget**: a `[jammer]`
 (ECEF position, transmit `power_dbw`, type) raises the jammer-to-signal ratio at a
@@ -578,11 +585,12 @@ GNSS/INS navigator across more packs. GMST-based TEME&harr;ECEF, the IERS
 leap-second time systems (UTC/TAI/TT/UT1), SGP4/SDP4 orbit propagation (v0.7.0,
 validated against the AIAA 2006-6753 vectors), and the runnable `gnss-ins` fusion
 pack have all **shipped**, and the inertial velocity is exposed downstream. An active
-spoofing-attack demonstrator, a link-budget jamming model (J/S → effective C/N₀ →
-loss of lock), multi-constellation availability, a single-axis (1-DOF)
+stochastic time-spoof detector (Neyman–Pearson / χ²₁ energy test with Monte-Carlo
+P_fa/P_md and a Security FoM of 1−P_md), a link-budget jamming model (J/S → effective
+C/N₀ → loss of lock), multi-constellation availability, a single-axis (1-DOF)
 IMU error budget, two independent (clock + position) Kalman estimators reported as a
-combined FoM, real constellation geometry from TLEs, an HTML scorecard report, a
-clock-stability-based spoof-detectability bound, geometry-derived GNSS availability
+combined FoM, real constellation geometry from TLEs, an HTML scorecard report,
+geometry-derived GNSS availability
 *and* dilution of precision from Keplerian orbits with eccentricity and J2 drift,
 Monte Carlo confidence bands, trade-study parameter sweeps, an in-browser WebAssembly
 playground, and optional Python (PyO3) and WebAssembly (wasm-bindgen) bindings have
