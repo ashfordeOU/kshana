@@ -27,6 +27,18 @@ breaking changes are called out explicitly.
   RINEX arc remains a roadmap item — it needs a pseudorange solution).
 
 ### Added
+- **Two-way time-transfer stochastic model.** `timetransfer::TwoWayLink` replaces the
+  white-only sampler with a physically-grounded model: the reciprocal (common-mode) path
+  delay cancels in the `(m_AB - m_BA)/2` estimate (`two_way_offset_estimate`, so two
+  independent one-way measurements average to `1/sqrt(2)`), and the residual is the
+  **non-reciprocal** differential delay — modelled as a colored white-FM + random-walk-FM
+  process (the validated `ClockModel`), giving the synchronization-error series a realistic
+  Allan signature (`sigma_y^2(tau) = q_rw*tau/3`) instead of flat white noise. `LinkCfg`
+  gains `q_wf_s`/`q_rw_s` (serde default 0 ⇒ the legacy white-only behaviour, bit-for-bit),
+  the link FoM reports `adev_tau0` (the model's Allan deviation at the base step), and the
+  `timetransfer` scenario/CLI surface it. Golden FoM re-pinned. Six hand-derived tests
+  (common-mode cancellation, the sqrt(2) two-way gain, the RWFM `tau/3` law via the link's
+  own `step()`, legacy-equivalence at `q=0`, determinism, and end-to-end FoM exposure).
 - **Stable32 numeric parity for the Allan-family estimators (NBS14).** `tests/allan_reference.rs`
   validates the overlapping ADEV, modified ADEV, time deviation, and overlapping Hadamard
   estimators against the Stable32 reference deviations for the canonical **NBS14** dataset

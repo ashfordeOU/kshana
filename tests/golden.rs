@@ -134,16 +134,24 @@ fn golden_timetransfer_fom_is_pinned() {
     let scn: kshana::timetransfer::TimeTransferScenario = toml::from_str(&src).unwrap();
     let r = kshana::timetransfer::run_timetransfer(&scn);
 
+    // Re-pinned after the two-way stochastic model (TwoWayLink: white jitter +
+    // a non-reciprocal random-walk-FM differential-delay floor) replaced the
+    // white-only sampler and the fixture gained `q_rw_s` terms.
     let q = &r.quantum.fom;
     assert_pinned(
         q.sync_p95_ps,
-        1.894_345_167_131_458_8e0,
+        1.904_883_656_437_638_1e0,
         "tt.quantum.sync_p95_ps",
     );
     assert_pinned(
         q.range_rms_mm,
-        2.893_800_897_571_821_6e-1,
+        2.929_968_091_221_816e-1,
         "tt.quantum.range_rms_mm",
+    );
+    assert_pinned(
+        q.adev_tau0,
+        1.729_751_161_535_588_6e-12,
+        "tt.quantum.adev_tau0",
     );
     assert_eq!(
         q.within_spec_fraction, 1.0,
@@ -153,17 +161,22 @@ fn golden_timetransfer_fom_is_pinned() {
     let c = &r.classical.fom;
     assert_pinned(
         c.sync_p95_ps,
-        9.655_879_350_991_686e2,
+        2.124_261_745_450_278_3e3,
         "tt.classical.sync_p95_ps",
     );
     assert_pinned(
         c.range_rms_mm,
-        1.524_906_480_921_621_6e2,
+        3.409_578_184_229_144_4e2,
         "tt.classical.range_rms_mm",
     );
     assert_pinned(
+        c.adev_tau0,
+        8.652_692_194_585_263e-10,
+        "tt.classical.adev_tau0",
+    );
+    assert_pinned(
         c.within_spec_fraction,
-        5.833_333_333_333_334e-2,
+        2.666_666_666_666_667e-2,
         "tt.classical.within_spec_fraction",
     );
 }
