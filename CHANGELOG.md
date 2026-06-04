@@ -23,6 +23,18 @@ breaking changes are called out explicitly.
   API change.
 
 ### Added
+- **First-principles cold-atom-interferometer (CAI) accelerometer physics.**
+  `src/inertial/quantum_imu.rs` models a three-pulse Mach–Zehnder atom interferometer
+  from first principles instead of a datasheet: effective wavevector `k_eff = 4π/λ`,
+  interferometer phase `Φ = k_eff·a·T²`, quantum projection (shot) noise `σ_Φ = 1/(C·√N)`,
+  per-shot acceleration sensitivity, contrast decay `C(t) = C₀·e^(−t/τ)`, and — the
+  point — `CaiAccelerometer::q_va()`, which **derives** the white-acceleration PSD the
+  classical `AccelModel` already consumes from the atom number, interrogation time, and
+  contrast. Six tests hand-verify the physics (Rb-87 `k_eff ≈ 1.61×10⁷`, `Φ(1 g) ≈
+  1.58×10⁴ rad`, `σ_a ≈ 0.13 µg`/shot, the `1/T²` and `1/√N` scaling laws). Honest
+  scope in new `docs/QUANTUM.md`: this is the quantum-projection-noise *floor*; the
+  vibration-sensitivity tensor, Coriolis and light-shift systematics, and the
+  PHARAO/CARIOQA validation scenarios remain follow-ons.
 - **Constellation-design optimiser and streets-of-coverage geometry.** `src/walker.rs`
   gains `optimize_walker_design`, a gradient-free grid optimiser that searches the
   `{planes × sats × inclination}` design space and returns the best Walker design under
