@@ -26,6 +26,10 @@ Peters, Chung & Chu 2001), the standard cold-atom accelerometer geometry:
 | Shot-noise-limited ASD | `n_a = σ_a·√T_c` | Sampling every cycle time `T_c`; units (m/s²)/√Hz. |
 | Velocity-random-walk PSD | `q_va = n_a²` | **The coefficient the classical `AccelModel` consumes** — now *derived*, not supplied. |
 | Contrast decay | `C(t) = C₀·exp(−t/τ_c)` | Decoherence over the interrogation. |
+| Vibration transfer function | `\|H(ω)\| = (4/ω²)·sin²(ωT/2)` | Acceleration→phase response of the ideal three-pulse geometry (Cheinet et al. 2008); DC limit `T²`. |
+| Vibration-limited phase | `σ_Φ² = k_eff²·S_a·T³/3` | Flat acceleration PSD `S_a` along the Raman axis; `∫₀^∞\|H\|²dω = (2π/3)T³`. |
+| Vibration-limited accel | `σ_a = √(S_a/(3T))` | Per shot; note `k_eff` cancels — set only by the platform PSD and interrogation time. |
+| Axis projection | `a_∥ = k̂_eff · a` | First-order coupling is rank-1: only the along-beam component enters the phase. |
 
 The closing of the loop is the point: `CaiAccelerometer::q_va()` produces exactly the
 white-acceleration PSD that the rest of the inertial stack already integrates into a
@@ -34,31 +38,35 @@ interrogation time, and contrast rather than to a datasheet line.
 
 A worked figure (Rb-87, `T = 10 ms`, `N = 10⁶`, `C = 0.5`, `T_c = 0.5 s`): `Φ(1 g) ≈
 1.58×10⁴ rad`, `σ_Φ = 2×10⁻³ rad`, `σ_a ≈ 1.24×10⁻⁶ m/s²` (≈ 0.13 µg) per shot, and a
-shot-noise floor `n_a ≈ 0.09 µg/√Hz`.
+shot-noise floor `n_a ≈ 0.09 µg/√Hz`. With a modest platform vibration PSD `S_a =
+10⁻¹⁰ (m/s²)²/Hz` the **vibration-limited** per-shot floor is `σ_a ≈ 5.8×10⁻⁵ m/s²`
+(≈ 5.9 µg) — ~45× the shot-noise floor, showing why real devices are vibration-, not
+projection-, limited.
 
 ## What is NOT modelled (and why the floor is optimistic)
 
 The shot-noise floor above is a **fundamental lower bound**. Real CAI accelerometers sit
-well above it (≈ 1–50 µg/√Hz), dominated by terms this layer does not yet include:
+well above it (≈ 1–50 µg/√Hz). The single dominant term — **vibration coupling** — is now
+modelled (the transfer function and white-PSD variance rows above); the remaining gap is
+systematics this layer does not yet include:
 
-- **Vibration coupling** — platform vibration enters directly through the `k_eff·T²`
-  scale factor (the interferometer sensitivity function convolved with the vehicle
-  vibration PSD). In a real moving vehicle this is usually the dominant noise source; it
-  is **not modelled** here, so the derived `q_va` should be read as a best case.
 - **Coriolis / rotation** phase for a rotating frame — **not modelled**.
 - **AC-Stark (light-shift)**, wavefront, and other systematics — **not modelled**.
 - **Mach–Zehnder fringe ambiguity** (the phase is periodic; large accelerations alias) —
   **not modelled**; the model returns the wrapped phase, not an unwrapped estimate.
 
 Mapping to the literature: Groves, *Principles of GNSS, Inertial, and Multisensor
-Integrated Navigation Systems* §12.5 (quantum technology); Freier et al., *J. Phys.:
-Conf. Ser.* 723 (2016) for the mobile-gravimeter error budget; CARIOQA-PMP for the
-space-accelerometer parameter regime.
+Integrated Navigation Systems* §12.5 (quantum technology); Cheinet et al., *IEEE Trans.
+Instrum. Meas.* 57 (2008) for the interferometer sensitivity/transfer function; Freier et
+al., *J. Phys.: Conf. Ser.* 723 (2016) for the mobile-gravimeter error budget; CARIOQA-PMP
+for the space-accelerometer parameter regime.
 
 ## Status
 
-This is the **P2 quantum-physics-layer** item from [`ROADMAP.md`](../ROADMAP.md),
-partially delivered: the Mach–Zehnder phase, projection noise, scale factor, derived
-`q_va`, and contrast decay are implemented and unit-tested against hand computation. The
-vibration-sensitivity tensor, Coriolis and light-shift systematics, the `ImuKind::QuantumCAI`
-builder wiring, and the PHARAO/ACES and CARIOQA validation scenarios remain follow-ons.
+This is the **P2 quantum-physics-layer** item from [`ROADMAP.md`](../ROADMAP.md): the
+Mach–Zehnder phase, projection noise, scale factor, derived `q_va`, contrast decay, **and
+the vibration-coupling transfer function / white-PSD variance** are implemented and
+unit-tested against hand computation (including a numeric band-integral cross-check of the
+transfer function against its analytic `T³` result). The remaining follow-ons are the
+Coriolis and light-shift systematics, the `ImuKind::QuantumCAI` builder wiring, and the
+PHARAO/ACES and CARIOQA validation scenarios.

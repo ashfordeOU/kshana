@@ -30,10 +30,17 @@ breaking changes are called out explicitly.
   per-shot acceleration sensitivity, contrast decay `C(t) = C₀·e^(−t/τ)`, and — the
   point — `CaiAccelerometer::q_va()`, which **derives** the white-acceleration PSD the
   classical `AccelModel` already consumes from the atom number, interrogation time, and
-  contrast. Six tests hand-verify the physics (Rb-87 `k_eff ≈ 1.61×10⁷`, `Φ(1 g) ≈
-  1.58×10⁴ rad`, `σ_a ≈ 0.13 µg`/shot, the `1/T²` and `1/√N` scaling laws). Honest
-  scope in new `docs/QUANTUM.md`: this is the quantum-projection-noise *floor*; the
-  vibration-sensitivity tensor, Coriolis and light-shift systematics, and the
+  contrast. The model now also covers **vibration coupling** — the dominant real-device
+  term: the interferometer acceleration→phase transfer function `|H(ω)| =
+  (4/ω²)sin²(ωT/2)` (`accel_transfer_function`), the white-PSD phase variance
+  `σ_Φ² = k_eff²·S_a·T³/3` (`vibration_phase_variance_white`, with a numeric band-integral
+  cross-check `vibration_phase_variance_band`), the rank-1 along-beam `beam_axis_projection`,
+  and `CaiAccelerometer::vibration_phase_noise` / `vibration_limited_accel` (the latter
+  reducing to the `k_eff`-independent `√(S_a/(3T))` floor). Eleven tests hand-verify the
+  physics (Rb-87 `k_eff ≈ 1.61×10⁷`, `Φ(1 g) ≈ 1.58×10⁴ rad`, `σ_a ≈ 0.13 µg`/shot shot-noise
+  floor vs ≈ 5.9 µg vibration floor, the `1/T²`, `1/√N`, and `T³` scaling laws). Honest
+  scope in `docs/QUANTUM.md`: this spans the projection-noise floor and the vibration-limited
+  regime above it; laser-phase noise, Coriolis and light-shift systematics, and the
   PHARAO/CARIOQA validation scenarios remain follow-ons.
 - **Constellation-design optimiser and streets-of-coverage geometry.** `src/walker.rs`
   gains `optimize_walker_design`, a gradient-free grid optimiser that searches the

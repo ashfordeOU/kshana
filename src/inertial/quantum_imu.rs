@@ -25,12 +25,18 @@
 //! * **Contrast decay** `C(t) = C₀·exp(−t/τ_c)` from decoherence over the
 //!   interrogation.
 //!
-//! Honest scope: this is the **quantum-projection-noise floor** — the fundamental
-//! limit. Real instruments are typically far above it, dominated by **vibration**
-//! coupling through the `k_eff·T²` scale factor and by systematics (light shift,
-//! Coriolis, wavefront). Those terms are not yet modelled here, so the derived
-//! `q_va` is an optimistic lower bound, not a device prediction; see
-//! [`docs/QUANTUM.md`](../../docs/QUANTUM.md).
+//! * **Vibration coupling.** The same `k_eff·T²` scale factor that makes the sensor
+//!   sensitive to the signal also couples platform **vibration** into the fringe.
+//!   For the ideal three-pulse geometry the acceleration→phase response is
+//!   `|H(ω)| = (4/ω²)·sin²(ωT/2)` (DC limit `T²`; Cheinet et al. 2008), so a flat
+//!   acceleration PSD `S_a` along the Raman axis gives a phase variance
+//!   `σ_Φ² = k_eff²·S_a·∫₀^∞|H|²dω/(2π) = k_eff²·S_a·T³/3`. This is the *dominant*
+//!   real-device term, and it is now modelled here.
+//!
+//! Honest scope: this module covers the **quantum-projection-noise floor** (the
+//! fundamental limit) and the **vibration-limited** regime above it. Other
+//! systematics — light shift, Coriolis/rotation, wavefront aberration — are still
+//! datasheet-supplied, not derived; see [`docs/QUANTUM.md`](../../docs/QUANTUM.md).
 
 use std::f64::consts::PI;
 
@@ -67,6 +73,69 @@ pub fn accel_sensitivity_per_shot(sigma_phi: f64, k_eff: f64, pulse_sep_t: f64) 
         return f64::INFINITY;
     }
     sigma_phi / scale
+}
+
+/// Acceleration→phase transfer-function magnitude `|H(ω)|` (units s²) of an ideal
+/// three-pulse interferometer with pulse separation `pulse_sep_t` (s):
+/// `|H(ω)| = (4/ω²)·sin²(ωT/2)`, with the DC limit `H(0) = T²` (Cheinet et al.
+/// 2008). The fringe phase from an acceleration component `a(ω)` along `k_eff` is
+/// `Φ(ω) = k_eff·a(ω)·H(ω)`, so this reduces to `Φ = k_eff·a·T²` at DC.
+pub fn accel_transfer_function(omega_rad_s: f64, pulse_sep_t: f64) -> f64 {
+    let w = omega_rad_s.abs();
+    // Small-angle DC limit: (4/ω²)·sin²(ωT/2) → T² as ωT → 0 (avoids 0/0).
+    if w * pulse_sep_t < 1e-4 {
+        return pulse_sep_t * pulse_sep_t;
+    }
+    let s = (w * pulse_sep_t / 2.0).sin();
+    4.0 * s * s / (w * w)
+}
+
+/// Vibration-limited phase variance (rad²) for a flat (white) acceleration PSD
+/// `accel_psd` ((m/s²)²/Hz) coupling along the Raman-beam axis. Closed form for the
+/// ideal three-pulse interferometer, obtained by integrating the transfer function
+/// over all frequencies (`∫₀^∞ |H(ω)|² dω = (2π/3)·T³`):
+/// `σ_Φ² = k_eff²·S_a·T³/3`. Variance grows as `T³`, so the long interrogation that
+/// buys signal sensitivity also amplifies vibration — the central CAI design tension.
+pub fn vibration_phase_variance_white(k_eff: f64, pulse_sep_t: f64, accel_psd: f64) -> f64 {
+    k_eff * k_eff * accel_psd * pulse_sep_t.powi(3) / 3.0
+}
+
+/// Band-limited numeric counterpart of [`vibration_phase_variance_white`]: integrates
+/// `k_eff²·|H(2πf)|²·S_a` over `[f_lo, f_hi]` (Hz) with `n_steps` trapezoid panels for
+/// a white `accel_psd`. As the band → `[0, ∞)` it converges to the closed form; with a
+/// real band it gives the variance a finite-bandwidth platform actually delivers.
+pub fn vibration_phase_variance_band(
+    k_eff: f64,
+    pulse_sep_t: f64,
+    accel_psd: f64,
+    f_lo: f64,
+    f_hi: f64,
+    n_steps: usize,
+) -> f64 {
+    let n = n_steps.max(1);
+    let df = (f_hi - f_lo) / n as f64;
+    let two_pi = 2.0 * PI;
+    let mut sum = 0.0;
+    for i in 0..=n {
+        let f = f_lo + df * i as f64;
+        let h = accel_transfer_function(two_pi * f, pulse_sep_t);
+        // Trapezoid weights: half at the two endpoints.
+        let w = if i == 0 || i == n { 0.5 } else { 1.0 };
+        sum += w * h * h;
+    }
+    k_eff * k_eff * accel_psd * sum * df
+}
+
+/// First-order vibration coupling is rank-1: only the acceleration component along the
+/// Raman-beam unit vector enters the phase. Returns that projection (m/s²) for a beam
+/// direction `beam_unit` and acceleration `accel` (both in the same frame). `beam_unit`
+/// is normalised defensively.
+pub fn beam_axis_projection(beam_unit: [f64; 3], accel: [f64; 3]) -> f64 {
+    let norm = (beam_unit[0].powi(2) + beam_unit[1].powi(2) + beam_unit[2].powi(2)).sqrt();
+    if norm == 0.0 {
+        return 0.0;
+    }
+    (beam_unit[0] * accel[0] + beam_unit[1] * accel[1] + beam_unit[2] * accel[2]) / norm
 }
 
 /// A cold-atom Mach–Zehnder accelerometer specified by its physics, with the
@@ -130,6 +199,25 @@ impl CaiAccelerometer {
             return self.contrast;
         }
         self.contrast * (-t_s / tau_contrast_s).exp()
+    }
+
+    /// Vibration-limited readout-phase noise `σ_Φ` (rad) for a white platform
+    /// acceleration PSD `accel_psd` ((m/s²)²/Hz) along the sensitive axis:
+    /// `σ_Φ = k_eff·√(S_a·T³/3)`.
+    pub fn vibration_phase_noise(&self, accel_psd: f64) -> f64 {
+        vibration_phase_variance_white(self.k_eff(), self.pulse_sep_t, accel_psd).sqrt()
+    }
+
+    /// Vibration-limited single-shot acceleration uncertainty (m/s²):
+    /// `σ_a = σ_Φ/(k_eff·T²) = √(S_a/(3T))`. Note the `k_eff` cancels — the
+    /// vibration floor depends only on the platform PSD and the interrogation time,
+    /// not on the optical wavelength.
+    pub fn vibration_limited_accel(&self, accel_psd: f64) -> f64 {
+        let scale = self.scale_factor();
+        if scale == 0.0 {
+            return f64::INFINITY;
+        }
+        self.vibration_phase_noise(accel_psd) / scale
     }
 }
 
@@ -235,5 +323,102 @@ mod tests {
         assert!((cai.contrast_at(1.0, 1.0) - 0.8 / std::f64::consts::E).abs() < 1e-12);
         // τ ≤ 0 disables decay (constant contrast).
         assert!((cai.contrast_at(5.0, 0.0) - 0.8).abs() < 1e-12);
+    }
+
+    #[test]
+    fn transfer_function_reduces_to_t_squared_at_dc() {
+        // |H(ω)| → T² as ωT → 0 (recovers Φ = k_eff·a·T²).
+        let h0 = accel_transfer_function(1e-3, 0.01);
+        assert!((h0 - 1e-4).abs() < 1e-15, "H(0) should be T² = 1e-4: {h0}");
+        // At ω = π/T the half-angle is π/2, sin² = 1, so |H| = 4/ω².
+        // ω = π/0.01 = 314.159 rad/s → 4/ω² = 4/98696.0 ≈ 4.0528e-5 s².
+        let w = PI / 0.01;
+        let h = accel_transfer_function(w, 0.01);
+        assert!((h - 4.0528e-5).abs() / 4.0528e-5 < 1e-3, "|H(π/T)| = {h}");
+    }
+
+    #[test]
+    fn white_vibration_variance_matches_closed_form() {
+        // σ_Φ² = k_eff²·S_a·T³/3 for S_a = 1e-10 (m/s²)²/Hz, T = 10 ms.
+        // k_eff² = (1.6105738e7)² = 2.59395e14 → σ_Φ² = 2.59395e14·1e-10·1e-6/3 ≈ 8.6465e-3.
+        let k = effective_wavevector(RB87_D2_WAVELENGTH_M);
+        let var = vibration_phase_variance_white(k, 0.01, 1e-10);
+        assert!((var - 8.6465e-3).abs() / 8.6465e-3 < 1e-3, "σ_Φ² = {var}");
+        // σ_Φ = √variance ≈ 0.092987 rad via the convenience method.
+        let cai = CaiAccelerometer {
+            wavelength_m: RB87_D2_WAVELENGTH_M,
+            pulse_sep_t: 0.01,
+            atom_number: 1e6,
+            contrast: 0.5,
+            cycle_time_s: 0.5,
+        };
+        let sigma = cai.vibration_phase_noise(1e-10);
+        assert!((sigma - 0.092987).abs() / 0.092987 < 1e-3, "σ_Φ = {sigma}");
+        // Variance ∝ T³: doubling the interrogation time grows it 8×.
+        let var2 = vibration_phase_variance_white(k, 0.02, 1e-10);
+        assert!(
+            (var2 / var - 8.0).abs() < 1e-9,
+            "T³ scaling broken: {}",
+            var2 / var
+        );
+    }
+
+    #[test]
+    fn band_integral_converges_to_closed_form() {
+        // Numerically integrating k_eff²·|H(2πf)|²·S_a over a wide band must recover the
+        // analytic ∫₀^∞|H|²dω = (2π/3)T³ result (independent cross-check of |H(ω)|).
+        let k = effective_wavevector(RB87_D2_WAVELENGTH_M);
+        let closed = vibration_phase_variance_white(k, 0.01, 1e-10);
+        // |H|² rolls off as 1/ω⁴; 0–5 kHz captures effectively all the power.
+        let numeric = vibration_phase_variance_band(k, 0.01, 1e-10, 0.0, 5000.0, 20_000);
+        assert!(
+            (numeric - closed).abs() / closed < 0.02,
+            "numeric {numeric} vs closed {closed}"
+        );
+    }
+
+    #[test]
+    fn vibration_floor_is_wavelength_independent_and_dominates_shot_noise() {
+        // σ_a,vib = σ_Φ/(k_eff·T²) = √(S_a/(3T)): the k_eff cancels.
+        // S_a = 1e-10, T = 0.01 → √(1e-10/0.03) = √(3.3333e-9) ≈ 5.7735e-5 m/s².
+        let rb = CaiAccelerometer {
+            wavelength_m: RB87_D2_WAVELENGTH_M,
+            pulse_sep_t: 0.01,
+            atom_number: 1e6,
+            contrast: 0.5,
+            cycle_time_s: 0.5,
+        };
+        let a_vib = rb.vibration_limited_accel(1e-10);
+        assert!(
+            (a_vib - 5.7735e-5).abs() / 5.7735e-5 < 1e-3,
+            "σ_a,vib = {a_vib}"
+        );
+        // A different optical wavelength gives the identical vibration floor.
+        let cs = CaiAccelerometer {
+            wavelength_m: 852.0e-9,
+            ..rb
+        };
+        assert!(
+            (rb.vibration_limited_accel(1e-10) - cs.vibration_limited_accel(1e-10)).abs() / a_vib
+                < 1e-12,
+            "vibration floor must be wavelength-independent"
+        );
+        // It dwarfs the shot-noise floor (~1.24e-6): on a real platform vibration,
+        // not projection noise, sets the per-shot sensitivity.
+        assert!(
+            a_vib > 10.0 * rb.accel_sensitivity_per_shot(),
+            "vibration ({a_vib}) should dominate shot noise ({})",
+            rb.accel_sensitivity_per_shot()
+        );
+    }
+
+    #[test]
+    fn beam_axis_projection_takes_the_along_axis_component() {
+        // Only the acceleration along the Raman beam couples to first order.
+        assert!((beam_axis_projection([1.0, 0.0, 0.0], [9.81, 1.0, 2.0]) - 9.81).abs() < 1e-12);
+        // A non-unit beam vector is normalised: along +z of [0,0,2] picks a_z = 3.
+        assert!((beam_axis_projection([0.0, 0.0, 2.0], [1.0, 2.0, 3.0]) - 3.0).abs() < 1e-12);
+        // Acceleration orthogonal to the beam contributes nothing.
+        assert!(beam_axis_projection([1.0, 0.0, 0.0], [0.0, 5.0, 0.0]).abs() < 1e-12);
     }
 }
