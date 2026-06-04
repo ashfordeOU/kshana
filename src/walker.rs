@@ -253,6 +253,142 @@ pub fn coverage_revisit(
     }
 }
 
+// ── Streets-of-coverage geometry (analytical, Rider/Beste) ───────────────────────
+
+/// Earth-central **coverage half-angle** `λ` (rad) of a satellite at altitude
+/// `altitude_km` seen at a minimum elevation `min_elev_deg`: the largest geocentric
+/// angle from the sub-satellite point to a ground point that still sees the
+/// satellite above the mask. From the slant-range triangle (Wertz, *SMAD*; Rider
+/// 1985):
+///
+/// ```text
+///   λ = arccos( (Re / (Re + h)) · cos ε ) − ε.
+/// ```
+///
+/// At `ε = 0` this is the geometric-horizon half-angle `arccos(Re/(Re+h))`; raising
+/// the mask shrinks it. Returns `None` for a non-physical altitude.
+pub fn coverage_half_angle_rad(altitude_km: f64, min_elev_deg: f64) -> Option<f64> {
+    if altitude_km <= 0.0 {
+        return None;
+    }
+    let re = wgs72().radiusearthkm;
+    let r = re + altitude_km;
+    let eps = min_elev_deg.to_radians();
+    let x = (re / r) * eps.cos();
+    if !(-1.0..=1.0).contains(&x) {
+        return None;
+    }
+    Some(x.acos() - eps)
+}
+
+/// Street-of-coverage **half-width** `c` (rad) for `sats_per_plane` satellites
+/// equally spaced in one orbital plane, each with coverage half-angle `lambda_rad`:
+///
+/// ```text
+///   cos c = cos λ / cos(π / s).
+/// ```
+///
+/// The street is the band along the orbital plane kept continuously in view by the
+/// plane's satellites (Rider/Beste). Returns `None` when the in-plane spacing leaves
+/// a gap (`λ < π/s`, i.e. the satellites are too sparse for a continuous street),
+/// which is exactly the condition `cos λ / cos(π/s) > 1`.
+pub fn street_half_width_rad(lambda_rad: f64, sats_per_plane: usize) -> Option<f64> {
+    if sats_per_plane == 0 {
+        return None;
+    }
+    let half_spacing = std::f64::consts::PI / sats_per_plane as f64;
+    let denom = half_spacing.cos();
+    if denom == 0.0 {
+        return None;
+    }
+    let cos_c = lambda_rad.cos() / denom;
+    if !(-1.0..=1.0).contains(&cos_c) {
+        return None; // λ < π/s: no continuous street.
+    }
+    Some(cos_c.acos())
+}
+
+// ── Constellation-design optimiser ───────────────────────────────────────────────
+
+/// What a constellation-design search minimises (or maximises). The search ranges
+/// over the same Walker design grid as [`pdop_sweep`] and selects the winning cell.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum DesignObjective {
+    /// Fewest **total satellites** among designs whose coverage fraction (the share
+    /// of time a ≥ 4-satellite fix exists) is at least `min_fraction`. Ties break to
+    /// the smaller worst-case PDOP. This is "minimise satellite count for X% coverage".
+    MinSatellitesForCoverage { min_fraction: f64 },
+    /// The largest **coverage fraction** (best availability); ties break to fewer
+    /// satellites, then smaller worst-case PDOP.
+    MaxCoverage,
+    /// The smallest **worst-case PDOP** (best worst-geometry) among designs that
+    /// achieve a fix at all; ties break to fewer satellites.
+    MinWorstPdop,
+}
+
+/// Search a Walker design grid (`planes × sats_per_plane × inclination` at a fixed
+/// altitude/phasing) and return the cell that best satisfies `objective`, together
+/// with the full ranked table. This is a gradient-free grid optimiser over the
+/// already-validated [`pdop_sweep`] geometry — deterministic, so the chosen design
+/// is reproducible. `None` only if no grid cell satisfies the objective (e.g. no
+/// design reaches `min_fraction`).
+#[allow(clippy::too_many_arguments)]
+pub fn optimize_walker_design(
+    altitude_km: f64,
+    planes_grid: &[usize],
+    sats_grid: &[usize],
+    inclination_grid: &[f64],
+    phasing_f: f64,
+    station: Geodetic,
+    step_s: f64,
+    duration_s: f64,
+    mask_deg: f64,
+    objective: DesignObjective,
+) -> Option<(SweepCell, Vec<SweepCell>)> {
+    let cells = pdop_sweep(
+        altitude_km,
+        planes_grid,
+        sats_grid,
+        inclination_grid,
+        phasing_f,
+        station,
+        step_s,
+        duration_s,
+        mask_deg,
+    );
+    let best = match objective {
+        DesignObjective::MinSatellitesForCoverage { min_fraction } => cells
+            .iter()
+            .filter(|c| c.coverage_fraction >= min_fraction)
+            .min_by(|a, b| {
+                a.total
+                    .cmp(&b.total)
+                    .then_with(|| cmp_pdop(a.worst_pdop, b.worst_pdop))
+            }),
+        DesignObjective::MaxCoverage => cells.iter().max_by(|a, b| {
+            a.coverage_fraction
+                .total_cmp(&b.coverage_fraction)
+                // higher coverage wins; on a tie prefer fewer sats (so reverse total)
+                .then_with(|| b.total.cmp(&a.total))
+        }),
+        DesignObjective::MinWorstPdop => cells
+            .iter()
+            .filter(|c| c.worst_pdop.is_some())
+            .min_by(|a, b| cmp_pdop(a.worst_pdop, b.worst_pdop).then(a.total.cmp(&b.total))),
+    };
+    best.cloned().map(|b| (b, cells))
+}
+
+/// Order PDOPs with `None` (no fix) sorting worst (after every real value).
+fn cmp_pdop(a: Option<f64>, b: Option<f64>) -> std::cmp::Ordering {
+    match (a, b) {
+        (Some(x), Some(y)) => x.total_cmp(&y),
+        (Some(_), None) => std::cmp::Ordering::Less,
+        (None, Some(_)) => std::cmp::Ordering::Greater,
+        (None, None) => std::cmp::Ordering::Equal,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -445,5 +581,146 @@ mod tests {
             tr.mean_revisit_gap_s <= tr.max_revisit_gap_s,
             "mean gap cannot exceed the max gap"
         );
+    }
+
+    #[test]
+    fn coverage_half_angle_matches_hand_geometry() {
+        // GPS shell (20 180 km) at a 5° mask: λ = arccos(Re/r·cos ε) − ε. With
+        // Re = 6378.135 km, r = 26 558.135 km, Re/r = 0.24016, cos 5° = 0.99619,
+        // λ = arccos(0.23924) − 5° ≈ 76.16° − 5° = 71.16°.
+        let lambda = coverage_half_angle_rad(20_180.0, 5.0).unwrap();
+        assert!(
+            (lambda.to_degrees() - 71.16).abs() < 0.3,
+            "λ = {}°, expected ≈ 71.16°",
+            lambda.to_degrees()
+        );
+        // At a 0° mask λ is the geometric-horizon half-angle arccos(Re/r) ≈ 76.10°,
+        // and raising the mask must shrink the footprint.
+        let horizon = coverage_half_angle_rad(20_180.0, 0.0).unwrap();
+        assert!(
+            (horizon.to_degrees() - 76.10).abs() < 0.3 && horizon > lambda,
+            "horizon λ = {}°",
+            horizon.to_degrees()
+        );
+        assert!(coverage_half_angle_rad(-1.0, 5.0).is_none());
+    }
+
+    #[test]
+    fn street_half_width_matches_hand_geometry_and_detects_gaps() {
+        // Four GPS satellites per plane (λ ≈ 71.16°): cos c = cos λ / cos(π/4) =
+        // 0.32289 / 0.70711 = 0.45663, c = arccos(0.45663) ≈ 62.83°.
+        let lambda = coverage_half_angle_rad(20_180.0, 5.0).unwrap();
+        let c = street_half_width_rad(lambda, 4).unwrap();
+        assert!(
+            (c.to_degrees() - 62.83).abs() < 0.5,
+            "street half-width {}°, expected ≈ 62.83°",
+            c.to_degrees()
+        );
+        // More satellites per plane → a wider continuous street (c grows toward λ).
+        let c6 = street_half_width_rad(lambda, 6).unwrap();
+        assert!(c6 > c, "6 sats/plane should widen the street: {c6} vs {c}");
+        // Too sparse for a continuous street: a small footprint with few sats leaves
+        // a gap (λ = 20° < π/6 = 30° ⇒ cos λ / cos(π/6) > 1 ⇒ None).
+        assert!(street_half_width_rad(20.0_f64.to_radians(), 6).is_none());
+    }
+
+    #[test]
+    fn optimizer_selects_the_brute_force_best_for_each_objective() {
+        // The optimiser must return exactly the grid cell a brute-force scan picks,
+        // for each objective. Single sweep: it returns (best, full_table), so we
+        // re-derive the winner from the table and assert equality (no nondeterminism).
+        let planes = [4, 6];
+        let sats = [3, 4];
+        let inc = [55.0];
+        let (best_cov, table) = optimize_walker_design(
+            20_180.0,
+            &planes,
+            &sats,
+            &inc,
+            1.0,
+            munich(),
+            600.0,
+            43_200.0,
+            5.0,
+            DesignObjective::MinSatellitesForCoverage { min_fraction: 0.99 },
+        )
+        .expect("a design reaches 99% coverage");
+        // Brute force: fewest total among cells with coverage ≥ 0.99.
+        let expect = table
+            .iter()
+            .filter(|c| c.coverage_fraction >= 0.99)
+            .min_by(|a, b| {
+                a.total
+                    .cmp(&b.total)
+                    .then(cmp_pdop(a.worst_pdop, b.worst_pdop))
+            })
+            .unwrap();
+        assert_eq!(
+            best_cov, *expect,
+            "min-satellites pick disagrees with brute force"
+        );
+
+        let (best_pdop, table2) = optimize_walker_design(
+            20_180.0,
+            &planes,
+            &sats,
+            &inc,
+            1.0,
+            munich(),
+            600.0,
+            43_200.0,
+            5.0,
+            DesignObjective::MinWorstPdop,
+        )
+        .unwrap();
+        let expect_pdop = table2
+            .iter()
+            .filter(|c| c.worst_pdop.is_some())
+            .min_by(|a, b| cmp_pdop(a.worst_pdop, b.worst_pdop).then(a.total.cmp(&b.total)))
+            .unwrap();
+        assert_eq!(best_pdop, *expect_pdop, "min-worst-PDOP pick disagrees");
+        // The best worst-PDOP design is no worse than any other cell's worst PDOP.
+        for c in &table2 {
+            if let (Some(b), Some(x)) = (best_pdop.worst_pdop, c.worst_pdop) {
+                assert!(b <= x + 1e-12, "a cell beats the chosen worst-PDOP optimum");
+            }
+        }
+    }
+
+    #[test]
+    fn worked_example_gps_walker_24_vs_18_degrades() {
+        // The standard teaching scenario: a GPS Walker 24/6/1 (55°) versus a thinned
+        // 18-satellite (6 planes × 3) design. Removing six satellites must not improve
+        // either availability or worst-case geometry.
+        let cells = pdop_sweep(
+            20_180.0,
+            &[6],
+            &[3, 4],
+            &[55.0],
+            1.0,
+            munich(),
+            600.0,
+            86_400.0,
+            5.0,
+        );
+        let s18 = cells.iter().find(|c| c.total == 18).unwrap();
+        let s24 = cells.iter().find(|c| c.total == 24).unwrap();
+        assert!(
+            s24.coverage_fraction >= s18.coverage_fraction,
+            "24 sats must cover at least as well as 18: {} vs {}",
+            s24.coverage_fraction,
+            s18.coverage_fraction
+        );
+        assert!(
+            (s24.coverage_fraction - 1.0).abs() < 1e-9,
+            "the full 24-sat design should give continuous coverage, got {}",
+            s24.coverage_fraction
+        );
+        if let (Some(w24), Some(w18)) = (s24.worst_pdop, s18.worst_pdop) {
+            assert!(
+                w24 <= w18 + 1e-9,
+                "24-sat worst PDOP {w24} should beat 18-sat {w18}"
+            );
+        }
     }
 }
