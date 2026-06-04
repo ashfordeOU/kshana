@@ -10,6 +10,7 @@ pub mod fusion;
 pub mod glonass;
 pub mod hybrid;
 pub mod inertial;
+pub mod jamming;
 pub mod kalman;
 pub mod models;
 pub mod oem;
