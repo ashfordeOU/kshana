@@ -42,3 +42,17 @@ id = "tactical-imu"
 provenance = "Tactical-grade MEMS/quartz inertial unit: larger residual bias; the free-running INS diverges much faster"
 accel_bias = [0.03, -0.02, 0.0]
 gyro_bias = [0.0, 0.0, 1.0e-4]
+
+# Optional: layer the full deterministic IMU error chain on top of the constant
+# biases above. Every field defaults to zero, so omitting this block leaves the
+# sensor a pure constant-bias source (the run is then identical to before this
+# schema existed). The terms drive the three-axis strapdown mechanization through
+# the IMU error model (IEEE Std 952-1997 §A.2; Groves 2013 §4.3). Scale-factor is
+# in ppm; misalignment in rad (off-diagonal); g-sensitivity in (rad/s)/(m/s²);
+# quantization in the sensor's output units; rate-ramp is a linear-in-time drift.
+# [imu_classical.error_model]
+# scale_gyro_ppm  = [1500.0, 1500.0, 1500.0]
+# scale_accel_ppm = [1000.0, 1000.0, 1000.0]
+# g_sensitivity   = [5.0e-5, 5.0e-5, 5.0e-5]
+# rate_ramp_gyro  = [0.0, 1.0e-6, 0.0]
+# quant_gyro      = [1.0e-5, 1.0e-5, 1.0e-5]

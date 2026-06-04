@@ -32,6 +32,7 @@ use super::closed_loop::ClosedLoopInsGnss;
 use super::gnss_ins_ekf::{EkfNoise, GnssInsEkf};
 use crate::frames::{Geodetic, Vec3};
 use crate::inertial::attitude::Quaternion;
+use crate::inertial::imu_errors::ImuErrorModel;
 use crate::inertial::mechanization::{normal_gravity, radii_of_curvature, NavState};
 use crate::inertial::{score_position, PosSample, PositionFoM};
 use crate::scenario::{GnssState, GnssTimeline, TimeCfg};
@@ -42,8 +43,41 @@ use rand_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
-/// One IMU's *true* constant biases (the only thing distinguishing the
-/// quantum-grade from the classical sensor in this pack).
+/// The TOML-exposed deterministic IMU error schema, applied *on top of* the
+/// constant turn-on biases ([`ImuCfg::accel_bias`] / [`ImuCfg::gyro_bias`]).
+///
+/// Every field defaults to zero, so an omitted `[imu_*.error_model]` block leaves
+/// the sensor model as a pure constant-bias source — the pack's behaviour is then
+/// byte-identical to before this schema existed. Set any field to drive the full
+/// deterministic error chain of [`ImuErrorModel`] (IEEE Std 952-1997 §A.2; Groves
+/// 2013 §4.3) through the three-axis strapdown mechanization. Scale-factor is given
+/// in **ppm**; the other terms are in the model's SI units.
+#[derive(Clone, Debug, Default, Deserialize, Serialize)]
+#[serde(default)]
+pub struct ImuErrorCfg {
+    /// Per-axis gyro scale-factor error (ppm).
+    pub scale_gyro_ppm: Vec3,
+    /// Per-axis accelerometer scale-factor error (ppm).
+    pub scale_accel_ppm: Vec3,
+    /// Gyro misalignment / cross-coupling matrix (rad, off-diagonal).
+    pub misalignment_gyro: [[f64; 3]; 3],
+    /// Accelerometer misalignment / cross-coupling matrix (rad, off-diagonal).
+    pub misalignment_accel: [[f64; 3]; 3],
+    /// Gyro g-sensitivity (rad/s per m/s²), mapping specific force to rate bias.
+    pub g_sensitivity: Vec3,
+    /// Gyro output quantization step (rad/s; 0 disables).
+    pub quant_gyro: Vec3,
+    /// Accelerometer output quantization step (m/s²; 0 disables).
+    pub quant_accel: Vec3,
+    /// Gyro rate-ramp (rad/s²) — linear-in-time drift.
+    pub rate_ramp_gyro: Vec3,
+    /// Accelerometer rate-ramp (m/s³) — linear-in-time drift.
+    pub rate_ramp_accel: Vec3,
+}
+
+/// One IMU's *true* error sources: the constant turn-on biases that distinguish
+/// the quantum-grade from the classical sensor, plus an optional deterministic
+/// error model exposing the full [`ImuErrorModel`] chain through TOML.
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct ImuCfg {
     pub id: String,
@@ -52,6 +86,33 @@ pub struct ImuCfg {
     pub accel_bias: Vec3,
     /// True constant gyro bias (rad/s), body axes.
     pub gyro_bias: Vec3,
+    /// Optional deterministic error model applied on top of the biases. When
+    /// absent the sensor is a pure constant-bias source (the historical default).
+    #[serde(default)]
+    pub error_model: Option<ImuErrorCfg>,
+}
+
+impl ImuCfg {
+    /// Build the deterministic [`ImuErrorModel`] this sensor drives: the constant
+    /// turn-on biases always, plus the systematic error terms when an
+    /// `[error_model]` block is supplied. With no block, `distort` reduces exactly
+    /// to adding the constant bias.
+    fn build_error_model(&self) -> ImuErrorModel {
+        let mut m = ImuErrorModel::ideal()
+            .with_provenance(&self.provenance)
+            .with_bias(self.gyro_bias, self.accel_bias);
+        if let Some(e) = &self.error_model {
+            m = m
+                .with_scale_gyro_ppm(e.scale_gyro_ppm)
+                .with_scale_accel_ppm(e.scale_accel_ppm)
+                .with_misalignment_gyro(e.misalignment_gyro)
+                .with_misalignment_accel(e.misalignment_accel)
+                .with_g_sensitivity(e.g_sensitivity)
+                .with_quantization(e.quant_gyro, e.quant_accel)
+                .with_rate_ramp(e.rate_ramp_gyro, e.rate_ramp_accel);
+        }
+        m
+    }
 }
 
 fn default_fix_interval() -> f64 {
@@ -221,6 +282,7 @@ fn run_one(scn: &GnssInsScenario, cfg: &ImuCfg, seed: u64) -> FusedRun {
     let np = Normal::new(0.0, scn.sigma_pos_m.max(1e-9)).unwrap();
     let nv = Normal::new(0.0, scn.sigma_vel_mps.max(1e-9)).unwrap();
 
+    let error_model = cfg.build_error_model();
     let mut series = Vec::with_capacity(n + 1);
     let mut last_fix = f64::NEG_INFINITY;
     let (mut fused_sq, mut free_sq, mut out_n) = (0.0, 0.0, 0.0);
@@ -230,17 +292,11 @@ fn run_one(scn: &GnssInsScenario, cfg: &ImuCfg, seed: u64) -> FusedRun {
         if i > 0 {
             let (gyro, accel_t) = true_imu(&truth, t);
             truth.step(gyro, accel_t, dt);
-            // The sensor reports truth corrupted by its true constant bias.
-            let accel_m = [
-                accel_t[0] + cfg.accel_bias[0],
-                accel_t[1] + cfg.accel_bias[1],
-                accel_t[2] + cfg.accel_bias[2],
-            ];
-            let gyro_m = [
-                gyro[0] + cfg.gyro_bias[0],
-                gyro[1] + cfg.gyro_bias[1],
-                gyro[2] + cfg.gyro_bias[2],
-            ];
+            // The sensor reports truth corrupted by its deterministic error chain:
+            // the constant turn-on bias always, plus the systematic terms (scale,
+            // misalignment, g-sensitivity, quantization, rate-ramp) when the
+            // scenario's `[imu_*.error_model]` block supplies them.
+            let (gyro_m, accel_m) = error_model.distort(gyro, accel_t, t);
             nav.propagate(gyro_m, accel_m, dt);
             free.step(gyro_m, accel_m, dt);
         }
@@ -416,12 +472,14 @@ mod tests {
                 provenance: "navigation-grade".into(),
                 accel_bias: [0.015, 0.0, 0.0],
                 gyro_bias: [0.0, 0.0, 5e-5],
+                error_model: None,
             },
             imu_classical: ImuCfg {
                 id: "classical-imu".into(),
                 provenance: "tactical-grade".into(),
                 accel_bias: [0.03, -0.02, 0.0],
                 gyro_bias: [0.0, 0.0, 1e-4],
+                error_model: None,
             },
             fix_interval_s: 1.0,
             sigma_pos_m: 1.0,
@@ -475,6 +533,73 @@ mod tests {
             r.classical.fused_outage_rms_m,
             r.classical.free_outage_rms_m
         );
+    }
+
+    #[test]
+    fn toml_error_model_flows_through_the_pack_and_drives_navigation_error() {
+        // A clean baseline: a perfect (bias-free, error-free) classical IMU. With
+        // measured == true the free-running INS receives exactly the truth inputs,
+        // so it tracks truth and its outage coast error is ~0. (We deliberately do
+        // NOT layer the schema on top of an existing bias and assert "worse": the
+        // 2-D free-coast RMS is not monotonic in |gyro error| — an added term can
+        // partially cancel a bias through the maneuver geometry, exactly the weak
+        // separability the module docs warn about. A zero-error baseline makes the
+        // effect monotonic and hand-derivable.)
+        let mut clean = scenario();
+        clean.imu_classical.accel_bias = [0.0; 3];
+        clean.imu_classical.gyro_bias = [0.0; 3];
+        clean.imu_classical.error_model = None;
+        let base = run_gnss_ins(&clean);
+        assert!(
+            base.classical.free_outage_rms_m < 1e-6,
+            "a perfect IMU should track truth exactly: {} m",
+            base.classical.free_outage_rms_m
+        );
+
+        // Same perfect IMU, but now an east-axis gyro rate-ramp is supplied through
+        // the TOML `[imu_classical.error_model]` schema. A growing horizontal gyro
+        // error tilts the platform, leaking gravity into the horizontal channel — a
+        // textbook INS divergence that must show up as a large free-coast error,
+        // proving the schema reaches the three-axis mechanization (not a dead field).
+        let mut ramped = clean.clone();
+        ramped.imu_classical.error_model = Some(ImuErrorCfg {
+            rate_ramp_gyro: [0.0, 1e-5, 0.0],
+            ..Default::default()
+        });
+        let worse = run_gnss_ins(&ramped);
+        assert!(
+            worse.classical.free_outage_rms_m > 1.0,
+            "an east-gyro ramp should drive a large coast error: {} m",
+            worse.classical.free_outage_rms_m
+        );
+
+        // The quantum IMU was left untouched, so its run is bit-identical between
+        // the two — confirming the error model is applied per-sensor, not globally.
+        assert_eq!(
+            base.quantum.free_outage_rms_m,
+            worse.quantum.free_outage_rms_m
+        );
+    }
+
+    #[test]
+    fn absent_error_model_is_identical_to_pure_constant_bias() {
+        // The error_model schema is purely additive: with no `[error_model]` block
+        // the pack output must be byte-identical to the historical bias-only path.
+        let with_none = serde_json::to_string(&run_gnss_ins(&scenario())).unwrap();
+        let mut explicit_ideal = scenario();
+        explicit_ideal.imu_quantum.error_model = Some(ImuErrorCfg::default());
+        explicit_ideal.imu_classical.error_model = Some(ImuErrorCfg::default());
+        // An all-zero error model is the transparent pass-through, so the FoMs and
+        // error series match the bias-only run exactly (the scenario_hash differs
+        // because the serialized scenario carries the explicit block).
+        let a = run_gnss_ins(&scenario());
+        let b = run_gnss_ins(&explicit_ideal);
+        assert_eq!(a.quantum.fused_outage_rms_m, b.quantum.fused_outage_rms_m);
+        assert_eq!(a.classical.free_outage_rms_m, b.classical.free_outage_rms_m);
+        assert_eq!(a.quantum.fom.pos_rms_m, b.quantum.fom.pos_rms_m);
+        // And the no-block run is deterministic across calls.
+        let again = serde_json::to_string(&run_gnss_ins(&scenario())).unwrap();
+        assert_eq!(with_none, again);
     }
 
     #[test]

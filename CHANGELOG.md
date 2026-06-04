@@ -9,6 +9,16 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+- **TOML-configurable deterministic IMU error model in the `gnss-ins` pack.** The
+  three-axis strapdown error chain (scale-factor, misalignment, g-sensitivity,
+  quantization, rate-ramp; IEEE Std 952-1997 §A.2, Groves 2013 §4.3) is now
+  reachable per sensor from a scenario file via an optional `[imu_*.error_model]`
+  block, layered on top of the constant turn-on biases. Omitting the block leaves
+  each sensor a pure constant-bias source, so existing `gnss-ins` runs are
+  unchanged. This wires the previously library-only error model into a runnable
+  pack and figure of merit.
+
 ## [0.10.0] - 2026-06-04
 
 ### Changed
