@@ -23,6 +23,14 @@ breaking changes are called out explicitly.
   API change.
 
 ### Added
+- **CCSDS OMM (Orbit Mean-Elements Message) writer.** A new `src/omm.rs` complements the
+  `oem` ephemeris writer with the mean-elements message: `OmmFile::from_tle` maps SGP4/TLE
+  mean elements into the OMM units (mean motion in rev/day, angles in degrees, plus
+  `BSTAR`), and `to_omm_kvn` serialises the standards-track CCSDS 502.0-B-2 KVN form — so a
+  Kshana orbit can be consumed by any OMM-aware tool instead of as a bespoke TLE. Two tests
+  anchor the TLE→OMM unit conversion (≈ 15.5 rev/day, 51.6° inclination, etc.) and the
+  presence of the required KVN keywords. Honest scope: the KVN form and TLE mapping ship
+  here; the XML (`ndm/omm`) rendering and a reference-parser round-trip are follow-ons.
 - **Sequential-importance-resampling particle filter.** A new `src/particle_filter.rs`
   adds the nonlinear, non-Gaussian estimator behind map-aided, GPS-denied navigation
   (terrain-referenced or gravity-map matching): `predict` (propagate particles through the
