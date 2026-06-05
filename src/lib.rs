@@ -32,6 +32,7 @@ pub mod security;
 pub mod sgp4;
 pub mod sp3;
 pub mod spoof;
+pub mod spoof_monitors;
 pub mod sweep;
 pub mod timescales;
 pub mod timetransfer;
