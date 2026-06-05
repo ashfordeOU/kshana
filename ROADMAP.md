@@ -33,9 +33,10 @@ A validated, fully reproducible engine spanning the PNT stack:
   confidence intervals, optical/RF two-way time transfer.
 - **GNSS measurement domain** — Klobuchar ionosphere, Saastamoinen + Niell
   troposphere, pseudorange/Doppler, snapshot RAIM.
-- **Resilience** — link-budget jamming (J/S → effective C/N₀ → loss of lock) and a
+- **Resilience** — link-budget jamming (J/S → effective C/N₀ → loss of lock); a
   stochastic time-spoof detector (Neyman–Pearson / χ²₁ energy test, Monte-Carlo
-  P_fa/P_md, Security FoM = 1 − P_md).
+  P_fa/P_md, Security FoM = 1 − P_md); and RF-layer AGC-power and signal-quality (SQM
+  Early-minus-Late) spoof monitors.
 - **Interoperability** — RINEX-3/4, SP3-c/d, CCSDS OEM 2.0 export.
 - **Surfaces** — Rust library, CLI, Python (PyO3) and WebAssembly (wasm-bindgen)
   bindings, and an in-browser playground.
