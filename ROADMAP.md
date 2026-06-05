@@ -39,7 +39,7 @@ A validated, fully reproducible engine spanning the PNT stack:
   stochastic time-spoof detector (Neyman–Pearson / χ²₁ energy test, Monte-Carlo
   P_fa/P_md, Security FoM = 1 − P_md); and RF-layer AGC-power and signal-quality (SQM
   Early-minus-Late) spoof monitors.
-- **Interoperability** — RINEX-3/4, SP3-c/d, CCSDS OEM 2.0 export.
+- **Interoperability** — RINEX-3/4, SP3-c/d, CCSDS OEM 2.0 and OMM (mean-elements) export.
 - **Surfaces** — Rust library, CLI, Python (PyO3) and WebAssembly (wasm-bindgen)
   bindings, and an in-browser playground.
 

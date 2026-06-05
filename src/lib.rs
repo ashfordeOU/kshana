@@ -21,6 +21,7 @@ pub mod jamming;
 pub mod kalman;
 pub mod models;
 pub mod oem;
+pub mod omm;
 pub mod orbit;
 pub mod particle_filter;
 pub mod permalink;
