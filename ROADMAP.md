@@ -23,8 +23,9 @@ A validated, fully reproducible engine spanning the PNT stack:
 - **Inertial** — three-axis strapdown INS (quaternion attitude, NED mechanization,
   coning/sculling, deterministic IMU error model).
 - **Fusion** — loosely-coupled 15-state GNSS/INS error-state EKF with closed-loop
-  feedback, plus a tightly-coupled pseudorange update that corrects with fewer than
-  four satellites.
+  feedback, a tightly-coupled pseudorange update that corrects with fewer than four
+  satellites, a coupled clock+position filter, and a general unscented (sigma-point)
+  Kalman estimator for strongly nonlinear measurement models.
 - **Integrity** — snapshot and solution-separation (ARAIM-style) RAIM with HPL/VPL,
   FDE, and Stanford diagrams; an explicit integrity-risk-budget (MHSS) protection level,
   including the dual-/multi-constellation constellation-wide fault mode (EU ARAIM / DO-316).
