@@ -40,8 +40,10 @@ A validated, fully reproducible engine spanning the PNT stack:
 
 ## P1 — surface and harden (near-term)
 
-- ITRF-precise frame reduction: polar motion and sub-arcsecond nutation on top of
-  the shipped GMST-based TEME↔ECEF.
+- ITRF-precise frame reduction toward the GCRS/J2000 system on top of the shipped
+  GMST-based TEME↔ECEF. *(In progress — IAU 2006 precession (Fukushima–Williams angles
+  and bias-precession matrix) is delivered in `src/precession.rs`; the IAU 2000A nutation,
+  the full TEME→GCRS chain, and polar motion remain.)*
 - Two-part Julian dates (the single-`f64` JD is ~50 µs near 2020).
 - Surface the loosely-/tightly-coupled GNSS/INS navigator across more scenario packs.
 - Golden numerics and calibration ensembles for the V&V suite; committed

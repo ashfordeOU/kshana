@@ -23,6 +23,19 @@ breaking changes are called out explicitly.
   API change.
 
 ### Added
+- **IAU 2006 precession (Fukushima–Williams angles and bias-precession matrix).** A new
+  `src/precession.rs` implements the IAU 2006 (P03; Capitaine, Wallace & Chapront 2003)
+  precession: the four Fukushima–Williams angles `(γ̄, φ̄, ψ̄, ε̄_A)` as polynomials in TT
+  Julian centuries (`fw_angles`), and the GCRS→mean-of-date bias-precession rotation matrix
+  built from them via the SOFA `iauFw2m` construction (`precession_matrix`, with
+  `gcrs_to_mod` / `mod_to_gcrs` helpers). This is the first inertial-frame piece on top of
+  the existing GMST-based `frames` reduction. Eight tests validate against closed-form
+  anchors — the J2000 mean obliquity `ε̄ = 84381.406″ = 23.4392794°`, the published angle
+  constant terms, the `ψ̄ ≈ 5039.998″` general-precession accumulation over a century,
+  matrix orthonormality and `det = +1`, the near-identity (frame-bias-only) value at J2000,
+  and the `≈ 1.40°`/century net rotation angle. Honest scope (`ROADMAP.md`): precession
+  only — the IAU 2000A 678-term nutation, the full TEME→GCRS chain, and a SOFA/ANISE µas/<10 m
+  numerical cross-check are follow-ons.
 - **First-principles cold-atom-interferometer (CAI) accelerometer physics.**
   `src/inertial/quantum_imu.rs` models a three-pulse Mach–Zehnder atom interferometer
   from first principles instead of a datasheet: effective wavevector `k_eff = 4π/λ`,
