@@ -13,6 +13,7 @@ pub mod glonass;
 pub mod gnss_sim;
 pub mod hybrid;
 pub mod inertial;
+pub mod integrator;
 pub mod jamming;
 pub mod kalman;
 pub mod models;
