@@ -23,6 +23,18 @@ breaking changes are called out explicitly.
   API change.
 
 ### Added
+- **Orbit determination pipeline (batch + sequential).** A new `src/orbit_determination.rs` recovers
+  a satellite's orbital state `[r, v]` from ground-station range tracking, composing three shipped
+  pieces: the two-body + J2 force model (`src/forces.rs`) and RK4 integrator (`src/integrator.rs`)
+  propagate a candidate state across the arc, a range measurement model predicts each station range,
+  and the Gauss–Newton batch corrector (`src/batch_ls.rs`) drives the candidate onto the best-fit
+  state (`determine_orbit_batch`). The same dynamics and range model also drive a **sequential**
+  recursive determination on the shipped unscented filter (`determine_orbit_sequential`). Four tests
+  validate it: range prediction across the arc; **batch recovery to sub-metre / mm·s⁻¹ from noiseless
+  ranges**; batch recovery to **~2 m with a post-fit residual at the 5 m noise floor** (the signature
+  of a consistent least-squares fit); and sequential recovery to within tens of metres. Honest scope:
+  range-rate/Doppler and angle measurements, an analytic J2 state-transition matrix, and station
+  visibility masking are follow-ons.
 - **Tightly-coupled GNSS/INS UKF navigator.** A new `src/fusion/tightly_coupled.rs` wires the
   shipped unscented Kalman core (`src/fusion/ukf.rs`) into a working tightly-coupled navigator over
   the eight-state `[px,py,pz,vx,vy,vz,b,d]` (ECEF position/velocity plus receiver clock bias and

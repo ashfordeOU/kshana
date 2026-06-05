@@ -26,6 +26,7 @@ pub mod models;
 pub mod oem;
 pub mod omm;
 pub mod orbit;
+pub mod orbit_determination;
 pub mod particle_filter;
 pub mod permalink;
 pub mod precession;
