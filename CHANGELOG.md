@@ -23,6 +23,18 @@ breaking changes are called out explicitly.
   API change.
 
 ### Added
+- **Gauss–Newton batch least squares (the batch differential corrector).** A new
+  `src/batch_ls.rs` adds the estimation core a batch *orbit determination* (or any
+  parameter fit) rests on: `gauss_newton` linearises a user-supplied model `h(x)` with a
+  central finite-difference Jacobian, forms and solves the weighted normal equations
+  `(HᵀWH)·Δx = HᵀW·(z − h(x))` (reusing the tested matrix inverse), and iterates to
+  convergence with per-measurement weights. Four tests anchor it: a linear line fit reaching
+  the exact weighted-least-squares solution, a nonlinear `a·exp(b·t)` fit recovering the true
+  parameters, a 3-D range-multilateration that recovers a known position from noise-free
+  ranges (the orbit-determination flavour), and rejection of under-determined/mismatched
+  inputs. Honest scope: this is the generic corrector engine; the orbit-specific
+  range/range-rate/azimuth-elevation measurement model, the analytic J2 state-transition
+  matrix, and the published-case validation are follow-ons.
 - **RF-layer spoofing monitors (AGC power and SQM).** A new `src/spoof_monitors.rs` adds
   two independent receiver-front-end spoof detectors that complement the clock-aided
   time-spoof monitor in `spoof`: an **AGC power monitor** (`combine_power_dbm` incoherent
