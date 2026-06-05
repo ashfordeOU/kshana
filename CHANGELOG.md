@@ -10,6 +10,20 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Gravity-map-matching navigation (GPS-denied alt-PNT).** New `src/gravimeter.rs` adds the
+  alt-PNT capability layer ESA NAVISP's *Quantum Wayfarer* / QT-CCI gravity-map-matching studies
+  call for: a cold-atom **gravimeter measurement model** whose white-noise floor is derived from
+  the CAI accelerometer ASD (`σ = ASD/√τ`); a low-degree, fully-normalised **spherical-harmonic
+  gravity-anomaly field** (validated against the closed-form Legendre functions `P̄₁₁=√3·cosφ`,
+  `P̄₂₀=(√5/2)(3sin²φ−1)`, `P̄₂₂=(√15/2)cos²φ` and a hand-derived single-term anomaly of
+  1.897 mGal) plus synthetic **mascons** for the high-degree local features; and a
+  **gravity-map-matching particle filter** (composing `mapmatch` + `particle_filter`) that
+  recovers a GPS-denied track from the anomaly sequence it flies through. A committed NAVISP
+  benchmark (`scenarios/gravity-map-nav.toml`) cuts a ~73 km free-inertial drift to a few km.
+  Honest scope: Kshana does **not** bundle the full EGM2008 2190° coefficient set — the field is
+  low-degree + mascons, not a real high-resolution map; the EGM/EIGEN loader, magnetic map,
+  terrain-aided SLAM, and scenario-engine `kind=` wiring with an SVG drift chart remain follow-ons.
+  `docs/CAPABILITY.md` "Gravity-map / alt-PNT navigation" → **partial**.
 - **Maneuver modeling and trajectory-design beachhead.** New `src/maneuver.rs` adds the first
   trajectory-design layer above SGP4: impulsive ΔV nodes that apply a velocity discontinuity and
   carry a 6×6 covariance forward (deterministic burn ⇒ identity state-transition; the
