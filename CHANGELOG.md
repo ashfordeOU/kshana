@@ -23,6 +23,19 @@ breaking changes are called out explicitly.
   API change.
 
 ### Added
+- **Dual-constellation ARAIM protection levels.** A new `araim_dual_raim` extends the
+  single-fault Advanced RAIM (`araim_raim`) with the **constellation-wide fault mode** of
+  EU ARAIM / DO-316: alongside the fault-free and per-satellite hypotheses, each
+  constellation (labelled per satellite) contributes one hypothesis that removes all of its
+  satellites at once, with prior `P_const` (a new `DualFaultPriors { p_sat, p_const }`). Every
+  hypothesis adds a term to the same MHSS integrity sum, so VPL/HPL are the smallest bounds
+  whose total `P_HMI` meets the budget over fault-free + single-SV + per-constellation faults
+  (the Bonferroni false-alert split is over all `N + C` hypotheses). With `P_const = 0` the
+  result is bit-for-bit `araim_raim`; a single-constellation user returns `None` against its
+  own constellation fault (it cannot be excluded) — which is exactly why dual-constellation
+  coverage matters. Four tests cover the equivalence, the protection-level widening, the
+  single-constellation unavailability, and input validation, reusing the existing
+  solution-separation sub-solution machinery.
 - **IAU 2006 precession (Fukushima–Williams angles and bias-precession matrix).** A new
   `src/precession.rs` implements the IAU 2006 (P03; Capitaine, Wallace & Chapront 2003)
   precession: the four Fukushima–Williams angles `(γ̄, φ̄, ψ̄, ε̄_A)` as polynomials in TT

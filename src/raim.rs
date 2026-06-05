@@ -701,11 +701,11 @@ pub struct AraimResult {
 ///
 /// Returns `None` for fewer than six satellites (each exclusion sub-solution
 /// then lacks the `n−1 ≥ 5` redundancy) or a singular geometry. The
-/// single-fault hypothesis set is the ARAIM baseline; simultaneous multi-SV
-/// subset faults and the constellation-wide fault mode are a documented
-/// extension (each would add further hypotheses to the same budget sum).
-/// Exercised on the real IGS precise-orbit (SP3) geometry (`tests/igs_real_data.rs`),
-/// not only synthetic constellations.
+/// single-fault hypothesis set is the ARAIM baseline; the constellation-wide
+/// fault mode is implemented in [`araim_dual_raim`], and simultaneous multi-SV
+/// subset faults remain a documented extension (each adds further hypotheses to
+/// the same budget sum). Exercised on the real IGS precise-orbit (SP3) geometry
+/// (`tests/igs_real_data.rs`), not only synthetic constellations.
 pub fn araim_raim(
     user: Vec3,
     sats: &[Vec3],
@@ -803,6 +803,224 @@ pub fn araim_raim(
             threshold_m: k_fa * sig_ss_h,
             sigma_m: sigma_m * vark_h.sqrt(),
         });
+    }
+
+    let vpl = araim_protection_level(&modes_v, budget.p_hmi_vert / 2.0);
+    let hpl = araim_protection_level(&modes_h, budget.p_hmi_horz / 2.0);
+
+    Some(AraimResult {
+        n_used: n,
+        hpl_m: hpl,
+        vpl_m: vpl,
+        p_hmi_vert: 2.0 * araim_integrity_risk(vpl, &modes_v),
+        p_hmi_horz: 2.0 * araim_integrity_risk(hpl, &modes_h),
+        fault_detected,
+        excluded_sv,
+    })
+}
+
+/// Prior fault probabilities for dual-/multi-constellation ARAIM: the per-satellite
+/// fault of the single-constellation baseline plus a per-constellation fault that
+/// removes an entire constellation at once (EU ARAIM Technical Revision / DO-316).
+#[derive(Clone, Copy, Debug)]
+pub struct DualFaultPriors {
+    /// Prior probability a given satellite carries an undetected fault over the
+    /// exposure interval (RTCA ARAIM ISM baseline `P_sat ≈ 1e-5`).
+    pub p_sat: f64,
+    /// Prior probability a given constellation suffers a wide fault over the
+    /// exposure interval (`P_const ≈ 1e-4`). `0` disables the constellation
+    /// hypotheses, recovering the single-fault [`araim_raim`] result exactly.
+    pub p_const: f64,
+}
+
+/// Build the integrity-budget modes (vertical, horizontal) and the normalised
+/// separation for the sub-solution that *keeps* the satellites for which
+/// `keep(i)` holds. Returns `None` when the kept set is too small or rank-deficient.
+/// Shared by the single-satellite and constellation-wide ARAIM fault hypotheses.
+#[allow(clippy::too_many_arguments)]
+fn araim_exclusion_mode(
+    g: &[[f64; 4]],
+    y: &[f64],
+    keep: impl Fn(usize) -> bool,
+    x0: &[f64; 4],
+    east: Vec3,
+    north: Vec3,
+    up: Vec3,
+    var0_v: f64,
+    var0_h: f64,
+    sigma_m: f64,
+    k_fa: f64,
+    p_fault: f64,
+    min_keep: usize,
+) -> Option<(AraimMode, AraimMode, f64)> {
+    let idx: Vec<usize> = (0..g.len()).filter(|&i| keep(i)).collect();
+    if idx.len() < min_keep {
+        return None;
+    }
+    let g_sub: Vec<[f64; 4]> = idx.iter().map(|&i| g[i]).collect();
+    let y_sub: Vec<f64> = idx.iter().map(|&i| y[i]).collect();
+    let (xk, ak) = lsq_solution(&g_sub, &y_sub)?;
+    let dx = [xk[0] - x0[0], xk[1] - x0[1], xk[2] - x0[2]];
+    let sep_v = dx[0] * up[0] + dx[1] * up[1] + dx[2] * up[2];
+    let sep_e = dx[0] * east[0] + dx[1] * east[1] + dx[2] * east[2];
+    let sep_n = dx[0] * north[0] + dx[1] * north[1] + dx[2] * north[2];
+    let sep_h = (sep_e * sep_e + sep_n * sep_n).sqrt();
+    let vark_v = axis_variance(&ak, up);
+    let vark_h = axis_variance(&ak, east) + axis_variance(&ak, north);
+    let sig_ss_v = sigma_m * (vark_v - var0_v).max(0.0).sqrt();
+    let sig_ss_h = sigma_m * (vark_h - var0_h).max(0.0).sqrt();
+    let nrm_v = if sig_ss_v > 1e-9 {
+        sep_v.abs() / sig_ss_v
+    } else {
+        0.0
+    };
+    let nrm_h = if sig_ss_h > 1e-9 {
+        sep_h / sig_ss_h
+    } else {
+        0.0
+    };
+    let mode_v = AraimMode {
+        p_fault,
+        threshold_m: k_fa * sig_ss_v,
+        sigma_m: sigma_m * vark_v.sqrt(),
+    };
+    let mode_h = AraimMode {
+        p_fault,
+        threshold_m: k_fa * sig_ss_h,
+        sigma_m: sigma_m * vark_h.sqrt(),
+    };
+    Some((mode_v, mode_h, nrm_v.max(nrm_h)))
+}
+
+/// Dual-/multi-constellation Advanced RAIM protection levels (EU ARAIM / DO-316).
+///
+/// Extends [`araim_raim`] with the **constellation-wide fault mode**: in addition to
+/// the fault-free and per-satellite hypotheses, each constellation (labelled by
+/// `constellation[i]`) contributes one hypothesis that removes *all* of its
+/// satellites at once, with prior `P_const`. Every hypothesis adds a term to the
+/// same MHSS integrity sum, so VPL/HPL are the smallest bounds whose total `P_HMI`
+/// meets the budget across fault-free + single-SV + per-constellation faults.
+///
+/// The Bonferroni false-alert split is taken over all `N + C` hypotheses. With
+/// `P_const = 0` the constellation hypotheses are dropped and the result is bit-for-bit
+/// [`araim_raim`]. Returns `None` for fewer than six satellites, a singular geometry,
+/// or — crucially — when removing some constellation leaves fewer than five satellites:
+/// a single-constellation user *cannot* be protected against its own constellation
+/// fault, which is exactly why dual-constellation coverage matters.
+pub fn araim_dual_raim(
+    user: Vec3,
+    sats: &[Vec3],
+    constellation: &[u8],
+    range_residual_m: &[f64],
+    sigma_m: f64,
+    priors: DualFaultPriors,
+    budget: IntegrityBudget,
+) -> Option<AraimResult> {
+    let n = sats.len();
+    if n != range_residual_m.len() || n != constellation.len() || n < 6 || sigma_m <= 0.0 {
+        return None;
+    }
+    let mut g: Vec<[f64; 4]> = Vec::with_capacity(n);
+    for &s in sats {
+        let e = los_unit(user, s)?;
+        g.push([-e[0], -e[1], -e[2], 1.0]);
+    }
+    let (east, north, up) = enu_basis(user)?;
+    let (x0, a0) = lsq_solution(&g, range_residual_m)?;
+    let var0_v = axis_variance(&a0, up);
+    let var0_h = axis_variance(&a0, east) + axis_variance(&a0, north);
+
+    let mut consts: Vec<u8> = constellation.to_vec();
+    consts.sort_unstable();
+    consts.dedup();
+    let cover_const = priors.p_const > 0.0;
+    let n_const = consts.len();
+    // Bonferroni false-alert split over every fault hypothesis exercised.
+    let n_modes = n + if cover_const { n_const } else { 0 };
+    let k_fa = normal_quantile(1.0 - budget.p_fa / (2.0 * n_modes as f64));
+    let p_const_total = if cover_const {
+        n_const as f64 * priors.p_const
+    } else {
+        0.0
+    };
+    let p_ff = (1.0 - n as f64 * priors.p_sat - p_const_total).max(0.0);
+
+    let mut modes_v = vec![AraimMode {
+        p_fault: p_ff,
+        threshold_m: 0.0,
+        sigma_m: sigma_m * var0_v.sqrt(),
+    }];
+    let mut modes_h = vec![AraimMode {
+        p_fault: p_ff,
+        threshold_m: 0.0,
+        sigma_m: sigma_m * var0_h.sqrt(),
+    }];
+    let mut fault_detected = false;
+    let mut excluded_sv = None;
+    let mut max_norm_sep = 0.0_f64;
+
+    // Single-satellite fault hypotheses (need n−1 ≥ 5 redundancy).
+    for k in 0..n {
+        if let Some((mv, mh, nrm)) = araim_exclusion_mode(
+            &g,
+            range_residual_m,
+            |i| i != k,
+            &x0,
+            east,
+            north,
+            up,
+            var0_v,
+            var0_h,
+            sigma_m,
+            k_fa,
+            priors.p_sat,
+            5,
+        ) {
+            modes_v.push(mv);
+            modes_h.push(mh);
+            if nrm > max_norm_sep {
+                max_norm_sep = nrm;
+                if nrm > k_fa {
+                    fault_detected = true;
+                    excluded_sv = Some(k);
+                }
+            }
+        }
+    }
+
+    // Constellation-wide fault hypotheses (exclude every SV of one constellation).
+    if cover_const {
+        for &c in &consts {
+            match araim_exclusion_mode(
+                &g,
+                range_residual_m,
+                |i| constellation[i] != c,
+                &x0,
+                east,
+                north,
+                up,
+                var0_v,
+                var0_h,
+                sigma_m,
+                k_fa,
+                priors.p_const,
+                5,
+            ) {
+                Some((mv, mh, nrm)) => {
+                    modes_v.push(mv);
+                    modes_h.push(mh);
+                    if nrm > max_norm_sep {
+                        max_norm_sep = nrm;
+                        if nrm > k_fa {
+                            fault_detected = true;
+                        }
+                    }
+                }
+                // A constellation fault that cannot be excluded (too few remaining
+                // satellites) leaves the hypothesis unbounded — not available.
+                None => return None,
+            }
+        }
     }
 
     let vpl = araim_protection_level(&modes_v, budget.p_hmi_vert / 2.0);
@@ -1824,5 +2042,197 @@ mod tests {
         let json = serde_json::to_string(&report).expect("serializes");
         assert!(json.contains("samples_available"));
         assert!(json.contains("stanford") && json.contains("alert_limit_m"));
+    }
+
+    fn dual_setup() -> (Vec3, Vec<Vec3>, Vec<u8>, Vec<f64>, IntegrityBudget) {
+        let station = Geodetic {
+            lat_rad: 0.7,
+            lon_rad: 0.2,
+            alt_m: 50.0,
+        };
+        let user = geodetic_to_ecef(station);
+        let sats = dense_constellation(station); // 10 satellites
+                                                 // Two constellations, 5 + 5 (alternating labels).
+        let constellation: Vec<u8> = (0..sats.len()).map(|i| (i % 2) as u8).collect();
+        let resid = vec![0.0; sats.len()];
+        let budget = IntegrityBudget {
+            p_hmi_vert: 1e-4,
+            p_hmi_horz: 1e-4,
+            p_fa: 1e-5,
+        };
+        (user, sats, constellation, resid, budget)
+    }
+
+    #[test]
+    fn dual_reduces_to_single_when_p_const_zero() {
+        // With P_const = 0 the constellation hypotheses are dropped and the dual
+        // result is identical to the single-fault araim_raim, bit-for-bit.
+        let (user, sats, constellation, resid, budget) = dual_setup();
+        let single = araim_raim(
+            user,
+            &sats,
+            &resid,
+            1.0,
+            FaultPriors { p_sat: 1e-5 },
+            budget,
+        )
+        .expect("single araim runs");
+        let dual = araim_dual_raim(
+            user,
+            &sats,
+            &constellation,
+            &resid,
+            1.0,
+            DualFaultPriors {
+                p_sat: 1e-5,
+                p_const: 0.0,
+            },
+            budget,
+        )
+        .expect("dual araim runs");
+        assert!(
+            (dual.vpl_m - single.vpl_m).abs() < 1e-9,
+            "VPL {} vs {}",
+            dual.vpl_m,
+            single.vpl_m
+        );
+        assert!(
+            (dual.hpl_m - single.hpl_m).abs() < 1e-9,
+            "HPL {} vs {}",
+            dual.hpl_m,
+            single.hpl_m
+        );
+    }
+
+    #[test]
+    fn constellation_fault_mode_widens_the_protection_level() {
+        // Adding the per-constellation fault hypothesis (P_const = 1e-4) puts extra
+        // probability mass into the integrity sum, so VPL/HPL must grow beyond the
+        // P_const = 0 baseline.
+        let (user, sats, constellation, resid, budget) = dual_setup();
+        let base = araim_dual_raim(
+            user,
+            &sats,
+            &constellation,
+            &resid,
+            1.0,
+            DualFaultPriors {
+                p_sat: 1e-5,
+                p_const: 0.0,
+            },
+            budget,
+        )
+        .expect("base runs");
+        let dual = araim_dual_raim(
+            user,
+            &sats,
+            &constellation,
+            &resid,
+            1.0,
+            DualFaultPriors {
+                p_sat: 1e-5,
+                p_const: 1e-4,
+            },
+            budget,
+        )
+        .expect("dual runs");
+        assert!(
+            dual.vpl_m > base.vpl_m,
+            "dual VPL {} !> base {}",
+            dual.vpl_m,
+            base.vpl_m
+        );
+        assert!(
+            dual.hpl_m > base.hpl_m,
+            "dual HPL {} !> base {}",
+            dual.hpl_m,
+            base.hpl_m
+        );
+        // The protection levels still meet (do not exceed) the allocated budget.
+        assert!(
+            dual.p_hmi_vert <= budget.p_hmi_vert * 1.001,
+            "P_HMI_v {}",
+            dual.p_hmi_vert
+        );
+        assert!(
+            dual.p_hmi_horz <= budget.p_hmi_horz * 1.001,
+            "P_HMI_h {}",
+            dual.p_hmi_horz
+        );
+        assert!(dual.vpl_m.is_finite() && dual.vpl_m > 0.0);
+        assert!(dual.hpl_m.is_finite() && dual.hpl_m > 0.0);
+    }
+
+    #[test]
+    fn single_constellation_cannot_tolerate_its_own_fault() {
+        // If every satellite is one constellation, removing it leaves nothing to
+        // navigate with — the constellation fault is unbounded, so ARAIM is not
+        // available. This is exactly why dual-constellation coverage matters.
+        let (user, sats, _c, resid, budget) = dual_setup();
+        let one_const = vec![0u8; sats.len()];
+        let r = araim_dual_raim(
+            user,
+            &sats,
+            &one_const,
+            &resid,
+            1.0,
+            DualFaultPriors {
+                p_sat: 1e-5,
+                p_const: 1e-4,
+            },
+            budget,
+        );
+        assert!(
+            r.is_none(),
+            "single constellation must not be available against its own fault"
+        );
+        // …but with P_const = 0 (no constellation hypothesis) the same geometry is fine.
+        let ok = araim_dual_raim(
+            user,
+            &sats,
+            &one_const,
+            &resid,
+            1.0,
+            DualFaultPriors {
+                p_sat: 1e-5,
+                p_const: 0.0,
+            },
+            budget,
+        );
+        assert!(
+            ok.is_some(),
+            "with no constellation hypothesis it should run"
+        );
+    }
+
+    #[test]
+    fn dual_araim_rejects_mismatched_or_thin_inputs() {
+        let (user, sats, constellation, resid, budget) = dual_setup();
+        let priors = DualFaultPriors {
+            p_sat: 1e-5,
+            p_const: 1e-4,
+        };
+        // Mismatched constellation-label length.
+        assert!(araim_dual_raim(
+            user,
+            &sats,
+            &constellation[..9],
+            &resid,
+            1.0,
+            priors,
+            budget
+        )
+        .is_none());
+        // Fewer than six satellites.
+        assert!(araim_dual_raim(
+            user,
+            &sats[..5],
+            &constellation[..5],
+            &resid[..5],
+            1.0,
+            priors,
+            budget
+        )
+        .is_none());
     }
 }
