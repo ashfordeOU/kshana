@@ -389,6 +389,104 @@ fn cmp_pdop(a: Option<f64>, b: Option<f64>) -> std::cmp::Ordering {
     }
 }
 
+// ── Streets-of-coverage minimum-satellite sizing ─────────────────────────────────
+
+/// An idealised streets-of-coverage constellation sizing: the minimum satellite count for
+/// continuous single global coverage.
+#[derive(Clone, Copy, Debug)]
+pub struct StreetsCoverageDesign {
+    /// Minimum number of (near-polar, evenly spaced) orbital planes.
+    pub planes: usize,
+    /// Satellites per plane (the input).
+    pub sats_per_plane: usize,
+    /// Total satellites, `planes × sats_per_plane`.
+    pub total: usize,
+    /// Per-satellite Earth-central coverage half-angle `λ` (rad).
+    pub lambda_rad: f64,
+    /// Per-plane street half-width `c` (rad).
+    pub street_half_width_rad: f64,
+}
+
+/// Idealised **streets-of-coverage minimum-satellite** sizing for continuous single global
+/// coverage with `sats_per_plane` satellites per plane at the given altitude and elevation
+/// mask. Builds on the shipped coverage half-angle `λ` ([`coverage_half_angle_rad`]) and street
+/// half-width `c` ([`street_half_width_rad`]): with near-polar planes whose ascending nodes are
+/// spread evenly across `π` of longitude, the gap between adjacent planes (`π/p`) is closed when
+/// each street reaches halfway, `c ≥ π/(2p)`, so the minimum plane count is `p = ⌈π / (2c)⌉` and
+/// the total is `p · sats_per_plane`.
+///
+/// Returns `None` when the satellites are too sparse to form a continuous street
+/// (`λ < π/sats_per_plane`). Honest scope: this is the idealised evenly-spaced co-rotating
+/// estimate; the seam-exact Rider correction at the counter-rotating plane boundary (which can
+/// nudge the real minimum up by a plane) is a documented follow-on.
+pub fn min_satellites_streets_of_coverage(
+    altitude_km: f64,
+    min_elev_deg: f64,
+    sats_per_plane: usize,
+) -> Option<StreetsCoverageDesign> {
+    let lambda = coverage_half_angle_rad(altitude_km, min_elev_deg)?;
+    let c = street_half_width_rad(lambda, sats_per_plane)?;
+    if c <= 0.0 {
+        return None;
+    }
+    let planes = (std::f64::consts::PI / (2.0 * c)).ceil().max(1.0) as usize;
+    Some(StreetsCoverageDesign {
+        planes,
+        sats_per_plane,
+        total: planes * sats_per_plane,
+        lambda_rad: lambda,
+        street_half_width_rad: c,
+    })
+}
+
+// ── Multi-constellation comparison tool ──────────────────────────────────────────
+
+/// One constellation's figures of merit in a multi-constellation comparison.
+#[derive(Clone, Debug)]
+pub struct ConstellationComparison {
+    /// A label for the design (e.g. `"GPS"`, `"Galileo"`).
+    pub name: String,
+    /// The swept geometry for this single design (coverage, PDOP, total satellites).
+    pub cell: SweepCell,
+}
+
+/// Multi-constellation comparison tool: evaluate each named Walker `design`
+/// `(name, planes, sats_per_plane, inclination_deg)` against the same ground station and time
+/// window and return their coverage / PDOP / size side by side. A thin orchestration over
+/// [`pdop_sweep`], so each constellation is scored on exactly the same validated geometry as
+/// the design trade table.
+#[allow(clippy::too_many_arguments)]
+pub fn compare_constellations(
+    designs: &[(&str, usize, usize, f64)],
+    altitude_km: f64,
+    phasing_f: f64,
+    station: Geodetic,
+    step_s: f64,
+    duration_s: f64,
+    mask_deg: f64,
+) -> Vec<ConstellationComparison> {
+    designs
+        .iter()
+        .map(|&(name, planes, sats, incl)| {
+            let cells = pdop_sweep(
+                altitude_km,
+                &[planes],
+                &[sats],
+                &[incl],
+                phasing_f,
+                station,
+                step_s,
+                duration_s,
+                mask_deg,
+            );
+            ConstellationComparison {
+                name: name.to_string(),
+                cell: cells.into_iter().next().expect("one design cell"),
+            }
+        })
+        .collect()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -721,6 +819,63 @@ mod tests {
                 w24 <= w18 + 1e-9,
                 "24-sat worst PDOP {w24} should beat 18-sat {w18}"
             );
+        }
+    }
+
+    #[test]
+    fn streets_of_coverage_sizes_a_global_constellation() {
+        // A GPS-altitude satellite (20 180 km, 5° mask) sees an Earth-central cap of half-angle
+        // λ ≈ 71.16°; four satellites per plane stretch that into a street ≈ 62.83° wide. Evenly
+        // spaced near-polar planes then need ⌈π/(2c)⌉ = 2 planes ⇒ 8 satellites for the idealised
+        // continuous single global coverage.
+        let d = min_satellites_streets_of_coverage(20_180.0, 5.0, 4).expect("sizable");
+        assert!((d.lambda_rad - 1.2420).abs() < 1e-3, "λ = {}", d.lambda_rad);
+        assert!(
+            (d.street_half_width_rad - 1.0965).abs() < 1e-3,
+            "c = {}",
+            d.street_half_width_rad
+        );
+        assert_eq!(d.planes, 2);
+        assert_eq!(d.total, 8);
+        // A denser plane (more satellites) makes a wider street, so it needs no more planes.
+        let dense = min_satellites_streets_of_coverage(20_180.0, 5.0, 8).expect("sizable");
+        assert!(dense.planes <= d.planes);
+    }
+
+    #[test]
+    fn streets_of_coverage_rejects_under_population() {
+        // Low orbit (500 km, 10° mask) gives a small λ ≈ 14°; three satellites per plane sit
+        // 120° apart and cannot form a continuous street (λ < π/s) ⇒ no global sizing.
+        assert!(min_satellites_streets_of_coverage(500.0, 10.0, 3).is_none());
+    }
+
+    #[test]
+    fn compare_constellations_ranks_density() {
+        // The comparison tool scores each named design on the same station/window. A full GPS
+        // 24-satellite Walker must compare at least as well as a thinned 18-satellite design on
+        // both availability and worst-case geometry, with the labels preserved.
+        let cmp = compare_constellations(
+            &[("GPS-24", 6, 4, 55.0), ("Thinned-18", 6, 3, 55.0)],
+            20_180.0,
+            1.0,
+            munich(),
+            600.0,
+            43_200.0,
+            5.0,
+        );
+        assert_eq!(cmp.len(), 2);
+        let gps = cmp.iter().find(|c| c.name == "GPS-24").unwrap();
+        let thin = cmp.iter().find(|c| c.name == "Thinned-18").unwrap();
+        assert_eq!(gps.cell.total, 24);
+        assert_eq!(thin.cell.total, 18);
+        assert!(
+            gps.cell.coverage_fraction >= thin.cell.coverage_fraction,
+            "GPS-24 coverage {} vs thinned {}",
+            gps.cell.coverage_fraction,
+            thin.cell.coverage_fraction
+        );
+        if let (Some(wg), Some(wt)) = (gps.cell.worst_pdop, thin.cell.worst_pdop) {
+            assert!(wg <= wt + 1e-9, "GPS-24 worst PDOP {wg} vs thinned {wt}");
         }
     }
 }
