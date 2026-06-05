@@ -23,6 +23,18 @@ breaking changes are called out explicitly.
   API change.
 
 ### Added
+- **Constellation-design trade study: Walker design sweep with a Pareto front, revisit-time
+  JSON, and a sub-kilometre Walker-formula validation.** `src/walker.rs` gains
+  `walker_design_sweep`, which runs a `planes × sats_per_plane` grid (e.g. a 3×3 trade) at a
+  fixed inclination and tabulates, per design, the coverage fraction, worst-case PDOP, and the
+  max/mean revisit gap; `pareto_front` flags the non-dominated designs (fewer satellites, more
+  coverage, lower PDOP, shorter revisit), and `WalkerDesignReport::to_json` serialises the cells
+  and Pareto front — revisit-time fields included — as JSON. New validation pins the generator to
+  the Walker `i:T/P/F` formula: same-slot satellites in adjacent planes are shown to map onto one
+  another by an exact `R_z(2π/P)` rotation to **under 1 km over a full 24 h** of SGP4 propagation
+  (the J2 short-period breathing is common-mode and cancels), and the in-plane slots are confirmed
+  spaced `2π/S` in the mean. Builds on the committed real Celestrak `gps-ops` 2021-07-28 snapshot
+  (`scenarios/orbit-sgp4-gps.toml`, exercised by the scenario-coverage and SP3 round-trip tests).
 - **Advanced time-and-frequency transfer: TWSTFT, GNSS common-view, PPP, optical, IEEE-1139
   power-law fit, and a clock ensemble.** New `src/timetransfer_adv.rs` builds the operational
   transfer methods on the shipped Sagnac/common-view closed forms and the Allan-stability tools.
