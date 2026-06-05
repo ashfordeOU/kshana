@@ -32,8 +32,8 @@ A validated, fully reproducible engine spanning the PNT stack:
 - **Clock & timing** — two-state holdover Kalman, Allan-family stability with
   confidence intervals, optical/RF two-way time transfer, and the geometric
   time-transfer corrections (Sagnac effect, GNSS common-view single difference).
-- **GNSS measurement domain** — Klobuchar ionosphere, Saastamoinen + Niell
-  troposphere, pseudorange/Doppler, snapshot RAIM.
+- **GNSS measurement domain** — Klobuchar (broadcast) and IONEX/TEC-grid (measured)
+  ionosphere, Saastamoinen + Niell troposphere, pseudorange/Doppler, snapshot RAIM.
 - **Resilience** — link-budget jamming (J/S → effective C/N₀ → loss of lock); a
   stochastic time-spoof detector (Neyman–Pearson / χ²₁ energy test, Monte-Carlo
   P_fa/P_md, Security FoM = 1 − P_md); and RF-layer AGC-power and signal-quality (SQM
