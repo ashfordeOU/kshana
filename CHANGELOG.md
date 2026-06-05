@@ -9,6 +9,22 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+- **Full 17-state tightly-coupled GNSS/INS UKF with quantum-CAI dead-reckoning.** New
+  `src/fusion/tightly_coupled17.rs` carries the complete inertial-navigation state a
+  tightly-coupled filter estimates — `[position, velocity, attitude-error, accelerometer
+  bias, gyro bias, clock bias, clock drift]` (17 states) — propagated through the strapdown
+  mechanization driven by the measured specific force and angular rate, with the small-angle
+  `C ≈ I + [ψ×]` body→inertial rotation so attitude error couples into horizontal acceleration
+  (the standard INS tilt coupling). During a GNSS outage it coasts on the IMU alone; the
+  velocity-random-walk process noise is the cold-atom-interferometer accelerometer's derived
+  `q_va` (`crate::inertial::quantum_imu`), so the dead-reckoning drift is the quantum-sensor
+  limited one — a 120-second outage stays bounded to a few hundred metres versus the kilometres
+  a navigation-grade free INS would reach. The pseudorange/range-rate update runs through the
+  shared unscented filter (with α = 1 for well-conditioned weights at this state size). Five
+  tests: measurement-model identity, perfect-IMU constant-velocity integration, GNSS aiding,
+  accelerometer-bias estimation, and the CAI-limited 120-s outage benchmark.
+
 ## [0.11.0] - 2026-06-05
 
 ### Changed
