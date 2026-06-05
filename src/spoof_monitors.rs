@@ -14,9 +14,19 @@
 //!   meaconing, or a replay attack distorts the peak and unbalances Early vs Late; an
 //!   Early-minus-Late imbalance beyond a tolerance is an alert.
 //!
-//! Both are exact closed-form metrics. Scope (honest): the full RAIM-consistency parity
-//! spoof detector, the multi-layer fusion of the three monitor outputs, and validation
-//! against published (e.g. Spirent / ION GNSS+) spoofing test vectors are follow-ons
+//! - **RAIM-consistency parity detector** — a spoofer that biases a *subset* of the
+//!   satellites (or fails to spoof them all self-consistently) makes the pseudoranges
+//!   geometrically inconsistent; the weighted residual sum-of-squares (the parity-space
+//!   statistic) then exceeds its χ² threshold. A *common-mode* bias on every pseudorange,
+//!   by contrast, is absorbed by the receiver-clock state and is RAIM-invisible — modelled
+//!   honestly here, not papered over.
+//! - **Multi-layer fusion** — the parity, AGC and SQM layers are independent evidence;
+//!   [`fuse_spoof_layers`] combines them into one weighted decision that records which
+//!   layers fired.
+//!
+//! These are exact closed-form metrics plus a Monte-Carlo P_fa/P_md characterisation of the
+//! parity detector. Scope (honest): validation against specific published (e.g. Spirent /
+//! ION GNSS+) spoofing test vectors needs those external datasets and remains a follow-on
 //! (see `ROADMAP.md`).
 
 /// Combine per-source received powers (dBm) incoherently: `10·log10(Σ 10^(pᵢ/10))`.
@@ -111,6 +121,131 @@ impl Default for SqmMonitor {
     }
 }
 
+// --- RAIM-consistency parity spoof detector ------------------------------------------
+
+use crate::detection::chi2_inv_cdf;
+use crate::fusion::ukf::inverse;
+
+/// The outcome of the RAIM consistency test on a redundant pseudorange set.
+#[derive(Clone, Copy, Debug)]
+pub struct RaimConsistency {
+    /// Weighted residual sum-of-squares (the parity-space test statistic).
+    pub statistic: f64,
+    /// χ² detection threshold for the configured false-alert probability.
+    pub threshold: f64,
+    /// Redundancy `m − 4` (the χ² degrees of freedom).
+    pub dof: usize,
+    /// Whether the statistic exceeds the threshold (an inconsistency / likely spoof).
+    pub alert: bool,
+}
+
+/// RAIM consistency test: least-squares-fit the position/clock solution to the redundant
+/// pseudorange `residuals` (measured − predicted at the linearisation point) over the unit
+/// line-of-sight `geometry` rows `[eₓ, e_y, e_z, 1]`, then test the leftover weighted residual
+/// sum-of-squares against the χ²`(m−4)` threshold for false-alert probability `p_fa`.
+///
+/// Needs redundancy (`m > 4`) and a positive `sigma`; returns `None` otherwise. A common-mode
+/// bias on *every* pseudorange is absorbed by the clock column and leaves the statistic
+/// unchanged — RAIM cannot see it, and this test does not pretend to.
+pub fn parity_raim_test(
+    geometry: &[[f64; 4]],
+    residuals: &[f64],
+    sigma: f64,
+    p_fa: f64,
+) -> Option<RaimConsistency> {
+    let m = geometry.len();
+    if m < 5 || residuals.len() != m || sigma <= 0.0 {
+        return None;
+    }
+    let n = 4;
+    // Normal equations N = GᵀG, b = Gᵀz.
+    let mut nmat = vec![vec![0.0; n]; n];
+    let mut b = vec![0.0; n];
+    for (g, &z) in geometry.iter().zip(residuals) {
+        for a in 0..n {
+            b[a] += g[a] * z;
+            for (c, ncell) in nmat[a].iter_mut().enumerate() {
+                *ncell += g[a] * g[c];
+            }
+        }
+    }
+    let ninv = inverse(&nmat)?;
+    let x: Vec<f64> = (0..n)
+        .map(|a| (0..n).map(|c| ninv[a][c] * b[c]).sum())
+        .collect();
+    // Leftover residual after the best fit: r = z − G x; T = Σ r² / σ².
+    let t: f64 = geometry
+        .iter()
+        .zip(residuals)
+        .map(|(g, &z)| {
+            let pred: f64 = (0..n).map(|a| g[a] * x[a]).sum();
+            let r = z - pred;
+            r * r
+        })
+        .sum::<f64>()
+        / (sigma * sigma);
+    let dof = m - n;
+    let threshold = chi2_inv_cdf(1.0 - p_fa, dof as f64);
+    Some(RaimConsistency {
+        statistic: t,
+        threshold,
+        dof,
+        alert: t > threshold,
+    })
+}
+
+// --- Multi-layer fusion --------------------------------------------------------------
+
+/// Which independent detection layers fired.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub struct SpoofLayers {
+    /// The RAIM consistency parity test.
+    pub raim: bool,
+    /// The AGC received-power monitor.
+    pub agc: bool,
+    /// The signal-quality (Early-minus-Late) monitor.
+    pub sqm: bool,
+}
+
+impl SpoofLayers {
+    /// How many layers fired.
+    pub fn count(self) -> usize {
+        self.raim as usize + self.agc as usize + self.sqm as usize
+    }
+}
+
+/// The fused multi-layer spoof decision.
+#[derive(Clone, Copy, Debug)]
+pub struct FusedSpoofDecision {
+    /// Which layers fired.
+    pub layers: SpoofLayers,
+    /// Weighted evidence score (Σ wᵢ over the firing layers).
+    pub score: f64,
+    /// Whether the weighted score reaches the decision threshold.
+    pub alert: bool,
+}
+
+/// Fuse the three independent layers into one weighted decision. `weights` are `[raim, agc,
+/// sqm]` (the geometric RAIM layer is the hardest to fool, so it is usually weighted highest);
+/// the fused alert fires when the summed weight of the firing layers reaches `threshold`.
+pub fn fuse_spoof_layers(
+    raim: bool,
+    agc: bool,
+    sqm: bool,
+    weights: [f64; 3],
+    threshold: f64,
+) -> FusedSpoofDecision {
+    let layers = SpoofLayers { raim, agc, sqm };
+    let score = raim as u8 as f64 * weights[0]
+        + agc as u8 as f64 * weights[1]
+        + sqm as u8 as f64 * weights[2];
+    FusedSpoofDecision {
+        layers,
+        score,
+        alert: score >= threshold,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -170,5 +305,114 @@ mod tests {
         assert!(mon.alert(1.0, 0.8));
         // Zero taps do not divide by zero.
         assert_eq!(mon.el_metric(0.0, 0.0), 0.0);
+    }
+
+    // Eight unit line-of-sight rows over the sky, each `[eₓ, e_y, e_z, 1]` (the trailing 1 is the
+    // receiver-clock column), spread for a well-conditioned geometry.
+    fn geometry8() -> Vec<[f64; 4]> {
+        let azels = [
+            (0.0, 80.0),
+            (45.0, 30.0),
+            (100.0, 55.0),
+            (150.0, 20.0),
+            (200.0, 60.0),
+            (255.0, 25.0),
+            (300.0, 45.0),
+            (340.0, 15.0),
+        ];
+        azels
+            .iter()
+            .map(|&(az, el): &(f64, f64)| {
+                let (a, e) = (az.to_radians(), el.to_radians());
+                [e.cos() * a.sin(), e.cos() * a.cos(), e.sin(), 1.0]
+            })
+            .collect()
+    }
+
+    #[test]
+    fn parity_raim_flags_an_inconsistent_satellite() {
+        let g = geometry8();
+        // Perfectly consistent residuals: z = G·x_true for a chosen state ⇒ zero leftover ⇒ no
+        // alert (statistic ≈ 0).
+        let x_true = [12.0, -8.0, 5.0, 30.0]; // [pos error (m), clock (m)]
+        let consistent: Vec<f64> = g
+            .iter()
+            .map(|row| (0..4).map(|a| row[a] * x_true[a]).sum())
+            .collect();
+        let clean = parity_raim_test(&g, &consistent, 5.0, 0.001).expect("redundant");
+        assert!(clean.statistic < 1e-9 && !clean.alert, "{clean:?}");
+        // Bias one satellite by 60 m (12σ): geometrically inconsistent ⇒ a large statistic ⇒ alert.
+        let mut spoofed = consistent.clone();
+        spoofed[3] += 60.0;
+        let attacked = parity_raim_test(&g, &spoofed, 5.0, 0.001).expect("redundant");
+        assert!(attacked.alert, "single-SV bias not flagged: {attacked:?}");
+    }
+
+    #[test]
+    fn common_mode_bias_is_raim_invisible() {
+        // A bias applied to EVERY pseudorange equally is absorbed by the clock column, so the
+        // parity statistic is unchanged — the honest limitation of any RAIM detector.
+        let g = geometry8();
+        let base: Vec<f64> = (0..8).map(|i| (i as f64 - 3.5) * 1.3).collect();
+        let s0 = parity_raim_test(&g, &base, 5.0, 0.001).expect("redundant");
+        let ramped: Vec<f64> = base.iter().map(|&z| z + 250.0).collect();
+        let s1 = parity_raim_test(&g, &ramped, 5.0, 0.001).expect("redundant");
+        assert!(
+            (s0.statistic - s1.statistic).abs() < 1e-6,
+            "common-mode bias changed the statistic: {} vs {}",
+            s0.statistic,
+            s1.statistic
+        );
+    }
+
+    #[test]
+    fn fusion_combines_independent_layers() {
+        // RAIM weighted highest; a lone weak SQM hit stays under threshold, but RAIM + AGC trips it,
+        // and the firing layers are recorded.
+        let w = [0.5, 0.3, 0.2];
+        let lone_sqm = fuse_spoof_layers(false, false, true, w, 0.5);
+        assert!(!lone_sqm.alert && lone_sqm.layers.count() == 1);
+        let raim_agc = fuse_spoof_layers(true, true, false, w, 0.5);
+        assert!(raim_agc.alert && raim_agc.layers.count() == 2);
+        assert!(raim_agc.layers.raim && raim_agc.layers.agc && !raim_agc.layers.sqm);
+    }
+
+    #[test]
+    fn parity_raim_false_alert_and_missed_detection_are_characterized() {
+        use rand::SeedableRng;
+        use rand_chacha::ChaCha8Rng;
+        use rand_distr::{Distribution, Normal};
+
+        let g = geometry8();
+        let sigma = 5.0;
+        let p_fa = 0.05;
+        let noise = Normal::new(0.0, sigma).unwrap();
+        let trials = 400;
+        let mut rng = ChaCha8Rng::seed_from_u64(0x5F00_F123);
+
+        // Helper: fraction of `trials` that alert, with a per-satellite bias added to SV 3.
+        let run = |bias: f64, rng: &mut ChaCha8Rng| {
+            let mut alerts = 0;
+            for _ in 0..trials {
+                let mut z: Vec<f64> = (0..8).map(|_| noise.sample(rng)).collect();
+                z[3] += bias;
+                if parity_raim_test(&g, &z, sigma, p_fa).unwrap().alert {
+                    alerts += 1;
+                }
+            }
+            alerts as f64 / trials as f64
+        };
+
+        // Under H0 (no spoof) the empirical false-alert rate sits near the 5 % design point.
+        let pfa = run(0.0, &mut rng);
+        assert!((0.02..0.10).contains(&pfa), "empirical P_fa = {pfa}");
+        // Under H1 the missed-detection rate falls as the spoof bias grows.
+        let pmd_small = 1.0 - run(2.0 * sigma, &mut rng);
+        let pmd_large = 1.0 - run(8.0 * sigma, &mut rng);
+        assert!(
+            pmd_large < pmd_small,
+            "P_md did not fall with bias: {pmd_large} vs {pmd_small}"
+        );
+        assert!(pmd_large < 0.2, "P_md at 8σ still high: {pmd_large}");
     }
 }
