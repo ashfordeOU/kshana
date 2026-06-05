@@ -16,10 +16,13 @@ scenario/result schema may still change (breaking changes are called out in the
 A validated, fully reproducible engine spanning the PNT stack:
 
 - **Orbit & geometry** — SGP4/SDP4 propagation validated to 4.12 mm against all 666
-  AIAA 2006-6753 vectors; real-TLE and synthetic Walker constellations;
-  multi-constellation visibility, dilution of precision, and GNSS availability; a
-  gradient-free constellation-design optimiser, streets-of-coverage minimum-satellite
-  sizing, and a multi-constellation comparison tool.
+  AIAA 2006-6753 vectors; real-TLE (committed date-stamped Celestrak `gps-ops` snapshot)
+  and synthetic Walker constellations whose mean elements realise the `i:T/P/F` formula to
+  under 1 km over 24 h; multi-constellation visibility, dilution of precision, and GNSS
+  availability; a gradient-free constellation-design optimiser, streets-of-coverage
+  minimum-satellite sizing, a multi-constellation comparison tool, and a Walker design sweep
+  that tabulates coverage / PDOP / revisit-time over a planes×satellites grid and reports the
+  Pareto-optimal designs as JSON.
 - **Time systems** — IERS leap-second UTC/TAI/TT/UT1, Julian-date API, IAU-2000
   Earth Rotation Angle; GMST-based TEME↔ECEF and WGS-84 geodetic frames.
 - **Inertial** — three-axis strapdown INS (quaternion attitude, NED mechanization,
