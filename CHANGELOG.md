@@ -23,6 +23,13 @@ breaking changes are called out explicitly.
   API change.
 
 ### Added
+- **Two-part (high-precision) Julian dates.** A new `src/jd2.rs` adds `Jd2`, a Julian date
+  split into an integer `day` and a fractional `frac` in `[0,1)` (the SOFA/hifitime
+  convention), with `new`/`from_parts`/`add_seconds`/`diff_seconds`/`total`. Differences of
+  nearby epochs stay exact to the `f64` floor where a single-`f64` JD loses ~50 µs near
+  J2000. Four tests anchor it: the round-trip, fraction normalisation, exact microsecond
+  recovery (with the single-`f64` failure demonstrated alongside), and additive/reversible
+  second arithmetic.
 - **CCSDS OMM (Orbit Mean-Elements Message) writer.** A new `src/omm.rs` complements the
   `oem` ephemeris writer with the mean-elements message: `OmmFile::from_tle` maps SGP4/TLE
   mean elements into the OMM units (mean motion in rev/day, angles in degrees, plus
