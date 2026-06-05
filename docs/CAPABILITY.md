@@ -12,7 +12,9 @@ what is missing, and where it sits on the roadmap. Status is one of:
 
 Nothing here is aspirational: "partial" never means "almost done", it means "this much
 and no more". See also [`VALIDATION.md`](VALIDATION.md), [`INTEGRITY.md`](INTEGRITY.md),
-and [`QUANTUM-MODELS.md`](QUANTUM-MODELS.md).
+[`QUANTUM-MODELS.md`](QUANTUM-MODELS.md), and the overclaim closure ledger
+[`CLAIMS-VS-REALITY.md`](CLAIMS-VS-REALITY.md) (every historical overclaim, how it was
+resolved, and a CI guard that keeps it resolved).
 
 ## Core PNT (where Kshana actually plays)
 
