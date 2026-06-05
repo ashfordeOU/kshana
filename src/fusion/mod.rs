@@ -34,6 +34,7 @@ pub mod coupled;
 pub mod gnss_ins_ekf;
 pub mod pack;
 pub mod tightly_coupled;
+pub mod tightly_coupled17;
 pub mod ukf;
 
 use crate::hybrid::{score_hybrid, HybridResult, HybridSample, HybridScenario, SuiteRun};
