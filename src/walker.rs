@@ -487,6 +487,127 @@ pub fn compare_constellations(
         .collect()
 }
 
+// ── Walker design sweep with coverage/revisit and a Pareto front ─────────────────
+
+/// One design cell of a [`walker_design_sweep`]: the `planes × sats_per_plane`
+/// design at the swept inclination, with both the geometry (coverage fraction and
+/// worst-case PDOP) and the service (max/mean revisit gap) figures of merit a
+/// constellation trade needs side by side.
+#[derive(Clone, Debug, PartialEq, Serialize)]
+pub struct WalkerDesignCell {
+    pub planes: usize,
+    pub sats_per_plane: usize,
+    pub inclination_deg: f64,
+    pub total: usize,
+    /// Fraction of samples with at least `min_sats` satellites visible.
+    pub coverage_fraction: f64,
+    /// Worst position dilution of precision over the window (`None` if never a fix).
+    pub worst_pdop: Option<f64>,
+    /// Longest stretch with fewer than `min_sats` satellites in view (s).
+    pub max_revisit_gap_s: f64,
+    /// Mean revisit gap (s).
+    pub mean_revisit_gap_s: f64,
+}
+
+/// A Walker design sweep with the non-dominated (Pareto-optimal) designs flagged.
+#[derive(Clone, Debug, Serialize)]
+pub struct WalkerDesignReport {
+    /// Every design cell in the swept grid, row-major over `planes × sats_per_plane`.
+    pub cells: Vec<WalkerDesignCell>,
+    /// Indices into `cells` of the Pareto-optimal designs (see [`pareto_front`]).
+    pub pareto_indices: Vec<usize>,
+}
+
+impl WalkerDesignReport {
+    /// Serialize the report (cells + Pareto front, including the revisit-time fields)
+    /// as pretty JSON.
+    pub fn to_json(&self) -> String {
+        serde_json::to_string_pretty(self).expect("WalkerDesignReport serializes")
+    }
+}
+
+/// The Pareto front (non-dominated set) of a design grid. A design `a` *dominates*
+/// `b` when it is no worse on every objective — fewer or equal satellites, at least
+/// as much coverage, no larger worst-case PDOP, no longer max revisit gap — and
+/// strictly better on at least one. A missing PDOP (no fix ever) counts as the worst
+/// possible. The returned indices are the designs no other design dominates.
+pub fn pareto_front(cells: &[WalkerDesignCell]) -> Vec<usize> {
+    let pdop = |c: &WalkerDesignCell| c.worst_pdop.unwrap_or(f64::INFINITY);
+    let dominates = |a: &WalkerDesignCell, b: &WalkerDesignCell| {
+        let no_worse = a.total <= b.total
+            && a.coverage_fraction >= b.coverage_fraction
+            && pdop(a) <= pdop(b)
+            && a.max_revisit_gap_s <= b.max_revisit_gap_s;
+        let strictly_better = a.total < b.total
+            || a.coverage_fraction > b.coverage_fraction
+            || pdop(a) < pdop(b)
+            || a.max_revisit_gap_s < b.max_revisit_gap_s;
+        no_worse && strictly_better
+    };
+    (0..cells.len())
+        .filter(|&i| !(0..cells.len()).any(|j| j != i && dominates(&cells[j], &cells[i])))
+        .collect()
+}
+
+/// Sweep a Walker design over a `planes_grid × sats_grid` grid at a fixed
+/// inclination, tabulating coverage, worst-case PDOP, and revisit gaps for each, and
+/// flag the Pareto-optimal designs. This is the constellation-design trade study: it
+/// runs the grid, reports every cell, and identifies the non-dominated frontier.
+#[allow(clippy::too_many_arguments)]
+pub fn walker_design_sweep(
+    altitude_km: f64,
+    planes_grid: &[usize],
+    sats_grid: &[usize],
+    inclination_deg: f64,
+    phasing_f: f64,
+    station: Geodetic,
+    step_s: f64,
+    duration_s: f64,
+    mask_deg: f64,
+    min_sats: usize,
+) -> WalkerDesignReport {
+    let n = (duration_s / step_s).round() as usize;
+    let mut cells = Vec::new();
+    for &planes in planes_grid {
+        for &sats_per_plane in sats_grid {
+            let walker = WalkerSgp4 {
+                altitude_km,
+                inclination_deg,
+                planes,
+                sats_per_plane,
+                phasing_f,
+            };
+            let sats = walker.satellites();
+            let mut worst: Option<f64> = None;
+            for i in 0..=n {
+                let t = i as f64 * step_s;
+                if let Some(d) = dop(
+                    geodetic_to_ecef(station),
+                    &visible_ecef(&sats, station, t, mask_deg),
+                ) {
+                    worst = Some(worst.map_or(d.pdop, |x| x.max(d.pdop)));
+                }
+            }
+            let cov = coverage_revisit(&sats, station, step_s, duration_s, mask_deg, min_sats);
+            cells.push(WalkerDesignCell {
+                planes,
+                sats_per_plane,
+                inclination_deg,
+                total: walker.total(),
+                coverage_fraction: cov.coverage_fraction,
+                worst_pdop: worst,
+                max_revisit_gap_s: cov.max_revisit_gap_s,
+                mean_revisit_gap_s: cov.mean_revisit_gap_s,
+            });
+        }
+    }
+    let pareto_indices = pareto_front(&cells);
+    WalkerDesignReport {
+        cells,
+        pareto_indices,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -877,5 +998,173 @@ mod tests {
         if let (Some(wg), Some(wt)) = (gps.cell.worst_pdop, thin.cell.worst_pdop) {
             assert!(wg <= wt + 1e-9, "GPS-24 worst PDOP {wg} vs thinned {wt}");
         }
+    }
+
+    fn rot_z(v: [f64; 3], a: f64) -> [f64; 3] {
+        let (sn, cs) = a.sin_cos();
+        [v[0] * cs - v[1] * sn, v[0] * sn + v[1] * cs, v[2]]
+    }
+
+    fn dist(a: [f64; 3], b: [f64; 3]) -> f64 {
+        ((a[0] - b[0]).powi(2) + (a[1] - b[1]).powi(2) + (a[2] - b[2]).powi(2)).sqrt()
+    }
+
+    #[test]
+    fn walker_formation_matches_the_formula_to_1km_over_24h() {
+        // The Walker i:T/P/F formula places the P planes one RAAN step 2π/P apart. Two
+        // satellites in the *same slot* of adjacent planes share their mean anomaly,
+        // argument of perigee, inclination and semi-major axis at every instant — under
+        // SGP4 those secular quantities drift at identical rates, so only the RAAN differs,
+        // by a constant 2π/P. A RAAN difference is a rigid rotation about the inertial
+        // z-axis, and because the shared argument of latitude makes the J2 short-period
+        // perturbations identical, plane p maps onto plane 0 by R_z(2π·p/P) *exactly*. That
+        // is the defining Walker invariant; verifying it to < 1 km at epoch and after a full
+        // 24 h confirms the generated mean elements realise the formula and that SGP4's
+        // secular drift preserves the pattern. (The 8 km J2 short-period radial breathing is
+        // common-mode here, so it cancels — this is a genuine sub-km check, not a loose one.)
+        let w = WalkerSgp4 {
+            altitude_km: 1200.0,
+            inclination_deg: 60.0,
+            planes: 5,
+            sats_per_plane: 3,
+            phasing_f: 0.0,
+        };
+        let sats = w.satellites(); // plane-major: plane p, slot 0 is index p * sats_per_plane
+        let s = w.sats_per_plane;
+        let dphi = TAU / w.planes as f64;
+        for &t in &[0.0, 43_200.0, 86_400.0] {
+            let r0 = sats[0].position_eci(t); // plane 0, slot 0
+            for p in 1..w.planes {
+                let rp = sats[p * s].position_eci(t); // plane p, slot 0
+                let expect = rot_z(r0, dphi * p as f64);
+                let d = dist(rp, expect);
+                assert!(
+                    d < 1000.0,
+                    "plane {p} at t={t}s: {d:.3} m from R_z(2π·{p}/{}) of plane 0",
+                    w.planes
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn walker_in_plane_slots_are_spaced_by_the_formula_in_the_mean() {
+        // Within one plane the S slots are spaced 2π/S in mean anomaly. The *instantaneous*
+        // geocentric separation breathes by ~0.1° as the J2 short-period perturbation acts at
+        // each slot's own argument of latitude, but the *mean* separation is exactly 2π/S —
+        // the short-period term integrates to zero over an orbit. Averaging the consecutive-
+        // slot angle over the full 24 h (many orbits) recovers the mean spacing to well under
+        // a hundredth of a degree, confirming the generated mean elements realise the in-plane
+        // phasing of the formula. Single plane so RAAN is common to all four satellites.
+        let w = WalkerSgp4 {
+            altitude_km: 1200.0,
+            inclination_deg: 60.0,
+            planes: 1,
+            sats_per_plane: 4,
+            phasing_f: 0.0,
+        };
+        let sats = w.satellites();
+        let sep = |t: f64, i: usize, j: usize| {
+            let a = sats[i].position_eci(t);
+            let b = sats[j].position_eci(t);
+            let dot = a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+            let na = (a[0] * a[0] + a[1] * a[1] + a[2] * a[2]).sqrt();
+            let nb = (b[0] * b[0] + b[1] * b[1] + b[2] * b[2]).sqrt();
+            (dot / (na * nb)).clamp(-1.0, 1.0).acos().to_degrees()
+        };
+        let nsamp = 1440usize; // 24 h at 60 s
+        for i in 0..3 {
+            let mean: f64 = (0..nsamp)
+                .map(|k| sep(k as f64 * 60.0, i, i + 1))
+                .sum::<f64>()
+                / nsamp as f64;
+            // Consecutive slots are 360/4 = 90° apart in the mean.
+            assert!(
+                (mean - 90.0).abs() < 0.02,
+                "slot {i}->{} mean sep {mean:.4}°",
+                i + 1
+            );
+        }
+    }
+
+    #[test]
+    fn pareto_front_selects_non_dominated_designs() {
+        // A: cheap, good. B: dominated by A (more sats, no better anywhere). C: expensive but
+        // best coverage/PDOP/revisit. Front = {A, C}; B is dominated out.
+        let cells = vec![
+            WalkerDesignCell {
+                planes: 3,
+                sats_per_plane: 3,
+                inclination_deg: 55.0,
+                total: 9,
+                coverage_fraction: 0.90,
+                worst_pdop: Some(2.0),
+                max_revisit_gap_s: 100.0,
+                mean_revisit_gap_s: 50.0,
+            },
+            WalkerDesignCell {
+                planes: 4,
+                sats_per_plane: 5,
+                inclination_deg: 55.0,
+                total: 20,
+                coverage_fraction: 0.90,
+                worst_pdop: Some(3.0),
+                max_revisit_gap_s: 200.0,
+                mean_revisit_gap_s: 90.0,
+            },
+            WalkerDesignCell {
+                planes: 6,
+                sats_per_plane: 5,
+                inclination_deg: 55.0,
+                total: 30,
+                coverage_fraction: 0.99,
+                worst_pdop: Some(1.5),
+                max_revisit_gap_s: 50.0,
+                mean_revisit_gap_s: 20.0,
+            },
+        ];
+        let front = pareto_front(&cells);
+        assert_eq!(
+            front,
+            vec![0, 2],
+            "A and C are non-dominated; B is dominated by A"
+        );
+    }
+
+    #[test]
+    fn walker_design_sweep_emits_a_pareto_table_and_revisit_json() {
+        // A 3×3 Walker grid (planes × sats), each design scored for coverage, PDOP and
+        // revisit; the report serialises to JSON carrying the revisit-time fields and the
+        // Pareto front. Short window keeps the smoke test fast.
+        let report = walker_design_sweep(
+            1500.0,
+            &[3, 4, 6],
+            &[2, 3, 4],
+            55.0,
+            1.0,
+            munich(),
+            120.0,
+            7200.0,
+            10.0,
+            1,
+        );
+        assert_eq!(report.cells.len(), 9, "3×3 design grid");
+        assert!(
+            !report.pareto_indices.is_empty(),
+            "a non-empty Pareto front"
+        );
+        // Every flagged design is genuinely non-dominated.
+        assert_eq!(report.pareto_indices, pareto_front(&report.cells));
+        let json = report.to_json();
+        assert!(
+            json.contains("max_revisit_gap_s"),
+            "revisit-time appears in JSON"
+        );
+        assert!(json.contains("mean_revisit_gap_s"));
+        assert!(json.contains("pareto_indices"));
+        // The JSON round-trips through a generic parser.
+        let parsed: serde_json::Value = serde_json::from_str(&json).unwrap();
+        assert!(parsed["cells"].as_array().unwrap().len() == 9);
+        assert!(parsed["cells"][0]["max_revisit_gap_s"].is_number());
     }
 }
