@@ -23,6 +23,15 @@ breaking changes are called out explicitly.
   API change.
 
 ### Added
+- **Cislunar PNT integrity (lunar ARAIM).** A new `src/lunar.rs` applies the Earth-side
+  MHSS ARAIM engine to a LunaNet-style lunar navigation service with the lunar parameters
+  (`σ_URE ≈ 30 m` vs GPS 0.6 m, `P_sat ≈ 1e-4`): lunar constants, a selenocentric
+  East/North/Up basis and sky-geometry helper, and `lunar_araim` (HPL/VPL). Three tests
+  anchor it — the orthonormal selenocentric basis, the slant-range geometry, and the exact
+  linear protection-level scaling with `σ_URE` (lunar 30 m gives a 50× larger protection
+  level than the same geometry at the GPS 0.6 m — the quantitative reason lunar PNT
+  integrity is hard). Honest scope: the precise LANS NRHO ephemeris, the signal-in-space
+  error budget, and the MCI↔MCMF frame reduction are follow-ons.
 - **Two-part (high-precision) Julian dates.** A new `src/jd2.rs` adds `Jd2`, a Julian date
   split into an integer `day` and a fractional `frac` in `[0,1)` (the SOFA/hifitime
   convention), with `new`/`from_parts`/`add_seconds`/`diff_seconds`/`total`. Differences of
