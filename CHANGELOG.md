@@ -23,6 +23,13 @@ breaking changes are called out explicitly.
   API change.
 
 ### Added
+- **IONEX ionosphere maps: file parser, time interpolation, and slant obliquity mapping.** `src/ionex.rs`
+  gains `parse_ionex`, which reads the IONEX file format (header grid definition + `START/END OF TEC MAP`
+  blocks) into a sequence of `IonexMap`s — normalising the file's north-to-south latitude ordering into a
+  positive-step `TecGrid` and scaling values by `10^EXPONENT`. `interpolate_tec_in_time` blends two
+  successive maps to a query epoch, and `obliquity_factor` / `slant_tec` map the vertical TEC onto a slant
+  ray via the single-layer thin-shell factor `M(z) = 1/cos z′` (`sin z′ = (Rₑ/(Rₑ+H))·sin z`). Together
+  with the shipped grid model these turn a measured IGS global ionosphere map into a usable slant delay.
 - **Constellation design: streets-of-coverage sizing + multi-constellation comparison.** `src/walker.rs`
   gains `min_satellites_streets_of_coverage`, an idealised streets-of-coverage minimum-satellite solver —
   from the shipped coverage half-angle `λ` and street half-width `c` it sizes the near-polar constellation
