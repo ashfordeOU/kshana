@@ -26,7 +26,8 @@ A validated, fully reproducible engine spanning the PNT stack:
   feedback, plus a tightly-coupled pseudorange update that corrects with fewer than
   four satellites.
 - **Integrity** — snapshot and solution-separation (ARAIM-style) RAIM with HPL/VPL,
-  FDE, and Stanford diagrams.
+  FDE, and Stanford diagrams; an explicit integrity-risk-budget (MHSS) protection level,
+  including the dual-/multi-constellation constellation-wide fault mode (EU ARAIM / DO-316).
 - **Clock & timing** — two-state holdover Kalman, Allan-family stability with
   confidence intervals, optical/RF two-way time transfer.
 - **GNSS measurement domain** — Klobuchar ionosphere, Saastamoinen + Niell
