@@ -23,6 +23,18 @@ breaking changes are called out explicitly.
   API change.
 
 ### Added
+- **Sequential-importance-resampling particle filter.** A new `src/particle_filter.rs`
+  adds the nonlinear, non-Gaussian estimator behind map-aided, GPS-denied navigation
+  (terrain-referenced or gravity-map matching): `predict` (propagate particles through the
+  dynamics + Gaussian process noise), `update` (reweight by a per-particle measurement
+  likelihood), systematic `resample`, the `effective_sample_size` degeneracy monitor, and
+  the weighted-mean estimate. Six tests anchor the deterministic core exactly — ESS spanning
+  1…N, systematic resampling picking indices in proportion to weight, the weighted-mean
+  convex combination, a Gaussian likelihood pulling the estimate onto the measurement,
+  resample-to-uniform behaviour, and seeded predict determinism. Honest scope: the engine
+  ships here; the reference maps (SRTM elevation, EGM gravity anomaly) and the map
+  measurement model are follow-ons (the `ionex` grid+bilinear sampler would serve a
+  gravity/terrain map equally).
 - **IONEX-style TEC ionosphere maps.** A new `src/ionex.rs` adds the measured-ionosphere
   alternative to the broadcast Klobuchar model: a `TecGrid` (a regular lat/lon grid of
   vertical TEC, an IGS global ionosphere map) with bilinear interpolation at a pierce point

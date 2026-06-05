@@ -21,7 +21,8 @@ A validated, fully reproducible engine spanning the PNT stack:
 - **Time systems** — IERS leap-second UTC/TAI/TT/UT1, Julian-date API, IAU-2000
   Earth Rotation Angle; GMST-based TEME↔ECEF and WGS-84 geodetic frames.
 - **Inertial** — three-axis strapdown INS (quaternion attitude, NED mechanization,
-  coning/sculling, deterministic IMU error model).
+  coning/sculling, deterministic IMU error model), plus a sequential-importance-resampling
+  particle filter for map-aided (terrain-/gravity-referenced) GPS-denied navigation.
 - **Fusion** — loosely-coupled 15-state GNSS/INS error-state EKF with closed-loop
   feedback, a tightly-coupled pseudorange update that corrects with fewer than four
   satellites, a coupled clock+position filter, and a general unscented (sigma-point)
