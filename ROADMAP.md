@@ -92,9 +92,11 @@ welcome collaboration: see [Support & professional services](README.md#support--
   the analytic J2 secular rates are delivered (`src/forces.rs`); J3–J6, drag, SRP, and
   third-body, and the `NumericalPropagator` wiring, remain — to complement the analytic
   SGP4/SDP4 path.
-- Batch orbit determination: the Gauss–Newton differential corrector
-  (`src/batch_ls.rs`) plus an orbit-specific range/range-rate/azimuth-elevation
-  measurement model and a J2 state-transition matrix.
+- Batch orbit determination is delivered: `src/orbit_determination.rs` recovers an
+  orbital state from ground-station ranges via the Gauss–Newton corrector
+  (`src/batch_ls.rs`) over the two-body + J2 force model, with a sequential
+  (unscented-filter) variant alongside the batch solver; range-rate/azimuth-elevation
+  measurements and an analytic J2 state-transition matrix remain.
 - Alternative (GNSS-denied) PNT: the map-matching measurement model
   (`src/mapmatch.rs`, `field_likelihood` / `map_match_likelihood`) closes the loop on the
   shipped particle filter for terrain-/gravity-referenced navigation; the real reference maps
