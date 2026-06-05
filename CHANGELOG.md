@@ -10,6 +10,16 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Overclaim ledger + regression guard (`docs/CLAIMS-VS-REALITY.md`, `tests/no_overclaims.rs`).**
+  Closes the honesty/de-claim track: the fourteen overclaims an earlier audit catalogued
+  (`OC-0`…`OC-13`) are now all GREEN — the strong claims (`OC-0` coupled clock+position Kalman,
+  `OC-2` jamming J/S→C/N₀→loss-of-lock, `OC-7` Mach–Zehnder CAI physics, `OC-8` ARAIM HPL/VPL)
+  are **superseded by shipped, tested capabilities** rather than softened wording, and the
+  remaining rows are de-claimed to match the code. A new CI test scans the live public surfaces
+  (`README`, `CAPABILITY`, `GLOSSARY`, `web/`) and fails if any retired bare overclaim phrase
+  reappears uncaveated, so a GREEN row cannot silently regress. The per-run "integrity" FoM stays
+  honestly labelled *filter self-consistency* (not aviation integrity); the real ARAIM HPL/VPL is
+  surfaced separately so the two are never conflated.
 - **Gravity-map-matching navigation (GPS-denied alt-PNT).** New `src/gravimeter.rs` adds the
   alt-PNT capability layer ESA NAVISP's *Quantum Wayfarer* / QT-CCI gravity-map-matching studies
   call for: a cold-atom **gravimeter measurement model** whose white-noise floor is derived from
