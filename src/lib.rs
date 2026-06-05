@@ -16,6 +16,7 @@ pub mod gnss_sim;
 pub mod hybrid;
 pub mod inertial;
 pub mod integrator;
+pub mod ionex;
 pub mod jamming;
 pub mod kalman;
 pub mod models;
