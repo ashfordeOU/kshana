@@ -31,9 +31,12 @@ A validated, fully reproducible engine spanning the PNT stack:
 - **Fusion** — loosely-coupled 15-state GNSS/INS error-state EKF with closed-loop
   feedback, a tightly-coupled pseudorange update that corrects with fewer than four
   satellites, a coupled clock+position filter, a general unscented (sigma-point)
-  Kalman estimator for strongly nonlinear measurement models, and a tightly-coupled
+  Kalman estimator for strongly nonlinear measurement models, a tightly-coupled
   GNSS/INS UKF navigator (pseudorange + Doppler, force-model orbital coast validated to
-  0.77 m RMS over a 30-minute curving LEO pass including a 120-second GNSS outage).
+  0.77 m RMS over a 30-minute curving LEO pass including a 120-second GNSS outage), and a
+  full 17-state tightly-coupled GNSS/INS UKF (position, velocity, attitude error, accelerometer
+  and gyro biases, clock bias and drift) whose quantum-CAI dead-reckoning coasts a 120-second
+  outage on the cold-atom accelerometer's derived velocity-random-walk.
 - **Integrity** — snapshot and solution-separation (ARAIM-style) RAIM with HPL/VPL,
   FDE, and Stanford diagrams; an explicit integrity-risk-budget (MHSS) protection level,
   including the dual-/multi-constellation constellation-wide fault mode (EU ARAIM / DO-316).
