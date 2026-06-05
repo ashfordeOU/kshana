@@ -28,14 +28,20 @@ breaking changes are called out explicitly.
   the eight-state `[px,py,pz,vx,vy,vz,b,d]` (ECEF position/velocity plus receiver clock bias and
   drift in range units). It ingests the **raw satellite measurements** — `pseudorange`
   (`ρ = |p − sᵢ| + b`) and `range_rate`/Doppler (`ρ̇ = (p − sᵢ)·(v − ṡᵢ)/|p − sᵢ| + d`) — rather
-  than a pre-formed position fix, so `TightlyCoupled` (with `propagate`/`update_gnss`) keeps
-  correcting **with fewer than four satellites** and coasts through GNSS outages on its propagated
-  dynamics. Four tests validate it end-to-end, including the acceptance scenarios: the
-  pseudorange/Doppler geometry against hand values; noiseless convergence to **sub-metre** on five
-  satellites; a **three-satellite** case converging from ~212 m to ~13 m where a snapshot PVT cannot
-  even be formed; and a **120-second total-outage** coast that holds position within 50 m of truth
-  (seeded-noise convergence then propagate-only). Honest scope: the full 15-state INS error state
-  and a live SGP4 constellation with in-loop iono/tropo corrections remain follow-ons.
+  than a pre-formed position fix, so `TightlyCoupled` (with `propagate`/`propagate_orbital`/
+  `update_gnss`) keeps correcting **with fewer than four satellites** and coasts through GNSS
+  outages on its propagated dynamics. Five tests validate it end-to-end, including the milestone
+  acceptance scenarios: the pseudorange/Doppler geometry against hand values; noiseless convergence
+  to **sub-metre** on five satellites; a **three-satellite** case converging from ~212 m to ~13 m
+  where a snapshot PVT cannot even be formed; a constant-velocity **120-second outage** within 50 m;
+  and — the headline acceptance — a **30-minute curving LEO pass** (real two-body + J2 orbit) with a
+  **120-second GNSS outage**, held to **0.77 m pass RMS** and **2.9 m worst-case through the
+  outage**. That orbital coast composes the shipped gravity force model (`src/forces.rs`) and RK4
+  integrator (`src/integrator.rs`) into the UKF process model (`propagate_orbital`), so the filter
+  follows the orbit's curvature — which a constant-velocity coast cannot (curvature alone is ~58 km
+  over 120 s at LEO). Honest scope: the orbital coast uses the two-body + J2 force model rather than
+  raw IMU specific-force (for an unpowered orbital platform these coincide); folding in a
+  strapdown-IMU error state and in-loop iono/tropo corrections remain follow-ons.
 - **Map-matching measurement model (terrain-/gravity-referenced navigation).** A new
   `src/mapmatch.rs` supplies the measurement model that turns the shipped
   sequential-importance-resampling particle filter (`src/particle_filter.rs`) into a working
