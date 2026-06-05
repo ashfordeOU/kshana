@@ -37,6 +37,7 @@ pub mod sp3;
 pub mod spoof;
 pub mod spoof_monitors;
 pub mod sweep;
+pub mod timegeo;
 pub mod timescales;
 pub mod timetransfer;
 pub mod tle;
