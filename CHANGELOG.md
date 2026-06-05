@@ -23,6 +23,16 @@ breaking changes are called out explicitly.
   API change.
 
 ### Added
+- **Multi-layer spoof detection: RAIM-consistency parity detector + layer fusion.** `src/spoof_monitors.rs`
+  gains the third and final detection layer and the fusion stage: `parity_raim_test` least-squares-fits
+  the position/clock solution to a redundant pseudorange set and tests the leftover weighted residual
+  sum-of-squares against its χ²`(m−4)` threshold — flagging a biased *subset* of satellites while
+  correctly leaving a *common-mode* bias (absorbed by the receiver clock) RAIM-invisible, not papered
+  over. `fuse_spoof_layers` combines the parity, AGC and SQM layers into one weighted decision that
+  records which layers fired. A Monte-Carlo characterises the detector: empirical **P_fa ≈ 0.068**
+  against a 0.05 design point, with **missed-detection falling from 0.885 at a 2σ spoof bias to 0.16 at
+  8σ**. Honest scope: cross-validation against specific published (Spirent / ION GNSS+) spoofing test
+  vectors needs those external datasets and remains a follow-on.
 - **Coupled-vs-decoupled Kalman validation ensemble.** A 100-trial Monte-Carlo in
   `src/fusion/coupled.rs` quantifies the value of carrying the position↔clock cross-covariance: a
   faithful inline decoupled baseline (validated bit-for-bit against the shipped `CoupledPntFilter`)
