@@ -23,6 +23,18 @@ breaking changes are called out explicitly.
   API change.
 
 ### Added
+- **Map-matching measurement model (terrain-/gravity-referenced navigation).** A new
+  `src/mapmatch.rs` supplies the measurement model that turns the shipped
+  sequential-importance-resampling particle filter (`src/particle_filter.rs`) into a working
+  GPS-denied navigator: `field_likelihood` (a Gaussian field-match likelihood) and
+  `map_match_likelihood`, which samples any georeferenced reference field — terrain elevation
+  (TRN) or a gravity anomaly — at a particle's position and weights it by agreement with the
+  vehicle's measured value. The field is any `Fn(lat, lon) -> value` sampler, so it composes
+  with the bilinear grid in `src/ionex.rs` or a closure. Two tests anchor it — the likelihood
+  peaks (=1) at a perfect match and falls to `e^(−½)` at one sigma, and a particle filter over
+  a distinctive synthetic-terrain patch recovers the true position to within 0.1. Honest scope:
+  the real reference maps (SRTM elevation, EGM/EIGEN gravity anomaly) and their loaders are
+  follow-ons.
 - **Cislunar PNT integrity (lunar ARAIM).** A new `src/lunar.rs` applies the Earth-side
   MHSS ARAIM engine to a LunaNet-style lunar navigation service with the lunar parameters
   (`σ_URE ≈ 30 m` vs GPS 0.6 m, `P_sat ≈ 1e-4`): lunar constants, a selenocentric
