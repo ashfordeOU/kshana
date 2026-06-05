@@ -23,6 +23,21 @@ breaking changes are called out explicitly.
   API change.
 
 ### Added
+- **Advanced time-and-frequency transfer: TWSTFT, GNSS common-view, PPP, optical, IEEE-1139
+  power-law fit, and a clock ensemble.** New `src/timetransfer_adv.rs` builds the operational
+  transfer methods on the shipped Sagnac/common-view closed forms and the Allan-stability tools.
+  `twstft_sagnac` gives the Two-Way Satellite Time and Frequency Transfer Sagnac correction as the
+  three-hop loop sum, equal to the BIPM closed form `Δt = 2·A·ω_E/c²` exactly (cross-checked by the
+  independent `twstft_sagnac_bipm`); `run_twstft` emits a one-day `T_A − T_B` series and its TDEV.
+  `gnss_common_view_series` single-differences two synthetic ground stations so the satellite clock
+  cancels. `iono_free_combination` + `ppp_receiver_clock` are the PPP ionosphere-free combination and
+  receiver-clock solve against an SP3-grade (synthetic) truth, cancelling the first-order ionosphere
+  exactly. `rytov_variance`, `fried_parameter`, and the unit-mean `lognormal_fading` model a free-space
+  optical link's turbulence-induced scintillation. `fit_power_law_psd` is a full IEEE-1139 five-coefficient
+  `h_α` least-squares fit of the Allan-variance curve (all five canonical noise processes at once) with the
+  dominant process reported per τ-decade. `ensemble_timescale` forms an inverse-variance-weighted paper
+  timescale whose Allan deviation falls strictly below the best contributing clock. 31 unit tests;
+  validation targets are closed forms and synthetic truth — a real BIPM Circular-T / IGS SP3 ingest remains.
 - **IONEX ionosphere maps: file parser, time interpolation, and slant obliquity mapping.** `src/ionex.rs`
   gains `parse_ionex`, which reads the IONEX file format (header grid definition + `START/END OF TEC MAP`
   blocks) into a sequence of `IonexMap`s — normalising the file's north-to-south latitude ordering into a

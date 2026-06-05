@@ -37,6 +37,12 @@ A validated, fully reproducible engine spanning the PNT stack:
 - **Clock & timing** — two-state holdover Kalman, Allan-family stability with
   confidence intervals, optical/RF two-way time transfer, and the geometric
   time-transfer corrections (Sagnac effect, GNSS common-view single difference).
+  Operational transfer methods build on these: TWSTFT with the BIPM Sagnac closed
+  form `2·A·ω_E/c²` and a one-day `T_A−T_B`/TDEV campaign, GNSS common-view between
+  two synthetic ground stations, PPP ionosphere-free time transfer with a receiver-clock
+  solve, a free-space optical link with Rytov/Fried turbulence scintillation, a full
+  IEEE-1139 five-coefficient power-law noise fit, and an inverse-variance clock-ensemble
+  (paper) timescale that beats the best contributing clock.
 - **GNSS measurement domain** — Klobuchar (broadcast) and IONEX/TEC-grid (measured)
   ionosphere, with an IONEX file parser, time interpolation between maps, and the slant
   obliquity mapping; Saastamoinen + Niell troposphere, pseudorange/Doppler, snapshot RAIM.
