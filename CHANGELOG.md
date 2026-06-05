@@ -23,6 +23,16 @@ breaking changes are called out explicitly.
   API change.
 
 ### Added
+- **Orbital force model (two-body + J2).** A new `src/forces.rs` adds the acceleration
+  model a numerical propagator integrates: `two_body_accel` (`−μ·r/|r|³`), the `j2_accel`
+  oblateness perturbation (the ECI closed form), and `gravity_accel` summing them — pair
+  it with `src/integrator.rs` as `f(t,[r;v]) = [v; a(r)]`. It also exposes the analytic J2
+  **secular rates** (`j2_secular_rates`): the nodal regression `Ω̇`, apsidal rotation `ω̇`,
+  and mean-anomaly drift `Ṁ`. Six tests anchor the physics on exact references: `μ/r²` for
+  the two-body term, the J2 closed form at the equator (~10⁻³ of the two-body magnitude),
+  the **critical inclination** (63.4349°) that freezes the perigee (`ω̇ = 0`), the ISS
+  nodal regression (`Ω̇ ≈ −5°/day`), and the eastward drift of a retrograde sun-synchronous
+  orbit. Honest scope: two-body + J2 only; J3–J6, drag, SRP, and third-body are follow-ons.
 - **Shareable scenario permalinks.** A new `src/permalink.rs` adds a dependency-free
   RFC 4648 Base64 codec (standard `+/` alphabet with padding, and a URL-safe `-_`
   unpadded alphabet) and `encode_scenario` / `decode_scenario` wrappers, so a playground

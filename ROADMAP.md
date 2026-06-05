@@ -84,8 +84,10 @@ welcome collaboration: see [Support & professional services](README.md#support--
 - Receiver-domain parity (e.g. gLAB) for the GNSS measurement chain; multi-fault
   ARAIM.
 - A numerical propagator: the adaptive RK4/step-doubling integrator core
-  (`src/integrator.rs`) plus a hierarchical force model (two-body + J2–J6 + drag + SRP +
-  third-body) to complement the analytic SGP4/SDP4 path.
+  (`src/integrator.rs`) plus a hierarchical force model — the two-body + J2 acceleration and
+  the analytic J2 secular rates are delivered (`src/forces.rs`); J3–J6, drag, SRP, and
+  third-body, and the `NumericalPropagator` wiring, remain — to complement the analytic
+  SGP4/SDP4 path.
 - Batch orbit determination: the Gauss–Newton differential corrector
   (`src/batch_ls.rs`) plus an orbit-specific range/range-rate/azimuth-elevation
   measurement model and a J2 state-transition matrix.
