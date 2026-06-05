@@ -93,6 +93,10 @@ welcome collaboration: see [Support & professional services](README.md#support--
 - Batch orbit determination: the Gauss–Newton differential corrector
   (`src/batch_ls.rs`) plus an orbit-specific range/range-rate/azimuth-elevation
   measurement model and a J2 state-transition matrix.
+- Alternative (GNSS-denied) PNT: the map-matching measurement model
+  (`src/mapmatch.rs`, `field_likelihood` / `map_match_likelihood`) closes the loop on the
+  shipped particle filter for terrain-/gravity-referenced navigation; the real reference maps
+  (SRTM elevation, EGM/EIGEN gravity anomaly) and their loaders remain.
 
 ---
 
