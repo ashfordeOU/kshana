@@ -23,6 +23,13 @@ A validated, fully reproducible engine spanning the PNT stack:
   minimum-satellite sizing, a multi-constellation comparison tool, and a Walker design sweep
   that tabulates coverage / PDOP / revisit-time over a planes×satellites grid and reports the
   Pareto-optimal designs as JSON.
+- **Maneuvers & trajectory design** — impulsive ΔV nodes with 6×6 covariance propagation
+  (ECI / LVLH execution-error frames), finite-burn integration checked against the closed-form
+  Tsiolkovsky rocket equation to < 0.01 %, an Izzo-2015 single-revolution Lambert solver and an
+  exact universal-variable Kepler propagator, and a porkchop (launch × arrival) C3 / arrival-V∞
+  sweep emitted as a JSON contour grid — the performance-simulation layer above GMAT/Orekit, with
+  Lambert outputs round-tripped against two-body truth and the porkchop minimum checked against the
+  analytic Hohmann floor.
 - **Time systems** — IERS leap-second UTC/TAI/TT/UT1, Julian-date API, IAU-2000
   Earth Rotation Angle; GMST-based TEME↔ECEF and WGS-84 geodetic frames.
 - **Inertial** — three-axis strapdown INS (quaternion attitude, NED mechanization,

@@ -10,6 +10,21 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Maneuver modeling and trajectory-design beachhead.** New `src/maneuver.rs` adds the first
+  trajectory-design layer above SGP4: impulsive ΔV nodes that apply a velocity discontinuity and
+  carry a 6×6 covariance forward (deterministic burn ⇒ identity state-transition; the
+  execution-error covariance rotates from the burn frame — ECI or LVLH — into the velocity block),
+  a finite-burn integration (constant thrust over a burn arc with mass as a state) whose achieved
+  ΔV is checked against the closed-form **Tsiolkovsky** rocket equation to better than 0.01 %, an
+  **Izzo-2015** single-revolution **Lambert** solver (`r1`, `r2`, time-of-flight ⇒ `v1`, `v2`),
+  an exact universal-variable **Kepler propagator** (two-body truth), and a **porkchop** sweep that
+  maps a launch-epoch × arrival-epoch grid to departure C3 and arrival V∞, emitted as a 2-D JSON
+  array for browser contour rendering. Validation is self-contained and stronger than a tutorial
+  read-out: every Lambert output is round-tripped through the Kepler propagator (it must land back
+  on `r2`), and the porkchop minimum is checked against the analytic Hohmann-transfer C3 floor for
+  two coplanar circular orbits. Kshana positions this as the performance-simulation layer above
+  GMAT/Orekit, not a replacement (multi-revolution branches and a real planetary ephemeris remain
+  out of scope). Ten tests.
 - **Full 17-state tightly-coupled GNSS/INS UKF with quantum-CAI dead-reckoning.** New
   `src/fusion/tightly_coupled17.rs` carries the complete inertial-navigation state a
   tightly-coupled filter estimates — `[position, velocity, attitude-error, accelerometer
