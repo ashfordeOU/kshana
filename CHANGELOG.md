@@ -23,6 +23,14 @@ breaking changes are called out explicitly.
   API change.
 
 ### Added
+- **Coupled-vs-decoupled Kalman validation ensemble.** A 100-trial Monte-Carlo in
+  `src/fusion/coupled.rs` quantifies the value of carrying the position↔clock cross-covariance: a
+  faithful inline decoupled baseline (validated bit-for-bit against the shipped `CoupledPntFilter`)
+  processes the same data with the cross blocks zeroed, and after near-degenerate pseudoranges plus a
+  clock-only fix the coupled filter recovers position to **2.97 m RMS versus the decoupled filter's
+  48.8 m, winning 97 of 100 trials** — the clock fix sharpens position only through the correlation
+  the decoupled pack discards. This completes the Kalman-correctness validation suite (Joseph form,
+  PSD safety, NEES/NIS consistency, and now the coupled-filter ensemble).
 - **Orbit determination pipeline (batch + sequential).** A new `src/orbit_determination.rs` recovers
   a satellite's orbital state `[r, v]` from ground-station range tracking, composing three shipped
   pieces: the two-body + J2 force model (`src/forces.rs`) and RK4 integrator (`src/integrator.rs`)
