@@ -35,6 +35,13 @@ A validated, fully reproducible engine spanning the PNT stack:
 - **Inertial** — three-axis strapdown INS (quaternion attitude, NED mechanization,
   coning/sculling, deterministic IMU error model), plus a sequential-importance-resampling
   particle filter for map-aided (terrain-/gravity-referenced) GPS-denied navigation.
+- **Gravity-map / alt-PNT** — a cold-atom **gravimeter measurement model** (white-noise floor
+  `σ = ASD/√τ` derived from the CAI accelerometer physics), a low-degree fully-normalised
+  **spherical-harmonic gravity-anomaly field** (validated against the closed-form Legendre
+  functions and a hand-derived single-term anomaly) plus synthetic mascons, and a
+  **gravity-map-matching particle filter** that recovers a GPS-denied track from the anomaly
+  sequence it flies through — a committed NAVISP benchmark cuts ~73 km of free-inertial drift to a
+  few km. The full EGM2008 coefficient set, magnetic maps, and terrain-aided SLAM remain follow-ons.
 - **Fusion** — loosely-coupled 15-state GNSS/INS error-state EKF with closed-loop
   feedback, a tightly-coupled pseudorange update that corrects with fewer than four
   satellites, a coupled clock+position filter, a general unscented (sigma-point)
