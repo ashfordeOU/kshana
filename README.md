@@ -16,7 +16,7 @@
   <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/github/v/release/ashfordeOU/kshana?sort=semver" alt="Release"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="License: Apache-2.0"></a>
   <a href="Cargo.toml"><img src="https://img.shields.io/badge/rust-1.75%2B-orange.svg" alt="Rust 1.75+"></a>
-  <a href="https://doi.org/10.5281/zenodo.20528627"><img src="https://zenodo.org/badge/1256508460.svg" alt="DOI"></a>
+  <a href="https://doi.org/10.5281/zenodo.20528627"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.20528627.svg" alt="DOI 10.5281/zenodo.20528627"></a>
 </p>
 
 <p align="center">
