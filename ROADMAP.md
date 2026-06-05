@@ -17,7 +17,9 @@ A validated, fully reproducible engine spanning the PNT stack:
 
 - **Orbit & geometry** — SGP4/SDP4 propagation validated to 4.12 mm against all 666
   AIAA 2006-6753 vectors; real-TLE and synthetic Walker constellations;
-  multi-constellation visibility, dilution of precision, and GNSS availability.
+  multi-constellation visibility, dilution of precision, and GNSS availability; a
+  gradient-free constellation-design optimiser, streets-of-coverage minimum-satellite
+  sizing, and a multi-constellation comparison tool.
 - **Time systems** — IERS leap-second UTC/TAI/TT/UT1, Julian-date API, IAU-2000
   Earth Rotation Angle; GMST-based TEME↔ECEF and WGS-84 geodetic frames.
 - **Inertial** — three-axis strapdown INS (quaternion attitude, NED mechanization,
