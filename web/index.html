@@ -3,10 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Kshana — open hybrid quantum/classical PNT performance simulator</title>
+    <title>Kshana — open PNT-resilience simulator with quantum-sensor performance models</title>
     <meta
       name="description"
-      content="Kshana is an open, reproducible simulator for positioning, navigation and timing (PNT) performance — SGP4-validated orbits, three-axis strapdown INS, GNSS/INS fusion, RAIM integrity with HPL/VPL, and RINEX interoperability. Runs locally in your browser as WebAssembly."
+      content="Kshana is an open, reproducible simulator for positioning, navigation and timing (PNT) resilience — SGP4-validated orbits and constellation design, time systems, three-axis strapdown INS, GNSS/INS fusion (loose, tight, UKF), ARAIM integrity with HPL/VPL, clocks and time-and-frequency transfer, the GNSS measurement domain, and jamming/spoofing resilience, with RINEX/SP3/CCSDS interoperability. Runs locally in your browser as WebAssembly."
     />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="style.css" />
@@ -36,7 +36,7 @@
             <circle cx="32" cy="36" r="4.4" fill="#e0bd84" />
           </svg>
           <span class="name">Kshana</span>
-          <span class="ver" id="ver-chip">v0.10.0</span>
+          <span class="ver" id="ver-chip">v0.11.0</span>
         </a>
         <nav class="nav" aria-label="Primary">
           <a href="#capabilities">Capabilities</a>
@@ -55,12 +55,14 @@
         <div class="wrap hero-grid">
           <div class="hero-copy">
             <p class="eyebrow"><span class="deva">क्षण</span> · the precise instant</p>
-            <h1>Open <span class="hl">PNT</span> performance simulation, validated and reproducible.</h1>
+            <h1>Open <span class="hl">PNT</span> resilience simulation, validated and reproducible.</h1>
             <p class="lede">
-              A dependency-light engine for positioning, navigation and timing studies:
-              SGP4-validated orbit geometry, a three-axis strapdown INS, loosely-coupled
-              GNSS/INS fusion, real RAIM integrity with HPL/VPL, and RINEX
-              interoperability — scored against the operational figures of merit.
+              A dependency-light engine across the full positioning, navigation and timing
+              stack: SGP4-validated orbit geometry and constellation design, time systems,
+              a three-axis strapdown INS, GNSS/INS fusion (loose, tight, and UKF), ARAIM
+              integrity with HPL/VPL, clocks and time-and-frequency transfer, the GNSS
+              measurement domain, and jamming/spoofing resilience — scored against the
+              operational figures of merit, with RINEX/SP3/CCSDS interoperability.
             </p>
             <p class="honest">
               The open reference simulator for PNT performance — transparent, fully
@@ -324,7 +326,15 @@
             </div>
             <div class="card">
               <h3><span class="pill validated">Calibrated</span> Clock stability</h3>
-              <p>Allan-family deviations (ADEV/MDEV/TDEV/HDEV) computed by the standard overlapping estimators with confidence intervals, calibrated to published clock datasheets.</p>
+              <p>Allan-family deviations (ADEV/MDEV/TDEV/HDEV) computed by the standard overlapping estimators with confidence intervals, calibrated to published clock datasheets, with a full IEEE-1139 five-coefficient power-law fit.</p>
+            </div>
+            <div class="card">
+              <h3><span class="pill validated">Validated</span> Tightly-coupled fusion</h3>
+              <p>The tightly-coupled GNSS/INS UKF navigator holds <b>0.77 m RMS</b> over a 30-minute curving LEO pass that includes a 120-second GNSS outage, on a force-model orbital coast — pseudorange + Doppler with fewer than four satellites.</p>
+            </div>
+            <div class="card">
+              <h3>Standards-traced integrity</h3>
+              <p>Snapshot and solution-separation (ARAIM) RAIM with HPL/VPL, an MHSS integrity-risk budget, and the dual-/multi-constellation constellation-wide fault mode (EU ARAIM / DO-316), with Stanford integrity diagrams.</p>
             </div>
             <div class="card">
               <h3>Reproducible builds</h3>
@@ -367,7 +377,7 @@
             </div>
             <div class="card">
               <h3>Cite</h3>
-              <p>Baweja, C. (2026). <em>Kshana — hybrid quantum/classical PNT performance simulator</em>. Ashforde&nbsp;OÜ. <a href="https://doi.org/10.5281/zenodo.20528627">https://doi.org/10.5281/zenodo.20528627</a></p>
+              <p>Baweja, C. (2026). <em>Kshana — a PNT-resilience simulator with quantum-sensor performance models</em>. Ashforde&nbsp;OÜ. <a href="https://doi.org/10.5281/zenodo.20528627">https://doi.org/10.5281/zenodo.20528627</a></p>
               <p style="margin-top:0.6rem"><a href="https://doi.org/10.5281/zenodo.20528627"><img src="https://zenodo.org/badge/1256508460.svg" alt="DOI 10.5281/zenodo.20528627" height="20"></a></p>
               <p class="mono" style="margin-top:0.6rem">Every release is archived on Zenodo with a citable DOI; a <code>CITATION.cff</code> ships in the repository. Please cite the engine version and the scenario + seed for reproducibility.</p>
             </div>

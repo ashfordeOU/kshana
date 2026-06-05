@@ -9,6 +9,8 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.11.0] - 2026-06-05
+
 ### Changed
 - **Honest framing for the quantum positioning.** The headline descriptor is now a
   **"PNT-resilience simulator with quantum-sensor performance models"** consistently
