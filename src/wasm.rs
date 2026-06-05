@@ -58,3 +58,16 @@ pub fn error_kind(toml: &str) -> String {
 pub fn version() -> String {
     env!("CARGO_PKG_VERSION").to_string()
 }
+
+/// Encode a scenario TOML into a URL-safe permalink token for a `?s=` query parameter.
+#[wasm_bindgen]
+pub fn encode_permalink(toml: &str) -> String {
+    crate::permalink::encode_scenario(toml)
+}
+
+/// Decode a permalink token back into the scenario TOML; returns an empty string if the
+/// token is not valid Base64 or not valid UTF-8.
+#[wasm_bindgen]
+pub fn decode_permalink(token: &str) -> String {
+    crate::permalink::decode_scenario(token).unwrap_or_default()
+}
