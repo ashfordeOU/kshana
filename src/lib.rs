@@ -8,6 +8,7 @@ pub mod ensemble;
 pub mod estimator;
 pub mod filter_health;
 pub mod fom;
+pub mod forces;
 pub mod frames;
 pub mod fusion;
 pub mod glonass;
