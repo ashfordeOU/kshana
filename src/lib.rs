@@ -18,6 +18,7 @@ pub mod inertial;
 pub mod integrator;
 pub mod ionex;
 pub mod jamming;
+pub mod jd2;
 pub mod kalman;
 pub mod models;
 pub mod oem;
