@@ -22,7 +22,9 @@
 //! SGP4 constellation with broadcast iono/tropo corrections in the loop are follow-ons (see
 //! `ROADMAP.md`).
 
+use crate::forces::gravity_accel;
 use crate::fusion::ukf::Ukf;
+use crate::integrator::rk4_step;
 
 /// A GNSS satellite as seen by the navigator: ECEF position and velocity (m, m/s).
 #[derive(Clone, Copy, Debug)]
@@ -97,6 +99,35 @@ impl TightlyCoupled {
                 s[3],
                 s[4],
                 s[5],
+                s[6] + s[7] * dt,
+                s[7],
+            ]
+        };
+        self.ukf.predict(f, &self.q)
+    }
+
+    /// Propagate under the **two-body + J2 gravity field** (RK4 over the position/velocity block,
+    /// random-walk clock), the dynamic coast an orbital tightly-coupled navigator runs on through a
+    /// GNSS outage. For an unpowered orbiting platform gravity is the whole dynamics, so this is the
+    /// faithful inertial-coast model — and unlike the straight-line [`Self::propagate`] it follows
+    /// the orbit's curvature, which a constant-velocity coast cannot (the curvature alone is
+    /// ~`½·(v²/r)·t²` ≈ tens of km over a two-minute outage at LEO). Returns `false` on a
+    /// non-positive-definite covariance.
+    pub fn propagate_orbital(&mut self, dt: f64) -> bool {
+        let f = move |s: &[f64]| {
+            // Derivative of the 6-vector [pos, vel] under gravity: ṙ = v, v̇ = g(r).
+            let deriv = |_t: f64, y: &[f64]| {
+                let a = gravity_accel([y[0], y[1], y[2]]);
+                vec![y[3], y[4], y[5], a[0], a[1], a[2]]
+            };
+            let pv = rk4_step(&deriv, 0.0, &s[..6], dt);
+            vec![
+                pv[0],
+                pv[1],
+                pv[2],
+                pv[3],
+                pv[4],
+                pv[5],
                 s[6] + s[7] * dt,
                 s[7],
             ]
@@ -318,6 +349,105 @@ mod tests {
         assert!(
             after < 50.0,
             "post-outage error = {after} m (converged was {converged} m)"
+        );
+    }
+
+    // A real curving LEO orbit (two-body + J2), integrated at 1 Hz, with a drifting clock — the
+    // truth for the orbital acceptance test. The filter uses the SAME gravity model, so the coast
+    // through a GNSS outage follows the orbit rather than flying off on a tangent.
+    fn truth_orbit(n: usize) -> Vec<[f64; 8]> {
+        use crate::forces::MU_EARTH;
+        let r = 7.0e6_f64;
+        let v = (MU_EARTH / r).sqrt(); // circular speed at this radius
+        let inc = 28.5_f64.to_radians(); // a representative inclination
+                                         // Equatorial-plane position, velocity tilted into the orbit plane (|v| = circular speed).
+        let mut pv = vec![r, 0.0, 0.0, 0.0, v * inc.cos(), v * inc.sin()];
+        let deriv = |_t: f64, y: &[f64]| {
+            let a = gravity_accel([y[0], y[1], y[2]]);
+            vec![y[3], y[4], y[5], a[0], a[1], a[2]]
+        };
+        let mut out = Vec::with_capacity(n + 1);
+        for k in 0..=n {
+            let t = k as f64;
+            out.push([
+                pv[0],
+                pv[1],
+                pv[2],
+                pv[3],
+                pv[4],
+                pv[5],
+                30.0 + 0.1 * t,
+                0.1,
+            ]);
+            pv = rk4_step(&deriv, t, &pv, 1.0);
+        }
+        out
+    }
+
+    #[test]
+    fn force_model_coast_holds_50m_through_outage_on_a_curving_leo_pass() {
+        // The milestone acceptance: a 30-minute LEO pass with a 120-second GNSS outage in it, held
+        // within 50 m. Here the satellites are fixed beacons (no visibility mask); the realism is in
+        // the user's curving orbit and the force-model coast.
+        let sats = constellation();
+        let n = 1800; // 30 minutes at 1 Hz
+        let truth = truth_orbit(n);
+        // Start the filter from the true initial state perturbed by ~210 m / ~2 m/s / clock offsets.
+        let s0 = truth[0];
+        let x0 = vec![
+            s0[0] + 150.0,
+            s0[1] - 120.0,
+            s0[2] + 90.0,
+            s0[3] + 2.0,
+            s0[4] - 1.5,
+            s0[5] + 1.0,
+            s0[6] + 8.0,
+            s0[7] + 0.05,
+        ];
+        let p0 = diag(&[1.0e4, 1.0e4, 1.0e4, 1.0e2, 1.0e2, 1.0e2, 1.0e4, 1.0e0]);
+        let q = diag(&[
+            1.0e-2, 1.0e-2, 1.0e-2, 1.0e-3, 1.0e-3, 1.0e-3, 1.0e-2, 1.0e-4,
+        ]);
+        let mut nav = TightlyCoupled::new(x0, p0, q);
+        let mut rng = ChaCha8Rng::seed_from_u64(0x5EED_0042);
+        let n_pr = Normal::new(0.0, 1.0).unwrap();
+        let n_rr = Normal::new(0.0, 0.05).unwrap();
+
+        let outage = 900..1020; // the 120-second GNSS gap
+        let mut sumsq = 0.0;
+        let mut count = 0.0;
+        let mut max_outage_err = 0.0_f64;
+        for (step, st) in truth.iter().enumerate().take(n + 1).skip(1) {
+            nav.propagate_orbital(1.0);
+            if !outage.contains(&step) {
+                let mut pr: Vec<f64> = sats.iter().map(|s| pseudorange(st, s)).collect();
+                let mut rr: Vec<f64> = sats.iter().map(|s| range_rate(st, s)).collect();
+                for v in pr.iter_mut() {
+                    *v += n_pr.sample(&mut rng);
+                }
+                for v in rr.iter_mut() {
+                    *v += n_rr.sample(&mut rng);
+                }
+                assert!(nav.update_gnss(&sats, &pr, &rr, 1.0, 0.05));
+            }
+            let err = nav.position_error([st[0], st[1], st[2]]);
+            if outage.contains(&step) || step == 1020 {
+                max_outage_err = max_outage_err.max(err);
+            }
+            // Steady-state RMS over the pass, excluding the initial 60-s convergence transient.
+            if step >= 60 {
+                sumsq += err * err;
+                count += 1.0;
+            }
+        }
+        let rms = (sumsq / count).sqrt();
+        // Both the pass RMS and the worst error through the 120-s outage stay under 50 m — which a
+        // constant-velocity coast could not, since orbital curvature alone is ~½·(v²/r)·t² ≈ 58 km
+        // over 120 s at this radius. The force-model coast follows the orbit instead.
+        assert!(rms < 50.0, "pass RMS = {rms} m");
+        assert!(
+            max_outage_err < 50.0,
+            "worst outage error = {max_outage_err} m"
         );
     }
 }
