@@ -38,7 +38,8 @@ A validated, fully reproducible engine spanning the PNT stack:
   confidence intervals, optical/RF two-way time transfer, and the geometric
   time-transfer corrections (Sagnac effect, GNSS common-view single difference).
 - **GNSS measurement domain** — Klobuchar (broadcast) and IONEX/TEC-grid (measured)
-  ionosphere, Saastamoinen + Niell troposphere, pseudorange/Doppler, snapshot RAIM.
+  ionosphere, with an IONEX file parser, time interpolation between maps, and the slant
+  obliquity mapping; Saastamoinen + Niell troposphere, pseudorange/Doppler, snapshot RAIM.
 - **Resilience** — link-budget jamming (J/S → effective C/N₀ → loss of lock); a
   stochastic time-spoof detector (Neyman–Pearson / χ²₁ energy test, Monte-Carlo
   P_fa/P_md, Security FoM = 1 − P_md); and a multi-layer spoof detector fusing a
