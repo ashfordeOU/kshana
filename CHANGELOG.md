@@ -23,6 +23,18 @@ breaking changes are called out explicitly.
   API change.
 
 ### Added
+- **RF-layer spoofing monitors (AGC power and SQM).** A new `src/spoof_monitors.rs` adds
+  two independent receiver-front-end spoof detectors that complement the clock-aided
+  time-spoof monitor in `spoof`: an **AGC power monitor** (`combine_power_dbm` incoherent
+  power sum + `AgcMonitor`) that flags the excess received power a spoof transmitter adds
+  beyond a configurable dB margin, and a **signal-quality monitor** (`bpsk_autocorr`
+  triangular code autocorrelation + `SqmMonitor`) that flags the Early-minus-Late
+  correlator imbalance multipath/meaconing/replay introduces. Four tests anchor the exact
+  closed forms (3.01 dB for a doubling of power, the `10·log10(N)` aggregate, the
+  triangular `R(τ)=1−|τ|`, and the 10 % Early/Late alert threshold). Honest scope: the
+  full RAIM-consistency parity spoof detector, the multi-layer fusion of the monitor
+  outputs, and validation against published Spirent/ION GNSS+ spoofing vectors are
+  follow-ons.
 - **Adaptive numerical ODE integrator.** A new `src/integrator.rs` adds the first piece
   of a *numerical* propagator (Kshana's orbit propagation is otherwise analytic SGP4/SDP4):
   a generic fourth-order Runge–Kutta step (`rk4_step`) over any first-order system
