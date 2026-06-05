@@ -1,0 +1,65 @@
+# Quantum gravity-map-matching navigation benchmark (GPS-denied alt-PNT).
+#
+# Targets ESA NAVISP "Quantum Wayfarer" / QT-CCI gravity-map-matching vocabulary: a
+# vehicle with an inertial unit and a cold-atom-interferometer gravimeter navigates with
+# no GNSS by matching the gravity-anomaly signature it flies through against a stored
+# reference field. This spec is consumed by
+# `kshana::gravimeter::run_gravity_map_benchmark` (and its unit test); the reference field
+# is a low-degree spherical-harmonic anomaly plus synthetic mascons — Kshana does not
+# bundle the full EGM2008 coefficient set (see docs/CAPABILITY.md). Wiring this into the
+# global scenario-engine `kind=` dispatcher with an SVG drift chart is a documented
+# follow-on.
+
+# Maximum spherical-harmonic degree/order of the reference field.
+nmax = 3
+
+# Track flown GPS-denied: an oblique leg so the scalar gravimeter sequence is observable
+# in both north and east (a single anomaly measurement only constrains a level set).
+start_lat_deg = 12.0
+start_lon_deg = 24.0
+step_lat_deg = 0.18
+step_lon_deg = 0.13
+waypoints = 12
+
+# True constant INS position drift accumulated over the outage (≈ 80 km at ~13° lat).
+drift_lat_deg = 0.55
+drift_lon_deg = -0.45
+
+# Cold-atom gravimeter: 1e-7 m/s²/√Hz ASD (≈10 µGal/√Hz), 100 s averaging ⇒ σ ≈ 1e-3 mGal.
+gravimeter_asd = 1.0e-7
+averaging_time_s = 100.0
+
+# Map/representation error (mGal): reference-field inaccuracy + grid quantisation, combined
+# with the sensor white noise into the effective matching σ. Dominates a quantum gravimeter.
+map_sigma_mgal = 2.0
+
+# Offset search grid (degrees): ±1.0° at 0.05° resolution around the no-drift prior.
+search_half_deg = 1.0
+search_step_deg = 0.05
+
+# Low-degree anomalous, fully-normalised coefficients (the regional trend).
+[[coeffs]]
+n = 2
+m = 0
+cbar = 4.0e-6
+sbar = 0.0
+
+[[coeffs]]
+n = 3
+m = 1
+cbar = 2.0e-6
+sbar = 1.0e-6
+
+# Localized Gaussian anomalies (mascons) the track crosses — the stand-in for the
+# high-degree EGM features that make gravity-map matching observable.
+[[mascons]]
+lat_deg = 13.0
+lon_deg = 25.0
+amp_mgal = 32.0
+sigma_deg = 0.45
+
+[[mascons]]
+lat_deg = 12.6
+lon_deg = 24.6
+amp_mgal = -26.0
+sigma_deg = 0.35

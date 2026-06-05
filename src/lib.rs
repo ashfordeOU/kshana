@@ -13,6 +13,7 @@ pub mod frames;
 pub mod fusion;
 pub mod glonass;
 pub mod gnss_sim;
+pub mod gravimeter;
 pub mod hybrid;
 pub mod inertial;
 pub mod integrator;
