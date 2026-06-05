@@ -42,11 +42,13 @@ citable table in [`docs/PROVENANCE.md`](docs/PROVENANCE.md).
 *Free and open source under Apache-2.0, professionally developed and maintained by
 Ashforde OÜ — commercial support, integration, and proprietary extensions available.*
 
-> **Status: v0.10.0 · a simulation substrate, not yet a product.** A validated,
-> fully reproducible engine spanning the PNT stack — orbit geometry, inertial
-> navigation, GNSS/INS fusion, integrity, clocks, and timing. Honest by design:
-> every figure of merit is labelled *validated* or *not-modeled*, and optical-clock
-> figures are space goals on ground hardware (no strontium optical clock has flown).
+> **Status: v0.11.0 · a simulation substrate, not yet a product.** A validated,
+> fully reproducible engine spanning the PNT stack — orbit geometry and constellation
+> design, time systems, inertial navigation (incl. map-aided), GNSS/INS fusion (loose,
+> tight, UKF, coupled clock+position), ARAIM integrity, clocks, advanced time-and-frequency
+> transfer, the GNSS measurement domain, and resilience (jamming + multi-layer spoofing).
+> Honest by design: every figure of merit is labelled *validated* or *not-modeled*, and
+> optical-clock figures are space goals on ground hardware (no strontium optical clock has flown).
 > See **[Capabilities](#capabilities)** for what it does, **[What it is / is not](#what-it-is--is-not)**
 > for scope, and [`docs/CAPABILITY.md`](docs/CAPABILITY.md) / [`docs/VALIDATION.md`](docs/VALIDATION.md)
 > for per-capability maturity and the claims table.
@@ -118,13 +120,15 @@ the P2 roadmap and [get in touch](#support--professional-services) to collaborat
 
 | Domain | Capability |
 |--------|------------|
-| **Orbit & geometry** | SGP4/SDP4 propagation (validated to 4.12 mm against all 666 AIAA 2006-6753 vectors), real-TLE or synthetic Walker constellations, multi-constellation visibility, dilution of precision, and GNSS availability. |
-| **Inertial** | Three-axis strapdown INS — quaternion attitude, WGS-84 NED mechanization, coning/sculling compensation, and a deterministic IMU error model (scale-factor, misalignment, g-sensitivity, quantization, drift); plus a **first-principles cold-atom-interferometer accelerometer** model (Mach–Zehnder phase, quantum projection noise, contrast decay, and vibration coupling) that derives the velocity-random-walk coefficient from the interferometer physics. |
-| **Fusion** | Loosely-coupled GNSS/INS error-state EKF (15-state) with closed-loop feedback that coasts through GNSS outages on a calibrated inertial solution, runnable as the `gnss-ins` pack; plus a tightly-coupled pseudorange update that keeps correcting with fewer than four satellites. |
-| **Integrity** | Snapshot and solution-separation (ARAIM-style) RAIM with horizontal/vertical protection levels (HPL/VPL) — including levels solved from an explicit ARAIM integrity-risk (P_HMI) budget — fault detection and identification, and Stanford integrity diagrams. |
-| **Clock & timing** | Two-state Kalman holdover with a Joseph-stabilised covariance update and NIS/NEES filter-consistency health monitoring, Allan-family stability (ADEV/MDEV/TDEV/HDEV) with confidence intervals, and optical/RF two-way time transfer. |
-| **Interoperability** | RINEX-3 multi-GNSS broadcast-ephemeris ingestion (GPS, Galileo, QZSS, BeiDou MEO/IGSO via IS-GPS-200; GLONASS via PZ-90 state-vector RK4 propagation), usable as a constellation source that drives a scenario directly (RINEX in, PNT geometry out); RINEX-3/4 observation-file parser (pseudorange, carrier phase, Doppler, and signal strength by observation code); SP3-c/d precise-ephemeris reader/writer for IGS/analysis-centre orbit products, with 9th-order Lagrange interpolation that turns a precise-orbit file into a propagation source; CCSDS OEM 2.0 (Orbit Ephemeris Message) writer that exports a propagated constellation in the standard format flight-dynamics tools (GMAT, Orekit, STK) ingest. |
-| **Resilience** | Clock-aided spoof-detectability analysis against a configurable time-spoof attack. |
+| **Orbit & geometry** | SGP4/SDP4 propagation (validated to 4.12 mm against all 666 AIAA 2006-6753 vectors); real two-line elements (a committed, date-stamped Celestrak `gps-ops` snapshot) or synthetic Walker-delta constellations whose mean elements realise the `i:T/P/F` formula to under 1 km over a 24 h propagation; multi-constellation visibility, dilution of precision, and GNSS availability; a gradient-free constellation-design optimiser, streets-of-coverage minimum-satellite sizing, a multi-constellation comparison tool, and a Walker **design sweep** that tabulates coverage / PDOP / revisit-time over a planes × satellites grid and reports the Pareto-optimal designs. |
+| **Time systems** | IERS leap-second **UTC / TAI / TT / UT1** scales, a Julian-date API, the IAU-2000 **Earth Rotation Angle**, and GMST-based **TEME ↔ ECEF** with WGS-84 geodetic frames — plus IAU 2006 precession (Fukushima–Williams) toward an ITRF-precise reduction. |
+| **Inertial** | Three-axis strapdown INS — quaternion attitude, WGS-84 NED mechanization, coning/sculling compensation, and a deterministic IMU error model (scale-factor, misalignment, g-sensitivity, quantization, drift); a **first-principles cold-atom-interferometer accelerometer** (Mach–Zehnder phase, quantum projection noise, contrast decay, vibration coupling) that *derives* the velocity-random-walk coefficient; and a sequential-importance-resampling **particle filter** for map-aided (terrain-/gravity-referenced) GPS-denied navigation. |
+| **Fusion** | Loosely-coupled 15-state GNSS/INS error-state EKF with closed-loop feedback (the `gnss-ins` pack); a **tightly-coupled** pseudorange update that keeps correcting with fewer than four satellites; a coupled **clock + position** filter; a general **unscented (sigma-point) Kalman** estimator for strongly nonlinear measurements; and a tightly-coupled GNSS/INS **UKF navigator** (pseudorange + Doppler) whose force-model orbital coast is validated to **0.77 m RMS** over a 30-minute curving LEO pass that includes a 120-second GNSS outage. |
+| **Integrity** | Snapshot and solution-separation (ARAIM-style) RAIM with horizontal/vertical protection levels (HPL/VPL), fault detection & exclusion, and Stanford integrity diagrams; an explicit integrity-risk-budget (**MHSS**) protection level, including the **dual-/multi-constellation constellation-wide fault mode** (EU ARAIM / DO-316). |
+| **Clock & timing** | Two-state Kalman holdover (Joseph-form covariance, NIS/NEES consistency health); Allan-family stability (ADEV / MDEV / TDEV / HDEV) with noise-type-specific confidence intervals and a full **IEEE-1139 five-coefficient power-law fit**; geometric corrections (Sagnac, GNSS common-view); and the operational transfer methods — **TWSTFT** with the BIPM Sagnac closed form, **GNSS common-view**, **PPP** ionosphere-free time transfer, a free-space **optical** link with turbulence scintillation, and an inverse-variance **clock-ensemble (paper) timescale** below the best contributing clock. |
+| **GNSS measurement domain** | Forward pseudorange / Doppler synthesis with **Klobuchar** (broadcast) and **IONEX / TEC-grid** (measured) ionosphere — including an IONEX file parser, time interpolation between maps, and the thin-shell slant-obliquity mapping — **Saastamoinen + Niell** troposphere, and snapshot RAIM (HPL/VPL). |
+| **Resilience** | Link-budget **jamming** (J/S → effective C/N₀ → loss of lock); a stochastic **time-spoof detector** (Neyman–Pearson / χ²₁ energy test with closed-form and Monte-Carlo P_fa/P_md and a Security FoM of 1 − P_md); and a **multi-layer spoof detector** fusing a RAIM-consistency parity test (with the common-mode blind spot modelled honestly), an RF AGC-power monitor, and a signal-quality (SQM early-minus-late) monitor. |
+| **Interoperability** | **RINEX-3** multi-GNSS broadcast-ephemeris ingestion (GPS, Galileo, QZSS, BeiDou MEO/IGSO via IS-GPS-200; GLONASS via PZ-90 state-vector RK4) usable as a constellation source (RINEX in, PNT geometry out); a **RINEX-3/4** observation parser (pseudorange, carrier phase, Doppler, signal strength); an **SP3-c/d** precise-ephemeris reader/writer with 9th-order Lagrange interpolation; and **CCSDS OEM 2.0 + OMM** (mean-elements) export for flight-dynamics tools (GMAT, Orekit, STK). |
 
 Each capability is reachable as a Rust API, a runnable scenario `kind`, or both.
 Maturity per capability — *validated*, *runnable*, or *library* — is tracked in
@@ -657,7 +661,7 @@ entry for every user-visible change. Participation is governed by our
 
 If you use Kshana in academic or technical work, please cite it. Machine-readable
 metadata is in [`CITATION.cff`](CITATION.cff) (GitHub renders a "Cite this repository"
-button from it); cite the version you used (e.g. `v0.10.0`) together with the
+button from it); cite the version you used (e.g. `v0.11.0`) together with the
 scenario and seed for full reproducibility. Every release is archived on Zenodo with
 a citable DOI — the concept DOI [10.5281/zenodo.20528627](https://doi.org/10.5281/zenodo.20528627)
 always resolves to the latest version.
