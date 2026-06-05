@@ -27,8 +27,8 @@ A validated, fully reproducible engine spanning the PNT stack:
   feedback, a tightly-coupled pseudorange update that corrects with fewer than four
   satellites, a coupled clock+position filter, a general unscented (sigma-point)
   Kalman estimator for strongly nonlinear measurement models, and a tightly-coupled
-  GNSS/INS UKF navigator (pseudorange + Doppler, validated to hold position within 50 m
-  through a 120-second GNSS outage).
+  GNSS/INS UKF navigator (pseudorange + Doppler, force-model orbital coast validated to
+  0.77 m RMS over a 30-minute curving LEO pass including a 120-second GNSS outage).
 - **Integrity** — snapshot and solution-separation (ARAIM-style) RAIM with HPL/VPL,
   FDE, and Stanford diagrams; an explicit integrity-risk-budget (MHSS) protection level,
   including the dual-/multi-constellation constellation-wide fault mode (EU ARAIM / DO-316).
