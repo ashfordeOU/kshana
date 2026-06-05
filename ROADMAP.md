@@ -86,7 +86,9 @@ welcome collaboration: see [Support & professional services](README.md#support--
 - A numerical propagator: the adaptive RK4/step-doubling integrator core
   (`src/integrator.rs`) plus a hierarchical force model (two-body + J2–J6 + drag + SRP +
   third-body) to complement the analytic SGP4/SDP4 path.
-- Mission-design / orbit-determination adjacencies (currently out of scope).
+- Batch orbit determination: the Gauss–Newton differential corrector
+  (`src/batch_ls.rs`) plus an orbit-specific range/range-rate/azimuth-elevation
+  measurement model and a J2 state-transition matrix.
 
 ---
 
