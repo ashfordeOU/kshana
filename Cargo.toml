@@ -1,8 +1,8 @@
 [package]
 name = "kshana"
-version = "0.10.0"
+version = "0.11.0"
 edition = "2021"
-description = "Open hybrid quantum/classical PNT performance simulator"
+description = "Open, reproducible PNT-resilience simulator with quantum-sensor performance models"
 license = "Apache-2.0"
 authors = ["Chakshu Baweja <contact@ashforde.org>"]
 repository = "https://github.com/AshfordeOU/kshana"
