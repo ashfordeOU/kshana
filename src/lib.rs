@@ -21,6 +21,7 @@ pub mod jamming;
 pub mod jd2;
 pub mod kalman;
 pub mod lunar;
+pub mod maneuver;
 pub mod mapmatch;
 pub mod models;
 pub mod oem;
