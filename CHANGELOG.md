@@ -23,6 +23,15 @@ breaking changes are called out explicitly.
   API change.
 
 ### Added
+- **IONEX-style TEC ionosphere maps.** A new `src/ionex.rs` adds the measured-ionosphere
+  alternative to the broadcast Klobuchar model: a `TecGrid` (a regular lat/lon grid of
+  vertical TEC, an IGS global ionosphere map) with bilinear interpolation at a pierce point
+  (`vtec_at`, clamped outside the grid) and the first-order delay `Δ = 40.3·TEC/f²`
+  (`vtec_to_delay_m`, `delay_at`). Four tests anchor it: `1 TECU ≈ 0.162 m` at L1 with the
+  `1/f²` scaling, node-exact interpolation, bilinear midpoints averaging the corners, and
+  edge-clamped out-of-grid queries. Honest scope: the grid and interpolation ship here;
+  parsing the IONEX file format, time interpolation between maps, and the slant mapping
+  function are follow-ons.
 - **Geometric time-transfer corrections (Sagnac + GNSS common-view).** A new
   `src/timegeo.rs` adds the two deterministic effects a real clock comparison must account
   for, complementing the stochastic two-way model in `timetransfer`: `sagnac_correction`
