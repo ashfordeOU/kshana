@@ -23,6 +23,15 @@ breaking changes are called out explicitly.
   API change.
 
 ### Added
+- **Shareable scenario permalinks.** A new `src/permalink.rs` adds a dependency-free
+  RFC 4648 Base64 codec (standard `+/` alphabet with padding, and a URL-safe `-_`
+  unpadded alphabet) and `encode_scenario` / `decode_scenario` wrappers, so a playground
+  TOML can be encoded into a `?s=` query parameter and shared as a URL. Exposed to the
+  browser as `encode_permalink` / `decode_permalink` wasm bindings. Four tests anchor it
+  on the canonical RFC 4648 vectors (`"foobar"` → `"Zm9vYmFy"`, etc.), a URL-safe scenario
+  round trip (no `+`/`/`/`=` to escape), invalid-symbol rejection, and an all-256-byte
+  round trip. Honest scope: the codec and bindings ship here; the playground Share-button
+  UI, the Plotly/D3 multi-series chart, and the A/B comparison mode are follow-ons.
 - **Gauss–Newton batch least squares (the batch differential corrector).** A new
   `src/batch_ls.rs` adds the estimation core a batch *orbit determination* (or any
   parameter fit) rests on: `gauss_newton` linearises a user-supplied model `h(x)` with a

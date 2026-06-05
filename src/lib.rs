@@ -20,6 +20,7 @@ pub mod kalman;
 pub mod models;
 pub mod oem;
 pub mod orbit;
+pub mod permalink;
 pub mod precession;
 #[cfg(feature = "python")]
 pub mod python;
