@@ -33,6 +33,7 @@ pub mod closed_loop;
 pub mod coupled;
 pub mod gnss_ins_ekf;
 pub mod pack;
+pub mod ukf;
 
 use crate::hybrid::{score_hybrid, HybridResult, HybridSample, HybridScenario, SuiteRun};
 use crate::inertial::{AccelCfg, AccelModel};

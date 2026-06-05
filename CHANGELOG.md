@@ -23,6 +23,20 @@ breaking changes are called out explicitly.
   API change.
 
 ### Added
+- **Unscented (sigma-point) Kalman filter.** A new `src/fusion/ukf.rs` adds the
+  scaled unscented Kalman filter (Julier & Uhlmann; Wan & van der Merwe) as a general
+  `n`-state estimator over user-supplied process and measurement functions — the
+  sigma-point estimator a tightly-coupled GNSS/INS navigator uses when the
+  pseudorange/Doppler model is strongly nonlinear and an EKF's Jacobian degrades. It
+  includes the supporting dense linear algebra (Cholesky factor for the sigma-point
+  spread, Gauss–Jordan inverse for the innovation covariance) and a Joseph-free
+  `P⁺ = P⁻ − K S Kᵀ` update. Six tests pin it down, the key ones exploiting the exact
+  property that for a *linear* model the unscented transform reproduces the Kalman
+  filter to numerical precision (predict, update, and a full predict+update cycle all
+  matched against a hand-run linear KF, plus a 1-D analytic Bayesian-posterior check
+  and the Cholesky/inverse identities). Honest scope: this is the estimator engine; the
+  17-state tightly-coupled GNSS/INS navigator, pseudorange/Doppler measurement model,
+  and outage-validation scenario remain follow-ons.
 - **Dual-constellation ARAIM protection levels.** A new `araim_dual_raim` extends the
   single-fault Advanced RAIM (`araim_raim`) with the **constellation-wide fault mode** of
   EU ARAIM / DO-316: alongside the fault-free and per-satellite hypotheses, each
