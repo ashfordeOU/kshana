@@ -51,7 +51,9 @@ Ashforde OÜ — commercial support, integration, and proprietary extensions ava
 > optical-clock figures are space goals on ground hardware (no strontium optical clock has flown).
 > See **[Capabilities](#capabilities)** for what it does, **[What it is / is not](#what-it-is--is-not)**
 > for scope, and [`docs/CAPABILITY.md`](docs/CAPABILITY.md) / [`docs/VALIDATION.md`](docs/VALIDATION.md)
-> for per-capability maturity and the claims table.
+> for per-capability maturity. The overclaim closure ledger
+> [`docs/CLAIMS-VS-REALITY.md`](docs/CLAIMS-VS-REALITY.md) tracks every historical overclaim,
+> how it was resolved, and a CI guard (`tests/no_overclaims.rs`) that keeps it resolved.
 
 > **Try it in your browser:** the [playground](web/) runs the engine client-side as
 > WebAssembly — pick a scenario, edit the parameters, and see the result, with nothing
