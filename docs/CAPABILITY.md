@@ -37,7 +37,7 @@ a deliberate non-goal for now; Kshana is a PNT simulator, not GMAT/STK/Orekit.
 
 | Capability | Status | Note / roadmap |
 |------------|--------|----------------|
-| Mission design / trajectory optimization | none | no Lambert, maneuvers, transfers, optimizer — not planned near-term |
+| Mission design / trajectory optimization | partial | `src/maneuver.rs`: impulsive ΔV nodes with 6×6 covariance propagation (ECI/LVLH execution-error frames), finite-burn integration checked against the closed-form **Tsiolkovsky** equation to < 0.01 %, an **Izzo-2015 single-revolution Lambert** solver + an exact universal-variable **Kepler propagator** (Lambert outputs round-tripped against two-body truth), and a **porkchop** (launch × arrival) C3 / arrival-V∞ sweep emitted as a JSON contour grid whose minimum is checked against the analytic Hohmann floor. **No trajectory optimizer, no multi-revolution Lambert, no planetary ephemeris** (the porkchop uses a synthetic coplanar-circular heliocentric model; a GMAT Earth–Mars C3 cross-check needs a shared DE-ephemeris and has not been run) — the performance-simulation layer above GMAT/Orekit, not a replacement. P3 |
 | AOCS / GNC / attitude | none | no attitude representation; the IMU "gyro" is a scalar tilt channel |
 | Reference frames → Earth-fixed | none | **P1** brings TEME→ECEF/ITRF (listed above under frames) |
 | Comms & link budgets | none | no RF/optical link, EIRP/G-T, access scheduling |
