@@ -23,6 +23,16 @@ breaking changes are called out explicitly.
   API change.
 
 ### Added
+- **Geometric time-transfer corrections (Sagnac + GNSS common-view).** A new
+  `src/timegeo.rs` adds the two deterministic effects a real clock comparison must account
+  for, complementing the stochastic two-way model in `timetransfer`: `sagnac_correction`
+  (`Δt = (ω_E/c²)·(x₁y₂ − x₂y₁)`, the rotating-Earth delay — tens of ns for continental
+  baselines) and `common_view_offset`, the GNSS common-view single difference that cancels
+  the satellite-clock error exactly and recovers the inter-station offset. Three tests
+  anchor them on exact references: the ≈ 33 ns Sagnac of an equatorial quarter-turn,
+  antisymmetry and the zero radial/polar cases, and the exact satellite-clock cancellation.
+  Honest scope: a full TWSTFT transponder/hardware-delay budget and a PPP ionosphere-free
+  time-transfer solution are follow-ons.
 - **Orbital force model (two-body + J2).** A new `src/forces.rs` adds the acceleration
   model a numerical propagator integrates: `two_body_accel` (`−μ·r/|r|³`), the `j2_accel`
   oblateness perturbation (the ECI closed form), and `gravity_accel` summing them — pair

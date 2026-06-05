@@ -30,7 +30,8 @@ A validated, fully reproducible engine spanning the PNT stack:
   FDE, and Stanford diagrams; an explicit integrity-risk-budget (MHSS) protection level,
   including the dual-/multi-constellation constellation-wide fault mode (EU ARAIM / DO-316).
 - **Clock & timing** — two-state holdover Kalman, Allan-family stability with
-  confidence intervals, optical/RF two-way time transfer.
+  confidence intervals, optical/RF two-way time transfer, and the geometric
+  time-transfer corrections (Sagnac effect, GNSS common-view single difference).
 - **GNSS measurement domain** — Klobuchar ionosphere, Saastamoinen + Niell
   troposphere, pseudorange/Doppler, snapshot RAIM.
 - **Resilience** — link-budget jamming (J/S → effective C/N₀ → loss of lock); a
