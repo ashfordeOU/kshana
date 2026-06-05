@@ -23,6 +23,15 @@ breaking changes are called out explicitly.
   API change.
 
 ### Added
+- **Constellation design: streets-of-coverage sizing + multi-constellation comparison.** `src/walker.rs`
+  gains `min_satellites_streets_of_coverage`, an idealised streets-of-coverage minimum-satellite solver —
+  from the shipped coverage half-angle `λ` and street half-width `c` it sizes the near-polar constellation
+  for continuous single global coverage as `p = ⌈π/(2c)⌉` planes (e.g. a GPS-altitude 4-satellite plane
+  needs 2 planes, 8 satellites), and reports `None` when the satellites are too sparse to form a continuous
+  street. `compare_constellations` is the multi-constellation comparison tool: it scores each named Walker
+  design on the same station/window via `pdop_sweep` and returns their coverage / PDOP / size side by side.
+  Honest scope: the seam-exact Rider correction at the counter-rotating plane boundary and a 3-D coverage
+  globe are follow-ons.
 - **Multi-layer spoof detection: RAIM-consistency parity detector + layer fusion.** `src/spoof_monitors.rs`
   gains the third and final detection layer and the fusion stage: `parity_raim_test` least-squares-fits
   the position/clock solution to a redundant pseudorange set and tests the leftover weighted residual
