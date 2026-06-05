@@ -39,8 +39,9 @@ A validated, fully reproducible engine spanning the PNT stack:
   ionosphere, Saastamoinen + Niell troposphere, pseudorange/Doppler, snapshot RAIM.
 - **Resilience** — link-budget jamming (J/S → effective C/N₀ → loss of lock); a
   stochastic time-spoof detector (Neyman–Pearson / χ²₁ energy test, Monte-Carlo
-  P_fa/P_md, Security FoM = 1 − P_md); and RF-layer AGC-power and signal-quality (SQM
-  Early-minus-Late) spoof monitors.
+  P_fa/P_md, Security FoM = 1 − P_md); and a multi-layer spoof detector fusing a
+  RAIM-consistency parity test (with the common-mode blind spot modelled honestly), an
+  RF-layer AGC-power monitor, and a signal-quality (SQM Early-minus-Late) monitor.
 - **Interoperability** — RINEX-3/4, SP3-c/d, CCSDS OEM 2.0 and OMM (mean-elements) export.
 - **Surfaces** — Rust library, CLI, Python (PyO3) and WebAssembly (wasm-bindgen)
   bindings, and an in-browser playground.
