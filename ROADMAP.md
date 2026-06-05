@@ -82,6 +82,9 @@ welcome collaboration: see [Support & professional services](README.md#support--
 - Additional CCSDS message types (ODM/AEM/TDM) and SPICE interop.
 - Receiver-domain parity (e.g. gLAB) for the GNSS measurement chain; multi-fault
   ARAIM.
+- A numerical propagator: the adaptive RK4/step-doubling integrator core
+  (`src/integrator.rs`) plus a hierarchical force model (two-body + J2–J6 + drag + SRP +
+  third-body) to complement the analytic SGP4/SDP4 path.
 - Mission-design / orbit-determination adjacencies (currently out of scope).
 
 ---

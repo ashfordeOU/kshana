@@ -23,6 +23,19 @@ breaking changes are called out explicitly.
   API change.
 
 ### Added
+- **Adaptive numerical ODE integrator.** A new `src/integrator.rs` adds the first piece
+  of a *numerical* propagator (Kshana's orbit propagation is otherwise analytic SGP4/SDP4):
+  a generic fourth-order Runge–Kutta step (`rk4_step`) over any first-order system
+  `y' = f(t, y)`, and an adaptive driver (`integrate`) that controls local error by
+  **step doubling** (Richardson extrapolation) with the standard `0.9·(tol/err)^(1/5)`
+  step controller and accept/reject logic. Six tests anchor it on exact solutions: the
+  `y' = y → e` exponential to `< 1e-9`, the ~16× error reduction per halved step that
+  proves fourth-order convergence, energy/return conservation of the harmonic oscillator
+  over a full period, and the adaptive driver meeting a tight tolerance with variable
+  steps. Honest scope: this is the integrator core and its error control; the
+  Dormand–Prince RK5(4)/RKF7(8) embedded tableaux and the hierarchical orbit force model
+  (two-body + J2–J6 + drag + SRP + third-body) that make it a `NumericalPropagator` are
+  follow-ons.
 - **Unscented (sigma-point) Kalman filter.** A new `src/fusion/ukf.rs` adds the
   scaled unscented Kalman filter (Julier & Uhlmann; Wan & van der Merwe) as a general
   `n`-state estimator over user-supplied process and measurement functions — the
