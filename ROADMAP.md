@@ -31,10 +31,14 @@ A validated, fully reproducible engine spanning the PNT stack:
   Lambert outputs round-tripped against two-body truth and the porkchop minimum checked against the
   analytic Hohmann floor.
 - **Numerical propagator** — a Cowell propagator (`src/propagator.rs`) integrating a configurable
-  two-body + J2 force model with the adaptive step-doubling RK4 driver, pinned against analytic truth:
+  zonal-gravity force model with the adaptive step-doubling RK4 driver, pinned against analytic truth:
   the unperturbed orbit matches the exact universal-variable Kepler solution to sub-metre over 24 h,
   energy/angular-momentum conserve to ~1e-9, and the J2 nodal regression reproduces the closed-form
-  secular rate; plus a convergence-guarded Kepler-equation solver. High-degree gravity, drag, SRP,
+  secular rate; plus a convergence-guarded Kepler-equation solver. The force model spans the **full
+  Earth zonal field through degree 6** (`forces::zonal_accel`, the published EGM-96 `J2..J6`): the
+  acceleration is the exact analytic gradient of the zonal disturbing potential, validated against its
+  own numerically-differentiated potential, against the 666-vector-validated J2 closed form, and via
+  the odd/even zonals' characteristic north–south symmetry. High-degree tesseral gravity, drag, SRP,
   third-body and external GMAT/Orekit cross-validation remain follow-ons.
 - **Time systems** — IERS leap-second UTC/TAI/TT/UT1, Julian-date API, IAU-2000
   Earth Rotation Angle; GMST-based TEME↔ECEF and WGS-84 geodetic frames.
@@ -127,9 +131,10 @@ welcome collaboration: see [Support & professional services](README.md#support--
 - Receiver-domain parity (e.g. gLAB) for the GNSS measurement chain; multi-fault
   ARAIM.
 - A numerical propagator: the adaptive RK4/step-doubling integrator core
-  (`src/integrator.rs`) plus a hierarchical force model — the two-body + J2 acceleration and
-  the analytic J2 secular rates are delivered (`src/forces.rs`); J3–J6, drag, SRP, and
-  third-body, and the `NumericalPropagator` wiring, remain — to complement the analytic
+  (`src/integrator.rs`) plus a hierarchical force model — the two-body gravity, the analytic
+  J2 secular rates, the **full J2–J6 zonal field** (`forces::zonal_accel`), and the
+  `propagator::propagate` wiring are delivered (`src/forces.rs`, `src/propagator.rs`); the
+  high-degree tesseral field, drag, SRP, and third-body remain — to complement the analytic
   SGP4/SDP4 path.
 - Batch orbit determination is delivered: `src/orbit_determination.rs` recovers an
   orbital state from ground-station ranges via the Gauss–Newton corrector
