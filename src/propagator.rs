@@ -3,9 +3,13 @@
 //! Runge–Kutta driver, the first **non-analytic** propagator in Kshana (the rest of the
 //! orbit stack is the analytic SGP4/SDP4 of [`crate::sgp4`]).
 //!
-//! It wires the orbital force model of [`crate::forces`] (two-body `−μr/|r|³` plus the J2
-//! oblateness perturbation) into the step-doubling integrator of [`crate::integrator`],
-//! turning `f(t, [r; v]) = [v; a(r)]` into a state propagator. Its correctness is pinned
+//! It wires the orbital force model of [`crate::forces`] (two-body `−μr/|r|³`, the J2/zonal
+//! field, and the **epoch-driven Sun/Moon third body**) into the step-doubling integrator of
+//! [`crate::integrator`], turning `f(t, [r; v]) = [v; a(t, r)]` into a state propagator. The
+//! third-body term is genuinely *time-varying*: the [`crate::ephem`] Sun/Moon ephemerides are
+//! sampled at `epoch_jd_tt + t/86400` each RHS evaluation, so the perturbers advance along
+//! their orbits during the integration rather than being frozen at the start. Its correctness
+//! is pinned
 //! **against analytic truth that is stronger than a numerical cross-tool would be**:
 //!
 //! * the unperturbed two-body propagation must reproduce the **exact** universal-variable
@@ -22,16 +26,24 @@
 //!
 //! ## Scope (honest)
 //!
-//! The force model is **two-body + J2** only. The full high-degree EGM tesseral field (a
-//! 200×200 gravity model and its coefficient loader), atmospheric drag (an NRLMSISE-00
-//! density model), solar-radiation pressure, and third-body (Sun/Moon) accelerations — and
-//! the cross-validation of a 200×200 EGM 24-hour orbit against an external high-precision
-//! propagator (GMAT/Orekit) — remain follow-ons (see `ROADMAP.md`). What is delivered is the
-//! integrator + two-body/J2 force model + the analytic-truth validation harness and the
+//! The conservative force model spans **two-body + the J2..J6 zonal field + the epoch-driven
+//! Sun/Moon third body**. The full high-degree EGM tesseral field (a 200×200 gravity model and
+//! its coefficient loader), atmospheric drag (an NRLMSISE-00 density model), solar-radiation
+//! pressure — and the cross-validation of a 200×200 EGM 24-hour orbit against an external
+//! high-precision propagator (GMAT/Orekit) — remain follow-ons (see `ROADMAP.md`). The
+//! third-body ephemerides are the [`crate::ephem`] *low-precision* analytical series (~0.005°
+//! Sun, ~0.3° Moon), not DE/SPK-kernel accuracy. What is delivered is the integrator + the
+//! two-body/J2/zonal/third-body force model + the analytic-truth validation harness and the
 //! convergence-guarded Kepler solver.
 
-use crate::forces::{gravity_accel, two_body_accel, zonal_accel, EARTH_ZONALS_J2_J6, MU_EARTH};
+use crate::ephem::{moon_position, sun_position};
+use crate::forces::{
+    gravity_accel, third_body_accel, two_body_accel, zonal_accel, EARTH_ZONALS_J2_J6, MU_EARTH,
+    MU_MOON, MU_SUN,
+};
 use crate::integrator::{integrate, rk4_step, Tolerance};
+use crate::precession::julian_centuries_tt;
+use crate::timescales::SECONDS_PER_DAY;
 
 type Vec3 = [f64; 3];
 
@@ -60,22 +72,30 @@ pub struct ForceModel {
     /// [`crate::forces::zonal_accel`]. When `Some`, it supersedes the `j2`-only path and the
     /// full supplied zonal set is used on top of two-body gravity.
     pub zonals: Option<&'static [f64]>,
+    /// Include the Sun's third-body perturbation, using the [`crate::ephem::sun_position`]
+    /// low-precision ephemeris advanced from [`epoch_jd_tt`](Self::epoch_jd_tt).
+    pub sun: bool,
+    /// Include the Moon's third-body perturbation, using [`crate::ephem::moon_position`].
+    pub moon: bool,
+    /// Propagation epoch as a Julian Date in TT (the instant of integration time `t = 0`). The
+    /// perturber positions are evaluated at `epoch_jd_tt + t/86400` days, so the Sun/Moon
+    /// actually advance along their orbits during the integration — this is what makes the
+    /// third-body force *time-varying* rather than frozen at the start. Ignored when both
+    /// [`sun`](Self::sun) and [`moon`](Self::moon) are `false`.
+    pub epoch_jd_tt: f64,
 }
 
 impl ForceModel {
     /// Point-mass (two-body) gravity only.
     pub fn two_body() -> Self {
-        Self {
-            j2: false,
-            zonals: None,
-        }
+        Self::default()
     }
 
     /// Two-body plus the J2 oblateness perturbation.
     pub fn with_j2() -> Self {
         Self {
             j2: true,
-            zonals: None,
+            ..Self::default()
         }
     }
 
@@ -84,10 +104,26 @@ impl ForceModel {
         Self {
             j2: true,
             zonals: Some(&EARTH_ZONALS_J2_J6),
+            ..Self::default()
         }
     }
 
-    /// Acceleration (m/s²) under this model at ECI position `r` (m).
+    /// Add the epoch-driven Sun and/or Moon third-body perturbation to this model. `epoch_jd_tt`
+    /// is the Julian Date (TT) at integration time `t = 0`; the perturber positions advance to
+    /// `epoch_jd_tt + t/86400` days during the integration, so the force is genuinely
+    /// time-varying. Composable with any gravity model, e.g.
+    /// `ForceModel::with_zonals_j2_j6().third_body(true, true, epoch)`.
+    pub fn third_body(mut self, sun: bool, moon: bool, epoch_jd_tt: f64) -> Self {
+        self.sun = sun;
+        self.moon = moon;
+        self.epoch_jd_tt = epoch_jd_tt;
+        self
+    }
+
+    /// The time-independent **central** gravity (m/s², ECI) at position `r` (m): two-body plus
+    /// the configured J2/zonal field, but *not* the third-body terms (which depend on time
+    /// through the ephemeris — see [`accel_at`](Self::accel_at)). For a model without Sun/Moon
+    /// this is the full acceleration.
     pub fn accel(&self, r: Vec3) -> Vec3 {
         if let Some(jn) = self.zonals {
             let tb = two_body_accel(r);
@@ -100,10 +136,33 @@ impl ForceModel {
         }
     }
 
-    /// The first-order ODE right-hand side `f(t, [r; v]) = [v; a(r)]` for the integrator.
+    /// The full acceleration (m/s², ECI) at integration time `t` (seconds since the epoch) and
+    /// position `r` (m): the central gravity of [`accel`](Self::accel) plus, when enabled, the
+    /// Sun and Moon third-body perturbations evaluated at the *advanced* epoch `epoch_jd_tt +
+    /// t/86400`. When neither body is enabled this is identical to `accel(r)` for every `t`.
+    pub fn accel_at(&self, t: f64, r: Vec3) -> Vec3 {
+        let mut a = self.accel(r);
+        if self.sun || self.moon {
+            let jd_tt = self.epoch_jd_tt + t / SECONDS_PER_DAY;
+            let tjc = julian_centuries_tt(jd_tt);
+            if self.sun {
+                let p = third_body_accel(r, sun_position(tjc), MU_SUN);
+                a = [a[0] + p[0], a[1] + p[1], a[2] + p[2]];
+            }
+            if self.moon {
+                let p = third_body_accel(r, moon_position(tjc), MU_MOON);
+                a = [a[0] + p[0], a[1] + p[1], a[2] + p[2]];
+            }
+        }
+        a
+    }
+
+    /// The first-order ODE right-hand side `f(t, [r; v]) = [v; a(t, r)]` for the integrator. The
+    /// `t`-dependence is real: with Sun/Moon enabled the perturber ephemeris is sampled at
+    /// `epoch_jd_tt + t/86400`, so the integrator advances the third bodies along their orbits.
     fn rhs(&self) -> impl Fn(f64, &[f64]) -> Vec<f64> + '_ {
-        move |_t: f64, y: &[f64]| {
-            let a = self.accel([y[0], y[1], y[2]]);
+        move |t: f64, y: &[f64]| {
+            let a = self.accel_at(t, [y[0], y[1], y[2]]);
             vec![y[3], y[4], y[5], a[0], a[1], a[2]]
         }
     }
@@ -366,6 +425,165 @@ mod tests {
             assert_eq!(nc.iters, 30);
             assert!(nc.residual > 1e-12);
         }
+    }
+
+    #[test]
+    fn third_body_rhs_samples_the_ephemeris_at_the_advanced_epoch() {
+        // The headline of this wave: the third body is wired into the *time-varying* RHS, with
+        // the perturber position read at epoch_jd_tt + t/86400. Prove the wiring exactly (to
+        // machine precision), not with a tolerance band: the Sun term added by accel_at must be
+        // the third-body acceleration evaluated at the ephemeris position for that instant.
+        use crate::timescales::JD_J2000;
+        let epoch = JD_J2000; // 2000-01-01 12:00 TT → tjc = 0 at t = 0.
+        let model = ForceModel::two_body().third_body(true, false, epoch);
+        let r = [7.0e6, 1.0e6, -2.0e6];
+        let central = model.accel(r);
+
+        // At t = 0 the Sun is sampled at tjc(epoch). Compare against central + the hand-composed
+        // third-body term by *bit-identical* equality (accel_at adds the very same vector), which
+        // dodges the catastrophic cancellation of subtracting the ~8 m/s² central term.
+        let a0 = model.accel_at(0.0, r);
+        let sun0 = sun_position(julian_centuries_tt(epoch));
+        let expect0 = third_body_accel(r, sun0, MU_SUN);
+        for k in 0..3 {
+            assert_eq!(
+                a0[k],
+                central[k] + expect0[k],
+                "t=0 Sun term mismatch axis {k}"
+            );
+        }
+
+        // At t = one day the Sun is sampled exactly one day later (the 86400 s ↔ 1 day, and the
+        // 1 day ↔ 1/36525 century, conversions the wiring depends on).
+        let a1 = model.accel_at(SECONDS_PER_DAY, r);
+        let sun1 = sun_position(julian_centuries_tt(epoch + 1.0));
+        let expect1 = third_body_accel(r, sun1, MU_SUN);
+        for k in 0..3 {
+            assert_eq!(
+                a1[k],
+                central[k] + expect1[k],
+                "t=1day Sun term mismatch axis {k}"
+            );
+        }
+        // And the perturber genuinely moved between the two samples (~1°/day of solar motion),
+        // so the RHS is not silently frozen at the start.
+        let moved = norm([sun1[0] - sun0[0], sun1[1] - sun0[1], sun1[2] - sun0[2]]);
+        assert!(
+            moved > 1e9,
+            "Sun should advance ~2.6e9 m in a day, moved {moved} m"
+        );
+
+        // With no third body enabled, accel_at is time-independent and equals accel — the
+        // existing two-body/J2/zonal goldens are untouched.
+        let plain = ForceModel::with_j2();
+        for &t in &[0.0, 1234.0, SECONDS_PER_DAY] {
+            assert_eq!(plain.accel_at(t, r), plain.accel(r));
+        }
+    }
+
+    #[test]
+    fn third_body_perturbs_a_leo_orbit_at_the_textbook_magnitudes() {
+        // Two robust, hand-derivable signatures. (1) The *instantaneous* third-body tidal
+        // acceleration at LEO sits at the textbook magnitudes — Sun ~5e-7 m/s², Moon ~1.1e-6
+        // m/s² (the Moon's geocentric tidal pull is ~2× the Sun's). These follow directly from
+        // a_tidal ≈ 2·GM·R_orbit/d³ and need no integration, so they cannot be confounded by the
+        // finite-arc geometry. (2) Over a day each body moves the orbit measurably off the
+        // two-body path but stays a small, bounded perturbation. NOTE: the day-long *displacement*
+        // ordering is NOT simply the accel ratio (the Moon's tidal axis rotates ~13×/day faster,
+        // changing the forcing direction), so only the instantaneous accel ordering is asserted.
+        use crate::timescales::JD_J2000;
+        let (r0, v0) = leo_state();
+        let day = 86_400.0;
+        let epoch = JD_J2000;
+        let tol = Tolerance {
+            rtol: 1e-12,
+            atol: 1e-9,
+            ..Tolerance::default()
+        };
+
+        // (1) Instantaneous tidal magnitudes = accel_at minus the central gravity.
+        let central = ForceModel::two_body().accel(r0);
+        let tidal = |m: ForceModel| {
+            let a = m.accel_at(0.0, r0);
+            norm([a[0] - central[0], a[1] - central[1], a[2] - central[2]])
+        };
+        let a_sun = tidal(ForceModel::two_body().third_body(true, false, epoch));
+        let a_moon = tidal(ForceModel::two_body().third_body(false, true, epoch));
+        assert!(
+            (2.0e-7..=8.0e-7).contains(&a_sun),
+            "Sun tidal accel {a_sun} m/s² outside ~5e-7 band"
+        );
+        assert!(
+            (5.0e-7..=2.0e-6).contains(&a_moon),
+            "Moon tidal accel {a_moon} m/s² outside ~1.1e-6 band"
+        );
+        assert!(
+            a_moon > a_sun,
+            "Moon tidal accel ({a_moon}) must exceed the Sun's ({a_sun})"
+        );
+
+        // (2) Each body perturbs the day-long trajectory, bounded.
+        let (r_tb, _) = propagate(r0, v0, day, ForceModel::two_body(), &tol);
+        let sep = |m: ForceModel| {
+            let (r, _) = propagate(r0, v0, day, m, &tol);
+            norm([r[0] - r_tb[0], r[1] - r_tb[1], r[2] - r_tb[2]])
+        };
+        for (name, m) in [
+            ("Sun", ForceModel::two_body().third_body(true, false, epoch)),
+            (
+                "Moon",
+                ForceModel::two_body().third_body(false, true, epoch),
+            ),
+        ] {
+            let s = sep(m);
+            assert!(
+                s > 1e-3,
+                "{name} third body must perturb the orbit, sep {s} m"
+            );
+            assert!(
+                s < 1e5,
+                "{name} third body must stay a small perturbation, sep {s} m"
+            );
+        }
+    }
+
+    #[test]
+    fn third_body_propagation_depends_on_the_epoch() {
+        // Epoch-driven means the same initial state + arc gives a different trajectory at a
+        // different epoch. Choosing epochs a quarter-year apart rotates the Sun (and its tidal
+        // axis) by ~90° relative to the inertial orbit — a full-order change in the tidal field
+        // (unlike a half-year flip, which leaves the leading tidal tensor nearly invariant). So
+        // the two final states must differ, while each stays a bounded small perturbation.
+        use crate::timescales::JD_J2000;
+        let (r0, v0) = leo_state();
+        let arc = 2.0 * 86_400.0;
+        let tol = Tolerance {
+            rtol: 1e-12,
+            atol: 1e-9,
+            ..Tolerance::default()
+        };
+        let prop = |epoch: f64| {
+            propagate(
+                r0,
+                v0,
+                arc,
+                ForceModel::two_body().third_body(true, false, epoch),
+                &tol,
+            )
+            .0
+        };
+        let r_jan = prop(JD_J2000); // Sun near ecliptic longitude ~280°.
+        let r_apr = prop(JD_J2000 + 91.31); // ~90° of solar motion later.
+        let diff = norm([
+            r_jan[0] - r_apr[0],
+            r_jan[1] - r_apr[1],
+            r_jan[2] - r_apr[2],
+        ]);
+        assert!(
+            diff > 1e-3,
+            "epoch must change the trajectory, diff {diff} m"
+        );
+        assert!(diff < 1e5, "epoch effect must stay bounded, diff {diff} m");
     }
 
     #[test]
