@@ -31,7 +31,9 @@ A validated, fully reproducible engine spanning the PNT stack:
   Lambert outputs round-tripped against two-body truth and the porkchop minimum checked against the
   analytic Hohmann floor.
 - **Numerical propagator** — a Cowell propagator (`src/propagator.rs`) integrating a configurable
-  zonal-gravity force model with the adaptive step-doubling RK4 driver, pinned against analytic truth:
+  zonal-gravity force model with a choice of adaptive driver — RK4 **step doubling** or the
+  **Dormand–Prince RK5(4)** embedded pair (`integrator::integrate_dopri` / `propagate_dopri`, a
+  cheaper 7-eval embedded error estimate) — pinned against analytic truth:
   the unperturbed orbit matches the exact universal-variable Kepler solution to sub-metre over 24 h,
   energy/angular-momentum conserve to ~1e-9, and the J2 nodal regression reproduces the closed-form
   secular rate; plus a convergence-guarded Kepler-equation solver. The force model spans the **full
@@ -149,8 +151,9 @@ welcome collaboration: see [Support & professional services](README.md#support--
 - Additional CCSDS message types (ODM/AEM/TDM) and SPICE interop.
 - Receiver-domain parity (e.g. gLAB) for the GNSS measurement chain; multi-fault
   ARAIM.
-- A numerical propagator: the adaptive RK4/step-doubling integrator core
-  (`src/integrator.rs`) plus a hierarchical force model — the two-body gravity, the analytic
+- A numerical propagator: the adaptive integrator core (`src/integrator.rs`, RK4 step-doubling
+  **and** the Dormand–Prince RK5(4) embedded pair `integrate_dopri`) plus a hierarchical force
+  model — the two-body gravity, the analytic
   J2 secular rates, the **full J2–J6 zonal field** (`forces::zonal_accel`), **epoch-driven
   third-body (Sun and Moon) gravity integrated by the time-varying RHS** (`forces::third_body_accel`
   + the `src/ephem.rs` low-precision Sun and Moon ephemerides + `ForceModel::accel_at` sampling them
