@@ -29,22 +29,23 @@
 //! ## Scope (honest)
 //!
 //! The force model spans **two-body + the J2..J6 zonal field + the epoch-driven Sun/Moon third
-//! body + solar-radiation pressure + atmospheric drag** (the cannonball SRP model with a
-//! cylindrical-shadow eclipse, and quadratic drag against the Vallado piecewise-exponential
-//! atmosphere). The full high-degree EGM tesseral field (a 200×200 gravity model and its
-//! coefficient loader), the conical SRP penumbra, the NRLMSISE-00 thermospheric density (the
-//! < 5 % drag-density clause) — and the cross-validation of a 200×200 EGM 24-hour orbit against
-//! an external high-precision propagator (GMAT/Orekit) — remain follow-ons (see `ROADMAP.md`).
-//! The third-body/SRP ephemerides are the [`crate::ephem`] *low-precision* analytical series
-//! (~0.005° Sun, ~0.3° Moon), not DE/SPK-kernel accuracy, and the drag density is the static
-//! exponential model. What is delivered is the integrator + the
-//! two-body/J2/zonal/third-body/SRP/drag force model + the analytic-truth validation harness and
-//! the convergence-guarded Kepler solver.
+//! body + solar-radiation pressure + atmospheric drag + the post-Newtonian relativistic
+//! correction** (the cannonball SRP model with a conical umbra+penumbra eclipse, quadratic drag
+//! against the Vallado piecewise-exponential atmosphere, and the Schwarzschild perigee-advance
+//! term). The full high-degree EGM tesseral field (a 200×200 gravity model and its coefficient
+//! loader), the NRLMSISE-00 thermospheric density (the < 5 % drag-density clause), solar limb
+//! darkening, the Lense–Thirring frame-dragging term — and the cross-validation of a 200×200 EGM
+//! 24-hour orbit against an external high-precision propagator (GMAT/Orekit) — remain follow-ons
+//! (see `ROADMAP.md`). The third-body/SRP ephemerides are the [`crate::ephem`] *low-precision*
+//! analytical series (~0.005° Sun, ~0.3° Moon), not DE/SPK-kernel accuracy, and the drag density
+//! is the static exponential model. What is delivered is the integrator + the
+//! two-body/J2/zonal/third-body/SRP/drag/relativity force model + the analytic-truth validation
+//! harness and the convergence-guarded Kepler solver.
 
 use crate::ephem::{moon_position, sun_position};
 use crate::forces::{
-    drag_accel, gravity_accel, srp_accel, third_body_accel, two_body_accel, zonal_accel,
-    EARTH_ZONALS_J2_J6, MU_EARTH, MU_MOON, MU_SUN,
+    drag_accel, gravity_accel, relativistic_accel, srp_accel, third_body_accel, two_body_accel,
+    zonal_accel, EARTH_ZONALS_J2_J6, MU_EARTH, MU_MOON, MU_SUN,
 };
 use crate::integrator::{integrate, integrate_dopri, rk4_step, Tolerance};
 use crate::precession::julian_centuries_tt;
@@ -103,6 +104,11 @@ pub struct ForceModel {
     pub drag: bool,
     /// Drag ballistic area term `C_D·A/m` (m²/kg). Used only when [`drag`](Self::drag) is `true`.
     pub cd_area_over_mass: f64,
+    /// Include the post-Newtonian (Schwarzschild) relativistic correction
+    /// ([`crate::forces::relativistic_accel`]). Like atmospheric drag this is
+    /// **velocity-dependent**, so it is applied in [`accel_rv`](Self::accel_rv)/the RHS rather
+    /// than the position-only [`accel_at`](Self::accel_at).
+    pub relativity: bool,
 }
 
 impl ForceModel {
@@ -160,6 +166,16 @@ impl ForceModel {
     pub fn drag(mut self, cd_area_over_mass: f64) -> Self {
         self.drag = true;
         self.cd_area_over_mass = cd_area_over_mass;
+        self
+    }
+
+    /// Add the post-Newtonian (Schwarzschild) relativistic correction
+    /// ([`crate::forces::relativistic_accel`]) to this model. Like drag it is
+    /// velocity-dependent, so it enters via [`accel_rv`](Self::accel_rv) and the integrator RHS.
+    /// It needs no parameters and composes with any configuration, e.g.
+    /// `ForceModel::with_zonals_j2_j6().relativity()`.
+    pub fn relativity(mut self) -> Self {
+        self.relativity = true;
         self
     }
 
@@ -221,6 +237,10 @@ impl ForceModel {
         if self.drag {
             let d = drag_accel(r, v, self.cd_area_over_mass);
             a = [a[0] + d[0], a[1] + d[1], a[2] + d[2]];
+        }
+        if self.relativity {
+            let g = relativistic_accel(r, v);
+            a = [a[0] + g[0], a[1] + g[1], a[2] + g[2]];
         }
         a
     }
@@ -800,6 +820,46 @@ mod tests {
         assert!(
             (1.0..=1e5).contains(&drop),
             "a-decay {drop} m/day outside the physical band for 300 km, C_D·A/m = 0.02"
+        );
+    }
+
+    #[test]
+    fn relativity_perturbs_the_orbit_without_dissipating_it() {
+        // The Schwarzschild correction is conservative — it precesses the perigee but, unlike
+        // drag, must NOT secularly decay the orbit. Two contrasting signatures over a day:
+        // (1) it nudges the trajectory off the two-body path by a small bounded amount, yet
+        // (2) it leaves the semi-major axis essentially unchanged (no energy sink) — the
+        // opposite of `drag_dissipates_energy_and_decays_the_orbit_monotonically` above.
+        let (r0, v0) = leo_state();
+        let day = 86_400.0;
+        let tol = Tolerance {
+            rtol: 1e-12,
+            atol: 1e-9,
+            ..Tolerance::default()
+        };
+        let base = ForceModel::two_body();
+        let (r_base, _) = propagate(r0, v0, day, base, &tol);
+        let (r_gr, v_gr) = propagate(r0, v0, day, base.relativity(), &tol);
+        let sep = norm([
+            r_gr[0] - r_base[0],
+            r_gr[1] - r_base[1],
+            r_gr[2] - r_base[2],
+        ]);
+        assert!(sep > 1e-4, "relativity must perturb the orbit, sep {sep} m");
+        assert!(
+            sep < 1e5,
+            "relativity must stay a tiny perturbation, sep {sep} m"
+        );
+
+        // Non-dissipative: a = −μ/(2ε) holds to well under a metre/day, whereas drag sinks it
+        // by ≥1 m/day. This is the structural difference between a conservative and a
+        // dissipative perturbation.
+        let a0 = -MU_EARTH / (2.0 * specific_energy(r0, v0));
+        let a_gr = -MU_EARTH / (2.0 * specific_energy(r_gr, v_gr));
+        assert!(
+            (a_gr - a0).abs() < 10.0,
+            "relativity must not decay the semi-major axis: Δa {} m",
+            a_gr - a0
         );
     }
 

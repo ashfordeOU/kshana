@@ -61,9 +61,14 @@ A validated, fully reproducible engine spanning the PNT stack:
   `forces::atmospheric_density`, validated by the 1.225 kg/m³ sea-level anchor, a monotonic LEO
   decay with a physical ~58 km scale height, the ~2·10⁻⁶ m/s² drag magnitude, and the dissipation
   signature (a 300 km orbit loses energy monotonically and its semi-major axis decays ~km/day where
-  the vacuum orbit conserves energy). High-degree tesseral gravity, the NRLMSISE-00 thermospheric
-  density, solar limb darkening / the oblate-Earth shadow, and external GMAT/Orekit cross-validation
-  remain follow-ons.
+  the vacuum orbit conserves energy). The **post-Newtonian (Schwarzschild) relativistic correction**
+  (`forces::relativistic_accel` / `ForceModel::relativity`) is the second velocity-dependent term —
+  the IERS `β = γ = 1` form `a = (μ/c²r³)·{[4μ/r − v²]·r + 4(r·v)·v}`, the leading driver of the
+  relativistic perigee advance — validated by its closed-form circular value `3μ²/(c²r³)·r̂`, its
+  textbook `≈1.9·10⁻⁹` LEO ratio to two-body, and the conservative signature (it perturbs the orbit
+  but, unlike drag, holds the semi-major axis to under a metre/day). High-degree tesseral gravity,
+  the NRLMSISE-00 thermospheric density, solar limb darkening / the oblate-Earth shadow, the
+  Lense–Thirring frame-dragging term, and external GMAT/Orekit cross-validation remain follow-ons.
 - **Time systems** — IERS leap-second UTC/TAI/TT/UT1, Julian-date API, IAU-2000
   Earth Rotation Angle; GMST-based TEME↔ECEF and WGS-84 geodetic frames.
 - **Inertial** — three-axis strapdown INS (quaternion attitude, NED mechanization,
