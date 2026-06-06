@@ -10,6 +10,19 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Third-body (Sun) gravity with a built-in low-precision ephemeris (`forces::third_body_accel`,
+  `ephem::sun_position`).** Adds the third-body perturbation to the force model:
+  `a = GM₃·((s−r)/|s−r|³ − s/|s|³)` (direct attraction minus the indirect term the geocentric
+  frame must subtract), with the Sun position supplied by the new `ephem` module's
+  Montenbruck & Gill low-precision analytical series — **no external DE/SPK kernel needed** for a
+  low-fidelity run. Validated self-contained: the acceleration **matches the exact gradient of its
+  own disturbing potential** (`third_body_potential`), the perturbation **vanishes at the geocentre**
+  and has the **textbook ~5·10⁻⁷ m/s² magnitude on a LEO satellite**, and the Sun ephemeris hits
+  hand-derived J2000 anchors — **perihelion distance ≈ 1.471·10¹¹ m**, **declination ≈ −23° near the
+  December solstice**, an apparent motion of **≈ 1°/day** (≈ 90° per quarter-year), and a distance
+  that stays inside the 0.983–1.017 AU Earth-orbit envelope across a full year. Delivers the
+  third-body half of the numerical-propagator milestone's force-model step; the Moon's longer series,
+  DE-grade position accuracy, atmospheric drag, and SRP remain follow-ons.
 - **J2–J6 zonal-harmonic force model (`forces::zonal_accel` / `zonal_potential`).** Extends the
   Cowell propagator's force model beyond J2 to the full Earth zonal field through degree 6 (the
   standard published EGM-96 unnormalised `J2..J6`), wired into the propagator as
