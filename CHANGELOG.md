@@ -10,6 +10,19 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Numerical (Cowell) orbit propagator (`src/propagator.rs`).** Kshana's first **non-analytic**
+  propagator (the rest of the orbit stack is analytic SGP4/SDP4): it wires the two-body + J2 force
+  model (`src/forces.rs`) into the adaptive step-doubling RK4 driver (`src/integrator.rs`) as
+  `f(t,[r;v]) = [v; a(r)]`, with a `ForceModel` toggle. Validated against **analytic truth that is
+  stronger than a numerical cross-tool would be**: the unperturbed orbit reproduces the **exact
+  universal-variable Kepler solution to sub-metre over a 24-hour LEO orbit** (a tighter gate than
+  the "vs a numerical reference < 10 m" the milestone phrases), specific energy and angular momentum
+  conserve to ~1e-9 relative, and the J2 nodal regression reproduces the closed-form `j2_secular_rates`
+  to first-order theory (within 2 %, the O(J2²) residual). Also adds `solve_kepler_checked`, a Newton
+  solver for Kepler's equation that **returns `Err` instead of a silently-wrong answer** when it fails
+  to converge within a bounded iteration budget (the near-perigee `e = 0.999` case). Honest scope: the
+  force model is two-body + J2 only — the high-degree EGM tesseral field (200×200 + loader), drag
+  (NRLMSISE-00), SRP, third-body forces, and an external GMAT/Orekit cross-validation remain follow-ons.
 - **60-minute GPS-denied gravity-map matching to < 500 m (`run_gps_denied_gravity_nav`).**
   Deepens the alt-PNT layer to the ESA NAVISP *Quantum Wayfarer* validation target: a vehicle
   flies a ~700 km track for a full one-hour GNSS outage — its inertial solution drifting to
