@@ -36,7 +36,7 @@
             <circle cx="32" cy="36" r="4.4" fill="#e0bd84" />
           </svg>
           <span class="name">Kshana</span>
-          <span class="ver" id="ver-chip">v0.11.0</span>
+          <span class="ver" id="ver-chip">v0.12.0</span>
         </a>
         <nav class="nav" aria-label="Primary">
           <a href="#capabilities">Capabilities</a>
@@ -58,10 +58,12 @@
             <h1>Open <span class="hl">PNT</span> resilience simulation, validated and reproducible.</h1>
             <p class="lede">
               A dependency-light engine across the full positioning, navigation and timing
-              stack: SGP4-validated orbit geometry and constellation design, time systems,
-              a three-axis strapdown INS, GNSS/INS fusion (loose, tight, and UKF), ARAIM
-              integrity with HPL/VPL, clocks and time-and-frequency transfer, the GNSS
-              measurement domain, and jamming/spoofing resilience — scored against the
+              stack: SGP4-validated orbit geometry and constellation design, a numerical
+              (Cowell) propagator with a six-perturbation force model, maneuver and
+              trajectory design, time systems, a three-axis strapdown INS, gravity-map
+              alt-PNT, GNSS/INS fusion (loose, tight, UKF, 17-state), orbit determination,
+              ARAIM integrity with HPL/VPL, clocks and time-and-frequency transfer, the
+              GNSS measurement domain, and jamming/spoofing resilience — scored against the
               operational figures of merit, with RINEX/SP3/CCSDS interoperability.
             </p>
             <p class="honest">
@@ -327,6 +329,10 @@
             <div class="card">
               <h3><span class="pill validated">Calibrated</span> Clock stability</h3>
               <p>Allan-family deviations (ADEV/MDEV/TDEV/HDEV) computed by the standard overlapping estimators with confidence intervals, calibrated to published clock datasheets, with a full IEEE-1139 five-coefficient power-law fit.</p>
+            </div>
+            <div class="card">
+              <h3><span class="pill validated">Validated</span> Numerical propagator</h3>
+              <p>The Cowell propagator's unperturbed orbit matches the exact universal-variable Kepler solution to <b>sub-metre over 24 h</b>, with energy and angular momentum conserved to ~1e-9. The J2–J6, third-body, SRP, drag and relativistic perturbations each match a hand-derived closed-form signature.</p>
             </div>
             <div class="card">
               <h3><span class="pill validated">Validated</span> Tightly-coupled fusion</h3>
