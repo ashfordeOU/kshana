@@ -32,6 +32,7 @@ pub mod orbit_determination;
 pub mod particle_filter;
 pub mod permalink;
 pub mod precession;
+pub mod propagator;
 #[cfg(feature = "python")]
 pub mod python;
 pub mod raim;
