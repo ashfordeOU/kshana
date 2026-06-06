@@ -123,6 +123,66 @@ budget) from real geometry, not a precise-ephemeris navigation solution. The
 a fix only ~59% of the day, the quantum clock keeps a 5 ns timing solution through every
 gap (availability 1.0) while the chip-scale clock holds ~0.83.
 
+## Numerical (Cowell) propagator & force model
+
+The numerical propagator (`src/propagator.rs`) integrates a hierarchical force model
+(`src/forces.rs`) with the adaptive integrators (`src/integrator.rs`). Each term is
+validated against analytic truth or a hand-derived closed form, not against another
+tool; the perturbations are **off by default**, so the released goldens are untouched.
+
+| Term | Status | Evidence |
+|------|--------|----------|
+| Cowell propagator vs analytic Kepler truth | `validated` | `src/propagator.rs`: the unperturbed (two-body) orbit reproduces the **exact universal-variable Kepler solution to sub-metre over a 24 h LEO orbit** (a tighter gate than "vs a numerical reference < 10 m"); specific energy and angular momentum conserve to ~1e-9 relative; the J2 nodal regression reproduces the closed-form `j2_secular_rates` to first-order theory (within 2 %, the O(J2²) residual). `solve_kepler_checked` returns `Err` rather than a silently-wrong answer when Newton fails to converge (near-perigee e = 0.999). |
+| Adaptive integrators (RK4 step-doubling + Dormand–Prince RK5(4)) | `validated` | `src/integrator.rs`: RK4 integrates `y' = y → e` to < 1e-9, shows the ~16× error drop per halved step (4th-order convergence), and conserves the harmonic oscillator over a period. The DP5(4) embedded error estimate is **O(h⁵)** (halving the step cuts it ~32×), integrates the oscillator over 50 periods conserving energy to < 1e-6, and reaches the same endpoint at the same tolerance in **fewer function evaluations** than step doubling; `propagate_dopri` clears the same sub-metre Kepler gate and agrees with the RK4 path to < 1 m on a J2..J6 orbit. |
+| J2–J6 zonal-harmonic field | `validated` | `src/forces.rs`: `zonal_accel` is checked three ways — it **reduces to the 666-vector-validated `j2_accel` to machine precision** when restricted to `[J2]`; it **matches the numerical gradient of its own zonal potential** through the full J2..J6 field (the conservative-field gold standard); and the odd `J3` vs even `J2`/`J4..J6` terms show the characteristic north–south (anti)symmetry under `z → −z`. A propagated J2..J6 orbit conserves total energy to ~1e-8 over a day. |
+| Third-body (Sun and Moon) gravity | `validated` | `src/forces.rs` + `src/ephem.rs`: `third_body_accel` **matches the exact gradient of its disturbing potential**, vanishes at the geocentre, and hits the textbook LEO magnitudes (~5e-7 m/s² Sun, ~1.1e-6 m/s² Moon). The low-precision Montenbruck–Gill Sun ephemeris hits hand-derived J2000 anchors (perihelion distance ≈ 1.471e11 m, ~−23° solstice declination, ~1°/day motion); the Moon ephemeris stays inside its perigee/apogee envelope, recovers the ~384 400 km mean distance, never exceeds the 5.3° inclination, and returns to within 1° after one sidereal month. The epoch-driven RHS wiring is **bit-exact** (the RHS term equals `third_body_accel` at the sampled position at t = 0 and t = 1 day), and a quarter-year epoch shift yields a different trajectory. |
+| Solar-radiation pressure + conical shadow | `validated` | `src/forces.rs`: `srp_accel` (cannonball `ν·P☉·cᵣ·(A/m)·(AU/d)²·d̂`) is **bit-identical** to the closed form in full sun, pins the **1-AU radiation pressure to ≈ 4.5398e-6 N/m²**, sits in the ~1.36e-7 m/s² LEO band pushing away from the Sun, quarters when the Sun distance doubles (inverse-square), and is **exactly zero** deep in the umbra. `conical_shadow` gives `ν = 1` in full sun and `ν = 0` in total umbra (exact), a smooth monotonic penumbra rising 0 → 1 across the `[b−a, b+a]` band that **extends beyond the umbral cylinder**. |
+| Atmospheric drag (first velocity-dependent term) | `validated` | `src/forces.rs`: `atmospheric_density` (Vallado Table 8-4 piecewise-exponential) **anchors at 1.225 kg/m³ at sea level**, clamps below the surface, decreases monotonically through LEO, sits in the ~1e-12 kg/m³ band at 400 km with a physical recovered ~58 km scale height; `drag_accel` opposes the co-rotating relative velocity at the ~2e-6 m/s² LEO magnitude. The signature check: a 300 km orbit loses specific energy **monotonically** and its semi-major axis decays a bounded ~km/day, where the vacuum baseline conserves energy to < 1e-9. |
+| Post-Newtonian (Schwarzschild) relativistic correction | `validated` | `src/forces.rs`: `relativistic_accel` (IERS `β = γ = 1` form `a = (μ/c²r³)·{[4μ/r − v²]·r + 4(r·v)·v}`) collapses on a circular orbit to the closed form `3μ²/(c²r³)·r̂` (radial, **outward**, off-axis components exactly zero), shows the textbook **`≈1.9e-9` LEO ratio to two-body**, matches the hand-simplified radial-velocity form `μ(4μ + 3v²r)/(c²r³)` to < 1e-12, and in the propagator **perturbs the orbit while holding the semi-major axis to under a metre/day** — the conservative opposite of drag's decay. |
+
+Honest scope: the high-degree EGM **tesseral** field, the NRLMSISE-00 thermospheric
+density (drag is the static Vallado model), solar limb darkening / the oblate-Earth
+shadow, the Lense–Thirring frame-dragging term, DE-grade ephemeris accuracy, and an
+external GMAT/Orekit cross-validation of a high-fidelity run remain follow-ons.
+
+## Maneuvers & trajectory design (`src/maneuver.rs`)
+
+| Aspect | Status | Evidence |
+|--------|--------|----------|
+| Impulsive ΔV + covariance propagation | `validated` | A velocity discontinuity with a 6×6 covariance carried forward (deterministic burn ⇒ identity STM; the execution-error covariance rotates from the burn frame — ECI or LVLH — into the velocity block). |
+| Finite-burn integration vs Tsiolkovsky | `validated` | Constant-thrust integration over a burn arc (mass as a state) whose achieved ΔV matches the closed-form **Tsiolkovsky** rocket equation to **better than 0.01 %**. |
+| Lambert solver (Izzo 2015) round-trip | `validated` | The single-revolution Lambert output (`r1`, `r2`, time-of-flight ⇒ `v1`, `v2`) is **round-tripped through the exact universal-variable Kepler propagator** — it must land back on `r2`. |
+| Porkchop sweep vs Hohmann floor | `validated` | The launch × arrival C3 / arrival-V∞ grid's minimum is checked against the **analytic Hohmann-transfer C3 floor** for two coplanar circular orbits. |
+
+Honest scope: no trajectory optimizer, no multi-revolution Lambert branches, and a
+synthetic coplanar-circular heliocentric model (no planetary DE ephemeris, so a GMAT
+Earth–Mars C3 cross-check has not been run).
+
+## Orbit determination (`src/orbit_determination.rs`, `src/batch_ls.rs`)
+
+| Aspect | Status | Evidence |
+|--------|--------|----------|
+| Gauss–Newton batch corrector | `validated` | The generic `gauss_newton` solver reaches the exact weighted-least-squares solution on a linear fit, recovers true parameters on a nonlinear `a·exp(b·t)` fit, and solves a 3-D range-multilateration from noiseless ranges. |
+| Batch orbit determination from ranges | `validated` | `determine_orbit_batch` recovers `[r, v]` from ground-station range tracking (propagated over the two-body + J2 force model) to **sub-metre / mm·s⁻¹ from noiseless ranges**, and to **~2 m with a post-fit residual at the 5 m noise floor** — the signature of a consistent least-squares fit. |
+| Sequential (unscented-filter) OD | `validated` | `determine_orbit_sequential` recursively recovers the state to within tens of metres on the same dynamics and range model. |
+
+Honest scope: range-rate/Doppler and angle measurements, an analytic J2 state-transition
+matrix, and station-visibility masking are follow-ons.
+
+## Gravity-map / alt-PNT navigation (`src/gravimeter.rs`, `src/mapmatch.rs`, `src/particle_filter.rs`)
+
+| Aspect | Status | Evidence |
+|--------|--------|----------|
+| Spherical-harmonic gravity-anomaly field | `validated` | `src/gravimeter.rs`: a low-degree, fully-normalised field checked against the closed-form Legendre functions (`P̄₁₁ = √3·cosφ`, `P̄₂₀ = (√5/2)(3sin²φ−1)`, `P̄₂₂ = (√15/2)cos²φ`) and a hand-derived single-term anomaly of 1.897 mGal. |
+| Cold-atom gravimeter measurement model | `validated` (model) | The white-noise floor is derived from the CAI accelerometer ASD (`σ = ASD/√τ`), injected as a deterministic seeded sequence (the matcher is never handed noise-free truth, yet the run is bit-reproducible). |
+| Sequential-importance-resampling particle filter | `validated` | `src/particle_filter.rs`: the deterministic core is pinned exactly — ESS spanning 1…N, systematic resampling picking indices in proportion to weight, the weighted-mean convex combination, a Gaussian likelihood pulling the estimate onto the measurement, and seeded predict determinism. |
+| Map-match likelihood + recovery | `validated` | `src/mapmatch.rs`: `field_likelihood` peaks (= 1) at a perfect match and falls to `e^(−½)` at one sigma; a particle filter over a distinctive synthetic-terrain patch recovers the true position to within 0.1. |
+| 60-minute GPS-denied benchmark | `validated` | `run_gps_denied_gravity_nav` (`scenarios/gps-denied-gravity-nav.toml`): a ~700 km / one-hour outage where the inertial solution drifts to **≈ 70 km** is recovered to **≈ 145 m (< 500 m)** by a hierarchical coarse-to-fine matcher — bit-reproducible, stable across noise realisations, and provably refinement-limited (a single coarse grid stalls at ~2 km). |
+
+Honest scope: the field is low-degree + synthetic mascons, **not** the full EGM2008/EIGEN
+coefficient set; a map-representation-error Monte-Carlo, a magnetic-anomaly map,
+terrain-aided SLAM, and scenario-engine `kind=` wiring remain follow-ons.
+
 ## Operating envelope
 
 Each pack is exercised across its stated input envelope by
