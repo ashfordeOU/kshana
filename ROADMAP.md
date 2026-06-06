@@ -30,6 +30,12 @@ A validated, fully reproducible engine spanning the PNT stack:
   sweep emitted as a JSON contour grid — the performance-simulation layer above GMAT/Orekit, with
   Lambert outputs round-tripped against two-body truth and the porkchop minimum checked against the
   analytic Hohmann floor.
+- **Numerical propagator** — a Cowell propagator (`src/propagator.rs`) integrating a configurable
+  two-body + J2 force model with the adaptive step-doubling RK4 driver, pinned against analytic truth:
+  the unperturbed orbit matches the exact universal-variable Kepler solution to sub-metre over 24 h,
+  energy/angular-momentum conserve to ~1e-9, and the J2 nodal regression reproduces the closed-form
+  secular rate; plus a convergence-guarded Kepler-equation solver. High-degree gravity, drag, SRP,
+  third-body and external GMAT/Orekit cross-validation remain follow-ons.
 - **Time systems** — IERS leap-second UTC/TAI/TT/UT1, Julian-date API, IAU-2000
   Earth Rotation Angle; GMST-based TEME↔ECEF and WGS-84 geodetic frames.
 - **Inertial** — three-axis strapdown INS (quaternion attitude, NED mechanization,
