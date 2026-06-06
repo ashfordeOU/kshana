@@ -38,12 +38,14 @@ A validated, fully reproducible engine spanning the PNT stack:
   Earth zonal field through degree 6** (`forces::zonal_accel`, the published EGM-96 `J2..J6`): the
   acceleration is the exact analytic gradient of the zonal disturbing potential, validated against its
   own numerically-differentiated potential, against the 666-vector-validated J2 closed form, and via
-  the odd/even zonals' characteristic north–south symmetry. **Third-body (Sun)** gravity
-  (`forces::third_body_accel`) with a built-in **low-precision analytical Sun ephemeris**
+  the odd/even zonals' characteristic north–south symmetry. **Third-body (Sun and Moon)** gravity
+  (`forces::third_body_accel`) with built-in **low-precision analytical Sun and Moon ephemerides**
   (`src/ephem.rs`, Montenbruck & Gill) is also delivered — the perturbation validated as the exact
-  gradient of its disturbing potential and the ephemeris against hand-derived J2000 anchors
-  (perihelion distance, solstice declination, ~1°/day motion). High-degree tesseral gravity, the
-  Moon's series, drag, SRP, and external GMAT/Orekit cross-validation remain follow-ons.
+  gradient of its disturbing potential, the Sun ephemeris against hand-derived J2000 anchors
+  (perihelion distance, solstice declination, ~1°/day motion) and the Moon ephemeris against its
+  perigee/apogee envelope, ~384 400 km mean distance, ≤ 5.3° inclination bound, and sidereal-month
+  return. High-degree tesseral gravity, drag, SRP, and external GMAT/Orekit cross-validation remain
+  follow-ons.
 - **Time systems** — IERS leap-second UTC/TAI/TT/UT1, Julian-date API, IAU-2000
   Earth Rotation Angle; GMST-based TEME↔ECEF and WGS-84 geodetic frames.
 - **Inertial** — three-axis strapdown INS (quaternion attitude, NED mechanization,
@@ -136,11 +138,11 @@ welcome collaboration: see [Support & professional services](README.md#support--
   ARAIM.
 - A numerical propagator: the adaptive RK4/step-doubling integrator core
   (`src/integrator.rs`) plus a hierarchical force model — the two-body gravity, the analytic
-  J2 secular rates, the **full J2–J6 zonal field** (`forces::zonal_accel`), **third-body (Sun)
-  gravity** (`forces::third_body_accel` + the `src/ephem.rs` low-precision Sun ephemeris), and the
-  `propagator::propagate` wiring are delivered (`src/forces.rs`, `src/propagator.rs`); the
-  high-degree tesseral field, the Moon, drag, and SRP remain — to complement the analytic
-  SGP4/SDP4 path.
+  J2 secular rates, the **full J2–J6 zonal field** (`forces::zonal_accel`), **third-body (Sun and
+  Moon) gravity** (`forces::third_body_accel` + the `src/ephem.rs` low-precision Sun and Moon
+  ephemerides), and the `propagator::propagate` wiring are delivered (`src/forces.rs`,
+  `src/propagator.rs`); the high-degree tesseral field, drag, SRP, and epoch-driven third-body
+  integration remain — to complement the analytic SGP4/SDP4 path.
 - Batch orbit determination is delivered: `src/orbit_determination.rs` recovers an
   orbital state from ground-station ranges via the Gauss–Newton corrector
   (`src/batch_ls.rs`) over the two-body + J2 force model, with a sequential

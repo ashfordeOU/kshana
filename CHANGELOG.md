@@ -10,6 +10,18 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Low-precision Moon ephemeris (`ephem::moon_position`), completing the Sun/Moon third-body pair.**
+  Adds the Montenbruck & Gill low-precision lunar series (`§3.3.2`) alongside the Sun model, so the
+  body-agnostic `forces::third_body_accel` can now be driven by either luminary with **no external
+  DE/SPK kernel**. Validated self-contained against hand-derived lunar signatures: the geocentric
+  distance stays inside the real **perigee/apogee envelope (~356 500–406 700 km)** over a month and its
+  **monthly mean recovers the ~384 400 km semi-major axis**; the **ecliptic latitude never exceeds the
+  ~5.3° lunar-orbit inclination** (checked by projecting onto the ecliptic pole in equatorial
+  coordinates, validating the latitude series and the obliquity rotation together); the Moon's
+  **direction returns to within 1° after one sidereal month (27.3217 d)** and its **daily motion stays
+  in the physical 12–15°/day band**; and the lunar third-body perturbation on a LEO satellite has the
+  **textbook ~1.1·10⁻⁶ m/s² magnitude** (≈ twice the Sun's). DE-grade position accuracy, atmospheric
+  drag, and SRP remain follow-ons.
 - **Third-body (Sun) gravity with a built-in low-precision ephemeris (`forces::third_body_accel`,
   `ephem::sun_position`).** Adds the third-body perturbation to the force model:
   `a = GM₃·((s−r)/|s−r|³ − s/|s|³)` (direct attraction minus the indirect term the geocentric
@@ -21,8 +33,8 @@ breaking changes are called out explicitly.
   hand-derived J2000 anchors — **perihelion distance ≈ 1.471·10¹¹ m**, **declination ≈ −23° near the
   December solstice**, an apparent motion of **≈ 1°/day** (≈ 90° per quarter-year), and a distance
   that stays inside the 0.983–1.017 AU Earth-orbit envelope across a full year. Delivers the
-  third-body half of the numerical-propagator milestone's force-model step; the Moon's longer series,
-  DE-grade position accuracy, atmospheric drag, and SRP remain follow-ons.
+  third-body half of the numerical-propagator milestone's force-model step (the Moon is delivered in a
+  companion entry above); DE-grade position accuracy, atmospheric drag, and SRP remain follow-ons.
 - **J2–J6 zonal-harmonic force model (`forces::zonal_accel` / `zonal_potential`).** Extends the
   Cowell propagator's force model beyond J2 to the full Earth zonal field through degree 6 (the
   standard published EGM-96 unnormalised `J2..J6`), wired into the propagator as
