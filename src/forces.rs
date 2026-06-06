@@ -12,13 +12,14 @@
 //! must reproduce, and the basis of sun-synchronous and frozen-orbit design.
 //!
 //! It also provides **solar-radiation pressure** ([`srp_accel`], the cannonball model with the
-//! [`cylindrical_shadow`] eclipse factor) paired with the same Sun ephemeris, and **atmospheric
-//! drag** ([`drag_accel`], quadratic drag against the co-rotating atmosphere of
+//! [`conical_shadow`] umbra+penumbra eclipse factor) paired with the same Sun ephemeris, and
+//! **atmospheric drag** ([`drag_accel`], quadratic drag against the co-rotating atmosphere of
 //! [`atmospheric_density`], the Vallado piecewise-exponential model).
 //!
 //! Scope (honest): the gravity field is **zonal only** (no tesseral/sectoral EGM terms); the SRP
-//! shadow is the umbra-only **cylinder** (no conical penumbra); and the drag density is the
-//! **static piecewise-exponential** model (no NRLMSISE-00 thermosphere); see `ROADMAP.md`.
+//! shadow is the geometric dual-disk **conical umbra+penumbra** (no solar limb darkening or
+//! oblate-Earth shadow); and the drag density is the **static piecewise-exponential** model (no
+//! NRLMSISE-00 thermosphere); see `ROADMAP.md`.
 
 /// Earth gravitational parameter `μ = GM` (m³/s²), WGS-84 / EGM-96 value.
 pub const MU_EARTH: f64 = 3.986_004_418e14;
@@ -187,8 +188,8 @@ pub const SRP_PRESSURE_AU: f64 = SOLAR_IRRADIANCE_AU / SPEED_OF_LIGHT;
 /// the Sun at geocentric `s` (m): `0` when the satellite lies inside the Earth's umbral
 /// **cylinder** cast directly opposite the Sun (anti-sunward hemisphere and within one Earth
 /// radius of the Earth–Sun line), else `1`. The test is `r∥ = r·ŝ < 0` (anti-sunward) **and**
-/// `r⊥ = √(|r|² − r∥²) < Rₑ` (inside the cylinder). This is the umbra-only model — the conical
-/// umbra/penumbra (a smooth `ν ∈ [0,1]`) is a follow-on; see `ROADMAP.md`.
+/// `r⊥ = √(|r|² − r∥²) < Rₑ` (inside the cylinder). This is the simple umbra-only model; the
+/// smooth umbra+penumbra `ν ∈ [0,1]` is [`conical_shadow`] (which [`srp_accel`] uses).
 pub fn cylindrical_shadow(r: Vec3, s: Vec3) -> f64 {
     let sn = norm(s);
     // Signed component of r along the Sun direction ŝ = s/|s|.
@@ -205,15 +206,63 @@ pub fn cylindrical_shadow(r: Vec3, s: Vec3) -> f64 {
     }
 }
 
+/// Solar radius (m), IAU 2015 nominal value.
+pub const SOLAR_RADIUS: f64 = 6.957e8;
+
+/// **Conical-shadow** eclipse factor `ν ∈ [0, 1]`: the fraction of the Sun's disk still visible
+/// from a satellite at geocentric `r` (m) with the Sun at geocentric `s` (m), modelling Earth's
+/// **umbra *and* penumbra** as a smooth `0 → 1` transition — unlike the binary
+/// [`cylindrical_shadow`]. The Sun and Earth are treated as disks of apparent angular radii
+/// `a = asin(R☉/d☉)` and `b = asin(Rₑ/|r|)` seen from the satellite, with apparent centre
+/// separation `c` (the angle between the sat→Sun and sat→Earth-centre directions); `ν` is one
+/// minus the fraction of the Sun's disk area occulted by the Earth's disk:
+/// * `c ≥ a + b` → `1` (no overlap, full sun);
+/// * `c ≤ b − a` → `0` (Sun entirely behind the Earth, total umbra);
+/// * `c ≤ a − b` → `1 − (b/a)²` (Earth's disk wholly inside the Sun's — annular, only at high
+///   altitude where the Earth appears smaller than the Sun);
+/// * otherwise → `1 −` (circle–circle lens overlap area)`/(π a²)` (penumbra).
+///
+/// This is the geometric dual-disk model (Montenbruck & Gill §3.4.2); solar limb darkening and
+/// the oblate-Earth shadow remain follow-ons.
+pub fn conical_shadow(r: Vec3, s: Vec3) -> f64 {
+    let d = [s[0] - r[0], s[1] - r[1], s[2] - r[2]]; // satellite → Sun
+    let d_sun = norm(d);
+    let r_n = norm(r);
+    if d_sun == 0.0 || r_n == 0.0 {
+        return 1.0;
+    }
+    let a = (SOLAR_RADIUS / d_sun).clamp(-1.0, 1.0).asin(); // Sun apparent radius
+    let b = (RE_EARTH / r_n).clamp(-1.0, 1.0).asin(); // Earth apparent radius
+                                                      // Apparent separation c = angle between sat→Sun (d) and sat→Earth-centre (−r).
+    let dot = d[0] * (-r[0]) + d[1] * (-r[1]) + d[2] * (-r[2]);
+    let c = (dot / (d_sun * r_n)).clamp(-1.0, 1.0).acos();
+    if c >= a + b {
+        return 1.0; // full sun
+    }
+    if c <= b - a {
+        return 0.0; // total umbra (Earth covers the whole Sun)
+    }
+    if c <= a - b {
+        return 1.0 - (b * b) / (a * a); // annular: Earth disk fully inside the Sun disk
+    }
+    // Penumbra: area of intersection of two disks (radius a, b; centre separation c).
+    let x = ((c * c + a * a - b * b) / (2.0 * c * a)).clamp(-1.0, 1.0);
+    let y = ((c * c + b * b - a * a) / (2.0 * c * b)).clamp(-1.0, 1.0);
+    let tri = ((-c + a + b) * (c + a - b) * (c - a + b) * (c + a + b)).max(0.0);
+    let overlap = a * a * x.acos() + b * b * y.acos() - 0.5 * tri.sqrt();
+    (1.0 - overlap / (std::f64::consts::PI * a * a)).clamp(0.0, 1.0)
+}
+
 /// Solar-radiation-pressure acceleration (m/s², ECI) on a satellite at geocentric `r` (m) with
 /// the Sun at geocentric `s` (m), using the **cannonball** model:
 /// `a = ν · P☉ · cᵣ · (A/m) · (AU/d)² · d̂`, where `d = r − s` is the Sun→satellite vector (so
 /// the force pushes the craft radially **away** from the Sun), `(AU/d)²` is the inverse-square
-/// flux fall-off with `P☉ = `[`SRP_PRESSURE_AU`], and `ν` is the [`cylindrical_shadow`] factor.
+/// flux fall-off with `P☉ = `[`SRP_PRESSURE_AU`], and `ν` is the [`conical_shadow`] factor (umbra
+/// + penumbra, so the force tapers smoothly through eclipse rather than switching on/off).
 /// `cr` is the dimensionless radiation-pressure coefficient (≈1 fully absorptive, →2 fully
 /// specular) and `area_over_mass` the cross-section-to-mass ratio `A/m` (m²/kg).
 pub fn srp_accel(r: Vec3, s: Vec3, cr: f64, area_over_mass: f64) -> Vec3 {
-    let nu = cylindrical_shadow(r, s);
+    let nu = conical_shadow(r, s);
     if nu == 0.0 {
         return [0.0, 0.0, 0.0];
     }
@@ -614,6 +663,61 @@ mod tests {
         // And in eclipse the SRP acceleration is exactly zero (no light, no push).
         let a = srp_accel([-7.078e6, 0.0, 0.0], sun, 1.5, 0.02);
         assert_eq!(a, [0.0, 0.0, 0.0]);
+    }
+
+    #[test]
+    fn conical_shadow_is_one_in_full_sun_and_zero_deep_in_the_umbra() {
+        let sun = [AU_M, 0.0, 0.0];
+        // Sunward of Earth → no occultation → full sun, exactly 1.
+        assert_eq!(conical_shadow([7.078e6, 0.0, 0.0], sun), 1.0);
+        // Directly behind Earth on the Sun line at LEO → total umbra, exactly 0.
+        assert_eq!(conical_shadow([-7.078e6, 0.0, 0.0], sun), 0.0);
+    }
+
+    #[test]
+    fn conical_shadow_has_a_smooth_monotonic_penumbra() {
+        // Build satellites whose apparent Sun–Earth separation c is set directly: with the Sun on
+        // +x, a satellite at r = (RE+700km)·(−cos c, −sin c, 0) has sat→Earth-centre at angle c
+        // from the (≈+x) sat→Sun direction. Sweeping c across the penumbra band [b−a, b+a] must
+        // take ν smoothly from 0 (umbra) through ~½ (Sun half-occulted at c = b) to 1 (full sun).
+        let sun = [AU_M, 0.0, 0.0];
+        let rn = RE_EARTH + 700e3;
+        let a = (SOLAR_RADIUS / AU_M).asin(); // Sun apparent radius (~0.27°)
+        let b = (RE_EARTH / rn).asin(); // Earth apparent radius (~64°)
+        let mk = |c: f64| [-rn * c.cos(), -rn * c.sin(), 0.0];
+        let deep = conical_shadow(mk(b - 2.0 * a), sun); // c ≤ b−a → umbra
+        let mid = conical_shadow(mk(b), sun); // c = b → Sun centre on Earth's limb
+        let shallow = conical_shadow(mk(b + 2.0 * a), sun); // c ≥ a+b → full sun
+        assert_eq!(deep, 0.0, "c ≤ b−a must be total umbra");
+        assert_eq!(shallow, 1.0, "c ≥ a+b must be full sun");
+        assert!(
+            (0.3..=0.7).contains(&mid),
+            "at c = b the Sun is ~half occulted, ν = {mid}"
+        );
+        // Strictly monotonic: deeper into shadow ⇒ less sunlight.
+        assert!(
+            deep < mid && mid < shallow,
+            "ν must rise monotonically out of shadow"
+        );
+    }
+
+    #[test]
+    fn conical_penumbra_extends_beyond_the_umbral_cylinder() {
+        // A satellite just *outside* the umbral cylinder (so the binary cylindrical model calls it
+        // fully lit) is still partially shadowed by the cone — the penumbra the cylinder misses.
+        let sun = [AU_M, 0.0, 0.0];
+        let rn = RE_EARTH + 700e3;
+        let a = (SOLAR_RADIUS / AU_M).asin();
+        let b = (RE_EARTH / rn).asin();
+        let r = [-rn * (b + 0.5 * a).cos(), -rn * (b + 0.5 * a).sin(), 0.0];
+        // r⊥ = rn·sin(b+0.5a) > rn·sin b = Rₑ, so the cylinder says fully lit…
+        assert_eq!(cylindrical_shadow(r, sun), 1.0);
+        // …while the cone sees a partial eclipse (penumbra), 0 < ν < 1.
+        let nu = conical_shadow(r, sun);
+        assert!(
+            (0.0..1.0).contains(&nu) && nu > 0.0,
+            "cone should see partial shadow where the cylinder sees full sun: ν = {nu}"
+        );
     }
 
     #[test]
