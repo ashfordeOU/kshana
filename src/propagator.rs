@@ -4,12 +4,13 @@
 //! orbit stack is the analytic SGP4/SDP4 of [`crate::sgp4`]).
 //!
 //! It wires the orbital force model of [`crate::forces`] (two-body `−μr/|r|³`, the J2/zonal
-//! field, and the **epoch-driven Sun/Moon third body**) into the step-doubling integrator of
-//! [`crate::integrator`], turning `f(t, [r; v]) = [v; a(t, r)]` into a state propagator. The
-//! third-body term is genuinely *time-varying*: the [`crate::ephem`] Sun/Moon ephemerides are
-//! sampled at `epoch_jd_tt + t/86400` each RHS evaluation, so the perturbers advance along
-//! their orbits during the integration rather than being frozen at the start. Its correctness
-//! is pinned
+//! field, the **epoch-driven Sun/Moon third body**, and **solar-radiation pressure**) into the
+//! step-doubling integrator of [`crate::integrator`], turning `f(t, [r; v]) = [v; a(t, r)]` into
+//! a state propagator. The third-body and SRP terms are genuinely *time-varying*: the
+//! [`crate::ephem`] Sun/Moon ephemerides are sampled at `epoch_jd_tt + t/86400` each RHS
+//! evaluation (the Sun once, shared by the Sun third body and SRP), so the perturbers advance
+//! along their orbits during the integration rather than being frozen at the start. Its
+//! correctness is pinned
 //! **against analytic truth that is stronger than a numerical cross-tool would be**:
 //!
 //! * the unperturbed two-body propagation must reproduce the **exact** universal-variable
@@ -26,20 +27,21 @@
 //!
 //! ## Scope (honest)
 //!
-//! The conservative force model spans **two-body + the J2..J6 zonal field + the epoch-driven
-//! Sun/Moon third body**. The full high-degree EGM tesseral field (a 200×200 gravity model and
-//! its coefficient loader), atmospheric drag (an NRLMSISE-00 density model), solar-radiation
-//! pressure — and the cross-validation of a 200×200 EGM 24-hour orbit against an external
-//! high-precision propagator (GMAT/Orekit) — remain follow-ons (see `ROADMAP.md`). The
-//! third-body ephemerides are the [`crate::ephem`] *low-precision* analytical series (~0.005°
-//! Sun, ~0.3° Moon), not DE/SPK-kernel accuracy. What is delivered is the integrator + the
-//! two-body/J2/zonal/third-body force model + the analytic-truth validation harness and the
+//! The force model spans **two-body + the J2..J6 zonal field + the epoch-driven Sun/Moon third
+//! body + solar-radiation pressure** (the cannonball SRP model with a cylindrical-shadow eclipse
+//! — the conical penumbra is a follow-on). The full high-degree EGM tesseral field (a 200×200
+//! gravity model and its coefficient loader), atmospheric drag (an NRLMSISE-00 density model) —
+//! and the cross-validation of a 200×200 EGM 24-hour orbit against an external high-precision
+//! propagator (GMAT/Orekit) — remain follow-ons (see `ROADMAP.md`). The third-body/SRP
+//! ephemerides are the [`crate::ephem`] *low-precision* analytical series (~0.005° Sun, ~0.3°
+//! Moon), not DE/SPK-kernel accuracy. What is delivered is the integrator + the
+//! two-body/J2/zonal/third-body/SRP force model + the analytic-truth validation harness and the
 //! convergence-guarded Kepler solver.
 
 use crate::ephem::{moon_position, sun_position};
 use crate::forces::{
-    gravity_accel, third_body_accel, two_body_accel, zonal_accel, EARTH_ZONALS_J2_J6, MU_EARTH,
-    MU_MOON, MU_SUN,
+    gravity_accel, srp_accel, third_body_accel, two_body_accel, zonal_accel, EARTH_ZONALS_J2_J6,
+    MU_EARTH, MU_MOON, MU_SUN,
 };
 use crate::integrator::{integrate, rk4_step, Tolerance};
 use crate::precession::julian_centuries_tt;
@@ -80,9 +82,17 @@ pub struct ForceModel {
     /// Propagation epoch as a Julian Date in TT (the instant of integration time `t = 0`). The
     /// perturber positions are evaluated at `epoch_jd_tt + t/86400` days, so the Sun/Moon
     /// actually advance along their orbits during the integration — this is what makes the
-    /// third-body force *time-varying* rather than frozen at the start. Ignored when both
-    /// [`sun`](Self::sun) and [`moon`](Self::moon) are `false`.
+    /// third-body force *time-varying* rather than frozen at the start. Ignored when
+    /// [`sun`](Self::sun), [`moon`](Self::moon) and [`srp`](Self::srp) are all `false`.
     pub epoch_jd_tt: f64,
+    /// Include solar-radiation pressure ([`crate::forces::srp_accel`], cannonball model with the
+    /// cylindrical-shadow eclipse), using the same epoch-driven [`crate::ephem::sun_position`].
+    pub srp: bool,
+    /// SRP radiation-pressure coefficient `cᵣ` (dimensionless; ≈1 absorptive, →2 specular). Used
+    /// only when [`srp`](Self::srp) is `true`.
+    pub cr: f64,
+    /// SRP cross-section-to-mass ratio `A/m` (m²/kg). Used only when [`srp`](Self::srp) is `true`.
+    pub area_over_mass: f64,
 }
 
 impl ForceModel {
@@ -120,6 +130,19 @@ impl ForceModel {
         self
     }
 
+    /// Add epoch-driven solar-radiation pressure to this model with radiation-pressure
+    /// coefficient `cr` (≈1.0–2.0) and cross-section-to-mass ratio `area_over_mass` (m²/kg). SRP
+    /// needs the Sun's position, so set the epoch via [`third_body`](Self::third_body) (or rely
+    /// on `epoch_jd_tt = 0`); the Sun is sampled at the same advanced epoch as the third body, so
+    /// `with_zonals_j2_j6().third_body(true, true, epoch).solar_radiation(1.5, 0.02)` shares one
+    /// ephemeris evaluation. Composable with any gravity / third-body configuration.
+    pub fn solar_radiation(mut self, cr: f64, area_over_mass: f64) -> Self {
+        self.srp = true;
+        self.cr = cr;
+        self.area_over_mass = area_over_mass;
+        self
+    }
+
     /// The time-independent **central** gravity (m/s², ECI) at position `r` (m): two-body plus
     /// the configured J2/zonal field, but *not* the third-body terms (which depend on time
     /// through the ephemeris — see [`accel_at`](Self::accel_at)). For a model without Sun/Moon
@@ -138,19 +161,31 @@ impl ForceModel {
 
     /// The full acceleration (m/s², ECI) at integration time `t` (seconds since the epoch) and
     /// position `r` (m): the central gravity of [`accel`](Self::accel) plus, when enabled, the
-    /// Sun and Moon third-body perturbations evaluated at the *advanced* epoch `epoch_jd_tt +
-    /// t/86400`. When neither body is enabled this is identical to `accel(r)` for every `t`.
+    /// Sun/Moon third-body perturbations and solar-radiation pressure, all evaluated at the
+    /// *advanced* epoch `epoch_jd_tt + t/86400`. The Sun ephemeris is computed once and shared by
+    /// the Sun third body and SRP. When none of those are enabled this is identical to `accel(r)`
+    /// for every `t`.
     pub fn accel_at(&self, t: f64, r: Vec3) -> Vec3 {
         let mut a = self.accel(r);
-        if self.sun || self.moon {
+        if self.sun || self.moon || self.srp {
             let jd_tt = self.epoch_jd_tt + t / SECONDS_PER_DAY;
             let tjc = julian_centuries_tt(jd_tt);
+            // The Sun ephemeris feeds both the Sun third body and SRP — evaluate it once.
+            let sun = if self.sun || self.srp {
+                Some(sun_position(tjc))
+            } else {
+                None
+            };
             if self.sun {
-                let p = third_body_accel(r, sun_position(tjc), MU_SUN);
+                let p = third_body_accel(r, sun.unwrap(), MU_SUN);
                 a = [a[0] + p[0], a[1] + p[1], a[2] + p[2]];
             }
             if self.moon {
                 let p = third_body_accel(r, moon_position(tjc), MU_MOON);
+                a = [a[0] + p[0], a[1] + p[1], a[2] + p[2]];
+            }
+            if self.srp {
+                let p = srp_accel(r, sun.unwrap(), self.cr, self.area_over_mass);
                 a = [a[0] + p[0], a[1] + p[1], a[2] + p[2]];
             }
         }
@@ -584,6 +619,40 @@ mod tests {
             "epoch must change the trajectory, diff {diff} m"
         );
         assert!(diff < 1e5, "epoch effect must stay bounded, diff {diff} m");
+    }
+
+    #[test]
+    fn srp_perturbs_a_leo_orbit_and_scales_linearly_with_area_to_mass() {
+        // SRP rides the same epoch-driven RHS as the third body. Two hand-derivable signatures:
+        // (1) over a day it nudges a LEO orbit off the no-SRP path by a small, bounded amount;
+        // (2) the cannonball SRP acceleration is exactly linear in A/m and the cylindrical-shadow
+        // factor is position-only (identical across A/m to ~ms timing), so to first order the
+        // day-long displacement scales ~linearly — doubling A/m ~doubles the separation.
+        use crate::timescales::JD_J2000;
+        let (r0, v0) = leo_state();
+        let day = 86_400.0;
+        let epoch = JD_J2000;
+        let tol = Tolerance {
+            rtol: 1e-12,
+            atol: 1e-9,
+            ..Tolerance::default()
+        };
+        // Baseline = full gravity + Sun/Moon third body, *no* SRP.
+        let base = ForceModel::with_zonals_j2_j6().third_body(true, true, epoch);
+        let (r_base, _) = propagate(r0, v0, day, base, &tol);
+        let sep = |aom: f64| {
+            let (r, _) = propagate(r0, v0, day, base.solar_radiation(1.5, aom), &tol);
+            norm([r[0] - r_base[0], r[1] - r_base[1], r[2] - r_base[2]])
+        };
+        let s1 = sep(0.02);
+        let s2 = sep(0.04);
+        assert!(s1 > 1e-3, "SRP must perturb the orbit, sep {s1} m");
+        assert!(s1 < 1e4, "SRP must stay a small perturbation, sep {s1} m");
+        let ratio = s2 / s1;
+        assert!(
+            (1.8..=2.2).contains(&ratio),
+            "SRP displacement should scale ~linearly with A/m, ratio {ratio}"
+        );
     }
 
     #[test]
