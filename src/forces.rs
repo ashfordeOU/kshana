@@ -11,9 +11,12 @@
 //! perigee, and the mean anomaly — the closed-form check the propagator's nodal regression
 //! must reproduce, and the basis of sun-synchronous and frozen-orbit design.
 //!
-//! Scope (honest): the gravity field is **zonal only** (no tesseral/sectoral EGM terms), and
-//! the third-body path currently supplies the Sun (the Moon's longer series, atmospheric
-//! drag, and solar-radiation pressure are follow-ons; see `ROADMAP.md`).
+//! It also provides **solar-radiation pressure** ([`srp_accel`], the cannonball model with the
+//! [`cylindrical_shadow`] eclipse factor), paired with the same Sun ephemeris.
+//!
+//! Scope (honest): the gravity field is **zonal only** (no tesseral/sectoral EGM terms); the SRP
+//! shadow is the umbra-only **cylinder** (no conical penumbra); and atmospheric drag remains a
+//! follow-on; see `ROADMAP.md`.
 
 /// Earth gravitational parameter `μ = GM` (m³/s²), WGS-84 / EGM-96 value.
 pub const MU_EARTH: f64 = 3.986_004_418e14;
@@ -36,6 +39,8 @@ pub const J6: f64 = 5.4068e-7;
 /// the standard published EGM-96 unnormalised zonals (Vallado, *Fundamentals of
 /// Astrodynamics and Applications*; Montenbruck & Gill, *Satellite Orbits*).
 pub const EARTH_ZONALS_J2_J6: [f64; 5] = [J2, J3, J4, J5, J6];
+
+use crate::ephem::AU_M;
 
 type Vec3 = [f64; 3];
 
@@ -166,6 +171,56 @@ pub fn third_body_potential(r: Vec3, s: Vec3, mu3: f64) -> f64 {
     let sn = norm(s);
     let rs = r[0] * s[0] + r[1] * s[1] + r[2] * s[2];
     mu3 * (1.0 / dn - rs / (sn * sn * sn))
+}
+
+/// Total solar irradiance at 1 AU (W/m²) — the modern mean total solar irradiance.
+pub const SOLAR_IRRADIANCE_AU: f64 = 1361.0;
+/// Speed of light in vacuum (m/s), the defining SI value.
+const SPEED_OF_LIGHT: f64 = 299_792_458.0;
+/// Solar radiation pressure at 1 AU (N/m²) = `Φ☉/c`, the momentum flux of sunlight at 1 AU
+/// (≈ 4.54e-6 Pa; cf. Montenbruck & Gill's 4.56e-6 from the older 1367 W/m² solar constant).
+pub const SRP_PRESSURE_AU: f64 = SOLAR_IRRADIANCE_AU / SPEED_OF_LIGHT;
+
+/// Cylindrical-shadow eclipse factor `ν ∈ {0, 1}` for a satellite at geocentric `r` (m) with
+/// the Sun at geocentric `s` (m): `0` when the satellite lies inside the Earth's umbral
+/// **cylinder** cast directly opposite the Sun (anti-sunward hemisphere and within one Earth
+/// radius of the Earth–Sun line), else `1`. The test is `r∥ = r·ŝ < 0` (anti-sunward) **and**
+/// `r⊥ = √(|r|² − r∥²) < Rₑ` (inside the cylinder). This is the umbra-only model — the conical
+/// umbra/penumbra (a smooth `ν ∈ [0,1]`) is a follow-on; see `ROADMAP.md`.
+pub fn cylindrical_shadow(r: Vec3, s: Vec3) -> f64 {
+    let sn = norm(s);
+    // Signed component of r along the Sun direction ŝ = s/|s|.
+    let r_par = (r[0] * s[0] + r[1] * s[1] + r[2] * s[2]) / sn;
+    if r_par >= 0.0 {
+        return 1.0; // sunward hemisphere is always lit
+    }
+    let rn2 = r[0] * r[0] + r[1] * r[1] + r[2] * r[2];
+    let r_perp = (rn2 - r_par * r_par).max(0.0).sqrt();
+    if r_perp < RE_EARTH {
+        0.0
+    } else {
+        1.0
+    }
+}
+
+/// Solar-radiation-pressure acceleration (m/s², ECI) on a satellite at geocentric `r` (m) with
+/// the Sun at geocentric `s` (m), using the **cannonball** model:
+/// `a = ν · P☉ · cᵣ · (A/m) · (AU/d)² · d̂`, where `d = r − s` is the Sun→satellite vector (so
+/// the force pushes the craft radially **away** from the Sun), `(AU/d)²` is the inverse-square
+/// flux fall-off with `P☉ = `[`SRP_PRESSURE_AU`], and `ν` is the [`cylindrical_shadow`] factor.
+/// `cr` is the dimensionless radiation-pressure coefficient (≈1 fully absorptive, →2 fully
+/// specular) and `area_over_mass` the cross-section-to-mass ratio `A/m` (m²/kg).
+pub fn srp_accel(r: Vec3, s: Vec3, cr: f64, area_over_mass: f64) -> Vec3 {
+    let nu = cylindrical_shadow(r, s);
+    if nu == 0.0 {
+        return [0.0, 0.0, 0.0];
+    }
+    let d = [r[0] - s[0], r[1] - s[1], r[2] - s[2]];
+    let dn = norm(d);
+    // scale·d = ν·P☉·cr·(A/m)·(AU²/d²)·(d/d) = ν·P☉·cr·(A/m)·(AU/d)²·d̂.
+    let inv = 1.0 / dn;
+    let scale = nu * SRP_PRESSURE_AU * cr * area_over_mass * AU_M * AU_M * inv * inv * inv;
+    [scale * d[0], scale * d[1], scale * d[2]]
 }
 
 /// Mean motion `n = √(μ/a³)` (rad/s) for semi-major axis `a` (m).
@@ -417,5 +472,77 @@ mod tests {
         // drift that a sun-synchronous orbit tunes to +0.9856°/day (≈ 1.991e-7 rad/s).
         let rates = j2_secular_rates(7.078e6, 0.0, 98.0_f64.to_radians());
         assert!(rates.raan > 0.0, "Ω̇ should be eastward: {}", rates.raan);
+    }
+
+    #[test]
+    fn srp_pressure_at_1au_is_the_textbook_4_5e_minus_6_pa() {
+        // P☉ = Φ☉/c with the modern 1361 W/m² TSI: 1361 / 299_792_458 ≈ 4.5398e-6 N/m². This is
+        // the load-bearing constant; pin it to its hand value (and bracket the M&G 4.56e-6 region).
+        let p = SRP_PRESSURE_AU;
+        assert!(
+            (p - 4.539_8e-6).abs() < 1e-9,
+            "P☉ = {p} N/m², expected ≈ 4.5398e-6"
+        );
+        assert!((4.5e-6..=4.6e-6).contains(&p), "P☉ out of band: {p}");
+    }
+
+    #[test]
+    fn srp_in_full_sun_pushes_away_from_the_sun_at_textbook_magnitude() {
+        // A 700 km LEO sat between Earth and the Sun (on the sunward x-axis): fully lit, so the
+        // SRP pushes radially away from the Sun (−x here). The magnitude is the cannonball value
+        // |a| = P☉·cr·(A/m)·(AU/d)², which for cr=1.5, A/m=0.02 m²/kg and d ≈ 1 AU is ≈ 1.36e-7
+        // m/s². Asserted by *bit-identical* reconstruction (dodging cancellation) plus a band.
+        let sun = [AU_M, 0.0, 0.0];
+        let r = [7.078e6, 0.0, 0.0]; // ~700 km altitude, sunward of Earth
+        let (cr, aom) = (1.5, 0.02);
+        let a = srp_accel(r, sun, cr, aom);
+
+        // Bit-identical against the hand-composed formula (same arithmetic the routine performs).
+        let d = [r[0] - sun[0], r[1] - sun[1], r[2] - sun[2]];
+        let dn = norm(d);
+        let inv = 1.0 / dn;
+        let scale = SRP_PRESSURE_AU * cr * aom * AU_M * AU_M * inv * inv * inv; // ν = 1 (lit)
+        for k in 0..3 {
+            assert_eq!(a[k], scale * d[k], "SRP axis {k} mismatch");
+        }
+
+        // Direction: away from the Sun (−x), no transverse component.
+        assert!(a[0] < 0.0, "SRP must push away from the Sun (−x): {}", a[0]);
+        assert!(a[1] == 0.0 && a[2] == 0.0, "no transverse SRP: {a:?}");
+        // Magnitude in the ~1.36e-7 m/s² textbook band.
+        let mag = norm(a);
+        assert!(
+            (1.35e-7..=1.37e-7).contains(&mag),
+            "SRP magnitude {mag} m/s² outside ~1.36e-7 band"
+        );
+    }
+
+    #[test]
+    fn srp_inverse_square_law_quarters_with_doubled_sun_distance() {
+        // The (AU/d)² fall-off: doubling the Sun distance must quarter the SRP magnitude. Place
+        // the same sat against a Sun at 1 AU and at 2 AU (both leave it lit) — the ratio is
+        // (d₁/d₂)² ≈ (1/2)² = 0.25.
+        let r = [7.0e6, 0.0, 0.0];
+        let a1 = srp_accel(r, [AU_M, 0.0, 0.0], 1.5, 0.02);
+        let a2 = srp_accel(r, [2.0 * AU_M, 0.0, 0.0], 1.5, 0.02);
+        let ratio = norm(a2) / norm(a1);
+        assert!(
+            (0.249..=0.251).contains(&ratio),
+            "inverse-square ratio {ratio}, expected ≈ 0.25"
+        );
+    }
+
+    #[test]
+    fn cylindrical_shadow_eclipses_only_the_umbral_cylinder() {
+        let sun = [AU_M, 0.0, 0.0];
+        // Directly behind Earth from the Sun, on the Earth–Sun line → r⊥ = 0 < Rₑ → eclipsed.
+        assert_eq!(cylindrical_shadow([-7.078e6, 0.0, 0.0], sun), 0.0);
+        // Same anti-sunward x, but offset so r⊥ = 8e6 m > Rₑ (6.378e6) → still lit.
+        assert_eq!(cylindrical_shadow([-1.0e6, 8.0e6, 0.0], sun), 1.0);
+        // Sunward hemisphere is always lit, even on the Earth–Sun line.
+        assert_eq!(cylindrical_shadow([7.078e6, 0.0, 0.0], sun), 1.0);
+        // And in eclipse the SRP acceleration is exactly zero (no light, no push).
+        let a = srp_accel([-7.078e6, 0.0, 0.0], sun, 1.5, 0.02);
+        assert_eq!(a, [0.0, 0.0, 0.0]);
     }
 }
