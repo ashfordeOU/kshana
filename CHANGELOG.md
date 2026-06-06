@@ -10,6 +10,19 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Post-Newtonian (Schwarzschild) relativistic correction (`forces::relativistic_accel` +
+  `propagator::ForceModel::relativity`).** Adds the dominant general-relativistic perturbation on a
+  near-Earth orbit — the leading driver of the relativistic perigee advance — in the IERS /
+  Montenbruck–Gill `β = γ = 1` form `a = (μ/c²r³)·{[4μ/r − v²]·r + 4(r·v)·v}`. Like atmospheric
+  drag it is **velocity-dependent**, so it rides the `(r, v)` integrator RHS via
+  [`accel_rv`], opt-in and off by default. Validated self-contained: on a circular orbit it
+  collapses to the closed form `3μ²/(c²r³)·r̂` (purely radial and **outward**, off-axis components
+  exactly zero); its **ratio to two-body is the textbook `≈1.9·10⁻⁹` at LEO** (the `μ/(c²r)`
+  signature); a radial-velocity case matches the hand-simplified `μ(4μ + 3v²r)/(c²r³)`; and in the
+  propagator it **perturbs the orbit without dissipating it** — the semi-major axis is conserved to
+  well under a metre/day, the structural opposite of drag's monotonic decay. Because it is off by
+  default the two-body/J2/zonal goldens are untouched. PPN-parameter (`β`,`γ`) tuning and the
+  Lense–Thirring frame-dragging term remain follow-ons.
 - **Conical umbra+penumbra shadow model (`forces::conical_shadow`), now used by solar-radiation
   pressure.** Upgrades the binary umbral-cylinder eclipse to a smooth `ν ∈ [0,1]` factor: the Sun
   and Earth are modelled as disks of apparent angular radii `a = asin(R☉/d☉)`, `b = asin(Rₑ/|r|)`

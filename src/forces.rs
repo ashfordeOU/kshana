@@ -12,9 +12,11 @@
 //! must reproduce, and the basis of sun-synchronous and frozen-orbit design.
 //!
 //! It also provides **solar-radiation pressure** ([`srp_accel`], the cannonball model with the
-//! [`conical_shadow`] umbra+penumbra eclipse factor) paired with the same Sun ephemeris, and
+//! [`conical_shadow`] umbra+penumbra eclipse factor) paired with the same Sun ephemeris,
 //! **atmospheric drag** ([`drag_accel`], quadratic drag against the co-rotating atmosphere of
-//! [`atmospheric_density`], the Vallado piecewise-exponential model).
+//! [`atmospheric_density`], the Vallado piecewise-exponential model), and the post-Newtonian
+//! **Schwarzschild relativistic correction** ([`relativistic_accel`], the leading
+//! general-relativistic perigee-advance term).
 //!
 //! Scope (honest): the gravity field is **zonal only** (no tesseral/sectoral EGM terms); the SRP
 //! shadow is the geometric dual-disk **conical umbra+penumbra** (no solar limb darkening or
@@ -340,6 +342,30 @@ pub fn drag_accel(r: Vec3, v: Vec3, cd_area_over_mass: f64) -> Vec3 {
     let v_rel = [v[0] + w * r[1], v[1] - w * r[0], v[2]];
     let coef = -0.5 * rho * cd_area_over_mass * norm(v_rel);
     [coef * v_rel[0], coef * v_rel[1], coef * v_rel[2]]
+}
+
+/// Post-Newtonian (Schwarzschild) relativistic correction to the central-body
+/// acceleration (m/s², ECI) — the dominant general-relativistic perturbation on a
+/// near-Earth orbit, the leading driver of the relativistic perigee advance. With the
+/// PPN parameters `β = γ = 1` (general relativity) the IERS / Montenbruck–Gill form is
+/// `a = (μ / c²r³)·{ [4μ/r − v²]·r + 4(r·v)·v }`, with `μ = MU_EARTH`, `c` the speed of
+/// light and `r = |r|`. It is a tiny term (its ratio to the two-body acceleration is of
+/// order `μ/(c²r) ≈ 6·10⁻¹⁰` at LEO), velocity-dependent, and so — like atmospheric drag
+/// — enters the integrator through the `(r, v)` right-hand side.
+pub fn relativistic_accel(r: Vec3, v: Vec3) -> Vec3 {
+    let rn = norm(r);
+    let c2 = SPEED_OF_LIGHT * SPEED_OF_LIGHT;
+    let v2 = v[0] * v[0] + v[1] * v[1] + v[2] * v[2];
+    let rv = r[0] * v[0] + r[1] * v[1] + r[2] * v[2];
+    let pre = MU_EARTH / (c2 * rn * rn * rn);
+    // Coefficient on r̂-aligned term and on v-aligned term.
+    let kr = 4.0 * MU_EARTH / rn - v2;
+    let kv = 4.0 * rv;
+    [
+        pre * (kr * r[0] + kv * v[0]),
+        pre * (kr * r[1] + kv * v[1]),
+        pre * (kr * r[2] + kv * v[2]),
+    ]
 }
 
 /// Mean motion `n = √(μ/a³)` (rad/s) for semi-major axis `a` (m).
@@ -794,6 +820,84 @@ mod tests {
         assert!(
             (1e-7..=1e-5).contains(&mag),
             "400 km drag magnitude {mag} m/s² outside ~2e-6 band"
+        );
+    }
+
+    #[test]
+    fn relativistic_accel_on_a_circular_orbit_is_radial_with_the_closed_form_magnitude() {
+        // For a circular orbit r·v = 0 and v² = μ/r, so the Schwarzschild bracket reduces
+        // to 4μ/r − μ/r = 3μ/r and the correction collapses to the closed form
+        //   a = 3μ²/(c²r³) · r̂        (purely radial, directed *outward*).
+        let r0 = 7.0e6;
+        let r = [r0, 0.0, 0.0];
+        let vcirc = (MU_EARTH / r0).sqrt();
+        let v = [0.0, vcirc, 0.0];
+        let a = relativistic_accel(r, v);
+
+        // The off-radial components are *exactly* zero here: r has only an x-component and
+        // r·v = 0 kills the v-aligned term, so nothing feeds y or z.
+        assert!(
+            a[1] == 0.0 && a[2] == 0.0,
+            "circular GR term not radial: {a:?}"
+        );
+
+        let c2 = SPEED_OF_LIGHT * SPEED_OF_LIGHT;
+        let expected = 3.0 * MU_EARTH * MU_EARTH / (c2 * r0 * r0 * r0);
+        assert!(
+            a[0] > 0.0,
+            "GR correction must push radially outward: {a:?}"
+        );
+        let rel = (a[0] - expected).abs() / expected;
+        assert!(
+            rel < 1e-9,
+            "circular GR magnitude {} vs closed form {expected} (rel {rel})",
+            a[0]
+        );
+    }
+
+    #[test]
+    fn relativistic_accel_is_order_1e9_of_two_body_at_leo() {
+        // The defining physical signature: the relativistic term is ~μ/(c²r) of two-body.
+        // At 7000 km the circular ratio is 3μ/(c²r) ≈ 1.9e-9 — minuscule but not zero.
+        let r0 = 7.0e6;
+        let r = [r0, 0.0, 0.0];
+        let vcirc = (MU_EARTH / r0).sqrt();
+        let v = [0.0, vcirc, 0.0];
+        let rel_mag = norm(relativistic_accel(r, v));
+        let two_body = norm(two_body_accel(r));
+        let ratio = rel_mag / two_body;
+        assert!(
+            (1e-9..3e-9).contains(&ratio),
+            "GR/two-body ratio {ratio} outside the expected ~1.9e-9 LEO band"
+        );
+    }
+
+    #[test]
+    fn relativistic_accel_radial_velocity_matches_the_hand_simplified_form() {
+        // With r along +x and v purely radial (also along x), both Schwarzschild terms are
+        // x-aligned, so y and z stay exactly zero and the x-component simplifies by hand to
+        //   a_x = pre·[(4μ/r − v²)·r + 4(r·v)·v]
+        //       = (μ/c²r³)·(4μ − v²r + 4r v²)         [r·v = r·v_x, both = r0·vx]
+        //       = μ·(4μ + 3 v² r)/(c²r³).
+        // This closed form is a genuinely different factoring from the vector assembly the
+        // function performs, so agreement validates the general formula's algebra.
+        let r0 = 1.0e7;
+        let vx = 1000.0;
+        let r = [r0, 0.0, 0.0];
+        let v = [vx, 0.0, 0.0];
+        let a = relativistic_accel(r, v);
+
+        assert!(
+            a[1] == 0.0 && a[2] == 0.0,
+            "radial-velocity GR term must stay on the x-axis: {a:?}"
+        );
+        let c2 = SPEED_OF_LIGHT * SPEED_OF_LIGHT;
+        let expected = MU_EARTH * (4.0 * MU_EARTH + 3.0 * vx * vx * r0) / (c2 * r0 * r0 * r0);
+        let rel = (a[0] - expected).abs() / expected;
+        assert!(
+            rel < 1e-12,
+            "radial GR x-component {} vs closed form {expected} (rel {rel})",
+            a[0]
         );
     }
 }
