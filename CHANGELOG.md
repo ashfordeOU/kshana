@@ -10,6 +10,23 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Epoch-driven Sun/Moon third body wired into the time-varying propagator RHS
+  (`propagator::ForceModel::third_body` / `accel_at`).** The third-body perturbation is no longer a
+  standalone force term — it is now integrated by the Cowell propagator as a genuinely *time-varying*
+  force: each RHS evaluation samples the `ephem` Sun/Moon positions at the **advanced epoch
+  `epoch_jd_tt + t/86400`** (reusing `precession::julian_centuries_tt` for the day↔century
+  conversion), so the perturbers move along their orbits during the integration rather than being
+  frozen at the start. Composable with any gravity model
+  (`ForceModel::with_zonals_j2_j6().third_body(true, true, epoch)`). Validated self-contained:
+  the RHS Sun term is **bit-identical** to `third_body_accel` evaluated at the ephemeris position for
+  that instant at both `t = 0` and `t = 1 day` (proving the 86400 s ↔ 1 day ↔ 1/36525 century
+  wiring exactly), the perturber **advances ~2.6·10⁹ m/day** between samples (not frozen), the
+  **instantaneous LEO tidal magnitudes** hit the textbook ~5·10⁻⁷ m/s² (Sun) and ~1.1·10⁻⁶ m/s²
+  (Moon, ≈ 2× the Sun) bands, each body **measurably perturbs the day-long trajectory while staying
+  bounded**, and the same initial state propagated at **epochs a quarter-year apart yields a
+  different trajectory** (the tidal axis rotates 90°) — while a model with neither body enabled is
+  bit-for-bit time-independent, leaving the two-body/J2/zonal goldens untouched. DE-grade ephemeris
+  accuracy and external GMAT/Orekit cross-validation remain follow-ons.
 - **Low-precision Moon ephemeris (`ephem::moon_position`), completing the Sun/Moon third-body pair.**
   Adds the Montenbruck & Gill low-precision lunar series (`§3.3.2`) alongside the Sun model, so the
   body-agnostic `forces::third_body_accel` can now be driven by either luminary with **no external
