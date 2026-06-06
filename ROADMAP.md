@@ -51,9 +51,14 @@ A validated, fully reproducible engine spanning the PNT stack:
   `ForceModel::solar_radiation`) is wired into the same epoch-driven RHS: the cannonball model
   `ν·P☉·cᵣ·(A/m)·(AU/d)²·d̂` with a cylindrical-shadow eclipse, validated against the textbook 1-AU
   pressure (≈ 4.54·10⁻⁶ N/m²), the ~1.36·10⁻⁷ m/s² LEO magnitude, the inverse-square fall-off, an
-  exactly-zero eclipse, and a ~linear A/m scaling of the propagated displacement. High-degree
-  tesseral gravity, drag, the conical SRP penumbra, and external GMAT/Orekit cross-validation remain
-  follow-ons.
+  exactly-zero eclipse, and a ~linear A/m scaling of the propagated displacement. **Atmospheric
+  drag** (`forces::drag_accel` / `ForceModel::drag`) is wired in as the first velocity-dependent
+  force: quadratic drag against the co-rotating atmosphere of the Vallado piecewise-exponential
+  `forces::atmospheric_density`, validated by the 1.225 kg/m³ sea-level anchor, a monotonic LEO
+  decay with a physical ~58 km scale height, the ~2·10⁻⁶ m/s² drag magnitude, and the dissipation
+  signature (a 300 km orbit loses energy monotonically and its semi-major axis decays ~km/day where
+  the vacuum orbit conserves energy). High-degree tesseral gravity, the conical SRP penumbra, the
+  NRLMSISE-00 thermospheric density, and external GMAT/Orekit cross-validation remain follow-ons.
 - **Time systems** — IERS leap-second UTC/TAI/TT/UT1, Julian-date API, IAU-2000
   Earth Rotation Angle; GMST-based TEME↔ECEF and WGS-84 geodetic frames.
 - **Inertial** — three-axis strapdown INS (quaternion attitude, NED mechanization,
@@ -151,9 +156,12 @@ welcome collaboration: see [Support & professional services](README.md#support--
   + the `src/ephem.rs` low-precision Sun and Moon ephemerides + `ForceModel::accel_at` sampling them
   at `epoch_jd_tt + t/86400`), **solar-radiation pressure on the same epoch-driven RHS**
   (`forces::srp_accel` cannonball model + `forces::cylindrical_shadow` eclipse +
-  `ForceModel::solar_radiation`), and the `propagator::propagate` wiring are delivered
-  (`src/forces.rs`, `src/propagator.rs`); the high-degree tesseral field, drag, the conical SRP
-  penumbra, and DE-grade ephemeris accuracy remain — to complement the analytic SGP4/SDP4 path.
+  `ForceModel::solar_radiation`), **velocity-dependent atmospheric drag** (`forces::drag_accel`
+  against the co-rotating `forces::atmospheric_density` Vallado exponential model +
+  `ForceModel::drag` + the new `ForceModel::accel_rv` / velocity-passing RHS), and the
+  `propagator::propagate` wiring are delivered (`src/forces.rs`, `src/propagator.rs`); the
+  high-degree tesseral field, the conical SRP penumbra, the NRLMSISE-00 thermospheric density, and
+  DE-grade ephemeris accuracy remain — to complement the analytic SGP4/SDP4 path.
 - Batch orbit determination is delivered: `src/orbit_determination.rs` recovers an
   orbital state from ground-station ranges via the Gauss–Newton corrector
   (`src/batch_ls.rs`) over the two-body + J2 force model, with a sequential
