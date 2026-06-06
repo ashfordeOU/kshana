@@ -10,6 +10,18 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Conical umbra+penumbra shadow model (`forces::conical_shadow`), now used by solar-radiation
+  pressure.** Upgrades the binary umbral-cylinder eclipse to a smooth `ν ∈ [0,1]` factor: the Sun
+  and Earth are modelled as disks of apparent angular radii `a = asin(R☉/d☉)`, `b = asin(Rₑ/|r|)`
+  with apparent centre separation `c`, and `ν` is one minus the fraction of the Sun's disk occulted
+  by the Earth's disk (the circle–circle lens-overlap area) — full sun for `c ≥ a+b`, total umbra
+  for `c ≤ b−a`, annular for `c ≤ a−b`, and a continuous penumbra in between. `srp_accel` now uses
+  it, so the SRP force tapers smoothly through eclipse instead of switching on/off. Adds the IAU
+  nominal `forces::SOLAR_RADIUS`. Validated self-contained: `ν = 1` in full sun and `ν = 0` deep in
+  the umbra (exact), a **smooth monotonic penumbra** (`ν` rises 0 → ~½ at `c = b` → 1 across the
+  `[b−a, b+a]` band), and the conical penumbra **extends beyond the umbral cylinder** (a point the
+  binary cylinder calls fully lit is `0 < ν < 1` for the cone). The simpler `cylindrical_shadow`
+  remains available; solar limb darkening and the oblate-Earth shadow remain follow-ons.
 - **Dormand–Prince RK5(4) embedded integrator (`integrator::dopri54_step` /
   `integrator::integrate_dopri` + `propagator::propagate_dopri`).** Adds the standard
   Dormand–Prince (1980) embedded Butcher-tableau pair alongside the existing RK4 step-doubling
