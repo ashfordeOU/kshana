@@ -4,12 +4,13 @@
 //! orbit stack is the analytic SGP4/SDP4 of [`crate::sgp4`]).
 //!
 //! It wires the orbital force model of [`crate::forces`] (two-body `−μr/|r|³`, the J2/zonal
-//! field, the **epoch-driven Sun/Moon third body**, and **solar-radiation pressure**) into the
-//! step-doubling integrator of [`crate::integrator`], turning `f(t, [r; v]) = [v; a(t, r)]` into
-//! a state propagator. The third-body and SRP terms are genuinely *time-varying*: the
-//! [`crate::ephem`] Sun/Moon ephemerides are sampled at `epoch_jd_tt + t/86400` each RHS
-//! evaluation (the Sun once, shared by the Sun third body and SRP), so the perturbers advance
-//! along their orbits during the integration rather than being frozen at the start. Its
+//! field, the **epoch-driven Sun/Moon third body**, **solar-radiation pressure**, and
+//! **atmospheric drag**) into the step-doubling integrator of [`crate::integrator`], turning
+//! `f(t, [r; v]) = [v; a(t, r, v)]` into a state propagator. The third-body and SRP terms are
+//! genuinely *time-varying* (the [`crate::ephem`] Sun/Moon ephemerides are sampled at
+//! `epoch_jd_tt + t/86400` each RHS evaluation — the Sun once, shared by the Sun third body and
+//! SRP) and drag is genuinely *velocity-dependent* (it opposes the velocity relative to the
+//! co-rotating atmosphere), so the RHS passes both `r` and `v` to the acceleration. Its
 //! correctness is pinned
 //! **against analytic truth that is stronger than a numerical cross-tool would be**:
 //!
@@ -28,20 +29,22 @@
 //! ## Scope (honest)
 //!
 //! The force model spans **two-body + the J2..J6 zonal field + the epoch-driven Sun/Moon third
-//! body + solar-radiation pressure** (the cannonball SRP model with a cylindrical-shadow eclipse
-//! — the conical penumbra is a follow-on). The full high-degree EGM tesseral field (a 200×200
-//! gravity model and its coefficient loader), atmospheric drag (an NRLMSISE-00 density model) —
-//! and the cross-validation of a 200×200 EGM 24-hour orbit against an external high-precision
-//! propagator (GMAT/Orekit) — remain follow-ons (see `ROADMAP.md`). The third-body/SRP
-//! ephemerides are the [`crate::ephem`] *low-precision* analytical series (~0.005° Sun, ~0.3°
-//! Moon), not DE/SPK-kernel accuracy. What is delivered is the integrator + the
-//! two-body/J2/zonal/third-body/SRP force model + the analytic-truth validation harness and the
-//! convergence-guarded Kepler solver.
+//! body + solar-radiation pressure + atmospheric drag** (the cannonball SRP model with a
+//! cylindrical-shadow eclipse, and quadratic drag against the Vallado piecewise-exponential
+//! atmosphere). The full high-degree EGM tesseral field (a 200×200 gravity model and its
+//! coefficient loader), the conical SRP penumbra, the NRLMSISE-00 thermospheric density (the
+//! < 5 % drag-density clause) — and the cross-validation of a 200×200 EGM 24-hour orbit against
+//! an external high-precision propagator (GMAT/Orekit) — remain follow-ons (see `ROADMAP.md`).
+//! The third-body/SRP ephemerides are the [`crate::ephem`] *low-precision* analytical series
+//! (~0.005° Sun, ~0.3° Moon), not DE/SPK-kernel accuracy, and the drag density is the static
+//! exponential model. What is delivered is the integrator + the
+//! two-body/J2/zonal/third-body/SRP/drag force model + the analytic-truth validation harness and
+//! the convergence-guarded Kepler solver.
 
 use crate::ephem::{moon_position, sun_position};
 use crate::forces::{
-    gravity_accel, srp_accel, third_body_accel, two_body_accel, zonal_accel, EARTH_ZONALS_J2_J6,
-    MU_EARTH, MU_MOON, MU_SUN,
+    drag_accel, gravity_accel, srp_accel, third_body_accel, two_body_accel, zonal_accel,
+    EARTH_ZONALS_J2_J6, MU_EARTH, MU_MOON, MU_SUN,
 };
 use crate::integrator::{integrate, rk4_step, Tolerance};
 use crate::precession::julian_centuries_tt;
@@ -93,6 +96,13 @@ pub struct ForceModel {
     pub cr: f64,
     /// SRP cross-section-to-mass ratio `A/m` (m²/kg). Used only when [`srp`](Self::srp) is `true`.
     pub area_over_mass: f64,
+    /// Include atmospheric drag ([`crate::forces::drag_accel`], quadratic drag against the
+    /// co-rotating atmosphere of [`crate::forces::atmospheric_density`]). Unlike the other terms
+    /// this is **velocity-dependent**, so it is applied in [`accel_rv`](Self::accel_rv)/the RHS,
+    /// not the position-only [`accel_at`](Self::accel_at).
+    pub drag: bool,
+    /// Drag ballistic area term `C_D·A/m` (m²/kg). Used only when [`drag`](Self::drag) is `true`.
+    pub cd_area_over_mass: f64,
 }
 
 impl ForceModel {
@@ -140,6 +150,16 @@ impl ForceModel {
         self.srp = true;
         self.cr = cr;
         self.area_over_mass = area_over_mass;
+        self
+    }
+
+    /// Add atmospheric drag with ballistic area term `cd_area_over_mass = C_D·A/m` (m²/kg). Drag
+    /// is **velocity-dependent**, so it enters via [`accel_rv`](Self::accel_rv) and the integrator
+    /// RHS rather than the position-only [`accel_at`](Self::accel_at). Composable with any other
+    /// configuration, e.g. `ForceModel::with_zonals_j2_j6().drag(0.02)`.
+    pub fn drag(mut self, cd_area_over_mass: f64) -> Self {
+        self.drag = true;
+        self.cd_area_over_mass = cd_area_over_mass;
         self
     }
 
@@ -192,12 +212,26 @@ impl ForceModel {
         a
     }
 
-    /// The first-order ODE right-hand side `f(t, [r; v]) = [v; a(t, r)]` for the integrator. The
-    /// `t`-dependence is real: with Sun/Moon enabled the perturber ephemeris is sampled at
-    /// `epoch_jd_tt + t/86400`, so the integrator advances the third bodies along their orbits.
+    /// The full acceleration (m/s², ECI) at time `t`, position `r` and velocity `v`: the
+    /// position/time-dependent terms of [`accel_at`](Self::accel_at) plus, when enabled, the
+    /// **velocity-dependent atmospheric drag** [`crate::forces::drag_accel`]. This is what the
+    /// integrator RHS evaluates. With drag disabled it is identical to `accel_at(t, r)`.
+    pub fn accel_rv(&self, t: f64, r: Vec3, v: Vec3) -> Vec3 {
+        let mut a = self.accel_at(t, r);
+        if self.drag {
+            let d = drag_accel(r, v, self.cd_area_over_mass);
+            a = [a[0] + d[0], a[1] + d[1], a[2] + d[2]];
+        }
+        a
+    }
+
+    /// The first-order ODE right-hand side `f(t, [r; v]) = [v; a(t, r, v)]` for the integrator.
+    /// The `t`-dependence is real (Sun/Moon/SRP sampled at `epoch_jd_tt + t/86400`) and so is the
+    /// velocity dependence (atmospheric drag opposes the velocity relative to the co-rotating
+    /// atmosphere) — hence the RHS passes both `r` and `v` to [`accel_rv`](Self::accel_rv).
     fn rhs(&self) -> impl Fn(f64, &[f64]) -> Vec<f64> + '_ {
         move |t: f64, y: &[f64]| {
-            let a = self.accel_at(t, [y[0], y[1], y[2]]);
+            let a = self.accel_rv(t, [y[0], y[1], y[2]], [y[3], y[4], y[5]]);
             vec![y[3], y[4], y[5], a[0], a[1], a[2]]
         }
     }
@@ -652,6 +686,60 @@ mod tests {
         assert!(
             (1.8..=2.2).contains(&ratio),
             "SRP displacement should scale ~linearly with A/m, ratio {ratio}"
+        );
+    }
+
+    #[test]
+    fn drag_dissipates_energy_and_decays_the_orbit_monotonically() {
+        // Drag is the one dissipative term: unlike the energy-conserving vacuum/zonal/third-body
+        // models, a drag-perturbed orbit must LOSE specific energy and semi-major axis over time
+        // (the orbit sinks). Use a 300 km orbit (denser atmosphere → measurable decay in a day).
+        let alt = 300e3;
+        let r0 = [crate::forces::RE_EARTH + alt, 0.0, 0.0];
+        let vc = (MU_EARTH / (crate::forces::RE_EARTH + alt)).sqrt();
+        let inc = 45.0_f64.to_radians();
+        let v0 = [0.0, vc * inc.cos(), vc * inc.sin()];
+        let day = 86_400.0;
+        let tol = Tolerance {
+            rtol: 1e-12,
+            atol: 1e-9,
+            ..Tolerance::default()
+        };
+        let drag_model = ForceModel::two_body().drag(0.02);
+        let e0 = specific_energy(r0, v0);
+
+        // The vacuum baseline conserves energy to ~1e-9; drag must strictly lower it.
+        let (r_vac, v_vac) = propagate(r0, v0, day, ForceModel::two_body(), &tol);
+        assert!(
+            (specific_energy(r_vac, v_vac) - e0).abs() / e0.abs() < 1e-9,
+            "vacuum orbit must conserve energy"
+        );
+
+        // Secular decay: the two-body energy at successive day-fractions strictly decreases (each
+        // sample spans several orbits, so the secular trend dominates the per-orbit ripple).
+        let mut prev = e0;
+        let mut e_day = e0;
+        for k in 1..=4 {
+            let (r, v) = propagate(r0, v0, day * f64::from(k) / 4.0, drag_model, &tol);
+            e_day = specific_energy(r, v);
+            assert!(
+                e_day < prev,
+                "drag energy must decay monotonically: step {k} e {e_day} not < prev {prev}"
+            );
+            prev = e_day;
+        }
+        // Semi-major axis a = −μ/(2ε) shrank (ε more negative ⇒ smaller a ⇒ the orbit decayed).
+        let a0 = -MU_EARTH / (2.0 * e0);
+        let a_day = -MU_EARTH / (2.0 * e_day);
+        assert!(
+            a_day < a0,
+            "drag must shrink the semi-major axis: a_day {a_day} not < a0 {a0}"
+        );
+        // And the decay is a real, bounded amount over the day (not numerical noise, not a crash).
+        let drop = a0 - a_day;
+        assert!(
+            (1.0..=1e5).contains(&drop),
+            "a-decay {drop} m/day outside the physical band for 300 km, C_D·A/m = 0.02"
         );
     }
 
