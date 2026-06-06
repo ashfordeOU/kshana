@@ -46,7 +46,7 @@ use crate::forces::{
     drag_accel, gravity_accel, srp_accel, third_body_accel, two_body_accel, zonal_accel,
     EARTH_ZONALS_J2_J6, MU_EARTH, MU_MOON, MU_SUN,
 };
-use crate::integrator::{integrate, rk4_step, Tolerance};
+use crate::integrator::{integrate, integrate_dopri, rk4_step, Tolerance};
 use crate::precession::julian_centuries_tt;
 use crate::timescales::SECONDS_PER_DAY;
 
@@ -257,6 +257,27 @@ pub fn propagate(
     )
 }
 
+/// Numerically propagate `(r0, v0)` forward by `t_end` seconds under `model` using the adaptive
+/// **Dormand–Prince RK5(4)** driver ([`crate::integrator::integrate_dopri`]) instead of step
+/// doubling. Same force model and result as [`propagate`]; the embedded pair reaches the same
+/// tolerance in fewer function evaluations (and the two agree to well within tolerance).
+pub fn propagate_dopri(
+    r0: Vec3,
+    v0: Vec3,
+    t_end: f64,
+    model: ForceModel,
+    tol: &Tolerance,
+) -> (Vec3, Vec3) {
+    let f = model.rhs();
+    let y0 = vec![r0[0], r0[1], r0[2], v0[0], v0[1], v0[2]];
+    let h0 = (t_end / 1000.0).max(1.0).min(t_end.max(1e-3));
+    let sol = integrate_dopri(&f, 0.0, &y0, t_end, h0, tol);
+    (
+        [sol.y[0], sol.y[1], sol.y[2]],
+        [sol.y[3], sol.y[4], sol.y[5]],
+    )
+}
+
 /// Right ascension of the ascending node `Ω` (rad) of the osculating orbit for state
 /// `(r, v)`: the in-plane angle of the node vector `n = ẑ × (r × v)`.
 pub fn raan_rad(r: Vec3, v: Vec3) -> f64 {
@@ -410,6 +431,45 @@ mod tests {
         assert!(err < 10.0, "24h two-body residual {err} m vs exact Kepler");
         // In fact it is far below the 10 m the milestone asks for.
         assert!(err < 1.0, "should be sub-metre: {err} m");
+    }
+
+    #[test]
+    fn dopri_propagation_matches_exact_kepler_and_agrees_with_the_rk4_path() {
+        // The Dormand–Prince RK5(4) propagator must clear the same analytic-truth gate as the
+        // step-doubling one: sub-metre against the exact universal-variable Kepler solution over a
+        // 24 h LEO orbit. And the two adaptive drivers must agree with each other to well within
+        // tolerance (same force model, same physics — only the error-control scheme differs).
+        let (r0, v0) = leo_state();
+        let day = 86_400.0;
+        let tol = Tolerance {
+            rtol: 1e-12,
+            atol: 1e-9,
+            ..Tolerance::default()
+        };
+        let (r_dp, _) = propagate_dopri(r0, v0, day, ForceModel::two_body(), &tol);
+        let (r_exact, _) = kepler_universal(r0, v0, day, MU_EARTH);
+        let err = norm([
+            r_dp[0] - r_exact[0],
+            r_dp[1] - r_exact[1],
+            r_dp[2] - r_exact[2],
+        ]);
+        assert!(
+            err < 1.0,
+            "DP5(4) 24h two-body residual {err} m vs exact Kepler"
+        );
+
+        // The two drivers agree on a perturbed (J2..J6) orbit, where there is no closed form.
+        let (r_rk4, _) = propagate(r0, v0, day, ForceModel::with_zonals_j2_j6(), &tol);
+        let (r_dp2, _) = propagate_dopri(r0, v0, day, ForceModel::with_zonals_j2_j6(), &tol);
+        let agree = norm([
+            r_rk4[0] - r_dp2[0],
+            r_rk4[1] - r_dp2[1],
+            r_rk4[2] - r_dp2[2],
+        ]);
+        assert!(
+            agree < 1.0,
+            "step-doubling and DP5(4) must agree on the J2..J6 orbit: {agree} m"
+        );
     }
 
     #[test]
