@@ -10,6 +10,25 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Solar-radiation pressure wired epoch-driven into the propagator force model
+  (`forces::srp_accel` + `propagator::ForceModel::solar_radiation`).** Adds the **cannonball SRP
+  model** `a = ν · P☉ · cᵣ · (A/m) · (AU/d)² · d̂` with a **cylindrical-shadow eclipse factor**
+  (`forces::cylindrical_shadow`, ν ∈ {0,1}): the radiation pressure `P☉ = Φ☉/c` from the modern
+  1361 W/m² total solar irradiance (≈ 4.5398·10⁻⁶ N/m²), the inverse-square `(AU/d)²` flux fall-off,
+  and the radial push **away from the Sun**. It rides the **same epoch-driven RHS** as the third
+  body, sampling the `ephem` Sun once at the advanced epoch `epoch_jd_tt + t/86400` shared between
+  the Sun third body and SRP. Composable:
+  `with_zonals_j2_j6().third_body(true, true, epoch).solar_radiation(1.5, 0.02)`. Validated
+  self-contained against hand-derived signatures: the **1-AU radiation pressure pins to its textbook
+  ≈ 4.5398·10⁻⁶ N/m²**; a fully-lit LEO sat's SRP is **bit-identical** to the cannonball formula,
+  points **away from the Sun**, and sits in the **~1.36·10⁻⁷ m/s² band** for cᵣ = 1.5, A/m = 0.02
+  m²/kg; **doubling the Sun distance quarters the magnitude** (inverse-square); the **cylindrical
+  shadow eclipses only the umbral cylinder** (anti-sunward *and* within one Earth radius of the
+  Earth–Sun line) and yields **exactly zero** SRP in eclipse; and in the propagator SRP **perturbs
+  a LEO orbit by a small bounded amount that scales ~linearly with A/m** — while a model with no
+  perturbations stays bit-for-bit time-independent, leaving the two-body/J2/zonal goldens untouched.
+  The conical umbra/penumbra (smooth ν ∈ [0,1]), atmospheric drag, and external GMAT/Orekit
+  cross-validation remain follow-ons.
 - **Epoch-driven Sun/Moon third body wired into the time-varying propagator RHS
   (`propagator::ForceModel::third_body` / `accel_at`).** The third-body perturbation is no longer a
   standalone force term — it is now integrated by the Cowell propagator as a genuinely *time-varying*

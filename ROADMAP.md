@@ -47,8 +47,13 @@ A validated, fully reproducible engine spanning the PNT stack:
   declination, ~1°/day motion) and the Moon against its perigee/apogee envelope, ~384 400 km mean
   distance, ≤ 5.3° inclination bound, and sidereal-month return; and the integration wiring proven
   bit-exact (RHS term = `third_body_accel` at the sampled position), with a quarter-year epoch shift
-  producing a different trajectory. High-degree tesseral gravity, drag, SRP, and external GMAT/Orekit
-  cross-validation remain follow-ons.
+  producing a different trajectory. **Solar-radiation pressure** (`forces::srp_accel` /
+  `ForceModel::solar_radiation`) is wired into the same epoch-driven RHS: the cannonball model
+  `ν·P☉·cᵣ·(A/m)·(AU/d)²·d̂` with a cylindrical-shadow eclipse, validated against the textbook 1-AU
+  pressure (≈ 4.54·10⁻⁶ N/m²), the ~1.36·10⁻⁷ m/s² LEO magnitude, the inverse-square fall-off, an
+  exactly-zero eclipse, and a ~linear A/m scaling of the propagated displacement. High-degree
+  tesseral gravity, drag, the conical SRP penumbra, and external GMAT/Orekit cross-validation remain
+  follow-ons.
 - **Time systems** — IERS leap-second UTC/TAI/TT/UT1, Julian-date API, IAU-2000
   Earth Rotation Angle; GMST-based TEME↔ECEF and WGS-84 geodetic frames.
 - **Inertial** — three-axis strapdown INS (quaternion attitude, NED mechanization,
@@ -144,9 +149,11 @@ welcome collaboration: see [Support & professional services](README.md#support--
   J2 secular rates, the **full J2–J6 zonal field** (`forces::zonal_accel`), **epoch-driven
   third-body (Sun and Moon) gravity integrated by the time-varying RHS** (`forces::third_body_accel`
   + the `src/ephem.rs` low-precision Sun and Moon ephemerides + `ForceModel::accel_at` sampling them
-  at `epoch_jd_tt + t/86400`), and the `propagator::propagate` wiring are delivered (`src/forces.rs`,
-  `src/propagator.rs`); the high-degree tesseral field, drag, SRP, and DE-grade ephemeris accuracy
-  remain — to complement the analytic SGP4/SDP4 path.
+  at `epoch_jd_tt + t/86400`), **solar-radiation pressure on the same epoch-driven RHS**
+  (`forces::srp_accel` cannonball model + `forces::cylindrical_shadow` eclipse +
+  `ForceModel::solar_radiation`), and the `propagator::propagate` wiring are delivered
+  (`src/forces.rs`, `src/propagator.rs`); the high-degree tesseral field, drag, the conical SRP
+  penumbra, and DE-grade ephemeris accuracy remain — to complement the analytic SGP4/SDP4 path.
 - Batch orbit determination is delivered: `src/orbit_determination.rs` recovers an
   orbital state from ground-station ranges via the Gauss–Newton corrector
   (`src/batch_ls.rs`) over the two-body + J2 force model, with a sequential
