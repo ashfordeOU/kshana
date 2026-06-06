@@ -1,16 +1,19 @@
 // SPDX-License-Identifier: Apache-2.0
-//! Orbital force model: two-body gravity and the J2 oblateness perturbation.
+//! Orbital force model: two-body gravity, the zonal-harmonic field, and third-body gravity.
 //!
 //! This is the acceleration model a numerical propagator integrates (pair it with
-//! [`crate::integrator`]): `f(t, [r; v]) = [v; a(r)]` where `a = two_body + J2`. It also
-//! exposes the **analytic J2 secular rates** — the long-period drift of the right
-//! ascension of the ascending node (RAAN), the argument of perigee, and the mean anomaly
-//! — which are the closed-form check the propagator's nodal regression must reproduce,
-//! and the basis of sun-synchronous and frozen-orbit design.
+//! [`crate::integrator`]): `f(t, [r; v]) = [v; a(r)]`. It provides two-body gravity, the full
+//! Earth **zonal field through degree 6** ([`zonal_accel`] / [`zonal_potential`], the J2–J6
+//! harmonics as the exact gradient of their disturbing potential), and **third-body**
+//! point-mass perturbations ([`third_body_accel`], paired with the built-in low-precision
+//! ephemerides of [`crate::ephem`]). It also exposes the **analytic J2 secular rates** — the
+//! long-period drift of the right ascension of the ascending node (RAAN), the argument of
+//! perigee, and the mean anomaly — the closed-form check the propagator's nodal regression
+//! must reproduce, and the basis of sun-synchronous and frozen-orbit design.
 //!
-//! Scope (honest): two-body + J2 only. Higher zonal/tesseral harmonics (J3–J6, EGM
-//! tesserals), atmospheric drag, solar-radiation pressure, and third-body (Sun/Moon)
-//! accelerations are follow-ons (see `ROADMAP.md`).
+//! Scope (honest): the gravity field is **zonal only** (no tesseral/sectoral EGM terms), and
+//! the third-body path currently supplies the Sun (the Moon's longer series, atmospheric
+//! drag, and solar-radiation pressure are follow-ons; see `ROADMAP.md`).
 
 /// Earth gravitational parameter `μ = GM` (m³/s²), WGS-84 / EGM-96 value.
 pub const MU_EARTH: f64 = 3.986_004_418e14;
@@ -129,6 +132,40 @@ pub fn zonal_accel(r: Vec3, jn: &[f64]) -> Vec3 {
         }
     }
     a
+}
+
+/// Sun gravitational parameter `GM☉` (m³/s²), IAU/DE value.
+pub const MU_SUN: f64 = 1.327_124_400_18e20;
+/// Moon gravitational parameter `GM☾` (m³/s²), DE value.
+pub const MU_MOON: f64 = 4.902_800_066e12;
+
+/// Third-body perturbing acceleration (m/s², ECI) on a satellite at geocentric position `r`
+/// from a point-mass third body at geocentric position `s` (both m), with the body's
+/// gravitational parameter `mu3`. This is the standard Earth-centred perturbation
+/// `a = GM₃·( (s−r)/|s−r|³ − s/|s|³ )` — the **direct** attraction toward the body minus the
+/// **indirect** term (the Earth's own acceleration toward the body, which the rotating
+/// geocentric frame must subtract). It is the exact gradient of [`third_body_potential`].
+pub fn third_body_accel(r: Vec3, s: Vec3, mu3: f64) -> Vec3 {
+    let d = [s[0] - r[0], s[1] - r[1], s[2] - r[2]];
+    let dn = norm(d);
+    let sn = norm(s);
+    let kd = mu3 / (dn * dn * dn);
+    let ks = mu3 / (sn * sn * sn);
+    [
+        kd * d[0] - ks * s[0],
+        kd * d[1] - ks * s[1],
+        kd * d[2] - ks * s[2],
+    ]
+}
+
+/// Third-body disturbing potential `R(r) = GM₃·( 1/|s−r| − (r·s)/|s|³ )` (m²/s²) whose
+/// gradient `∇_r R` is [`third_body_accel`]. The `−(r·s)/|s|³` term is the indirect part.
+pub fn third_body_potential(r: Vec3, s: Vec3, mu3: f64) -> f64 {
+    let d = [s[0] - r[0], s[1] - r[1], s[2] - r[2]];
+    let dn = norm(d);
+    let sn = norm(s);
+    let rs = r[0] * s[0] + r[1] * s[1] + r[2] * s[2];
+    mu3 * (1.0 / dn - rs / (sn * sn * sn))
 }
 
 /// Mean motion `n = √(μ/a³)` (rad/s) for semi-major axis `a` (m).
@@ -298,6 +335,58 @@ mod tests {
         assert!(
             (a3n[2] - a3s[2]).abs() / a3n[2].abs() < 1e-12,
             "J3 a_z should be even in z"
+        );
+    }
+
+    #[test]
+    fn third_body_accel_is_the_exact_gradient_of_its_potential() {
+        // Same conservative-field gold standard as the zonals: the third-body acceleration
+        // must equal the numerical gradient of its own disturbing potential, with the body
+        // position s held fixed. Use a Sun-like body at ~1 AU and a satellite at LEO/MEO.
+        let s = [1.3e11, 0.6e11, 0.26e11]; // ~1.46 AU... ~1 AU off-axis third body
+        for r in [[6.9e6, 1.5e6, 2.0e6], [-2.0e7, 3.0e7, 1.0e7]] {
+            let a = third_body_accel(r, s, MU_SUN);
+            // The net perturbation (~5e-7) is the tiny difference of two ~6e-3 gradient terms,
+            // so a *large* FD step is required: round-off in differencing two ~1e9 potential
+            // values scales as 1/h, while truncation is negligible (the body is ~1 AU away, so
+            // R is near-linear over even a 200 km step). h≈2e5 m puts round-off well below 5e-7.
+            let h = 2.0e5;
+            for k in 0..3 {
+                let mut rp = r;
+                let mut rm = r;
+                rp[k] += h;
+                rm[k] -= h;
+                let fd = (third_body_potential(rp, s, MU_SUN)
+                    - third_body_potential(rm, s, MU_SUN))
+                    / (2.0 * h);
+                let scale = a[k].abs().max(1e-12);
+                assert!(
+                    (a[k] - fd).abs() / scale < 1e-5,
+                    "third-body ∇R comp {k}: analytic {} vs FD {fd}",
+                    a[k]
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn third_body_perturbation_vanishes_at_the_geocentre_and_has_the_textbook_magnitude() {
+        // At r = 0 the direct and indirect terms cancel exactly (the satellite and the Earth
+        // feel the same third-body field), so the *perturbing* acceleration is zero.
+        let s = [1.471e11, 0.0, 0.0];
+        let a0 = third_body_accel([0.0, 0.0, 0.0], s, MU_SUN);
+        assert!(
+            norm(a0) < 1e-18,
+            "perturbation at geocentre should vanish: {a0:?}"
+        );
+
+        // On a LEO satellite the Sun's tidal perturbation is the textbook ~5e-7 m/s²
+        // (≈ 2·GM☉·r/|s|³ along the Sun line): a real, small, third-body term.
+        let r = [7.0e6, 0.0, 0.0];
+        let a = norm(third_body_accel(r, s, MU_SUN));
+        assert!(
+            (1e-7..2e-6).contains(&a),
+            "Sun perturbation on LEO {a} m/s² out of textbook band"
         );
     }
 
