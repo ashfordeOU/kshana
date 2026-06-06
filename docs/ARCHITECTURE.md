@@ -1,13 +1,20 @@
 # Kshana — Architecture
 
-Kshana is **one engine with four sensor packs**. The engine knows nothing about
-"quantum" vs "classical": it drives sensor *error models* through a GNSS-outage
-scenario, runs an estimator, and scores the outcome. A quantum and a classical
-device are therefore compared on the same scenario, differing only in their
-(published, cited) error parameters and their independent noise seeds.
+Kshana is **one engine** organised in three layers: a set of **sensor packs** (clock,
+inertial, time-transfer, hybrid), an **astrodynamics / numerical** layer (analytic
+SGP4/SDP4 plus a numerical Cowell propagator with its force model, maneuver design, and
+orbit determination), and a **fusion / alt-PNT** layer (the GNSS/INS estimators and the
+gravity-map matcher). The engine knows nothing about "quantum" vs "classical": it drives
+sensor *error models* through a GNSS-outage scenario, runs an estimator, and scores the
+outcome. A quantum and a classical device are therefore compared on the same scenario,
+differing only in their (published, cited) error parameters and their independent noise
+seeds.
 
-This document collects the structural and behavioural diagrams. For usage see the
-[README](../README.md); for what is and isn't validated see [VALIDATION](VALIDATION.md).
+This document collects the structural and behavioural diagrams. §1 is the sensor-pack
+core; §1a maps the astrodynamics, fusion, and alt-PNT layers added since. For usage see
+the [README](../README.md); for what is and isn't validated see
+[VALIDATION](VALIDATION.md); for the per-capability maturity table see
+[CAPABILITY](CAPABILITY.md).
 
 ---
 
@@ -92,6 +99,59 @@ The CLI and both bindings funnel through one `api::run_toml` entry point, so the
 never drift. The packs reuse the shared core (`types`, `scenario`, `allan`); Pack 4
 (`hybrid`) composes the models and estimators of Packs 1–3 rather than reimplementing
 them; `orbit` derives a GNSS timeline from geometry that then feeds the Pack 1 run.
+
+## 1a. Astrodynamics, fusion & alt-PNT layers
+
+Beyond the sensor-pack core, three subsystems share the same shared core and feed (or
+are fed by) `orbit`. The **astrodynamics / numerical** layer adds a non-analytic Cowell
+propagator alongside the analytic SGP4/SDP4 path; the **fusion** layer carries the
+GNSS/INS estimators; and the **alt-PNT** layer is GPS-denied gravity-map matching. These
+are library/scenario capabilities (see [CAPABILITY](CAPABILITY.md) for which are wired to
+a scenario `kind` vs reachable as a Rust API).
+
+```mermaid
+flowchart TD
+    subgraph astro["Astrodynamics & numerical"]
+      orbit2["orbit · sgp4 · tle · walker<br/>analytic SGP4/SDP4 · Walker design"]
+      prop["propagator<br/>Cowell driver (accel_at / accel_rv)"]
+      forces["forces<br/>two-body · J2–J6 · 3rd-body · SRP · drag · relativity"]
+      integ["integrator<br/>RK4 step-doubling · Dormand–Prince RK5(4)"]
+      ephem["ephem<br/>low-precision Sun & Moon"]
+      man["maneuver<br/>impulsive/finite burns · Izzo Lambert · porkchop"]
+      od["orbit_determination<br/>Gauss–Newton batch (batch_ls) · sequential UKF"]
+    end
+    subgraph fusion["Fusion (GNSS/INS)"]
+      ekf["fusion/gnss_ins_ekf · closed_loop · pack<br/>15-state loosely-coupled EKF"]
+      tc["fusion/tightly_coupled (8-state)<br/>fusion/tightly_coupled17 (17-state, quantum-CAI)"]
+      ukf["fusion/ukf — sigma-point core"]
+      coup["fusion/coupled — clock+position cross-covariance"]
+    end
+    subgraph alt["Alt-PNT (GPS-denied)"]
+      grav["gravimeter<br/>cold-atom model + SH anomaly field + mascons"]
+      pf["particle_filter — SIR"]
+      mm["mapmatch — field-match likelihood"]
+    end
+    prop --> forces
+    prop --> integ
+    forces --> ephem
+    man --> integ
+    od --> forces
+    od --> integ
+    od --> ukf
+    tc --> ukf
+    tc -. coasts on .-> forces
+    grav --> pf
+    mm --> pf
+    grav --> mm
+    ekf -. drives .-> strap["inertial/ strapdown (quaternion · NED · IMU errors)"]
+    tc -. drives .-> strap
+    grav -. CAI floor .-> strap
+```
+
+The numerical propagator's force terms are off by default, so enabling them never
+perturbs the released goldens. The 17-state tightly-coupled UKF coasts a GNSS outage on
+the quantum-CAI accelerometer's derived velocity-random-walk; orbit determination reuses
+the same `forces`/`integrator` to propagate a candidate state across the tracking arc.
 
 ## 2. Engine pipeline (per run)
 
@@ -296,14 +356,22 @@ WebAssembly module backs the browser playground in `web/` (`run`, `chart_svg`,
 
 ## 9. Deferred / future structure
 
-Tracked in [CHANGELOG](../CHANGELOG.md) `[Unreleased]`: velocity-domain outputs from
-the SGP4 propagator. The position-domain dilution of precision, the Security figure of
-merit (across all four packs) with an active spoofing-attack demonstrator, eccentric/J2
-orbits, real TLE and multi-constellation geometry, the full SGP4/SDP4 propagator
-(deep-space and resonance, validated against the AIAA 2006-6753 vectors), a single-axis
-(1-DOF) IMU error budget, a separately-observed (clock + position) joint Kalman
-estimator plus a genuinely **coupled** clock+position filter with cross-block
-covariance for the pseudorange case (`fusion::coupled`), Monte Carlo confidence bands,
-trade-study sweeps, the HTML scorecard, and a package-publishing workflow have shipped.
+The astrodynamics, fusion, and alt-PNT layers in §1a — the full SGP4/SDP4 propagator,
+the numerical Cowell propagator with its six-perturbation force model and two adaptive
+integrators, maneuver/trajectory design, orbit determination, the 15-/8-/17-state
+GNSS/INS estimators, the coupled clock+position filter, and gravity-map matching — have
+all shipped, alongside the Security FoM with an active spoof demonstrator, real
+TLE/multi-constellation geometry, Monte-Carlo bands, trade-study sweeps, the HTML
+scorecard, and the publish/wheels/pages workflows.
+
+The current follow-ons are tracked in [CHANGELOG](../CHANGELOG.md) `[Unreleased]` and the
+per-capability roadmap in [CAPABILITY](CAPABILITY.md): the high-degree EGM **tesseral**
+field, the NRLMSISE-00 thermospheric density, solar limb darkening / the oblate-Earth
+shadow, the **Lense–Thirring** frame-dragging term, DE-grade ephemeris accuracy and an
+external GMAT/Orekit cross-validation; the IAU 2000A nutation and the full TEME→GCRS /
+ITRF chain; carrier-phase tight coupling and surfacing the tight-coupled navigator in a
+scenario pack; and a real EGM2008/EIGEN gravity map for the alt-PNT matcher.
+
 A private overlay repo holds export-sensitive resilience depth; it plugs in via the
-same `ErrorModel` interface without changing the public engine.
+same `ErrorModel` interface (and the `ExternalPack` contract in §4) without changing
+the public engine.

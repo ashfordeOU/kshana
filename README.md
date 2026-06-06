@@ -472,7 +472,10 @@ New to these terms? Each is defined in plain language in the [glossary](docs/GLO
 
 ## Architecture
 
-One engine; each sensor pack plugs in via a common error-model interface. See
+One engine. The sensor packs plug in via a common error-model interface; alongside
+them sit an astrodynamics/numerical layer (analytic SGP4/SDP4 **and** a numerical
+Cowell propagator with its force model, maneuver design, and orbit determination) and a
+fusion / alt-PNT layer (the GNSS/INS estimators and the gravity-map matcher). See
 [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the full set of diagrams.
 
 ```mermaid
@@ -488,30 +491,45 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    cli["CLI · Python · WebAssembly"] --> api["api — run_toml: dispatch by kind"]
+    cli["CLI · Python · WebAssembly"] --> api["api — run_toml / run_scenario: typed dispatch by kind"]
     subgraph shared["Shared core"]
       types["types"]
       scenario["scenario · GNSS timeline"]
       allan["allan — Allan deviation"]
     end
-    subgraph p1["Pack 1 · Clock"]
-      models["models — ClockModel (+ flicker)"]
-      estimator["estimator — holdover"]
-      kalman["kalman — Integrity bound"]
-      security["security — analytic spoof-detectability bound"]
-      fom["fom · report · run"]
+    subgraph packs["Sensor packs"]
+      p1["Clock — models · estimator · kalman · security · fom"]
+      p2["inertial — strapdown INS + quantum-CAI"]
+      p3["timetransfer (+ _adv) — optical/RF link"]
+      p4["hybrid — fused PNT suite"]
     end
-    p2["Pack 2 · inertial — accel + gyro"]
-    p3["Pack 3 · timetransfer — optical/RF link"]
-    p4["Pack 4 · hybrid — fused PNT suite"]
-    orbit["orbit — geometry → GNSS timeline + DOP"]
-    api --> p1
-    api --> p2
-    api --> p3
-    api --> p4
-    p1 --> shared
-    p2 --> shared
-    p3 --> shared
+    subgraph astro["Astrodynamics & numerical"]
+      orbit["orbit — geometry → GNSS timeline + DOP"]
+      sgp4["sgp4 · tle — SGP4/SDP4"]
+      prop["propagator — Cowell"]
+      forces["forces — J2–J6 · 3rd-body · SRP · drag · relativity"]
+      integ["integrator — RK4 · DOPRI"]
+      ephem["ephem — Sun/Moon"]
+      man["maneuver — burns · Lambert · porkchop"]
+      od["orbit_determination — batch · sequential"]
+    end
+    subgraph fnav["Fusion & alt-PNT"]
+      fus["fusion — EKF · UKF · 17-state · coupled"]
+      grav["gravimeter · mapmatch · particle_filter"]
+    end
+    api --> packs
+    api --> astro
+    api --> fnav
+    packs --> shared
+    orbit --> sgp4
+    prop --> forces
+    prop --> integ
+    forces --> ephem
+    man --> integ
+    od --> forces
+    od --> integ
+    fus --> p2
+    grav --> p2
     orbit --> p1
     p4 -. composes .-> p1
     p4 -. composes .-> p2
@@ -523,27 +541,32 @@ flowchart TD
 ```
 kshana/
 ├── src/
-│   ├── types.rs        # Seconds, TimeGrid, ModelSpec
-│   ├── scenario.rs     # GNSS timeline, clock scenario config
-│   ├── models.rs       # ErrorModel trait, ClockModel (white FM, RWFM, aging)
-│   ├── estimator.rs    # HoldoverEstimator (quadratic offset+aging removal)
-│   ├── fom.rs          # figure-of-merit scoring
-│   ├── allan.rs        # overlapping Allan deviation
-│   ├── kalman.rs       # two-state Kalman clock estimator + integrity bound
-│   ├── report.rs       # result schema, scenario hash, SVG chart (clock)
-│   ├── run.rs          # clock + orbit-clock run pipelines
-│   ├── inertial.rs     # Pack 2: inertial dead-reckoning (accel + gyro) + FoMs
-│   ├── timetransfer.rs # Pack 3: optical/RF time-transfer link
-│   ├── hybrid.rs       # Pack 4: combined PNT suite + ISL clock-aiding
-│   ├── orbit.rs        # orbit propagation + GNSS line-of-sight visibility
-│   ├── api.rs          # scenario dispatch shared by the CLI and bindings
-│   ├── python.rs       # optional PyO3 extension (feature = "python")
-│   ├── wasm.rs         # optional wasm-bindgen module (feature = "wasm")
-│   └── main.rs         # CLI
-├── scenarios/          # cited scenarios (one per pack + a geometry-driven one)
+│   ├── types.rs · scenario.rs · allan.rs   # shared core (time grid, GNSS timeline, Allan)
+│   ├── api.rs · main.rs                     # typed dispatch + CLI
+│   ├── python.rs · wasm.rs                  # optional PyO3 / wasm-bindgen bindings
+│   │
+│   ├── models.rs · estimator.rs · kalman.rs # Pack 1 — clock holdover + integrity
+│   ├── security.rs · detection.rs · spoof.rs · spoof_monitors.rs # spoof detection
+│   ├── filter_health.rs · fom.rs · report.rs · chart.rs · run.rs  # health · scoring · output
+│   ├── inertial/        # Pack 2 — strapdown INS (attitude, mechanization, imu_errors, quantum_imu)
+│   ├── timetransfer.rs · timetransfer_adv.rs · timegeo.rs # Pack 3 — TWSTFT/CV/PPP/optical, Sagnac
+│   ├── hybrid.rs · ensemble.rs · sweep.rs   # Pack 4 — fused PNT suite, Monte-Carlo, trade sweeps
+│   │
+│   ├── orbit.rs · sgp4.rs · tle.rs · walker.rs   # geometry, SGP4/SDP4, TLE, Walker design
+│   ├── propagator.rs · forces.rs · integrator.rs # numerical Cowell propagator + force model + RK4/DOPRI
+│   ├── ephem.rs · precession.rs · frames.rs · timescales.rs · jd2.rs # ephemerides, IAU precession, time/frames
+│   ├── maneuver.rs · batch_ls.rs · orbit_determination.rs # burns/Lambert/porkchop, Gauss-Newton, OD
+│   │
+│   ├── fusion/          # GNSS/INS — EKF, UKF, tightly_coupled, tightly_coupled17, coupled
+│   ├── gravimeter.rs · mapmatch.rs · particle_filter.rs  # gravity-map / alt-PNT navigation
+│   ├── raim.rs · lunar.rs        # ARAIM HPL/VPL, cislunar integrity
+│   ├── gnss_sim.rs · ionex.rs · jamming.rs   # measurement domain, ionosphere maps, jamming
+│   └── rinex.rs · rinex_obs.rs · glonass.rs · sp3.rs · oem.rs · omm.rs · permalink.rs # interop formats
+├── scenarios/          # cited scenarios (one per kind + geometry-driven + GPS-denied)
 ├── scripts/            # reproducibility + repo-hygiene guards
-├── docs/               # CONCEPTS, ARCHITECTURE, VALIDATION, GLOSSARY, assets/
-├── .github/workflows/  # CI gate, release, and wheel-build pipelines
+├── docs/               # CONCEPTS, ARCHITECTURE, CAPABILITY, VALIDATION, PROVENANCE, GLOSSARY, …
+├── web/                # the WebAssembly playground + kshana.dev site
+├── .github/workflows/  # CI gate, release, wheels, publish, and pages pipelines
 ├── pyproject.toml      # Python packaging (maturin)
 ├── CHANGELOG.md        # Keep a Changelog + SemVer
 └── CONTRIBUTING.md
