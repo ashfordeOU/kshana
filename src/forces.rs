@@ -18,6 +18,21 @@ pub const MU_EARTH: f64 = 3.986_004_418e14;
 pub const RE_EARTH: f64 = 6_378_137.0;
 /// Second zonal harmonic coefficient `J2` (dimensionless, EGM-96).
 pub const J2: f64 = 1.082_626_68e-3;
+/// Third zonal harmonic `J3` (dimensionless), the standard published EGM-96 unnormalised
+/// value. `J3` is the odd ("pear-shape") term that breaks north–south symmetry.
+pub const J3: f64 = -2.5327e-6;
+/// Fourth zonal harmonic `J4` (dimensionless, EGM-96 unnormalised).
+pub const J4: f64 = -1.6196e-6;
+/// Fifth zonal harmonic `J5` (dimensionless, EGM-96 unnormalised).
+pub const J5: f64 = -2.2730e-7;
+/// Sixth zonal harmonic `J6` (dimensionless, EGM-96 unnormalised).
+pub const J6: f64 = 5.4068e-7;
+
+/// The Earth zonal field through degree 6 as the `[J2, J3, J4, J5, J6]` slice the
+/// [`zonal_accel`] / [`zonal_potential`] routines expect (index 0 = degree 2). Values are
+/// the standard published EGM-96 unnormalised zonals (Vallado, *Fundamentals of
+/// Astrodynamics and Applications*; Montenbruck & Gill, *Satellite Orbits*).
+pub const EARTH_ZONALS_J2_J6: [f64; 5] = [J2, J3, J4, J5, J6];
 
 type Vec3 = [f64; 3];
 
@@ -51,6 +66,69 @@ pub fn gravity_accel(r: Vec3) -> Vec3 {
     let a = two_body_accel(r);
     let b = j2_accel(r);
     [a[0] + b[0], a[1] + b[1], a[2] + b[2]]
+}
+
+/// Legendre polynomials `P_n(s)` and their derivatives `P_n'(s)` for `n = 0..=deg`, by the
+/// standard upward recurrences `n·P_n = (2n−1)·s·P_{n−1} − (n−1)·P_{n−2}` and
+/// `P_n' = s·P_{n−1}' + n·P_{n−1}`. Returns `(P, P')`.
+fn legendre(s: f64, deg: usize) -> (Vec<f64>, Vec<f64>) {
+    let mut p = vec![0.0; deg + 1];
+    let mut dp = vec![0.0; deg + 1];
+    p[0] = 1.0;
+    if deg >= 1 {
+        p[1] = s;
+        dp[1] = 1.0;
+    }
+    for n in 2..=deg {
+        let nf = n as f64;
+        p[n] = ((2.0 * nf - 1.0) * s * p[n - 1] - (nf - 1.0) * p[n - 2]) / nf;
+        dp[n] = s * dp[n - 1] + nf * p[n - 1];
+    }
+    (p, dp)
+}
+
+/// Zonal disturbing potential `R(r) = −(μ/r)·Σ_{n≥2} J_n·(Re/r)ⁿ·P_n(z/r)` (m²/s²) — the
+/// perturbation to the central `μ/r` whose gradient is [`zonal_accel`]. `jn` is the zonal
+/// coefficient slice indexed from degree 2 (`jn[0] = J2`, `jn[1] = J3`, …).
+pub fn zonal_potential(r: Vec3, jn: &[f64]) -> f64 {
+    let rn = norm(r);
+    let s = r[2] / rn;
+    let (p, _) = legendre(s, jn.len() + 1);
+    let mut sum = 0.0;
+    for (i, &j) in jn.iter().enumerate() {
+        let n = i + 2;
+        sum += j * (RE_EARTH / rn).powi(n as i32) * p[n];
+    }
+    -MU_EARTH / rn * sum
+}
+
+/// Perturbing acceleration `a = ∇R` (m/s², ECI) from the zonal harmonics in `jn` (indexed
+/// from degree 2, so `jn = [J2, J3, …]`). Excludes the central two-body term — add
+/// [`two_body_accel`] for the total. This is the exact analytic gradient of
+/// [`zonal_potential`]; with `jn = [J2]` it reduces to [`j2_accel`] to machine precision.
+pub fn zonal_accel(r: Vec3, jn: &[f64]) -> Vec3 {
+    let rn = norm(r);
+    let s = r[2] / rn;
+    let (p, dp) = legendre(s, jn.len() + 1);
+    // ∂s/∂x_k for s = z/r: (−z·x/r³, −z·y/r³, (r²−z²)/r³).
+    let dsdx = [
+        -r[2] * r[0] / rn.powi(3),
+        -r[2] * r[1] / rn.powi(3),
+        (rn * rn - r[2] * r[2]) / rn.powi(3),
+    ];
+    let mut a = [0.0; 3];
+    for (i, &j) in jn.iter().enumerate() {
+        let n = i + 2;
+        let ni = n as i32;
+        let coef = -MU_EARTH * j * RE_EARTH.powi(ni);
+        // ∂/∂x_k[ r^{−(n+1)}·P_n(s) ] = −(n+1)·r^{−(n+3)}·x_k·P_n + r^{−(n+1)}·P_n'·∂s/∂x_k.
+        let t1 = -(n as f64 + 1.0) * rn.powi(-(ni + 3));
+        let t2 = rn.powi(-(ni + 1)) * dp[n];
+        for k in 0..3 {
+            a[k] += coef * (t1 * r[k] * p[n] + t2 * dsdx[k]);
+        }
+    }
+    a
 }
 
 /// Mean motion `n = √(μ/a³)` (rad/s) for semi-major axis `a` (m).
@@ -137,6 +215,110 @@ mod tests {
         assert!(
             (deg_per_day - (-5.0)).abs() < 0.6,
             "Ω̇ = {deg_per_day} °/day"
+        );
+    }
+
+    #[test]
+    fn zonal_field_with_only_j2_reduces_to_the_validated_j2_accel() {
+        // The general zonal routine restricted to [J2] must reproduce the dedicated,
+        // 666-vector-validated `j2_accel` to machine precision — at several asymmetric
+        // points (non-zero z, off-axis), not just the equator.
+        for r in [
+            [7.0e6, 0.0, 0.0],
+            [3.0e6, 4.0e6, 5.0e6],
+            [-6.5e6, 1.2e6, -2.4e6],
+        ] {
+            let a = zonal_accel(r, &[J2]);
+            let b = j2_accel(r);
+            for k in 0..3 {
+                let scale = b[k].abs().max(1e-6);
+                assert!(
+                    (a[k] - b[k]).abs() / scale < 1e-12,
+                    "comp {k}: {a:?} vs {b:?}"
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn zonal_accel_is_the_exact_gradient_of_the_zonal_potential() {
+        // The strongest self-contained check: the closed-form acceleration must equal the
+        // numerical gradient of the SAME potential it claims to be ∇R of — through the full
+        // J2..J6 field, so it validates the odd J3 and even J4/J5/J6 terms, not only J2.
+        let jn = EARTH_ZONALS_J2_J6;
+        let h = 50.0; // central-difference step (m); balances truncation vs round-off at r~7e6.
+        for r in [
+            [6.9e6, 1.5e6, 2.0e6],
+            [-4.0e6, 5.0e6, 3.2e6],
+            [2.0e6, -3.0e6, 6.0e6],
+        ] {
+            let a = zonal_accel(r, &jn);
+            for k in 0..3 {
+                let mut rp = r;
+                let mut rm = r;
+                rp[k] += h;
+                rm[k] -= h;
+                let fd = (zonal_potential(rp, &jn) - zonal_potential(rm, &jn)) / (2.0 * h);
+                let scale = a[k].abs().max(1e-9);
+                assert!(
+                    (a[k] - fd).abs() / scale < 1e-6,
+                    "∇R mismatch comp {k}: analytic {} vs FD {fd}",
+                    a[k]
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn odd_and_even_zonals_have_their_characteristic_north_south_symmetry() {
+        // A hand-derivable physical signature distinguishing the terms: the even zonal J2
+        // has an even-in-z potential, so a_x stays the same and a_z flips under z→−z; the
+        // odd zonal J3 has an odd-in-z potential, so a_x flips and a_z stays the same. This
+        // is exactly the north–south asymmetry the pear-shape J3 term introduces.
+        let north = [5.0e6, 0.0, 3.0e6];
+        let south = [5.0e6, 0.0, -3.0e6];
+
+        let a2n = zonal_accel(north, &[J2]);
+        let a2s = zonal_accel(south, &[J2]);
+        assert!(
+            (a2n[0] - a2s[0]).abs() / a2n[0].abs() < 1e-12,
+            "J2 a_x should be even in z"
+        );
+        assert!(
+            (a2n[2] + a2s[2]).abs() / a2n[2].abs() < 1e-12,
+            "J2 a_z should be odd in z"
+        );
+
+        let a3n = zonal_accel(north, &[0.0, J3]);
+        let a3s = zonal_accel(south, &[0.0, J3]);
+        assert!(
+            (a3n[0] + a3s[0]).abs() / a3n[0].abs() < 1e-12,
+            "J3 a_x should be odd in z"
+        );
+        assert!(
+            (a3n[2] - a3s[2]).abs() / a3n[2].abs() < 1e-12,
+            "J3 a_z should be even in z"
+        );
+    }
+
+    #[test]
+    fn higher_zonals_are_a_small_nonzero_correction_to_j2() {
+        // J3..J6 must actually contribute (regression against a silently-J2-only field) yet
+        // remain a small correction: the coefficient ratio J3/J2 ≈ 2.3e-3, further damped by
+        // (Re/r)<1, so the full-field correction is ~1e-3 of the J2 perturbation here.
+        let r = [4.5e6, 2.0e6, 4.8e6];
+        let a_j2 = zonal_accel(r, &[J2]);
+        let a_full = zonal_accel(r, &EARTH_ZONALS_J2_J6);
+        let dmag = ((a_full[0] - a_j2[0]).powi(2)
+            + (a_full[1] - a_j2[1]).powi(2)
+            + (a_full[2] - a_j2[2]).powi(2))
+        .sqrt();
+        let j2mag = (a_j2[0] * a_j2[0] + a_j2[1] * a_j2[1] + a_j2[2] * a_j2[2]).sqrt();
+        let ratio = dmag / j2mag;
+        assert!(ratio > 1e-4, "J3..J6 must contribute, ratio = {ratio}");
+        assert!(
+            ratio < 5e-2,
+            "J3..J6 must stay a small correction, ratio = {ratio}"
         );
     }
 
