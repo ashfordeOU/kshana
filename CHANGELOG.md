@@ -10,6 +10,22 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Atmospheric drag wired into the propagator as its first velocity-dependent force
+  (`forces::atmospheric_density` + `forces::drag_accel` + `propagator::ForceModel::drag`).** Adds
+  the **Vallado Table 8-4 piecewise-exponential** atmosphere `ρ = ρ0·exp(−(h−h0)/H)` (28 bands from
+  sea level past 1000 km, clamped below the surface) and the quadratic drag
+  `a = −½ · ρ(h) · (C_D·A/m) · |v_rel| · v_rel` against the **co-rotating atmosphere**
+  `v_rel = v − ωₑ ẑ × r` (`forces::EARTH_ROTATION_RATE = 7.2921151467e-5`). Because drag depends on
+  velocity, `ForceModel` gains a new `accel_rv(t, r, v)` and the integrator RHS now passes velocity
+  (`f(t,[r;v]) = [v; a(t,r,v)]`); the position-only `accel_at` is unchanged, so the conservative
+  terms and goldens are untouched. Validated self-contained: the density **anchors at the
+  1.225 kg/m³ sea-level value**, clamps below the surface, **decreases monotonically** through LEO,
+  sits in the solar-mean ~1e-12 kg/m³ band at 400 km, and its **recovered local scale height
+  (≈ 58 km at 400 km)** is physical; drag **opposes the co-rotating relative velocity** at the
+  ~2e-6 m/s² LEO magnitude for `C_D·A/m = 0.02 m²/kg`; and — the key signature — drag is
+  **dissipative**: a 300 km orbit loses specific energy **monotonically** and its semi-major axis
+  **decays a bounded ~km/day**, where the vacuum baseline conserves energy to <1e-9. The
+  NRLMSISE-00 thermospheric density (the < 5 % drag-density clause) remains a follow-on.
 - **Solar-radiation pressure wired epoch-driven into the propagator force model
   (`forces::srp_accel` + `propagator::ForceModel::solar_radiation`).** Adds the **cannonball SRP
   model** `a = ν · P☉ · cᵣ · (A/m) · (AU/d)² · d̂` with a **cylindrical-shadow eclipse factor**
