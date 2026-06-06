@@ -30,7 +30,7 @@
 //! integrator + two-body/J2 force model + the analytic-truth validation harness and the
 //! convergence-guarded Kepler solver.
 
-use crate::forces::{gravity_accel, two_body_accel, MU_EARTH};
+use crate::forces::{gravity_accel, two_body_accel, zonal_accel, EARTH_ZONALS_J2_J6, MU_EARTH};
 use crate::integrator::{integrate, rk4_step, Tolerance};
 
 type Vec3 = [f64; 3];
@@ -56,22 +56,44 @@ fn norm(a: Vec3) -> f64 {
 pub struct ForceModel {
     /// Include the J2 oblateness perturbation.
     pub j2: bool,
+    /// Optional zonal-harmonic field (`[J2, J3, …]` from degree 2) integrated via
+    /// [`crate::forces::zonal_accel`]. When `Some`, it supersedes the `j2`-only path and the
+    /// full supplied zonal set is used on top of two-body gravity.
+    pub zonals: Option<&'static [f64]>,
 }
 
 impl ForceModel {
     /// Point-mass (two-body) gravity only.
     pub fn two_body() -> Self {
-        Self { j2: false }
+        Self {
+            j2: false,
+            zonals: None,
+        }
     }
 
     /// Two-body plus the J2 oblateness perturbation.
     pub fn with_j2() -> Self {
-        Self { j2: true }
+        Self {
+            j2: true,
+            zonals: None,
+        }
+    }
+
+    /// Two-body plus the full Earth zonal field through degree 6 (`J2..J6`).
+    pub fn with_zonals_j2_j6() -> Self {
+        Self {
+            j2: true,
+            zonals: Some(&EARTH_ZONALS_J2_J6),
+        }
     }
 
     /// Acceleration (m/s²) under this model at ECI position `r` (m).
     pub fn accel(&self, r: Vec3) -> Vec3 {
-        if self.j2 {
+        if let Some(jn) = self.zonals {
+            let tb = two_body_accel(r);
+            let zo = zonal_accel(r, jn);
+            [tb[0] + zo[0], tb[1] + zo[1], tb[2] + zo[2]]
+        } else if self.j2 {
             gravity_accel(r)
         } else {
             two_body_accel(r)
@@ -116,8 +138,10 @@ pub fn raan_rad(r: Vec3, v: Vec3) -> f64 {
     n[1].atan2(n[0])
 }
 
-/// Specific orbital energy `ε = v²/2 − μ/|r|` (J/kg) — conserved under two-body and J2 (J2
-/// is a conservative, time-independent potential), the integrator's drift check.
+/// Two-body specific orbital energy `ε = v²/2 − μ/|r|` (J/kg). Conserved exactly under pure
+/// two-body gravity (the integrator's drift check). Under a perturbing potential (J2 or the
+/// zonal field) the *total* energy `ε − R(r)` including the disturbing potential
+/// [`crate::forces::zonal_potential`] is the conserved quantity, not this bare two-body `ε`.
 pub fn specific_energy(r: Vec3, v: Vec3) -> f64 {
     0.5 * dot(v, v) - MU_EARTH / norm(r)
 }
@@ -342,5 +366,47 @@ mod tests {
             assert_eq!(nc.iters, 30);
             assert!(nc.residual > 1e-12);
         }
+    }
+
+    #[test]
+    fn zonal_j2_j6_orbit_conserves_energy_and_perturbs_the_j2_orbit() {
+        // The full J2..J6 zonal field is conservative and time-independent, so the TOTAL
+        // energy — kinetic plus the central and zonal potential, v²/2 − μ/r − R(r) — is
+        // conserved over a day (the bare two-body ε = v²/2 − μ/r is NOT, since the
+        // perturbation does work on it). And the J3..J6 terms must actually move the
+        // trajectory away from the J2-only orbit (regression against a silently-J2-only force
+        // model) while staying a small correction (not a blow-up).
+        use crate::forces::zonal_potential;
+        let total =
+            |r: Vec3, v: Vec3| specific_energy(r, v) - zonal_potential(r, &EARTH_ZONALS_J2_J6);
+        let (r0, v0) = leo_state();
+        let day = 86_400.0;
+        let tol = Tolerance {
+            rtol: 1e-12,
+            atol: 1e-9,
+            ..Tolerance::default()
+        };
+        let e0 = total(r0, v0);
+        let (r_day, v_day) = propagate(r0, v0, day, ForceModel::with_zonals_j2_j6(), &tol);
+        let e1 = total(r_day, v_day);
+        assert!(
+            (e1 - e0).abs() / e0.abs() < 1e-8,
+            "zonal field is conservative; total-energy drift {}",
+            e1 - e0
+        );
+
+        // Over one orbital period the J2..J6 orbit must differ from the J2-only orbit.
+        let period = 5400.0;
+        let (r_zon, _) = propagate(r0, v0, period, ForceModel::with_zonals_j2_j6(), &tol);
+        let (r_j2, _) = propagate(r0, v0, period, ForceModel::with_j2(), &tol);
+        let sep = norm([r_zon[0] - r_j2[0], r_zon[1] - r_j2[1], r_zon[2] - r_j2[2]]);
+        assert!(
+            sep > 1e-3,
+            "J3..J6 must perturb the orbit, separation {sep} m"
+        );
+        assert!(
+            sep < 5.0e4,
+            "J3..J6 must stay a small correction, separation {sep} m"
+        );
     }
 }

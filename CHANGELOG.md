@@ -10,6 +10,19 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **J2–J6 zonal-harmonic force model (`forces::zonal_accel` / `zonal_potential`).** Extends the
+  Cowell propagator's force model beyond J2 to the full Earth zonal field through degree 6 (the
+  standard published EGM-96 unnormalised `J2..J6`), wired into the propagator as
+  `ForceModel::with_zonals_j2_j6()`. The acceleration is the **exact analytic gradient** of the zonal
+  disturbing potential `R(r) = −(μ/r)·Σ Jₙ(Re/r)ⁿPₙ(z/r)` (Legendre polynomials by upward recurrence),
+  validated three independent ways: it **reduces to the 666-vector-validated `j2_accel` to machine
+  precision** when restricted to `[J2]`; it **matches the numerical gradient of its own potential**
+  through the full J2..J6 field (the conservative-field gold-standard check); and the odd `J3` vs even
+  `J2`/`J4..J6` terms exhibit their **characteristic north–south (anti)symmetry** under `z → −z` — the
+  pear-shape asymmetry. A propagated J2..J6 orbit conserves total energy (kinetic + central + zonal
+  potential) to ~1e-8 over a day and perturbs the J2-only orbit by a small non-zero amount. This
+  delivers step-2 ("J2–J6 zonal harmonics") of the numerical-propagator milestone; the high-degree EGM
+  tesseral field, drag, SRP, third-body, and external GMAT/Orekit cross-validation remain follow-ons.
 - **Numerical (Cowell) orbit propagator (`src/propagator.rs`).** Kshana's first **non-analytic**
   propagator (the rest of the orbit stack is analytic SGP4/SDP4): it wires the two-body + J2 force
   model (`src/forces.rs`) into the adaptive step-doubling RK4 driver (`src/integrator.rs`) as
