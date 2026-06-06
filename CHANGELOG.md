@@ -10,6 +10,20 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Dormand–Prince RK5(4) embedded integrator (`integrator::dopri54_step` /
+  `integrator::integrate_dopri` + `propagator::propagate_dopri`).** Adds the standard
+  Dormand–Prince (1980) embedded Butcher-tableau pair alongside the existing RK4 step-doubling
+  driver: seven FSAL stages yield a 5th-order solution and a 4th-order error estimate from one set
+  of evaluations (7 vs 11 function calls per step), a cheaper local-error estimate. The adaptive
+  driver reuses the same RMS-error norm and `0.9·(1/err)^(1/5)` step controller, so it is a drop-in
+  alternative; `propagator::propagate_dopri` exposes it on the orbit force model. Validated
+  self-contained: the embedded error estimate is **O(h⁵)** (halving the step cuts it ~32×); DP5(4)
+  integrates `y' = y` to `e` and the harmonic oscillator over 50 periods conserving energy to
+  <1e-6; it reaches the same endpoint at the same tolerance in **fewer function evaluations** than
+  step doubling (without sacrificing accuracy); and `propagate_dopri` clears the same analytic-truth
+  gate as the RK4 path — **sub-metre against the exact universal-variable Kepler solution over a
+  24 h LEO orbit** — while the two drivers agree to <1 m on a J2..J6 orbit (no closed form). Higher
+  embedded pairs (RKF7(8) / DOP853) remain a follow-on.
 - **Atmospheric drag wired into the propagator as its first velocity-dependent force
   (`forces::atmospheric_density` + `forces::drag_accel` + `propagator::ForceModel::drag`).** Adds
   the **Vallado Table 8-4 piecewise-exponential** atmosphere `ρ = ρ0·exp(−(h−h0)/H)` (28 bands from
