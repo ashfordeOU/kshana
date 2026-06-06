@@ -9,6 +9,17 @@
       "run": "orbit-sgp4-gps.toml"
     },
     {
+      "domain": "Numerical propagator",
+      "name": "Cowell propagator & six-perturbation force model",
+      "summary": "A numerical (Cowell) propagator complementing the analytic SGP4/SDP4 path, with a hierarchical force model: two-body + the full J2–J6 zonal field, epoch-driven Sun and Moon third-body gravity (a built-in ephemeris, no DE/SPK kernel), solar-radiation pressure with a conical umbra/penumbra shadow, atmospheric drag, and the post-Newtonian Schwarzschild relativistic correction — driven by a choice of RK4 step-doubling or Dormand–Prince RK5(4) adaptive integrators.",
+      "proof": "sub-metre vs Kepler truth over 24 h"
+    },
+    {
+      "domain": "Maneuvers & trajectory design",
+      "name": "Burns, Lambert & porkchop",
+      "summary": "Impulsive ΔV nodes with 6×6 covariance propagation, finite-burn integration checked against the Tsiolkovsky rocket equation to under 0.01 %, an Izzo-2015 single-revolution Lambert solver and an exact universal-variable Kepler propagator, and a porkchop (launch × arrival) C3 / arrival-V∞ sweep emitted as a JSON contour grid — the performance-simulation layer above GMAT/Orekit."
+    },
+    {
       "domain": "Time systems",
       "name": "Time scales & Earth-orientation frames",
       "summary": "IERS leap-second UTC / TAI / TT / UT1 scales, a Julian-date API, the IAU-2000 Earth Rotation Angle, GMST-based TEME ↔ ECEF and WGS-84 geodetic frames, and IAU 2006 precession toward an ITRF-precise reduction."
@@ -20,11 +31,22 @@
       "run": "imu-deadreckoning.toml"
     },
     {
+      "domain": "Gravity-map / alt-PNT",
+      "name": "Cold-atom gravimeter & gravity-map matching",
+      "summary": "A cold-atom gravimeter measurement model whose white-noise floor is derived from the CAI accelerometer physics, a low-degree fully-normalised spherical-harmonic gravity-anomaly field plus synthetic mascons, and a gravity-map-matching particle filter. A 60-minute GPS-denied benchmark — a ~700 km / one-hour outage where the inertial solution drifts to ~70 km — is recovered to ~145 m by a hierarchical coarse-to-fine matcher: the ESA NAVISP Quantum Wayfarer target.",
+      "proof": "60-min GPS-denied · ~145 m (< 500 m)"
+    },
+    {
       "domain": "Fusion",
       "name": "GNSS / INS sensor fusion",
-      "summary": "A 15-state error-state EKF that coasts through GNSS outages on a calibrated inertial solution; a tightly-coupled pseudorange mode that keeps correcting with fewer than four satellites; a coupled clock + position filter; a general unscented (sigma-point) Kalman estimator; and a tightly-coupled GNSS/INS UKF navigator validated to 0.77 m RMS through a 120 s outage on a curving LEO pass.",
+      "summary": "A 15-state error-state EKF that coasts through GNSS outages on a calibrated inertial solution; a tightly-coupled pseudorange mode that keeps correcting with fewer than four satellites; a coupled clock + position filter; a general unscented (sigma-point) Kalman estimator; a tightly-coupled GNSS/INS UKF navigator validated to 0.77 m RMS through a 120 s outage on a curving LEO pass; and a full 17-state tightly-coupled GNSS/INS UKF whose quantum-CAI dead-reckoning coasts the outage on the cold-atom accelerometer's derived velocity-random-walk.",
       "proof": "tightly-coupled UKF · 0.77 m RMS",
       "run": "gnss-ins.toml"
+    },
+    {
+      "domain": "Orbit determination",
+      "name": "Batch & sequential OD",
+      "summary": "Recovery of an orbital state from ground-station range tracking, composing the two-body + J2 force model and RK4 integrator with a Gauss–Newton batch differential corrector (sub-metre / mm·s⁻¹ from noiseless ranges, ~2 m at a 5 m noise floor) and a sequential unscented-filter variant."
     },
     {
       "domain": "Integrity",
