@@ -10,6 +10,20 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **60-minute GPS-denied gravity-map matching to < 500 m (`run_gps_denied_gravity_nav`).**
+  Deepens the alt-PNT layer to the ESA NAVISP *Quantum Wayfarer* validation target: a vehicle
+  flies a ~700 km track for a full one-hour GNSS outage — its inertial solution drifting to
+  **≈ 70 km** — and a cold-atom gravimeter plus a **hierarchical coarse-to-fine** particle/grid
+  matcher recovers the constant INS drift to **≈ 145 m** (< 500 m), a > 480× cut. The gravimeter's
+  real white-noise floor is injected as a **deterministic seeded** sequence, so the matcher is
+  never handed noise-free truth yet the run is exactly reproducible (verified bit-identical, and
+  stable to a few metres across noise realisations). A regression-grade test shows the refinement
+  is *necessary* — a single coarse grid stalls at ~2 km, only the three-stage refinement breaks
+  the 500 m barrier. New committed scenario `scenarios/gps-denied-gravity-nav.toml`. The
+  `docs/CAPABILITY.md` row stays honestly **partial** (still no bundled EGM2008 map) with its
+  evidence updated to the 60-min < 500 m result. Honest scope unchanged: low-degree
+  spherical-harmonic field + synthetic mascons; a Monte-Carlo over map-representation-error
+  realisations is a follow-on.
 - **Overclaim ledger + regression guard (`docs/CLAIMS-VS-REALITY.md`, `tests/no_overclaims.rs`).**
   Closes the honesty/de-claim track: the fourteen overclaims an earlier audit catalogued
   (`OC-0`…`OC-13`) are now all GREEN — the strong claims (`OC-0` coupled clock+position Kalman,
