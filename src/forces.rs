@@ -12,11 +12,13 @@
 //! must reproduce, and the basis of sun-synchronous and frozen-orbit design.
 //!
 //! It also provides **solar-radiation pressure** ([`srp_accel`], the cannonball model with the
-//! [`cylindrical_shadow`] eclipse factor), paired with the same Sun ephemeris.
+//! [`cylindrical_shadow`] eclipse factor) paired with the same Sun ephemeris, and **atmospheric
+//! drag** ([`drag_accel`], quadratic drag against the co-rotating atmosphere of
+//! [`atmospheric_density`], the Vallado piecewise-exponential model).
 //!
 //! Scope (honest): the gravity field is **zonal only** (no tesseral/sectoral EGM terms); the SRP
-//! shadow is the umbra-only **cylinder** (no conical penumbra); and atmospheric drag remains a
-//! follow-on; see `ROADMAP.md`.
+//! shadow is the umbra-only **cylinder** (no conical penumbra); and the drag density is the
+//! **static piecewise-exponential** model (no NRLMSISE-00 thermosphere); see `ROADMAP.md`.
 
 /// Earth gravitational parameter `μ = GM` (m³/s²), WGS-84 / EGM-96 value.
 pub const MU_EARTH: f64 = 3.986_004_418e14;
@@ -221,6 +223,74 @@ pub fn srp_accel(r: Vec3, s: Vec3, cr: f64, area_over_mass: f64) -> Vec3 {
     let inv = 1.0 / dn;
     let scale = nu * SRP_PRESSURE_AU * cr * area_over_mass * AU_M * AU_M * inv * inv * inv;
     [scale * d[0], scale * d[1], scale * d[2]]
+}
+
+/// Earth's mean rotation rate ωₑ (rad/s) — the atmosphere is assumed to co-rotate rigidly with
+/// it, so the drag-relevant velocity is taken relative to `ωₑ ẑ × r`.
+pub const EARTH_ROTATION_RATE: f64 = 7.292_115_146_7e-5;
+
+/// Atmospheric mass density `ρ` (kg/m³) at geometric altitude `altitude_m` (m above the
+/// spherical Earth of radius [`RE_EARTH`]), the standard **piecewise-exponential** model
+/// (Vallado, *Fundamentals of Astrodynamics and Applications*, Table 8-4, after CIRA-72). Within
+/// the band whose base altitude `h0` brackets `h`, `ρ = ρ0·exp(−(h − h0)/H)`. Below 0 km it
+/// clamps to the surface value; above the top band it continues that band's exponential (no hard
+/// cutoff). This is a **static, solar-activity-independent mean** — *not* NRLMSISE-00 (the
+/// thermospheric model with its < 5 % accuracy clause is a follow-on; see `ROADMAP.md`).
+pub fn atmospheric_density(altitude_m: f64) -> f64 {
+    // (base altitude h0 [km], nominal density ρ0 [kg/m³], scale height H [km]).
+    const BANDS: [(f64, f64, f64); 28] = [
+        (0.0, 1.225, 7.249),
+        (25.0, 3.899e-2, 6.349),
+        (30.0, 1.774e-2, 6.682),
+        (40.0, 3.972e-3, 7.554),
+        (50.0, 1.057e-3, 8.382),
+        (60.0, 3.206e-4, 7.714),
+        (70.0, 8.770e-5, 6.549),
+        (80.0, 1.905e-5, 5.799),
+        (90.0, 3.396e-6, 5.382),
+        (100.0, 5.297e-7, 5.877),
+        (110.0, 9.661e-8, 7.263),
+        (120.0, 2.438e-8, 9.473),
+        (130.0, 8.484e-9, 12.636),
+        (140.0, 3.845e-9, 16.149),
+        (150.0, 2.070e-9, 22.523),
+        (180.0, 5.464e-10, 29.740),
+        (200.0, 2.789e-10, 37.105),
+        (250.0, 7.248e-11, 45.546),
+        (300.0, 2.418e-11, 53.628),
+        (350.0, 9.518e-12, 53.298),
+        (400.0, 3.725e-12, 58.515),
+        (450.0, 1.585e-12, 60.828),
+        (500.0, 6.967e-13, 63.822),
+        (600.0, 1.454e-13, 71.835),
+        (700.0, 3.614e-14, 88.667),
+        (800.0, 1.170e-14, 124.64),
+        (900.0, 5.245e-15, 181.05),
+        (1000.0, 3.019e-15, 268.00),
+    ];
+    let h_km = (altitude_m / 1000.0).max(0.0);
+    // Highest base altitude ≤ h_km (i stays 0 at/below the surface band).
+    let mut i = 0;
+    while i + 1 < BANDS.len() && BANDS[i + 1].0 <= h_km {
+        i += 1;
+    }
+    let (h0, rho0, scale) = BANDS[i];
+    rho0 * (-(h_km - h0) / scale).exp()
+}
+
+/// Atmospheric-drag acceleration (m/s², ECI) on a satellite at geocentric `r` (m) and ECI
+/// velocity `v` (m/s): the standard quadratic drag `a = −½ · ρ(h) · (C_D·A/m) · |v_rel| · v_rel`,
+/// opposing the velocity **relative to the co-rotating atmosphere** `v_rel = v − ωₑ ẑ × r`
+/// (`ωₑ ẑ × r = (−ωₑ r_y, ωₑ r_x, 0)`). `cd_area_over_mass` is the ballistic area term `C_D·A/m`
+/// (m²/kg) and `ρ` is [`atmospheric_density`] at the spherical altitude `|r| − Rₑ`. This force is
+/// **dissipative** — it always removes orbital energy, the signature the propagator validates.
+pub fn drag_accel(r: Vec3, v: Vec3, cd_area_over_mass: f64) -> Vec3 {
+    let rho = atmospheric_density(norm(r) - RE_EARTH);
+    let w = EARTH_ROTATION_RATE;
+    // v_rel = v − ωₑ ẑ × r.
+    let v_rel = [v[0] + w * r[1], v[1] - w * r[0], v[2]];
+    let coef = -0.5 * rho * cd_area_over_mass * norm(v_rel);
+    [coef * v_rel[0], coef * v_rel[1], coef * v_rel[2]]
 }
 
 /// Mean motion `n = √(μ/a³)` (rad/s) for semi-major axis `a` (m).
@@ -544,5 +614,82 @@ mod tests {
         // And in eclipse the SRP acceleration is exactly zero (no light, no push).
         let a = srp_accel([-7.078e6, 0.0, 0.0], sun, 1.5, 0.02);
         assert_eq!(a, [0.0, 0.0, 0.0]);
+    }
+
+    #[test]
+    fn atmospheric_density_anchors_at_sea_level_and_decays_with_altitude() {
+        // Sea-level reference is the hand-known anchor; below the surface it clamps.
+        let rho0 = atmospheric_density(0.0);
+        assert!(
+            (rho0 - 1.225).abs() < 1e-3,
+            "surface density {rho0}, expected 1.225 kg/m³"
+        );
+        assert_eq!(
+            atmospheric_density(-5_000.0),
+            rho0,
+            "clamps below the surface"
+        );
+        // Strictly monotonic decrease across the LEO band (no table transcription inversion).
+        let alts = [0.0, 100e3, 200e3, 300e3, 400e3, 500e3, 800e3, 1000e3];
+        for w in alts.windows(2) {
+            let (lo, hi) = (atmospheric_density(w[0]), atmospheric_density(w[1]));
+            assert!(
+                hi < lo,
+                "density must decrease: {hi} at {} km not < {lo} at {} km",
+                w[1] / 1e3,
+                w[0] / 1e3
+            );
+        }
+        // Physical magnitude at 400 km: the solar-mean ~1e-12 kg/m³.
+        let r400 = atmospheric_density(400e3);
+        assert!(
+            (1e-12..=1e-11).contains(&r400),
+            "400 km density {r400} kg/m³ outside ~1e-12 band"
+        );
+    }
+
+    #[test]
+    fn atmospheric_density_local_scale_height_is_physical_at_leo() {
+        // Two samples 40 km apart inside the 400–450 km band: the recovered e-folding scale
+        // height H = −Δh/ln(ρ₂/ρ₁) must land in the physical ~50–70 km LEO range — a real
+        // physical signature, not a re-statement of any single tabulated number.
+        let (h1, h2) = (400e3, 440e3);
+        let ratio = atmospheric_density(h2) / atmospheric_density(h1);
+        let scale_km = -(h2 - h1) / 1000.0 / ratio.ln();
+        assert!(
+            (50.0..=70.0).contains(&scale_km),
+            "recovered LEO scale height {scale_km} km outside ~50–70 band"
+        );
+    }
+
+    #[test]
+    fn drag_opposes_the_corotating_relative_velocity_at_textbook_leo_magnitude() {
+        // 400 km prograde state. Drag must oppose the velocity relative to the co-rotating
+        // atmosphere (v_rel = v − ωₑ ẑ × r) and have the ~1e-6 m/s² LEO magnitude for
+        // C_D·A/m = 0.02 m²/kg.
+        let alt = 400e3;
+        let r = [RE_EARTH + alt, 0.0, 0.0];
+        let vcirc = (MU_EARTH / (RE_EARTH + alt)).sqrt(); // ~7.67 km/s
+        let v = [0.0, vcirc, 0.0];
+        let a = drag_accel(r, v, 0.02);
+
+        // v_rel for this state is (0, vcirc − ωₑ·(RE+alt), 0): the atmosphere co-rotation
+        // subtracts ~0.49 km/s of along-track speed.
+        let v_rel = [0.0, vcirc - EARTH_ROTATION_RATE * (RE_EARTH + alt), 0.0];
+        let dot_av = a[0] * v_rel[0] + a[1] * v_rel[1] + a[2] * v_rel[2];
+        assert!(
+            dot_av < 0.0,
+            "drag must oppose the relative velocity: {dot_av}"
+        );
+        // Collinear with −v_rel (no cross-track component for this in-plane state).
+        assert!(
+            a[0] == 0.0 && a[2] == 0.0,
+            "drag should be purely along −v_rel: {a:?}"
+        );
+        let mag = norm(a);
+        assert!(
+            (1e-7..=1e-5).contains(&mag),
+            "400 km drag magnitude {mag} m/s² outside ~2e-6 band"
+        );
     }
 }
