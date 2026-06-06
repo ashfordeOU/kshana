@@ -40,8 +40,11 @@ A validated, fully reproducible engine spanning the PNT stack:
   **spherical-harmonic gravity-anomaly field** (validated against the closed-form Legendre
   functions and a hand-derived single-term anomaly) plus synthetic mascons, and a
   **gravity-map-matching particle filter** that recovers a GPS-denied track from the anomaly
-  sequence it flies through — a committed NAVISP benchmark cuts ~73 km of free-inertial drift to a
-  few km. The full EGM2008 coefficient set, magnetic maps, and terrain-aided SLAM remain follow-ons.
+  sequence it flies through. A **60-minute GPS-denied benchmark** flies a ~700 km / one-hour
+  outage where the inertial solution drifts to ~70 km, and a **hierarchical coarse-to-fine**
+  matcher with the gravimeter's deterministic seeded noise recovers it to **~145 m (< 500 m)** —
+  the ESA NAVISP *Quantum Wayfarer* target. The full EGM2008 coefficient set, a map-error
+  Monte-Carlo, magnetic maps, and terrain-aided SLAM remain follow-ons.
 - **Fusion** — loosely-coupled 15-state GNSS/INS error-state EKF with closed-loop
   feedback, a tightly-coupled pseudorange update that corrects with fewer than four
   satellites, a coupled clock+position filter, a general unscented (sigma-point)
