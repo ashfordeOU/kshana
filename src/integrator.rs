@@ -1,19 +1,22 @@
 // SPDX-License-Identifier: Apache-2.0
-//! Adaptive numerical ODE integration (classical RK4 with step-doubling control).
+//! Adaptive numerical ODE integration: classical RK4 with step-doubling control, and a
+//! Dormand–Prince RK5(4) embedded pair.
 //!
-//! Kshana's orbit propagation is analytic (SGP4/SDP4). This module adds the first
-//! piece of a *numerical* propagator: a generic fixed-step fourth-order Runge–Kutta
-//! step and an adaptive driver that controls local error by **step doubling**
-//! (Richardson extrapolation) — take one step `h` and two steps `h/2`, compare, and
-//! shrink or grow `h` to hold the error near a tolerance. It integrates any
-//! first-order system `y' = f(t, y)`, so an orbit force model would supply
-//! `f(t, [r; v]) = [v; a(r, v)]`.
+//! Kshana's orbit propagation is analytic (SGP4/SDP4); this module is the *numerical* propagator's
+//! integrator core. It offers two adaptive drivers for any first-order system `y' = f(t, y)` (an
+//! orbit force model supplies `f(t, [r; v]) = [v; a(t, r, v)]`):
 //!
-//! Scope (honest): this is the integrator core and its error control. The
-//! Dormand–Prince RK5(4) / RKF7(8) embedded Butcher-tableau pairs (cheaper error
-//! estimates than step doubling), and the hierarchical orbit force model
-//! (two-body + J2–J6 + drag + SRP + third-body) that turns it into a
-//! `NumericalPropagator`, are follow-ons (see `ROADMAP.md`).
+//! * **Step doubling** ([`integrate`] / [`step_doubling`]) — a generic fixed-step fourth-order
+//!   Runge–Kutta step ([`rk4_step`]) with Richardson local-error control: take one step `h` and
+//!   two steps `h/2`, compare, and shrink or grow `h` to hold the error near tolerance.
+//! * **Dormand–Prince RK5(4)** ([`integrate_dopri`] / [`dopri54_step`]) — the standard embedded
+//!   Butcher-tableau pair: seven FSAL stages give a 5th-order solution and a 4th-order error
+//!   estimate from one set of evaluations (7 vs 11 function calls per step), a cheaper error
+//!   estimate than step doubling.
+//!
+//! Scope (honest): higher-order embedded pairs (RKF7(8) / DOP853) remain a follow-on
+//! (see `ROADMAP.md`); the hierarchical orbit force model that turns this into a propagator lives
+//! in [`crate::forces`] / [`crate::propagator`].
 
 /// One classical fourth-order Runge–Kutta step of size `h` from `(t, y)` for the
 /// system `y' = f(t, y)`. The state is any fixed-length vector.
@@ -117,6 +120,119 @@ where
             h = t_end - t;
         }
         let (y_next, err, h_next) = step_doubling(f, t, &y, h, tol);
+        if err <= 1.0 || h <= tol.h_min {
+            t += h;
+            y = y_next;
+            accepted += 1;
+            h = h_next;
+        } else {
+            rejected += 1;
+            h = h_next;
+        }
+    }
+    Solution {
+        t,
+        y,
+        accepted,
+        rejected,
+    }
+}
+
+/// One **Dormand–Prince RK5(4)** embedded step of size `h` from `(t, y)`. Seven stages (FSAL)
+/// produce a 5th-order solution `y_next` (the propagated value, local extrapolation) and an
+/// embedded 4th-order solution; their difference `y₅ − y₄ = h·Σ eᵢ kᵢ` is the local-error
+/// estimate — **one set of stage evaluations gives both orders**, far cheaper than step
+/// doubling's three RK4 steps (7 vs 11 function evaluations per step). Returns
+/// `(y_next, error_norm, h_next)` with the same RMS-error and `0.9·(1/err)^(1/5)` step controller
+/// as [`step_doubling`], so it is a drop-in alternative. Coefficients are the standard
+/// Dormand–Prince (1980) tableau.
+pub fn dopri54_step<F>(f: &F, t: f64, y: &[f64], h: f64, tol: &Tolerance) -> (Vec<f64>, f64, f64)
+where
+    F: Fn(f64, &[f64]) -> Vec<f64>,
+{
+    let n = y.len();
+    let k1 = f(t, y);
+    let y2: Vec<f64> = (0..n).map(|i| y[i] + h * (k1[i] / 5.0)).collect();
+    let k2 = f(t + h / 5.0, &y2);
+    let y3: Vec<f64> = (0..n)
+        .map(|i| y[i] + h * (3.0 / 40.0 * k1[i] + 9.0 / 40.0 * k2[i]))
+        .collect();
+    let k3 = f(t + 3.0 * h / 10.0, &y3);
+    let y4: Vec<f64> = (0..n)
+        .map(|i| y[i] + h * (44.0 / 45.0 * k1[i] - 56.0 / 15.0 * k2[i] + 32.0 / 9.0 * k3[i]))
+        .collect();
+    let k4 = f(t + 4.0 * h / 5.0, &y4);
+    let y5: Vec<f64> = (0..n)
+        .map(|i| {
+            y[i] + h
+                * (19372.0 / 6561.0 * k1[i] - 25360.0 / 2187.0 * k2[i] + 64448.0 / 6561.0 * k3[i]
+                    - 212.0 / 729.0 * k4[i])
+        })
+        .collect();
+    let k5 = f(t + 8.0 * h / 9.0, &y5);
+    let y6: Vec<f64> = (0..n)
+        .map(|i| {
+            y[i] + h
+                * (9017.0 / 3168.0 * k1[i] - 355.0 / 33.0 * k2[i]
+                    + 46732.0 / 5247.0 * k3[i]
+                    + 49.0 / 176.0 * k4[i]
+                    - 5103.0 / 18656.0 * k5[i])
+        })
+        .collect();
+    let k6 = f(t + h, &y6);
+    // 5th-order solution (b₂ = b₇ = 0); the a₇ row equals these weights, so k₇ = f(t+h, y_next).
+    let y_next: Vec<f64> = (0..n)
+        .map(|i| {
+            y[i] + h
+                * (35.0 / 384.0 * k1[i] + 500.0 / 1113.0 * k3[i] + 125.0 / 192.0 * k4[i]
+                    - 2187.0 / 6784.0 * k5[i]
+                    + 11.0 / 84.0 * k6[i])
+        })
+        .collect();
+    let k7 = f(t + h, &y_next);
+    // Embedded error y₅ − y₄ = h·Σ eᵢ kᵢ, e = b − b* (the standard Dormand–Prince differences).
+    let mut err = 0.0_f64;
+    for i in 0..n {
+        let ei = h
+            * (71.0 / 57600.0 * k1[i] - 71.0 / 16695.0 * k3[i] + 71.0 / 1920.0 * k4[i]
+                - 17253.0 / 339200.0 * k5[i]
+                + 22.0 / 525.0 * k6[i]
+                - 1.0 / 40.0 * k7[i]);
+        let scale = tol.atol + tol.rtol * y_next[i].abs().max(y[i].abs());
+        let r = ei / scale;
+        err += r * r;
+    }
+    err = (err / n as f64).sqrt();
+    let factor = if err > 0.0 { 0.9 * err.powf(-0.2) } else { 5.0 };
+    let h_next = (h * factor.clamp(0.2, 5.0)).clamp(tol.h_min, tol.h_max);
+    (y_next, err, h_next)
+}
+
+/// Integrate `y' = f(t, y)` from `t0` to `t_end` with the adaptive **Dormand–Prince RK5(4)**
+/// driver ([`dopri54_step`]) — the embedded-pair counterpart of [`integrate`] (which uses step
+/// doubling). Same accept/reject logic and exact final-step clipping; returns the same
+/// [`Solution`]. For the same tolerance this reaches the endpoint in fewer function evaluations
+/// than the step-doubling driver (embedded error estimate vs three RK4 sub-steps).
+pub fn integrate_dopri<F>(
+    f: &F,
+    t0: f64,
+    y0: &[f64],
+    t_end: f64,
+    h0: f64,
+    tol: &Tolerance,
+) -> Solution
+where
+    F: Fn(f64, &[f64]) -> Vec<f64>,
+{
+    let mut t = t0;
+    let mut y = y0.to_vec();
+    let mut h = h0.max(tol.h_min).min(tol.h_max);
+    let (mut accepted, mut rejected) = (0, 0);
+    while t < t_end {
+        if t + h > t_end {
+            h = t_end - t;
+        }
+        let (y_next, err, h_next) = dopri54_step(f, t, &y, h, tol);
         if err <= 1.0 || h <= tol.h_min {
             t += h;
             y = y_next;
@@ -258,5 +374,95 @@ mod tests {
             e2 < e1,
             "smaller step should have smaller error: {e2} !< {e1}"
         );
+    }
+
+    #[test]
+    fn dopri54_adaptive_meets_a_tight_tolerance_on_exponential_growth() {
+        // y' = y to t = 1 with the embedded DP5(4) driver lands on e to high accuracy and takes
+        // real adaptive steps.
+        let f = |_t: f64, y: &[f64]| vec![y[0]];
+        let tol = Tolerance {
+            rtol: 1e-12,
+            atol: 1e-14,
+            ..Tolerance::default()
+        };
+        let sol = integrate_dopri(&f, 0.0, &[1.0], 1.0, 0.1, &tol);
+        assert!((sol.t - 1.0).abs() < 1e-12);
+        assert!(
+            (sol.y[0] - std::f64::consts::E).abs() < 1e-9,
+            "DP5(4) y(1) = {} vs e",
+            sol.y[0]
+        );
+        assert!(
+            sol.accepted >= 1,
+            "should take real steps: {}",
+            sol.accepted
+        );
+    }
+
+    #[test]
+    fn dopri54_embedded_error_estimate_is_fifth_order() {
+        // The embedded 4th-order error estimate of the DP5(4) step is O(h⁵): halving the step
+        // must cut it by ~2⁵ = 32×. (The tolerance scaling is ~constant across the two steps from
+        // the same start, so the normalized-error ratio tracks the raw h⁵ scaling.)
+        let f = |_t: f64, y: &[f64]| vec![y[0]];
+        let tol = Tolerance::default();
+        let (_, e1, _) = dopri54_step(&f, 0.0, &[1.0], 0.2, &tol);
+        let (_, e2, _) = dopri54_step(&f, 0.0, &[1.0], 0.1, &tol);
+        let ratio = e1 / e2;
+        assert!(
+            (20.0..=50.0).contains(&ratio),
+            "DP5(4) error should scale ~h⁵ (ratio ~32): {ratio}"
+        );
+    }
+
+    #[test]
+    fn dopri54_harmonic_oscillator_conserves_energy_over_many_periods() {
+        // y'' = −y over 50 periods at a tight tolerance: DP5(4) keeps energy pos²+vel² ≈ 1 and
+        // returns the state to its start — the orbital-motion proxy the propagator relies on.
+        let f = |_t: f64, y: &[f64]| vec![y[1], -y[0]];
+        let tol = Tolerance {
+            rtol: 1e-11,
+            atol: 1e-13,
+            ..Tolerance::default()
+        };
+        let t_end = 50.0 * std::f64::consts::TAU;
+        let sol = integrate_dopri(&f, 0.0, &[1.0, 0.0], t_end, 0.1, &tol);
+        let energy = sol.y[0] * sol.y[0] + sol.y[1] * sol.y[1];
+        assert!((energy - 1.0).abs() < 1e-6, "energy drift {energy}");
+        assert!(
+            (sol.y[0] - 1.0).abs() < 1e-4 && sol.y[1].abs() < 1e-4,
+            "state should return to start: {:?}",
+            sol.y
+        );
+    }
+
+    #[test]
+    fn dopri54_is_cheaper_than_step_doubling_at_the_same_tolerance() {
+        // The whole point of the embedded pair: reach the same endpoint at the same tolerance in
+        // fewer function evaluations. DP5(4) is 7 evals/step and (being 5th order) takes fewer
+        // steps; step doubling is 11 evals/step. Compare total evals on y' = y to t = 10.
+        let f = |_t: f64, y: &[f64]| vec![y[0]];
+        let tol = Tolerance {
+            rtol: 1e-10,
+            atol: 1e-12,
+            ..Tolerance::default()
+        };
+        let sd = integrate(&f, 0.0, &[1.0], 10.0, 0.1, &tol);
+        let dp = integrate_dopri(&f, 0.0, &[1.0], 10.0, 0.1, &tol);
+        let sd_evals = (sd.accepted + sd.rejected) * 11;
+        let dp_evals = (dp.accepted + dp.rejected) * 7;
+        assert!(
+            dp_evals < sd_evals,
+            "DP5(4) {dp_evals} evals should beat step-doubling {sd_evals}"
+        );
+        // Both must actually be accurate (this isn't cheaper-by-being-wrong).
+        for sol in [&sd, &dp] {
+            assert!(
+                (sol.y[0] - 10.0_f64.exp()).abs() / 10.0_f64.exp() < 1e-7,
+                "y(10) = {} vs e¹⁰",
+                sol.y[0]
+            );
+        }
     }
 }
