@@ -1,0 +1,77 @@
+# 60-minute GPS-denied gravity-map-matching benchmark (quantum alt-PNT).
+#
+# The validation-grade form of `gravity-map-nav.toml`: a vehicle flies a ~700 km track for
+# a full one-hour GNSS outage, its inertial solution drifting to ≈ 70 km of position error.
+# A cold-atom gravimeter samples the gravity anomaly along the track (with its real, seeded
+# white-noise floor injected), and a hierarchical coarse-to-fine particle/grid matcher
+# recovers the constant INS drift to a few hundred metres — the < 500 m GPS-denied target
+# of ESA NAVISP's "Quantum Wayfarer" gravity-aided navigation.
+#
+# Consumed by `kshana::gravimeter::run_gps_denied_gravity_nav` (and its unit tests). The
+# reference field is a low-degree spherical-harmonic trend plus synthetic mascons; Kshana
+# does not bundle the full EGM2008 coefficient set, and a Monte-Carlo over map-representation
+# error realisations is a documented follow-on (see docs/CAPABILITY.md).
+
+# Maximum spherical-harmonic degree/order of the reference field.
+nmax = 3
+
+# Track flown GPS-denied: 90 waypoints, 40 s gravimeter averaging each ⇒ 3600 s = 60 min.
+# An oblique leg keeps the scalar gravimeter sequence observable in both north and east.
+start_lat_deg = 10.0
+start_lon_deg = 20.0
+step_lat_deg = 0.06
+step_lon_deg = 0.045
+waypoints = 90
+
+# True constant INS position drift accumulated over the one-hour outage (≈ 70 km at ~13° lat,
+# i.e. far past the 10 km the matched solution must beat).
+drift_lat_deg = 0.5
+drift_lon_deg = -0.4
+
+# Cold-atom gravimeter: 1e-7 m/s²/√Hz ASD (≈10 µGal/√Hz), 40 s averaging ⇒ σ ≈ 1.6e-3 mGal.
+gravimeter_asd = 1.0e-7
+averaging_time_s = 40.0
+
+# Map/representation error (mGal): combined with the sensor white noise into the matching σ.
+map_sigma_mgal = 2.0
+
+# Hierarchical offset search: ±0.8° at 0.08° to start, then three coarse-to-fine stages each
+# shrinking the window and step 8× ⇒ final offset resolution 0.08° / 8² ≈ 140 m.
+search_half_deg = 0.8
+search_step_deg = 0.08
+refine_stages = 3
+refine_factor = 8.0
+noise_seed = 1
+
+# Low-degree anomalous, fully-normalised coefficients (the always-on regional trend).
+[[coeffs]]
+n = 2
+m = 0
+cbar = 6.0e-6
+sbar = 0.0
+
+[[coeffs]]
+n = 3
+m = 1
+cbar = 3.0e-6
+sbar = 2.0e-6
+
+# Localized Gaussian anomalies (mascons) the track crosses — the distinctive high-degree
+# features that make the constant drift observable.
+[[mascons]]
+lat_deg = 11.0
+lon_deg = 20.8
+amp_mgal = 45.0
+sigma_deg = 0.30
+
+[[mascons]]
+lat_deg = 12.4
+lon_deg = 21.9
+amp_mgal = -38.0
+sigma_deg = 0.28
+
+[[mascons]]
+lat_deg = 13.8
+lon_deg = 23.0
+amp_mgal = 50.0
+sigma_deg = 0.32

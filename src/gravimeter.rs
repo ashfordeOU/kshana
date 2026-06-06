@@ -32,6 +32,9 @@
 use crate::inertial::quantum_imu::CaiAccelerometer;
 use crate::mapmatch::map_match_likelihood;
 use crate::particle_filter::ParticleFilter;
+use rand::SeedableRng;
+use rand_chacha::ChaCha8Rng;
+use rand_distr::{Distribution, Normal};
 use serde::Deserialize;
 
 /// Earth gravitational parameter `GM` (m³/s², WGS-84/EGM).
@@ -293,6 +296,28 @@ pub struct GravityMapBenchmarkCfg {
     pub search_half_deg: f64,
     /// Offset search-grid step (degrees).
     pub search_step_deg: f64,
+    /// Number of coarse-to-fine refinement stages for the offset search. `1` (the default)
+    /// is the original single-grid behaviour; each extra stage recentres on the running
+    /// estimate and shrinks the window and step by [`Self::refine_factor`], buying sub-grid
+    /// resolution without an intractably fine single grid. Used by
+    /// [`run_gps_denied_gravity_nav`]; [`run_gravity_map_benchmark`] ignores it.
+    #[serde(default = "default_refine_stages")]
+    pub refine_stages: usize,
+    /// Per-stage shrink factor applied to the refinement window half-width and step.
+    #[serde(default = "default_refine_factor")]
+    pub refine_factor: f64,
+    /// Seed for the deterministic gravimeter measurement-noise sequence injected by
+    /// [`run_gps_denied_gravity_nav`] (per-seed reproducible; vary it to sweep realisations).
+    #[serde(default)]
+    pub noise_seed: u64,
+}
+
+fn default_refine_stages() -> usize {
+    1
+}
+
+fn default_refine_factor() -> f64 {
+    8.0
 }
 
 /// Result of the gravity-map-matching benchmark.
@@ -394,6 +419,132 @@ pub fn run_gravity_map_benchmark(cfg: &GravityMapBenchmarkCfg) -> GravityMapNavR
     GravityMapNavResult {
         free_inertial_drift_m,
         map_matched_error_m,
+        measurement_sigma_mgal: sigma_mgal,
+    }
+}
+
+/// A square offset-candidate grid of `(2·n_side+1)²` points, spacing `step` (deg), centred
+/// on `center` (deg lat, lon).
+fn offset_grid(center: [f64; 2], n_side: i64, step: f64) -> Vec<Vec<f64>> {
+    let count = ((2 * n_side + 1) * (2 * n_side + 1)).max(1) as usize;
+    let mut g = Vec::with_capacity(count);
+    for i in -n_side..=n_side {
+        for j in -n_side..=n_side {
+            g.push(vec![
+                center[0] + i as f64 * step,
+                center[1] + j as f64 * step,
+            ]);
+        }
+    }
+    g
+}
+
+/// Run the full **60-minute GPS-denied** gravity-map-matching benchmark.
+///
+/// This is the harder, validation-grade form of [`run_gravity_map_benchmark`] and the
+/// capability target of ESA NAVISP's *Quantum Wayfarer* gravity-aided alt-PNT: a vehicle
+/// flies a long known-shape track with **no GNSS**, its inertial solution carrying an
+/// unknown constant position drift `d`. A quantum (cold-atom) gravimeter samples the local
+/// gravity anomaly at each waypoint; the samples carry the sensor's real white-noise floor,
+/// injected here as a **deterministic, seeded** Gaussian sequence (so the matcher is never
+/// handed noise-free truth, yet the test is exactly reproducible). The offset is recovered
+/// by a **hierarchical coarse-to-fine** particle/grid search: stage 1 sweeps the full
+/// `±search_half_deg` window at `search_step_deg`; each later stage recentres on the running
+/// estimate and shrinks the window and step by `refine_factor`, so the final offset
+/// resolution is `search_step_deg / refine_factor^(refine_stages−1)` — sub-grid accuracy
+/// without an intractably fine single grid.
+///
+/// Returns the unaided inertial drift (which, for the committed scenario, exceeds 10 km) and
+/// the matched residual (which falls below a few hundred metres).
+///
+/// ## Scope (honest)
+///
+/// The injected noise is the gravimeter's white **sensor** floor; the matching `σ` also
+/// budgets a map representation-error term ([`GravityMapBenchmarkCfg::map_sigma_mgal`]), but
+/// a full Monte-Carlo over map-error *realisations* — perturbing the stored map away from the
+/// truth field — and a real EGM2008/EIGEN coefficient map are follow-ons (see
+/// `docs/CAPABILITY.md`). The reference field here is the low-degree spherical-harmonic trend
+/// plus synthetic mascons validated in this module's unit tests.
+pub fn run_gps_denied_gravity_nav(cfg: &GravityMapBenchmarkCfg) -> GravityMapNavResult {
+    let mut model = GravityAnomalyModel::new(cfg.nmax);
+    for c in &cfg.coeffs {
+        model.set_coeff(c.n, c.m, c.cbar, c.sbar);
+    }
+    for m in &cfg.mascons {
+        model.add_mascon(*m);
+    }
+    let field = model.sampler_deg();
+
+    // Gravimeter white-noise floor; the matching σ additionally budgets the map error.
+    let grav = Gravimeter::new(cfg.gravimeter_asd, 0.0);
+    let sensor_sigma = grav.measurement_sigma_mgal(cfg.averaging_time_s);
+    let sigma_mgal = (sensor_sigma * sensor_sigma + cfg.map_sigma_mgal * cfg.map_sigma_mgal).sqrt();
+
+    // The GPS-denied track and the noisy gravimeter samples taken along it.
+    let truth: Vec<(f64, f64)> = (0..cfg.waypoints)
+        .map(|k| {
+            (
+                cfg.start_lat_deg + cfg.step_lat_deg * k as f64,
+                cfg.start_lon_deg + cfg.step_lon_deg * k as f64,
+            )
+        })
+        .collect();
+    let mut rng = ChaCha8Rng::seed_from_u64(cfg.noise_seed);
+    let noise = Normal::new(0.0, sensor_sigma.max(f64::MIN_POSITIVE)).unwrap();
+    let measured: Vec<f64> = truth
+        .iter()
+        .map(|&(la, lo)| field(la, lo) + noise.sample(&mut rng))
+        .collect();
+
+    // INS-reported positions carry the true constant drift d.
+    let ins: Vec<(f64, f64)> = truth
+        .iter()
+        .map(|&(la, lo)| (la + cfg.drift_lat_deg, lo + cfg.drift_lon_deg))
+        .collect();
+
+    // Product likelihood over the whole waypoint sequence for a candidate offset δ.
+    let weigh = |delta: &[f64]| -> f64 {
+        let mut like = 1.0;
+        for (k, &(la, lo)) in ins.iter().enumerate() {
+            like *= map_match_likelihood(
+                &field,
+                la - delta[0],
+                lo - delta[1],
+                measured[k],
+                sigma_mgal,
+            );
+        }
+        like
+    };
+
+    // Hierarchical coarse-to-fine offset search.
+    let n_side = (cfg.search_half_deg / cfg.search_step_deg).round().max(1.0) as i64;
+    let stages = cfg.refine_stages.max(1);
+    let factor = cfg.refine_factor.max(1.000_1);
+    let mut center = [0.0_f64, 0.0_f64];
+    let mut step = cfg.search_step_deg;
+    let mut est = center;
+    for _ in 0..stages {
+        let grid = offset_grid(center, n_side, step);
+        let mut pf = ParticleFilter::new(grid);
+        pf.update(weigh);
+        let e = pf.estimate();
+        est = [e[0], e[1]];
+        center = est;
+        step /= factor;
+    }
+
+    let mid_lat = cfg.start_lat_deg + cfg.step_lat_deg * (cfg.waypoints as f64 - 1.0) / 2.0;
+    let cos_lat = mid_lat.to_radians().cos();
+    let to_m = |dlat: f64, dlon: f64| {
+        let north = dlat * M_PER_DEG;
+        let east = dlon * M_PER_DEG * cos_lat;
+        (north * north + east * east).sqrt()
+    };
+
+    GravityMapNavResult {
+        free_inertial_drift_m: to_m(cfg.drift_lat_deg, cfg.drift_lon_deg),
+        map_matched_error_m: to_m(cfg.drift_lat_deg - est[0], cfg.drift_lon_deg - est[1]),
         measurement_sigma_mgal: sigma_mgal,
     }
 }
@@ -542,6 +693,9 @@ mod tests {
             map_sigma_mgal: 2.0,
             search_half_deg: 1.0,
             search_step_deg: 0.05,
+            refine_stages: 1,
+            refine_factor: 8.0,
+            noise_seed: 0,
         };
         let r = run_gravity_map_benchmark(&cfg);
 
@@ -564,6 +718,93 @@ mod tests {
             r.map_matched_error_m
         );
         assert!(r.measurement_sigma_mgal > 0.0 && r.measurement_sigma_mgal.is_finite());
+    }
+
+    /// The committed 60-minute GPS-denied scenario (single source of truth for the params).
+    fn gps_denied_cfg() -> GravityMapBenchmarkCfg {
+        toml::from_str(include_str!("../scenarios/gps-denied-gravity-nav.toml"))
+            .expect("60-min GPS-denied scenario parses")
+    }
+
+    #[test]
+    fn gps_denied_60min_recovers_position_within_500m() {
+        // The headline alt-PNT result: one hour with no GNSS, the inertial solution drifts
+        // to ≈ 70 km, and hierarchical gravity-map matching pulls it back under 500 m.
+        let r = run_gps_denied_gravity_nav(&gps_denied_cfg());
+        assert!(
+            r.free_inertial_drift_m > 10_000.0,
+            "free-inertial drift {} m must exceed 10 km",
+            r.free_inertial_drift_m
+        );
+        assert!(
+            r.map_matched_error_m < 500.0,
+            "matched error {} m must beat the 500 m GPS-denied target",
+            r.map_matched_error_m
+        );
+        // A genuine fix, not a marginal trim: at least a 100× cut over free-inertial drift.
+        assert!(
+            r.map_matched_error_m < r.free_inertial_drift_m / 100.0,
+            "matched {} m vs drift {} m",
+            r.map_matched_error_m,
+            r.free_inertial_drift_m
+        );
+        assert!(r.measurement_sigma_mgal > 0.0 && r.measurement_sigma_mgal.is_finite());
+    }
+
+    #[test]
+    fn hierarchical_refinement_is_what_breaks_the_500m_barrier() {
+        // A single coarse grid (search_step ≈ 0.08° ≈ 9 km) cannot reach 500 m; the
+        // coarse-to-fine refinement is what buys the sub-grid resolution. Same field, same
+        // noise — only the stage count differs.
+        let mut single = gps_denied_cfg();
+        single.refine_stages = 1;
+        let coarse = run_gps_denied_gravity_nav(&single);
+        let refined = run_gps_denied_gravity_nav(&gps_denied_cfg());
+
+        assert!(
+            coarse.map_matched_error_m > 500.0,
+            "single-stage {} m should NOT already meet the target",
+            coarse.map_matched_error_m
+        );
+        assert!(refined.map_matched_error_m < 500.0);
+        assert!(
+            refined.map_matched_error_m < coarse.map_matched_error_m / 4.0,
+            "refinement {} m must sharply beat single-stage {} m",
+            refined.map_matched_error_m,
+            coarse.map_matched_error_m
+        );
+    }
+
+    #[test]
+    fn gps_denied_recovery_is_stable_across_noise_realisations() {
+        // The seeded gravimeter noise is reproducible per seed; across realisations the
+        // matched error stays well under target and barely moves (the cold-atom floor is
+        // far below the map error, so geometry — not noise — sets the result).
+        let mut errs = Vec::new();
+        for seed in 1..=5u64 {
+            let mut cfg = gps_denied_cfg();
+            cfg.noise_seed = seed;
+            let r = run_gps_denied_gravity_nav(&cfg);
+            assert!(
+                r.map_matched_error_m < 500.0,
+                "seed {seed}: matched {} m",
+                r.map_matched_error_m
+            );
+            errs.push(r.map_matched_error_m);
+        }
+        let max = errs.iter().cloned().fold(f64::MIN, f64::max);
+        let min = errs.iter().cloned().fold(f64::MAX, f64::min);
+        assert!(max - min < 50.0, "spread {} m across seeds", max - min);
+    }
+
+    #[test]
+    fn run_is_deterministic_for_a_fixed_seed() {
+        let a = run_gps_denied_gravity_nav(&gps_denied_cfg());
+        let b = run_gps_denied_gravity_nav(&gps_denied_cfg());
+        assert_eq!(
+            a.map_matched_error_m.to_bits(),
+            b.map_matched_error_m.to_bits()
+        );
     }
 
     #[test]
