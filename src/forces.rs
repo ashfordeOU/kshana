@@ -257,8 +257,8 @@ pub fn conical_shadow(r: Vec3, s: Vec3) -> f64 {
 /// the Sun at geocentric `s` (m), using the **cannonball** model:
 /// `a = ν · P☉ · cᵣ · (A/m) · (AU/d)² · d̂`, where `d = r − s` is the Sun→satellite vector (so
 /// the force pushes the craft radially **away** from the Sun), `(AU/d)²` is the inverse-square
-/// flux fall-off with `P☉ = `[`SRP_PRESSURE_AU`], and `ν` is the [`conical_shadow`] factor (umbra
-/// + penumbra, so the force tapers smoothly through eclipse rather than switching on/off).
+/// flux fall-off with `P☉ = `[`SRP_PRESSURE_AU`], and `ν` is the [`conical_shadow`] umbra-and-
+/// penumbra factor (so the force tapers smoothly through eclipse rather than switching on/off).
 /// `cr` is the dimensionless radiation-pressure coefficient (≈1 fully absorptive, →2 fully
 /// specular) and `area_over_mass` the cross-section-to-mass ratio `A/m` (m²/kg).
 pub fn srp_accel(r: Vec3, s: Vec3, cr: f64, area_over_mass: f64) -> Vec3 {
