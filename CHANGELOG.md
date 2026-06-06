@@ -9,6 +9,21 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.12.0] - 2026-06-06
+
+This release lands Kshana's first **non-analytic orbit propagator** — a Cowell
+integrator with a hierarchical six-perturbation force model (two-body + J2–J6 zonal +
+epoch-driven Sun/Moon third body + solar-radiation pressure with a conical
+umbra/penumbra shadow + atmospheric drag + the post-Newtonian Schwarzschild relativistic
+correction) driven by a choice of two adaptive integrators (RK4 step-doubling and the
+Dormand–Prince RK5(4) embedded pair) — alongside a maneuver / trajectory-design layer
+(impulsive and finite burns, an Izzo Lambert solver, and a porkchop sweep), a
+gravity-map-matching alt-PNT layer that recovers a 60-minute GPS-denied track to under
+500 m, a batch + sequential orbit-determination pipeline, and a full 17-state
+tightly-coupled GNSS/INS UKF with quantum-CAI dead-reckoning. Every numerical capability
+is pinned against analytic truth or a hand-derived closed form; the off-by-default
+perturbations leave the released goldens untouched.
+
 ### Added
 - **Post-Newtonian (Schwarzschild) relativistic correction (`forces::relativistic_accel` +
   `propagator::ForceModel::relativity`).** Adds the dominant general-relativistic perturbation on a
