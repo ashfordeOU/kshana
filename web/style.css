@@ -478,8 +478,19 @@ details#advanced summary { cursor: pointer; color: var(--fg-1); font-size: 0.85r
 .summary.updated { animation: flash 0.5s ease; }
 @keyframes flash { 0% { background: rgba(92,184,214,0.3); } 100% { background: var(--accent-tint); } }
 
-.chart, #adev { text-align: center; margin: 1rem 0; }
+.chart, #adev { text-align: center; margin: 1rem 0 0.4rem; }
 .chart img, #adev img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); }
+/* Per-chart download toolbar — right-aligned under each chart, theme-matched. */
+.chart-tools { display: flex; align-items: center; justify-content: flex-end; gap: 0.4rem; margin: -0.1rem 0 0.9rem; }
+.chart-dl-label { font-size: 0.78rem; color: var(--fg-3); margin-right: 0.1rem; }
+.chart-dl {
+  font: inherit; font-size: 0.78rem; line-height: 1; letter-spacing: 0.02em;
+  color: var(--fg-1); background: var(--bg-1); border: 1px solid var(--line);
+  border-radius: 5px; padding: 0.32rem 0.6rem; cursor: pointer; transition: border-color 0.15s, color 0.15s;
+}
+.chart-dl:hover { color: var(--fg); border-color: var(--accent-line); }
+.chart-dl:active { transform: translateY(1px); }
+.chart-dl:disabled { opacity: 0.55; cursor: progress; }
 .adev-title { font-size: 0.95rem; margin: 1rem 0 0.4rem; }
 .health-cards { display: flex; flex-wrap: wrap; gap: 0.6rem; }
 .health-card { flex: 1 1 220px; border: 1px solid var(--line); border-left-width: 3px; border-radius: 6px; padding: 0.6rem 0.75rem; background: var(--bg); }
