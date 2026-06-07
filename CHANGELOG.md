@@ -27,6 +27,13 @@ breaking changes are called out explicitly.
   previously only HTML around the image, so a saved image had no caption), and both
   carry a provenance footer — `Kshana v<version> · <scenario-hash> · kshana.dev` —
   so a downloaded chart stands on its own and stays reproducible.
+- **Every chart now carries the provenance footer.** The footer is stamped
+  centrally for all scenario kinds in `api::run_toml` (it was previously only on
+  the holdover and Allan charts), so any saved or downloaded image — from the
+  playground, the CLI's `.chart.svg` export, or the HTML scorecard — identifies
+  its version, scenario fingerprint, and source. Hash comes from the result's
+  `scenario_hash` where present, with a source-hash fallback for the
+  integrity/lunar reports.
 
 ### Fixed
 - **`raim::chi2_quantile` and the RAIM Stanford-noise sampler are now panic-free on

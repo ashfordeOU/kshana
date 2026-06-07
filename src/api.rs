@@ -8,6 +8,7 @@
 
 use crate::scenario::GnssState;
 use serde::Deserialize;
+use sha2::{Digest, Sha256};
 
 /// The outputs of a scenario run: the result document, an SVG chart, and a
 /// human-readable one-line summary.
@@ -41,6 +42,59 @@ fn svg_data_uri(svg: &str) -> String {
         }
     }
     out
+}
+
+/// Stamp a chart SVG with a self-identifying provenance footer in the bottom-right
+/// corner — `Kshana v<version> · <hash> · kshana.dev` — so a saved or downloaded
+/// image always carries its version, the scenario fingerprint, and the source.
+/// Applied centrally to every chart so all scenario kinds are stamped identically.
+fn with_provenance(svg: String, hash12: &str) -> String {
+    let w = parse_svg_dim(&svg, "width").unwrap_or(800.0);
+    let h = parse_svg_dim(&svg, "height").unwrap_or(420.0);
+    let footer = format!(
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"end\" fill=\"#62594b\" font-size=\"10\" font-family=\"sans-serif\">Kshana v{} \u{00b7} {} \u{00b7} kshana.dev</text>",
+        w - 8.0,
+        h - 6.0,
+        env!("CARGO_PKG_VERSION"),
+        hash12,
+    );
+    match svg.rfind("</svg>") {
+        Some(i) => {
+            let mut s = svg;
+            s.insert_str(i, &footer);
+            s
+        }
+        None => svg,
+    }
+}
+
+/// Parse the root `<svg>`'s first `width`/`height` attribute as an f64 (the root
+/// tag's dimensions precede any inner `rect`/`line`, so the first match is it).
+fn parse_svg_dim(svg: &str, attr: &str) -> Option<f64> {
+    let needle = format!("{attr}=\"");
+    let start = svg.find(&needle)? + needle.len();
+    let rest = &svg[start..];
+    let end = rest.find('"')?;
+    rest[..end].parse().ok()
+}
+
+/// Pull the 12-char `scenario_hash` fingerprint out of a result JSON document, if
+/// present, so the chart footer matches the hash shown elsewhere for that run.
+fn extract_scenario_hash(json: &str) -> Option<String> {
+    let key = json.find("\"scenario_hash\"")?;
+    let rest = &json[key + "\"scenario_hash\"".len()..];
+    let open = rest.find('"')?; // opening quote of the value, after the colon
+    let val = &rest[open + 1..];
+    let end = val.find('"')?;
+    Some(val[..end].chars().take(12).collect())
+}
+
+/// A stable 12-char fingerprint of the scenario source, for charts whose result
+/// document does not carry a `scenario_hash` (e.g. the integrity/lunar reports).
+fn src_fingerprint(src: &str) -> String {
+    let mut h = Sha256::new();
+    h.update(src.as_bytes());
+    hex::encode(h.finalize()).chars().take(12).collect()
 }
 
 impl RunOutput {
@@ -350,7 +404,16 @@ pub fn run_scenario(src: &str) -> Result<RunOutput, KshanaError> {
 /// Parse, dispatch, and run a scenario given as a TOML string. Dispatch is on the
 /// typed [`ScenarioKind`]; the string-error signature is retained for the CLI and
 /// the existing bindings (see [`run_scenario`] for the structured-error variant).
+/// Every chart is stamped with a provenance footer so saved images stand alone.
 pub fn run_toml(src: &str) -> Result<RunOutput, String> {
+    let mut out = run_toml_inner(src)?;
+    let hash = extract_scenario_hash(&out.json).unwrap_or_else(|| src_fingerprint(src));
+    out.svg = with_provenance(out.svg, &hash);
+    Ok(out)
+}
+
+/// The dispatch itself, before the chart is provenance-stamped.
+fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
     match ScenarioKind::classify(src).map_err(|e| e.to_string())? {
         ScenarioKind::Inertial => {
             let scn: crate::inertial::InertialScenario =
@@ -735,6 +798,37 @@ mod tests {
             assert!(out.json.starts_with('{'));
             assert!(out.svg.starts_with("<svg"));
             assert!(!out.summary.is_empty());
+        }
+    }
+
+    #[test]
+    fn every_chart_carries_the_provenance_footer() {
+        // A saved/downloaded chart must be self-identifying: every scenario kind's
+        // SVG ends with the "Kshana v<ver> · <hash> · kshana.dev" footer, just
+        // before the closing tag, so the image stands on its own.
+        for src in [
+            include_str!("../scenarios/clock-holdover.toml"),
+            include_str!("../scenarios/imu-deadreckoning.toml"),
+            include_str!("../scenarios/timetransfer.toml"),
+            include_str!("../scenarios/hybrid-pnt.toml"),
+            include_str!("../scenarios/gnss-ins.toml"),
+            include_str!("../scenarios/integrity-raim.toml"),
+            include_str!("../scenarios/jamming-demo.toml"),
+            include_str!("../scenarios/spoof-attack.toml"),
+            include_str!("../scenarios/sweep-clock-stability.toml"),
+            include_str!("../scenarios/gnss-sim-raim.toml"),
+            include_str!("../scenarios/orbit-gnss-challenged.toml"),
+        ] {
+            let out = run_toml(src).expect("scenario runs");
+            assert!(out.svg.contains("\u{00b7} kshana.dev"), "footer present");
+            assert!(out.svg.contains("Kshana v"), "version stamped");
+            // The footer is inside the chart, just before the closing tag.
+            assert!(out.svg.trim_end().ends_with("</svg>"));
+            let foot = out.svg.rfind("kshana.dev").unwrap();
+            let close = out.svg.rfind("</svg>").unwrap();
+            assert!(foot < close, "footer sits inside the svg");
+            // Exactly one footer (no duplication from a per-chart + central stamp).
+            assert_eq!(out.svg.matches("kshana.dev").count(), 1, "single footer");
         }
     }
 
