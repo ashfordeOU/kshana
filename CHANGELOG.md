@@ -9,6 +9,15 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Changed
+- **Playground charts now match the site theme.** The result chart (`src/report.rs`
+  + `src/chart.rs`) and the Allan-deviation chart (`web/app.js`) used cool navy
+  panels (`#0e131b`/`#0c1118`), cool-gray axes/text, and a clashing primary
+  red/blue series palette. They now use the warm graphite palette throughout —
+  `--bg`-matching panels, warm `--line` grid, `--fg-2` labels — with a consistent
+  series assignment across both charts: quantum = honey-gold (`--accent-bright`),
+  classical = warm amber (`--partial`), spec/limit = `--crit`.
+
 ### Fixed
 - **`raim::chi2_quantile` and the RAIM Stanford-noise sampler are now panic-free on
   out-of-range / non-finite inputs** (a `read_dir`-order-dependent fuzz finding from
