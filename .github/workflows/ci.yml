@@ -101,3 +101,5 @@ jobs:
         run: node web/chartdl.test.mjs
       - name: Test the A/B compare logic
         run: node web/compare.test.mjs
+      - name: Test the chart-hover logic
+        run: node web/hover.test.mjs
