@@ -5,7 +5,9 @@ set -euo pipefail
 t1='cla''ude'
 t2='anthro''pic'
 t3='co-auth''ored-by'
-t4='genera''ted with'
+# Word-boundary anchored so the AI-footer phrase "Generated with <tool>" is caught
+# but the ordinary English word "regenerated with" / "auto-generated with" is not.
+t4='\bgenera''ted with'
 pattern="${t1}|${t2}|${t3}|${t4}"
 self='scripts/check-no-attribution.sh'
 hits=$(git grep -i -n -E "$pattern" -- . ":!${self}" || true)
