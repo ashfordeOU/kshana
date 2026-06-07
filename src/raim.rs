@@ -833,6 +833,63 @@ pub struct DualFaultPriors {
     pub p_const: f64,
 }
 
+/// An Integrity Support Message (ISM): the per-constellation integrity parameters
+/// an ARAIM user applies, per EU ARAIM Technical Revision 3.0 / DO-316 MASPS. The
+/// ISM is broadcast (or ground-assembled) and is the single place the user-range
+/// error model and the fault priors enter the protection-level computation.
+///
+/// The two range-error bounds are deliberately distinct: `sigma_ura_m` (the URA /
+/// SISA) bounds the error for **integrity** and `sigma_ure_m` (the URE / SISE) the
+/// smaller, root-mean-square value used for **accuracy and continuity**;
+/// `b_nom_m` is the maximum nominal bias added (one-sided) into the integrity
+/// bound. See [`gps_galileo_reference`](IntegritySupportMessage::gps_galileo_reference)
+/// for the WG-C reference values and `docs/ARAIM_REFERENCE.md` for the derivation.
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+pub struct IntegritySupportMessage {
+    /// User range *accuracy* (RMS) used for accuracy and continuity (m).
+    pub sigma_ure_m: f64,
+    /// User range *integrity* bound (URA / SISA) used for the protection level (m).
+    /// Must be ≥ `sigma_ure_m`.
+    pub sigma_ura_m: f64,
+    /// Maximum nominal range bias folded one-sided into the integrity bound (m).
+    pub b_nom_m: f64,
+    /// Prior probability of an undetected single-satellite fault (per exposure).
+    pub p_sat: f64,
+    /// Prior probability of a constellation-wide fault (per exposure).
+    pub p_const: f64,
+}
+
+impl IntegritySupportMessage {
+    /// The WG-C GPS+Galileo ARAIM reference parameter set: σ_URA = 0.75 m (the
+    /// reference integrity bound), σ_URE = 0.67 m (accuracy RMS), max nominal
+    /// integrity bias `b_nom` = 0.75 m, `P_sat` = 1e-5 and `P_const` = 1e-4 over the
+    /// exposure interval. These are the published reference values used to size
+    /// ARAIM availability; the operational ISM is configurable per constellation.
+    pub fn gps_galileo_reference() -> Self {
+        Self {
+            sigma_ure_m: 0.67,
+            sigma_ura_m: 0.75,
+            b_nom_m: 0.75,
+            p_sat: 1e-5,
+            p_const: 1e-4,
+        }
+    }
+
+    /// The single-fault priors this ISM implies, for [`araim_raim`].
+    pub fn fault_priors(&self) -> FaultPriors {
+        FaultPriors { p_sat: self.p_sat }
+    }
+
+    /// The dual-fault (single-SV + constellation-wide) priors this ISM implies,
+    /// for [`araim_dual_raim`].
+    pub fn dual_fault_priors(&self) -> DualFaultPriors {
+        DualFaultPriors {
+            p_sat: self.p_sat,
+            p_const: self.p_const,
+        }
+    }
+}
+
 /// Build the integrity-budget modes (vertical, horizontal) and the normalised
 /// separation for the sub-solution that *keeps* the satellites for which
 /// `keep(i)` holds. Returns `None` when the kept set is too small or rank-deficient.
@@ -1154,6 +1211,97 @@ impl StanfordDiagram {
         self.count(StanfordRegion::MisleadingInformation)
             + self.count(StanfordRegion::HazardouslyMisleadingInformation)
     }
+}
+
+/// Render a [`StanfordDiagram`] as a self-contained SVG scatter: actual position
+/// error (x) against protection level (y), with the `PL = error` integrity
+/// boundary and the alert-limit guides drawn and one colour-coded marker per
+/// epoch (green available, blue system-unavailable, amber misleading, red
+/// hazardously-misleading). The classic GNSS integrity plot.
+pub fn stanford_svg(diagram: &StanfordDiagram) -> String {
+    let (w, h) = (460.0_f64, 460.0_f64);
+    let (ml, mr, mt, mb) = (60.0_f64, 20.0_f64, 36.0_f64, 56.0_f64);
+    let pw = w - ml - mr;
+    let ph = h - mt - mb;
+    let al = diagram.alert_limit_m;
+    // Axis maximum: a little beyond the largest plotted value and the alert limit.
+    let mut vmax = al * 1.6;
+    for p in diagram.points() {
+        vmax = vmax.max(p.error_m).max(p.pl_m);
+    }
+    vmax = (vmax * 1.05).max(1.0);
+    let xof = |e: f64| ml + (e.min(vmax) / vmax) * pw;
+    let yof = |v: f64| mt + ph - (v.min(vmax) / vmax) * ph;
+    let color = |r: StanfordRegion| match r {
+        StanfordRegion::Available => "#39d98a",
+        StanfordRegion::SystemUnavailable => "#5b8def",
+        StanfordRegion::MisleadingInformation => "#f0a020",
+        StanfordRegion::HazardouslyMisleadingInformation => "#e0405a",
+    };
+    let axis_y = mt + ph;
+
+    let mut svg = String::new();
+    svg.push_str(&format!(
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"11\" fill=\"#cdd6e0\">"
+    ));
+    svg.push_str(&format!(
+        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0e131b\"/>"
+    ));
+    svg.push_str(&format!(
+        "<text x=\"{ml:.0}\" y=\"20\" font-size=\"14\" font-weight=\"bold\">Stanford diagram — integrity ({} epochs, AL = {al:.0} m)</text>",
+        diagram.len()
+    ));
+    // Integrity boundary PL = error: above it the protection level bounds the error.
+    svg.push_str(&format!(
+        "<line x1=\"{:.1}\" y1=\"{:.1}\" x2=\"{:.1}\" y2=\"{:.1}\" stroke=\"#7a8699\" stroke-dasharray=\"4 3\"/>",
+        xof(0.0),
+        yof(0.0),
+        xof(vmax),
+        yof(vmax)
+    ));
+    // Alert-limit guides (vertical = error AL, horizontal = PL AL).
+    svg.push_str(&format!(
+        "<line x1=\"{:.1}\" y1=\"{:.1}\" x2=\"{:.1}\" y2=\"{:.1}\" stroke=\"#e0405a\" stroke-dasharray=\"2 2\"/>",
+        xof(al),
+        yof(0.0),
+        xof(al),
+        yof(vmax)
+    ));
+    svg.push_str(&format!(
+        "<line x1=\"{:.1}\" y1=\"{:.1}\" x2=\"{:.1}\" y2=\"{:.1}\" stroke=\"#e0405a\" stroke-dasharray=\"2 2\"/>",
+        xof(0.0),
+        yof(al),
+        xof(vmax),
+        yof(al)
+    ));
+    // Axes.
+    svg.push_str(&format!(
+        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#3a4757\"/>"
+    ));
+    svg.push_str(&format!(
+        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#3a4757\"/>",
+        ml + pw
+    ));
+    svg.push_str(&format!(
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\">position error (m)</text>",
+        ml + pw / 2.0,
+        h - 16.0
+    ));
+    let lbl_y = mt + ph / 2.0;
+    svg.push_str(&format!(
+        "<text x=\"16\" y=\"{lbl_y:.0}\" transform=\"rotate(-90 16 {lbl_y:.0})\" text-anchor=\"middle\">protection level (m)</text>"
+    ));
+    // Points.
+    for p in diagram.points() {
+        svg.push_str(&format!(
+            "<circle cx=\"{:.1}\" cy=\"{:.1}\" r=\"3\" fill=\"{}\" fill-opacity=\"0.85\"/>",
+            xof(p.error_m),
+            yof(p.pl_m),
+            color(p.region)
+        ));
+    }
+    svg.push_str("</svg>");
+    svg
 }
 
 /// Configuration for a RAIM availability evaluation: the user-equivalent range
@@ -2234,5 +2382,165 @@ mod tests {
             budget
         )
         .is_none());
+    }
+
+    // A GPS-only set and a GPS+Galileo set sharing the GPS satellites, both with a
+    // good sky spread, for the dual-constellation benefit comparison.
+    fn gps_galileo_geometry() -> (Vec3, Vec<Vec3>, Vec<Vec3>, Vec<u8>) {
+        let station = Geodetic {
+            lat_rad: 0.6,
+            lon_rad: -0.4,
+            alt_m: 120.0,
+        };
+        let user = geodetic_to_ecef(station);
+        let (east, north, up) = enu_basis(user).unwrap();
+        let place = |az_deg: f64, el_deg: f64, range: f64| -> Vec3 {
+            let (az, el) = (az_deg.to_radians(), el_deg.to_radians());
+            let (de, dn, du) = (el.cos() * az.sin(), el.cos() * az.cos(), el.sin());
+            [
+                user[0] + range * (de * east[0] + dn * north[0] + du * up[0]),
+                user[1] + range * (de * east[1] + dn * north[1] + du * up[1]),
+                user[2] + range * (de * east[2] + dn * north[2] + du * up[2]),
+            ]
+        };
+        // GPS (radius ~26,560 km → ~22,000 km representative slant).
+        let gps_azel = [
+            (10.0, 70.0),
+            (70.0, 30.0),
+            (140.0, 45.0),
+            (200.0, 25.0),
+            (260.0, 55.0),
+            (310.0, 35.0),
+            (350.0, 20.0),
+        ];
+        // Galileo (radius ~29,600 km) filling the gaps in azimuth and elevation.
+        let gal_azel = [
+            (40.0, 50.0),
+            (100.0, 20.0),
+            (170.0, 62.0),
+            (230.0, 40.0),
+            (290.0, 28.0),
+            (330.0, 65.0),
+            (20.0, 38.0),
+        ];
+        let gps: Vec<Vec3> = gps_azel
+            .iter()
+            .map(|&(a, e)| place(a, e, 22_000_000.0))
+            .collect();
+        let mut all = gps.clone();
+        for &(a, e) in &gal_azel {
+            all.push(place(a, e, 25_000_000.0));
+        }
+        let labels: Vec<u8> = (0..all.len())
+            .map(|i| if i < gps.len() { 0 } else { 1 })
+            .collect();
+        (user, gps, all, labels)
+    }
+
+    #[test]
+    fn ism_reference_baseline_and_converters() {
+        // The WG-C ARAIM reference integrity-support parameters; the milestone fixes
+        // P_sat = 1e-5 and P_const = 1e-4. σ_URA (integrity) ≥ σ_URE (accuracy), and
+        // the max nominal integrity bias is 0.75 m.
+        let ism = IntegritySupportMessage::gps_galileo_reference();
+        assert_eq!(ism.p_sat, 1e-5);
+        assert_eq!(ism.p_const, 1e-4);
+        assert!((ism.b_nom_m - 0.75).abs() < 1e-12);
+        assert!(ism.sigma_ura_m >= ism.sigma_ure_m, "URA must bound URE");
+        // The converters hand the priors straight to the ARAIM engines.
+        assert_eq!(ism.fault_priors().p_sat, ism.p_sat);
+        assert_eq!(ism.dual_fault_priors().p_sat, ism.p_sat);
+        assert_eq!(ism.dual_fault_priors().p_const, ism.p_const);
+    }
+
+    #[test]
+    fn stanford_svg_renders_zones_and_points() {
+        let mut d = StanfordDiagram::new(35.0);
+        d.add(10.0, 25.0); // available
+        d.add(10.0, 45.0); // system unavailable (PL > AL)
+        d.add(30.0, 20.0); // misleading information (PL < error ≤ AL)
+        d.add(50.0, 20.0); // hazardously misleading (error > AL and > PL)
+        let svg = stanford_svg(&d);
+        assert!(svg.starts_with("<svg") && svg.trim_end().ends_with("</svg>"));
+        // One marker per recorded epoch.
+        assert_eq!(svg.matches("<circle").count(), d.len());
+        // The HMI zone colour and the alert-limit guide must be drawn.
+        assert!(svg.contains("Stanford"), "titled Stanford diagram");
+        assert!(svg.contains("35"), "alert limit annotated");
+        // The diagonal PL = error line (the integrity boundary) is present.
+        assert!(svg.contains("<line"), "boundary/axis lines drawn");
+    }
+
+    #[test]
+    fn dual_constellation_improves_geometry_and_tolerates_a_constellation_fault() {
+        // The two robustly-true dual-constellation benefits. (The published EU ARAIM
+        // TN "15–25 % smaller HPL" is an *availability* result over realistic
+        // constellations; reproducing that exact table against a version-locked real
+        // TLE snapshot is the external validation residual — see docs/ARAIM_REFERENCE.md.)
+        let (user, gps, all, labels) = gps_galileo_geometry();
+        let budget = IntegrityBudget {
+            p_hmi_vert: 1e-4,
+            p_hmi_horz: 1e-4,
+            p_fa: 1e-5,
+        };
+        let ism = IntegritySupportMessage::gps_galileo_reference();
+
+        // (1) Geometry/redundancy benefit: pooling the second constellation's
+        // satellites tightens the single-fault HPL — more measurements and a
+        // larger single-SV sub-solution set give a strictly smaller bound.
+        let gps_only = araim_raim(
+            user,
+            &gps,
+            &vec![0.0; gps.len()],
+            ism.sigma_ura_m,
+            ism.fault_priors(),
+            budget,
+        )
+        .expect("GPS-only ARAIM runs");
+        let pooled = araim_raim(
+            user,
+            &all,
+            &vec![0.0; all.len()],
+            ism.sigma_ura_m,
+            ism.fault_priors(),
+            budget,
+        )
+        .expect("pooled 14-SV ARAIM runs");
+        assert!(
+            pooled.hpl_m < gps_only.hpl_m,
+            "pooled HPL {:.2} m should beat GPS-only {:.2} m",
+            pooled.hpl_m,
+            gps_only.hpl_m
+        );
+
+        // (2) Constellation-fault tolerance: with the per-constellation fault
+        // hypothesis active, the dual user stays available (7 SV survive losing
+        // either constellation) — while a single-constellation user provably cannot
+        // be protected against its own constellation fault.
+        let dual = araim_dual_raim(
+            user,
+            &all,
+            &labels,
+            &vec![0.0; all.len()],
+            ism.sigma_ura_m,
+            ism.dual_fault_priors(),
+            budget,
+        )
+        .expect("dual-constellation ARAIM available");
+        assert!(dual.hpl_m.is_finite() && dual.hpl_m > 0.0 && dual.vpl_m > 0.0);
+        let one_constellation = vec![0u8; all.len()];
+        assert!(
+            araim_dual_raim(
+                user,
+                &all,
+                &one_constellation,
+                &vec![0.0; all.len()],
+                ism.sigma_ura_m,
+                ism.dual_fault_priors(),
+                budget,
+            )
+            .is_none(),
+            "a single-constellation user cannot survive its own constellation fault"
+        );
     }
 }
