@@ -37,6 +37,13 @@ breaking changes are called out explicitly.
   stack never panics on mutated or mis-configured scenarios.
 
 ### Added
+- **Interactive hover read-outs on the Allan-deviation chart.** Moving the cursor
+  over the stability chart snaps a crosshair to the nearest averaging-time sample
+  and shows a tooltip with τ and each clock's σ_y(τ) (`web/hover.mjs`, wired in
+  `web/app.js`). The chart stays a self-describing blob `<img>` — the overlay is a
+  transparent crosshair + tooltip layered on top, so download/compare/export are
+  untouched. Coordinate math (nearest-sample, cursor→plot-fraction) is unit-tested
+  (`web/hover.test.mjs`, run in CI).
 - **A/B compare mode in the playground.** Pin any run as a baseline A, run a
   second scenario, and the two are shown side by side with a figure-of-merit
   delta table (holdover, timing RMS/p95, availability) that colours the winner
