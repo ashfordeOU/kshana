@@ -4,9 +4,10 @@ use std::process::ExitCode;
 
 fn main() -> ExitCode {
     let args: Vec<String> = std::env::args().collect();
-    // usage: kshana <scenario.toml> [--export-sp3 <out.sp3>]
+    // usage: kshana <scenario.toml> [--export-sp3 <out.sp3>] [--export-omm <out.omm>]
     let mut positional: Option<String> = None;
     let mut export_sp3_path: Option<PathBuf> = None;
+    let mut export_omm_path: Option<PathBuf> = None;
     let mut i = 1;
     while i < args.len() {
         match args[i].as_str() {
@@ -20,6 +21,16 @@ fn main() -> ExitCode {
                     }
                 }
             }
+            "--export-omm" => {
+                i += 1;
+                match args.get(i) {
+                    Some(p) => export_omm_path = Some(PathBuf::from(p)),
+                    None => {
+                        eprintln!("error: --export-omm needs a path");
+                        return ExitCode::from(2);
+                    }
+                }
+            }
             other if positional.is_none() => positional = Some(other.to_string()),
             other => {
                 eprintln!("error: unexpected argument '{other}'");
@@ -29,7 +40,9 @@ fn main() -> ExitCode {
         i += 1;
     }
     let Some(scenario_arg) = positional else {
-        eprintln!("usage: kshana <scenario.toml> [--export-sp3 <out.sp3>]");
+        eprintln!(
+            "usage: kshana <scenario.toml> [--export-sp3 <out.sp3>] [--export-omm <out.omm>]"
+        );
         return ExitCode::from(2);
     };
     let path = PathBuf::from(&scenario_arg);
@@ -89,6 +102,31 @@ fn main() -> ExitCode {
             }
             Err(e) => {
                 eprintln!("error: SP3 export failed: {e}");
+                return ExitCode::FAILURE;
+            }
+        }
+    }
+
+    // OMM export: an explicit `--export-omm <path>`, or the scenario's `export_omm`
+    // option which auto-writes `<scenario>.omm`. Both require an orbit scenario with
+    // a TLE-defined constellation.
+    let omm_target = match (&export_omm_path, kshana::api::auto_export_omm(&src)) {
+        (Some(p), _) => Some((p.clone(), kshana::api::export_omm(&src))),
+        (None, Ok(Some(text))) => Some((path.with_extension("omm"), Ok(text))),
+        (None, Ok(None)) => None,
+        (None, Err(e)) => Some((path.with_extension("omm"), Err(e))),
+    };
+    if let Some((omm_path, result)) = omm_target {
+        match result {
+            Ok(text) => {
+                if let Err(e) = std::fs::write(&omm_path, text) {
+                    eprintln!("error: cannot write {}: {e}", omm_path.display());
+                    return ExitCode::FAILURE;
+                }
+                println!("wrote {}", omm_path.display());
+            }
+            Err(e) => {
+                eprintln!("error: OMM export failed: {e}");
                 return ExitCode::FAILURE;
             }
         }
