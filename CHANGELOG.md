@@ -32,6 +32,12 @@ breaking changes are called out explicitly.
   stack never panics on mutated or mis-configured scenarios.
 
 ### Added
+- **Chart download buttons (SVG + PNG).** Each playground chart now has a
+  theme-matched "Download SVG / PNG" toolbar (`web/chartdl.mjs`, wired in
+  `web/app.js`). SVG hands back the faithful, scalable original; PNG rasterises
+  that same self-describing image at 2x for slides and documents. Files are named
+  with their provenance — `kshana-<chart>-v<version>-<scenario-hash>.<ext>` — and
+  the filename/size logic is unit-tested (`web/chartdl.test.mjs`, run in CI).
 - **IGRF-14 geomagnetic main-field model (`src/igrf.rs`).** The IAGA standard
   spherical-harmonic field (degree/order 13, 2025.0 epoch + 2025–2030 secular
   variation; coefficients machine-generated from the official `igrf14coeffs.txt`
