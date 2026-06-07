@@ -18,6 +18,14 @@ breaking changes are called out explicitly.
   stack never panics on mutated or mis-configured scenarios.
 
 ### Added
+- **Typed Python bindings (`src/python.rs`).** Beyond the string-in/string-out
+  `run`/`run_full`, the module now exposes a typed `RunOutput` class (`.json`,
+  `.svg`, `.summary`, and a `.data()` accessor that returns the result parsed into
+  a native Python dict — no JSON re-parsing, NumPy-wrappable), plus `run_typed`,
+  `scenario_kinds()` (parsed list of metadata dicts), and `validate_toml()` (a
+  non-raising list of error messages). Ships a PEP 561 type stub (`kshana.pyi` +
+  `py.typed`) for mypy/pyright/editors and a `docs/PYTHON_API.md` quickstart.
+  The existing functions are unchanged.
 - **First-class output frames for propagators (`src/orbit.rs` `Frame` enum +
   `position_in_frame` + `state_gcrs`).** Any `Propagator` (Kepler, SGP4, RINEX,
   GLONASS, SP3) can now emit its position in TEME, **GCRS** (≈ J2000), or **ITRS**
