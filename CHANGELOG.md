@@ -46,6 +46,21 @@ breaking changes are called out explicitly.
   stack never panics on mutated or mis-configured scenarios.
 
 ### Added
+- **CCSDS OMM export is now reachable end-to-end.** The OMM writer
+  (`src/omm.rs`) previously had no CLI/API path; an `orbit` scenario's mean
+  elements can now be published as a CCSDS 502.0-B-2 OMM catalogue — one OMM KVN
+  message per TLE-defined satellite — via `kshana <orbit.toml> --export-omm
+  out.omm`, or `export_omm = true` in the scenario auto-writes `<scenario>.omm`
+  (mirroring the existing `--export-sp3`). Each message carries the satellite's
+  **real** NORAD catalogue number, COSPAR international designator (`YYYY-NNNP`),
+  and epoch (CCSDS day-of-year form), parsed from the TLE line 1 by the new
+  `tle::parse_tle_identity`; the name line becomes `OBJECT_NAME` (else `OBJECT
+  <id>`). `CREATION_DATE` is the scenario epoch, not wall-clock, so the output is
+  reproducible. New API: `api::export_omm` / `api::auto_export_omm`,
+  `OmmFile::from_tle_block`, `OrbitClockScenario::to_omm_string`. A synthetic
+  Walker or RINEX scenario (no TLE mean elements) errors rather than emitting an
+  empty file. Validated against the bundled 30-satellite `gps-ops` snapshot
+  (`tests/sp3_export_roundtrip.rs`).
 - **Interactive hover read-outs on the playground charts.** Moving the cursor over
   a chart snaps a crosshair to the nearest sample and shows a value tooltip
   (`web/hover.mjs`, wired in `web/app.js`). On the Allan chart it reads τ and each

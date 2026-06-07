@@ -901,6 +901,11 @@ pub struct OrbitClockScenario {
     /// (`<scenario>.sp3`) alongside the usual result/chart/report outputs.
     #[serde(default)]
     pub export_sp3: bool,
+    /// When `true`, the CLI also writes the constellation's mean elements to a CCSDS
+    /// OMM file (`<scenario>.omm`). Only meaningful for a TLE-defined constellation;
+    /// a synthetic Walker or RINEX scenario has no TLE mean elements to export.
+    #[serde(default)]
+    pub export_omm: bool,
 }
 
 /// Default SP3 start epoch when a scenario does not declare one: J2000 calendar date.
@@ -959,6 +964,43 @@ impl OrbitClockScenario {
             num_epochs,
         )
         .to_sp3_string())
+    }
+
+    /// Export the constellation's mean elements as a CCSDS OMM catalogue: one OMM
+    /// message per TLE-defined satellite (the primary constellation plus any extra
+    /// `constellations`), concatenated in KVN form. Errors if no constellation is
+    /// TLE-defined — a synthetic Walker or RINEX scenario has no mean elements to
+    /// publish. `CREATION_DATE` is the scenario's `epoch` (or the J2000 default) in
+    /// calendar form, so the output is reproducible rather than wall-clock-stamped.
+    pub fn to_omm_string(&self) -> Result<String, String> {
+        let e = self.epoch.unwrap_or(DEFAULT_SP3_EPOCH);
+        let creation = format!(
+            "{:04}-{:02}-{:02}T{:02}:{:02}:{:06.3}",
+            e.year, e.month, e.day, e.hour, e.minute, e.second
+        );
+        let mut blocks: Vec<&str> = Vec::new();
+        if let Some(t) = &self.constellation.tle {
+            blocks.push(t.as_str());
+        }
+        for c in &self.constellations {
+            if let Some(t) = &c.tle {
+                blocks.push(t.as_str());
+            }
+        }
+        let mut files = Vec::new();
+        for b in blocks {
+            files.extend(crate::omm::OmmFile::from_tle_block(b, "Kshana", &creation)?);
+        }
+        if files.is_empty() {
+            return Err(
+                "OMM export requires a TLE-defined constellation; this scenario has none".into(),
+            );
+        }
+        Ok(files
+            .iter()
+            .map(|f| f.to_omm_kvn())
+            .collect::<Vec<_>>()
+            .join("\n"))
     }
 }
 
@@ -1401,7 +1443,47 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
             clock_classical: clock("csac", 1e-11, 1e-24, 1e-32),
             epoch: None,
             export_sp3: false,
+            export_omm: false,
         }
+    }
+
+    // A two-object three-line TLE block used to drive the OMM export tests.
+    const TWO_SAT_TLE: &str = "ISS (ZARYA)\n\
+        1 25544U 98067A   24001.00000000  .00000000  00000-0  00000-0 0  9990\n\
+        2 25544  51.6400 247.4627 0006703 130.5360 325.0288 15.72125391563537\n\
+        VANGUARD 1\n\
+        1 00005U 58002B   00179.78495062  .00000023  00000-0  28098-4 0  4753\n\
+        2 00005  34.2682 348.7242 1859667 331.7664  19.3264 10.82419157413667";
+
+    #[test]
+    fn to_omm_string_emits_one_message_per_tle_satellite() {
+        let mut scn = scenario(3, 1);
+        scn.constellation = ConstellationCfg {
+            altitude_km: 0.0,
+            inclination_deg: 0.0,
+            planes: 0,
+            sats_per_plane: 0,
+            phasing_f: 0.0,
+            tle: Some(TWO_SAT_TLE.into()),
+            rinex: None,
+            strict_checksum: false,
+        };
+        let omm = scn
+            .to_omm_string()
+            .expect("OMM export from a TLE constellation");
+        assert_eq!(omm.matches("CCSDS_OMM_VERS = 2.0").count(), 2);
+        assert!(omm.contains("NORAD_CAT_ID = 25544"));
+        assert!(omm.contains("NORAD_CAT_ID = 5"));
+        assert!(omm.contains("OBJECT_ID = 1998-067A"));
+        // The originator is stamped on every message.
+        assert_eq!(omm.matches("ORIGINATOR = Kshana").count(), 2);
+    }
+
+    #[test]
+    fn to_omm_string_errors_for_a_synthetic_walker_scenario() {
+        // The default fixture is a synthetic Walker constellation with no TLEs.
+        let scn = scenario(6, 4);
+        assert!(scn.to_omm_string().is_err());
     }
 
     #[test]
