@@ -18,6 +18,19 @@ breaking changes are called out explicitly.
   stack never panics on mutated or mis-configured scenarios.
 
 ### Added
+- **Full IAU 2000A nutation series (`src/nutation.rs` `nutation_iau2000a`,
+  `nutation_matrix_2000a`).** The complete MHB2000 model — 678 luni-solar + 687
+  planetary terms — accurate to < 0.1 mas, alongside the existing 77-term 2000B
+  truncation. The tables are machine-generated from the IAU SOFA / ERFA `nut00a`
+  reference by `tools/gen_nut00a.py` into `src/nutation_iau2000a_data.rs` (the
+  generator reproduces the committed file bit-for-bit), and the whole series —
+  both the IERS-2003 and MHB2000 fundamental-argument sets and the planetary
+  longitudes — is validated **bit-for-bit** against the published `eraNut00a`
+  test vector (Δψ = −0.9630909107115518e-5, Δε = 0.4063239174001679e-4 at
+  JD_TT 2453736.5, to 1e-13 rad). The default TEME→GCRS reduction keeps the 2000B
+  series (~1 mas, below the chain's velocity-frame-rotation simplification);
+  `nutation_matrix_2000a` exposes the < 0.1 mas of-date matrix for callers that
+  need it.
 - **Runnable lunar-integrity scenario (`kind = "lunar-integrity"`, `scenarios/lunanet-araim.toml`).**
   Wires the lunar south-pole protection-level pass (`src/lunar.rs` `LunarScenario` →
   `south_pole_hpl_pass`) into the scenario runner with a JSON `LunarReport` and an SVG
