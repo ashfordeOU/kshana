@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 import init, { run, summary, chart_svg, version } from "./pkg/kshana.js";
 import { encodeFragment, decodeFragment, readScalar, patchScalar } from "./share.mjs";
+import { chartFilename, svgSize, svgBlob, triggerDownload, svgToPngBlob } from "./chartdl.mjs";
 
 // Scenario catalogue: file in ./scenarios/ (copied from the repo at build) and a
 // friendly label. The first entry is also embedded below so the page works on
@@ -83,9 +84,55 @@ function clearError() {
   errorEl.textContent = "";
 }
 
+// Build the per-chart download toolbar. The charts are self-describing SVGs, so
+// "SVG" hands back the faithful, scalable original and "PNG" rasterises that same
+// image (2x for crisp slides/docs). The buttons are rebuilt on every render so
+// they always reference the latest chart and its provenance.
+function mountChartTools(toolsId, svgText, base, meta) {
+  const host = el(toolsId);
+  if (!host) return;
+  host.replaceChildren();
+  const label = document.createElement("span");
+  label.className = "chart-dl-label";
+  label.textContent = "Download";
+  host.append(label);
+
+  const mkBtn = (text, title, onClick) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "chart-dl";
+    b.textContent = text;
+    b.title = title;
+    b.addEventListener("click", onClick);
+    host.append(b);
+    return b;
+  };
+
+  mkBtn("SVG", "Download the vector chart (scales without blur; includes title and provenance)", () => {
+    triggerDownload(svgBlob(svgText), chartFilename(base, meta, "svg"));
+  });
+
+  const pngBtn = mkBtn("PNG", "Download a high-resolution bitmap for slides and documents", async () => {
+    pngBtn.disabled = true;
+    pngBtn.textContent = "PNG…";
+    try {
+      const { w, h } = svgSize(svgText);
+      const blob = await svgToPngBlob(svgText, w, h, 2);
+      triggerDownload(blob, chartFilename(base, meta, "png"));
+    } catch (e) {
+      showError("PNG export failed: " + (e && e.message ? e.message : e));
+    } finally {
+      pngBtn.disabled = false;
+      pngBtn.textContent = "PNG";
+    }
+  });
+
+  host.hidden = false;
+}
+
 // Render the engine-generated SVG as an <img>. SVG loaded via <img> cannot run
 // script, so even a hand-crafted scenario string cannot inject behaviour here.
-function renderChart(svgText) {
+function renderChart(svgText, result) {
   if (chartUrl) URL.revokeObjectURL(chartUrl);
   chartUrl = URL.createObjectURL(new Blob([svgText], { type: "image/svg+xml" }));
   const chart = el("chart");
@@ -96,6 +143,8 @@ function renderChart(svgText) {
     chart.replaceChildren(img);
   }
   img.src = chartUrl;
+  const meta = result ? { ver: result.engine_version, hash: result.scenario_hash } : null;
+  mountChartTools("chart-tools", svgText, "holdover", meta);
 }
 
 let adevUrl = null;
@@ -171,6 +220,7 @@ function renderAdev(result) {
   let img = host.querySelector("img");
   if (!img) { img = document.createElement("img"); img.alt = "Allan deviation chart"; host.replaceChildren(img); }
   img.src = adevUrl;
+  mountChartTools("adev-tools", svg, "allan", meta);
   wrap.hidden = false;
 }
 
@@ -238,8 +288,8 @@ function runScenario() {
   // byte-for-byte identical (the engine is deterministic).
   try {
     el("summary").textContent = summary(src);
-    renderChart(chart_svg(src));
     const result = JSON.parse(run(src));
+    renderChart(chart_svg(src), result);
     renderAdev(result);
     renderFilterHealth(result);
     el("json").textContent = JSON.stringify(result, null, 2);
