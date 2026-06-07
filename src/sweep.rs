@@ -158,10 +158,10 @@ pub fn to_svg(result: &SweepResult) -> String {
     let axis_y = mt + ph;
     let mut svg = String::new();
     svg.push_str(&format!(
-        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#cdd6e0\">"
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\">"
     ));
     svg.push_str(&format!(
-        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0e131b\"/>"
+        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"
     ));
     svg.push_str(&format!(
         "<text x=\"{:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">{} vs {} ({} scale)</text>",
@@ -169,18 +169,18 @@ pub fn to_svg(result: &SweepResult) -> String {
     ));
     svg.push_str(&crate::chart::y_axis(ml, mt, pw, ph, y_max, &result.metric));
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#3a4757\"/>"
+        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>"
     ));
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#3a4757\"/>",
+        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>",
         ml + pw
     ));
     svg.push_str(&format!(
-        "<polyline fill=\"none\" stroke=\"#c0392b\" stroke-width=\"2\" points=\"{}\"/>",
+        "<polyline fill=\"none\" stroke=\"#d2925e\" stroke-width=\"2\" points=\"{}\"/>",
         line(&|p| p.classical)
     ));
     svg.push_str(&format!(
-        "<polyline fill=\"none\" stroke=\"#5cb8d6\" stroke-width=\"2\" points=\"{}\"/>",
+        "<polyline fill=\"none\" stroke=\"#e0bd84\" stroke-width=\"2\" points=\"{}\"/>",
         line(&|p| p.quantum)
     ));
     // x-axis endpoint labels.
@@ -204,11 +204,11 @@ pub fn to_svg(result: &SweepResult) -> String {
         result.parameter
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"44\" fill=\"#c0392b\">classical</text>",
+        "<text x=\"{:.0}\" y=\"44\" fill=\"#d2925e\">classical</text>",
         ml + 10.0
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"60\" fill=\"#5cb8d6\">quantum</text>",
+        "<text x=\"{:.0}\" y=\"60\" fill=\"#e0bd84\">quantum</text>",
         ml + 10.0
     ));
     svg.push_str("</svg>");
@@ -700,7 +700,7 @@ pub fn generic_to_svg(result: &GenericNdSweepResult) -> String {
     let (w, h) = (820.0_f64, 420.0_f64);
     if result.shape.len() != 1 || result.points.is_empty() {
         let mut svg = String::new();
-        svg.push_str(&format!("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"13\" fill=\"#cdd6e0\"><rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0e131b\"/>"));
+        svg.push_str(&format!("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"13\" fill=\"#bcb3a3\"><rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"));
         svg.push_str(&format!(
             "<text x=\"40\" y=\"40\" font-size=\"15\" font-weight=\"bold\">{}-D sweep of `{}` — {} nodes</text>",
             result.shape.len(),
@@ -737,16 +737,16 @@ pub fn generic_to_svg(result: &GenericNdSweepResult) -> String {
     let xof = |i: usize| ml + (i as f64 / (n - 1) as f64) * pw;
     let yof = |v: f64| mt + ph - (finite(v).min(y_max) / y_max) * ph;
     let axis_y = mt + ph;
-    let palette = ["#5cb8d6", "#c0392b", "#27ae60", "#e0a020", "#9b59b6"];
+    let palette = ["#e0bd84", "#d2925e", "#46b67e", "#d2b35e", "#6e7a8a"];
     let mut svg = String::new();
-    svg.push_str(&format!("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#cdd6e0\"><rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0e131b\"/>"));
+    svg.push_str(&format!("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\"><rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"));
     svg.push_str(&format!(
         "<text x=\"{ml:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">sweep of `{}` over {}</text>",
         result.kind, result.keys[0]
     ));
     svg.push_str(&crate::chart::y_axis(ml, mt, pw, ph, y_max, "metric"));
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#3a4757\"/><line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#3a4757\"/>",
+        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/><line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>",
         ml + pw
     ));
     for (mi, mname) in result.metrics.iter().enumerate() {
