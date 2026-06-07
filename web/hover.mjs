@@ -34,19 +34,37 @@ export function cursorToPlotFraction(cssX, renderedWidth, geom) {
   return (cssX - left) / (right - left);
 }
 
+/// The x-coordinates of the first `<polyline>`'s vertices in an SVG string. For
+/// the Rust-generated charts each vertex is one data sample, so these intrinsic
+/// x positions let the crosshair snap to real samples without knowing the chart's
+/// margins. Returns [] when there is no (non-empty) polyline.
+export function parsePolylineXs(svgText) {
+  const m = svgText.match(/<polyline[^>]*\bpoints="([^"]*)"/);
+  if (!m || !m[1].trim()) return [];
+  return m[1]
+    .trim()
+    .split(/\s+/)
+    .map((pt) => parseFloat(pt.split(",")[0]))
+    .filter((x) => !Number.isNaN(x));
+}
+
 // --- Browser-only overlay --------------------------------------------------
 
 /// Attach (or refresh) a hover overlay on the chart inside `containerId`. `model`
-/// describes the current chart:
-///   { wIntrinsic, ml, mr, fracs: number[] (0..1 plot x per sample),
-///     label: (idx) => string }
-/// Passing a model with no samples (or no image) hides the overlay. The pointer
-/// listeners bind once per container; later calls just swap the live model.
+/// describes the current chart in one of two forms:
+///   - log/linear plot with known margins (Allan):
+///       { wIntrinsic, ml, mr, fracs: number[] (0..1 plot x per sample), label }
+///   - intrinsic sample x positions parsed from the SVG (Rust charts):
+///       { wIntrinsic, xs: number[] (intrinsic px per sample), label }
+/// `label` is `(idx) => string`. Passing a model with no samples (or no image)
+/// hides the overlay. Listeners bind once per container; later calls swap the
+/// live model.
 export function attachChartHover(containerId, model) {
   const container = document.getElementById(containerId);
   if (!container) return;
   const img = container.querySelector("img");
-  container._hoverModel = img && model && model.fracs && model.fracs.length ? model : null;
+  const hasSamples = model && ((model.fracs && model.fracs.length) || (model.xs && model.xs.length));
+  container._hoverModel = img && hasSamples ? model : null;
 
   let line = container.querySelector(".chart-hover-line");
   let tip = container.querySelector(".chart-hover-tip");
@@ -76,17 +94,27 @@ export function attachChartHover(containerId, model) {
     const irect = image.getBoundingClientRect();
     const crect = container.getBoundingClientRect();
     const cssX = e.clientX - irect.left;
-    const frac = cursorToPlotFraction(cssX, irect.width, m);
-    if (frac === null) return hide();
-    const idx = nearestIndexByValue(frac, m.fracs);
-    if (idx < 0) return hide();
-
-    // Snap the crosshair to the sample's plot-x, in container coordinates.
     const scale = irect.width / m.wIntrinsic;
-    const plotLeft = m.ml * scale;
-    const plotW = (m.wIntrinsic - m.ml - m.mr) * scale;
-    const xInImg = plotLeft + m.fracs[idx] * plotW;
-    const xInContainer = irect.left - crect.left + xInImg;
+
+    // Resolve the nearest sample index and its intrinsic x, for either model form.
+    let idx, xIntrinsic;
+    if (m.xs) {
+      const cursorIntrinsic = cssX / scale;
+      // Ignore the area well outside the first/last sample (axis-label margins).
+      if (cursorIntrinsic < m.xs[0] - 24 || cursorIntrinsic > m.xs[m.xs.length - 1] + 24) return hide();
+      idx = nearestIndexByValue(cursorIntrinsic, m.xs);
+      if (idx < 0) return hide();
+      xIntrinsic = m.xs[idx];
+    } else {
+      const frac = cursorToPlotFraction(cssX, irect.width, m);
+      if (frac === null) return hide();
+      idx = nearestIndexByValue(frac, m.fracs);
+      if (idx < 0) return hide();
+      const plotLeft = m.ml * scale;
+      const plotW = (m.wIntrinsic - m.ml - m.mr) * scale;
+      xIntrinsic = (plotLeft + m.fracs[idx] * plotW) / scale;
+    }
+    const xInContainer = irect.left - crect.left + xIntrinsic * scale;
 
     line.style.left = `${xInContainer}px`;
     line.style.top = `${irect.top - crect.top}px`;
