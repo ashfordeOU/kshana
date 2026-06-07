@@ -3,7 +3,7 @@ import init, { run, summary, chart_svg, version } from "./pkg/kshana.js";
 import { encodeFragment, decodeFragment, readScalar, patchScalar } from "./share.mjs";
 import { chartFilename, svgSize, svgBlob, triggerDownload, svgToPngBlob } from "./chartdl.mjs";
 import { fomDeltas } from "./compare.mjs";
-import { attachChartHover } from "./hover.mjs";
+import { attachChartHover, parsePolylineXs } from "./hover.mjs";
 
 // Scenario catalogue: file in ./scenarios/ (copied from the repo at build) and a
 // friendly label. The first entry is also embedded below so the page works on
@@ -154,6 +154,41 @@ function renderChart(svgText, result) {
   img.src = chartUrl;
   const meta = result ? { ver: result.engine_version, hash: result.scenario_hash } : null;
   mountChartTools("chart-tools", svgText, "holdover", meta);
+  attachChartHover("chart", scenarioHoverModel(svgText, result));
+}
+
+// Build the hover model for a Rust-generated scenario chart: snap to the data
+// polyline's sample x-positions (parsed from the SVG, so no per-chart geometry is
+// needed) and show t plus each suite's value at that sample. Returns null for
+// charts without a quantum/classical time series (e.g. RAIM, sweep) — those get
+// no overlay. The tooltip value is read from whichever series field the chart
+// plots, matched to its unit, so the read-out matches the curve.
+function scenarioHoverModel(svgText, result) {
+  const q = result && result.quantum && result.quantum.series;
+  const c = result && result.classical && result.classical.series;
+  if (!Array.isArray(q) || !Array.isArray(c) || q.length < 2) return null;
+  const xs = parsePolylineXs(svgText);
+  if (xs.length < 2) return null;
+  const w = parseFloat((svgText.match(/width="(\d+(?:\.\d+)?)"/) || [])[1]) || 820;
+  const n = Math.min(xs.length, q.length, c.length);
+
+  // Read the plotted value + unit from whichever field the series carries.
+  const val = (s) => {
+    if (!s) return null;
+    if ("error_ns" in s) return `${fmtVal(s.error_ns)} ns`;
+    if ("error_m" in s) return `${fmtVal(s.error_m)} m`;
+    if ("sync_error_s" in s) return `${fmtVal(s.sync_error_s * 1e12)} ps`;
+    if ("timing_ns" in s && "position_m" in s) return `${fmtVal(s.timing_ns)} ns / ${fmtVal(s.position_m)} m`;
+    return null;
+  };
+  if (!val(q[0]) && !val(c[0])) return null; // unknown series shape -> no hover
+  const qlabel = result.quantum.spec ? result.quantum.spec.id : "quantum";
+  const clabel = result.classical.spec ? result.classical.spec.id : "classical";
+  const label = (i) => {
+    const t = (c[i] && c[i].t) ?? (q[i] && q[i].t) ?? 0;
+    return `t=${Math.round(t)} s · ${qlabel} ${val(q[i]) ?? "—"} · ${clabel} ${val(c[i]) ?? "—"}`;
+  };
+  return { wIntrinsic: w, xs: xs.slice(0, n), label };
 }
 
 let adevUrl = null;

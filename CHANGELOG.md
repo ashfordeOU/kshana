@@ -46,13 +46,17 @@ breaking changes are called out explicitly.
   stack never panics on mutated or mis-configured scenarios.
 
 ### Added
-- **Interactive hover read-outs on the Allan-deviation chart.** Moving the cursor
-  over the stability chart snaps a crosshair to the nearest averaging-time sample
-  and shows a tooltip with τ and each clock's σ_y(τ) (`web/hover.mjs`, wired in
-  `web/app.js`). The chart stays a self-describing blob `<img>` — the overlay is a
-  transparent crosshair + tooltip layered on top, so download/compare/export are
-  untouched. Coordinate math (nearest-sample, cursor→plot-fraction) is unit-tested
-  (`web/hover.test.mjs`, run in CI).
+- **Interactive hover read-outs on the playground charts.** Moving the cursor over
+  a chart snaps a crosshair to the nearest sample and shows a value tooltip
+  (`web/hover.mjs`, wired in `web/app.js`). On the Allan chart it reads τ and each
+  clock's σ_y(τ); on the time-series scenario charts (clock holdover, dead-reckoning,
+  time-transfer, hybrid PNT, GNSS/INS) it reads the time and each suite's value in
+  the chart's own units (ns / m / ps / utilization), parsed from the result so the
+  read-out matches the curve. Specialised diagrams (RAIM, spoof, sweep) get no
+  overlay. The charts stay self-describing blob `<img>`s — the overlay is a
+  transparent crosshair + tooltip on top, so download/compare/export are untouched.
+  Coordinate math (nearest-sample, cursor→plot-fraction, polyline parsing) is
+  unit-tested (`web/hover.test.mjs`, run in CI).
 - **A/B compare mode in the playground.** Pin any run as a baseline A, run a
   second scenario, and the two are shown side by side with a figure-of-merit
   delta table (holdover, timing RMS/p95, availability) that colours the winner
