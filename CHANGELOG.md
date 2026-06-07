@@ -18,6 +18,13 @@ breaking changes are called out explicitly.
   stack never panics on mutated or mis-configured scenarios.
 
 ### Added
+- **First-class output frames for propagators (`src/orbit.rs` `Frame` enum +
+  `position_in_frame` + `state_gcrs`).** Any `Propagator` (Kepler, SGP4, RINEX,
+  GLONASS, SP3) can now emit its position in TEME, **GCRS** (≈ J2000), or **ITRS**
+  (Earth-fixed) — TEME native, GCRS via the validated TEME→GCRS reduction, ITRS by
+  chaining that into the IAU 2006/2000A CIO `gcrs_to_itrs` rotation — and its full
+  GCRS state (position + velocity) via `state_gcrs`. The of-date inertial output is
+  no longer TEME-only.
 - **CIO-based IAU 2006/2000A celestial-to-terrestrial reduction (`src/cio.rs`).**
   The modern, equinox-free GCRS↔CIRS↔ITRS chain: CIP coordinates `X, Y` read off
   the IAU 2006/2000A bias-precession-nutation matrix (reusing the validated FW
