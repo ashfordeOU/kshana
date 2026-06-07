@@ -3,6 +3,7 @@ import init, { run, summary, chart_svg, version } from "./pkg/kshana.js";
 import { encodeFragment, decodeFragment, readScalar, patchScalar } from "./share.mjs";
 import { chartFilename, svgSize, svgBlob, triggerDownload, svgToPngBlob } from "./chartdl.mjs";
 import { fomDeltas } from "./compare.mjs";
+import { attachChartHover } from "./hover.mjs";
 
 // Scenario catalogue: file in ./scenarios/ (copied from the repo at build) and a
 // friendly label. The first entry is also embedded below so the page works on
@@ -222,7 +223,7 @@ function renderAdev(result) {
   const meta = result ? { ver: result.engine_version, hash: result.scenario_hash } : null;
   const svg = curves.length ? adevSvg(curves, meta) : null;
   lastAllanSvg = svg;
-  if (!svg) { wrap.hidden = true; return; }
+  if (!svg) { wrap.hidden = true; attachChartHover("adev", { fracs: [] }); return; }
   if (adevUrl) URL.revokeObjectURL(adevUrl);
   adevUrl = URL.createObjectURL(new Blob([svg], { type: "image/svg+xml" }));
   const host = el("adev");
@@ -230,7 +231,31 @@ function renderAdev(result) {
   if (!img) { img = document.createElement("img"); img.alt = "Allan deviation chart"; host.replaceChildren(img); }
   img.src = adevUrl;
   mountChartTools("adev-tools", svg, "allan", meta);
+  attachChartHover("adev", adevHoverModel(curves));
   wrap.hidden = false;
+}
+
+// Build the hover model for the Allan chart: the plot-x fraction of each τ sample
+// (log scale, matching adevSvg's geometry) and a tooltip showing τ and each
+// clock's σ_y(τ). The geometry constants mirror adevSvg (W=760, ml=66, mr=18).
+function adevHoverModel(curves) {
+  const all = curves.flatMap((c) => c.curve).filter((p) => p.tau_s > 0 && p.adev > 0).map((p) => p.tau_s);
+  if (all.length < 2) return { fracs: [] };
+  const x0 = Math.log10(Math.min(...all));
+  const x1 = Math.log10(Math.max(...all));
+  const span = x1 - x0 || 1;
+  const taus = curves[0].curve.filter((p) => p.tau_s > 0 && p.adev > 0).map((p) => p.tau_s);
+  const fracs = taus.map((t) => (Math.log10(t) - x0) / span);
+  const fmtTau = (t) => (t >= 1e4 ? t.toExponential(1) : String(Math.round(t)));
+  const label = (i) => {
+    const t = taus[i];
+    const parts = curves.map((c) => {
+      const p = c.curve.find((q) => q.tau_s === t);
+      return p ? `${c.label} ${p.adev.toExponential(2)}` : null;
+    }).filter(Boolean);
+    return `τ=${fmtTau(t)} s · ${parts.join(" · ")}`;
+  };
+  return { wIntrinsic: 760, ml: 66, mr: 18, fracs, label };
 }
 
 // Render the per-clock Kalman filter-consistency health cards (NIS/NEES vs their
