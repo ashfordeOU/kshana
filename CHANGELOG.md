@@ -10,6 +10,18 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Circular restricted three-body problem (CR3BP) for the Earth–Moon system
+  (`src/cr3bp.rs`).** A new cislunar-dynamics core the two-body/SGP4 propagators
+  cannot provide: rotating-frame equations of motion (`cr3bp_accel`), an RK4
+  propagator (`propagate_cr3bp`), the Jacobi-constant integral (`jacobi_constant`),
+  and the five Lagrange points (`lagrange_points`). Validated against closed-form /
+  published anchors: the Earth–Moon collinear points (L1 ≈ 0.83692, L2 ≈ 1.15568,
+  L3 ≈ −1.00506), the exact equilateral L4/L5 = (½−μ, ±√3/2, 0), all five confirmed
+  as field equilibria, Jacobi conserved to integrator precision under propagation,
+  and the out-of-plane restoring force that makes halo/NRHO orbits possible. This is
+  the foundation for representing a real NRHO. Honest residual: differential-corrected
+  periodic 9:2 NRHO initial conditions, the eccentric/ephemeris (DE) model, and the
+  de-normalised transform into the selenocentric frames of `src/lunar.rs`.
 - **IERS polar motion and the TEME→ITRF reduction (`src/frames.rs`).** Adds
   `polar_motion_matrix` (SOFA `iauPom00`: `W = Rx(−y_p)·Ry(−x_p)·Rz(s′)` with the TIO
   locator `s′`), `pef_to_itrf` / `itrf_to_pef`, and `teme_to_itrf` — the GMST-based
