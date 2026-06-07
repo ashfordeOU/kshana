@@ -99,3 +99,5 @@ jobs:
         run: node web/share.test.mjs
       - name: Test the chart-download helpers
         run: node web/chartdl.test.mjs
+      - name: Test the A/B compare logic
+        run: node web/compare.test.mjs

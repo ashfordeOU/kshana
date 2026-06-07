@@ -2,6 +2,7 @@
 import init, { run, summary, chart_svg, version } from "./pkg/kshana.js";
 import { encodeFragment, decodeFragment, readScalar, patchScalar } from "./share.mjs";
 import { chartFilename, svgSize, svgBlob, triggerDownload, svgToPngBlob } from "./chartdl.mjs";
+import { fomDeltas } from "./compare.mjs";
 
 // Scenario catalogue: file in ./scenarios/ (copied from the repo at build) and a
 // friendly label. The first entry is also embedded below so the page works on
@@ -72,6 +73,12 @@ const resultsEl = document.querySelector(".results");
 const errorEl = el("error");
 
 let chartUrl = null;
+// Latest run's chart SVGs + a snapshot of the latest run, for the A/B compare.
+let lastHoldoverSvg = null;
+let lastAllanSvg = null;
+let lastRun = null;
+let compareA = null;
+let compareUrls = [];
 
 function showError(message) {
   errorEl.textContent = message;
@@ -133,6 +140,7 @@ function mountChartTools(toolsId, svgText, base, meta) {
 // Render the engine-generated SVG as an <img>. SVG loaded via <img> cannot run
 // script, so even a hand-crafted scenario string cannot inject behaviour here.
 function renderChart(svgText, result) {
+  lastHoldoverSvg = svgText;
   if (chartUrl) URL.revokeObjectURL(chartUrl);
   chartUrl = URL.createObjectURL(new Blob([svgText], { type: "image/svg+xml" }));
   const chart = el("chart");
@@ -213,6 +221,7 @@ function renderAdev(result) {
     curves.push({ label: result.classical.spec ? result.classical.spec.id : "classical", curve: result.classical.adev_curve });
   const meta = result ? { ver: result.engine_version, hash: result.scenario_hash } : null;
   const svg = curves.length ? adevSvg(curves, meta) : null;
+  lastAllanSvg = svg;
   if (!svg) { wrap.hidden = true; return; }
   if (adevUrl) URL.revokeObjectURL(adevUrl);
   adevUrl = URL.createObjectURL(new Blob([svg], { type: "image/svg+xml" }));
@@ -268,6 +277,138 @@ function renderFilterHealth(result) {
   wrap.hidden = false;
 }
 
+// --- A/B compare ----------------------------------------------------------
+// Pin the current run as baseline A; the next run becomes B and the two are
+// shown side by side with a figure-of-merit delta table. Every value goes in via
+// textContent and every chart via a blob <img>, so nothing from a scenario
+// string is ever injected into the DOM as markup.
+
+function currentScenarioLabel() {
+  const file = selectEl ? selectEl.value : "";
+  const entry = SCENARIOS.find((s) => s[0] === file);
+  return entry ? entry[2] : "Scenario";
+}
+
+// Compact, human number: plain for mid-range values, exponential at the extremes.
+function fmtVal(x) {
+  if (typeof x !== "number" || !isFinite(x)) return "—";
+  if (x !== 0 && (Math.abs(x) >= 1e4 || Math.abs(x) < 1e-2)) return x.toExponential(2);
+  return String(Math.round(x * 1000) / 1000);
+}
+
+function chartImg(svgText, alt) {
+  const url = URL.createObjectURL(svgBlob(svgText));
+  compareUrls.push(url);
+  const img = document.createElement("img");
+  img.alt = alt;
+  img.src = url;
+  return img;
+}
+
+function buildCompareTable(rows) {
+  const table = document.createElement("table");
+  table.className = "compare-table";
+  const head = document.createElement("tr");
+  for (const h of ["Clock", "Metric", "A", "B", "Δ (B−A)"]) {
+    const th = document.createElement("th");
+    th.textContent = h;
+    head.append(th);
+  }
+  table.append(head);
+  for (const r of rows) {
+    const tr = document.createElement("tr");
+    for (const c of [r.clockLabel, r.unit ? `${r.label} (${r.unit})` : r.label, fmtVal(r.a), fmtVal(r.b)]) {
+      const td = document.createElement("td");
+      td.textContent = c;
+      tr.append(td);
+    }
+    const dtd = document.createElement("td");
+    const sign = r.delta > 0 ? "+" : "";
+    const pct = r.pct === null ? "" : ` (${sign}${Math.round(r.pct)}%)`;
+    dtd.textContent = `${sign}${fmtVal(r.delta)}${pct}`;
+    dtd.className = "cmp-delta " + (r.better === "b" ? "cmp-better" : r.better === "a" ? "cmp-worse" : "cmp-eq");
+    tr.append(dtd);
+    table.append(tr);
+  }
+  return table;
+}
+
+function renderCompare(A, B) {
+  const wrap = el("compare-wrap");
+  if (!wrap) return;
+  compareUrls.forEach(URL.revokeObjectURL);
+  compareUrls = [];
+  el("compare-table").replaceChildren(buildCompareTable(fomDeltas(A.result, B.result)));
+  const charts = el("compare-charts");
+  charts.replaceChildren();
+  for (const [tag, run] of [["A", A], ["B", B]]) {
+    const col = document.createElement("div");
+    col.className = "compare-col";
+    const title = document.createElement("p");
+    title.className = "compare-col-title";
+    title.textContent = `${tag}: ${run.label}`;
+    col.append(title);
+    if (run.holdoverSvg) col.append(chartImg(run.holdoverSvg, `${tag} holdover chart`));
+    if (run.allanSvg) col.append(chartImg(run.allanSvg, `${tag} stability chart`));
+    charts.append(col);
+  }
+  // Compare mode replaces the single-run charts to avoid showing B twice.
+  el("chart").hidden = true;
+  el("chart-tools").hidden = true;
+  el("adev-wrap").hidden = true;
+  wrap.hidden = false;
+}
+
+// Return to the single-run chart view (used when not comparing, or on clear).
+function exitCompareView() {
+  const wrap = el("compare-wrap");
+  if (wrap) wrap.hidden = true;
+  el("chart").hidden = false;
+  el("chart-tools").hidden = false;
+  el("adev-wrap").hidden = !lastAllanSvg;
+}
+
+function pinForCompare() {
+  if (!lastRun) return;
+  compareA = lastRun;
+  updateCompareControls();
+  statusEl.textContent = `Pinned A: ${compareA.label}. Run another scenario to compare.`;
+  statusEl.classList.add("ran");
+}
+
+function clearCompare() {
+  compareA = null;
+  exitCompareView();
+  updateCompareControls();
+}
+
+function updateCompareControls() {
+  const host = el("compare-controls");
+  if (!host) return;
+  host.replaceChildren();
+  if (!resultsEl || resultsEl.hidden) return;
+  if (!compareA) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "chart-dl";
+    b.textContent = "⊕ Pin for compare";
+    b.title = "Pin this run as baseline A, then run another scenario to compare A vs B";
+    b.addEventListener("click", pinForCompare);
+    host.append(b);
+  } else {
+    const chip = document.createElement("span");
+    chip.className = "compare-chip";
+    chip.textContent = `A: ${compareA.label}`;
+    const x = document.createElement("button");
+    x.type = "button";
+    x.className = "chart-dl";
+    x.textContent = "✕ clear compare";
+    x.title = "Stop comparing and return to the single-run view";
+    x.addEventListener("click", clearCompare);
+    host.append(chip, x);
+  }
+}
+
 let runCount = 0;
 
 // Re-trigger the CSS flash animation on a node (remove, force reflow, re-add).
@@ -294,6 +435,10 @@ function runScenario() {
     renderFilterHealth(result);
     el("json").textContent = JSON.stringify(result, null, 2);
     resultsEl.hidden = false;
+    lastRun = { label: currentScenarioLabel(), result, holdoverSvg: lastHoldoverSvg, allanSvg: lastAllanSvg };
+    if (compareA) renderCompare(compareA, lastRun);
+    else exitCompareView();
+    updateCompareControls();
     runCount += 1;
     const t = new Date().toLocaleTimeString();
     statusEl.textContent = `Ran locally at ${t} — run ${runCount}.`;
