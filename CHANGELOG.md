@@ -10,6 +10,20 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Cold-atom-interferometer systematics, drift sweep, and a published-device
+  validation (`src/inertial/quantum_imu.rs`, `docs/QUANTUM.md`).** Extends the
+  first-principles CAI accelerometer with the two leading deterministic systematics:
+  the **Coriolis/rotation** phase `Φ_cor = 2·k_eff·v_⊥·Ω·T²` (`coriolis_phase`, with
+  the equivalent acceleration bias `2·Ω×v` via `coriolis_accel_bias`) and the
+  **AC-Stark light-shift** phase `Φ_LS = (δ_LS,1 − δ_LS,3)/Ω_eff` (`ac_stark_phase`,
+  which cancels by π/2–π–π/2 symmetry for a constant shift). Adds `cai_drift_sweep`
+  (dead-reckoning position drift vs cycle time — the core of a quantum-vs-classical
+  comparison) and a validation test against the Freier et al. 2016 mobile gravimeter
+  (arXiv:1512.05660): the modelled quantum-projection-noise floor lies below, and
+  within ~2 orders of, the published 96 nm/s²/√Hz short-term noise. `docs/QUANTUM.md`
+  updated. Honest residual: wavefront/beam-pointing systematics, fringe-ambiguity
+  resolution, the exact CARIOQA-PMP / Boeing-AOSense flight-test reproduction (needs
+  published platform PSDs), and a JS playground preset.
 - **Cislunar frame reduction and a lunar south-pole integrity pass (`src/lunar.rs`).**
   Extends the lunar ARAIM engine with the MCI↔MCMF (Moon-centered inertial ↔
   Moon-fixed) rotation (`mci_to_mcmf` / `mcmf_to_mci`, a simplified mean-rotation
