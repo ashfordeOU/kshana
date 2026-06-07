@@ -351,6 +351,41 @@ pub fn auto_export_sp3(src: &str) -> Result<Option<String>, String> {
     }
 }
 
+/// Export an orbit scenario's TLE mean elements as a CCSDS OMM catalogue — one OMM
+/// (Orbit Mean-Elements Message) per TLE-defined satellite, in KVN form, carrying
+/// the real NORAD catalogue number, COSPAR designator, and epoch from each TLE.
+/// Errors if the scenario is not an `orbit` kind, or has no TLE-defined
+/// constellation (a synthetic Walker or RINEX scenario has no mean elements to
+/// publish). This is the CLI `--export-omm` path, mirroring [`export_sp3`].
+pub fn export_omm(src: &str) -> Result<String, String> {
+    match ScenarioKind::classify(src).map_err(|e| e.to_string())? {
+        ScenarioKind::Orbit => {
+            let scn: crate::orbit::OrbitClockScenario =
+                toml::from_str(src).map_err(|e| format!("invalid orbit scenario: {e}"))?;
+            scn.to_omm_string()
+        }
+        k => Err(format!(
+            "OMM export requires an orbit scenario, not '{}'",
+            k.as_str()
+        )),
+    }
+}
+
+/// If `src` is an orbit scenario with `export_omm = true`, return its OMM catalogue
+/// text; otherwise `None`. Lets the CLI auto-write an OMM alongside the usual outputs.
+pub fn auto_export_omm(src: &str) -> Result<Option<String>, String> {
+    if ScenarioKind::classify(src).map_err(|e| e.to_string())? != ScenarioKind::Orbit {
+        return Ok(None);
+    }
+    let scn: crate::orbit::OrbitClockScenario =
+        toml::from_str(src).map_err(|e| format!("invalid orbit scenario: {e}"))?;
+    if scn.export_omm {
+        Ok(Some(scn.to_omm_string()?))
+    } else {
+        Ok(None)
+    }
+}
+
 /// The contract a scenario pack fulfils: run itself and produce the unified output
 /// envelope, returning a structured [`KshanaError`] on failure.
 pub trait Scenario {

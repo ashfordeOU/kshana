@@ -203,6 +203,76 @@ pub fn parse_tle(line1: &str, line2: &str) -> Result<Tle, String> {
     })
 }
 
+/// Identity metadata that lives on TLE line 1 but is not part of the bare orbital
+/// [`Tle`] elements: the NORAD catalogue number, the COSPAR international
+/// designator, and the epoch as an ISO-8601 day-of-year timestamp. These are
+/// exactly the fields a CCSDS OMM message needs to identify an object, so they are
+/// surfaced here for the OMM export path.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct TleIdentity {
+    /// NORAD catalogue number (line 1, columns 3-7).
+    pub norad_cat_id: u32,
+    /// COSPAR international designator expanded to `YYYY-NNNP` (e.g. `1998-067A`).
+    pub intl_designator: String,
+    /// Epoch as a CCSDS day-of-year timestamp `YYYY-DDDThh:mm:ss.ssssss` (UTC).
+    pub epoch_iso: String,
+}
+
+/// Parse the [`TleIdentity`] from a TLE line 1. Reads the same fixed columns as
+/// [`parse_tle`]; returns an `Err` (never panics) on a non-line-1 or a truncated
+/// line. The international designator's two-digit launch year follows the TLE
+/// epoch convention (57-99 -> 19xx, 00-56 -> 20xx); the epoch is rendered in the
+/// CCSDS day-of-year time form OMM uses.
+pub fn parse_tle_identity(line1: &str) -> Result<TleIdentity, String> {
+    ascii_guard(line1, "line 1")?;
+    if !line1.starts_with("1 ") || line1.len() < 63 {
+        return Err(format!("not a TLE line 1: {line1:?}"));
+    }
+    let norad_cat_id: u32 = col(line1, 2, 7, "catalogue number")?.parse().map_err(|_| {
+        format!(
+            "invalid catalogue number in TLE: {:?}",
+            col(line1, 2, 7, "").ok()
+        )
+    })?;
+
+    // International designator: 2-digit launch year, 3-digit launch number, piece.
+    let des_yy: i64 = col(line1, 9, 11, "designator year")?
+        .parse()
+        .map_err(|_| "invalid designator launch year in TLE".to_string())?;
+    let des_year = if des_yy < 57 {
+        2000 + des_yy
+    } else {
+        1900 + des_yy
+    };
+    let launch_num = col(line1, 11, 14, "designator number")?;
+    let piece = col(line1, 14, 17, "designator piece")?;
+    let intl_designator = format!("{des_year:04}-{launch_num}{piece}");
+
+    // Epoch: two-digit year + fractional day-of-year, as in parse_tle.
+    let yy: i64 = col(line1, 18, 20, "epoch year")?
+        .parse()
+        .map_err(|_| "invalid epoch year in TLE".to_string())?;
+    let year = if yy < 57 { 2000 + yy } else { 1900 + yy };
+    let epochdays: f64 = col(line1, 20, 32, "epoch day")?
+        .parse()
+        .map_err(|_| "invalid epoch day in TLE".to_string())?;
+    let doy = epochdays.floor();
+    let sec_of_day = (epochdays - doy) * 86_400.0;
+    let hh = (sec_of_day / 3600.0).floor();
+    let mm = ((sec_of_day - hh * 3600.0) / 60.0).floor();
+    let ss = sec_of_day - hh * 3600.0 - mm * 60.0;
+    let doy_i = doy as u32;
+    let hh_i = hh as u32;
+    let mm_i = mm as u32;
+    let epoch_iso = format!("{year:04}-{doy_i:03}T{hh_i:02}:{mm_i:02}:{ss:09.6}");
+
+    Ok(TleIdentity {
+        norad_cat_id,
+        intl_designator,
+        epoch_iso,
+    })
+}
+
 /// Range-check the physical orbital elements shared by both parse paths.
 fn check_elements(
     inclination_deg: f64,
@@ -460,6 +530,29 @@ mod tests {
         // Mean motion 10.82419157 rev/day -> rad/min.
         let expect_nm = 10.824_191_57 * std::f64::consts::TAU / 1440.0;
         assert!((t.no_kozai_rad_min - expect_nm).abs() < 1e-12);
+    }
+
+    #[test]
+    fn parse_tle_identity_surfaces_catalog_id_designator_and_epoch() {
+        // Vanguard 1: NORAD 5, COSPAR 1958-002B, epoch 2000 day 179.78495062.
+        let id = parse_tle_identity(VER_L1).expect("valid line 1");
+        assert_eq!(id.norad_cat_id, 5);
+        assert_eq!(id.intl_designator, "1958-002B");
+        // 0.78495062 day = 67819.733568 s = 18:50:19.733568 UTC, day-of-year 179.
+        assert_eq!(id.epoch_iso, "2000-179T18:50:19.733568");
+
+        // ISS line 1: NORAD 25544, COSPAR 1998-067A, epoch 2024 day 001 at 00:00.
+        let iss_l1 = "1 25544U 98067A   24001.00000000  .00000000  00000-0  00000-0 0  9990";
+        let iss = parse_tle_identity(iss_l1).expect("valid line 1");
+        assert_eq!(iss.norad_cat_id, 25544);
+        assert_eq!(iss.intl_designator, "1998-067A");
+        assert_eq!(iss.epoch_iso, "2024-001T00:00:00.000000");
+    }
+
+    #[test]
+    fn parse_tle_identity_rejects_a_non_line1() {
+        assert!(parse_tle_identity(VER_L2).is_err());
+        assert!(parse_tle_identity("1 25544U").is_err());
     }
 
     #[test]
