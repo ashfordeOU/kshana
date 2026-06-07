@@ -39,7 +39,8 @@
 
 use crate::frames::Vec3;
 use crate::orbit::{
-    enu_basis, invert4, los_unit, visible_positions, ConstellationCfg, Orbit, OrbitCfg, Propagator,
+    enu_basis, invert4, los_unit, visible_positions, visible_positions_labeled, ConstellationCfg,
+    Orbit, OrbitCfg, Propagator,
 };
 use crate::scenario::TimeCfg;
 use rand::SeedableRng;
@@ -1459,6 +1460,74 @@ pub fn constellation_raim_availability(
     }
 }
 
+/// Dual-/multi-constellation **ARAIM** availability over a constellation set whose
+/// satellites carry `labels` (one constellation id per `gnss` entry). At each epoch
+/// it finds the visible satellites and their labels and runs the constellation-wide
+/// fault-mode engine [`araim_dual_raim`], judging availability against the alert
+/// limits. The single-constellation [`constellation_raim_availability`] uses
+/// solution-separation RAIM; this is the advanced ARAIM (single-SV **and**
+/// constellation-wide faults) path, the one a GPS+Galileo user actually flies.
+#[allow(clippy::too_many_arguments)]
+pub fn araim_dual_constellation_availability(
+    user: &Orbit,
+    gnss: &[Propagator],
+    labels: &[u8],
+    step_s: f64,
+    duration_s: f64,
+    mask_deg: f64,
+    sigma_m: f64,
+    priors: DualFaultPriors,
+    budget: IntegrityBudget,
+    al_h_m: f64,
+    al_v_m: f64,
+) -> RaimAvailabilityReport {
+    let n = (duration_s / step_s).round() as usize;
+    let mut epochs = Vec::with_capacity(n + 1);
+    let mut available = 0usize;
+    for i in 0..=n {
+        let t = i as f64 * step_s;
+        let user_ecef = user.position_eci(t);
+        let (sats, vis_labels) = visible_positions_labeled(user, gnss, labels, t, mask_deg);
+        let resid = vec![0.0; sats.len()];
+        let e = match araim_dual_raim(
+            user_ecef,
+            &sats,
+            &vis_labels,
+            &resid,
+            sigma_m,
+            priors,
+            budget,
+        ) {
+            Some(r) => RaimAvailabilityEpoch {
+                t_s: t,
+                n_visible: sats.len(),
+                hpl_m: Some(r.hpl_m),
+                vpl_m: Some(r.vpl_m),
+                available: r.hpl_m <= al_h_m && r.vpl_m <= al_v_m,
+            },
+            None => RaimAvailabilityEpoch {
+                t_s: t,
+                n_visible: sats.len(),
+                hpl_m: None,
+                vpl_m: None,
+                available: false,
+            },
+        };
+        if e.available {
+            available += 1;
+        }
+        epochs.push(e);
+    }
+    RaimAvailabilityReport {
+        al_h_m,
+        al_v_m,
+        samples_total: epochs.len(),
+        samples_available: available,
+        epochs,
+        stanford: StanfordDiagram::new(al_v_m),
+    }
+}
+
 /// The vertical (geocentric-up) component of the least-squares position error
 /// produced by the per-satellite range residuals `residuals` at geometry
 /// `(user, sats)`. `None` for a singular geometry or a missing line of sight.
@@ -1509,6 +1578,20 @@ pub struct IntegrityScenario {
     /// independent; only the Stanford error draw depends on this.
     #[serde(default)]
     pub seed: u64,
+    /// When `true`, evaluate availability with advanced dual-/multi-constellation
+    /// **ARAIM** (single-SV *and* constellation-wide faults, `araim_dual_raim`)
+    /// instead of the default solution-separation RAIM. The primary constellation is
+    /// fault group 0 and each entry of `constellations` the next group.
+    #[serde(default)]
+    pub araim_dual: bool,
+    /// Per-axis integrity-risk budget `P_HMI` for the ARAIM path (default 1e-7/hr).
+    #[serde(default = "default_p_hmi")]
+    pub p_hmi: f64,
+}
+
+/// Default per-axis integrity-risk budget for the ARAIM path.
+fn default_p_hmi() -> f64 {
+    1e-7
 }
 
 impl IntegrityScenario {
@@ -1521,9 +1604,46 @@ impl IntegrityScenario {
         Ok(sats)
     }
 
+    /// All satellites with their constellation fault-group labels (primary = 0,
+    /// each additional constellation the next id) — the ARAIM dual-fault input.
+    pub fn all_satellites_labeled(&self) -> Result<(Vec<Propagator>, Vec<u8>), String> {
+        let primary = self.constellation.satellites()?;
+        let mut labels: Vec<u8> = vec![0u8; primary.len()];
+        let mut sats = primary;
+        for (i, c) in self.constellations.iter().enumerate() {
+            let cs = c.satellites()?;
+            let label = (i + 1).min(u8::MAX as usize) as u8;
+            labels.resize(labels.len() + cs.len(), label);
+            sats.extend(cs);
+        }
+        Ok((sats, labels))
+    }
+
     /// Run the availability evaluation over the configured time grid.
     pub fn run(&self) -> Result<RaimAvailabilityReport, String> {
         let user = self.user.to_orbit();
+        if self.araim_dual {
+            let (sats, labels) = self.all_satellites_labeled()?;
+            let ism = IntegritySupportMessage::gps_galileo_reference();
+            let budget = IntegrityBudget {
+                p_hmi_vert: self.p_hmi,
+                p_hmi_horz: self.p_hmi,
+                p_fa: self.p_fa,
+            };
+            return Ok(araim_dual_constellation_availability(
+                &user,
+                &sats,
+                &labels,
+                self.time.step_s,
+                self.time.duration_s,
+                self.mask_deg,
+                self.sigma_uere_m,
+                ism.dual_fault_priors(),
+                budget,
+                self.al_h_m,
+                self.al_v_m,
+            ));
+        }
         let sats = self.all_satellites()?;
         let cfg = RaimConfig {
             sigma_m: self.sigma_uere_m,
