@@ -1,0 +1,49 @@
+# Dual-constellation ARAIM availability: GPS + Galileo evaluated with the advanced
+# ARAIM engine, including the constellation-wide fault hypothesis (`araim_dual`).
+#
+# Unlike `integrity-raim.toml` (single-constellation solution-separation RAIM), this
+# runs `araim_dual_raim` at every epoch over a combined GPS + Galileo geometry: the
+# fault-free, single-satellite, AND per-constellation fault hypotheses all feed one
+# MHSS integrity-risk budget (P_HMI). The primary constellation is fault group 0 and
+# each `[[constellations]]` entry the next group.
+#
+# Constellation-fault-robust integrity (staying safe even if an entire constellation
+# fails) is demanding: with only two constellations the residual one must carry the
+# fix alone, which is exactly why robust dual-constellation ARAIM drives toward a
+# third constellation or SBAS augmentation. A version-locked real-TLE study and the
+# numerically exact EU ARAIM TN Table A-3 reproduction are external follow-ons (see
+# docs/ARAIM_REFERENCE.md and tests/araim_dual_real_data.rs).
+kind = "integrity"
+
+mask_deg = 5.0
+sigma_uere_m = 0.75   # ISM σ_URA (dual-frequency, m)
+p_fa = 1.0e-5         # false-alarm / continuity budget
+p_md = 1.0e-3
+al_h_m = 40.0         # horizontal alert limit (APV-I)
+al_v_m = 50.0         # vertical alert limit (APV-I)
+araim_dual = true     # advanced dual-/multi-constellation ARAIM
+p_hmi = 1.0e-7        # per-axis integrity-risk budget
+
+[time]
+step_s = 300.0
+duration_s = 43200.0  # 12 h
+
+[user]
+altitude_km = 0.4
+inclination_deg = 45.0
+raan_deg = 10.0
+u0_deg = 0.0
+
+[constellation]       # GPS-like Walker 24/6/1
+altitude_km = 20200.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
+
+[[constellations]]    # Galileo-like Walker 24/3/1
+altitude_km = 23222.0
+inclination_deg = 56.0
+planes = 3
+sats_per_plane = 8
+phasing_f = 1.0

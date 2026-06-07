@@ -734,6 +734,30 @@ pub fn visible_positions(user: &Orbit, gnss: &[Propagator], t: f64, mask_deg: f6
         .collect()
 }
 
+/// Like [`visible_positions`], but also returns the constellation `labels` of the
+/// visible satellites (aligned with `gnss`/`labels` by index) — the geometry input
+/// a dual-/multi-constellation ARAIM evaluation needs. Panics if `labels` is shorter
+/// than `gnss`.
+pub fn visible_positions_labeled(
+    user: &Orbit,
+    gnss: &[Propagator],
+    labels: &[u8],
+    t: f64,
+    mask_deg: f64,
+) -> (Vec<Vec3>, Vec<u8>) {
+    let up = user.position_eci(t);
+    let mut positions = Vec::new();
+    let mut out_labels = Vec::new();
+    for (g, &label) in gnss.iter().zip(labels.iter()) {
+        let sp = g.position_eci(t);
+        if !earth_occults(up, sp) && elevation_deg(up, sp) >= mask_deg {
+            positions.push(sp);
+            out_labels.push(label);
+        }
+    }
+    (positions, out_labels)
+}
+
 /// A geometry summary over the run: how often a position fix is possible and the
 /// resulting position accuracy (position DOP times the user-equivalent range
 /// error). Best is the most favourable geometry, median the typical one.
