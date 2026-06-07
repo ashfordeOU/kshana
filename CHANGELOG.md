@@ -46,6 +46,22 @@ breaking changes are called out explicitly.
   stack never panics on mutated or mis-configured scenarios.
 
 ### Added
+- **SGP4/SDP4 head-to-head against the independent `sgp4` crate.** A new test
+  (`tests/sgp4_crate_comparison.rs`) cross-validates Kshana's propagator against
+  the most widely used Rust SGP4 library (neuromorphicsystems/sgp4, added as a
+  test-only dev-dependency) over the same 666 AIAA 2006-6753 vectors. With both
+  driven on the WGS72 gravity model the vectors use, the two independent
+  implementations agree to **sub-micron** on near-earth and resonant orbits and
+  **4.12 mm worst-case** across all regimes, both reproducing the reference
+  `tcppver.out` table. The committed comparison table
+  (`tests/fixtures/sgp4_comparison.md`, regenerated with `KSHANA_REGEN_FIXTURES=1`)
+  breaks the result out per regime (LEO/MEO, deep-space, ½-day and 1-day
+  resonance) and notes the four deliberately-pathological cases the crate rejects
+  at construction. The live assertions hold both within 2e-5 km of the reference
+  and agree to within 4e-5 km — a regression guard, not a one-off. This is
+  competitive pedigree: correctness against an independent codebase, not just a
+  static table. (The crate's default `from_elements` uses WGS84 and so differs
+  from the WGS72 reference by ~km — surfaced honestly in the table prose.)
 - **CCSDS OMM export is now reachable end-to-end.** The OMM writer
   (`src/omm.rs`) previously had no CLI/API path; an `orbit` scenario's mean
   elements can now be published as a CCSDS 502.0-B-2 OMM catalogue — one OMM KVN
