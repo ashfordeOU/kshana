@@ -267,6 +267,21 @@ pub struct StateEci {
     pub v_m_s: Vec3,
 }
 
+/// The reference frame a propagated state can be expressed in. The propagators
+/// emit [`Frame::Teme`] natively (the SGP4 frame); [`Frame::Gcrs`] and
+/// [`Frame::Itrs`] are reached through the validated reductions in
+/// [`crate::nutation`] (TEME→GCRS) and [`crate::cio`] (the IAU 2006/2000A CIO
+/// GCRS→ITRS chain).
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum Frame {
+    /// True Equator, Mean Equinox — the native SGP4/propagator output frame.
+    Teme,
+    /// Geocentric Celestial Reference System (≈ J2000), the inertial frame.
+    Gcrs,
+    /// International Terrestrial Reference System — Earth-fixed (ECEF).
+    Itrs,
+}
+
 impl Propagator {
     /// Inertial position (m) at time `t` (s). For an SGP4 satellite this is the
     /// TEME position; a propagation error (e.g. a decayed satellite) returns the
@@ -350,6 +365,42 @@ impl Propagator {
                 v_m_s: self.velocity_eci(t),
             },
         }
+    }
+
+    /// Position (m) at time `t` (s) expressed in `frame`. `jd_tt` is the absolute
+    /// Terrestrial Time Julian date at that instant (the scenario epoch plus `t`),
+    /// `jd_ut1` drives Earth rotation for [`Frame::Itrs`], and `xp,yp` are the
+    /// polar-motion coordinates (radians; see [`crate::frames::arcsec`]). For
+    /// [`Frame::Teme`] the date arguments are ignored. GCRS uses the validated
+    /// TEME→GCRS reduction; ITRS chains that into the IAU 2006/2000A CIO
+    /// GCRS→ITRS rotation.
+    pub fn position_in_frame(
+        &self,
+        t: f64,
+        frame: Frame,
+        jd_tt: f64,
+        jd_ut1: f64,
+        xp: f64,
+        yp: f64,
+    ) -> Vec3 {
+        let r_teme = self.position_eci(t);
+        match frame {
+            Frame::Teme => r_teme,
+            Frame::Gcrs => crate::nutation::teme_to_gcrs(r_teme, [0.0; 3], jd_tt).0,
+            Frame::Itrs => {
+                let r_gcrs = crate::nutation::teme_to_gcrs(r_teme, [0.0; 3], jd_tt).0;
+                crate::cio::gcrs_to_itrs(r_gcrs, jd_tt, jd_ut1, xp, yp)
+            }
+        }
+    }
+
+    /// Full inertial state (position m, velocity m/s) at time `t` (s) in the GCRS
+    /// (≈ J2000) frame, via the validated TEME→GCRS reduction. `jd_tt` is the
+    /// absolute Terrestrial Time Julian date at that instant.
+    pub fn state_gcrs(&self, t: f64, jd_tt: f64) -> StateEci {
+        let s = self.state_eci(t);
+        let (r, v) = crate::nutation::teme_to_gcrs(s.r_m, s.v_m_s, jd_tt);
+        StateEci { r_m: r, v_m_s: v }
     }
 
     /// Nominal orbital period (s).
@@ -920,6 +971,53 @@ mod tests {
     fn period_matches_mean_motion() {
         let o = Orbit::new(7.0e6, 0.0, 0.0, 0.0);
         assert!((o.mean_motion() * o.period_s() - std::f64::consts::TAU).abs() < 1e-9);
+    }
+
+    #[test]
+    fn position_in_frame_is_consistent_across_frames() {
+        let p = Propagator::Kepler(Orbit::new(7.0e6, 0.9, 0.5, 0.3));
+        let (jd_tt, jd_ut1) = (2_451_545.0 + 4000.0, 2_451_545.0 + 4000.0);
+        let t = 1234.0;
+        let norm = |v: Vec3| (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]).sqrt();
+        let teme = p.position_in_frame(t, Frame::Teme, jd_tt, jd_ut1, 0.0, 0.0);
+        let gcrs = p.position_in_frame(t, Frame::Gcrs, jd_tt, jd_ut1, 0.0, 0.0);
+        let itrs = p.position_in_frame(t, Frame::Itrs, jd_tt, jd_ut1, 0.0, 0.0);
+        // TEME passthrough is exactly position_eci; all three are pure rotations of
+        // the same vector, so magnitude is preserved across frames.
+        assert_eq!(teme, p.position_eci(t));
+        assert!((norm(gcrs) - norm(teme)).abs() < 1e-6, "GCRS preserves |r|");
+        assert!((norm(itrs) - norm(teme)).abs() < 1e-6, "ITRS preserves |r|");
+        // GCRS is rotated off TEME by precession+nutation (tens of arcsec → tens of
+        // metres at this radius), i.e. distinct but not wildly different.
+        let d_gcrs = norm([gcrs[0] - teme[0], gcrs[1] - teme[1], gcrs[2] - teme[2]]);
+        assert!((1.0..50_000.0).contains(&d_gcrs), "GCRS−TEME = {d_gcrs} m");
+        // ITRS is the Earth-fixed frame: it differs from the inertial frames by the
+        // full sidereal rotation, so it is far from TEME (thousands of km here).
+        let d_itrs = norm([itrs[0] - teme[0], itrs[1] - teme[1], itrs[2] - teme[2]]);
+        assert!(
+            d_itrs > 1.0e6,
+            "ITRS−TEME should be a large (sidereal) shift"
+        );
+        // The ITRS position equals the CIO GCRS→ITRS of the GCRS position.
+        let itrs_via_gcrs = crate::cio::gcrs_to_itrs(gcrs, jd_tt, jd_ut1, 0.0, 0.0);
+        for k in 0..3 {
+            assert!(
+                (itrs[k] - itrs_via_gcrs[k]).abs() < 1e-6,
+                "ITRS path consistency[{k}]"
+            );
+        }
+    }
+
+    #[test]
+    fn state_gcrs_preserves_speed_and_position_magnitude() {
+        let p = Propagator::Kepler(Orbit::new(7.0e6, 0.3, 0.4, 0.2));
+        let jd_tt = 2_451_545.0 + 4000.0;
+        let t = 800.0;
+        let teme = p.state_eci(t);
+        let gcrs = p.state_gcrs(t, jd_tt);
+        let norm = |v: Vec3| (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]).sqrt();
+        assert!((norm(gcrs.r_m) - norm(teme.r_m)).abs() < 1e-6);
+        assert!((norm(gcrs.v_m_s) - norm(teme.v_m_s)).abs() < 1e-9);
     }
 
     #[test]
