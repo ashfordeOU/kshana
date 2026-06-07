@@ -56,6 +56,40 @@ jobs:
           tool: cargo-deny
       - name: cargo-deny
         run: cargo deny check advisories licenses bans sources
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.93.0
+        with:
+          # The LLVM source-based coverage engine needs llvm-profdata/llvm-cov,
+          # shipped by this component.
+          components: llvm-tools-preview
+      - uses: Swatinem/rust-cache@v2
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-tarpaulin
+      - name: Coverage (LLVM engine, enforced line floor)
+        # Source-based LLVM instrumentation (the same coverage family as
+        # `cargo llvm-cov`), reported as an lcov artifact and gated on a line
+        # floor. Generated data tables, the thin CLI entrypoint, the tests
+        # themselves, and the web assets are excluded from the measurement.
+        # The floor is 85% — above the >=80% target and comfortably under the
+        # measured ~97% line coverage on src/ — so it guards against regressions
+        # without flaking. SGP4 and the clock modules sit at >=95%.
+        run: >
+          cargo tarpaulin --engine llvm --out Lcov --output-dir coverage
+          --exclude-files 'src/*_data.rs'
+          --exclude-files 'src/main.rs'
+          --exclude-files 'tests/*'
+          --exclude-files 'web/*'
+          --timeout 900 --fail-under 85
+      - name: Upload lcov report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-lcov
+          path: coverage/lcov.info
+          if-no-files-found: error
   test-python-bindings:
     runs-on: ubuntu-latest
     steps:
