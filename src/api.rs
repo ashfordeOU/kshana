@@ -176,6 +176,7 @@ pub enum ScenarioKind {
     Sweep,
     SweepNd,
     Orbit,
+    LunarIntegrity,
 }
 
 impl ScenarioKind {
@@ -195,6 +196,7 @@ impl ScenarioKind {
             ScenarioKind::Sweep => "sweep",
             ScenarioKind::SweepNd => "sweep-nd",
             ScenarioKind::Orbit => "orbit",
+            ScenarioKind::LunarIntegrity => "lunar-integrity",
         }
     }
 
@@ -218,6 +220,7 @@ impl ScenarioKind {
             "sweep" => ScenarioKind::Sweep,
             "sweep-nd" => ScenarioKind::SweepNd,
             "orbit" => ScenarioKind::Orbit,
+            "lunar-integrity" => ScenarioKind::LunarIntegrity,
             // Empty or unknown ⇒ the clock pack (historical default).
             _ => ScenarioKind::Clock,
         })
@@ -243,6 +246,7 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "inertial", description: "1-DOF inertial dead-reckoning during a GNSS outage.", required_fields: &["threshold_m", "time", "gnss", "accel_quantum", "accel_classical"], optional_fields: &["seed", "runs"] },
         ScenarioMeta { name: "orbit", description: "GNSS availability + DOP from an orbital constellation (Walker / TLE / RINEX).", required_fields: &["threshold_ns", "time", "user", "constellation", "clock_quantum", "clock_classical"], optional_fields: &["mask_deg", "sigma_uere_m", "seed"] },
         ScenarioMeta { name: "integrity", description: "Snapshot / solution-separation / ARAIM RAIM with HPL/VPL and a Stanford diagram.", required_fields: &["time", "user", "constellation"], optional_fields: &["mask_deg", "sigma_uere_m", "p_fa", "p_md"] },
+        ScenarioMeta { name: "lunar-integrity", description: "Lunar south-pole ARAIM protection-level pass vs a representative LunaNet relay set.", required_fields: &[], optional_fields: &["step_s", "duration_s", "alert_limit_m", "p_hmi"] },
         ScenarioMeta { name: "timetransfer", description: "Optical vs RF two-way time/frequency transfer.", required_fields: &["time", "optical", "rf"], optional_fields: &["seed"] },
         ScenarioMeta { name: "hybrid", description: "Hybrid PNT capstone: clock + IMU + time-transfer aiding.", required_fields: &["timing_spec_ns", "position_spec_m", "time", "gnss", "clock_quantum", "clock_classical", "accel_quantum", "accel_classical"], optional_fields: &["resync", "seed"] },
         ScenarioMeta { name: "fusion", description: "Joint Kalman sensor-fusion PNT over the same hybrid inputs.", required_fields: &["timing_spec_ns", "position_spec_m", "time", "gnss", "clock_quantum", "clock_classical", "accel_quantum", "accel_classical"], optional_fields: &["resync", "seed"] },
@@ -388,6 +392,26 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
             Ok(RunOutput {
                 json: json_of(&report),
                 svg: crate::raim::availability_svg(&report),
+                summary,
+            })
+        }
+        ScenarioKind::LunarIntegrity => {
+            let scn: crate::lunar::LunarScenario = toml::from_str(src)
+                .map_err(|e| format!("invalid lunar-integrity scenario: {e}"))?;
+            let report = scn.run();
+            let summary = format!(
+                "lunar-integrity | south pole | {}/{} epochs available ({:.1}%) | AL {:.0} m | σ_URE {:.0} m | HPL {:.0}–{:.0} m",
+                report.samples_available,
+                report.samples_total,
+                report.availability() * 100.0,
+                report.alert_limit_m,
+                report.sigma_ure_m,
+                report.min_hpl_m,
+                report.max_hpl_m,
+            );
+            Ok(RunOutput {
+                json: json_of(&report),
+                svg: crate::lunar::lunar_report_svg(&report),
                 summary,
             })
         }
