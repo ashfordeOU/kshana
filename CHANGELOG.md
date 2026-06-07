@@ -17,6 +17,11 @@ breaking changes are called out explicitly.
   `--bg`-matching panels, warm `--line` grid, `--fg-2` labels — with a consistent
   series assignment across both charts: quantum = honey-gold (`--accent-bright`),
   classical = warm amber (`--partial`), spec/limit = `--crit`.
+- **Charts are now self-describing when saved/downloaded.** Both charts bake their
+  title into the SVG (the Allan chart's title + "lower is better" subtitle were
+  previously only HTML around the image, so a saved image had no caption), and both
+  carry a provenance footer — `Kshana v<version> · <scenario-hash> · kshana.dev` —
+  so a downloaded chart stands on its own and stays reproducible.
 
 ### Fixed
 - **`raim::chi2_quantile` and the RAIM Stanford-noise sampler are now panic-free on

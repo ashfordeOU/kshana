@@ -80,6 +80,17 @@ pub fn to_svg(result: &RunResult) -> String {
         "<text x=\"{:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">Clock holdover: timing error during GNSS outage</text>",
         ml
     ));
+    // Baked provenance so a downloaded/saved image is self-describing and reproducible.
+    let hash12 = result
+        .scenario_hash
+        .get(..12)
+        .unwrap_or(&result.scenario_hash);
+    svg.push_str(&format!(
+        "<text x=\"{:.0}\" y=\"18\" text-anchor=\"end\" fill=\"#62594b\" font-size=\"10\">Kshana v{} \u{00b7} {} \u{00b7} kshana.dev</text>",
+        w - mr,
+        result.engine_version,
+        hash12,
+    ));
     svg.push_str(&crate::chart::y_axis(
         ml,
         mt,

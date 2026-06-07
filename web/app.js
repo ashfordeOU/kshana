@@ -103,12 +103,14 @@ let adevUrl = null;
 // Build a log-log Allan-deviation chart (SVG string) from one or two named
 // adev_curve arrays [{tau_s, adev, n_samples}]. Pure data -> geometry; rendered
 // via a blob <img> like the engine chart, so no markup is injected into the DOM.
-function adevSvg(curves) {
+function adevSvg(curves, meta) {
   const pts = curves.flatMap((c) => c.curve);
   const taus = pts.map((p) => p.tau_s).filter((v) => v > 0);
   const advs = pts.map((p) => p.adev).filter((v) => v > 0);
   if (taus.length < 2 || advs.length < 2) return null;
-  const W = 760, H = 320, ml = 66, mr = 18, mt = 18, mb = 52;
+  // Title + subtitle band at top (mt) and an x-axis-label + provenance band at
+  // bottom (mb) so a downloaded/saved image is self-describing.
+  const W = 760, H = 360, ml = 66, mr = 18, mt = 50, mb = 60;
   const x0 = Math.log10(Math.min(...taus)), x1 = Math.log10(Math.max(...taus));
   const y0 = Math.log10(Math.min(...advs)), y1 = Math.log10(Math.max(...advs));
   const px = (t) => ml + ((Math.log10(t) - x0) / (x1 - x0 || 1)) * (W - ml - mr);
@@ -116,6 +118,9 @@ function adevSvg(curves) {
   const colors = ["#e0bd84", "#d2925e"];
   let s = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" font-family="system-ui,sans-serif" font-size="11">`;
   s += `<rect width="${W}" height="${H}" fill="#0c0b08"/>`;
+  // Baked title + subtitle (so the saved image carries its own caption).
+  s += `<text x="${ml}" y="22" font-size="15" font-weight="bold" fill="#bcb3a3">Clock stability (overlapping Allan deviation)</text>`;
+  s += `<text x="${ml}" y="40" fill="#8c8273">Lower is better &#8212; fractional-frequency stability &#963;&#7464;(&#964;) vs averaging time</text>`;
   // Decade gridlines + labels. Loop only over decades *inside* the data range
   // (ceil(min)..floor(max)) so no label lands outside the plot and collides with
   // the opposite axis; anchor the edge x-labels inward so they clear the y-axis.
@@ -132,7 +137,10 @@ function adevSvg(curves) {
     s += `<text x="${ml - 9}" y="${y + 4}" text-anchor="end" fill="#8c8273">10^${e}</text>`;
   }
   // Axis titles, clear of the tick labels.
-  s += `<text x="${ml + (W - ml - mr) / 2}" y="${H - 8}" text-anchor="middle" fill="#8c8273">averaging time &#964; (s)</text>`;
+  s += `<text x="${ml + (W - ml - mr) / 2}" y="${H - 28}" text-anchor="middle" fill="#8c8273">averaging time &#964; (s)</text>`;
+  // Baked provenance footer — version + scenario hash + source, for saved images.
+  const prov = `Kshana${meta && meta.ver ? " v" + meta.ver : ""}${meta && meta.hash ? " · " + meta.hash.slice(0, 12) : ""} · kshana.dev`;
+  s += `<text x="${W - mr}" y="${H - 8}" text-anchor="end" fill="#62594b" font-size="10">${prov}</text>`;
   s += `<text x="16" y="${mt + (H - mt - mb) / 2}" text-anchor="middle" fill="#8c8273" transform="rotate(-90 16 ${mt + (H - mt - mb) / 2})">&#963;&#7464;(&#964;)</text>`;
   curves.forEach((c, i) => {
     const valid = c.curve.filter((p) => p.tau_s > 0 && p.adev > 0);
@@ -154,7 +162,8 @@ function renderAdev(result) {
     curves.push({ label: result.quantum.spec ? result.quantum.spec.id : "quantum", curve: result.quantum.adev_curve });
   if (result && result.classical && Array.isArray(result.classical.adev_curve) && result.classical.adev_curve.length)
     curves.push({ label: result.classical.spec ? result.classical.spec.id : "classical", curve: result.classical.adev_curve });
-  const svg = curves.length ? adevSvg(curves) : null;
+  const meta = result ? { ver: result.engine_version, hash: result.scenario_hash } : null;
+  const svg = curves.length ? adevSvg(curves, meta) : null;
   if (!svg) { wrap.hidden = true; return; }
   if (adevUrl) URL.revokeObjectURL(adevUrl);
   adevUrl = URL.createObjectURL(new Blob([svg], { type: "image/svg+xml" }));
