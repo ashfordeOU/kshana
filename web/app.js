@@ -113,27 +113,27 @@ function adevSvg(curves) {
   const y0 = Math.log10(Math.min(...advs)), y1 = Math.log10(Math.max(...advs));
   const px = (t) => ml + ((Math.log10(t) - x0) / (x1 - x0 || 1)) * (W - ml - mr);
   const py = (a) => mt + (1 - (Math.log10(a) - y0) / (y1 - y0 || 1)) * (H - mt - mb);
-  const colors = ["#5cb8d6", "#d2b35e"];
+  const colors = ["#e0bd84", "#d2925e"];
   let s = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" font-family="system-ui,sans-serif" font-size="11">`;
-  s += `<rect width="${W}" height="${H}" fill="#0c1118"/>`;
+  s += `<rect width="${W}" height="${H}" fill="#0c0b08"/>`;
   // Decade gridlines + labels. Loop only over decades *inside* the data range
   // (ceil(min)..floor(max)) so no label lands outside the plot and collides with
   // the opposite axis; anchor the edge x-labels inward so they clear the y-axis.
   for (let e = Math.ceil(x0); e <= Math.floor(x1); e++) {
     const x = px(10 ** e);
-    s += `<line x1="${x}" y1="${mt}" x2="${x}" y2="${H - mb}" stroke="#1b2230"/>`;
+    s += `<line x1="${x}" y1="${mt}" x2="${x}" y2="${H - mb}" stroke="#262019"/>`;
     const anchor = x < ml + 16 ? "start" : x > W - mr - 16 ? "end" : "middle";
     const tx = anchor === "start" ? ml : anchor === "end" ? W - mr : x;
-    s += `<text x="${tx}" y="${H - mb + 18}" text-anchor="${anchor}" fill="#8593a3">10^${e}s</text>`;
+    s += `<text x="${tx}" y="${H - mb + 18}" text-anchor="${anchor}" fill="#8c8273">10^${e}s</text>`;
   }
   for (let e = Math.ceil(y0); e <= Math.floor(y1); e++) {
     const y = py(10 ** e);
-    s += `<line x1="${ml}" y1="${y}" x2="${W - mr}" y2="${y}" stroke="#1b2230"/>`;
-    s += `<text x="${ml - 9}" y="${y + 4}" text-anchor="end" fill="#8593a3">10^${e}</text>`;
+    s += `<line x1="${ml}" y1="${y}" x2="${W - mr}" y2="${y}" stroke="#262019"/>`;
+    s += `<text x="${ml - 9}" y="${y + 4}" text-anchor="end" fill="#8c8273">10^${e}</text>`;
   }
   // Axis titles, clear of the tick labels.
-  s += `<text x="${ml + (W - ml - mr) / 2}" y="${H - 8}" text-anchor="middle" fill="#8593a3">averaging time &#964; (s)</text>`;
-  s += `<text x="16" y="${mt + (H - mt - mb) / 2}" text-anchor="middle" fill="#8593a3" transform="rotate(-90 16 ${mt + (H - mt - mb) / 2})">&#963;&#7464;(&#964;)</text>`;
+  s += `<text x="${ml + (W - ml - mr) / 2}" y="${H - 8}" text-anchor="middle" fill="#8c8273">averaging time &#964; (s)</text>`;
+  s += `<text x="16" y="${mt + (H - mt - mb) / 2}" text-anchor="middle" fill="#8c8273" transform="rotate(-90 16 ${mt + (H - mt - mb) / 2})">&#963;&#7464;(&#964;)</text>`;
   curves.forEach((c, i) => {
     const valid = c.curve.filter((p) => p.tau_s > 0 && p.adev > 0);
     if (!valid.length) return;
