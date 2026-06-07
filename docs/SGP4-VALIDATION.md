@@ -68,7 +68,7 @@ resonant orbits and to **4.12 mm worst-case** across all regimes — the same
 table. The full table (with per-regime row counts and the four pathological cases
 the crate rejects at construction) is committed at
 [`tests/fixtures/sgp4_comparison.md`](../tests/fixtures/sgp4_comparison.md) and
-regenerated with `KSHANA_REGEN_FIXTURES=1 cargo test --test sgp4_crate_comparison`.
+regenerated via `KSHANA_REGEN_FIXTURES=1 cargo test --test sgp4_crate_comparison`.
 
 ## Status of "publishing" this result
 
