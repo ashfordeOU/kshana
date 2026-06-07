@@ -3,6 +3,8 @@ pub mod allan;
 pub mod api;
 pub mod batch_ls;
 pub mod chart;
+pub mod cio;
+mod cio_s06_data;
 pub mod cr3bp;
 pub mod detection;
 pub mod ensemble;
