@@ -33,10 +33,15 @@
 //!   `σ_Φ² = k_eff²·S_a·∫₀^∞|H|²dω/(2π) = k_eff²·S_a·T³/3`. This is the *dominant*
 //!   real-device term, and it is now modelled here.
 //!
+//! * **Coriolis / rotation** phase `Φ_cor = 2·k_eff·v_⊥·Ω·T²` (equivalent bias the
+//!   classical `2·Ω×v`) and the **AC-Stark light-shift** phase
+//!   `Φ_LS = (δ_LS,1 − δ_LS,3)/Ω_eff` (which cancels by π/2–π–π/2 symmetry for a
+//!   constant shift) — the two leading deterministic systematics — are modelled here.
+//!
 //! Honest scope: this module covers the **quantum-projection-noise floor** (the
-//! fundamental limit) and the **vibration-limited** regime above it. Other
-//! systematics — light shift, Coriolis/rotation, wavefront aberration — are still
-//! datasheet-supplied, not derived; see [`docs/QUANTUM.md`](../../docs/QUANTUM.md).
+//! fundamental limit), the **vibration-limited** regime above it, and the Coriolis
+//! and light-shift systematics. Wavefront aberration and Mach–Zehnder fringe
+//! ambiguity are still out of scope; see [`docs/QUANTUM.md`](../../docs/QUANTUM.md).
 
 use std::f64::consts::PI;
 
@@ -219,6 +224,78 @@ impl CaiAccelerometer {
         }
         self.vibration_phase_noise(accel_psd) / scale
     }
+}
+
+/// Coriolis / Sagnac interferometer phase (rad) induced by platform rotation:
+/// `Φ_cor = 2·k_eff·v_perp·Ω·T²`, where `v_perp` (m/s) is the atom transverse
+/// velocity perpendicular to both `k_eff` and the rotation axis `omega_rot`
+/// (rad/s), and `pulse_sep_t` is the pulse separation `T` (s). The dominant
+/// rotation systematic for any moving-vehicle CAI (Lan et al. 2012; Dickerson et
+/// al. 2013). Its equivalent acceleration bias is [`coriolis_accel_bias`].
+pub fn coriolis_phase(k_eff: f64, v_perp: f64, omega_rot: f64, pulse_sep_t: f64) -> f64 {
+    2.0 * k_eff * v_perp * omega_rot * pulse_sep_t * pulse_sep_t
+}
+
+/// Equivalent acceleration bias (m/s²) of the Coriolis phase, `Φ_cor/(k_eff·T²) =
+/// 2·v_perp·Ω` — exactly the classical Coriolis acceleration `2·Ω×v`. This is the
+/// bias the dead-reckoning solution sees if rotation is not compensated.
+pub fn coriolis_accel_bias(v_perp: f64, omega_rot: f64) -> f64 {
+    2.0 * v_perp * omega_rot
+}
+
+/// Differential AC-Stark (one-photon light-shift) interferometer phase (rad). A
+/// light shift `δ_LS` imprints a phase `δ_LS/Ω_eff` at each π/2 pulse; in the
+/// π/2–π–π/2 sequence only the difference between the first and last pulse survives:
+/// `Φ_LS = (δ_LS_first − δ_LS_third)/Ω_eff`. A *constant* shift therefore cancels by
+/// symmetry — the reason AC-Stark control targets pulse-to-pulse stability rather
+/// than the absolute shift (Peters et al. 2001; Gauguet et al. 2008). All
+/// frequencies in rad/s.
+pub fn ac_stark_phase(delta_ls_first: f64, delta_ls_third: f64, rabi_eff: f64) -> f64 {
+    if rabi_eff == 0.0 {
+        return 0.0;
+    }
+    (delta_ls_first - delta_ls_third) / rabi_eff
+}
+
+/// One point of a cycle-time drift sweep.
+#[derive(Clone, Copy, Debug)]
+pub struct DriftSweepPoint {
+    /// Measurement cycle time `T_c` (s).
+    pub cycle_time_s: f64,
+    /// White acceleration PSD `q_va` ((m/s²)²/Hz) at this cycle time.
+    pub q_va: f64,
+    /// 1-σ position drift (m) after `nav_duration_s` of unaided dead reckoning.
+    pub pos_drift_m: f64,
+}
+
+/// Sweep the measurement cycle time and report the quantum-CAI dead-reckoning
+/// position drift over a fixed navigation window. For each `T_c` the white
+/// acceleration PSD `q_va` is recomputed (it scales with `T_c` — fewer fixes per
+/// second is noisier) and the unaided position drift from double-integrating that
+/// white acceleration noise is `σ_pos = √(q_va·t³/3)`. This is the data behind a
+/// "quantum CAI vs classical/CSAC-timed inertial nav" comparison: the CAI drift
+/// grows with cycle time, and a classical sensor's larger `q_va` sits above it.
+pub fn cai_drift_sweep(
+    base: CaiAccelerometer,
+    cycle_times_s: &[f64],
+    nav_duration_s: f64,
+) -> Vec<DriftSweepPoint> {
+    cycle_times_s
+        .iter()
+        .map(|&tc| {
+            let cai = CaiAccelerometer {
+                cycle_time_s: tc,
+                ..base
+            };
+            let q = cai.q_va();
+            let drift = (q * nav_duration_s.powi(3) / 3.0).sqrt();
+            DriftSweepPoint {
+                cycle_time_s: tc,
+                q_va: q,
+                pos_drift_m: drift,
+            }
+        })
+        .collect()
 }
 
 #[cfg(test)]
@@ -409,6 +486,102 @@ mod tests {
             a_vib > 10.0 * rb.accel_sensitivity_per_shot(),
             "vibration ({a_vib}) should dominate shot noise ({})",
             rb.accel_sensitivity_per_shot()
+        );
+    }
+
+    #[test]
+    fn coriolis_phase_is_two_k_v_omega_t_squared_and_maps_to_2vomega() {
+        // Φ_cor = 2·k_eff·v_perp·Ω·T². For k_eff = 1.6106e7, v = 3 m/s, Ω = 1e-3 rad/s,
+        // T = 0.05 s: 2·1.6106e7·3·1e-3·0.0025 = 241.59 rad.
+        let k = effective_wavevector(RB87_D2_WAVELENGTH_M);
+        let phi = coriolis_phase(k, 3.0, 1e-3, 0.05);
+        assert!((phi - 241.59).abs() / 241.59 < 1e-3, "Φ_cor = {phi}");
+        // Quadratic in T, linear in v and Ω.
+        assert!((coriolis_phase(k, 3.0, 1e-3, 0.10) / phi - 4.0).abs() < 1e-9);
+        assert!((coriolis_phase(k, 6.0, 1e-3, 0.05) / phi - 2.0).abs() < 1e-9);
+        // The equivalent acceleration bias is the classical Coriolis term 2·Ω×v = 2vΩ,
+        // recovered as Φ_cor/(k_eff·T²).
+        let a_bias = coriolis_accel_bias(3.0, 1e-3);
+        assert!(
+            (a_bias - 2.0 * 3.0 * 1e-3).abs() < 1e-15,
+            "a_cor = {a_bias}"
+        );
+        assert!((phi / (k * 0.05 * 0.05) - a_bias).abs() / a_bias < 1e-9);
+        // At Earth rotation rate (7.292e-5 rad/s) with v = 0.1 m/s the bias is ~1.46e-5
+        // m/s² (~1.5 µg) — a real, must-correct systematic for a moving vehicle.
+        let earth = coriolis_accel_bias(0.1, 7.292e-5);
+        assert!(
+            (earth - 1.4584e-5).abs() / 1.4584e-5 < 1e-3,
+            "Earth-rate bias = {earth}"
+        );
+    }
+
+    #[test]
+    fn ac_stark_phase_cancels_when_symmetric() {
+        // A constant differential light shift at the two π/2 pulses cancels in the
+        // π/2–π–π/2 sequence: Φ_LS = (δ₁ − δ₃)/Ω_eff = 0 when δ₁ = δ₃.
+        let rabi = 2.0 * PI * 10_000.0; // 10 kHz effective Rabi frequency
+        assert!(ac_stark_phase(2.0 * PI * 150.0, 2.0 * PI * 150.0, rabi).abs() < 1e-15);
+        // An asymmetric shift survives: (δ₁ − δ₃)/Ω_eff. δ₁ = 2π·200, δ₃ = 2π·150 →
+        // (2π·50)/(2π·10000) = 5e-3 rad.
+        let phi = ac_stark_phase(2.0 * PI * 200.0, 2.0 * PI * 150.0, rabi);
+        assert!((phi - 5e-3).abs() < 1e-9, "Φ_LS = {phi}");
+        // Zero Rabi frequency is guarded (no divide-by-zero).
+        assert_eq!(ac_stark_phase(1.0, 0.0, 0.0), 0.0);
+    }
+
+    #[test]
+    fn cai_drift_grows_with_cycle_time_and_duration() {
+        let base = CaiAccelerometer {
+            wavelength_m: RB87_D2_WAVELENGTH_M,
+            pulse_sep_t: 0.01,
+            atom_number: 1e6,
+            contrast: 0.5,
+            cycle_time_s: 0.5,
+        };
+        let sweep = cai_drift_sweep(base, &[0.1, 1.0, 10.0], 600.0);
+        assert_eq!(sweep.len(), 3);
+        // Longer cycle time → fewer measurements/s → larger q_va → more position drift.
+        assert!(sweep[0].pos_drift_m < sweep[1].pos_drift_m);
+        assert!(sweep[1].pos_drift_m < sweep[2].pos_drift_m);
+        // Position drift from a white acceleration PSD grows as t^{3/2}: 4× the nav
+        // window is 8× the drift.
+        let short = cai_drift_sweep(base, &[1.0], 600.0)[0].pos_drift_m;
+        let long = cai_drift_sweep(base, &[1.0], 2400.0)[0].pos_drift_m;
+        assert!(
+            (long / short - 8.0).abs() < 1e-6,
+            "t^1.5 scaling: {}",
+            long / short
+        );
+        // Every point reports a positive drift and the q_va it came from.
+        assert!(sweep.iter().all(|p| p.pos_drift_m > 0.0 && p.q_va > 0.0));
+    }
+
+    #[test]
+    fn freier_2016_mobile_gravimeter_quantum_floor_is_below_achieved() {
+        // Freier et al. 2016, "Mobile quantum gravity sensor with unprecedented
+        // stability" (arXiv:1512.05660): short-term noise 96 nm/s²/√Hz, accuracy
+        // 39 nm/s², long-term stability 0.5 nm/s². Representative GAIN parameters
+        // (2T ≈ 0.52 s → T ≈ 0.26 s, N ≈ 1e6, C ≈ 0.6, cycle ≈ 1 s).
+        let gain = CaiAccelerometer {
+            wavelength_m: RB87_D2_WAVELENGTH_M,
+            pulse_sep_t: 0.26,
+            atom_number: 1e6,
+            contrast: 0.6,
+            cycle_time_s: 1.0,
+        };
+        let achieved = 96e-9; // m/s²/√Hz (Freier 2016 short-term noise)
+        let sql = gain.accel_asd(); // modelled quantum-projection-noise floor
+                                    // The fundamental limit must lie below the achieved noise of the real device…
+        assert!(
+            sql < achieved,
+            "SQL floor {sql} must be below achieved {achieved}"
+        );
+        // …but within ~2 orders: the real device is vibration/technical-limited, not at
+        // the SQL, yet it is the same physical sensor (achieved/SQL ≈ 60×).
+        assert!(
+            achieved < 200.0 * sql,
+            "achieved {achieved} implausibly far above the SQL floor {sql}"
         );
     }
 

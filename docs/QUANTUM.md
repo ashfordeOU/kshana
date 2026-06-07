@@ -30,6 +30,8 @@ Peters, Chung & Chu 2001), the standard cold-atom accelerometer geometry:
 | Vibration-limited phase | `σ_Φ² = k_eff²·S_a·T³/3` | Flat acceleration PSD `S_a` along the Raman axis; `∫₀^∞\|H\|²dω = (2π/3)T³`. |
 | Vibration-limited accel | `σ_a = √(S_a/(3T))` | Per shot; note `k_eff` cancels — set only by the platform PSD and interrogation time. |
 | Axis projection | `a_∥ = k̂_eff · a` | First-order coupling is rank-1: only the along-beam component enters the phase. |
+| Coriolis / rotation phase | `Φ_cor = 2·k_eff·v_⊥·Ω·T²` | Rotation systematic for a moving vehicle (Lan et al. 2012); equivalent bias `2·v_⊥·Ω` = the classical Coriolis term. |
+| AC-Stark (light-shift) phase | `Φ_LS = (δ_LS,1 − δ_LS,3)/Ω_eff` | One-photon light shift; a *constant* shift cancels by π/2–π–π/2 symmetry (Peters 2001; Gauguet 2008). |
 
 The closing of the loop is the point: `CaiAccelerometer::q_va()` produces exactly the
 white-acceleration PSD that the rest of the inertial stack already integrates into a
@@ -46,12 +48,12 @@ projection-, limited.
 ## What is NOT modelled (and why the floor is optimistic)
 
 The shot-noise floor above is a **fundamental lower bound**. Real CAI accelerometers sit
-well above it (≈ 1–50 µg/√Hz). The single dominant term — **vibration coupling** — is now
-modelled (the transfer function and white-PSD variance rows above); the remaining gap is
-systematics this layer does not yet include:
+well above it (≈ 1–50 µg/√Hz). The dominant term — **vibration coupling** — and the two
+leading deterministic systematics — **Coriolis/rotation** and the **AC-Stark light shift** —
+are now modelled (the transfer-function, Coriolis and light-shift rows above). The
+remaining gap is systematics this layer still does not include:
 
-- **Coriolis / rotation** phase for a rotating frame — **not modelled**.
-- **AC-Stark (light-shift)**, wavefront, and other systematics — **not modelled**.
+- **Wavefront aberration** and higher-order beam-pointing systematics — **not modelled**.
 - **Mach–Zehnder fringe ambiguity** (the phase is periodic; large accelerations alias) —
   **not modelled**; the model returns the wrapped phase, not an unwrapped estimate.
 
@@ -77,5 +79,19 @@ and an optional platform `vibration_psd`), and its velocity-random-walk PSD `q_v
 PSD is given, the vibration-limited contribution in quadrature — rather than supplied as a
 datasheet coefficient. Scenarios without a `[cai]` block are classical and byte-unchanged.
 
-The remaining follow-ons are the Coriolis and light-shift systematics, the PHARAO/ACES and
-CARIOQA validation scenarios, and a playground quantum-vs-classical comparison preset.
+The Coriolis (`coriolis_phase` / `coriolis_accel_bias`) and AC-Stark light-shift
+(`ac_stark_phase`) systematics are implemented and unit-tested (the Coriolis equivalent
+bias is checked against the classical `2·Ω×v`; the AC-Stark phase against its symmetric
+cancellation). A cycle-time drift sweep (`cai_drift_sweep`) reports the quantum-CAI
+dead-reckoning position drift versus cycle time — the computational core of a
+quantum-vs-classical comparison. The model is **validated against a published device**:
+for representative GAIN parameters the modelled quantum-projection-noise floor lies below
+— and within ~2 orders of — the 96 nm/s²/√Hz short-term noise of the Freier et al. 2016
+mobile gravimeter (arXiv:1512.05660), consistent with that real device being
+vibration/technical-limited rather than at the standard quantum limit.
+
+The remaining follow-ons are wavefront/beam-pointing systematics, fringe-ambiguity
+resolution, a numerically exact reproduction of the CARIOQA-PMP Monte-Carlo and
+Boeing/AOSense GPS-denied flight-test budgets (which need the published platform PSDs and
+per-shot SNR), and a JS playground quantum-vs-classical comparison preset on top of
+`cai_drift_sweep`.
