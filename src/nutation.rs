@@ -4,6 +4,12 @@
 //! [`crate::precession`] supplies the IAU 2006 bias-precession (GCRS→mean-of-date).
 //! This module adds the second and third pieces of a true inertial reduction:
 //!
+//! - **IAU 2000A nutation** ([`nutation_iau2000a`]) — the full MHB2000 series,
+//!   678 luni-solar + 687 planetary terms, accurate to < 0.1 mas. The tables are
+//!   machine-generated from the IAU SOFA / ERFA `nut00a` reference by
+//!   `tools/gen_nut00a.py` into `nutation_iau2000a_data.rs`, and the whole series
+//!   (both the IERS-2003 and MHB2000 fundamental-argument sets) is validated
+//!   bit-for-bit against the published `eraNut00a` test vector.
 //! - **IAU 2000B nutation** ([`nutation_iau2000b`]) — the 77-term luni-solar
 //!   MHB2000 series of McCarthy & Luzum (2003), the standard truncation of the
 //!   full IAU 2000A series that agrees with it to better than 1 mas over
@@ -11,14 +17,17 @@
 //!   omitted planetary terms. The series, the Delaunay fundamental arguments
 //!   (Simon et al. 1994), and the unit constants are transcribed from the
 //!   IAU SOFA / ERFA `nut00b` reference and validated bit-for-bit against the
-//!   published `eraNut00b` test vector.
+//!   published `eraNut00b` test vector. The default of-date reduction below uses
+//!   2000B; [`nutation_matrix_2000a`] gives the < 0.1 mas 2000A path.
 //! - **The full TEME→GCRS chain** ([`teme_to_gcrs`]) following Vallado
 //!   AIAA-2006-6980: TEME→TOD (equation of the equinoxes), TOD→MOD (nutation),
 //!   MOD→GCRS (bias-precession). This upgrades the GMST-only TEME↔ECEF reduction
 //!   in [`crate::frames`] to a genuine inertial-frame output.
 //!
-//! Scope (honest): nutation is the IAU 2000B truncation (~1 mas), not the full
-//! 2000A (<0.1 mas); the equation of the equinoxes carries the two leading IAU
+//! Scope (honest): the full 2000A series is available ([`nutation_iau2000a`] /
+//! [`nutation_matrix_2000a`], < 0.1 mas), while the default TEME→GCRS chain uses
+//! the 2000B truncation (~1 mas) — below the velocity-frame-rotation simplification
+//! it already makes; the equation of the equinoxes carries the two leading IAU
 //! 1994 complementary terms only; the TEME→GCRS rotation is applied to velocity
 //! as well as position, neglecting the ~7e-12 rad/s precession-nutation frame
 //! rotation (a < 1e-4 m/s error at orbital speeds). An ANISE/SPICE numerical
@@ -186,20 +195,149 @@ pub fn nutation_iau2000b(jd_tt: f64) -> Nutation {
     }
 }
 
+/// The five IAU 2000A luni-solar Delaunay arguments `[l, l′, F, D, Ω]` (radians)
+/// at `t` Julian centuries TT, exactly as SOFA `eraNut00a` forms them: the
+/// degree-5 IERS 2003 expressions (`eraFal03`/`eraFaf03`/`eraFaom03`) for `l`,
+/// `F`, `Ω`, and the MHB2000 expressions for `l′` and `D`.
+fn delaunay_args_2000a(t: f64) -> [f64; 5] {
+    let poly = |c0: f64, c1: f64, c2: f64, c3: f64, c4: f64| {
+        ((c0 + t * (c1 + t * (c2 + t * (c3 + t * c4)))) % TURNAS) * ARCSEC_TO_RAD
+    };
+    let el = poly(
+        485868.249036,
+        1717915923.2178,
+        31.8792,
+        0.051635,
+        -0.00024470,
+    );
+    let elp = poly(
+        1287104.79305,
+        129596581.0481,
+        -0.5532,
+        0.000136,
+        -0.00001149,
+    );
+    let f = poly(
+        335779.526232,
+        1739527262.8478,
+        -12.7512,
+        -0.001037,
+        0.00000417,
+    );
+    let d = poly(
+        1072260.70369,
+        1602961601.2090,
+        -6.3706,
+        0.006593,
+        -0.00003169,
+    );
+    let om = poly(450160.398036, -6962890.5431, 7.4722, 0.007702, -0.00005939);
+    [el, elp, f, d, om]
+}
+
+/// IAU 2000A nutation `(Δψ, Δε)` at TT epoch `jd_tt` — the full MHB2000 series
+/// (678 luni-solar + 687 planetary terms), transcribed from the IAU SOFA / ERFA
+/// `nut00a` reference and validated bit-for-bit against the published `eraNut00a`
+/// test vector. This is the < 0.1 mas reference series that the 2000B truncation
+/// in [`nutation_iau2000b`] approximates to ~1 mas.
+pub fn nutation_iau2000a(jd_tt: f64) -> Nutation {
+    use crate::nutation_iau2000a_data::{LS_2000A, PL_2000A};
+    let t = julian_centuries_tt(jd_tt);
+    let tau = std::f64::consts::TAU;
+
+    // Luni-solar series: identical accumulation to 2000B but with the full
+    // 678-term table and the degree-5 Delaunay arguments.
+    let [el, elp, f, d, om] = delaunay_args_2000a(t);
+    let mut dp = 0.0_f64;
+    let mut de = 0.0_f64;
+    for &(nl, nlp, nf, nd, nom, ps, pst, pc, ec, ect, es) in LS_2000A.iter().rev() {
+        let arg = (f64::from(nl) * el
+            + f64::from(nlp) * elp
+            + f64::from(nf) * f
+            + f64::from(nd) * d
+            + f64::from(nom) * om)
+            % tau;
+        let (sarg, carg) = arg.sin_cos();
+        dp += (ps + pst * t) * sarg + pc * carg;
+        de += (ec + ect * t) * carg + es * sarg;
+    }
+    let dpsi_ls = dp * U2R;
+    let deps_ls = de * U2R;
+
+    // Planetary series: the MHB2000 luni-solar arguments (deliberately distinct
+    // from the IERS-2003 set above, per the `eraNut00a` note) plus the IERS 2003
+    // planetary longitudes and the general precession in longitude.
+    let arg2pi = |c0: f64, c1: f64| (c0 + c1 * t) % tau;
+    let al = arg2pi(2.35555598, 8328.6914269554);
+    let af = arg2pi(1.627905234, 8433.466158131);
+    let ad = arg2pi(5.198466741, 7771.3771468121);
+    let aom = arg2pi(2.18243920, -33.757045);
+    let alme = arg2pi(4.402608842, 2608.7903141574);
+    let alve = arg2pi(3.176146697, 1021.3285546211);
+    let alea = arg2pi(1.753470314, 628.3075849991);
+    let alma = arg2pi(6.203480913, 334.0612426700);
+    let alju = arg2pi(0.599546497, 52.9690962641);
+    let alsa = arg2pi(0.874016757, 21.3299104960);
+    let alur = arg2pi(5.481293872, 7.4781598567);
+    let alne = arg2pi(5.321159000, 3.8127774000);
+    let apa = (0.024381750 + 0.00000538691 * t) * t;
+
+    let mut dp = 0.0_f64;
+    let mut de = 0.0_f64;
+    for &(nl, nf, nd, nom, nme, nve, nea, nma, nju, nsa, nur, nne, npa, sp, cp, se, ce) in
+        PL_2000A.iter().rev()
+    {
+        let arg = (f64::from(nl) * al
+            + f64::from(nf) * af
+            + f64::from(nd) * ad
+            + f64::from(nom) * aom
+            + f64::from(nme) * alme
+            + f64::from(nve) * alve
+            + f64::from(nea) * alea
+            + f64::from(nma) * alma
+            + f64::from(nju) * alju
+            + f64::from(nsa) * alsa
+            + f64::from(nur) * alur
+            + f64::from(nne) * alne
+            + f64::from(npa) * apa)
+            % tau;
+        let (sarg, carg) = arg.sin_cos();
+        dp += sp * sarg + cp * carg;
+        de += se * sarg + ce * carg;
+    }
+    let dpsi_pl = dp * U2R;
+    let deps_pl = de * U2R;
+
+    Nutation {
+        dpsi: dpsi_ls + dpsi_pl,
+        deps: deps_ls + deps_pl,
+    }
+}
+
 /// Mean obliquity of the ecliptic of date (radians), the IAU 2006 value (`obl06`,
 /// identical to the `ε̄_A` carried by [`crate::precession::fw_angles`]).
 pub fn mean_obliquity(jd_tt: f64) -> f64 {
     fw_angles(jd_tt).eps_a
 }
 
-/// The nutation rotation matrix (SOFA `iauNumat`): rotates a mean-of-date (MOD)
-/// vector into the true equator and equinox of date (TOD), `r_TOD = N · r_MOD`.
-pub fn nutation_matrix(jd_tt: f64) -> Mat3 {
-    // SOFA `iauNumat`: N = Rx(−(ε̄+Δε)) · Rz(Δψ) · Rx(ε̄).
-    let eps = mean_obliquity(jd_tt);
-    let n = nutation_iau2000b(jd_tt);
+/// SOFA `iauNumat`: build the nutation matrix `N = Rx(−(ε̄+Δε)) · Rz(Δψ) · Rx(ε̄)`
+/// from a mean obliquity and a nutation `(Δψ, Δε)`.
+fn numat(eps: f64, n: Nutation) -> Mat3 {
     let r = matmul(&rz(n.dpsi), &rx(eps));
     matmul(&rx(-(eps + n.deps)), &r)
+}
+
+/// The nutation rotation matrix (SOFA `iauNumat`): rotates a mean-of-date (MOD)
+/// vector into the true equator and equinox of date (TOD), `r_TOD = N · r_MOD`.
+/// Uses the IAU 2000B nutation (~1 mas).
+pub fn nutation_matrix(jd_tt: f64) -> Mat3 {
+    numat(mean_obliquity(jd_tt), nutation_iau2000b(jd_tt))
+}
+
+/// As [`nutation_matrix`] but driven by the full IAU 2000A series ([`nutation_iau2000a`]),
+/// i.e. the IAU 2000A/2006 of-date nutation matrix accurate to < 0.1 mas.
+pub fn nutation_matrix_2000a(jd_tt: f64) -> Mat3 {
+    numat(mean_obliquity(jd_tt), nutation_iau2000a(jd_tt))
 }
 
 /// Equation of the equinoxes (radians): `Δψ·cos(ε̄_A)` plus the two leading IAU
@@ -288,6 +426,42 @@ mod tests {
     }
 
     #[test]
+    fn nut00a_matches_sofa_reference_vector() {
+        // Authoritative anchor: the SOFA/ERFA `iauNut00a` / `eraNut00a` test vector
+        // (date1=2400000.5, date2=53736.0) validates the full 678 luni-solar + 687
+        // planetary transcription, both Delaunay/MHB argument sets, and the units.
+        let n = nutation_iau2000a(JD_TT_REF);
+        assert!(
+            (n.dpsi - (-0.963_090_910_711_551_8e-5)).abs() < 1e-13,
+            "Δψ = {} (want -0.9630909107115518431e-5)",
+            n.dpsi
+        );
+        assert!(
+            (n.deps - 0.406_323_917_400_167_9e-4).abs() < 1e-13,
+            "Δε = {} (want 0.4063239174001678710e-4)",
+            n.deps
+        );
+    }
+
+    #[test]
+    fn nut00a_refines_nut00b_below_one_mas() {
+        // The 2000A full series differs from the 2000B truncation by < 1 mas (the
+        // documented truncation error). Non-zero — proves the planetary terms and
+        // the extra luni-solar terms actually contribute.
+        let a = nutation_iau2000a(JD_TT_REF);
+        let b = nutation_iau2000b(JD_TT_REF);
+        let d_dpsi = (a.dpsi - b.dpsi).abs();
+        let d_deps = (a.deps - b.deps).abs();
+        assert!(d_dpsi > 1e-12, "Δψ difference should be non-trivial");
+        assert!(
+            d_dpsi < MAS_TO_RAD && d_deps < MAS_TO_RAD,
+            "2000A vs 2000B: Δψ {:.3} mas, Δε {:.3} mas (want < 1 mas)",
+            d_dpsi / MAS_TO_RAD,
+            d_deps / MAS_TO_RAD
+        );
+    }
+
+    #[test]
     fn delaunay_node_at_j2000_is_125_degrees() {
         // Ω, the mean longitude of the Moon's ascending node, is ≈ 125.045° at J2000
         // (constant term 450160.398036″). l′ (Sun mean anomaly) ≈ 357.5° (1287104.79305″).
@@ -323,6 +497,26 @@ mod tests {
             (1.0..60.0).contains(&theta_arcsec),
             "nutation angle = {theta_arcsec}″ (want tens of arcsec)"
         );
+    }
+
+    #[test]
+    fn nutation_matrix_2000a_is_a_proper_rotation_near_2000b() {
+        // The full-2000A of-date matrix is a proper rotation, and rotates a vector
+        // to within ~1 mas (≈ tens of metres at GEO radius) of the 2000B matrix —
+        // the truncation difference, never larger.
+        let na = nutation_matrix_2000a(JD_TT_REF);
+        assert!(
+            is_orthonormal(&na),
+            "2000A nutation matrix must be a rotation"
+        );
+        let nb = nutation_matrix(JD_TT_REF);
+        let r = [42_164.0e3, 0.0, 0.0]; // GEO radius
+        let ra = mat_vec(&na, r);
+        let rb = mat_vec(&nb, r);
+        let sep =
+            ((ra[0] - rb[0]).powi(2) + (ra[1] - rb[1]).powi(2) + (ra[2] - rb[2]).powi(2)).sqrt();
+        // 1 mas at GEO ≈ 0.2 m; the 2000A/2000B gap is a fraction of a mas → < 1 m.
+        assert!(sep > 1e-4 && sep < 1.0, "2000A−2000B separation = {sep} m");
     }
 
     #[test]
