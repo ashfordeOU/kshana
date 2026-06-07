@@ -455,21 +455,21 @@ pub fn to_svg(result: &JammingResult) -> String {
     };
     let axis_y = mt + ph;
     let mut svg = String::new();
-    svg.push_str(&format!("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#cdd6e0\"><rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0e131b\"/>"));
+    svg.push_str(&format!("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\"><rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"));
     svg.push_str(&format!("<text x=\"{ml:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">Satellites visible vs. tracking under jamming</text>"));
     svg.push_str(&crate::chart::y_axis(ml, mt, pw, ph, y_max, "satellites"));
-    svg.push_str(&format!("<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#3a4757\"/><line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#3a4757\"/>", ml + pw));
+    svg.push_str(&format!("<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/><line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>", ml + pw));
     let four_y = yof(4.0);
-    svg.push_str(&format!("<line x1=\"{ml:.0}\" y1=\"{four_y:.1}\" x2=\"{:.0}\" y2=\"{four_y:.1}\" stroke=\"#d33\" stroke-dasharray=\"6 4\"/><text x=\"{:.0}\" y=\"{:.1}\" fill=\"#d33\">4-SV fix</text>", ml + pw, ml + 4.0, four_y - 4.0));
+    svg.push_str(&format!("<line x1=\"{ml:.0}\" y1=\"{four_y:.1}\" x2=\"{:.0}\" y2=\"{four_y:.1}\" stroke=\"#e5645a\" stroke-dasharray=\"6 4\"/><text x=\"{:.0}\" y=\"{:.1}\" fill=\"#e5645a\">4-SV fix</text>", ml + pw, ml + 4.0, four_y - 4.0));
     svg.push_str(&format!(
-        "<polyline fill=\"none\" stroke=\"#5a6b7a\" stroke-width=\"2\" points=\"{}\"/>",
+        "<polyline fill=\"none\" stroke=\"#8c8273\" stroke-width=\"2\" points=\"{}\"/>",
         poly(&|e| e.visible as f64)
     ));
     svg.push_str(&format!(
-        "<polyline fill=\"none\" stroke=\"#27ae60\" stroke-width=\"2\" points=\"{}\"/>",
+        "<polyline fill=\"none\" stroke=\"#46b67e\" stroke-width=\"2\" points=\"{}\"/>",
         poly(&|e| e.tracking as f64)
     ));
-    svg.push_str(&format!("<text x=\"{:.0}\" y=\"44\" fill=\"#5a6b7a\">visible</text><text x=\"{:.0}\" y=\"60\" fill=\"#27ae60\">tracking</text>", ml + 10.0, ml + 10.0));
+    svg.push_str(&format!("<text x=\"{:.0}\" y=\"44\" fill=\"#8c8273\">visible</text><text x=\"{:.0}\" y=\"60\" fill=\"#46b67e\">tracking</text>", ml + 10.0, ml + 10.0));
     svg.push_str("</svg>");
     svg
 }
