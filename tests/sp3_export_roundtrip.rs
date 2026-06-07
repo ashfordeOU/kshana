@@ -115,3 +115,51 @@ fn api_export_sp3_rejects_a_non_orbit_scenario() {
     // And auto-export returns None for it (no `export_sp3` flag, wrong kind).
     assert_eq!(kshana::api::auto_export_sp3(CLOCK_SCENARIO).unwrap(), None);
 }
+
+#[test]
+fn api_export_omm_writes_one_message_per_gps_satellite_with_real_ids() {
+    // The CLI `--export-omm` path: the bundled real-GPS orbit scenario exports a
+    // CCSDS OMM catalogue — one mean-elements message per satellite — carrying the
+    // real catalogue identifiers parsed from the TLE lines.
+    let text = kshana::api::export_omm(ORBIT_SCENARIO).expect("orbit scenario exports OMM");
+    assert_eq!(
+        text.matches("CCSDS_OMM_VERS = 2.0").count(),
+        30,
+        "one OMM message per gps-ops satellite"
+    );
+    // PRN 13 = NORAD 24876 = COSPAR 1997-035A, named on its TLE line 0.
+    assert!(
+        text.contains("NORAD_CAT_ID = 24876"),
+        "real catalogue id missing"
+    );
+    assert!(
+        text.contains("OBJECT_ID = 1997-035A"),
+        "real designator missing"
+    );
+    assert!(text.contains("OBJECT_NAME = GPS BIIR-2  (PRN 13)"));
+    assert!(text.contains("MEAN_ELEMENT_THEORY = SGP4"));
+}
+
+#[test]
+fn api_export_omm_rejects_a_non_orbit_scenario() {
+    let err = kshana::api::export_omm(CLOCK_SCENARIO).unwrap_err();
+    assert!(
+        err.contains("orbit"),
+        "expected an orbit-required error, got: {err}"
+    );
+    // Auto-export returns None for a non-orbit scenario.
+    assert_eq!(kshana::api::auto_export_omm(CLOCK_SCENARIO).unwrap(), None);
+}
+
+#[test]
+fn api_auto_export_omm_honours_the_scenario_flag() {
+    // Without the flag the orbit scenario auto-exports nothing.
+    assert_eq!(kshana::api::auto_export_omm(ORBIT_SCENARIO).unwrap(), None);
+    // With `export_omm = true` it returns the OMM catalogue.
+    let with_flag =
+        ORBIT_SCENARIO.replacen("kind = \"orbit\"", "kind = \"orbit\"\nexport_omm = true", 1);
+    let text = kshana::api::auto_export_omm(&with_flag)
+        .unwrap()
+        .expect("export_omm = true yields Some");
+    assert!(text.contains("CCSDS_OMM_VERS = 2.0"));
+}
