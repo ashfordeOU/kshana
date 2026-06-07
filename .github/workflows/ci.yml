@@ -97,3 +97,5 @@ jobs:
         run: node web/smoke.mjs
       - name: Test the share-link codec
         run: node web/share.test.mjs
+      - name: Test the chart-download helpers
+        run: node web/chartdl.test.mjs
