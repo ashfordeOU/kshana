@@ -81,6 +81,25 @@ explicitly (see [`VALIDATION.md`](VALIDATION.md)), otherwise they are not modell
 
 ---
 
+## Chart provenance footer
+
+Every chart Kshana renders — in the browser playground, the CLI's `*.chart.svg`
+export, and the HTML scorecard — is stamped, bottom-right, with:
+
+> `Kshana v<version> · scenario <hash> · kshana.dev`
+
+The `scenario <hash>` is the first 12 hex characters of the run's **scenario hash**: a
+SHA-256 over the *canonical* scenario definition (seed, thresholds, model parameters,
+GNSS windows, and so on). It is the same fingerprint that appears in the one-line run
+summary and in the result JSON's `scenario_hash` field. (The integrity and lunar reports
+do not carry a `scenario_hash`; their charts fall back to a SHA-256 of the scenario
+source TOML, so every chart still has a stable fingerprint.)
+
+Because the hash is deterministic and input-sensitive, a saved or pasted chart image is
+self-identifying: it records the engine version, the exact scenario that produced it (for
+bit-for-bit reproduction), and the source — and any altered parameter yields a different
+hash, so a mislabelled chart is detectable.
+
 ## How to cite & reproduce
 
 Every result is reproducible from `scenario + seed + engine version`. Cite the engine
