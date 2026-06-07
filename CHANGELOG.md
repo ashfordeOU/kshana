@@ -10,6 +10,17 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Cislunar frame reduction and a lunar south-pole integrity pass (`src/lunar.rs`).**
+  Extends the lunar ARAIM engine with the MCI↔MCMF (Moon-centered inertial ↔
+  Moon-fixed) rotation (`mci_to_mcmf` / `mcmf_to_mci`, a simplified mean-rotation
+  model at the lunar sidereal rate), selenographic latitude/longitude/altitude
+  (`mcmf_to_selenographic` / `selenographic_to_mcmf`), and `south_pole_hpl_pass` —
+  a landed Artemis-region receiver against a representative LunaNet relay set over a
+  24 h pass, which honestly quantifies the integrity gap: with the nominal 30 m LANS
+  σ_URE the protection level is finite but exceeds a 50 m surface-ops alert limit.
+  Honest residual: the precise LANS NRHO ephemeris (a 3-body cislunar orbit), the
+  physical libration / precessing lunar pole (DE421/SPICE), and a LunaNet TOML
+  scenario remain follow-ons.
 - **ARAIM integrity support message, Stanford-diagram SVG, and the open ARAIM
   reference (`src/raim.rs`, `docs/ARAIM_REFERENCE.md`).** Adds an explicit
   `IntegritySupportMessage` (σ_URA / σ_URE / b_nom / P_sat / P_const, with the WG-C
