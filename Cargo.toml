@@ -13,10 +13,18 @@ keywords = ["pnt", "navigation", "quantum", "gnss", "simulation"]
 categories = ["science", "simulation"]
 rust-version = "1.75"
 # Keep the published crate lean: the browser playground, CI config, and the
-# real-data validation test with its fixtures aren't part of the library
-# distribution. (The test reads the fixtures via include_str!, so the two must be
-# excluded together or a packaging verification build would fail to find them.)
-exclude = ["/web", "/.github", "/tests/fixtures", "/tests/igs_real_data.rs"]
+# fixture-backed validation tests aren't part of the library distribution. (Those
+# tests read the fixtures via include_str!, so each must be excluded alongside the
+# fixtures or a packaging verification build would fail to find them. The SGP4
+# head-to-head also pulls the `sgp4` dev-dependency, which library consumers never
+# need.)
+exclude = [
+    "/web",
+    "/.github",
+    "/tests/fixtures",
+    "/tests/igs_real_data.rs",
+    "/tests/sgp4_crate_comparison.rs",
+]
 
 [lib]
 name = "kshana"
@@ -53,3 +61,9 @@ getrandom = { version = "0.2", features = ["js"] }
 python = ["dep:pyo3"]
 # WebAssembly module, built with wasm-pack (`wasm-pack build -- --features wasm`).
 wasm = ["dep:wasm-bindgen"]
+
+[dev-dependencies]
+# Independent SGP4 implementation for the head-to-head accuracy cross-check
+# (tests/sgp4_crate_comparison.rs). Test-only: never compiled into the library,
+# CLI, or the published bindings; the package excludes the test that uses it.
+sgp4 = "2.4"
