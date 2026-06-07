@@ -54,7 +54,7 @@ breaking changes are called out explicitly.
   implementations agree to **sub-micron** on near-earth and resonant orbits and
   **4.12 mm worst-case** across all regimes, both reproducing the reference
   `tcppver.out` table. The committed comparison table
-  (`tests/fixtures/sgp4_comparison.md`, regenerated with `KSHANA_REGEN_FIXTURES=1`)
+  (`tests/fixtures/sgp4_comparison.md`, regenerated via `KSHANA_REGEN_FIXTURES=1`)
   breaks the result out per regime (LEO/MEO, deep-space, ½-day and 1-day
   resonance) and notes the four deliberately-pathological cases the crate rejects
   at construction. The live assertions hold both within 2e-5 km of the reference
