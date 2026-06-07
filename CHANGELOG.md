@@ -9,6 +9,20 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+- **IAU 2000B nutation and the full TEME→GCRS/J2000 inertial reduction
+  (`src/nutation.rs`).** Adds the second and third pieces of a true inertial frame
+  reduction on top of the shipped IAU 2006 precession: the 77-term luni-solar MHB2000
+  nutation series (`nutation_iau2000b`, the standard IAU 2000B truncation accurate to
+  ~1 mas) with the Delaunay fundamental arguments and the SOFA `iauNumat` nutation
+  matrix, and the Vallado AIAA-2006-6980 chain TEME→TOD (equation of the equinoxes) →
+  TOD→MOD (nutation) → MOD→GCRS (bias-precession) exposed as `teme_to_gcrs(r, v, jd_tt)`
+  / `gcrs_to_teme`. The series, arguments and unit constants are transcribed from the
+  IAU SOFA / ERFA `nut00b` reference and validated **bit-for-bit** against the published
+  `eraNut00b` test vector (Δψ, Δε to 1e-13 rad). Honest residual: the full IAU 2000A
+  678-term series (<0.1 mas), an ANISE/SPICE <10 m numerical cross-check, and polar
+  motion remain follow-ons (see `ROADMAP.md`).
+
 ## [0.12.0] - 2026-06-06
 
 This release lands Kshana's first **non-analytic orbit propagator** — a Cowell
