@@ -10,6 +10,22 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **ARAIM integrity support message, Stanford-diagram SVG, and the open ARAIM
+  reference (`src/raim.rs`, `docs/ARAIM_REFERENCE.md`).** Adds an explicit
+  `IntegritySupportMessage` (σ_URA / σ_URE / b_nom / P_sat / P_const, with the WG-C
+  GPS+Galileo reference values and `.fault_priors()` / `.dual_fault_priors()`
+  converters into the single-fault `araim_raim` and constellation-wide
+  `araim_dual_raim` engines), a standalone `stanford_svg` renderer of the Stanford
+  integrity diagram (the four zones, the `PL = error` boundary, the alert-limit
+  guides, one colour-coded marker per epoch), and `docs/ARAIM_REFERENCE.md`
+  documenting the algorithm, the ISM, the fault hypotheses, the protection-level
+  contract, and the dual-constellation benefit. Tests demonstrate the
+  geometry/redundancy gain (pooling a second constellation tightens the single-fault
+  HPL) and constellation-fault tolerance (the dual user survives losing a whole
+  constellation; a single-constellation user cannot). Honest residual: numerically
+  reproducing the EU ARAIM TN Table A-3 / the 15–25 % availability figure against a
+  version-locked real TLE snapshot, a Zenodo fixture record, and wiring
+  `araim_dual_raim` into the scenario-file runner.
 - **IAU 2000B nutation and the full TEME→GCRS/J2000 inertial reduction
   (`src/nutation.rs`).** Adds the second and third pieces of a true inertial frame
   reduction on top of the shipped IAU 2006 precession: the 77-term luni-solar MHB2000
