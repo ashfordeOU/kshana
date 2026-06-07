@@ -161,6 +161,12 @@ welcome collaboration: see [Support & professional services](README.md#support--
 - Additional CCSDS message types (ODM/AEM/TDM) and SPICE interop.
 - Receiver-domain parity (e.g. gLAB) for the GNSS measurement chain; multi-fault
   ARAIM.
+- Lunar / cislunar integrity (LunaNet). *(In progress — `src/lunar.rs`: the lunar
+  ARAIM engine (σ_URE = 30 m, P_sat = 1e-4), the MCI↔MCMF cislunar frame reduction
+  and selenographic lat/lon/alt, and a south-pole protection-level pass that
+  quantifies the integrity gap against a 50 m alert limit. The precise LANS NRHO
+  ephemeris (a 3-body cislunar orbit), the LANS signal-in-space error budget, and a
+  TOML scenario for the runner remain.)*
 - A numerical propagator: the adaptive integrator core (`src/integrator.rs`, RK4 step-doubling
   **and** the Dormand–Prince RK5(4) embedded pair `integrate_dopri`) plus a hierarchical force
   model — the two-body gravity, the analytic
