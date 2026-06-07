@@ -116,6 +116,12 @@ pub(crate) fn rx(phi: f64) -> Mat3 {
     [[1.0, 0.0, 0.0], [0.0, c, s], [0.0, -s, c]]
 }
 
+/// Rotation about the y-axis by `theta` (rad), SOFA `iauRy` convention.
+pub(crate) fn ry(theta: f64) -> Mat3 {
+    let (s, c) = theta.sin_cos();
+    [[c, 0.0, -s], [0.0, 1.0, 0.0], [s, 0.0, c]]
+}
+
 /// Rotation about the z-axis by `psi` (rad), SOFA `iauRz` convention.
 pub(crate) fn rz(psi: f64) -> Mat3 {
     let (s, c) = psi.sin_cos();

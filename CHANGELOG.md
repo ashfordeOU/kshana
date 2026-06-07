@@ -10,6 +10,14 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **IERS polar motion and the TEME→ITRF reduction (`src/frames.rs`).** Adds
+  `polar_motion_matrix` (SOFA `iauPom00`: `W = Rx(−y_p)·Ry(−x_p)·Rz(s′)` with the TIO
+  locator `s′`), `pef_to_itrf` / `itrf_to_pef`, and `teme_to_itrf` — the GMST-based
+  TEME→PEF rotation followed by polar motion — completing an ITRF-precise Earth-fixed
+  position on top of the GMST-only `teme_to_ecef` (polar motion is a tens-of-metres
+  effect at orbital radius). `x_p`/`y_p` are observed IERS quantities the caller
+  supplies. Honest residual: a fully CIO-based (X, Y, s) chain and an ANISE/SPICE
+  <10 m numerical cross-check remain follow-ons.
 - **Cold-atom-interferometer systematics, drift sweep, and a published-device
   validation (`src/inertial/quantum_imu.rs`, `docs/QUANTUM.md`).** Extends the
   first-principles CAI accelerometer with the two leading deterministic systematics:
