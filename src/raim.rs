@@ -1243,19 +1243,19 @@ pub fn stanford_svg(diagram: &StanfordDiagram) -> String {
     let xof = |e: f64| ml + (e.min(vmax) / vmax) * pw;
     let yof = |v: f64| mt + ph - (v.min(vmax) / vmax) * ph;
     let color = |r: StanfordRegion| match r {
-        StanfordRegion::Available => "#39d98a",
-        StanfordRegion::SystemUnavailable => "#5b8def",
-        StanfordRegion::MisleadingInformation => "#f0a020",
-        StanfordRegion::HazardouslyMisleadingInformation => "#e0405a",
+        StanfordRegion::Available => "#46b67e",
+        StanfordRegion::SystemUnavailable => "#6e7a8a",
+        StanfordRegion::MisleadingInformation => "#d2925e",
+        StanfordRegion::HazardouslyMisleadingInformation => "#e5645a",
     };
     let axis_y = mt + ph;
 
     let mut svg = String::new();
     svg.push_str(&format!(
-        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"11\" fill=\"#cdd6e0\">"
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"11\" fill=\"#bcb3a3\">"
     ));
     svg.push_str(&format!(
-        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0e131b\"/>"
+        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"
     ));
     svg.push_str(&format!(
         "<text x=\"{ml:.0}\" y=\"20\" font-size=\"14\" font-weight=\"bold\">Stanford diagram — integrity ({} epochs, AL = {al:.0} m)</text>",
@@ -1263,7 +1263,7 @@ pub fn stanford_svg(diagram: &StanfordDiagram) -> String {
     ));
     // Integrity boundary PL = error: above it the protection level bounds the error.
     svg.push_str(&format!(
-        "<line x1=\"{:.1}\" y1=\"{:.1}\" x2=\"{:.1}\" y2=\"{:.1}\" stroke=\"#7a8699\" stroke-dasharray=\"4 3\"/>",
+        "<line x1=\"{:.1}\" y1=\"{:.1}\" x2=\"{:.1}\" y2=\"{:.1}\" stroke=\"#62594b\" stroke-dasharray=\"4 3\"/>",
         xof(0.0),
         yof(0.0),
         xof(vmax),
@@ -1271,14 +1271,14 @@ pub fn stanford_svg(diagram: &StanfordDiagram) -> String {
     ));
     // Alert-limit guides (vertical = error AL, horizontal = PL AL).
     svg.push_str(&format!(
-        "<line x1=\"{:.1}\" y1=\"{:.1}\" x2=\"{:.1}\" y2=\"{:.1}\" stroke=\"#e0405a\" stroke-dasharray=\"2 2\"/>",
+        "<line x1=\"{:.1}\" y1=\"{:.1}\" x2=\"{:.1}\" y2=\"{:.1}\" stroke=\"#e5645a\" stroke-dasharray=\"2 2\"/>",
         xof(al),
         yof(0.0),
         xof(al),
         yof(vmax)
     ));
     svg.push_str(&format!(
-        "<line x1=\"{:.1}\" y1=\"{:.1}\" x2=\"{:.1}\" y2=\"{:.1}\" stroke=\"#e0405a\" stroke-dasharray=\"2 2\"/>",
+        "<line x1=\"{:.1}\" y1=\"{:.1}\" x2=\"{:.1}\" y2=\"{:.1}\" stroke=\"#e5645a\" stroke-dasharray=\"2 2\"/>",
         xof(0.0),
         yof(al),
         xof(vmax),
@@ -1286,10 +1286,10 @@ pub fn stanford_svg(diagram: &StanfordDiagram) -> String {
     ));
     // Axes.
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#3a4757\"/>"
+        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>"
     ));
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#3a4757\"/>",
+        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>",
         ml + pw
     ));
     svg.push_str(&format!(
@@ -1729,10 +1729,10 @@ pub fn availability_svg(report: &RaimAvailabilityReport) -> String {
 
     let mut svg = String::new();
     svg.push_str(&format!(
-        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#cdd6e0\">"
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\">"
     ));
     svg.push_str(&format!(
-        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0e131b\"/>"
+        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"
     ));
     svg.push_str(&format!(
         "<text x=\"{ml:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">RAIM protection levels and availability ({:.0}% available)</text>",
@@ -1748,16 +1748,16 @@ pub fn availability_svg(report: &RaimAvailabilityReport) -> String {
     ));
     // Axes.
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#3a4757\"/>"
+        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>"
     ));
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#3a4757\"/>",
+        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>",
         ml + pw
     ));
     // Alert-limit lines.
     for (al, colour, label) in [
-        (report.al_h_m, "#d33", "HAL"),
-        (report.al_v_m, "#e67e22", "VAL"),
+        (report.al_h_m, "#e5645a", "HAL"),
+        (report.al_v_m, "#d2925e", "VAL"),
     ] {
         let y = yof(al);
         svg.push_str(&format!(
@@ -1772,18 +1772,18 @@ pub fn availability_svg(report: &RaimAvailabilityReport) -> String {
     }
     // HPL / VPL polylines.
     svg.push_str(&format!(
-        "<g fill=\"none\" stroke=\"#5cb8d6\" stroke-width=\"2\">{}</g>",
+        "<g fill=\"none\" stroke=\"#e0bd84\" stroke-width=\"2\">{}</g>",
         segments(&|e| e.hpl_m)
     ));
     svg.push_str(&format!(
-        "<g fill=\"none\" stroke=\"#8e44ad\" stroke-width=\"2\">{}</g>",
+        "<g fill=\"none\" stroke=\"#c79e63\" stroke-width=\"2\">{}</g>",
         segments(&|e| e.vpl_m)
     ));
     // Availability strip below the axis.
     let strip_y = axis_y + 12.0;
     let bw = pw / report.epochs.len().max(1) as f64;
     for (i, e) in report.epochs.iter().enumerate() {
-        let colour = if e.available { "#27ae60" } else { "#c0392b" };
+        let colour = if e.available { "#46b67e" } else { "#e5645a" };
         svg.push_str(&format!(
             "<rect x=\"{:.1}\" y=\"{strip_y:.0}\" width=\"{:.1}\" height=\"10\" fill=\"{colour}\"/>",
             ml + i as f64 * bw,
@@ -1797,7 +1797,7 @@ pub fn availability_svg(report: &RaimAvailabilityReport) -> String {
         h - 12.0
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"44\" fill=\"#5cb8d6\">HPL</text><text x=\"{:.0}\" y=\"60\" fill=\"#8e44ad\">VPL</text>",
+        "<text x=\"{:.0}\" y=\"44\" fill=\"#e0bd84\">HPL</text><text x=\"{:.0}\" y=\"60\" fill=\"#c79e63\">VPL</text>",
         ml + 10.0,
         ml + 10.0
     ));

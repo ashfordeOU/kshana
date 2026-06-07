@@ -10,13 +10,18 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Changed
-- **Playground charts now match the site theme.** The result chart (`src/report.rs`
-  + `src/chart.rs`) and the Allan-deviation chart (`web/app.js`) used cool navy
-  panels (`#0e131b`/`#0c1118`), cool-gray axes/text, and a clashing primary
-  red/blue series palette. They now use the warm graphite palette throughout —
-  `--bg`-matching panels, warm `--line` grid, `--fg-2` labels — with a consistent
-  series assignment across both charts: quantum = honey-gold (`--accent-bright`),
-  classical = warm amber (`--partial`), spec/limit = `--crit`.
+- **Every playground chart now matches the site theme.** All twelve SVG chart
+  generators — the result/holdover chart (`src/report.rs` + `src/chart.rs`), the
+  Allan-deviation chart (`web/app.js`), and every scenario chart (`src/hybrid.rs`,
+  `jamming.rs`, `timetransfer.rs`, `spoof.rs`, `raim.rs` Stanford + availability,
+  `lunar.rs`, `ensemble.rs`, `sweep.rs`, `gnss_sim.rs`, `fusion/pack.rs`,
+  `inertial/mod.rs`) — used cool navy panels (`#0e131b`), cool-gray axes/text, and
+  a clashing red/blue/purple series palette. They now use the warm graphite palette
+  throughout: `--bg` panels, warm `--line` grid, `--fg` labels, with a consistent
+  series assignment — quantum = honey-gold (`--accent-bright`), classical = warm
+  amber (`--partial`), spec/limit = `--crit`. Safety-coded views keep their
+  meaning: the RAIM Stanford diagram stays green (available) / amber (misleading) /
+  red (hazardous) / muted steel (unavailable), and HPL/VPL read as gold/bronze.
 - **Charts are now self-describing when saved/downloaded.** Both charts bake their
   title into the SVG (the Allan chart's title + "lower is better" subtitle were
   previously only HTML around the image, so a saved image had no caption), and both
