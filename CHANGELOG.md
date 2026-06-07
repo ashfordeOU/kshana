@@ -18,6 +18,18 @@ breaking changes are called out explicitly.
   stack never panics on mutated or mis-configured scenarios.
 
 ### Added
+- **IGRF-14 geomagnetic main-field model (`src/igrf.rs`).** The IAGA standard
+  spherical-harmonic field (degree/order 13, 2025.0 epoch + 2025–2030 secular
+  variation; coefficients machine-generated from the official `igrf14coeffs.txt`
+  by `tools/gen_igrf.py` into `src/igrf_data.rs`, bit-for-bit reproducible). A
+  Schmidt-normalised synthesis returns the field vector (north/east/down) and
+  derived elements (declination, inclination, horizontal/total intensity) at any
+  geodetic location/date, plus the geomagnetic pole and dipole strength — the
+  magnetic counterpart to the gravity-map matcher for alternative-PNT navigation.
+  Validated self-contained: the synthesis matches the exact closed-form tilted
+  dipole, the full degree-13 analytic field matches a finite-difference of the
+  scalar potential, the dipole axis reproduces the known geomagnetic pole
+  (~80.7°N, −72.7°E) and ~29.7 µT strength, and the global field is physical.
 - **Typed Python bindings (`src/python.rs`).** Beyond the string-in/string-out
   `run`/`run_full`, the module now exposes a typed `RunOutput` class (`.json`,
   `.svg`, `.summary`, and a `.data()` accessor that returns the result parsed into
