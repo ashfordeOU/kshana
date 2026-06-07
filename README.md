@@ -455,8 +455,19 @@ power-law type is identified from its modified-Allan slope, and the χ² interva
 matching NIST SP 1065 effective degrees of freedom). The browser playground renders it as a
 log-log "Clock stability (ADEV)" chart. (MDEV, TDEV, and HDEV are available as library
 estimators; the exported result curve is the overlapping ADEV.) Every field, with units and a
-source pointer, is documented in [`docs/SCHEMA.md`](docs/SCHEMA.md). The figures of
-merit follow the standard operational PNT figures of merit:
+source pointer, is documented in [`docs/SCHEMA.md`](docs/SCHEMA.md).
+
+**Every chart is self-describing.** The browser playground, the CLI's `*.chart.svg`
+export, and the HTML scorecard all stamp each chart image with a footer reading
+`Kshana v<version> · scenario <hash> · kshana.dev`. The `scenario <hash>` is the first
+12 hex characters of the run's **scenario hash** — a SHA-256 over the canonical scenario
+definition (seed, thresholds, model parameters, GNSS windows, …); the integrity and lunar
+reports, which carry no hash of their own, fall back to a SHA-256 of the scenario source.
+It is the **same fingerprint** shown in the one-line summary and the result JSON, so a
+saved or pasted chart always carries its version, the exact scenario that produced it (for
+bit-for-bit reproduction), and the source — change any input and the hash changes.
+
+The figures of merit follow the standard operational PNT figures of merit:
 
 | Figure of merit | How Kshana computes it |
 |-----------------|------------------------|
