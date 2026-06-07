@@ -19,6 +19,8 @@ pub mod glonass;
 pub mod gnss_sim;
 pub mod gravimeter;
 pub mod hybrid;
+pub mod igrf;
+mod igrf_data;
 pub mod inertial;
 pub mod integrator;
 pub mod ionex;
