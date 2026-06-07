@@ -32,6 +32,13 @@ breaking changes are called out explicitly.
   stack never panics on mutated or mis-configured scenarios.
 
 ### Added
+- **A/B compare mode in the playground.** Pin any run as a baseline A, run a
+  second scenario, and the two are shown side by side with a figure-of-merit
+  delta table (holdover, timing RMS/p95, availability) that colours the winner
+  per metric (`web/compare.mjs`, wired in `web/app.js`; delta logic unit-tested
+  in `web/compare.test.mjs`, run in CI). All values are inserted as text and all
+  charts via blob `<img>`, so nothing from a scenario string is ever injected as
+  markup.
 - **Chart download buttons (SVG + PNG).** Each playground chart now has a
   theme-matched "Download SVG / PNG" toolbar (`web/chartdl.mjs`, wired in
   `web/app.js`). SVG hands back the faithful, scalable original; PNG rasterises
