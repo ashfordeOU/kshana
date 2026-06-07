@@ -46,6 +46,13 @@ breaking changes are called out explicitly.
   stack never panics on mutated or mis-configured scenarios.
 
 ### Added
+- **Code-coverage gate in CI.** A new `coverage` job runs `cargo-tarpaulin` with
+  the LLVM source-based engine, publishes an lcov report as a build artifact, and
+  enforces a line-coverage floor on `src/` (generated data tables, the CLI
+  entrypoint, the tests, and web assets excluded). Measured line coverage is
+  ~97% on `src/` (SGP4 and the clock modules ≥95%); the gate is set at 85% — above
+  the ≥80% target and clear of the measured value, so it catches regressions
+  without flaking. A coverage badge is published in the README.
 - **SGP4/SDP4 head-to-head against the independent `sgp4` crate.** A new test
   (`tests/sgp4_crate_comparison.rs`) cross-validates Kshana's propagator against
   the most widely used Rust SGP4 library (neuromorphicsystems/sgp4, added as a
