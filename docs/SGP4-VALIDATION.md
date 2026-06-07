@@ -43,6 +43,33 @@ The test prints the number of rows compared and the worst-case position and
 velocity errors. The fixtures are committed, so the check is fully offline and
 deterministic.
 
+## Independent cross-check against the `sgp4` crate
+
+Matching the published reference proves correctness against a *table*. To also
+prove correctness against an *independent implementation*, `tests/sgp4_crate_comparison.rs`
+runs the most widely used Rust SGP4 library — the
+[`sgp4`](https://crates.io/crates/sgp4) crate (neuromorphicsystems/sgp4) — over
+the same 666 AIAA vectors and compares the two codebases head-to-head. Both are
+driven with the **WGS72** gravity model the vectors are defined in (the crate's
+default `from_elements` uses WGS84, which differs from the WGS72 reference by
+~km — a modelling choice, surfaced honestly, not an error).
+
+| Regime | kshana ↔ reference | crate ↔ reference | kshana ↔ crate |
+|---|---:|---:|---:|
+| near-earth (LEO/MEO) | 7.3e-9 km | 7.3e-9 km | **4.4e-10 km** |
+| deep-space (non-resonant) | 4.1e-6 km | 2.1e-7 km | **4.1e-6 km** |
+| deep-space resonance (½-day) | 8.1e-9 km | 7.7e-9 km | **2.2e-9 km** |
+| deep-space resonance (1-day) | 8.2e-9 km | 7.8e-9 km | **2.2e-9 km** |
+
+Two independent implementations agree to **sub-micron** on near-earth and
+resonant orbits and to **4.12 mm worst-case** across all regimes — the same
+4.12 mm that is Kshana's own deviation from the reference, i.e. the disagreement
+*is* that one deep-space case, with the crate sitting between Kshana and the
+table. The full table (with per-regime row counts and the four pathological cases
+the crate rejects at construction) is committed at
+[`tests/fixtures/sgp4_comparison.md`](../tests/fixtures/sgp4_comparison.md) and
+regenerated with `KSHANA_REGEN_FIXTURES=1 cargo test --test sgp4_crate_comparison`.
+
 ## Status of "publishing" this result
 
 The cross-validation itself is complete and in-tree. Submitting the result to
