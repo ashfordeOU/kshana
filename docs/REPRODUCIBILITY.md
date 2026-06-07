@@ -17,6 +17,8 @@ stream keyed by the scenario `seed`, drawn in a fixed order. Consequences:
 | Same scenario, same machine → byte-identical `result.json` | **Yes** | `scripts/check-reproducible.sh` (runs the reference scenario twice, compares the SHA-256) |
 | Same scenario → identical figures of merit field-by-field | **Yes, per platform** | `tests/golden.rs` pins every FoM for the four reference scenarios |
 | Scenario input hash (`scenario_hash`) is platform-independent | **Yes** | content-addressed SHA-256 of the canonical scenario, pinned in `tests/golden.rs` |
+| Input fingerprint + output **shape** identical across OS | **Yes** | `tests/cross_platform_golden.rs` pins an exact SHA-256 per scenario in `tests/golden/`, checked on the 3-OS CI matrix |
+| Output **values** agree across OS (ubuntu/macOS/Windows) | **Yes, to 1e-6** | the `reproducibility-matrix` CI job runs `golden.rs` (1e-6), `sgp4_verification.rs` (2e-5 km), and `determinism.rs` on all three OS |
 | Same toolchain everywhere | **Yes** | `rust-toolchain.toml` pins the channel; `scripts/check-toolchain.sh` fails the build on drift; CI and release pin the same version |
 | Same dependency set | **Yes** | `Cargo.lock` is committed and `cargo metadata --locked` is used for the SBOM |
 
@@ -40,9 +42,20 @@ builds on a different OS. Instead:
   pinned exactly.
 - **`scenario_hash`** — a content hash of the *inputs* — is platform-independent
   and pinned exactly.
+- **`tests/cross_platform_golden.rs`** pins an exact SHA-256, committed per
+  scenario in `tests/golden/`, over the projection that *is* identical across
+  platforms: the input fingerprint plus the output **shape** (field names,
+  nesting, leaf types, array lengths — fixed by deterministic grid arithmetic,
+  never the float values). This catches structural regressions exactly while the
+  tolerance pins above catch value regressions.
 - **`scripts/check-reproducible.sh`** enforces byte-identical output across two
-  runs *on the same machine* (the determinism guarantee), which is what CI can
-  assert without a cross-OS oracle.
+  runs *on the same machine* (the determinism guarantee).
+- **The `reproducibility-matrix` CI job** runs the four tests above
+  (`cross_platform_golden`, `golden`, `determinism`, `sgp4_verification`) on
+  **ubuntu-latest, macos-latest, and windows-latest**, so cross-platform
+  reproducibility is asserted on every push — the shape/input goldens exactly,
+  the numerics to 1e-6, and the SGP4 states to 2e-5 km — rather than relying on a
+  single OS.
 
 If you need to regenerate the pinned numbers (e.g. after an intentional model
 change), run each reference scenario and copy the printed FoM values into

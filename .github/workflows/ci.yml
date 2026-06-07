@@ -90,6 +90,30 @@ jobs:
           name: coverage-lcov
           path: coverage/lcov.info
           if-no-files-found: error
+  reproducibility-matrix:
+    # Prove cross-platform reproducibility on the three tier-1 desktop OSes. Full
+    # result JSON is not byte-identical across targets (last-ULP libm divergence),
+    # so we assert the reproducibility invariants that ARE platform-independent:
+    # the input fingerprint + output shape (tests/cross_platform_golden.rs, exact
+    # SHA-256 goldens in tests/golden/), the pinned numerics to 1e-6 (golden.rs),
+    # same-process byte-identity (determinism.rs), and the SGP4 states to 2e-5 km
+    # against the AIAA reference (sgp4_verification.rs). See docs/REPRODUCIBILITY.md.
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: Swatinem/rust-cache@v2
+      - name: Cross-platform reproducibility tests
+        run: >
+          cargo test
+          --test cross_platform_golden
+          --test golden
+          --test determinism
+          --test sgp4_verification
   test-python-bindings:
     runs-on: ubuntu-latest
     steps:
