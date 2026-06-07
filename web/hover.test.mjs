@@ -2,8 +2,17 @@
 // Tests for the chart-hover pure logic — mapping a cursor position over a chart
 // image to the nearest data sample. The DOM overlay (crosshair + tooltip) is
 // verified in the browser. Run with `node web/hover.test.mjs`.
-import { nearestIndexByValue, cursorToPlotFraction } from "./hover.mjs";
+import { nearestIndexByValue, cursorToPlotFraction, parsePolylineXs } from "./hover.mjs";
 import assert from "node:assert/strict";
+
+// parsePolylineXs: the x-coordinates of the FIRST <polyline>'s vertices (the data
+// series), used to snap the crosshair to real sample positions on Rust charts.
+{
+  const svg = '<svg width="820"><line x1="0"/><polyline fill="none" points="70.0,10.5 120.0,20.0 170.5,5.0"/><polyline points="70.0,99 120,80"/></svg>';
+  assert.deepEqual(parsePolylineXs(svg), [70.0, 120.0, 170.5], "first polyline x-coords");
+  assert.deepEqual(parsePolylineXs("<svg></svg>"), [], "no polyline -> empty");
+  assert.deepEqual(parsePolylineXs('<svg><polyline points=""/></svg>'), [], "empty points -> empty");
+}
 
 // nearestIndexByValue: index of the closest value (ascending series).
 {
