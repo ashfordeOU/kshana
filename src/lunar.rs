@@ -15,6 +15,8 @@
 //! user/satellite positions here are supplied in a single consistent selenocentric frame.
 
 use crate::raim::{araim_raim, AraimResult, FaultPriors, IntegrityBudget};
+use serde::Serialize;
+use std::f64::consts::{FRAC_PI_2, TAU};
 
 /// Mean lunar radius (m).
 pub const R_MOON_M: f64 = 1_737_400.0;
@@ -22,6 +24,9 @@ pub const R_MOON_M: f64 = 1_737_400.0;
 pub const LUNAR_SIGMA_URE_M: f64 = 30.0;
 /// Per-satellite fault prior over the exposure interval for a lunar service.
 pub const LUNAR_P_SAT: f64 = 1.0e-4;
+/// Lunar sidereal rotation period (s): 27.321661 days. The Moon's rotation is
+/// synchronous with its orbit, so this is also the orbital sidereal month.
+pub const LUNAR_SIDEREAL_DAY_S: f64 = 27.321_661 * 86_400.0;
 
 type Vec3 = [f64; 3];
 
@@ -74,6 +79,139 @@ pub fn lunar_sky_geometry(user: Vec3, range_m: f64, azels_deg: &[(f64, f64)]) ->
             ]
         })
         .collect()
+}
+
+/// Mean lunar rotation angle (rad, in [0, 2π)) at `seconds` past the epoch at which
+/// the Moon-centered inertial (MCI) and Moon-fixed (MCMF) frames are aligned. A
+/// simplified mean-rotation model (the Moon turns uniformly at the sidereal rate);
+/// it omits the physical libration and the precessing lunar pole of the full IAU /
+/// DE421 lunar rotation model (see the module scope note).
+pub fn lunar_rotation_angle(seconds: f64) -> f64 {
+    (TAU / LUNAR_SIDEREAL_DAY_S * seconds).rem_euclid(TAU)
+}
+
+/// Rotate a 3-vector about the +z (lunar spin) axis by `theta` (R3 convention,
+/// matching [`crate::frames::teme_to_ecef`]).
+fn rot3(r: Vec3, theta: f64) -> Vec3 {
+    let (s, c) = theta.sin_cos();
+    [c * r[0] + s * r[1], -s * r[0] + c * r[1], r[2]]
+}
+
+/// Moon-centered inertial (MCI) → Moon-centered Moon-fixed (MCMF): rotate by the
+/// lunar rotation angle about the spin axis. The MCMF analogue of ECI→ECEF.
+pub fn mci_to_mcmf(r_mci: Vec3, seconds: f64) -> Vec3 {
+    rot3(r_mci, lunar_rotation_angle(seconds))
+}
+
+/// Inverse of [`mci_to_mcmf`]: MCMF → MCI.
+pub fn mcmf_to_mci(r_mcmf: Vec3, seconds: f64) -> Vec3 {
+    rot3(r_mcmf, -lunar_rotation_angle(seconds))
+}
+
+/// A selenographic position: lunar latitude and longitude (radians) and height
+/// above the mean lunar sphere (metres). The Moon is treated as a sphere of radius
+/// [`R_MOON_M`] (its flattening is ~0.0012, well below this fidelity).
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+pub struct Selenographic {
+    pub lat_rad: f64,
+    pub lon_rad: f64,
+    pub alt_m: f64,
+}
+
+/// MCMF (Moon-fixed Cartesian) → selenographic latitude/longitude/altitude.
+pub fn mcmf_to_selenographic(r_mcmf: Vec3) -> Selenographic {
+    let rad = norm(r_mcmf);
+    let lon = r_mcmf[1].atan2(r_mcmf[0]);
+    let lat = if rad > 0.0 {
+        (r_mcmf[2] / rad).asin()
+    } else {
+        0.0
+    };
+    Selenographic {
+        lat_rad: lat,
+        lon_rad: lon,
+        alt_m: rad - R_MOON_M,
+    }
+}
+
+/// Selenographic latitude/longitude/altitude → MCMF (Moon-fixed Cartesian).
+pub fn selenographic_to_mcmf(s: Selenographic) -> Vec3 {
+    let r = R_MOON_M + s.alt_m;
+    let (sla, cla) = s.lat_rad.sin_cos();
+    let (slo, clo) = s.lon_rad.sin_cos();
+    [r * cla * clo, r * cla * slo, r * sla]
+}
+
+/// One epoch of a lunar-surface protection-level pass.
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+pub struct LunarPassPoint {
+    /// Seconds since the start of the pass.
+    pub t_s: f64,
+    /// Horizontal protection level (m).
+    pub hpl_m: f64,
+    /// Vertical protection level (m).
+    pub vpl_m: f64,
+    /// `true` when HPL ≤ the alert limit (the surface user is available).
+    pub available: bool,
+}
+
+/// Protection levels for a landed receiver at the lunar **south pole** (the Artemis
+/// target region) seen against a representative LunaNet relay set, sampled over a
+/// pass. At each epoch six relays are placed in a representative selenocentric sky
+/// (azimuths and elevations evolving independently to exercise the changing
+/// geometry) and run through [`lunar_araim`]; `available` compares HPL to
+/// `alert_limit_m`. Honest scope: this is a *representative* relay geometry, not the
+/// precise LANS NRHO ephemeris (a 3-body cislunar orbit Kshana does not yet model —
+/// see `ROADMAP.md`); it demonstrates the lunar integrity budget, not an operational
+/// LunaNet availability number.
+pub fn south_pole_hpl_pass(
+    step_s: f64,
+    duration_s: f64,
+    alert_limit_m: f64,
+    budget: IntegrityBudget,
+) -> Vec<LunarPassPoint> {
+    let user = selenographic_to_mcmf(Selenographic {
+        lat_rad: -FRAC_PI_2,
+        lon_rad: 0.0,
+        alt_m: 0.0,
+    });
+    // Representative relay sky and per-relay drift rates (deg/hr) and elevation
+    // oscillation, so the relative geometry — and therefore the DOP — changes.
+    let base: [(f64, f64); 6] = [
+        (10.0, 70.0),
+        (70.0, 35.0),
+        (140.0, 55.0),
+        (210.0, 28.0),
+        (280.0, 60.0),
+        (330.0, 40.0),
+    ];
+    let az_rate = [3.0, 5.5, 4.0, 6.5, 4.8, 5.2];
+    let mut out = Vec::new();
+    let mut t = 0.0;
+    while t < duration_s - 1e-6 {
+        let hours = t / 3600.0;
+        let azels: Vec<(f64, f64)> = base
+            .iter()
+            .enumerate()
+            .map(|(i, &(az, el))| {
+                let a = (az + az_rate[i] * hours).rem_euclid(360.0);
+                let e = (el + 8.0 * (0.3 * hours + i as f64).sin()).clamp(10.0, 88.0);
+                (a, e)
+            })
+            .collect();
+        let sats = lunar_sky_geometry(user, 6.0e6, &azels);
+        let resid = vec![0.0; sats.len()];
+        if let Some(r) = lunar_araim(user, &sats, &resid, budget) {
+            out.push(LunarPassPoint {
+                t_s: t,
+                hpl_m: r.hpl_m,
+                vpl_m: r.vpl_m,
+                available: r.hpl_m <= alert_limit_m,
+            });
+        }
+        t += step_s;
+    }
+    out
 }
 
 /// Lunar ARAIM protection levels: the Earth-side MHSS engine with the lunar
@@ -142,6 +280,94 @@ mod tests {
             sats[0][2] - user[2],
         ]);
         assert!((d - 5.0e6).abs() < 1e-3, "slant = {d}");
+    }
+
+    #[test]
+    fn selenographic_round_trips_and_cardinal_points() {
+        // Prime meridian / equator at the surface sits on +x at the lunar radius.
+        let eq = selenographic_to_mcmf(Selenographic {
+            lat_rad: 0.0,
+            lon_rad: 0.0,
+            alt_m: 0.0,
+        });
+        assert!((eq[0] - R_MOON_M).abs() < 1e-6 && eq[1].abs() < 1e-6 && eq[2].abs() < 1e-6);
+        // The lunar south pole (Artemis target) sits on −z at the lunar radius.
+        let sp = selenographic_to_mcmf(Selenographic {
+            lat_rad: -std::f64::consts::FRAC_PI_2,
+            lon_rad: 0.0,
+            alt_m: 0.0,
+        });
+        assert!(sp[0].abs() < 1e-6 && sp[1].abs() < 1e-6 && (sp[2] + R_MOON_M).abs() < 1e-6);
+        // Round-trip a few selenographic positions through MCMF.
+        for &(lat, lon, alt) in &[
+            (12.0_f64, 45.0_f64, 0.0_f64),
+            (-89.0, -120.0, 1500.0),
+            (60.0, 175.0, 30000.0),
+        ] {
+            let s = Selenographic {
+                lat_rad: lat.to_radians(),
+                lon_rad: lon.to_radians(),
+                alt_m: alt,
+            };
+            let back = mcmf_to_selenographic(selenographic_to_mcmf(s));
+            assert!((back.lat_rad - s.lat_rad).abs() < 1e-12, "lat {lat}");
+            assert!((back.lon_rad - s.lon_rad).abs() < 1e-12, "lon {lon}");
+            assert!((back.alt_m - s.alt_m).abs() < 1e-6, "alt {alt}");
+        }
+    }
+
+    #[test]
+    fn mci_mcmf_rotation_is_identity_at_epoch_and_period() {
+        let r = [1.2e6, -8.0e5, 4.0e5];
+        // At the alignment epoch (t = 0) the two frames coincide.
+        let at0 = mci_to_mcmf(r, 0.0);
+        for k in 0..3 {
+            assert!((at0[k] - r[k]).abs() < 1e-6, "t=0 component {k}");
+        }
+        // After one sidereal rotation the Moon has turned a full 2π → identity again.
+        let at_period = mci_to_mcmf(r, LUNAR_SIDEREAL_DAY_S);
+        for k in 0..3 {
+            assert!((at_period[k] - r[k]).abs() < 1e-3, "t=T component {k}");
+        }
+        // Round-trip at an arbitrary epoch, and the rotation preserves magnitude.
+        let t = 0.37 * LUNAR_SIDEREAL_DAY_S;
+        let back = mcmf_to_mci(mci_to_mcmf(r, t), t);
+        for k in 0..3 {
+            assert!((back[k] - r[k]).abs() < 1e-6, "round-trip {k}");
+        }
+        assert!((norm(mci_to_mcmf(r, t)) - norm(r)).abs() < 1e-6);
+        // Over one day the Moon turns ≈ 360°/27.32 ≈ 13.176°.
+        let deg = lunar_rotation_angle(86_400.0).to_degrees();
+        assert!((deg - 13.176_358).abs() < 1e-3, "1-day rotation = {deg}°");
+    }
+
+    #[test]
+    fn south_pole_pass_shows_the_lunar_integrity_gap() {
+        // A landed receiver at the lunar south pole, a representative LunaNet relay
+        // set above it, sampled over 24 h. With the nominal LANS σ_URE = 30 m the
+        // protection level is finite but *exceeds* a 50 m surface-ops alert limit —
+        // the honest quantitative statement that lunar PNT integrity is not yet met.
+        let budget = IntegrityBudget {
+            p_hmi_vert: 1e-4,
+            p_hmi_horz: 1e-4,
+            p_fa: 1e-5,
+        };
+        let pass = south_pole_hpl_pass(3600.0, 86_400.0, 50.0, budget);
+        assert_eq!(pass.len(), 24, "24 hourly samples");
+        assert!(
+            pass.iter().all(|p| p.hpl_m.is_finite() && p.hpl_m > 0.0),
+            "every epoch yields a finite protection level"
+        );
+        // The geometry varies over the pass (HPL is not constant).
+        let hmin = pass.iter().map(|p| p.hpl_m).fold(f64::INFINITY, f64::min);
+        let hmax = pass.iter().map(|p| p.hpl_m).fold(0.0_f64, f64::max);
+        assert!(hmax > hmin, "HPL should vary across the pass");
+        // The honest gap: with 30 m ranging the HPL is well over the 50 m alert limit,
+        // so the surface user is *not* available — every epoch flags unavailable.
+        assert!(
+            pass.iter().all(|p| !p.available && p.hpl_m > 50.0),
+            "30 m LANS σ_URE cannot meet a 50 m alert limit"
+        );
     }
 
     #[test]
