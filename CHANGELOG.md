@@ -9,7 +9,21 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Fixed
+- **`raim::chi2_quantile` and the RAIM Stanford-noise sampler are now panic-free on
+  out-of-range / non-finite inputs** (a `read_dir`-order-dependent fuzz finding from
+  the new ARAIM scenarios). `chi2_quantile` now guards `p`/`k` like `normal_quantile`
+  (returning a boundary value instead of `assert!`-panicking), and the availability
+  Stanford-noise `Normal` clamps to a strictly-positive σ — so the integrity/ARAIM
+  stack never panics on mutated or mis-configured scenarios.
+
 ### Added
+- **Runnable lunar-integrity scenario (`kind = "lunar-integrity"`, `scenarios/lunanet-araim.toml`).**
+  Wires the lunar south-pole protection-level pass (`src/lunar.rs` `LunarScenario` →
+  `south_pole_hpl_pass`) into the scenario runner with a JSON `LunarReport` and an SVG
+  HPL-vs-time chart, so the cislunar integrity case is reachable straight from the CLI.
+  It honestly surfaces the gap: with the 30 m LANS σ_URE the south-pole HPL (≈ 260–450 m)
+  exceeds a 50 m alert limit (0 % available) — lunar PNT integrity is not yet met.
 - **Dual-constellation ARAIM availability on real GPS+Galileo TLEs, and scenario-runner
   wiring (`src/raim.rs`, `src/orbit.rs`, `scenarios/araim-gps-galileo.toml`).** Adds
   `araim_dual_constellation_availability` (the advanced ARAIM engine —
