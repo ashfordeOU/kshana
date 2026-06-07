@@ -71,10 +71,10 @@ pub fn to_svg(result: &RunResult) -> String {
     let axis_y = mt + ph;
     let mut svg = String::new();
     svg.push_str(&format!(
-        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#cdd6e0\">"
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\">"
     ));
     svg.push_str(&format!(
-        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0e131b\"/>"
+        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"
     ));
     svg.push_str(&format!(
         "<text x=\"{:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">Clock holdover: timing error during GNSS outage</text>",
@@ -89,28 +89,28 @@ pub fn to_svg(result: &RunResult) -> String {
         "timing error (ns)",
     ));
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#3a4757\"/>"
+        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>"
     ));
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#3a4757\"/>",
+        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>",
         ml + pw
     ));
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{thr_y:.1}\" x2=\"{:.0}\" y2=\"{thr_y:.1}\" stroke=\"#d33\" stroke-dasharray=\"6 4\"/>",
+        "<line x1=\"{ml:.0}\" y1=\"{thr_y:.1}\" x2=\"{:.0}\" y2=\"{thr_y:.1}\" stroke=\"#e5645a\" stroke-dasharray=\"6 4\"/>",
         ml + pw
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"#d33\">spec {:.0} ns</text>",
+        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"#e5645a\">spec {:.0} ns</text>",
         ml + 4.0,
         thr_y - 4.0,
         result.threshold_ns
     ));
     svg.push_str(&format!(
-        "<polyline fill=\"none\" stroke=\"#c0392b\" stroke-width=\"2\" points=\"{}\"/>",
+        "<polyline fill=\"none\" stroke=\"#d2925e\" stroke-width=\"2\" points=\"{}\"/>",
         points(c)
     ));
     svg.push_str(&format!(
-        "<polyline fill=\"none\" stroke=\"#5cb8d6\" stroke-width=\"2\" points=\"{}\"/>",
+        "<polyline fill=\"none\" stroke=\"#e0bd84\" stroke-width=\"2\" points=\"{}\"/>",
         points(q)
     ));
     svg.push_str(&format!(
@@ -119,12 +119,12 @@ pub fn to_svg(result: &RunResult) -> String {
         h - 12.0
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"44\" fill=\"#c0392b\">classical: {}</text>",
+        "<text x=\"{:.0}\" y=\"44\" fill=\"#d2925e\">classical: {}</text>",
         ml + 10.0,
         result.classical.spec.id
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"60\" fill=\"#5cb8d6\">quantum: {}</text>",
+        "<text x=\"{:.0}\" y=\"60\" fill=\"#e0bd84\">quantum: {}</text>",
         ml + 10.0,
         result.quantum.spec.id
     ));
