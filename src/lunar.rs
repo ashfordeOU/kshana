@@ -9,13 +9,16 @@
 //! correspondingly larger for the same geometry — the quantitative statement of why lunar
 //! PNT integrity is hard.
 //!
-//! This provides the lunar parameters, a selenocentric sky geometry helper, and the lunar
-//! ARAIM call. Scope (honest): the precise LANS NRHO ephemeris, the LANS signal-in-space
-//! error budget, and the MCI↔MCMF frame reduction are follow-ons (see `ROADMAP.md`); the
-//! user/satellite positions here are supplied in a single consistent selenocentric frame.
+//! This provides the lunar parameters, a selenocentric sky geometry helper, the lunar
+//! ARAIM call, the MCI↔MCMF cislunar frame reduction and selenographic coordinates, and
+//! a runnable south-pole protection-level pass ([`LunarScenario`], `kind =
+//! "lunar-integrity"`). Scope (honest): the relay geometry is *representative*, not the
+//! precise differential-corrected 9:2 LANS NRHO ephemeris (the three-body CR3BP core is
+//! in [`crate::cr3bp`]); the LANS signal-in-space error budget, the physical libration /
+//! precessing lunar pole (DE421/SPICE), and wiring real NRHO relays in are follow-ons.
 
 use crate::raim::{araim_raim, AraimResult, FaultPriors, IntegrityBudget};
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 use std::f64::consts::{FRAC_PI_2, TAU};
 
 /// Mean lunar radius (m).
@@ -230,6 +233,141 @@ pub fn lunar_araim(
         FaultPriors { p_sat: LUNAR_P_SAT },
         budget,
     )
+}
+
+fn default_step_s() -> f64 {
+    3600.0
+}
+fn default_duration_s() -> f64 {
+    86_400.0
+}
+fn default_alert_m() -> f64 {
+    50.0
+}
+fn default_p_hmi() -> f64 {
+    1e-4
+}
+
+/// A runnable lunar-surface integrity scenario: a south-pole receiver against a
+/// representative LunaNet relay set over a pass. The TOML `kind = "lunar-integrity"`
+/// entry the engine dispatches to [`south_pole_hpl_pass`].
+#[derive(Clone, Copy, Debug, Deserialize)]
+pub struct LunarScenario {
+    /// Sample step (s).
+    #[serde(default = "default_step_s")]
+    pub step_s: f64,
+    /// Pass duration (s).
+    #[serde(default = "default_duration_s")]
+    pub duration_s: f64,
+    /// Surface-ops alert limit (m) — LunaNet CONOPS uses ~50 m.
+    #[serde(default = "default_alert_m")]
+    pub alert_limit_m: f64,
+    /// Integrity-risk budget `P_HMI` (lunar surface ops, ~1e-4 not aviation 1e-7).
+    #[serde(default = "default_p_hmi")]
+    pub p_hmi: f64,
+}
+
+/// The result of a [`LunarScenario`]: the south-pole protection-level pass plus its
+/// availability and HPL envelope against the alert limit.
+#[derive(Clone, Debug, Serialize)]
+pub struct LunarReport {
+    pub alert_limit_m: f64,
+    pub sigma_ure_m: f64,
+    pub samples_total: usize,
+    pub samples_available: usize,
+    pub min_hpl_m: f64,
+    pub max_hpl_m: f64,
+    pub pass: Vec<LunarPassPoint>,
+}
+
+impl LunarReport {
+    /// Fraction of epochs available (HPL ≤ alert limit).
+    pub fn availability(&self) -> f64 {
+        if self.samples_total == 0 {
+            0.0
+        } else {
+            self.samples_available as f64 / self.samples_total as f64
+        }
+    }
+}
+
+impl LunarScenario {
+    /// Run the south-pole protection-level pass and summarise it.
+    pub fn run(&self) -> LunarReport {
+        let budget = IntegrityBudget {
+            p_hmi_vert: self.p_hmi,
+            p_hmi_horz: self.p_hmi,
+            p_fa: 1e-5,
+        };
+        let pass = south_pole_hpl_pass(self.step_s, self.duration_s, self.alert_limit_m, budget);
+        let available = pass.iter().filter(|p| p.available).count();
+        let min_hpl = pass.iter().map(|p| p.hpl_m).fold(f64::INFINITY, f64::min);
+        let max_hpl = pass.iter().map(|p| p.hpl_m).fold(0.0_f64, f64::max);
+        LunarReport {
+            alert_limit_m: self.alert_limit_m,
+            sigma_ure_m: LUNAR_SIGMA_URE_M,
+            samples_total: pass.len(),
+            samples_available: available,
+            min_hpl_m: if min_hpl.is_finite() { min_hpl } else { 0.0 },
+            max_hpl_m: max_hpl,
+            pass,
+        }
+    }
+}
+
+/// Render a [`LunarReport`] as a self-contained SVG: HPL over the pass against the
+/// surface-ops alert limit.
+pub fn lunar_report_svg(r: &LunarReport) -> String {
+    let (w, h) = (820.0_f64, 360.0_f64);
+    let (ml, mr, mt, mb) = (70.0_f64, 20.0_f64, 30.0_f64, 50.0_f64);
+    let (pw, ph) = (w - ml - mr, h - mt - mb);
+    let t_max = r.pass.iter().map(|p| p.t_s).fold(1.0_f64, f64::max);
+    let y_max = (r.max_hpl_m.max(r.alert_limit_m) * 1.15).max(1.0);
+    let xof = |t: f64| ml + (t / t_max) * pw;
+    let yof = |v: f64| mt + ph - (v.min(y_max) / y_max) * ph;
+    let mut svg = String::new();
+    svg.push_str(&format!(
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#cdd6e0\">"
+    ));
+    svg.push_str(&format!(
+        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0e131b\"/>"
+    ));
+    svg.push_str(&format!(
+        "<text x=\"{ml:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">Lunar south-pole HPL ({:.0}% available, AL {:.0} m, σ_URE {:.0} m)</text>",
+        r.availability() * 100.0,
+        r.alert_limit_m,
+        r.sigma_ure_m
+    ));
+    // Alert-limit line.
+    svg.push_str(&format!(
+        "<line x1=\"{:.1}\" y1=\"{:.1}\" x2=\"{:.1}\" y2=\"{:.1}\" stroke=\"#e0405a\" stroke-dasharray=\"4 3\"/>",
+        xof(0.0),
+        yof(r.alert_limit_m),
+        xof(t_max),
+        yof(r.alert_limit_m)
+    ));
+    // HPL polyline.
+    let pts: Vec<String> = r
+        .pass
+        .iter()
+        .map(|p| format!("{:.1},{:.1}", xof(p.t_s), yof(p.hpl_m)))
+        .collect();
+    if pts.len() > 1 {
+        svg.push_str(&format!(
+            "<polyline fill=\"none\" stroke=\"#5b8def\" points=\"{}\"/>",
+            pts.join(" ")
+        ));
+    }
+    let axis_y = mt + ph;
+    svg.push_str(&format!(
+        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#3a4757\"/>"
+    ));
+    svg.push_str(&format!(
+        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#3a4757\"/>",
+        ml + pw
+    ));
+    svg.push_str("</svg>");
+    svg
 }
 
 #[cfg(test)]
