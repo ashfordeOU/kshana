@@ -18,6 +18,21 @@ breaking changes are called out explicitly.
   stack never panics on mutated or mis-configured scenarios.
 
 ### Added
+- **CIO-based IAU 2006/2000A celestial-to-terrestrial reduction (`src/cio.rs`).**
+  The modern, equinox-free GCRS↔CIRS↔ITRS chain: CIP coordinates `X, Y` read off
+  the IAU 2006/2000A bias-precession-nutation matrix (reusing the validated FW
+  precession + 2000A nutation with the `eraNut06a` P03 adjustment), the 66-term
+  CIO-locator `s` series (`eraS06`, machine-generated from the ERFA reference by
+  `tools/gen_s06.py` into `src/cio_s06_data.rs`, bit-for-bit reproducible), the
+  GCRS→CIRS matrix (`eraC2ixys`), the Earth rotation angle (`eraEra00`), and the
+  full GCRS→ITRS rotation (`eraC2tcio`, composed with the existing IERS polar
+  motion). Validated **bit-for-bit** against the published `eraXys06a`
+  (X=0.5791308482835292617e-3, Y=0.4020580099454020310e-4,
+  s=-0.1220032294164579896e-7 at JD_TT 2453736.5), `eraC2ixys`, and `eraEra00`
+  test vectors. The CIO chain and the legacy equinox/GMST-1982 TEME reduction are
+  shown to agree up to their documented ≈2·(equation of equinoxes) sidereal-time
+  convention difference. This is the rigorous reduction the equinox/GMST path
+  approximated.
 - **Full IAU 2000A nutation series (`src/nutation.rs` `nutation_iau2000a`,
   `nutation_matrix_2000a`).** The complete MHB2000 model — 678 luni-solar + 687
   planetary terms — accurate to < 0.1 mas, alongside the existing 77-term 2000B
