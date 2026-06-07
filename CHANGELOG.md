@@ -46,6 +46,17 @@ breaking changes are called out explicitly.
   stack never panics on mutated or mis-configured scenarios.
 
 ### Added
+- **Cross-platform reproducibility CI matrix.** A new `reproducibility-matrix`
+  job runs the reproducibility tests on **ubuntu-latest, macos-latest, and
+  windows-latest** on every push. Because full result JSON is not byte-identical
+  across OSes (last-ULP libm divergence), it asserts the platform-invariant
+  projection exactly — the input fingerprint plus output shape, pinned per
+  scenario as SHA-256 goldens in `tests/golden/` by the new
+  `tests/cross_platform_golden.rs` — alongside the numeric pins (`golden.rs`, to
+  1e-6), the SGP4 states (`sgp4_verification.rs`, to 2e-5 km), and same-process
+  determinism (`determinism.rs`). Together these prove cross-platform
+  reproducibility on three OSes without the brittleness of exact full-output byte
+  hashing. `docs/REPRODUCIBILITY.md` documents the split.
 - **Code-coverage gate in CI.** A new `coverage` job runs `cargo-tarpaulin` with
   the LLVM source-based engine, publishes an lcov report as a build artifact, and
   enforces a line-coverage floor on `src/` (generated data tables, the CLI
