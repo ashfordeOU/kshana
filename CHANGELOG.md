@@ -10,6 +10,19 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Dual-constellation ARAIM availability on real GPS+Galileo TLEs, and scenario-runner
+  wiring (`src/raim.rs`, `src/orbit.rs`, `scenarios/araim-gps-galileo.toml`).** Adds
+  `araim_dual_constellation_availability` (the advanced ARAIM engine —
+  single-satellite *and* constellation-wide faults — run over a time grid) and
+  `visible_positions_labeled`, and wires it into the `IntegrityScenario` runner via an
+  `araim_dual` flag so a multi-GNSS ARAIM study is reachable straight from TOML. A
+  real-data test (`tests/araim_dual_real_data.rs`) on vendored 2026-06-07 Celestrak
+  GPS+Galileo snapshots shows pooling Galileo lifts ARAIM availability from 0.21 to
+  0.67 under a demanding 12 m VAL (10.5→21.8 satellites in view), while the
+  constellation-fault-robust mode is fundamentally limited with only two constellations
+  — the quantitative reason robust dual-constellation integrity drives toward a third
+  constellation or SBAS. Honest residual: the numerically exact EU ARAIM TN Table A-3
+  reproduction against a single version-locked epoch, and a Zenodo fixture record.
 - **Circular restricted three-body problem (CR3BP) for the Earth–Moon system
   (`src/cr3bp.rs`).** A new cislunar-dynamics core the two-body/SGP4 propagators
   cannot provide: rotating-frame equations of motion (`cr3bp_accel`), an RK4
