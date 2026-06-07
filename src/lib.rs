@@ -28,6 +28,7 @@ pub mod maneuver;
 pub mod mapmatch;
 pub mod models;
 pub mod nutation;
+mod nutation_iau2000a_data;
 pub mod oem;
 pub mod omm;
 pub mod orbit;
