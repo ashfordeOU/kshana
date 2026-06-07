@@ -45,14 +45,14 @@ fn svg_data_uri(svg: &str) -> String {
 }
 
 /// Stamp a chart SVG with a self-identifying provenance footer in the bottom-right
-/// corner — `Kshana v<version> · <hash> · kshana.dev` — so a saved or downloaded
-/// image always carries its version, the scenario fingerprint, and the source.
-/// Applied centrally to every chart so all scenario kinds are stamped identically.
+/// corner — `Kshana v<version> · scenario <hash> · kshana.dev` — so a saved or
+/// downloaded image always carries its version, the scenario fingerprint, and the
+/// source. Applied centrally so every scenario kind is stamped identically.
 fn with_provenance(svg: String, hash12: &str) -> String {
     let w = parse_svg_dim(&svg, "width").unwrap_or(800.0);
     let h = parse_svg_dim(&svg, "height").unwrap_or(420.0);
     let footer = format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"end\" fill=\"#62594b\" font-size=\"10\" font-family=\"sans-serif\">Kshana v{} \u{00b7} {} \u{00b7} kshana.dev</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"end\" fill=\"#62594b\" font-size=\"10\" font-family=\"sans-serif\">Kshana v{} \u{00b7} scenario {} \u{00b7} kshana.dev</text>",
         w - 8.0,
         h - 6.0,
         env!("CARGO_PKG_VERSION"),
@@ -822,6 +822,10 @@ mod tests {
             let out = run_toml(src).expect("scenario runs");
             assert!(out.svg.contains("\u{00b7} kshana.dev"), "footer present");
             assert!(out.svg.contains("Kshana v"), "version stamped");
+            assert!(
+                out.svg.contains("\u{00b7} scenario "),
+                "hash labelled as scenario"
+            );
             // The footer is inside the chart, just before the closing tag.
             assert!(out.svg.trim_end().ends_with("</svg>"));
             let foot = out.svg.rfind("kshana.dev").unwrap();

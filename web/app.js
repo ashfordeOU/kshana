@@ -197,7 +197,7 @@ function adevSvg(curves, meta) {
   // Axis titles, clear of the tick labels.
   s += `<text x="${ml + (W - ml - mr) / 2}" y="${H - 28}" text-anchor="middle" fill="#8c8273">averaging time &#964; (s)</text>`;
   // Baked provenance footer — version + scenario hash + source, for saved images.
-  const prov = `Kshana${meta && meta.ver ? " v" + meta.ver : ""}${meta && meta.hash ? " · " + meta.hash.slice(0, 12) : ""} · kshana.dev`;
+  const prov = `Kshana${meta && meta.ver ? " v" + meta.ver : ""}${meta && meta.hash ? " · scenario " + meta.hash.slice(0, 12) : ""} · kshana.dev`;
   s += `<text x="${W - mr}" y="${H - 8}" text-anchor="end" fill="#62594b" font-size="10">${prov}</text>`;
   s += `<text x="16" y="${mt + (H - mt - mb) / 2}" text-anchor="middle" fill="#8c8273" transform="rotate(-90 16 ${mt + (H - mt - mb) / 2})">&#963;&#7464;(&#964;)</text>`;
   curves.forEach((c, i) => {
