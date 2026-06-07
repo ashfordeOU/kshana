@@ -111,19 +111,19 @@ pub fn fw_angles(jd_tt: f64) -> FwAngles {
 }
 
 /// Rotation about the x-axis by `phi` (rad), SOFA `iauRx` convention.
-fn rx(phi: f64) -> Mat3 {
+pub(crate) fn rx(phi: f64) -> Mat3 {
     let (s, c) = phi.sin_cos();
     [[1.0, 0.0, 0.0], [0.0, c, s], [0.0, -s, c]]
 }
 
 /// Rotation about the z-axis by `psi` (rad), SOFA `iauRz` convention.
-fn rz(psi: f64) -> Mat3 {
+pub(crate) fn rz(psi: f64) -> Mat3 {
     let (s, c) = psi.sin_cos();
     [[c, s, 0.0], [-s, c, 0.0], [0.0, 0.0, 1.0]]
 }
 
 /// Matrix product `a·b`.
-fn matmul(a: &Mat3, b: &Mat3) -> Mat3 {
+pub(crate) fn matmul(a: &Mat3, b: &Mat3) -> Mat3 {
     let mut r = [[0.0; 3]; 3];
     for (i, ri) in r.iter_mut().enumerate() {
         for (j, rij) in ri.iter_mut().enumerate() {

@@ -26,6 +26,7 @@ pub mod lunar;
 pub mod maneuver;
 pub mod mapmatch;
 pub mod models;
+pub mod nutation;
 pub mod oem;
 pub mod omm;
 pub mod orbit;
