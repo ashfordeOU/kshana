@@ -492,6 +492,23 @@ details#advanced summary { cursor: pointer; color: var(--fg-1); font-size: 0.85r
 .chart-dl:active { transform: translateY(1px); }
 .chart-dl:disabled { opacity: 0.55; cursor: progress; }
 .adev-title { font-size: 0.95rem; margin: 1rem 0 0.4rem; }
+/* A/B compare — pin control, delta table, paired charts. */
+.compare-controls { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin: 0 0 0.7rem; }
+.compare-controls:empty { display: none; }
+.compare-chip { font-size: 0.8rem; color: var(--accent-bright); background: var(--bg-1); border: 1px solid var(--accent-line); border-radius: 5px; padding: 0.28rem 0.55rem; }
+.compare-wrap { margin: 0.4rem 0 1rem; }
+.compare-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; margin-bottom: 1.1rem; }
+.compare-table th, .compare-table td { text-align: left; padding: 0.4rem 0.6rem; border-bottom: 1px solid var(--line); }
+.compare-table th { color: var(--fg-2); font-weight: 600; }
+.compare-table td { color: var(--fg-1); font-variant-numeric: tabular-nums; }
+.cmp-delta { font-variant-numeric: tabular-nums; }
+.cmp-better { color: var(--ok); }
+.cmp-worse { color: var(--crit); }
+.cmp-eq { color: var(--fg-3); }
+.compare-charts { display: flex; gap: 1rem; flex-wrap: wrap; }
+.compare-col { flex: 1 1 360px; min-width: 0; }
+.compare-col-title { font-weight: 600; color: var(--fg-1); margin: 0 0 0.4rem; font-size: 0.9rem; }
+.compare-col img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); }
 .health-cards { display: flex; flex-wrap: wrap; gap: 0.6rem; }
 .health-card { flex: 1 1 220px; border: 1px solid var(--line); border-left-width: 3px; border-radius: 6px; padding: 0.6rem 0.75rem; background: var(--bg); }
 .health-card.ok { border-left-color: var(--ok); }
