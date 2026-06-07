@@ -14,17 +14,28 @@
 //! - [`look_angles`] — azimuth, elevation, and range of a satellite (ECEF) seen
 //!   from a geodetic ground station, via the local East-North-Up frame.
 //!
-//! Scope (honest): polar motion (PEF→ITRF) and sub-arcsecond TEME/ECEF nutation
-//! refinements are not applied; the rotation is GMST-only. That is adequate for
-//! visibility, pass geometry, and look-angle work at this fidelity (errors are
-//! well under a kilometre on the ground track), but it is **not** an ITRF-precise
-//! reduction. Full IERS polar motion and a CIO-based chain are on the roadmap.
+//! - [`teme_to_itrf`] — the GMST-based TEME→PEF rotation followed by IERS
+//!   **polar motion** (PEF→ITRF, [`polar_motion_matrix`], SOFA `iauPom00`) given
+//!   caller-supplied pole coordinates `x_p`/`y_p` (a tens-of-metres effect at
+//!   orbital radius).
+//!
+//! Scope (honest): [`teme_to_ecef`] alone is GMST-only (polar motion neglected) —
+//! adequate for visibility, pass geometry, and look-angle work (sub-km on the
+//! ground track); [`teme_to_itrf`] adds polar motion for an ITRF-precise position.
+//! `x_p`/`y_p` are observed IERS quantities the caller supplies (Bulletin A/B), not
+//! predicted here; a fully CIO-based (X, Y, s) chain and an ANISE/SPICE numerical
+//! cross-check remain follow-ons.
 
+use crate::precession::{mat_vec, matmul, rx, ry, rz, transpose, Mat3};
 use crate::sgp4::gstime;
+use crate::timescales::JD_J2000;
 use std::f64::consts::{PI, TAU};
 
 /// A 3-vector in metres, `[x, y, z]`, matching the propagator's convention.
 pub type Vec3 = [f64; 3];
+
+/// Arc seconds to radians, for the polar-motion pole coordinates.
+const ARCSEC_TO_RAD: f64 = PI / (180.0 * 3600.0);
 
 // WGS-84 defining constants.
 /// WGS-84 semi-major axis (equatorial radius), metres.
@@ -208,12 +219,102 @@ pub fn visible_count(station: Geodetic, targets_ecef: &[Vec3], mask_deg: f64) ->
         .count()
 }
 
+/// IERS polar-motion matrix (SOFA `iauPom00`): `W = Rx(−y_p)·Ry(−x_p)·Rz(s′)`.
+/// `x_p`, `y_p` are the polar-motion pole coordinates (radians, an observed quantity
+/// from IERS Bulletin A/B — supply via [`arcsec`]); `s′` is the TIO locator,
+/// `s′ ≈ −47 µas·t` with `t` in TT centuries since J2000. `W` rotates the
+/// pseudo-Earth-fixed / TIRS frame into the true ITRF. At `x_p = y_p = 0` it is the
+/// identity to the sub-µas `s′` term.
+pub fn polar_motion_matrix(xp_rad: f64, yp_rad: f64, jd_tt: f64) -> Mat3 {
+    let t = (jd_tt - JD_J2000) / 36_525.0;
+    let sp = -47.0e-6 * ARCSEC_TO_RAD * t; // TIO locator s′
+    matmul(&rx(-yp_rad), &matmul(&ry(-xp_rad), &rz(sp)))
+}
+
+/// Convenience: arc seconds → radians, for polar-motion pole coordinates.
+pub fn arcsec(v: f64) -> f64 {
+    v * ARCSEC_TO_RAD
+}
+
+/// Apply polar motion: pseudo-Earth-fixed (PEF/TIRS) → ITRF.
+pub fn pef_to_itrf(r_pef: Vec3, xp_rad: f64, yp_rad: f64, jd_tt: f64) -> Vec3 {
+    mat_vec(&polar_motion_matrix(xp_rad, yp_rad, jd_tt), r_pef)
+}
+
+/// Inverse of [`pef_to_itrf`]: ITRF → PEF/TIRS.
+pub fn itrf_to_pef(r_itrf: Vec3, xp_rad: f64, yp_rad: f64, jd_tt: f64) -> Vec3 {
+    mat_vec(
+        &transpose(&polar_motion_matrix(xp_rad, yp_rad, jd_tt)),
+        r_itrf,
+    )
+}
+
+/// Full TEME → ITRF reduction: the GMST-based [`teme_to_ecef`] rotation (TEME→PEF)
+/// followed by IERS polar motion (PEF→ITRF). `jd_ut1` drives sidereal time; the
+/// pole coordinates `xp_rad`/`yp_rad` and `jd_tt` drive polar motion. This upgrades
+/// the polar-motion-neglecting [`teme_to_ecef`] to an ITRF-precise Earth-fixed
+/// position (polar motion is a tens-of-metres effect at orbital radius).
+pub fn teme_to_itrf(r_teme: Vec3, jd_ut1: f64, xp_rad: f64, yp_rad: f64, jd_tt: f64) -> Vec3 {
+    pef_to_itrf(teme_to_ecef(r_teme, jd_ut1), xp_rad, yp_rad, jd_tt)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
 
     fn norm(v: Vec3) -> f64 {
         (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]).sqrt()
+    }
+
+    #[test]
+    fn polar_motion_is_near_identity_at_zero_and_a_small_proper_rotation() {
+        let r = [4000.0e3, 5000.0e3, 3000.0e3];
+        let jd_tt = 2_458_849.5; // 2020-01-01
+                                 // x_p = y_p = 0 → only the sub-µas TIO-locator term remains, so PEF == ITRF to
+                                 // well under a metre at orbital radius.
+        let same = pef_to_itrf(r, 0.0, 0.0, jd_tt);
+        for k in 0..3 {
+            assert!((same[k] - r[k]).abs() < 1.0, "near-identity component {k}");
+        }
+        // A realistic pole (x_p = 0.2″, y_p = 0.3″) — the matrix is a proper rotation.
+        let (xp, yp) = (arcsec(0.2), arcsec(0.3));
+        let w = polar_motion_matrix(xp, yp, jd_tt);
+        let wt = transpose(&w);
+        let p = matmul(&w, &wt);
+        for (i, row) in p.iter().enumerate() {
+            for (j, &pij) in row.iter().enumerate() {
+                let e = if i == j { 1.0 } else { 0.0 };
+                assert!((pij - e).abs() < 1e-12, "W·Wᵀ[{i}][{j}]");
+            }
+        }
+        // It displaces the position at the tens-of-metres level (≈ angle × radius:
+        // 0.36″ × 7071 km ≈ 12 m), and round-trips.
+        let itrf = pef_to_itrf(r, xp, yp, jd_tt);
+        let d = norm([itrf[0] - r[0], itrf[1] - r[1], itrf[2] - r[2]]);
+        assert!((1.0..50.0).contains(&d), "polar-motion shift = {d} m");
+        let back = itrf_to_pef(itrf, xp, yp, jd_tt);
+        for k in 0..3 {
+            assert!((back[k] - r[k]).abs() < 1e-6, "round-trip component {k}");
+        }
+    }
+
+    #[test]
+    fn teme_to_itrf_extends_teme_to_ecef_by_polar_motion() {
+        let r = [4000.0e3, 5000.0e3, 3000.0e3];
+        // TT leads UT1 by ~69 s (≈ 0.0008 d) at this epoch.
+        let (jd_ut1, jd_tt) = (2_458_849.5, 2_458_849.5 + 0.000_8);
+        // With no polar motion, TEME→ITRF is exactly the GMST-based TEME→ECEF.
+        let ecef = teme_to_ecef(r, jd_ut1);
+        let itrf0 = teme_to_itrf(r, jd_ut1, 0.0, 0.0, jd_tt);
+        for k in 0..3 {
+            assert!((itrf0[k] - ecef[k]).abs() < 1.0, "no-pole component {k}");
+        }
+        // With a realistic pole the ITRF position separates from PEF by ~tens of m.
+        let itrf = teme_to_itrf(r, jd_ut1, arcsec(0.2), arcsec(0.3), jd_tt);
+        let d = norm([itrf[0] - ecef[0], itrf[1] - ecef[1], itrf[2] - ecef[2]]);
+        assert!((1.0..50.0).contains(&d), "polar-motion separation = {d} m");
+        // The rotation preserves magnitude (it is orthonormal).
+        assert!((norm(itrf) - norm(r)).abs() < 1e-6);
     }
 
     #[test]
