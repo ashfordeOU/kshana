@@ -492,6 +492,14 @@ details#advanced summary { cursor: pointer; color: var(--fg-1); font-size: 0.85r
 .chart-dl:active { transform: translateY(1px); }
 .chart-dl:disabled { opacity: 0.55; cursor: progress; }
 .adev-title { font-size: 0.95rem; margin: 1rem 0 0.4rem; }
+/* Interactive hover overlay (crosshair + value tooltip) over a chart image. */
+#adev { position: relative; }
+.chart-hover-line { position: absolute; width: 1px; background: var(--accent-bright); opacity: 0.65; pointer-events: none; }
+.chart-hover-tip {
+  position: absolute; pointer-events: none; z-index: 5; white-space: nowrap;
+  background: var(--bg-1); border: 1px solid var(--accent-line); color: var(--fg);
+  font-size: 0.72rem; padding: 0.2rem 0.45rem; border-radius: 4px; font-variant-numeric: tabular-nums;
+}
 /* A/B compare — pin control, delta table, paired charts. */
 .compare-controls { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin: 0 0 0.7rem; }
 .compare-controls:empty { display: none; }
