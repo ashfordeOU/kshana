@@ -135,7 +135,16 @@ pub fn chi2_cdf(x: f64, k: f64) -> f64 {
 /// `chi2_cdf(x, k) = p`. Bisection on the monotone CDF — accurate at all `k`
 /// (unlike the Wilson-Hilferty approximation, which is rough at low `k`).
 pub fn chi2_quantile(p: f64, k: f64) -> f64 {
-    assert!(p > 0.0 && p < 1.0 && k > 0.0);
+    // Robust guards (mirroring `normal_quantile`) so adversarial or mis-configured
+    // inputs return a sensible boundary value rather than panicking — the RAIM/ARAIM
+    // stack must never panic on out-of-range probabilities or degrees of freedom.
+    // (NaN is caught by `is_finite`, since `NaN <= 0.0` is false.)
+    if !k.is_finite() || k <= 0.0 || !p.is_finite() || p <= 0.0 {
+        return 0.0;
+    }
+    if p >= 1.0 {
+        return f64::INFINITY;
+    }
     let (mut lo, mut hi) = (0.0_f64, k + 10.0 * k.sqrt() + 20.0);
     while chi2_cdf(hi, k) < p {
         hi *= 2.0;
@@ -1428,7 +1437,14 @@ pub fn constellation_raim_availability(
     let mut epochs = Vec::with_capacity(n + 1);
     let mut available = 0usize;
     let mut rng = ChaCha8Rng::seed_from_u64(seed);
-    let noise = Normal::new(0.0, cfg.sigma_m.max(0.0)).expect("finite sigma");
+    // Clamp to a strictly-positive, finite std-dev so a mis-configured or fuzzed
+    // sigma (0, negative, NaN) cannot make `Normal::new` error and panic here.
+    let sd = if cfg.sigma_m.is_finite() && cfg.sigma_m > 0.0 {
+        cfg.sigma_m
+    } else {
+        1e-12
+    };
+    let noise = Normal::new(0.0, sd).expect("finite positive sigma");
     let mut stanford = StanfordDiagram::new(cfg.al_v_m);
     for i in 0..=n {
         let t = i as f64 * step_s;
