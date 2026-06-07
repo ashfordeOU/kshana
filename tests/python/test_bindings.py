@@ -62,3 +62,34 @@ def test_invalid_scenario_raises():
 
     with pytest.raises(Exception):
         kshana.run("this = is not a valid scenario")
+
+
+def test_run_typed_exposes_strings_and_parsed_dict():
+    out = kshana.run_typed(CLOCK_SCENARIO)
+    # Typed string accessors mirror run_full().
+    assert json.loads(out.json)["schema_version"]
+    assert out.svg.lstrip().startswith("<svg")
+    assert "scenario" in out.summary
+    # .data() returns a parsed dict, not a string — no re-parsing needed.
+    data = out.data()
+    assert isinstance(data, dict)
+    assert data["scenario_hash"] == json.loads(out.json)["scenario_hash"]
+    assert data["quantum"]["fom"]["holdover_s"] >= data["classical"]["fom"]["holdover_s"]
+    # A numeric list from the result is NumPy-wrappable.
+    adev = data["quantum"]["adev_curve"]
+    assert isinstance(adev, list) and len(adev) > 0
+    assert repr(out).startswith("RunOutput(")
+
+
+def test_scenario_kinds_is_a_list_of_dicts():
+    kinds = kshana.scenario_kinds()
+    assert isinstance(kinds, list) and len(kinds) > 0
+    assert all(isinstance(k, dict) and "name" in k for k in kinds)
+    # Same content as the JSON-string form.
+    assert len(kinds) == len(json.loads(kshana.list_kinds()))
+
+
+def test_validate_toml_reports_errors_without_raising():
+    assert kshana.validate_toml(CLOCK_SCENARIO) == []
+    errs = kshana.validate_toml("this = is not a valid scenario")
+    assert isinstance(errs, list) and len(errs) >= 1 and isinstance(errs[0], str)

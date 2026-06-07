@@ -26,3 +26,6 @@ Repository = "https://github.com/AshfordeOU/kshana"
 # across CPython >= 3.9. maturin sets the macOS `-undefined dynamic_lookup` link
 # flag automatically.
 features = ["python"]
+# Ship the type stub + PEP 561 marker next to the extension so mypy/pyright and
+# editors see the typed surface.
+include = ["kshana.pyi", "py.typed"]
