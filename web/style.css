@@ -396,10 +396,14 @@ section.block { padding: clamp(2.5rem, 6vw, 4rem) 0; border-top: 1px solid var(-
   border-radius: var(--radius);
   padding: 1.15rem 1.25rem;
   box-shadow: var(--shadow-2), inset 0 1px 0 var(--edge);
+  /* Grid items default to min-width:auto and refuse to shrink below their
+     content's min-content, overflowing the track on narrow (mobile) viewports.
+     min-width:0 lets the panel shrink to its grid column. */
+  min-width: 0;
 }
 .panel-title { font-family: var(--mono); font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--fg-3); margin: 0 0 0.8rem; }
 
-.presets { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.7rem; }
+.presets { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 1fr)); gap: 0.7rem; }
 .preset {
   text-align: left;
   font: inherit;
@@ -428,10 +432,11 @@ select {
   border: 1px solid var(--line-2);
   border-radius: 6px;
   padding: 0.45rem 0.6rem;
-  min-width: 220px;
+  min-width: min(220px, 100%);
+  max-width: 100%;
 }
 .guided { display: flex; flex-wrap: wrap; gap: 1.4rem; margin: 0.6rem 0 0.2rem; }
-.knob { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.8rem; color: var(--fg-2); min-width: 180px; }
+.knob { display: flex; flex-direction: column; gap: 0.25rem; font-size: 0.8rem; color: var(--fg-2); min-width: min(180px, 100%); }
 .knob output { font-family: var(--mono); color: var(--accent); }
 input[type="range"] { accent-color: var(--accent); width: 100%; }
 
@@ -501,7 +506,7 @@ details#advanced summary { cursor: pointer; color: var(--fg-1); font-size: 0.85r
   font-size: 0.72rem; padding: 0.2rem 0.45rem; border-radius: 4px; font-variant-numeric: tabular-nums;
 }
 /* A/B compare — pin control, delta table, paired charts. */
-.compare-controls { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin: 0 0 0.7rem; }
+.compare-controls { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin: 0; }
 .compare-controls:empty { display: none; }
 .compare-chip { font-size: 0.8rem; color: var(--accent-bright); background: var(--bg-1); border: 1px solid var(--accent-line); border-radius: 5px; padding: 0.28rem 0.55rem; }
 .compare-wrap { margin: 0.4rem 0 1rem; }
