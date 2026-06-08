@@ -1,0 +1,45 @@
+# Optional reference-frame cross-validation against ANISE/SPICE.
+#
+# MANUAL ONLY (`workflow_dispatch`): this job is never triggered by push or pull_request,
+# so it can NEVER block `main`. It lives apart from the gating CI because it compiles the
+# standalone `xval/anise-frames` crate, which depends on the MPL-2.0 / edition-2024
+# `anise` + `hifitime` crates (deliberately kept out of the published `kshana` graph and
+# the `cargo deny` / MSRV gates) and downloads a ~5 MB SPICE kernel from NAIF at runtime.
+#
+# Run it from the Actions tab to regenerate the cross-validation report on demand.
+name: Frame cross-validation (ANISE)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  frame-xval:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: xval/anise-frames
+    steps:
+      - uses: actions/checkout@v4
+      # Pinned to the repo toolchain; anise needs edition 2024 (>= 1.85), satisfied by 1.93.
+      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: xval/anise-frames
+      - name: Build the cross-validation crate
+        run: cargo build --bins
+      - name: Run the cross-validation (fetches the BPC, asserts the bounds)
+        # The binary downloads earth_latest_high_prec.bpc into kernels/, prints the table,
+        # writes report.{json,md}, and exits non-zero if the agreement regresses past
+        # angle < 0.1" / surface < 2 m / GPS < 10 m.
+        run: cargo run --bin frame-xval
+      - name: Run the test gate
+        run: cargo test
+      - name: Upload the cross-validation report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: frame-xval-report
+          path: |
+            xval/anise-frames/report.json
+            xval/anise-frames/report.md
+          if-no-files-found: warn
