@@ -161,8 +161,14 @@ pub fn wls_covariance(sats: &[SbasSat]) -> Option<[[f64; 4]; 4]> {
     }
     let mut a = [[0.0_f64; 4]; 4];
     for s in sats {
+        // Reject non-finite geometry/variance up front: `NaN <= 0.0` is false, so a NaN σ, σ²,
+        // elevation, or azimuth would otherwise slip the guards, poison the normal matrix, and
+        // produce a non-finite "valid" protection level — a silent integrity failure.
+        if !s.el_rad.is_finite() || !s.az_rad.is_finite() {
+            return None;
+        }
         let var = s.err.variance();
-        if var <= 0.0 {
+        if !var.is_finite() || var <= 0.0 {
             return None;
         }
         let w = 1.0 / var;
@@ -173,7 +179,18 @@ pub fn wls_covariance(sats: &[SbasSat]) -> Option<[[f64; 4]; 4]> {
             }
         }
     }
-    crate::orbit::invert4(a)
+    let d = crate::orbit::invert4(a)?;
+    // `invert4` uses an absolute pivot tolerance, so a near-singular geometry scaled up by large
+    // weights (small σ) can pass it yet yield a negative or non-finite covariance diagonal. A
+    // covariance diagonal must be finite and non-negative; otherwise the geometry is effectively
+    // rank-deficient — reject it rather than return a √(negative)=NaN protection level.
+    if d.iter().any(|row| row.iter().any(|x| !x.is_finite())) {
+        return None;
+    }
+    if d[0][0] < 0.0 || d[1][1] < 0.0 || d[2][2] < 0.0 || d[3][3] < 0.0 {
+        return None;
+    }
+    Some(d)
 }
 
 /// DO-229E weighted-least-squares protection levels for the satellite set and mode.
@@ -576,5 +593,59 @@ mod tests {
         let json = serde_json::to_string(&map).expect("serialize");
         assert!(json.contains("requirement_id"));
         assert!(json.contains("Implemented"));
+    }
+
+    // --- Regression: a protection level must never be returned non-finite or absurd ---
+
+    #[test]
+    fn near_singular_geometry_at_small_sigma_returns_none_not_nan() {
+        // A near-coplanar geometry scaled up by tiny σ (cm-level) once slipped invert4's
+        // absolute pivot gate and yielded a NEGATIVE covariance diagonal → NaN VPL and a
+        // ~10⁹ m HPL returned as a valid Some. It must be rejected as rank-deficient.
+        let deg = std::f64::consts::PI / 180.0;
+        let mk = |el: f64, az: f64| SbasSat {
+            el_rad: el * deg,
+            az_rad: az * deg,
+            err: SbasErrorModel::uniform(1e-6),
+        };
+        let sats = [
+            mk(89.999, 0.0),
+            mk(89.9991, 0.001),
+            mk(89.9992, 0.002),
+            mk(89.9993, 0.003),
+        ];
+        let pl = sbas_protection_level(&sats, SbasMode::PrecisionApproach);
+        assert!(
+            pl.is_none(),
+            "near-singular geometry must return None, got {pl:?}"
+        );
+    }
+
+    #[test]
+    fn non_finite_inputs_never_yield_a_protection_level() {
+        let deg = std::f64::consts::PI / 180.0;
+        let good = |el: f64, az: f64| SbasSat {
+            el_rad: el * deg,
+            az_rad: az * deg,
+            err: SbasErrorModel::uniform(1.0),
+        };
+        let base = [
+            good(80.0, 10.0),
+            good(30.0, 120.0),
+            good(45.0, 200.0),
+            good(20.0, 300.0),
+        ];
+        // NaN variance.
+        let mut nan_var = base;
+        nan_var[0].err.sigma_flt_m = f64::NAN;
+        assert!(sbas_protection_level(&nan_var, SbasMode::PrecisionApproach).is_none());
+        // NaN elevation.
+        let mut nan_el = base;
+        nan_el[0].el_rad = f64::NAN;
+        assert!(sbas_protection_level(&nan_el, SbasMode::PrecisionApproach).is_none());
+        // NaN azimuth.
+        let mut nan_az = base;
+        nan_az[0].az_rad = f64::NAN;
+        assert!(sbas_protection_level(&nan_az, SbasMode::PrecisionApproach).is_none());
     }
 }
