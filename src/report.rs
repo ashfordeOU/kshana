@@ -30,6 +30,13 @@ pub struct RunResult {
     pub threshold_ns: f64,
     pub quantum: ClockRun,
     pub classical: ClockRun,
+    /// Optional propagated Earth-centred-inertial track of the user spacecraft
+    /// (km), one `[x, y, z]` per sampled time, populated only for the orbit pack
+    /// so the playground can draw the 3D orbit. `None` for non-orbit runs; an
+    /// output-only field, so it does not perturb [`hash_scenario`] (which hashes
+    /// only the scenario *inputs*) or the shared-link reproducibility.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub eci_track: Option<Vec<[f64; 3]>>,
 }
 
 /// sha256 hex over the canonical JSON of the scenario (field order is stable).
@@ -243,6 +250,7 @@ mod svg_tests {
             threshold_ns: 20.0,
             quantum: run_of("optical", &[0.0, 0.0, 0.1]),
             classical: run_of("csac", &[0.0, 15.0, 40.0]),
+            eci_track: None,
         };
         let svg = to_svg(&r);
         assert!(svg.starts_with("<svg"));
