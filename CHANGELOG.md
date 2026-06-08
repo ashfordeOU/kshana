@@ -9,6 +9,18 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+- **A `Propagator` trait unifying the analytic and numerical orbit propagators.** The
+  numerical Cowell force-model propagator is now a first-class peer of SGP4: a new
+  `NumericalPropagator` type (initial state + `ForceModel` + `Tolerance` + choice of
+  step-doubling or Dormand–Prince `Integrator`) and `Sgp4` both implement
+  `propagator::Propagator`, whose `state_at(t_seconds) -> StateVector` returns the inertial
+  TEME state in SI units (m, m/s) so the two are interchangeable behind a
+  `Box<dyn Propagator>`. The SGP4 impl is the exact km/min→SI conversion of the inherent
+  method (verified by an equality test); the numerical impl clears the same sub-metre
+  exact-Kepler gate through the trait, the two adaptive drivers agree, and a `PropagatorError`
+  surfaces the underlying SGP4 code.
+
 ## [0.13.0] - 2026-06-08
 
 This release closes the largest correctness gap in the engine: Earth-orientation

@@ -49,6 +49,7 @@ use crate::forces::{
 };
 use crate::integrator::{integrate, integrate_dopri, rk4_step, Tolerance};
 use crate::precession::julian_centuries_tt;
+use crate::sgp4::Sgp4;
 use crate::timescales::SECONDS_PER_DAY;
 
 type Vec3 = [f64; 3];
@@ -296,6 +297,144 @@ pub fn propagate_dopri(
         [sol.y[0], sol.y[1], sol.y[2]],
         [sol.y[3], sol.y[4], sol.y[5]],
     )
+}
+
+/// An inertial (TEME/ECI) state returned by a [`Propagator`], in **SI units** — position in
+/// metres, velocity in metres per second. This is the common currency of the trait, so the
+/// analytic SGP4 (which works in km, km/s) and the numerical propagator (which works in m, m/s)
+/// can be used interchangeably without a caller tracking each one's units.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct StateVector {
+    /// Position in metres (TEME/ECI).
+    pub r: Vec3,
+    /// Velocity in metres per second (TEME/ECI).
+    pub v: Vec3,
+}
+
+/// An error returned by a [`Propagator`].
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum PropagatorError {
+    /// The analytic SGP4/SDP4 model returned a non-physical state, carrying its integer error
+    /// code (1 eccentricity, 2 mean motion, 3 perturbed eccentricity, 4 semi-latus rectum,
+    /// 6 decayed).
+    Sgp4(i32),
+}
+
+impl core::fmt::Display for PropagatorError {
+    fn fmt(&self, f: &mut core::fmt::Formatter<'_>) -> core::fmt::Result {
+        match self {
+            PropagatorError::Sgp4(code) => write!(f, "SGP4 propagation error (code {code})"),
+        }
+    }
+}
+
+impl std::error::Error for PropagatorError {}
+
+/// An orbit propagator: it advances an orbital state to a time `t_seconds` **after its own
+/// epoch** and returns the inertial state in SI units. Implemented by both the analytic
+/// [`Sgp4`] and the numerical [`NumericalPropagator`], so callers can hold a
+/// `Box<dyn Propagator>` and treat TLE-driven and force-model-driven orbits uniformly.
+pub trait Propagator {
+    /// The inertial (TEME/ECI) state at `t_seconds` past epoch, in metres and m/s.
+    fn state_at(&self, t_seconds: f64) -> Result<StateVector, PropagatorError>;
+    /// A short, stable name of the dynamical model, for provenance and reporting.
+    fn model_name(&self) -> &'static str;
+}
+
+/// Which adaptive driver a [`NumericalPropagator`] integrates the force model with.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub enum Integrator {
+    /// RK4 with step-doubling error control ([`propagate`]). The default.
+    #[default]
+    StepDoubling,
+    /// The Dormand–Prince RK5(4) embedded pair ([`propagate_dopri`]) — same result, fewer
+    /// function evaluations per step.
+    DormandPrince,
+}
+
+/// A first-class numerical propagator: the [`ForceModel`] integrated from an initial inertial
+/// state `(r0, v0)` (SI units) to a [`Tolerance`] by the chosen [`Integrator`]. It implements
+/// [`Propagator`] so the numerical force-model orbit is a peer of the analytic [`Sgp4`] behind
+/// one interface — the wiring the milestone calls for.
+#[derive(Clone, Copy, Debug)]
+pub struct NumericalPropagator {
+    /// Initial position at epoch (m, TEME/ECI).
+    pub r0: Vec3,
+    /// Initial velocity at epoch (m/s, TEME/ECI).
+    pub v0: Vec3,
+    /// The force model to integrate.
+    pub model: ForceModel,
+    /// Integration tolerance / step bounds.
+    pub tol: Tolerance,
+    /// Which adaptive driver to use.
+    pub integrator: Integrator,
+}
+
+impl NumericalPropagator {
+    /// A two-body propagator from `(r0, v0)` (m, m/s) with the default tolerance and the
+    /// step-doubling driver. Add perturbations with [`with_model`](Self::with_model).
+    pub fn two_body(r0: Vec3, v0: Vec3) -> Self {
+        Self {
+            r0,
+            v0,
+            model: ForceModel::two_body(),
+            tol: Tolerance::default(),
+            integrator: Integrator::default(),
+        }
+    }
+
+    /// Replace the force model (e.g. with [`ForceModel::with_zonals_j2_j6`] or a drag/SRP build).
+    pub fn with_model(mut self, model: ForceModel) -> Self {
+        self.model = model;
+        self
+    }
+
+    /// Set the integration tolerance and step bounds.
+    pub fn with_tolerance(mut self, tol: Tolerance) -> Self {
+        self.tol = tol;
+        self
+    }
+
+    /// Choose the adaptive driver.
+    pub fn with_integrator(mut self, integrator: Integrator) -> Self {
+        self.integrator = integrator;
+        self
+    }
+}
+
+impl Propagator for NumericalPropagator {
+    fn state_at(&self, t_seconds: f64) -> Result<StateVector, PropagatorError> {
+        let (r, v) = match self.integrator {
+            Integrator::StepDoubling => {
+                propagate(self.r0, self.v0, t_seconds, self.model, &self.tol)
+            }
+            Integrator::DormandPrince => {
+                propagate_dopri(self.r0, self.v0, t_seconds, self.model, &self.tol)
+            }
+        };
+        Ok(StateVector { r, v })
+    }
+
+    fn model_name(&self) -> &'static str {
+        "numerical-cowell"
+    }
+}
+
+impl Propagator for Sgp4 {
+    fn state_at(&self, t_seconds: f64) -> Result<StateVector, PropagatorError> {
+        // SGP4 takes minutes past epoch and returns TEME km / km·s⁻¹; convert to SI.
+        let (r_km, v_km) = self
+            .propagate(t_seconds / 60.0)
+            .map_err(PropagatorError::Sgp4)?;
+        Ok(StateVector {
+            r: [r_km[0] * 1000.0, r_km[1] * 1000.0, r_km[2] * 1000.0],
+            v: [v_km[0] * 1000.0, v_km[1] * 1000.0, v_km[2] * 1000.0],
+        })
+    }
+
+    fn model_name(&self) -> &'static str {
+        "sgp4"
+    }
 }
 
 /// Right ascension of the ascending node `Ω` (rad) of the osculating orbit for state
@@ -902,6 +1041,117 @@ mod tests {
         assert!(
             sep < 5.0e4,
             "J3..J6 must stay a small correction, separation {sep} m"
+        );
+    }
+
+    // --- Propagator trait: the numerical propagator as a first-class peer of SGP4 ---
+
+    /// A valid LEO two-line element set (ISS-like: i = 51.64°, e = 0.0007, ~15.5 rev/day)
+    /// for exercising the SGP4 [`Propagator`] impl. The exact numbers need only be a
+    /// self-consistent valid element set — the test compares the trait against the inherent
+    /// method on the same object, not against an external reference.
+    fn iss_like_tle() -> crate::tle::Tle {
+        crate::tle::Tle {
+            epoch_days_1950: 26000.0,
+            bstar: 1.0e-4,
+            ecco: 0.0007,
+            argpo_rad: 1.0,
+            inclo_rad: 51.64_f64.to_radians(),
+            mo_rad: 2.0,
+            no_kozai_rad_min: 15.50 * std::f64::consts::TAU / 1440.0,
+            nodeo_rad: 0.5,
+        }
+    }
+
+    #[test]
+    fn numerical_propagator_trait_matches_exact_kepler() {
+        // The NumericalPropagator, used through the Propagator trait, must clear the same
+        // analytic-truth gate as the free function: sub-metre vs the exact Kepler solution.
+        let (r0, v0) = leo_state();
+        let day = 86_400.0;
+        let prop = NumericalPropagator::two_body(r0, v0).with_tolerance(Tolerance {
+            rtol: 1e-12,
+            atol: 1e-9,
+            ..Tolerance::default()
+        });
+        let s = prop
+            .state_at(day)
+            .expect("two-body propagation is infallible");
+        let (r_exact, _) = kepler_universal(r0, v0, day, MU_EARTH);
+        let err = norm([
+            s.r[0] - r_exact[0],
+            s.r[1] - r_exact[1],
+            s.r[2] - r_exact[2],
+        ]);
+        assert!(err < 1.0, "trait two-body residual {err} m vs exact Kepler");
+        assert_eq!(prop.model_name(), "numerical-cowell");
+    }
+
+    #[test]
+    fn numerical_propagator_dormand_prince_selection_agrees() {
+        // Selecting the Dormand–Prince driver through the trait must agree with step-doubling
+        // (same physics, different error control) and still hit exact Kepler.
+        let (r0, v0) = leo_state();
+        let day = 86_400.0;
+        let tol = Tolerance {
+            rtol: 1e-12,
+            atol: 1e-9,
+            ..Tolerance::default()
+        };
+        let sd = NumericalPropagator::two_body(r0, v0)
+            .with_tolerance(tol)
+            .state_at(day)
+            .unwrap();
+        let dp = NumericalPropagator::two_body(r0, v0)
+            .with_tolerance(tol)
+            .with_integrator(Integrator::DormandPrince)
+            .state_at(day)
+            .unwrap();
+        let sep = norm([sd.r[0] - dp.r[0], sd.r[1] - dp.r[1], sd.r[2] - dp.r[2]]);
+        assert!(
+            sep < 1.0,
+            "the two adaptive drivers must agree, sep {sep} m"
+        );
+    }
+
+    #[test]
+    fn sgp4_propagator_trait_matches_inherent_method_in_si() {
+        // The SGP4 Propagator impl must be exactly the inherent km/min method converted to
+        // SI (m, m/s, seconds) — a unit-conversion identity, no tolerance.
+        let sgp4 = iss_like_tle().to_sgp4(crate::sgp4::wgs72(), false);
+        let t_s = 3600.0;
+        let (r_km, v_km) = sgp4.propagate(t_s / 60.0).unwrap();
+        let s = Propagator::state_at(&sgp4, t_s).unwrap();
+        for k in 0..3 {
+            assert_eq!(s.r[k], r_km[k] * 1000.0, "position component {k}");
+            assert_eq!(s.v[k], v_km[k] * 1000.0, "velocity component {k}");
+        }
+        assert_eq!(sgp4.model_name(), "sgp4");
+    }
+
+    #[test]
+    fn propagators_are_object_safe_and_polymorphic() {
+        // The whole point of the trait: a heterogeneous set of propagators behind one
+        // interface. Box<dyn Propagator> must compile and dispatch to both impls.
+        let (r0, v0) = leo_state();
+        let props: Vec<Box<dyn Propagator>> = vec![
+            Box::new(NumericalPropagator::two_body(r0, v0)),
+            Box::new(iss_like_tle().to_sgp4(crate::sgp4::wgs72(), false)),
+        ];
+        for p in &props {
+            let s = p.state_at(600.0).expect("both propagate 10 min fine");
+            assert!(s.r.iter().all(|x| x.is_finite()) && norm(s.r) > 6.0e6);
+            assert!(!p.model_name().is_empty());
+        }
+    }
+
+    #[test]
+    fn propagator_error_displays_the_sgp4_code() {
+        // The error type must surface the underlying SGP4 integer code through Display.
+        let e = PropagatorError::Sgp4(6);
+        assert!(
+            format!("{e}").contains('6'),
+            "Display should name the code: {e}"
         );
     }
 }
