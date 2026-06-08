@@ -263,7 +263,12 @@ pub fn lunar_look_angle(user: Vec3, relay: Vec3) -> LunarAzEl {
     // Clamp to the asin domain (a float-rounded exactly-overhead relay can push
     // `du` to 1.0000000002 ⇒ NaN), mirroring `crate::orbit::elevation_deg`.
     let el = du.clamp(-1.0, 1.0).asin().to_degrees();
-    let az = de.atan2(dn).to_degrees().rem_euclid(360.0);
+    // `rem_euclid(360)` can float-round up to exactly 360.0, breaking the documented [0,360)
+    // invariant; fold that single edge back to 0.
+    let mut az = de.atan2(dn).to_degrees().rem_euclid(360.0);
+    if az >= 360.0 {
+        az = 0.0;
+    }
     LunarAzEl {
         az_deg: az,
         el_deg: el,
