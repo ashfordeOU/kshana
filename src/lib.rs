@@ -50,6 +50,7 @@ pub mod report;
 pub mod rinex;
 pub mod rinex_obs;
 pub mod run;
+pub mod sbas;
 pub mod scenario;
 pub mod security;
 pub mod sgp4;
