@@ -18,6 +18,12 @@ classifiers = [
 ]
 dynamic = ["version"]
 
+# numpy is a TEST-ONLY dependency. The extension has zero runtime NumPy need, so
+# it is deliberately NOT in [project] dependencies (no false dependency claim);
+# it lives only here under the `test` extra and in the CI install step.
+[project.optional-dependencies]
+test = ["pytest", "numpy"]
+
 [project.urls]
 Repository = "https://github.com/AshfordeOU/kshana"
 
