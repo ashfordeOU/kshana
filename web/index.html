@@ -501,9 +501,17 @@
       </div>
     </footer>
 
+    <!-- Persistent tour launcher — always reachable so anyone can (re)start the guided
+         tour at any time, on any device. Hidden in embed mode (handled in app.js). -->
+    <button id="tour-fab" class="tour-fab" type="button" aria-label="Take the guided tour"
+            title="Take the guided tour — a 60-second walkthrough of the page">
+      <span aria-hidden="true">?</span> Tour
+    </button>
+
     <!-- The interactive guided tour overlay (spotlight + tooltip) is built in app.js
          (tour.mjs is its pure core). It auto-runs once on first visit and replays from
-         the "Take the 60-second tour" button in the playground; never runs in embed. -->
+         the floating "Tour" button or the "Take the 60-second tour" button in the
+         playground; never runs in embed. -->
 
     <!-- Quiet settling motion. Progressive enhancement: without JS, all content
          is fully visible; reduced-motion preferences are honoured. -->

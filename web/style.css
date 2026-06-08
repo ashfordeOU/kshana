@@ -599,6 +599,20 @@ pre#json { font-family: var(--mono); font-size: 0.76rem; overflow: auto; max-hei
    positioned by tour.mjs. Honours reduced-motion and is touch-friendly. */
 .tour-overlay { position: fixed; inset: 0; z-index: 1000; display: none; }
 .tour-overlay.on { display: block; }
+/* Persistent launcher — always reachable; sits below the tour overlay so it tucks
+   away while the tour is running. */
+.tour-fab {
+  position: fixed; right: 1rem; bottom: 1rem; z-index: 50;
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0.55rem 0.95rem; border-radius: 999px; cursor: pointer;
+  font: inherit; font-size: 0.86rem; color: var(--fg);
+  background: linear-gradient(180deg, var(--bg-2), var(--bg-1));
+  border: 1px solid var(--accent-line); box-shadow: var(--shadow-2);
+}
+.tour-fab:hover { border-color: var(--accent-bright); color: var(--accent-bright); }
+.tour-fab span { color: var(--accent-bright); font-weight: 700; }
+.tour-fab[hidden] { display: none; }
+@media (pointer: coarse), (max-width: 760px) { .tour-fab { min-height: 44px; } }
 .tour-spot {
   position: fixed; border-radius: 8px; pointer-events: none;
   box-shadow: 0 0 0 9999px rgba(8, 7, 5, 0.66), 0 0 0 2px var(--accent-bright);
