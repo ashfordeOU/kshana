@@ -1183,6 +1183,8 @@ async function main() {
   const cfg = embed ? embedConfig(location.search) : null;
   if (embed) {
     for (const c of embedClassList(cfg)) document.body.classList.add(c);
+    const fab = el("tour-fab");
+    if (fab) fab.hidden = true; // no marketing chrome inside an embedded iframe
   }
 
   // A shared link (scenario in the URL fragment) wins over the default scenario.
@@ -1214,8 +1216,12 @@ async function main() {
   el("sweep-run").addEventListener("click", runSweep);
   el("sweep-knob").addEventListener("change", syncSweepControls);
   el("download-report").addEventListener("click", downloadReport);
-  const tourBtn = el("tour-launch");
-  if (tourBtn) tourBtn.addEventListener("click", startTour);
+  // Both tour launchers — the in-context playground button and the persistent
+  // floating button — start (or restart) the guided tour.
+  for (const id of ["tour-launch", "tour-fab"]) {
+    const btn = el(id);
+    if (btn) btn.addEventListener("click", startTour);
+  }
 
   if (shared && !embed) {
     el("advanced").open = true; // a shared run may be hand-tuned: show the source
