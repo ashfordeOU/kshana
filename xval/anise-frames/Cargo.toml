@@ -1,0 +1,32 @@
+# Standalone, workspace-EXCLUDED cross-validation crate.
+#
+# Why a separate crate and not a `kshana` cargo feature: the cross-check depends on
+# `anise` (the pure-Rust NAIF/SPICE reimplementation) and `hifitime`, both licensed
+# MPL-2.0 and built on edition 2024 (Rust >= 1.85). Pulling either into the main
+# crate's dependency graph would (a) break the required `cargo deny` license gate
+# (MPL-2.0 is outside the strict allow-list) and (b) break the MSRV job (cargo 1.75
+# cannot even parse an edition-2024 manifest in the graph). Isolating WE3 here keeps
+# the published `kshana` crate lean and every default CI gate byte-for-byte untouched:
+# this crate has its OWN Cargo.lock and is invisible to root `cargo` commands (the
+# root package declares no `[workspace]`, and lists `/xval` in its `exclude`).
+[package]
+name = "kshana-anise-xval"
+version = "0.1.0"
+edition = "2021"
+description = "Independent numerical cross-validation of kshana's IAU 2006/2000A reference frames against ANISE (pure-Rust SPICE)."
+license = "Apache-2.0"
+publish = false
+
+[[bin]]
+name = "frame-xval"
+path = "src/main.rs"
+
+[dependencies]
+kshana = { path = "../.." }
+# ANISE: pure-Rust NAIF/SPICE. `default-features = false` drops the HTTP downloader /
+# Dhall metaload stack (we fetch kernels ourselves via curl), so the only crates this
+# pulls that fall outside kshana's strict license allow-list are `anise` + `hifitime`,
+# both MPL-2.0 — confined entirely to this crate's Cargo.lock.
+anise = { version = "0.10", default-features = false }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"

@@ -25,6 +25,10 @@ exclude = [
     "/tests/igs_real_data.rs",
     "/tests/sgp4_crate_comparison.rs",
     "/tests/terrain_nav_validation.rs",
+    # The ANISE frame cross-validation is a standalone, workspace-excluded crate with
+    # its own Cargo.lock (it depends on the MPL-2.0 / edition-2024 `anise` + `hifitime`,
+    # which must never enter the published crate's dependency graph). See xval/.
+    "/xval",
 ]
 
 [lib]

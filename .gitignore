@@ -18,3 +18,10 @@ __pycache__/
 /web/pkg
 /web/scenarios
 /web/assets
+
+# ANISE frame cross-validation crate: its build dir, downloaded SPICE kernels, and
+# generated reports. The crate's source + Cargo.lock ARE committed; these are not.
+/xval/anise-frames/target
+/xval/anise-frames/kernels/*.bpc
+/xval/anise-frames/report.json
+/xval/anise-frames/report.md
