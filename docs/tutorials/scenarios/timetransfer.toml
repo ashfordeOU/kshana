@@ -1,0 +1,38 @@
+# ============================================================================
+# TEACHING COPY — Time transfer. Kind = timetransfer.
+#
+# Provenance: a comment-annotated copy of scenarios/timetransfer.toml. Field
+# values are byte-for-byte identical to the parent (comments never change a hash).
+#
+# What it does: optical inter-satellite time transfer vs classical RF (TWSTFT).
+# Each link is a two-way exchange: the reciprocal (common-mode) path delay cancels
+# in (m_AB - m_BA)/2, so the error is the white measurement jitter (sigma_j_s)
+# plus a non-reciprocal differential-delay random-walk-FM floor (q_rw_s,
+# sigma_y^2(tau) = q_rw*tau/3). adev_tau0 is the link's Allan deviation at 1 s.
+#
+# Oracle (non-circular): the timing<->ranging conversion range = c*dt with
+# c = 2.998e8 m/s. 1 ps -> 1e-12 * 3e8 = 0.3 mm EXACTLY. The optical link's
+# range_rms 0.293 mm at sync 0.98 ps confirms range = c*dt (not self-comparison).
+#
+# UNITS: sync in picoseconds, range in millimetres; 1 ps <-> 0.3 mm.
+#
+# expected: scenario <hash> | optical sync_rms 0.98ps range_rms 0.293mm adev(1s) 1.73e-12 | RF sync_rms 1137.3ps range_rms 341.0mm adev(1s) 8.65e-10
+# ============================================================================
+
+kind = "timetransfer"
+seed = 42
+samples = 600
+step_s = 1.0
+range_spec_mm = 10.0
+
+[link_quantum]
+id = "optical-isl"
+provenance = "Optical inter-satellite link, picosecond-level synchronization target; free-space optical two-way time-frequency transfer lab floor ~1 fs (Giorgetta 2013, Nature Photonics; Deschenes 2016, PRX). Using a 1 ps target as the on-orbit-credible figure."
+sigma_j_s = 1.0e-12    # white measurement jitter (1 ps) -> dominates the optical link
+q_rw_s = 1.0e-32       # near-white: an optical link's differential drift floor is tiny
+
+[link_classical]
+id = "twstft-rf"
+provenance = "Two-way satellite time and frequency transfer (TWSTFT, Ku-band), single-session ~0.5 ns (BIPM/PTB/NIST)."
+sigma_j_s = 5.0e-10
+q_rw_s = 1.0e-26       # diurnal/differential-delay random-walk floor of an RF link

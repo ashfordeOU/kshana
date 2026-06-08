@@ -1,0 +1,78 @@
+# ============================================================================
+# TEACHING COPY — Tutorial 3 (Part B): Hybrid PNT capstone. Kind = hybrid.
+#
+# Provenance: a comment-annotated copy of scenarios/hybrid-pnt.toml. Field values
+# are byte-for-byte identical to the parent (comments never change a hash).
+#
+# What it does: fuses an all-quantum suite (optical clock + cold-atom IMU +
+# optical inter-satellite time-transfer aiding) vs an all-classical suite (CSAC +
+# nav-grade IMU + RF), through a 1.8 h GNSS outage, against a 20 ns timing spec
+# and a 100 m position spec. Reports PNT-holdover split into timing (t) and
+# position (p) holdover.
+#
+# Read the (t .../p ...) split: the classical suite's TIMING survives the full
+# outage (optical time-transfer keeps even the classical clock locked) but it is
+# POSITION-limited at ~350 s — the nav-grade IMU is the weak link.
+#
+# CAVEAT: quantum integrity 0.998 is filter self-consistency over noisy resync,
+# NOT aviation HPL/VPL integrity (see docs/INTEGRITY.md).
+#
+# Oracle (non-circular): position holdover follows dead-reckoning physics, error
+# = 0.5*b*T^2 (Groves 2nd ed.). Nav-grade b=1.57e-3 m/s^2 -> 100 m at
+# T=sqrt(2*100/1.57e-3)=357 s (~350 s on grid). Cold-atom b=5.88e-7 m/s^2
+# (Templier et al. 2022, arXiv:2209.13209) -> 100 m at 18,440 s >> 6600 s outage.
+# These two 0.5*b*T^2 values bracket the engine's 350 s / 6600 s split exactly.
+#
+# expected: scenario f33d734ecc51 | quantum PNT-holdover 6600s (t 6600s/p 6600s) integrity 0.998 security 0.997 | classical PNT-holdover 350s (t 6600s/p 350s) integrity 1.000 security 0.000
+# ============================================================================
+
+kind = "hybrid"
+seed = 42
+timing_spec_ns = 20.0
+position_spec_m = 100.0
+
+[time]
+step_s = 10.0
+duration_s = 7200.0
+
+[gnss]
+windows = [
+  { t0 = 0.0,   t1 = 600.0,  state = "nominal" },
+  { t0 = 600.0, t1 = 7200.0, state = "denied" },
+]
+
+[resync]
+# Optical inter-satellite time-transfer aiding: periodic resync of the clock state.
+enabled = true
+interval_s = 60.0
+sigma_j_s = 1.0e-12    # 1 ps per-resync jitter (optical link floor)
+
+[clock_quantum]
+id = "optical-sr-lattice"
+provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (arXiv:1503.08457)"
+y0 = 5.0e-17
+q_wf = 1.0e-30
+q_rw = 0.0
+drift = 0.0
+
+[clock_classical]
+id = "csac-sa45s"
+provenance = "Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10"
+y0 = 5.0e-10
+q_wf = 9.0e-20
+q_rw = 0.0
+drift = 0.0
+
+[accel_quantum]
+# Cold-atom accelerometer triad; bias 5.88e-7 m/s^2 -> drives the full-outage hold.
+id = "cold-atom-quat"
+provenance = "Exail hybrid quantum accelerometer triad, bias stability 5.88e-7 m/s^2 (Templier et al. 2022, arXiv:2209.13209)"
+bias = 5.88e-7
+q_va = 4.6656e-8
+
+[accel_classical]
+# Nav-grade quartz; bias 1.57e-3 m/s^2 -> 100 m at ~350 s (the classical weak link).
+id = "nav-grade-quartz"
+provenance = "Navigation-grade quartz accelerometer (Honeywell QA-2000 / Groves), bias stability 1.57e-3 m/s^2"
+bias = 1.57e-3
+q_va = 3.8416e-8

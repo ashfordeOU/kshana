@@ -1,0 +1,49 @@
+# ============================================================================
+# TEACHING COPY — Inertial dead-reckoning. Kind = inertial.
+#
+# Provenance: a comment-annotated copy of scenarios/imu-deadreckoning.toml. Field
+# values are byte-for-byte identical to the parent (comments never change a hash).
+#
+# What it does: 1-DOF inertial dead-reckoning during a 1.8 h GNSS outage, against
+# a 100 m position spec. Cold-atom quantum accelerometer vs navigation-grade.
+# bias = post-GNSS-calibration residual = published bias stability;
+# q_va = (noise root-PSD)^2.
+#
+# Oracle (non-circular): position error grows as 0.5*b*T^2 (Groves 2nd ed.,
+# dead-reckoning error growth). Nav-grade b=1.57e-3 m/s^2 -> 100 m at ~357 s
+# (engine reports holdover 350 s on the grid). Quantum p95 ~41 m over the full
+# outage is order-consistent: 0.5*5.88e-7*6600^2 = 12.8 m bias term plus the
+# velocity-random-walk contribution sqrt(q_va*T^3/3).
+#
+# UNITS: position FoM in metres, 1-DOF (single-axis, NOT a 2-D CEP/2DRMS).
+#
+# expected: scenario <hash> | quantum holdover 6600s p95 41.39m | classical holdover 350s p95 30629.9m
+# ============================================================================
+
+kind = "inertial"
+seed = 42
+threshold_m = 100.0    # position spec; holdover = time in-spec after GNSS loss
+
+[time]
+step_s = 10.0
+duration_s = 7200.0
+
+[gnss]
+windows = [
+  { t0 = 0.0,   t1 = 600.0,  state = "nominal" },
+  { t0 = 600.0, t1 = 7200.0, state = "denied" },
+]
+
+[accel_quantum]
+id = "cold-atom-quat"
+provenance = "Exail hybrid quantum accelerometer triad: bias stability 6e-8 g = 5.88e-7 m/s^2 after 24 h (Templier et al., Science Advances 2022, arXiv:2209.13209); noise 22 ug/sqrtHz = 2.16e-4 (m/s^2)/sqrtHz; laboratory maturity, not deployed"
+bias = 5.88e-7
+q_va = 4.6656e-8
+
+[accel_classical]
+id = "nav-grade-quartz"
+provenance = "Navigation-grade quartz accelerometer (Honeywell QA-2000 / Groves AESS Tutorial): bias stability ~160 ug = 1.57e-3 m/s^2; noise ~20 ug/sqrtHz = 1.96e-4 (m/s^2)/sqrtHz; bias instability ~1 ug = 1e-5 m/s^2; modest acceleration random walk"
+bias = 1.57e-3
+q_va = 3.8416e-8
+bias_instability = 1.0e-5
+q_aa = 1.0e-13

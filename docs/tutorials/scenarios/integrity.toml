@@ -1,0 +1,49 @@
+# ============================================================================
+# TEACHING COPY — Integrity (RAIM). Kind = integrity.
+#
+# Provenance: a comment-annotated copy of scenarios/integrity-raim.toml. Field
+# values are byte-for-byte identical to the parent (comments never change a hash).
+#
+# What it does: GNSS integrity over a 24-satellite Walker-delta constellation.
+# At each epoch the visible satellites are propagated, snapshot-RAIM horizontal/
+# vertical protection levels (HPL/VPL) are computed from the geometry and the
+# user-equivalent range error, and availability is judged against the APV-I
+# alert limits. A vertical Stanford(-ESA) integrity diagram classifies a seeded
+# error draw per protected epoch (Available / Unavailable / Misleading / HMI).
+#
+# This is GENUINE receiver-autonomous integrity (real HPL/VPL with alert limits),
+# distinct from the clock pack's "integrity" FoM (filter self-consistency).
+#
+# Oracle (non-circular): APV-I alert limits HAL 40 m / VAL 50 m are the published
+# RTCA DO-229 / ICAO Annex 10 vertical-guidance limits — external to Kshana.
+#
+# expected: integrity | 24 satellites | 344/361 epochs available (95.3%) | HAL 40 m VAL 50 m | sigma 1.0 m | Stanford(V): 0 integrity events, 0 HMI
+# ============================================================================
+
+kind = "integrity"
+
+seed = 7               # makes the per-epoch Stanford error realization reproducible
+mask_deg = 5.0
+sigma_uere_m = 1.0     # 1-sigma user-equivalent range error (dual-frequency, smoothed)
+p_fa = 1.0e-5          # allowed false-alarm probability
+p_md = 1.0e-3          # allowed missed-detection probability
+al_h_m = 40.0          # horizontal alert limit (APV-I)
+al_v_m = 50.0          # vertical alert limit (APV-I)
+
+[time]
+step_s = 120.0
+duration_s = 43200.0   # 12 h
+
+[user]
+altitude_km = 0.4
+inclination_deg = 45.0
+raan_deg = 10.0
+u0_deg = 0.0
+
+# Synthetic 24-satellite Walker-delta (6 planes of 4), illustrative of GPS geometry.
+[constellation]
+altitude_km = 20200.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
