@@ -32,12 +32,31 @@ jobs:
         with:
           command: build
           args: --release --features python --out dist
+          # Pin the manylinux container so every Linux wheel carries the same ABI
+          # floor (GLIBC 2.28, RHEL8 / Ubuntu 20.04-era). Ignored off-Linux.
+          manylinux: 2_28
       - name: Build source distribution
         if: matrix.os == 'ubuntu-latest'
         uses: PyO3/maturin-action@v1
         with:
           command: sdist
           args: --out dist
+      - name: Verify Linux wheel platform tag (auditwheel)
+        # auditwheel (the PyPA reference tool) is the authority on the wheel's ABI
+        # tag, independent of Kshana. With manylinux pinned to 2_28 the wheel must
+        # be tagged manylinux_2_28_x86_64; fail the job otherwise. auditwheel is
+        # preinstalled INSIDE the container, but this `show` runs on the host
+        # runner after the wheel is in dist/, so install it here. `show` needs no
+        # patchelf (only `repair` does), so no apt step is required.
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          python -m pip install auditwheel
+          for whl in dist/*.whl; do
+            echo "== auditwheel show $whl =="
+            auditwheel show "$whl"
+            auditwheel show "$whl" | grep -q manylinux_2_28 \
+              || { echo "ERROR: $whl is not tagged manylinux_2_28"; exit 1; }
+          done
       - uses: actions/upload-artifact@v4
         with:
           name: wheels-${{ matrix.os }}

@@ -133,8 +133,11 @@ jobs:
         with:
           command: build
           args: --features python --out dist
-      - name: Install pytest
-        run: pip install pytest
+          # Match the release wheel's ABI floor (wheels.yml) so the gating build
+          # and the published build use the identical manylinux_2_28 container.
+          manylinux: 2_28
+      - name: Install test deps
+        run: pip install pytest numpy
       - name: Install the wheel
         run: pip install --no-index --find-links dist kshana
       - name: Run binding smoke tests
