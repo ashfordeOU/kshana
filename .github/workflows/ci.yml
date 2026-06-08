@@ -147,7 +147,11 @@ jobs:
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
       - name: Build the WebAssembly module
-        run: wasm-pack build --target web --out-dir web/pkg --release -- --features wasm
+        # --no-opt skips the wasm-opt pass so this CI verification job never has to
+        # download binaryen from the GitHub release CDN (a recurring transient
+        # failure point). The build is functionally identical; the size-optimized
+        # wasm-opt pass is kept for the deployed playground in pages.yml / publish.yml.
+        run: wasm-pack build --target web --out-dir web/pkg --release --no-opt -- --features wasm
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
