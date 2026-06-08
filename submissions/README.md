@@ -12,6 +12,7 @@ no further authoring. These are **docs only** — nothing here is compiled or pu
 | `abstracts.md` | ION GNSS+ 2026, IAC 2026 | ION/IAF accounts + deadlines |
 | `essr-registration.md` | essr.esa.int | ESA-STAR / ESSR login (entity 83208) |
 | `discussions-setup.md` | repo Settings + seed posts | repo admin toggle |
+| `mcp-registry.md` | MCP registry + awesome-mcp-servers + Smithery/mcp.so/Glama/PulseMCP | crates.io token + GitHub account |
 
 Related, landed in-repo (no submission needed):
 - `paper/paper.md` + `paper/paper.bib` — JOSS submission (founder fills real ORCID, rasterises figure).
