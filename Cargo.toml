@@ -29,6 +29,9 @@ exclude = [
     # its own Cargo.lock (it depends on the MPL-2.0 / edition-2024 `anise` + `hifitime`,
     # which must never enter the published crate's dependency graph). See xval/.
     "/xval",
+    # The MCP server is likewise a standalone, workspace-excluded crate: the `rmcp` SDK
+    # is edition-2024, so it cannot sit in the MSRV-1.75 build graph. See mcp/.
+    "/mcp",
 ]
 
 [lib]

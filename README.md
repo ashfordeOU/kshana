@@ -303,6 +303,24 @@ const result = JSON.parse(run(tomlText));
 console.log(version(), result.classical.fom.timing_p95_ns);
 ```
 
+### AI agents (MCP)
+
+Kshana ships an [MCP](https://modelcontextprotocol.io) server, [`kshana-mcp`](mcp/kshana-mcp/),
+so AI assistants and agents can run the **validated** engine instead of guessing the
+math — usable from **Cursor, JetBrains AI Assistant / Junie, and any MCP-compatible
+assistant or agent**. It exposes `run_scenario`, `list_scenario_kinds`,
+`validate_scenario`, `export_sp3`, and `export_omm` (each a thin wrapper over
+`kshana::api`).
+
+```bash
+cargo install --git https://github.com/AshfordeOU/kshana kshana-mcp
+```
+
+Then register the `kshana-mcp` binary in your client's `mcpServers` config — see
+[`mcp/kshana-mcp/README.md`](mcp/kshana-mcp/README.md) for per-client snippets. The
+server is a standalone, workspace-excluded crate (the `rmcp` SDK is edition 2024), so it
+never affects the lean published `kshana` crate or its build.
+
 ## Scenario format
 
 Scenarios are declarative TOML. A top-level `kind` selects the pack (`clock` is
