@@ -96,6 +96,7 @@ The relations Kshana implements and tests (full detail and tolerances in
 
 ## 7. Where to go next
 
+- Work through it: the [tutorials](tutorials/README.md) — three worked examples + graded exercises.
 - Run it: see the [README](../README.md) quick start.
 - Understand the structure: [ARCHITECTURE.md](ARCHITECTURE.md).
 - Check what is and isn't validated: [VALIDATION.md](VALIDATION.md).
