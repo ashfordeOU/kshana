@@ -383,6 +383,10 @@
               <p>The tightly-coupled GNSS/INS UKF navigator holds <b>0.77 m RMS</b> over a 30-minute curving LEO pass that includes a 120-second GNSS outage, on a force-model orbital coast — pseudorange + Doppler with fewer than four satellites.</p>
             </div>
             <div class="card">
+              <h3><span class="pill validated">Validated</span> Reference frames</h3>
+              <p>The CIO-based IAU 2006/2000A GCRS↔ITRS reduction is validated <b>bit-for-bit</b> against the SOFA/ERFA vectors, and independently cross-checked against <b>ANISE</b> (pure-Rust NAIF/SPICE): GCRS→ITRS vs ANISE's ITRF93 from JPL's high-precision Earth kernel, the same IERS Earth-orientation parameters fed to both, agree to <b>≤ 0.86 m on the ground / ≤ 3.6 m at GNSS orbit</b> across 2020–2023.</p>
+            </div>
+            <div class="card">
               <h3>Standards-traced integrity</h3>
               <p>Snapshot and solution-separation (ARAIM) RAIM with HPL/VPL, an MHSS integrity-risk budget, and the dual-/multi-constellation constellation-wide fault mode (EU ARAIM / DO-316), with Stanford integrity diagrams.</p>
             </div>
