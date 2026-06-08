@@ -30,7 +30,7 @@
 //! scenario-engine `kind=` dispatcher with an SVG drift chart. See `docs/CAPABILITY.md`.
 
 use crate::inertial::quantum_imu::CaiAccelerometer;
-use crate::mapmatch::map_match_likelihood;
+use crate::mapmatch::{hierarchical_offset_search, map_match_likelihood};
 use crate::particle_filter::ParticleFilter;
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
@@ -41,8 +41,10 @@ use serde::Deserialize;
 const GM_EARTH: f64 = 3.986_004_418e14;
 /// Earth reference radius `R` (m, WGS-84 semi-major).
 const R_EARTH: f64 = 6_378_137.0;
-/// Metres per degree of latitude (spherical approximation, `π·R/180`).
-const M_PER_DEG: f64 = 111_319.490_793_27;
+/// Metres per degree of latitude (spherical approximation, `π·R/180`). `pub(crate)` so the
+/// alt-PNT navigators in [`crate::altpnt`] reuse the identical constant rather than
+/// re-defining it (a divergent copy would be a silent unit bug).
+pub(crate) const M_PER_DEG: f64 = 111_319.490_793_27;
 
 /// One milligal in SI units (m/s²). `1 Gal = 0.01 m/s²`, so `1 mGal = 1e-5 m/s²`.
 pub const MGAL: f64 = 1.0e-5;
@@ -423,22 +425,6 @@ pub fn run_gravity_map_benchmark(cfg: &GravityMapBenchmarkCfg) -> GravityMapNavR
     }
 }
 
-/// A square offset-candidate grid of `(2·n_side+1)²` points, spacing `step` (deg), centred
-/// on `center` (deg lat, lon).
-fn offset_grid(center: [f64; 2], n_side: i64, step: f64) -> Vec<Vec<f64>> {
-    let count = ((2 * n_side + 1) * (2 * n_side + 1)).max(1) as usize;
-    let mut g = Vec::with_capacity(count);
-    for i in -n_side..=n_side {
-        for j in -n_side..=n_side {
-            g.push(vec![
-                center[0] + i as f64 * step,
-                center[1] + j as f64 * step,
-            ]);
-        }
-    }
-    g
-}
-
 /// Run the full **60-minute GPS-denied** gravity-map-matching benchmark.
 ///
 /// This is the harder, validation-grade form of [`run_gravity_map_benchmark`] and the
@@ -517,22 +503,14 @@ pub fn run_gps_denied_gravity_nav(cfg: &GravityMapBenchmarkCfg) -> GravityMapNav
         like
     };
 
-    // Hierarchical coarse-to-fine offset search.
-    let n_side = (cfg.search_half_deg / cfg.search_step_deg).round().max(1.0) as i64;
-    let stages = cfg.refine_stages.max(1);
-    let factor = cfg.refine_factor.max(1.000_1);
-    let mut center = [0.0_f64, 0.0_f64];
-    let mut step = cfg.search_step_deg;
-    let mut est = center;
-    for _ in 0..stages {
-        let grid = offset_grid(center, n_side, step);
-        let mut pf = ParticleFilter::new(grid);
-        pf.update(weigh);
-        let e = pf.estimate();
-        est = [e[0], e[1]];
-        center = est;
-        step /= factor;
-    }
+    // Hierarchical coarse-to-fine offset search (one shared implementation in `mapmatch`).
+    let est = hierarchical_offset_search(
+        weigh,
+        cfg.search_half_deg,
+        cfg.search_step_deg,
+        cfg.refine_stages,
+        cfg.refine_factor,
+    );
 
     let mid_lat = cfg.start_lat_deg + cfg.step_lat_deg * (cfg.waypoints as f64 - 1.0) / 2.0;
     let cos_lat = mid_lat.to_radians().cos();

@@ -9,10 +9,12 @@
 //!
 //! This is the generic estimator engine: `predict` (propagate + process noise),
 //! `update` (reweight by a likelihood), systematic `resample`, the effective-sample-size
-//! degeneracy monitor, and the weighted-mean estimate. The reference maps themselves (an
-//! SRTM elevation grid, an EGM gravity-anomaly grid) and the map measurement model are
-//! follow-ons (see `ROADMAP.md`); a grid + bilinear sampler already exists in
-//! [`crate::ionex`] and would serve a gravity/terrain map equally.
+//! degeneracy monitor, and the weighted-mean estimate. The reference maps and their
+//! measurement models are now built on top: the gravity-anomaly field in
+//! [`crate::gravimeter`], the IGRF-14 magnetic field in [`crate::igrf`], and an SRTM `.hgt`
+//! digital-elevation grid with the terrain-referenced and combined gravity+magnetic+terrain
+//! navigators in [`crate::altpnt::terrain`] — all reusing the bilinear grid sampler pattern
+//! from [`crate::ionex`].
 
 use rand::RngCore;
 use rand_distr::{Distribution, Normal};
