@@ -1,9 +1,15 @@
 // SPDX-License-Identifier: Apache-2.0
 import init, { run, summary, chart_svg, version } from "./pkg/kshana.js";
-import { encodeFragment, decodeFragment, readScalar, patchScalar } from "./share.mjs";
+import { encodeFragment, decodeFragment, patchScalar } from "./share.mjs";
 import { chartFilename, svgSize, svgBlob, triggerDownload, svgToPngBlob } from "./chartdl.mjs";
-import { fomDeltas } from "./compare.mjs";
 import { attachChartHover, parsePolylineXs } from "./hover.mjs";
+import { knobsForToml, readKnob, patchSectionScalar } from "./guided.mjs";
+import { orbit3dSvg } from "./orbit3d.mjs";
+import { tabModel, buildFomRows } from "./tabs.mjs";
+import { sweepValues, sweepToml, extractFom, sweepCurveSvg, SWEEP_GEOM, MAX_SWEEP } from "./sweep.mjs";
+import { overlayRows, overlaySeriesSvg, OVERLAY_COLORS } from "./overlay.mjs";
+import { isEmbed, embedConfig, embedClassList } from "./embed.mjs";
+import { buildReportHtml, reportFilename } from "./report.mjs";
 
 // Scenario catalogue: file in ./scenarios/ (copied from the repo at build) and a
 // friendly label. The first entry is also embedded below so the page works on
@@ -70,16 +76,26 @@ const tomlEl = el("toml");
 const selectEl = el("scenario");
 const presetsEl = el("presets");
 const guidedEl = el("guided");
+const guidedKnobsEl = el("guided-knobs");
 const resultsEl = document.querySelector(".results");
 const errorEl = el("error");
 
 let chartUrl = null;
-// Latest run's chart SVGs + a snapshot of the latest run, for the A/B compare.
+// Latest run's chart SVGs + a snapshot of the latest run, for the overlay compare.
 let lastHoldoverSvg = null;
 let lastAllanSvg = null;
+let lastOrbit3dSvg = null;
+let lastSweepSvg = null;
 let lastRun = null;
-let compareA = null;
+// Up to four pinned runs for the multi-run overlay (generalises the old single
+// `compareA`).
+let compareRuns = [];
+const MAX_COMPARE = 4;
 let compareUrls = [];
+let orbit3dUrl = null;
+let sweepChartUrl = null;
+// The currently-selected output tab id; restored across re-runs when possible.
+let activeTab = "fom";
 
 function showError(message) {
   errorEl.textContent = message;
@@ -337,11 +353,20 @@ function renderFilterHealth(result) {
   wrap.hidden = false;
 }
 
-// --- A/B compare ----------------------------------------------------------
-// Pin the current run as baseline A; the next run becomes B and the two are
-// shown side by side with a figure-of-merit delta table. Every value goes in via
+// --- Tabbed output --------------------------------------------------------
+// The output panel is split into tabs (FoM / time series / stability / 3D orbit
+// / sweep). Which tabs appear is decided purely by tabs.mjs from the result; the
+// button row and panel show/hide are built here. Every value goes in via
 // textContent and every chart via a blob <img>, so nothing from a scenario
 // string is ever injected into the DOM as markup.
+
+const TAB_PANEL = {
+  fom: "tab-fom",
+  timeseries: "tab-timeseries",
+  stability: "tab-stability",
+  orbit3d: "tab-orbit3d",
+  sweep: "tab-sweep",
+};
 
 function currentScenarioLabel() {
   const file = selectEl ? selectEl.value : "";
@@ -365,11 +390,14 @@ function chartImg(svgText, alt) {
   return img;
 }
 
-function buildCompareTable(rows) {
+// The single-run figure-of-merit table, built with the same textContent-only
+// pattern as the overlay table (no innerHTML for any scenario-derived string).
+function buildFomTable(result) {
+  const rows = buildFomRows(result);
   const table = document.createElement("table");
   table.className = "compare-table";
   const head = document.createElement("tr");
-  for (const h of ["Clock", "Metric", "A", "B", "Δ (B−A)"]) {
+  for (const h of ["Clock", "Metric", "Value"]) {
     const th = document.createElement("th");
     th.textContent = h;
     head.append(th);
@@ -377,67 +405,174 @@ function buildCompareTable(rows) {
   table.append(head);
   for (const r of rows) {
     const tr = document.createElement("tr");
-    for (const c of [r.clockLabel, r.unit ? `${r.label} (${r.unit})` : r.label, fmtVal(r.a), fmtVal(r.b)]) {
+    const cells = [r.clockLabel, r.unit ? `${r.label} (${r.unit})` : r.label, fmtVal(r.value)];
+    cells.forEach((c, i) => {
       const td = document.createElement("td");
       td.textContent = c;
+      if (i === 2) td.className = "num";
       tr.append(td);
-    }
-    const dtd = document.createElement("td");
-    const sign = r.delta > 0 ? "+" : "";
-    const pct = r.pct === null ? "" : ` (${sign}${Math.round(r.pct)}%)`;
-    dtd.textContent = `${sign}${fmtVal(r.delta)}${pct}`;
-    dtd.className = "cmp-delta " + (r.better === "b" ? "cmp-better" : r.better === "a" ? "cmp-worse" : "cmp-eq");
-    tr.append(dtd);
+    });
     table.append(tr);
   }
   return table;
 }
 
-function renderCompare(A, B) {
+// Show exactly one tab panel; sync the button aria-selected state.
+function selectTab(id) {
+  if (!(id in TAB_PANEL)) id = "fom";
+  activeTab = id;
+  for (const [tabId, panelId] of Object.entries(TAB_PANEL)) {
+    const panel = el(panelId);
+    if (panel) panel.hidden = tabId !== id;
+  }
+  const row = el("tabs");
+  if (row) {
+    for (const b of row.children) {
+      const sel = b.dataset.tab === id;
+      b.setAttribute("aria-selected", sel ? "true" : "false");
+    }
+  }
+}
+
+// Build the tab button row from tabs.mjs's model and reveal the active panel.
+// Keeps the previously-active tab if it is still available, else falls back to
+// the first tab.
+function mountTabs(result) {
+  const row = el("tabs");
+  if (!row) return;
+  // The Sweep tab is always offered as the entry point to the sweep controls;
+  // `sweepActive` only governs whether a sweep chart has been drawn yet.
+  const model = tabModel(result, { sweep: true });
+  row.replaceChildren();
+  const ids = model.map((t) => t.id);
+  for (const t of model) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "tab-btn";
+    b.setAttribute("role", "tab");
+    b.dataset.tab = t.id;
+    b.textContent = t.label;
+    b.addEventListener("click", () => selectTab(t.id));
+    row.append(b);
+  }
+  if (!ids.includes(activeTab)) activeTab = ids[0] || "fom";
+  selectTab(activeTab);
+}
+
+// --- 3D orbit tab ---------------------------------------------------------
+// Render the dependency-free orthographic orbit view from the engine's eci_track.
+// Rendered via the SAME blob-<img> path as the other charts, so SVG/PNG download
+// (mountChartTools) works unchanged.
+function renderOrbit3d(result) {
+  const host = el("orbit3d");
+  if (!host) return;
+  const track = result && Array.isArray(result.eci_track) ? result.eci_track : [];
+  if (!track.length) {
+    lastOrbit3dSvg = null;
+    host.replaceChildren();
+    el("orbit3d-tools").hidden = true;
+    return;
+  }
+  const model = { trackKm: track, satsKm: [], view: { az_deg: 35, el_deg: 22 } };
+  const meta = result ? { ver: result.engine_version, hash: result.scenario_hash } : null;
+  const svg = orbit3dSvg(model, meta);
+  lastOrbit3dSvg = svg;
+  if (orbit3dUrl) URL.revokeObjectURL(orbit3dUrl);
+  orbit3dUrl = URL.createObjectURL(new Blob([svg], { type: "image/svg+xml" }));
+  let img = host.querySelector("img");
+  if (!img) { img = document.createElement("img"); img.alt = "3D orbit view"; host.replaceChildren(img); }
+  img.src = orbit3dUrl;
+  mountChartTools("orbit3d-tools", svg, "orbit3d", meta);
+}
+
+// --- Multi-run overlay ----------------------------------------------------
+// Pin up to four runs; they are shown together with a long-form figure-of-merit
+// table (best per metric highlighted) and a multi-color overlaid timeseries.
+// Generalises the proven A/B compare (compare.mjs) to N runs (overlay.mjs).
+
+function buildOverlayTable(runs) {
+  const rows = overlayRows(runs);
+  const table = document.createElement("table");
+  table.className = "compare-table overlay-table";
+  const head = document.createElement("tr");
+  const headers = ["Clock", "Metric", ...runs.map((r) => r.label)];
+  headers.forEach((h, i) => {
+    const th = document.createElement("th");
+    th.textContent = h;
+    if (i >= 2) {
+      const sw = document.createElement("span");
+      sw.className = "ovl-swatch";
+      sw.style.background = OVERLAY_COLORS[(i - 2) % OVERLAY_COLORS.length];
+      th.prepend(sw);
+    }
+    head.append(th);
+  });
+  table.append(head);
+  for (const r of rows) {
+    const tr = document.createElement("tr");
+    const lead = [r.clockLabel, r.unit ? `${r.label} (${r.unit})` : r.label];
+    for (const c of lead) {
+      const td = document.createElement("td");
+      td.textContent = c;
+      tr.append(td);
+    }
+    r.values.forEach((v, i) => {
+      const td = document.createElement("td");
+      td.className = "num" + (i === r.best ? " cmp-better" : "");
+      td.textContent = fmtVal(v);
+      tr.append(td);
+    });
+    table.append(tr);
+  }
+  return table;
+}
+
+function renderOverlay(runs) {
   const wrap = el("compare-wrap");
   if (!wrap) return;
   compareUrls.forEach(URL.revokeObjectURL);
   compareUrls = [];
-  el("compare-table").replaceChildren(buildCompareTable(fomDeltas(A.result, B.result)));
+  el("compare-table").replaceChildren(buildOverlayTable(runs));
   const charts = el("compare-charts");
   charts.replaceChildren();
-  for (const [tag, run] of [["A", A], ["B", B]]) {
-    const col = document.createElement("div");
-    col.className = "compare-col";
-    const title = document.createElement("p");
-    title.className = "compare-col-title";
-    title.textContent = `${tag}: ${run.label}`;
-    col.append(title);
-    if (run.holdoverSvg) col.append(chartImg(run.holdoverSvg, `${tag} holdover chart`));
-    if (run.allanSvg) col.append(chartImg(run.allanSvg, `${tag} stability chart`));
-    charts.append(col);
-  }
-  // Compare mode replaces the single-run charts to avoid showing B twice.
-  el("chart").hidden = true;
-  el("chart-tools").hidden = true;
-  el("adev-wrap").hidden = true;
+  // A single overlaid timeseries (one polyline per run) when the runs carry a
+  // clock error series; otherwise per-run holdover thumbnails.
+  const meta = runs[0] ? { ver: runs[0].result.engine_version, hash: runs[0].result.scenario_hash } : null;
+  const overlaySvg = overlaySeriesSvg(runs, "error_ns", meta);
+  const wrapCol = document.createElement("div");
+  wrapCol.className = "overlay-chart";
+  wrapCol.append(chartImg(overlaySvg, "Overlaid timing-error series"));
+  charts.append(wrapCol);
+  // Hide the tabs while overlaying (the single-run charts would duplicate the
+  // last pinned run); the overlay panel takes over.
+  el("tabs").hidden = true;
+  for (const panelId of Object.values(TAB_PANEL)) { const p = el(panelId); if (p) p.hidden = true; }
   wrap.hidden = false;
 }
 
-// Return to the single-run chart view (used when not comparing, or on clear).
+// Return to the single-run tabbed view (used when not overlaying, or on clear).
 function exitCompareView() {
   const wrap = el("compare-wrap");
   if (wrap) wrap.hidden = true;
-  el("chart").hidden = false;
-  el("chart-tools").hidden = false;
-  el("adev-wrap").hidden = !lastAllanSvg;
+  el("tabs").hidden = false;
+  if (lastRun) { mountTabs(lastRun.result); } else { selectTab(activeTab); }
 }
 
 function pinForCompare() {
   if (!lastRun) return;
-  compareA = lastRun;
+  if (compareRuns.length >= MAX_COMPARE) compareRuns.shift();
+  compareRuns.push(lastRun);
+  if (compareRuns.length >= 2) renderOverlay(compareRuns);
   updateCompareControls();
-  statusEl.textContent = `Pinned A: ${compareA.label}. Run another scenario to compare.`;
+  statusEl.textContent =
+    compareRuns.length < 2
+      ? `Pinned ${compareRuns.length} run. Run another scenario (up to ${MAX_COMPARE}) to overlay.`
+      : `Overlaying ${compareRuns.length} runs.`;
   statusEl.classList.add("ran");
 }
 
 function clearCompare() {
-  compareA = null;
+  compareRuns = [];
   exitCompareView();
   updateCompareControls();
 }
@@ -447,23 +582,24 @@ function updateCompareControls() {
   if (!host) return;
   host.replaceChildren();
   if (!resultsEl || resultsEl.hidden) return;
-  if (!compareA) {
+  if (compareRuns.length < MAX_COMPARE) {
     const b = document.createElement("button");
     b.type = "button";
     b.className = "chart-dl";
-    b.textContent = "⊕ Pin for compare";
-    b.title = "Pin this run as baseline A, then run another scenario to compare A vs B";
+    b.textContent = compareRuns.length ? `⊕ Pin (${compareRuns.length}/${MAX_COMPARE})` : "⊕ Pin for compare";
+    b.title = `Pin this run, then run another scenario to overlay (up to ${MAX_COMPARE})`;
     b.addEventListener("click", pinForCompare);
     host.append(b);
-  } else {
+  }
+  if (compareRuns.length) {
     const chip = document.createElement("span");
     chip.className = "compare-chip";
-    chip.textContent = `A: ${compareA.label}`;
+    chip.textContent = `${compareRuns.length} pinned`;
     const x = document.createElement("button");
     x.type = "button";
     x.className = "chart-dl";
-    x.textContent = "✕ clear compare";
-    x.title = "Stop comparing and return to the single-run view";
+    x.textContent = "✕ clear";
+    x.title = "Stop overlaying and return to the single-run view";
     x.addEventListener("click", clearCompare);
     host.append(chip, x);
   }
@@ -493,11 +629,25 @@ function runScenario() {
     renderChart(chart_svg(src), result);
     renderAdev(result);
     renderFilterHealth(result);
+    renderOrbit3d(result);
+    el("fom-table").replaceChildren(buildFomTable(result));
     el("json").textContent = JSON.stringify(result, null, 2);
     resultsEl.hidden = false;
-    lastRun = { label: currentScenarioLabel(), result, holdoverSvg: lastHoldoverSvg, allanSvg: lastAllanSvg };
-    if (compareA) renderCompare(compareA, lastRun);
+    // A fresh run clears any sweep result; rebuild the tab set for this result.
+    lastSweepSvg = null;
+    lastRun = {
+      label: currentScenarioLabel(),
+      result,
+      toml: src,
+      summary: el("summary").textContent,
+      holdoverSvg: lastHoldoverSvg,
+      allanSvg: lastAllanSvg,
+      orbit3dSvg: lastOrbit3dSvg,
+    };
+    mountTabs(result);
+    if (compareRuns.length >= 2) renderOverlay(compareRuns);
     else exitCompareView();
+    syncSweepControls();
     updateCompareControls();
     runCount += 1;
     const t = new Date().toLocaleTimeString();
@@ -512,30 +662,63 @@ function runScenario() {
 }
 
 // --- Guided sliders -------------------------------------------------------
-// Reflect the editor's universal top-level knobs (seed, threshold_ns) into the
-// sliders, and write slider changes back into the editor TOML. These keys exist
-// at the top level of every bundled scenario, so the guided panel works for all
-// of them without parsing the whole document.
-const KNOBS = [
-  { key: "seed", input: "k-seed", out: "k-seed-out", parse: (v) => parseInt(v, 10) },
-  { key: "threshold_ns", input: "k-thresh", out: "k-thresh-out", parse: (v) => parseFloat(v) },
-];
+// The guided knobs adapt to the scenario: clock scenarios show seed / threshold /
+// duration / step / y0-ish; orbit scenarios show seed / mask / duration / step /
+// inclination. The applicable set (≤6) is resolved by guided.mjs from the editor
+// TOML, and the slider DOM is generated like the preset cards (count varies). A
+// slider change writes back into the editor TOML (top-level via patchScalar,
+// sectioned via patchSectionScalar) and re-runs.
 
 function clamp(n, lo, hi) {
   return Math.min(hi, Math.max(lo, n));
 }
 
-// Set sliders from the current editor TOML. Hides the panel only if neither key
-// is present (it always is for bundled scenarios, but a hand-pasted scenario
-// might omit one).
+// The knob set currently mounted, keyed for slider sync; rebuilt per scenario.
+let mountedKnobs = [];
+
+// Build the guided slider DOM from the resolved knob set, then sync values.
+function buildGuided() {
+  mountedKnobs = knobsForToml(tomlEl.value);
+  guidedKnobsEl.replaceChildren();
+  for (const k of mountedKnobs) {
+    const wrap = document.createElement("div");
+    wrap.className = "knob";
+    const label = document.createElement("label");
+    const id = `k-${k.section || "top"}-${k.key}`;
+    label.setAttribute("for", id);
+    label.textContent = k.label + " ";
+    const hint = document.createElement("span");
+    hint.className = "dim";
+    hint.textContent = `— ${k.hint}`;
+    label.append(hint);
+    const input = document.createElement("input");
+    input.type = "range";
+    input.id = id;
+    input.min = String(k.min);
+    input.max = String(k.max);
+    input.step = String(k.step);
+    const out = document.createElement("output");
+    out.id = `${id}-out`;
+    input.addEventListener("input", () => onKnobInput(k, input, out));
+    wrap.append(label, input, out);
+    guidedKnobsEl.append(wrap);
+  }
+  syncGuided();
+}
+
+// Set every mounted slider from the current editor TOML. Hides the panel if no
+// knob is present (a hand-pasted scenario might omit them all).
 function syncGuided() {
   let any = false;
-  for (const k of KNOBS) {
-    const input = el(k.input);
-    const raw = readScalar(tomlEl.value, k.key);
+  for (const k of mountedKnobs) {
+    const id = `k-${k.section || "top"}-${k.key}`;
+    const input = el(id);
+    const out = el(`${id}-out`);
+    if (!input) continue;
+    const raw = readKnob(tomlEl.value, k);
     const present = raw !== null && Number.isFinite(k.parse(raw));
     input.disabled = !present;
-    el(k.out).textContent = present ? raw : "—";
+    out.textContent = present ? raw : "—";
     if (present) {
       any = true;
       input.value = String(clamp(k.parse(raw), Number(input.min), Number(input.max)));
@@ -544,11 +727,12 @@ function syncGuided() {
   guidedEl.hidden = !any;
 }
 
-function onKnobInput(k) {
-  const input = el(k.input);
+function onKnobInput(k, input, out) {
   const value = k.parse(input.value);
-  el(k.out).textContent = String(value);
-  tomlEl.value = patchScalar(tomlEl.value, k.key, value);
+  out.textContent = String(value);
+  tomlEl.value = k.section
+    ? patchSectionScalar(tomlEl.value, k.section, k.key, value)
+    : patchScalar(tomlEl.value, k.key, value);
   runScenario();
 }
 
@@ -590,13 +774,166 @@ async function copyShareLink() {
   setTimeout(() => (shareBtn.textContent = "Copy share link"), 1800);
 }
 
+// --- Parameter sweep ------------------------------------------------------
+// Sweep one TOML scalar across an inclusive range, running the wasm engine for
+// each value and plotting one figure of merit. All purely client-side (no new
+// Rust), capped at MAX_SWEEP points so the synchronous loop stays sub-frame.
+
+// The figures of merit a sweep can plot (clock + metric), with friendly labels.
+const SWEEP_METRICS = [
+  { clock: "quantum", key: "holdover_s", label: "quantum holdover (s)" },
+  { clock: "quantum", key: "timing_rms_ns", label: "quantum timing RMS (ns)" },
+  { clock: "quantum", key: "timing_p95_ns", label: "quantum timing p95 (ns)" },
+  { clock: "quantum", key: "availability", label: "quantum availability" },
+  { clock: "classical", key: "holdover_s", label: "classical holdover (s)" },
+  { clock: "classical", key: "timing_p95_ns", label: "classical timing p95 (ns)" },
+];
+
+// Populate the sweep knob + metric selects from the current scenario's knobs.
+function syncSweepControls() {
+  const knobSel = el("sweep-knob");
+  const metricSel = el("sweep-metric");
+  if (!knobSel || !metricSel) return;
+  const knobs = knobsForToml(tomlEl.value);
+  const prevKnob = knobSel.value;
+  knobSel.replaceChildren();
+  for (const k of knobs) {
+    const opt = document.createElement("option");
+    opt.value = `${k.section}::${k.key}`;
+    opt.textContent = k.label;
+    knobSel.append(opt);
+  }
+  if ([...knobSel.options].some((o) => o.value === prevKnob)) knobSel.value = prevKnob;
+  if (!metricSel.options.length) {
+    for (const m of SWEEP_METRICS) {
+      const opt = document.createElement("option");
+      opt.value = `${m.clock}::${m.key}`;
+      opt.textContent = m.label;
+      metricSel.append(opt);
+    }
+  }
+  // Seed the from/to inputs from the current knob's value if blank.
+  const selected = knobs.find((k) => `${k.section}::${k.key}` === knobSel.value) || knobs[0];
+  if (selected) {
+    const minEl = el("sweep-min");
+    const maxEl = el("sweep-max");
+    if (minEl && maxEl && minEl.value === "" && maxEl.value === "") {
+      const raw = readKnob(tomlEl.value, selected);
+      const v = raw !== null ? selected.parse(raw) : selected.min;
+      minEl.value = String(selected.min);
+      maxEl.value = String(Number.isFinite(v) ? Math.max(v, selected.max) : selected.max);
+    }
+  }
+}
+
+function runSweep() {
+  const knobSel = el("sweep-knob");
+  const metricSel = el("sweep-metric");
+  const status = el("sweep-status");
+  if (!knobSel || !knobSel.value) { status.textContent = "No sweepable parameter."; return; }
+  const [section, key] = knobSel.value.split("::");
+  const [clock, metricKey] = metricSel.value.split("::");
+  const min = parseFloat(el("sweep-min").value);
+  const max = parseFloat(el("sweep-max").value);
+  const steps = parseInt(el("sweep-steps").value, 10);
+  if (!isFinite(min) || !isFinite(max)) { status.textContent = "Enter a numeric from/to range."; return; }
+
+  const base = tomlEl.value;
+  const knob = { key, section: section || "" };
+  const values = sweepValues(min, max, steps);
+  status.textContent = `Sweeping ${values.length} runs…`;
+  const points = [];
+  try {
+    for (const v of values) {
+      const result = JSON.parse(run(sweepToml(base, knob, v)));
+      const fom = extractFom(result, clock, metricKey);
+      if (fom !== null) points.push({ x: v, y: fom });
+    }
+  } catch (e) {
+    status.textContent = "Sweep failed — check the range.";
+    showError(String(e && e.message ? e.message : e));
+    return;
+  }
+  const knobLabel = knobSel.options[knobSel.selectedIndex].textContent;
+  const metricLabel = metricSel.options[metricSel.selectedIndex].textContent;
+  const meta = lastRun ? { ver: lastRun.result.engine_version, hash: lastRun.result.scenario_hash } : null;
+  const svg = sweepCurveSvg(points, { xLabel: knobLabel, yLabel: metricLabel, title: `${metricLabel} vs ${knobLabel}` }, meta);
+  lastSweepSvg = svg;
+  if (sweepChartUrl) URL.revokeObjectURL(sweepChartUrl);
+  sweepChartUrl = URL.createObjectURL(new Blob([svg], { type: "image/svg+xml" }));
+  const host = el("sweep-chart");
+  let img = host.querySelector("img");
+  if (!img) { img = document.createElement("img"); img.alt = "Sweep chart"; host.replaceChildren(img); }
+  img.src = sweepChartUrl;
+  mountChartTools("sweep-tools", svg, "sweep", meta);
+  // Snap the hover to the sweep samples (geometry mirrors the chart's margins).
+  const fmtSweep = (i) => `${knobLabel} ${fmtVal(points[i].x)} · ${metricLabel} ${fmtVal(points[i].y)}`;
+  const span = points.length > 1 ? points[points.length - 1].x - points[0].x : 1;
+  const fracs = points.map((p) => (span ? (p.x - points[0].x) / span : 0));
+  attachChartHover("sweep-chart", { wIntrinsic: SWEEP_GEOM.wIntrinsic, ml: SWEEP_GEOM.ml, mr: SWEEP_GEOM.mr, fracs, label: fmtSweep });
+
+  if (lastRun) mountTabs(lastRun.result);
+  selectTab("sweep");
+  status.textContent = `Swept ${points.length} of ${values.length} runs (max ${MAX_SWEEP}).`;
+}
+
+// --- Download report ------------------------------------------------------
+// Gather the current run's charts, FoM rows, summary, and scenario TOML into a
+// single self-contained, offline HTML report (report.mjs escapes every
+// scenario-derived string; only OUR renderer SVGs go in as raw markup).
+function downloadReport() {
+  if (!lastRun) return;
+  const r = lastRun.result;
+  const svgs = [];
+  if (lastRun.holdoverSvg) svgs.push({ title: "Timing error during outage", svg: lastRun.holdoverSvg });
+  if (lastRun.allanSvg) svgs.push({ title: "Clock stability (Allan deviation)", svg: lastRun.allanSvg });
+  if (lastRun.orbit3dSvg) svgs.push({ title: "Orbit (ECI, orthographic)", svg: lastRun.orbit3dSvg });
+  if (lastSweepSvg) svgs.push({ title: "Parameter sweep", svg: lastSweepSvg });
+  const html = buildReportHtml({
+    engineVersion: r.engine_version,
+    scenarioHash: r.scenario_hash,
+    toml: lastRun.toml,
+    summaryText: lastRun.summary,
+    fomRows: buildFomRows(r),
+    svgs,
+    generatedIso: new Date().toISOString(),
+  });
+  const meta = { ver: r.engine_version, hash: r.scenario_hash };
+  triggerDownload(new Blob([html], { type: "text/html" }), reportFilename(meta));
+}
+
+// --- First-run tour -------------------------------------------------------
+// Shown once; the dismissal is remembered in localStorage. Storage can be blocked
+// in an iframe (LMS), so reads/writes are wrapped — on failure the tour simply
+// shows each time rather than throwing.
+const TOUR_KEY = "kshana_tour_seen";
+
+function tourSeen() {
+  try { return localStorage.getItem(TOUR_KEY) === "1"; } catch { return false; }
+}
+
+function showTour() {
+  const t = el("tour");
+  if (t) t.hidden = false;
+}
+
+function dismissTour() {
+  const t = el("tour");
+  if (t) t.hidden = true;
+  try { localStorage.setItem(TOUR_KEY, "1"); } catch { /* storage blocked: tour shows again */ }
+}
+
 async function loadScenario(file) {
   try {
     const res = await fetch(`scenarios/${file}`, { cache: "no-store" });
     if (!res.ok) throw new Error(String(res.status));
     tomlEl.value = await res.text();
     markActivePreset(file);
-    syncGuided();
+    // Reset sweep range seeds so they re-seed from the new scenario, and rebuild
+    // the guided knobs (the applicable set varies between clock and orbit).
+    el("sweep-min").value = "";
+    el("sweep-max").value = "";
+    buildGuided();
     runScenario();
   } catch {
     // No server / file missing: keep whatever is already in the editor.
@@ -705,6 +1042,16 @@ async function main() {
   }
   buildPresets();
 
+  // Embed / iframe (LMS) mode: gate purely on ?embed=1 so the default path is
+  // untouched. In embed mode we hide the marketing chrome via body classes and
+  // pre-load a scenario with optional knob overrides + a target tab. The engine
+  // runs client-side, so the embedded iframe is fully self-contained.
+  const embed = isEmbed(location.search);
+  const cfg = embed ? embedConfig(location.search) : null;
+  if (embed) {
+    for (const c of embedClassList(cfg)) document.body.classList.add(c);
+  }
+
   // A shared link (scenario in the URL fragment) wins over the default scenario.
   const shared = decodeFragment(location.hash);
   tomlEl.value = shared || DEFAULT_TOML;
@@ -731,14 +1078,37 @@ async function main() {
   runBtn.addEventListener("click", runScenario);
   shareBtn.addEventListener("click", copyShareLink);
   selectEl.addEventListener("change", () => loadScenario(selectEl.value));
-  for (const k of KNOBS) el(k.input).addEventListener("input", () => onKnobInput(k));
+  el("sweep-run").addEventListener("click", runSweep);
+  el("sweep-knob").addEventListener("change", syncSweepControls);
+  el("download-report").addEventListener("click", downloadReport);
+  const tourBtn = el("tour-dismiss");
+  if (tourBtn) tourBtn.addEventListener("click", dismissTour);
 
-  if (shared) {
+  if (shared && !embed) {
     el("advanced").open = true; // a shared run may be hand-tuned: show the source
     statusEl.textContent = "Loaded a shared scenario from the link.";
   }
-  syncGuided();
-  runScenario(); // show a result immediately
+
+  if (embed && cfg.scenario && knownScenario(cfg.scenario)) {
+    // Load the requested scenario, apply numeric knob overrides, then run.
+    selectEl.value = cfg.scenario;
+    try {
+      const res = await fetch(`scenarios/${cfg.scenario}`, { cache: "no-store" });
+      if (res.ok) tomlEl.value = await res.text();
+    } catch { /* keep the default/shared TOML if the fetch fails */ }
+    for (const [key, val] of Object.entries(cfg.knobs || {})) {
+      tomlEl.value = patchScalar(tomlEl.value, key, val);
+    }
+    buildGuided();
+    runScenario();
+    if (cfg.tab) selectTab(cfg.tab);
+  } else {
+    buildGuided();
+    runScenario(); // show a result immediately
+  }
+
+  // Show the first-run tour once (non-embed only); persists via localStorage.
+  if (!embed && !tourSeen()) showTour();
 }
 
 main();
