@@ -9,6 +9,25 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+
+- **`kshana-mcp` — Kshana as a Model Context Protocol (MCP) server** (`mcp/kshana-mcp/`).
+  A standalone, workspace-excluded crate (the `rmcp` SDK is edition 2024) that exposes the
+  validated engine to AI agents and assistants — Cursor, JetBrains AI Assistant / Junie,
+  and any MCP client — over stdio. Tools: `run_scenario`, `list_scenario_kinds`,
+  `validate_scenario`, `export_sp3`, `export_omm`, each a thin wrapper over `kshana::api`.
+- **JetBrains IDE plugin** (`ide/jetbrains/`). Right-click a scenario `.toml` →
+  **Run Kshana Scenario**; figures of merit and result JSON stream into a Kshana tool
+  window. Pure-platform Kotlin plugin, compatible with every JetBrains IDE 2024.3+.
+- **Public distribution + per-release auto-publish** for both:
+  - `kshana-mcp` to **crates.io** (`cargo install kshana-mcp`) via `publish.yml`.
+  - `kshana-mcp` as a multi-arch **OCI image** on `ghcr.io`
+    (`docker run ghcr.io/ashfordeou/kshana-mcp`) via a new `mcp-publish.yml`.
+  - `kshana-mcp` to the **official MCP registry** via GitHub OIDC (zero secrets); the
+    registry entry (`server.json`) uses the OCI package type with a label-verified owner.
+  - the IDE plugin to the **JetBrains Marketplace** via `publishPlugin` (token-gated,
+    optional developer signing) on each release tag.
+
 ## [0.14.1] - 2026-06-08
 
 ### Added

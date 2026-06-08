@@ -25,17 +25,25 @@ simulation logic lives here, so an agent runs exactly the validated engine.
 
 ## Install
 
-```sh
-# From the repository (builds the kshana engine + this server):
-cargo install --git https://github.com/AshfordeOU/kshana kshana-mcp
+Pick whichever fits — all run the same server over stdio.
 
-# Or from a checkout:
+```sh
+# crates.io (a Rust toolchain installs the prebuilt source):
+cargo install kshana-mcp
+
+# Docker / OCI — no Rust toolchain needed, works on amd64 + Apple Silicon:
+docker run --rm -i ghcr.io/ashfordeou/kshana-mcp
+
+# From a checkout (development):
 cd mcp/kshana-mcp && cargo install --path .
+
+# Bleeding edge, straight from git:
+cargo install --git https://github.com/AshfordeOU/kshana kshana-mcp
 ```
 
-This puts `kshana-mcp` on your `PATH` (typically `~/.cargo/bin/kshana-mcp`). The server
-talks JSON-RPC over stdio; logs go to stderr. Requires a Rust toolchain ≥ 1.85 to build
-(the `rmcp` SDK is edition 2024).
+`cargo install` puts `kshana-mcp` on your `PATH` (typically `~/.cargo/bin/kshana-mcp`).
+The server talks JSON-RPC over stdio; logs go to stderr. Building from source needs a Rust
+toolchain ≥ 1.85 (the `rmcp` SDK is edition 2024); the Docker image needs none.
 
 ## Register it with a client
 
@@ -49,6 +57,19 @@ Virtually every MCP client uses the same `mcpServers` config block — register 
       "command": "/Users/you/.cargo/bin/kshana-mcp",
       "args": [],
       "env": {}
+    }
+  }
+}
+```
+
+Or, with the Docker image instead of a local binary (no `PATH` needed):
+
+```json
+{
+  "mcpServers": {
+    "kshana": {
+      "command": "docker",
+      "args": ["run", "--rm", "-i", "ghcr.io/ashfordeou/kshana-mcp"]
     }
   }
 }

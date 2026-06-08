@@ -1,0 +1,22 @@
+# Keep the kshana-mcp image build context lean (build context is the repo root because
+# the server crate depends on the sibling `kshana` crate via a relative path).
+# Only Rust sources + Cargo manifests/locks are needed to compile.
+.git
+**/target
+xval/anise-frames/kernels
+dist
+pkg
+web/pkg
+web/scenarios
+web/assets
+**/__pycache__
+**/*.egg-info
+.venv
+node_modules
+ide/jetbrains/.gradle
+ide/jetbrains/.intellijPlatform
+ide/jetbrains/.kotlin
+ide/jetbrains/build
+*.result.json
+*.report.html
+*.chart.svg
