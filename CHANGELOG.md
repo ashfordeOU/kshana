@@ -10,6 +10,19 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **`validation_report` binary + release artifact**: a dependency-free generator that emits a
+  one-page, print-ready HTML validation summary indexing every CI-enforced validation (SGP4
+  666/666, EGM2008, bit-for-bit frames, NIST Allan, IMU datasheets, ARAIM/SBAS, 3-OS
+  reproducibility, coverage) to its test and external oracle. The release workflow generates
+  `kshana-validation-summary.html` and attaches it (with SLSA provenance) to each tagged release.
+- **numpy-interop pytest + wheel hardening**: `tests/python/test_numpy_interop.py` (run in CI)
+  plus a pinned manylinux container and an `auditwheel show` verification step in the wheel build.
+- **Tutorials & education**: `docs/tutorials/` (three worked tutorials, per-domain annotated
+  scenarios, Tier-1/2/3 exercises) with `tests/tutorials.rs` pinning every quoted number to live
+  engine output.
+- **External submission artifacts** (`paper/`, `notebooks/`, `submissions/`): a JOSS paper
+  draft, a quantum-vs-classical notebook, and ready-to-file kits for awesome-gnss / ESA Navipedia
+  / NASA ASCL / ESA ESSR / ION/IAC, plus `FUNDING.yml` — staging the external steps for submission.
 - **Terrain-referenced & combined alt-PNT navigation** (`altpnt` module): a TERCOM/SITAN
   terrain-matching navigator over a DEM (`.hgt` loader + synthetic-fixture generator) and a
   combined gravity + magnetic (IGRF) + terrain GPS-denied navigator, exposed as `terrain` and
