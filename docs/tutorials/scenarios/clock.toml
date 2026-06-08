@@ -1,0 +1,51 @@
+# ============================================================================
+# TEACHING COPY — Tutorial 2: Clock holdover. Kind = clock.
+#
+# Provenance: a comment-annotated copy of scenarios/clock-holdover.toml. The
+# FIELD VALUES are byte-for-byte identical to the parent, so the documented
+# output (and the golden hashes in tests/golden/) are unaffected — a comment
+# never changes a scenario hash (the hash is over the parsed definition: seed,
+# thresholds, params, GNSS windows; not the file bytes).
+#
+# What it does: 2 h timeline — 10 min GNSS sync, then ~1.8 h denied — against a
+# 20 ns timing spec. Compares an optical clock vs a chip-scale atomic clock
+# (CSAC) coasting through the outage.
+#
+# Oracle (non-circular): the white-FM phase-error growth law sigma_x(T) = sqrt(q_wf*T),
+# q_wf = sigma_y(1s)^2 (NIST SP 1065, the same relation tests/calibration.rs
+# validates the ADEV against to ~2%). CSAC q_wf=9e-20 -> 1-sigma 20 ns crossing
+# at ~4444 s; the engine's k-sigma/p95 spec-cross at ~2610 s sits in that band.
+#
+# expected: scenario 5ba83a232b94 | quantum holdover 6600s p95 0.0ns integrity 1.000 security 0.997 | classical holdover 2610s p95 19.7ns integrity 1.000 security 0.000
+# ============================================================================
+
+# Empty/omitted kind defaults to the clock pack; the parent omits `kind`, so do we.
+seed = 42              # fixes the noise realization -> bit-identical reruns
+threshold_ns = 20.0    # operational timing spec; holdover = time in-spec after GNSS loss
+
+[time]
+step_s = 10.0          # grid resolution; holdover is quantised to this (a lower bound)
+duration_s = 7200.0    # 2 h total run
+
+[gnss]
+# The availability timeline — the outage driver. 10 min nominal, then ~1.8 h denied.
+windows = [
+  { t0 = 0.0,    t1 = 600.0,  state = "nominal" },
+  { t0 = 600.0,  t1 = 7200.0, state = "denied" },
+]
+
+[clock_quantum]
+# Optical Sr lattice clock; sigma_y(1s)=1e-15 space goal (cited, not invented).
+id = "optical-sr-lattice"
+provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (Origlia/Schiller/Bongs et al., arXiv:1503.08457); q_wf=sigma_y(1s)^2; ground-demonstrator maturity, not flown; flicker/aging not modeled"
+y0   = 5.0e-17         # initial fractional-frequency offset
+q_wf = 1.0e-30         # white FM:  q_wf = sigma_y(1s)^2 (units s^2)
+q_rw = 0.0             # random-walk FM (off)
+
+[clock_classical]
+# Microchip SA.45s / SA65 CSAC; sigma_y(1s)=3e-10 (datasheet) — a deployed part.
+id = "csac-sa45s"
+provenance = "Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_wf=sigma_y(1s)^2; flicker/aging not modeled"
+y0   = 5.0e-10
+q_wf = 9.0e-20         # (3e-10)^2 — the term that drives the ~2610 s holdover
+q_rw = 0.0
