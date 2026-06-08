@@ -1,0 +1,10 @@
+# Funding / sponsor links surfaced by the GitHub "Sponsor" button.
+# Docs: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/displaying-a-sponsor-button-in-your-repository
+#
+# FOUNDER ACTION:
+#   * `custom:` works immediately and needs no GitHub setting.
+#   * The `github:` key (commented below) only renders a working button if GitHub
+#     Sponsors is ENABLED for the `ashfordeOU` account. Uncomment it ONLY after
+#     enabling Sponsors, or the button links nowhere.
+custom: ['https://ashforde.org/support']
+# github: [ashfordeOU]
