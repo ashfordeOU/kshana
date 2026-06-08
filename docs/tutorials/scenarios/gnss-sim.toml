@@ -1,0 +1,66 @@
+# ============================================================================
+# TEACHING COPY — GNSS measurement domain. Kind = gnss-sim.
+#
+# Provenance: a comment-annotated copy of scenarios/gnss-sim-raim.toml. Field
+# values are byte-for-byte identical to the parent (comments never change a hash).
+#
+# What it does: a forward measurement-domain simulator. For each visible satellite
+# it synthesises the pseudorange
+#   rho = geometric range + c*dt_rx - c*dt_sv + I(Klobuchar) + T(Saastamoinen*Niell)
+#         + thermal noise + multipath
+# and feeds the residuals to snapshot RAIM (HPL/VPL, fault detection). It is a
+# forward simulator (measurements from a known truth), NOT a receiver/solver.
+#
+# Oracles (non-circular):
+#  - Klobuchar single-frequency zenith ionosphere ~ few-20 m (IS-GPS-200
+#    section 20.3.3.5.2.5) — mean iono ~19.9 m is in band.
+#  - Saastamoinen zenith troposphere ~2.3 m, mapped to ~6.8 m at low elevation by
+#    the Niell (1996) mapping function — correct order of magnitude.
+#
+# expected: scenario <hash> | gnss-sim | mean iono 19.9m tropo 6.8m | RAIM avail 0.82 mean HPL 22.1m VPL 40.0m fault-rate 0.000
+# ============================================================================
+
+kind = "gnss-sim"
+seed = 7
+mask_deg = 5.0
+noise_sigma_m = 1.5      # 1-sigma thermal noise per pseudorange (set 0 for a noise-free run)
+multipath_m = 0.5        # peak deterministic multipath, scaled by (1 - sin elevation)
+sat_clock_rms_m = 30.0   # peak per-PRN satellite clock offset
+uere_m = 3.0             # RAIM 1-sigma user-equivalent range error
+p_fa = 1.0e-5
+p_md = 1.0e-3
+alert_limit_h_m = 40.0
+alert_limit_v_m = 50.0
+
+[time]
+step_s = 60.0
+duration_s = 3600.0
+
+[receiver]
+lat_deg = 40.4
+lon_deg = -3.7
+alt_m = 660.0
+clock_bias_m = 1500.0
+
+# A GPS-like 24-satellite Walker shell propagated through the validated SGP4 core.
+[constellation]
+altitude_km = 20200.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
+
+# Klobuchar single-frequency ionosphere (IS-GPS-200 section 20.3.3.5.2.5): the
+# eight broadcast coefficients and the GPS seconds-of-day at the start of the run.
+[iono]
+alpha = [3.82e-8, 1.49e-8, -1.79e-7, 0.0]
+beta = [1.43e5, 0.0, -3.28e5, 1.13e5]
+gps_seconds_of_day = 50400.0
+
+# Saastamoinen zenith troposphere (Davis 1985 / Groves section 9.4) with Niell
+# (1996) mapping: surface meteorology and the day-of-year.
+[tropo]
+pressure_hpa = 1013.25
+temp_k = 288.15
+humidity = 0.5
+day_of_year = 180.0
