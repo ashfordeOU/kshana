@@ -1,0 +1,109 @@
+# SPDX-License-Identifier: Apache-2.0
+# Publish the kshana-mcp Model Context Protocol server.
+#
+#   1. `image`    — build + push a multi-arch OCI image to GitHub Container Registry
+#                   (ghcr.io). Uses the built-in GITHUB_TOKEN; no maintainer secret.
+#   2. `registry` — register/refresh the server in the official MCP registry via
+#                   GitHub OIDC (zero secrets). The registry reads the image's
+#                   `io.modelcontextprotocol.server.name` label to verify ownership,
+#                   so the image must exist and be PUBLIC first. Gated on the repo
+#                   variable MCP_REGISTRY_PUBLISH=true so it stays inert until the
+#                   maintainer makes the ghcr package public and opts in.
+#
+# Triggered by a release tag (vX.Y.Z) or manual dispatch. (The `crates.io` publish of
+# the same crate lives in publish.yml — that is the `cargo install kshana-mcp` channel;
+# this workflow is the OCI / registry channel.)
+name: publish MCP server
+
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to publish (e.g. 0.14.2); defaults to the tag"
+        required: false
+        type: string
+
+jobs:
+  image:
+    name: OCI image (ghcr.io)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Resolve version + owner
+        id: meta
+        env:
+          REF: ${{ github.ref }}
+          INPUT: ${{ github.event.inputs.version }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          if [ -n "$INPUT" ]; then v="$INPUT"; else v="${REF#refs/tags/v}"; fi
+          echo "version=$v" >> "$GITHUB_OUTPUT"
+          echo "owner=$(echo "$OWNER" | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      # Multi-arch (amd64 + arm64) so `docker run` works on x86 and Apple-Silicon hosts.
+      # arm64 builds under QEMU emulation, so this is the slow job — it only runs per
+      # release. (gha cache keeps re-runs fast.) Drop to linux/amd64 if speed matters.
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: mcp/kshana-mcp/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            ghcr.io/${{ steps.meta.outputs.owner }}/kshana-mcp:${{ steps.meta.outputs.version }}
+            ghcr.io/${{ steps.meta.outputs.owner }}/kshana-mcp:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  registry:
+    name: MCP registry (OIDC)
+    needs: image
+    # Inert until the maintainer makes the ghcr package public and sets this repo
+    # variable (Settings → Secrets and variables → Actions → Variables).
+    if: ${{ vars.MCP_REGISTRY_PUBLISH == 'true' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    defaults:
+      run:
+        working-directory: mcp/kshana-mcp
+    steps:
+      - uses: actions/checkout@v4
+      - name: Resolve version + owner
+        id: meta
+        env:
+          REF: ${{ github.ref }}
+          INPUT: ${{ github.event.inputs.version }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          if [ -n "$INPUT" ]; then v="$INPUT"; else v="${REF#refs/tags/v}"; fi
+          echo "version=$v" >> "$GITHUB_OUTPUT"
+          echo "owner=$(echo "$OWNER" | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
+      - name: Stamp server.json (version + image tag)
+        env:
+          V: ${{ steps.meta.outputs.version }}
+          IMG: ghcr.io/${{ steps.meta.outputs.owner }}/kshana-mcp:${{ steps.meta.outputs.version }}
+        run: |
+          jq --arg v "$V" --arg img "$IMG" \
+             '.version = $v | .packages[0].identifier = $img' \
+             server.json > server.tmp && mv server.tmp server.json
+          cat server.json
+      - name: Install mcp-publisher
+        run: |
+          curl -L "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" | tar xz mcp-publisher
+      - name: Authenticate (GitHub OIDC)
+        run: ./mcp-publisher login github-oidc
+      - name: Publish to the MCP registry
+        run: ./mcp-publisher publish

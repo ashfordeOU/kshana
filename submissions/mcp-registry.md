@@ -1,66 +1,101 @@
-# MCP server listings — one-click submission kit
+# MCP server listings — publish + auto-update kit
 
-Pre-built submissions to get `kshana-mcp` discoverable in the MCP ecosystem. Each is an
-external action for the founder (these are public submissions). Do them in order.
+How to make `kshana-mcp` publicly installable and discoverable, and keep every channel
+**updated automatically on each release**. Most of it is already wired in CI; the
+founder-only steps (accounts, one public toggle, one PR) are called out as **[FOUNDER]**.
 
-The server is built and tested in-repo (`mcp/kshana-mcp/`); the manifest is
-`mcp/kshana-mcp/server.json` (MCP registry schema).
+There are three independent install channels plus the discovery lists:
+
+| Channel | User installs with | Updated by |
+|---|---|---|
+| **crates.io** | `cargo install kshana-mcp` | `.github/workflows/publish.yml` (job `crates-mcp`) on every `vX.Y.Z` tag |
+| **ghcr.io (OCI)** | `docker run -i ghcr.io/ashfordeou/kshana-mcp` | `.github/workflows/mcp-publish.yml` (job `image`) on every tag |
+| **Official MCP registry** | client auto-discovers; points at the OCI image | `mcp-publish.yml` (job `registry`, GitHub OIDC) on every tag |
+| `awesome-mcp-servers` + aggregators | discovery only | one PR, then auto-indexed |
+
+> Why OCI and not crates.io for the registry: the official MCP registry's `registryType`
+> enum is `npm | pypi | oci | nuget | mcpb` — **it does not accept `cargo`**. So the
+> registry entry (`mcp/kshana-mcp/server.json`) references the **OCI image**, whose
+> `io.modelcontextprotocol.server.name` label proves ownership. `cargo install` stays a
+> first-class channel; it just isn't the registry's package type.
 
 ---
 
-## 0. Prerequisite — publish `kshana-mcp` to crates.io
+## 1. crates.io — `cargo install kshana-mcp` [FOUNDER: one-time, then automatic]
 
-The registry listing and the cleanest install (`cargo install kshana-mcp`) both want the
-crate on crates.io. `kshana` itself is already published; publish the server:
+The crate depends on the published `kshana` crate, so `kshana` must be on crates.io
+first (it is — 0.14.1). Publish the server once:
 
 ```sh
-# from the repo root, with a crates.io token already set (cargo login)
-cargo publish -p kshana-mcp --manifest-path mcp/kshana-mcp/Cargo.toml
+cd mcp/kshana-mcp
+cargo publish            # needs a crates.io token in the environment (cargo login)
 ```
 
-The crate uses `kshana = { path = "../..", version = "0.14" }`, so `cargo publish`
-records the version requirement and resolves against the published `kshana` crate.
-(crates.io publishes are permanent — yank-only — so this is founder-gated.)
+After that it is automatic: the `crates-mcp` job in `publish.yml` publishes it on every
+release tag (gated on the existing `CARGO_REGISTRY_TOKEN` secret, idempotent — re-runs
+are a no-op). **crates.io publishes are permanent (yank-only)** — that's why the first one
+is founder-gated. Bumping the crate's own `version` in `mcp/kshana-mcp/Cargo.toml` is what
+makes each release publish a new version; if the engine moves to a new minor (e.g. 0.15),
+also bump the `kshana = "0.14"` requirement or the job fails loudly.
 
----
+## 2. ghcr.io OCI image — `docker run` [FOUNDER: make public once, then automatic]
 
-## 1. Official MCP registry (registry.modelcontextprotocol.io)
+The `image` job builds a multi-arch (amd64+arm64) image and pushes it to
+`ghcr.io/ashfordeou/kshana-mcp:<version>` + `:latest` on every tag, using the built-in
+`GITHUB_TOKEN` — **no maintainer secret**. To trigger the first build now without cutting
+a release: Actions → **publish MCP server** → *Run workflow* → set `version` (e.g. `0.14.1`).
 
-The canonical registry. Authenticated by proving GitHub ownership of the
-`io.github.AshfordeOU` namespace (matches the `name` in `server.json`).
+GitHub packages are **private by default**. After the first push, make it public once:
+- ghcr package page → **Package settings** → *Change visibility* → **Public**, or
+- `gh api -X PATCH /user/packages/container/kshana-mcp/visibility -f visibility=public`
+  (for an org package: `/orgs/AshfordeOU/packages/container/kshana-mcp/visibility`).
+
+Users then run, with no Rust toolchain:
 
 ```sh
-# Install the official publisher CLI (Go), then from mcp/kshana-mcp/:
-mcp-publisher login github         # opens a browser to auth the AshfordeOU org
-mcp-publisher publish              # validates + publishes ./server.json
+docker run --rm -i ghcr.io/ashfordeou/kshana-mcp
 ```
 
-If the schema has moved on, regenerate the skeleton with `mcp-publisher init` and copy
-the `packages`/`repository` blocks from the committed `server.json`.
+## 3. Official MCP registry (registry.modelcontextprotocol.io) [auto via OIDC]
 
----
+The `registry` job authenticates with **GitHub OIDC (zero secrets)** and publishes
+`server.json`, stamping the version + image tag from the release. It is gated on a repo
+**variable** so it stays inert until the image is public:
 
-## 2. `awesome-mcp-servers` (the high-traffic discovery list)
+**[FOUNDER, one-time]** Settings → Secrets and variables → Actions → **Variables** →
+add `MCP_REGISTRY_PUBLISH = true`.
 
-Fork <https://github.com/punkpeye/awesome-mcp-servers>, add the line below under a
-relevant category (e.g. **🔬 Science & Education** or **📊 Data Platforms**), and open a PR.
-Ready-to-paste entry:
+Ownership is proven automatically: the registry reads the `io.modelcontextprotocol.server.name`
+label baked into the image (`mcp/kshana-mcp/Dockerfile`), which equals the `name` in
+`server.json` (`io.github.AshfordeOU/kshana-mcp`). The OIDC token's repo owner
+(`AshfordeOU`) must match the `io.github.<owner>` namespace — it does.
+
+Manual fallback (publish from a laptop instead of CI):
+
+```sh
+cd mcp/kshana-mcp
+curl -L "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" | tar xz mcp-publisher
+./mcp-publisher login github      # browser auth for the AshfordeOU namespace
+./mcp-publisher publish           # validates + publishes ./server.json
+```
+
+## 4. `awesome-mcp-servers` (high-traffic discovery list) [FOUNDER: one PR]
+
+Fork <https://github.com/punkpeye/awesome-mcp-servers>, add this under **🔬 Science &
+Education** (or **📊 Data Platforms**), and open a PR titled
+`Add kshana — PNT-resilience / GNSS simulator`:
 
 ```markdown
-- [AshfordeOU/kshana](https://github.com/AshfordeOU/kshana) 🦀 🏠 - Run the validated **Kshana** positioning/navigation/timing (PNT) resilience simulator from an agent — SGP4/SDP4 orbits, IAU reference frames (cross-validated vs SPICE), Allan deviations, GNSS availability/DOP, ARAIM protection levels, GNSS/INS fusion, and quantum-sensor models. `cargo install kshana-mcp`.
+- [AshfordeOU/kshana](https://github.com/AshfordeOU/kshana) 🦀 🏠 - Run the validated **Kshana** positioning/navigation/timing (PNT) resilience simulator from an agent — SGP4/SDP4 orbits, IAU reference frames (cross-validated vs SPICE), Allan deviations, GNSS availability/DOP, ARAIM protection levels, GNSS/INS fusion, and quantum-sensor models. `cargo install kshana-mcp` or `docker run ghcr.io/ashfordeou/kshana-mcp`.
 ```
 
-(Legend: 🦀 = Rust, 🏠 = local/stdio. Adjust the emoji to match the list's current legend.)
+(Legend: 🦀 = Rust, 🏠 = local/stdio. Adjust the emoji to the list's current legend.)
 
-PR title: `Add kshana — PNT-resilience / GNSS simulator`.
+## 5. Aggregators (mostly auto-index once #3 lands) [FOUNDER: optional]
 
----
-
-## 3. Aggregators (lower-effort, mostly auto-indexed once #1 lands)
-
-- **Smithery** (<https://smithery.ai>) — "Add server", point it at the GitHub repo; it reads `server.json`.
+- **Glama** (<https://glama.ai/mcp/servers>) — auto-indexes public GitHub MCP servers.
+- **Smithery** (<https://smithery.ai>) — "Add server", point at the repo; reads `server.json`.
 - **mcp.so** (<https://mcp.so/submit>) — submit the repo URL.
-- **Glama** (<https://glama.ai/mcp/servers>) — auto-indexes public GitHub MCP servers; submitting the repo speeds it up.
 - **PulseMCP** (<https://www.pulsemcp.com>) — "Submit a server" with the repo URL.
 
 ---
@@ -73,4 +108,5 @@ PR title: `Add kshana — PNT-resilience / GNSS simulator`.
 > reference frames (cross-validated against ANISE/SPICE), Allan deviations (NIST SP1065),
 > GNSS availability/DOP, ARAIM/DO-229E protection levels, GNSS/INS fusion, and
 > quantum-sensor performance models — and gets figures of merit with provenance. Works in
-> Cursor, JetBrains AI Assistant/Junie, and any MCP client. `cargo install kshana-mcp`.
+> Cursor, JetBrains AI Assistant/Junie, and any MCP client. `cargo install kshana-mcp`
+> or `docker run ghcr.io/ashfordeou/kshana-mcp`.
