@@ -9,6 +9,25 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+
+- **Independent ANISE/SPICE reference-frame cross-validation** (`xval/anise-frames/`).
+  A standalone, workspace-excluded crate cross-checks `kshana`'s IAU 2006/2000A CIO
+  reduction (`kshana::cio::gcrs_to_itrs_matrix`, GCRS→ITRS) against **ANISE** (the
+  pure-Rust NAIF/SPICE reimplementation) rotating GCRF→ITRF93 from JPL's
+  `earth_latest_high_prec.bpc`, with the **same IERS `finals2000A` Earth-orientation
+  parameters fed to both sides**, over eight quarterly epochs 2020–2023. The two
+  independent frame realizations agree to a **maximum relative rotation of 0.028″ —
+  ≤ 0.86 m on the ground, ≤ 0.93 m at LEO, ≤ 3.6 m at GNSS orbit**, meeting the
+  long-standing ROADMAP "< 10 m" frame cross-check with large margin (it complements,
+  and does not replace, the existing bit-for-bit SOFA/ERFA anchors). The crate is
+  isolated because `anise` + `hifitime` are MPL-2.0 / edition-2024 and must never enter
+  the published `kshana` dependency graph, its `Cargo.lock`, the `cargo deny` license
+  gate, or the MSRV build; ANISE is pinned `default-features = false`. Includes a
+  `frame-xval` binary (fetches the ~5 MB BPC, prints a table, writes `report.{json,md}`),
+  a kernel/network-self-skipping test gate, and an optional `workflow_dispatch`-only CI
+  job (never blocks `main`). Documented in `docs/VALIDATION.md` (CIO row) and `ROADMAP.md`.
+
 ## [0.14.0] - 2026-06-08
 
 ### Fixed
