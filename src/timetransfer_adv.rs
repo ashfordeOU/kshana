@@ -182,6 +182,8 @@ pub fn offset_tdev(series: &[f64], step_s: Seconds) -> Vec<(f64, f64)> {
 pub const F_L1: f64 = 1_575.42e6;
 /// GPS L2 carrier frequency (Hz).
 pub const F_L2: f64 = 1_227.60e6;
+/// GPS L5 carrier frequency (Hz), IS-GPS-705.
+pub const F_L5: f64 = 1_176.45e6;
 
 /// Ionosphere-free pseudorange combination (m):
 /// `P_IF = (f1²·P1 − f2²·P2) / (f1² − f2²)`. The first-order ionospheric delay (∝ 1/f²)

@@ -10,6 +10,16 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **SBAS / DO-229E protection levels, L1/L5 ionosphere-free, and a DO-316 compliance map**
+  (`sbas` module). `sbas_protection_level` forms the weighted geometry matrix from each
+  satellite's elevation/azimuth and UDRE/GIVE/airborne/tropo error budget, inverts the normal
+  matrix (shared `orbit::invert4`), and projects the variances into HPL/VPL via the DO-229E
+  K-factors (PA 6.0/5.33, NPA 6.18). `iono_free_l1l5` adds the GPS L1/L5 ionosphere-free
+  pseudorange (IS-GPS-705, `γ₁₅ = 1.79327`), validated to cancel the engine's independent
+  first-order ionospheric delay. `do316_compliance_map` traces DO-316/DO-229E requirements to
+  the implementing functions. Validated against closed-form K-factor definitions, the numpy
+  `inv(GᵀG)` reference geometry, and the two-route covariance identity; the published-PL
+  RTKLIB/gLAB conformance cross-check is documented as founder-gated in `docs/COMPLIANCE.md`.
 - **Full tesseral spherical-harmonic gravity — the EGM2008 field to degree/order 70.**
   A new `gravity_sh::SphericalHarmonicField` evaluates the geopotential and its acceleration
   in the Earth-fixed frame from fully-normalized `C̄_nm, S̄_nm` coefficients, using the stable
