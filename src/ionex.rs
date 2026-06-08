@@ -74,8 +74,10 @@ impl TecGrid {
 }
 
 /// Locate the lower cell index `i0` and the in-cell fraction `f ∈ [0,1]` for a coordinate
-/// on a regular axis, clamped so that `i0` and `i0+1` are valid (`n ≥ 2`).
-fn cell(x: f64, x0: f64, dx: f64, n: usize) -> (usize, f64) {
+/// on a regular axis, clamped so that `i0` and `i0+1` are valid (`n ≥ 2`). Promoted to
+/// `pub(crate)` so the [`crate::altpnt::terrain`] DEM grid reuses the identical clamp helper
+/// rather than copy-pasting the body (one shared definition, no divergent edge handling).
+pub(crate) fn cell(x: f64, x0: f64, dx: f64, n: usize) -> (usize, f64) {
     let t = (x - x0) / dx;
     let i = t.floor();
     let i0 = (i as isize).clamp(0, n as isize - 2) as usize;
