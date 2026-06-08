@@ -12,10 +12,8 @@
   },
   "packages": [
     {
-      "registryType": "cargo",
-      "registryBaseUrl": "https://crates.io",
-      "identifier": "kshana-mcp",
-      "version": "0.1.0",
+      "registryType": "oci",
+      "identifier": "ghcr.io/ashfordeou/kshana-mcp:0.1.0",
       "transport": {
         "type": "stdio"
       }

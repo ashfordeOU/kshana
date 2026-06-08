@@ -48,6 +48,47 @@ jobs:
             exit "$rc"
           fi
 
+  crates-mcp:
+    name: crates.io (kshana-mcp)
+    runs-on: ubuntu-latest
+    # The MCP server is a standalone, workspace-excluded crate that depends on the
+    # published `kshana` crate (`kshana = { path = "../..", version = "0.14" }`), so it
+    # must publish AFTER the `crates` job has pushed a matching `kshana` to crates.io.
+    needs: crates
+    defaults:
+      run:
+        working-directory: mcp/kshana-mcp
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - name: Gate on token
+        id: gate
+        env:
+          TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: |
+          if [ -n "$TOKEN" ]; then echo "go=true" >> "$GITHUB_OUTPUT";
+          else echo "CARGO_REGISTRY_TOKEN not set; skipping kshana-mcp publish"; fi
+      - name: Publish
+        if: steps.gate.outputs.go == 'true'
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: |
+          set +e
+          # Retry briefly: the `kshana` version this depends on may still be propagating
+          # through the crates.io sparse index right after the `crates` job published it.
+          for attempt in 1 2 3 4 5; do
+            out="$(cargo publish 2>&1)"; rc=$?
+            printf '%s\n' "$out"
+            [ "$rc" -eq 0 ] && exit 0
+            printf '%s\n' "$out" | grep -qiE "already (exists|uploaded)|already been published|is already uploaded" \
+              && { echo "::notice::this version is already on crates.io — treating as success"; exit 0; }
+            printf '%s\n' "$out" | grep -qiE "no matching package named|failed to select a version for the requirement" \
+              && { echo "kshana not yet indexed; retrying ($attempt/5)…"; sleep 15; continue; }
+            exit "$rc"
+          done
+          echo "::error::kshana-mcp publish failed — is the matching kshana version on crates.io? (check the kshana = \"0.14\" requirement)"
+          exit 1
+
   pypi:
     name: PyPI (${{ matrix.os }})
     runs-on: ${{ matrix.os }}
