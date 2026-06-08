@@ -129,9 +129,13 @@ A validated, fully reproducible engine spanning the PNT stack:
   (`src/frames.rs`, `teme_to_itrf` / `polar_motion_matrix` per SOFA `iauPom00`,
   caller-supplied `x_p`/`y_p`) are delivered, **and the fully CIO-based IAU 2006/2000A
   (X, Y, s) reduction** (`src/cio.rs`: GCRS↔CIRS↔ITRS via `eraXys06a`/`eraC2ixys`/
-  `eraEra00`/`eraC2tcio`, validated bit-for-bit against the SOFA vectors). The only
-  remaining item is an ANISE/SPICE numerical cross-check to the <10 m level (external,
-  needs SPICE kernels).)*
+  `eraEra00`/`eraC2tcio`, validated bit-for-bit against the SOFA vectors), **and the
+  independent ANISE/SPICE numerical cross-check is delivered** (`xval/anise-frames/`:
+  `gcrs_to_itrs_matrix` vs ANISE's GCRF→ITRF93 from JPL's `earth_latest_high_prec.bpc`,
+  the same IERS `finals2000A` EOP fed to both, eight epochs 2020–2023 — max 0.028″,
+  **≤ 0.86 m on the ground, ≤ 3.6 m at GNSS orbit**, inside the <10 m target). The
+  cross-check is a standalone, workspace-excluded crate so the MPL-2.0 / edition-2024
+  `anise` dependency never touches the published `kshana` crate or any default CI gate.)*
 - Two-part Julian dates (the single-`f64` JD is ~50 µs near 2020). *(Delivered — `src/jd2.rs` `Jd2`; surfacing it through the time API and propagator epoch handling remains.)*
 - Surface the loosely-/tightly-coupled GNSS/INS navigator across more scenario packs.
 - Golden numerics and calibration ensembles for the V&V suite; committed
