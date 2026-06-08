@@ -44,8 +44,8 @@
 
 use crate::ephem::{moon_position, sun_position};
 use crate::forces::{
-    drag_accel, gravity_accel, relativistic_accel, srp_accel, third_body_accel, two_body_accel,
-    zonal_accel, EARTH_ZONALS_J2_J6, MU_EARTH, MU_MOON, MU_SUN,
+    drag_accel, gravity_accel, lense_thirring_accel, relativistic_accel, srp_accel,
+    third_body_accel, two_body_accel, zonal_accel, EARTH_ZONALS_J2_J6, MU_EARTH, MU_MOON, MU_SUN,
 };
 use crate::integrator::{integrate, integrate_dopri, rk4_step, Tolerance};
 use crate::precession::julian_centuries_tt;
@@ -110,6 +110,10 @@ pub struct ForceModel {
     /// **velocity-dependent**, so it is applied in [`accel_rv`](Self::accel_rv)/the RHS rather
     /// than the position-only [`accel_at`](Self::accel_at).
     pub relativity: bool,
+    /// Include the post-Newtonian **Lense–Thirring** frame-dragging correction
+    /// ([`crate::forces::lense_thirring_accel`]) — the gravitomagnetic term beyond
+    /// Schwarzschild. Velocity-dependent; applied in [`accel_rv`](Self::accel_rv)/the RHS.
+    pub lense_thirring: bool,
 }
 
 impl ForceModel {
@@ -180,6 +184,12 @@ impl ForceModel {
         self
     }
 
+    /// Enable the Lense–Thirring frame-dragging correction (chainable, like [`relativity`](Self::relativity)).
+    pub fn lense_thirring(mut self) -> Self {
+        self.lense_thirring = true;
+        self
+    }
+
     /// The time-independent **central** gravity (m/s², ECI) at position `r` (m): two-body plus
     /// the configured J2/zonal field, but *not* the third-body terms (which depend on time
     /// through the ephemeris — see [`accel_at`](Self::accel_at)). For a model without Sun/Moon
@@ -241,6 +251,10 @@ impl ForceModel {
         }
         if self.relativity {
             let g = relativistic_accel(r, v);
+            a = [a[0] + g[0], a[1] + g[1], a[2] + g[2]];
+        }
+        if self.lense_thirring {
+            let g = lense_thirring_accel(r, v);
             a = [a[0] + g[0], a[1] + g[1], a[2] + g[2]];
         }
         a
@@ -1042,6 +1056,29 @@ mod tests {
             sep < 5.0e4,
             "J3..J6 must stay a small correction, separation {sep} m"
         );
+    }
+
+    #[test]
+    fn lense_thirring_flag_perturbs_the_trajectory_minutely() {
+        // Wiring check: enabling the frame-dragging flag must change the propagated state by a
+        // tiny, bounded amount (it is ~100× below Schwarzschild, itself ~1e-9 of two-body), and
+        // must not blow up or dissipate the orbit.
+        let (r0, v0) = leo_state();
+        let day = 86_400.0;
+        let tol = Tolerance {
+            rtol: 1e-12,
+            atol: 1e-9,
+            ..Tolerance::default()
+        };
+        let base = ForceModel::two_body();
+        let (r_base, _) = propagate(r0, v0, day, base, &tol);
+        let (r_lt, _) = propagate(r0, v0, day, base.lense_thirring(), &tol);
+        let sep = norm([
+            r_lt[0] - r_base[0],
+            r_lt[1] - r_base[1],
+            r_lt[2] - r_base[2],
+        ]);
+        assert!(sep > 0.0 && sep < 100.0, "LT day-long perturbation {sep} m");
     }
 
     // --- Propagator trait: the numerical propagator as a first-class peer of SGP4 ---

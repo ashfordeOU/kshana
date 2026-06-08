@@ -10,6 +10,22 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Full tesseral spherical-harmonic gravity — the EGM2008 field to degree/order 70.**
+  A new `gravity_sh::SphericalHarmonicField` evaluates the geopotential and its acceleration
+  in the Earth-fixed frame from fully-normalized `C̄_nm, S̄_nm` coefficients, using the stable
+  Holmes–Featherstone normalized Legendre recurrence (de-normalizing would overflow at this
+  degree). The shipped coefficients are the NGA EGM2008 product (public domain, via ICGEM),
+  bundled in `egm2008_data.rs` and reproduced bit-for-bit by `tools/gen_egm2008.py` from the
+  committed `tools/egm2008_to70.gfc`; any ICGEM `.gfc` model loads via `from_gfc`. Validated
+  against three independent oracles: point-mass collapse (`C̄00`-only = `−μr/|r|³`), a zonal-only
+  field reproducing the existing `forces::zonal_accel` to ~1e-9, and the analytic acceleration
+  matching the finite-difference gradient of the directly-summed potential to <1e-6.
+- **General-relativistic Lense–Thirring (frame-dragging) acceleration**
+  (`forces::lense_thirring_accel`, IERS 2010 Eq. 10.12), the gravitomagnetic term beyond the
+  existing Schwarzschild correction, wired into the numerical propagator via a new
+  `ForceModel::lense_thirring()` flag. Validated as linear in the Earth's angular momentum and
+  1–2 orders of magnitude below the Schwarzschild term, the regime of the LAGEOS / Gravity
+  Probe B measurements.
 - **A `Propagator` trait unifying the analytic and numerical orbit propagators.** The
   numerical Cowell force-model propagator is now a first-class peer of SGP4: a new
   `NumericalPropagator` type (initial state + `ForceModel` + `Tolerance` + choice of

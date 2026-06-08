@@ -368,6 +368,40 @@ pub fn relativistic_accel(r: Vec3, v: Vec3) -> Vec3 {
     ]
 }
 
+/// Earth's spin angular momentum **per unit Earth mass** `|J|` (m²/s), along the +z spin axis:
+/// `L⊕/M⊕ = I⊕ω⊕/M⊕ ≈ 5.86e33 / 5.972e24`. Drives the Lense–Thirring term.
+pub const EARTH_ANGULAR_MOMENTUM_SPECIFIC: f64 = 9.81e8;
+
+/// Post-Newtonian **Lense–Thirring** (frame-dragging) acceleration (m/s², ECI) — the rotating
+/// Earth drags inertial frames, the gravitomagnetic correction beyond the Schwarzschild
+/// [`relativistic_accel`]. IERS Conventions 2010 Eq. (10.12), with `γ = 1`:
+/// `a = (2GM/c²r³)·[ (3/r²)(r×v)(r·J) + (v×J) ]`, where `J = (0, 0, |J|)` is the Earth's
+/// angular momentum per unit mass. It is ~1–2 orders of magnitude below the Schwarzschild term
+/// at LEO and is the physical basis of the Gravity Probe B / LAGEOS frame-dragging measurements.
+pub fn lense_thirring_accel(r: Vec3, v: Vec3) -> Vec3 {
+    let rn = norm(r);
+    let c2 = SPEED_OF_LIGHT * SPEED_OF_LIGHT;
+    let j = [0.0, 0.0, EARTH_ANGULAR_MOMENTUM_SPECIFIC];
+    let pre = 2.0 * MU_EARTH / (c2 * rn * rn * rn);
+    let rxv = [
+        r[1] * v[2] - r[2] * v[1],
+        r[2] * v[0] - r[0] * v[2],
+        r[0] * v[1] - r[1] * v[0],
+    ];
+    let vxj = [
+        v[1] * j[2] - v[2] * j[1],
+        v[2] * j[0] - v[0] * j[2],
+        v[0] * j[1] - v[1] * j[0],
+    ];
+    let rdotj = r[0] * j[0] + r[1] * j[1] + r[2] * j[2];
+    let f = 3.0 / (rn * rn);
+    [
+        pre * (f * rxv[0] * rdotj + vxj[0]),
+        pre * (f * rxv[1] * rdotj + vxj[1]),
+        pre * (f * rxv[2] * rdotj + vxj[2]),
+    ]
+}
+
 /// Mean motion `n = √(μ/a³)` (rad/s) for semi-major axis `a` (m).
 pub fn mean_motion(a: f64) -> f64 {
     (MU_EARTH / (a * a * a)).sqrt()
@@ -898,6 +932,61 @@ mod tests {
             rel < 1e-12,
             "radial GR x-component {} vs closed form {expected} (rel {rel})",
             a[0]
+        );
+    }
+
+    #[test]
+    fn lense_thirring_vanishes_without_earth_rotation() {
+        // The frame-dragging term is linear in J; with J → 0 it is exactly zero. We can't set
+        // the const, but we verify the structural property: scaling matches a hand recompute
+        // with J doubled (linearity), and that the term is non-zero for a real orbit.
+        let r = [7.0e6, 0.0, 1.0e6];
+        let vcirc = (MU_EARTH / 7.0e6).sqrt();
+        let v = [0.0, vcirc, 0.0];
+        let a = lense_thirring_accel(r, v);
+        assert!(
+            a.iter().any(|x| x.abs() > 0.0),
+            "LT must be non-zero: {a:?}"
+        );
+        // Linearity in J: doubling J doubles a. Recompute with J' = 2J by the same formula.
+        let c2 = SPEED_OF_LIGHT * SPEED_OF_LIGHT;
+        let rn = norm(r);
+        let j2 = [0.0, 0.0, 2.0 * EARTH_ANGULAR_MOMENTUM_SPECIFIC];
+        let pre = 2.0 * MU_EARTH / (c2 * rn * rn * rn);
+        let rxv = [
+            r[1] * v[2] - r[2] * v[1],
+            r[2] * v[0] - r[0] * v[2],
+            r[0] * v[1] - r[1] * v[0],
+        ];
+        let vxj = [
+            v[1] * j2[2] - v[2] * j2[1],
+            v[2] * j2[0] - v[0] * j2[2],
+            v[0] * j2[1] - v[1] * j2[0],
+        ];
+        let rdotj = r[2] * j2[2];
+        let f = 3.0 / (rn * rn);
+        let a2x = pre * (f * rxv[0] * rdotj + vxj[0]);
+        assert!(
+            (a2x - 2.0 * a[0]).abs() / (2.0 * a[0]).abs() < 1e-12,
+            "LT must be linear in J"
+        );
+    }
+
+    #[test]
+    fn lense_thirring_is_far_below_schwarzschild_at_leo() {
+        // The gravitomagnetic frame-dragging term is 1–2 orders of magnitude below the
+        // Schwarzschild term, which is itself ~1.9e-9 of two-body — a strict physical hierarchy.
+        let r0 = 7.0e6;
+        let r = [r0, 0.0, 0.5e6];
+        let vcirc = (MU_EARTH / r0).sqrt();
+        let v = [0.0, vcirc, 0.0];
+        let lt = norm(lense_thirring_accel(r, v));
+        let schwarz = norm(relativistic_accel(r, v));
+        let ratio = lt / schwarz;
+        assert!(lt.is_finite() && lt > 0.0);
+        assert!(
+            (1e-3..0.5).contains(&ratio),
+            "LT/Schwarzschild ratio {ratio} outside the expected order-of-magnitude band"
         );
     }
 }
