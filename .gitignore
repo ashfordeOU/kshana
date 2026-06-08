@@ -25,3 +25,6 @@ __pycache__/
 /xval/anise-frames/kernels/*.bpc
 /xval/anise-frames/report.json
 /xval/anise-frames/report.md
+
+# MCP server crate: build dir only. Source + Cargo.lock ARE committed.
+/mcp/kshana-mcp/target
