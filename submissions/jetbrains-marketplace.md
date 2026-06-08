@@ -20,7 +20,7 @@ cd ide/jetbrains
 
 1. Sign in at <https://plugins.jetbrains.com> with the founder JetBrains account.
 2. **Upload plugin** → upload `build/distributions/kshana-jetbrains-0.1.0.zip`.
-3. The plugin id `dev.kshana.ide`, name "Kshana — PNT simulator", vendor, description, and
+3. The plugin id `dev.kshana.ide`, name "Kshana - PNT simulator", vendor, description, and
    compatibility range come from `META-INF/plugin.xml` — no re-entry.
 4. Pick a category (**Tools Integration** / **Scientific**), add `https://kshana.dev`, and
    submit for moderation (first upload is reviewed, typically ~1–2 business days).
