@@ -9,6 +9,8 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.14.1] - 2026-06-08
+
 ### Added
 
 - **Independent ANISE/SPICE reference-frame cross-validation** (`xval/anise-frames/`).
@@ -27,6 +29,16 @@ breaking changes are called out explicitly.
   `frame-xval` binary (fetches the ~5 MB BPC, prints a table, writes `report.{json,md}`),
   a kernel/network-self-skipping test gate, and an optional `workflow_dispatch`-only CI
   job (never blocks `main`). Documented in `docs/VALIDATION.md` (CIO row) and `ROADMAP.md`.
+
+### Fixed
+
+- **Mobile-friendly playground.** Fixed horizontal overflow of the playground `.panel`
+  on phones (a CSS-grid item defaulting to `min-width: auto` rendered ~100 px wider than
+  the viewport) via `min-width: 0` and width-guarded controls; verified clean at 360 /
+  390 / 414 / 768 px. Aligned the "Pin to compare" / "Download report" action buttons
+  (equal margin boxes in the flex row). Enlarged run buttons, sliders, selects and nav
+  links to the ~44 px WCAG 2.5.5 / Apple-HIG touch-target minimum on phones and touch
+  devices, with desktop sizing unchanged.
 
 ## [0.14.0] - 2026-06-08
 
@@ -1802,7 +1814,8 @@ Initial release.
   services, not license fees.
 - `CITATION.cff` so the software can be cited.
 
-[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.14.0...HEAD
+[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.14.1...HEAD
+[0.14.1]: https://github.com/AshfordeOU/kshana/compare/v0.14.0...v0.14.1
 [0.14.0]: https://github.com/AshfordeOU/kshana/compare/v0.13.0...v0.14.0
 [0.13.0]: https://github.com/AshfordeOU/kshana/compare/v0.12.0...v0.13.0
 [0.8.0]: https://github.com/AshfordeOU/kshana/compare/v0.7.0...v0.8.0
