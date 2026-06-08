@@ -36,3 +36,6 @@ __pycache__/
 /ide/jetbrains/.intellijPlatform
 /ide/jetbrains/.kotlin
 /ide/jetbrains/build
+
+# macOS finder metadata
+.DS_Store
