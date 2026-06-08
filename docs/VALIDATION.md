@@ -186,6 +186,32 @@ Honest scope: the field is low-degree + synthetic mascons, **not** the full EGM2
 coefficient set; a map-representation-error Monte-Carlo, a magnetic-anomaly map,
 terrain-aided SLAM, and scenario-engine `kind=` wiring remain follow-ons.
 
+## INS / IMU error model — datasheet-referenced validation (`src/inertial/`)
+
+The IMU stochastic error model is validated against **published manufacturer
+datasheet / dataset specifications** — never against a value Kshana itself produced.
+The bridge from a field-unit spec to the SI noise model is the standard
+Allan-deviation identification (Riley, NIST SP 1065 §5; IEEE Std 952): the random-walk
+coefficient `N` is the overlapping ADEV read at τ = 1 s on the τ⁻¹ᐟ² slope, and the
+bias-instability coefficient is the flat Allan plateau (`tests/imu_allan_spec.rs`,
+hermetic — no download).
+
+| Aspect | Status | Evidence / oracle |
+|--------|--------|-------------------|
+| Unit-conversion layer (the #1 non-circularity risk) | `validated` | Hand-checked: 0.15 deg/√hr = 4.3633e-5 rad/√s; 3.6 µg = 3.5304e-5 m/s²; 2.0 deg/hr = 9.6963e-6 rad/s. |
+| Gyro angle random walk | `validated` | ADIS16465 ARW 0.15 deg/√hr (Analog Devices datasheet) recovered from ADEV(1 s) to < 5%. |
+| Accel velocity random walk | `validated` | ADIS16465 VRW 0.1 m/s/√hr recovered to < 5%. |
+| White-noise Allan slope | `validated` | ADIS16460 white branch log-log slope −0.5 ± 0.05. |
+| In-run bias instability plateau | `validated` | ADIS16465 gyro BI 2.0 deg/hr recovered as the flat Allan minimum to < 15%. |
+| Second IMU profile | `validated` | NaveGo ADIS16488 (ARW 0.3 deg/√hr, VRW 0.029 m/s/√hr) both recovered to < 5%. |
+
+Honest scope: this validates the **stochastic error model** against datasheet Allan
+coefficients. A full strapdown + tightly-coupled EKF cross-check against the i2Nav-WHU
+**KF-GINS** vehicle dataset is a follow-on — the published static-RTK segment converges
+to the cm-level antenna position, so a meaningful navigation-accuracy comparison there
+first requires GNSS/IMU lever-arm compensation and a dynamic free-inertial-divergence
+window; until then it would measure a fixed geometric offset, not navigation quality.
+
 ## Operating envelope
 
 Each pack is exercised across its stated input envelope by
