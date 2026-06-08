@@ -9,6 +9,8 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.14.0] - 2026-06-08
+
 ### Fixed
 - **Robustness hardening from an adversarial battle-test pass.** (1) `sbas_protection_level` now
   rejects non-finite elevation/azimuth/variance and negative or non-finite covariance diagonals
@@ -1781,7 +1783,8 @@ Initial release.
   services, not license fees.
 - `CITATION.cff` so the software can be cited.
 
-[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.13.0...HEAD
+[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.14.0...HEAD
+[0.14.0]: https://github.com/AshfordeOU/kshana/compare/v0.13.0...v0.14.0
 [0.13.0]: https://github.com/AshfordeOU/kshana/compare/v0.12.0...v0.13.0
 [0.8.0]: https://github.com/AshfordeOU/kshana/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/AshfordeOU/kshana/compare/v0.6.0...v0.7.0
