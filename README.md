@@ -313,13 +313,18 @@ assistant or agent**. It exposes `run_scenario`, `list_scenario_kinds`,
 `kshana::api`).
 
 ```bash
-cargo install --git https://github.com/AshfordeOU/kshana kshana-mcp
+cargo install kshana-mcp                          # crates.io
+docker run --rm -i ghcr.io/ashfordeou/kshana-mcp  # or OCI, no Rust toolchain
 ```
 
-Then register the `kshana-mcp` binary in your client's `mcpServers` config — see
+Then register `kshana-mcp` in your client's `mcpServers` config — see
 [`mcp/kshana-mcp/README.md`](mcp/kshana-mcp/README.md) for per-client snippets. The
 server is a standalone, workspace-excluded crate (the `rmcp` SDK is edition 2024), so it
 never affects the lean published `kshana` crate or its build.
+
+**In a JetBrains IDE** you can also install the **Kshana** plugin from the JetBrains
+Marketplace (Settings → Plugins → search "Kshana") to run scenarios from a right-click —
+see [`ide/jetbrains/`](ide/jetbrains/).
 
 ## Scenario format
 
