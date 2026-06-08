@@ -43,7 +43,7 @@ citable table in [`docs/PROVENANCE.md`](docs/PROVENANCE.md).
 *Free and open source under Apache-2.0, professionally developed and maintained by
 Ashforde OÜ — commercial support, integration, and proprietary extensions available.*
 
-> **Status: v0.14.0 · a simulation substrate, not yet a product.** A validated,
+> **Status: v0.14.1 · a simulation substrate, not yet a product.** A validated,
 > fully reproducible engine spanning the PNT stack — orbit geometry and constellation
 > design, a numerical (Cowell) propagator with a six-perturbation force model, maneuver
 > and trajectory design, time systems, inertial navigation (incl. map-aided and
@@ -129,7 +129,7 @@ the P2 roadmap and [get in touch](#support--professional-services) to collaborat
 | **Orbit & geometry** | SGP4/SDP4 propagation (validated to 4.12 mm against all 666 AIAA 2006-6753 vectors); real two-line elements (a committed, date-stamped Celestrak `gps-ops` snapshot) or synthetic Walker-delta constellations whose mean elements realise the `i:T/P/F` formula to under 1 km over a 24 h propagation; multi-constellation visibility, dilution of precision, and GNSS availability; a gradient-free constellation-design optimiser, streets-of-coverage minimum-satellite sizing, a multi-constellation comparison tool, and a Walker **design sweep** that tabulates coverage / PDOP / revisit-time over a planes × satellites grid and reports the Pareto-optimal designs. |
 | **Numerical propagator** | A **Cowell** numerical propagator (`src/propagator.rs`) complementing the analytic SGP4/SDP4 path, with a hierarchical **six-perturbation** force model (`src/forces.rs`): two-body + the full **J2–J6 zonal** field (the exact analytic gradient of its disturbing potential), **epoch-driven Sun and Moon third-body** gravity (a built-in low-precision ephemeris, no DE/SPK kernel), **solar-radiation pressure** (cannonball model with a conical umbra+penumbra shadow), **atmospheric drag** (Vallado piecewise-exponential density, co-rotating atmosphere), and the **post-Newtonian Schwarzschild relativistic correction** — driven by a choice of two adaptive integrators (RK4 step-doubling or the **Dormand–Prince RK5(4)** embedded pair). Validated against analytic truth stronger than a cross-tool would give: the unperturbed orbit matches the exact universal-variable Kepler solution to **sub-metre over 24 h**, energy/angular-momentum conserve to ~1e-9, and each perturbation matches a hand-derived closed-form signature. |
 | **Maneuvers & trajectory design** | Impulsive ΔV nodes with 6×6 covariance propagation (ECI / LVLH execution-error frames), finite-burn integration checked against the closed-form **Tsiolkovsky** rocket equation to < 0.01 %, an **Izzo-2015** single-revolution **Lambert** solver, an exact universal-variable **Kepler** propagator, and a **porkchop** (launch × arrival) C3 / arrival-V∞ sweep emitted as a JSON contour grid — the performance-simulation layer above GMAT/Orekit, with every Lambert output round-tripped against two-body truth and the porkchop minimum checked against the analytic Hohmann floor. |
-| **Time systems** | IERS leap-second **UTC / TAI / TT / UT1** scales, a Julian-date API, the IAU-2000 **Earth Rotation Angle**, and GMST-based **TEME ↔ ECEF** with WGS-84 geodetic frames — plus IAU 2006 precession (Fukushima–Williams) toward an ITRF-precise reduction. |
+| **Time systems & reference frames** | IERS leap-second **UTC / TAI / TT / UT1** scales, a Julian-date API, the IAU-2000 **Earth Rotation Angle**, GMST-based **TEME ↔ ECEF** with WGS-84 geodetic frames, IAU 2006 precession (Fukushima–Williams), full **IAU 2000A/2000B nutation**, IERS **polar motion**, and the equinox-free **CIO-based IAU 2006/2000A GCRS↔ITRS** reduction — all validated **bit-for-bit** against the SOFA/ERFA vectors, and **independently cross-checked against ANISE** (the pure-Rust NAIF/SPICE reimplementation): kshana's GCRS→ITRS vs ANISE's ITRF93 from JPL's `earth_latest_high_prec.bpc`, the same IERS Earth-orientation parameters fed to both, agree to **≤ 0.86 m on the ground / ≤ 3.6 m at GNSS orbit** (max 0.028″) across eight epochs 2020–2023. |
 | **Inertial** | Three-axis strapdown INS — quaternion attitude, WGS-84 NED mechanization, coning/sculling compensation, and a deterministic IMU error model (scale-factor, misalignment, g-sensitivity, quantization, drift); a **first-principles cold-atom-interferometer accelerometer** (Mach–Zehnder phase, quantum projection noise, contrast decay, vibration coupling) that *derives* the velocity-random-walk coefficient; and a sequential-importance-resampling **particle filter** for map-aided (terrain-/gravity-referenced) GPS-denied navigation. |
 | **Gravity-map / alt-PNT** | A cold-atom **gravimeter measurement model** whose white-noise floor (`σ = ASD/√τ`) is derived from the CAI accelerometer physics; a low-degree, fully-normalised **spherical-harmonic gravity-anomaly field** (validated against the closed-form Legendre functions and a hand-derived single-term anomaly) plus synthetic mascons; and a **gravity-map-matching particle filter** that recovers a GPS-denied track from the anomaly sequence it flies through. A **60-minute GPS-denied benchmark** (a ~700 km / one-hour outage where the inertial solution drifts to ~70 km) is recovered to **~145 m (< 500 m)** by a hierarchical coarse-to-fine matcher — the ESA NAVISP *Quantum Wayfarer* target. |
 | **Fusion** | Loosely-coupled 15-state GNSS/INS error-state EKF with closed-loop feedback (the `gnss-ins` pack); a **tightly-coupled** pseudorange update that keeps correcting with fewer than four satellites; a coupled **clock + position** filter; a general **unscented (sigma-point) Kalman** estimator for strongly nonlinear measurements; a tightly-coupled GNSS/INS **UKF navigator** (pseudorange + Doppler) whose force-model orbital coast is validated to **0.77 m RMS** over a 30-minute curving LEO pass that includes a 120-second GNSS outage; and a full **17-state tightly-coupled GNSS/INS UKF** (position, velocity, attitude error, accelerometer and gyro biases, clock bias and drift) whose **quantum-CAI dead-reckoning** coasts a 120-second outage on the cold-atom accelerometer's derived velocity-random-walk. |
@@ -679,10 +679,12 @@ CPython versions).
 
 See [`ROADMAP.md`](ROADMAP.md) for the phased roadmap, [`CHANGELOG.md`](CHANGELOG.md)
 for released history, and [`docs/CAPABILITY.md`](docs/CAPABILITY.md) for the
-per-capability roadmap. Near-term items include **ITRF-precise frame reduction**
-(polar motion and sub-arcsecond nutation on top of the shipped GMST-based
-TEME&harr;ECEF), two-part Julian dates, tightly-coupled carrier-phase fusion, and
-surfacing the loosely-/tightly-coupled GNSS/INS navigator across more packs. The
+per-capability roadmap. The **ITRF-precise frame reduction** is now delivered — the
+full CIO-based IAU 2006/2000A GCRS↔ITRS chain (polar motion + sub-arcsecond nutation),
+validated bit-for-bit against SOFA/ERFA and independently cross-checked against ANISE
+(pure-Rust SPICE) to ≤ 3.6 m at GNSS orbit. Near-term items include two-part Julian
+dates, tightly-coupled carrier-phase fusion, and surfacing the loosely-/tightly-coupled
+GNSS/INS navigator across more packs. The
 **quantum physics layer** is a **P2** item: the CAI accelerometer is now simulated from
 first principles (Mach–Zehnder phase, projection noise, contrast decay, vibration
 coupling), while the clock/time-transfer sensors are still driven by published
@@ -713,7 +715,7 @@ entry for every user-visible change. Participation is governed by our
 
 If you use Kshana in academic or technical work, please cite it. Machine-readable
 metadata is in [`CITATION.cff`](CITATION.cff) (GitHub renders a "Cite this repository"
-button from it); cite the version you used (e.g. `v0.14.0`) together with the
+button from it); cite the version you used (e.g. `v0.14.1`) together with the
 scenario and seed for full reproducibility. Every release is archived on Zenodo with
 a citable DOI — the concept DOI [10.5281/zenodo.20528627](https://doi.org/10.5281/zenodo.20528627)
 always resolves to the latest version.
