@@ -22,7 +22,7 @@
     {
       "domain": "Time systems",
       "name": "Time scales & Earth-orientation frames",
-      "summary": "IERS leap-second UTC / TAI / TT / UT1 scales, a Julian-date API, the IAU-2000 Earth Rotation Angle, GMST-based TEME ↔ ECEF and WGS-84 geodetic frames, and IAU 2006 precession toward an ITRF-precise reduction."
+      "summary": "IERS leap-second UTC / TAI / TT / UT1 scales, a Julian-date API, the IAU-2000 Earth Rotation Angle, GMST-based TEME ↔ ECEF and WGS-84 geodetic frames, full IAU 2000A/2000B nutation and IAU 2006 precession, and the equinox-free CIO-based IAU 2006/2000A GCRS↔ITRS reduction with IERS polar motion — validated bit-for-bit against the SOFA/ERFA vectors and independently cross-checked against ANISE (pure-Rust SPICE): GCRS→ITRS vs ANISE ITRF93, same IERS EOP, agree to ≤ 0.86 m on the ground / ≤ 3.6 m at GNSS orbit."
     },
     {
       "domain": "Inertial",
