@@ -178,7 +178,7 @@ dependencies = [
 
 [[package]]
 name = "kshana"
-version = "0.14.1"
+version = "0.15.0"
 dependencies = [
  "getrandom",
  "hex",

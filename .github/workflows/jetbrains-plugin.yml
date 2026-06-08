@@ -5,16 +5,18 @@
 #            it can never block `main`.
 # - publish: runs on release tags (or manual dispatch). Publishes to JetBrains
 #            Marketplace via `publishPlugin`, gated on the JETBRAINS_MARKETPLACE_TOKEN
-#            secret so it is inert until the maintainer creates the listing (first
-#            upload is manual/moderated) and adds the token. The plugin version is
-#            stamped from the release tag. Developer signing is used when the optional
-#            certificate secrets are present; otherwise the upload is Marketplace-signed.
+#            secret. The plugin versions INDEPENDENTLY of the engine (it shells out to
+#            the user's `kshana` binary, so it only changes when its own code changes):
+#            the published version comes from ide/jetbrains/gradle.properties
+#            (`pluginVersion`), NOT the git tag. Bump pluginVersion to ship an update.
+#            Developer signing is used when the optional certificate secrets are present;
+#            otherwise the upload is Marketplace-signed.
 name: JetBrains plugin
 on:
   workflow_dispatch:
     inputs:
       version:
-        description: "Plugin version to publish (e.g. 0.14.2); defaults to the tag"
+        description: "Override plugin version to publish (else gradle.properties pluginVersion)"
         required: false
         type: string
   push:
@@ -56,13 +58,13 @@ jobs:
         with:
           distribution: temurin
           java-version: "21"
-      - name: Resolve version
+      - name: Resolve plugin version (own version, not the engine tag)
         id: ver
         env:
-          REF: ${{ github.ref }}
           INPUT: ${{ github.event.inputs.version }}
         run: |
-          if [ -n "$INPUT" ]; then v="$INPUT"; else v="${REF#refs/tags/v}"; fi
+          v="$(grep -E '^pluginVersion' gradle.properties | sed -E 's/.*= *//' | tr -d ' ')"
+          if [ -n "$INPUT" ]; then v="$INPUT"; fi
           echo "v=$v" >> "$GITHUB_OUTPUT"
       - name: Gate on Marketplace token
         id: gate
@@ -85,4 +87,13 @@ jobs:
             echo "No signing certificate set — publishing unsigned (Marketplace will sign)."
             args="$args -x signPlugin"
           fi
-          ./gradlew publishPlugin $args
+          set +e
+          out="$(./gradlew publishPlugin $args 2>&1)"; rc=$?
+          printf '%s\n' "$out"
+          if [ "$rc" -ne 0 ]; then
+            # Idempotent: a version already submitted (incl. one still in first-time
+            # moderation) is not a failure — it just means there is nothing new to push.
+            printf '%s\n' "$out" | grep -qiE "already.*(exist|upload|present|submitted)|same version|duplicate|status code: 409|moderation|not.*approved|pending" \
+              && { echo "::notice::plugin v$PLUGIN_VERSION is already submitted / pending moderation — treating as success"; exit 0; }
+            exit "$rc"
+          fi
