@@ -9,6 +9,34 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.13.0] - 2026-06-08
+
+This release closes the largest correctness gap in the engine: Earth-orientation
+and reference-frame reduction are now done to reference-implementation grade
+(validated **bit-for-bit against ERFA/SOFA**), the integrity stack gains
+**dual-constellation ARAIM** on real GPS+Galileo TLEs, and the propagation,
+quantum-sensor, lunar/cislunar, and geomagnetic layers all deepen — alongside a
+typed Python API, a richer browser playground, and a three-OS reproducibility
+matrix. Highlights:
+
+- **Reference frames, bit-for-bit.** Full IAU 2000A and 2000B nutation, IAU 2006
+  precession, the CIO-based (X, Y, s) IAU 2006/2000A GCRS↔ITRS reduction, IERS
+  polar motion, and TEME→GCRS/ITRS output frames — each validated bit-for-bit
+  against ERFA/SOFA reference routines.
+- **Dual-constellation ARAIM** (GPS + Galileo) on real TLEs, with HPL/VPL,
+  Stanford-diagram output, and an open `docs/ARAIM_REFERENCE.md`.
+- **Cislunar PNT**: an Earth–Moon CR3BP propagator, MCI↔MCMF frames, selenographic
+  coordinates, and a runnable LunaNet lunar-integrity scenario.
+- **Quantum sensing**: Coriolis and AC-Stark systematics for the cold-atom
+  interferometer, a drift sweep, and validation against the Freier (2016) budget.
+- **IGRF-14** geomagnetic main-field model, self-contained and validated.
+- **Typed Python API** (PyO3 `RunOutput`/`ScenarioMeta`, `.data()`, `scenario_kinds`,
+  `validate_toml`, type stubs) with a CI wheel build, plus first-class GCRS/ITRS
+  propagator output and CCSDS OMM export.
+- **Credibility & reproducibility**: a head-to-head SGP4 accuracy comparison against
+  the independent `sgp4` crate, a CI coverage gate (~97% line on `src/`), and a
+  three-OS (`ubuntu`/`macos`/`windows`) reproducibility matrix.
+
 ### Changed
 - **Every playground chart now matches the site theme.** All twelve SVG chart
   generators — the result/holdover chart (`src/report.rs` + `src/chart.rs`), the
@@ -1673,7 +1701,8 @@ Initial release.
   services, not license fees.
 - `CITATION.cff` so the software can be cited.
 
-[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.8.0...HEAD
+[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.13.0...HEAD
+[0.13.0]: https://github.com/AshfordeOU/kshana/compare/v0.12.0...v0.13.0
 [0.8.0]: https://github.com/AshfordeOU/kshana/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/AshfordeOU/kshana/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/AshfordeOU/kshana/compare/v0.5.0...v0.6.0
