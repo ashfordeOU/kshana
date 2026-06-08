@@ -1,6 +1,6 @@
 <idea-plugin>
     <id>dev.kshana.ide</id>
-    <name>Kshana — PNT simulator</name>
+    <name>Kshana - PNT simulator</name>
     <vendor email="contact@ashforde.org" url="https://kshana.dev">Ashforde OÜ</vendor>
 
     <description><![CDATA[
