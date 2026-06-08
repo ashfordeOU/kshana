@@ -30,6 +30,11 @@ pub const LUNAR_P_SAT: f64 = 1.0e-4;
 /// Lunar sidereal rotation period (s): 27.321661 days. The Moon's rotation is
 /// synchronous with its orbit, so this is also the orbital sidereal month.
 pub const LUNAR_SIDEREAL_DAY_S: f64 = 27.321_661 * 86_400.0;
+/// Lunar gravitational parameter `GM_Moon` (m³/s²). Source: JPL DE440 / NASA Moon
+/// Fact Sheet, `GM = 4902.800 km³/s²`
+/// (<https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html>), converted
+/// from km³/s² to m³/s² (×1e9). Used for the Keplerian relay mean motion.
+pub const MOON_GM_M3_S2: f64 = 4.902_800_118e12;
 
 type Vec3 = [f64; 3];
 
@@ -143,6 +148,266 @@ pub fn selenographic_to_mcmf(s: Selenographic) -> Vec3 {
     let (sla, cla) = s.lat_rad.sin_cos();
     let (slo, clo) = s.lon_rad.sin_cos();
     [r * cla * clo, r * cla * slo, r * sla]
+}
+
+// ---------------------------------------------------------------------------
+// LunaNet LANS geometry: named surface sites, look angles, surface visibility,
+// site DOP, a representative Keplerian relay model, and a coverage grid.
+// ---------------------------------------------------------------------------
+
+/// A named lunar surface site: selenographic latitude/longitude (degrees) and a
+/// human label. Coordinates are mean-sphere selenographic; the IAU "Mean Earth /
+/// polar axis" (ME) frame Kshana's MCMF approximates (Archinal et al. 2018, IAU
+/// WGCCRE 2015 Report on Cartographic Coordinates and Rotational Elements).
+/// Longitude is east-positive planetographic, the convention NASA site catalogs
+/// use. Sources are cited per row on the constants below.
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+pub struct LunarSite {
+    pub name: &'static str,
+    pub lat_deg: f64,
+    pub lon_deg: f64,
+}
+
+impl LunarSite {
+    /// Selenographic position at the mean lunar surface (alt = 0).
+    pub fn selenographic(&self) -> Selenographic {
+        Selenographic {
+            lat_rad: self.lat_deg.to_radians(),
+            lon_rad: self.lon_deg.to_radians(),
+            alt_m: 0.0,
+        }
+    }
+    /// MCMF (Moon-fixed Cartesian) position of the site at the mean surface.
+    pub fn mcmf(&self) -> Vec3 {
+        selenographic_to_mcmf(self.selenographic())
+    }
+}
+
+/// Shackleton crater, on the lunar south-pole rim (the Artemis target region).
+/// `89.67°S, 129.78°E` from the IAU Gazetteer-sourced infobox
+/// (<https://en.wikipedia.org/wiki/Shackleton_(crater)>). Honest caveat: the
+/// precise pole-proximate latitude is debated (some sources place the rim nearer
+/// `89.9°S`); both values give `z ≈ −R_MOON_M`, so the polar geometry oracles do
+/// not depend on the disputed digits.
+pub const SHACKLETON_RIM: LunarSite = LunarSite {
+    name: "Shackleton crater (south pole)",
+    lat_deg: -89.67,
+    lon_deg: 129.78,
+};
+/// Apollo 11 landing site, Mare Tranquillitatis. `0.67408°N, 23.47297°E`
+/// (NASA NSSDCA; cross-checked mindat.org/loc-3256.html "0.67408°N, 23.47297°E").
+pub const MARE_TRANQUILLITATIS_A11: LunarSite = LunarSite {
+    name: "Apollo 11 (Mare Tranquillitatis)",
+    lat_deg: 0.674_08,
+    lon_deg: 23.472_97,
+};
+/// Apollo 15 landing site, Hadley-Apennine. `26.1322°N, 3.6339°E`
+/// (NASA / Apollo 15 infobox 26°07′56″N 3°38′02″E) — a high-northern site.
+pub const APOLLO_15_HADLEY: LunarSite = LunarSite {
+    name: "Apollo 15 (Hadley-Apennine)",
+    lat_deg: 26.1322,
+    lon_deg: 3.6339,
+};
+/// Apollo 16 landing site, Descartes Highlands. `8.9730°S, 15.5002°E`
+/// (NASA NSSDCA / LROC) — a southern non-polar contrast (note the negative
+/// latitude: Descartes is in the southern highlands).
+pub const APOLLO_16_DESCARTES: LunarSite = LunarSite {
+    name: "Apollo 16 (Descartes)",
+    lat_deg: -8.9730,
+    lon_deg: 15.5002,
+};
+
+/// Canonical named lunar sites with authoritative selenographic coordinates.
+pub const NAMED_SITES: [LunarSite; 4] = [
+    SHACKLETON_RIM,
+    MARE_TRANQUILLITATIS_A11,
+    APOLLO_15_HADLEY,
+    APOLLO_16_DESCARTES,
+];
+
+/// Topocentric azimuth/elevation/range of a relay seen from a lunar surface user.
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+pub struct LunarAzEl {
+    /// Azimuth (degrees), clockwise from selenographic North in `[0, 360)`.
+    pub az_deg: f64,
+    /// Elevation (degrees) above the local horizontal (radial-up).
+    pub el_deg: f64,
+    /// Slant range (m) from the user to the relay.
+    pub range_m: f64,
+}
+
+/// Look angle from `user` (MCMF, on/near the surface) to `relay` (MCMF). Azimuth
+/// is measured clockwise from selenographic North (0 = N, 90 = E); elevation is
+/// above the local horizontal (radial-up). This is the exact inverse of the
+/// `de = cos(el)·sin(az)`, `dn = cos(el)·cos(az)`, `du = sin(el)` build inside
+/// [`lunar_sky_geometry`], using the same [`spherical_enu`] East/North/Up basis,
+/// so the two round-trip. Near a pole, [`spherical_enu`] seeds East from the body
+/// +x axis, so a polar azimuth is referenced to that seeded East, not true
+/// selenographic East; the radial-overhead `el = 90°` case is azimuth-independent.
+pub fn lunar_look_angle(user: Vec3, relay: Vec3) -> LunarAzEl {
+    let (east, north, up) = spherical_enu(user);
+    let d = [relay[0] - user[0], relay[1] - user[1], relay[2] - user[2]];
+    let rng = norm(d);
+    if rng == 0.0 {
+        return LunarAzEl {
+            az_deg: 0.0,
+            el_deg: 0.0,
+            range_m: 0.0,
+        };
+    }
+    let dh = [d[0] / rng, d[1] / rng, d[2] / rng];
+    let dot = |a: Vec3, b: Vec3| a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+    let de = dot(dh, east);
+    let dn = dot(dh, north);
+    let du = dot(dh, up);
+    // Clamp to the asin domain (a float-rounded exactly-overhead relay can push
+    // `du` to 1.0000000002 ⇒ NaN), mirroring `crate::orbit::elevation_deg`.
+    let el = du.clamp(-1.0, 1.0).asin().to_degrees();
+    let az = de.atan2(dn).to_degrees().rem_euclid(360.0);
+    LunarAzEl {
+        az_deg: az,
+        el_deg: el,
+        range_m: rng,
+    }
+}
+
+/// Count of relays (MCMF) visible from `user` (MCMF) above `mask_deg`. A relay is
+/// visible iff its elevation `≥ mask_deg`. For a surface user (alt ≈ 0) the
+/// `elevation ≥ 0` test already excludes relays behind the Moon's own limb (a
+/// relay below the local horizon is occulted by the body), so unlike Earth's
+/// `earth_occults` no separate limb-occultation test is needed here.
+pub fn lunar_visible_count(user: Vec3, relays: &[Vec3], mask_deg: f64) -> usize {
+    relays
+        .iter()
+        .filter(|&&r| lunar_look_angle(user, r).el_deg >= mask_deg)
+        .count()
+}
+
+/// MCMF positions of the relays visible from `user` above `mask_deg`
+/// (geometry-ready for [`crate::orbit::dop`]). See [`lunar_visible_count`] for the
+/// limb-occultation note.
+pub fn lunar_visible(user: Vec3, relays: &[Vec3], mask_deg: f64) -> Vec<Vec3> {
+    relays
+        .iter()
+        .copied()
+        .filter(|&r| lunar_look_angle(user, r).el_deg >= mask_deg)
+        .collect()
+}
+
+/// Geometric DOP at a lunar surface site (MCMF) from its visible relays. A thin
+/// reuse of [`crate::orbit::dop`] — DOP is frame-agnostic (it takes `(user, sats)`
+/// in any consistent Cartesian frame), and the lunar [`spherical_enu`] and the
+/// orbit `enu_basis` agree (both radial-up, +z-seeded East), so passing MCMF
+/// positions is correct. Returns `None` if fewer than four relays are visible.
+pub fn lunar_site_dop(user: Vec3, relays: &[Vec3], mask_deg: f64) -> Option<crate::orbit::Dop> {
+    let vis = lunar_visible(user, relays, mask_deg);
+    crate::orbit::dop(user, &vis)
+}
+
+/// A representative LunaNet relay placed by classical-element-style parameters in
+/// the Moon-centred inertial (MCI) frame: a circular relay at radius `radius_m`,
+/// inclination `inc_deg`, RAAN `raan_deg`, and phase `phase_deg` at epoch,
+/// advancing at the Keplerian mean motion for [`MOON_GM_M3_S2`]. Honest scope: a
+/// circular Keplerian relay, NOT the differential-corrected 9:2 NRHO (which lives
+/// in [`crate::cr3bp`]; see the module scope note). This is good enough for the
+/// coverage / visibility / DOP geometry that LANS design studies need first.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct LunarRelay {
+    pub radius_m: f64,
+    pub inc_deg: f64,
+    pub raan_deg: f64,
+    pub phase_deg: f64,
+}
+
+/// MCI position of the relay at `seconds` past epoch (circular Keplerian). The
+/// mean motion is `n = sqrt(GM / a³)`; the true argument is `u = phase + n·t`. The
+/// perifocal circular position `(R·cos u, R·sin u, 0)` is rotated by inclination
+/// about +x then RAAN about +z (the standard 3-1-3 with argument-of-perigee folded
+/// into `u`). At `seconds = 0` and inclination 0 the orbit lies in the equatorial
+/// plane (`z = 0`); `|pos| = radius_m` exactly for all inputs.
+pub fn relay_position_mci(r: &LunarRelay, seconds: f64) -> Vec3 {
+    let n = (MOON_GM_M3_S2 / r.radius_m.powi(3)).sqrt();
+    let u = r.phase_deg.to_radians() + n * seconds;
+    let (su, cu) = u.sin_cos();
+    let (si, ci) = r.inc_deg.to_radians().sin_cos();
+    let (sraan, craan) = r.raan_deg.to_radians().sin_cos();
+    let rr = r.radius_m;
+    [
+        rr * (craan * cu - sraan * ci * su),
+        rr * (sraan * cu + craan * ci * su),
+        rr * (si * su),
+    ]
+}
+
+/// MCMF positions of a relay set at `seconds`: each relay is propagated in MCI by
+/// [`relay_position_mci`] then reduced to MCMF with [`mci_to_mcmf`] so the rotating
+/// surface site and the relays are in the same frame. (Mixing MCI relays with an
+/// MCMF site rotates the geometry wrongly over a pass — always reduce first.)
+pub fn relay_set_mcmf(relays: &[LunarRelay], seconds: f64) -> Vec<Vec3> {
+    relays
+        .iter()
+        .map(|r| mci_to_mcmf(relay_position_mci(r, seconds), seconds))
+        .collect()
+}
+
+/// One sampled surface point's instantaneous geometry against the relay set.
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+pub struct CoverageCell {
+    pub lat_deg: f64,
+    pub lon_deg: f64,
+    pub n_visible: usize,
+    pub pdop: Option<f64>,
+}
+
+/// Lunar surface coverage: sample an `n_lat × n_lon` selenographic grid (latitude
+/// `−90..=+90`, longitude `−180..=+180`), place the relay set at `seconds` in
+/// MCMF, and report the visible relay count and PDOP per cell. This is the LANS
+/// "coverage map" deliverable: a polar cell sees the same poor geometry as the
+/// south-pole pass, while equatorial cells see a different relay subset, so the
+/// map shows the latitude-dependence of LANS coverage.
+pub fn lunar_coverage_grid(
+    relays: &[LunarRelay],
+    seconds: f64,
+    n_lat: usize,
+    n_lon: usize,
+    mask_deg: f64,
+) -> Vec<CoverageCell> {
+    let sats = relay_set_mcmf(relays, seconds);
+    let mut cells = Vec::with_capacity(n_lat.saturating_mul(n_lon));
+    let lat_span = |i: usize| -> f64 {
+        if n_lat <= 1 {
+            0.0
+        } else {
+            -90.0 + 180.0 * (i as f64) / ((n_lat - 1) as f64)
+        }
+    };
+    let lon_span = |j: usize| -> f64 {
+        if n_lon <= 1 {
+            0.0
+        } else {
+            -180.0 + 360.0 * (j as f64) / ((n_lon - 1) as f64)
+        }
+    };
+    for i in 0..n_lat {
+        let lat_deg = lat_span(i);
+        for j in 0..n_lon {
+            let lon_deg = lon_span(j);
+            let user = selenographic_to_mcmf(Selenographic {
+                lat_rad: lat_deg.to_radians(),
+                lon_rad: lon_deg.to_radians(),
+                alt_m: 0.0,
+            });
+            let n_visible = lunar_visible_count(user, &sats, mask_deg);
+            let pdop = lunar_site_dop(user, &sats, mask_deg).map(|d| d.pdop);
+            cells.push(CoverageCell {
+                lat_deg,
+                lon_deg,
+                n_visible,
+                pdop,
+            });
+        }
+    }
+    cells
 }
 
 /// One epoch of a lunar-surface protection-level pass.
@@ -393,6 +658,284 @@ mod tests {
             p_fa: 1e-5,
         };
         (user, sats, resid, budget)
+    }
+
+    // --- WE4 LunaNet LANS geometry oracles ---------------------------------
+
+    #[test]
+    fn moon_radius_matches_iau() {
+        // Oracle: IAU WGCCRE 2015 / NASA NSSDC mean lunar radius 1737.4 km.
+        assert!((R_MOON_M - 1_737_400.0).abs() < 1.0);
+    }
+
+    #[test]
+    fn named_sites_round_trip_selenographic() {
+        // Oracle: exact MCMF↔selenographic inverse identity; site coordinates from
+        // NASA NSSDCA / IAU Gazetteer (cited on each NAMED_SITES constant).
+        for site in NAMED_SITES {
+            let s = mcmf_to_selenographic(site.mcmf());
+            let want = site.selenographic();
+            assert!((s.lat_rad - want.lat_rad).abs() < 1e-9, "{} lat", site.name);
+            assert!((s.lon_rad - want.lon_rad).abs() < 1e-9, "{} lon", site.name);
+        }
+    }
+
+    #[test]
+    fn apollo11_z_component_oracle() {
+        // Oracle: hand-computed z = R·sin(0.67408°) from NASA NSSDCA 0.67408°N
+        // (≈ 1_737_400 · 0.011765 ≈ 20_440 m).
+        let m = MARE_TRANQUILLITATIS_A11.mcmf();
+        let z_expected = 1_737_400.0 * 0.674_08_f64.to_radians().sin();
+        assert!((m[2] - z_expected).abs() < 50.0, "z = {}", m[2]);
+        assert!((m[2] - 20_440.0).abs() < 100.0, "≈20.44 km, got {}", m[2]);
+    }
+
+    #[test]
+    fn apollo15_is_northern_shackleton_is_polar() {
+        // Oracle: published latitudes 26.1322°N (z ≈ R·sin26.13° ≈ 765 km) and
+        // 89.67°S (z ≈ −R near the south pole).
+        assert!(
+            APOLLO_15_HADLEY.mcmf()[2] > 7.0e5,
+            "Apollo 15 northern: z = {}",
+            APOLLO_15_HADLEY.mcmf()[2]
+        );
+        assert!(
+            SHACKLETON_RIM.mcmf()[2] < -1.737e6,
+            "Shackleton polar: z = {}",
+            SHACKLETON_RIM.mcmf()[2]
+        );
+    }
+
+    #[test]
+    fn overhead_relay_is_ninety_degrees() {
+        // THE required sanity oracle: a relay placed directly radially outward from
+        // any surface site has the line of sight parallel to Up ⇒ elevation 90.000°
+        // (exact geometric identity), independent of azimuth — safe even at the
+        // pole. Mirrors the existing `geometry_places_satellites_at_the_slant_range`
+        // el = 90 ⇒ straight-up test. The relay is built as `user + range·Up` using
+        // the SAME radial unit `spherical_enu` recovers, so the line of sight is the
+        // radial direction. The achievable tolerance is set by `asin` at its
+        // endpoint, NOT by the geometry: `sin(el)` lands within one ULP of 1.0, and
+        // `d(asin)/dx → ∞` as x → 1 amplifies that ~1e-16 to ~8.5e-7° (the
+        // unavoidable f64 floor; assert 1e-5° with margin). The radial identity
+        // itself is exact — `sin(el) = 1` — which we verify directly below.
+        for site in NAMED_SITES {
+            let u = site.mcmf();
+            let (_, _, up) = spherical_enu(u);
+            let range = 0.5 * norm(u);
+            let relay = [
+                u[0] + range * up[0],
+                u[1] + range * up[1],
+                u[2] + range * up[2],
+            ];
+            let la = lunar_look_angle(u, relay);
+            assert!(
+                (la.el_deg - 90.0).abs() < 1e-5,
+                "{} el = {} (asin endpoint floor ~8.5e-7°)",
+                site.name,
+                la.el_deg
+            );
+            // The geometric identity sin(el) = 1 holds to full f64 precision, free
+            // of the asin amplification.
+            assert!(
+                (la.el_deg.to_radians().sin() - 1.0).abs() < 1e-12,
+                "{} sin(el) = {}",
+                site.name,
+                la.el_deg.to_radians().sin()
+            );
+            assert!(
+                (la.range_m - range).abs() < 1e-3,
+                "{} range = {}",
+                site.name,
+                la.range_m
+            );
+        }
+    }
+
+    #[test]
+    fn look_angle_inverts_sky_geometry() {
+        // Oracle: round-trip against the shipped forward `lunar_sky_geometry`. The
+        // new inverse must recover each (az, el) the forward function placed.
+        let u = MARE_TRANQUILLITATIS_A11.mcmf();
+        let azels = [(0.0_f64, 75.0_f64), (120.0, 40.0), (250.0, 20.0)];
+        let relays = lunar_sky_geometry(u, 6.0e6, &azels);
+        for (&(az, el), relay) in azels.iter().zip(relays.iter()) {
+            let la = lunar_look_angle(u, *relay);
+            assert!(
+                (la.az_deg - az).abs() < 1e-6,
+                "az want {az} got {}",
+                la.az_deg
+            );
+            assert!(
+                (la.el_deg - el).abs() < 1e-6,
+                "el want {el} got {}",
+                la.el_deg
+            );
+            assert!(
+                (la.range_m - 6.0e6).abs() < 1e-3,
+                "range want 6e6 got {}",
+                la.range_m
+            );
+        }
+    }
+
+    #[test]
+    fn visibility_respects_mask() {
+        // Oracle: definitional mask cut — relays at el {5,15,45,80}° against a 10°
+        // mask leave exactly three visible, the 5° one excluded.
+        let u = MARE_TRANQUILLITATIS_A11.mcmf();
+        let azels = [(0.0, 5.0), (90.0, 15.0), (180.0, 45.0), (270.0, 80.0)];
+        let relays = lunar_sky_geometry(u, 6.0e6, &azels);
+        assert_eq!(lunar_visible_count(u, &relays, 10.0), 3);
+        // The el = 5° relay (the first one) must be the one excluded.
+        let vis = lunar_visible(u, &relays, 10.0);
+        assert_eq!(vis.len(), 3);
+        assert!(
+            !vis.iter().any(|&r| {
+                (r[0] - relays[0][0]).abs() < 1e-9
+                    && (r[1] - relays[0][1]).abs() < 1e-9
+                    && (r[2] - relays[0][2]).abs() < 1e-9
+            }),
+            "the 5° relay must be masked out"
+        );
+    }
+
+    #[test]
+    fn relay_keplerian_period_matches_gm() {
+        // Oracle: hand-computed Kepler third-law period from DE440 GM_Moon. For
+        // a = 3.0e6 m: a³ = 2.7e19 m⁹, a³/GM = 2.7e19 / 4.902800118e12 = 5.5071e6 s²,
+        // T = 2π·√(a³/GM) = 2π·2346.7 s = 14_744.8 s (≈ 4.096 h). A factor-1e9 GM
+        // unit slip (km³/s² left unconverted) would miss this by ~31600×, so the
+        // tight 1% band also guards the m³/s² conversion of MOON_GM_M3_S2.
+        let r = LunarRelay {
+            radius_m: 3.0e6,
+            inc_deg: 0.0,
+            raan_deg: 0.0,
+            phase_deg: 0.0,
+        };
+        let n = (MOON_GM_M3_S2 / r.radius_m.powi(3)).sqrt();
+        let period = TAU / n;
+        assert!(
+            (period - 14_744.8).abs() / 14_744.8 < 0.01,
+            "period = {period} s (want ≈ 14_744.8)"
+        );
+        // |pos| = radius exactly at epoch; inclination 0 ⇒ equatorial (z ≈ 0).
+        let p0 = relay_position_mci(&r, 0.0);
+        assert!((norm(p0) - r.radius_m).abs() < 1e-3, "|pos| = {}", norm(p0));
+        assert!(p0[2].abs() < 1e-6, "inc=0 ⇒ z≈0, got {}", p0[2]);
+        // Magnitude is conserved as the relay advances.
+        let pt = relay_position_mci(&r, 12_345.0);
+        assert!(
+            (norm(pt) - r.radius_m).abs() < 1e-3,
+            "|pos(t)| = {}",
+            norm(pt)
+        );
+    }
+
+    #[test]
+    fn four_relay_dop_is_finite_and_above_unity() {
+        // Oracle: DOP ≥ 1 lower bound (Parkinson/Kaplan, *GPS Theory & Practice*) +
+        // the four-satellite redundancy requirement. One overhead plus four spread
+        // relays gives a finite PDOP > 1; with only three visible, DOP is undefined.
+        let u = MARE_TRANQUILLITATIS_A11.mcmf();
+        let azels = [
+            (0.0, 90.0),
+            (0.0, 45.0),
+            (90.0, 35.0),
+            (180.0, 50.0),
+            (270.0, 40.0),
+        ];
+        let relays = lunar_sky_geometry(u, 6.0e6, &azels);
+        let d = lunar_site_dop(u, &relays, 5.0).expect("≥4 relays ⇒ Some");
+        assert!(d.pdop.is_finite() && d.pdop > 1.0, "pdop = {}", d.pdop);
+        // Only three relays visible ⇒ None.
+        let three = lunar_sky_geometry(u, 6.0e6, &[(0.0, 90.0), (90.0, 35.0), (180.0, 50.0)]);
+        assert!(lunar_site_dop(u, &three, 5.0).is_none());
+    }
+
+    #[test]
+    fn coverage_grid_shape_and_pole_is_sparse() {
+        // Oracle: structural shape + the known latitude-dependence of LANS coverage.
+        // An equatorial-ish relay set leaves the poles seeing no more relays than
+        // the median cell.
+        let relays = [
+            LunarRelay {
+                radius_m: 5.0e6,
+                inc_deg: 15.0,
+                raan_deg: 0.0,
+                phase_deg: 0.0,
+            },
+            LunarRelay {
+                radius_m: 5.0e6,
+                inc_deg: 15.0,
+                raan_deg: 90.0,
+                phase_deg: 60.0,
+            },
+            LunarRelay {
+                radius_m: 5.0e6,
+                inc_deg: 15.0,
+                raan_deg: 180.0,
+                phase_deg: 120.0,
+            },
+            LunarRelay {
+                radius_m: 5.0e6,
+                inc_deg: 15.0,
+                raan_deg: 270.0,
+                phase_deg: 200.0,
+            },
+            LunarRelay {
+                radius_m: 5.0e6,
+                inc_deg: 15.0,
+                raan_deg: 45.0,
+                phase_deg: 300.0,
+            },
+            LunarRelay {
+                radius_m: 5.0e6,
+                inc_deg: 15.0,
+                raan_deg: 135.0,
+                phase_deg: 30.0,
+            },
+        ];
+        let cells = lunar_coverage_grid(&relays, 0.0, 19, 36, 5.0);
+        assert_eq!(cells.len(), 19 * 36);
+        // Median visible count across all cells.
+        let mut counts: Vec<usize> = cells.iter().map(|c| c.n_visible).collect();
+        counts.sort_unstable();
+        let median = counts[counts.len() / 2];
+        // South-pole row (lat = −90°, the first 36 cells) sees ≤ the median.
+        let pole_max = cells[..36].iter().map(|c| c.n_visible).max().unwrap_or(0);
+        assert!(
+            pole_max <= median,
+            "pole row max {pole_max} should be ≤ median {median}"
+        );
+    }
+
+    #[test]
+    fn coverage_grid_seconds_zero_matches_no_rotation() {
+        // Guards the MCI→MCMF frame reduction: at seconds = 0 the MCMF reduction is
+        // the identity (`mci_to_mcmf(r, 0) = r`), so the relay set must equal the
+        // raw MCI positions — catches the "forgot to reduce frames" bug.
+        let relays = [
+            LunarRelay {
+                radius_m: 5.0e6,
+                inc_deg: 20.0,
+                raan_deg: 30.0,
+                phase_deg: 10.0,
+            },
+            LunarRelay {
+                radius_m: 5.0e6,
+                inc_deg: 20.0,
+                raan_deg: 120.0,
+                phase_deg: 80.0,
+            },
+        ];
+        for r in &relays {
+            let mci = relay_position_mci(r, 0.0);
+            let mcmf = mci_to_mcmf(mci, 0.0);
+            for k in 0..3 {
+                assert!((mci[k] - mcmf[k]).abs() < 1e-6, "component {k}");
+            }
+        }
     }
 
     #[test]
