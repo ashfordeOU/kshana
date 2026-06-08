@@ -1,0 +1,46 @@
+# Terrain-referenced navigation (TERCOM/SITAN) — GPS-denied alt-PNT.
+#
+# A vehicle flies a known-shape track with no GNSS, its inertial solution drifting to ≈ 70 km
+# of position error. A radar/baro altimeter measures the ground elevation under each waypoint
+# (with its real, seeded white-noise floor injected), and a hierarchical coarse-to-fine
+# particle/grid matcher recovers the constant INS drift to a few hundred metres against a
+# stored digital elevation model — the classic terrain-contour-matching (TERCOM) / Sandia
+# inertial terrain-aided navigation (SITAN) technique, whose published CEP is "as low as tens
+# of metres" (en.wikipedia.org/wiki/TERCOM).
+#
+# Consumed by `kshana::altpnt::terrain::run_terrain_nav` (and its unit tests), and dispatched
+# by the scenario engine as `kind = "terrain-nav"`. The DEM is the self-contained synthetic
+# fixture (`DemGrid::synthetic_fixture`) — a deterministic multi-Gaussian + tilted-ridge relief
+# field, the terrain analogue of the gravity mascons. A real SRTM tile and a real crustal map
+# are documented follow-ons (see docs/CAPABILITY.md); the recovery is validated against the
+# INDEPENDENTLY injected drift, never the DEM's own value (non-circular).
+kind = "terrain-nav"
+
+# Synthetic-DEM seed (jitters the feature placement deterministically).
+dem_seed = 1
+
+# Track flown GPS-denied: 60 waypoints over an oblique leg so the scalar altimeter sequence
+# is observable in both north and east.
+start_lat_deg = 12.05
+start_lon_deg = 20.05
+step_lat_deg = 0.004
+step_lon_deg = 0.003
+waypoints = 60
+
+# True constant INS position drift over the outage (≈ 70 km at ~12° lat — far past the 10 km
+# the matched solution must beat).
+drift_lat_deg = 0.5
+drift_lon_deg = -0.4
+
+# Radar/baro altimeter 1σ noise (m) and the DEM representation error (m); combined into the
+# matching σ = hypot(altimeter_sigma_m, map_sigma_m).
+altimeter_sigma_m = 8.0
+map_sigma_m = 15.0
+
+# Hierarchical offset search: ±0.8° at 0.08° to start, then three coarse-to-fine stages each
+# shrinking the window and step 8× ⇒ final offset resolution 0.08° / 8² ≈ 140 m.
+search_half_deg = 0.8
+search_step_deg = 0.08
+refine_stages = 3
+refine_factor = 8.0
+noise_seed = 1

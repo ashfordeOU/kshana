@@ -10,6 +10,25 @@ breaking changes are called out explicitly.
 ## [Unreleased]
 
 ### Added
+- **Terrain-referenced & combined alt-PNT navigation** (`altpnt` module): a TERCOM/SITAN
+  terrain-matching navigator over a DEM (`.hgt` loader + synthetic-fixture generator) and a
+  combined gravity + magnetic (IGRF) + terrain GPS-denied navigator, exposed as `terrain` and
+  `combined-altpnt` scenario kinds. Validated by terrain-match convergence (a known injected
+  offset recovered) and a bounded combined-filter error over a GPS-denied window.
+- **LunaNet LANS geometry** (`lunar`): named lunar surface sites (Apollo 11/15/16, Shackleton
+  rim) with authoritative selenographic coordinates, surface look angles (az/el/range),
+  visibility/coverage, and site DOP, validated against the Moon radius, the published site
+  coordinates, and the radial-overhead 90° elevation identity.
+- **Guided browser playground**: guided-mode sliders, a tabbed output panel, a first-run tour
+  overlay, parameter-sweep and multi-run-overlay modes, a dependency-free canvas/SVG 3D orbit
+  view (the orbit pack now emits an additive `eci_track`), an embed/iframe mode, and
+  download-as-HTML-report — each with node unit tests in CI.
+- **Datasheet-validated IMU error model** (`tests/imu_allan_spec.rs`): ADIS16465/16488/16460
+  ARW/VRW/bias-instability recovered from the synthesised Allan deviation and checked against the
+  manufacturer specs (NIST SP1065 / IEEE 952 identification).
+- **NIST SP1065 Allan-estimator validation** (`tests/allan_nist_sp1065_1000point.rs`): the four
+  estimators reproduce the published 1000-point reference deviations and Table-32 confidence
+  bounds.
 - **SBAS / DO-229E protection levels, L1/L5 ionosphere-free, and a DO-316 compliance map**
   (`sbas` module). `sbas_protection_level` forms the weighted geometry matrix from each
   satellite's elevation/azimuth and UDRE/GIVE/airborne/tropo error budget, inverts the normal
