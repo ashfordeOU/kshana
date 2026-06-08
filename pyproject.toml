@@ -25,7 +25,9 @@ dynamic = ["version"]
 test = ["pytest", "numpy"]
 
 [project.urls]
+Homepage = "https://kshana.dev"
 Repository = "https://github.com/AshfordeOU/kshana"
+Documentation = "https://docs.rs/kshana"
 
 [tool.maturin]
 # Build the extension module from the `python` Cargo feature; abi3 wheels work
