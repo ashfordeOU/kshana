@@ -1,0 +1,40 @@
+# Standalone, workspace-EXCLUDED MCP server crate.
+#
+# Why a separate crate and not a `kshana` cargo feature: the official Rust MCP SDK
+# `rmcp` is built on **edition 2024** (needs rustc >= 1.85) and declares no MSRV.
+# `cargo` resolves edition for the whole graph at build time, so putting rmcp behind a
+# feature in the main crate would break the MSRV-1.75 `cargo build --all` job regardless
+# of feature gating. Isolating the server here (its OWN Cargo.lock, invisible to root
+# `cargo` — the root package declares no `[workspace]` and lists `/mcp` in its `exclude`)
+# keeps the published `kshana` crate lean and every default CI gate untouched.
+#
+# rmcp's license tree is clean (Apache-2.0 + MIT/BSD/Unicode-3.0 throughout), so unlike
+# the ANISE cross-validation crate this carries no license-gate concern — the edition is
+# the sole reason for isolation.
+[package]
+name = "kshana-mcp"
+version = "0.1.0"
+edition = "2024"
+description = "Model Context Protocol (MCP) server exposing the Kshana PNT-resilience simulator to AI agents, MCP-compatible assistants, and JetBrains AI."
+license = "Apache-2.0"
+publish = false
+
+[[bin]]
+name = "kshana-mcp"
+path = "src/main.rs"
+
+[dependencies]
+kshana = { path = "../.." }
+rmcp = { version = "1.7", features = ["server", "macros", "transport-io"] }
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "io-std", "io-util"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+toml = "0.8"
+schemars = "1"
+anyhow = "1"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+[dev-dependencies]
+# The MCP client side, for the in-process (duplex) round-trip integration test.
+rmcp = { version = "1.7", features = ["client"] }
