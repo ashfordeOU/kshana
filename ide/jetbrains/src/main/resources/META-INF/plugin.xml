@@ -1,0 +1,41 @@
+<idea-plugin>
+    <id>dev.kshana.ide</id>
+    <name>Kshana — PNT simulator</name>
+    <vendor email="contact@ashforde.org" url="https://kshana.dev">Ashforde OÜ</vendor>
+
+    <description><![CDATA[
+        Run <b>Kshana</b> — the open, reproducible positioning/navigation/timing (PNT)
+        resilience simulator — directly from your JetBrains IDE.
+        <br/><br/>
+        Right-click any scenario <code>.toml</code> and choose <b>Run Kshana Scenario</b>;
+        the figures of merit and result JSON stream into the Kshana tool window. Set the
+        path to the <code>kshana</code> binary in <i>Settings → Tools → Kshana</i>
+        (install it with <code>cargo install kshana</code>).
+        <br/><br/>
+        Scenarios cover SGP4/SDP4 orbits, IAU reference frames, Allan deviations, GNSS
+        availability/DOP, ARAIM protection levels, GNSS/INS fusion, and quantum-sensor
+        models — each validated against published references. See https://kshana.dev.
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow id="Kshana" anchor="bottom" factoryClass="dev.kshana.ide.KshanaToolWindowFactory"/>
+        <applicationConfigurable
+            parentId="tools"
+            id="dev.kshana.ide.settings"
+            displayName="Kshana"
+            instance="dev.kshana.ide.KshanaConfigurable"/>
+    </extensions>
+
+    <actions>
+        <action
+            id="dev.kshana.ide.RunScenario"
+            class="dev.kshana.ide.RunScenarioAction"
+            text="Run Kshana Scenario"
+            description="Run the selected TOML as a Kshana scenario">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+        </action>
+    </actions>
+</idea-plugin>
