@@ -118,6 +118,14 @@ impl SphericalHarmonicField {
         }
         let gm = gm.ok_or("missing earth_gravity_constant")?;
         let re = re.ok_or("missing radius")?;
+        // A value can parse yet be non-physical (NaN GM → NaN field; negative GM → repulsive
+        // gravity; zero/negative/inf radius). Reject rather than silently fail open.
+        if !(gm.is_finite() && gm > 0.0) {
+            return Err("non-physical earth_gravity_constant (must be finite and positive)".into());
+        }
+        if !(re.is_finite() && re > 0.0) {
+            return Err("non-physical radius (must be finite and positive)".into());
+        }
         if rows.is_empty() {
             return Err("no gfc coefficient lines".into());
         }
