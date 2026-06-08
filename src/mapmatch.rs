@@ -10,9 +10,17 @@
 //! the true position, providing a fix without GNSS.
 //!
 //! The field is any `Fn(lat, lon) -> value` sampler, so it composes with the bilinear grid
-//! in [`crate::ionex`] (reusable as a generic 2-D field) or a closure. Scope (honest): the
-//! real reference maps (SRTM elevation, EGM/EIGEN gravity anomaly) and their loaders are
-//! follow-ons (see `ROADMAP.md`).
+//! in [`crate::ionex`] (reusable as a generic 2-D field) or a closure. The real reference
+//! maps are now layered on top: a low-degree spherical-harmonic gravity anomaly plus mascons
+//! in [`crate::gravimeter`], the IGRF-14 magnetic field in [`crate::igrf`], and an SRTM
+//! `.hgt` digital-elevation grid with a terrain-referenced and combined gravity+magnetic
+//! +terrain navigator in [`crate::altpnt::terrain`]. Scope (honest): a full high-resolution
+//! EGM2008/EIGEN coefficient map and a real crustal magnetic-anomaly grid remain follow-ons
+//! (see `docs/CAPABILITY.md`).
+//!
+//! The coarse-to-fine offset search the GPS-denied navigators run lives here as one shared
+//! [`hierarchical_offset_search`] so the gravity, terrain, and combined paths call a single
+//! implementation rather than each carrying its own copy.
 
 /// Gaussian likelihood that a `predicted` field value explains the `measured` value under
 /// measurement noise `sigma`: `exp(−½·((predicted − measured)/σ)²)`. Unit at a perfect
@@ -30,6 +38,62 @@ where
     S: Fn(f64, f64) -> f64,
 {
     field_likelihood(field(lat, lon), measured, sigma)
+}
+
+/// A square offset-candidate grid of `(2·n_side+1)²` points, spacing `step` (deg), centred
+/// on `center` (deg lat, lon). The unit of the offset is whatever the caller's track uses
+/// (here, degrees of latitude/longitude).
+pub(crate) fn offset_grid(center: [f64; 2], n_side: i64, step: f64) -> Vec<Vec<f64>> {
+    let count = ((2 * n_side + 1) * (2 * n_side + 1)).max(1) as usize;
+    let mut g = Vec::with_capacity(count);
+    for i in -n_side..=n_side {
+        for j in -n_side..=n_side {
+            g.push(vec![
+                center[0] + i as f64 * step,
+                center[1] + j as f64 * step,
+            ]);
+        }
+    }
+    g
+}
+
+/// Hierarchical coarse-to-fine offset search shared by every GPS-denied map-matching
+/// navigator (gravity, terrain, and the combined gravity+magnetic+terrain fusion).
+///
+/// `weigh(δ)` is the product likelihood of a constant candidate offset `δ = [Δlat, Δlon]`
+/// (degrees) over the whole waypoint sequence. Stage 1 sweeps the full `±half` window at
+/// `step` and takes the particle-filter weighted mean; each later stage recentres on the
+/// running estimate and shrinks both the window-implied resolution and the step by `factor`,
+/// so after `stages` stages the offset resolution is `step / factor^(stages−1)` — sub-grid
+/// accuracy without an intractably fine single grid. Returns the estimated offset `[Δlat,
+/// Δlon]` (degrees). One implementation, called from both gravimeter and altpnt::terrain.
+pub(crate) fn hierarchical_offset_search<W>(
+    weigh: W,
+    half: f64,
+    step: f64,
+    stages: usize,
+    factor: f64,
+) -> [f64; 2]
+where
+    W: Fn(&[f64]) -> f64,
+{
+    use crate::particle_filter::ParticleFilter;
+    let n_side = (half / step).round().max(1.0) as i64;
+    let stages = stages.max(1);
+    let factor = factor.max(1.000_1);
+    let mut center = [0.0_f64, 0.0_f64];
+    let mut step = step;
+    let mut est = center;
+    for _ in 0..stages {
+        let grid = offset_grid(center, n_side, step);
+        let mut pf = ParticleFilter::new(grid);
+        pf.update(&weigh);
+        let e = pf.estimate();
+        est = [e[0], e[1]];
+        center = est;
+        step /= factor;
+    }
+    est
 }
 
 #[cfg(test)]
