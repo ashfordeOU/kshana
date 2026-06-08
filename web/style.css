@@ -529,6 +529,73 @@ details#advanced summary { cursor: pointer; color: var(--fg-1); font-size: 0.85r
 .health-stat { font-family: var(--mono); font-size: 0.78rem; color: var(--fg-1); margin: 0.15rem 0; }
 pre#json { font-family: var(--mono); font-size: 0.76rem; overflow: auto; max-height: 460px; background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 0.8rem; color: var(--fg-1); }
 
+/* ── Playground (WE10): generated guided knobs, tabs, sweep, overlay ──── */
+.guided-knobs { display: flex; flex-wrap: wrap; gap: 1.4rem; width: 100%; }
+.results-head { display: flex; align-items: baseline; justify-content: space-between; gap: 0.8rem; flex-wrap: wrap; }
+.results-actions { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+
+/* Tabbed output: a button row + show/hide panels. */
+.tabs { display: flex; gap: 0.3rem; flex-wrap: wrap; margin: 0.4rem 0 0.9rem; border-bottom: 1px solid var(--line); }
+.tabs:empty { display: none; }
+.tab-btn {
+  font: inherit; font-size: 0.82rem; cursor: pointer;
+  color: var(--fg-2); background: transparent; border: 1px solid transparent;
+  border-bottom: none; border-radius: 6px 6px 0 0; padding: 0.4rem 0.8rem;
+  margin-bottom: -1px; transition: color 0.15s, background 0.15s, border-color 0.15s;
+}
+.tab-btn:hover { color: var(--fg); }
+.tab-btn[aria-selected="true"] {
+  color: var(--accent-bright); background: var(--bg-1);
+  border-color: var(--line); border-bottom-color: var(--bg-1);
+}
+.tab-panel[hidden] { display: none; }
+
+/* Sweep controls row. */
+.sweep-controls { display: flex; align-items: center; gap: 0.4rem 0.55rem; flex-wrap: wrap; font-size: 0.82rem; color: var(--fg-2); margin-bottom: 0.7rem; }
+.sweep-controls label { color: var(--fg-2); }
+.sweep-controls select, .sweep-num {
+  font: inherit; font-size: 0.82rem; color: var(--fg-1);
+  background: var(--bg); border: 1px solid var(--line-2); border-radius: 5px; padding: 0.25rem 0.4rem;
+}
+.sweep-num { width: 5.5rem; }
+
+/* Multi-run overlay: best-cell highlight + legend swatches. */
+.overlay-table .num { text-align: right; font-variant-numeric: tabular-nums; }
+.overlay-chart { flex: 1 1 100%; min-width: 0; }
+.overlay-chart img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); }
+.ovl-swatch { display: inline-block; width: 0.7rem; height: 0.7rem; border-radius: 2px; margin-right: 0.35rem; vertical-align: middle; }
+
+/* First-run tour overlay — CSS-only spotlight; honours reduced-motion. */
+.tour {
+  position: fixed; inset: 0; z-index: 1000;
+  display: flex; align-items: center; justify-content: center; padding: 1.25rem;
+  background: rgba(8, 7, 5, 0.72); backdrop-filter: blur(2px);
+  animation: tour-fade 0.25s ease both;
+}
+.tour[hidden] { display: none; }
+.tour-card {
+  max-width: 460px; width: 100%;
+  background: linear-gradient(180deg, var(--bg-2), var(--bg-1));
+  border: 1px solid var(--accent-line); border-radius: var(--radius);
+  padding: 1.4rem 1.5rem; box-shadow: var(--shadow-2), inset 0 1px 0 var(--edge);
+}
+.tour-card h3 { margin: 0.1rem 0 0.7rem; color: var(--fg); }
+.tour-steps { margin: 0 0 1rem; padding-left: 1.2rem; color: var(--fg-1); font-size: 0.9rem; line-height: 1.5; }
+.tour-steps li { margin-bottom: 0.45rem; }
+.tour-steps strong { color: var(--accent-bright); }
+.tour-actions { display: flex; justify-content: flex-end; }
+@keyframes tour-fade { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .tour { animation: none; } }
+
+/* Embed / iframe (LMS) mode: hide the marketing chrome, show only the playground. */
+body.embed .topbar,
+body.embed footer,
+body.embed .hero,
+body.embed #capabilities,
+body.embed #validation { display: none; }
+body.embed #playground { padding-top: 1.2rem; border-top: none; }
+body.embed { background: var(--bg); }
+
 /* ── Standards / cite cards ──────────────────────────────────────────── */
 .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
 .card {

@@ -269,17 +269,10 @@
                 <span id="status" class="status" role="status">Loading engine…</span>
               </div>
 
+              <!-- Guided sliders are generated from the scenario's available knobs
+                   (see web/guided.mjs); the panel adapts to clock vs orbit scenarios. -->
               <div id="guided" class="guided" aria-label="Guided controls" hidden>
-                <div class="knob">
-                  <label for="k-seed">Random seed <span class="dim">— a different noise draw of the same physics</span></label>
-                  <input id="k-seed" type="range" min="1" max="100" step="1" />
-                  <output id="k-seed-out"></output>
-                </div>
-                <div class="knob">
-                  <label for="k-thresh">Spec threshold (ns) <span class="dim">— in-spec budget; "available" while error stays under it</span></label>
-                  <input id="k-thresh" type="range" min="1" max="100" step="1" />
-                  <output id="k-thresh-out"></output>
-                </div>
+                <div id="guided-knobs" class="guided-knobs"></div>
               </div>
 
               <details id="advanced">
@@ -289,25 +282,70 @@
             </div>
 
             <div class="panel results" aria-label="Results" hidden>
-              <p class="panel-title">Result</p>
-              <div id="compare-controls" class="compare-controls" aria-label="Compare runs"></div>
+              <div class="results-head">
+                <p class="panel-title">Result</p>
+                <div class="results-actions">
+                  <div id="compare-controls" class="compare-controls" aria-label="Compare runs"></div>
+                  <button id="download-report" class="chart-dl" type="button" title="Download this run as a self-contained, offline HTML report">⤓ Download report</button>
+                </div>
+              </div>
               <p id="summary" class="summary"></p>
-              <div id="compare-wrap" class="compare-wrap" aria-label="A/B comparison" hidden>
+
+              <div id="compare-wrap" class="compare-wrap" aria-label="Run comparison" hidden>
                 <div id="compare-table"></div>
                 <div id="compare-charts" class="compare-charts"></div>
               </div>
-              <div id="chart" class="chart" aria-label="Result chart"></div>
-              <div id="chart-tools" class="chart-tools" aria-label="Download holdover chart" hidden></div>
-              <div id="adev-wrap" hidden>
-                <div id="adev" aria-label="Allan deviation chart"></div>
-                <div id="adev-tools" class="chart-tools" aria-label="Download stability chart" hidden></div>
-                <p class="dim" style="font-size:0.82rem">Lower is better. σ<sub>y</sub>(τ) shows how a clock's fractional-frequency stability changes with averaging time τ.</p>
+
+              <!-- Tabbed output: the visible tabs adapt to the run (see web/tabs.mjs). -->
+              <div id="tabs" class="tabs" role="tablist" aria-label="Result views"></div>
+
+              <div id="tab-fom" class="tab-panel" role="tabpanel" aria-label="Figures of merit" hidden>
+                <div id="fom-table" class="fom-table-wrap"></div>
               </div>
-              <div id="health-wrap" hidden>
-                <h3 class="adev-title">Filter health (Kalman self-consistency)</h3>
-                <div id="health-cards" class="health-cards" aria-label="Kalman filter consistency"></div>
-                <p class="dim" style="font-size:0.82rem">A consistent filter's reported uncertainty matches its actual errors. NIS (normalised innovation²) should sit near 1 and NEES (normalised estimation error²) near 2, each inside its 95% χ² band — a Monte-Carlo check of the clock's Kalman tuning.</p>
+
+              <div id="tab-timeseries" class="tab-panel" role="tabpanel" aria-label="Time series">
+                <div id="chart" class="chart" aria-label="Result chart"></div>
+                <div id="chart-tools" class="chart-tools" aria-label="Download holdover chart" hidden></div>
+                <div id="health-wrap" hidden>
+                  <h3 class="adev-title">Filter health (Kalman self-consistency)</h3>
+                  <div id="health-cards" class="health-cards" aria-label="Kalman filter consistency"></div>
+                  <p class="dim" style="font-size:0.82rem">A consistent filter's reported uncertainty matches its actual errors. NIS (normalised innovation²) should sit near 1 and NEES (normalised estimation error²) near 2, each inside its 95% χ² band — a Monte-Carlo check of the clock's Kalman tuning.</p>
+                </div>
               </div>
+
+              <div id="tab-stability" class="tab-panel" role="tabpanel" aria-label="Stability" hidden>
+                <div id="adev-wrap" hidden>
+                  <div id="adev" aria-label="Allan deviation chart"></div>
+                  <div id="adev-tools" class="chart-tools" aria-label="Download stability chart" hidden></div>
+                  <p class="dim" style="font-size:0.82rem">Lower is better. σ<sub>y</sub>(τ) shows how a clock's fractional-frequency stability changes with averaging time τ.</p>
+                </div>
+              </div>
+
+              <div id="tab-orbit3d" class="tab-panel" role="tabpanel" aria-label="3D orbit" hidden>
+                <div id="orbit3d" class="chart" aria-label="3D orbit view"></div>
+                <div id="orbit3d-tools" class="chart-tools" aria-label="Download orbit view" hidden></div>
+                <p class="dim" style="font-size:0.82rem">Orthographic view of the propagated user track in Earth-centred inertial coordinates — drawn with dependency-free SVG, no WebGL. Perigee/apogee are marked from the track.</p>
+              </div>
+
+              <div id="tab-sweep" class="tab-panel" role="tabpanel" aria-label="Parameter sweep" hidden>
+                <div id="sweep-controls" class="sweep-controls" aria-label="Parameter sweep controls">
+                  <label for="sweep-knob">Sweep</label>
+                  <select id="sweep-knob" aria-label="Sweep parameter"></select>
+                  <label for="sweep-min">from</label>
+                  <input id="sweep-min" class="sweep-num" type="number" step="any" aria-label="Sweep minimum" />
+                  <label for="sweep-max">to</label>
+                  <input id="sweep-max" class="sweep-num" type="number" step="any" aria-label="Sweep maximum" />
+                  <label for="sweep-steps">in</label>
+                  <input id="sweep-steps" class="sweep-num" type="number" min="2" max="60" step="1" value="11" aria-label="Sweep steps" />
+                  <label for="sweep-metric">steps; plot</label>
+                  <select id="sweep-metric" aria-label="Sweep metric"></select>
+                  <button id="sweep-run" class="btn" type="button">Sweep</button>
+                  <span id="sweep-status" class="status" role="status"></span>
+                </div>
+                <div id="sweep-chart" class="chart" aria-label="Sweep chart"></div>
+                <div id="sweep-tools" class="chart-tools" aria-label="Download sweep chart" hidden></div>
+              </div>
+
               <details>
                 <summary class="dim" style="cursor:pointer;font-size:0.85rem">Full result (JSON)</summary>
                 <pre id="json"></pre>
@@ -425,6 +463,24 @@
         </p>
       </div>
     </footer>
+
+    <!-- First-run guided tour overlay (CSS-only spotlight; shown once via app.js,
+         dismiss persists in localStorage). Hidden by default and in embed mode. -->
+    <div id="tour" class="tour" role="dialog" aria-modal="true" aria-labelledby="tour-title" hidden>
+      <div class="tour-card">
+        <p class="eyebrow">Welcome</p>
+        <h3 id="tour-title">A 60-second tour</h3>
+        <ol class="tour-steps">
+          <li><strong>Pick a question.</strong> The cards load a worked scenario and run it on your machine — nothing is uploaded.</li>
+          <li><strong>Tune the sliders.</strong> Guided knobs adapt to the scenario (clocks, orbits, masks); every change re-runs instantly.</li>
+          <li><strong>Read the tabs.</strong> Figures of merit, time series, stability, and — for orbit runs — a 3D orbit view.</li>
+          <li><strong>Sweep &amp; compare.</strong> Sweep one parameter across a range, pin runs to overlay them, and download a self-contained HTML report.</li>
+        </ol>
+        <div class="tour-actions">
+          <button id="tour-dismiss" class="btn primary" type="button">Got it</button>
+        </div>
+      </div>
+    </div>
 
     <!-- Quiet settling motion. Progressive enhancement: without JS, all content
          is fully visible; reduced-motion preferences are honoured. -->
