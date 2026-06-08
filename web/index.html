@@ -43,6 +43,7 @@
           <a href="#playground">Playground</a>
           <a href="#validation">Validation</a>
           <a href="#standards">Standards</a>
+          <a href="#mcp">Agents</a>
           <a href="#cite">Cite</a>
           <a target="_blank" rel="noopener noreferrer" class="gh" href="https://github.com/AshfordeOU/kshana">GitHub ↗</a>
         </nav>
@@ -411,6 +412,32 @@
             <p>Built on the open standards of the GNSS and timing community, so it drops into existing workflows.</p>
           </div>
           <div class="card" id="standards-list"></div>
+        </div>
+      </section>
+
+      <!-- ── AI agents (MCP) ──────────────────────────────────────────── -->
+      <section class="block" id="mcp">
+        <div class="wrap">
+          <div class="sec-head">
+            <p class="eyebrow">AI agents</p>
+            <h2>Callable from your AI assistant over MCP</h2>
+            <p>Kshana ships a <a target="_blank" rel="noopener noreferrer" href="https://modelcontextprotocol.io">Model Context Protocol</a> server, <code>kshana-mcp</code>, so an agent runs the <em>validated</em> engine instead of guessing the math — usable from Cursor, JetBrains AI Assistant&nbsp;/&nbsp;Junie, and any MCP-compatible assistant.</p>
+          </div>
+          <div class="cards">
+            <div class="card">
+              <h3>Five tools</h3>
+              <p><code>run_scenario</code>, <code>list_scenario_kinds</code>, <code>validate_scenario</code>, <code>export_sp3</code>, and <code>export_omm</code> — each a thin wrapper over the public <code>kshana</code> API, so an agent runs exactly the validated engine and gets figures of merit with provenance.</p>
+            </div>
+            <div class="card">
+              <h3>Install</h3>
+              <p class="mono">cargo install --git https://github.com/AshfordeOU/kshana kshana-mcp</p>
+              <p>Then register the <code>kshana-mcp</code> binary in your client's <code>mcpServers</code> config. See <a target="_blank" rel="noopener noreferrer" href="https://github.com/AshfordeOU/kshana/blob/main/mcp/kshana-mcp/README.md">the MCP server guide</a> for per-client snippets.</p>
+            </div>
+            <div class="card">
+              <h3>Ask it anything PNT</h3>
+              <p>“What's the GPS-denied position drift over a one-hour outage with a cold-atom IMU?” → the agent calls <code>run_scenario</code> and returns a real, cited number — not a hallucinated one.</p>
+            </div>
+          </div>
         </div>
       </section>
 

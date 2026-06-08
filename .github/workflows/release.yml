@@ -34,6 +34,11 @@ jobs:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@1.93.0
       - run: cargo build --release
+      - name: Build the kshana-mcp server binary
+        # The MCP server is a standalone, workspace-excluded crate (edition 2024), so it
+        # builds from its own manifest into its own target dir. Attached to the release so
+        # users can grab a prebuilt server binary without a Rust toolchain.
+        run: cargo build --release --manifest-path mcp/kshana-mcp/Cargo.toml
       - name: Generate the CycloneDX SBOM
         run: ./scripts/gen-sbom.sh > kshana-sbom.cdx.json
       - name: Generate the validation summary
@@ -49,6 +54,7 @@ jobs:
         with:
           subject-path: |
             target/release/kshana
+            mcp/kshana-mcp/target/release/kshana-mcp
             kshana-sbom.cdx.json
             kshana-validation-summary.html
       - uses: softprops/action-gh-release@v2
@@ -56,5 +62,6 @@ jobs:
           body_path: RELEASE_NOTES.md
           files: |
             target/release/kshana
+            mcp/kshana-mcp/target/release/kshana-mcp
             kshana-sbom.cdx.json
             kshana-validation-summary.html
