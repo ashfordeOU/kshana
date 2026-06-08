@@ -127,7 +127,15 @@ pub fn run_orbit_clock(scn: &crate::orbit::OrbitClockScenario) -> Result<RunResu
         clock_quantum: scn.clock_quantum.clone(),
         clock_classical: scn.clock_classical.clone(),
     };
-    Ok(run(&inner))
+    let mut result = run(&inner);
+    // Emit the propagated user track (km) so the playground can draw the 3D orbit.
+    // This is the orbit pack's only extra output; non-orbit runs leave it `None`.
+    result.eci_track = Some(sample_eci_track_km(
+        &user,
+        scn.time.step_s,
+        scn.time.duration_s,
+    ));
+    Ok(result)
 }
 
 /// Run the clock-holdover scenario for both clocks and assemble the result.
@@ -144,7 +152,44 @@ pub fn run(scn: &Scenario) -> RunResult {
             &scn.clock_classical,
             scn.seed.wrapping_add(0x9e3779b97f4a7c15),
         ),
+        eci_track: None,
     }
+}
+
+/// Cap on the propagated `eci_track` length, so the orbit-pack JSON stays small
+/// (one sample per ~2 min over a day ≈ 720 points). The track is decimated to at
+/// most this many points by striding the time grid.
+const MAX_ECI_TRACK: usize = 720;
+
+/// Sample the user spacecraft's propagated ECI position over the scenario's time
+/// grid (`step_s`, `duration_s`), in kilometres, decimated to at most
+/// [`MAX_ECI_TRACK`] points. The magnitude of each sample is an independent
+/// physical fact (e.g. a GPS orbit is ~26,560 km — IS-GPS-200), so it is a
+/// non-circular oracle for the orbit visualisation.
+fn sample_eci_track_km(user: &crate::orbit::Orbit, step_s: f64, duration_s: f64) -> Vec<[f64; 3]> {
+    let n = (duration_s / step_s).round() as usize;
+    // The full grid has n+1 samples (i = 0..=n). Stride by ceil((n+1)/cap) so the
+    // decimated track keeps at most MAX_ECI_TRACK points while still spanning the
+    // whole grid (the final sample is included explicitly below).
+    let stride = (n + 1).div_ceil(MAX_ECI_TRACK).max(1);
+    let sample = |i: usize| {
+        let p = user.position_eci(i as f64 * step_s);
+        [p[0] / 1000.0, p[1] / 1000.0, p[2] / 1000.0]
+    };
+    let mut track = Vec::new();
+    let mut last_i = 0;
+    let mut i = 0;
+    while i <= n {
+        track.push(sample(i));
+        last_i = i;
+        i += stride;
+    }
+    // Always include the final grid sample so the track spans the whole run, even
+    // when n is not a multiple of the stride.
+    if last_i != n {
+        track.push(sample(n));
+    }
+    track
 }
 
 #[cfg(test)]
@@ -243,5 +288,100 @@ mod tests {
             .expect("classical security populated");
         assert!((0.0..=1.0).contains(&qs) && (0.0..=1.0).contains(&cs));
         assert!(qs >= cs, "quantum security {qs} < classical {cs}");
+    }
+
+    // An orbit scenario whose user spacecraft sits at the GPS orbital radius:
+    // semi-major axis 26,559.7 km (IS-GPS-200 nominal) → altitude above the mean
+    // Earth radius (6371 km) of 20,188.7 km. The constellation is irrelevant to
+    // the user track, so a small synthetic Walker pattern keeps the test fast.
+    const ORBIT_GPS_USER: &str = r#"
+kind = "orbit"
+seed = 7
+threshold_ns = 10.0
+mask_deg = 5.0
+
+[time]
+step_s = 120.0
+duration_s = 43200.0
+
+[user]
+altitude_km = 20188.7
+inclination_deg = 55.0
+u0_deg = 0.0
+
+[constellation]
+altitude_km = 20180.0
+inclination_deg = 55.0
+planes = 3
+sats_per_plane = 3
+phasing_f = 1.0
+
+[clock_quantum]
+id = "optical"
+provenance = "test"
+y0 = 1.0e-15
+q_wf = 1.0e-30
+q_rw = 1.0e-40
+
+[clock_classical]
+id = "csac"
+provenance = "test"
+y0 = 1.0e-11
+q_wf = 9.0e-20
+q_rw = 1.0e-28
+"#;
+
+    #[test]
+    fn orbit_run_emits_eci_track_with_grid_length_and_consistent_first_radius() {
+        let scn: crate::orbit::OrbitClockScenario = toml::from_str(ORBIT_GPS_USER).unwrap();
+        let r = run_orbit_clock(&scn).expect("orbit run");
+        let track = r.eci_track.expect("orbit run emits eci_track");
+        assert!(!track.is_empty(), "track is non-empty");
+
+        // Length: the full grid has n+1 = duration/step + 1 = 361 samples; with a
+        // ≤720-point cap and stride 1 it is emitted in full.
+        let n = (scn.time.duration_s / scn.time.step_s).round() as usize;
+        assert_eq!(track.len(), n + 1, "track length matches grid samples");
+
+        // Engine-internal consistency: the first track sample's magnitude equals
+        // |user.position_eci(0)| (in km).
+        let p0 = scn.user.to_orbit().position_eci(0.0);
+        let r0_km = (p0[0].powi(2) + p0[1].powi(2) + p0[2].powi(2)).sqrt() / 1000.0;
+        let first = track[0];
+        let track_r0 = (first[0].powi(2) + first[1].powi(2) + first[2].powi(2)).sqrt();
+        assert!(
+            (track_r0 - r0_km).abs() < 1e-6,
+            "first track radius {track_r0} != user radius {r0_km}"
+        );
+
+        // External oracle (non-circular): the GPS nominal semi-major axis is
+        // 26,559.7 km (IS-GPS-200 / published constellation parameter). The user
+        // here is configured at that radius, so |r| must match within tolerance.
+        assert!(
+            (track_r0 - 26_559.7).abs() < 2_000.0,
+            "GPS-altitude user radius {track_r0} km not ≈ 26,559.7 km"
+        );
+    }
+
+    #[test]
+    fn eci_track_is_decimated_below_the_cap() {
+        // A day at a 60 s step would be 1441 grid samples; the cap (720) decimates.
+        let mut scn: crate::orbit::OrbitClockScenario = toml::from_str(ORBIT_GPS_USER).unwrap();
+        scn.time.step_s = 60.0;
+        scn.time.duration_s = 86400.0;
+        let r = run_orbit_clock(&scn).expect("orbit run");
+        let track = r.eci_track.expect("eci_track");
+        assert!(
+            track.len() <= MAX_ECI_TRACK,
+            "decimated track {} exceeds cap {MAX_ECI_TRACK}",
+            track.len()
+        );
+        assert!(track.len() > 1, "decimated track keeps more than one point");
+    }
+
+    #[test]
+    fn non_orbit_run_has_no_eci_track() {
+        let r = run(&demo());
+        assert!(r.eci_track.is_none(), "clock run carries no eci_track");
     }
 }
