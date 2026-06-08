@@ -1,0 +1,32 @@
+# Build the JetBrains IDE plugin (ide/jetbrains/).
+#
+# MANUAL ONLY (`workflow_dispatch`): never triggered by push/PR, so it can never block
+# `main`. It's a Kotlin/Gradle project that downloads the IntelliJ Platform SDK, separate
+# from the Rust crate and its gating CI. Run it from the Actions tab to build/verify the
+# plugin and download the distributable zip.
+name: JetBrains plugin
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ide/jetbrains
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - name: Build + unit-test + assemble the plugin
+        run: ./gradlew test buildPlugin --no-daemon --console=plain
+      - name: Upload the plugin distributable
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kshana-jetbrains-plugin
+          path: ide/jetbrains/build/distributions/*.zip
+          if-no-files-found: warn
