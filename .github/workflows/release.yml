@@ -36,6 +36,8 @@ jobs:
       - run: cargo build --release
       - name: Generate the CycloneDX SBOM
         run: ./scripts/gen-sbom.sh > kshana-sbom.cdx.json
+      - name: Generate the validation summary
+        run: cargo run --release --bin validation_report -- kshana-validation-summary.html
       - name: Generate release notes from CHANGELOG
         env:
           TAG: ${{ github.ref_name }}
@@ -48,9 +50,11 @@ jobs:
           subject-path: |
             target/release/kshana
             kshana-sbom.cdx.json
+            kshana-validation-summary.html
       - uses: softprops/action-gh-release@v2
         with:
           body_path: RELEASE_NOTES.md
           files: |
             target/release/kshana
             kshana-sbom.cdx.json
+            kshana-validation-summary.html
