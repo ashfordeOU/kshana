@@ -440,6 +440,29 @@ select {
 .knob output { font-family: var(--mono); color: var(--accent); }
 input[type="range"] { accent-color: var(--accent); width: 100%; }
 
+/* Touch devices — phones (width) and any coarse-pointer device such as tablets —
+   get interactive controls enlarged to a comfortable ~44px tap target (WCAG 2.5.5
+   / Apple HIG). Mouse/desktop appearance is unchanged. The run buttons, sliders
+   and selects are the controls people actually tap to drive the tool. */
+@media (max-width: 760px), (pointer: coarse) {
+  .matrix .c-name .run,
+  .card.feat .run,
+  .chart-dl {
+    min-height: 44px;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    display: inline-flex;
+    align-items: center;
+  }
+  select { min-height: 44px; }
+  input[type="range"] { min-height: 44px; }
+  .nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+}
+
 textarea#toml {
   width: 100%;
   min-height: 260px;
