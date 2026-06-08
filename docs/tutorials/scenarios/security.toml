@@ -1,0 +1,48 @@
+# ============================================================================
+# TEACHING COPY — Tutorial 3 (Part A): Security / spoof detection.
+# Kind = spoof  (NOT "security" — see note below).
+#
+# NAMING NOTE: this file is named for the CAPABILITY (security), but the `kind`
+# inside is `spoof` — the Security figure of merit (1 - P_md) is produced by the
+# spoof pack. The file name follows the capability; the kind follows the pack.
+#
+# Provenance: a comment-annotated copy of scenarios/spoof-attack.toml. Field
+# values are byte-for-byte identical to the parent (comments never change a hash).
+#
+# What it does: an attacker injects a slowly-ramping false GNSS time (0.1 ns/s
+# from t=60 s). Each clock cross-checks asserted time against its coasted
+# prediction; the detector is a two-sided chi^2_1 / Neyman-Pearson energy test.
+# Security FoM = 1 - P_md at the spec-sized (20 ns) spoof magnitude.
+#
+# Oracle (non-circular): P_md is computed two independent ways — closed-form
+# chi^2_1 tail vs Monte-Carlo — and they must agree (classical analytic 0.442 vs
+# MC 0.444). Two computations of the SAME probability agreeing is the
+# non-circular cross-check (Kay, Detection Theory; standard NP/chi^2 detection).
+#
+# expected: scenario 2b6bd22c3b80 | spoof LinearRamp { rate_ns_per_s: 0.1 } vs 20.000 ns spec (P_fa 0.010) | quantum security 1.000 (P_md 0.000, MC 0.000) detected 70s | classical security 0.558 (P_md 0.442, MC 0.444) detected 430s
+# ============================================================================
+
+kind = "spoof"
+threshold_ns = 20.0    # operational spec; the spoof "succeeds" if it reaches this undetected
+
+[time]
+step_s = 10.0
+duration_s = 660.0
+
+[attack]
+start_s = 60.0         # the false-time ramp begins here
+rate_ns_per_s = 0.1    # a bare rate is accepted as a LinearRamp shape
+
+[clock_quantum]
+id = "optical-sr-lattice"
+provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (arXiv:1503.08457); not flown."
+y0 = 5.0e-17
+q_wf = 1.0e-30
+q_rw = 0.0
+
+[clock_classical]
+id = "csac-sa45s"
+provenance = "Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_wf=sigma_y(1s)^2."
+y0 = 5.0e-10
+q_wf = 9.0e-20
+q_rw = 0.0
