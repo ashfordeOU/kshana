@@ -172,7 +172,7 @@ Earth–Mars C3 cross-check has not been run).
 Honest scope: range-rate/Doppler and angle measurements, an analytic J2 state-transition
 matrix, and station-visibility masking are follow-ons.
 
-## Gravity-map / alt-PNT navigation (`src/gravimeter.rs`, `src/mapmatch.rs`, `src/particle_filter.rs`)
+## Gravity-map / alt-PNT navigation (`src/gravimeter.rs`, `src/mapmatch.rs`, `src/particle_filter.rs`, `src/altpnt/terrain.rs`)
 
 | Aspect | Status | Evidence |
 |--------|--------|----------|
@@ -181,10 +181,17 @@ matrix, and station-visibility masking are follow-ons.
 | Sequential-importance-resampling particle filter | `validated` | `src/particle_filter.rs`: the deterministic core is pinned exactly — ESS spanning 1…N, systematic resampling picking indices in proportion to weight, the weighted-mean convex combination, a Gaussian likelihood pulling the estimate onto the measurement, and seeded predict determinism. |
 | Map-match likelihood + recovery | `validated` | `src/mapmatch.rs`: `field_likelihood` peaks (= 1) at a perfect match and falls to `e^(−½)` at one sigma; a particle filter over a distinctive synthetic-terrain patch recovers the true position to within 0.1. |
 | 60-minute GPS-denied benchmark | `validated` | `run_gps_denied_gravity_nav` (`scenarios/gps-denied-gravity-nav.toml`): a ~700 km / one-hour outage where the inertial solution drifts to **≈ 70 km** is recovered to **≈ 145 m (< 500 m)** by a hierarchical coarse-to-fine matcher — bit-reproducible, stable across noise realisations, and provably refinement-limited (a single coarse grid stalls at ~2 km). |
+| SRTM `.hgt` DEM loader + bilinear sample (ORACLE A) | `validated` | `src/altpnt/terrain.rs` / `tests/terrain_nav_validation.rs`: a hand-built 2×2 `.hgt` buffer with corners [100,200;300,400] bilinear-interpolates to **exactly 250.0** at the cell centre (closed-form oracle), the 16-bit-big-endian round-trip is exact, and the row-flip places the northernmost file-row at the highest stored latitude — all against the **GDAL SRTMHGT driver spec** (16-bit signed big-endian, row-major, north row first, void -32768, <https://gdal.org/en/stable/drivers/raster/srtmhgt.html>). A committed 11×11 fixture (`tools/gen_terrain_fixture.py`) exercises the parser in CI; `#[ignore]`-gated real-tile tests sample published spot-heights (Mount Whitney 4421 m, Badwater Basin −86 m; NGS/NOAA, <https://en.wikipedia.org/wiki/Mount_Whitney>) within survey bands — source-of-truth is the survey, the DEM is under test (non-circular). |
+| Terrain-referenced navigation (TERCOM/SITAN) convergence (ORACLE B) | `validated` | `run_terrain_nav` (`scenarios/terrain-nav.toml`): a **hand-derived** injected INS drift (0.5°N, −0.4°E ≈ 70 km at ~12° lat, computed as drift° × M_per_deg × cos lat) is recovered to **< 500 m** (within the grid-resolution floor `search_step/factor² ≈ 140 m`), a > 100× cut over free-inertial — checked against the *injected* number, never the DEM (non-circular), bit-reproducible and stable across noise seeds. |
+| Combined gravity+magnetic+terrain fusion gain (ORACLE C) | `validated` | `run_combined_altpnt` (`scenarios/combined-altpnt.toml`): three scalar channels (Δg · |B| crustal-anomaly · elevation) fused as a product likelihood give a **bounded < 500 m** residual over the 60-min outage that, seed-averaged, is **no worse than the best single channel** (information additivity / lower CRLB). Sits in the published TERCOM/TRN "tens of metres" CEP regime (<https://en.wikipedia.org/wiki/TERCOM>; PeerJ 2024 ESKF-TERCOM, <https://peerj.com/articles/cs-3118/>). |
 
-Honest scope: the field is low-degree + synthetic mascons, **not** the full EGM2008/EIGEN
-coefficient set; a map-representation-error Monte-Carlo, a magnetic-anomaly map,
-terrain-aided SLAM, and scenario-engine `kind=` wiring remain follow-ons.
+Honest scope: the gravity field is low-degree + synthetic mascons, **not** the full
+EGM2008/EIGEN coefficient set; the magnetic channel rides on the smooth IGRF main field plus
+**synthetic** crustal-anomaly mascons (a real high-frequency crustal map is a follow-on); the
+CI terrain field is the self-contained synthetic DEM (real SRTM tiles are exercised only by
+the `#[ignore]`-gated tests). A map-representation-error Monte-Carlo remains a follow-on. All
+three navigators are now scenario-engine `kind=` wired (`gravity-map`, `terrain-nav`,
+`combined-altpnt`).
 
 ## INS / IMU error model — datasheet-referenced validation (`src/inertial/`)
 

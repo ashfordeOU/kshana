@@ -231,6 +231,9 @@ pub enum ScenarioKind {
     SweepNd,
     Orbit,
     LunarIntegrity,
+    GravityMap,
+    Terrain,
+    CombinedAltPnt,
 }
 
 impl ScenarioKind {
@@ -251,6 +254,9 @@ impl ScenarioKind {
             ScenarioKind::SweepNd => "sweep-nd",
             ScenarioKind::Orbit => "orbit",
             ScenarioKind::LunarIntegrity => "lunar-integrity",
+            ScenarioKind::GravityMap => "gravity-map",
+            ScenarioKind::Terrain => "terrain-nav",
+            ScenarioKind::CombinedAltPnt => "combined-altpnt",
         }
     }
 
@@ -275,6 +281,9 @@ impl ScenarioKind {
             "sweep-nd" => ScenarioKind::SweepNd,
             "orbit" => ScenarioKind::Orbit,
             "lunar-integrity" => ScenarioKind::LunarIntegrity,
+            "gravity-map" => ScenarioKind::GravityMap,
+            "terrain-nav" => ScenarioKind::Terrain,
+            "combined-altpnt" => ScenarioKind::CombinedAltPnt,
             // Empty or unknown ⇒ the clock pack (historical default).
             _ => ScenarioKind::Clock,
         })
@@ -310,6 +319,9 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "spoof", description: "Stochastic time-spoof detector (Neyman–Pearson / χ²₁) with Monte-Carlo P_fa/P_md.", required_fields: &["threshold_ns", "time", "attack", "clock_quantum", "clock_classical"], optional_fields: &[] },
         ScenarioMeta { name: "sweep", description: "1-D trade-study sweep over a clock-pack parameter.", required_fields: &["parameter", "metric", "start", "stop", "steps", "base"], optional_fields: &["scale"] },
         ScenarioMeta { name: "sweep-nd", description: "Generic N-D sweep over any pack via dotted TOML keys / JSON metric paths.", required_fields: &["base", "axes", "metrics"], optional_fields: &[] },
+        ScenarioMeta { name: "gravity-map", description: "GPS-denied gravity-map-matching navigation: a cold-atom gravimeter recovers a constant INS drift from the gravity-anomaly sequence it flies through.", required_fields: &["nmax", "start_lat_deg", "start_lon_deg", "step_lat_deg", "step_lon_deg", "waypoints", "drift_lat_deg", "drift_lon_deg", "gravimeter_asd", "averaging_time_s", "map_sigma_mgal", "search_half_deg", "search_step_deg"], optional_fields: &["coeffs", "mascons", "refine_stages", "refine_factor", "noise_seed"] },
+        ScenarioMeta { name: "terrain-nav", description: "GPS-denied terrain-referenced navigation (TERCOM/SITAN): a radar/baro altimeter matches the ground-elevation profile against an SRTM-style DEM to recover the INS drift.", required_fields: &["dem_seed", "start_lat_deg", "start_lon_deg", "step_lat_deg", "step_lon_deg", "waypoints", "drift_lat_deg", "drift_lon_deg", "altimeter_sigma_m", "map_sigma_m", "search_half_deg", "search_step_deg"], optional_fields: &["refine_stages", "refine_factor", "noise_seed"] },
+        ScenarioMeta { name: "combined-altpnt", description: "GPS-denied combined gravity + magnetic + terrain navigator: three scalar field channels fused per waypoint for a sharper (lower-CRLB) drift fix than any single field.", required_fields: &["start_lat_deg", "start_lon_deg", "step_lat_deg", "step_lon_deg", "waypoints", "drift_lat_deg", "drift_lon_deg", "search_half_deg", "search_step_deg", "nmax", "gravity_sigma_mgal", "igrf_year", "magnetic_sigma_nt", "dem_seed", "terrain_sigma_m"], optional_fields: &["coeffs", "mascons", "magnetic_mascons", "igrf_alt_km", "refine_stages", "refine_factor", "noise_seed"] },
     ]
 }
 
@@ -701,6 +713,69 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 summary,
             })
         }
+        ScenarioKind::GravityMap => {
+            let cfg: crate::gravimeter::GravityMapBenchmarkCfg =
+                toml::from_str(src).map_err(|e| format!("invalid gravity-map scenario: {e}"))?;
+            let r = crate::gravimeter::run_gps_denied_gravity_nav(&cfg);
+            let summary = format!(
+                "gravity-map | free-inertial drift {:.0} m | gravity-matched {:.0} m | matching sigma {:.3e} mGal",
+                r.free_inertial_drift_m, r.map_matched_error_m, r.measurement_sigma_mgal,
+            );
+            #[derive(serde::Serialize)]
+            struct GravityMapOut {
+                free_inertial_drift_m: f64,
+                map_matched_error_m: f64,
+                measurement_sigma_mgal: f64,
+            }
+            let out = GravityMapOut {
+                free_inertial_drift_m: r.free_inertial_drift_m,
+                map_matched_error_m: r.map_matched_error_m,
+                measurement_sigma_mgal: r.measurement_sigma_mgal,
+            };
+            Ok(RunOutput {
+                json: json_of(&out),
+                svg: crate::altpnt::terrain::gravity_nav_svg(
+                    r.free_inertial_drift_m,
+                    r.map_matched_error_m,
+                ),
+                summary,
+            })
+        }
+        ScenarioKind::Terrain => {
+            let cfg: crate::altpnt::terrain::TerrainNavCfg =
+                toml::from_str(src).map_err(|e| format!("invalid terrain-nav scenario: {e}"))?;
+            let r = crate::altpnt::terrain::run_terrain_nav(&cfg);
+            let summary = format!(
+                "terrain-nav | free-inertial drift {:.0} m | terrain-matched {:.0} m ({:.0}x cut) | matching sigma {:.1} m",
+                r.free_inertial_drift_m,
+                r.matched_error_m,
+                if r.matched_error_m > 0.0 { r.free_inertial_drift_m / r.matched_error_m } else { 0.0 },
+                r.measurement_sigma_m,
+            );
+            Ok(RunOutput {
+                json: json_of(&r),
+                svg: crate::altpnt::terrain::terrain_nav_svg(&r),
+                summary,
+            })
+        }
+        ScenarioKind::CombinedAltPnt => {
+            let cfg: crate::altpnt::terrain::CombinedAltPntCfg = toml::from_str(src)
+                .map_err(|e| format!("invalid combined-altpnt scenario: {e}"))?;
+            let r = crate::altpnt::terrain::run_combined_altpnt(&cfg);
+            let summary = format!(
+                "combined-altpnt | free-inertial drift {:.0} m | gravity {:.0} m magnetic {:.0} m terrain {:.0} m | FUSED {:.0} m",
+                r.free_inertial_drift_m,
+                r.gravity_only_m,
+                r.magnetic_only_m,
+                r.terrain_only_m,
+                r.combined_m,
+            );
+            Ok(RunOutput {
+                json: json_of(&r),
+                svg: crate::altpnt::terrain::combined_altpnt_svg(&r),
+                summary,
+            })
+        }
         ScenarioKind::Clock => {
             let scn: crate::scenario::Scenario =
                 toml::from_str(src).map_err(|e| format!("invalid scenario: {e}"))?;
@@ -776,6 +851,10 @@ mod tests {
             ScenarioKind::Sweep,
             ScenarioKind::SweepNd,
             ScenarioKind::Orbit,
+            ScenarioKind::LunarIntegrity,
+            ScenarioKind::GravityMap,
+            ScenarioKind::Terrain,
+            ScenarioKind::CombinedAltPnt,
         ] {
             assert!(
                 names.contains(k.as_str()),
@@ -785,7 +864,7 @@ mod tests {
         }
         // The JSON form parses and is non-empty.
         let j: serde_json::Value = serde_json::from_str(&list_scenario_kinds_json()).unwrap();
-        assert!(j.as_array().unwrap().len() >= 13);
+        assert!(j.as_array().unwrap().len() >= 16);
     }
 
     #[test]
@@ -828,6 +907,9 @@ mod tests {
             include_str!("../scenarios/integrity-raim.toml"),
             include_str!("../scenarios/jamming-demo.toml"),
             include_str!("../scenarios/gnss-sim-raim.toml"),
+            include_str!("../scenarios/gps-denied-gravity-nav.toml"),
+            include_str!("../scenarios/terrain-nav.toml"),
+            include_str!("../scenarios/combined-altpnt.toml"),
         ] {
             let out = run_toml(src).expect("scenario runs");
             assert!(out.json.starts_with('{'));

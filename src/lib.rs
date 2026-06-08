@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 pub mod allan;
+pub mod altpnt;
 pub mod api;
 pub mod batch_ls;
 pub mod chart;

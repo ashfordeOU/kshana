@@ -12,6 +12,10 @@
 # does not bundle the full EGM2008 coefficient set, and a Monte-Carlo over map-representation
 # error realisations is a documented follow-on (see docs/CAPABILITY.md).
 
+# Dispatched by the scenario engine as `kind = "gravity-map"` (also consumed directly by
+# `run_gps_denied_gravity_nav` in the unit tests, which ignore this field).
+kind = "gravity-map"
+
 # Maximum spherical-harmonic degree/order of the reference field.
 nmax = 3
 

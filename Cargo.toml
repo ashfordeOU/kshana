@@ -24,6 +24,7 @@ exclude = [
     "/tests/fixtures",
     "/tests/igs_real_data.rs",
     "/tests/sgp4_crate_comparison.rs",
+    "/tests/terrain_nav_validation.rs",
 ]
 
 [lib]
