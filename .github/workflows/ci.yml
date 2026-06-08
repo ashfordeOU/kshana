@@ -182,3 +182,5 @@ jobs:
         run: node web/embed.test.mjs
       - name: Test the HTML-report builder
         run: node web/report.test.mjs
+      - name: Test the guided-tour core
+        run: node web/tour.test.mjs

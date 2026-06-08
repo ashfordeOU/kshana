@@ -593,27 +593,33 @@ pre#json { font-family: var(--mono); font-size: 0.76rem; overflow: auto; max-hei
 .overlay-chart img { max-width: 100%; height: auto; border: 1px solid var(--line); border-radius: 6px; background: var(--bg); }
 .ovl-swatch { display: inline-block; width: 0.7rem; height: 0.7rem; border-radius: 2px; margin-right: 0.35rem; vertical-align: middle; }
 
-/* First-run tour overlay — CSS-only spotlight; honours reduced-motion. */
-.tour {
-  position: fixed; inset: 0; z-index: 1000;
-  display: flex; align-items: center; justify-content: center; padding: 1.25rem;
-  background: rgba(8, 7, 5, 0.72); backdrop-filter: blur(2px);
-  animation: tour-fade 0.25s ease both;
+/* Interactive guided tour — a spotlight overlay built in app.js (pure core in
+   tour.mjs). The ring's huge box-shadow dims the whole page except the highlighted
+   target; the overlay itself is a transparent click-catcher; the tooltip card is
+   positioned by tour.mjs. Honours reduced-motion and is touch-friendly. */
+.tour-overlay { position: fixed; inset: 0; z-index: 1000; display: none; }
+.tour-overlay.on { display: block; }
+.tour-spot {
+  position: fixed; border-radius: 8px; pointer-events: none;
+  box-shadow: 0 0 0 9999px rgba(8, 7, 5, 0.66), 0 0 0 2px var(--accent-bright);
+  transition: top 0.3s ease, left 0.3s ease, width 0.3s ease, height 0.3s ease;
 }
-.tour[hidden] { display: none; }
-.tour-card {
-  max-width: 460px; width: 100%;
+.tour-tip {
+  position: fixed; z-index: 1001; width: min(360px, calc(100vw - 24px));
   background: linear-gradient(180deg, var(--bg-2), var(--bg-1));
   border: 1px solid var(--accent-line); border-radius: var(--radius);
-  padding: 1.4rem 1.5rem; box-shadow: var(--shadow-2), inset 0 1px 0 var(--edge);
+  padding: 1rem 1.1rem 0.9rem; box-shadow: var(--shadow-2), inset 0 1px 0 var(--edge);
+  transition: top 0.3s ease, left 0.3s ease;
 }
-.tour-card h3 { margin: 0.1rem 0 0.7rem; color: var(--fg); }
-.tour-steps { margin: 0 0 1rem; padding-left: 1.2rem; color: var(--fg-1); font-size: 0.9rem; line-height: 1.5; }
-.tour-steps li { margin-bottom: 0.45rem; }
-.tour-steps strong { color: var(--accent-bright); }
-.tour-actions { display: flex; justify-content: flex-end; }
-@keyframes tour-fade { from { opacity: 0; } to { opacity: 1; } }
-@media (prefers-reduced-motion: reduce) { .tour { animation: none; } }
+.tour-tip h3 { margin: 0.1rem 0 0.5rem; color: var(--fg); font-size: 1.05rem; }
+.tour-tip-body { margin: 0 0 0.9rem; color: var(--fg-1); font-size: 0.92rem; line-height: 1.5; }
+.tour-tip-foot { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; flex-wrap: wrap; }
+.tour-prog { color: var(--fg-3); font-size: 0.82rem; font-variant-numeric: tabular-nums; }
+.tour-btns { display: flex; gap: 0.4rem; }
+.tour-btns .btn { padding: 0.4rem 0.8rem; }
+.tour-back:disabled { opacity: 0.4; cursor: default; }
+@media (max-width: 760px), (pointer: coarse) { .tour-btns .btn { min-height: 44px; } }
+@media (prefers-reduced-motion: reduce) { .tour-spot, .tour-tip { transition: none; } }
 
 /* Embed / iframe (LMS) mode: hide the marketing chrome, show only the playground. */
 body.embed .topbar,

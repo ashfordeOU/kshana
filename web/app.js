@@ -10,6 +10,7 @@ import { sweepValues, sweepToml, extractFom, sweepCurveSvg, SWEEP_GEOM, MAX_SWEE
 import { overlayRows, overlaySeriesSvg, OVERLAY_COLORS } from "./overlay.mjs";
 import { isEmbed, embedConfig, embedClassList } from "./embed.mjs";
 import { buildReportHtml, reportFilename } from "./report.mjs";
+import { TOUR_STEPS, clampStep, placeTooltip } from "./tour.mjs";
 
 // Scenario catalogue: file in ./scenarios/ (copied from the repo at build) and a
 // friendly label. The first entry is also embedded below so the page works on
@@ -902,25 +903,157 @@ function downloadReport() {
   triggerDownload(new Blob([html], { type: "text/html" }), reportFilename(meta));
 }
 
-// --- First-run tour -------------------------------------------------------
-// Shown once; the dismissal is remembered in localStorage. Storage can be blocked
-// in an iframe (LMS), so reads/writes are wrapped — on failure the tour simply
-// shows each time rather than throwing.
+// --- Interactive guided tour ----------------------------------------------
+// A dependency-free spotlight walkthrough: it scrolls to and highlights real regions
+// of the page (capabilities, the playground controls, the result tabs, validation,
+// agents) one step at a time, with a positioned tooltip. The ordered steps and the
+// tooltip geometry are the pure, unit-tested core in tour.mjs; the overlay DOM,
+// scrolling, and focus live here. "Seen" persists in localStorage so the tour
+// auto-runs once; the playground's "Take the tour" button replays it. Storage can be
+// blocked in an iframe (LMS) — reads/writes are wrapped so it degrades to "shows each
+// time" rather than throwing.
 const TOUR_KEY = "kshana_tour_seen";
+function tourSeen() { try { return localStorage.getItem(TOUR_KEY) === "1"; } catch { return false; } }
+function markTourSeen() { try { localStorage.setItem(TOUR_KEY, "1"); } catch { /* storage blocked */ } }
 
-function tourSeen() {
-  try { return localStorage.getItem(TOUR_KEY) === "1"; } catch { return false; }
+const tourState = { steps: [], i: 0, on: false, overlay: null, refs: null, reposition: null };
+
+function reducedMotion() {
+  return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
 }
 
-function showTour() {
-  const t = el("tour");
-  if (t) t.hidden = false;
+// Build the overlay once: a fixed catcher that blocks background clicks, a spotlight
+// ring whose huge box-shadow dims everything but the target, and a tooltip card. All
+// text is set via textContent (never innerHTML).
+function buildTourOverlay() {
+  if (tourState.overlay) return tourState.overlay;
+  const ov = document.createElement("div");
+  ov.id = "tour-overlay";
+  ov.className = "tour-overlay";
+  ov.setAttribute("role", "dialog");
+  ov.setAttribute("aria-modal", "true");
+  ov.setAttribute("aria-labelledby", "tour-tip-title");
+
+  const spot = document.createElement("div");
+  spot.className = "tour-spot";
+
+  const tip = document.createElement("div");
+  tip.className = "tour-tip";
+  const eyebrow = document.createElement("p");
+  eyebrow.className = "eyebrow";
+  eyebrow.textContent = "Guided tour";
+  const title = document.createElement("h3");
+  title.id = "tour-tip-title";
+  const body = document.createElement("p");
+  body.className = "tour-tip-body";
+  const foot = document.createElement("div");
+  foot.className = "tour-tip-foot";
+  const prog = document.createElement("span");
+  prog.className = "tour-prog";
+  const btns = document.createElement("div");
+  btns.className = "tour-btns";
+  const skip = document.createElement("button");
+  skip.type = "button"; skip.className = "btn tour-skip"; skip.textContent = "Skip";
+  const back = document.createElement("button");
+  back.type = "button"; back.className = "btn tour-back"; back.textContent = "Back";
+  const next = document.createElement("button");
+  next.type = "button"; next.className = "btn primary tour-next"; next.textContent = "Next";
+  btns.append(skip, back, next);
+  foot.append(prog, btns);
+  tip.append(eyebrow, title, body, foot);
+
+  ov.append(spot, tip);
+  document.body.append(ov);
+
+  skip.addEventListener("click", endTour);
+  back.addEventListener("click", () => gotoStep(tourState.i - 1));
+  next.addEventListener("click", () => {
+    if (tourState.i >= tourState.steps.length - 1) endTour();
+    else gotoStep(tourState.i + 1);
+  });
+  ov.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") endTour();
+    else if (e.key === "ArrowRight") next.click();
+    else if (e.key === "ArrowLeft" && tourState.i > 0) back.click();
+  });
+
+  tourState.overlay = ov;
+  tourState.refs = { spot, tip, title, body, prog, back, next };
+  return ov;
 }
 
-function dismissTour() {
-  const t = el("tour");
-  if (t) t.hidden = true;
-  try { localStorage.setItem(TOUR_KEY, "1"); } catch { /* storage blocked: tour shows again */ }
+// Place the spotlight ring + tooltip for the current step (also called on scroll/resize).
+function positionTourStep() {
+  if (!tourState.on) return;
+  const step = tourState.steps[tourState.i];
+  const targetEl = document.querySelector(step.target);
+  if (!targetEl) return;
+  const r = targetEl.getBoundingClientRect();
+  const { spot, tip, title, body, prog, back, next } = tourState.refs;
+  const pad = 8;
+  const sTop = Math.max(0, r.top - pad);
+  const sLeft = Math.max(0, r.left - pad);
+  const sW = Math.min(window.innerWidth, r.right + pad) - sLeft;
+  const sH = Math.min(window.innerHeight, r.bottom + pad) - sTop;
+  spot.style.top = `${sTop}px`;
+  spot.style.left = `${sLeft}px`;
+  spot.style.width = `${Math.max(0, sW)}px`;
+  spot.style.height = `${Math.max(0, sH)}px`;
+
+  title.textContent = step.title;
+  body.textContent = step.body;
+  prog.textContent = `${tourState.i + 1} / ${tourState.steps.length}`;
+  back.disabled = tourState.i === 0;
+  next.textContent = tourState.i >= tourState.steps.length - 1 ? "Done" : "Next";
+
+  const ts = tip.getBoundingClientRect();
+  const pos = placeTooltip(
+    { top: r.top, left: r.left, width: r.width, height: r.height },
+    { width: ts.width, height: ts.height },
+    { width: window.innerWidth, height: window.innerHeight },
+    step.side,
+  );
+  tip.style.top = `${pos.top}px`;
+  tip.style.left = `${pos.left}px`;
+}
+
+function gotoStep(n) {
+  tourState.i = clampStep(n, tourState.steps.length);
+  const targetEl = document.querySelector(tourState.steps[tourState.i].target);
+  if (targetEl) {
+    targetEl.scrollIntoView({ behavior: reducedMotion() ? "auto" : "smooth", block: "center", inline: "nearest" });
+  }
+  // Let a smooth scroll settle, then place the spotlight + tooltip.
+  setTimeout(positionTourStep, reducedMotion() ? 0 : 360);
+}
+
+function startTour() {
+  if (tourState.on) return;
+  tourState.steps = TOUR_STEPS.filter((s) => {
+    const t = document.querySelector(s.target);
+    return t && t.getClientRects().length > 0;
+  });
+  if (tourState.steps.length === 0) return;
+  buildTourOverlay();
+  tourState.overlay.classList.add("on");
+  tourState.on = true;
+  tourState.reposition = () => positionTourStep();
+  window.addEventListener("resize", tourState.reposition);
+  window.addEventListener("scroll", tourState.reposition, { passive: true });
+  tourState.overlay.setAttribute("tabindex", "-1");
+  tourState.overlay.focus();
+  gotoStep(0);
+}
+
+function endTour() {
+  tourState.on = false;
+  if (tourState.overlay) tourState.overlay.classList.remove("on");
+  if (tourState.reposition) {
+    window.removeEventListener("resize", tourState.reposition);
+    window.removeEventListener("scroll", tourState.reposition);
+    tourState.reposition = null;
+  }
+  markTourSeen();
 }
 
 async function loadScenario(file) {
@@ -1081,8 +1214,8 @@ async function main() {
   el("sweep-run").addEventListener("click", runSweep);
   el("sweep-knob").addEventListener("change", syncSweepControls);
   el("download-report").addEventListener("click", downloadReport);
-  const tourBtn = el("tour-dismiss");
-  if (tourBtn) tourBtn.addEventListener("click", dismissTour);
+  const tourBtn = el("tour-launch");
+  if (tourBtn) tourBtn.addEventListener("click", startTour);
 
   if (shared && !embed) {
     el("advanced").open = true; // a shared run may be hand-tuned: show the source
@@ -1107,8 +1240,9 @@ async function main() {
     runScenario(); // show a result immediately
   }
 
-  // Show the first-run tour once (non-embed only); persists via localStorage.
-  if (!embed && !tourSeen()) showTour();
+  // Auto-run the guided tour once (non-embed only); persists via localStorage. A
+  // short delay lets the first scenario render so the result tabs exist as targets.
+  if (!embed && !tourSeen()) setTimeout(startTour, 900);
 }
 
 main();
