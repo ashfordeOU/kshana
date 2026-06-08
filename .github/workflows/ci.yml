@@ -165,3 +165,17 @@ jobs:
         run: node web/compare.test.mjs
       - name: Test the chart-hover logic
         run: node web/hover.test.mjs
+      - name: Test the 3D orbit renderer math
+        run: node web/orbit3d.test.mjs
+      - name: Test the parameter-sweep helpers
+        run: node web/sweep.test.mjs
+      - name: Test the guided-knob helpers
+        run: node web/guided.test.mjs
+      - name: Test the multi-run overlay logic
+        run: node web/overlay.test.mjs
+      - name: Test the tabbed-output model
+        run: node web/tabs.test.mjs
+      - name: Test the embed-mode helpers
+        run: node web/embed.test.mjs
+      - name: Test the HTML-report builder
+        run: node web/report.test.mjs
