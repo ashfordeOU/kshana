@@ -28,3 +28,11 @@ __pycache__/
 
 # MCP server crate: build dir only. Source + Cargo.lock ARE committed.
 /mcp/kshana-mcp/target
+
+# JetBrains plugin (Gradle): build output + caches (incl. the downloaded IntelliJ SDK
+# sandbox under .intellijPlatform). Source + the Gradle wrapper (gradlew, gradle/wrapper/*)
+# ARE committed.
+/ide/jetbrains/.gradle
+/ide/jetbrains/.intellijPlatform
+/ide/jetbrains/.kotlin
+/ide/jetbrains/build
