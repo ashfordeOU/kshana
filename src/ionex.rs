@@ -78,6 +78,12 @@ impl TecGrid {
 /// `pub(crate)` so the [`crate::altpnt::terrain`] DEM grid reuses the identical clamp helper
 /// rather than copy-pasting the body (one shared definition, no divergent edge handling).
 pub(crate) fn cell(x: f64, x0: f64, dx: f64, n: usize) -> (usize, f64) {
+    // A degenerate grid with a single sample along this axis (n < 2) has no interval to
+    // interpolate within; `clamp(0, n-2)` would be `clamp(0, -1)` and panic (min > max). Pin to
+    // the only cell with a zero fraction instead.
+    if n < 2 {
+        return (0, 0.0);
+    }
     let t = (x - x0) / dx;
     let i = t.floor();
     let i0 = (i as isize).clamp(0, n as isize - 2) as usize;

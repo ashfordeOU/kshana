@@ -272,6 +272,13 @@ impl ForceModel {
     }
 }
 
+/// Whether an initial state and duration are all finite (no NaN/Inf). The adaptive integrators
+/// loop until an error norm falls below tolerance; a non-finite input makes that norm NaN, which
+/// never converges, so callers guard with this and fail closed instead of hanging.
+fn state_is_finite(r0: Vec3, v0: Vec3, t_end: f64) -> bool {
+    t_end.is_finite() && r0.iter().all(|x| x.is_finite()) && v0.iter().all(|x| x.is_finite())
+}
+
 /// Numerically propagate the ECI state `(r0, v0)` (m, m/s) forward by `t_end` seconds under
 /// `model`, with adaptive step-doubling error control to `tol`. Returns the final `(r, v)`.
 pub fn propagate(
@@ -281,6 +288,11 @@ pub fn propagate(
     model: ForceModel,
     tol: &Tolerance,
 ) -> (Vec3, Vec3) {
+    // A non-finite initial state or duration makes the adaptive step controller's error norm
+    // NaN, which never satisfies the tolerance and spins forever. Fail closed (NaN in → NaN out).
+    if !state_is_finite(r0, v0, t_end) {
+        return (r0, v0);
+    }
     let f = model.rhs();
     let y0 = vec![r0[0], r0[1], r0[2], v0[0], v0[1], v0[2]];
     // Initial step: a small fraction of the orbital period is a safe, well-scaled guess.
@@ -303,6 +315,9 @@ pub fn propagate_dopri(
     model: ForceModel,
     tol: &Tolerance,
 ) -> (Vec3, Vec3) {
+    if !state_is_finite(r0, v0, t_end) {
+        return (r0, v0);
+    }
     let f = model.rhs();
     let y0 = vec![r0[0], r0[1], r0[2], v0[0], v0[1], v0[2]];
     let h0 = (t_end / 1000.0).max(1.0).min(t_end.max(1e-3));
@@ -1180,6 +1195,21 @@ mod tests {
             assert!(s.r.iter().all(|x| x.is_finite()) && norm(s.r) > 6.0e6);
             assert!(!p.model_name().is_empty());
         }
+    }
+
+    #[test]
+    fn non_finite_initial_state_returns_without_hanging() {
+        // A NaN initial coordinate once made the adaptive step controller's error norm NaN, which
+        // never satisfies the tolerance — an infinite hang. It must now return immediately.
+        let nan = [f64::NAN, 0.0, 0.0];
+        let v = [0.0, 7546.0, 0.0];
+        let (r, _) = propagate(nan, v, 100.0, ForceModel::two_body(), &Tolerance::default());
+        assert!(r[0].is_nan(), "NaN in → NaN out, not a hang");
+        // Through the trait, too.
+        let s = NumericalPropagator::two_body(nan, v)
+            .state_at(100.0)
+            .unwrap();
+        assert!(s.r[0].is_nan());
     }
 
     #[test]

@@ -586,7 +586,7 @@ function updateCompareControls() {
     const b = document.createElement("button");
     b.type = "button";
     b.className = "chart-dl";
-    b.textContent = compareRuns.length ? `⊕ Pin (${compareRuns.length}/${MAX_COMPARE})` : "⊕ Pin for compare";
+    b.textContent = compareRuns.length ? `⊕ Pin (${compareRuns.length}/${MAX_COMPARE})` : "⊕ Pin to compare";
     b.title = `Pin this run, then run another scenario to overlay (up to ${MAX_COMPARE})`;
     b.addEventListener("click", pinForCompare);
     host.append(b);

@@ -9,6 +9,16 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Fixed
+- **Robustness hardening from an adversarial battle-test pass.** (1) `sbas_protection_level` now
+  rejects non-finite elevation/azimuth/variance and negative or non-finite covariance diagonals
+  (a near-singular geometry scaled up by small σ could previously slip the absolute-pivot gate and
+  return a NaN VPL / absurd HPL as a *valid* `Some` — a silent integrity failure). (2) The
+  numerical propagator (`propagate`/`propagate_dopri`) fails closed on a non-finite initial state
+  instead of spinning the adaptive controller forever. (3) The DEM cell helper no longer panics on
+  a single-sample (1×N) grid. (4) `lunar_look_angle` azimuth is held strictly in `[0, 360)`.
+  (5) `SphericalHarmonicField::from_gfc` rejects non-physical (NaN / non-positive) `GM`/radius.
+
 ### Added
 - **`validation_report` binary + release artifact**: a dependency-free generator that emits a
   one-page, print-ready HTML validation summary indexing every CI-enforced validation (SGP4
@@ -25,7 +35,7 @@ breaking changes are called out explicitly.
   / NASA ASCL / ESA ESSR / ION/IAC, plus `FUNDING.yml` — staging the external steps for submission.
 - **Terrain-referenced & combined alt-PNT navigation** (`altpnt` module): a TERCOM/SITAN
   terrain-matching navigator over a DEM (`.hgt` loader + synthetic-fixture generator) and a
-  combined gravity + magnetic (IGRF) + terrain GPS-denied navigator, exposed as `terrain` and
+  combined gravity + magnetic (IGRF) + terrain GPS-denied navigator, exposed as `terrain-nav` and
   `combined-altpnt` scenario kinds. Validated by terrain-match convergence (a known injected
   offset recovered) and a bounded combined-filter error over a GPS-denied window.
 - **LunaNet LANS geometry** (`lunar`): named lunar surface sites (Apollo 11/15/16, Shackleton
