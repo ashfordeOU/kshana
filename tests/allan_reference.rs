@@ -4,13 +4,21 @@
 //! for it — not just against the estimators' own analytic self-consistency.
 //!
 //! The dataset is **NBS14**, the canonical 10-point frequency-stability
-//! cross-check: a short phase series with hand-tabulated reference deviations,
-//! published in W. J. Riley, *Handbook of Frequency Stability Analysis*
-//! (NIST Special Publication 1065, 2008), around p. 107, and on the long-standing
-//! UFFC / W. Riley reference pages. The reference deviations below were computed
-//! with Stable32, the de-facto reference implementation; the same dataset and
-//! values are the standard regression target used by independent tools (e.g.
-//! allantools), to a 1e-4 relative tolerance.
+//! cross-check: a short phase series with hand-tabulated reference deviations.
+//! The 10-point phase column is **NBS Monograph 140, Annex 8.E**, reproduced as
+//! the "Phase (tau=1)" column of **NIST SP 1065 Table 29 (p. 107)** (W. J. Riley,
+//! *Handbook of Frequency Stability Analysis*, NIST Special Publication 1065,
+//! 2008); the reference deviations asserted below are the corresponding values of
+//! **SP 1065 Table 30 (p. 107)**, read from the official NIST PDF
+//! (<https://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication1065.pdf>;
+//! mirror <https://tf.nist.gov/general/pdf/2220.pdf>). They were computed with
+//! Stable32, the de-facto reference implementation, and are the standard
+//! regression target used by independent tools (e.g. allantools) to a 1e-4
+//! relative tolerance.
+//!
+//! The companion `allan_nist_sp1065_1000point.rs` checks the same estimators
+//! against the much larger **SP 1065 §12.4 1000-point data set** (Tables 31/32,
+//! pp. 108-109), generated in code from the SP 1065 LCG.
 //!
 //! Matching them shows Kshana's overlapping ADEV, modified ADEV, time deviation,
 //! and overlapping Hadamard deviation agree with the reference implementations to
@@ -20,7 +28,8 @@
 
 use kshana::allan::{hadamard_adev, modified_adev, overlapping_adev, time_deviation};
 
-/// NBS14 10-point phase dataset (dimensionless phase samples, `tau0 = 1`).
+/// NBS14 10-point phase dataset (dimensionless phase samples, `tau0 = 1`) — the
+/// "Phase (tau=1)" column of NIST SP 1065 Table 29 (p. 107).
 const NBS14_PHASE: [f64; 10] = [
     0.00000, 103.11111, 123.22222, 157.33333, 166.44444, 48.55555, -96.33333, -2.22222, 111.88889,
     0.00000,
