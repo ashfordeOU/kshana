@@ -32,6 +32,9 @@ exclude = [
     # The MCP server is likewise a standalone, workspace-excluded crate: the `rmcp` SDK
     # is edition-2024, so it cannot sit in the MSRV-1.75 build graph. See mcp/.
     "/mcp",
+    # The JetBrains IDE plugin is a standalone Kotlin/Gradle project, not part of the
+    # Rust crate at all. See ide/jetbrains/.
+    "/ide",
 ]
 
 [lib]
