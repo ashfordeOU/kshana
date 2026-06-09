@@ -274,6 +274,8 @@ h1, h2, h3 {
   box-shadow: inset 0 1px 0 var(--edge);
 }
 .badge b { color: var(--fg); font-weight: 600; }
+a.badge { text-decoration: none; transition: border-color .15s ease, color .15s ease; }
+a.badge:hover { color: var(--fg); border-color: var(--accent); }
 .badge .dot {
   width: 6px; height: 6px; border-radius: 50%;
   background: var(--accent);
