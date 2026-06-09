@@ -37,11 +37,11 @@ model plugged into a common simulation pipeline; the quantum and classical varia
 the *same code* driven by different published coefficients, so a comparison reflects the
 sensors rather than two divergent implementations. Every result is reproducible from a
 `scenario + seed + engine version` triple, and every sensor parameter is traceable to a
-cited source. Fourteen scenario kinds cover clock holdover, inertial dead-reckoning,
+cited source. Seventeen scenario kinds cover clock holdover, inertial dead-reckoning,
 optical/RF time transfer, hybrid and Kalman fusion, coupled GNSS/INS, orbit geometry and
 dilution of precision, ARAIM integrity (terrestrial and lunar), measurement-domain GNSS
-simulation, jamming and spoofing resilience, and one- and N-dimensional trade-study
-sweeps. Outputs are versioned, self-describing JSON plus an SVG chart; the same core
+simulation, terrain-, gravity-, and magnetic-map alternative PNT, jamming and spoofing
+resilience, and one- and N-dimensional trade-study sweeps. Outputs are versioned, self-describing JSON plus an SVG chart; the same core
 compiles to native, Python, and WebAssembly targets without behavioural divergence.
 
 # Statement of need
@@ -79,9 +79,10 @@ tier. Kshana occupies that intersection.
 # Software design and functionality
 
 Kshana is one engine with scenario-kind dispatch. A scenario is a small TOML document
-whose `kind` selects one of fourteen packs: `clock`, `inertial`, `orbit`, `integrity`,
-`lunar-integrity`, `timetransfer`, `hybrid`, `fusion`, `gnss-ins`, `gnss-sim`, `jamming`,
-`spoof`, `sweep`, and `sweep-nd`. Sensor models — clocks, accelerometers, gyroscopes,
+whose `kind` selects one of seventeen packs: `clock`, `inertial`, `orbit`, `integrity`,
+`lunar-integrity`, `timetransfer`, `hybrid`, `fusion`, `gnss-ins`, `gnss-sim`,
+`terrain-nav`, `gravity-map`, `combined-altpnt`, `jamming`, `spoof`, `sweep`, and
+`sweep-nd`. Sensor models — clocks, accelerometers, gyroscopes,
 time-transfer links — are independent modules with a published `provenance` string; the
 run harness composes them over a common timeline and emits a schema-versioned,
 self-describing JSON document together with a standalone SVG chart. The engine has no
