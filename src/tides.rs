@@ -20,7 +20,10 @@
 use crate::cio::earth_rotation_angle;
 use crate::egm2008_data::{EGM2008_GM, EGM2008_RE};
 use crate::ephem::{moon_position, sun_position};
+use crate::fes2004_data::FES2004;
 use crate::forces::{MU_MOON, MU_SUN};
+use crate::nutation::delaunay_args;
+use std::collections::BTreeMap;
 
 /// A perturbation to the fully-normalized Stokes coefficients (C̄_nm, S̄_nm) of degree `n`,
 /// order `m`. Additive: several tide contributions on the same (n,m) sum.
@@ -164,4 +167,84 @@ pub fn solid_earth_tide_step1(jd_tt: f64) -> Vec<StokesDelta> {
         }
     }
     out
+}
+
+/// Doodson fundamental arguments `(τ, s, h, p, N′, ps)` in radians at `jd_tt`, derived from the
+/// Delaunay arguments and the Earth-rotation angle: `s` = Moon mean longitude (`F+Ω`), `h` = Sun
+/// mean longitude (`s−D`), `p` = lunar perigee (`s−l`), `N′ = −Ω`, `ps` = solar perigee (`h−l′`),
+/// and `τ = (θ_g+π) − s` is mean lunar time. These are the arguments the FES2004 Doodson
+/// multipliers act on.
+pub fn doodson_args(jd_tt: f64) -> [f64; 6] {
+    let [l, lp, f, d, om] = delaunay_args(jd_tt);
+    let theta_g = earth_rotation_angle(jd_tt);
+    let s = f + om;
+    let h = s - d;
+    let p = s - l;
+    let np = -om;
+    let ps = h - lp;
+    let tau = (theta_g + std::f64::consts::PI) - s;
+    [tau, s, h, p, np, ps]
+}
+
+/// The Doodson argument `θ_f = Σ_i mult_i · arg_i` (radians) of a tidal constituent.
+pub fn doodson_phase(mult: &[i8; 6], args: &[f64; 6]) -> f64 {
+    mult.iter().zip(args).map(|(&k, &a)| k as f64 * a).sum()
+}
+
+/// Ocean tide variations in the normalized Stokes coefficients, IERS Eq. 6.15, from the FES2004
+/// model truncated to the 8 dominant constituents (M2 S2 N2 K2 K1 O1 P1 Q1, degree n ≤ 4):
+///
+/// `[ΔC̄_nm − i·ΔS̄_nm](t) = Σ_f Σ_± (C̄±_f,nm ∓ i·S̄±_f,nm)·e^(±iθ_f)`
+///
+/// which, with real prograde/retrograde coefficients, expands to
+/// `ΔC̄ = (C⁺+C⁻)cos θ_f + (S⁺+S⁻)sin θ_f` and `ΔS̄ = (C⁻−C⁺)sin θ_f + (S⁺−S⁻)cos θ_f`,
+/// summed over constituents. The committed FES2004 coefficients are in units of 1e-11.
+pub fn ocean_tide(jd_tt: f64) -> Vec<StokesDelta> {
+    let args = doodson_args(jd_tt);
+    let mut acc: BTreeMap<(usize, usize), (f64, f64)> = BTreeMap::new();
+    for &(mult, n, m, cp, sp, cm, sm) in FES2004 {
+        let theta = doodson_phase(&mult, &args);
+        let (sin_t, cos_t) = theta.sin_cos();
+        let dc = ((cp + cm) * cos_t + (sp + sm) * sin_t) * 1e-11;
+        let ds = ((cm - cp) * sin_t + (sp - sm) * cos_t) * 1e-11;
+        let e = acc.entry((n as usize, m as usize)).or_insert((0.0, 0.0));
+        e.0 += dc;
+        e.1 += ds;
+    }
+    acc.into_iter()
+        .map(|((n, m), (dc, ds))| StokesDelta { n, m, dc, ds })
+        .collect()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    /// The K1 ocean-tide constituent (Doodson 165.555 → multipliers [1,1,0,0,0,0]) has argument
+    /// `θ = τ + s = (θ_g+π−s) + s = θ_g+π` — the same convention as the solid-tide K1 worked
+    /// example. Validates the Doodson-argument machinery against a known phase.
+    #[test]
+    fn doodson_k1_phase_is_theta_g_plus_pi() {
+        let jd = 2_453_736.5;
+        let got = doodson_phase(&[1, 1, 0, 0, 0, 0], &doodson_args(jd));
+        let want = earth_rotation_angle(jd) + std::f64::consts::PI;
+        let two_pi = 2.0 * std::f64::consts::PI;
+        let d = (got - want).rem_euclid(two_pi);
+        let d = d.min(two_pi - d);
+        assert!(
+            d < 1e-9,
+            "K1 Doodson phase {got} vs θ_g+π {want} (wrapped diff {d})"
+        );
+    }
+
+    /// Data integrity: the generated FES2004 table carries the M2 (n=2,m=2) coefficients verbatim
+    /// from the IERS source file (×1e-11), with the M2 Doodson multipliers [2,0,0,0,0,0].
+    #[test]
+    fn fes2004_m2_22_matches_source() {
+        let &(_, _, _, cp, sp, cm, sm) = FES2004
+            .iter()
+            .find(|&&(mult, n, m, ..)| mult == [2, 0, 0, 0, 0, 0] && n == 2 && m == 2)
+            .expect("M2 (2,2) present");
+        assert_eq!((cp, sp, cm, sm), (-39.36214, 46.75729, 9.57270, 5.24459));
+    }
 }
