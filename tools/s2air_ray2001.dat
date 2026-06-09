@@ -1,0 +1,19 @@
+# S2 atmospheric pressure tide — spherical-harmonic coefficients, degree n<=4.
+# Source: R. D. Ray, "Comparisons of global analyses and station observations of the S2
+#   barometric tide", J. Atmospheric and Solar-Terrestrial Physics 63, 1085-1097 (2001).
+#   NASA GSFC GGFC: https://core2.gsfc.nasa.gov/ggfc/tides/harm_s2air_ray01.html
+# Prograde (+) and retrograde (-) waves; amplitude D in microbars, phase psi in degrees.
+# Same convention as the GSFC ocean-tide harmonics. m=0 has no retrograde wave (D- = 0).
+# Columns: n m D+ psi+ D- psi-
+2 0  51.79 324.08   0.0    0.0
+2 1   4.08 200.38  20.79  49.41
+2 2 365.07 292.85   6.21 292.80
+3 0  36.41 341.75   0.0    0.0
+3 1   2.32 230.91   6.35 245.30
+3 2   7.80  22.93   3.54 296.31
+3 3   3.75  18.18   1.01 288.25
+4 0  16.60  91.68   0.0    0.0
+4 1   2.80 327.47   3.10 239.41
+4 2  16.43 118.97   2.33 127.63
+4 3   0.40  26.49   0.51 338.93
+4 4   0.15  91.20   0.07 227.75
