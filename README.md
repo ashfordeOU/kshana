@@ -14,7 +14,8 @@
   <a href="tests/sgp4_verification.rs"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%204.12mm-3fb950" alt="SGP4 validated against all 666 AIAA 2006-6753 vectors, worst 4.12 mm"></a>
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/coverage-~97%25%20line-3fb950" alt="~97% line coverage on src/ (cargo-tarpaulin LLVM engine), gated at 85% in CI"></a>
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.15.0-c79e63" alt="Release v0.15.0"></a>
+  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.15.1-c79e63" alt="Release v0.15.1"></a>
+  <a href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator"><img src="https://img.shields.io/badge/JetBrains-Marketplace-c79e63" alt="Kshana on the JetBrains Marketplace"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="License: Apache-2.0"></a>
   <a href="Cargo.toml"><img src="https://img.shields.io/badge/rust-1.75%2B-orange.svg" alt="Rust 1.75+"></a>
   <a href="https://doi.org/10.5281/zenodo.20528627"><img src="https://img.shields.io/badge/DOI-10.5281%2Fzenodo.20528627-blue.svg" alt="DOI 10.5281/zenodo.20528627"></a>
@@ -43,7 +44,7 @@ citable table in [`docs/PROVENANCE.md`](docs/PROVENANCE.md).
 *Free and open source under Apache-2.0, professionally developed and maintained by
 Ashforde OÜ — commercial support, integration, and proprietary extensions available.*
 
-> **Status: v0.15.0 · a simulation substrate, not yet a product.** A validated,
+> **Status: v0.15.1 · a simulation substrate, not yet a product.** A validated,
 > fully reproducible engine spanning the PNT stack — orbit geometry and constellation
 > design, a numerical (Cowell) propagator with a six-perturbation force model, maneuver
 > and trajectory design, time systems, inertial navigation (incl. map-aided and
@@ -340,9 +341,10 @@ Then register `kshana-mcp` in your client's `mcpServers` config — see
 server is a standalone, workspace-excluded crate (the `rmcp` SDK is edition 2024), so it
 never affects the lean published `kshana` crate or its build.
 
-**In a JetBrains IDE** you can also install the **Kshana** plugin from the JetBrains
-Marketplace (Settings → Plugins → search "Kshana") to run scenarios from a right-click —
-see [`ide/jetbrains/`](ide/jetbrains/).
+**In a JetBrains IDE** you can also install the
+[**Kshana — PNT simulator**](https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator)
+plugin from the JetBrains Marketplace (or *Settings → Plugins → Marketplace → search
+"Kshana"*) to run scenarios from a right-click — see [`ide/jetbrains/`](ide/jetbrains/).
 
 ## Scenario format
 
@@ -870,7 +872,7 @@ entry for every user-visible change. Participation is governed by our
 
 If you use Kshana in academic or technical work, please cite it. Machine-readable
 metadata is in [`CITATION.cff`](CITATION.cff) (GitHub renders a "Cite this repository"
-button from it); cite the version you used (e.g. `v0.15.0`) together with the
+button from it); cite the version you used (e.g. `v0.15.1`) together with the
 scenario and seed for full reproducibility. Every release is archived on Zenodo with
 a citable DOI — the concept DOI [10.5281/zenodo.20528627](https://doi.org/10.5281/zenodo.20528627)
 always resolves to the latest version.
@@ -893,8 +895,8 @@ the [`CHANGELOG.md`](CHANGELOG.md). Every result is reproducible from
 | [PyPI](https://pypi.org/project/kshana/) | `pip install kshana` | abi3 wheels (Linux/macOS/Windows) + sdist |
 | [npm](https://www.npmjs.com/package/kshana) | `npm install kshana` | WebAssembly module + JS wrapper |
 | [ghcr.io](https://github.com/AshfordeOU/kshana/pkgs/container/kshana-mcp) | `docker run -i ghcr.io/ashfordeou/kshana-mcp` | multi-arch OCI image — no toolchain needed |
-| official MCP registry | auto-discovered by MCP clients | `io.github.AshfordeOU/kshana-mcp` |
-| JetBrains Marketplace | IDE → Plugins → search "Kshana" | the IDE plugin |
+| official MCP registry | auto-discovered by MCP clients | `io.github.ashfordeOU/kshana-mcp` |
+| [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator) | IDE → Plugins → search "Kshana" | the **Kshana — PNT simulator** IDE plugin |
 | [GitHub Releases](https://github.com/AshfordeOU/kshana/releases) | download | `kshana` + `kshana-mcp` binaries, a CycloneDX **SBOM**, **SLSA** build provenance, and an HTML validation summary |
 | [Zenodo](https://doi.org/10.5281/zenodo.20528627) | DOI | a citable archive of every release |
 | [kshana.dev](https://kshana.dev) | open in a browser | the WebAssembly playground (redeployed from `main`) |
