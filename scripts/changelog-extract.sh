@@ -48,10 +48,13 @@ cat <<EOF
 **Download** — attached below, prebuilt (no toolchain needed); each artifact carries
 SLSA build-provenance (verify with \`gh attestation verify <file> --repo AshfordeOU/kshana\`):
 
-- \`kshana\` — the simulator CLI / engine
-- \`kshana-mcp\` — the Model Context Protocol server
+- \`kshana\` — the simulator CLI / engine (Linux x86-64)
+- \`kshana-mcp\` — the Model Context Protocol server (Linux x86-64)
 - \`kshana-sbom.cdx.json\` — CycloneDX SBOM
 - \`kshana-validation-summary.html\` — the per-release validation summary
+
+On **macOS or Windows**, install from a registry below — the PyPI wheels, the npm/WASM
+package, and the Docker image are all cross-platform.
 
 **Install from a package registry:**
 
