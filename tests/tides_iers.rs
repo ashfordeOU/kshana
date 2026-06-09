@@ -84,3 +84,30 @@ fn step2_k1_matches_iers_worked_example() {
         "K1 ΔC̄₂₁ cos-amplitude {neg_cos_amp:e}, IERS −30.2e-12"
     );
 }
+
+/// Ocean tide (FES2004, 8 dominant constituents) produces physical-magnitude corrections at an
+/// epoch: the degree-2 sectorial term |ΔC̄₂₂| sits in the ocean-tide band, an order or more below
+/// the solid Earth tide on the same coefficient.
+#[test]
+fn ocean_tide_magnitude_is_physical_and_below_solid() {
+    let jd = JD_TT_ANCHOR;
+    let o22 = tides::ocean_tide(jd)
+        .into_iter()
+        .find(|d| d.n == 2 && d.m == 2)
+        .expect("ocean ΔC̄₂₂ present");
+    let s22 = tides::solid_earth_tide_step1(jd)
+        .into_iter()
+        .find(|d| d.n == 2 && d.m == 2)
+        .expect("solid ΔC̄₂₂ present");
+    assert!(
+        (1e-12..1e-9).contains(&o22.dc.abs()),
+        "ocean ΔC̄₂₂ = {:e} outside the physical 1e-12..1e-9 band",
+        o22.dc
+    );
+    assert!(
+        o22.dc.abs() < s22.dc.abs(),
+        "ocean ΔC̄₂₂ {:e} should be below the solid-tide ΔC̄₂₂ {:e}",
+        o22.dc,
+        s22.dc
+    );
+}
