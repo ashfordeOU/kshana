@@ -1,5 +1,11 @@
 # JetBrains Marketplace — publish + auto-update kit
 
+> **✅ LIVE.** The plugin is published and approved:
+> **[Kshana — PNT simulator](https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator)**
+> (plugin id `32181`, `dev.kshana.ide`). The one-time manual listing (§1) and token (§2)
+> are done; CI now publishes every update automatically (§3). Bump `pluginVersion` in
+> `ide/jetbrains/gradle.properties` to ship a new version.
+
 How to publish the **Kshana** IDE plugin (`ide/jetbrains/`) and keep it updated on every
 release. The CI is already wired (`.github/workflows/jetbrains-plugin.yml`, job `publish`);
 the founder does the one-time listing + token, then it is automatic.

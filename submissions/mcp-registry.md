@@ -67,8 +67,8 @@ add `MCP_REGISTRY_PUBLISH = true`.
 
 Ownership is proven automatically: the registry reads the `io.modelcontextprotocol.server.name`
 label baked into the image (`mcp/kshana-mcp/Dockerfile`), which equals the `name` in
-`server.json` (`io.github.AshfordeOU/kshana-mcp`). The OIDC token's repo owner
-(`AshfordeOU`) must match the `io.github.<owner>` namespace — it does.
+`server.json` (`io.github.ashfordeOU/kshana-mcp`). The OIDC token's repo owner
+(`ashfordeOU`) must match the `io.github.<owner>` namespace — it does.
 
 Manual fallback (publish from a laptop instead of CI):
 

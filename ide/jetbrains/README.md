@@ -1,5 +1,8 @@
 # Kshana for JetBrains IDEs
 
+> **Install:** [**Kshana — PNT simulator** on the JetBrains Marketplace](https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator)
+> — or, in any JetBrains IDE, *Settings → Plugins → Marketplace → search "Kshana"*.
+
 A native plugin that runs the **Kshana** PNT-resilience simulator from inside any
 JetBrains IDE (IntelliJ IDEA, CLion, RustRover, PyCharm, …). Right-click a scenario
 `.toml` → **Run Kshana Scenario**; the figures of merit and result JSON stream into the
