@@ -1,0 +1,45 @@
+# Refresh a published release's notes from CHANGELOG.md + the standard
+# "Get this release" block (scripts/changelog-extract.sh), WITHOUT rebuilding or
+# re-uploading any artifacts.
+#
+# New releases already get these notes automatically from release.yml on each tag;
+# this workflow is the on-demand path to bring an EXISTING release up to the current
+# notes template (e.g. after the template changes) — so notes are always CI-owned,
+# never hand-edited. Idempotent: re-running just rewrites the body to the same thing.
+name: Release notes
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to refresh (e.g. v0.15.1). Blank = the latest release."
+        required: false
+        type: string
+permissions:
+  contents: write
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Resolve the target tag
+        id: t
+        env:
+          IN: ${{ github.event.inputs.tag }}
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="$IN"
+          if [ -z "$tag" ]; then tag="$(gh release view --json tagName --jq .tagName)"; fi
+          if ! gh release view "$tag" >/dev/null 2>&1; then
+            echo "No published release for tag '$tag'." >&2; exit 1
+          fi
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "Refreshing notes for $tag"
+      - name: Regenerate notes (CHANGELOG section + Get-this-release block)
+        env:
+          TAG: ${{ steps.t.outputs.tag }}
+        run: bash scripts/changelog-extract.sh "${TAG#v}" > RELEASE_NOTES.md
+      - name: Apply to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.t.outputs.tag }}
+        run: gh release edit "$TAG" --notes-file RELEASE_NOTES.md
