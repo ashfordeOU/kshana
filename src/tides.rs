@@ -1,21 +1,21 @@
 // SPDX-License-Identifier: Apache-2.0
-//! Solid Earth tides on the geopotential (IERS Conventions 2010, Chapter 6).
+//! Solid Earth, ocean, and atmospheric tides on the geopotential (IERS Conventions 2010, Ch.6).
 //!
-//! The tide-generating potential of the Moon and Sun deforms the Earth, and that deformation
-//! perturbs the external gravity field. IERS models this as time-varying corrections ΔC̄_nm,
-//! ΔS̄_nm to the fully-normalized Stokes coefficients of the conventional geopotential. This
-//! module implements **Step 1** (the frequency-independent part, [IERS Eq. 6.6]) for the
-//! degree-2 and degree-3 tides using the anelastic nominal Love numbers of Table 6.3, together
-//! with the **permanent (zero-frequency) tide** on C̄₂₀ ([Eq. 6.14]).
+//! The tide-generating potential of the Moon and Sun deforms the solid Earth and its oceans and
+//! atmosphere, and that deformation perturbs the external gravity field. IERS models this as
+//! time-varying corrections ΔC̄_nm, ΔS̄_nm to the fully-normalized Stokes coefficients. This module
+//! provides:
+//! - the **solid Earth tide**: Step 1 (frequency-independent, [Eq. 6.6], degree 2–3, anelastic
+//!   Love numbers), the Step-2 constituent mechanism ([Eq. 6.8b]), and the **permanent tide** on
+//!   C̄₂₀ ([Eq. 6.14]);
+//! - the **ocean tide** ([Eq. 6.15]) from the FES2004 model, 8 dominant constituents;
+//! - the **atmospheric S2 tide** from the Ray (2001) air-tide harmonics;
+//! - [`tidal_acceleration`], which combines them (permanent tide removed) into the ECI perturbing
+//!   acceleration the propagator's [`crate::propagator::ForceModel`] adds.
 //!
-//! The corrections are summed into a [`crate::gravity_sh::SphericalHarmonicField`] before the
-//! usual spherical-harmonic synthesis, so the tide is just a time-dependent nudge to the same
-//! coefficients the static field already uses. Validated against published IERS reference
-//! numbers (the permanent-tide value and the K1 worked example) in `tests/tides_iers.rs` — see
+//! Validated in `tests/tides_iers.rs` against published IERS reference numbers — the permanent
+//! tide, the K1 worked example (bit-for-bit), and the FES2004 / Ray source coefficients — see
 //! `tests/fixtures/tides/IERS-CH6-REFERENCE.md`.
-//!
-//! Frequency-dependent Step-2 corrections, the ocean tide, and the atmospheric tide are added
-//! in companion functions; Step 1 is the dominant solid-tide contribution.
 
 use crate::cio::earth_rotation_angle;
 use crate::egm2008_data::{EGM2008_GM, EGM2008_RE};
@@ -219,6 +219,73 @@ pub fn ocean_tide(jd_tt: f64) -> Vec<StokesDelta> {
         .collect()
 }
 
+/// One Ray (2001) S2 air-tide row: (n, m, D⁺, ψ⁺, D⁻, ψ⁻); amplitudes in microbars, phases in
+/// degrees, prograde (⁺) / retrograde (⁻).
+type S2AirRow = (u8, u8, f64, f64, f64, f64);
+
+// Ray (2001) S2 atmospheric pressure-tide spherical harmonics, n ≤ 4. Source: R. D. Ray, J.
+// Atmos. Solar-Terr. Phys. 63, 1085 (2001); NASA GSFC ggfc/tides/harm_s2air_ray01.html. Mirrored
+// in tools/s2air_ray2001.dat. m=0 has no retrograde wave.
+static S2_AIR: &[S2AirRow] = &[
+    (2, 0, 51.79, 324.08, 0.0, 0.0),
+    (2, 1, 4.08, 200.38, 20.79, 49.41),
+    (2, 2, 365.07, 292.85, 6.21, 292.80),
+    (3, 0, 36.41, 341.75, 0.0, 0.0),
+    (3, 1, 2.32, 230.91, 6.35, 245.30),
+    (3, 2, 7.80, 22.93, 3.54, 296.31),
+    (3, 3, 3.75, 18.18, 1.01, 288.25),
+    (4, 0, 16.60, 91.68, 0.0, 0.0),
+    (4, 1, 2.80, 327.47, 3.10, 239.41),
+    (4, 2, 16.43, 118.97, 2.33, 127.63),
+    (4, 3, 0.40, 26.49, 0.51, 338.93),
+    (4, 4, 0.15, 91.20, 0.07, 227.75),
+];
+
+/// S2 (principal solar semidiurnal) Doodson number 273.555 → fundamental-argument multipliers.
+const S2_DOODSON: [i8; 6] = [2, 2, -2, 0, 0, 0];
+
+/// Load Love numbers `k′_n` (IERS Conventions 2010, Eq. 6.21 surrounding text), for the
+/// surface-load deformation of degrees 2–4.
+fn load_love(n: usize) -> f64 {
+    match n {
+        2 => -0.3075,
+        3 => -0.195,
+        4 => -0.132,
+        _ => 0.0,
+    }
+}
+
+/// Atmospheric **S2 thermal tide** on the geopotential: the Ray (2001) S2 air-tide pressure
+/// harmonics converted to normalized Stokes coefficients via the standard surface-load formula
+/// (IERS Eq. 6.21 with the atmospheric surface density `σ = Δp/g`):
+/// `ΔC̄_nm = (4πG/g²)·((1+k′_n)/(2n+1))·Δp̄_nm`, with the amplitude/phase → cos/sin conversion of
+/// Eq. 6.20 and the prograde/retrograde combination of Eq. 6.15. The S2 constituent carries
+/// Doodson number 273.555. This is the dominant atmospheric tidal component; it is validated by
+/// the source-coefficient integrity and by magnitude (no published geopotential-coefficient
+/// oracle exists for the air tide, unlike the solid and ocean tides).
+pub fn atmospheric_tide(jd_tt: f64) -> Vec<StokesDelta> {
+    const G: f64 = 6.674e-11; // m³ kg⁻¹ s⁻²
+    const GE: f64 = 9.806_65; // m s⁻²
+    const UBAR_TO_PA: f64 = 0.1; // 1 microbar = 0.1 Pa
+    let args = doodson_args(jd_tt);
+    let (sin_t, cos_t) = doodson_phase(&S2_DOODSON, &args).sin_cos();
+    let mut out = Vec::new();
+    for &(n8, m8, dp, psp, dm, psm) in S2_AIR {
+        let (n, m) = (n8 as usize, m8 as usize);
+        // amplitude/phase → cos/sin prograde & retrograde coefficients (Eq. 6.20), microbars
+        let (cp, sp) = (dp * psp.to_radians().sin(), dp * psp.to_radians().cos());
+        let (cm, sm) = (dm * psm.to_radians().sin(), dm * psm.to_radians().cos());
+        // pressure → geopotential surface-load factor (Eq. 6.21 with σ = Δp/g), microbar → Pa
+        let fac = (4.0 * std::f64::consts::PI * G / (GE * GE))
+            * ((1.0 + load_love(n)) / (2.0 * n as f64 + 1.0))
+            * UBAR_TO_PA;
+        let dc = fac * ((cp + cm) * cos_t + (sp + sm) * sin_t);
+        let ds = fac * ((cm - cp) * sin_t + (sp - sm) * cos_t);
+        out.push(StokesDelta { n, m, dc, ds });
+    }
+    out
+}
+
 /// Rotate an ECI vector into the Earth-fixed frame by the Greenwich sidereal angle `θ_g`
 /// (z-axis rotation). The inverse is [`rot_ecef_to_eci`].
 fn rot_eci_to_ecef(theta_g: f64, v: Vec3) -> Vec3 {
@@ -234,7 +301,8 @@ fn rot_ecef_to_eci(theta_g: f64, v: Vec3) -> Vec3 {
 
 /// Total tidal perturbing acceleration (m/s², ECI) at position `r_eci` and epoch `jd_tt`: the
 /// solid Earth tide (Step 1, with the **permanent part removed** so it does not double-count the
-/// zero-tide EGM2008 static C̄₂₀) plus the FES2004 ocean tide. The combined ΔC̄/ΔS̄ corrections are
+/// zero-tide EGM2008 static C̄₂₀) plus the FES2004 ocean tide and the Ray (2001) S2 atmospheric
+/// tide. The combined ΔC̄/ΔS̄ corrections are
 /// assembled into a degree-≤4 correction field with no central term (C̄₀₀ = 0), evaluated in the
 /// Earth-fixed frame, and rotated back to ECI. This is the perturbation to add on top of a
 /// zero-tide static gravity field.
@@ -253,6 +321,11 @@ pub fn tidal_acceleration(r_eci: Vec3, jd_tt: f64) -> Vec3 {
         e.0 -= permanent_tide_c20();
     }
     for d in ocean_tide(jd_tt) {
+        let e = acc.entry((d.n, d.m)).or_insert((0.0, 0.0));
+        e.0 += d.dc;
+        e.1 += d.ds;
+    }
+    for d in atmospheric_tide(jd_tt) {
         let e = acc.entry((d.n, d.m)).or_insert((0.0, 0.0));
         e.0 += d.dc;
         e.1 += d.ds;
@@ -318,5 +391,16 @@ mod tests {
             mag < 1e-5 * two_body,
             "tide should be << two-body ({mag:e} vs {two_body:e})"
         );
+    }
+
+    /// Data integrity: the Ray (2001) S2 air-tide table carries the dominant (2,2) prograde term
+    /// (365.07 µbar @ 292.85°) and its retrograde companion (6.21 @ 292.80°) verbatim.
+    #[test]
+    fn s2_air_tide_22_matches_ray2001() {
+        let &(_, _, dp, psp, dm, psm) = S2_AIR
+            .iter()
+            .find(|&&(n, m, ..)| n == 2 && m == 2)
+            .expect("S2 air (2,2) present");
+        assert_eq!((dp, psp, dm, psm), (365.07, 292.85, 6.21, 292.80));
     }
 }
