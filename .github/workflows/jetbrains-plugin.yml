@@ -93,7 +93,7 @@ jobs:
           if [ "$rc" -ne 0 ]; then
             # Idempotent: a version already submitted (incl. one still in first-time
             # moderation) is not a failure — it just means there is nothing new to push.
-            printf '%s\n' "$out" | grep -qiE "already.*(exist|upload|present|submitted)|same version|duplicate|status code: 409|moderation|not.*approved|pending" \
+            printf '%s\n' "$out" | grep -qiE "already.*(exist|upload|present|submitted|contains)|same version|duplicate|status code: 409|moderation|not.*approved|pending" \
               && { echo "::notice::plugin v$PLUGIN_VERSION is already submitted / pending moderation — treating as success"; exit 0; }
             exit "$rc"
           fi

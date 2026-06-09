@@ -9,6 +9,27 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.15.1] - 2026-06-09
+
+### Added
+
+- The **Kshana — PNT simulator** JetBrains plugin is now published and approved on the
+  [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator).
+  README, `kshana.dev`, and the distribution docs link to it directly.
+
+### Fixed
+
+- **MCP registry publish** now succeeds: the `server.json` `description` was over the
+  registry's 100-character limit (HTTP 422). Shortened it, and aligned the server name
+  (and the image's ownership label) to the canonical namespace
+  `io.github.ashfordeOU/kshana-mcp`.
+- **JetBrains Marketplace publish** now succeeds: the CI re-uploaded the same plugin
+  version that was listed manually, which the Marketplace rejects. The plugin version is
+  bumped to `0.1.1`, and the idempotency guard now also treats an "already contains
+  version" response as a no-op success.
+- **`kshana.dev` cache-busting**: the version-stamped `style.css`/`app.js` query strings
+  track the release, so returning visitors always get the current build.
+
 ## [0.15.0] - 2026-06-08
 
 ### Added
@@ -1835,7 +1856,8 @@ Initial release.
   services, not license fees.
 - `CITATION.cff` so the software can be cited.
 
-[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.15.0...HEAD
+[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.15.1...HEAD
+[0.15.1]: https://github.com/AshfordeOU/kshana/compare/v0.15.0...v0.15.1
 [0.15.0]: https://github.com/AshfordeOU/kshana/compare/v0.14.1...v0.15.0
 [0.14.1]: https://github.com/AshfordeOU/kshana/compare/v0.14.0...v0.14.1
 [0.14.0]: https://github.com/AshfordeOU/kshana/compare/v0.13.0...v0.14.0
