@@ -111,3 +111,27 @@ fn ocean_tide_magnitude_is_physical_and_below_solid() {
         s22.dc
     );
 }
+
+/// Enabling tides on the ForceModel adds exactly `tides::tidal_acceleration` to the force, and
+/// that perturbation is nonzero — the end-to-end wiring is faithful.
+#[test]
+fn force_model_tides_adds_the_tidal_acceleration() {
+    use kshana::propagator::ForceModel;
+    let r = [7.0e6, 1.0e6, 2.0e6];
+    let jd = JD_TT_ANCHOR;
+    let base = ForceModel::two_body().third_body(false, false, jd);
+    let a0 = base.accel_at(0.0, r);
+    let a1 = base.tides().accel_at(0.0, r);
+    let expected = kshana::tides::tidal_acceleration(r, jd);
+    let mut mag2 = 0.0;
+    for k in 0..3 {
+        let dx = a1[k] - a0[k];
+        assert!(
+            (dx - expected[k]).abs() < 1e-12,
+            "axis {k}: ForceModel tide term {dx:e} vs tidal_acceleration {:e}",
+            expected[k]
+        );
+        mag2 += dx * dx;
+    }
+    assert!(mag2.sqrt() > 1e-12, "tides must perturb the force");
+}

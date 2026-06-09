@@ -114,6 +114,11 @@ pub struct ForceModel {
     /// ([`crate::forces::lense_thirring_accel`]) — the gravitomagnetic term beyond
     /// Schwarzschild. Velocity-dependent; applied in [`accel_rv`](Self::accel_rv)/the RHS.
     pub lense_thirring: bool,
+    /// Include the **solid Earth + ocean tide** perturbation ([`crate::tides::tidal_acceleration`],
+    /// IERS Conventions 2010 Ch.6). Like the third body it is epoch-driven (evaluated at
+    /// `epoch_jd_tt + t/86400`), so set the epoch via [`third_body`](Self::third_body). The
+    /// permanent tide is removed so it does not double-count a zero-tide static field.
+    pub tides: bool,
 }
 
 impl ForceModel {
@@ -190,6 +195,14 @@ impl ForceModel {
         self
     }
 
+    /// Enable the solid Earth + ocean tide perturbation (IERS Ch.6). It is epoch-driven, so set
+    /// the epoch via [`third_body`](Self::third_body) (or the `epoch_jd_tt` field); e.g.
+    /// `ForceModel::with_zonals_j2_j6().third_body(true, true, epoch).tides()`.
+    pub fn tides(mut self) -> Self {
+        self.tides = true;
+        self
+    }
+
     /// The time-independent **central** gravity (m/s², ECI) at position `r` (m): two-body plus
     /// the configured J2/zonal field, but *not* the third-body terms (which depend on time
     /// through the ephemeris — see [`accel_at`](Self::accel_at)). For a model without Sun/Moon
@@ -235,6 +248,11 @@ impl ForceModel {
                 let p = srp_accel(r, sun.unwrap(), self.cr, self.area_over_mass);
                 a = [a[0] + p[0], a[1] + p[1], a[2] + p[2]];
             }
+        }
+        if self.tides {
+            let jd_tt = self.epoch_jd_tt + t / SECONDS_PER_DAY;
+            let p = crate::tides::tidal_acceleration(r, jd_tt);
+            a = [a[0] + p[0], a[1] + p[1], a[2] + p[2]];
         }
         a
     }
