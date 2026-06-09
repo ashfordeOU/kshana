@@ -36,7 +36,22 @@ jobs:
           distribution: temurin
           java-version: "21"
       - name: Build + unit-test + assemble the plugin
-        run: ./gradlew test buildPlugin --no-daemon --console=plain
+        run: |
+          set +e
+          attempt=1; max=3
+          while :; do
+            out="$(./gradlew test buildPlugin --no-daemon --console=plain 2>&1)"; rc=$?
+            printf '%s\n' "$out"
+            if [ "$rc" -eq 0 ]; then break; fi
+            # Retry only on transient JetBrains CDN / network resolution failures.
+            if [ "$attempt" -lt "$max" ] && printf '%s\n' "$out" | grep -qiE "bad gateway|could not resolve|could not get resource|status code: (429|50[0-9])|gateway time-?out|connection (reset|timed out)|read timed out|timeout"; then
+              echo "::warning::transient IntelliJ Platform resolution failure during build (attempt $attempt/$max) - retrying"
+              sleep $((attempt * 30))
+              attempt=$((attempt + 1))
+              continue
+            fi
+            exit "$rc"
+          done
       - name: Upload the plugin distributable
         if: always()
         uses: actions/upload-artifact@v4
@@ -88,12 +103,22 @@ jobs:
             args="$args -x signPlugin"
           fi
           set +e
-          out="$(./gradlew publishPlugin $args 2>&1)"; rc=$?
-          printf '%s\n' "$out"
-          if [ "$rc" -ne 0 ]; then
-            # Idempotent: a version already submitted (incl. one still in first-time
-            # moderation) is not a failure — it just means there is nothing new to push.
-            printf '%s\n' "$out" | grep -qiE "already.*(exist|upload|present|submitted|contains)|same version|duplicate|status code: 409|moderation|not.*approved|pending" \
-              && { echo "::notice::plugin v$PLUGIN_VERSION is already submitted / pending moderation — treating as success"; exit 0; }
+          attempt=1; max=3
+          while :; do
+            out="$(./gradlew publishPlugin $args 2>&1)"; rc=$?
+            printf '%s\n' "$out"
+            if [ "$rc" -eq 0 ]; then break; fi
+            # Idempotent: a version already submitted (incl. first-time moderation) is success.
+            if printf '%s\n' "$out" | grep -qiE "already.*(exist|upload|present|submitted|contains)|same version|duplicate|status code: 409|moderation|not.*approved|pending"; then
+              echo "::notice::plugin v$PLUGIN_VERSION already submitted / pending moderation - treating as success"
+              exit 0
+            fi
+            # Transient JetBrains CDN / network failure resolving the IntelliJ Platform - retry with backoff.
+            if [ "$attempt" -lt "$max" ] && printf '%s\n' "$out" | grep -qiE "bad gateway|could not resolve|could not get resource|status code: (429|50[0-9])|gateway time-?out|connection (reset|timed out)|read timed out|timeout"; then
+              echo "::warning::transient IntelliJ Platform resolution failure (attempt $attempt/$max) - retrying"
+              sleep $((attempt * 30))
+              attempt=$((attempt + 1))
+              continue
+            fi
             exit "$rc"
-          fi
+          done
