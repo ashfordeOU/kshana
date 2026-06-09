@@ -12,8 +12,9 @@ no further authoring. These are **docs only** — nothing here is compiled or pu
 | `abstracts.md` | ION GNSS+ 2026, IAC 2026 | ION/IAF accounts + deadlines |
 | `essr-registration.md` | essr.esa.int | ESA-STAR / ESSR login (entity 83208) |
 | `discussions-setup.md` | repo Settings + seed posts | repo admin toggle |
-| `mcp-registry.md` | crates.io + ghcr.io (OCI) + MCP registry + awesome-mcp-servers + aggregators | crates.io token (1st publish) + make ghcr public + set `MCP_REGISTRY_PUBLISH=true` + 1 PR |
-| `jetbrains-marketplace.md` | JetBrains Marketplace (the IDE plugin) | JetBrains account (1st manual upload) + `JETBRAINS_MARKETPLACE_TOKEN` secret |
+| `mcp-registry.md` | crates.io + ghcr.io (OCI) + MCP registry + aggregators | ✅ LIVE — auto-publishes per release (`io.github.ashfordeOU/kshana-mcp`) |
+| `awesome-mcp-servers.md` | punkpeye / wong2 / appcypher awesome-mcp-servers lists | GitHub account (1 PR) |
+| `jetbrains-marketplace.md` | JetBrains Marketplace (the IDE plugin) | ✅ LIVE — [plugin 32181](https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator), auto-updates per release |
 
 Related, landed in-repo (no submission needed):
 - `paper/paper.md` + `paper/paper.bib` — JOSS submission (founder fills real ORCID, rasterises figure).
