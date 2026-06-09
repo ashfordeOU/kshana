@@ -11,21 +11,19 @@ tags:
   - WebAssembly
 authors:
   - name: Chakshu Baweja
-    orcid: 0000-0000-0000-0000
+    orcid: 0009-0008-2098-0751
     affiliation: 1
 affiliations:
   - index: 1
     name: Ashforde OÜ, Estonia
-date: 8 June 2026
+date: 9 June 2026
 bibliography: paper.bib
 ---
 
 <!--
-FOUNDER ACTION (before submission to https://joss.theoj.org):
-  * Replace the placeholder ORCID 0000-0000-0000-0000 with your real ORCID.
-    JOSS validation rejects the all-zero placeholder.
-  * Confirm a Kshana release is archived (Zenodo) and that the GitHub repository
-    is public, as JOSS requires both at review time.
+Submission-ready. ORCID set; the repository is public and each release is archived on
+Zenodo (DOI 10.5281/zenodo.20528627), satisfying JOSS's requirements at review time.
+Submit at https://joss.theoj.org (GitHub login -> paste the repository URL).
 -->
 
 # Summary
