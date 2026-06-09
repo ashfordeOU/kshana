@@ -70,8 +70,132 @@ fn ric_from_state_inclined_normal_is_perpendicular_to_the_orbit_plane() {
     }
 }
 
-// Keep `precise_od` referenced so the import does not warn before the later tasks land.
-#[allow(dead_code)]
-fn _module_is_linked() {
-    let _ = precise_od::MODULE_NAME;
+// --- shared local vector helpers for the force-model / STM / estimator tests ---
+
+fn sub(a: [f64; 3], b: [f64; 3]) -> [f64; 3] {
+    [a[0] - b[0], a[1] - b[1], a[2] - b[2]]
+}
+fn vnorm(a: [f64; 3]) -> f64 {
+    (a[0] * a[0] + a[1] * a[1] + a[2] * a[2]).sqrt()
+}
+fn vunit(a: [f64; 3]) -> [f64; 3] {
+    let n = vnorm(a);
+    [a[0] / n, a[1] / n, a[2] / n]
+}
+
+/// A representative LEO state away from the poles/z-axis, reused across the tests.
+fn leo_state() -> ([f64; 3], [f64; 3]) {
+    let mu = 3.986_004_418e14_f64;
+    let a = 7.0e6;
+    let vc = (mu / a).sqrt();
+    let inc = 51.6_f64.to_radians();
+    let r = [a, 1.2e6, 0.9e6];
+    // A velocity roughly circular and inclined (need not be exactly circular for these tests).
+    let v = [-vc * 0.15, vc * inc.cos(), vc * inc.sin()];
+    (r, v)
+}
+
+/// EGM2008 truncated to degree 0 is only C̄₀₀ = 1 — an exact point mass. Because the central
+/// term is radial it is invariant under the Earth-fixed rotation, so the precise force model must
+/// reproduce −μr/|r|³ at *every* epoch and integration time.
+#[test]
+fn precise_force_point_mass_limit_is_two_body() {
+    use kshana::forces::two_body_accel;
+    use kshana::precise_od::PreciseForceModel;
+    use kshana::timescales::JD_J2000;
+    let (r, v) = leo_state();
+    let fm = PreciseForceModel::egm2008(0, JD_J2000);
+    let tb = two_body_accel(r);
+    for &t in &[0.0, 1234.0, 86_400.0] {
+        let a = fm.accel_rv(t, r, v);
+        let err = vnorm(sub(a, tb));
+        assert!(err < 1e-6, "point-mass residual {err} m/s² at t={t}");
+    }
+}
+
+/// Raising the geopotential degree adds the oblateness/tesseral field: the J2-dominated
+/// correction at LEO sits in a physical band (~1e-2 m/s² is the J2 scale; certainly within
+/// 1e-5..1e-1) above the point mass.
+#[test]
+fn precise_force_geopotential_adds_oblateness() {
+    use kshana::precise_od::PreciseForceModel;
+    use kshana::timescales::JD_J2000;
+    let (r, v) = leo_state();
+    let pm = PreciseForceModel::egm2008(0, JD_J2000);
+    let g8 = PreciseForceModel::egm2008(8, JD_J2000);
+    let d = vnorm(sub(g8.accel_rv(0.0, r, v), pm.accel_rv(0.0, r, v)));
+    assert!(
+        (1e-5..1e-1).contains(&d),
+        "geopotential (deg-8) perturbation {d} m/s² outside the J2 band"
+    );
+}
+
+/// The Sun third body and the tidal term are wired in additively and exactly: enabling each adds
+/// precisely the corresponding validated free-function acceleration to the point-mass force (the
+/// same bit-faithful wiring check the propagator uses for the third body).
+#[test]
+fn precise_force_third_body_and_tides_wiring_is_exact() {
+    use kshana::ephem::sun_position;
+    use kshana::forces::{third_body_accel, MU_SUN};
+    use kshana::precession::julian_centuries_tt;
+    use kshana::precise_od::PreciseForceModel;
+    use kshana::timescales::JD_J2000;
+    let (r, v) = leo_state();
+    let epoch = JD_J2000;
+    let base = PreciseForceModel::egm2008(0, epoch);
+    let a_base = base.accel_rv(0.0, r, v);
+
+    let with_sun = PreciseForceModel::egm2008(0, epoch).third_body(true, false);
+    let expect_sun = third_body_accel(r, sun_position(julian_centuries_tt(epoch)), MU_SUN);
+    let a_sun = with_sun.accel_rv(0.0, r, v);
+    for k in 0..3 {
+        assert!(
+            (a_sun[k] - (a_base[k] + expect_sun[k])).abs() < 1e-15,
+            "Sun third-body wiring axis {k}: {} vs {}",
+            a_sun[k],
+            a_base[k] + expect_sun[k]
+        );
+    }
+
+    let with_tides = PreciseForceModel::egm2008(0, epoch).tides();
+    let expect_t = kshana::tides::tidal_acceleration(r, epoch);
+    let a_t = with_tides.accel_rv(0.0, r, v);
+    for k in 0..3 {
+        assert!(
+            (a_t[k] - (a_base[k] + expect_t[k])).abs() < 1e-15,
+            "tide wiring axis {k}"
+        );
+    }
+}
+
+/// A constant radial empirical acceleration adds exactly that vector along r̂ (the empirical tier
+/// is expressed in the RTN frame and rotated back into ECI).
+#[test]
+fn precise_force_constant_radial_empirical_points_along_r() {
+    use kshana::precise_od::{EmpiricalAccel, PreciseForceModel};
+    use kshana::timescales::JD_J2000;
+    let (r, v) = leo_state();
+    let amp = 1.0e-7;
+    let emp = EmpiricalAccel {
+        radial: [amp, 0.0, 0.0],
+        ..Default::default()
+    };
+    let base = PreciseForceModel::egm2008(0, JD_J2000);
+    let withe = PreciseForceModel::egm2008(0, JD_J2000).with_empirical(emp);
+    let d = sub(withe.accel_rv(0.0, r, v), base.accel_rv(0.0, r, v));
+    let rhat = vunit(r);
+    for k in 0..3 {
+        assert!(
+            (d[k] - amp * rhat[k]).abs() < 1e-13,
+            "radial empirical axis {k}: {} vs {}",
+            d[k],
+            amp * rhat[k]
+        );
+    }
+    // And it is purely radial: no transverse/normal leak.
+    let rtn = precise_od::to_rtn(d, r, v);
+    assert!(
+        (rtn[0] - amp).abs() < 1e-13 && rtn[1].abs() < 1e-13 && rtn[2].abs() < 1e-13,
+        "empirical RTN {rtn:?}"
+    );
 }
