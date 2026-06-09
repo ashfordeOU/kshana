@@ -101,7 +101,7 @@ For each dataset:
 
 ## 10. Wave sequencing
 
-Each wave: TDD (RED→GREEN), all gates (fmt, clippy -D, `cargo test --all`, reproducibility, no-attribution, version-sync, starion), atomic commit, push to main, tracker rebuild, memory update.
+Each wave: TDD (RED→GREEN), all gates (fmt, clippy -D, `cargo test --all`, reproducibility, no-attribution, version-sync, banned-naming guard), atomic commit, push to main, tracker rebuild, memory update.
 
 1. **W1 — Tides.** `src/tides.rs` (solid + ocean + atmospheric), IERS reference-routine bit-for-bit validation. Wire into the force model as an opt-in `ForceModel` term.
 2. **W2 — Precise-OD engine.** `src/precise_od.rs` with variational STM. Validated first on **synthetic** data: fit a Kshana-propagated arc back to itself → recovers state to ~0; STM vs finite-difference agreement.

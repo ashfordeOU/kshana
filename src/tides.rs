@@ -22,8 +22,11 @@ use crate::egm2008_data::{EGM2008_GM, EGM2008_RE};
 use crate::ephem::{moon_position, sun_position};
 use crate::fes2004_data::FES2004;
 use crate::forces::{MU_MOON, MU_SUN};
+use crate::gravity_sh::SphericalHarmonicField;
 use crate::nutation::delaunay_args;
 use std::collections::BTreeMap;
+
+type Vec3 = [f64; 3];
 
 /// A perturbation to the fully-normalized Stokes coefficients (C̄_nm, S̄_nm) of degree `n`,
 /// order `m`. Additive: several tide contributions on the same (n,m) sum.
@@ -216,6 +219,55 @@ pub fn ocean_tide(jd_tt: f64) -> Vec<StokesDelta> {
         .collect()
 }
 
+/// Rotate an ECI vector into the Earth-fixed frame by the Greenwich sidereal angle `θ_g`
+/// (z-axis rotation). The inverse is [`rot_ecef_to_eci`].
+fn rot_eci_to_ecef(theta_g: f64, v: Vec3) -> Vec3 {
+    let (s, c) = theta_g.sin_cos();
+    [c * v[0] + s * v[1], -s * v[0] + c * v[1], v[2]]
+}
+
+/// Rotate an Earth-fixed vector back to ECI (transpose of [`rot_eci_to_ecef`]).
+fn rot_ecef_to_eci(theta_g: f64, v: Vec3) -> Vec3 {
+    let (s, c) = theta_g.sin_cos();
+    [c * v[0] - s * v[1], s * v[0] + c * v[1], v[2]]
+}
+
+/// Total tidal perturbing acceleration (m/s², ECI) at position `r_eci` and epoch `jd_tt`: the
+/// solid Earth tide (Step 1, with the **permanent part removed** so it does not double-count the
+/// zero-tide EGM2008 static C̄₂₀) plus the FES2004 ocean tide. The combined ΔC̄/ΔS̄ corrections are
+/// assembled into a degree-≤4 correction field with no central term (C̄₀₀ = 0), evaluated in the
+/// Earth-fixed frame, and rotated back to ECI. This is the perturbation to add on top of a
+/// zero-tide static gravity field.
+pub fn tidal_acceleration(r_eci: Vec3, jd_tt: f64) -> Vec3 {
+    let theta_g = earth_rotation_angle(jd_tt);
+    let r_ecef = rot_eci_to_ecef(theta_g, r_eci);
+
+    let mut acc: BTreeMap<(usize, usize), (f64, f64)> = BTreeMap::new();
+    for d in solid_earth_tide_step1(jd_tt) {
+        let e = acc.entry((d.n, d.m)).or_insert((0.0, 0.0));
+        e.0 += d.dc;
+        e.1 += d.ds;
+    }
+    // Step 3: the permanent tide is already in the zero-tide static field — remove it.
+    if let Some(e) = acc.get_mut(&(2, 0)) {
+        e.0 -= permanent_tide_c20();
+    }
+    for d in ocean_tide(jd_tt) {
+        let e = acc.entry((d.n, d.m)).or_insert((0.0, 0.0));
+        e.0 += d.dc;
+        e.1 += d.ds;
+    }
+
+    let mut field = SphericalHarmonicField::zeros(EGM2008_GM, EGM2008_RE, 4);
+    for ((n, m), (dc, ds)) in acc {
+        if n >= 2 {
+            field.set(n, m, dc, ds);
+        }
+    }
+    let a_ecef = field.acceleration(r_ecef);
+    rot_ecef_to_eci(theta_g, a_ecef)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -246,5 +298,25 @@ mod tests {
             .find(|&&(mult, n, m, ..)| mult == [2, 0, 0, 0, 0, 0] && n == 2 && m == 2)
             .expect("M2 (2,2) present");
         assert_eq!((cp, sp, cm, sm), (-39.36214, 46.75729, 9.57270, 5.24459));
+    }
+
+    /// The total tidal perturbing acceleration at LEO is finite, sits in the physical band
+    /// (~1e-9..1e-6 m/s²), and is a tiny fraction of two-body gravity.
+    #[test]
+    fn tidal_acceleration_is_physical_at_leo() {
+        let r = [7.0e6, 1.0e6, 2.0e6];
+        let a = tidal_acceleration(r, 2_453_736.5);
+        let mag = (a[0] * a[0] + a[1] * a[1] + a[2] * a[2]).sqrt();
+        assert!(mag.is_finite(), "tidal acceleration must be finite");
+        assert!(
+            (1e-9..1e-6).contains(&mag),
+            "tidal accel {mag:e} m/s² outside the physical 1e-9..1e-6 band"
+        );
+        let rn = (r[0] * r[0] + r[1] * r[1] + r[2] * r[2]).sqrt();
+        let two_body = crate::forces::MU_EARTH / (rn * rn);
+        assert!(
+            mag < 1e-5 * two_body,
+            "tide should be << two-body ({mag:e} vs {two_body:e})"
+        );
     }
 }
