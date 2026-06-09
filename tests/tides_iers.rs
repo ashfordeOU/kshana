@@ -135,3 +135,24 @@ fn force_model_tides_adds_the_tidal_acceleration() {
     }
     assert!(mag2.sqrt() > 1e-12, "tides must perturb the force");
 }
+
+/// The atmospheric S2 air tide (Ray 2001) is physical: sampled over a full S2 period (12 h), the
+/// peak |ΔC̄₂₂| reaches ~4×10⁻¹¹ — roughly a tenth of the ocean M2 term and far below the solid
+/// tide, exactly as the air-tide pressure amplitude implies.
+#[test]
+fn atmospheric_s2_tide_amplitude_is_physical() {
+    let peak = (0..24)
+        .map(|h| {
+            let jd = JD_TT_ANCHOR + h as f64 / 24.0;
+            tides::atmospheric_tide(jd)
+                .into_iter()
+                .find(|d| d.n == 2 && d.m == 2)
+                .map(|d| d.dc.abs())
+                .unwrap_or(0.0)
+        })
+        .fold(0.0_f64, f64::max);
+    assert!(
+        (1e-11..1e-10).contains(&peak),
+        "atmospheric S2 ΔC̄₂₂ peak {peak:e} outside the expected ~1e-11..1e-10 band"
+    );
+}
