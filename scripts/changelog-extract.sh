@@ -35,6 +35,39 @@ if [ -z "$section" ]; then
 fi
 
 printf '%s\n\n' "$section"
+
+# Standard "Get this release" block — the same on every release so a reader can
+# find every download and every distribution channel without leaving the page.
+# Version-aware (Docker tag + crate versions track $version); the JetBrains plugin
+# versions independently, so it is linked rather than pinned.
+cat <<EOF
+---
+
+### Get this release
+
+**Download** — attached below, prebuilt (no toolchain needed); each artifact carries
+SLSA build-provenance (verify with \`gh attestation verify <file> --repo AshfordeOU/kshana\`):
+
+- \`kshana\` — the simulator CLI / engine
+- \`kshana-mcp\` — the Model Context Protocol server
+- \`kshana-sbom.cdx.json\` — CycloneDX SBOM
+- \`kshana-validation-summary.html\` — the per-release validation summary
+
+**Install from a package registry:**
+
+| Channel | Get it |
+| --- | --- |
+| [crates.io](https://crates.io/crates/kshana) | \`cargo install kshana\` · \`cargo install kshana-mcp\` |
+| [PyPI](https://pypi.org/project/kshana/) | \`pip install kshana\` |
+| [npm](https://www.npmjs.com/package/kshana) | \`npm install kshana\` |
+| [ghcr.io](https://github.com/AshfordeOU/kshana/pkgs/container/kshana-mcp) | \`docker run -i ghcr.io/ashfordeou/kshana-mcp:$version\` |
+| MCP registry | \`io.github.ashfordeOU/kshana-mcp\` (auto-discovered by MCP clients) |
+| [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator) | search "Kshana" in your IDE → Plugins |
+
+**No install:** run it in your browser at [kshana.dev](https://kshana.dev) · **Cite:** [DOI 10.5281/zenodo.20528627](https://doi.org/10.5281/zenodo.20528627)
+
+EOF
+
 printf -- '---\n\n'
 printf '**Full changelog:** [`CHANGELOG.md`](%s/blob/v%s/CHANGELOG.md) · ' "$repo_url" "$version"
 printf '**Docs:** [`README`](%s/blob/v%s/README.md)\n' "$repo_url" "$version"
