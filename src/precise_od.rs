@@ -28,7 +28,16 @@
 //! real-agency-dataset fits (Galileo MEO, Swarm-A LEO, LRO lunar) layer real EOP and SP3/SPK
 //! truth on top of this engine in the validation harnesses.
 
-use crate::precession::{mat_vec, Mat3};
+use crate::cio::gcrs_to_itrs_matrix;
+use crate::ephem::{moon_position, sun_position};
+use crate::forces::{
+    drag_accel, lense_thirring_accel, relativistic_accel, srp_accel, third_body_accel, MU_MOON,
+    MU_SUN,
+};
+use crate::gravity_sh::SphericalHarmonicField;
+use crate::precession::{julian_centuries_tt, mat_vec, transpose, Mat3};
+use crate::tides::tidal_acceleration;
+use crate::timescales::SECONDS_PER_DAY;
 
 type Vec3 = [f64; 3];
 
@@ -144,6 +153,220 @@ pub struct OdReport {
     pub converged: bool,
     /// The recovered parameters.
     pub params: EstimatedParams,
+}
+
+/// The argument of latitude `u` (rad) of the state `(r, v)`: the in-plane angle from the
+/// ascending node to the satellite, the conventional phase for once-per-revolution empirical
+/// accelerations. For a (near-)equatorial orbit the node is degenerate, so an arbitrary but
+/// consistent in-plane reference is used (the empirical tier still spans the plane).
+fn arg_of_latitude(r: Vec3, v: Vec3) -> f64 {
+    let h = cross(r, v);
+    let n_hat = unit(h); // orbit normal
+    let node = cross([0.0, 0.0, 1.0], h); // toward the ascending node, in-plane
+    let p_hat = if norm(node) < 1e-9 * norm(h) {
+        unit(cross(n_hat, [0.0, 1.0, 0.0])) // equatorial floor: any in-plane reference
+    } else {
+        unit(node)
+    };
+    let q_hat = cross(n_hat, p_hat); // 90° ahead, in the direction of motion
+    dot(r, q_hat).atan2(dot(r, p_hat))
+}
+
+/// The empirical RTN acceleration (m/s², ECI) for `emp` at state `(r, v)`: each axis amplitude
+/// `c0 + c_cos·cos u + c_sin·sin u` against the argument of latitude `u`, projected back onto the
+/// inertial RTN basis vectors.
+fn empirical_accel(emp: &EmpiricalAccel, r: Vec3, v: Vec3) -> Vec3 {
+    let ric = ric_from_state(r, v); // rows = R̂, T̂, N̂ in ECI
+    let u = arg_of_latitude(r, v);
+    let (cu, su) = (u.cos(), u.sin());
+    let comp = |c: [f64; 3]| c[0] + c[1] * cu + c[2] * su;
+    let rtn = [comp(emp.radial), comp(emp.transverse), comp(emp.normal)];
+    // a_eci = a_R·R̂ + a_T·T̂ + a_N·N̂ = ricᵀ·rtn.
+    mat_vec(&transpose(&ric), rtn)
+}
+
+/// The reference-grade force model fit by [`fit`]: the EGM2008 spherical-harmonic geopotential
+/// (which already contains two-body + the zonal/tesseral field) plus the configured perturbations
+/// and the optional empirical-acceleration tier.
+///
+/// The geopotential is evaluated in the Earth-fixed frame through the CIO reduction; in this first
+/// wave the Earth-orientation parameters are nominal (UT1 ≈ TT, no polar motion), which is exact
+/// for synthetic self-recovery (the same model generates and fits the arc). The agency-data
+/// harnesses (W3+) supply real finals2000A EOP through the same rotation.
+#[derive(Clone, Debug)]
+pub struct PreciseForceModel {
+    /// The geopotential field (EGM2008 to some degree, or any [`SphericalHarmonicField`]).
+    pub geopotential: SphericalHarmonicField,
+    /// Estimation/propagation epoch (Julian Date, TT) at integration time `t = 0`.
+    pub epoch_jd_tt: f64,
+    /// Include the Sun third body.
+    pub sun: bool,
+    /// Include the Moon third body.
+    pub moon: bool,
+    /// Include solar-radiation pressure.
+    pub srp: bool,
+    /// SRP radiation-pressure coefficient `C_R`.
+    pub cr: f64,
+    /// SRP cross-section-to-mass ratio `A/m` (m²/kg).
+    pub area_over_mass: f64,
+    /// Include atmospheric drag.
+    pub drag: bool,
+    /// Drag ballistic term `C_D·A/m` (m²/kg).
+    pub cd_area_over_mass: f64,
+    /// Include the Schwarzschild relativistic correction.
+    pub relativity: bool,
+    /// Include the Lense–Thirring frame-dragging correction.
+    pub lense_thirring: bool,
+    /// Include the solid/ocean/atmospheric tide perturbation.
+    pub tides: bool,
+    /// Optional empirical-acceleration tier (RTN constant + once-per-rev).
+    pub empirical: Option<EmpiricalAccel>,
+}
+
+impl PreciseForceModel {
+    /// A force model over the given geopotential field at `epoch_jd_tt`, no perturbations.
+    pub fn from_field(geopotential: SphericalHarmonicField, epoch_jd_tt: f64) -> Self {
+        Self {
+            geopotential,
+            epoch_jd_tt,
+            sun: false,
+            moon: false,
+            srp: false,
+            cr: 1.0,
+            area_over_mass: 0.0,
+            drag: false,
+            cd_area_over_mass: 0.0,
+            relativity: false,
+            lense_thirring: false,
+            tides: false,
+            empirical: None,
+        }
+    }
+
+    /// A force model over the bundled EGM2008 field truncated to `nmax` (0 = point mass).
+    pub fn egm2008(nmax: usize, epoch_jd_tt: f64) -> Self {
+        Self::from_field(SphericalHarmonicField::egm2008_truncated(nmax), epoch_jd_tt)
+    }
+
+    /// Add the Sun/Moon third-body perturbation.
+    pub fn third_body(mut self, sun: bool, moon: bool) -> Self {
+        self.sun = sun;
+        self.moon = moon;
+        self
+    }
+
+    /// Add solar-radiation pressure with coefficient `cr` and area-to-mass `area_over_mass`.
+    pub fn solar_radiation(mut self, cr: f64, area_over_mass: f64) -> Self {
+        self.srp = true;
+        self.cr = cr;
+        self.area_over_mass = area_over_mass;
+        self
+    }
+
+    /// Add atmospheric drag with ballistic term `cd_area_over_mass`.
+    pub fn drag(mut self, cd_area_over_mass: f64) -> Self {
+        self.drag = true;
+        self.cd_area_over_mass = cd_area_over_mass;
+        self
+    }
+
+    /// Add the Schwarzschild relativistic correction.
+    pub fn relativity(mut self) -> Self {
+        self.relativity = true;
+        self
+    }
+
+    /// Add the Lense–Thirring frame-dragging correction.
+    pub fn lense_thirring(mut self) -> Self {
+        self.lense_thirring = true;
+        self
+    }
+
+    /// Add the tide perturbation.
+    pub fn tides(mut self) -> Self {
+        self.tides = true;
+        self
+    }
+
+    /// Attach an empirical-acceleration tier.
+    pub fn with_empirical(mut self, empirical: EmpiricalAccel) -> Self {
+        self.empirical = Some(empirical);
+        self
+    }
+
+    /// The GCRS→ITRS rotation at `jd_tt` (nominal EOP for the synthetic wave).
+    fn frame(&self, jd_tt: f64) -> Mat3 {
+        gcrs_to_itrs_matrix(jd_tt, jd_tt, 0.0, 0.0)
+    }
+
+    /// The acceleration given the per-evaluation-invariant context (frame `m`, Sun/Moon
+    /// positions) already computed — so the variational A-matrix can finite-difference over
+    /// `(r, v)` without recomputing the expensive nutation/ephemeris each perturbation.
+    fn accel_with(
+        &self,
+        jd_tt: f64,
+        m: &Mat3,
+        sun: Option<Vec3>,
+        moon: Option<Vec3>,
+        r: Vec3,
+        v: Vec3,
+    ) -> Vec3 {
+        // Geopotential: rotate into ECEF, evaluate, rotate the acceleration back.
+        let r_ecef = mat_vec(m, r);
+        let a_ecef = self.geopotential.acceleration(r_ecef);
+        let mut a = mat_vec(&transpose(m), a_ecef);
+        let mut add = |p: Vec3| {
+            a = [a[0] + p[0], a[1] + p[1], a[2] + p[2]];
+        };
+        if self.sun {
+            if let Some(s) = sun {
+                add(third_body_accel(r, s, MU_SUN));
+            }
+        }
+        if self.moon {
+            if let Some(mn) = moon {
+                add(third_body_accel(r, mn, MU_MOON));
+            }
+        }
+        if self.srp {
+            if let Some(s) = sun {
+                add(srp_accel(r, s, self.cr, self.area_over_mass));
+            }
+        }
+        if self.drag {
+            add(drag_accel(r, v, self.cd_area_over_mass));
+        }
+        if self.relativity {
+            add(relativistic_accel(r, v));
+        }
+        if self.lense_thirring {
+            add(lense_thirring_accel(r, v));
+        }
+        if self.tides {
+            add(tidal_acceleration(r, jd_tt));
+        }
+        if let Some(emp) = self.empirical {
+            add(empirical_accel(&emp, r, v));
+        }
+        a
+    }
+
+    /// The Sun/Moon positions needed at `jd_tt` (only what the enabled terms require).
+    fn ephem(&self, jd_tt: f64) -> (Option<Vec3>, Option<Vec3>) {
+        let tjc = julian_centuries_tt(jd_tt);
+        let sun = (self.sun || self.srp).then(|| sun_position(tjc));
+        let moon = self.moon.then(|| moon_position(tjc));
+        (sun, moon)
+    }
+
+    /// The full acceleration (m/s², ECI) at integration time `t` (s past the epoch), position `r`
+    /// and velocity `v`.
+    pub fn accel_rv(&self, t: f64, r: Vec3, v: Vec3) -> Vec3 {
+        let jd_tt = self.epoch_jd_tt + t / SECONDS_PER_DAY;
+        let m = self.frame(jd_tt);
+        let (sun, moon) = self.ephem(jd_tt);
+        self.accel_with(jd_tt, &m, sun, moon, r, v)
+    }
 }
 
 #[cfg(test)]
