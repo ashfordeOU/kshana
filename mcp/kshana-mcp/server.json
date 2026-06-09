@@ -1,9 +1,9 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.AshfordeOU/kshana-mcp",
+  "name": "io.github.ashfordeOU/kshana-mcp",
   "title": "Kshana PNT-resilience simulator",
-  "description": "Run the validated Kshana positioning/navigation/timing (PNT) resilience simulator from an AI agent: SGP4/SDP4 orbits, IAU reference frames, Allan deviations, GNSS availability/DOP, ARAIM protection levels, GNSS/INS fusion, and quantum-sensor models.",
-  "version": "0.15.0",
+  "description": "Run the validated Kshana PNT-resilience simulator (orbits, frames, GNSS, fusion) from an AI agent.",
+  "version": "0.15.1",
   "websiteUrl": "https://kshana.dev",
   "repository": {
     "url": "https://github.com/AshfordeOU/kshana",
@@ -13,7 +13,7 @@
   "packages": [
     {
       "registryType": "oci",
-      "identifier": "ghcr.io/ashfordeou/kshana-mcp:0.15.0",
+      "identifier": "ghcr.io/ashfordeou/kshana-mcp:0.15.1",
       "transport": {
         "type": "stdio"
       }

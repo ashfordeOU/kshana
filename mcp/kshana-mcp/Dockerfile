@@ -28,7 +28,7 @@ FROM debian:bookworm-slim AS runtime
 
 # Ownership marker that links this image to its entry in the official MCP registry.
 # The registry reads this label to verify `server.json` ↔ image ownership.
-LABEL io.modelcontextprotocol.server.name="io.github.AshfordeOU/kshana-mcp"
+LABEL io.modelcontextprotocol.server.name="io.github.ashfordeOU/kshana-mcp"
 LABEL org.opencontainers.image.title="kshana-mcp"
 LABEL org.opencontainers.image.description="MCP server exposing the validated Kshana PNT-resilience simulator to AI agents."
 LABEL org.opencontainers.image.source="https://github.com/AshfordeOU/kshana"

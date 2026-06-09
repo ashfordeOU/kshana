@@ -17,6 +17,12 @@
         models — each validated against published references. See https://kshana.dev.
     ]]></description>
 
+    <change-notes><![CDATA[
+        <b>0.1.1</b> — maintenance release; first build delivered through continuous
+        publishing. Requires the <code>kshana</code> CLI
+        (<code>cargo install kshana</code>); compatible with JetBrains IDEs 2024.3 and newer.
+    ]]></change-notes>
+
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
