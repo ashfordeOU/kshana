@@ -16,8 +16,9 @@
 //!
 //! Time handling: the SGP4 epoch is the TLE's own epoch (UTC); the analytic orbit
 //! takes an explicit `epoch`. UT1 drives Earth rotation (`dut1_s`, the UT1−UTC
-//! offset; default 0 ⇒ the DUT1≈0 approximation, a sub-arcsecond ground-track
-//! effect), TT drives precession/nutation, and `xp_arcsec`/`yp_arcsec` are the
+//! offset; default 0 ⇒ the DUT1≈0 approximation — a few-arcsecond, i.e.
+//! few-hundred-metre, longitude shift in the ground track), TT drives
+//! precession/nutation, and `xp_arcsec`/`yp_arcsec` are the
 //! IERS polar-motion pole coordinates (default 0). The frame chain is the one
 //! validated to the millimetre against the published Vallado vectors
 //! (`tests/frame_reference_vectors.rs`).
@@ -96,7 +97,8 @@ pub struct EphemerisScenario {
     pub duration_s: f64,
     #[serde(default)]
     pub station: Option<StationCfg>,
-    /// UT1−UTC (s); 0 ⇒ the DUT1≈0 approximation (sub-arcsecond ground-track effect).
+    /// UT1−UTC (s); 0 ⇒ the DUT1≈0 approximation (≤ ~13″, i.e. a few-hundred-metre,
+    /// longitude shift in the ground track).
     #[serde(default)]
     pub dut1_s: f64,
     /// IERS polar-motion pole coordinates (arcsec); default 0.
