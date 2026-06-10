@@ -27,15 +27,16 @@
 //!
 //! ## Scope (honest)
 //!
-//! This realizes the lunar **ME** frame (NAIF `IAU_MOON`), as the source PCK states. The
-//! GRAIL gravity fields (GRGM*) are strictly in the **principal-axis (PA)** frame; ME and PA
-//! differ by a fixed rotation of order arc-minutes (~0.003°), a documented residual
-//! systematic — not the JPL DE numerically-integrated libration (`MOON_PA` from a binary
-//! PCK), which is the higher-fidelity follow-on. Over a short OD arc that ME↔PA offset is a
-//! near-static field reorientation absorbed by the empirical-acceleration tier, so the
-//! reduced-dynamic fit is unaffected; the dynamic tier carries it as an honest residual.
+//! [`icrf_to_iau_moon`] realizes the lunar **ME** frame (NAIF `IAU_MOON`), as the source PCK
+//! states. The GRAIL gravity fields (GRGM*) are strictly in the **principal-axis (PA)** frame, so
+//! [`icrf_to_moon_pa`] composes the analytic ME orientation with the fixed DE421 ME→PA offset
+//! (`moon_080317.tf`); that is the rotation lunar OD uses to evaluate the field. The remaining
+//! limit is that the *analytic* IAU libration series is itself an approximation (tens of arc-
+//! seconds) of the JPL DE numerically-integrated lunar libration (`MOON_PA` from a binary PCK),
+//! the higher-fidelity follow-on — the dominant residual in `tests/agency_lro.rs`, alongside the
+//! low-precision built-in ephemeris.
 
-use crate::precession::Mat3;
+use crate::precession::{transpose, Mat3};
 
 /// Julian Date of the J2000.0 epoch (TT).
 const JD_J2000: f64 = 2_451_545.0;
@@ -136,6 +137,12 @@ fn rx(theta: f64) -> Mat3 {
     [[1.0, 0.0, 0.0], [0.0, c, s], [0.0, -s, c]]
 }
 
+/// Frame rotation about +y by `theta`.
+fn ry(theta: f64) -> Mat3 {
+    let (s, c) = theta.sin_cos();
+    [[c, 0.0, -s], [0.0, 1.0, 0.0], [s, 0.0, c]]
+}
+
 /// 3×3 matrix product `a·b`.
 fn matmul(a: &Mat3, b: &Mat3) -> Mat3 {
     let mut m = [[0.0; 3]; 3];
@@ -158,6 +165,30 @@ pub fn icrf_to_iau_moon(jd_tdb: f64) -> Mat3 {
     let half_pi = std::f64::consts::FRAC_PI_2;
     // R = Rz(W) · Rx(90°−δ) · Rz(90°+α).
     matmul(&matmul(&rz(w), &rx(half_pi - dec)), &rz(half_pi + ra))
+}
+
+/// The fixed DE421 rotation from the lunar **principal-axis (PA)** frame to the **mean-Earth
+/// (ME)** frame, `r_ME = R · r_PA`: the 1-2-3 Euler sequence (67.92″, 78.56″, 0.30″) about axes
+/// (3, 2, 1), transcribed from the NAIF frame kernel `moon_080317.tf` (`MOON_ME_DE421` relative
+/// to `MOON_PA_DE421`, `TKFRAME_31007`). SPICE `AXES = (3,2,1)` builds the matrix innermost-first,
+/// so `R = R_x(0.30″)·R_y(78.56″)·R_z(67.92″)` in the frame-rotation elementaries above.
+fn me_from_pa() -> Mat3 {
+    let a = (67.92_f64 / 3600.0).to_radians(); // about +z (axis 3), applied first
+    let b = (78.56_f64 / 3600.0).to_radians(); // about +y (axis 2)
+    let c = (0.30_f64 / 3600.0).to_radians(); // about +x (axis 1), applied last
+    matmul(&matmul(&rx(c), &ry(b)), &rz(a))
+}
+
+/// The rotation from inertial ICRF/J2000 to the lunar **principal-axis (PA / DE421)** frame at
+/// `jd_tdb` — the frame the GRAIL GRGM gravity fields are defined in. The IAU mean-Earth
+/// orientation ([`icrf_to_iau_moon`]) composed with the fixed DE421 ME→PA offset
+/// ([`me_from_pa`] transposed): `r_PA = (ME→PA) · (ICRF→ME) · r_icrf`. Use this — not the bare
+/// ME orientation — to evaluate a PA-frame lunar field, so the C₂₂ bulge sits at the right
+/// selenographic longitude (the ~arc-minute ME↔PA offset is otherwise a ~10 m along-track error
+/// over a few-revolution lunar arc).
+pub fn icrf_to_moon_pa(jd_tdb: f64) -> Mat3 {
+    let pa_from_me = transpose(&me_from_pa());
+    matmul(&pa_from_me, &icrf_to_iau_moon(jd_tdb))
 }
 
 #[cfg(test)]
@@ -280,6 +311,50 @@ mod tests {
                 "day {day}: Earth not toward +x (cos = {})",
                 bf[0]
             );
+        }
+    }
+
+    #[test]
+    fn principal_axis_frame_is_a_small_fixed_offset_from_mean_earth() {
+        // icrf_to_moon_pa = (ME→PA) · (ICRF→ME): a proper rotation that differs from the bare ME
+        // orientation by the fixed DE421 offset — small (the composite of 67.92″/78.56″/0.30″,
+        // ~arc-minute), constant in time, and orthonormal.
+        let jd = jd_2022_001();
+        let pa = icrf_to_moon_pa(jd);
+        let me = icrf_to_iau_moon(jd);
+        // Proper rotation.
+        let prod = matmul(&transpose(&pa), &pa);
+        for (i, row) in prod.iter().enumerate() {
+            for (j, &e) in row.iter().enumerate() {
+                let want = if i == j { 1.0 } else { 0.0 };
+                assert!((e - want).abs() < 1e-12, "PAᵀPA[{i}][{j}] = {e}");
+            }
+        }
+        // Difference from ME: apply both to a test vector; the angle between them is the fixed
+        // offset, of order arc-minutes (between 50″ ≈ 2.4e-4 rad and 3′ ≈ 9e-4 rad).
+        let r = [1.50e6, 0.70e6, 0.55e6];
+        let rp = mat_vec(&pa, r);
+        let rm = mat_vec(&me, r);
+        let n = norm(r);
+        let diff = norm([rp[0] - rm[0], rp[1] - rm[1], rp[2] - rm[2]]) / n;
+        assert!(
+            (1e-4..1e-3).contains(&diff),
+            "ME↔PA offset {diff} rad off the ~arc-minute band"
+        );
+        // The offset *rotation* PA·MEᵀ is the fixed DE421 ME→PA matrix, identical at any epoch
+        // (its manifestation on a fixed inertial vector rotates with the Moon, but the matrix
+        // itself does not).
+        let off1 = matmul(&pa, &transpose(&me));
+        let pa2 = icrf_to_moon_pa(jd + 28.0);
+        let me2 = icrf_to_iau_moon(jd + 28.0);
+        let off2 = matmul(&pa2, &transpose(&me2));
+        for (r1, r2) in off1.iter().zip(off2.iter()) {
+            for (a, b) in r1.iter().zip(r2.iter()) {
+                assert!(
+                    (a - b).abs() < 1e-12,
+                    "ME→PA offset matrix not time-invariant"
+                );
+            }
         }
     }
 
