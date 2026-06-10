@@ -35,6 +35,7 @@ use crate::forces::{
     MU_SUN,
 };
 use crate::gravity_sh::SphericalHarmonicField;
+use crate::integrator::{integrate_dopri, Tolerance};
 use crate::precession::{julian_centuries_tt, mat_vec, transpose, Mat3};
 use crate::tides::tidal_acceleration;
 use crate::timescales::SECONDS_PER_DAY;
@@ -367,6 +368,131 @@ impl PreciseForceModel {
         let (sun, moon) = self.ephem(jd_tt);
         self.accel_with(jd_tt, &m, sun, moon, r, v)
     }
+
+    /// The 6×6 dynamics matrix `A = ∂f/∂x` (with `x = [r; v]`, `f = [v; a]`) at time `t`, state
+    /// `(r, v)`. The upper-right block is the identity (`ṙ = v`); the lower blocks `∂a/∂r` and
+    /// `∂a/∂v` are evaluated by central finite difference of the acceleration. The frame and
+    /// Sun/Moon ephemeris are computed once and shared across the twelve perturbed evaluations, so
+    /// the (expensive) nutation/ephemeris is not recomputed per column.
+    fn dynamics_matrix(&self, t: f64, r: Vec3, v: Vec3) -> [[f64; 6]; 6] {
+        let jd_tt = self.epoch_jd_tt + t / SECONDS_PER_DAY;
+        let m = self.frame(jd_tt);
+        let (sun, moon) = self.ephem(jd_tt);
+        let accel = |r: Vec3, v: Vec3| self.accel_with(jd_tt, &m, sun, moon, r, v);
+
+        let mut a_mat = [[0.0; 6]; 6];
+        // ṙ = v ⇒ ∂ṙ/∂v = I.
+        for i in 0..3 {
+            a_mat[i][i + 3] = 1.0;
+        }
+        // ∂a/∂r (metre step ≈ 1e-7 relative at LEO) and ∂a/∂v (mm/s step).
+        let hr = 1.0;
+        let hv = 1.0e-3;
+        for j in 0..3 {
+            let (mut rp, mut rm) = (r, r);
+            rp[j] += hr;
+            rm[j] -= hr;
+            let (ap, am) = (accel(rp, v), accel(rm, v));
+            let (mut vp, mut vm) = (v, v);
+            vp[j] += hv;
+            vm[j] -= hv;
+            let (apv, amv) = (accel(r, vp), accel(r, vm));
+            for i in 0..3 {
+                a_mat[3 + i][j] = (ap[i] - am[i]) / (2.0 * hr); // ∂a_i/∂r_j
+                a_mat[3 + i][3 + j] = (apv[i] - amv[i]) / (2.0 * hv); // ∂a_i/∂v_j
+            }
+        }
+        a_mat
+    }
+}
+
+/// Numerically propagate the inertial state `(r0, v0)` (m, m/s) forward by `t_end` seconds under
+/// the precise force model `fm`, with the Dormand–Prince driver to tolerance `tol`. Returns the
+/// final `(r, v)`.
+pub fn propagate(
+    fm: &PreciseForceModel,
+    r0: Vec3,
+    v0: Vec3,
+    t_end: f64,
+    tol: &Tolerance,
+) -> (Vec3, Vec3) {
+    let f = |t: f64, y: &[f64]| {
+        let a = fm.accel_rv(t, [y[0], y[1], y[2]], [y[3], y[4], y[5]]);
+        vec![y[3], y[4], y[5], a[0], a[1], a[2]]
+    };
+    let y0 = vec![r0[0], r0[1], r0[2], v0[0], v0[1], v0[2]];
+    let h0 = (t_end / 1000.0).max(1.0).min(t_end.max(1e-3));
+    let sol = integrate_dopri(&f, 0.0, &y0, t_end, h0, tol);
+    (
+        [sol.y[0], sol.y[1], sol.y[2]],
+        [sol.y[3], sol.y[4], sol.y[5]],
+    )
+}
+
+/// Propagate `(r0, v0)` to `t_end` while integrating the 6×6 **state-transition matrix** Φ
+/// alongside the state via the variational equations `Φ̇ = A(t, x)·Φ`, `Φ(0) = I`. Returns the
+/// final `(r, v, Φ)`, where `Φ[i][j] = ∂x_i(t_end)/∂x0_j` with `x = [r; v]`.
+///
+/// The augmented 42-vector `[r(3); v(3); Φ(36, row-major)]` is integrated by the same
+/// Dormand–Prince driver; `A` is the numerically-evaluated [`PreciseForceModel::dynamics_matrix`].
+/// This single forward integration yields the position partials at every observation epoch the
+/// batch estimator needs, and is cross-checked against whole-arc finite difference.
+pub fn propagate_with_stm(
+    fm: &PreciseForceModel,
+    r0: Vec3,
+    v0: Vec3,
+    t_end: f64,
+    tol: &Tolerance,
+) -> (Vec3, Vec3, [[f64; 6]; 6]) {
+    // y = [r(3); v(3); Φ row-major(36)].
+    let mut y0 = vec![0.0; 42];
+    y0[0..3].copy_from_slice(&r0);
+    y0[3..6].copy_from_slice(&v0);
+    for i in 0..6 {
+        y0[6 + i * 6 + i] = 1.0; // Φ(0) = I
+    }
+    if t_end == 0.0 {
+        let mut phi = [[0.0; 6]; 6];
+        for (i, row) in phi.iter_mut().enumerate() {
+            row[i] = 1.0;
+        }
+        return (r0, v0, phi);
+    }
+
+    let f = |t: f64, y: &[f64]| {
+        let r = [y[0], y[1], y[2]];
+        let v = [y[3], y[4], y[5]];
+        let a = fm.accel_rv(t, r, v);
+        let a_mat = fm.dynamics_matrix(t, r, v);
+        let mut dy = vec![0.0; 42];
+        dy[0..3].copy_from_slice(&v);
+        dy[3..6].copy_from_slice(&a);
+        // Φ̇ = A·Φ, both 6×6 (Φ at y[6 + i*6 + j]).
+        for i in 0..6 {
+            for j in 0..6 {
+                let mut s = 0.0;
+                for (k, arow) in a_mat[i].iter().enumerate() {
+                    s += arow * y[6 + k * 6 + j];
+                }
+                dy[6 + i * 6 + j] = s;
+            }
+        }
+        dy
+    };
+
+    let h0 = (t_end / 1000.0).max(1.0).min(t_end.max(1e-3));
+    let sol = integrate_dopri(&f, 0.0, &y0, t_end, h0, tol);
+    let mut phi = [[0.0; 6]; 6];
+    for (i, row) in phi.iter_mut().enumerate() {
+        for (j, e) in row.iter_mut().enumerate() {
+            *e = sol.y[6 + i * 6 + j];
+        }
+    }
+    (
+        [sol.y[0], sol.y[1], sol.y[2]],
+        [sol.y[3], sol.y[4], sol.y[5]],
+        phi,
+    )
 }
 
 #[cfg(test)]
