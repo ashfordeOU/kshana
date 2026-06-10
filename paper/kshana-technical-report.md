@@ -30,8 +30,11 @@ abstract: |
   augmentation, time transfer, alternative PNT, and cislunar geometry), and the external
   validation: SGP4/SDP4 agreement to 4.12 mm against all 666 AIAA 2006-6753 reference
   states, bit-for-bit agreement with the IAU SOFA/ERFA reference frame transformations,
-  Allan-deviation agreement with the NIST/Stable32 NBS14 reference, and inertial
-  error-growth agreement with the NaveGo reference profile. We close with worked
+  Allan-deviation agreement with the NIST/Stable32 NBS14 reference, inertial
+  error-growth agreement with the NaveGo reference profile, and reference-grade precise
+  orbit determination that fits real ESA and NASA precise orbits to the decimetre level
+  (Galileo MEO 0.13 m, Swarm-A LEO 0.10 m), with the lunar case (LRO, 6.6 m) reported
+  honestly above the 5 m bar. We close with worked
   resilience case studies, a candid account of the tool's limitations, and the roadmap.
 keywords: [PNT, GNSS, resilient navigation, quantum sensors, optical clocks, cold-atom interferometry, SGP4, reference frames, integrity, ARAIM, reproducibility, Rust, WebAssembly]
 ---
@@ -246,6 +249,25 @@ configurable force model: an EGM2008 spherical-harmonic geopotential to degree a
 general-relativistic correction. The numerical propagator is used where mean-element theory
 is insufficient and is verified against the universal-variable Kepler solution.
 
+On top of the numerical propagator Kshana builds a **reference-grade precise
+orbit-determination (POD) engine** [@montenbruck2000], used to validate the force model
+against real agency precise-orbit products rather than against analytic forms alone. The
+POD force model extends the propagator with the solid-Earth, ocean, and atmospheric **tides**
+of the IERS Conventions 2010 [@petit2010iers], a high-degree geopotential (EGM2008 for Earth,
+and the GRAIL **GRGM660PRIM** field for the Moon [@lemoine2013grail]), conical-shadow
+solar-radiation pressure with an estimated reflectivity coefficient, and the Schwarzschild
+and Lense–Thirring relativistic terms. The estimator itself is a Gauss–Newton batch
+least-squares fit with a **variational state-transition matrix** (cross-checked against a
+whole-arc finite difference to better than 1 × 10⁻⁶), inverse-variance observation
+weighting, n-sigma outlier editing, and an optional reduced-dynamic tier of cycle-per-revolution
+empirical accelerations (one- and two-per-rev). The same generic estimator (the
+`precise_od::ForceModel` trait) fits an Earth satellite or, through a distinct Moon-centred
+force model evaluating the GRAIL field in the lunar body-fixed principal-axis frame (the IAU
+2015 mean-Earth orientation composed with the fixed DE421 mean-Earth→principal-axis offset),
+a lunar orbiter — so the selenocentric validation reuses, rather than re-implements, the
+Earth machinery. The corresponding residuals against ESA and NASA reference orbits are
+reported in Section 5.4.
+
 ## 4.2 Time scales and reference frames
 
 Navigation lives or dies on consistent time and frames. Kshana implements the UTC/TAI/TT/UT1
@@ -353,6 +375,42 @@ reference (via the pure-Rust ANISE reimplementation) for the celestial-to-terres
 rotation, agreeing to the metre level over a representative GNSS orbit. Independent
 agreement across two unrelated implementations is stronger evidence than either alone.
 
+## 5.4 Reference-grade precise orbit determination against agency products
+
+The strongest external test of the force model is to fit it, through the batch estimator of
+Section 4.1, to **real agency precise-orbit products** and report the post-fit residual. The
+observations are the published orbit fixes; the dynamics use the same IERS Earth-orientation
+data as the observations; and every residual is reported in radial/along-track/cross-track
+(RTN) and 3-D, with the raw (no-fit) overlap alongside. Three regimes are covered —
+medium- and low-Earth orbit, and a distinct Moon-centred regime:
+
+| Dataset | Regime | Product | n_obs | 3-D RMS (dynamic) | 3-D RMS (reduced-dynamic) | Bar |
+| --- | --- | --- | --- | --- | --- | --- |
+| Galileo E11 | MEO | ESA/ESOC `ESA0MGNFIN` (ITRF) | 97 | **0.13 m** | 0.07 m | < 5 m ✓ |
+| Swarm-A | LEO (~430 km) | ESA L2 `SW_OPER_SP3ACOM_2_` (~2 cm) | 181 | 2.69 m | **0.10 m** | < 5 m ✓ |
+| LRO (NAIF −85) | Lunar (~98 km) | JPL Horizons reconstruction [@giorgini1996horizons] | 241 | 12.6 m | **6.6 m** | honest, > 5 m |
+
+For the Galileo medium-Earth orbit the pure-force (state + reflectivity) fit reaches
+**13 cm** against ESA/ESOC's final multi-GNSS orbit, and the empirical tier halves it to
+7 cm. For the Swarm-A low-Earth orbit the dynamic fit is dominated by an along-track
+signature — the textbook drag residual at ~430 km with a static density model — that the
+reduced-dynamic empirical tier absorbs to **~10 cm** against ESA's own ~2 cm science orbit.
+Both Earth regimes clear the 5 m reference-grade bar comfortably.
+
+The lunar case is reported **honestly above the bar**. Fitting the GRAIL field in the lunar
+body-fixed frame to a real Lunar Reconnaissance Orbiter arc from JPL Horizons gives a
+**12.6 m** dynamic and **6.6 m** reduced-dynamic (one- and two-per-rev) residual. The
+limiting factor is demonstrably *not* the estimator but the fidelity of the built-in lunar
+orientation and ephemeris: the analytic IAU 2015 libration series (accurate to tens of
+arc-seconds versus the JPL DE numerically integrated principal-axis frame) and the analytic
+Montenbruck–Gill Earth/Sun ephemeris leave a roughly isotropic ~7 m floor that is unchanged
+by field degree (identical at degree/order 100 and 150), by integrator tolerance (1 × 10⁻⁶
+versus 1 × 10⁻⁹), and by the empirical tier (6.9 → 6.6 m for the second cycle-per-rev term).
+Metre-level selenocentric OD is the documented follow-on — DE-grade lunar orientation and
+ephemeris via a binary planetary kernel — and is the single lever not yet pulled. We report
+the 6.6 m figure as-is rather than tune a parameter to manufacture a sub-5 m number, in
+keeping with the honesty contract.
+
 # 6. Reproducibility and Software Quality
 
 Kshana is engineered as research software intended to be trusted and reused. The repository
@@ -429,9 +487,16 @@ We state the limits plainly, in keeping with the tool's honesty contract.
   and the engine inherits any optimism in its sources. The provenance ledger makes those
   sources explicit precisely so a reader can judge them.
 - **Validated ≠ comprehensive.** The validation oracles cover propagation, frames,
-  frequency stability, geometry, and inertial error growth. Other quantities are labelled
-  *modeled* rather than *validated*; integrity protection levels, for instance, are computed
-  against modelled error distributions, not certified against real fault data.
+  frequency stability, geometry, inertial error growth, and precise orbit determination
+  against agency products. Other quantities are labelled *modeled* rather than *validated*;
+  integrity protection levels, for instance, are computed against modelled error
+  distributions, not certified against real fault data.
+- **Selenocentric OD is fidelity-limited, and said so.** The lunar precise-OD residual
+  (Section 5.4) is 6.6 m, *above* the 5 m bar the Earth datasets clear, because the engine's
+  analytic lunar orientation and ephemeris — chosen to keep the build dependency-light and
+  fully reproducible without binary kernels — impose a ~7 m floor. The path to metre level
+  (DE-grade orientation and ephemeris) is identified but deliberately deferred; the figure is
+  published unmodified.
 - **Scope boundaries.** Kshana does not process raw signals, does not perform certified
   integrity, and does not replace high-fidelity mission-design astrodynamics; it
   deliberately occupies the upstream performance-simulation layer and interoperates with
@@ -452,8 +517,9 @@ the IAU SOFA/ERFA frame routines, the NIST/Stable32 stability references, and th
 inertial profiles — and it runs anywhere, from a native binary to a browser tab.
 
 Planned work includes hardware-in-the-loop comparison against real sensor logs, expansion
-of the validated (as opposed to modelled) figure set, deeper cislunar integrity modelling,
-and external community validation through peer review and reuse. We invite practitioners to
+of the validated (as opposed to modelled) figure set, metre-level selenocentric orbit
+determination via DE-grade lunar orientation and ephemeris, deeper cislunar integrity
+modelling, and external community validation through peer review and reuse. We invite practitioners to
 reproduce, contest, and extend the results: the engine, the scenarios, and the validation
 are all open.
 
