@@ -570,8 +570,15 @@ fn propagate_samples(
 /// Configuration for a [`fit`] solve.
 #[derive(Clone, Debug)]
 pub struct FitConfig {
-    /// Estimate the SRP coefficient `C_R` as a seventh parameter (the template must enable SRP).
+    /// Estimate the SRP coefficient `C_R` as an additional parameter (the template must enable SRP).
     pub estimate_cr: bool,
+    /// Estimate the nine RTN constant + once-per-rev empirical-acceleration parameters as a second
+    /// tier (a-priori constrained by [`empirical_sigma`](Self::empirical_sigma)).
+    pub estimate_empirical: bool,
+    /// A-priori 1σ on each empirical-acceleration amplitude (m/s²), a pseudo-stochastic constraint
+    /// pulling the empirical tier toward zero unless the data demands otherwise (≤ 0 = unconstrained).
+    /// This regularises the (otherwise near-degenerate) constant-along-track vs velocity trade.
+    pub empirical_sigma: f64,
     /// Maximum Gauss–Newton iterations.
     pub max_iter: usize,
     /// n-sigma outlier-editing threshold on the post-fit 3-D residual (≤ 0 disables editing).
@@ -584,6 +591,8 @@ impl Default for FitConfig {
     fn default() -> Self {
         Self {
             estimate_cr: false,
+            estimate_empirical: false,
+            empirical_sigma: 1e-7,
             max_iter: 20,
             outlier_sigma: 0.0,
             tol: Tolerance {
@@ -592,6 +601,24 @@ impl Default for FitConfig {
                 ..Tolerance::default()
             },
         }
+    }
+}
+
+/// Read the `k`-th empirical amplitude (0–2 radial, 3–5 transverse, 6–8 normal).
+fn emp_get(e: &EmpiricalAccel, k: usize) -> f64 {
+    match k {
+        0..=2 => e.radial[k],
+        3..=5 => e.transverse[k - 3],
+        _ => e.normal[k - 6],
+    }
+}
+
+/// Write the `k`-th empirical amplitude (0–2 radial, 3–5 transverse, 6–8 normal).
+fn emp_set(e: &mut EmpiricalAccel, k: usize, v: f64) {
+    match k {
+        0..=2 => e.radial[k] = v,
+        3..=5 => e.transverse[k - 3] = v,
+        _ => e.normal[k - 6] = v,
     }
 }
 
@@ -622,10 +649,13 @@ pub fn fit(
     let times: Vec<f64> = obs.iter().map(|o| o.t).collect();
     let n_obs_total = obs.len();
 
-    let n_params = 6 + cfg.estimate_cr as usize;
+    let n_emp = if cfg.estimate_empirical { 9 } else { 0 };
+    let emp_base = 6 + cfg.estimate_cr as usize;
+    let n_params = emp_base + n_emp;
     let mut r0 = initial.r0;
     let mut v0 = initial.v0;
     let mut cr = initial.cr.unwrap_or(template.cr);
+    let mut emp = initial.empirical.unwrap_or_default();
 
     let mut edited = vec![false; n_obs_total];
     let mut did_edit = false;
@@ -636,9 +666,11 @@ pub fn fit(
         iterations = it + 1;
         let mut fm = template.clone();
         fm.cr = cr;
-        if let Some(e) = initial.empirical {
-            fm.empirical = Some(e);
-        }
+        fm.empirical = if cfg.estimate_empirical {
+            Some(emp)
+        } else {
+            initial.empirical
+        };
 
         let preds = propagate_with_stm_samples(&fm, r0, v0, &times, &cfg.tol);
 
@@ -666,6 +698,35 @@ pub fn fit(
             None
         };
 
+        // Empirical-acceleration partials by forward difference against a nominal propagation. The
+        // empirical force is linear in its amplitudes, so a forward difference is exact to rounding
+        // (no truncation error), at one propagation per active parameter.
+        let emp_partials: Vec<Vec<Vec3>> = if cfg.estimate_empirical {
+            let nominal = propagate_samples(&fm, r0, v0, &times, &cfg.tol);
+            let damp = 1e-9;
+            (0..9)
+                .map(|k| {
+                    let mut ep = emp;
+                    emp_set(&mut ep, k, emp_get(&emp, k) + damp);
+                    let mut fmp = fm.clone();
+                    fmp.empirical = Some(ep);
+                    let pp = propagate_samples(&fmp, r0, v0, &times, &cfg.tol);
+                    pp.iter()
+                        .zip(&nominal)
+                        .map(|(a, b)| {
+                            [
+                                (a[0] - b[0]) / damp,
+                                (a[1] - b[1]) / damp,
+                                (a[2] - b[2]) / damp,
+                            ]
+                        })
+                        .collect()
+                })
+                .collect()
+        } else {
+            Vec::new()
+        };
+
         // Weighted normal equations over the non-edited observations.
         let mut ata = vec![vec![0.0; n_params]; n_params];
         let mut atb = vec![0.0; n_params];
@@ -681,10 +742,15 @@ pub fn fit(
                 ob.pos[2] - state6[2],
             ];
             for axis in 0..3 {
-                let mut row = [0.0; 7];
+                let mut row = vec![0.0; n_params];
                 row[..6].copy_from_slice(&phi[axis][..6]);
                 if let Some(cp) = &cr_partial {
                     row[6] = cp[i][axis];
+                }
+                if cfg.estimate_empirical {
+                    for k in 0..9 {
+                        row[emp_base + k] = emp_partials[k][i][axis];
+                    }
                 }
                 for p in 0..n_params {
                     atb[p] += row[p] * w * resid[axis];
@@ -692,6 +758,15 @@ pub fn fit(
                         ata[p][q] += row[p] * w * row[q];
                     }
                 }
+            }
+        }
+
+        // A-priori (pseudo-stochastic) constraint pulling each empirical amplitude toward zero.
+        if cfg.estimate_empirical && cfg.empirical_sigma > 0.0 {
+            let wa = 1.0 / (cfg.empirical_sigma * cfg.empirical_sigma);
+            for k in 0..9 {
+                ata[emp_base + k][emp_base + k] += wa;
+                atb[emp_base + k] += wa * (0.0 - emp_get(&emp, k));
             }
         }
 
@@ -705,6 +780,12 @@ pub fn fit(
         }
         if cfg.estimate_cr {
             cr += dx[6];
+        }
+        if cfg.estimate_empirical {
+            for k in 0..9 {
+                let cur = emp_get(&emp, k);
+                emp_set(&mut emp, k, cur + dx[emp_base + k]);
+            }
         }
 
         let dpos = (dx[0] * dx[0] + dx[1] * dx[1] + dx[2] * dx[2]).sqrt();
@@ -761,9 +842,11 @@ pub fn fit(
     // Final report: residuals over the used observations at the converged state.
     let mut fm = template.clone();
     fm.cr = cr;
-    if let Some(e) = initial.empirical {
-        fm.empirical = Some(e);
-    }
+    fm.empirical = if cfg.estimate_empirical {
+        Some(emp)
+    } else {
+        initial.empirical
+    };
     let preds = propagate_with_stm_samples(&fm, r0, v0, &times, &cfg.tol);
     let (mut sum3d, mut used) = (0.0, 0usize);
     let mut sum_rtn = [0.0; 3];
@@ -806,7 +889,11 @@ pub fn fit(
             r0,
             v0,
             cr: cfg.estimate_cr.then_some(cr),
-            empirical: initial.empirical,
+            empirical: if cfg.estimate_empirical {
+                Some(emp)
+            } else {
+                initial.empirical
+            },
         },
     })
 }
