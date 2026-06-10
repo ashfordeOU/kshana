@@ -199,3 +199,132 @@ fn precise_force_constant_radial_empirical_points_along_r() {
         "empirical RTN {rtn:?}"
     );
 }
+
+/// A circular inclined LEO orbit and its period, for the STM and self-recovery tests.
+fn circular_leo() -> ([f64; 3], [f64; 3], f64) {
+    let mu = 3.986_004_418e14_f64;
+    let a = 7.0e6;
+    let vc = (mu / a).sqrt();
+    let inc = 51.6_f64.to_radians();
+    let r0 = [a, 0.0, 0.0];
+    let v0 = [0.0, vc * inc.cos(), vc * inc.sin()];
+    let period = std::f64::consts::TAU * (a * a * a / mu).sqrt();
+    (r0, v0, period)
+}
+
+/// THE correctness gate for the variational state-transition matrix: each column of Φ — the
+/// sensitivity of the half-orbit final state to a perturbation of one initial component — must
+/// match an independent whole-arc central finite-difference re-propagation. Agreement to ~1e-6
+/// validates that Φ̇ = A·Φ was integrated faithfully (a numerically-evaluated A across the full
+/// perturbed force model), the documented STM↔FD cross-check.
+#[test]
+fn variational_stm_columns_match_whole_arc_finite_difference() {
+    use kshana::integrator::Tolerance;
+    use kshana::precise_od::{propagate, propagate_with_stm, PreciseForceModel};
+    use kshana::timescales::JD_J2000;
+
+    let (r0, v0, period) = circular_leo();
+    let t_half = period / 2.0;
+    // A genuinely perturbed, smooth force model: degree-8 geopotential + Sun + Moon third body.
+    let fm = PreciseForceModel::egm2008(8, JD_J2000).third_body(true, true);
+    let tol = Tolerance {
+        rtol: 1e-12,
+        atol: 1e-12,
+        ..Tolerance::default()
+    };
+
+    let (_rf, _vf, phi) = propagate_with_stm(&fm, r0, v0, t_half, &tol);
+
+    // Each of the 6 columns by central finite difference of the nonlinear flow.
+    let x0 = [r0[0], r0[1], r0[2], v0[0], v0[1], v0[2]];
+    let mut worst_pos_rel = 0.0_f64;
+    let mut worst_vel_rel = 0.0_f64;
+    for j in 0..6 {
+        let h = if j < 3 { 1.0 } else { 1.0e-3 };
+        let mut xp = x0;
+        let mut xm = x0;
+        xp[j] += h;
+        xm[j] -= h;
+        let (rp, vp) = propagate(
+            &fm,
+            [xp[0], xp[1], xp[2]],
+            [xp[3], xp[4], xp[5]],
+            t_half,
+            &tol,
+        );
+        let (rm, vm) = propagate(
+            &fm,
+            [xm[0], xm[1], xm[2]],
+            [xm[3], xm[4], xm[5]],
+            t_half,
+            &tol,
+        );
+        // FD column (response to a unit perturbation in component j).
+        let fd = [
+            (rp[0] - rm[0]) / (2.0 * h),
+            (rp[1] - rm[1]) / (2.0 * h),
+            (rp[2] - rm[2]) / (2.0 * h),
+            (vp[0] - vm[0]) / (2.0 * h),
+            (vp[1] - vm[1]) / (2.0 * h),
+            (vp[2] - vm[2]) / (2.0 * h),
+        ];
+        // Φ column j.
+        let col = [
+            phi[0][j], phi[1][j], phi[2][j], phi[3][j], phi[4][j], phi[5][j],
+        ];
+        let pos_fd = vnorm([fd[0], fd[1], fd[2]]);
+        let pos_err = vnorm([col[0] - fd[0], col[1] - fd[1], col[2] - fd[2]]);
+        let vel_fd = vnorm([fd[3], fd[4], fd[5]]);
+        let vel_err = vnorm([col[3] - fd[3], col[4] - fd[4], col[5] - fd[5]]);
+        if pos_fd > 0.0 {
+            worst_pos_rel = worst_pos_rel.max(pos_err / pos_fd);
+        }
+        if vel_fd > 0.0 {
+            worst_vel_rel = worst_vel_rel.max(vel_err / vel_fd);
+        }
+    }
+    assert!(
+        worst_pos_rel < 1e-6,
+        "STM position-response disagreement {worst_pos_rel:e} (want <1e-6)"
+    );
+    assert!(
+        worst_vel_rel < 1e-6,
+        "STM velocity-response disagreement {worst_vel_rel:e} (want <1e-6)"
+    );
+}
+
+/// Φ(0) = I and the state returned by `propagate_with_stm` agrees with the plain state propagator
+/// — the augmented integration does not perturb the trajectory it carries.
+#[test]
+fn variational_stm_identity_at_epoch_and_state_consistency() {
+    use kshana::integrator::Tolerance;
+    use kshana::precise_od::{propagate, propagate_with_stm, PreciseForceModel};
+    use kshana::timescales::JD_J2000;
+    let (r0, v0, period) = circular_leo();
+    let fm = PreciseForceModel::egm2008(6, JD_J2000);
+    let tol = Tolerance {
+        rtol: 1e-12,
+        atol: 1e-12,
+        ..Tolerance::default()
+    };
+    // Φ(0) = I.
+    let (_r, _v, phi0) = propagate_with_stm(&fm, r0, v0, 0.0, &tol);
+    for (i, row) in phi0.iter().enumerate() {
+        for (j, &e) in row.iter().enumerate() {
+            let want = if i == j { 1.0 } else { 0.0 };
+            assert!((e - want).abs() < 1e-12, "Φ(0)[{i}][{j}] ≠ I");
+        }
+    }
+    // State consistency over a third of an orbit. The plain 6-vector propagator and the
+    // augmented 42-vector one are independent adaptive integrations of the same state ODE, so they
+    // agree only to the tolerance level (their step paths differ because Φ enters the error norm),
+    // not to machine precision — sub-millimetre agreement here confirms the augmented integration
+    // carries the same trajectory.
+    let t = period / 3.0;
+    let (rs, vs) = propagate(&fm, r0, v0, t, &tol);
+    let (rstm, vstm, _) = propagate_with_stm(&fm, r0, v0, t, &tol);
+    let dr = vnorm(sub(rs, rstm));
+    let dv = vnorm(sub(vs, vstm));
+    assert!(dr < 1e-3, "state position mismatch {dr:e} m");
+    assert!(dv < 1e-6, "state velocity mismatch {dv:e} m/s");
+}
