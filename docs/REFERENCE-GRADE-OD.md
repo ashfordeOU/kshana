@@ -117,24 +117,24 @@ Earth datasets use (the `precise_od::ForceModel` trait).
 | Run | Arc | d/o | n_obs | 3-D RMS | RTN (R, T, N) | Notes |
 |-----|-----|-----|-------|---------|---------------|-------|
 | CI fixture, dynamic (state only)        | 4 h | 100 | 241 | **12.6 m** | 3.07, 10.19, 6.81 m | raw overlap 53.8 m |
-| CI fixture, reduced-dynamic (+empirical) | 4 h | 100 | 241 | **6.9 m**  | 3.47, 4.90, 3.36 m  | empirical absorbs the along-track |
+| CI fixture, reduced-dynamic (+empirical 1+2/rev) | 4 h | 100 | 241 | **6.6 m**  | 3.49, 4.56, 3.35 m  | 1- and 2-per-rev empirical absorb the along-track |
 
 These residuals are **above** the 5 m bar Galileo (0.13 m) and Swarm-A (0.10 m) clear, and are
 reported honestly. The limiting factor is the fidelity of the **lunar orientation and
 ephemeris**, not the estimator: the *analytic* IAU libration series (accurate to tens of
 arc-seconds vs the JPL DE numerically-integrated `MOON_PA`) and the built-in Montenbruck–Gill
 Earth/Sun ephemeris (~0.3° vs a DE/SPICE kernel) leave a roughly isotropic ~7 m floor that no
-amount of field degree, frame correction, or integrator tightening removes (all were tried; the
-dynamic residual is identical at d/o 100 and 150 and at `atol` 1e-6 vs 1e-9). Metre-level
-selenocentric OD is the documented follow-on: DE-grade lunar orientation and ephemeris (a binary
-PCK / SPK via the optional ANISE path), and a 2-per-revolution empirical tier for the
-sectoral-gravity-orientation residual.
+amount of field degree, frame correction, empirical tier, or integrator tightening removes (all
+were tried; the dynamic residual is identical at d/o 100 and 150 and at `atol` 1e-6 vs 1e-9, and
+adding the **2-per-revolution** empirical tier only moves the reduced-dynamic fit 6.9 → 6.6 m).
+Metre-level selenocentric OD is the documented follow-on: DE-grade lunar orientation and
+ephemeris (a binary PCK / SPK via the optional ANISE path), the one lever not yet pulled.
 
 ## Honesty contract
 
 - The < 5 m "green" bar is met for **Galileo MEO** (0.13 m dynamic) and **Swarm-A LEO**
   (2.69 m dynamic / 0.10 m reduced-dynamic). **LRO lunar is published as-is at 12.6 m dynamic /
-  6.9 m reduced-dynamic — above the bar** — with the limiting fidelity factor (analytic lunar
+  6.6 m reduced-dynamic (1+2-per-rev empirical) — above the bar** — with the limiting fidelity factor (analytic lunar
   orientation + low-precision ephemeris) stated and the path to metre level documented.
 - For LEO, the **dynamic** (state-only, static density) and **reduced-dynamic** (with
   empirical accelerations) tiers are always reported **separately**, so the reader sees
@@ -142,4 +142,4 @@ sectoral-gravity-orientation residual.
   same separation holds for the MEO empirical/pure-force tiers.
 - Every residual carries its commit hash, dataset reference, and fixture checksum above.
 - **Datasets validated against real agency truth: 3 of 3** (Galileo MEO, Swarm-A LEO, LRO lunar).
-  **Meeting the < 5 m bar: 2 of 3** (Galileo ✓, Swarm-A ✓; LRO at 6.9 m, honestly above it).
+  **Meeting the < 5 m bar: 2 of 3** (Galileo ✓, Swarm-A ✓; LRO at 6.6 m, honestly above it).
