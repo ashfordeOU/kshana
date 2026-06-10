@@ -564,7 +564,10 @@ fn propagate_with_stm_samples(
 /// Propagate `(r0, v0)` and sample only the **position** at each time in `times` (sorted, ≥ 0) —
 /// the cheap path used for the finite-difference partials of the non-state parameters (`C_R`,
 /// empirical accelerations).
-fn propagate_samples(
+/// Propagate `(r0, v0)` once and sample the position at each of `times` (ascending,
+/// epoch-relative seconds), marching segment-by-segment in a single forward pass — the
+/// efficient way to get a no-fit "overlap" trajectory against many observation epochs.
+pub fn propagate_samples(
     fm: &PreciseForceModel,
     r0: Vec3,
     v0: Vec3,
