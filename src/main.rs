@@ -4,10 +4,11 @@ use std::process::ExitCode;
 
 fn main() -> ExitCode {
     let args: Vec<String> = std::env::args().collect();
-    // usage: kshana <scenario.toml> [--export-sp3 <out.sp3>] [--export-omm <out.omm>]
+    // usage: kshana <scenario.toml> [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>]
     let mut positional: Option<String> = None;
     let mut export_sp3_path: Option<PathBuf> = None;
     let mut export_omm_path: Option<PathBuf> = None;
+    let mut export_oem_path: Option<PathBuf> = None;
     let mut i = 1;
     while i < args.len() {
         match args[i].as_str() {
@@ -31,6 +32,16 @@ fn main() -> ExitCode {
                     }
                 }
             }
+            "--export-oem" => {
+                i += 1;
+                match args.get(i) {
+                    Some(p) => export_oem_path = Some(PathBuf::from(p)),
+                    None => {
+                        eprintln!("error: --export-oem needs a path");
+                        return ExitCode::from(2);
+                    }
+                }
+            }
             other if positional.is_none() => positional = Some(other.to_string()),
             other => {
                 eprintln!("error: unexpected argument '{other}'");
@@ -41,7 +52,7 @@ fn main() -> ExitCode {
     }
     let Some(scenario_arg) = positional else {
         eprintln!(
-            "usage: kshana <scenario.toml> [--export-sp3 <out.sp3>] [--export-omm <out.omm>]"
+            "usage: kshana <scenario.toml> [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>]"
         );
         return ExitCode::from(2);
     };
@@ -127,6 +138,31 @@ fn main() -> ExitCode {
             }
             Err(e) => {
                 eprintln!("error: OMM export failed: {e}");
+                return ExitCode::FAILURE;
+            }
+        }
+    }
+
+    // OEM export: an explicit `--export-oem <path>`, or the scenario's `export_oem`
+    // option which auto-writes `<scenario>.oem`. Both require an orbit scenario. OEM
+    // carries the full inertial state (position AND velocity), unlike SP3.
+    let oem_target = match (&export_oem_path, kshana::api::auto_export_oem(&src)) {
+        (Some(p), _) => Some((p.clone(), kshana::api::export_oem(&src))),
+        (None, Ok(Some(text))) => Some((path.with_extension("oem"), Ok(text))),
+        (None, Ok(None)) => None,
+        (None, Err(e)) => Some((path.with_extension("oem"), Err(e))),
+    };
+    if let Some((oem_path, result)) = oem_target {
+        match result {
+            Ok(text) => {
+                if let Err(e) = std::fs::write(&oem_path, text) {
+                    eprintln!("error: cannot write {}: {e}", oem_path.display());
+                    return ExitCode::FAILURE;
+                }
+                println!("wrote {}", oem_path.display());
+            }
+            Err(e) => {
+                eprintln!("error: OEM export failed: {e}");
                 return ExitCode::FAILURE;
             }
         }
