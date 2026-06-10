@@ -30,9 +30,31 @@ is tied to the exact bytes below by SHA-256.
   values for past dates never change.
 - **SHA-256:** `6b781d3619550a4a404806f0ce6074a8516ea9ba18ddf111ac23f0e2cb2ed00f`
 
+## Swarm-A LEO (W4a)
+
+### `swarm/SW_OPER_SP3ACOM_2_L47_2022001_3h.sp3`
+- **Product:** `SW_OPER_SP3ACOM_2__20211231T235942_20220101T235942_0201.ZIP` →
+  `…_0201.sp3` — ESA Swarm Level-2 **reduced-dynamic precise science orbit**
+  (`RDOD_AR`, GPS-derived, ITRF / IGb14, 10-second sampling), satellite
+  **Swarm-A** (SP3 id `L47`). Center-of-mass position in the Earth-fixed frame;
+  processed by TU Delft for ESA. The product header states ~2 cm orbit accuracy.
+- **Source (open, no login):** ESA Swarm dissemination server,
+  `https://swarm-diss.eo.esa.int/` →
+  `swarm/Level2daily/Latest_baselines/POD/RD/Sat_A/` (the `?do=download&file=…`
+  endpoint behind the file browser). Access is governed by the ESA Data Policy
+  and the Terms & Conditions for the use of ESA Data (open, attribution).
+- **Slice:** epochs `2022-01-01 00:00:00` through `03:00:00` GPS time,
+  down-sampled 10 s → 60 s (181 records, 3 h, ~1.94 revolutions at the ~94-min
+  Swarm-A period). Other epochs removed; the original SP3 header is retained
+  (its epoch count updated to 181). Same UTC day as the Galileo fixture, so the
+  `eop/finals2000A_2022001.txt` series above also covers this arc.
+- **SHA-256:** `6cd84b78c32eb30fc527194a4fd9d9b1a34b17cc028aeb43db6a19c09acb733e`
+
 ## Licensing
 
-IERS and IGS/MGEX/ESOC products are published for open scientific use with
-attribution. These verbatim slices are redistributed solely to make Kshana's
-orbit-determination validation independently reproducible; all credit for the
-underlying products remains with IERS, the IGS, and ESA/ESOC.
+IERS, IGS/MGEX/ESOC, and ESA Swarm products are published for open scientific
+use with attribution (the Swarm products under the ESA Data Policy and Terms &
+Conditions for the use of ESA Data). These verbatim slices are redistributed
+solely to make Kshana's orbit-determination validation independently
+reproducible; all credit for the underlying products remains with IERS, the
+IGS, ESA/ESOC, and the ESA Swarm mission (TU Delft processing).
