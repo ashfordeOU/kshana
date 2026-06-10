@@ -209,14 +209,16 @@ Kshana's own integrator, so every residual is the estimator's and not the dynami
 Honest scope: the synthetic wave uses nominal Earth-orientation parameters (UT1 ≈ TT, no
 polar motion) — exact for self-recovery, since the same model generates and fits the arc.
 The agency-dataset validations layer **real** finals2000A EOP and SP3/SPK truth on top of
-this engine through the CIO frame chain (`src/eop.rs`, `tests/agency_galileo.rs`).
+this engine through the CIO frame chain (`src/eop.rs`, `tests/agency_galileo.rs`,
+`tests/agency_swarm.rs`).
 
-### Real agency precise orbits (`tests/agency_galileo.rs`)
+### Real agency precise orbits (`tests/agency_galileo.rs`, `tests/agency_swarm.rs`)
 
 | Dataset | Status | Evidence |
 |---------|--------|----------|
 | **Galileo MEO — < 5 m GREEN** | `validated` | Kshana's full-force engine fit to a verbatim slice of **ESA/ESOC's own final orbit** (`ESA0MGNFIN`, ITRF) for Galileo **E11** over 8 h, each ITRF fix rotated into GCRS with real finals2000A EOP: post-fit **3-D RMS 0.132 m** pure force + `C_R` (RTN 0.105/0.067/0.047 m, `C_R` 1.174), **0.070 m** with the empirical tier, from a 78.7 km raw overlap. The full 24 h arc is **0.611 m**. All far inside the 5 m bar. Field gravity-converged by d/o-8 (identical at d/o 8/10/12); the `workflow_dispatch` job runs the full d/o-70. Provenance + SHA-256 in `tests/fixtures/agency/NOTICE.md`; full record in `docs/REFERENCE-GRADE-OD.md`. |
-| Swarm-A LEO, LRO lunar | `pending` | The two harder/heterogeneous datasets (drag-dominated LEO; lunar central body via GRGM + NAIF SPK truth) — next wave; honest RMS reported even if above 5 m. |
+| **Swarm-A LEO — < 5 m GREEN** | `validated` | Full-force engine (+ atmospheric drag) fit to a verbatim slice of **ESA's own Swarm-A reduced-dynamic precise orbit** (`SW_OPER_SP3ACOM_2_`, L47, ITRF, ~430 km, ~2 cm) over 3 h at d/o-70, real finals2000A EOP through the CIO chain: **dynamic** tier (state-only, static density, `C_R`=1) post-fit **3-D RMS 2.687 m** (RTN 0.925/**2.522**/0.043 m — residual ≈ pure along-track drag), **reduced-dynamic** tier (+ empirical CPR accelerations) **0.098 m** (RTN 0.026/0.092/0.024 m) — ~10 cm against ESA's ~2 cm orbit. Provenance + SHA-256 in `tests/fixtures/agency/NOTICE.md`; full record in `docs/REFERENCE-GRADE-OD.md`. |
+| LRO lunar | `pending` | The third, heterogeneous dataset (lunar central body via GRGM + NAIF SPK truth) — its own engine-extension wave; honest RMS reported even if above 5 m. **Datasets validated: 2 of 3.** |
 
 ## Gravity-map / alt-PNT navigation (`src/gravimeter.rs`, `src/mapmatch.rs`, `src/particle_filter.rs`, `src/altpnt/terrain.rs`)
 

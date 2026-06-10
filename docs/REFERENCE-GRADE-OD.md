@@ -63,20 +63,52 @@ dispatch job runs the full d/o-70. The 8 h fit reaches **13 cm** pure-force and 
 with the empirical tier; the full 24 h arc (more SRP/eclipse stress, longer dynamic span)
 is **61 cm** — all far inside the 5 m bar.
 
-### Swarm-A LEO — pending (P4 W4)
+### Swarm-A LEO — **GREEN** (< 5 m bar)
 
-LEO is drag-dominated; with a static exponential density model the honest RMS may exceed
-5 m. It will be reported as-is, with NRLMSISE-00 noted as the upgrade path.
+- **Dataset:** ESA Swarm Level-2 reduced-dynamic precise science orbit
+  `SW_OPER_SP3ACOM_2_` (`RDOD_AR`, GPS-derived, ITRF / IGb14, ~2 cm, TU Delft
+  processing), satellite **Swarm-A** (SP3 id `L47`, ~430 km LEO), 2022-01-01.
+- **Open source (no login):** ESA Swarm dissemination server
+  `https://swarm-diss.eo.esa.int/` → `Level2daily/Latest_baselines/POD/RD/Sat_A/`
+  (open under the ESA Data Policy). EOP: the same IERS `finals2000A` 2022-001 series.
+- **Validation commit:** `ceea70a` (`tests/agency_swarm.rs`).
+- **Fixture (SHA-256):** SP3 `6cd84b78…acb733e` (`tests/fixtures/agency/NOTICE.md`).
 
-### LRO lunar — pending (P4 W4)
+A LEO arc adds **atmospheric drag** to the force model. Because the density model is a
+*static* piecewise-exponential, the orbit is fit in two tiers: a **dynamic** tier
+(estimate the epoch state only; `C_R` held at 1, since at LEO drag dominates and SRP is
+poorly separable over a short arc), and a **reduced-dynamic** tier that adds the empirical
+cycle-per-revolution accelerations carrying the un-modelled drag — the operationally
+meaningful LEO orbit.
 
-Validated against the NAIF LRO SPK ephemeris with a GRGM lunar gravity field (not native
-SP3). Honest numbers, field degree documented.
+| Run | Arc | d/o | n_obs | 3-D RMS | RTN (R, T, N) | Notes |
+|-----|-----|-----|-------|---------|---------------|-------|
+| CI fixture, dynamic (`C_R`=1)        | 3 h | 70 | 181 | **2.687 m** | 0.925, 2.522, 0.043 m | residual ≈ pure along-track (drag) |
+| CI fixture, reduced-dynamic (+empirical) | 3 h | 70 | 181 | **0.098 m** | 0.026, 0.092, 0.024 m | empirical absorbs the drag |
+
+The dynamic fit clears the 5 m bar with the residual almost entirely along-track — the
+textbook drag signature at ~430 km. The empirical tier absorbs that along-track error
+(2.52 → 0.09 m), giving a **~10 cm** reduced-dynamic fit against ESA's own ~2 cm orbit. The
+full-day, full-degree run is the ignored `swarm_full_arc_dispatch` (the dissemination
+server serves the product through its file-browser session, so the founder downloads the
+day's SP3 and points `KSHANA_SWARM_SP3` at it). NRLMSISE-00 with space-weather drivers is
+the noted upgrade that would tighten the *dynamic* tier further.
+
+### LRO lunar — pending (P4 W4b)
+
+The third dataset. Validated against the NAIF LRO reconstructed SPK ephemeris with a GRGM
+lunar gravity field (Moon-centred dynamics, not native SP3) — a genuine engine extension
+(lunar central body + body-fixed field + SPK reader), tracked as its own wave. Honest
+numbers, field degree documented, when delivered.
 
 ## Honesty contract
 
-- < 5 m "green" applies **only** to Galileo MEO (the achievable cleanest case). Swarm and
-  LRO publish their real RMS even if above 5 m.
-- Empirical-acceleration-assisted (Tier 2) and pure-force (Tier 1) results are always
-  reported **separately**.
+- The < 5 m "green" bar is met for **Galileo MEO** (0.13 m dynamic) and **Swarm-A LEO**
+  (2.69 m dynamic / 0.10 m reduced-dynamic). LRO will publish its real RMS as-is, even if
+  above 5 m.
+- For LEO, the **dynamic** (state-only, static density) and **reduced-dynamic** (with
+  empirical accelerations) tiers are always reported **separately**, so the reader sees
+  what the empirical terms absorb; the reduced-dynamic tier is the operational orbit. The
+  same separation holds for the MEO empirical/pure-force tiers.
 - Every residual carries its commit hash, dataset reference, and fixture checksum above.
+- **Datasets validated: 2 of 3** (Galileo MEO ✓, Swarm-A LEO ✓, LRO lunar pending).
