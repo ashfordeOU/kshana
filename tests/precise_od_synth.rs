@@ -720,3 +720,76 @@ fn batch_ls_recovers_an_injected_cross_track_empirical_acceleration() {
         rep.rms_3d
     );
 }
+
+// --- W3 real-EOP frame plumbing (still synthetic geometry; verifies the wiring) ------------
+
+// Real IERS finals2000A rows (Bulletin A final), MJD 59579 & 59580 — same bytes as the
+// vendored agency fixture, inlined here so the wiring test needs no file.
+const EOP_ROW_59579: &str = "211231 59579.00 I  0.056257 0.000030  0.275943 0.000035  I-0.1104179 0.0000019  0.1927 0.0016  I     0.073    0.060    -0.273    0.299  0.056304  0.275973 -0.1104355     0.040    -0.287  ";
+const EOP_ROW_59580: &str = "22 1 1 59580.00 I  0.054644 0.000026  0.276986 0.000032  I-0.1104988 0.0000023 -0.0267 0.0022  I     0.095    0.060    -0.250    0.299  0.054574  0.276983 -0.1105197     0.059    -0.259  ";
+
+/// Attaching real EOP must move the GCRS↔ITRS rotation off the nominal one (UT1≠TT and a
+/// non-zero pole), and the resolved per-epoch args must round-trip a position through the
+/// validated CIO chain to the metre.
+#[test]
+fn real_eop_moves_the_frame_and_round_trips_through_cio() {
+    use kshana::cio::{gcrs_to_itrs, itrs_to_gcrs};
+    use kshana::eop::EopSeries;
+    use kshana::precise_od::PreciseForceModel;
+    use kshana::timescales::{julian_date, utc_to_tt, utc_to_ut1};
+
+    let eop = EopSeries::from_finals2000a(&format!("{EOP_ROW_59579}\n{EOP_ROW_59580}\n"));
+    let epoch = utc_to_tt(julian_date(2022, 1, 1, 0, 0, 0.0));
+    let jd_tt = epoch + 3600.0 / 86_400.0; // one hour into the arc
+
+    let nominal = PreciseForceModel::egm2008(8, epoch);
+    let with_eop = PreciseForceModel::egm2008(8, epoch).with_eop(eop);
+
+    // Nominal model: UT1 = TT, no polar motion.
+    let (u_nom, xp_nom, yp_nom) = nominal.frame_args(jd_tt);
+    assert!((u_nom - jd_tt).abs() < 1e-15 && xp_nom == 0.0 && yp_nom == 0.0);
+
+    // Real EOP: UT1 = UTC + (UT1−UTC) (≈ −0.11 s of day), and a ~0.05–0.28″ pole.
+    let (u_eop, xp_eop, yp_eop) = with_eop.frame_args(jd_tt);
+    let jd_utc = julian_date(2021, 12, 31, 23, 59, 42.0); // 2022-01-01 00:00 GPS − 18 s, +1 h
+                                                          // dut1 here interpolates between 59579 and 59580; just assert it left the nominal value.
+    assert!(
+        (u_eop - jd_tt).abs() > 1.0 / 86_400.0,
+        "UT1 must differ from TT by ~0.1 s"
+    );
+    assert!(
+        xp_eop > 0.0 && yp_eop > 0.0,
+        "polar motion must be non-zero"
+    );
+    let _ = (utc_to_ut1(jd_utc, -0.110), u_nom);
+
+    // Round-trip a position through the resolved args: ITRS → GCRS → ITRS is identity.
+    let r_itrs = [1.0e7, 2.0e7, -1.5e7];
+    let r_gcrs = itrs_to_gcrs(r_itrs, jd_tt, u_eop, xp_eop, yp_eop);
+    let back = gcrs_to_itrs(r_gcrs, jd_tt, u_eop, xp_eop, yp_eop);
+    for k in 0..3 {
+        assert!((back[k] - r_itrs[k]).abs() < 1e-6, "round-trip axis {k}");
+    }
+    // The rotation actually did something (GCRS ≠ ITRS at this epoch).
+    let moved: f64 = (0..3)
+        .map(|k| (r_gcrs[k] - r_itrs[k]).abs())
+        .fold(0.0, f64::max);
+    assert!(
+        moved > 1.0e6,
+        "Earth rotation should move the vector by megametres"
+    );
+}
+
+/// GPS time is a fixed 51.184 s behind TT (TAI − GPS = 19 s, TT − TAI = 32.184 s).
+#[test]
+fn gps_to_tt_is_the_fixed_offset() {
+    use kshana::timescales::{gps_to_tt, julian_date};
+    // Exact at small JD magnitude: the conversion constant is 51.184 s.
+    assert!((gps_to_tt(0.0) * 86_400.0 - 51.184).abs() < 1e-9);
+    // On a real 2022 epoch the JD is ~2.46e6, where one f64 ULP is ~4.7e-5 s, so the
+    // (sum − jd) differencing loses ~5 digits — 1e-4 s here is float noise, not physics
+    // (4.7e-5 s of UT1 error rotates a MEO position by ~0.1 mm).
+    let jd_gps = julian_date(2022, 1, 1, 0, 0, 0.0);
+    let secs = (gps_to_tt(jd_gps) - jd_gps) * 86_400.0;
+    assert!((secs - 51.184).abs() < 1e-4, "GPS→TT offset {secs} s");
+}
