@@ -107,10 +107,14 @@ pub struct Observation {
     pub sigma: f64,
 }
 
-/// Constant + once-per-revolution **empirical accelerations** in the RTN frame (m/s²) — the
-/// labelled second estimation tier that absorbs unmodelled forces (e.g. SRP mismodelling). Each
-/// axis carries `[constant, cos, sin]` amplitudes against the argument of latitude `u`:
-/// `a_axis(u) = c0 + c_cos·cos u + c_sin·sin u`.
+/// Constant + cycle-per-revolution **empirical accelerations** in the RTN frame (m/s²) — the
+/// labelled second estimation tier that absorbs unmodelled forces (e.g. SRP mismodelling, drag
+/// mismodelling, or — at the Moon — the sectoral gravity-orientation residual). Each axis carries
+/// `[constant, cos u, sin u]` once-per-revolution amplitudes against the argument of latitude `u`,
+/// plus optional `[cos 2u, sin 2u]` twice-per-revolution amplitudes:
+/// `a_axis(u) = c0 + c_cos·cos u + c_sin·sin u + c_cos2·cos 2u + c_sin2·sin 2u`.
+/// The 2-per-rev terms default to zero and are estimated only when
+/// [`FitConfig::estimate_empirical_2cpr`] is set, so the once-per-rev behaviour is unchanged.
 #[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct EmpiricalAccel {
     /// Radial `[const, cos u, sin u]` (m/s²).
@@ -119,6 +123,12 @@ pub struct EmpiricalAccel {
     pub transverse: [f64; 3],
     /// Normal `[const, cos u, sin u]` (m/s²).
     pub normal: [f64; 3],
+    /// Radial twice-per-rev `[cos 2u, sin 2u]` (m/s²).
+    pub radial_2cpr: [f64; 2],
+    /// Transverse twice-per-rev `[cos 2u, sin 2u]` (m/s²).
+    pub transverse_2cpr: [f64; 2],
+    /// Normal twice-per-rev `[cos 2u, sin 2u]` (m/s²).
+    pub normal_2cpr: [f64; 2],
 }
 
 /// The parameters recovered by a [`fit`] solve: the epoch inertial state, the optional estimated
@@ -183,8 +193,13 @@ pub(crate) fn empirical_accel(emp: &EmpiricalAccel, r: Vec3, v: Vec3) -> Vec3 {
     let ric = ric_from_state(r, v); // rows = R̂, T̂, N̂ in ECI
     let u = arg_of_latitude(r, v);
     let (cu, su) = (u.cos(), u.sin());
-    let comp = |c: [f64; 3]| c[0] + c[1] * cu + c[2] * su;
-    let rtn = [comp(emp.radial), comp(emp.transverse), comp(emp.normal)];
+    let (c2u, s2u) = ((2.0 * u).cos(), (2.0 * u).sin());
+    let comp = |c: [f64; 3], c2: [f64; 2]| c[0] + c[1] * cu + c[2] * su + c2[0] * c2u + c2[1] * s2u;
+    let rtn = [
+        comp(emp.radial, emp.radial_2cpr),
+        comp(emp.transverse, emp.transverse_2cpr),
+        comp(emp.normal, emp.normal_2cpr),
+    ];
     // a_eci = a_R·R̂ + a_T·T̂ + a_N·N̂ = ricᵀ·rtn.
     mat_vec(&transpose(&ric), rtn)
 }
@@ -664,6 +679,10 @@ pub struct FitConfig {
     /// Estimate the nine RTN constant + once-per-rev empirical-acceleration parameters as a second
     /// tier (a-priori constrained by [`empirical_sigma`](Self::empirical_sigma)).
     pub estimate_empirical: bool,
+    /// Additionally estimate the six RTN twice-per-rev empirical amplitudes (`[cos 2u, sin 2u]` per
+    /// axis), for the 2-per-rev mismodelling a once-per-rev tier cannot absorb (e.g. the lunar
+    /// sectoral gravity-orientation residual). Requires [`estimate_empirical`](Self::estimate_empirical).
+    pub estimate_empirical_2cpr: bool,
     /// A-priori 1σ on each empirical-acceleration amplitude (m/s²), a pseudo-stochastic constraint
     /// pulling the empirical tier toward zero unless the data demands otherwise (≤ 0 = unconstrained).
     /// This regularises the (otherwise near-degenerate) constant-along-track vs velocity trade.
@@ -681,6 +700,7 @@ impl Default for FitConfig {
         Self {
             estimate_cr: false,
             estimate_empirical: false,
+            estimate_empirical_2cpr: false,
             empirical_sigma: 1e-7,
             max_iter: 20,
             outlier_sigma: 0.0,
@@ -693,21 +713,29 @@ impl Default for FitConfig {
     }
 }
 
-/// Read the `k`-th empirical amplitude (0–2 radial, 3–5 transverse, 6–8 normal).
+/// Read the `k`-th empirical amplitude. Indices 0–8 are the once-per-rev tier (0–2 radial, 3–5
+/// transverse, 6–8 normal `[const, cos u, sin u]`); 9–14 are the twice-per-rev tier (9–10 radial,
+/// 11–12 transverse, 13–14 normal `[cos 2u, sin 2u]`).
 fn emp_get(e: &EmpiricalAccel, k: usize) -> f64 {
     match k {
         0..=2 => e.radial[k],
         3..=5 => e.transverse[k - 3],
-        _ => e.normal[k - 6],
+        6..=8 => e.normal[k - 6],
+        9..=10 => e.radial_2cpr[k - 9],
+        11..=12 => e.transverse_2cpr[k - 11],
+        _ => e.normal_2cpr[k - 13],
     }
 }
 
-/// Write the `k`-th empirical amplitude (0–2 radial, 3–5 transverse, 6–8 normal).
+/// Write the `k`-th empirical amplitude (index layout as [`emp_get`]).
 fn emp_set(e: &mut EmpiricalAccel, k: usize, v: f64) {
     match k {
         0..=2 => e.radial[k] = v,
         3..=5 => e.transverse[k - 3] = v,
-        _ => e.normal[k - 6] = v,
+        6..=8 => e.normal[k - 6] = v,
+        9..=10 => e.radial_2cpr[k - 9] = v,
+        11..=12 => e.transverse_2cpr[k - 11] = v,
+        _ => e.normal_2cpr[k - 13] = v,
     }
 }
 
@@ -738,7 +766,17 @@ pub fn fit<F: ForceModel>(
     let times: Vec<f64> = obs.iter().map(|o| o.t).collect();
     let n_obs_total = obs.len();
 
-    let n_emp = if cfg.estimate_empirical { 9 } else { 0 };
+    // Empirical params: 9 once-per-rev (when enabled), plus 6 twice-per-rev (when 2cpr enabled,
+    // which requires the once-per-rev tier).
+    let n_emp = if cfg.estimate_empirical {
+        if cfg.estimate_empirical_2cpr {
+            15
+        } else {
+            9
+        }
+    } else {
+        0
+    };
     let emp_base = 6 + cfg.estimate_cr as usize;
     let n_params = emp_base + n_emp;
     let mut r0 = initial.r0;
@@ -793,7 +831,7 @@ pub fn fit<F: ForceModel>(
         let emp_partials: Vec<Vec<Vec3>> = if cfg.estimate_empirical {
             let nominal = propagate_samples(&fm, r0, v0, &times, &cfg.tol);
             let damp = 1e-9;
-            (0..9)
+            (0..n_emp)
                 .map(|k| {
                     let mut ep = emp;
                     emp_set(&mut ep, k, emp_get(&emp, k) + damp);
@@ -837,7 +875,7 @@ pub fn fit<F: ForceModel>(
                     row[6] = cp[i][axis];
                 }
                 if cfg.estimate_empirical {
-                    for k in 0..9 {
+                    for k in 0..n_emp {
                         row[emp_base + k] = emp_partials[k][i][axis];
                     }
                 }
@@ -853,7 +891,7 @@ pub fn fit<F: ForceModel>(
         // A-priori (pseudo-stochastic) constraint pulling each empirical amplitude toward zero.
         if cfg.estimate_empirical && cfg.empirical_sigma > 0.0 {
             let wa = 1.0 / (cfg.empirical_sigma * cfg.empirical_sigma);
-            for k in 0..9 {
+            for k in 0..n_emp {
                 ata[emp_base + k][emp_base + k] += wa;
                 atb[emp_base + k] += wa * (0.0 - emp_get(&emp, k));
             }
@@ -871,7 +909,7 @@ pub fn fit<F: ForceModel>(
             cr += dx[6];
         }
         if cfg.estimate_empirical {
-            for k in 0..9 {
+            for k in 0..n_emp {
                 let cur = emp_get(&emp, k);
                 emp_set(&mut emp, k, cur + dx[emp_base + k]);
             }
