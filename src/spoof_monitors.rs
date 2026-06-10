@@ -25,9 +25,14 @@
 //!   layers fired.
 //!
 //! These are exact closed-form metrics plus a Monte-Carlo P_fa/P_md characterisation of the
-//! parity detector. Scope (honest): validation against specific published (e.g. Spirent /
-//! ION GNSS+) spoofing test vectors needs those external datasets and remains a follow-on
-//! (see `ROADMAP.md`).
+//! parity detector. The [`CombinedSpoofDetector`] composes all three layers at the epoch level;
+//! it is reproduced against the published TEXBAT scenario parameters in
+//! `tests/spoof_texbat_validation.rs` and exposed as the runnable `spoof-detect` scenario in
+//! [`crate::spoof_detect`]. Scope (honest): validation against the *raw* published vectors
+//! (TEXBAT IQ / licensed Spirent) needs an SDR front-end / external dataset and remains a
+//! documented follow-on (see `ROADMAP.md`).
+
+use serde::Serialize;
 
 /// Combine per-source received powers (dBm) incoherently: `10·log10(Σ 10^(pᵢ/10))`.
 /// Returns `−∞` for an empty set (no received signal).
@@ -127,7 +132,7 @@ use crate::detection::chi2_inv_cdf;
 use crate::fusion::ukf::inverse;
 
 /// The outcome of the RAIM consistency test on a redundant pseudorange set.
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, Serialize)]
 pub struct RaimConsistency {
     /// Weighted residual sum-of-squares (the parity-space test statistic).
     pub statistic: f64,
@@ -197,7 +202,7 @@ pub fn parity_raim_test(
 // --- Multi-layer fusion --------------------------------------------------------------
 
 /// Which independent detection layers fired.
-#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize)]
 pub struct SpoofLayers {
     /// The RAIM consistency parity test.
     pub raim: bool,
@@ -215,7 +220,7 @@ impl SpoofLayers {
 }
 
 /// The fused multi-layer spoof decision.
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, Serialize)]
 pub struct FusedSpoofDecision {
     /// Which layers fired.
     pub layers: SpoofLayers,
@@ -337,7 +342,7 @@ impl CombinedSpoofDetector {
 
 /// The full diagnostic outcome of one epoch: the per-layer evidence plus the fused decision —
 /// what an operator needs to triage an alert, not just a boolean.
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, Serialize)]
 pub struct CombinedSpoofDecision {
     /// The RAIM consistency result (`None` if the geometry lacked redundancy, `m ≤ 4`).
     pub raim: Option<RaimConsistency>,

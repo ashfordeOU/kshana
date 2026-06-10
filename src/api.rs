@@ -227,6 +227,7 @@ pub enum ScenarioKind {
     GnssSim,
     Jamming,
     Spoof,
+    SpoofDetect,
     Sweep,
     SweepNd,
     Orbit,
@@ -250,6 +251,7 @@ impl ScenarioKind {
             ScenarioKind::GnssSim => "gnss-sim",
             ScenarioKind::Jamming => "jamming",
             ScenarioKind::Spoof => "spoof",
+            ScenarioKind::SpoofDetect => "spoof-detect",
             ScenarioKind::Sweep => "sweep",
             ScenarioKind::SweepNd => "sweep-nd",
             ScenarioKind::Orbit => "orbit",
@@ -277,6 +279,7 @@ impl ScenarioKind {
             "gnss-sim" => ScenarioKind::GnssSim,
             "jamming" => ScenarioKind::Jamming,
             "spoof" => ScenarioKind::Spoof,
+            "spoof-detect" => ScenarioKind::SpoofDetect,
             "sweep" => ScenarioKind::Sweep,
             "sweep-nd" => ScenarioKind::SweepNd,
             "orbit" => ScenarioKind::Orbit,
@@ -317,6 +320,7 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "gnss-sim", description: "Measurement-domain pseudorange simulation (Klobuchar iono, Saastamoinen/Niell tropo) + RAIM.", required_fields: &["seed", "time", "receiver", "constellation"], optional_fields: &["iono", "tropo", "mask_deg", "noise_sigma_m", "multipath_m", "sat_clock_rms_m", "uere_m", "p_fa", "p_md", "alert_limit_h_m", "alert_limit_v_m"] },
         ScenarioMeta { name: "jamming", description: "Link-budget jamming: J/S → effective C/N₀ → loss of lock.", required_fields: &["seed", "time", "receiver", "constellation"], optional_fields: &["jammer", "mask_deg", "tracking_threshold_dbhz", "degraded_margin_db", "signal_power_dbw", "temp_k", "freq_hz", "chip_rate_hz"] },
         ScenarioMeta { name: "spoof", description: "Stochastic time-spoof detector (Neyman–Pearson / χ²₁) with Monte-Carlo P_fa/P_md.", required_fields: &["threshold_ns", "time", "attack", "clock_quantum", "clock_classical"], optional_fields: &[] },
+        ScenarioMeta { name: "spoof-detect", description: "Combined RF/measurement spoof detector (multi-SV RAIM-consistency + AGC + SQM, fused) vs a parameterised attack (power advantage, carrier-phase alignment, time/position push; TEXBAT-style).", required_fields: &["attack"], optional_fields: &["satellites", "detector"] },
         ScenarioMeta { name: "sweep", description: "1-D trade-study sweep over a clock-pack parameter.", required_fields: &["parameter", "metric", "start", "stop", "steps", "base"], optional_fields: &["scale"] },
         ScenarioMeta { name: "sweep-nd", description: "Generic N-D sweep over any pack via dotted TOML keys / JSON metric paths.", required_fields: &["base", "axes", "metrics"], optional_fields: &[] },
         ScenarioMeta { name: "gravity-map", description: "GPS-denied gravity-map-matching navigation: a cold-atom gravimeter recovers a constant INS drift from the gravity-anomaly sequence it flies through.", required_fields: &["nmax", "start_lat_deg", "start_lon_deg", "step_lat_deg", "step_lon_deg", "waypoints", "drift_lat_deg", "drift_lon_deg", "gravimeter_asd", "averaging_time_s", "map_sigma_mgal", "search_half_deg", "search_step_deg"], optional_fields: &["coeffs", "mascons", "refine_stages", "refine_factor", "noise_seed"] },
@@ -637,6 +641,27 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 summary,
             })
         }
+        ScenarioKind::SpoofDetect => {
+            let scn: crate::spoof_detect::SpoofDetectScenario =
+                toml::from_str(src).map_err(|e| format!("invalid spoof-detect scenario: {e}"))?;
+            let r = crate::spoof_detect::run_spoof_detect(&scn);
+            let summary = format!(
+                "scenario {} | spoof-detect | {} SVs, +{:.1} dB{} | {:?} push | fused score {:.2} (thr {:.2}) | {}",
+                &r.scenario_hash[..12],
+                r.n_sats,
+                r.attack.power_advantage_db,
+                if r.attack.carrier_aligned { ", carrier-aligned" } else { "" },
+                r.attack.push,
+                r.decision.fused.score,
+                scn.detector.fusion_threshold,
+                r.verdict,
+            );
+            Ok(RunOutput {
+                json: json_of(&r),
+                svg: crate::spoof_detect::to_svg(&r),
+                summary,
+            })
+        }
         ScenarioKind::Sweep => {
             let scn: crate::sweep::SweepScenario =
                 toml::from_str(src).map_err(|e| format!("invalid sweep scenario: {e}"))?;
@@ -904,6 +929,7 @@ mod tests {
             include_str!("../scenarios/sweep-clock-stability.toml"),
             include_str!("../scenarios/spoof-attack.toml"),
             include_str!("../scenarios/spoof-meaconing.toml"),
+            include_str!("../scenarios/spoof-detect.toml"),
             include_str!("../scenarios/integrity-raim.toml"),
             include_str!("../scenarios/jamming-demo.toml"),
             include_str!("../scenarios/gnss-sim-raim.toml"),
@@ -932,6 +958,7 @@ mod tests {
             include_str!("../scenarios/integrity-raim.toml"),
             include_str!("../scenarios/jamming-demo.toml"),
             include_str!("../scenarios/spoof-attack.toml"),
+            include_str!("../scenarios/spoof-detect.toml"),
             include_str!("../scenarios/sweep-clock-stability.toml"),
             include_str!("../scenarios/gnss-sim-raim.toml"),
             include_str!("../scenarios/orbit-gnss-challenged.toml"),
