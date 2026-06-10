@@ -175,6 +175,7 @@ fn swarm_a_leo_reduced_dynamic_fit() {
     let cfg2 = FitConfig {
         estimate_cr: false,
         estimate_empirical: true,
+        estimate_empirical_2cpr: false,
         empirical_sigma: 1e-7,
         outlier_sigma: 5.0,
         max_iter: 30,

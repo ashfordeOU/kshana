@@ -14,8 +14,8 @@
 //! the arc through the same reference-grade Gauss–Newton estimator the Earth datasets use, and
 //! reports the honest post-fit RMS, dynamic and reduced-dynamic.
 //!
-//! Honesty note: unlike Galileo (0.13 m) and Swarm-A (0.10 m), the LRO fit lands at **~6.9 m**
-//! reduced-dynamic / ~12.6 m dynamic — *above* the < 5 m bar. The limiting factor is fidelity of
+//! Honesty note: unlike Galileo (0.13 m) and Swarm-A (0.10 m), the LRO fit lands at **~6.6 m**
+//! reduced-dynamic (1+2-per-rev empirical) / ~12.6 m dynamic — *above* the < 5 m bar. The limit is
 //! the **lunar orientation and ephemeris**: the analytic IAU libration (vs the JPL DE
 //! numerically-integrated `MOON_PA`) and the built-in Montenbruck–Gill Earth/Sun ephemeris (vs a
 //! DE/SPICE kernel). Metre-level selenocentric OD needs those higher-fidelity models; the result
@@ -216,6 +216,7 @@ fn lro_lunar_orbit_fit_against_horizons_truth() {
     let cfg2 = FitConfig {
         estimate_cr: false,
         estimate_empirical: true,
+        estimate_empirical_2cpr: true,
         empirical_sigma: 1e-7,
         outlier_sigma: 5.0,
         max_iter: 25,
@@ -223,7 +224,7 @@ fn lro_lunar_orbit_fit_against_horizons_truth() {
     };
     let rep2 = fit(&tmpl, initial2, &obs, &cfg2).expect("reduced-dynamic fit returns a report");
     eprintln!(
-        "  Reduced-dynamic (+ empirical CPR): 3D RMS = {:.3} m | RTN = [{:.3}, {:.3}, {:.3}] m | \
+        "  Reduced-dynamic (+ empirical 1+2-per-rev CPR): 3D RMS = {:.3} m | RTN = [{:.3}, {:.3}, {:.3}] m | \
          iters {} converged {}",
         rep2.rms_3d,
         rep2.rms_rtn[0],
@@ -239,13 +240,14 @@ fn lro_lunar_orbit_fit_against_horizons_truth() {
         rep2.rms_3d,
         rep.rms_3d
     );
-    // Honest bound (measured ≈ 6.9 m): the empirical tier absorbs the along-track mismodelling to
-    // a roughly isotropic floor. This is ABOVE the < 5 m bar Galileo and Swarm-A meet — the
-    // honest statement that selenocentric metre-level OD needs DE/SPICE-grade lunar orientation
-    // and ephemeris (the documented follow-on), not the analytic models used here.
+    // Honest bound (measured ≈ 6.6 m with the 1+2-per-rev empirical tier): the empirical terms
+    // absorb the along-track mismodelling to a roughly isotropic floor. This is ABOVE the < 5 m
+    // bar Galileo and Swarm-A meet — the honest statement that selenocentric metre-level OD needs
+    // DE/SPICE-grade lunar orientation and ephemeris (the documented follow-on), not the analytic
+    // models used here; no field degree, frame correction, or empirical tier crosses that floor.
     assert!(
         rep2.rms_3d < 12.0,
-        "LRO reduced-dynamic 3D RMS {:.3} m off the expected ~6.9 m",
+        "LRO reduced-dynamic 3D RMS {:.3} m off the expected ~6.6 m",
         rep2.rms_3d
     );
 }
@@ -277,6 +279,7 @@ fn lro_full_degree_dispatch() {
     let cfg = FitConfig {
         estimate_cr: false,
         estimate_empirical: true,
+        estimate_empirical_2cpr: true,
         empirical_sigma: 1e-7,
         outlier_sigma: 5.0,
         max_iter: 25,
