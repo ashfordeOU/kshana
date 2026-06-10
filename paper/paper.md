@@ -41,8 +41,8 @@ cited source. Seventeen scenario kinds cover clock holdover, inertial dead-recko
 optical/RF time transfer, hybrid and Kalman fusion, coupled GNSS/INS, orbit geometry and
 dilution of precision, ARAIM integrity (terrestrial and lunar), measurement-domain GNSS
 simulation, terrain-, gravity-, and magnetic-map alternative PNT, jamming and spoofing
-resilience, and one- and N-dimensional trade-study sweeps. Outputs are versioned, self-describing JSON plus an SVG chart; the same core
-compiles to native, Python, and WebAssembly targets without behavioural divergence.
+resilience, and one- and N-dimensional trade-study sweeps. Outputs are versioned,
+self-describing JSON plus an SVG chart.
 
 # Statement of need
 
@@ -116,6 +116,13 @@ closed forms — never against its own output. The headline checks are:
 - **Two-body propagation.** The numerical propagator agrees with the universal-variable
   Kepler solution to sub-metre over 24 h, conserving energy and angular momentum to
   ~1 × 10⁻⁹ relative.
+- **Reference-grade orbit determination.** A Gauss–Newton batch fit of the full force
+  model — high-degree gravity, IERS-2010 tides, third body, conical-shadow SRP, relativity —
+  to *real agency precise orbits* recovers Galileo MEO to 0.13 m and Swarm-A LEO to 0.10 m
+  (reduced-dynamic) 3-D RMS, both inside a 5 m bar [@montenbruck2000; @petit2010iers]. The
+  same estimator with the GRAIL GRGM660PRIM field fits a Lunar Reconnaissance Orbiter arc
+  from JPL Horizons to 6.6 m — reported honestly *above* the bar, limited by the analytic
+  lunar orientation/ephemeris, not the estimator [@lemoine2013grail; @giorgini1996horizons].
 
 Across the packs, the same machinery yields the resilience figures that motivate the
 tool: inertial dead-reckoning of ~41 m on a cold-atom accelerometer versus kilometre-scale
