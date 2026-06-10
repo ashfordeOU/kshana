@@ -34,6 +34,7 @@ pub mod jd2;
 pub mod kalman;
 pub mod lunar;
 pub mod lunar_frame;
+pub mod lunar_od;
 pub mod maneuver;
 pub mod mapmatch;
 pub mod models;
