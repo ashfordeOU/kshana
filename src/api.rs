@@ -406,6 +406,40 @@ pub fn auto_export_omm(src: &str) -> Result<Option<String>, String> {
     }
 }
 
+/// Export an orbit scenario's propagated constellation as CCSDS OEM text — the
+/// inertial (TEME) state time series, position AND velocity, in the spacecraft-
+/// ephemeris interchange format flight-dynamics tools (GMAT/Orekit/STK) read. This
+/// is the velocity-carrying complement of the position-only [`export_sp3`]. Errors
+/// if the scenario is not an `orbit` kind. This is the CLI `--export-oem` path.
+pub fn export_oem(src: &str) -> Result<String, String> {
+    match ScenarioKind::classify(src).map_err(|e| e.to_string())? {
+        ScenarioKind::Orbit => {
+            let scn: crate::orbit::OrbitClockScenario =
+                toml::from_str(src).map_err(|e| format!("invalid orbit scenario: {e}"))?;
+            scn.to_oem_string()
+        }
+        k => Err(format!(
+            "OEM export requires an orbit scenario, not '{}'",
+            k.as_str()
+        )),
+    }
+}
+
+/// If `src` is an orbit scenario with `export_oem = true`, return its OEM text;
+/// otherwise `None`. Lets the CLI auto-write an OEM alongside the usual outputs.
+pub fn auto_export_oem(src: &str) -> Result<Option<String>, String> {
+    if ScenarioKind::classify(src).map_err(|e| e.to_string())? != ScenarioKind::Orbit {
+        return Ok(None);
+    }
+    let scn: crate::orbit::OrbitClockScenario =
+        toml::from_str(src).map_err(|e| format!("invalid orbit scenario: {e}"))?;
+    if scn.export_oem {
+        Ok(Some(scn.to_oem_string()?))
+    } else {
+        Ok(None)
+    }
+}
+
 /// The contract a scenario pack fulfils: run itself and produce the unified output
 /// envelope, returning a structured [`KshanaError`] on failure.
 pub trait Scenario {

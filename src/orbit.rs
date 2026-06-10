@@ -906,6 +906,14 @@ pub struct OrbitClockScenario {
     /// a synthetic Walker or RINEX scenario has no TLE mean elements to export.
     #[serde(default)]
     pub export_omm: bool,
+    /// When `true`, the CLI also writes the propagated constellation to a CCSDS OEM
+    /// (Orbit Ephemeris Message) file (`<scenario>.oem`): the inertial state time
+    /// series — position AND velocity — in the spacecraft-ephemeris interchange
+    /// format flight-dynamics tools (GMAT/Orekit/STK) read. Unlike SP3 (Earth-fixed,
+    /// position-only) OEM carries the full TEME state, so it is the velocity-carrying
+    /// export. Works for any constellation (Walker / TLE / RINEX).
+    #[serde(default)]
+    pub export_oem: bool,
 }
 
 /// Default SP3 start epoch when a scenario does not declare one: J2000 calendar date.
@@ -1001,6 +1009,32 @@ impl OrbitClockScenario {
             .map(|f| f.to_omm_kvn())
             .collect::<Vec<_>>()
             .join("\n"))
+    }
+
+    /// Export the propagated constellation as a CCSDS OEM (Orbit Ephemeris Message):
+    /// each satellite is sampled on the scenario's time grid directly in the inertial
+    /// TEME frame and written with its full state — position AND velocity (km, km/s).
+    /// This is the velocity-carrying spacecraft-ephemeris interchange format
+    /// (GMAT/Orekit/STK), the complement of the position-only Earth-fixed SP3 export.
+    /// Works for any constellation (Walker / TLE / RINEX). Satellite IDs are assigned
+    /// positionally (`Gnn`). The start epoch and the deterministic `CREATION_DATE` are
+    /// the scenario's `epoch` (or the J2000 default).
+    pub fn to_oem_string(&self) -> Result<String, String> {
+        let sats = self.all_satellites()?;
+        if sats.is_empty() {
+            return Err("no satellites to export".into());
+        }
+        let ids: Vec<String> = (1..=sats.len()).map(|i| format!("G{i:02}")).collect();
+        let start = self.epoch.unwrap_or(DEFAULT_SP3_EPOCH);
+        let step_s = self.time.step_s;
+        if step_s <= 0.0 {
+            return Err("time.step_s must be positive for OEM export".into());
+        }
+        let num_epochs = (self.time.duration_s / step_s).round() as usize + 1;
+        Ok(
+            crate::oem::OemFile::from_propagators(&ids, &sats, start, step_s, num_epochs, start)
+                .to_oem_string(),
+        )
     }
 }
 
@@ -1444,6 +1478,7 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
             epoch: None,
             export_sp3: false,
             export_omm: false,
+            export_oem: false,
         }
     }
 
