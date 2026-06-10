@@ -356,15 +356,37 @@ fn parse_epoch(tokens: &[&str]) -> Result<EpochUtc, String> {
 /// the leading `P`/`V` and the three-character satellite id). Returns the three
 /// coordinates and the clock value as written (units converted by the caller).
 fn parse_record_values(body: &str) -> Result<[f64; 4], String> {
-    let nums: Vec<f64> = body
-        .split_whitespace()
-        .take(4)
-        .map(|t| t.parse::<f64>().map_err(|_| format!("bad number: {t:?}")))
-        .collect::<Result<_, _>>()?;
-    if nums.len() < 4 {
-        return Err(format!("record needs 4 values, got {}", nums.len()));
+    // SP3 P/V records carry four `%14.6f` columns (X, Y, Z, clock). They are usually
+    // whitespace-separated, but the format is fixed-width, so a wide or negative value
+    // can fill its 14-char column and abut the next with no separating space — common in
+    // the velocity records of reduced-dynamic products (e.g. ESA Swarm). Try a plain
+    // whitespace split first; if that does not yield four parseable numbers, fall back to
+    // slicing the four fixed-width columns.
+    let ws: Vec<&str> = body.split_whitespace().take(4).collect();
+    if ws.len() == 4 {
+        if let Ok(nums) = ws
+            .iter()
+            .map(|t| t.parse::<f64>())
+            .collect::<Result<Vec<f64>, _>>()
+        {
+            return Ok([nums[0], nums[1], nums[2], nums[3]]);
+        }
     }
-    Ok([nums[0], nums[1], nums[2], nums[3]])
+    // Fixed-width fallback: four 14-character columns (SP3-c/d are ASCII, so byte == char).
+    let mut nums = [0.0f64; 4];
+    for (k, slot) in nums.iter_mut().enumerate() {
+        let start = k * 14;
+        let end = (start + 14).min(body.len());
+        let field = body
+            .get(start..end)
+            .map(str::trim)
+            .filter(|s| !s.is_empty())
+            .ok_or_else(|| format!("record needs 4 values, missing column {}", k + 1))?;
+        *slot = field
+            .parse::<f64>()
+            .map_err(|_| format!("bad number: {field:?}"))?;
+    }
+    Ok(nums)
 }
 
 /// Parse an SP3-c or SP3-d file into an [`Sp3File`]. The header line, the `+`
@@ -568,6 +590,30 @@ EOF";
         let v = f.epochs[0].sats[0].vel_m_s.expect("velocity present");
         // dm/s → m/s: -8000 dm/s = -800 m/s.
         assert_eq!(v, [-800.0, 300.0, 3900.0]);
+    }
+
+    #[test]
+    fn parses_velocity_records_with_abutting_fixed_width_fields() {
+        // Real reduced-dynamic products (e.g. ESA Swarm `SW_OPER_SP3ACOM_2_`) write the
+        // four `%14.6f` columns flush, so a wide or negative value abuts its neighbour
+        // with no separating space: here the 2nd and 3rd velocity columns touch
+        // (`…-75385.7480502`). A naïve whitespace split mis-tokenises this; the parser
+        // must fall back to fixed-width columns. Two 14-char columns glued below:
+        //   col1=` -1234.5678901` col2=`-75385.7480502` col3=`   3000.000000` col4=`      0.000000`
+        let vfile = "\
+#dV2023  1  1  0  0  0.00000000       1 ORBIT IGS20 HLM  IGS
++    1   G01  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0  0
+*  2023  1  1  0  0  0.00000000
+PG01  15000.000000  -5000.000000  20000.000000    123.456789
+VG01 -1234.5678901-75385.7480502   3000.000000      0.000000
+EOF";
+        let f = parse_sp3(vfile).expect("parses V file with abutting columns");
+        assert_eq!(f.position_of("G01", 0).unwrap(), [15e6, -5e6, 20e6]);
+        let v = f.epochs[0].sats[0].vel_m_s.expect("velocity present");
+        // dm/s → m/s (× 0.1): -1234.5678901 → -123.4567890, -75385.7480502 → -7538.57480502.
+        assert!((v[0] - (-123.456_789_01)).abs() < 1e-6, "vx {}", v[0]);
+        assert!((v[1] - (-7538.574_805_02)).abs() < 1e-6, "vy {}", v[1]);
+        assert!((v[2] - 300.0).abs() < 1e-6, "vz {}", v[2]);
     }
 
     #[test]
