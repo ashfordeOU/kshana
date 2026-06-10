@@ -29,6 +29,7 @@
 //! truth on top of this engine in the validation harnesses.
 
 use crate::cio::gcrs_to_itrs_matrix;
+use crate::eop::EopSeries;
 use crate::ephem::{moon_position, sun_position};
 use crate::forces::{
     drag_accel, lense_thirring_accel, relativistic_accel, srp_accel, third_body_accel, MU_MOON,
@@ -223,6 +224,10 @@ pub struct PreciseForceModel {
     pub tides: bool,
     /// Optional empirical-acceleration tier (RTN constant + once-per-rev).
     pub empirical: Option<EmpiricalAccel>,
+    /// Optional real IERS Earth-orientation series. When present the GCRS↔ITRS rotation uses
+    /// real UT1−UTC and polar motion; when absent it falls back to nominal (UT1 = TT, no pole),
+    /// which is exact for synthetic self-recovery.
+    pub eop: Option<EopSeries>,
 }
 
 impl PreciseForceModel {
@@ -242,6 +247,7 @@ impl PreciseForceModel {
             lense_thirring: false,
             tides: false,
             empirical: None,
+            eop: None,
         }
     }
 
@@ -296,9 +302,27 @@ impl PreciseForceModel {
         self
     }
 
-    /// The GCRS→ITRS rotation at `jd_tt` (nominal EOP for the synthetic wave).
+    /// Attach a real IERS Earth-orientation series, driving the GCRS↔ITRS rotation with real
+    /// UT1−UTC and polar motion.
+    pub fn with_eop(mut self, eop: EopSeries) -> Self {
+        self.eop = Some(eop);
+        self
+    }
+
+    /// The CIO-frame rotation inputs `(jd_ut1, x_p [rad], y_p [rad])` at `jd_tt`: real EOP when
+    /// attached, else nominal (UT1 = TT, no polar motion). The validation harness uses the same
+    /// args to transform SP3 observations ITRS→GCRS, so dynamics and observations share one frame.
+    pub fn frame_args(&self, jd_tt: f64) -> (f64, f64, f64) {
+        match &self.eop {
+            Some(eop) => eop.frame_args_tt(jd_tt),
+            None => (jd_tt, 0.0, 0.0),
+        }
+    }
+
+    /// The GCRS→ITRS rotation at `jd_tt`.
     fn frame(&self, jd_tt: f64) -> Mat3 {
-        gcrs_to_itrs_matrix(jd_tt, jd_tt, 0.0, 0.0)
+        let (jd_ut1, xp, yp) = self.frame_args(jd_tt);
+        gcrs_to_itrs_matrix(jd_tt, jd_ut1, xp, yp)
     }
 
     /// The acceleration given the per-evaluation-invariant context (frame `m`, Sun/Moon

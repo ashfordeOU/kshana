@@ -189,6 +189,16 @@ pub fn utc_to_tt(jd_utc: f64) -> f64 {
     tai_to_tt(utc_to_tai(jd_utc))
 }
 
+/// TAI − GPS time is a fixed 19 s (GPS time has carried no leap seconds since its
+/// 1980-01-06 epoch, where it coincided with UTC; TAI − UTC was 19 s then).
+pub const TAI_MINUS_GPS: f64 = 19.0;
+
+/// JD(TT) from a GPS-time Julian Date: TT = GPS + (TAI − GPS) + (TT − TAI) = GPS + 51.184 s.
+/// SP3 epochs are stamped in GPS time; integration runs in TT.
+pub fn gps_to_tt(jd_gps: f64) -> f64 {
+    jd_gps + (TAI_MINUS_GPS + TT_MINUS_TAI) / SECONDS_PER_DAY
+}
+
 /// JD(UT1) from JD(UTC) given the observed UT1−UTC (DUT1, seconds, |DUT1| < 0.9).
 /// DUT1 comes from IERS Bulletin A/B; it cannot be derived from civil time.
 pub fn utc_to_ut1(jd_utc: f64, dut1_seconds: f64) -> f64 {
