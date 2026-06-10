@@ -12,6 +12,7 @@ pub mod egm2008_data;
 pub mod ensemble;
 pub mod eop;
 pub mod ephem;
+pub mod ephemeris;
 pub mod estimator;
 mod fes2004_data;
 pub mod filter_health;
