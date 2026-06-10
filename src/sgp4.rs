@@ -351,6 +351,15 @@ impl Sgp4 {
             }
             g
         } else {
+            // `epoch` is the TLE epoch in days since 1950 Jan 0.0 **UTC**; gstime wants
+            // a UT1 Julian date. We feed the UTC-derived JD directly — i.e. the
+            // DUT1 = UT1 − UTC ≈ 0 approximation (|DUT1| ≤ 0.9 s by the leap-second
+            // convention). This is standard in SGP4 and intended: the resulting GMST
+            // error is |DUT1| · Earth-rate ≈ 0.9 s · 15.04″/s ≈ 13″ worst case (a few
+            // arcsec typically) — well inside SGP4's own model error, and it keeps the
+            // propagator self-consistent without an Earth-orientation table. For an
+            // ITRF-precise reduction supply the real UT1 to the frame layer
+            // (crate::timescales::utc_to_ut1 + crate::frames / crate::cio) instead.
             gstime(epoch + 2_433_281.5)
         };
 
