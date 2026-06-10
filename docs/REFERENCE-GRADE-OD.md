@@ -94,21 +94,52 @@ server serves the product through its file-browser session, so the founder downl
 day's SP3 and points `KSHANA_SWARM_SP3` at it). NRLMSISE-00 with space-weather drivers is
 the noted upgrade that would tighten the *dynamic* tier further.
 
-### LRO lunar — pending (P4 W4b)
+### LRO lunar — validated, **above** the 5 m bar (honest) (P4 W4b)
 
-The third dataset. Validated against the NAIF LRO reconstructed SPK ephemeris with a GRGM
-lunar gravity field (Moon-centred dynamics, not native SP3) — a genuine engine extension
-(lunar central body + body-fixed field + SPK reader), tracked as its own wave. Honest
-numbers, field degree documented, when delivered.
+- **Dataset:** the real NASA/JPL **Lunar Reconnaissance Orbiter** (NAIF −85) reconstructed
+  trajectory from JPL Horizons, geometric Moon-centred state vectors in the ICRF, 2022-01-01,
+  ~98 km altitude, 1-minute sampling (241 epochs, 4 h, ~2 revolutions). Using Horizons text
+  vectors needs **no SPK/SPICE reader**.
+- **Gravity:** the GRAIL **GRGM660PRIM** field (GSFC, degree 660), truncated to d/o 150 and
+  fitted at d/o 100, evaluated in the lunar body-fixed **principal-axis** frame.
+- **Open source (no login):** Horizons API `ssd.jpl.nasa.gov/api/horizons.api`; gravity via
+  ICGEM `icgem.gfz-potsdam.de`.
+- **Validation commit:** `4fb82bb` (`tests/agency_lro.rs`).
+- **Fixtures (SHA-256):** LRO `574e3518…d100f0`; GRGM `0ff04184…f029977ae`
+  (`tests/fixtures/agency/NOTICE.md`).
+
+This is **Moon-centred** dynamics — a distinct force model (`src/lunar_od.rs`): the GRGM field
+in the lunar body-fixed frame (the IAU 2015 mean-Earth orientation `src/lunar_frame.rs` composed
+with the fixed DE421 ME→PA offset), plus the Earth (the dominant lunar-orbit perturbation) and
+Sun third bodies, fitted through the *same* generic reference-grade Gauss–Newton estimator the
+Earth datasets use (the `precise_od::ForceModel` trait).
+
+| Run | Arc | d/o | n_obs | 3-D RMS | RTN (R, T, N) | Notes |
+|-----|-----|-----|-------|---------|---------------|-------|
+| CI fixture, dynamic (state only)        | 4 h | 100 | 241 | **12.6 m** | 3.07, 10.19, 6.81 m | raw overlap 53.8 m |
+| CI fixture, reduced-dynamic (+empirical) | 4 h | 100 | 241 | **6.9 m**  | 3.47, 4.90, 3.36 m  | empirical absorbs the along-track |
+
+These residuals are **above** the 5 m bar Galileo (0.13 m) and Swarm-A (0.10 m) clear, and are
+reported honestly. The limiting factor is the fidelity of the **lunar orientation and
+ephemeris**, not the estimator: the *analytic* IAU libration series (accurate to tens of
+arc-seconds vs the JPL DE numerically-integrated `MOON_PA`) and the built-in Montenbruck–Gill
+Earth/Sun ephemeris (~0.3° vs a DE/SPICE kernel) leave a roughly isotropic ~7 m floor that no
+amount of field degree, frame correction, or integrator tightening removes (all were tried; the
+dynamic residual is identical at d/o 100 and 150 and at `atol` 1e-6 vs 1e-9). Metre-level
+selenocentric OD is the documented follow-on: DE-grade lunar orientation and ephemeris (a binary
+PCK / SPK via the optional ANISE path), and a 2-per-revolution empirical tier for the
+sectoral-gravity-orientation residual.
 
 ## Honesty contract
 
 - The < 5 m "green" bar is met for **Galileo MEO** (0.13 m dynamic) and **Swarm-A LEO**
-  (2.69 m dynamic / 0.10 m reduced-dynamic). LRO will publish its real RMS as-is, even if
-  above 5 m.
+  (2.69 m dynamic / 0.10 m reduced-dynamic). **LRO lunar is published as-is at 12.6 m dynamic /
+  6.9 m reduced-dynamic — above the bar** — with the limiting fidelity factor (analytic lunar
+  orientation + low-precision ephemeris) stated and the path to metre level documented.
 - For LEO, the **dynamic** (state-only, static density) and **reduced-dynamic** (with
   empirical accelerations) tiers are always reported **separately**, so the reader sees
   what the empirical terms absorb; the reduced-dynamic tier is the operational orbit. The
   same separation holds for the MEO empirical/pure-force tiers.
 - Every residual carries its commit hash, dataset reference, and fixture checksum above.
-- **Datasets validated: 2 of 3** (Galileo MEO ✓, Swarm-A LEO ✓, LRO lunar pending).
+- **Datasets validated against real agency truth: 3 of 3** (Galileo MEO, Swarm-A LEO, LRO lunar).
+  **Meeting the < 5 m bar: 2 of 3** (Galileo ✓, Swarm-A ✓; LRO at 6.9 m, honestly above it).
