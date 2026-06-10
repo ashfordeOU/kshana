@@ -1,7 +1,7 @@
 # Metre-level selenocentric OD: the DE-grade (ANISE) path for LRO < 5 m
 
 - **Date:** 2026-06-10
-- **Status:** Design — **PROPOSAL, pending founder go/no-go** (this is the documented "founder fork"; nothing here is implemented yet)
+- **Status:** **IMPLEMENTED (Approach A) — outcome below.** Built as `xval/anise-lunar-od`. The hypothesis in §1/§7 (that the floor was orientation/ephemeris fidelity) was **tested and refuted for the reduced-dynamic tier**: DE-grade DE440 orientation + ephemeris improve the dynamic fit (12.6 → 12.0 m) but leave the **reduced-dynamic** residual unchanged (6.65 → 6.67 m), so the operational floor is *not* frame fidelity but an empirical-tier-irreducible residual (most consistent with LRO non-gravitational dynamics over the short arc). The lean analytic stack already matches DE-grade for the reduced-dynamic orbit; LRO stays honestly above 5 m and the milestone holds 3/6. Full result in `docs/REFERENCE-GRADE-OD.md`. The §7 residual-attribution fallback is exactly what played out.
 - **Roadmap milestone:** P4 "Reference-grade astrodynamics", step 4 ("validate vs 3 agency datasets, < 5 m RMS") — the one dataset still above the bar
 - **Author:** Chakshu Baweja
 - **Supersedes nothing.** Extends `docs/design/2026-06-09-reference-grade-od-design.md` (the reference-grade-OD design) and the W4b LRO result recorded in `docs/REFERENCE-GRADE-OD.md`.

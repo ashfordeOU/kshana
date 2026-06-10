@@ -399,17 +399,24 @@ Both Earth regimes clear the 5 m reference-grade bar comfortably.
 
 The lunar case is reported **honestly above the bar**. Fitting the GRAIL field in the lunar
 body-fixed frame to a real Lunar Reconnaissance Orbiter arc from JPL Horizons gives a
-**12.6 m** dynamic and **6.6 m** reduced-dynamic (one- and two-per-rev) residual. The
-limiting factor is demonstrably *not* the estimator but the fidelity of the built-in lunar
-orientation and ephemeris: the analytic IAU 2015 libration series (accurate to tens of
-arc-seconds versus the JPL DE numerically integrated principal-axis frame) and the analytic
-Montenbruck–Gill Earth/Sun ephemeris leave a roughly isotropic ~7 m floor that is unchanged
-by field degree (identical at degree/order 100 and 150), by integrator tolerance (1 × 10⁻⁶
-versus 1 × 10⁻⁹), and by the empirical tier (6.9 → 6.6 m for the second cycle-per-rev term).
-Metre-level selenocentric OD is the documented follow-on — DE-grade lunar orientation and
-ephemeris via a binary planetary kernel — and is the single lever not yet pulled. We report
-the 6.6 m figure as-is rather than tune a parameter to manufacture a sub-5 m number, in
-keeping with the honesty contract.
+**12.6 m** dynamic and **6.6 m** reduced-dynamic (one- and two-per-rev) residual; the
+estimator is not the limit (the result is identical at field degree/order 100 and 150 and at
+integrator tolerance 1 × 10⁻⁶ versus 1 × 10⁻⁹). To identify what *does* set the floor we ran a
+**DE-grade cross-validation**: a workspace-excluded crate that swaps only the two analytic frame
+inputs — the lunar orientation and the Earth/Sun ephemeris — for the JPL DE440 numerically
+integrated lunar principal-axis orientation and the DE440 ephemeris (read via the pure-Rust ANISE
+SPICE reimplementation), and re-runs the same estimator. The result corrects the natural
+hypothesis: DE-grade inputs improve the raw overlap (53.8 → 41.5 m) and the **dynamic** fit
+(12.6 → 12.0 m) — so the analytic orientation/ephemeris error is real and limits those tiers — but
+leave the **reduced-dynamic** residual essentially unchanged (6.65 → 6.67 m). The empirical
+cycle-per-revolution tier already absorbs the orientation/ephemeris error, so the operational
+~6.6 m floor is set not by frame fidelity but by a residual that tier cannot absorb, most
+consistent with the satellite's unmodelled non-gravitational accelerations (thermal re-radiation
+and outgassing) over the short four-hour arc. The constructive corollary is that Kshana's lean,
+kernel-free analytic lunar stack already matches DE-grade fidelity for the reduced-dynamic
+(operational) lunar orbit; crossing five metres requires a spacecraft non-gravitational model and
+a longer multi-arc fit, not better frames. We report the 6.6 m figure as-is rather than tune a
+parameter to manufacture a sub-5 m number, in keeping with the honesty contract.
 
 # 6. Reproducibility and Software Quality
 
@@ -491,12 +498,14 @@ We state the limits plainly, in keeping with the tool's honesty contract.
   against agency products. Other quantities are labelled *modeled* rather than *validated*;
   integrity protection levels, for instance, are computed against modelled error
   distributions, not certified against real fault data.
-- **Selenocentric OD is fidelity-limited, and said so.** The lunar precise-OD residual
-  (Section 5.4) is 6.6 m, *above* the 5 m bar the Earth datasets clear, because the engine's
-  analytic lunar orientation and ephemeris — chosen to keep the build dependency-light and
-  fully reproducible without binary kernels — impose a ~7 m floor. The path to metre level
-  (DE-grade orientation and ephemeris) is identified but deliberately deferred; the figure is
-  published unmodified.
+- **Selenocentric OD is above the bar, and the cause is now pinned.** The lunar precise-OD
+  residual (Section 5.4) is 6.6 m reduced-dynamic, *above* the 5 m bar the Earth datasets clear.
+  A DE-grade cross-validation (DE440 orientation and ephemeris via ANISE) showed the reduced-dynamic
+  floor is *not* the analytic frame fidelity — DE-grade kernels leave it unchanged — but a residual
+  the empirical tier cannot absorb, most consistent with the satellite's unmodelled
+  non-gravitational dynamics over the short arc. Reaching metre level therefore needs a spacecraft
+  non-gravitational model and a longer multi-arc fit, not better frames; the figure is published
+  unmodified.
 - **Scope boundaries.** Kshana does not process raw signals, does not perform certified
   integrity, and does not replace high-fidelity mission-design astrodynamics; it
   deliberately occupies the upstream performance-simulation layer and interoperates with
