@@ -163,3 +163,93 @@ fn api_auto_export_omm_honours_the_scenario_flag() {
         .expect("export_omm = true yields Some");
     assert!(text.contains("CCSDS_OMM_VERS = 2.0"));
 }
+
+// Pull the whitespace-separated ephemeris lines (`epoch X Y Z X_DOT Y_DOT Z_DOT`)
+// out of an OEM document, as their six numeric columns.
+fn oem_state_lines(text: &str) -> Vec<[f64; 6]> {
+    let mut rows = Vec::new();
+    for line in text.lines() {
+        let toks: Vec<&str> = line.split_whitespace().collect();
+        if toks.len() == 7 && toks[0].len() >= 10 && toks[0].as_bytes()[4] == b'-' {
+            let mut v = [0.0f64; 6];
+            if toks[1..]
+                .iter()
+                .enumerate()
+                .all(|(k, t)| match t.parse::<f64>() {
+                    Ok(x) => {
+                        v[k] = x;
+                        true
+                    }
+                    Err(_) => false,
+                })
+            {
+                rows.push(v);
+            }
+        }
+    }
+    rows
+}
+
+#[test]
+fn api_export_oem_carries_position_and_velocity_for_an_orbit_scenario() {
+    // The CLI `--export-oem` path: the bundled real-GPS orbit scenario exports a
+    // valid CCSDS OEM 2.0 document — the velocity-carrying spacecraft-ephemeris
+    // format — with one TEME segment per satellite.
+    let text = kshana::api::export_oem(ORBIT_SCENARIO).expect("orbit scenario exports OEM");
+    assert!(
+        text.starts_with("CCSDS_OEM_VERS = 2.0\n"),
+        "not OEM 2.0: {:?}",
+        &text[..20.min(text.len())]
+    );
+    assert!(text.contains("ORIGINATOR = KSHANA"));
+    assert_eq!(
+        text.matches("META_START").count(),
+        30,
+        "one OEM segment per gps-ops satellite"
+    );
+    // OEM is the inertial spacecraft format: TEME frame, full state vectors.
+    assert!(text.contains("REF_FRAME = TEME"));
+    // Every ephemeris line must carry a real (non-zero) velocity — the whole point
+    // of OEM over the position-only SP3 — at a GPS-like speed and altitude.
+    let rows = oem_state_lines(&text);
+    assert!(
+        rows.len() >= 30,
+        "expected per-satellite ephemeris lines, got {}",
+        rows.len()
+    );
+    for v in &rows {
+        let r_km = (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]).sqrt();
+        let speed_km_s = (v[3] * v[3] + v[4] * v[4] + v[5] * v[5]).sqrt();
+        assert!(
+            (20_000.0..30_000.0).contains(&r_km),
+            "GPS radius {r_km:.0} km"
+        );
+        assert!(
+            (3.0..4.5).contains(&speed_km_s),
+            "GPS speed {speed_km_s:.3} km/s — velocity must be carried"
+        );
+    }
+}
+
+#[test]
+fn api_export_oem_rejects_a_non_orbit_scenario() {
+    let err = kshana::api::export_oem(CLOCK_SCENARIO).unwrap_err();
+    assert!(
+        err.contains("orbit"),
+        "expected an orbit-required error, got: {err}"
+    );
+    assert_eq!(kshana::api::auto_export_oem(CLOCK_SCENARIO).unwrap(), None);
+}
+
+#[test]
+fn api_auto_export_oem_honours_the_scenario_flag() {
+    // Without the flag the orbit scenario auto-exports nothing.
+    assert_eq!(kshana::api::auto_export_oem(ORBIT_SCENARIO).unwrap(), None);
+    // With `export_oem = true` it returns the OEM document.
+    let with_flag =
+        ORBIT_SCENARIO.replacen("kind = \"orbit\"", "kind = \"orbit\"\nexport_oem = true", 1);
+    let text = kshana::api::auto_export_oem(&with_flag)
+        .unwrap()
+        .expect("export_oem = true yields Some");
+    assert!(text.starts_with("CCSDS_OEM_VERS = 2.0\n"));
+}
