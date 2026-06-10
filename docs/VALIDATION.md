@@ -143,10 +143,26 @@ tool; the perturbations are **off by default**, so the released goldens are unto
 | Atmospheric drag (first velocity-dependent term) | `validated` | `src/forces.rs`: `atmospheric_density` (Vallado Table 8-4 piecewise-exponential) **anchors at 1.225 kg/m³ at sea level**, clamps below the surface, decreases monotonically through LEO, sits in the ~1e-12 kg/m³ band at 400 km with a physical recovered ~58 km scale height; `drag_accel` opposes the co-rotating relative velocity at the ~2e-6 m/s² LEO magnitude. The signature check: a 300 km orbit loses specific energy **monotonically** and its semi-major axis decays a bounded ~km/day, where the vacuum baseline conserves energy to < 1e-9. |
 | Post-Newtonian (Schwarzschild) relativistic correction | `validated` | `src/forces.rs`: `relativistic_accel` (IERS `β = γ = 1` form `a = (μ/c²r³)·{[4μ/r − v²]·r + 4(r·v)·v}`) collapses on a circular orbit to the closed form `3μ²/(c²r³)·r̂` (radial, **outward**, off-axis components exactly zero), shows the textbook **`≈1.9e-9` LEO ratio to two-body**, matches the hand-simplified radial-velocity form `μ(4μ + 3v²r)/(c²r³)` to < 1e-12, and in the propagator **perturbs the orbit while holding the semi-major axis to under a metre/day** — the conservative opposite of drag's decay. |
 
-Honest scope: the high-degree EGM **tesseral** field, the NRLMSISE-00 thermospheric
+Honest scope: the released `ForceModel` defaults integrate the zonal field. The
+high-degree EGM2008 **tesseral** field (`src/gravity_sh.rs`, degree/order 70), the
+solid/ocean/atmospheric **tides** (`src/tides.rs`), and the **Lense–Thirring**
+frame-dragging term are now implemented and composed into the reference-grade
+precise-OD force model (`src/precise_od.rs` — see below). The NRLMSISE-00 thermospheric
 density (drag is the static Vallado model), solar limb darkening / the oblate-Earth
-shadow, the Lense–Thirring frame-dragging term, DE-grade ephemeris accuracy, and an
-external GMAT/Orekit cross-validation of a high-fidelity run remain follow-ons.
+shadow, DE-grade ephemeris accuracy, and an external GMAT/Orekit cross-validation of a
+high-fidelity run remain follow-ons.
+
+## Tides on the geopotential (`src/tides.rs`)
+
+Time-varying corrections ΔC̄_nm, ΔS̄_nm to the Stokes coefficients (IERS Conventions
+2010, Chapter 6), validated against the conventions' own published numbers — not against
+another tool.
+
+| Contribution | Status | Evidence |
+|------|--------|----------|
+| Solid Earth tide (IERS Eq. 6.6 / 6.8b / 6.14) | `validated` | `tests/tides_iers.rs`: the permanent (zero-frequency) tide ΔC̄₂₀ lands within 1 % of the IERS-published −4.1736×10⁻⁹ (anelastic Love numbers); the **Step-2 K1 worked example is reproduced bit-for-bit** (sin/cos amplitudes 470.9 / −30.2 ×10⁻¹² to 0.1×10⁻¹²); the normalized Legendre path is pinned by closed-form hand values independent of the recurrence. |
+| Ocean tide (IERS Eq. 6.15, FES2004, 8 constituents) | `validated` | The vendored FES2004 subset (`tools/gen_fes2004.py` → `src/fes2004_data.rs`, Doodson→multiplier parse) reproduces the source M2 (2,2) coefficients exactly; the K1 Doodson phase equals θ_g + π; the degree-2 sectorial magnitude is physical and an order below the solid tide. |
+| Atmospheric S2 air tide (Ray 2001, NASA GSFC) | `validated` | The vendored Ray harmonics convert through the surface-load relation (Eq. 6.21) to a peak ΔC̄₂₂ ≈ 4×10⁻¹¹ (~10 % of the ocean M2 term). Honest caveat: **no published geopotential-coefficient oracle exists for the air tide**, so it is validated by source-integrity + magnitude, a weaker bar than the solid/ocean tides. |
 
 ## Maneuvers & trajectory design (`src/maneuver.rs`)
 
@@ -169,8 +185,32 @@ Earth–Mars C3 cross-check has not been run).
 | Batch orbit determination from ranges | `validated` | `determine_orbit_batch` recovers `[r, v]` from ground-station range tracking (propagated over the two-body + J2 force model) to **sub-metre / mm·s⁻¹ from noiseless ranges**, and to **~2 m with a post-fit residual at the 5 m noise floor** — the signature of a consistent least-squares fit. |
 | Sequential (unscented-filter) OD | `validated` | `determine_orbit_sequential` recursively recovers the state to within tens of metres on the same dynamics and range model. |
 
-Honest scope: range-rate/Doppler and angle measurements, an analytic J2 state-transition
-matrix, and station-visibility masking are follow-ons.
+Honest scope: range-rate/Doppler and angle measurements and station-visibility masking
+are follow-ons for the range-only teaching estimator (the full-force precise-OD engine
+below carries the variational state-transition matrix).
+
+## Precise orbit determination (`src/precise_od.rs`)
+
+A reference-grade, full-force position-observation batch least-squares estimator: the
+EGM2008 tesseral geopotential (evaluated in the Earth-fixed frame through the CIO
+reduction) composed with the Sun/Moon third body, SRP, drag, Schwarzschild/Lense–Thirring
+GR, and the tides above, fit to a track of inertial position fixes with a variational
+state-transition-matrix Jacobian. Validated on **synthetic** data, where the truth is
+Kshana's own integrator, so every residual is the estimator's and not the dynamics'.
+
+| Aspect | Status | Evidence |
+|--------|--------|----------|
+| Precise force model composition | `validated` | `tests/precise_od_synth.rs`: the degree-0 field is the exact point mass at every epoch (the central term is rotation-invariant); degree-8 adds the J2-band oblateness; the Sun third body and the tide term wire in bit-faithfully; a constant radial empirical acceleration is purely radial in RTN. |
+| Variational state-transition matrix | `validated` | Every column of Φ over a half LEO orbit (degree-8 geopotential + Sun + Moon) agrees with an independent **whole-arc central finite-difference** re-propagation to **< 1×10⁻⁶ relative** in both the position and velocity response — the documented STM↔FD cross-check. Φ(0) = I; the augmented and plain propagators agree to sub-millimetre. |
+| Batch-LS self-recovery | `validated` | A 1-hour Kshana arc (degree-6 + Sun + Moon) observed noise-free is recovered from a 150 m / 0.1 m·s⁻¹ offset to the **epoch state within 1×10⁻² m** with near-zero post-fit RMS; with 5 m white noise the post-fit 3-D RMS settles at the **~σ noise floor**, unbiased. SRP **C_R is recovered from 1.0 to within 1 %** of the 1.4 truth. |
+| Outlier editing & RTN reporting | `validated` | A 500 m gross blunder is rejected by 5-σ post-fit editing (exactly one observation), leaving a clean millimetre-level fit; residuals are reported decomposed into radial/transverse/normal as well as 3-D. |
+| Empirical-acceleration tier (RTN constant + 1-CPR) | `validated` | The nine a-priori-constrained empirical parameters stay below 1×10⁻⁸ m·s⁻² on empirical-free truth without disturbing the fit; a constant 3×10⁻⁸ m·s⁻² cross-track acceleration injected into the truth is recovered to within 20 %. |
+
+Honest scope: the synthetic wave uses nominal Earth-orientation parameters (UT1 ≈ TT, no
+polar motion) — exact for self-recovery, since the same model generates and fits the arc.
+The agency-dataset validations (Galileo MEO, Swarm-A LEO, LRO lunar) layer real
+finals2000A EOP and SP3/SPK truth on top of this engine and are the next waves; their
+real post-fit residuals are not yet reported here.
 
 ## Gravity-map / alt-PNT navigation (`src/gravimeter.rs`, `src/mapmatch.rs`, `src/particle_filter.rs`, `src/altpnt/terrain.rs`)
 
