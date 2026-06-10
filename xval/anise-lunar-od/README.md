@@ -29,10 +29,27 @@ chase the bar.
 
 ## Result
 
-Produced by `cargo run --release --bin lunar-od-xval`, which writes `report.json` + `report.md`.
-The committed result and its interpretation live in `docs/REFERENCE-GRADE-OD.md` (the citable
-validation record). The DE-grade orientation is verified, in the test gate, to genuinely differ
-from the analytic one by the tens of arc-seconds the cross-validation exists to remove.
+Produced by `cargo run --release --bin lunar-od-xval` (writes `report.json` + `report.md`):
+
+| Tier | analytic (`kshana` default) | **DE-grade (this crate)** |
+|------|----------------------------:|--------------------------:|
+| raw overlap | 53.8 m | **41.5 m** |
+| dynamic (state only) | 12.6 m | **12.0 m** |
+| **reduced-dynamic (1+2/rev)** | **6.65 m** | **6.67 m** |
+
+**The finding — which corrects the W4b hypothesis.** DE-grade orientation and ephemeris improve
+the raw overlap and the **dynamic** fit (so the analytic orientation/ephemeris error is real and
+limits those tiers) but leave the **reduced-dynamic** residual essentially **unchanged**
+(6.65 → 6.67 m). The empirical 1+2-per-rev tier was already absorbing the orientation/ephemeris
+error, so the operational ~6.6 m floor is **not** frame fidelity — it is a residual the
+cycle-per-rev basis cannot absorb and DE-grade kernels do not remove, most consistent with
+unmodelled LRO non-gravitational dynamics (thermal/outgassing) over the short 4 h arc.
+
+The constructive corollary: **the lean, kernel-free analytic stack already matches DE-grade for
+the reduced-dynamic (operational) lunar orbit.** Crossing 5 m needs a spacecraft non-gravitational
+model and a longer multi-arc fit, not better frames. The full interpretation is in
+`docs/REFERENCE-GRADE-OD.md`. The test gate independently verifies the DE-grade orientation
+genuinely differs from the analytic one by the tens of arc-seconds the cross-validation removes.
 
 ## Running it
 
