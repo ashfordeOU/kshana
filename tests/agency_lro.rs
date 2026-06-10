@@ -17,10 +17,14 @@
 //! Fixture (provenance + SHA-256 in `tests/fixtures/agency/NOTICE.md`):
 //!   lro/LRO_2022001_Moon_ICRF_4h.csv   574e3518…d100f0
 
+use kshana::gravity_sh::SphericalHarmonicField;
 use kshana::integrator::{integrate_dopri, Tolerance};
 use kshana::lunar::{MOON_GM_M3_S2, R_MOON_M};
 
 const LRO: &str = include_str!("fixtures/agency/lro/LRO_2022001_Moon_ICRF_4h.csv");
+/// GRAIL primary-mission lunar gravity field GRGM660PRIM, truncated to d/o 150 (provenance +
+/// SHA-256 in `tests/fixtures/agency/NOTICE.md`). The principal-axis (PA / DE421) field.
+const GRGM: &str = include_str!("fixtures/agency/lro/GRGM660PRIM_to150.gfc");
 
 /// One Horizons state: TDB Julian Date and Moon-centered ICRF position (m) and velocity
 /// (m/s). The fixture stores km / km/s; this converts to SI.
@@ -92,6 +96,52 @@ fn lro_truth_geometry_is_sane() {
     assert!(
         swept > 2.0 * std::f64::consts::PI,
         "arc swept only {swept} rad (< 1 rev)"
+    );
+}
+
+#[test]
+fn grgm_lunar_field_loads_and_is_physically_lunar() {
+    // The GRAIL GRGM660PRIM field (truncated to d/o 150) loads through the ICGEM `.gfc` reader
+    // — exercising the `gravity_constant` keyword celestial-body models use — and reproduces
+    // the Moon's gravitational parameter, reference radius, surface gravity, and the small
+    // non-spherical perturbation the lunar orbit fit will model.
+    let f = SphericalHarmonicField::from_gfc(GRGM, 150).expect("parse GRGM .gfc");
+    assert_eq!(f.nmax, 150, "GRGM660PRIM truncated to d/o 150");
+    assert!(
+        (f.gm - 4.902_799_806_931_69e12).abs() / f.gm < 1e-12,
+        "Moon GM {} (want GRGM660PRIM 4.90279980693e12)",
+        f.gm
+    );
+    assert!(
+        (f.re - 1_738_000.0).abs() < 1e-3,
+        "reference radius {} (want 1738 km)",
+        f.re
+    );
+
+    // Lunar surface gravity at the pole ≈ 1.62 m/s² (the textbook value), point-mass dominated
+    // with the oblateness (C̄20 < 0) raising the poles slightly.
+    let g_pole = norm(f.acceleration([0.0, 0.0, R_MOON_M]));
+    assert!(
+        (g_pole - 1.625).abs() < 0.03,
+        "polar surface gravity {g_pole} m/s² (want ≈ 1.62)"
+    );
+
+    // Just above the reference sphere, off all axes (so tesserals contribute), the field is a
+    // real but small perturbation on the central term — the J2/C22-dominated signal a Moon
+    // point-mass model misses. Compare the full field to its own two-body part.
+    let r = [1.50e6, 0.70e6, 0.55e6]; // |r| ≈ 1.744e6 m, just above the 1738 km sphere
+    let a = f.acceleration(r);
+    let rn = norm(r);
+    let tb = [
+        -f.gm * r[0] / rn.powi(3),
+        -f.gm * r[1] / rn.powi(3),
+        -f.gm * r[2] / rn.powi(3),
+    ];
+    let pert = norm([a[0] - tb[0], a[1] - tb[1], a[2] - tb[2]]);
+    let rel = pert / norm(tb);
+    assert!(
+        rel > 1e-4 && rel < 1e-2,
+        "GRGM non-spherical fraction {rel} (lunar J2/C22 band)"
     );
 }
 

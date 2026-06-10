@@ -85,8 +85,10 @@ impl SphericalHarmonicField {
         f
     }
 
-    /// Parse a fully-normalized ICGEM `.gfc` model. Reads `earth_gravity_constant`, `radius`, and
-    /// the `gfc <n> <m> <C> <S>` lines (Fortran `d`/`D` exponents accepted), to `nmax`.
+    /// Parse a fully-normalized ICGEM `.gfc` model. Reads the GM (`earth_gravity_constant` for
+    /// Earth models, `gravity_constant` for celestial-body models such as the GRAIL lunar
+    /// fields), `radius`, and the `gfc <n> <m> <C> <S>` lines (Fortran `d`/`D` exponents
+    /// accepted), to `nmax`.
     pub fn from_gfc(text: &str, nmax: usize) -> Result<Self, String> {
         let ff = |t: &str| t.replace(['d', 'D'], "e").parse::<f64>();
         let mut gm = None;
@@ -96,7 +98,9 @@ impl SphericalHarmonicField {
         for line in text.lines() {
             let p: Vec<&str> = line.split_whitespace().collect();
             match p.first().copied() {
-                Some("earth_gravity_constant") if p.len() >= 2 => {
+                // ICGEM uses `earth_gravity_constant` for Earth models and `gravity_constant`
+                // for celestial-body models (the GRAIL lunar / planetary fields).
+                Some("earth_gravity_constant" | "gravity_constant") if p.len() >= 2 => {
                     gm = ff(p[1]).ok();
                 }
                 Some("radius") if p.len() >= 2 => {
@@ -116,7 +120,7 @@ impl SphericalHarmonicField {
                 _ => {}
             }
         }
-        let gm = gm.ok_or("missing earth_gravity_constant")?;
+        let gm = gm.ok_or("missing earth_gravity_constant / gravity_constant")?;
         let re = re.ok_or("missing radius")?;
         // A value can parse yet be non-physical (NaN GM → NaN field; negative GM → repulsive
         // gravity; zero/negative/inf radius). Reject rather than silently fail open.
@@ -390,5 +394,39 @@ mod tests {
         let a2 = direct.acceleration(r);
         let err = norm([a1[0] - a2[0], a1[1] - a2[1], a1[2] - a2[2]]);
         assert!(err < 1e-12, "gfc-loaded vs generated accel differ by {err}");
+    }
+
+    #[test]
+    fn from_gfc_accepts_icgem_gravity_constant_keyword() {
+        // ICGEM celestial-body models (the GRAIL lunar fields, planetary models) carry the
+        // GM under the `gravity_constant` keyword, not the Earth-centric
+        // `earth_gravity_constant`. A minimal Moon-like field (GM, Re, C̄00=1) must load and
+        // evaluate to the point-mass acceleration −μr/|r|³, proving the keyword path.
+        let txt = "\
+modelname test_moon
+gravity_constant              0.4902799806931690D+13
+radius                        0.1738000D+07
+end_of_head
+gfc    0     0  1.0000000000000000E+00  0.0000000000000000E+00
+";
+        let f = SphericalHarmonicField::from_gfc(txt, 10).expect("gravity_constant keyword loads");
+        assert!(
+            (f.gm - 4.902_799_806_931_69e12).abs() / f.gm < 1e-12,
+            "GM {}",
+            f.gm
+        );
+        assert!((f.re - 1_738_000.0).abs() < 1e-3, "Re {}", f.re);
+        let r = [2.0e6, 0.0, 0.0];
+        let a = f.acceleration(r);
+        let want = -f.gm / (2.0e6f64).powi(2);
+        assert!(
+            (a[0] - want).abs() / want.abs() < 1e-12,
+            "point mass a_x {} vs {want}",
+            a[0]
+        );
+        assert!(
+            a[1].abs() < 1e-6 && a[2].abs() < 1e-6,
+            "off-axis leak {a:?}"
+        );
     }
 }
