@@ -65,12 +65,31 @@ is tied to the exact bytes below by SHA-256.
   SPK/SPICE reader dependency — the same definitive reconstructed orbit, in a usable frame.
 - **SHA-256:** `574e35180b0961a411f0b33de65719af6665386a9b89ffcdf7326bd478d100f0`
 
+### `lro/GRGM660PRIM_to150.gfc`
+- **Product:** `GRGM660PRIM` — the NASA GSFC GRAIL primary-mission lunar gravity field
+  (degree/order 660, fully-normalized spherical harmonics; reference radius 1738.0 km;
+  `GM = 4.902799806931690e12 m³/s²`; tide-free; the body-fixed coordinate system is the
+  DE421 lunar **principal-axis (PA)** frame). Derived from the entire nominal GRAIL mission
+  (2012-03-01 .. 2012-05-29). Konopliv et al., *The JPL lunar gravity field to spherical
+  harmonic degree 660 from the GRAIL Primary Mission*, JGR Planets 118 (2013).
+- **Source (open, no login):** ICGEM (GFZ Potsdam) celestial-models archive,
+  `http://icgem.gfz-potsdam.de/tom_celestial` →
+  `getmodel/gfc/.../GRGM660PRIM.gfc` (ICGEM-format conversion, F. Barthelmes, 2013).
+- **Slice:** the verbatim ICGEM header (with `max_degree` updated to reflect the truncation)
+  plus every `gfc` coefficient line of degree **n ≤ 150** (11 476 coefficients); higher
+  degrees removed and trailing padding whitespace stripped — no coefficient value altered.
+  Degree 150 is ample for a ~98 km-altitude lunar orbit over a few-revolution arc; the
+  truncated high-degree (mascon) tail is a documented residual the empirical tier absorbs.
+- **SHA-256:** `0ff04184adf4884e8fc1d42b56eabf9112ff355e7720098c3263be6f029977ae`
+
 ## Licensing
 
-IERS, IGS/MGEX/ESOC, ESA Swarm, and NASA/JPL Horizons products are published for
-open scientific use with attribution (the Swarm products under the ESA Data
-Policy and Terms & Conditions for the use of ESA Data). These verbatim slices are
+IERS, IGS/MGEX/ESOC, ESA Swarm, NASA/JPL Horizons, and the NASA GSFC GRAIL gravity
+products (GRGM660PRIM, distributed via ICGEM/GFZ Potsdam) are published for open
+scientific use with attribution (the Swarm products under the ESA Data Policy and
+Terms & Conditions for the use of ESA Data). These verbatim slices are
 redistributed solely to make Kshana's orbit-determination validation
 independently reproducible; all credit for the underlying products remains with
-IERS, the IGS, ESA/ESOC, the ESA Swarm mission (TU Delft processing), and
-NASA/JPL Solar System Dynamics (Horizons / the LRO project).
+IERS, the IGS, ESA/ESOC, the ESA Swarm mission (TU Delft processing), NASA/JPL
+Solar System Dynamics (Horizons / the LRO project), and the NASA GRAIL mission
+(GSFC gravity field, Konopliv et al. 2013; ICGEM distribution).
