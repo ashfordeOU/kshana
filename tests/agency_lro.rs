@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-//! NASA LRO lunar-orbit validation (P4 Wave 4b) — truth foundation.
+//! NASA LRO lunar-orbit validation (P4 Wave 4b) — Moon-centred precise orbit determination.
 //!
 //! The third reference-grade agency dataset is a real NASA/JPL reconstructed trajectory of
 //! the **Lunar Reconnaissance Orbiter** (NAIF id −85, `LRO_merged`), taken from the JPL
@@ -8,18 +8,28 @@
 //! reader / SPICE dependency: the same definitive reconstructed orbit, in a frame Kshana's
 //! force model can use directly.
 //!
-//! This first wave establishes and geometry-checks the truth, and quantifies the
-//! perturbation signal a Moon point-mass model leaves unmodelled — the motivation for the
-//! Moon-central force model (lunar GRGM field via the lunar body-fixed frame + Earth/Sun
-//! third body + SRP) and the OD fit that the following waves add. The post-fit residual is
-//! reported there.
+//! [`lro_lunar_orbit_fit_against_horizons_truth`] fits Kshana's Moon-centred force model
+//! ([`kshana::lunar_od::LunarForceModel`]: the GRAIL GRGM660PRIM gravity field evaluated in the
+//! lunar body-fixed principal-axis frame via [`kshana::lunar_frame`] + Earth/Sun third body) to
+//! the arc through the same reference-grade Gauss–Newton estimator the Earth datasets use, and
+//! reports the honest post-fit RMS, dynamic and reduced-dynamic.
 //!
-//! Fixture (provenance + SHA-256 in `tests/fixtures/agency/NOTICE.md`):
-//!   lro/LRO_2022001_Moon_ICRF_4h.csv   574e3518…d100f0
+//! Honesty note: unlike Galileo (0.13 m) and Swarm-A (0.10 m), the LRO fit lands at **~6.9 m**
+//! reduced-dynamic / ~12.6 m dynamic — *above* the < 5 m bar. The limiting factor is fidelity of
+//! the **lunar orientation and ephemeris**: the analytic IAU libration (vs the JPL DE
+//! numerically-integrated `MOON_PA`) and the built-in Montenbruck–Gill Earth/Sun ephemeris (vs a
+//! DE/SPICE kernel). Metre-level selenocentric OD needs those higher-fidelity models; the result
+//! is published as-is, the honest current state.
+//!
+//! Fixtures (provenance + SHA-256 in `tests/fixtures/agency/NOTICE.md`):
+//!   lro/LRO_2022001_Moon_ICRF_4h.csv    574e3518…d100f0
+//!   lro/GRGM660PRIM_to150.gfc           0ff04184…f029977ae
 
 use kshana::gravity_sh::SphericalHarmonicField;
 use kshana::integrator::{integrate_dopri, Tolerance};
 use kshana::lunar::{MOON_GM_M3_S2, R_MOON_M};
+use kshana::lunar_od::LunarForceModel;
+use kshana::precise_od::{fit, EstimatedParams, FitConfig, Observation};
 
 const LRO: &str = include_str!("fixtures/agency/lro/LRO_2022001_Moon_ICRF_4h.csv");
 /// GRAIL primary-mission lunar gravity field GRGM660PRIM, truncated to d/o 150 (provenance +
@@ -96,6 +106,199 @@ fn lro_truth_geometry_is_sane() {
     assert!(
         swept > 2.0 * std::f64::consts::PI,
         "arc swept only {swept} rad (< 1 rev)"
+    );
+}
+
+/// Moon-centred ICRF position observations from the first `n_max` truth epochs, with the epoch
+/// (TDB Julian Date) and the truth velocity at epoch (the Horizons-supplied seed).
+fn lro_observations(text: &str, n_max: usize) -> (f64, Vec<Observation>, [f64; 3]) {
+    let s = parse_lro_csv(text);
+    let e0 = s[0].jd_tdb;
+    let v0 = s[0].vel;
+    let obs = s
+        .iter()
+        .take(n_max)
+        .map(|st| Observation {
+            t: (st.jd_tdb - e0) * 86_400.0,
+            pos: st.pos,
+            sigma: 1.0,
+        })
+        .collect();
+    (e0, obs, v0)
+}
+
+/// Geopotential degree/order for the CI lunar fit. The field plateaus for orbit purposes by
+/// d/o ~100 (d/o 150 gives an identical dynamic residual to the millimetre); the full d/o 150 is
+/// the `workflow_dispatch` job.
+const FIT_DEGREE: usize = 100;
+
+/// Raw (no-fit) overlap: propagate the seed truth state once under the full model and report the
+/// 3-D RMS against the observations — the "before" the fit improves on.
+fn raw_overlap_rms(
+    tmpl: &LunarForceModel,
+    initial: &EstimatedParams,
+    obs: &[Observation],
+    tol: &Tolerance,
+) -> f64 {
+    let times: Vec<f64> = obs.iter().map(|o| o.t).collect();
+    let pred = kshana::precise_od::propagate_samples(tmpl, initial.r0, initial.v0, &times, tol);
+    let sumsq: f64 = obs
+        .iter()
+        .zip(&pred)
+        .map(|(o, r)| (0..3).map(|k| (r[k] - o.pos[k]).powi(2)).sum::<f64>())
+        .sum();
+    (sumsq / obs.len() as f64).sqrt()
+}
+
+#[test]
+fn lro_lunar_orbit_fit_against_horizons_truth() {
+    // The third agency dataset, Moon-centred. Fit Kshana's lunar force model (GRGM660PRIM gravity
+    // in the body-fixed PA frame + Earth/Sun third body) to the real NASA/JPL Horizons LRO
+    // reconstructed orbit, seeded from the Horizons epoch state, and report the honest post-fit
+    // RMS in 3-D and RTN, dynamic and reduced-dynamic (with the empirical tier), against the raw
+    // overlap.
+    let (epoch, obs, v0) = lro_observations(LRO, usize::MAX);
+    assert_eq!(obs.len(), 241, "full 4 h LRO arc");
+    let field = SphericalHarmonicField::from_gfc(GRGM, FIT_DEGREE).expect("GRGM field loads");
+    let tmpl = LunarForceModel::new(field, epoch);
+    let tol = Tolerance {
+        rtol: 1e-10,
+        atol: 1e-6,
+        ..Default::default()
+    };
+    let initial = EstimatedParams {
+        r0: obs[0].pos,
+        v0,
+        cr: None,
+        empirical: None,
+    };
+    let raw = raw_overlap_rms(&tmpl, &initial, &obs, &tol);
+
+    // --- Dynamic: estimate the epoch state only, against the full lunar force model ---
+    let cfg = FitConfig {
+        estimate_cr: false,
+        outlier_sigma: 5.0,
+        max_iter: 25,
+        tol,
+        ..Default::default()
+    };
+    let rep = fit(&tmpl, initial, &obs, &cfg).expect("dynamic fit returns a report");
+    eprintln!(
+        "LRO (−85) 2022-001, GRGM660PRIM d/o {FIT_DEGREE} + Earth/Sun 3rd body, vs JPL Horizons \
+         truth (4 h): raw overlap {raw:.1} m\n  Dynamic (state only): 3D RMS = {:.3} m | \
+         RTN = [{:.3}, {:.3}, {:.3}] m | n_obs {} edited {} | iters {} converged {}",
+        rep.rms_3d,
+        rep.rms_rtn[0],
+        rep.rms_rtn[1],
+        rep.rms_rtn[2],
+        rep.n_obs,
+        rep.n_edited,
+        rep.iterations,
+        rep.converged,
+    );
+    assert!(rep.converged, "dynamic fit did not converge");
+    assert!(rep.rms_3d < raw, "fit did not improve on the raw overlap");
+    // Honest bound (measured ≈ 12.6 m): the dynamic residual is dominated by the analytic lunar
+    // orientation + low-precision (Montenbruck–Gill) ephemeris fidelity, above the < 5 m bar.
+    assert!(
+        rep.rms_3d < 25.0,
+        "LRO dynamic 3D RMS {:.3} m off the expected ~12.6 m",
+        rep.rms_3d
+    );
+
+    // --- Reduced-dynamic: + empirical CPR accelerations absorb the un-modelled lunar dynamics ---
+    let initial2 = EstimatedParams {
+        r0: obs[0].pos,
+        v0,
+        cr: None,
+        empirical: None,
+    };
+    let cfg2 = FitConfig {
+        estimate_cr: false,
+        estimate_empirical: true,
+        empirical_sigma: 1e-7,
+        outlier_sigma: 5.0,
+        max_iter: 25,
+        tol,
+    };
+    let rep2 = fit(&tmpl, initial2, &obs, &cfg2).expect("reduced-dynamic fit returns a report");
+    eprintln!(
+        "  Reduced-dynamic (+ empirical CPR): 3D RMS = {:.3} m | RTN = [{:.3}, {:.3}, {:.3}] m | \
+         iters {} converged {}",
+        rep2.rms_3d,
+        rep2.rms_rtn[0],
+        rep2.rms_rtn[1],
+        rep2.rms_rtn[2],
+        rep2.iterations,
+        rep2.converged,
+    );
+    assert!(rep2.converged, "reduced-dynamic fit did not converge");
+    assert!(
+        rep2.rms_3d <= rep.rms_3d + 1e-6,
+        "empirical tier should not worsen the fit ({:.3} vs {:.3} m)",
+        rep2.rms_3d,
+        rep.rms_3d
+    );
+    // Honest bound (measured ≈ 6.9 m): the empirical tier absorbs the along-track mismodelling to
+    // a roughly isotropic floor. This is ABOVE the < 5 m bar Galileo and Swarm-A meet — the
+    // honest statement that selenocentric metre-level OD needs DE/SPICE-grade lunar orientation
+    // and ephemeris (the documented follow-on), not the analytic models used here.
+    assert!(
+        rep2.rms_3d < 12.0,
+        "LRO reduced-dynamic 3D RMS {:.3} m off the expected ~6.9 m",
+        rep2.rms_3d
+    );
+}
+
+/// Full-degree (d/o 150) lunar fit over the vendored arc (ignored by default to keep CI light;
+/// the field is gravity-converged for orbit purposes by d/o ~100, so this is a confirmation run,
+/// not a different result). Override the degree with `KSHANA_LRO_DEGREE`.
+#[test]
+#[ignore = "full-degree confirmation run (d/o 150); the CI test runs d/o 100"]
+fn lro_full_degree_dispatch() {
+    let degree: usize = std::env::var("KSHANA_LRO_DEGREE")
+        .ok()
+        .and_then(|s| s.parse().ok())
+        .unwrap_or(150);
+    let (epoch, obs, v0) = lro_observations(LRO, usize::MAX);
+    let field = SphericalHarmonicField::from_gfc(GRGM, degree).expect("GRGM field loads");
+    let tmpl = LunarForceModel::new(field, epoch);
+    let tol = Tolerance {
+        rtol: 1e-11,
+        atol: 1e-8,
+        ..Default::default()
+    };
+    let initial = EstimatedParams {
+        r0: obs[0].pos,
+        v0,
+        cr: None,
+        empirical: None,
+    };
+    let cfg = FitConfig {
+        estimate_cr: false,
+        estimate_empirical: true,
+        empirical_sigma: 1e-7,
+        outlier_sigma: 5.0,
+        max_iter: 25,
+        tol,
+    };
+    let rep = fit(&tmpl, initial, &obs, &cfg).expect("reduced-dynamic fit");
+    eprintln!(
+        "LRO full-degree d/o {degree} ({} obs): reduced-dynamic 3D RMS = {:.3} m | \
+         RTN = [{:.3}, {:.3}, {:.3}] m | iters {} converged {}",
+        rep.n_obs,
+        rep.rms_3d,
+        rep.rms_rtn[0],
+        rep.rms_rtn[1],
+        rep.rms_rtn[2],
+        rep.iterations,
+        rep.converged,
+    );
+    assert!(rep.converged, "full-degree fit did not converge");
+    assert!(
+        rep.rms_3d < 12.0,
+        "full-degree reduced-dynamic {:.3} m",
+        rep.rms_3d
     );
 }
 

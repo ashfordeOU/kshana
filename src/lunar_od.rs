@@ -35,8 +35,8 @@
 use crate::ephem::{moon_position, sun_position};
 use crate::forces::{srp_accel, third_body_accel, MU_EARTH, MU_SUN};
 use crate::gravity_sh::SphericalHarmonicField;
-use crate::lunar_frame::icrf_to_iau_moon;
-use crate::precession::{julian_centuries_tt, mat_vec, transpose};
+use crate::lunar_frame::icrf_to_moon_pa;
+use crate::precession::{julian_centuries_tt, mat_vec, mod_to_gcrs, transpose};
 use crate::precise_od::{empirical_accel, EmpiricalAccel, ForceModel};
 use crate::timescales::SECONDS_PER_DAY;
 
@@ -88,10 +88,17 @@ impl LunarForceModel {
         self
     }
 
-    /// The geocentric Sun and Moon positions (m, mean-equator-of-date ≈ ICRF) at `jd`.
+    /// The geocentric Sun and Moon positions (m, **GCRS/ICRF**) at `jd`. The built-in analytic
+    /// series are mean-equator-of-date; they are rotated into GCRS with [`mod_to_gcrs`] so the
+    /// dominant Earth third-body direction is consistent with the inertial (ICRF) frame the orbit
+    /// is integrated and observed in — un-modelled precession would otherwise tilt the largest
+    /// lunar-orbit perturbation by ~0.3° at 2022, injecting an out-of-plane bias.
     fn geocentric(jd: f64) -> (Vec3, Vec3) {
         let tjc = julian_centuries_tt(jd);
-        (sun_position(tjc), moon_position(tjc))
+        (
+            mod_to_gcrs(sun_position(tjc), jd),
+            mod_to_gcrs(moon_position(tjc), jd),
+        )
     }
 }
 
@@ -99,9 +106,9 @@ impl ForceModel for LunarForceModel {
     fn accel_rv(&self, t: f64, r: Vec3, v: Vec3) -> Vec3 {
         let jd = self.epoch_jd_tdb + t / SECONDS_PER_DAY;
 
-        // Lunar gravity: rotate the inertial position into the Moon body-fixed frame, evaluate the
-        // field, rotate the acceleration back into the inertial frame.
-        let m = icrf_to_iau_moon(jd);
+        // Lunar gravity: rotate the inertial position into the Moon body-fixed principal-axis
+        // frame (the GRGM field's frame), evaluate, rotate the acceleration back to inertial.
+        let m = icrf_to_moon_pa(jd);
         let r_bf = mat_vec(&m, r);
         let a_bf = self.field.acceleration(r_bf);
         let mut a = mat_vec(&transpose(&m), a_bf);
