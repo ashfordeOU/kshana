@@ -20,9 +20,10 @@ tle = """
 step_s = 30.0
 duration_s = 16740.0   # ~three ISS revolutions
 
-# Earth-orientation: dut1_s = UT1 - UTC (0 => the DUT1 ~ 0 approximation, a
-# sub-arcsecond ground-track effect); xp_arcsec / yp_arcsec are the IERS polar-
-# motion pole coordinates. Leave at 0 for a quick run, or supply IERS values.
+# Earth-orientation: dut1_s = UT1 - UTC (0 => the DUT1 ~ 0 approximation, a few-
+# arcsecond / few-hundred-metre longitude shift in the ground track); xp_arcsec /
+# yp_arcsec are the IERS polar-motion pole coordinates. Leave at 0 for a quick run,
+# or supply IERS values.
 dut1_s = 0.0
 xp_arcsec = 0.0
 yp_arcsec = 0.0
