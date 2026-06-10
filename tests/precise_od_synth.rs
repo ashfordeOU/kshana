@@ -721,6 +721,84 @@ fn batch_ls_recovers_an_injected_cross_track_empirical_acceleration() {
     );
 }
 
+/// The 2-per-rev empirical tier captures twice-per-revolution mismodelling a 1-per-rev tier
+/// structurally cannot: inject a constant-amplitude `cos(2u)` cross-track acceleration into the
+/// truth, and the estimator with `estimate_empirical_2cpr` recovers the amplitude and cleans the
+/// fit — while a 1-per-rev-only tier (no `cos 2u`/`sin 2u` basis) leaves a visible residual.
+#[test]
+fn batch_ls_recovers_an_injected_2cpr_empirical_acceleration() {
+    use kshana::integrator::Tolerance;
+    use kshana::precise_od::{fit, EmpiricalAccel, EstimatedParams, FitConfig, PreciseForceModel};
+    use kshana::timescales::JD_J2000;
+
+    let (r0t, v0t, _p) = circular_leo();
+    let epoch = JD_J2000;
+    let a2 = 2.0e-8; // constant cos(2u) cross-track 2/rev amplitude (m/s²)
+    let emp_true = EmpiricalAccel {
+        normal_2cpr: [a2, 0.0],
+        ..Default::default()
+    };
+    let tol = Tolerance {
+        rtol: 1e-11,
+        atol: 1e-9,
+        ..Tolerance::default()
+    };
+    let fm_truth = PreciseForceModel::egm2008(4, epoch)
+        .third_body(true, false)
+        .with_empirical(emp_true);
+    let mut rng = Lcg(0xC0FF_EE12);
+    let obs = synth_track(&fm_truth, r0t, v0t, 80, 200.0, 0.0, &tol, &mut rng);
+
+    let fm_fit = PreciseForceModel::egm2008(4, epoch).third_body(true, false);
+    let initial = EstimatedParams {
+        r0: [r0t[0] + 40.0, r0t[1] - 20.0, r0t[2] + 15.0],
+        v0: [v0t[0] + 0.02, v0t[1] - 0.015, v0t[2] + 0.01],
+        cr: None,
+        empirical: None,
+    };
+
+    // A 1-per-rev-only tier cannot represent cos(2u): it leaves a residual.
+    let cfg_1cpr = FitConfig {
+        estimate_empirical: true,
+        empirical_sigma: 1e-6,
+        tol,
+        ..FitConfig::default()
+    };
+    let rep_1cpr = fit(&fm_fit, initial, &obs, &cfg_1cpr).expect("1/rev fit converges");
+
+    // Adding the 2-per-rev tier recovers the injected cos(2u) amplitude and cleans the fit.
+    let cfg_2cpr = FitConfig {
+        estimate_empirical: true,
+        estimate_empirical_2cpr: true,
+        empirical_sigma: 1e-6,
+        tol,
+        ..FitConfig::default()
+    };
+    let rep = fit(&fm_fit, initial, &obs, &cfg_2cpr).expect("2/rev fit converges");
+    assert!(rep.converged, "2/rev fit did not converge");
+    let e = rep.params.empirical.expect("empirical reported");
+    // The 2/rev mode is less observable than a constant cross-track and the a-priori constraint
+    // biases it toward zero, so it recovers to ~75 % (vs ~20 % for the 1/rev constant) — assert a
+    // 30 % band; the clean RMS and the beats-1/rev assertions below carry the real proof.
+    assert!(
+        (e.normal_2cpr[0] - a2).abs() < 0.3 * a2,
+        "cross-track 2/rev cos amplitude recovered {:e} vs injected {a2:e}",
+        e.normal_2cpr[0]
+    );
+    assert!(
+        rep.rms_3d < 0.5,
+        "with the 2/rev tier the fit should be clean, RMS {} m",
+        rep.rms_3d
+    );
+    // The 2/rev tier strictly improves on the 1/rev-only fit (it models a force 1/rev cannot).
+    assert!(
+        rep.rms_3d < 0.5 * rep_1cpr.rms_3d,
+        "2/rev RMS {} m should be well below the 1/rev-only {} m",
+        rep.rms_3d,
+        rep_1cpr.rms_3d
+    );
+}
+
 // --- W3 real-EOP frame plumbing (still synthetic geometry; verifies the wiring) ------------
 
 // Real IERS finals2000A rows (Bulletin A final), MJD 59579 & 59580 — same bytes as the
