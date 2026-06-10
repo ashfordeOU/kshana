@@ -121,8 +121,11 @@ closed forms — never against its own output. The headline checks are:
   to *real agency precise orbits* recovers Galileo MEO to 0.13 m and Swarm-A LEO to 0.10 m
   (reduced-dynamic) 3-D RMS, both inside a 5 m bar [@montenbruck2000; @petit2010iers]. The
   same estimator with the GRAIL GRGM660PRIM field fits a Lunar Reconnaissance Orbiter arc
-  from JPL Horizons to 6.6 m — reported honestly *above* the bar, limited by the analytic
-  lunar orientation/ephemeris, not the estimator [@lemoine2013grail; @giorgini1996horizons].
+  from JPL Horizons to 6.6 m — reported honestly *above* the bar
+  [@lemoine2013grail; @giorgini1996horizons]. A DE-grade cross-validation (DE440 orientation
+  and ephemeris via ANISE) shows this reduced-dynamic floor is set not by frame fidelity — the
+  lean analytic stack already matches DE-grade there — but by the satellite's unmodelled
+  non-gravitational dynamics over the short arc.
 
 Across the packs, the same machinery yields the resilience figures that motivate the
 tool: inertial dead-reckoning of ~41 m on a cold-atom accelerometer versus kilometre-scale

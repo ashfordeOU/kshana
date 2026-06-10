@@ -120,22 +120,49 @@ Earth datasets use (the `precise_od::ForceModel` trait).
 | CI fixture, reduced-dynamic (+empirical 1+2/rev) | 4 h | 100 | 241 | **6.6 m**  | 3.49, 4.56, 3.35 m  | 1- and 2-per-rev empirical absorb the along-track |
 
 These residuals are **above** the 5 m bar Galileo (0.13 m) and Swarm-A (0.10 m) clear, and are
-reported honestly. The limiting factor is the fidelity of the **lunar orientation and
-ephemeris**, not the estimator: the *analytic* IAU libration series (accurate to tens of
-arc-seconds vs the JPL DE numerically-integrated `MOON_PA`) and the built-in Montenbruck–Gill
-Earth/Sun ephemeris (~0.3° vs a DE/SPICE kernel) leave a roughly isotropic ~7 m floor that no
-amount of field degree, frame correction, empirical tier, or integrator tightening removes (all
-were tried; the dynamic residual is identical at d/o 100 and 150 and at `atol` 1e-6 vs 1e-9, and
-adding the **2-per-revolution** empirical tier only moves the reduced-dynamic fit 6.9 → 6.6 m).
-Metre-level selenocentric OD is the documented follow-on: DE-grade lunar orientation and
-ephemeris (a binary PCK / SPK via the optional ANISE path), the one lever not yet pulled.
+reported honestly.
+
+#### What actually sets the floor — a DE-grade cross-validation (and a correction)
+
+We hypothesised that the limiting factor was the fidelity of the **analytic lunar orientation and
+ephemeris** (the IAU libration series, accurate to tens of arc-seconds vs the JPL DE
+numerically-integrated `MOON_PA`, and the Montenbruck–Gill Earth/Sun ephemeris, ~0.3° vs a
+DE/SPICE kernel). To test that directly, the workspace-excluded cross-validation crate
+`xval/anise-lunar-od` swaps **only** those two inputs for **DE-grade** ones — the DE440 lunar
+principal-axis orientation (`moon_pa_de440_200625.bpc`) and the DE440 ephemeris (`de440s.bsp`),
+read through ANISE — and re-runs the *same* estimator (commit `WE6`, kernel SHA-256
+`c1c7fee…` / `60cd55a…`):
+
+| Tier | analytic | **DE-grade** |
+|------|---------:|-------------:|
+| raw overlap | 53.8 m | **41.5 m** |
+| dynamic | 12.6 m | **12.0 m** |
+| **reduced-dynamic (1+2/rev)** | **6.65 m** | **6.67 m** |
+
+**The hypothesis is only half right, and the headline claim needed correcting.** DE-grade
+orientation and ephemeris *do* improve the raw overlap (53.8 → 41.5 m) and the **dynamic** fit
+(12.6 → 12.0 m) — so the analytic orientation/ephemeris error is real and does limit those tiers.
+But they leave the **reduced-dynamic** residual essentially **unchanged** (6.65 → 6.67 m): the
+1+2-per-rev empirical tier was *already* absorbing the orientation/ephemeris error, so the
+operational ~6.6 m floor is set by something else — a residual the cycle-per-rev basis cannot
+absorb and DE-grade frames do not remove. The most consistent explanation is **unmodelled LRO
+non-gravitational dynamics** (thermal re-radiation, outgassing) over the short 4 h arc; field
+degree is excluded (identical at d/o 100 and 150) and integrator tolerance is excluded (identical
+at `atol` 1e-6 vs 1e-9). The constructive corollary: **Kshana's lean, kernel-free analytic lunar
+stack already matches DE-grade fidelity for the reduced-dynamic (operational) lunar orbit** — the
+pure-coefficient default leaves nothing on the table there. Crossing 5 m would require modelling
+the LRO non-gravitational forces (a spacecraft-specific box-wing/thermal model and a longer,
+multi-arc fit), not better frames.
 
 ## Honesty contract
 
 - The < 5 m "green" bar is met for **Galileo MEO** (0.13 m dynamic) and **Swarm-A LEO**
   (2.69 m dynamic / 0.10 m reduced-dynamic). **LRO lunar is published as-is at 12.6 m dynamic /
-  6.6 m reduced-dynamic (1+2-per-rev empirical) — above the bar** — with the limiting fidelity factor (analytic lunar
-  orientation + low-precision ephemeris) stated and the path to metre level documented.
+  6.6 m reduced-dynamic (1+2-per-rev empirical) — above the bar.** A DE-grade cross-validation
+  (above) **tested and corrected** the limiting-factor claim: the reduced-dynamic floor is **not**
+  the analytic orientation/ephemeris (DE440 kernels leave it unchanged at 6.67 m), so it is not
+  closed by better frames but by modelling the LRO non-gravitational dynamics — the honest, updated
+  path to metre level.
 - For LEO, the **dynamic** (state-only, static density) and **reduced-dynamic** (with
   empirical accelerations) tiers are always reported **separately**, so the reader sees
   what the empirical terms absorb; the reduced-dynamic tier is the operational orbit. The
