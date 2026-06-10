@@ -607,3 +607,116 @@ fn batch_ls_edits_a_gross_outlier() {
         "epoch position not recovered after editing"
     );
 }
+
+/// The empirical-acceleration tier "runs" on a clean arc without corrupting it: enabling the
+/// nine RTN constant + once-per-rev empirical parameters (a-priori constrained) on truth that has
+/// no empirical force still converges, recovers the epoch state, keeps every empirical amplitude
+/// small, and leaves a clean post-fit RMS — the "without vs with empirical both run" requirement.
+#[test]
+fn batch_ls_empirical_tier_stays_small_on_clean_truth() {
+    use kshana::integrator::Tolerance;
+    use kshana::precise_od::{fit, EstimatedParams, FitConfig, PreciseForceModel};
+    use kshana::timescales::JD_J2000;
+
+    let (r0t, v0t, _p) = circular_leo();
+    let epoch = JD_J2000;
+    let fm = PreciseForceModel::egm2008(4, epoch).third_body(true, false);
+    let tol = Tolerance {
+        rtol: 1e-11,
+        atol: 1e-9,
+        ..Tolerance::default()
+    };
+    let mut rng = Lcg(0x0BAD_F00D);
+    // ~2.5 revolutions so the once-per-rev terms are observable.
+    let obs = synth_track(&fm, r0t, v0t, 70, 210.0, 0.0, &tol, &mut rng);
+
+    let initial = EstimatedParams {
+        r0: [r0t[0] + 60.0, r0t[1] - 40.0, r0t[2] + 30.0],
+        v0: [v0t[0] + 0.04, v0t[1] - 0.03, v0t[2] + 0.02],
+        cr: None,
+        empirical: None,
+    };
+    let cfg = FitConfig {
+        estimate_empirical: true,
+        empirical_sigma: 1e-7,
+        tol,
+        ..FitConfig::default()
+    };
+    let rep = fit(&fm, initial, &obs, &cfg).expect("fit converges");
+    assert!(rep.converged, "did not converge: {rep:?}");
+    assert_eq!(rep.n_params, 15, "6 state + 9 empirical");
+    let e = rep.params.empirical.expect("empirical reported");
+    let max_amp = e
+        .radial
+        .iter()
+        .chain(&e.transverse)
+        .chain(&e.normal)
+        .fold(0.0_f64, |m, &x| m.max(x.abs()));
+    assert!(
+        max_amp < 1e-8,
+        "clean-truth empirical amplitudes should stay near zero, max {max_amp:e} m/s²"
+    );
+    assert!(
+        vnorm(sub(rep.params.r0, r0t)) < 1.0,
+        "epoch position drifted under the empirical tier: {:e} m",
+        vnorm(sub(rep.params.r0, r0t))
+    );
+    assert!(rep.rms_3d < 0.1, "post-fit RMS {} m too high", rep.rms_3d);
+}
+
+/// The empirical tier captures a real unmodelled force: inject a constant cross-track (normal)
+/// acceleration into the truth — cleanly observable, unlike along-track which trades with the
+/// velocity — and the estimator recovers it to ~20 % while bringing the post-fit RMS down to the
+/// clean level it would have with no empirical mismodelling.
+#[test]
+fn batch_ls_recovers_an_injected_cross_track_empirical_acceleration() {
+    use kshana::integrator::Tolerance;
+    use kshana::precise_od::{fit, EmpiricalAccel, EstimatedParams, FitConfig, PreciseForceModel};
+    use kshana::timescales::JD_J2000;
+
+    let (r0t, v0t, _p) = circular_leo();
+    let epoch = JD_J2000;
+    let a_n = 3.0e-8; // constant cross-track empirical acceleration (m/s²)
+    let emp_true = EmpiricalAccel {
+        normal: [a_n, 0.0, 0.0],
+        ..Default::default()
+    };
+    let tol = Tolerance {
+        rtol: 1e-11,
+        atol: 1e-9,
+        ..Tolerance::default()
+    };
+    let fm_truth = PreciseForceModel::egm2008(4, epoch)
+        .third_body(true, false)
+        .with_empirical(emp_true);
+    let mut rng = Lcg(0xFEED_BEEF);
+    let obs = synth_track(&fm_truth, r0t, v0t, 70, 210.0, 0.0, &tol, &mut rng);
+
+    // Fit with a force model that has NO empirical force, but estimate the empirical tier.
+    let fm_fit = PreciseForceModel::egm2008(4, epoch).third_body(true, false);
+    let initial = EstimatedParams {
+        r0: [r0t[0] + 40.0, r0t[1] - 20.0, r0t[2] + 15.0],
+        v0: [v0t[0] + 0.02, v0t[1] - 0.015, v0t[2] + 0.01],
+        cr: None,
+        empirical: None,
+    };
+    let cfg = FitConfig {
+        estimate_empirical: true,
+        empirical_sigma: 1e-6, // loose a-priori so the data drives the estimate
+        tol,
+        ..FitConfig::default()
+    };
+    let rep = fit(&fm_fit, initial, &obs, &cfg).expect("fit converges");
+    assert!(rep.converged, "did not converge");
+    let e = rep.params.empirical.expect("empirical reported");
+    assert!(
+        (e.normal[0] - a_n).abs() < 0.2 * a_n,
+        "cross-track empirical recovered {:e} vs injected {a_n:e}",
+        e.normal[0]
+    );
+    assert!(
+        rep.rms_3d < 0.5,
+        "with the empirical tier the fit should be clean, RMS {} m",
+        rep.rms_3d
+    );
+}
