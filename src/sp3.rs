@@ -611,8 +611,8 @@ EOF";
         assert_eq!(f.position_of("G01", 0).unwrap(), [15e6, -5e6, 20e6]);
         let v = f.epochs[0].sats[0].vel_m_s.expect("velocity present");
         // dm/s → m/s (× 0.1): -1234.5678901 → -123.4567890, -75385.7480502 → -7538.57480502.
-        assert!((v[0] - (-123.456_789_01)).abs() < 1e-6, "vx {}", v[0]);
-        assert!((v[1] - (-7538.574_805_02)).abs() < 1e-6, "vy {}", v[1]);
+        assert!((v[0] - (-123.45678901)).abs() < 1e-6, "vx {}", v[0]);
+        assert!((v[1] - (-7538.57480502)).abs() < 1e-6, "vy {}", v[1]);
         assert!((v[2] - 300.0).abs() < 1e-6, "vz {}", v[2]);
     }
 
