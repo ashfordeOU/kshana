@@ -50,11 +50,27 @@ is tied to the exact bytes below by SHA-256.
   `eop/finals2000A_2022001.txt` series above also covers this arc.
 - **SHA-256:** `6cd84b78c32eb30fc527194a4fd9d9b1a34b17cc028aeb43db6a19c09acb733e`
 
+## LRO lunar (W4b — truth foundation)
+
+### `lro/LRO_2022001_Moon_ICRF_4h.csv`
+- **Product:** NASA/JPL reconstructed trajectory of the **Lunar Reconnaissance Orbiter**
+  (NAIF id **−85**, `LRO_merged`), as geometric Moon-centered state vectors.
+- **Source (open, no login):** JPL Horizons API (NASA/JPL Solar System Dynamics),
+  `https://ssd.jpl.nasa.gov/api/horizons.api` — `COMMAND='-85'`, `CENTER='@301'`
+  (Moon body center), `REF_PLANE=FRAME`, `REF_SYSTEM=ICRF`, `EPHEM_TYPE=VECTORS`,
+  `VEC_TABLE=2`, `OUT_UNITS=KM-S`. Geometric states (no aberration/light-time).
+- **Slice:** 2022-01-01 00:00..04:00 **TDB**, 1-minute step (241 epochs, ~2 revolutions at
+  the ~118-min, ~98-km orbit). Columns `JDTDB,X,Y,Z(km),VX,VY,VZ(km/s)`; frame is
+  Moon-centered inertial, ICRF (= J2000 to ~0.02″). Using Horizons text vectors avoids any
+  SPK/SPICE reader dependency — the same definitive reconstructed orbit, in a usable frame.
+- **SHA-256:** `574e35180b0961a411f0b33de65719af6665386a9b89ffcdf7326bd478d100f0`
+
 ## Licensing
 
-IERS, IGS/MGEX/ESOC, and ESA Swarm products are published for open scientific
-use with attribution (the Swarm products under the ESA Data Policy and Terms &
-Conditions for the use of ESA Data). These verbatim slices are redistributed
-solely to make Kshana's orbit-determination validation independently
-reproducible; all credit for the underlying products remains with IERS, the
-IGS, ESA/ESOC, and the ESA Swarm mission (TU Delft processing).
+IERS, IGS/MGEX/ESOC, ESA Swarm, and NASA/JPL Horizons products are published for
+open scientific use with attribution (the Swarm products under the ESA Data
+Policy and Terms & Conditions for the use of ESA Data). These verbatim slices are
+redistributed solely to make Kshana's orbit-determination validation
+independently reproducible; all credit for the underlying products remains with
+IERS, the IGS, ESA/ESOC, the ESA Swarm mission (TU Delft processing), and
+NASA/JPL Solar System Dynamics (Horizons / the LRO project).
