@@ -212,7 +212,7 @@ The agency-dataset validations layer **real** finals2000A EOP and SP3/SPK truth 
 this engine through the CIO frame chain (`src/eop.rs`, `tests/agency_galileo.rs`,
 `tests/agency_swarm.rs`, `tests/agency_lro.rs`).
 
-### Real agency precise orbits (`tests/agency_galileo.rs`, `tests/agency_swarm.rs`)
+### Real agency precise orbits (`tests/agency_galileo.rs`, `tests/agency_swarm.rs`, `tests/agency_lro.rs`)
 
 | Dataset | Status | Evidence |
 |---------|--------|----------|
