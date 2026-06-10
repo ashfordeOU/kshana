@@ -49,12 +49,14 @@ type Mat3 = [[f64; 3]; 3];
 ///
 /// The built-in [`AnalyticLunarEnvironment`] uses Kshana's analytic IAU 2015 libration
 /// ([`crate::lunar_frame::icrf_to_moon_pa`]) and the Montenbruck–Gill ephemeris ([`crate::ephem`]),
-/// which sit ~tens of arc-seconds / ~0.3° from the JPL Development Ephemeris values — the proven
-/// limiting factor of the published 6.6 m LRO fit. An *out-of-crate* provider can instead read
-/// DE-grade orientation and ephemeris from NAIF kernels (the `xval/anise-lunar-od` cross-validation
-/// crate), swapping **only** these inputs through this seam while every other dynamical term and the
-/// reference-grade estimator stay identical. All quantities are Moon-centred ICRF/J2000 — the frame
-/// the LRO truth is reported in.
+/// which sit ~tens of arc-seconds / ~0.3° from the JPL Development Ephemeris values. An
+/// *out-of-crate* provider can instead read DE-grade orientation and ephemeris from NAIF kernels
+/// (the `xval/anise-lunar-od` cross-validation crate), swapping **only** these inputs through this
+/// seam while every other dynamical term and the reference-grade estimator stay identical. That
+/// cross-validation found the DE-grade inputs improve the *dynamic* LRO fit but leave the
+/// *reduced-dynamic* one unchanged (the empirical tier already absorbs the orientation/ephemeris
+/// error), so the analytic stack here already matches DE-grade for the operational lunar orbit. All
+/// quantities are Moon-centred ICRF/J2000 — the frame the LRO truth is reported in.
 pub trait LunarEnvironment: Clone + std::fmt::Debug {
     /// The ICRF → Moon body-fixed **principal-axis** rotation matrix at `jd_tdb` (Julian Date, TDB).
     fn icrf_to_moon_pa(&self, jd_tdb: f64) -> Mat3;
