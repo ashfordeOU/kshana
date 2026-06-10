@@ -1,0 +1,39 @@
+# Full-arc precise-orbit validation against real agency products.
+#
+# MANUAL ONLY (`workflow_dispatch`): never triggered by push or pull_request, so it can
+# NEVER block `main`. The gating CI already runs the vendored-fixture validation
+# (`tests/agency_galileo.rs`, an 8-hour Galileo arc at d/o-12) with no network. This job
+# downloads the full-day products and runs the same pipeline over the whole arc at full
+# geopotential degree (d/o-70) — the reproducible "exact-named product" layer of the data
+# strategy. No inputs: the canonical run is Galileo E11, 2022-001, d/o-70.
+#
+# Sources (open, no login):
+#   ESA/ESOC final multi-GNSS orbit  http://navigation-office.esa.int/products/gnss-products/
+#   IERS finals2000A (UT1-UTC, pole) https://datacenter.iers.org/data/9/finals2000A.all
+name: Agency precise-OD validation (full arc)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  KSHANA_GALILEO_SP3: orbit.sp3
+  KSHANA_GALILEO_EOP: finals2000A.all
+  KSHANA_GALILEO_SAT: E11
+  KSHANA_GALILEO_DEGREE: "70"
+jobs:
+  galileo-full-arc:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: Fetch the full-day Galileo orbit (ESA0MGNFIN, GPS week 2190 / 2022-001)
+        run: |
+          set -euo pipefail
+          base=http://navigation-office.esa.int/products/gnss-products/2190
+          curl -fSL "$base/ESA0MGNFIN_20220010000_01D_05M_ORB.SP3.gz" -o orbit.sp3.gz
+          gunzip -f orbit.sp3.gz
+      - name: Fetch the IERS finals2000A Earth-orientation series
+        run: curl -fSL "https://datacenter.iers.org/data/9/finals2000A.all" -o finals2000A.all
+      - name: Run the full-arc fit (release build; asserts < 5 m)
+        run: cargo test --release --test agency_galileo galileo_full_arc_dispatch -- --ignored --nocapture
