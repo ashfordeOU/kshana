@@ -246,6 +246,109 @@ pub fn fuse_spoof_layers(
     }
 }
 
+// --- Combined detector (integrated per-epoch orchestration) --------------------------
+
+/// One epoch of receiver observables the combined detector ingests: the redundant
+/// pseudorange geometry + residuals (for the RAIM layer), the AGC received power, and the
+/// Early/Late correlator taps (for the SQM layer).
+#[derive(Clone, Debug)]
+pub struct SpoofEpoch {
+    /// Unit line-of-sight geometry rows `[eₓ, e_y, e_z, 1]` (the trailing 1 is the clock column).
+    pub geometry: Vec<[f64; 4]>,
+    /// Pseudorange residuals (measured − predicted at the linearisation point), metres.
+    pub residuals: Vec<f64>,
+    /// Pseudorange measurement standard deviation, metres.
+    pub sigma_m: f64,
+    /// Measured total received power from the AGC, dBm.
+    pub measured_dbm: f64,
+    /// Early correlator tap (normalised).
+    pub early: f64,
+    /// Late correlator tap (normalised).
+    pub late: f64,
+}
+
+/// A configured combined spoof detector: the three independent monitors plus the fusion rule
+/// that turns their boolean outputs into one weighted decision. Each layer catches a
+/// different class of attack — RAIM the geometric inconsistency of a biased *subset*, AGC the
+/// excess power of *any* transmitter, SQM the correlation distortion of a meaconer/replay — so
+/// fusing them covers attacks no single layer can (e.g. a RAIM-invisible common-mode meaconer
+/// the AGC + SQM still catch).
+#[derive(Clone, Copy, Debug)]
+pub struct CombinedSpoofDetector {
+    /// The AGC received-power monitor.
+    pub agc: AgcMonitor,
+    /// The signal-quality (Early-minus-Late) monitor.
+    pub sqm: SqmMonitor,
+    /// RAIM consistency false-alert probability (the χ² tail).
+    pub raim_p_fa: f64,
+    /// Fusion weights `[raim, agc, sqm]`.
+    pub weights: [f64; 3],
+    /// Fused decision threshold (Σ of the firing layers' weights ≥ threshold ⇒ alert).
+    pub fusion_threshold: f64,
+}
+
+impl CombinedSpoofDetector {
+    /// A detector with conventional defaults: a 3 dB AGC margin over `expected_dbm`, a 10 %
+    /// SQM tolerance, a 1e-3 RAIM false-alert budget, and a fusion rule `[0.5, 0.3, 0.2]` at
+    /// threshold `0.5` — so the geometric RAIM layer trips on its own, or any two RF layers do.
+    pub fn new(expected_dbm: f64) -> Self {
+        Self {
+            agc: AgcMonitor::new(expected_dbm),
+            sqm: SqmMonitor::new(),
+            raim_p_fa: 1.0e-3,
+            weights: [0.5, 0.3, 0.2],
+            fusion_threshold: 0.5,
+        }
+    }
+
+    /// Evaluate one epoch through all three layers and fuse the result. The RAIM layer is
+    /// `None` when the geometry lacks redundancy (`m ≤ 4`); it then contributes no alert.
+    pub fn evaluate(&self, epoch: &SpoofEpoch) -> CombinedSpoofDecision {
+        let raim = parity_raim_test(
+            &epoch.geometry,
+            &epoch.residuals,
+            epoch.sigma_m,
+            self.raim_p_fa,
+        );
+        let raim_alert = raim.map(|r| r.alert).unwrap_or(false);
+
+        let agc_excess_db = self.agc.excess_db(epoch.measured_dbm);
+        let agc_alert = self.agc.alert(epoch.measured_dbm);
+
+        let sqm_el_metric = self.sqm.el_metric(epoch.early, epoch.late);
+        let sqm_alert = self.sqm.alert(epoch.early, epoch.late);
+
+        let fused = fuse_spoof_layers(
+            raim_alert,
+            agc_alert,
+            sqm_alert,
+            self.weights,
+            self.fusion_threshold,
+        );
+
+        CombinedSpoofDecision {
+            raim,
+            agc_excess_db,
+            sqm_el_metric,
+            fused,
+        }
+    }
+}
+
+/// The full diagnostic outcome of one epoch: the per-layer evidence plus the fused decision —
+/// what an operator needs to triage an alert, not just a boolean.
+#[derive(Clone, Copy, Debug)]
+pub struct CombinedSpoofDecision {
+    /// The RAIM consistency result (`None` if the geometry lacked redundancy, `m ≤ 4`).
+    pub raim: Option<RaimConsistency>,
+    /// AGC power excess over the expected floor, dB (negative when below expectation).
+    pub agc_excess_db: f64,
+    /// SQM Early-minus-Late imbalance metric (0 for a symmetric peak).
+    pub sqm_el_metric: f64,
+    /// The fused multi-layer decision (which layers fired, the weighted score, the alert).
+    pub fused: FusedSpoofDecision,
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -414,5 +517,131 @@ mod tests {
             "P_md did not fall with bias: {pmd_large} vs {pmd_small}"
         );
         assert!(pmd_large < 0.2, "P_md at 8σ still high: {pmd_large}");
+    }
+
+    // --- Combined detector (integrated per-epoch RAIM + AGC + SQM + fusion) --------------
+
+    /// Build a consistent (well-fit) residual set for `geometry8` from a chosen true state, so the
+    /// RAIM parity statistic is ~0 unless we deliberately perturb it.
+    fn consistent_residuals(g: &[[f64; 4]]) -> Vec<f64> {
+        let x_true = [9.0, -4.0, 6.0, 25.0];
+        g.iter()
+            .map(|row| (0..4).map(|a| row[a] * x_true[a]).sum())
+            .collect()
+    }
+
+    #[test]
+    fn combined_detector_passes_a_clean_epoch() {
+        let g = geometry8();
+        let residuals = consistent_residuals(&g);
+        let floor = combine_power_dbm(&[-130.0; 8]);
+        let det = CombinedSpoofDetector::new(floor);
+        let (early, late) = early_late_ideal(0.1);
+        let epoch = SpoofEpoch {
+            geometry: g,
+            residuals,
+            sigma_m: 5.0,
+            measured_dbm: floor,
+            early,
+            late,
+        };
+        let d = det.evaluate(&epoch);
+        assert!(!d.fused.alert, "clean epoch raised a spoof alert: {d:?}");
+        assert_eq!(d.fused.layers.count(), 0, "no layer should fire: {d:?}");
+    }
+
+    #[test]
+    fn combined_detector_catches_a_single_sv_bias_via_raim() {
+        let g = geometry8();
+        let mut residuals = consistent_residuals(&g);
+        residuals[3] += 60.0; // a 12σ bias on one satellite — geometrically inconsistent
+        let floor = combine_power_dbm(&[-130.0; 8]);
+        let det = CombinedSpoofDetector::new(floor);
+        let (early, late) = early_late_ideal(0.1);
+        let epoch = SpoofEpoch {
+            geometry: g,
+            residuals,
+            sigma_m: 5.0,
+            measured_dbm: floor,
+            early,
+            late,
+        };
+        let d = det.evaluate(&epoch);
+        assert!(
+            d.raim.map(|r| r.alert).unwrap_or(false),
+            "RAIM did not fire on a single-SV bias: {d:?}"
+        );
+        assert!(
+            d.fused.layers.raim && !d.fused.layers.agc && !d.fused.layers.sqm,
+            "only RAIM should fire: {d:?}"
+        );
+        assert!(
+            d.fused.alert,
+            "single-SV bias not flagged by the fused detector"
+        );
+    }
+
+    /// The case that justifies fusion: an over-powered meaconer applies a *common-mode* delay RAIM
+    /// cannot see (absorbed by the clock state), but it radiates excess power and distorts the
+    /// correlation peak — so the AGC and SQM layers together trip the fused decision.
+    #[test]
+    fn combined_detector_catches_a_raim_invisible_meaconer_via_agc_and_sqm() {
+        let g = geometry8();
+        let base: Vec<f64> = (0..8).map(|i| (i as f64 - 3.5) * 1.1).collect();
+        let residuals: Vec<f64> = base.iter().map(|&z| z + 300.0).collect(); // common-mode +300 m
+        let floor = combine_power_dbm(&[-130.0; 8]);
+        let det = CombinedSpoofDetector::new(floor);
+        let epoch = SpoofEpoch {
+            geometry: g,
+            residuals,
+            sigma_m: 5.0,
+            measured_dbm: floor + 6.0, // +6 dB over the nominal floor
+            early: 1.0,
+            late: 0.72, // ~18 % Early/Late imbalance from the replayed correlation
+        };
+        let d = det.evaluate(&epoch);
+        assert!(
+            !d.raim.map(|r| r.alert).unwrap_or(false),
+            "RAIM must be blind to a common-mode bias: {d:?}"
+        );
+        assert!(
+            d.fused.layers.agc && d.fused.layers.sqm,
+            "AGC + SQM should both fire on the over-powered meaconer: {d:?}"
+        );
+        assert!(
+            d.fused.alert,
+            "RAIM-invisible meaconer escaped the fused detector: {d:?}"
+        );
+    }
+
+    #[test]
+    fn combined_detector_reports_per_layer_diagnostics() {
+        let g = geometry8();
+        let residuals = consistent_residuals(&g);
+        let floor = combine_power_dbm(&[-130.0; 8]);
+        let det = CombinedSpoofDetector::new(floor);
+        let epoch = SpoofEpoch {
+            geometry: g,
+            residuals,
+            sigma_m: 5.0,
+            measured_dbm: floor + 1.5,
+            early: 1.0,
+            late: 0.95,
+        };
+        let d = det.evaluate(&epoch);
+        assert!(
+            d.raim.is_some(),
+            "redundant geometry should yield a RAIM statistic"
+        );
+        assert!(
+            (d.agc_excess_db - 1.5).abs() < 1e-9,
+            "AGC excess should be +1.5 dB, got {}",
+            d.agc_excess_db
+        );
+        assert!(
+            d.sqm_el_metric > 0.0,
+            "Early > Late should give a positive imbalance, got {}",
+            d.sqm_el_metric
+        );
     }
 }
