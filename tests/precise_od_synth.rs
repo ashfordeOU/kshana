@@ -328,3 +328,282 @@ fn variational_stm_identity_at_epoch_and_state_consistency() {
     assert!(dr < 1e-3, "state position mismatch {dr:e} m");
     assert!(dv < 1e-6, "state velocity mismatch {dv:e} m/s");
 }
+
+// --- a tiny deterministic Gaussian for reproducible measurement noise ---
+
+/// A fixed-seed linear congruential generator + Box–Muller — no `rand` dependency, identical on
+/// every run, so the noisy self-recovery test is reproducible.
+struct Lcg(u64);
+impl Lcg {
+    fn next_u(&mut self) -> f64 {
+        self.0 = self
+            .0
+            .wrapping_mul(6_364_136_223_846_793_005)
+            .wrapping_add(1);
+        // top 53 bits → [0,1).
+        ((self.0 >> 11) as f64) / ((1u64 << 53) as f64)
+    }
+    fn gauss(&mut self) -> f64 {
+        let u1 = self.next_u().max(1e-12);
+        let u2 = self.next_u();
+        (-2.0 * u1.ln()).sqrt() * (std::f64::consts::TAU * u2).cos()
+    }
+}
+
+/// Build a synthetic observation track by sampling the truth force model every `step` seconds for
+/// `n` points, optionally adding zero-mean Gaussian position noise of 1σ = `sigma` (m).
+#[allow(clippy::too_many_arguments)]
+fn synth_track(
+    fm: &kshana::precise_od::PreciseForceModel,
+    r0: [f64; 3],
+    v0: [f64; 3],
+    n: usize,
+    step: f64,
+    sigma: f64,
+    tol: &kshana::integrator::Tolerance,
+    rng: &mut Lcg,
+) -> Vec<kshana::precise_od::Observation> {
+    use kshana::precise_od::{propagate, Observation};
+    (1..=n)
+        .map(|k| {
+            let t = k as f64 * step;
+            let (r, _v) = propagate(fm, r0, v0, t, tol);
+            let pos = if sigma > 0.0 {
+                [
+                    r[0] + sigma * rng.gauss(),
+                    r[1] + sigma * rng.gauss(),
+                    r[2] + sigma * rng.gauss(),
+                ]
+            } else {
+                r
+            };
+            Observation {
+                t,
+                pos,
+                sigma: sigma.max(1.0),
+            }
+        })
+        .collect()
+}
+
+/// Batch-LS self-recovery, the estimator's core correctness gate: generate a 1-hour Kshana arc
+/// (degree-6 geopotential + Sun + Moon), observe its position noise-free, start the fit from a
+/// state offset by ~150 m / 0.1 m/s, and recover the epoch state to the millimetre with a
+/// near-zero post-fit RMS. Any residual is the estimator's, not the dynamics' (same model).
+#[test]
+fn batch_ls_recovers_a_noise_free_arc_to_the_millimetre() {
+    use kshana::integrator::Tolerance;
+    use kshana::precise_od::{fit, EstimatedParams, FitConfig, PreciseForceModel};
+    use kshana::timescales::JD_J2000;
+
+    let (r0t, v0t, _p) = circular_leo();
+    let epoch = JD_J2000;
+    let fm = PreciseForceModel::egm2008(6, epoch).third_body(true, true);
+    let tol = Tolerance {
+        rtol: 1e-11,
+        atol: 1e-9,
+        ..Tolerance::default()
+    };
+    let mut rng = Lcg(0xC0FFEE);
+    let obs = synth_track(&fm, r0t, v0t, 60, 60.0, 0.0, &tol, &mut rng);
+
+    let initial = EstimatedParams {
+        r0: [r0t[0] + 150.0, r0t[1] - 100.0, r0t[2] + 50.0],
+        v0: [v0t[0] + 0.10, v0t[1] - 0.05, v0t[2] + 0.08],
+        cr: None,
+        empirical: None,
+    };
+    let cfg = FitConfig {
+        tol,
+        ..FitConfig::default()
+    };
+    let rep = fit(&fm, initial, &obs, &cfg).expect("fit converges");
+    assert!(rep.converged, "did not converge: {rep:?}");
+    assert!(
+        vnorm(sub(rep.params.r0, r0t)) < 1e-2,
+        "epoch position not recovered: {:e} m",
+        vnorm(sub(rep.params.r0, r0t))
+    );
+    assert!(
+        vnorm(sub(rep.params.v0, v0t)) < 1e-5,
+        "epoch velocity not recovered: {:e} m/s",
+        vnorm(sub(rep.params.v0, v0t))
+    );
+    assert!(
+        rep.rms_3d < 1e-2,
+        "noise-free post-fit RMS {} m too high",
+        rep.rms_3d
+    );
+    assert_eq!(rep.n_params, 6);
+    assert_eq!(rep.n_obs, 60);
+}
+
+/// With 1σ = 5 m white position noise the post-fit 3-D RMS settles at the noise floor (≈ σ·√3 for
+/// a 3-axis position residual, well within a factor of two of 5 m) and the recovered epoch state
+/// lands within a few metres of truth — the estimator is unbiased, not overfitting the noise.
+#[test]
+fn batch_ls_recovers_a_noisy_arc_to_the_noise_floor() {
+    use kshana::integrator::Tolerance;
+    use kshana::precise_od::{fit, EstimatedParams, FitConfig, PreciseForceModel};
+    use kshana::timescales::JD_J2000;
+
+    let (r0t, v0t, _p) = circular_leo();
+    let epoch = JD_J2000;
+    let fm = PreciseForceModel::egm2008(6, epoch).third_body(true, true);
+    let tol = Tolerance {
+        rtol: 1e-11,
+        atol: 1e-9,
+        ..Tolerance::default()
+    };
+    let sigma = 5.0;
+    let mut rng = Lcg(0x1234_5678);
+    let obs = synth_track(&fm, r0t, v0t, 90, 40.0, sigma, &tol, &mut rng);
+
+    let initial = EstimatedParams {
+        r0: [r0t[0] + 80.0, r0t[1] + 60.0, r0t[2] - 40.0],
+        v0: [v0t[0] - 0.05, v0t[1] + 0.07, v0t[2] - 0.03],
+        cr: None,
+        empirical: None,
+    };
+    let cfg = FitConfig {
+        tol,
+        ..FitConfig::default()
+    };
+    let rep = fit(&fm, initial, &obs, &cfg).expect("fit converges");
+    assert!(rep.converged, "did not converge");
+    // Post-fit RMS at the noise floor: σ·√3 ≈ 8.7 m for a 3-axis residual; allow 3..15 m.
+    assert!(
+        (3.0..15.0).contains(&rep.rms_3d),
+        "post-fit RMS {} m not at the ~5 m noise floor",
+        rep.rms_3d
+    );
+    // Recovered epoch position within a few metres (the fit averages down the noise).
+    assert!(
+        vnorm(sub(rep.params.r0, r0t)) < 10.0,
+        "epoch position off by {:e} m",
+        vnorm(sub(rep.params.r0, r0t))
+    );
+    // RTN decomposition is populated and physical.
+    assert!(rep.rms_rtn.iter().all(|&x| x.is_finite() && x >= 0.0));
+}
+
+/// SRP `C_R` is recoverable: generate truth with solar-radiation pressure at C_R = 1.4, then fit
+/// [r, v, C_R] starting from C_R = 1.0 and recover the coefficient to ~1 % alongside the state.
+#[test]
+fn batch_ls_estimates_the_srp_coefficient() {
+    use kshana::integrator::Tolerance;
+    use kshana::precise_od::{fit, EstimatedParams, FitConfig, PreciseForceModel};
+    use kshana::timescales::JD_J2000;
+
+    let (r0t, v0t, _p) = circular_leo();
+    let epoch = JD_J2000;
+    let cr_true = 1.4;
+    let aom = 0.02;
+    let fm = PreciseForceModel::egm2008(6, epoch)
+        .third_body(true, true)
+        .solar_radiation(cr_true, aom);
+    let tol = Tolerance {
+        rtol: 1e-11,
+        atol: 1e-9,
+        ..Tolerance::default()
+    };
+    let mut rng = Lcg(0xABCD_EF01);
+    // A longer arc gives SRP a clearer signature.
+    let obs = synth_track(&fm, r0t, v0t, 120, 60.0, 0.0, &tol, &mut rng);
+
+    let initial = EstimatedParams {
+        r0: [r0t[0] + 50.0, r0t[1] - 30.0, r0t[2] + 20.0],
+        v0: [v0t[0] + 0.03, v0t[1] - 0.02, v0t[2] + 0.01],
+        cr: Some(1.0),
+        empirical: None,
+    };
+    let cfg = FitConfig {
+        estimate_cr: true,
+        tol,
+        ..FitConfig::default()
+    };
+    let rep = fit(&fm, initial, &obs, &cfg).expect("fit converges");
+    assert!(rep.converged, "did not converge");
+    let cr = rep.params.cr.expect("C_R estimated");
+    assert!(
+        (cr - cr_true).abs() < 0.014,
+        "C_R recovered {cr} vs truth {cr_true}"
+    );
+    assert_eq!(rep.n_params, 7);
+    assert!(
+        rep.rms_3d < 1e-2,
+        "noise-free post-fit RMS {} m",
+        rep.rms_3d
+    );
+}
+
+/// n-sigma outlier editing: corrupt one observation of an otherwise clean arc by 500 m and the
+/// estimator rejects it (n_edited ≥ 1) and still recovers the epoch state to the millimetre with a
+/// near-zero post-fit RMS. With editing off the single gross residual would dominate the RMS.
+#[test]
+fn batch_ls_edits_a_gross_outlier() {
+    use kshana::integrator::Tolerance;
+    use kshana::precise_od::{fit, EstimatedParams, FitConfig, PreciseForceModel};
+    use kshana::timescales::JD_J2000;
+
+    let (r0t, v0t, _p) = circular_leo();
+    let epoch = JD_J2000;
+    let fm = PreciseForceModel::egm2008(6, epoch).third_body(true, true);
+    let tol = Tolerance {
+        rtol: 1e-11,
+        atol: 1e-9,
+        ..Tolerance::default()
+    };
+    let mut rng = Lcg(0x55AA_55AA);
+    let mut obs = synth_track(&fm, r0t, v0t, 60, 60.0, 0.0, &tol, &mut rng);
+    // Corrupt the 30th observation with a gross 500 m blunder.
+    obs[30].pos[0] += 500.0;
+
+    let initial = EstimatedParams {
+        r0: [r0t[0] + 120.0, r0t[1] - 80.0, r0t[2] + 40.0],
+        v0: [v0t[0] + 0.08, v0t[1] - 0.04, v0t[2] + 0.06],
+        cr: None,
+        empirical: None,
+    };
+
+    // Without editing the gross residual dominates the post-fit RMS.
+    let rep_noedit = fit(
+        &fm,
+        initial,
+        &obs,
+        &FitConfig {
+            tol,
+            ..FitConfig::default()
+        },
+    )
+    .expect("fit converges");
+    assert!(
+        rep_noedit.rms_3d > 10.0,
+        "without editing the 500 m blunder should inflate RMS, got {}",
+        rep_noedit.rms_3d
+    );
+
+    // With 5-sigma editing the blunder is rejected and the fit is clean again.
+    let rep = fit(
+        &fm,
+        initial,
+        &obs,
+        &FitConfig {
+            outlier_sigma: 5.0,
+            tol,
+            ..FitConfig::default()
+        },
+    )
+    .expect("fit converges");
+    assert!(rep.n_edited >= 1, "the gross outlier was not edited");
+    assert_eq!(
+        rep.n_edited, 1,
+        "only the one blunder should be edited, not {}",
+        rep.n_edited
+    );
+    assert!(rep.rms_3d < 1e-2, "post-edit RMS {} m too high", rep.rms_3d);
+    assert!(
+        vnorm(sub(rep.params.r0, r0t)) < 1e-2,
+        "epoch position not recovered after editing"
+    );
+}

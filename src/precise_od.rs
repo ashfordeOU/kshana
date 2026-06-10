@@ -34,6 +34,7 @@ use crate::forces::{
     drag_accel, lense_thirring_accel, relativistic_accel, srp_accel, third_body_accel, MU_MOON,
     MU_SUN,
 };
+use crate::fusion::ukf::inverse;
 use crate::gravity_sh::SphericalHarmonicField;
 use crate::integrator::{integrate_dopri, Tolerance};
 use crate::precession::{julian_centuries_tt, mat_vec, transpose, Mat3};
@@ -459,40 +460,355 @@ pub fn propagate_with_stm(
         return (r0, v0, phi);
     }
 
-    let f = |t: f64, y: &[f64]| {
-        let r = [y[0], y[1], y[2]];
-        let v = [y[3], y[4], y[5]];
-        let a = fm.accel_rv(t, r, v);
-        let a_mat = fm.dynamics_matrix(t, r, v);
-        let mut dy = vec![0.0; 42];
-        dy[0..3].copy_from_slice(&v);
-        dy[3..6].copy_from_slice(&a);
-        // Φ̇ = A·Φ, both 6×6 (Φ at y[6 + i*6 + j]).
-        for i in 0..6 {
-            for j in 0..6 {
-                let mut s = 0.0;
-                for (k, arow) in a_mat[i].iter().enumerate() {
-                    s += arow * y[6 + k * 6 + j];
-                }
-                dy[6 + i * 6 + j] = s;
-            }
-        }
-        dy
-    };
-
+    let f = |t: f64, y: &[f64]| stm_rhs(fm, t, y);
     let h0 = (t_end / 1000.0).max(1.0).min(t_end.max(1e-3));
     let sol = integrate_dopri(&f, 0.0, &y0, t_end, h0, tol);
-    let mut phi = [[0.0; 6]; 6];
-    for (i, row) in phi.iter_mut().enumerate() {
-        for (j, e) in row.iter_mut().enumerate() {
-            *e = sol.y[6 + i * 6 + j];
-        }
-    }
     (
         [sol.y[0], sol.y[1], sol.y[2]],
         [sol.y[3], sol.y[4], sol.y[5]],
-        phi,
+        phi_from_augmented(&sol.y),
     )
+}
+
+/// The right-hand side of the augmented `[r; v; Φ(36)]` ODE: `ṙ = v`, `v̇ = a(t, r, v)`,
+/// `Φ̇ = A(t, x)·Φ` with `A` the numerically-evaluated dynamics matrix.
+fn stm_rhs(fm: &PreciseForceModel, t: f64, y: &[f64]) -> Vec<f64> {
+    let r = [y[0], y[1], y[2]];
+    let v = [y[3], y[4], y[5]];
+    let a = fm.accel_rv(t, r, v);
+    let a_mat = fm.dynamics_matrix(t, r, v);
+    let mut dy = vec![0.0; 42];
+    dy[0..3].copy_from_slice(&v);
+    dy[3..6].copy_from_slice(&a);
+    for i in 0..6 {
+        for j in 0..6 {
+            let mut s = 0.0;
+            for (k, arow) in a_mat[i].iter().enumerate() {
+                s += arow * y[6 + k * 6 + j];
+            }
+            dy[6 + i * 6 + j] = s;
+        }
+    }
+    dy
+}
+
+/// Extract Φ (6×6) from the tail of an augmented 42-vector.
+fn phi_from_augmented(y: &[f64]) -> [[f64; 6]; 6] {
+    let mut phi = [[0.0; 6]; 6];
+    for (i, row) in phi.iter_mut().enumerate() {
+        for (j, e) in row.iter_mut().enumerate() {
+            *e = y[6 + i * 6 + j];
+        }
+    }
+    phi
+}
+
+/// Propagate `(r0, v0)` and sample the **state + STM** at each time in `times` (assumed sorted
+/// ascending, all ≥ 0). One forward integration carried segment-by-segment — Φ accumulates from
+/// the epoch, so `samples[i].1` is `∂x(times[i])/∂x0`. This is what the batch estimator needs:
+/// predicted positions and their epoch-state partials at every observation epoch in one pass.
+fn propagate_with_stm_samples(
+    fm: &PreciseForceModel,
+    r0: Vec3,
+    v0: Vec3,
+    times: &[f64],
+    tol: &Tolerance,
+) -> Vec<([f64; 6], [[f64; 6]; 6])> {
+    let mut y = vec![0.0; 42];
+    y[0..3].copy_from_slice(&r0);
+    y[3..6].copy_from_slice(&v0);
+    for i in 0..6 {
+        y[6 + i * 6 + i] = 1.0;
+    }
+    let f = |t: f64, yy: &[f64]| stm_rhs(fm, t, yy);
+    let mut t_prev = 0.0;
+    let mut out = Vec::with_capacity(times.len());
+    for &t in times {
+        if t > t_prev {
+            let dt = t - t_prev;
+            let h0 = (dt / 100.0).max(1.0).min(dt);
+            let sol = integrate_dopri(&f, t_prev, &y, t, h0, tol);
+            y = sol.y;
+            t_prev = t;
+        }
+        let state6 = [y[0], y[1], y[2], y[3], y[4], y[5]];
+        out.push((state6, phi_from_augmented(&y)));
+    }
+    out
+}
+
+/// Propagate `(r0, v0)` and sample only the **position** at each time in `times` (sorted, ≥ 0) —
+/// the cheap path used for the finite-difference partials of the non-state parameters (`C_R`,
+/// empirical accelerations).
+fn propagate_samples(
+    fm: &PreciseForceModel,
+    r0: Vec3,
+    v0: Vec3,
+    times: &[f64],
+    tol: &Tolerance,
+) -> Vec<Vec3> {
+    let f = |t: f64, y: &[f64]| {
+        let a = fm.accel_rv(t, [y[0], y[1], y[2]], [y[3], y[4], y[5]]);
+        vec![y[3], y[4], y[5], a[0], a[1], a[2]]
+    };
+    let mut y = vec![r0[0], r0[1], r0[2], v0[0], v0[1], v0[2]];
+    let mut t_prev = 0.0;
+    let mut out = Vec::with_capacity(times.len());
+    for &t in times {
+        if t > t_prev {
+            let dt = t - t_prev;
+            let h0 = (dt / 100.0).max(1.0).min(dt);
+            let sol = integrate_dopri(&f, t_prev, &y, t, h0, tol);
+            y = sol.y;
+            t_prev = t;
+        }
+        out.push([y[0], y[1], y[2]]);
+    }
+    out
+}
+
+/// Configuration for a [`fit`] solve.
+#[derive(Clone, Debug)]
+pub struct FitConfig {
+    /// Estimate the SRP coefficient `C_R` as a seventh parameter (the template must enable SRP).
+    pub estimate_cr: bool,
+    /// Maximum Gauss–Newton iterations.
+    pub max_iter: usize,
+    /// n-sigma outlier-editing threshold on the post-fit 3-D residual (≤ 0 disables editing).
+    pub outlier_sigma: f64,
+    /// Integration tolerance for the dynamics.
+    pub tol: Tolerance,
+}
+
+impl Default for FitConfig {
+    fn default() -> Self {
+        Self {
+            estimate_cr: false,
+            max_iter: 20,
+            outlier_sigma: 0.0,
+            tol: Tolerance {
+                rtol: 1e-11,
+                atol: 1e-9,
+                ..Tolerance::default()
+            },
+        }
+    }
+}
+
+/// Fit the epoch state (and optionally `C_R`) of the `template` dynamics to the inertial position
+/// observations `obs` by Gauss–Newton weighted batch least squares. The 6-state Jacobian comes
+/// from one STM-carrying forward integration per iteration; `C_R` takes a finite-difference
+/// partial. Observations are weighted by `1/σ²`, and (when enabled) gross outliers are edited by
+/// n-sigma rejection on the post-fit residual. Returns `None` on too few observations or a
+/// singular normal matrix.
+pub fn fit(
+    template: &PreciseForceModel,
+    initial: EstimatedParams,
+    obs: &[Observation],
+    cfg: &FitConfig,
+) -> Option<OdReport> {
+    if obs.len() < 3 {
+        return None;
+    }
+    // Sort observations by time (the sampled propagators march forward).
+    let mut order: Vec<usize> = (0..obs.len()).collect();
+    order.sort_by(|&a, &b| {
+        obs[a]
+            .t
+            .partial_cmp(&obs[b].t)
+            .unwrap_or(std::cmp::Ordering::Equal)
+    });
+    let obs: Vec<Observation> = order.iter().map(|&i| obs[i]).collect();
+    let times: Vec<f64> = obs.iter().map(|o| o.t).collect();
+    let n_obs_total = obs.len();
+
+    let n_params = 6 + cfg.estimate_cr as usize;
+    let mut r0 = initial.r0;
+    let mut v0 = initial.v0;
+    let mut cr = initial.cr.unwrap_or(template.cr);
+
+    let mut edited = vec![false; n_obs_total];
+    let mut did_edit = false;
+    let mut iterations = 0;
+    let mut converged = false;
+
+    for it in 0..cfg.max_iter {
+        iterations = it + 1;
+        let mut fm = template.clone();
+        fm.cr = cr;
+        if let Some(e) = initial.empirical {
+            fm.empirical = Some(e);
+        }
+
+        let preds = propagate_with_stm_samples(&fm, r0, v0, &times, &cfg.tol);
+
+        // C_R finite-difference position partials (one extra pair of cheap propagations).
+        let cr_partial: Option<Vec<Vec3>> = if cfg.estimate_cr {
+            let dcr = 1e-3;
+            let (mut fmp, mut fmm) = (fm.clone(), fm.clone());
+            fmp.cr = cr + dcr;
+            fmm.cr = cr - dcr;
+            let pp = propagate_samples(&fmp, r0, v0, &times, &cfg.tol);
+            let pm = propagate_samples(&fmm, r0, v0, &times, &cfg.tol);
+            Some(
+                pp.iter()
+                    .zip(&pm)
+                    .map(|(a, b)| {
+                        [
+                            (a[0] - b[0]) / (2.0 * dcr),
+                            (a[1] - b[1]) / (2.0 * dcr),
+                            (a[2] - b[2]) / (2.0 * dcr),
+                        ]
+                    })
+                    .collect(),
+            )
+        } else {
+            None
+        };
+
+        // Weighted normal equations over the non-edited observations.
+        let mut ata = vec![vec![0.0; n_params]; n_params];
+        let mut atb = vec![0.0; n_params];
+        for (i, ob) in obs.iter().enumerate() {
+            if edited[i] {
+                continue;
+            }
+            let w = 1.0 / (ob.sigma * ob.sigma);
+            let (state6, phi) = &preds[i];
+            let resid = [
+                ob.pos[0] - state6[0],
+                ob.pos[1] - state6[1],
+                ob.pos[2] - state6[2],
+            ];
+            for axis in 0..3 {
+                let mut row = [0.0; 7];
+                row[..6].copy_from_slice(&phi[axis][..6]);
+                if let Some(cp) = &cr_partial {
+                    row[6] = cp[i][axis];
+                }
+                for p in 0..n_params {
+                    atb[p] += row[p] * w * resid[axis];
+                    for q in 0..n_params {
+                        ata[p][q] += row[p] * w * row[q];
+                    }
+                }
+            }
+        }
+
+        let ata_inv = inverse(&ata)?;
+        let dx: Vec<f64> = (0..n_params)
+            .map(|p| (0..n_params).map(|q| ata_inv[p][q] * atb[q]).sum())
+            .collect();
+        for k in 0..3 {
+            r0[k] += dx[k];
+            v0[k] += dx[3 + k];
+        }
+        if cfg.estimate_cr {
+            cr += dx[6];
+        }
+
+        let dpos = (dx[0] * dx[0] + dx[1] * dx[1] + dx[2] * dx[2]).sqrt();
+        let dvel = (dx[3] * dx[3] + dx[4] * dx[4] + dx[5] * dx[5]).sqrt();
+        if dpos < 1e-4 && dvel < 1e-7 {
+            // Once the state has converged, apply n-sigma editing once and refit if anything was
+            // rejected — editing on a converged fit, not on the large initial transient.
+            if cfg.outlier_sigma > 0.0 && !did_edit {
+                did_edit = true;
+                let resid3d: Vec<f64> = preds
+                    .iter()
+                    .enumerate()
+                    .map(|(i, (s, _))| {
+                        let o = obs[i].pos;
+                        ((o[0] - s[0]).powi(2) + (o[1] - s[1]).powi(2) + (o[2] - s[2]).powi(2))
+                            .sqrt()
+                    })
+                    .collect();
+                let mut any_new = false;
+                for _pass in 0..3 {
+                    let (mut sum, mut cnt) = (0.0, 0usize);
+                    for (i, &d) in resid3d.iter().enumerate() {
+                        if !edited[i] {
+                            sum += d * d;
+                            cnt += 1;
+                        }
+                    }
+                    if cnt == 0 {
+                        break;
+                    }
+                    let rms = (sum / cnt as f64).sqrt();
+                    let thresh = cfg.outlier_sigma * rms;
+                    let mut marked = false;
+                    for (i, &d) in resid3d.iter().enumerate() {
+                        if !edited[i] && d > thresh {
+                            edited[i] = true;
+                            marked = true;
+                            any_new = true;
+                        }
+                    }
+                    if !marked {
+                        break;
+                    }
+                }
+                if any_new {
+                    continue; // refit without the rejected observations
+                }
+            }
+            converged = true;
+            break;
+        }
+    }
+
+    // Final report: residuals over the used observations at the converged state.
+    let mut fm = template.clone();
+    fm.cr = cr;
+    if let Some(e) = initial.empirical {
+        fm.empirical = Some(e);
+    }
+    let preds = propagate_with_stm_samples(&fm, r0, v0, &times, &cfg.tol);
+    let (mut sum3d, mut used) = (0.0, 0usize);
+    let mut sum_rtn = [0.0; 3];
+    for (i, ob) in obs.iter().enumerate() {
+        if edited[i] {
+            continue;
+        }
+        let (state6, _) = &preds[i];
+        let resid = [
+            ob.pos[0] - state6[0],
+            ob.pos[1] - state6[1],
+            ob.pos[2] - state6[2],
+        ];
+        sum3d += resid[0] * resid[0] + resid[1] * resid[1] + resid[2] * resid[2];
+        let rv = [state6[0], state6[1], state6[2]];
+        let vv = [state6[3], state6[4], state6[5]];
+        let rtn = to_rtn(resid, rv, vv);
+        for k in 0..3 {
+            sum_rtn[k] += rtn[k] * rtn[k];
+        }
+        used += 1;
+    }
+    let used_f = used.max(1) as f64;
+    let rms_3d = (sum3d / used_f).sqrt();
+    let rms_rtn = [
+        (sum_rtn[0] / used_f).sqrt(),
+        (sum_rtn[1] / used_f).sqrt(),
+        (sum_rtn[2] / used_f).sqrt(),
+    ];
+
+    Some(OdReport {
+        rms_3d,
+        rms_rtn,
+        n_obs: used,
+        n_edited: n_obs_total - used,
+        n_params,
+        iterations,
+        converged,
+        params: EstimatedParams {
+            r0,
+            v0,
+            cr: cfg.estimate_cr.then_some(cr),
+            empirical: initial.empirical,
+        },
+    })
 }
 
 #[cfg(test)]
