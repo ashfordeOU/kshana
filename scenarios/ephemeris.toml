@@ -1,0 +1,35 @@
+kind = "ephemeris"
+
+# Ephemeris & ground track — "where is the satellite right now".
+#
+# Propagate the ISS (ZARYA) for one revolution and emit, at every 30 s step: the
+# inertial TEME and GCRS (≈ J2000) state (position AND velocity), the Earth-fixed
+# ITRF/ECEF position, the WGS-84 sub-satellite point (latitude / longitude /
+# altitude — the ground track drawn in the chart), and the topocentric azimuth /
+# elevation / range and range-rate (the geometric Doppler) seen from a ground
+# station. The frame chain is the one validated to the millimetre against the
+# published Vallado vectors; the velocity is validated against the official AIAA
+# tcppver vectors.
+#
+# A TLE's epoch is its own (UTC); the ground track therefore starts at the TLE
+# epoch. Swap in any current TLE (e.g. from CelesTrak) to track a live satellite.
+tle = """
+1 25544U 98067A   20045.18587073  .00000950  00000-0  25302-4 0  9990
+2 25544  51.6443 242.0161 0004885 264.6060 207.3845 15.49165514212791
+"""
+step_s = 30.0
+duration_s = 16740.0   # ~three ISS revolutions
+
+# Earth-orientation: dut1_s = UT1 - UTC (0 => the DUT1 ~ 0 approximation, a
+# sub-arcsecond ground-track effect); xp_arcsec / yp_arcsec are the IERS polar-
+# motion pole coordinates. Leave at 0 for a quick run, or supply IERS values.
+dut1_s = 0.0
+xp_arcsec = 0.0
+yp_arcsec = 0.0
+
+# Optional ground station — ESA's European Space Operations Centre, Darmstadt.
+# Drives the az / el / range and the range-rate / Doppler columns.
+[station]
+lat_deg = 49.8707
+lon_deg = 8.6217
+alt_m = 144.0
