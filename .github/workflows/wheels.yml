@@ -1,5 +1,15 @@
 # Build Python wheels for the (optional) extension module. Runs on release tags
 # and on manual dispatch only, so the required CI gate on `main` is unaffected.
+#
+# Covers the full platform-tag matrix the PyPI release ships, including the ARM
+# targets (m37c34cfc): linux x86_64 + aarch64 (manylinux_2_28), macOS arm64 +
+# x86_64, and Windows x64 + arm64. The Linux aarch64 wheel cross-builds in the
+# manylinux container via QEMU. abi3 (cp39-abi3) keeps one wheel per platform
+# across Python versions.
+#
+# Security: no untrusted input is interpolated into any run/step — only trusted
+# matrix values (x86_64 / aarch64 / x64) and github.ref — so there is no
+# workflow-injection surface.
 name: wheels
 
 on:
@@ -16,12 +26,24 @@ concurrency:
 
 jobs:
   wheels:
-    name: build wheels (${{ matrix.os }})
+    name: wheels (${{ matrix.os }} / ${{ matrix.target }})
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+            target: x86_64
+          - os: ubuntu-latest
+            target: aarch64
+          - os: macos-latest # macos-14 runner is arm64
+            target: aarch64
+          - os: macos-13 # intel mac
+            target: x86_64
+          - os: windows-latest
+            target: x64
+          - os: windows-latest
+            target: aarch64
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -31,33 +53,56 @@ jobs:
         uses: PyO3/maturin-action@v1
         with:
           command: build
+          target: ${{ matrix.target }}
           args: --release --features python --out dist
           # Pin the manylinux container so every Linux wheel carries the same ABI
-          # floor (GLIBC 2.28, RHEL8 / Ubuntu 20.04-era). Ignored off-Linux.
+          # floor (GLIBC 2.28, RHEL8 / Ubuntu 20.04-era). Ignored off-Linux. The
+          # aarch64 build runs in the container under QEMU emulation.
           manylinux: 2_28
       - name: Build source distribution
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-latest' && matrix.target == 'x86_64'
         uses: PyO3/maturin-action@v1
         with:
           command: sdist
           args: --out dist
       - name: Verify Linux wheel platform tag (auditwheel)
         # auditwheel (the PyPA reference tool) is the authority on the wheel's ABI
-        # tag, independent of Kshana. With manylinux pinned to 2_28 the wheel must
-        # be tagged manylinux_2_28_x86_64; fail the job otherwise. auditwheel is
-        # preinstalled INSIDE the container, but this `show` runs on the host
-        # runner after the wheel is in dist/, so install it here. `show` needs no
-        # patchelf (only `repair` does), so no apt step is required.
+        # tag, independent of Kshana. With manylinux pinned to 2_28 the Linux wheel
+        # must be tagged manylinux_2_28_<arch>; fail otherwise. `show` inspects the
+        # wheel metadata/ELF and works cross-arch on the host runner.
         if: matrix.os == 'ubuntu-latest'
+        env:
+          ARCH: ${{ matrix.target }}
         run: |
           python -m pip install auditwheel
           for whl in dist/*.whl; do
             echo "== auditwheel show $whl =="
             auditwheel show "$whl"
-            auditwheel show "$whl" | grep -q manylinux_2_28 \
-              || { echo "ERROR: $whl is not tagged manylinux_2_28"; exit 1; }
+            auditwheel show "$whl" | grep -q "manylinux_2_28_${ARCH}" \
+              || { echo "ERROR: $whl is not tagged manylinux_2_28_${ARCH}"; exit 1; }
           done
       - uses: actions/upload-artifact@v4
         with:
-          name: wheels-${{ matrix.os }}
+          name: wheels-${{ matrix.os }}-${{ matrix.target }}
           path: dist
+
+  # Best-effort smoke install on a native ARM64 Linux runner: proves the aarch64
+  # wheel installs without building from source. continue-on-error so an
+  # unavailable arm runner label never blocks the release.
+  arm-install-smoke:
+    name: pip install on ARM64 Linux (smoke)
+    needs: wheels
+    runs-on: ubuntu-24.04-arm
+    continue-on-error: true
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: wheels-ubuntu-latest-aarch64
+          path: dist
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Install the aarch64 wheel without building from source
+        run: |
+          python -m pip install --only-binary :all: --no-index --find-links dist kshana
+          python -c "import kshana, platform; print('kshana imported on', platform.machine())"
