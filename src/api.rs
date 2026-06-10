@@ -231,6 +231,7 @@ pub enum ScenarioKind {
     Sweep,
     SweepNd,
     Orbit,
+    Ephemeris,
     LunarIntegrity,
     GravityMap,
     Terrain,
@@ -255,6 +256,7 @@ impl ScenarioKind {
             ScenarioKind::Sweep => "sweep",
             ScenarioKind::SweepNd => "sweep-nd",
             ScenarioKind::Orbit => "orbit",
+            ScenarioKind::Ephemeris => "ephemeris",
             ScenarioKind::LunarIntegrity => "lunar-integrity",
             ScenarioKind::GravityMap => "gravity-map",
             ScenarioKind::Terrain => "terrain-nav",
@@ -283,6 +285,7 @@ impl ScenarioKind {
             "sweep" => ScenarioKind::Sweep,
             "sweep-nd" => ScenarioKind::SweepNd,
             "orbit" => ScenarioKind::Orbit,
+            "ephemeris" => ScenarioKind::Ephemeris,
             "lunar-integrity" => ScenarioKind::LunarIntegrity,
             "gravity-map" => ScenarioKind::GravityMap,
             "terrain-nav" => ScenarioKind::Terrain,
@@ -311,6 +314,7 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "clock", description: "Clock holdover vs spec; optional Monte-Carlo ensemble (runs > 1).", required_fields: &["threshold_ns", "time", "gnss", "clock_quantum", "clock_classical"], optional_fields: &["seed", "runs"] },
         ScenarioMeta { name: "inertial", description: "1-DOF inertial dead-reckoning during a GNSS outage.", required_fields: &["threshold_m", "time", "gnss", "accel_quantum", "accel_classical"], optional_fields: &["seed", "runs"] },
         ScenarioMeta { name: "orbit", description: "GNSS availability + DOP from an orbital constellation (Walker / TLE / RINEX).", required_fields: &["threshold_ns", "time", "user", "constellation", "clock_quantum", "clock_classical"], optional_fields: &["mask_deg", "sigma_uere_m", "seed"] },
+        ScenarioMeta { name: "ephemeris", description: "Ephemeris & ground track: propagate one satellite (TLE→SGP4 or analytic orbit) and emit its TEME/GCRS state (position + velocity), ITRF/ECEF position, WGS-84 sub-satellite lat/lon/alt, and per-step station az/el/range + range-rate (Doppler).", required_fields: &[], optional_fields: &["tle", "orbit", "epoch", "step_s", "duration_s", "station", "dut1_s", "xp_arcsec", "yp_arcsec", "carrier_hz"] },
         ScenarioMeta { name: "integrity", description: "Snapshot / solution-separation / ARAIM RAIM with HPL/VPL and a Stanford diagram.", required_fields: &["time", "user", "constellation"], optional_fields: &["mask_deg", "sigma_uere_m", "p_fa", "p_md"] },
         ScenarioMeta { name: "lunar-integrity", description: "Lunar south-pole ARAIM protection-level pass vs a representative LunaNet relay set.", required_fields: &[], optional_fields: &["step_s", "duration_s", "alert_limit_m", "p_hmi"] },
         ScenarioMeta { name: "timetransfer", description: "Optical vs RF two-way time/frequency transfer.", required_fields: &["time", "optical", "rf"], optional_fields: &["seed"] },
@@ -738,6 +742,34 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 summary,
             })
         }
+        ScenarioKind::Ephemeris => {
+            let scn: crate::ephemeris::EphemerisScenario =
+                toml::from_str(src).map_err(|e| format!("invalid ephemeris scenario: {e}"))?;
+            let r = crate::ephemeris::run_ephemeris(&scn).map_err(|e| format!("ephemeris: {e}"))?;
+            let pass = match (r.max_elevation_deg, r.peak_doppler_hz) {
+                (Some(el), Some(d)) => {
+                    format!(" | max el {el:.1}° peak Doppler {:.1} kHz", d / 1000.0)
+                }
+                _ => String::new(),
+            };
+            let summary = format!(
+                "scenario {} | {} | {} samples | alt {:.0}–{:.0} km | |lat| ≤ {:.1}° | speed {:.0}–{:.0} m/s{}",
+                &r.scenario_hash[..12],
+                r.source,
+                r.n_samples,
+                r.alt_min_km,
+                r.alt_max_km,
+                r.lat_max_deg.abs().max(r.lat_min_deg.abs()),
+                r.speed_min_m_s,
+                r.speed_max_m_s,
+                pass,
+            );
+            Ok(RunOutput {
+                json: json_of(&r),
+                svg: crate::ephemeris::to_svg(&r),
+                summary,
+            })
+        }
         ScenarioKind::GravityMap => {
             let cfg: crate::gravimeter::GravityMapBenchmarkCfg =
                 toml::from_str(src).map_err(|e| format!("invalid gravity-map scenario: {e}"))?;
@@ -876,6 +908,7 @@ mod tests {
             ScenarioKind::Sweep,
             ScenarioKind::SweepNd,
             ScenarioKind::Orbit,
+            ScenarioKind::Ephemeris,
             ScenarioKind::LunarIntegrity,
             ScenarioKind::GravityMap,
             ScenarioKind::Terrain,
@@ -926,6 +959,7 @@ mod tests {
             include_str!("../scenarios/orbit-molniya.toml"),
             include_str!("../scenarios/orbit-multignss.toml"),
             include_str!("../scenarios/orbit-real-tle.toml"),
+            include_str!("../scenarios/ephemeris.toml"),
             include_str!("../scenarios/sweep-clock-stability.toml"),
             include_str!("../scenarios/spoof-attack.toml"),
             include_str!("../scenarios/spoof-meaconing.toml"),
@@ -962,6 +996,7 @@ mod tests {
             include_str!("../scenarios/sweep-clock-stability.toml"),
             include_str!("../scenarios/gnss-sim-raim.toml"),
             include_str!("../scenarios/orbit-gnss-challenged.toml"),
+            include_str!("../scenarios/ephemeris.toml"),
         ] {
             let out = run_toml(src).expect("scenario runs");
             assert!(out.svg.contains("\u{00b7} kshana.dev"), "footer present");
