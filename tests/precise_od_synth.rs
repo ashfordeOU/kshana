@@ -4,7 +4,7 @@
 //! Kshana-propagated arc back to its own initial state. No external data — the truth is Kshana's
 //! own integrator, so any non-zero residual is the estimator's, not the dynamics'.
 
-use kshana::precise_od::{self, ric_from_state};
+use kshana::precise_od::{self, ric_from_state, ForceModel};
 
 /// The radial/transverse/normal (RTN) rotation built from a circular, equatorial, prograde state
 /// is the identity-like axis map: R̂ = +x, T̂ = +y, N̂ = +z. Rotating an ECI vector into RTN must

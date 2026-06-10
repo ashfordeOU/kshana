@@ -177,8 +177,9 @@ fn arg_of_latitude(r: Vec3, v: Vec3) -> f64 {
 
 /// The empirical RTN acceleration (m/s², ECI) for `emp` at state `(r, v)`: each axis amplitude
 /// `c0 + c_cos·cos u + c_sin·sin u` against the argument of latitude `u`, projected back onto the
-/// inertial RTN basis vectors.
-fn empirical_accel(emp: &EmpiricalAccel, r: Vec3, v: Vec3) -> Vec3 {
+/// inertial RTN basis vectors. Frame-agnostic — the RTN basis and argument of latitude are built
+/// from `(r, v)` in whatever inertial frame the caller integrates (Earth- or Moon-centred).
+pub(crate) fn empirical_accel(emp: &EmpiricalAccel, r: Vec3, v: Vec3) -> Vec3 {
     let ric = ric_from_state(r, v); // rows = R̂, T̂, N̂ in ECI
     let u = arg_of_latitude(r, v);
     let (cu, su) = (u.cos(), u.sin());
@@ -186,6 +187,55 @@ fn empirical_accel(emp: &EmpiricalAccel, r: Vec3, v: Vec3) -> Vec3 {
     let rtn = [comp(emp.radial), comp(emp.transverse), comp(emp.normal)];
     // a_eci = a_R·R̂ + a_T·T̂ + a_N·N̂ = ricᵀ·rtn.
     mat_vec(&transpose(&ric), rtn)
+}
+
+/// The dynamics interface the batch estimator ([`fit`]) and the STM propagators are generic over:
+/// anything that returns its inertial acceleration and 6×6 dynamics matrix at a state, exposes its
+/// SRP coefficient, and accepts the estimator's `C_R`/empirical updates. [`PreciseForceModel`]
+/// (Earth-centric) and [`crate::lunar_od::LunarForceModel`] (Moon-centric) both implement it, so
+/// the one reference-grade Gauss–Newton estimator fits orbits about either body.
+pub trait ForceModel: Clone {
+    /// The full inertial acceleration (m/s²) at integration time `t` (s past the epoch), position
+    /// `r` and velocity `v`.
+    fn accel_rv(&self, t: f64, r: Vec3, v: Vec3) -> Vec3;
+
+    /// The current SRP coefficient `C_R` (the estimator's optional free parameter).
+    fn cr(&self) -> f64;
+
+    /// Set the SRP coefficient `C_R`.
+    fn set_cr(&mut self, cr: f64);
+
+    /// Attach (or clear) the empirical-acceleration tier.
+    fn set_empirical(&mut self, empirical: Option<EmpiricalAccel>);
+
+    /// The 6×6 dynamics matrix `A = ∂f/∂x` (`x = [r; v]`, `f = [v; a]`) at time `t`, state
+    /// `(r, v)`. The upper-right block is the identity (`ṙ = v`); the lower blocks `∂a/∂r`,
+    /// `∂a/∂v` are central differences of [`accel_rv`](Self::accel_rv). The default re-evaluates
+    /// the acceleration twelve times; an implementor with a cacheable per-epoch context (frame,
+    /// ephemeris) may override to share it across the perturbed evaluations.
+    fn dynamics_matrix(&self, t: f64, r: Vec3, v: Vec3) -> [[f64; 6]; 6] {
+        let mut a_mat = [[0.0; 6]; 6];
+        for i in 0..3 {
+            a_mat[i][i + 3] = 1.0;
+        }
+        let hr = 1.0;
+        let hv = 1.0e-3;
+        for j in 0..3 {
+            let (mut rp, mut rm) = (r, r);
+            rp[j] += hr;
+            rm[j] -= hr;
+            let (ap, am) = (self.accel_rv(t, rp, v), self.accel_rv(t, rm, v));
+            let (mut vp, mut vm) = (v, v);
+            vp[j] += hv;
+            vm[j] -= hv;
+            let (apv, amv) = (self.accel_rv(t, r, vp), self.accel_rv(t, r, vm));
+            for i in 0..3 {
+                a_mat[3 + i][j] = (ap[i] - am[i]) / (2.0 * hr);
+                a_mat[3 + i][3 + j] = (apv[i] - amv[i]) / (2.0 * hv);
+            }
+        }
+        a_mat
+    }
 }
 
 /// The reference-grade force model fit by [`fit`]: the EGM2008 spherical-harmonic geopotential
@@ -384,21 +434,33 @@ impl PreciseForceModel {
         let moon = self.moon.then(|| moon_position(tjc));
         (sun, moon)
     }
+}
 
+impl ForceModel for PreciseForceModel {
     /// The full acceleration (m/s², ECI) at integration time `t` (s past the epoch), position `r`
     /// and velocity `v`.
-    pub fn accel_rv(&self, t: f64, r: Vec3, v: Vec3) -> Vec3 {
+    fn accel_rv(&self, t: f64, r: Vec3, v: Vec3) -> Vec3 {
         let jd_tt = self.epoch_jd_tt + t / SECONDS_PER_DAY;
         let m = self.frame(jd_tt);
         let (sun, moon) = self.ephem(jd_tt);
         self.accel_with(jd_tt, &m, sun, moon, r, v)
     }
 
-    /// The 6×6 dynamics matrix `A = ∂f/∂x` (with `x = [r; v]`, `f = [v; a]`) at time `t`, state
-    /// `(r, v)`. The upper-right block is the identity (`ṙ = v`); the lower blocks `∂a/∂r` and
-    /// `∂a/∂v` are evaluated by central finite difference of the acceleration. The frame and
-    /// Sun/Moon ephemeris are computed once and shared across the twelve perturbed evaluations, so
-    /// the (expensive) nutation/ephemeris is not recomputed per column.
+    fn cr(&self) -> f64 {
+        self.cr
+    }
+
+    fn set_cr(&mut self, cr: f64) {
+        self.cr = cr;
+    }
+
+    fn set_empirical(&mut self, empirical: Option<EmpiricalAccel>) {
+        self.empirical = empirical;
+    }
+
+    /// Overrides the default with the per-epoch frame and Sun/Moon ephemeris computed once and
+    /// shared across the twelve perturbed evaluations, so the (expensive) nutation/ephemeris is
+    /// not recomputed per column.
     fn dynamics_matrix(&self, t: f64, r: Vec3, v: Vec3) -> [[f64; 6]; 6] {
         let jd_tt = self.epoch_jd_tt + t / SECONDS_PER_DAY;
         let m = self.frame(jd_tt);
@@ -434,8 +496,8 @@ impl PreciseForceModel {
 /// Numerically propagate the inertial state `(r0, v0)` (m, m/s) forward by `t_end` seconds under
 /// the precise force model `fm`, with the Dormand–Prince driver to tolerance `tol`. Returns the
 /// final `(r, v)`.
-pub fn propagate(
-    fm: &PreciseForceModel,
+pub fn propagate<F: ForceModel>(
+    fm: &F,
     r0: Vec3,
     v0: Vec3,
     t_end: f64,
@@ -462,8 +524,8 @@ pub fn propagate(
 /// Dormand–Prince driver; `A` is the numerically-evaluated [`PreciseForceModel::dynamics_matrix`].
 /// This single forward integration yields the position partials at every observation epoch the
 /// batch estimator needs, and is cross-checked against whole-arc finite difference.
-pub fn propagate_with_stm(
-    fm: &PreciseForceModel,
+pub fn propagate_with_stm<F: ForceModel>(
+    fm: &F,
     r0: Vec3,
     v0: Vec3,
     t_end: f64,
@@ -496,7 +558,7 @@ pub fn propagate_with_stm(
 
 /// The right-hand side of the augmented `[r; v; Φ(36)]` ODE: `ṙ = v`, `v̇ = a(t, r, v)`,
 /// `Φ̇ = A(t, x)·Φ` with `A` the numerically-evaluated dynamics matrix.
-fn stm_rhs(fm: &PreciseForceModel, t: f64, y: &[f64]) -> Vec<f64> {
+fn stm_rhs<F: ForceModel>(fm: &F, t: f64, y: &[f64]) -> Vec<f64> {
     let r = [y[0], y[1], y[2]];
     let v = [y[3], y[4], y[5]];
     let a = fm.accel_rv(t, r, v);
@@ -531,8 +593,8 @@ fn phi_from_augmented(y: &[f64]) -> [[f64; 6]; 6] {
 /// ascending, all ≥ 0). One forward integration carried segment-by-segment — Φ accumulates from
 /// the epoch, so `samples[i].1` is `∂x(times[i])/∂x0`. This is what the batch estimator needs:
 /// predicted positions and their epoch-state partials at every observation epoch in one pass.
-fn propagate_with_stm_samples(
-    fm: &PreciseForceModel,
+fn propagate_with_stm_samples<F: ForceModel>(
+    fm: &F,
     r0: Vec3,
     v0: Vec3,
     times: &[f64],
@@ -567,8 +629,8 @@ fn propagate_with_stm_samples(
 /// Propagate `(r0, v0)` once and sample the position at each of `times` (ascending,
 /// epoch-relative seconds), marching segment-by-segment in a single forward pass — the
 /// efficient way to get a no-fit "overlap" trajectory against many observation epochs.
-pub fn propagate_samples(
-    fm: &PreciseForceModel,
+pub fn propagate_samples<F: ForceModel>(
+    fm: &F,
     r0: Vec3,
     v0: Vec3,
     times: &[f64],
@@ -655,8 +717,8 @@ fn emp_set(e: &mut EmpiricalAccel, k: usize, v: f64) {
 /// partial. Observations are weighted by `1/σ²`, and (when enabled) gross outliers are edited by
 /// n-sigma rejection on the post-fit residual. Returns `None` on too few observations or a
 /// singular normal matrix.
-pub fn fit(
-    template: &PreciseForceModel,
+pub fn fit<F: ForceModel>(
+    template: &F,
     initial: EstimatedParams,
     obs: &[Observation],
     cfg: &FitConfig,
@@ -681,7 +743,7 @@ pub fn fit(
     let n_params = emp_base + n_emp;
     let mut r0 = initial.r0;
     let mut v0 = initial.v0;
-    let mut cr = initial.cr.unwrap_or(template.cr);
+    let mut cr = initial.cr.unwrap_or(template.cr());
     let mut emp = initial.empirical.unwrap_or_default();
 
     let mut edited = vec![false; n_obs_total];
@@ -692,12 +754,12 @@ pub fn fit(
     for it in 0..cfg.max_iter {
         iterations = it + 1;
         let mut fm = template.clone();
-        fm.cr = cr;
-        fm.empirical = if cfg.estimate_empirical {
+        fm.set_cr(cr);
+        fm.set_empirical(if cfg.estimate_empirical {
             Some(emp)
         } else {
             initial.empirical
-        };
+        });
 
         let preds = propagate_with_stm_samples(&fm, r0, v0, &times, &cfg.tol);
 
@@ -705,8 +767,8 @@ pub fn fit(
         let cr_partial: Option<Vec<Vec3>> = if cfg.estimate_cr {
             let dcr = 1e-3;
             let (mut fmp, mut fmm) = (fm.clone(), fm.clone());
-            fmp.cr = cr + dcr;
-            fmm.cr = cr - dcr;
+            fmp.set_cr(cr + dcr);
+            fmm.set_cr(cr - dcr);
             let pp = propagate_samples(&fmp, r0, v0, &times, &cfg.tol);
             let pm = propagate_samples(&fmm, r0, v0, &times, &cfg.tol);
             Some(
@@ -736,7 +798,7 @@ pub fn fit(
                     let mut ep = emp;
                     emp_set(&mut ep, k, emp_get(&emp, k) + damp);
                     let mut fmp = fm.clone();
-                    fmp.empirical = Some(ep);
+                    fmp.set_empirical(Some(ep));
                     let pp = propagate_samples(&fmp, r0, v0, &times, &cfg.tol);
                     pp.iter()
                         .zip(&nominal)
@@ -868,12 +930,12 @@ pub fn fit(
 
     // Final report: residuals over the used observations at the converged state.
     let mut fm = template.clone();
-    fm.cr = cr;
-    fm.empirical = if cfg.estimate_empirical {
+    fm.set_cr(cr);
+    fm.set_empirical(if cfg.estimate_empirical {
         Some(emp)
     } else {
         initial.empirical
-    };
+    });
     let preds = propagate_with_stm_samples(&fm, r0, v0, &times, &cfg.tol);
     let (mut sum3d, mut used) = (0.0, 0usize);
     let mut sum_rtn = [0.0; 3];
