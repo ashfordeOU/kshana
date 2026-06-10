@@ -1,0 +1,40 @@
+# Standalone, workspace-EXCLUDED cross-validation crate — the DE-grade lunar precise-OD check.
+#
+# Why a separate crate and not a `kshana` cargo feature (identical rationale to
+# `xval/anise-frames`): this cross-check depends on `anise` (the pure-Rust NAIF/SPICE
+# reimplementation) and `hifitime`, both licensed MPL-2.0 and built on edition 2024
+# (Rust >= 1.85). Pulling either into the main crate's dependency graph would (a) break
+# the required `cargo deny` license gate (MPL-2.0 is outside the strict allow-list) and
+# (b) break the MSRV job (cargo 1.75 cannot even parse an edition-2024 manifest in the
+# resolved graph). Isolating this here keeps the published `kshana` crate lean and every
+# default CI gate byte-for-byte untouched: this crate has its OWN Cargo.lock and is
+# invisible to root `cargo` commands (the root package declares no `[workspace]` and
+# lists `/xval` in its `exclude`).
+[package]
+name = "kshana-anise-lunar-od"
+version = "0.1.0"
+edition = "2021"
+description = "Independent DE-grade cross-validation of kshana's selenocentric precise orbit determination: refit the real NASA/JPL Horizons LRO orbit with DE440 ephemeris and the DE440 lunar principal-axis orientation (via ANISE/SPICE), swapping only the frame inputs of the same kshana estimator."
+license = "Apache-2.0"
+publish = false
+
+[[bin]]
+name = "lunar-od-xval"
+path = "src/main.rs"
+
+[dependencies]
+# The kshana library supplies the reference-grade estimator (precise_od::fit), the GRAIL
+# gravity-field evaluation (gravity_sh), and the Moon-centred force model + its
+# LunarEnvironment provider seam (lunar_od) — all reused verbatim. Only the frame inputs
+# are swapped for DE-grade ones here.
+kshana = { path = "../.." }
+# ANISE: pure-Rust NAIF/SPICE. `default-features = false` drops the HTTP downloader /
+# Dhall metaload stack (we fetch kernels ourselves via curl), so the only crates this
+# pulls that fall outside kshana's strict license allow-list are `anise` + `hifitime`,
+# both MPL-2.0 — confined entirely to this crate's Cargo.lock.
+anise = { version = "0.10", default-features = false }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+# For the citable kernel checksums in the report (permissive licenses; this crate only).
+sha2 = "0.10"
+hex = "0.4"
