@@ -1,0 +1,46 @@
+# Optional DE-grade selenocentric orbit-determination cross-validation against ANISE/SPICE.
+#
+# MANUAL ONLY (`workflow_dispatch`): never triggered by push or pull_request, so it can NEVER
+# block `main`. It lives apart from the gating CI because it compiles the standalone
+# `xval/anise-lunar-od` crate, which depends on the MPL-2.0 / edition-2024 `anise` + `hifitime`
+# crates (deliberately kept out of the published `kshana` graph and the `cargo deny` / MSRV gates)
+# and downloads ~45 MB of NAIF DE440 kernels at runtime.
+#
+# No untrusted input is used anywhere below (only static commands), so there is no
+# workflow-injection surface.
+#
+# Run it from the Actions tab to regenerate the DE-grade LRO cross-validation report on demand.
+name: DE-grade lunar-OD cross-validation (ANISE)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  lunar-od-xval:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: xval/anise-lunar-od
+    steps:
+      - uses: actions/checkout@v4
+      # Pinned to the repo toolchain; anise needs edition 2024 (>= 1.85), satisfied by 1.93.
+      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: xval/anise-lunar-od
+      - name: Run the fast wiring gate (self-skips without kernels)
+        run: cargo test
+      - name: Run the DE-grade LRO fit (release; fetches the DE440 kernels, writes report.{json,md})
+        # The binary downloads de440s.bsp (~32 MB) + moon_pa_de440_200625.bpc (~13 MB) into kernels/,
+        # runs the dynamic + reduced-dynamic fits, prints the table, and writes the report. Release
+        # so the full d/o-100 batch over 241 epochs finishes in minutes.
+        run: cargo run --release --bin lunar-od-xval
+      - name: Upload the cross-validation report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lunar-od-xval-report
+          path: |
+            xval/anise-lunar-od/report.json
+            xval/anise-lunar-od/report.md
+          if-no-files-found: warn
