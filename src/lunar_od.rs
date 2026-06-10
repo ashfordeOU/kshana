@@ -41,11 +41,57 @@ use crate::precise_od::{empirical_accel, EmpiricalAccel, ForceModel};
 use crate::timescales::SECONDS_PER_DAY;
 
 type Vec3 = [f64; 3];
+type Mat3 = [[f64; 3]; 3];
+
+/// A pluggable source of the Moon-centred force model's *frame inputs* — the lunar body-fixed
+/// orientation and the Earth/Sun directions — abstracted so the fidelity of those two inputs can
+/// be swapped without touching the gravity field, the estimator, or the empirical tier.
+///
+/// The built-in [`AnalyticLunarEnvironment`] uses Kshana's analytic IAU 2015 libration
+/// ([`crate::lunar_frame::icrf_to_moon_pa`]) and the Montenbruck–Gill ephemeris ([`crate::ephem`]),
+/// which sit ~tens of arc-seconds / ~0.3° from the JPL Development Ephemeris values — the proven
+/// limiting factor of the published 6.6 m LRO fit. An *out-of-crate* provider can instead read
+/// DE-grade orientation and ephemeris from NAIF kernels (the `xval/anise-lunar-od` cross-validation
+/// crate), swapping **only** these inputs through this seam while every other dynamical term and the
+/// reference-grade estimator stay identical. All quantities are Moon-centred ICRF/J2000 — the frame
+/// the LRO truth is reported in.
+pub trait LunarEnvironment: Clone + std::fmt::Debug {
+    /// The ICRF → Moon body-fixed **principal-axis** rotation matrix at `jd_tdb` (Julian Date, TDB).
+    fn icrf_to_moon_pa(&self, jd_tdb: f64) -> Mat3;
+    /// The geocentric Sun and Moon positions `(sun, moon)` (m, GCRS/ICRF) at `jd_tdb`.
+    fn geocentric_sun_moon(&self, jd_tdb: f64) -> (Vec3, Vec3);
+}
+
+/// The default, kernel-free frame-input provider: Kshana's own analytic lunar orientation and
+/// analytic Sun/Moon ephemeris. This is the lean, fully-reproducible path, and it is the default
+/// type parameter of [`LunarForceModel`], so the published crate takes on no kernel dependency.
+#[derive(Clone, Copy, Debug, Default)]
+pub struct AnalyticLunarEnvironment;
+
+impl LunarEnvironment for AnalyticLunarEnvironment {
+    fn icrf_to_moon_pa(&self, jd_tdb: f64) -> Mat3 {
+        icrf_to_moon_pa(jd_tdb)
+    }
+
+    /// The geocentric Sun and Moon positions (m, **GCRS/ICRF**) at `jd`. The built-in analytic
+    /// series are mean-equator-of-date; they are rotated into GCRS with [`mod_to_gcrs`] so the
+    /// dominant Earth third-body direction is consistent with the inertial (ICRF) frame the orbit
+    /// is integrated and observed in — un-modelled precession would otherwise tilt the largest
+    /// lunar-orbit perturbation by ~0.3° at 2022, injecting an out-of-plane bias.
+    fn geocentric_sun_moon(&self, jd: f64) -> (Vec3, Vec3) {
+        let tjc = julian_centuries_tt(jd);
+        (
+            mod_to_gcrs(sun_position(tjc), jd),
+            mod_to_gcrs(moon_position(tjc), jd),
+        )
+    }
+}
 
 /// A Moon-centred force model: a lunar spherical-harmonic gravity field evaluated in the body-fixed
-/// frame, plus the configured third bodies, optional SRP, and the optional empirical tier.
+/// frame, plus the configured third bodies, optional SRP, and the optional empirical tier. Generic
+/// over the [`LunarEnvironment`] frame-input provider, defaulting to the analytic one.
 #[derive(Clone, Debug)]
-pub struct LunarForceModel {
+pub struct LunarForceModel<E: LunarEnvironment = AnalyticLunarEnvironment> {
     /// The lunar gravity field (GRGM*, fully-normalized), defined in the Moon body-fixed frame.
     pub field: SphericalHarmonicField,
     /// Estimation/propagation epoch (Julian Date, TDB ≈ TT) at integration time `t = 0`.
@@ -62,12 +108,25 @@ pub struct LunarForceModel {
     pub area_over_mass: f64,
     /// Optional empirical-acceleration tier (RTN constant + once-per-rev).
     pub empirical: Option<EmpiricalAccel>,
+    /// The frame-input provider (lunar orientation + Sun/Moon ephemeris). Defaults to the
+    /// kernel-free analytic [`AnalyticLunarEnvironment`]; an out-of-crate DE-grade provider
+    /// plugs in here via [`LunarForceModel::with_env`].
+    pub env: E,
 }
 
-impl LunarForceModel {
+impl LunarForceModel<AnalyticLunarEnvironment> {
     /// A Moon-centred model over the given lunar gravity `field` at `epoch_jd_tdb`, with the
-    /// Earth and Sun third bodies enabled and no SRP or empirical tier — the dynamic baseline.
+    /// Earth and Sun third bodies enabled and no SRP or empirical tier — the dynamic baseline,
+    /// using the built-in analytic frame inputs.
     pub fn new(field: SphericalHarmonicField, epoch_jd_tdb: f64) -> Self {
+        Self::with_env(field, epoch_jd_tdb, AnalyticLunarEnvironment)
+    }
+}
+
+impl<E: LunarEnvironment> LunarForceModel<E> {
+    /// A Moon-centred model with an explicit frame-input provider `env` (e.g. a DE-grade ANISE
+    /// environment), Earth and Sun third bodies enabled and no SRP or empirical tier.
+    pub fn with_env(field: SphericalHarmonicField, epoch_jd_tdb: f64, env: E) -> Self {
         Self {
             field,
             epoch_jd_tdb,
@@ -77,6 +136,7 @@ impl LunarForceModel {
             cr: 1.0,
             area_over_mass: 0.0,
             empirical: None,
+            env,
         }
     }
 
@@ -87,28 +147,17 @@ impl LunarForceModel {
         self.area_over_mass = area_over_mass;
         self
     }
-
-    /// The geocentric Sun and Moon positions (m, **GCRS/ICRF**) at `jd`. The built-in analytic
-    /// series are mean-equator-of-date; they are rotated into GCRS with [`mod_to_gcrs`] so the
-    /// dominant Earth third-body direction is consistent with the inertial (ICRF) frame the orbit
-    /// is integrated and observed in — un-modelled precession would otherwise tilt the largest
-    /// lunar-orbit perturbation by ~0.3° at 2022, injecting an out-of-plane bias.
-    fn geocentric(jd: f64) -> (Vec3, Vec3) {
-        let tjc = julian_centuries_tt(jd);
-        (
-            mod_to_gcrs(sun_position(tjc), jd),
-            mod_to_gcrs(moon_position(tjc), jd),
-        )
-    }
 }
 
-impl ForceModel for LunarForceModel {
+impl<E: LunarEnvironment> ForceModel for LunarForceModel<E> {
     fn accel_rv(&self, t: f64, r: Vec3, v: Vec3) -> Vec3 {
         let jd = self.epoch_jd_tdb + t / SECONDS_PER_DAY;
 
         // Lunar gravity: rotate the inertial position into the Moon body-fixed principal-axis
         // frame (the GRGM field's frame), evaluate, rotate the acceleration back to inertial.
-        let m = icrf_to_moon_pa(jd);
+        // The orientation comes from the frame-input provider (analytic by default, DE-grade
+        // when an ANISE environment is plugged in).
+        let m = self.env.icrf_to_moon_pa(jd);
         let r_bf = mat_vec(&m, r);
         let a_bf = self.field.acceleration(r_bf);
         let mut a = mat_vec(&transpose(&m), a_bf);
@@ -118,7 +167,7 @@ impl ForceModel for LunarForceModel {
 
         let need_sun = self.sun || self.srp;
         if self.earth || need_sun {
-            let (sun_geo, moon_geo) = Self::geocentric(jd);
+            let (sun_geo, moon_geo) = self.env.geocentric_sun_moon(jd);
             if self.earth {
                 // Earth relative to the Moon = −(geocentric Moon).
                 let earth_wrt_moon = [-moon_geo[0], -moon_geo[1], -moon_geo[2]];
@@ -276,6 +325,55 @@ mod tests {
         assert!(
             (d - amp).abs() / amp < 1e-6,
             "empirical radial Δ {d} vs {amp}"
+        );
+    }
+
+    #[test]
+    fn custom_environment_provider_drives_the_force_model() {
+        // The provider seam must actually feed accel_rv. A custom LunarEnvironment whose
+        // body-fixed orientation differs from the analytic one (here the analytic rotation with
+        // an extra fixed 10° about the lunar z-axis) yields a *different* body-fixed gravity
+        // acceleration on the sectoral field — proving the swap is wired in, which is exactly the
+        // mechanism the out-of-crate DE-grade ANISE environment depends on. If the provider were
+        // ignored, both models would share the analytic orientation and the difference would be 0.
+        #[derive(Clone, Debug)]
+        struct ShiftedEnv;
+        impl LunarEnvironment for ShiftedEnv {
+            fn icrf_to_moon_pa(&self, jd: f64) -> Mat3 {
+                let base = crate::lunar_frame::icrf_to_moon_pa(jd);
+                let (c, s) = (10.0_f64.to_radians().cos(), 10.0_f64.to_radians().sin());
+                let rz = [[c, s, 0.0], [-s, c, 0.0], [0.0, 0.0, 1.0]];
+                let mut out = [[0.0; 3]; 3];
+                for (i, row) in out.iter_mut().enumerate() {
+                    for (j, e) in row.iter_mut().enumerate() {
+                        *e = (0..3).map(|k| rz[i][k] * base[k][j]).sum();
+                    }
+                }
+                out
+            }
+            fn geocentric_sun_moon(&self, jd: f64) -> (Vec3, Vec3) {
+                AnalyticLunarEnvironment.geocentric_sun_moon(jd)
+            }
+        }
+
+        let (r, v) = lro_state();
+        let analytic = LunarForceModel {
+            earth: false,
+            sun: false,
+            ..LunarForceModel::new(synthetic_moon_field(), 2_459_580.5)
+        };
+        let shifted = LunarForceModel {
+            earth: false,
+            sun: false,
+            ..LunarForceModel::with_env(synthetic_moon_field(), 2_459_580.5, ShiftedEnv)
+        };
+        let a0 = analytic.accel_rv(0.0, r, v);
+        let a1 = shifted.accel_rv(0.0, r, v);
+        let d = norm([a1[0] - a0[0], a1[1] - a0[1], a1[2] - a0[2]]);
+        assert!(
+            d > 1e-9,
+            "custom orientation provider changed the body-fixed gravity accel by {d} m/s² \
+             (0 would mean the LunarEnvironment seam is not consumed by accel_rv)"
         );
     }
 }
