@@ -34,14 +34,14 @@ const DEGREE: usize = 12;
 /// Galileo cannonball cross-section-to-mass ratio (m²/kg); `C_R` is estimated on top.
 const AREA_OVER_MASS: f64 = 0.02;
 
-/// Rotate every E11 SP3 ITRF fix into GCRS with real EOP. Returns the first epoch (TT
+/// Rotate every `sat` SP3 ITRF fix into GCRS with real EOP. Returns the first epoch (TT
 /// Julian Date) and the inertial position observations relative to it.
-fn build_observations(eop: &EopSeries) -> (f64, Vec<Observation>) {
-    let sp3 = parse_sp3(SP3).expect("fixture SP3 parses");
+fn observations_from(sp3_text: &str, sat: &str, eop: &EopSeries) -> (f64, Vec<Observation>) {
+    let sp3 = parse_sp3(sp3_text).expect("SP3 parses");
     let mut epoch0: Option<f64> = None;
     let mut obs = Vec::new();
     for ep in &sp3.epochs {
-        let Some(st) = ep.sats.iter().find(|s| s.sat == SAT) else {
+        let Some(st) = ep.sats.iter().find(|s| s.sat == sat) else {
             continue;
         };
         let t = &ep.time;
@@ -56,7 +56,7 @@ fn build_observations(eop: &EopSeries) -> (f64, Vec<Observation>) {
             sigma: 1.0,
         });
     }
-    (epoch0.expect("at least one E11 epoch"), obs)
+    (epoch0.expect("at least one matching epoch"), obs)
 }
 
 /// A second-order forward-difference velocity seed from the first three GCRS positions.
@@ -70,13 +70,13 @@ fn seed_velocity(obs: &[Observation]) -> [f64; 3] {
     v
 }
 
-fn template(epoch_jd_tt: f64) -> PreciseForceModel {
-    PreciseForceModel::egm2008(DEGREE, epoch_jd_tt)
+fn template(degree: usize, epoch_jd_tt: f64, eop: &EopSeries) -> PreciseForceModel {
+    PreciseForceModel::egm2008(degree, epoch_jd_tt)
         .third_body(true, true)
         .solar_radiation(1.0, AREA_OVER_MASS)
         .relativity()
         .tides()
-        .with_eop(EopSeries::from_finals2000a(EOP))
+        .with_eop(eop.clone())
 }
 
 /// Raw propagation overlap: integrate the seed state once (no fit) and report its 3-D
@@ -100,7 +100,7 @@ fn raw_overlap_rms(
 #[test]
 fn galileo_e11_meo_post_fit_under_5m() {
     let eop = EopSeries::from_finals2000a(EOP);
-    let (epoch_jd_tt, obs) = build_observations(&eop);
+    let (epoch_jd_tt, obs) = observations_from(SP3, SAT, &eop);
     assert!(
         obs.len() >= 90,
         "expected ~97 E11 epochs in the fixture, got {}",
@@ -114,7 +114,7 @@ fn galileo_e11_meo_post_fit_under_5m() {
         cr: Some(1.0),
         empirical: None,
     };
-    let tmpl = template(epoch_jd_tt);
+    let tmpl = template(DEGREE, epoch_jd_tt, &eop);
 
     // CI integration tolerance: rtol 1e-10 keeps global position error at the millimetre
     // over the arc — far below the residual floor — while integrating much faster than the
@@ -190,6 +190,71 @@ fn galileo_e11_meo_post_fit_under_5m() {
         rep2.rms_3d <= rep.rms_3d * 1.05 + 1e-6,
         "empirical tier should absorb mismodeling, not worsen the fit ({:.3} vs {:.3} m)",
         rep2.rms_3d,
+        rep.rms_3d
+    );
+}
+
+/// Full-arc, full-degree Galileo validation over a complete day — the `workflow_dispatch`
+/// online-fetch job (ignored by default; normal CI has no network). The CI job downloads
+/// the day's `ESA0MGNFIN` SP3 and the IERS `finals2000A` and points these env vars at them:
+///   KSHANA_GALILEO_SP3    path to the full-day SP3
+///   KSHANA_GALILEO_EOP    path to the finals2000A file
+///   KSHANA_GALILEO_SAT    satellite id (default E11)
+///   KSHANA_GALILEO_DEGREE geopotential degree/order (default 70)
+/// Same pipeline as the fixture test, at full degree over the whole arc.
+#[test]
+#[ignore = "online full-arc dispatch; set KSHANA_GALILEO_SP3 / _EOP"]
+fn galileo_full_arc_dispatch() {
+    let sp3_path = std::env::var("KSHANA_GALILEO_SP3").expect("set KSHANA_GALILEO_SP3");
+    let eop_path = std::env::var("KSHANA_GALILEO_EOP").expect("set KSHANA_GALILEO_EOP");
+    let sat = std::env::var("KSHANA_GALILEO_SAT").unwrap_or_else(|_| "E11".to_string());
+    let degree: usize = std::env::var("KSHANA_GALILEO_DEGREE")
+        .ok()
+        .and_then(|s| s.parse().ok())
+        .unwrap_or(70);
+    let sp3_text = std::fs::read_to_string(&sp3_path).expect("read full-day SP3");
+    let eop_text = std::fs::read_to_string(&eop_path).expect("read finals2000A");
+
+    let eop = EopSeries::from_finals2000a(&eop_text);
+    let (epoch_jd_tt, obs) = observations_from(&sp3_text, &sat, &eop);
+    assert!(
+        obs.len() >= 200,
+        "expected a full day of {sat} epochs, got {}",
+        obs.len()
+    );
+
+    let v0 = seed_velocity(&obs);
+    let initial = EstimatedParams {
+        r0: obs[0].pos,
+        v0,
+        cr: Some(1.0),
+        empirical: None,
+    };
+    let tmpl = template(degree, epoch_jd_tt, &eop);
+    let cfg = FitConfig {
+        estimate_cr: true,
+        outlier_sigma: 5.0,
+        max_iter: 25,
+        ..Default::default()
+    };
+    let rep = fit(&tmpl, initial, &obs, &cfg).expect("full-arc fit returns a report");
+    eprintln!(
+        "Galileo {sat} full arc (d/o {degree}, {} obs): 3D RMS = {:.3} m | \
+         RTN = [{:.3}, {:.3}, {:.3}] m | C_R = {:.4} | edited {} | iters {} converged {}",
+        rep.n_obs,
+        rep.rms_3d,
+        rep.rms_rtn[0],
+        rep.rms_rtn[1],
+        rep.rms_rtn[2],
+        rep.params.cr.unwrap_or(f64::NAN),
+        rep.n_edited,
+        rep.iterations,
+        rep.converged,
+    );
+    assert!(rep.converged, "full-arc fit did not converge");
+    assert!(
+        rep.rms_3d < 5.0,
+        "full-arc 3D RMS {:.3} m exceeds 5 m",
         rep.rms_3d
     );
 }
