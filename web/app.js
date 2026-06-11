@@ -6,7 +6,7 @@ import { attachChartHover, parsePolylineXs } from "./hover.mjs";
 import { knobsForToml, readKnob, patchSectionScalar } from "./guided.mjs";
 import { orbit3dSvg } from "./orbit3d.mjs";
 import { tabModel, buildFomRows } from "./tabs.mjs";
-import { sweepValues, sweepToml, extractFom, sweepCurveSvg, SWEEP_GEOM, MAX_SWEEP } from "./sweep.mjs";
+import { sweepValues, sweepToml, sweepMetrics, sweepCurveSvg, SWEEP_GEOM, MAX_SWEEP } from "./sweep.mjs";
 import { overlayRows, overlaySeriesSvg, OVERLAY_COLORS } from "./overlay.mjs";
 import { isEmbed, embedConfig, embedClassList } from "./embed.mjs";
 import { buildReportHtml, reportFilename } from "./report.mjs";
@@ -443,9 +443,12 @@ function selectTab(id) {
 function mountTabs(result) {
   const row = el("tabs");
   if (!row) return;
-  // The Sweep tab is always offered as the entry point to the sweep controls;
-  // `sweepActive` only governs whether a sweep chart has been drawn yet.
-  const model = tabModel(result, { sweep: true });
+  // Offer the Sweep tab only when this scenario is actually sweepable — it has at
+  // least one tunable knob AND at least one plottable figure of merit. That keeps
+  // packs with neither (and the ones whose only metric is the chart) from showing a
+  // control that plots nothing.
+  const canSweep = knobsForToml(tomlEl.value).length > 0 && sweepMetrics(result).length > 0;
+  const model = tabModel(result, { sweep: canSweep });
   row.replaceChildren();
   const ids = model.map((t) => t.id);
   for (const t of model) {
@@ -782,17 +785,9 @@ async function copyShareLink() {
 // each value and plotting one figure of merit. All purely client-side (no new
 // Rust), capped at MAX_SWEEP points so the synchronous loop stays sub-frame.
 
-// The figures of merit a sweep can plot (clock + metric), with friendly labels.
-const SWEEP_METRICS = [
-  { clock: "quantum", key: "holdover_s", label: "quantum holdover (s)" },
-  { clock: "quantum", key: "timing_rms_ns", label: "quantum timing RMS (ns)" },
-  { clock: "quantum", key: "timing_p95_ns", label: "quantum timing p95 (ns)" },
-  { clock: "quantum", key: "availability", label: "quantum availability" },
-  { clock: "classical", key: "holdover_s", label: "classical holdover (s)" },
-  { clock: "classical", key: "timing_p95_ns", label: "classical timing p95 (ns)" },
-];
-
-// Populate the sweep knob + metric selects from the current scenario's knobs.
+// Populate the sweep knob + metric selects from the current scenario's knobs and
+// the last run's result. The metric list adapts to the scenario (clock FoMs, or
+// the ground-track extrema), so it is rebuilt on every run rather than once.
 function syncSweepControls() {
   const knobSel = el("sweep-knob");
   const metricSel = el("sweep-metric");
@@ -807,14 +802,15 @@ function syncSweepControls() {
     knobSel.append(opt);
   }
   if ([...knobSel.options].some((o) => o.value === prevKnob)) knobSel.value = prevKnob;
-  if (!metricSel.options.length) {
-    for (const m of SWEEP_METRICS) {
-      const opt = document.createElement("option");
-      opt.value = `${m.clock}::${m.key}`;
-      opt.textContent = m.label;
-      metricSel.append(opt);
-    }
+  const prevMetric = metricSel.value;
+  metricSel.replaceChildren();
+  for (const m of sweepMetrics(lastRun && lastRun.result)) {
+    const opt = document.createElement("option");
+    opt.value = m.id;
+    opt.textContent = m.label;
+    metricSel.append(opt);
   }
+  if ([...metricSel.options].some((o) => o.value === prevMetric)) metricSel.value = prevMetric;
   // Seed the from/to inputs from the current knob's value if blank.
   const selected = knobs.find((k) => `${k.section}::${k.key}` === knobSel.value) || knobs[0];
   if (selected) {
@@ -835,7 +831,9 @@ function runSweep() {
   const status = el("sweep-status");
   if (!knobSel || !knobSel.value) { status.textContent = "No sweepable parameter."; return; }
   const [section, key] = knobSel.value.split("::");
-  const [clock, metricKey] = metricSel.value.split("::");
+  const metrics = sweepMetrics(lastRun && lastRun.result);
+  const metric = metrics.find((m) => m.id === metricSel.value) || metrics[0];
+  if (!metric) { status.textContent = "No sweepable metric for this scenario."; return; }
   const min = parseFloat(el("sweep-min").value);
   const max = parseFloat(el("sweep-max").value);
   const steps = parseInt(el("sweep-steps").value, 10);
@@ -849,7 +847,7 @@ function runSweep() {
   try {
     for (const v of values) {
       const result = JSON.parse(run(sweepToml(base, knob, v)));
-      const fom = extractFom(result, clock, metricKey);
+      const fom = metric.get(result);
       if (fom !== null) points.push({ x: v, y: fom });
     }
   } catch (e) {
@@ -858,7 +856,7 @@ function runSweep() {
     return;
   }
   const knobLabel = knobSel.options[knobSel.selectedIndex].textContent;
-  const metricLabel = metricSel.options[metricSel.selectedIndex].textContent;
+  const metricLabel = metric.label;
   const meta = lastRun ? { ver: lastRun.result.engine_version, hash: lastRun.result.scenario_hash } : null;
   const svg = sweepCurveSvg(points, { xLabel: knobLabel, yLabel: metricLabel, title: `${metricLabel} vs ${knobLabel}` }, meta);
   lastSweepSvg = svg;
