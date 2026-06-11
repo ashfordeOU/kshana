@@ -2,7 +2,7 @@
 // Headless smoke test for the WebAssembly bindings: load the wasm-pack (--target
 // web) module in Node, run a clock scenario, and assert the JSON parses and the
 // version is non-empty. Run in CI by the `test-wasm-bindings` job after a build.
-import init, { run, version } from "./pkg/kshana.js";
+import init, { run, chart_svg, version } from "./pkg/kshana.js";
 import { readFile } from "node:fs/promises";
 
 const SCENARIO = `
@@ -110,8 +110,82 @@ if (Math.abs(r0 - 26559.7) > 2000) {
   process.exit(1);
 }
 
+// Ephemeris / ground-track pack: propagate the ISS for one revolution and assert
+// the playground surface emits the full state (position AND velocity), the frame
+// chain, the WGS-84 ground track and the station Doppler. Oracles are independent
+// of our own output — they are textbook facts about the ISS:
+//   - a ground track reaches latitude = orbital inclination, here 51.64°, so
+//     |lat| must stay within ~52.5° (a broken TEME→ECEF transform breaks this);
+//   - the ISS flies at ~400-420 km altitude and ~7.66 km/s.
+const ISS_EPHEMERIS = `
+kind = "ephemeris"
+tle = """
+1 25544U 98067A   20045.18587073  .00000950  00000-0  25302-4 0  9990
+2 25544  51.6443 242.0161 0004885 264.6060 207.3845 15.49165514212791
+"""
+step_s = 60.0
+duration_s = 5580.0
+dut1_s = 0.0
+xp_arcsec = 0.0
+yp_arcsec = 0.0
+[station]
+lat_deg = 49.8707
+lon_deg = 8.6217
+alt_m = 144.0
+`;
+
+const eph = JSON.parse(run(ISS_EPHEMERIS));
+if (!eph.n_samples || !Array.isArray(eph.samples) || eph.samples.length === 0) {
+  console.error("ephemeris run() produced no samples");
+  process.exit(1);
+}
+// Inclination oracle: ISS i = 51.64°, so the ground track must stay within ±52.5°.
+if (eph.lat_max_deg > 52.5 || eph.lat_min_deg < -52.5) {
+  console.error(
+    `ephemeris ground-track latitude [${eph.lat_min_deg.toFixed(2)}, ${eph.lat_max_deg.toFixed(2)}]° ` +
+      "exceeds the ISS inclination bound (±52.5°) — TEME→ECEF transform suspect",
+  );
+  process.exit(1);
+}
+// Altitude oracle: ISS is a ~400-420 km LEO satellite.
+if (eph.alt_min_km < 380 || eph.alt_max_km > 460) {
+  console.error(`ephemeris altitude [${eph.alt_min_km.toFixed(1)}, ${eph.alt_max_km.toFixed(1)}] km not ISS-like (~400 km)`);
+  process.exit(1);
+}
+// Speed oracle: ISS inertial speed ≈ 7.66 km/s.
+if (eph.speed_max_m_s < 7000 || eph.speed_max_m_s > 8000) {
+  console.error(`ephemeris speed ${(eph.speed_max_m_s / 1000).toFixed(3)} km/s not ISS-like (~7.66 km/s)`);
+  process.exit(1);
+}
+// The headline audit fix: velocity is no longer discarded — every sample carries
+// the TEME and GCRS state (r AND v), plus the station range-rate / Doppler.
+const s0 = eph.samples[0];
+const finiteVec = (a) => Array.isArray(a) && a.length === 3 && a.every((n) => typeof n === "number" && isFinite(n));
+if (!finiteVec(s0.teme_v_m_s) || !finiteVec(s0.gcrs_v_m_s) || !finiteVec(s0.gcrs_r_m) || !finiteVec(s0.ecef_r_m)) {
+  console.error("ephemeris sample missing the exposed TEME/GCRS state (position + velocity) or ECEF position");
+  process.exit(1);
+}
+const vTeme = Math.hypot(...s0.teme_v_m_s);
+if (vTeme < 7000 || vTeme > 8000) {
+  console.error(`ephemeris exposed |v_TEME| ${(vTeme / 1000).toFixed(3)} km/s not ISS-like`);
+  process.exit(1);
+}
+if (!s0.station_view || typeof s0.station_view.doppler_hz !== "number" || !isFinite(s0.station_view.doppler_hz)) {
+  console.error("ephemeris sample carries no station Doppler");
+  process.exit(1);
+}
+// The playground draws the ground track from the scenario's own SVG — assert it
+// renders to a non-trivial vector image (not the empty-result placeholder).
+const ephSvg = chart_svg(ISS_EPHEMERIS);
+if (typeof ephSvg !== "string" || !ephSvg.includes("<svg") || ephSvg.length < 200) {
+  console.error("ephemeris chart_svg() produced no ground-track SVG");
+  process.exit(1);
+}
+
 console.log(
   `wasm smoke OK — kshana ${v}, ${result.quantum.adev_curve.length} ADEV points, ` +
     `filter NIS ${fh.nis_mean.toFixed(3)} (consistent=${fh.consistent}), ` +
-    `eci_track ${track.length} pts, |r0| ${r0.toFixed(1)} km (GPS ≈ 26,560)`,
+    `eci_track ${track.length} pts, |r0| ${r0.toFixed(1)} km (GPS ≈ 26,560), ` +
+    `ephemeris ${eph.n_samples} samples, lat ±${Math.max(Math.abs(eph.lat_min_deg), eph.lat_max_deg).toFixed(1)}°, ` +
+    `|v| ${(vTeme / 1000).toFixed(2)} km/s, ground-track SVG ${ephSvg.length} B`,
 );
