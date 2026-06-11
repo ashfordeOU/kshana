@@ -42,7 +42,12 @@ jobs:
             target: x86_64
           - os: windows-latest
             target: x64
-          - os: windows-latest
+          # Windows ARM64 builds natively on a windows-11-arm runner: maturin needs
+          # an interpreter whose architecture matches the target, so cross-building
+          # the abi3 wheel on the x86-64 runner fails ("reports platform win-amd64
+          # while the Rust target is aarch64 — Skipping"). The native ARM64 runner
+          # (GA on GitHub-hosted public repos) ships an ARM64 Python, so it just works.
+          - os: windows-11-arm
             target: aarch64
     steps:
       - uses: actions/checkout@v4
