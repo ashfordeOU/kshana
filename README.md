@@ -14,7 +14,7 @@
   <a href="tests/sgp4_verification.rs"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%204.12mm-3fb950" alt="SGP4 validated against all 666 AIAA 2006-6753 vectors, worst 4.12 mm"></a>
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/coverage-~97%25%20line-3fb950" alt="~97% line coverage on src/ (cargo-tarpaulin LLVM engine), gated at 85% in CI"></a>
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.15.1-c79e63" alt="Release v0.15.1"></a>
+  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.16.0-c79e63" alt="Release v0.16.0"></a>
   <a href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator"><img src="https://img.shields.io/badge/JetBrains-Marketplace-c79e63" alt="Kshana on the JetBrains Marketplace"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="License: Apache-2.0"></a>
   <a href="Cargo.toml"><img src="https://img.shields.io/badge/rust-1.75%2B-orange.svg" alt="Rust 1.75+"></a>
@@ -44,7 +44,7 @@ citable table in [`docs/PROVENANCE.md`](docs/PROVENANCE.md).
 *Free and open source under Apache-2.0, professionally developed and maintained by
 Ashforde OÜ — commercial support, integration, and proprietary extensions available.*
 
-> **Status: v0.15.1 · a simulation substrate, not yet a product.** A validated,
+> **Status: v0.16.0 · a simulation substrate, not yet a product.** A validated,
 > fully reproducible engine spanning the PNT stack — orbit geometry and constellation
 > design, a numerical (Cowell) propagator with a six-perturbation force model, maneuver
 > and trajectory design, time systems, inertial navigation (incl. map-aided and
@@ -873,7 +873,7 @@ entry for every user-visible change. Participation is governed by our
 
 If you use Kshana in academic or technical work, please cite it. Machine-readable
 metadata is in [`CITATION.cff`](CITATION.cff) (GitHub renders a "Cite this repository"
-button from it); cite the version you used (e.g. `v0.15.1`) together with the
+button from it); cite the version you used (e.g. `v0.16.0`) together with the
 scenario and seed for full reproducibility. Every release is archived on Zenodo with
 a citable DOI — the concept DOI [10.5281/zenodo.20528627](https://doi.org/10.5281/zenodo.20528627)
 always resolves to the latest version.
@@ -891,7 +891,7 @@ the [`CHANGELOG.md`](CHANGELOG.md). Every result is reproducible from
 
 | Channel | Install / get | Contents |
 |---------|---------------|----------|
-| [crates.io](https://crates.io/crates/kshana) | `cargo install kshana` · `kshana = "0.15"` | Rust library + CLI |
+| [crates.io](https://crates.io/crates/kshana) | `cargo install kshana` · `kshana = "0.16"` | Rust library + CLI |
 | [crates.io](https://crates.io/crates/kshana-mcp) | `cargo install kshana-mcp` | the MCP server |
 | [PyPI](https://pypi.org/project/kshana/) | `pip install kshana` | abi3 wheels (Linux/macOS/Windows) + sdist |
 | [npm](https://www.npmjs.com/package/kshana) | `npm install kshana` | WebAssembly module + JS wrapper |
