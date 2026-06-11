@@ -114,4 +114,34 @@ altitude_km = 500.0
   }
 }
 
+// knobsForToml: the ephemeris / ground-track scenario carries its step/duration at
+// the top level (not in a [time] section) plus a [station] — so it must still earn
+// guided knobs (which also feed the parameter sweep). A regression here is what
+// made the Sweep tab and guided sliders inert for the ground track.
+{
+  const ephemeris = `kind = "ephemeris"
+tle = """
+1 25544U 98067A   20045.18587073  .00000950  00000-0  25302-4 0  9990
+2 25544  51.6443 242.0161 0004885 264.6060 207.3845 15.49165514212791
+"""
+step_s = 30.0
+duration_s = 16740.0
+dut1_s = 0.0
+xp_arcsec = 0.0
+yp_arcsec = 0.0
+[station]
+lat_deg = 49.8707
+lon_deg = 8.6217
+alt_m = 144.0
+`;
+  const knobs = knobsForToml(ephemeris);
+  const keys = knobs.map((k) => `${k.section}::${k.key}`);
+  assert.ok(knobs.length > 0, "ephemeris earns at least one guided knob (Sweep is not inert)");
+  assert.ok(keys.includes("::step_s"), "top-level step_s is a knob");
+  assert.ok(keys.includes("::duration_s"), "top-level duration_s is a knob");
+  assert.ok(keys.includes("station::lat_deg"), "station latitude is a knob");
+  assert.ok(keys.includes("station::lon_deg"), "station longitude is a knob");
+  assert.ok(knobs.length <= 6, "still capped at 6 knobs");
+}
+
 console.log("guided.test.mjs: all assertions passed");
