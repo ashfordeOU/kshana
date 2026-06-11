@@ -337,10 +337,11 @@ fn esc(s: &str) -> String {
         .replace('>', "&gt;")
 }
 
-/// A self-contained ground-track SVG: an equirectangular world panel (lon −180..180,
-/// lat −90..90) with a 30° graticule, the equator, and the sub-satellite track as a
-/// polyline broken at the antimeridian. The station, if any, is a small marker. No
-/// provenance footer — the central stamp in `api.rs` adds it.
+/// A self-contained ground-track SVG: an equirectangular world map (lon −180..180,
+/// lat −90..90) with the actual continents (Natural Earth 1:110m land) drawn behind
+/// a 30° graticule and the equator, and the sub-satellite track as a polyline broken
+/// at the antimeridian. The station, if any, is a small marker. No provenance footer
+/// — the central stamp in `api.rs` adds it.
 pub fn to_svg(r: &EphemerisResult) -> String {
     let (w, h) = (720.0, 360.0);
     let proj = |lon: f64, lat: f64| -> (f64, f64) {
@@ -350,6 +351,28 @@ pub fn to_svg(r: &EphemerisResult) -> String {
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w}\" height=\"{h}\" viewBox=\"0 0 {w} {h}\">\
          <rect width=\"{w}\" height=\"{h}\" fill=\"#0b1622\"/>"
     );
+    // The actual landmasses (Natural Earth 1:110m, simplified) as the map base, each
+    // ring filled and outlined in the same equirectangular projection as the track. A
+    // jump over the antimeridian starts a fresh sub-path so no land smears across.
+    for ring in crate::worldmap::LAND {
+        let mut d = String::new();
+        let mut prev_lon = f64::NAN;
+        for &(rlon, rlat) in ring.iter() {
+            let (rlon, rlat) = (rlon as f64, rlat as f64);
+            let (x, y) = proj(rlon, rlat);
+            let cmd = if !prev_lon.is_finite() || (rlon - prev_lon).abs() > 180.0 {
+                'M'
+            } else {
+                'L'
+            };
+            d.push_str(&format!("{cmd}{x:.1} {y:.1}"));
+            prev_lon = rlon;
+        }
+        d.push('Z');
+        svg.push_str(&format!(
+            "<path d=\"{d}\" fill=\"#172d40\" stroke=\"#2c4458\" stroke-width=\"0.5\"/>"
+        ));
+    }
     // Graticule every 30°.
     let mut lon = -180.0;
     while lon <= 180.0 {
@@ -772,6 +795,18 @@ mod tests {
         let svg = to_svg(&r);
         assert!(svg.starts_with("<svg") && svg.trim_end().ends_with("</svg>"));
         assert!(svg.contains("polyline"), "ground track polyline present");
+        // The actual world map is drawn behind the track: one filled <path> per
+        // landmass ring, so the track reads over real continents — not a bare grid.
+        let land_paths = svg.matches("<path").count();
+        assert!(
+            land_paths >= 50,
+            "expected the world landmasses to be drawn, found only {land_paths} <path> elements"
+        );
+        assert_eq!(
+            land_paths,
+            crate::worldmap::LAND.len(),
+            "one path per land ring"
+        );
         // No own provenance footer — the central stamp owns that.
         assert!(!svg.contains("kshana.dev"));
         assert_eq!(

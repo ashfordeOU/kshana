@@ -76,3 +76,4 @@ pub mod types;
 pub mod walker;
 #[cfg(feature = "wasm")]
 pub mod wasm;
+mod worldmap;
