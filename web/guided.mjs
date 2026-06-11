@@ -73,6 +73,14 @@ export const GUIDED_KNOBS = [
   { key: "altitude_km", section: "user", label: "User altitude (km)", hint: "the user spacecraft's orbital altitude", min: 200, max: 36000, step: 50, parse: flt, fmt: String },
   { key: "inclination_deg", section: "user", label: "User inclination (°)", hint: "the user orbit's inclination", min: 0, max: 100, step: 1, parse: flt, fmt: String },
   { key: "sigma_uere_m", section: "", label: "Range error σ (m)", hint: "1-σ user-equivalent range error for the position summary", min: 0.1, max: 10, step: 0.1, parse: flt, fmt: String },
+  // Ephemeris / ground-track knobs. Its step/duration live at the top level (not in
+  // a [time] section) and it carries a [station]; these entries are last so they
+  // only apply to a scenario where the earlier clock/orbit knobs are absent.
+  { key: "step_s", section: "", label: "Time step (s)", hint: "ground-track sampling cadence", min: 5, max: 300, step: 5, parse: flt, fmt: String },
+  { key: "duration_s", section: "", label: "Duration (s)", hint: "how long to propagate the ground track", min: 600, max: 86400, step: 600, parse: flt, fmt: String },
+  { key: "lat_deg", section: "station", label: "Station latitude (°)", hint: "ground-station latitude — drives the pass geometry", min: -90, max: 90, step: 1, parse: flt, fmt: String },
+  { key: "lon_deg", section: "station", label: "Station longitude (°)", hint: "ground-station longitude", min: -180, max: 180, step: 1, parse: flt, fmt: String },
+  { key: "dut1_s", section: "", label: "UT1−UTC (s)", hint: "Earth-rotation offset; shifts the ground track east/west", min: -0.9, max: 0.9, step: 0.05, parse: flt, fmt: String },
 ];
 
 // Read a knob's raw value from the TOML, choosing the top-level or sectioned

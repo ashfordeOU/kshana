@@ -3,10 +3,47 @@
 // per-step TOML patch, the figure-of-merit extractor, and the sweep-curve SVG.
 // Pure logic; the loop that calls the wasm run() and renders/hovers the chart is
 // verified in the browser. Run with `node web/sweep.test.mjs`.
-import { sweepValues, sweepToml, extractFom, sweepCurveSvg } from "./sweep.mjs";
+import { sweepValues, sweepToml, extractFom, sweepMetrics, sweepCurveSvg } from "./sweep.mjs";
 import { readScalar } from "./share.mjs";
 import { readSectionScalar } from "./guided.mjs";
 import assert from "node:assert/strict";
+
+// sweepMetrics adapts the plottable figures of merit to the result shape: clock
+// FoMs for a clock scenario, ground-track extrema for the ephemeris pack, and an
+// empty list (so the caller hides the Sweep tab) when nothing is sweepable.
+{
+  const clock = {
+    quantum: { spec: { id: "optical" }, fom: { holdover_s: 120, timing_rms_ns: 0.7, availability: 0.99 } },
+    classical: { spec: { id: "csac" }, fom: { holdover_s: 12 } },
+  };
+  const cm = sweepMetrics(clock);
+  assert.ok(cm.some((m) => m.id === "quantum::holdover_s"), "clock quantum holdover metric present");
+  assert.ok(cm.some((m) => m.id === "classical::holdover_s"), "clock classical holdover metric present");
+  assert.equal(cm.find((m) => m.id === "quantum::holdover_s").get(clock), 120, "clock metric extracts its value");
+  assert.ok(cm.find((m) => m.id === "quantum::holdover_s").label.includes("optical"), "clock metric labelled by spec id");
+  assert.ok(!cm.some((m) => m.id.startsWith("ephem::")), "no ephemeris metrics on a clock result");
+
+  const ephem = {
+    source: "sgp4 (TLE)", n_samples: 94,
+    lat_min_deg: -51.8, lat_max_deg: 51.8, alt_min_km: 419, alt_max_km: 434,
+    speed_min_m_s: 7653, speed_max_m_s: 7661, max_elevation_deg: 25.7, peak_doppler_hz: 34300,
+    samples: [{ t_s: 0, lat_deg: 0, lon_deg: 0, alt_km: 420 }],
+  };
+  const em = sweepMetrics(ephem);
+  assert.ok(em.some((m) => m.id === "ephem::max_elevation_deg"), "ephemeris max-elevation metric present");
+  assert.ok(em.some((m) => m.id === "ephem::peak_doppler_hz"), "ephemeris peak-Doppler metric present");
+  assert.ok(em.some((m) => m.id === "ephem::alt_max_km"), "ephemeris max-altitude metric present");
+  assert.equal(em.find((m) => m.id === "ephem::max_elevation_deg").get(ephem), 25.7, "ephemeris metric extracts its value");
+  assert.ok(!em.some((m) => m.id.startsWith("quantum::")), "no clock metrics on an ephemeris result");
+
+  const noStation = { ...ephem, max_elevation_deg: undefined, peak_doppler_hz: undefined };
+  const nm = sweepMetrics(noStation);
+  assert.ok(!nm.some((m) => m.id === "ephem::max_elevation_deg"), "no max-elevation metric without a station");
+  assert.ok(nm.some((m) => m.id === "ephem::alt_max_km"), "altitude metric still present without a station");
+
+  assert.deepEqual(sweepMetrics(null), [], "null result -> no metrics");
+  assert.deepEqual(sweepMetrics({ foo: 1 }), [], "an unrecognised result -> no metrics (Sweep tab hidden)");
+}
 
 // sweepValues: inclusive linspace v_i = min + (max-min)·i/(steps-1). Arithmetic
 // oracles — integer and even-step cases are exact.

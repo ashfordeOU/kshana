@@ -48,6 +48,55 @@ export function extractFom(result, clock, metricKey) {
   return typeof v === "number" && isFinite(v) ? v : null;
 }
 
+const isNum = (v) => typeof v === "number" && isFinite(v);
+
+// The per-clock figures of merit a sweep can plot.
+const CLOCK_SWEEP_METRICS = [
+  ["holdover_s", "holdover (s)"],
+  ["timing_rms_ns", "timing RMS (ns)"],
+  ["timing_p95_ns", "timing p95 (ns)"],
+  ["availability", "availability"],
+];
+
+// The ephemeris / ground-track extrema a sweep can plot. `max_elevation_deg` and
+// `peak_doppler_hz` exist only when the scenario has a ground station.
+const EPHEM_SWEEP_METRICS = [
+  ["max_elevation_deg", "max elevation (°)"],
+  ["peak_doppler_hz", "peak Doppler (Hz)"],
+  ["alt_max_km", "max altitude (km)"],
+  ["alt_min_km", "min altitude (km)"],
+  ["speed_max_m_s", "max speed (m/s)"],
+];
+
+/// The figures of merit that can be plotted against a swept knob for a given run
+/// `result`, each `{ id, label, get(result) -> number|null }`. The list adapts to
+/// the result shape — clock FoMs for a clock scenario, ground-track extrema for the
+/// ephemeris pack — and is empty when nothing is sweepable, so the caller can hide
+/// the Sweep tab instead of offering a control that plots nothing.
+export function sweepMetrics(result) {
+  if (!result || typeof result !== "object") return [];
+  const out = [];
+  for (const clock of ["quantum", "classical"]) {
+    const fom = result[clock] && result[clock].fom;
+    if (!fom) continue;
+    const who = (result[clock].spec && result[clock].spec.id) || clock;
+    for (const [key, label] of CLOCK_SWEEP_METRICS) {
+      if (isNum(fom[key])) {
+        out.push({ id: `${clock}::${key}`, label: `${who} ${label}`, get: (r) => extractFom(r, clock, key) });
+      }
+    }
+  }
+  // The ephemeris pack carries flat top-level extrema (no quantum/classical block).
+  if (isNum(result.n_samples) && Array.isArray(result.samples)) {
+    for (const [key, label] of EPHEM_SWEEP_METRICS) {
+      if (isNum(result[key])) {
+        out.push({ id: `ephem::${key}`, label, get: (r) => (isNum(r && r[key]) ? r[key] : null) });
+      }
+    }
+  }
+  return out;
+}
+
 const NUM = (n) => (Math.round(n * 1000) / 1000).toString();
 
 // Compact axis tick text: plain mid-range, exponential at the extremes.
