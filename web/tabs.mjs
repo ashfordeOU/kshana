@@ -10,15 +10,18 @@ import { COMPARE_METRICS } from "./compare.mjs";
 
 const hasAdev = (b) => b && Array.isArray(b.adev_curve) && b.adev_curve.length > 0;
 
-/// The ordered list of available tabs `{id, label}` for a `result`. Always
-/// `fom` then `timeseries`; adds `stability` iff either clock has an Allan curve;
-/// adds `orbit3d` iff the result carries a non-empty `eci_track`; adds `sweep`
-/// only when `opts.sweep` is true (a parameter sweep is showing).
+/// The ordered list of available tabs `{id, label}` for a `result`. `timeseries`
+/// is always present (it holds the scenario chart — e.g. the ground track); `fom`
+/// leads it iff the result earns at least one figure-of-merit row (so packs with
+/// no clock-style FoM — ephemeris, RAIM, spoof — don't show an empty table); adds
+/// `stability` iff either clock has an Allan curve; adds `orbit3d` iff the result
+/// carries a non-empty `eci_track`; adds `sweep` only when `opts.sweep` is true.
 export function tabModel(result, opts) {
-  const tabs = [
-    { id: "fom", label: "Figures of merit" },
-    { id: "timeseries", label: "Time series" },
-  ];
+  const tabs = [];
+  if (result && buildFomRows(result).length > 0) {
+    tabs.push({ id: "fom", label: "Figures of merit" });
+  }
+  tabs.push({ id: "timeseries", label: "Time series" });
   if (result && (hasAdev(result.quantum) || hasAdev(result.classical))) {
     tabs.push({ id: "stability", label: "Stability" });
   }
