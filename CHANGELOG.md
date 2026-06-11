@@ -9,6 +9,64 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.16.0] - 2026-06-11
+
+### Added
+
+- **Reference-grade precise orbit determination, cross-validated against real
+  agency products.** A new batch least-squares estimator (`src/precise_od.rs`)
+  with a variational state-transition matrix and outlier editing, driven by a
+  full force model (`PreciseForceModel`: EGM2008 geopotential, third bodies,
+  solid + ocean + atmospheric tides, and empirical CPR/2-per-rev accelerations),
+  fed by a real IERS `finals2000A` Earth-orientation parser. Validated against
+  published reference orbits: **Galileo MEO to 13 cm post-fit**, ESA **Swarm-A
+  LEO**, and **LRO lunar** (selenocentric, GRAIL gravity, IAU-2015 body frame —
+  reduced-dynamic 6.6 m, honestly above the 5 m target on the open path; the
+  DE-grade ANISE/DE440 path that reaches it is a workspace-excluded crate).
+- **`spoof-detect` scenario** — an integrated multi-layer spoofing detector
+  combining per-epoch RAIM parity, AGC and signal-quality (SQM) monitors and a
+  fused decision, validated against the published **TEXBAT** scenario parameters
+  (Humphreys et al., ION GNSS 2012), including the carrier-aligned hard case.
+- **`ephemeris` scenario — state, frames, ground track and Doppler.** Propagate
+  one satellite (TLE→SGP4 or an analytic orbit) and emit, per step, the inertial
+  TEME and GCRS state (**position *and* velocity**), the Earth-fixed ITRF/ECEF
+  position, the WGS-84 sub-satellite **ground track** (latitude / longitude /
+  altitude), and the topocentric azimuth / elevation / range with range-rate and
+  **Doppler** from a ground station. Reachable from the CLI, Python, WASM and the
+  MCP server, and shipped as the **"Ground track" preset** in the web playground,
+  where the track is drawn **over a real world map** (Natural Earth 1:110m
+  coastlines, embedded — no network or external dependency).
+- **CCSDS OEM export** (`--export-oem` / `export_oem = true`) — the
+  velocity-carrying Orbit Ephemeris Message consumed by GMAT / Orekit / STK, at
+  parity with the existing SP3 and OMM exporters.
+- **Solid, ocean (FES2004) and atmospheric (Ray 2001 S2) Earth tides** on the
+  geopotential (IERS Conventions Ch. 6), wired into the force model.
+- **ARM64 wheels** — the PyPI build now also produces Linux aarch64
+  (manylinux_2_28), macOS arm64 and Windows arm64 wheels.
+- **Extended technical report (preprint)** linked from the README, and the JOSS
+  paper made submittable (author ORCID, compiled to PDF in CI on every change).
+
+### Changed
+
+- **Frames validated to the millimetre against published Vallado vectors.** The
+  TEME→PEF/ITRF reduction, the full CIO IAU 2006/2000A GCRS→ITRS chain and the
+  ECEF→geodetic WGS-84 conversion are now pinned to the worked example in Vallado
+  et al. (AIAA 2006-6753) with its IERS EOP, not just to internal self-consistency.
+- **Independent time-scale cross-checks.** ERA and the UTC/TAI/TT scales agree
+  with `hifitime` to < 1 µs, and the DE440 planetary ephemeris agrees with JPL
+  Horizons (Moon/Sun geocentric positions), both as always-on CI gates.
+- The web playground hides the figures-of-merit tab when a result carries no
+  figure-of-merit rows, so chart-only packs (ephemeris, RAIM, spoof) open on
+  their chart — for ephemeris, the ground track — instead of an empty table.
+- The playground's guided sliders **and parameter sweep now work for the
+  ephemeris / ground-track scenario**: its knobs (station latitude / longitude,
+  time step, duration, UT1−UTC) are tunable, and a sweep can plot pass geometry
+  (max elevation, peak Doppler, altitude, speed) against any of them — e.g. max
+  elevation vs station latitude. The Sweep tab is now shown only when a scenario
+  is actually sweepable, so no pack offers a control that plots nothing.
+- Documented the SGP4 `DUT1 ≈ 0` approximation at the GMST call site (a ≤ ~13″
+  rotation error, well inside SGP4's own model error) and refreshed `CAPABILITY.md`.
+
 ## [0.15.1] - 2026-06-09
 
 ### Added
