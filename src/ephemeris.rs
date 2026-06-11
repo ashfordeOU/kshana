@@ -349,7 +349,7 @@ pub fn to_svg(r: &EphemerisResult) -> String {
     };
     let mut svg = format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w}\" height=\"{h}\" viewBox=\"0 0 {w} {h}\">\
-         <rect width=\"{w}\" height=\"{h}\" fill=\"#0b1622\"/>"
+         <rect width=\"{w}\" height=\"{h}\" fill=\"#0c0b08\"/>"
     );
     // The actual landmasses (Natural Earth 1:110m, simplified) as the map base, each
     // ring filled and outlined in the same equirectangular projection as the track. A
@@ -370,7 +370,7 @@ pub fn to_svg(r: &EphemerisResult) -> String {
         }
         d.push('Z');
         svg.push_str(&format!(
-            "<path d=\"{d}\" fill=\"#172d40\" stroke=\"#2c4458\" stroke-width=\"0.5\"/>"
+            "<path d=\"{d}\" fill=\"#201a11\" stroke=\"#39301f\" stroke-width=\"0.5\"/>"
         ));
     }
     // Graticule every 30°.
@@ -378,14 +378,14 @@ pub fn to_svg(r: &EphemerisResult) -> String {
     while lon <= 180.0 {
         let (x, _) = proj(lon, 0.0);
         svg.push_str(&format!(
-            "<line x1=\"{x:.1}\" y1=\"0\" x2=\"{x:.1}\" y2=\"{h}\" stroke=\"#1d2c3c\" stroke-width=\"1\"/>"
+            "<line x1=\"{x:.1}\" y1=\"0\" x2=\"{x:.1}\" y2=\"{h}\" stroke=\"#262019\" stroke-width=\"1\"/>"
         ));
         lon += 30.0;
     }
     let mut lat = -90.0;
     while lat <= 90.0 {
         let (_, y) = proj(0.0, lat);
-        let col = if lat == 0.0 { "#2f4860" } else { "#1d2c3c" };
+        let col = if lat == 0.0 { "#342c21" } else { "#262019" };
         svg.push_str(&format!(
             "<line x1=\"0\" y1=\"{y:.1}\" x2=\"{w}\" y2=\"{y:.1}\" stroke=\"{col}\" stroke-width=\"1\"/>"
         ));
@@ -397,7 +397,7 @@ pub fn to_svg(r: &EphemerisResult) -> String {
     let flush = |svg: &mut String, seg: &mut String| {
         if seg.split(' ').filter(|s| !s.is_empty()).count() >= 2 {
             svg.push_str(&format!(
-                "<polyline points=\"{}\" fill=\"none\" stroke=\"#39d0d8\" stroke-width=\"1.8\"/>",
+                "<polyline points=\"{}\" fill=\"none\" stroke=\"#e0bd84\" stroke-width=\"1.8\"/>",
                 seg.trim()
             ));
         }
@@ -416,7 +416,7 @@ pub fn to_svg(r: &EphemerisResult) -> String {
     if let Some(s0) = r.samples.first() {
         let (x, y) = proj(s0.lon_deg, s0.lat_deg);
         svg.push_str(&format!(
-            "<circle cx=\"{x:.1}\" cy=\"{y:.1}\" r=\"3.5\" fill=\"#ffd166\"/>"
+            "<circle cx=\"{x:.1}\" cy=\"{y:.1}\" r=\"3.5\" fill=\"#f1ece2\" stroke=\"#0c0b08\" stroke-width=\"0.8\"/>"
         ));
     }
     let title = format!(
