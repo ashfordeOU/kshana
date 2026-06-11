@@ -51,6 +51,28 @@ const ids = (tabs) => tabs.map((t) => t.id);
   assert.ok(ids(tabModel(result, { sweep: true })).includes("sweep"), "sweep tab in sweep mode");
 }
 
+// tabModel: a result that earns NO figure-of-merit rows (e.g. the ephemeris /
+// ground-track pack, or RAIM — neither carries quantum/classical `fom`) does not
+// show an empty FoM tab; the time-series (here the ground track) leads instead.
+{
+  const ephemeris = {
+    source: "sgp4 (TLE)",
+    n_samples: 94,
+    lat_min_deg: -51.8, lat_max_deg: 51.8,
+    alt_min_km: 419, alt_max_km: 434,
+    speed_min_m_s: 7653, speed_max_m_s: 7661,
+    max_elevation_deg: 25.7, peak_doppler_hz: 34300,
+    samples: [{ t_s: 0, lat_deg: 0, lon_deg: 0, alt_km: 420 }],
+  };
+  const t = ids(tabModel(ephemeris));
+  assert.ok(!t.includes("fom"), "no FoM tab when there are no FoM rows");
+  assert.equal(t[0], "timeseries", "timeseries leads when FoM is empty");
+  assert.ok(t.includes("timeseries"), "timeseries still present");
+  // A top-level-`fom` result (RAIM-shaped, no clocks) likewise earns no FoM tab.
+  const raim = { fom: { raim_availability: 0.97 }, samples: [] };
+  assert.ok(!ids(tabModel(raim)).includes("fom"), "top-level fom (no clocks) earns no FoM tab");
+}
+
 // buildFomRows: one row per (clock, metric) present-and-numeric, with the
 // COMPARE_METRICS label/unit and the human clock label.
 {

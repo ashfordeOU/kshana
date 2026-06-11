@@ -29,6 +29,8 @@ const SCENARIOS = [
     "GNSS availability", "When is a fix even possible from the satellite geometry?"],
   ["orbit-sgp4-gps.toml", "SGP4 GPS constellation — real two-line elements",
     "SGP4 orbits", "How does a real GPS-like constellation propagate over a day?"],
+  ["ephemeris.toml", "Ephemeris & ground track — ISS state, frames & Doppler",
+    "Ground track", "Where is the satellite, and when does it pass overhead?"],
   ["fusion-pnt.toml", "Joint sensor fusion — combined Kalman PNT",
     "Sensor fusion", "What does a single joint estimator buy across clock + position?"],
   ["gnss-ins.toml", "GNSS/INS fusion — loosely-coupled error-state EKF",
