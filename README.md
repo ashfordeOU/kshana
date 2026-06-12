@@ -939,10 +939,27 @@ Contact **contact@ashforde.org**.
 
 ## Key references
 
-- Riley, *Handbook of Frequency Stability Analysis* — [NIST SP 1065](https://tf.nist.gov/general/pdf/2220.pdf) (Allan-deviation relations).
+**Validation oracles & standards** — the external authorities Kshana's checks are anchored to:
+
+- Vallado, Crawford, Hujsak & Kelso — *Revisiting Spacetrack Report #3* ([AIAA 2006-6753](https://celestrak.org/publications/AIAA/2006-6753/)): the SGP4/SDP4 verification set Kshana matches to 4.12 mm, and the worked frame examples the TEME→ITRF chain is checked against.
+- IAU [SOFA](https://www.iausofa.org/) / [ERFA](https://github.com/liberfa/erfa) — the reference time and frame routines the IAU 2000A nutation and the CIO GCRS↔ITRS reduction are validated bit-for-bit against.
+- Petit & Luzum (eds.) — *IERS Conventions (2010)*, [IERS TN 36](https://www.iers.org/IERS/EN/Publications/TechnicalNotes/tn36.html) (Earth-orientation, polar motion, and frame standards).
+- Riley — *Handbook of Frequency Stability Analysis*, [NIST SP 1065](https://tf.nist.gov/general/pdf/2220.pdf) (Allan-deviation relations and the NBS14 reference series).
+- Montenbruck & Gill — *Satellite Orbits: Models, Methods and Applications* (Springer): the force models behind the force-model fit to agency precise ephemerides.
+
+**Device & method physics** — the cited sources behind the sensor models:
+
 - Origlia, Schiller, Bongs et al. — [arXiv:1503.08457](https://arxiv.org/abs/1503.08457) (strontium optical lattice clock, space-oriented goal).
 - Oelker et al., *Nature Photonics* (2019) — [JILA PDF](https://jila-pfc.colorado.edu/sites/default/files/2019-09/Oelker-Sr%20record%20stability_2019-Nature_Photonics.pdf) (laboratory Sr clock, 4.8×10⁻¹⁷).
 - Templier et al., *Science Advances* (2022) — [arXiv:2209.13209](https://arxiv.org/abs/2209.13209) (hybrid quantum accelerometer triad).
 - Groves, *Principles of GNSS, Inertial, and Multisensor Integrated Navigation* — [IEEE AESS tutorial (UCL Discovery)](https://discovery.ucl.ac.uk/id/eprint/1470141/) (dead-reckoning error growth).
-- Giorgetta et al., *Nature Photonics* 7, 434 (2013) — [arXiv:1211.4902](https://arxiv.org/abs/1211.4902); Deschênes et al., *Phys. Rev. X* 6, 021016 (2016) — [APS](https://journals.aps.org/prx/abstract/10.1103/PhysRevX.6.021016) (optical two-way time-frequency transfer).
-- Optical inter-satellite time-transfer concept — see Giorgetta and Deschênes above.
+- Giorgetta et al., *Nature Photonics* 7, 434 (2013) — [arXiv:1211.4902](https://arxiv.org/abs/1211.4902); Deschênes et al., *Phys. Rev. X* 6, 021016 (2016) — [APS](https://journals.aps.org/prx/abstract/10.1103/PhysRevX.6.021016) (optical two-way time-frequency transfer; the optical inter-satellite link models its non-reciprocity budget after these).
+
+**Comparison & open prior art** — the tools and surveys Kshana is positioned against:
+
+- Humphreys et al. — *TEXBAT* (ION GNSS 2012): the spoofing test-battery parameters the multi-layer detector is characterised against.
+- González et al. — [NaveGo](https://github.com/rodralez/NaveGo) (2017): the open, validated inertial-navigation error profiles used as the classical baseline.
+- Iiyama, Casadesús Vila & Gao — *LuPNT* (ION GNSS+ 2023, Stanford NavLab): open lunar-PNT simulator.
+- Knowles, Kanhere, Neamati & Gao — *gnss\_lib\_py*, SoftwareX 27 (2024), [doi:10.1016/j.softx.2024.101811](https://doi.org/10.1016/j.softx.2024.101811): open GNSS data analysis.
+- Li, Zaminpardaz, Kealy & Greentree — *Quantum sensors for enhanced positioning and navigation: a comprehensive review*, GPS Solutions 30(1):62 (2026), [doi:10.1007/s10291-026-02030-y](https://doi.org/10.1007/s10291-026-02030-y).
+- Bertone et al. — *Advances in Space Research* (2021): GRAIL reduced-dynamic OD, the empirical-acceleration floor the LRO fit reproduces.
