@@ -1,10 +1,29 @@
 Real GNSS data fixtures
 =======================
 
-These two files are genuine GNSS data, included so the parsers are validated
-against real broadcast/precise products rather than only self-authored samples
-(see tests/igs_real_data.rs). They are not part of the Kshana source and are not
-shipped in the published crates/packages — they exist only for the test suite.
+These files are genuine GNSS data, included so the parsers and the positioning
+solver are validated against real broadcast/precise products rather than only
+self-authored samples (see tests/igs_real_data.rs and tests/pvt_abmf.rs). They
+are not part of the Kshana source and are not shipped in the published
+crates/packages — they exist only for the test suite.
+
+ABMF00GLP_R_20181330000_01D_30S_MO.rnx
+  A RINEX 3.02 multi-GNSS observation excerpt from IGS station ABMF (Aubergine,
+  Le Moule, Guadeloupe; a Septentrio PolarX5 / Trimble antenna), 2018-05-13
+  (day 133) starting 01:30:00 GPS, two epochs, eleven GPS satellites with L1/L2
+  code. Used by tests/pvt_abmf.rs to validate single-point positioning against
+  the station's surveyed coordinate. The station's published ITRF/IGS a-priori
+  position is carried in the file's APPROX POSITION XYZ header record
+  (2919786.4480, -5383745.1780, 1774604.7340 m). Obtained from the georinex test
+  corpus (below).
+
+BRDC00WRD_R_20181330000_01D_GN.rnx
+  The GPS broadcast navigation (ephemeris) for 2018-05-13, the IGS/BKG combined
+  BRDC product (BKG Frankfurt), trimmed to the GPS records with reference times
+  00:00 and 02:00 that bracket the ABMF observation epoch. Paired with the ABMF
+  observation file for the positioning validation. GNSS broadcast ephemerides are
+  open data distributed by the IGS; obtained from
+  https://igs.bkg.bund.de (IGS/BKG, open data).
 
 BRDM00DLR_R_20130010000_01D_MN.rnx
   A RINEX 3.02 mixed (multi-GNSS) broadcast navigation file for 2013-01-01,
@@ -17,8 +36,10 @@ igs_sample.sp3
   epoch of an IGS combined orbit product. The second epoch is truncated; the
   file exercises the SP3 reader. IGS products are openly available.
 
-Both files were obtained from the test corpus of the georinex project
+The ABMF observation excerpt, the 2013 DLR/TUM navigation file, and the SP3
+excerpt were obtained from the test corpus of the georinex project
 (https://github.com/geospace-code/georinex, BSD-3-Clause, M. Hirsch), which
-redistributes them for testing. The underlying data are the property of, and
-courtesy of, the IGS and the contributing analysis centres (DLR/TUM). See
-https://igs.org for the IGS data and product use terms.
+redistributes them for testing. The 2018 GPS broadcast navigation was obtained
+from the open IGS/BKG archive (https://igs.bkg.bund.de). The underlying data are
+the property of, and courtesy of, the IGS and the contributing analysis centres
+(DLR/TUM, BKG). See https://igs.org for the IGS data and product use terms.
