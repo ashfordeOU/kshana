@@ -39,6 +39,8 @@ const SCENARIOS = [
     "RAIM integrity", "Does the geometry meet the alert limits (HPL / VPL)?"],
   ["spoof-attack.toml", "Spoofing attack — clock-aided detection",
     "Spoof detection", "Is a ramping time-spoof caught before it reaches spec?"],
+  ["pvt-abmf.toml", "Single-point positioning — real IGS observations (ABMF)",
+    "Positioning (SPP)", "Can a real receiver position be solved from raw RINEX measurements?"],
 ];
 
 // Embedded default so the very first run needs no network fetch.
