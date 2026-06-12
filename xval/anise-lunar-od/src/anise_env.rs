@@ -13,7 +13,7 @@
 //!   DE440 SPK (`de440s.bsp`), replacing the ~0.3° Montenbruck–Gill analytic series.
 //!
 //! Everything else — the GRGM660PRIM gravity-field evaluation, the third-body and empirical
-//! dynamics, and the reference-grade Gauss–Newton estimator — is the *same* `kshana` code the
+//! dynamics, and the precise Gauss–Newton estimator — is the *same* `kshana` code the
 //! Earth datasets use. Only these two inputs change, which is exactly the experiment: the analytic
 //! fit's residual was orientation/ephemeris-limited, so we swap those for DE-grade and re-measure.
 

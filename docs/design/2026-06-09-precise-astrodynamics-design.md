@@ -1,13 +1,13 @@
-# Reference-grade astrodynamics: high-order gravity, tides, SRP, and precise-orbit validation against agency datasets
+# Precise astrodynamics: high-order gravity, tides, SRP, and force-model validation by ephemeris fitting against agency datasets
 
 - **Date:** 2026-06-09
 - **Status:** Design — pending review
-- **Roadmap milestone:** P4 "Reference-grade astrodynamics: high-order gravity, SRP, validation vs agency datasets"
+- **Roadmap milestone:** P4 "Precise astrodynamics: high-order gravity, SRP, validation vs agency datasets"
 - **Author:** Chakshu Baweja
 
 ## 1. Goal
 
-Take Kshana's orbit-dynamics stack from "validated forces in isolation" to a **reference-grade precise-orbit-determination (POD) capability validated against real agency precise-orbit products** — a result a hostile ESA/NASA procurement reviewer would accept. Concretely: fit Kshana's full force model to real Galileo (MEO), Swarm-A (LEO), and LRO (lunar) orbits and report honest position residuals, with a citable, commit-hash-stamped validation record.
+Take Kshana's orbit-dynamics stack from "validated forces in isolation" to a **force-model validation by ephemeris fitting against real agency precise-orbit products** — a result a hostile ESA/NASA procurement reviewer would accept. Concretely: fit Kshana's full force model to real Galileo (MEO), Swarm-A (LEO), and LRO (lunar) orbits and report honest position residuals, with a citable, commit-hash-stamped validation record.
 
 ## 2. Honest scope
 
@@ -31,7 +31,7 @@ P4 has six steps. This design covers what code + public data can deliver and pre
 - Pole tides, relativistic time-transfer in the measurement model, higher-order ionospheric terms.
 - A general-purpose estimation framework — the estimator is scoped to position-observation batch LS for this validation.
 
-## 4. What "reference-grade" means here (the bar)
+## 4. What "validated" means here (the bar)
 
 A reviewer accepts the result when:
 
@@ -123,7 +123,7 @@ tests/agency_lro.rs     NEW  LRO lunar (NAIF SPK truth via xval/ANISE pattern)
 tests/fixtures/agency/  NEW  small vendored SP3 / EOP / ephemeris slices + checksums
 paper/kshana-od-data-paper.md NEW  step-5 data-paper draft
 docs/VALIDATION.md      edit add the agency-validation results table
-docs/REFERENCE-GRADE-OD.md NEW  methodology + per-dataset results (citable doc)
+docs/AGENCY-ORBIT-VALIDATION.md NEW  methodology + per-dataset results (citable doc)
 ```
 
 ## 12. Risks & honest failure modes
@@ -139,6 +139,6 @@ docs/REFERENCE-GRADE-OD.md NEW  methodology + per-dataset results (citable doc)
 - `tides.rs` validated bit-for-bit against IERS reference test cases.
 - `precise_od.rs` recovers a synthetic arc to ~0 and STM agrees with finite difference.
 - Galileo MEO post-fit <5m 3D RMS (green); Swarm-A and LRO report honest RTN+3D numbers.
-- `docs/REFERENCE-GRADE-OD.md` + `docs/VALIDATION.md` carry the commit-hash-stamped, RTN-decomposed, with/without-empirical-accel results.
+- `docs/AGENCY-ORBIT-VALIDATION.md` + `docs/VALIDATION.md` carry the commit-hash-stamped, RTN-decomposed, with/without-empirical-accel results.
 - `paper/kshana-od-data-paper.md` drafted with the residual table, ready for founder submission.
 - All gates green; zero attribution; tracker reflects P4 at 4/6 with steps 5–6 honestly external.

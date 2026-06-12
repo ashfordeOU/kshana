@@ -116,7 +116,7 @@ closed forms — never against its own output. The headline checks are:
 - **Two-body propagation.** The numerical propagator agrees with the universal-variable
   Kepler solution to sub-metre over 24 h, conserving energy and angular momentum to
   ~1 × 10⁻⁹ relative.
-- **Reference-grade orbit determination.** A Gauss–Newton batch fit of the full force
+- **Force-model validation by ephemeris fitting.** A Gauss–Newton batch fit of the full force
   model — high-degree gravity, IERS-2010 tides, third body, conical-shadow SRP, relativity —
   to *real agency precise orbits* recovers Galileo MEO to 0.13 m and Swarm-A LEO to 0.10 m
   (reduced-dynamic) 3-D RMS, both inside a 5 m bar [@montenbruck2000; @petit2010iers]. The
