@@ -51,11 +51,22 @@ boundaries of the engine itself.
   $P_d$/$P_{fa}$ operating point. Raw-IQ ingestion is future work, and the detector
   sits in the not-externally-validated tier of Table~\ref{tab:validation}.
 
-  \item \textbf{Kshana does not process real observations or compute a PVT fix.}
-  It is a resilience-comparison engine, not a receiver or an estimator over
-  measurements; it answers a different question from tools such as RTKLIB
-  \citep{takasu2009} (Table~\ref{tab:intersection}). There is no
-  measurement-to-position pipeline.
+  \item \textbf{Single-point positioning is code-only, not carrier-phase
+  PPP/RTK.} The engine spans the measurement-to-position gap with a code
+  single-point-positioning solver: it ingests real RINEX pseudoranges and
+  broadcast ephemeris and returns a receiver position by iterated weighted
+  least squares (Sagnac and broadcast satellite-clock corrections, the
+  dual-frequency L1/L2 ionosphere-free combination, and a Saastamoinen/Niell
+  troposphere), recovering the surveyed coordinate of IGS station ABMF to
+  \SI{5.7}{\metre} 3-D RMS (\SI{1.1}{\metre} horizontal). This is metre-level
+  \emph{code} positioning, not carrier-phase precise positioning: there is no
+  ambiguity resolution, carrier smoothing, or inter-epoch filter, so the
+  centimetre-grade PPP/RTK domain remains that of dedicated tools such as RTKLIB
+  \citep{takasu2009} (Table~\ref{tab:intersection}). The paper's central
+  contribution is the resilience-comparison methodology of
+  Section~\ref{sec:method}, not a competition on positioning accuracy, and this
+  single-station code fix is a boundary capability rather than a member of the
+  external-validation battery of Table~\ref{tab:validation}.
 
   \item \textbf{Modelling-fidelity defaults are deliberately modest.} The inertial
   mechanisation is 1-DOF, not a full 3-axis strapdown solution \citep{groves2013};

@@ -41,9 +41,10 @@ integrated stack with zero install, lowering the cost of reproducing a result to
 a page.
 
 Several limitations defined in Section~\ref{sec:limitations} double as the natural work
-ahead. The PVT path is scenario-driven rather than fed by real observations; ingesting
-real GNSS observations to close a measurement-level loop is the most consequential next
-step. The spoofing detector is characterised against published TEXBAT
+ahead. The measurement-to-position loop is now closed by a code single-point-positioning
+path validated on real IGS observations; carrying it from code to carrier-phase precise
+positioning --- ambiguity resolution and PPP/RTK --- is the consequential next step on
+the receiver-processing side. The spoofing detector is characterised against published TEXBAT
 \citep{humphreys2012texbat} parameters, not raw IQ; ingesting raw IQ and reporting a
 detection ROC would move it from the not-externally-validated tier into a measured one.
 The force-model validation by ephemeris fitting reported in
