@@ -348,10 +348,11 @@ plugin from the JetBrains Marketplace (or *Settings → Plugins → Marketplace 
 
 ## Scenario format
 
-Scenarios are declarative TOML. A top-level `kind` selects the pack — **seventeen** in
+Scenarios are declarative TOML. A top-level `kind` selects the pack — **nineteen** in
 all (`clock` is the default if omitted): `inertial`, `timetransfer`, `hybrid`, `fusion`,
-`gnss-ins`, `orbit`, `gnss-sim`, `integrity`, `lunar-integrity`, `spoof`, `jamming`,
-`sweep`, `sweep-nd`, `gravity-map`, `terrain-nav`, and `combined-altpnt`.
+`gnss-ins`, `orbit`, `ephemeris`, `gnss-sim`, `integrity`, `lunar-integrity`, `spoof`,
+`spoof-detect`, `jamming`, `sweep`, `sweep-nd`, `gravity-map`, `terrain-nav`, and
+`combined-altpnt`.
 Common fields: `seed`, a `[time]` grid, a `[gnss]` availability timeline (the outage
 driver), and per-sensor blocks with `provenance` strings citing the source of every
 figure. Example (clock):
@@ -582,7 +583,7 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    cli["CLI · Python · WebAssembly · MCP server · JetBrains plugin"] --> api["api — run_toml: typed dispatch over 17 kinds"]
+    cli["CLI · Python · WebAssembly · MCP server · JetBrains plugin"] --> api["api — run_toml: typed dispatch over 19 kinds"]
     subgraph shared["Shared core"]
       types["types · scenario · GNSS timeline"]
       allan["allan — ADEV/MDEV/TDEV/HDEV"]
@@ -674,7 +675,7 @@ flowchart LR
 ```
 kshana/
 ├── src/                                       # the kshana core crate (library + CLI)
-│   ├── api.rs · main.rs · lib.rs              # typed dispatch (17 kinds) + CLI + crate root
+│   ├── api.rs · main.rs · lib.rs              # typed dispatch (19 kinds) + CLI + crate root
 │   ├── python.rs · wasm.rs                    # optional PyO3 / wasm-bindgen bindings
 │   ├── types.rs · scenario.rs · allan.rs      # shared core (time grid, GNSS timeline, Allan)
 │   │
