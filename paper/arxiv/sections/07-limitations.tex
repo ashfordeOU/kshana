@@ -16,9 +16,13 @@ measurement. The same discipline applies to the boundaries of the engine itself.
   \citep{templier2022,origlia2015,giorgetta2013,deschenes2016}, not data from
   operating hardware. We carry an inline maturity tag (flight-qualified /
   ground-lab / projection-floor) on every quantum point for exactly this reason
-  (Figure~\ref{fig:clock}). Where a like-for-like comparison is not possible we say so:
-  the optical time-transfer floor excludes the non-reciprocal systematics that limit
-  real two-way links, whereas the RF figure includes them.
+  (Figure~\ref{fig:clock}). For time transfer we keep the comparison like-for-like:
+  the reported optical figure is charged with a conservative non-reciprocal
+  differential-delay budget --- a \SI{1}{\pico\second} on-orbit target rather than the
+  \SI{1}{\femto\second} laboratory floor --- so it carries the same class of systematic
+  that limits the RF figure (Section~\ref{sec:crossover}). A jitter-only optical floor
+  would exclude that non-reciprocity and overstate the optical advantage; we do not
+  report it.
 
   \item \textbf{The agency-orbit work is a force-model fit, not orbit
   determination.} The residuals against agency precise ephemerides
