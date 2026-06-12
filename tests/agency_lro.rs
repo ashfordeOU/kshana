@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: Apache-2.0
 //! NASA LRO lunar-orbit validation (P4 Wave 4b) — Moon-centred precise orbit determination.
 //!
-//! The third reference-grade agency dataset is a real NASA/JPL reconstructed trajectory of
+//! The third precise agency dataset is a real NASA/JPL reconstructed trajectory of
 //! the **Lunar Reconnaissance Orbiter** (NAIF id −85, `LRO_merged`), taken from the JPL
 //! Horizons ephemeris service as geometric Moon-centered state vectors in the ICRF
 //! (= J2000 to ~0.02″), 2022-01-01, ~98 km altitude. Horizons text vectors avoid any SPK
@@ -11,7 +11,7 @@
 //! [`lro_lunar_orbit_fit_against_horizons_truth`] fits Kshana's Moon-centred force model
 //! ([`kshana::lunar_od::LunarForceModel`]: the GRAIL GRGM660PRIM gravity field evaluated in the
 //! lunar body-fixed principal-axis frame via [`kshana::lunar_frame`] + Earth/Sun third body) to
-//! the arc through the same reference-grade Gauss–Newton estimator the Earth datasets use, and
+//! the arc through the same precise Gauss–Newton estimator the Earth datasets use, and
 //! reports the honest post-fit RMS, dynamic and reduced-dynamic.
 //!
 //! Honesty note: unlike Galileo (0.13 m) and Swarm-A (0.10 m), the LRO fit lands at **~6.6 m**

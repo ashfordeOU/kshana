@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: Apache-2.0
-//! Full-force **precise orbit determination** from position observations — the reference-grade
+//! Full-force **precise orbit determination** from position observations — the precise
 //! estimator that fits Kshana's complete force model (EGM2008 tesseral gravity + solid/ocean/
 //! atmospheric tides + Sun/Moon third body + SRP + drag + Schwarzschild/Lense–Thirring GR) to a
 //! track of inertial position fixes and reports the post-fit residuals in the radial/transverse/
@@ -208,7 +208,7 @@ pub(crate) fn empirical_accel(emp: &EmpiricalAccel, r: Vec3, v: Vec3) -> Vec3 {
 /// anything that returns its inertial acceleration and 6×6 dynamics matrix at a state, exposes its
 /// SRP coefficient, and accepts the estimator's `C_R`/empirical updates. [`PreciseForceModel`]
 /// (Earth-centric) and [`crate::lunar_od::LunarForceModel`] (Moon-centric) both implement it, so
-/// the one reference-grade Gauss–Newton estimator fits orbits about either body.
+/// the one precise Gauss–Newton estimator fits orbits about either body.
 pub trait ForceModel: Clone {
     /// The full inertial acceleration (m/s²) at integration time `t` (s past the epoch), position
     /// `r` and velocity `v`.
@@ -253,7 +253,7 @@ pub trait ForceModel: Clone {
     }
 }
 
-/// The reference-grade force model fit by [`fit`]: the EGM2008 spherical-harmonic geopotential
+/// The precise force model fit by [`fit`]: the EGM2008 spherical-harmonic geopotential
 /// (which already contains two-body + the zonal/tesseral field) plus the configured perturbations
 /// and the optional empirical-acceleration tier.
 ///

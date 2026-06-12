@@ -31,8 +31,8 @@ abstract: |
   validation: SGP4/SDP4 agreement to 4.12 mm against all 666 AIAA 2006-6753 reference
   states, bit-for-bit agreement with the IAU SOFA/ERFA reference frame transformations,
   Allan-deviation agreement with the NIST/Stable32 NBS14 reference, inertial
-  error-growth agreement with the NaveGo reference profile, and reference-grade precise
-  orbit determination that fits real ESA and NASA precise orbits to the decimetre level
+  error-growth agreement with the NaveGo reference profile, and force-model validation by
+  ephemeris fitting that fits real ESA and NASA precise orbits to the decimetre level
   (Galileo MEO 0.13 m, Swarm-A LEO 0.10 m), with the lunar case (LRO, 6.6 m) reported
   honestly above the 5 m bar. We close with worked
   resilience case studies, a candid account of the tool's limitations, and the roadmap.
@@ -249,10 +249,10 @@ configurable force model: an EGM2008 spherical-harmonic geopotential to degree a
 general-relativistic correction. The numerical propagator is used where mean-element theory
 is insufficient and is verified against the universal-variable Kepler solution.
 
-On top of the numerical propagator Kshana builds a **reference-grade precise
-orbit-determination (POD) engine** [@montenbruck2000], used to validate the force model
+On top of the numerical propagator Kshana builds a **force-model validation engine that
+fits agency precise ephemerides** [@montenbruck2000], used to validate the force model
 against real agency precise-orbit products rather than against analytic forms alone. The
-POD force model extends the propagator with the solid-Earth, ocean, and atmospheric **tides**
+ephemeris-fitting force model extends the propagator with the solid-Earth, ocean, and atmospheric **tides**
 of the IERS Conventions 2010 [@petit2010iers], a high-degree geopotential (EGM2008 for Earth,
 and the GRAIL **GRGM660PRIM** field for the Moon [@lemoine2013grail]), conical-shadow
 solar-radiation pressure with an estimated reflectivity coefficient, and the Schwarzschild
@@ -375,7 +375,7 @@ reference (via the pure-Rust ANISE reimplementation) for the celestial-to-terres
 rotation, agreeing to the metre level over a representative GNSS orbit. Independent
 agreement across two unrelated implementations is stronger evidence than either alone.
 
-## 5.4 Reference-grade precise orbit determination against agency products
+## 5.4 Force-model validation by ephemeris fitting against agency products
 
 The strongest external test of the force model is to fit it, through the batch estimator of
 Section 4.1, to **real agency precise-orbit products** and report the post-fit residual. The
@@ -395,7 +395,7 @@ For the Galileo medium-Earth orbit the pure-force (state + reflectivity) fit rea
 7 cm. For the Swarm-A low-Earth orbit the dynamic fit is dominated by an along-track
 signature — the textbook drag residual at ~430 km with a static density model — that the
 reduced-dynamic empirical tier absorbs to **~10 cm** against ESA's own ~2 cm science orbit.
-Both Earth regimes clear the 5 m reference-grade bar comfortably.
+Both Earth regimes clear the 5 m bar comfortably.
 
 The lunar case is reported **honestly above the bar**. Fitting the GRAIL field in the lunar
 body-fixed frame to a real Lunar Reconnaissance Orbiter arc from JPL Horizons gives a
@@ -494,11 +494,11 @@ We state the limits plainly, in keeping with the tool's honesty contract.
   and the engine inherits any optimism in its sources. The provenance ledger makes those
   sources explicit precisely so a reader can judge them.
 - **Validated ≠ comprehensive.** The validation oracles cover propagation, frames,
-  frequency stability, geometry, inertial error growth, and precise orbit determination
-  against agency products. Other quantities are labelled *modeled* rather than *validated*;
+  frequency stability, geometry, inertial error growth, and force-model validation by
+  ephemeris fitting against agency products. Other quantities are labelled *modeled* rather than *validated*;
   integrity protection levels, for instance, are computed against modelled error
   distributions, not certified against real fault data.
-- **Selenocentric OD is above the bar, and the cause is now pinned.** The lunar precise-OD
+- **Selenocentric ephemeris fitting is above the bar, and the cause is now pinned.** The lunar ephemeris-fitting
   residual (Section 5.4) is 6.6 m reduced-dynamic, *above* the 5 m bar the Earth datasets clear.
   A DE-grade cross-validation (DE440 orientation and ephemeris via ANISE) showed the reduced-dynamic
   floor is *not* the analytic frame fidelity — DE-grade kernels leave it unchanged — but a residual
@@ -526,8 +526,8 @@ the IAU SOFA/ERFA frame routines, the NIST/Stable32 stability references, and th
 inertial profiles — and it runs anywhere, from a native binary to a browser tab.
 
 Planned work includes hardware-in-the-loop comparison against real sensor logs, expansion
-of the validated (as opposed to modelled) figure set, metre-level selenocentric orbit
-determination via DE-grade lunar orientation and ephemeris, deeper cislunar integrity
+of the validated (as opposed to modelled) figure set, metre-level selenocentric ephemeris
+fitting via DE-grade lunar orientation and ephemeris, deeper cislunar integrity
 modelling, and external community validation through peer review and reuse. We invite practitioners to
 reproduce, contest, and extend the results: the engine, the scenarios, and the validation
 are all open.
