@@ -16,7 +16,11 @@ range_spec_mm = 10.0
 id = "optical-isl"
 provenance = "Optical inter-satellite link, picosecond-level synchronization target; free-space optical two-way time-frequency transfer lab floor ~1 fs (Giorgetta 2013, Nature Photonics; Deschenes 2016, PRX). Using a 1 ps target as the on-orbit-credible figure."
 sigma_j_s = 1.0e-12
-q_rw_s = 1.0e-32   # near-white: an optical link's differential drift floor is tiny
+# NON-reciprocity budget (NOT zero): the differential-delay floor — equipment-delay
+# asymmetry + up/down-path variation that does NOT cancel in the two-way estimate.
+# q_rw=1e-32 => sigma_x ~ 0.6 ps over the session, so the reported sub-mm figure is
+# jitter PLUS a conservative on-orbit non-reciprocity floor, not a jitter-only limit.
+q_rw_s = 1.0e-32
 
 [link_classical]
 id = "twstft-rf"
