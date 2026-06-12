@@ -1,14 +1,14 @@
-# Reference-grade precise orbit determination — methodology & validated residuals
+# Force-model validation by ephemeris fitting — methodology & validated residuals
 
-Kshana's full-force precise-orbit-determination (POD) engine (`src/precise_od.rs`) fit to
+Kshana's full-force engine (`src/precise_od.rs`) fit to
 **real agency precise-orbit products**, with honest, citable, commit-hash-stamped
-residuals. This is the validation record for roadmap milestone P4 ("Reference-grade
+residuals. This is the validation record for roadmap milestone P4 ("Precise
 astrodynamics: high-order gravity, SRP, validation vs agency datasets").
 
-## What "reference-grade" means here
+## What a validated residual means here
 
 A residual is reported only when all of the following hold (design
-`docs/design/2026-06-09-reference-grade-od-design.md`):
+`docs/design/2026-06-09-precise-astrodynamics-design.md`):
 
 1. **Force model** includes every perturbation that matters at the target accuracy:
    EGM2008 high-degree geopotential, solid + ocean + atmospheric **tides**
@@ -111,7 +111,7 @@ the noted upgrade that would tighten the *dynamic* tier further.
 This is **Moon-centred** dynamics — a distinct force model (`src/lunar_od.rs`): the GRGM field
 in the lunar body-fixed frame (the IAU 2015 mean-Earth orientation `src/lunar_frame.rs` composed
 with the fixed DE421 ME→PA offset), plus the Earth (the dominant lunar-orbit perturbation) and
-Sun third bodies, fitted through the *same* generic reference-grade Gauss–Newton estimator the
+Sun third bodies, fitted through the *same* generic precise Gauss–Newton estimator the
 Earth datasets use (the `precise_od::ForceModel` trait).
 
 | Run | Arc | d/o | n_obs | 3-D RMS | RTN (R, T, N) | Notes |

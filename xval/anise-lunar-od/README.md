@@ -5,7 +5,7 @@ An **independent, DE-grade cross-check** of `kshana`'s Moon-centred precise orbi
 `kshana`'s lunar fit reaches **6.6 m** (reduced-dynamic) against the real NASA/JPL **Horizons
 LRO** orbit — a residual proven (in `tests/agency_lro.rs` and the W4b validation record) to be
 limited by the **analytic** lunar orientation and ephemeris, *not* the estimator. This crate swaps
-**only those two inputs** for DE-grade ones and re-runs the **same** reference-grade estimator:
+**only those two inputs** for DE-grade ones and re-runs the **same** precise estimator:
 
 | input | analytic (`kshana` default) | DE-grade (here) |
 |-------|------------------------------|-----------------|
@@ -23,7 +23,7 @@ dynamics, and the Gauss–Newton batch estimator with its variational STM (`ksha
 
 The analytic fit's residual was orientation/ephemeris-limited. So the question is simple and
 honest: with DE-grade orientation and ephemeris, what is the true post-fit residual, and does it
-cross the 5 m reference-grade bar? **The harness reports whatever number the fit produces.** The
+cross the 5 m bar? **The harness reports whatever number the fit produces.** The
 empirical-acceleration a-priori 1σ is held at the Swarm-consistent `1e-7` — it is never tuned to
 chase the bar.
 
@@ -48,7 +48,7 @@ unmodelled LRO non-gravitational dynamics (thermal/outgassing) over the short 4 
 The constructive corollary: **the lean, kernel-free analytic stack already matches DE-grade for
 the reduced-dynamic (operational) lunar orbit.** Crossing 5 m needs a spacecraft non-gravitational
 model and a longer multi-arc fit, not better frames. The full interpretation is in
-`docs/REFERENCE-GRADE-OD.md`. The test gate independently verifies the DE-grade orientation
+`docs/AGENCY-ORBIT-VALIDATION.md`. The test gate independently verifies the DE-grade orientation
 genuinely differs from the analytic one by the tens of arc-seconds the cross-validation removes.
 
 ## Running it

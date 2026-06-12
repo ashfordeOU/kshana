@@ -8,7 +8,7 @@
 //! UT1−UTC (Earth-rotation phase) and the polar-motion pole `x_p`, `y_p`. This module
 //! reads them from the IERS `finals2000A` series and serves them, interpolated, to the
 //! frame rotation — replacing the nominal `UT1 = TT, x_p = y_p = 0` used for synthetic
-//! self-recovery with the real values a reference-grade real-data fit requires.
+//! self-recovery with the real values a precise real-data fit requires.
 //!
 //! Parses the fixed-column `finals.all.iau2000.txt` (a.k.a. `finals2000A.all`) format
 //! published by the IERS Rapid Service. Column map (1-indexed, per the IERS

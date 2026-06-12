@@ -146,8 +146,8 @@ tool; the perturbations are **off by default**, so the released goldens are unto
 Honest scope: the released `ForceModel` defaults integrate the zonal field. The
 high-degree EGM2008 **tesseral** field (`src/gravity_sh.rs`, degree/order 70), the
 solid/ocean/atmospheric **tides** (`src/tides.rs`), and the **Lense–Thirring**
-frame-dragging term are now implemented and composed into the reference-grade
-precise-OD force model (`src/precise_od.rs` — see below). The NRLMSISE-00 thermospheric
+frame-dragging term are now implemented and composed into the precise
+ephemeris-fitting force model (`src/precise_od.rs` — see below). The NRLMSISE-00 thermospheric
 density (drag is the static Vallado model), solar limb darkening / the oblate-Earth
 shadow, DE-grade ephemeris accuracy, and an external GMAT/Orekit cross-validation of a
 high-fidelity run remain follow-ons.
@@ -186,12 +186,12 @@ Earth–Mars C3 cross-check has not been run).
 | Sequential (unscented-filter) OD | `validated` | `determine_orbit_sequential` recursively recovers the state to within tens of metres on the same dynamics and range model. |
 
 Honest scope: range-rate/Doppler and angle measurements and station-visibility masking
-are follow-ons for the range-only teaching estimator (the full-force precise-OD engine
+are follow-ons for the range-only teaching estimator (the full-force ephemeris-fitting engine
 below carries the variational state-transition matrix).
 
-## Precise orbit determination (`src/precise_od.rs`)
+## Force-model validation by ephemeris fitting (`src/precise_od.rs`)
 
-A reference-grade, full-force position-observation batch least-squares estimator: the
+A precise, full-force position-observation batch least-squares estimator: the
 EGM2008 tesseral geopotential (evaluated in the Earth-fixed frame through the CIO
 reduction) composed with the Sun/Moon third body, SRP, drag, Schwarzschild/Lense–Thirring
 GR, and the tides above, fit to a track of inertial position fixes with a variational
@@ -216,9 +216,9 @@ this engine through the CIO frame chain (`src/eop.rs`, `tests/agency_galileo.rs`
 
 | Dataset | Status | Evidence |
 |---------|--------|----------|
-| **Galileo MEO — < 5 m GREEN** | `validated` | Kshana's full-force engine fit to a verbatim slice of **ESA/ESOC's own final orbit** (`ESA0MGNFIN`, ITRF) for Galileo **E11** over 8 h, each ITRF fix rotated into GCRS with real finals2000A EOP: post-fit **3-D RMS 0.132 m** pure force + `C_R` (RTN 0.105/0.067/0.047 m, `C_R` 1.174), **0.070 m** with the empirical tier, from a 78.7 km raw overlap. The full 24 h arc is **0.611 m**. All far inside the 5 m bar. Field gravity-converged by d/o-8 (identical at d/o 8/10/12); the `workflow_dispatch` job runs the full d/o-70. Provenance + SHA-256 in `tests/fixtures/agency/NOTICE.md`; full record in `docs/REFERENCE-GRADE-OD.md`. |
-| **Swarm-A LEO — < 5 m GREEN** | `validated` | Full-force engine (+ atmospheric drag) fit to a verbatim slice of **ESA's own Swarm-A reduced-dynamic precise orbit** (`SW_OPER_SP3ACOM_2_`, L47, ITRF, ~430 km, ~2 cm) over 3 h at d/o-70, real finals2000A EOP through the CIO chain: **dynamic** tier (state-only, static density, `C_R`=1) post-fit **3-D RMS 2.687 m** (RTN 0.925/**2.522**/0.043 m — residual ≈ pure along-track drag), **reduced-dynamic** tier (+ empirical CPR accelerations) **0.098 m** (RTN 0.026/0.092/0.024 m) — ~10 cm against ESA's ~2 cm orbit. Provenance + SHA-256 in `tests/fixtures/agency/NOTICE.md`; full record in `docs/REFERENCE-GRADE-OD.md`. |
-| **LRO lunar — validated, above 5 m (honest)** | `validated` | **Moon-centred** OD (`src/lunar_od.rs`): the GRAIL **GRGM660PRIM** gravity field (d/o 100) in the lunar body-fixed principal-axis frame (`src/lunar_frame.rs`, IAU 2015 mean-Earth + the fixed DE421 ME→PA offset) + Earth/Sun third body, fitted through the *same* generic Gauss–Newton estimator as the Earth datasets to the real **JPL Horizons LRO** (NAIF −85) reconstructed orbit, 4 h / 241 epochs, ~98 km. Honest post-fit: **dynamic 12.6 m** (RTN 3.07/10.19/6.81), **reduced-dynamic 6.6 m** (RTN 3.49/4.56/3.35, 1+2-per-rev empirical), from a 53.8 m raw overlap — **above** the < 5 m bar, not the estimator (identical at d/o 100/150 and `atol` 1e-6/1e-9). A **DE-grade cross-validation** (`xval/anise-lunar-od`: DE440 lunar PA orientation + DE440 ephemeris via ANISE) **corrected** the limiting-factor claim — it improves the dynamic fit (12.6 → 12.0 m) but leaves the **reduced-dynamic floor unchanged** (6.65 → 6.67 m), so the operational floor is **not** the analytic orientation/ephemeris but an empirical-tier-irreducible residual (most consistent with unmodelled LRO non-gravitational dynamics over the short arc); the lean analytic stack already matches DE-grade for the reduced-dynamic orbit. Provenance + SHA-256 in `tests/fixtures/agency/NOTICE.md`; full record in `docs/REFERENCE-GRADE-OD.md`. **Validated against real agency truth: 3 of 3; meeting < 5 m: 2 of 3.** |
+| **Galileo MEO — < 5 m GREEN** | `validated` | Kshana's full-force engine fit to a verbatim slice of **ESA/ESOC's own final orbit** (`ESA0MGNFIN`, ITRF) for Galileo **E11** over 8 h, each ITRF fix rotated into GCRS with real finals2000A EOP: post-fit **3-D RMS 0.132 m** pure force + `C_R` (RTN 0.105/0.067/0.047 m, `C_R` 1.174), **0.070 m** with the empirical tier, from a 78.7 km raw overlap. The full 24 h arc is **0.611 m**. All far inside the 5 m bar. Field gravity-converged by d/o-8 (identical at d/o 8/10/12); the `workflow_dispatch` job runs the full d/o-70. Provenance + SHA-256 in `tests/fixtures/agency/NOTICE.md`; full record in `docs/AGENCY-ORBIT-VALIDATION.md`. |
+| **Swarm-A LEO — < 5 m GREEN** | `validated` | Full-force engine (+ atmospheric drag) fit to a verbatim slice of **ESA's own Swarm-A reduced-dynamic precise orbit** (`SW_OPER_SP3ACOM_2_`, L47, ITRF, ~430 km, ~2 cm) over 3 h at d/o-70, real finals2000A EOP through the CIO chain: **dynamic** tier (state-only, static density, `C_R`=1) post-fit **3-D RMS 2.687 m** (RTN 0.925/**2.522**/0.043 m — residual ≈ pure along-track drag), **reduced-dynamic** tier (+ empirical CPR accelerations) **0.098 m** (RTN 0.026/0.092/0.024 m) — ~10 cm against ESA's ~2 cm orbit. Provenance + SHA-256 in `tests/fixtures/agency/NOTICE.md`; full record in `docs/AGENCY-ORBIT-VALIDATION.md`. |
+| **LRO lunar — validated, above 5 m (honest)** | `validated` | **Moon-centred** force-model fit (`src/lunar_od.rs`): the GRAIL **GRGM660PRIM** gravity field (d/o 100) in the lunar body-fixed principal-axis frame (`src/lunar_frame.rs`, IAU 2015 mean-Earth + the fixed DE421 ME→PA offset) + Earth/Sun third body, fitted through the *same* generic Gauss–Newton estimator as the Earth datasets to the real **JPL Horizons LRO** (NAIF −85) reconstructed orbit, 4 h / 241 epochs, ~98 km. Honest post-fit: **dynamic 12.6 m** (RTN 3.07/10.19/6.81), **reduced-dynamic 6.6 m** (RTN 3.49/4.56/3.35, 1+2-per-rev empirical), from a 53.8 m raw overlap — **above** the < 5 m bar, not the estimator (identical at d/o 100/150 and `atol` 1e-6/1e-9). A **DE-grade cross-validation** (`xval/anise-lunar-od`: DE440 lunar PA orientation + DE440 ephemeris via ANISE) **corrected** the limiting-factor claim — it improves the dynamic fit (12.6 → 12.0 m) but leaves the **reduced-dynamic floor unchanged** (6.65 → 6.67 m), so the operational floor is **not** the analytic orientation/ephemeris but an empirical-tier-irreducible residual (most consistent with unmodelled LRO non-gravitational dynamics over the short arc); the lean analytic stack already matches DE-grade for the reduced-dynamic orbit. Provenance + SHA-256 in `tests/fixtures/agency/NOTICE.md`; full record in `docs/AGENCY-ORBIT-VALIDATION.md`. **Validated against real agency truth: 3 of 3; meeting < 5 m: 2 of 3.** |
 
 ## Gravity-map / alt-PNT navigation (`src/gravimeter.rs`, `src/mapmatch.rs`, `src/particle_filter.rs`, `src/altpnt/terrain.rs`)
 

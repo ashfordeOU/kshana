@@ -21,7 +21,7 @@ const GRGM: &str = include_str!("../../../tests/fixtures/agency/lro/GRGM660PRIM_
 /// Geopotential degree/order, matching the analytic CI fit (`agency_lro::FIT_DEGREE`).
 const FIT_DEGREE: usize = 100;
 
-/// The < 5 m reference-grade bar.
+/// The < 5 m bar.
 const BAR_M: f64 = 5.0;
 
 fn raw_overlap_rms(

@@ -1,9 +1,9 @@
-# Agency precise-orbit validation fixtures — provenance & checksums
+# Agency ephemeris-fitting validation fixtures — provenance & checksums
 
 These are small, verbatim slices of openly-published agency data products,
-vendored so the precise-orbit-determination validation runs reproducibly in CI
+vendored so the force-model validation by ephemeris fitting runs reproducibly in CI
 with no network access or login. The full-arc online fetch runs under a separate
-`workflow_dispatch` job. Every residual reported in `docs/REFERENCE-GRADE-OD.md`
+`workflow_dispatch` job. Every residual reported in `docs/AGENCY-ORBIT-VALIDATION.md`
 is tied to the exact bytes below by SHA-256.
 
 ## Galileo MEO (W3)
@@ -88,7 +88,7 @@ IERS, IGS/MGEX/ESOC, ESA Swarm, NASA/JPL Horizons, and the NASA GSFC GRAIL gravi
 products (GRGM660PRIM, distributed via ICGEM/GFZ Potsdam) are published for open
 scientific use with attribution (the Swarm products under the ESA Data Policy and
 Terms & Conditions for the use of ESA Data). These verbatim slices are
-redistributed solely to make Kshana's orbit-determination validation
+redistributed solely to make Kshana's force-model validation by ephemeris fitting
 independently reproducible; all credit for the underlying products remains with
 IERS, the IGS, ESA/ESOC, the ESA Swarm mission (TU Delft processing), NASA/JPL
 Solar System Dynamics (Horizons / the LRO project), and the NASA GRAIL mission
