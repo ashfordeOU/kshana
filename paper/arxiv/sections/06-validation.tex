@@ -15,17 +15,17 @@ These checks reproduce an independent reference to within the numerical noise
 floor, so agreement is a statement about correctness rather than about a
 physical fit. The SGP4/SDP4 propagator reproduces all 666 verification states of
 the AIAA 2006-6753 test set \citep{vallado2006} to a worst-case position error
-of \SI{4.12}{\milli\meter} and velocity error of
-\SI{1.85e-9}{\kilo\meter\per\second}. Against an independent Rust
+of \SI{4.12}{\milli\metre} and velocity error of
+\SI{1.85e-9}{\kilo\metre\per\second}. Against an independent Rust
 implementation, the \code{sgp4} crate \citep{sgp4crate}, agreement is sub-micron
-on the near-earth and resonant orbits and \SI{4.12}{\milli\meter} in the
+on the near-earth and resonant orbits and \SI{4.12}{\milli\metre} in the
 worst case across all regimes; we therefore do not claim blanket sub-micron
 agreement. The IAU~2000A nutation routine \code{eraNut00a} reproduces the SOFA
 reference values $\Delta\psi = -0.96309\times10^{-5}$~rad and
 $\Delta\epsilon = +0.40632\times10^{-4}$~rad to $10^{-13}$~rad
 \citep{iausofa}. The frame transformations match the Vallado worked examples
-\citep{vallado2006,iausofa} to \SI{0.1}{\milli\meter} (TEME$\rightarrow$PEF),
-\SI{0.6}{\milli\meter} (TEME$\rightarrow$ITRF), and \SI{4}{\milli\meter} for the
+\citep{vallado2006,iausofa} to \SI{0.1}{\milli\metre} (TEME$\rightarrow$PEF),
+\SI{0.6}{\milli\metre} (TEME$\rightarrow$ITRF), and \SI{4}{\milli\metre} for the
 full CIO-based GCRS$\rightarrow$ITRS chain. The Allan-deviation estimator
 reproduces the Stable32/NBS14 reference series \citep{stable32,riley2008nist} to
 a relative error of $10^{-4}$. The dilution-of-precision computation matches the
@@ -47,12 +47,12 @@ processing, and the residual is the post-fit overlap of a fitted trajectory
 against the agency product. The arc length, gravity-field degree and order, and
 empirical-acceleration tier are stated inline for every entry because they
 determine what the residual means. Our headline is the Galileo MEO full-arc
-result: a \SI{0.61}{\meter} post-fit residual over a \SI{24}{\hour} arc with a
+result: a \SI{0.61}{\metre} post-fit residual over a \SI{24}{\hour} arc with a
 degree/order-70 gravity field and no empirical accelerations, the configuration
 that most directly exercises force-model fidelity. The reduced-dynamic tier, in
 which per-revolution empirical accelerations are estimated alongside the
-trajectory, lowers the Galileo residual to \SI{0.13}{\meter} and yields
-\SI{0.10}{\meter} for the Swarm-A LEO arc
+trajectory, lowers the Galileo residual to \SI{0.13}{\metre} and yields
+\SI{0.10}{\metre} for the Swarm-A LEO arc
 \citep{montenbruck2000,petit2010iers}. We emphasise that these reduced-dynamic
 numbers \emph{bound} force-model accuracy rather than measure it: the estimated
 empirical accelerations absorb mismodelled dynamics, so a small reduced-dynamic
@@ -61,12 +61,12 @@ error. They are reported as clearly-labelled secondary lines, never as the
 headline.
 
 The lunar case is stated as honestly as the favourable ones. The LRO arc yields
-a \SI{6.6}{\meter} reduced-dynamic residual, which is \emph{above} our
-\SI{5}{\meter} target \citep{lemoine2013grail,giorgini1996horizons}; we report
+a \SI{6.6}{\metre} reduced-dynamic residual, which is \emph{above} our
+\SI{5}{\metre} target \citep{lemoine2013grail,giorgini1996horizons}; we report
 the miss rather than tuning it away. As a controlled cross-validation, we swap
 the analytic kernel-free ephemeris for a DE440 realisation via ANISE: the LRO
 reduced-dynamic residual is unchanged at the centimetre level
-($6.65\rightarrow\SI{6.67}{\meter}$). This is a reproduction of an established
+($6.65\rightarrow\SI{6.67}{\metre}$). This is a reproduction of an established
 result --- that a carefully constructed analytic stack matches a DE-grade
 ephemeris realisation for this class of arc \citep{bertone2021grail,li2023leopod}
 --- not a discovery, and it is scoped to the LRO arc only. We credit
@@ -118,11 +118,11 @@ do not measure, force-model accuracy.}
 \addlinespace[2pt]
 SGP4/SDP4, 666 states &
 AIAA 2006-6753 \citep{vallado2006} &
-\SI{4.12}{\milli\meter} pos., \SI{1.85e-9}{\kilo\meter\per\second} vel.\ (worst case) &
+\SI{4.12}{\milli\metre} pos., \SI{1.85e-9}{\kilo\metre\per\second} vel.\ (worst case) &
 Validated \\
 SGP4 head-to-head &
 \code{sgp4} crate \citep{sgp4crate} &
-sub-\si{\micro\meter} near-earth/resonant; \SI{4.12}{\milli\meter} worst case all regimes &
+sub-\si{\micro\metre} near-earth/resonant; \SI{4.12}{\milli\metre} worst case all regimes &
 Validated \\
 Nutation \code{eraNut00a} &
 SOFA/ERFA \citep{iausofa} &
@@ -130,7 +130,7 @@ $\Delta\psi=-0.96309\!\times\!10^{-5}$, $\Delta\epsilon=+0.40632\!\times\!10^{-4
 Validated \\
 Frame transforms &
 Vallado \citep{vallado2006,iausofa} &
-TEME$\to$PEF \SI{0.1}{\milli\meter}; TEME$\to$ITRF \SI{0.6}{\milli\meter}; GCRS$\to$ITRS \SI{4}{\milli\meter} &
+TEME$\to$PEF \SI{0.1}{\milli\metre}; TEME$\to$ITRF \SI{0.6}{\milli\metre}; GCRS$\to$ITRS \SI{4}{\milli\metre} &
 Validated \\
 Allan deviation &
 Stable32/NBS14 \citep{stable32,riley2008nist} &
@@ -153,23 +153,23 @@ Validated \\
 \addlinespace[2pt]
 Galileo MEO (headline) &
 agency precise eph.\ \citep{montenbruck2000,petit2010iers} &
-\SI{0.61}{\meter}, \SI{24}{\hour} arc, d/o~70, force-only &
+\SI{0.61}{\metre}, \SI{24}{\hour} arc, d/o~70, force-only &
 Validated (fit) \\
 Galileo MEO (reduced-dynamic) &
 agency precise eph.\ \citep{montenbruck2000,petit2010iers} &
-\SI{0.13}{\meter}; empirical-accel tier --- bounds, not measures &
+\SI{0.13}{\metre}; empirical-accel tier --- bounds, not measures &
 Validated (fit) \\
 Swarm-A LEO (reduced-dynamic) &
 agency precise eph.\ \citep{montenbruck2000,petit2010iers} &
-\SI{0.10}{\meter}; empirical-accel tier --- bounds, not measures &
+\SI{0.10}{\metre}; empirical-accel tier --- bounds, not measures &
 Validated (fit) \\
 LRO lunar &
 GRGM \citep{lemoine2013grail,giorgini1996horizons} &
-\SI{6.6}{\meter} reduced-dynamic, \emph{above} \SI{5}{\meter} target (honest miss) &
+\SI{6.6}{\metre} reduced-dynamic, \emph{above} \SI{5}{\metre} target (honest miss) &
 Validated (fit) \\
 LRO DE440/ANISE swap &
 \code{nyx}/ANISE \citep{nyxanise,bertone2021grail,li2023leopod} &
-residual unchanged $6.65\!\to\!\SI{6.67}{\meter}$; reproduces known result, LRO-scoped &
+residual unchanged $6.65\!\to\!\SI{6.67}{\metre}$; reproduces known result, LRO-scoped &
 Validated (fit) \\
 \addlinespace[3pt]
 \multicolumn{4}{@{}l}{\textit{Tier 3 --- parameter-level characterisation (not external validation)}}\\
