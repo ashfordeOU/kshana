@@ -1,25 +1,25 @@
 \section{Limitations and threats to validity}\label{sec:limitations}
 
-We treat the following disclosures not as caveats appended after the fact but as
-the honesty contract the methodology in Section~\ref{sec:method} demands: every figure
-of merit is reported alongside the strength of the evidence that backs it, and a
-result that is a model projection or a force-model fit is never dressed as a
-measurement. The same discipline applies to the boundaries of the engine itself.
+The following disclosures form part of the honesty contract that the methodology
+in Section~\ref{sec:method} demands. Every figure of merit is reported alongside the
+strength of the evidence that backs it, and a result that is a model projection or a
+force-model fit is never dressed as a measurement. The same discipline applies to the
+boundaries of the engine itself.
 
 \begin{itemize}
 
   \item \textbf{Quantum-sensor figures are projections, not measurements.}
   Every cold-atom inertial, optical-lattice clock, and optical time-transfer number
-  in this paper --- including the crossover and break-even results of
-  Section~\ref{sec:crossover} --- is a performance-model projection computed by
+  in this paper (including the crossover and break-even results of
+  Section~\ref{sec:crossover}) is a performance-model projection computed by
   deterministic arithmetic on coefficients drawn from the cited device literature
   \citep{templier2022,origlia2015,giorgetta2013,deschenes2016}, not data from
   operating hardware. We carry an inline maturity tag (flight-qualified /
   ground-lab / projection-floor) on every quantum point for exactly this reason
   (Figure~\ref{fig:clock}). For time transfer we keep the comparison like-for-like:
   the reported optical figure is charged with a conservative non-reciprocal
-  differential-delay budget --- a \SI{1}{\pico\second} on-orbit target rather than the
-  \SI{1}{\femto\second} laboratory floor --- so it carries the same class of systematic
+  differential-delay budget (a \SI{1}{\pico\second} on-orbit target, not the
+  \SI{1}{\femto\second} laboratory floor), so it carries the same class of systematic
   that limits the RF figure (Section~\ref{sec:crossover}). A jitter-only optical floor
   would exclude that non-reciprocity and overstate the optical advantage; we do not
   report it.
@@ -27,8 +27,8 @@ measurement. The same discipline applies to the boundaries of the engine itself.
   \item \textbf{The agency-orbit work is a force-model fit, not orbit
   determination.} The residuals against agency precise ephemerides
   (Table~\ref{tab:validation}) are obtained by \emph{force-model validation by ephemeris
-  fitting} --- propagation-overlap consistency against an external truth product ---
-  not by processing observations. The headline is the full-arc Galileo result,
+  fitting} (propagation-overlap consistency against an external truth product), not by
+  processing observations. The headline is the full-arc Galileo result,
   \SI{0.61}{\metre} over \SI{24}{\hour} at gravity-field degree/order~70. The
   reduced-dynamic tier (Galileo \SI{0.13}{\metre}, Swarm \SI{0.10}{\metre}) admits
   empirical accelerations that absorb mismodelled dynamics; these numbers
@@ -36,12 +36,12 @@ measurement. The same discipline applies to the boundaries of the engine itself.
   reduced-dynamic wherever they appear. The fits are single-satellite, single-day
   arcs; they are not a statistical population over regimes.
 
-  \item \textbf{LRO is above target, stated plainly.} The LRO reduced-dynamic
+  \item \textbf{LRO is above the target.} The LRO reduced-dynamic
   residual is \SI{6.6}{\metre}, above our \SI{5}{\metre} target. Swapping the default
   ephemeris for a DE440/ANISE realisation leaves it essentially unchanged
   (\SI{6.65}{\metre} $\rightarrow$ \SI{6.67}{\metre}). We present this as a
   controlled reproduction of a known result \citep{bertone2021grail,li2023leopod},
-  scoped to the LRO arc only --- not a discovery --- and we credit \texttt{nyx}/ANISE
+  scoped to the LRO arc only and not a discovery, and we credit \texttt{nyx}/ANISE
   \citep{nyxanise} as the DE-grade oracle, not a rival the engine outperforms.
 
   \item \textbf{The spoofing detector does not ingest raw IQ.} It is characterised
@@ -78,8 +78,8 @@ measurement. The same discipline applies to the boundaries of the engine itself.
 
 \end{itemize}
 
-\noindent Collectively these bounds define what the engine establishes --- a
+\noindent Collectively these bounds define what the engine establishes: a
 reproducible, falsifiable comparison framework with an external-validation battery
-behind it --- and, just as importantly, what it does not: it is not a measurement
+behind it. They equally define what it does not: it is not a measurement
 campaign, not an orbit-determination system, and not a fielded quantum-sensing
 result.

@@ -8,8 +8,8 @@ distribution rather than a number, and against which we locate the
 \emph{break-even} where the quantum advantage disappears. The question the map
 answers is the one the field's own reviews say is open
 \citep{quantumpntreview2026}: not \emph{whether} a cold-atom inertial sensor or an
-optical clock can help during a GNSS outage, but \emph{when} --- under what outage
-duration, platform environment, and device maturity --- it actually changes the
+optical clock can help during a GNSS outage, but \emph{when} (under what outage
+duration, platform environment, and device maturity) it actually changes the
 outcome, and when a same-maturity classical unit is the better choice.
 
 Every result in this section is produced by the same machinery the validated packs
@@ -20,13 +20,13 @@ mean, percentiles, and a 95\% bootstrap confidence interval computed by the same
 bootstrap the ensemble packs apply elsewhere. The quantum and classical legs share
 one neutral code path, swapped by parameters alone, so the comparison is never made
 across two implementations. No new physics is introduced. The cold-atom noise is a
-first-principles interferometer model --- a shot-noise term $1/(C\sqrt{N})$ in atom
+first-principles interferometer model: a shot-noise term $1/(C\sqrt{N})$ in atom
 number $N$ and contrast $C$, combined in quadrature with a platform-vibration floor
 $\sqrt{S_a/(3T)}$ in the acceleration power spectral density $S_a$ (in
-$(\mathrm{m/s^2})^2/\mathrm{Hz}$) and interrogation time $T$; we plot and tabulate the
+$(\mathrm{m/s^2})^2/\mathrm{Hz}$) and interrogation time $T$. We plot and tabulate the
 corresponding amplitude spectral density $\mathrm{ASD}=\sqrt{S_a}$ in
-$\mu\mathrm{g}/\sqrt{\mathrm{Hz}}$, the conventional vibration-specification unit --- and
-the classical leg uses the NaveGo-validated inertial error profile
+$\mu\mathrm{g}/\sqrt{\mathrm{Hz}}$, the conventional vibration-specification unit. The
+classical leg uses the NaveGo-validated inertial error profile
 \citep{gonzalez2017navego}. We restate the binding caveat of
 Section~\ref{sec:limitations} once here and rely on it throughout: \textbf{every
 quantum figure in this section is a performance-model projection from
@@ -62,30 +62,30 @@ Figure~\ref{fig:inertial} shows the full map.
   \label{fig:inertial}
 \end{figure}
 
-The first finding is that on an isolated platform the cold-atom advantage is large
+On an isolated platform the cold-atom advantage is large
 and grows with outage length. At $1~\mu\mathrm{g}/\sqrt{\mathrm{Hz}}$ the advantage
 is a factor of $307$ for a \SI{30}{\second} outage (cold-atom
 \SI{2.5}{\milli\metre} versus navigation-grade \SI{0.75}{\metre} at the 95th
 percentile), rising to $439$ at \SI{60}{\second} and to $1915$ at
 \SI{1800}{\second}, where the navigation-grade error has grown to
 \SI{2.3}{\kilo\metre} while the cold-atom error is near \SI{1.2}{\metre}. The
-confidence intervals are tight relative to this gap --- the cold-atom 95th
+confidence intervals are tight relative to this gap (the cold-atom 95th
 percentile at the \SI{30}{\second}, $1~\mu\mathrm{g}/\sqrt{\mathrm{Hz}}$ node has a
-bootstrap interval of $[2.0,\,2.9]~\si{\milli\metre}$ --- so the advantage on a
+bootstrap interval of $[2.0,\,2.9]~\si{\milli\metre}$), so the advantage on a
 quiet platform is not a sampling artefact.
 
-The second finding is that this advantage is conditional, and the map shows exactly
+This advantage is nonetheless conditional, and the map shows exactly
 where it fails. As the vibration ASD rises the cold-atom error grows steeply, driven
 by the $\sqrt{S_a/(3T)}$ vibration floor, while the navigation-grade error is
 comparatively insensitive to it. The two curves cross: for a short
 \SI{30}{\second} outage at a vibration level of
 $\approx 405~\mu\mathrm{g}/\sqrt{\mathrm{Hz}}$ (about $0.4~\mathrm{mg}/\sqrt{\mathrm{Hz}}$)
-the advantage falls to $0.75$ --- below unity, meaning the navigation-grade unit
+the advantage falls to $0.75$: below unity, meaning the navigation-grade unit
 \emph{wins}. On a vibrating host during a brief outage, the classical sensor is the
-better choice, and the map says so plainly rather than reporting only the favourable
+better choice, and the map reports this rather than only the favourable
 corner.
 
-The third finding ties the first two together: the break-even vibration level rises
+These two findings connect through the break-even, which rises
 \emph{monotonically} with outage duration, from
 $334~\mu\mathrm{g}/\sqrt{\mathrm{Hz}}$ at \SI{30}{\second} to
 $2640~\mu\mathrm{g}/\sqrt{\mathrm{Hz}}$ at \SI{1800}{\second} (Table~\ref{tab:breakeven}).
@@ -95,7 +95,7 @@ navigation-grade unit is dominated by the latter's accumulating bias error, whic
 grows roughly as $t^2$, whereas the cold-atom sensor's own vibration-limited error
 is a random walk growing roughly as $t^{1.5}$. The bias term outruns the random-walk
 term, so the duration at which the quantum sensor pays off increases the more
-vibration it must endure --- the longer the outage, the wider the environmental
+vibration it must endure. The longer the outage, the wider the environmental
 window in which it is the right tool.
 
 \begin{table}[t]
@@ -157,7 +157,7 @@ nanosecond, both three orders of magnitude inside budget. But the honest compari
 is the maturity-aware one. The optical clock's margin is a \emph{ground-laboratory}
 figure; the maser is the option that has actually flown, and is therefore the
 realistic on-orbit choice today. The deployed CSAC, by contrast, reaches the
-\SI{1}{\micro\second} budget at $\approx$\SI{8.5}{\hour} of holdover --- a result
+\SI{1}{\micro\second} budget at $\approx$\SI{8.5}{\hour} of holdover, a result
 that matters operationally precisely because the CSAC is the rung that is already
 fielded. The value of the ladder is that it refuses to compare a laboratory optical
 clock against a deployed CSAC as if they were interchangeable, and instead pairs each
@@ -178,7 +178,7 @@ that the optical figure is charged with the same class of systematic that limits
 RF figure. Under this honest accounting the optical link reaches a range-equivalent
 RMS of $\approx$\SI{0.29}{\milli\metre} (non-reciprocity included, a
 \SI{1}{\pico\second} on-orbit projection target rather than a measured link budget)
-against $\approx$\SI{341}{\milli\metre} for the RF link --- still a
+against $\approx$\SI{341}{\milli\metre} for the RF link, still a
 three-order-of-magnitude advantage, but one obtained from a like-for-like budget
 rather than from comparing an optical jitter floor against an RF link burdened with
 systematics.

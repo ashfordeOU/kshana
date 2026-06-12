@@ -21,9 +21,9 @@ navigation, and the one- and $N$-dimensional parameter sweeps (\code{sweep},
 
 Sensor and environment behaviours are independent modules. Each carries a published
 \emph{provenance string} naming the device or reference whose coefficients it
-instantiates---for example, the clock curves are tagged with the optical-lattice,
+instantiates. The clock curves, for example, are tagged with the optical-lattice,
 hydrogen-maser and chip-scale-atomic-clock sources and a maturity (TRL) label they were
-parameterised from---so that every reported figure is traceable to its literature
+parameterised from, so that every reported figure is traceable to its literature
 source and its model-versus-measurement status is legible at the point of use. The run
 harness composes the selected modules on a common timeline and emits a
 schema-versioned, self-describing JSON record (engine version, scenario, and per-module
@@ -37,8 +37,8 @@ re-implementation per platform: a native binary and library (the \code{rlib}/CLI
 for the validation battery of \S\ref{sec:validation}); a PyO3 extension module for use
 from Python and notebooks; and a WebAssembly module (built with \code{wasm-pack}) that
 runs the full integrated stack in the browser with zero install. In-browser orbital
-propagation is not itself new---\code{satellite.js} \citep{satellitejs} has long
-provided in-browser SGP4---so the contribution here is not the browser target but that
+propagation is not itself new; \code{satellite.js} \citep{satellitejs} has long
+provided in-browser SGP4. The point here is therefore not the browser target but that
 a \emph{single} engine, identical to the validated native build, runs the whole
 integrated PNT-resilience stack client-side, which is what makes the reproducibility
 contract of \S\ref{sec:method} portable to a reader with no toolchain.
