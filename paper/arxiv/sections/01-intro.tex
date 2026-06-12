@@ -7,8 +7,8 @@ entirely on global navigation satellite systems (GNSS), whose signals arrive at
 the Earth's surface tens of decibels below the thermal noise floor and are
 therefore trivially denied: low-cost jammers, meaconing, and increasingly
 sophisticated spoofers can suppress or counterfeit a GNSS fix over a wide
-area~\citep{misra2010,kaplan2017}. The operational consequence is not loss of a
-gadget but loss of a \emph{reference}---the question that matters during an
+area~\citep{misra2010,kaplan2017}. The operational consequence is loss of a
+\emph{reference}, not merely of a gadget. The question that matters during an
 outage is how long a platform can hold its position and time to within a stated
 tolerance once the satellites can no longer be trusted. We refer to this
 property as \emph{PNT resilience}: the growth of position and timing error
@@ -19,7 +19,7 @@ let it dead-reckon, but their error grows super-linearly as bias and
 random-walk noise integrate twice into position~\citep{groves2013}; a local
 clock holds time, but only until its own instability accumulates past the
 allowed offset~\citep{riley2008nist}. The classical floor for both is well
-characterised. The open question---and the subject of sustained investment---is
+characterised. The open question, and the subject of sustained investment, is
 whether \emph{quantum sensing} meaningfully raises that floor. Cold-atom
 interferometric accelerometers and gyroscopes promise bias stability and scale
 factors set by atomic constants rather than by a drifting proof mass; optical
@@ -33,12 +33,12 @@ detail~\citep{coldatomnavreview2022,quantumpntreview2026}. Tellingly, those same
 reviews concede that quantitative comparisons across the field are difficult to
 audit: they frequently rest on generic synthetic scenarios, mismatched figures
 of merit, and proprietary trade studies whose assumptions are not published.
-That concession is a gift, because it names the gap precisely---the resilience
+That concession matters, because it names the gap precisely: the resilience
 debate is starved not of physics but of \emph{reproducible, falsifiable,
 like-for-like comparison}.
 
-The gap is real, and it is worth stating by evidence rather than by assertion.
-A number of capable open tools exist, but each answers a different question and
+The gap is real, and it is worth establishing by evidence. A number of capable
+open tools exist, but each answers a different question and
 none reproduces an end-to-end quantum-versus-classical resilience comparison on a
 single neutral code path. RTKLIB~\citep{takasu2009} is a mature open package for
 processing real GNSS observations into precise positions, but it concerns the
@@ -51,24 +51,24 @@ closest in scope to the multi-domain resilience question, yet it is an
 architecture simulator, not an instrument for swapping a quantum sensor model
 against its classical counterpart under controlled uncertainty. NaveGo
 \citep{gonzalez2017navego} is a well-validated open inertial-navigation toolkit
-with published error profiles---genuinely strong on the inertial axis---but it
+with published error profiles (genuinely strong on the inertial axis), but it
 models classical IMUs and does not carry clock-holdover, time-transfer, or
 quantum-sensor models. None of these is unfalsifiable; the point is the
 converse. Each is a sound tool for its own question, and the absence is the
-\emph{intersection}: to our knowledge no open tool runs the full PNT resilience
-stack---inertial dead-reckoning, clock holdover, and time transfer---with a
+\emph{intersection}. To our knowledge no open tool runs the full PNT resilience
+stack of inertial dead-reckoning, clock holdover, and time transfer with a
 quantum and a classical configuration exercised through the same code path,
 seed-reproducibly, with uncertainty propagated.
 
 This paper presents Kshana, an open engine built to close that intersection, and
 uses it to produce a genuinely new result. The engine's external-validation
 battery (Section~\ref{sec:validation}) establishes that its underlying
-mechanics are trustworthy---frames bit-for-bit against SOFA/ERFA, SGP4 to
+mechanics are trustworthy: frames bit-for-bit against SOFA/ERFA, SGP4 to
 millimetre agreement against the AIAA reference set, Allan deviation against
 NIST and Stable32, and force-model validation by ephemeris fitting against
-agency precise orbits---but that battery is \emph{evidence}, not the
+agency precise orbits. That battery is \emph{evidence}, not the
 contribution. The contribution is the reproducible crossover study built on top
-of it (Section~\ref{sec:crossover}): rather than reporting a single hero number,
+of it (Section~\ref{sec:crossover}). Instead of reporting a single hero number,
 we sweep each quantum lever across its published-parameter envelope by
 Monte-Carlo and report the resilience advantage as a distribution with 95\%
 confidence intervals, then locate the \emph{break-even} against the classical
@@ -80,7 +80,7 @@ honest answer is conditional on the host platform's mechanical environment. For
 the clock lever, an optical-lattice standard and a flight-qualified maser hold
 sub-microsecond time across a full 24~h holdover in our envelope, whereas a
 deployed chip-scale clock crosses the same threshold near eight and a half
-hours---a same-maturity comparison that separates what is demonstrated in the
+hours: a same-maturity comparison that separates what is demonstrated in the
 lab from what flies today. We label every quantum result as a performance-model
 projection, not a measurement, and carry its technology-readiness tag inline.
 
@@ -93,8 +93,8 @@ our contributions are:
 \begin{enumerate}
   \item \textbf{A reproducible quantum-versus-classical resilience crossover map
   under parameter uncertainty} (the new result, Section~\ref{sec:crossover}).
-  For each quantum lever---cold-atom inertial, optical-lattice clock, optical
-  time transfer---a Monte-Carlo sweep over the published-parameter envelope
+  For each quantum lever (cold-atom inertial, optical-lattice clock, optical
+  time transfer), a Monte-Carlo sweep over the published-parameter envelope
   yields the resilience-figure-of-merit advantage as a distribution with 95\%
   confidence intervals and identifies the break-even against the classical
   baseline, answering \emph{when} quantum sensing changes the outage outcome,
@@ -140,6 +140,6 @@ tools (Section~\ref{sec:related}), summarises its architecture
 (Section~\ref{sec:arch}), presents the crossover study
 (Section~\ref{sec:crossover}) and the tiered validation
 (Section~\ref{sec:validation}), and states the limitations and threats to
-validity (Section~\ref{sec:limitations})---chief among them that the
+validity (Section~\ref{sec:limitations}), chief among them that the
 quantum-sensor figures throughout are model projections from cited device
 literature, not measurements.
