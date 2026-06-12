@@ -211,6 +211,9 @@ pub fn run_ephemeris(scn: &EphemerisScenario) -> Result<EphemerisResult, String>
     if scn.duration_s < 0.0 {
         return Err("duration_s must be non-negative".to_string());
     }
+    if !scn.carrier_hz.is_finite() || scn.carrier_hz <= 0.0 {
+        return Err("carrier_hz must be a positive, finite frequency".to_string());
+    }
     let (prop, jd_utc0, source) = build(scn)?;
     let station = scn.station;
     let lambda_m = C_M_S / scn.carrier_hz;
@@ -787,6 +790,24 @@ mod tests {
         });
         scn.epoch = None;
         assert!(run_ephemeris(&scn).is_err());
+    }
+
+    #[test]
+    fn non_positive_carrier_is_an_error() {
+        // `carrier_hz` is a user-supplied JSON field with a clear physical
+        // constraint (> 0). A zero carrier would make λ = c/0 = +∞ and silently
+        // zero every Doppler value rather than fail — so it must be rejected, the
+        // same way `step_s` is.
+        for bad in [0.0, -1.0, f64::NAN, f64::INFINITY] {
+            let mut scn = iss_scenario();
+            scn.carrier_hz = bad;
+            assert!(
+                run_ephemeris(&scn).is_err(),
+                "carrier_hz = {bad} must be rejected"
+            );
+        }
+        // The valid default still runs.
+        assert!(run_ephemeris(&iss_scenario()).is_ok());
     }
 
     #[test]
