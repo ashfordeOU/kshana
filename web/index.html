@@ -392,6 +392,10 @@
               <p>The CIO-based IAU 2006/2000A GCRS↔ITRS reduction is validated <b>bit-for-bit</b> against the SOFA/ERFA vectors, and independently cross-checked against <b>ANISE</b> (pure-Rust NAIF/SPICE): GCRS→ITRS vs ANISE's ITRF93 from JPL's high-precision Earth kernel, the same IERS Earth-orientation parameters fed to both, agree to <b>≤ 0.86 m on the ground / ≤ 3.6 m at GNSS orbit</b> across 2020–2023.</p>
             </div>
             <div class="card">
+              <h3><span class="pill validated">Validated (fit)</span> Agency precise orbits</h3>
+              <p>Force-model validation by ephemeris fitting against real agency precise orbits: a full-arc Galileo MEO post-fit residual of <b>0.61 m</b> (24 h, degree/order 70, force-only) and Swarm-A LEO <b>0.10 m</b> (reduced-dynamic — an empirical-tier bound, not a measure). The lunar LRO fit is <b>6.6 m</b>, reported honestly <em>above</em> the 5 m target, and a DE440/ANISE cross-validation leaves it unchanged. This fits the force model to published ephemerides; it is not measurement-level orbit determination.</p>
+            </div>
+            <div class="card">
               <h3>Standards-traced integrity</h3>
               <p>Snapshot and solution-separation (ARAIM) RAIM with HPL/VPL, an MHSS integrity-risk budget, and the dual-/multi-constellation constellation-wide fault mode (EU ARAIM / DO-316), with Stanford integrity diagrams.</p>
             </div>
