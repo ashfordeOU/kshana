@@ -34,7 +34,7 @@ pub struct Report {
     pub raw_overlap_rms_m: f64,
     pub dynamic: TierResult,
     pub reduced_dynamic: TierResult,
-    /// The < 5 m reference-grade bar, evaluated honestly on the reduced-dynamic 3-D RMS.
+    /// The < 5 m bar, evaluated honestly on the reduced-dynamic 3-D RMS.
     pub bar_m: f64,
     pub meets_bar: bool,
     /// SHA-256 of the two kernels, for citability.

@@ -1,10 +1,10 @@
-# Metre-level selenocentric OD: the DE-grade (ANISE) path for LRO < 5 m
+# Metre-level selenocentric force-model validation by ephemeris fitting: the DE-grade (ANISE) path for LRO < 5 m
 
 - **Date:** 2026-06-10
-- **Status:** **IMPLEMENTED (Approach A) — outcome below.** Built as `xval/anise-lunar-od`. The hypothesis in §1/§7 (that the floor was orientation/ephemeris fidelity) was **tested and refuted for the reduced-dynamic tier**: DE-grade DE440 orientation + ephemeris improve the dynamic fit (12.6 → 12.0 m) but leave the **reduced-dynamic** residual unchanged (6.65 → 6.67 m), so the operational floor is *not* frame fidelity but an empirical-tier-irreducible residual (most consistent with LRO non-gravitational dynamics over the short arc). The lean analytic stack already matches DE-grade for the reduced-dynamic orbit; LRO stays honestly above 5 m and the milestone holds 3/6. Full result in `docs/REFERENCE-GRADE-OD.md`. The §7 residual-attribution fallback is exactly what played out.
-- **Roadmap milestone:** P4 "Reference-grade astrodynamics", step 4 ("validate vs 3 agency datasets, < 5 m RMS") — the one dataset still above the bar
+- **Status:** **IMPLEMENTED (Approach A) — outcome below.** Built as `xval/anise-lunar-od`. The hypothesis in §1/§7 (that the floor was orientation/ephemeris fidelity) was **tested and refuted for the reduced-dynamic tier**: DE-grade DE440 orientation + ephemeris improve the dynamic fit (12.6 → 12.0 m) but leave the **reduced-dynamic** residual unchanged (6.65 → 6.67 m), so the operational floor is *not* frame fidelity but an empirical-tier-irreducible residual (most consistent with LRO non-gravitational dynamics over the short arc). The lean analytic stack already matches DE-grade for the reduced-dynamic orbit; LRO stays honestly above 5 m and the milestone holds 3/6. Full result in `docs/AGENCY-ORBIT-VALIDATION.md`. The §7 residual-attribution fallback is exactly what played out.
+- **Roadmap milestone:** P4 "Precise astrodynamics", step 4 ("validate vs 3 agency datasets, < 5 m RMS") — the one dataset still above the bar
 - **Author:** Chakshu Baweja
-- **Supersedes nothing.** Extends `docs/design/2026-06-09-reference-grade-od-design.md` (the reference-grade-OD design) and the W4b LRO result recorded in `docs/REFERENCE-GRADE-OD.md`.
+- **Supersedes nothing.** Extends `docs/design/2026-06-09-precise-astrodynamics-design.md` (the agency-orbit force-model-validation design) and the W4b LRO result recorded in `docs/AGENCY-ORBIT-VALIDATION.md`.
 
 ## 1. The problem, and what is already proven
 
@@ -50,7 +50,7 @@ fit **below 5 m**, and if so, flip P4 step 4 to **3/3 datasets under the bar** (
 `me862131d` → 4/6).
 
 **This is a hypothesis to be tested, not a promise.** The honesty contract that governs the
-whole reference-grade-OD record applies in full:
+whole force-model-validation-by-ephemeris-fitting record applies in full:
 
 - The harness reports the **true** post-fit RMS, whatever it is.
 - `empirical_sigma` stays at the Swarm-consistent **1 × 10⁻⁷** and is **never cranked** to
@@ -60,7 +60,7 @@ whole reference-grade-OD record applies in full:
   floor, exactly as W4b did at 6.6 m.
 
 **Definition of done for this design's implementation:** a reproducible, kernel-fed LRO fit
-exists in a workspace-excluded crate; its real RMS is recorded in `docs/REFERENCE-GRADE-OD.md`
+exists in a workspace-excluded crate; its real RMS is recorded in `docs/AGENCY-ORBIT-VALIDATION.md`
 with kernel SHAs and commit hash; and `me862131d` step-status reflects the honest outcome.
 
 ## 3. Non-negotiable constraints (the ethos)
@@ -226,7 +226,7 @@ the next floor once orientation/ephemeris are fixed.
 
 All **gitignored** (extend `.gitignore` with `/xval/anise-lunar-od/kernels/*` and the
 `report.{json,md}`), **curl-fetched** into `kernels/` on first run, **SHA-256 recorded** in the
-crate README and in `docs/REFERENCE-GRADE-OD.md`. ANISE + hifitime stay **MPL-2.0-confined** to
+crate README and in `docs/AGENCY-ORBIT-VALIDATION.md`. ANISE + hifitime stay **MPL-2.0-confined** to
 this crate's `Cargo.lock`; kernels are NASA/JPL public-domain data, **referenced not
 redistributed**.
 
@@ -254,7 +254,7 @@ less geometry-favourable test) the founder downloads, exactly like `swarm_full_a
                           kshana::precise_od::fit  ◄── the SAME estimator as Galileo/Swarm
                                    │
                                    ▼
-                          honest RTN/3-D RMS ──► report.{json,md} + docs/REFERENCE-GRADE-OD.md
+                          honest RTN/3-D RMS ──► report.{json,md} + docs/AGENCY-ORBIT-VALIDATION.md
 ```
 
 Everything below the `AniseLunarEnvironment` box is **existing, unchanged `kshana` code**.
@@ -302,7 +302,7 @@ guards; atomic commit; author `Chakshu Baweja <contact@ashforde.org>`, no traile
 4. **The fit harness** — build `LunarForceModel<AniseLunarEnvironment>`, run `kshana::…::fit`
    with the cfg2 config, print RTN/3-D dynamic + reduced-dynamic, write `report.{json,md}`.
    Self-skipping test gate (skips without kernels). Commit.
-5. **Record the honest result** — `docs/REFERENCE-GRADE-OD.md` LRO row updated with the DE-grade
+5. **Record the honest result** — `docs/AGENCY-ORBIT-VALIDATION.md` LRO row updated with the DE-grade
    figure, kernel SHAs, commit hash; `xval/anise-lunar-od/README.md` result table; the residual
    analysis if ≥ 5 m. Commit.
 6. **CI** — `.github/workflows/lunar-od-xval.yml`, **`workflow_dispatch` only** (never gates

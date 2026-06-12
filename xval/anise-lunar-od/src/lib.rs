@@ -7,7 +7,7 @@
 //! orientation and ephemeris rather than the estimator. This crate swaps **only** those two inputs
 //! for DE-grade ones — the DE440 lunar principal-axis orientation and the DE440 planetary ephemeris,
 //! read via [ANISE](https://github.com/nyx-space/anise) — through `kshana`'s `LunarEnvironment`
-//! provider seam, and re-runs the *same* reference-grade estimator to measure the true residual.
+//! provider seam, and re-runs the *same* precise estimator to measure the true residual.
 //!
 //! It is deliberately isolated from the `kshana` package (its own `Cargo.lock`, excluded from the
 //! workspace) because ANISE + hifitime are MPL-2.0 / edition-2024; see `Cargo.toml`.
