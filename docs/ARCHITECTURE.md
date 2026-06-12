@@ -246,10 +246,10 @@ return them to the host. One dispatch, no drift.
 
 ```mermaid
 flowchart TD
-    F["api::run_toml(src) · run_scenario(src)"] --> K{"ScenarioKind::classify<br/>typed · exhaustive · 19 kinds"}
+    F["api::run_toml(src) · run_scenario(src)"] --> K{"ScenarioKind::classify<br/>typed · exhaustive · 20 kinds"}
     K --> G1["Timing<br/>clock (default) · timetransfer"]
     K --> G2["Inertial & fusion<br/>inertial · hybrid · fusion · gnss-ins"]
-    K --> G3["Orbit & geometry<br/>orbit · ephemeris · gnss-sim"]
+    K --> G3["Orbit, geometry & positioning<br/>orbit · ephemeris · gnss-sim · pvt"]
     K --> G4["Integrity<br/>integrity · lunar-integrity"]
     K --> G5["Resilience<br/>spoof · spoof-detect · jamming"]
     K --> G6["Alt-PNT (GPS-denied)<br/>gravity-map · terrain-nav · combined-altpnt"]
