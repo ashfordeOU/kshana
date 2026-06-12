@@ -24,7 +24,7 @@
 //! (`tests/frame_reference_vectors.rs`).
 
 use crate::frames::{
-    arcsec, ecef_to_geodetic, ecef_to_teme, geodetic_to_ecef, look_angles, teme_to_itrf, Geodetic,
+    arcsec, ecef_to_geodetic, geodetic_to_ecef, itrf_to_teme, look_angles, teme_to_itrf, Geodetic,
 };
 use crate::orbit::{OrbitCfg, Propagator};
 use crate::rinex::EpochUtc;
@@ -247,11 +247,14 @@ pub fn run_ephemeris(scn: &EphemerisScenario) -> Result<EphemerisResult, String>
         let station_view = station.map(|s| {
             let st_geod = s.geodetic();
             let look = look_angles(st_geod, ecef);
-            // Range-rate in the inertial (TEME) frame: the station rotates with the
-            // Earth (v = ω × r about the TEME z-axis), the satellite carries its own
-            // inertial velocity, and range-rate is the relative velocity projected
-            // onto the line of sight. Frame-invariant — equals d(range)/dt exactly.
-            let s_teme = ecef_to_teme(geodetic_to_ecef(st_geod), jd_ut1);
+            // Range-rate in the inertial (TEME) frame. The station's fixed ITRF
+            // position is mapped to TEME through the SAME reduction as the satellite
+            // (`itrf_to_teme` undoes polar motion then the sidereal rotation), so both
+            // endpoints share one frame. The station then rotates with the Earth
+            // (v = ω × r about the TEME z-axis), the satellite carries its own inertial
+            // velocity, and the range-rate is the relative velocity projected onto the
+            // line of sight — the analytic d(range)/dt, free of any JD differencing.
+            let s_teme = itrf_to_teme(geodetic_to_ecef(st_geod), jd_ut1, xp, yp, jd_tt);
             let v_station = [
                 -GMST_RATE_RAD_S * s_teme[1],
                 GMST_RATE_RAD_S * s_teme[0],
@@ -546,7 +549,13 @@ mod tests {
             let jd_utc = r.jd_utc0 + t / 86_400.0;
             let jd_ut1 = utc_to_ut1(jd_utc, scn.dut1_s);
             let jd_tt = utc_to_tt(jd_utc);
-            let ecef = teme_to_itrf(prop.state_eci(t).r_m, jd_ut1, 0.0, 0.0, jd_tt);
+            let ecef = teme_to_itrf(
+                prop.state_eci(t).r_m,
+                jd_ut1,
+                arcsec(scn.xp_arcsec),
+                arcsec(scn.yp_arcsec),
+                jd_tt,
+            );
             look_angles(st, ecef).range_m
         };
         let h = 0.25_f64;
@@ -699,6 +708,80 @@ mod tests {
         assert!(
             cs > 50 && ws < 0.06,
             "sgp4 station range-rate vs FD: {ws:.3e} m/s"
+        );
+    }
+
+    #[test]
+    fn station_range_rate_is_consistent_under_polar_motion() {
+        // Regime coverage: the range-rate path runs correctly with a realistic pole
+        // AND a non-zero DUT1 — the case the FD reference could not exercise before,
+        // because its oracle hardcoded zero polar motion. Both the station (via
+        // `itrf_to_teme`) and the satellite (via `teme_to_itrf`) are now reduced
+        // through the same pole, so the residual stays at the same JD-resolution-
+        // limited floor (~0.03 m/s) as the no-pole case.
+        //
+        // This does NOT isolate the station-frame fix itself: the polar-motion error
+        // in the OLD blind mapping perturbs the range-rate by < the FD floor (measured
+        // ~0.030 vs ~0.025 m/s), so it is invisible here. The fix is isolated tightly
+        // by `frames::tests::itrf_to_teme_is_the_exact_inverse_of_teme_to_itrf`, where
+        // the blind mapping's ~tens-of-metres station-position error is a clean signal.
+        let mut kepler = EphemerisScenario {
+            kind: Some("ephemeris".into()),
+            tle: None,
+            orbit: Some(OrbitCfg {
+                altitude_km: 550.0,
+                inclination_deg: 53.0,
+                raan_deg: 0.0,
+                u0_deg: 0.0,
+                eccentricity: 0.0,
+                argp_deg: 0.0,
+                j2: false,
+            }),
+            epoch: Some(EpochUtc {
+                year: 2024,
+                month: 1,
+                day: 1,
+                hour: 0,
+                minute: 0,
+                second: 0.0,
+            }),
+            step_s: 30.0,
+            duration_s: 3_000.0,
+            station: Some(StationCfg {
+                lat_deg: 20.0,
+                lon_deg: 10.0,
+                alt_m: 100.0,
+            }),
+            // A realistic IERS pole and a non-zero DUT1 — the regime where the station
+            // frame reduction has to be exact.
+            dut1_s: -0.2,
+            xp_arcsec: 0.21,
+            yp_arcsec: 0.31,
+            carrier_hz: GPS_L1_HZ,
+        };
+        let (wk, ck) = worst_range_rate_vs_fd(&kepler);
+        eprintln!("kepler+pole station worst |range_rate − FD| = {wk:.2e} m/s over {ck} samples");
+        assert!(
+            ck > 50 && wk < 0.06,
+            "kepler+pole station range-rate vs FD: {wk:.3e} m/s"
+        );
+
+        // SGP4 path with the same pole.
+        kepler.tle = Some(iss_scenario().tle.unwrap());
+        kepler.orbit = None;
+        kepler.epoch = None;
+        let probe = run_ephemeris(&kepler).unwrap();
+        let mid = &probe.samples[probe.samples.len() / 2];
+        kepler.station = Some(StationCfg {
+            lat_deg: (mid.lat_deg + 25.0).clamp(-80.0, 80.0),
+            lon_deg: mid.lon_deg,
+            alt_m: 100.0,
+        });
+        let (ws, cs) = worst_range_rate_vs_fd(&kepler);
+        eprintln!("sgp4+pole station worst |range_rate − FD| = {ws:.2e} m/s over {cs} samples");
+        assert!(
+            cs > 50 && ws < 0.06,
+            "sgp4+pole station range-rate vs FD: {ws:.3e} m/s"
         );
     }
 

@@ -258,6 +258,15 @@ pub fn teme_to_itrf(r_teme: Vec3, jd_ut1: f64, xp_rad: f64, yp_rad: f64, jd_tt: 
     pef_to_itrf(teme_to_ecef(r_teme, jd_ut1), xp_rad, yp_rad, jd_tt)
 }
 
+/// Exact inverse of [`teme_to_itrf`]: bring an ITRF (Earth-fixed) position back to
+/// the inertial-of-date TEME frame by first undoing polar motion (ITRF → PEF) and
+/// then the sidereal rotation (PEF → TEME). Unlike the polar-motion-blind
+/// [`ecef_to_teme`], this round-trips `teme_to_itrf` to machine precision, so a
+/// fixed ground station mapped through it shares one frame with the satellite.
+pub fn itrf_to_teme(r_itrf: Vec3, jd_ut1: f64, xp_rad: f64, yp_rad: f64, jd_tt: f64) -> Vec3 {
+    ecef_to_teme(itrf_to_pef(r_itrf, xp_rad, yp_rad, jd_tt), jd_ut1)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -315,6 +324,36 @@ mod tests {
         assert!((1.0..50.0).contains(&d), "polar-motion separation = {d} m");
         // The rotation preserves magnitude (it is orthonormal).
         assert!((norm(itrf) - norm(r)).abs() < 1e-6);
+    }
+
+    #[test]
+    fn itrf_to_teme_is_the_exact_inverse_of_teme_to_itrf() {
+        // The inverse must undo BOTH the sidereal rotation and polar motion, so it
+        // round-trips a TEME position through ITRF to well under a millimetre.
+        let r_teme = [4000.0e3, 5000.0e3, 3000.0e3];
+        let (jd_ut1, jd_tt) = (2_458_849.5, 2_458_849.5 + 0.000_8);
+        let (xp, yp) = (arcsec(0.2), arcsec(0.3));
+        let itrf = teme_to_itrf(r_teme, jd_ut1, xp, yp, jd_tt);
+        let back = itrf_to_teme(itrf, jd_ut1, xp, yp, jd_tt);
+        for k in 0..3 {
+            assert!(
+                (back[k] - r_teme[k]).abs() < 1e-6,
+                "round-trip component {k}"
+            );
+        }
+        // A polar-motion-blind inverse (plain GMST `ecef_to_teme`) leaves the ~tens-
+        // of-metres pole displacement — exactly the frame inconsistency that using
+        // `itrf_to_teme` for a ground station removes from the range-rate.
+        let blind = ecef_to_teme(itrf, jd_ut1);
+        let err = norm([
+            blind[0] - r_teme[0],
+            blind[1] - r_teme[1],
+            blind[2] - r_teme[2],
+        ]);
+        assert!(
+            err > 1.0,
+            "polar motion must matter here (blind err = {err} m)"
+        );
     }
 
     #[test]
