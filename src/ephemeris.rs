@@ -22,6 +22,14 @@
 //! IERS polar-motion pole coordinates (default 0). The frame chain is the one
 //! validated to the millimetre against the published Vallado vectors
 //! (`tests/frame_reference_vectors.rs`).
+//!
+//! Earth-orientation, two tiers: by default the ground track uses the nominal
+//! scalars above (DUT1 ≈ 0, no pole), which is well inside SGP4's own model error.
+//! For an agency-accurate reduction, set `eop_finals2000a` to the body of a real
+//! IERS `finals2000A` file: the per-epoch UT1−UTC and pole are then interpolated
+//! from it (the *same* [`crate::eop::EopSeries`] `precise_od` uses) and override the
+//! scalars. The data is inlined in the scenario, so the run stays reproducible from
+//! the scenario alone and needs no filesystem (it works in the WASM playground).
 
 use crate::frames::{
     arcsec, ecef_to_geodetic, geodetic_to_ecef, itrf_to_teme, look_angles, teme_to_itrf, Geodetic,
@@ -109,6 +117,14 @@ pub struct EphemerisScenario {
     /// Carrier frequency (Hz) the Doppler shift is reported at; default GPS L1.
     #[serde(default = "default_carrier_hz")]
     pub carrier_hz: f64,
+    /// Optional real IERS Earth-orientation data: the body of a `finals2000A`
+    /// (`finals.all.iau2000.txt`) file, inlined so the run stays reproducible from
+    /// the scenario alone and works with no filesystem (WASM). When present it
+    /// supplies the per-epoch UT1−UTC and polar motion `x_p`/`y_p`, overriding the
+    /// nominal `dut1_s`/`xp_arcsec`/`yp_arcsec` scalars — the same series
+    /// `precise_od` uses. Left empty, the ground track uses the nominal scalars.
+    #[serde(default)]
+    pub eop_finals2000a: Option<String>,
 }
 
 /// One station-relative view: look angles and the geometric range-rate / Doppler.
@@ -217,7 +233,20 @@ pub fn run_ephemeris(scn: &EphemerisScenario) -> Result<EphemerisResult, String>
     let (prop, jd_utc0, source) = build(scn)?;
     let station = scn.station;
     let lambda_m = C_M_S / scn.carrier_hz;
-    let (xp, yp) = (arcsec(scn.xp_arcsec), arcsec(scn.yp_arcsec));
+    // Real IERS EOP if supplied (the `precise_od` series), else the nominal scalars.
+    let eop = match &scn.eop_finals2000a {
+        Some(body) => {
+            let s = crate::eop::EopSeries::from_finals2000a(body);
+            if s.is_empty() {
+                return Err(
+                    "eop_finals2000a contained no readable IERS finals2000A rows".to_string(),
+                );
+            }
+            Some(s)
+        }
+        None => None,
+    };
+    let (xp_nom, yp_nom) = (arcsec(scn.xp_arcsec), arcsec(scn.yp_arcsec));
 
     let n = (scn.duration_s / scn.step_s).round() as usize;
     let mut samples = Vec::with_capacity(n + 1);
@@ -230,8 +259,13 @@ pub fn run_ephemeris(scn: &EphemerisScenario) -> Result<EphemerisResult, String>
     for i in 0..=n {
         let t = i as f64 * scn.step_s;
         let jd_utc = jd_utc0 + t / 86_400.0;
-        let jd_ut1 = utc_to_ut1(jd_utc, scn.dut1_s);
         let jd_tt = utc_to_tt(jd_utc);
+        // UT1 and the pole come from the real EOP series when supplied, else from
+        // the nominal scalars (dut1_s / xp_arcsec / yp_arcsec, default 0).
+        let (jd_ut1, xp, yp) = match &eop {
+            Some(s) => s.frame_args_tt(jd_tt),
+            None => (utc_to_ut1(jd_utc, scn.dut1_s), xp_nom, yp_nom),
+        };
 
         let st = prop.state_eci(t); // TEME (m, m/s)
         let gcrs = prop.state_gcrs(t, jd_tt); // GCRS (≈ J2000)
@@ -464,6 +498,7 @@ mod tests {
             xp_arcsec: 0.0,
             yp_arcsec: 0.0,
             carrier_hz: GPS_L1_HZ,
+            eop_finals2000a: None,
         }
     }
 
@@ -545,17 +580,24 @@ mod tests {
         let r = run_ephemeris(scn).unwrap();
         let st = scn.station.unwrap().geodetic();
         let (prop, _, _) = build(scn).unwrap();
+        // Resolve the frame inputs exactly as the production runner does, so the
+        // reference is valid with nominal scalars OR a real EOP series.
+        let eop = scn
+            .eop_finals2000a
+            .as_ref()
+            .map(|b| crate::eop::EopSeries::from_finals2000a(b));
         let range_at = |t: f64| -> f64 {
             let jd_utc = r.jd_utc0 + t / 86_400.0;
-            let jd_ut1 = utc_to_ut1(jd_utc, scn.dut1_s);
             let jd_tt = utc_to_tt(jd_utc);
-            let ecef = teme_to_itrf(
-                prop.state_eci(t).r_m,
-                jd_ut1,
-                arcsec(scn.xp_arcsec),
-                arcsec(scn.yp_arcsec),
-                jd_tt,
-            );
+            let (jd_ut1, xp, yp) = match &eop {
+                Some(s) => s.frame_args_tt(jd_tt),
+                None => (
+                    utc_to_ut1(jd_utc, scn.dut1_s),
+                    arcsec(scn.xp_arcsec),
+                    arcsec(scn.yp_arcsec),
+                ),
+            };
+            let ecef = teme_to_itrf(prop.state_eci(t).r_m, jd_ut1, xp, yp, jd_tt);
             look_angles(st, ecef).range_m
         };
         let h = 0.25_f64;
@@ -612,6 +654,7 @@ mod tests {
             xp_arcsec: 0.0,
             yp_arcsec: 0.0,
             carrier_hz: GPS_L1_HZ,
+            eop_finals2000a: None,
         };
         let r = run_ephemeris(&scn).unwrap();
         let (prop, _, _) = build(&scn).unwrap();
@@ -684,6 +727,7 @@ mod tests {
             xp_arcsec: 0.0,
             yp_arcsec: 0.0,
             carrier_hz: GPS_L1_HZ,
+            eop_finals2000a: None,
         };
         let (wk, ck) = worst_range_rate_vs_fd(&kepler);
         eprintln!("kepler station worst |range_rate − FD| = {wk:.2e} m/s over {ck} samples");
@@ -758,6 +802,7 @@ mod tests {
             xp_arcsec: 0.21,
             yp_arcsec: 0.31,
             carrier_hz: GPS_L1_HZ,
+            eop_finals2000a: None,
         };
         let (wk, ck) = worst_range_rate_vs_fd(&kepler);
         eprintln!("kepler+pole station worst |range_rate − FD| = {wk:.2e} m/s over {ck} samples");
@@ -849,6 +894,7 @@ mod tests {
             xp_arcsec: 0.0,
             yp_arcsec: 0.0,
             carrier_hz: GPS_L1_HZ,
+            eop_finals2000a: None,
         };
         let r = run_ephemeris(&scn).unwrap();
         assert_eq!(r.source, "kepler");
@@ -891,6 +937,94 @@ mod tests {
         }
         // The valid default still runs.
         assert!(run_ephemeris(&iss_scenario()).is_ok());
+    }
+
+    // Real IERS finals2000A rows (Bulletin A final, flag `I`), MJD 59579 & 59580 —
+    // the same verified rows the eop module parses. DUT1 ≈ −0.110 s, pole ≈ 0.056″ /
+    // 0.277″.
+    const EOP_ROW_59579: &str = "211231 59579.00 I  0.056257 0.000030  0.275943 0.000035  I-0.1104179 0.0000019  0.1927 0.0016  I     0.073    0.060    -0.273    0.299  0.056304  0.275973 -0.1104355     0.040    -0.287  ";
+    const EOP_ROW_59580: &str = "22 1 1 59580.00 I  0.054644 0.000026  0.276986 0.000032  I-0.1104988 0.0000023 -0.0267 0.0022  I     0.095    0.060    -0.250    0.299  0.054574  0.276983 -0.1105197     0.059    -0.259  ";
+
+    #[test]
+    fn real_eop_overrides_the_nominal_frame_reduction() {
+        // An analytic orbit at MJD 59579.5 (inside the two-row span, so the series
+        // interpolates rather than clamps). With a real finals2000A body the runner
+        // must reduce TEME→ITRF through the interpolated (UT1−UTC, x_p, y_p) — i.e.
+        // exactly `EopSeries::frame_args_tt` — not the nominal DUT1 = 0 / no-pole.
+        let body = format!("{EOP_ROW_59579}\n{EOP_ROW_59580}\n");
+        let base = EphemerisScenario {
+            kind: Some("ephemeris".into()),
+            tle: None,
+            orbit: Some(OrbitCfg {
+                altitude_km: 550.0,
+                inclination_deg: 53.0,
+                raan_deg: 0.0,
+                u0_deg: 0.0,
+                eccentricity: 0.0,
+                argp_deg: 0.0,
+                j2: false,
+            }),
+            epoch: Some(EpochUtc {
+                year: 2021,
+                month: 12,
+                day: 31,
+                hour: 12,
+                minute: 0,
+                second: 0.0,
+            }),
+            step_s: 60.0,
+            duration_s: 120.0,
+            station: None,
+            dut1_s: 0.0,
+            xp_arcsec: 0.0,
+            yp_arcsec: 0.0,
+            carrier_hz: GPS_L1_HZ,
+            eop_finals2000a: None,
+        };
+        let mut with_eop = base.clone();
+        with_eop.eop_finals2000a = Some(body.clone());
+
+        let r = run_ephemeris(&with_eop).unwrap();
+        let rn = run_ephemeris(&base).unwrap();
+
+        // Independent expectation from the series at the t = 0 epoch.
+        let series = crate::eop::EopSeries::from_finals2000a(&body);
+        assert_eq!(series.len(), 2, "both real IERS rows must parse");
+        let (prop, _, _) = build(&with_eop).unwrap();
+        let teme0 = prop.state_eci(0.0).r_m;
+        let jd_tt0 = utc_to_tt(r.jd_utc0);
+        let (jd_ut1, xp, yp) = series.frame_args_tt(jd_tt0);
+        let expected = teme_to_itrf(teme0, jd_ut1, xp, yp, jd_tt0);
+        let got = r.samples[0].ecef_r_m;
+        for k in 0..3 {
+            assert!(
+                (got[k] - expected[k]).abs() < 1e-3,
+                "EOP-reduced ECEF component {k}: {} vs {}",
+                got[k],
+                expected[k]
+            );
+        }
+        // DUT1 ≈ −0.11 s (≈ 8e-6 rad of Earth rotation ≈ tens of metres at orbital
+        // radius) plus the ~0.06″/0.28″ pole genuinely move the Earth-fixed point
+        // away from the nominal (DUT1 = 0, no pole) reduction.
+        let d = norm([
+            got[0] - rn.samples[0].ecef_r_m[0],
+            got[1] - rn.samples[0].ecef_r_m[1],
+            got[2] - rn.samples[0].ecef_r_m[2],
+        ]);
+        assert!(
+            (10.0..500.0).contains(&d),
+            "real EOP must shift the ECEF tens of metres vs nominal (Δ = {d} m)"
+        );
+    }
+
+    #[test]
+    fn unparseable_eop_body_is_an_error() {
+        // A non-finals2000A body parses to zero rows; rather than silently fall back
+        // to nominal, the runner rejects it so a typo'd EOP file can't masquerade.
+        let mut scn = iss_scenario();
+        scn.eop_finals2000a = Some("not a finals2000A file\n# header\n".to_string());
+        assert!(run_ephemeris(&scn).is_err());
     }
 
     #[test]
