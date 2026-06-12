@@ -19,12 +19,13 @@ affirmatively on isolated axes and, on its own, settles little for a system desi
 The crossover map asks instead \emph{``where does the quantum lever change the
 outcome?''}, and answers it openly, with the uncertainty made explicit rather than
 hidden. The inertial study locates that boundary as a vibration tolerance that grows
-with outage duration --- the break-even platform-vibration PSD rises from the order of
-$10^{-5}$ at a $30$~s outage to the order of $10^{-4}$~(m/s$^2$)$^2$/Hz near a
+with outage duration --- the break-even platform-vibration ASD rises from
+$\approx\!334~\mu\mathrm{g}/\sqrt{\mathrm{Hz}}$ at a $30$~s outage to
+$\approx\!2640~\mu\mathrm{g}/\sqrt{\mathrm{Hz}}$ near a
 $1800$~s outage --- so the cold-atom advantage is real for long, quiet holdovers and
 erodes under aggressive platform vibration, exactly where a TRL-honest answer should
 place it. The clock study is starker still: the deployed chip-scale reference crosses a
-$1\,\mu$s timing budget at roughly $3.0\times10^{4}$~s ($\sim$8.5~h) of holdover, while
+$1\,\mu$s timing budget at roughly $3.04\times10^{4}$~s ($\sim$8.5~h) of holdover, while
 the ground-lab optical-lattice and flight-qualified maser curves stay below that budget
 across the full $24$~h sweep. These are performance-model projections from cited device
 coefficients, not measurements, and they are TRL-tagged as such; the contribution is the
@@ -56,16 +57,13 @@ across all three levers --- would turn today's three studies into a single cross
 atlas of resilient PNT.
 
 What we offer, then, is less a claim of superiority than a way of arguing about it
-honestly. The agency-orbit work is a force-model validation by ephemeris fitting, not
-orbit determination; the headline full-arc Galileo residual is $0.61$~m at degree and
-order $70$, with the $0.13$~m and $0.10$~m reduced-dynamic figures stated as
-empirical-acceleration-tier bounds rather than measures of force-model accuracy; the
-LRO residual is $6.6$~m, above the $5$~m target, reported as such and reproduced as a
-known result \citep{bertone2021grail,li2023leopod} against a DE-grade ANISE oracle
-\citep{nyxanise} that we credit rather than claim to beat; and every quantum figure is a
-projection, every spoofing claim a parameter-level characterisation. To our knowledge no
-open tool runs this full integrated PNT-resilience stack with these honesty controls
-attached. That stance --- validated-or-not-modelled stated per figure-of-merit, the
+honestly. Across the paper the same discipline holds: force-model fits are labelled as
+fits and not orbit determination, the favourable reduced-dynamic residuals are reported
+as bounds rather than measures, the LRO miss is stated above its target rather than tuned
+away, and every quantum figure is a projection and every spoofing claim a parameter-level
+characterisation (Sections~\ref{sec:validation}--\ref{sec:limitations}). To our knowledge
+no open tool runs this full integrated PNT-resilience stack with these honesty controls
+attached. That stance --- validated-or-not-modeled stated per figure-of-merit, the
 quantum-versus-classical axis swapped through one neutral code path, and every headline
 number traceable to a committed scenario, seed, and test --- is the differentiator we
 mean to defend, consistent with the reproducibility tradition this work builds on

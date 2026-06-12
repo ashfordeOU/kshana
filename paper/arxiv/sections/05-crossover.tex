@@ -22,7 +22,10 @@ one neutral code path, swapped by parameters alone, so the comparison is never m
 across two implementations. No new physics is introduced. The cold-atom noise is a
 first-principles interferometer model --- a shot-noise term $1/(C\sqrt{N})$ in atom
 number $N$ and contrast $C$, combined in quadrature with a platform-vibration floor
-$\sqrt{S_a/(3T)}$ in the acceleration PSD $S_a$ and interrogation time $T$ --- and
+$\sqrt{S_a/(3T)}$ in the acceleration power spectral density $S_a$ (in
+$(\mathrm{m/s^2})^2/\mathrm{Hz}$) and interrogation time $T$; we plot and tabulate the
+corresponding amplitude spectral density $\mathrm{ASD}=\sqrt{S_a}$ in
+$\mu\mathrm{g}/\sqrt{\mathrm{Hz}}$, the conventional vibration-specification unit --- and
 the classical leg uses the NaveGo-validated inertial error profile
 \citep{gonzalez2017navego}. We restate the binding caveat of
 Section~\ref{sec:limitations} once here and rely on it throughout: \textbf{every
@@ -35,9 +38,9 @@ The inertial lever pits a cold-atom accelerometer of the Exail/Templier class
 \citep{templier2022} against a navigation-grade strapdown unit
 \citep{groves2013}, both dead-reckoning position through a GNSS outage. We sweep
 two axes that dominate the outcome: outage duration, from \SI{30}{\second} to
-\SI{1800}{\second}, and the platform-vibration acceleration PSD, from
-$1~\mu\mathrm{g}/\sqrt{\mathrm{Hz}}$ (an isolated, quiescent platform) to roughly
-$3~\mathrm{mg}/\sqrt{\mathrm{Hz}}$ (a noisy host). The figure of merit is the
+\SI{1800}{\second}, and the platform-vibration acceleration noise as an amplitude
+spectral density (ASD), from $1~\mu\mathrm{g}/\sqrt{\mathrm{Hz}}$ (an isolated,
+quiescent platform) to roughly $3~\mathrm{mg}/\sqrt{\mathrm{Hz}}$ (a noisy host). The figure of merit is the
 95th-percentile horizontal position error over the ensemble; the advantage at a
 node is the classical 95th-percentile error divided by the quantum one.
 Figure~\ref{fig:inertial} shows the full map.
@@ -48,11 +51,12 @@ Figure~\ref{fig:inertial} shows the full map.
   \caption{Inertial crossover map. Cold-atom accelerometer (Exail/Templier class,
   \citealp{templier2022}) versus navigation-grade strapdown
   (\citealp{groves2013}), dead-reckoning 95th-percentile position error as a
-  function of outage duration and platform-vibration acceleration PSD. Each node is
+  function of outage duration and platform-vibration acceleration ASD
+  ($\sqrt{S_a}$, in $\mu\mathrm{g}/\sqrt{\mathrm{Hz}}$). Each node is
   a 64-seed Monte-Carlo ensemble with a 95\% bootstrap confidence interval; the
   dashed contour is the break-even (advantage~$=1$) where the navigation-grade unit
   matches the cold-atom sensor. The advantage is overwhelming on a quiet platform
-  and erodes with vibration; the break-even PSD rises with outage duration. The
+  and erodes with vibration; the break-even ASD rises with outage duration. The
   quantum leg is a performance-model projection from laboratory-maturity device
   coefficients, not a measurement.}
   \label{fig:inertial}
@@ -61,17 +65,17 @@ Figure~\ref{fig:inertial} shows the full map.
 The first finding is that on an isolated platform the cold-atom advantage is large
 and grows with outage length. At $1~\mu\mathrm{g}/\sqrt{\mathrm{Hz}}$ the advantage
 is a factor of $307$ for a \SI{30}{\second} outage (cold-atom
-\SI{2.5}{\milli\meter} versus navigation-grade \SI{0.75}{\meter} at the 95th
+\SI{2.5}{\milli\metre} versus navigation-grade \SI{0.75}{\metre} at the 95th
 percentile), rising to $439$ at \SI{60}{\second} and to $1915$ at
 \SI{1800}{\second}, where the navigation-grade error has grown to
-\SI{2.3}{\kilo\meter} while the cold-atom error is near \SI{1.2}{\meter}. The
+\SI{2.3}{\kilo\metre} while the cold-atom error is near \SI{1.2}{\metre}. The
 confidence intervals are tight relative to this gap --- the cold-atom 95th
 percentile at the \SI{30}{\second}, $1~\mu\mathrm{g}/\sqrt{\mathrm{Hz}}$ node has a
-bootstrap interval of $[2.0,\,2.9]~\si{\milli\meter}$ --- so the advantage on a
+bootstrap interval of $[2.0,\,2.9]~\si{\milli\metre}$ --- so the advantage on a
 quiet platform is not a sampling artefact.
 
 The second finding is that this advantage is conditional, and the map shows exactly
-where it fails. As the vibration PSD rises the cold-atom error grows steeply, driven
+where it fails. As the vibration ASD rises the cold-atom error grows steeply, driven
 by the $\sqrt{S_a/(3T)}$ vibration floor, while the navigation-grade error is
 comparatively insensitive to it. The two curves cross: for a short
 \SI{30}{\second} outage at a vibration level of
@@ -96,14 +100,14 @@ window in which it is the right tool.
 
 \begin{table}[t]
   \centering
-  \caption{Break-even platform-vibration PSD at which the navigation-grade unit
-  matches the cold-atom sensor, as a function of outage duration. The break-even
-  rises monotonically: a longer outage tolerates more vibration before the quantum
-  advantage is lost.}
+  \caption{Break-even platform-vibration ASD ($\sqrt{S_a}$) at which the
+  navigation-grade unit matches the cold-atom sensor, as a function of outage
+  duration. The break-even rises monotonically: a longer outage tolerates more
+  vibration before the quantum advantage is lost.}
   \label{tab:breakeven}
   \begin{tabular}{rr}
     \toprule
-    Outage duration (s) & Break-even PSD ($\mu\mathrm{g}/\sqrt{\mathrm{Hz}}$) \\
+    Outage duration (s) & Break-even ASD ($\mu\mathrm{g}/\sqrt{\mathrm{Hz}}$) \\
     \midrule
     30   & 334  \\
     60   & 448  \\
@@ -172,9 +176,9 @@ We therefore model a non-reciprocal differential-delay budget for the optical li
 on-orbit optical target rather than the \SI{1}{\femto\second} laboratory floor, so
 that the optical figure is charged with the same class of systematic that limits the
 RF figure. Under this honest accounting the optical link reaches a range-equivalent
-RMS of $\approx$\SI{0.29}{\milli\meter} (non-reciprocity included, a
+RMS of $\approx$\SI{0.29}{\milli\metre} (non-reciprocity included, a
 \SI{1}{\pico\second} on-orbit projection target rather than a measured link budget)
-against $\approx$\SI{341}{\milli\meter} for the RF link --- still a
+against $\approx$\SI{341}{\milli\metre} for the RF link --- still a
 three-order-of-magnitude advantage, but one obtained from a like-for-like budget
 rather than from comparing an optical jitter floor against an RF link burdened with
 systematics.
