@@ -396,6 +396,10 @@
               <p>Force-model validation by ephemeris fitting against real agency precise orbits: a full-arc Galileo MEO post-fit residual of <b>0.61 m</b> (24 h, degree/order 70, force-only) and Swarm-A LEO <b>0.10 m</b> (reduced-dynamic — an empirical-tier bound, not a measure). The lunar LRO fit is <b>6.6 m</b>, reported honestly <em>above</em> the 5 m target, and a DE440/ANISE cross-validation leaves it unchanged. This fits the force model to published ephemerides; it is not measurement-level orbit determination.</p>
             </div>
             <div class="card">
+              <h3><span class="pill validated">Validated (real data)</span> Single-point positioning</h3>
+              <p>Real observations in, a real position out: the <code>pvt</code> solver turns a station's RINEX code pseudoranges and the GPS broadcast ephemeris into a receiver position by iterated weighted least squares — Sagnac correction, broadcast satellite clock, the dual-frequency L1/L2 ionosphere-free combination, and the Saastamoinen/Niell troposphere. Run on real IGS data (station ABMF, Guadeloupe, 2018-05-13) it recovers the surveyed coordinate to <b>5.7 m</b> 3-D RMS (<b>1.1 m</b> horizontal). Code single-point positioning, not carrier-phase PPP/RTK.</p>
+            </div>
+            <div class="card">
               <h3>Standards-traced integrity</h3>
               <p>Snapshot and solution-separation (ARAIM) RAIM with HPL/VPL, an MHSS integrity-risk budget, and the dual-/multi-constellation constellation-wide fault mode (EU ARAIM / DO-316), with Stanford integrity diagrams.</p>
             </div>
