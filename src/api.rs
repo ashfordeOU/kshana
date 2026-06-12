@@ -314,7 +314,7 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "clock", description: "Clock holdover vs spec; optional Monte-Carlo ensemble (runs > 1).", required_fields: &["threshold_ns", "time", "gnss", "clock_quantum", "clock_classical"], optional_fields: &["seed", "runs"] },
         ScenarioMeta { name: "inertial", description: "1-DOF inertial dead-reckoning during a GNSS outage.", required_fields: &["threshold_m", "time", "gnss", "accel_quantum", "accel_classical"], optional_fields: &["seed", "runs"] },
         ScenarioMeta { name: "orbit", description: "GNSS availability + DOP from an orbital constellation (Walker / TLE / RINEX).", required_fields: &["threshold_ns", "time", "user", "constellation", "clock_quantum", "clock_classical"], optional_fields: &["mask_deg", "sigma_uere_m", "seed"] },
-        ScenarioMeta { name: "ephemeris", description: "Ephemeris & ground track: propagate one satellite (TLE→SGP4 or analytic orbit) and emit its TEME/GCRS state (position + velocity), ITRF/ECEF position, WGS-84 sub-satellite lat/lon/alt, and per-step station az/el/range + range-rate (Doppler).", required_fields: &[], optional_fields: &["tle", "orbit", "epoch", "step_s", "duration_s", "station", "dut1_s", "xp_arcsec", "yp_arcsec", "carrier_hz"] },
+        ScenarioMeta { name: "ephemeris", description: "Ephemeris & ground track: propagate one satellite (TLE→SGP4 or analytic orbit) and emit its TEME/GCRS state (position + velocity), ITRF/ECEF position, WGS-84 sub-satellite lat/lon/alt, and per-step station az/el/range + range-rate (Doppler).", required_fields: &[], optional_fields: &["tle", "orbit", "epoch", "step_s", "duration_s", "station", "dut1_s", "xp_arcsec", "yp_arcsec", "carrier_hz", "eop_finals2000a"] },
         ScenarioMeta { name: "integrity", description: "Snapshot / solution-separation / ARAIM RAIM with HPL/VPL and a Stanford diagram.", required_fields: &["time", "user", "constellation"], optional_fields: &["mask_deg", "sigma_uere_m", "p_fa", "p_md"] },
         ScenarioMeta { name: "lunar-integrity", description: "Lunar south-pole ARAIM protection-level pass vs a representative LunaNet relay set.", required_fields: &[], optional_fields: &["step_s", "duration_s", "alert_limit_m", "p_hmi"] },
         ScenarioMeta { name: "timetransfer", description: "Optical vs RF two-way time/frequency transfer.", required_fields: &["time", "optical", "rf"], optional_fields: &["seed"] },
@@ -438,6 +438,25 @@ pub fn auto_export_oem(src: &str) -> Result<Option<String>, String> {
     } else {
         Ok(None)
     }
+}
+
+/// Inline a real IERS `finals2000A` body into a scenario's `eop_finals2000a` field
+/// (the `--eop <file>` CLI path), returning the merged TOML. Carrying the data in
+/// the scenario keeps the run reproducible and filesystem-free downstream; the
+/// ephemeris runner then reduces the ground track through the real Earth-orientation
+/// series instead of the nominal scalars. The key is inserted at the table root, so
+/// `toml` serialises it ahead of any `[section]` headers.
+pub fn inject_eop(src: &str, finals2000a_body: &str) -> Result<String, String> {
+    let mut value: toml::Value =
+        toml::from_str(src).map_err(|e| format!("invalid scenario TOML: {e}"))?;
+    let table = value
+        .as_table_mut()
+        .ok_or_else(|| "scenario TOML is not a table".to_string())?;
+    table.insert(
+        "eop_finals2000a".to_string(),
+        toml::Value::String(finals2000a_body.to_string()),
+    );
+    toml::to_string(&value).map_err(|e| format!("could not re-serialise scenario: {e}"))
 }
 
 /// The contract a scenario pack fulfils: run itself and produce the unified output
@@ -1104,5 +1123,22 @@ mod tests {
             html_escape("<a href=\"x\">&'</a>"),
             "&lt;a href=&quot;x&quot;&gt;&amp;&#39;&lt;/a&gt;"
         );
+    }
+
+    #[test]
+    fn inject_eop_inlines_a_real_finals_body_and_still_runs() {
+        // The `--eop <file>` path: a real IERS finals2000A row is folded into the
+        // ephemeris scenario, the merged TOML re-parses with the field set, and the
+        // run still succeeds — i.e. the data travels in the self-contained scenario.
+        let row = "22 1 1 59580.00 I  0.054644 0.000026  0.276986 0.000032  I-0.1104988 0.0000023 -0.0267 0.0022  I     0.095    0.060    -0.250    0.299  0.054574  0.276983 -0.1105197     0.059    -0.259  ";
+        let src = include_str!("../scenarios/ephemeris.toml");
+        let merged = inject_eop(src, row).expect("inject");
+        let scn: crate::ephemeris::EphemerisScenario =
+            toml::from_str(&merged).expect("merged TOML re-parses");
+        assert_eq!(scn.eop_finals2000a.as_deref(), Some(row));
+        // Top-level key serialised ahead of any [section] header (valid TOML).
+        run_toml(&merged).expect("scenario with inlined EOP runs");
+        // A non-TOML input is a clean error, not a panic.
+        assert!(inject_eop("=$ not toml", row).is_err());
     }
 }

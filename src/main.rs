@@ -4,11 +4,12 @@ use std::process::ExitCode;
 
 fn main() -> ExitCode {
     let args: Vec<String> = std::env::args().collect();
-    // usage: kshana <scenario.toml> [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>]
+    // usage: kshana <scenario.toml> [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>]
     let mut positional: Option<String> = None;
     let mut export_sp3_path: Option<PathBuf> = None;
     let mut export_omm_path: Option<PathBuf> = None;
     let mut export_oem_path: Option<PathBuf> = None;
+    let mut eop_path: Option<PathBuf> = None;
     let mut i = 1;
     while i < args.len() {
         match args[i].as_str() {
@@ -42,6 +43,16 @@ fn main() -> ExitCode {
                     }
                 }
             }
+            "--eop" => {
+                i += 1;
+                match args.get(i) {
+                    Some(p) => eop_path = Some(PathBuf::from(p)),
+                    None => {
+                        eprintln!("error: --eop needs a finals2000A file path");
+                        return ExitCode::from(2);
+                    }
+                }
+            }
             other if positional.is_none() => positional = Some(other.to_string()),
             other => {
                 eprintln!("error: unexpected argument '{other}'");
@@ -52,18 +63,39 @@ fn main() -> ExitCode {
     }
     let Some(scenario_arg) = positional else {
         eprintln!(
-            "usage: kshana <scenario.toml> [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>]"
+            "usage: kshana <scenario.toml> [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>]"
         );
         return ExitCode::from(2);
     };
     let path = PathBuf::from(&scenario_arg);
-    let src = match std::fs::read_to_string(&path) {
+    let mut src = match std::fs::read_to_string(&path) {
         Ok(s) => s,
         Err(e) => {
             eprintln!("error: cannot read {}: {e}", path.display());
             return ExitCode::FAILURE;
         }
     };
+
+    // `--eop <finals2000A>`: inline a real IERS Earth-orientation file into the
+    // scenario so the ephemeris ground track is reduced through real UT1/pole rather
+    // than the nominal scalars. The data travels in the scenario, keeping the run
+    // reproducible from the (now self-contained) TOML alone.
+    if let Some(eop_file) = &eop_path {
+        let body = match std::fs::read_to_string(eop_file) {
+            Ok(b) => b,
+            Err(e) => {
+                eprintln!("error: cannot read {}: {e}", eop_file.display());
+                return ExitCode::FAILURE;
+            }
+        };
+        match kshana::api::inject_eop(&src, &body) {
+            Ok(merged) => src = merged,
+            Err(e) => {
+                eprintln!("error: --eop: {e}");
+                return ExitCode::FAILURE;
+            }
+        }
+    }
     let out = match kshana::api::run_toml(&src) {
         Ok(o) => o,
         Err(e) => {
