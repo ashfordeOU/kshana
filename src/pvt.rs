@@ -10,17 +10,18 @@
 //! The estimator is classic single-point positioning: an iterated weighted
 //! least-squares solve for the four unknowns `[x, y, z, c·δt_rx]` (receiver ECEF
 //! position and clock offset) from the code pseudoranges, after removing the
-//! satellite clock (with the `TGD` group delay for the single-frequency user),
-//! the ionospheric delay (Klobuchar), the tropospheric delay
+//! satellite clock, the ionospheric delay, the tropospheric delay
 //! (Saastamoinen + Niell), and the Earth-rotation (Sagnac) correction over the
-//! signal travel time. Measurements are weighted by `sin²(elevation)`.
+//! signal travel time. Measurements are weighted by `sin²(elevation)`. The
+//! ionosphere is handled either by the dual-frequency ionosphere-free L1/L2 code
+//! combination (where both frequencies are tracked — no model error) or, on a
+//! single frequency, by the broadcast Klobuchar model with the `−TGD` group delay.
 //!
-//! Scope (honest): single-frequency code SPP from **broadcast** ephemeris — not
-//! carrier-phase PPP, not RTK, not dual-frequency. Its accuracy is the metre-level
-//! a single-frequency code solution gives (validated against a surveyed IGS
-//! station coordinate in `tests/pvt_abmf.rs`); for centimetre PPP/RTK use RTKLIB
-//! or gLAB. What it provides is the genuine standards-format positioning path:
-//! real observations in, a real position out.
+//! Scope (honest): **code** SPP from **broadcast** ephemeris — not carrier-phase
+//! PPP, not RTK. Its accuracy is the metre-level a code solution gives (validated
+//! against a surveyed IGS station coordinate in `tests/pvt_abmf.rs`); for
+//! centimetre PPP/RTK use RTKLIB or gLAB. What it provides is the genuine
+//! standards-format positioning path: real observations in, a real position out.
 
 use crate::chart::y_axis;
 use crate::frames::{ecef_to_geodetic, look_angles, Geodetic, Vec3};
@@ -40,6 +41,14 @@ const OMEGA_E: f64 = 7.292_115_146_7e-5;
 /// The L1 code-pseudorange observation codes tried, in priority order (C/A first,
 /// then the semi-codeless and modernised L1 codes a station might log instead).
 const L1_CODES: [&str; 5] = ["C1C", "C1W", "C1P", "C1X", "C1L"];
+/// The L2 code-pseudorange observation codes tried, in priority order (the
+/// semi-codeless P(Y) first, then the modernised L2C codes), for the
+/// dual-frequency iono-free combination.
+const L2_CODES: [&str; 6] = ["C2W", "C2L", "C2S", "C2X", "C2P", "C2C"];
+/// GPS L1 carrier frequency (Hz).
+const L1_HZ: f64 = 1_575_420_000.0;
+/// GPS L2 carrier frequency (Hz).
+const L2_HZ: f64 = 1_227_600_000.0;
 /// Maximum age (s) of a broadcast ephemeris record relative to the epoch for it to
 /// be used (the broadcast fit interval is nominally ±2 h).
 const MAX_EPH_AGE_S: f64 = 7200.0;
@@ -51,11 +60,12 @@ const MAX_EPH_AGE_S: f64 = 7200.0;
 /// - `sat_ecef` — the satellite ECEF position at signal transmission, already
 ///   rotated for Earth rotation over the travel time (the Sagnac correction).
 /// - `pseudorange_m` — the measured code pseudorange.
-/// - `sat_clock_m` — the satellite clock correction as a range, `c·δt_sv` (already
-///   including the `−TGD` single-frequency group-delay term); it is *subtracted*
-///   from the predicted pseudorange.
+/// - `sat_clock_m` — the satellite clock correction as a range, `c·δt_sv`
+///   (including the `−TGD` group-delay term on a single frequency); it is
+///   *subtracted* from the predicted pseudorange.
 /// - `iono_m`, `tropo_m` — the slant ionospheric and tropospheric delays (≥ 0),
-///   *added* to the predicted pseudorange.
+///   *added* to the predicted pseudorange. `iono_m` is zero for the
+///   dual-frequency ionosphere-free combination.
 /// - `weight` — the measurement weight (e.g. `sin²(elevation)`), > 0.
 #[derive(Clone, Copy, Debug)]
 pub struct SppMeasurement {
@@ -325,26 +335,40 @@ pub fn select_ephemeris(
     best.map(|(e, _)| e)
 }
 
-/// The first available L1 code pseudorange for `sat` at epoch `epoch_idx`, trying
-/// the codes in [`L1_CODES`] order.
-fn l1_pseudorange(obs: &RinexObs, epoch_idx: usize, sat: &str) -> Option<f64> {
-    L1_CODES
+/// The first available code pseudorange for `sat` at epoch `epoch_idx`, trying the
+/// given `codes` in order.
+fn pseudorange(obs: &RinexObs, epoch_idx: usize, sat: &str, codes: &[&str]) -> Option<f64> {
+    codes
         .iter()
         .find_map(|code| obs.observation(epoch_idx, sat, code))
+        .filter(|&r| r > 0.0)
+}
+
+/// The geometry-preserving, ionosphere-free dual-frequency code combination of the
+/// L1 and L2 pseudoranges `p1`/`p2`: `(f₁²·P₁ − f₂²·P₂)/(f₁² − f₂²)`. The
+/// first-order ionospheric delay (which scales as `1/f²`) cancels exactly, so no
+/// ionosphere model is needed.
+fn iono_free_combination(p1: f64, p2: f64) -> f64 {
+    let (g1, g2) = (L1_HZ * L1_HZ, L2_HZ * L2_HZ);
+    (g1 * p1 - g2 * p2) / (g1 - g2)
 }
 
 /// Assemble the single-epoch SPP measurements from a parsed observation file and a
 /// set of broadcast ephemerides. For each satellite observed at `epoch_idx` that
-/// has an L1 code pseudorange and a broadcast ephemeris within the fit window, this
+/// has a code pseudorange and a broadcast ephemeris within the fit window, this
 /// computes the satellite position at transmit time (Sagnac-corrected), the
-/// satellite clock correction (including `−TGD` for the single-frequency user), and
-/// the Klobuchar / Saastamoinen-Niell atmospheric delays — all evaluated from the
-/// a-priori receiver position `apriori`. Satellites below `mask_deg` elevation are
-/// dropped. Returns `(satellite id, measurement)` pairs.
+/// satellite clock correction, and the Saastamoinen-Niell troposphere — all
+/// evaluated from the a-priori receiver position `apriori`. Satellites below
+/// `mask_deg` elevation are dropped. Returns `(satellite id, measurement)` pairs.
+///
+/// When `dual_freq` is set and a satellite carries both L1 and L2 code, the
+/// ionosphere-free combination is used and the ionospheric term is zero (and the
+/// satellite clock takes no `TGD`, since the broadcast clock references the
+/// ionosphere-free combination); otherwise the single-frequency L1 pseudorange is
+/// used with the Klobuchar ionosphere and the `−TGD` group-delay correction.
 ///
 /// Only the Keplerian broadcast systems the ephemeris parser decodes (GPS,
-/// Galileo, QZSS, BeiDou) are considered; the satellite-clock `TGD` term is the
-/// GPS L1 / Galileo E1 group delay carried in the record.
+/// Galileo, QZSS, BeiDou) are considered.
 pub fn assemble_epoch(
     obs: &RinexObs,
     epoch_idx: usize,
@@ -352,6 +376,7 @@ pub fn assemble_epoch(
     apriori: Vec3,
     atmos: &AtmosModel,
     mask_deg: f64,
+    dual_freq: bool,
 ) -> Vec<(String, SppMeasurement)> {
     let epoch = match obs.epochs.get(epoch_idx) {
         Some(e) => e,
@@ -371,9 +396,19 @@ pub fn assemble_epoch(
             Some(p) => p,
             None => continue,
         };
-        let rho = match l1_pseudorange(obs, epoch_idx, &sv.sat) {
-            Some(r) if r > 0.0 => r,
-            _ => continue,
+        let p1 = match pseudorange(obs, epoch_idx, &sv.sat, &L1_CODES) {
+            Some(r) => r,
+            None => continue,
+        };
+        // Use the ionosphere-free combination when dual-frequency and L2 is present.
+        let p2 = if dual_freq {
+            pseudorange(obs, epoch_idx, &sv.sat, &L2_CODES)
+        } else {
+            None
+        };
+        let (rho, iono_free) = match p2 {
+            Some(p2) => (iono_free_combination(p1, p2), true),
+            None => (p1, false),
         };
         let eph = match select_ephemeris(ephs, system, prn, tow) {
             Some(e) => e,
@@ -394,15 +429,27 @@ pub fn assemble_epoch(
         if look.el_rad.to_degrees() < mask_deg {
             continue;
         }
-        let sat_clock_m = C_M_PER_S * (eph.sv_clock_bias_s(t_tx) - eph.tgd);
-        let iono_m = klobuchar_delay_m(
-            &atmos.iono,
-            station.lat_rad,
-            station.lon_rad,
-            look.el_rad,
-            look.az_rad,
-            gps_sod,
-        );
+        // The ionosphere-free clock references the L1/L2 combination, so the L1
+        // group delay (TGD) is not applied there; the single-frequency L1 user
+        // subtracts it.
+        let sat_clock_s = eph.sv_clock_bias_s(t_tx);
+        let sat_clock_m = if iono_free {
+            C_M_PER_S * sat_clock_s
+        } else {
+            C_M_PER_S * (sat_clock_s - eph.tgd)
+        };
+        let iono_m = if iono_free {
+            0.0
+        } else {
+            klobuchar_delay_m(
+                &atmos.iono,
+                station.lat_rad,
+                station.lon_rad,
+                look.el_rad,
+                look.az_rad,
+                gps_sod,
+            )
+        };
         let tropo_m = tropo_delay_m(
             &atmos.meteo,
             station.lat_rad,
@@ -445,6 +492,10 @@ fn default_mask_deg() -> f64 {
     5.0
 }
 
+fn default_dual_frequency() -> bool {
+    true
+}
+
 /// A real-observation single-point-positioning scenario: a RINEX observation file
 /// and a RINEX broadcast-navigation file (both inline), optionally validated
 /// against a surveyed receiver coordinate.
@@ -465,6 +516,11 @@ pub struct PvtScenario {
     /// Elevation mask (deg): satellites below this are not used.
     #[serde(default = "default_mask_deg")]
     pub mask_deg: f64,
+    /// Use the dual-frequency ionosphere-free combination where both L1 and L2
+    /// code are present (default true); otherwise single-frequency L1 with the
+    /// Klobuchar ionosphere model.
+    #[serde(default = "default_dual_frequency")]
+    pub dual_frequency: bool,
 }
 
 /// One epoch's position fix as a serializable record.
@@ -562,7 +618,15 @@ pub fn run_pvt(scn: &PvtScenario) -> Result<PvtResult, String> {
     let mut solved = 0usize;
     let (mut e3s, mut ehs, mut evs) = (Vec::new(), Vec::new(), Vec::new());
     for (idx, ep) in obs.epochs.iter().enumerate() {
-        let labeled = assemble_epoch(&obs, idx, &ephs, apriori, &atmos, scn.mask_deg);
+        let labeled = assemble_epoch(
+            &obs,
+            idx,
+            &ephs,
+            apriori,
+            &atmos,
+            scn.mask_deg,
+            scn.dual_frequency,
+        );
         let measurements: Vec<SppMeasurement> = labeled.iter().map(|(_, m)| *m).collect();
         let time = format!(
             "{:04}-{:02}-{:02} {:02}:{:02}:{:06.3}",
@@ -929,6 +993,22 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
     }
 
     #[test]
+    fn iono_free_combination_cancels_a_dispersive_delay() {
+        // A common geometric range plus a 1/f² ionospheric delay on each frequency:
+        // the iono-free combination must return the geometry, delay removed.
+        let geo = 22_000_000.0_f64;
+        let i1 = 8.0; // L1 slant iono (m)
+        let i2 = i1 * (L1_HZ / L2_HZ).powi(2); // L2 delay scales as 1/f²
+        let p1 = geo + i1;
+        let p2 = geo + i2;
+        let pif = iono_free_combination(p1, p2);
+        assert!(
+            (pif - geo).abs() < 1e-6,
+            "iono-free {pif:.6} should equal {geo}"
+        );
+    }
+
+    #[test]
     fn select_ephemeris_picks_nearest_toe_within_window() {
         let base = parse_nav(NAV_SAMPLE).unwrap()[0];
         let mut e1 = base;
@@ -1032,7 +1112,7 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
                 }],
             }],
         };
-        let m = assemble_epoch(&obs, 0, &[eph], rx, &AtmosModel::default(), 5.0);
+        let m = assemble_epoch(&obs, 0, &[eph], rx, &AtmosModel::default(), 5.0, true);
         assert_eq!(m.len(), 1, "one visible satellite");
         let (id, sm) = &m[0];
         assert_eq!(id, "G01");
@@ -1154,7 +1234,7 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
                     .collect(),
             }],
         };
-        let meas: Vec<_> = assemble_epoch(&obs, 0, &ephs, rx, &atmos, 5.0)
+        let meas: Vec<_> = assemble_epoch(&obs, 0, &ephs, rx, &atmos, 5.0, true)
             .into_iter()
             .map(|(_, m)| m)
             .collect();
@@ -1271,6 +1351,7 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
             truth_ecef: None,
             apriori_ecef: None,
             mask_deg: 5.0,
+            dual_frequency: true,
         };
         let r = run_pvt(&scn).expect("runs");
         assert_eq!(r.fom.epochs_total, 1);
@@ -1297,6 +1378,7 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
             truth_ecef: None,
             apriori_ecef: None,
             mask_deg: 5.0,
+            dual_frequency: true,
         };
         assert!(run_pvt(&scn).is_err());
     }
@@ -1311,6 +1393,7 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
             truth_ecef: None,
             apriori_ecef: None,
             mask_deg: 5.0,
+            dual_frequency: true,
         };
         let r = run_pvt(&scn).unwrap();
         let svg = pvt_svg(&r);
