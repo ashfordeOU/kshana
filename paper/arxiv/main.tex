@@ -6,6 +6,9 @@
 \usepackage[T1]{fontenc}
 \usepackage{lmodern}
 \usepackage[margin=1in]{geometry}
+% Absorb the rare overfull line caused by unbreakable \texttt{} tokens
+% (e.g. wasm-pack, satellite.js) without loosening normal paragraphs.
+\setlength{\emergencystretch}{2em}
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{graphicx}
