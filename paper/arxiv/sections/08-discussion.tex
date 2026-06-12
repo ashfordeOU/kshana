@@ -1,0 +1,72 @@
+\section{Discussion and conclusion}\label{sec:discussion}
+
+The methodology of Section~\ref{sec:method}, together with the crossover map of
+Section~\ref{sec:crossover}, is intended to make one specific question answerable in
+a neutral, reproducible way: \emph{what resilience does a given sensor architecture
+buy, and over what operating envelope?} Rather than asserting a verdict, Kshana
+\citep{baweja2026kshana} fixes a scenario, a seed, and an engine version, routes the
+quantum and classical candidates through a single code path, and labels every
+figure-of-merit as externally validated or merely modelled. The output of that
+discipline is not a marketing number but an envelope: a region of the operating space
+in which one architecture dominates, a region in which it does not, and a break-even
+boundary between them carried with a $95\%$ confidence band.
+
+This reframing matters because the comparison it supports is different from the one the
+literature usually runs. The question \emph{``is quantum sensing better?''} is already
+well populated by device papers and surveys
+\citep{templier2022,coldatomnavreview2022,quantumpntreview2026}; it is answered
+affirmatively on isolated axes and, on its own, settles little for a system designer.
+The crossover map asks instead \emph{``where does the quantum lever change the
+outcome?''}, and answers it openly, with the uncertainty made explicit rather than
+hidden. The inertial study locates that boundary as a vibration tolerance that grows
+with outage duration --- the break-even platform-vibration PSD rises from the order of
+$10^{-5}$ at a $30$~s outage to the order of $10^{-4}$~(m/s$^2$)$^2$/Hz near a
+$1800$~s outage --- so the cold-atom advantage is real for long, quiet holdovers and
+erodes under aggressive platform vibration, exactly where a TRL-honest answer should
+place it. The clock study is starker still: the deployed chip-scale reference crosses a
+$1\,\mu$s timing budget at roughly $3.0\times10^{4}$~s ($\sim$8.5~h) of holdover, while
+the ground-lab optical-lattice and flight-qualified maser curves stay below that budget
+across the full $24$~h sweep. These are performance-model projections from cited device
+coefficients, not measurements, and they are TRL-tagged as such; the contribution is the
+reproducible map and its break-even contour, not any single point on it.
+
+Interoperability is what turns this from a closed demonstrator into an on-ramp. Because
+the engine reads and writes the standard exchange formats (RINEX, SP3, CCSDS OEM/OMM),
+a crossover study or a propagated state can move into established pipelines --- RTKLIB
+\citep{takasu2009}, GMAT \citep{nasa_gmat}, Orekit \citep{orekit} --- rather than
+living only inside Kshana. The single integrated stack runs natively, from Python, and
+in the browser via WebAssembly; in-browser SGP4 is not itself new
+\citep{satellitejs,sgp4crate}, and the delta is only that one engine runs the full
+integrated stack with zero install, lowering the cost of reproducing a result to opening
+a page.
+
+Several limitations defined in Section~\ref{sec:limitations} double as the natural work
+ahead. The PVT path is scenario-driven rather than fed by real observations; ingesting
+real GNSS observations to close a measurement-level loop is the most consequential next
+step. The spoofing detector is characterised against published TEXBAT
+\citep{humphreys2012texbat} parameters, not raw IQ; ingesting raw IQ and reporting a
+detection ROC would move it from the not-externally-validated tier into a measured one.
+The force-model validation by ephemeris fitting reported in
+Section~\ref{sec:validation} is single-arc and single-satellite; extending it to
+multi-satellite, multi-day fits would tighten the residual envelope and test the static
+drag, cannonball-SRP, and Schwarzschild defaults under more diverse dynamics. Finally,
+the crossover map presently sweeps published-parameter envelopes one lever at a time;
+propagating the full coefficient uncertainty jointly --- and adding same-TRL pairings
+across all three levers --- would turn today's three studies into a single crossover
+atlas of resilient PNT.
+
+What we offer, then, is less a claim of superiority than a way of arguing about it
+honestly. The agency-orbit work is a force-model validation by ephemeris fitting, not
+orbit determination; the headline full-arc Galileo residual is $0.61$~m at degree and
+order $70$, with the $0.13$~m and $0.10$~m reduced-dynamic figures stated as
+empirical-acceleration-tier bounds rather than measures of force-model accuracy; the
+LRO residual is $6.6$~m, above the $5$~m target, reported as such and reproduced as a
+known result \citep{bertone2021grail,li2023leopod} against a DE-grade ANISE oracle
+\citep{nyxanise} that we credit rather than claim to beat; and every quantum figure is a
+projection, every spoofing claim a parameter-level characterisation. To our knowledge no
+open tool runs this full integrated PNT-resilience stack with these honesty controls
+attached. That stance --- validated-or-not-modelled stated per figure-of-merit, the
+quantum-versus-classical axis swapped through one neutral code path, and every headline
+number traceable to a committed scenario, seed, and test --- is the differentiator we
+mean to defend, consistent with the reproducibility tradition this work builds on
+\citep{fernandezprades2018reproducibility,nasastd7009}.

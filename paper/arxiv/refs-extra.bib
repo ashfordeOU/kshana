@@ -1,0 +1,145 @@
+% Additional references surfaced by the pre-draft prior-art review (2026-06-12).
+% These complement ../paper.bib (do not duplicate its keys).
+
+@inproceedings{iiyama2023lupnt,
+  author    = {Iiyama, Keidai and Casades{\'u}s Vila, Guillem and Gao, Grace},
+  title     = {{LuPNT}: An Open-Source Simulator for Lunar Positioning,
+               Navigation, and Timing},
+  booktitle = {Proc. ION GNSS+ 2023},
+  year      = {2023},
+  publisher = {Institute of Navigation},
+  note      = {Stanford NavLab open-source lunar PNT simulator}
+}
+
+@article{knowles2024gnsslibpy,
+  author  = {Knowles, Derek and Kanhere, Ashwin V. and Neamati, Daniel and
+             Gao, Grace},
+  title   = {gnss\_lib\_py: Analyzing GNSS Data with Python},
+  journal = {SoftwareX},
+  volume  = {27},
+  pages   = {101811},
+  year    = {2024},
+  doi     = {10.1016/j.softx.2024.101811}
+}
+
+@article{bertone2021grail,
+  author  = {Bertone, Stefano and Arnold, Daniel and Girardin, Vincent and
+             J{\"a}ggi, Adrian and others},
+  title   = {Assessing Reduced-Dynamic Parametrizations for {GRAIL} Orbit
+             Determination and the Recovery of Independent Lunar Gravity Fields},
+  journal = {Advances in Space Research},
+  year    = {2021},
+  note    = {Establishes that empirical accelerations absorb force/frame/ephemeris
+             mismodelling; the reduced-dynamic floor is non-gravitational dynamics}
+}
+
+@article{li2023leopod,
+  author  = {Li, Xingxing and others},
+  title   = {Precise Orbit Determination of {LEO} Satellites: A Systematic Review},
+  journal = {GPS Solutions},
+  volume  = {27},
+  year    = {2023},
+  doi     = {10.1007/s10291-023-01441-5}
+}
+
+@misc{nyxanise,
+  author       = {Rodr{\'\i}guez, Christopher and others},
+  title        = {Nyx and {ANISE}: Open-Source Astrodynamics and Ephemeris
+                  Toolkits ({Rust})},
+  howpublished = {\url{https://nyxspace.com}},
+  year         = {2024},
+  note         = {Validated DE-grade orbit-determination and SPICE/DE440 ephemeris
+                  baseline used here as a cross-validation oracle}
+}
+
+@misc{satellitejs,
+  author       = {Tak, Shashwat and others},
+  title        = {satellite.js: {SGP4/SDP4} Orbit Propagation in JavaScript},
+  howpublished = {\url{https://github.com/shashwatak/satellite-js}},
+  year         = {2023},
+  note         = {Canonical in-browser SGP4/SDP4 implementation}
+}
+
+@misc{tno_sensed,
+  author       = {{TNO}},
+  title        = {{TOPS/SENSED}: Simulation-Enhanced Sensor Designer for
+                  Timing, Orientation and Positioning},
+  howpublished = {Netherlands Organisation for Applied Scientific Research (TNO)},
+  year         = {2023},
+  note         = {Closed internal research service simulating quantum vs classical
+                  inertial sensors; no public release or reproducibility contract}
+}
+
+@article{atomstrapdown2023,
+  author  = {Wilkinson, Michael and others},
+  title   = {Towards Quantum-Enhanced Strapdown Inertial Navigation},
+  journal = {NAVIGATION: Journal of the Institute of Navigation},
+  volume  = {70},
+  number  = {4},
+  year    = {2023},
+  doi     = {10.33012/navi.604}
+}
+
+@misc{quantumnav2025highfidelity,
+  author       = {{Authors}},
+  title        = {Integration of a High-Fidelity Model of Quantum Sensors with a
+                  Map-Matching Filter for Quantum-Enhanced Navigation},
+  howpublished = {arXiv:2504.11119},
+  year         = {2025},
+  doi          = {10.48550/arXiv.2504.11119}
+}
+
+@article{hybridcai2018,
+  author  = {Cheiney, Pierrick and Fouch{\'e}, Lauriane and others},
+  title   = {Navigation-Compatible Hybrid Quantum Accelerometer Using a Kalman
+             Filter},
+  journal = {Physical Review Applied},
+  volume  = {10},
+  number  = {3},
+  pages   = {034030},
+  year    = {2018},
+  doi     = {10.1103/PhysRevApplied.10.034030}
+}
+
+@article{coldatomnavreview2022,
+  author  = {Narducci, Frank A. and Black, Adam T. and Burke, John H.},
+  title   = {Advances Toward Fieldable Atom Interferometers for Inertial Navigation},
+  journal = {Frontiers in Physics},
+  volume  = {10},
+  pages   = {994459},
+  year    = {2022},
+  doi     = {10.3389/fphy.2022.994459}
+}
+
+@article{quantumpntreview2026,
+  author  = {{Authors}},
+  title   = {Quantum Sensors for Enhanced Positioning and Navigation:
+             A Comprehensive Review},
+  journal = {GPS Solutions},
+  volume  = {30},
+  year    = {2026},
+  doi     = {10.1007/s10291-026-02030-y},
+  note    = {Authoritative landscape survey naming no open, reproducible
+             quantum-vs-classical PNT simulation tool}
+}
+
+@article{fernandezprades2018reproducibility,
+  author  = {Fern{\'a}ndez-Prades, Carles and Vila-Valls, Jordi and Arribas, Javier
+             and Ramos, Antonio},
+  title   = {Continuous Reproducibility in {GNSS} Signal Processing},
+  journal = {IEEE Access},
+  volume  = {6},
+  pages   = {20451--20463},
+  year    = {2018},
+  doi     = {10.1109/ACCESS.2018.2822835}
+}
+
+@techreport{nasastd7009,
+  author      = {{NASA}},
+  title       = {Standard for Models and Simulations},
+  institution = {National Aeronautics and Space Administration},
+  number      = {NASA-STD-7009A},
+  year        = {2016},
+  note        = {Model-and-simulation credibility-assessment regime
+                 (with NASA-HDBK-7009B)}
+}
