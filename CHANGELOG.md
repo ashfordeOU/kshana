@@ -37,7 +37,7 @@ breaking changes are called out explicitly.
 
 ### Added
 
-- **Reference-grade precise orbit determination, cross-validated against real
+- **Force-model validation by ephemeris fitting, cross-validated against real
   agency products.** A new batch least-squares estimator (`src/precise_od.rs`)
   with a variational state-transition matrix and outlier editing, driven by a
   full force model (`PreciseForceModel`: EGM2008 geopotential, third bodies,

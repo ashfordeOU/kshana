@@ -3,7 +3,7 @@
 //! of [`crate::precise_od::PreciseForceModel`].
 //!
 //! [`LunarForceModel`] implements the same [`crate::precise_od::ForceModel`] interface, so the one
-//! reference-grade Gauss–Newton batch estimator ([`crate::precise_od::fit`]) and its variational
+//! precise Gauss–Newton batch estimator ([`crate::precise_od::fit`]) and its variational
 //! STM propagators fit an orbit about the **Moon** exactly as they do about the Earth. The
 //! acceleration (m/s², Moon-centred ICRF/J2000 — the frame JPL Horizons reports the LRO truth in)
 //! is the sum of:
@@ -52,7 +52,7 @@ type Mat3 = [[f64; 3]; 3];
 /// which sit ~tens of arc-seconds / ~0.3° from the JPL Development Ephemeris values. An
 /// *out-of-crate* provider can instead read DE-grade orientation and ephemeris from NAIF kernels
 /// (the `xval/anise-lunar-od` cross-validation crate), swapping **only** these inputs through this
-/// seam while every other dynamical term and the reference-grade estimator stay identical. That
+/// seam while every other dynamical term and the precise estimator stay identical. That
 /// cross-validation found the DE-grade inputs improve the *dynamic* LRO fit but leave the
 /// *reduced-dynamic* one unchanged (the empirical tier already absorbs the orientation/ephemeris
 /// error), so the analytic stack here already matches DE-grade for the operational lunar orbit. All

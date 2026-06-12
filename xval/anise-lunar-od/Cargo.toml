@@ -23,7 +23,7 @@ name = "lunar-od-xval"
 path = "src/main.rs"
 
 [dependencies]
-# The kshana library supplies the reference-grade estimator (precise_od::fit), the GRAIL
+# The kshana library supplies the precise estimator (precise_od::fit), the GRAIL
 # gravity-field evaluation (gravity_sh), and the Moon-centred force model + its
 # LunarEnvironment provider seam (lunar_od) — all reused verbatim. Only the frame inputs
 # are swapped for DE-grade ones here.
