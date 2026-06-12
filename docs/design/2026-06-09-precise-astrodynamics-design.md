@@ -121,7 +121,7 @@ tests/agency_galileo.rs NEW  Galileo MEO (vendored fixture; full fetch via dispa
 tests/agency_swarm.rs   NEW  Swarm-A LEO
 tests/agency_lro.rs     NEW  LRO lunar (NAIF SPK truth via xval/ANISE pattern)
 tests/fixtures/agency/  NEW  small vendored SP3 / EOP / ephemeris slices + checksums
-paper/kshana-od-data-paper.md NEW  step-5 data-paper draft
+paper/paper.md NEW  step-5 data-paper draft
 docs/VALIDATION.md      edit add the agency-validation results table
 docs/AGENCY-ORBIT-VALIDATION.md NEW  methodology + per-dataset results (citable doc)
 ```
@@ -140,5 +140,5 @@ docs/AGENCY-ORBIT-VALIDATION.md NEW  methodology + per-dataset results (citable 
 - `precise_od.rs` recovers a synthetic arc to ~0 and STM agrees with finite difference.
 - Galileo MEO post-fit <5m 3D RMS (green); Swarm-A and LRO report honest RTN+3D numbers.
 - `docs/AGENCY-ORBIT-VALIDATION.md` + `docs/VALIDATION.md` carry the commit-hash-stamped, RTN-decomposed, with/without-empirical-accel results.
-- `paper/kshana-od-data-paper.md` drafted with the residual table, ready for founder submission.
+- `paper/paper.md` drafted with the residual table, ready for founder submission.
 - All gates green; zero attribution; tracker reflects P4 at 4/6 with steps 5–6 honestly external.
