@@ -10,10 +10,9 @@ by the strength of the external anchor, and we are explicit about what each tier
 does and does not establish. Table~\ref{tab:validation} summarises the battery;
 the prose below develops the caveats that the table can only flag.
 
-\paragraph{Tier 1 --- bit-for-bit against an authoritative oracle.}
+\paragraph{Tier 1: bit-for-bit against an authoritative oracle.}
 These checks reproduce an independent reference to within the numerical noise
-floor, so agreement is a statement about correctness rather than about a
-physical fit. The SGP4/SDP4 propagator reproduces all 666 verification states of
+floor, so agreement here speaks to correctness, not to a physical fit. The SGP4/SDP4 propagator reproduces all 666 verification states of
 the AIAA 2006-6753 test set \citep{vallado2006} to a worst-case position error
 of \SI{4.12}{\milli\metre} and velocity error of
 \SI{1.85e-9}{\kilo\metre\per\second}. Against an independent Rust
@@ -39,7 +38,7 @@ agrees with an independent universal-variable Kepler solver to sub-metre over
 (relative). Tier~1 is the strongest evidence in the paper: each row is an
 independent oracle, and the residuals are numerical, not physical.
 
-\paragraph{Tier 2 --- post-fit residual against real agency truth.}
+\paragraph{Tier 2: post-fit residual against real agency truth.}
 Tier~2 reports how closely Kshana's dynamics can be made to track precise
 ephemerides published by space agencies. This is a \emph{force-model validation
 by ephemeris fitting}, not orbit determination: there is no measurement
@@ -66,14 +65,14 @@ a \SI{6.6}{\metre} reduced-dynamic residual, which is \emph{above} our
 the miss rather than tuning it away. As a controlled cross-validation, we swap
 the analytic kernel-free ephemeris for a DE440 realisation via ANISE: the LRO
 reduced-dynamic residual is unchanged at the centimetre level
-($6.65\rightarrow\SI{6.67}{\metre}$). This is a reproduction of an established
-result --- that a carefully constructed analytic stack matches a DE-grade
-ephemeris realisation for this class of arc \citep{bertone2021grail,li2023leopod}
---- not a discovery, and it is scoped to the LRO arc only. We credit
+($6.65\rightarrow\SI{6.67}{\metre}$). This reproduces an established
+result, that a carefully constructed analytic stack matches a DE-grade
+ephemeris realisation for this class of arc \citep{bertone2021grail,li2023leopod};
+it is not a discovery, and it is scoped to the LRO arc only. We credit
 \code{nyx}/ANISE \citep{nyxanise} as the DE-grade oracle against which the swap
 is checked, not as a rival the engine outperforms.
 
-\paragraph{Tier 3 --- parameter-level characterisation.}
+\paragraph{Tier 3: parameter-level characterisation.}
 The multi-layer spoofing detector (per-epoch RAIM parity, automatic-gain-control
 monitoring, signal-quality monitoring, and a fusion stage) is characterised
 against the \emph{published scenario parameters} of the TEXBAT corpus
@@ -88,7 +87,7 @@ labels it accordingly.
 \paragraph{Reading the table.}
 The status vocabulary mirrors the methodology of Section~\ref{sec:method}.
 Tier~1 rows are \emph{validated} against an external oracle to the numerical
-floor. Tier~2 rows are \emph{validated by ephemeris fitting} --- a genuine
+floor. Tier~2 rows are \emph{validated by ephemeris fitting}: a genuine
 external anchor (the agency product), but a fit, with the empirical-tier caveat
 made explicit. Tier~3 is \emph{characterised, not validated}. None of these
 rows involves a quantum figure of merit: the quantum-sensor performance models
@@ -114,7 +113,7 @@ do not measure, force-model accuracy.}
 \toprule
 \textbf{Check} & \textbf{Oracle} & \textbf{Result} & \textbf{Status} \\
 \midrule
-\multicolumn{4}{@{}l}{\textit{Tier 1 --- bit-for-bit vs.\ authoritative oracle}}\\
+\multicolumn{4}{@{}l}{\textit{Tier 1: bit-for-bit vs.\ authoritative oracle}}\\
 \addlinespace[2pt]
 SGP4/SDP4, 666 states &
 AIAA 2006-6753 \citep{vallado2006} &
@@ -149,7 +148,7 @@ universal-variable Kepler &
 sub-metre / \SI{24}{\hour}; energy + ang.\ mom.\ to $\sim10^{-9}$ &
 Validated \\
 \addlinespace[3pt]
-\multicolumn{4}{@{}l}{\textit{Tier 2 --- post-fit residual vs.\ agency truth (force-model fit by ephemeris fitting)}}\\
+\multicolumn{4}{@{}l}{\textit{Tier 2: post-fit residual vs.\ agency truth (force-model fit by ephemeris fitting)}}\\
 \addlinespace[2pt]
 Galileo MEO (headline) &
 agency precise eph.\ \citep{montenbruck2000,petit2010iers} &
@@ -157,11 +156,11 @@ agency precise eph.\ \citep{montenbruck2000,petit2010iers} &
 Validated (fit) \\
 Galileo MEO (reduced-dynamic) &
 agency precise eph.\ \citep{montenbruck2000,petit2010iers} &
-\SI{0.13}{\metre}; empirical-accel tier --- bounds, not measures &
+\SI{0.13}{\metre}; empirical-accel tier (bounds, not measures) &
 Validated (fit) \\
 Swarm-A LEO (reduced-dynamic) &
 agency precise eph.\ \citep{montenbruck2000,petit2010iers} &
-\SI{0.10}{\metre}; empirical-accel tier --- bounds, not measures &
+\SI{0.10}{\metre}; empirical-accel tier (bounds, not measures) &
 Validated (fit) \\
 LRO lunar &
 GRGM \citep{lemoine2013grail,giorgini1996horizons} &
@@ -172,7 +171,7 @@ LRO DE440/ANISE swap &
 residual unchanged $6.65\!\to\!\SI{6.67}{\metre}$; reproduces known result, LRO-scoped &
 Validated (fit) \\
 \addlinespace[3pt]
-\multicolumn{4}{@{}l}{\textit{Tier 3 --- parameter-level characterisation (not external validation)}}\\
+\multicolumn{4}{@{}l}{\textit{Tier 3: parameter-level characterisation (not external validation)}}\\
 \addlinespace[2pt]
 Spoofing detector (RAIM + AGC + SQM + fusion) &
 TEXBAT scenario \emph{parameters} \citep{humphreys2012texbat} &
