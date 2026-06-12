@@ -9,6 +9,30 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+
+- **Agency-accurate ground tracks from real IERS Earth orientation.** The
+  `ephemeris` scenario takes an optional `eop_finals2000a` field — the inlined body
+  of a real IERS `finals2000A` file — and reduces the ground track through the
+  per-epoch UT1−UTC and polar motion interpolated from it (the same `EopSeries`
+  `precise_od` uses), overriding the nominal `dut1_s`/`xp_arcsec`/`yp_arcsec`
+  scalars. The data travels in the scenario, so the run stays reproducible and
+  needs no filesystem (it works in the WASM playground). A `kshana --eop
+  <finals2000A>` flag folds a real file into the scenario from the CLI. Closes the
+  asymmetry where only `precise_od` consumed real Earth-orientation data.
+
+### Fixed
+
+- **Range-rate frame consistency.** The ground station is now mapped into the
+  inertial frame through the exact inverse of the satellite's reduction
+  (`frames::itrf_to_teme`, undoing polar motion *and* the sidereal rotation)
+  instead of a polar-motion-blind GMST rotation, so both endpoints share one
+  frame. The effect on the reported Doppler is below the validation floor, but it
+  removes a real frame mismatch and an "exact" overclaim in the source.
+- **`carrier_hz` is validated.** A zero or non-finite carrier frequency now returns
+  an error instead of silently producing zero Doppler (it had made λ = c/carrier
+  infinite), matching the existing `step_s` guard.
+
 ## [0.16.0] - 2026-06-11
 
 ### Added
