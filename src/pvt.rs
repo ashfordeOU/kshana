@@ -22,11 +22,14 @@
 //! or gLAB. What it provides is the genuine standards-format positioning path:
 //! real observations in, a real position out.
 
+use crate::chart::y_axis;
 use crate::frames::{ecef_to_geodetic, look_angles, Geodetic, Vec3};
 use crate::gnss_sim::{klobuchar_delay_m, tropo_delay_m, KlobucharCoeffs, Meteo, C_M_PER_S};
 use crate::orbit::{invert4, los_unit};
-use crate::rinex::RinexEphemeris;
-use crate::rinex_obs::RinexObs;
+use crate::rinex::{parse_nav, RinexEphemeris};
+use crate::rinex_obs::{parse_obs, RinexObs};
+use serde::{Deserialize, Serialize};
+use sha2::{Digest, Sha256};
 
 /// Maximum Gauss-Newton iterations for the least-squares solve.
 const MAX_ITERS: usize = 15;
@@ -421,6 +424,315 @@ pub fn assemble_epoch(
         ));
     }
     out
+}
+
+/// The horizontal, vertical, and 3-D position error (m) of an estimate `est`
+/// against a surveyed truth `truth`, decomposed in the truth's local ENU frame.
+fn enu_error(truth: Vec3, est: Vec3) -> (f64, f64, f64) {
+    let d = [est[0] - truth[0], est[1] - truth[1], est[2] - truth[2]];
+    let g = ecef_to_geodetic(truth);
+    let (e, n, u) = enu_axes(g.lat_rad, g.lon_rad);
+    let de = d[0] * e[0] + d[1] * e[1] + d[2] * e[2];
+    let dn = d[0] * n[0] + d[1] * n[1] + d[2] * n[2];
+    let du = d[0] * u[0] + d[1] * u[1] + d[2] * u[2];
+    let h = (de * de + dn * dn).sqrt();
+    let v = du.abs();
+    let d3 = (d[0] * d[0] + d[1] * d[1] + d[2] * d[2]).sqrt();
+    (h, v, d3)
+}
+
+fn default_mask_deg() -> f64 {
+    5.0
+}
+
+/// A real-observation single-point-positioning scenario: a RINEX observation file
+/// and a RINEX broadcast-navigation file (both inline), optionally validated
+/// against a surveyed receiver coordinate.
+#[derive(Clone, Debug, Deserialize, Serialize)]
+pub struct PvtScenario {
+    /// Inline RINEX 3 observation-file text (the receiver's code pseudoranges).
+    pub obs_rinex: String,
+    /// Inline RINEX 3 navigation-file text (the broadcast ephemeris).
+    pub nav_rinex: String,
+    /// Optional surveyed receiver ECEF position (m) to report the position error
+    /// against — the validation truth.
+    #[serde(default)]
+    pub truth_ecef: Option<[f64; 3]>,
+    /// Optional a-priori ECEF position (m) to seed the solve; defaults to the
+    /// observation header's APPROX POSITION XYZ, then the truth coordinate.
+    #[serde(default)]
+    pub apriori_ecef: Option<[f64; 3]>,
+    /// Elevation mask (deg): satellites below this are not used.
+    #[serde(default = "default_mask_deg")]
+    pub mask_deg: f64,
+}
+
+/// One epoch's position fix as a serializable record.
+#[derive(Clone, Debug, Serialize)]
+pub struct PvtFixOut {
+    pub ecef_m: [f64; 3],
+    pub lat_deg: f64,
+    pub lon_deg: f64,
+    pub alt_m: f64,
+    pub clock_bias_m: f64,
+    pub gdop: f64,
+    pub pdop: f64,
+    pub hdop: f64,
+    pub vdop: f64,
+    pub postfit_rms_m: f64,
+    /// Position error against the truth coordinate, when one was supplied.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub error_h_m: Option<f64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub error_v_m: Option<f64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub error_3d_m: Option<f64>,
+}
+
+/// One observation epoch: its time, the satellites used, and the fix (absent when
+/// fewer than four usable satellites or a singular geometry).
+#[derive(Clone, Debug, Serialize)]
+pub struct PvtEpoch {
+    pub time: String,
+    pub n_used: usize,
+    pub fix: Option<PvtFixOut>,
+}
+
+/// Figures of merit aggregated over the run.
+#[derive(Clone, Debug, Serialize)]
+pub struct PvtFoM {
+    pub epochs_total: usize,
+    pub epochs_solved: usize,
+    pub mean_n_used: f64,
+    pub mean_pdop: f64,
+    pub mean_postfit_rms_m: f64,
+    /// Position-error statistics against the truth coordinate, when supplied.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub rms_3d_m: Option<f64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub max_3d_m: Option<f64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub rms_h_m: Option<f64>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub rms_v_m: Option<f64>,
+}
+
+/// The single-point-positioning run result.
+#[derive(Clone, Debug, Serialize)]
+pub struct PvtResult {
+    pub schema_version: String,
+    pub engine_version: String,
+    pub scenario_hash: String,
+    /// Number of distinct satellites in the navigation file.
+    pub n_satellites_nav: usize,
+    pub truth_ecef_m: Option<[f64; 3]>,
+    pub fom: PvtFoM,
+    pub epochs: Vec<PvtEpoch>,
+}
+
+fn hash_scenario(scn: &PvtScenario) -> String {
+    let c = serde_json::to_string(scn).expect("scenario serializes");
+    let mut h = Sha256::new();
+    h.update(c.as_bytes());
+    hex::encode(h.finalize())
+}
+
+/// Run single-point positioning over every epoch of a RINEX observation file using
+/// a broadcast-navigation file, returning per-epoch fixes and aggregate figures of
+/// merit (including the position error against a surveyed coordinate, if given).
+pub fn run_pvt(scn: &PvtScenario) -> Result<PvtResult, String> {
+    let obs = parse_obs(&scn.obs_rinex)?;
+    let ephs = parse_nav(&scn.nav_rinex)?;
+    let atmos = AtmosModel {
+        iono: klobuchar_from_nav_header(&scn.nav_rinex).unwrap_or_default(),
+        meteo: Meteo::default(),
+    };
+    let apriori = scn
+        .apriori_ecef
+        .or(obs.header.approx_xyz)
+        .or(scn.truth_ecef)
+        .ok_or_else(|| {
+            "no a-priori position: set apriori_ecef, an observation-header APPROX \
+             POSITION XYZ, or truth_ecef"
+                .to_string()
+        })?;
+
+    let mut epochs = Vec::with_capacity(obs.epochs.len());
+    let (mut sum_n, mut sum_pdop, mut sum_rms) = (0.0_f64, 0.0_f64, 0.0_f64);
+    let mut solved = 0usize;
+    let (mut e3s, mut ehs, mut evs) = (Vec::new(), Vec::new(), Vec::new());
+    for (idx, ep) in obs.epochs.iter().enumerate() {
+        let labeled = assemble_epoch(&obs, idx, &ephs, apriori, &atmos, scn.mask_deg);
+        let measurements: Vec<SppMeasurement> = labeled.iter().map(|(_, m)| *m).collect();
+        let time = format!(
+            "{:04}-{:02}-{:02} {:02}:{:02}:{:06.3}",
+            ep.time.year, ep.time.month, ep.time.day, ep.time.hour, ep.time.minute, ep.time.second
+        );
+        let fix_out = match solve_spp(&measurements, apriori) {
+            Some(fix) => {
+                solved += 1;
+                sum_n += fix.n_used as f64;
+                sum_pdop += fix.pdop;
+                sum_rms += fix.postfit_rms_m;
+                let (eh, ev, e3) = match scn.truth_ecef {
+                    Some(t) => {
+                        let (h, v, d) = enu_error(t, fix.ecef);
+                        e3s.push(d);
+                        ehs.push(h);
+                        evs.push(v);
+                        (Some(h), Some(v), Some(d))
+                    }
+                    None => (None, None, None),
+                };
+                Some(PvtFixOut {
+                    ecef_m: fix.ecef,
+                    lat_deg: fix.geodetic.lat_rad.to_degrees(),
+                    lon_deg: fix.geodetic.lon_rad.to_degrees(),
+                    alt_m: fix.geodetic.alt_m,
+                    clock_bias_m: fix.clock_bias_m,
+                    gdop: fix.gdop,
+                    pdop: fix.pdop,
+                    hdop: fix.hdop,
+                    vdop: fix.vdop,
+                    postfit_rms_m: fix.postfit_rms_m,
+                    error_h_m: eh,
+                    error_v_m: ev,
+                    error_3d_m: e3,
+                })
+            }
+            None => None,
+        };
+        epochs.push(PvtEpoch {
+            time,
+            n_used: measurements.len(),
+            fix: fix_out,
+        });
+    }
+
+    let rms = |v: &[f64]| -> Option<f64> {
+        if v.is_empty() {
+            None
+        } else {
+            Some((v.iter().map(|x| x * x).sum::<f64>() / v.len() as f64).sqrt())
+        }
+    };
+    let max_3d = e3s
+        .iter()
+        .cloned()
+        .fold(None, |a: Option<f64>, b| Some(a.map_or(b, |m| m.max(b))));
+    let denom = solved.max(1) as f64;
+    let fom = PvtFoM {
+        epochs_total: obs.epochs.len(),
+        epochs_solved: solved,
+        mean_n_used: sum_n / denom,
+        mean_pdop: sum_pdop / denom,
+        mean_postfit_rms_m: sum_rms / denom,
+        rms_3d_m: rms(&e3s),
+        max_3d_m: max_3d,
+        rms_h_m: rms(&ehs),
+        rms_v_m: rms(&evs),
+    };
+
+    let mut svs: Vec<(char, u8)> = ephs.iter().map(|e| (e.system, e.prn)).collect();
+    svs.sort_unstable();
+    svs.dedup();
+
+    Ok(PvtResult {
+        schema_version: "1.0".into(),
+        engine_version: env!("CARGO_PKG_VERSION").into(),
+        scenario_hash: hash_scenario(scn),
+        n_satellites_nav: svs.len(),
+        truth_ecef_m: scn.truth_ecef,
+        fom,
+        epochs,
+    })
+}
+
+/// A one-line human summary of a PVT run.
+pub fn summary(r: &PvtResult) -> String {
+    let acc = match (r.fom.rms_3d_m, r.fom.max_3d_m) {
+        (Some(rms), Some(max)) => format!(" | 3D error RMS {rms:.2} m (max {max:.2} m)"),
+        _ => format!(" | post-fit RMS {:.2} m", r.fom.mean_postfit_rms_m),
+    };
+    format!(
+        "pvt {} | {} sat nav | {}/{} epochs solved | mean {:.1} sats, PDOP {:.1}{}",
+        &r.scenario_hash[..12.min(r.scenario_hash.len())],
+        r.n_satellites_nav,
+        r.fom.epochs_solved,
+        r.fom.epochs_total,
+        r.fom.mean_n_used,
+        r.fom.mean_pdop,
+        acc,
+    )
+}
+
+/// A bar chart of the per-epoch position metric: the 3-D error when a truth
+/// coordinate was supplied, otherwise the post-fit residual RMS.
+pub fn pvt_svg(r: &PvtResult) -> String {
+    let (w, h) = (820.0_f64, 360.0_f64);
+    let (ml, mr, mt, mb) = (70.0_f64, 20.0_f64, 34.0_f64, 40.0_f64);
+    let (pw, ph) = (w - ml - mr, h - mt - mb);
+    let has_truth = r.truth_ecef_m.is_some();
+    let vals: Vec<f64> = r
+        .epochs
+        .iter()
+        .filter_map(|e| {
+            e.fix.as_ref().map(|f| {
+                if has_truth {
+                    f.error_3d_m.unwrap_or(f.postfit_rms_m)
+                } else {
+                    f.postfit_rms_m
+                }
+            })
+        })
+        .collect();
+    let y_max = (vals.iter().cloned().fold(1.0_f64, f64::max) * 1.2).max(1.0);
+    let title = if has_truth {
+        format!(
+            "Single-point positioning — 3D error vs surveyed coordinate (RMS {:.2} m)",
+            r.fom.rms_3d_m.unwrap_or(0.0)
+        )
+    } else {
+        format!(
+            "Single-point positioning — post-fit residual RMS ({:.2} m mean)",
+            r.fom.mean_postfit_rms_m
+        )
+    };
+    let axis_label = if has_truth {
+        "3D error (m)"
+    } else {
+        "post-fit RMS (m)"
+    };
+
+    let mut svg = String::new();
+    svg.push_str(&format!(
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\">"
+    ));
+    svg.push_str(&format!(
+        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"
+    ));
+    svg.push_str(&format!(
+        "<text x=\"{ml:.0}\" y=\"18\" font-size=\"14\" font-weight=\"bold\">{title}</text>"
+    ));
+    svg.push_str(&y_axis(ml, mt, pw, ph, y_max, axis_label));
+    // Bars, one per solved epoch.
+    let n = vals.len().max(1);
+    let bw = (pw / n as f64).min(28.0);
+    for (i, &v) in vals.iter().enumerate() {
+        let x = ml + (i as f64 + 0.5) * (pw / n as f64) - bw / 2.0;
+        let bh = (v.min(y_max) / y_max) * ph;
+        let y = mt + ph - bh;
+        svg.push_str(&format!(
+            "<rect x=\"{x:.1}\" y=\"{y:.1}\" width=\"{bw:.1}\" height=\"{bh:.1}\" fill=\"#5fb0a8\"/>"
+        ));
+    }
+    let axis_y = mt + ph;
+    svg.push_str(&format!(
+        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>",
+        ml + pw
+    ));
+    svg.push_str("</svg>");
+    svg
 }
 
 #[cfg(test)]
@@ -858,5 +1170,166 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
             "clock {:.4} should be {c_dt_rx}",
             fix.clock_bias_m
         );
+    }
+}
+
+#[cfg(test)]
+mod scenario_tests {
+    use super::*;
+
+    const NAV_SAMPLE: &str = "\
+     3.04           N: GNSS NAV DATA    G: GPS              RINEX VERSION / TYPE
+                                                            END OF HEADER
+G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
+     6.500000000000D+01-1.234375000000D+01 4.567890123456D-09-1.234567890123D+00
+    -6.146728992462D-07 1.234567890123D-02 7.430091500282D-06 5.153679868698D+03
+     1.728000000000D+05 1.117587089539D-08-1.234567890123D+00 7.450580596924D-09
+     9.876543210987D-01 2.612500000000D+02 5.678901234567D-01-8.123456789012D-09
+    -2.345678901234D-10 1.000000000000D+00 2.244000000000D+03 0.000000000000D+00
+     2.000000000000D+00 0.000000000000D+00-1.117587089539D-08 6.500000000000D+01
+     1.674000000000D+05 4.000000000000D+00 0.000000000000D+00 0.000000000000D+00";
+
+    // Column-exact RINEX builders (RINEX is a fixed-width format, so fields are
+    // placed at their exact start column rather than by counting spaces).
+    fn place(fields: &[(usize, &str)]) -> String {
+        let mut s = String::new();
+        for (col, val) in fields {
+            if s.len() < *col {
+                s.push_str(&" ".repeat(col - s.len()));
+            }
+            s.push_str(val);
+        }
+        s
+    }
+    fn hdr(fields: &[(usize, &str)], label: &str) -> String {
+        let mut s = place(fields);
+        if s.len() < 60 {
+            s.push_str(&" ".repeat(60 - s.len()));
+        }
+        s.push_str(label);
+        s
+    }
+
+    /// A minimal RINEX 3 GPS observation file: one epoch (2023-01-03 00:00:00,
+    /// GPS time-of-week 172 800 s) with the given `(satellite, C1C pseudorange)`
+    /// records and the given approximate (header) position.
+    fn build_obs(approx: [f64; 3], sats: &[(&str, f64)]) -> String {
+        let v = |x: f64| format!("{x:14.3}");
+        let a = |x: f64| format!("{x:14.4}");
+        let mut lines = vec![
+            hdr(
+                &[(0, "     3.04"), (20, "O"), (40, "M")],
+                "RINEX VERSION / TYPE",
+            ),
+            hdr(&[(0, "G"), (3, "  1"), (7, "C1C")], "SYS / # / OBS TYPES"),
+            hdr(
+                &[(0, &a(approx[0])), (14, &a(approx[1])), (28, &a(approx[2]))],
+                "APPROX POSITION XYZ",
+            ),
+            hdr(&[(0, "    30.000")], "INTERVAL"),
+            hdr(
+                &[
+                    (0, "  2023"),
+                    (6, "     1"),
+                    (12, "     3"),
+                    (18, "     0"),
+                    (24, "     0"),
+                    (30, "    0.0000000"),
+                    (48, "GPS"),
+                ],
+                "TIME OF FIRST OBS",
+            ),
+            hdr(&[], "END OF HEADER"),
+            place(&[
+                (0, ">"),
+                (2, "2023"),
+                (7, "01"),
+                (10, "03"),
+                (13, "00"),
+                (16, "00"),
+                (18, "  0.0000000"),
+                (31, "0"),
+                (32, &format!("{:3}", sats.len())),
+            ]),
+        ];
+        for (sat, rho) in sats {
+            lines.push(place(&[(0, sat), (3, &v(*rho))]));
+        }
+        lines.join("\n") + "\n"
+    }
+
+    #[test]
+    fn run_pvt_parses_aggregates_and_resolves_apriori() {
+        // One satellite is below the four needed for a fix, so the run completes
+        // with no solved epoch — exercising the parse → assemble → aggregate path
+        // and a-priori resolution from the observation header.
+        let approx = [2_919_786.0, -5_383_745.0, 1_774_604.0];
+        let obs = build_obs(approx, &[("G01", 23_000_000.0)]);
+        let scn = PvtScenario {
+            obs_rinex: obs,
+            nav_rinex: NAV_SAMPLE.to_string(),
+            truth_ecef: None,
+            apriori_ecef: None,
+            mask_deg: 5.0,
+        };
+        let r = run_pvt(&scn).expect("runs");
+        assert_eq!(r.fom.epochs_total, 1);
+        assert_eq!(r.fom.epochs_solved, 0);
+        assert_eq!(r.n_satellites_nav, 1);
+        assert_eq!(r.engine_version, env!("CARGO_PKG_VERSION"));
+        assert_eq!(r.scenario_hash.len(), 64);
+    }
+
+    #[test]
+    fn run_pvt_errors_without_any_apriori() {
+        // No header position, no apriori, no truth ⇒ a clear error rather than a
+        // bad guess.
+        let obs = build_obs([0.0, 0.0, 0.0], &[("G01", 23_000_000.0)]);
+        // Strip the APPROX POSITION line so no a-priori can be resolved.
+        let obs: String = obs
+            .lines()
+            .filter(|l| !l.contains("APPROX POSITION"))
+            .collect::<Vec<_>>()
+            .join("\n");
+        let scn = PvtScenario {
+            obs_rinex: obs,
+            nav_rinex: NAV_SAMPLE.to_string(),
+            truth_ecef: None,
+            apriori_ecef: None,
+            mask_deg: 5.0,
+        };
+        assert!(run_pvt(&scn).is_err());
+    }
+
+    #[test]
+    fn pvt_svg_emits_a_self_contained_svg() {
+        let approx = [2_919_786.0, -5_383_745.0, 1_774_604.0];
+        let obs = build_obs(approx, &[("G01", 23_000_000.0)]);
+        let scn = PvtScenario {
+            obs_rinex: obs,
+            nav_rinex: NAV_SAMPLE.to_string(),
+            truth_ecef: None,
+            apriori_ecef: None,
+            mask_deg: 5.0,
+        };
+        let r = run_pvt(&scn).unwrap();
+        let svg = pvt_svg(&r);
+        assert!(svg.starts_with("<svg"));
+        assert!(svg.ends_with("</svg>"));
+        assert!(svg.contains("Single-point positioning"));
+    }
+
+    #[test]
+    fn run_toml_dispatches_the_pvt_kind() {
+        let approx = [2_919_786.0, -5_383_745.0, 1_774_604.0];
+        let obs = build_obs(approx, &[("G01", 23_000_000.0)]);
+        let toml = format!(
+            "kind = \"pvt\"\nmask_deg = 5.0\nnav_rinex = \"\"\"\n{NAV_SAMPLE}\n\"\"\"\nobs_rinex = \"\"\"\n{obs}\"\"\"\n"
+        );
+        let out = crate::api::run_toml(&toml).expect("dispatches");
+        assert!(out.summary.starts_with("pvt "));
+        assert!(out.json.contains("\"scenario_hash\""));
+        assert!(out.json.contains("\"epochs_total\""));
+        assert!(out.svg.contains("<svg"));
     }
 }
