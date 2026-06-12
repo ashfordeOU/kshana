@@ -230,6 +230,64 @@ impl InertialCrossover {
     }
 }
 
+impl InertialCrossover {
+    /// The canonical inertial crossover used in the paper, fully reproducible from
+    /// this fixed configuration. A cold-atom-interferometer accelerometer triad of
+    /// Exail/Templier class (Templier et al., *Sci. Adv.* 2022, arXiv:2209.13209 —
+    /// post-calibration residual bias 5.88e-7 m/s²; here the noise is *derived* from
+    /// the interferometer physics rather than the datasheet) is compared against a
+    /// navigation-grade quartz unit (Honeywell QA-2000 class; Groves 2013) over GNSS
+    /// outages from 30 s to 30 min, with the platform vibration PSD swept from an
+    /// isolated optical bench (~1 µg/√Hz) to a moving vehicle (~3 mg/√Hz).
+    pub fn paper_inertial() -> Self {
+        // PSD ((m/s²)²/Hz) from an ASD in µg/√Hz: S_a = (u·g0·1e-6)².
+        let g0 = 9.806_65_f64;
+        let psd_from_ug = |u: f64| {
+            let a = u * g0 * 1e-6;
+            a * a
+        };
+        // Log-spaced 1 → 3000 µg/√Hz (isolated bench → moving vehicle), 9 points.
+        let vibration_psds = (0..9)
+            .map(|i| {
+                let u = 10f64.powf((i as f64) / 8.0 * (3000f64).log10());
+                psd_from_ug(u)
+            })
+            .collect();
+        InertialCrossover {
+            nominal_s: 120.0,
+            outages_s: vec![30.0, 60.0, 120.0, 300.0, 600.0, 1200.0, 1800.0],
+            vibration_psds,
+            cai: CaiPhysics {
+                wavelength_m: crate::inertial::quantum_imu::RB87_D2_WAVELENGTH_M,
+                pulse_sep_t: 0.02, // 20 ms — a mobile cold-atom interrogation
+                atom_number: 1.0e6,
+                contrast: 0.5,
+                cycle_time_s: 0.5,
+            },
+            quantum_bias: 5.88e-7,
+            quantum_id: "cold-atom-cai".into(),
+            quantum_provenance: "Exail/Templier-class cold-atom accelerometer triad; \
+                bias 5.88e-7 m/s² (Templier et al., Sci. Adv. 2022); noise derived from \
+                interferometer physics; laboratory maturity, not deployed"
+                .into(),
+            classical: ClassicalImu {
+                id: "nav-grade-quartz".into(),
+                provenance: "Navigation-grade quartz (Honeywell QA-2000 / Groves 2013): \
+                    bias 1.57e-3 m/s², noise ~20 µg/√Hz, bias instability ~1 µg"
+                    .into(),
+                bias: 1.57e-3,
+                q_va: 3.8416e-8,
+                bias_instability: 1.0e-5,
+                q_aa: 1.0e-13,
+            },
+            step_s: 2.0,
+            runs: 64,
+            seed: 42,
+            threshold_m: 100.0,
+        }
+    }
+}
+
 /// The ensemble p95 stat from an [`crate::inertial::AccelRun`] (present because the
 /// study always runs `runs ≥ 2`).
 fn ensemble_p95(run: &crate::inertial::AccelRun) -> MetricStat {
@@ -343,6 +401,44 @@ mod tests {
             assert_eq!(
                 x.quantum_p95_m.mean.to_bits(),
                 y.quantum_p95_m.mean.to_bits()
+            );
+        }
+    }
+
+    #[test]
+    fn paper_inertial_study_has_the_expected_shape_and_trend() {
+        let s = InertialCrossover::paper_inertial();
+        let r = s.run();
+        assert_eq!(r.nodes.len(), s.outages_s.len() * s.vibration_psds.len());
+        assert_eq!(r.breakeven.len(), s.outages_s.len());
+        let nv = s.vibration_psds.len();
+        // On an isolated bench (lowest PSD) the cold-atom advantage is large for
+        // every outage, and it falls monotonically to the noisiest platform.
+        for i in 0..s.outages_s.len() {
+            let quiet = r.nodes[i * nv].advantage;
+            let noisy = r.nodes[i * nv + nv - 1].advantage;
+            assert!(
+                quiet > 10.0,
+                "isolated-bench advantage should be large: {quiet}"
+            );
+            assert!(noisy < quiet, "advantage must fall with vibration");
+        }
+        // A genuine crossover exists for every outage within the swept platform
+        // range, and the break-even vibration RISES monotonically with outage
+        // duration — the cold-atom's bias advantage (∝ t²) tolerates more platform
+        // vibration the longer the outage. This monotone contour is the result.
+        let bes: Vec<f64> = r.breakeven.iter().map(|b| b.psd_at_breakeven).collect();
+        for b in &bes {
+            assert!(
+                b.is_finite() && *b > 0.0,
+                "break-even should be finite in range: {b}"
+            );
+        }
+        for w in bes.windows(2) {
+            assert!(
+                w[1] > w[0],
+                "break-even must rise with outage duration: {:?}",
+                w
             );
         }
     }
