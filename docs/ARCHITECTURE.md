@@ -1,10 +1,15 @@
 # Kshana — Architecture
 
-Kshana is **one engine** organised in three layers: a set of **sensor packs** (clock,
-inertial, time-transfer, hybrid), an **astrodynamics / numerical** layer (analytic
-SGP4/SDP4 plus a numerical Cowell propagator with its force model, maneuver design, and
-orbit determination), and a **fusion / alt-PNT** layer (the GNSS/INS estimators and the
-gravity-map matcher). The engine knows nothing about "quantum" vs "classical": it drives
+Kshana is **one engine** organised in layers over a shared core: the **sensor packs**
+(clock, inertial, time-transfer, hybrid); an **astrodynamics / numerical** layer (analytic
+SGP4/SDP4, a numerical Cowell propagator with its six-perturbation force model, maneuver
+design, orbit determination from ground-station ranges, and the force-model fit against
+agency precise ephemerides); a **time & reference-frame** layer (IERS time scales, IAU
+2006/2000A precession–nutation, and the CIO GCRS↔ITRS reduction); a **fusion** layer (the
+GNSS/INS estimators); and the **integrity, resilience, alt-PNT and lunar** layers
+(RAIM/ARAIM/SBAS, jamming and multi-layer spoof detection, gravity/terrain/magnetic
+map-matching, and cislunar PNT). Across all of them the engine knows nothing about
+"quantum" vs "classical": it drives
 sensor *error models* through a GNSS-outage scenario, runs an estimator, and scores the
 outcome. A quantum and a classical device are therefore compared on the same scenario,
 differing only in their (published, cited) error parameters and their independent noise
@@ -114,7 +119,7 @@ flowchart TD
     subgraph astro["Astrodynamics & numerical"]
       orbit2["orbit · sgp4 · tle · walker<br/>analytic SGP4/SDP4 · Walker design"]
       prop["propagator<br/>Cowell driver (accel_at / accel_rv)"]
-      forces["forces<br/>two-body · J2–J6 · 3rd-body · SRP · drag · relativity"]
+      forces["forces<br/>two-body · J2–J6 · EGM2008 d/o-70 · 3rd-body · SRP · drag · Schwarzschild + Lense–Thirring · tides"]
       integ["integrator<br/>RK4 step-doubling · Dormand–Prince RK5(4)"]
       ephem["ephem<br/>low-precision Sun & Moon"]
       man["maneuver<br/>impulsive/finite burns · Izzo Lambert · porkchop"]
@@ -152,6 +157,17 @@ The numerical propagator's force terms are off by default, so enabling them neve
 perturbs the released goldens. The 17-state tightly-coupled UKF coasts a GNSS outage on
 the quantum-CAI accelerometer's derived velocity-random-walk; orbit determination reuses
 the same `forces`/`integrator` to propagate a candidate state across the tracking arc.
+
+The same shared core also carries four further subsystems not drawn above (their packs
+appear in the dispatch of §4): a **time & reference-frame** layer (`timescales`, `jd2`,
+`precession`, `nutation`, `cio`, `frames`, `eop`) reducing TEME↔GCRS↔ITRS and feeding the
+`ephemeris`/ground-track pack; an **integrity** layer (`raim`, `sbas`) for RAIM/ARAIM/SBAS;
+a **resilience** layer (`jamming`, `spoof`, `spoof_detect`, `spoof_monitors`, `detection`)
+for jamming and multi-layer spoof detection; and a **lunar / cislunar** layer (`lunar`,
+`lunar_frame`, `lunar_od`, `cr3bp`) for CR3BP dynamics and LunaNet integrity. The
+agency-ephemeris force-model fit (`precise_od`, `lunar_od`, `tides`, `gravity_sh`) and the
+full alt-PNT field set (`igrf`, `altpnt/terrain`, `gravimeter`) round out the module list;
+see [CAPABILITY](CAPABILITY.md) for the per-module maturity.
 
 ## 2. Engine pipeline (per run)
 
@@ -230,21 +246,28 @@ return them to the host. One dispatch, no drift.
 
 ```mermaid
 flowchart TD
-    F["api::run_toml(src)"] --> K{"peek top-level<br/>kind field"}
-    K -- "inertial" --> RI["run_inertial → position FoMs"]
-    K -- "timetransfer" --> RT["run_timetransfer → sync + ranging FoMs"]
-    K -- "hybrid" --> RH["run_hybrid → combined PNT FoMs"]
-    K -- "orbit" --> RO["run_orbit_clock → timing FoMs<br/>(timeline from geometry)"]
-    K -- "clock / absent" --> RC["run → timing FoMs"]
-    RI --> W["result json + svg + summary"]
-    RT --> W
-    RH --> W
-    RO --> W
-    RC --> W
+    F["api::run_toml(src) · run_scenario(src)"] --> K{"ScenarioKind::classify<br/>typed · exhaustive · 19 kinds"}
+    K --> G1["Timing<br/>clock (default) · timetransfer"]
+    K --> G2["Inertial & fusion<br/>inertial · hybrid · fusion · gnss-ins"]
+    K --> G3["Orbit & geometry<br/>orbit · ephemeris · gnss-sim"]
+    K --> G4["Integrity<br/>integrity · lunar-integrity"]
+    K --> G5["Resilience<br/>spoof · spoof-detect · jamming"]
+    K --> G6["Alt-PNT (GPS-denied)<br/>gravity-map · terrain-nav · combined-altpnt"]
+    K --> G7["Trade studies<br/>sweep · sweep-nd"]
+    G1 --> W["result json + svg + summary"]
+    G2 --> W
+    G3 --> W
+    G4 --> W
+    G5 --> W
+    G6 --> W
+    G7 --> W
 ```
 
-`serde` ignores the unknown `kind` field on each scenario struct, so existing
-single-kind scenarios deserialize unchanged.
+Dispatch is on a typed `ScenarioKind` enum, matched exhaustively (see the next
+subsection), so adding a pack is a compile-checked change. An absent or
+unrecognised `kind` falls back to the `clock` pack, and `serde` ignores the
+`kind` field on each scenario struct, so existing single-kind scenarios
+deserialize unchanged.
 
 ### Typed dispatch and the structured API
 
@@ -364,13 +387,19 @@ all shipped, alongside the Security FoM with an active spoof demonstrator, real
 TLE/multi-constellation geometry, Monte-Carlo bands, trade-study sweeps, the HTML
 scorecard, and the publish/wheels/pages workflows.
 
-The current follow-ons are tracked in [CHANGELOG](../CHANGELOG.md) `[Unreleased]` and the
-per-capability roadmap in [CAPABILITY](CAPABILITY.md): the high-degree EGM **tesseral**
-field, the NRLMSISE-00 thermospheric density, solar limb darkening / the oblate-Earth
-shadow, the **Lense–Thirring** frame-dragging term, DE-grade ephemeris accuracy and an
-external GMAT/Orekit cross-validation; the IAU 2000A nutation and the full TEME→GCRS /
-ITRF chain; carrier-phase tight coupling and surfacing the tight-coupled navigator in a
-scenario pack; and a real EGM2008/EIGEN gravity map for the alt-PNT matcher.
+Several capabilities once listed here as future work have since **shipped** and are
+covered above or in [VALIDATION](VALIDATION.md): the full IAU 2000A nutation and the
+equinox-free CIO GCRS↔ITRS / ITRF reduction (validated bit-for-bit against SOFA/ERFA),
+the EGM2008 geopotential to degree/order 70, the **Lense–Thirring** frame-dragging term,
+solid/ocean/atmospheric tides, and a DE-grade (DE440/ANISE) ephemeris cross-validation.
+
+The remaining follow-ons are tracked in [CHANGELOG](../CHANGELOG.md) `[Unreleased]` and the
+per-capability roadmap in [CAPABILITY](CAPABILITY.md): a higher-degree (e.g. 200×200) EGM
+**tesseral** field and loader beyond the shipped degree/order-70 path, the NRLMSISE-00
+thermospheric density, solar limb darkening / the oblate-Earth shadow, an external
+GMAT/Orekit cross-validation of a high-fidelity orbit run, carrier-phase tight coupling and
+surfacing the tight-coupled navigator in a scenario pack, and a real EGM2008/EIGEN gravity
+map for the alt-PNT matcher.
 
 A private overlay repo holds export-sensitive resilience depth; it plugs in via the
 same `ErrorModel` interface (and the `ExternalPack` contract in §4) without changing
