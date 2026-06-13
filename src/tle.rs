@@ -367,6 +367,9 @@ pub struct ParseOpts {
     /// or parsing fails. Off by default, because synthetic Walker and teaching
     /// element sets routinely carry placeholder checksum digits.
     pub strict_checksum: bool,
+    /// The SGP4 gravity model to build full TLE propagators with. Defaults to
+    /// WGS-72, the set the standard verification vectors are defined against.
+    pub grav: crate::sgp4::GravModel,
 }
 
 /// Parse a block of TLEs into satellite propagators with the default (lenient)
@@ -411,7 +414,7 @@ pub struct ParseReport {
 /// each such element set raises a warning.
 pub fn parse_propagators_report(text: &str, opts: ParseOpts) -> Result<ParseReport, String> {
     use crate::orbit::Propagator;
-    let grav = crate::sgp4::wgs72();
+    let grav = opts.grav.constants();
     let mut out = Vec::new();
     let mut warnings = Vec::new();
     let mut pending_l1: Option<&str> = None;
@@ -540,6 +543,7 @@ mod tests {
         // Strict parsing enforces it: good passes, corrupt errors (no panic).
         let strict = ParseOpts {
             strict_checksum: true,
+            ..Default::default()
         };
         assert_eq!(parse_propagators_opts(&good, strict).unwrap().len(), 1);
         assert!(parse_propagators_opts(&bad, strict).is_err());
@@ -629,6 +633,39 @@ mod tests {
         let pair = parse_propagators_report(&full, ParseOpts::default()).unwrap();
         assert_eq!(pair.propagators.len(), 1);
         assert!(pair.warnings.is_empty(), "no warning for a full TLE pair");
+    }
+
+    #[test]
+    fn gravity_model_is_selectable_and_changes_the_propagation() {
+        use crate::orbit::Propagator;
+        use crate::sgp4::GravModel;
+        let full = format!("{VER_L1}\n{VER_L2}");
+
+        let by_model = |m: GravModel| -> [f64; 3] {
+            let ps = parse_propagators_opts(
+                &full,
+                ParseOpts {
+                    grav: m,
+                    ..Default::default()
+                },
+            )
+            .unwrap();
+            match &ps[0] {
+                Propagator::Sgp4(s) => {
+                    let (r, _v) = s.propagate(360.0).expect("propagation converges");
+                    [r[0], r[1], r[2]]
+                }
+                _ => panic!("expected an SGP4 propagator"),
+            }
+        };
+
+        let r72 = by_model(GravModel::Wgs72);
+        let r84 = by_model(GravModel::Wgs84);
+        let d = ((r72[0] - r84[0]).powi(2) + (r72[1] - r84[1]).powi(2) + (r72[2] - r84[2]).powi(2))
+            .sqrt();
+        // Distinct Earth constants give a measurably different propagated state
+        // (metre-level over this arc), well above floating-point noise.
+        assert!(d > 0.005, "WGS-72 and WGS-84 should differ, got {d} km");
     }
 
     #[test]

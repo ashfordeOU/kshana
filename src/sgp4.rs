@@ -61,6 +61,48 @@ pub fn wgs72() -> GravConst {
     }
 }
 
+/// The WGS-84 gravity model. More accurate Earth constants than WGS-72, but note
+/// the standard SGP4 verification vectors are defined against WGS-72, so WGS-72
+/// remains the default for reproducing published TLE propagations.
+pub fn wgs84() -> GravConst {
+    let mu = 398_600.5_f64;
+    let radiusearthkm = 6378.137_f64;
+    let xke = 60.0 / (radiusearthkm * radiusearthkm * radiusearthkm / mu).sqrt();
+    let j2 = 0.001_082_629_989_05;
+    let j3 = -0.000_002_532_153_06;
+    let j4 = -0.000_001_610_987_61;
+    GravConst {
+        mu,
+        radiusearthkm,
+        xke,
+        j2,
+        j3,
+        j4,
+        j3oj2: j3 / j2,
+    }
+}
+
+/// A named SGP4 gravity model. Use [`GravModel::constants`] to obtain the
+/// underlying [`GravConst`]. Defaults to WGS-72 (the verification-vector set).
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub enum GravModel {
+    /// WGS-72 — the conventional, verification-vector gravity set (default).
+    #[default]
+    Wgs72,
+    /// WGS-84 — more accurate Earth constants.
+    Wgs84,
+}
+
+impl GravModel {
+    /// The gravity constants for this model.
+    pub fn constants(self) -> GravConst {
+        match self {
+            GravModel::Wgs72 => wgs72(),
+            GravModel::Wgs84 => wgs84(),
+        }
+    }
+}
+
 /// Solve the SGP4 short-period Kepler equation `E = u + axnl·sin E − aynl·cos E`
 /// by the reference damped Newton iteration (Vallado), capped at ten steps.
 /// Returns `(sin E, cos E)`, or `None` when the iteration has not reached the
@@ -1350,6 +1392,32 @@ impl Sgp4 {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    // The WGS-84 gravity set is available alongside WGS-72, with the standard
+    // constants and a consistently derived `xke` and `j3oj2`.
+    #[test]
+    fn wgs84_gravity_constants() {
+        let g = wgs84();
+        assert!((g.mu - 398_600.5).abs() < 1e-6, "mu = {}", g.mu);
+        assert!((g.radiusearthkm - 6378.137).abs() < 1e-9);
+        assert!((g.j2 - 0.001_082_629_989_05).abs() < 1e-15);
+        assert!((g.j3 - -0.000_002_532_153_06).abs() < 1e-18);
+        assert!((g.j4 - -0.000_001_610_987_61).abs() < 1e-18);
+        let xke = 60.0 / (6378.137_f64.powi(3) / 398_600.5).sqrt();
+        assert!((g.xke - xke).abs() < 1e-12);
+        assert!((g.j3oj2 - g.j3 / g.j2).abs() < 1e-15);
+        // The two models are genuinely distinct (different equatorial radius).
+        assert!((g.radiusearthkm - wgs72().radiusearthkm).abs() > 1e-3);
+    }
+
+    // `GravModel` maps each named model to its constants and defaults to WGS-72,
+    // the set the verification vectors use.
+    #[test]
+    fn grav_model_selects_constants_and_defaults_to_wgs72() {
+        assert!((GravModel::Wgs72.constants().mu - wgs72().mu).abs() < 1e-9);
+        assert!((GravModel::Wgs84.constants().mu - wgs84().mu).abs() < 1e-9);
+        assert!((GravModel::default().constants().mu - wgs72().mu).abs() < 1e-9);
+    }
 
     // A benign, well-conditioned short-period Kepler solve converges and returns
     // the sine/cosine of the eccentric-anomaly-like root.
