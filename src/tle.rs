@@ -385,9 +385,35 @@ pub fn parse_propagators_opts(
     text: &str,
     opts: ParseOpts,
 ) -> Result<Vec<crate::orbit::Propagator>, String> {
+    let report = parse_propagators_report(text, opts)?;
+    for w in &report.warnings {
+        eprintln!("warning: {w}");
+    }
+    Ok(report.propagators)
+}
+
+/// A propagator-block parse together with any advisory warnings raised while
+/// parsing. Warnings are non-fatal: [`parse_propagators_opts`] prints them to
+/// stderr, while callers that want to surface them in a UI or report can call
+/// this function directly and inspect [`ParseReport::warnings`].
+#[derive(Clone, Debug, Default)]
+pub struct ParseReport {
+    /// The parsed propagators, in input order.
+    pub propagators: Vec<crate::orbit::Propagator>,
+    /// Advisory, non-fatal warnings (for example, line-2-only Keplerian fallback).
+    pub warnings: Vec<String>,
+}
+
+/// Like [`parse_propagators_opts`], but returns advisory warnings instead of
+/// printing them. A bare line 2 (no preceding line 1) is parsed as analytic
+/// Keplerian mean elements; that path ignores the line-1 drag/B\* and the SGP4
+/// secular terms, so the orbit drifts from a true SGP4 fit away from epoch and
+/// each such element set raises a warning.
+pub fn parse_propagators_report(text: &str, opts: ParseOpts) -> Result<ParseReport, String> {
     use crate::orbit::Propagator;
     let grav = crate::sgp4::wgs72();
     let mut out = Vec::new();
+    let mut warnings = Vec::new();
     let mut pending_l1: Option<&str> = None;
     for raw in text.lines() {
         let line = raw.trim();
@@ -405,14 +431,26 @@ pub fn parse_propagators_opts(
                     let tle = parse_tle(l1, line)?;
                     out.push(Propagator::Sgp4(Box::new(tle.to_sgp4(grav, false))));
                 }
-                None => out.push(Propagator::Kepler(parse_line2(line)?)),
+                None => {
+                    let satnum = line.get(2..7).unwrap_or("?????").trim();
+                    warnings.push(format!(
+                        "satellite {satnum}: line-2-only element set parsed as analytic \
+                         Keplerian (two-body) elements — the line-1 drag/B* and SGP4 secular \
+                         terms are absent, so this orbit drifts from a true SGP4 fit away from \
+                         epoch; supply the matching line 1 for SGP4 accuracy"
+                    ));
+                    out.push(Propagator::Kepler(parse_line2(line)?));
+                }
             }
         } else {
             // Name line or blank: a pending line 1 without its line 2 is dropped.
             pending_l1 = None;
         }
     }
-    Ok(out)
+    Ok(ParseReport {
+        propagators: out,
+        warnings,
+    })
 }
 
 #[cfg(test)]
@@ -574,6 +612,23 @@ mod tests {
         assert_eq!(two.len(), 2);
         assert!(matches!(two[0], Propagator::Sgp4(_)));
         assert!(matches!(two[1], Propagator::Kepler(_)));
+    }
+
+    #[test]
+    fn line2_only_parse_raises_a_keplerian_drift_warning() {
+        // A bare line 2 falls back to analytic Keplerian elements; that fallback
+        // is no longer silent — it raises an advisory warning naming the drift.
+        let bare = parse_propagators_report(VER_L2, ParseOpts::default()).unwrap();
+        assert_eq!(bare.propagators.len(), 1);
+        assert_eq!(bare.warnings.len(), 1, "one line-2-only warning expected");
+        let w = bare.warnings[0].to_lowercase();
+        assert!(w.contains("keplerian") && w.contains("sgp4"), "warning text: {w}");
+
+        // A full line-1 + line-2 SGP4 pair raises no warning.
+        let full = format!("{VER_L1}\n{VER_L2}");
+        let pair = parse_propagators_report(&full, ParseOpts::default()).unwrap();
+        assert_eq!(pair.propagators.len(), 1);
+        assert!(pair.warnings.is_empty(), "no warning for a full TLE pair");
     }
 
     #[test]
