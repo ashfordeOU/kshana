@@ -140,6 +140,14 @@ impl Body {
     }
 }
 
+impl Default for Body {
+    /// Earth — so types that hold a [`Body`] and derive `Default` (e.g. the propagator's
+    /// `ForceModel`) keep their historical Earth default and stay byte-identical.
+    fn default() -> Self {
+        Self::earth()
+    }
+}
+
 /// Mars low-degree unnormalised zonals `[J2, J3, J4]` (Konopliv et al., MRO110B2 Mars gravity
 /// field). `J2` is the dominant oblateness term; `J3`/`J4` are the leading odd/even corrections.
 pub const MARS_ZONALS_J2_J4: [f64; 3] = [1.960_45e-3, 3.145e-5, -1.538e-5];
