@@ -2288,11 +2288,8 @@ mod tests {
             strict_checksum: false,
         };
         let gnss = cons.satellites().expect("constellation builds");
-        // A user just above the WGS-84 ellipsoid surface, so it stays above
-        // ground at every latitude of its ground track. (The mean spherical
-        // radius R_EARTH_M sits below the equatorial ellipsoid, which the
-        // oblate occultation test correctly treats as underground.)
-        let user = Orbit::new(crate::frames::WGS84_A + 1_000.0, 0.6, 0.2, 0.0);
+        // A user near the surface.
+        let user = Orbit::new(R_EARTH_M, 0.6, 0.2, 0.0);
         let cfg = RaimConfig {
             sigma_m: 6.0,
             p_fa: 1e-5,

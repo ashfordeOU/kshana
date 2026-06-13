@@ -449,26 +449,32 @@ impl From<crate::sp3::Sp3Interpolator> for Propagator {
 pub const ATMOSPHERE_OCCULT_KM: f64 = 50.0;
 
 /// True when the solid Earth occults the line of sight between `user` and `sat`.
-/// The Earth is modelled as the WGS-84 ellipsoid, so the equatorial bulge blocks
-/// a grazing ray that the flatter poles would let through; this replaces the old
-/// spherical mean-radius test. Positions are metres in an Earth-centred frame
-/// whose z-axis is the polar axis (ECEF, or ECI to within polar motion).
-/// Atmospheric blockage is a separate effect — see
+/// The Earth is modelled as an oblate spheroid — equatorial radius
+/// [`R_EARTH_M`] (the engine's mean Earth radius, the same value all positions
+/// are built on) flattened at the poles by the WGS-84 flattening — so a ray
+/// grazing the flatter poles is no longer wrongly blocked the way a pure sphere
+/// blocks it. Anchoring the equator at `R_EARTH_M` keeps the occultation model
+/// consistent with the engine's spherical-Earth position convention, so a
+/// near-surface user is not spuriously placed underground. Positions are metres
+/// in an Earth-centred frame whose z-axis is the polar axis (ECEF, or ECI to
+/// within polar motion). Atmospheric blockage is a separate effect — see
 /// [`earth_occults_with_atmosphere`] — and operational visibility additionally
 /// applies the elevation mask in [`visible_count`].
 pub fn earth_occults(user: Vec3, sat: Vec3) -> bool {
     earth_occults_with_atmosphere(user, sat, 0.0)
 }
 
-/// Like [`earth_occults`], but inflates the blocking ellipsoid by `atmosphere_km`
+/// Like [`earth_occults`], but inflates the blocking spheroid by `atmosphere_km`
 /// so a ray skimming the dense lower atmosphere counts as occulted. See
 /// [`ATMOSPHERE_OCCULT_KM`] for a representative value.
 pub fn earth_occults_with_atmosphere(user: Vec3, sat: Vec3, atmosphere_km: f64) -> bool {
-    // Map the oblate ellipsoid to a sphere of radius `a` by scaling the polar
-    // (z) axis by a/b, then test the closest approach of the scaled segment to
-    // Earth's centre against the equatorial radius plus any atmosphere shell.
-    let a = crate::frames::WGS84_A;
-    let sz = a / crate::frames::wgs84_b();
+    // Oblate spheroid anchored at the engine's mean Earth radius: equatorial
+    // radius a = R_EARTH_M, polar radius b = a(1 - f). Map it to a sphere of
+    // radius a by scaling the polar (z) axis by a/b, then test the closest
+    // approach of the scaled segment to Earth's centre against a plus any
+    // atmosphere shell.
+    let a = R_EARTH_M;
+    let sz = 1.0 / (1.0 - crate::frames::WGS84_F);
     let scale = |p: Vec3| [p[0], p[1], p[2] * sz];
     let u = scale(user);
     let d = sub(scale(sat), u);
@@ -1463,37 +1469,34 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
     }
 
     #[test]
-    fn occultation_uses_the_oblate_ellipsoid_at_the_poles() {
-        // A ray grazing 6360 km from the centre over the pole clears the oblate
-        // Earth (polar radius ~6357 km) but a 6371 km mean sphere would wrongly
-        // block it. Tangent geometry: the segment midpoint is the closest approach.
-        let user = [1.0e7, 0.0, 6.360e6];
-        let sat = [-1.0e7, 0.0, 6.360e6];
+    fn occultation_accounts_for_oblateness() {
+        // The same grazing radius (6360 km) the oblate spheroid resolves two ways:
+        // over the flattened pole (polar radius ~6350 km) the ray clears, while
+        // over the equator (radius 6371 km) it is blocked. A pure 6371 km sphere
+        // would block both. Tangent geometry: the segment midpoint is the closest
+        // approach.
+        let polar_user = [1.0e7, 0.0, 6.360e6];
+        let polar_sat = [-1.0e7, 0.0, 6.360e6];
         assert!(
-            !earth_occults(user, sat),
-            "a polar grazing ray should clear the oblate Earth"
+            !earth_occults(polar_user, polar_sat),
+            "a polar grazing ray should clear the flattened pole"
         );
-    }
 
-    #[test]
-    fn occultation_uses_the_oblate_ellipsoid_at_the_equator() {
-        // A ray grazing 6375 km from the centre over the equator is blocked by
-        // the equatorial bulge (6378.137 km) though a 6371 km sphere would clear it.
-        let user = [6.375e6, 1.0e7, 0.0];
-        let sat = [6.375e6, -1.0e7, 0.0];
+        let equ_user = [6.360e6, 1.0e7, 0.0];
+        let equ_sat = [6.360e6, -1.0e7, 0.0];
         assert!(
-            earth_occults(user, sat),
-            "an equatorial grazing ray should be blocked by the bulge"
+            earth_occults(equ_user, equ_sat),
+            "an equatorial grazing ray at the same radius should be blocked"
         );
     }
 
     #[test]
     fn occultation_can_include_an_atmosphere_shell() {
-        // A ray grazing 6385 km clears the solid ellipsoid (6378.137 km) but is
-        // occulted once the dense lower-atmosphere shell is added.
+        // A ray grazing 6385 km clears the solid Earth (equatorial radius 6371 km)
+        // but is occulted once the dense lower-atmosphere shell is added.
         let user = [6.385e6, 1.0e7, 0.0];
         let sat = [6.385e6, -1.0e7, 0.0];
-        assert!(!earth_occults(user, sat), "clears the solid ellipsoid");
+        assert!(!earth_occults(user, sat), "clears the solid Earth");
         assert!(
             earth_occults_with_atmosphere(user, sat, ATMOSPHERE_OCCULT_KM),
             "blocked when grazing through the atmosphere"
