@@ -53,10 +53,21 @@ fn norm(r: Vec3) -> f64 {
     (r[0] * r[0] + r[1] * r[1] + r[2] * r[2]).sqrt()
 }
 
-/// Two-body (point-mass) gravitational acceleration `−μ·r/|r|³` (m/s²).
+/// Two-body (point-mass) gravitational acceleration `−μ·r/|r|³` (m/s²) about Earth. This is the
+/// Earth specialisation of [`two_body_accel_body`]: it delegates with [`crate::body::Body::earth`]
+/// (whose `μ` is the exact [`MU_EARTH`] literal), so the result is **bit-identical** to the
+/// historical Earth-hard-coded form.
 pub fn two_body_accel(r: Vec3) -> Vec3 {
+    two_body_accel_body(r, &crate::body::Body::earth())
+}
+
+/// Two-body (point-mass) gravitational acceleration `−μ·r/|r|³` (m/s²) about an arbitrary central
+/// body `b`, using `b.mu`. With `b = Body::earth()` (whose `μ` is the [`MU_EARTH`] literal) this is
+/// the exact arithmetic of the legacy Earth [`two_body_accel`], in the same operation order, so the
+/// Earth path stays byte-identical.
+pub fn two_body_accel_body(r: Vec3, b: &crate::body::Body) -> Vec3 {
     let rn = norm(r);
-    let k = -MU_EARTH / (rn * rn * rn);
+    let k = -b.mu / (rn * rn * rn);
     [k * r[0], k * r[1], k * r[2]]
 }
 
@@ -100,26 +111,44 @@ fn legendre(s: f64, deg: usize) -> (Vec<f64>, Vec<f64>) {
     (p, dp)
 }
 
-/// Zonal disturbing potential `R(r) = −(μ/r)·Σ_{n≥2} J_n·(Re/r)ⁿ·P_n(z/r)` (m²/s²) — the
-/// perturbation to the central `μ/r` whose gradient is [`zonal_accel`]. `jn` is the zonal
-/// coefficient slice indexed from degree 2 (`jn[0] = J2`, `jn[1] = J3`, …).
-pub fn zonal_potential(r: Vec3, jn: &[f64]) -> f64 {
+/// The body-general zonal disturbing potential, the shared core of [`zonal_potential`] and
+/// [`zonal_potential_body`]: `R(r) = −(μ/r)·Σ_{n≥2} J_n·(Re/r)ⁿ·P_n(z/r)` (m²/s²) for a body of
+/// gravitational parameter `mu` and reference radius `re`. The Earth specialisations call this with
+/// the [`MU_EARTH`]/[`RE_EARTH`] literals, so the expression — and its operation order — is the
+/// historical one and the Earth result is bit-identical.
+fn zonal_potential_with(r: Vec3, mu: f64, re: f64, jn: &[f64]) -> f64 {
     let rn = norm(r);
     let s = r[2] / rn;
     let (p, _) = legendre(s, jn.len() + 1);
     let mut sum = 0.0;
     for (i, &j) in jn.iter().enumerate() {
         let n = i + 2;
-        sum += j * (RE_EARTH / rn).powi(n as i32) * p[n];
+        sum += j * (re / rn).powi(n as i32) * p[n];
     }
-    -MU_EARTH / rn * sum
+    -mu / rn * sum
 }
 
-/// Perturbing acceleration `a = ∇R` (m/s², ECI) from the zonal harmonics in `jn` (indexed
-/// from degree 2, so `jn = [J2, J3, …]`). Excludes the central two-body term — add
-/// [`two_body_accel`] for the total. This is the exact analytic gradient of
-/// [`zonal_potential`]; with `jn = [J2]` it reduces to [`j2_accel`] to machine precision.
-pub fn zonal_accel(r: Vec3, jn: &[f64]) -> Vec3 {
+/// Zonal disturbing potential `R(r) = −(μ/r)·Σ_{n≥2} J_n·(Re/r)ⁿ·P_n(z/r)` (m²/s²) about Earth —
+/// the perturbation to the central `μ/r` whose gradient is [`zonal_accel`]. `jn` is the zonal
+/// coefficient slice indexed from degree 2 (`jn[0] = J2`, `jn[1] = J3`, …). Delegates to
+/// [`zonal_potential_with`] with the Earth [`MU_EARTH`]/[`RE_EARTH`] literals.
+pub fn zonal_potential(r: Vec3, jn: &[f64]) -> f64 {
+    zonal_potential_with(r, MU_EARTH, RE_EARTH, jn)
+}
+
+/// Zonal disturbing potential about an arbitrary central body `b` (using `b.mu`, `b.re`, `b.zonals`).
+/// With `b = Body::earth()` this equals [`zonal_potential`] called with [`EARTH_ZONALS_J2_J6`]
+/// bit-for-bit.
+pub fn zonal_potential_body(r: Vec3, b: &crate::body::Body) -> f64 {
+    zonal_potential_with(r, b.mu, b.re, b.zonals)
+}
+
+/// The body-general zonal perturbing acceleration, the shared core of [`zonal_accel`] and
+/// [`zonal_accel_body`]: `a = ∇R` (m/s², ECI) for a body of gravitational parameter `mu` and
+/// reference radius `re`, the exact analytic gradient of [`zonal_potential_with`]. The Earth
+/// specialisations pass the [`MU_EARTH`]/[`RE_EARTH`] literals, so the arithmetic — and its
+/// operation order — is the historical one and the Earth result is bit-identical.
+fn zonal_accel_with(r: Vec3, mu: f64, re: f64, jn: &[f64]) -> Vec3 {
     let rn = norm(r);
     let s = r[2] / rn;
     let (p, dp) = legendre(s, jn.len() + 1);
@@ -133,7 +162,7 @@ pub fn zonal_accel(r: Vec3, jn: &[f64]) -> Vec3 {
     for (i, &j) in jn.iter().enumerate() {
         let n = i + 2;
         let ni = n as i32;
-        let coef = -MU_EARTH * j * RE_EARTH.powi(ni);
+        let coef = -mu * j * re.powi(ni);
         // ∂/∂x_k[ r^{−(n+1)}·P_n(s) ] = −(n+1)·r^{−(n+3)}·x_k·P_n + r^{−(n+1)}·P_n'·∂s/∂x_k.
         let t1 = -(n as f64 + 1.0) * rn.powi(-(ni + 3));
         let t2 = rn.powi(-(ni + 1)) * dp[n];
@@ -142,6 +171,22 @@ pub fn zonal_accel(r: Vec3, jn: &[f64]) -> Vec3 {
         }
     }
     a
+}
+
+/// Perturbing acceleration `a = ∇R` (m/s², ECI) about Earth from the zonal harmonics in `jn`
+/// (indexed from degree 2, so `jn = [J2, J3, …]`). Excludes the central two-body term — add
+/// [`two_body_accel`] for the total. This is the exact analytic gradient of
+/// [`zonal_potential`]; with `jn = [J2]` it reduces to [`j2_accel`] to machine precision.
+/// Delegates to [`zonal_accel_with`] with the Earth [`MU_EARTH`]/[`RE_EARTH`] literals.
+pub fn zonal_accel(r: Vec3, jn: &[f64]) -> Vec3 {
+    zonal_accel_with(r, MU_EARTH, RE_EARTH, jn)
+}
+
+/// Zonal perturbing acceleration about an arbitrary central body `b` (using `b.mu`, `b.re`,
+/// `b.zonals`). With `b = Body::earth()` this equals [`zonal_accel`] called with
+/// [`EARTH_ZONALS_J2_J6`] bit-for-bit, so the Earth path stays byte-identical.
+pub fn zonal_accel_body(r: Vec3, b: &crate::body::Body) -> Vec3 {
+    zonal_accel_with(r, b.mu, b.re, b.zonals)
 }
 
 /// Sun gravitational parameter `GM☉` (m³/s²), IAU/DE value.
