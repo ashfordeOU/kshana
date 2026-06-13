@@ -483,7 +483,11 @@ pub fn earth_occults_with_atmosphere(user: Vec3, sat: Vec3, atmosphere_km: f64) 
         return false;
     }
     let lambda = (-dot(u, d) / dd).clamp(0.0, 1.0);
-    let closest = [u[0] + lambda * d[0], u[1] + lambda * d[1], u[2] + lambda * d[2]];
+    let closest = [
+        u[0] + lambda * d[0],
+        u[1] + lambda * d[1],
+        u[2] + lambda * d[2],
+    ];
     norm(closest) < a + atmosphere_km * 1000.0
 }
 

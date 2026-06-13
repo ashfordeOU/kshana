@@ -626,7 +626,10 @@ mod tests {
         assert_eq!(bare.propagators.len(), 1);
         assert_eq!(bare.warnings.len(), 1, "one line-2-only warning expected");
         let w = bare.warnings[0].to_lowercase();
-        assert!(w.contains("keplerian") && w.contains("sgp4"), "warning text: {w}");
+        assert!(
+            w.contains("keplerian") && w.contains("sgp4"),
+            "warning text: {w}"
+        );
 
         // A full line-1 + line-2 SGP4 pair raises no warning.
         let full = format!("{VER_L1}\n{VER_L2}");
