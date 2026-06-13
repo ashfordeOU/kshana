@@ -49,6 +49,7 @@ fn tle_parser_never_panics_on_garbage() {
             &s,
             ParseOpts {
                 strict_checksum: true,
+                ..Default::default()
             },
         );
         let prefixed = format!("{} {}", if rng.gen::<bool>() { "1" } else { "2" }, s);
@@ -78,6 +79,7 @@ fn tle_parser_never_panics_on_non_ascii() {
             &with_prefix,
             ParseOpts {
                 strict_checksum: true,
+                ..Default::default()
             },
         );
     }
