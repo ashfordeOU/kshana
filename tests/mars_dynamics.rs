@@ -89,3 +89,86 @@ fn two_body_body_retargets_to_mars() {
         "two-body accel ratio {ratio} must equal the μ ratio {mu_ratio}"
     );
 }
+
+/// The propagator's [`ForceModel`] defaults its central body to Earth, and routing the central
+/// gravity through that body must change nothing for Earth: the default model and the same model
+/// with an explicit `with_body(Body::earth())` must give the **exact same** acceleration and the
+/// **exact same** propagated Earth LEO arc — byte-identical, the whole point of the seam.
+#[test]
+fn forcemodel_default_body_is_earth() {
+    use kshana::integrator::Tolerance;
+    use kshana::propagator::{propagate, ForceModel};
+
+    // The default body is Earth.
+    assert_eq!(ForceModel::two_body().body.name, "Earth");
+    assert_eq!(ForceModel::two_body().body.mu, Body::earth().mu);
+
+    let r = [7.0e6, 1.0e6, 2.0e6];
+    // accel() through the default body == accel() with an explicit Earth body, exactly, across
+    // the two-body, J2-only and full-zonal central-gravity branches.
+    for (label, model) in [
+        ("two_body", ForceModel::two_body()),
+        ("with_j2", ForceModel::with_j2()),
+        ("with_zonals_j2_j6", ForceModel::with_zonals_j2_j6()),
+    ] {
+        let default_a = model.clone().accel(r);
+        let earth_a = model.with_body(Body::earth()).accel(r);
+        for k in 0..3 {
+            assert_eq!(
+                default_a[k], earth_a[k],
+                "{label} axis {k}: default-body accel {} != explicit-Earth accel {}",
+                default_a[k], earth_a[k]
+            );
+        }
+    }
+
+    // And the same over a full propagated LEO arc (the end-to-end byte-identical check).
+    let r0 = [7.0e6, 0.0, 0.0];
+    let v0 = [0.0, 7.5e3, 1.0e3];
+    let arc = 5400.0; // ~one LEO orbit.
+    let tol = Tolerance {
+        rtol: 1e-12,
+        atol: 1e-9,
+        ..Tolerance::default()
+    };
+    let default_model = ForceModel::with_zonals_j2_j6();
+    let earth_model = ForceModel::with_zonals_j2_j6().with_body(Body::earth());
+    let (rd, vd) = propagate(r0, v0, arc, &default_model, &tol);
+    let (re, ve) = propagate(r0, v0, arc, &earth_model, &tol);
+    for k in 0..3 {
+        assert_eq!(
+            rd[k], re[k],
+            "propagated position axis {k} must be byte-identical"
+        );
+        assert_eq!(
+            vd[k], ve[k],
+            "propagated velocity axis {k} must be byte-identical"
+        );
+    }
+}
+
+/// The `with_body` seam re-targets the propagator's central gravity: a Mars two-body arc differs
+/// from the Earth two-body arc from the same state — the body field actually drives the dynamics.
+#[test]
+fn forcemodel_with_body_retargets_to_mars() {
+    use kshana::integrator::Tolerance;
+    use kshana::propagator::{propagate, ForceModel};
+
+    let r0 = [5.0e6, 0.0, 0.0];
+    let v0 = [0.0, 3.0e3, 0.0];
+    let arc = 2000.0;
+    let tol = Tolerance::default();
+    let (re, _) = propagate(r0, v0, arc, &ForceModel::two_body(), &tol);
+    let (rm, _) = propagate(
+        r0,
+        v0,
+        arc,
+        &ForceModel::two_body().with_body(Body::mars()),
+        &tol,
+    );
+    let sep = ((re[0] - rm[0]).powi(2) + (re[1] - rm[1]).powi(2) + (re[2] - rm[2]).powi(2)).sqrt();
+    assert!(
+        sep > 1.0,
+        "Mars vs Earth two-body arcs must diverge, sep {sep} m"
+    );
+}
