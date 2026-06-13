@@ -713,6 +713,7 @@ impl ConstellationCfg {
                 text,
                 crate::tle::ParseOpts {
                     strict_checksum: self.strict_checksum,
+                    ..Default::default()
                 },
             );
         }
