@@ -61,6 +61,39 @@ pub fn wgs72() -> GravConst {
     }
 }
 
+/// Solve the SGP4 short-period Kepler equation `E = u + axnl·sin E − aynl·cos E`
+/// by the reference damped Newton iteration (Vallado), capped at ten steps.
+/// Returns `(sin E, cos E)`, or `None` when the iteration has not reached the
+/// `1e-12` tolerance within the cap — a near-singular short-period geometry —
+/// so a non-converged root is reported rather than silently returned. The
+/// arithmetic is identical to the reference for every case that converges, which
+/// preserves the verification-vector results exactly.
+fn kepler_short_period(u: f64, axnl: f64, aynl: f64) -> Option<(f64, f64)> {
+    let mut eo1 = u;
+    let mut tem5: f64 = 9999.9;
+    let mut ktr = 1;
+    let mut sineo1 = 0.0;
+    let mut coseo1 = 0.0;
+    while tem5.abs() >= 1.0e-12 && ktr <= 10 {
+        sineo1 = eo1.sin();
+        coseo1 = eo1.cos();
+        tem5 = 1.0 - coseo1 * axnl - sineo1 * aynl;
+        tem5 = (u - aynl * coseo1 + axnl * sineo1 - eo1) / tem5;
+        if tem5.abs() >= 0.95 {
+            tem5 = if tem5 > 0.0 { 0.95 } else { -0.95 };
+        }
+        eo1 += tem5;
+        ktr += 1;
+    }
+    // Reject both an unconverged root (tolerance not met within the cap) and a
+    // degenerate one (a vanishing Newton denominator at e = 1 yields a non-finite
+    // step). Either way the reference would return garbage silently; we do not.
+    if !tem5.is_finite() || tem5.abs() >= 1.0e-12 {
+        return None;
+    }
+    Some((sineo1, coseo1))
+}
+
 /// Reduce an angle to `[0, 2π)`, matching the reference's `x % twopi` for any sign.
 fn fmod2pi(x: f64) -> f64 {
     if x >= 0.0 {
@@ -603,22 +636,13 @@ impl Sgp4 {
 
         // ---- solve Kepler's equation ----
         let u = fmod2pi(xl - nodep);
-        let mut eo1 = u;
-        let mut tem5: f64 = 9999.9;
-        let mut ktr = 1;
-        let mut sineo1 = 0.0;
-        let mut coseo1 = 0.0;
-        while tem5.abs() >= 1.0e-12 && ktr <= 10 {
-            sineo1 = eo1.sin();
-            coseo1 = eo1.cos();
-            tem5 = 1.0 - coseo1 * axnl - sineo1 * aynl;
-            tem5 = (u - aynl * coseo1 + axnl * sineo1 - eo1) / tem5;
-            if tem5.abs() >= 0.95 {
-                tem5 = if tem5 > 0.0 { 0.95 } else { -0.95 };
-            }
-            eo1 += tem5;
-            ktr += 1;
-        }
+        // Error code 7: the damped Newton iteration did not converge within the
+        // reference ten-step cap (a near-singular short-period geometry). The
+        // bare reference returns the unconverged root silently; we surface it.
+        let (sineo1, coseo1) = match kepler_short_period(u, axnl, aynl) {
+            Some(v) => v,
+            None => return Err(7),
+        };
 
         // ---- short-period preliminary quantities ----
         let ecose = axnl * coseo1 + aynl * sineo1;
@@ -1320,5 +1344,35 @@ impl Sgp4 {
                     - self.no_unkozai;
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    // A benign, well-conditioned short-period Kepler solve converges and returns
+    // the sine/cosine of the eccentric-anomaly-like root.
+    #[test]
+    fn kepler_short_period_converges_for_benign_elements() {
+        // Low eccentricity (|axnl,aynl| small): the damped Newton iteration
+        // settles well within the ten-step reference cap.
+        let (sineo1, coseo1) = kepler_short_period(0.5, 0.01, 0.005)
+            .expect("benign low-eccentricity solve must converge");
+        // Returned values are a genuine sine/cosine pair.
+        assert!((sineo1 * sineo1 + coseo1 * coseo1 - 1.0).abs() < 1e-12);
+    }
+
+    // A degenerate parabolic geometry (eccentricity component exactly 1) makes
+    // the Newton denominator `1 − axnl·cos E − aynl·sin E` vanish at the start,
+    // producing a non-finite step. The solver reports this as non-convergence
+    // instead of silently returning a NaN root. (Real propagation never reaches
+    // here: the perturbed eccentricity is range-checked to `< 1` upstream.)
+    #[test]
+    fn kepler_short_period_flags_degenerate_geometry() {
+        assert!(
+            kepler_short_period(0.0, 1.0, 0.0).is_none(),
+            "a vanishing Newton denominator (e = 1) must be reported, not returned as NaN"
+        );
     }
 }
