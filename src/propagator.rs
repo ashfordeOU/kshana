@@ -42,10 +42,11 @@
 //! two-body/J2/zonal/third-body/SRP/drag/relativity force model + the analytic-truth validation
 //! harness and the convergence-guarded Kepler solver.
 
+use crate::body::Body;
 use crate::ephem::{moon_position, sun_position};
 use crate::forces::{
-    drag_accel, gravity_accel, lense_thirring_accel, relativistic_accel, srp_accel,
-    third_body_accel, two_body_accel, zonal_accel, EARTH_ZONALS_J2_J6, MU_EARTH, MU_MOON, MU_SUN,
+    drag_accel, j2_accel, lense_thirring_accel, relativistic_accel, srp_accel, third_body_accel,
+    two_body_accel_body, zonal_accel, EARTH_ZONALS_J2_J6, MU_EARTH, MU_MOON, MU_SUN,
 };
 use crate::integrator::{integrate, integrate_dopri, rk4_step, Tolerance};
 use crate::precession::julian_centuries_tt;
@@ -71,8 +72,15 @@ fn norm(a: Vec3) -> f64 {
 }
 
 /// Which perturbations the propagated force model includes on top of two-body gravity.
-#[derive(Clone, Copy, Debug, Default)]
+///
+/// `Clone` (not `Copy`): the [`body`](Self::body) carries an optional
+/// [`crate::gravity_sh::SphericalHarmonicField`], which owns heap data and is not `Copy`.
+#[derive(Clone, Debug, Default)]
 pub struct ForceModel {
+    /// The central body the gravity is taken about. Defaults to [`Body::earth`], for which the
+    /// central-gravity path is **byte-identical** to the historical Earth-hard-coded code; set a
+    /// different body with [`with_body`](Self::with_body) to propagate about Mars, the Moon, etc.
+    pub body: Body,
     /// Include the J2 oblateness perturbation.
     pub j2: bool,
     /// Optional zonal-harmonic field (`[J2, J3, …]` from degree 2) integrated via
@@ -203,19 +211,41 @@ impl ForceModel {
         self
     }
 
+    /// Set the central body the gravity is taken about (default [`Body::earth`]). The two-body
+    /// term uses `body.mu`, and a full tesseral [`Body::gravity`] field, when present, supersedes
+    /// the J2/zonal path. Composable with any configuration, e.g.
+    /// `ForceModel::two_body().with_body(Body::mars())`.
+    pub fn with_body(mut self, body: Body) -> Self {
+        self.body = body;
+        self
+    }
+
     /// The time-independent **central** gravity (m/s², ECI) at position `r` (m): two-body plus
     /// the configured J2/zonal field, but *not* the third-body terms (which depend on time
     /// through the ephemeris — see [`accel_at`](Self::accel_at)). For a model without Sun/Moon
     /// this is the full acceleration.
+    ///
+    /// The central gravity is taken about [`self.body`](Self::body): the two-body term uses
+    /// `body.mu` ([`crate::forces::two_body_accel_body`]), and when the body carries a full
+    /// tesseral [`Body::gravity`] field that supersedes the J2/zonal path. For the default
+    /// [`Body::earth`] (`μ = MU_EARTH`, no SH field) this reduces to the historical
+    /// `two_body_accel(r) (+ j2_accel / + zonal_accel)` arithmetic **bit-for-bit**.
     pub fn accel(&self, r: Vec3) -> Vec3 {
+        // A full tesseral field (only ever attached to a non-default body) supersedes the
+        // J2/zonal path; the Earth default has `gravity: None`, so this branch never runs for
+        // Earth and the goldens are untouched.
+        if let Some(field) = &self.body.gravity {
+            return field.acceleration(r);
+        }
+        let tb = two_body_accel_body(r, &self.body);
         if let Some(jn) = self.zonals {
-            let tb = two_body_accel(r);
             let zo = zonal_accel(r, jn);
             [tb[0] + zo[0], tb[1] + zo[1], tb[2] + zo[2]]
         } else if self.j2 {
-            gravity_accel(r)
+            let j = j2_accel(r);
+            [tb[0] + j[0], tb[1] + j[1], tb[2] + j[2]]
         } else {
-            two_body_accel(r)
+            tb
         }
     }
 
@@ -303,7 +333,7 @@ pub fn propagate(
     r0: Vec3,
     v0: Vec3,
     t_end: f64,
-    model: ForceModel,
+    model: &ForceModel,
     tol: &Tolerance,
 ) -> (Vec3, Vec3) {
     // A non-finite initial state or duration makes the adaptive step controller's error norm
@@ -330,7 +360,7 @@ pub fn propagate_dopri(
     r0: Vec3,
     v0: Vec3,
     t_end: f64,
-    model: ForceModel,
+    model: &ForceModel,
     tol: &Tolerance,
 ) -> (Vec3, Vec3) {
     if !state_is_finite(r0, v0, t_end) {
@@ -403,7 +433,7 @@ pub enum Integrator {
 /// state `(r0, v0)` (SI units) to a [`Tolerance`] by the chosen [`Integrator`]. It implements
 /// [`Propagator`] so the numerical force-model orbit is a peer of the analytic [`Sgp4`] behind
 /// one interface — the wiring the milestone calls for.
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Debug)]
 pub struct NumericalPropagator {
     /// Initial position at epoch (m, TEME/ECI).
     pub r0: Vec3,
@@ -453,10 +483,10 @@ impl Propagator for NumericalPropagator {
     fn state_at(&self, t_seconds: f64) -> Result<StateVector, PropagatorError> {
         let (r, v) = match self.integrator {
             Integrator::StepDoubling => {
-                propagate(self.r0, self.v0, t_seconds, self.model, &self.tol)
+                propagate(self.r0, self.v0, t_seconds, &self.model, &self.tol)
             }
             Integrator::DormandPrince => {
-                propagate_dopri(self.r0, self.v0, t_seconds, self.model, &self.tol)
+                propagate_dopri(self.r0, self.v0, t_seconds, &self.model, &self.tol)
             }
         };
         Ok(StateVector { r, v })
@@ -505,7 +535,13 @@ pub fn specific_energy(r: Vec3, v: Vec3) -> f64 {
 /// A fixed step (rather than the adaptive driver, which only returns the final state) gives a
 /// uniform time series for fitting the secular nodal rate. Small `h` keeps the truncation
 /// error far below the secular signal being measured.
-pub fn nodal_history(r0: Vec3, v0: Vec3, t_end: f64, h: f64, model: ForceModel) -> Vec<(f64, f64)> {
+pub fn nodal_history(
+    r0: Vec3,
+    v0: Vec3,
+    t_end: f64,
+    h: f64,
+    model: &ForceModel,
+) -> Vec<(f64, f64)> {
     let f = model.rhs();
     let mut y = vec![r0[0], r0[1], r0[2], v0[0], v0[1], v0[2]];
     let mut t = 0.0;
@@ -627,7 +663,7 @@ mod tests {
             atol: 1e-9,
             ..Tolerance::default()
         };
-        let (r_num, _v_num) = propagate(r0, v0, day, ForceModel::two_body(), &tol);
+        let (r_num, _v_num) = propagate(r0, v0, day, &ForceModel::two_body(), &tol);
         let (r_exact, _v_exact) = kepler_universal(r0, v0, day, MU_EARTH);
         let err = norm([
             r_num[0] - r_exact[0],
@@ -652,7 +688,7 @@ mod tests {
             atol: 1e-9,
             ..Tolerance::default()
         };
-        let (r_dp, _) = propagate_dopri(r0, v0, day, ForceModel::two_body(), &tol);
+        let (r_dp, _) = propagate_dopri(r0, v0, day, &ForceModel::two_body(), &tol);
         let (r_exact, _) = kepler_universal(r0, v0, day, MU_EARTH);
         let err = norm([
             r_dp[0] - r_exact[0],
@@ -665,8 +701,8 @@ mod tests {
         );
 
         // The two drivers agree on a perturbed (J2..J6) orbit, where there is no closed form.
-        let (r_rk4, _) = propagate(r0, v0, day, ForceModel::with_zonals_j2_j6(), &tol);
-        let (r_dp2, _) = propagate_dopri(r0, v0, day, ForceModel::with_zonals_j2_j6(), &tol);
+        let (r_rk4, _) = propagate(r0, v0, day, &ForceModel::with_zonals_j2_j6(), &tol);
+        let (r_dp2, _) = propagate_dopri(r0, v0, day, &ForceModel::with_zonals_j2_j6(), &tol);
         let agree = norm([
             r_rk4[0] - r_dp2[0],
             r_rk4[1] - r_dp2[1],
@@ -689,7 +725,7 @@ mod tests {
         };
         let e0 = specific_energy(r0, v0);
         let h0 = norm(cross(r0, v0));
-        let (r1, v1) = propagate(r0, v0, day, ForceModel::two_body(), &tol);
+        let (r1, v1) = propagate(r0, v0, day, &ForceModel::two_body(), &tol);
         let e1 = specific_energy(r1, v1);
         let h1 = norm(cross(r1, v1));
         assert!(
@@ -717,7 +753,7 @@ mod tests {
         let v0 = [0.0, v * inc.cos(), v * inc.sin()];
 
         let day = 86_400.0;
-        let hist = nodal_history(r0, v0, day, 10.0, ForceModel::with_j2());
+        let hist = nodal_history(r0, v0, day, 10.0, &ForceModel::with_j2());
         let rate_num = secular_slope(&hist);
         let rate_formula = j2_secular_rates(a, 0.0, inc).raan;
 
@@ -858,8 +894,8 @@ mod tests {
         );
 
         // (2) Each body perturbs the day-long trajectory, bounded.
-        let (r_tb, _) = propagate(r0, v0, day, ForceModel::two_body(), &tol);
-        let sep = |m: ForceModel| {
+        let (r_tb, _) = propagate(r0, v0, day, &ForceModel::two_body(), &tol);
+        let sep = |m: &ForceModel| {
             let (r, _) = propagate(r0, v0, day, m, &tol);
             norm([r[0] - r_tb[0], r[1] - r_tb[1], r[2] - r_tb[2]])
         };
@@ -870,7 +906,7 @@ mod tests {
                 ForceModel::two_body().third_body(false, true, epoch),
             ),
         ] {
-            let s = sep(m);
+            let s = sep(&m);
             assert!(
                 s > 1e-3,
                 "{name} third body must perturb the orbit, sep {s} m"
@@ -902,7 +938,7 @@ mod tests {
                 r0,
                 v0,
                 arc,
-                ForceModel::two_body().third_body(true, false, epoch),
+                &ForceModel::two_body().third_body(true, false, epoch),
                 &tol,
             )
             .0
@@ -939,9 +975,9 @@ mod tests {
         };
         // Baseline = full gravity + Sun/Moon third body, *no* SRP.
         let base = ForceModel::with_zonals_j2_j6().third_body(true, true, epoch);
-        let (r_base, _) = propagate(r0, v0, day, base, &tol);
+        let (r_base, _) = propagate(r0, v0, day, &base, &tol);
         let sep = |aom: f64| {
-            let (r, _) = propagate(r0, v0, day, base.solar_radiation(1.5, aom), &tol);
+            let (r, _) = propagate(r0, v0, day, &base.clone().solar_radiation(1.5, aom), &tol);
             norm([r[0] - r_base[0], r[1] - r_base[1], r[2] - r_base[2]])
         };
         let s1 = sep(0.02);
@@ -975,7 +1011,7 @@ mod tests {
         let e0 = specific_energy(r0, v0);
 
         // The vacuum baseline conserves energy to ~1e-9; drag must strictly lower it.
-        let (r_vac, v_vac) = propagate(r0, v0, day, ForceModel::two_body(), &tol);
+        let (r_vac, v_vac) = propagate(r0, v0, day, &ForceModel::two_body(), &tol);
         assert!(
             (specific_energy(r_vac, v_vac) - e0).abs() / e0.abs() < 1e-9,
             "vacuum orbit must conserve energy"
@@ -986,7 +1022,7 @@ mod tests {
         let mut prev = e0;
         let mut e_day = e0;
         for k in 1..=4 {
-            let (r, v) = propagate(r0, v0, day * f64::from(k) / 4.0, drag_model, &tol);
+            let (r, v) = propagate(r0, v0, day * f64::from(k) / 4.0, &drag_model, &tol);
             e_day = specific_energy(r, v);
             assert!(
                 e_day < prev,
@@ -1024,8 +1060,8 @@ mod tests {
             ..Tolerance::default()
         };
         let base = ForceModel::two_body();
-        let (r_base, _) = propagate(r0, v0, day, base, &tol);
-        let (r_gr, v_gr) = propagate(r0, v0, day, base.relativity(), &tol);
+        let (r_base, _) = propagate(r0, v0, day, &base, &tol);
+        let (r_gr, v_gr) = propagate(r0, v0, day, &base.relativity(), &tol);
         let sep = norm([
             r_gr[0] - r_base[0],
             r_gr[1] - r_base[1],
@@ -1068,7 +1104,7 @@ mod tests {
             ..Tolerance::default()
         };
         let e0 = total(r0, v0);
-        let (r_day, v_day) = propagate(r0, v0, day, ForceModel::with_zonals_j2_j6(), &tol);
+        let (r_day, v_day) = propagate(r0, v0, day, &ForceModel::with_zonals_j2_j6(), &tol);
         let e1 = total(r_day, v_day);
         assert!(
             (e1 - e0).abs() / e0.abs() < 1e-8,
@@ -1078,8 +1114,8 @@ mod tests {
 
         // Over one orbital period the J2..J6 orbit must differ from the J2-only orbit.
         let period = 5400.0;
-        let (r_zon, _) = propagate(r0, v0, period, ForceModel::with_zonals_j2_j6(), &tol);
-        let (r_j2, _) = propagate(r0, v0, period, ForceModel::with_j2(), &tol);
+        let (r_zon, _) = propagate(r0, v0, period, &ForceModel::with_zonals_j2_j6(), &tol);
+        let (r_j2, _) = propagate(r0, v0, period, &ForceModel::with_j2(), &tol);
         let sep = norm([r_zon[0] - r_j2[0], r_zon[1] - r_j2[1], r_zon[2] - r_j2[2]]);
         assert!(
             sep > 1e-3,
@@ -1104,8 +1140,8 @@ mod tests {
             ..Tolerance::default()
         };
         let base = ForceModel::two_body();
-        let (r_base, _) = propagate(r0, v0, day, base, &tol);
-        let (r_lt, _) = propagate(r0, v0, day, base.lense_thirring(), &tol);
+        let (r_base, _) = propagate(r0, v0, day, &base, &tol);
+        let (r_lt, _) = propagate(r0, v0, day, &base.lense_thirring(), &tol);
         let sep = norm([
             r_lt[0] - r_base[0],
             r_lt[1] - r_base[1],
@@ -1221,7 +1257,13 @@ mod tests {
         // never satisfies the tolerance — an infinite hang. It must now return immediately.
         let nan = [f64::NAN, 0.0, 0.0];
         let v = [0.0, 7546.0, 0.0];
-        let (r, _) = propagate(nan, v, 100.0, ForceModel::two_body(), &Tolerance::default());
+        let (r, _) = propagate(
+            nan,
+            v,
+            100.0,
+            &ForceModel::two_body(),
+            &Tolerance::default(),
+        );
         assert!(r[0].is_nan(), "NaN in → NaN out, not a hang");
         // Through the trait, too.
         let s = NumericalPropagator::two_body(nan, v)
