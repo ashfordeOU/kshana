@@ -484,6 +484,14 @@ pub fn earth_occults_with_atmosphere(user: Vec3, sat: Vec3, atmosphere_km: f64) 
 /// Elevation angle (degrees) of `sat` above the user's local horizontal — the
 /// plane perpendicular to the user's radial (geocentric "up"). Negative below
 /// the horizon. `sin(elevation) = up . line_of_sight`.
+///
+/// This is the geocentric approximation used by the analytic, inertial-frame
+/// visibility model, where the user position is not tied to a specific
+/// earth-fixed ground station. For a true ground-station observer, use the
+/// geodetic topocentric look angles measured against the WGS-84 ellipsoid normal
+/// in [`crate::frames::look_angles`] (the path the ephemeris ground-station
+/// scenario uses); geocentric and geodetic elevation differ by up to ~0.2° at
+/// mid-latitudes.
 pub fn elevation_deg(user: Vec3, sat: Vec3) -> f64 {
     let los = sub(sat, user);
     let los_n = norm(los);
