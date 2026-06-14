@@ -34,6 +34,13 @@ __pycache__/
 /xval/anise-lunar-od/report.json
 /xval/anise-lunar-od/report.md
 
+# ANISE DE-grade Mars-OD cross-validation crate: build dir, downloaded DE440 / Mars-system
+# kernels, and generated reports. Source + Cargo.lock ARE committed; these are not.
+/xval/anise-mars-od/target
+/xval/anise-mars-od/kernels/*.bsp
+/xval/anise-mars-od/report.json
+/xval/anise-mars-od/report.md
+
 # MCP server crate: build dir only. Source + Cargo.lock ARE committed.
 /mcp/kshana-mcp/target
 
