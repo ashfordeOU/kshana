@@ -35,6 +35,11 @@
 //! (`srif_covariance_is_spd`). The module is additive — it does not touch the forces, the
 //! propagator, or any golden, so Earth results stay byte-identical.
 
+use crate::integrator::Tolerance;
+use crate::precise_od::{EmpiricalAccel, ForceModel, Observation};
+
+type Vec3 = [f64; 3];
+
 /// A short, stable module name for provenance/linking in reports.
 pub const MODULE_NAME: &str = "deepspace-od";
 
@@ -103,6 +108,18 @@ impl Srif {
         &self.r
     }
 
+    /// **Recenter** an error-state filter: zero the information vector `b` (so the implied state
+    /// estimate is exactly zero) while keeping the information square root `R` (the covariance is
+    /// unchanged). Used by [`ReducedDynamicOd`], which carries the nonlinear reference trajectory
+    /// outside the SRIF and lets the SRIF estimate only the deviation `δx` about it: after each
+    /// epoch's increment is folded into the reference, the deviation estimate is zero again, but the
+    /// accumulated information (covariance) must persist.
+    pub fn recenter(&mut self) {
+        for bi in self.b.iter_mut() {
+            *bi = 0.0;
+        }
+    }
+
     /// **Scalar measurement update**: fold in a single linear measurement `z = h·x + ε`,
     /// `ε ~ N(0, σ²)`, by appending the *whitened* row `[h/σ | z/σ]` below the current `[R | b]`
     /// array and re-triangularizing with Householder so `R` stays upper-triangular. Information
@@ -129,18 +146,29 @@ impl Srif {
         self.store_augmented(&aug);
     }
 
-    /// **Time update** (Bierman): propagate the information array to the next epoch through the
-    /// state-transition matrix `stm` (Φ, the `n×n` `∂x_{k+1}/∂x_k`) and add process noise.
+    /// **Time update** (Bierman square-root information time update; Bierman 1977, §V): propagate the
+    /// information array to the next epoch through the state-transition matrix `stm` (Φ, the `n×n`
+    /// `∂x_{k+1}/∂x_k`) and fold in additive process noise `w ~ N(0, Q)`, `Q = diag(σ²)`.
     ///
-    /// With `x_{k+1} = Φ·x_k` the prior information square root in the new coordinates is
-    /// `R⁺ = R·Φ⁻¹` (so `‖R x_k − b‖² = ‖R⁺ x_{k+1} − b‖²`). The whitened **process-noise** rows
-    /// `diag(1/q_i)` on the states that have process noise are stacked on top, and a Householder
-    /// triangularization of the combined array yields the new upper-triangular `R` (the
-    /// information-form analogue of `P⁻ → ΦPΦᵀ + Q`). A state with `process_noise_std[i] ≤ 0` adds
-    /// no row (no process noise on that component, e.g. the six dynamic states under pure dynamics).
+    /// With `x_{k+1} = Φ·x_k + w` the prior information square root in the propagated coordinates is
+    /// `R⁺ = R·Φ⁻¹` (so the deterministic part satisfies `‖R x_k − b‖² = ‖R⁺ x_{k+1} − b‖²`).
+    /// Process noise **removes** information (the covariance grows), which the SRIF achieves not by
+    /// adding a constraint row on the state but by **augmenting with the noise variables and
+    /// marginalizing them out**: stack
+    ///
+    /// ```text
+    ///   [ R_w        0    | 0 ]     (R_w = diag(1/σ_w): the process-noise a-priori info, on w)
+    ///   [ -R⁺·Γ      R⁺   | b ]     (Γ maps each noise w_j additively into its state)
+    /// ```
+    ///
+    /// and Householder-triangularize over the `(p + n)` columns `[w | x]`. The lower-right `n×n`
+    /// block and its right-hand side are the new state information square root `R` and vector `b`
+    /// with the noise integrated out — the information-form analogue of `P⁻ → Φ P Φᵀ + Q`. A state
+    /// with `process_noise_std[i] ≤ 0` carries no noise variable (e.g. the six dynamic states under
+    /// pure deterministic dynamics).
     ///
     /// `stm` must be square `n×n` and invertible (a state-transition matrix always is — it is the
-    /// solution of a linear variational ODE, whose flow is a diffeomorphism).
+    /// flow of a linear variational ODE).
     pub fn time_update(&mut self, stm: &[Vec<f64>], process_noise_std: &[f64]) {
         assert_eq!(stm.len(), self.n, "stm dimension mismatch");
         assert_eq!(
@@ -161,26 +189,55 @@ impl Srif {
                 *r_new_ij = s;
             }
         }
-        // Stack the whitened process-noise constraint rows on top, then re-triangularize the
-        // combined array. A process-noise row pins state i toward its prior with weight 1/q_i; the
-        // triangularization mixes it with R⁺ exactly as the SRIF time update prescribes.
-        let mut aug: Vec<Vec<f64>> = Vec::with_capacity(self.n * 2);
-        for (i, &q) in process_noise_std.iter().enumerate() {
-            if q > 0.0 {
+
+        // Indices of the states that carry process noise (one noise variable each).
+        let noise_idx: Vec<usize> = process_noise_std
+            .iter()
+            .enumerate()
+            .filter_map(|(i, &q)| (q > 0.0).then_some(i))
+            .collect();
+        let p = noise_idx.len();
+        if p == 0 {
+            // No process noise: the time update is the pure coordinate change R ← R⁺ (still upper
+            // triangular only after re-triangularization, since R⁺ = R Φ⁻¹ is generally full).
+            let mut aug: Vec<Vec<f64>> = Vec::with_capacity(self.n);
+            for (r_new_row, &bi) in r_new.iter().zip(&self.b) {
                 let mut row = vec![0.0; self.n + 1];
-                row[i] = 1.0 / q;
-                row[self.n] = 0.0; // process noise pulls the increment toward zero-mean
+                row[..self.n].copy_from_slice(r_new_row);
+                row[self.n] = bi;
                 aug.push(row);
             }
+            householder_triangularize(&mut aug, self.n);
+            self.store_augmented(&aug);
+            return;
         }
-        for (r_new_row, &bi) in r_new.iter().zip(&self.b) {
-            let mut row = vec![0.0; self.n + 1];
-            row[..self.n].copy_from_slice(r_new_row);
-            row[self.n] = bi;
-            aug.push(row);
+
+        // Augmented array over columns [ w(p) | x(n) | rhs ], rows = p (noise) + n (state).
+        let ncol = p + self.n + 1;
+        let mut aug = vec![vec![0.0; ncol]; p + self.n];
+        // Noise rows: R_w = diag(1/σ_w) on the w-block, zero elsewhere.
+        for (j, &idx) in noise_idx.iter().enumerate() {
+            aug[j][j] = 1.0 / process_noise_std[idx];
         }
-        householder_triangularize(&mut aug, self.n);
-        self.store_augmented(&aug);
+        // State rows: [ -R⁺·Γ | R⁺ | b ]; column j of the w-block is -R⁺[:, noise_idx[j]].
+        for (ri, (r_new_row, &bi)) in r_new.iter().zip(&self.b).enumerate() {
+            let row = &mut aug[p + ri];
+            for (j, &idx) in noise_idx.iter().enumerate() {
+                row[j] = -r_new_row[idx];
+            }
+            row[p..p + self.n].copy_from_slice(r_new_row);
+            row[p + self.n] = bi;
+        }
+        // Triangularize over all (p + n) leading columns; the noise columns are eliminated first,
+        // so the lower-right n×n block + rhs is the noise-marginalized new state array.
+        householder_triangularize(&mut aug, p + self.n);
+        for (i, (r_row, bi)) in self.r.iter_mut().zip(self.b.iter_mut()).enumerate() {
+            for (j, r_ij) in r_row.iter_mut().enumerate() {
+                // The new state block sits in rows [p .. p+n) and columns [p .. p+n).
+                *r_ij = if j >= i { aug[p + i][p + j] } else { 0.0 };
+            }
+            *bi = aug[p + i][p + self.n];
+        }
     }
 
     /// Solve for the **state estimate** (back-substitution of `R·x = b`) and the **covariance**
@@ -373,6 +430,321 @@ fn invert_lower_or_full(a: &[Vec<f64>]) -> Option<Vec<Vec<f64>>> {
     Some(m.iter().map(|row| row[n..2 * n].to_vec()).collect())
 }
 
+// ===========================================================================================
+// D2.2 — Reduced-dynamic empirical-acceleration sequential OD.
+// ===========================================================================================
+
+/// The nine-state reduced-dynamic estimation vector: `[r(3); v(3); a_emp(3)]`, where `a_emp` are
+/// the **constant RTN empirical accelerations** (`[a_R, a_T, a_N]`, m/s²) modelled as first-order
+/// Gauss–Markov process states. (The once-/twice-per-rev amplitudes of
+/// [`crate::precise_od::EmpiricalAccel`] are left at zero here; the sequential filter rides the
+/// constant tier, which is what a per-epoch reduced-dynamic estimate needs.)
+const N_STATE: usize = 9;
+
+/// Configuration for a [`ReducedDynamicOd`] run — the reduced-dynamic *tuning* exposed as a
+/// continuum and the a-priori uncertainties.
+#[derive(Clone, Copy, Debug)]
+pub struct ReducedDynamicConfig {
+    /// The **reduced-dynamic tightness** in `[0, 1]`: the knob that trades the filter between the
+    /// dynamic and the kinematic regime.
+    ///
+    /// * `dynamic_tightness → 0` — **near-dynamic**: almost no process noise on the empirical
+    ///   accelerations, so they stay near their a-priori zero and the trajectory is held to the
+    ///   force model. This *smooths* measurement noise on a ballistic arc (deep-space cruise).
+    /// * `dynamic_tightness → 1` — **near-kinematic**: large process noise lets the empirical
+    ///   accelerations move freely epoch-to-epoch, *absorbing* an unmodelled acceleration (a Mars
+    ///   low-orbit pass with thruster activity or a mismodelled drag/SRP regime).
+    ///
+    /// The process-noise 1σ on each empirical state per second is
+    /// `emp_process_sigma_max · dynamic_tightness`, so the behaviour sweeps monotonically.
+    pub dynamic_tightness: f64,
+    /// Correlation time τ (s) of the first-order Gauss–Markov empirical states: the e-folding time
+    /// over which an empirical acceleration decays toward zero between updates (the dynamics-block
+    /// `exp(-Δt/τ)`). A long τ ⇒ slowly-varying (cruise); a short τ ⇒ rapidly-varying (manoeuvring).
+    pub emp_correlation_time: f64,
+    /// The maximum empirical-acceleration process-noise 1σ (m/s² per √s) reached at
+    /// `dynamic_tightness = 1`. Scaled by `dynamic_tightness` for the actual per-step noise.
+    pub emp_process_sigma_max: f64,
+    /// A-priori 1σ on the epoch position (m).
+    pub sigma_pos: f64,
+    /// A-priori 1σ on the epoch velocity (m/s).
+    pub sigma_vel: f64,
+    /// A-priori 1σ on each empirical-acceleration state (m/s²).
+    pub sigma_emp: f64,
+    /// Integration tolerance for the segment propagations.
+    pub tol: Tolerance,
+}
+
+impl Default for ReducedDynamicConfig {
+    fn default() -> Self {
+        Self {
+            dynamic_tightness: 0.5,
+            emp_correlation_time: 1.0e3,
+            emp_process_sigma_max: 1.0e-6,
+            sigma_pos: 1.0e3,
+            sigma_vel: 1.0e0,
+            sigma_emp: 1.0e-6,
+            tol: Tolerance {
+                rtol: 1e-11,
+                atol: 1e-9,
+                ..Tolerance::default()
+            },
+        }
+    }
+}
+
+/// The per-observation record of a reduced-dynamic run.
+#[derive(Clone, Copy, Debug)]
+pub struct FilterStep {
+    /// Seconds past the epoch.
+    pub t: f64,
+    /// Estimated inertial position after the update (m).
+    pub r: Vec3,
+    /// Estimated inertial velocity after the update (m/s).
+    pub v: Vec3,
+    /// Estimated constant RTN empirical acceleration after the update (`[a_R, a_T, a_N]`, m/s²).
+    pub emp: Vec3,
+    /// Pre-update 3-D position residual (observed − predicted), m — the filter innovation.
+    pub innovation_3d: f64,
+    /// Post-update 3-D position residual (observed − re-evaluated estimate), m.
+    pub residual_3d: f64,
+}
+
+/// The outcome of a [`ReducedDynamicOd::run`].
+#[derive(Clone, Debug)]
+pub struct ReducedDynamicReport {
+    /// Per-observation steps in time order.
+    pub steps: Vec<FilterStep>,
+    /// RMS of the pre-update innovations (m) — how far the propagated estimate sat from each fix.
+    pub innovation_rms: f64,
+    /// RMS of the post-update residuals (m).
+    pub residual_rms: f64,
+    /// The final estimated state `[r; v; a_emp]`.
+    pub final_state: [f64; N_STATE],
+    /// The final covariance (`N_STATE × N_STATE`, symmetric positive-definite).
+    pub final_cov: Vec<Vec<f64>>,
+}
+
+/// **Reduced-dynamic sequential OD driver**: runs the SRIF predict/update cycle over a track of
+/// inertial position [`Observation`]s under the force model `fm`, carrying the six dynamic states
+/// `[r; v]` plus three first-order Gauss–Markov empirical-acceleration states `[a_R, a_T, a_N]`.
+///
+/// Between epochs the dynamic block is propagated by [`crate::precise_od::propagate_with_stm`]
+/// (with the current empirical estimate baked into the force model), the empirical→state coupling
+/// is captured by finite-difference partials, and the empirical block decays as a Gauss–Markov
+/// process. The single [`ReducedDynamicConfig::dynamic_tightness`] knob sets the empirical
+/// process-noise level, sweeping the filter from near-dynamic (smooths noise) to near-kinematic
+/// (tracks manoeuvres) — the JPL/ESOC reduced-dynamic technique exposed as a continuum.
+#[derive(Clone, Debug)]
+pub struct ReducedDynamicOd<F: ForceModel> {
+    /// The dynamics template (its empirical tier is overwritten per segment by the filter estimate).
+    fm: F,
+    /// The tuning + a-priori configuration.
+    cfg: ReducedDynamicConfig,
+}
+
+impl<F: ForceModel> ReducedDynamicOd<F> {
+    /// A driver over the force-model template `fm` with configuration `cfg`.
+    pub fn new(fm: F, cfg: ReducedDynamicConfig) -> Self {
+        Self { fm, cfg }
+    }
+
+    /// Build the force model for a segment with the constant RTN empirical accelerations `emp`
+    /// `[a_R, a_T, a_N]` baked in (the once-/twice-per-rev tiers stay zero).
+    fn fm_with_emp(&self, emp: Vec3) -> F {
+        let mut fm = self.fm.clone();
+        fm.set_empirical(Some(EmpiricalAccel {
+            radial: [emp[0], 0.0, 0.0],
+            transverse: [emp[1], 0.0, 0.0],
+            normal: [emp[2], 0.0, 0.0],
+            ..EmpiricalAccel::default()
+        }));
+        fm
+    }
+
+    /// The propagated dynamic state at `t + dt` for state `(r, v)` and constant empirical `emp`.
+    fn propagate_segment(&self, r: Vec3, v: Vec3, emp: Vec3, dt: f64) -> (Vec3, Vec3) {
+        let fm = self.fm_with_emp(emp);
+        crate::precise_od::propagate(&fm, r, v, dt, &self.cfg.tol)
+    }
+
+    /// The `N_STATE × N_STATE` segment state-transition matrix from epoch `t` (state `[r; v; emp]`)
+    /// across `dt` seconds. Blocks:
+    /// * top-left 6×6 — the dynamics STM from [`crate::precise_od::propagate_with_stm`];
+    /// * top-right 6×3 — `∂[r;v](t+dt)/∂emp`, finite-difference (the empirical force is linear in
+    ///   its amplitudes, so a central difference is exact to rounding);
+    /// * bottom-right 3×3 — `diag(exp(-dt/τ))` (Gauss–Markov decay);
+    /// * bottom-left 3×6 — zero (the empirical states do not depend on `r, v`).
+    fn segment_stm(&self, r: Vec3, v: Vec3, emp: Vec3, dt: f64) -> Vec<Vec<f64>> {
+        let mut phi = vec![vec![0.0; N_STATE]; N_STATE];
+        // Dynamics STM (6×6).
+        let fm = self.fm_with_emp(emp);
+        let (_rf, _vf, phi6) = crate::precise_od::propagate_with_stm(&fm, r, v, dt, &self.cfg.tol);
+        for (i, row) in phi6.iter().enumerate() {
+            phi[i][..6].copy_from_slice(row);
+        }
+        // Empirical → state cross-block (6×3) by central finite difference on each amplitude.
+        let damp = 1.0e-9;
+        for k in 0..3 {
+            let (mut ep, mut em) = (emp, emp);
+            ep[k] += damp;
+            em[k] -= damp;
+            let (rp, vp) = self.propagate_segment(r, v, ep, dt);
+            let (rm, vm) = self.propagate_segment(r, v, em, dt);
+            for i in 0..3 {
+                phi[i][6 + k] = (rp[i] - rm[i]) / (2.0 * damp);
+                phi[3 + i][6 + k] = (vp[i] - vm[i]) / (2.0 * damp);
+            }
+        }
+        // Gauss–Markov decay block (3×3).
+        let decay = if self.cfg.emp_correlation_time > 0.0 {
+            (-dt / self.cfg.emp_correlation_time).exp()
+        } else {
+            0.0
+        };
+        for k in 0..3 {
+            phi[6 + k][6 + k] = decay;
+        }
+        phi
+    }
+
+    /// Run the filter over `obs` (any time order; sorted internally). The state is initialised from
+    /// `r0, v0` (and zero empirical acceleration) with the a-priori uncertainties in the config.
+    /// Returns the per-step record, the innovation/residual RMS, and the final state + covariance.
+    /// Returns `None` if fewer than two observations are supplied.
+    pub fn run(&self, r0: Vec3, v0: Vec3, obs: &[Observation]) -> Option<ReducedDynamicReport> {
+        if obs.len() < 2 {
+            return None;
+        }
+        let mut ord: Vec<usize> = (0..obs.len()).collect();
+        ord.sort_by(|&a, &b| {
+            obs[a]
+                .t
+                .partial_cmp(&obs[b].t)
+                .unwrap_or(std::cmp::Ordering::Equal)
+        });
+        let obs: Vec<Observation> = ord.iter().map(|&i| obs[i]).collect();
+
+        // A-priori SRIF over [r; v; emp].
+        let sigma0 = [
+            self.cfg.sigma_pos,
+            self.cfg.sigma_pos,
+            self.cfg.sigma_pos,
+            self.cfg.sigma_vel,
+            self.cfg.sigma_vel,
+            self.cfg.sigma_vel,
+            self.cfg.sigma_emp,
+            self.cfg.sigma_emp,
+            self.cfg.sigma_emp,
+        ];
+        let x0 = [r0[0], r0[1], r0[2], v0[0], v0[1], v0[2], 0.0, 0.0, 0.0];
+        // Error-state SRIF: the information square root carries the a-priori uncertainty, but the
+        // *deviation* estimate is a-priori zero (the reference holds the absolute state). Hence the
+        // SRIF is seeded with a zero a-priori state vector — `with_apriori(&[0; n], &sigma0)`.
+        let mut srif = Srif::with_apriori(&[0.0; N_STATE], &sigma0);
+
+        // Current best estimate (drives the next segment's nonlinear propagation).
+        let mut state = x0;
+        let mut t_prev = 0.0;
+
+        // Per-step empirical process-noise 1σ (per √s, scaled by the segment length below).
+        let emp_q_rate = (self.cfg.emp_process_sigma_max * self.cfg.dynamic_tightness).max(0.0);
+
+        let mut steps = Vec::with_capacity(obs.len());
+        let mut sum_innov = 0.0;
+        let mut sum_resid = 0.0;
+
+        for ob in &obs {
+            let dt = ob.t - t_prev;
+            if dt > 0.0 {
+                let r = [state[0], state[1], state[2]];
+                let v = [state[3], state[4], state[5]];
+                let emp = [state[6], state[7], state[8]];
+                // Time update: STM + Gauss–Markov process noise (empirical states only).
+                let phi = self.segment_stm(r, v, emp, dt);
+                let q_emp = emp_q_rate * dt.sqrt();
+                let q = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, q_emp, q_emp, q_emp];
+                srif.time_update(&phi, &q);
+                // Advance the reference state nonlinearly through the same segment.
+                let (rf, vf) = self.propagate_segment(r, v, emp, dt);
+                let decay = if self.cfg.emp_correlation_time > 0.0 {
+                    (-dt / self.cfg.emp_correlation_time).exp()
+                } else {
+                    0.0
+                };
+                state = [
+                    rf[0],
+                    rf[1],
+                    rf[2],
+                    vf[0],
+                    vf[1],
+                    vf[2],
+                    emp[0] * decay,
+                    emp[1] * decay,
+                    emp[2] * decay,
+                ];
+                t_prev = ob.t;
+            }
+
+            // Pre-update innovation: observed − predicted position.
+            let pred = [state[0], state[1], state[2]];
+            let innov = [
+                ob.pos[0] - pred[0],
+                ob.pos[1] - pred[1],
+                ob.pos[2] - pred[2],
+            ];
+            let innov_3d = (innov[0] * innov[0] + innov[1] * innov[1] + innov[2] * innov[2]).sqrt();
+
+            // Measurement update: three scalar position components against the *current-epoch*
+            // state (position is the first three components). The SRIF carries the deviation about
+            // the reference, so we feed it the residual relative to the current estimate and add the
+            // resulting increment back. h_row picks each position component.
+            for axis in 0..3 {
+                let mut h_row = [0.0; N_STATE];
+                h_row[axis] = 1.0;
+                // Measurement of the *deviation* δx from the current reference: z = obs − pred.
+                srif.measurement_update(&h_row, innov[axis], ob.sigma);
+            }
+            let (dx, _p) = srif.solve();
+            // Apply the increment to the reference and reset the SRIF's right-hand side to zero
+            // deviation about the new reference (keep the information square root R).
+            for i in 0..N_STATE {
+                state[i] += dx[i];
+            }
+            srif.recenter();
+
+            // Post-update residual.
+            let resid = [
+                ob.pos[0] - state[0],
+                ob.pos[1] - state[1],
+                ob.pos[2] - state[2],
+            ];
+            let resid_3d = (resid[0] * resid[0] + resid[1] * resid[1] + resid[2] * resid[2]).sqrt();
+
+            sum_innov += innov_3d * innov_3d;
+            sum_resid += resid_3d * resid_3d;
+            steps.push(FilterStep {
+                t: ob.t,
+                r: [state[0], state[1], state[2]],
+                v: [state[3], state[4], state[5]],
+                emp: [state[6], state[7], state[8]],
+                innovation_3d: innov_3d,
+                residual_3d: resid_3d,
+            });
+        }
+
+        let n = steps.len().max(1) as f64;
+        let (_x, final_cov) = srif.solve();
+        Some(ReducedDynamicReport {
+            innovation_rms: (sum_innov / n).sqrt(),
+            residual_rms: (sum_resid / n).sqrt(),
+            final_state: state,
+            final_cov,
+            steps,
+        })
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -535,6 +907,212 @@ mod tests {
         assert!(
             *traces.last().unwrap() < traces[0] - 1e-9,
             "information did not accumulate: {traces:?}"
+        );
+    }
+
+    // --- D2.2 reduced-dynamic empirical accelerations ---
+
+    use crate::precise_od::{propagate_samples, Observation, PreciseForceModel};
+
+    /// A LEO-ish circular reference state about Earth (point-mass model).
+    fn ref_state() -> (Vec3, Vec3) {
+        let mu = crate::forces::MU_EARTH;
+        let r0 = [7.0e6, 0.0, 0.0];
+        let speed = (mu / r0[0]).sqrt();
+        let v0 = [0.0, speed * 0.8, speed * 0.6]; // inclined circular
+        (r0, v0)
+    }
+
+    /// A point-mass Earth force model at a fixed epoch (the filter's *template*: no empirical tier).
+    fn template() -> PreciseForceModel {
+        PreciseForceModel::egm2008(0, 2_459_580.5)
+    }
+
+    /// Sample a truth trajectory's positions at `times`, optionally with a constant RTN empirical
+    /// acceleration baked in (the "unmodelled manoeuvre" the filter's template does not know about).
+    fn truth_obs(emp_truth: Option<Vec3>, times: &[f64], sigma: f64) -> Vec<Observation> {
+        let (r0, v0) = ref_state();
+        let mut fm = template();
+        if let Some(e) = emp_truth {
+            fm = fm.with_empirical(EmpiricalAccel {
+                radial: [e[0], 0.0, 0.0],
+                transverse: [e[1], 0.0, 0.0],
+                normal: [e[2], 0.0, 0.0],
+                ..EmpiricalAccel::default()
+            });
+        }
+        let tol = Tolerance {
+            rtol: 1e-11,
+            atol: 1e-9,
+            ..Tolerance::default()
+        };
+        let pos = propagate_samples(&fm, r0, v0, times, &tol);
+        times
+            .iter()
+            .zip(pos)
+            .map(|(&t, p)| Observation { t, pos: p, sigma })
+            .collect()
+    }
+
+    /// Sample a truth trajectory whose RTN empirical acceleration **steps** at `t_step` (from
+    /// `emp_a` to `emp_b`) — a piecewise-constant manoeuvre (thruster on/off) that a *constant*
+    /// (low-tightness) empirical model cannot follow but a *time-varying* (high-tightness) one can.
+    /// The two arcs are integrated continuously (the second starts from the first's end state).
+    fn truth_obs_stepped(
+        emp_a: Vec3,
+        emp_b: Vec3,
+        t_step: f64,
+        times: &[f64],
+        sigma: f64,
+    ) -> Vec<Observation> {
+        let (r0, v0) = ref_state();
+        let tol = Tolerance {
+            rtol: 1e-11,
+            atol: 1e-9,
+            ..Tolerance::default()
+        };
+        let with = |e: Vec3| {
+            template().with_empirical(EmpiricalAccel {
+                radial: [e[0], 0.0, 0.0],
+                transverse: [e[1], 0.0, 0.0],
+                normal: [e[2], 0.0, 0.0],
+                ..EmpiricalAccel::default()
+            })
+        };
+        let mut out = Vec::with_capacity(times.len());
+        for &t in times {
+            let pos = if t <= t_step {
+                propagate_samples(&with(emp_a), r0, v0, &[t], &tol)[0]
+            } else {
+                let (rs, vs) = crate::precise_od::propagate(&with(emp_a), r0, v0, t_step, &tol);
+                propagate_samples(&with(emp_b), rs, vs, &[t - t_step], &tol)[0]
+            };
+            out.push(Observation { t, pos, sigma });
+        }
+        out
+    }
+
+    /// A small deterministic pseudo-noise sequence (no rand dep): reproducible across runs.
+    fn pseudo_noise(seed: u64, amp: f64) -> impl FnMut() -> f64 {
+        let mut s = seed.wrapping_mul(2_862_933_555_777_941_757).wrapping_add(1);
+        move || {
+            s = s.wrapping_mul(6_364_136_223_846_793_005).wrapping_add(1);
+            let u = ((s >> 11) as f64) / ((1u64 << 53) as f64); // [0,1)
+            (u - 0.5) * 2.0 * amp
+        }
+    }
+
+    /// Tightness sweep settings shared by the D2.2 tests: a 30 s-cadence arc against a truth whose
+    /// empirical acceleration *steps* partway through (a thruster manoeuvre). `emp_process_sigma_max`
+    /// is sized so `dynamic_tightness = 1` lets the empirical states slew to follow the step.
+    fn stepped_config(dynamic_tightness: f64) -> ReducedDynamicConfig {
+        ReducedDynamicConfig {
+            dynamic_tightness,
+            emp_correlation_time: 6.0e2,
+            emp_process_sigma_max: 5.0e-7,
+            sigma_pos: 1.0e2,
+            sigma_vel: 1.0e0,
+            sigma_emp: 5.0e-6,
+            ..ReducedDynamicConfig::default()
+        }
+    }
+
+    #[test]
+    fn reduced_dynamic_tracks_maneuver() {
+        // Truth carries a *stepped* RTN empirical acceleration (thruster on at the midpoint) that
+        // the filter template does NOT model. A near-kinematic filter (high process noise) lets the
+        // empirical states slew to absorb the step; a near-dynamic filter (empirical near-constant)
+        // lags the step and leaves a larger residual.
+        let emp_a = [1.0e-6, 1.0e-6, 0.0]; // m/s² before the burn
+        let emp_b = [6.0e-6, 9.0e-6, -4.0e-6]; // m/s² after the burn
+        let times: Vec<f64> = (1..=60).map(|k| k as f64 * 30.0).collect(); // 30 min arc
+        let t_step = 900.0; // burn at the midpoint
+        let obs = truth_obs_stepped(emp_a, emp_b, t_step, &times, 1.0);
+        let (r0, v0) = ref_state();
+
+        let kin = ReducedDynamicOd::new(template(), stepped_config(1.0))
+            .run(r0, v0, &obs)
+            .expect("kinematic run");
+        let dyn_ = ReducedDynamicOd::new(template(), stepped_config(0.0))
+            .run(r0, v0, &obs)
+            .expect("dynamic run");
+
+        // The near-kinematic filter follows the manoeuvre with a clearly smaller residual.
+        assert!(
+            kin.residual_rms < dyn_.residual_rms * 0.5,
+            "kinematic residual {} not clearly < dynamic residual {}",
+            kin.residual_rms,
+            dyn_.residual_rms
+        );
+
+        // Smoothing aspect: on a *ballistic* (no-manoeuvre) noisy arc, the near-dynamic filter
+        // smooths the measurement noise better than the near-kinematic one (which chases it). Both
+        // are compared against the CLEAN truth positions — the smoothing target.
+        let mut noise = pseudo_noise(0xC0FFEE, 5.0); // ±5 m pseudo-noise
+        let clean = truth_obs(None, &times, 5.0);
+        let noisy: Vec<Observation> = clean
+            .iter()
+            .map(|o| Observation {
+                t: o.t,
+                pos: [o.pos[0] + noise(), o.pos[1] + noise(), o.pos[2] + noise()],
+                sigma: 5.0,
+            })
+            .collect();
+        let est_error = |rep: &ReducedDynamicReport| -> f64 {
+            let mut s = 0.0;
+            for (step, c) in rep.steps.iter().zip(&clean) {
+                let d = [
+                    step.r[0] - c.pos[0],
+                    step.r[1] - c.pos[1],
+                    step.r[2] - c.pos[2],
+                ];
+                s += d[0] * d[0] + d[1] * d[1] + d[2] * d[2];
+            }
+            (s / rep.steps.len() as f64).sqrt()
+        };
+        let smooth = ReducedDynamicOd::new(template(), stepped_config(0.0))
+            .run(r0, v0, &noisy)
+            .expect("smooth run");
+        let track = ReducedDynamicOd::new(template(), stepped_config(1.0))
+            .run(r0, v0, &noisy)
+            .expect("track run");
+        assert!(
+            est_error(&smooth) < est_error(&track),
+            "dynamic (smoothing) error {} not < kinematic (noise-tracking) error {}",
+            est_error(&smooth),
+            est_error(&track)
+        );
+    }
+
+    #[test]
+    fn tuning_is_a_continuum() {
+        // On the stepped-manoeuvre truth, sweeping dynamic_tightness from dynamic→kinematic must
+        // move the post-fit residual monotonically downward — the tuning is a continuum, not a switch.
+        let emp_a = [1.0e-6, 1.0e-6, 0.0];
+        let emp_b = [6.0e-6, 9.0e-6, -4.0e-6];
+        let times: Vec<f64> = (1..=60).map(|k| k as f64 * 30.0).collect();
+        let obs = truth_obs_stepped(emp_a, emp_b, 900.0, &times, 1.0);
+        let (r0, v0) = ref_state();
+
+        let tights = [0.0_f64, 0.25, 0.5, 0.75, 1.0];
+        let mut residuals = Vec::new();
+        for &dt in &tights {
+            let rep = ReducedDynamicOd::new(template(), stepped_config(dt))
+                .run(r0, v0, &obs)
+                .expect("run");
+            residuals.push(rep.residual_rms);
+        }
+        // Monotone non-increasing as tightness rises (more empirical freedom ⇒ better manoeuvre fit).
+        for w in residuals.windows(2) {
+            assert!(
+                w[1] <= w[0] * 1.0001 + 1e-9,
+                "residual not monotone with tightness: {residuals:?}"
+            );
+        }
+        // And the endpoints are clearly separated (the continuum spans a real range).
+        assert!(
+            *residuals.first().unwrap() > *residuals.last().unwrap() * 1.5,
+            "tuning range too small: {residuals:?}"
         );
     }
 }
