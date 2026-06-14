@@ -702,6 +702,164 @@ pub fn pn_range_ambiguity(chip_rate_hz: f64, code_length_chips: f64) -> f64 {
     regenerative_range_ambiguity(chip_rate_hz) * code_length_chips
 }
 
+// ============================================================================
+// D1.3 — Δ-DOR + media (charged-particle plasma, troposphere, ionosphere).
+//
+// Two corrections complete the deep-space observable model: the very-long-
+// baseline **Δ-DOR** plane-of-sky observable (CCSDS 506) that pins the angular
+// position the range/Doppler radial geometry cannot, and the propagation **media**
+// — solar-corona plasma (the dominant deep-space term near solar conjunction,
+// dispersive ∝ 1/f²), plus the Earth-atmosphere troposphere and ionosphere on the
+// short ground-station segment.
+// ============================================================================
+
+/// The **dispersive group-delay constant** `40.3 m·Hz²·(el/m²)⁻¹`: a charged-
+/// particle column of total electron content `TEC` (electrons / m²) delays a
+/// group at frequency `f` by a range error `ΔL = K_PLASMA · TEC / f²` metres
+/// (equivalently a time delay `ΔL/c`). The same constant governs the solar-corona
+/// plasma and the Earth ionosphere; only the TEC differs. (Standard
+/// ionospheric/plasma group-delay constant, e.g. ESA Navipedia; Moyer §10.)
+pub const K_PLASMA_M_HZ2_PER_TECU_SI: f64 = 40.3;
+
+/// Δ-DOR (**Delta Differential One-way Ranging**, CCSDS 506) plane-of-sky
+/// differential delay, in **seconds**.
+///
+/// A two-station interferometer with baseline vector `baseline_vec` (metres,
+/// inertial) measures the geometric delay of a plane wave from direction `ŝ` as
+/// `τ = −(B⃗ · ŝ)/c`. Δ-DOR differences the spacecraft against a nearby quasar to
+/// cancel the common instrumental and most media terms, leaving the **differential
+/// delay**
+///
+/// ```text
+///   Δτ = τ_sc − τ_quasar = −(B⃗ · (ŝ_sc − ŝ_quasar)) / c   [s],
+/// ```
+///
+/// where `ŝ_sc = sc_pos / |sc_pos|` is the unit direction to the spacecraft and
+/// `quasar_unit` is the unit direction to the calibrator quasar (both inertial).
+/// The result is the projection of the spacecraft–quasar **angular offset** onto
+/// the baseline, divided by `c`: it is the observable that fixes the component of
+/// the spacecraft's plane-of-sky angle along the baseline, complementing the
+/// line-of-sight range/Doppler. For a baseline `B` and a small angular offset
+/// `Δθ` aligned with the baseline, `|Δτ| ≈ B·Δθ/c`.
+///
+/// `quasar_unit` is assumed already normalised; `sc_pos` is normalised here. A
+/// zero `sc_pos` yields a zero spacecraft direction (degenerate, returns the
+/// quasar-only term).
+pub fn delta_dor(sc_pos: Vec3, quasar_unit: Vec3, baseline_vec: Vec3) -> f64 {
+    let s = norm(sc_pos);
+    let sc_unit = if s > 0.0 {
+        [sc_pos[0] / s, sc_pos[1] / s, sc_pos[2] / s]
+    } else {
+        [0.0, 0.0, 0.0]
+    };
+    let ds = [
+        sc_unit[0] - quasar_unit[0],
+        sc_unit[1] - quasar_unit[1],
+        sc_unit[2] - quasar_unit[2],
+    ];
+    let b_dot_ds = baseline_vec[0] * ds[0] + baseline_vec[1] * ds[1] + baseline_vec[2] * ds[2];
+    -b_dot_ds / C_M_PER_S
+}
+
+/// **Solar-corona plasma group delay** in **seconds** for a one-way link at
+/// carrier frequency `freq_hz`, given the line-of-sight total electron content
+/// `tec_el_per_m2` (electrons / m²) the ray crosses:
+///
+/// ```text
+///   Δt = K_PLASMA · TEC / (c · f²)   [s],
+/// ```
+///
+/// the dispersive `1/f²` charged-particle delay ([`K_PLASMA_M_HZ2_PER_TECU_SI`]).
+/// The TEC for a deep-space ray is dominated by the **solar corona** and rises
+/// sharply as the Sun–Earth–probe (SEP) angle shrinks toward superior
+/// conjunction; [`coronal_tec_from_sep`] estimates that TEC from the SEP angle, so
+/// the full SEP-driven plasma delay is
+/// `solar_plasma_delay(f, coronal_tec_from_sep(sep, …))`. Delay is positive
+/// (group delay) and scales as `1/f²`, so X-band suffers ~16× the Ka-band delay.
+pub fn solar_plasma_delay(freq_hz: f64, tec_el_per_m2: f64) -> f64 {
+    K_PLASMA_M_HZ2_PER_TECU_SI * tec_el_per_m2 / (C_M_PER_S * freq_hz * freq_hz)
+}
+
+/// Estimate the line-of-sight **coronal TEC** (electrons / m²) for a ray at
+/// Sun–Earth–probe angle `sep_rad` (radians), from a Cassini-class power-law
+/// corona electron-density column model. The integrated electron content of a
+/// ray with solar impact parameter `p = r_sun · sin(SEP)`-scaled offset is
+/// approximated by the standard inverse-power column law
+///
+/// ```text
+///   TEC(SEP) ≈ A / sin(SEP)^q ,
+/// ```
+///
+/// with `A` a reference column (electrons / m²) and `q ≈ 1` the column exponent of
+/// the dominant `n_e ∝ 1/r²` corona term. The defaults (`A = 1.0e17`, `q = 1.0`)
+/// reproduce the order of magnitude of measured X-band solar plasma delays at a
+/// few-degree SEP (tens of metres of range), but the model is a smooth analytic
+/// stand-in, **not** a calibrated corona — the operational path is the
+/// dual-frequency calibration ([`dual_freq_plasma_calibration`]) which measures
+/// the plasma directly. SEP is clamped away from zero to keep the column finite.
+pub fn coronal_tec_from_sep(sep_rad: f64, reference_tec: f64, exponent: f64) -> f64 {
+    // Clamp the SEP off the singularity at the solar limb (≈ 0.27° as seen from
+    // 1 AU); the corona is opaque/over-modelled inside that anyway.
+    let min_sep = 0.27_f64.to_radians();
+    let s = sep_rad.max(min_sep).sin();
+    reference_tec / s.powf(exponent)
+}
+
+/// **Dual-frequency plasma calibration**: recover the (band-independent) plasma
+/// column term from the measured plasma delays in two bands, then report the
+/// **X-band plasma delay** (seconds).
+///
+/// Because the plasma delay is `Δt(f) = K_disp / f²` with `K_disp = K_PLASMA·TEC/c`
+/// the *same* for both bands, two simultaneous measurements isolate it:
+///
+/// ```text
+///   K_disp = (Δt_X − Δt_Ka) / (1/f_X² − 1/f_Ka²),
+///   Δt_X(recovered) = K_disp / f_X² .
+/// ```
+///
+/// This is the 1/f² dispersion inversion the DSN uses to remove the plasma from
+/// X/Ka (or S/X) tracking. `obs_x` / `obs_ka` are the measured plasma delays (s)
+/// at the X and Ka carriers `f_x_hz` / `f_ka_hz`. The recovered X-band delay
+/// equals `obs_x` to the extent both inputs carry only the dispersive term — the
+/// test injects a known TEC into both and recovers it to < 1 %.
+pub fn dual_freq_plasma_calibration(obs_x: f64, obs_ka: f64, f_x_hz: f64, f_ka_hz: f64) -> f64 {
+    let inv_fx2 = 1.0 / (f_x_hz * f_x_hz);
+    let inv_fka2 = 1.0 / (f_ka_hz * f_ka_hz);
+    // The dispersive constant K_disp (= K_PLASMA·TEC/c), isolated from the two
+    // bands' delay difference over their 1/f² difference.
+    let k_disp = (obs_x - obs_ka) / (inv_fx2 - inv_fka2);
+    // Report the recovered X-band plasma delay.
+    k_disp * inv_fx2
+}
+
+/// **Tropospheric delay** (metres) on the ground-station↔spacecraft segment, for
+/// the station at geodetic latitude `lat_rad` and height `h_m`, observing the
+/// spacecraft at elevation `el_rad` on day-of-year `doy`. Deep-space links cross
+/// the troposphere only on the short station segment, where the same
+/// Saastamoinen-zenith + Niell-mapping model the GNSS pack uses applies; this
+/// delegates to [`crate::gnss_sim::tropo_delay_m`] with a standard-atmosphere
+/// meteorology and is **non-dispersive** (no frequency dependence — it does not
+/// cancel in the dual-frequency plasma calibration). Returns ≥ 0.
+pub fn tropo_delay(lat_rad: f64, h_m: f64, el_rad: f64, doy: f64) -> f64 {
+    let meteo = crate::gnss_sim::Meteo::default();
+    crate::gnss_sim::tropo_delay_m(&meteo, lat_rad, h_m, el_rad, doy)
+}
+
+/// **Ionospheric delay** (metres) on the ground-station↔spacecraft segment at the
+/// station's L-band-class single-frequency model. The Earth ionosphere is the
+/// *near-station* charged-particle term (distinct from the solar-corona plasma of
+/// [`solar_plasma_delay`]); both obey the same `1/f²` dispersion. This delegates
+/// to the broadcast Klobuchar model ([`crate::gnss_sim::klobuchar_delay_m`]) at
+/// the station geodetic `lat_rad`/`lon_rad`, spacecraft `el_rad`/`az_rad`, and GPS
+/// seconds-of-day `gps_sod`, returning the L1 slant delay (m). For a deep-space
+/// X/Ka carrier the magnitude scales by `(f_L1/f)²`; the dominant deep-space
+/// charged-particle term is the corona, handled separately and removed by the
+/// dual-frequency calibration.
+pub fn iono_delay(lat_rad: f64, lon_rad: f64, el_rad: f64, az_rad: f64, gps_sod: f64) -> f64 {
+    let coeffs = crate::gnss_sim::KlobucharCoeffs::default();
+    crate::gnss_sim::klobuchar_delay_m(&coeffs, lat_rad, lon_rad, el_rad, az_rad, gps_sod)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1331,5 +1489,156 @@ mod tests {
             (140_000.0..=160_000.0).contains(&du_km),
             "CCSDS-414.1 PN unambiguous range {du_km} km not in the expected ~150 000 km band"
         );
+    }
+
+    // ------------------------------------------------------------------------
+    // D1.3 — Δ-DOR + media (plasma / tropo / iono).
+    // ------------------------------------------------------------------------
+
+    /// `delta_dor` returns the plane-of-sky differential delay `−B⃗·(ŝ_sc − ŝ_q)/c`
+    /// of the right magnitude. For a baseline `B` aligned with the spacecraft's
+    /// small angular offset `Δθ` from the quasar, `|Δτ| ≈ B·Δθ/c`.
+    #[test]
+    fn delta_dor_magnitude_for_known_offset() {
+        // Baseline along +x (a 8000 km intercontinental DSN baseline).
+        let baseline = [8.0e6, 0.0, 0.0];
+        // Quasar exactly along +z (the plane-of-sky reference direction).
+        let quasar = [0.0, 0.0, 1.0];
+        // Spacecraft offset from the quasar by a small angle Δθ in the x–z plane,
+        // i.e. tilted toward +x (along the baseline) by Δθ.
+        let dtheta = 1.0e-3_f64; // 1 mrad ≈ 206 arcsec
+        let sc_unit = [dtheta.sin(), 0.0, dtheta.cos()];
+        // Put the spacecraft at a deep-space distance along that unit direction.
+        let r = 2.0e11;
+        let sc_pos = [sc_unit[0] * r, sc_unit[1] * r, sc_unit[2] * r];
+
+        let dtau = delta_dor(sc_pos, quasar, baseline);
+
+        // The differential delay projects the offset onto the baseline:
+        //   Δτ = −B·(ŝ_sc − ŝ_q)/c ; the x-component of (ŝ_sc − ŝ_q) is sin(Δθ).
+        let expected = -(baseline[0] * dtheta.sin()) / C_M_PER_S;
+        assert!(
+            (dtau - expected).abs() < 1e-15,
+            "Δ-DOR {dtau} s vs analytic projection {expected} s"
+        );
+
+        // Small-angle magnitude check: |Δτ| ≈ B·Δθ/c ≈ 8e6·1e-3/3e8 ≈ 2.67e-5 s.
+        let approx = baseline[0] * dtheta / C_M_PER_S;
+        assert!(
+            (dtau.abs() - approx).abs() / approx < 1e-3,
+            "Δ-DOR magnitude {} s not ≈ B·Δθ/c = {approx} s",
+            dtau.abs()
+        );
+    }
+
+    /// A spacecraft exactly co-aligned with the quasar gives zero differential
+    /// delay (the common direction cancels) — the Δ-DOR null.
+    #[test]
+    fn delta_dor_zero_when_aligned_with_quasar() {
+        let quasar = [0.0, 0.6, 0.8];
+        let baseline = [5.0e6, -2.0e6, 1.0e6];
+        // Spacecraft exactly along the quasar direction (any positive distance).
+        let sc_pos = [quasar[0] * 3.0e11, quasar[1] * 3.0e11, quasar[2] * 3.0e11];
+        let dtau = delta_dor(sc_pos, quasar, baseline);
+        assert!(
+            dtau.abs() < 1e-15,
+            "aligned Δ-DOR should be ~0, got {dtau} s"
+        );
+    }
+
+    /// The solar-plasma delay obeys the `1/f²` dispersion: the X-band delay is
+    /// `(f_Ka / f_X)²` times the Ka-band delay for the same TEC.
+    #[test]
+    fn plasma_delay_scales_as_inverse_frequency_squared() {
+        let tec = 1.0e18; // electrons / m²
+        let f_x = 8.42e9;
+        let f_ka = 32.0e9;
+        let dx = solar_plasma_delay(f_x, tec);
+        let dka = solar_plasma_delay(f_ka, tec);
+
+        assert!(
+            dx > 0.0 && dka > 0.0,
+            "plasma delay is a positive group delay"
+        );
+        // 1/f² law: dx/dka = (f_ka/f_x)².
+        let ratio = dx / dka;
+        let expected = (f_ka / f_x).powi(2);
+        assert!(
+            (ratio - expected).abs() / expected < 1e-9,
+            "plasma X/Ka delay ratio {ratio} should be (f_Ka/f_X)² = {expected}"
+        );
+
+        // Closed-form value check at X-band: ΔL = 40.3·TEC/f²; Δt = ΔL/c.
+        let dl_x = K_PLASMA_M_HZ2_PER_TECU_SI * tec / (f_x * f_x);
+        assert!((dx - dl_x / C_M_PER_S).abs() < 1e-18);
+    }
+
+    /// Inject a **known** charged-particle column into both X and Ka, then
+    /// `dual_freq_plasma_calibration` recovers the X-band plasma delay to < 1 %
+    /// — the 1/f² dispersion inversion that removes plasma from DSN tracking.
+    #[test]
+    fn dual_frequency_recovers_injected_plasma() {
+        let f_x = 8.42e9;
+        let f_ka = 32.0e9;
+        let tec = 2.5e18; // the truth we inject
+        let true_x = solar_plasma_delay(f_x, tec);
+        let true_ka = solar_plasma_delay(f_ka, tec);
+
+        let recovered = dual_freq_plasma_calibration(true_x, true_ka, f_x, f_ka);
+        assert!(
+            (recovered - true_x).abs() / true_x < 1e-2,
+            "dual-freq recovered X-band plasma {recovered} s vs truth {true_x} s (>1% error)"
+        );
+        // In the noise-free injection it is recovered essentially exactly.
+        assert!((recovered - true_x).abs() / true_x < 1e-9);
+    }
+
+    /// The coronal-TEC SEP model rises steeply toward conjunction: TEC at a small
+    /// SEP is much larger than at a large SEP, and the X-band plasma delay it
+    /// produces is in a physically sensible (sub-metre to tens-of-metres) band.
+    #[test]
+    fn coronal_tec_rises_toward_conjunction() {
+        let a = 1.0e17;
+        let q = 1.0;
+        let tec_near = coronal_tec_from_sep(2.0_f64.to_radians(), a, q); // 2° SEP
+        let tec_far = coronal_tec_from_sep(30.0_f64.to_radians(), a, q); // 30° SEP
+        assert!(
+            tec_near > tec_far,
+            "coronal TEC must rise toward conjunction: {tec_near} (2°) vs {tec_far} (30°)"
+        );
+
+        // The X-band plasma delay at 2° SEP is metre-scale or larger (the regime
+        // where calibration matters), and finite (SEP clamped off the limb).
+        let dl_x = solar_plasma_delay(8.42e9, tec_near) * C_M_PER_S;
+        assert!(
+            (0.1..=1000.0).contains(&dl_x),
+            "2° SEP X-band plasma range delay {dl_x} m outside the plausible band"
+        );
+        assert!(dl_x.is_finite());
+    }
+
+    /// The deep-space media wrappers delegate to the GNSS-pack Earth-atmosphere
+    /// models: tropo is a positive, elevation-decreasing delay; iono is a
+    /// non-negative slant delay. (Numerical fidelity is the GNSS pack's own tests;
+    /// here we assert the wrappers are wired and physically signed.)
+    #[test]
+    fn media_wrappers_are_wired_and_signed() {
+        let lat = 35.0_f64.to_radians();
+        let lon = (-116.0_f64).to_radians(); // Goldstone-ish
+        let h = 1000.0;
+        let doy = 180.0;
+
+        // Troposphere: positive, and larger at low elevation than at zenith.
+        let t_zenith = tropo_delay(lat, h, 89.0_f64.to_radians(), doy);
+        let t_low = tropo_delay(lat, h, 10.0_f64.to_radians(), doy);
+        assert!(t_zenith > 0.0, "zenith tropo delay must be positive");
+        assert!(
+            t_low > t_zenith,
+            "low-elevation tropo {t_low} m must exceed zenith {t_zenith} m"
+        );
+
+        // Ionosphere: non-negative slant delay.
+        let i = iono_delay(lat, lon, 30.0_f64.to_radians(), 1.5, 50_400.0);
+        assert!(i >= 0.0, "iono slant delay must be non-negative, got {i} m");
     }
 }
