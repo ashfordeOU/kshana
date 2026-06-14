@@ -70,6 +70,25 @@ impl SphericalHarmonicField {
         }
     }
 
+    /// The fully-normalized cosine coefficient `C̄_nm`, or `None` if `(n, m)` is out of range.
+    /// A read accessor for the otherwise-private coefficient triangles (validation / provenance).
+    pub fn cbar(&self, n: usize, m: usize) -> Option<f64> {
+        if n <= self.nmax && m <= n {
+            Some(self.c[n][m])
+        } else {
+            None
+        }
+    }
+
+    /// The fully-normalized sine coefficient `S̄_nm`, or `None` if `(n, m)` is out of range.
+    pub fn sbar(&self, n: usize, m: usize) -> Option<f64> {
+        if n <= self.nmax && m <= n {
+            Some(self.s[n][m])
+        } else {
+            None
+        }
+    }
+
     /// The bundled EGM2008 field to its full shipped degree/order (70).
     pub fn egm2008() -> Self {
         Self::egm2008_truncated(EGM2008_NMAX)
