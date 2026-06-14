@@ -75,7 +75,7 @@ jobs:
         # floor. Generated data tables, the thin CLI entrypoint, the tests
         # themselves, and the web assets are excluded from the measurement.
         # The floor is 85% — above the >=80% target and comfortably under the
-        # measured ~97% line coverage on src/ — so it guards against regressions
+        # measured ~96% line coverage on src/ — so it guards against regressions
         # without flaking. SGP4 and the clock modules sit at >=95%.
         run: >
           cargo tarpaulin --engine llvm --out Lcov --output-dir coverage
