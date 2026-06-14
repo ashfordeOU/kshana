@@ -1,0 +1,19 @@
+# Mars PNT — Low-Mars-Orbit user navigated against the simulated MARCONI relay
+# constellation (areostationary relays broadcasting one-way + relaying two-way to a
+# deep-space station) through the joint one-way/two-way radiometric fusion estimator.
+#
+# Figures of merit are the estimator's FORMAL COVARIANCE bounds (1σ / 3σ position) and
+# the achieved RMS vs a synthetic closed-loop truth — a simulated navigation FoM, NOT an
+# aviation-certified protection level (no certified fault model or integrity monitor here).
+kind = "mars-pnt"
+
+user = "lmo"                 # ~400 km circular Low-Mars-Orbit, inclined 60°
+clock_class = "uso"          # onboard ultra-stable oscillator
+step_s = 60.0                # observation cadence
+duration_s = 7200.0          # ~one LMO orbit (period ≈ 7100 s)
+nmax = 4                     # Mars gravity field degree/order (mars_gmm3, shipped to 4)
+range_sigma_m = 1.0          # DSN-class range noise
+doppler_sigma_mps = 1.0e-4   # 0.1 mm/s Doppler noise
+dynamic_tightness = 0.1      # reduced-dynamic knob (dynamic → kinematic), 0..1
+two_way_period_s = 1800.0    # a coherent two-way (clock-free, orbit-pinning) pass every 30 min
+seed = 331514052             # deterministic noise seed
