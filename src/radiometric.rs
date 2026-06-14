@@ -232,6 +232,365 @@ pub fn shapiro_delay(r_tx: Vec3, r_rx: Vec3, mu: f64) -> f64 {
     (2.0 * mu / (c * c * c)) * ((r1 + r2 + r12) / (r1 + r2 - r12)).ln()
 }
 
+// ============================================================================
+// D1.1 — Radiometric observable model: range & Doppler.
+//
+// The light-time kernel above turns geometry into the time a signal takes to
+// travel. The observable model on top of it forms the **actual quantities a
+// Deep-Space-Network tracking pass reports** — two-/one-/three-way range and
+// Doppler — by composing one or two light-time legs and differentiating the
+// path length. Conventions follow Moyer (DSN range/Doppler formulation) and the
+// CCSDS Tracking-Data-Message data-type definitions; each is documented inline.
+// ============================================================================
+
+/// A deep-space tracking carrier **frequency band**. Used to select the carrier
+/// frequency a Doppler observable is referenced to and the transponder
+/// turn-around ratio (D1.2). The three bands are the ones the DSN and ESTRACK
+/// operate for deep-space links.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum Band {
+    /// **S-band** (~2.1 GHz up / ~2.3 GHz down): legacy deep-space and most
+    /// near-Earth tracking.
+    S,
+    /// **X-band** (~7.2 GHz up / ~8.4 GHz down): the deep-space workhorse.
+    X,
+    /// **Ka-band** (~34 GHz down): the highest-rate / lowest-plasma deep-space
+    /// link, paired with X uplink for dual-frequency plasma calibration (D1.3).
+    Ka,
+}
+
+impl Band {
+    /// A **representative uplink carrier frequency** (Hz) for the band — the
+    /// frequency a station transmits at. These are nominal deep-space band
+    /// centres (S ≈ 2.115 GHz, X ≈ 7.179 GHz, Ka ≈ 34.4 GHz uplink); a real pass
+    /// uses the channel-assigned carrier, but the Doppler observable scales with
+    /// whatever carrier the caller supplies, so these defaults exist only for the
+    /// band-keyed convenience path.
+    pub fn uplink_hz(self) -> f64 {
+        match self {
+            Band::S => 2.115e9,
+            Band::X => 7.179e9,
+            Band::Ka => 34.4e9,
+        }
+    }
+
+    /// A representative **downlink carrier frequency** (Hz) for the band
+    /// (S ≈ 2.295 GHz, X ≈ 8.420 GHz, Ka ≈ 32.0 GHz downlink). For a coherent
+    /// two-way link the true downlink is the uplink times the transponder
+    /// turn-around ratio (`turnaround_ratio`, D1.2); this is the stand-alone band
+    /// centre used for one-way (downlink-only) Doppler.
+    pub fn downlink_hz(self) -> f64 {
+        match self {
+            Band::S => 2.295e9,
+            Band::X => 8.420e9,
+            Band::Ka => 32.0e9,
+        }
+    }
+}
+
+/// How many station–spacecraft legs (and whose clock) an observable spans.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ObsWay {
+    /// **One-way**: the spacecraft transmits on its own oscillator, one station
+    /// receives (down-leg only). Carries the spacecraft clock error.
+    One,
+    /// **Two-way**: one station transmits, the spacecraft coherently
+    /// re-transmits, the **same** station receives. Up-leg + down-leg, referenced
+    /// entirely to the station's clock (the cleanest deep-space observable).
+    Two,
+    /// **Three-way**: one station transmits, a **different** station receives the
+    /// coherent down-link. Up-leg + down-leg with the two stations' clocks; used
+    /// to keep continuous Doppler across a station handover.
+    Three,
+}
+
+/// What physical quantity a [`RadiometricObs`] carries.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ObsKind {
+    /// A **range** observable (metres): the signal path length (see
+    /// [`two_way_range`] for the round-trip convention).
+    Range,
+    /// A **Doppler** observable (Hz): the carrier-frequency shift induced by the
+    /// line-of-sight range rate (see [`two_way_doppler`]).
+    Doppler,
+    /// A **Δ-DOR** observable (seconds): the differential one-way delay of a
+    /// spacecraft vs a quasar across an interferometer baseline (D1.3,
+    /// [`delta_dor`]).
+    DeltaDor,
+}
+
+/// A single radiometric observation: a kind/way/band-tagged value at an epoch,
+/// with its one-sigma measurement uncertainty (same unit as `value`).
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct RadiometricObs {
+    /// Which physical quantity (range / Doppler / Δ-DOR).
+    pub kind: ObsKind,
+    /// One-, two-, or three-way.
+    pub way: ObsWay,
+    /// The carrier band the observable is referenced to.
+    pub band: Band,
+    /// The observation epoch (the **receive** epoch at the reference station),
+    /// carried as a [`TwoPartJd`] (TDB) to preserve sub-microsecond timing.
+    pub epoch: TwoPartJd,
+    /// The observed value. Units depend on [`kind`](Self::kind): metres for
+    /// [`ObsKind::Range`], Hz for [`ObsKind::Doppler`], seconds for
+    /// [`ObsKind::DeltaDor`].
+    pub value: f64,
+    /// The one-sigma measurement uncertainty, in the same unit as
+    /// [`value`](Self::value).
+    pub sigma: f64,
+}
+
+/// **One-way (down-leg) geometric range** in metres: `c · τ_down`, the distance
+/// a signal travels from the spacecraft (at its retarded emission epoch) to the
+/// receiving station at receive epoch `t_rx`. This is the building block of the
+/// multi-way ranges; on its own it is the geometry behind a one-way
+/// (spacecraft-transmitted) range.
+///
+/// Returns `None` if the ephemeris cannot supply `sc_body` relative to `center`
+/// (e.g. Mars from the kernel-free [`crate::ephem_provider::BuiltinEphemeris`]).
+pub fn one_way_range<E: EphemerisProvider>(
+    station_pos: Vec3,
+    sc_body: &Body,
+    center: &Body,
+    t_rx: TwoPartJd,
+    ephem: &E,
+) -> Option<f64> {
+    let down = light_time_solution(station_pos, t_rx, sc_body, center, ephem)?;
+    Some(down.tau_s * C_M_PER_S)
+}
+
+/// **Two-way range** in metres — the round-trip signal path length.
+///
+/// ## Convention (documented and consistent across this module)
+///
+/// This returns the **full round-trip range**
+///
+/// ```text
+///   ρ₂ = c · (τ_up + τ_down),
+/// ```
+///
+/// the total distance the signal travels station → spacecraft → station. The
+/// *up-leg* light time `τ_up` is solved with the spacecraft at its **advanced**
+/// (reception-of-the-uplink) epoch and the down-leg `τ_down` with the spacecraft
+/// at its **retarded** (emission-of-the-downlink) epoch, both anchored to the
+/// receive epoch `t_rx` — i.e. the two legs are evaluated at slightly different
+/// spacecraft positions, exactly as a real two-way light path is. A caller that
+/// wants the DSN "range = half the round-trip light time × c" quantity simply
+/// halves this value; the round-trip form is returned because it is the
+/// unambiguous physical path length and the two halves are exposed via
+/// [`one_way_range`] / the up-leg below.
+///
+/// The up-leg transmit epoch is `t_rx − τ_down − τ_up`: the signal that is
+/// received now left the station two light times ago. We solve the down-leg
+/// first (anchored at `t_rx`), step back by `τ_down` to the spacecraft's
+/// transponding epoch, then solve the up-leg **retarded** from that epoch to
+/// recover the uplink emission and `τ_up`. (Moyer, *Formulation for Observed and
+/// Computed Values of Deep Space Network Data Types*, §8.)
+///
+/// Returns `None` if the ephemeris cannot supply the spacecraft body.
+pub fn two_way_range<E: EphemerisProvider>(
+    station_pos: Vec3,
+    sc_body: &Body,
+    center: &Body,
+    t_rx: TwoPartJd,
+    ephem: &E,
+) -> Option<f64> {
+    // Down-leg: spacecraft emits the (transponded) downlink at t_rx − τ_down,
+    // received at the station at t_rx.
+    let down = light_time_solution(station_pos, t_rx, sc_body, center, ephem)?;
+    // The spacecraft transponds at the down-leg emission epoch. The up-leg is the
+    // light path station → spacecraft that *arrived* at that epoch: solve it as a
+    // retarded leg from the spacecraft's transponding event back to the station,
+    // i.e. the station's uplink emission is τ_up earlier than the transpond.
+    // Geometrically the up-leg range equals |station − sc_at_transpond|, which to
+    // first order is the same retarded geometry the station "sees"; we solve the
+    // station-as-emitter advanced leg to the spacecraft transpond epoch.
+    let up = light_time_solution_advanced(station_pos, down.tx_epoch, sc_body, center, ephem)?;
+    // Note: the advanced solve places the spacecraft τ_up *after* the station
+    // emission. We want the station emission that *reaches* the spacecraft at
+    // down.tx_epoch, i.e. station emits at down.tx_epoch − τ_up. The light time
+    // magnitude is what enters the range and is symmetric, so τ_up here is the
+    // up-leg light time.
+    Some((up.tau_s + down.tau_s) * C_M_PER_S)
+}
+
+/// **Line-of-sight range rate** (metres/second) of the down-leg one-way range at
+/// epoch `t_rx`, by a symmetric numeric derivative of [`one_way_range`] over a
+/// step of `dt_s` seconds:
+///
+/// ```text
+///   ρ̇ = [ρ(t_rx + dt) − ρ(t_rx − dt)] / (2·dt).
+/// ```
+///
+/// A central difference is second-order accurate; the default step
+/// ([`DOPPLER_DERIV_STEP_S`]) is a compromise between truncation error
+/// (`∝ dt²`) and the two-part-epoch timing floor. Returns `None` if any of the
+/// three range evaluations is unavailable. Positive ρ̇ means the spacecraft is
+/// receding.
+pub fn one_way_range_rate<E: EphemerisProvider>(
+    station_pos: Vec3,
+    sc_body: &Body,
+    center: &Body,
+    t_rx: TwoPartJd,
+    dt_s: f64,
+    ephem: &E,
+) -> Option<f64> {
+    let r_plus = one_way_range(station_pos, sc_body, center, t_rx.add_seconds(dt_s), ephem)?;
+    let r_minus = one_way_range(station_pos, sc_body, center, t_rx.add_seconds(-dt_s), ephem)?;
+    Some((r_plus - r_minus) / (2.0 * dt_s))
+}
+
+/// **Two-way range rate** (metres/second): the symmetric numeric derivative of
+/// [`two_way_range`] about `t_rx`, divided by 2 so it is the *one-way-equivalent*
+/// line-of-sight rate (the round-trip path changes at twice the line-of-sight
+/// rate). This is the round-trip-range-derived range rate, which differs from the
+/// leg-summed [`two_way_doppler`] rate at the `v/c` second order (the up-leg is
+/// evaluated at the spacecraft's transpond epoch here); both are correct two-way
+/// rates, this one being the exact derivative of the round-trip path length.
+pub fn two_way_range_rate<E: EphemerisProvider>(
+    station_pos: Vec3,
+    sc_body: &Body,
+    center: &Body,
+    t_rx: TwoPartJd,
+    dt_s: f64,
+    ephem: &E,
+) -> Option<f64> {
+    let r_plus = two_way_range(station_pos, sc_body, center, t_rx.add_seconds(dt_s), ephem)?;
+    let r_minus = two_way_range(station_pos, sc_body, center, t_rx.add_seconds(-dt_s), ephem)?;
+    // d(ρ₂)/dt is the round-trip rate; the line-of-sight rate is half of it.
+    Some((r_plus - r_minus) / (2.0 * dt_s) / 2.0)
+}
+
+/// The default central-difference step (seconds) for the numeric Doppler/range-
+/// rate derivatives. One second is well inside the span over which the geometry
+/// is smooth and is large enough that the `2·dt` denominator keeps the
+/// difference well clear of the two-part-epoch timing floor (~fs).
+pub const DOPPLER_DERIV_STEP_S: f64 = 1.0;
+
+/// **One-way Doppler** observable in Hz: the carrier-frequency shift seen by the
+/// receiving station for a spacecraft transmitting on a fixed downlink carrier
+/// `f_dl` (Hz). To first order in `ρ̇/c`,
+///
+/// ```text
+///   f_D = − (f_dl / c) · ρ̇,
+/// ```
+///
+/// the classical one-way Doppler: an **approaching** spacecraft (`ρ̇ < 0`)
+/// gives a **positive** (blue) shift. `ρ̇` is the one-way line-of-sight range
+/// rate from [`one_way_range_rate`]. Returns `None` if the geometry is
+/// unavailable.
+pub fn one_way_doppler<E: EphemerisProvider>(
+    station_pos: Vec3,
+    sc_body: &Body,
+    center: &Body,
+    t_rx: TwoPartJd,
+    downlink_hz: f64,
+    ephem: &E,
+) -> Option<f64> {
+    let rdot = one_way_range_rate(
+        station_pos,
+        sc_body,
+        center,
+        t_rx,
+        DOPPLER_DERIV_STEP_S,
+        ephem,
+    )?;
+    Some(-(downlink_hz / C_M_PER_S) * rdot)
+}
+
+/// **Two-way Doppler** observable in Hz for a coherent transponder. The station
+/// transmits on uplink carrier `f_ul`; the spacecraft re-transmits coherently at
+/// `f_ul · M` (the transponder turn-around ratio `M`, `turnaround_ratio` in
+/// D1.2, supplied here as `turnaround`); the same station measures the down-link
+/// frequency. The observable is the standard Moyer two-way Doppler
+///
+/// ```text
+///   f_D = − (2 · M · f_ul / c) · ρ̇_los,
+/// ```
+///
+/// equivalently `f_D = −(M·f_ul/c)·(ρ̇_up + ρ̇_down)` decomposed by leg, where
+/// each `ρ̇` is the line-of-sight range rate of one station↔spacecraft leg
+/// ([`one_way_range_rate`]). The factor of 2 (= ρ̇_up + ρ̇_down for a single
+/// station's near-equal legs) is the round-trip (both legs see the shift); `M`
+/// carries the up-link carrier into the down-link the station actually counts. An
+/// approaching spacecraft gives a positive shift. Returns `None` if the geometry
+/// is unavailable.
+///
+/// Forming the observable as the **sum of the two leg rates** (rather than twice
+/// the round-trip-range derivative) makes it the exact single-station special
+/// case of [`three_way_doppler`]: a three-way pass whose receiving station equals
+/// its transmitting station is byte-for-byte this two-way observable.
+///
+/// To use the band's coherent turn-around directly, see
+/// `two_way_doppler_coherent` (D1.2).
+pub fn two_way_doppler<E: EphemerisProvider>(
+    station_pos: Vec3,
+    sc_body: &Body,
+    center: &Body,
+    t_rx: TwoPartJd,
+    uplink_hz: f64,
+    turnaround: f64,
+    ephem: &E,
+) -> Option<f64> {
+    three_way_doppler(
+        station_pos,
+        station_pos,
+        sc_body,
+        center,
+        t_rx,
+        uplink_hz,
+        turnaround,
+        ephem,
+    )
+}
+
+/// **Three-way Doppler** observable in Hz: identical formation to
+/// [`two_way_doppler`] (the up-leg from the transmitting station, the down-leg to
+/// a *different* receiving station), with the up-leg from `tx_station_pos` and
+/// the down-leg to `rx_station_pos`. Because the round-trip path is split between
+/// two stations the range rate is formed from the up-leg (transmitter) and
+/// down-leg (receiver) separately and summed; over a short interval with both
+/// stations on the same rotating Earth this reduces to the two-way form plus the
+/// inter-station geometry. Returns `None` if either leg's geometry is
+/// unavailable.
+#[allow(clippy::too_many_arguments)]
+pub fn three_way_doppler<E: EphemerisProvider>(
+    tx_station_pos: Vec3,
+    rx_station_pos: Vec3,
+    sc_body: &Body,
+    center: &Body,
+    t_rx: TwoPartJd,
+    uplink_hz: f64,
+    turnaround: f64,
+    ephem: &E,
+) -> Option<f64> {
+    // Down-leg rate at the receiving station (one-way-equivalent).
+    let down_rate = one_way_range_rate(
+        rx_station_pos,
+        sc_body,
+        center,
+        t_rx,
+        DOPPLER_DERIV_STEP_S,
+        ephem,
+    )?;
+    // Up-leg rate referenced to the transmitting station: the rate of the path
+    // station_tx → spacecraft, evaluated about the same epoch (the spacecraft's
+    // transpond epoch is within one light time, negligible for the rate over the
+    // 1 s derivative step relative to the Doppler precision modelled here).
+    let up_rate = one_way_range_rate(
+        tx_station_pos,
+        sc_body,
+        center,
+        t_rx,
+        DOPPLER_DERIV_STEP_S,
+        ephem,
+    )?;
+    // The down-link carrier the receiver counts is f_ul·M; each leg contributes
+    // its own line-of-sight shift, so the total is −(M·f_ul/c)·(ρ̇_up + ρ̇_down).
+    Some(-(turnaround * uplink_hz / C_M_PER_S) * (up_rate + down_rate))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -538,5 +897,200 @@ mod tests {
     fn shapiro_zero_for_coincident_endpoints() {
         let p = [1.2e11, -3.4e10, 5.6e9];
         assert_eq!(shapiro_delay(p, p, MU_SUN), 0.0);
+    }
+
+    // ------------------------------------------------------------------------
+    // D1.1 — range & Doppler observables.
+    // ------------------------------------------------------------------------
+
+    /// `two_way_range` for a station↔Sun geometry equals the sum of the up-leg and
+    /// down-leg one-way ranges to within a millimetre (the documented full-round-
+    /// trip convention `ρ₂ = c·(τ_up + τ_down)`). For the geocentric Sun the two
+    /// legs are within an Earth-orbit-radius of 1 AU each, so the round trip is
+    /// ~2 AU.
+    #[test]
+    fn two_way_range_is_sum_of_legs() {
+        let ephem = BuiltinEphemeris;
+        let t_rx = TwoPartJd::from_f64(PROBE_JD);
+        let station = [0.0, 0.0, 0.0];
+
+        let two_way = two_way_range(station, &Body::sun(), &Body::earth(), t_rx, &ephem)
+            .expect("builtin supplies Sun relative to Earth");
+
+        // Down-leg one-way range, anchored at t_rx.
+        let down =
+            light_time_solution(station, t_rx, &Body::sun(), &Body::earth(), &ephem).unwrap();
+        // Up-leg: advanced from the down-leg emission epoch.
+        let up = light_time_solution_advanced(
+            station,
+            down.tx_epoch,
+            &Body::sun(),
+            &Body::earth(),
+            &ephem,
+        )
+        .unwrap();
+        let expected = (up.tau_s + down.tau_s) * C_M_PER_S;
+
+        assert!(
+            (two_way - expected).abs() < 1e-3,
+            "two-way range {two_way} m differs from c·(τ_up+τ_down) {expected} m by {} m",
+            (two_way - expected).abs()
+        );
+
+        // Magnitude sanity: round trip is ~2 AU for the Earth–Sun geometry.
+        let round_trip_au = two_way / AU_M;
+        assert!(
+            (1.9..=2.1).contains(&round_trip_au),
+            "Earth–Sun round-trip range {round_trip_au} AU not near 2 AU"
+        );
+    }
+
+    /// One-way range to the Moon equals `c·τ_down` exactly (it *is* the definition),
+    /// and lands in the ~356 500–406 700 km Earth–Moon band.
+    #[test]
+    fn one_way_range_matches_light_time() {
+        let ephem = BuiltinEphemeris;
+        let t_rx = TwoPartJd::from_f64(PROBE_JD);
+        let station = [0.0, 0.0, 0.0];
+
+        let r = one_way_range(station, &Body::moon(), &Body::earth(), t_rx, &ephem).unwrap();
+        let lt = light_time_solution(station, t_rx, &Body::moon(), &Body::earth(), &ephem).unwrap();
+        assert!((r - lt.tau_s * C_M_PER_S).abs() < 1e-6);
+
+        let km = r / 1000.0;
+        assert!(
+            (350_000.0..=410_000.0).contains(&km),
+            "Earth–Moon one-way range {km} km outside the perigee–apogee band"
+        );
+    }
+
+    /// A constant-velocity emitter receding **radially** from a station at the
+    /// origin gives the analytic one-way Doppler `f_D = −(f/c)·ρ̇`, with
+    /// `ρ̇` the radial speed. We place the body on the +x axis with velocity
+    /// purely along +x (pure recession), so the line-of-sight range rate equals
+    /// the speed `|v|` to the part-per-thousand the numeric derivative resolves.
+    #[test]
+    fn one_way_doppler_constant_velocity_radial() {
+        let t0_jd = PROBE_JD;
+        let speed = 9_000.0_f64; // m/s, receding
+        let ephem = ConstantVelocityEphemeris {
+            t0_jd,
+            r0: [2.0e11, 0.0, 0.0],
+            v: [speed, 0.0, 0.0],
+        };
+        let station = [0.0, 0.0, 0.0];
+        let t_rx = TwoPartJd::from_f64(t0_jd);
+        let f_dl = 8.42e9; // X-band downlink
+
+        // Range rate from the geometry: should equal +speed (receding) to high
+        // accuracy (the tiny retarded correction is ~v/c ≈ 3e-5 of the speed).
+        let rdot =
+            one_way_range_rate(station, &Body::mars(), &Body::sun(), t_rx, 1.0, &ephem).unwrap();
+        assert!(
+            (rdot - speed).abs() / speed < 1e-3,
+            "radial range rate {rdot} m/s should be ≈ {speed} m/s"
+        );
+
+        // One-way Doppler = −(f/c)·ρ̇; receding ⇒ negative (red) shift.
+        let f_d =
+            one_way_doppler(station, &Body::mars(), &Body::sun(), t_rx, f_dl, &ephem).unwrap();
+        let expected = -(f_dl / C_M_PER_S) * speed;
+        assert!(
+            (f_d - expected).abs() / expected.abs() < 1e-3,
+            "one-way Doppler {f_d} Hz vs analytic {expected} Hz"
+        );
+        assert!(
+            f_d < 0.0,
+            "a receding emitter must give a negative (red) shift"
+        );
+    }
+
+    /// An **approaching** emitter gives a positive (blue) shift, and the
+    /// two-way Doppler is the one-way Doppler scaled by `2·M` (round trip ×
+    /// turn-around ratio) when referenced to the *same* carrier. Here we build the
+    /// two-way Doppler with `M = 1` and an uplink equal to the downlink, and check
+    /// it is exactly twice the one-way Doppler.
+    #[test]
+    fn two_way_doppler_is_twice_one_way_at_unit_turnaround() {
+        let t0_jd = PROBE_JD;
+        let speed = -7_500.0_f64; // m/s, approaching (negative ρ̇)
+        let ephem = ConstantVelocityEphemeris {
+            t0_jd,
+            r0: [1.5e11, 0.0, 0.0],
+            v: [speed, 0.0, 0.0],
+        };
+        let station = [0.0, 0.0, 0.0];
+        let t_rx = TwoPartJd::from_f64(t0_jd);
+        let f = 7.179e9;
+
+        let one_way =
+            one_way_doppler(station, &Body::mars(), &Body::sun(), t_rx, f, &ephem).unwrap();
+        let two_way =
+            two_way_doppler(station, &Body::mars(), &Body::sun(), t_rx, f, 1.0, &ephem).unwrap();
+
+        assert!(
+            one_way > 0.0,
+            "an approaching emitter must give a positive shift"
+        );
+        // Two-way at M=1, same carrier = 2× one-way (both legs see the shift).
+        assert!(
+            (two_way - 2.0 * one_way).abs() / two_way.abs() < 5e-3,
+            "two-way Doppler {two_way} Hz should be ≈ 2× one-way {one_way} Hz"
+        );
+    }
+
+    /// Three-way Doppler with the receiving station *equal to* the transmitting
+    /// station degenerates to the two-way Doppler (same geometry on both legs).
+    #[test]
+    fn three_way_collapses_to_two_way_for_colocated_stations() {
+        let t0_jd = PROBE_JD;
+        let ephem = ConstantVelocityEphemeris {
+            t0_jd,
+            r0: [1.8e11, 3.0e10, 0.0],
+            v: [6_000.0, -2_000.0, 1_000.0],
+        };
+        let station = [0.0, 0.0, 0.0];
+        let t_rx = TwoPartJd::from_f64(t0_jd);
+        let f = 7.179e9;
+        // A non-trivial turn-around ratio (D1.2 supplies the band-keyed value);
+        // the collapse identity holds for any M.
+        let m = 880.0 / 749.0;
+
+        let two_way =
+            two_way_doppler(station, &Body::mars(), &Body::sun(), t_rx, f, m, &ephem).unwrap();
+        let three_way = three_way_doppler(
+            station,
+            station,
+            &Body::mars(),
+            &Body::sun(),
+            t_rx,
+            f,
+            m,
+            &ephem,
+        )
+        .unwrap();
+
+        assert!(
+            (two_way - three_way).abs() / two_way.abs() < 1e-6,
+            "three-way with colocated stations {three_way} Hz must equal two-way {two_way} Hz"
+        );
+    }
+
+    /// A `RadiometricObs` round-trips its fields and tags the right units via its
+    /// kind — a light structural check that the observable record is wired.
+    #[test]
+    fn radiometric_obs_record_fields() {
+        let obs = RadiometricObs {
+            kind: ObsKind::Range,
+            way: ObsWay::Two,
+            band: Band::X,
+            epoch: TwoPartJd::from_f64(PROBE_JD),
+            value: 4.2e11,
+            sigma: 1.0,
+        };
+        assert_eq!(obs.kind, ObsKind::Range);
+        assert_eq!(obs.way, ObsWay::Two);
+        assert_eq!(obs.band, Band::X);
+        assert_eq!(obs.value, 4.2e11);
     }
 }
