@@ -237,6 +237,7 @@ pub enum ScenarioKind {
     Terrain,
     CombinedAltPnt,
     Pvt,
+    MarsPnt,
 }
 
 impl ScenarioKind {
@@ -263,6 +264,7 @@ impl ScenarioKind {
             ScenarioKind::Terrain => "terrain-nav",
             ScenarioKind::CombinedAltPnt => "combined-altpnt",
             ScenarioKind::Pvt => "pvt",
+            ScenarioKind::MarsPnt => "mars-pnt",
         }
     }
 
@@ -293,6 +295,7 @@ impl ScenarioKind {
             "terrain-nav" => ScenarioKind::Terrain,
             "combined-altpnt" => ScenarioKind::CombinedAltPnt,
             "pvt" => ScenarioKind::Pvt,
+            "mars-pnt" => ScenarioKind::MarsPnt,
             // Empty or unknown ⇒ the clock pack (historical default).
             _ => ScenarioKind::Clock,
         })
@@ -334,6 +337,7 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "terrain-nav", description: "GPS-denied terrain-referenced navigation (TERCOM/SITAN): a radar/baro altimeter matches the ground-elevation profile against an SRTM-style DEM to recover the INS drift.", required_fields: &["dem_seed", "start_lat_deg", "start_lon_deg", "step_lat_deg", "step_lon_deg", "waypoints", "drift_lat_deg", "drift_lon_deg", "altimeter_sigma_m", "map_sigma_m", "search_half_deg", "search_step_deg"], optional_fields: &["refine_stages", "refine_factor", "noise_seed"] },
         ScenarioMeta { name: "combined-altpnt", description: "GPS-denied combined gravity + magnetic + terrain navigator: three scalar field channels fused per waypoint for a sharper (lower-CRLB) drift fix than any single field.", required_fields: &["start_lat_deg", "start_lon_deg", "step_lat_deg", "step_lon_deg", "waypoints", "drift_lat_deg", "drift_lon_deg", "search_half_deg", "search_step_deg", "nmax", "gravity_sigma_mgal", "igrf_year", "magnetic_sigma_nt", "dem_seed", "terrain_sigma_m"], optional_fields: &["coeffs", "mascons", "magnetic_mascons", "igrf_alt_km", "refine_stages", "refine_factor", "noise_seed"] },
         ScenarioMeta { name: "pvt", description: "Real-observation single-point positioning: solve a receiver's position from a RINEX 3 observation file and a broadcast-navigation file (code pseudoranges, broadcast ephemeris, Klobuchar iono, Saastamoinen/Niell tropo), optionally validated against a surveyed coordinate.", required_fields: &["obs_rinex", "nav_rinex"], optional_fields: &["truth_ecef", "apriori_ecef", "mask_deg"] },
+        ScenarioMeta { name: "mars-pnt", description: "Deep-space Mars PNT: a simulated MARCONI relay constellation (areostationary + inclined relays broadcasting one-way + relaying two-way to a deep-space station) navigates a reference user (transfer | lmo | surface) through the joint one-way/two-way radiometric fusion estimator. Reports per-epoch geometry/visibility, achieved RMS vs truth, and the formal covariance (1σ / 3σ position) — an honest simulated FoM, NOT a certified protection level.", required_fields: &[], optional_fields: &["user", "clock_class", "step_s", "duration_s", "nmax", "range_sigma_m", "doppler_sigma_mps", "dynamic_tightness", "two_way_period_s", "seed"] },
     ]
 }
 
@@ -901,6 +905,17 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 summary,
             })
         }
+        ScenarioKind::MarsPnt => {
+            let scn: crate::mars_pnt::MarsScenario =
+                toml::from_str(src).map_err(|e| format!("invalid mars-pnt scenario: {e}"))?;
+            let r = crate::mars_pnt::run_mars_pnt(&scn)?;
+            let summary = crate::mars_pnt::summary(&r);
+            Ok(RunOutput {
+                json: json_of(&r),
+                svg: crate::mars_pnt::to_svg(&r),
+                summary,
+            })
+        }
         ScenarioKind::Clock => {
             let scn: crate::scenario::Scenario =
                 toml::from_str(src).map_err(|e| format!("invalid scenario: {e}"))?;
@@ -981,6 +996,8 @@ mod tests {
             ScenarioKind::GravityMap,
             ScenarioKind::Terrain,
             ScenarioKind::CombinedAltPnt,
+            ScenarioKind::Pvt,
+            ScenarioKind::MarsPnt,
         ] {
             assert!(
                 names.contains(k.as_str()),
@@ -1038,12 +1055,40 @@ mod tests {
             include_str!("../scenarios/gps-denied-gravity-nav.toml"),
             include_str!("../scenarios/terrain-nav.toml"),
             include_str!("../scenarios/combined-altpnt.toml"),
+            include_str!("../scenarios/mars-pnt-lmo.toml"),
         ] {
             let out = run_toml(src).expect("scenario runs");
             assert!(out.json.starts_with('{'));
             assert!(out.svg.starts_with("<svg"));
             assert!(!out.summary.is_empty());
         }
+    }
+
+    #[test]
+    fn mars_pnt_kind_round_trips_through_the_dispatch() {
+        // The new deep-space kind dispatches end-to-end through the shared entry point the
+        // CLI/Python/wasm/MCP bindings all use: a `mars-pnt` TOML in, valid JSON + SVG out, with
+        // the honest covariance figure of merit (and its explicit "not a certified protection
+        // level" labelling) present.
+        let out = run_toml(include_str!("../scenarios/mars-pnt-lmo.toml"))
+            .expect("mars-pnt scenario dispatches");
+        // Classifies to the new variant.
+        assert_eq!(
+            ScenarioKind::classify(include_str!("../scenarios/mars-pnt-lmo.toml")).unwrap(),
+            ScenarioKind::MarsPnt
+        );
+        // Valid JSON carrying the FoM and the honesty note (covariance, not a certified PL).
+        assert!(out.json.starts_with('{'));
+        assert!(out.json.contains("\"scenario_hash\""));
+        assert!(out.json.contains("converged_pos_rms_m"));
+        assert!(out.json.contains("converged_pos_3sigma_m"));
+        assert!(out
+            .json
+            .contains("NOT aviation-certified protection levels"));
+        // Non-empty SVG and a one-line summary that names the kind and the FoM honestly.
+        assert!(out.svg.starts_with("<svg"));
+        assert!(out.summary.starts_with("mars-pnt "));
+        assert!(out.summary.contains("not a certified PL"));
     }
 
     #[test]

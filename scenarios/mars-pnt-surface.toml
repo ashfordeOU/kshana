@@ -1,0 +1,24 @@
+# Mars PNT — a fixed surface user (a lander / rover on the rotating Mars surface)
+# navigated against the simulated MARCONI relay constellation through the joint
+# one-way/two-way radiometric fusion estimator.
+#
+# A surface point is NOT in free-fall — it co-rotates rigidly with Mars (held up by the
+# ground), so its dynamics are pure centripetal co-rotation, not orbital free-flight. The
+# relays sweeping overhead give the geometric diversity that makes the near-static point
+# observable.
+#
+# Figures of merit are the estimator's FORMAL COVARIANCE bounds (1σ / 3σ position) and
+# the achieved RMS vs a synthetic closed-loop truth — a simulated navigation FoM, NOT an
+# aviation-certified protection level.
+kind = "mars-pnt"
+
+user = "surface"             # fixed point on the equator at the prime meridian (co-rotating)
+clock_class = "uso"
+step_s = 30.0                # tighter cadence (the relays sweep overhead quickly)
+duration_s = 7200.0          # 2 h (several relay passes)
+nmax = 4
+range_sigma_m = 1.0
+doppler_sigma_mps = 1.0e-4
+dynamic_tightness = 0.1
+two_way_period_s = 1800.0
+seed = 331514052

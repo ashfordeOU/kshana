@@ -41,6 +41,8 @@ const SCENARIOS = [
     "Spoof detection", "Is a ramping time-spoof caught before it reaches spec?"],
   ["pvt-abmf.toml", "Single-point positioning — real IGS observations (ABMF)",
     "Positioning (SPP)", "Can a real receiver position be solved from raw RINEX measurements?"],
+  ["mars-pnt-lmo.toml", "Mars PNT — MARCONI relay constellation (Low-Mars-Orbit user)",
+    "Mars PNT", "Can a MARCONI relay constellation navigate a user at Mars? (covariance FoM, not a certified PL)"],
 ];
 
 // Embedded default so the very first run needs no network fetch.

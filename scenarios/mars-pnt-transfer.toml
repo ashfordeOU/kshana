@@ -1,0 +1,20 @@
+# Mars PNT — a Mars transfer / capture user (a high, eccentric areocentric arc — the
+# long arc a vehicle flies on approach / in a capture orbit) navigated against the
+# simulated MARCONI relay constellation through the joint one-way/two-way radiometric
+# fusion estimator.
+#
+# Figures of merit are the estimator's FORMAL COVARIANCE bounds (1σ / 3σ position) and
+# the achieved RMS vs a synthetic closed-loop truth — a simulated navigation FoM, NOT an
+# aviation-certified protection level.
+kind = "mars-pnt"
+
+user = "transfer"            # high eccentric capture-class arc (perigee ~500 km, apogee ~6 Rm)
+clock_class = "dsac"         # a deep-space atomic clock (the most stable class)
+step_s = 120.0               # coarser cadence over the long arc
+duration_s = 28800.0         # 8 h
+nmax = 4
+range_sigma_m = 1.0
+doppler_sigma_mps = 1.0e-4
+dynamic_tightness = 0.1
+two_way_period_s = 3600.0    # a two-way pass every hour
+seed = 331514052
