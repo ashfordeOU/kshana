@@ -188,8 +188,11 @@ fn arg_of_latitude(r: Vec3, v: Vec3) -> f64 {
 /// The empirical RTN acceleration (m/s², ECI) for `emp` at state `(r, v)`: each axis amplitude
 /// `c0 + c_cos·cos u + c_sin·sin u` against the argument of latitude `u`, projected back onto the
 /// inertial RTN basis vectors. Frame-agnostic — the RTN basis and argument of latitude are built
-/// from `(r, v)` in whatever inertial frame the caller integrates (Earth- or Moon-centred).
-pub(crate) fn empirical_accel(emp: &EmpiricalAccel, r: Vec3, v: Vec3) -> Vec3 {
+/// from `(r, v)` in whatever inertial frame the caller integrates (Earth-, Moon- or Mars-centred).
+///
+/// Public so an out-of-module [`ForceModel`] (e.g. a Mars-centred one) can apply the same RTN
+/// empirical tier the reduced-dynamic estimator drives through [`ForceModel::set_empirical`].
+pub fn empirical_accel(emp: &EmpiricalAccel, r: Vec3, v: Vec3) -> Vec3 {
     let ric = ric_from_state(r, v); // rows = R̂, T̂, N̂ in ECI
     let u = arg_of_latitude(r, v);
     let (cu, su) = (u.cos(), u.sin());
