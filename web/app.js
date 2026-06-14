@@ -502,17 +502,19 @@ function renderOrbit3d(result) {
 
 function buildOverlayTable(runs) {
   const rows = overlayRows(runs);
+  const hasClock = rows.some((r) => r.clockLabel);
+  const leadN = hasClock ? 2 : 1; // number of lead (non-value) columns
   const table = document.createElement("table");
   table.className = "compare-table overlay-table";
   const head = document.createElement("tr");
-  const headers = ["Clock", "Metric", ...runs.map((r) => r.label)];
+  const headers = [...(hasClock ? ["Clock"] : []), "Metric", ...runs.map((r) => r.label)];
   headers.forEach((h, i) => {
     const th = document.createElement("th");
     th.textContent = h;
-    if (i >= 2) {
+    if (i >= leadN) {
       const sw = document.createElement("span");
       sw.className = "ovl-swatch";
-      sw.style.background = OVERLAY_COLORS[(i - 2) % OVERLAY_COLORS.length];
+      sw.style.background = OVERLAY_COLORS[(i - leadN) % OVERLAY_COLORS.length];
       th.prepend(sw);
     }
     head.append(th);
@@ -520,16 +522,31 @@ function buildOverlayTable(runs) {
   table.append(head);
   for (const r of rows) {
     const tr = document.createElement("tr");
-    const lead = [r.clockLabel, r.unit ? `${r.label} (${r.unit})` : r.label];
+    const lead = [...(hasClock ? [r.clockLabel] : []), r.unit ? `${r.label} (${r.unit})` : r.label];
     for (const c of lead) {
       const td = document.createElement("td");
       td.textContent = c;
       tr.append(td);
     }
+    const base = r.values[0];
     r.values.forEach((v, i) => {
       const td = document.createElement("td");
       td.className = "num" + (i === r.best ? " cmp-better" : "");
-      td.textContent = fmtVal(v);
+      td.append(document.createTextNode(fmtVal(v)));
+      // Deviation vs the first (baseline) run — the side-by-side delta the
+      // comparison exists to surface. Coloured by the metric's direction.
+      if (i > 0 && typeof v === "number" && typeof base === "number") {
+        const d = v - base;
+        const pct = base !== 0 ? (d / Math.abs(base)) * 100 : null;
+        const sign = d > 0 ? "+" : d < 0 ? "−" : "±";
+        const span = document.createElement("span");
+        span.style.display = "block";
+        span.style.fontSize = "11px";
+        span.style.color = d === 0 ? "#8c8273" : ((r.lowerBetter ? d < 0 : d > 0) ? "#7bb38a" : "#c98b8b");
+        span.textContent =
+          `Δ ${sign}${fmtVal(Math.abs(d))}` + (pct != null ? ` (${sign}${fmtVal(Math.abs(pct))}%)` : "");
+        td.append(span);
+      }
       tr.append(td);
     });
     table.append(tr);
@@ -542,7 +559,18 @@ function renderOverlay(runs) {
   if (!wrap) return;
   compareUrls.forEach(URL.revokeObjectURL);
   compareUrls = [];
-  el("compare-table").replaceChildren(buildOverlayTable(runs));
+  if (!overlayRows(runs).length) {
+    // No shared figures of merit — say so instead of showing a blank table.
+    const p = document.createElement("p");
+    p.className = "compare-empty";
+    p.style.color = "#a89f8e";
+    p.textContent =
+      "These pinned runs share no comparable figures of merit. Pin runs of the same " +
+      "scenario family (e.g. two clock runs, or two Mars-PNT runs) to see side-by-side numbers and deltas.";
+    el("compare-table").replaceChildren(p);
+  } else {
+    el("compare-table").replaceChildren(buildOverlayTable(runs));
+  }
   const charts = el("compare-charts");
   charts.replaceChildren();
   // A single overlaid timeseries (one polyline per run) when the runs carry a

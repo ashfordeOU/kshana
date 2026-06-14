@@ -75,4 +75,20 @@ const mk = (fom) => ({ quantum: { spec: { id: "optical" }, fom }, classical: { s
   assert.ok(svg.endsWith("</svg>"), "ends with </svg>");
 }
 
+// Flat single-solution results (Mars-PNT result.fom / PVT result.fix) — no
+// quantum/classical branches — must still compare on their numeric figures of
+// merit, excluding bookkeeping (epochs/counts).
+{
+  const mk = (rms, relays) => ({ result: { fom: { converged_pos_rms_m: rms, mean_relays_in_view: relays, epochs: 100 } } });
+  const runs = [{ label: "A", ...mk(0.21, 3.2) }, { label: "B", ...mk(0.40, 3.0) }];
+  const rows = overlayRows(runs);
+  const by = (k) => rows.find((r) => r.metric === k);
+  assert.ok(by("converged_pos_rms_m"), "flat: position-RMS row present (no quantum/classical)");
+  assert.deepEqual(by("converged_pos_rms_m").values, [0.21, 0.4], "flat: values per run");
+  assert.equal(by("converged_pos_rms_m").best, 0, "flat: lower position RMS wins (A)");
+  assert.equal(by("converged_pos_rms_m").unit, "m", "flat: inferred unit");
+  assert.equal(by("mean_relays_in_view").best, 0, "flat: more relays-in-view wins (A)");
+  assert.ok(!by("epochs"), "flat: bookkeeping (epochs) excluded");
+}
+
 console.log("overlay.test.mjs: all assertions passed");
