@@ -13,7 +13,7 @@ export const TOUR_STEPS = [
   {
     target: "#capabilities",
     title: "One engine, the whole PNT stack",
-    body: "Orbits, clocks, inertial, GNSS integrity, alt-PNT — all one validated engine. Each card can load a worked scenario straight into the playground.",
+    body: "Orbits, clocks, inertial, GNSS integrity, alt-PNT, single-point positioning, and deep-space / Mars radiometric nav — all one validated engine. Each card can load a worked scenario straight into the playground.",
     side: "bottom",
   },
   {
@@ -43,7 +43,7 @@ export const TOUR_STEPS = [
   {
     target: "#download-report",
     title: "Sweep, compare & export",
-    body: "The Sweep tab varies one parameter across a range; pin runs to overlay them; and this button downloads the run as a self-contained, offline HTML report.",
+    body: "The Sweep tab varies one parameter across a range; “Pin to compare” overlays two or more runs side-by-side with the Δ between them (works across scenario types — clock, Mars-PNT, positioning…); and this button downloads the run as a self-contained, offline HTML report.",
     side: "top",
   },
   {
