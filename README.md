@@ -14,7 +14,7 @@
   <a href="tests/sgp4_verification.rs"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%204.12mm-3fb950" alt="SGP4 validated against all 666 AIAA 2006-6753 vectors, worst 4.12 mm"></a>
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/coverage-~97%25%20line-3fb950" alt="~97% line coverage on src/ (cargo-tarpaulin LLVM engine), gated at 85% in CI"></a>
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.16.0-c79e63" alt="Release v0.16.0"></a>
+  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.17.0-c79e63" alt="Release v0.17.0"></a>
   <a href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator"><img src="https://img.shields.io/badge/JetBrains-Marketplace-c79e63" alt="Kshana on the JetBrains Marketplace"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="License: Apache-2.0"></a>
   <a href="Cargo.toml"><img src="https://img.shields.io/badge/rust-1.75%2B-orange.svg" alt="Rust 1.75+"></a>
@@ -44,16 +44,26 @@ citable table in [`docs/PROVENANCE.md`](docs/PROVENANCE.md).
 *Free and open source under Apache-2.0, professionally developed and maintained by
 Ashforde OÜ — commercial support, integration, and proprietary extensions available.*
 
-> **Status: v0.16.0 · a simulation substrate, not yet a product.** A validated,
+> **Status: v0.17.0 · a simulation substrate, not yet a product.** A validated,
 > fully reproducible engine spanning the PNT stack — orbit geometry and constellation
 > design, a numerical (Cowell) propagator with a six-perturbation force model, maneuver
 > and trajectory design, time systems, inertial navigation (incl. map-aided and
 > gravity-map-matching alt-PNT), GNSS/INS fusion (loose, tight, UKF, coupled
 > clock+position, 17-state), orbit determination, ARAIM integrity, clocks, advanced
-> time-and-frequency transfer, the GNSS measurement domain, and resilience (jamming +
-> multi-layer spoofing).
+> time-and-frequency transfer, the GNSS measurement domain, resilience (jamming +
+> multi-layer spoofing), and an open **deep-space / Mars radiometric navigation**
+> engine (light-time + Shapiro, CCSDS-TDM, reduced-dynamic SRIF, one-/two-way fusion).
 > Honest by design: every figure of merit is labelled *validated* or *not-modeled*, and
 > optical-clock figures are space goals on ground hardware (no strontium optical clock has flown).
+>
+> **Validation ladder** (maturity is *not* uniform across domains — and saying so is the point):
+> | Domain | Tier |
+> |---|---|
+> | Earth PNT (orbit, frames, time, clocks, IMU, integrity) | **Real-data validated** — ESA SP3 (Galileo 0.13 m, Swarm-A 0.10 m), NIST SP1065, SOFA/ERFA, heritage vectors |
+> | Deep-space / Mars navigation | **Simulation-validated** — synthetic closed-loop OD + analytic self-consistency; Sun-central dynamics cross-checked vs JPL **DE440** (137 m @ 1-day arc) |
+> | Real-mission deep-space OD | **Roadmap** — pending real DSN/ESTRACK tracking-data validation |
+>
+> Deep-space figures (Mars-LMO OD ≈ 0.2 m; relay-PNT orbiter 0.4 m / rover 5.1 m) are **simulation / covariance figures of merit**, not real-mission results.
 > See **[Capabilities](#capabilities)** for what it does, **[What it is / is not](#what-it-is--is-not)**
 > for scope, and [`docs/CAPABILITY.md`](docs/CAPABILITY.md) / [`docs/VALIDATION.md`](docs/VALIDATION.md)
 > for per-capability maturity. The overclaim closure ledger
@@ -878,7 +888,7 @@ entry for every user-visible change. Participation is governed by our
 
 If you use Kshana in academic or technical work, please cite it. Machine-readable
 metadata is in [`CITATION.cff`](CITATION.cff) (GitHub renders a "Cite this repository"
-button from it); cite the version you used (e.g. `v0.16.0`) together with the
+button from it); cite the version you used (e.g. `v0.17.0`) together with the
 scenario and seed for full reproducibility. Every release is archived on Zenodo with
 a citable DOI — the concept DOI [10.5281/zenodo.20528627](https://doi.org/10.5281/zenodo.20528627)
 always resolves to the latest version.
