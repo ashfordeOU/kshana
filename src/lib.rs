@@ -10,6 +10,7 @@ pub mod cio;
 mod cio_s06_data;
 pub mod cr3bp;
 pub mod crossover;
+pub mod deepspace_od;
 pub mod detection;
 pub mod egm2008_data;
 pub mod ensemble;
