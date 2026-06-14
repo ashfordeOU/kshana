@@ -39,6 +39,7 @@ pub mod ionex;
 pub mod jamming;
 pub mod jd2;
 pub mod kalman;
+pub mod linkbudget;
 pub mod lunar;
 pub mod lunar_frame;
 pub mod lunar_od;
