@@ -647,7 +647,7 @@ body.embed #playground { padding-top: 1.2rem; border-top: none; }
 body.embed { background: var(--bg); }
 
 /* ── Standards / cite cards ──────────────────────────────────────────── */
-.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 1fr)); gap: 1rem; align-items: stretch; }
 .card {
   background: linear-gradient(180deg, var(--bg-2), var(--bg-1));
   border: 1px solid var(--line);
@@ -698,7 +698,7 @@ body.embed { background: var(--bg); }
 .codeblock .k { color: var(--accent); }
 
 /* Capability feature cards */
-.card.feat { display: flex; flex-direction: column; gap: 0.5rem; }
+.card.feat { display: flex; flex-direction: column; gap: 0.5rem; height: 100%; }
 .card.feat .feat-head { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; min-height: 1.4rem; }
 .card.feat .eyebrow { color: var(--accent); margin: 0; }
 .card.feat h3 { font-size: 1.02rem; margin: 0; min-height: 2.4rem; display: flex; align-items: flex-start; }
