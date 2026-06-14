@@ -8,6 +8,7 @@ pub mod ccsds_tdm;
 pub mod chart;
 pub mod cio;
 mod cio_s06_data;
+pub mod clock_state;
 pub mod cr3bp;
 pub mod crossover;
 pub mod deepspace_od;
