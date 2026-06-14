@@ -57,6 +57,7 @@ pub mod propagator;
 pub mod pvt;
 #[cfg(feature = "python")]
 pub mod python;
+pub mod radiometric;
 pub mod raim;
 pub mod report;
 pub mod rinex;
