@@ -277,7 +277,7 @@ impl Band {
     /// A representative **downlink carrier frequency** (Hz) for the band
     /// (S ≈ 2.295 GHz, X ≈ 8.420 GHz, Ka ≈ 32.0 GHz downlink). For a coherent
     /// two-way link the true downlink is the uplink times the transponder
-    /// turn-around ratio (`turnaround_ratio`, D1.2); this is the stand-alone band
+    /// turn-around ratio ([`turnaround_ratio`]); this is the stand-alone band
     /// centre used for one-way (downlink-only) Doppler.
     pub fn downlink_hz(self) -> f64 {
         match self {
@@ -501,8 +501,8 @@ pub fn one_way_doppler<E: EphemerisProvider>(
 
 /// **Two-way Doppler** observable in Hz for a coherent transponder. The station
 /// transmits on uplink carrier `f_ul`; the spacecraft re-transmits coherently at
-/// `f_ul · M` (the transponder turn-around ratio `M`, `turnaround_ratio` in
-/// D1.2, supplied here as `turnaround`); the same station measures the down-link
+/// `f_ul · M` (the transponder turn-around ratio `M`, [`turnaround_ratio`],
+/// supplied here as `turnaround`); the same station measures the down-link
 /// frequency. The observable is the standard Moyer two-way Doppler
 ///
 /// ```text
@@ -523,7 +523,7 @@ pub fn one_way_doppler<E: EphemerisProvider>(
 /// its transmitting station is byte-for-byte this two-way observable.
 ///
 /// To use the band's coherent turn-around directly, see
-/// `two_way_doppler_coherent` (D1.2).
+/// [`two_way_doppler_coherent`].
 pub fn two_way_doppler<E: EphemerisProvider>(
     station_pos: Vec3,
     sc_body: &Body,
@@ -589,6 +589,117 @@ pub fn three_way_doppler<E: EphemerisProvider>(
     // The down-link carrier the receiver counts is f_ul·M; each leg contributes
     // its own line-of-sight shift, so the total is −(M·f_ul/c)·(ρ̇_up + ρ̇_down).
     Some(-(turnaround * uplink_hz / C_M_PER_S) * (up_rate + down_rate))
+}
+
+// ============================================================================
+// D1.2 — Coherent transponder turn-around + regenerative / PN ranging.
+//
+// A deep-space transponder is *coherent*: it does not generate its own downlink
+// reference but multiplies the received uplink carrier by a fixed rational
+// **turn-around ratio** M and re-transmits, so the downlink carries the uplink's
+// (and hence the station's) frequency standard. The ratio is band-pair specific.
+// For ranging, the same downlink carries a regenerated ranging code (PN or
+// sequential); the code period sets the **unambiguous range** (CCSDS 414.1).
+// ============================================================================
+
+/// The **coherent transponder turn-around ratio** `M = f_down / f_up` for an
+/// uplink in band `up` and a downlink in band `down`. The downlink carrier a
+/// coherent transponder emits is exactly `M · f_up`, so a two-way Doppler
+/// observable scales with `M` ([`two_way_doppler`]).
+///
+/// The ratios are the standard DSN/CCSDS rational turn-around numbers
+/// (Moyer §13; DSN 810-005 module 201/214):
+///
+/// | up → down | ratio        | ≈      |
+/// |-----------|--------------|--------|
+/// | S → S     | 240 / 221    | 1.0860 |
+/// | S → X     | 880 / 221    | 3.9819 |
+/// | X → S     | 240 / 749    | 0.3204 |
+/// | X → X     | 880 / 749    | 1.1749 |
+/// | X → Ka    | 3344 / 749   | 4.4646 |
+/// | Ka → Ka   | 3360 / 3599  | 0.9336 |
+///
+/// These are the band pairs the DSN coherent transponders implement. A band pair
+/// outside this set has no standardised single rational ratio and **panics** —
+/// the deliberate fail-loud signal that the caller asked for an undefined
+/// turn-around rather than silently returning a wrong number. (The required set
+/// — X/X, X/Ka, S/X, S/S — is exact; the X→S and Ka/Ka rows are the natural
+/// completions from the same DSN table.)
+pub fn turnaround_ratio(up: Band, down: Band) -> f64 {
+    match (up, down) {
+        (Band::S, Band::S) => 240.0 / 221.0,
+        (Band::S, Band::X) => 880.0 / 221.0,
+        (Band::X, Band::S) => 240.0 / 749.0,
+        (Band::X, Band::X) => 880.0 / 749.0,
+        (Band::X, Band::Ka) => 3344.0 / 749.0,
+        (Band::Ka, Band::Ka) => 3360.0 / 3599.0,
+        _ => {
+            panic!("no standard DSN coherent turn-around ratio for the {up:?} → {down:?} band pair")
+        }
+    }
+}
+
+/// **Coherent two-way Doppler keyed by band.** Convenience over
+/// [`two_way_doppler`] that derives the carrier from the uplink band
+/// ([`Band::uplink_hz`]) and the turn-around ratio from the band pair
+/// ([`turnaround_ratio`]), modelling the coherent transponder end-to-end: the
+/// station transmits at `up.uplink_hz()`, the spacecraft re-transmits at
+/// `up.uplink_hz() · turnaround_ratio(up, down)`, and the same station counts the
+/// downlink. Returns Hz; `None` if the geometry is unavailable.
+pub fn two_way_doppler_coherent<E: EphemerisProvider>(
+    station_pos: Vec3,
+    sc_body: &Body,
+    center: &Body,
+    t_rx: TwoPartJd,
+    up: Band,
+    down: Band,
+    ephem: &E,
+) -> Option<f64> {
+    two_way_doppler(
+        station_pos,
+        sc_body,
+        center,
+        t_rx,
+        up.uplink_hz(),
+        turnaround_ratio(up, down),
+        ephem,
+    )
+}
+
+/// **Per-chip range ambiguity** (metres) of a regenerative ranging system whose
+/// range clock / PN chip rate is `chip_rate_hz` (Hz). Per CCSDS 414.1-B the
+/// maximum unambiguous range for a signal that repeats with period `T` is
+/// `D_U = c·T/2`; for the finest range-clock component, one chip period
+/// `T_C = 1/chip_rate` gives
+///
+/// ```text
+///   D_chip = c / (2 · chip_rate_hz)   [m].
+/// ```
+///
+/// The factor of 2 converts the round-trip light time the ranging measures into a
+/// one-way range. This is the *resolution-scale* ambiguity (the spacing at which a
+/// single ranging-clock cycle aliases); the **full PN-code** unambiguous range is
+/// this times the code length, see [`pn_range_ambiguity`].
+pub fn regenerative_range_ambiguity(chip_rate_hz: f64) -> f64 {
+    C_M_PER_S / (2.0 * chip_rate_hz)
+}
+
+/// **Full PN-code unambiguous range** (metres) for a PN ranging code of
+/// `code_length_chips` chips clocked at `chip_rate_hz` (Hz). The code repeats
+/// every `T_PR = code_length / chip_rate`, so per CCSDS 414.1-B
+///
+/// ```text
+///   D_U = c · T_PR / 2 = c · code_length / (2 · chip_rate_hz)
+///       = c / (2 · R_PR),    R_PR = chip_rate / code_length   [m],
+/// ```
+///
+/// with `R_PR` the PN code repetition rate. Equivalently this is
+/// [`regenerative_range_ambiguity`] scaled by the code length. For the CCSDS
+/// 414.1 weighted-voting PN code (length 1 009 470 chips) at the DSN 1.0 Mchip/s
+/// clock this is ~151 000 km — the design intent that one code period spans the
+/// whole Earth–spacecraft range so the integer-period ambiguity never bites.
+pub fn pn_range_ambiguity(chip_rate_hz: f64, code_length_chips: f64) -> f64 {
+    regenerative_range_ambiguity(chip_rate_hz) * code_length_chips
 }
 
 #[cfg(test)]
@@ -1092,5 +1203,133 @@ mod tests {
         assert_eq!(obs.way, ObsWay::Two);
         assert_eq!(obs.band, Band::X);
         assert_eq!(obs.value, 4.2e11);
+    }
+
+    // ------------------------------------------------------------------------
+    // D1.2 — coherent turn-around + regenerative / PN ranging.
+    // ------------------------------------------------------------------------
+
+    /// The turn-around ratios are the exact standard DSN/CCSDS rational numbers.
+    #[test]
+    fn turnaround_ratios_are_exact() {
+        assert_eq!(turnaround_ratio(Band::X, Band::X), 880.0 / 749.0);
+        assert_eq!(turnaround_ratio(Band::X, Band::Ka), 3344.0 / 749.0);
+        assert_eq!(turnaround_ratio(Band::S, Band::X), 880.0 / 221.0);
+        assert_eq!(turnaround_ratio(Band::S, Band::S), 240.0 / 221.0);
+        // The natural completions from the same DSN table.
+        assert_eq!(turnaround_ratio(Band::X, Band::S), 240.0 / 749.0);
+        assert_eq!(turnaround_ratio(Band::Ka, Band::Ka), 3360.0 / 3599.0);
+
+        // Numeric sanity on the headline X/X ratio.
+        assert!((turnaround_ratio(Band::X, Band::X) - 1.174_899_866).abs() < 1e-9);
+    }
+
+    /// An undefined band pair (no standard single rational turn-around) panics —
+    /// fail-loud rather than invent a ratio.
+    #[test]
+    #[should_panic(expected = "no standard DSN coherent turn-around ratio")]
+    fn turnaround_ratio_panics_for_undefined_pair() {
+        // Ka uplink with an S downlink is not a standard DSN coherent pair.
+        let _ = turnaround_ratio(Band::Ka, Band::S);
+    }
+
+    /// The band-keyed coherent two-way Doppler equals the explicit
+    /// [`two_way_doppler`] built with the same uplink carrier and the X/X
+    /// turn-around ratio — i.e. the convenience wrapper applies exactly the band's
+    /// carrier and ratio.
+    #[test]
+    fn coherent_two_way_matches_explicit_turnaround() {
+        let t0_jd = PROBE_JD;
+        let ephem = ConstantVelocityEphemeris {
+            t0_jd,
+            r0: [2.0e11, 4.0e10, -1.0e10],
+            v: [5_000.0, -3_000.0, 2_000.0],
+        };
+        let station = [0.0, 0.0, 0.0];
+        let t_rx = TwoPartJd::from_f64(t0_jd);
+
+        let coherent = two_way_doppler_coherent(
+            station,
+            &Body::mars(),
+            &Body::sun(),
+            t_rx,
+            Band::X,
+            Band::X,
+            &ephem,
+        )
+        .unwrap();
+        let explicit = two_way_doppler(
+            station,
+            &Body::mars(),
+            &Body::sun(),
+            t_rx,
+            Band::X.uplink_hz(),
+            turnaround_ratio(Band::X, Band::X),
+            &ephem,
+        )
+        .unwrap();
+
+        assert_eq!(
+            coherent, explicit,
+            "the coherent wrapper must apply the band carrier + ratio"
+        );
+
+        // And the coherent observable is the M-scaled version of a unit-ratio
+        // two-way Doppler at the same carrier: f_coherent = M · f_unit.
+        let unit = two_way_doppler(
+            station,
+            &Body::mars(),
+            &Body::sun(),
+            t_rx,
+            Band::X.uplink_hz(),
+            1.0,
+            &ephem,
+        )
+        .unwrap();
+        let m = turnaround_ratio(Band::X, Band::X);
+        assert!(
+            (coherent - m * unit).abs() / coherent.abs() < 1e-12,
+            "coherent Doppler must be the turn-around-ratio-scaled unit Doppler"
+        );
+    }
+
+    /// The per-chip regenerative range ambiguity is `c / (2·chip_rate)`. For a
+    /// 1 MHz range clock this is ~149.9 m (one chip of round-trip light time,
+    /// halved to one-way range).
+    #[test]
+    fn regenerative_ambiguity_is_half_chip_light_distance() {
+        let chip = 1.0e6; // 1 Mchip/s
+        let amb = regenerative_range_ambiguity(chip);
+        let expected = C_M_PER_S / (2.0 * chip);
+        assert_eq!(amb, expected);
+        // Numeric value: 299_792_458 / 2e6 ≈ 149.896 m.
+        assert!(
+            (amb - 149.896_229).abs() < 1e-3,
+            "1 MHz chip ambiguity {amb} m"
+        );
+
+        // Scaling: doubling the chip rate halves the ambiguity (finer clock).
+        assert!((regenerative_range_ambiguity(2.0e6) - amb / 2.0).abs() < 1e-9);
+    }
+
+    /// The full PN-code unambiguous range is the per-chip ambiguity times the code
+    /// length, `D_U = c·L/(2·f_chip)`. For the CCSDS 414.1 code (length
+    /// 1 009 470 chips) at 1 Mchip/s this is ~151 000 km — large enough to span a
+    /// near-Earth-to-deep-space range without integer-period aliasing.
+    #[test]
+    fn pn_code_unambiguous_range_spans_the_link() {
+        let chip = 1.0e6;
+        let code_len = 1_009_470.0; // CCSDS 414.1 weighted-voting PN code length
+        let du = pn_range_ambiguity(chip, code_len);
+        let expected = regenerative_range_ambiguity(chip) * code_len;
+        assert_eq!(du, expected);
+
+        // ~151 312 km (151.3e6 m): the code period maps to a ~151 000 km one-way
+        // range, the design intent of the long PN code.
+        let du_km = du / 1000.0;
+        assert!(
+            (140_000.0..=160_000.0).contains(&du_km),
+            "CCSDS-414.1 PN unambiguous range {du_km} km not in the expected ~150 000 km band"
+        );
     }
 }
