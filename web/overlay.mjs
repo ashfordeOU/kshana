@@ -18,36 +18,111 @@ export const OVERLAY_COLORS = ["#e0bd84", "#d2925e", "#7fb3c8", "#b08fd0"];
 /// `best` is the index of the winning run by the metric's direction (lowerBetter).
 /// A clock or metric missing on any run is skipped, so the table never shows a
 /// half comparison (the compare.mjs invariant, generalised to N).
-export function overlayRows(runs) {
+function bestIndex(values, lowerBetter) {
+  let best = 0;
+  for (let i = 1; i < values.length; i++) {
+    if (lowerBetter ? values[i] < values[best] : values[i] > values[best]) best = i;
+  }
+  return best;
+}
+
+// Quantum-vs-classical clock/inertial scenarios: one row per shared clock+metric.
+function clockOverlayRows(runs) {
   const rows = [];
-  if (!runs || !runs.length) return rows;
   for (const clock of ["quantum", "classical"]) {
-    // The clock must be present (with a fom) on every run.
     const branches = runs.map((r) => r.result && r.result[clock]);
     if (branches.some((b) => !b || !b.fom)) continue;
     const clockLabel = (branches[0].spec && branches[0].spec.id) || clock;
     for (const m of COMPARE_METRICS) {
       const values = branches.map((b) => b.fom[m.key]);
       if (values.some((v) => typeof v !== "number" || !isFinite(v))) continue;
-      // Best run by direction. Ties resolve to the first index.
-      let best = 0;
-      for (let i = 1; i < values.length; i++) {
-        const wins = m.lowerBetter ? values[i] < values[best] : values[i] > values[best];
-        if (wins) best = i;
-      }
       rows.push({
-        clock,
-        clockLabel,
-        metric: m.key,
-        label: m.label,
-        unit: m.unit,
-        lowerBetter: m.lowerBetter,
-        values,
-        best,
+        clock, clockLabel, metric: m.key, label: m.label, unit: m.unit,
+        lowerBetter: m.lowerBetter, values, best: bestIndex(values, m.lowerBetter),
       });
     }
   }
   return rows;
+}
+
+// Known figure-of-merit metadata for the flat (single-solution) scenarios —
+// Mars-PNT (result.fom), PVT (result.fix), and other flat results.
+const KNOWN_META = {
+  converged_pos_rms_m: { label: "Position RMS", unit: "m", lowerBetter: true },
+  converged_pos_sigma_m: { label: "Position σ", unit: "m", lowerBetter: true },
+  converged_pos_3sigma_m: { label: "Position 3σ", unit: "m", lowerBetter: true },
+  final_clock_freq_sigma: { label: "Clock-freq σ", unit: "", lowerBetter: true },
+  mean_relays_in_view: { label: "Relays in view", unit: "", lowerBetter: false },
+  postfit_rms_m: { label: "Post-fit RMS", unit: "m", lowerBetter: true },
+  clock_bias_m: { label: "Clock bias", unit: "m", lowerBetter: true },
+  gdop: { label: "GDOP", unit: "", lowerBetter: true },
+  pdop: { label: "PDOP", unit: "", lowerBetter: true },
+  hdop: { label: "HDOP", unit: "", lowerBetter: true },
+  vdop: { label: "VDOP", unit: "", lowerBetter: true },
+  pos_rms_m: { label: "Position RMS", unit: "m", lowerBetter: true },
+  pos_p95_m: { label: "Position p95", unit: "m", lowerBetter: true },
+};
+
+// Infer label/unit/direction for a flat FoM key not in the known map.
+export function metricMeta(key) {
+  if (KNOWN_META[key]) return KNOWN_META[key];
+  let unit = "";
+  if (key.endsWith("_ns")) unit = "ns";
+  else if (key.endsWith("_mps")) unit = "m/s";
+  else if (key.endsWith("_m")) unit = "m";
+  else if (key.endsWith("_s")) unit = "s";
+  else if (key.endsWith("_pct")) unit = "%";
+  const lowerBetter = !/(avail|holdover|integrity|security|in_view|coverage|relays|margin|score)/i.test(key);
+  const label = key
+    .replace(/_(ns|mps|m|s|pct)$/, "")
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+  return { label, unit, lowerBetter };
+}
+
+// Comparable numeric FoM from a flat result: prefer a summary object
+// (result.fom for Mars-PNT, result.fix for PVT), else top-level scalars. Counts
+// / indices / config are excluded so the table shows figures of merit.
+const FLAT_EXCLUDE = /^(epochs|iterations|n_used|n_relays|seed|nmax|schema|step|duration)/i;
+function flatFom(result) {
+  const src =
+    (result && typeof result.fom === "object" && result.fom) ||
+    (result && typeof result.fix === "object" && result.fix) ||
+    result || {};
+  const out = {};
+  for (const [k, v] of Object.entries(src)) {
+    if (typeof v === "number" && isFinite(v) && !FLAT_EXCLUDE.test(k)) out[k] = v;
+  }
+  return out;
+}
+
+// Flat single-solution scenarios (Mars-PNT, PVT, orbit, integrity, …): one row
+// per numeric FoM present on EVERY pinned run.
+function flatOverlayRows(runs) {
+  const maps = runs.map((r) => flatFom(r.result));
+  const keys = Object.keys(maps[0] || {}).filter((k) =>
+    maps.every((m) => typeof m[k] === "number" && isFinite(m[k])),
+  );
+  const rows = [];
+  for (const key of keys) {
+    const meta = metricMeta(key);
+    const values = maps.map((m) => m[key]);
+    rows.push({
+      clock: "", clockLabel: "", metric: key, label: meta.label, unit: meta.unit,
+      lowerBetter: meta.lowerBetter, values, best: bestIndex(values, meta.lowerBetter),
+    });
+  }
+  return rows;
+}
+
+/// Build the overlay table model. Tries the quantum-vs-classical clock path
+/// first (unchanged); for flat single-solution results (Mars-PNT, PVT, orbit, …)
+/// falls back to comparing their numeric figures of merit. Empty only when the
+/// pinned runs genuinely share no comparable numbers.
+export function overlayRows(runs) {
+  if (!runs || !runs.length) return [];
+  const clockRows = clockOverlayRows(runs);
+  return clockRows.length ? clockRows : flatOverlayRows(runs);
 }
 
 const NUM = (n) => (Math.round(n * 1000) / 1000).toString();
