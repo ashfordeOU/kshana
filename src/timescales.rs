@@ -323,6 +323,46 @@ impl TwoPartJd {
     }
 }
 
+/// TDB − TT, the periodic difference between Barycentric Dynamical Time and
+/// Terrestrial Time (seconds), for an instant given as a JD in TT.
+///
+/// TDB and TT differ only by periodic relativistic terms (no secular rate by
+/// construction of TDB), dominated by the annual term from Earth's orbital
+/// eccentricity. This uses the leading terms of the Fairhead & Bretagnon (1990)
+/// series in the compact form popularised for low-precision work
+/// (USNO Circular 179; Meeus, *Astronomical Algorithms* 2nd ed., eq. 10.1-style):
+///
+/// ```text
+///   g        = 357.53° + 0.98560028° · (JD_TT − 2451545.0)   (Earth's mean anomaly)
+///   TDB − TT ≈ 0.001657 · sin(g) + 0.000022 · sin(2g)   seconds
+/// ```
+///
+/// Truncation (honest): only the two largest harmonics are kept. The full
+/// Fairhead–Bretagnon series has hundreds of terms; this two-term form is good to
+/// a few tens of microseconds and bounds `|TDB − TT| ≲ 1.7 ms`. That is ample for
+/// the deep-space ranging / OD path here, where TDB is the argument of the
+/// planetary ephemerides but the TDB−TT correction itself is sub-millisecond.
+pub fn tdb_minus_tt(jd_tt: f64) -> f64 {
+    // Earth's mean anomaly, degrees → radians.
+    let g_deg = 357.53 + 0.985_600_28 * (jd_tt - JD_J2000);
+    let g = g_deg.to_radians();
+    0.001_657 * g.sin() + 0.000_022 * (2.0 * g).sin()
+}
+
+/// JD(TDB) from JD(TT): `TDB = TT + (TDB − TT)`, with the difference from
+/// [`tdb_minus_tt`] converted from seconds to days.
+pub fn tt_to_tdb(jd_tt: f64) -> f64 {
+    jd_tt + tdb_minus_tt(jd_tt) / SECONDS_PER_DAY
+}
+
+/// JD(TT) from JD(TDB), the inverse of [`tt_to_tdb`]. Because `TDB − TT` is at most
+/// ~1.7 ms and varies slowly, evaluating the series at the TDB argument instead of
+/// TT introduces only a second-order (sub-nanosecond) error, so a single
+/// subtraction is exact to far better than the model's own accuracy.
+pub fn tdb_to_tt(jd_tdb: f64) -> f64 {
+    jd_tdb - tdb_minus_tt(jd_tdb) / SECONDS_PER_DAY
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -544,5 +584,66 @@ mod tests {
         let a = TwoPartJd::new(2_451_545.0, 0.25);
         let b = TwoPartJd::new(2_451_540.0, 0.25);
         assert!((a.diff_seconds(b) - 5.0 * SECONDS_PER_DAY).abs() < 1e-6);
+    }
+
+    #[test]
+    fn tdb_tt_bounded() {
+        // |TDB − TT| stays under ~1.7 ms across a year of daily epochs.
+        for d in 0..=366 {
+            let jd = JD_J2000 + d as f64;
+            let delta_s = (tt_to_tdb(jd) - jd) * SECONDS_PER_DAY;
+            assert!(
+                delta_s.abs() < 1.7e-3,
+                "TDB-TT out of bound at +{d} d: {delta_s} s"
+            );
+        }
+
+        // Reference value computed by hand from the series at J2000:
+        //   g = 357.53°,  sin(g) = -0.0430958,  sin(2g) = -0.0861238
+        //   TDB-TT = 0.001657·sin(g) + 0.000022·sin(2g) = -7.330501e-5 s
+        let at_j2000 = tdb_minus_tt(JD_J2000);
+        assert!(
+            at_j2000 < 0.0,
+            "expected negative TDB-TT just after perihelion-ish"
+        );
+        assert!(
+            (at_j2000 - (-7.330501e-5)).abs() < 1e-9,
+            "TDB-TT(J2000) = {at_j2000} s, want -7.330501e-5 s"
+        );
+        // tt_to_tdb applies that same offset. Recovering it by subtracting two
+        // single-f64 JDs near 2.45e6 reintroduces the documented ~50 µs JD floor,
+        // so this is only good to ~1e-4 s — exactly why the deep-space path should
+        // carry epochs as TwoPartJd rather than difference plain JDs.
+        let applied = (tt_to_tdb(JD_J2000) - JD_J2000) * SECONDS_PER_DAY;
+        assert!((applied - at_j2000).abs() < 1e-4, "applied={applied}");
+        // Done losslessly via the two-part type, the offset is recovered to ~fs.
+        let tdb_tp = TwoPartJd::from_f64(JD_J2000).add_seconds(at_j2000);
+        let applied_tp = tdb_tp.diff_seconds(TwoPartJd::from_f64(JD_J2000));
+        assert!(
+            (applied_tp - at_j2000).abs() < 1e-12,
+            "two-part applied={applied_tp}"
+        );
+    }
+
+    #[test]
+    fn tdb_tt_roundtrip() {
+        // tdb_to_tt ∘ tt_to_tdb is the identity to ~1e-12 day (the inverse uses a
+        // single subtraction; the model error from evaluating at TDB vs TT is
+        // second-order and far below this tolerance).
+        for &jd in &[
+            JD_J2000,
+            JD_J2000 + 90.0,
+            JD_J2000 + 182.0,
+            2_460_000.5,
+            2_436_116.31,
+        ] {
+            let jd_tdb = tt_to_tdb(jd);
+            let back = tdb_to_tt(jd_tdb);
+            assert!(
+                (back - jd).abs() < 1e-12,
+                "TT roundtrip jd={jd}: back={back}, err={} day",
+                (back - jd).abs()
+            );
+        }
     }
 }
