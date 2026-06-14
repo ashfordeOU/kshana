@@ -211,11 +211,11 @@ impl Default for Body {
 pub const MARS_ZONALS_J2_J4: [f64; 3] = [1.960_45e-3, 3.145e-5, -1.538e-5];
 
 /// Maximum degree/order of the in-source GMM-3 Mars tesseral field
-/// ([`Body::with_gmm3_gravity`]). The zonals reach degree 4 (`C̄20/C̄30/C̄40`) and the tesserals
-/// degree 3 (`C̄22/S̄22`, `C̄32/S̄32`); the field is capped at degree 3 because that is the highest
-/// degree for which both a zonal and a tesseral term are shipped — higher degree/order loads from
-/// a vendored `.gfc` via [`crate::gravity_sh::SphericalHarmonicField::from_gfc`].
-const MARS_GMM3_NMAX: usize = 3;
+/// ([`Body::with_gmm3_gravity`]). The field reaches degree 4 in the zonals (`C̄20/C̄30/C̄40`) and
+/// degree 3 in the tesserals (`C̄22/S̄22`, `C̄32/S̄32`); a field whose zonal degree exceeds its
+/// tesseral degree is well-formed (the absent C̄4m simply stay zero). Higher degree/order loads
+/// from a vendored `.gfc` via [`crate::gravity_sh::SphericalHarmonicField::from_gfc`].
+const MARS_GMM3_NMAX: usize = 4;
 
 /// Fully-normalized Mars sectoral `C̄22` (MRO110B2, Konopliv et al. 2011; tabulated in Liu,
 /// Baoyin & Ma 2012, *Periodic orbits around areostationary points in the Martian gravity field*,
