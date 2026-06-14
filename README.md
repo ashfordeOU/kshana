@@ -12,7 +12,7 @@
 <p align="center">
   <a href="https://ashfordeou.github.io/kshana/"><img src="https://img.shields.io/badge/playground-try%20in%20browser-c79e63" alt="Live playground — run in your browser, no install"></a>
   <a href="tests/sgp4_verification.rs"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%204.12mm-3fb950" alt="SGP4 validated against all 666 AIAA 2006-6753 vectors, worst 4.12 mm"></a>
-  <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/coverage-~97%25%20line-3fb950" alt="~97% line coverage on src/ (cargo-tarpaulin LLVM engine), gated at 85% in CI"></a>
+  <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/coverage-~96%25%20line-3fb950" alt="~96% line coverage on src/ (cargo-tarpaulin LLVM engine), gated at 85% in CI"></a>
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.17.0-c79e63" alt="Release v0.17.0"></a>
   <a href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator"><img src="https://img.shields.io/badge/JetBrains-Marketplace-c79e63" alt="Kshana on the JetBrains Marketplace"></a>
@@ -128,9 +128,11 @@ consume published Allan/noise-budget coefficients; the CAI accelerometer has a
 first-principles layer — Mach–Zehnder phase, projection noise, contrast decay, and
 vibration coupling — but Coriolis and light-shift systematics remain a **P2** roadmap
 layer, see [`ROADMAP.md`](ROADMAP.md) and [`docs/QUANTUM-MODELS.md`](docs/QUANTUM-MODELS.md));
-a GNSS receiver or PVT solver (it models the measurement domain and resilience, not
-signal acquisition or a least-squares fix); or a mission-design / orbit-determination
-tool. Owning this scope is deliberate. If you need first-principles cold-atom
+a full GNSS *signal-acquisition* receiver (it now solves a single-point **PVT** position
+fix from real RINEX code observations — validated on real IGS data — but does **not**
+acquire or track raw signal); or a full mission-design suite (it has Lambert / porkchop /
+maneuver / orbit-determination building blocks, but is the performance-simulation layer
+*above* GMAT/Orekit, not a replacement). Owning this scope is deliberate. If you need first-principles cold-atom
 interferometer error budgets (e.g. CARIOQA-PMP-grade or X-37B-style validation), see
 the P2 roadmap and [get in touch](#support--professional-services) to collaborate.
 
@@ -147,12 +149,13 @@ the P2 roadmap and [get in touch](#support--professional-services) to collaborat
 | **Fusion** | Loosely-coupled 15-state GNSS/INS error-state EKF with closed-loop feedback (the `gnss-ins` pack); a **tightly-coupled** pseudorange update that keeps correcting with fewer than four satellites; a coupled **clock + position** filter; a general **unscented (sigma-point) Kalman** estimator for strongly nonlinear measurements; a tightly-coupled GNSS/INS **UKF navigator** (pseudorange + Doppler) whose force-model orbital coast is validated to **0.77 m RMS** over a 30-minute curving LEO pass that includes a 120-second GNSS outage; and a full **17-state tightly-coupled GNSS/INS UKF** (position, velocity, attitude error, accelerometer and gyro biases, clock bias and drift) whose **quantum-CAI dead-reckoning** coasts a 120-second outage on the cold-atom accelerometer's derived velocity-random-walk. |
 | **Orbit determination** | Recovery of an orbital state `[r, v]` from ground-station range tracking, composing the two-body + J2 force model and RK4 integrator with a **Gauss–Newton batch** corrector (`determine_orbit_batch`, sub-metre / mm·s⁻¹ from noiseless ranges, ~2 m at a 5 m noise floor) and a **sequential** unscented-filter variant (`determine_orbit_sequential`). |
 | **Lunar & cislunar** | An Earth–Moon **circular restricted three-body (CR3BP)** propagator in the rotating frame — conserved Jacobi constant and all five Lagrange points (`src/cr3bp.rs`) — plus **LunaNet / LNIS** cislunar PNT geometry (MCI↔MCMF reduction, selenographic coordinates) with a **lunar south-pole ARAIM** pass that honestly surfaces the integrity gap: a ~30 m σ_URE drives the protection level well above a 50 m alert limit (`src/lunar.rs`, `scenarios/lunanet-araim.toml`). |
+| **Deep-space & Mars PNT** | An open **radiometric navigation engine**: iterative light-time + **Shapiro** relativistic delay, two-/one-/three-way **Doppler & range** (Moyer two-leg), coherent transponder turnaround ratios, regenerative/PN ranging (CCSDS 414), and **Δ-DOR** plane-of-sky (CCSDS 506), with solar-plasma/tropo/iono media; **CCSDS-TDM (503)** tracking-data-message parse + emit; a **reduced-dynamic Square-Root Information Filter** (RTN empirical accelerations + a 3-state onboard clock + Mars atmospheric drag) that does **Mars-LMO orbit determination to ≈ 0.2 m** in a synthetic closed loop; a joint **one-way + two-way fusion** estimator; a multi-body dynamics core (`Body{μ, re, zonals, gravity, IAU-pole}`, Mars GMM-3 gravity, an IAU body-fixed Mars frame, a pluggable `EphemerisProvider` seam, two-part Julian dates + TT↔TDB); and the **`mars-pnt`** relay-PNT scenario (a MARCONI areostationary relay constellation) with an end-to-end **GSE performance simulator** (geometry → link budget → observables → SRIF → covariance). **Simulation-validated** (covariance / closed-loop figures of merit); the Sun-central Mars dynamics are cross-checked against JPL **DE440** (137 m @ 1-day arc, `xval/anise-mars-od`). Real DSN/ESTRACK tracking-data validation is on the roadmap. |
 | **Integrity** | Snapshot and solution-separation (ARAIM-style) RAIM with horizontal/vertical protection levels (HPL/VPL), fault detection & exclusion, and Stanford integrity diagrams; an explicit integrity-risk-budget (**MHSS**) protection level, including the **dual-/multi-constellation constellation-wide fault mode** (EU ARAIM / DO-316), exercised on a real GPS + Galileo snapshot (`scenarios/araim-gps-galileo.toml`). |
 | **Augmentation (SBAS)** | **SBAS / WAAS protection levels** in the DO-229E weighted-least-squares form (precision-approach and en-route K-factors) and the **L1/L5 dual-frequency ionosphere-free** combination (IS-GPS-705, γ₁₅ ≈ 1.793) that underpins DO-316 — `src/sbas.rs`, with the protection-level geometry cross-checked against a NumPy `inv(GᵀG)` reference. |
 | **Clock & timing** | Two-state Kalman holdover (Joseph-form covariance, NIS/NEES consistency health); Allan-family stability (ADEV / MDEV / TDEV / HDEV) with noise-type-specific confidence intervals and a full **IEEE-1139 five-coefficient power-law fit**; geometric corrections (Sagnac, GNSS common-view); and the operational transfer methods — **TWSTFT** with the BIPM Sagnac closed form, **GNSS common-view**, **PPP** ionosphere-free time transfer, a free-space **optical** link with turbulence scintillation, and an inverse-variance **clock-ensemble (paper) timescale** below the best contributing clock. |
 | **GNSS measurement domain** | Forward pseudorange / Doppler synthesis with **Klobuchar** (broadcast) and **IONEX / TEC-grid** (measured) ionosphere — including an IONEX file parser, time interpolation between maps, and the thin-shell slant-obliquity mapping — **Saastamoinen + Niell** troposphere, and snapshot RAIM (HPL/VPL). |
 | **Resilience** | Link-budget **jamming** (J/S → effective C/N₀ → loss of lock); a stochastic **time-spoof detector** (Neyman–Pearson / χ²₁ energy test with closed-form and Monte-Carlo P_fa/P_md and a Security FoM of 1 − P_md); and a **multi-layer spoof detector** fusing a RAIM-consistency parity test (with the common-mode blind spot modelled honestly), an RF AGC-power monitor, and a signal-quality (SQM early-minus-late) monitor. |
-| **Interoperability** | **RINEX-3** multi-GNSS broadcast-ephemeris ingestion (GPS, Galileo, QZSS, BeiDou MEO/IGSO via IS-GPS-200; GLONASS via PZ-90 state-vector RK4) usable as a constellation source (RINEX in, PNT geometry out); a **RINEX-3/4** observation parser (pseudorange, carrier phase, Doppler, signal strength) that now **feeds a single-point-positioning solver** (`pvt`) — real code observations in, a real **receiver position** out, validated on IGS data; an **SP3-c/d** precise-ephemeris reader/writer with 9th-order Lagrange interpolation; and **CCSDS OEM 2.0 + OMM** (mean-elements) export for flight-dynamics tools (GMAT, Orekit, STK). |
+| **Interoperability** | **RINEX-3** multi-GNSS broadcast-ephemeris ingestion (GPS, Galileo, QZSS, BeiDou MEO/IGSO via IS-GPS-200; GLONASS via PZ-90 state-vector RK4) usable as a constellation source (RINEX in, PNT geometry out); a **RINEX-3/4** observation parser (pseudorange, carrier phase, Doppler, signal strength) that now **feeds a single-point-positioning solver** (`pvt`) — real code observations in, a real **receiver position** out, validated on IGS data; an **SP3-c/d** precise-ephemeris reader/writer with 9th-order Lagrange interpolation; and **CCSDS OEM 2.0 + OMM** (mean-elements) export for flight-dynamics tools (GMAT, Orekit, STK); and **CCSDS-TDM (503)** tracking-data-message parse + emit for deep-space radiometric tracking. |
 
 Each capability is reachable as a Rust API, a runnable scenario `kind`, or both.
 Maturity per capability — *validated*, *runnable*, or *library* — is tracked in
@@ -252,6 +255,9 @@ cargo run -- scenarios/orbit-sgp4-gps.toml --export-sp3 gps.sp3
 # Export the constellation's mean elements to a CCSDS OMM catalogue (one OMM
 # message per TLE-defined satellite, with its real NORAD id / COSPAR designator):
 cargo run -- scenarios/orbit-sgp4-gps.toml --export-omm gps.omm
+
+# Export the velocity-carrying state to a CCSDS OEM 2.0 ephemeris (GMAT/Orekit/STK):
+cargo run -- scenarios/orbit-sgp4-gps.toml --export-oem gps.oem
 ```
 
 **Interoperability role.** Kshana is the *performance-simulation* layer that sits
@@ -358,11 +364,11 @@ plugin from the JetBrains Marketplace (or *Settings → Plugins → Marketplace 
 
 ## Scenario format
 
-Scenarios are declarative TOML. A top-level `kind` selects the pack — **twenty** in
+Scenarios are declarative TOML. A top-level `kind` selects the pack — **twenty-one** in
 all (`clock` is the default if omitted): `inertial`, `timetransfer`, `hybrid`, `fusion`,
 `gnss-ins`, `orbit`, `ephemeris`, `gnss-sim`, `integrity`, `lunar-integrity`, `spoof`,
 `spoof-detect`, `jamming`, `sweep`, `sweep-nd`, `gravity-map`, `terrain-nav`,
-`combined-altpnt`, and `pvt`.
+`combined-altpnt`, `pvt`, and `mars-pnt`.
 Common fields: `seed`, a `[time]` grid, a `[gnss]` availability timeline (the outage
 driver), and per-sensor blocks with `provenance` strings citing the source of every
 figure. Example (clock):
@@ -593,7 +599,7 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    cli["CLI · Python · WebAssembly · MCP server · JetBrains plugin"] --> api["api — run_toml: typed dispatch over 20 kinds"]
+    cli["CLI · Python · WebAssembly · MCP server · JetBrains plugin"] --> api["api — run_toml: typed dispatch over 21 kinds"]
     subgraph shared["Shared core"]
       types["types · scenario · GNSS timeline"]
       allan["allan — ADEV/MDEV/TDEV/HDEV"]
@@ -631,13 +637,19 @@ flowchart TD
       grav["gravimeter · mapmatch · particle_filter"]
       terr["altpnt/terrain · igrf — terrain + magnetic"]
     end
+    subgraph ds["Deep-space & Mars"]
+      dsr["radiometric · ccsds_tdm — light-time · Δ-DOR · TDM"]
+      dso["deepspace_od — reduced-dynamic SRIF"]
+      dsm["mars_pnt · gse_sim — relay-PNT + GSE sim"]
+    end
     subgraph io["Interop formats"]
-      iofmt["rinex · sp3 · oem · omm · glonass"]
+      iofmt["rinex · sp3 · oem · omm · glonass · ccsds_tdm"]
     end
     api --> packs
     api --> astro
     api --> intg
     api --> fnav
+    api --> ds
     packs --> shared
     astro --> frames
     orbit --> sgp4
@@ -666,7 +678,7 @@ flowchart LR
       core["kshana core<br/>library + CLI"]
       mcp["mcp/kshana-mcp<br/>MCP server (excluded crate)"]
       ide["ide/jetbrains<br/>Kotlin IDE plugin"]
-      xval["xval/anise-frames<br/>SPICE cross-check (excluded)"]
+      xval["xval/anise-{frames,lunar-od,mars-od}<br/>SPICE/DE440 cross-checks (excluded)"]
     end
     core --> crates["crates.io"]
     core --> pypi["PyPI — wheels"]
@@ -685,7 +697,7 @@ flowchart LR
 ```
 kshana/
 ├── src/                                       # the kshana core crate (library + CLI)
-│   ├── api.rs · main.rs · lib.rs              # typed dispatch (20 kinds) + CLI + crate root
+│   ├── api.rs · main.rs · lib.rs              # typed dispatch (21 kinds) + CLI + crate root
 │   ├── python.rs · wasm.rs                    # optional PyO3 / wasm-bindgen bindings
 │   ├── types.rs · scenario.rs · allan.rs      # shared core (time grid, GNSS timeline, Allan)
 │   │
@@ -704,17 +716,19 @@ kshana/
 │   ├── propagator.rs · forces.rs · gravity_sh.rs · integrator.rs  # Cowell + perturbations (EGM2008 d/o70, GR) + RK4/DOPRI
 │   ├── maneuver.rs · batch_ls.rs · orbit_determination.rs  # burns/Lambert/porkchop, Gauss-Newton, OD
 │   ├── cr3bp.rs · lunar.rs                    # Earth–Moon CR3BP, cislunar/LunaNet ARAIM
+│   ├── body.rs · mars_frame.rs · ephem_provider.rs · radiometric.rs · ccsds_tdm.rs  # deep-space: multi-body · Mars frame · ephemeris seam · radiometric obs + CCSDS-TDM
+│   ├── deepspace_od.rs · clock_state.rs · mars_atmos.rs · mars_pnt.rs · linkbudget.rs · gse_sim.rs  # SRIF OD · onboard clock · Mars drag · relay-PNT · link budget · GSE sim
 │   │
 │   ├── fusion/                                # GNSS/INS — EKF · UKF · tightly_coupled(17) · coupled · closed_loop
 │   ├── raim.rs · sbas.rs                      # RAIM/ARAIM HPL/VPL, SBAS DO-229E PLs + L1/L5 iono-free
-│   ├── gnss_sim.rs · ionex.rs · jamming.rs    # measurement domain, ionosphere maps, jamming
+│   ├── gnss_sim.rs · ionex.rs · pvt.rs · jamming.rs  # measurement domain · ionosphere maps · single-point positioning · jamming
 │   ├── gravimeter.rs · igrf.rs · mapmatch.rs · particle_filter.rs · altpnt/  # gravity/magnetic/terrain alt-PNT
 │   ├── rinex.rs · rinex_obs.rs · glonass.rs · sp3.rs · oem.rs · omm.rs · permalink.rs  # interop formats
 │   └── bin/validation_report.rs              # builds the release validation-summary HTML
 │
 ├── mcp/kshana-mcp/        # standalone, workspace-EXCLUDED crate — the MCP server (+ Dockerfile, server.json)
 ├── ide/jetbrains/         # standalone Kotlin/Gradle IntelliJ-Platform plugin
-├── xval/anise-frames/     # standalone, workspace-EXCLUDED crate — ANISE/SPICE frame cross-check
+├── xval/anise-{frames,lunar-od,mars-od}/  # standalone, workspace-EXCLUDED ANISE/SPICE cross-checks (frames · lunar DE440 · Mars DE440)
 │
 ├── scenarios/            # one cited .toml per kind + geometry-driven + GPS-denied
 ├── scripts/              # reproducibility + repo-hygiene + SBOM guards
@@ -787,6 +801,8 @@ artifact (generated by `cargo run --bin validation_report`, SLSA-attested).
 | Force-model fit vs Galileo precise ephemeris (full-arc) | **0.61 m** 3-D RMS, 24 h, d/o-70, force-only | ESA/ESOC `ESA0MGNFIN` final orbit (E11), real `finals2000A` EOP |
 | Force-model fit vs Swarm-A precise ephemeris (reduced-dynamic) | **0.10 m** 3-D RMS (empirical-tier bound, not a measure) | ESA `SW_OPER_SP3ACOM_2_` precise orbit |
 | Force-model fit vs LRO lunar (honest miss) | **6.6 m** reduced-dynamic, *above* the 5 m target | JPL Horizons LRO (NAIF −85) + GRAIL `GRGM660PRIM` |
+| Deep-space Mars OD (reduced-dynamic SRIF) | **≈ 0.2 m** Mars-LMO (simulation FoM, *not* real-mission) | synthetic closed-loop OD — estimator-machinery validation |
+| Sun-central Mars dynamics vs JPL DE440 | **137 m @ 1-day arc** (grows with arc = unmodelled n-body) | JPL DE440 via ANISE (`xval/anise-mars-od`, kernel-gated) |
 | Single-point positioning vs a surveyed IGS coordinate (real observations) | **5.7 m** 3-D RMS / **1.1 m** horizontal, dual-frequency iono-free code SPP | IGS station ABMF survey + GPS broadcast ephemeris, 2018-05-13 (`tests/pvt_abmf.rs`) |
 | Tightly-coupled GNSS/INS UKF | **0.77 m RMS** over a 30-min LEO pass incl. a 120 s outage | force-model coast, hand-derived |
 | GPS-denied gravity-map navigation | ~70 km INS drift → **~145 m** recovered | ESA NAVISP *Quantum Wayfarer* target |
@@ -794,7 +810,7 @@ artifact (generated by `cargo run --bin validation_report`, SLSA-attested).
 | IGRF-14 main field (degree/order 13) | pole ~80.7°N, dipole ~29.7 µT, physical 22–67 µT band | IAGA `igrf14coeffs.txt` (Schmidt semi-normalised) |
 | ARAIM dual-constellation integrity | constellation-wide fault mode on real GPS + Galileo | EU ARAIM TR / DO-316; Celestrak `gps-ops` 2021-07-28 |
 | Cross-platform reproducibility | bit-identical input + shape goldens on 3 OSes | Linux / macOS / Windows CI matrix, SHA-256 goldens |
-| Test coverage | **~97 % line** on `src/`, gated ≥ 85 % | cargo-tarpaulin (LLVM engine) |
+| Test coverage | **~96 % line** on `src/`, gated ≥ 85 % | cargo-tarpaulin (LLVM engine) |
 
 ## FAQ
 
@@ -855,9 +871,9 @@ for released history, and [`docs/CAPABILITY.md`](docs/CAPABILITY.md) for the
 per-capability roadmap. The **ITRF-precise frame reduction** is now delivered — the
 full CIO-based IAU 2006/2000A GCRS↔ITRS chain (polar motion + sub-arcsecond nutation),
 validated bit-for-bit against SOFA/ERFA and independently cross-checked against ANISE
-(pure-Rust SPICE) to ≤ 3.6 m at GNSS orbit. Near-term items include two-part Julian
-dates, tightly-coupled carrier-phase fusion, and surfacing the loosely-/tightly-coupled
-GNSS/INS navigator across more packs. The
+(pure-Rust SPICE) to ≤ 3.6 m at GNSS orbit. Near-term items include tightly-coupled carrier-phase fusion and surfacing the
+loosely-/tightly-coupled GNSS/INS navigator across more packs; the **deep-space / Mars
+radiometric-navigation** engine landed in v0.17.0 (simulation-validated). The
 **quantum physics layer** is a **P2** item: the CAI accelerometer is now simulated from
 first principles (Mach–Zehnder phase, projection noise, contrast decay, vibration
 coupling), while the clock/time-transfer sensors are still driven by published
@@ -906,7 +922,7 @@ the [`CHANGELOG.md`](CHANGELOG.md). Every result is reproducible from
 
 | Channel | Install / get | Contents |
 |---------|---------------|----------|
-| [crates.io](https://crates.io/crates/kshana) | `cargo install kshana` · `kshana = "0.16"` | Rust library + CLI |
+| [crates.io](https://crates.io/crates/kshana) | `cargo install kshana` · `kshana = "0.17"` | Rust library + CLI |
 | [crates.io](https://crates.io/crates/kshana-mcp) | `cargo install kshana-mcp` | the MCP server |
 | [PyPI](https://pypi.org/project/kshana/) | `pip install kshana` | abi3 wheels (Linux/macOS/Windows) + sdist |
 | [npm](https://www.npmjs.com/package/kshana) | `npm install kshana` | WebAssembly module + JS wrapper |
