@@ -196,8 +196,8 @@ fn mars_gmm3_loads_and_j2_matches() {
         "Re {} (want 3.3962e6)",
         field.re
     );
-    // nmax clamps to the shipped degree 3 even when 8 is requested.
-    assert_eq!(field.nmax, 3, "field clamps to the shipped degree 3");
+    // nmax clamps to the shipped degree 4 even when 8 is requested.
+    assert_eq!(field.nmax, 4, "field clamps to the shipped degree 4");
 
     // Round-trip C̄20 → J2. The field is built with C̄20 = −J2/√5, so −C̄20·√5 must recover J2.
     let cbar20 = field.cbar(2, 0).expect("C̄20 present");
@@ -212,6 +212,14 @@ fn mars_gmm3_loads_and_j2_matches() {
     assert!(
         (j2_recovered - 1.960_45e-3).abs() < 1e-6,
         "Mars J2 {j2_recovered} (want ≈ 1.9604e-3)"
+    );
+    // The J4 zonal (C̄40) is shipped too (field degree raised to 4); round-trip it.
+    let cbar40 = field.cbar(4, 0).expect("C̄40 present (nmax=4)");
+    let j4_recovered = -cbar40 * 9.0_f64.sqrt();
+    let j4_expected = MARS_ZONALS_J2_J4[2]; // -1.538e-5
+    assert!(
+        (j4_recovered - j4_expected).abs() < 1e-9,
+        "round-trip J4 {j4_recovered} vs shipped {j4_expected}"
     );
 }
 
