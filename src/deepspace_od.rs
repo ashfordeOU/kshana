@@ -745,6 +745,173 @@ impl<F: ForceModel> ReducedDynamicOd<F> {
     }
 }
 
+// ===========================================================================================
+// D2.5a — Radiometric (range / Doppler) measurement model for the SRIF.
+//
+// The position-`Observation` path above folds a direct inertial position fix into the filter
+// (h_row picks a coordinate axis). A real deep-space pass does not measure position: it measures
+// the *range* and *range-rate* (Doppler) of a tracking station↔spacecraft line of sight. This
+// section adds the measurement partials `∂observable/∂state` that connect those radiometric
+// observables to the SRIF's `[r; v; emp]` state, and a `radiometric_update` driver that folds a
+// range/Doppler observation in through the same scalar `measurement_update`.
+//
+// Frame convention: the station position/velocity and the spacecraft state are in the **same
+// inertial central-body frame** as the position-`Observation` path (areocentric for an LMO arc).
+// The geometry is exact; the partials are the standard line-of-sight ones (Montenbruck & Gill
+// §6.2, Tapley/Schutz/Born *Statistical Orbit Determination* §3). The clock-frequency partial for
+// one-way Doppler couples the [`crate::clock_state::ClockState3`] fractional-frequency state in.
+// ===========================================================================================
+
+/// Which scalar radiometric observable a [`RadiometricMeas`] carries against the SRIF state.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum RadiometricKind {
+    /// **Range** (metres): the line-of-sight distance `ρ = |r_sc − r_sta|`. Partial
+    /// `∂ρ/∂r = û` (the LOS unit vector), `∂ρ/∂v = 0`.
+    Range,
+    /// **Range rate / Doppler** (m/s): the line-of-sight closing rate
+    /// `ρ̇ = û·(v_sc − v_sta)`. Partial `∂ρ̇/∂v = û`, `∂ρ̇/∂r = (v_rel − ρ̇·û)/ρ`. (A Doppler
+    /// frequency observable is `−(k/c)·ρ̇` for a carrier-scaled constant `k`; the SRIF ingests the
+    /// range rate directly, the carrier scaling being a fixed multiplier the caller can apply to
+    /// both the observable and its `sigma` without changing the geometry partial.)
+    RangeRate,
+}
+
+/// A single scalar radiometric observation against the reduced-dynamic SRIF state: the kind
+/// (range or range-rate), the **inertial** tracking-station position (and velocity, for range
+/// rate) in the central-body frame, the observed value, and its 1σ.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct RadiometricMeas {
+    /// Seconds past the estimation epoch (the same time base as [`Observation::t`]).
+    pub t: f64,
+    /// Range (m) or range-rate (m/s).
+    pub kind: RadiometricKind,
+    /// Inertial tracking-station position (m) in the central-body frame.
+    pub station_pos: Vec3,
+    /// Inertial tracking-station velocity (m/s); used only for [`RadiometricKind::RangeRate`].
+    pub station_vel: Vec3,
+    /// The observed value: metres for [`RadiometricKind::Range`], m/s for
+    /// [`RadiometricKind::RangeRate`].
+    pub value: f64,
+    /// One-sigma measurement uncertainty, same unit as [`value`](Self::value).
+    pub sigma: f64,
+}
+
+/// Predicted **range** `ρ = |r_sc − r_sta|` (m) and its `N_STATE`-row partial `∂ρ/∂state`.
+///
+/// `∂ρ/∂r = û = (r_sc − r_sta)/ρ` (the line-of-sight unit vector); `∂ρ/∂v = 0`; the empirical
+/// states do not enter the instantaneous geometry, so their partial is zero. Returns
+/// `(predicted, h_row)`.
+pub fn range_observable(r_sc: Vec3, station_pos: Vec3) -> (f64, [f64; N_STATE]) {
+    let d = [
+        r_sc[0] - station_pos[0],
+        r_sc[1] - station_pos[1],
+        r_sc[2] - station_pos[2],
+    ];
+    let rho = (d[0] * d[0] + d[1] * d[1] + d[2] * d[2]).sqrt();
+    let mut h = [0.0; N_STATE];
+    if rho > 0.0 {
+        for k in 0..3 {
+            h[k] = d[k] / rho; // ∂ρ/∂r = û
+        }
+    }
+    (rho, h)
+}
+
+/// Predicted **range rate** `ρ̇ = û·(v_sc − v_sta)` (m/s) and its `N_STATE`-row partial
+/// `∂ρ̇/∂state`.
+///
+/// With `û = (r_sc − r_sta)/ρ` and `v_rel = v_sc − v_sta`:
+/// * `∂ρ̇/∂v = û` (a change in velocity along the LOS changes the closing rate directly);
+/// * `∂ρ̇/∂r = (v_rel − ρ̇·û)/ρ` (rotating the LOS reprojects the relative velocity — the standard
+///   range-rate position partial, the transverse component of `v_rel` divided by `ρ`);
+/// * the empirical states do not enter the instantaneous geometry (zero partial).
+///
+/// Returns `(predicted, h_row)`.
+pub fn range_rate_observable(
+    r_sc: Vec3,
+    v_sc: Vec3,
+    station_pos: Vec3,
+    station_vel: Vec3,
+) -> (f64, [f64; N_STATE]) {
+    let d = [
+        r_sc[0] - station_pos[0],
+        r_sc[1] - station_pos[1],
+        r_sc[2] - station_pos[2],
+    ];
+    let rho = (d[0] * d[0] + d[1] * d[1] + d[2] * d[2]).sqrt();
+    let v_rel = [
+        v_sc[0] - station_vel[0],
+        v_sc[1] - station_vel[1],
+        v_sc[2] - station_vel[2],
+    ];
+    let mut h = [0.0; N_STATE];
+    if rho <= 0.0 {
+        return (0.0, h);
+    }
+    let u = [d[0] / rho, d[1] / rho, d[2] / rho]; // LOS unit vector
+    let rho_dot = u[0] * v_rel[0] + u[1] * v_rel[1] + u[2] * v_rel[2]; // ρ̇ = û·v_rel
+    for k in 0..3 {
+        // ∂ρ̇/∂r = (v_rel − ρ̇·û)/ρ ; ∂ρ̇/∂v = û.
+        h[k] = (v_rel[k] - rho_dot * u[k]) / rho;
+        h[3 + k] = u[k];
+    }
+    (rho_dot, h)
+}
+
+/// The **one-way Doppler clock-frequency partial**: the additional sensitivity of a one-way
+/// range-rate-equivalent observable to the spacecraft oscillator's **fractional-frequency** error
+/// (the second state of [`crate::clock_state::ClockState3`]).
+///
+/// A one-way Doppler observable is the carrier shift `f_D = −(f₀/c)·(ρ̇ + c·y)`, where `y` is the
+/// fractional-frequency error of the transmitting clock: a clock running fast by `y` adds an
+/// apparent line-of-sight velocity `c·y` indistinguishable (to a single observable) from real
+/// range rate. Expressed as a range-rate-equivalent (m/s) observable `ρ̇_obs = ρ̇ + c·y`, the
+/// partial with respect to the clock fractional-frequency state is therefore **`∂ρ̇_obs/∂y = c`**
+/// (the speed of light). This function returns that constant so a caller carrying a joint
+/// state `[r; v; emp; …; y]` can append the clock column to the [`range_rate_observable`] row;
+/// the bare nine-state [`ReducedDynamicOd`] does not carry a clock state, so its two-way path
+/// (station-referenced, clock-free) needs no such term — this is the seam for the one-way case.
+pub fn doppler_clock_freq_partial() -> f64 {
+    crate::timegeo::C_M_PER_S
+}
+
+impl<F: ForceModel> ReducedDynamicOd<F> {
+    /// Fold a single **radiometric** (range or range-rate) observation into the SRIF about the
+    /// current reference `state` (`[r; v; emp]`), returning the post-update reference state.
+    ///
+    /// Mirrors the position-`Observation` measurement step of [`run`](Self::run): the SRIF carries
+    /// the *deviation* about the reference, so the predicted observable is formed from the current
+    /// reference, the residual `value − predicted` is folded in against the geometry partial
+    /// `h_row` from [`range_observable`] / [`range_rate_observable`], the solved increment is added
+    /// back to the reference, and the SRIF is recentred. This is the driver path the end-to-end
+    /// Mars-LMO recovery uses; it does not propagate (the caller runs the time update between
+    /// epochs exactly as [`run`](Self::run) does), it only applies one measurement update.
+    pub fn radiometric_update(
+        srif: &mut Srif,
+        state: [f64; N_STATE],
+        meas: &RadiometricMeas,
+    ) -> [f64; N_STATE] {
+        let r_sc = [state[0], state[1], state[2]];
+        let v_sc = [state[3], state[4], state[5]];
+        let (predicted, h_row) = match meas.kind {
+            RadiometricKind::Range => range_observable(r_sc, meas.station_pos),
+            RadiometricKind::RangeRate => {
+                range_rate_observable(r_sc, v_sc, meas.station_pos, meas.station_vel)
+            }
+        };
+        // The SRIF estimates the deviation δx about the reference; the linearised residual of the
+        // deviation is (observed − predicted) since h_row·δx ≈ observable(reference + δx) − predicted.
+        srif.measurement_update(&h_row, meas.value - predicted, meas.sigma);
+        let (dx, _p) = srif.solve();
+        let mut out = state;
+        for i in 0..N_STATE {
+            out[i] += dx[i];
+        }
+        srif.recenter();
+        out
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1113,6 +1280,240 @@ mod tests {
         assert!(
             *residuals.first().unwrap() > *residuals.last().unwrap() * 1.5,
             "tuning range too small: {residuals:?}"
+        );
+    }
+
+    // --- D2.5a radiometric (range/Doppler) measurement partials ---
+
+    /// A representative LMO-scale spacecraft state and an offset tracking station, in one inertial
+    /// frame, for the radiometric-partial tests. The station has a non-trivial velocity so the
+    /// range-rate position partial (which depends on `v_rel`) is genuinely exercised.
+    fn radiometric_geometry() -> (Vec3, Vec3, Vec3, Vec3) {
+        let r_sc = [3.9e6, 1.1e6, -7.0e5]; // areocentric-scale spacecraft position (m)
+        let v_sc = [-1.2e3, 3.3e3, 2.5e2]; // m/s
+        let station_pos = [2.1e6, -4.0e5, 9.0e5]; // an areocentric tracking station (m)
+        let station_vel = [3.0e1, 1.5e2, -2.0e1]; // co-rotating station velocity (m/s)
+        (r_sc, v_sc, station_pos, station_vel)
+    }
+
+    #[test]
+    fn range_partial_matches_finite_difference() {
+        // ∂ρ/∂r must equal a central finite difference of ρ = |r_sc − r_sta| to 1e-6 (relative),
+        // and ∂ρ/∂v must be exactly zero (range is instantaneous geometry).
+        let (r_sc, _v, sta, _sv) = radiometric_geometry();
+        let (_rho, h) = range_observable(r_sc, sta);
+        let rho_of = |r: Vec3| -> f64 { range_observable(r, sta).0 };
+
+        let step = 1.0; // 1 m position perturbation
+        for k in 0..3 {
+            let (mut rp, mut rm) = (r_sc, r_sc);
+            rp[k] += step;
+            rm[k] -= step;
+            let fd = (rho_of(rp) - rho_of(rm)) / (2.0 * step);
+            let rel = (h[k] - fd).abs() / fd.abs().max(1e-12);
+            assert!(rel < 1e-6, "∂ρ/∂r[{k}] = {} vs FD {fd} (rel {rel:e})", h[k]);
+        }
+        // No velocity or empirical sensitivity.
+        for (k, &hk) in h.iter().enumerate().take(N_STATE).skip(3) {
+            assert_eq!(hk, 0.0, "range must have no ∂/∂(v,emp) at index {k}");
+        }
+        // The LOS partial is a unit vector (‖û‖ = 1).
+        let n = (h[0] * h[0] + h[1] * h[1] + h[2] * h[2]).sqrt();
+        assert!(
+            (n - 1.0).abs() < 1e-12,
+            "∂ρ/∂r must be a unit vector, ‖‖ = {n}"
+        );
+    }
+
+    #[test]
+    fn range_rate_partials_match_finite_difference() {
+        // ∂ρ̇/∂r and ∂ρ̇/∂v must each match a central finite difference of the range-rate
+        // observable ρ̇ = û·(v_sc − v_sta) to 1e-6 — the standard range-rate partials
+        // (∂ρ̇/∂v = û, ∂ρ̇/∂r = (v_rel − ρ̇·û)/ρ).
+        let (r_sc, v_sc, sta, sv) = radiometric_geometry();
+        let (_rdot, h) = range_rate_observable(r_sc, v_sc, sta, sv);
+        let rdot_of = |r: Vec3, v: Vec3| -> f64 { range_rate_observable(r, v, sta, sv).0 };
+
+        // ∂ρ̇/∂r (1 m position step).
+        let rstep = 1.0;
+        for k in 0..3 {
+            let (mut rp, mut rm) = (r_sc, r_sc);
+            rp[k] += rstep;
+            rm[k] -= rstep;
+            let fd = (rdot_of(rp, v_sc) - rdot_of(rm, v_sc)) / (2.0 * rstep);
+            let rel = (h[k] - fd).abs() / fd.abs().max(1e-12);
+            assert!(rel < 1e-6, "∂ρ̇/∂r[{k}] = {} vs FD {fd} (rel {rel:e})", h[k]);
+        }
+        // ∂ρ̇/∂v (1 mm/s velocity step).
+        let vstep = 1e-3;
+        for k in 0..3 {
+            let (mut vp, mut vm) = (v_sc, v_sc);
+            vp[k] += vstep;
+            vm[k] -= vstep;
+            let fd = (rdot_of(r_sc, vp) - rdot_of(r_sc, vm)) / (2.0 * vstep);
+            let rel = (h[3 + k] - fd).abs() / fd.abs().max(1e-12);
+            assert!(
+                rel < 1e-6,
+                "∂ρ̇/∂v[{k}] = {} vs FD {fd} (rel {rel:e})",
+                h[3 + k]
+            );
+        }
+        // ∂ρ̇/∂v is the LOS unit vector; no empirical sensitivity.
+        let nv = (h[3] * h[3] + h[4] * h[4] + h[5] * h[5]).sqrt();
+        assert!(
+            (nv - 1.0).abs() < 1e-12,
+            "∂ρ̇/∂v must be a unit vector, ‖‖ = {nv}"
+        );
+        for (k, &hk) in h.iter().enumerate().take(N_STATE).skip(6) {
+            assert_eq!(hk, 0.0, "range-rate must have no ∂/∂emp at index {k}");
+        }
+    }
+
+    #[test]
+    fn doppler_clock_freq_partial_is_speed_of_light() {
+        // A one-way Doppler range-rate-equivalent observable couples the clock fractional-frequency
+        // state with ∂ρ̇_obs/∂y = c (a clock fast by y looks like a line-of-sight velocity c·y).
+        let c = doppler_clock_freq_partial();
+        assert_eq!(c, crate::timegeo::C_M_PER_S);
+        assert!(
+            (c - 299_792_458.0).abs() < 1e-6,
+            "clock-freq partial must be c"
+        );
+    }
+
+    #[test]
+    fn radiometric_update_reduces_covariance_in_observed_direction() {
+        // A single range update must shrink the state covariance in the line-of-sight (observed)
+        // direction: the variance of the position projected onto û falls after the update, and the
+        // post-update covariance stays symmetric positive-definite (the SRIF guarantee).
+        let (r_sc, v_sc, sta, _sv) = radiometric_geometry();
+        let cfg = ReducedDynamicConfig {
+            sigma_pos: 1.0e3,
+            sigma_vel: 1.0,
+            sigma_emp: 1.0e-6,
+            ..ReducedDynamicConfig::default()
+        };
+        let sigma0 = [
+            cfg.sigma_pos,
+            cfg.sigma_pos,
+            cfg.sigma_pos,
+            cfg.sigma_vel,
+            cfg.sigma_vel,
+            cfg.sigma_vel,
+            cfg.sigma_emp,
+            cfg.sigma_emp,
+            cfg.sigma_emp,
+        ];
+        let state = [
+            r_sc[0], r_sc[1], r_sc[2], v_sc[0], v_sc[1], v_sc[2], 0.0, 0.0, 0.0,
+        ];
+
+        let (_rho, h) = range_observable(r_sc, sta);
+        let los = [h[0], h[1], h[2]]; // observed (line-of-sight) position direction
+
+        // Variance along û from a covariance P: ûᵀ P_pos û (top-left 3×3 block).
+        let var_along = |p: &[Vec<f64>]| -> f64 {
+            let mut pu = [0.0; 3];
+            for i in 0..3 {
+                for j in 0..3 {
+                    pu[i] += p[i][j] * los[j];
+                }
+            }
+            los[0] * pu[0] + los[1] * pu[1] + los[2] * pu[2]
+        };
+
+        let mut srif = Srif::with_apriori(&[0.0; N_STATE], &sigma0);
+        let (_x0, p_before) = srif.solve();
+        let var_before = var_along(&p_before);
+
+        // Fold one (noise-free, on-reference) range observation: value == predicted, so the state
+        // does not move, but the information (and thus the covariance) tightens along the LOS.
+        let predicted = range_observable(r_sc, sta).0;
+        let meas = RadiometricMeas {
+            t: 0.0,
+            kind: RadiometricKind::Range,
+            station_pos: sta,
+            station_vel: [0.0; 3],
+            value: predicted,
+            sigma: 1.0, // 1 m range σ
+        };
+        let new_state =
+            ReducedDynamicOd::<PreciseForceModel>::radiometric_update(&mut srif, state, &meas);
+        let (_x1, p_after) = srif.solve();
+        let var_after = var_along(&p_after);
+
+        assert!(
+            var_after < var_before,
+            "range update did not shrink the LOS variance: {var_after} !< {var_before}"
+        );
+        // The 1 m range update should drive the LOS variance toward the measurement variance (1 m²),
+        // far below the 1e6 m² a-priori — a real, large reduction, not a rounding nudge.
+        assert!(
+            var_after < var_before * 1e-3,
+            "LOS variance barely moved: before {var_before}, after {var_after}"
+        );
+        // On a noise-free, on-reference measurement the state is unchanged.
+        for i in 0..N_STATE {
+            assert!(
+                (new_state[i] - state[i]).abs() < 1e-6 * state[i].abs().max(1.0),
+                "on-reference update moved state[{i}]: {} → {}",
+                state[i],
+                new_state[i]
+            );
+        }
+        // Covariance stays SPD.
+        assert!(
+            cholesky(&p_after).is_some(),
+            "covariance not PD after update"
+        );
+    }
+
+    #[test]
+    fn range_rate_update_observes_velocity() {
+        // A range-rate update carries information into the velocity subspace (∂ρ̇/∂v = û ≠ 0): the
+        // velocity covariance along the LOS shrinks after a Doppler update.
+        let (r_sc, v_sc, sta, sv) = radiometric_geometry();
+        let sigma0 = [1.0e3, 1.0e3, 1.0e3, 1.0, 1.0, 1.0, 1e-6, 1e-6, 1e-6];
+        let state = [
+            r_sc[0], r_sc[1], r_sc[2], v_sc[0], v_sc[1], v_sc[2], 0.0, 0.0, 0.0,
+        ];
+
+        let (_rdot, h) = range_rate_observable(r_sc, v_sc, sta, sv);
+        let los_v = [h[3], h[4], h[5]]; // ∂ρ̇/∂v = û
+
+        let var_vel_along = |p: &[Vec<f64>]| -> f64 {
+            let mut pu = [0.0; 3];
+            for i in 0..3 {
+                for j in 0..3 {
+                    pu[i] += p[3 + i][3 + j] * los_v[j];
+                }
+            }
+            los_v[0] * pu[0] + los_v[1] * pu[1] + los_v[2] * pu[2]
+        };
+
+        let mut srif = Srif::with_apriori(&[0.0; N_STATE], &sigma0);
+        let (_x0, p_before) = srif.solve();
+        let v_before = var_vel_along(&p_before);
+
+        let predicted = range_rate_observable(r_sc, v_sc, sta, sv).0;
+        let meas = RadiometricMeas {
+            t: 0.0,
+            kind: RadiometricKind::RangeRate,
+            station_pos: sta,
+            station_vel: sv,
+            value: predicted,
+            sigma: 1e-4, // 0.1 mm/s Doppler σ
+        };
+        ReducedDynamicOd::<PreciseForceModel>::radiometric_update(&mut srif, state, &meas);
+        let (_x1, p_after) = srif.solve();
+        let v_after = var_vel_along(&p_after);
+        assert!(
+            v_after < v_before,
+            "Doppler update did not shrink the LOS velocity variance: {v_after} !< {v_before}"
+        );
+        assert!(
+            cholesky(&p_after).is_some(),
+            "covariance not PD after Doppler update"
         );
     }
 }
