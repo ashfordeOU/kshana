@@ -525,6 +525,36 @@ pub struct ReducedDynamicReport {
     pub final_cov: Vec<Vec<f64>>,
 }
 
+/// A per-epoch record of a [`ReducedDynamicOd::run_radiometric`] run: the estimated inertial state
+/// after that epoch's measurement updates have been folded in.
+#[derive(Clone, Copy, Debug)]
+pub struct RadiometricStep {
+    /// Seconds past the epoch.
+    pub t: f64,
+    /// Estimated inertial position after the epoch's updates (m).
+    pub r: Vec3,
+    /// Estimated inertial velocity after the epoch's updates (m/s).
+    pub v: Vec3,
+    /// Estimated constant RTN empirical acceleration after the epoch's updates (m/s²).
+    pub emp: Vec3,
+}
+
+/// The outcome of a [`ReducedDynamicOd::run_radiometric`] run: the per-epoch estimate track, the
+/// final state and covariance, and the SRIF positivity guarantee verified across the whole arc.
+#[derive(Clone, Debug)]
+pub struct RadiometricReport {
+    /// Per-epoch estimate in time order (one entry per distinct observation epoch).
+    pub steps: Vec<RadiometricStep>,
+    /// The final estimated state `[r; v; a_emp]`.
+    pub final_state: [f64; N_STATE],
+    /// The final covariance (`N_STATE × N_STATE`).
+    pub final_cov: Vec<Vec<f64>>,
+    /// Whether the factored covariance was symmetric positive-definite at **every** epoch — the
+    /// SRIF's defining guarantee (`P = R⁻¹R⁻ᵀ` is a Gram matrix and cannot go indefinite). A
+    /// `false` would mean a numerical pathology broke the square-root form on this arc.
+    pub covariance_pd_throughout: bool,
+}
+
 /// **Reduced-dynamic sequential OD driver**: runs the SRIF predict/update cycle over a track of
 /// inertial position [`Observation`]s under the force model `fm`, carrying the six dynamic states
 /// `[r; v]` plus three first-order Gauss–Markov empirical-acceleration states `[a_R, a_T, a_N]`.
@@ -910,6 +940,157 @@ impl<F: ForceModel> ReducedDynamicOd<F> {
         srif.recenter();
         out
     }
+
+    /// **Run the reduced-dynamic SRIF over a radiometric track** (range and/or Doppler), recovering
+    /// the trajectory from the perturbed a-priori `(r0, v0)`.
+    ///
+    /// The full deep-space OD driver: identical predict/update structure to [`run`](Self::run) (the
+    /// segment STM + Gauss–Markov empirical process-noise time update, the nonlinear reference
+    /// advance), but the measurement updates fold **radiometric** observables — range and range-rate
+    /// — through the D2.5a partials via [`radiometric_update`](Self::radiometric_update) instead of
+    /// direct position fixes. Several observations sharing an epoch (e.g. a range and a Doppler) are
+    /// each folded in at that epoch. Observations are sorted internally; returns `None` for fewer
+    /// than two.
+    ///
+    /// The returned [`RadiometricReport`] carries the per-epoch estimate, the final state and
+    /// covariance, and the `covariance_pd_throughout` flag — the SRIF positivity guarantee checked
+    /// at every epoch. This is the driver the end-to-end Mars-LMO recovery (`tests/mars_lmo_od.rs`)
+    /// uses.
+    pub fn run_radiometric(
+        &self,
+        r0: Vec3,
+        v0: Vec3,
+        obs: &[RadiometricMeas],
+    ) -> Option<RadiometricReport> {
+        if obs.len() < 2 {
+            return None;
+        }
+        let mut ord: Vec<usize> = (0..obs.len()).collect();
+        ord.sort_by(|&a, &b| {
+            obs[a]
+                .t
+                .partial_cmp(&obs[b].t)
+                .unwrap_or(std::cmp::Ordering::Equal)
+        });
+
+        let sigma0 = [
+            self.cfg.sigma_pos,
+            self.cfg.sigma_pos,
+            self.cfg.sigma_pos,
+            self.cfg.sigma_vel,
+            self.cfg.sigma_vel,
+            self.cfg.sigma_vel,
+            self.cfg.sigma_emp,
+            self.cfg.sigma_emp,
+            self.cfg.sigma_emp,
+        ];
+        // Error-state SRIF: a-priori uncertainty on a zero deviation about the reference.
+        let mut srif = Srif::with_apriori(&[0.0; N_STATE], &sigma0);
+
+        let mut state = [r0[0], r0[1], r0[2], v0[0], v0[1], v0[2], 0.0, 0.0, 0.0];
+        let mut t_prev = 0.0;
+        let emp_q_rate = (self.cfg.emp_process_sigma_max * self.cfg.dynamic_tightness).max(0.0);
+
+        let mut steps: Vec<RadiometricStep> = Vec::new();
+        let mut covariance_pd_throughout = true;
+
+        for &i in &ord {
+            let ob = &obs[i];
+            let dt = ob.t - t_prev;
+            if dt > 0.0 {
+                let r = [state[0], state[1], state[2]];
+                let v = [state[3], state[4], state[5]];
+                let emp = [state[6], state[7], state[8]];
+                let phi = self.segment_stm(r, v, emp, dt);
+                let q_emp = emp_q_rate * dt.sqrt();
+                let q = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, q_emp, q_emp, q_emp];
+                srif.time_update(&phi, &q);
+                let (rf, vf) = self.propagate_segment(r, v, emp, dt);
+                let decay = if self.cfg.emp_correlation_time > 0.0 {
+                    (-dt / self.cfg.emp_correlation_time).exp()
+                } else {
+                    0.0
+                };
+                state = [
+                    rf[0],
+                    rf[1],
+                    rf[2],
+                    vf[0],
+                    vf[1],
+                    vf[2],
+                    emp[0] * decay,
+                    emp[1] * decay,
+                    emp[2] * decay,
+                ];
+                t_prev = ob.t;
+            }
+
+            state = Self::radiometric_update(&mut srif, state, ob);
+
+            // Verify the factored covariance is still symmetric positive-definite.
+            let (_x, p) = srif.solve();
+            if !covariance_is_spd(&p) {
+                covariance_pd_throughout = false;
+            }
+
+            // One record per distinct epoch (later updates at the same epoch overwrite it).
+            let step = RadiometricStep {
+                t: ob.t,
+                r: [state[0], state[1], state[2]],
+                v: [state[3], state[4], state[5]],
+                emp: [state[6], state[7], state[8]],
+            };
+            match steps.last_mut() {
+                Some(last) if (last.t - ob.t).abs() <= 1e-9 => *last = step,
+                _ => steps.push(step),
+            }
+        }
+
+        let (_x, final_cov) = srif.solve();
+        Some(RadiometricReport {
+            steps,
+            final_state: state,
+            final_cov,
+            covariance_pd_throughout,
+        })
+    }
+}
+
+/// Symmetric positive-definiteness test for a recovered covariance: symmetry to a scale-relative
+/// tolerance, then a Cholesky (all leading minors strictly positive). Used to verify the SRIF's
+/// positivity guarantee at every epoch of a [`ReducedDynamicOd::run_radiometric`] run.
+fn covariance_is_spd(p: &[Vec<f64>]) -> bool {
+    let n = p.len();
+    for (i, row) in p.iter().enumerate() {
+        for (j, &pij) in row.iter().enumerate() {
+            let scale = p[i][i].abs().max(p[j][j].abs()).max(1e-300);
+            if (pij - p[j][i]).abs() > 1e-9 * scale {
+                return false;
+            }
+        }
+    }
+    // Cholesky L Lᵀ = P; a non-positive pivot ⇒ not positive-definite.
+    let mut l = vec![vec![0.0; n]; n];
+    for i in 0..n {
+        for j in 0..=i {
+            let mut s = p[i][j];
+            // `k` indexes two distinct rows (l[i] and l[j]) by the same column, so a single-row
+            // iterator does not apply — the explicit range is the clear form here.
+            #[allow(clippy::needless_range_loop)]
+            for k in 0..j {
+                s -= l[i][k] * l[j][k];
+            }
+            if i == j {
+                if s <= 0.0 {
+                    return false;
+                }
+                l[i][j] = s.sqrt();
+            } else {
+                l[i][j] = s / l[j][j];
+            }
+        }
+    }
+    true
 }
 
 #[cfg(test)]
