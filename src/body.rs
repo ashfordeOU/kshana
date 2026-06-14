@@ -100,6 +100,64 @@ impl Body {
         }
     }
 
+    /// **Mars with a low-degree tesseral gravity field** — [`Body::mars`] carrying a
+    /// fully-normalized [`SphericalHarmonicField`] (MRO110B2 / GMM-3-class) in its
+    /// [`gravity`](Self::gravity) slot, so the propagator's central-gravity path evaluates the
+    /// full `C̄_nm, S̄_nm` field (in the Mars body-fixed frame via [`crate::mars_frame`]) instead
+    /// of the two-body + zonal path. See [`with_gmm3_gravity`](Self::with_gmm3_gravity) for the
+    /// field construction and the coefficient source. `nmax` caps the degree/order (clamped to the
+    /// shipped degree 3).
+    pub fn mars_gmm3(nmax: usize) -> Self {
+        Self::mars().with_gmm3_gravity(nmax)
+    }
+
+    /// Attach a fully-normalized **MRO110B2 / GMM-3-class** Mars gravity field to this body,
+    /// returning it with [`gravity`](Self::gravity) populated to degree/order `nmax` (clamped to
+    /// the shipped degree 3).
+    ///
+    /// The field is built in-source (no download) from published, fully-normalized coefficients:
+    ///
+    /// * the **zonals** `C̄20, C̄30, C̄40` are converted from this body's
+    ///   [`zonals`](Self::zonals) (`MARS_ZONALS_J2_J4`, Konopliv MRO110) by the standard
+    ///   normalization `C̄_{n,0} = −J_n / √(2n+1)` — so the shipped J2/J3/J4 and the SH C̄_{n,0}
+    ///   are one and the same constant (a `J2 = −C̄20·√5` round-trip pins it);
+    /// * the **tesserals** `C̄22, S̄22` and `C̄32, S̄32` are the fully-normalized MRO110B2
+    ///   (Konopliv et al. 2011) values tabulated in Liu, Baoyin & Ma (2012),
+    ///   *Periodic orbits around areostationary points in the Martian gravity field* (Astrophys.
+    ///   Space Sci., Table 1; arXiv:1203.1775), in the same IAU North-Pole / Airy-0 prime-meridian
+    ///   frame [`crate::mars_frame`] realizes. Mars' `C̄22`/`S̄22` are two orders of magnitude
+    ///   larger than Earth's — the dominant tesseral signal.
+    ///
+    /// The field's reference radius is this body's `Re` (`3 396 200 m`, the IAU mean equatorial
+    /// radius), whereas the published MRO110B2 product references `3 396 000 m`; the 200 m (≈6e-5
+    /// relative) difference rescales the higher-degree `(Re/r)ⁿ` terms by a negligible amount,
+    /// far below the field's own accuracy at this degree. Vendoring the full `.gfc` (which carries
+    /// its own `radius`) via [`SphericalHarmonicField::from_gfc`] removes even that, for the
+    /// production path.
+    ///
+    /// `C̄00 = 1` is set so the field carries its own central term (`SphericalHarmonicField`
+    /// returns the *total* acceleration). `C̄21/S̄21` are omitted: in the principal-axis / IAU
+    /// frame the Mars degree-2 order-1 terms are negligible (the pole is the figure axis), and no
+    /// trustworthy non-zero value is invented here. Higher degree/order is available by loading a
+    /// vendored ICGEM `.gfc` through [`SphericalHarmonicField::from_gfc`] and assigning it to
+    /// [`gravity`](Self::gravity) (mirroring the LRO `GRGM660PRIM_to150.gfc` path), which requires
+    /// no code change.
+    pub fn with_gmm3_gravity(mut self, nmax: usize) -> Self {
+        let nmax = nmax.min(MARS_GMM3_NMAX);
+        let mut f = SphericalHarmonicField::zeros(self.mu, self.re, nmax);
+        f.set(0, 0, 1.0, 0.0);
+        // Zonals C̄_{n,0} = −J_n/√(2n+1), from MARS_ZONALS_J2_J4 = [J2, J3, J4].
+        for (i, &jn) in self.zonals.iter().enumerate() {
+            let n = i + 2;
+            f.set(n, 0, -jn / ((2 * n + 1) as f64).sqrt(), 0.0);
+        }
+        // Tesserals (fully-normalized MRO110B2, Liu/Baoyin/Ma 2012 Table 1).
+        f.set(2, 2, MARS_CBAR22, MARS_SBAR22);
+        f.set(3, 2, MARS_CBAR32, MARS_SBAR32);
+        self.gravity = Some(f);
+        self
+    }
+
     /// **Moon** — `μ = MU_MOON` ([`crate::forces::MU_MOON`], the DE value `4.902800066e12`),
     /// reference radius `Re = 1 737 400 m` (IAU mean), the low-degree zonals
     /// `J2 = 2.0321e-4`, `J3 = 8.476e-6` (GRAIL GRGM/LP-derived), sidereal spin
@@ -151,6 +209,25 @@ impl Default for Body {
 /// Mars low-degree unnormalised zonals `[J2, J3, J4]` (Konopliv et al., MRO110B2 Mars gravity
 /// field). `J2` is the dominant oblateness term; `J3`/`J4` are the leading odd/even corrections.
 pub const MARS_ZONALS_J2_J4: [f64; 3] = [1.960_45e-3, 3.145e-5, -1.538e-5];
+
+/// Maximum degree/order of the in-source GMM-3 Mars tesseral field
+/// ([`Body::with_gmm3_gravity`]). The zonals reach degree 4 (`C̄20/C̄30/C̄40`) and the tesserals
+/// degree 3 (`C̄22/S̄22`, `C̄32/S̄32`); the field is capped at degree 3 because that is the highest
+/// degree for which both a zonal and a tesseral term are shipped — higher degree/order loads from
+/// a vendored `.gfc` via [`crate::gravity_sh::SphericalHarmonicField::from_gfc`].
+const MARS_GMM3_NMAX: usize = 3;
+
+/// Fully-normalized Mars sectoral `C̄22` (MRO110B2, Konopliv et al. 2011; tabulated in Liu,
+/// Baoyin & Ma 2012, *Periodic orbits around areostationary points in the Martian gravity field*,
+/// Table 1). The dominant tesseral term — two orders of magnitude larger than Earth's.
+const MARS_CBAR22: f64 = -0.846_359_145_472_2e-4;
+/// Fully-normalized Mars sectoral `S̄22` (same source). Note the sign opposite to `C̄22` (unlike
+/// Earth).
+const MARS_SBAR22: f64 = 0.489_344_896_683_1e-4;
+/// Fully-normalized Mars `C̄32` (same source).
+const MARS_CBAR32: f64 = -0.159_479_193_754_6e-4;
+/// Fully-normalized Mars `S̄32` (same source).
+const MARS_SBAR32: f64 = 0.836_142_557_919_300_3e-5;
 
 /// Moon low-degree unnormalised zonals `[J2, J3]` (GRAIL/LP-derived). The lunar field is far
 /// less oblate than Earth's; `J2` ≈ 2e-4.
