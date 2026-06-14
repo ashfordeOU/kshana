@@ -172,3 +172,113 @@ fn forcemodel_with_body_retargets_to_mars() {
         "Mars vs Earth two-body arcs must diverge, sep {sep} m"
     );
 }
+
+/// `Body::mars_gmm3` carries a fully-normalized Mars tesseral field with the right `GM`/`Re`, and
+/// its `C̄20` round-trips to the shipped Mars `J2`: `J2 = −C̄20·√5` to ±1e-6. This pins the
+/// zonal→normalized conversion the field is built from.
+#[test]
+fn mars_gmm3_loads_and_j2_matches() {
+    use kshana::body::MARS_ZONALS_J2_J4;
+
+    let mars = Body::mars_gmm3(8);
+    let field = mars
+        .gravity
+        .as_ref()
+        .expect("mars_gmm3 must carry a gravity field");
+    // GM and Re are the Mars values.
+    assert!(
+        (field.gm - 4.282_837e13).abs() / field.gm < 1e-12,
+        "GM {} (want 4.282837e13)",
+        field.gm
+    );
+    assert!(
+        (field.re - 3_396_200.0).abs() < 1e-3,
+        "Re {} (want 3.3962e6)",
+        field.re
+    );
+    // nmax clamps to the shipped degree 3 even when 8 is requested.
+    assert_eq!(field.nmax, 3, "field clamps to the shipped degree 3");
+
+    // Round-trip C̄20 → J2. The field is built with C̄20 = −J2/√5, so −C̄20·√5 must recover J2.
+    let cbar20 = field.cbar(2, 0).expect("C̄20 present");
+    let j2_recovered = -cbar20 * 5.0_f64.sqrt();
+    let j2_expected = MARS_ZONALS_J2_J4[0]; // 1.96045e-3
+    assert!(
+        (j2_recovered - j2_expected).abs() < 1e-6,
+        "round-trip J2 {j2_recovered} vs shipped {j2_expected} (Δ {})",
+        (j2_recovered - j2_expected).abs()
+    );
+    // And it really is ≈ 1.9604e-3.
+    assert!(
+        (j2_recovered - 1.960_45e-3).abs() < 1e-6,
+        "Mars J2 {j2_recovered} (want ≈ 1.9604e-3)"
+    );
+}
+
+/// The Mars SH gravity (mars_gmm3) differs from a pure Mars two-body acceleration by the expected
+/// J2-scale magnitude at a low Mars orbit, and is finite/sane. J2 ≈ 1.96e-3, so the oblateness
+/// perturbation is ~1e-3 of the central term.
+#[test]
+fn mars_sh_gravity_differs_from_point_mass() {
+    use kshana::forces::two_body_accel_body;
+    use kshana::propagator::ForceModel;
+
+    let mars = Body::mars_gmm3(3);
+    // A low Mars orbit point (~400 km altitude), off all axes so the tesserals are exercised.
+    let r = [2.8e6, 1.2e6, 1.4e6];
+    let model = ForceModel::two_body().with_body(mars);
+    let a_sh = model.accel(r);
+    let a_tb = two_body_accel_body(r, &Body::mars());
+
+    assert!(
+        a_sh.iter().all(|x| x.is_finite()),
+        "SH accel must be finite: {a_sh:?}"
+    );
+
+    let pert =
+        ((a_sh[0] - a_tb[0]).powi(2) + (a_sh[1] - a_tb[1]).powi(2) + (a_sh[2] - a_tb[2]).powi(2))
+            .sqrt();
+    let central = (a_tb[0].powi(2) + a_tb[1].powi(2) + a_tb[2].powi(2)).sqrt();
+    let rel = pert / central;
+    // The Mars oblateness (J2 ≈ 1.96e-3) plus the (smaller) tesserals: a real, J2-scale
+    // perturbation — bounded well below the central term but far above numerical noise.
+    assert!(
+        (1e-4..2e-2).contains(&rel),
+        "Mars SH perturbation rel {rel} off the expected J2 scale (pert {pert}, central {central})"
+    );
+}
+
+/// The Mars field carries non-zonal tesserals (C̄22/S̄22, C̄32/S̄32) fixed to the rotating planet,
+/// so the gravitational acceleration at a *fixed inertial* point changes as Mars turns under it.
+/// Evaluating the central gravity at the base epoch and a quarter-Mars-day later (Mars rotates
+/// ~88°) must give a *different* inertial acceleration — proving the body-fixed rotation is
+/// actually applied (a bug that skipped it would give an identical, rotation-invariant result).
+#[test]
+fn mars_sh_is_body_fixed() {
+    use kshana::propagator::ForceModel;
+
+    // A fixed inertial position off the equator and off the axes, so the sectoral/tesseral terms
+    // contribute (a purely polar point would mute the longitude dependence).
+    let r = [2.8e6, 1.2e6, 1.4e6];
+    // One sidereal Mars day ≈ 88 642 s (ω = 7.088218e-5 rad/s ⇒ 2π/ω). A quarter day rotates the
+    // body ~88° in longitude under the fixed inertial point.
+    let quarter_mars_day = std::f64::consts::PI / 2.0 / 7.088_218e-5;
+
+    let base_epoch = 2_459_580.5;
+    let model0 = ForceModel::two_body()
+        .with_body(Body::mars_gmm3(3))
+        .third_body(false, false, base_epoch); // sets epoch_jd_tt without enabling perturbers
+                                               // accel_at(t, r): the central SH gravity is evaluated at the advanced epoch base + t/86400.
+    let a0 = model0.accel_at(0.0, r);
+    let a1 = model0.accel_at(quarter_mars_day, r);
+
+    let d = ((a0[0] - a1[0]).powi(2) + (a0[1] - a1[1]).powi(2) + (a0[2] - a1[2]).powi(2)).sqrt();
+    // The tesseral signal is ~1e-5 m/s² at this radius; a quarter-turn reorientation must move the
+    // acceleration by a real, well-above-noise amount. (If the rotation were not applied, d ≈ 0.)
+    assert!(
+        d > 1e-7,
+        "body-fixed Mars field over a quarter Mars-day changed accel by only {d} m/s² \
+         (expected a real reorientation — is the body-fixed rotation wired in?)"
+    );
+    assert!(a0.iter().chain(a1.iter()).all(|x| x.is_finite()));
+}

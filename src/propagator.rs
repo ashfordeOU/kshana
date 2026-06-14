@@ -231,11 +231,26 @@ impl ForceModel {
     /// [`Body::earth`] (`μ = MU_EARTH`, no SH field) this reduces to the historical
     /// `two_body_accel(r) (+ j2_accel / + zonal_accel)` arithmetic **bit-for-bit**.
     pub fn accel(&self, r: Vec3) -> Vec3 {
-        // A full tesseral field (only ever attached to a non-default body) supersedes the
-        // J2/zonal path; the Earth default has `gravity: None`, so this branch never runs for
-        // Earth and the goldens are untouched.
+        self.central_accel_at(self.epoch_jd_tt, r)
+    }
+
+    /// The central gravity (m/s², ECI) at position `r` and absolute epoch `jd_tt`. A full tesseral
+    /// [`Body::gravity`] field is evaluated in the **body-fixed frame** (rotate `r` into the
+    /// body-fixed frame with [`crate::mars_frame`], evaluate the field there, rotate the
+    /// acceleration back), so the field's tesseral/longitude structure rotates with the body — the
+    /// epoch is what selects the body's orientation. The Earth default has `gravity: None`, so this
+    /// SH branch never runs for Earth and the goldens are untouched; the two-body/J2/zonal path is
+    /// epoch-independent, so for Earth `central_accel_at(_, r)` is bit-for-bit the legacy `accel`.
+    ///
+    /// TDB ≈ TT is used for the body orientation (sub-2-ms agreement ⇒ a sub-µas orientation
+    /// error, far below the gravity-field accuracy at this degree).
+    fn central_accel_at(&self, jd_tt: f64, r: Vec3) -> Vec3 {
         if let Some(field) = &self.body.gravity {
-            return field.acceleration(r);
+            // Rotate the inertial position into the body-fixed frame, evaluate the Mars-fixed
+            // field, rotate the acceleration back to inertial (mirrors `crate::lunar_od`).
+            let r_bf = crate::mars_frame::inertial_to_bodyfixed(r, &self.body, jd_tt);
+            let a_bf = field.acceleration(r_bf);
+            return crate::mars_frame::bodyfixed_to_inertial(a_bf, &self.body, jd_tt);
         }
         let tb = two_body_accel_body(r, &self.body);
         if let Some(jn) = self.zonals {
@@ -256,9 +271,14 @@ impl ForceModel {
     /// the Sun third body and SRP. When none of those are enabled this is identical to `accel(r)`
     /// for every `t`.
     pub fn accel_at(&self, t: f64, r: Vec3) -> Vec3 {
-        let mut a = self.accel(r);
+        // The central gravity is evaluated at the *advanced* epoch `epoch_jd_tt + t/86400`. This
+        // only matters for a body-fixed [`Body::gravity`] tesseral field, whose orientation is
+        // epoch-dependent (the planet rotates under the spacecraft); the two-body/J2/zonal path —
+        // including the entire Earth path, where `gravity: None` — is epoch-independent, so this is
+        // bit-for-bit `self.accel(r)` for Earth and any non-SH body, keeping the goldens untouched.
+        let jd_tt = self.epoch_jd_tt + t / SECONDS_PER_DAY;
+        let mut a = self.central_accel_at(jd_tt, r);
         if self.sun || self.moon || self.srp {
-            let jd_tt = self.epoch_jd_tt + t / SECONDS_PER_DAY;
             let tjc = julian_centuries_tt(jd_tt);
             // The Sun ephemeris feeds both the Sun third body and SRP — evaluate it once.
             let sun = if self.sun || self.srp {
@@ -280,7 +300,6 @@ impl ForceModel {
             }
         }
         if self.tides {
-            let jd_tt = self.epoch_jd_tt + t / SECONDS_PER_DAY;
             let p = crate::tides::tidal_acceleration(r, jd_tt);
             a = [a[0] + p[0], a[1] + p[1], a[2] + p[2]];
         }
