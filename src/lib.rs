@@ -44,6 +44,7 @@ pub mod lunar_frame;
 pub mod lunar_od;
 pub mod maneuver;
 pub mod mapmatch;
+pub mod mars_atmos;
 pub mod mars_frame;
 pub mod models;
 pub mod nutation;
