@@ -4,6 +4,7 @@ pub mod altpnt;
 pub mod api;
 pub mod batch_ls;
 pub mod body;
+pub mod ccsds_tdm;
 pub mod chart;
 pub mod cio;
 mod cio_s06_data;
