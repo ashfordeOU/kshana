@@ -9,8 +9,33 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.17.0] - 2026-06-14
+
 ### Added
 
+- **Deep-space & Mars PNT — open radiometric navigation engine + GSE simulation.**
+  A new, fully additive capability axis on top of the Earth-validated core (every
+  existing Earth scenario is **byte-identical** — the reproducibility goldens pass
+  unchanged with no regeneration). Adds: a multi-body dynamics core (`Body{mu, re,
+  zonals, gravity, rotation, IAU-pole}` with Mars GMM-3 tesseral gravity, an IAU
+  body-fixed Mars frame, a pluggable `EphemerisProvider` seam, sub-microsecond
+  two-part Julian dates and TT↔TDB); radiometric observables (iterative light-time +
+  Shapiro delay, two-/one-/three-way Doppler & range via the Moyer two-leg solve,
+  coherent transponder turnaround, regenerative/PN ranging per CCSDS 414, Δ-DOR per
+  CCSDS 506, solar-plasma/tropo/iono media); CCSDS-TDM (503) parse + emit; a
+  reduced-dynamic Square-Root Information Filter with RTN empirical accelerations, a
+  three-state onboard clock, and a Mars-drag model; a joint one-way + two-way fusion
+  estimator; the `mars-pnt` scenario surface (relay constellation + LMO/transfer/
+  surface) across CLI, Python, WASM, MCP, and the playground; and an end-to-end GSE
+  performance simulator (geometry → link budget → observables → SRIF → covariance).
+  **Validation tier — simulation-validated:** synthetic closed-loop OD (Mars-LMO ≈
+  0.2 m) and analytic self-consistency, with the Sun-central Mars dynamics
+  independently cross-checked against JPL **DE440** (`xval/anise-mars-od`, kernel-gated:
+  137 m @ 1-day arc, the honest unmodelled-n-body residual). Reported deep-space
+  accuracies are **simulation / covariance figures of merit**, not real-mission
+  results; real DSN/ESTRACK tracking-data validation remains on the roadmap. ANISE
+  (MPL-2.0, edition-2024) is confined to a workspace-excluded cross-check crate, so
+  the `cargo deny` license gate and the MSRV-1.75 job are untouched.
 - **Agency-accurate ground tracks from real IERS Earth orientation.** The
   `ephemeris` scenario takes an optional `eop_finals2000a` field — the inlined body
   of a real IERS `finals2000A` file — and reduces the ground track through the
