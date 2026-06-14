@@ -30,6 +30,7 @@ pub mod glonass;
 pub mod gnss_sim;
 pub mod gravimeter;
 pub mod gravity_sh;
+pub mod gse_sim;
 pub mod hybrid;
 pub mod igrf;
 mod igrf_data;
