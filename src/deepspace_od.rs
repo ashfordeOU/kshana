@@ -1093,6 +1093,441 @@ fn covariance_is_spd(p: &[Vec<f64>]) -> bool {
     true
 }
 
+// ===========================================================================================
+// D3.1 — Joint one-way + two-way radiometric fusion (the calibrate-then-coast crux).
+//
+// The D2 reduced-dynamic estimator carries the nine orbit/empirical states `[r; v; a_emp]`. A
+// real deep-space PNT system observes two *physically distinct* radiometric classes:
+//
+//   * **Two-way** (coherent transponder): the spacecraft locks its downlink to the received
+//     uplink, so the observable is referenced *entirely to the ground clock* and is **independent
+//     of the onboard clock**. Two-way range/Doppler therefore constrain the **orbit cleanly** — a
+//     two-way pass pins the trajectory regardless of how the onboard oscillator is behaving.
+//   * **One-way** (spacecraft transmits on its OWN clock — a MARCONI MAFS broadcast, GNSS-like):
+//     the observable carries the onboard oscillator's phase and frequency error. A one-way range
+//     is biased by `c·(clock phase)`; a one-way Doppler is biased by `c·(clock fractional
+//     frequency)`. One-way data therefore constrains the **orbit and the clock together**.
+//
+// The operational consequence, and the LightShip/MARCONI crux this section models: during a
+// two-way pass the orbit is pinned clock-independently; the concurrent (or immediately following)
+// one-way data, with the orbit now known, **calibrates the onboard clock**. Between two-way
+// passes the one-way data keeps the orbit alive, with the coast error growth **bounded by the
+// clock's Allan stability** (the D2.3 profile) — calibrate during the pass, coast on one-way
+// between passes.
+//
+// To estimate the clock jointly the SRIF state is augmented with the three
+// [`crate::clock_state::ClockState3`] error states `[clock_phase (s); clock_freq (1/s);
+// clock_drift (1/s²)]`, giving the twelve-state joint vector
+// `[r(3); v(3); a_emp(3); phase; freq; drift]`. The clock block is propagated by the exact
+// `ClockState3` transition `F_clk = [[1,Δt,Δt²/2],[0,1,Δt],[0,0,1]]` with the van-Loan discrete
+// process noise (reused from `clock_state`), and the orbit/empirical block exactly as in D2.2.
+// The two measurement classes differ only in their partial's **clock columns**: zero for two-way
+// (clock-independent), `c` for one-way (the speed of light maps a clock phase/frequency error
+// into apparent range/range-rate).
+// ===========================================================================================
+
+/// The twelve-state **joint orbit + clock** fusion vector:
+/// `[r(3); v(3); a_emp(3); clock_phase; clock_freq; clock_drift]`. The first nine are the D2.2
+/// reduced-dynamic orbit/empirical states; the last three are the onboard-oscillator error states
+/// of [`crate::clock_state::ClockState3`] — phase (s), fractional frequency (1/s), drift (1/s²).
+pub const N_FUSED: usize = 12;
+
+/// Index of the first clock state (`clock_phase`) in the [`N_FUSED`] joint vector.
+const CLK0: usize = 9;
+
+/// Whether a [`FusedMeas`] is referenced to the ground clock (two-way, clock-independent) or to the
+/// onboard clock (one-way, clock-coupled). This is the single distinction that decides whether the
+/// measurement partial carries clock columns.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum MeasWay {
+    /// **Two-way** (coherent transponder): referenced to the ground clock, so the observable is
+    /// **independent of the onboard clock**. Its partial has **zero** clock columns — a two-way
+    /// update tightens the orbit/empirical block and leaves the clock covariance untouched.
+    TwoWay,
+    /// **One-way** (spacecraft transmits on its own oscillator): the observable carries the onboard
+    /// clock error. Its partial has the orbit columns **plus** the clock columns — a one-way range
+    /// couples `∂/∂clock_phase = c`, a one-way Doppler couples `∂/∂clock_freq = c`.
+    OneWay,
+}
+
+/// A single scalar fused radiometric observation against the [`N_FUSED`] joint state: the way
+/// (one-/two-way), the radiometric kind (range or range-rate), the inertial tracking-station
+/// position/velocity, the observed value, and its 1σ. The geometry is identical to
+/// [`RadiometricMeas`]; the added [`way`](Self::way) field selects the clock coupling.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct FusedMeas {
+    /// Seconds past the estimation epoch.
+    pub t: f64,
+    /// One-way (onboard-clock-referenced) or two-way (ground-clock-referenced).
+    pub way: MeasWay,
+    /// Range (m) or range-rate (m/s).
+    pub kind: RadiometricKind,
+    /// Inertial tracking-station position (m) in the central-body frame.
+    pub station_pos: Vec3,
+    /// Inertial tracking-station velocity (m/s); used only for [`RadiometricKind::RangeRate`].
+    pub station_vel: Vec3,
+    /// The observed value: metres for [`RadiometricKind::Range`], m/s for
+    /// [`RadiometricKind::RangeRate`]. For a one-way observable this is the *clock-biased* value
+    /// (geometric observable + `c·clock_phase` for range, + `c·clock_freq` for range-rate).
+    pub value: f64,
+    /// One-sigma measurement uncertainty, same unit as [`value`](Self::value).
+    pub sigma: f64,
+}
+
+/// The predicted **fused observable** (range or range-rate) and its [`N_FUSED`]-row partial
+/// `∂observable/∂state`, given the current joint reference `state` and the measurement's way/kind.
+///
+/// The geometry columns (orbit `[r; v]`, empirical zero) are exactly the D2.5a partials of
+/// [`range_observable`] / [`range_rate_observable`]. The **clock columns** are what D3.1 adds:
+///
+/// * **two-way** — zero clock columns (the coherent transponder references the observable to the
+///   ground clock, so it is independent of the onboard oscillator; the predicted value is the bare
+///   geometric observable);
+/// * **one-way range** — `∂/∂clock_phase = c` (a clock phase offset `Δt` adds `c·Δt` of apparent
+///   range), predicted value `ρ_geom + c·clock_phase`;
+/// * **one-way range-rate** — `∂/∂clock_freq = c` (a fractional-frequency error `y` adds an
+///   apparent line-of-sight velocity `c·y`), predicted value `ρ̇_geom + c·clock_freq`.
+///
+/// The clock-drift column is zero for both instantaneous kinds — drift enters the observables only
+/// through its integrated effect on phase/frequency between epochs, which the clock time-update STM
+/// carries, not the instantaneous measurement partial. Returns `(predicted, h_row)`.
+pub fn fused_observable(state: [f64; N_FUSED], meas: &FusedMeas) -> (f64, [f64; N_FUSED]) {
+    let r_sc = [state[0], state[1], state[2]];
+    let v_sc = [state[3], state[4], state[5]];
+    // The geometric observable and its nine orbit/empirical partials (D2.5a).
+    let (geom, h9) = match meas.kind {
+        RadiometricKind::Range => range_observable(r_sc, meas.station_pos),
+        RadiometricKind::RangeRate => {
+            range_rate_observable(r_sc, v_sc, meas.station_pos, meas.station_vel)
+        }
+    };
+    let mut h = [0.0; N_FUSED];
+    h[..N_STATE].copy_from_slice(&h9);
+
+    match meas.way {
+        // Two-way: clock-independent. Predicted = bare geometry, no clock columns.
+        MeasWay::TwoWay => (geom, h),
+        // One-way: the onboard clock biases the observable; couple the matching clock column.
+        MeasWay::OneWay => {
+            let c = doppler_clock_freq_partial(); // = speed of light
+            match meas.kind {
+                // One-way range: ρ_obs = ρ_geom + c·clock_phase ; ∂/∂phase = c.
+                RadiometricKind::Range => {
+                    h[CLK0] = c;
+                    (geom + c * state[CLK0], h)
+                }
+                // One-way Doppler: ρ̇_obs = ρ̇_geom + c·clock_freq ; ∂/∂freq = c.
+                RadiometricKind::RangeRate => {
+                    h[CLK0 + 1] = c;
+                    (geom + c * state[CLK0 + 1], h)
+                }
+            }
+        }
+    }
+}
+
+/// Configuration for a [`FusionOd`] run: the D2.2 reduced-dynamic orbit tuning ([`base`](Self::base)),
+/// the onboard-clock noise model, and the a-priori clock uncertainties.
+#[derive(Clone, Copy, Debug)]
+pub struct FusionConfig {
+    /// The reduced-dynamic orbit/empirical configuration (tightness, empirical correlation/sigma,
+    /// orbit a-priori sigmas, integration tolerance) — exactly as for [`ReducedDynamicOd`].
+    pub base: ReducedDynamicConfig,
+    /// White-FM process-noise PSD `q_wf` (s²/s) of the onboard clock (see
+    /// [`crate::clock_state::q_from_allan`]).
+    pub clk_q_wf: f64,
+    /// Random-walk-FM process-noise PSD `q_rw` ((1/s)²/s) of the onboard clock.
+    pub clk_q_rw: f64,
+    /// Random-run/drift process-noise PSD `q_drift` ((1/s²)²/s) of the onboard clock.
+    pub clk_q_drift: f64,
+    /// A-priori 1σ on the clock phase error (s).
+    pub sigma_clk_phase: f64,
+    /// A-priori 1σ on the clock fractional-frequency error (1/s).
+    pub sigma_clk_freq: f64,
+    /// A-priori 1σ on the clock frequency drift (1/s²).
+    pub sigma_clk_drift: f64,
+}
+
+impl FusionConfig {
+    /// A configuration with the orbit tuning `base` and the onboard-clock process noise taken from a
+    /// [`crate::clock_state::ClockClass`] Allan profile, with broad a-priori clock uncertainties (an
+    /// uncalibrated clock at the start of the arc — large phase/frequency prior the one-way data
+    /// must shrink). The drift prior is set tight (the slow-aging term is well-known a-priori).
+    pub fn from_clock_class(
+        base: ReducedDynamicConfig,
+        class: crate::clock_state::ClockClass,
+    ) -> Self {
+        let (q_wf, q_rw, q_drift) = class.psds();
+        Self {
+            base,
+            clk_q_wf: q_wf,
+            clk_q_rw: q_rw,
+            clk_q_drift: q_drift,
+            // Broad a-priori on an *uncalibrated* onboard clock: ~1 µs phase, ~1e-9 frequency.
+            sigma_clk_phase: 1.0e-6,
+            sigma_clk_freq: 1.0e-9,
+            sigma_clk_drift: 1.0e-13,
+        }
+    }
+}
+
+/// A per-epoch record of a [`FusionOd::run`]: the joint estimate after that epoch's updates.
+#[derive(Clone, Copy, Debug)]
+pub struct FusionStep {
+    /// Seconds past the epoch.
+    pub t: f64,
+    /// Estimated inertial position after the epoch's updates (m).
+    pub r: Vec3,
+    /// Estimated inertial velocity after the epoch's updates (m/s).
+    pub v: Vec3,
+    /// Estimated constant RTN empirical acceleration after the epoch's updates (m/s²).
+    pub emp: Vec3,
+    /// Estimated onboard clock error after the epoch's updates: `[phase (s); freq (1/s);
+    /// drift (1/s²)]`.
+    pub clock: [f64; 3],
+    /// Clock fractional-frequency 1σ uncertainty after the epoch's updates (1/s) — the diagonal of
+    /// the joint covariance at the `clock_freq` state; the calibrate-then-coast quantity.
+    pub clock_freq_sigma: f64,
+}
+
+/// The outcome of a [`FusionOd::run`].
+#[derive(Clone, Debug)]
+pub struct FusionReport {
+    /// Per-epoch joint estimate in time order (one entry per distinct observation epoch).
+    pub steps: Vec<FusionStep>,
+    /// The final estimated joint state `[r; v; a_emp; phase; freq; drift]`.
+    pub final_state: [f64; N_FUSED],
+    /// The final covariance (`N_FUSED × N_FUSED`).
+    pub final_cov: Vec<Vec<f64>>,
+    /// Whether the factored covariance stayed symmetric positive-definite at every epoch.
+    pub covariance_pd_throughout: bool,
+}
+
+/// **Joint one-way + two-way radiometric fusion driver**: the D2.2 reduced-dynamic SRIF augmented
+/// with the three onboard-clock states, ingesting a mixed time series of two-way (clock-free, orbit
+/// pinning) and one-way (clock-coupled, continuous) observations.
+///
+/// Structurally identical to [`ReducedDynamicOd::run_radiometric`] — a segment STM + process-noise
+/// time update between epochs, then per-observation measurement updates — but over the twelve-state
+/// joint vector. The time update propagates the orbit/empirical block by the D2.2 segment STM and
+/// the clock block by the [`crate::clock_state::ClockState3`] transition with van-Loan Q; the
+/// measurement updates fold range/range-rate through [`fused_observable`], whose two-way partial has
+/// zero clock columns and whose one-way partial couples the clock. This is the calibrate-then-coast
+/// behaviour: two-way passes pin the orbit, one-way data then calibrates the clock and coasts the
+/// orbit between passes with error bounded by the clock's Allan stability.
+#[derive(Clone, Debug)]
+pub struct FusionOd<F: ForceModel> {
+    /// The reduced-dynamic orbit driver (carries the force-model template + orbit tuning).
+    orbit: ReducedDynamicOd<F>,
+    /// The full fusion configuration (orbit + clock).
+    cfg: FusionConfig,
+}
+
+impl<F: ForceModel> FusionOd<F> {
+    /// A fusion driver over the force-model template `fm` with the joint configuration `cfg`.
+    pub fn new(fm: F, cfg: FusionConfig) -> Self {
+        Self {
+            orbit: ReducedDynamicOd::new(fm, cfg.base),
+            cfg,
+        }
+    }
+
+    /// The twelve-state joint segment state-transition matrix across `dt` seconds for joint state
+    /// `[r; v; emp; phase; freq; drift]`: the D2.2 nine-state orbit/empirical block in the top-left
+    /// `9×9`, the [`crate::clock_state::ClockState3`] transition `[[1,dt,dt²/2],[0,1,dt],[0,0,1]]`
+    /// in the bottom-right `3×3`, and zero cross-blocks (the orbit does not depend on the onboard
+    /// clock and vice versa — the clock is a pure timing-error model riding alongside the dynamics).
+    fn joint_stm(&self, r: Vec3, v: Vec3, emp: Vec3, dt: f64) -> Vec<Vec<f64>> {
+        let mut phi = vec![vec![0.0; N_FUSED]; N_FUSED];
+        // Orbit/empirical block (9×9) — the D2.2 segment STM.
+        let phi9 = self.orbit.segment_stm(r, v, emp, dt);
+        for (i, row) in phi9.iter().enumerate() {
+            phi[i][..N_STATE].copy_from_slice(row);
+        }
+        // Clock block (3×3): F = [[1, dt, dt²/2], [0, 1, dt], [0, 0, 1]].
+        let half_dt2 = 0.5 * dt * dt;
+        phi[CLK0][CLK0] = 1.0;
+        phi[CLK0][CLK0 + 1] = dt;
+        phi[CLK0][CLK0 + 2] = half_dt2;
+        phi[CLK0 + 1][CLK0 + 1] = 1.0;
+        phi[CLK0 + 1][CLK0 + 2] = dt;
+        phi[CLK0 + 2][CLK0 + 2] = 1.0;
+        phi
+    }
+
+    /// Run the fusion filter over `obs` (any time order; sorted internally), recovering the joint
+    /// orbit + clock state from the perturbed a-priori `(r0, v0)` (clock seeded a-priori zero).
+    /// Returns `None` for fewer than two observations.
+    ///
+    /// Per segment the joint state is propagated by [`joint_stm`](Self::joint_stm) with the D2.2
+    /// empirical Gauss–Markov process noise *and* the onboard-clock van-Loan process noise; the
+    /// nonlinear orbit reference advances exactly as in [`ReducedDynamicOd::run_radiometric`], and
+    /// the clock reference advances by its (linear) transition. Each observation is folded through
+    /// [`fused_observable`] — two-way updates carry no clock information (they pin the orbit alone),
+    /// one-way updates couple the clock.
+    pub fn run(&self, r0: Vec3, v0: Vec3, obs: &[FusedMeas]) -> Option<FusionReport> {
+        if obs.len() < 2 {
+            return None;
+        }
+        let mut ord: Vec<usize> = (0..obs.len()).collect();
+        ord.sort_by(|&a, &b| {
+            obs[a]
+                .t
+                .partial_cmp(&obs[b].t)
+                .unwrap_or(std::cmp::Ordering::Equal)
+        });
+
+        let base = &self.cfg.base;
+        let sigma0 = [
+            base.sigma_pos,
+            base.sigma_pos,
+            base.sigma_pos,
+            base.sigma_vel,
+            base.sigma_vel,
+            base.sigma_vel,
+            base.sigma_emp,
+            base.sigma_emp,
+            base.sigma_emp,
+            self.cfg.sigma_clk_phase,
+            self.cfg.sigma_clk_freq,
+            self.cfg.sigma_clk_drift,
+        ];
+        // Error-state SRIF: a-priori uncertainty on a zero deviation about the reference.
+        let mut srif = Srif::with_apriori(&[0.0; N_FUSED], &sigma0);
+
+        let mut state = [
+            r0[0], r0[1], r0[2], v0[0], v0[1], v0[2], 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+        ];
+        let mut t_prev = 0.0;
+        let emp_q_rate = (base.emp_process_sigma_max * base.dynamic_tightness).max(0.0);
+
+        let mut steps: Vec<FusionStep> = Vec::new();
+        let mut covariance_pd_throughout = true;
+
+        for &i in &ord {
+            let ob = &obs[i];
+            let dt = ob.t - t_prev;
+            if dt > 0.0 {
+                let r = [state[0], state[1], state[2]];
+                let v = [state[3], state[4], state[5]];
+                let emp = [state[6], state[7], state[8]];
+                // Time update: joint STM + process noise on the empirical and clock states.
+                let phi = self.joint_stm(r, v, emp, dt);
+                let q = self.process_noise_std(dt, emp_q_rate);
+                srif.time_update(&phi, &q);
+
+                // Advance the orbit reference nonlinearly through the segment (as D2.2 does).
+                let (rf, vf) = self.orbit.propagate_segment(r, v, emp, dt);
+                let decay = if base.emp_correlation_time > 0.0 {
+                    (-dt / base.emp_correlation_time).exp()
+                } else {
+                    0.0
+                };
+                // Advance the clock reference by its linear transition F·x_clk.
+                let (cp, cf, cd) = (state[CLK0], state[CLK0 + 1], state[CLK0 + 2]);
+                let half_dt2 = 0.5 * dt * dt;
+                state = [
+                    rf[0],
+                    rf[1],
+                    rf[2],
+                    vf[0],
+                    vf[1],
+                    vf[2],
+                    emp[0] * decay,
+                    emp[1] * decay,
+                    emp[2] * decay,
+                    cp + dt * cf + half_dt2 * cd,
+                    cf + dt * cd,
+                    cd,
+                ];
+                t_prev = ob.t;
+            }
+
+            state = Self::fused_update(&mut srif, state, ob);
+
+            let (_x, p) = srif.solve();
+            if !covariance_is_spd(&p) {
+                covariance_pd_throughout = false;
+            }
+
+            let step = FusionStep {
+                t: ob.t,
+                r: [state[0], state[1], state[2]],
+                v: [state[3], state[4], state[5]],
+                emp: [state[6], state[7], state[8]],
+                clock: [state[CLK0], state[CLK0 + 1], state[CLK0 + 2]],
+                clock_freq_sigma: p[CLK0 + 1][CLK0 + 1].max(0.0).sqrt(),
+            };
+            match steps.last_mut() {
+                Some(last) if (last.t - ob.t).abs() <= 1e-9 => *last = step,
+                _ => steps.push(step),
+            }
+        }
+
+        let (_x, final_cov) = srif.solve();
+        Some(FusionReport {
+            steps,
+            final_state: state,
+            final_cov,
+            covariance_pd_throughout,
+        })
+    }
+
+    /// The twelve-state process-noise 1σ vector for a segment of length `dt`: the D2.2 empirical
+    /// Gauss–Markov term on the three empirical states, and the onboard-clock van-Loan **diagonal**
+    /// 1σ on the three clock states. The clock process noise is supplied as the per-state diagonal
+    /// of the exact van-Loan Q (the SRIF time update augments one independent noise variable per
+    /// state, so the diagonal 1σ is the correct per-state injection; the small off-diagonal Q
+    /// correlations are second-order over a single segment and re-accumulate through the STM).
+    fn process_noise_std(&self, dt: f64, emp_q_rate: f64) -> [f64; N_FUSED] {
+        let q_emp = emp_q_rate * dt.sqrt();
+        // Exact van-Loan diagonal process-noise *variances* for the clock states over dt.
+        let (dt3, dt5) = (dt.powi(3), dt.powi(5));
+        let (qwf, qrw, qd) = (self.cfg.clk_q_wf, self.cfg.clk_q_rw, self.cfg.clk_q_drift);
+        let q_phase_var = qwf * dt + qrw * dt3 / 3.0 + qd * dt5 / 20.0;
+        let q_freq_var = qrw * dt + qd * dt3 / 3.0;
+        let q_drift_var = qd * dt;
+        [
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            0.0,
+            q_emp,
+            q_emp,
+            q_emp,
+            q_phase_var.max(0.0).sqrt(),
+            q_freq_var.max(0.0).sqrt(),
+            q_drift_var.max(0.0).sqrt(),
+        ]
+    }
+
+    /// Fold a single **fused** observation into the SRIF about the joint reference `state`,
+    /// returning the post-update reference. Mirrors [`ReducedDynamicOd::radiometric_update`]: the
+    /// SRIF carries the deviation about the reference, so the predicted observable (geometry, plus
+    /// the clock bias for a one-way measurement) is formed from the reference, the residual
+    /// `value − predicted` is folded against the [`fused_observable`] partial, the solved increment
+    /// is added back, and the SRIF is recentred. A two-way measurement's partial has zero clock
+    /// columns, so it tightens only the orbit/empirical block; a one-way measurement's partial
+    /// couples the clock, so it tightens the joint block.
+    pub fn fused_update(
+        srif: &mut Srif,
+        state: [f64; N_FUSED],
+        meas: &FusedMeas,
+    ) -> [f64; N_FUSED] {
+        let (predicted, h_row) = fused_observable(state, meas);
+        srif.measurement_update(&h_row, meas.value - predicted, meas.sigma);
+        let (dx, _p) = srif.solve();
+        let mut out = state;
+        for i in 0..N_FUSED {
+            out[i] += dx[i];
+        }
+        srif.recenter();
+        out
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1696,5 +2131,179 @@ mod tests {
             cholesky(&p_after).is_some(),
             "covariance not PD after Doppler update"
         );
+    }
+
+    // --- D3.1 joint one-way + two-way fusion: partials + clock-coupling sanity ---
+
+    /// A representative joint reference state with non-zero clock errors, for the fusion partial
+    /// tests: the LMO-scale geometry of [`radiometric_geometry`] plus a 1 µs clock phase offset and
+    /// a 1e-9 fractional-frequency error.
+    fn fused_state() -> ([f64; N_FUSED], Vec3, Vec3) {
+        let (r_sc, v_sc, _sta, _sv) = radiometric_geometry();
+        let s = [
+            r_sc[0], r_sc[1], r_sc[2], v_sc[0], v_sc[1], v_sc[2], 0.0, 0.0, 0.0, 1.0e-6, 1.0e-9,
+            0.0,
+        ];
+        (s, r_sc, v_sc)
+    }
+
+    #[test]
+    fn two_way_partial_has_zero_clock_columns() {
+        // A two-way (coherent-transponder) observable is referenced to the ground clock and is
+        // independent of the onboard oscillator: its partial's three clock columns must be exactly
+        // zero, and its predicted value must be the bare geometric observable (no clock bias), even
+        // though the reference carries a non-zero clock phase/frequency.
+        let (state, r_sc, v_sc) = fused_state();
+        let (_r, _v, sta, sv) = radiometric_geometry();
+
+        for kind in [RadiometricKind::Range, RadiometricKind::RangeRate] {
+            let meas = FusedMeas {
+                t: 0.0,
+                way: MeasWay::TwoWay,
+                kind,
+                station_pos: sta,
+                station_vel: sv,
+                value: 0.0,
+                sigma: 1.0,
+            };
+            let (pred, h) = fused_observable(state, &meas);
+            // Clock columns are exactly zero.
+            for (k, &hk) in h.iter().enumerate().take(N_FUSED).skip(CLK0) {
+                assert_eq!(hk, 0.0, "two-way {kind:?} must have zero clock column {k}");
+            }
+            // Predicted equals the bare geometry (no clock bias).
+            let geom = match kind {
+                RadiometricKind::Range => range_observable(r_sc, sta).0,
+                RadiometricKind::RangeRate => range_rate_observable(r_sc, v_sc, sta, sv).0,
+            };
+            assert!(
+                (pred - geom).abs() < 1e-6,
+                "two-way {kind:?} predicted {pred} must equal bare geometry {geom}"
+            );
+        }
+    }
+
+    #[test]
+    fn one_way_partial_couples_the_clock() {
+        // One-way range couples ∂/∂clock_phase = c and biases the prediction by c·phase;
+        // one-way Doppler couples ∂/∂clock_freq = c and biases the prediction by c·freq. The other
+        // clock columns (and the drift column) stay zero, and the orbit columns match the geometry.
+        let (state, r_sc, v_sc) = fused_state();
+        let (_r, _v, sta, sv) = radiometric_geometry();
+        let c = crate::timegeo::C_M_PER_S;
+
+        // One-way range.
+        let mr = FusedMeas {
+            t: 0.0,
+            way: MeasWay::OneWay,
+            kind: RadiometricKind::Range,
+            station_pos: sta,
+            station_vel: sv,
+            value: 0.0,
+            sigma: 1.0,
+        };
+        let (pred_r, hr) = fused_observable(state, &mr);
+        assert_eq!(hr[CLK0], c, "one-way range ∂/∂phase must be c");
+        assert_eq!(hr[CLK0 + 1], 0.0, "one-way range ∂/∂freq must be 0");
+        assert_eq!(hr[CLK0 + 2], 0.0, "one-way range ∂/∂drift must be 0");
+        let geom_r = range_observable(r_sc, sta).0;
+        assert!(
+            (pred_r - (geom_r + c * state[CLK0])).abs() < 1e-6,
+            "one-way range predicted {pred_r} must be geometry + c·phase"
+        );
+        // Orbit columns match the geometric range partial.
+        let (_g, hgeom) = range_observable(r_sc, sta);
+        for k in 0..N_STATE {
+            assert_eq!(hr[k], hgeom[k], "one-way range orbit column {k} mismatch");
+        }
+
+        // One-way Doppler.
+        let md = FusedMeas {
+            t: 0.0,
+            way: MeasWay::OneWay,
+            kind: RadiometricKind::RangeRate,
+            station_pos: sta,
+            station_vel: sv,
+            value: 0.0,
+            sigma: 1e-4,
+        };
+        let (pred_d, hd) = fused_observable(state, &md);
+        assert_eq!(hd[CLK0], 0.0, "one-way Doppler ∂/∂phase must be 0");
+        assert_eq!(hd[CLK0 + 1], c, "one-way Doppler ∂/∂freq must be c");
+        assert_eq!(hd[CLK0 + 2], 0.0, "one-way Doppler ∂/∂drift must be 0");
+        let geom_d = range_rate_observable(r_sc, v_sc, sta, sv).0;
+        assert!(
+            (pred_d - (geom_d + c * state[CLK0 + 1])).abs() < 1e-9,
+            "one-way Doppler predicted {pred_d} must be geometry + c·freq"
+        );
+    }
+
+    #[test]
+    fn two_way_update_leaves_clock_cov_unchanged_one_way_shrinks_it() {
+        // The defining clock-coupling sanity: a two-way update (zero clock columns) leaves the
+        // clock-state covariance block exactly unchanged — it is clock-independent — while a one-way
+        // update shrinks the clock covariance (its partial couples the clock). Compared on the same
+        // a-priori filter at the same geometry.
+        let (state, r_sc, v_sc) = fused_state();
+        let (_r, _v, sta, sv) = radiometric_geometry();
+
+        let sigma0 = [
+            1.0e3, 1.0e3, 1.0e3, 1.0, 1.0, 1.0, 1e-6, 1e-6, 1e-6, // orbit/empirical
+            1.0e-6, 1.0e-9, 1.0e-13, // clock phase/freq/drift
+        ];
+        // Sum of the clock block's diagonal variances (phase + freq + drift).
+        let clock_var_trace = |p: &[Vec<f64>]| -> f64 {
+            p[CLK0][CLK0] + p[CLK0 + 1][CLK0 + 1] + p[CLK0 + 2][CLK0 + 2]
+        };
+
+        // --- Two-way Doppler update: clock covariance must be byte-identical before/after. ---
+        let mut srif_tw = Srif::with_apriori(&[0.0; N_FUSED], &sigma0);
+        let (_x0, p0) = srif_tw.solve();
+        let tw_meas = FusedMeas {
+            t: 0.0,
+            way: MeasWay::TwoWay,
+            kind: RadiometricKind::RangeRate,
+            station_pos: sta,
+            station_vel: sv,
+            value: range_rate_observable(r_sc, v_sc, sta, sv).0,
+            sigma: 1e-4,
+        };
+        FusionOd::<PreciseForceModel>::fused_update(&mut srif_tw, state, &tw_meas);
+        let (_x1, p_tw) = srif_tw.solve();
+        // The entire clock block is unchanged (the update never touched those columns/rows).
+        for i in CLK0..N_FUSED {
+            for j in CLK0..N_FUSED {
+                assert!(
+                    (p_tw[i][j] - p0[i][j]).abs() <= 1e-12 * p0[i][i].abs().max(1e-30),
+                    "two-way update changed clock cov [{i}][{j}]: {} → {}",
+                    p0[i][j],
+                    p_tw[i][j]
+                );
+            }
+        }
+
+        // --- One-way Doppler update: clock covariance trace must shrink. ---
+        let mut srif_ow = Srif::with_apriori(&[0.0; N_FUSED], &sigma0);
+        let ow_meas = FusedMeas {
+            t: 0.0,
+            way: MeasWay::OneWay,
+            kind: RadiometricKind::RangeRate,
+            station_pos: sta,
+            station_vel: sv,
+            value: range_rate_observable(r_sc, v_sc, sta, sv).0
+                + crate::timegeo::C_M_PER_S * state[CLK0 + 1],
+            sigma: 1e-4,
+        };
+        FusionOd::<PreciseForceModel>::fused_update(&mut srif_ow, state, &ow_meas);
+        let (_x2, p_ow) = srif_ow.solve();
+        assert!(
+            clock_var_trace(&p_ow) < clock_var_trace(&p0),
+            "one-way update did not shrink the clock covariance: {} !< {}",
+            clock_var_trace(&p_ow),
+            clock_var_trace(&p0)
+        );
+        // Both covariances stay PD.
+        assert!(cholesky(&p_tw).is_some(), "two-way: covariance not PD");
+        assert!(cholesky(&p_ow).is_some(), "one-way: covariance not PD");
     }
 }
