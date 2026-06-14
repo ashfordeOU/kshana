@@ -19,8 +19,14 @@
 //! (`eps(2.46e6) ≈ 5e-5 s`), which is ample for frame reduction and the
 //! sub-millisecond timing this engine reports, but means a *difference* of two
 //! scales (e.g. TT−UTC) recovered by subtracting JDs is only good to ~1e-4 s.
-//! A two-part (integer day + fraction) JD would remove that floor; it is on the
-//! roadmap and not needed at the current fidelity.
+//! A two-part (integer day + fraction) JD removes that floor for the code paths
+//! that need it: [`TwoPartJd`] (below) carries the day and the sub-day fraction
+//! in two `f64`s and does its arithmetic compensated (Knuth two-sum), so adding
+//! and differencing sub-microsecond intervals near a large JD is lossless to
+//! ~1e-16 of a *day*. It is an **additional** type used by the deep-space
+//! ranging / observation-determination path; the single-`f64` JD remains the
+//! representation for the rest of the engine, and `TwoPartJd` converts to/from
+//! it losslessly (to the f64 floor) via [`TwoPartJd::from_f64`] / [`TwoPartJd::to_f64`].
 //!
 //! Scope (honest): the integer-second leap history is modelled from 1972-01-01
 //! onward (the modern UTC step regime). Dates before 1972 used a different
@@ -215,6 +221,108 @@ pub fn earth_rotation_angle(jd_ut1: f64) -> f64 {
     2.0 * std::f64::consts::PI * frac
 }
 
+/// A Julian date split into an integer-ish day part and a fractional part so that
+/// adding/subtracting small intervals near a large JD does not lose precision.
+///
+/// The single-`f64` JD floor is ~50 µs near J2000 (`eps(2.45e6) ≈ 5e-5 s`), so a
+/// naive `(jd + dt/86400) - jd` cannot recover a sub-microsecond `dt`. Carrying
+/// the day and sub-day fraction separately, and doing the arithmetic with a Knuth
+/// two-sum (compensated summation), keeps the relative precision of `f64` (~1e-16)
+/// applying to a number near 1 (the fraction) rather than near 2.45e6 (the whole
+/// JD) — about ten orders of magnitude of headroom, i.e. femtosecond-class day
+/// resolution.
+///
+/// Used by the deep-space ranging / orbit-determination path. It converts
+/// losslessly (to the f64 floor) to/from the plain `f64` JD that the rest of the
+/// engine uses, via [`from_f64`](TwoPartJd::from_f64) / [`to_f64`](TwoPartJd::to_f64).
+///
+/// Invariant: the represented instant is `day + frac`; `from_f64` and `add_seconds`
+/// keep `|frac| ≤ 0.5` (so `|frac| < 1`), the magnitude that retains the most
+/// relative precision in `frac`.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct TwoPartJd {
+    /// The integer-ish day part (nearest integer to the JD, in normalised form).
+    pub day: f64,
+    /// The sub-day fraction; `|frac| ≤ 0.5` after construction or `add_seconds`.
+    pub frac: f64,
+}
+
+/// Knuth/Møller two-sum: returns `(s, e)` with `s = fl(a + b)` the rounded sum and
+/// `e` the exact rounding error, so that `a + b == s + e` in exact arithmetic.
+/// This is the "TwoSum" primitive of compensated summation (Shewchuk 1997;
+/// Knuth, *TAOCP* vol. 2); it makes no assumption about the relative magnitudes
+/// of `a` and `b`.
+#[inline]
+fn two_sum(a: f64, b: f64) -> (f64, f64) {
+    let s = a + b;
+    let bb = s - a;
+    let err = (a - (s - bb)) + (b - bb);
+    (s, err)
+}
+
+impl TwoPartJd {
+    /// Split a plain `f64` JD into a normalised two-part form. `day` is the nearest
+    /// integer to `jd` and `frac` the (signed) remainder, so `|frac| ≤ 0.5`.
+    pub fn from_f64(jd: f64) -> Self {
+        let day = jd.round();
+        let frac = jd - day;
+        TwoPartJd { day, frac }
+    }
+
+    /// Construct directly from a day and fraction, then normalise so `|frac| ≤ 0.5`
+    /// (the day/frac split is preserved exactly via a two-sum). Useful when the two
+    /// parts come from a high-precision source (e.g. an SP3/CCSDS epoch).
+    pub fn new(day: f64, frac: f64) -> Self {
+        TwoPartJd { day, frac }.normalised()
+    }
+
+    /// The plain `f64` JD `day + frac`. Lossy at the f64 sum (that loss is exactly
+    /// what the two-part form exists to avoid for *internal* arithmetic); use
+    /// [`diff_seconds`](TwoPartJd::diff_seconds) when a precise interval is needed.
+    pub fn to_f64(self) -> f64 {
+        self.day + self.frac
+    }
+
+    /// Renormalise so `|frac| ≤ 0.5` by folding the rounded part of `frac` into
+    /// `day` with a two-sum, which carries the bits that the plain `day + carry`
+    /// would have dropped back into `frac`. The represented instant is unchanged.
+    fn normalised(self) -> Self {
+        let carry = self.frac.round();
+        let rem = self.frac - carry; // |rem| ≤ 0.5
+        let (day, err) = two_sum(self.day, carry);
+        TwoPartJd {
+            day,
+            frac: rem + err,
+        }
+    }
+
+    /// Add `dt_s` seconds, accumulating into the small `frac` term (not the large
+    /// `day` term) with a two-sum so no low-order bits are lost, then renormalising
+    /// `frac` into `[-0.5, 0.5]` and carrying the integer days into `day`.
+    pub fn add_seconds(self, dt_s: f64) -> Self {
+        let ddays = dt_s / SECONDS_PER_DAY;
+        // Add the increment to the fraction (both small) capturing the rounding
+        // error, then push that error and any whole-day carry back through normalise.
+        let (frac, err) = two_sum(self.frac, ddays);
+        TwoPartJd {
+            day: self.day,
+            frac: frac + err,
+        }
+        .normalised()
+    }
+
+    /// `(self - other)` in seconds, computed part-wise — `(day-day)` and
+    /// `(frac-frac)` separately, the larger difference first — so the result keeps
+    /// precision a single-`f64` JD subtraction would lose. The day parts are
+    /// near-integers, so their difference is exact; the fractional difference adds
+    /// the sub-day detail.
+    pub fn diff_seconds(self, other: TwoPartJd) -> f64 {
+        let dday = self.day - other.day;
+        let dfrac = self.frac - other.frac;
+        (dday + dfrac) * SECONDS_PER_DAY
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -335,5 +443,106 @@ mod tests {
         );
         // ERA is always reduced into [0, 2*pi).
         assert!((0.0..two_pi).contains(&d0) && (0.0..two_pi).contains(&d1));
+    }
+
+    #[test]
+    fn two_part_roundtrip() {
+        // from_f64 then to_f64 recovers the JD to the f64 floor, and the parts are
+        // normalised (|frac| ≤ 0.5) for a spread of epochs.
+        for &jd in &[
+            JD_J2000,
+            2_451_544.5,
+            2_460_000.123_456_789,
+            2_436_116.31, // Sputnik
+            MJD_OFFSET,
+            0.0,
+            2_488_069.75, // ~2100
+        ] {
+            let t = TwoPartJd::from_f64(jd);
+            assert!(t.frac.abs() <= 0.5, "frac not normalised: {}", t.frac);
+            // The two-sum split is exact: day + frac reproduces jd with no error
+            // (round() is exact and subtraction of nearby magnitudes is exact).
+            assert_eq!(t.to_f64(), jd, "roundtrip jd={jd}");
+            assert!((t.to_f64() - jd).abs() <= f64::EPSILON * jd.abs().max(1.0));
+        }
+    }
+
+    #[test]
+    fn two_part_subus_precision() {
+        // A JD near J2000 where the single-f64 floor is ~50 µs. Add 1 µs and
+        // recover it: the two-part path keeps it; the naive f64 path destroys it.
+        let jd = 2_451_545.123_456;
+        let dt = 1e-6; // one microsecond
+
+        // Two-part: add_seconds then diff_seconds round-trips dt to ~fs.
+        let base = TwoPartJd::from_f64(jd);
+        let moved = base.add_seconds(dt);
+        let recovered = moved.diff_seconds(base);
+        assert!(
+            (recovered - dt).abs() < 1e-12,
+            "two-part lost the microsecond: recovered {recovered} s, want {dt} s"
+        );
+
+        // Naive single-f64: forming (jd + dt/86400) - jd loses the increment
+        // almost entirely near this magnitude. Demonstrate the two-part path is
+        // strictly better by showing the naive error is orders larger.
+        let naive = ((jd + dt / SECONDS_PER_DAY) - jd) * SECONDS_PER_DAY;
+        let naive_err = (naive - dt).abs();
+        let two_part_err = (recovered - dt).abs();
+        assert!(
+            naive_err > two_part_err * 1e3,
+            "expected naive f64 to lose precision the two-part form keeps: \
+             naive_err={naive_err} s, two_part_err={two_part_err} s"
+        );
+    }
+
+    #[test]
+    fn add_then_diff_seconds() {
+        let base = TwoPartJd::from_f64(2_451_545.0);
+
+        // Single add of N seconds recovers N exactly within 1e-6 s, for a range
+        // of magnitudes from sub-µs to multi-day.
+        for &n in &[1e-7, 1e-3, 1.0, 60.0, 3600.0, 86_400.0, 250_000.0] {
+            let moved = base.add_seconds(n);
+            let back = moved.diff_seconds(base);
+            assert!(
+                (back - n).abs() < 1e-6,
+                "single add/diff: n={n}, recovered {back}"
+            );
+        }
+
+        // Chained adds accumulate: 1000 increments of 1.234567 s sum correctly,
+        // and a negative add undoes a positive one.
+        let step = 1.234_567;
+        let mut t = base;
+        for _ in 0..1000 {
+            t = t.add_seconds(step);
+        }
+        let total = t.diff_seconds(base);
+        assert!(
+            (total - 1000.0 * step).abs() < 1e-6,
+            "chained adds: total {total}, want {}",
+            1000.0 * step
+        );
+        // frac stays normalised throughout.
+        assert!(t.frac.abs() <= 0.5);
+
+        // Adding then subtracting the same interval returns to the start.
+        let there = base.add_seconds(12_345.678);
+        let back = there.add_seconds(-12_345.678);
+        assert!(back.diff_seconds(base).abs() < 1e-9);
+    }
+
+    #[test]
+    fn two_part_new_normalises() {
+        // Construct from a day + a large fraction; new() normalises into the
+        // canonical split without changing the represented instant.
+        let t = TwoPartJd::new(2_451_545.0, 3.75);
+        assert!(t.frac.abs() <= 0.5);
+        assert!((t.to_f64() - (2_451_545.0 + 3.75)).abs() < 1e-9);
+        // Differencing two such constructions recovers the day gap in seconds.
+        let a = TwoPartJd::new(2_451_545.0, 0.25);
+        let b = TwoPartJd::new(2_451_540.0, 0.25);
+        assert!((a.diff_seconds(b) - 5.0 * SECONDS_PER_DAY).abs() < 1e-6);
     }
 }
