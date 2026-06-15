@@ -1,0 +1,86 @@
+# 17-state hybrid quantum + classical tightly-coupled GNSS/INS UKF (MODELLED).
+#
+# Surfaces the 17-state error-state unscented Kalman filter (src/fusion/tightly_coupled17.rs)
+# as a runnable scenario. The state is:
+#
+#   x = [ p(3) | v(3) | psi(3) | b_a(3) | b_g(3) | b  d ]
+#        position velocity attitude  accel-bias gyro-bias  clock(phase,freq)
+#
+#   * 15 INS error states (position, velocity, attitude misalignment, accel + gyro bias)
+#     propagated through the strapdown mechanization driven by the IMU — the CLASSICAL
+#     short-term inertial solution.
+#   * the accel-bias triad b_a is the CAI-DERIVED inertial bias correction: the cold-atom
+#     interferometer below sets the velocity-random-walk floor q_va, so the long-term coast
+#     drift is the QUANTUM-sensor-limited one — the quantum long-term half of the hybrid.
+#   * the two-state clock [b, d] (phase + frequency, in range units) is driven by the
+#     q-parameter clock engine (clock_state::q_from_allan) from the Allan profile below.
+#
+# The platform is GNSS-aided for a 100 s lead-in (the filter learns the biases, velocity and
+# clock), then coasts through a 120 s GNSS outage on the CAI IMU + clock alone.
+#
+# FIGURE OF MERIT — filter self-consistency (NEES + innovation-whiteness), the only thing a
+# simulation can honestly assert about an estimator. Over a Monte-Carlo ensemble whose truth
+# is generated from exactly the noise the filter assumes, the pooled NIS (whiteness) and NEES
+# means must land inside their 95% chi-squared bands. This is a SELF-CONSISTENCY statement,
+# NOT a real-world accuracy guarantee.
+#
+# HONESTY: everything here is MODELLED / SIMULATION. The CAI and clock inputs are bracketed,
+# literature-representative values, not measured hardware; the CAI hardware and its Key-Person
+# stay partner-owned. No TRL>3, no flight heritage, no external validation.
+kind = "hybrid-ukf"
+seed = 1771
+
+# Residual accelerometer bias the CAI-derived correction state estimates (m/s^2), body x-axis.
+# A cold-atom-grade post-calibration residual (illustrative, bracketed).
+residual_accel_bias_m_s2 = 1.0e-4
+
+# Constant-velocity surface trajectory (+y, m/s).
+speed_m_s = 100.0
+
+# GNSS measurement noise (1-sigma): ~1 m code pseudorange, ~5 cm/s Doppler (Groves 2013 §9.3).
+sigma_pr_m = 1.0
+sigma_rr_mps = 0.05
+
+# Monte-Carlo seeds the consistency oracle pools over, and the filter mistuning multipliers.
+# 24 seeds give run-based chi-squared NEES bands (8*24 DOF) tight enough to discriminate a
+# matched from a mistuned filter while keeping the run cheap. Set q_factor / r_factor away
+# from 1.0 to mistune the filter and watch the consistency gate reject it (q_factor scales the
+# assumed process noise, r_factor the assumed measurement noise).
+consistency_seeds = 24
+q_factor = 1.0
+r_factor = 1.0
+
+[time]
+step_s = 0.5
+duration_s = 220.0
+
+[gnss]
+windows = [
+  { t0 = 0.0,   t1 = 100.0, state = "nominal" },
+  { t0 = 100.0, t1 = 220.0, state = "denied" },
+]
+
+# Inertial sensor. The [accel.cai] block makes this the QUANTUM cold-atom interferometer: its
+# velocity-random-walk floor q_va is derived from the interferometer physics (k_eff = 4*pi/lambda,
+# projection noise 1/(C*sqrt(N)), cycle time), NOT from the supplied q_va. Remove the [accel.cai]
+# block to fall back to a classical datasheet sensor at the supplied q_va.
+[accel]
+id = "cold-atom-interferometer"
+provenance = "Cold-atom (Rb-87 D2) interferometric accelerometer; bracketed parameters in the GAIN/MAIUS literature range (Freier et al. arXiv:1512.05660; Becker et al. Nature 2018). Modelled, partner-owned hardware."
+bias = 0.0
+q_va = 1.0e-9          # fallback classical value (overridden by the [accel.cai] physics below)
+
+[accel.cai]
+wavelength_m = 780.241209e-9   # Rb-87 D2 line (RB87_D2_WAVELENGTH_M)
+pulse_sep_t = 0.02              # interrogation pulse separation T (s)
+atom_number = 1.0e6            # detected atoms per shot N
+contrast = 0.5                # initial fringe contrast C0
+cycle_time_s = 0.5            # measurement cycle time T_c (s)
+
+# Onboard clock Allan profile, fed to the q-parameter clock engine. A space-oriented optical /
+# ultra-stable oscillator class: white-FM sigma_y(1 s) ~ 1e-13, random-walk-FM two decades below.
+[clock]
+id = "ultrastable-optical"
+provenance = "Ultra-stable/optical onboard oscillator class, white-FM sigma_y(1 s) ~ 1e-13 (Riley NIST SP 1065; bracketing the achievable, not a flight unit). Modelled."
+white_fm_adev_1s = 1.0e-13
+rw_fm_level = 1.0e-15
