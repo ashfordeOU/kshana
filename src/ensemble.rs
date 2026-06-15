@@ -157,7 +157,7 @@ pub fn run_ensemble(scn: &Scenario) -> EnsembleResult {
         c.push(run_clock(scn, &scn.clock_classical, s.wrapping_add(GOLDEN)));
     }
     EnsembleResult {
-        schema_version: "0.7".into(),
+        schema_version: crate::interchange::SCHEMA_VERSION.into(),
         engine_version: env!("CARGO_PKG_VERSION").into(),
         scenario_hash: crate::report::hash_scenario(scn),
         seed: scn.seed,
