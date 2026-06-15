@@ -294,7 +294,9 @@ impl ClockState3 {
 ///   frequency random-walk PSD is `q_rw = 3·b_rwfm²` where `b_rwfm = σ_y(τ)/√(τ/3)` is the
 ///   random-walk-FM ADEV level (its value at τ = 1 s on the +1/2 slope). Pass
 ///   `rw_fm_level = b_rwfm`.
-/// * **Random-run FM / drift** (the integral of random-walk FM, ADEV slope +1) has
+/// * **Random-run FM / drift** (the integral of random-walk FM, ADEV slope +3/2 —
+///   i.e. `σ_y ∝ τ^{3/2}`; +1 is the slope of *deterministic* linear drift, a
+///   different process) has
 ///   `σ_y(τ) = c · τ·√(τ/20)`, i.e. `σ_y²(τ) = q_drift·τ³/20`, so the drift PSD is
 ///   `q_drift = 20·c²` where `c` is the drift ADEV level at τ = 1 s. Pass `drift_level = c`.
 ///   Pass `0.0` to disable the drift state's process noise.
