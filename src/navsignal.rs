@@ -227,6 +227,317 @@ pub fn multipath_error_envelope_chips(
     (solve(1.0), solve(-1.0))
 }
 
+/// Speed of light (m/s) — for ranging-code ambiguity.
+pub const C_LIGHT_M_PER_S: f64 = 299_792_458.0;
+
+/// A **spreading-code family** for a ranging signal — the PRN sequence the
+/// receiver correlates against, distinct from the [`Modulation`] envelope. The
+/// design trade here is the *code* one: a longer code suppresses autocorrelation
+/// sidelobes and extends the unambiguous range, while a Gold family trades a small
+/// sidelobe penalty for a large set of codes with *bounded mutual cross-correlation*
+/// — the property that lets many satellites share a band (CDMA). This is the
+/// signal **design-trade** layer, not antenna/payload hardware.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CodeFamily {
+    /// **Maximal-length sequence** (m-sequence) from an `n`-stage LFSR. Period
+    /// `2ⁿ−1`, two-valued periodic autocorrelation `{L, −1}` — the lowest possible
+    /// sidelobe, but m-sequences do *not* form a low-cross-correlation set, which is
+    /// why multi-satellite systems use Gold codes instead.
+    MaximalLength { n: u32 },
+    /// **Gold code** from a preferred pair of `n`-stage m-sequences. Period `2ⁿ−1`,
+    /// three-valued auto/cross-correlation `{−1, −t(n), t(n)−2}/L` with
+    /// `t(n) = 1 + 2^⌊(n+2)/2⌋`. Preferred pairs (hence Gold sets) exist for
+    /// `n mod 4 ≠ 0`. GPS C/A is the `n = 10` Gold family.
+    Gold { n: u32 },
+}
+
+/// `t(n) = 1 + 2^⌊(n+2)/2⌋` — the parameter bounding the three-valued
+/// correlation of m-sequence preferred pairs / Gold codes (Gold 1967; Sarwate &
+/// Pursley 1980).
+fn t_param(n: u32) -> u64 {
+    1 + (1u64 << ((n + 2) / 2))
+}
+
+/// Euler's totient of `m`, by trial division (used for the count of degree-`n`
+/// m-sequences; `m = 2ⁿ−1` is small for any practical `n`).
+fn euler_phi(mut m: u64) -> u64 {
+    let mut result = m;
+    let mut p = 2u64;
+    while p * p <= m {
+        if m % p == 0 {
+            while m % p == 0 {
+                m /= p;
+            }
+            result -= result / p;
+        }
+        p += 1;
+    }
+    if m > 1 {
+        result -= result / m;
+    }
+    result
+}
+
+impl CodeFamily {
+    /// Practical register-length range for the closure-form guarantees: an
+    /// m-sequence needs `n ≥ 2`, and the totient (for `family_size`) is computed by
+    /// trial division so `n` is capped at 31 (2³¹−1 ≈ 2.1e9 factors instantly;
+    /// real GNSS codes are `n = 10…13`). Methods returning a correlation/size
+    /// *guarantee* yield `None` outside this range.
+    fn n_in_range(n: u32) -> bool {
+        (2..=31).contains(&n)
+    }
+
+    /// LFSR register length `n`.
+    pub fn register_length(&self) -> u32 {
+        match *self {
+            CodeFamily::MaximalLength { n } | CodeFamily::Gold { n } => n,
+        }
+    }
+
+    /// Code period `L = 2ⁿ − 1` chips. Returns `0` for the unphysical `n = 0` or for
+    /// `n ≥ 63` (where `2ⁿ−1` would overflow `u64`).
+    pub fn code_length(&self) -> u64 {
+        let n = self.register_length();
+        if n == 0 || n >= 63 {
+            return 0;
+        }
+        (1u64 << n) - 1
+    }
+
+    /// **Maximum normalised periodic-autocorrelation sidelobe** (magnitude). For an
+    /// m-sequence this is exactly `1/L` (the two-valued `{L, −1}` property); for a
+    /// Gold code it is the three-valued bound `t(n)/L`. Returns `None` when `n` is
+    /// out of [`n_in_range`] or — for Gold — when no preferred pair exists
+    /// (`n mod 4 = 0`), since the bound is undefined there.
+    pub fn max_autocorr_sidelobe(&self) -> Option<f64> {
+        let n = self.register_length();
+        if !Self::n_in_range(n) {
+            return None;
+        }
+        let l = self.code_length() as f64;
+        match *self {
+            CodeFamily::MaximalLength { .. } => Some(1.0 / l),
+            CodeFamily::Gold { n } if n % 4 != 0 => Some(t_param(n) as f64 / l),
+            CodeFamily::Gold { .. } => None,
+        }
+    }
+
+    /// **Maximum normalised cross-correlation** (magnitude) between distinct codes
+    /// in the family. For a valid Gold set this is the `t(n)/L` bound — for `n = 10`
+    /// (GPS C/A) this is `65/1023 ≈ −23.9 dB`. `None` for a lone m-sequence (a
+    /// single code is not a multi-access family), and `None` for a Gold register
+    /// length with no preferred pair (`n mod 4 = 0`) or out of [`n_in_range`] — the
+    /// bound simply does not hold there, so no number is reported.
+    pub fn max_crosscorr(&self) -> Option<f64> {
+        match *self {
+            CodeFamily::MaximalLength { .. } => None,
+            CodeFamily::Gold { n } if Self::n_in_range(n) && n % 4 != 0 => {
+                Some(t_param(n) as f64 / self.code_length() as f64)
+            }
+            CodeFamily::Gold { .. } => None,
+        }
+    }
+
+    /// **Peak-to-sidelobe ratio** (dB) of the periodic autocorrelation:
+    /// `20·log₁₀(1 / max_autocorr_sidelobe)`. A higher value (longer code) means a
+    /// cleaner correlation peak and better resistance to false lock. `None` when
+    /// the sidelobe bound is undefined (see [`max_autocorr_sidelobe`]).
+    pub fn peak_to_sidelobe_db(&self) -> Option<f64> {
+        self.max_autocorr_sidelobe()
+            .map(|s| 20.0 * (1.0 / s).log10())
+    }
+
+    /// Whether a Gold (preferred-pair) set exists for this register length: `true`
+    /// for any in-range m-sequence, and for Gold codes when `n mod 4 ≠ 0`.
+    pub fn gold_codes_exist(&self) -> bool {
+        match *self {
+            CodeFamily::MaximalLength { n } => Self::n_in_range(n),
+            CodeFamily::Gold { n } => Self::n_in_range(n) && n % 4 != 0,
+        }
+    }
+
+    /// Number of distinct codes in the family. A valid Gold set has `2ⁿ + 1 = L + 2`
+    /// codes (the two generators plus their `L` modulo-2 sums) — e.g. `n = 10`
+    /// gives 1025 codes, ample for a GNSS constellation. For an m-sequence this is
+    /// the count of distinct maximal-length sequences of degree `n`, `φ(2ⁿ−1) / n`.
+    /// `None` when `n` is out of [`n_in_range`] (this also avoids the `n = 0`
+    /// divide-by-zero) or — for Gold — when no preferred pair exists.
+    pub fn family_size(&self) -> Option<u64> {
+        let n = self.register_length();
+        if !Self::n_in_range(n) {
+            return None;
+        }
+        match *self {
+            CodeFamily::MaximalLength { n } => Some(euler_phi(self.code_length()) / n as u64),
+            CodeFamily::Gold { n } if n % 4 != 0 => Some(self.code_length() + 2),
+            CodeFamily::Gold { .. } => None,
+        }
+    }
+}
+
+/// **Unambiguous range** (m) of a PN ranging code: `D_U = c·L / (2·R_c)`, the
+/// half-light-distance of one full code period at chip rate `R_c` (Hz). Matches
+/// [`crate::radiometric::pn_range_ambiguity`]; a longer code buys more range.
+/// Returns `NaN` for a non-positive or non-finite `chip_rate_hz` (an invalid
+/// configuration) rather than a silent `±∞`.
+pub fn range_ambiguity_m(chip_rate_hz: f64, code_length_chips: u64) -> f64 {
+    if !chip_rate_hz.is_finite() || chip_rate_hz <= 0.0 {
+        return f64::NAN;
+    }
+    C_LIGHT_M_PER_S * code_length_chips as f64 / (2.0 * chip_rate_hz)
+}
+
+/// **Shortest code length** (chips) whose unambiguous range covers
+/// `required_range_m` at chip rate `chip_rate_hz` (Hz): the inverse of
+/// [`range_ambiguity_m`], `L ≥ 2·R_c·D / c`. The design answer to "how long must
+/// the ranging code be to resolve range to this distance without ambiguity?"
+/// Returns `0` (the invalid-input sentinel) for a non-positive/non-finite chip
+/// rate or a negative/non-finite range.
+pub fn code_length_for_ambiguity(chip_rate_hz: f64, required_range_m: f64) -> u64 {
+    if !chip_rate_hz.is_finite()
+        || chip_rate_hz <= 0.0
+        || !required_range_m.is_finite()
+        || required_range_m < 0.0
+    {
+        return 0;
+    }
+    let l = 2.0 * chip_rate_hz * required_range_m / C_LIGHT_M_PER_S;
+    l.ceil().max(1.0) as u64
+}
+
+#[cfg(test)]
+mod code_tests {
+    use super::*;
+
+    // ── m-sequence period: n = 10 → 1023 chips (the GPS C/A length) ───────────
+    #[test]
+    fn msequence_period_is_two_pow_n_minus_one() {
+        assert_eq!(CodeFamily::MaximalLength { n: 10 }.code_length(), 1023);
+        assert_eq!(CodeFamily::Gold { n: 10 }.code_length(), 1023);
+        assert_eq!(CodeFamily::MaximalLength { n: 13 }.code_length(), 8191);
+    }
+
+    // ── m-sequence autocorrelation sidelobe is exactly 1/L ────────────────────
+    #[test]
+    fn msequence_sidelobe_is_inverse_length() {
+        let f = CodeFamily::MaximalLength { n: 10 };
+        assert!((f.max_autocorr_sidelobe().unwrap() - 1.0 / 1023.0).abs() < 1e-15);
+        // peak-to-sidelobe = 20 log10(1023) ≈ 60.2 dB (the real validation anchor)
+        assert!((f.peak_to_sidelobe_db().unwrap() - 60.197).abs() < 0.01);
+    }
+
+    // ── Closed-form/real-world anchor: GPS C/A Gold cross-corr ≈ −23.9 dB ──────
+    #[test]
+    fn gps_ca_gold_crosscorr_matches_textbook() {
+        let f = CodeFamily::Gold { n: 10 };
+        // t(10) = 1 + 2^6 = 65; max |cross| = 65/1023.
+        let xc = f.max_crosscorr().unwrap();
+        assert!((xc - 65.0 / 1023.0).abs() < 1e-15, "xc {xc}");
+        let db = 20.0 * xc.log10();
+        assert!(
+            (db - (-23.94)).abs() < 0.1,
+            "GPS C/A Gold cross-corr {db:.2} dB, want ≈ −23.9 dB"
+        );
+    }
+
+    // ── Gold family size: n = 10 → 1025 codes (L + 2) ─────────────────────────
+    #[test]
+    fn gold_family_size_is_length_plus_two() {
+        assert_eq!(CodeFamily::Gold { n: 10 }.family_size(), Some(1025));
+    }
+
+    // ── m-sequence count of degree 10: φ(1023)/10 = 60 ────────────────────────
+    #[test]
+    fn msequence_count_degree_10() {
+        // 1023 = 3·11·31 ⇒ φ = 600 ⇒ 600/10 = 60 maximal-length sequences.
+        assert_eq!(CodeFamily::MaximalLength { n: 10 }.family_size(), Some(60));
+        assert_eq!(euler_phi(1023), 600);
+    }
+
+    // ── Gold codes exist iff n mod 4 ≠ 0 ──────────────────────────────────────
+    #[test]
+    fn gold_existence_condition() {
+        assert!(CodeFamily::Gold { n: 10 }.gold_codes_exist()); // 10 mod 4 = 2
+        assert!(CodeFamily::Gold { n: 11 }.gold_codes_exist()); // odd
+        assert!(!CodeFamily::Gold { n: 8 }.gold_codes_exist()); // 8 mod 4 = 0
+        assert!(!CodeFamily::Gold { n: 12 }.gold_codes_exist());
+    }
+
+    // ── No correlation/size guarantee is reported where no Gold set exists ─────
+    // (the key honesty fix: the t(n)/L bound is undefined for n mod 4 = 0).
+    #[test]
+    fn invalid_gold_reports_no_guarantee() {
+        for n in [8u32, 12, 16] {
+            let g = CodeFamily::Gold { n };
+            assert!(!g.gold_codes_exist(), "n={n} should have no Gold set");
+            assert_eq!(g.max_crosscorr(), None, "n={n} cross-corr must be None");
+            assert_eq!(
+                g.max_autocorr_sidelobe(),
+                None,
+                "n={n} sidelobe must be None"
+            );
+            assert_eq!(g.family_size(), None, "n={n} family size must be None");
+            assert_eq!(g.peak_to_sidelobe_db(), None);
+        }
+    }
+
+    // ── Degenerate inputs return None / NaN / 0, never panic ──────────────────
+    #[test]
+    fn degenerate_inputs_do_not_panic() {
+        // n = 0 used to divide-by-zero in family_size; now it is out of range.
+        assert_eq!(CodeFamily::MaximalLength { n: 0 }.family_size(), None);
+        assert_eq!(CodeFamily::MaximalLength { n: 1 }.max_crosscorr(), None);
+        assert_eq!(CodeFamily::MaximalLength { n: 40 }.family_size(), None); // > 31 cap
+                                                                             // Ambiguity guards.
+        assert!(range_ambiguity_m(0.0, 1023).is_nan());
+        assert!(range_ambiguity_m(-1.0, 1023).is_nan());
+        assert_eq!(code_length_for_ambiguity(1.023e6, f64::NAN), 0);
+        assert_eq!(code_length_for_ambiguity(0.0, 1.0e5), 0);
+        assert_eq!(code_length_for_ambiguity(1.023e6, -5.0), 0);
+    }
+
+    // ── Longer code → cleaner peak; Gold sidelobe worse than same-length m-seq ─
+    #[test]
+    fn longer_code_has_cleaner_peak() {
+        let short = CodeFamily::MaximalLength { n: 7 }
+            .peak_to_sidelobe_db()
+            .unwrap();
+        let long = CodeFamily::MaximalLength { n: 13 }
+            .peak_to_sidelobe_db()
+            .unwrap();
+        assert!(
+            long > short,
+            "longer code {long:.1} should beat {short:.1} dB"
+        );
+        let gold = CodeFamily::Gold { n: 10 }.max_autocorr_sidelobe().unwrap();
+        let mseq = CodeFamily::MaximalLength { n: 10 }
+            .max_autocorr_sidelobe()
+            .unwrap();
+        assert!(gold > mseq, "Gold sidelobe {gold:.4} > m-seq {mseq:.4}");
+    }
+
+    // ── Range ambiguity: forward anchor + an INDEPENDENT inverse anchor ───────
+    #[test]
+    fn ambiguity_forward_and_independent_inverse_anchors() {
+        let rc = 1.023e6; // C/A chip rate
+                          // GPS C/A 1023-chip code: D_U = c·1023/(2·1.023e6) ≈ 149.896 km.
+        let du = range_ambiguity_m(rc, 1023);
+        assert!((du - 149_896.229).abs() < 1.0, "C/A ambiguity {du:.1} m");
+        // Inverse leg anchored on an INDEPENDENT hand-computed pair (not the forward
+        // call): at R_c = 5.115 MHz (5·f0), covering exactly 300 km needs
+        // L ≥ 2·5.115e6·3.0e5 / c = 3.069e12 / 2.99792458e8 = 10237.08 → ceil 10238.
+        let l = code_length_for_ambiguity(5.115e6, 3.0e5);
+        assert_eq!(l, 10_238, "hand-computed inverse anchor");
+        // And the original round-trip still holds.
+        assert_eq!(code_length_for_ambiguity(rc, du), 1023);
+        assert!(
+            code_length_for_ambiguity(rc, 4.0e8) > 1023,
+            "deep-space needs longer code"
+        );
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

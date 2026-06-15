@@ -78,8 +78,8 @@
   {
    "domain": "Clock & timing",
    "name": "Holdover, stability & time-and-frequency transfer",
-   "summary": "Two-state Kalman holdover, Allan-family stability (ADEV / MDEV / TDEV / HDEV) with confidence intervals and a full IEEE-1139 five-coefficient power-law fit, and the operational transfer methods \u2014 TWSTFT with the BIPM Sagnac closed form, GNSS common-view, PPP ionosphere-free transfer, a free-space optical link with turbulence scintillation, and an inverse-variance clock-ensemble timescale.",
-   "proof": "calibrated to clock datasheets",
+   "summary": "Two-state Kalman holdover, Allan-family stability (ADEV / MDEV / TDEV / HDEV) with confidence intervals and a full IEEE-1139 five-coefficient power-law fit, and the operational transfer methods \u2014 TWSTFT with the BIPM Sagnac closed form, GNSS common-view, PPP ionosphere-free transfer, a free-space optical link with turbulence scintillation, and an inverse-variance clock-ensemble timescale. A GNSS-denied clock-holdover calculator inverts the van-Loan coast-error growth to a holdover-to-threshold — how long a clock free-runs before its timing error exceeds budget — across classical and quantum-clock classes; modelled, and honest that for a very stable clock the holdover to a tight threshold is set by the assumed long-tau noise floor, not the cited ADEV.",
+   "proof": "calibrated to clock datasheets · holdover cross-checked vs the van-Loan covariance recursion",
    "run": "clock-holdover.toml"
   },
   {
@@ -98,19 +98,25 @@
   {
    "domain": "Resilience",
    "name": "Jamming & multi-layer spoof detection",
-   "summary": "A link-budget jamming model (J/S \u2192 effective C/N\u2080 \u2192 loss of lock), a stochastic time-spoof detector (Neyman\u2013Pearson / \u03c7\u00b2\u2081 energy test with Monte-Carlo P_fa/P_md and a Security FoM of 1 \u2212 P_md), and a multi-layer spoof detector fusing a RAIM-consistency parity test, an RF AGC-power monitor, and a signal-quality (SQM) monitor.",
+   "summary": "A link-budget jamming model (J/S \u2192 effective C/N\u2080 \u2192 loss of lock), a stochastic time-spoof detector (Neyman\u2013Pearson / \u03c7\u00b2\u2081 energy test with Monte-Carlo P_fa/P_md and a Security FoM of 1 \u2212 P_md), and a multi-layer spoof detector fusing a RAIM-consistency parity test, an RF AGC-power monitor, and a signal-quality (SQM) monitor. Plus a quantum-inertial dead-reckoning error budget composing cold-atom-interferometer white-noise drift with residual bias (cross-checked against an independent integrator) and scale-factor error into a position-drift-over-holdover figure — the inertial twin of the clock holdover.",
    "run": "spoof-attack.toml"
   },
   {
    "domain": "Nav-signal performance",
    "name": "Modulation, anti-jam & code tracking",
-   "summary": "The signal-performance layer between the link budget and the measurement domain: unit-area power spectral densities for BPSK-R(n) and sine-BOC(m,n), the spectral-separation coefficient that derives the anti-jam Q the jamming model consumes directly from the actual signal and jammer spectra, the RMS (Gabor) bandwidth that sets the ranging-information content (BOC > BPSK), the coherent early\u2013late DLL code-tracking thermal-noise jitter, and the coherent early-minus-late multipath error envelope with narrow-correlator suppression. This is signal-performance analysis, not RF-payload or antenna hardware design.",
-   "proof": "BPSK self-SSC = 2/(3R_c) \u00b7 sub-metre C/A DLL jitter at 45 dB-Hz"
+   "summary": "The signal-performance layer between the link budget and the measurement domain: unit-area power spectral densities for BPSK-R(n) and sine-BOC(m,n), the spectral-separation coefficient that derives the anti-jam Q the jamming model consumes directly from the actual signal and jammer spectra, the RMS (Gabor) bandwidth that sets the ranging-information content (BOC > BPSK), the coherent early\u2013late DLL code-tracking thermal-noise jitter, and the coherent early-minus-late multipath error envelope with narrow-correlator suppression, and a ranging-code design-trade (m-sequence/Gold autocorrelation sidelobe and the three-valued Gold cross-correlation bound, plus the code-length-to-unambiguous-range inversion). This is signal-performance analysis, not RF-payload or antenna hardware design.",
+   "proof": "BPSK self-SSC = 2/(3R_c) \u00b7 sub-metre C/A DLL jitter at 45 dB-Hz \u00b7 GPS C/A Gold cross-corr -23.9 dB"
   },
   {
    "domain": "Interoperability",
    "name": "RINEX, SP3 & CCSDS formats",
    "summary": "Multi-GNSS RINEX-3 broadcast-ephemeris ingestion (GPS, Galileo, QZSS, BeiDou, GLONASS), a RINEX-3/4 observation parser, an SP3-c/d precise-ephemeris reader/writer with Lagrange interpolation, and CCSDS OEM 2.0 + OMM (mean-elements) export for flight-dynamics tools (GMAT, Orekit, STK), and CCSDS-TDM (503) tracking-data-message parse + emit for deep-space radiometric tracking."
+  },
+  {
+   "domain": "Verification & assurance",
+   "name": "Machine-checked verification matrix",
+   "summary": "A requirement-to-module-to-test-to-oracle-to-status cross-reference rendered from the engine itself (Markdown/CSV), with unit-tested honesty invariants: a row may be labelled validated only if it carries an independent external oracle (NIST / AIAA / SOFA / IGS / a published value), so an internal self-consistency check cannot masquerade as a validation — and the hardware/PA capabilities Kshana does not provide are recorded as partner-owned gaps. The executable backbone for an ECSS-E-ST-10-02 verification cross-reference.",
+   "proof": "validated rows require an external oracle (invariant enforced in CI)"
   }
  ],
  "standards": [
