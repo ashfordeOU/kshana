@@ -22,7 +22,7 @@ bibliography: paper.bib
 
 <!--
 Submission-ready. ORCID set; the repository is public and each release is archived on
-Zenodo (DOI 10.5281/zenodo.20528627), satisfying JOSS's requirements at review time.
+Zenodo (DOI 10.5281/zenodo.20692259), satisfying JOSS's requirements at review time.
 Submit at https://joss.theoj.org (GitHub login -> paste the repository URL).
 -->
 

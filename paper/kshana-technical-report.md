@@ -536,7 +536,7 @@ are all open.
 
 The complete source, scenario catalogue, validation suite, and documentation are openly
 available at <https://kshana.dev> and on GitHub, under the Apache-2.0 licence. Each release
-is archived on Zenodo with a citable DOI (10.5281/zenodo.20528627). All case-study figures
+is archived on Zenodo with a citable DOI (10.5281/zenodo.20692259). All case-study figures
 in this report are reproducible from the cited scenario files with the engine version
 recorded in each output.
 
