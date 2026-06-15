@@ -1,11 +1,14 @@
 \section{A quantum-versus-classical resilience crossover map}\label{sec:crossover}
 
 The contribution of this paper is not another single-point claim that a quantum
-sensor outperforms its classical counterpart. It is a \emph{map}: for each
-quantum lever, a grid of operating points across the realistic published-parameter
-envelope, at every node of which we report the resilience figure of merit as a
-distribution rather than a number, and against which we locate the
-\emph{break-even} where the quantum advantage disappears. The question the map
+sensor outperforms its classical counterpart. For the lever whose operating space
+warrants it---the inertial sensor---it is a \emph{map}: a grid of operating points
+across the realistic published-parameter envelope, at every node of which we report
+the resilience figure of merit as a distribution rather than a number, and against
+which we locate the \emph{break-even} contour where the quantum advantage disappears.
+The clock and time-transfer levers, whose outcome turns on device maturity rather
+than a two-axis trade-off, are reported in the same spirit---as a maturity-aware
+holdover ladder and a like-for-like link budget. The question this study
 answers is the one the field's own reviews say is open
 \citep{quantumpntreview2026}: not \emph{whether} a cold-atom inertial sensor or an
 optical clock can help during a GNSS outage, but \emph{when} (under what outage
@@ -40,17 +43,19 @@ The inertial lever pits a cold-atom accelerometer of the Exail/Templier class
 two axes that dominate the outcome: outage duration, from \SI{30}{\second} to
 \SI{1800}{\second}, and the platform-vibration acceleration noise as an amplitude
 spectral density (ASD), from $1~\mu\mathrm{g}/\sqrt{\mathrm{Hz}}$ (an isolated,
-quiescent platform) to roughly $3~\mathrm{mg}/\sqrt{\mathrm{Hz}}$ (a noisy host). The figure of merit is the
-95th-percentile horizontal position error over the ensemble; the advantage at a
-node is the classical 95th-percentile error divided by the quantum one.
-Figure~\ref{fig:inertial} shows the full map.
+quiescent platform) to roughly $3~\mathrm{mg}/\sqrt{\mathrm{Hz}}$ (a noisy host). At
+each node the figure of merit is the \emph{ensemble mean}, over the 64 seeds, of the
+per-run 95th-percentile horizontal position error, with a 95\% bootstrap confidence
+interval on that mean; the advantage is the ratio of the classical to the quantum
+ensemble mean. Figure~\ref{fig:inertial} shows the full map.
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=0.95\linewidth]{inertial.pdf}
   \caption{Inertial crossover map. Cold-atom accelerometer (Exail/Templier class,
   \citealp{templier2022}) versus navigation-grade strapdown
-  (\citealp{groves2013}), dead-reckoning 95th-percentile position error as a
+  (\citealp{groves2013}), dead-reckoning position error (the ensemble mean of the
+  per-run 95th percentile) as a
   function of outage duration and platform-vibration acceleration ASD
   ($\sqrt{S_a}$, in $\mu\mathrm{g}/\sqrt{\mathrm{Hz}}$). Each node is
   a 64-seed Monte-Carlo ensemble with a 95\% bootstrap confidence interval; the
@@ -65,12 +70,12 @@ Figure~\ref{fig:inertial} shows the full map.
 On an isolated platform the cold-atom advantage is large
 and grows with outage length. At $1~\mu\mathrm{g}/\sqrt{\mathrm{Hz}}$ the advantage
 is a factor of $307$ for a \SI{30}{\second} outage (cold-atom
-\SI{2.5}{\milli\metre} versus navigation-grade \SI{0.75}{\metre} at the 95th
-percentile), rising to $439$ at \SI{60}{\second} and to $1915$ at
+\SI{2.5}{\milli\metre} versus navigation-grade \SI{0.75}{\metre}), rising to $439$
+at \SI{60}{\second} and to $1915$ at
 \SI{1800}{\second}, where the navigation-grade error has grown to
 \SI{2.3}{\kilo\metre} while the cold-atom error is near \SI{1.2}{\metre}. The
-confidence intervals are tight relative to this gap (the cold-atom 95th
-percentile at the \SI{30}{\second}, $1~\mu\mathrm{g}/\sqrt{\mathrm{Hz}}$ node has a
+confidence intervals are tight relative to this gap (the cold-atom ensemble mean
+at the \SI{30}{\second}, $1~\mu\mathrm{g}/\sqrt{\mathrm{Hz}}$ node has a
 bootstrap interval of $[2.0,\,2.9]~\si{\milli\metre}$), so the advantage on a
 quiet platform is not a sampling artefact.
 
@@ -80,7 +85,7 @@ by the $\sqrt{S_a/(3T)}$ vibration floor, while the navigation-grade error is
 comparatively insensitive to it. The two curves cross: for a short
 \SI{30}{\second} outage at a vibration level of
 $\approx 405~\mu\mathrm{g}/\sqrt{\mathrm{Hz}}$ (about $0.4~\mathrm{mg}/\sqrt{\mathrm{Hz}}$)
-the advantage falls to $0.75$: below unity, meaning the navigation-grade unit
+the advantage falls to $0.75$ --- below unity, meaning the navigation-grade unit
 \emph{wins}. On a vibrating host during a brief outage, the classical sensor is the
 better choice, and the map reports this rather than only the favourable
 corner.
@@ -131,14 +136,14 @@ winner-flip does not exist here: a ground-laboratory strontium optical-lattice c
 \citep{origlia2015}, a flight-qualified active hydrogen maser of the ACES/PHARAO
 class (the relevant point being that this class has actually flown, on the ISS), and
 a deployed chip-scale atomic clock (CSAC). The figure of merit is the
-95th-percentile holdover timing error against the \SI{1}{\micro\second} threshold;
-each rung is a 32-seed ensemble with a bootstrap interval.
+ensemble-mean 95th-percentile holdover timing error against the \SI{1}{\micro\second}
+threshold; each rung is a 32-seed ensemble with a 95\% bootstrap interval.
 Figure~\ref{fig:clock} shows the three curves.
 
 \begin{figure}[t]
   \centering
   \includegraphics[width=0.8\linewidth]{clock.pdf}
-  \caption{Clock holdover ladder. 95th-percentile timing error against a
+  \caption{Clock holdover ladder. Ensemble-mean 95th-percentile timing error against a
   \SI{1}{\micro\second} budget as a function of holdover duration, for a
   ground-laboratory strontium optical-lattice clock (\citealp{origlia2015}), a
   flight-qualified ACES/PHARAO-class hydrogen maser, and a deployed chip-scale
