@@ -44,7 +44,9 @@ pages="$(command -v pdfinfo >/dev/null && pdfinfo "$verify/kshana.pdf" | awk '/P
 rm -f "$verify"/kshana.pdf "$verify"/kshana.bbl  # verify dir is throwaway
 
 # 4. Tar with kshana.tex at the archive root (arXiv detects the main file by \documentclass).
-( cd "$pkg" && tar czf "$dist/kshana-arxiv-src.tar.gz" \
+#    COPYFILE_DISABLE=1 stops macOS bsdtar from bundling ._* AppleDouble metadata files,
+#    which arXiv would otherwise have to strip on upload.
+( cd "$pkg" && COPYFILE_DISABLE=1 tar czf "$dist/kshana-arxiv-src.tar.gz" \
     kshana.tex kshana.bbl paper.bib refs-extra.bib inertial.pdf clock.pdf sections )
 
 echo "OK: dist/kshana-arxiv-src.tar.gz  (standalone build: ${pages} pp)"
