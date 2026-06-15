@@ -82,8 +82,12 @@ A validated, fully reproducible engine spanning the PNT stack:
   sequence it flies through. A **60-minute GPS-denied benchmark** flies a ~700 km / one-hour
   outage where the inertial solution drifts to ~70 km, and a **hierarchical coarse-to-fine**
   matcher with the gravimeter's deterministic seeded noise recovers it to **~145 m (< 500 m)** —
-  the ESA NAVISP *Quantum Wayfarer* target. The full EGM2008 coefficient set, a map-error
-  Monte-Carlo, magnetic maps, and terrain-aided SLAM remain follow-ons.
+  the ESA NAVISP *Quantum Wayfarer* target. Magnetic maps (IGRF-14 main field) and
+  terrain-referenced navigation are wired (`terrain-nav`, `combined-altpnt`), and
+  **sequential terrain-referenced navigation** — SITAN as a running particle filter that
+  tracks a *time-varying* INS drift epoch by epoch (`terrain-slam`) — is now built. The full
+  EGM2008 coefficient set, a map-error Monte-Carlo, a real high-frequency crustal magnetic
+  map, and joint map estimation (full SLAM) remain follow-ons.
 - **Fusion** — loosely-coupled 15-state GNSS/INS error-state EKF with closed-loop
   feedback, a tightly-coupled pseudorange update that corrects with fewer than four
   satellites, a coupled clock+position filter, a general unscented (sigma-point)
