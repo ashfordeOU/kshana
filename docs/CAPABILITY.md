@@ -59,7 +59,7 @@ a deliberate non-goal for now; Kshana is a PNT simulator, not GMAT/STK/Orekit.
 |------|--------|------|
 | Language bindings & packaging | partial | Rust + Python (abi3) + WASM on three registries; string-in/string-out bindings |
 | Education / onboarding UX | partial | Browser playground (a real structural white-space); guided mode is roadmap |
-| Community / governance | none | single-founder; no Zenodo DOI/JOSS/citations yet (founder-gated outreach) |
+| Community / governance | partial | Governance scaffolding present — `GOVERNANCE.md` (benevolent-maintainer model + technical bar + open/closed boundary), `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, `SECURITY.md`, issue/PR templates, `FUNDING.yml`, dependabot. Single-founder; an **active external community** (contributors, citations) is people/time-dependent and still building (outreach founder-gated) |
 | Funding & procurement readiness | none | TRL ~3; no agency citations/contracts yet (see strategy notes) |
 
 _Last aligned with the 2026-06-02 grand audit's 27-row capability matrix; deep-space / Mars PNT row added in v0.17.0. Quantum-PNT additions (GNSS-denied clock holdover `src/holdover.rs`, composed quantum-inertial dead-reckoning budget `QuantumNavBudget`, ranging-code design-trade `CodeFamily`, machine-checked verification matrix `src/verification.rs`) folded into the Timing, Quantum-PNT-sensor, Nav-signal and V&V rows — each labelled validated-or-modelled per its actual oracle._
