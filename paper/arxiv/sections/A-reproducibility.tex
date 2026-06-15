@@ -17,11 +17,20 @@ cargo run --release --bin crossover_study -- paper/crossover
 # figures
 python3 paper/crossover/render_inertial.py paper/crossover/inertial.json
 python3 paper/crossover/render_clock.py     paper/crossover/clock.json
+# time-transfer lever (optical vs RF), seed 42
+cargo run --release -- scenarios/timetransfer.toml
 # validation oracles (examples)
 cargo test --test sgp4_verification
 cargo test --test frame_reference_vectors
 cargo test --test agency_galileo
 \end{verbatim}
+
+The \code{agency\_galileo} test reproduces the \SI{8}{\hour} continuous-integration
+fixture (pure-force \SI{0.13}{\metre}, reduced-dynamic \SI{0.07}{\metre} at
+degree/order~12, which is gravity-converged); the \SI{0.61}{\metre}, \SI{24}{\hour},
+degree/order-70 \emph{headline} is produced by the \code{galileo\_full\_arc\_dispatch}
+job (an \code{\#[ignore]}d test that fetches the full-day agency ephemeris;
+\code{KSHANA\_GALILEO\_DEGREE} defaults to 70).
 
 The validation tests are self-checking: each derives its expected values from an
 external reference -- the AIAA/Vallado verification set for SGP4, SOFA/ERFA
