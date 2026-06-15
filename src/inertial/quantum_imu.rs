@@ -298,6 +298,337 @@ pub fn cai_drift_sweep(
         .collect()
 }
 
+/// **Composed quantum-inertial dead-reckoning error budget over a GNSS-denied
+/// holdover.** [`cai_drift_sweep`] grows position error from the CAI *white
+/// acceleration noise* alone; a real navigation budget must also carry the
+/// **residual bias**, the **scale-factor error**, and — optionally — a slow
+/// **long-term sensor-stability degradation** over the coast. This struct composes
+/// them, so a "how far do I drift in 10 minutes of GNSS denial" trade reads off a
+/// single object, the inertial twin of [`crate::holdover`] for the clock.
+///
+/// The contributions, each over coast time `t` from a perfect GNSS-aligned start:
+///
+/// * **Residual bias** `b` (m/s², post-calibration): position error `½·b·t²`
+///   (double integration of a constant specific-force error — the same `½ a t²`
+///   the scalar [`crate::inertial::AccelModel`] integrates).
+/// * **Scale-factor error** `ε` (fractional, from `scale_factor_ppm`) acting on the
+///   sustained specific force `ref_accel_m_s2`: position error `½·ε·a_ref·t²`. In
+///   microgravity (`a_ref ≈ 0`) this vanishes — honestly, scale-factor barely
+///   matters in free-fall and bias dominates.
+/// * **Velocity random walk** from the CAI white-acceleration PSD `q_va`: variance
+///   `∫₀ᵗ (t−u)²·q_va(u) du`, which is exactly `q_va·t³/3` for a constant `q_va`.
+///   It grows if a non-zero `tau_stability_s` models a slow degradation of the
+///   shot-noise floor over the *coast* as `q_va(u) = q_va·exp(2u/τ_s)` (a falling
+///   long-term fringe contrast raises the per-shot phase noise `σ_Φ ∝ 1/C`, so the
+///   PSD scales as `1/C²`).
+///
+///   **Timescale caveat (do not confuse with per-interrogation decoherence).**
+///   `tau_stability_s` is a *long-term, mission-timescale* sensor-health constant,
+///   **not** the per-shot fringe-decoherence time `τ_c` of
+///   [`CaiAccelerometer::contrast_at`] (which acts over a single ~2T interrogation,
+///   ≈0.1 s). A cycling interferometer reloads fresh atoms every cycle, so per-shot
+///   decoherence does *not* accumulate shot-to-shot across a multi-minute coast;
+///   that per-shot decay sets the per-shot floor (via `contrast`), and is already
+///   folded into `q_va`. Leave `tau_stability_s ≤ 0` (the default behaviour) unless
+///   you are deliberately modelling a slow, mission-duration contrast/health drift,
+///   in which case supply that long timescale explicitly.
+///
+/// [`position_drift_1sigma`](Self::position_drift_1sigma) combines the three as the
+/// root-sum-square of independent 1-σ error sources (the standard error-budget
+/// convention); the per-term getters are exposed so a worst-case *coherent* sum of
+/// the deterministic terms can be formed if required.
+#[derive(Clone, Copy, Debug)]
+pub struct QuantumNavBudget {
+    /// The cold-atom accelerometer supplying the white-noise floor.
+    pub cai: CaiAccelerometer,
+    /// Residual accelerometer bias after GNSS calibration (m/s²).
+    pub bias_m_s2: f64,
+    /// Accelerometer scale-factor error (parts per million).
+    pub scale_factor_ppm: f64,
+    /// Sustained specific force the platform experiences during the coast (m/s²)
+    /// — what scale-factor error multiplies. Set ≈0 for a free-falling platform.
+    pub ref_accel_m_s2: f64,
+    /// **Long-term** sensor-stability 1/e degradation time `τ_s` (s) over the coast;
+    /// `≤0` disables it (constant `q_va`). This is a mission-timescale health drift,
+    /// **not** the per-interrogation decoherence `τ_c` — see the struct docs.
+    pub tau_stability_s: f64,
+}
+
+impl QuantumNavBudget {
+    /// Position error (m) from the residual bias alone after `t` s: `½·b·t²`.
+    pub fn bias_drift_m(&self, t: f64) -> f64 {
+        0.5 * self.bias_m_s2 * t * t
+    }
+
+    /// Position error (m) from scale-factor error alone after `t` s:
+    /// `½·(ppm·1e-6)·a_ref·t²`.
+    pub fn scale_factor_drift_m(&self, t: f64) -> f64 {
+        0.5 * (self.scale_factor_ppm * 1.0e-6) * self.ref_accel_m_s2 * t * t
+    }
+
+    /// Position-error **variance** (m²) from the CAI white acceleration noise after
+    /// `t` s: `∫₀ᵗ (t−u)²·q_va(u) du`. Reduces to `q_va·t³/3` for constant `q_va`
+    /// (no stability degradation) and exceeds it when `tau_stability_s` is finite.
+    pub fn vrw_position_variance(&self, t: f64) -> f64 {
+        let q0 = self.cai.q_va();
+        if self.tau_stability_s <= 0.0 || t <= 0.0 {
+            return q0 * t.max(0.0).powi(3) / 3.0;
+        }
+        // Numeric Simpson integral of (t−u)²·q0·exp(2u/τ_s) du over [0, t].
+        let n = 2000usize;
+        let h = t / n as f64;
+        let f = |u: f64| (t - u) * (t - u) * q0 * (2.0 * u / self.tau_stability_s).exp();
+        let mut s = f(0.0) + f(t);
+        for i in 1..n {
+            let u = i as f64 * h;
+            s += if i % 2 == 1 { 4.0 } else { 2.0 } * f(u);
+        }
+        s * h / 3.0
+    }
+
+    /// Position error (m) from the CAI white acceleration noise alone after `t` s
+    /// — the square root of [`vrw_position_variance`](Self::vrw_position_variance).
+    pub fn vrw_drift_m(&self, t: f64) -> f64 {
+        self.vrw_position_variance(t).sqrt()
+    }
+
+    /// **Total dead-reckoning position-error 1-σ** (m) after coasting `t` s — the
+    /// root-sum-square of the bias, scale-factor and velocity-random-walk terms.
+    pub fn position_drift_1sigma(&self, t: f64) -> f64 {
+        let b = self.bias_drift_m(t);
+        let sf = self.scale_factor_drift_m(t);
+        let v2 = self.vrw_position_variance(t);
+        (b * b + sf * sf + v2).sqrt()
+    }
+
+    /// **Inertial holdover** (s): the coast time at which the total position-error
+    /// 1-σ first reaches `threshold_m`. The drift is monotone increasing in `t`, so
+    /// the inversion is a well-posed bisection. Returns `f64::INFINITY` if the
+    /// budget cannot reach the threshold within a sane horizon.
+    pub fn holdover_seconds(&self, threshold_m: f64) -> f64 {
+        if threshold_m <= 0.0 {
+            return 0.0;
+        }
+        let drift = |t: f64| self.position_drift_1sigma(t);
+        if drift(1.0) == 0.0 {
+            // no bias, no scale-factor force, no noise → never drifts
+            return f64::INFINITY;
+        }
+        let mut hi = 1.0_f64;
+        let mut guard = 0;
+        while drift(hi) < threshold_m {
+            hi *= 2.0;
+            guard += 1;
+            if guard > 200 {
+                return f64::INFINITY;
+            }
+        }
+        let mut lo = 0.0_f64;
+        for _ in 0..100 {
+            let mid = 0.5 * (lo + hi);
+            if drift(mid) < threshold_m {
+                lo = mid;
+            } else {
+                hi = mid;
+            }
+        }
+        0.5 * (lo + hi)
+    }
+}
+
+#[cfg(test)]
+mod budget_tests {
+    use super::*;
+    use crate::inertial::AccelModel;
+    use rand::SeedableRng;
+    use rand_chacha::ChaCha8Rng;
+
+    fn ref_cai() -> CaiAccelerometer {
+        CaiAccelerometer {
+            wavelength_m: RB87_D2_WAVELENGTH_M,
+            pulse_sep_t: 0.05,
+            atom_number: 1.0e6,
+            contrast: 0.5,
+            cycle_time_s: 0.5,
+        }
+    }
+
+    fn ref_budget(bias: f64, ppm: f64, a_ref: f64, tau_s: f64) -> QuantumNavBudget {
+        QuantumNavBudget {
+            cai: ref_cai(),
+            bias_m_s2: bias,
+            scale_factor_ppm: ppm,
+            ref_accel_m_s2: a_ref,
+            tau_stability_s: tau_s,
+        }
+    }
+
+    // ── Bias term equals the scalar AccelModel's double integration ───────────
+    // The AccelModel is an INDEPENDENT Euler double-integrator (a different code
+    // path, separately validated against Groves); the budget's closed form ½·b·t²
+    // is checked against it, so this is a genuine cross-check, not circular.
+    #[test]
+    fn bias_drift_matches_accel_model_double_integration() {
+        let b = 1.0e-5; // m/s²
+        let budget = ref_budget(b, 0.0, 0.0, 0.0);
+        // AccelModel with only a constant bias is deterministic (no rng draws used).
+        let mut am = AccelModel::new("t", "test", b, 0.0);
+        let mut rng = ChaCha8Rng::seed_from_u64(1);
+        let t_total = 600.0;
+        let dt = 0.01;
+        let steps = (t_total / dt) as usize;
+        for _ in 0..steps {
+            am.step(dt, &mut rng);
+        }
+        let closed = budget.bias_drift_m(t_total); // ½ b t²
+        let stepped = am.pos();
+        let rel = (closed - stepped).abs() / closed;
+        assert!(
+            rel < 1e-3,
+            "closed {closed:.4} vs AccelModel {stepped:.4}, rel {rel:.2e}"
+        );
+    }
+
+    // ── VRW variance reduces to q_va·t³/3 with no stability decay ─────────────
+    #[test]
+    fn vrw_matches_closed_form_constant_q_va() {
+        let budget = ref_budget(0.0, 0.0, 0.0, 0.0);
+        let t = 300.0;
+        let var = budget.vrw_position_variance(t);
+        let closed = budget.cai.q_va() * t.powi(3) / 3.0;
+        let rel = (var - closed).abs() / closed;
+        assert!(rel < 1e-12, "vrw var {var:.6e} vs q_va t³/3 {closed:.6e}");
+    }
+
+    // ── The Simpson stability-decay integral matches the analytic closed form ──
+    // ∫₀ᵗ(t−u)²·q0·e^{a u} du = q0·[e^{at}·2/a³ − (t²/a + 2t/a² + 2/a³)], a = 2/τ_s.
+    // This pins the numeric integral path itself (a wrong exponent sign or Simpson
+    // weight would diverge here), independent of the constant-q_va branch.
+    #[test]
+    fn vrw_stability_decay_matches_analytic_integral() {
+        let budget = ref_budget(0.0, 0.0, 0.0, 200.0);
+        let t = 100.0;
+        let q0 = budget.cai.q_va();
+        let a: f64 = 2.0 / 200.0; // 2/τ_s
+        let analytic = q0
+            * ((a * t).exp() * 2.0 / a.powi(3) - (t * t / a + 2.0 * t / (a * a) + 2.0 / a.powi(3)));
+        let numeric = budget.vrw_position_variance(t);
+        let rel = (numeric - analytic).abs() / analytic;
+        assert!(
+            rel < 1e-6,
+            "Simpson {numeric:.6e} vs analytic {analytic:.6e}, rel {rel:.2e}"
+        );
+    }
+
+    // ── Stability decay can only increase the white-noise drift; τ_s→∞ recovers
+    // the constant-q_va form ───────────────────────────────────────────────────
+    #[test]
+    fn stability_decay_increases_drift_and_limits_correctly() {
+        let no_decay = ref_budget(0.0, 0.0, 0.0, 0.0);
+        let decay = QuantumNavBudget {
+            tau_stability_s: 60.0,
+            ..no_decay
+        };
+        let t = 300.0;
+        assert!(
+            decay.vrw_drift_m(t) > no_decay.vrw_drift_m(t),
+            "stability decay should inflate drift"
+        );
+        let huge = QuantumNavBudget {
+            tau_stability_s: 1.0e12,
+            ..no_decay
+        };
+        let rel = (huge.vrw_position_variance(t) - no_decay.vrw_position_variance(t)).abs()
+            / no_decay.vrw_position_variance(t);
+        assert!(
+            rel < 1e-3,
+            "τ_s→∞ should recover constant-q_va form, rel {rel:.2e}"
+        );
+    }
+
+    // ── Scale-factor term is quadratic in time and zero in free fall ──────────
+    #[test]
+    fn scale_factor_term_quadratic_and_zero_in_free_fall() {
+        let budget = ref_budget(0.0, 100.0, 9.806_65, 0.0); // 100 ppm at 1 g
+        let s100 = budget.scale_factor_drift_m(100.0);
+        let s200 = budget.scale_factor_drift_m(200.0);
+        assert!((s200 / s100 - 4.0).abs() < 1e-9, "should be quadratic in t");
+        let closed = 0.5 * 100e-6 * 9.806_65 * 100.0 * 100.0;
+        assert!((s100 - closed).abs() / closed < 1e-12);
+        let free_fall = QuantumNavBudget {
+            ref_accel_m_s2: 0.0,
+            ..budget
+        };
+        assert_eq!(free_fall.scale_factor_drift_m(100.0), 0.0);
+    }
+
+    // ── Total combines the terms against INDEPENDENT hand-computed values ──────
+    // The deterministic terms are hand-derived literals (0.2 m bias, 4.0 m scale-
+    // factor), not re-read from the same getters, so a term/sign error in
+    // position_drift_1sigma would actually be caught.
+    #[test]
+    fn total_combines_terms_against_hand_values() {
+        let budget = ref_budget(1.0e-5, 100.0, 2.0, 0.0);
+        let t = 200.0;
+        let bias_hand: f64 = 0.5 * 1.0e-5 * 200.0 * 200.0; // = 0.2 m
+        let sf_hand: f64 = 0.5 * 100.0e-6 * 2.0 * 200.0 * 200.0; // = 4.0 m
+        assert!((bias_hand - 0.2).abs() < 1e-12, "bias hand value");
+        assert!((sf_hand - 4.0).abs() < 1e-12, "sf hand value");
+        let v2 = budget.vrw_position_variance(t); // separately anchored above
+        let expected = (bias_hand * bias_hand + sf_hand * sf_hand + v2).sqrt();
+        let got = budget.position_drift_1sigma(t);
+        assert!(
+            (got - expected).abs() / expected < 1e-12,
+            "total {got} vs hand-composed {expected}"
+        );
+    }
+
+    // ── Holdover inverts the drift: drift(holdover) == threshold ──────────────
+    #[test]
+    fn inertial_holdover_round_trips() {
+        let budget = ref_budget(1.0e-5, 0.0, 0.0, 0.0);
+        let threshold = 50.0; // m
+        let t = budget.holdover_seconds(threshold);
+        let drift = budget.position_drift_1sigma(t);
+        assert!(
+            (drift - threshold).abs() / threshold < 1e-6,
+            "drift {drift} vs {threshold}"
+        );
+        // With a bias-dominated budget, ½ b t² ≈ threshold ⇒ t ≈ √(2·thr/b)
+        // (the VRW adds a little, so the true holdover is slightly shorter).
+        let expect = (2.0 * threshold / 1.0e-5).sqrt();
+        assert!(
+            t < expect && t > 0.95 * expect,
+            "t {t:.1} should be just under √(2thr/b) {expect:.1}"
+        );
+    }
+
+    #[test]
+    fn free_falling_low_noise_budget_holds_over_effectively_forever() {
+        // A real CAI always has *some* shot noise, so q_va is never exactly zero.
+        // The honest statement: with no bias and an inert scale-factor (free fall),
+        // the drift is set by an extremely small white-noise floor and the holdover
+        // is astronomically long — finite, not literally infinite. (The INFINITY
+        // branch in holdover_seconds is defensive: it requires q_va == 0 exactly,
+        // which no physical CaiAccelerometer produces, so no test asserts it.)
+        let budget = QuantumNavBudget {
+            cai: CaiAccelerometer {
+                atom_number: 1.0e30, // shot noise → vanishingly small
+                ..ref_cai()
+            },
+            bias_m_s2: 0.0,
+            scale_factor_ppm: 1000.0,
+            ref_accel_m_s2: 0.0, // free fall ⇒ scale-factor inert
+            tau_stability_s: 0.0,
+        };
+        let t = budget.holdover_seconds(10.0);
+        assert!(
+            t > 1.0e9,
+            "near-noiseless free-falling holdover {t:.2e} s should exceed any mission timescale"
+        );
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
