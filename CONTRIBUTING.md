@@ -4,6 +4,9 @@ Thanks for your interest. Kshana aims to be a **neutral, reproducible, honestly-
 validated** reference for hybrid quantum/classical PNT. Contributions are held to that
 bar: correctness, citations, and reproducibility over breadth.
 
+How the project is governed — who decides, the technical bar, and the open/closed
+boundary — is documented in [`GOVERNANCE.md`](GOVERNANCE.md).
+
 ## Development
 
 ```bash
