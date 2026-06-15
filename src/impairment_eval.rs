@@ -142,6 +142,13 @@ pub struct CorpusConfig {
     pub nominal_cn0_dbhz: f64,
     /// 1σ measurement noise applied to AGC/parity observables (dB / unitless).
     pub meas_noise: f64,
+    /// Multiplier on every impaired-class severity (J/S, spoof power advantage /
+    /// position push, multipath imbalance). `1.0` is the nominal regime; a smaller
+    /// value makes impairments **subtler / harder to detect**, which is how a
+    /// distribution-shifted (out-of-tuning-regime) corpus is generated for
+    /// [`distribution_shift_report`]. Does not change the RNG stream, so `1.0`
+    /// reproduces the nominal corpus bit-for-bit.
+    pub severity_scale: f64,
 }
 
 impl Default for CorpusConfig {
@@ -150,6 +157,7 @@ impl Default for CorpusConfig {
             n_per_class: 200,
             nominal_cn0_dbhz: 45.0,
             meas_noise: 0.6,
+            severity_scale: 1.0,
         }
     }
 }
@@ -173,6 +181,7 @@ pub fn generate_corpus(cfg: &CorpusConfig, seed: u64) -> Vec<LabeledCase> {
             let u = |rng: &mut ChaCha8Rng| rand::Rng::gen_range(rng, 0.0..1.0);
             let frac = (i as f64 + 0.5) / n as f64; // spread severity deterministically
             let nm = cfg.meas_noise;
+            let sc = cfg.severity_scale; // distribution-shift knob (1.0 = nominal)
 
             let (severity, obs) = match class {
                 ImpairmentClass::Nominal => {
@@ -198,7 +207,7 @@ pub fn generate_corpus(cfg: &CorpusConfig, seed: u64) -> Vec<LabeledCase> {
                     )
                 }
                 ImpairmentClass::Jamming => {
-                    let js = 4.0 + frac * 24.0 + z(&mut rng, 0.5); // 4..28 dB J/S
+                    let js = (4.0 + frac * 24.0) * sc + z(&mut rng, 0.5); // 4..28 dB J/S × scale
                     let cn0_drop = cfg.nominal_cn0_dbhz
                         - effective_cn0_dbhz(cfg.nominal_cn0_dbhz, js, q, CA_CHIP_RATE_HZ);
                     let agc = AgcMonitor::new(0.0).excess_db(0.45 * js) + z(&mut rng, nm);
@@ -217,7 +226,7 @@ pub fn generate_corpus(cfg: &CorpusConfig, seed: u64) -> Vec<LabeledCase> {
                     )
                 }
                 ImpairmentClass::SpoofTime => {
-                    let pa = frac * 9.0 + z(&mut rng, 0.4); // 0..9 dB power advantage (can be matched)
+                    let pa = (frac * 9.0) * sc + z(&mut rng, 0.4); // 0..9 dB power advantage × scale (can be matched)
                     let agc = AgcMonitor::new(0.0).excess_db(pa) + z(&mut rng, nm);
                     let sqm = 0.14 + z(&mut rng, nm * 0.05); // correlation interaction
                     let parity = (0.6 + z(&mut rng, 1.0)).abs(); // common-mode, weak RAIM signal
@@ -233,8 +242,8 @@ pub fn generate_corpus(cfg: &CorpusConfig, seed: u64) -> Vec<LabeledCase> {
                     )
                 }
                 ImpairmentClass::SpoofPosition => {
-                    let pa = frac * 7.0 + z(&mut rng, 0.4); // 0..7 dB
-                    let push = 3.0 + frac * 9.0; // position-push → RAIM residual
+                    let pa = (frac * 7.0) * sc + z(&mut rng, 0.4); // 0..7 dB × scale
+                    let push = (3.0 + frac * 9.0) * sc; // position-push → RAIM residual × scale
                     let agc = AgcMonitor::new(0.0).excess_db(pa) + z(&mut rng, nm);
                     let sqm = 0.09 + z(&mut rng, nm * 0.05);
                     let parity = (push + z(&mut rng, 1.0)).abs();
@@ -250,7 +259,7 @@ pub fn generate_corpus(cfg: &CorpusConfig, seed: u64) -> Vec<LabeledCase> {
                     )
                 }
                 ImpairmentClass::Multipath => {
-                    let imb = 0.10 + frac * 0.30; // 0.10..0.40 E/L imbalance
+                    let imb = (0.10 + frac * 0.30) * sc; // 0.10..0.40 E/L imbalance × scale
                     let _ = u(&mut rng); // consume one draw to keep per-class RNG stream length uniform
                     let sqm = imb + z(&mut rng, nm * 0.04);
                     let parity = (0.8 + z(&mut rng, 1.0)).abs();
@@ -584,6 +593,55 @@ pub fn evaluate<D: ImpairmentDetector>(
     }
 }
 
+/// A distribution-shift assessment: a detector scored on an in-distribution
+/// corpus vs an out-of-distribution (shifted-severity) corpus, with the optimism
+/// gap a hostile reviewer cares about. Reporting in- and out-of-distribution
+/// numbers separately — and never headlining the optimistic one — is the
+/// methodological honesty the review demands.
+#[derive(Clone, Debug)]
+pub struct ShiftReport {
+    /// Detector name.
+    pub detector: String,
+    /// AUC on the in-distribution (nominal-severity) corpus.
+    pub auc_in: f64,
+    /// AUC on the out-of-distribution (shifted-severity) corpus.
+    pub auc_out: f64,
+    /// `auc_in − auc_out`: how much the in-distribution number over-states the
+    /// shifted-regime performance.
+    pub optimism_gap: f64,
+    /// True if the optimism gap exceeds the tolerance — a flag to NOT report the
+    /// in-distribution AUC as if it generalised.
+    pub optimistic: bool,
+    /// Operating-point confusion on the in-distribution corpus.
+    pub in_operating: Confusion,
+    /// Operating-point confusion on the out-of-distribution corpus.
+    pub out_operating: Confusion,
+}
+
+/// Score a detector on an in-distribution corpus and an out-of-distribution
+/// (shifted-severity) corpus, reporting both AUCs and flagging optimism when the
+/// in-distribution AUC exceeds the shifted one by more than `optimism_tol`.
+pub fn distribution_shift_report<D: ImpairmentDetector>(
+    det: &D,
+    in_corpus: &[LabeledCase],
+    out_corpus: &[LabeledCase],
+    target_pfa: f64,
+    optimism_tol: f64,
+) -> ShiftReport {
+    let r_in = evaluate(det, in_corpus, target_pfa);
+    let r_out = evaluate(det, out_corpus, target_pfa);
+    let gap = r_in.auc - r_out.auc;
+    ShiftReport {
+        detector: det.name().to_string(),
+        auc_in: r_in.auc,
+        auc_out: r_out.auc,
+        optimism_gap: gap,
+        optimistic: gap > optimism_tol,
+        in_operating: r_in.operating,
+        out_operating: r_out.operating,
+    }
+}
+
 /// A train/test partition of a corpus.
 #[derive(Clone, Debug)]
 pub struct Split {
@@ -775,6 +833,79 @@ mod tests {
         );
         assert!(pd(&sqm, ImpairmentClass::Multipath) > pd(&agc, ImpairmentClass::Multipath));
         assert!(pd(&energy, ImpairmentClass::Jamming) > pd(&sqm, ImpairmentClass::Jamming));
+    }
+
+    #[test]
+    fn severity_scale_one_is_bit_identical_and_lower_scale_is_harder() {
+        // scale = 1.0 must reproduce the nominal corpus bit-for-bit (no RNG shift).
+        let base = generate_corpus(&CorpusConfig::default(), 21);
+        let scaled1 = generate_corpus(
+            &CorpusConfig {
+                severity_scale: 1.0,
+                ..Default::default()
+            },
+            21,
+        );
+        for (x, y) in base.iter().zip(scaled1.iter()) {
+            assert_eq!(x.obs.agc_excess_db.to_bits(), y.obs.agc_excess_db.to_bits());
+            assert_eq!(x.obs.parity_stat.to_bits(), y.obs.parity_stat.to_bits());
+        }
+        // A subtler (lower-scale) corpus is genuinely harder ⇒ lower fused AUC.
+        let hard = generate_corpus(
+            &CorpusConfig {
+                n_per_class: 400,
+                severity_scale: 0.3,
+                ..Default::default()
+            },
+            21,
+        );
+        let easy = generate_corpus(
+            &CorpusConfig {
+                n_per_class: 400,
+                ..Default::default()
+            },
+            21,
+        );
+        let auc_hard = evaluate(&FusedDetector, &hard, 0.05).auc;
+        let auc_easy = evaluate(&FusedDetector, &easy, 0.05).auc;
+        assert!(
+            auc_easy > auc_hard,
+            "easy {auc_easy} should exceed hard {auc_hard}"
+        );
+    }
+
+    #[test]
+    fn distribution_shift_report_flags_in_distribution_optimism() {
+        let in_corpus = generate_corpus(
+            &CorpusConfig {
+                n_per_class: 400,
+                ..Default::default()
+            },
+            33,
+        );
+        // Out-of-distribution = much subtler impairments the detector was not tuned on.
+        let out_corpus = generate_corpus(
+            &CorpusConfig {
+                n_per_class: 400,
+                severity_scale: 0.25,
+                ..Default::default()
+            },
+            34,
+        );
+        let rep = distribution_shift_report(&FusedDetector, &in_corpus, &out_corpus, 0.05, 0.05);
+        assert!(
+            rep.auc_in >= rep.auc_out,
+            "in-dist should not be worse than shifted"
+        );
+        assert!(
+            rep.optimism_gap > 0.0,
+            "a harder shifted regime should drop AUC"
+        );
+        assert!(
+            rep.optimistic,
+            "gap {} should exceed the 0.05 tolerance and be flagged",
+            rep.optimism_gap
+        );
     }
 
     #[test]

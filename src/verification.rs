@@ -255,9 +255,9 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         VerificationItem {
             requirement: "AI/ML RF-impairment detection evaluation (13494)",
-            capability: "Labelled synthetic impairment corpus + detector-agnostic ROC/AUC/confusion/Pfa-Pmd harness with leakage guard",
+            capability: "Labelled synthetic impairment corpus + detector-agnostic ROC/AUC/confusion/Pfa-Pmd harness; leakage guard, stratified split, distribution-shift (in- vs out-of-regime) optimism report",
             module: "impairment_eval",
-            tests: "impairment_eval::tests (AUC perfect=1/identical=0.5, ROC monotone, fused>0.8, per-class layer separation, leakage guard, reproducible corpus)",
+            tests: "impairment_eval::tests (AUC perfect=1/identical=0.5/tie=0.125, ROC monotone, fused>0.8, per-class layer separation, leakage guard, reproducible corpus, distribution-shift flags optimism)",
             oracle: "Closed-form AUC bounds (Mann–Whitney) + a perfect-oracle detector; corpus is SYNTHETIC (parameter-grounded, not field/IQ)",
             oracle_kind: InternalConsistency,
             status: Modelled,
