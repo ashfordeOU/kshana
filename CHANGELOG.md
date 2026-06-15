@@ -11,6 +11,39 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **17-state hybrid quantum + classical tightly-coupled UKF — surfaced as a runnable
+  scenario (MODELLED).** A new `hybrid-ukf` scenario kind (`src/fusion/hybrid_ukf.rs`,
+  `scenarios/hybrid-ukf.toml`) that turns the previously API-only 17-state tightly-coupled
+  GNSS/INS unscented filter (`src/fusion/tightly_coupled17.rs`) into a scenario the
+  CLI/Python/WASM/MCP bindings can dispatch. The 17-state error vector is the **15 INS error
+  states** (position, velocity, attitude misalignment, accel + gyro bias) augmented with the
+  **CAI-derived accelerometer-bias correction** — the cold-atom interferometer
+  (`src/inertial/quantum_imu.rs`) sets the velocity-random-walk floor `q_va`, so the long-term
+  coast drift is the quantum-sensor-limited one — and a **2-state phase + frequency clock**
+  whose process noise comes from the **q-parameter clock engine**
+  (`clock_state::q_from_allan`, mapping a clock's Allan-deviation profile to the `q_wf`/`q_rw`
+  PSDs, scaled to range units). The platform is GNSS-aided for a lead-in (the filter learns
+  the biases, velocity and clock), then coasts through a GNSS outage on the CAI IMU + clock
+  alone, so the run demonstrates **classical-IMU short-term + quantum long-term**
+  hybridisation. The figure of merit is **filter self-consistency**: pooled **NEES**
+  (Normalised Estimation Error Squared, over the estimable position/velocity/clock subset) and
+  **innovation-whiteness NIS** (Normalised Innovation Squared) over a Monte-Carlo ensemble,
+  checked against their 95% χ² bands (Bar-Shalom §5.4). The matched filter lands inside the
+  bands; a deliberately mistuned filter (the `q_factor` / `r_factor` knobs) is flagged — an
+  objectively checkable, discriminating gate, not a rubber stamp. **The NEES/innovation-
+  whiteness check is the STATISTICAL ORACLE: a self-consistency statement (the filter's
+  reported covariance honestly matches the spread of its own errors under the modelled noise),
+  NOT a real-world accuracy guarantee.** Honest scope: everything is **modelled / simulation**
+  — the CAI and clock inputs are bracketed, literature-representative values, not measured
+  hardware; the CAI hardware and its Key-Person stay partner-owned; nothing here implies
+  TRL > 3, flight heritage, or external validation (the result JSON and one-line summary carry
+  these labels explicitly). The single constant-velocity, level trajectory leaves attitude and
+  IMU-bias states only weakly observable, so NEES is assessed over the 8 estimable states; a
+  manoeuvring trajectory for full-17 observability is roadmap. Also adds `Ukf::update_stats`
+  (returns the per-update NIS) and `TightlyCoupled17::{update_gnss_nis, nees, nees_subset}`
+  consistency instrumentation. All existing scenarios are unaffected (additive; reproducibility
+  goldens unchanged).
+
 - **Sequential (recursive) terrain-referenced navigation — SITAN as a running filter.**
   A new `terrain-slam` scenario kind (`src/altpnt/sequential.rs`,
   `scenarios/terrain-slam.toml`) that runs the existing altimeter-vs-DEM measurement

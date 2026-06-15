@@ -236,10 +236,23 @@ impl Ukf {
     where
         H: Fn(&[f64]) -> Vec<f64>,
     {
+        self.update_stats(h, z, r).is_some()
+    }
+
+    /// Update exactly as [`update`](Self::update), additionally returning the
+    /// **Normalised Innovation Squared** `NIS = νᵀ S⁻¹ ν` of this measurement (the
+    /// pre-update innovation `ν = z − ẑ` whitened by its innovation covariance
+    /// `S = H P Hᵀ + R`). Under a correctly-tuned filter the innovation sequence is
+    /// white with `NIS ∼ χ²(m)` (`m = z.len()`), so this scalar is the observable
+    /// consistency / innovation-whiteness statistic (Bar-Shalom, *Estimation with
+    /// Applications to Tracking and Navigation*, §5.4). Returns `None` (state
+    /// untouched) on a non-PD covariance or singular `S`.
+    pub fn update_stats<H>(&mut self, h: H, z: &[f64], r: &[Vec<f64>]) -> Option<f64>
+    where
+        H: Fn(&[f64]) -> Vec<f64>,
+    {
         let n = self.n();
-        let Some((pts, wm, wc)) = self.sigma_points() else {
-            return false;
-        };
+        let (pts, wm, wc) = self.sigma_points()?;
         let zsig: Vec<Vec<f64>> = pts.iter().map(|p| h(p)).collect();
         let m = zsig[0].len();
         // Predicted measurement mean.
@@ -271,12 +284,13 @@ impl Ukf {
                 s[i][j] += r[i][j];
             }
         }
-        let Some(s_inv) = inverse(&s) else {
-            return false;
-        };
+        let s_inv = inverse(&s)?;
         // Kalman gain K = C·S⁻¹ (n×m · m×m = n×m).
         let k = matmul(&c, &s_inv); // n × m
         let innov: Vec<f64> = z.iter().zip(&zbar).map(|(&a, &b)| a - b).collect();
+        // NIS = νᵀ S⁻¹ ν (computed before the state is touched).
+        let s_inv_innov = mat_vec(&s_inv, &innov);
+        let nis: f64 = innov.iter().zip(&s_inv_innov).map(|(&a, &b)| a * b).sum();
         let dx = mat_vec(&k, &innov);
         for (xi, &d) in self.x.iter_mut().zip(&dx) {
             *xi += d;
@@ -289,7 +303,7 @@ impl Ukf {
                 *pij -= kij;
             }
         }
-        true
+        Some(nis)
     }
 }
 
@@ -437,6 +451,33 @@ mod tests {
         let (xk, pk) = kf_update(&xk, &pk, &h_mat, &z, &r);
         assert!(ukf.x.iter().zip(&xk).all(|(&a, &b)| (a - b).abs() < 1e-9));
         assert!(approx_eq_mat(&ukf.p, &pk, 1e-9));
+    }
+
+    #[test]
+    fn update_stats_returns_hand_derived_nis() {
+        // 1-D constant state, scalar measurement: NIS = ν²/S with ν = z − x̂ and
+        // S = P₀₀ + R. Prior x̂ = 2, P = 4; measurement z = 5, R = 1.
+        //   ν = 5 − 2 = 3, S = 4 + 1 = 5 ⇒ NIS = 9/5 = 1.8 (hand-derived).
+        let mut ukf = Ukf::new(vec![2.0], vec![vec![4.0]]);
+        let nis = ukf
+            .update_stats(|s| vec![s[0]], &[5.0], &[vec![1.0]])
+            .expect("update succeeds");
+        assert!((nis - 1.8).abs() < 1e-12, "NIS = {nis}, expected 1.8");
+    }
+
+    #[test]
+    fn update_and_update_stats_agree_on_the_posterior() {
+        // The convenience `update` must leave exactly the state `update_stats` does
+        // (it delegates), so the NIS instrumentation never changes the estimate.
+        let h = |s: &[f64]| vec![s[0]];
+        let z = [5.0];
+        let r = vec![vec![1.0]];
+        let mut a = Ukf::new(vec![2.0], vec![vec![4.0]]);
+        let mut b = a.clone();
+        assert!(a.update(h, &z, &r));
+        assert!(b.update_stats(h, &z, &r).is_some());
+        assert_eq!(a.x, b.x);
+        assert_eq!(a.p, b.p);
     }
 
     #[test]
