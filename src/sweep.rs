@@ -109,7 +109,7 @@ pub fn run_sweep(scn: &SweepScenario) -> Result<SweepResult, String> {
         });
     }
     Ok(SweepResult {
-        schema_version: "0.7".into(),
+        schema_version: crate::interchange::SCHEMA_VERSION.into(),
         engine_version: env!("CARGO_PKG_VERSION").into(),
         parameter: scn.parameter.clone(),
         metric: scn.metric.clone(),
@@ -317,7 +317,7 @@ pub fn nd_sweep(
         });
     }
     Ok(NdSweepResult {
-        schema_version: "0.7".into(),
+        schema_version: crate::interchange::SCHEMA_VERSION.into(),
         engine_version: env!("CARGO_PKG_VERSION").into(),
         parameters: axes.iter().map(|a| a.parameter.clone()).collect(),
         metric: metric.into(),
@@ -402,7 +402,7 @@ pub fn nd_sweep_ensemble(
         });
     }
     Ok(NdSweepCiResult {
-        schema_version: "0.7".into(),
+        schema_version: crate::interchange::SCHEMA_VERSION.into(),
         engine_version: env!("CARGO_PKG_VERSION").into(),
         parameters: axes.iter().map(|a| a.parameter.clone()).collect(),
         metric: metric.into(),
@@ -683,7 +683,7 @@ pub fn run_generic_sweep(scn: &GenericSweepScenario) -> Result<GenericNdSweepRes
         total,
     )?;
     Ok(GenericNdSweepResult {
-        schema_version: "0.7".into(),
+        schema_version: crate::interchange::SCHEMA_VERSION.into(),
         engine_version: env!("CARGO_PKG_VERSION").into(),
         kind,
         keys: scn.axes.iter().map(|a| a.key.clone()).collect(),

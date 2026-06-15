@@ -38,6 +38,7 @@ mod igrf_data;
 pub mod impairment_eval;
 pub mod inertial;
 pub mod integrator;
+pub mod interchange;
 pub mod ionex;
 pub mod jamming;
 pub mod jd2;

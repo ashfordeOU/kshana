@@ -7,6 +7,39 @@ and how to read it. The canonical type is `RunResult` in
 [`src/report.rs`](../src/report.rs); the figures of merit are `FoMScores` in
 [`src/fom.rs`](../src/fom.rs).
 
+## Interchange envelope (KIF) — recognising and version-checking an artifact
+
+Kshana artifacts can be wrapped in a neutral, self-describing **interchange
+envelope** so a third-party tool can recognise the file and decide whether it
+can read it *before* it commits to a payload schema. The canonical type is
+`Envelope` in [`src/interchange.rs`](../src/interchange.rs).
+
+| Key | Type | Meaning |
+|-----|------|---------|
+| `format` | string | Always `"kshana-interchange"` (`FORMAT_TAG`) — how a foreign tool recognises a Kshana artifact. |
+| `schema_version` | string | The `MAJOR.MINOR` schema version (`SCHEMA_VERSION`, the single source of truth for the whole crate). |
+| `kind` | string | Artifact kind, e.g. `"scenario"`, `"run-result"`, `"trade-study"` — lets a consumer route without parsing the body. |
+| `engine_version` | string | Crate version (`Cargo.toml`) that produced the payload. |
+| `payload` | object | The wrapped artifact as canonical JSON (a `Scenario`, a `RunResult`, …). |
+
+**Compatibility contract.** Versions are `MAJOR.MINOR`. New fields are added with
+`#[serde(default)]` (the *additive discipline*), so a reader can parse any
+artifact of the **same major and an equal-or-older minor** (`Compatible`). A
+strictly **newer minor** (`ForwardIncompatible`) may carry fields this reader
+cannot honour, and a **different major** (`MajorIncompatible`) is a structural
+break — both are refused by `Envelope::parse`, which validates the format tag and
+version on the boundary rather than silently mis-parsing foreign input.
+
+**Determinism.** The envelope carries **no timestamp** — Kshana's reproducibility
+promise (`scenario + seed + engine_version` reproduces a run) requires it.
+Provenance lives in `engine_version` and the payload's own `scenario_hash`.
+
+A typed read-back (`Envelope::payload_as::<T>()`) works for any payload that
+implements `Deserialize` (e.g. `Scenario`). Result artifacts are serialize-only
+by design and are read as the raw `payload` JSON value.
+
+
+
 ## Top level (clock and orbit packs)
 
 | Key | Type / unit | Meaning | Source |

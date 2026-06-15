@@ -624,7 +624,7 @@ pub fn run_gnss_sim(scn: &GnssSimScenario) -> GnssSimResult {
     let hv = hvpl_count.max(1) as f64;
     let mc = meas_count.max(1) as f64;
     GnssSimResult {
-        schema_version: "0.7".into(),
+        schema_version: crate::interchange::SCHEMA_VERSION.into(),
         engine_version: env!("CARGO_PKG_VERSION").into(),
         scenario_hash: hash_scenario(scn),
         seed: scn.seed,
