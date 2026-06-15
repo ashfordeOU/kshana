@@ -129,6 +129,22 @@ impl TightlyCoupled17 {
         sigma_pr: f64,
         sigma_rr: f64,
     ) -> bool {
+        self.update_gnss_nis(sats, pr, rr, sigma_pr, sigma_rr)
+            .is_some()
+    }
+
+    /// GNSS update exactly as [`update_gnss`](Self::update_gnss), additionally returning
+    /// the **Normalised Innovation Squared** of the measurement vector — the observable
+    /// innovation-whiteness statistic, distributed `χ²(2·n_sat)` under a consistent
+    /// filter. `None` (state untouched) on a singular update.
+    pub fn update_gnss_nis(
+        &mut self,
+        sats: &[Sat],
+        pr: &[f64],
+        rr: &[f64],
+        sigma_pr: f64,
+        sigma_rr: f64,
+    ) -> Option<f64> {
         let m = sats.len() * 2;
         let sats = sats.to_vec();
         let h = move |x: &[f64]| -> Vec<f64> {
@@ -149,7 +165,45 @@ impl TightlyCoupled17 {
             r[2 * i][2 * i] = sigma_pr * sigma_pr;
             r[2 * i + 1][2 * i + 1] = sigma_rr * sigma_rr;
         }
-        self.ukf.update(h, &z, &r)
+        self.ukf.update_stats(h, &z, &r)
+    }
+
+    /// **Normalised Estimation Error Squared** `NEES = ẽᵀ P⁻¹ ẽ` of the current estimate
+    /// against a full 17-state truth vector `x_true` (`ẽ = x_true − x̂`). Under a
+    /// consistent filter `NEES ∼ χ²(17)` (`E[NEES] = 17`). This is the validation-time
+    /// statistic (it needs the truth). Returns `None` if `P` is singular.
+    pub fn nees(&self, x_true: &[f64]) -> Option<f64> {
+        let idx: Vec<usize> = (0..N).collect();
+        self.nees_subset(x_true, &idx)
+    }
+
+    /// **Normalised Estimation Error Squared over a chosen state subset** — `NEES =
+    /// ẽ_Sᵀ (P_SS)⁻¹ ẽ_S` for the index set `idx` (the marginal sub-block of `P` and the
+    /// corresponding error components). Under a consistent filter this is `χ²(|idx|)`.
+    ///
+    /// Why a subset matters: on a constant-velocity, level trajectory the attitude and
+    /// IMU-bias error states are only **weakly observable**, so their marginal covariance
+    /// stays at its (tiny) prior while the truth error is a prior draw — and the full
+    /// 17×17 `P` then spans ~12 orders of magnitude in scale, so a direct inverse is
+    /// numerically meaningless. Assessing NEES over the **estimable** subset (position,
+    /// velocity, clock) is the honest, well-conditioned consistency statistic. Returns
+    /// `None` if the sub-block is singular.
+    pub fn nees_subset(&self, x_true: &[f64], idx: &[usize]) -> Option<f64> {
+        assert_eq!(x_true.len(), N);
+        let k = idx.len();
+        let e: Vec<f64> = idx.iter().map(|&i| x_true[i] - self.ukf.x[i]).collect();
+        // Marginal covariance sub-block P_SS.
+        let mut sub = vec![vec![0.0; k]; k];
+        for (a, &i) in idx.iter().enumerate() {
+            for (b, &j) in idx.iter().enumerate() {
+                sub[a][b] = self.ukf.p[i][j];
+            }
+        }
+        let p_inv = super::ukf::inverse(&sub)?;
+        let pe = (0..k)
+            .map(|a| (0..k).map(|b| p_inv[a][b] * e[b]).sum::<f64>())
+            .collect::<Vec<_>>();
+        Some(e.iter().zip(&pe).map(|(&a, &b)| a * b).sum())
     }
 
     /// Position error (m) of the current estimate against a known truth.
@@ -326,6 +380,68 @@ mod tests {
             let e = (nav.ukf.x[BA + k] - b).abs();
             assert!(e < 5e-3, "accel bias[{k}] error {e} m/s²");
         }
+    }
+
+    #[test]
+    fn nees_matches_hand_derived_value_for_a_diagonal_covariance() {
+        // With a diagonal P, NEES = Σ eₖ²/Pₖₖ. Build a known offset on three states
+        // and a unit-on-those, large-elsewhere diagonal P so the sum is exact.
+        let mut x0 = vec![0.0; N];
+        let p0 = diag(&[1e30; N]); // huge variance ⇒ those terms contribute ~0
+        let q = diag(&[0.0; N]);
+        let mut nav = TightlyCoupled17::new(x0.clone(), p0, q, gravity());
+        // Set three diagonal entries to known values via direct covariance write.
+        nav.ukf.p[P][P] = 4.0; // err 6 ⇒ 36/4 = 9
+        nav.ukf.p[V][V] = 1.0; // err 2 ⇒ 4/1 = 4
+        nav.ukf.p[CB][CB] = 9.0; // err 3 ⇒ 9/9 = 1
+        x0[P] = 6.0;
+        x0[V] = 2.0;
+        x0[CB] = 3.0;
+        let nees = nav.nees(&x0).expect("P invertible");
+        // Hand-derived: 9 + 4 + 1 = 14, plus ~0 from the 1e30-variance states.
+        assert!((nees - 14.0).abs() < 1e-6, "NEES = {nees}, expected 14");
+    }
+
+    #[test]
+    fn nees_subset_uses_only_the_chosen_block() {
+        // With a diagonal P, the subset NEES = Σ_{k∈idx} eₖ²/Pₖₖ — independent of the
+        // off-subset states. Put a huge error on an EXCLUDED state and confirm it is ignored.
+        let mut x0 = vec![0.0; N];
+        let p0 = diag(&[1.0; N]);
+        let q = diag(&[0.0; N]);
+        let mut nav = TightlyCoupled17::new(x0.clone(), p0, q, gravity());
+        nav.ukf.p[P][P] = 4.0;
+        nav.ukf.p[V][V] = 1.0;
+        x0[P] = 6.0; // 36/4 = 9
+        x0[V] = 2.0; // 4/1 = 4
+        x0[PSI] = 1e6; // EXCLUDED state with a massive error — must not appear.
+                       // Subset = {position-x, velocity-x} ⇒ NEES = 9 + 4 = 13 exactly.
+        let nees = nav.nees_subset(&x0, &[P, V]).expect("block invertible");
+        assert!(
+            (nees - 13.0).abs() < 1e-9,
+            "subset NEES = {nees}, expected 13"
+        );
+    }
+
+    #[test]
+    fn update_gnss_nis_is_returned_and_nonnegative() {
+        // A well-initialised filter at truth returns a finite, non-negative NIS for a
+        // noiseless measurement (the measurement equals the prediction ⇒ small NIS).
+        let v0 = [0.0, 50.0, 0.0];
+        let x0 = truth_state(0.0, v0, [0.0; 3], [0.0; 3]);
+        let p0 = diag(&[1.0; N]);
+        let q = diag(&[0.0; N]);
+        let mut nav = TightlyCoupled17::new(x0.clone(), p0, q, gravity());
+        let sats = sats();
+        let pr: Vec<f64> = sats.iter().map(|s| pseudorange(&x0, s)).collect();
+        let rr: Vec<f64> = sats.iter().map(|s| range_rate(&x0, s)).collect();
+        let nis = nav
+            .update_gnss_nis(&sats, &pr, &rr, 1.0, 0.05)
+            .expect("update succeeds");
+        assert!(nis.is_finite() && nis >= 0.0, "NIS = {nis}");
+        // Measuring exactly the prediction leaves a tiny innovation ⇒ NIS ≪ the χ²(12)
+        // mean of 12 for six satellites.
+        assert!(nis < 12.0, "noiseless NIS should be small, got {nis}");
     }
 
     #[test]

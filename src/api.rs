@@ -223,6 +223,7 @@ pub enum ScenarioKind {
     TimeTransfer,
     Hybrid,
     Fusion,
+    HybridUkf,
     GnssIns,
     GnssSim,
     Jamming,
@@ -251,6 +252,7 @@ impl ScenarioKind {
             ScenarioKind::TimeTransfer => "timetransfer",
             ScenarioKind::Hybrid => "hybrid",
             ScenarioKind::Fusion => "fusion",
+            ScenarioKind::HybridUkf => "hybrid-ukf",
             ScenarioKind::GnssIns => "gnss-ins",
             ScenarioKind::GnssSim => "gnss-sim",
             ScenarioKind::Jamming => "jamming",
@@ -283,6 +285,7 @@ impl ScenarioKind {
             "timetransfer" => ScenarioKind::TimeTransfer,
             "hybrid" => ScenarioKind::Hybrid,
             "fusion" => ScenarioKind::Fusion,
+            "hybrid-ukf" => ScenarioKind::HybridUkf,
             "gnss-ins" => ScenarioKind::GnssIns,
             "gnss-sim" => ScenarioKind::GnssSim,
             "jamming" => ScenarioKind::Jamming,
@@ -329,6 +332,7 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "timetransfer", description: "Optical vs RF two-way time/frequency transfer.", required_fields: &["time", "optical", "rf"], optional_fields: &["seed"] },
         ScenarioMeta { name: "hybrid", description: "Hybrid PNT capstone: clock + IMU + time-transfer aiding.", required_fields: &["timing_spec_ns", "position_spec_m", "time", "gnss", "clock_quantum", "clock_classical", "accel_quantum", "accel_classical"], optional_fields: &["resync", "seed"] },
         ScenarioMeta { name: "fusion", description: "Joint Kalman sensor-fusion PNT over the same hybrid inputs.", required_fields: &["timing_spec_ns", "position_spec_m", "time", "gnss", "clock_quantum", "clock_classical", "accel_quantum", "accel_classical"], optional_fields: &["resync", "seed"] },
+        ScenarioMeta { name: "hybrid-ukf", description: "17-state hybrid quantum+classical tightly-coupled GNSS/INS UKF (MODELLED): 15 INS error states + CAI-derived accel-bias correction + a 2-state (phase+frequency) clock from the q-parameter clock engine, driven by the bracketed CAI error model. The figure of merit is filter self-consistency (NEES + innovation-whiteness vs χ² bounds) — a self-consistency statement, NOT a real-world accuracy guarantee. Simulation only; no TRL>3, no flight heritage, no external validation.", required_fields: &["time", "gnss", "accel", "clock"], optional_fields: &["seed", "residual_accel_bias_m_s2", "speed_m_s", "sigma_pr_m", "sigma_rr_mps", "consistency_seeds", "q_factor", "r_factor"] },
         ScenarioMeta { name: "gnss-ins", description: "Loosely- and tightly-coupled GNSS/INS error-state EKF.", required_fields: &["time", "gnss", "imu_quantum", "imu_classical"], optional_fields: &["seed", "threshold_m", "fix_interval_s", "sigma_pos_m", "sigma_vel_mps", "lat_deg", "lon_deg", "alt_m"] },
         ScenarioMeta { name: "gnss-sim", description: "Measurement-domain pseudorange simulation (Klobuchar iono, Saastamoinen/Niell tropo) + RAIM.", required_fields: &["seed", "time", "receiver", "constellation"], optional_fields: &["iono", "tropo", "mask_deg", "noise_sigma_m", "multipath_m", "sat_clock_rms_m", "uere_m", "p_fa", "p_md", "alert_limit_h_m", "alert_limit_v_m"] },
         ScenarioMeta { name: "jamming", description: "Link-budget jamming: J/S → effective C/N₀ → loss of lock.", required_fields: &["seed", "time", "receiver", "constellation"], optional_fields: &["jammer", "mask_deg", "tracking_threshold_dbhz", "degraded_margin_db", "signal_power_dbw", "temp_k", "freq_hz", "chip_rate_hz"] },
@@ -645,6 +649,29 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
             Ok(RunOutput {
                 json: json_of(&r),
                 svg: crate::hybrid::to_svg(&r),
+                summary,
+            })
+        }
+        ScenarioKind::HybridUkf => {
+            let scn: crate::fusion::hybrid_ukf::HybridUkfScenario =
+                toml::from_str(src).map_err(|e| format!("invalid hybrid-ukf scenario: {e}"))?;
+            scn.time.validate()?;
+            let r = crate::fusion::hybrid_ukf::run_hybrid_ukf(&scn);
+            let c = &r.consistency;
+            let summary = format!(
+                "scenario {} | hybrid-ukf (17-state, MODELLED) | sensor {} (q_va {:.2e}) | clock q_wf {:.2e} q_rw {:.2e} | NIS {:.2}/{} in [{:.2},{:.2}] | NEES {:.2}/{} in [{:.2},{:.2}] | {} | aided {:.1}m -> coast {:.1}m over {:.0}s | self-consistency, not accuracy",
+                &r.scenario_hash[..12],
+                if r.quantum_cai { "quantum-CAI" } else { "classical" },
+                r.effective_q_va,
+                r.clock_q_wf, r.clock_q_rw,
+                c.nis_mean, c.nis_dof, c.nis_chi2_lower_95, c.nis_chi2_upper_95,
+                c.nees_mean, c.nees_dof, c.nees_chi2_lower_95, c.nees_chi2_upper_95,
+                if c.consistent { "CONSISTENT" } else { "INCONSISTENT" },
+                r.coast.aided_pos_rms_m, r.coast.coast_end_pos_rms_m, r.coast.coast_duration_s,
+            );
+            Ok(RunOutput {
+                json: json_of(&r),
+                svg: crate::fusion::hybrid_ukf::to_svg(&r),
                 summary,
             })
         }
@@ -1010,6 +1037,7 @@ mod tests {
             ScenarioKind::TimeTransfer,
             ScenarioKind::Hybrid,
             ScenarioKind::Fusion,
+            ScenarioKind::HybridUkf,
             ScenarioKind::GnssIns,
             ScenarioKind::GnssSim,
             ScenarioKind::Jamming,
@@ -1116,6 +1144,34 @@ mod tests {
         assert!(out.svg.starts_with("<svg"));
         assert!(out.summary.starts_with("mars-pnt "));
         assert!(out.summary.contains("not a certified PL"));
+    }
+
+    #[test]
+    fn hybrid_ukf_kind_round_trips_through_the_dispatch() {
+        // The 17-state hybrid quantum+classical UKF scenario dispatches end-to-end through the
+        // shared entry point the CLI/Python/wasm/MCP bindings use: a `hybrid-ukf` TOML in, valid
+        // JSON + SVG out, carrying the consistency oracle (NEES + innovation-whiteness) and the
+        // explicit MODELLED / self-consistency-not-accuracy honesty labels.
+        let src = include_str!("../scenarios/hybrid-ukf.toml");
+        assert_eq!(
+            ScenarioKind::classify(src).unwrap(),
+            ScenarioKind::HybridUkf
+        );
+        let out = run_toml(src).expect("hybrid-ukf scenario dispatches");
+        assert!(out.json.starts_with('{'));
+        assert!(out.json.contains("\"scenario_hash\""));
+        // The statistical oracle is present in the JSON…
+        assert!(out.json.contains("nis_mean") && out.json.contains("nees_mean"));
+        assert!(out.json.contains("nis_chi2_lower_95") && out.json.contains("nees_chi2_upper_95"));
+        assert!(out.json.contains("\"consistent\""));
+        // …and the honesty labelling is unmissable.
+        assert!(out.json.contains("MODELLED SIMULATION"));
+        assert!(out.json.contains("NOT a"));
+        // Non-empty SVG and a one-line summary that names the kind and the honesty caveat.
+        assert!(out.svg.starts_with("<svg"));
+        assert!(out.summary.contains("hybrid-ukf"));
+        assert!(out.summary.contains("MODELLED"));
+        assert!(out.summary.contains("self-consistency, not accuracy"));
     }
 
     #[test]
