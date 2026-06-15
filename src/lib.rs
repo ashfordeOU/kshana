@@ -50,6 +50,7 @@ pub mod mars_atmos;
 pub mod mars_frame;
 pub mod mars_pnt;
 pub mod models;
+pub mod navsignal;
 pub mod nutation;
 mod nutation_iau2000a_data;
 pub mod oem;
