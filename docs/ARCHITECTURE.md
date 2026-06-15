@@ -48,7 +48,7 @@ flowchart TD
       run["run.rs<br/>run / run_clock / run_orbit_clock"]
     end
 
-    inertial["inertial.rs<br/>Pack 2 · AccelModel (accel + gyro + bias instability/RW) · run_inertial"]
+    inertial["inertial.rs<br/>Pack 2 · AccelModel (accel + gyro + bias instability/RW) · run_inertial · quantum_imu CAI + QuantumNavBudget dead-reckoning-over-holdover"]
     timetransfer["timetransfer.rs<br/>Pack 3 · TimeTransferLink · run_timetransfer"]
     hybrid["hybrid.rs<br/>Pack 4 · run_suite · score_hybrid · run_hybrid (+ integrity/security)"]
     fusion["fusion.rs<br/>joint Kalman PNT estimator · run_fusion"]
@@ -59,7 +59,9 @@ flowchart TD
     sweep["sweep.rs<br/>trade-study parameter sweeps"]
     spoof["spoof.rs<br/>active spoofing-attack demonstrator"]
     jamming["jamming.rs<br/>link-budget anti-jam C/N₀ (J/S · processing gain · Q)"]
-    navsignal["navsignal.rs<br/>signal level: BPSK-R / BOC PSD · SSC κ · Gabor BW · DLL jitter · multipath"]
+    navsignal["navsignal.rs<br/>signal level: BPSK-R / BOC PSD · SSC κ · Gabor BW · DLL jitter · multipath · ranging-code (m-seq/Gold) design-trade"]
+    holdover["holdover.rs<br/>GNSS-denied clock holdover: van-Loan coast → holdover-to-threshold · quantum-clock classes"]
+    verification["verification.rs<br/>machine-checked requirement→module→test→oracle→status matrix"]
 
     main --> api
     py --> api
@@ -74,8 +76,11 @@ flowchart TD
     api --> spoof
     spoof --> security
     api --> jamming
+    api --> holdover
+    api --> verification
     navsignal -. derives anti-jam Q (κ → Q=1/(R_c·κ)) .-> jamming
     jamming -. uses PSD / SSC .-> navsignal
+    holdover -. coast-variance vs van-Loan recursion .-> kalman
     ensemble --> run
     sweep --> run
     orbit --> tle
@@ -112,7 +117,20 @@ them; `orbit` derives a GNSS timeline from geometry that then feeds the Pack 1 r
 `navsignal` module sits at the signal level between the link budget and the measurement
 domain: it derives the spectral-separation coefficient `κ` from the actual signal and
 jammer power spectra, from which `jamming` now computes its anti-jam `Q = 1/(R_c·κ)`
-rather than taking a representative constant (cross-checked in CI).
+rather than taking a representative constant (cross-checked in CI); it also carries the
+ranging-code (m-sequence/Gold) design-trade.
+
+Three further modules form the **GNSS-denied resilience** spine. `holdover` answers the
+operational question directly — *how long can this clock free-run before its timing error
+exceeds budget?* — by exposing the van-Loan coast-error closed form as a holdover-to-
+threshold inversion, cross-checked against the multi-step `clock_state` covariance
+recursion. Its inertial twin lives in `inertial::quantum_imu` (`QuantumNavBudget`), which
+composes the cold-atom-interferometer white-noise drift with bias and scale-factor error
+into a position-drift-over-holdover budget (the bias term cross-checked against the
+independent `AccelModel` integrator). `verification` renders the whole engine's
+requirement to module to test to oracle to status matrix, with unit-tested invariants that
+forbid a *validated* label without an independent external oracle — so the assurance claim
+cannot drift from the code.
 
 ## 1a. Astrodynamics, fusion & alt-PNT layers
 

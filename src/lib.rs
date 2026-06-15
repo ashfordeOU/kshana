@@ -31,9 +31,11 @@ pub mod gnss_sim;
 pub mod gravimeter;
 pub mod gravity_sh;
 pub mod gse_sim;
+pub mod holdover;
 pub mod hybrid;
 pub mod igrf;
 mod igrf_data;
+pub mod impairment_eval;
 pub mod inertial;
 pub mod integrator;
 pub mod ionex;
@@ -65,6 +67,7 @@ pub mod propagator;
 pub mod pvt;
 #[cfg(feature = "python")]
 pub mod python;
+pub mod quantum_trade;
 pub mod radiometric;
 pub mod raim;
 pub mod report;
@@ -87,6 +90,7 @@ pub mod timetransfer;
 pub mod timetransfer_adv;
 pub mod tle;
 pub mod types;
+pub mod verification;
 pub mod walker;
 #[cfg(feature = "wasm")]
 pub mod wasm;
