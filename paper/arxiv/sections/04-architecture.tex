@@ -9,14 +9,18 @@ Kshana \citep{baweja2026kshana} is a single Rust core driven by a small TOML sce
 A scenario's \code{kind} field is resolved to a typed variant and the dispatcher
 matches it exhaustively, so the catalogue of packs is compile-checked rather than
 string-dispatched; an absent or unrecognised kind falls back to the historical clock
-pack. The nineteen scenario kinds (eighteen named kinds plus the clock pack as the
-historical default, in v0.16.0) span the resilient-PNT stack: clock holdover,
+pack. The twenty-one scenario kinds (twenty named kinds plus the clock pack as the
+historical default, in v0.17.0) span the resilient-PNT stack from terrestrial through
+cislunar to deep space: clock holdover,
 inertial dead-reckoning, terrestrial and lunar integrity (snapshot/solution-separation
 Advanced Receiver Autonomous Integrity Monitoring, ARAIM, with protection levels),
 two-way time transfer, hybrid and fusion estimation,
 GNSS-INS coupling, GNSS signal simulation, jamming, spoofing and spoof detection,
-ephemeris/ground-track propagation, gravity-map, terrain-aided, and combined alternative-PNT
-navigation, and the one- and $N$-dimensional parameter sweeps (\code{sweep},
+ephemeris/ground-track propagation, real-observation single-point positioning,
+gravity-map, terrain-aided, and combined alternative-PNT navigation,
+deep-space and Mars radiometric navigation (a simulated relay-constellation figure of
+merit, not a certified protection level), and the one- and $N$-dimensional parameter
+sweeps (\code{sweep},
 \code{sweep-nd}) that drive the Monte-Carlo crossover machinery of \S\ref{sec:crossover}.
 
 Sensor and environment behaviours are independent modules. Each carries a published
