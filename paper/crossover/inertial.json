@@ -1,6 +1,6 @@
 {
   "schema_version": "0.1",
-  "engine_version": "0.16.0",
+  "engine_version": "0.17.0",
   "metric": "pos_p95_m",
   "outages_s": [
     30.0,
