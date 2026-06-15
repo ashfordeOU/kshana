@@ -402,7 +402,7 @@ pub fn run_jamming(scn: &JammingScenario) -> JammingResult {
 
     let denom = (n + 1) as f64;
     JammingResult {
-        schema_version: "0.7".into(),
+        schema_version: crate::interchange::SCHEMA_VERSION.into(),
         engine_version: env!("CARGO_PKG_VERSION").into(),
         scenario_hash: hash_scenario(scn),
         seed: scn.seed,
