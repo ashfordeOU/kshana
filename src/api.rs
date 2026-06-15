@@ -235,6 +235,7 @@ pub enum ScenarioKind {
     LunarIntegrity,
     GravityMap,
     Terrain,
+    TerrainSlam,
     CombinedAltPnt,
     Pvt,
     MarsPnt,
@@ -262,6 +263,7 @@ impl ScenarioKind {
             ScenarioKind::LunarIntegrity => "lunar-integrity",
             ScenarioKind::GravityMap => "gravity-map",
             ScenarioKind::Terrain => "terrain-nav",
+            ScenarioKind::TerrainSlam => "terrain-slam",
             ScenarioKind::CombinedAltPnt => "combined-altpnt",
             ScenarioKind::Pvt => "pvt",
             ScenarioKind::MarsPnt => "mars-pnt",
@@ -293,6 +295,7 @@ impl ScenarioKind {
             "lunar-integrity" => ScenarioKind::LunarIntegrity,
             "gravity-map" => ScenarioKind::GravityMap,
             "terrain-nav" => ScenarioKind::Terrain,
+            "terrain-slam" => ScenarioKind::TerrainSlam,
             "combined-altpnt" => ScenarioKind::CombinedAltPnt,
             "pvt" => ScenarioKind::Pvt,
             "mars-pnt" => ScenarioKind::MarsPnt,
@@ -335,6 +338,7 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "sweep-nd", description: "Generic N-D sweep over any pack via dotted TOML keys / JSON metric paths.", required_fields: &["base", "axes", "metrics"], optional_fields: &[] },
         ScenarioMeta { name: "gravity-map", description: "GPS-denied gravity-map-matching navigation: a cold-atom gravimeter recovers a constant INS drift from the gravity-anomaly sequence it flies through.", required_fields: &["nmax", "start_lat_deg", "start_lon_deg", "step_lat_deg", "step_lon_deg", "waypoints", "drift_lat_deg", "drift_lon_deg", "gravimeter_asd", "averaging_time_s", "map_sigma_mgal", "search_half_deg", "search_step_deg"], optional_fields: &["coeffs", "mascons", "refine_stages", "refine_factor", "noise_seed"] },
         ScenarioMeta { name: "terrain-nav", description: "GPS-denied terrain-referenced navigation (TERCOM/SITAN): a radar/baro altimeter matches the ground-elevation profile against an SRTM-style DEM to recover the INS drift.", required_fields: &["dem_seed", "start_lat_deg", "start_lon_deg", "step_lat_deg", "step_lon_deg", "waypoints", "drift_lat_deg", "drift_lon_deg", "altimeter_sigma_m", "map_sigma_m", "search_half_deg", "search_step_deg"], optional_fields: &["refine_stages", "refine_factor", "noise_seed"] },
+        ScenarioMeta { name: "terrain-slam", description: "GPS-denied sequential (recursive) terrain-referenced navigation: a particle filter runs the terrain-match measurement model epoch by epoch (SITAN as a running filter) so a time-varying INS drift is tracked along the track, where the batch terrain-nav only recovers a single constant offset.", required_fields: &["dem_seed", "start_lat_deg", "start_lon_deg", "step_lat_deg", "step_lon_deg", "waypoints", "drift_rate_lat_deg", "drift_rate_lon_deg", "altimeter_sigma_m", "map_sigma_m"], optional_fields: &["n_particles", "init_pos_sigma_deg", "process_sigma_deg", "resample_ess_frac", "seed"] },
         ScenarioMeta { name: "combined-altpnt", description: "GPS-denied combined gravity + magnetic + terrain navigator: three scalar field channels fused per waypoint for a sharper (lower-CRLB) drift fix than any single field.", required_fields: &["start_lat_deg", "start_lon_deg", "step_lat_deg", "step_lon_deg", "waypoints", "drift_lat_deg", "drift_lon_deg", "search_half_deg", "search_step_deg", "nmax", "gravity_sigma_mgal", "igrf_year", "magnetic_sigma_nt", "dem_seed", "terrain_sigma_m"], optional_fields: &["coeffs", "mascons", "magnetic_mascons", "igrf_alt_km", "refine_stages", "refine_factor", "noise_seed"] },
         ScenarioMeta { name: "pvt", description: "Real-observation single-point positioning: solve a receiver's position from a RINEX 3 observation file and a broadcast-navigation file (code pseudoranges, broadcast ephemeris, Klobuchar iono, Saastamoinen/Niell tropo), optionally validated against a surveyed coordinate.", required_fields: &["obs_rinex", "nav_rinex"], optional_fields: &["truth_ecef", "apriori_ecef", "mask_deg"] },
         ScenarioMeta { name: "mars-pnt", description: "Deep-space Mars PNT: a simulated MARCONI relay constellation (areostationary + inclined relays broadcasting one-way + relaying two-way to a deep-space station) navigates a reference user (transfer | lmo | surface) through the joint one-way/two-way radiometric fusion estimator. Reports per-epoch geometry/visibility, achieved RMS vs truth, and the formal covariance (1σ / 3σ position) — an honest simulated FoM, NOT a certified protection level.", required_fields: &[], optional_fields: &["user", "clock_class", "step_s", "duration_s", "nmax", "range_sigma_m", "doppler_sigma_mps", "dynamic_tightness", "two_way_period_s", "seed"] },
@@ -876,6 +880,28 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 summary,
             })
         }
+        ScenarioKind::TerrainSlam => {
+            let cfg: crate::altpnt::sequential::SequentialTrnCfg =
+                toml::from_str(src).map_err(|e| format!("invalid terrain-slam scenario: {e}"))?;
+            let r = crate::altpnt::sequential::run_sequential_trn(&cfg);
+            let summary = format!(
+                "terrain-slam | {} waypoints | free-inertial RMS {:.0} m (final {:.0} m) | terrain-matched RMS {:.0} m (final {:.0} m, {:.0}x cut) | mean ESS {:.0}/{} | matching sigma {:.1} m",
+                r.waypoints,
+                r.free_inertial_rms_m,
+                r.free_inertial_final_m,
+                r.matched_rms_m,
+                r.matched_final_m,
+                if r.matched_rms_m > 0.0 { r.free_inertial_rms_m / r.matched_rms_m } else { 0.0 },
+                r.mean_ess,
+                cfg.n_particles.max(1),
+                r.measurement_sigma_m,
+            );
+            Ok(RunOutput {
+                json: json_of(&r),
+                svg: crate::altpnt::sequential::sequential_trn_svg(&r),
+                summary,
+            })
+        }
         ScenarioKind::CombinedAltPnt => {
             let cfg: crate::altpnt::terrain::CombinedAltPntCfg = toml::from_str(src)
                 .map_err(|e| format!("invalid combined-altpnt scenario: {e}"))?;
@@ -1054,6 +1080,7 @@ mod tests {
             include_str!("../scenarios/gnss-sim-raim.toml"),
             include_str!("../scenarios/gps-denied-gravity-nav.toml"),
             include_str!("../scenarios/terrain-nav.toml"),
+            include_str!("../scenarios/terrain-slam.toml"),
             include_str!("../scenarios/combined-altpnt.toml"),
             include_str!("../scenarios/mars-pnt-lmo.toml"),
         ] {

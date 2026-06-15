@@ -9,6 +9,26 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+
+- **Sequential (recursive) terrain-referenced navigation — SITAN as a running filter.**
+  A new `terrain-slam` scenario kind (`src/altpnt/sequential.rs`,
+  `scenarios/terrain-slam.toml`) that runs the existing altimeter-vs-DEM measurement
+  model **epoch by epoch** through the `particle_filter` SIR engine, rather than the
+  batch coarse-to-fine search `terrain-nav` uses to recover a single *constant* INS
+  offset. At each waypoint the cloud is propagated by the INS-reported increment (itself
+  corrupted by the per-step drift growth), reweighted by the terrain match, and
+  resampled on degeneracy — so a **time-varying** INS drift is *tracked* along the
+  track, which a constant-offset fit structurally cannot do. On the synthetic DEM the
+  recursive estimate stays bounded and re-converges (final ≈ 70 m) while the unaided
+  inertial solution diverges unbounded to ≈ 5 km; per-epoch error follows terrain
+  distinctiveness (it coasts on the biased INS over flat saddles and re-locks over
+  distinctive relief), and the effective-sample-size monitor confirms a healthy cloud.
+  Honest scope: the map is **known and fixed** — recursive *localization* against a
+  stored DEM (the localization half of terrain SLAM), not joint map estimation;
+  non-circular by construction (the injected drift ramp is the independent truth). All
+  existing scenarios are unaffected (additive; reproducibility goldens unchanged).
+
 ## [0.17.0] - 2026-06-14
 
 ### Added
