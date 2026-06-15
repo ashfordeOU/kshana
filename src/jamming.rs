@@ -139,7 +139,10 @@ pub fn effective_cn0_dbhz(cn0_nominal_dbhz: f64, js_db: f64, q: f64, chip_rate_h
 /// Hegarty, §9.4, Table 9.x — wideband Gaussian is the unit reference; a
 /// continuous-wave / narrowband tone despreads less efficiently). The exact value
 /// depends on the jammer's power spectral density relative to the C/A spectrum;
-/// these are representative and may be overridden per scenario.
+/// these are representative and may be overridden per scenario. For a
+/// first-principles value, [`crate::navsignal::q_from_ssc`] derives `Q` from the
+/// actual signal and jammer power spectra (`Q = 1/(R_c·κ)`); the broadband
+/// reference here is cross-checked against it in the tests.
 pub fn q_factor(jammer_type: &str, q_override: Option<f64>) -> f64 {
     if let Some(q) = q_override {
         return q.max(1e-9);
@@ -477,6 +480,31 @@ pub fn to_svg(result: &JammingResult) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn representative_broadband_q_matches_psd_derived_value() {
+        // Cross-check the representative broadband Q = 1.0 against the
+        // first-principles value derived from the C/A power spectrum and a
+        // wideband (white) jammer matched to ±1 chip rate.
+        use crate::navsignal::{q_from_ssc, ssc_vs_white, Modulation, F0_HZ};
+        let ca = Modulation::BpskR { n: 1.0 };
+        let kappa = ssc_vs_white(&ca, 2.0 * F0_HZ);
+        let q_psd = q_from_ssc(kappa, CA_CHIP_RATE_HZ);
+        let q_table = q_factor("broadband", None);
+        // Same order of magnitude as the representative unit reference.
+        assert!(
+            (q_psd / q_table).abs() > 0.3 && (q_psd / q_table).abs() < 3.0,
+            "PSD-derived broadband Q {q_psd:.3} vs representative {q_table:.3}"
+        );
+    }
+
+    #[test]
+    fn narrowband_jammer_is_despread_more_than_broadband() {
+        // The representative table says a CW/narrowband tone is less effective
+        // (higher Q) than matched wideband noise — the despreading spreads the
+        // tone's power. Confirm the ordering the anti-jam equation relies on.
+        assert!(q_factor("narrowband", None) > q_factor("broadband", None));
+    }
 
     #[test]
     fn free_space_path_loss_matches_the_textbook_formula() {
