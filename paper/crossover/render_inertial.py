@@ -52,8 +52,8 @@ def main():
         X, Y, adv, norm=LogNorm(vmin=max(adv.min(), 0.05), vmax=adv.max()),
         cmap="RdYlBu", shading="gouraud",
     )
-    cs = axL.contour(X, Y, adv, levels=[1.0], colors="k", linewidths=2.0)
-    axL.clabel(cs, fmt={1.0: "break-even (advantage = 1)"}, fontsize=8)
+    cs = axL.contour(X, Y, adv, levels=[1.0], colors="k", linewidths=1.8, linestyles="--")
+    axL.clabel(cs, fmt={1.0: "break-even"}, fontsize=8)
     # break-even points per outage (from the engine's own interpolation)
     ok = np.isfinite(be_ug)
     axL.plot(be_ug[ok], outages[ok], "ko", ms=4, zorder=5)
