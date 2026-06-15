@@ -337,7 +337,7 @@ fn mid_lat(start_lat: f64, step_lat: f64, n: usize) -> f64 {
 }
 
 /// Convert a (Δlat, Δlon) degree offset to metres at the representative latitude.
-fn deg_offset_to_m(dlat: f64, dlon: f64, ref_lat_deg: f64) -> f64 {
+pub(crate) fn deg_offset_to_m(dlat: f64, dlon: f64, ref_lat_deg: f64) -> f64 {
     let cos_lat = ref_lat_deg.to_radians().cos();
     let north = dlat * M_PER_DEG;
     let east = dlon * M_PER_DEG * cos_lat;
