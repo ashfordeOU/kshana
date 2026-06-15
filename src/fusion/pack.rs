@@ -355,7 +355,7 @@ pub fn run_gnss_ins(scn: &GnssInsScenario) -> GnssInsResult {
     let q_seed = scn.seed;
     let c_seed = scn.seed.wrapping_add(0x9e37_79b9_7f4a_7c15);
     GnssInsResult {
-        schema_version: "0.7".into(),
+        schema_version: crate::interchange::SCHEMA_VERSION.into(),
         engine_version: env!("CARGO_PKG_VERSION").into(),
         scenario_hash: hash_gnss_ins(scn),
         seed: scn.seed,

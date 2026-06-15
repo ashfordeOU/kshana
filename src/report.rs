@@ -243,7 +243,7 @@ mod svg_tests {
     #[test]
     fn to_svg_produces_valid_chart() {
         let r = RunResult {
-            schema_version: "0.7".into(),
+            schema_version: crate::interchange::SCHEMA_VERSION.into(),
             engine_version: "test".into(),
             scenario_hash: "abc".into(),
             seed: 1,

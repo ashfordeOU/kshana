@@ -296,7 +296,7 @@ fn hash_hybrid(scn: &HybridScenario) -> String {
 /// Run the hybrid PNT scenario for the all-quantum and all-classical suites.
 pub fn run_hybrid(scn: &HybridScenario) -> HybridResult {
     HybridResult {
-        schema_version: "0.7".into(),
+        schema_version: crate::interchange::SCHEMA_VERSION.into(),
         engine_version: env!("CARGO_PKG_VERSION").into(),
         scenario_hash: hash_hybrid(scn),
         seed: scn.seed,
