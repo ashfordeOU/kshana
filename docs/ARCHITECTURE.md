@@ -58,6 +58,8 @@ flowchart TD
     ensemble["ensemble.rs<br/>Monte Carlo confidence bands"]
     sweep["sweep.rs<br/>trade-study parameter sweeps"]
     spoof["spoof.rs<br/>active spoofing-attack demonstrator"]
+    jamming["jamming.rs<br/>link-budget anti-jam C/N₀ (J/S · processing gain · Q)"]
+    navsignal["navsignal.rs<br/>signal level: BPSK-R / BOC PSD · SSC κ · Gabor BW · DLL jitter · multipath"]
 
     main --> api
     py --> api
@@ -71,6 +73,9 @@ flowchart TD
     api --> fusion
     api --> spoof
     spoof --> security
+    api --> jamming
+    navsignal -. derives anti-jam Q (κ → Q=1/(R_c·κ)) .-> jamming
+    jamming -. uses PSD / SSC .-> navsignal
     ensemble --> run
     sweep --> run
     orbit --> tle
@@ -103,7 +108,11 @@ flowchart TD
 The CLI and both bindings funnel through one `api::run_toml` entry point, so they
 never drift. The packs reuse the shared core (`types`, `scenario`, `allan`); Pack 4
 (`hybrid`) composes the models and estimators of Packs 1–3 rather than reimplementing
-them; `orbit` derives a GNSS timeline from geometry that then feeds the Pack 1 run.
+them; `orbit` derives a GNSS timeline from geometry that then feeds the Pack 1 run. The
+`navsignal` module sits at the signal level between the link budget and the measurement
+domain: it derives the spectral-separation coefficient `κ` from the actual signal and
+jammer power spectra, from which `jamming` now computes its anti-jam `Q = 1/(R_c·κ)`
+rather than taking a representative constant (cross-checked in CI).
 
 ## 1a. Astrodynamics, fusion & alt-PNT layers
 
@@ -163,8 +172,20 @@ appear in the dispatch of §4): a **time & reference-frame** layer (`timescales`
 `precession`, `nutation`, `cio`, `frames`, `eop`) reducing TEME↔GCRS↔ITRS and feeding the
 `ephemeris`/ground-track pack; an **integrity** layer (`raim`, `sbas`) for RAIM/ARAIM/SBAS;
 a **resilience** layer (`jamming`, `spoof`, `spoof_detect`, `spoof_monitors`, `detection`)
-for jamming and multi-layer spoof detection; and a **lunar / cislunar** layer (`lunar`,
-`lunar_frame`, `lunar_od`, `cr3bp`) for CR3BP dynamics and LunaNet integrity. The
+for jamming and multi-layer spoof detection, with a **nav-signal** layer (`navsignal`) at
+the signal level — BPSK-R / sine-BOC power spectral densities, the spectral-separation
+coefficient `κ` that now derives `jamming`'s anti-jam `Q`, the RMS (Gabor) ranging
+bandwidth, the coherent early–late DLL code-tracking jitter, and the multipath error
+envelope (signal-performance analysis, **not** RF-payload / antenna hardware design — a
+payload partner's role); and a **lunar / cislunar** layer (`lunar`,
+`lunar_frame`, `lunar_od`, `cr3bp`) for CR3BP dynamics — including the 6×6
+state-transition matrix and a single-shooting differential corrector (`cr3bp_jacobian`,
+`propagate_state_stm`, `differential_correct_halo`) that produces genuinely periodic
+halo/NRHO orbits, reproducing the published L2 southern 9:2 NRHO (the Gateway orbit) at
+period ≈ 6.57 d / perilune ≈ 3,250 km (published ≈ 6.56 d / ≈ 3,370 km); the selenocentric
+MCI/MCMF transform of a corrected orbit and family-continuation remain follow-ons, and the
+NRHO is a CR3BP (circular, Sun-free) solution, not validated against a real LANS/Gateway
+ephemeris — and LunaNet integrity. The
 agency-ephemeris force-model fit (`precise_od`, `lunar_od`, `tides`, `gravity_sh`) and the
 full alt-PNT field set (`igrf`, `altpnt/terrain`, `gravimeter`) round out the module list;
 see [CAPABILITY](CAPABILITY.md) for the per-module maturity.
