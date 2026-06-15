@@ -17,7 +17,7 @@ the AIAA 2006-6753 test set \citep{vallado2006} to a worst-case position error
 of \SI{4.12}{\milli\metre} and velocity error of
 \SI{1.85e-9}{\kilo\metre\per\second}. Against an independent Rust
 implementation, the \code{sgp4} crate \citep{sgp4crate}, agreement is sub-micron
-on the near-earth and resonant orbits and \SI{4.12}{\milli\metre} in the
+on the near-Earth and resonant orbits and \SI{4.12}{\milli\metre} in the
 worst case across all regimes; we therefore do not claim blanket sub-micron
 agreement. The IAU~2000A nutation routine \code{eraNut00a} reproduces the SOFA
 reference values $\Delta\psi = -0.96309\times10^{-5}$~rad and
@@ -96,11 +96,11 @@ are projections from cited device coefficients, treated in
 Section~\ref{sec:crossover} and never entered into this external-validation
 battery.
 
-\begin{table}[t]
+\begin{table}[!htbp]
 \centering
-\small
+\footnotesize
 \setlength{\tabcolsep}{5pt}
-\renewcommand{\arraystretch}{1.25}
+\renewcommand{\arraystretch}{1.1}
 \caption{External-validation battery, tiered by the strength of the external
 anchor. Every result is compared against an oracle independent of the engine.
 Tier~1 reproduces an authoritative reference to the numerical floor; Tier~2
@@ -122,7 +122,7 @@ AIAA 2006-6753 \citep{vallado2006} &
 Validated \\
 SGP4 head-to-head &
 \code{sgp4} crate \citep{sgp4crate} &
-sub-\si{\micro\metre} near-earth/resonant; \SI{4.12}{\milli\metre} worst case all regimes &
+sub-\si{\micro\metre} near-Earth/resonant; \SI{4.12}{\milli\metre} worst case all regimes &
 Validated \\
 Nutation \code{eraNut00a} &
 SOFA/ERFA \citep{iausofa} &
@@ -164,13 +164,13 @@ agency precise eph.\ \citep{montenbruck2000,petit2010iers} &
 \SI{0.10}{\metre}; empirical-accel tier (bounds, not measures) &
 Validated (fit) \\
 LRO lunar &
-GRGM \citep{lemoine2013grail,giorgini1996horizons} &
+JPL Horizons LRO orbit (GRGM field) \citep{lemoine2013grail,giorgini1996horizons} &
 \SI{6.6}{\metre} reduced-dynamic, \emph{above} \SI{5}{\metre} target (honest miss) &
-Validated (fit) \\
+Fit (above target) \\
 LRO DE440/ANISE swap &
 \code{nyx}/ANISE \citep{nyxanise,bertone2021grail,li2023leopod} &
 residual unchanged $6.65\!\to\!\SI{6.67}{\metre}$; reproduces known result, LRO-scoped &
-Validated (fit) \\
+Cross-check (consistency) \\
 \addlinespace[3pt]
 \multicolumn{4}{@{}l}{\textit{Tier 3: parameter-level characterisation (not external validation)}}\\
 \addlinespace[2pt]
