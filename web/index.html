@@ -6,7 +6,7 @@
     <title>Kshana — open PNT-resilience simulator with quantum-sensor performance models</title>
     <meta
       name="description"
-      content="Kshana is an open, reproducible simulator for positioning, navigation and timing (PNT) resilience — SGP4-validated orbits and constellation design, time systems, three-axis strapdown INS, GNSS/INS fusion (loose, tight, UKF), ARAIM integrity with HPL/VPL, clocks and time-and-frequency transfer, the GNSS measurement domain, and jamming/spoofing resilience, with RINEX/SP3/CCSDS interoperability. Runs locally in your browser as WebAssembly."
+      content="Kshana is an open, reproducible simulator for positioning, navigation and timing (PNT) resilience — SGP4-validated orbits and constellation design, time systems, three-axis strapdown INS, GNSS/INS fusion (loose, tight, UKF), ARAIM integrity with HPL/VPL, clocks and time-and-frequency transfer, the GNSS measurement domain, nav-signal modulation and code-tracking performance, and jamming/spoofing resilience, with RINEX/SP3/CCSDS interoperability. Runs locally in your browser as WebAssembly."
     />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="style.css?v=0.17.0" />
@@ -65,7 +65,8 @@
               trajectory design, time systems, a three-axis strapdown INS, gravity-map
               alt-PNT, GNSS/INS fusion (loose, tight, UKF, 17-state), orbit determination,
               ARAIM integrity with HPL/VPL, clocks and time-and-frequency transfer, the
-              GNSS measurement domain, jamming/spoofing resilience, and an open
+              GNSS measurement domain, nav-signal modulation and code-tracking
+              performance, jamming/spoofing resilience, and an open
               deep-space / Mars radiometric-navigation engine (light-time, CCSDS-TDM,
               reduced-dynamic SRIF, relay-PNT) — scored against the operational figures
               of merit, with RINEX/SP3/CCSDS interoperability.
@@ -401,6 +402,14 @@
             <div class="card">
               <h3><span class="pill validated">Validated (real data)</span> Single-point positioning</h3>
               <p>Real observations in, a real position out: the <code>pvt</code> solver turns a station's RINEX code pseudoranges and the GPS broadcast ephemeris into a receiver position by iterated weighted least squares — Sagnac correction, broadcast satellite clock, the dual-frequency L1/L2 ionosphere-free combination, and the Saastamoinen/Niell troposphere. Run on real IGS data (station ABMF, Guadeloupe, 2018-05-13) it recovers the surveyed coordinate to <b>5.7 m</b> 3-D RMS (<b>1.1 m</b> horizontal). Code single-point positioning, not carrier-phase PPP/RTK.</p>
+            </div>
+            <div class="card">
+              <h3><span class="pill validated">Validated (anchors)</span> Nav-signal performance</h3>
+              <p>Modulation power spectral densities, anti-jam spectral separation, RMS (Gabor) bandwidth, DLL code-tracking jitter and the multipath error envelope, checked against closed-form anchors: unit-area PSDs, the BPSK self-spectral-separation identity <b>2/(3R<sub>c</sub>)</b>, sub-metre coherent early–late C/A jitter at <b>45 dB-Hz</b>, and BOC &gt; BPSK Gabor bandwidth. The spectral-separation coefficient now <em>derives</em> the anti-jam Q the jamming model uses from the actual signal and jammer spectra. Signal-performance analysis, not RF-payload or antenna hardware design.</p>
+            </div>
+            <div class="card">
+              <h3><span class="pill validated">Validated (reproduction)</span> Cislunar halo / NRHO</h3>
+              <p>A 6×6 state-transition-matrix single-shooting differential corrector produces exactly periodic Earth–Moon halo / near-rectilinear halo orbits: it reproduces the published <b>L2 southern 9:2 NRHO</b> (the Gateway orbit) at a period of <b>~6.57 days</b> (published ~6.56) and a perilune of <b>~3,250 km</b> (published ~3,370). The STM is validated against finite differences and corrected orbits close to machine precision. This is a circular restricted three-body (Sun-free) solution — not validated against a real Gateway ephemeris or DSN tracking.</p>
             </div>
             <div class="card">
               <h3>Standards-traced integrity</h3>
