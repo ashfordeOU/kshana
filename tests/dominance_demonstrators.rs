@@ -271,3 +271,58 @@ fn attitude_budget_is_reachable_reproducible_and_honest() {
     assert!(v["label"].as_str().unwrap().contains("MODELLED"));
     assert!(!a.json.contains("VALIDATED"));
 }
+
+#[test]
+fn passes_is_reachable_reproducible_and_honest() {
+    let src = std::fs::read_to_string("scenarios/passes.toml").unwrap();
+    let a = run_toml(&src).unwrap();
+    let b = run_toml(&src).unwrap();
+    assert_eq!(
+        a.json, b.json,
+        "pass prediction must be reproducible in process"
+    );
+
+    let v: Value = serde_json::from_str(&a.json).unwrap();
+    assert_eq!(v["kind"], "passes");
+    // The window finds passes, and every reported pass clears the mask with a
+    // well-ordered AOS <= TCA <= LOS.
+    assert!(v["pass_count"].as_u64().unwrap() >= 1);
+    let mask = v["mask_deg"].as_f64().unwrap();
+    for p in v["passes"].as_array().unwrap() {
+        assert!(p["max_elevation_deg"].as_f64().unwrap() >= mask);
+        let (aos, tca, los) = (
+            p["aos_s"].as_f64().unwrap(),
+            p["tca_s"].as_f64().unwrap(),
+            p["los_s"].as_f64().unwrap(),
+        );
+        assert!(aos <= tca && tca <= los, "AOS<=TCA<=LOS");
+    }
+    assert!(v["label"].as_str().unwrap().contains("MODELLED"));
+    assert!(!a.json.contains("VALIDATED"));
+}
+
+#[test]
+fn link_budget_is_reachable_reproducible_and_honest() {
+    let src = std::fs::read_to_string("scenarios/link-budget.toml").unwrap();
+    let a = run_toml(&src).unwrap();
+    let b = run_toml(&src).unwrap();
+    assert_eq!(
+        a.json, b.json,
+        "link budget must be reproducible in process"
+    );
+
+    let v: Value = serde_json::from_str(&a.json).unwrap();
+    assert_eq!(v["kind"], "link-budget");
+    // Margin is internally consistent: margin = Eb/N0 − required.
+    let margin = v["margin_db"].as_f64().unwrap();
+    let ebn0 = v["eb_n0_db"].as_f64().unwrap();
+    let req = v["required_eb_n0_db"].as_f64().unwrap();
+    assert!(
+        (margin - (ebn0 - req)).abs() < 1e-6,
+        "margin = Eb/N0 - required"
+    );
+    assert_eq!(v["closes"], margin >= 0.0);
+    assert!(v["free_space_loss_db"].as_f64().unwrap() > 0.0);
+    // A deterministic engineering calc, never a "validated" claim.
+    assert!(!a.json.contains("VALIDATED"));
+}

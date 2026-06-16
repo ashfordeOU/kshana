@@ -66,6 +66,7 @@ pub mod omm;
 pub mod orbit;
 pub mod orbit_determination;
 pub mod particle_filter;
+pub mod passes;
 pub mod permalink;
 pub mod precession;
 pub mod precise_od;
