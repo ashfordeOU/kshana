@@ -1,0 +1,27 @@
+# AI/ML RF-impairment detection evaluation testbed (ESA AO/1-13494 demonstrator).
+#
+# Generates a labelled, parameter-grounded SYNTHETIC corpus (nominal / jamming /
+# spoof-time / spoof-position / multipath), scores a detector with the
+# detector-agnostic harness, and reports AUC / ROC / confusion + per-class Pd at a
+# target Pfa, PLUS the in- vs out-of-distribution optimism gap a hostile reviewer
+# cares about.
+#
+# HONEST SCOPE: MODELLED operating characteristics only. The corpus is synthetic and
+# parameter-grounded (composed from Kshana's jamming/AGC/SQM/parity models) — never
+# field captures or raw IQ. The harness is a referee; it reports characteristics, it
+# does not pass a good/bad verdict. Run:  kshana scenarios/impairment-eval.toml
+kind = "impairment-eval"
+
+seed = 42
+n_per_class = 200
+nominal_cn0_dbhz = 45.0
+meas_noise = 0.6
+
+# Detector under test: energy | agc | sqm | parity | fused
+detector = "fused"
+target_pfa = 0.05
+
+# Out-of-distribution corpus = subtler (out-of-tuning-regime) impairments.
+# optimism_gap = auc_in - auc_out; flagged optimistic above optimism_tol.
+shift_severity_scale = 0.5
+optimism_tol = 0.05
