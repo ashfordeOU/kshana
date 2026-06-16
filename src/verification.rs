@@ -271,6 +271,24 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: ReferenceImpl,
             status: Modelled,
         },
+        VerificationItem {
+            requirement: "Frugal cost-per-coverage / ROI framing",
+            capability: "Cost-per-percent-coverage + coverage-per-euro ROI over the constellation sizing engine; per-satellite cost is a caller-sourced low/nominal/high bracket (no fabricated prices)",
+            module: "frugal (over walker)",
+            tests: "frugal::tests (hand-derived cost-per-coverage 48/96=0.5, ROI ratio 2.667, bracket-ordering + zero-coverage guards)",
+            oracle: "Closed-form cost arithmetic vs hand-derived values; an economic FRAMING of a modelled coverage figure, not a quote or validated cost model",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
+            requirement: "Detection-miss integrity impact (context-aware HPL/VPL vs alert limit)",
+            capability: "Maps an undetected spoof/jam bias to effective error → Stanford region (available/unavailable/MI/HMI) against context-specific HAL/VAL (open-sky vs urban)",
+            module: "integrity_impact (over raim)",
+            tests: "integrity_impact::tests (same miss flips Available→MI→HMI as the context tightens; conservative-PL→Unavailable; per-axis HMI; input guards)",
+            oracle: "Composes the externally-validated RAIM Stanford classification (raim::classify_stanford); the detection-miss→AL mapping itself is modelled, not a certified integrity allocation",
+            oracle_kind: ReferenceImpl,
+            status: Modelled,
+        },
         // ── Honestly partner-owned gaps (no code, by design) ──────────────────
         VerificationItem {
             requirement: "Spacecraft bus engineering (AOCS/thermal/structures/propulsion/power)",
