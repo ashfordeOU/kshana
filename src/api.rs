@@ -264,6 +264,8 @@ pub enum ScenarioKind {
     EoCoverage,
     SpacePacket,
     AttitudeBudget,
+    Passes,
+    LinkBudget,
 }
 
 impl ScenarioKind {
@@ -302,6 +304,8 @@ impl ScenarioKind {
             ScenarioKind::EoCoverage => "eo-coverage",
             ScenarioKind::SpacePacket => "space-packet",
             ScenarioKind::AttitudeBudget => "attitude-budget",
+            ScenarioKind::Passes => "passes",
+            ScenarioKind::LinkBudget => "link-budget",
         }
     }
 
@@ -344,6 +348,8 @@ impl ScenarioKind {
             "eo-coverage" => ScenarioKind::EoCoverage,
             "space-packet" => ScenarioKind::SpacePacket,
             "attitude-budget" => ScenarioKind::AttitudeBudget,
+            "passes" => ScenarioKind::Passes,
+            "link-budget" => ScenarioKind::LinkBudget,
             // Empty or unknown ⇒ the clock pack (historical default).
             _ => ScenarioKind::Clock,
         })
@@ -397,6 +403,8 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "eo-coverage", description: "Earth-observation payload footprint & coverage geometry (SMAD space triangle): Earth angular radius, swath width, nadir ground sample distance, maximum off-nadir access, circular period and equatorial ground-track spacing with a contiguous-coverage flag, for an orbit altitude + sensor FOV/IFOV. MODELLED spherical-Earth geometry (no radiometry/MTF/atmosphere/jitter/glint; nodal R_e·ω·T spacing, no J2 regression).", required_fields: &[], optional_fields: &["altitude_km", "half_fov_deg", "ifov_microrad", "max_off_nadir_deg"] },
         ScenarioMeta { name: "space-packet", description: "CCSDS 133.0-B Space Packet Protocol framing: encode a synthetic TM/TC packet stream (6-octet primary header + data field) and report the per-packet header decode, total octets and an exact encode↔decode round trip. Deterministic exact bit-layout framing — the agency packet-format interop layer; NOT a conformance certification (no secondary-header/CRC/segmentation logic beyond the flags).", required_fields: &[], optional_fields: &["apid", "telecommand", "packet_count", "data_len"] },
         ScenarioMeta { name: "attitude-budget", description: "3-DOF attitude & pointing error budget: the worst-case gravity-gradient disturbance torque ((3/2)(μ/R³)ΔI) and a root-sum-square pointing-error budget over named 1σ contributors (sensor noise, reaction-wheel jitter, thermal, alignment) with the dominant term, for an orbit altitude + body inertia spread. MODELLED scalar AOCS budget — a pre-hardware complement to Basilisk/42, not a control-loop/6-DoF/flexible-mode simulation.", required_fields: &[], optional_fields: &["altitude_km", "i_max_kg_m2", "i_min_kg_m2", "contributors"] },
+        ScenarioMeta { name: "passes", description: "Ground-station pass prediction: the time-domain visibility passes (AOS/TCA/LOS, maximum elevation, duration) of a circular orbit over a station above an elevation mask across a window, with interpolated rise/set crossings and total access time. MODELLED Keplerian propagation + Earth rotation (no SGP4 drag/J2 regression), TCA at the sample-step resolution, no light-time/refraction correction.", required_fields: &[], optional_fields: &["altitude_km", "inclination_deg", "raan_deg", "arg_lat_deg", "station_lat_deg", "station_lon_deg", "station_alt_m", "epoch", "mask_deg", "duration_hours", "step_s"] },
+        ScenarioMeta { name: "link-budget", description: "One-way link budget over the CCSDS 401 / DSN 810-005 link equation: free-space path loss, C/N₀, Eb/N₀, margin and closure for a transmit EIRP, receive G/T, range, data rate and band (s|x|ka) against a required Eb/N₀. A deterministic engineering calculation from the supplied inputs (not a calibrated terminal datasheet).", required_fields: &[], optional_fields: &["band", "eirp_dbw", "g_over_t_db", "range_km", "data_rate_bps", "other_losses_db", "required_eb_n0_db"] },
     ]
 }
 
@@ -1079,6 +1087,20 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
         ScenarioKind::AttitudeBudget => {
             let scn: crate::attitude_budget::AttitudeBudgetScenario = toml::from_str(src)
                 .map_err(|e| format!("invalid attitude-budget scenario: {e}"))?;
+            let (json, summary) = scn.run_json()?;
+            let svg = minimal_svg(&summary);
+            Ok(RunOutput { json, svg, summary })
+        }
+        ScenarioKind::Passes => {
+            let scn: crate::passes::PassesScenario =
+                toml::from_str(src).map_err(|e| format!("invalid passes scenario: {e}"))?;
+            let (json, summary) = scn.run_json()?;
+            let svg = minimal_svg(&summary);
+            Ok(RunOutput { json, svg, summary })
+        }
+        ScenarioKind::LinkBudget => {
+            let scn: crate::linkbudget::LinkBudgetScenario =
+                toml::from_str(src).map_err(|e| format!("invalid link-budget scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
             Ok(RunOutput { json, svg, summary })
