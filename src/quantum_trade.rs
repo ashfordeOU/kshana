@@ -516,6 +516,258 @@ pub fn resilience_envelope(
     }
 }
 
+// ── Runnable scenario (kind = "quantum-trade") ──────────────────────────────────
+//
+// Surfaces the quantum-vs-classical trade + measured-ADEV ingestion + resilience
+// envelope as a first-class scenario kind, so a prime / ESA reviewer can run the
+// 13503 demonstrator from the CLI / bindings. MODELLED: it quantifies a partner's
+// quantum-clock / cold-atom benefit; it never validates the device.
+
+use serde::{Deserialize, Serialize};
+
+/// A navigation-grade inertial dead-reckoning budget, as scenario input.
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct InsSpec {
+    /// Residual accelerometer bias (m/s²).
+    pub bias_m_s2: f64,
+    /// Accelerometer scale-factor error (ppm).
+    pub scale_factor_ppm: f64,
+    /// Sustained specific force the scale-factor error multiplies (m/s²).
+    pub ref_accel_m_s2: f64,
+    /// Velocity-random-walk acceleration PSD `q_va` (m²/s³).
+    pub vrw_psd: f64,
+}
+
+impl InsSpec {
+    fn budget(&self) -> ClassicalInsBudget {
+        ClassicalInsBudget {
+            bias_m_s2: self.bias_m_s2,
+            scale_factor_ppm: self.scale_factor_ppm,
+            ref_accel_m_s2: self.ref_accel_m_s2,
+            vrw_psd: self.vrw_psd,
+        }
+    }
+}
+
+/// Illustrative navigation-grade *classical* INS budget (overridable).
+fn qt_default_baseline_ins() -> InsSpec {
+    InsSpec {
+        bias_m_s2: 1.0e-3,
+        scale_factor_ppm: 100.0,
+        ref_accel_m_s2: 9.81,
+        vrw_psd: 1.0e-8,
+    }
+}
+
+/// Illustrative *quantum* (cold-atom-class) INS budget (overridable).
+fn qt_default_candidate_ins() -> InsSpec {
+    InsSpec {
+        bias_m_s2: 1.0e-6,
+        scale_factor_ppm: 1.0e-2,
+        ref_accel_m_s2: 9.81,
+        vrw_psd: 1.0e-14,
+    }
+}
+
+fn qt_default_alt_pnt_bound() -> f64 {
+    1.0e9 // effectively off unless the caller sets a real alt-PNT bound
+}
+
+/// A runnable quantum-vs-classical PNT trade scenario (`kind = "quantum-trade"`).
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct QuantumTradeScenario {
+    /// Scenario kind tag (must be `"quantum-trade"`).
+    pub kind: String,
+    /// Phase-error threshold for timing holdover (s).
+    pub timing_threshold_s: f64,
+    /// Position-error threshold for inertial holdover (m).
+    pub position_threshold_m: f64,
+    /// Classical baseline clock class: `csac` | `uso` | `dsac`.
+    pub baseline_clock_class: String,
+    /// Candidate quantum clock class: `optical-lattice` | `trapped-ion` | `mercury-ion`.
+    /// Mutually exclusive with the measured-ADEV curve.
+    #[serde(default)]
+    pub candidate_clock_class: Option<String>,
+    /// Candidate clock MEASURED overlapping-ADEV curve — the *defensibility hinge*:
+    /// τ values (s). If present (with `candidate_adev_values`), the candidate floor is
+    /// derived from data (`floor_assumed = false`) instead of an assumed class default.
+    #[serde(default)]
+    pub candidate_adev_taus: Option<Vec<f64>>,
+    /// Candidate clock measured σ_y(τ) values matching `candidate_adev_taus`.
+    #[serde(default)]
+    pub candidate_adev_values: Option<Vec<f64>>,
+    /// Classical baseline INS budget.
+    #[serde(default = "qt_default_baseline_ins")]
+    pub baseline_ins: InsSpec,
+    /// Candidate (quantum) INS budget.
+    #[serde(default = "qt_default_candidate_ins")]
+    pub candidate_ins: InsSpec,
+    /// Resilience-envelope sample times (s). Defaults to a spread out to 4 h.
+    #[serde(default)]
+    pub resilience_times_s: Option<Vec<f64>>,
+    /// Alt-PNT position-error bound (m) capping inertial drift (default ≈ off).
+    #[serde(default = "qt_default_alt_pnt_bound")]
+    pub alt_pnt_bound_m: f64,
+}
+
+fn qt_classical_class(s: &str) -> Result<ClockClass, String> {
+    match s.to_ascii_lowercase().as_str() {
+        "csac" => Ok(ClockClass::Csac),
+        "uso" => Ok(ClockClass::Uso),
+        "dsac" => Ok(ClockClass::Dsac),
+        other => Err(format!(
+            "unknown baseline_clock_class '{other}' (csac|uso|dsac)"
+        )),
+    }
+}
+
+fn qt_quantum_class(s: &str) -> Result<QuantumClockClass, String> {
+    match s.to_ascii_lowercase().replace('_', "-").as_str() {
+        "optical-lattice" => Ok(QuantumClockClass::OpticalLattice),
+        "trapped-ion" => Ok(QuantumClockClass::TrappedIon),
+        "mercury-ion" => Ok(QuantumClockClass::MercuryIon),
+        other => Err(format!(
+            "unknown candidate_clock_class '{other}' (optical-lattice|trapped-ion|mercury-ion)"
+        )),
+    }
+}
+
+impl QuantumTradeScenario {
+    /// Reproducible scenario hash over the canonical inputs (cross-platform anchor).
+    pub fn scenario_hash(&self) -> String {
+        use sha2::{Digest, Sha256};
+        let c = serde_json::to_string(self).expect("scenario serializes");
+        let mut h = Sha256::new();
+        h.update(c.as_bytes());
+        hex::encode(h.finalize())
+    }
+
+    /// Resolve the candidate clock: a measured-ADEV curve takes precedence (the
+    /// honest, data-driven path); otherwise a quantum class default.
+    fn candidate_clock(&self) -> Result<(ClockSpec, &'static str), String> {
+        match (
+            &self.candidate_adev_taus,
+            &self.candidate_adev_values,
+            &self.candidate_clock_class,
+        ) {
+            (Some(taus), Some(adevs), _) => {
+                if taus.len() != adevs.len() || taus.len() < 2 {
+                    return Err(
+                        "candidate_adev_taus and candidate_adev_values must be equal-length (>= 2)"
+                            .into(),
+                    );
+                }
+                if taus.iter().chain(adevs.iter()).any(|v| !v.is_finite() || *v <= 0.0) {
+                    return Err("ADEV taus/values must be finite and > 0".into());
+                }
+                Ok((
+                    ClockSpec::Measured(qparams_from_adev_curve(taus, adevs)),
+                    "measured-ADEV",
+                ))
+            }
+            (None, None, Some(c)) => Ok((ClockSpec::Quantum(qt_quantum_class(c)?), "quantum-class")),
+            (None, None, None) => Err(
+                "provide either candidate_adev_taus + candidate_adev_values (measured) \
+                 or candidate_clock_class"
+                    .into(),
+            ),
+            _ => Err(
+                "candidate_adev_taus and candidate_adev_values must both be present (or both absent)"
+                    .into(),
+            ),
+        }
+    }
+
+    /// Run the scenario; return `(pretty JSON report, one-line summary)`.
+    pub fn run_json(&self) -> Result<(String, String), String> {
+        if !self.timing_threshold_s.is_finite()
+            || self.timing_threshold_s <= 0.0
+            || !self.position_threshold_m.is_finite()
+            || self.position_threshold_m <= 0.0
+        {
+            return Err(
+                "timing_threshold_s and position_threshold_m must be finite and > 0".into(),
+            );
+        }
+        let baseline_clock = ClockSpec::Classical(qt_classical_class(&self.baseline_clock_class)?);
+        let (candidate_clock, candidate_source) = self.candidate_clock()?;
+        let baseline_ins = self.baseline_ins.budget();
+        let candidate_ins = self.candidate_ins.budget();
+
+        let trade = quantum_vs_classical_trade(
+            self.timing_threshold_s,
+            self.position_threshold_m,
+            baseline_clock,
+            candidate_clock,
+            &baseline_ins,
+            &candidate_ins,
+        );
+
+        let times: Vec<f64> = self.resilience_times_s.clone().unwrap_or_else(|| {
+            vec![
+                1.0, 10.0, 60.0, 300.0, 600.0, 1800.0, 3600.0, 7200.0, 14400.0,
+            ]
+        });
+        let envelope = resilience_envelope(
+            candidate_clock,
+            &candidate_ins,
+            self.alt_pnt_bound_m,
+            self.position_threshold_m,
+            &times,
+        );
+
+        let value = serde_json::json!({
+            "kind": "quantum-trade",
+            "scenario_hash": self.scenario_hash(),
+            "label": "MODELLED — quantifies (never validates) a partner clock/sensor; not flight-demonstrated",
+            "candidate_source": candidate_source,
+            "trade": {
+                "timing_threshold_s": trade.timing_threshold_s,
+                "position_threshold_m": trade.position_threshold_m,
+                "baseline": {
+                    "label": trade.baseline.label,
+                    "timing_holdover_s": trade.baseline.timing_holdover_s,
+                    "inertial_holdover_s": trade.baseline.inertial_holdover_s,
+                    "floor_assumed": trade.baseline.floor_assumed,
+                },
+                "candidate": {
+                    "label": trade.candidate.label,
+                    "timing_holdover_s": trade.candidate.timing_holdover_s,
+                    "inertial_holdover_s": trade.candidate.inertial_holdover_s,
+                    "floor_assumed": trade.candidate.floor_assumed,
+                },
+                "timing_benefit_x": trade.timing_benefit_x,
+                "inertial_benefit_x": trade.inertial_benefit_x,
+                "floor_caveat": trade.floor_caveat,
+            },
+            "resilience": {
+                "coast_time_s": envelope.coast_time_s,
+                "threshold_m": envelope.threshold_m,
+                "exceeds_horizon": envelope.exceeds_horizon,
+                "alt_pnt_active": envelope.alt_pnt_active,
+                "points": envelope.points.iter()
+                    .map(|p| serde_json::json!({ "t": p.t, "error_m": p.error_m }))
+                    .collect::<Vec<_>>(),
+            },
+        });
+        let summary = format!(
+            "quantum-trade | candidate {} | timing holdover {:.0}s vs {:.0}s ({:.2}x) | inertial {:.0}s vs {:.0}s ({:.2}x) | resilience coast {:.0}s{} | MODELLED{}",
+            candidate_source,
+            trade.candidate.timing_holdover_s,
+            trade.baseline.timing_holdover_s,
+            trade.timing_benefit_x,
+            trade.candidate.inertial_holdover_s,
+            trade.baseline.inertial_holdover_s,
+            trade.inertial_benefit_x,
+            envelope.coast_time_s,
+            if envelope.exceeds_horizon { " (>=horizon)" } else { "" },
+            if trade.floor_caveat.is_some() { " [floor-assumed caveat]" } else { "" },
+        );
+        let json = serde_json::to_string_pretty(&value).map_err(|e| e.to_string())?;
+        Ok((json, summary))
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

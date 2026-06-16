@@ -150,6 +150,21 @@ fn json_of<T: serde::Serialize>(v: &T) -> String {
     serde_json::to_string_pretty(v).expect("result serialises")
 }
 
+/// A minimal one-line SVG banner for scenario kinds whose primary artifact is the
+/// JSON report (the rich table lives in the JSON, not a bespoke chart).
+fn minimal_svg(summary: &str) -> String {
+    let esc = summary
+        .replace('&', "&amp;")
+        .replace('<', "&lt;")
+        .replace('>', "&gt;");
+    format!(
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1180\" height=\"40\" \
+         font-family=\"sans-serif\" font-size=\"12\" fill=\"#e6edf3\">\
+         <rect width=\"1180\" height=\"40\" fill=\"#0b0e14\"/>\
+         <text x=\"10\" y=\"24\">{esc}</text></svg>"
+    )
+}
+
 fn integ(i: Option<f64>) -> String {
     i.map_or_else(|| "n/a".to_string(), |v| format!("{v:.3}"))
 }
@@ -240,6 +255,8 @@ pub enum ScenarioKind {
     CombinedAltPnt,
     Pvt,
     MarsPnt,
+    ImpairmentEval,
+    QuantumTrade,
 }
 
 impl ScenarioKind {
@@ -269,6 +286,8 @@ impl ScenarioKind {
             ScenarioKind::CombinedAltPnt => "combined-altpnt",
             ScenarioKind::Pvt => "pvt",
             ScenarioKind::MarsPnt => "mars-pnt",
+            ScenarioKind::ImpairmentEval => "impairment-eval",
+            ScenarioKind::QuantumTrade => "quantum-trade",
         }
     }
 
@@ -302,6 +321,8 @@ impl ScenarioKind {
             "combined-altpnt" => ScenarioKind::CombinedAltPnt,
             "pvt" => ScenarioKind::Pvt,
             "mars-pnt" => ScenarioKind::MarsPnt,
+            "impairment-eval" => ScenarioKind::ImpairmentEval,
+            "quantum-trade" => ScenarioKind::QuantumTrade,
             // Empty or unknown ⇒ the clock pack (historical default).
             _ => ScenarioKind::Clock,
         })
@@ -346,6 +367,8 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "combined-altpnt", description: "GPS-denied combined gravity + magnetic + terrain navigator: three scalar field channels fused per waypoint for a sharper (lower-CRLB) drift fix than any single field.", required_fields: &["start_lat_deg", "start_lon_deg", "step_lat_deg", "step_lon_deg", "waypoints", "drift_lat_deg", "drift_lon_deg", "search_half_deg", "search_step_deg", "nmax", "gravity_sigma_mgal", "igrf_year", "magnetic_sigma_nt", "dem_seed", "terrain_sigma_m"], optional_fields: &["coeffs", "mascons", "magnetic_mascons", "igrf_alt_km", "refine_stages", "refine_factor", "noise_seed"] },
         ScenarioMeta { name: "pvt", description: "Real-observation single-point positioning: solve a receiver's position from a RINEX 3 observation file and a broadcast-navigation file (code pseudoranges, broadcast ephemeris, Klobuchar iono, Saastamoinen/Niell tropo), optionally validated against a surveyed coordinate.", required_fields: &["obs_rinex", "nav_rinex"], optional_fields: &["truth_ecef", "apriori_ecef", "mask_deg"] },
         ScenarioMeta { name: "mars-pnt", description: "Deep-space Mars PNT: a simulated MARCONI relay constellation (areostationary + inclined relays broadcasting one-way + relaying two-way to a deep-space station) navigates a reference user (transfer | lmo | surface) through the joint one-way/two-way radiometric fusion estimator. Reports per-epoch geometry/visibility, achieved RMS vs truth, and the formal covariance (1σ / 3σ position) — an honest simulated FoM, NOT a certified protection level.", required_fields: &[], optional_fields: &["user", "clock_class", "step_s", "duration_s", "nmax", "range_sigma_m", "doppler_sigma_mps", "dynamic_tightness", "two_way_period_s", "seed"] },
+        ScenarioMeta { name: "impairment-eval", description: "AI/ML RF-impairment detection evaluation testbed (13494): generate a labelled, parameter-grounded SYNTHETIC corpus (nominal/jamming/spoof-time/spoof-position/multipath), score a detector (energy|agc|sqm|parity|fused) with the detector-agnostic harness, and report AUC/ROC/confusion + per-class Pd at a target Pfa, plus the in- vs out-of-distribution optimism gap. MODELLED operating characteristics only — never field/IQ, no good/bad verdict.", required_fields: &[], optional_fields: &["seed", "n_per_class", "nominal_cn0_dbhz", "meas_noise", "detector", "target_pfa", "shift_severity_scale", "optimism_tol"] },
+        ScenarioMeta { name: "quantum-trade", description: "Quantum-vs-classical PNT trade (13503): timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve — the defensibility hinge — or a quantum clock class) vs a classical baseline class, with the long-tau floor-assumption caveat carried on the artifact, plus a GNSS-denied resilience-vs-time envelope. MODELLED; quantifies (never validates) a partner device.", required_fields: &["timing_threshold_s", "position_threshold_m", "baseline_clock_class"], optional_fields: &["candidate_clock_class", "candidate_adev_taus", "candidate_adev_values", "baseline_ins", "candidate_ins", "resilience_times_s", "alt_pnt_bound_m"] },
     ]
 }
 
@@ -968,6 +991,20 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 svg: crate::mars_pnt::to_svg(&r),
                 summary,
             })
+        }
+        ScenarioKind::ImpairmentEval => {
+            let scn: crate::impairment_eval::ImpairmentEvalScenario = toml::from_str(src)
+                .map_err(|e| format!("invalid impairment-eval scenario: {e}"))?;
+            let (json, summary) = scn.run_json()?;
+            let svg = minimal_svg(&summary);
+            Ok(RunOutput { json, svg, summary })
+        }
+        ScenarioKind::QuantumTrade => {
+            let scn: crate::quantum_trade::QuantumTradeScenario =
+                toml::from_str(src).map_err(|e| format!("invalid quantum-trade scenario: {e}"))?;
+            let (json, summary) = scn.run_json()?;
+            let svg = minimal_svg(&summary);
+            Ok(RunOutput { json, svg, summary })
         }
         ScenarioKind::Clock => {
             let scn: crate::scenario::Scenario =
