@@ -369,14 +369,18 @@ plugin from the JetBrains Marketplace (or *Settings → Plugins → Marketplace 
 
 ## Scenario format
 
-Scenarios are declarative TOML. A top-level `kind` selects the pack — **twenty-three** in
+Scenarios are declarative TOML. A top-level `kind` selects the pack — **twenty-five** in
 all (`clock` is the default if omitted): `inertial`, `timetransfer`, `hybrid`, `fusion`,
 `gnss-ins`, `orbit`, `ephemeris`, `gnss-sim`, `integrity`, `lunar-integrity`, `spoof`,
 `spoof-detect`, `jamming`, `sweep`, `sweep-nd`, `gravity-map`, `terrain-nav`,
 `combined-altpnt`, `pvt`, `mars-pnt`, `impairment-eval` (AI/ML RF-impairment detection
 evaluation testbed — labelled synthetic corpus + detector-agnostic ROC/AUC harness +
-in/out-of-distribution optimism gap), and `quantum-trade` (quantum-vs-classical PNT
-trade with measured-ADEV ingestion + GNSS-denied resilience envelope; MODELLED).
+in/out-of-distribution optimism gap), `quantum-trade` (quantum-vs-classical PNT
+trade with measured-ADEV ingestion + GNSS-denied resilience envelope; MODELLED),
+`space-weather` (solar/geomagnetic indices + Jacchia-71 exospheric temperature +
+activity-driven thermospheric density over the static atmosphere; MODELLED), and
+`oem-interop` (CCSDS OEM import/round-trip bridge for GMAT/Orekit/STK ephemerides;
+MODELLED).
 Common fields: `seed`, a `[time]` grid, a `[gnss]` availability timeline (the outage
 driver), and per-sensor blocks with `provenance` strings citing the source of every
 figure. Example (clock):
