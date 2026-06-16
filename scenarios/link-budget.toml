@@ -1,0 +1,19 @@
+# One-way link budget demonstrator (comms & link budgets, trade-study tier).
+#
+# Applies the CCSDS 401 / DSN 810-005 link equation
+#   C/N0 = EIRP - FSPL - L_other + G/T - k ;  Eb/N0 = C/N0 - 10log10(R_b)
+# and reports free-space path loss, C/N0, Eb/N0, margin and whether the link closes
+# against a required Eb/N0.
+#
+# HONEST SCOPE: a deterministic engineering calculation from the supplied inputs
+# (EIRP / G/T / range / rate / losses) -- NOT a calibrated terminal datasheet.
+# Run:  kshana scenarios/link-budget.toml
+kind = "link-budget"
+
+band = "x"                  # s | x | ka (sets the free-space-loss frequency)
+eirp_dbw = 55.0
+g_over_t_db = 53.0
+range_km = 2000.0
+data_rate_bps = 1.0e6
+other_losses_db = 3.0
+required_eb_n0_db = 4.5
