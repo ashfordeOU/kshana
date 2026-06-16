@@ -369,7 +369,7 @@ plugin from the JetBrains Marketplace (or *Settings → Plugins → Marketplace 
 
 ## Scenario format
 
-Scenarios are declarative TOML. A top-level `kind` selects the pack — **twenty-eight** in
+Scenarios are declarative TOML. A top-level `kind` selects the pack — **thirty** in
 all (`clock` is the default if omitted): `inertial`, `timetransfer`, `hybrid`, `fusion`,
 `gnss-ins`, `orbit`, `ephemeris`, `gnss-sim`, `integrity`, `lunar-integrity`, `spoof`,
 `spoof-detect`, `jamming`, `sweep`, `sweep-nd`, `gravity-map`, `terrain-nav`,
@@ -380,9 +380,12 @@ trade with measured-ADEV ingestion + GNSS-denied resilience envelope; MODELLED),
 `space-weather` (solar/geomagnetic indices + Jacchia-71 exospheric temperature +
 activity-driven thermospheric density over the static atmosphere; MODELLED),
 `oem-interop` (CCSDS OEM import/round-trip bridge for GMAT/Orekit/STK ephemerides;
-MODELLED), and the mission-analysis trio `launch-window` (two-body launch azimuth /
+MODELLED), the mission-analysis trio `launch-window` (two-body launch azimuth /
 plane-change / opportunities), `reentry` (Allen-Eggers ballistic re-entry corridor),
-and `eo-coverage` (EO swath / GSD / access / revisit geometry) — all MODELLED.
+`eo-coverage` (EO swath / GSD / access / revisit geometry), `space-packet` (CCSDS
+133.0 TM/TC Space Packet framing — exact bit layout, round-trip verified), and
+`attitude-budget` (3-DOF gravity-gradient torque + RSS pointing error budget) —
+all MODELLED.
 Common fields: `seed`, a `[time]` grid, a `[gnss]` availability timeline (the outage
 driver), and per-sensor blocks with `provenance` strings citing the source of every
 figure. Example (clock):
