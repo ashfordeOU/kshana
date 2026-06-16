@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: Apache-2.0
 pub mod attitude;
+pub mod cai_params;
 pub mod imu_errors;
 pub mod mechanization;
 pub mod quantum_imu;
