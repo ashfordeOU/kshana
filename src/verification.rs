@@ -289,6 +289,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: ReferenceImpl,
             status: Modelled,
         },
+        VerificationItem {
+            requirement: "CAI cited error-model parameter sheet (13503)",
+            capability: "Bracketed (best/nominal/conservative) cold-atom-interferometer performance — bias instability, velocity/angle random walk, scale-factor stability, interrogation-limited sample rate, fringe-ambiguity dynamic range — each citation-traceable; feeds QuantumNavBudget without modelling hardware",
+            module: "inertial::cai_params (over inertial::quantum_imu)",
+            tests: "inertial::cai_params::tests (physics VRW lands inside the cited VRW bracket at all 3 levels; raw fringe-ambiguity range computed from k_eff·T²; conservative budget drifts more than best; every bracket sourced + confirmation-flagged; bracket-ordering guards)",
+            oracle: "Internal consistency: the cited VRW bracket cross-checked against CaiAccelerometer::accel_asd physics + raw dynamic range computed from the fringe-ambiguity limit; numbers are MODELLED literature-survey brackets (needs_source_confirmation), no device validated, no validation halo",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
         // ── Honestly partner-owned gaps (no code, by design) ──────────────────
         VerificationItem {
             requirement: "Spacecraft bus engineering (AOCS/thermal/structures/propulsion/power)",
