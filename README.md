@@ -369,7 +369,7 @@ plugin from the JetBrains Marketplace (or *Settings → Plugins → Marketplace 
 
 ## Scenario format
 
-Scenarios are declarative TOML. A top-level `kind` selects the pack — **thirty** in
+Scenarios are declarative TOML. A top-level `kind` selects the pack — **thirty-two** in
 all (`clock` is the default if omitted): `inertial`, `timetransfer`, `hybrid`, `fusion`,
 `gnss-ins`, `orbit`, `ephemeris`, `gnss-sim`, `integrity`, `lunar-integrity`, `spoof`,
 `spoof-detect`, `jamming`, `sweep`, `sweep-nd`, `gravity-map`, `terrain-nav`,
@@ -384,8 +384,10 @@ MODELLED), the mission-analysis trio `launch-window` (two-body launch azimuth /
 plane-change / opportunities), `reentry` (Allen-Eggers ballistic re-entry corridor),
 `eo-coverage` (EO swath / GSD / access / revisit geometry), `space-packet` (CCSDS
 133.0 TM/TC Space Packet framing — exact bit layout, round-trip verified), and
-`attitude-budget` (3-DOF gravity-gradient torque + RSS pointing error budget) —
-all MODELLED.
+`attitude-budget` (3-DOF gravity-gradient torque + RSS pointing error budget),
+`passes` (ground-station rise/set pass prediction — AOS/TCA/LOS, max elevation,
+access), and `link-budget` (one-way CCSDS/DSN link equation — FSPL / Eb·N₀ /
+margin / closure) — all MODELLED.
 Common fields: `seed`, a `[time]` grid, a `[gnss]` availability timeline (the outage
 driver), and per-sensor blocks with `provenance` strings citing the source of every
 figure. Example (clock):
