@@ -112,3 +112,66 @@ fn quantum_trade_rejects_a_malformed_adev_curve() {
         "mismatched ADEV curve lengths must error"
     );
 }
+
+#[test]
+fn space_weather_is_reachable_reproducible_and_honest() {
+    let src = std::fs::read_to_string("scenarios/space-weather.toml").unwrap();
+    let a = run_toml(&src).unwrap();
+    let b = run_toml(&src).unwrap();
+    assert_eq!(
+        a.json, b.json,
+        "space-weather must be reproducible in process"
+    );
+
+    let v: Value = serde_json::from_str(&a.json).unwrap();
+    assert_eq!(v["kind"], "space-weather");
+
+    // The exospheric temperature is physical (warm thermosphere, not absurd).
+    let t = v["exospheric_temperature_k"].as_f64().unwrap();
+    assert!(
+        (500.0..2500.0).contains(&t),
+        "exospheric T {t} K out of band"
+    );
+
+    // Honest label: MODELLED + a calibrated (not data-validated) density model.
+    let label = v["label"].as_str().unwrap();
+    assert!(label.contains("MODELLED"));
+    assert!(
+        !a.json.contains("VALIDATED"),
+        "a MODELLED model must never claim VALIDATED"
+    );
+
+    // The activity density correction is a real, finite, positive multiplier.
+    let rows = v["altitudes"].as_array().unwrap();
+    assert!(!rows.is_empty());
+    for r in rows {
+        let f = r["activity_factor"].as_f64().unwrap();
+        assert!(f.is_finite() && f > 0.0, "activity_factor {f}");
+    }
+}
+
+#[test]
+fn oem_interop_round_trip_is_reachable_reproducible_and_honest() {
+    let src = std::fs::read_to_string("scenarios/oem-interop.toml").unwrap();
+    let a = run_toml(&src).unwrap();
+    let b = run_toml(&src).unwrap();
+    assert_eq!(
+        a.json, b.json,
+        "oem-interop must be reproducible in process"
+    );
+
+    let v: Value = serde_json::from_str(&a.json).unwrap();
+    assert_eq!(v["kind"], "oem-interop");
+    assert_eq!(v["source"], "round-trip");
+
+    // The import is the exact inverse of the export, to OEM print precision.
+    let p = v["round_trip_max_pos_error_km"].as_f64().unwrap();
+    let vel = v["round_trip_max_vel_error_km_s"].as_f64().unwrap();
+    assert!(p < 1e-5, "round-trip pos error {p} km");
+    assert!(vel < 1e-8, "round-trip vel error {vel} km/s");
+
+    // Honest label: an interop ingest check, never an orbit-accuracy validation.
+    let label = v["label"].as_str().unwrap();
+    assert!(label.contains("MODELLED"));
+    assert!(!a.json.contains("VALIDATED"));
+}
