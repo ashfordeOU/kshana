@@ -27,12 +27,17 @@
 //! epoch grid is tagged with; no silent re-labelling to EME2000/UTC the engine
 //! does not actually compute.
 //!
-//! Scope (this stage): the writer only. A reader is not part of this milestone;
-//! the round trip is validated by re-parsing the emitted ephemeris lines in the
-//! test suite against the propagator state they were sampled from.
+//! Both directions ship: [`parse_oem`] is the *import* path — the standards-based
+//! ingest bridge that lets Kshana read an ephemeris produced by an external
+//! flight-dynamics tool (GMAT, Orekit and STK all emit CCSDS OEM), the exact
+//! inverse of [`OemFile::to_oem_string`]. It is tolerant of the parts real files
+//! carry that this model does not retain — `COMMENT` lines, extra metadata
+//! keywords (`USEABLE_*`, `INTERPOLATION*`, …) and `COVARIANCE` blocks are
+//! skipped — and rejects (rather than silently fabricating) a position-only
+//! ephemeris that has no velocity.
 
 use crate::rinex::EpochUtc;
-use serde::Serialize;
+use serde::{Deserialize, Serialize};
 
 /// The CCSDS OEM metadata block for one segment (one object's ephemeris).
 #[derive(Clone, Debug, Serialize)]
@@ -216,6 +221,400 @@ fn iso8601(e: &EpochUtc) -> String {
     )
 }
 
+/// Parse an ISO-8601 calendar epoch `yyyy-mm-ddTHH:MM:SS[.fff][Z]` into an
+/// [`EpochUtc`], keeping the value in whatever time scale the message declares (no
+/// scale conversion). The day-of-year form (`yyyy-dddT…`) is not supported.
+fn parse_iso8601_epoch(s: &str) -> Result<EpochUtc, String> {
+    let s = s.trim();
+    let (date, time) = s
+        .split_once('T')
+        .ok_or_else(|| format!("epoch missing 'T' date/time separator: {s}"))?;
+    let d: Vec<&str> = date.split('-').collect();
+    if d.len() != 3 {
+        return Err(format!(
+            "unsupported OEM epoch date '{date}' (expected yyyy-mm-dd)"
+        ));
+    }
+    let time = time.strip_suffix('Z').unwrap_or(time);
+    let t: Vec<&str> = time.split(':').collect();
+    if t.len() != 3 {
+        return Err(format!(
+            "unsupported OEM epoch time '{time}' (expected HH:MM:SS)"
+        ));
+    }
+    let year: i32 = d[0]
+        .parse()
+        .map_err(|_| format!("bad epoch year: {}", d[0]))?;
+    let month: u32 = d[1]
+        .parse()
+        .map_err(|_| format!("bad epoch month: {}", d[1]))?;
+    let day: u32 = d[2]
+        .parse()
+        .map_err(|_| format!("bad epoch day: {}", d[2]))?;
+    let hour: u32 = t[0]
+        .parse()
+        .map_err(|_| format!("bad epoch hour: {}", t[0]))?;
+    let minute: u32 = t[1]
+        .parse()
+        .map_err(|_| format!("bad epoch minute: {}", t[1]))?;
+    let second: f64 = t[2]
+        .parse()
+        .map_err(|_| format!("bad epoch second: {}", t[2]))?;
+    if !(1..=12).contains(&month)
+        || !(1..=31).contains(&day)
+        || hour > 23
+        || minute > 59
+        || !(0.0..61.0).contains(&second)
+    {
+        return Err(format!("OEM epoch field out of range: {s}"));
+    }
+    Ok(EpochUtc {
+        year,
+        month,
+        day,
+        hour,
+        minute,
+        second,
+    })
+}
+
+/// Split a KVN `KEY = VALUE` line into its trimmed key and value, or `None` when
+/// the line carries no `=` (a data line or a structural keyword).
+fn split_kv(line: &str) -> Option<(String, String)> {
+    let (k, v) = line.split_once('=')?;
+    Some((k.trim().to_string(), v.trim().to_string()))
+}
+
+/// Import a CCSDS OEM 2.0 (KVN) message — the inverse of
+/// [`OemFile::to_oem_string`] and the standards-based ingest bridge for
+/// ephemerides produced by external flight-dynamics tools (GMAT, Orekit, STK all
+/// emit OEM).
+///
+/// Robustness: `COMMENT` lines, unknown metadata keywords (`USEABLE_*`,
+/// `INTERPOLATION*`, `REF_FRAME_EPOCH`, …) and `COVARIANCE_START … COVARIANCE_STOP`
+/// blocks are skipped. The seven mandatory metadata keywords
+/// (`OBJECT_NAME`/`OBJECT_ID`/`CENTER_NAME`/`REF_FRAME`/`TIME_SYSTEM`/`START_TIME`/`STOP_TIME`)
+/// are required. A data line must carry position **and** velocity (6 components,
+/// or 9 with acceleration which is read then ignored); a position-only ephemeris
+/// is rejected rather than given a fabricated zero velocity. Epochs are retained
+/// in the segment's declared `TIME_SYSTEM`.
+pub fn parse_oem(text: &str) -> Result<OemFile, String> {
+    let mut version: Option<String> = None;
+    let mut creation_date: Option<EpochUtc> = None;
+    let mut originator: Option<String> = None;
+    let mut segments: Vec<OemSegment> = Vec::new();
+
+    let mut lines = text.lines().peekable();
+
+    // --- header: KVN lines up to the first META_START ---
+    while let Some(raw) = lines.peek() {
+        let line = raw.trim();
+        if line.is_empty() || line.starts_with("COMMENT") {
+            lines.next();
+            continue;
+        }
+        if line == "META_START" {
+            break;
+        }
+        let (k, v) = split_kv(line).ok_or_else(|| format!("unexpected OEM header line: {line}"))?;
+        match k.as_str() {
+            "CCSDS_OEM_VERS" => version = Some(v),
+            "CREATION_DATE" => creation_date = Some(parse_iso8601_epoch(&v)?),
+            "ORIGINATOR" => originator = Some(v),
+            _ => {} // tolerate unknown header keywords
+        }
+        lines.next();
+    }
+
+    // --- segments ---
+    while let Some(raw) = lines.peek() {
+        let line = raw.trim();
+        if line.is_empty() || line.starts_with("COMMENT") {
+            lines.next();
+            continue;
+        }
+        if line != "META_START" {
+            return Err(format!("expected META_START, found: {line}"));
+        }
+        lines.next(); // consume META_START
+
+        // metadata block, terminated by META_STOP
+        let mut object_name = None;
+        let mut object_id = None;
+        let mut center_name = None;
+        let mut ref_frame = None;
+        let mut time_system = None;
+        let mut start = None;
+        let mut stop = None;
+        let mut saw_meta_stop = false;
+        for raw in lines.by_ref() {
+            let line = raw.trim();
+            if line.is_empty() || line.starts_with("COMMENT") {
+                continue;
+            }
+            if line == "META_STOP" {
+                saw_meta_stop = true;
+                break;
+            }
+            let (k, v) =
+                split_kv(line).ok_or_else(|| format!("unexpected OEM metadata line: {line}"))?;
+            match k.as_str() {
+                "OBJECT_NAME" => object_name = Some(v),
+                "OBJECT_ID" => object_id = Some(v),
+                "CENTER_NAME" => center_name = Some(v),
+                "REF_FRAME" => ref_frame = Some(v),
+                "TIME_SYSTEM" => time_system = Some(v),
+                "START_TIME" => start = Some(parse_iso8601_epoch(&v)?),
+                "STOP_TIME" => stop = Some(parse_iso8601_epoch(&v)?),
+                _ => {} // USEABLE_*, INTERPOLATION*, REF_FRAME_EPOCH, … tolerated
+            }
+        }
+        if !saw_meta_stop {
+            return Err("OEM segment metadata missing META_STOP".to_string());
+        }
+        let meta = OemMetadata {
+            object_name: object_name.ok_or("OEM metadata missing OBJECT_NAME")?,
+            object_id: object_id.ok_or("OEM metadata missing OBJECT_ID")?,
+            center_name: center_name.ok_or("OEM metadata missing CENTER_NAME")?,
+            ref_frame: ref_frame.ok_or("OEM metadata missing REF_FRAME")?,
+            time_system: time_system.ok_or("OEM metadata missing TIME_SYSTEM")?,
+            start: start.ok_or("OEM metadata missing START_TIME")?,
+            stop: stop.ok_or("OEM metadata missing STOP_TIME")?,
+        };
+
+        // data block: ephemeris lines until the next META_START or EOF, skipping
+        // COMMENT lines and COVARIANCE_START … COVARIANCE_STOP blocks.
+        let mut states = Vec::new();
+        let mut in_cov = false;
+        while let Some(raw) = lines.peek() {
+            let line = raw.trim();
+            if line == "META_START" {
+                break;
+            }
+            lines.next();
+            if line.is_empty() || line.starts_with("COMMENT") {
+                continue;
+            }
+            if line == "COVARIANCE_START" {
+                in_cov = true;
+                continue;
+            }
+            if line == "COVARIANCE_STOP" {
+                in_cov = false;
+                continue;
+            }
+            if in_cov {
+                continue;
+            }
+            let toks: Vec<&str> = line.split_whitespace().collect();
+            let epoch = parse_iso8601_epoch(toks[0])?;
+            let n = toks.len() - 1;
+            if n != 6 && n != 9 {
+                return Err(format!(
+                    "OEM data line needs position+velocity (6) or +acceleration (9) \
+                     components, got {n}: {line}"
+                ));
+            }
+            let mut vals = [0.0f64; 6];
+            for (k, t) in toks[1..7].iter().enumerate() {
+                vals[k] = t
+                    .parse::<f64>()
+                    .map_err(|_| format!("non-numeric OEM state value '{t}' in: {line}"))?;
+            }
+            states.push(OemStateLine {
+                epoch,
+                pos_km: [vals[0], vals[1], vals[2]],
+                vel_km_s: [vals[3], vals[4], vals[5]],
+            });
+        }
+        segments.push(OemSegment { meta, states });
+    }
+
+    Ok(OemFile {
+        version: version.ok_or("OEM missing CCSDS_OEM_VERS header")?,
+        creation_date: creation_date.ok_or("OEM missing CREATION_DATE header")?,
+        originator: originator.ok_or("OEM missing ORIGINATOR header")?,
+        segments,
+    })
+}
+
+/// Seconds from a segment's first epoch to each of its state epochs, via the
+/// Julian date so day rollovers are handled exactly.
+fn segment_epoch_seconds(seg: &OemSegment) -> Vec<f64> {
+    let jd = |e: &EpochUtc| {
+        crate::timescales::julian_date(e.year, e.month, e.day, e.hour, e.minute, e.second)
+    };
+    let t0 = seg.states.first().map(|s| jd(&s.epoch)).unwrap_or(0.0);
+    seg.states
+        .iter()
+        .map(|s| (jd(&s.epoch) - t0) * 86_400.0)
+        .collect()
+}
+
+/// Largest central-difference velocity-consistency residual (km/s) over a
+/// segment's interior epochs: how well the stated velocities match a numerical
+/// derivative of the stated positions. Small for a smooth ephemeris; large for an
+/// inconsistent one. `None` when there are fewer than three states.
+fn velocity_consistency_residual(seg: &OemSegment) -> Option<f64> {
+    if seg.states.len() < 3 {
+        return None;
+    }
+    let t = segment_epoch_seconds(seg);
+    let mut worst = 0.0f64;
+    for i in 1..seg.states.len() - 1 {
+        let dt = t[i + 1] - t[i - 1];
+        if dt <= 0.0 {
+            continue;
+        }
+        let mut res2 = 0.0;
+        for k in 0..3 {
+            let v_est = (seg.states[i + 1].pos_km[k] - seg.states[i - 1].pos_km[k]) / dt;
+            let d = v_est - seg.states[i].vel_km_s[k];
+            res2 += d * d;
+        }
+        worst = worst.max(res2.sqrt());
+    }
+    Some(worst)
+}
+
+fn oem_default_oem_text() -> Option<String> {
+    None
+}
+
+/// The `oem-interop` scenario: demonstrate the CCSDS OEM **import** bridge that
+/// lets Kshana ingest ephemerides produced by external flight-dynamics tools
+/// (GMAT, Orekit, STK). With no input it round-trips a generated reference orbit
+/// (self-contained, reproducible) and reports the round-trip fidelity; given an
+/// inline `oem_text` it ingests that file and reports what it parsed plus a
+/// velocity-consistency check.
+#[derive(Deserialize)]
+pub struct OemInteropScenario {
+    /// Inline CCSDS OEM text to ingest. When absent, a generated reference orbit
+    /// is exported and re-imported instead (the round-trip demonstrator).
+    #[serde(default = "oem_default_oem_text")]
+    pub oem_text: Option<String>,
+}
+
+impl OemInteropScenario {
+    /// Run the scenario, returning `(json, summary)`.
+    pub fn run_json(&self) -> Result<(String, String), String> {
+        // Source the OEM text: either the caller's file, or a generated reference
+        // orbit we also keep to measure round-trip error.
+        let (oem_text, truth): (String, Option<OemFile>) = match &self.oem_text {
+            Some(t) => (t.clone(), None),
+            None => {
+                let start = EpochUtc {
+                    year: 2024,
+                    month: 1,
+                    day: 1,
+                    hour: 0,
+                    minute: 0,
+                    second: 0.0,
+                };
+                let sats = vec![
+                    crate::orbit::Propagator::Kepler(crate::orbit::Orbit::keplerian(
+                        26_560_000.0,
+                        0.01,
+                        0.96,
+                        0.3,
+                        0.2,
+                        0.4,
+                    )),
+                    crate::orbit::Propagator::Kepler(crate::orbit::Orbit::new(
+                        6_778_000.0,
+                        0.001,
+                        0.9,
+                        0.0,
+                    )),
+                ];
+                let ids = vec!["REF-MEO".to_string(), "REF-LEO".to_string()];
+                let written = OemFile::from_propagators(&ids, &sats, start, 300.0, 6, start);
+                (written.to_oem_string(), Some(written))
+            }
+        };
+
+        let parsed = parse_oem(&oem_text)?;
+        if parsed.segments.is_empty() {
+            return Err("OEM carried no segments".to_string());
+        }
+
+        let mut n_states_total = 0usize;
+        let seg_json: Vec<serde_json::Value> = parsed
+            .segments
+            .iter()
+            .map(|seg| {
+                n_states_total += seg.states.len();
+                let t = segment_epoch_seconds(seg);
+                let span = t.last().copied().unwrap_or(0.0);
+                serde_json::json!({
+                    "object_id": seg.meta.object_id,
+                    "object_name": seg.meta.object_name,
+                    "center_name": seg.meta.center_name,
+                    "ref_frame": seg.meta.ref_frame,
+                    "time_system": seg.meta.time_system,
+                    "n_states": seg.states.len(),
+                    "span_s": span,
+                    "velocity_consistency_residual_km_s": velocity_consistency_residual(seg),
+                })
+            })
+            .collect();
+
+        // Round-trip fidelity, when we generated the source ourselves.
+        let (mut rt_pos, mut rt_vel) = (None, None);
+        if let Some(truth) = &truth {
+            let (mut max_p, mut max_v) = (0.0f64, 0.0f64);
+            for (ws, rs) in truth.segments.iter().zip(parsed.segments.iter()) {
+                for (w, r) in ws.states.iter().zip(rs.states.iter()) {
+                    for k in 0..3 {
+                        max_p = max_p.max((w.pos_km[k] - r.pos_km[k]).abs());
+                        max_v = max_v.max((w.vel_km_s[k] - r.vel_km_s[k]).abs());
+                    }
+                }
+            }
+            rt_pos = Some(max_p);
+            rt_vel = Some(max_v);
+        }
+
+        let source = if truth.is_some() {
+            "round-trip"
+        } else {
+            "ingested"
+        };
+        let json = serde_json::json!({
+            "kind": "oem-interop",
+            "label": "MODELLED — CCSDS OEM import/round-trip interop bridge \
+                      (GMAT/Orekit/STK emit OEM); a structural + physical ingest \
+                      check, NOT an orbit-accuracy validation of the source",
+            "source": source,
+            "originator": parsed.originator,
+            "n_segments": parsed.segments.len(),
+            "n_states_total": n_states_total,
+            "segments": seg_json,
+            "round_trip_max_pos_error_km": rt_pos,
+            "round_trip_max_vel_error_km_s": rt_vel,
+        });
+        let summary = match (rt_pos, rt_vel) {
+            (Some(p), Some(v)) => format!(
+                "oem-interop: round-tripped {} segment(s), {} states; max round-trip \
+                 error {:.2e} km / {:.2e} km/s (MODELLED interop)",
+                parsed.segments.len(),
+                n_states_total,
+                p,
+                v
+            ),
+            _ => format!(
+                "oem-interop: ingested {} segment(s), {} states from external OEM \
+                 (originator {}) (MODELLED interop)",
+                parsed.segments.len(),
+                n_states_total,
+                parsed.originator
+            ),
+        };
+        let json = serde_json::to_string_pretty(&json).map_err(|e| e.to_string())?;
+        Ok((json, summary))
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -376,5 +775,162 @@ mod tests {
         let t1 = f1.to_oem_string();
         assert_eq!(t1, f2.to_oem_string(), "output must be deterministic");
         assert!(t1.contains("CREATION_DATE = 2026-06-03T12:00:00.000000\n"));
+    }
+
+    // ---- importer (the GMAT/Orekit/STK interop bridge: read what they emit) ----
+
+    /// A real external-tool-style OEM (extra keywords, COMMENT lines, a covariance
+    /// block) the importer must ingest. Vendored so the parser is exercised against
+    /// a file on disk, the way an external flight-dynamics ephemeris would arrive.
+    const EXTERNAL_LEO: &str = include_str!("../tests/fixtures/interop/external_leo.oem");
+
+    #[test]
+    fn parses_an_external_oem_with_extra_keywords_comments_and_covariance() {
+        let f = parse_oem(EXTERNAL_LEO).expect("external OEM parses");
+        assert_eq!(f.version, "2.0");
+        assert_eq!(f.originator, "EXTERNAL-FDS");
+        assert_eq!(f.creation_date.year, 2024);
+        assert_eq!(f.segments.len(), 1);
+        let seg = &f.segments[0];
+        assert_eq!(seg.meta.object_name, "EXAMPLESAT");
+        assert_eq!(seg.meta.object_id, "2024-001A");
+        assert_eq!(seg.meta.center_name, "EARTH");
+        assert_eq!(seg.meta.ref_frame, "EME2000");
+        assert_eq!(seg.meta.time_system, "UTC");
+        // Four data lines; the covariance block is skipped, not parsed as states.
+        assert_eq!(seg.states.len(), 4);
+        let s0 = &seg.states[0];
+        assert_eq!(s0.epoch.hour, 0);
+        assert!((s0.pos_km[0] - (-6045.0)).abs() < 1e-9);
+        assert!((s0.pos_km[1] - (-3490.0)).abs() < 1e-9);
+        assert!((s0.pos_km[2] - 2500.0).abs() < 1e-9);
+        assert!((s0.vel_km_s[0] - (-3.457)).abs() < 1e-9);
+        assert!((s0.vel_km_s[1] - 6.618).abs() < 1e-9);
+        assert!((s0.vel_km_s[2] - 2.534).abs() < 1e-9);
+        // Row-0 is the Vallado example: ~7411 km radius, ~7.9 km/s speed.
+        let r = (s0.pos_km[0].powi(2) + s0.pos_km[1].powi(2) + s0.pos_km[2].powi(2)).sqrt();
+        let v = (s0.vel_km_s[0].powi(2) + s0.vel_km_s[1].powi(2) + s0.vel_km_s[2].powi(2)).sqrt();
+        assert!((7000.0..7800.0).contains(&r), "radius {r:.1} km");
+        assert!((7.0..8.5).contains(&v), "speed {v:.3} km/s");
+    }
+
+    #[test]
+    fn write_then_read_round_trips_the_full_state() {
+        // The importer is the exact inverse of the writer: every epoch, position
+        // (km) and velocity (km/s) survives a to_oem_string → parse_oem round trip
+        // to format precision (6 dp position, 9 dp velocity).
+        let orbit = Orbit::keplerian(26_560_000.0, 0.01, 0.9, 0.3, 0.2, 0.4);
+        let sats = vec![
+            Propagator::Kepler(orbit),
+            Propagator::Kepler(Orbit::new(26_560_000.0, 0.96, std::f64::consts::PI, 1.0)),
+        ];
+        let ids = vec!["G01".to_string(), "G02".to_string()];
+        let written =
+            OemFile::from_propagators(&ids, &sats, start_epoch(), 600.0, 6, start_epoch());
+        let reparsed = parse_oem(&written.to_oem_string()).expect("round trip parses");
+        assert_eq!(reparsed.segments.len(), written.segments.len());
+        for (ws, rs) in written.segments.iter().zip(reparsed.segments.iter()) {
+            assert_eq!(rs.meta.object_id, ws.meta.object_id);
+            assert_eq!(rs.states.len(), ws.states.len());
+            for (w, r) in ws.states.iter().zip(rs.states.iter()) {
+                assert_eq!(r.epoch, w.epoch);
+                for k in 0..3 {
+                    assert!((r.pos_km[k] - w.pos_km[k]).abs() < 1e-6, "pos axis {k}");
+                    assert!((r.vel_km_s[k] - w.vel_km_s[k]).abs() < 1e-9, "vel axis {k}");
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn importer_tolerates_position_velocity_acceleration_lines() {
+        // CCSDS allows pos / pos+vel / pos+vel+accel data lines; a 9-column line
+        // keeps the first six (position, velocity) and ignores the acceleration.
+        let oem = "CCSDS_OEM_VERS = 2.0\n\
+                   CREATION_DATE = 2024-01-01T00:00:00.000000\n\
+                   ORIGINATOR = T\n\n\
+                   META_START\n\
+                   OBJECT_NAME = A\nOBJECT_ID = A\nCENTER_NAME = EARTH\n\
+                   REF_FRAME = TEME\nTIME_SYSTEM = GPS\n\
+                   START_TIME = 2024-01-01T00:00:00.000000\n\
+                   STOP_TIME = 2024-01-01T00:00:00.000000\n\
+                   META_STOP\n\n\
+                   2024-01-01T00:00:00.000000 7000.0 0.0 0.0 0.0 7.5 0.0 -0.001 0.0 0.0\n";
+        let f = parse_oem(oem).expect("pos+vel+accel parses");
+        let s = &f.segments[0].states[0];
+        assert_eq!(s.pos_km, [7000.0, 0.0, 0.0]);
+        assert_eq!(s.vel_km_s, [0.0, 7.5, 0.0]);
+    }
+
+    #[test]
+    fn importer_rejects_position_only_ephemeris() {
+        // A position-only (3-column) line has no velocity; rather than fabricate a
+        // zero velocity, the importer rejects it with a clear error.
+        let oem = "CCSDS_OEM_VERS = 2.0\n\
+                   CREATION_DATE = 2024-01-01T00:00:00.000000\n\
+                   ORIGINATOR = T\n\n\
+                   META_START\n\
+                   OBJECT_NAME = A\nOBJECT_ID = A\nCENTER_NAME = EARTH\n\
+                   REF_FRAME = TEME\nTIME_SYSTEM = GPS\n\
+                   START_TIME = 2024-01-01T00:00:00.000000\n\
+                   STOP_TIME = 2024-01-01T00:00:00.000000\n\
+                   META_STOP\n\n\
+                   2024-01-01T00:00:00.000000 7000.0 0.0 0.0\n";
+        assert!(parse_oem(oem).is_err(), "position-only must be rejected");
+    }
+
+    #[test]
+    fn oem_interop_default_round_trip_is_high_fidelity_and_modelled() {
+        let scn = OemInteropScenario { oem_text: None };
+        let (j1, summary) = scn.run_json().unwrap();
+        let (j2, _) = scn.run_json().unwrap();
+        assert_eq!(j1, j2, "scenario must be reproducible");
+        let v: serde_json::Value = serde_json::from_str(&j1).unwrap();
+        assert_eq!(v["kind"], "oem-interop");
+        assert_eq!(v["source"], "round-trip");
+        assert_eq!(v["n_segments"], 2);
+        assert!(v["label"].as_str().unwrap().contains("MODELLED"));
+        assert!(!j1.contains("VALIDATED"));
+        // Round-trip error is at the OEM print precision (6 dp km / 9 dp km/s).
+        let p = v["round_trip_max_pos_error_km"].as_f64().unwrap();
+        let vel = v["round_trip_max_vel_error_km_s"].as_f64().unwrap();
+        assert!(p < 1e-5, "round-trip pos error {p} km");
+        assert!(vel < 1e-8, "round-trip vel error {vel} km/s");
+        assert!(summary.contains("round-tripped"));
+    }
+
+    #[test]
+    fn oem_interop_ingests_an_external_file() {
+        let scn = OemInteropScenario {
+            oem_text: Some(EXTERNAL_LEO.to_string()),
+        };
+        let (j, _) = scn.run_json().unwrap();
+        let v: serde_json::Value = serde_json::from_str(&j).unwrap();
+        assert_eq!(v["source"], "ingested");
+        assert_eq!(v["n_segments"], 1);
+        assert_eq!(v["n_states_total"], 4);
+        assert_eq!(v["originator"], "EXTERNAL-FDS");
+        assert_eq!(v["segments"][0]["ref_frame"], "EME2000");
+        // No round-trip error keys for an ingested (not self-generated) file.
+        assert!(v["round_trip_max_pos_error_km"].is_null());
+    }
+
+    #[test]
+    fn importer_rejects_a_segment_missing_mandatory_metadata() {
+        // REF_FRAME is mandatory CCSDS OEM metadata; its absence is a clean error.
+        let oem = "CCSDS_OEM_VERS = 2.0\n\
+                   CREATION_DATE = 2024-01-01T00:00:00.000000\n\
+                   ORIGINATOR = T\n\n\
+                   META_START\n\
+                   OBJECT_NAME = A\nOBJECT_ID = A\nCENTER_NAME = EARTH\n\
+                   TIME_SYSTEM = GPS\n\
+                   START_TIME = 2024-01-01T00:00:00.000000\n\
+                   STOP_TIME = 2024-01-01T00:00:00.000000\n\
+                   META_STOP\n\n\
+                   2024-01-01T00:00:00.000000 7000.0 0.0 0.0 0.0 7.5 0.0\n";
+        assert!(
+            parse_oem(oem).is_err(),
+            "missing REF_FRAME must be rejected"
+        );
     }
 }

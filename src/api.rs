@@ -257,6 +257,8 @@ pub enum ScenarioKind {
     MarsPnt,
     ImpairmentEval,
     QuantumTrade,
+    SpaceWeather,
+    OemInterop,
 }
 
 impl ScenarioKind {
@@ -288,6 +290,8 @@ impl ScenarioKind {
             ScenarioKind::MarsPnt => "mars-pnt",
             ScenarioKind::ImpairmentEval => "impairment-eval",
             ScenarioKind::QuantumTrade => "quantum-trade",
+            ScenarioKind::SpaceWeather => "space-weather",
+            ScenarioKind::OemInterop => "oem-interop",
         }
     }
 
@@ -323,6 +327,8 @@ impl ScenarioKind {
             "mars-pnt" => ScenarioKind::MarsPnt,
             "impairment-eval" => ScenarioKind::ImpairmentEval,
             "quantum-trade" => ScenarioKind::QuantumTrade,
+            "space-weather" => ScenarioKind::SpaceWeather,
+            "oem-interop" => ScenarioKind::OemInterop,
             // Empty or unknown ⇒ the clock pack (historical default).
             _ => ScenarioKind::Clock,
         })
@@ -369,6 +375,8 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "mars-pnt", description: "Deep-space Mars PNT: a simulated MARCONI relay constellation (areostationary + inclined relays broadcasting one-way + relaying two-way to a deep-space station) navigates a reference user (transfer | lmo | surface) through the joint one-way/two-way radiometric fusion estimator. Reports per-epoch geometry/visibility, achieved RMS vs truth, and the formal covariance (1σ / 3σ position) — an honest simulated FoM, NOT a certified protection level.", required_fields: &[], optional_fields: &["user", "clock_class", "step_s", "duration_s", "nmax", "range_sigma_m", "doppler_sigma_mps", "dynamic_tightness", "two_way_period_s", "seed"] },
         ScenarioMeta { name: "impairment-eval", description: "AI/ML RF-impairment detection evaluation testbed (13494): generate a labelled, parameter-grounded SYNTHETIC corpus (nominal/jamming/spoof-time/spoof-position/multipath), score a detector (energy|agc|sqm|parity|fused) with the detector-agnostic harness, and report AUC/ROC/confusion + per-class Pd at a target Pfa, plus the in- vs out-of-distribution optimism gap. MODELLED operating characteristics only — never field/IQ, no good/bad verdict.", required_fields: &[], optional_fields: &["seed", "n_per_class", "nominal_cn0_dbhz", "meas_noise", "detector", "target_pfa", "shift_severity_scale", "optimism_tol"] },
         ScenarioMeta { name: "quantum-trade", description: "Quantum-vs-classical PNT trade (13503): timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve — the defensibility hinge — or a quantum clock class) vs a classical baseline class, with the long-tau floor-assumption caveat carried on the artifact, plus a GNSS-denied resilience-vs-time envelope. MODELLED; quantifies (never validates) a partner device.", required_fields: &["timing_threshold_s", "position_threshold_m", "baseline_clock_class"], optional_fields: &["candidate_clock_class", "candidate_adev_taus", "candidate_adev_values", "baseline_ins", "candidate_ins", "resilience_times_s", "alt_pnt_bound_m"] },
+        ScenarioMeta { name: "space-weather", description: "Space-weather environment model: solar (F10.7/F10.7a) and geomagnetic (Kp, with the definitional Kp↔ap table) activity indices, the Jacchia-1971 exospheric temperature they drive (validated vs published solar-min/mean/max), and the activity-corrected vs static thermospheric neutral density at a set of altitudes — the solar-cycle density dependence the static USSA76 atmosphere omits. MODELLED: the density correction is a calibrated first-order scale-height coupling, NOT a data-validated (NRLMSISE) atmosphere.", required_fields: &[], optional_fields: &["f107", "f107a", "kp", "altitudes_km"] },
+        ScenarioMeta { name: "oem-interop", description: "CCSDS OEM interoperability bridge: import an Orbit Ephemeris Message produced by an external flight-dynamics tool (GMAT/Orekit/STK all emit OEM) and report its segments/objects/frames/epoch-span plus a velocity-consistency check; with no input it round-trips a generated reference orbit and reports the import↔export fidelity. MODELLED structural/physical ingest check, NOT an orbit-accuracy validation of the source.", required_fields: &[], optional_fields: &["oem_text"] },
     ]
 }
 
@@ -1002,6 +1010,20 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
         ScenarioKind::QuantumTrade => {
             let scn: crate::quantum_trade::QuantumTradeScenario =
                 toml::from_str(src).map_err(|e| format!("invalid quantum-trade scenario: {e}"))?;
+            let (json, summary) = scn.run_json()?;
+            let svg = minimal_svg(&summary);
+            Ok(RunOutput { json, svg, summary })
+        }
+        ScenarioKind::SpaceWeather => {
+            let scn: crate::space_weather::SpaceWeatherScenario =
+                toml::from_str(src).map_err(|e| format!("invalid space-weather scenario: {e}"))?;
+            let (json, summary) = scn.run_json()?;
+            let svg = minimal_svg(&summary);
+            Ok(RunOutput { json, svg, summary })
+        }
+        ScenarioKind::OemInterop => {
+            let scn: crate::oem::OemInteropScenario =
+                toml::from_str(src).map_err(|e| format!("invalid oem-interop scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
             Ok(RunOutput { json, svg, summary })
