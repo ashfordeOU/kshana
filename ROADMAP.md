@@ -117,7 +117,18 @@ A validated, fully reproducible engine spanning the PNT stack:
   P_fa/P_md, Security FoM = 1 − P_md); and a multi-layer spoof detector fusing a
   RAIM-consistency parity test (with the common-mode blind spot modelled honestly), an
   RF-layer AGC-power monitor, and a signal-quality (SQM Early-minus-Late) monitor.
-- **Interoperability** — RINEX-3/4, SP3-c/d, CCSDS OEM 2.0 and OMM (mean-elements) export.
+- **Interoperability** — RINEX-3/4, SP3-c/d, CCSDS OEM 2.0 (export **and** import via the
+  `oem-interop` round-trip bridge) and OMM (mean-elements) export, plus CCSDS-TDM (503) and
+  the `space-packet` (CCSDS 133.0-B) framer.
+- **Mission-analysis & environment (first-order, MODELLED)** — runnable `launch-window`
+  (azimuth / plane-change / opportunities), `reentry` (Allen-Eggers corridor),
+  `eo-coverage` (swath / GSD / access / revisit), `attitude-budget` (gravity-gradient torque
+  + RSS pointing budget), `passes` (ground-station rise/set prediction), `link-budget`
+  (CCSDS-401/DSN-810-005 link equation), and `space-weather` (Kp/ap/F10.7a + Jacchia-71
+  exospheric temperature + activity-driven density). Plus the two-tender demonstrators
+  `impairment-eval` (AI/ML RF-impairment ROC/AUC harness) and `quantum-trade`. All are
+  first-order/MODELLED — the analysis layer above GMAT/STK, not a replacement, and never
+  validated flight tools. See [`docs/CAPABILITY.md`](docs/CAPABILITY.md) for per-kind scope.
 - **Surfaces** — Rust library, CLI, Python (PyO3) and WebAssembly (wasm-bindgen)
   bindings, and an in-browser playground.
 
