@@ -24,7 +24,7 @@ explicitly by [`IntegritySupportMessage`](../src/raim.rs):
 |------|--------|---------|
 | `sigma_ure_m` | σ_URE / SISE | range-error RMS used for **accuracy and continuity** |
 | `sigma_ura_m` | σ_URA / SISA | range-error bound used for **integrity** (≥ σ_URE) |
-| `b_nom_m` | b_nom | maximum nominal range bias folded one-sided into the integrity bound |
+| `b_nom_m` | b_nom | maximum nominal range bias folded one-sided into the integrity bound (`b_k = Σ_i |s_i|·b_nom`); see §3 |
 | `p_sat` | P_sat | prior probability of an undetected single-satellite fault |
 | `p_const` | P_const | prior probability of a constellation-wide fault |
 
@@ -64,6 +64,17 @@ smallest bound `PL` whose summed integrity risk
 ```
 Σ_k p_fault,k · Q( (PL − b_k − T_k) / σ_k )  ≤  P_HMI
 ```
+
+> **Implementation note.** `b_k = Σ_i |s_{axis,i}|·b_nom` is the one-sided nominal-bias
+> projection onto the axis — the worst-case sum of per-satellite gain magnitudes
+> ([`axis_bias_sum`/`horiz_bias_sum`](../src/raim.rs)) — sourced from the ISM's
+> `b_nom_m`. The WG-C reference ISM uses `b_nom = 0.75 m`; with `b_nom = 0` the bound
+> reduces to the zero-nominal-bias MHSS form. The runnable `integrity` scenario
+> exposes `sigma_ura_m` (the integrity bound used for the protection level, clamped
+> to ≥ `sigma_uere_m` and defaulting to it) and `b_nom_m` (defaulting to 0), so the
+> protection level is always sized with the integrity bound σ_URA, never the smaller
+> accuracy σ_URE. This remains a **modelled, non-certified** ARAIM implementation —
+> see [`INTEGRITY.md`](INTEGRITY.md).
 
 meets the allocated budget ([`araim_protection_level`] /
 [`araim_integrity_risk`](../src/raim.rs)). VPL and HPL are the vertical and
