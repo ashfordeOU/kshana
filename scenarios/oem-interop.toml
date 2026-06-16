@@ -1,0 +1,14 @@
+# CCSDS OEM interoperability-bridge demonstrator (GMAT / Orekit / STK interop).
+#
+# GMAT, Orekit and STK all EXPORT CCSDS Orbit Ephemeris Messages; this is the
+# IMPORT side of the bridge that lets Kshana ingest them. With no `oem_text` the
+# scenario round-trips a generated reference constellation (a MEO + a LEO orbit)
+# through export -> import and reports the round-trip fidelity, proving the importer
+# is the exact inverse of the writer. Set `oem_text` to an inline OEM string to
+# ingest a real external file instead (segments, frames, epoch span + a
+# velocity-consistency check are reported).
+#
+# HONEST SCOPE: MODELLED structural + physical ingest check, NOT an orbit-accuracy
+# validation of the source ephemeris.
+# Run:  kshana scenarios/oem-interop.toml
+kind = "oem-interop"
