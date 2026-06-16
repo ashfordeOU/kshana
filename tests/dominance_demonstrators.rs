@@ -175,3 +175,63 @@ fn oem_interop_round_trip_is_reachable_reproducible_and_honest() {
     assert!(label.contains("MODELLED"));
     assert!(!a.json.contains("VALIDATED"));
 }
+
+#[test]
+fn launch_window_is_reachable_reproducible_and_honest() {
+    let src = std::fs::read_to_string("scenarios/launch-window.toml").unwrap();
+    let a = run_toml(&src).unwrap();
+    let b = run_toml(&src).unwrap();
+    assert_eq!(
+        a.json, b.json,
+        "launch-window must be reproducible in process"
+    );
+
+    let v: Value = serde_json::from_str(&a.json).unwrap();
+    assert_eq!(v["kind"], "launch-window");
+    // KSC -> ISS is the textbook ~45° azimuth.
+    let az = v["launch_azimuth_deg"]["ascending"].as_f64().unwrap();
+    assert!((az - 44.98).abs() < 0.2, "KSC->ISS azimuth {az}");
+    assert!(v["label"].as_str().unwrap().contains("MODELLED"));
+    assert!(!a.json.contains("VALIDATED"));
+}
+
+#[test]
+fn reentry_is_reachable_reproducible_and_honest() {
+    let src = std::fs::read_to_string("scenarios/reentry.toml").unwrap();
+    let a = run_toml(&src).unwrap();
+    let b = run_toml(&src).unwrap();
+    assert_eq!(a.json, b.json, "reentry must be reproducible in process");
+
+    let v: Value = serde_json::from_str(&a.json).unwrap();
+    assert_eq!(v["kind"], "reentry");
+    // Peak-g is in a physical ballistic-entry band; peak-g altitude is sub-interface.
+    let g = v["peak_deceleration_g"].as_f64().unwrap();
+    assert!((5.0..30.0).contains(&g), "ballistic peak {g} g");
+    assert!(v["altitude_at_peak_g_m"].as_f64().unwrap() > 0.0);
+    // Allen-Eggers peak-g velocity fraction ~0.607.
+    let vr =
+        v["velocity_at_peak_g_m_s"].as_f64().unwrap() / v["entry_velocity_m_s"].as_f64().unwrap();
+    assert!((vr - 0.6065).abs() < 1e-2, "peak-g velocity fraction {vr}");
+    assert!(v["label"].as_str().unwrap().contains("MODELLED"));
+    assert!(!a.json.contains("VALIDATED"));
+}
+
+#[test]
+fn eo_coverage_is_reachable_reproducible_and_honest() {
+    let src = std::fs::read_to_string("scenarios/eo-coverage.toml").unwrap();
+    let a = run_toml(&src).unwrap();
+    let b = run_toml(&src).unwrap();
+    assert_eq!(
+        a.json, b.json,
+        "eo-coverage must be reproducible in process"
+    );
+
+    let v: Value = serde_json::from_str(&a.json).unwrap();
+    assert_eq!(v["kind"], "eo-coverage");
+    // Earth angular radius ~64° at 700 km; swath positive; GSD positive.
+    assert!((v["earth_angular_radius_deg"].as_f64().unwrap() - 64.28).abs() < 0.2);
+    assert!(v["swath_width_km"].as_f64().unwrap() > 0.0);
+    assert!(v["nadir_gsd_m"].as_f64().unwrap() > 0.0);
+    assert!(v["label"].as_str().unwrap().contains("MODELLED"));
+    assert!(!a.json.contains("VALIDATED"));
+}
