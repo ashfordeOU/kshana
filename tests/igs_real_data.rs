@@ -248,7 +248,10 @@ fn real_sp3_geometry_detects_and_identifies_an_injected_fault() {
 fn real_sp3_geometry_araim_meets_the_integrity_budget() {
     let (user, sats) = real_gps_geometry();
     let zero = vec![0.0; sats.len()];
-    let priors = FaultPriors { p_sat: 1e-5 };
+    let priors = FaultPriors {
+        p_sat: 1e-5,
+        b_nom_m: 0.0,
+    };
     let budget = IntegrityBudget {
         p_hmi_vert: 1e-7,
         p_hmi_horz: 1e-7,

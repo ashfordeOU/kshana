@@ -403,6 +403,49 @@ fn axis_variance(a: &[[f64; 4]; 4], u: Vec3) -> f64 {
     v.max(0.0)
 }
 
+/// Sensitivity of the position estimate along unit axis `u` (ENU) to a unit error
+/// in the single measurement whose geometry row is `g_row`: `uᵀ·(A·g_row)_pos`,
+/// i.e. that column of the least-squares gain matrix `S = A·Gᵀ` projected onto the
+/// axis (`A = (GᵀG)⁻¹`).
+fn axis_gain(a: &[[f64; 4]; 4], g_row: &[f64; 4], u: Vec3) -> f64 {
+    let mut s = 0.0;
+    for (i, &ui) in u.iter().enumerate() {
+        let s_i: f64 = (0..4).map(|k| a[i][k] * g_row[k]).sum();
+        s += ui * s_i;
+    }
+    s
+}
+
+/// Worst-case nominal-bias projection onto a single axis: `b_nom · Σ_c |s_axis,c|`
+/// (the one-sided sum of per-measurement gain magnitudes — each satellite's
+/// nominal bias may take the sign that pushes the estimate the same way). This is
+/// the `b_k` term of the MHSS protection level (Blanch et al.). Returns `0` for a
+/// non-positive `b_nom`.
+fn axis_bias_sum(a: &[[f64; 4]; 4], g: &[[f64; 4]], u: Vec3, b_nom: f64) -> f64 {
+    if b_nom <= 0.0 {
+        return 0.0;
+    }
+    b_nom * g.iter().map(|row| axis_gain(a, row, u).abs()).sum::<f64>()
+}
+
+/// Worst-case nominal-bias projection onto the horizontal plane: each satellite
+/// contributes a 2-D gain vector `(s_east,c, s_north,c)`, and the worst-case
+/// horizontal bias magnitude is bounded by `b_nom · Σ_c ‖(s_east,c, s_north,c)‖`
+/// (the triangle-inequality bound over arbitrary per-satellite bias signs).
+fn horiz_bias_sum(a: &[[f64; 4]; 4], g: &[[f64; 4]], east: Vec3, north: Vec3, b_nom: f64) -> f64 {
+    if b_nom <= 0.0 {
+        return 0.0;
+    }
+    b_nom
+        * g.iter()
+            .map(|row| {
+                let se = axis_gain(a, row, east);
+                let sn = axis_gain(a, row, north);
+                (se * se + sn * sn).sqrt()
+            })
+            .sum::<f64>()
+}
+
 /// The outcome of a solution-separation (multiple-hypothesis) RAIM check.
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct SolutionSeparationResult {
@@ -579,6 +622,11 @@ pub struct AraimMode {
     /// mode (the largest bias that escapes the separation detector), `0` for the
     /// fault-free hypothesis.
     pub threshold_m: f64,
+    /// Maximum nominal-range-bias projection `b_k` (m) onto the axis: the
+    /// one-sided worst-case bias `Σ_i |s_i|·b_nom` (per the ISM's `b_nom`) that
+    /// adds to the estimate without ever tripping the detector. `0` when the ISM
+    /// declares no nominal bias (`b_nom = 0`) — the zero-bias MHSS bound.
+    pub bias_m: f64,
     /// Standard deviation (m) of the position estimate on the axis under this
     /// hypothesis: the all-in-view `σ₀` for fault-free, the SV-`k`-excluded
     /// sub-solution `σ_k` for fault mode `k`.
@@ -598,14 +646,17 @@ fn normal_q(z: f64) -> f64 {
 /// Algorithm*, the MHSS integrity equation):
 ///
 /// ```text
-/// P_HMI(PL) = Σ_k  p_fault,k · Q( (PL − T_k) / σ_k )
+/// P_HMI(PL) = Σ_k  p_fault,k · Q( (PL − b_k − T_k) / σ_k )
 /// ```
 ///
 /// Each term is the probability that, under hypothesis `k`, the position error
-/// crosses `PL` while the bias stays under the detector threshold `T_k`. The
-/// fault-free hypothesis (`T_0 = 0`) contributes `p_ff·Q(PL/σ_0)`. This is the
-/// risk in a single direction of the axis; allocate `P_HMI_axis / 2` to each
-/// side so the symmetric two-sided position-error bound meets the axis budget.
+/// crosses `PL` while the nominal bias `b_k` plus a just-undetectable fault bias
+/// (up to the detector threshold `T_k`) push the estimate. The fault-free
+/// hypothesis (`T_0 = 0`) still carries its nominal bias `b_0` and contributes
+/// `p_ff·Q((PL − b_0)/σ_0)`. With `b_k = 0` (ISM `b_nom = 0`) this reduces to the
+/// zero-nominal-bias MHSS bound. This is the risk in a single direction of the
+/// axis; allocate `P_HMI_axis / 2` to each side so the symmetric two-sided
+/// position-error bound meets the axis budget.
 pub fn araim_integrity_risk(pl_m: f64, modes: &[AraimMode]) -> f64 {
     modes
         .iter()
@@ -613,7 +664,7 @@ pub fn araim_integrity_risk(pl_m: f64, modes: &[AraimMode]) -> f64 {
             if m.sigma_m <= 0.0 {
                 0.0
             } else {
-                m.p_fault * normal_q((pl_m - m.threshold_m) / m.sigma_m)
+                m.p_fault * normal_q((pl_m - m.bias_m - m.threshold_m) / m.sigma_m)
             }
         })
         .sum()
@@ -630,14 +681,17 @@ pub fn araim_protection_level(modes: &[AraimMode], budget_one_sided: f64) -> f64
         return f64::INFINITY;
     }
     let max_sigma = modes.iter().map(|m| m.sigma_m).fold(0.0, f64::max);
-    let max_thresh = modes.iter().map(|m| m.threshold_m).fold(0.0, f64::max);
+    let max_bias_thresh = modes
+        .iter()
+        .map(|m| m.bias_m + m.threshold_m)
+        .fold(0.0, f64::max);
     if max_sigma <= 0.0 {
         return 0.0;
     }
     // `PL = 0` has risk ≥ p_ff·Q(0) = p_ff/2 ≫ any useful budget, so it brackets
-    // the low side; `max_thresh + 40·max_sigma` drives every Q below the f64
+    // the low side; `(b + T)_max + 40·max_sigma` drives every Q below the f64
     // floor (`Q(40) ≈ 0`), bracketing the high side.
-    let ceiling = max_thresh + 40.0 * max_sigma;
+    let ceiling = max_bias_thresh + 40.0 * max_sigma;
     if araim_integrity_risk(0.0, modes) <= budget_one_sided {
         return 0.0;
     }
@@ -660,6 +714,10 @@ pub struct FaultPriors {
     /// Prior probability a given satellite carries an undetected fault over the
     /// exposure interval (RTCA ARAIM ISM baseline `P_sat ≈ 1e-5`).
     pub p_sat: f64,
+    /// Maximum nominal range bias `b_nom` (m) the ISM declares, folded one-sided
+    /// into every mode's protection level (`b_k = Σ_i |s_i|·b_nom`). `0` recovers
+    /// the zero-nominal-bias MHSS bound.
+    pub b_nom_m: f64,
 }
 
 /// The vertical/horizontal split of the total integrity-risk budget plus the
@@ -744,15 +802,18 @@ pub fn araim_raim(
     let k_fa = normal_quantile(1.0 - budget.p_fa / (2.0 * n as f64));
     let p_ff = (1.0 - n as f64 * priors.p_sat).max(0.0);
 
-    // Fault-free hypothesis (T = 0) opens each axis's mode list.
+    // Fault-free hypothesis (T = 0) opens each axis's mode list — it still carries
+    // the nominal bias projection b_0 over the full geometry.
     let mut modes_v = vec![AraimMode {
         p_fault: p_ff,
         threshold_m: 0.0,
+        bias_m: axis_bias_sum(&a0, &g, up, priors.b_nom_m),
         sigma_m: sigma_m * var0_v.sqrt(),
     }];
     let mut modes_h = vec![AraimMode {
         p_fault: p_ff,
         threshold_m: 0.0,
+        bias_m: horiz_bias_sum(&a0, &g, east, north, priors.b_nom_m),
         sigma_m: sigma_m * var0_h.sqrt(),
     }];
 
@@ -802,15 +863,18 @@ pub fn araim_raim(
         }
 
         // Integrity-budget contribution of fault mode k: a bias up to T_k =
-        // K_fa·σ_ss escapes detection, leaving the σ_k sub-solution noise.
+        // K_fa·σ_ss escapes detection, leaving the σ_k sub-solution noise, plus the
+        // nominal bias projection b_k over the SV-k-excluded geometry.
         modes_v.push(AraimMode {
             p_fault: priors.p_sat,
             threshold_m: k_fa * sig_ss_v,
+            bias_m: axis_bias_sum(&ak, &g_sub, up, priors.b_nom_m),
             sigma_m: sigma_m * vark_v.sqrt(),
         });
         modes_h.push(AraimMode {
             p_fault: priors.p_sat,
             threshold_m: k_fa * sig_ss_h,
+            bias_m: horiz_bias_sum(&ak, &g_sub, east, north, priors.b_nom_m),
             sigma_m: sigma_m * vark_h.sqrt(),
         });
     }
@@ -841,6 +905,10 @@ pub struct DualFaultPriors {
     /// exposure interval (`P_const ≈ 1e-4`). `0` disables the constellation
     /// hypotheses, recovering the single-fault [`araim_raim`] result exactly.
     pub p_const: f64,
+    /// Maximum nominal range bias `b_nom` (m) the ISM declares, folded one-sided
+    /// into every mode's protection level (`b_k = Σ_i |s_i|·b_nom`). `0` recovers
+    /// the zero-nominal-bias MHSS bound.
+    pub b_nom_m: f64,
 }
 
 /// An Integrity Support Message (ISM): the per-constellation integrity parameters
@@ -887,7 +955,10 @@ impl IntegritySupportMessage {
 
     /// The single-fault priors this ISM implies, for [`araim_raim`].
     pub fn fault_priors(&self) -> FaultPriors {
-        FaultPriors { p_sat: self.p_sat }
+        FaultPriors {
+            p_sat: self.p_sat,
+            b_nom_m: self.b_nom_m,
+        }
     }
 
     /// The dual-fault (single-SV + constellation-wide) priors this ISM implies,
@@ -896,6 +967,7 @@ impl IntegritySupportMessage {
         DualFaultPriors {
             p_sat: self.p_sat,
             p_const: self.p_const,
+            b_nom_m: self.b_nom_m,
         }
     }
 }
@@ -918,6 +990,7 @@ fn araim_exclusion_mode(
     sigma_m: f64,
     k_fa: f64,
     p_fault: f64,
+    b_nom: f64,
     min_keep: usize,
 ) -> Option<(AraimMode, AraimMode, f64)> {
     let idx: Vec<usize> = (0..g.len()).filter(|&i| keep(i)).collect();
@@ -949,11 +1022,13 @@ fn araim_exclusion_mode(
     let mode_v = AraimMode {
         p_fault,
         threshold_m: k_fa * sig_ss_v,
+        bias_m: axis_bias_sum(&ak, &g_sub, up, b_nom),
         sigma_m: sigma_m * vark_v.sqrt(),
     };
     let mode_h = AraimMode {
         p_fault,
         threshold_m: k_fa * sig_ss_h,
+        bias_m: horiz_bias_sum(&ak, &g_sub, east, north, b_nom),
         sigma_m: sigma_m * vark_h.sqrt(),
     };
     Some((mode_v, mode_h, nrm_v.max(nrm_h)))
@@ -1015,11 +1090,13 @@ pub fn araim_dual_raim(
     let mut modes_v = vec![AraimMode {
         p_fault: p_ff,
         threshold_m: 0.0,
+        bias_m: axis_bias_sum(&a0, &g, up, priors.b_nom_m),
         sigma_m: sigma_m * var0_v.sqrt(),
     }];
     let mut modes_h = vec![AraimMode {
         p_fault: p_ff,
         threshold_m: 0.0,
+        bias_m: horiz_bias_sum(&a0, &g, east, north, priors.b_nom_m),
         sigma_m: sigma_m * var0_h.sqrt(),
     }];
     let mut fault_detected = false;
@@ -1041,6 +1118,7 @@ pub fn araim_dual_raim(
             sigma_m,
             k_fa,
             priors.p_sat,
+            priors.b_nom_m,
             5,
         ) {
             modes_v.push(mv);
@@ -1071,6 +1149,7 @@ pub fn araim_dual_raim(
                 sigma_m,
                 k_fa,
                 priors.p_const,
+                priors.b_nom_m,
                 5,
             ) {
                 Some((mv, mh, nrm)) => {
@@ -1570,8 +1649,20 @@ fn vertical_position_error(user: Vec3, sats: &[Vec3], residuals: &[f64]) -> Opti
 pub struct IntegrityScenario {
     /// Elevation mask (deg) below which satellites are not used.
     pub mask_deg: f64,
-    /// 1-σ user-equivalent range error (m).
+    /// 1-σ user-equivalent range error (m) — the accuracy RMS (σ_URE).
     pub sigma_uere_m: f64,
+    /// Optional integrity bound σ_URA (m) for the ARAIM protection level
+    /// (clamped to ≥ `sigma_uere_m`). When `0`/unset it defaults to `sigma_uere_m`
+    /// (its floor), so the protection level is always sized with the integrity
+    /// bound, never the smaller accuracy RMS. Only used on the `araim_dual` path.
+    #[serde(default)]
+    pub sigma_ura_m: f64,
+    /// Optional maximum nominal range bias b_nom (m) the ISM declares, folded
+    /// one-sided into the ARAIM protection level (`b_k = Σ_i |s_i|·b_nom`).
+    /// `0`/unset = the zero-nominal-bias MHSS bound. Only used on the `araim_dual`
+    /// path.
+    #[serde(default)]
+    pub b_nom_m: f64,
     /// Allowed false-alarm probability.
     pub p_fa: f64,
     /// Allowed missed-detection probability.
@@ -1640,7 +1731,22 @@ impl IntegrityScenario {
         let user = self.user.to_orbit();
         if self.araim_dual {
             let (sats, labels) = self.all_satellites_labeled()?;
-            let ism = IntegritySupportMessage::gps_galileo_reference();
+            // Build the ISM from the scenario: σ_URA (the integrity bound) defaults
+            // to σ_URE when unset (its floor, URA ≥ URE), and the nominal bias b_nom
+            // defaults to 0 (the zero-bias MHSS bound). The protection level is sized
+            // with the integrity bound σ_URA, never the smaller accuracy σ_URE.
+            let sigma_ura = if self.sigma_ura_m > 0.0 {
+                self.sigma_ura_m.max(self.sigma_uere_m)
+            } else {
+                self.sigma_uere_m
+            };
+            let ism = IntegritySupportMessage {
+                sigma_ure_m: self.sigma_uere_m,
+                sigma_ura_m: sigma_ura,
+                b_nom_m: self.b_nom_m,
+                p_sat: 1e-5,
+                p_const: 1e-4,
+            };
             let budget = IntegrityBudget {
                 p_hmi_vert: self.p_hmi,
                 p_hmi_horz: self.p_hmi,
@@ -1653,7 +1759,7 @@ impl IntegrityScenario {
                 self.time.step_s,
                 self.time.duration_s,
                 self.mask_deg,
-                self.sigma_uere_m,
+                ism.sigma_ura_m,
                 ism.dual_fault_priors(),
                 budget,
                 self.al_h_m,
@@ -2044,6 +2150,7 @@ mod tests {
         let modes = [AraimMode {
             p_fault: 1.0,
             threshold_m: 0.0,
+            bias_m: 0.0,
             sigma_m: 1.0,
         }];
         assert!((araim_integrity_risk(2.0, &modes) - 0.022_750_132).abs() < 1e-6);
@@ -2052,11 +2159,13 @@ mod tests {
             AraimMode {
                 p_fault: 1e-4,
                 threshold_m: 0.0,
+                bias_m: 0.0,
                 sigma_m: 1.0,
             },
             AraimMode {
                 p_fault: 1e-4,
                 threshold_m: 0.0,
+                bias_m: 0.0,
                 sigma_m: 1.0,
             },
         ];
@@ -2071,6 +2180,7 @@ mod tests {
         let modes = [AraimMode {
             p_fault: 1.0,
             threshold_m: 0.0,
+            bias_m: 0.0,
             sigma_m: 1.0,
         }];
         let pl = araim_protection_level(&modes, 0.022_750_132);
@@ -2084,6 +2194,7 @@ mod tests {
         let modes = [AraimMode {
             p_fault: 1e-4,
             threshold_m: 5.0,
+            bias_m: 0.0,
             sigma_m: 2.0,
         }];
         let budget = 1e-4 * 0.001_349_898; // 1e-4 · Q(3)
@@ -2101,7 +2212,10 @@ mod tests {
         let user = geodetic_to_ecef(station);
         let sats = dense_constellation(station);
         let resid = vec![0.0; sats.len()];
-        let priors = FaultPriors { p_sat: 1e-5 };
+        let priors = FaultPriors {
+            p_sat: 1e-5,
+            b_nom_m: 0.0,
+        };
         let loose = IntegrityBudget {
             p_hmi_vert: 1e-4,
             p_hmi_horz: 1e-4,
@@ -2149,7 +2263,10 @@ mod tests {
             &sats,
             &resid,
             5.0,
-            FaultPriors { p_sat: 1e-5 },
+            FaultPriors {
+                p_sat: 1e-5,
+                b_nom_m: 0.0,
+            },
             IntegrityBudget {
                 p_hmi_vert: 1e-4,
                 p_hmi_horz: 1e-4,
@@ -2176,7 +2293,10 @@ mod tests {
             five,
             &[0.0; 5],
             5.0,
-            FaultPriors { p_sat: 1e-5 },
+            FaultPriors {
+                p_sat: 1e-5,
+                b_nom_m: 0.0
+            },
             IntegrityBudget {
                 p_hmi_vert: 1e-4,
                 p_hmi_horz: 1e-4,
@@ -2357,7 +2477,10 @@ mod tests {
             &sats,
             &resid,
             1.0,
-            FaultPriors { p_sat: 1e-5 },
+            FaultPriors {
+                p_sat: 1e-5,
+                b_nom_m: 0.0,
+            },
             budget,
         )
         .expect("single araim runs");
@@ -2370,6 +2493,7 @@ mod tests {
             DualFaultPriors {
                 p_sat: 1e-5,
                 p_const: 0.0,
+                b_nom_m: 0.0,
             },
             budget,
         )
@@ -2403,6 +2527,7 @@ mod tests {
             DualFaultPriors {
                 p_sat: 1e-5,
                 p_const: 0.0,
+                b_nom_m: 0.0,
             },
             budget,
         )
@@ -2416,6 +2541,7 @@ mod tests {
             DualFaultPriors {
                 p_sat: 1e-5,
                 p_const: 1e-4,
+                b_nom_m: 0.0,
             },
             budget,
         )
@@ -2448,6 +2574,52 @@ mod tests {
     }
 
     #[test]
+    fn nominal_bias_inflates_the_protection_level() {
+        // The ISM nominal-bias term folds a one-sided Σ_i |s_i|·b_nom into every
+        // mode, so a non-zero b_nom must yield a strictly larger (more conservative)
+        // VPL/HPL than the zero-bias MHSS bound on the same geometry — and b_nom = 0
+        // must reproduce the zero-bias bound exactly (the Blanch et al. PL term).
+        let (user, sats, _c, resid, budget) = dual_setup();
+        let no_bias = araim_raim(
+            user,
+            &sats,
+            &resid,
+            0.75,
+            FaultPriors {
+                p_sat: 1e-5,
+                b_nom_m: 0.0,
+            },
+            budget,
+        )
+        .expect("zero-bias ARAIM runs");
+        let with_bias = araim_raim(
+            user,
+            &sats,
+            &resid,
+            0.75,
+            FaultPriors {
+                p_sat: 1e-5,
+                b_nom_m: 0.75,
+            },
+            budget,
+        )
+        .expect("biased ARAIM runs");
+        assert!(
+            with_bias.vpl_m > no_bias.vpl_m,
+            "b_nom must inflate VPL: {} !> {}",
+            with_bias.vpl_m,
+            no_bias.vpl_m
+        );
+        assert!(
+            with_bias.hpl_m > no_bias.hpl_m,
+            "b_nom must inflate HPL: {} !> {}",
+            with_bias.hpl_m,
+            no_bias.hpl_m
+        );
+        assert!(with_bias.vpl_m.is_finite() && with_bias.hpl_m.is_finite());
+    }
+
+    #[test]
     fn single_constellation_cannot_tolerate_its_own_fault() {
         // If every satellite is one constellation, removing it leaves nothing to
         // navigate with — the constellation fault is unbounded, so ARAIM is not
@@ -2463,6 +2635,7 @@ mod tests {
             DualFaultPriors {
                 p_sat: 1e-5,
                 p_const: 1e-4,
+                b_nom_m: 0.0,
             },
             budget,
         );
@@ -2480,6 +2653,7 @@ mod tests {
             DualFaultPriors {
                 p_sat: 1e-5,
                 p_const: 0.0,
+                b_nom_m: 0.0,
             },
             budget,
         );
@@ -2495,6 +2669,7 @@ mod tests {
         let priors = DualFaultPriors {
             p_sat: 1e-5,
             p_const: 1e-4,
+            b_nom_m: 0.0,
         };
         // Mismatched constellation-label length.
         assert!(araim_dual_raim(
