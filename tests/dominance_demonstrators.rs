@@ -235,3 +235,39 @@ fn eo_coverage_is_reachable_reproducible_and_honest() {
     assert!(v["label"].as_str().unwrap().contains("MODELLED"));
     assert!(!a.json.contains("VALIDATED"));
 }
+
+#[test]
+fn space_packet_is_reachable_reproducible_and_round_trips() {
+    let src = std::fs::read_to_string("scenarios/space-packet.toml").unwrap();
+    let a = run_toml(&src).unwrap();
+    let b = run_toml(&src).unwrap();
+    assert_eq!(a.json, b.json, "space-packet framing must be deterministic");
+
+    let v: Value = serde_json::from_str(&a.json).unwrap();
+    assert_eq!(v["kind"], "space-packet");
+    // The exact-framing claim: the encode↔decode round trip is bit-exact.
+    assert_eq!(v["round_trip_exact"], true);
+    // Honest scope: a deterministic CCSDS-133.0 framing, never a "validated" claim.
+    assert!(v["label"].as_str().unwrap().contains("CCSDS 133.0"));
+    assert!(!a.json.contains("VALIDATED"));
+}
+
+#[test]
+fn attitude_budget_is_reachable_reproducible_and_honest() {
+    let src = std::fs::read_to_string("scenarios/attitude-budget.toml").unwrap();
+    let a = run_toml(&src).unwrap();
+    let b = run_toml(&src).unwrap();
+    assert_eq!(
+        a.json, b.json,
+        "attitude-budget must be reproducible in process"
+    );
+
+    let v: Value = serde_json::from_str(&a.json).unwrap();
+    assert_eq!(v["kind"], "attitude-budget");
+    // RSS pointing error is positive and at least as large as any single term.
+    let total = v["total_pointing_error_arcsec"].as_f64().unwrap();
+    assert!(total > 0.0);
+    assert!(v["gravity_gradient_torque_max_nm"].as_f64().unwrap() > 0.0);
+    assert!(v["label"].as_str().unwrap().contains("MODELLED"));
+    assert!(!a.json.contains("VALIDATED"));
+}

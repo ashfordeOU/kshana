@@ -2,6 +2,7 @@
 pub mod allan;
 pub mod altpnt;
 pub mod api;
+pub mod attitude_budget;
 pub mod batch_ls;
 pub mod body;
 pub mod ccsds_tdm;
@@ -85,6 +86,7 @@ pub mod scenario;
 pub mod security;
 pub mod sgp4;
 pub mod sp3;
+pub mod space_packet;
 pub mod space_weather;
 pub mod spoof;
 pub mod spoof_detect;
