@@ -262,6 +262,8 @@ pub enum ScenarioKind {
     LaunchWindow,
     Reentry,
     EoCoverage,
+    SpacePacket,
+    AttitudeBudget,
 }
 
 impl ScenarioKind {
@@ -298,6 +300,8 @@ impl ScenarioKind {
             ScenarioKind::LaunchWindow => "launch-window",
             ScenarioKind::Reentry => "reentry",
             ScenarioKind::EoCoverage => "eo-coverage",
+            ScenarioKind::SpacePacket => "space-packet",
+            ScenarioKind::AttitudeBudget => "attitude-budget",
         }
     }
 
@@ -338,6 +342,8 @@ impl ScenarioKind {
             "launch-window" => ScenarioKind::LaunchWindow,
             "reentry" => ScenarioKind::Reentry,
             "eo-coverage" => ScenarioKind::EoCoverage,
+            "space-packet" => ScenarioKind::SpacePacket,
+            "attitude-budget" => ScenarioKind::AttitudeBudget,
             // Empty or unknown ⇒ the clock pack (historical default).
             _ => ScenarioKind::Clock,
         })
@@ -389,6 +395,8 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "launch-window", description: "Two-body launch & ascent geometry: launch azimuth(s) (sin Az = cos i / cos lat), minimum reachable inclination, circular velocity, the Earth-rotation eastward bonus, dogleg plane-change Δv when the target inclination is below the site latitude, and the number of daily launch opportunities. MODELLED spherical-Earth geometry (no rotating-Earth velocity-triangle correction, no ascent/drag-loss model).", required_fields: &[], optional_fields: &["site_lat_deg", "target_inclination_deg", "altitude_km"] },
         ScenarioMeta { name: "reentry", description: "Allen-Eggers ballistic re-entry corridor: peak deceleration (ballistic-coefficient-independent, V_e^2 sin|γ|/(2eH)), the velocity and altitude at peak-g, and the peak-heating velocity, for an entry velocity/flight-path-angle/ballistic-coefficient through an exponential atmosphere. MODELLED ballistic (no-lift) analytic entry; heating output is the peak-heating VELOCITY, not a heat-flux (no aerothermal/TPS model).", required_fields: &[], optional_fields: &["entry_velocity_m_s", "flight_path_angle_deg", "ballistic_coeff_kg_m2", "scale_height_m", "rho0_kg_m3"] },
         ScenarioMeta { name: "eo-coverage", description: "Earth-observation payload footprint & coverage geometry (SMAD space triangle): Earth angular radius, swath width, nadir ground sample distance, maximum off-nadir access, circular period and equatorial ground-track spacing with a contiguous-coverage flag, for an orbit altitude + sensor FOV/IFOV. MODELLED spherical-Earth geometry (no radiometry/MTF/atmosphere/jitter/glint; nodal R_e·ω·T spacing, no J2 regression).", required_fields: &[], optional_fields: &["altitude_km", "half_fov_deg", "ifov_microrad", "max_off_nadir_deg"] },
+        ScenarioMeta { name: "space-packet", description: "CCSDS 133.0-B Space Packet Protocol framing: encode a synthetic TM/TC packet stream (6-octet primary header + data field) and report the per-packet header decode, total octets and an exact encode↔decode round trip. Deterministic exact bit-layout framing — the agency packet-format interop layer; NOT a conformance certification (no secondary-header/CRC/segmentation logic beyond the flags).", required_fields: &[], optional_fields: &["apid", "telecommand", "packet_count", "data_len"] },
+        ScenarioMeta { name: "attitude-budget", description: "3-DOF attitude & pointing error budget: the worst-case gravity-gradient disturbance torque ((3/2)(μ/R³)ΔI) and a root-sum-square pointing-error budget over named 1σ contributors (sensor noise, reaction-wheel jitter, thermal, alignment) with the dominant term, for an orbit altitude + body inertia spread. MODELLED scalar AOCS budget — a pre-hardware complement to Basilisk/42, not a control-loop/6-DoF/flexible-mode simulation.", required_fields: &[], optional_fields: &["altitude_km", "i_max_kg_m2", "i_min_kg_m2", "contributors"] },
     ]
 }
 
@@ -1057,6 +1065,20 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
         ScenarioKind::EoCoverage => {
             let scn: crate::eo_payload::EoCoverageScenario =
                 toml::from_str(src).map_err(|e| format!("invalid eo-coverage scenario: {e}"))?;
+            let (json, summary) = scn.run_json()?;
+            let svg = minimal_svg(&summary);
+            Ok(RunOutput { json, svg, summary })
+        }
+        ScenarioKind::SpacePacket => {
+            let scn: crate::space_packet::SpacePacketScenario =
+                toml::from_str(src).map_err(|e| format!("invalid space-packet scenario: {e}"))?;
+            let (json, summary) = scn.run_json()?;
+            let svg = minimal_svg(&summary);
+            Ok(RunOutput { json, svg, summary })
+        }
+        ScenarioKind::AttitudeBudget => {
+            let scn: crate::attitude_budget::AttitudeBudgetScenario = toml::from_str(src)
+                .map_err(|e| format!("invalid attitude-budget scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
             Ok(RunOutput { json, svg, summary })
