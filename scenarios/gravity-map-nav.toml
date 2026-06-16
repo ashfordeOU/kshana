@@ -1,14 +1,18 @@
-# Quantum gravity-map-matching navigation benchmark (GPS-denied alt-PNT).
+# Quantum gravity-map-matching navigation scenario (GPS-denied alt-PNT).
 #
 # Targets ESA NAVISP "Quantum Wayfarer" / QT-CCI gravity-map-matching vocabulary: a
 # vehicle with an inertial unit and a cold-atom-interferometer gravimeter navigates with
 # no GNSS by matching the gravity-anomaly signature it flies through against a stored
-# reference field. This spec is consumed by
-# `kshana::gravimeter::run_gravity_map_benchmark` (and its unit test); the reference field
-# is a low-degree spherical-harmonic anomaly plus synthetic mascons — Kshana does not
-# bundle the full EGM2008 coefficient set (see docs/CAPABILITY.md). Wiring this into the
-# global scenario-engine `kind=` dispatcher with an SVG drift chart is a documented
-# follow-on.
+# reference field. The reference field is a low-degree spherical-harmonic anomaly plus
+# synthetic mascons — Kshana does not bundle the full EGM2008 coefficient set (see
+# docs/CAPABILITY.md).
+#
+# This is a runnable scenario kind: the CLI dispatches `kind = "gravity-map"` to
+# `kshana::gravimeter::run_gps_denied_gravity_nav` (the validation-grade noisy/refined
+# form) and emits JSON + an SVG drift chart (free-inertial vs gravity-matched error).
+# The same config also backs `run_gravity_map_benchmark` (the noise-free geometric-
+# observability benchmark) and its unit test, which read this file directly.
+kind = "gravity-map"
 
 # Maximum spherical-harmonic degree/order of the reference field.
 nmax = 3
