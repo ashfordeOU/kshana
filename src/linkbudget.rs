@@ -252,6 +252,115 @@ pub fn default_params(
     }
 }
 
+fn lb_default_band() -> String {
+    "x".to_string()
+}
+fn lb_default_eirp() -> f64 {
+    55.0
+}
+fn lb_default_gt() -> f64 {
+    53.0
+}
+fn lb_default_range_km() -> f64 {
+    2000.0
+}
+fn lb_default_rate() -> f64 {
+    1.0e6
+}
+fn lb_default_other() -> f64 {
+    3.0
+}
+fn lb_default_req() -> f64 {
+    4.5
+}
+
+/// The `link-budget` scenario: a one-way link budget (free-space loss, C/N₀,
+/// Eb/N₀, margin and closure) over the CCSDS 401 / DSN 810-005 link equation, for a
+/// transmit EIRP, receive G/T, range, data rate and band against a required Eb/N₀.
+#[derive(serde::Deserialize)]
+pub struct LinkBudgetScenario {
+    /// Carrier band: `s`, `x` or `ka` (sets the free-space-loss frequency).
+    #[serde(default = "lb_default_band")]
+    pub band: String,
+    /// Transmit EIRP (dBW).
+    #[serde(default = "lb_default_eirp")]
+    pub eirp_dbw: f64,
+    /// Receive figure of merit G/T (dB/K).
+    #[serde(default = "lb_default_gt")]
+    pub g_over_t_db: f64,
+    /// One-way link range (km).
+    #[serde(default = "lb_default_range_km")]
+    pub range_km: f64,
+    /// Information bit rate (bit/s).
+    #[serde(default = "lb_default_rate")]
+    pub data_rate_bps: f64,
+    /// Lumped non-free-space losses (dB ≥ 0).
+    #[serde(default = "lb_default_other")]
+    pub other_losses_db: f64,
+    /// Required Eb/N₀ for closure (dB).
+    #[serde(default = "lb_default_req")]
+    pub required_eb_n0_db: f64,
+}
+
+impl LinkBudgetScenario {
+    /// Run the scenario, returning `(json, summary)`.
+    pub fn run_json(&self) -> Result<(String, String), String> {
+        let band = match self.band.to_ascii_lowercase().as_str() {
+            "s" => Band::S,
+            "x" => Band::X,
+            "ka" => Band::Ka,
+            other => return Err(format!("unknown band '{other}' (expected s|x|ka)")),
+        };
+        if !self.range_km.is_finite() || self.range_km <= 0.0 {
+            return Err("range_km must be finite and positive".to_string());
+        }
+        if !self.data_rate_bps.is_finite() || self.data_rate_bps <= 0.0 {
+            return Err("data_rate_bps must be finite and positive".to_string());
+        }
+        if !self.other_losses_db.is_finite() || self.other_losses_db < 0.0 {
+            return Err("other_losses_db must be finite and >= 0".to_string());
+        }
+        let p = LinkParams {
+            band,
+            eirp_dbw: self.eirp_dbw,
+            g_over_t_db: self.g_over_t_db,
+            range_m: self.range_km * 1000.0,
+            data_rate_bps: self.data_rate_bps,
+            other_losses_db: self.other_losses_db,
+        };
+        let r = link_budget(&p, self.required_eb_n0_db);
+        let json = serde_json::json!({
+            "kind": "link-budget",
+            "label": "One-way link budget over the CCSDS 401 / DSN 810-005 link \
+                      equation (EIRP − FSPL − L_other + G/T − k); a deterministic \
+                      engineering calculation from the supplied inputs, NOT a \
+                      calibrated terminal datasheet",
+            "band": self.band.to_ascii_lowercase(),
+            "range_km": self.range_km,
+            "data_rate_bps": self.data_rate_bps,
+            "free_space_loss_db": r.fsl_db,
+            "cn0_dbhz": r.cn0_dbhz,
+            "eb_n0_db": r.eb_n0_db,
+            "required_eb_n0_db": self.required_eb_n0_db,
+            "margin_db": r.margin_db,
+            "closes": r.closes,
+        });
+        let summary = format!(
+            "link-budget: {}-band, {:.0} km, {:.0} bit/s -> FSPL {:.1} dB, Eb/N0 {:.1} dB, \
+             margin {:.1} dB ({})",
+            self.band.to_ascii_lowercase(),
+            self.range_km,
+            self.data_rate_bps,
+            r.fsl_db,
+            r.eb_n0_db,
+            r.margin_db,
+            if r.closes { "closes" } else { "does NOT close" }
+        );
+        let json = serde_json::to_string_pretty(&json).map_err(|e| e.to_string())?;
+        Ok((json, summary))
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
