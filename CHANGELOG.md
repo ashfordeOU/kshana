@@ -11,6 +11,40 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Eleven new runnable scenario kinds — two-tender demonstrators, a CCSDS interop
+  bridge, and a first-order mission-analysis / environment suite (all MODELLED,
+  additive; existing reproducibility goldens unchanged).** Each is CLI / Python /
+  WASM / MCP dispatchable, ships a `scenarios/<kind>.toml`, and carries an explicit
+  MODELLED label in its result JSON and one-line summary (a per-kind test in
+  `tests/dominance_demonstrators.rs` asserts the label is present and that the output
+  never contains the string `VALIDATED`):
+  - `impairment-eval` (`src/impairment_eval.rs`) — AI/ML RF-impairment detection
+    evaluation testbed: a labelled **synthetic** corpus + a detector-agnostic
+    **ROC/AUC** harness + an in/out-of-distribution **optimism-gap** report (operating
+    characteristics only — never field/IQ data).
+  - `quantum-trade` (`src/quantum_trade.rs`) — quantum-vs-classical PNT trade with
+    measured-ADEV ingestion and a GNSS-denied resilience envelope.
+  - `space-weather` (`src/space_weather.rs`) — solar/geomagnetic indices (Kp↔ap IAGA
+    table, daily Ap, centred 81-day F10.7a), **Jacchia-71** exospheric temperature, and
+    an activity-driven thermospheric-density coupling over a static atmosphere (NOT an
+    NRLMSISE absolute-density model).
+  - `oem-interop` (`src/oem.rs`) — **CCSDS 502.0 OEM** import + round-trip bridge for
+    GMAT / Orekit / STK ephemerides (the `parse_oem` reader, exact inverse of the writer).
+  - `launch-window` (`src/launch.rs`) — two-body **launch azimuth** (`sin Az = cos i/cos lat`),
+    plane-change Δv, site-rotation bonus, and daily-opportunity geometry.
+  - `reentry` (`src/reentry.rs`) — **Allen-Eggers** ballistic re-entry corridor:
+    peak deceleration, peak-g and peak-heating velocities, peak-g altitude.
+  - `eo-coverage` (`src/eo_payload.rs`) — EO **swath / GSD / access / revisit** geometry
+    (SMAD space-triangle).
+  - `space-packet` (`src/space_packet.rs`) — **CCSDS 133.0-B Space Packet** primary-header
+    encode/decode with bit-exact round-trip.
+  - `attitude-budget` (`src/attitude_budget.rs`) — 3-DOF **gravity-gradient torque** +
+    **RSS pointing-error budget** (scalar pre-hardware budget, not a control loop).
+  - `passes` (`src/passes.rs`) — ground-station **rise/set pass prediction** (AOS/TCA/LOS,
+    max elevation, access).
+  - `link-budget` (`src/linkbudget.rs`) — one-way **CCSDS-401 / DSN-810-005** link equation
+    (`C/N₀ = EIRP − FSPL − L_other + G/T − k`, FSPL / Eb·N₀ / margin / closure).
+
 - **17-state hybrid quantum + classical tightly-coupled UKF — surfaced as a runnable
   scenario (MODELLED).** A new `hybrid-ukf` scenario kind (`src/fusion/hybrid_ukf.rs`,
   `scenarios/hybrid-ukf.toml`) that turns the previously API-only 17-state tightly-coupled

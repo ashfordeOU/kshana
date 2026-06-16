@@ -60,6 +60,7 @@ fn gps_galileo_dual_constellation_availability_on_real_tles() {
     let single_priors = DualFaultPriors {
         p_sat: 1e-5,
         p_const: 0.0,
+        b_nom_m: 0.0,
     };
     let gps_only = araim_dual_constellation_availability(
         &user,
@@ -100,6 +101,7 @@ fn gps_galileo_dual_constellation_availability_on_real_tles() {
         DualFaultPriors {
             p_sat: 1e-5,
             p_const: 1e-4,
+            b_nom_m: 0.0,
         },
         budget,
         al_h,
@@ -119,6 +121,7 @@ fn gps_galileo_dual_constellation_availability_on_real_tles() {
         DualFaultPriors {
             p_sat: 1e-5,
             p_const: 1e-4,
+            b_nom_m: 0.0,
         },
         budget,
         40.0,
