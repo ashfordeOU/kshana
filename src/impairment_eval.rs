@@ -703,6 +703,188 @@ fn hash2(a: u64, b: u64) -> u64 {
     x
 }
 
+// ── Runnable scenario (kind = "impairment-eval") ────────────────────────────────
+//
+// Surfaces the AI-evaluation testbed as a first-class scenario kind so a prime / ESA
+// reviewer can run the 13494 demonstrator from the CLI / bindings and audit it —
+// generate a labelled synthetic corpus, score a detector with the detector-agnostic
+// harness, and report the in- vs out-of-distribution optimism gap. MODELLED, synthetic
+// (parameter-grounded, never field/IQ); reports operating characteristics only.
+
+use serde::{Deserialize, Serialize};
+
+/// A runnable AI-evaluation scenario (`kind = "impairment-eval"`).
+#[derive(Debug, Clone, Serialize, Deserialize)]
+pub struct ImpairmentEvalScenario {
+    /// Scenario kind tag (must be `"impairment-eval"`).
+    pub kind: String,
+    /// RNG seed — the same seed yields a byte-identical corpus.
+    #[serde(default = "ie_default_seed")]
+    pub seed: u64,
+    /// Cases per class (the corpus is class-balanced).
+    #[serde(default = "ie_default_n_per_class")]
+    pub n_per_class: usize,
+    /// Nominal (un-impaired) C/N₀ in dB-Hz.
+    #[serde(default = "ie_default_cn0")]
+    pub nominal_cn0_dbhz: f64,
+    /// 1σ measurement noise on the AGC/parity observables.
+    #[serde(default = "ie_default_meas_noise")]
+    pub meas_noise: f64,
+    /// Detector to score: `energy` | `agc` | `sqm` | `parity` | `fused`.
+    #[serde(default = "ie_default_detector")]
+    pub detector: String,
+    /// Target P_fa that sets the operating point.
+    #[serde(default = "ie_default_target_pfa")]
+    pub target_pfa: f64,
+    /// Severity multiplier for the OUT-of-distribution corpus (`< 1.0` = subtler,
+    /// out-of-tuning-regime impairments). `optimism_gap = auc_in − auc_out`.
+    #[serde(default = "ie_default_shift_scale")]
+    pub shift_severity_scale: f64,
+    /// Optimism gap above which the detector is flagged over-optimistic.
+    #[serde(default = "ie_default_optimism_tol")]
+    pub optimism_tol: f64,
+}
+
+fn ie_default_seed() -> u64 {
+    42
+}
+fn ie_default_n_per_class() -> usize {
+    200
+}
+fn ie_default_cn0() -> f64 {
+    45.0
+}
+fn ie_default_meas_noise() -> f64 {
+    0.6
+}
+fn ie_default_detector() -> String {
+    "fused".into()
+}
+fn ie_default_target_pfa() -> f64 {
+    0.05
+}
+fn ie_default_shift_scale() -> f64 {
+    0.5
+}
+fn ie_default_optimism_tol() -> f64 {
+    0.05
+}
+
+impl ImpairmentEvalScenario {
+    /// Reproducible scenario hash over the canonical inputs (cross-platform anchor).
+    pub fn scenario_hash(&self) -> String {
+        use sha2::{Digest, Sha256};
+        let c = serde_json::to_string(self).expect("scenario serializes");
+        let mut h = Sha256::new();
+        h.update(c.as_bytes());
+        hex::encode(h.finalize())
+    }
+
+    /// Run the scenario; return `(pretty JSON report, one-line summary)`.
+    pub fn run_json(&self) -> Result<(String, String), String> {
+        if !(0.0..=1.0).contains(&self.target_pfa) {
+            return Err("target_pfa must be in [0, 1]".into());
+        }
+        if self.n_per_class == 0 {
+            return Err("n_per_class must be >= 1".into());
+        }
+        let in_cfg = CorpusConfig {
+            n_per_class: self.n_per_class,
+            nominal_cn0_dbhz: self.nominal_cn0_dbhz,
+            meas_noise: self.meas_noise,
+            severity_scale: 1.0,
+        };
+        let out_cfg = CorpusConfig {
+            severity_scale: self.shift_severity_scale,
+            ..in_cfg
+        };
+        let in_corpus = generate_corpus(&in_cfg, self.seed);
+        let out_corpus = generate_corpus(&out_cfg, self.seed);
+        let (report, shift) = self.eval_dispatch(&in_corpus, &out_corpus)?;
+
+        let value = serde_json::json!({
+            "kind": "impairment-eval",
+            "scenario_hash": self.scenario_hash(),
+            "label": "MODELLED — synthetic parameter-grounded corpus (never field/IQ); operating characteristics only, no good/bad verdict",
+            "detector": report.detector,
+            "corpus": {
+                "n_cases": report.n_cases,
+                "n_per_class": self.n_per_class,
+                "classes": ImpairmentClass::all().iter().map(|c| c.label()).collect::<Vec<_>>(),
+            },
+            "auc": report.auc,
+            "target_pfa": report.target_pfa,
+            "operating_point": {
+                "pd": report.operating.pd(),
+                "pfa": report.operating.pfa(),
+                "pmd": report.operating.pmd(),
+                "precision": report.operating.precision(),
+                "accuracy": report.operating.accuracy(),
+                "f1": report.operating.f1(),
+            },
+            "per_class_pd": report.per_class_pd.iter()
+                .map(|(c, pd)| serde_json::json!({ "class": c.label(), "pd": pd }))
+                .collect::<Vec<_>>(),
+            "roc_points": report.roc.len(),
+            "distribution_shift": {
+                "auc_in": shift.auc_in,
+                "auc_out": shift.auc_out,
+                "optimism_gap": shift.optimism_gap,
+                "optimistic": shift.optimistic,
+                "shift_severity_scale": self.shift_severity_scale,
+                "note": "auc_out uses a subtler out-of-tuning-regime corpus; optimism_gap = auc_in - auc_out. Never headline auc_in alone.",
+            },
+        });
+        let summary = format!(
+            "impairment-eval | detector {} | AUC {:.3} in / {:.3} out (gap {:.3}{}) | Pd {:.2} Pfa {:.2} @ target {:.2} | {} cases | MODELLED synthetic",
+            report.detector,
+            shift.auc_in,
+            shift.auc_out,
+            shift.optimism_gap,
+            if shift.optimistic { ", OPTIMISTIC" } else { "" },
+            report.operating.pd(),
+            report.operating.pfa(),
+            report.target_pfa,
+            report.n_cases,
+        );
+        let json = serde_json::to_string_pretty(&value).map_err(|e| e.to_string())?;
+        Ok((json, summary))
+    }
+
+    fn eval_dispatch(
+        &self,
+        in_corpus: &[LabeledCase],
+        out_corpus: &[LabeledCase],
+    ) -> Result<(EvalReport, ShiftReport), String> {
+        macro_rules! run_det {
+            ($d:expr) => {{
+                let rep = evaluate(&$d, in_corpus, self.target_pfa);
+                let shift = distribution_shift_report(
+                    &$d,
+                    in_corpus,
+                    out_corpus,
+                    self.target_pfa,
+                    self.optimism_tol,
+                );
+                (rep, shift)
+            }};
+        }
+        let pair = match self.detector.as_str() {
+            "energy" => run_det!(EnergyDetector),
+            "agc" => run_det!(AgcDetector),
+            "sqm" => run_det!(SqmDetector),
+            "parity" => run_det!(ParityDetector),
+            "fused" => run_det!(FusedDetector),
+            other => {
+                return Err(format!(
+                    "unknown detector '{other}' (energy|agc|sqm|parity|fused)"
+                ))
+            }
+        };
+        Ok(pair)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

@@ -1,0 +1,28 @@
+# Quantum-vs-classical PNT trade with measured-ADEV ingestion (ESA AO/1-13503 demonstrator).
+#
+# Computes the timing-holdover and inertial-holdover benefit of a CANDIDATE clock
+# over a CLASSICAL baseline, plus a GNSS-denied resilience-vs-time envelope. The
+# candidate floor is driven by a partner clock's MEASURED overlapping-ADEV curve
+# (the defensibility hinge) fitted by non-negative least squares — so the holdover
+# budget rests on real data, not an assumed long-tau floor.
+#
+# HONEST SCOPE: MODELLED — it QUANTIFIES a partner's quantum-clock benefit; it does
+# NOT validate the device, and never borrows the SGP4/Allan/IGS validation islands.
+# When any row's floor is an assumed class default, a floor caveat renders on the
+# artifact. Run:  kshana scenarios/quantum-trade.toml
+kind = "quantum-trade"
+
+timing_threshold_s = 20.0e-9     # 20 ns phase-error threshold
+position_threshold_m = 100.0     # 100 m position-error threshold
+
+# Classical baseline clock class: csac | uso | dsac
+baseline_clock_class = "csac"
+
+# Candidate = a partner optical clock's MEASURED overlapping-ADEV curve
+# (tau seconds; sigma_y). The slight long-tau upturn is a realistic red-noise floor,
+# so the recovered holdover is defensible rather than a white-noise artefact.
+candidate_adev_taus   = [1.0, 10.0, 100.0, 1000.0, 10000.0, 100000.0]
+candidate_adev_values = [5.0e-16, 1.6e-16, 6.0e-17, 4.0e-17, 6.0e-17, 2.0e-16]
+
+# Resilience envelope sample times (s).
+resilience_times_s = [1.0, 60.0, 600.0, 1800.0, 3600.0, 7200.0, 14400.0, 28800.0]
