@@ -128,8 +128,8 @@ impl Default for SqmMonitor {
 
 // --- RAIM-consistency parity spoof detector ------------------------------------------
 
-use crate::detection::chi2_inv_cdf;
 use crate::fusion::ukf::inverse;
+use crate::raim::chi2_quantile;
 
 /// The outcome of the RAIM consistency test on a redundant pseudorange set.
 #[derive(Clone, Copy, Debug, Serialize)]
@@ -190,7 +190,11 @@ pub fn parity_raim_test(
         .sum::<f64>()
         / (sigma * sigma);
     let dof = m - n;
-    let threshold = chi2_inv_cdf(1.0 - p_fa, dof as f64);
+    // Use the exact χ² quantile (regularised incomplete gamma + bisection) rather than
+    // the Wilson–Hilferty approximation: this monitor runs at low dof (m−4, e.g. 4 for an
+    // 8-SV geometry) where WH carries a ~1% error, and it keeps a single χ² threshold path
+    // consistent with the ARAIM engine.
+    let threshold = chi2_quantile(1.0 - p_fa, dof as f64);
     Some(RaimConsistency {
         statistic: t,
         threshold,

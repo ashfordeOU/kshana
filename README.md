@@ -369,10 +369,10 @@ plugin from the JetBrains Marketplace (or *Settings → Plugins → Marketplace 
 
 ## Scenario format
 
-Scenarios are declarative TOML. A top-level `kind` selects the pack — **thirty-two** in
-all (`clock` is the default if omitted): `inertial`, `timetransfer`, `hybrid`, `fusion`,
+Scenarios are declarative TOML. A top-level `kind` selects the pack — **thirty-four** in
+all (`clock` is the default if omitted): `inertial`, `timetransfer`, `hybrid`, `hybrid-ukf`, `fusion`,
 `gnss-ins`, `orbit`, `ephemeris`, `gnss-sim`, `integrity`, `lunar-integrity`, `spoof`,
-`spoof-detect`, `jamming`, `sweep`, `sweep-nd`, `gravity-map`, `terrain-nav`,
+`spoof-detect`, `jamming`, `sweep`, `sweep-nd`, `gravity-map`, `terrain-nav`, `terrain-slam`,
 `combined-altpnt`, `pvt`, `mars-pnt`, `impairment-eval` (AI/ML RF-impairment detection
 evaluation testbed — labelled synthetic corpus + detector-agnostic ROC/AUC harness +
 in/out-of-distribution optimism gap), `quantum-trade` (quantum-vs-classical PNT
@@ -618,7 +618,7 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    cli["CLI · Python · WebAssembly · MCP server · JetBrains plugin"] --> api["api — run_toml: typed dispatch over 21 kinds"]
+    cli["CLI · Python · WebAssembly · MCP server · JetBrains plugin"] --> api["api — run_toml: typed dispatch over 34 kinds"]
     subgraph shared["Shared core"]
       types["types · scenario · GNSS timeline"]
       allan["allan — ADEV/MDEV/TDEV/HDEV"]
@@ -718,7 +718,7 @@ flowchart LR
 ```
 kshana/
 ├── src/                                       # the kshana core crate (library + CLI)
-│   ├── api.rs · main.rs · lib.rs              # typed dispatch (21 kinds) + CLI + crate root
+│   ├── api.rs · main.rs · lib.rs              # typed dispatch (34 kinds) + CLI + crate root
 │   ├── python.rs · wasm.rs                    # optional PyO3 / wasm-bindgen bindings
 │   ├── types.rs · scenario.rs · allan.rs      # shared core (time grid, GNSS timeline, Allan)
 │   │

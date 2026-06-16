@@ -128,15 +128,10 @@ impl LaunchWindowScenario {
         let opportunities = daily_launch_opportunities(lat, inc);
 
         // Direct azimuths when reachable; otherwise the dogleg Δv from i_min.
+        // A direct azimuth exists exactly when inc ≥ |lat| (cos i / cos lat ∈ [-1, 1]),
+        // so the `Ok` arm never needs a dogleg — the dogleg is the `Err` (inc < |lat|) arm.
         let (azimuths, dogleg_dv) = match launch_azimuth(lat, inc) {
-            Ok((asc, desc)) => (
-                Some((asc.to_degrees(), desc.to_degrees())),
-                if inc < lat {
-                    Some(plane_change_dv(v_orbit, lat - inc))
-                } else {
-                    None
-                },
-            ),
+            Ok((asc, desc)) => (Some((asc.to_degrees(), desc.to_degrees())), None),
             Err(_) => (None, Some(plane_change_dv(v_orbit, (lat - inc).abs()))),
         };
 

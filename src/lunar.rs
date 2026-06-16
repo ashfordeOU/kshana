@@ -500,7 +500,10 @@ pub fn lunar_araim(
         sats,
         range_residual_m,
         LUNAR_SIGMA_URE_M,
-        FaultPriors { p_sat: LUNAR_P_SAT },
+        FaultPriors {
+            p_sat: LUNAR_P_SAT,
+            b_nom_m: 0.0,
+        },
         budget,
     )
 }
@@ -1078,7 +1081,10 @@ mod tests {
             &sats,
             &resid,
             0.6,
-            FaultPriors { p_sat: LUNAR_P_SAT },
+            FaultPriors {
+                p_sat: LUNAR_P_SAT,
+                b_nom_m: 0.0,
+            },
             budget,
         )
         .expect("reference araim runs");
