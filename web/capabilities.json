@@ -141,12 +141,19 @@
   {
    "domain": "AI/ML evaluation & trade",
    "name": "RF-impairment detection eval & PNT trade",
-   "summary": "An RF-impairment detection evaluation testbed: a labelled, parameter-grounded synthetic corpus (nominal / jamming / spoof-time / spoof-position / multipath), a detector-agnostic ROC/AUC harness scoring any detector with per-class Pd at a target Pfa, and the in- versus out-of-distribution optimism gap. Plus a quantum-vs-classical PNT trade that quantifies a candidate clock's timing and inertial holdover benefit from a measured-ADEV curve against a classical baseline, with a GNSS-denied resilience-vs-time envelope. Modelled operating characteristics — never field/IQ data, no good/bad verdict."
+   "summary": "An RF-impairment detection evaluation testbed: a labelled, parameter-grounded synthetic corpus (nominal / jamming / spoof-time / spoof-position / multipath), a detector-agnostic ROC/AUC harness scoring any detector with per-class Pd at a target Pfa, and the in- versus out-of-distribution optimism gap. Plus a quantum-vs-classical PNT trade that quantifies a candidate clock's timing and inertial holdover benefit from a measured-ADEV curve against a classical baseline, with a GNSS-denied resilience-vs-time envelope. Modelled operating characteristics — never field/IQ data, no good/bad verdict.",
+   "proof": "AUC harness verified vs binormal closed form Φ(d′/√2) (Gneiting & Vogel 2018) — synthetic corpus, not raw-IQ/TEXBAT"
+  },
+  {
+   "domain": "Integrity impact",
+   "name": "Detection-miss → integrity regions",
+   "summary": "A detection-miss-to-integrity bridge: an undetected bias left by a missed spoof / jam / RAIM detection inflates the effective position error, which — held against context-specific alert limits — is classified into the Stanford-ESA integrity regions (available / unavailable / misleading / hazardous). Composes the externally-anchored RAIM Stanford classification; adds no new integrity mathematics.",
+   "proof": "Stanford-ESA integrity regions (Tossaint et al., NAVIGATION 2007)"
   },
   {
    "domain": "Decision support",
-   "name": "Cost-per-coverage ROI & integrity impact",
-   "summary": "A cost-per-coverage ROI lens — cost per unit of delivered coverage for an architecture trade — and a detection-miss-to-integrity-impact mapping that turns a monitor's missed-detection rate into its integrity-risk contribution. Modelled decision-support budgets."
+   "name": "Cost-per-coverage ROI",
+   "summary": "A cost-per-coverage ROI lens — cost per unit of delivered coverage for a constellation / architecture trade. The coverage component composes the validated coverage geometry and the arithmetic is unit-tested, but the cost is a user input — so the ratio is a planning aid, not an externally-validated quantity (hence, honestly, no proof badge)."
   },
   {
    "domain": "Artifact interchange",
