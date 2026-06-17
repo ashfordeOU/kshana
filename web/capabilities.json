@@ -91,6 +91,7 @@
    "domain": "GNSS measurement domain",
    "name": "Pseudorange, ionosphere & troposphere",
    "summary": "Forward pseudorange / Doppler synthesis with Klobuchar (broadcast) and IONEX / TEC-grid (measured) ionosphere \u2014 including an IONEX file parser, time interpolation, and the thin-shell slant-obliquity mapping \u2014 Saastamoinen + Niell troposphere, and snapshot RAIM.",
+   "proof": "Saastamoinen ZHD ≈ 2.3 m · Niell unity at zenith · Klobuchar per IS-GPS-200",
    "run": "gnss-sim-raim.toml"
   },
   {
