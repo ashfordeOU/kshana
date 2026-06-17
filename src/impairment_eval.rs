@@ -917,8 +917,14 @@ mod tests {
             );
         }
         // Endpoints the closed form predicts exactly.
-        assert!((auc(&[100.0; 64], &[0.0; 64]) - 1.0).abs() < 1e-12, "perfect separation → 1.0");
-        assert!((auc(&[0.0; 64], &[0.0; 64]) - 0.5).abs() < 1e-12, "no separation (all ties) → 0.5");
+        assert!(
+            (auc(&[100.0; 64], &[0.0; 64]) - 1.0).abs() < 1e-12,
+            "perfect separation → 1.0"
+        );
+        assert!(
+            (auc(&[0.0; 64], &[0.0; 64]) - 0.5).abs() < 1e-12,
+            "no separation (all ties) → 0.5"
+        );
     }
 
     #[test]
