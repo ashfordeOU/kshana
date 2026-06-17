@@ -2350,12 +2350,15 @@ mod tests {
     fn classify_stanford_matches_the_stanford_esa_2007_definition() {
         use StanfordRegion::*;
         let al = 50.0; // the VAL drawn in the Tossaint et al. (2007) worked example.
-        // Region interiors.
+                       // Region interiors.
         assert_eq!(classify_stanford(10.0, 20.0, al), Available); // E < PL < AL
         assert_eq!(classify_stanford(10.0, 60.0, al), SystemUnavailable); // PL > AL, PL > E
         assert_eq!(classify_stanford(30.0, 20.0, al), MisleadingInformation); // PL < E ≤ AL
-        assert_eq!(classify_stanford(60.0, 20.0, al), HazardouslyMisleadingInformation); // E > AL
-        // Boundary / tie conventions.
+        assert_eq!(
+            classify_stanford(60.0, 20.0, al),
+            HazardouslyMisleadingInformation
+        ); // E > AL
+           // Boundary / tie conventions.
         assert_eq!(classify_stanford(25.0, 25.0, al), Available); // E == PL (diagonal) ⇒ bounded
         assert_eq!(classify_stanford(50.0, 50.0, al), Available); // PL == AL ⇒ available (PL > AL strict)
         assert_eq!(classify_stanford(50.0, 20.0, al), MisleadingInformation); // E == AL ⇒ MI (HMI is E > AL strict)
@@ -2363,7 +2366,7 @@ mod tests {
             classify_stanford(50.000_001, 20.0, al),
             HazardouslyMisleadingInformation
         ); // a hair past AL ⇒ HMI
-        // Documented conservative convention for the unavailable-AND-unbounded corner.
+           // Documented conservative convention for the unavailable-AND-unbounded corner.
         assert_eq!(
             classify_stanford(60.0, 55.0, al),
             HazardouslyMisleadingInformation

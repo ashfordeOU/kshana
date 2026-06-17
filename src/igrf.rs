@@ -246,21 +246,53 @@ mod tests {
     fn synthesis_matches_the_official_bgs_igrf14_values_at_2025() {
         // (lat°, lon°, alt_km, X, Y, Z, F, D°, I°)
         let pts = [
-            (0.0_f64, 0.0_f64, 0.0_f64, 27457.0, -1926.0, -15997.0, 31835.0, -4.014, -30.166),
-            (45.0, 10.0, 0.0, 22843.0, 1451.0, 41825.0, 47678.0, 3.634, 61.310),
-            (51.5, 0.0, 400.0, 16632.0, 69.0, 37519.0, 41040.0, 0.239, 66.093),
-            (-33.86, 151.21, 0.0, 24040.0, 5450.0, -51381.0, 56988.0, 12.773, -64.371),
+            (
+                0.0_f64, 0.0_f64, 0.0_f64, 27457.0, -1926.0, -15997.0, 31835.0, -4.014, -30.166,
+            ),
+            (
+                45.0, 10.0, 0.0, 22843.0, 1451.0, 41825.0, 47678.0, 3.634, 61.310,
+            ),
+            (
+                51.5, 0.0, 400.0, 16632.0, 69.0, 37519.0, 41040.0, 0.239, 66.093,
+            ),
+            (
+                -33.86, 151.21, 0.0, 24040.0, 5450.0, -51381.0, 56988.0, 12.773, -64.371,
+            ),
         ];
         // Agreement is sub-nT (limited only by BGS's integer-nT reporting); a 2 nT /
         // 0.02° tolerance is therefore tight, not loose.
         for (lat, lon, alt, x, y, z, f, d, i) in pts {
             let m = magnetic_field(lat, lon, alt, 2025.0);
-            assert!((m.north_nt - x).abs() < 2.0, "X at ({lat},{lon},{alt}): {} vs {x}", m.north_nt);
-            assert!((m.east_nt - y).abs() < 2.0, "Y at ({lat},{lon},{alt}): {} vs {y}", m.east_nt);
-            assert!((m.down_nt - z).abs() < 2.0, "Z at ({lat},{lon},{alt}): {} vs {z}", m.down_nt);
-            assert!((m.total_nt - f).abs() < 2.0, "F at ({lat},{lon},{alt}): {} vs {f}", m.total_nt);
-            assert!((m.declination_deg - d).abs() < 0.02, "D at ({lat},{lon},{alt}): {} vs {d}", m.declination_deg);
-            assert!((m.inclination_deg - i).abs() < 0.02, "I at ({lat},{lon},{alt}): {} vs {i}", m.inclination_deg);
+            assert!(
+                (m.north_nt - x).abs() < 2.0,
+                "X at ({lat},{lon},{alt}): {} vs {x}",
+                m.north_nt
+            );
+            assert!(
+                (m.east_nt - y).abs() < 2.0,
+                "Y at ({lat},{lon},{alt}): {} vs {y}",
+                m.east_nt
+            );
+            assert!(
+                (m.down_nt - z).abs() < 2.0,
+                "Z at ({lat},{lon},{alt}): {} vs {z}",
+                m.down_nt
+            );
+            assert!(
+                (m.total_nt - f).abs() < 2.0,
+                "F at ({lat},{lon},{alt}): {} vs {f}",
+                m.total_nt
+            );
+            assert!(
+                (m.declination_deg - d).abs() < 0.02,
+                "D at ({lat},{lon},{alt}): {} vs {d}",
+                m.declination_deg
+            );
+            assert!(
+                (m.inclination_deg - i).abs() < 0.02,
+                "I at ({lat},{lon},{alt}): {} vs {i}",
+                m.inclination_deg
+            );
         }
     }
 
