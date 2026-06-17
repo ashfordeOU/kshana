@@ -17,17 +17,20 @@
   {
    "domain": "Maneuvers & trajectory design",
    "name": "Burns, Lambert & porkchop",
-   "summary": "Impulsive \u0394V nodes with 6\u00d76 covariance propagation, finite-burn integration checked against the Tsiolkovsky rocket equation to under 0.01 %, an Izzo-2015 single-revolution Lambert solver and an exact universal-variable Kepler propagator, and a porkchop (launch \u00d7 arrival) C3 / arrival-V\u221e sweep emitted as a JSON contour grid \u2014 the performance-simulation layer above GMAT/Orekit."
+   "summary": "Impulsive \u0394V nodes with 6\u00d76 covariance propagation, finite-burn integration checked against the Tsiolkovsky rocket equation to under 0.01 %, an Izzo-2015 single-revolution Lambert solver and an exact universal-variable Kepler propagator, and a porkchop (launch \u00d7 arrival) C3 / arrival-V\u221e sweep emitted as a JSON contour grid \u2014 the performance-simulation layer above GMAT/Orekit.",
+   "proof": "Tsiolkovsky < 0.01 % · Lambert round-trips to two-body truth"
   },
   {
    "domain": "Time systems",
    "name": "Time scales & Earth-orientation frames",
-   "summary": "IERS leap-second UTC / TAI / TT / UT1 scales, a Julian-date API, the IAU-2000 Earth Rotation Angle, GMST-based TEME \u2194 ECEF and WGS-84 geodetic frames, full IAU 2000A/2000B nutation and IAU 2006 precession, and the equinox-free CIO-based IAU 2006/2000A GCRS\u2194ITRS reduction with IERS polar motion \u2014 validated bit-for-bit against the SOFA/ERFA vectors and independently cross-checked against ANISE (pure-Rust SPICE): GCRS\u2192ITRS vs ANISE ITRF93, same IERS EOP, agree to \u2264 0.86 m on the ground / \u2264 3.6 m at GNSS orbit."
+   "summary": "IERS leap-second UTC / TAI / TT / UT1 scales, a Julian-date API, the IAU-2000 Earth Rotation Angle, GMST-based TEME \u2194 ECEF and WGS-84 geodetic frames, full IAU 2000A/2000B nutation and IAU 2006 precession, and the equinox-free CIO-based IAU 2006/2000A GCRS\u2194ITRS reduction with IERS polar motion \u2014 validated bit-for-bit against the SOFA/ERFA vectors and independently cross-checked against ANISE (pure-Rust SPICE): GCRS\u2192ITRS vs ANISE ITRF93, same IERS EOP, agree to \u2264 0.86 m on the ground / \u2264 3.6 m at GNSS orbit.",
+   "proof": "bit-for-bit vs SOFA/ERFA · Vallado end-to-end 4 mm"
   },
   {
    "domain": "Inertial",
    "name": "Strapdown INS & map-aided navigation",
    "summary": "Three-axis strapdown INS \u2014 quaternion attitude, WGS-84 NED mechanization, coning/sculling compensation, and a full deterministic IMU error model \u2014 plus a first-principles cold-atom-interferometer accelerometer (Mach\u2013Zehnder phase, projection noise, contrast decay, vibration coupling) and a particle filter for terrain-/gravity-referenced GPS-denied navigation.",
+   "proof": "first-principles CAI accelerometer · derived VRW cross-checked vs an independent integrator",
    "run": "imu-deadreckoning.toml"
   },
   {
@@ -47,7 +50,8 @@
   {
    "domain": "Orbit determination",
    "name": "Batch & sequential OD",
-   "summary": "Recovery of an orbital state from ground-station range tracking, composing the two-body + J2 force model and RK4 integrator with a Gauss\u2013Newton batch differential corrector (sub-metre / mm\u00b7s\u207b\u00b9 from noiseless ranges, ~2 m at a 5 m noise floor) and a sequential unscented-filter variant."
+   "summary": "Recovery of an orbital state from ground-station range tracking, composing the two-body + J2 force model and RK4 integrator with a Gauss\u2013Newton batch differential corrector (sub-metre / mm\u00b7s\u207b\u00b9 from noiseless ranges, ~2 m at a 5 m noise floor) and a sequential unscented-filter variant.",
+   "proof": "sub-metre OD from noiseless ranges · ~2 m at a 5 m noise floor"
   },
   {
    "domain": "Lunar & cislunar",
@@ -67,6 +71,7 @@
    "domain": "Integrity",
    "name": "Receiver autonomous integrity (ARAIM)",
    "summary": "Snapshot and solution-separation RAIM with horizontal and vertical protection levels (HPL/VPL), fault detection and exclusion, and Stanford integrity diagrams \u2014 plus an explicit integrity-risk-budget (MHSS) protection level with the dual-/multi-constellation constellation-wide fault mode (EU ARAIM / DO-316).",
+   "proof": "MHSS on a real GPS + Galileo snapshot · DO-316 dual-constellation",
    "run": "integrity-raim.toml"
   },
   {
@@ -99,6 +104,7 @@
    "domain": "Resilience",
    "name": "Jamming & multi-layer spoof detection",
    "summary": "A link-budget jamming model (J/S \u2192 effective C/N\u2080 \u2192 loss of lock), a stochastic time-spoof detector (Neyman\u2013Pearson / \u03c7\u00b2\u2081 energy test with Monte-Carlo P_fa/P_md and a Security FoM of 1 \u2212 P_md), and a multi-layer spoof detector fusing a RAIM-consistency parity test, an RF AGC-power monitor, and a signal-quality (SQM) monitor. Plus a quantum-inertial dead-reckoning error budget composing cold-atom-interferometer white-noise drift with residual bias (cross-checked against an independent integrator) and scale-factor error into a position-drift-over-holdover figure — the inertial twin of the clock holdover.",
+   "proof": "χ²₁ NP detector · closed-form and Monte-Carlo P_fa/P_md agree",
    "run": "spoof-attack.toml"
   },
   {
@@ -110,7 +116,8 @@
   {
    "domain": "Interoperability",
    "name": "RINEX, SP3 & CCSDS formats",
-   "summary": "Multi-GNSS RINEX-3 broadcast-ephemeris ingestion (GPS, Galileo, QZSS, BeiDou, GLONASS), a RINEX-3/4 observation parser, an SP3-c/d precise-ephemeris reader/writer with Lagrange interpolation, and CCSDS OEM 2.0 + OMM (mean-elements) export for flight-dynamics tools (GMAT, Orekit, STK), and CCSDS-TDM (503) tracking-data-message parse + emit for deep-space radiometric tracking."
+   "summary": "Multi-GNSS RINEX-3 broadcast-ephemeris ingestion (GPS, Galileo, QZSS, BeiDou, GLONASS), a RINEX-3/4 observation parser, an SP3-c/d precise-ephemeris reader/writer with Lagrange interpolation, and CCSDS OEM 2.0 + OMM (mean-elements) export for flight-dynamics tools (GMAT, Orekit, STK), and CCSDS-TDM (503) tracking-data-message parse + emit for deep-space radiometric tracking.",
+   "proof": "OEM / SP3 / OMM / TDM round-trip verified"
   },
   {
    "domain": "Verification & assurance",
@@ -121,7 +128,8 @@
   {
    "domain": "Mission analysis",
    "name": "Launch, re-entry, coverage & pointing budgets",
-   "summary": "First-order mission-design budgets, each a runnable scenario: two-body launch & ascent geometry (launch azimuth, minimum inclination, Earth-rotation bonus, dogleg plane-change Δv, daily opportunities), an Allen–Eggers ballistic re-entry corridor (peak deceleration, peak-g and peak-heating velocities), Earth-observation coverage geometry (swath / nadir GSD / off-nadir access / revisit via the SMAD space triangle), a 3-DOF attitude & pointing error budget (gravity-gradient torque + RSS pointing budget), ground-station pass prediction (AOS/TCA/LOS, max elevation, access), and a one-way link budget over the CCSDS 401 / DSN 810-005 link equation (FSPL, C/N₀, Eb/N₀, margin, closure). The pre-hardware analytic layer below STK/GMAT/Basilisk — modelled first-order budgets, not a 6-DoF or radiometric replacement."
+   "summary": "First-order mission-design budgets, each a runnable scenario: two-body launch & ascent geometry (launch azimuth, minimum inclination, Earth-rotation bonus, dogleg plane-change Δv, daily opportunities), an Allen–Eggers ballistic re-entry corridor (peak deceleration, peak-g and peak-heating velocities), Earth-observation coverage geometry (swath / nadir GSD / off-nadir access / revisit via the SMAD space triangle), a 3-DOF attitude & pointing error budget (gravity-gradient torque + RSS pointing budget), ground-station pass prediction (AOS/TCA/LOS, max elevation, access), and a one-way link budget over the CCSDS 401 / DSN 810-005 link equation (FSPL, C/N₀, Eb/N₀, margin, closure). The pre-hardware analytic layer below STK/GMAT/Basilisk — modelled first-order budgets, not a 6-DoF or radiometric replacement.",
+   "proof": "validated vs closed-form (launch azimuth · Allen-Eggers · SMAD)"
   },
   {
    "domain": "Space environment",
@@ -142,7 +150,8 @@
   {
    "domain": "Artifact interchange",
    "name": "Kshana Interchange Format (KIF)",
-   "summary": "A versioned, self-describing envelope that wraps a scenario result with its kind, schema version, and modelled/validated labels, so a stored artifact stays self-documenting and older envelopes remain forward-compatibly readable."
+   "summary": "A versioned, self-describing envelope that wraps a scenario result with its kind, schema version, and modelled/validated labels, so a stored artifact stays self-documenting and older envelopes remain forward-compatibly readable.",
+   "proof": "versioned envelope · round-trip + forward-compatible read verified"
   }
  ],
  "standards": [
