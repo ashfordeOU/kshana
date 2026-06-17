@@ -180,7 +180,8 @@
   },
   {
    "name": "CCSDS OEM / OMM",
-   "note": "502.0 orbit messages"
+   "note": "parses the CCSDS 502.0-B-3 Blue Book OEM example",
+   "proof": true
   },
   {
    "name": "IS-GPS-200",
@@ -211,15 +212,18 @@
   },
   {
    "name": "CCSDS 133.0",
-   "note": "Space Packet framing"
+   "note": "primary header vs CCSDS 133.0-B-2 + spacepackets-py vectors",
+   "proof": true
   },
   {
    "name": "CCSDS TDM",
-   "note": "503.0 tracking data"
+   "note": "parses the CCSDS 503.0-B-2 Blue Book TDM example",
+   "proof": true
   },
   {
    "name": "CCSDS 401 / DSN",
-   "note": "link budget · 810-005"
+   "note": "link equation vs published DESCANSO/JPL Galileo DCT",
+   "proof": true
   }
  ],
  "trust": {

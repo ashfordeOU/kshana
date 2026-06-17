@@ -396,6 +396,56 @@ mod tests {
         );
     }
 
+    /// External-oracle cross-check against a **published deep-space telemetry
+    /// design-control table**: J. H. Yuen (ed.), *Deep Space Telecommunications
+    /// Systems Engineering* (DESCANSO / JPL Publication 82-76), Table 1-1 — the
+    /// Galileo X-band (8420.43 MHz) downlink at 6.37 AU (R = 9.529×10⁸ km). The
+    /// CCSDS-401 / DSN-810-005 link equation reproduces the table's published
+    /// free-space loss (−290.54 dB) and received carrier-to-noise density
+    /// (Pr/N₀ = 54.6 dB-Hz). The DCT component values are converted to the
+    /// EIRP / (G/T) / lumped-loss inputs the link equation takes; the link-budget
+    /// assembly (C/N₀ = EIRP − FSL − L + G/T − k) is what is under test.
+    #[test]
+    fn link_equation_reproduces_descanso_galileo_dct() {
+        let range_m = 9.529e11; // 9.529e8 km = 6.37 AU
+        let freq_hz = 8.42043e9; // X-band downlink channel in the table
+
+        // (a) Free-space loss: the table prints −290.54 dB.
+        let fsl = free_space_loss_db(range_m, freq_hz);
+        assert!(
+            (fsl - 290.54).abs() < 0.05,
+            "FSPL {fsl} dB vs published 290.54 dB"
+        );
+
+        // (b) Full carrier-to-noise-density chain. Table 1-1 components:
+        //   EIRP = Pt(10.5 dBW) − circuit loss(0.2) + Gt(50.0)   = 60.3 dBW
+        //   G/T  = Gr(71.7 dBi) − 10·log10(Tsys = 26.30 K)       = 57.50 dB/K
+        //   other losses = Tx pointing(1.2) + polarisation(0.04) = 1.24 dB
+        // The table prints received Pr/N₀ = 54.6 dB-Hz.
+        let g_over_t = 71.7 - 10.0 * 26.30_f64.log10();
+        let p = LinkParams {
+            band: Band::X, // band centre 8.420 GHz ≈ the table's 8420.43 MHz channel
+            eirp_dbw: 60.3,
+            g_over_t_db: g_over_t,
+            range_m,
+            data_rate_bps: 134_400.0, // table line 19; affects Eb/N₀, not C/N₀
+            other_losses_db: 1.24,
+        };
+        let r = link_budget(&p, 2.31); // required Eb/N₀, table line 25
+        assert!(
+            (r.cn0_dbhz - 54.6).abs() < 0.2,
+            "C/N0 {} dB-Hz vs published 54.6 dB-Hz",
+            r.cn0_dbhz
+        );
+
+        // The band frequencies sit inside the DSN/CCSDS-401 deep-space downlink
+        // allocations (DSN 810-005 Module 201, Table 2): S 2290–2300, X 8400–8450,
+        // Ka 31800–32300 MHz.
+        assert!((2.290e9..=2.300e9).contains(&band_frequency_hz(Band::S)));
+        assert!((8.400e9..=8.450e9).contains(&band_frequency_hz(Band::X)));
+        assert!((31.800e9..=32.300e9).contains(&band_frequency_hz(Band::Ka)));
+    }
+
     /// The band carrier frequencies are in the right DSN GHz bands: S ≈ 2.3 GHz, X ≈ 8.4 GHz,
     /// Ka ≈ 32 GHz (downlink centres), and strictly ordered S < X < Ka.
     #[test]
