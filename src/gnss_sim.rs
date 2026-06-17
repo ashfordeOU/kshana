@@ -742,6 +742,40 @@ mod tests {
     }
 
     #[test]
+    fn klobuchar_agrees_with_rtklib_reference_implementation() {
+        // Cross-implementation check of the full IS-GPS-200 §20.3.3.5.2.5 broadcast
+        // model against RTKLIB's `ionmodel()` (`src/rtkcmn.c`), the de-facto
+        // open-source GNSS reference implementation of the *same* semicircle
+        // algorithm. There is no official published numeric test vector for the
+        // broadcast Klobuchar model (IS-GPS-200, the GPS SPS spec, and the ESA GNSS
+        // book all give the algorithm but no worked example — and the ESA book uses
+        // a different, rigorous spherical-trig form), so this pins agreement with an
+        // independent reference implementation, not against measured truth.
+        //
+        // Inputs: user (40°N, 260°E), satellite at E=20°, A=210°, GPS time of week
+        // 518400 s; coefficients are RTKLIB's built-in default broadcast set
+        // (`rtkcmn.c`, dated 2004/1/1). RTKLIB's `ionmodel()` returns 6.1278 m of L1
+        // slant delay for this case; Kshana reproduces it to sub-millimetre.
+        let coeffs = KlobucharCoeffs {
+            alpha: [0.1118e-7, -0.7451e-8, -0.5961e-7, 0.1192e-6],
+            beta: [0.1167e6, -0.2294e6, -0.1311e6, 0.1049e7],
+        };
+        let delay = klobuchar_delay_m(
+            &coeffs,
+            40f64.to_radians(),
+            260f64.to_radians(),
+            20f64.to_radians(),
+            210f64.to_radians(),
+            518_400.0,
+        );
+        const RTKLIB_REF_M: f64 = 6.1278;
+        assert!(
+            (delay - RTKLIB_REF_M).abs() < 1e-3,
+            "Klobuchar L1 delay {delay} m should match RTKLIB ionmodel() {RTKLIB_REF_M} m"
+        );
+    }
+
+    #[test]
     fn saastamoinen_zenith_is_about_2_3_m_at_sea_level() {
         let m = Meteo::default();
         let (zhd, zwd) = saastamoinen_zenith_m(&m, 45f64.to_radians(), 0.0);
