@@ -60,6 +60,18 @@ const ROWS: &[(&str, &str, &str, &str)] = &[
         "EU ARAIM TR; DO-229E K-factors; numpy inv(GᵀG)",
     ),
     (
+        "Geometry / DOP",
+        "GDOP/PDOP/HDOP/VDOP/TDOP match to 1e-6 across 8 geometries",
+        "tests/dop_reference.rs",
+        "gnss_lib_py 1.0.4 (Stanford NAV Lab)",
+    ),
+    (
+        "ML evaluation metrics",
+        "AUC/confusion/Pd-Pmd/precision/F1 — exact counts + <1e-9",
+        "tests/eval_metrics_reference.rs",
+        "scikit-learn 1.9.0 (Pedregosa et al., JMLR 2011)",
+    ),
+    (
         "Reproducibility",
         "input+shape goldens identical on ubuntu/macOS/windows",
         "tests/cross_platform_golden.rs",
