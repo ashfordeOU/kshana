@@ -36,7 +36,11 @@ fn oem_parser_recovers_ccsds_502_b3_figure_g11_values() {
     let f = parse_oem(OEM_FIG_G11).expect("Figure G-11 OEM parses");
     assert_eq!(f.version, "3.0");
     assert_eq!(f.originator, "NASA/JPL");
-    assert_eq!(f.segments.len(), 2, "Figure G-11 has two ephemeris segments");
+    assert_eq!(
+        f.segments.len(),
+        2,
+        "Figure G-11 has two ephemeris segments"
+    );
 
     // --- Segment 1 metadata + endpoints ---
     let s0 = &f.segments[0];
@@ -62,7 +66,10 @@ fn oem_parser_recovers_ccsds_502_b3_figure_g11_values() {
     assert!(close(first.vel_km_s[2], -1.04195));
 
     let last1 = &s0.states[3];
-    assert_eq!((last1.epoch.day, last1.epoch.hour, last1.epoch.minute), (28, 21, 28));
+    assert_eq!(
+        (last1.epoch.day, last1.epoch.hour, last1.epoch.minute),
+        (28, 21, 28)
+    );
     assert!(close(last1.pos_km[0], -3881.024));
     assert!(close(last1.pos_km[1], 563.959));
     assert!(close(last1.pos_km[2], -682.773));
@@ -72,7 +79,10 @@ fn oem_parser_recovers_ccsds_502_b3_figure_g11_values() {
     let s1 = &f.segments[1];
     assert_eq!(s1.states.len(), 4);
     let s1f = &s1.states[0];
-    assert_eq!((s1f.epoch.day, s1f.epoch.hour, s1f.epoch.minute), (28, 21, 29));
+    assert_eq!(
+        (s1f.epoch.day, s1f.epoch.hour, s1f.epoch.minute),
+        (28, 21, 29)
+    );
     assert!(close(s1f.pos_km[0], -2432.166));
     assert!(close(s1f.pos_km[1], -63.042));
     assert!(close(s1f.pos_km[2], 1742.754));
@@ -100,7 +110,10 @@ fn tdm_parser_recovers_ccsds_503_b2_figure_e9_values() {
     assert_eq!(seg.meta.mode, "SEQUENTIAL");
     assert_eq!(seg.meta.path, "2,1,2");
     assert_eq!(seg.meta.range_units.as_deref(), Some("km"));
-    assert_eq!(seg.meta.participants, vec!["yyyy-nnnA".to_string(), "USC1".to_string()]);
+    assert_eq!(
+        seg.meta.participants,
+        vec!["yyyy-nnnA".to_string(), "USC1".to_string()]
+    );
 
     // 41 RANGE records (00:41:38 → 00:42:58 inclusive at a 2 s step), all RANGE.
     assert_eq!(seg.data.len(), 41);
