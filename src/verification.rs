@@ -153,6 +153,24 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: ExternalDataset,
             status: Validated,
         },
+        VerificationItem {
+            requirement: "GNSS geometry / dilution of precision (DOP)",
+            capability: "GDOP/PDOP/HDOP/VDOP/TDOP from line-of-sight geometry via Q=(HᵀH)⁻¹ with a local ENU split",
+            module: "orbit (dop)",
+            tests: "tests/dop_reference.rs (8 geometries, well-conditioned → near-singular)",
+            oracle: "gnss_lib_py 1.0.4 (Stanford NAV Lab) DOP — independent library, matched to 1e-6 relative",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
+            requirement: "ML detector-evaluation metrics (ROC/AUC/confusion/Pfa-Pmd)",
+            capability: "AUC (Mann-Whitney, ties ½), confusion matrix at threshold, P_d/P_md/P_fa/precision/accuracy/F1",
+            module: "impairment_eval (auc, confusion_at, roc_curve)",
+            tests: "tests/eval_metrics_reference.rs (5 datasets, 24 thresholds; exact counts + <1e-9)",
+            oracle: "scikit-learn 1.9.0 (Pedregosa et al., JMLR 2011) — independent library, exact match",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
         // ── Modelled (first-principles / published formulae, internally checked)─
         VerificationItem {
             requirement: "GNSS-denied clock holdover",
