@@ -269,6 +269,44 @@ mod tests {
     }
 
     #[test]
+    fn primary_header_matches_published_independent_test_vectors() {
+        // Cross-check the encoder against an *independent* published reference: the
+        // byte-level primary-header test vectors from the `spacepackets` library
+        // (us-irs/spacepackets-py, tests/ccsds/test_space_packet.py), whose pack
+        // logic is its own implementation of CCSDS 133.0-B-2 §4.1.3. Plus the
+        // canonical all-ones TM case. Each row encodes a data field of
+        // `data_length_field + 1` octets so the encoder derives that exact field,
+        // then asserts the 6 header octets equal the published bytes and the decode
+        // round-trips the fields. Tuple:
+        //   (tc, shf, apid, seqflags, seqcount, data_len_field, expected 6 bytes)
+        let cases: &[(bool, bool, u16, SequenceFlags, u16, u16, [u8; 6])] = &[
+            // spacepackets-py test_raw_output: TC, SHF, APID 2, first, count 0x34, len 0x16.
+            (true, true, 0x002, SequenceFlags::First, 0x0034, 0x0016, [0x18, 0x02, 0x40, 0x34, 0x00, 0x16]),
+            // spacepackets-py test_more_complex_output: all-max TC packet.
+            (true, true, 2047, SequenceFlags::Unsegmented, 16383, 65535, [0x1F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]),
+            // spacepackets-py examples: TC, no SHF, APID 1, unsegmented, count 0, len 0.
+            (true, false, 0x001, SequenceFlags::Unsegmented, 0, 0, [0x10, 0x01, 0xC0, 0x00, 0x00, 0x00]),
+            // spacepackets-py examples: TC, no SHF, APID 2, unsegmented, count 5, len 3.
+            (true, false, 0x002, SequenceFlags::Unsegmented, 5, 3, [0x10, 0x02, 0xC0, 0x05, 0x00, 0x03]),
+            // Canonical all-ones TM (version 0, APID/count saturated): 07 FF FF FF 00 00.
+            (false, false, 2047, SequenceFlags::Unsegmented, 16383, 0, [0x07, 0xFF, 0xFF, 0xFF, 0x00, 0x00]),
+        ];
+        for (tc, shf, apid, seqflags, seqcount, dlen, want) in cases.iter().copied() {
+            let data = vec![0u8; dlen as usize + 1];
+            let pkt = encode_packet(0, tc, shf, apid, seqflags, seqcount, &data).unwrap();
+            assert_eq!(&pkt[..6], &want, "header bytes for apid={apid} seq={seqcount} dlen={dlen}");
+            let (h, d) = decode_packet(&pkt).unwrap();
+            assert_eq!(h.is_telecommand, tc);
+            assert_eq!(h.secondary_header, shf);
+            assert_eq!(h.apid, apid);
+            assert_eq!(h.sequence_flags, seqflags);
+            assert_eq!(h.sequence_count, seqcount);
+            assert_eq!(h.data_length_field, dlen);
+            assert_eq!(d.len(), dlen as usize + 1);
+        }
+    }
+
+    #[test]
     fn telecommand_and_secondary_header_flags_set_their_bits() {
         let pkt = encode_packet(0, true, true, 0, SequenceFlags::First, 0, &[0]).unwrap();
         // type bit (0x10) and secondary-header bit (0x08) of byte0; seq-flags 01 in byte2.

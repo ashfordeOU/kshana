@@ -11,8 +11,10 @@ to the authoritative specification.
 
 | Standard | Direction | Module | Spec / authority | Notes |
 |----------|-----------|--------|------------------|-------|
-| **CCSDS OEM** (Orbit Ephemeris Message) | write | [`src/oem.rs`](../src/oem.rs) | CCSDS 502.0-B Orbit Data Messages, KVN form | Tabulated state-vector ephemeris ingested by GMAT, Orekit, STK. Writer only. |
+| **CCSDS OEM** (Orbit Ephemeris Message) | read **and** write | [`src/oem.rs`](../src/oem.rs) | CCSDS 502.0-B Orbit Data Messages, KVN form | Tabulated state-vector ephemeris ingested by GMAT, Orekit, STK. `parse_oem` reads it back; **validated by recovering the verbatim CCSDS 502.0-B-3 Figure G-11 Blue Book example** ([`tests/ccsds_reference.rs`](../tests/ccsds_reference.rs)). |
 | **CCSDS OMM** (Orbit Mean-Elements Message) | write | [`src/omm.rs`](../src/omm.rs) | CCSDS 502.0-B-2, KVN form | Standards-track publication of SGP4/TLE mean elements (mean motion, e, i, Ω, ω, M, BSTAR). CLI-reachable on an `orbit` scenario via `--export-omm <out.omm>` or `export_omm = true` (one OMM per TLE-defined satellite, with its real NORAD id, COSPAR designator, and epoch; [`tests/sp3_export_roundtrip.rs`](../tests/sp3_export_roundtrip.rs)). XML form and a reader are follow-ons. |
+| **CCSDS TDM** (Tracking Data Message) | read **and** write | [`src/ccsds_tdm.rs`](../src/ccsds_tdm.rs) | CCSDS 503.0-B Tracking Data Message, KVN form | Range / Doppler / angle tracking records a DSN/ESTRACK pass delivers to an OD system. **Validated by recovering the verbatim CCSDS 503.0-B-2 Figure E-9 Blue Book example** ([`tests/ccsds_reference.rs`](../tests/ccsds_reference.rs)). |
+| **CCSDS Space Packet** (133.0) | read **and** write | [`src/space_packet.rs`](../src/space_packet.rs) | CCSDS 133.0-B-2 Space Packet Protocol | The 6-octet TM/TC primary-header framing ground systems exchange. **Encoder reproduces the independent `spacepackets-py` library's published byte-level test vectors** ([`src/space_packet.rs`](../src/space_packet.rs) tests). |
 | **SP3-c / SP3-d** (precise ephemeris) | read **and** write | [`src/sp3.rs`](../src/sp3.rs) | IGS Standard Product 3 (c/d) | Earth-fixed (ECEF) position + clock time series. Round-trip validated to < 0.5 m on a real `gps-ops` snapshot ([`tests/sp3_export_roundtrip.rs`](../tests/sp3_export_roundtrip.rs)). |
 | **RINEX 3** (broadcast navigation) | read | [`src/rinex.rs`](../src/rinex.rs) | RINEX 3.x NAV (IS-GPS-200, Galileo ICD, BeiDou ICD, GLONASS ICD) | Multi-GNSS NAV ingestion (GPS LNAV, Galileo F/NAV, QZSS, BeiDou MEO/IGSO, GLONASS state vector); usable as a first-class `Propagator` source. |
 | **TLE / 3LE** (two-/three-line elements) | read | [`src/tle.rs`](../src/tle.rs) | NORAD / Celestrak, AIAA 2006-6753 | Propagated by the validated SGP4/SDP4 core (4.12 mm vs the 666 official AIAA vectors). |
@@ -54,7 +56,7 @@ For an orbit scenario, the result JSON / OEM correspondence is:
 
 ## Honest scope
 
-- OEM/OMM are **writers**; readers and the XML serialization are follow-ons.
+- OEM, TDM, and Space Packet are **read and write**; OMM is a **writer** (an OMM reader and the XML serialization are follow-ons).
 - The CCSDS/IGS field mapping above is documentation, not a certified conformance
   statement; formal conformance (and registration in the ESA ESSR / NASA open
   catalogue) is tracked separately and is founder-gated.
