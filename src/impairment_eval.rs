@@ -889,6 +889,38 @@ impl ImpairmentEvalScenario {
 mod tests {
     use super::*;
 
+    /// EXTERNAL-ORACLE check (the evaluation harness, not the synthetic corpus):
+    /// the Mann–Whitney [`auc`] reproduces the **binormal ROC closed form**
+    /// `AUC = Φ(d'/√2)` for two equal-variance Gaussian classes separated by
+    /// `d' = Δμ/σ`. Closed form: Gneiting & Vogel, "Receiver Operating Characteristic
+    /// (ROC) Curves," arXiv:1809.04808 (2018), Eq. (5) — equal-variance case (σ-ratio
+    /// = 1) gives `AUC = Φ(µ/√2)`; originating reference Green & Swets, "Signal
+    /// Detection Theory and Psychophysics," Wiley, 1966. Predicted endpoints:
+    /// `d'=0 ⇒ Φ(0)=0.5` (chance) and `d'→∞ ⇒ 1` (perfect). This validates the
+    /// metric machinery against detection theory; it makes **no** claim about
+    /// field/raw-IQ detection performance (the corpus is synthetic by construction).
+    #[test]
+    fn auc_matches_the_binormal_closed_form_phi_dprime_over_sqrt2() {
+        use crate::detection::normal_cdf;
+        let mut rng = ChaCha8Rng::seed_from_u64(0x5141_4e41_5f41_5543);
+        let sigma = 1.0_f64;
+        let n = 8000;
+        for &dprime in &[0.0_f64, 0.5, 1.0, 2.0, 3.0] {
+            let dist = Normal::new(0.0, sigma).unwrap();
+            let pos: Vec<f64> = (0..n).map(|_| dprime + dist.sample(&mut rng)).collect();
+            let neg: Vec<f64> = (0..n).map(|_| dist.sample(&mut rng)).collect();
+            let got = auc(&pos, &neg);
+            let want = normal_cdf(dprime / std::f64::consts::SQRT_2);
+            assert!(
+                (got - want).abs() < 0.02,
+                "d'={dprime}: empirical AUC {got:.4} vs binormal Φ(d'/√2) {want:.4}"
+            );
+        }
+        // Endpoints the closed form predicts exactly.
+        assert!((auc(&[100.0; 64], &[0.0; 64]) - 1.0).abs() < 1e-12, "perfect separation → 1.0");
+        assert!((auc(&[0.0; 64], &[0.0; 64]) - 0.5).abs() < 1e-12, "no separation (all ties) → 0.5");
+    }
+
     #[test]
     fn corpus_is_class_balanced_and_labelled() {
         let cfg = CorpusConfig {
