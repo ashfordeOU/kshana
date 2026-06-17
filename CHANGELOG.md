@@ -9,6 +9,8 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.18.0] - 2026-06-17
+
 ### Added
 
 - **Eleven new runnable scenario kinds — two-tender demonstrators, a CCSDS interop
@@ -95,6 +97,62 @@ breaking changes are called out explicitly.
   stored DEM (the localization half of terrain SLAM), not joint map estimation;
   non-circular by construction (the injected drift ramp is the independent truth). All
   existing scenarios are unaffected (additive; reproducibility goldens unchanged).
+
+- **GNSS-denied resilience spine + FutureNAV demonstrator slices** (`src/holdover.rs`,
+  and resilience-envelope foundations under `src/impairment_eval.rs`, `src/quantum_trade.rs`,
+  `src/navsignal.rs`, `src/inertial/quantum_imu.rs`, with FutureNAV verification slices in
+  `src/verification.rs`). Composes the alternative-PNT building blocks — clock holdover,
+  signal tracking, inertial coast, terrain — into a single GNSS-outage resilience narrative.
+  MODELLED; additive.
+
+- **Kshana Interchange Format (KIF) — a versioned, self-describing artifact envelope**
+  (`src/interchange.rs`). A schema-tagged wrapper around scenario results so a stored
+  artifact carries its kind, schema version, and MODELLED/VALIDATED labels with it, and
+  older envelopes stay forward-compatibly readable. Additive; existing result JSON unchanged.
+
+- **Navigation-signal modulation / tracking + CR3BP halo/NRHO differential corrector**
+  (`src/navsignal.rs`, `src/cr3bp.rs`). A first-order nav-signal modulation & tracking model,
+  and a circular-restricted three-body differential corrector for halo / near-rectilinear
+  halo orbits, surfaced on the existing deep-space capability axis. MODELLED.
+
+- **Distribution-shift evaluation mode + corpus severity-scale knob for `impairment-eval`**
+  (`src/impairment_eval.rs`). Adds an explicit in/out-of-distribution split and a tunable
+  corpus severity scale to the ROC/AUC optimism-gap harness (operating characteristics only —
+  never field/IQ data).
+
+- **Cost-per-coverage ROI + detection-miss integrity-impact mapping** (`src/frugal.rs`,
+  `src/integrity_impact.rs`). A frugal-engineering ROI lens (cost per unit coverage) and a
+  mapping from detection-miss rate to integrity impact. MODELLED; additive.
+
+- **Cited cold-atom-interferometer (CAI) error-model parameter sheet**
+  (`src/inertial/quantum_imu.rs`). A literature-referenced, bracketed parameter sheet for the
+  CAI inertial model — inputs are **cited, not measured hardware** (no TRL / flight claim); it
+  feeds the `hybrid-ukf` velocity-random-walk floor.
+
+- **Project governance.** `GOVERNANCE.md` documenting the decision model and the open/closed
+  boundary; the capability map's community/governance row moves `none → partial` to reflect it.
+
+### Fixed
+
+- **ARAIM integrity protection level — nominal bias (`b_nom`) and σ_URA now applied.** The
+  MHSS protection level now subtracts the one-sided nominal-bias projection
+  `b_k = Σ_i |s_i|·b_nom` per fault mode, and uses the **integrity** sigma σ_URA (distinct
+  from the **accuracy** sigma σ_URE) carried on the Integrity Support Message. This makes the
+  protection level more conservative and standards-correct, and therefore **changes the PL
+  values reported by existing integrity scenarios**. The ISM/scenario gains `#[serde(default)]`
+  `sigma_ura_m` / `b_nom_m` fields, so inputs that leave them unset retain prior behaviour. See
+  `docs/ARAIM_REFERENCE.md` for the restored `b_k` formula and the honest implementation note.
+
+- **Spoof-monitor χ² consistency.** `parity_raim_test` now uses the shared
+  `raim::chi2_quantile` inverse-χ² path, removing a second divergent χ² implementation so RAIM
+  and the parity spoof monitor agree on their thresholds.
+
+- **`gravity-map-nav` wired into the CLI dispatcher.** The scenario was previously reachable
+  only through the API; it now dispatches as a `kind=` like every other scenario.
+
+- **Documentation/count accuracy.** Scenario-kind counts in the README are now pinned to
+  `api::list_scenario_kinds().len()` by a `scenario_count_doc_sync` test, so the documented
+  count can no longer drift from the dispatcher.
 
 ## [0.17.0] - 2026-06-14
 
