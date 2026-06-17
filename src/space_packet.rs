@@ -277,32 +277,87 @@ mod tests {
         // canonical all-ones TM case. Each row encodes a data field of
         // `data_length_field + 1` octets so the encoder derives that exact field,
         // then asserts the 6 header octets equal the published bytes and the decode
-        // round-trips the fields. Tuple:
-        //   (tc, shf, apid, seqflags, seqcount, data_len_field, expected 6 bytes)
-        let cases: &[(bool, bool, u16, SequenceFlags, u16, u16, [u8; 6])] = &[
+        // round-trips the fields.
+        struct Vector {
+            tc: bool,
+            shf: bool,
+            apid: u16,
+            seqflags: SequenceFlags,
+            seqcount: u16,
+            dlen: u16,
+            want: [u8; 6],
+        }
+        let cases = [
             // spacepackets-py test_raw_output: TC, SHF, APID 2, first, count 0x34, len 0x16.
-            (true, true, 0x002, SequenceFlags::First, 0x0034, 0x0016, [0x18, 0x02, 0x40, 0x34, 0x00, 0x16]),
+            Vector {
+                tc: true,
+                shf: true,
+                apid: 0x002,
+                seqflags: SequenceFlags::First,
+                seqcount: 0x0034,
+                dlen: 0x0016,
+                want: [0x18, 0x02, 0x40, 0x34, 0x00, 0x16],
+            },
             // spacepackets-py test_more_complex_output: all-max TC packet.
-            (true, true, 2047, SequenceFlags::Unsegmented, 16383, 65535, [0x1F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF]),
+            Vector {
+                tc: true,
+                shf: true,
+                apid: 2047,
+                seqflags: SequenceFlags::Unsegmented,
+                seqcount: 16383,
+                dlen: 65535,
+                want: [0x1F, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF],
+            },
             // spacepackets-py examples: TC, no SHF, APID 1, unsegmented, count 0, len 0.
-            (true, false, 0x001, SequenceFlags::Unsegmented, 0, 0, [0x10, 0x01, 0xC0, 0x00, 0x00, 0x00]),
+            Vector {
+                tc: true,
+                shf: false,
+                apid: 0x001,
+                seqflags: SequenceFlags::Unsegmented,
+                seqcount: 0,
+                dlen: 0,
+                want: [0x10, 0x01, 0xC0, 0x00, 0x00, 0x00],
+            },
             // spacepackets-py examples: TC, no SHF, APID 2, unsegmented, count 5, len 3.
-            (true, false, 0x002, SequenceFlags::Unsegmented, 5, 3, [0x10, 0x02, 0xC0, 0x05, 0x00, 0x03]),
+            Vector {
+                tc: true,
+                shf: false,
+                apid: 0x002,
+                seqflags: SequenceFlags::Unsegmented,
+                seqcount: 5,
+                dlen: 3,
+                want: [0x10, 0x02, 0xC0, 0x05, 0x00, 0x03],
+            },
             // Canonical all-ones TM (version 0, APID/count saturated): 07 FF FF FF 00 00.
-            (false, false, 2047, SequenceFlags::Unsegmented, 16383, 0, [0x07, 0xFF, 0xFF, 0xFF, 0x00, 0x00]),
+            Vector {
+                tc: false,
+                shf: false,
+                apid: 2047,
+                seqflags: SequenceFlags::Unsegmented,
+                seqcount: 16383,
+                dlen: 0,
+                want: [0x07, 0xFF, 0xFF, 0xFF, 0x00, 0x00],
+            },
         ];
-        for (tc, shf, apid, seqflags, seqcount, dlen, want) in cases.iter().copied() {
-            let data = vec![0u8; dlen as usize + 1];
-            let pkt = encode_packet(0, tc, shf, apid, seqflags, seqcount, &data).unwrap();
-            assert_eq!(&pkt[..6], &want, "header bytes for apid={apid} seq={seqcount} dlen={dlen}");
+        for c in &cases {
+            let data = vec![0u8; c.dlen as usize + 1];
+            let pkt = encode_packet(0, c.tc, c.shf, c.apid, c.seqflags, c.seqcount, &data).unwrap();
+            assert_eq!(
+                &pkt[..6],
+                &c.want,
+                "header bytes for apid={} seq={} dlen={}",
+                c.apid,
+                c.seqcount,
+                c.dlen
+            );
             let (h, d) = decode_packet(&pkt).unwrap();
-            assert_eq!(h.is_telecommand, tc);
-            assert_eq!(h.secondary_header, shf);
-            assert_eq!(h.apid, apid);
-            assert_eq!(h.sequence_flags, seqflags);
-            assert_eq!(h.sequence_count, seqcount);
-            assert_eq!(h.data_length_field, dlen);
-            assert_eq!(d.len(), dlen as usize + 1);
+            assert_eq!(h.is_telecommand, c.tc);
+            assert_eq!(h.secondary_header, c.shf);
+            assert_eq!(h.apid, c.apid);
+            assert_eq!(h.sequence_flags, c.seqflags);
+            assert_eq!(h.sequence_count, c.seqcount);
+            assert_eq!(h.data_length_field, c.dlen);
+            assert_eq!(d.len(), c.dlen as usize + 1);
         }
     }
 
