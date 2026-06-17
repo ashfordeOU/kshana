@@ -185,6 +185,14 @@ h1, h2, h3 {
 }
 .nav .gh:hover { border-color: var(--accent-line); }
 @media (max-width: 760px) { .nav a:not(.gh) { display: none; } }
+/* Between mobile (links hidden ≤760) and desktop, the full link row was ~603px and
+   overflowed the topbar from ~761–840px. Tighten spacing/size so it fits without
+   dropping the links (tap height stays 44px via the coarse-pointer rule below). */
+@media (min-width: 761px) and (max-width: 900px) {
+  .nav { gap: 0.5rem; }
+  .nav a { font-size: 0.8rem; }
+  .nav .gh { padding: 0.3rem 0.55rem; white-space: nowrap; }
+}
 
 /* ── Hero ────────────────────────────────────────────────────────────── */
 .hero { padding: clamp(3rem, 8vw, 6.5rem) 0 3rem; overflow: hidden; }
