@@ -117,6 +117,32 @@
    "name": "Machine-checked verification matrix",
    "summary": "A requirement-to-module-to-test-to-oracle-to-status cross-reference rendered from the engine itself (Markdown/CSV), with unit-tested honesty invariants: a row may be labelled validated only if it carries an independent external oracle (NIST / AIAA / SOFA / IGS / a published value), so an internal self-consistency check cannot masquerade as a validation — and the hardware/PA capabilities Kshana does not provide are recorded as partner-owned gaps. The executable backbone for an ECSS-E-ST-10-02 verification cross-reference.",
    "proof": "validated rows require an external oracle (invariant enforced in CI)"
+  },
+  {
+   "domain": "Mission analysis",
+   "name": "Launch, re-entry, coverage & pointing budgets",
+   "summary": "First-order mission-design budgets, each a runnable scenario: two-body launch & ascent geometry (launch azimuth, minimum inclination, Earth-rotation bonus, dogleg plane-change Δv, daily opportunities), an Allen–Eggers ballistic re-entry corridor (peak deceleration, peak-g and peak-heating velocities), Earth-observation coverage geometry (swath / nadir GSD / off-nadir access / revisit via the SMAD space triangle), a 3-DOF attitude & pointing error budget (gravity-gradient torque + RSS pointing budget), ground-station pass prediction (AOS/TCA/LOS, max elevation, access), and a one-way link budget over the CCSDS 401 / DSN 810-005 link equation (FSPL, C/N₀, Eb/N₀, margin, closure). The pre-hardware analytic layer below STK/GMAT/Basilisk — modelled first-order budgets, not a 6-DoF or radiometric replacement."
+  },
+  {
+   "domain": "Space environment",
+   "name": "Space-weather & thermospheric density",
+   "summary": "A space-weather environment model: solar (F10.7 / centred-81-day F10.7a) and geomagnetic (Kp, with the definitional Kp↔ap table) activity indices, the Jacchia-1971 exospheric temperature they drive, and the activity-corrected versus static thermospheric neutral density at altitude — the solar-cycle density dependence a static atmosphere omits. A calibrated first-order scale-height coupling, not a data-validated NRLMSISE atmosphere.",
+   "proof": "Jacchia-71 validated vs published solar min / mean / max"
+  },
+  {
+   "domain": "AI/ML evaluation & trade",
+   "name": "RF-impairment detection eval & PNT trade",
+   "summary": "An RF-impairment detection evaluation testbed: a labelled, parameter-grounded synthetic corpus (nominal / jamming / spoof-time / spoof-position / multipath), a detector-agnostic ROC/AUC harness scoring any detector with per-class Pd at a target Pfa, and the in- versus out-of-distribution optimism gap. Plus a quantum-vs-classical PNT trade that quantifies a candidate clock's timing and inertial holdover benefit from a measured-ADEV curve against a classical baseline, with a GNSS-denied resilience-vs-time envelope. Modelled operating characteristics — never field/IQ data, no good/bad verdict."
+  },
+  {
+   "domain": "Decision support",
+   "name": "Cost-per-coverage ROI & integrity impact",
+   "summary": "A cost-per-coverage ROI lens — cost per unit of delivered coverage for an architecture trade — and a detection-miss-to-integrity-impact mapping that turns a monitor's missed-detection rate into its integrity-risk contribution. Modelled decision-support budgets."
+  },
+  {
+   "domain": "Artifact interchange",
+   "name": "Kshana Interchange Format (KIF)",
+   "summary": "A versioned, self-describing envelope that wraps a scenario result with its kind, schema version, and modelled/validated labels, so a stored artifact stays self-documenting and older envelopes remain forward-compatibly readable."
   }
  ],
  "standards": [
@@ -160,6 +186,18 @@
   {
    "name": "IGRF-14",
    "note": "geomagnetic main field"
+  },
+  {
+   "name": "CCSDS 133.0",
+   "note": "Space Packet framing"
+  },
+  {
+   "name": "CCSDS TDM",
+   "note": "503.0 tracking data"
+  },
+  {
+   "name": "CCSDS 401 / DSN",
+   "note": "link budget · 810-005"
   }
  ],
  "trust": {
