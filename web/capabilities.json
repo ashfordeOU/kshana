@@ -189,7 +189,8 @@
   },
   {
    "name": "IEEE 1139",
-   "note": "frequency stability"
+   "note": "ADEV/MDEV/TDEV/HDEV vs NIST SP 1065 reference deviations",
+   "proof": true
   },
   {
    "name": "RAIM / ARAIM",
