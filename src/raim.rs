@@ -2330,6 +2330,46 @@ mod tests {
         );
     }
 
+    /// EXTERNAL-ORACLE check: `classify_stanford` reproduces the region definition of
+    /// the **Stanford–ESA integrity diagram** — Tossaint, Samson, Torán,
+    /// Ventura-Traveset, Hernández-Pajares, Juan, Sanz & Ramos-Bosch, "The
+    /// Stanford–ESA Integrity Diagram: A New Tool for the User Domain SBAS Integrity
+    /// Assessment," NAVIGATION (ION), Vol. 54, No. 2, 2007 — over position error E,
+    /// protection level PL and alert limit AL:
+    ///   Available    : E ≤ PL ≤ AL
+    ///   Unavailable  : PL > AL   (with PL ≥ E)
+    ///   MI           : PL < E ≤ AL
+    ///   HMI          : PL < E and E > AL
+    /// The sources define the regions but not the exact ties; the conventional choices
+    /// adopted here are E ≤ PL ⇒ bounded, PL ≤ AL ⇒ available, E > AL (strict) ⇒
+    /// hazardous. The "unavailable AND unbounded" corner (PL > AL, PL < E, E > AL) is
+    /// the literature's documented 4-cell/6-cell ambiguity; Kshana takes the
+    /// safety-conservative choice — it reports the hazard (HMI) rather than masking it
+    /// under "unavailable."
+    #[test]
+    fn classify_stanford_matches_the_stanford_esa_2007_definition() {
+        use StanfordRegion::*;
+        let al = 50.0; // the VAL drawn in the Tossaint et al. (2007) worked example.
+        // Region interiors.
+        assert_eq!(classify_stanford(10.0, 20.0, al), Available); // E < PL < AL
+        assert_eq!(classify_stanford(10.0, 60.0, al), SystemUnavailable); // PL > AL, PL > E
+        assert_eq!(classify_stanford(30.0, 20.0, al), MisleadingInformation); // PL < E ≤ AL
+        assert_eq!(classify_stanford(60.0, 20.0, al), HazardouslyMisleadingInformation); // E > AL
+        // Boundary / tie conventions.
+        assert_eq!(classify_stanford(25.0, 25.0, al), Available); // E == PL (diagonal) ⇒ bounded
+        assert_eq!(classify_stanford(50.0, 50.0, al), Available); // PL == AL ⇒ available (PL > AL strict)
+        assert_eq!(classify_stanford(50.0, 20.0, al), MisleadingInformation); // E == AL ⇒ MI (HMI is E > AL strict)
+        assert_eq!(
+            classify_stanford(50.000_001, 20.0, al),
+            HazardouslyMisleadingInformation
+        ); // a hair past AL ⇒ HMI
+        // Documented conservative convention for the unavailable-AND-unbounded corner.
+        assert_eq!(
+            classify_stanford(60.0, 55.0, al),
+            HazardouslyMisleadingInformation
+        ); // PL=55 > AL=50 but PL < E and E > AL ⇒ HMI (surfaces the hazard)
+    }
+
     #[test]
     fn stanford_diagram_accumulates_counts_and_availability() {
         let mut d = StanfordDiagram::new(40.0);
