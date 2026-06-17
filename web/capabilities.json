@@ -170,11 +170,13 @@
   },
   {
    "name": "RINEX 3 / 4",
-   "note": "navigation + observation"
+   "note": "real IGS data → surveyed coordinate",
+   "proof": true
   },
   {
    "name": "SP3-c / d",
-   "note": "precise ephemeris"
+   "note": "fit to real ESA/ESOC precise orbits",
+   "proof": true
   },
   {
    "name": "CCSDS OEM / OMM",
@@ -182,7 +184,8 @@
   },
   {
    "name": "IS-GPS-200",
-   "note": "broadcast ephemeris"
+   "note": "broadcast ephemeris → real-data PVT",
+   "proof": true
   },
   {
    "name": "IEEE 1139",
@@ -202,7 +205,8 @@
   },
   {
    "name": "IGRF-14",
-   "note": "geomagnetic main field"
+   "note": "vs official BGS IGRF-14 values",
+   "proof": true
   },
   {
    "name": "CCSDS 133.0",
