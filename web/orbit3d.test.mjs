@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 // Tests for the dependency-free orthographic 3D orbit renderer's pure math. The
 // SVG markup itself is verified in the browser; here we pin the projection and
 // rotation against textbook oracles. Run with `node web/orbit3d.test.mjs`.

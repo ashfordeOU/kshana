@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: AGPL-3.0-only
 # Lints the JOSS paper without a full Whedon/openjournals compile:
 #   1. paper/paper.md has the JOSS-required YAML frontmatter keys.
 #   2. every [@key] / @key citation in the body resolves to a paper/paper.bib entry.

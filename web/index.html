@@ -9,7 +9,7 @@
       content="Kshana is an open, reproducible simulator for positioning, navigation and timing (PNT) resilience — SGP4-validated orbits and constellation design, time systems, three-axis strapdown INS, GNSS/INS fusion (loose, tight, UKF), ARAIM integrity with HPL/VPL, clocks and time-and-frequency transfer, the GNSS measurement domain, nav-signal modulation and code-tracking performance, and jamming/spoofing resilience, with RINEX/SP3/CCSDS interoperability. Runs locally in your browser as WebAssembly."
     />
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="style.css?v=0.18.0" />
+    <link rel="stylesheet" href="style.css?v=0.19.0" />
     <!-- Shared single-accent emblem definition. -->
     <svg width="0" height="0" style="position:absolute" aria-hidden="true">
       <defs>
@@ -36,7 +36,7 @@
             <circle cx="32" cy="36" r="4.4" fill="#e0bd84" />
           </svg>
           <span class="name">Kshana</span>
-          <span class="ver" id="ver-chip">v0.18.0</span>
+          <span class="ver" id="ver-chip">v0.19.0</span>
         </a>
         <nav class="nav" aria-label="Primary">
           <a href="#capabilities">Capabilities</a>
@@ -85,7 +85,7 @@
               <span class="badge"><span class="dot"></span> <b>~97%</b> line coverage</span>
               <span class="badge"><span class="dot"></span> Reproducible · <b>SBOM</b> + provenance</span>
               <span class="badge"><span class="dot"></span> Runs <b>client-side</b> (WASM) · nothing uploaded</span>
-              <span class="badge"><span class="dot"></span> <b>Apache-2.0</b> open source</span>
+              <span class="badge"><span class="dot"></span> <b>AGPL-3.0</b> open source</span>
               <a class="badge" target="_blank" rel="noopener noreferrer" href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator"><span class="dot"></span> On the <b>JetBrains Marketplace</b></a>
               <a class="badge" target="_blank" rel="noopener noreferrer" href="https://doi.org/10.5281/zenodo.20528627"><span class="dot"></span> Citable · <b>Zenodo DOI</b></a>
             </div>
@@ -476,7 +476,7 @@
           <div class="sec-head">
             <p class="eyebrow">Cite &amp; use</p>
             <h2>Built to be referenced</h2>
-            <p>Apache-2.0, citable, and installable from every major ecosystem.</p>
+            <p>AGPL-3.0 (commercial licence available), citable, and installable from every major ecosystem.</p>
           </div>
           <div class="cards">
             <div class="card">
@@ -505,16 +505,18 @@
           <div class="sec-head">
             <p class="eyebrow">Open core + commercial</p>
             <h2>Free to build on, supported when it matters</h2>
-            <p>The engine is, and stays, Apache-2.0. Ashforde&nbsp;OÜ sustains it with
-            expertise and a proprietary overlay for the work that must stay closed —
-            not licence fees.</p>
+            <p>The engine is, and stays, open source under the AGPL-3.0 — with a
+            commercial licence available for proprietary/closed integration. Ashforde&nbsp;OÜ
+            sustains it with expertise and a proprietary overlay for the work that must
+            stay closed — not seat fees on the open engine.</p>
           </div>
           <div class="cards">
             <div class="card">
               <h3>Open core</h3>
               <p>The whole validated engine and every surface — native, Python, in-browser,
-              and over MCP — free under <strong>Apache-2.0</strong>. Free for commercial use,
-              no feature gate. Everything on this page runs on the open core.</p>
+              and over MCP — free under the <strong>AGPL-3.0</strong> (or a commercial
+              licence for closed/proprietary use), no feature gate. Everything on this
+              page runs on the open core.</p>
             </div>
             <div class="card">
               <h3>Kshana&nbsp;Pro</h3>
@@ -546,7 +548,7 @@
         <div class="foot-grid">
           <div>
             <strong>Kshana</strong> · <span class="deva">क्षण</span> the precise instant<br />
-            Created by <strong>Chakshu Baweja</strong> · © 2026 <strong>Ashforde&nbsp;OÜ</strong> · Apache-2.0 · Engine v<span id="version">…</span>
+            Created by <strong>Chakshu Baweja</strong> · © 2026 <strong>Ashforde&nbsp;OÜ</strong> · AGPL-3.0 · Engine v<span id="version">…</span>
           </div>
           <nav class="nav" aria-label="Resources" style="position:static">
             <a target="_blank" rel="noopener noreferrer" href="https://github.com/AshfordeOU/kshana">GitHub</a>
@@ -598,6 +600,6 @@
         targets.forEach(function (el) { el.classList.add("reveal"); io.observe(el); });
       })();
     </script>
-    <script type="module" src="app.js?v=0.18.0"></script>
+    <script type="module" src="app.js?v=0.19.0"></script>
   </body>
 </html>

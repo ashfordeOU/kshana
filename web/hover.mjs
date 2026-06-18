@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 // Interactive hover read-outs for the playground charts. The charts themselves
 // stay as self-describing blob <img> SVGs (so download/compare/export are
 // untouched); this adds a transparent overlay — a crosshair line and a value

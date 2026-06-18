@@ -1,4 +1,4 @@
-<!-- SPDX-License-Identifier: Apache-2.0 -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Integrity and security: what Kshana models, and what it does not
 
 Kshana reports two figures of merit — **Integrity** and **Security** — that are

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! EGM2008 geopotential spherical-harmonic coefficients to degree/order 70 —
 //! AUTO-GENERATED from `tools/egm2008_to70.gfc` by `tools/gen_egm2008.py`; do not
 //! edit by hand. Fully normalized, tide-free. The EGM2008 model is an NGA

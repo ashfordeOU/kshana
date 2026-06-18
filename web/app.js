@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 import init, { run, summary, chart_svg, version } from "./pkg/kshana.js";
 import { encodeFragment, decodeFragment, patchScalar } from "./share.mjs";
 import { chartFilename, svgSize, svgBlob, triggerDownload, svgToPngBlob } from "./chartdl.mjs";

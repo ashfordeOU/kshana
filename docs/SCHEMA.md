@@ -1,4 +1,4 @@
-<!-- SPDX-License-Identifier: Apache-2.0 -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Result schema — reading a Kshana `*.result.json`
 
 Every run writes a versioned, self-describing JSON artifact next to the scenario.

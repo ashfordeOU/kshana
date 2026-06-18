@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Numerical orbit propagator: a configurable force model integrated by the adaptive
 //! Runge–Kutta driver, the first **non-analytic** propagator in Kshana (the rest of the
 //! orbit stack is the analytic SGP4/SDP4 of [`crate::sgp4`]).

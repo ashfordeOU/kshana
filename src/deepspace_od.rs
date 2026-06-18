@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Numerically-robust **sequential** orbit determination — a hand-rolled Square-Root Information
 //! Filter (SRIF; Bierman 1977) with reduced-dynamic empirical accelerations, the factored
 //! complement to the batch differential corrector of [`crate::precise_od`].

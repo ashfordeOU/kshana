@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Kshana Interchange Format (KIF) — a neutral, versioned, self-describing
 //! envelope for Kshana artifacts (scenarios, run results, trade studies, …).
 //!

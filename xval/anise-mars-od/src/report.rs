@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! The cross-validation report model: the honest position residuals of Kshana's Sun-central two-body
 //! Mars propagation against the DE440 Mars-barycenter ephemeris, at a sequence of arc lengths.
 //! Written to `report.json` + `report.md` and printed as a table. No tuning — the numbers are

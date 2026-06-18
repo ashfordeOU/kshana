@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Cislunar PNT integrity: ARAIM for a LunaNet-style lunar navigation service.
 //!
 //! Reuses the Earth-side ARAIM engine ([`crate::raim::araim_raim`]) for the lunar case.

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! A pluggable **ephemeris provider** seam — the source of one body's position relative to another
 //! in the inertial frame — abstracted so the *fidelity* of those positions can be swapped without
 //! touching the deep-space light-time correction (D0.7) or the interplanetary orbit determination

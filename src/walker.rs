@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Walker-delta constellation design on the validated SGP4 core.
 //!
 //! The synthetic Walker generator in [`crate::orbit`] emits analytic Keplerian

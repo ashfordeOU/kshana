@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Built-in **low-precision analytical ephemerides** for the third-body perturbing bodies, so
 //! the numerical propagator's third-body force ([`crate::forces::third_body_accel`]) needs no
 //! external DE/SPK kernel for a low-fidelity run.

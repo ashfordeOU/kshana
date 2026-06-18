@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 // Unit tests for the pure tour core (tour.mjs). Run: `node web/tour.test.mjs`.
 import assert from "node:assert/strict";
 import { TOUR_STEPS, clampStep, placeTooltip } from "./tour.mjs";

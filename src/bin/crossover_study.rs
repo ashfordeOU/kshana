@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Reproducible generator for the paper's quantum-vs-classical resilience
 //! crossover studies. Writes the schema-versioned JSON for each canonical study
 //! (fixed seed, cited parameters) into an output directory, so every figure and

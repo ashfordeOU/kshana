@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! WebAssembly bindings (wasm-bindgen), built with the `wasm` feature.
 //!
 //! ```js

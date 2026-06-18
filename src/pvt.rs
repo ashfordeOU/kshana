@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Single-point positioning (SPP): a position fix from real measurements.
 //!
 //! Where the rest of the engine *generates* pseudoranges from a known truth, this

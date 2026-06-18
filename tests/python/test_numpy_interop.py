@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: AGPL-3.0-only
 """NumPy-interop tests for the Python bindings (built with `maturin develop --features python`).
 
 These run beside `test_bindings.py` in the same `test-python-bindings` CI job and

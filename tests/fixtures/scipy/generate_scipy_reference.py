@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: AGPL-3.0-only
 """Generate external reference vectors for the quantum-trade numerical kernels.
 
 The oracle is **scipy** (Virtanen et al., *Nature Methods* 17, 2020) — the

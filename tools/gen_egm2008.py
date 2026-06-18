@@ -58,7 +58,7 @@ c20 = next(c for (n, m, c, s) in coeffs if n == 2 and m == 0)
 assert abs(c20 - (-0.484165143790815e-03)) < 1e-12, f"unexpected C20 {c20}"
 
 with open(OUT, "w") as f:
-    f.write("// SPDX-License-Identifier: Apache-2.0\n")
+    f.write("// SPDX-License-Identifier: AGPL-3.0-only\n")
     f.write("//! EGM2008 geopotential spherical-harmonic coefficients to degree/order 70 —\n")
     f.write("//! AUTO-GENERATED from `tools/egm2008_to70.gfc` by `tools/gen_egm2008.py`; do not\n")
     f.write("//! edit by hand. Fully normalized, tide-free. The EGM2008 model is an NGA\n")

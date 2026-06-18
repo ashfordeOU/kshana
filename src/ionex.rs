@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! IONEX-style total-electron-content (TEC) maps and the ionospheric range delay.
 //!
 //! The shipped Klobuchar model (in [`crate::gnss_sim`]) is the *broadcast* single-frequency

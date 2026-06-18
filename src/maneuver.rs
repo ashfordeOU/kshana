@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Impulsive / finite-burn maneuvers, a Lambert two-body transfer solver, and a
 //! porkchop (departure × arrival C3 / arrival-V∞) sweep — the maneuver-modeling and
 //! trajectory-design beachhead.

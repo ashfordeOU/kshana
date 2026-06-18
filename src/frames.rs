@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Reference-frame reduction and a geodetic ground-station observer.
 //!
 //! Bridges the inertial, of-date TEME positions the SGP4/SDP4 propagator emits to

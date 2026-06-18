@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! The two FutureNAV demonstrator scenario kinds — 13494 `impairment-eval` and 13503
 //! `quantum-trade` — must be reachable from the engine, reproducible in process, and
 //! HONEST: MODELLED-labelled, never claiming validation, with the distribution-shift

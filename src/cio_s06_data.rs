@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! IAU 2006 CIO-locator (s) series — AUTO-GENERATED from the IAU SOFA / ERFA
 //! `s06.c` reference by `tools/gen_s06.py`; do not edit by hand. The values are
 //! IAU reference data. Coefficients are in arc-seconds (the `e-6` = micro-arcsec).

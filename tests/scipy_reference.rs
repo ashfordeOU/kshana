@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Externally validate the 13503 quantum-vs-classical trade engine's numerical
 //! kernels against an **independent third-party authority**: scipy 1.17.1
 //! (Virtanen et al., Nature Methods 2020).

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Mars/Sun-central propagation validation — **no external data, no network**.
 //!
 //! These tests close the loop on the deep-space central-body machinery (the [`kshana::body::Body`]

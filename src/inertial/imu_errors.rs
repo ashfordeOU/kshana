@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Deterministic IMU error model for the three-axis strapdown navigator.
 //!
 //! A real inertial measurement unit does not report the true body-frame angular

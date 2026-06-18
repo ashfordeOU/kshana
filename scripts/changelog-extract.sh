@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: AGPL-3.0-only
 # Print the release-notes body for a version: the curated CHANGELOG.md section
 # for that version (its `### Added` / `### Changed` / ... blocks), followed by a
 # link to the full changelog. Used to populate GitHub release notes so a release

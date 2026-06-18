@@ -1,4 +1,4 @@
-<!-- SPDX-License-Identifier: Apache-2.0 -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # FOUNDER ACTION — conference abstracts (ION GNSS+ 2026, IAC 2026)
 
 - **ION GNSS+ 2026:** submit via the Institute of Navigation abstract portal
@@ -25,7 +25,7 @@ two-way time transfer — promise far slower error growth across outages, yet th
 open, citable tool to quantify that advantage honestly; primes and agencies rebuild private
 one-off analyses whose assumptions are never shared.
 
-We present Kshana, an open-source (Apache-2.0) Rust engine, also callable from Python and
+We present Kshana, an open-source (AGPL-3.0) Rust engine, also callable from Python and
 runnable in the browser via WebAssembly, in which the quantum-versus-classical axis is a
 parameter swap rather than a fork: both variants are the same code driven by different
 published coefficients. Fourteen scenario kinds span clock holdover, inertial dead-reckoning,
@@ -58,7 +58,7 @@ it — need PNT that survives weak or absent GNSS. Quantum clocks and cold-atom 
 sensors promise the autonomy to do so, but the community lacks an open, reproducible way to
 quantify what such an architecture actually buys for a space mission.
 
-We present Kshana, an open-source (Apache-2.0) PNT-resilience simulator (Rust, with Python
+We present Kshana, an open-source (AGPL-3.0) PNT-resilience simulator (Rust, with Python
 and in-browser WebAssembly bindings) in which quantum and classical sensors are the same
 code driven by different published coefficients. For space systems it provides geometry-
 driven availability and dilution of precision for users inside the GNSS shell; a lunar

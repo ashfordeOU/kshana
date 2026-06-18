@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! The headline cross-validation gate: `kshana`'s IAU 2006/2000A CIO reduction must
 //! agree with ANISE's high-precision ITRF93 (SPICE) to within the documented bounds,
 //! both driven by identical IERS Earth-orientation parameters.

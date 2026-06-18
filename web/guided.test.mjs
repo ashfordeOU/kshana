@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 // Tests for the guided-mode knob helpers — sectioned TOML scalar read/patch and
 // the knob auto-selection that adapts the slider panel to a scenario. Pure logic;
 // the DOM panel is verified in the browser. Run with `node web/guided.test.mjs`.

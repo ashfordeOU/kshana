@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Central-body parameters — the gravitational and orientation constants that turn the
 //! Earth-hard-coded dynamics core into a body-agnostic one.
 //!

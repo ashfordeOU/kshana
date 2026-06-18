@@ -13,11 +13,13 @@
 # the sole reason for isolation.
 [package]
 name = "kshana-mcp"
-version = "0.18.0"
+version = "0.19.0"
 edition = "2024"
 rust-version = "1.85"
 description = "Model Context Protocol (MCP) server exposing the Kshana PNT-resilience simulator to AI agents, MCP-compatible assistants, and JetBrains AI."
-license = "Apache-2.0"
+# Dual-licensed: AGPL-3.0-only, or a commercial licence from Ashforde OÜ
+# (contact@ashforde.org). See ../../LICENSE and ../../LICENSING.md.
+license = "AGPL-3.0-only"
 repository = "https://github.com/AshfordeOU/kshana"
 homepage = "https://kshana.dev"
 keywords = ["mcp", "pnt", "gnss", "navigation", "ai"]
@@ -32,7 +34,7 @@ path = "src/main.rs"
 # Path for local development; the version requirement is what `cargo publish` records,
 # resolving to the published `kshana` crate on crates.io (so `cargo install kshana-mcp`
 # works without this repo checked out).
-kshana = { path = "../..", version = "0.18" }
+kshana = { path = "../..", version = "0.19" }
 rmcp = { version = "1.7", features = ["server", "macros", "transport-io"] }
 tokio = { version = "1", features = ["macros", "rt-multi-thread", "io-std", "io-util"] }
 serde = { version = "1", features = ["derive"] }

@@ -1,4 +1,4 @@
-<!-- SPDX-License-Identifier: Apache-2.0 -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Quantum-sensor models: what Kshana models, and what it does not
 
 Kshana is a **PNT-resilience simulator with quantum-sensor performance models**. It

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Property-based and fuzz tests for the parsers and core numerics.
 //!
 //! Rather than pull in a property-testing framework (the project keeps its

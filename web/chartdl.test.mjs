@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 // Tests for the chart-download helpers' pure logic (filename construction and
 // SVG-size parsing). The DOM-bound parts (blob download, PNG rasterisation) are
 // verified in the browser. Run with `node web/chartdl.test.mjs`.

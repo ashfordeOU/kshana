@@ -123,9 +123,15 @@ output — `scenario + seed + version → identical result`. No hidden randomnes
 **Seed.** The number that initialises the (deterministic) random generator, so runs are
 repeatable.
 
-**Open core.** The business model: the engine is free and open source (Apache-2.0);
-the sustaining business is support, integration, and proprietary add-ons — not license
-fees.
+**Open core.** The business model: the engine is free and open source (AGPL-3.0,
+dual-licensed commercially); the sustaining business is support, integration,
+commercial licences, and proprietary add-ons — not seat fees on the open engine.
 
-**Apache-2.0.** A permissive open-source licence allowing commercial use, modification,
-and distribution, with a patent grant.
+**AGPL-3.0.** The GNU Affero General Public License v3 — an OSI-approved, strong
+copyleft open-source licence. Like the GPL, but with an extra clause (§13) covering
+software offered to users **over a network**: a modified version reached over a network
+must offer those users its corresponding source. Kshana's open licence.
+
+**Dual-licensing.** Offering the same code under two licences so users choose: here,
+the AGPL-3.0 (open, copyleft) **or** a commercial licence from Ashforde OÜ for
+proprietary/closed use the AGPL does not suit. See `LICENSING.md`.

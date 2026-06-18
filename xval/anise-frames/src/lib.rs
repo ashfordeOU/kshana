@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Independent numerical cross-validation of `kshana`'s IAU 2006/2000A reference-frame
 //! reduction against ANISE (the pure-Rust NAIF/SPICE reimplementation).
 //!

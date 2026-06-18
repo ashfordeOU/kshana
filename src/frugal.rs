@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Frugal-engineering cost-per-coverage / ROI layer over constellation sizing.
 //!
 //! Constellation sizing ([`crate::walker`]) answers *how many satellites* a design

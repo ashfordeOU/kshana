@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Joint Kalman sensor-fusion estimator.
 //!
 //! The hybrid pack *composes* independent holdover/dead-reckoning predictors; this

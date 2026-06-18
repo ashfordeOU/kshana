@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Unscented (sigma-point) Kalman filter — the nonlinear estimation core.
 //!
 //! The shipped fusion stack uses an error-state EKF ([`crate::fusion::gnss_ins_ekf`])

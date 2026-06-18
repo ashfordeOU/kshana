@@ -1,4 +1,4 @@
-<!-- SPDX-License-Identifier: Apache-2.0 -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Capability map — what Kshana does, partially does, and does not do
 
 Kshana is a **PNT-performance-and-resilience simulator**, not a full space-systems

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! End-to-end **reduced-dynamic orbit determination of a Low-Mars-Orbit arc from radiometric
 //! data** — the integration test that ties the deep-space stack together (D2.5b).
 //!

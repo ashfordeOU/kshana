@@ -14,7 +14,7 @@ name = "kshana-anise-xval"
 version = "0.1.0"
 edition = "2021"
 description = "Independent numerical cross-validation of kshana's IAU 2006/2000A reference frames against ANISE (pure-Rust SPICE)."
-license = "Apache-2.0"
+license = "AGPL-3.0-only"
 publish = false
 
 [[bin]]

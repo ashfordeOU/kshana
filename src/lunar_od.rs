@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Moon-centred force model for lunar precise orbit determination — the selenocentric analogue
 //! of [`crate::precise_od::PreciseForceModel`].
 //!

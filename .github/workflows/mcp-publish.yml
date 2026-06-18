@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: AGPL-3.0-only
 # Publish the kshana-mcp Model Context Protocol server.
 #
 #   1. `image`    — build + push a multi-arch OCI image to GitHub Container Registry

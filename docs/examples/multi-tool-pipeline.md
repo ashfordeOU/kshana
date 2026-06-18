@@ -1,4 +1,4 @@
-<!-- SPDX-License-Identifier: Apache-2.0 -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Worked example — Kshana as the multi-tool mission-analysis glue layer
 
 This walks one trajectory through the standards-based interop and mission-analysis

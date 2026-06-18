@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! IAU 2000B nutation and the full TEME→GCRS/J2000 inertial reduction.
 //!
 //! [`crate::precession`] supplies the IAU 2006 bias-precession (GCRS→mean-of-date).

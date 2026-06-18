@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Three-axis attitude representation for strapdown inertial navigation.
 //!
 //! Orientation is carried as a unit quaternion (scalar-first, Hamilton

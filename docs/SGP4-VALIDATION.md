@@ -1,4 +1,4 @@
-<!-- SPDX-License-Identifier: Apache-2.0 -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # SGP4/SDP4 validation against the community reference
 
 Kshana's orbit propagator is validated against the **canonical community

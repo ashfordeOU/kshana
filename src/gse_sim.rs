@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! **Ground-Support-Equipment signal-in-space / observable simulator** and the **end-to-end PNT
 //! performance loop** — the GSE half of the deep-space build (D4.2 + D4.3).
 //!

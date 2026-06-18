@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Pin every number the tutorials quote, so a tutorial can never silently lie.
 //!
 //! Each annotated teaching scenario under `docs/tutorials/scenarios/` is pulled in

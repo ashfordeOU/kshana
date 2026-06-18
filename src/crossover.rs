@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Quantum-versus-classical resilience **crossover** study.
 //!
 //! The packs answer "what is the figure of merit for *this* sensor in *this*

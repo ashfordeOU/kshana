@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Two-line element set (TLE) ingestion.
 //!
 //! Two ways to turn a NORAD/Celestrak TLE into a propagator, chosen by what the

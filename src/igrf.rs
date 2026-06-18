@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! IGRF-14 geomagnetic main-field model — an alternative-PNT signal source.
 //!
 //! The International Geomagnetic Reference Field (IGRF) is the IAGA standard

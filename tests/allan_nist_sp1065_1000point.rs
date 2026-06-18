@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Numeric-parity check of the Allan-family estimators against the **1000-point
 //! frequency data set** of W. J. Riley, *Handbook of Frequency Stability
 //! Analysis* (NIST Special Publication 1065, 2008), §12.4, pp. 107-109 — read

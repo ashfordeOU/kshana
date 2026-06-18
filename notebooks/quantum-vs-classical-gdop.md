@@ -1,4 +1,4 @@
-<!-- SPDX-License-Identifier: Apache-2.0 -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
 <!--
 This Markdown file is the diff-reviewable mirror of
 notebooks/quantum-vs-classical-gdop.ipynb. Regenerate the notebook with jupytext:
