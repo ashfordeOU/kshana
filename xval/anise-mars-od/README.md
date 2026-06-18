@@ -86,5 +86,5 @@ src/main.rs       the `mars-od-xval` binary
 tests/            the self-skipping wiring + Horizons-truth gate
 ```
 
-License: Apache-2.0 (this crate's own code). ANISE and hifitime are MPL-2.0; this crate links them
+License: AGPL-3.0-only (this crate's own code). ANISE and hifitime are MPL-2.0; this crate links them
 but they are not redistributed here.

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: AGPL-3.0-only
 """Render the clock-holdover TRL-ladder figure from the engine's JSON.
 
     cargo run --release --bin crossover_study -- paper/crossover

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Loosely-coupled GNSS/INS extended Kalman filter (15-state error-state).
 //!
 //! This is the estimator that replaces the hybrid pack's open-loop

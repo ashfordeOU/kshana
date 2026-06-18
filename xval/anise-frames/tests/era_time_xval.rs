@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! `mc0725be3` criterion #2 — *"ERA cross-check between hifitime and time.rs agrees to
 //! < 1 µs"*.
 //!

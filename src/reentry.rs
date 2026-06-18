@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Ballistic re-entry corridor (Allen–Eggers): the closed-form analytic entry of a
 //! non-lifting body through an exponential atmosphere at a constant flight-path
 //! angle. It turns an entry velocity + flight-path angle into peak deceleration,

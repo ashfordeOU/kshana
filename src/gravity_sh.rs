@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Full **tesseral** spherical-harmonic geopotential — the EGM2008 field to degree/order 70,
 //! the high-degree gravity model the numerical propagator's [`crate::forces`] zonal-only field
 //! was missing.

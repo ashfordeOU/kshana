@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! **GNSS-denied clock holdover.**
 //!
 //! The defining value of a high-stability (and especially a *quantum*) clock in a

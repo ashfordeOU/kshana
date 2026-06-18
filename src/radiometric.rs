@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Radiometric observable corrections for deep-space tracking — the **light-time solution** and the
 //! **Shapiro relativistic delay** that turn a geometric range into the time a signal actually takes
 //! to travel between two bodies.

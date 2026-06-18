@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 // Tests for the multi-run overlay logic — the N-way generalisation of the proven
 // 2-way compare. overlayRows picks the best run per (clock, metric) honouring the
 // metric direction; a metric missing on any run is skipped (no half rows, the

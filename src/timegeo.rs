@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Geometric time-transfer corrections: the Sagnac effect and GNSS common-view.
 //!
 //! [`crate::timetransfer`] models the *stochastic* error of a two-way link (jitter,

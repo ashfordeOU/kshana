@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! `kshana-mcp` — serve the Kshana PNT simulator to MCP clients over stdio.
 //!
 //! Register it with any MCP client (Cursor, JetBrains AI Assistant, and other

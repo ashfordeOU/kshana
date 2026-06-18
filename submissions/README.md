@@ -1,4 +1,4 @@
-<!-- SPDX-License-Identifier: Apache-2.0 -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # External submission kit (founder-performed)
 
 This directory stages every external listing/submission so the founder can copy-paste with

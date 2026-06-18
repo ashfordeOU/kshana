@@ -1,4 +1,4 @@
-<!-- SPDX-License-Identifier: Apache-2.0 -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # DO-316 / DO-229E integrity compliance map
 
 This document maps the RTCA **DO-229E** (SBAS MOPS) and **DO-316** (GPS/SBAS airborne

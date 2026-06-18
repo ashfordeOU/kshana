@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Cited cold-atom-interferometer (CAI) **performance parameter sheet** (B03).
 //!
 //! A quantum-PNT bid has to speak the sensor-physics community's language: bias

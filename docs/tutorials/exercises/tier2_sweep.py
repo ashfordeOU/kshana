@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: AGPL-3.0-only
 """Tier 2 — edit & sweep.
 
 Change one parameter and observe a monotone effect. Here: tighten the timing spec

@@ -1,4 +1,4 @@
-<!-- SPDX-License-Identifier: Apache-2.0 -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Python API
 
 Kshana ships first-class Python bindings (built with [PyO3](https://pyo3.rs) and

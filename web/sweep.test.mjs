@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 // Tests for the playground parameter-sweep helpers — the inclusive linspace, the
 // per-step TOML patch, the figure-of-merit extractor, and the sweep-curve SVG.
 // Pure logic; the loop that calls the wasm run() and renders/hovers the chart is

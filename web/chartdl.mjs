@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 // Chart-download helpers for the playground. The charts are self-describing SVGs
 // (baked title, subtitle, legend and provenance), so the SVG export is the
 // faithful, scalable original; the PNG export rasterises that same SVG for users

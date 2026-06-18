@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! `lunar-od-xval` — run the DE-grade LRO cross-validation: fetch the kernels if absent, load the
 //! DE440 ephemeris + DE440 lunar principal-axis orientation through ANISE, refit the real Horizons
 //! LRO orbit with the *same* `kshana` estimator, and write the honest residual report.

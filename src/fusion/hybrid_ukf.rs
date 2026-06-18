@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Runnable **17-state hybrid quantum + classical tightly-coupled UKF** scenario.
 //!
 //! [`super::tightly_coupled17`] is the 17-state tightly-coupled GNSS/INS navigator kernel

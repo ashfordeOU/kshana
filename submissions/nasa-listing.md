@@ -1,4 +1,4 @@
-<!-- SPDX-License-Identifier: Apache-2.0 -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # FOUNDER ACTION — research-software registries (NOT code.nasa.gov)
 
 ## Honesty correction: do NOT submit to code.nasa.gov
@@ -26,7 +26,7 @@ Credit:   Baweja, Chakshu
 Site:     https://github.com/ashfordeOU/kshana
 Download: https://github.com/ashfordeOU/kshana
 DOI:      10.5281/zenodo.20528627
-License:  Apache-2.0
+License:  AGPL-3.0-only (commercial licence available from Ashforde OU)
 Language: Rust (with Python and WebAssembly bindings)
 
 Abstract (~60 words):
@@ -44,7 +44,7 @@ RINEX, SP3 and CCSDS OMM and runs in the browser via WebAssembly.
 - **Destination:** https://research-software-directory.org (accepts third-party research
   software; good cross-discipline discoverability).
 - **Fields:** name `Kshana`; short description = the ASCL abstract above; repository
-  `https://github.com/ashfordeOU/kshana`; DOI `10.5281/zenodo.20528627`; license `Apache-2.0`;
+  `https://github.com/ashfordeOU/kshana`; DOI `10.5281/zenodo.20528627`; license `AGPL-3.0-only`;
   keywords `PNT, GNSS, navigation, quantum sensors, timing, simulation`.
 
 ---

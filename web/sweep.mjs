@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 // Playground parameter sweep, driven purely in JS by calling the wasm run()
 // repeatedly. No new Rust is needed for this path — the engine already has a
 // `sweep` kind, but the playground sweep is simpler: patch one TOML scalar across

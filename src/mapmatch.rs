@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Map-matching measurement model for terrain-/gravity-referenced navigation.
 //!
 //! The measurement model that turns the [`crate::particle_filter`] into a working

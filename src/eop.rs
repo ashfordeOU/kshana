@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! IERS Earth-orientation parameters from the official `finals2000A` product.
 //!
 //! The precise-orbit-determination harness (`precise_od.rs`) rotates between the

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Three-state onboard clock error model: phase, fractional-frequency, frequency drift.
 //!
 //! This extends the two-state [`crate::kalman::KalmanClock`] (phase, frequency) with a

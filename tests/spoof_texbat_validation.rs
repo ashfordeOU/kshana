@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Characterisation of the [`CombinedSpoofDetector`] against the **published TEXBAT scenario
 //! parameters** — the Texas Spoofing Test Battery, the de-facto public standard for evaluating
 //! GPS signal-authentication techniques (Humphreys, Bhatti, Shepard & Wesson, *"The Texas

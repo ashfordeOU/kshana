@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Solid Earth tide validation against IERS Conventions (2010) Chapter 6 reference values.
 //! Oracles are transcribed in `tests/fixtures/tides/IERS-CH6-REFERENCE.md` — published
 //! numbers from the conventions, not derived from this engine.

@@ -42,7 +42,7 @@ Plain version (for lists without the emoji convention):
 1. Fork the target repo, edit its `README.md`, add the entry under the right category
    (keep alphabetical order; match the file's existing emoji/format exactly).
 2. Open a PR. Title: `Add Kshana — validated PNT simulator (MCP server)`.
-   Body: one or two sentences — what it is, that it's Apache-2.0 and open source, link
+   Body: one or two sentences — what it is, that it's AGPL-3.0 and open source, link
    to <https://kshana.dev> and the MCP-registry entry `io.github.ashfordeOU/kshana-mcp`.
 3. These lists have contribution rules (alphabetical, one line, working link, real
    description) — a clean entry is usually merged quickly.

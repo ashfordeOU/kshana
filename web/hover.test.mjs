@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 // Tests for the chart-hover pure logic — mapping a cursor position over a chart
 // image to the nearest data sample. The DOM overlay (crosshair + tooltip) is
 // verified in the browser. Run with `node web/hover.test.mjs`.

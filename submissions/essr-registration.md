@@ -1,4 +1,4 @@
-<!-- SPDX-License-Identifier: Apache-2.0 -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # FOUNDER ACTION — ESA ESSR registration
 
 - **Destination:** https://essr.esa.int (ESA Software Selection / Source-code Registry).
@@ -19,7 +19,7 @@
 | Owner / organisation | Ashforde OÜ (ESA-STAR entity id 83208) |
 | Contact | contact@ashforde.org |
 | Nationality | DE (Germany) |
-| License | Apache-2.0 (OSI-approved, permissive) |
+| License | AGPL-3.0-only (OSI-approved, copyleft) · commercial licence available |
 | Source repository | https://github.com/ashfordeOU/kshana |
 | Homepage / playground | https://kshana.dev |
 | DOI | 10.5281/zenodo.20528627 (concept DOI) |
@@ -33,7 +33,7 @@
 ## Submission text (paste into the free-text/abstract field)
 
 ```
-Kshana is an open-source (Apache-2.0) PNT-resilience simulator developed by Ashforde OÜ. It
+Kshana is an open-source (AGPL-3.0-only) PNT-resilience simulator developed by Ashforde OÜ. It
 compares quantum and classical clocks, inertial sensors and time transfer through GNSS
 outages, scoring operational figures of merit, with every sensor parameter traceable to a
 published source and every result reproducible from scenario, seed and engine version. The

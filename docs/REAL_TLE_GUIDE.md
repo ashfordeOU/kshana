@@ -1,4 +1,4 @@
-<!-- SPDX-License-Identifier: Apache-2.0 -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Using real constellation TLEs
 
 The bundled `scenarios/orbit-sgp4-gps.toml` uses **synthetic GPS-like Walker TLEs**

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! SGP4/SDP4 analytical orbit propagation.
 //!
 //! A dependency-free port of the standard simplified-perturbations propagator —

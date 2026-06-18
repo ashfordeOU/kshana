@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! **Nav-signal modulation, correlation and code-tracking performance.**
 //!
 //! Kshana already models the *link budget* ([`crate::linkbudget`]) and the

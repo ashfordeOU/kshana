@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Terrain-referenced + combined alt-PNT validation, against three NON-CIRCULAR oracles.
 //!
 //! - ORACLE A (parser + bilinear, closed-form): a hand-built 2x2 `.hgt` buffer with corners

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! UTC calendar epoch -> the (TT, UT1) Julian dates the CIO chain consumes.
 //!
 //! Thin wrapper over `kshana::timescales` so the cross-check drives `kshana`'s frame

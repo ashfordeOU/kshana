@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 // A/B compare logic for the playground: given two run results (the pinned
 // baseline A and the current run B), produce the per-clock figure-of-merit
 // deltas that drive the side-by-side comparison table. Pure data -> rows; the

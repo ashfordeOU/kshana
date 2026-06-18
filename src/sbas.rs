@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! SBAS / DO-229E integrity: weighted-least-squares **protection levels**, the L1/L5
 //! dual-frequency **ionosphere-free** combination, and a **DO-316/DO-229E compliance map**.
 //!

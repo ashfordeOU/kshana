@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! External-oracle conformance of the CCSDS message parsers against the
 //! **verbatim worked examples published in the CCSDS Blue Books themselves** —
 //! not against Kshana's own round-trip. Recovering the exact published epochs and

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! RINEX 3 navigation-message (broadcast ephemeris) parser.
 //!
 //! RINEX (Receiver Independent Exchange Format) is the lingua franca of GNSS

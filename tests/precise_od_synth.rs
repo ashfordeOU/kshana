@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Precise-OD engine validation on **synthetic** data: the RTN residual frame, the variational
 //! state-transition matrix against whole-arc finite difference, and batch-LS self-recovery of a
 //! Kshana-propagated arc back to its own initial state. No external data — the truth is Kshana's

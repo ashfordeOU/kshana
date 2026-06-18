@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! End-to-end MCP round-trip: drive the server with an in-process client over an
 //! in-memory duplex pipe (no external process) and assert the real `tools/list` and
 //! `tools/call` protocol exchanges. This is the headline "verify via tests" gate for

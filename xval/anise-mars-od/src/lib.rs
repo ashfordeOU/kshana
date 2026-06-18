@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Independent **DE-grade** cross-validation of `kshana`'s **Sun-central (heliocentric) Mars**
 //! propagation — the planetary analogue of `xval/anise-lunar-od`.
 //!

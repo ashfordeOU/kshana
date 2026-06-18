@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! **Joint one-way + two-way radiometric fusion** on a Low-Mars-Orbit arc — the LightShip/MARCONI
 //! crux that D3.1 builds (calibrate-then-coast).
 //!
