@@ -52,7 +52,10 @@ fn json_to_py<'py>(py: Python<'py>, v: &serde_json::Value) -> PyResult<pyo3::Bou
 
 /// A scenario run result: the result JSON, the chart SVG, and the human summary,
 /// with a `data()` accessor that returns the parsed result as a Python dict.
-#[pyclass(name = "RunOutput")]
+// pyo3 0.29 makes the auto `FromPyObject` derive for `Clone` pyclasses opt-in.
+// `RunOutput` is only ever returned to Python, never accepted as an argument, so
+// we explicitly skip the derive rather than opt in.
+#[pyclass(name = "RunOutput", skip_from_py_object)]
 #[derive(Clone)]
 struct PyRunOutput {
     #[pyo3(get)]
@@ -100,11 +103,11 @@ fn run_typed(toml: &str) -> PyResult<PyRunOutput> {
 /// The available scenario kinds and their metadata, as a Python list of dicts
 /// (name, description, required/optional fields) — introspectable without source.
 #[pyfunction]
-fn scenario_kinds(py: Python<'_>) -> PyResult<PyObject> {
+fn scenario_kinds<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyAny>> {
     let json = crate::api::list_scenario_kinds_json();
     let v: serde_json::Value =
         serde_json::from_str(&json).map_err(|e| PyValueError::new_err(e.to_string()))?;
-    Ok(json_to_py(py, &v)?.unbind())
+    json_to_py(py, &v)
 }
 
 /// Validate a scenario TOML string without raising: returns a list of error
