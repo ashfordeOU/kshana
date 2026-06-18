@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Monte Carlo ensembles for the clock-holdover scenario.
 //!
 //! A single run is one realization of the clock noise; its figures of merit are a

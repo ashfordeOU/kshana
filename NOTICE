@@ -1,8 +1,15 @@
 Kshana
 Copyright 2026 Ashforde OÜ
 
-Licensed under the Apache License, Version 2.0 (see LICENSE).
+Dual-licensed. You may use this software under EITHER:
+  (a) the GNU Affero General Public License v3.0 only (AGPL-3.0-only), the full
+      text of which is in LICENSE; OR
+  (b) a commercial licence from Ashforde OÜ, for use that the AGPL does not suit
+      (e.g. embedding in proprietary/closed-source products, or offering a network
+      service without releasing your source). Contact contact@ashforde.org.
 
-"Kshana" and associated marks are trademarks of Ashforde OÜ. The Apache-2.0
-license applies to the source code; it does not grant rights to the project
-name or marks. Forks and derivative distributions must use a different name.
+See LICENSING.md for which licence applies to your use and how the two relate.
+
+"Kshana" and associated marks are trademarks of Ashforde OÜ. The licence applies
+to the source code; it does not grant rights to the project name or marks. Forks
+and derivative distributions must use a different name.

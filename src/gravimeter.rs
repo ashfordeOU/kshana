@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Cold-atom gravimeter measurement model and a spherical-harmonic gravity-anomaly
 //! reference field for **gravity-map-matching navigation** (GPS-denied alt-PNT).
 //!

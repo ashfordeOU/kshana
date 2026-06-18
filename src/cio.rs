@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! IAU 2006/2000A CIO-based celestial-to-terrestrial reduction (GCRS↔CIRS↔ITRS).
 //!
 //! This is the modern, equinox-free counterpart to the equinox/GMST chain in

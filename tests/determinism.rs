@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Every bundled scenario must be deterministic: running it twice in the same
 //! process produces byte-identical JSON. This is the cross-scenario generalisation
 //! of `scripts/check-reproducible.sh` (which only checks one scenario), and it runs

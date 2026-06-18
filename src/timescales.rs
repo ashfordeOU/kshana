@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Time scales and the Julian-date API.
 //!
 //! A small, dependency-free foundation for the astronomical time scales that

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Rotation-matrix comparison metrics, frame-realization agnostic.
 //!
 //! Both sides of the cross-check produce an inertial -> Earth-fixed rotation as a

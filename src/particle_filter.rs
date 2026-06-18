@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Sequential-importance-resampling (SIR) particle filter.
 //!
 //! The nonlinear, non-Gaussian estimator behind **map-aided, GPS-denied navigation**:

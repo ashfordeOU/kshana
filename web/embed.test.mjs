@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 // Tests for the embed/iframe (LMS) mode helpers — pure URL + visibility logic.
 // isEmbed gates the whole feature on ?embed=1; embedConfig parses the scenario,
 // knob overrides and target tab; embedClassList yields the body classes that hide

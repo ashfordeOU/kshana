@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Quantum-vs-classical PNT **trade engine** + **measured-ADEV ingestion** +
 //! **GNSS-denied resilience envelope** — the ground-side decision artifacts a
 //! quantum-PNT consortium needs (ESA AO/1-13503).

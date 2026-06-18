@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Sequential (recursive) terrain-referenced navigation — SITAN as a running filter.
 //!
 //! [`super::terrain::run_terrain_nav`] is a *batch* navigator: it recovers a single

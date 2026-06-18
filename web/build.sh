@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: AGPL-3.0-only
 # Build the browser playground: compile the WebAssembly module and stage the
 # static assets and reference scenarios next to index.html. Then serve it, e.g.:
 #   ./web/build.sh && python3 -m http.server -d web 8000

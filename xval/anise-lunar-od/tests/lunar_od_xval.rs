@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! The cross-validation gate. Self-skips when the kernels are absent (so it never reddens offline);
 //! the heavy full fit lives in the `lunar-od-xval` binary. Here we verify, quickly, that the
 //! DE-grade environment is correctly wired: the orientation is a valid rotation, the ephemeris has

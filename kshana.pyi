@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: AGPL-3.0-only
 """Type stubs for the Kshana Python bindings (PyO3 / maturin).
 
 Kshana is an open hybrid quantum/classical PNT performance simulator. The Python

@@ -1,4 +1,4 @@
-<!-- SPDX-License-Identifier: Apache-2.0 -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Kshana governance
 
 This document states how Kshana is governed: who makes decisions, how, and what
@@ -59,16 +59,21 @@ A change that cannot meet the bar is declined, however useful it would be.
 ## The open / closed boundary
 
 Kshana is **open-core**. This repository is, and stays, the complete open
-Apache-2.0 engine — the neutral reference. The project will **not** accept into
-the open repository:
+AGPL-3.0 engine — the neutral reference, dual-licensed commercially by Ashforde OÜ
+(see [`LICENSING.md`](LICENSING.md)). The project will **not** accept into the open
+repository:
 
 - **Export-controlled or dual-use depth** — real threat libraries, adversary
   waveforms, or anti-jam/anti-spoof performance parameters. The public repo keeps
   to generic, published models and methods (see `CONTRIBUTING.md` → Export
   control). If unsure, ask *before* contributing.
 - **Customer- or partner-confidential data or calibration.**
-- **Copyleft (GPL/AGPL/LGPL) dependencies** — they are incompatible with the
-  licence model and with downstream procurement terms.
+- **Copyleft (GPL/AGPL/LGPL/MPL) *dependencies*** — not because they clash with the
+  engine's own AGPL licence (they don't), but because they cannot be relicensed into
+  the **commercial** edition: we can only sell a commercial licence over code we own
+  or that is permissive. A copyleft dependency would taint the commercial edition and
+  break the dual-licence. Dependencies therefore stay permissive (Apache/MIT/BSD/ISC),
+  enforced by [`deny.toml`](deny.toml).
 
 Conversely, the project will **not** hollow out the open core to push proprietary
 value: the validated engine, the public validation anchors, the honesty ledger,
@@ -94,10 +99,11 @@ the open core is the one fatal mistake in open-core, and it is off the table.
 
 ## Trademark
 
-The Kshana name and logo are trademarks of Ashforde OÜ. The Apache-2.0 licence
-covers the **code**, not the marks: a fork may use the code under the licence, but
-not the Kshana name or the canonical distribution identity. This keeps Ashforde the
-cited source of truth and is part of how the open core stays a neutral reference.
+The Kshana name and logo are trademarks of Ashforde OÜ. The licence (AGPL-3.0, or a
+commercial licence) covers the **code**, not the marks: a fork may use the code under
+the licence, but not the Kshana name or the canonical distribution identity. This
+keeps Ashforde the cited source of truth and is part of how the open core stays a
+neutral reference.
 
 ## Amending this document
 

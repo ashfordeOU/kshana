@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Two-state Kalman clock estimator.
 //!
 //! State `x = [phase error (s), fractional-frequency error (1/s)]`. The clock is

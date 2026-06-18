@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! GLONASS broadcast ephemeris: a PZ-90 state-vector model with RK4 propagation.
 //!
 //! GLONASS does not broadcast Keplerian elements like GPS/Galileo/BeiDou. Each

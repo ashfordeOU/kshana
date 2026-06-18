@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: AGPL-3.0-only
 # Fail if the active rustc version does not match the pinned channel in
 # rust-toolchain.toml, so the build toolchain is reproducible (not a floating
 # "stable" that drifts between machines and CI runs).

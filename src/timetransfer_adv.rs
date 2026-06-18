@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Advanced time-and-frequency transfer.
 //!
 //! [`crate::timetransfer`] models the *stochastic* error of a generic two-way link and

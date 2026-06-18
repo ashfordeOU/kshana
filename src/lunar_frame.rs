@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! IAU 2015 / WGCCRE lunar body-fixed orientation — the **Mean-Earth/polar-axis (ME)** frame.
 //!
 //! The rotation from inertial ICRF/J2000 to the Moon-fixed frame at an epoch, from the

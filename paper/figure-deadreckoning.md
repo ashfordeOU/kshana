@@ -1,4 +1,4 @@
-<!-- SPDX-License-Identifier: Apache-2.0 -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # JOSS figure note
 
 ✅ **Done.** `paper/figure-deadreckoning.png` (1640×840) is committed and referenced from

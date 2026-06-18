@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: AGPL-3.0-only
 """Smoke tests for the Python bindings (built with `maturin develop --features python`).
 
 Covers the full public surface: version(), __version__, run() -> JSON string, and

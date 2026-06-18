@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Gauss–Newton weighted batch least squares — the batch differential corrector.
 //!
 //! This is the estimation core a batch *orbit determination* (or any parameter-fit)

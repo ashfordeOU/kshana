@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Validation against real IGS/agency data, not synthetic fixtures.
 //!
 //! Parsing self-authored sample records proves the field layout is read; it does

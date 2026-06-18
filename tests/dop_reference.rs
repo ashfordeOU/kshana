@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Externally validate Kshana's dilution-of-precision engine (`orbit::dop`)
 //! against an **independent third-party authority**: gnss_lib_py 1.0.4 (the
 //! Stanford NAV Lab GNSS library; open source, peer-reviewed in JOSS 2023).

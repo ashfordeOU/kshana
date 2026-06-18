@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! The Kshana MCP server: a thin, faithful bridge from `kshana::api` to MCP tools.
 //!
 //! Every tool wraps an existing public `kshana::api` function — no new simulation logic

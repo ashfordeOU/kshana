@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 // Interactive guided tour — a dependency-free spotlight walkthrough that highlights
 // real regions of the page (capabilities, the playground controls, the result tabs,
 // validation, agents). This module is the PURE core: the ordered step list and the

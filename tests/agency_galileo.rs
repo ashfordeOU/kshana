@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Galileo MEO precise-orbit validation (P4 Wave 3) against a **real agency product**.
 //!
 //! Truth is a verbatim slice of ESA/ESOC's own final multi-GNSS precise orbit

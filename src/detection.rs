@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Detection-theory primitives for the spoof monitor.
 //!
 //! A clock-aided spoof monitor forms a test statistic `y` — the discrepancy

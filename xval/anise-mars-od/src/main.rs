@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! `mars-od-xval` — run the DE-grade heliocentric-Mars cross-validation: resolve (or fetch) the
 //! DE440 SPK, load the DE440 Mars/Sun ephemeris through ANISE, seed Kshana's Sun-central two-body
 //! propagator from a DE440 Mars-barycenter state, and write the honest per-arc residual report.

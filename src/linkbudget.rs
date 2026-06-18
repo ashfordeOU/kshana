@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! **Deep-space communications link budget** — the Friis transmission account that turns transmit
 //! power, antenna gains, range and noise temperature into the carrier-to-noise-density `C/N₀`, the
 //! energy-per-bit-to-noise-density `Eb/N₀`, and the **link margin** over a required `Eb/N₀`. This is

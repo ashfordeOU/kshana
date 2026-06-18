@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Deep-space dynamics: the body-parameterised central-gravity seam.
 //!
 //! The whole point of the [`kshana::body::Body`] seam is that the **Earth path stays

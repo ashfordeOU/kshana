@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Locating (and, on demand, fetching) the SPICE kernel ANISE needs.
 //!
 //! The high-precision Earth body-fixed frame (ITRF93) is only resolvable from JPL's

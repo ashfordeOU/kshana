@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Tightly-coupled GNSS/INS navigator on the unscented Kalman core.
 //!
 //! Where a *loosely*-coupled filter consumes a ready-made position/velocity fix (and so

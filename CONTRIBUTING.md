@@ -90,8 +90,19 @@ If unsure, ask before contributing it.
 
 ## License
 
-By contributing you agree your contributions are licensed under Apache-2.0.
+Kshana is dual-licensed (AGPL-3.0 **or** a commercial licence from Ashforde OÜ — see
+[`LICENSING.md`](LICENSING.md)). For that to keep working, contributions must be
+usable under **both** licences. So, by contributing, you agree that:
+
+1. your contribution is licensed inbound under the **AGPL-3.0-only**; and
+2. you **also grant Ashforde OÜ** a perpetual, worldwide, royalty-free, irrevocable
+   licence to use, modify, and **relicense your contribution as part of Kshana's
+   commercially-licensed edition** (i.e. to also distribute it under non-AGPL
+   commercial terms). You retain copyright in your contribution.
+
+This lightweight dual-licence grant — not a copyright assignment — is what lets the
+project stay open *and* offer a commercial edition. If you cannot grant (2) (for
+example, employer-owned code), say so in your pull request before contributing.
 
 Sign off each commit to certify the [Developer Certificate of Origin](https://developercertificate.org/):
-`git commit -s` (adds a `Signed-off-by` line). Inbound contributions are under the
-same Apache-2.0 license as the project (inbound = outbound); there is no CLA.
+`git commit -s` (adds a `Signed-off-by` line).

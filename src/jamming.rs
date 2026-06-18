@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! RF interference (jamming) model: J/S → effective C/N₀ → loss of lock.
 //!
 //! A jammer raises the noise floor a GNSS receiver sees, degrading the

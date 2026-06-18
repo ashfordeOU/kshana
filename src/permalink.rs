@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Shareable scenario permalinks (self-contained Base64, RFC 4648).
 //!
 //! A scenario in the playground is a TOML document. To share it as a URL, the TOML is

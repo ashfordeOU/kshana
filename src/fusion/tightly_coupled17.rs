@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Full 17-state tightly-coupled GNSS/INS navigator with quantum-CAI dead-reckoning.
 //!
 //! [`super::tightly_coupled`] carries the compact 8-state `[p, v, b, d]` pseudorange/Doppler

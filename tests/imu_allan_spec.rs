@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Validation of the IMU stochastic error model's Allan coefficients against
 //! **published IMU datasheet / dataset specifications** — not against any value
 //! Kshana itself produced.

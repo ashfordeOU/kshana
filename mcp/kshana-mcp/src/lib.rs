@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Model Context Protocol (MCP) server for the Kshana PNT-resilience simulator.
 //!
 //! Exposes the validated `kshana` engine to MCP clients — AI agents, Cursor, and

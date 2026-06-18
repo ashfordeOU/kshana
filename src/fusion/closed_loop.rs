@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Closed-loop GNSS/INS integration: the strapdown mechanization driven by the
 //! 15-state error-state EKF with feedback.
 //!

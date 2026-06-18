@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Orbit determination: recover a satellite's orbital state from ground-station tracking.
 //!
 //! Given range measurements from known ground stations to a satellite across a tracking arc, recover

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 // Tests for the download-as-HTML-report builder. Every scenario-derived string
 // must be HTML-escaped (the scenario TOML is attacker-controllable via shared
 // links); only OUR engine/renderer SVGs go in as raw markup. Pure logic; the

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Real-data dual-constellation ARAIM availability.
 //!
 //! Vendored Celestrak GPS + Galileo TLE snapshots (2026-06-07) are propagated over

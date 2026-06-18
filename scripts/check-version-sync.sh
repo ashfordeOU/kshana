@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: AGPL-3.0-only
 # Fail if the README status badge does not match the Cargo.toml package version,
 # so the documented version can never silently drift from the released one.
 set -euo pipefail

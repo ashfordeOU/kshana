@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Coupled clock + position Kalman filter (cross-block covariance).
 //!
 //! The legacy fusion pack runs two *independent* two-state filters — one for the

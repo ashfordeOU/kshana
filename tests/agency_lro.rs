@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! NASA LRO lunar-orbit validation (P4 Wave 4b) — Moon-centred precise orbit determination.
 //!
 //! The third precise agency dataset is a real NASA/JPL reconstructed trajectory of

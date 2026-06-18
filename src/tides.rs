@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Solid Earth, ocean, and atmospheric tides on the geopotential (IERS Conventions 2010, Ch.6).
 //!
 //! The tide-generating potential of the Moon and Sun deforms the solid Earth and its oceans and

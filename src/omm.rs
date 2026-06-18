@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! CCSDS OMM (Orbit Mean-Elements Message, 502.0-B-2) writer.
 //!
 //! [`crate::oem`] emits the *ephemeris* (state-vector) message; this module emits the

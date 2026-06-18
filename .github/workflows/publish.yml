@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: AGPL-3.0-only
 # Publish Kshana to crates.io, PyPI, and npm.
 #
 # Triggered by pushing a release tag (vX.Y.Z) or by manual dispatch. (The

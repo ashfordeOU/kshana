@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Circular restricted three-body problem (CR3BP) for the Earth–Moon system.
 //!
 //! The shipped propagators are two-body/SGP4 (Earth-relative) — they cannot

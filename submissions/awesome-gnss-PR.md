@@ -1,4 +1,4 @@
-<!-- SPDX-License-Identifier: Apache-2.0 -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # FOUNDER ACTION — awesome-gnss listing
 
 - **Destination:** https://github.com/barbeau/awesome-gnss (fork → edit `README.md` → open PR)
@@ -23,7 +23,7 @@ Add Kshana — open PNT-resilience simulator (Rust/WASM/Python)
 ## PR body
 
 ```
-Kshana is an open-source (Apache-2.0) PNT-resilience simulator that compares quantum and
+Kshana is an open-source (AGPL-3.0) PNT-resilience simulator that compares quantum and
 classical clocks, inertial sensors, and time transfer through GNSS outages, scored against
 operational figures of merit. Its SGP4/SDP4 propagator is validated to 4.12 mm against all
 666 AIAA 2006-6753 reference vectors, it reads/writes RINEX, SP3, and CCSDS OMM, and it runs

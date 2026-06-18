@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 // Multi-run comparison overlay — the N-way generalisation of the proven 2-way
 // A/B compare (compare.mjs). Given up to a handful of pinned runs, produce a
 // long-form table model (one row per shared clock+metric, with the per-run values

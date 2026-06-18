@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 pub mod attitude;
 pub mod cai_params;
 pub mod imu_errors;

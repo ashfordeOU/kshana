@@ -428,7 +428,7 @@ ships prebuilt binaries, a CycloneDX Software Bill of Materials, SLSA build-prov
 attestation, and an auto-generated validation summary, and is archived on Zenodo with a
 citable DOI. A repository-level policy and CI guard enforce that every reported figure
 traces to a cited source and that no result is presented as validated unless an external
-oracle backs it. The full software is open source under the Apache-2.0 licence.
+oracle backs it. The full software is open source under the AGPL-3.0 licence.
 
 # 7. Illustrative Case Studies
 
@@ -535,7 +535,7 @@ are all open.
 # Data and Code Availability
 
 The complete source, scenario catalogue, validation suite, and documentation are openly
-available at <https://kshana.dev> and on GitHub, under the Apache-2.0 licence. Each release
+available at <https://kshana.dev> and on GitHub, under the AGPL-3.0 licence. Each release
 is archived on Zenodo with a citable DOI (10.5281/zenodo.20692259). All case-study figures
 in this report are reproducible from the cited scenario files with the engine version
 recorded in each output.

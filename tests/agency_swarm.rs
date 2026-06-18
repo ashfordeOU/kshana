@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Swarm-A LEO precise-orbit validation (P4 Wave 4a) against a **real agency product**.
 //!
 //! Truth is a verbatim slice of ESA's own Swarm Level-2 reduced-dynamic precise science

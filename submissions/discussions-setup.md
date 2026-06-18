@@ -1,4 +1,4 @@
-<!-- SPDX-License-Identifier: Apache-2.0 -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # FOUNDER ACTION — enable GitHub Discussions + seed posts
 
 - **Destination:** repository **Settings → General → Features → Discussions** (one-click
@@ -33,7 +33,7 @@ Good first things to do here:
 Getting started: try the in-browser playground at https://kshana.dev (no install), read the
 README, and see docs/PROVENANCE.md for the cited parameter table. Every result is
 reproducible from scenario + seed + engine version — please include all three when you post
-a result. Contributions are welcome under Apache-2.0; see CONTRIBUTING.md.
+a result. Contributions are welcome under AGPL-3.0; see CONTRIBUTING.md.
 ```
 
 ## Seed post 2 — pinned (category: Ideas)

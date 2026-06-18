@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 // Tests for the tabbed-output model. tabModel decides which tabs a result earns
 // (FoM and timeseries always; stability iff an Allan curve exists; orbit3d iff an
 // eci_track exists; sweep only in sweep mode). buildFomRows is the single-run FoM

@@ -56,4 +56,5 @@ src/test/kotlin/.../KshanaCliTest.kt      unit tests
 Like `mcp/` and `xval/`, this is a standalone Gradle project, excluded from the published
 `kshana` crate (`/ide` in the package `exclude`); its build output is gitignored.
 
-License: Apache-2.0.
+License: AGPL-3.0-only (or a commercial licence from Ashforde OÜ — see the
+repository's `LICENSING.md`).

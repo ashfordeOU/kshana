@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Terrain-referenced navigation (TERCOM/SITAN) against an SRTM digital-elevation
 //! model, and the combined gravity + magnetic + terrain GPS-denied navigator.
 //!

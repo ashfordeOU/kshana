@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Keplerian-orbit propagation and GNSS line-of-sight visibility.
 //!
 //! A deterministic, dependency-free geometry layer that derives GNSS

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 // Dependency-free orthographic 3D orbit renderer. No Three.js, no WebGL, no
 // CDN — the page must run offline and embedded with nothing fetched, so the
 // orbit view is ~150 lines of pure SVG projection math, testable in Node and

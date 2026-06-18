@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Validate the SGP4/SDP4 propagator against the official AIAA 2006-6753
 //! verification vectors (Vallado et al., "Revisiting Spacetrack Report #3").
 //!
