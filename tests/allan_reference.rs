@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Numeric-parity check of the Allan-family estimators against a published
 //! reference dataset and the deviations the reference tool (Stable32) computes
 //! for it — not just against the estimators' own analytic self-consistency.

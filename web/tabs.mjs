@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 // Tabbed output model for the result panel. The set of tabs a run earns depends
 // on what the result carries: FoM and timeseries always; a stability tab when an
 // Allan curve is present; a 3D orbit tab when the engine emitted an `eci_track`;

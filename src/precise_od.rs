@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Full-force **precise orbit determination** from position observations — the precise
 //! estimator that fits Kshana's complete force model (EGM2008 tesseral gravity + solid/ocean/
 //! atmospheric tides + Sun/Moon third body + SRP + drag + Schwarzschild/Lense–Thirring GR) to a

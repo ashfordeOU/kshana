@@ -106,4 +106,4 @@ the published `kshana` crate. (rmcp's license tree is clean Apache-2.0/MIT/BSD, 
 is no `cargo deny` concern — the edition is the sole reason for isolation.) This mirrors
 the `xval/anise-frames` cross-validation crate.
 
-License: Apache-2.0.
+License: AGPL-3.0-only (or a commercial licence from Ashforde OU; see the repository LICENSING.md).

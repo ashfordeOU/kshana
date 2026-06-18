@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! CCSDS Tracking Data Message (TDM) parser and writer — the standard
 //! interchange format for raw radiometric tracking measurements.
 //!

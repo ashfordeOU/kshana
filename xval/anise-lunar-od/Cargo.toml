@@ -15,7 +15,7 @@ name = "kshana-anise-lunar-od"
 version = "0.1.0"
 edition = "2021"
 description = "Independent DE-grade cross-validation of kshana's selenocentric precise orbit determination: refit the real NASA/JPL Horizons LRO orbit with DE440 ephemeris and the DE440 lunar principal-axis orientation (via ANISE/SPICE), swapping only the frame inputs of the same kshana estimator."
-license = "Apache-2.0"
+license = "AGPL-3.0-only"
 publish = false
 
 [[bin]]

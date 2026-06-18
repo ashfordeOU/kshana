@@ -9,6 +9,32 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.19.0] - 2026-06-18
+
+### Changed
+
+- **Relicensed from Apache-2.0 to the GNU AGPL-3.0-only, with a commercial licence
+  available from Ashforde OÜ (dual-licensing).** The open engine stays fully open and
+  publicly verifiable; the AGPL's network-copyleft (§13) means a closed or hosted
+  derivative must come back to open source — or take a commercial licence. This
+  defends the validated core against fork-and-close while keeping the credibility of
+  a public, runnable, auditable engine. See [`LICENSE`](LICENSE) (AGPL) and the new
+  [`LICENSING.md`](LICENSING.md) (what each licence covers and when it applies).
+  - `LICENSE` now contains the AGPL-3.0 text; SPDX headers across all sources updated
+    to `AGPL-3.0-only`; `NOTICE`, `README`, `GOVERNANCE`, `GLOSSARY`, the website, and
+    crate/package metadata (`Cargo.toml`, `pyproject.toml`, `CITATION.cff`, the MCP
+    crate + image) updated accordingly.
+  - **Contributor terms** ([`CONTRIBUTING.md`](CONTRIBUTING.md)) now license inbound
+    under the AGPL **and** grant Ashforde OÜ the right to include contributions in the
+    commercially-licensed edition, so the dual-licence keeps working.
+  - **Dependency policy unchanged but re-justified** ([`deny.toml`](deny.toml),
+    `GOVERNANCE`): dependencies stay permissive (Apache/MIT/BSD/ISC). AGPL is allowed
+    only for kshana's own crate — a copyleft *dependency* would taint the commercial
+    edition and break dual-licensing.
+  - **Note for downstream:** this is a copyleft relicence. Users who relied on
+    Apache-2.0 permissive terms can continue using the last Apache-2.0 release
+    (`v0.18.0` and earlier, as published); `v0.19.0` onward is AGPL-3.0 / commercial.
+
 ## [0.18.0] - 2026-06-17
 
 ### Added

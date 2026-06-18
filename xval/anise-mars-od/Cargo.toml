@@ -14,7 +14,7 @@ name = "kshana-anise-mars-od"
 version = "0.1.0"
 edition = "2021"
 description = "Independent DE-grade cross-validation of kshana's Sun-central (heliocentric) Mars propagation: seed kshana's two-body Sun-central propagator from a DE440 Mars-barycenter state and measure the honest residual against the DE440 Mars ephemeris (via ANISE/SPICE) over a short arc — the planetary analogue of xval/anise-lunar-od."
-license = "Apache-2.0"
+license = "AGPL-3.0-only"
 publish = false
 
 [[bin]]

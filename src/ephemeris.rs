@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Ephemeris & ground-track scenario — the user-facing surface for satellite
 //! VELOCITY, the full frame reductions, and the WGS-84 sub-satellite point.
 //!

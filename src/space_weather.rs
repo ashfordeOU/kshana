@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Space-weather environment model: solar (F10.7) and geomagnetic (Kp/ap) activity
 //! indices and their first-order effect on thermospheric neutral density — the
 //! activity dependence the static US-Standard-Atmosphere-1976

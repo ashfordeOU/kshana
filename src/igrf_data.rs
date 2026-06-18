@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! IGRF-14 main-field Gauss coefficients — AUTO-GENERATED from the IAGA
 //! `igrf14coeffs.txt` reference by `tools/gen_igrf.py`; do not edit by hand.
 //! Schmidt semi-normalised, degree/order 13. `IGRF_G`/`IGRF_H` are the 2025.0

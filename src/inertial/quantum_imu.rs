@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! First-principles cold-atom-interferometer (CAI) accelerometer physics.
 //!
 //! Elsewhere in Kshana the quantum inertial sensors are driven by *published*

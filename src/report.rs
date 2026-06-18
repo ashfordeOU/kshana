@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 use crate::fom::{FoMScores, Sample};
 use crate::scenario::Scenario;
 use crate::types::ModelSpec;

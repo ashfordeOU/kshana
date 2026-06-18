@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Loosely-coupled GNSS/INS scenario pack.
 //!
 //! This is the runnable scenario that drives the three-axis closed-loop navigator

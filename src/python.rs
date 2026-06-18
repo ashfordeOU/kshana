@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Python bindings (PyO3), built with `maturin` and the `python` feature.
 //!
 //! ```python

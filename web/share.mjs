@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //
 // Pure, isomorphic (browser + Node) helpers for sharing a playground run via a
 // URL. The full scenario TOML is encoded into the URL fragment (after `#`), so a

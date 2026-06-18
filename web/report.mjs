@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 // Download-as-HTML-report: assemble the current run into a single self-contained,
 // offline, printable HTML file with the engine version, the scenario TOML, the
 // one-line summary, a figure-of-merit table, and the rendered charts inlined as

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Adaptive numerical ODE integration: classical RK4 with step-doubling control, and a
 //! Dormand–Prince RK5(4) embedded pair.
 //!

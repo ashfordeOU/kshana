@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! IAU 2000A nutation series (MHB2000) — AUTO-GENERATED from the IAU SOFA /
 //! ERFA `nut00a.c` reference tables by `tools/gen_nut00a.py`; do not edit by hand.
 //! 678 luni-solar terms + 687 planetary terms. The values are IAU reference data.

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! **Mars PNT** — a simulated MARCONI-style relay constellation at Mars plus reference user
 //! scenarios, run through the D3.1 joint one-way + two-way radiometric fusion estimator (D3.2/D3.3).
 //!

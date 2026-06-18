@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! IAU 2006 precession: Fukushima–Williams angles and the precession rotation matrix.
 //!
 //! The shipped TEME↔ECEF reduction in [`crate::frames`] is GMST-based (IAU 1982) and

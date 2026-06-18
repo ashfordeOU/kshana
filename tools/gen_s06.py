@@ -49,7 +49,7 @@ tables = {
 }
 
 L = []
-L.append("// SPDX-License-Identifier: Apache-2.0")
+L.append("// SPDX-License-Identifier: AGPL-3.0-only")
 L.append("//! IAU 2006 CIO-locator (s) series — AUTO-GENERATED from the IAU SOFA / ERFA")
 L.append("//! `s06.c` reference by `tools/gen_s06.py`; do not edit by hand. The values are")
 L.append("//! IAU reference data. Coefficients are in arc-seconds (the `e-6` = micro-arcsec).")

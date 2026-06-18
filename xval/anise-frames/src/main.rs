@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! `frame-xval` — cross-validate `kshana`'s IAU 2006/2000A CIO reduction against ANISE's
 //! high-precision Earth body-fixed frame (ITRF93), over a grid of epochs, both driven by
 //! the SAME IERS Earth-orientation parameters. Prints a table and writes `report.json` +

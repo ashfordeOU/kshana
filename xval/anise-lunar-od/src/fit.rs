@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! The DE-grade LRO fit: identical to `tests/agency_lro.rs` except the force model carries an
 //! [`AniseLunarEnvironment`] instead of the analytic one. Same estimator, same gravity field, same
 //! truth, same config (degree 100, empirical 1σ = 1e-7). The only variable is the frame fidelity.

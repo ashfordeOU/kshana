@@ -6,7 +6,9 @@ build-backend = "maturin"
 name = "kshana"
 description = "Open hybrid quantum/classical PNT performance simulator"
 requires-python = ">=3.9"
-license = "Apache-2.0"
+# Dual-licensed: AGPL-3.0-only for open use, or a commercial licence from
+# Ashforde OÜ (contact@ashforde.org). See LICENSE and LICENSING.md.
+license = "AGPL-3.0-only"
 authors = [{ name = "Chakshu Baweja", email = "contact@ashforde.org" }]
 readme = "README.md"
 keywords = ["pnt", "navigation", "quantum", "gnss", "simulation"]

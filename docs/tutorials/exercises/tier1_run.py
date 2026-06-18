@@ -1,4 +1,4 @@
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: AGPL-3.0-only
 """Tier 1 — run & read.
 
 The simplest possible use: run a shipped scenario unchanged and read one figure of

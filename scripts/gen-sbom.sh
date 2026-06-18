@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# SPDX-License-Identifier: Apache-2.0
+# SPDX-License-Identifier: AGPL-3.0-only
 #
 # Generate a CycloneDX 1.5 software bill of materials (SBOM) for the build.
 # Prefers `cargo cyclonedx` when installed; otherwise falls back to a minimal,

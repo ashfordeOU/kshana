@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! The ANISE side of the cross-check: the high-precision Earth body-fixed rotation.
 //!
 //! Wraps an [`Almanac`] loaded from the Earth-orientation BPC and exposes the inertial

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Coarse world landmass outline for the ground-track map background.
 //!
 //! AUTO-GENERATED from `tools/ne_110m_land.geojson` (Natural Earth 1:110m land,

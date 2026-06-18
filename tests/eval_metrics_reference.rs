@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Externally validate Kshana's detector-agnostic evaluation testbed
 //! (`impairment_eval`'s metric engine) against an **independent third-party
 //! authority**: scikit-learn 1.9.0 (Pedregosa et al., JMLR 2011) — the de-facto

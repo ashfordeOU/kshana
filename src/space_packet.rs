@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! CCSDS Space Packet Protocol (CCSDS 133.0-B) primary-header framing: the
 //! standards-compliant TM/TC packet structure ground systems and on-board
 //! software exchange. This is the simulation/test-level bridge that lets any

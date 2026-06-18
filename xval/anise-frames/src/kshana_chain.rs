@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! The `kshana` side of the cross-check: its IAU 2006/2000A CIO reduction.
 
 use crate::compare::Mat3;

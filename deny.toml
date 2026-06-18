@@ -6,6 +6,11 @@ yanked = "deny"
 
 [licenses]
 version = 2
+# Dependencies must stay PERMISSIVE. Kshana itself is AGPL-3.0-only and is
+# dual-licensed commercially (see LICENSE / LICENSING.md), which is only possible
+# while every dependency we redistribute is relicensable under our commercial
+# terms — i.e. permissive. A copyleft (GPL/AGPL/LGPL/MPL) dependency would taint
+# the commercial edition, so they stay off this list on purpose.
 allow = [
   "Apache-2.0",
   "Apache-2.0 WITH LLVM-exception", # target-lexicon (pyo3 build dependency)
@@ -17,6 +22,12 @@ allow = [
   "Unicode-3.0",
   "Zlib",
   "CC0-1.0",
+]
+# AGPL is allowed ONLY for our own crate, not the dependency tree. This lets the
+# license gate accept kshana's own AGPL-3.0-only license without opening the door
+# to copyleft dependencies (which would break commercial dual-licensing).
+exceptions = [
+  { name = "kshana", allow = ["AGPL-3.0-only"] },
 ]
 
 [bans]

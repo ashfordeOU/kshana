@@ -1,4 +1,4 @@
-<!-- SPDX-License-Identifier: Apache-2.0 -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Provenance — every parameter traceable to a published source
 
 Kshana's central honesty discipline is that **every sensor parameter, physical

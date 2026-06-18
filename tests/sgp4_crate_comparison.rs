@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Head-to-head SGP4/SDP4 accuracy comparison: Kshana versus the independent
 //! `sgp4` crate (neuromorphicsystems/sgp4) on the official AIAA 2006-6753
 //! verification vectors. Two *independent* implementations both reproduce the

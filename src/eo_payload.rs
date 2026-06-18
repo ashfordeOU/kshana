@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Earth-observation payload footprint & coverage geometry: the SMAD/Wertz
 //! "space triangle" relations that turn an orbit altitude and a sensor field of
 //! view into the angular radius of the Earth, the swath width, the nadir ground

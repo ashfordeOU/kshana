@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Mars neutral-atmosphere density and atmospheric-drag acceleration.
 //!
 //! This is the Mars analogue of the Earth drag model in [`crate::forces`]

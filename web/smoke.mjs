@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 // Headless smoke test for the WebAssembly bindings: load the wasm-pack (--target
 // web) module in Node, run a clock scenario, and assert the JSON parses and the
 // version is non-empty. Run in CI by the `test-wasm-bindings` job after a build.

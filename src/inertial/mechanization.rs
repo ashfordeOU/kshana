@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Full three-axis strapdown inertial mechanization in the local-level NED frame.
 //!
 //! This replaces the legacy 1-DOF scalar error-budget dead-reckoning
