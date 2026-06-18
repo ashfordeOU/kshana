@@ -688,6 +688,7 @@ body.embed { background: var(--bg); }
   white-space: nowrap;
 }
 .pill.validated { color: var(--ok); border: 1px solid var(--ok); }
+.pill.modelled { color: var(--fg-2); border: 1px solid var(--fg-2); }
 .pill.aligned { color: var(--live); border: 1px solid var(--accent-line); }
 .pill.partial { color: var(--partial); border: 1px solid var(--partial); }
 .pill.roadmap { color: var(--plan); border: 1px solid var(--plan); }
