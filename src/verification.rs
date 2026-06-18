@@ -171,6 +171,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: ExternalDataset,
             status: Validated,
         },
+        VerificationItem {
+            requirement: "Quantum-trade numerical kernels (NNLS / χ² bands / van-Loan Q)",
+            capability: "Measured-ADEV NNLS fit, NEES/NIS χ² consistency bands, and the clock van-Loan discrete process-noise (holdover-coast) covariance — the trade engine's computational spine",
+            module: "quantum_trade (qparams_from_adev_curve), detection (chi2_inv_cdf), clock_state (ClockState3)",
+            tests: "tests/scipy_reference.rs (NNLS; χ² at operating dof ≥ 48; van-Loan Q)",
+            oracle: "scipy 1.17.1 — optimize.nnls / stats.chi2.ppf / linalg.expm; NNLS+Q exact, χ² <5e-4 at operating dof. Kernels only — device-performance numbers stay Modelled (next row)",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
         // ── Modelled (first-principles / published formulae, internally checked)─
         VerificationItem {
             requirement: "GNSS-denied clock holdover",
