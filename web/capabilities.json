@@ -57,7 +57,7 @@
    "domain": "Lunar & cislunar",
    "name": "CR3BP propagation & LunaNet integrity",
    "summary": "An Earth\u2013Moon circular restricted three-body (CR3BP) propagator in the rotating frame \u2014 a conserved Jacobi constant and all five Lagrange points \u2014 with a 6\u00d76 state-transition matrix and a single-shooting differential corrector that produces genuinely periodic halo / near-rectilinear halo orbits (NRHO): it reproduces the published L2 southern 9:2 NRHO (the Gateway orbit) at a period of ~6.57 days and a perilune of ~3,250 km. Plus LunaNet / LNIS cislunar PNT geometry (MCI\u2194MCMF reduction, selenographic coordinates) with a lunar south-pole ARAIM pass that honestly surfaces the integrity gap: a ~30 m \u03c3_URE drives the protection level well above a 50 m alert limit.",
-   "proof": "Reproduces the published L2 9:2 NRHO (~6.57 d period \u00b7 ~3,250 km perilune); STM validated vs finite differences",
+   "proof": "Reproduces the published L2 9:2 NRHO (~6.57 d period \u00b7 ~3,250 km perilune); STM checked vs finite differences",
    "run": "lunanet-araim.toml"
   },
   {
@@ -130,7 +130,7 @@
    "domain": "Mission analysis",
    "name": "Launch, re-entry, coverage & pointing budgets",
    "summary": "First-order mission-design budgets, each a runnable scenario: two-body launch & ascent geometry (launch azimuth, minimum inclination, Earth-rotation bonus, dogleg plane-change Δv, daily opportunities), an Allen–Eggers ballistic re-entry corridor (peak deceleration, peak-g and peak-heating velocities), Earth-observation coverage geometry (swath / nadir GSD / off-nadir access / revisit via the SMAD space triangle), a 3-DOF attitude & pointing error budget (gravity-gradient torque + RSS pointing budget), ground-station pass prediction (AOS/TCA/LOS, max elevation, access), and a one-way link budget over the CCSDS 401 / DSN 810-005 link equation (FSPL, C/N₀, Eb/N₀, margin, closure). The pre-hardware analytic layer below STK/GMAT/Basilisk — modelled first-order budgets, not a 6-DoF or radiometric replacement.",
-   "proof": "validated vs closed-form (launch azimuth · Allen-Eggers · SMAD)"
+   "proof": "checked vs closed-form (launch azimuth · Allen-Eggers · SMAD)"
   },
   {
    "domain": "Space environment",
