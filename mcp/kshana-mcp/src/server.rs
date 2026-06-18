@@ -163,7 +163,10 @@ impl ServerHandler for KshanaServer {
         info.website_url = Some("https://kshana.dev".to_string());
         ServerInfo::new(ServerCapabilities::builder().enable_tools().build())
             .with_server_info(info)
-            .with_protocol_version(ProtocolVersion::V_2024_11_05)
+            // Advertise the newest protocol revision the linked `rmcp` supports, so this
+            // tracks forward automatically on every SDK bump; rmcp negotiates down to an
+            // older client's revision during `initialize` (all are in `KNOWN_VERSIONS`).
+            .with_protocol_version(ProtocolVersion::LATEST)
             .with_instructions(
                 "Kshana is an open, reproducible PNT (positioning/navigation/timing) resilience \
                  simulator. Each tool wraps the validated engine: run_scenario executes a \

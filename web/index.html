@@ -380,15 +380,15 @@
               <p>SGP4/SDP4 matches all <b>666</b> AIAA 2006-6753 verification states to a worst-case <b>4.12 mm</b> — near-Earth, deep-space, and resonant. This is the model TLEs are defined against.</p>
             </div>
             <div class="card">
-              <h3><span class="pill validated">Calibrated</span> Clock stability</h3>
-              <p>Allan-family deviations (ADEV/MDEV/TDEV/HDEV) computed by the standard overlapping estimators with confidence intervals, calibrated to published clock datasheets, with a full IEEE-1139 five-coefficient power-law fit.</p>
+              <h3><span class="pill validated">Validated (NIST)</span> Clock stability</h3>
+              <p>Allan-family deviations (ADEV/MDEV/TDEV/HDEV) computed by the standard overlapping estimators with confidence intervals — validated against the <b>NIST SP 1065</b> reference deviations (Riley / Stable32 on NBS14), and calibrated to published clock datasheets, with a full IEEE-1139 five-coefficient power-law fit.</p>
             </div>
             <div class="card">
-              <h3><span class="pill validated">Validated</span> Numerical propagator</h3>
+              <h3><span class="pill modelled">Modelled (analytic)</span> Numerical propagator</h3>
               <p>The Cowell propagator's unperturbed orbit matches the exact universal-variable Kepler solution to <b>sub-metre over 24 h</b>, with energy and angular momentum conserved to ~1e-9. The J2–J6, third-body, SRP, drag and relativistic perturbations each match a hand-derived closed-form signature.</p>
             </div>
             <div class="card">
-              <h3><span class="pill validated">Validated</span> Tightly-coupled fusion</h3>
+              <h3><span class="pill modelled">Modelled (simulation)</span> Tightly-coupled fusion</h3>
               <p>The tightly-coupled GNSS/INS UKF navigator holds <b>0.77 m RMS</b> over a 30-minute curving LEO pass that includes a 120-second GNSS outage, on a force-model orbital coast — pseudorange + Doppler with fewer than four satellites.</p>
             </div>
             <div class="card">
@@ -404,11 +404,11 @@
               <p>Real observations in, a real position out: the <code>pvt</code> solver turns a station's RINEX code pseudoranges and the GPS broadcast ephemeris into a receiver position by iterated weighted least squares — Sagnac correction, broadcast satellite clock, the dual-frequency L1/L2 ionosphere-free combination, and the Saastamoinen/Niell troposphere. Run on real IGS data (station ABMF, Guadeloupe, 2018-05-13) it recovers the surveyed coordinate to <b>5.7 m</b> 3-D RMS (<b>1.1 m</b> horizontal). Code single-point positioning, not carrier-phase PPP/RTK.</p>
             </div>
             <div class="card">
-              <h3><span class="pill validated">Validated (anchors)</span> Nav-signal performance</h3>
+              <h3><span class="pill modelled">Modelled (anchors)</span> Nav-signal performance</h3>
               <p>Modulation power spectral densities, anti-jam spectral separation, RMS (Gabor) bandwidth, DLL code-tracking jitter and the multipath error envelope, checked against closed-form anchors: unit-area PSDs, the BPSK self-spectral-separation identity <b>2/(3R<sub>c</sub>)</b>, sub-metre coherent early–late C/A jitter at <b>45 dB-Hz</b>, and BOC &gt; BPSK Gabor bandwidth. The spectral-separation coefficient now <em>derives</em> the anti-jam Q the jamming model uses from the actual signal and jammer spectra. Signal-performance analysis, not RF-payload or antenna hardware design.</p>
             </div>
             <div class="card">
-              <h3><span class="pill validated">Validated (reproduction)</span> Cislunar halo / NRHO</h3>
+              <h3><span class="pill modelled">Modelled (reproduction)</span> Cislunar halo / NRHO</h3>
               <p>A 6×6 state-transition-matrix single-shooting differential corrector produces exactly periodic Earth–Moon halo / near-rectilinear halo orbits: it reproduces the published <b>L2 southern 9:2 NRHO</b> (the Gateway orbit) at a period of <b>~6.57 days</b> (published ~6.56) and a perilune of <b>~3,250 km</b> (published ~3,370). The STM is validated against finite differences and corrected orbits close to machine precision. This is a circular restricted three-body (Sun-free) solution — not validated against a real Gateway ephemeris or DSN tracking.</p>
             </div>
             <div class="card">
