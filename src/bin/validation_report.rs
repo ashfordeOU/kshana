@@ -72,6 +72,12 @@ const ROWS: &[(&str, &str, &str, &str)] = &[
         "scikit-learn 1.9.0 (Pedregosa et al., JMLR 2011)",
     ),
     (
+        "Quantum-trade kernels",
+        "ADEV NNLS fit, χ² consistency bands, van-Loan clock Q",
+        "tests/scipy_reference.rs",
+        "scipy 1.17.1 (optimize.nnls / stats.chi2 / linalg.expm)",
+    ),
+    (
         "Reproducibility",
         "input+shape goldens identical on ubuntu/macOS/windows",
         "tests/cross_platform_golden.rs",
