@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Launch-window & ascent geometry: the two-body relations a mission analyst uses
 //! at the trade-study tier to turn a launch-site latitude and a target orbit into
 //! launch azimuth(s), the minimum reachable inclination, the Earth-rotation

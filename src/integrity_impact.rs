@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Detection-miss → integrity-impact mapping (context-aware alert limits).
 //!
 //! A resilience detector (spoof / jamming / RAIM) that *misses* a fault leaves an

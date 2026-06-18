@@ -109,5 +109,5 @@ tests/               the headline cross-validation gate
 fixtures/            committed IERS EOP excerpt
 ```
 
-License: Apache-2.0 (this crate's own code). ANISE and hifitime are MPL-2.0; this crate
+License: AGPL-3.0-only (this crate's own code). ANISE and hifitime are MPL-2.0; this crate
 links them but they are not redistributed here.

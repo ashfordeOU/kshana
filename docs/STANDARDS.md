@@ -1,4 +1,4 @@
-<!-- SPDX-License-Identifier: Apache-2.0 -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Standards & interoperability
 
 Kshana speaks the standard interchange formats of the GNSS, flight-dynamics, and

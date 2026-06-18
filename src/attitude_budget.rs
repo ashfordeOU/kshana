@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! 3-DOF attitude & pointing error budget: a scalar, pre-hardware AOCS/GNC
 //! complement to high-fidelity tools (Basilisk, 42) — the environmental
 //! gravity-gradient disturbance torque and a root-sum-square pointing-error budget

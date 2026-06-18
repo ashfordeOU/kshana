@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Cross-validation of the Allan-variance IMU-noise pipeline against NaveGo.
 //!
 //! NaveGo (R. Gonzalez et al., an open-source MATLAB/Octave INS/GNSS toolbox,

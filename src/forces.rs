@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Orbital force model: two-body gravity, the zonal-harmonic field, and third-body gravity.
 //!
 //! This is the acceleration model a numerical propagator integrates (pair it with

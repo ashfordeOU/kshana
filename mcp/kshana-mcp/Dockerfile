@@ -33,7 +33,7 @@ LABEL org.opencontainers.image.title="kshana-mcp"
 LABEL org.opencontainers.image.description="MCP server exposing the validated Kshana PNT-resilience simulator to AI agents."
 LABEL org.opencontainers.image.source="https://github.com/AshfordeOU/kshana"
 LABEL org.opencontainers.image.url="https://kshana.dev"
-LABEL org.opencontainers.image.licenses="Apache-2.0"
+LABEL org.opencontainers.image.licenses="AGPL-3.0-only"
 
 COPY --from=build /src/mcp/kshana-mcp/target/release/kshana-mcp /usr/local/bin/kshana-mcp
 

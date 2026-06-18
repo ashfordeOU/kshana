@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! The DE-grade heliocentric-Mars cross-check: seed Kshana's **Sun-central two-body** propagator
 //! from a DE440 Mars-barycenter state and measure the position/velocity residual against the DE440
 //! Mars ephemeris at a sequence of arc lengths. Same propagator, same Sun μ, same integrator that

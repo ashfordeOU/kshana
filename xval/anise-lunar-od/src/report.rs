@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! The cross-validation report model: the honest dynamic and reduced-dynamic residuals, written to
 //! `report.json` + `report.md` and printed as a table. No tuning, no target-chasing — the numbers
 //! are whatever the DE-grade fit produces.

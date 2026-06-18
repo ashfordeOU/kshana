@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! SP3 export round-trip against the real GPS constellation.
 //!
 //! The milestone validation for the SP3-export half of the interop story: build an

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 // Round-trip and robustness tests for the share-link codec. Run with `node
 // web/share.test.mjs` (the test-wasm-bindings CI job already provides Node).
 import { encodeFragment, decodeFragment, readScalar, patchScalar } from "./share.mjs";

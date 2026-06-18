@@ -227,7 +227,7 @@
   }
  ],
  "trust": {
-  "license": "Apache-2.0",
+  "license": "AGPL-3.0-only (dual-licensed; commercial licence available from Ashforde OÜ)",
   "reproducible": "Deterministic from scenario + seed + engine version; CycloneDX SBOM and SLSA build provenance on every release.",
   "citation": "CITATION.cff in the repository; archival DOI via Zenodo."
  }

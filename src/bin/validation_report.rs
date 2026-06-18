@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! `validation_report` — emit a one-page, self-contained HTML validation summary.
 //!
 //! This collates Kshana's headline validation facts into a single print-ready page (a print

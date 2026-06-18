@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! The cross-validation gate. Self-skips when the DE440 kernel is absent (so it never reddens
 //! offline); the full per-arc residual sweep lives in the `mars-od-xval` binary. Here we verify,
 //! quickly, that the DE-grade Mars environment is correctly wired: the DE440 heliocentric Mars

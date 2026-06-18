@@ -14,10 +14,11 @@
   <a href="tests/sgp4_verification.rs"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%204.12mm-3fb950" alt="SGP4 validated against all 666 AIAA 2006-6753 vectors, worst 4.12 mm"></a>
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/coverage-~96%25%20line-3fb950" alt="~96% line coverage on src/ (cargo-tarpaulin LLVM engine), gated at 85% in CI"></a>
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.18.0-c79e63" alt="Release v0.18.0"></a>
+  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.19.0-c79e63" alt="Release v0.19.0"></a>
   <a href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator"><img src="https://img.shields.io/badge/JetBrains-Marketplace-c79e63" alt="Kshana on the JetBrains Marketplace"></a>
   <a href="https://glama.ai/mcp/servers/ashfordeOU/kshana"><img src="https://glama.ai/mcp/servers/ashfordeOU/kshana/badges/score.svg" alt="kshana-mcp on Glama — MCP server quality score"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-Apache_2.0-blue.svg" alt="License: Apache-2.0"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-AGPL_v3-blue.svg" alt="License: AGPL-3.0-only"></a>
+  <a href="LICENSING.md"><img src="https://img.shields.io/badge/commercial_licence-available-2ea043" alt="Commercial licence available from Ashforde OÜ"></a>
   <a href="Cargo.toml"><img src="https://img.shields.io/badge/rust-1.75%2B-orange.svg" alt="Rust 1.75+"></a>
   <a href="https://doi.org/10.5281/zenodo.20528627"><img src="https://img.shields.io/badge/DOI-10.5281%2Fzenodo.20528627-blue.svg" alt="DOI 10.5281/zenodo.20528627"></a>
 </p>
@@ -42,10 +43,12 @@ navigation. Every result is reproducible from `scenario + seed + engine version`
 and every sensor parameter is traceable to a published source — consolidated in one
 citable table in [`docs/PROVENANCE.md`](docs/PROVENANCE.md).
 
-*Free and open source under Apache-2.0, professionally developed and maintained by
-Ashforde OÜ — commercial support, integration, and proprietary extensions available.*
+*Free and open source under the GNU AGPL-3.0 — with a commercial licence available
+from Ashforde OÜ for proprietary/closed integration (see [`LICENSING.md`](LICENSING.md)).
+Professionally developed and maintained by Ashforde OÜ; commercial support,
+integration, and proprietary extensions available.*
 
-> **Status: v0.18.0 · a simulation substrate, not yet a product.** A validated,
+> **Status: v0.19.0 · a simulation substrate, not yet a product.** A validated,
 > fully reproducible engine spanning the PNT stack — orbit geometry and constellation
 > design, a numerical (Cowell) propagator with a six-perturbation force model, maneuver
 > and trajectory design, time systems, inertial navigation (incl. map-aided and
@@ -892,8 +895,12 @@ Write a scenario `.toml` with your sensor's published figures in the `provenance
 fields. See [Scenario format](#scenario-format) and the examples in `scenarios/`.
 
 **Is it free for commercial use?**
-Yes, under Apache-2.0. Optional commercial support and proprietary extensions are
-available — see [Support](#support--professional-services).
+Yes — under the AGPL-3.0, including in commercial settings, as long as you honour the
+AGPL's copyleft (notably: if you modify Kshana and offer it over a network, you must
+offer those users your modified source). If that does not suit you — e.g. you need to
+embed Kshana in a proprietary product or run a closed network service — a commercial
+licence is available from Ashforde OÜ; see [`LICENSING.md`](LICENSING.md) and
+[Support](#support--professional-services).
 
 ## Troubleshooting
 
@@ -955,7 +962,7 @@ entry for every user-visible change. Participation is governed by our
 
 If you use Kshana in academic or technical work, please cite it. Machine-readable
 metadata is in [`CITATION.cff`](CITATION.cff) (GitHub renders a "Cite this repository"
-button from it); cite the version you used (e.g. `v0.18.0`) together with the
+button from it); cite the version you used (e.g. `v0.19.0`) together with the
 scenario and seed for full reproducibility. Every release is archived on Zenodo with
 a citable DOI — the concept DOI [10.5281/zenodo.20528627](https://doi.org/10.5281/zenodo.20528627)
 always resolves to the latest version.
@@ -990,16 +997,22 @@ library); the JetBrains plugin versions independently (it shells out to your ins
 
 ## License
 
-Apache-2.0 — see [`LICENSE`](LICENSE). Contributions are accepted under the same
-license (inbound = outbound); sign commits off per the Developer Certificate of
-Origin with `git commit -s`.
+**Dual-licensed.** Use Kshana under **either** the GNU **AGPL-3.0-only** (see
+[`LICENSE`](LICENSE)) **or** a **commercial licence** from Ashforde OÜ for
+proprietary/closed integration that the AGPL does not suit. Which one applies, and
+why it is set up this way, is explained in [`LICENSING.md`](LICENSING.md).
 
-**Trademark.** "Kshana" and its marks are trademarks of Ashforde OÜ. The license
+Contributions are licensed inbound under the AGPL **and** grant Ashforde OÜ the right
+to include them in the commercially-licensed edition (so the dual-licence keeps
+working) — see [`CONTRIBUTING.md`](CONTRIBUTING.md). Sign off each commit per the
+Developer Certificate of Origin with `git commit -s`.
+
+**Trademark.** "Kshana" and its marks are trademarks of Ashforde OÜ. The licence
 covers the code, not the name — please rename forks and derivative distributions.
 
 ## Support & professional services
 
-Kshana is free and open source under Apache-2.0 and **professionally developed and
+Kshana is free and open source under the AGPL-3.0 and **professionally developed and
 maintained by Ashforde OÜ** (Estonia). The open engine is complete and usable on its
 own. For organisations that need more, Ashforde OÜ offers:
 

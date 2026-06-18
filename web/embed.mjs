@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 // Embed / iframe (LMS) mode — pure URL + visibility logic. A page loaded with
 // `?embed=1` hides its marketing chrome (topbar, footer, hero, capabilities,
 // validation) and shows only the playground, optionally pre-loading a scenario,

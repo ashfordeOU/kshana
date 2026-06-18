@@ -1,4 +1,4 @@
-<!-- SPDX-License-Identifier: Apache-2.0 -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Claims vs. reality — overclaim ledger
 
 An independent audit of an earlier Kshana version catalogued fourteen **overclaims**

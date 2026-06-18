@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! The LRO truth: the same vendored NASA/JPL Horizons reconstructed orbit the analytic fit uses
 //! (`tests/fixtures/agency/lro/LRO_2022001_Moon_ICRF_4h.csv`), so the DE-grade and analytic results
 //! are compared against an *identical* reference — only the force model's frame inputs differ.

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Integration tests for the [`kshana::ephem_provider`] seam: the kernel-free
 //! [`BuiltinEphemeris`] must agree exactly with the underlying analytic Sun/Moon series and must
 //! return `None` for the bodies it has no series for (Mars), which is the signal the deep-space

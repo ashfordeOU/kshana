@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! The DE-grade frame-input provider: ANISE/SPICE lunar orientation and Earth/Sun ephemeris.
 //!
 //! [`AniseLunarEnvironment`] implements `kshana::lunar_od::LunarEnvironment`, the seam the

@@ -40,7 +40,7 @@ assert len(ls) == 678, f"xls rows = {len(ls)} (want 678)"
 assert len(pl) == 687, f"xpl rows = {len(pl)} (want 687)"
 
 out = []
-out.append("// SPDX-License-Identifier: Apache-2.0")
+out.append("// SPDX-License-Identifier: AGPL-3.0-only")
 out.append("//! IAU 2000A nutation series (MHB2000) — AUTO-GENERATED from the IAU SOFA /")
 out.append("//! ERFA `nut00a.c` reference tables by `tools/gen_nut00a.py`; do not edit by hand.")
 out.append("//! 678 luni-solar terms + 687 planetary terms. The values are IAU reference data.")

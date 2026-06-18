@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Locating (and, on demand, fetching) the two NAIF kernels the DE-grade lunar OD needs.
 //!
 //! - `de440s.bsp` — the JPL DE440 planetary ephemeris (short span, 1849–2150), for the

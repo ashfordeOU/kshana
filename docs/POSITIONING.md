@@ -1,4 +1,4 @@
-<!-- SPDX-License-Identifier: Apache-2.0 -->
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Where Kshana sits
 
 Kshana is a **PNT performance simulator**: you describe a scenario (sensors,

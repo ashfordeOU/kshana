@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 // Tests for the A/B compare logic — figure-of-merit deltas between two runs.
 // Pure data -> rows; the table/chart rendering is verified in the browser.
 // Run with `node web/compare.test.mjs`.

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! **D3.4 — reproducing the MARCONI / LightShip accuracy targets in simulation.**
 //!
 //! The published MARCONI / LightShip programme goals for a Mars relay-broadcast PNT service are an

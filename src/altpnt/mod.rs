@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Alternative-PNT (GPS-denied) navigation packs.
 //!
 //! The map-aided navigators that fix position without GNSS by matching a stored

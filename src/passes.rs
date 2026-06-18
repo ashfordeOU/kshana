@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Ground-station pass prediction: the time-domain rise/set scheduler that turns
 //! an orbit + a ground station + an elevation mask into the list of visibility
 //! passes (AOS, TCA, LOS, maximum elevation, duration) over a window — the

@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! The cross-validation driver: `kshana`'s CIO chain vs ANISE's ITRF93, epoch by epoch.
 //!
 //! For each validation epoch BOTH sides are driven by the SAME IERS Earth-orientation

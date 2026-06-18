@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! IAU 2009 Mars body-fixed orientation — the rotation from Mars-centred inertial (≈J2000/ICRF)
 //! to the Mars body-fixed frame.
 //!

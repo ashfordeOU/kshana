@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! Two-part (high-precision) Julian dates.
 //!
 //! A Julian date held in a single `f64` carries ~15–16 significant digits, so near JD

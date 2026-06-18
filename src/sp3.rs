@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 //! SP3-c/d precise-ephemeris reader and writer.
 //!
 //! SP3 (Standard Product 3) is the format the IGS and the analysis centres

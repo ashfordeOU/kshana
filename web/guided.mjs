@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: Apache-2.0
+// SPDX-License-Identifier: AGPL-3.0-only
 // Guided-mode knobs for the playground: a small set of labelled sliders that map
 // onto real TOML scalars so a user can tune a scenario without touching the
 // document. The top-level helpers (readScalar/patchScalar) live in share.mjs and
