@@ -35,6 +35,18 @@ breaking changes are called out explicitly.
     Apache-2.0 permissive terms can continue using the last Apache-2.0 release
     (`v0.18.0` and earlier, as published); `v0.19.0` onward is AGPL-3.0 / commercial.
 
+### Security
+
+- **Bumped `pyo3` 0.24 → 0.29** to clear RUSTSEC-2026-0176 / RUSTSEC-2026-0177
+  (GHSA-36hh-v3qg-5jq4 / GHSA-chgr-c6px-7xpp) from external OSV/dependency scans.
+  Both are *function-level* advisories whose affected functions
+  (`BoundList/TupleIterator::nth`/`nth_back`, `PyCFunction::new_closure`) Kshana
+  never calls, and `pyo3` is an optional (`python`-feature) dependency — so the
+  real exposure was nil — but the bump keeps a clean scan for downstream auditors.
+  Migrated `src/python.rs` to the pyo3 0.29 API (Bound return type for
+  `scenario_kinds`; explicit `skip_from_py_object` on the `RunOutput` pyclass).
+  All 11 Python binding tests pass against the rebuilt extension.
+
 ## [0.18.0] - 2026-06-17
 
 ### Added
