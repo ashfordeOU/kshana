@@ -29,6 +29,7 @@ jobs:
   image:
     name: OCI image (ghcr.io)
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     permissions:
       contents: read
       packages: write
@@ -73,6 +74,7 @@ jobs:
     # variable (Settings → Secrets and variables → Actions → Variables).
     if: ${{ vars.MCP_REGISTRY_PUBLISH == 'true' }}
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     permissions:
       contents: read
       id-token: write
