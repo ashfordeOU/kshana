@@ -37,6 +37,7 @@ pub mod raim;
 pub mod rinex;
 pub mod sqm;
 pub mod ubx;
+pub mod yunnan;
 
 use crate::impairment_study::ProbeRecord;
 
