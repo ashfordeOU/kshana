@@ -18,6 +18,7 @@ permissions:
 jobs:
   lunar-od-xval:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
     defaults:
       run:
         working-directory: xval/anise-lunar-od
