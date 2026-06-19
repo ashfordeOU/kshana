@@ -177,6 +177,147 @@ impl ImpairmentDetector for LogisticRegression {
     }
 }
 
+/// One-hidden-layer multilayer perceptron impairment detector: ReLU hidden units,
+/// a single sigmoid output, trained by stochastic-gradient backpropagation on the
+/// binary `is_impaired` label over standardized features. Weights are seeded, and
+/// each epoch's sample order is a seeded shuffle, so training is fully reproducible
+/// from `(corpus, seed)`. The decision statistic is the pre-sigmoid output logit.
+#[derive(Clone, Debug)]
+pub struct Mlp {
+    std: Standardizer,
+    w1: Vec<[f64; 5]>, // [hidden][input]
+    b1: Vec<f64>,      // [hidden]
+    w2: Vec<f64>,      // [hidden] output weights
+    b2: f64,
+}
+
+/// Pre-sigmoid output logit of a one-hidden-layer ReLU→sigmoid MLP, given its
+/// parameter slices and a standardized feature vector.
+fn mlp_logit(w1: &[[f64; 5]], b1: &[f64], w2: &[f64], b2: f64, x: &[f64; 5]) -> f64 {
+    let mut s = b2;
+    for ((row, &bh), &wo) in w1.iter().zip(b1.iter()).zip(w2.iter()) {
+        s += wo * (bh + dot(row, x)).max(0.0);
+    }
+    s
+}
+
+impl Mlp {
+    /// Train an MLP with `hidden` ReLU units for `epochs` of SGD at rate `lr`,
+    /// seeded for reproducible init and shuffling.
+    pub fn fit(train: &[LabeledCase], hidden: usize, epochs: usize, lr: f64, seed: u64) -> Self {
+        Self::fit_with_trace(train, hidden, epochs, lr, seed).0
+    }
+
+    /// Train and return the per-epoch mean cross-entropy loss (measured at the
+    /// start of each epoch with the current weights).
+    pub fn fit_with_trace(
+        train: &[LabeledCase],
+        hidden: usize,
+        epochs: usize,
+        lr: f64,
+        seed: u64,
+    ) -> (Self, Vec<f64>) {
+        use rand::{Rng, SeedableRng};
+        use rand_chacha::ChaCha8Rng;
+        use rand_distr::{Distribution, Normal};
+
+        let h = hidden.max(1);
+        let std = Standardizer::fit(train);
+        let xs: Vec<[f64; 5]> = train.iter().map(|c| std.transform_case(&c.obs)).collect();
+        let ys: Vec<f64> = train
+            .iter()
+            .map(|c| if c.is_impaired() { 1.0 } else { 0.0 })
+            .collect();
+
+        let mut rng = ChaCha8Rng::seed_from_u64(seed);
+        // He-style init for the ReLU hidden layer; smaller Gaussian for the output.
+        let din = Normal::new(0.0, (2.0_f64 / 5.0).sqrt()).unwrap();
+        let dout = Normal::new(0.0, (2.0_f64 / h as f64).sqrt()).unwrap();
+        let mut w1: Vec<[f64; 5]> = (0..h)
+            .map(|_| {
+                let mut row = [0.0; 5];
+                for r in row.iter_mut() {
+                    *r = din.sample(&mut rng);
+                }
+                row
+            })
+            .collect();
+        let mut b1 = vec![0.0_f64; h];
+        let mut w2: Vec<f64> = (0..h).map(|_| dout.sample(&mut rng)).collect();
+        let mut b2 = 0.0_f64;
+
+        let n = xs.len();
+        let mut order: Vec<usize> = (0..n).collect();
+        let mut trace = Vec::with_capacity(epochs);
+        for _ in 0..epochs {
+            // Mean cross-entropy at the start of this epoch, current weights.
+            let mut loss = 0.0;
+            for (x, &y) in xs.iter().zip(ys.iter()) {
+                let p = sigmoid(mlp_logit(&w1, &b1, &w2, b2, x)).clamp(1e-12, 1.0 - 1e-12);
+                loss += -(y * p.ln() + (1.0 - y) * (1.0 - p).ln());
+            }
+            trace.push(loss / n.max(1) as f64);
+
+            // Seeded Fisher–Yates shuffle, then a per-sample SGD pass.
+            for i in (1..n).rev() {
+                order.swap(i, rng.gen_range(0..=i));
+            }
+            for &idx in &order {
+                let x = &xs[idx];
+                let y = ys[idx];
+                // Forward (cache pre-activations for the ReLU derivative).
+                let mut a = vec![0.0_f64; h];
+                let mut pre = vec![0.0_f64; h];
+                for k in 0..h {
+                    pre[k] = b1[k] + dot(&w1[k], x);
+                    a[k] = pre[k].max(0.0);
+                }
+                let p = sigmoid(b2 + w2.iter().zip(a.iter()).map(|(w, ai)| w * ai).sum::<f64>());
+                let d_logit = p - y; // dL/dlogit for BCE + sigmoid
+                                     // Hidden-layer gradients FIRST, using the current (pre-update) w2.
+                for k in 0..h {
+                    if pre[k] > 0.0 {
+                        let d_pre = d_logit * w2[k];
+                        for (wk, &xk) in w1[k].iter_mut().zip(x.iter()) {
+                            *wk -= lr * d_pre * xk;
+                        }
+                        b1[k] -= lr * d_pre;
+                    }
+                }
+                // Output-layer gradients.
+                for k in 0..h {
+                    w2[k] -= lr * d_logit * a[k];
+                }
+                b2 -= lr * d_logit;
+            }
+        }
+        (
+            Self {
+                std,
+                w1,
+                b1,
+                w2,
+                b2,
+            },
+            trace,
+        )
+    }
+
+    /// The pre-sigmoid output logit for a standardized feature vector.
+    fn logit(&self, x: &[f64; 5]) -> f64 {
+        mlp_logit(&self.w1, &self.b1, &self.w2, self.b2, x)
+    }
+}
+
+impl ImpairmentDetector for Mlp {
+    fn name(&self) -> &str {
+        "mlp"
+    }
+    fn score(&self, o: &CaseObservables) -> f64 {
+        self.logit(&self.std.transform_case(o))
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -228,6 +369,86 @@ mod tests {
                 w[1]
             );
         }
+    }
+
+    /// A non-linearly-separable (XOR) toy corpus in the (cn0_drop, agc_excess)
+    /// plane: label = impaired iff exactly one of the two features is "high". A
+    /// linear model cannot separate it; a one-hidden-layer MLP can.
+    fn xor_toy(seed: u64, per_corner: usize) -> Vec<LabeledCase> {
+        use crate::impairment_eval::{CaseParams, ImpairmentClass};
+        use rand::SeedableRng;
+        use rand_chacha::ChaCha8Rng;
+        use rand_distr::{Distribution, Normal};
+        let mut rng = ChaCha8Rng::seed_from_u64(seed);
+        let jit = Normal::new(0.0_f64, 0.25).unwrap();
+        // (cn0_high, agc_high, impaired?)
+        let corners = [
+            (0.0, 0.0, false),
+            (3.0, 3.0, false),
+            (0.0, 3.0, true),
+            (3.0, 0.0, true),
+        ];
+        let mut out = Vec::new();
+        let mut key = 0u64;
+        for (ci, &(cn0, agc, imp)) in corners.iter().enumerate() {
+            for _ in 0..per_corner {
+                let obs = CaseObservables {
+                    js_db: 0.0,
+                    cn0_drop_db: cn0 + jit.sample(&mut rng),
+                    agc_excess_db: agc + jit.sample(&mut rng),
+                    sqm_el_metric: 0.0,
+                    parity_stat: 0.0,
+                };
+                out.push(LabeledCase {
+                    class: if imp {
+                        ImpairmentClass::Jamming
+                    } else {
+                        ImpairmentClass::Nominal
+                    },
+                    params: CaseParams {
+                        severity: 0.0,
+                        key: ((ci as u64) << 32) | key,
+                    },
+                    obs,
+                });
+                key += 1;
+            }
+        }
+        out
+    }
+
+    #[test]
+    fn mlp_separates_xor_where_logreg_cannot_seeded_and_loss_decreases() {
+        let toy = xor_toy(101, 60);
+        // A linear model is at chance on XOR.
+        let logreg = LogisticRegression::fit(&toy, 800, 0.3);
+        let lr_auc = evaluate(&logreg, &toy, 0.05).auc;
+        assert!(
+            lr_auc < 0.75,
+            "logreg should be near-chance on XOR, got {lr_auc}"
+        );
+        // The MLP learns the non-linear boundary.
+        let (mlp, trace) = Mlp::fit_with_trace(&toy, 12, 3000, 0.1, 7);
+        let mlp_auc = evaluate(&mlp, &toy, 0.05).auc;
+        assert!(mlp_auc > 0.9, "MLP should separate XOR, got {mlp_auc}");
+        assert!(
+            mlp_auc > lr_auc + 0.15,
+            "MLP {mlp_auc} should clearly beat logreg {lr_auc} on a non-linear set"
+        );
+        // Seeded: same seed → identical model (identical AUC bit-for-bit).
+        let mlp2 = Mlp::fit(&toy, 12, 3000, 0.1, 7);
+        assert_eq!(
+            evaluate(&mlp, &toy, 0.05).auc.to_bits(),
+            evaluate(&mlp2, &toy, 0.05).auc.to_bits(),
+            "same seed must reproduce the model"
+        );
+        // Training loss drops over the run.
+        assert!(
+            *trace.last().unwrap() < trace[0] * 0.5,
+            "MLP loss should fall substantially: {} -> {}",
+            trace[0],
+            trace.last().unwrap()
+        );
     }
 
     #[test]
