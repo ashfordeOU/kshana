@@ -474,22 +474,36 @@ pub fn roc_curve(labeled: &[(bool, f64)]) -> Vec<RocPoint> {
 /// Returns `NaN` for a degenerate (one-class) input rather than masking it as a
 /// benign 0.5 — an empty positive or negative set is not a "chance" AUC.
 pub fn auc(pos: &[f64], neg: &[f64]) -> f64 {
-    if pos.is_empty() || neg.is_empty() {
+    let (np, nn) = (pos.len(), neg.len());
+    if np == 0 || nn == 0 {
         return f64::NAN;
     }
-    let mut acc = 0.0;
-    for &p in pos {
-        for &n in neg {
-            acc += if p > n {
-                1.0
-            } else if (p - n).abs() == 0.0 {
-                0.5
-            } else {
-                0.0
-            };
+    // Mann-Whitney U via average ranks: identical to the pairwise definition
+    // (+1 for pos>neg, +0.5 for ties) but O((n+m) log(n+m)) instead of O(n*m),
+    // which matters when a real-data group has hundreds of thousands of samples.
+    let mut all: Vec<(f64, bool)> = Vec::with_capacity(np + nn);
+    all.extend(pos.iter().map(|&v| (v, true)));
+    all.extend(neg.iter().map(|&v| (v, false)));
+    all.sort_by(|a, b| a.0.partial_cmp(&b.0).unwrap_or(std::cmp::Ordering::Equal));
+
+    let mut rank_pos_sum = 0.0_f64;
+    let mut i = 0;
+    while i < all.len() {
+        let mut j = i;
+        while j + 1 < all.len() && all[j + 1].0 == all[i].0 {
+            j += 1;
         }
+        // The tied block spans positions i..=j; their shared average 1-based rank.
+        let avg_rank = ((i + 1) + (j + 1)) as f64 / 2.0;
+        for item in &all[i..=j] {
+            if item.1 {
+                rank_pos_sum += avg_rank;
+            }
+        }
+        i = j + 1;
     }
-    acc / (pos.len() as f64 * neg.len() as f64)
+    let u = rank_pos_sum - (np as f64) * (np as f64 + 1.0) / 2.0;
+    u / (np as f64 * nn as f64)
 }
 
 /// The largest decision threshold whose negative-set false-alarm rate (under the
