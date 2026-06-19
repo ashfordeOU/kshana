@@ -127,6 +127,10 @@ pub struct Trend {
     pub spearman_p: f64,
     /// OLS slope of `Δ` on `(1 − s)` — the scaling-law slope.
     pub slope: f64,
+    /// Mean held-out **in-distribution** per-class AUC over seeds — lets a reader
+    /// verify that a non-positive trend coincides with a near-chance ID AUC (a
+    /// detector with nothing to lose), rather than a failure of the scaling law.
+    pub id_auc_mean: f64,
 }
 
 /// The full grid result: per-cell aggregates, per-`(d,c)` trends, the detector
@@ -200,6 +204,8 @@ pub fn run_grid(cfg: &GridConfig) -> GridResult {
     // raw[det][class][sev] = Vec over seeds of the gap Δ.
     let mut det_names: Vec<String> = Vec::new();
     let mut raw: Vec<Vec<Vec<Vec<f64>>>> = Vec::new();
+    // raw_id_auc[det][class] = Vec over seeds of the held-out ID per-class AUC.
+    let mut raw_id_auc: Vec<Vec<Vec<f64>>> = Vec::new();
 
     for &seed in &cfg.seeds {
         let id = generate_corpus(
@@ -219,6 +225,7 @@ pub fn run_grid(cfg: &GridConfig) -> GridResult {
         if det_names.is_empty() {
             det_names = dets.iter().map(|(n, _)| n.clone()).collect();
             raw = vec![vec![vec![Vec::new(); severities.len()]; classes.len()]; det_names.len()];
+            raw_id_auc = vec![vec![Vec::new(); classes.len()]; det_names.len()];
         }
         // Held-out ID per-class AUC for every detector.
         let id_auc: Vec<Vec<f64>> = dets
@@ -230,6 +237,11 @@ pub fn run_grid(cfg: &GridConfig) -> GridResult {
                     .collect()
             })
             .collect();
+        for (di, row) in id_auc.iter().enumerate() {
+            for (ci, &a) in row.iter().enumerate() {
+                raw_id_auc[di][ci].push(a);
+            }
+        }
         // OOD per-class AUC at each severity, and the gap.
         for (si, &s) in severities.iter().enumerate() {
             let ood = generate_corpus(
@@ -290,12 +302,15 @@ pub fn run_grid(cfg: &GridConfig) -> GridResult {
             let (rho, p) = spearman(&tx, &ty);
             let xcol: Vec<Vec<f64>> = tx.iter().map(|&v| vec![v]).collect();
             let slope = ridge_fit(&xcol, &ty, 0.0).get(1).copied().unwrap_or(0.0);
+            let id_aucs = &raw_id_auc[di][ci];
+            let id_auc_mean = id_aucs.iter().sum::<f64>() / id_aucs.len().max(1) as f64;
             trends.push(Trend {
                 detector: name.clone(),
                 class,
                 spearman_rho: rho,
                 spearman_p: p,
                 slope,
+                id_auc_mean,
             });
         }
     }
@@ -655,6 +670,83 @@ pub fn loocv_by_class(rows: &[GapRow], lambda: f64) -> CvResult {
     loocv_grouped(rows, lambda, |r| r.class.label().to_string())
 }
 
+/// Return a copy of `rows` keeping only the feature columns in `keep` (by index).
+/// Use it to measure the predictor with a feature **excluded** — e.g. dropping
+/// `auc_in` (index 0), which is one additive term of the target gap, so a model
+/// leaning on it is partly tautological. If the shape-only predictor still beats
+/// predict-the-mean, the predictability is genuine and not a definitional artefact.
+pub fn select_features(rows: &[GapRow], keep: &[usize]) -> Vec<GapRow> {
+    rows.iter()
+        .map(|r| GapRow {
+            detector: r.detector.clone(),
+            class: r.class,
+            seed: r.seed,
+            features: keep
+                .iter()
+                .filter_map(|&k| r.features.get(k).copied())
+                .collect(),
+            gap: r.gap,
+        })
+        .collect()
+}
+
+/// Whether a leave-one-group-out CV groups by detector or by class.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum CvAxis {
+    /// Leave-one-detector-out.
+    Detector,
+    /// Leave-one-class-out.
+    Class,
+}
+
+fn loocv_axis(rows: &[GapRow], lambda: f64, axis: CvAxis) -> CvResult {
+    match axis {
+        CvAxis::Detector => loocv_by_detector(rows, lambda),
+        CvAxis::Class => loocv_by_class(rows, lambda),
+    }
+}
+
+/// Permutation-null p-value for a leave-one-group-out CV R²: shuffle the gap
+/// targets `n_perms` times (seeded), recompute the out-of-fold R² each time, and
+/// return the fraction of permuted R²s that meet or exceed the observed R²
+/// (`(#{perm ≥ obs} + 1)/(n_perms + 1)`, the unbiased estimator). A small p means
+/// the predictor's accuracy is unlikely under no ID→gap relationship.
+pub fn permutation_pvalue(
+    rows: &[GapRow],
+    lambda: f64,
+    axis: CvAxis,
+    n_perms: usize,
+    seed: u64,
+) -> f64 {
+    use rand::{Rng, SeedableRng};
+    use rand_chacha::ChaCha8Rng;
+    let observed = loocv_axis(rows, lambda, axis).r2;
+    let gaps: Vec<f64> = rows.iter().map(|r| r.gap).collect();
+    let mut rng = ChaCha8Rng::seed_from_u64(seed);
+    let mut ge = 0usize;
+    for _ in 0..n_perms.max(1) {
+        let mut g = gaps.clone();
+        for i in (1..g.len()).rev() {
+            g.swap(i, rng.gen_range(0..=i));
+        }
+        let permuted: Vec<GapRow> = rows
+            .iter()
+            .zip(g.iter())
+            .map(|(r, &gap)| GapRow {
+                detector: r.detector.clone(),
+                class: r.class,
+                seed: r.seed,
+                features: r.features.clone(),
+                gap,
+            })
+            .collect();
+        if loocv_axis(&permuted, lambda, axis).r2 >= observed {
+            ge += 1;
+        }
+    }
+    (ge as f64 + 1.0) / (n_perms.max(1) as f64 + 1.0)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -849,5 +941,40 @@ mod tests {
         // The full-data fit predicts a finite gap for a held example.
         let predictor = fit_gap_predictor(&rows, pc.ridge_lambda);
         assert!(predictor.predict(&rows[0].features).is_finite());
+    }
+
+    #[test]
+    fn shape_only_features_and_permutation_null_behave() {
+        let pc = predictor_config();
+        let rows = build_gap_rows(&pc);
+        // Drop auc_in (index 0) — it is one additive term of the target gap, so the
+        // shape-only set isolates non-tautological predictability.
+        let shape = select_features(&rows, &[1, 2, 3, 4, 5, 6]);
+        assert_eq!(shape[0].features.len(), rows[0].features.len() - 1);
+        // Subset CV runs, is finite, and is deterministic.
+        let r2a = loocv_by_class(&shape, pc.ridge_lambda).r2;
+        let r2b = loocv_by_class(
+            &select_features(&rows, &[1, 2, 3, 4, 5, 6]),
+            pc.ridge_lambda,
+        )
+        .r2;
+        assert!(r2a.is_finite() && r2a.to_bits() == r2b.to_bits());
+        // Permutation null: a valid probability, deterministic, and the real
+        // cross-class signal beats most label permutations.
+        let p = permutation_pvalue(&rows, pc.ridge_lambda, CvAxis::Class, 100, 7);
+        let p2 = permutation_pvalue(&rows, pc.ridge_lambda, CvAxis::Class, 100, 7);
+        assert_eq!(
+            p.to_bits(),
+            p2.to_bits(),
+            "permutation p must be reproducible"
+        );
+        assert!(
+            (1.0 / 101.0..=1.0).contains(&p),
+            "p {p} must be a probability"
+        );
+        assert!(
+            p < 0.5,
+            "real cross-class R² should beat most permutations (p={p})"
+        );
     }
 }
