@@ -39,7 +39,10 @@ jobs:
             target: aarch64
           - os: macos-latest # macos-14 runner is arm64
             target: aarch64
-          - os: macos-13 # intel mac
+          # Cross-build the Intel wheel on the arm64 runner instead of a (scarce,
+          # deprecating) macos-13 Intel runner that can queue indefinitely. maturin
+          # adds the x86_64-apple-darwin target; the abi3 wheel cross-compiles cleanly.
+          - os: macos-latest
             target: x86_64
           - os: windows-latest
             target: x64
