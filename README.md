@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/assets/kshana-mark.svg" alt="Kshana mark — a precision reticle hung from the Devanagari shirorekha" width="96" height="96">
+  <img src="docs/assets/kshana-mark.svg" alt="Kshana mark — a compass reticle marking the precise instant" width="96" height="96">
 </p>
 
 <h1 align="center">Kshana</h1>
