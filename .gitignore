@@ -3,6 +3,9 @@
 *.chart.svg
 *.report.html
 
+# Generated study artifacts (regenerable via `cargo run --example optimism_study`)
+/paper-artifacts
+
 # Python packaging / build artifacts (maturin)
 /dist
 *.so
