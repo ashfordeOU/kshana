@@ -15,10 +15,11 @@
 //! a sim-to-field claim; a positive gap demonstrates the phenomenon and the
 //! predictor's signal, never a field-detection result. See [`crate::verification`].
 
-use crate::eval_stats::{bootstrap_ci, ridge_fit, spearman};
+use crate::eval_stats::{bootstrap_ci, ridge_fit, ridge_predict, spearman};
 use crate::impairment_eval::{
-    auc, generate_corpus, stratified_split, AgcDetector, CorpusConfig, EnergyDetector,
-    FusedDetector, ImpairmentClass, ImpairmentDetector, LabeledCase, ParityDetector, SqmDetector,
+    auc, generate_corpus, stratified_split, threshold_for_pfa, AgcDetector, CorpusConfig,
+    EnergyDetector, FusedDetector, ImpairmentClass, ImpairmentDetector, LabeledCase,
+    ParityDetector, SqmDetector,
 };
 use crate::impairment_ml::{LogisticRegression, Mlp};
 
@@ -307,6 +308,353 @@ pub fn run_grid(cfg: &GridConfig) -> GridResult {
     }
 }
 
+// ── ID-only gap predictor (the headline) ────────────────────────────────────
+
+/// The fixed ID-only diagnostic feature names, in order (see [`id_features`]).
+pub const ID_FEATURE_NAMES: [&str; 6] = [
+    "auc_in",
+    "dprime",
+    "overlap",
+    "var_ratio",
+    "tail_margin",
+    "pd_at_pfa",
+];
+
+fn mean_of(v: &[f64]) -> f64 {
+    if v.is_empty() {
+        0.0
+    } else {
+        v.iter().sum::<f64>() / v.len() as f64
+    }
+}
+
+fn std_pop(v: &[f64], m: f64) -> f64 {
+    if v.is_empty() {
+        0.0
+    } else {
+        (v.iter().map(|x| (x - m).powi(2)).sum::<f64>() / v.len() as f64).sqrt()
+    }
+}
+
+/// Nearest-rank quantile of a pre-sorted slice; `NaN` if empty.
+fn quantile(sorted: &[f64], q: f64) -> f64 {
+    if sorted.is_empty() {
+        return f64::NAN;
+    }
+    let idx = (q.clamp(0.0, 1.0) * (sorted.len() - 1) as f64).round() as usize;
+    sorted[idx.min(sorted.len() - 1)]
+}
+
+/// The six ID-only diagnostic features for a `(detector, class)`, computed purely
+/// from the in-distribution corpus (class positives vs `Nominal` negatives), with
+/// **no** access to any out-of-distribution data:
+/// `[auc_in, d′, overlap, var_ratio, tail_margin, pd_at_pfa]` (see
+/// [`ID_FEATURE_NAMES`]). These are the predictors the gap model uses to estimate
+/// how optimistic the ID AUC will prove under shift.
+pub fn id_features<D: ImpairmentDetector + ?Sized>(
+    det: &D,
+    corpus: &[LabeledCase],
+    class: ImpairmentClass,
+    target_pfa: f64,
+) -> [f64; 6] {
+    let mut pos: Vec<f64> = corpus
+        .iter()
+        .filter(|c| c.class == class)
+        .map(|c| det.score(&c.obs))
+        .collect();
+    let mut neg: Vec<f64> = corpus
+        .iter()
+        .filter(|c| c.class == ImpairmentClass::Nominal)
+        .map(|c| det.score(&c.obs))
+        .collect();
+    let auc_in = auc(&pos, &neg);
+    let (mp, mn) = (mean_of(&pos), mean_of(&neg));
+    let (sp, sn) = (std_pop(&pos, mp), std_pop(&neg, mn));
+    let pooled = (((sp * sp + sn * sn) / 2.0).sqrt()).max(1e-9);
+    let dprime = (mp - mn) / pooled;
+    let var_ratio = sp / sn.max(1e-9);
+    pos.sort_by(|a, b| a.partial_cmp(b).expect("no NaN scores"));
+    neg.sort_by(|a, b| a.partial_cmp(b).expect("no NaN scores"));
+    let q95_neg = quantile(&neg, 0.95);
+    let tail_margin = (quantile(&pos, 0.05) - q95_neg) / pooled;
+    let overlap = pos.iter().filter(|&&p| p <= q95_neg).count() as f64 / pos.len().max(1) as f64;
+    let thr = threshold_for_pfa(&neg, target_pfa);
+    let pd_at_pfa = pos.iter().filter(|&&p| p >= thr).count() as f64 / pos.len().max(1) as f64;
+    [auc_in, dprime, overlap, var_ratio, tail_margin, pd_at_pfa]
+}
+
+/// The self-perturbation slope: the local sensitivity of validation AUC to a small
+/// **self-imposed** severity perturbation, fitted as the OLS slope of per-class
+/// AUC on `(1 − scale)` over the mild probe corpora. It is an ID-time fragility
+/// probe — it uses the experimenter's own perturbed validation data, never the
+/// true OOD corpus — so it is reported as a *separate, ablatable* feature.
+fn self_perturbation_slope<D: ImpairmentDetector + ?Sized>(
+    det: &D,
+    probes: &[(f64, Vec<LabeledCase>)],
+    class: ImpairmentClass,
+) -> f64 {
+    let xcol: Vec<Vec<f64>> = probes.iter().map(|(s, _)| vec![1.0 - s]).collect();
+    let ys: Vec<f64> = probes
+        .iter()
+        .map(|(_, c)| auc_per_class(det, c, class))
+        .collect();
+    ridge_fit(&xcol, &ys, 0.0).get(1).copied().unwrap_or(0.0)
+}
+
+/// Configuration for building gap-predictor training rows.
+#[derive(Clone, Debug)]
+pub struct PredictorConfig {
+    /// The experiment grid (corpus sizes, severities, seeds, ML hyperparameters).
+    pub grid: GridConfig,
+    /// Append the (ablatable) self-perturbation slope feature.
+    pub include_self_slope: bool,
+    /// Mild probe scales for the self-perturbation slope (e.g. `[0.8, 0.9, 1.0]`).
+    pub probe_scales: Vec<f64>,
+    /// Ridge penalty for the gap predictor.
+    pub ridge_lambda: f64,
+}
+
+/// One training row for the gap predictor: ID-only features and the realised
+/// optimism gap (mean over the OOD severities) for a `(detector, class, seed)`.
+#[derive(Clone, Debug)]
+pub struct GapRow {
+    /// Detector name.
+    pub detector: String,
+    /// Impairment class.
+    pub class: ImpairmentClass,
+    /// Replication seed.
+    pub seed: u64,
+    /// ID-only features (6 core, plus the self-perturbation slope if enabled).
+    pub features: Vec<f64>,
+    /// Realised optimism gap = `AUC_in − mean_s AUC_out(s)`.
+    pub gap: f64,
+}
+
+/// A reproducible probe-corpus seed, distinct from the ID and OOD seeds.
+fn probe_seed(seed: u64, index: usize) -> u64 {
+    seed.wrapping_mul(0x9E37_79B1)
+        .wrapping_add(index as u64 + 1000)
+}
+
+/// Build the gap-predictor training rows: for each seed, train the learned
+/// detectors on an ID train split (leakage-guarded), then for each
+/// `(detector, class)` record the ID-only features on the held-out ID test set and
+/// the realised optimism gap against the OOD severity sweep.
+pub fn build_gap_rows(pc: &PredictorConfig) -> Vec<GapRow> {
+    let cfg = &pc.grid;
+    let classes = ImpairmentClass::impaired();
+    let mut rows = Vec::new();
+    for &seed in &cfg.seeds {
+        let id = generate_corpus(
+            &CorpusConfig {
+                n_per_class: cfg.n_per_class,
+                ..Default::default()
+            },
+            seed,
+        );
+        let split = stratified_split(&id, cfg.frac_train, seed);
+        assert!(
+            !split.near_duplicate_leakage(1e-6),
+            "leakage guard tripped for seed {seed}"
+        );
+        let dets = detectors_for_seed(&split.train, cfg, seed);
+        let oods: Vec<Vec<LabeledCase>> = cfg
+            .severities
+            .iter()
+            .enumerate()
+            .map(|(si, &s)| {
+                generate_corpus(
+                    &CorpusConfig {
+                        n_per_class: cfg.n_per_class,
+                        severity_scale: s,
+                        ..Default::default()
+                    },
+                    ood_seed(seed, si),
+                )
+            })
+            .collect();
+        // Mild self-perturbation probes (independent seeds), generated once per seed.
+        let probes: Vec<(f64, Vec<LabeledCase>)> = pc
+            .probe_scales
+            .iter()
+            .enumerate()
+            .map(|(pi, &s)| {
+                (
+                    s,
+                    generate_corpus(
+                        &CorpusConfig {
+                            n_per_class: cfg.n_per_class,
+                            severity_scale: s,
+                            ..Default::default()
+                        },
+                        probe_seed(seed, pi),
+                    ),
+                )
+            })
+            .collect();
+        for (name, d) in &dets {
+            for &class in &classes {
+                let id_auc = auc_per_class(d.as_ref(), &split.test, class);
+                let mean_ood = oods
+                    .iter()
+                    .map(|o| auc_per_class(d.as_ref(), o, class))
+                    .sum::<f64>()
+                    / oods.len().max(1) as f64;
+                let mut feats =
+                    id_features(d.as_ref(), &split.test, class, cfg.target_pfa).to_vec();
+                if pc.include_self_slope {
+                    feats.push(self_perturbation_slope(d.as_ref(), &probes, class));
+                }
+                rows.push(GapRow {
+                    detector: name.clone(),
+                    class,
+                    seed,
+                    features: feats,
+                    gap: id_auc - mean_ood,
+                });
+            }
+        }
+    }
+    rows
+}
+
+/// Per-column mean and population std over training rows (for standardisation).
+fn col_stats(rows: &[Vec<f64>]) -> (Vec<f64>, Vec<f64>) {
+    let p = rows.first().map(|r| r.len()).unwrap_or(0);
+    let n = rows.len().max(1) as f64;
+    let mut mean = vec![0.0; p];
+    for r in rows {
+        for (m, &v) in mean.iter_mut().zip(r.iter()) {
+            *m += v;
+        }
+    }
+    for m in &mut mean {
+        *m /= n;
+    }
+    let mut std = vec![0.0; p];
+    for r in rows {
+        for (k, &v) in r.iter().enumerate() {
+            std[k] += (v - mean[k]).powi(2);
+        }
+    }
+    for s in &mut std {
+        *s = (*s / n).sqrt().max(1e-9);
+    }
+    (mean, std)
+}
+
+fn zrow(row: &[f64], mean: &[f64], std: &[f64]) -> Vec<f64> {
+    row.iter()
+        .zip(mean.iter().zip(std.iter()))
+        .map(|(&v, (&m, &s))| (v - m) / s)
+        .collect()
+}
+
+/// A fitted ridge gap predictor with its feature standardisation.
+#[derive(Clone, Debug)]
+pub struct GapPredictor {
+    /// Per-feature training mean.
+    pub mean: Vec<f64>,
+    /// Per-feature training std.
+    pub std: Vec<f64>,
+    /// Ridge coefficients `[intercept, w…]` on standardised features.
+    pub coeffs: Vec<f64>,
+}
+
+impl GapPredictor {
+    /// Predict the optimism gap for a raw ID feature vector.
+    pub fn predict(&self, features: &[f64]) -> f64 {
+        ridge_predict(&self.coeffs, &zrow(features, &self.mean, &self.std))
+    }
+}
+
+/// Fit a ridge gap predictor on all rows (features standardised on the full set).
+pub fn fit_gap_predictor(rows: &[GapRow], lambda: f64) -> GapPredictor {
+    let x: Vec<Vec<f64>> = rows.iter().map(|r| r.features.clone()).collect();
+    let y: Vec<f64> = rows.iter().map(|r| r.gap).collect();
+    let (mean, std) = col_stats(&x);
+    let xz: Vec<Vec<f64>> = x.iter().map(|row| zrow(row, &mean, &std)).collect();
+    let coeffs = ridge_fit(&xz, &y, lambda);
+    GapPredictor { mean, std, coeffs }
+}
+
+/// A cross-validation result: out-of-fold `R²` (vs predict-the-mean), RMSE, the
+/// predicted-vs-actual pairs, and the number of held-out folds.
+#[derive(Clone, Debug)]
+pub struct CvResult {
+    /// Out-of-fold coefficient of determination (`> 0` ⇒ beats the global mean).
+    pub r2: f64,
+    /// Out-of-fold root-mean-square error.
+    pub rmse: f64,
+    /// `(predicted, actual)` pairs across all held-out folds.
+    pub pred_actual: Vec<(f64, f64)>,
+    /// Number of held-out folds (groups).
+    pub n_folds: usize,
+}
+
+fn cv_metrics(pa: Vec<(f64, f64)>, n_folds: usize) -> CvResult {
+    let n = pa.len().max(1) as f64;
+    let ybar = pa.iter().map(|(_, a)| a).sum::<f64>() / n;
+    let ss_tot: f64 = pa.iter().map(|(_, a)| (a - ybar).powi(2)).sum();
+    let ss_res: f64 = pa.iter().map(|(p, a)| (a - p).powi(2)).sum();
+    let r2 = if ss_tot > 0.0 {
+        1.0 - ss_res / ss_tot
+    } else {
+        0.0
+    };
+    CvResult {
+        r2,
+        rmse: (ss_res / n).sqrt(),
+        pred_actual: pa,
+        n_folds,
+    }
+}
+
+/// Leave-one-group-out CV: hold out all rows whose group key matches, train ridge
+/// (standardised per fold) on the rest, predict the held-out rows.
+fn loocv_grouped(rows: &[GapRow], lambda: f64, group_of: impl Fn(&GapRow) -> String) -> CvResult {
+    use std::collections::BTreeSet;
+    let groups: BTreeSet<String> = rows.iter().map(&group_of).collect();
+    let mut pred_actual = Vec::new();
+    for g in &groups {
+        let xtr: Vec<Vec<f64>> = rows
+            .iter()
+            .filter(|r| group_of(r) != *g)
+            .map(|r| r.features.clone())
+            .collect();
+        let ytr: Vec<f64> = rows
+            .iter()
+            .filter(|r| group_of(r) != *g)
+            .map(|r| r.gap)
+            .collect();
+        if xtr.is_empty() {
+            continue;
+        }
+        let (mean, std) = col_stats(&xtr);
+        let xz: Vec<Vec<f64>> = xtr.iter().map(|row| zrow(row, &mean, &std)).collect();
+        let coeffs = ridge_fit(&xz, &ytr, lambda);
+        for r in rows.iter().filter(|r| group_of(r) == *g) {
+            pred_actual.push((
+                ridge_predict(&coeffs, &zrow(&r.features, &mean, &std)),
+                r.gap,
+            ));
+        }
+    }
+    cv_metrics(pred_actual, groups.len())
+}
+
+/// Leave-one-**detector**-out CV: can ID-only features predict the optimism gap for
+/// a detector held out of training entirely? (The cross-detector headline.)
+pub fn loocv_by_detector(rows: &[GapRow], lambda: f64) -> CvResult {
+    loocv_grouped(rows, lambda, |r| r.detector.clone())
+}
+
+/// Leave-one-**class**-out CV: can ID-only features predict the optimism gap for an
+/// impairment class held out of training entirely? (The cross-class headline.)
+pub fn loocv_by_class(rows: &[GapRow], lambda: f64) -> CvResult {
+    loocv_grouped(rows, lambda, |r| r.class.label().to_string())
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -428,5 +776,78 @@ mod tests {
                 .any(|t| t.detector == "mlp" && t.spearman_rho > 0.0),
             "MLP should show a positive optimism-vs-severity trend on some class"
         );
+    }
+
+    fn predictor_config() -> PredictorConfig {
+        PredictorConfig {
+            grid: small_grid_config(),
+            include_self_slope: true,
+            probe_scales: vec![0.8, 0.9, 1.0],
+            ridge_lambda: 0.1,
+        }
+    }
+
+    #[test]
+    fn id_features_are_finite_and_sized() {
+        let corpus = generate_corpus(
+            &CorpusConfig {
+                n_per_class: 150,
+                ..Default::default()
+            },
+            4,
+        );
+        let f = id_features(
+            &crate::impairment_eval::FusedDetector,
+            &corpus,
+            ImpairmentClass::Jamming,
+            0.05,
+        );
+        assert_eq!(f.len(), 6);
+        assert!(f.iter().all(|v| v.is_finite()), "features {f:?}");
+        // The fused statistic separates jamming from nominal, so AUC_in is high.
+        assert!(f[0] > 0.8, "auc_in feature {} should be high", f[0]);
+    }
+
+    #[test]
+    fn gap_predictor_beats_mean_across_held_out_detectors_and_classes() {
+        let pc = predictor_config();
+        let rows = build_gap_rows(&pc);
+        let expected = 7 * ImpairmentClass::impaired().len() * pc.grid.seeds.len();
+        assert_eq!(rows.len(), expected, "one row per (detector, class, seed)");
+        assert!(
+            rows.iter()
+                .all(|r| r.features.len() == 7 && r.gap.is_finite()),
+            "6 ID features + self-slope, finite gaps"
+        );
+
+        // HEADLINE: ID-only diagnostics predict the OOD optimism gap for a detector
+        // — and for an impairment class — held entirely out of training.
+        let by_det = loocv_by_detector(&rows, pc.ridge_lambda);
+        let by_class = loocv_by_class(&rows, pc.ridge_lambda);
+        assert!(
+            by_det.r2 > 0.0,
+            "LOO-by-detector R² {} must beat predict-the-mean",
+            by_det.r2
+        );
+        assert!(
+            by_class.r2 > 0.0,
+            "LOO-by-class R² {} must beat predict-the-mean",
+            by_class.r2
+        );
+        assert_eq!(by_det.n_folds, 7);
+        assert_eq!(by_class.n_folds, ImpairmentClass::impaired().len());
+
+        // Deterministic end to end.
+        let rows2 = build_gap_rows(&pc);
+        let by_det2 = loocv_by_detector(&rows2, pc.ridge_lambda);
+        assert_eq!(
+            by_det.r2.to_bits(),
+            by_det2.r2.to_bits(),
+            "predictor pipeline must be reproducible"
+        );
+
+        // The full-data fit predicts a finite gap for a held example.
+        let predictor = fit_gap_predictor(&rows, pc.ridge_lambda);
+        assert!(predictor.predict(&rows[0].features).is_finite());
     }
 }
