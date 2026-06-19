@@ -33,6 +33,7 @@
 //! polarity is receiver-dependent so its adapters take it as a parameter.
 
 pub mod gnsslogger;
+pub mod jammertest;
 pub mod raim;
 pub mod rinex;
 pub mod sqm;
