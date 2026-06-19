@@ -400,29 +400,41 @@ pub fn id_features<D: ImpairmentDetector + ?Sized>(
     class: ImpairmentClass,
     target_pfa: f64,
 ) -> [f64; 6] {
-    let mut pos: Vec<f64> = corpus
+    let pos: Vec<f64> = corpus
         .iter()
         .filter(|c| c.class == class)
         .map(|c| det.score(&c.obs))
         .collect();
-    let mut neg: Vec<f64> = corpus
+    let neg: Vec<f64> = corpus
         .iter()
         .filter(|c| c.class == ImpairmentClass::Nominal)
         .map(|c| det.score(&c.obs))
         .collect();
-    let auc_in = auc(&pos, &neg);
-    let (mp, mn) = (mean_of(&pos), mean_of(&neg));
-    let (sp, sn) = (std_pop(&pos, mp), std_pop(&neg, mn));
+    id_features_from_scores(&pos, &neg, target_pfa)
+}
+
+/// The six ID-only diagnostic features computed directly from a detector's score
+/// distribution: `pos` are the impaired (positive) scores and `neg` the nominal
+/// (negative) scores, both in-distribution. This is the score-level core shared by
+/// the synthetic path ([`id_features`]) and the real-data path
+/// ([`build_real_gap_rows`]), so a real dataset that exposes one scalar detector
+/// statistic per labelled observation runs the identical feature extraction.
+pub fn id_features_from_scores(pos: &[f64], neg: &[f64], target_pfa: f64) -> [f64; 6] {
+    let auc_in = auc(pos, neg);
+    let (mp, mn) = (mean_of(pos), mean_of(neg));
+    let (sp, sn) = (std_pop(pos, mp), std_pop(neg, mn));
     let pooled = (((sp * sp + sn * sn) / 2.0).sqrt()).max(1e-9);
     let dprime = (mp - mn) / pooled;
     let var_ratio = sp / sn.max(1e-9);
-    pos.sort_by(|a, b| a.partial_cmp(b).expect("no NaN scores"));
-    neg.sort_by(|a, b| a.partial_cmp(b).expect("no NaN scores"));
-    let q95_neg = quantile(&neg, 0.95);
-    let tail_margin = (quantile(&pos, 0.05) - q95_neg) / pooled;
-    let overlap = pos.iter().filter(|&&p| p <= q95_neg).count() as f64 / pos.len().max(1) as f64;
-    let thr = threshold_for_pfa(&neg, target_pfa);
-    let pd_at_pfa = pos.iter().filter(|&&p| p >= thr).count() as f64 / pos.len().max(1) as f64;
+    let mut posv = pos.to_vec();
+    let mut negv = neg.to_vec();
+    posv.sort_by(|a, b| a.partial_cmp(b).expect("no NaN scores"));
+    negv.sort_by(|a, b| a.partial_cmp(b).expect("no NaN scores"));
+    let q95_neg = quantile(&negv, 0.95);
+    let tail_margin = (quantile(&posv, 0.05) - q95_neg) / pooled;
+    let overlap = posv.iter().filter(|&&p| p <= q95_neg).count() as f64 / posv.len().max(1) as f64;
+    let thr = threshold_for_pfa(&negv, target_pfa);
+    let pd_at_pfa = posv.iter().filter(|&&p| p >= thr).count() as f64 / posv.len().max(1) as f64;
     [auc_in, dprime, overlap, var_ratio, tail_margin, pd_at_pfa]
 }
 
@@ -653,22 +665,54 @@ fn cv_metrics(pa: Vec<(f64, f64)>, n_folds: usize) -> CvResult {
     }
 }
 
-/// Leave-one-group-out CV: hold out all rows whose group key matches, train ridge
-/// (standardised per fold) on the rest, predict the held-out rows.
-fn loocv_grouped(rows: &[GapRow], lambda: f64, group_of: impl Fn(&GapRow) -> String) -> CvResult {
+/// A detector-class observation for cross-validation: an in-distribution feature
+/// vector and the realised optimism gap, with string grouping keys. Both the
+/// synthetic path ([`GapRow`]) and the real-data path ([`build_real_gap_rows`])
+/// reduce to this, so they share the identical CV and permutation machinery.
+#[derive(Clone, Debug)]
+pub struct GapSample {
+    /// Detector name (the leave-one-detector-out grouping key).
+    pub detector: String,
+    /// Class label (the leave-one-class-out grouping key).
+    pub class: String,
+    /// In-distribution feature vector.
+    pub features: Vec<f64>,
+    /// Realised optimism gap.
+    pub gap: f64,
+}
+
+fn gaprow_to_sample(r: &GapRow) -> GapSample {
+    GapSample {
+        detector: r.detector.clone(),
+        class: r.class.label().to_string(),
+        features: r.features.clone(),
+        gap: r.gap,
+    }
+}
+
+/// Leave-one-group-out CV over samples (group by detector or by class): hold out a
+/// group, train ridge standardised on the training fold only, predict the held out.
+fn loocv_samples(samples: &[GapSample], lambda: f64, by_detector: bool) -> CvResult {
     use std::collections::BTreeSet;
-    let groups: BTreeSet<String> = rows.iter().map(&group_of).collect();
+    let key = |s: &GapSample| {
+        if by_detector {
+            s.detector.clone()
+        } else {
+            s.class.clone()
+        }
+    };
+    let groups: BTreeSet<String> = samples.iter().map(&key).collect();
     let mut pred_actual = Vec::new();
     for g in &groups {
-        let xtr: Vec<Vec<f64>> = rows
+        let xtr: Vec<Vec<f64>> = samples
             .iter()
-            .filter(|r| group_of(r) != *g)
-            .map(|r| r.features.clone())
+            .filter(|s| key(s) != *g)
+            .map(|s| s.features.clone())
             .collect();
-        let ytr: Vec<f64> = rows
+        let ytr: Vec<f64> = samples
             .iter()
-            .filter(|r| group_of(r) != *g)
-            .map(|r| r.gap)
+            .filter(|s| key(s) != *g)
+            .map(|s| s.gap)
             .collect();
         if xtr.is_empty() {
             continue;
@@ -676,26 +720,67 @@ fn loocv_grouped(rows: &[GapRow], lambda: f64, group_of: impl Fn(&GapRow) -> Str
         let (mean, std) = col_stats(&xtr);
         let xz: Vec<Vec<f64>> = xtr.iter().map(|row| zrow(row, &mean, &std)).collect();
         let coeffs = ridge_fit(&xz, &ytr, lambda);
-        for r in rows.iter().filter(|r| group_of(r) == *g) {
+        for s in samples.iter().filter(|s| key(s) == *g) {
             pred_actual.push((
-                ridge_predict(&coeffs, &zrow(&r.features, &mean, &std)),
-                r.gap,
+                ridge_predict(&coeffs, &zrow(&s.features, &mean, &std)),
+                s.gap,
             ));
         }
     }
     cv_metrics(pred_actual, groups.len())
 }
 
+/// Permutation-null p-value over samples: shuffle the gap targets `n_perms` times
+/// (seeded) and return the fraction of permuted out-of-fold R² values at or above
+/// the observed one, `(#{perm ≥ obs} + 1)/(n_perms + 1)`.
+fn permutation_samples(
+    samples: &[GapSample],
+    lambda: f64,
+    by_detector: bool,
+    n_perms: usize,
+    seed: u64,
+) -> f64 {
+    use rand::{Rng, SeedableRng};
+    use rand_chacha::ChaCha8Rng;
+    let observed = loocv_samples(samples, lambda, by_detector).r2;
+    let gaps: Vec<f64> = samples.iter().map(|s| s.gap).collect();
+    let mut rng = ChaCha8Rng::seed_from_u64(seed);
+    let mut ge = 0usize;
+    for _ in 0..n_perms.max(1) {
+        let mut g = gaps.clone();
+        for i in (1..g.len()).rev() {
+            g.swap(i, rng.gen_range(0..=i));
+        }
+        let permuted: Vec<GapSample> = samples
+            .iter()
+            .zip(g.iter())
+            .map(|(s, &gap)| GapSample { gap, ..s.clone() })
+            .collect();
+        if loocv_samples(&permuted, lambda, by_detector).r2 >= observed {
+            ge += 1;
+        }
+    }
+    (ge as f64 + 1.0) / (n_perms.max(1) as f64 + 1.0)
+}
+
 /// Leave-one-**detector**-out CV: can ID-only features predict the optimism gap for
 /// a detector held out of training entirely? (The cross-detector headline.)
 pub fn loocv_by_detector(rows: &[GapRow], lambda: f64) -> CvResult {
-    loocv_grouped(rows, lambda, |r| r.detector.clone())
+    loocv_samples(
+        &rows.iter().map(gaprow_to_sample).collect::<Vec<_>>(),
+        lambda,
+        true,
+    )
 }
 
 /// Leave-one-**class**-out CV: can ID-only features predict the optimism gap for an
 /// impairment class held out of training entirely? (The cross-class headline.)
 pub fn loocv_by_class(rows: &[GapRow], lambda: f64) -> CvResult {
-    loocv_grouped(rows, lambda, |r| r.class.label().to_string())
+    loocv_samples(
+        &rows.iter().map(gaprow_to_sample).collect::<Vec<_>>(),
+        lambda,
+        false,
+    )
 }
 
 /// Return a copy of `rows` keeping only the feature columns in `keep` (by index).
@@ -727,13 +812,6 @@ pub enum CvAxis {
     Class,
 }
 
-fn loocv_axis(rows: &[GapRow], lambda: f64, axis: CvAxis) -> CvResult {
-    match axis {
-        CvAxis::Detector => loocv_by_detector(rows, lambda),
-        CvAxis::Class => loocv_by_class(rows, lambda),
-    }
-}
-
 /// Permutation-null p-value for a leave-one-group-out CV R²: shuffle the gap
 /// targets `n_perms` times (seeded), recompute the out-of-fold R² each time, and
 /// return the fraction of permuted R²s that meet or exceed the observed R²
@@ -746,33 +824,125 @@ pub fn permutation_pvalue(
     n_perms: usize,
     seed: u64,
 ) -> f64 {
-    use rand::{Rng, SeedableRng};
-    use rand_chacha::ChaCha8Rng;
-    let observed = loocv_axis(rows, lambda, axis).r2;
-    let gaps: Vec<f64> = rows.iter().map(|r| r.gap).collect();
-    let mut rng = ChaCha8Rng::seed_from_u64(seed);
-    let mut ge = 0usize;
-    for _ in 0..n_perms.max(1) {
-        let mut g = gaps.clone();
-        for i in (1..g.len()).rev() {
-            g.swap(i, rng.gen_range(0..=i));
-        }
-        let permuted: Vec<GapRow> = rows
+    let samples: Vec<GapSample> = rows.iter().map(gaprow_to_sample).collect();
+    permutation_samples(&samples, lambda, axis == CvAxis::Detector, n_perms, seed)
+}
+
+// ── Real-data probe ─────────────────────────────────────────────────────────
+//
+// The bridge that lets a real labelled dataset run the *identical* H4 pipeline.
+// A real detector reduces to one scalar score per observation, so a dataset is a
+// flat list of [`ProbeRecord`]s. The five-observable schema need NOT be complete:
+// each available observable (e.g. C/N0 drop, AGC excess) is its own "detector",
+// scored independently, which matches the ragged feature matrix real public sets
+// expose (C/N0 is widely available, AGC only on receiver logs, SQM only from
+// tracked IQ, RAIM derivable from pseudoranges).
+
+/// One labelled real-data observation: a scalar `score` from one detector on one
+/// case, its impairment `class` (ignored when `is_nominal`), and the `shift_bin`
+/// (the severity/condition group; one designated bin is the in-distribution
+/// reference).
+#[derive(Clone, Debug, serde::Serialize, serde::Deserialize)]
+pub struct ProbeRecord {
+    /// Detector / observable name (e.g. `"cn0"`, `"agc"`).
+    pub detector: String,
+    /// Impairment class label (e.g. `"jamming"`); ignored when `is_nominal`.
+    pub class: String,
+    /// Severity / condition group; the `id_bin` argument names the reference bin.
+    pub shift_bin: String,
+    /// The detector's scalar score for this observation (higher ⇒ more impaired).
+    pub score: f64,
+    /// Whether this is a nominal (clean) case — the negative for AUC.
+    pub is_nominal: bool,
+}
+
+/// Build gap samples from real-data records, one per `(detector, class)`. For each
+/// detector the in-distribution per-class AUC is computed in `id_bin` (class
+/// positives vs nominal negatives), the realised gap is the ID AUC minus the mean
+/// AUC over the shifted bins, and the six ID-only features are extracted on the
+/// in-distribution bin. Pairs with no nominal or no class data in a bin are skipped.
+pub fn build_real_gap_rows(
+    records: &[ProbeRecord],
+    id_bin: &str,
+    target_pfa: f64,
+) -> Vec<GapSample> {
+    use std::collections::BTreeSet;
+    let detectors: BTreeSet<&str> = records.iter().map(|r| r.detector.as_str()).collect();
+    let bins: BTreeSet<&str> = records.iter().map(|r| r.shift_bin.as_str()).collect();
+    let classes: BTreeSet<&str> = records
+        .iter()
+        .filter(|r| !r.is_nominal)
+        .map(|r| r.class.as_str())
+        .collect();
+    let scores = |det: &str, bin: &str, cls: Option<&str>| -> Vec<f64> {
+        records
             .iter()
-            .zip(g.iter())
-            .map(|(r, &gap)| GapRow {
-                detector: r.detector.clone(),
-                class: r.class,
-                seed: r.seed,
-                features: r.features.clone(),
-                gap,
+            .filter(|r| {
+                r.detector == det
+                    && r.shift_bin == bin
+                    && match cls {
+                        Some(c) => !r.is_nominal && r.class == c,
+                        None => r.is_nominal,
+                    }
             })
-            .collect();
-        if loocv_axis(&permuted, lambda, axis).r2 >= observed {
-            ge += 1;
+            .map(|r| r.score)
+            .collect()
+    };
+    let mut out = Vec::new();
+    for det in &detectors {
+        let neg_in = scores(det, id_bin, None);
+        if neg_in.is_empty() {
+            continue;
+        }
+        for cls in &classes {
+            let pos_in = scores(det, id_bin, Some(cls));
+            if pos_in.is_empty() {
+                continue;
+            }
+            let auc_in = auc(&pos_in, &neg_in);
+            let shifted: Vec<f64> = bins
+                .iter()
+                .filter(|b| **b != id_bin)
+                .filter_map(|b| {
+                    let neg_b = scores(det, b, None);
+                    let pos_b = scores(det, b, Some(cls));
+                    if neg_b.is_empty() || pos_b.is_empty() {
+                        None
+                    } else {
+                        Some(auc(&pos_b, &neg_b))
+                    }
+                })
+                .collect();
+            if shifted.is_empty() {
+                continue;
+            }
+            let mean_shifted = shifted.iter().sum::<f64>() / shifted.len() as f64;
+            out.push(GapSample {
+                detector: det.to_string(),
+                class: cls.to_string(),
+                features: id_features_from_scores(&pos_in, &neg_in, target_pfa).to_vec(),
+                gap: auc_in - mean_shifted,
+            });
         }
     }
-    (ge as f64 + 1.0) / (n_perms.max(1) as f64 + 1.0)
+    out
+}
+
+/// Leave-one-out CV for real-data gap samples (cross-detector or cross-class) — the
+/// same out-of-fold ridge as the synthetic path, against predict-the-mean.
+pub fn real_loocv(samples: &[GapSample], lambda: f64, axis: CvAxis) -> CvResult {
+    loocv_samples(samples, lambda, axis == CvAxis::Detector)
+}
+
+/// Permutation-null p-value for the real-data leave-one-out CV R².
+pub fn real_permutation_pvalue(
+    samples: &[GapSample],
+    lambda: f64,
+    axis: CvAxis,
+    n_perms: usize,
+    seed: u64,
+) -> f64 {
+    permutation_samples(samples, lambda, axis == CvAxis::Detector, n_perms, seed)
 }
 
 #[cfg(test)]
@@ -1014,6 +1184,88 @@ mod tests {
         assert!(
             p < 0.5,
             "real cross-class R² should beat most permutations (p={p})"
+        );
+    }
+
+    #[test]
+    fn real_data_probe_ingests_records_and_runs_the_pipeline() {
+        // Export the synthetic corpus to ProbeRecords (each detector's score per
+        // case across an ID bin and two shifted bins), then run the real-data
+        // ingest. This proves the ingest reproduces the H4 pipeline on the engine.
+        let id_corpus = generate_corpus(
+            &CorpusConfig {
+                n_per_class: 200,
+                ..Default::default()
+            },
+            7,
+        );
+        let probe_dets: Vec<(&str, Box<dyn ImpairmentDetector>)> = vec![
+            ("energy", Box::new(EnergyDetector)),
+            ("agc", Box::new(AgcDetector)),
+            ("sqm", Box::new(SqmDetector)),
+            ("parity", Box::new(ParityDetector)),
+            ("fused", Box::new(FusedDetector)),
+            (
+                "logreg",
+                Box::new(LogisticRegression::fit(&id_corpus, 400, 0.3)),
+            ),
+            ("mlp", Box::new(Mlp::fit(&id_corpus, 16, 800, 0.1, 1))),
+        ];
+        let bins = [(1.0_f64, "id"), (0.6, "s060"), (0.3, "s030")];
+        let mut records = Vec::new();
+        for (s, bin) in bins {
+            let corpus = generate_corpus(
+                &CorpusConfig {
+                    n_per_class: 200,
+                    severity_scale: s,
+                    ..Default::default()
+                },
+                7,
+            );
+            for (name, d) in &probe_dets {
+                for case in &corpus {
+                    records.push(ProbeRecord {
+                        detector: name.to_string(),
+                        class: case.class.label().to_string(),
+                        shift_bin: bin.to_string(),
+                        score: d.score(&case.obs),
+                        is_nominal: !case.is_impaired(),
+                    });
+                }
+            }
+        }
+        let samples = build_real_gap_rows(&records, "id", 0.05);
+        assert_eq!(
+            samples.len(),
+            7 * 4,
+            "one sample per (detector, impaired class)"
+        );
+        assert!(samples
+            .iter()
+            .all(|s| s.features.len() == 6 && s.gap.is_finite()));
+        // The optimism gap is real and correctly signed (shifted AUC ≤ ID AUC on average).
+        let mean_gap = samples.iter().map(|s| s.gap).sum::<f64>() / samples.len() as f64;
+        assert!(
+            mean_gap > 0.0,
+            "mean real-ingest gap {mean_gap} should be positive"
+        );
+        // The same out-of-fold CV runs, has the right fold count, and is deterministic.
+        let by_class = real_loocv(&samples, 0.1, CvAxis::Class);
+        assert!(by_class.r2.is_finite() && by_class.n_folds == 4);
+        let again = real_loocv(
+            &build_real_gap_rows(&records, "id", 0.05),
+            0.1,
+            CvAxis::Class,
+        );
+        assert_eq!(
+            by_class.r2.to_bits(),
+            again.r2.to_bits(),
+            "ingest pipeline must be reproducible"
+        );
+        let p = real_permutation_pvalue(&samples, 0.1, CvAxis::Class, 200, 7);
+        assert!(
+            (1.0 / 201.0..=1.0).contains(&p),
+            "permutation p {p} must be a probability"
         );
     }
 }
