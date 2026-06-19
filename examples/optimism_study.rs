@@ -44,7 +44,7 @@ fn paper_grid() -> GridConfig {
         bootstrap_alpha: 0.05,
         logreg_epochs: 500,
         logreg_lr: 0.3,
-        mlp_hidden: 16,
+        mlp_hidden_sizes: vec![4, 8, 16, 32],
         mlp_epochs: 1200,
         mlp_lr: 0.1,
     }
@@ -52,7 +52,7 @@ fn paper_grid() -> GridConfig {
 
 fn config_hash(g: &GridConfig, pc: &PredictorConfig) -> String {
     let canon = format!(
-        "n={} ft={} sev={:?} seeds={:?} pfa={} boot={}/{} lr_ep={} lr={} mlp={}x{}@{} \
+        "n={} ft={} sev={:?} seeds={:?} pfa={} boot={}/{} lr_ep={} lr={} mlp={:?}x{}@{} \
          self={} probes={:?} lambda={}",
         g.n_per_class,
         g.frac_train,
@@ -63,7 +63,7 @@ fn config_hash(g: &GridConfig, pc: &PredictorConfig) -> String {
         g.bootstrap_alpha,
         g.logreg_epochs,
         g.logreg_lr,
-        g.mlp_hidden,
+        g.mlp_hidden_sizes,
         g.mlp_epochs,
         g.mlp_lr,
         pc.include_self_slope,
@@ -161,9 +161,37 @@ fn main() {
             .collect();
         mean(&gaps)
     };
-    let learned = ["logreg", "mlp"];
-    let physics_mean = mean(&PHYSICS.iter().map(|d| det_mean_gap(d)).collect::<Vec<_>>());
-    let learned_mean = mean(&learned.iter().map(|d| det_mean_gap(d)).collect::<Vec<_>>());
+    // Three families: physics baselines, full-feature learned (logreg + MLPs), and
+    // single-feature learned controls (logreg-<obs>) — the H2 evidence-breadth control.
+    let is_physics = |d: &str| PHYSICS.contains(&d);
+    let is_single = |d: &str| d.starts_with("logreg-");
+    let group_mean = |pred: &dyn Fn(&str) -> bool| -> f64 {
+        mean(
+            &g.detectors
+                .iter()
+                .filter(|d| pred(d))
+                .map(|d| det_mean_gap(d))
+                .collect::<Vec<_>>(),
+        )
+    };
+    let physics_mean = group_mean(&|d: &str| is_physics(d));
+    let learned_single_mean = group_mean(&|d: &str| is_single(d));
+    let learned_mean = group_mean(&|d: &str| !is_physics(d) && !is_single(d));
+    // Matched-dimensionality pairs: single-observable physics vs single-feature learned.
+    let matched_pairs: Vec<Value> = [
+        ("energy(cn0-drop)", "logreg-cn0"),
+        ("agc-excess", "logreg-agc"),
+        ("raim-parity", "logreg-parity"),
+    ]
+    .iter()
+    .map(|(phys, learn)| {
+        json!({
+            "observable_pair": [phys, learn],
+            "physics_mean_gap": det_mean_gap(phys),
+            "learned_mean_gap": det_mean_gap(learn),
+        })
+    })
+    .collect();
 
     // Predictor: full grid + cross-detector / cross-class CV, with the ablation.
     eprintln!("building gap-predictor rows (with self-slope)…");
@@ -231,7 +259,7 @@ fn main() {
                 "bootstrap_resamples": grid.bootstrap_resamples,
                 "bootstrap_alpha": grid.bootstrap_alpha,
                 "logreg": { "epochs": grid.logreg_epochs, "lr": grid.logreg_lr },
-                "mlp": { "hidden": grid.mlp_hidden, "epochs": grid.mlp_epochs, "lr": grid.mlp_lr },
+                "mlp": { "hidden_sizes": grid.mlp_hidden_sizes, "epochs": grid.mlp_epochs, "lr": grid.mlp_lr },
             },
             "predictor": {
                 "include_self_slope": pc.include_self_slope,
@@ -246,11 +274,17 @@ fn main() {
         "learned_vs_physics": {
             "physics_mean_gap": physics_mean,
             "learned_mean_gap": learned_mean,
+            "learned_single_feature_mean_gap": learned_single_mean,
+            "matched_dimensionality_pairs": matched_pairs,
             "per_detector_mean_gap": g.detectors.iter()
                 .map(|d| json!({ "detector": d, "mean_gap": det_mean_gap(d) }))
                 .collect::<Vec<_>>(),
-            "note": "Mean optimism gap pooled over classes and severities. A larger learned \
-                     gap is the over-fitting-to-tuning-regime signature this study isolates.",
+            "note": "Mean optimism gap pooled over classes and severities, by family. \
+                     learned = full-feature (logreg + MLPs); learned_single_feature = \
+                     logreg on one observable. matched_dimensionality_pairs compare a \
+                     single-observable physics baseline against a single-feature learned \
+                     detector reading the same observable — the H2 evidence-breadth control: \
+                     similar gaps within a pair ⇒ the gap is about evidence breadth, not learning.",
         },
         "gap_predictor": {
             "feature_names": feature_names,
