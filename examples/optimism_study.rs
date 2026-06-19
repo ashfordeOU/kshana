@@ -17,8 +17,8 @@
 
 use kshana::impairment_eval::ImpairmentClass;
 use kshana::impairment_study::{
-    build_gap_rows, fit_gap_predictor, loocv_by_class, loocv_by_detector, run_grid, CvResult,
-    GridConfig, PredictorConfig, ID_FEATURE_NAMES,
+    build_gap_rows, fit_gap_predictor, loocv_by_class, loocv_by_detector, permutation_pvalue,
+    run_grid, select_features, CvAxis, CvResult, GridConfig, PredictorConfig, ID_FEATURE_NAMES,
 };
 use serde_json::{json, Value};
 use sha2::{Digest, Sha256};
@@ -95,6 +95,15 @@ fn mean(v: &[f64]) -> f64 {
     }
 }
 
+/// Feature names for the shape-only (auc_in-dropped) predictor.
+fn feature_names_shape(include_self_slope: bool) -> Vec<&'static str> {
+    let mut v: Vec<&'static str> = ID_FEATURE_NAMES[1..].to_vec();
+    if include_self_slope {
+        v.push("self_perturbation_slope");
+    }
+    v
+}
+
 fn main() {
     let out = std::env::args()
         .nth(1)
@@ -137,6 +146,7 @@ fn main() {
                 "spearman_rho": t.spearman_rho,
                 "spearman_p": t.spearman_p,
                 "scaling_slope": t.slope,
+                "id_auc_mean": t.id_auc_mean,
             })
         })
         .collect();
@@ -171,13 +181,34 @@ fn main() {
     let by_det_ablate = loocv_by_detector(&rows_ablate, pc.ridge_lambda);
     let by_class_ablate = loocv_by_class(&rows_ablate, pc.ridge_lambda);
 
-    let feature_names: Vec<&str> = {
-        let mut v: Vec<&str> = ID_FEATURE_NAMES.to_vec();
-        if pc.include_self_slope {
-            v.push("self_perturbation_slope");
-        }
-        v
-    };
+    // The honest "shape-only" predictor: drop auc_in (feature index 0), which is one
+    // additive term of the target gap, so its predictive value is partly tautological.
+    // If the shape features alone still beat predict-the-mean, the predictability is real.
+    let n_feat = rows[0].features.len();
+    let shape_keep: Vec<usize> = (1..n_feat).collect();
+    let rows_shape = select_features(&rows, &shape_keep);
+    let by_det_shape = loocv_by_detector(&rows_shape, pc.ridge_lambda);
+    let by_class_shape = loocv_by_class(&rows_shape, pc.ridge_lambda);
+
+    // Permutation-null p-values for the headline R²s (full feature set).
+    eprintln!("running permutation nulls…");
+    let n_perms = 2000;
+    let p_det = permutation_pvalue(&rows, pc.ridge_lambda, CvAxis::Detector, n_perms, 20260619);
+    let p_class = permutation_pvalue(&rows, pc.ridge_lambda, CvAxis::Class, n_perms, 20260619);
+
+    // Coefficients labelled with the leading intercept so a reader cannot mis-zip them.
+    let mut coeff_labels: Vec<&str> = vec!["intercept"];
+    coeff_labels.extend(ID_FEATURE_NAMES.iter().copied());
+    if pc.include_self_slope {
+        coeff_labels.push("self_perturbation_slope");
+    }
+    let coeffs_labeled: Vec<Value> = coeff_labels
+        .iter()
+        .zip(predictor.coeffs.iter())
+        .map(|(name, &v)| json!({ "name": name, "value": v }))
+        .collect();
+
+    let feature_names: Vec<&str> = coeff_labels[1..].to_vec();
 
     let value = json!({
         "schema_version": SCHEMA_VERSION,
@@ -223,15 +254,31 @@ fn main() {
         },
         "gap_predictor": {
             "feature_names": feature_names,
-            "coeffs_standardized": predictor.coeffs,
+            "coeffs_standardized_with_intercept": coeffs_labeled,
             "cv_leave_one_detector_out": cv_json(&by_det),
             "cv_leave_one_class_out": cv_json(&by_class),
+            "permutation_null": {
+                "n_permutations": n_perms,
+                "p_leave_one_detector_out": p_det,
+                "p_leave_one_class_out": p_class,
+                "note": "Fraction of label-permuted runs whose out-of-fold R² ≥ the observed R² \
+                         ((#≥obs + 1)/(n+1)). Small p ⇒ the predictability is unlikely under no \
+                         ID→gap relationship.",
+            },
+            "ablation_no_auc_in": {
+                "feature_names": feature_names_shape(pc.include_self_slope),
+                "cv_leave_one_detector_out": cv_json(&by_det_shape),
+                "cv_leave_one_class_out": cv_json(&by_class_shape),
+                "note": "auc_in removed. Because the target gap = auc_in − mean_OOD, auc_in is one \
+                         additive term of the target; this shape-only predictor shows the \
+                         NON-tautological predictability from score-distribution shape alone.",
+            },
             "ablation_no_self_slope": {
                 "feature_names": ID_FEATURE_NAMES,
                 "cv_leave_one_detector_out": cv_json(&by_det_ablate),
                 "cv_leave_one_class_out": cv_json(&by_class_ablate),
-                "note": "Self-perturbation slope removed. Compare R² to the headline to gauge \
-                         how much of the predictability is carried by the ablatable feature.",
+                "note": "Self-perturbation slope removed (the only generator-touching feature). \
+                         Compare R² to the headline to gauge how much it carries.",
             },
         },
     });
@@ -246,13 +293,18 @@ fn main() {
 
     let n_rows: usize = rows.len();
     println!(
-        "optimism-study | {} cells, {} trends, {} predictor rows | LOO-det R² {:.3} / LOO-class R² {:.3} \
-         (ablation {:.3} / {:.3}) | learned gap {:.3} vs physics {:.3} | MODELLED synthetic → {}",
+        "optimism-study | {} cells, {} trends, {} rows | LOO-det R² {:.3} (p={:.4}) / LOO-class R² {:.3} (p={:.4}) \
+         | shape-only (no auc_in) {:.3} / {:.3} | no-self-slope {:.3} / {:.3} | learned gap {:.3} vs physics {:.3} \
+         | MODELLED synthetic → {}",
         g.cells.len(),
         g.trends.len(),
         n_rows,
         by_det.r2,
+        p_det,
         by_class.r2,
+        p_class,
+        by_det_shape.r2,
+        by_class_shape.r2,
         by_det_ablate.r2,
         by_class_ablate.r2,
         learned_mean,
