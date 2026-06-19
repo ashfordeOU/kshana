@@ -217,17 +217,21 @@ fn solve_linear(mut a: Vec<Vec<f64>>, mut b: Vec<f64>) -> Option<Vec<f64>> {
         }
         a.swap(col, piv);
         b.swap(col, piv);
-        let d = a[col][col];
-        for r in 0..n {
+        // Snapshot the pivot row/RHS so the elimination can read it while mutating
+        // the other rows (and so the column sweep is an iterator, not an index loop).
+        let pivot = a[col].clone();
+        let pivot_b = b[col];
+        let d = pivot[col];
+        for (r, row) in a.iter_mut().enumerate() {
             if r == col {
                 continue;
             }
-            let f = a[r][col] / d;
+            let f = row[col] / d;
             if f != 0.0 {
-                for c in col..n {
-                    a[r][c] -= f * a[col][c];
+                for (cell, &pv) in row.iter_mut().zip(pivot.iter()).skip(col) {
+                    *cell -= f * pv;
                 }
-                b[r] -= f * b[col];
+                b[r] -= f * pivot_b;
             }
         }
     }
