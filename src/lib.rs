@@ -40,6 +40,7 @@ pub mod hybrid;
 pub mod igrf;
 mod igrf_data;
 pub mod impairment_eval;
+pub mod impairment_ml;
 pub mod inertial;
 pub mod integrator;
 pub mod integrity_impact;
