@@ -92,13 +92,32 @@ jobs:
           exit 1
 
   pypi:
-    name: PyPI (${{ matrix.os }})
+    name: PyPI (${{ matrix.os }} / ${{ matrix.target }})
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 40
+    timeout-minutes: 60
+    # Full platform-tag matrix (m37c34cfc): linux x86_64 + aarch64 (manylinux_2_28),
+    # macOS arm64 + x86_64, Windows x64 + arm64 — the same matrix wheels.yml verifies.
+    # Each wheel uploads with --skip-existing so re-runs and the per-job sdist overlap
+    # are safe. fail-fast:false so one platform's runner hiccup never blocks the rest.
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+            target: x86_64
+          - os: ubuntu-latest
+            target: aarch64
+          - os: macos-latest # macos-14 runner is arm64
+            target: aarch64
+          - os: macos-13 # intel mac
+            target: x86_64
+          - os: windows-latest
+            target: x64
+          # Windows ARM64 builds natively on a windows-11-arm runner: maturin needs an
+          # interpreter whose architecture matches the target, so the native ARM64 runner
+          # (GA on GitHub-hosted public repos) ships an ARM64 Python and just works.
+          - os: windows-11-arm
+            target: aarch64
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -108,9 +127,13 @@ jobs:
         uses: PyO3/maturin-action@v1
         with:
           command: build
+          target: ${{ matrix.target }}
           args: --release --features python --out dist
+          # Pin the manylinux container so every Linux wheel carries the same ABI floor
+          # (GLIBC 2.28). Ignored off-Linux. The aarch64 build runs under QEMU emulation.
+          manylinux: 2_28
       - name: Build source distribution
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu-latest' && matrix.target == 'x86_64'
         uses: PyO3/maturin-action@v1
         with:
           command: sdist
