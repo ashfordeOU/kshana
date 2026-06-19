@@ -2,21 +2,35 @@ name: Release
 on:
   push:
     tags: ["v*"]
+  # Manual re-trigger for an existing tag (e.g. when a transient runner outage hung
+  # the original run). Rebuilds + re-attests the same tag and updates its release,
+  # without moving or re-pushing the tag.
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Tag to (re)build the release for, e.g. v0.19.0"
+        required: true
+        type: string
 permissions:
   contents: read
 concurrency:
-  group: release-${{ github.ref }}
+  group: release-${{ inputs.tag || github.ref }}
   cancel-in-progress: false
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    # No build cache on this job, so a cold compile of fmt/clippy/test can run long;
+    # the cap only guards against a stalled/dead runner hanging indefinitely.
+    timeout-minutes: 45
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
       # Pinned to the channel in rust-toolchain.toml so the release build matches CI.
       - uses: dtolnay/rust-toolchain@1.93.0
         with:
           components: rustfmt, clippy
+      - uses: Swatinem/rust-cache@v2
       - run: ./scripts/check-toolchain.sh
       - run: cargo fmt --all -- --check
       - run: cargo clippy --all-targets -- -D warnings
@@ -26,7 +40,7 @@ jobs:
   release:
     needs: verify
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     permissions:
       contents: write
       # Required for SLSA build-provenance attestation of the release artifacts.
@@ -34,7 +48,10 @@ jobs:
       attestations: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
       - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: Swatinem/rust-cache@v2
       - run: cargo build --release
       - name: Build the kshana-mcp server binary
         # The MCP server is a standalone, workspace-excluded crate (edition 2024), so it
@@ -47,7 +64,7 @@ jobs:
         run: cargo run --release --bin validation_report -- kshana-validation-summary.html
       - name: Generate release notes from CHANGELOG
         env:
-          TAG: ${{ github.ref_name }}
+          TAG: ${{ inputs.tag || github.ref_name }}
         run: bash scripts/changelog-extract.sh "${TAG#v}" > RELEASE_NOTES.md
       # Cryptographic build provenance (SLSA) for the binary and the SBOM, so a
       # consumer can verify the artifacts were produced by this workflow.
@@ -61,6 +78,9 @@ jobs:
             kshana-validation-summary.html
       - uses: softprops/action-gh-release@v2
         with:
+          # Explicit so a workflow_dispatch run (whose github.ref is the branch) still
+          # attaches to the right tag; on a tag push this equals the pushed tag.
+          tag_name: ${{ inputs.tag || github.ref_name }}
           body_path: RELEASE_NOTES.md
           files: |
             target/release/kshana
