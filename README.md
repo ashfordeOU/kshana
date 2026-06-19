@@ -2,7 +2,9 @@
   <img src="docs/assets/kshana-mark.svg" alt="Kshana mark — a compass reticle marking the precise instant" width="96" height="96">
 </p>
 
-<h1 align="center">Kshana</h1>
+<p align="center">
+  <img src="docs/assets/kshana-wordmark.png" alt="Kshana" width="300">
+</p>
 
 <p align="center">
   <strong>क्षण</strong> — Sanskrit for <em>the precise instant</em>, the smallest measure of time.<br>
