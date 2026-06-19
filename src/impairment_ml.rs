@@ -104,28 +104,65 @@ impl Standardizer {
     }
 }
 
+/// Zero the standardized features the `mask` excludes (used to build single- or
+/// few-feature learned detectors at matched input dimensionality to the physics
+/// baselines). A masked feature is always 0, so its weight gets no gradient and
+/// stays at its zero init — it contributes nothing to training or scoring.
+fn apply_mask(x: &[f64; 5], mask: &[bool; 5]) -> [f64; 5] {
+    let mut out = [0.0; 5];
+    for k in 0..5 {
+        if mask[k] {
+            out[k] = x[k];
+        }
+    }
+    out
+}
+
 /// Logistic-regression impairment detector: a linear model over standardized
 /// features, trained by full-batch gradient descent on the binary
 /// `is_impaired` label. Zero-initialised, so training is fully deterministic; the
-/// decision statistic ([`ImpairmentDetector::score`]) is the raw logit.
+/// decision statistic ([`ImpairmentDetector::score`]) is the raw logit. A feature
+/// `mask` allows a reduced-dimensionality model (see [`LogisticRegression::fit_masked`]).
 #[derive(Clone, Debug)]
 pub struct LogisticRegression {
     std: Standardizer,
     w: [f64; 5],
     b: f64,
+    mask: [bool; 5],
 }
 
 impl LogisticRegression {
-    /// Train by full-batch gradient descent for `epochs` at learning rate `lr`.
+    /// Train on all five features by full-batch gradient descent.
     pub fn fit(train: &[LabeledCase], epochs: usize, lr: f64) -> Self {
-        Self::fit_with_trace(train, epochs, lr).0
+        Self::fit_masked(train, [true; 5], epochs, lr)
     }
 
     /// Train and also return the per-epoch mean cross-entropy loss (loss is
     /// measured *before* each weight update, so `trace[0]` is the zero-init loss).
     pub fn fit_with_trace(train: &[LabeledCase], epochs: usize, lr: f64) -> (Self, Vec<f64>) {
+        Self::fit_masked_with_trace(train, [true; 5], epochs, lr)
+    }
+
+    /// Train using only the features the `mask` selects (others are forced to a
+    /// zero weight). Use it for the matched-input-dimensionality H2 control: a
+    /// single-feature learned detector to compare against a single-observable
+    /// physics baseline.
+    pub fn fit_masked(train: &[LabeledCase], mask: [bool; 5], epochs: usize, lr: f64) -> Self {
+        Self::fit_masked_with_trace(train, mask, epochs, lr).0
+    }
+
+    /// [`LogisticRegression::fit_masked`] plus the per-epoch loss trace.
+    pub fn fit_masked_with_trace(
+        train: &[LabeledCase],
+        mask: [bool; 5],
+        epochs: usize,
+        lr: f64,
+    ) -> (Self, Vec<f64>) {
         let std = Standardizer::fit(train);
-        let xs: Vec<[f64; 5]> = train.iter().map(|c| std.transform_case(&c.obs)).collect();
+        let xs: Vec<[f64; 5]> = train
+            .iter()
+            .map(|c| apply_mask(&std.transform_case(&c.obs), &mask))
+            .collect();
         let ys: Vec<f64> = train
             .iter()
             .map(|c| if c.is_impaired() { 1.0 } else { 0.0 })
@@ -154,7 +191,7 @@ impl LogisticRegression {
             }
             b -= lr * gb / n;
         }
-        (Self { std, w, b }, trace)
+        (Self { std, w, b, mask }, trace)
     }
 
     /// The fitted feature weights (post-standardisation).
@@ -173,7 +210,11 @@ impl ImpairmentDetector for LogisticRegression {
         "logreg"
     }
     fn score(&self, o: &CaseObservables) -> f64 {
-        self.b + dot(&self.w, &self.std.transform_case(o))
+        self.b
+            + dot(
+                &self.w,
+                &apply_mask(&self.std.transform_case(o), &self.mask),
+            )
     }
 }
 
@@ -415,6 +456,32 @@ mod tests {
             }
         }
         out
+    }
+
+    #[test]
+    fn masked_logreg_uses_only_selected_features() {
+        let corpus = generate_corpus(
+            &CorpusConfig {
+                n_per_class: 200,
+                ..Default::default()
+            },
+            17,
+        );
+        // A single-feature learned detector on cn0_drop (index 0) only.
+        let mask = [true, false, false, false, false];
+        let m = LogisticRegression::fit_masked(&corpus, mask, 600, 0.3);
+        let w = m.weights();
+        // Masked-out features keep their zero init; the selected feature is used.
+        assert!(
+            w[0].abs() > 1e-6,
+            "selected feature must have non-zero weight"
+        );
+        for (k, wk) in w.iter().enumerate().skip(1) {
+            assert_eq!(*wk, 0.0, "masked feature {k} weight must stay zero");
+        }
+        // It still detects jamming (a cn0-driven class) better than chance.
+        let auc = evaluate(&m, &corpus, 0.05).auc;
+        assert!(auc > 0.5, "single-feature learned detector AUC {auc}");
     }
 
     #[test]
