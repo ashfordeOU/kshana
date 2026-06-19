@@ -856,6 +856,28 @@ pub struct ProbeRecord {
     pub is_nominal: bool,
 }
 
+impl ProbeRecord {
+    /// Construct a labelled probe record. The `score` must already be oriented so
+    /// that **higher means more impaired** (the convention [`auc`] and the feature
+    /// extractor assume); the real-data adapters in [`crate::realdata`] apply that
+    /// orientation per observable before calling this.
+    pub fn new(
+        detector: impl Into<String>,
+        class: impl Into<String>,
+        shift_bin: impl Into<String>,
+        score: f64,
+        is_nominal: bool,
+    ) -> Self {
+        Self {
+            detector: detector.into(),
+            class: class.into(),
+            shift_bin: shift_bin.into(),
+            score,
+            is_nominal,
+        }
+    }
+}
+
 /// Build gap samples from real-data records, one per `(detector, class)`. For each
 /// detector the in-distribution per-class AUC is computed in `id_bin` (class
 /// positives vs nominal negatives), the realised gap is the ID AUC minus the mean
