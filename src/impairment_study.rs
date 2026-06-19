@@ -83,8 +83,9 @@ pub struct GridConfig {
     pub logreg_epochs: usize,
     /// Logistic-regression learning rate.
     pub logreg_lr: f64,
-    /// MLP hidden-unit count.
-    pub mlp_hidden: usize,
+    /// MLP hidden-unit counts — one learned MLP detector is trained per capacity,
+    /// widening the detector panel (more leave-one-detector-out folds).
+    pub mlp_hidden_sizes: Vec<usize>,
     /// MLP training epochs.
     pub mlp_epochs: usize,
     /// MLP learning rate.
@@ -148,13 +149,16 @@ pub struct GridResult {
 }
 
 /// Build the detector roster for one seed: the five transparent physics baselines
-/// (stateless) plus the two learned detectors trained on `train`.
+/// (stateless), full-feature learned detectors (logistic regression + one MLP per
+/// configured capacity), and three **single-feature** learned controls (logistic
+/// regression on one observable each) at matched input dimensionality to the
+/// single-observable physics baselines — the H2 evidence-breadth control.
 fn detectors_for_seed(
     train: &[LabeledCase],
     cfg: &GridConfig,
     seed: u64,
 ) -> Vec<(String, Box<dyn ImpairmentDetector>)> {
-    vec![
+    let mut v: Vec<(String, Box<dyn ImpairmentDetector>)> = vec![
         (EnergyDetector.name().to_string(), Box::new(EnergyDetector)),
         (AgcDetector.name().to_string(), Box::new(AgcDetector)),
         (SqmDetector.name().to_string(), Box::new(SqmDetector)),
@@ -168,17 +172,41 @@ fn detectors_for_seed(
                 cfg.logreg_lr,
             )),
         ),
-        (
-            "mlp".to_string(),
+    ];
+    // One MLP per configured hidden capacity (varied seed per capacity).
+    for &h in &cfg.mlp_hidden_sizes {
+        v.push((
+            format!("mlp{h}"),
             Box::new(Mlp::fit(
                 train,
-                cfg.mlp_hidden,
+                h,
                 cfg.mlp_epochs,
                 cfg.mlp_lr,
-                seed,
+                seed.wrapping_add(h as u64),
             )),
-        ),
-    ]
+        ));
+    }
+    // Single-feature learned controls (matched-dimensionality H2 control):
+    // logistic regression on cn0_drop (idx 0), agc_excess (idx 1), parity (idx 3),
+    // the observables the energy / agc / parity physics baselines read.
+    for (name, idx) in [
+        ("logreg-cn0", 0usize),
+        ("logreg-agc", 1),
+        ("logreg-parity", 3),
+    ] {
+        let mut mask = [false; 5];
+        mask[idx] = true;
+        v.push((
+            name.to_string(),
+            Box::new(LogisticRegression::fit_masked(
+                train,
+                mask,
+                cfg.logreg_epochs,
+                cfg.logreg_lr,
+            )),
+        ));
+    }
+    v
 }
 
 /// A reproducible OOD corpus seed, distinct from the ID seed and per severity index.
@@ -830,10 +858,16 @@ mod tests {
             bootstrap_alpha: 0.05,
             logreg_epochs: 300,
             logreg_lr: 0.3,
-            mlp_hidden: 8,
+            mlp_hidden_sizes: vec![4, 8],
             mlp_epochs: 500,
             mlp_lr: 0.1,
         }
+    }
+
+    /// Detector roster size for a config: 5 physics + logreg + one MLP per hidden
+    /// capacity + 3 single-feature learned controls.
+    fn roster_size(cfg: &GridConfig) -> usize {
+        5 + 1 + cfg.mlp_hidden_sizes.len() + 3
     }
 
     #[test]
@@ -846,7 +880,11 @@ mod tests {
         // Right shape: one cell per (detector, class, severity); one trend per (d, c).
         assert_eq!(res.cells.len(), n_det * n_class * n_sev, "cell count");
         assert_eq!(res.trends.len(), n_det * n_class, "trend count");
-        assert!(n_det >= 7, "expected the 5 physics + 2 learned detectors");
+        assert_eq!(
+            n_det,
+            roster_size(&cfg),
+            "physics + learned + control roster"
+        );
         for cell in &res.cells {
             assert_eq!(cell.gaps.len(), cfg.seeds.len(), "one gap per seed");
             assert!(cell.gaps.iter().all(|g| g.is_finite()), "no NaN gaps");
@@ -865,8 +903,8 @@ mod tests {
         assert!(
             res.trends
                 .iter()
-                .any(|t| t.detector == "mlp" && t.spearman_rho > 0.0),
-            "MLP should show a positive optimism-vs-severity trend on some class"
+                .any(|t| t.detector.starts_with("mlp") && t.spearman_rho > 0.0),
+            "an MLP should show a positive optimism-vs-severity trend on some class"
         );
     }
 
@@ -904,7 +942,8 @@ mod tests {
     fn gap_predictor_beats_mean_across_held_out_detectors_and_classes() {
         let pc = predictor_config();
         let rows = build_gap_rows(&pc);
-        let expected = 7 * ImpairmentClass::impaired().len() * pc.grid.seeds.len();
+        let n_det = roster_size(&pc.grid);
+        let expected = n_det * ImpairmentClass::impaired().len() * pc.grid.seeds.len();
         assert_eq!(rows.len(), expected, "one row per (detector, class, seed)");
         assert!(
             rows.iter()
@@ -926,7 +965,7 @@ mod tests {
             "LOO-by-class R² {} must beat predict-the-mean",
             by_class.r2
         );
-        assert_eq!(by_det.n_folds, 7);
+        assert_eq!(by_det.n_folds, n_det);
         assert_eq!(by_class.n_folds, ImpairmentClass::impaired().len());
 
         // Deterministic end to end.
