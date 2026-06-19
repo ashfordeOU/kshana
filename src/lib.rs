@@ -80,6 +80,7 @@ pub mod python;
 pub mod quantum_trade;
 pub mod radiometric;
 pub mod raim;
+pub mod realdata;
 pub mod reentry;
 pub mod report;
 pub mod rinex;
