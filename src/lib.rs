@@ -22,6 +22,7 @@ pub mod ephem;
 pub mod ephem_provider;
 pub mod ephemeris;
 pub mod estimator;
+pub mod eval_stats;
 mod fes2004_data;
 pub mod filter_health;
 pub mod fom;
