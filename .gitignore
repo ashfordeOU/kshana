@@ -54,3 +54,10 @@ __pycache__/
 
 # macOS finder metadata
 .DS_Store
+
+# Real downloaded GNSS attack datasets (large; never committed to the public repo).
+# Source artefacts only -- derived figures/numbers live in kshana-pro.
+/realdata-cache/
+
+# Paper study artifacts (paper material lives in kshana-pro, not the public repo)
+/paper-artifacts/
