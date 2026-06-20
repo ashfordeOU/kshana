@@ -32,6 +32,9 @@ use crate::spoof_monitors::SqmMonitor;
 /// One parsed SatGrid tracking-channel epoch.
 #[derive(Clone, Debug, PartialEq)]
 pub struct SatGridRow {
+    /// Recording scenario (e.g. `Arlington_Aug_23_Round_2`); empty if the CSV predates
+    /// the multi-scenario schema.
+    pub scenario: String,
     /// `genuine` (clean baseline) or `counterfeit` (spoofed).
     pub source: String,
     /// Spoofer amplification level (`0`..`100`), or `na` for genuine.
@@ -90,6 +93,7 @@ pub fn parse(text: &str) -> Vec<SatGridRow> {
     };
     let cols: Vec<&str> = header.split(',').map(str::trim).collect();
     let idx = |name: &str| cols.iter().position(|c| *c == name);
+    let i_scn = idx("scenario"); // optional (multi-scenario schema)
     let (
         Some(i_src),
         Some(i_lvl),
@@ -137,7 +141,12 @@ pub fn parse(text: &str) -> Vec<SatGridRow> {
         ) else {
             continue;
         };
+        let scenario = i_scn
+            .and_then(|i| f.get(i))
+            .map(|s| s.to_string())
+            .unwrap_or_default();
         out.push(SatGridRow {
+            scenario,
             source: source.to_string(),
             level: level.to_string(),
             prn,
@@ -207,6 +216,18 @@ counterfeit,40,5,29.0,1000,500,0.30,800,800
             .unwrap()
             .score;
         assert!((sqm - (500.0 / 1500.0)).abs() < 1e-9);
+    }
+
+    #[test]
+    fn scenario_column_is_optional_and_parsed_when_present() {
+        // Absent -> empty (backward compatible with the single-scenario schema).
+        assert_eq!(parse(SAMPLE)[0].scenario, "");
+        // Present -> parsed.
+        let with = "scenario,source,level,prn,cn0,abs_e,abs_l,lock,prompt_i,prompt_q\n\
+                    Arlington_Nov_8_Round_2,counterfeit,35,5,29,1000,500,0.3,800,800\n";
+        let r = &parse(with)[0];
+        assert_eq!(r.scenario, "Arlington_Nov_8_Round_2");
+        assert_eq!(r.level, "35");
     }
 
     #[test]
