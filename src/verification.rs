@@ -39,7 +39,7 @@
 
 /// How a row's claim is actually backed — the distinction that separates an
 /// external validation from a self-consistency check.
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, serde::Serialize)]
 pub enum OracleKind {
     /// Independent authoritative dataset, published verification vectors, or a
     /// published numeric value the implementation is checked against.
@@ -57,7 +57,7 @@ pub enum OracleKind {
 }
 
 /// Verification status of a capability row, with the evidence each level requires.
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, serde::Serialize)]
 pub enum VerificationStatus {
     /// Checked against an independent **external** oracle (dataset / published
     /// vectors / published value). Requires [`OracleKind::ExternalDataset`].
@@ -442,6 +442,25 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle: "",
             oracle_kind: NoneKind,
             status: PartnerOwned,
+        },
+        // ── Resilience scoring & instability study ────────────────────────────
+        VerificationItem {
+            requirement: "PNT-resilience framework-aligned scoring",
+            capability: "Per-dimension sub-scores over DHS RPCF categories, RethinkPNT RDRR functions and Yang criteria, each tagged Modelled with its driver; tentative RPCF Level with a bounded-degradation gate. Simulation-derived self-assessment, never certification.",
+            module: "resilience::arch, resilience::score, resilience::diversity, resilience::timeline",
+            tests: "resilience::score::tests (monotonicity, composite bounds, level cap, modelled-provenance); resilience::diversity::tests (inverse-Simpson, common-mode, SPOF)",
+            oracle: "Hand-derived per-metric formulas: inverse-Simpson diversity, weighted-mean composite, bounded/unbounded timeline durations, weakest-link Level ladder",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
+            requirement: "Resilience-score decision-instability study",
+            capability: "Quantifies how a single composite score / RPCF Level reorders architectures under a defensible weighting simplex and a threat ensemble (top-1 flip rate, Kendall-tau dispersion, Level-flip rate, rank ranges); declared-vs-measured and diversity-collapse analyses.",
+            module: "resilience::stats, resilience::study, resilience::panel",
+            tests: "resilience::stats::tests (Kendall-tau hand example, Dirichlet simplex, flip-rate); resilience::study::tests (stability control, instability witness, declared-vs-measured, diversity collapse)",
+            oracle: "Closed-form rank-statistics identities (tau in [-1,1] with hand-computed values; deterministic seeded Dirichlet) and constructed stable/unstable witnesses",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
         },
     ]
 }
