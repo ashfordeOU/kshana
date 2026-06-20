@@ -1,31 +1,31 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Real-data **graded-severity** optimism-gap probe on the SatGrid dataset.
 //!
-//! SatGrid (Virginia Tech, DOI 10.7294/SE62-7X13) records genuine GPS L1 C/A plus
-//! counterfeit (spoofed) signals at six amplification levels (0,20,40,60,80,100). This
-//! probe uses the **spoofer amplification level as the distribution-shift axis** -- the
-//! graded-severity sweep the paper's H4 wants -- with genuine vs counterfeit
-//! separability scored by four GNSS-SDR tracking detectors (cn0, sqm, lock, qratio).
+//! SatGrid records genuine GPS L1 C/A plus counterfeit (spoofed) signals at several
+//! spoofer amplification levels, across independent recording sessions. This probe uses
+//! the **amplification level as the per-session distribution-shift axis**: within each
+//! session it calibrates every detector at the lowest amplification and measures how far
+//! the genuine-vs-counterfeit AUC falls at higher amplification (the optimism gap). The
+//! per-(detector, session) gaps are then **pooled** so the leave-one-detector-out gap
+//! predictor is tested across sessions, not just within one.
 //!
-//! The per-channel GNSS-SDR tracking dumps are flattened to a tidy CSV by
-//! `papers/satgrid_extract.py` first; this driver reads that CSV via the
-//! [`satgrid`](kshana::realdata::satgrid) adapter, labels genuine as nominal and each
-//! counterfeit level as a `spoof` positive in its own shift bin, and runs the same
-//! leave-one-detector-out gap predictor used for the synthetic and JammerTest corpora.
+//! Detectors are four GNSS-SDR tracking channels (cn0, sqm Early-Late, carrier-lock
+//! test, quadrature ratio); the genuine recording is the negative. The per-channel
+//! tracking dumps are flattened to a tidy CSV by `papers/satgrid_extract.py` first.
 //!
 //! ```text
-//! cargo run --release --example satgrid_probe -- <features.csv> <out.json> [id_level]
+//! cargo run --release --example satgrid_probe -- <features.csv> <out.json>
 //! ```
 
 use kshana::impairment_eval::auc;
 use kshana::impairment_study::{
-    build_real_gap_rows, real_loocv, real_permutation_pvalue, CvAxis, CvResult, ProbeRecord,
+    build_real_gap_rows, real_loocv, real_permutation_pvalue, CvAxis, CvResult, GapSample,
+    ProbeRecord,
 };
-use kshana::realdata::satgrid;
+use kshana::realdata::satgrid::{self, SatGridRow};
 use serde_json::{json, Value};
+use std::collections::BTreeSet;
 use std::path::Path;
-
-const LEVELS: [&str; 6] = ["0", "20", "40", "60", "80", "100"];
 
 fn die(msg: String) -> ! {
     eprintln!("{msg}");
@@ -39,41 +39,39 @@ fn cv_json(cv: &CvResult) -> Value {
     })
 }
 
-fn main() {
-    let mut args = std::env::args().skip(1);
-    let csv_path = args
-        .next()
-        .unwrap_or_else(|| die("usage: satgrid_probe <features.csv> <out.json> [id_level]".into()));
-    let out = args
-        .next()
-        .unwrap_or_else(|| die("missing out.json".into()));
-    let id_bin = args.next().unwrap_or_else(|| "100".to_string());
-    let (lambda, target_pfa) = (0.1, 0.05);
+/// Sorted numeric counterfeit levels present in a scenario's rows (skips `na`/`cf`).
+fn numeric_levels(rows: &[&SatGridRow]) -> Vec<String> {
+    let mut lv: Vec<(f64, String)> = rows
+        .iter()
+        .filter(|r| !r.is_genuine())
+        .filter_map(|r| r.level.parse::<f64>().ok().map(|n| (n, r.level.clone())))
+        .collect();
+    lv.sort_by(|a, b| a.0.partial_cmp(&b.0).unwrap());
+    lv.dedup_by(|a, b| a.1 == b.1);
+    lv.into_iter().map(|(_, s)| s).collect()
+}
 
-    let text =
-        std::fs::read_to_string(&csv_path).unwrap_or_else(|e| die(format!("read {csv_path}: {e}")));
-    let rows = satgrid::parse(&text);
-    if rows.is_empty() {
-        die(format!("no rows parsed from {csv_path}"));
-    }
-
-    // Genuine -> nominal negatives, replicated into every level bin; counterfeit -> a
-    // `spoof` positive in its own amplification-level bin.
-    let mut records: Vec<ProbeRecord> = Vec::new();
-    let (mut n_gen, mut n_cf) = (0u64, 0u64);
-    for r in &rows {
+/// Build probe records for one scenario: genuine replicated as the nominal negative into
+/// every level bin, counterfeit as a `spoof` positive in its own level bin.
+fn scenario_records(rows: &[&SatGridRow], levels: &[String]) -> Vec<ProbeRecord> {
+    let mut out = Vec::new();
+    for r in rows {
         let obs = r.observations();
         if r.is_genuine() {
-            n_gen += 1;
-            for lvl in LEVELS {
+            for lvl in levels {
                 for o in &obs {
-                    records.push(ProbeRecord::new(&o.detector, "nominal", lvl, o.score, true));
+                    out.push(ProbeRecord::new(
+                        &o.detector,
+                        "nominal",
+                        lvl.as_str(),
+                        o.score,
+                        true,
+                    ));
                 }
             }
-        } else if LEVELS.contains(&r.level.as_str()) {
-            n_cf += 1;
+        } else if levels.iter().any(|l| l == &r.level) {
             for o in &obs {
-                records.push(ProbeRecord::new(
+                out.push(ProbeRecord::new(
                     &o.detector,
                     "spoof",
                     r.level.as_str(),
@@ -83,101 +81,176 @@ fn main() {
             }
         }
     }
-    eprintln!(
-        "{} rows -> {} records (genuine {n_gen}, counterfeit {n_cf})",
-        rows.len(),
-        records.len()
-    );
+    out
+}
 
-    // Transparent per-detector x per-level AUC (genuine negatives vs counterfeit level).
-    let detectors: Vec<&str> = {
-        let mut d: Vec<&str> = records.iter().map(|r| r.detector.as_str()).collect();
-        d.sort();
-        d.dedup();
-        d
-    };
-    let det_scores = |det: &str, level: Option<&str>, nominal: bool| -> Vec<f64> {
-        records
+fn main() {
+    let mut args = std::env::args().skip(1);
+    let csv_path = args
+        .next()
+        .unwrap_or_else(|| die("usage: satgrid_probe <features.csv> <out.json>".into()));
+    let out = args
+        .next()
+        .unwrap_or_else(|| die("missing out.json".into()));
+    let (lambda, target_pfa) = (0.1, 0.05);
+
+    let text =
+        std::fs::read_to_string(&csv_path).unwrap_or_else(|e| die(format!("read {csv_path}: {e}")));
+    let rows = satgrid::parse(&text);
+    if rows.is_empty() {
+        die(format!("no rows parsed from {csv_path}"));
+    }
+
+    let scenarios: BTreeSet<&str> = rows
+        .iter()
+        .map(|r| {
+            if r.scenario.is_empty() {
+                "default"
+            } else {
+                r.scenario.as_str()
+            }
+        })
+        .collect();
+
+    let mut pooled: Vec<GapSample> = Vec::new();
+    let mut per_scenario = serde_json::Map::new();
+    for scn in &scenarios {
+        let scn_rows: Vec<&SatGridRow> = rows
             .iter()
             .filter(|r| {
-                r.detector == det
-                    && r.is_nominal == nominal
-                    && (nominal || level.map(|l| r.shift_bin == l).unwrap_or(true))
-            })
-            .map(|r| r.score)
-            .collect()
-    };
-    let mut auc_table = serde_json::Map::new();
-    for det in &detectors {
-        // Genuine negatives are identical across bins.
-        let neg = det_scores(det, None, true);
-        let per_level: Value = LEVELS
-            .iter()
-            .map(|lvl| {
-                let pos = det_scores(det, Some(lvl), false);
-                let a = if pos.is_empty() || neg.is_empty() {
-                    Value::Null
+                (if r.scenario.is_empty() {
+                    "default"
                 } else {
-                    json!(auc(&pos, &neg))
-                };
-                (lvl.to_string(), a)
+                    r.scenario.as_str()
+                }) == *scn
             })
-            .collect::<serde_json::Map<_, _>>()
-            .into();
-        auc_table.insert((*det).to_string(), per_level);
+            .collect();
+        let levels = numeric_levels(&scn_rows);
+        // Per-detector per-level AUC (genuine negatives vs counterfeit level), reported
+        // for every scenario including single-level ones.
+        let recs_all_levels = scenario_records(&scn_rows, &levels);
+        let detectors: Vec<String> = {
+            let mut d: Vec<String> = recs_all_levels.iter().map(|r| r.detector.clone()).collect();
+            d.sort();
+            d.dedup();
+            d
+        };
+        let mut auc_tbl = serde_json::Map::new();
+        for det in &detectors {
+            let neg: Vec<f64> = recs_all_levels
+                .iter()
+                .filter(|r| &r.detector == det && r.is_nominal)
+                .map(|r| r.score)
+                .collect();
+            let per: Value = levels
+                .iter()
+                .map(|lvl| {
+                    let pos: Vec<f64> = recs_all_levels
+                        .iter()
+                        .filter(|r| &r.detector == det && !r.is_nominal && &r.shift_bin == lvl)
+                        .map(|r| r.score)
+                        .collect();
+                    let a = if pos.is_empty() || neg.is_empty() {
+                        Value::Null
+                    } else {
+                        json!(auc(&pos, &neg))
+                    };
+                    (lvl.clone(), a)
+                })
+                .collect::<serde_json::Map<_, _>>()
+                .into();
+            auc_tbl.insert(det.clone(), per);
+        }
+
+        // Graded gaps require >= 2 levels; the lowest level is the in-distribution one.
+        let scn_gaps = if levels.len() >= 2 {
+            let id_bin = &levels[0];
+            let g = build_real_gap_rows(&recs_all_levels, id_bin, target_pfa);
+            pooled.extend(g.iter().cloned());
+            g
+        } else {
+            Vec::new()
+        };
+        per_scenario.insert(
+            (*scn).to_string(),
+            json!({
+                "levels": levels,
+                "id_level": levels.first(),
+                "auc_by_detector_and_level": auc_tbl,
+                "gaps": scn_gaps.iter().map(|s| json!({"detector": s.detector, "gap": s.gap, "auc_in": s.features[0]})).collect::<Vec<_>>(),
+            }),
+        );
+        eprintln!(
+            "{scn}: levels {:?} -> {} gap samples",
+            levels,
+            scn_gaps.len()
+        );
     }
 
-    let samples = build_real_gap_rows(&records, &id_bin, target_pfa);
-    if samples.is_empty() {
-        die(format!(
-            "no gap samples (need genuine + counterfeit in id_bin '{id_bin}' and >=1 other level)"
-        ));
+    if pooled.is_empty() {
+        die("no graded scenarios (need >=2 amplification levels in at least one session)".into());
     }
-    let mut sorted = samples.clone();
-    sorted.sort_by(|a, b| a.detector.cmp(&b.detector));
+    pooled.sort_by(|a, b| a.detector.cmp(&b.detector));
     eprintln!(
-        "\n{} gap samples (detector, id_bin={id_bin}):",
-        sorted.len()
+        "\npooled {} gap samples across {} sessions:",
+        pooled.len(),
+        scenarios.len()
     );
-    for s in &sorted {
+    for s in &pooled {
         eprintln!(
             "  {:<8} gap {:+.3}  (auc_in {:.3})",
             s.detector, s.gap, s.features[0]
         );
     }
 
-    let by_det = real_loocv(&samples, lambda, CvAxis::Detector);
-    let p_det = real_permutation_pvalue(&samples, lambda, CvAxis::Detector, 2000, 20_200_823);
+    let by_det = real_loocv(&pooled, lambda, CvAxis::Detector);
+    let p_det = real_permutation_pvalue(&pooled, lambda, CvAxis::Detector, 2000, 20_200_823);
+    // Rank-correlation of in-distribution AUC against the realised gap: the right
+    // statistic at this sample size, robust to the ridge being underpowered.
+    let auc_in: Vec<f64> = pooled.iter().map(|s| s.features[0]).collect();
+    let gaps: Vec<f64> = pooled.iter().map(|s| s.gap).collect();
+    let (rho, rho_p) = kshana::eval_stats::spearman(&auc_in, &gaps);
+    let n_det = pooled
+        .iter()
+        .map(|s| s.detector.as_str())
+        .collect::<BTreeSet<_>>()
+        .len();
+    let mean_gap = pooled.iter().map(|s| s.gap).sum::<f64>() / pooled.len() as f64;
 
     let value = json!({
-        "schema_version": "satgrid-optimism-probe/1",
-        "label": "REAL data: SatGrid (DOI 10.7294/SE62-7X13, Arlington_Aug_23_Round_2). Graded-severity \
-                  axis = spoofer amplification level (0/20/40/60/80/100); detectors = GNSS-SDR cn0, sqm \
-                  (Early-Late), lock (carrier-lock test), qratio (quadrature fraction); negatives = the \
-                  genuine recording. Single attack class (spoofing), so cross-detector only.",
+        "schema_version": "satgrid-optimism-probe/2",
+        "label": "REAL data: SatGrid (DOI 10.7294/SE62-7X13). Graded-severity axis = spoofer amplification \
+                  level, per recording session; detectors = GNSS-SDR cn0, sqm (Early-Late), lock, qratio; \
+                  negatives = the genuine recording. Per-(detector, session) gaps pooled for the cross-detector \
+                  predictor. Single attack class (spoofing), so cross-detector only.",
         "provenance": {
             "engine": "kshana", "engine_version": env!("CARGO_PKG_VERSION"),
             "dataset_doi": "10.7294/SE62-7X13",
-            "scenario": "Arlington_Aug_23_Round_2",
-            "shift_axis": "spoofer_amplification_level", "id_bin": id_bin,
+            "sessions": scenarios,
+            "shift_axis": "spoofer_amplification_level", "id_rule": "lowest amplification per session",
             "ridge_lambda": lambda, "target_pfa": target_pfa,
-            "counts": {"rows": rows.len(), "genuine": n_gen, "counterfeit": n_cf, "records": records.len()},
-            "levels": LEVELS,
-            "detectors": detectors,
+            "n_rows": rows.len(),
         },
-        "auc_by_detector_and_level": auc_table,
-        "samples": sorted.iter().map(|s| json!({"detector": s.detector, "class": s.class, "gap": s.gap, "features": s.features})).collect::<Vec<_>>(),
-        "gap_predictor": {
-            "feature_names": ["auc_in","dprime","overlap","var_ratio","tail_margin","pd_at_pfa"],
-            "cv_leave_one_detector_out": cv_json(&by_det),
-            "permutation_null": {"n_permutations": 2000, "p_leave_one_detector_out": p_det},
-            "note": "Cross-class CV is not applicable: SatGrid has a single attack class (spoofing).",
+        "per_scenario": per_scenario,
+        "pooled": {
+            "n_gap_samples": pooled.len(),
+            "n_detectors": n_det,
+            "mean_gap": mean_gap,
+            "samples": pooled.iter().map(|s| json!({"detector": s.detector, "gap": s.gap, "features": s.features})).collect::<Vec<_>>(),
+            "gap_predictor": {
+                "feature_names": ["auc_in","dprime","overlap","var_ratio","tail_margin","pd_at_pfa"],
+                "cv_leave_one_detector_out": cv_json(&by_det),
+                "permutation_null": {"n_permutations": 2000, "p_leave_one_detector_out": p_det},
+                "note": "Cross-class CV is not applicable: SatGrid has a single attack class (spoofing).",
+            },
+            "spearman_auc_in_vs_gap": {"rho": rho, "p": rho_p,
+                "note": "Rank-correlation of in-distribution AUC against the realised gap across pooled detector-session samples; the H4 direction at small n."},
         },
     });
 
     if let Some(parent) = Path::new(&out).parent() {
         if !parent.as_os_str().is_empty() {
-            std::fs::create_dir_all(parent).unwrap_or_else(|e| die(format!("mkdir: {e}")));
+            std::fs::create_dir_all(parent).ok();
         }
     }
     std::fs::write(
@@ -187,7 +260,7 @@ fn main() {
     .unwrap_or_else(|e| die(format!("write: {e}")));
 
     println!(
-        "satgrid-optimism-probe | {} gap samples ({} detectors) | LOO-det R2 {:.3} (p={:.4}) | id_level={id_bin} | REAL graded data -> {}",
-        sorted.len(), detectors.len(), by_det.r2, p_det, out
+        "satgrid-optimism-probe/2 | {} sessions, {} pooled gap samples ({} detectors) | mean gap {:+.3} | Spearman(auc_in,gap) rho={:.3} | LOO-det R2 {:.3} (p={:.4}) | REAL graded data -> {}",
+        scenarios.len(), pooled.len(), n_det, mean_gap, rho, by_det.r2, p_det, out
     );
 }
