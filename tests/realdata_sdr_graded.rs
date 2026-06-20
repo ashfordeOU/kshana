@@ -35,7 +35,17 @@ fn encode(sig: &[sdr::Cf64]) -> Vec<u8> {
 /// amplitude `echo_amp` (the multipath/replay severity), returned as loaded IQ.
 fn capture(code: &CaCode, echo_amp: f64, seed: u64) -> Vec<sdr::Cf64> {
     let n = (FS / 1000.0) as usize * N_EPOCHS;
-    let direct = sdr::synth_if(code, FS, IF + DOPPLER, CA_CHIP_RATE_HZ, PHASE0, 1.0, n, 0.05, seed);
+    let direct = sdr::synth_if(
+        code,
+        FS,
+        IF + DOPPLER,
+        CA_CHIP_RATE_HZ,
+        PHASE0,
+        1.0,
+        n,
+        0.05,
+        seed,
+    );
     if echo_amp <= 0.0 {
         return iqif::load_iq(&encode(&direct), IqFormat::Int16Le);
     }
@@ -74,15 +84,28 @@ fn sdr_feature_stage_threads_through_the_optimism_gap_pipeline() {
     let prns = [10u8, 21u8];
 
     let mut records: Vec<ProbeRecord> = Vec::new();
-    let mut atk_sqm_by_bin: std::collections::BTreeMap<&str, Vec<f64>> = std::collections::BTreeMap::new();
+    let mut atk_sqm_by_bin: std::collections::BTreeMap<&str, Vec<f64>> =
+        std::collections::BTreeMap::new();
 
     for &prn in &prns {
         let code = CaCode::new(prn).unwrap();
         // Acquire once on a clean reference and reuse it across this PRN's captures.
         let spe = (FS / 1000.0) as usize;
         let clean_ref = capture(&code, 0.0, 1);
-        let acq = sdr::acquire(&clean_ref[..spe], &code, FS, IF, cfg.doppler_max_hz, cfg.doppler_step_hz, 2.0);
-        assert!(acq.acquired, "PRN {prn} must acquire (ratio {})", acq.peak_ratio);
+        let acq = sdr::acquire(
+            &clean_ref[..spe],
+            &code,
+            FS,
+            IF,
+            cfg.doppler_max_hz,
+            cfg.doppler_step_hz,
+            2.0,
+        );
+        assert!(
+            acq.acquired,
+            "PRN {prn} must acquire (ratio {})",
+            acq.peak_ratio
+        );
 
         for (bin, echo) in bins {
             let clean = capture(&code, 0.0, 2);
@@ -91,7 +114,11 @@ fn sdr_feature_stage_threads_through_the_optimism_gap_pipeline() {
             let atk_dumps = sdr::track(&attack, &code, &acq, FS, IF, &cfg.track, N_EPOCHS);
 
             for (suffix, clean_obs, atk_obs) in [
-                ("sqm", iqif::sqm_observations(&clean_dumps), iqif::sqm_observations(&atk_dumps)),
+                (
+                    "sqm",
+                    iqif::sqm_observations(&clean_dumps),
+                    iqif::sqm_observations(&atk_dumps),
+                ),
                 (
                     "pwr",
                     iqif::prompt_power_observations(&clean_dumps),
@@ -135,6 +162,10 @@ fn sdr_feature_stage_threads_through_the_optimism_gap_pipeline() {
     );
     // ... and a finite leave-one-detector-out CV (the H4 estimator runs end to end).
     let cv = real_loocv(&samples, 0.1, CvAxis::Detector);
-    assert!(cv.r2.is_finite(), "LOO-det R2 must be finite, got {}", cv.r2);
+    assert!(
+        cv.r2.is_finite(),
+        "LOO-det R2 must be finite, got {}",
+        cv.r2
+    );
     assert!(cv.n_folds >= 3, "expected >=3 folds, got {}", cv.n_folds);
 }
