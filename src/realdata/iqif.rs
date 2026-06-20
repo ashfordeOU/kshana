@@ -139,6 +139,22 @@ pub fn sqm_observations(dumps: &[CorrelatorDump]) -> Vec<Observation> {
         .collect()
 }
 
+/// Map tracked correlator dumps to prompt-power [`Observation`]s (detector `pwr`), a
+/// C/N0 proxy: `20·log10(|prompt|)` in dB relative to the correlator scale. Higher
+/// prompt power means a stronger, less-impaired signal, so it is [`Orient::Negate`]
+/// (jamming/desensitisation lowers it, raising the impairment score). This is a
+/// proxy for true C/N0 (which needs an explicit noise-floor estimate), named `pwr`
+/// rather than `cn0` to keep that distinction honest.
+pub fn prompt_power_observations(dumps: &[CorrelatorDump]) -> Vec<Observation> {
+    dumps
+        .iter()
+        .map(|d| {
+            let p = d.prompt.abs().max(1e-12);
+            Observation::new("pwr", 20.0 * p.log10(), Orient::Negate)
+        })
+        .collect()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

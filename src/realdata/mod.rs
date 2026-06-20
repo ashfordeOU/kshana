@@ -37,6 +37,7 @@ pub mod iqif;
 pub mod jammertest;
 pub mod raim;
 pub mod rinex;
+pub mod satgrid;
 pub mod sqm;
 pub mod ubx;
 pub mod yunnan;
