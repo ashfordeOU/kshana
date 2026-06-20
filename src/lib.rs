@@ -88,6 +88,7 @@ pub mod rinex_obs;
 pub mod run;
 pub mod sbas;
 pub mod scenario;
+pub mod sdr;
 pub mod security;
 pub mod sgp4;
 pub mod sp3;
