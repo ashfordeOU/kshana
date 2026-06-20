@@ -255,4 +255,36 @@ mod tests {
             assert_eq!(n as f64, cusum_latency_s(0.5, 5.0, z, 1.0));
         }
     }
+
+    #[test]
+    fn real_calibrated_tpl_is_far_below_the_observed_capture() {
+        // Calibrated on the public JammerTest 2024 dataset, scenario 2.1.1 (a real
+        // over-the-air spoof of a u-blox ZED-F9P): the receiver's white-FM ADEV at
+        // 1 s was 2.8e-9, its clean cross-satellite clock consistency ~22 ns, and the
+        // attack pulled served time by ~1.01 ms while the receiver reported <= 51 ns.
+        // A clock-aided monitor + holdover must bound the worst-case undetected error
+        // far below that 1.01 ms capture for any sane detection latency.
+        let observed_pull_ns = 1_010_923.0;
+        let (q_wf, q_rw, q_drift) = q_from_allan(2.8e-9, 4.4e-10, 1.0e-11);
+        let inp = TplInputs {
+            q_wf,
+            q_rw,
+            q_drift,
+            r: (22.1e-9_f64).powi(2),
+            tau: 1.0,
+            samples: 1.0,
+            k: 5.0,
+            detection_latency_s: 60.0,
+        };
+        let tpl = timing_protection_level_ns(&inp);
+        // Even at a full 60 s coast the certified bound is at least 10x below the
+        // silently-served 1.01 ms; at the monitor's actual sub-second reaction it is
+        // far tighter still. This is the protection the receiver's flag did not give.
+        assert!(
+            tpl < observed_pull_ns / 10.0,
+            "real-calibrated TPL {tpl} ns not far below observed pull {observed_pull_ns} ns"
+        );
+        // And the bound is meaningful (positive, above the static consistency floor).
+        assert!(tpl > 5.0 * 22.1);
+    }
 }
