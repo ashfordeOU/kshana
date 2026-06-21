@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! **Timing Protection Level calibrated on a real recorded spoofing attack.**
 //!
-//! All numbers below are derived from the public JammerTest 2024 campaign dataset
-//! ("GNSS Dataset Under Jamming, Spoofing, and Meaconing Conditions", Zenodo
-//! record 15911589, CC/GPL), scenario 2.1.1 -- a real over-the-air GNSS spoof of a
-//! survey-grade u-blox ZED-F9P timing receiver at Bleik/Andoya, Norway. The raw
+//! All numbers below are derived from a public dataset recorded at the JammerTest
+//! 2024 event (Sayyaf, Ortiz & Renaudin, "GNSS Dataset Under Jamming, Spoofing, and
+//! Meaconing Conditions (JammerTest 2024)", Universite Gustave Eiffel, Zenodo record
+//! 15911589, GPL-3.0-or-later), scenario 2.1.1 -- a real over-the-air GNSS spoof of
+//! a survey-grade u-blox ZED-F9P timing receiver at Bleik/Andoya, Norway. The raw
 //! dataset is not redistributed here; only the scalars recovered from it are, with
 //! provenance. They were obtained by solving the receiver clock-bias trajectory
 //! from the recorded L1 pseudoranges, the receiver's own clean dual-band position,
