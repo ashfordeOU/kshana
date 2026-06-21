@@ -20,13 +20,19 @@
 //! * and a sequential change detector ([`Cusum`]) whose time-to-alarm at a given
 //!   attack severity supplies the latency the coast term is evaluated over.
 //!
-//! **Honesty load-bearing.** "Certified" is only as strong as the clock's long-tau
-//! red-noise floor (`q_rw`, `q_drift`), which for class-default oscillators is a
-//! *synthesised* assumption two to four decades below the white-FM ADEV (see
-//! [`crate::holdover`]). The bound is therefore reported as a *band* over a swept
-//! floor ([`tpl_band`]), not a single scalar, and a defensible figure must use the
-//! clock's **measured** `q_rw`/`q_drift`. The TPL is a MODELLED bridge over
-//! Validated primitives; it is not itself an external validation.
+//! **Honesty load-bearing.** The bound is *conditional*: against an adversary free
+//! to choose the ramp rate there is no finite unconditional undetected-error bound
+//! (a ramp slow enough to keep the disciplined reference in lock-step, i.e. with a
+//! per-sample standardized increment at or below the CUSUM reference value, never
+//! alarms while the integrated error grows without limit). The finite TPL holds
+//! only *given* detection by a model-free cross-check. It is also only as tight as
+//! the clock's long-tau red-noise floor (`q_rw`, `q_drift`), which for
+//! class-default oscillators is a *synthesised* assumption two to four decades below
+//! the white-FM ADEV (see [`crate::holdover`]); it is therefore reported as a *band*
+//! over a swept floor ([`tpl_band`]), not a single scalar, and a defensible figure
+//! must use the clock's **measured** `q_rw`/`q_drift`. The TPL is a MODELLED bridge
+//! over Validated primitives, calibrated but not itself externally validated, and it
+//! carries no integrity-risk-per-hour budget; we do not call it "certified".
 
 use crate::holdover::coast_phase_sigma;
 use crate::security::min_detectable_offset_ns;
@@ -51,11 +57,13 @@ pub struct TplInputs {
     pub detection_latency_s: f64,
 }
 
-/// The certified worst-case **undetected time error** (ns): the static monitor
-/// detectability floor (the offset a spoof can hold below the `k`-sigma alarm) plus
-/// the oscillator's own coast 1-sigma accumulated over the detection latency before
-/// the sequential test alarms. Both terms are closed forms over separately
-/// validated primitives, so the sum is oracle-checkable.
+/// The conditional, holdover-limited **undetected time error** (ns), given
+/// detection by the model-free monitor: the static monitor detectability floor (the
+/// offset a spoof can hold below the `k`-sigma alarm) plus the oscillator's own
+/// coast 1-sigma accumulated over the detection latency before the sequential test
+/// alarms. Both terms are closed forms over separately validated primitives, so the
+/// sum is oracle-checkable. It is not an unconditional worst case: a slow enough
+/// ramp evades a single clock-aided monitor entirely (see the module-level note).
 pub fn timing_protection_level_ns(inp: &TplInputs) -> f64 {
     let floor = min_detectable_offset_ns(inp.q_wf, inp.q_rw, inp.r, inp.tau, inp.samples, inp.k);
     let coast = coast_phase_sigma(inp.q_wf, inp.q_rw, inp.q_drift, inp.detection_latency_s) * 1e9;
@@ -197,7 +205,7 @@ mod tests {
     fn floor_band_is_material_for_a_stable_clock_at_long_latency() {
         // At long latency the coast term carries the synthesised red-noise floor, so
         // sweeping it a decade must move the bound materially (>20%), proving the
-        // certified figure is floor-governed and must be reported as a band.
+        // bound is floor-governed and must be reported as a band.
         let mut inp = uso_inputs();
         inp.detection_latency_s = 1000.0;
         let band = tpl_band(&inp, 1.0);
@@ -277,7 +285,7 @@ mod tests {
             detection_latency_s: 60.0,
         };
         let tpl = timing_protection_level_ns(&inp);
-        // Even at a full 60 s coast the certified bound is at least 10x below the
+        // Even at a full 60 s coast the conditional bound is at least 10x below the
         // silently-served 1.01 ms; at the monitor's actual sub-second reaction it is
         // far tighter still. This is the protection the receiver's flag did not give.
         assert!(

@@ -13,8 +13,10 @@
 //! The point: the attack pulled the receiver's *served time* by about 1.01 ms while
 //! the receiver kept reporting a healthy 3-D fix with a self-reported time accuracy
 //! of at most ~51 ns -- a roughly 20000x gap between claimed and actual integrity.
-//! A clock-aided monitor with oscillator holdover bounds the worst-case *undetected*
-//! time error to the Timing Protection Level, far below that silent 1 ms.
+//! Given detection by a model-free cross-check, a clock-aided holdover bounds the
+//! *undetected* time error to the Timing Protection Level, far below that silent
+//! 1 ms. (There is no finite UNconditional bound: a slow enough ramp evades a single
+//! clock-aided monitor; the TPL is the conditional, holdover-limited error.)
 //!
 //! Run: `cargo run --example tpl_jammertest`
 
@@ -61,7 +63,7 @@ fn main() {
         CLAIMED_TACC_NS,
         OBSERVED_PULL_NS / CLAIMED_TACC_NS
     );
-    println!("  certified TPL vs detection latency (clock-aided monitor + holdover):");
+    println!("  conditional TPL vs detection latency (given model-free detection + holdover):");
     for lat in [1.0, 5.0, 10.0, 30.0, 60.0] {
         let inp = TplInputs {
             detection_latency_s: lat,
@@ -87,6 +89,6 @@ fn main() {
         band.low_ns, band.nominal_ns, band.high_ns
     );
     println!(
-        "  => even at a 60 s coast the certified bound is far below the 1.01 ms the\n     receiver accepted while reporting <= 51 ns: the protection is the holdover,\n     not the receiver's own (untrustworthy) integrity flag."
+        "  => even at a 60 s coast the conditional bound is far below the 1.01 ms the\n     receiver accepted while reporting <= 51 ns: the protection is the holdover,\n     not the receiver's own (untrustworthy) integrity flag."
     );
 }
