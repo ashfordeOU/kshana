@@ -52,5 +52,8 @@ __pycache__/
 /ide/jetbrains/.kotlin
 /ide/jetbrains/build
 
+# Generated study artifacts (the example binaries write here; source + tests are committed)
+/paper-artifacts
+
 # macOS finder metadata
 .DS_Store
