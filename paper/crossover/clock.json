@@ -1,6 +1,6 @@
 {
   "schema_version": "0.1",
-  "engine_version": "0.17.0",
+  "engine_version": "0.20.0",
   "metric": "timing_p95_ns",
   "threshold_ns": 1000.0,
   "holdovers_s": [

@@ -3,8 +3,13 @@
 *.chart.svg
 *.report.html
 
-# Generated study artifacts (regenerable via `cargo run --example optimism_study`)
-/paper-artifacts
+# Paper study artifacts: the byte-deterministic study JSONs the papers cite ARE
+# committed here for reproducibility (each is regenerable from its open generator,
+# e.g. `cargo run --release --example optimism_study -- paper-artifacts/optimism-study.json`).
+# Any other transient output written under paper-artifacts/ stays ignored.
+/paper-artifacts/*
+!/paper-artifacts/optimism-study.json
+!/paper-artifacts/resilience-study.json
 
 # Python packaging / build artifacts (maturin)
 /dist
@@ -55,15 +60,10 @@ __pycache__/
 /ide/jetbrains/.kotlin
 /ide/jetbrains/build
 
-# Generated study artifacts (the example binaries write here; source + tests are committed)
-/paper-artifacts
-
 # macOS finder metadata
 .DS_Store
 
 # Real downloaded GNSS attack datasets (large; never committed to the public repo).
-# Source artefacts only -- derived figures/numbers live in kshana-pro.
+# Only derived, byte-deterministic study artifacts (above) are committed; the raw
+# recordings stay local.
 /realdata-cache/
-
-# Paper study artifacts (paper material lives in kshana-pro, not the public repo)
-/paper-artifacts/
