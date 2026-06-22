@@ -27,10 +27,11 @@
 //!   that the metric pipeline works and that a detector reads the right observable
 //!   — it is **not** an indication of field-detection performance. (The
 //!   matched-power `SpoofTime` class is deliberately the hard, near-nominal case.)
-//! * A leakage guard ([`Split::has_leakage`]) catches **exact case duplication**
-//!   across the train/test partitions; [`stratified_split`] keeps the partition
-//!   keys disjoint by construction. (It does *not* yet detect near-duplicate
-//!   *parameters* across partitions — a stronger guard is a roadmap item.)
+//! * Two leakage guards protect the train/test partitions: [`Split::has_leakage`]
+//!   catches **exact case duplication** (shared key), and
+//!   [`Split::near_duplicate_leakage`] catches **near-identical observables** under
+//!   different keys (a memorisation leak the key guard would miss);
+//!   [`stratified_split`] keeps the partition keys disjoint by construction.
 //!
 //! Nothing here is "validated" — it is a *modelled* evaluation harness; see
 //! [`crate::verification`] for the honesty invariant (a row may be labelled
@@ -473,22 +474,36 @@ pub fn roc_curve(labeled: &[(bool, f64)]) -> Vec<RocPoint> {
 /// Returns `NaN` for a degenerate (one-class) input rather than masking it as a
 /// benign 0.5 — an empty positive or negative set is not a "chance" AUC.
 pub fn auc(pos: &[f64], neg: &[f64]) -> f64 {
-    if pos.is_empty() || neg.is_empty() {
+    let (np, nn) = (pos.len(), neg.len());
+    if np == 0 || nn == 0 {
         return f64::NAN;
     }
-    let mut acc = 0.0;
-    for &p in pos {
-        for &n in neg {
-            acc += if p > n {
-                1.0
-            } else if (p - n).abs() == 0.0 {
-                0.5
-            } else {
-                0.0
-            };
+    // Mann-Whitney U via average ranks: identical to the pairwise definition
+    // (+1 for pos>neg, +0.5 for ties) but O((n+m) log(n+m)) instead of O(n*m),
+    // which matters when a real-data group has hundreds of thousands of samples.
+    let mut all: Vec<(f64, bool)> = Vec::with_capacity(np + nn);
+    all.extend(pos.iter().map(|&v| (v, true)));
+    all.extend(neg.iter().map(|&v| (v, false)));
+    all.sort_by(|a, b| a.0.partial_cmp(&b.0).unwrap_or(std::cmp::Ordering::Equal));
+
+    let mut rank_pos_sum = 0.0_f64;
+    let mut i = 0;
+    while i < all.len() {
+        let mut j = i;
+        while j + 1 < all.len() && all[j + 1].0 == all[i].0 {
+            j += 1;
         }
+        // The tied block spans positions i..=j; their shared average 1-based rank.
+        let avg_rank = ((i + 1) + (j + 1)) as f64 / 2.0;
+        for item in &all[i..=j] {
+            if item.1 {
+                rank_pos_sum += avg_rank;
+            }
+        }
+        i = j + 1;
     }
-    acc / (pos.len() as f64 * neg.len() as f64)
+    let u = rank_pos_sum - (np as f64) * (np as f64 + 1.0) / 2.0;
+    u / (np as f64 * nn as f64)
 }
 
 /// The largest decision threshold whose negative-set false-alarm rate (under the
@@ -654,13 +669,37 @@ pub struct Split {
 impl Split {
     /// Leakage guard: true if any case **key** appears in both partitions — i.e. an
     /// exact case was duplicated across train/test. ([`stratified_split`] keeps keys
-    /// disjoint by construction, so this fires only on a hand-built leaky split. It
-    /// does **not** detect near-duplicate generating *parameters* — a stronger,
-    /// roadmap guard.)
+    /// disjoint by construction, so this fires only on a hand-built leaky split.) For
+    /// near-identical cases under *different* keys, use [`Split::near_duplicate_leakage`].
     pub fn has_leakage(&self) -> bool {
         use std::collections::HashSet;
         let train_keys: HashSet<u64> = self.train.iter().map(|c| c.params.key).collect();
         self.test.iter().any(|c| train_keys.contains(&c.params.key))
+    }
+
+    /// Near-duplicate leakage guard: `true` if any **test** case shares its class
+    /// with a **train** case whose measurement-domain observables are all within
+    /// `eps` (per-component L∞ over the five [`CaseObservables`] fields). Unlike
+    /// [`Split::has_leakage`] — which only catches exact **key** duplication — this
+    /// catches a case effectively replicated across the partition (near-identical
+    /// inputs carrying the same label), which would let a memorising detector
+    /// "cheat" the held-out test. Use it to confirm a train/test split (or two
+    /// same-distribution corpora) is a genuine generalisation check before training
+    /// a learned detector. Class-gated: identical observables under a *different*
+    /// class are a label conflict, not a train→test answer leak.
+    pub fn near_duplicate_leakage(&self, eps: f64) -> bool {
+        let close = |a: &CaseObservables, b: &CaseObservables| {
+            (a.js_db - b.js_db).abs() <= eps
+                && (a.cn0_drop_db - b.cn0_drop_db).abs() <= eps
+                && (a.agc_excess_db - b.agc_excess_db).abs() <= eps
+                && (a.sqm_el_metric - b.sqm_el_metric).abs() <= eps
+                && (a.parity_stat - b.parity_stat).abs() <= eps
+        };
+        self.test.iter().any(|t| {
+            self.train
+                .iter()
+                .any(|tr| tr.class == t.class && close(&tr.obs, &t.obs))
+        })
     }
 }
 
@@ -1174,6 +1213,86 @@ mod tests {
         let mut leaky = split.clone();
         leaky.test.push(leaky.train[0]);
         assert!(leaky.has_leakage(), "guard must catch a duplicated case");
+    }
+
+    #[test]
+    fn near_duplicate_leakage_flags_close_observables_not_clean_splits() {
+        fn case(class: ImpairmentClass, key: u64, obs: CaseObservables) -> LabeledCase {
+            LabeledCase {
+                class,
+                params: CaseParams { severity: 0.0, key },
+                obs,
+            }
+        }
+        let base = CaseObservables {
+            js_db: 5.0,
+            cn0_drop_db: 3.0,
+            agc_excess_db: 2.0,
+            sqm_el_metric: 0.10,
+            parity_stat: 0.5,
+        };
+        let far = CaseObservables {
+            js_db: 40.0,
+            cn0_drop_db: 25.0,
+            agc_excess_db: 18.0,
+            sqm_el_metric: 0.9,
+            parity_stat: 8.0,
+        };
+        // Well-separated observables across the partitions ⇒ no near-duplicate.
+        let clean = Split {
+            train: vec![case(ImpairmentClass::Jamming, 1, base)],
+            test: vec![case(ImpairmentClass::Jamming, 2, far)],
+        };
+        assert!(
+            !clean.near_duplicate_leakage(0.1),
+            "well-separated observables must not flag"
+        );
+        // A test case within eps of a train case in EVERY observable (different
+        // key, so the exact-key guard misses it) is a near-duplicate leak.
+        let nudged = CaseObservables {
+            js_db: 5.02,
+            cn0_drop_db: 3.01,
+            agc_excess_db: 1.99,
+            sqm_el_metric: 0.105,
+            parity_stat: 0.52,
+        };
+        let leaky = Split {
+            train: vec![case(ImpairmentClass::Jamming, 1, base)],
+            test: vec![case(ImpairmentClass::Jamming, 9, nudged)],
+        };
+        assert!(
+            !leaky.has_leakage(),
+            "exact-key guard misses a different-key near-duplicate"
+        );
+        assert!(
+            leaky.near_duplicate_leakage(0.1),
+            "near-identical observables (different key) must flag"
+        );
+        // Identical observables but a DIFFERENT class is not a memorisation
+        // duplicate (different label ⇒ no train→test answer leak).
+        let other_class = Split {
+            train: vec![case(ImpairmentClass::Jamming, 1, base)],
+            test: vec![case(ImpairmentClass::Multipath, 9, base)],
+        };
+        assert!(
+            !other_class.near_duplicate_leakage(0.1),
+            "a different class is not a near-duplicate"
+        );
+        // A genuine stratified split of the real corpus partitions distinct cases
+        // (disjoint keys, independent noise across all five observables), so at a
+        // tight eps it is clean.
+        let corpus = generate_corpus(
+            &CorpusConfig {
+                n_per_class: 60,
+                ..Default::default()
+            },
+            9,
+        );
+        let split = stratified_split(&corpus, 0.7, 9);
+        assert!(
+            !split.near_duplicate_leakage(1e-6),
+            "tight-eps stratified split of distinct cases must be clean"
+        );
     }
 
     #[test]
