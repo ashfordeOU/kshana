@@ -1,0 +1,4282 @@
+{
+  "example_assurance_report": {
+    "arch": "diverse_full",
+    "report": {
+      "disclaimer": "Simulation-derived self-assessment aligned to DHS RPCF v2.0. This is not a certification or accreditation, and it represents no authority approval (DHS, IEEE, or otherwise). Every sub-score is MODELLED unless explicitly tagged VALIDATED, and the scores are timing-domain and detection figures of merit, not position-domain accuracy.",
+      "modelled_count": 15,
+      "profile": {
+        "level": 3,
+        "level_basis": "weakest RPCF sub-score = 0.697; bounded-degradation = true (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.96
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8687499999999999
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.6969696969696969
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.825
+          },
+          "Limit": {
+            "basis": "Limit = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.825
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.6969696969696969
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.825
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.96
+          }
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.825
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.6969696969696969
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.6969696969696969
+          }
+        }
+      },
+      "provenance": {
+        "engine_version": "0.20.0",
+        "note": "MODELLED, synthetic parameter-grounded study; not a field measurement",
+        "scenario": "combined",
+        "seed": 12345
+      },
+      "validated_count": 0
+    },
+    "sha256": "fb5824cffa590a0906ee92a731337307da05d531642cd38dae21b5742c430def",
+    "threat": "combined"
+  },
+  "h1_alpha_sweep": [
+    {
+      "alpha": 1.0,
+      "kendall_tau_mean": 0.9009999999998901,
+      "level_flip_rate": 0.14285714285714285,
+      "top1_flip_rate": 0.0531
+    },
+    {
+      "alpha": 2.0,
+      "kendall_tau_mean": 0.9327619047617994,
+      "level_flip_rate": 0.14285714285714285,
+      "top1_flip_rate": 0.0232
+    },
+    {
+      "alpha": 5.0,
+      "kendall_tau_mean": 0.9624952380951627,
+      "level_flip_rate": 0.14285714285714285,
+      "top1_flip_rate": 0.0039
+    },
+    {
+      "alpha": 10.0,
+      "kendall_tau_mean": 0.9765428571428126,
+      "level_flip_rate": 0.14285714285714285,
+      "top1_flip_rate": 0.0005
+    },
+    {
+      "alpha": 20.0,
+      "kendall_tau_mean": 0.9862571428571245,
+      "level_flip_rate": 0.14285714285714285,
+      "top1_flip_rate": 0.0
+    }
+  ],
+  "h1_instability": {
+    "broad_simplex": {
+      "dirichlet_alpha": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ],
+      "kendall_tau_ci": [
+        0.7142857142857143,
+        1.0
+      ],
+      "kendall_tau_mean": 0.9009999999998901,
+      "level_flip_rate": 0.14285714285714285,
+      "n_evaluations": 70000,
+      "n_weight_draws": 2000,
+      "rank_ranges": {
+        "checkbox_gnss": [
+          0,
+          4
+        ],
+        "diverse_full": [
+          0,
+          1
+        ],
+        "gnss_ins": [
+          2,
+          4
+        ],
+        "gnss_l1": [
+          5,
+          6
+        ],
+        "gnss_multiband": [
+          5,
+          6
+        ],
+        "quad_gnss": [
+          1,
+          4
+        ],
+        "spoof_hardened": [
+          1,
+          3
+        ]
+      },
+      "top1_flip_rate": 0.0531,
+      "top1_flip_se": 0.0022423289232402993
+    },
+    "near_equal_simplex": {
+      "dirichlet_alpha": [
+        5.0,
+        5.0,
+        5.0,
+        5.0,
+        5.0,
+        5.0,
+        5.0
+      ],
+      "kendall_tau_ci": [
+        0.9047619047619048,
+        1.0
+      ],
+      "kendall_tau_mean": 0.9624952380951627,
+      "level_flip_rate": 0.14285714285714285,
+      "n_evaluations": 70000,
+      "n_weight_draws": 2000,
+      "rank_ranges": {
+        "checkbox_gnss": [
+          0,
+          4
+        ],
+        "diverse_full": [
+          0,
+          1
+        ],
+        "gnss_ins": [
+          3,
+          4
+        ],
+        "gnss_l1": [
+          5,
+          6
+        ],
+        "gnss_multiband": [
+          5,
+          6
+        ],
+        "quad_gnss": [
+          1,
+          4
+        ],
+        "spoof_hardened": [
+          1,
+          3
+        ]
+      },
+      "top1_flip_rate": 0.0039,
+      "top1_flip_se": 0.0006232808355789547
+    }
+  },
+  "h1_robustness_to_reduction": {
+    "contested_mid_wide_fraction": 1.0,
+    "jitter_pct": 0.2,
+    "level_flip_rate": {
+      "max": 0.14285714285714285,
+      "mean": 0.14285714285714293,
+      "min": 0.14285714285714285
+    },
+    "n_replicates": 40,
+    "top1_flip_rate": {
+      "max": 0.0976,
+      "mean": 0.05421999999999999,
+      "min": 0.028
+    }
+  },
+  "h1_weighting_only_per_scenario": {
+    "combined": {
+      "kendall_tau_mean": 0.8952380952381097,
+      "top1_flip_rate": 0.011
+    },
+    "meaconing": {
+      "kendall_tau_mean": 0.9132380952381081,
+      "top1_flip_rate": 0.011
+    },
+    "nominal": {
+      "kendall_tau_mean": 0.9072857142857285,
+      "top1_flip_rate": 0.22
+    },
+    "spoofing": {
+      "kendall_tau_mean": 0.8952380952381097,
+      "top1_flip_rate": 0.011
+    },
+    "wideband_jam": {
+      "kendall_tau_mean": 0.8940000000000149,
+      "top1_flip_rate": 0.0125
+    }
+  },
+  "h2_declared_vs_measured": [
+    {
+      "arch_a": "checkbox_gnss",
+      "arch_b": "diverse_full",
+      "bounded_a": false,
+      "bounded_b": true,
+      "level_a": 0,
+      "level_b": 3,
+      "mix": "wideband_jam"
+    },
+    {
+      "arch_a": "checkbox_gnss",
+      "arch_b": "diverse_full",
+      "bounded_a": false,
+      "bounded_b": true,
+      "level_a": 0,
+      "level_b": 3,
+      "mix": "spoofing"
+    },
+    {
+      "arch_a": "checkbox_gnss",
+      "arch_b": "diverse_full",
+      "bounded_a": false,
+      "bounded_b": true,
+      "level_a": 0,
+      "level_b": 2,
+      "mix": "meaconing"
+    },
+    {
+      "arch_a": "checkbox_gnss",
+      "arch_b": "diverse_full",
+      "bounded_a": false,
+      "bounded_b": true,
+      "level_a": 0,
+      "level_b": 3,
+      "mix": "combined"
+    }
+  ],
+  "h3_diversity_collapse": [
+    {
+      "arch": "gnss_l1",
+      "common_mode_aware": 1.0,
+      "independence_assumed": 1.0
+    },
+    {
+      "arch": "gnss_multiband",
+      "common_mode_aware": 1.0,
+      "independence_assumed": 1.0
+    },
+    {
+      "arch": "gnss_ins",
+      "common_mode_aware": 1.8823529411764706,
+      "independence_assumed": 1.8823529411764706
+    },
+    {
+      "arch": "spoof_hardened",
+      "common_mode_aware": 1.8823529411764706,
+      "independence_assumed": 1.8823529411764706
+    },
+    {
+      "arch": "checkbox_gnss",
+      "common_mode_aware": 1.0,
+      "independence_assumed": 1.0
+    },
+    {
+      "arch": "quad_gnss",
+      "common_mode_aware": 1.0,
+      "independence_assumed": 3.997749437359339
+    },
+    {
+      "arch": "diverse_full",
+      "common_mode_aware": 3.87544483985765,
+      "independence_assumed": 3.875444839857651
+    }
+  ],
+  "label": "MODELLED resilience-scoring study (synthetic, parameter-grounded). Simulation-derived self-assessment aligned to DHS RPCF v2.0; not a certification or field measurement.",
+  "panel": [
+    {
+      "independent_groups": 1,
+      "n_sources": 1,
+      "name": "gnss_l1",
+      "techniques": []
+    },
+    {
+      "independent_groups": 1,
+      "n_sources": 2,
+      "name": "gnss_multiband",
+      "techniques": [
+        "Verify",
+        "Diversify"
+      ]
+    },
+    {
+      "independent_groups": 2,
+      "n_sources": 2,
+      "name": "gnss_ins",
+      "techniques": [
+        "Verify",
+        "Diversify",
+        "Mitigate",
+        "Recover"
+      ]
+    },
+    {
+      "independent_groups": 2,
+      "n_sources": 2,
+      "name": "spoof_hardened",
+      "techniques": [
+        "Verify",
+        "Isolate",
+        "Mitigate"
+      ]
+    },
+    {
+      "independent_groups": 1,
+      "n_sources": 1,
+      "name": "checkbox_gnss",
+      "techniques": [
+        "Obfuscate",
+        "Limit",
+        "Verify",
+        "Isolate",
+        "Diversify",
+        "Mitigate",
+        "Recover"
+      ]
+    },
+    {
+      "independent_groups": 4,
+      "n_sources": 4,
+      "name": "quad_gnss",
+      "techniques": [
+        "Verify",
+        "Diversify",
+        "Mitigate"
+      ]
+    },
+    {
+      "independent_groups": 4,
+      "n_sources": 4,
+      "name": "diverse_full",
+      "techniques": [
+        "Obfuscate",
+        "Limit",
+        "Verify",
+        "Isolate",
+        "Diversify",
+        "Mitigate",
+        "Recover"
+      ]
+    }
+  ],
+  "profiles": {
+    "checkbox_gnss": {
+      "combined": {
+        "composite_equal_weight": 0.5271428571428572,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = -0.000; bounded-degradation = false (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8400000000000001
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.7124999999999999
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.95
+          },
+          "Limit": {
+            "basis": "Limit = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.95
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.95
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8400000000000001
+          }
+        },
+        "sim": {
+          "availability": -0.0,
+          "bounded": false,
+          "detect_auc": 0.92,
+          "holdover_s": 0.0,
+          "integrity": -0.0,
+          "security": 0.8400000000000001
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.95
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        }
+      },
+      "meaconing": {
+        "composite_equal_weight": 0.4642857142857143,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = -0.000; bounded-degradation = false (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.3999999999999999
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.7124999999999999
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.95
+          },
+          "Limit": {
+            "basis": "Limit = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.95
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.95
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.3999999999999999
+          }
+        },
+        "sim": {
+          "availability": -0.0,
+          "bounded": false,
+          "detect_auc": 0.7,
+          "holdover_s": 0.0,
+          "integrity": -0.0,
+          "security": 0.3999999999999999
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.95
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        }
+      },
+      "nominal": {
+        "composite_equal_weight": 0.6928571428571428,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = 0.000; bounded-degradation = true (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.7124999999999999
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.95
+          },
+          "Limit": {
+            "basis": "Limit = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.95
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.95
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          }
+        },
+        "sim": {
+          "availability": 1.0,
+          "bounded": true,
+          "detect_auc": 0.5,
+          "holdover_s": 3600.0,
+          "integrity": 1.0,
+          "security": 0.0
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.95
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          }
+        }
+      },
+      "spoofing": {
+        "composite_equal_weight": 0.5071428571428571,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = -0.000; bounded-degradation = false (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.7
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.7124999999999999
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.95
+          },
+          "Limit": {
+            "basis": "Limit = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.95
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.95
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.7
+          }
+        },
+        "sim": {
+          "availability": -0.0,
+          "bounded": false,
+          "detect_auc": 0.85,
+          "holdover_s": 0.0,
+          "integrity": -0.0,
+          "security": 0.7
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.95
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        }
+      },
+      "wideband_jam": {
+        "composite_equal_weight": 0.5357142857142857,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = -0.000; bounded-degradation = false (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8999999999999999
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.7124999999999999
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.95
+          },
+          "Limit": {
+            "basis": "Limit = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.95
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.95
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8999999999999999
+          }
+        },
+        "sim": {
+          "availability": -0.0,
+          "bounded": false,
+          "detect_auc": 0.95,
+          "holdover_s": 0.0,
+          "integrity": -0.0,
+          "security": 0.8999999999999999
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.95
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        }
+      }
+    },
+    "diverse_full": {
+      "combined": {
+        "composite_equal_weight": 0.875995670995671,
+        "level": 3,
+        "level_basis": "weakest RPCF sub-score = 0.697; bounded-degradation = true (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.96
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8687499999999999
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.6969696969696969
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.825
+          },
+          "Limit": {
+            "basis": "Limit = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.825
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.6969696969696969
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.825
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.96
+          }
+        },
+        "sim": {
+          "availability": 0.6969696969696969,
+          "bounded": true,
+          "detect_auc": 0.98,
+          "holdover_s": 3600.0,
+          "integrity": 0.6969696969696969,
+          "security": 0.96
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.825
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.6969696969696969
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.6969696969696969
+          }
+        }
+      },
+      "meaconing": {
+        "composite_equal_weight": 0.8131385281385282,
+        "level": 2,
+        "level_basis": "weakest RPCF sub-score = 0.520; bounded-degradation = true (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.52
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8687499999999999
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.6969696969696969
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.825
+          },
+          "Limit": {
+            "basis": "Limit = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.825
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.6969696969696969
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.825
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.52
+          }
+        },
+        "sim": {
+          "availability": 0.6969696969696969,
+          "bounded": true,
+          "detect_auc": 0.76,
+          "holdover_s": 3600.0,
+          "integrity": 0.6969696969696969,
+          "security": 0.52
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.825
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.6969696969696969
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.6969696969696969
+          }
+        }
+      },
+      "nominal": {
+        "composite_equal_weight": 0.7992857142857143,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = 0.120; bounded-degradation = true (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.1200000000000001
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8687499999999999
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.825
+          },
+          "Limit": {
+            "basis": "Limit = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.825
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.825
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.1200000000000001
+          }
+        },
+        "sim": {
+          "availability": 1.0,
+          "bounded": true,
+          "detect_auc": 0.56,
+          "holdover_s": 3600.0,
+          "integrity": 1.0,
+          "security": 0.1200000000000001
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.825
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          }
+        }
+      },
+      "spoofing": {
+        "composite_equal_weight": 0.855995670995671,
+        "level": 3,
+        "level_basis": "weakest RPCF sub-score = 0.697; bounded-degradation = true (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8199999999999998
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8687499999999999
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.6969696969696969
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.825
+          },
+          "Limit": {
+            "basis": "Limit = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.825
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.6969696969696969
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.825
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8199999999999998
+          }
+        },
+        "sim": {
+          "availability": 0.6969696969696969,
+          "bounded": true,
+          "detect_auc": 0.9099999999999999,
+          "holdover_s": 3600.0,
+          "integrity": 0.6969696969696969,
+          "security": 0.8199999999999998
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.825
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.6969696969696969
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.6969696969696969
+          }
+        }
+      },
+      "wideband_jam": {
+        "composite_equal_weight": 0.8788528138528139,
+        "level": 3,
+        "level_basis": "weakest RPCF sub-score = 0.697; bounded-degradation = true (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.98
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8687499999999999
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.6969696969696969
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.825
+          },
+          "Limit": {
+            "basis": "Limit = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.825
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.6969696969696969
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.825
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.98
+          }
+        },
+        "sim": {
+          "availability": 0.6969696969696969,
+          "bounded": true,
+          "detect_auc": 0.99,
+          "holdover_s": 3600.0,
+          "integrity": 0.6969696969696969,
+          "security": 0.98
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.825
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.6969696969696969
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.6969696969696969
+          }
+        }
+      }
+    },
+    "gnss_ins": {
+      "combined": {
+        "composite_equal_weight": 0.2388095238095238,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = 0.000; bounded-degradation = true (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8800000000000001
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.08333333333333333
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.08333333333333333
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.37499999999999994
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.3333333333333333
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Limit": {
+            "basis": "Limit = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.37499999999999994
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.08333333333333333
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8800000000000001
+          }
+        },
+        "sim": {
+          "availability": 0.37499999999999994,
+          "bounded": true,
+          "detect_auc": 0.9400000000000001,
+          "holdover_s": 300.0,
+          "integrity": 0.37499999999999994,
+          "security": 0.8800000000000001
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.37499999999999994
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.08333333333333333
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.37499999999999994
+          }
+        }
+      },
+      "meaconing": {
+        "composite_equal_weight": 0.1432142857142857,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = 0.000; bounded-degradation = false (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.43999999999999995
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.041666666666666664
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.08333333333333333
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.18749999999999997
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.3333333333333333
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Limit": {
+            "basis": "Limit = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.18749999999999997
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.041666666666666664
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.43999999999999995
+          }
+        },
+        "sim": {
+          "availability": 0.18749999999999997,
+          "bounded": false,
+          "detect_auc": 0.72,
+          "holdover_s": 300.0,
+          "integrity": 0.18749999999999997,
+          "security": 0.43999999999999995
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.18749999999999997
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.041666666666666664
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.18749999999999997
+          }
+        }
+      },
+      "nominal": {
+        "composite_equal_weight": 0.339047619047619,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = 0.000; bounded-degradation = true (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.040000000000000036
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.08333333333333333
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.3333333333333333
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Limit": {
+            "basis": "Limit = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.040000000000000036
+          }
+        },
+        "sim": {
+          "availability": 1.0,
+          "bounded": true,
+          "detect_auc": 0.52,
+          "holdover_s": 3600.0,
+          "integrity": 1.0,
+          "security": 0.040000000000000036
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          }
+        }
+      },
+      "spoofing": {
+        "composite_equal_weight": 0.2188095238095238,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = 0.000; bounded-degradation = true (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.74
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.08333333333333333
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.08333333333333333
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.37499999999999994
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.3333333333333333
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Limit": {
+            "basis": "Limit = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.37499999999999994
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.08333333333333333
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.74
+          }
+        },
+        "sim": {
+          "availability": 0.37499999999999994,
+          "bounded": true,
+          "detect_auc": 0.87,
+          "holdover_s": 300.0,
+          "integrity": 0.37499999999999994,
+          "security": 0.74
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.37499999999999994
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.08333333333333333
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.37499999999999994
+          }
+        }
+      },
+      "wideband_jam": {
+        "composite_equal_weight": 0.24738095238095234,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = 0.000; bounded-degradation = true (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.94
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.08333333333333333
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.08333333333333333
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.37499999999999994
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.3333333333333333
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Limit": {
+            "basis": "Limit = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.37499999999999994
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.08333333333333333
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.94
+          }
+        },
+        "sim": {
+          "availability": 0.37499999999999994,
+          "bounded": true,
+          "detect_auc": 0.97,
+          "holdover_s": 300.0,
+          "integrity": 0.37499999999999994,
+          "security": 0.94
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.37499999999999994
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.08333333333333333
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.37499999999999994
+          }
+        }
+      }
+    },
+    "gnss_l1": {
+      "combined": {
+        "composite_equal_weight": 0.028571428571428564,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = -0.000; bounded-degradation = false (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.19999999999999996
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Limit": {
+            "basis": "Limit = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.19999999999999996
+          }
+        },
+        "sim": {
+          "availability": -0.0,
+          "bounded": false,
+          "detect_auc": 0.6,
+          "holdover_s": 0.0,
+          "integrity": -0.0,
+          "security": 0.19999999999999996
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.95
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        }
+      },
+      "meaconing": {
+        "composite_equal_weight": 0.0057142857142857195,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = -0.000; bounded-degradation = false (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.040000000000000036
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Limit": {
+            "basis": "Limit = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.040000000000000036
+          }
+        },
+        "sim": {
+          "availability": -0.0,
+          "bounded": false,
+          "detect_auc": 0.52,
+          "holdover_s": 0.0,
+          "integrity": -0.0,
+          "security": 0.040000000000000036
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.95
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        }
+      },
+      "nominal": {
+        "composite_equal_weight": 0.2857142857142857,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = 0.000; bounded-degradation = true (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Limit": {
+            "basis": "Limit = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          }
+        },
+        "sim": {
+          "availability": 1.0,
+          "bounded": true,
+          "detect_auc": 0.5,
+          "holdover_s": 3600.0,
+          "integrity": 1.0,
+          "security": 0.0
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.95
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          }
+        }
+      },
+      "spoofing": {
+        "composite_equal_weight": 0.0142857142857143,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = -0.000; bounded-degradation = false (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.10000000000000009
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Limit": {
+            "basis": "Limit = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.10000000000000009
+          }
+        },
+        "sim": {
+          "availability": -0.0,
+          "bounded": false,
+          "detect_auc": 0.55,
+          "holdover_s": 0.0,
+          "integrity": -0.0,
+          "security": 0.10000000000000009
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.95
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        }
+      },
+      "wideband_jam": {
+        "composite_equal_weight": 0.1142857142857143,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = -0.000; bounded-degradation = false (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Limit": {
+            "basis": "Limit = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8
+          }
+        },
+        "sim": {
+          "availability": -0.0,
+          "bounded": false,
+          "detect_auc": 0.9,
+          "holdover_s": 0.0,
+          "integrity": -0.0,
+          "security": 0.8
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.95
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        }
+      }
+    },
+    "gnss_multiband": {
+      "combined": {
+        "composite_equal_weight": 0.12000000000000001,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = -0.000; bounded-degradation = false (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8400000000000001
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Limit": {
+            "basis": "Limit = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8400000000000001
+          }
+        },
+        "sim": {
+          "availability": -0.0,
+          "bounded": false,
+          "detect_auc": 0.92,
+          "holdover_s": 0.0,
+          "integrity": -0.0,
+          "security": 0.8400000000000001
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.95
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        }
+      },
+      "meaconing": {
+        "composite_equal_weight": 0.05714285714285713,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = -0.000; bounded-degradation = false (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.3999999999999999
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Limit": {
+            "basis": "Limit = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.3999999999999999
+          }
+        },
+        "sim": {
+          "availability": -0.0,
+          "bounded": false,
+          "detect_auc": 0.7,
+          "holdover_s": 0.0,
+          "integrity": -0.0,
+          "security": 0.3999999999999999
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.95
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        }
+      },
+      "nominal": {
+        "composite_equal_weight": 0.2857142857142857,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = 0.000; bounded-degradation = true (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Limit": {
+            "basis": "Limit = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          }
+        },
+        "sim": {
+          "availability": 1.0,
+          "bounded": true,
+          "detect_auc": 0.5,
+          "holdover_s": 3600.0,
+          "integrity": 1.0,
+          "security": 0.0
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.95
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          }
+        }
+      },
+      "spoofing": {
+        "composite_equal_weight": 0.09999999999999999,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = -0.000; bounded-degradation = false (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.7
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Limit": {
+            "basis": "Limit = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.7
+          }
+        },
+        "sim": {
+          "availability": -0.0,
+          "bounded": false,
+          "detect_auc": 0.85,
+          "holdover_s": 0.0,
+          "integrity": -0.0,
+          "security": 0.7
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.95
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        }
+      },
+      "wideband_jam": {
+        "composite_equal_weight": 0.12857142857142856,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = -0.000; bounded-degradation = false (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8999999999999999
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Limit": {
+            "basis": "Limit = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8999999999999999
+          }
+        },
+        "sim": {
+          "availability": -0.0,
+          "bounded": false,
+          "detect_auc": 0.95,
+          "holdover_s": 0.0,
+          "integrity": -0.0,
+          "security": 0.8999999999999999
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.95
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        }
+      }
+    },
+    "quad_gnss": {
+      "combined": {
+        "composite_equal_weight": 0.27999999999999997,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = -0.000; bounded-degradation = false (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.96
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.25
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Limit": {
+            "basis": "Limit = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.96
+          }
+        },
+        "sim": {
+          "availability": -0.0,
+          "bounded": false,
+          "detect_auc": 0.98,
+          "holdover_s": 0.0,
+          "integrity": -0.0,
+          "security": 0.96
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.9125
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        }
+      },
+      "meaconing": {
+        "composite_equal_weight": 0.21714285714285714,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = -0.000; bounded-degradation = false (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.52
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.25
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Limit": {
+            "basis": "Limit = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.52
+          }
+        },
+        "sim": {
+          "availability": -0.0,
+          "bounded": false,
+          "detect_auc": 0.76,
+          "holdover_s": 0.0,
+          "integrity": -0.0,
+          "security": 0.52
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.9125
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        }
+      },
+      "nominal": {
+        "composite_equal_weight": 0.44571428571428573,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = 0.000; bounded-degradation = true (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.1200000000000001
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.25
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Limit": {
+            "basis": "Limit = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.1200000000000001
+          }
+        },
+        "sim": {
+          "availability": 1.0,
+          "bounded": true,
+          "detect_auc": 0.56,
+          "holdover_s": 3600.0,
+          "integrity": 1.0,
+          "security": 0.1200000000000001
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.9125
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          }
+        }
+      },
+      "spoofing": {
+        "composite_equal_weight": 0.25999999999999995,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = -0.000; bounded-degradation = false (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8199999999999998
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.25
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Limit": {
+            "basis": "Limit = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8199999999999998
+          }
+        },
+        "sim": {
+          "availability": -0.0,
+          "bounded": false,
+          "detect_auc": 0.9099999999999999,
+          "holdover_s": 0.0,
+          "integrity": -0.0,
+          "security": 0.8199999999999998
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.9125
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        }
+      },
+      "wideband_jam": {
+        "composite_equal_weight": 0.28285714285714286,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = -0.000; bounded-degradation = false (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.98
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.25
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Limit": {
+            "basis": "Limit = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.98
+          }
+        },
+        "sim": {
+          "availability": -0.0,
+          "bounded": false,
+          "detect_auc": 0.99,
+          "holdover_s": 0.0,
+          "integrity": -0.0,
+          "security": 0.98
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.9125
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": -0.0
+          }
+        }
+      }
+    },
+    "spoof_hardened": {
+      "combined": {
+        "composite_equal_weight": 0.3530952380952382,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = 0.000; bounded-degradation = true (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8800000000000001
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.08333333333333333
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.2833333333333333
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.37499999999999994
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.3333333333333333
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8
+          },
+          "Limit": {
+            "basis": "Limit = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.37499999999999994
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.08333333333333333
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8800000000000001
+          }
+        },
+        "sim": {
+          "availability": 0.37499999999999994,
+          "bounded": true,
+          "detect_auc": 0.9400000000000001,
+          "holdover_s": 300.0,
+          "integrity": 0.37499999999999994,
+          "security": 0.8800000000000001
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.37499999999999994
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.08333333333333333
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.37499999999999994
+          }
+        }
+      },
+      "meaconing": {
+        "composite_equal_weight": 0.2575,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = 0.000; bounded-degradation = false (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.43999999999999995
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.041666666666666664
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.2833333333333333
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.18749999999999997
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.3333333333333333
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8
+          },
+          "Limit": {
+            "basis": "Limit = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.18749999999999997
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.041666666666666664
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.43999999999999995
+          }
+        },
+        "sim": {
+          "availability": 0.18749999999999997,
+          "bounded": false,
+          "detect_auc": 0.72,
+          "holdover_s": 300.0,
+          "integrity": 0.18749999999999997,
+          "security": 0.43999999999999995
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.18749999999999997
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.041666666666666664
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.18749999999999997
+          }
+        }
+      },
+      "nominal": {
+        "composite_equal_weight": 0.4533333333333333,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = 0.000; bounded-degradation = true (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.040000000000000036
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.2833333333333333
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.3333333333333333
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8
+          },
+          "Limit": {
+            "basis": "Limit = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.040000000000000036
+          }
+        },
+        "sim": {
+          "availability": 1.0,
+          "bounded": true,
+          "detect_auc": 0.52,
+          "holdover_s": 3600.0,
+          "integrity": 1.0,
+          "security": 0.040000000000000036
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 1.0
+          }
+        }
+      },
+      "spoofing": {
+        "composite_equal_weight": 0.33309523809523806,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = 0.000; bounded-degradation = true (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.74
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.08333333333333333
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.2833333333333333
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.37499999999999994
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.3333333333333333
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8
+          },
+          "Limit": {
+            "basis": "Limit = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.37499999999999994
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.08333333333333333
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.74
+          }
+        },
+        "sim": {
+          "availability": 0.37499999999999994,
+          "bounded": true,
+          "detect_auc": 0.87,
+          "holdover_s": 300.0,
+          "integrity": 0.37499999999999994,
+          "security": 0.74
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.37499999999999994
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.08333333333333333
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.37499999999999994
+          }
+        }
+      },
+      "wideband_jam": {
+        "composite_equal_weight": 0.3616666666666667,
+        "level": 0,
+        "level_basis": "weakest RPCF sub-score = 0.000; bounded-degradation = true (caps at Level 2 if unbounded)",
+        "rdrr": {
+          "Detect": {
+            "basis": "Detect = Verify sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.94
+          },
+          "Recover": {
+            "basis": "Recover = Recover sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.08333333333333333
+          },
+          "Resist": {
+            "basis": "Resist = mean(Obfuscate,Limit,Isolate,Diversify)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.2833333333333333
+          },
+          "Respond": {
+            "basis": "Respond = Mitigate sub-score",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.37499999999999994
+          }
+        },
+        "rpcf": {
+          "Diversify": {
+            "basis": "Diversify = normalized independent-group count",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.3333333333333333
+          },
+          "Isolate": {
+            "basis": "Isolate = declared(true) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8
+          },
+          "Limit": {
+            "basis": "Limit = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Mitigate": {
+            "basis": "Mitigate = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.37499999999999994
+          },
+          "Obfuscate": {
+            "basis": "Obfuscate = declared(false) x mean source quality",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.0
+          },
+          "Recover": {
+            "basis": "Recover = normalized holdover x bounded-degradation gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.08333333333333333
+          },
+          "Verify": {
+            "basis": "Verify = normalized impairment-detector AUC",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.94
+          }
+        },
+        "sim": {
+          "availability": 0.37499999999999994,
+          "bounded": true,
+          "detect_auc": 0.97,
+          "holdover_s": 300.0,
+          "integrity": 0.37499999999999994,
+          "security": 0.94
+        },
+        "yang": {
+          "Accuracy": {
+            "basis": "Accuracy = timing/quality proxy; position-domain accuracy NOT modelled (see fom.rs)",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.8
+          },
+          "Availability": {
+            "basis": "Availability = availability under denial",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.37499999999999994
+          },
+          "Continuity": {
+            "basis": "Continuity = holdover x bounded gate",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.08333333333333333
+          },
+          "Reliability": {
+            "basis": "Reliability = filter integrity fraction",
+            "oracle_kind": "InternalConsistency",
+            "status": "Modelled",
+            "value": 0.37499999999999994
+          }
+        }
+      }
+    }
+  },
+  "provenance": {
+    "engine": "kshana",
+    "engine_version": "0.20.0",
+    "n_architectures": 7,
+    "n_threats": 5,
+    "seed": 12345
+  },
+  "schema_version": "resilience-study/2"
+}
