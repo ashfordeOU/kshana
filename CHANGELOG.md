@@ -9,6 +9,49 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.20.0] - 2026-06-22
+
+This release brings the open code behind four research papers into the public
+engine, so every number in each paper regenerates from one command. All studies are
+MODELLED (synthetic or public-dataset calibration), carry their honest provenance
+(engine version, seeds, config hash) and validation labels, and are not
+certifications.
+
+### Added
+
+- **Conditional Timing Protection Level (`tpl`).** A holdover-limited bound on the
+  undetected time error under GNSS spoofing, with a k-sigma monitor floor, a van Loan
+  coast variance over the detection latency, and a CUSUM time-to-alarm. Calibrated on
+  a real recorded attack (JammerTest 2024, scenario 2.1.1) via
+  `cargo run --release --example tpl_jammertest`, which reproduces the paper's table
+  from scalars recovered from the public recording (the raw dataset is not
+  redistributed).
+- **Framework-aligned PNT-resilience scoring + decision-instability study
+  (`resilience`).** Architecture model, RPCF-aligned scoring, Dirichlet weighting
+  simplex, Kendall-tau and top-1 flip-rate instability, and common-mode diversity
+  collapse (Hill-N2), with `cargo run --release --example resilience_report --
+  paper-artifacts/resilience-study.json`. Crosswalk in
+  [`docs/RESILIENCE-CROSSWALK.md`](docs/RESILIENCE-CROSSWALK.md).
+- **RF-impairment optimism-gap study (`impairment_study`, `impairment_ml`,
+  `eval_stats`).** A 13-detector panel over a parameter-grounded synthetic corpus, an
+  in- vs out-of-distribution optimism gap, scaling-law trends with a permutation
+  null, and a leave-one-out degradation predictor, via
+  `cargo run --release --example optimism_study -- paper-artifacts/optimism-study.json`.
+- **Software-defined-receiver front end (`sdr`) and real-data adapters
+  (`realdata/`).** Raw IQ/IF to correlator taps and SQM, plus ingest adapters
+  (RINEX, u-blox UBX, GnssLogger, JammerTest, Yunnan, SatGrid) and probe examples.
+  These read recordings the user supplies locally; no recordings are committed.
+- **Committed study artifacts.** The byte-deterministic `optimism-study.json` and
+  `resilience-study.json` are now tracked under `paper-artifacts/` so the papers'
+  numbers can be checked without rebuilding; they remain regenerable from the
+  generators above. Raw datasets stay out of the repo (`/realdata-cache/`).
+
+### Changed
+
+- Version bumped to 0.20.0 across `Cargo.toml`, `CITATION.cff`, and `README`; the
+  crossover study artifacts are regenerated so their stamp matches the released
+  version.
+
 ## [0.19.0] - 2026-06-18
 
 ### Changed
