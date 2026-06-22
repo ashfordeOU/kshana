@@ -254,6 +254,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            requirement: "Timing Protection Level under spoofing",
+            capability: "Closed-form bound on worst-case undetected time error = monitor floor + oscillator coast-σ over CUSUM detection latency, reported as a red-noise-floor band",
+            module: "tpl",
+            tests: "tpl::tests (closed-form oracles + CUSUM); examples/tpl_jammertest.rs (JammerTest 2024 real-spoof calibration)",
+            oracle: "Composes Validated primitives (allan/holdover van-Loan, security floor); calibrated on JammerTest 2024 scenario 2.1.1 (~1.01 ms real served-time pull vs ≤51 ns claimed). Bridge over Validated parts — not itself an external validation.",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
             requirement: "Cislunar mission analysis",
             capability: "CR3BP STM + single-shooting differential corrector; L2 southern NRHO",
             module: "cr3bp",
