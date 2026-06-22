@@ -299,6 +299,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            requirement: "AI/ML RF-impairment optimism-gap study & ID-only gap predictor",
+            capability: "Controlled synthetic study of the in-distribution→out-of-distribution AUC optimism gap across published-method and learned (logistic-regression / one-hidden-layer MLP) detectors: per-class scaling-law trends (Spearman ρ + slope on 1−severity) and an ID-only ridge predictor that estimates the gap from in-distribution diagnostics alone, scored leave-one-detector-out and leave-one-class-out. Reproducible via `cargo run --release --example optimism_study`",
+            module: "impairment_study, impairment_ml, eval_stats",
+            tests: "impairment_study::tests (per-class oracle AUC≈1, learned optimism gap>0, grid shape + bootstrap CI brackets the mean + positive scaling trend, ID features finite, gap predictor beats predict-the-mean under BOTH leave-one-detector-out and leave-one-class-out CV + deterministic); impairment_ml::tests (logreg separates + deterministic + loss↓, MLP solves XOR a linear model cannot + seeded); eval_stats::tests (bootstrap/DeLong/Spearman/ridge vs closed forms)",
+            oracle: "Hand-derived statistics vs closed forms (binormal AUC Φ(d'/√2), DeLong variance, tied-rank Spearman, exact OLS recovery) + leave-one-out CV against the predict-the-mean baseline. Corpus is SYNTHETIC (parameter-grounded, never field/IQ) and the optimism gap is a synthetic→synthetic severity shift, NOT a sim-to-field result",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
             requirement: "Quantum-vs-classical PNT trade & GNSS-denied resilience (13503)",
             capability: "Measured-ADEV ingestion (NNLS), trade table (timing/inertial holdover + benefit), resilience-vs-time envelope; floor caveat carried on the artifact. Runnable from the CLI/bindings as the `quantum-trade` scenario kind (scenarios/quantum-trade.toml)",
             module: "quantum_trade",
