@@ -79,6 +79,7 @@ pub mod radiometric;
 pub mod raim;
 pub mod reentry;
 pub mod report;
+pub mod resilience;
 pub mod rinex;
 pub mod rinex_obs;
 pub mod run;
