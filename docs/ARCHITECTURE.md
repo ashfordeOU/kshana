@@ -208,6 +208,76 @@ agency-ephemeris force-model fit (`precise_od`, `lunar_od`, `tides`, `gravity_sh
 full alt-PNT field set (`igrf`, `altpnt/terrain`, `gravimeter`) round out the module list;
 see [CAPABILITY](CAPABILITY.md) for the per-module maturity.
 
+## 1b. Resilience studies, AI/ML evaluation & reproducible artifacts
+
+Five further module groups form the **open, reproducible-study** layer behind the
+project's research papers. Unlike the scenario `kind`s, these are reached as
+`cargo run --example` / `--bin` generators that write **byte-deterministic** artifacts
+(fixed seeds, recorded engine version + config hash). All are **MODELLED** (synthetic or
+public-dataset calibration) and carry honest validation labels — none is a certification.
+
+```mermaid
+flowchart TD
+    gen["study generators<br/>examples/ · bin/ (cargo run) → byte-deterministic artifacts"]
+
+    subgraph timing["Timing integrity"]
+      tplm["tpl<br/>conditional Timing Protection Level: k-σ floor · van-Loan coast · CUSUM"]
+    end
+    subgraph resilm["Resilience scoring & decision-instability"]
+      arch["resilience/arch · score<br/>architecture model + RPCF-aligned scoring"]
+      stats["resilience/stats<br/>Dirichlet · Kendall-τ · flip-rate · bootstrap"]
+      div["resilience/diversity · timeline<br/>Hill-N2 common-mode collapse · KPIs"]
+      study["resilience/study · report · panel<br/>instability study + integrity-hashed assurance report"]
+    end
+    subgraph aiml["RF-impairment optimism-gap (AI/ML)"]
+      ie["impairment_eval<br/>labelled synthetic corpus · ROC/AUC harness"]
+      is["impairment_study<br/>13-detector panel · scaling laws · LOO predictor"]
+      ml["impairment_ml<br/>logistic-regression + one-hidden-layer MLP"]
+      es["eval_stats<br/>bootstrap CI · DeLong · Spearman · ridge"]
+      sdrm["sdr · realdata<br/>IQ/IF → E/P/L taps → SQM + ingest adapters"]
+    end
+    subgraph trade["Quantum-vs-classical"]
+      cross["crossover<br/>resilience crossover map under parameter uncertainty"]
+      qt["quantum_trade<br/>measured-ADEV holdover benefit vs classical"]
+    end
+
+    gen --> timing
+    gen --> resilm
+    gen --> aiml
+    gen --> trade
+    tplm -. cross-checked vs .-> recursion["holdover · clock_state · allan"]
+    is --> ie
+    is --> ml
+    is --> es
+    ie -. real recordings via .-> sdrm
+    cross -. composes .-> packs2["clock · inertial packs"]
+```
+
+- **`tpl`** — the conditional Timing Protection Level: a holdover-limited bound on the
+  *undetected* time error under spoofing, composing a k-σ monitor floor, the van-Loan
+  coast variance over the detection latency, and a CUSUM time-to-alarm; calibrated on a
+  real recorded spoof (JammerTest 2024). There is no finite *unconditional* bound — the
+  TPL is conditional on an independent cross-check detecting the attack.
+- **`resilience/`** — a framework-aligned PNT-resilience scoring engine (DHS RPCF
+  categories) plus a decision-instability study: a Dirichlet weighting simplex, Kendall-τ
+  rank instability, top-1 winner flip rate, and common-mode **diversity collapse**
+  (Hill-N2), with an integrity-hashed assurance report and 35 hand-derived oracle tests.
+  See [RESILIENCE-CROSSWALK](RESILIENCE-CROSSWALK.md). Synthetic architectures aligned to
+  RPCF v2.0 — a self-assessment, not a certification.
+- **`impairment_eval` / `impairment_study` / `impairment_ml` / `eval_stats`** — the
+  RF-impairment optimism-gap study: a labelled synthetic corpus and detector-agnostic
+  ROC/AUC harness, a 13-detector panel (energy/AGC/SQM/parity plus seeded
+  logistic-regression and one-hidden-layer-MLP detectors), in- vs out-of-distribution
+  scaling laws with a permutation null, and a leave-one-out predictor of out-of-distribution
+  degradation. The eval metrics are validated bit-for-bit against scikit-learn.
+- **`sdr` / `realdata`** — a software-defined-receiver front end (raw IQ/IF → correlator
+  early/prompt/late taps → SQM) and ingest adapters (RINEX, u-blox UBX, GnssLogger,
+  JammerTest, Yunnan, SatGrid) that let the same detectors run over recordings supplied
+  locally; no datasets are committed to the repo.
+- **`crossover` / `quantum_trade`** — the quantum-vs-classical resilience crossover map
+  under parameter uncertainty, and the measured-ADEV holdover-benefit trade; the trade
+  numerical kernels are validated against scipy.
+
 ## 2. Engine pipeline (per run)
 
 Each run steps a single sensor model through the time grid, disciplining it whenever
