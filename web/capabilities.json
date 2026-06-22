@@ -141,8 +141,26 @@
   {
    "domain": "AI/ML evaluation & trade",
    "name": "RF-impairment detection eval & PNT trade",
-   "summary": "An RF-impairment detection evaluation testbed: a labelled, parameter-grounded synthetic corpus (nominal / jamming / spoof-time / spoof-position / multipath), a detector-agnostic ROC/AUC harness scoring any detector with per-class Pd at a target Pfa, and the in- versus out-of-distribution optimism gap. Plus a quantum-vs-classical PNT trade that quantifies a candidate clock's timing and inertial holdover benefit from a measured-ADEV curve against a classical baseline, with a GNSS-denied resilience-vs-time envelope. Modelled operating characteristics — never field/IQ data, no good/bad verdict.",
-   "proof": "AUC harness verified vs binormal closed form Φ(d′/√2) (Gneiting & Vogel 2018) — synthetic corpus, not raw-IQ/TEXBAT"
+   "summary": "An RF-impairment detection evaluation testbed: a labelled, parameter-grounded synthetic corpus (nominal / jamming / spoof-time / spoof-position / multipath), a detector-agnostic ROC/AUC harness scoring any detector with per-class Pd at a target Pfa, and the in- versus out-of-distribution optimism gap. A deeper optimism-gap study extends this to a 13-detector panel (energy / AGC / SQM / parity plus seeded logistic-regression and one-hidden-layer-MLP detectors), in- versus out-of-distribution scaling laws with a permutation null, and a leave-one-out predictor of out-of-distribution degradation; a software-defined-receiver front end (raw IQ/IF to correlator early/prompt/late taps to SQM) and real-data ingest adapters (RINEX, u-blox UBX, GnssLogger, JammerTest, Yunnan, SatGrid) let the same detectors run over recordings supplied locally. Plus a quantum-vs-classical PNT trade that quantifies a candidate clock's timing and inertial holdover benefit from a measured-ADEV curve against a classical baseline, with a GNSS-denied resilience-vs-time envelope. Modelled operating characteristics — never field/IQ data, no good/bad verdict.",
+   "proof": "AUC harness verified vs binormal closed form Φ(d′/√2) (Gneiting & Vogel 2018); eval metrics validated bit-for-bit vs scikit-learn 1.9.0 — synthetic corpus, not raw-IQ/TEXBAT"
+  },
+  {
+   "domain": "AI/ML evaluation & trade",
+   "name": "Quantum-vs-classical resilience crossover map",
+   "summary": "A reproducible map of where a quantum sensor overtakes its classical counterpart under parameter uncertainty: cold-atom versus navigation-grade dead-reckoning and optical versus chip-scale clock holdover, over outage duration and platform vibration, each curve carrying a technology-readiness label. Reproducible via cargo run --bin crossover_study. Modelled performance budgets — the inputs are published or bracketed coefficients, not flight data.",
+   "proof": "regenerates the inertial and clock crossover studies behind the Results figures; trade kernels validated vs scipy 1.17.1"
+  },
+  {
+   "domain": "Timing integrity",
+   "name": "Conditional Timing Protection Level",
+   "summary": "A holdover-limited bound on the undetected time error under GNSS spoofing: given an independent cross-check, the served-time error is bounded by a k-sigma monitor floor, the van-Loan coast variance over the detection latency, and a CUSUM time-to-alarm. Calibrated on a real recorded spoof (JammerTest 2024) and reproducible via cargo run --example tpl_jammertest. Modelled composition, conditional on detection — there is no finite unconditional bound, since a slow-enough ramp evades a single clock-aided monitor.",
+   "proof": "composition cross-checked vs the multi-step clock_state covariance recursion; calibrated on JammerTest 2024 (Zenodo 15911589)"
+  },
+  {
+   "domain": "Resilience assessment",
+   "name": "PNT-resilience scoring & decision-instability",
+   "summary": "A framework-aligned scoring engine (DHS RPCF categories) that maps an architecture's simulated behaviour to per-dimension sub-scores, then asks whether any single composite score or maturity Level is a stable basis for a decision — via a Dirichlet weighting simplex, Kendall-tau rank instability, a top-1 winner flip rate, and common-mode diversity collapse (Hill-N2) — with an integrity-hashed assurance report. Reproducible via cargo run --example resilience_report. Modelled synthetic architectures aligned to RPCF v2.0; a self-assessment, not a certification.",
+   "proof": "35 hand-derived oracle tests; byte-deterministic study artifact (fixed seed); aligned to DHS RPCF v2.0"
   },
   {
    "domain": "Integrity impact",
