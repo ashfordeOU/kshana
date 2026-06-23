@@ -39,6 +39,7 @@ fn main() -> ExitCode {
     let args: Vec<String> = std::env::args().collect();
     // usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>]
     //    or: kshana --study <suite.toml>
+    //    or: kshana --validate <scenario.toml>
     let mut positional: Option<String> = None;
     let mut export_sp3_path: Option<PathBuf> = None;
     let mut export_omm_path: Option<PathBuf> = None;
@@ -46,9 +47,20 @@ fn main() -> ExitCode {
     let mut eop_path: Option<PathBuf> = None;
     let mut study_name: Option<String> = None;
     let mut study_suite_path: Option<PathBuf> = None;
+    let mut validate_path: Option<PathBuf> = None;
     let mut i = 1;
     while i < args.len() {
         match args[i].as_str() {
+            "--validate" => {
+                i += 1;
+                match args.get(i) {
+                    Some(p) => validate_path = Some(PathBuf::from(p)),
+                    None => {
+                        eprintln!("error: --validate needs a scenario path");
+                        return ExitCode::from(2);
+                    }
+                }
+            }
             "--study" => {
                 i += 1;
                 match args.get(i) {
@@ -117,6 +129,33 @@ fn main() -> ExitCode {
         }
         i += 1;
     }
+    // `--validate <scenario.toml>`: lint a scenario against the crate's own
+    // introspection (kind + required fields) and report problems WITHOUT running it,
+    // so a user catches a misconfigured scenario before a (possibly long) run. This
+    // flag is terminal: each violation is printed to stderr and the process exits 1
+    // when there are any, 0 when the scenario lints clean.
+    if let Some(validate_file) = validate_path {
+        if positional.is_some() {
+            eprintln!("error: --validate lints one scenario; do not also pass a scenario file");
+            return ExitCode::from(2);
+        }
+        let src = match std::fs::read_to_string(&validate_file) {
+            Ok(s) => s,
+            Err(e) => {
+                eprintln!("error: cannot read {}: {e}", validate_file.display());
+                return ExitCode::FAILURE;
+            }
+        };
+        let violations = kshana::api::validate_scenario(&src);
+        if violations.is_empty() {
+            return ExitCode::SUCCESS;
+        }
+        for v in &violations {
+            eprintln!("{v}");
+        }
+        return ExitCode::FAILURE;
+    }
+
     // `--study <suite.toml>`: run a named SET of scenarios together into one
     // aggregated, comparable artifact. The manifest is parsed, each scenario is
     // resolved against the manifest's parent directory and run through the same
@@ -133,7 +172,7 @@ fn main() -> ExitCode {
 
     let Some(scenario_arg) = positional else {
         eprintln!(
-            "usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>]\n   or: kshana --study <suite.toml>"
+            "usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>]\n   or: kshana --study <suite.toml>\n   or: kshana --validate <scenario.toml>"
         );
         return ExitCode::from(2);
     };
