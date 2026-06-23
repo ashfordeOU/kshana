@@ -195,7 +195,7 @@ h1, h2, h3 {
 }
 
 /* ── Hero ────────────────────────────────────────────────────────────── */
-.hero { padding: clamp(3rem, 8vw, 6.5rem) 0 3rem; overflow: hidden; }
+.hero { padding: clamp(1.5rem, 4vw, 3.25rem) 0 3rem; overflow: hidden; }
 .hero-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
@@ -262,32 +262,38 @@ h1, h2, h3 {
 .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
 /* Trust badges row */
+/* Proof / credential strip — understated on purpose so it reads as evidence,
+   not as another chip cloud. A thin top rule sets it apart from the capability
+   chips above; items are plain mono text with a small brass dot, column-gapped
+   so they flow as a credential line rather than ragged pills. */
 .badges {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.55rem;
-  margin-top: 2.1rem;
+  gap: 0.55rem 1.5rem;
+  margin-top: 1.7rem;
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--line);
   font-family: var(--mono);
   font-size: 0.73rem;
+  color: var(--fg-2);
 }
 .badge {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  border: 1px solid var(--line);
-  background: linear-gradient(var(--bg-1), var(--bg));
-  border-radius: 999px;
-  padding: 0.36rem 0.75rem;
-  color: var(--fg-1);
-  box-shadow: inset 0 1px 0 var(--edge);
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--fg-2);
 }
-.badge b { color: var(--fg); font-weight: 600; }
-a.badge { text-decoration: none; transition: border-color .15s ease, color .15s ease; }
-a.badge:hover { color: var(--fg); border-color: var(--accent); }
+.badge b { color: var(--fg-1); font-weight: 600; }
+a.badge { text-decoration: none; transition: color .15s ease; }
+a.badge:hover { color: var(--fg); }
+a.badge:hover .dot { box-shadow: 0 0 0 3px var(--accent-tint); }
 .badge .dot {
-  width: 6px; height: 6px; border-radius: 50%;
+  width: 5px; height: 5px; border-radius: 50%;
   background: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-tint);
+  flex: 0 0 auto;
 }
 
 /* ── Living instrument ───────────────────────────────────────────────── */
@@ -756,3 +762,106 @@ footer .disclaimer { margin-top: 1rem; font-size: 0.8rem; color: var(--fg-3); ma
 }
 
 [hidden] { display: none !important; }
+
+/* ── Featured Kshana Pro card + Ashforde brand presence ──────────────────────
+   Draws the eye to the commercial overlay without leaving the theme: the warm
+   brass accent already used site-wide, a soft top glow, and a small flag. */
+.card.feat-pro {
+  position: relative;
+  border-color: var(--accent-line);
+  background:
+    radial-gradient(120% 80% at 50% -10%, var(--accent-glow) 0%, rgba(0, 0, 0, 0) 60%),
+    linear-gradient(180deg, var(--bg-3), var(--bg-1));
+  box-shadow: var(--shadow-2), 0 0 0 1px var(--accent-tint), inset 0 1px 0 var(--edge);
+}
+.card.feat-pro::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 2px;
+  border-radius: var(--radius) var(--radius) 0 0;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.85;
+}
+.card.feat-pro:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-2), 0 0 0 1px var(--accent-line), 0 16px 40px -24px var(--accent-glow);
+}
+.card.feat-pro h3 { color: var(--accent-bright); }
+.card-flag {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.9rem;
+  font: 600 0.62rem/1 var(--mono);
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--accent-bright);
+  background: var(--accent-tint);
+  border: 1px solid var(--accent-line);
+  border-radius: 999px;
+  padding: 0.28rem 0.55rem;
+}
+
+/* Hero capability chips — the breadth, made scannable. Visually distinct from
+   the mono trust-badges below: rounded chips with a small brass diamond marker
+   (a clear "this is a capability" cue) rather than dotted stat pills. */
+.hero .caps-label {
+  margin: 1.15rem 0 0.55rem;
+  font: 600 0.7rem/1 var(--mono);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fg-2);
+}
+.hero .caps {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  max-width: 62ch;
+}
+.hero .cap {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font: 500 0.85rem/1 var(--sans);
+  color: var(--fg-1);
+  background: var(--bg-2);
+  border: 1px solid var(--line-2);
+  border-radius: 8px;
+  padding: 0.44rem 0.68rem;
+  transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+}
+.hero .cap::before {
+  content: "";
+  width: 5px;
+  height: 5px;
+  border-radius: 1px;
+  background: var(--accent);
+  transform: rotate(45deg);
+  flex: 0 0 auto;
+  opacity: 0.9;
+}
+.hero .cap:hover { border-color: var(--accent-line); color: var(--fg); background: var(--bg-3); }
+
+/* Hero attribution — puts Ashforde + the maker in the top fold. */
+.hero-org {
+  margin: 0.5rem 0 0;
+  font: 500 0.92rem/1.4 var(--sans);
+  color: var(--fg-2);
+  letter-spacing: 0.01em;
+}
+.hero-org a { color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-line); }
+.hero-org a:hover { color: var(--accent-bright); border-bottom-color: var(--accent); }
+
+/* Footer Ashforde lockup — seal + wordmark, linked to ashforde.org. */
+.foot-brand { display: flex; align-items: flex-start; gap: 0.85rem; }
+.ashforde-lockup { display: inline-flex; align-items: center; gap: 0.5rem; text-decoration: none; flex: 0 0 auto; }
+.ashforde-seal { display: block; opacity: 0.92; transition: opacity 0.2s, transform 0.2s; }
+.ashforde-lockup:hover .ashforde-seal { opacity: 1; transform: rotate(8deg); }
+.ashforde-word { font: 600 0.95rem/1 var(--display); letter-spacing: 0.08em; color: var(--fg-1); }
+.ashforde-lockup:hover .ashforde-word { color: var(--accent-bright); }
+.foot-meta { color: inherit; }
+@media (max-width: 520px) { .foot-brand { flex-direction: column; gap: 0.6rem; } }
