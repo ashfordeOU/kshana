@@ -311,6 +311,14 @@ a.badge:hover .dot { box-shadow: 0 0 0 3px var(--accent-tint); }
 }
 .globe-spin { animation: globe-rot 48s linear infinite; }
 .star-tw { animation: star-tw 4.5s ease-in-out infinite; }
+/* travelling satellites ride their (rotated) orbit ellipses via offset-path */
+.sat-travel { offset-rotate: 0deg; animation: sat-orbit 18s linear infinite; }
+.sat-a { offset-path: path('M319.1 129.4 A148 52 -20 1 1 40.9 230.6 A148 52 -20 1 1 319.1 129.4'); }
+.sat-b { offset-path: path('M279.5 247.1 A120 40 34 1 1 80.5 112.9 A120 40 34 1 1 279.5 247.1'); animation-duration: 24s; animation-delay: -7s; }
+@keyframes sat-orbit { to { offset-distance: 100%; } }
+/* ranging beams flow toward the surface fix */
+.beam { animation: beam-flow 1.1s linear infinite; }
+@keyframes beam-flow { to { stroke-dashoffset: -22; } }
 @keyframes inst-rotate { to { transform: rotate(360deg); } }
 @keyframes inst-draw { to { stroke-dashoffset: 0; } }
 @keyframes inst-pulse {
@@ -865,3 +873,10 @@ footer .disclaimer { margin-top: 1rem; font-size: 0.8rem; color: var(--fg-3); ma
 .ashforde-lockup:hover .ashforde-word { color: var(--accent-bright); }
 .foot-meta { color: inherit; }
 @media (max-width: 520px) { .foot-brand { flex-direction: column; gap: 0.6rem; } }
+
+/* "Request a study" CTA (Editions section) — privacy-preserving mailto, honest copy */
+.study-cta { margin-top: 1.6rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.8rem 1.2rem; }
+.study-cta .btn.primary { flex: 0 0 auto; }
+.study-cta-note { margin: 0; font-size: 0.9rem; color: var(--fg-2); max-width: 56ch; }
+.study-cta-note strong { color: var(--accent-bright); }
+.study-cta-note em { font-style: italic; color: var(--fg-1); }
