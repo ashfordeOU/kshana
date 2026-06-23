@@ -97,9 +97,108 @@ fn src_fingerprint(src: &str) -> String {
     hex::encode(h.finalize()).chars().take(12).collect()
 }
 
+/// The timing-domain figures of merit, in report order, paired with a human label
+/// and unit. These are the [`crate::fom::FoMScores`] field names; each carries a
+/// validation tier looked up from [`crate::fom_label::tier_for`] (which derives it
+/// from the verification matrix). Kept here so the HTML report and the lookup never
+/// drift on the set of names.
+const FOM_LABELS: &[(&str, &str, &str)] = &[
+    ("holdover_s", "Holdover", "s"),
+    ("timing_rms_ns", "Timing RMS", "ns"),
+    ("timing_p95_ns", "Timing p95", "ns"),
+    ("resilience_slope_ns_per_s", "Resilience slope", "ns/s"),
+    ("availability", "Availability", ""),
+    ("integrity", "Integrity", ""),
+    ("security", "Security", ""),
+];
+
+/// Render a per-FoM validation-tier table from a run's JSON, walking it for any
+/// `fom` objects (e.g. `quantum.fom` / `classical.fom`) and emitting one row per
+/// present-and-numeric figure of merit with its value and its MODELLED/VALIDATED
+/// tier from the verification matrix. Returns an empty string when the result
+/// carries no clock-style FoM block (ephemeris / RAIM / spoof reports), so those
+/// reports are unchanged. The tier is the honesty surface this method exists for.
+fn fom_tier_table(json: &str) -> String {
+    let Ok(root) = serde_json::from_str::<serde_json::Value>(json) else {
+        return String::new();
+    };
+    // Collect (clock-label, fom-object) pairs from the known result shapes.
+    let mut blocks: Vec<(String, &serde_json::Map<String, serde_json::Value>)> = Vec::new();
+    for clock in ["quantum", "classical"] {
+        if let Some(fom) = root
+            .get(clock)
+            .and_then(|c| c.get("fom"))
+            .and_then(|f| f.as_object())
+        {
+            let label = root
+                .get(clock)
+                .and_then(|c| c.get("spec"))
+                .and_then(|s| s.get("id"))
+                .and_then(|v| v.as_str())
+                .unwrap_or(clock)
+                .to_string();
+            blocks.push((label, fom));
+        }
+    }
+    // A single top-level `fom` block (some packs report one clock).
+    if blocks.is_empty() {
+        if let Some(fom) = root.get("fom").and_then(|f| f.as_object()) {
+            blocks.push((String::new(), fom));
+        }
+    }
+    if blocks.is_empty() {
+        return String::new();
+    }
+
+    let mut rows = String::new();
+    for (clock_label, fom) in &blocks {
+        for (key, label, unit) in FOM_LABELS {
+            let Some(value) = fom.get(*key).and_then(|v| v.as_f64()) else {
+                continue;
+            };
+            let Some(tier) = crate::fom_label::tier_for(key) else {
+                continue;
+            };
+            let metric = if unit.is_empty() {
+                (*label).to_string()
+            } else {
+                format!("{label} ({unit})")
+            };
+            let clock_cell = if clock_label.is_empty() {
+                String::new()
+            } else {
+                format!("<td>{}</td>", html_escape(clock_label))
+            };
+            rows.push_str(&format!(
+                "<tr>{clock_cell}<td>{}</td><td class=\"num\">{:.3}</td><td><span class=\"tier\">{}</span></td></tr>",
+                html_escape(&metric),
+                value,
+                tier.tag(),
+            ));
+        }
+    }
+    if rows.is_empty() {
+        return String::new();
+    }
+    let clock_header = if blocks.iter().any(|(l, _)| !l.is_empty()) {
+        "<th>Clock</th>"
+    } else {
+        ""
+    };
+    format!(
+        "<h2 class=\"fom-h\">Figures of merit</h2>\n\
+         <table class=\"fom\"><thead><tr>{clock_header}<th>Metric</th>\
+         <th class=\"num\">Value</th><th>Validation</th></tr></thead><tbody>{rows}</tbody></table>\n\
+         <p class=\"tier-note\">Each figure of merit is tagged VALIDATED (checked against an \
+         external oracle) or MODELLED (first-principles, internally tested), derived from the \
+         verification matrix.</p>\n"
+    )
+}
+
 impl RunOutput {
     /// Render a self-contained, branded HTML scorecard: the one-line summary, the
-    /// chart (as an inert image), and the full JSON result.
+    /// chart (as an inert image), a per-FoM validation-tier table, and the full
+    /// JSON result.
     pub fn html_report(&self) -> String {
         format!(
             "<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\"/>\n\
@@ -121,6 +220,12 @@ impl RunOutput {
              details{{border:1px solid #8884;border-radius:8px;padding:.5rem .9rem}}\
              summary{{cursor:pointer;font-weight:600}}\
              pre{{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.78rem;overflow:auto;max-height:520px}}\
+             h2.fom-h{{font-size:1.15rem;margin:1.6rem 0 .6rem;border-bottom:1px solid #8884;padding-bottom:.2rem}}\
+             table.fom{{border-collapse:collapse;width:100%;font-size:.9rem}}\
+             table.fom th,table.fom td{{border:1px solid #8884;padding:.35rem .6rem;text-align:left}}\
+             table.fom .num{{text-align:right;font-variant-numeric:tabular-nums}}\
+             .tier{{font-size:.72rem;letter-spacing:.06em;font-weight:600;padding:.05rem .4rem;border:1px solid #8886;border-radius:4px;white-space:nowrap}}\
+             .tier-note{{font-size:.8rem;opacity:.75;margin:.5rem 0 1rem}}\
              footer{{margin-top:2rem;padding-top:1rem;border-top:1px solid #8884;font-size:.85rem;opacity:.75}}\
              </style>\n</head>\n<body>\n\
              <p class=\"eyebrow\">क्षण · the precise instant</p>\n\
@@ -128,12 +233,14 @@ impl RunOutput {
              <p class=\"tag\">Hybrid quantum / classical PNT performance scorecard</p>\n\
              <p class=\"summary\">{summary}</p>\n\
              <div class=\"chart\"><img alt=\"Result chart\" src=\"{chart}\"/></div>\n\
+             {fom_table}\
              <details><summary>Full result (JSON)</summary><pre>{json}</pre></details>\n\
              <footer>Generated by Kshana {version}. Reproducible from scenario + seed + engine version. \
              Free and open source (AGPL-3.0) — <a href=\"https://github.com/AshfordeOU/kshana\">source &amp; docs</a>.</footer>\n\
              </body>\n</html>\n",
             summary = html_escape(&self.summary),
             chart = svg_data_uri(&self.svg),
+            fom_table = fom_tier_table(&self.json),
             json = html_escape(&self.json),
             version = env!("CARGO_PKG_VERSION"),
         )
@@ -1394,6 +1501,20 @@ mod tests {
         assert!(html.contains("&quot;"));
         // The chart is an inert data-URI image, not inline markup that could execute.
         assert!(!html.contains("<svg"));
+        // The per-FoM validation-tier table renders, with the MODELLED tag inline
+        // next to the holdover figure of merit (surfaced from the matrix).
+        assert!(html.contains("Figures of merit"));
+        assert!(html.contains("Holdover"));
+        assert!(html.contains("MODELLED"));
+        assert!(html.contains("Validation"));
+    }
+
+    #[test]
+    fn fom_tier_table_is_empty_for_a_no_clock_fom_result() {
+        // A RAIM/integrity report has no clock-style FoM block, so the tier table is
+        // omitted entirely (those reports stay unchanged).
+        let out = run_toml(include_str!("../scenarios/integrity-raim.toml")).unwrap();
+        assert!(fom_tier_table(&out.json).is_empty());
     }
 
     #[test]
