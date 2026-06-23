@@ -38,15 +38,27 @@ fn civil_from_days(z: i64) -> (i64, u32, u32) {
 fn main() -> ExitCode {
     let args: Vec<String> = std::env::args().collect();
     // usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>]
+    //    or: kshana --study <suite.toml>
     let mut positional: Option<String> = None;
     let mut export_sp3_path: Option<PathBuf> = None;
     let mut export_omm_path: Option<PathBuf> = None;
     let mut export_oem_path: Option<PathBuf> = None;
     let mut eop_path: Option<PathBuf> = None;
     let mut study_name: Option<String> = None;
+    let mut study_suite_path: Option<PathBuf> = None;
     let mut i = 1;
     while i < args.len() {
         match args[i].as_str() {
+            "--study" => {
+                i += 1;
+                match args.get(i) {
+                    Some(p) => study_suite_path = Some(PathBuf::from(p)),
+                    None => {
+                        eprintln!("error: --study needs a suite manifest path");
+                        return ExitCode::from(2);
+                    }
+                }
+            }
             "--study-name" => {
                 i += 1;
                 match args.get(i) {
@@ -105,9 +117,23 @@ fn main() -> ExitCode {
         }
         i += 1;
     }
+    // `--study <suite.toml>`: run a named SET of scenarios together into one
+    // aggregated, comparable artifact. The manifest is parsed, each scenario is
+    // resolved against the manifest's parent directory and run through the same
+    // engine the single-scenario path uses, and a `<suite_stem>.study.json` +
+    // `<suite_stem>.study.html` pair is written. The library aggregation is pure;
+    // only here (the CLI) may a generation timestamp be stamped onto the artifact.
+    if let Some(suite_path) = study_suite_path {
+        if positional.is_some() {
+            eprintln!("error: --study runs a suite; do not also pass a single scenario file");
+            return ExitCode::from(2);
+        }
+        return run_study(&suite_path);
+    }
+
     let Some(scenario_arg) = positional else {
         eprintln!(
-            "usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>]"
+            "usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>]\n   or: kshana --study <suite.toml>"
         );
         return ExitCode::from(2);
     };
@@ -260,4 +286,84 @@ fn main() -> ExitCode {
         }
     }
     ExitCode::SUCCESS
+}
+
+/// `--study <suite.toml>` handler: parse the suite manifest, run every scenario it
+/// names (resolved against the manifest's parent directory) through the same
+/// engine the single-scenario path uses, and write a `<suite_stem>.study.json`
+/// plus `<suite_stem>.study.html` next to the manifest. The library aggregation
+/// ([`kshana::study::run_suite`]) is pure; the CLI is the only place allowed to
+/// stamp a generation timestamp, so it injects `generated_utc` into the artifact
+/// here (the HTML/JSON the library produced stay byte-deterministic without it).
+fn run_study(suite_path: &std::path::Path) -> ExitCode {
+    let src = match std::fs::read_to_string(suite_path) {
+        Ok(s) => s,
+        Err(e) => {
+            eprintln!("error: cannot read {}: {e}", suite_path.display());
+            return ExitCode::FAILURE;
+        }
+    };
+    let suite = match kshana::suite::parse_suite(&src) {
+        Ok(s) => s,
+        Err(e) => {
+            eprintln!("error: {e}");
+            return ExitCode::FAILURE;
+        }
+    };
+    let base_dir = suite_path
+        .parent()
+        .unwrap_or_else(|| std::path::Path::new("."));
+    let out = match kshana::study::run_suite(&suite, base_dir) {
+        Ok(o) => o,
+        Err(e) => {
+            eprintln!("error: {e}");
+            return ExitCode::FAILURE;
+        }
+    };
+
+    // Stamp a CLI-supplied generation time into the study JSON (the only clock
+    // read in the crate). Pure aggregation never reads a clock, so the stamp is
+    // added here, after the fact.
+    let json = stamp_study_generated(&out.json, &utc_iso8601_now());
+
+    let base = output_base_for_suite(suite_path);
+    let json_path = base.with_extension("study.json");
+    if let Err(e) = std::fs::write(&json_path, &json) {
+        eprintln!("error: cannot write {}: {e}", json_path.display());
+        return ExitCode::FAILURE;
+    }
+    let html_path = base.with_extension("study.html");
+    if let Err(e) = std::fs::write(&html_path, &out.html) {
+        eprintln!("error: cannot write {}: {e}", html_path.display());
+        return ExitCode::FAILURE;
+    }
+    println!("{}", out.summary);
+    println!("wrote {} and {}", json_path.display(), html_path.display());
+    ExitCode::SUCCESS
+}
+
+/// The output base for a suite manifest: the manifest path with any extension
+/// stripped, so `holdover.toml` → `holdover` and the writers append
+/// `.study.json` / `.study.html`.
+fn output_base_for_suite(suite_path: &std::path::Path) -> PathBuf {
+    suite_path.with_extension("")
+}
+
+/// Inject a `generated_utc` field into the study artifact JSON. Parses the
+/// document, sets the field on the top-level object, and re-serializes; a parse
+/// failure (should not happen for our own output) leaves the JSON unchanged so a
+/// study is still written.
+fn stamp_study_generated(json: &str, stamp: &str) -> String {
+    match serde_json::from_str::<serde_json::Value>(json) {
+        Ok(mut v) => {
+            if let Some(obj) = v.as_object_mut() {
+                obj.insert(
+                    "generated_utc".to_string(),
+                    serde_json::Value::String(stamp.to_string()),
+                );
+            }
+            serde_json::to_string_pretty(&v).unwrap_or_else(|_| json.to_string())
+        }
+        Err(_) => json.to_string(),
+    }
 }
