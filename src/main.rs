@@ -1,18 +1,62 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 use std::path::PathBuf;
 use std::process::ExitCode;
+use std::time::{SystemTime, UNIX_EPOCH};
+
+/// Format the current system time as a UTC ISO-8601 second-precision stamp
+/// (e.g. `2026-06-23T14:05:09Z`). This is the ONLY clock read in the whole crate:
+/// the library/engine/api stay pure and deterministic, and the timestamp is passed
+/// in to them as data. Implemented with `std` only (no chrono) via a civil-date
+/// conversion of the Unix epoch seconds.
+fn utc_iso8601_now() -> String {
+    let secs = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map(|d| d.as_secs())
+        .unwrap_or(0);
+    let days = (secs / 86_400) as i64;
+    let tod = secs % 86_400;
+    let (hour, min, sec) = (tod / 3600, (tod % 3600) / 60, tod % 60);
+    let (year, month, day) = civil_from_days(days);
+    format!("{year:04}-{month:02}-{day:02}T{hour:02}:{min:02}:{sec:02}Z")
+}
+
+/// Convert days since the Unix epoch (1970-01-01) to a proleptic-Gregorian
+/// (year, month, day). Howard Hinnant's well-known `civil_from_days` algorithm.
+fn civil_from_days(z: i64) -> (i64, u32, u32) {
+    let z = z + 719_468;
+    let era = if z >= 0 { z } else { z - 146_096 } / 146_097;
+    let doe = (z - era * 146_097) as u64; // [0, 146096]
+    let yoe = (doe - doe / 1460 + doe / 36_524 - doe / 146_096) / 365; // [0, 399]
+    let y = yoe as i64 + era * 400;
+    let doy = doe - (365 * yoe + yoe / 4 - yoe / 100); // [0, 365]
+    let mp = (5 * doy + 2) / 153; // [0, 11]
+    let d = (doy - (153 * mp + 2) / 5 + 1) as u32; // [1, 31]
+    let m = if mp < 10 { mp + 3 } else { mp - 9 } as u32; // [1, 12]
+    (if m <= 2 { y + 1 } else { y }, m, d)
+}
 
 fn main() -> ExitCode {
     let args: Vec<String> = std::env::args().collect();
-    // usage: kshana <scenario.toml> [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>]
+    // usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>]
     let mut positional: Option<String> = None;
     let mut export_sp3_path: Option<PathBuf> = None;
     let mut export_omm_path: Option<PathBuf> = None;
     let mut export_oem_path: Option<PathBuf> = None;
     let mut eop_path: Option<PathBuf> = None;
+    let mut study_name: Option<String> = None;
     let mut i = 1;
     while i < args.len() {
         match args[i].as_str() {
+            "--study-name" => {
+                i += 1;
+                match args.get(i) {
+                    Some(s) => study_name = Some(s.to_string()),
+                    None => {
+                        eprintln!("error: --study-name needs a value");
+                        return ExitCode::from(2);
+                    }
+                }
+            }
             "--export-sp3" => {
                 i += 1;
                 match args.get(i) {
@@ -63,7 +107,7 @@ fn main() -> ExitCode {
     }
     let Some(scenario_arg) = positional else {
         eprintln!(
-            "usage: kshana <scenario.toml> [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>]"
+            "usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>]"
         );
         return ExitCode::from(2);
     };
@@ -96,24 +140,40 @@ fn main() -> ExitCode {
             }
         }
     }
-    let out = match kshana::api::run_toml(&src) {
+    let mut out = match kshana::api::run_toml(&src) {
         Ok(o) => o,
         Err(e) => {
             eprintln!("error: {e}");
             return ExitCode::FAILURE;
         }
     };
-    let json_path = path.with_extension("result.json");
+
+    // `--study-name <s>`: stamp additive study metadata (title + a UTC generation
+    // time, the only clock read in the crate) into the result JSON, and name the
+    // output files after a slug of the study instead of the scenario path stem. With
+    // no `--study-name`, nothing below runs and the output stays byte-identical.
+    let output_base: PathBuf = match &study_name {
+        Some(name) => {
+            let meta = kshana::report::study_meta_with_title(name, &utc_iso8601_now());
+            out.json = kshana::api::with_study_meta(&out.json, &meta);
+            // Write the study-named outputs in the scenario file's directory.
+            let dir = path.parent().unwrap_or_else(|| std::path::Path::new("."));
+            dir.join(kshana::report::slugify(name))
+        }
+        None => path.clone(),
+    };
+
+    let json_path = output_base.with_extension("result.json");
     if let Err(e) = std::fs::write(&json_path, &out.json) {
         eprintln!("error: cannot write {}: {e}", json_path.display());
         return ExitCode::FAILURE;
     }
-    let svg_path = path.with_extension("chart.svg");
+    let svg_path = output_base.with_extension("chart.svg");
     if let Err(e) = std::fs::write(&svg_path, &out.svg) {
         eprintln!("error: cannot write {}: {e}", svg_path.display());
         return ExitCode::FAILURE;
     }
-    let html_path = path.with_extension("report.html");
+    let html_path = output_base.with_extension("report.html");
     if let Err(e) = std::fs::write(&html_path, out.html_report()) {
         eprintln!("error: cannot write {}: {e}", html_path.display());
         return ExitCode::FAILURE;
