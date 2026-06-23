@@ -99,6 +99,8 @@ pub mod space_weather;
 pub mod spoof;
 pub mod spoof_detect;
 pub mod spoof_monitors;
+pub mod study;
+pub mod suite;
 pub mod sweep;
 pub mod tides;
 pub mod timegeo;
