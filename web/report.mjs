@@ -39,6 +39,30 @@ function fmtVal(x) {
   return String(Math.round(x * 1000) / 1000);
 }
 
+// Per-FoM validation tier, mirroring the Rust src/fom_label.rs lookup which is
+// derived from the verification matrix in src/verification.rs (the single source
+// of truth). The timing-domain FoMs are produced by the MODELLED clock-holdover
+// engine; integrity/security are a Kalman self-consistency fraction and an
+// analytic spoof-detectability bound — never the externally-validated aviation
+// RAIM. So every current FoM is MODELLED. Keep this in step with fom_label.rs:
+// it must never label a metric VALIDATED that the matrix does not.
+export const FOM_TIER = {
+  timing_rms_ns: "MODELLED",
+  timing_p95_ns: "MODELLED",
+  holdover_s: "MODELLED",
+  resilience_slope_ns_per_s: "MODELLED",
+  availability: "MODELLED",
+  integrity: "MODELLED",
+  security: "MODELLED",
+};
+
+/// The validation tier tag (VALIDATED / MODELLED) for a FoM metric key, or "" if
+/// the metric is unknown. Conservative by construction: an unmapped metric gets no
+/// validation halo. Mirrors src/fom_label.rs::tier_for.
+export function fomTier(metric) {
+  return FOM_TIER[metric] || "";
+}
+
 /// Build a complete `<!doctype html>` report string from `payload`:
 ///   { engineVersion, scenarioHash, toml, summaryText, fomRows, svgs, generatedIso }
 /// where fomRows = [{clockLabel, label, unit, value}] and svgs = [{title, svg}].
@@ -56,7 +80,9 @@ export function buildReportHtml(payload) {
   const rowsHtml = fomRows
     .map((r) => {
       const metric = r.unit ? `${escapeHtml(r.label)} (${escapeHtml(r.unit)})` : escapeHtml(r.label);
-      return `<tr><td>${escapeHtml(r.clockLabel)}</td><td>${metric}</td><td class="num">${escapeHtml(fmtVal(r.value))}</td></tr>`;
+      const tier = fomTier(r.metric);
+      const tierCell = tier ? `<span class="tier">${escapeHtml(tier)}</span>` : "—";
+      return `<tr><td>${escapeHtml(r.clockLabel)}</td><td>${metric}</td><td class="num">${escapeHtml(fmtVal(r.value))}</td><td>${tierCell}</td></tr>`;
     })
     .join("\n");
 
@@ -68,7 +94,7 @@ export function buildReportHtml(payload) {
     .join("\n");
 
   const fomBlock = rowsHtml
-    ? `<h2>Figures of merit</h2>\n<table class="fom"><thead><tr><th>Clock</th><th>Metric</th><th class="num">Value</th></tr></thead><tbody>\n${rowsHtml}\n</tbody></table>`
+    ? `<h2>Figures of merit</h2>\n<table class="fom"><thead><tr><th>Clock</th><th>Metric</th><th class="num">Value</th><th>Validation</th></tr></thead><tbody>\n${rowsHtml}\n</tbody></table>\n<p class="tier-note">Each figure of merit is tagged <span class="tier">VALIDATED</span> (checked against an external oracle) or <span class="tier">MODELLED</span> (first-principles, internally tested) — derived from the verification matrix.</p>`
     : "";
   const chartsBlock = chartsHtml ? `<h2>Charts</h2>\n${chartsHtml}` : "";
 
@@ -89,6 +115,8 @@ h2{font-size:1.15rem;margin:1.6rem 0 .6rem;border-bottom:1px solid #8884;padding
 table.fom{border-collapse:collapse;width:100%;font-size:.9rem}
 table.fom th,table.fom td{border:1px solid #8884;padding:.35rem .6rem;text-align:left}
 table.fom .num{text-align:right;font-variant-numeric:tabular-nums}
+.tier{font-size:.72rem;letter-spacing:.06em;font-weight:600;padding:.05rem .4rem;border:1px solid #8886;border-radius:4px;white-space:nowrap}
+.tier-note{font-size:.8rem;opacity:.75;margin:.5rem 0 0}
 .chart{margin:1rem 0;text-align:center}
 .chart svg{max-width:100%;height:auto}
 .chart figcaption{font-size:.85rem;opacity:.7;margin-bottom:.3rem}

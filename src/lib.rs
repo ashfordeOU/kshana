@@ -26,6 +26,7 @@ pub mod eval_stats;
 mod fes2004_data;
 pub mod filter_health;
 pub mod fom;
+pub mod fom_label;
 pub mod forces;
 pub mod frames;
 pub mod frugal;
