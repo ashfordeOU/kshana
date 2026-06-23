@@ -1,0 +1,10 @@
+# A minimal scenario-suite manifest: a named set of scenarios run together into
+# one aggregated, comparable study artifact. Paths are resolved relative to this
+# manifest's directory. Entries may be a plain path string or a table that also
+# carries a per-entry display label.
+title = "Holdover comparison study"
+description = "Optical-lattice vs lab-Sr clock holdover, side by side."
+scenarios = [
+  { path = "../../scenarios/clock-holdover.toml", label = "Space optical-lattice" },
+  "../../scenarios/clock-holdover-labsr.toml",
+]
