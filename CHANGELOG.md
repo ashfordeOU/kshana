@@ -11,9 +11,11 @@ breaking changes are called out explicitly.
 
 ## [0.20.0] - 2026-06-22
 
-This release brings the open code behind four research papers into the public
-engine, so every number in each paper regenerates from one command. All studies are
-MODELLED (synthetic or public-dataset calibration), carry their honest provenance
+This release adds four study capabilities to the open engine — a conditional Timing
+Protection Level, framework-aligned PNT-resilience scoring, an RF-impairment
+optimism-gap evaluation, and a software-defined-receiver / real-data front end — each
+reproducible from one command and writing a byte-deterministic artifact. All studies
+are MODELLED (synthetic or public-dataset calibration), carry their honest provenance
 (engine version, seeds, config hash) and validation labels, and are not
 certifications.
 
@@ -23,7 +25,7 @@ certifications.
   undetected time error under GNSS spoofing, with a k-sigma monitor floor, a van Loan
   coast variance over the detection latency, and a CUSUM time-to-alarm. Calibrated on
   a real recorded attack (JammerTest 2024, scenario 2.1.1) via
-  `cargo run --release --example tpl_jammertest`, which reproduces the paper's table
+  `cargo run --release --example tpl_jammertest`, which reproduces its reference table
   from scalars recovered from the public recording (the raw dataset is not
   redistributed).
 - **Framework-aligned PNT-resilience scoring + decision-instability study
@@ -42,7 +44,7 @@ certifications.
   (RINEX, u-blox UBX, GnssLogger, JammerTest, Yunnan, SatGrid) and probe examples.
   These read recordings the user supplies locally; no recordings are committed.
 - **Committed study artifacts.** The byte-deterministic `optimism-study.json` and
-  `resilience-study.json` are now tracked under `paper-artifacts/` so the papers'
+  `resilience-study.json` are now tracked under `paper-artifacts/` so the study
   numbers can be checked without rebuilding; they remain regenerable from the
   generators above. Raw datasets stay out of the repo (`/realdata-cache/`).
 
