@@ -49,19 +49,30 @@
           <div class="hero-copy">
             <p class="eyebrow"><span class="deva">क्षण</span> · the precise instant</p>
             <h1>Open <span class="hl">PNT</span> resilience simulation, validated and reproducible.</h1>
+            <p class="hero-org">Built and maintained by <a target="_blank" rel="noopener noreferrer" href="https://ashforde.org">Ashforde&nbsp;OÜ</a> · Chakshu&nbsp;Baweja</p>
             <p class="lede">
-              A dependency-light engine across the full positioning, navigation and timing
-              stack: SGP4-validated orbit geometry, plus constellation design, a numerical
-              (Cowell) propagator with a six-perturbation force model, maneuver and
-              trajectory design, time systems, a three-axis strapdown INS, gravity-map
-              alt-PNT, GNSS/INS fusion (loose, tight, UKF, 17-state), orbit determination,
-              ARAIM integrity with HPL/VPL, clocks and time-and-frequency transfer, the
-              GNSS measurement domain, nav-signal modulation and code-tracking
-              performance, jamming/spoofing resilience, and an open
-              deep-space / Mars radiometric-navigation engine (light-time, CCSDS-TDM,
-              reduced-dynamic SRIF, relay-PNT) — scored against the operational figures
-              of merit, with RINEX/SP3/CCSDS interoperability.
+              A dependency-light engine spanning the whole PNT stack — from orbit geometry
+              to deep-space navigation — scored against the operational figures of merit,
+              with RINEX/SP3/CCSDS interoperability.
             </p>
+            <p class="caps-label">Across the stack</p>
+            <ul class="caps" aria-label="Capabilities">
+              <li class="cap">SGP4-validated orbits</li>
+              <li class="cap">Constellation design</li>
+              <li class="cap">Cowell propagator · 6-perturbation</li>
+              <li class="cap">Maneuver &amp; trajectory</li>
+              <li class="cap">Time systems</li>
+              <li class="cap">Strapdown INS</li>
+              <li class="cap">Gravity-map alt-PNT</li>
+              <li class="cap">GNSS/INS fusion · UKF 17-state</li>
+              <li class="cap">Orbit determination</li>
+              <li class="cap">ARAIM integrity · HPL/VPL</li>
+              <li class="cap">Clocks &amp; time transfer</li>
+              <li class="cap">GNSS measurement domain</li>
+              <li class="cap">Nav-signal &amp; code tracking</li>
+              <li class="cap">Jamming/spoofing resilience</li>
+              <li class="cap">Deep-space / Mars radiometric nav</li>
+            </ul>
             <p class="honest">
               The open reference simulator for PNT performance — transparent, fully
               reproducible, and validated against the standards engineers already trust.
@@ -88,136 +99,148 @@
           <div class="instrument" aria-hidden="true">
             <svg viewBox="0 0 360 360" class="inst-svg" role="presentation">
               <defs>
-                <radialGradient id="ig-core" cx="50%" cy="50%" r="50%">
-                  <stop offset="0" stop-color="#ecdcbb" />
-                  <stop offset="0.5" stop-color="#e0bd84" />
-                  <stop offset="1" stop-color="#c79e63" />
+                <radialGradient id="i-globe" cx="38%" cy="30%" r="80%">
+                  <stop offset="0" stop-color="#f6e8c5" />
+                  <stop offset="0.34" stop-color="#d2af6a" />
+                  <stop offset="0.72" stop-color="#8c6e35" />
+                  <stop offset="1" stop-color="#3c2c14" />
                 </radialGradient>
-                <linearGradient id="ig-arc" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0" stop-color="#c79e63" stop-opacity="0" />
-                  <stop offset="0.6" stop-color="#c79e63" stop-opacity="0.5" />
-                  <stop offset="1" stop-color="#e0bd84" />
-                </linearGradient>
-                <!-- Earth: sunlit from the upper-left -->
-                <radialGradient id="earth-grad" cx="38%" cy="32%" r="72%">
-                  <stop offset="0" stop-color="#9e7d45" />
-                  <stop offset="0.42" stop-color="#5f4a25" />
-                  <stop offset="0.78" stop-color="#2f2515" />
-                  <stop offset="1" stop-color="#1a1208" />
+                <radialGradient id="i-atmo" cx="50%" cy="50%" r="50%">
+                  <stop offset="0.62" stop-color="#c7aa66" stop-opacity="0" />
+                  <stop offset="0.84" stop-color="#cdb074" stop-opacity="0.30" />
+                  <stop offset="1" stop-color="#c7aa66" stop-opacity="0" />
                 </radialGradient>
-                <linearGradient id="earth-night" x1="0.15" y1="0.05" x2="1" y2="1">
-                  <stop offset="0" stop-color="#0a0703" stop-opacity="0" />
-                  <stop offset="0.58" stop-color="#0a0703" stop-opacity="0" />
-                  <stop offset="1" stop-color="#060402" stop-opacity="0.7" />
-                </linearGradient>
-                <radialGradient id="earth-atmo" cx="50%" cy="50%" r="50%">
-                  <stop offset="0" stop-color="#c79e63" stop-opacity="0" />
-                  <stop offset="0.7" stop-color="#c79e63" stop-opacity="0" />
-                  <stop offset="0.8" stop-color="#caa867" stop-opacity="0.22" />
-                  <stop offset="1" stop-color="#c79e63" stop-opacity="0" />
+                <radialGradient id="i-term" cx="34%" cy="26%" r="95%">
+                  <stop offset="0.42" stop-color="#05060a" stop-opacity="0" />
+                  <stop offset="1" stop-color="#05060a" stop-opacity="0.74" />
                 </radialGradient>
-                <filter id="ig-glow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feGaussianBlur stdDeviation="2.4" result="b" />
+                <filter id="i-glow" x="-80%" y="-80%" width="260%" height="260%">
+                  <feGaussianBlur stdDeviation="2.1" result="b" />
                   <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
                 </filter>
-                <filter id="soft" x="-60%" y="-60%" width="220%" height="220%">
-                  <feGaussianBlur stdDeviation="2.4" />
+                <filter id="i-glow-lg" x="-150%" y="-150%" width="400%" height="400%">
+                  <feGaussianBlur stdDeviation="4.6" result="b" />
+                  <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
                 </filter>
-                <clipPath id="earthClip"><circle cx="180" cy="180" r="38" /></clipPath>
+                <clipPath id="i-globe-clip"><circle cx="180" cy="180" r="52" /></clipPath>
+                <!-- hides ring lines over the TOP half of the globe so orbits read as
+                     passing behind it, while the front (lower) arcs stay in front. -->
+                <mask id="i-ringfront" maskUnits="userSpaceOnUse">
+                  <rect x="0" y="0" width="360" height="360" fill="#fff" />
+                  <path d="M128 180 A52 52 0 0 0 232 180 Z" fill="#000" />
+                </mask>
               </defs>
 
-              <!-- starfield -->
-              <g fill="#cdd6e0">
-                <circle cx="40" cy="60" r="0.8" opacity="0.5" />
-                <circle class="star-tw" style="animation-delay:0s" cx="312" cy="48" r="1" opacity="0.6" />
-                <circle cx="92" cy="40" r="0.7" opacity="0.4" />
-                <circle cx="330" cy="120" r="0.8" opacity="0.45" />
-                <circle class="star-tw" style="animation-delay:1.3s" cx="28" cy="150" r="1" opacity="0.55" />
-                <circle cx="56" cy="300" r="0.8" opacity="0.4" />
-                <circle class="star-tw" style="animation-delay:2.1s" cx="318" cy="286" r="1" opacity="0.6" />
-                <circle cx="300" cy="330" r="0.7" opacity="0.4" />
-                <circle cx="150" cy="26" r="0.7" opacity="0.4" />
-                <circle class="star-tw" style="animation-delay:0.8s" cx="240" cy="30" r="0.9" opacity="0.5" />
-                <circle cx="20" cy="230" r="0.7" opacity="0.4" />
-                <circle cx="344" cy="200" r="0.8" opacity="0.45" />
-                <circle class="star-tw" style="animation-delay:1.7s" cx="120" cy="332" r="0.9" opacity="0.5" />
-                <circle cx="208" cy="338" r="0.7" opacity="0.4" />
+              <!-- faint starfield -->
+              <g class="star-tw" fill="#e0c98c">
+                <circle cx="44" cy="58" r="1.2" fill-opacity="0.7" />
+                <circle cx="96" cy="34" r="0.8" fill-opacity="0.5" />
+                <circle cx="300" cy="52" r="1.1" fill-opacity="0.65" />
+                <circle cx="338" cy="118" r="0.9" fill-opacity="0.5" />
+                <circle cx="26" cy="150" r="0.9" fill-opacity="0.55" />
+                <circle cx="330" cy="210" r="1.3" fill-opacity="0.7" />
+                <circle cx="58" cy="300" r="1.0" fill-opacity="0.55" />
+                <circle cx="120" cy="338" r="0.8" fill-opacity="0.45" />
+                <circle cx="300" cy="322" r="1.1" fill-opacity="0.6" />
+                <circle cx="346" cy="280" r="0.8" fill-opacity="0.45" />
+                <circle cx="18" cy="232" r="0.8" fill-opacity="0.5" />
+                <circle cx="210" cy="26" r="1.0" fill-opacity="0.6" />
               </g>
 
-              <!-- graduated bezel + crosshair reticle -->
-              <circle class="inst-bezel" cx="180" cy="180" r="150" fill="none"
-                      stroke="#473d2e" stroke-width="1" stroke-dasharray="0.5 7.35" stroke-linecap="round" />
-              <circle cx="180" cy="180" r="150" fill="none" stroke="var(--line-2)" stroke-width="1" opacity="0.5" />
-              <g stroke="#4a4031" stroke-width="1">
-                <line x1="180" y1="22" x2="180" y2="58" /><line x1="180" y1="302" x2="180" y2="338" />
-                <line x1="22" y1="180" x2="58" y2="180" /><line x1="302" y1="180" x2="338" y2="180" />
+              <!-- instrument bezel: slow-rotating measurement ring + tick dashes -->
+              <g class="inst-bezel" fill="none" stroke="#c7aa66">
+                <circle cx="180" cy="180" r="160" stroke-opacity="0.10" stroke-width="1"
+                        stroke-dasharray="1.5 37.7" />
+                <circle cx="180" cy="180" r="150" stroke-opacity="0.07" stroke-width="1" />
+                <circle cx="180" cy="180" r="132" stroke-opacity="0.05" stroke-width="1"
+                        stroke-dasharray="1 11" />
+              </g>
+              <!-- static reticle frame: cardinal ticks + corner brackets -->
+              <g fill="none" stroke="#c7aa66" stroke-opacity="0.30" stroke-width="1">
+                <line x1="180" y1="14" x2="180" y2="30" />
+                <line x1="180" y1="330" x2="180" y2="346" />
+                <line x1="14" y1="180" x2="30" y2="180" />
+                <line x1="330" y1="180" x2="346" y2="180" />
+                <path d="M18 44 L18 18 L44 18" stroke-opacity="0.22" />
+                <path d="M342 44 L342 18 L316 18" stroke-opacity="0.22" />
+                <path d="M18 316 L18 342 L44 342" stroke-opacity="0.22" />
+                <path d="M342 316 L342 342 L316 342" stroke-opacity="0.22" />
               </g>
 
-              <!-- three inclined orbital planes -->
-              <ellipse cx="180" cy="180" rx="150" ry="72" fill="none" stroke="var(--line-2)" stroke-width="1" opacity="0.7" transform="rotate(-24 180 180)" />
-              <ellipse cx="180" cy="180" rx="128" ry="92" fill="none" stroke="var(--line)" stroke-width="1" opacity="0.8" transform="rotate(22 180 180)" />
-              <ellipse cx="180" cy="180" rx="140" ry="48" fill="none" stroke="var(--line)" stroke-width="1" opacity="0.7" transform="rotate(-62 180 180)" />
-              <!-- luminous traced arc, drawn on load — the one glowing sweep -->
-              <ellipse class="inst-arc" cx="180" cy="180" rx="150" ry="72" fill="none"
-                       stroke="url(#ig-arc)" stroke-width="1.8" stroke-linecap="round" opacity="0.9"
-                       transform="rotate(-24 180 180)" filter="url(#ig-glow)" />
+              <!-- atmosphere halo -->
+              <circle cx="180" cy="180" r="76" fill="url(#i-atmo)" />
 
-              <!-- ranging links: signal pulses from in-view satellites (on the
-                   orbits) converging on the ground receiver -->
-              <g stroke="#c79e63" stroke-width="0.8" opacity="0.12" fill="none">
-                <line x1="80" y1="106" x2="180" y2="146" /><line x1="304" y1="204" x2="180" y2="146" /><line x1="76" y1="266" x2="180" y2="146" />
+              <!-- BACK orbit (behind the globe, dim) -->
+              <g transform="translate(180 180) rotate(-8)" fill="none"
+                 stroke="#c7aa66" stroke-opacity="0.22" stroke-width="1">
+                <ellipse rx="46" ry="150" />
               </g>
-              <g stroke="#cdb079" stroke-width="1" opacity="0.65" fill="none" stroke-linecap="round">
-                <path d="M80 106 L180 146" stroke-dasharray="4 600"><animate attributeName="stroke-dashoffset" from="0" to="-110" dur="2.8s" repeatCount="indefinite" /></path>
-                <path d="M304 204 L180 146" stroke-dasharray="4 600"><animate attributeName="stroke-dashoffset" from="0" to="-130" dur="3s" begin="1s" repeatCount="indefinite" /></path>
-                <path d="M76 266 L180 146" stroke-dasharray="4 600"><animate attributeName="stroke-dashoffset" from="0" to="-160" dur="3.2s" begin="1.9s" repeatCount="indefinite" /></path>
+              <!-- back satellite on the far arc (dim) -->
+              <g transform="translate(180 180) rotate(-8)">
+                <circle cx="8" cy="-147.7" r="1.8" fill="#c7aa66" fill-opacity="0.5" />
               </g>
 
-              <!-- Earth -->
-              <circle cx="180" cy="180" r="52" fill="url(#earth-atmo)" />
-              <circle cx="180" cy="180" r="38" fill="url(#earth-grad)" />
-              <g clip-path="url(#earthClip)">
-                <!-- rotating surface features -->
-                <g class="globe-spin" fill="#5c4522" opacity="0.5" filter="url(#soft)">
-                  <ellipse cx="168" cy="170" rx="11" ry="7" /><ellipse cx="192" cy="190" rx="8" ry="5" /><ellipse cx="158" cy="196" rx="6" ry="4" />
-                  <ellipse cx="244" cy="170" rx="11" ry="7" /><ellipse cx="268" cy="190" rx="8" ry="5" /><ellipse cx="234" cy="196" rx="6" ry="4" />
+              <!-- the globe -->
+              <circle cx="180" cy="180" r="52" fill="url(#i-globe)" />
+              <g clip-path="url(#i-globe-clip)">
+                <g fill="none" stroke="#2e2210" stroke-opacity="0.55" stroke-width="0.7">
+                  <!-- meridians -->
+                  <ellipse cx="180" cy="180" rx="15" ry="52" />
+                  <ellipse cx="180" cy="180" rx="34" ry="52" />
+                  <ellipse cx="180" cy="180" rx="49" ry="52" />
+                  <!-- parallels -->
+                  <line x1="128" y1="160" x2="232" y2="160" />
+                  <line x1="128" y1="180" x2="232" y2="180" />
+                  <line x1="128" y1="200" x2="232" y2="200" />
+                  <line x1="138" y1="142" x2="222" y2="142" />
+                  <line x1="138" y1="218" x2="222" y2="218" />
                 </g>
-                <!-- graticule -->
-                <g stroke="#6f5731" stroke-width="0.6" fill="none" opacity="0.45">
-                  <line x1="142" y1="180" x2="218" y2="180" />
-                  <ellipse cx="180" cy="180" rx="35" ry="13" /><ellipse cx="180" cy="180" rx="35" ry="26" />
+              </g>
+              <!-- day/night terminator + rim light -->
+              <circle cx="180" cy="180" r="52" fill="url(#i-term)" />
+              <circle cx="180" cy="180" r="52" fill="none" stroke="#f3e4bd"
+                      stroke-opacity="0.32" stroke-width="0.8" />
+
+              <!-- FRONT orbits (in front of the globe; masked so they dive behind its top) -->
+              <g mask="url(#i-ringfront)">
+                <g transform="translate(180 180) rotate(-20)">
+                  <ellipse class="inst-arc" rx="148" ry="52" fill="none" stroke="#ecd79c"
+                           stroke-opacity="0.92" stroke-width="1.7" filter="url(#i-glow)" />
                 </g>
-                <!-- night side -->
-                <circle cx="180" cy="180" r="38" fill="url(#earth-night)" />
-              </g>
-              <!-- sunlit atmosphere limb (upper-left) -->
-              <path d="M142 180 A38 38 0 0 1 180 142" fill="none" stroke="#d6bb82" stroke-width="1.3" opacity="0.5" filter="url(#soft)" />
-
-              <!-- ground receiver: the fix (the one element that glows) -->
-              <circle class="inst-pulse" cx="180" cy="146" r="3.6" fill="none" stroke="var(--accent)" stroke-width="1.1" />
-              <circle cx="180" cy="146" r="2.6" fill="url(#ig-core)" filter="url(#ig-glow)" />
-              <g stroke="#caa867" stroke-width="0.8" opacity="0.7">
-                <line x1="180" y1="139" x2="180" y2="134" /><line x1="180" y1="158" x2="180" y2="153" />
-                <line x1="173" y1="146" x2="168" y2="146" /><line x1="187" y1="146" x2="192" y2="146" />
+                <g transform="translate(180 180) rotate(34)">
+                  <ellipse rx="120" ry="40" fill="none" stroke="#c7aa66"
+                           stroke-opacity="0.62" stroke-width="1.2" />
+                </g>
               </g>
 
-              <!-- in-view satellites being ranged — sitting on the orbital rings -->
-              <g fill="#cdb079">
-                <circle cx="80" cy="106" r="2" /><circle cx="304" cy="204" r="2" /><circle cx="76" cy="266" r="2" />
+              <!-- ranging beams from three satellites to the surface fix -->
+              <g stroke="#ecd79c" stroke-width="0.8" stroke-opacity="0.5" stroke-dasharray="2 3.5">
+                <line x1="180" y1="206" x2="283" y2="185" />
+                <line x1="180" y1="206" x2="126" y2="248" />
+                <line x1="180" y1="206" x2="193" y2="234" />
               </g>
 
-              <!-- moving constellation satellites — small, soft, no bloom -->
-              <g transform="rotate(-24 180 180)">
-                <circle r="2.2" fill="#d6bb82">
-                  <animateMotion dur="30s" repeatCount="indefinite" rotate="auto"
-                    path="M 30 180 a 150 72 0 1 0 300 0 a 150 72 0 1 0 -300 0" />
-                </circle>
+              <!-- satellites (front, glowing) sitting on their orbits -->
+              <g filter="url(#i-glow)">
+                <g transform="translate(180 180) rotate(-20)">
+                  <circle cx="95.1" cy="39.8" r="2.5" fill="#f6e8c5" />
+                  <circle cx="-74" cy="45" r="2.1" fill="#ecd79c" />
+                </g>
+                <g transform="translate(180 180) rotate(34)">
+                  <circle cx="41" cy="37.6" r="2.3" fill="#f6e8c5" />
+                </g>
               </g>
-              <g transform="rotate(22 180 180)">
-                <circle r="2" fill="#b89a5f">
-                  <animateMotion dur="42s" repeatCount="indefinite" rotate="auto" keyPoints="1;0" keyTimes="0;1" calcMode="linear"
-                    path="M 52 180 a 128 92 0 1 0 256 0 a 128 92 0 1 0 -256 0" />
-                </circle>
+
+              <!-- the position fix on the surface: pulsing reticle -->
+              <g filter="url(#i-glow)">
+                <circle class="inst-pulse" cx="180" cy="206" r="6" fill="none"
+                        stroke="#f6e8c5" stroke-width="1.2" />
+                <circle cx="180" cy="206" r="3.3" fill="none" stroke="#f6e8c5" stroke-width="1.1" />
+                <circle cx="180" cy="206" r="1.4" fill="#fffaf0" />
+                <line x1="180" y1="197" x2="180" y2="215" stroke="#f6e8c5"
+                      stroke-width="0.7" stroke-opacity="0.7" />
+                <line x1="171" y1="206" x2="189" y2="206" stroke="#f6e8c5"
+                      stroke-width="0.7" stroke-opacity="0.7" />
               </g>
             </svg>
           </div>
@@ -514,7 +537,8 @@
               licence for closed/proprietary use), no feature gate. Everything on this
               page runs on the open core.</p>
             </div>
-            <div class="card">
+            <div class="card feat-pro">
+              <span class="card-flag">Commercial</span>
               <h3>Kshana&nbsp;Pro</h3>
               <p>A proprietary overlay that <em>depends on</em> the open core (it never forks
               it): clock digital twins calibrated to a device's published Allan budget, and
@@ -532,7 +556,8 @@
           <p class="mono" style="margin-top:1rem">
             The open-core model: the engine stays open; the sustaining business is support
             and proprietary extensions. Talk to us —
-            <a href="mailto:contact@ashforde.org">contact@ashforde.org</a>.
+            <a href="mailto:contact@ashforde.org">contact@ashforde.org</a> ·
+            <a target="_blank" rel="noopener noreferrer" href="https://ashforde.org">ashforde.org</a>.
           </p>
         </div>
       </section>
@@ -542,9 +567,15 @@
     <footer>
       <div class="wrap">
         <div class="foot-grid">
-          <div>
-            <strong>Kshana</strong> · <span class="deva">क्षण</span> the precise instant<br />
-            Created by <strong>Chakshu Baweja</strong> · © 2026 <strong>Ashforde&nbsp;OÜ</strong> · AGPL-3.0 · Engine v<span id="version">…</span>
+          <div class="foot-brand">
+            <a class="ashforde-lockup" target="_blank" rel="noopener noreferrer" href="https://ashforde.org" aria-label="Ashforde OÜ — ashforde.org">
+              <img class="ashforde-seal" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cGF0aCBkPSJNNDYwLjgwIDI1Ni4wMCBMNDM5LjYyIDI3Mi4wNiBMNDU3LjY5IDI5MS41NiBMNDM0LjA0IDMwMy43MSBMNDQ4LjQ1IDMyNi4wNSBMNDIzLjA1IDMzMy45MCBMNDMzLjM2IDM1OC40MCBMNDA2Ljk5IDM2MS43MiBMNDEyLjg5IDM4Ny42NCBMMzg2LjMzIDM4Ni4zMyBMMzg3LjY0IDQxMi44OSBMMzYxLjcyIDQwNi45OSBMMzU4LjQwIDQzMy4zNiBMMzMzLjkwIDQyMy4wNSBMMzI2LjA1IDQ0OC40NSBMMzAzLjcxIDQzNC4wNCBMMjkxLjU2IDQ1Ny42OSBMMjcyLjA2IDQzOS42MiBMMjU2LjAwIDQ2MC44MCBMMjM5Ljk0IDQzOS42MiBMMjIwLjQ0IDQ1Ny42OSBMMjA4LjI5IDQzNC4wNCBMMTg1Ljk1IDQ0OC40NSBMMTc4LjEwIDQyMy4wNSBMMTUzLjYwIDQzMy4zNiBMMTUwLjI4IDQwNi45OSBMMTI0LjM2IDQxMi44OSBMMTI1LjY3IDM4Ni4zMyBMOTkuMTEgMzg3LjY0IEwxMDUuMDEgMzYxLjcyIEw3OC42NCAzNTguNDAgTDg4Ljk1IDMzMy45MCBMNjMuNTUgMzI2LjA1IEw3Ny45NiAzMDMuNzEgTDU0LjMxIDI5MS41NiBMNzIuMzggMjcyLjA2IEw1MS4yMCAyNTYuMDAgTDcyLjM4IDIzOS45NCBMNTQuMzEgMjIwLjQ0IEw3Ny45NiAyMDguMjkgTDYzLjU1IDE4NS45NSBMODguOTUgMTc4LjEwIEw3OC42NCAxNTMuNjAgTDEwNS4wMSAxNTAuMjggTDk5LjExIDEyNC4zNiBMMTI1LjY3IDEyNS42NyBMMTI0LjM2IDk5LjExIEwxNTAuMjggMTA1LjAxIEwxNTMuNjAgNzguNjQgTDE3OC4xMCA4OC45NSBMMTg1Ljk1IDYzLjU1IEwyMDguMjkgNzcuOTYgTDIyMC40NCA1NC4zMSBMMjM5Ljk0IDcyLjM4IEwyNTYuMDAgNTEuMjAgTDI3Mi4wNiA3Mi4zOCBMMjkxLjU2IDU0LjMxIEwzMDMuNzEgNzcuOTYgTDMyNi4wNSA2My41NSBMMzMzLjkwIDg4Ljk1IEwzNTguNDAgNzguNjQgTDM2MS43MiAxMDUuMDEgTDM4Ny42NCA5OS4xMSBMMzg2LjMzIDEyNS42NyBMNDEyLjg5IDEyNC4zNiBMNDA2Ljk5IDE1MC4yOCBMNDMzLjM2IDE1My42MCBMNDIzLjA1IDE3OC4xMCBMNDQ4LjQ1IDE4NS45NSBMNDM0LjA0IDIwOC4yOSBMNDU3LjY5IDIyMC40NCBMNDM5LjYyIDIzOS45NCBaIiBmaWxsPSJub25lIiBzdHJva2U9IiNjN2FhNjYiIHN0cm9rZS13aWR0aD0iMi44MiIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgb3BhY2l0eT0iMS4wIi8+PGNpcmNsZSBjeD0iMjU2LjAiIGN5PSIyNTYuMCIgcj0iMTY5Ljk4IiBmaWxsPSJub25lIiBzdHJva2U9IiNjN2FhNjYiIHN0cm9rZS13aWR0aD0iMS45NyIgb3BhY2l0eT0iMC44NSIvPjxnIHN0cm9rZT0iI2M3YWE2NiIgc3Ryb2tlLXdpZHRoPSIxLjY5IiBvcGFjaXR5PSIwLjgiPjxsaW5lIHgxPSIzNTguNDAiIHkxPSIyNTYuMDAiIHgyPSI0MjUuOTgiIHkyPSIyNTYuMDAiLz48bGluZSB4MT0iMzU0LjkxIiB5MT0iMjgyLjUwIiB4Mj0iNDIwLjE5IiB5Mj0iMzAwLjAwIi8+PGxpbmUgeDE9IjM0NC42OCIgeTE9IjMwNy4yMCIgeDI9IjQwMy4yMSIgeTI9IjM0MC45OSIvPjxsaW5lIHgxPSIzMjguNDEiIHkxPSIzMjguNDEiIHgyPSIzNzYuMjAiIHkyPSIzNzYuMjAiLz48bGluZSB4MT0iMzA3LjIwIiB5MT0iMzQ0LjY4IiB4Mj0iMzQwLjk5IiB5Mj0iNDAzLjIxIi8+PGxpbmUgeDE9IjI4Mi41MCIgeTE9IjM1NC45MSIgeDI9IjMwMC4wMCIgeTI9IjQyMC4xOSIvPjxsaW5lIHgxPSIyNTYuMDAiIHkxPSIzNTguNDAiIHgyPSIyNTYuMDAiIHkyPSI0MjUuOTgiLz48bGluZSB4MT0iMjI5LjUwIiB5MT0iMzU0LjkxIiB4Mj0iMjEyLjAwIiB5Mj0iNDIwLjE5Ii8+PGxpbmUgeDE9IjIwNC44MCIgeTE9IjM0NC42OCIgeDI9IjE3MS4wMSIgeTI9IjQwMy4yMSIvPjxsaW5lIHgxPSIxODMuNTkiIHkxPSIzMjguNDEiIHgyPSIxMzUuODAiIHkyPSIzNzYuMjAiLz48bGluZSB4MT0iMTY3LjMyIiB5MT0iMzA3LjIwIiB4Mj0iMTA4Ljc5IiB5Mj0iMzQwLjk5Ii8+PGxpbmUgeDE9IjE1Ny4wOSIgeTE9IjI4Mi41MCIgeDI9IjkxLjgxIiB5Mj0iMzAwLjAwIi8+PGxpbmUgeDE9IjE1My42MCIgeTE9IjI1Ni4wMCIgeDI9Ijg2LjAyIiB5Mj0iMjU2LjAwIi8+PGxpbmUgeDE9IjE1Ny4wOSIgeTE9IjIyOS41MCIgeDI9IjkxLjgxIiB5Mj0iMjEyLjAwIi8+PGxpbmUgeDE9IjE2Ny4zMiIgeTE9IjIwNC44MCIgeDI9IjEwOC43OSIgeTI9IjE3MS4wMSIvPjxsaW5lIHgxPSIxODMuNTkiIHkxPSIxODMuNTkiIHgyPSIxMzUuODAiIHkyPSIxMzUuODAiLz48bGluZSB4MT0iMjA0LjgwIiB5MT0iMTY3LjMyIiB4Mj0iMTcxLjAxIiB5Mj0iMTA4Ljc5Ii8+PGxpbmUgeDE9IjIyOS41MCIgeTE9IjE1Ny4wOSIgeDI9IjIxMi4wMCIgeTI9IjkxLjgxIi8+PGxpbmUgeDE9IjI1Ni4wMCIgeTE9IjE1My42MCIgeDI9IjI1Ni4wMCIgeTI9Ijg2LjAyIi8+PGxpbmUgeDE9IjI4Mi41MCIgeTE9IjE1Ny4wOSIgeDI9IjMwMC4wMCIgeTI9IjkxLjgxIi8+PGxpbmUgeDE9IjMwNy4yMCIgeTE9IjE2Ny4zMiIgeDI9IjM0MC45OSIgeTI9IjEwOC43OSIvPjxsaW5lIHgxPSIzMjguNDEiIHkxPSIxODMuNTkiIHgyPSIzNzYuMjAiIHkyPSIxMzUuODAiLz48bGluZSB4MT0iMzQ0LjY4IiB5MT0iMjA0LjgwIiB4Mj0iNDAzLjIxIiB5Mj0iMTcxLjAxIi8+PGxpbmUgeDE9IjM1NC45MSIgeTE9IjIyOS41MCIgeDI9IjQyMC4xOSIgeTI9IjIxMi4wMCIvPjwvZz48Y2lyY2xlIGN4PSIyNTYuMCIgY3k9IjI1Ni4wIiByPSI5NC4yMSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYzdhYTY2IiBzdHJva2Utd2lkdGg9IjIuMjUiIG9wYWNpdHk9IjEuMCIvPjxnIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2M3YWE2NiIgc3Ryb2tlLXdpZHRoPSIxLjQxIiBvcGFjaXR5PSIwLjYiPjxjaXJjbGUgY3g9IjMxMS4zMCIgY3k9IjI1Ni4wMCIgcj0iMjkuNDkiLz48Y2lyY2xlIGN4PSIzMDMuODkiIGN5PSIyODMuNjUiIHI9IjI5LjQ5Ii8+PGNpcmNsZSBjeD0iMjgzLjY1IiBjeT0iMzAzLjg5IiByPSIyOS40OSIvPjxjaXJjbGUgY3g9IjI1Ni4wMCIgY3k9IjMxMS4zMCIgcj0iMjkuNDkiLz48Y2lyY2xlIGN4PSIyMjguMzUiIGN5PSIzMDMuODkiIHI9IjI5LjQ5Ii8+PGNpcmNsZSBjeD0iMjA4LjExIiBjeT0iMjgzLjY1IiByPSIyOS40OSIvPjxjaXJjbGUgY3g9IjIwMC43MCIgY3k9IjI1Ni4wMCIgcj0iMjkuNDkiLz48Y2lyY2xlIGN4PSIyMDguMTEiIGN5PSIyMjguMzUiIHI9IjI5LjQ5Ii8+PGNpcmNsZSBjeD0iMjI4LjM1IiBjeT0iMjA4LjExIiByPSIyOS40OSIvPjxjaXJjbGUgY3g9IjI1Ni4wMCIgY3k9IjIwMC43MCIgcj0iMjkuNDkiLz48Y2lyY2xlIGN4PSIyODMuNjUiIGN5PSIyMDguMTEiIHI9IjI5LjQ5Ii8+PGNpcmNsZSBjeD0iMzAzLjg5IiBjeT0iMjI4LjM1IiByPSIyOS40OSIvPjwvZz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgyMTYuNDkzLDI5MS4zMjgpIHNjYWxlKDAuMTExNDQsLTAuMTExNDQpIiBmaWxsPSIjZWNlNmQ4Ij48cGF0aCBkPSJNMTc5IDI0NSAxOTIgMjcwSDQ3Mkw0NzkgMjQ1Wk03MTEgMTJRNzE1IDEyIDcxNS4wIDYuMFE3MTUgMCA3MTEgMFE2ODEgMCA2NDkuNSAyLjBRNjE4IDQgNTg5IDRRNTU2IDQgNTMxLjUgMi4wUTUwNyAwIDQ3NyAwUTQ3MyAwIDQ3My4wIDYuMFE0NzMgMTIgNDc3IDEyUTUyMiAxMiA1MzEuMCAyOC4wUTU0MCA0NCA1MTYgOTFMMzA3IDUxNkwzNDggNTgzTDE1MCAxMzdRMTI0IDc2IDE0OC41IDQ0LjBRMTczIDEyIDIzMiAxMlEyMzcgMTIgMjM3LjAgNi4wUTIzNyAwIDIzMiAwUTIwMiAwIDE3Ny4wIDIuMFExNTIgNCAxMTQgNFE3NiA0IDUzLjUgMi4wUTMxIDAgLTIgMFEtNiAwIC02LjAgNi4wUS02IDEyIC0yIDEyUTI1IDEyIDQ0LjUgMjMuMFE2NCAzNCA4My4wIDYzLjVRMTAyIDkzIDEyNSAxNDZMMzQwIDYzMVEzNDIgNjM0IDM0OS4wIDYzNC4wUTM1NiA2MzQgMzU3IDYzMUw2MDIgMTM3UTYyNSA4OSA2NDMuMCA2MS41UTY2MSAzNCA2NzcuMCAyMy4wUTY5MyAxMiA3MTEgMTJaIi8+PC9nPjwvc3ZnPg==" alt="" width="38" height="38" />
+              <span class="ashforde-word">Ashforde&nbsp;OÜ</span>
+            </a>
+            <div class="foot-meta">
+              <strong>Kshana</strong> · <span class="deva">क्षण</span> the precise instant<br />
+              Created by <strong>Chakshu Baweja</strong> · © 2026 <a target="_blank" rel="noopener noreferrer" href="https://ashforde.org">Ashforde&nbsp;OÜ</a> · AGPL-3.0 · Engine v<span id="version">…</span>
+            </div>
           </div>
           <nav class="nav" aria-label="Resources" style="position:static">
             <a target="_blank" rel="noopener noreferrer" href="https://github.com/AshfordeOU/kshana">GitHub</a>
