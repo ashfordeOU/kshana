@@ -555,6 +555,54 @@ pub fn list_scenario_kinds_json() -> String {
     json_of(&list_scenario_kinds())
 }
 
+/// Lint a scenario TOML against the crate's own introspection and return a list of
+/// problems — so a caller can be told what is wrong BEFORE a (possibly long) run,
+/// instead of hitting a late runtime failure.
+///
+/// The check reuses the one schema the crate already publishes: it
+/// [`ScenarioKind::classify`]es the kind, then looks up that kind's REQUIRED
+/// top-level fields from [`list_scenario_kinds`] and reports one violation for each
+/// required field that is absent from the document (e.g.
+/// `clock: missing required field "time"`). It is deliberately conservative —
+/// it only flags what the metadata already marks required and makes NO new validity
+/// claims — and it never runs the scenario. An empty Vec means the scenario is
+/// well-formed as far as the published metadata can express.
+pub fn validate_scenario(src: &str) -> Vec<String> {
+    // 1. The document must parse as TOML at all. A parse failure is the clearest,
+    //    earliest problem to report, so we return it on its own.
+    let value: toml::Value = match toml::from_str(src) {
+        Ok(v) => v,
+        Err(e) => return vec![format!("TOML parse error: {e}")],
+    };
+
+    // 2. Classify the kind via the existing classifier (defaults to Clock for an
+    //    absent/unknown kind, exactly as the runner does).
+    let kind = match ScenarioKind::classify(src) {
+        Ok(k) => k,
+        Err(e) => return vec![format!("could not classify scenario kind: {e}")],
+    };
+    let kind_name = kind.as_str();
+
+    // 3. Look up this kind's published REQUIRED fields and report each one that is
+    //    absent from the document's top-level table. If the document is not a table
+    //    (e.g. a bare value), every required field is treated as absent.
+    let table = value.as_table();
+    let required = list_scenario_kinds()
+        .into_iter()
+        .find(|m| m.name == kind_name)
+        .map(|m| m.required_fields)
+        .unwrap_or(&[]);
+
+    let mut violations = Vec::new();
+    for field in required {
+        let present = table.map(|t| t.contains_key(*field)).unwrap_or(false);
+        if !present {
+            violations.push(format!("{kind_name}: missing required field \"{field}\""));
+        }
+    }
+    violations
+}
+
 /// Export an orbit/constellation scenario's propagated constellation as SP3-c text.
 /// Errors if the scenario is not an `orbit` kind (only that pack has a constellation
 /// to write). This is the CLI `--export-sp3` path.
