@@ -20,6 +20,26 @@ pub struct ClockRun {
     pub filter_health: Option<crate::filter_health::FilterHealth>,
 }
 
+/// Optional, additive study metadata for a productized report: a title, a
+/// caller-supplied generation timestamp, and an optional author/disclaimer. Every
+/// field is omitted from the serialized output when absent, so a `RunResult` that
+/// carries no metadata is byte-identical to one produced before this struct
+/// existed (reproducibility/golden tests stay green). This describes the *report*,
+/// not the scenario inputs, so it never enters [`hash_scenario`].
+#[derive(Clone, Debug, Serialize)]
+pub struct StudyMeta {
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub study_title: Option<String>,
+    /// Caller-supplied UTC ISO-8601 stamp. Stamped by the CLI, never read from a
+    /// clock inside the engine/api, so the library stays pure/deterministic.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub generated_utc: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub author: Option<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub disclaimer: Option<String>,
+}
+
 /// Top-level result artifact (versioned, self-describing, reproducible).
 #[derive(Clone, Debug, Serialize)]
 pub struct RunResult {
@@ -37,6 +57,53 @@ pub struct RunResult {
     /// only the scenario *inputs*) or the shared-link reproducibility.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub eci_track: Option<Vec<[f64; 3]>>,
+    /// Optional, additive study metadata (title / generation stamp / author /
+    /// disclaimer) for a productized report. An output-only field: omitted when
+    /// absent (so meta-less runs are byte-identical to legacy output) and never
+    /// part of [`hash_scenario`], which hashes only the scenario *inputs*.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub meta: Option<StudyMeta>,
+}
+
+/// Turn a free-text study name into a filesystem-friendly base name: lower-cased,
+/// runs of non-alphanumeric characters collapsed to single hyphens, with leading
+/// and trailing hyphens trimmed (e.g. `"My Study"` → `"my-study"`). Pure and
+/// deterministic — the CLI uses it to derive the output file base when
+/// `--study-name` is given. Falls back to `"study"` if the name has no
+/// alphanumerics, so a base name always exists.
+pub fn slugify(name: &str) -> String {
+    let mut slug = String::with_capacity(name.len());
+    let mut prev_hyphen = false;
+    for ch in name.chars() {
+        if ch.is_ascii_alphanumeric() {
+            slug.push(ch.to_ascii_lowercase());
+            prev_hyphen = false;
+        } else if !slug.is_empty() && !prev_hyphen {
+            slug.push('-');
+            prev_hyphen = true;
+        }
+    }
+    while slug.ends_with('-') {
+        slug.pop();
+    }
+    if slug.is_empty() {
+        "study".to_string()
+    } else {
+        slug
+    }
+}
+
+/// Build [`StudyMeta`] for a productized study from a title and a caller-supplied
+/// UTC ISO-8601 timestamp. Pure: the timestamp is *passed in* (the CLI is the only
+/// place allowed to read a clock), so this stays deterministic and the library
+/// never reads wall-clock time. `author`/`disclaimer` are left unset here.
+pub fn study_meta_with_title(study_title: &str, generated_utc: &str) -> StudyMeta {
+    StudyMeta {
+        study_title: Some(study_title.to_string()),
+        generated_utc: Some(generated_utc.to_string()),
+        author: None,
+        disclaimer: None,
+    }
 }
 
 /// sha256 hex over the canonical JSON of the scenario (field order is stable).
@@ -190,6 +257,28 @@ mod tests {
     }
 
     #[test]
+    fn slugify_makes_filesystem_friendly_base_names() {
+        assert_eq!(slugify("My Study"), "my-study");
+        assert_eq!(slugify("  Trailing / Slashes -- "), "trailing-slashes");
+        assert_eq!(slugify("Q1 2026: Holdover (v2)"), "q1-2026-holdover-v2");
+        assert_eq!(slugify("already-slug"), "already-slug");
+        // No alphanumerics → stable fallback so a base name always exists.
+        assert_eq!(slugify("***"), "study");
+        assert_eq!(slugify(""), "study");
+    }
+
+    #[test]
+    fn study_meta_with_title_sets_title_and_passed_in_stamp() {
+        // The builder is pure: the timestamp is supplied by the caller (the CLI),
+        // never read from a clock here, keeping the library deterministic.
+        let m = study_meta_with_title("My Study", "2026-06-23T00:00:00Z");
+        assert_eq!(m.study_title.as_deref(), Some("My Study"));
+        assert_eq!(m.generated_utc.as_deref(), Some("2026-06-23T00:00:00Z"));
+        assert_eq!(m.author, None);
+        assert_eq!(m.disclaimer, None);
+    }
+
+    #[test]
     fn scenario_hash_is_deterministic_and_sensitive() {
         let a = hash_scenario(&demo());
         let b = hash_scenario(&demo());
@@ -251,6 +340,7 @@ mod svg_tests {
             quantum: run_of("optical", &[0.0, 0.0, 0.1]),
             classical: run_of("csac", &[0.0, 15.0, 40.0]),
             eci_track: None,
+            meta: None,
         };
         let svg = to_svg(&r);
         assert!(svg.starts_with("<svg"));
