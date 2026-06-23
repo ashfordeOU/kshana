@@ -48,8 +48,8 @@ citable table in [`docs/PROVENANCE.md`](docs/PROVENANCE.md).
 
 *Free and open source under the GNU AGPL-3.0 — with a commercial licence available
 from Ashforde OÜ for proprietary/closed integration (see [`LICENSING.md`](LICENSING.md)).
-Professionally developed and maintained by Ashforde OÜ; commercial support,
-integration, and proprietary extensions available.*
+Professionally developed and maintained by [Ashforde OÜ](https://ashforde.org); commercial
+support, integration, and proprietary extensions available.*
 
 > **Status: v0.20.0 · a simulation substrate, not yet a product.** A validated,
 > fully reproducible engine spanning the PNT stack — orbit geometry and constellation
@@ -1016,7 +1016,7 @@ scenario and seed for full reproducibility. Every release is archived on Zenodo 
 a citable DOI — the concept DOI [10.5281/zenodo.20528627](https://doi.org/10.5281/zenodo.20528627)
 always resolves to the latest version.
 
-> Baweja, C. (2026). *Kshana — a PNT-resilience simulator with quantum-sensor performance models*. Ashforde OÜ. https://doi.org/10.5281/zenodo.20528627
+> Baweja, C. (2026). *Kshana — a PNT-resilience simulator with quantum-sensor performance models*. [Ashforde OÜ](https://ashforde.org). https://doi.org/10.5281/zenodo.20528627
 
 **Related publications.** Studies built on the open engine are written up separately; their
 numbers regenerate from the [reproducible study artifacts](#reproducible-study-artifacts) above.
@@ -1080,7 +1080,7 @@ own. For organisations that need more, Ashforde OÜ offers:
 
 This is the open-core model: the engine is, and stays, openly licensed; the sustaining
 business is expertise, support, and the proprietary extensions — not license fees.
-Contact **contact@ashforde.org**.
+Contact **contact@ashforde.org** · [ashforde.org](https://ashforde.org).
 
 ## Key references
 
