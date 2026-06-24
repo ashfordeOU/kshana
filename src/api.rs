@@ -390,6 +390,7 @@ pub enum ScenarioKind {
     Orbit,
     Ephemeris,
     LunarIntegrity,
+    LunarTime,
     GravityMap,
     Terrain,
     TerrainSlam,
@@ -430,6 +431,7 @@ impl ScenarioKind {
             ScenarioKind::Orbit => "orbit",
             ScenarioKind::Ephemeris => "ephemeris",
             ScenarioKind::LunarIntegrity => "lunar-integrity",
+            ScenarioKind::LunarTime => "lunar-time-offset",
             ScenarioKind::GravityMap => "gravity-map",
             ScenarioKind::Terrain => "terrain-nav",
             ScenarioKind::TerrainSlam => "terrain-slam",
@@ -474,6 +476,7 @@ impl ScenarioKind {
             "orbit" => ScenarioKind::Orbit,
             "ephemeris" => ScenarioKind::Ephemeris,
             "lunar-integrity" => ScenarioKind::LunarIntegrity,
+            "lunar-time-offset" => ScenarioKind::LunarTime,
             "gravity-map" => ScenarioKind::GravityMap,
             "terrain-nav" => ScenarioKind::Terrain,
             "terrain-slam" => ScenarioKind::TerrainSlam,
@@ -518,6 +521,7 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "ephemeris", description: "Ephemeris & ground track: propagate one satellite (TLE→SGP4 or analytic orbit) and emit its TEME/GCRS state (position + velocity), ITRF/ECEF position, WGS-84 sub-satellite lat/lon/alt, and per-step station az/el/range + range-rate (Doppler).", required_fields: &[], optional_fields: &["tle", "orbit", "epoch", "step_s", "duration_s", "station", "dut1_s", "xp_arcsec", "yp_arcsec", "carrier_hz", "eop_finals2000a"] },
         ScenarioMeta { name: "integrity", description: "Snapshot / solution-separation / ARAIM RAIM with HPL/VPL and a Stanford diagram.", required_fields: &["time", "user", "constellation"], optional_fields: &["mask_deg", "sigma_uere_m", "p_fa", "p_md"] },
         ScenarioMeta { name: "lunar-integrity", description: "Lunar south-pole ARAIM protection-level pass vs a representative LunaNet relay set.", required_fields: &[], optional_fields: &["step_s", "duration_s", "alert_limit_m", "p_hmi"] },
+        ScenarioMeta { name: "lunar-time-offset", description: "Modelled relativistic Earth–Moon clock rate (Lunar Coordinate Time, LTC/TCL): the secular LTC−TT rate from the self-potential difference and the Moon's kinetic term, reported with the published 56–59 µs/day band, plus the accumulated offset over a horizon.", required_fields: &[], optional_fields: &["epoch_year", "epoch_month", "epoch_day", "horizon_days"] },
         ScenarioMeta { name: "timetransfer", description: "Optical vs RF two-way time/frequency transfer.", required_fields: &["time", "optical", "rf"], optional_fields: &["seed"] },
         ScenarioMeta { name: "hybrid", description: "Hybrid PNT capstone: clock + IMU + time-transfer aiding.", required_fields: &["timing_spec_ns", "position_spec_m", "time", "gnss", "clock_quantum", "clock_classical", "accel_quantum", "accel_classical"], optional_fields: &["resync", "seed"] },
         ScenarioMeta { name: "fusion", description: "Joint Kalman sensor-fusion PNT over the same hybrid inputs.", required_fields: &["timing_spec_ns", "position_spec_m", "time", "gnss", "clock_quantum", "clock_classical", "accel_quantum", "accel_classical"], optional_fields: &["resync", "seed"] },
@@ -876,6 +880,26 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
             Ok(RunOutput {
                 json: json_of(&report),
                 svg: crate::lunar::lunar_report_svg(&report),
+                summary,
+            })
+        }
+        ScenarioKind::LunarTime => {
+            let scn: crate::lunar_time::LunarTimeScenario = toml::from_str(src)
+                .map_err(|e| format!("invalid lunar-time-offset scenario: {e}"))?;
+            let report = scn.run();
+            let summary = format!(
+                "lunar-time-offset | secular LTC−TT rate {:.2} µs/day (band {:.0}–{:.0}) | self-pot {:.2} kinetic {:.2} | offset @ {:.2} d = {:.2} µs",
+                report.secular_rate_us_per_day,
+                report.band_low,
+                report.band_high,
+                report.self_potential_us_per_day,
+                report.kinetic_us_per_day,
+                report.horizon_days,
+                report.offset_at_horizon_us,
+            );
+            Ok(RunOutput {
+                json: json_of(&report),
+                svg: crate::lunar_time::lunar_time_svg(&report),
                 summary,
             })
         }
@@ -1401,6 +1425,7 @@ mod tests {
             ScenarioKind::Orbit,
             ScenarioKind::Ephemeris,
             ScenarioKind::LunarIntegrity,
+            ScenarioKind::LunarTime,
             ScenarioKind::GravityMap,
             ScenarioKind::Terrain,
             ScenarioKind::CombinedAltPnt,

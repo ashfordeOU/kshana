@@ -461,6 +461,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: NoneKind,
             status: PartnerOwned,
         },
+        VerificationItem {
+            requirement: "Lunar coordinate time",
+            capability: "Relativistic Earth-Moon clock-rate (LTC/TCL) + TT/TAI/UTC chaining + ensemble",
+            module: "lunar_time",
+            tests: "lunar_time::tests (closed-form rate; published 56-59 us/day cross-check; round-trip)",
+            oracle: "Closed-form relativistic rate (IAU L_G / IERS Conv.) vs published lunar-clock-rate band",
+            oracle_kind: OracleKind::InternalConsistency,
+            status: VerificationStatus::Modelled,
+        },
         // ── Resilience scoring & instability study ────────────────────────────
         VerificationItem {
             requirement: "PNT-resilience framework-aligned scoring",
