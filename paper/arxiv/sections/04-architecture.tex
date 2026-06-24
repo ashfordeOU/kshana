@@ -1,0 +1,56 @@
+\section{Engine architecture}\label{sec:arch}
+
+This section summarises the engine; it is the substrate for the methodology of
+\S\ref{sec:method} and the crossover study of \S\ref{sec:crossover}, not a
+contribution in itself. Breadth is stated and cited rather than treated in depth, to
+keep the paper's load on the methodology and the new result.
+
+Kshana \citep{baweja2026kshana} is a single Rust core driven by a small TOML scenario.
+A scenario's \code{kind} field is resolved to a typed variant and the dispatcher
+matches it exhaustively, so the catalogue of packs is compile-checked rather than
+string-dispatched; an absent or unrecognised kind falls back to the historical clock
+pack. The 21 scenario kinds (20 named kinds plus the clock pack as the
+historical default, in v0.17.0) span the resilient-PNT stack from terrestrial through
+cislunar to deep space: clock holdover,
+inertial dead-reckoning, terrestrial and lunar integrity (snapshot/solution-separation
+Advanced Receiver Autonomous Integrity Monitoring, ARAIM, with protection levels),
+two-way time transfer, hybrid and fusion estimation,
+GNSS-INS coupling, GNSS signal simulation, jamming, spoofing and spoof detection,
+ephemeris/ground-track propagation, real-observation single-point positioning,
+gravity-map, terrain-aided, and combined alternative-PNT navigation,
+deep-space and Mars radiometric navigation (a simulated relay-constellation figure of
+merit, not a certified protection level), and the one- and $N$-dimensional parameter
+sweeps (\code{sweep},
+\code{sweep-nd}) that drive the Monte-Carlo crossover machinery of \S\ref{sec:crossover}.
+
+Sensor and environment behaviours are independent modules. Each carries a published
+\emph{provenance string} naming the device or reference whose coefficients it
+instantiates. The clock curves, for example, are tagged with the optical-lattice,
+hydrogen-maser and chip-scale-atomic-clock sources and a maturity (TRL) label they were
+parameterised from, so that every reported figure is traceable to its literature
+source and its model-versus-measurement status is legible at the point of use. The run
+harness composes the selected modules on a common timeline and emits a
+schema-versioned, self-describing JSON record (engine version, scenario, and per-module
+provenance carried inline) alongside an SVG chart that is stamped centrally with the
+same identifying footer, so a saved figure or result file stands alone. This is the
+machine-explicit ``validated-or-not-modeled per figure-of-merit'' contract of
+\S\ref{sec:method} realised in the output format itself.
+
+The same core compiles to three targets from one source tree, without a separate
+re-implementation per platform: a native binary and library (the \code{rlib}/CLI used
+for the validation battery of \S\ref{sec:validation}); a PyO3 extension module for use
+from Python and notebooks; and a WebAssembly module (built with \code{wasm-pack}) that
+runs the full integrated stack in the browser with zero install. In-browser orbital
+propagation is not itself new; \code{satellite.js} \citep{satellitejs} has long
+provided in-browser SGP4. The point here is therefore not the browser target but that
+a \emph{single} engine, identical to the validated native build, runs the whole
+integrated PNT-resilience stack client-side, which is what makes the reproducibility
+contract of \S\ref{sec:method} portable to a reader with no toolchain.
+
+For interoperability with established tooling the engine reads and writes
+standard exchange formats: RINEX navigation and observation records, IGS SP3 precise
+ephemerides, and the CCSDS Orbit Ephemeris and Orbit Mean-elements Messages (OEM/OMM).
+These are the on-ramps and off-ramps to the agency and reference datasets used in
+\S\ref{sec:validation}; the engine's scope and its non-capabilities (no
+real-observation PVT, no full INS mechanisation, no raw-IQ ingestion) are stated
+symmetrically in Table~\ref{tab:intersection}.

@@ -1,0 +1,28 @@
+Resilient positioning, navigation, and timing (PNT) underpins aviation,
+defence, critical infrastructure, and emerging cislunar operations, yet the
+field lacks a common basis for comparing how candidate resilience measures --
+classical or quantum -- perform when GNSS is denied. Such comparisons are
+predominantly private and non-reproducible: the authoritative recent survey of
+quantum PNT names no open, reproducible tool for quantum-versus-classical
+evaluation \citep{quantumpntreview2026}, and broader GNSS work has documented
+how rarely reported results can be regenerated end to end
+\citep{fernandezprades2018reproducibility}. We address this with a methodology
+in which every result is reproducible from a committed scenario, random seed,
+and engine version; every figure of merit carries an explicit
+validated-or-not-modeled label; and the quantum/classical axis is a single
+parameter swap inside one neutral code path, so the two are never compared
+across separate implementations. The methodology is instantiated in Kshana
+\citep{baweja2026kshana}, an open engine written in Rust with native, Python,
+and WebAssembly targets and 21 scenario kinds spanning terrestrial, lunar, and
+deep-space PNT. The new result is a Monte-Carlo
+crossover/break-even map over the published-parameter envelope, with 95\%
+bootstrap confidence intervals, identifying where a cold-atom inertial sensor or
+optical-lattice clock changes the GNSS-outage outcome and where it does not.
+Trust evidence is reported separately and tiered by strength: reference frames
+agree bit-for-bit with SOFA/ERFA, SGP4 matches the AIAA 2006-6753 set to
+\SI{4.12}{\milli\metre} worst-case, Allan deviations match NIST references, and
+force-model validation by ephemeris fitting against agency precise ephemerides
+yields a full-arc Galileo residual of \SI{0.61}{\metre} at degree/order 70.
+Quantum-sensor figures are performance-model projections from cited device
+literature, not measurements; the spoofing detector is characterised against
+published TEXBAT parameters, not raw IQ.
