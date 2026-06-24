@@ -470,6 +470,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: OracleKind::InternalConsistency,
             status: VerificationStatus::Modelled,
         },
+        VerificationItem {
+            requirement: "Lunar geodetic VLBI",
+            capability: "Near-field VLBI delay for an Earth baseline observing a lunar beacon + partials",
+            module: "lunar_vlbi",
+            tests: "lunar_vlbi::tests (far-field limit matches delta_dor; near-field correction; FD partials)",
+            oracle: "Plane-wave delta_dor (same-codebase) in the far-field limit; finite-difference partials",
+            oracle_kind: OracleKind::ReferenceImpl,
+            status: VerificationStatus::Modelled,
+        },
         // ── Resilience scoring & instability study ────────────────────────────
         VerificationItem {
             requirement: "PNT-resilience framework-aligned scoring",

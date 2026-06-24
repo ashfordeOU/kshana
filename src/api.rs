@@ -391,6 +391,7 @@ pub enum ScenarioKind {
     Ephemeris,
     LunarIntegrity,
     LunarTime,
+    LunarVlbi,
     GravityMap,
     Terrain,
     TerrainSlam,
@@ -432,6 +433,7 @@ impl ScenarioKind {
             ScenarioKind::Ephemeris => "ephemeris",
             ScenarioKind::LunarIntegrity => "lunar-integrity",
             ScenarioKind::LunarTime => "lunar-time-offset",
+            ScenarioKind::LunarVlbi => "lunar-vlbi",
             ScenarioKind::GravityMap => "gravity-map",
             ScenarioKind::Terrain => "terrain-nav",
             ScenarioKind::TerrainSlam => "terrain-slam",
@@ -477,6 +479,7 @@ impl ScenarioKind {
             "ephemeris" => ScenarioKind::Ephemeris,
             "lunar-integrity" => ScenarioKind::LunarIntegrity,
             "lunar-time-offset" => ScenarioKind::LunarTime,
+            "lunar-vlbi" => ScenarioKind::LunarVlbi,
             "gravity-map" => ScenarioKind::GravityMap,
             "terrain-nav" => ScenarioKind::Terrain,
             "terrain-slam" => ScenarioKind::TerrainSlam,
@@ -522,6 +525,7 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "integrity", description: "Snapshot / solution-separation / ARAIM RAIM with HPL/VPL and a Stanford diagram.", required_fields: &["time", "user", "constellation"], optional_fields: &["mask_deg", "sigma_uere_m", "p_fa", "p_md"] },
         ScenarioMeta { name: "lunar-integrity", description: "Lunar south-pole ARAIM protection-level pass vs a representative LunaNet relay set.", required_fields: &[], optional_fields: &["step_s", "duration_s", "alert_limit_m", "p_hmi"] },
         ScenarioMeta { name: "lunar-time-offset", description: "Modelled relativistic Earth–Moon clock rate (Lunar Coordinate Time, LTC/TCL): the secular LTC−TT rate from the self-potential difference and the Moon's kinetic term, reported with the published 56–59 µs/day band, plus the accumulated offset over a horizon.", required_fields: &[], optional_fields: &["epoch_year", "epoch_month", "epoch_day", "horizon_days"] },
+        ScenarioMeta { name: "lunar-vlbi", description: "Modelled lunar geodetic VLBI delay observable: an Earth baseline (two ground stations, GCRS) observes a one-way signal from a NovaMoon-class lunar-surface beacon. Emits the near-field two-range-difference delay, its rate, and the wavefront-curvature near-field correction over a pass — cross-checked against the same-codebase plane-wave Δ-DOR observable in the far-field limit, with finite-difference-verified partials. MODELLED, NOT validated against real VLBI data; carries the frame-consistency, xp=yp=0 polar-motion and plane-wave-vs-near-field caveats.", required_fields: &[], optional_fields: &["station1_lat_deg", "station1_lon_deg", "station1_alt_m", "station2_lat_deg", "station2_lon_deg", "station2_alt_m", "beacon_lat_deg", "beacon_lon_deg", "beacon_alt_m", "epoch_year", "epoch_month", "epoch_day", "horizon_hours", "step_min"] },
         ScenarioMeta { name: "timetransfer", description: "Optical vs RF two-way time/frequency transfer.", required_fields: &["time", "optical", "rf"], optional_fields: &["seed"] },
         ScenarioMeta { name: "hybrid", description: "Hybrid PNT capstone: clock + IMU + time-transfer aiding.", required_fields: &["timing_spec_ns", "position_spec_m", "time", "gnss", "clock_quantum", "clock_classical", "accel_quantum", "accel_classical"], optional_fields: &["resync", "seed"] },
         ScenarioMeta { name: "fusion", description: "Joint Kalman sensor-fusion PNT over the same hybrid inputs.", required_fields: &["timing_spec_ns", "position_spec_m", "time", "gnss", "clock_quantum", "clock_classical", "accel_quantum", "accel_classical"], optional_fields: &["resync", "seed"] },
@@ -900,6 +904,26 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
             Ok(RunOutput {
                 json: json_of(&report),
                 svg: crate::lunar_time::lunar_time_svg(&report),
+                summary,
+            })
+        }
+        ScenarioKind::LunarVlbi => {
+            let scn: crate::lunar_vlbi::LunarVlbiScenario =
+                toml::from_str(src).map_err(|e| format!("invalid lunar-vlbi scenario: {e}"))?;
+            let report = scn.run();
+            let summary = format!(
+                "lunar-vlbi | baseline {:.0} km | beacon range {:.0} km | delay {:.3} µs (rate {:.3e} s/s) | near-field {:.1} µs | {} samples over {:.1} h",
+                report.baseline_km,
+                report.beacon_range_km,
+                report.delay_s * 1e6,
+                report.delay_rate_s_per_s,
+                report.near_field_correction_us,
+                report.samples,
+                report.horizon_hours,
+            );
+            Ok(RunOutput {
+                json: json_of(&report),
+                svg: crate::lunar_vlbi::lunar_vlbi_svg(&report),
                 summary,
             })
         }
@@ -1426,6 +1450,7 @@ mod tests {
             ScenarioKind::Ephemeris,
             ScenarioKind::LunarIntegrity,
             ScenarioKind::LunarTime,
+            ScenarioKind::LunarVlbi,
             ScenarioKind::GravityMap,
             ScenarioKind::Terrain,
             ScenarioKind::CombinedAltPnt,
