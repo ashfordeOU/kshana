@@ -326,8 +326,8 @@ command — the numbers behind the quantum-vs-classical crossover, RF-impairment
 optimism-gap, PNT-resilience-scoring, and timing-protection-level studies:
 
 ```bash
-# Quantum-vs-classical resilience crossover map (writes paper/crossover/*.json):
-cargo run --release --bin crossover_study -- paper/crossover
+# Quantum-vs-classical resilience crossover map (writes paper-artifacts/crossover/*.json):
+cargo run --release --bin crossover_study -- paper-artifacts/crossover
 
 # RF-impairment optimism-gap study (13-detector panel, scaling laws, LOO predictor):
 cargo run --release --example optimism_study -- paper-artifacts/optimism-study.json
@@ -842,7 +842,6 @@ kshana/
 | [Reproducibility &amp; provenance](docs/REPRODUCIBILITY.md) | reviewers / packagers | determinism guarantees, golden-pinning, SBOM, build provenance |
 | [Wheel platform tags](docs/WHEEL_TAGS.md) | packagers | the abi3 Python wheel matrix — which platform tag `pip install kshana` resolves |
 | [Positioning](docs/POSITIONING.md) | evaluators | where Kshana sits vs RTKLIB/gLAB (complementary), and the zero-install browser tier |
-| [Technical report](paper/kshana-technical-report.md) · [JOSS paper](paper/paper.md) | reviewers / citers / evaluators | the full extended research paper — architecture, per-domain models, validation, case studies, and limitations — plus the concise JOSS submission |
 | [SGP4 validation](docs/SGP4-VALIDATION.md) | reviewers / citers | agreement with the AIAA 2006-6753 reference (666 states, ~4 mm) **and** a head-to-head against the independent `sgp4` crate (agree to sub-micron / 4.12 mm) |
 | [Force-model validation](docs/AGENCY-ORBIT-VALIDATION.md) | reviewers / citers | the full-force engine (`src/precise_od.rs`) fit to agency ephemerides — methodology and validated residuals |
 | [Real TLE guide](docs/REAL_TLE_GUIDE.md) | users | driving scenarios from real Celestrak / Space-Track constellation TLEs (vs the bundled synthetic Walker set) |

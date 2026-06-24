@@ -1,9 +1,0 @@
-*.aux
-*.log
-*.out
-*.bbl
-*.blg
-
-# arXiv packaging outputs (regenerable via make-arxiv-tarball.sh)
-build/
-dist/
