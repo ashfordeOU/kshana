@@ -1,0 +1,55 @@
+# Lunar DIFFERENTIAL PNT — a lunar DGNSS / SBAS analogue.
+#
+# A NovaMoon-class reference station at a KNOWN selenographic location computes
+# per-satellite differential corrections from an ILLUSTRATIVE Moonlight / LCNS-class
+# constellation; a roving user offset from it by baseline_km applies those corrections so
+# the COMMON-MODE broadcast-ephemeris errors (orbit + clock) cancel.
+#
+# THE IDENTITY (what src/lunar_dpnt.rs implements):
+#   ref_error_i      = -e_i . u_ref_i  + c_i           (the correction the station broadcasts)
+#   user_raw_i       = -e_i . u_user_i + c_i
+#   corrected_user_i = user_raw_i - correction_i = -e_i . (u_user_i - u_ref_i)
+# The clock term c_i CANCELS EXACTLY (it is identical in both observations); the orbit
+# term collapses to the projection onto the DIFFERENCE of the two line-of-sight unit
+# vectors, which -> 0 as the baseline -> 0 (the spatial-decorrelation floor) and grows
+# ~linearly with baseline. Mapping the corrected per-satellite range errors through the
+# user geometry (a weighted-least-squares snapshot solve) gives the user POSITION error.
+#
+# NovaMoon is referenced only as a system CLASS (a public description of a lunar reference
+# station); the constellation reuses the illustrative public-source LCNS-class set. These
+# are illustrative parameters for exercising the differential method, NOT a real ephemeris,
+# and imply NO affiliation, endorsement, heritage, certification or TRL.
+#
+# HONESTY: MODELLED. The common-mode cancellation is an EXACT algebraic identity; the
+# spatial-decorrelation residual is a FIRST-ORDER geometric model (the LOS-difference
+# projection of an injected orbit error), not a fitted decorrelation model from real lunar
+# tracking. The user protection level REUSES the DO-229E SBAS protection-level machinery
+# (crate::sbas) with the differential residual sigma as the per-satellite error budget.
+# Deterministic given the seed. No real-data validation; no TRL/heritage/agency endorsement.
+kind = "lunar-differential-pnt"
+
+# Illustrative LCNS-class constellation (public-source approximation; not affiliated).
+n_sats = 8
+sma_km = 9737.4        # ~8000 km perilune altitude above the mean lunar radius
+eccentricity = 0.6
+inc_deg = 57.7
+argp_deg = 90.0        # apolune over the southern hemisphere (south-pole favouring)
+
+# NovaMoon-class reference station at a known south-polar selenographic location.
+ref_lat_deg = -89.0
+ref_lon_deg = 0.0
+
+# User offset from the reference station along the surface (the baseline).
+baseline_km = 50.0
+
+# Injected COMMON-MODE per-satellite broadcast errors (the errors the correction removes).
+orbit_err_m = 100.0    # orbit-error vector magnitude (random direction per satellite)
+clock_err_m = 30.0     # clock error in range units (random sign per satellite)
+noise_m = 0.0          # per-receiver measurement noise (0 => exact cancellation at 0 baseline)
+
+seed = 42
+t_s = 0.0              # epoch (seconds past the MCI/MCMF-aligned epoch)
+
+# Differential residual sigma fed to the SBAS DO-229E protection-level reuse.
+residual_sigma_m = 5.0
+p_hmi = 1e-4           # integrity-risk budget (interface parity; DO-229E K-factors fixed)
