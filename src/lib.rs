@@ -58,6 +58,7 @@ pub mod lunar_combination;
 pub mod lunar_frame;
 pub mod lunar_frame_realise;
 pub mod lunar_od;
+pub mod lunar_service;
 pub mod lunar_time;
 pub mod lunar_vlbi;
 pub mod maneuver;
