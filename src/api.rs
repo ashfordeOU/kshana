@@ -392,6 +392,7 @@ pub enum ScenarioKind {
     LunarIntegrity,
     LunarTime,
     LunarVlbi,
+    LunarCombination,
     GravityMap,
     Terrain,
     TerrainSlam,
@@ -434,6 +435,7 @@ impl ScenarioKind {
             ScenarioKind::LunarIntegrity => "lunar-integrity",
             ScenarioKind::LunarTime => "lunar-time-offset",
             ScenarioKind::LunarVlbi => "lunar-vlbi",
+            ScenarioKind::LunarCombination => "lunar-joint-od-clock",
             ScenarioKind::GravityMap => "gravity-map",
             ScenarioKind::Terrain => "terrain-nav",
             ScenarioKind::TerrainSlam => "terrain-slam",
@@ -480,6 +482,7 @@ impl ScenarioKind {
             "lunar-integrity" => ScenarioKind::LunarIntegrity,
             "lunar-time-offset" => ScenarioKind::LunarTime,
             "lunar-vlbi" => ScenarioKind::LunarVlbi,
+            "lunar-joint-od-clock" => ScenarioKind::LunarCombination,
             "gravity-map" => ScenarioKind::GravityMap,
             "terrain-nav" => ScenarioKind::Terrain,
             "terrain-slam" => ScenarioKind::TerrainSlam,
@@ -526,6 +529,7 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "lunar-integrity", description: "Lunar south-pole ARAIM protection-level pass vs a representative LunaNet relay set.", required_fields: &[], optional_fields: &["step_s", "duration_s", "alert_limit_m", "p_hmi"] },
         ScenarioMeta { name: "lunar-time-offset", description: "Modelled relativistic Earth–Moon clock rate (Lunar Coordinate Time, LTC/TCL): the secular LTC−TT rate from the self-potential difference and the Moon's kinetic term, reported with the published 56–59 µs/day band, plus the accumulated offset over a horizon.", required_fields: &[], optional_fields: &["epoch_year", "epoch_month", "epoch_day", "horizon_days"] },
         ScenarioMeta { name: "lunar-vlbi", description: "Modelled lunar geodetic VLBI delay observable: an Earth baseline (two ground stations, GCRS) observes a one-way signal from a NovaMoon-class lunar-surface beacon. Emits the near-field two-range-difference delay, its rate, and the wavefront-curvature near-field correction over a pass — cross-checked against the same-codebase plane-wave Δ-DOR observable in the far-field limit, with finite-difference-verified partials. MODELLED, NOT validated against real VLBI data; carries the frame-consistency, xp=yp=0 polar-motion and plane-wave-vs-near-field caveats.", required_fields: &[], optional_fields: &["station1_lat_deg", "station1_lon_deg", "station1_alt_m", "station2_lat_deg", "station2_lon_deg", "station2_alt_m", "beacon_lat_deg", "beacon_lon_deg", "beacon_alt_m", "epoch_year", "epoch_month", "epoch_day", "horizon_hours", "step_min"] },
+        ScenarioMeta { name: "lunar-joint-od-clock", description: "Modelled joint multi-technique lunar OD + clock batch estimator on a SIMULATED network: a Gauss-Newton snapshot fit that fuses Earth-baseline geodetic VLBI delays, lunar-local station↔satellite ranges and inter-satellite ranges to recover, together, a lunar surface station's 3-D position, a small constellation's positions and every asset's clock offset from an injected truth. The headline honest result — VLBI makes the station's full 3-D position observable where lunar-local ranging alone leaves a weakly-observed direction — is reported as the with-vs-without-VLBI station-error contrast. MODELLED simulated closed-loop recovery (truth shares the observation model), deterministic (seeded), NOT real-data validated; no force-model propagation inside the solver; no TRL/heritage/agency endorsement.", required_fields: &[], optional_fields: &["n_sat", "n_earth", "seed", "sigma_vlbi_s", "sigma_range_m", "sigma_isl_m", "station_lat_deg", "station_lon_deg", "station_alt_m", "orbit_radius_km", "epoch_year", "epoch_month", "epoch_day"] },
         ScenarioMeta { name: "timetransfer", description: "Optical vs RF two-way time/frequency transfer.", required_fields: &["time", "optical", "rf"], optional_fields: &["seed"] },
         ScenarioMeta { name: "hybrid", description: "Hybrid PNT capstone: clock + IMU + time-transfer aiding.", required_fields: &["timing_spec_ns", "position_spec_m", "time", "gnss", "clock_quantum", "clock_classical", "accel_quantum", "accel_classical"], optional_fields: &["resync", "seed"] },
         ScenarioMeta { name: "fusion", description: "Joint Kalman sensor-fusion PNT over the same hybrid inputs.", required_fields: &["timing_spec_ns", "position_spec_m", "time", "gnss", "clock_quantum", "clock_classical", "accel_quantum", "accel_classical"], optional_fields: &["resync", "seed"] },
@@ -924,6 +928,28 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
             Ok(RunOutput {
                 json: json_of(&report),
                 svg: crate::lunar_vlbi::lunar_vlbi_svg(&report),
+                summary,
+            })
+        }
+        ScenarioKind::LunarCombination => {
+            let scn: crate::lunar_combination::LunarCombinationScenario = toml::from_str(src)
+                .map_err(|e| format!("invalid lunar-joint-od-clock scenario: {e}"))?;
+            let report = scn.run();
+            let summary = format!(
+                "lunar-joint-od-clock | {} sats, {} Earth stations | station 3-D err with VLBI {:.2} m vs range-only {:.2} m ({:.1}× sharper) | sat pos RMS {:.2} m | station clk err {:.2e} s | obs {}/{} params",
+                report.n_sat,
+                report.n_earth,
+                report.with_vlbi.station_pos_err_m,
+                report.without_vlbi.station_pos_err_m,
+                report.station_observability_improvement_factor,
+                report.with_vlbi.sat_pos_rms_m,
+                report.with_vlbi.station_clock_err_s,
+                report.with_vlbi.n_obs,
+                report.with_vlbi.n_params,
+            );
+            Ok(RunOutput {
+                json: json_of(&report),
+                svg: crate::lunar_combination::lunar_combination_svg(&report),
                 summary,
             })
         }
@@ -1451,6 +1477,7 @@ mod tests {
             ScenarioKind::LunarIntegrity,
             ScenarioKind::LunarTime,
             ScenarioKind::LunarVlbi,
+            ScenarioKind::LunarCombination,
             ScenarioKind::GravityMap,
             ScenarioKind::Terrain,
             ScenarioKind::CombinedAltPnt,
