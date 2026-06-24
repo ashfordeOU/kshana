@@ -54,6 +54,7 @@ pub mod kalman;
 pub mod launch;
 pub mod linkbudget;
 pub mod lunar;
+pub mod lunar_combination;
 pub mod lunar_frame;
 pub mod lunar_od;
 pub mod lunar_time;
