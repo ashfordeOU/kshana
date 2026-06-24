@@ -506,6 +506,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: OracleKind::ExternalDataset,
             status: VerificationStatus::Modelled,
         },
+        VerificationItem {
+            requirement: "Lunar differential PNT",
+            capability: "NovaMoon-class differential reference station: common-mode cancellation + baseline-growing residual + DGNSS protection levels",
+            module: "lunar_dpnt",
+            tests: "lunar_dpnt::tests (clock common-mode cancels exactly; residual grows with baseline; reuses SBAS PL)",
+            oracle: "Differential error-cancellation identity + reuse of the DO-229E SBAS protection-level machinery",
+            oracle_kind: OracleKind::InternalConsistency,
+            status: VerificationStatus::Modelled,
+        },
         // ── Resilience scoring & instability study ────────────────────────────
         VerificationItem {
             requirement: "PNT-resilience framework-aligned scoring",
