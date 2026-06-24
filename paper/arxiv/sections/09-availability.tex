@@ -1,0 +1,15 @@
+\section*{Data and code availability}
+
+Kshana is open-source software released under the AGPL-3.0 licence
+\citep{baweja2026kshana}. Each tagged release is archived on Zenodo
+(the v0.17.0 release DOI~\href{https://doi.org/10.5281/zenodo.20692259}{10.5281/zenodo.20692259}),
+which provides a citable, immutable snapshot of the exact source used to produce
+the results in this paper. The engine ships as native binaries, as a PyPI package,
+and as a zero-install WebAssembly playground that runs the full integrated stack
+in the browser.
+
+The crossover study of Section~\ref{sec:crossover}, every figure, and every
+headline number in this paper regenerate from a fixed scenario plus seed. The exact
+commands are given in Appendix~\ref{app:repro}; running them against the archived
+release reproduces the reported values bit-for-bit where the underlying check is
+deterministic.

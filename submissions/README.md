@@ -17,13 +17,15 @@ no further authoring. These are **docs only** — nothing here is compiled or pu
 | `jetbrains-marketplace.md` | JetBrains Marketplace (the IDE plugin) | ✅ LIVE — [plugin 32181](https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator), auto-updates per release |
 
 Related, landed in-repo (no submission needed):
+- `paper/paper.md` + `paper/paper.bib` — JOSS submission (founder fills real ORCID, rasterises figure).
 - `notebooks/quantum-vs-classical-gdop.ipynb` — Colab notebook (founder confirms PyPI wheel is live).
 - `.github/FUNDING.yml` — Sponsor button (`custom:` immediate; `github:` needs Sponsors enabled).
 - README "Cite this work" BibTeX block and playground CTA.
 
 ## Founder-only fields to supply before submitting
 
-1. **GitHub Sponsors toggle** before uncommenting the `github:` key in `.github/FUNDING.yml`.
-2. **Account logins** for Navipedia, ESSR, ION, and IAF.
-3. Confirm **the PyPI `kshana` wheel and https://kshana.dev are live** before publishing the
+1. **ORCID** in `paper/paper.md` (the `0000-0000-0000-0000` placeholder FAILS JOSS validation).
+2. **GitHub Sponsors toggle** before uncommenting the `github:` key in `.github/FUNDING.yml`.
+3. **Account logins** for Navipedia, ESSR, ION, and IAF.
+4. Confirm **the PyPI `kshana` wheel and https://kshana.dev are live** before publishing the
    Colab and playground links.
