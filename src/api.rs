@@ -395,6 +395,7 @@ pub enum ScenarioKind {
     LunarCombination,
     LunarFrameRealise,
     LunarService,
+    LunarDpnt,
     GravityMap,
     Terrain,
     TerrainSlam,
@@ -440,6 +441,7 @@ impl ScenarioKind {
             ScenarioKind::LunarCombination => "lunar-joint-od-clock",
             ScenarioKind::LunarFrameRealise => "lunar-frame-realisation",
             ScenarioKind::LunarService => "moonlight-service-volume",
+            ScenarioKind::LunarDpnt => "lunar-differential-pnt",
             ScenarioKind::GravityMap => "gravity-map",
             ScenarioKind::Terrain => "terrain-nav",
             ScenarioKind::TerrainSlam => "terrain-slam",
@@ -489,6 +491,7 @@ impl ScenarioKind {
             "lunar-joint-od-clock" => ScenarioKind::LunarCombination,
             "lunar-frame-realisation" => ScenarioKind::LunarFrameRealise,
             "moonlight-service-volume" => ScenarioKind::LunarService,
+            "lunar-differential-pnt" => ScenarioKind::LunarDpnt,
             "gravity-map" => ScenarioKind::GravityMap,
             "terrain-nav" => ScenarioKind::Terrain,
             "terrain-slam" => ScenarioKind::TerrainSlam,
@@ -538,6 +541,7 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "lunar-joint-od-clock", description: "Modelled joint multi-technique lunar OD + clock batch estimator on a SIMULATED network: a Gauss-Newton snapshot fit that fuses Earth-baseline geodetic VLBI delays, lunar-local station↔satellite ranges and inter-satellite ranges to recover, together, a lunar surface station's 3-D position, a small constellation's positions and every asset's clock offset from an injected truth. The headline honest result — VLBI makes the station's full 3-D position observable where lunar-local ranging alone leaves a weakly-observed direction — is reported as the with-vs-without-VLBI station-error contrast. MODELLED simulated closed-loop recovery (truth shares the observation model), deterministic (seeded), NOT real-data validated; no force-model propagation inside the solver; no TRL/heritage/agency endorsement.", required_fields: &[], optional_fields: &["n_sat", "n_earth", "seed", "sigma_vlbi_s", "sigma_range_m", "sigma_isl_m", "station_lat_deg", "station_lon_deg", "station_alt_m", "orbit_radius_km", "epoch_year", "epoch_month", "epoch_day"] },
         ScenarioMeta { name: "lunar-frame-realisation", description: "Modelled lunar reference-frame realisation: a 7-parameter Helmert (similarity) datum fit — 3 translation, 3 small-angle rotation, 1 scale — tying an estimated set of selenographic-derived MCMF point coordinates to a datum by weighted least squares (crate::batch_ls::gauss_newton), plus a simple orientation tie expressing the realised small rotation about the ICRF axes relative to the IAU 2015 WGCCRE body orientation. The scenario injects a known small transform (translation ~tens of m, rotation ~µrad, scale ~1e-7) into a well-spread synthetic point network, adds seeded Gaussian noise, recovers the datum, and reports the recovered transform, the per-parameter recovery error vs the injected truth, and the post-fit RMS residual. MODELLED self-consistency — recovers an injected similarity transform (noiseless to ~machine precision), NOT a realisation against real tracking/VLBI data; deterministic (seeded); no TRL/heritage/agency endorsement.", required_fields: &[], optional_fields: &["n_points", "tx_m", "ty_m", "tz_m", "rot_x_urad", "rot_y_urad", "rot_z_urad", "scale_ppb", "noise_sigma_m", "seed", "epoch_year", "epoch_month", "epoch_day"] },
         ScenarioMeta { name: "moonlight-service-volume", description: "Modelled lunar navigation service-volume analysis from an ILLUSTRATIVE, public-source Moonlight/LCNS-class lunar-orbit constellation (not affiliated with ESA): sweeps a selenographic lat/lon grid over a time horizon and reports DOP / coverage / availability (≥4 sats AND PDOP < threshold) plus a generalised lunar ARAIM protection-level (HPL/VPL) envelope over the volume. The DOP geometry REUSES the gnss_lib_py-VALIDATED kernel (crate::orbit::dop); the protection level REUSES the LunaNet LNIS lunar ARAIM machinery (crate::lunar, σ_URE≈30 m) and reduces to the existing south-pole PL as a special case. MODELLED composition: a circular-/elliptical-Keplerian relay set (not the real differential-corrected LCNS/NRHO ephemeris), a mean-rotation Moon (no libration/precessing pole). Deterministic (pure geometry). No TRL/heritage/agency endorsement.", required_fields: &[], optional_fields: &["n_sats", "sma_km", "eccentricity", "inc_deg", "argp_deg", "lat_min_deg", "lat_max_deg", "lat_step_deg", "lon_min_deg", "lon_max_deg", "lon_step_deg", "horizon_hours", "step_min", "elev_mask_deg", "pdop_threshold", "alert_limit_m", "p_hmi"] },
+        ScenarioMeta { name: "lunar-differential-pnt", description: "Modelled lunar DIFFERENTIAL PNT (a lunar DGNSS/SBAS analogue): a NovaMoon-class reference station at a KNOWN selenographic location computes per-satellite differential corrections from an ILLUSTRATIVE, public-source Moonlight/LCNS-class constellation (NovaMoon referenced only as a system CLASS, not affiliated with ESA), and a user offset by baseline_km applies them so the COMMON-MODE orbit + clock errors cancel. The clock term cancels EXACTLY (an algebraic identity); the orbit term leaves only the line-of-sight-difference projection, which → 0 as baseline → 0 (the spatial-decorrelation floor) and grows ≈ linearly with baseline. Reports the user 3-D position error WITH vs WITHOUT corrections, the reduction factor, the error-vs-baseline curve, and a user protection level that REUSES the DO-229E SBAS machinery (crate::sbas) with the differential residual σ. MODELLED — exact cancellation identity + first-order decorrelation model; not real-data validated; no TRL/heritage/agency endorsement. Deterministic if seeded.", required_fields: &[], optional_fields: &["n_sats", "sma_km", "eccentricity", "inc_deg", "argp_deg", "ref_lat_deg", "ref_lon_deg", "baseline_km", "orbit_err_m", "clock_err_m", "noise_m", "seed", "t_s", "residual_sigma_m", "p_hmi"] },
         ScenarioMeta { name: "timetransfer", description: "Optical vs RF two-way time/frequency transfer.", required_fields: &["time", "optical", "rf"], optional_fields: &["seed"] },
         ScenarioMeta { name: "hybrid", description: "Hybrid PNT capstone: clock + IMU + time-transfer aiding.", required_fields: &["timing_spec_ns", "position_spec_m", "time", "gnss", "clock_quantum", "clock_classical", "accel_quantum", "accel_classical"], optional_fields: &["resync", "seed"] },
         ScenarioMeta { name: "fusion", description: "Joint Kalman sensor-fusion PNT over the same hybrid inputs.", required_fields: &["timing_spec_ns", "position_spec_m", "time", "gnss", "clock_quantum", "clock_classical", "accel_quantum", "accel_classical"], optional_fields: &["resync", "seed"] },
@@ -1003,6 +1007,26 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
             Ok(RunOutput {
                 json: json_of(&report),
                 svg: crate::lunar_service::lunar_service_svg(&report),
+                summary,
+            })
+        }
+        ScenarioKind::LunarDpnt => {
+            let scn: crate::lunar_dpnt::LunarDpntScenario = toml::from_str(src)
+                .map_err(|e| format!("invalid lunar-differential-pnt scenario: {e}"))?;
+            let report = scn.run();
+            let summary = format!(
+                "lunar-differential-pnt | {} sats (illustrative LCNS-class, not affiliated) | baseline {:.0} km | user error {:.2} m → {:.4} m ({:.0}× reduction) | HPL {:.1} m (σ_resid {:.1} m) | MODELLED",
+                report.n_sats,
+                report.baseline_km,
+                report.user_error_uncorrected_m,
+                report.user_error_corrected_m,
+                report.reduction_factor,
+                report.protection_level_m,
+                report.residual_sigma_m,
+            );
+            Ok(RunOutput {
+                json: json_of(&report),
+                svg: crate::lunar_dpnt::lunar_dpnt_svg(&report),
                 summary,
             })
         }
@@ -1533,6 +1557,7 @@ mod tests {
             ScenarioKind::LunarCombination,
             ScenarioKind::LunarFrameRealise,
             ScenarioKind::LunarService,
+            ScenarioKind::LunarDpnt,
             ScenarioKind::GravityMap,
             ScenarioKind::Terrain,
             ScenarioKind::CombinedAltPnt,
@@ -1598,6 +1623,7 @@ mod tests {
             include_str!("../scenarios/combined-altpnt.toml"),
             include_str!("../scenarios/mars-pnt-lmo.toml"),
             include_str!("../scenarios/moonlight-service-volume.toml"),
+            include_str!("../scenarios/lunar-differential-pnt.toml"),
         ] {
             let out = run_toml(src).expect("scenario runs");
             assert!(out.json.starts_with('{'));
@@ -1655,6 +1681,30 @@ mod tests {
         // SVG and a one-line summary that names the kind.
         assert!(out.svg.starts_with("<svg"));
         assert!(out.summary.contains("moonlight-service-volume"));
+    }
+
+    #[test]
+    fn lunar_differential_pnt_kind_round_trips_through_the_dispatch() {
+        // The lunar differential-PNT kind dispatches end-to-end through the shared entry
+        // point the CLI/Python/wasm/MCP bindings use, even with a bare kind line (every
+        // field has a serde default): valid JSON + SVG out, with the honest
+        // illustrative/MODELLED labelling present and the summary naming the kind.
+        let src = "kind = \"lunar-differential-pnt\"\n";
+        assert_eq!(
+            ScenarioKind::classify(src).unwrap(),
+            ScenarioKind::LunarDpnt
+        );
+        let out = run_toml(src).expect("lunar-differential-pnt scenario dispatches");
+        assert!(out.json.starts_with('{'));
+        // Valid JSON that parses.
+        let _: serde_json::Value = serde_json::from_str(&out.json).unwrap();
+        // The honesty labels are carried in the JSON note.
+        assert!(out.json.contains("not affiliated with ESA"));
+        assert!(out.json.contains("MODELLED"));
+        assert!(out.json.contains("reduction_factor"));
+        // SVG and a one-line summary that names the kind.
+        assert!(out.svg.starts_with("<svg"));
+        assert!(out.summary.contains("lunar-differential-pnt"));
     }
 
     #[test]
