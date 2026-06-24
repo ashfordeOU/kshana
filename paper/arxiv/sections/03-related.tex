@@ -1,0 +1,113 @@
+\section{Background and the capability landscape}\label{sec:related}
+
+The resilient-PNT comparison problem sits at the confluence of three well-developed
+but separate tool ecosystems. Kshana does not displace any of them; it occupies the
+intersection they leave open. We organise the landscape into three honest tiers and
+make the boundaries explicit in Table~\ref{tab:intersection}.
+
+\paragraph{Tier 1: quantum-navigation simulations.}
+A growing body of work simulates quantum inertial and timing sensors, but almost
+always from a quantum-specific, fusion-or-enhancement standpoint rather than as a
+neutral quantum-versus-classical comparison harness. Atom-interferometric strapdown
+navigation has been simulated end-to-end with a cold-atom accelerometer in the loop
+\citep{atomstrapdown2023}, and high-fidelity simulators model the cold-atom
+interferometer (CAI) at the level of fringe contrast and projection noise
+\citep{quantumnav2025highfidelity}. We concede that the latter achieves
+\emph{higher} fidelity than Kshana on the single inertial lever: its first-principles
+CAI model is more detailed than our coefficient-driven projection. Hybrid
+cold-atom/classical inertial estimation has likewise been demonstrated in an EKF
+framework that fuses a CAI with a conventional IMU \citep{hybridcai2018}. These are
+quantum-axis simulators; none provides a single neutral code path in which the same
+scenario is run with a quantum or a classical sensor and the resilience figure of
+merit compared like for like. The closest quantum-versus-classical service we are
+aware of, TNO SENSED \citep{tno_sensed}, is closed and not reproducible: its
+parameters, seeds and code are not publicly available, so its comparisons cannot be
+independently re-derived. The field's own reviews note the absence of an open,
+reproducible quantum-versus-classical comparison capability
+\citep{coldatomnavreview2022,quantumpntreview2026}; in particular,
+\citet{quantumpntreview2026} names no open reproducible quantum-versus-classical
+PNT tool.
+
+\paragraph{Tier 2: open navigation frameworks.}
+Open, citable navigation frameworks already embody parts of the methodology we build
+on. NaveGo \citep{gonzalez2017navego} establishes the interchangeable-error-model
+pattern for inertial navigation -- a sensor is described by a parameter profile and
+swapped without touching the estimator -- and we reuse its validated navigation-grade
+IMU profiles as the classical baseline for the inertial lever. It has, however, no
+quantum axis. Among open PNT and GNSS tools, LuPNT \citep{iiyama2023lupnt} is an
+excellent, well-engineered library for lunar positioning, and gnss\_lib\_py
+\citep{knowles2024gnsslibpy} is a similarly strong toolkit for real-data GNSS
+analysis. We differentiate from these on the axes they do not target -- a
+single-code-path quantum-versus-classical swap, and the reproducibility-triple
+methodology (Section~\ref{sec:method}) -- and explicitly \emph{not} on engineering
+quality, which in both cases is high. LuPNT is lunar-scoped; gnss\_lib\_py is oriented
+to processing real observations rather than forward performance simulation.
+
+\paragraph{Tier 3: astrodynamics and real-signal tools.}
+The astrodynamics and real-signal ecosystem answers a fundamentally different
+question. RTKLIB and comparable GNSS engines \citep{takasu2009} post-process real
+pseudorange and carrier-phase observations to produce a position fix; GMAT
+\citep{nasa_gmat} and Orekit \citep{orekit} are high-fidelity mission-design and
+orbit-determination frameworks; the \code{sgp4} crate \citep{sgp4crate} is a
+production analytic propagator; and Nyx with ANISE \citep{nyxanise} provides
+DE-ephemeris-grade dynamics and serves in this work as a reference oracle, not a
+rival. These tools consume real signals or drive high-fidelity mission analysis.
+Kshana is primarily the upstream \emph{forward performance simulator}: it asks, for a
+given scenario, seed and sensor parameterisation, how a resilience figure of merit
+behaves, before any real observation exists. It does also close the
+measurement-to-position loop with a code single-point-positioning path (real RINEX
+observations to a receiver position, metre-level and validated on IGS data;
+Section~\ref{sec:limitations}), but that is a boundary capability rather than the
+carrier-phase precise positioning of a dedicated GNSS engine, and the engine's centre of
+gravity remains forward simulation. In-browser SGP4 propagation is itself not new
+\citep{satellitejs}; the delta here is a single engine running the full integrated
+stack zero-install in WebAssembly, not the propagator alone.
+
+To our knowledge, no open tool combines a single-code-path quantum-versus-classical
+swap, seed-level reproducibility, and a terrestrial-plus-lunar resilience scope in one
+deployable engine. Table~\ref{tab:intersection} states this symmetrically, listing the
+axes Kshana lacks alongside those it has.
+
+\begin{table}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\caption{Capability landscape across representative tools. Columns include axes that
+Kshana lacks (three-axis INS mechanisation, raw-IQ spoofing) or supports only partially
+(real-observation processing and a single-point-positioning fix) alongside axes it
+provides outright (single-code-path quantum/classical swap, seed-level reproducibility,
+terrestrial-plus-lunar resilience scope) and a deployment row. A checkmark ($\checkmark$)
+denotes a supported capability, a parenthesised check (($\checkmark$)) a partial one, and
+a dash (--) its absence: Kshana's real-observation and PVT support is \emph{code}
+single-point positioning (metre-level, validated on IGS data), not carrier-phase PPP/RTK.
+Kshana and RTKLIB still answer different questions: RTKLIB post-processes real signals
+into a centimetre-grade carrier-phase position fix, whereas Kshana is primarily an
+upstream forward performance simulator. The comparison is one of scope, not quality.
+TNO SENSED is closed-source: its entries reflect published descriptions, not capabilities
+we could independently verify.}
+\label{tab:intersection}
+\begin{tabular}{l c c c c c c c}
+\toprule
+& \rotatebox{90}{Quantum/classical}
+& \rotatebox{90}{Seed-reproducible}
+& \rotatebox{90}{Terr.+lunar resil.}
+& \rotatebox{90}{Real-obs.\ proc.}
+& \rotatebox{90}{PVT fix}
+& \rotatebox{90}{3-axis INS mech.}
+& \rotatebox{90}{Raw-IQ spoofing} \\
+\midrule
+Kshana \citep{baweja2026kshana}      & $\checkmark$ & $\checkmark$ & $\checkmark$ & ($\checkmark$) & ($\checkmark$) & --           & --           \\
+LuPNT \citep{iiyama2023lupnt}        & --           & $\checkmark$ & --           & $\checkmark$ & $\checkmark$ & --           & --           \\
+gnss\_lib\_py \citep{knowles2024gnsslibpy} & --     & $\checkmark$ & --           & $\checkmark$ & $\checkmark$ & --           & --           \\
+NaveGo \citep{gonzalez2017navego}    & --           & $\checkmark$ & --           & --           & --           & $\checkmark$ & --           \\
+RTKLIB \citep{takasu2009}            & --           & --           & --           & $\checkmark$ & $\checkmark$ & --           & --           \\
+GMAT / Orekit \citep{nasa_gmat,orekit} & --         & --           & --           & $\checkmark$ & --           & --           & --           \\
+TNO SENSED \citep{tno_sensed}        & $\checkmark$ & --           & --           & --           & --           & $\checkmark$ & --           \\
+\code{sgp4} crate \citep{sgp4crate}  & --           & $\checkmark$ & --           & --           & --           & --           & --           \\
+\bottomrule
+\end{tabular}
+
+\vspace{0.4em}
+{\small\emph{Deployment:} Kshana ships as a zero-install WebAssembly integrated
+stack (the full pipeline in one engine), not as a single in-browser propagator.}
+\end{table}

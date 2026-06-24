@@ -1,0 +1,45 @@
+\section{Reproducibility}\label{app:repro}
+
+Every result in this paper is regenerable from a committed scenario, a fixed
+random seed, and a pinned engine version (\texttt{0.17.0}); no figure or number
+depends on hidden state. The commands below regenerate the new crossover result
+(\S\ref{sec:crossover}) and its figures, and re-run the external-validation
+oracles (\S\ref{sec:validation}).
+
+The crossover study writes the inertial and clock sweep results
+(\texttt{inertial.json}, \texttt{clock.json}) with seed \texttt{42} fixed, and
+the two render scripts produce Figures~\ref{fig:inertial} and~\ref{fig:clock}
+directly from that JSON:
+
+\begin{verbatim}
+# crossover study JSON (inertial + clock), fixed seed 42
+cargo run --release --bin crossover_study -- paper/crossover
+# figures
+python3 paper/crossover/render_inertial.py paper/crossover/inertial.json
+python3 paper/crossover/render_clock.py     paper/crossover/clock.json
+# time-transfer lever (optical vs RF), seed 42
+cargo run --release -- scenarios/timetransfer.toml
+# validation oracles (examples)
+cargo test --test sgp4_verification
+cargo test --test frame_reference_vectors
+cargo test --test agency_galileo
+\end{verbatim}
+
+The \code{agency\_galileo} test reproduces the \SI{8}{\hour} continuous-integration
+fixture (pure-force \SI{0.13}{\metre}, reduced-dynamic \SI{0.07}{\metre} at
+degree/order~12, which is gravity-converged); the \SI{0.61}{\metre}, \SI{24}{\hour},
+degree/order-70 \emph{headline} is produced by the \code{galileo\_full\_arc\_dispatch}
+job (an \code{\#[ignore]}d test that fetches the full-day agency ephemeris;
+\code{KSHANA\_GALILEO\_DEGREE} defaults to 70).
+
+The validation tests are self-checking: each derives its expected values from an
+external reference -- the AIAA/Vallado verification set for SGP4, SOFA/ERFA
+reference vectors for the frame transformations, and agency precise ephemerides
+for the force-model fit by ephemeris fitting -- rather than from the engine
+itself. Expected values are hand-entered or read from the cited dataset, so a
+passing test cross-validates Kshana against an independent oracle. The committed
+JSON artifacts (\texttt{inertial.json}, \texttt{clock.json}) carry the engine
+version and the full parameter envelope as metadata, so a reader can confirm that
+the figures in this paper correspond bit-for-bit to a re-run on the same engine
+version and seed. Full build instructions and the Zenodo archive are linked from
+the repository \citep{baweja2026kshana}.
