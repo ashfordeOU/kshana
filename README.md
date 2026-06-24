@@ -414,9 +414,9 @@ plugin from the JetBrains Marketplace (or *Settings → Plugins → Marketplace 
 
 ## Scenario format
 
-Scenarios are declarative TOML. A top-level `kind` selects the pack — **thirty-four** in
+Scenarios are declarative TOML. A top-level `kind` selects the pack — **thirty-five** in
 all (`clock` is the default if omitted): `inertial`, `timetransfer`, `hybrid`, `hybrid-ukf`, `fusion`,
-`gnss-ins`, `orbit`, `ephemeris`, `gnss-sim`, `integrity`, `lunar-integrity`, `spoof`,
+`gnss-ins`, `orbit`, `ephemeris`, `gnss-sim`, `integrity`, `lunar-integrity`, `lunar-time-offset`, `spoof`,
 `spoof-detect`, `jamming`, `sweep`, `sweep-nd`, `gravity-map`, `terrain-nav`, `terrain-slam`,
 `combined-altpnt`, `pvt`, `mars-pnt`, `impairment-eval` (AI/ML RF-impairment detection
 evaluation testbed — labelled synthetic corpus + detector-agnostic ROC/AUC harness +
@@ -589,6 +589,16 @@ integrity gap — a ~30 m lunar σ_URE drives the protection level well above a 
 limit, so the service is *unavailable* under aviation-style integrity rules
 (`scenarios/lunanet-araim.toml`).
 
+A `lunar-time-offset` scenario reports the **relativistic Earth–Moon clock rate** — the
+basis of a Lunar Coordinate Time scale (LTC/TCL). A first-principles post-Newtonian
+identity sums the self-potential difference (IAU `L_G` geoid potential minus the Moon's
+surface self-potential) and the Moon's kinetic (second-order Doppler) term to a secular
+rate of ≈ 57 µs/day, reported with the published 56–59 µs/day band; it also gives the
+accumulated LTC−TT offset over a horizon and an inverse-variance ensemble (a lunar
+paper-clock). **MODELLED** — the headline figure is *reference-dependent* (Earth geoid
+vs lunar selenoid, averaging window), which is why a band, not a single certified
+number, is reported (`scenarios/lunar-time-offset.toml`).
+
 See `scenarios/` for one example of every kind.
 
 ## Output
@@ -663,7 +673,7 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    cli["CLI · Python · WebAssembly · MCP server · JetBrains plugin"] --> api["api — run_toml: typed dispatch over 34 kinds"]
+    cli["CLI · Python · WebAssembly · MCP server · JetBrains plugin"] --> api["api — run_toml: typed dispatch over 35 kinds"]
     subgraph shared["Shared core"]
       types["types · scenario · GNSS timeline"]
       allan["allan — ADEV/MDEV/TDEV/HDEV"]
@@ -775,7 +785,7 @@ flowchart LR
 ```
 kshana/
 ├── src/                                       # the kshana core crate (library + CLI)
-│   ├── api.rs · main.rs · lib.rs              # typed dispatch (34 kinds) + CLI + crate root
+│   ├── api.rs · main.rs · lib.rs              # typed dispatch (35 kinds) + CLI + crate root
 │   ├── python.rs · wasm.rs                    # optional PyO3 / wasm-bindgen bindings
 │   ├── types.rs · scenario.rs · allan.rs      # shared core (time grid, GNSS timeline, Allan)
 │   │
