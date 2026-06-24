@@ -5,7 +5,7 @@
 //! number in the paper regenerates from one command:
 //!
 //! ```text
-//! cargo run --release --bin crossover_study -- paper-artifacts/crossover
+//! cargo run --release --bin crossover_study -- paper/crossover
 //! ```
 //!
 //! Produces `inertial.json` (cold-atom vs navigation-grade dead-reckoning over
