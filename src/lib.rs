@@ -55,6 +55,7 @@ pub mod launch;
 pub mod linkbudget;
 pub mod lunar;
 pub mod lunar_combination;
+pub mod lunar_dpnt;
 pub mod lunar_frame;
 pub mod lunar_frame_realise;
 pub mod lunar_od;
