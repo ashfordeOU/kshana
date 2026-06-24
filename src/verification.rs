@@ -488,6 +488,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: OracleKind::InternalConsistency,
             status: VerificationStatus::Modelled,
         },
+        VerificationItem {
+            requirement: "Lunar reference-frame realisation",
+            capability: "7-parameter Helmert datum fit + ICRF orientation tie from a network of points",
+            module: "lunar_frame_realise",
+            tests: "lunar_frame_realise::tests (recovers injected Helmert transform; noiseless to ~machine precision)",
+            oracle: "Recovery of an injected 7-parameter similarity transform + algebraic identity",
+            oracle_kind: OracleKind::InternalConsistency,
+            status: VerificationStatus::Modelled,
+        },
         // ── Resilience scoring & instability study ────────────────────────────
         VerificationItem {
             requirement: "PNT-resilience framework-aligned scoring",

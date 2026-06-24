@@ -393,6 +393,7 @@ pub enum ScenarioKind {
     LunarTime,
     LunarVlbi,
     LunarCombination,
+    LunarFrameRealise,
     GravityMap,
     Terrain,
     TerrainSlam,
@@ -436,6 +437,7 @@ impl ScenarioKind {
             ScenarioKind::LunarTime => "lunar-time-offset",
             ScenarioKind::LunarVlbi => "lunar-vlbi",
             ScenarioKind::LunarCombination => "lunar-joint-od-clock",
+            ScenarioKind::LunarFrameRealise => "lunar-frame-realisation",
             ScenarioKind::GravityMap => "gravity-map",
             ScenarioKind::Terrain => "terrain-nav",
             ScenarioKind::TerrainSlam => "terrain-slam",
@@ -483,6 +485,7 @@ impl ScenarioKind {
             "lunar-time-offset" => ScenarioKind::LunarTime,
             "lunar-vlbi" => ScenarioKind::LunarVlbi,
             "lunar-joint-od-clock" => ScenarioKind::LunarCombination,
+            "lunar-frame-realisation" => ScenarioKind::LunarFrameRealise,
             "gravity-map" => ScenarioKind::GravityMap,
             "terrain-nav" => ScenarioKind::Terrain,
             "terrain-slam" => ScenarioKind::TerrainSlam,
@@ -530,6 +533,7 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "lunar-time-offset", description: "Modelled relativistic Earth–Moon clock rate (Lunar Coordinate Time, LTC/TCL): the secular LTC−TT rate from the self-potential difference and the Moon's kinetic term, reported with the published 56–59 µs/day band, plus the accumulated offset over a horizon.", required_fields: &[], optional_fields: &["epoch_year", "epoch_month", "epoch_day", "horizon_days"] },
         ScenarioMeta { name: "lunar-vlbi", description: "Modelled lunar geodetic VLBI delay observable: an Earth baseline (two ground stations, GCRS) observes a one-way signal from a NovaMoon-class lunar-surface beacon. Emits the near-field two-range-difference delay, its rate, and the wavefront-curvature near-field correction over a pass — cross-checked against the same-codebase plane-wave Δ-DOR observable in the far-field limit, with finite-difference-verified partials. MODELLED, NOT validated against real VLBI data; carries the frame-consistency, xp=yp=0 polar-motion and plane-wave-vs-near-field caveats.", required_fields: &[], optional_fields: &["station1_lat_deg", "station1_lon_deg", "station1_alt_m", "station2_lat_deg", "station2_lon_deg", "station2_alt_m", "beacon_lat_deg", "beacon_lon_deg", "beacon_alt_m", "epoch_year", "epoch_month", "epoch_day", "horizon_hours", "step_min"] },
         ScenarioMeta { name: "lunar-joint-od-clock", description: "Modelled joint multi-technique lunar OD + clock batch estimator on a SIMULATED network: a Gauss-Newton snapshot fit that fuses Earth-baseline geodetic VLBI delays, lunar-local station↔satellite ranges and inter-satellite ranges to recover, together, a lunar surface station's 3-D position, a small constellation's positions and every asset's clock offset from an injected truth. The headline honest result — VLBI makes the station's full 3-D position observable where lunar-local ranging alone leaves a weakly-observed direction — is reported as the with-vs-without-VLBI station-error contrast. MODELLED simulated closed-loop recovery (truth shares the observation model), deterministic (seeded), NOT real-data validated; no force-model propagation inside the solver; no TRL/heritage/agency endorsement.", required_fields: &[], optional_fields: &["n_sat", "n_earth", "seed", "sigma_vlbi_s", "sigma_range_m", "sigma_isl_m", "station_lat_deg", "station_lon_deg", "station_alt_m", "orbit_radius_km", "epoch_year", "epoch_month", "epoch_day"] },
+        ScenarioMeta { name: "lunar-frame-realisation", description: "Modelled lunar reference-frame realisation: a 7-parameter Helmert (similarity) datum fit — 3 translation, 3 small-angle rotation, 1 scale — tying an estimated set of selenographic-derived MCMF point coordinates to a datum by weighted least squares (crate::batch_ls::gauss_newton), plus a simple orientation tie expressing the realised small rotation about the ICRF axes relative to the IAU 2015 WGCCRE body orientation. The scenario injects a known small transform (translation ~tens of m, rotation ~µrad, scale ~1e-7) into a well-spread synthetic point network, adds seeded Gaussian noise, recovers the datum, and reports the recovered transform, the per-parameter recovery error vs the injected truth, and the post-fit RMS residual. MODELLED self-consistency — recovers an injected similarity transform (noiseless to ~machine precision), NOT a realisation against real tracking/VLBI data; deterministic (seeded); no TRL/heritage/agency endorsement.", required_fields: &[], optional_fields: &["n_points", "tx_m", "ty_m", "tz_m", "rot_x_urad", "rot_y_urad", "rot_z_urad", "scale_ppb", "noise_sigma_m", "seed", "epoch_year", "epoch_month", "epoch_day"] },
         ScenarioMeta { name: "timetransfer", description: "Optical vs RF two-way time/frequency transfer.", required_fields: &["time", "optical", "rf"], optional_fields: &["seed"] },
         ScenarioMeta { name: "hybrid", description: "Hybrid PNT capstone: clock + IMU + time-transfer aiding.", required_fields: &["timing_spec_ns", "position_spec_m", "time", "gnss", "clock_quantum", "clock_classical", "accel_quantum", "accel_classical"], optional_fields: &["resync", "seed"] },
         ScenarioMeta { name: "fusion", description: "Joint Kalman sensor-fusion PNT over the same hybrid inputs.", required_fields: &["timing_spec_ns", "position_spec_m", "time", "gnss", "clock_quantum", "clock_classical", "accel_quantum", "accel_classical"], optional_fields: &["resync", "seed"] },
@@ -950,6 +954,25 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
             Ok(RunOutput {
                 json: json_of(&report),
                 svg: crate::lunar_combination::lunar_combination_svg(&report),
+                summary,
+            })
+        }
+        ScenarioKind::LunarFrameRealise => {
+            let scn: crate::lunar_frame_realise::LunarFrameRealiseScenario = toml::from_str(src)
+                .map_err(|e| format!("invalid lunar-frame-realisation scenario: {e}"))?;
+            let report = scn.run();
+            let summary = format!(
+                "lunar-frame-realisation | {} points | translation err {:.3e} m, rotation err {:.3e} rad, scale err {:.3e} ppb | rms residual {:.3} m | converged {}",
+                report.n_points,
+                report.trans_err_norm_m,
+                report.rot_err_norm_rad,
+                report.scale_err_ppb,
+                report.rms_residual_m,
+                report.converged,
+            );
+            Ok(RunOutput {
+                json: json_of(&report),
+                svg: crate::lunar_frame_realise::lunar_frame_realise_svg(&report),
                 summary,
             })
         }
@@ -1478,6 +1501,7 @@ mod tests {
             ScenarioKind::LunarTime,
             ScenarioKind::LunarVlbi,
             ScenarioKind::LunarCombination,
+            ScenarioKind::LunarFrameRealise,
             ScenarioKind::GravityMap,
             ScenarioKind::Terrain,
             ScenarioKind::CombinedAltPnt,
