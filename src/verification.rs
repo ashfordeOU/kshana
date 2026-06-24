@@ -497,6 +497,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: OracleKind::InternalConsistency,
             status: VerificationStatus::Modelled,
         },
+        VerificationItem {
+            requirement: "Lunar navigation service volume",
+            capability: "Moonlight-class lunar DOP / coverage / availability + generalised lunar ARAIM protection levels over a service volume",
+            module: "lunar_service",
+            tests: "lunar_service::tests (DOP reuses the validated kernel; PL reduces to the south-pole case; coverage self-consistent)",
+            oracle: "Reuses the gnss_lib_py-validated DOP kernel; integrity uses published LunaNet/LCNS parameters",
+            oracle_kind: OracleKind::ExternalDataset,
+            status: VerificationStatus::Modelled,
+        },
         // ── Resilience scoring & instability study ────────────────────────────
         VerificationItem {
             requirement: "PNT-resilience framework-aligned scoring",

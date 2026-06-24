@@ -1,0 +1,65 @@
+# Lunar navigation SERVICE-VOLUME analysis — Moonlight / LCNS-class constellation.
+#
+# Where src/lunar.rs runs a single south-pole protection-level PASS, src/lunar_service.rs
+# analyses a whole SERVICE VOLUME: it sweeps a selenographic latitude/longitude grid over a
+# time horizon and reports, for an ILLUSTRATIVE Moonlight / LCNS-class lunar-orbit
+# constellation:
+#
+#   * DOP / coverage / availability — the fraction of (grid point, epoch) samples with
+#     >= 4 visible satellites AND PDOP < threshold, plus the PDOP and visible-count
+#     envelopes. The DOP geometry REUSES the gnss_lib_py-VALIDATED kernel
+#     (crate::orbit::dop) exactly — service_dop is a thin filter + that kernel.
+#
+#   * Generalised lunar ARAIM protection levels (HPL/VPL) over the volume — the SAME
+#     LunaNet LNIS lunar ARAIM machinery the south-pole pass uses (crate::lunar::lunar_araim,
+#     sigma_URE ~ 30 m, P_sat ~ 1e-4), generalised from the south pole to an arbitrary
+#     surface point. At the south pole with the same geometry/budget it reduces to the
+#     existing south-pole protection level.
+#
+# CONSTELLATION (ILLUSTRATIVE; PUBLIC-SOURCE; NOT AFFILIATED WITH ESA): public ESA material
+# describes LCNS / Moonlight as a small constellation (~4 satellites, first phase) on
+# elliptical lunar frozen orbits favouring south-pole coverage (apolune over the south).
+# The defaults below APPROXIMATE that public description (4 sats, eccentric inclined orbit,
+# argument of perilune 90 deg so apolune sits over the southern hemisphere). These are
+# illustrative parameters for exercising the method, NOT the real Moonlight/LCNS ephemeris,
+# and imply no affiliation, endorsement, heritage, certification or TRL.
+#
+# HONESTY: MODELLED composition. The DOP geometry is validated BY REUSE of the validated
+# kernel; the coverage / availability / integrity composition is MODELLED — a circular-/
+# elliptical-Keplerian relay set (not a differential-corrected LCNS / 9:2 NRHO ephemeris),
+# a mean-rotation Moon (no physical libration / precessing pole), and published LunaNet LNIS
+# integrity parameters. This demonstrates the lunar service-volume METHOD, not an
+# operational Moonlight availability number. Deterministic (pure geometry; no randomness).
+kind = "moonlight-service-volume"
+
+# Illustrative LCNS-class constellation (public-source approximation; not affiliated).
+# The public first-phase description is ~4 satellites; the generalised lunar ARAIM
+# protection level needs >= 6 satellites IN VIEW (the single-fault hypothesis set needs
+# n-1 >= 5 redundancy), so this default uses a fuller (illustrative, expanded) set so the
+# PL envelope is exercised alongside the DOP / coverage headline. Set n_sats = 4 to model
+# the first-phase constellation (DOP/coverage only; the PL envelope is then empty).
+n_sats = 8
+sma_km = 9737.4        # ~8000 km perilune altitude above the mean lunar radius
+eccentricity = 0.6
+inc_deg = 57.7
+argp_deg = 90.0        # apolune over the southern hemisphere (south-pole favouring)
+
+# Service-volume grid (south-polar region by default — the Artemis target).
+lat_min_deg = -90.0
+lat_max_deg = -60.0
+lat_step_deg = 10.0
+lon_min_deg = -180.0
+lon_max_deg = 180.0
+lon_step_deg = 60.0
+
+# Time horizon and sampling.
+horizon_hours = 12.0
+step_min = 60.0
+
+# Geometry / availability thresholds.
+elev_mask_deg = 5.0
+pdop_threshold = 6.0
+
+# Integrity (LunaNet LNIS): surface-ops alert limit and integrity-risk budget.
+alert_limit_m = 50.0
+p_hmi = 1e-4
