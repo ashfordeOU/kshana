@@ -1,0 +1,97 @@
+\section{Limitations and threats to validity}\label{sec:limitations}
+
+The following disclosures form part of the honesty contract that the methodology
+in Section~\ref{sec:method} demands. Every figure of merit is reported alongside the
+strength of the evidence that backs it, and a result that is a model projection or a
+force-model fit is never dressed as a measurement. The same discipline applies to the
+boundaries of the engine itself.
+
+\begin{itemize}
+
+  \item \textbf{Quantum-sensor figures are projections, not measurements.}
+  Every cold-atom inertial, optical-lattice clock, and optical time-transfer number
+  in this paper (including the crossover and break-even results of
+  Section~\ref{sec:crossover}) is a performance-model projection computed by
+  deterministic arithmetic on coefficients drawn from the cited device literature
+  \citep{templier2022,origlia2015,giorgetta2013,deschenes2016}, not data from
+  operating hardware. We carry an inline maturity tag (flight-qualified /
+  ground-lab / projection-floor) on every quantum point for exactly this reason
+  (Figure~\ref{fig:clock}). For time transfer we keep the comparison like-for-like:
+  the reported optical figure is charged with a conservative non-reciprocal
+  differential-delay budget (a \SI{1}{\pico\second} on-orbit target, not the
+  \SI{1}{\femto\second} laboratory floor), so it carries the same class of systematic
+  that limits the RF figure (Section~\ref{sec:crossover}). A jitter-only optical floor
+  would exclude that non-reciprocity and overstate the optical advantage; we do not
+  report it.
+
+  \item \textbf{The agency-orbit work is a force-model fit, not orbit
+  determination.} The residuals against agency precise ephemerides
+  (Table~\ref{tab:validation}) are obtained by \emph{force-model validation by ephemeris
+  fitting} (propagation-overlap consistency against an external truth product), not by
+  processing observations. The headline is the full-arc Galileo result,
+  \SI{0.61}{\metre} over \SI{24}{\hour} at gravity-field degree/order~70. The
+  reduced-dynamic tier on the \SI{8}{\hour} arc (Galileo \SI{0.07}{\metre} from a
+  \SI{0.13}{\metre} pure-force fit, Swarm \SI{0.10}{\metre}) admits
+  empirical accelerations that absorb mismodelled dynamics; these numbers
+  \emph{bound}, and do not \emph{measure}, force-model accuracy, and we label them
+  reduced-dynamic wherever they appear. The fits are single-satellite, single-day
+  arcs; they are not a statistical population over regimes.
+
+  \item \textbf{LRO is above the target.} The LRO reduced-dynamic
+  residual is \SI{6.6}{\metre}, above our \SI{5}{\metre} target. Swapping the default
+  ephemeris for a DE440/ANISE realisation leaves it essentially unchanged
+  (\SI{6.65}{\metre} $\rightarrow$ \SI{6.67}{\metre}). We present this as a
+  controlled reproduction of a known result \citep{bertone2021grail,li2023leopod},
+  scoped to the LRO arc only and not a discovery, and we credit \texttt{nyx}/ANISE
+  \citep{nyxanise} as the DE-grade oracle, not a rival the engine outperforms.
+
+  \item \textbf{The spoofing detector does not ingest raw IQ.} It is characterised
+  against published TEXBAT \emph{parameters} \citep{humphreys2012texbat} using
+  hand-coded inputs and expected outputs; it does not read the TEXBAT recordings.
+  Consequently we report no receiver-operating-characteristic curve and no
+  $P_d$/$P_{fa}$ operating point. Raw-IQ ingestion is future work, and the detector
+  sits in the not-externally-validated tier of Table~\ref{tab:validation}.
+
+  \item \textbf{Single-point positioning is code-only, not carrier-phase
+  PPP/RTK.} The engine spans the measurement-to-position gap with a code
+  single-point-positioning solver: it ingests real RINEX pseudoranges and
+  broadcast ephemeris and returns a receiver position by iterated weighted
+  least squares (Sagnac and broadcast satellite-clock corrections, the
+  dual-frequency L1/L2 ionosphere-free combination, and a Saastamoinen/Niell
+  troposphere), recovering the surveyed coordinate of IGS station ABMF to
+  \SI{5.7}{\metre} 3-D RMS (\SI{1.1}{\metre} horizontal). This is metre-level
+  \emph{code} positioning, not carrier-phase precise positioning: there is no
+  ambiguity resolution, carrier smoothing, or inter-epoch filter, so the
+  centimetre-grade PPP/RTK domain remains that of dedicated tools such as RTKLIB
+  \citep{takasu2009} (Table~\ref{tab:intersection}). The paper's central
+  contribution is the resilience-comparison methodology of
+  Section~\ref{sec:method}, not a competition on positioning accuracy, and this
+  single-station code fix is a boundary capability rather than a member of the
+  external-validation battery of Table~\ref{tab:validation}.
+
+  \item \textbf{Modelling-fidelity defaults are deliberately modest.} The inertial
+  mechanisation is 1-DOF, not a full 3-axis strapdown solution \citep{groves2013};
+  atmospheric drag uses a static exponential density profile rather than NRLMSISE-00;
+  solar radiation pressure is a cannonball model; relativity is Schwarzschild-only;
+  and the default ephemerides are low-precision. Each is adequate for the
+  comparison-under-uncertainty role and is overridden by the higher-fidelity paths
+  only where a validation result requires it.
+
+  \item \textbf{Time representation is single-\texttt{f64} Julian date.} A single
+  double-precision Julian date gives roughly \SI{50}{\micro\second} resolution near
+  the present epoch, which is immaterial for the resilience figures of merit reported
+  here but would matter for sub-microsecond timing applications.
+
+  \item \textbf{In-browser execution is a deployment property, not a capability.}
+  Running the integrated stack zero-install in WASM lowers the barrier to
+  reproduction; it does not extend what the engine computes. In-browser SGP4 is not
+  itself new \citep{satellitejs}; the delta is a single engine running the full
+  integrated stack with no installation.
+
+\end{itemize}
+
+\noindent Collectively these bounds define what the engine establishes: a
+reproducible, falsifiable comparison framework with an external-validation battery
+behind it. They equally define what it does not: it is not a measurement
+campaign, not an orbit-determination system, and not a fielded quantum-sensing
+result.
