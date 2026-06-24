@@ -343,7 +343,9 @@ Each artifact records its engine version, seeds, and a config hash and carries a
 MODELLED/VALIDATED label. The real-data probes (`*_probe`) run the same pipeline over
 recordings you supply locally; no datasets are shipped in the repo. The RF-impairment
 optimism-gap study is written up in the preprint
-[arXiv:2606.22054](https://arxiv.org/abs/2606.22054) (see [Citing](#citing)).
+[arXiv:2606.22054](https://arxiv.org/abs/2606.22054), and the conditional timing
+protection level (`tpl_jammertest` above) in the preprint
+[arXiv:2606.24210](https://arxiv.org/abs/2606.24210) (see [Citing](#citing)).
 
 ### Python
 
@@ -1022,6 +1024,8 @@ always resolves to the latest version.
 numbers regenerate from the [reproducible study artifacts](#reproducible-study-artifacts) above.
 
 > Baweja, C. (2026). *Anticipating the Optimism Gap: Predicting Distribution-Shift Degradation of RF-Impairment Detectors from In-Distribution Statistics*. arXiv:2606.22054. https://doi.org/10.48550/arXiv.2606.22054
+>
+> Baweja, C. (2026). *A Conditional Timing Protection Level: Holdover-Limited Undetected Time Error Under GNSS Spoofing*. arXiv:2606.24210. https://doi.org/10.48550/arXiv.2606.24210
 
 ## Versioning & releases
 
