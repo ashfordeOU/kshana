@@ -479,6 +479,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: OracleKind::ReferenceImpl,
             status: VerificationStatus::Modelled,
         },
+        VerificationItem {
+            requirement: "Lunar joint multi-technique OD + clock",
+            capability: "Batch fusion of VLBI + lunar-local range + inter-sat range to recover station+constellation positions and clocks",
+            module: "lunar_combination",
+            tests: "lunar_combination::tests (recovers simulated truth; VLBI restores station 3-D observability; deterministic)",
+            oracle: "Recovery of an injected simulated truth + covariance (NEES) consistency",
+            oracle_kind: OracleKind::InternalConsistency,
+            status: VerificationStatus::Modelled,
+        },
         // ── Resilience scoring & instability study ────────────────────────────
         VerificationItem {
             requirement: "PNT-resilience framework-aligned scoring",
