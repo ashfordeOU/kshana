@@ -1,0 +1,55 @@
+# Lunar reference-frame realisation — a 7-parameter Helmert (similarity) datum fit.
+#
+# Where src/lunar_frame.rs APPLIES the IAU 2015 WGCCRE lunar body orientation (a forward model),
+# src/lunar_frame_realise.rs ESTIMATES (realises) a lunar reference frame from a network of point
+# coordinates tied to a datum. The estimation core is a classic 7-parameter similarity transform
+# mapping points p_i (estimated frame) to q_i (datum frame):
+#
+#     q_i = t + (1 + s) * R(theta) * p_i
+#
+# with translation t (m), scale s (dimensionless, ~1e-6 level) and the small rotation
+# R(theta) = rz(theta_z) * ry(theta_y) * rx(theta_x). The seven parameters
+# [tx, ty, tz, theta_x, theta_y, theta_z, s] are estimated from >= 3 non-collinear point pairs by
+# weighted least squares via crate::batch_ls::gauss_newton (forward model flattens every q_i over
+# all three components; weights = 1/sigma^2; x0 = zeros). A small orientation tie expresses the
+# realised small rotation about the ICRF axes (relative to the IAU body orientation).
+#
+# THIS SCENARIO injects a KNOWN small Helmert transform (translation ~tens of m, rotation ~uradian,
+# scale ~1e-7) into a well-spread synthetic point network (varied selenographic lat/lon mapped to
+# MCMF, some points at altitude), adds seeded Gaussian noise, recovers the datum with helmert_fit,
+# and reports the recovered transform, the per-parameter recovery error vs the injected truth, and
+# the post-fit RMS residual.
+#
+# Honesty: MODELLED self-consistency. The oracle is the recovery of an injected 7-parameter
+# similarity transform (noiseless to ~machine precision) plus the algebraic round-trip identity of
+# apply_helmert. This is NOT a realisation of the lunar reference frame against real tracking / VLBI
+# data and claims no absolute frame accuracy. Deterministic (seeded). No TRL, flight heritage or
+# agency endorsement is claimed.
+kind = "lunar-frame-realisation"
+
+# Number of well-spread selenographic network points (>= 3).
+n_points = 8
+
+# Injected (truth) translation (m).
+tx_m = 25.0
+ty_m = -40.0
+tz_m = 15.0
+
+# Injected (truth) small rotation (micro-radians).
+rot_x_urad = 3.0
+rot_y_urad = -2.0
+rot_z_urad = 5.0
+
+# Injected (truth) scale (parts-per-billion; 100 ppb = 1e-7).
+scale_ppb = 100.0
+
+# Per-coordinate measurement noise standard deviation (m); weights = 1/sigma^2.
+noise_sigma_m = 1.0
+
+# Deterministic seed (measurement noise).
+seed = 42
+
+# Epoch (UTC) for the ICRF orientation tie.
+epoch_year = 2024
+epoch_month = 1
+epoch_day = 1
