@@ -1,0 +1,57 @@
+# Lunar joint multi-technique OD + clock determination (a SIMULATED network).
+#
+# A single-epoch (snapshot) batch least-squares fit (src/lunar_combination.rs, on top of
+# crate::batch_ls::gauss_newton) that FUSES three observation techniques to recover, together:
+#   * a lunar surface station's 3-D position (NovaMoon-class, MCI metres),
+#   * a small lunar constellation's per-satellite positions (MCI metres), and
+#   * every asset's clock offset (station + each satellite, seconds).
+#
+# The three techniques:
+#   1. Earth-baseline geodetic VLBI delays to the lunar station treated as the VLBI beacon
+#      (reusing src/lunar_vlbi.rs, in geocentric inertial) — these make the station's FULL
+#      3-D position observable;
+#   2. lunar-local station<->satellite ranges (MCI Euclidean distance + the differenced clock
+#      term scaled by c) — these tie the satellite positions and clock differences;
+#   3. inter-satellite ranges (same form) — these tie the constellation's relative geometry.
+#
+# THE HEADLINE HONEST RESULT: lunar-local ranging alone leaves the station's position weakly
+# observed along one direction (the range-only solve is ill-conditioned and the recovered
+# station 3-D error is large). Adding the Earth-baseline VLBI delays makes the station's full
+# 3-D position observable, and the recovered station error collapses to the metre level. The
+# report runs the solve WITH and WITHOUT the VLBI legs on the same seed/truth and reports the
+# station-observability improvement factor.
+#
+# Honesty: MODELLED simulated closed-loop recovery. An injected truth is mapped to synthetic
+# observables through the SAME geometry model the solver inverts, seeded Gaussian noise is added,
+# and the estimator recovers the injected truth within the noise. The oracle is internal
+# consistency (truth recovery + NEES covariance realism), NOT real-data validation. There is no
+# force-model propagation inside the solver — the satellites are fixed, distinct, illustrative
+# points on a representative lunar orbit. No TRL, flight heritage or agency endorsement claimed.
+kind = "lunar-joint-od-clock"
+
+# Network size.
+n_sat = 3     # constellation satellites
+n_earth = 6   # Earth ground stations (more stations -> more independent VLBI baselines and
+              # better Earth->sat radiometric multilateration geometry)
+
+# Deterministic seed (measurement noise + truth jitter).
+seed = 42
+
+# Per-observable measurement noise standard deviations (weights = 1/sigma^2). Illustrative,
+# representative of the modelled class (geodetic VLBI, coherent two-way + optical ISL ranging).
+sigma_vlbi_s = 1.0e-11   # VLBI delay sigma (s) ~ 3 mm path length
+sigma_range_m = 0.1      # radiometric / lunar-local range sigma (m)
+sigma_isl_m = 0.1        # inter-satellite (optical) range sigma (m)
+
+# Lunar surface station (south-polar NovaMoon-class site), selenographic.
+station_lat_deg = -88.0
+station_lon_deg = 23.0
+station_alt_m = 0.0
+
+# Representative constellation orbit radius (km, MCI) the illustrative fixed satellites sit on.
+orbit_radius_km = 6000.0
+
+# Snapshot epoch (UTC).
+epoch_year = 2024
+epoch_month = 1
+epoch_day = 1
