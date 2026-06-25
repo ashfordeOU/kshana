@@ -1,0 +1,12 @@
+# Trusted quantum timing — end-to-end time-transfer chain, secure dissemination,
+# anomaly detection and a quantum-vs-classical trade. MODELLED; illustrative,
+# public-source device/link parameters; models the class, no TRL/flight claim.
+kind = "quantum-time-transfer"
+
+integration_s = 1.0
+dissemination_interval_s = 100.0
+link_loss_db = 30.0
+classical_link_sigma_s = 1.0e-9
+monitor_pfa = 1.0e-3
+attack_delay_s = 5.0e-9
+clock_fault_sigma = 4.0
