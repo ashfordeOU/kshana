@@ -579,6 +579,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
+        VerificationItem {
+            requirement: "GNSS-free quantum navigation",
+            capability: "Quantum (cold-atom interferometer) vs classical navigation-grade INS dead-reckoning over a GNSS outage: position-error growth, holdover to a position threshold, and the quantum-vs-classical trade as honest TradeEvidence; honest observability note (bias unobservable without a fix, so error grows).",
+            module: "quantum_nav_od",
+            tests: "quantum_nav_od::tests (quantum beats classical over a long outage; error grows with outage for both; advantage is outage-dependent not constant; trade is_honest)",
+            oracle: "Reused inertial budgets (QuantumNavBudget CAI validated ~2 orders vs Freier 2016; ClassicalInsBudget closed-form drift); honesty tied to the representativeness ledger",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
     ]
 }
 
