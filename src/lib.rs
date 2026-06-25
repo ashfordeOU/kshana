@@ -87,6 +87,7 @@ pub mod pvt;
 pub mod python;
 pub mod qtrade;
 pub mod quantum_devices;
+pub mod quantum_faults;
 pub mod quantum_nav_od;
 pub mod quantum_trade;
 pub mod radiometric;
