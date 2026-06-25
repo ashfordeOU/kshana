@@ -234,7 +234,7 @@ mod tests {
         };
         // Even with enormous integration the precision cannot beat the floor.
         let s = link.timing_precision_s(1e12);
-        assert!(s >= 1e-12 - 1e-18 && s < 1.1e-12, "got {s}");
+        assert!((1e-12 - 1e-18..1.1e-12).contains(&s), "got {s}");
     }
 
     #[test]
