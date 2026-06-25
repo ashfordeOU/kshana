@@ -880,3 +880,99 @@ footer .disclaimer { margin-top: 1rem; font-size: 0.8rem; color: var(--fg-3); ma
 .study-cta-note { margin: 0; font-size: 0.9rem; color: var(--fg-2); max-width: 56ch; }
 .study-cta-note strong { color: var(--accent-bright); }
 .study-cta-note em { font-style: italic; color: var(--fg-1); }
+
+/* ── Grouped, collapsible sections (Capabilities + Validation) ──────────
+   As the inventory grows, a flat wall of cards grows without bound. Instead we
+   group cards under a coarse domain spine and collapse each group to a one-line
+   header with counts, so section height stays roughly constant. Native
+   <details>/<summary> gives the collapse for free (works without JS, keyboard
+   and AT friendly); the "Validated only" filter is the only scripted part. */
+.cap-toolbar {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between;
+  gap: 0.6rem 1rem; margin-bottom: 1.1rem; padding-bottom: 0.9rem;
+  border-bottom: 1px solid var(--line);
+}
+.cap-tally { margin: 0; font-family: var(--mono); font-size: 0.78rem; color: var(--fg-2); }
+.cap-note { margin: -0.4rem 0 1.1rem; font-size: 0.78rem; color: var(--fg-3); }
+.cap-filter { display: inline-flex; align-items: center; gap: 0.45rem; font-size: 0.85rem; color: var(--fg-1); cursor: pointer; user-select: none; }
+.cap-filter input { accent-color: var(--accent); width: 1rem; height: 1rem; cursor: pointer; }
+
+details.cap-group {
+  border: 1px solid var(--line); border-radius: var(--radius);
+  background: linear-gradient(180deg, var(--bg-2), var(--bg-1));
+  box-shadow: var(--shadow-1), inset 0 1px 0 var(--edge);
+  margin-bottom: 0.7rem; overflow: hidden;
+}
+details.cap-group > summary {
+  display: flex; align-items: center; gap: 0.7rem; cursor: pointer;
+  padding: 0.85rem 1.05rem; list-style: none;
+}
+details.cap-group > summary::-webkit-details-marker { display: none; }
+details.cap-group > summary::before {
+  content: "▸"; color: var(--accent); font-size: 0.8rem; flex: 0 0 auto;
+  transition: transform 0.15s ease;
+}
+@media (prefers-reduced-motion: reduce) { details.cap-group > summary::before { transition: none; } }
+details.cap-group[open] > summary::before { transform: rotate(90deg); }
+details.cap-group[open] > summary { border-bottom: 1px solid var(--line); }
+details.cap-group > summary:hover { background: var(--bg-1); }
+.cap-gname { font-family: var(--display); font-weight: 600; color: var(--fg); font-size: 0.98rem; letter-spacing: -0.01em; }
+.cap-gfull { color: var(--fg-3); font-size: 0.82rem; margin-right: auto; }
+@media (max-width: 560px) { .cap-gfull { display: none; } }
+.cap-gcount { font-family: var(--mono); font-size: 0.73rem; color: var(--fg-2); white-space: nowrap; }
+details.cap-group > .cards { padding: 1rem 1.05rem 1.1rem; }
+details.cap-group.cap-empty { opacity: 0.45; }
+
+/* Status pill + run/docs action share the right edge of a capability card head. */
+.feat-head-right { display: flex; align-items: center; gap: 0.5rem; flex: 0 0 auto; }
+.card.feat .cap-docs {
+  font-family: var(--mono); font-size: 0.68rem; font-weight: 500; color: var(--fg-2);
+  border: 1px solid var(--line-2); border-radius: 4px; padding: 0.12rem 0.5rem;
+  white-space: nowrap; flex: none; text-decoration: none; transition: color 0.15s, border-color 0.15s;
+}
+.card.feat .cap-docs:hover { color: var(--fg); border-color: var(--accent-line); }
+/* Validated-only filter hides modelled cards; the proof tick is neutral for them. */
+#capability-cards.validated-only .card.feat[data-status="modelled"] { display: none; }
+.card.feat .proof.proof-modelled { color: var(--fg-2); border-top-color: var(--line); }
+
+/* ── Validation lens: a compact grouped evidence table ─────────────────
+   A different texture from the Capabilities accordion — rows grouped under a
+   thin domain header, status pill at the right. "Validated only" hides the
+   modelled/process rows and any domain header left with nothing under it. */
+.vmatrix { width: 100%; border-collapse: collapse; }
+.vmatrix tr.vgroup th {
+  text-align: left; padding: 1.2rem 0.1rem 0.5rem;
+  border-bottom: 1px solid var(--accent-line);
+}
+.vmatrix tr.vgroup:first-child th { padding-top: 0.2rem; }
+.vg-key { font-family: var(--display); font-weight: 600; color: var(--accent); font-size: 0.96rem; letter-spacing: -0.01em; }
+.vg-full { color: var(--fg-3); font-size: 0.8rem; margin-left: 0.55rem; font-weight: 400; }
+.vg-count { float: right; font-family: var(--mono); font-size: 0.72rem; color: var(--fg-2); font-weight: 400; }
+.vmatrix td { padding: 0.7rem 0.1rem; border-bottom: 1px solid var(--line); vertical-align: top; }
+.vmatrix tr:last-child td { border-bottom: 0; }
+.vmatrix .c-name { font-weight: 600; color: var(--fg); font-size: 0.9rem; }
+.vmatrix .c-name .c-ev { display: block; margin-top: 0.28rem; font-weight: 400; color: var(--fg-2); font-size: 0.84rem; line-height: 1.5; max-width: 80ch; }
+.vmatrix .c-stat { text-align: right; white-space: nowrap; width: 1%; padding-left: 1.2rem; }
+.vstat-note { font-family: var(--mono); font-size: 0.66rem; color: var(--fg-3); text-transform: uppercase; letter-spacing: 0.08em; }
+#validation-cards.validated-only tr[data-status="modelled"],
+#validation-cards.validated-only tr[data-status="info"],
+#validation-cards.validated-only tr.vgroup[data-v="0"] { display: none; }
+@media (max-width: 640px) {
+  .vmatrix td { display: block; padding: 0.25rem 0; border-bottom: 0; }
+  .vmatrix .c-stat { text-align: left; width: auto; padding: 0.1rem 0 0.7rem; border-bottom: 1px solid var(--line); }
+  .vg-full { display: none; }
+}
+
+/* ── Playground lens: a horizontal domain tab-strip ────────────────────
+   Different axis from the Capabilities accordion, so the shared vocabulary
+   doesn't read as the same component twice. Reuses the .tabs/.tab-btn parts. */
+.preset-tabs { margin: 0 0 1rem; }
+.preset-tabs .tab-btn { display: inline-flex; align-items: center; gap: 0.4rem; }
+.tab-count {
+  font-family: var(--mono); font-size: 0.66rem; color: var(--fg-3);
+  background: var(--bg); border: 1px solid var(--line); border-radius: 4px;
+  padding: 0.02rem 0.32rem;
+}
+.tab-btn[aria-selected="true"] .tab-count { color: var(--accent); border-color: var(--accent-line); }
+.preset-panels .presets { margin: 0; }
+@media (max-width: 760px), (pointer: coarse) { .preset-tabs .tab-btn { min-height: 44px; } }
