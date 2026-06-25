@@ -91,6 +91,7 @@ pub mod raim;
 pub mod realdata;
 pub mod reentry;
 pub mod report;
+pub mod representativeness;
 pub mod resilience;
 pub mod rinex;
 pub mod rinex_obs;
