@@ -377,6 +377,7 @@ pub enum ScenarioKind {
     Inertial,
     Integrity,
     TimeTransfer,
+    QuantumTimeTransfer,
     Hybrid,
     Fusion,
     HybridUkf,
@@ -424,6 +425,7 @@ impl ScenarioKind {
             ScenarioKind::Inertial => "inertial",
             ScenarioKind::Integrity => "integrity",
             ScenarioKind::TimeTransfer => "timetransfer",
+            ScenarioKind::QuantumTimeTransfer => "quantum-time-transfer",
             ScenarioKind::Hybrid => "hybrid",
             ScenarioKind::Fusion => "fusion",
             ScenarioKind::HybridUkf => "hybrid-ukf",
@@ -475,6 +477,7 @@ impl ScenarioKind {
             "inertial" => ScenarioKind::Inertial,
             "integrity" => ScenarioKind::Integrity,
             "timetransfer" => ScenarioKind::TimeTransfer,
+            "quantum-time-transfer" => ScenarioKind::QuantumTimeTransfer,
             "hybrid" => ScenarioKind::Hybrid,
             "fusion" => ScenarioKind::Fusion,
             "hybrid-ukf" => ScenarioKind::HybridUkf,
@@ -547,6 +550,7 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "lunar-differential-pnt", description: "Modelled lunar DIFFERENTIAL PNT (a lunar DGNSS/SBAS analogue): a NovaMoon-class reference station at a KNOWN selenographic location computes per-satellite differential corrections from an ILLUSTRATIVE, public-source Moonlight/LCNS-class constellation (NovaMoon referenced only as a system CLASS, not affiliated with ESA), and a user offset by baseline_km applies them so the COMMON-MODE orbit + clock errors cancel. The clock term cancels EXACTLY (an algebraic identity); the orbit term leaves only the line-of-sight-difference projection, which → 0 as baseline → 0 (the spatial-decorrelation floor) and grows ≈ linearly with baseline. Reports the user 3-D position error WITH vs WITHOUT corrections, the reduction factor, the error-vs-baseline curve, and a user protection level that REUSES the DO-229E SBAS machinery (crate::sbas) with the differential residual σ. MODELLED — exact cancellation identity + first-order decorrelation model; not real-data validated; no TRL/heritage/agency endorsement. Deterministic if seeded.", required_fields: &[], optional_fields: &["n_sats", "sma_km", "eccentricity", "inc_deg", "argp_deg", "ref_lat_deg", "ref_lon_deg", "baseline_km", "orbit_err_m", "clock_err_m", "noise_m", "seed", "t_s", "residual_sigma_m", "p_hmi"] },
         ScenarioMeta { name: "lunar-interop-export", description: "Modelled lunar interoperability export: emits the lunar reference frame, lunar time scale and lunar ephemeris in LunaNet/IOAG-aligned, CCSDS-based interchange forms with round-trip / field conformance. REUSES the crate's CCSDS OEM 2.0 emitter+parser (crate::oem) re-tagged for the lunar context — the OEM REF_FRAME carries the IAU 2015 WGCCRE lunar body frame (MOON_ME / MOON_PA), TIME_SYSTEM the lunar time scale (LTC / TCL / UTC), CENTER_NAME = MOON — over a sample illustrative LCNS-class ephemeris (positions from crate::lunar_service, velocity by finite difference). Also emits a LunaNet/IOAG-aligned lunar-time descriptor (scale id, secular rate µs/day from crate::lunar_time, published band, reference surface) that round-trips via serde_json, and wraps the artifacts in the existing KIF envelope (crate::interchange) with the MODELLED honesty label. Reports artifacts emitted, OEM line count, field-conformance pass + present/missing field list, OEM round-trip ok, time-metadata round-trip ok, and KIF byte size. MODELLED — deterministic round-trip + field-name conformance vs published CCSDS OEM + LunaNet/IOAG field semantics is the oracle; NOT a certified interoperability conformance test; illustrative public-source ephemeris, not affiliated with ESA; no TRL/heritage/agency endorsement.", required_fields: &[], optional_fields: &["frame", "time_system", "n_states", "epoch", "step_min", "object"] },
         ScenarioMeta { name: "timetransfer", description: "Optical vs RF two-way time/frequency transfer.", required_fields: &["time", "optical", "rf"], optional_fields: &["seed"] },
+        ScenarioMeta { name: "quantum-time-transfer", description: "MODELLED trusted-quantum-timing chain: an end-to-end quantum (optical-lattice clock + entanglement/single-photon link) vs classical (CSAC + RF two-way) time-transfer budget, a reused timing protection level + a delay/replay-attack security FoM (1-P_md), a clock-anomaly detection probability + CUSUM latency, and the quantum-vs-classical trade as honest TradeEvidence with a representativeness + gaps-to-flight record. Illustrative public-source device/link params; models the class, no TRL/flight/certification claimed.", required_fields: &[], optional_fields: &["integration_s", "dissemination_interval_s", "link_loss_db", "classical_link_sigma_s", "monitor_pfa", "attack_delay_s", "clock_fault_sigma"] },
         ScenarioMeta { name: "hybrid", description: "Hybrid PNT capstone: clock + IMU + time-transfer aiding.", required_fields: &["timing_spec_ns", "position_spec_m", "time", "gnss", "clock_quantum", "clock_classical", "accel_quantum", "accel_classical"], optional_fields: &["resync", "seed"] },
         ScenarioMeta { name: "fusion", description: "Joint Kalman sensor-fusion PNT over the same hybrid inputs.", required_fields: &["timing_spec_ns", "position_spec_m", "time", "gnss", "clock_quantum", "clock_classical", "accel_quantum", "accel_classical"], optional_fields: &["resync", "seed"] },
         ScenarioMeta { name: "hybrid-ukf", description: "17-state hybrid quantum+classical tightly-coupled GNSS/INS UKF (MODELLED): 15 INS error states + CAI-derived accel-bias correction + a 2-state (phase+frequency) clock from the q-parameter clock engine, driven by the bracketed CAI error model. The figure of merit is filter self-consistency (NEES + innovation-whiteness vs χ² bounds) — a self-consistency statement, NOT a real-world accuracy guarantee. Simulation only; no TRL>3, no flight heritage, no external validation.", required_fields: &["time", "gnss", "accel", "clock"], optional_fields: &["seed", "residual_accel_bias_m_s2", "speed_m_s", "sigma_pr_m", "sigma_rr_mps", "consistency_seeds", "q_factor", "r_factor"] },
@@ -1073,6 +1077,28 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 summary,
             })
         }
+        ScenarioKind::QuantumTimeTransfer => {
+            let scn: crate::timetransfer_chain::QuantumTimeTransferScenario =
+                toml::from_str(src)
+                    .map_err(|e| format!("invalid quantum-time-transfer scenario: {e}"))?;
+            let r = scn.run();
+            let summary = format!(
+                "quantum-time-transfer | quantum chain {:.3e}s vs classical {:.3e}s | PL {:.2} ns | security Pd {:.3} (Pfa {:.0e}) | anomaly Pd {:.3} | trade quantum wins {}/{} | MODELLED",
+                r.quantum_chain_sigma_s,
+                r.classical_chain_sigma_s,
+                r.protection_level_ns,
+                r.security_pd,
+                r.monitor_pfa,
+                r.anomaly_pd,
+                r.trade.quantum_wins(),
+                r.trade.foms.len(),
+            );
+            Ok(RunOutput {
+                json: json_of(&r),
+                svg: crate::timetransfer_chain::to_svg(&r),
+                summary,
+            })
+        }
         ScenarioKind::Hybrid => {
             let scn: crate::hybrid::HybridScenario =
                 toml::from_str(src).map_err(|e| format!("invalid hybrid scenario: {e}"))?;
@@ -1567,6 +1593,7 @@ mod tests {
             ScenarioKind::Inertial,
             ScenarioKind::Integrity,
             ScenarioKind::TimeTransfer,
+            ScenarioKind::QuantumTimeTransfer,
             ScenarioKind::Hybrid,
             ScenarioKind::Fusion,
             ScenarioKind::HybridUkf,
