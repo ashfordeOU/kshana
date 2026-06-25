@@ -127,6 +127,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            requirement: "Allan estimator parity on the canonical Stable32 reference series",
+            capability: "Overlapping Allan + modified Allan + time deviation across the full AF ladder",
+            module: "allan",
+            tests: "tests/phasedat_reference.rs (Stable32 PHASE.DAT, 139 averaging factors, OADEV/MDEV/TDEV to 1e-3; data-gated via scripts/fetch_phasedat.sh)",
+            oracle: "Stable32 reference deviations for PHASE.DAT (Riley; the standard regression series)",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
             requirement: "Integrity (RAIM/ARAIM/SBAS)",
             capability: "Snapshot/MHSS RAIM, ARAIM P_HMI budget, SBAS DO-229E combination",
             module: "raim, sbas, lunar",
