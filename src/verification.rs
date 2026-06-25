@@ -118,6 +118,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            requirement: "Frequency stability on a real measured clock",
+            capability: "Overlapping Allan + overlapping Hadamard deviation on a real caesium standard",
+            module: "allan",
+            tests: "tests/cs5071a_reference.rs (real 5071A Cs vs H-maser, 556 990 pts, 16 averaging factors vs Stable32 to 1e-3; data-gated via scripts/fetch_cs5071a.sh)",
+            oracle: "Stable32 overlapping ADEV/HDEV on the measured 5071A caesium phase series (allantools)",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
             requirement: "Integrity (RAIM/ARAIM/SBAS)",
             capability: "Snapshot/MHSS RAIM, ARAIM P_HMI budget, SBAS DO-229E combination",
             module: "raim, sbas, lunar",
