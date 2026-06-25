@@ -543,6 +543,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
+        VerificationItem {
+            requirement: "Demonstration representativeness & gaps-to-flight",
+            capability: "Per-result honesty ledger qualifying a demonstration output: its external anchors, modelled assumptions, gaps-to-flight and representative TRL band, with invariants enforced (Validated requires an external anchor; Modelled requires a gap and cannot claim above TRL 4).",
+            module: "representativeness",
+            tests: "representativeness::tests (validated-needs-external-anchor, modelled-needs-gap, modelled-TRL-ceiling, malformed-band, JSON fields)",
+            oracle: "Closed-form invariants mapping to the 'representativeness justified + gaps-to-flight identified' compliance discipline; tied to the verification status/oracle-kind boundary",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
     ]
 }
 
