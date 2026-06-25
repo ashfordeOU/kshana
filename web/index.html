@@ -368,7 +368,7 @@
             </div>
             <div class="card">
               <h3><span class="pill validated">Validated (NIST)</span> Clock stability</h3>
-              <p>Allan-family deviations (ADEV/MDEV/TDEV/HDEV) computed by the standard overlapping estimators with confidence intervals — validated against the <b>NIST SP 1065</b> reference deviations (Riley / Stable32 on NBS14), and calibrated to published clock datasheets, with a full IEEE-1139 five-coefficient power-law fit.</p>
+              <p>Allan-family deviations (ADEV/MDEV/TDEV/HDEV) computed by the standard overlapping estimators with confidence intervals — validated against the <b>NIST SP 1065</b> reference deviations (Riley / Stable32 on NBS14), and calibrated to published clock datasheets, with a full IEEE-1139 five-coefficient power-law fit. The estimators are also validated on <b>real measured hardware</b> against Stable32: a <b>5071A caesium clock vs a hydrogen maser</b> (556,990 samples, 16 averaging factors) and the canonical Stable32 <b>PHASE.DAT</b> series, both reproduced to <b>≤ 1e-3</b> (observed ≤ 3e-5).</p>
             </div>
             <div class="card">
               <h3><span class="pill modelled">Modelled (analytic)</span> Numerical propagator</h3>
@@ -389,6 +389,18 @@
             <div class="card">
               <h3><span class="pill validated">Validated (real data)</span> Single-point positioning</h3>
               <p>Real observations in, a real position out: the <code>pvt</code> solver turns a station's RINEX code pseudoranges and the GPS broadcast ephemeris into a receiver position by iterated weighted least squares — Sagnac correction, broadcast satellite clock, the dual-frequency L1/L2 ionosphere-free combination, and the Saastamoinen/Niell troposphere. Run on real IGS data (station ABMF, Guadeloupe, 2018-05-13) it recovers the surveyed coordinate to <b>5.7 m</b> 3-D RMS (<b>1.1 m</b> horizontal). Code single-point positioning, not carrier-phase PPP/RTK.</p>
+            </div>
+            <div class="card">
+              <h3><span class="pill validated">Validated (real data)</span> Anomaly detection on ESA telemetry</h3>
+              <p>On real <b>ESA OPS-SAT</b> housekeeping telemetry (the OPSSAT-AD dataset, CC&nbsp;BY&nbsp;4.0) the ROC/AUC detector-evaluation reproduces <b>scikit-learn</b> to <b>&lt; 1e-9</b>, and a transparent peak-count detector separates the labelled anomalies at <b>AUC ≈ 0.85</b>. This reproduces the labelled separation on real mission data — not the source paper's own published model score.</p>
+            </div>
+            <div class="card">
+              <h3><span class="pill validated">Validated</span> Gravity-field synthesis (GNSS-free nav)</h3>
+              <p>The spherical-harmonic gravity-functional kernel — the "map reader" a gravity-aided navigator matches against, loading any <b>ICGEM</b> model — reproduces the <b>GRS80</b> normal-gravity standard (closed-form Somigliana, with the published equator/pole values) to <b>3.5e-12</b> across all latitudes, and produces a physically-bounded gravity-disturbance map from the real ICGEM <b>EGM2008</b> field (RMS ≈ 26 mGal at degree/order 70). The map-reader code is validated; gravity-aided <em>fix accuracy</em> stays modelled — no public gravimeter-on-a-platform trajectory exists.</p>
+            </div>
+            <div class="card">
+              <h3><span class="pill modelled">Modelled (demonstration)</span> Quantum-Enabled PNT demonstrator</h3>
+              <p>Three runnable application areas behind the open engine — trusted quantum <b>time transfer</b>, <b>GNSS-free quantum navigation</b> (cold-atom interferometer vs nav-grade INS), and quantum-system <b>fault/anomaly detection</b> — each emitting a machine-checked representativeness + gaps-to-flight record, bundled into one reproducible study. Modelled demonstrations (validated-by-reuse where they ride a validated kernel); no TRL&nbsp;&gt;&nbsp;3, no flight heritage.</p>
             </div>
             <div class="card">
               <h3><span class="pill modelled">Modelled (anchors)</span> Nav-signal performance</h3>
