@@ -588,6 +588,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
+        VerificationItem {
+            requirement: "Fault/anomaly detection for quantum PNT systems",
+            capability: "Labelled quantum-fault catalog (clock frequency-jump/drift/lock-loss; sensor bias-step/dropout), a detection-statistic ROC AUC with a bootstrap CI, and a minimum-detectable fault at a fixed false-alarm rate; a quantum-clock-aided monitor detects smaller faults than a classical one, emitted as honest TradeEvidence.",
+            module: "quantum_faults",
+            tests: "quantum_faults::tests (analytic AUC known values; empirical bootstrap AUC brackets the closed form; quantum detects smaller faults / higher AUC; advantage vanishes for huge faults; 5-class catalog; trade is_honest)",
+            oracle: "Closed-form Gaussian AUC = Phi(mu/(sigma*sqrt2)) cross-checked against the externally-validated eval_stats::bootstrap_auc_ci (vs scikit-learn) + detection analytic thresholds",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
     ]
 }
 
