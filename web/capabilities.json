@@ -277,7 +277,8 @@
     },
     {
       "name": "IONEX / Klobuchar",
-      "note": "ionosphere"
+      "note": "Klobuchar L1 delay vs RTKLIB ionmodel",
+      "proof": "RTKLIB ionmodel (independent reference impl) — tests/klobuchar_reference.rs"
     },
     {
       "name": "IGRF-14",
