@@ -286,6 +286,84 @@ impl SphericalHarmonicField {
         let az = (du_dr / rn) * r[2] + (rxy / r2) * du_dphi;
         [ax, ay, az]
     }
+
+    /// Total **gravity** magnitude `|∇V + centrifugal|` (m/s²) at an Earth-fixed point `r`, for a
+    /// body rotating about the z-axis at `omega` (rad/s) — what a gravimeter on the surface
+    /// measures (gravitational attraction plus the centrifugal effect of rotation). With
+    /// `omega = 0` this reduces to the gravitational magnitude `|∇V|`.
+    pub fn gravity_magnitude(&self, r: Vec3, omega: f64) -> f64 {
+        let a = self.acceleration(r);
+        let w2 = omega * omega;
+        let g = [a[0] + w2 * r[0], a[1] + w2 * r[1], a[2]];
+        (g[0] * g[0] + g[1] * g[1] + g[2] * g[2]).sqrt()
+    }
+
+    /// Gravity disturbance `δg = |g_model| − γ_GRS80` at a geodetic surface point (height 0), in
+    /// **mGal** (1 mGal = 1e-5 m/s²) — the local gravity-map signal a gravity-aided navigator
+    /// matches against. `omega` is the body rotation rate (use [`GRS80_OMEGA`] for Earth).
+    pub fn gravity_disturbance_mgal(&self, geodetic_lat: f64, lon: f64, omega: f64) -> f64 {
+        let p = grs80_surface_point(geodetic_lat, lon);
+        let g = self.gravity_magnitude(p, omega);
+        (g - grs80_normal_gravity(geodetic_lat)) * 1.0e5
+    }
+}
+
+// ── GRS80 reference ellipsoid & normal gravity (Moritz 1980, IAG-adopted) ─────────
+// The Geodetic Reference System 1980 is an exact international standard; its defining
+// constants and the closed-form Somigliana normal gravity are the *external reference*
+// against which the spherical-harmonic gravity-functional synthesis is validated.
+
+/// GRS80 semi-major axis (m).
+pub const GRS80_A: f64 = 6_378_137.0;
+/// GRS80 geocentric gravitational constant GM (m³/s²).
+pub const GRS80_GM: f64 = 3.986_005e14;
+/// GRS80 angular velocity (rad/s).
+pub const GRS80_OMEGA: f64 = 7.292_115e-5;
+/// GRS80 flattening.
+pub const GRS80_F: f64 = 1.0 / 298.257_222_101;
+/// GRS80 normal gravity at the equator (m/s²).
+pub const GRS80_GAMMA_E: f64 = 9.780_326_771_5;
+/// GRS80 normal gravity at the pole (m/s²).
+pub const GRS80_GAMMA_P: f64 = 9.832_186_368_5;
+
+/// Closed-form **Somigliana** normal gravity on the GRS80 ellipsoid at geodetic latitude `phi`
+/// (rad). The published external reference for [`SphericalHarmonicField::gravity_magnitude`].
+pub fn grs80_normal_gravity(phi: f64) -> f64 {
+    let (s, c) = phi.sin_cos();
+    let b = GRS80_A * (1.0 - GRS80_F);
+    let num = GRS80_A * GRS80_GAMMA_E * c * c + b * GRS80_GAMMA_P * s * s;
+    let den = (GRS80_A * GRS80_A * c * c + b * b * s * s).sqrt();
+    num / den
+}
+
+/// Earth-fixed Cartesian coordinates (m) of the point on the GRS80 ellipsoid (height 0) at
+/// geodetic latitude `phi` and longitude `lon` (rad).
+pub fn grs80_surface_point(phi: f64, lon: f64) -> Vec3 {
+    let e2 = GRS80_F * (2.0 - GRS80_F);
+    let (s, c) = phi.sin_cos();
+    let n = GRS80_A / (1.0 - e2 * s * s).sqrt();
+    let (sl, cl) = lon.sin_cos();
+    [n * c * cl, n * c * sl, n * (1.0 - e2) * s]
+}
+
+/// The GRS80 **normal** gravity field as a spherical-harmonic field: GM, reference radius `a`, and
+/// the published even zonal harmonics `J₂…J₈` (Moritz 1980). Synthesising its `gravity_magnitude`
+/// on the ellipsoid reproduces the Somigliana reference — the validation oracle for the kernel.
+pub fn grs80_normal_field() -> SphericalHarmonicField {
+    // Published GRS80 normal-field zonal harmonics J_2n (unnormalized).
+    const J: [(usize, f64); 4] = [
+        (2, 1.082_63e-3),
+        (4, -2.370_912_22e-6),
+        (6, 6.083_47e-9),
+        (8, -1.427e-11),
+    ];
+    let mut f = SphericalHarmonicField::zeros(GRS80_GM, GRS80_A, 8);
+    f.set(0, 0, 1.0, 0.0); // monopole: C̄_{0,0} = 1 (the central GM/r term)
+    for (n, jn) in J {
+        // Fully-normalized C̄_{n,0} = −J_n / √(2n+1).
+        f.set(n, 0, -jn / ((2 * n + 1) as f64).sqrt(), 0.0);
+    }
+    f
 }
 
 #[cfg(test)]
