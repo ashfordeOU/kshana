@@ -515,6 +515,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: OracleKind::InternalConsistency,
             status: VerificationStatus::Modelled,
         },
+        VerificationItem {
+            requirement: "Lunar interoperability export",
+            capability: "LunaNet/IOAG-aligned lunar frame + time + ephemeris export (CCSDS OEM + KIF) with round-trip conformance",
+            module: "lunar_interop",
+            tests: "lunar_interop::tests (OEM carries lunar REF_FRAME/TIME_SYSTEM; time metadata round-trips; KIF envelope)",
+            oracle: "Round-trip / field conformance against CCSDS OEM + published LunaNet/IOAG field semantics",
+            oracle_kind: OracleKind::InternalConsistency,
+            status: VerificationStatus::Modelled,
+        },
         // ── Resilience scoring & instability study ────────────────────────────
         VerificationItem {
             requirement: "PNT-resilience framework-aligned scoring",

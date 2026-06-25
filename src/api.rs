@@ -396,6 +396,7 @@ pub enum ScenarioKind {
     LunarFrameRealise,
     LunarService,
     LunarDpnt,
+    LunarInterop,
     GravityMap,
     Terrain,
     TerrainSlam,
@@ -442,6 +443,7 @@ impl ScenarioKind {
             ScenarioKind::LunarFrameRealise => "lunar-frame-realisation",
             ScenarioKind::LunarService => "moonlight-service-volume",
             ScenarioKind::LunarDpnt => "lunar-differential-pnt",
+            ScenarioKind::LunarInterop => "lunar-interop-export",
             ScenarioKind::GravityMap => "gravity-map",
             ScenarioKind::Terrain => "terrain-nav",
             ScenarioKind::TerrainSlam => "terrain-slam",
@@ -492,6 +494,7 @@ impl ScenarioKind {
             "lunar-frame-realisation" => ScenarioKind::LunarFrameRealise,
             "moonlight-service-volume" => ScenarioKind::LunarService,
             "lunar-differential-pnt" => ScenarioKind::LunarDpnt,
+            "lunar-interop-export" => ScenarioKind::LunarInterop,
             "gravity-map" => ScenarioKind::GravityMap,
             "terrain-nav" => ScenarioKind::Terrain,
             "terrain-slam" => ScenarioKind::TerrainSlam,
@@ -542,6 +545,7 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "lunar-frame-realisation", description: "Modelled lunar reference-frame realisation: a 7-parameter Helmert (similarity) datum fit — 3 translation, 3 small-angle rotation, 1 scale — tying an estimated set of selenographic-derived MCMF point coordinates to a datum by weighted least squares (crate::batch_ls::gauss_newton), plus a simple orientation tie expressing the realised small rotation about the ICRF axes relative to the IAU 2015 WGCCRE body orientation. The scenario injects a known small transform (translation ~tens of m, rotation ~µrad, scale ~1e-7) into a well-spread synthetic point network, adds seeded Gaussian noise, recovers the datum, and reports the recovered transform, the per-parameter recovery error vs the injected truth, and the post-fit RMS residual. MODELLED self-consistency — recovers an injected similarity transform (noiseless to ~machine precision), NOT a realisation against real tracking/VLBI data; deterministic (seeded); no TRL/heritage/agency endorsement.", required_fields: &[], optional_fields: &["n_points", "tx_m", "ty_m", "tz_m", "rot_x_urad", "rot_y_urad", "rot_z_urad", "scale_ppb", "noise_sigma_m", "seed", "epoch_year", "epoch_month", "epoch_day"] },
         ScenarioMeta { name: "moonlight-service-volume", description: "Modelled lunar navigation service-volume analysis from an ILLUSTRATIVE, public-source Moonlight/LCNS-class lunar-orbit constellation (not affiliated with ESA): sweeps a selenographic lat/lon grid over a time horizon and reports DOP / coverage / availability (≥4 sats AND PDOP < threshold) plus a generalised lunar ARAIM protection-level (HPL/VPL) envelope over the volume. The DOP geometry REUSES the gnss_lib_py-VALIDATED kernel (crate::orbit::dop); the protection level REUSES the LunaNet LNIS lunar ARAIM machinery (crate::lunar, σ_URE≈30 m) and reduces to the existing south-pole PL as a special case. MODELLED composition: a circular-/elliptical-Keplerian relay set (not the real differential-corrected LCNS/NRHO ephemeris), a mean-rotation Moon (no libration/precessing pole). Deterministic (pure geometry). No TRL/heritage/agency endorsement.", required_fields: &[], optional_fields: &["n_sats", "sma_km", "eccentricity", "inc_deg", "argp_deg", "lat_min_deg", "lat_max_deg", "lat_step_deg", "lon_min_deg", "lon_max_deg", "lon_step_deg", "horizon_hours", "step_min", "elev_mask_deg", "pdop_threshold", "alert_limit_m", "p_hmi"] },
         ScenarioMeta { name: "lunar-differential-pnt", description: "Modelled lunar DIFFERENTIAL PNT (a lunar DGNSS/SBAS analogue): a NovaMoon-class reference station at a KNOWN selenographic location computes per-satellite differential corrections from an ILLUSTRATIVE, public-source Moonlight/LCNS-class constellation (NovaMoon referenced only as a system CLASS, not affiliated with ESA), and a user offset by baseline_km applies them so the COMMON-MODE orbit + clock errors cancel. The clock term cancels EXACTLY (an algebraic identity); the orbit term leaves only the line-of-sight-difference projection, which → 0 as baseline → 0 (the spatial-decorrelation floor) and grows ≈ linearly with baseline. Reports the user 3-D position error WITH vs WITHOUT corrections, the reduction factor, the error-vs-baseline curve, and a user protection level that REUSES the DO-229E SBAS machinery (crate::sbas) with the differential residual σ. MODELLED — exact cancellation identity + first-order decorrelation model; not real-data validated; no TRL/heritage/agency endorsement. Deterministic if seeded.", required_fields: &[], optional_fields: &["n_sats", "sma_km", "eccentricity", "inc_deg", "argp_deg", "ref_lat_deg", "ref_lon_deg", "baseline_km", "orbit_err_m", "clock_err_m", "noise_m", "seed", "t_s", "residual_sigma_m", "p_hmi"] },
+        ScenarioMeta { name: "lunar-interop-export", description: "Modelled lunar interoperability export: emits the lunar reference frame, lunar time scale and lunar ephemeris in LunaNet/IOAG-aligned, CCSDS-based interchange forms with round-trip / field conformance. REUSES the crate's CCSDS OEM 2.0 emitter+parser (crate::oem) re-tagged for the lunar context — the OEM REF_FRAME carries the IAU 2015 WGCCRE lunar body frame (MOON_ME / MOON_PA), TIME_SYSTEM the lunar time scale (LTC / TCL / UTC), CENTER_NAME = MOON — over a sample illustrative LCNS-class ephemeris (positions from crate::lunar_service, velocity by finite difference). Also emits a LunaNet/IOAG-aligned lunar-time descriptor (scale id, secular rate µs/day from crate::lunar_time, published band, reference surface) that round-trips via serde_json, and wraps the artifacts in the existing KIF envelope (crate::interchange) with the MODELLED honesty label. Reports artifacts emitted, OEM line count, field-conformance pass + present/missing field list, OEM round-trip ok, time-metadata round-trip ok, and KIF byte size. MODELLED — deterministic round-trip + field-name conformance vs published CCSDS OEM + LunaNet/IOAG field semantics is the oracle; NOT a certified interoperability conformance test; illustrative public-source ephemeris, not affiliated with ESA; no TRL/heritage/agency endorsement.", required_fields: &[], optional_fields: &["frame", "time_system", "n_states", "epoch", "step_min", "object"] },
         ScenarioMeta { name: "timetransfer", description: "Optical vs RF two-way time/frequency transfer.", required_fields: &["time", "optical", "rf"], optional_fields: &["seed"] },
         ScenarioMeta { name: "hybrid", description: "Hybrid PNT capstone: clock + IMU + time-transfer aiding.", required_fields: &["timing_spec_ns", "position_spec_m", "time", "gnss", "clock_quantum", "clock_classical", "accel_quantum", "accel_classical"], optional_fields: &["resync", "seed"] },
         ScenarioMeta { name: "fusion", description: "Joint Kalman sensor-fusion PNT over the same hybrid inputs.", required_fields: &["timing_spec_ns", "position_spec_m", "time", "gnss", "clock_quantum", "clock_classical", "accel_quantum", "accel_classical"], optional_fields: &["resync", "seed"] },
@@ -1027,6 +1031,29 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
             Ok(RunOutput {
                 json: json_of(&report),
                 svg: crate::lunar_dpnt::lunar_dpnt_svg(&report),
+                summary,
+            })
+        }
+        ScenarioKind::LunarInterop => {
+            let scn: crate::lunar_interop::LunarInteropScenario = toml::from_str(src)
+                .map_err(|e| format!("invalid lunar-interop-export scenario: {e}"))?;
+            let report = scn.run();
+            let summary = format!(
+                "lunar-interop-export | REF_FRAME {} / TIME_SYSTEM {} | {} states, OEM {} lines | conformance {} ({} present / {} missing) | OEM round-trip {} | time-meta round-trip {} | KIF {} bytes | MODELLED",
+                report.frame,
+                report.time_system,
+                report.n_states,
+                report.oem_line_count,
+                if report.conformance.pass { "PASS" } else { "FAIL" },
+                report.conformance.present_fields.len(),
+                report.conformance.missing_fields.len(),
+                if report.oem_roundtrip_ok { "ok" } else { "fail" },
+                if report.time_metadata_roundtrip_ok { "ok" } else { "fail" },
+                report.kif_bytes,
+            );
+            Ok(RunOutput {
+                json: json_of(&report),
+                svg: crate::lunar_interop::lunar_interop_svg(&report),
                 summary,
             })
         }
@@ -1558,6 +1585,7 @@ mod tests {
             ScenarioKind::LunarFrameRealise,
             ScenarioKind::LunarService,
             ScenarioKind::LunarDpnt,
+            ScenarioKind::LunarInterop,
             ScenarioKind::GravityMap,
             ScenarioKind::Terrain,
             ScenarioKind::CombinedAltPnt,
@@ -1624,6 +1652,7 @@ mod tests {
             include_str!("../scenarios/mars-pnt-lmo.toml"),
             include_str!("../scenarios/moonlight-service-volume.toml"),
             include_str!("../scenarios/lunar-differential-pnt.toml"),
+            include_str!("../scenarios/lunar-interop-export.toml"),
         ] {
             let out = run_toml(src).expect("scenario runs");
             assert!(out.json.starts_with('{'));
@@ -1705,6 +1734,30 @@ mod tests {
         // SVG and a one-line summary that names the kind.
         assert!(out.svg.starts_with("<svg"));
         assert!(out.summary.contains("lunar-differential-pnt"));
+    }
+
+    #[test]
+    fn lunar_interop_export_kind_round_trips_through_the_dispatch() {
+        // The lunar interoperability-export kind dispatches end-to-end through the shared
+        // entry point the CLI/Python/wasm/MCP bindings use, even with a bare kind line (every
+        // field has a serde default): valid JSON + SVG out, naming the kind, with the lunar
+        // REF_FRAME/TIME_SYSTEM and the MODELLED honesty label present.
+        let src = "kind = \"lunar-interop-export\"\n";
+        assert_eq!(
+            ScenarioKind::classify(src).unwrap(),
+            ScenarioKind::LunarInterop
+        );
+        let out = run_toml(src).expect("lunar-interop-export scenario dispatches");
+        assert!(out.json.starts_with('{'));
+        // Valid JSON that parses.
+        let _: serde_json::Value = serde_json::from_str(&out.json).unwrap();
+        // The lunar interchange tokens and honesty label are carried in the JSON.
+        assert!(out.json.contains("MOON_ME"));
+        assert!(out.json.contains("MODELLED"));
+        assert!(out.json.contains("conformance"));
+        // SVG and a one-line summary that names the kind.
+        assert!(out.svg.starts_with("<svg"));
+        assert!(out.summary.contains("lunar-interop-export"));
     }
 
     #[test]
