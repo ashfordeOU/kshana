@@ -154,6 +154,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            requirement: "Gravity-field functional synthesis (gravity-aided / GNSS-free nav map)",
+            capability: "Spherical-harmonic gravity magnitude + disturbance (mGal) from any ICGEM .gfc model; GRS80 normal gravity",
+            module: "gravity_sh",
+            tests: "tests/icgem_gravity_reference.rs (GRS80 synthesis reproduces Somigliana to 3.5e-12; real ICGEM EGM2008 disturbance map physical)",
+            oracle: "GRS80 (Moritz 1980, IAG) Somigliana normal gravity + published γ_e/γ_p; real ICGEM EGM2008 field",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
             requirement: "Reference frames & timescales",
             capability: "IAU 2006/2000A precession-nutation, CIO GCRS↔ITRS, leap-second timescales",
             module: "frames, precession, nutation, cio, timescales",
