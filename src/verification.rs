@@ -190,6 +190,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            requirement: "Broadcast ionosphere model (Klobuchar, IS-GPS-200)",
+            capability: "Klobuchar single-frequency L1 slant ionospheric group delay from the eight broadcast α/β coefficients",
+            module: "gnss_sim (klobuchar_delay_m)",
+            tests: "tests/klobuchar_reference.rs (10 cases across elevation/azimuth/local-time, two coefficient sets)",
+            oracle: "RTKLIB ionmodel (tomojitakasu/RTKLIB, src/rtkcmn.c) — independent reference implementation compiled from source; matched to < 1e-4 m",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
             requirement: "ML detector-evaluation metrics (ROC/AUC/confusion/Pfa-Pmd)",
             capability: "AUC (Mann-Whitney, ties ½), confusion matrix at threshold, P_d/P_md/P_fa/precision/accuracy/F1",
             module: "impairment_eval (auc, confusion_at, roc_curve)",
