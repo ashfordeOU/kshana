@@ -1,0 +1,43 @@
+# Lunar interoperability export — LunaNet / IOAG-aligned, CCSDS-based interchange.
+#
+# Exports the lunar reference frame, the lunar time scale and a lunar ephemeris in
+# CCSDS-based interchange forms, with round-trip / field conformance as the oracle.
+#
+# WHAT src/lunar_interop.rs does:
+#   * export_lunar_oem  — REUSES the crate's CCSDS OEM 2.0 emitter (crate::oem),
+#     re-tagged for the lunar context: REF_FRAME = the IAU 2015 WGCCRE lunar body
+#     frame (MOON_ME / MOON_PA), TIME_SYSTEM = the lunar time scale (LTC / TCL / UTC),
+#     CENTER_NAME = MOON, over a sample ILLUSTRATIVE LCNS-class ephemeris (positions
+#     from crate::lunar_service, velocity by central finite difference).
+#   * export_lunar_time_metadata — a LunaNet/IOAG-aligned lunar-time descriptor (scale
+#     id, secular rate µs/day from crate::lunar_time, the published 56-59 µs/day band,
+#     reference surface) that round-trips via serde_json.
+#   * export_kif_lunar — wraps the OEM + time descriptor + frame label in the existing
+#     KIF envelope (crate::interchange) with the MODELLED honesty label.
+#   * oem_conformance — checks the required CCSDS/LunaNet header fields are present, the
+#     REF_FRAME/TIME_SYSTEM carry the expected lunar tokens, the META_START..META_STOP
+#     framing and the position+velocity data lines are well-formed.
+#
+# HONESTY: MODELLED. The field NAMES and units are aligned with PUBLIC standards
+# (CCSDS 502.0-B OEM, IAU WGCCRE 2015 lunar frames, LunaNet Interoperability
+# Specification / IOAG lunar architecture). The deterministic round-trip and the
+# field-name conformance are the oracle. This is NOT a certified interoperability
+# conformance test. The ephemeris is illustrative, public-source, NOT affiliated with
+# ESA, and implies no TRL / heritage / agency endorsement.
+kind = "lunar-interop-export"
+
+# Lunar body frame: MOON_ME (mean-Earth / polar-axis) or MOON_PA (principal-axis).
+frame = "MOON_ME"
+
+# Lunar time scale tag: LTC (Lunar Coordinate Time), TCL or UTC (the Earth tie).
+time_system = "LTC"
+
+# Sample ephemeris grid.
+n_states = 9
+step_min = 30.0
+
+# Informational epoch label (the OEM grid hangs off a fixed deterministic epoch).
+epoch = "2030-01-01T00:00:00"
+
+# Object name written to the OEM OBJECT_NAME / OBJECT_ID.
+object = "LCNS-ILLUSTRATIVE-1"
