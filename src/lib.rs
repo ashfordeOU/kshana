@@ -85,6 +85,8 @@ pub mod propagator;
 pub mod pvt;
 #[cfg(feature = "python")]
 pub mod python;
+pub mod qtrade;
+pub mod quantum_devices;
 pub mod quantum_trade;
 pub mod radiometric;
 pub mod raim;

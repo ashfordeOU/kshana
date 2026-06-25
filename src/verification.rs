@@ -552,6 +552,24 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
+        VerificationItem {
+            requirement: "Quantum-vs-classical trade evidence (common shape)",
+            capability: "One reproducible TradeEvidence object (fixed frame: scenario+seed+engine; common per-FoM quantum-vs-classical values with polarity-correct benefit, optional 95% CI, validated/modelled label) carrying a representativeness record, so every quantum-PNT vertical reports the trade the same honest way.",
+            module: "qtrade",
+            tests: "qtrade::tests (benefit polarity higher/lower-is-better, wraps a real TradeResult faithfully, dishonest evidence rejected, validated-FoM needs external anchor, deterministic JSON)",
+            oracle: "Closed-form benefit/winner identities + faithful wrap of the existing quantum_trade::TradeResult; honesty tied to the representativeness ledger and verification labels",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
+            requirement: "Quantum device error-model library",
+            capability: "Device cards (optical/trapped-ion/mercury-ion + classical clocks reused from holdover/clock_state; cold-atom interferometer; classical + entanglement/single-photon time-transfer links) each carrying a representativeness record; the entanglement link adds a shot-limited timing-precision model (~jitter/sqrt(R*tau), dark-count penalty, systematic floor).",
+            module: "quantum_devices",
+            tests: "quantum_devices::tests (clock cards honest+ordered; entanglement precision ~1/sqrt(tau); detected rate -10x/10dB; dark counts degrade; systematic floor bounds; card modelled+valid)",
+            oracle: "Reused clock/CAI coefficients (holdover/clock_state, published values) + closed-form shot-noise/loss identities for the entanglement link",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
     ]
 }
 
