@@ -1,0 +1,12 @@
+# Fault/anomaly detection for quantum PNT systems — labelled fault catalog +
+# ROC AUC + minimum-detectable fault, quantum-clock-aided vs classical monitor.
+# MODELLED; illustrative public-source params; models the class, no TRL/flight claim.
+kind = "quantum-anomaly-detect"
+
+fault_mu = 1.0
+quantum_sigma = 0.3
+classical_sigma = 1.0
+pfa = 1.0e-3
+pd = 0.9
+samples = 2000
+seed = 42
