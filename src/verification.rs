@@ -190,6 +190,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            requirement: "Anomaly-detection scoring on real spacecraft telemetry",
+            capability: "ROC AUC + bootstrap CI separating real labelled anomalies; transparent detector (reproduces-labels)",
+            module: "impairment_eval, eval_stats",
+            tests: "tests/opssat_ad_reference.rs (real ESA OPS-SAT, AUC reproduces scikit-learn to 1e-9; peak-count detector AUC 0.85 on the labelled test split)",
+            oracle: "scikit-learn roc_auc_score on the OPSSAT-AD test split (Ruszczak et al. 2025, CC BY 4.0) — real OPS-SAT telemetry",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
             requirement: "Quantum-trade numerical kernels (NNLS / χ² bands / van-Loan Q)",
             capability: "Measured-ADEV NNLS fit, NEES/NIS χ² consistency bands, and the clock van-Loan discrete process-noise (holdover-coast) covariance — the trade engine's computational spine",
             module: "quantum_trade (qparams_from_adev_curve), detection (chi2_inv_cdf), clock_state (ClockState3)",
