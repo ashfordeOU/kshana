@@ -570,6 +570,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
+        VerificationItem {
+            requirement: "Trusted quantum timing (time transfer + secure dissemination + anomaly)",
+            capability: "End-to-end quantum vs classical time-transfer chain (clock coast + link precision in quadrature), a reused timing protection level, a delay/replay-attack security FoM (1-P_md) and a clock-anomaly detection probability + CUSUM latency, emitted as honest TradeEvidence with a representativeness record.",
+            module: "timetransfer_chain",
+            tests: "timetransfer_chain::tests (precision improves with integration; quantum can win AND lose; PL finite-positive; security FoM in [0,1] and grows with attack delay; anomaly Pd monotone; trade is_honest)",
+            oracle: "Closed-form quadrature budget over reused validated kernels (ADEV vs Stable32/NIST; TPL bound; detection analytic_pd/pmd); honesty tied to the representativeness ledger",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
     ]
 }
 
