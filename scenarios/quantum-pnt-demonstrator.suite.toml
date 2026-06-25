@@ -1,0 +1,10 @@
+# Quantum-Enabled PNT Demonstrator — the three application areas as one study.
+# Run: kshana --study scenarios/quantum-pnt-demonstrator.suite.toml
+# MODELLED throughout; each scenario carries its own representativeness + gaps-to-flight.
+title = "Quantum-Enabled PNT Demonstrator (trusted timing + GNSS-free nav + anomaly detection)"
+
+scenarios = [
+    { path = "quantum-time-transfer.toml", label = "trusted-quantum-timing" },
+    { path = "quantum-gnss-free-nav.toml", label = "gnss-free-quantum-nav" },
+    { path = "quantum-anomaly-detect.toml", label = "quantum-anomaly-detection" },
+]
