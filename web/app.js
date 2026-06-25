@@ -69,6 +69,12 @@ const SCENARIOS = [
     "Space Packet", "Does a CCSDS 133.0 packet stream encode and decode bit-exactly?"],
   ["oem-interop.toml", "CCSDS OEM interop — import / round-trip bridge",
     "CCSDS OEM bridge", "Can an OEM ephemeris from GMAT / Orekit / STK be imported and round-tripped?"],
+  ["gps-denied-gravity-nav.toml", "GNSS-free nav — gravity map-matching benchmark",
+    "GNSS-free nav", "How far does position drift over a full hour without GNSS — and can a gravity map rein it in?"],
+  ["lunanet-araim.toml", "Lunar integrity — LunaNet ARAIM at the south pole",
+    "Lunar integrity", "Does a sparse lunar relay set meet the integrity limits for an Artemis-region receiver?"],
+  ["gnss-sim-raim.toml", "GNSS measurements — pseudorange, ionosphere & troposphere → RAIM",
+    "GNSS measurements", "How do the ionosphere and troposphere shape raw pseudoranges, and does RAIM still protect?"],
 ];
 
 // Embedded default so the very first run needs no network fetch.
@@ -800,28 +806,164 @@ function onKnobInput(k, input, out) {
   runScenario();
 }
 
-// --- One-click preset cards ----------------------------------------------
-function buildPresets() {
-  for (const [file, , title, question] of SCENARIOS) {
-    const card = document.createElement("button");
-    card.type = "button";
-    card.className = "preset";
-    card.dataset.file = file;
-    card.innerHTML = `<span class="preset-title"></span><span class="preset-q"></span>`;
-    card.querySelector(".preset-title").textContent = title;
-    card.querySelector(".preset-q").textContent = question;
-    card.addEventListener("click", () => {
-      selectEl.value = file;
-      loadScenario(file);
-    });
-    presetsEl.appendChild(card);
+// --- Shared domain spine -------------------------------------------------
+// One vocabulary across the page; each section expresses it with a different
+// lens (Capabilities = accordion, Playground = tab-strip, Validation = table).
+// Short keys read as a recurring system rather than a repeated paragraph; the
+// full descriptor is kept for sublabels/tooltips.
+const DOMAIN_ORDER = ["Orbits", "Timing", "Inertial", "GNSS", "Resilience", "Lunar", "AI/ML", "Interop"];
+const DOMAIN_FULL = {
+  Orbits: "Orbits, OD & trajectory",
+  Timing: "Time & frequency",
+  Inertial: "Inertial, fusion & alt-PNT",
+  GNSS: "GNSS integrity & positioning",
+  Resilience: "Resilience & nav-signal",
+  Lunar: "Lunar, cislunar & deep-space",
+  "AI/ML": "AI/ML, anomaly & decision",
+  Interop: "Interoperability & assurance",
+};
+
+// --- One-click preset cards (Playground lens: a horizontal domain tab-strip) --
+const PRESET_GROUPS = {
+  "clock-holdover.toml": "Timing",
+  "timetransfer.toml": "Timing",
+  "imu-deadreckoning.toml": "Inertial",
+  "hybrid-pnt.toml": "Inertial",
+  "fusion-pnt.toml": "Inertial",
+  "gnss-ins.toml": "Inertial",
+  "hybrid-ukf.toml": "Inertial",
+  "terrain-slam.toml": "Inertial",
+  "orbit-gnss-challenged.toml": "Orbits",
+  "orbit-sgp4-gps.toml": "Orbits",
+  "ephemeris.toml": "Orbits",
+  "space-weather.toml": "Orbits",
+  "launch-window.toml": "Orbits",
+  "reentry.toml": "Orbits",
+  "eo-coverage.toml": "Orbits",
+  "passes.toml": "Orbits",
+  "link-budget.toml": "Orbits",
+  "attitude-budget.toml": "Orbits",
+  "integrity-raim.toml": "GNSS",
+  "pvt-abmf.toml": "GNSS",
+  "spoof-attack.toml": "Resilience",
+  "mars-pnt-lmo.toml": "Lunar",
+  "impairment-eval.toml": "AI/ML",
+  "quantum-trade.toml": "AI/ML",
+  "space-packet.toml": "Interop",
+  "oem-interop.toml": "Interop",
+  "gps-denied-gravity-nav.toml": "Inertial",
+  "lunanet-araim.toml": "Lunar",
+  "gnss-sim-raim.toml": "GNSS",
+};
+
+function buildPresetCard(file, title, question) {
+  const card = document.createElement("button");
+  card.type = "button";
+  card.className = "preset";
+  card.dataset.file = file;
+  const t = document.createElement("span");
+  t.className = "preset-title";
+  t.textContent = title;
+  const q = document.createElement("span");
+  q.className = "preset-q";
+  q.textContent = question;
+  card.append(t, q);
+  card.addEventListener("click", () => {
+    selectEl.value = file;
+    loadScenario(file);
+  });
+  return card;
+}
+
+// Switch the active Playground domain tab (and its panel of scenarios).
+function selectPresetDomain(g) {
+  const map = presetsEl._byDomain;
+  if (!map) return;
+  for (const [key, { tab, panel }] of map) {
+    const on = key === g;
+    tab.setAttribute("aria-selected", on ? "true" : "false");
+    tab.tabIndex = on ? 0 : -1;
+    panel.hidden = !on;
   }
 }
 
+function buildPresets() {
+  // Bucket scenarios by domain, preserving SCENARIOS order within each.
+  const buckets = new Map();
+  for (const s of SCENARIOS) {
+    const g = PRESET_GROUPS[s[0]] || "More";
+    if (!buckets.has(g)) buckets.set(g, []);
+    buckets.get(g).push(s);
+  }
+  const order = [
+    ...DOMAIN_ORDER.filter((g) => buckets.has(g)),
+    ...[...buckets.keys()].filter((g) => !DOMAIN_ORDER.includes(g)),
+  ];
+
+  const tablist = document.createElement("div");
+  tablist.className = "tabs preset-tabs";
+  tablist.setAttribute("role", "tablist");
+  tablist.setAttribute("aria-label", "Scenario domains");
+  const panels = document.createElement("div");
+  panels.className = "preset-panels";
+
+  const byDomain = new Map();
+  order.forEach((g, i) => {
+    const tab = document.createElement("button");
+    tab.type = "button";
+    tab.className = "tab-btn";
+    tab.setAttribute("role", "tab");
+    tab.dataset.domain = g;
+    tab.title = DOMAIN_FULL[g] || g;
+    tab.setAttribute("aria-selected", i === 0 ? "true" : "false");
+    tab.tabIndex = i === 0 ? 0 : -1;
+    const n = document.createElement("span");
+    n.textContent = g;
+    const c = document.createElement("span");
+    c.className = "tab-count";
+    c.textContent = buckets.get(g).length;
+    tab.append(n, c);
+    tab.addEventListener("click", () => selectPresetDomain(g));
+    tablist.append(tab);
+
+    const panel = document.createElement("div");
+    panel.className = "presets";
+    panel.setAttribute("role", "tabpanel");
+    panel.dataset.domain = g;
+    if (i !== 0) panel.hidden = true;
+    for (const [file, , title, question] of buckets.get(g)) {
+      panel.append(buildPresetCard(file, title, question));
+    }
+    panels.append(panel);
+    byDomain.set(g, { tab, panel });
+  });
+
+  // Arrow-key roving focus across the tablist (WAI-ARIA tabs pattern).
+  tablist.addEventListener("keydown", (e) => {
+    const keys = order;
+    const cur = keys.indexOf(
+      tablist.querySelector('[aria-selected="true"]')?.dataset.domain
+    );
+    let next = cur;
+    if (e.key === "ArrowRight") next = (cur + 1) % keys.length;
+    else if (e.key === "ArrowLeft") next = (cur - 1 + keys.length) % keys.length;
+    else return;
+    e.preventDefault();
+    selectPresetDomain(keys[next]);
+    byDomain.get(keys[next]).tab.focus();
+  });
+
+  presetsEl.append(tablist, panels);
+  presetsEl._byDomain = byDomain;
+}
+
 function markActivePreset(file) {
-  for (const c of presetsEl.children) {
+  for (const c of presetsEl.querySelectorAll(".preset")) {
     c.classList.toggle("is-active", c.dataset.file === file);
   }
+  // Switch to the domain tab that holds the active scenario, so it is visible.
+  const g = PRESET_GROUPS[file];
+  if (g && presetsEl._byDomain && presetsEl._byDomain.has(g)) selectPresetDomain(g);
 }
 
 // --- Shareable link -------------------------------------------------------
@@ -1141,6 +1283,77 @@ function knownScenario(file) {
   return SCENARIOS.some((s) => s[0] === file);
 }
 
+// One capability feature card. Carries data-status so the "Validated only"
+// filter can hide modelled cards via CSS. The proof footer is a green ✓ only
+// for validated capabilities; modelled capabilities show their check neutrally
+// so the tick never reads as an external-oracle claim.
+function buildCapCard(c) {
+  const card = document.createElement("div");
+  card.className = "card feat";
+  const validated = c.status === "validated";
+  card.dataset.status = validated ? "validated" : "modelled";
+
+  const head = document.createElement("div");
+  head.className = "feat-head";
+  const dom = document.createElement("p");
+  dom.className = "eyebrow";
+  dom.textContent = c.domain;
+  head.append(dom);
+
+  const right = document.createElement("span");
+  right.className = "feat-head-right";
+  const pill = document.createElement("span");
+  pill.className = validated ? "pill validated" : "pill modelled";
+  pill.textContent = validated ? "validated" : "modelled";
+  right.append(pill);
+  if (c.run && knownScenario(c.run)) {
+    const run = document.createElement("button");
+    run.type = "button";
+    run.className = "run";
+    run.textContent = "▸ run";
+    run.title = `Load and run ${c.name} in the playground`;
+    run.addEventListener("click", () => {
+      selectEl.value = c.run;
+      loadScenario(c.run);
+      document.getElementById("playground").scrollIntoView({ behavior: "smooth" });
+    });
+    right.append(run);
+  } else {
+    // No bundled playground demo for this capability — link to the reference docs
+    // so the card still has an action and "no run" never reads as "lesser".
+    const docs = document.createElement("a");
+    docs.className = "cap-docs";
+    docs.href = c.docs || "https://github.com/AshfordeOU/kshana/blob/main/docs/CAPABILITY.md";
+    docs.target = "_blank";
+    docs.rel = "noopener noreferrer";
+    docs.textContent = "docs ↗";
+    docs.title = `Reference documentation for ${c.name}`;
+    right.append(docs);
+  }
+  head.append(right);
+
+  const h = document.createElement("h3");
+  h.textContent = c.name;
+  const p = document.createElement("p");
+  p.textContent = c.summary;
+  card.append(head, h, p);
+  if (c.proof) {
+    const proof = document.createElement("span");
+    proof.className = validated ? "proof" : "proof proof-modelled";
+    proof.textContent = validated ? `✓ ${c.proof}` : c.proof;
+    card.append(proof);
+  }
+  return card;
+}
+
+// When a collapsed group is opened, reveal any quiet-settling children inside it
+// (the IntersectionObserver can't see content while the <details> is closed).
+function wireGroupReveal(det) {
+  det.addEventListener("toggle", () => {
+    if (det.open) det.querySelectorAll(".reveal:not(.in)").forEach((e) => e.classList.add("in"));
+  });
+}
+
 async function renderCapabilities() {
   let data;
   try {
@@ -1151,49 +1364,93 @@ async function renderCapabilities() {
     return;
   }
 
-  // Capability feature cards.
+  // Capability feature cards — grouped under a coarse domain spine, each group a
+  // collapsible <details> so the section length stays roughly constant as the
+  // capability count grows. A "Validated only" filter hides modelled cards.
   const cards = el("capability-cards");
   if (cards && Array.isArray(data.capabilities)) {
     cards.replaceChildren();
-    for (const c of data.capabilities) {
-      const card = document.createElement("div");
-      card.className = "card feat";
+    const caps = data.capabilities;
 
-      const head = document.createElement("div");
-      head.className = "feat-head";
-      const dom = document.createElement("p");
-      dom.className = "eyebrow";
-      dom.textContent = c.domain;
-      head.append(dom);
-      if (c.run && knownScenario(c.run)) {
-        const run = document.createElement("button");
-        run.type = "button";
-        run.className = "run";
-        run.textContent = "▸ run";
-        run.title = `Load and run ${c.name} in the playground`;
-        run.addEventListener("click", () => {
-          selectEl.value = c.run;
-          loadScenario(c.run);
-          document.getElementById("playground").scrollIntoView({ behavior: "smooth" });
-        });
-        head.append(run);
-      }
-
-      const h = document.createElement("h3");
-      h.textContent = c.name;
-
-      const p = document.createElement("p");
-      p.textContent = c.summary;
-
-      card.append(head, h, p);
-      if (c.proof) {
-        const proof = document.createElement("span");
-        proof.className = "proof";
-        proof.textContent = `✓ ${c.proof}`;
-        card.append(proof);
-      }
-      cards.append(card);
+    // Group preserving first-seen order.
+    const groups = new Map();
+    for (const c of caps) {
+      const g = c.group || c.domain || "Other";
+      if (!groups.has(g)) groups.set(g, []);
+      groups.get(g).push(c);
     }
+    const total = caps.length;
+    const validatedTotal = caps.filter((c) => c.status === "validated").length;
+
+    // Toolbar: a running tally + the validated-only filter.
+    const bar = document.createElement("div");
+    bar.className = "cap-toolbar";
+    const tally = document.createElement("p");
+    tally.className = "cap-tally";
+    tally.textContent = `${total} capabilities · ${groups.size} groups · ${validatedTotal} with external-oracle validation`;
+    const filter = document.createElement("label");
+    filter.className = "cap-filter";
+    const cb = document.createElement("input");
+    cb.type = "checkbox";
+    const ftxt = document.createElement("span");
+    ftxt.textContent = "Validated only";
+    filter.append(cb, ftxt);
+    bar.append(tally, filter);
+    cards.append(bar);
+
+    // What the run/docs actions mean — decoupled from the evidence label.
+    const note = document.createElement("p");
+    note.className = "cap-note";
+    note.textContent =
+      "▸ run opens a playground demo · docs ↗ links the reference — both independent of the validated / modelled label.";
+    cards.append(note);
+
+    // One collapsible group per domain, in the shared canonical spine order
+    // (same as the playground presets); all groups collapsed by default.
+    const order = [
+      ...DOMAIN_ORDER.filter((g) => groups.has(g)),
+      ...[...groups.keys()].filter((g) => !DOMAIN_ORDER.includes(g)),
+    ];
+    const groupEls = [];
+    for (const g of order) {
+      const arr = groups.get(g);
+      const det = document.createElement("details");
+      det.className = "cap-group";
+      const sum = document.createElement("summary");
+      const gname = document.createElement("span");
+      gname.className = "cap-gname";
+      gname.textContent = g;
+      const gfull = document.createElement("span");
+      gfull.className = "cap-gfull";
+      gfull.textContent = DOMAIN_FULL[g] || "";
+      const gcount = document.createElement("span");
+      gcount.className = "cap-gcount";
+      const v = arr.filter((c) => c.status === "validated").length;
+      const baseCount = `${arr.length} caps · ${v} ✓`;
+      gcount.textContent = baseCount;
+      sum.append(gname, gfull, gcount);
+      det.append(sum);
+
+      const grid = document.createElement("div");
+      grid.className = "cards";
+      for (const c of arr) grid.append(buildCapCard(c));
+      det.append(grid);
+      cards.append(det);
+      wireGroupReveal(det);
+      groupEls.push({ det, gcount, arr, v, baseCount });
+    }
+
+    // Validated-only filter: hide modelled cards (CSS), retitle the counts, and
+    // auto-open groups that have a match while dimming those that don't.
+    cb.addEventListener("change", () => {
+      const only = cb.checked;
+      cards.classList.toggle("validated-only", only);
+      for (const ge of groupEls) {
+        ge.gcount.textContent = only ? `${ge.v} validated` : ge.baseCount;
+        ge.det.classList.toggle("cap-empty", only && ge.v === 0);
+        if (only) ge.det.open = ge.v > 0;
+      }
+    });
   }
 
   // Standards the engine speaks (no status labels — confident support list).
@@ -1223,8 +1480,19 @@ async function renderCapabilities() {
   }
 }
 
+// The Validation section is a static grouped table (the "table" lens); its
+// "Validated only" filter just toggles a class — CSS hides modelled/info rows
+// and any domain header left with no validated rows.
+function wireValidationFilter() {
+  const root = el("validation-cards");
+  const cb = el("validation-validated-only");
+  if (!root || !cb) return;
+  cb.addEventListener("change", () => root.classList.toggle("validated-only", cb.checked));
+}
+
 async function main() {
   renderCapabilities();
+  wireValidationFilter();
   for (const [file, label] of SCENARIOS) {
     const opt = document.createElement("option");
     opt.value = file;

@@ -1,252 +1,308 @@
 {
- "_comment": "Product capability content for the public site. Present what the engine does, confidently; keep the granular maturity/limitations nuance in docs/CAPABILITY.md, not here. 'proof' is an optional positive credibility signal shown only where genuinely true. 'run' loads a live scenario in the playground.",
- "capabilities": [
-  {
-   "domain": "Orbit & geometry",
-   "name": "Orbit propagation & constellation design",
-   "summary": "SGP4/SDP4 propagation from real two-line elements (a committed Celestrak GPS snapshot) or synthetic Walker constellations whose mean elements realise the i:T/P/F formula to under 1 km over 24 h. Multi-constellation visibility, dilution of precision and GNSS availability, a constellation-design optimiser, streets-of-coverage sizing, and a Walker design sweep that reports the Pareto-optimal designs over a planes \u00d7 satellites grid.",
-   "proof": "666/666 AIAA vectors \u00b7 4.12 mm",
-   "run": "orbit-sgp4-gps.toml"
-  },
-  {
-   "domain": "Numerical propagator",
-   "name": "Cowell propagator & six-perturbation force model",
-   "summary": "A numerical (Cowell) propagator complementing the analytic SGP4/SDP4 path, with a hierarchical force model: two-body + the full J2\u2013J6 zonal field, an optional EGM2008 tesseral geopotential to degree/order 70, epoch-driven Sun and Moon third-body gravity (a built-in ephemeris, no DE/SPK kernel), solar-radiation pressure with a conical umbra/penumbra shadow, atmospheric drag, the post-Newtonian Schwarzschild relativistic correction, and the Lense\u2013Thirring frame-dragging term \u2014 driven by a choice of RK4 step-doubling or Dormand\u2013Prince RK5(4) adaptive integrators.",
-   "proof": "sub-metre vs Kepler truth over 24 h"
-  },
-  {
-   "domain": "Maneuvers & trajectory design",
-   "name": "Burns, Lambert & porkchop",
-   "summary": "Impulsive \u0394V nodes with 6\u00d76 covariance propagation, finite-burn integration checked against the Tsiolkovsky rocket equation to under 0.01 %, an Izzo-2015 single-revolution Lambert solver and an exact universal-variable Kepler propagator, and a porkchop (launch \u00d7 arrival) C3 / arrival-V\u221e sweep emitted as a JSON contour grid \u2014 the performance-simulation layer above GMAT/Orekit.",
-   "proof": "Tsiolkovsky < 0.01 % · Lambert round-trips to two-body truth"
-  },
-  {
-   "domain": "Time systems",
-   "name": "Time scales & Earth-orientation frames",
-   "summary": "IERS leap-second UTC / TAI / TT / UT1 scales, a Julian-date API, the IAU-2000 Earth Rotation Angle, GMST-based TEME \u2194 ECEF and WGS-84 geodetic frames, full IAU 2000A/2000B nutation and IAU 2006 precession, and the equinox-free CIO-based IAU 2006/2000A GCRS\u2194ITRS reduction with IERS polar motion \u2014 validated bit-for-bit against the SOFA/ERFA vectors and independently cross-checked against ANISE (pure-Rust SPICE): GCRS\u2192ITRS vs ANISE ITRF93, same IERS EOP, agree to \u2264 0.86 m on the ground / \u2264 3.6 m at GNSS orbit.",
-   "proof": "bit-for-bit vs SOFA/ERFA · Vallado end-to-end 4 mm"
-  },
-  {
-   "domain": "Inertial",
-   "name": "Strapdown INS & map-aided navigation",
-   "summary": "Three-axis strapdown INS \u2014 quaternion attitude, WGS-84 NED mechanization, coning/sculling compensation, and a full deterministic IMU error model \u2014 plus a first-principles cold-atom-interferometer accelerometer (Mach\u2013Zehnder phase, projection noise, contrast decay, vibration coupling) and a particle filter for terrain-/gravity-referenced GPS-denied navigation.",
-   "proof": "first-principles CAI accelerometer · derived VRW cross-checked vs an independent integrator",
-   "run": "imu-deadreckoning.toml"
-  },
-  {
-   "domain": "Alt-PNT (GPS-denied)",
-   "name": "Gravity, terrain & magnetic map-matching",
-   "summary": "A cold-atom gravimeter measurement model whose white-noise floor is derived from the CAI accelerometer physics, a low-degree fully-normalised spherical-harmonic gravity-anomaly field plus synthetic mascons, and a gravity-map-matching particle filter \u2014 extended to terrain-referenced navigation against an SRTM elevation DEM (TERCOM/SITAN), an IGRF-14 geomagnetic main field to degree/order 13, and a combined gravity + magnetic + terrain navigator that fuses all three scalar channels. A 60-minute GPS-denied benchmark \u2014 a ~700 km / one-hour outage where the inertial solution drifts to ~70 km \u2014 is recovered to ~145 m by a hierarchical coarse-to-fine matcher: the ESA NAVISP Quantum Wayfarer target.",
-   "proof": "60-min GPS-denied \u00b7 ~145 m (< 500 m)",
-   "run": "gps-denied-gravity-nav.toml"
-  },
-  {
-   "domain": "Fusion",
-   "name": "GNSS / INS sensor fusion",
-   "summary": "A 15-state error-state EKF that coasts through GNSS outages on a calibrated inertial solution; a tightly-coupled pseudorange mode that keeps correcting with fewer than four satellites; a coupled clock + position filter; a general unscented (sigma-point) Kalman estimator; a tightly-coupled GNSS/INS UKF navigator validated to 0.77 m RMS through a 120 s outage on a curving LEO pass; and a full 17-state tightly-coupled GNSS/INS UKF whose quantum-CAI dead-reckoning coasts the outage on the cold-atom accelerometer's derived velocity-random-walk.",
-   "proof": "tightly-coupled UKF \u00b7 0.77 m RMS",
-   "run": "gnss-ins.toml"
-  },
-  {
-   "domain": "Orbit determination",
-   "name": "Batch & sequential OD",
-   "summary": "Recovery of an orbital state from ground-station range tracking, composing the two-body + J2 force model and RK4 integrator with a Gauss\u2013Newton batch differential corrector (sub-metre / mm\u00b7s\u207b\u00b9 from noiseless ranges, ~2 m at a 5 m noise floor) and a sequential unscented-filter variant.",
-   "proof": "sub-metre OD from noiseless ranges · ~2 m at a 5 m noise floor"
-  },
-  {
-   "domain": "Lunar & cislunar",
-   "name": "CR3BP propagation & LunaNet integrity",
-   "summary": "An Earth\u2013Moon circular restricted three-body (CR3BP) propagator in the rotating frame \u2014 a conserved Jacobi constant and all five Lagrange points \u2014 with a 6\u00d76 state-transition matrix and a single-shooting differential corrector that produces genuinely periodic halo / near-rectilinear halo orbits (NRHO): it reproduces the published L2 southern 9:2 NRHO (the Gateway orbit) at a period of ~6.57 days and a perilune of ~3,250 km. Plus LunaNet / LNIS cislunar PNT geometry (MCI\u2194MCMF reduction, selenographic coordinates) with a lunar south-pole ARAIM pass that honestly surfaces the integrity gap: a ~30 m \u03c3_URE drives the protection level well above a 50 m alert limit.",
-   "proof": "Reproduces the published L2 9:2 NRHO (~6.57 d period \u00b7 ~3,250 km perilune); STM checked vs finite differences",
-   "run": "lunanet-araim.toml"
-  },
-  {
-   "domain": "Deep-space & Mars PNT",
-   "name": "Radiometric navigation & relay-PNT",
-   "summary": "An open deep-space / Mars radiometric navigation engine: iterative light-time + Shapiro delay, two-/one-/three-way Doppler & range (Moyer two-leg), coherent transponder turnaround, regenerative/PN ranging and \u0394-DOR; CCSDS-TDM I/O; a reduced-dynamic Square-Root Information Filter (empirical accelerations + onboard clock + Mars drag) that does Mars-LMO orbit determination in a synthetic closed loop; one-way+two-way fusion; and a MARCONI areostationary relay constellation with an end-to-end GSE performance simulator.",
-   "proof": "Simulation-validated (covariance / closed-loop figures of merit, not certified protection levels); the Sun-central Mars dynamics are cross-checked against JPL DE440 to 137 m @ a 1-day arc; Mars-LMO OD \u2248 0.2 m.",
-   "run": "mars-pnt-lmo.toml"
-  },
-  {
-   "domain": "Integrity",
-   "name": "Receiver autonomous integrity (ARAIM)",
-   "summary": "Snapshot and solution-separation RAIM with horizontal and vertical protection levels (HPL/VPL), fault detection and exclusion, and Stanford integrity diagrams \u2014 plus an explicit integrity-risk-budget (MHSS) protection level with the dual-/multi-constellation constellation-wide fault mode (EU ARAIM / DO-316).",
-   "proof": "MHSS on a real GPS + Galileo snapshot · DO-316 dual-constellation",
-   "run": "integrity-raim.toml"
-  },
-  {
-   "domain": "Augmentation (SBAS)",
-   "name": "SBAS / WAAS protection levels & dual-frequency",
-   "summary": "SBAS / WAAS protection levels in the DO-229E weighted-least-squares form (precision-approach and en-route K-factors) and the L1/L5 dual-frequency ionosphere-free combination (IS-GPS-705) that underpins DO-316, with the protection-level geometry cross-checked against a reference linear-algebra implementation.",
-   "proof": "DO-229E K-factors \u00b7 L1/L5 iono-free"
-  },
-  {
-   "domain": "Clock & timing",
-   "name": "Holdover, stability & time-and-frequency transfer",
-   "summary": "Two-state Kalman holdover, Allan-family stability (ADEV / MDEV / TDEV / HDEV) with confidence intervals and a full IEEE-1139 five-coefficient power-law fit, and the operational transfer methods \u2014 TWSTFT with the BIPM Sagnac closed form, GNSS common-view, PPP ionosphere-free transfer, a free-space optical link with turbulence scintillation, and an inverse-variance clock-ensemble timescale. A GNSS-denied clock-holdover calculator inverts the van-Loan coast-error growth to a holdover-to-threshold — how long a clock free-runs before its timing error exceeds budget — across classical and quantum-clock classes; modelled, and honest that for a very stable clock the holdover to a tight threshold is set by the assumed long-tau noise floor, not the cited ADEV.",
-   "proof": "calibrated to clock datasheets · holdover cross-checked vs the van-Loan covariance recursion",
-   "run": "clock-holdover.toml"
-  },
-  {
-   "domain": "GNSS measurement domain",
-   "name": "Pseudorange, ionosphere & troposphere",
-   "summary": "Forward pseudorange / Doppler synthesis with Klobuchar (broadcast) and IONEX / TEC-grid (measured) ionosphere \u2014 including an IONEX file parser, time interpolation, and the thin-shell slant-obliquity mapping \u2014 Saastamoinen + Niell troposphere, and snapshot RAIM.",
-   "proof": "Saastamoinen ZHD ≈ 2.3 m · Niell unity at zenith · Klobuchar per IS-GPS-200",
-   "run": "gnss-sim-raim.toml"
-  },
-  {
-   "domain": "GNSS positioning",
-   "name": "Single-point positioning (PVT)",
-   "summary": "A real receiver position solved from real RINEX code pseudoranges + broadcast ephemeris by iterated weighted least squares \u2014 Sagnac/Earth-rotation correction, broadcast clock with TGD, the dual-frequency L1/L2 ionosphere-free combination (or single-frequency Klobuchar), Saastamoinen/Niell troposphere, elevation weighting, DOP, and snapshot RAIM.",
-   "proof": "Validated on real IGS data (station ABMF, 2018-05-13) to 5.7 m 3-D RMS / 1.1 m horizontal against the surveyed coordinate.",
-   "run": "pvt-abmf.toml"
-  },
-  {
-   "domain": "Resilience",
-   "name": "Jamming & multi-layer spoof detection",
-   "summary": "A link-budget jamming model (J/S \u2192 effective C/N\u2080 \u2192 loss of lock), a stochastic time-spoof detector (Neyman\u2013Pearson / \u03c7\u00b2\u2081 energy test with Monte-Carlo P_fa/P_md and a Security FoM of 1 \u2212 P_md), and a multi-layer spoof detector fusing a RAIM-consistency parity test, an RF AGC-power monitor, and a signal-quality (SQM) monitor. Plus a quantum-inertial dead-reckoning error budget composing cold-atom-interferometer white-noise drift with residual bias (cross-checked against an independent integrator) and scale-factor error into a position-drift-over-holdover figure — the inertial twin of the clock holdover.",
-   "proof": "χ²₁ NP detector · closed-form and Monte-Carlo P_fa/P_md agree",
-   "run": "spoof-attack.toml"
-  },
-  {
-   "domain": "Nav-signal performance",
-   "name": "Modulation, anti-jam & code tracking",
-   "summary": "The signal-performance layer between the link budget and the measurement domain: unit-area power spectral densities for BPSK-R(n) and sine-BOC(m,n), the spectral-separation coefficient that derives the anti-jam Q the jamming model consumes directly from the actual signal and jammer spectra, the RMS (Gabor) bandwidth that sets the ranging-information content (BOC > BPSK), the coherent early\u2013late DLL code-tracking thermal-noise jitter, and the coherent early-minus-late multipath error envelope with narrow-correlator suppression, and a ranging-code design-trade (m-sequence/Gold autocorrelation sidelobe and the three-valued Gold cross-correlation bound, plus the code-length-to-unambiguous-range inversion). This is signal-performance analysis, not RF-payload or antenna hardware design.",
-   "proof": "BPSK self-SSC = 2/(3R_c) \u00b7 sub-metre C/A DLL jitter at 45 dB-Hz \u00b7 GPS C/A Gold cross-corr -23.9 dB"
-  },
-  {
-   "domain": "Interoperability",
-   "name": "RINEX, SP3 & CCSDS formats",
-   "summary": "Multi-GNSS RINEX-3 broadcast-ephemeris ingestion (GPS, Galileo, QZSS, BeiDou, GLONASS), a RINEX-3/4 observation parser, an SP3-c/d precise-ephemeris reader/writer with Lagrange interpolation, and CCSDS OEM 2.0 + OMM (mean-elements) export for flight-dynamics tools (GMAT, Orekit, STK), and CCSDS-TDM (503) tracking-data-message parse + emit for deep-space radiometric tracking.",
-   "proof": "OEM / SP3 / OMM / TDM round-trip verified"
-  },
-  {
-   "domain": "Verification & assurance",
-   "name": "Machine-checked verification matrix",
-   "summary": "A requirement-to-module-to-test-to-oracle-to-status cross-reference rendered from the engine itself (Markdown/CSV), with unit-tested honesty invariants: a row may be labelled validated only if it carries an independent external oracle (NIST / AIAA / SOFA / IGS / a published value), so an internal self-consistency check cannot masquerade as a validation — and the hardware/PA capabilities Kshana does not provide are recorded as partner-owned gaps. The executable backbone for an ECSS-E-ST-10-02 verification cross-reference.",
-   "proof": "validated rows require an external oracle (invariant enforced in CI)"
-  },
-  {
-   "domain": "Mission analysis",
-   "name": "Launch, re-entry, coverage & pointing budgets",
-   "summary": "First-order mission-design budgets, each a runnable scenario: two-body launch & ascent geometry (launch azimuth, minimum inclination, Earth-rotation bonus, dogleg plane-change Δv, daily opportunities), an Allen–Eggers ballistic re-entry corridor (peak deceleration, peak-g and peak-heating velocities), Earth-observation coverage geometry (swath / nadir GSD / off-nadir access / revisit via the SMAD space triangle), a 3-DOF attitude & pointing error budget (gravity-gradient torque + RSS pointing budget), ground-station pass prediction (AOS/TCA/LOS, max elevation, access), and a one-way link budget over the CCSDS 401 / DSN 810-005 link equation (FSPL, C/N₀, Eb/N₀, margin, closure). The pre-hardware analytic layer below STK/GMAT/Basilisk — modelled first-order budgets, not a 6-DoF or radiometric replacement.",
-   "proof": "checked vs closed-form (launch azimuth · Allen-Eggers · SMAD)"
-  },
-  {
-   "domain": "Space environment",
-   "name": "Space-weather & thermospheric density",
-   "summary": "A space-weather environment model: solar (F10.7 / centred-81-day F10.7a) and geomagnetic (Kp, with the definitional Kp↔ap table) activity indices, the Jacchia-1971 exospheric temperature they drive, and the activity-corrected versus static thermospheric neutral density at altitude — the solar-cycle density dependence a static atmosphere omits. A calibrated first-order scale-height coupling, not a data-validated NRLMSISE atmosphere.",
-   "proof": "Jacchia-71 validated vs published solar min / mean / max"
-  },
-  {
-   "domain": "AI/ML evaluation & trade",
-   "name": "RF-impairment detection eval & PNT trade",
-   "summary": "An RF-impairment detection evaluation testbed: a labelled, parameter-grounded synthetic corpus (nominal / jamming / spoof-time / spoof-position / multipath), a detector-agnostic ROC/AUC harness scoring any detector with per-class Pd at a target Pfa, and the in- versus out-of-distribution optimism gap. A deeper optimism-gap study extends this to a 13-detector panel (energy / AGC / SQM / parity plus seeded logistic-regression and one-hidden-layer-MLP detectors), in- versus out-of-distribution scaling laws with a permutation null, and a leave-one-out predictor of out-of-distribution degradation; a software-defined-receiver front end (raw IQ/IF to correlator early/prompt/late taps to SQM) and real-data ingest adapters (RINEX, u-blox UBX, GnssLogger, JammerTest, Yunnan, SatGrid) let the same detectors run over recordings supplied locally. Plus a quantum-vs-classical PNT trade that quantifies a candidate clock's timing and inertial holdover benefit from a measured-ADEV curve against a classical baseline, with a GNSS-denied resilience-vs-time envelope. Modelled operating characteristics — never field/IQ data, no good/bad verdict.",
-   "proof": "AUC harness verified vs binormal closed form Φ(d′/√2) (Gneiting & Vogel 2018); eval metrics validated bit-for-bit vs scikit-learn 1.9.0 — synthetic corpus, not raw-IQ/TEXBAT"
-  },
-  {
-   "domain": "AI/ML evaluation & trade",
-   "name": "Quantum-vs-classical resilience crossover map",
-   "summary": "A reproducible map of where a quantum sensor overtakes its classical counterpart under parameter uncertainty: cold-atom versus navigation-grade dead-reckoning and optical versus chip-scale clock holdover, over outage duration and platform vibration, each curve carrying a technology-readiness label. Reproducible via cargo run --bin crossover_study. Modelled performance budgets — the inputs are published or bracketed coefficients, not flight data.",
-   "proof": "regenerates the inertial and clock crossover studies behind the Results figures; trade kernels validated vs scipy 1.17.1"
-  },
-  {
-   "domain": "Timing integrity",
-   "name": "Conditional Timing Protection Level",
-   "summary": "A holdover-limited bound on the undetected time error under GNSS spoofing: given an independent cross-check, the served-time error is bounded by a k-sigma monitor floor, the van-Loan coast variance over the detection latency, and a CUSUM time-to-alarm. Calibrated on a real recorded spoof (JammerTest 2024) and reproducible via cargo run --example tpl_jammertest. Modelled composition, conditional on detection — there is no finite unconditional bound, since a slow-enough ramp evades a single clock-aided monitor.",
-   "proof": "composition cross-checked vs the multi-step clock_state covariance recursion; calibrated on JammerTest 2024 (Zenodo 15911589)"
-  },
-  {
-   "domain": "Resilience assessment",
-   "name": "PNT-resilience scoring & decision-instability",
-   "summary": "A framework-aligned scoring engine (DHS RPCF categories) that maps an architecture's simulated behaviour to per-dimension sub-scores, then asks whether any single composite score or maturity Level is a stable basis for a decision — via a Dirichlet weighting simplex, Kendall-tau rank instability, a top-1 winner flip rate, and common-mode diversity collapse (Hill-N2) — with an integrity-hashed assurance report. Reproducible via cargo run --example resilience_report. Modelled synthetic architectures aligned to RPCF v2.0; a self-assessment, not a certification.",
-   "proof": "35 hand-derived oracle tests; byte-deterministic study artifact (fixed seed); aligned to DHS RPCF v2.0"
-  },
-  {
-   "domain": "Integrity impact",
-   "name": "Detection-miss → integrity regions",
-   "summary": "A detection-miss-to-integrity bridge: an undetected bias left by a missed spoof / jam / RAIM detection inflates the effective position error, which — held against context-specific alert limits — is classified into the Stanford-ESA integrity regions (available / unavailable / misleading / hazardous). Composes the externally-anchored RAIM Stanford classification; adds no new integrity mathematics.",
-   "proof": "Stanford-ESA integrity regions (Tossaint et al., NAVIGATION 2007)"
-  },
-  {
-   "domain": "Decision support",
-   "name": "Cost-per-coverage ROI",
-   "summary": "A cost-per-coverage ROI lens — cost per unit of delivered coverage for a constellation / architecture trade. The coverage component composes the validated coverage geometry and the arithmetic is unit-tested, but the cost is a user input — so the ratio is a planning aid, not an externally-validated quantity (hence, honestly, no proof badge)."
-  },
-  {
-   "domain": "Artifact interchange",
-   "name": "Kshana Interchange Format (KIF)",
-   "summary": "A versioned, self-describing envelope that wraps a scenario result with its kind, schema version, and modelled/validated labels, so a stored artifact stays self-documenting and older envelopes remain forward-compatibly readable.",
-   "proof": "versioned envelope · round-trip + forward-compatible read verified"
+  "_comment": "Product capability content for the public site. Present what the engine does, confidently; keep the granular maturity/limitations nuance in docs/CAPABILITY.md, not here. 'proof' is an optional positive credibility signal shown only where genuinely true. 'run' loads a live scenario in the playground.",
+  "capabilities": [
+    {
+      "domain": "Orbit & geometry",
+      "group": "Orbits",
+      "status": "validated",
+      "name": "Orbit propagation & constellation design",
+      "summary": "SGP4/SDP4 propagation from real two-line elements (a committed Celestrak GPS snapshot) or synthetic Walker constellations whose mean elements realise the i:T/P/F formula to under 1 km over 24 h. Multi-constellation visibility, dilution of precision and GNSS availability, a constellation-design optimiser, streets-of-coverage sizing, and a Walker design sweep that reports the Pareto-optimal designs over a planes × satellites grid.",
+      "proof": "666/666 AIAA vectors · 4.12 mm",
+      "run": "orbit-sgp4-gps.toml"
+    },
+    {
+      "domain": "Numerical propagator",
+      "group": "Orbits",
+      "status": "modelled",
+      "name": "Cowell propagator & six-perturbation force model",
+      "summary": "A numerical (Cowell) propagator complementing the analytic SGP4/SDP4 path, with a hierarchical force model: two-body + the full J2–J6 zonal field, an optional EGM2008 tesseral geopotential to degree/order 70, epoch-driven Sun and Moon third-body gravity (a built-in ephemeris, no DE/SPK kernel), solar-radiation pressure with a conical umbra/penumbra shadow, atmospheric drag, the post-Newtonian Schwarzschild relativistic correction, and the Lense–Thirring frame-dragging term — driven by a choice of RK4 step-doubling or Dormand–Prince RK5(4) adaptive integrators.",
+      "proof": "sub-metre vs Kepler truth over 24 h"
+    },
+    {
+      "domain": "Maneuvers & trajectory design",
+      "group": "Orbits",
+      "status": "modelled",
+      "name": "Burns, Lambert & porkchop",
+      "summary": "Impulsive ΔV nodes with 6×6 covariance propagation, finite-burn integration checked against the Tsiolkovsky rocket equation to under 0.01 %, an Izzo-2015 single-revolution Lambert solver and an exact universal-variable Kepler propagator, and a porkchop (launch × arrival) C3 / arrival-V∞ sweep emitted as a JSON contour grid — the performance-simulation layer above GMAT/Orekit.",
+      "proof": "Tsiolkovsky < 0.01 % · Lambert round-trips to two-body truth"
+    },
+    {
+      "domain": "Time systems",
+      "group": "Timing",
+      "status": "validated",
+      "name": "Time scales & Earth-orientation frames",
+      "summary": "IERS leap-second UTC / TAI / TT / UT1 scales, a Julian-date API, the IAU-2000 Earth Rotation Angle, GMST-based TEME ↔ ECEF and WGS-84 geodetic frames, full IAU 2000A/2000B nutation and IAU 2006 precession, and the equinox-free CIO-based IAU 2006/2000A GCRS↔ITRS reduction with IERS polar motion — validated bit-for-bit against the SOFA/ERFA vectors and independently cross-checked against ANISE (pure-Rust SPICE): GCRS→ITRS vs ANISE ITRF93, same IERS EOP, agree to ≤ 0.86 m on the ground / ≤ 3.6 m at GNSS orbit.",
+      "proof": "bit-for-bit vs SOFA/ERFA · Vallado end-to-end 4 mm"
+    },
+    {
+      "domain": "Inertial",
+      "group": "Inertial",
+      "status": "modelled",
+      "name": "Strapdown INS & map-aided navigation",
+      "summary": "Three-axis strapdown INS — quaternion attitude, WGS-84 NED mechanization, coning/sculling compensation, and a full deterministic IMU error model — plus a first-principles cold-atom-interferometer accelerometer (Mach–Zehnder phase, projection noise, contrast decay, vibration coupling) and a particle filter for terrain-/gravity-referenced GPS-denied navigation.",
+      "proof": "first-principles CAI accelerometer · derived VRW cross-checked vs an independent integrator",
+      "run": "imu-deadreckoning.toml"
+    },
+    {
+      "domain": "Alt-PNT (GPS-denied)",
+      "group": "Inertial",
+      "status": "modelled",
+      "name": "Gravity, terrain & magnetic map-matching",
+      "summary": "A cold-atom gravimeter measurement model whose white-noise floor is derived from the CAI accelerometer physics, a low-degree fully-normalised spherical-harmonic gravity-anomaly field plus synthetic mascons, and a gravity-map-matching particle filter — extended to terrain-referenced navigation against an SRTM elevation DEM (TERCOM/SITAN), an IGRF-14 geomagnetic main field to degree/order 13, and a combined gravity + magnetic + terrain navigator that fuses all three scalar channels. A 60-minute GPS-denied benchmark — a ~700 km / one-hour outage where the inertial solution drifts to ~70 km — is recovered to ~145 m by a hierarchical coarse-to-fine matcher: the ESA NAVISP Quantum Wayfarer target.",
+      "proof": "60-min GPS-denied · ~145 m (< 500 m)",
+      "run": "gps-denied-gravity-nav.toml"
+    },
+    {
+      "domain": "Fusion",
+      "group": "Inertial",
+      "status": "modelled",
+      "name": "GNSS / INS sensor fusion",
+      "summary": "A 15-state error-state EKF that coasts through GNSS outages on a calibrated inertial solution; a tightly-coupled pseudorange mode that keeps correcting with fewer than four satellites; a coupled clock + position filter; a general unscented (sigma-point) Kalman estimator; a tightly-coupled GNSS/INS UKF navigator validated to 0.77 m RMS through a 120 s outage on a curving LEO pass; and a full 17-state tightly-coupled GNSS/INS UKF whose quantum-CAI dead-reckoning coasts the outage on the cold-atom accelerometer's derived velocity-random-walk.",
+      "proof": "tightly-coupled UKF · 0.77 m RMS",
+      "run": "gnss-ins.toml"
+    },
+    {
+      "domain": "Orbit determination",
+      "group": "Orbits",
+      "status": "modelled",
+      "name": "Batch & sequential OD",
+      "summary": "Recovery of an orbital state from ground-station range tracking, composing the two-body + J2 force model and RK4 integrator with a Gauss–Newton batch differential corrector (sub-metre / mm·s⁻¹ from noiseless ranges, ~2 m at a 5 m noise floor) and a sequential unscented-filter variant.",
+      "proof": "sub-metre OD from noiseless ranges · ~2 m at a 5 m noise floor"
+    },
+    {
+      "domain": "Lunar & cislunar",
+      "group": "Lunar",
+      "status": "validated",
+      "name": "CR3BP propagation & LunaNet integrity",
+      "summary": "An Earth–Moon circular restricted three-body (CR3BP) propagator in the rotating frame — a conserved Jacobi constant and all five Lagrange points — with a 6×6 state-transition matrix and a single-shooting differential corrector that produces genuinely periodic halo / near-rectilinear halo orbits (NRHO): it reproduces the published L2 southern 9:2 NRHO (the Gateway orbit) at a period of ~6.57 days and a perilune of ~3,250 km. Plus LunaNet / LNIS cislunar PNT geometry (MCI↔MCMF reduction, selenographic coordinates) with a lunar south-pole ARAIM pass that honestly surfaces the integrity gap: a ~30 m σ_URE drives the protection level well above a 50 m alert limit.",
+      "proof": "Reproduces the published L2 9:2 NRHO (~6.57 d period · ~3,250 km perilune); STM checked vs finite differences",
+      "run": "lunanet-araim.toml"
+    },
+    {
+      "domain": "Deep-space & Mars PNT",
+      "group": "Lunar",
+      "status": "modelled",
+      "name": "Radiometric navigation & relay-PNT",
+      "summary": "An open deep-space / Mars radiometric navigation engine: iterative light-time + Shapiro delay, two-/one-/three-way Doppler & range (Moyer two-leg), coherent transponder turnaround, regenerative/PN ranging and Δ-DOR; CCSDS-TDM I/O; a reduced-dynamic Square-Root Information Filter (empirical accelerations + onboard clock + Mars drag) that does Mars-LMO orbit determination in a synthetic closed loop; one-way+two-way fusion; and a MARCONI areostationary relay constellation with an end-to-end GSE performance simulator.",
+      "proof": "Simulation-validated (covariance / closed-loop figures of merit, not certified protection levels); the Sun-central Mars dynamics are cross-checked against JPL DE440 to 137 m @ a 1-day arc; Mars-LMO OD ≈ 0.2 m.",
+      "run": "mars-pnt-lmo.toml"
+    },
+    {
+      "domain": "Integrity",
+      "group": "GNSS",
+      "status": "validated",
+      "name": "Receiver autonomous integrity (ARAIM)",
+      "summary": "Snapshot and solution-separation RAIM with horizontal and vertical protection levels (HPL/VPL), fault detection and exclusion, and Stanford integrity diagrams — plus an explicit integrity-risk-budget (MHSS) protection level with the dual-/multi-constellation constellation-wide fault mode (EU ARAIM / DO-316).",
+      "proof": "MHSS on a real GPS + Galileo snapshot · DO-316 dual-constellation",
+      "run": "integrity-raim.toml"
+    },
+    {
+      "domain": "Augmentation (SBAS)",
+      "group": "GNSS",
+      "status": "validated",
+      "name": "SBAS / WAAS protection levels & dual-frequency",
+      "summary": "SBAS / WAAS protection levels in the DO-229E weighted-least-squares form (precision-approach and en-route K-factors) and the L1/L5 dual-frequency ionosphere-free combination (IS-GPS-705) that underpins DO-316, with the protection-level geometry cross-checked against a reference linear-algebra implementation.",
+      "proof": "DO-229E K-factors · L1/L5 iono-free"
+    },
+    {
+      "domain": "Clock & timing",
+      "group": "Timing",
+      "status": "validated",
+      "name": "Holdover, stability & time-and-frequency transfer",
+      "summary": "Two-state Kalman holdover, Allan-family stability (ADEV / MDEV / TDEV / HDEV) with confidence intervals and a full IEEE-1139 five-coefficient power-law fit, and the operational transfer methods — TWSTFT with the BIPM Sagnac closed form, GNSS common-view, PPP ionosphere-free transfer, a free-space optical link with turbulence scintillation, and an inverse-variance clock-ensemble timescale. A GNSS-denied clock-holdover calculator inverts the van-Loan coast-error growth to a holdover-to-threshold — how long a clock free-runs before its timing error exceeds budget — across classical and quantum-clock classes; modelled, and honest that for a very stable clock the holdover to a tight threshold is set by the assumed long-tau noise floor, not the cited ADEV.",
+      "proof": "calibrated to clock datasheets · holdover cross-checked vs the van-Loan covariance recursion",
+      "run": "clock-holdover.toml"
+    },
+    {
+      "domain": "GNSS measurement domain",
+      "group": "GNSS",
+      "status": "validated",
+      "name": "Pseudorange, ionosphere & troposphere",
+      "summary": "Forward pseudorange / Doppler synthesis with Klobuchar (broadcast) and IONEX / TEC-grid (measured) ionosphere — including an IONEX file parser, time interpolation, and the thin-shell slant-obliquity mapping — Saastamoinen + Niell troposphere, and snapshot RAIM.",
+      "proof": "Saastamoinen ZHD ≈ 2.3 m · Niell unity at zenith · Klobuchar per IS-GPS-200",
+      "run": "gnss-sim-raim.toml"
+    },
+    {
+      "domain": "GNSS positioning",
+      "group": "GNSS",
+      "status": "validated",
+      "name": "Single-point positioning (PVT)",
+      "summary": "A real receiver position solved from real RINEX code pseudoranges + broadcast ephemeris by iterated weighted least squares — Sagnac/Earth-rotation correction, broadcast clock with TGD, the dual-frequency L1/L2 ionosphere-free combination (or single-frequency Klobuchar), Saastamoinen/Niell troposphere, elevation weighting, DOP, and snapshot RAIM.",
+      "proof": "Validated on real IGS data (station ABMF, 2018-05-13) to 5.7 m 3-D RMS / 1.1 m horizontal against the surveyed coordinate.",
+      "run": "pvt-abmf.toml"
+    },
+    {
+      "domain": "Resilience",
+      "group": "Resilience",
+      "status": "modelled",
+      "name": "Jamming & multi-layer spoof detection",
+      "summary": "A link-budget jamming model (J/S → effective C/N₀ → loss of lock), a stochastic time-spoof detector (Neyman–Pearson / χ²₁ energy test with Monte-Carlo P_fa/P_md and a Security FoM of 1 − P_md), and a multi-layer spoof detector fusing a RAIM-consistency parity test, an RF AGC-power monitor, and a signal-quality (SQM) monitor. Plus a quantum-inertial dead-reckoning error budget composing cold-atom-interferometer white-noise drift with residual bias (cross-checked against an independent integrator) and scale-factor error into a position-drift-over-holdover figure — the inertial twin of the clock holdover.",
+      "proof": "χ²₁ NP detector · closed-form and Monte-Carlo P_fa/P_md agree",
+      "run": "spoof-attack.toml"
+    },
+    {
+      "domain": "Nav-signal performance",
+      "group": "Resilience",
+      "status": "modelled",
+      "name": "Modulation, anti-jam & code tracking",
+      "summary": "The signal-performance layer between the link budget and the measurement domain: unit-area power spectral densities for BPSK-R(n) and sine-BOC(m,n), the spectral-separation coefficient that derives the anti-jam Q the jamming model consumes directly from the actual signal and jammer spectra, the RMS (Gabor) bandwidth that sets the ranging-information content (BOC > BPSK), the coherent early–late DLL code-tracking thermal-noise jitter, and the coherent early-minus-late multipath error envelope with narrow-correlator suppression, and a ranging-code design-trade (m-sequence/Gold autocorrelation sidelobe and the three-valued Gold cross-correlation bound, plus the code-length-to-unambiguous-range inversion). This is signal-performance analysis, not RF-payload or antenna hardware design.",
+      "proof": "BPSK self-SSC = 2/(3R_c) · sub-metre C/A DLL jitter at 45 dB-Hz · GPS C/A Gold cross-corr -23.9 dB"
+    },
+    {
+      "domain": "Interoperability",
+      "group": "Interop",
+      "status": "modelled",
+      "name": "RINEX, SP3 & CCSDS formats",
+      "summary": "Multi-GNSS RINEX-3 broadcast-ephemeris ingestion (GPS, Galileo, QZSS, BeiDou, GLONASS), a RINEX-3/4 observation parser, an SP3-c/d precise-ephemeris reader/writer with Lagrange interpolation, and CCSDS OEM 2.0 + OMM (mean-elements) export for flight-dynamics tools (GMAT, Orekit, STK), and CCSDS-TDM (503) tracking-data-message parse + emit for deep-space radiometric tracking.",
+      "proof": "OEM / SP3 / OMM / TDM round-trip verified"
+    },
+    {
+      "domain": "Verification & assurance",
+      "group": "Interop",
+      "status": "modelled",
+      "name": "Machine-checked verification matrix",
+      "summary": "A requirement-to-module-to-test-to-oracle-to-status cross-reference rendered from the engine itself (Markdown/CSV), with unit-tested honesty invariants: a row may be labelled validated only if it carries an independent external oracle (NIST / AIAA / SOFA / IGS / a published value), so an internal self-consistency check cannot masquerade as a validation — and the hardware/PA capabilities Kshana does not provide are recorded as partner-owned gaps. The executable backbone for an ECSS-E-ST-10-02 verification cross-reference.",
+      "proof": "validated rows require an external oracle (invariant enforced in CI)"
+    },
+    {
+      "domain": "Mission analysis",
+      "group": "Orbits",
+      "status": "modelled",
+      "name": "Launch, re-entry, coverage & pointing budgets",
+      "summary": "First-order mission-design budgets, each a runnable scenario: two-body launch & ascent geometry (launch azimuth, minimum inclination, Earth-rotation bonus, dogleg plane-change Δv, daily opportunities), an Allen–Eggers ballistic re-entry corridor (peak deceleration, peak-g and peak-heating velocities), Earth-observation coverage geometry (swath / nadir GSD / off-nadir access / revisit via the SMAD space triangle), a 3-DOF attitude & pointing error budget (gravity-gradient torque + RSS pointing budget), ground-station pass prediction (AOS/TCA/LOS, max elevation, access), and a one-way link budget over the CCSDS 401 / DSN 810-005 link equation (FSPL, C/N₀, Eb/N₀, margin, closure). The pre-hardware analytic layer below STK/GMAT/Basilisk — modelled first-order budgets, not a 6-DoF or radiometric replacement.",
+      "proof": "checked vs closed-form (launch azimuth · Allen-Eggers · SMAD)"
+    },
+    {
+      "domain": "Space environment",
+      "group": "Orbits",
+      "status": "validated",
+      "name": "Space-weather & thermospheric density",
+      "summary": "A space-weather environment model: solar (F10.7 / centred-81-day F10.7a) and geomagnetic (Kp, with the definitional Kp↔ap table) activity indices, the Jacchia-1971 exospheric temperature they drive, and the activity-corrected versus static thermospheric neutral density at altitude — the solar-cycle density dependence a static atmosphere omits. A calibrated first-order scale-height coupling, not a data-validated NRLMSISE atmosphere.",
+      "proof": "Jacchia-71 validated vs published solar min / mean / max"
+    },
+    {
+      "domain": "AI/ML evaluation & trade",
+      "group": "AI/ML",
+      "status": "validated",
+      "name": "RF-impairment detection eval & PNT trade",
+      "summary": "An RF-impairment detection evaluation testbed: a labelled, parameter-grounded synthetic corpus (nominal / jamming / spoof-time / spoof-position / multipath), a detector-agnostic ROC/AUC harness scoring any detector with per-class Pd at a target Pfa, and the in- versus out-of-distribution optimism gap. A deeper optimism-gap study extends this to a 13-detector panel (energy / AGC / SQM / parity plus seeded logistic-regression and one-hidden-layer-MLP detectors), in- versus out-of-distribution scaling laws with a permutation null, and a leave-one-out predictor of out-of-distribution degradation; a software-defined-receiver front end (raw IQ/IF to correlator early/prompt/late taps to SQM) and real-data ingest adapters (RINEX, u-blox UBX, GnssLogger, JammerTest, Yunnan, SatGrid) let the same detectors run over recordings supplied locally. Plus a quantum-vs-classical PNT trade that quantifies a candidate clock's timing and inertial holdover benefit from a measured-ADEV curve against a classical baseline, with a GNSS-denied resilience-vs-time envelope. Modelled operating characteristics — never field/IQ data, no good/bad verdict.",
+      "proof": "AUC harness verified vs binormal closed form Φ(d′/√2) (Gneiting & Vogel 2018); eval metrics validated bit-for-bit vs scikit-learn 1.9.0 — synthetic corpus, not raw-IQ/TEXBAT"
+    },
+    {
+      "domain": "AI/ML evaluation & trade",
+      "group": "AI/ML",
+      "status": "modelled",
+      "name": "Quantum-vs-classical resilience crossover map",
+      "summary": "A reproducible map of where a quantum sensor overtakes its classical counterpart under parameter uncertainty: cold-atom versus navigation-grade dead-reckoning and optical versus chip-scale clock holdover, over outage duration and platform vibration, each curve carrying a technology-readiness label. Reproducible via cargo run --bin crossover_study. Modelled performance budgets — the inputs are published or bracketed coefficients, not flight data.",
+      "proof": "regenerates the inertial and clock crossover studies behind the Results figures; trade kernels validated vs scipy 1.17.1"
+    },
+    {
+      "domain": "Timing integrity",
+      "group": "Timing",
+      "status": "modelled",
+      "name": "Conditional Timing Protection Level",
+      "summary": "A holdover-limited bound on the undetected time error under GNSS spoofing: given an independent cross-check, the served-time error is bounded by a k-sigma monitor floor, the van-Loan coast variance over the detection latency, and a CUSUM time-to-alarm. Calibrated on a real recorded spoof (JammerTest 2024) and reproducible via cargo run --example tpl_jammertest. Modelled composition, conditional on detection — there is no finite unconditional bound, since a slow-enough ramp evades a single clock-aided monitor.",
+      "proof": "composition cross-checked vs the multi-step clock_state covariance recursion; calibrated on JammerTest 2024 (Zenodo 15911589)"
+    },
+    {
+      "domain": "Resilience assessment",
+      "group": "Resilience",
+      "status": "modelled",
+      "name": "PNT-resilience scoring & decision-instability",
+      "summary": "A framework-aligned scoring engine (DHS RPCF categories) that maps an architecture's simulated behaviour to per-dimension sub-scores, then asks whether any single composite score or maturity Level is a stable basis for a decision — via a Dirichlet weighting simplex, Kendall-tau rank instability, a top-1 winner flip rate, and common-mode diversity collapse (Hill-N2) — with an integrity-hashed assurance report. Reproducible via cargo run --example resilience_report. Modelled synthetic architectures aligned to RPCF v2.0; a self-assessment, not a certification.",
+      "proof": "35 hand-derived oracle tests; byte-deterministic study artifact (fixed seed); aligned to DHS RPCF v2.0"
+    },
+    {
+      "domain": "Integrity impact",
+      "group": "GNSS",
+      "status": "modelled",
+      "name": "Detection-miss → integrity regions",
+      "summary": "A detection-miss-to-integrity bridge: an undetected bias left by a missed spoof / jam / RAIM detection inflates the effective position error, which — held against context-specific alert limits — is classified into the Stanford-ESA integrity regions (available / unavailable / misleading / hazardous). Composes the externally-anchored RAIM Stanford classification; adds no new integrity mathematics.",
+      "proof": "Stanford-ESA integrity regions (Tossaint et al., NAVIGATION 2007)"
+    },
+    {
+      "domain": "Decision support",
+      "group": "AI/ML",
+      "status": "modelled",
+      "name": "Cost-per-coverage ROI",
+      "summary": "A cost-per-coverage ROI lens — cost per unit of delivered coverage for a constellation / architecture trade. The coverage component composes the validated coverage geometry and the arithmetic is unit-tested, but the cost is a user input — so the ratio is a planning aid, not an externally-validated quantity (hence, honestly, no proof badge)."
+    },
+    {
+      "domain": "Artifact interchange",
+      "group": "Interop",
+      "status": "modelled",
+      "name": "Kshana Interchange Format (KIF)",
+      "summary": "A versioned, self-describing envelope that wraps a scenario result with its kind, schema version, and modelled/validated labels, so a stored artifact stays self-documenting and older envelopes remain forward-compatibly readable.",
+      "proof": "versioned envelope · round-trip + forward-compatible read verified"
+    }
+  ],
+  "standards": [
+    {
+      "name": "TLE / SGP4",
+      "note": "AIAA 2006-6753",
+      "proof": true
+    },
+    {
+      "name": "RINEX 3 / 4",
+      "note": "real IGS data → surveyed coordinate",
+      "proof": true
+    },
+    {
+      "name": "SP3-c / d",
+      "note": "fit to real ESA/ESOC precise orbits",
+      "proof": true
+    },
+    {
+      "name": "CCSDS OEM / OMM",
+      "note": "parses the CCSDS 502.0-B-3 Blue Book OEM example",
+      "proof": true
+    },
+    {
+      "name": "IS-GPS-200",
+      "note": "broadcast ephemeris → real-data PVT",
+      "proof": true
+    },
+    {
+      "name": "IEEE 1139",
+      "note": "ADEV/MDEV/TDEV/HDEV vs NIST SP 1065 reference deviations",
+      "proof": true
+    },
+    {
+      "name": "RAIM / ARAIM",
+      "note": "integrity · HPL / VPL · DO-316"
+    },
+    {
+      "name": "SBAS / DO-229E",
+      "note": "WAAS protection levels · L1/L5"
+    },
+    {
+      "name": "IONEX / Klobuchar",
+      "note": "ionosphere"
+    },
+    {
+      "name": "IGRF-14",
+      "note": "vs official BGS IGRF-14 values",
+      "proof": true
+    },
+    {
+      "name": "CCSDS 133.0",
+      "note": "primary header vs CCSDS 133.0-B-2 + spacepackets-py vectors",
+      "proof": true
+    },
+    {
+      "name": "CCSDS TDM",
+      "note": "parses the CCSDS 503.0-B-2 Blue Book TDM example",
+      "proof": true
+    },
+    {
+      "name": "CCSDS 401 / DSN",
+      "note": "link equation vs published DESCANSO/JPL Galileo DCT",
+      "proof": true
+    }
+  ],
+  "trust": {
+    "license": "AGPL-3.0-only (dual-licensed; commercial licence available from Ashforde OÜ)",
+    "reproducible": "Deterministic from scenario + seed + engine version; CycloneDX SBOM and SLSA build provenance on every release.",
+    "citation": "CITATION.cff in the repository; archival DOI via Zenodo."
   }
- ],
- "standards": [
-  {
-   "name": "TLE / SGP4",
-   "note": "AIAA 2006-6753",
-   "proof": true
-  },
-  {
-   "name": "RINEX 3 / 4",
-   "note": "real IGS data → surveyed coordinate",
-   "proof": true
-  },
-  {
-   "name": "SP3-c / d",
-   "note": "fit to real ESA/ESOC precise orbits",
-   "proof": true
-  },
-  {
-   "name": "CCSDS OEM / OMM",
-   "note": "parses the CCSDS 502.0-B-3 Blue Book OEM example",
-   "proof": true
-  },
-  {
-   "name": "IS-GPS-200",
-   "note": "broadcast ephemeris → real-data PVT",
-   "proof": true
-  },
-  {
-   "name": "IEEE 1139",
-   "note": "ADEV/MDEV/TDEV/HDEV vs NIST SP 1065 reference deviations",
-   "proof": true
-  },
-  {
-   "name": "RAIM / ARAIM",
-   "note": "integrity \u00b7 HPL / VPL \u00b7 DO-316"
-  },
-  {
-   "name": "SBAS / DO-229E",
-   "note": "WAAS protection levels \u00b7 L1/L5"
-  },
-  {
-   "name": "IONEX / Klobuchar",
-   "note": "ionosphere"
-  },
-  {
-   "name": "IGRF-14",
-   "note": "vs official BGS IGRF-14 values",
-   "proof": true
-  },
-  {
-   "name": "CCSDS 133.0",
-   "note": "primary header vs CCSDS 133.0-B-2 + spacepackets-py vectors",
-   "proof": true
-  },
-  {
-   "name": "CCSDS TDM",
-   "note": "parses the CCSDS 503.0-B-2 Blue Book TDM example",
-   "proof": true
-  },
-  {
-   "name": "CCSDS 401 / DSN",
-   "note": "link equation vs published DESCANSO/JPL Galileo DCT",
-   "proof": true
-  }
- ],
- "trust": {
-  "license": "AGPL-3.0-only (dual-licensed; commercial licence available from Ashforde OÜ)",
-  "reproducible": "Deterministic from scenario + seed + engine version; CycloneDX SBOM and SLSA build provenance on every release.",
-  "citation": "CITATION.cff in the repository; archival DOI via Zenodo."
- }
 }

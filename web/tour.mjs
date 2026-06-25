@@ -13,13 +13,13 @@ export const TOUR_STEPS = [
   {
     target: "#capabilities",
     title: "One engine, the whole PNT stack",
-    body: "Orbits, clocks, inertial, GNSS integrity, alt-PNT, single-point positioning, and deep-space / Mars radiometric nav — all one validated engine. Each card can load a worked scenario straight into the playground.",
+    body: "Every capability, grouped by domain — Orbits, Timing, Inertial, GNSS, Resilience, Lunar, AI/ML, Interop. Expand a group to see its cards, each labelled Validated or Modelled; flip “Validated only” to show just what is checked against an external oracle.",
     side: "bottom",
   },
   {
     target: "#presets",
-    title: "Pick a question",
-    body: "These one-click presets load a real scenario and run it on your machine. Nothing is uploaded — the engine runs as WebAssembly in your browser.",
+    title: "Pick a domain, then a question",
+    body: "Choose a domain tab, then a one-click scenario — it loads and runs the engine as WebAssembly in your browser. Nothing is uploaded.",
     side: "bottom",
   },
   {
@@ -49,13 +49,25 @@ export const TOUR_STEPS = [
   {
     target: "#validation",
     title: "Evidence, not adjectives",
-    body: "Every claim is traced to a standard or a published reference and validated in CI — and whatever is not modelled is labelled honestly too.",
+    body: "Every claim laid out as a grouped table — the figure, the external oracle it is checked against, and an honest Validated / Modelled status per row. “Validated only” filters to the dataset-checked rows.",
     side: "top",
   },
   {
     target: "#mcp",
     title: "Use it from an AI agent or your IDE",
     body: "An MCP server lets AI assistants run the validated engine instead of guessing; a JetBrains plugin runs scenarios from a right-click.",
+    side: "top",
+  },
+  {
+    target: "#cite",
+    title: "Publications & how to cite",
+    body: "Kshana is built to be referenced — a citable software release with a DOI, plus peer-style papers on the RF-impairment optimism gap and a conditional timing protection level. Copy the citation straight from here.",
+    side: "top",
+  },
+  {
+    target: "#ashforde",
+    title: "From Ashforde OÜ",
+    body: "Thank you for exploring Kshana. We build open, reproducible, evidence-first engineering for missions that cannot fail — honest about what is validated and what is modelled. Questions, a collaboration, or a study? Reach us at contact@ashforde.org.",
     side: "top",
   },
 ];
