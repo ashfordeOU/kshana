@@ -14,7 +14,7 @@
 <p align="center">
   <a href="https://ashfordeou.github.io/kshana/"><img src="https://img.shields.io/badge/playground-try%20in%20browser-c79e63" alt="Live playground — run in your browser, no install"></a>
   <a href="tests/sgp4_verification.rs"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%204.12mm-3fb950" alt="SGP4 validated against all 666 AIAA 2006-6753 vectors, worst 4.12 mm"></a>
-  <a href="#validation-at-a-glance"><img src="https://img.shields.io/badge/validated-17%20external%20oracles-3fb950" alt="17 capabilities validated against independent external oracles (real data, independent libraries, or published reference vectors); 15 more are honestly labelled MODELLED — see Validation at a glance"></a>
+  <a href="#validation-at-a-glance"><img src="https://img.shields.io/badge/validated-15%20external%20oracles-3fb950" alt="15 capabilities validated against independent external oracles (real data, independent libraries, or published reference vectors); 42 more are honestly labelled MODELLED and 4 are PARTNER-owned — see Validation at a glance"></a>
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/coverage-~96%25%20line-3fb950" alt="~96% line coverage on src/ (cargo-tarpaulin LLVM engine), gated at 85% in CI"></a>
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.20.0-c79e63" alt="Release v0.20.0"></a>
@@ -159,6 +159,7 @@ the P2 roadmap and [get in touch](#support--professional-services) to collaborat
 | **Fusion** | Loosely-coupled 15-state GNSS/INS error-state EKF with closed-loop feedback (the `gnss-ins` pack); a **tightly-coupled** pseudorange update that keeps correcting with fewer than four satellites; a coupled **clock + position** filter; a general **unscented (sigma-point) Kalman** estimator for strongly nonlinear measurements; a tightly-coupled GNSS/INS **UKF navigator** (pseudorange + Doppler) whose force-model orbital coast is validated to **0.77 m RMS** over a 30-minute curving LEO pass that includes a 120-second GNSS outage; and a full **17-state tightly-coupled GNSS/INS UKF** (position, velocity, attitude error, accelerometer and gyro biases, clock bias and drift) whose **quantum-CAI dead-reckoning** coasts a 120-second outage on the cold-atom accelerometer's derived velocity-random-walk. |
 | **Orbit determination** | Recovery of an orbital state `[r, v]` from ground-station range tracking, composing the two-body + J2 force model and RK4 integrator with a **Gauss–Newton batch** corrector (`determine_orbit_batch`, sub-metre / mm·s⁻¹ from noiseless ranges, ~2 m at a 5 m noise floor) and a **sequential** unscented-filter variant (`determine_orbit_sequential`). |
 | **Lunar & cislunar** | An Earth–Moon **circular restricted three-body (CR3BP)** propagator in the rotating frame — conserved Jacobi constant and all five Lagrange points (`src/cr3bp.rs`) — now with a **6×6 state-transition matrix and a single-shooting differential corrector** (`cr3bp_jacobian`, `propagate_state_stm`, `differential_correct_halo`) that produces genuinely periodic **halo / NRHO** orbits: the STM is validated against finite differences, corrected orbits close to machine precision, and seeding the published apolune state reproduces the **L2 southern 9:2 NRHO** (the Gateway orbit) at period ≈ 6.57 d / perilune ≈ 3,250 km, consistent with the published ≈ 6.56 d / ≈ 3,370 km (a CR3BP — circular, Sun-free — solution, **not** validated against a real LANS/Gateway ephemeris; the selenocentric MCI/MCMF transform of the corrected orbit is a follow-on); plus **LunaNet / LNIS** cislunar PNT geometry (MCI↔MCMF reduction, selenographic coordinates) with a **lunar south-pole ARAIM** pass that honestly surfaces the integrity gap: a ~30 m σ_URE drives the protection level well above a 50 m alert limit (`src/lunar.rs`, `scenarios/lunanet-araim.toml`). |
+| **Lunar PNT suite** | A modelled lunar/cislunar navigation suite layered on the CR3BP core, each a runnable `kind`: **Lunar Coordinate Time** (`lunar-time-offset`, `src/lunar_time.rs` — the secular LTC/TCL − TT rate from the self-potential difference + kinetic term, reported with the published 56–59 µs/day band); a geodetic **lunar VLBI** delay observable (`lunar-vlbi`, `src/lunar_vlbi.rs` — an Earth-baseline near-field two-range-difference delay + rate, cross-checked against the same-codebase plane-wave Δ-DOR in the far-field limit, partials finite-difference-verified); a **joint multi-technique OD + clock** batch estimator (`lunar-joint-od-clock`, `src/lunar_combination.rs` — a Gauss–Newton fit fusing VLBI + lunar-local ranges + inter-satellite ranges that makes a surface station's full 3-D position observable where local ranging alone leaves a weak direction); **reference-frame realisation** (`lunar-frame-realisation`, `src/lunar_frame_realise.rs` — a 7-parameter Helmert datum fit + IAU 2015 WGCCRE orientation tie); a **Moonlight/LCNS-class service-volume** analysis (`moonlight-service-volume`, `src/lunar_service.rs` — DOP / coverage / availability + a generalised lunar ARAIM HPL/VPL envelope, reusing the gnss_lib_py-validated DOP kernel and the LunaNet σ_URE≈30 m machinery); **lunar differential PNT** (`lunar-differential-pnt`, `src/lunar_dpnt.rs` — a lunar DGNSS/SBAS analogue: exact common-mode clock cancellation + first-order spatial decorrelation vs baseline, reusing the DO-229E SBAS protection level); and a **LunaNet/IOAG-aligned interoperability export** (`lunar-interop-export`, `src/lunar_interop.rs` — CCSDS-OEM + lunar-time-scale round-trip in the IAU 2015 lunar body frame, wrapped in the KIF envelope). All **MODELLED** against internal consistency / reference implementations from **illustrative public-source parameters** — **not** validated against real VLBI/Gateway tracking, **not** affiliated with or endorsed by any agency, no TRL / heritage claim. |
 | **Deep-space & Mars PNT** | An open **radiometric navigation engine**: iterative light-time + **Shapiro** relativistic delay, two-/one-/three-way **Doppler & range** (Moyer two-leg), coherent transponder turnaround ratios, regenerative/PN ranging (CCSDS 414), and **Δ-DOR** plane-of-sky (CCSDS 506), with solar-plasma/tropo/iono media; **CCSDS-TDM (503)** tracking-data-message parse + emit; a **reduced-dynamic Square-Root Information Filter** (RTN empirical accelerations + a 3-state onboard clock + Mars atmospheric drag) that does **Mars-LMO orbit determination to ≈ 0.2 m** in a synthetic closed loop; a joint **one-way + two-way fusion** estimator; a multi-body dynamics core (`Body{μ, re, zonals, gravity, IAU-pole}`, Mars GMM-3 gravity, an IAU body-fixed Mars frame, a pluggable `EphemerisProvider` seam, two-part Julian dates + TT↔TDB); and the **`mars-pnt`** relay-PNT scenario (a MARCONI areostationary relay constellation) with an end-to-end **GSE performance simulator** (geometry → link budget → observables → SRIF → covariance). **Simulation-validated** (covariance / closed-loop figures of merit); the Sun-central Mars dynamics are cross-checked against JPL **DE440** (137 m @ 1-day arc, `xval/anise-mars-od`). Real DSN/ESTRACK tracking-data validation is on the roadmap. |
 | **Integrity** | Snapshot and solution-separation (ARAIM-style) RAIM with horizontal/vertical protection levels (HPL/VPL), fault detection & exclusion, and Stanford integrity diagrams; an explicit integrity-risk-budget (**MHSS**) protection level, including the **dual-/multi-constellation constellation-wide fault mode** (EU ARAIM / DO-316), exercised on a real GPS + Galileo snapshot (`scenarios/araim-gps-galileo.toml`). The protection level applies the one-sided **nominal-bias** projection `b_k = Σ_i|s_i|·b_nom` per fault mode and the **integrity** sigma σ_URA (distinct from the accuracy σ_URE) from the Integrity Support Message — see [`docs/ARAIM_REFERENCE.md`](docs/ARAIM_REFERENCE.md). The detection kernel (the χ²/non-central-χ²/normal thresholds and K-multipliers) is **externally validated against SciPy** across 171 cases (`tests/raim_reference.rs`); the geometry reuses the gnss_lib_py-validated DOP kernel. The ARAIM MHSS integrity-risk *budget allocation* itself has no published numeric oracle and stays honestly Modelled. |
 | **Augmentation (SBAS)** | **SBAS / WAAS protection levels** in the DO-229E weighted-least-squares form (precision-approach and en-route K-factors) and the **L1/L5 dual-frequency ionosphere-free** combination (IS-GPS-705, γ₁₅ ≈ 1.793) that underpins DO-316 — `src/sbas.rs`. The protection-level algorithm is **externally validated against the RTKLIB SBAS-PL fork** (`zsiki/rtklib_ws` `waasprotlevels()`, Siki & Takács 2017, DO-229D App. J) run on **real EGNOS data**, reproducing its HPL to < 2e-3 m (`tests/sbas_reference.rs`); gLAB v6.0.0 confirmed the identical convention. |
@@ -170,6 +171,7 @@ the P2 roadmap and [get in touch](#support--professional-services) to collaborat
 | **Mission analysis (systems engineering)** | First-order mission-design budgets, each a runnable kind: two-body **launch & ascent geometry** (`launch-window` — launch azimuth `sin Az = cos i/cos lat`, minimum inclination, Earth-rotation bonus, dogleg plane-change Δv, daily opportunities; `src/launch.rs`); an **Allen–Eggers ballistic re-entry corridor** (`reentry` — peak deceleration, peak-g velocity/altitude, peak-heating velocity; `src/reentry.rs`); **Earth-observation coverage geometry** (`eo-coverage` — swath / nadir GSD / off-nadir access / revisit via the SMAD space triangle; `src/eo_payload.rs`); a **3-DOF attitude & pointing error budget** (`attitude-budget` — worst-case gravity-gradient torque + RSS pointing budget; `src/attitude_budget.rs`); **ground-station pass prediction** (`passes` — AOS/TCA/LOS, max elevation, access time; `src/passes.rs`); and a **one-way link budget** over the CCSDS 401 / DSN 810-005 link equation (`link-budget` — FSPL, C/N₀, Eb/N₀, margin, closure; `src/linkbudget.rs`). **MODELLED** first-order analytic budgets — the pre-hardware layer below STK/GMAT/Basilisk, not a 6-DoF or radiometric replacement. |
 | **Space environment** | A **space-weather environment model** (`space-weather`, `src/space_weather.rs`): solar (F10.7 / centred-81-day F10.7a) and geomagnetic (Kp, with the definitional Kp↔ap table) activity indices, the **Jacchia-1971** exospheric temperature they drive (validated vs published solar min/mean/max), and the activity-corrected vs static thermospheric neutral density at altitude — the solar-cycle density dependence the static USSA76 atmosphere omits. **MODELLED**: a calibrated first-order scale-height coupling, **not** a data-validated (NRLMSISE) atmosphere. |
 | **AI/ML evaluation & trade** | An **RF-impairment detection evaluation testbed** (`impairment-eval`, `src/impairment_eval.rs`): a labelled, parameter-grounded **synthetic** corpus (nominal / jamming / spoof-time / spoof-position / multipath), a detector-agnostic **ROC/AUC** harness scoring any detector (energy \| agc \| sqm \| parity \| fused) with per-class Pd at a target Pfa, and the in- vs out-of-distribution **optimism gap** (distribution-shift mode). Plus a **quantum-vs-classical PNT trade** (`quantum-trade`, `src/quantum_trade.rs`) quantifying a candidate clock's timing/inertial holdover benefit from a **measured-ADEV** curve vs a classical baseline, with the long-τ floor caveat carried on the artifact and a GNSS-denied resilience-vs-time envelope. The evaluation **metrics** (AUC / confusion / Pd-Pmd) are **validated to an exact match against scikit-learn 1.9.0** — including on **real ESA OPS-SAT telemetry** (the OPSSAT-AD dataset, Ruszczak et al. 2025, CC BY 4.0), where Kshana's Mann–Whitney ROC AUC reproduces scikit-learn's `roc_auc_score` to < 1e-9 on the held-out test split and a transparent peak-count detector separates the labelled anomalies at AUC ≈ 0.85 (`tests/opssat_ad_reference.rs`) — and the trade engine's numerical **kernels** (ADEV NNLS fit, χ² consistency bands, van-Loan clock Q) **against scipy 1.17.1**; the device-benefit numbers built on top stay **MODELLED** operating characteristics — never field/IQ data, no good/bad verdict. Building on the testbed, a deeper **optimism-gap study** (`src/impairment_study.rs`, `impairment_ml.rs`, `eval_stats.rs`) scores a **13-detector** panel (energy/AGC/SQM/parity plus seeded logistic-regression and one-hidden-layer-MLP detectors), fits in- vs out-of-distribution **scaling laws** with a permutation null, and learns a **leave-one-out predictor** of out-of-distribution degradation from in-distribution statistics (`cargo run --example optimism_study`). A **software-defined-receiver front end** (`src/sdr.rs` — raw IQ/IF → correlator early/prompt/late taps → SQM) and **real-data ingest adapters** (`src/realdata/` — RINEX, u-blox UBX, GnssLogger, JammerTest, Yunnan, SatGrid) let the same detectors run over recordings supplied locally (no datasets are committed). The **quantum-vs-classical resilience crossover map** under parameter uncertainty (`src/crossover.rs`; `cargo run --bin crossover_study`) regenerates the inertial and clock crossover studies behind the Results figures. |
+| **Quantum-Enabled PNT demonstrator** | Three runnable, **MODELLED** application areas behind the open engine, each emitting honest `TradeEvidence` + a representativeness / gaps-to-flight record (`src/representativeness.rs`): **trusted quantum time transfer** (`quantum-time-transfer`, `src/timetransfer_chain.rs` — an end-to-end optical-lattice-clock + photonic-link vs CSAC + RF two-way budget, with a reused timing protection level, a delay/replay-attack security FoM (1 − P_md), and clock-anomaly detection + CUSUM latency); **GNSS-free quantum navigation** (`quantum-gnss-free-nav`, `src/quantum_nav_od.rs` — a cold-atom-interferometer inertial coast vs a navigation-grade INS over a GNSS outage, honest that with no external fix the accelerometer bias is unobservable so the error still grows); and quantum-system **fault/anomaly detection** (`quantum-anomaly-detect`, `src/quantum_faults.rs` — a labelled fault catalogue with a bootstrap-CI ROC AUC from the externally-validated `eval_stats` and a minimum-detectable-fault at a fixed false-alarm rate). A shared **quantum device error-model library** (`src/quantum_devices.rs`) and a unified **quantum-vs-classical trade harness** (`src/qtrade.rs`) underpin them. The validated kernels they ride (eval-metrics vs scikit-learn, trade kernels vs scipy) are reused; the device-benefit numbers built on top stay **MODELLED** — **illustrative public-source** device/link parameters, models the *class*, no TRL / flight heritage / certification, no agency endorsement. |
 | **Frugal engineering & integrity impact** | A **cost-per-coverage ROI** lens (`src/frugal.rs`) — cost per unit of delivered coverage for an architecture trade — and a **detection-miss → integrity-impact** mapping (`src/integrity_impact.rs`) that turns a monitor's missed-detection rate into its integrity-risk contribution. **MODELLED** decision-support budgets, additive. |
 | **Artifact interchange** | The **Kshana Interchange Format (KIF)** (`src/interchange.rs`) — a versioned, self-describing envelope wrapping a scenario result with its kind, schema version, and MODELLED/VALIDATED labels, so a stored artifact stays self-documenting and older envelopes remain forward-compatibly readable. |
 
@@ -280,6 +282,25 @@ cargo run -- scenarios/orbit-sgp4-gps.toml --export-omm gps.omm
 cargo run -- scenarios/orbit-sgp4-gps.toml --export-oem gps.oem
 ```
 
+**Other CLI modes** — lint a scenario, feed real Earth-orientation data, or run a whole suite:
+
+```bash
+# Lint a scenario without running it (checks the kind + required fields):
+cargo run -- --validate scenarios/integrity-raim.toml
+
+# Feed a real IERS Earth-orientation file (finals2000A) for frame precision:
+cargo run -- scenarios/orbit-sgp4-gps.toml --eop tests/fixtures/agency/eop/finals2000A_2022001.txt
+
+# Run a SUITE of scenarios into one aggregated, stamped study artifact
+# (writes <suite>.study.json + <suite>.study.html next to the manifest):
+cargo run -- --study scenarios/quantum-pnt-demonstrator.suite.toml --study-name "Quantum-Enabled PNT demonstrator"
+```
+
+A **suite** manifest is a small TOML — a `title` and a `scenarios = [ … ]` array of
+scenario paths — that the engine runs in turn, folding every result (with its
+MODELLED / VALIDATED labels) into one self-describing study artifact. See
+[`scenarios/quantum-pnt-demonstrator.suite.toml`](scenarios/quantum-pnt-demonstrator.suite.toml).
+
 **Interoperability role.** Kshana is the *performance-simulation* layer that sits
 alongside the post-processing toolchain, not a replacement for it: feed its **RINEX**
 output into RTKLIB or gLAB for a position solution, and use its **SP3** output as a
@@ -368,6 +389,11 @@ result_json, chart_svg, summary = kshana.run_full(open("scenarios/orbit-gnss-cha
 print(kshana.version(), summary)
 ```
 
+Beyond `run` / `run_full` / `version`, the module exposes `run_typed` (a structured
+result object), `validate_toml` (lint → list of error strings), `list_kinds` /
+`scenario_kinds` (the dispatchable kinds), and `error_kind` (the `KshanaError` tag for
+a rejected scenario) — see [`docs/PYTHON_API.md`](docs/PYTHON_API.md).
+
 Wheels are built for Linux, macOS, and Windows by the `wheels` workflow on each
 release tag.
 
@@ -385,6 +411,11 @@ await init();
 const result = JSON.parse(run(tomlText));
 console.log(version(), result.classical.fom.timing_p95_ns);
 ```
+
+The module also exports `summary` (the one-line result string), `list_kinds` /
+`error_kind` (introspection), and `encode_permalink` / `decode_permalink` — the
+shareable-URL codec the playground uses to round-trip a whole scenario through the
+address-bar fragment.
 
 ### AI agents (MCP)
 
@@ -603,7 +634,12 @@ paper-clock). **MODELLED** — the headline figure is *reference-dependent* (Ear
 vs lunar selenoid, averaging window), which is why a band, not a single certified
 number, is reported (`scenarios/lunar-time-offset.toml`).
 
-See `scenarios/` for one example of every kind.
+See `scenarios/` for at least one worked example of every kind (44 kinds, 57 `.toml`
+files — several kinds ship more than one example). A few kinds have an example file
+whose name differs from the kind: `lunar-integrity` → `scenarios/lunanet-araim.toml`,
+`gravity-map` → `scenarios/gps-denied-gravity-nav.toml`. List the dispatchable kinds at
+any time with `cargo run -- --validate <file>` errors, the Python `list_kinds()`, or the
+MCP `list_scenario_kinds` tool.
 
 ## Output
 
@@ -654,8 +690,14 @@ precession–nutation and the CIO-based GCRS↔ITRS reduction), an **astrodynami
 layer** (analytic SGP4/SDP4 **and** a numerical Cowell propagator with its
 EGM2008/perturbation force model, maneuver design, and orbit determination), an
 **integrity/GNSS layer** (RAIM/ARAIM, SBAS, the measurement domain, jamming, cislunar),
-and a **fusion / alt-PNT layer** (the GNSS/INS estimators and the gravity/terrain/magnetic
-map-matchers).
+a **fusion / alt-PNT layer** (the GNSS/INS estimators and the gravity/terrain/magnetic
+map-matchers), a **deep-space & lunar layer** (radiometric Mars-PNT and the MODELLED
+lunar PNT suite — LTC time, VLBI, joint OD+clock, frame realisation, service-volume,
+differential PNT, interop), a **mission-analysis layer** (launch / re-entry / coverage /
+pointing / pass / link budgets and the space-weather environment), and the open
+**resilience & AI/ML study layer** (RPCF resilience scoring, the RF-impairment optimism
+gap, and the quantum-enabled PNT demonstrator) whose reproducible artifacts ride the
+validated kernels.
 
 Two standalone, **workspace-excluded** crates sit beside the core — `mcp/kshana-mcp`
 (the MCP server, built on the edition-2024 `rmcp` SDK) and `xval/anise-frames` (the
@@ -721,6 +763,14 @@ flowchart TD
       dso["deepspace_od — reduced-dynamic SRIF"]
       dsm["mars_pnt · gse_sim — relay-PNT + GSE sim"]
     end
+    subgraph lunx["Lunar PNT suite (MODELLED)"]
+      lsx["lunar_time · lunar_vlbi · lunar_combination — LTC time · geodetic VLBI · joint OD+clock"]
+      lsy["lunar_frame_realise · lunar_service · lunar_dpnt · lunar_interop — frame realisation · Moonlight service-volume · differential PNT · LunaNet/IOAG interop"]
+    end
+    subgraph mission["Mission analysis & environment"]
+      ma["launch · reentry · eo_payload · attitude_budget · passes · linkbudget — first-order budgets"]
+      sw["space_weather — Jacchia-71 thermospheric density"]
+    end
     subgraph io["Interop formats"]
       iofmt["rinex · sp3 · oem · omm · glonass · ccsds_tdm"]
     end
@@ -730,6 +780,7 @@ flowchart TD
       opt["impairment_eval · impairment_study · impairment_ml · eval_stats — optimism gap"]
       sdrr["sdr · realdata — IQ/IF front end + ingest adapters"]
       cross["crossover · quantum_trade — quantum-vs-classical map + trade"]
+      qd["quantum_devices · quantum_faults · quantum_nav_od · qtrade · timetransfer_chain · representativeness — Quantum-Enabled PNT demonstrator"]
     end
     gen["study generators<br/>cargo run --example/--bin"] --> resil
     api --> packs
@@ -737,6 +788,8 @@ flowchart TD
     api --> intg
     api --> fnav
     api --> ds
+    api --> lunx
+    api --> mission
     packs --> shared
     astro --> frames
     orbit --> sgp4
@@ -795,7 +848,8 @@ kshana/
 │   │
 │   ├── models.rs · estimator.rs · kalman.rs   # Pack 1 — clock holdover + integrity
 │   ├── security.rs · detection.rs · spoof.rs · spoof_monitors.rs  # spoof detection
-│   ├── filter_health.rs · fom.rs · report.rs · chart.rs · run.rs  # health · scoring · output
+│   ├── filter_health.rs · fom.rs · fom_label.rs · report.rs · chart.rs · run.rs  # health · FoM scoring + labelling · output
+│   ├── suite.rs · study.rs                     # scenario suites + aggregated multi-scenario study artifacts (`--study`)
 │   ├── inertial/                              # Pack 2 — strapdown INS (attitude · mechanization · imu_errors · quantum_imu)
 │   ├── timetransfer.rs · timetransfer_adv.rs · timegeo.rs  # Pack 3 — TWSTFT/CV/PPP/optical, Sagnac
 │   ├── hybrid.rs · ensemble.rs · sweep.rs     # Pack 4 — fused PNT, Monte-Carlo, trade sweeps
@@ -807,7 +861,8 @@ kshana/
 │   ├── orbit.rs · sgp4.rs · tle.rs · walker.rs   # geometry, SGP4/SDP4, TLE, Walker design
 │   ├── propagator.rs · forces.rs · gravity_sh.rs · integrator.rs  # Cowell + perturbations (EGM2008 d/o70, GR) + RK4/DOPRI
 │   ├── maneuver.rs · batch_ls.rs · orbit_determination.rs  # burns/Lambert/porkchop, Gauss-Newton, OD
-│   ├── cr3bp.rs · lunar.rs                    # Earth–Moon CR3BP + halo/NRHO STM corrector, cislunar/LunaNet ARAIM
+│   ├── cr3bp.rs · lunar.rs · lunar_frame.rs · lunar_od.rs  # Earth–Moon CR3BP + halo/NRHO STM corrector, cislunar/LunaNet ARAIM, MCI↔MCMF, lunar OD
+│   ├── lunar_time.rs · lunar_vlbi.rs · lunar_combination.rs · lunar_frame_realise.rs · lunar_service.rs · lunar_dpnt.rs · lunar_interop.rs  # MODELLED lunar PNT suite — LTC time · geodetic VLBI · joint OD+clock · frame realisation · Moonlight service-volume · differential PNT · LunaNet/IOAG interop export
 │   ├── body.rs · mars_frame.rs · ephem_provider.rs · radiometric.rs · ccsds_tdm.rs  # deep-space: multi-body · Mars frame · ephemeris seam · radiometric obs + CCSDS-TDM
 │   ├── deepspace_od.rs · clock_state.rs · mars_atmos.rs · mars_pnt.rs · linkbudget.rs · gse_sim.rs  # SRIF OD · onboard clock · Mars drag · relay-PNT · link budget · GSE sim
 │   │
@@ -823,6 +878,7 @@ kshana/
 │   ├── impairment_eval.rs · impairment_study.rs · impairment_ml.rs · eval_stats.rs  # AI/ML RF-impairment eval testbed · optimism-gap study · LR/MLP detectors · bootstrap/DeLong/Spearman stats
 │   ├── sdr.rs · realdata/                       # software-defined-receiver front end (IQ/IF → E/P/L taps → SQM) + real-data ingest adapters (RINEX · UBX · GnssLogger · JammerTest · Yunnan · SatGrid)
 │   ├── crossover.rs · quantum_trade.rs · frugal.rs · integrity_impact.rs  # quantum-vs-classical crossover map · PNT trade · cost-per-coverage ROI · integrity impact
+│   ├── quantum_devices.rs · quantum_faults.rs · quantum_nav_od.rs · qtrade.rs · timetransfer_chain.rs · representativeness.rs  # Quantum-Enabled PNT demonstrator — device error models · fault catalogue · GNSS-free quantum OD · unified trade harness · quantum time-transfer chain · representativeness / gaps-to-flight ledger
 │   ├── interchange.rs · verification.rs          # KIF artifact envelope · machine-checked verification matrix
 │   └── bin/crossover_study.rs · bin/validation_report.rs  # crossover-study artifact generator · release validation-summary HTML
 │
@@ -891,8 +947,10 @@ kshana/
 
 ### Validation at a glance
 
-Every row is enforced by a named test in CI; the full evidence (and what is *not*
-modelled) is in [`docs/VALIDATION.md`](docs/VALIDATION.md) and the per-release
+Every row is enforced by a named test in CI. This table is a **curated highlight**;
+the full machine-checked matrix is **61 rows — 15 VALIDATED, 42 MODELLED, 4 PARTNER**
+(`src/verification.rs`), with the complete evidence (and what is honestly *not* yet
+validated) in [`docs/VALIDATION.md`](docs/VALIDATION.md) and the per-release
 [`kshana-validation-summary.html`](https://github.com/AshfordeOU/kshana/releases)
 artifact (generated by `cargo run --bin validation_report`, SLSA-attested).
 
