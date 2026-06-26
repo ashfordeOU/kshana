@@ -113,7 +113,6 @@ const runBtn = el("run");
 const shareBtn = el("share");
 const tomlEl = el("toml");
 const selectEl = el("scenario");
-const presetsEl = el("presets");
 const guidedEl = el("guided");
 const guidedKnobsEl = el("guided-knobs");
 const resultsEl = document.querySelector(".results");
@@ -823,149 +822,6 @@ const DOMAIN_FULL = {
   Interop: "Interoperability & assurance",
 };
 
-// --- One-click preset cards (Playground lens: a horizontal domain tab-strip) --
-const PRESET_GROUPS = {
-  "clock-holdover.toml": "Timing",
-  "timetransfer.toml": "Timing",
-  "imu-deadreckoning.toml": "Inertial",
-  "hybrid-pnt.toml": "Inertial",
-  "fusion-pnt.toml": "Inertial",
-  "gnss-ins.toml": "Inertial",
-  "hybrid-ukf.toml": "Inertial",
-  "terrain-slam.toml": "Inertial",
-  "orbit-gnss-challenged.toml": "Orbits",
-  "orbit-sgp4-gps.toml": "Orbits",
-  "ephemeris.toml": "Orbits",
-  "space-weather.toml": "Orbits",
-  "launch-window.toml": "Orbits",
-  "reentry.toml": "Orbits",
-  "eo-coverage.toml": "Orbits",
-  "passes.toml": "Orbits",
-  "link-budget.toml": "Orbits",
-  "attitude-budget.toml": "Orbits",
-  "integrity-raim.toml": "GNSS",
-  "pvt-abmf.toml": "GNSS",
-  "spoof-attack.toml": "Resilience",
-  "mars-pnt-lmo.toml": "Lunar",
-  "impairment-eval.toml": "AI/ML",
-  "quantum-trade.toml": "AI/ML",
-  "space-packet.toml": "Interop",
-  "oem-interop.toml": "Interop",
-  "gps-denied-gravity-nav.toml": "Inertial",
-  "lunanet-araim.toml": "Lunar",
-  "gnss-sim-raim.toml": "GNSS",
-};
-
-function buildPresetCard(file, title, question) {
-  const card = document.createElement("button");
-  card.type = "button";
-  card.className = "preset";
-  card.dataset.file = file;
-  const t = document.createElement("span");
-  t.className = "preset-title";
-  t.textContent = title;
-  const q = document.createElement("span");
-  q.className = "preset-q";
-  q.textContent = question;
-  card.append(t, q);
-  card.addEventListener("click", () => {
-    selectEl.value = file;
-    loadScenario(file);
-  });
-  return card;
-}
-
-// Switch the active Playground domain tab (and its panel of scenarios).
-function selectPresetDomain(g) {
-  const map = presetsEl._byDomain;
-  if (!map) return;
-  for (const [key, { tab, panel }] of map) {
-    const on = key === g;
-    tab.setAttribute("aria-selected", on ? "true" : "false");
-    tab.tabIndex = on ? 0 : -1;
-    panel.hidden = !on;
-  }
-}
-
-function buildPresets() {
-  // Bucket scenarios by domain, preserving SCENARIOS order within each.
-  const buckets = new Map();
-  for (const s of SCENARIOS) {
-    const g = PRESET_GROUPS[s[0]] || "More";
-    if (!buckets.has(g)) buckets.set(g, []);
-    buckets.get(g).push(s);
-  }
-  const order = [
-    ...DOMAIN_ORDER.filter((g) => buckets.has(g)),
-    ...[...buckets.keys()].filter((g) => !DOMAIN_ORDER.includes(g)),
-  ];
-
-  const tablist = document.createElement("div");
-  tablist.className = "tabs preset-tabs";
-  tablist.setAttribute("role", "tablist");
-  tablist.setAttribute("aria-label", "Scenario domains");
-  const panels = document.createElement("div");
-  panels.className = "preset-panels";
-
-  const byDomain = new Map();
-  order.forEach((g, i) => {
-    const tab = document.createElement("button");
-    tab.type = "button";
-    tab.className = "tab-btn";
-    tab.setAttribute("role", "tab");
-    tab.dataset.domain = g;
-    tab.title = DOMAIN_FULL[g] || g;
-    tab.setAttribute("aria-selected", i === 0 ? "true" : "false");
-    tab.tabIndex = i === 0 ? 0 : -1;
-    const n = document.createElement("span");
-    n.textContent = g;
-    const c = document.createElement("span");
-    c.className = "tab-count";
-    c.textContent = buckets.get(g).length;
-    tab.append(n, c);
-    tab.addEventListener("click", () => selectPresetDomain(g));
-    tablist.append(tab);
-
-    const panel = document.createElement("div");
-    panel.className = "presets";
-    panel.setAttribute("role", "tabpanel");
-    panel.dataset.domain = g;
-    if (i !== 0) panel.hidden = true;
-    for (const [file, , title, question] of buckets.get(g)) {
-      panel.append(buildPresetCard(file, title, question));
-    }
-    panels.append(panel);
-    byDomain.set(g, { tab, panel });
-  });
-
-  // Arrow-key roving focus across the tablist (WAI-ARIA tabs pattern).
-  tablist.addEventListener("keydown", (e) => {
-    const keys = order;
-    const cur = keys.indexOf(
-      tablist.querySelector('[aria-selected="true"]')?.dataset.domain
-    );
-    let next = cur;
-    if (e.key === "ArrowRight") next = (cur + 1) % keys.length;
-    else if (e.key === "ArrowLeft") next = (cur - 1 + keys.length) % keys.length;
-    else return;
-    e.preventDefault();
-    selectPresetDomain(keys[next]);
-    byDomain.get(keys[next]).tab.focus();
-  });
-
-  presetsEl.append(tablist, panels);
-  presetsEl._byDomain = byDomain;
-}
-
-function markActivePreset(file) {
-  for (const c of presetsEl.querySelectorAll(".preset")) {
-    c.classList.toggle("is-active", c.dataset.file === file);
-  }
-  // Switch to the domain tab that holds the active scenario, so it is visible.
-  const g = PRESET_GROUPS[file];
-  if (g && presetsEl._byDomain && presetsEl._byDomain.has(g)) selectPresetDomain(g);
-}
-
 // --- Shareable link -------------------------------------------------------
 async function copyShareLink() {
   const url = location.origin + location.pathname + encodeFragment(tomlEl.value);
@@ -1261,7 +1117,7 @@ async function loadScenario(file) {
     const res = await fetch(`scenarios/${file}`, { cache: "no-store" });
     if (!res.ok) throw new Error(String(res.status));
     tomlEl.value = await res.text();
-    markActivePreset(file);
+    if (selectEl) selectEl.value = file;
     // Reset sweep range seeds so they re-seed from the new scenario, and rebuild
     // the guided knobs (the applicable set varies between clock and orbit).
     el("sweep-min").value = "";
@@ -1346,12 +1202,148 @@ function buildCapCard(c) {
   return card;
 }
 
-// When a collapsed group is opened, reveal any quiet-settling children inside it
-// (the IntersectionObserver can't see content while the <details> is closed).
-function wireGroupReveal(det) {
-  det.addEventListener("toggle", () => {
-    if (det.open) det.querySelectorAll(".reveal:not(.in)").forEach((e) => e.classList.add("in"));
+// Reveal scroll-in children that became visible while off-screen or hidden — the
+// page's IntersectionObserver can't see content inside a hidden tab panel, so a
+// panel's cards would otherwise stay at opacity 0 the first time its tab is shown.
+function revealIn(node) {
+  if (node.classList && node.classList.contains("reveal")) node.classList.add("in");
+  node.querySelectorAll(".reveal:not(.in)").forEach((e) => e.classList.add("in"));
+}
+
+// The unified "Explore the stack" section. Capability cards (from capabilities.json)
+// are injected into per-domain panels that also carry the authored evidence prose;
+// a domain tab-strip shows one domain at a time, so the section stays a roughly
+// constant height as the catalogue grows. A single "Validated only" filter spans the
+// cards and the evidence together. The two nav doorways (Capabilities / Validation)
+// both land here; the Validation link additionally opens the active domain's evidence
+// and filters to the dataset-checked rows (wired in main()).
+function buildExplorer(caps) {
+  const root = el("explore");
+  const tabsEl = el("xp-tabs");
+  const panelsEl = el("xp-panels");
+  if (!root || !tabsEl || !panelsEl) return;
+
+  // Bucket capabilities by coarse domain (group), preserving first-seen order.
+  const byGroup = new Map();
+  for (const c of caps) {
+    const g = c.group || c.domain || "Other";
+    if (!byGroup.has(g)) byGroup.set(g, []);
+    byGroup.get(g).push(c);
+  }
+
+  // Panels are authored in the page (they hold the evidence); drive the order and
+  // the tab-strip from them, in the canonical spine order with any extras appended.
+  const panels = [...panelsEl.querySelectorAll(".xp-panel")];
+  const present = panels.map((p) => p.dataset.domain);
+  const order = [
+    ...DOMAIN_ORDER.filter((g) => present.includes(g)),
+    ...present.filter((g) => !DOMAIN_ORDER.includes(g)),
+  ];
+
+  let totalEv = 0;
+  let totalEvV = 0;
+  const meta = new Map();
+  for (const g of order) {
+    const panel = panels.find((p) => p.dataset.domain === g);
+    const arr = byGroup.get(g) || [];
+    const grid = panel.querySelector("[data-cards-for]");
+    if (grid) {
+      grid.replaceChildren();
+      for (const c of arr) grid.append(buildCapCard(c));
+    }
+    const vCaps = arr.filter((c) => c.status === "validated").length;
+    const runnable = arr.filter((c) => c.run && knownScenario(c.run)).length;
+    const evRows = [...panel.querySelectorAll(".ev-row")];
+    const evV = evRows.filter((r) => r.dataset.status === "validated").length;
+    totalEv += evRows.length;
+    totalEvV += evV;
+    const head = panel.querySelector(".xp-dcount");
+    const baseHead = `${arr.length} ${arr.length === 1 ? "capability" : "capabilities"} · ${vCaps} validated · ${runnable} runnable`;
+    if (head) head.textContent = baseHead;
+    const evc = panel.querySelector(".xp-evc");
+    if (evc) evc.textContent = ` (${evRows.length})`;
+    meta.set(g, { panel, arr, vCaps, evV, evTotal: evRows.length, evc, head, baseHead });
+  }
+
+  // Build the tab-strip from the present domains.
+  tabsEl.replaceChildren();
+  const tabByG = new Map();
+  order.forEach((g, i) => {
+    const tab = document.createElement("button");
+    tab.type = "button";
+    tab.className = "tab-btn";
+    tab.setAttribute("role", "tab");
+    tab.dataset.domain = g;
+    tab.title = DOMAIN_FULL[g] || g;
+    tab.setAttribute("aria-selected", i === 0 ? "true" : "false");
+    tab.tabIndex = i === 0 ? 0 : -1;
+    const n = document.createElement("span");
+    n.textContent = g;
+    const cnt = document.createElement("span");
+    cnt.className = "tab-count";
+    cnt.textContent = meta.get(g).arr.length;
+    tab.append(n, cnt);
+    tab.addEventListener("click", () => selectExploreDomain(g));
+    tabsEl.append(tab);
+    tabByG.set(g, tab);
   });
+
+  function selectExploreDomain(g) {
+    for (const gg of order) {
+      const on = gg === g;
+      const tab = tabByG.get(gg);
+      tab.setAttribute("aria-selected", on ? "true" : "false");
+      tab.tabIndex = on ? 0 : -1;
+      const panel = meta.get(gg).panel;
+      panel.hidden = !on;
+      if (on) revealIn(panel);
+    }
+  }
+
+  // Arrow-key roving focus across the tablist (WAI-ARIA tabs pattern).
+  tabsEl.addEventListener("keydown", (e) => {
+    const cur = order.indexOf(tabsEl.querySelector('[aria-selected="true"]')?.dataset.domain);
+    let next = cur;
+    if (e.key === "ArrowRight") next = (cur + 1) % order.length;
+    else if (e.key === "ArrowLeft") next = (cur - 1 + order.length) % order.length;
+    else return;
+    e.preventDefault();
+    selectExploreDomain(order[next]);
+    tabByG.get(order[next]).focus();
+  });
+
+  // Running tally + the "Validated only" filter (spans cards and evidence; CSS hides
+  // the modelled/info items and the counts retitle to validated-only totals).
+  const totalV = caps.filter((c) => c.status === "validated").length;
+  const tally = el("xp-tally");
+  const baseTally = `${caps.length} capabilities · ${totalEv} evidence claims · ${order.length} domains · ${totalV} validated against external oracles`;
+  if (tally) tally.textContent = baseTally;
+
+  const cb = el("xp-validated-only");
+  if (cb) {
+    cb.addEventListener("change", () => {
+      const only = cb.checked;
+      root.classList.toggle("validated-only", only);
+      if (tally) {
+        tally.textContent = only
+          ? `${totalV} validated capabilities · ${totalEvV} external-oracle evidence claims · ${order.length} domains`
+          : baseTally;
+      }
+      for (const g of order) {
+        const m = meta.get(g);
+        tabByG.get(g).classList.toggle("tab-empty", only && m.vCaps === 0 && m.evV === 0);
+        if (m.head) m.head.textContent = only ? `${m.vCaps} validated · ${m.evV} evidence` : m.baseHead;
+        if (m.evc) m.evc.textContent = only ? ` (${m.evV})` : ` (${m.evTotal})`;
+      }
+    });
+  }
+
+  // Exposed for the Validation nav doorway (see main()).
+  root._selectDomain = selectExploreDomain;
+  root._activeDomain = () => tabsEl.querySelector('[aria-selected="true"]')?.dataset.domain || order[0];
+
+  // Default: first domain visible, its cards revealed.
+  selectExploreDomain(order[0]);
 }
 
 async function renderCapabilities() {
@@ -1364,94 +1356,8 @@ async function renderCapabilities() {
     return;
   }
 
-  // Capability feature cards — grouped under a coarse domain spine, each group a
-  // collapsible <details> so the section length stays roughly constant as the
-  // capability count grows. A "Validated only" filter hides modelled cards.
-  const cards = el("capability-cards");
-  if (cards && Array.isArray(data.capabilities)) {
-    cards.replaceChildren();
-    const caps = data.capabilities;
-
-    // Group preserving first-seen order.
-    const groups = new Map();
-    for (const c of caps) {
-      const g = c.group || c.domain || "Other";
-      if (!groups.has(g)) groups.set(g, []);
-      groups.get(g).push(c);
-    }
-    const total = caps.length;
-    const validatedTotal = caps.filter((c) => c.status === "validated").length;
-
-    // Toolbar: a running tally + the validated-only filter.
-    const bar = document.createElement("div");
-    bar.className = "cap-toolbar";
-    const tally = document.createElement("p");
-    tally.className = "cap-tally";
-    tally.textContent = `${total} capabilities · ${groups.size} groups · ${validatedTotal} with external-oracle validation`;
-    const filter = document.createElement("label");
-    filter.className = "cap-filter";
-    const cb = document.createElement("input");
-    cb.type = "checkbox";
-    const ftxt = document.createElement("span");
-    ftxt.textContent = "Validated only";
-    filter.append(cb, ftxt);
-    bar.append(tally, filter);
-    cards.append(bar);
-
-    // What the run/docs actions mean — decoupled from the evidence label.
-    const note = document.createElement("p");
-    note.className = "cap-note";
-    note.textContent =
-      "▸ run opens a playground demo · docs ↗ links the reference — both independent of the validated / modelled label.";
-    cards.append(note);
-
-    // One collapsible group per domain, in the shared canonical spine order
-    // (same as the playground presets); all groups collapsed by default.
-    const order = [
-      ...DOMAIN_ORDER.filter((g) => groups.has(g)),
-      ...[...groups.keys()].filter((g) => !DOMAIN_ORDER.includes(g)),
-    ];
-    const groupEls = [];
-    for (const g of order) {
-      const arr = groups.get(g);
-      const det = document.createElement("details");
-      det.className = "cap-group";
-      const sum = document.createElement("summary");
-      const gname = document.createElement("span");
-      gname.className = "cap-gname";
-      gname.textContent = g;
-      const gfull = document.createElement("span");
-      gfull.className = "cap-gfull";
-      gfull.textContent = DOMAIN_FULL[g] || "";
-      const gcount = document.createElement("span");
-      gcount.className = "cap-gcount";
-      const v = arr.filter((c) => c.status === "validated").length;
-      const baseCount = `${arr.length} caps · ${v} ✓`;
-      gcount.textContent = baseCount;
-      sum.append(gname, gfull, gcount);
-      det.append(sum);
-
-      const grid = document.createElement("div");
-      grid.className = "cards";
-      for (const c of arr) grid.append(buildCapCard(c));
-      det.append(grid);
-      cards.append(det);
-      wireGroupReveal(det);
-      groupEls.push({ det, gcount, arr, v, baseCount });
-    }
-
-    // Validated-only filter: hide modelled cards (CSS), retitle the counts, and
-    // auto-open groups that have a match while dimming those that don't.
-    cb.addEventListener("change", () => {
-      const only = cb.checked;
-      cards.classList.toggle("validated-only", only);
-      for (const ge of groupEls) {
-        ge.gcount.textContent = only ? `${ge.v} validated` : ge.baseCount;
-        ge.det.classList.toggle("cap-empty", only && ge.v === 0);
-        if (only) ge.det.open = ge.v > 0;
-      }
-    });
-  }
+  // Capability cards + per-domain evidence, unified into the explorer.
+  if (Array.isArray(data.capabilities)) buildExplorer(data.capabilities);
 
   // Standards the engine speaks (no status labels — confident support list).
   const list = el("standards-list");
@@ -1480,26 +1386,35 @@ async function renderCapabilities() {
   }
 }
 
-// The Validation section is a static grouped table (the "table" lens); its
-// "Validated only" filter just toggles a class — CSS hides modelled/info rows
-// and any domain header left with no validated rows.
-function wireValidationFilter() {
-  const root = el("validation-cards");
-  const cb = el("validation-validated-only");
-  if (!root || !cb) return;
-  cb.addEventListener("change", () => root.classList.toggle("validated-only", cb.checked));
-}
 
 async function main() {
   renderCapabilities();
-  wireValidationFilter();
+
+  // The "Validation" nav link is the evidence doorway into the explorer: it scrolls
+  // to the section (native #validation anchor), filters to the dataset-checked rows,
+  // and opens the active domain's evidence drawer.
+  const valLink = document.querySelector('.nav a[href="#validation"]');
+  if (valLink) {
+    valLink.addEventListener("click", () => {
+      const cb = el("xp-validated-only");
+      if (cb && !cb.checked) {
+        cb.checked = true;
+        cb.dispatchEvent(new Event("change"));
+      }
+      const root = el("explore");
+      const g = root && root._activeDomain ? root._activeDomain() : null;
+      const panel = g ? root.querySelector(`.xp-panel[data-domain="${g}"]`) : null;
+      const ev = panel ? panel.querySelector(".xp-ev") : null;
+      if (ev) ev.open = true;
+    });
+  }
+
   for (const [file, label] of SCENARIOS) {
     const opt = document.createElement("option");
     opt.value = file;
     opt.textContent = label;
     selectEl.appendChild(opt);
   }
-  buildPresets();
 
   // Embed / iframe (LMS) mode: gate purely on ?embed=1 so the default path is
   // untouched. In embed mode we hide the marketing chrome via body classes and
