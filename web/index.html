@@ -225,14 +225,175 @@
       <section class="block" id="capabilities">
         <div class="wrap">
           <div class="sec-head">
-            <p class="eyebrow">Capabilities</p>
+            <p class="eyebrow">Capabilities &amp; validation</p>
             <h2>One engine across the full PNT stack</h2>
             <p>
-              From orbit geometry to inertial navigation, sensor fusion, integrity, and
-              timing — a dependency-light core you can run, script, and embed.
+              Pick a domain to see what the engine does there — run a worked scenario,
+              and trace the evidence behind every claim: <strong>Validated</strong>
+              against an external oracle, or honestly <strong>Modelled</strong>.
             </p>
           </div>
-          <div id="capability-cards" class="cap-wrap"></div>
+
+          <div id="explore" class="xp">
+            <div class="cap-toolbar">
+              <p class="cap-tally" id="xp-tally"></p>
+              <label class="cap-filter"><input type="checkbox" id="xp-validated-only" /><span>Validated only</span></label>
+            </div>
+
+            <!-- Domain tab-strip is generated from the panels below (see app.js). -->
+            <div class="tabs xp-tabs" id="xp-tabs" role="tablist" aria-label="PNT domains"></div>
+
+            <!-- One panel per domain. Capability cards are injected by app.js into
+                 [data-cards-for]; the evidence prose is authored here (kept as real
+                 HTML, never innerHTML of a data string) and folded into a per-domain
+                 drawer so the section stays a roughly constant height as it grows. -->
+            <!-- Anchor for the "Validation" doorway — the nav link lands here and
+                 opens the active domain's evidence with "Validated only" on. -->
+            <span id="validation" class="xp-anchor" aria-hidden="true"></span>
+            <div class="xp-panels" id="xp-panels">
+
+              <div class="xp-panel" role="tabpanel" data-domain="Orbits" aria-label="Orbits">
+                <p class="xp-dhead"><span class="xp-dfull">Orbits, OD &amp; trajectory</span><span class="xp-dcount" data-count-for="Orbits"></span></p>
+                <div class="cards" data-cards-for="Orbits"></div>
+                <details class="xp-ev" data-ev-for="Orbits">
+                  <summary>Evidence &amp; provenance<span class="xp-evc"></span></summary>
+                  <div class="ev-list">
+                    <div class="ev-row" data-status="validated">
+                      <div class="ev-top"><span class="ev-name">Orbit propagation</span><span class="pill validated">Validated</span></div>
+                      <p class="ev-prose">SGP4/SDP4 matches all <b>666</b> AIAA 2006-6753 verification states to a worst-case <b>4.12 mm</b> — near-Earth, deep-space, and resonant. This is the model TLEs are defined against.</p>
+                    </div>
+                    <div class="ev-row" data-status="modelled">
+                      <div class="ev-top"><span class="ev-name">Numerical propagator</span><span class="pill modelled">Modelled (analytic)</span></div>
+                      <p class="ev-prose">The Cowell propagator's unperturbed orbit matches the exact universal-variable Kepler solution to <b>sub-metre over 24 h</b>, with energy and angular momentum conserved to ~1e-9. The J2–J6, third-body, SRP, drag and relativistic perturbations each match a hand-derived closed-form signature.</p>
+                    </div>
+                    <div class="ev-row" data-status="validated">
+                      <div class="ev-top"><span class="ev-name">Agency precise orbits</span><span class="pill validated">Validated (fit)</span></div>
+                      <p class="ev-prose">Force-model validation by ephemeris fitting against real agency precise orbits: a full-arc Galileo MEO post-fit residual of <b>0.61 m</b> (24 h, degree/order 70, force-only) and Swarm-A LEO <b>0.10 m</b> (reduced-dynamic — an empirical-tier bound, not a measure). The lunar LRO fit is <b>6.6 m</b>, reported honestly <em>above</em> the 5 m target, and a DE440/ANISE cross-validation leaves it unchanged. This fits the force model to published ephemerides; it is not measurement-level orbit determination.</p>
+                    </div>
+                  </div>
+                </details>
+              </div>
+
+              <div class="xp-panel" role="tabpanel" data-domain="Timing" aria-label="Timing" hidden>
+                <p class="xp-dhead"><span class="xp-dfull">Time &amp; frequency</span><span class="xp-dcount" data-count-for="Timing"></span></p>
+                <div class="cards" data-cards-for="Timing"></div>
+                <details class="xp-ev" data-ev-for="Timing">
+                  <summary>Evidence &amp; provenance<span class="xp-evc"></span></summary>
+                  <div class="ev-list">
+                    <div class="ev-row" data-status="validated">
+                      <div class="ev-top"><span class="ev-name">Clock stability</span><span class="pill validated">Validated (NIST)</span></div>
+                      <p class="ev-prose">Allan-family deviations (ADEV/MDEV/TDEV/HDEV) computed by the standard overlapping estimators with confidence intervals — validated against the <b>NIST SP 1065</b> reference deviations (Riley / Stable32 on NBS14), and calibrated to published clock datasheets, with a full IEEE-1139 five-coefficient power-law fit. The estimators are also validated on <b>real measured hardware</b> against Stable32: a <b>5071A caesium clock vs a hydrogen maser</b> (556,990 samples, 16 averaging factors) and the canonical Stable32 <b>PHASE.DAT</b> series, both reproduced to <b>≤ 1e-3</b> (observed ≤ 3e-5).</p>
+                    </div>
+                    <div class="ev-row" data-status="validated">
+                      <div class="ev-top"><span class="ev-name">Reference frames</span><span class="pill validated">Validated</span></div>
+                      <p class="ev-prose">The CIO-based IAU 2006/2000A GCRS↔ITRS reduction is validated <b>bit-for-bit</b> against the SOFA/ERFA vectors, and independently cross-checked against <b>ANISE</b> (pure-Rust NAIF/SPICE): GCRS→ITRS vs ANISE's ITRF93 from JPL's high-precision Earth kernel, the same IERS Earth-orientation parameters fed to both, agree to <b>≤ 0.86 m on the ground / ≤ 3.6 m at GNSS orbit</b> across 2020–2023.</p>
+                    </div>
+                  </div>
+                </details>
+              </div>
+
+              <div class="xp-panel" role="tabpanel" data-domain="Inertial" aria-label="Inertial" hidden>
+                <p class="xp-dhead"><span class="xp-dfull">Inertial, fusion &amp; alt-PNT</span><span class="xp-dcount" data-count-for="Inertial"></span></p>
+                <div class="cards" data-cards-for="Inertial"></div>
+                <details class="xp-ev" data-ev-for="Inertial">
+                  <summary>Evidence &amp; provenance<span class="xp-evc"></span></summary>
+                  <div class="ev-list">
+                    <div class="ev-row" data-status="modelled">
+                      <div class="ev-top"><span class="ev-name">Tightly-coupled fusion</span><span class="pill modelled">Modelled (simulation)</span></div>
+                      <p class="ev-prose">The tightly-coupled GNSS/INS UKF navigator holds <b>0.77 m RMS</b> over a 30-minute curving LEO pass that includes a 120-second GNSS outage, on a force-model orbital coast — pseudorange + Doppler with fewer than four satellites.</p>
+                    </div>
+                    <div class="ev-row" data-status="validated">
+                      <div class="ev-top"><span class="ev-name">Gravity-field synthesis (GNSS-free nav)</span><span class="pill validated">Validated</span></div>
+                      <p class="ev-prose">The spherical-harmonic gravity-functional kernel — the "map reader" a gravity-aided navigator matches against, loading any <b>ICGEM</b> model — reproduces the <b>GRS80</b> normal-gravity standard (closed-form Somigliana, with the published equator/pole values) to <b>3.5e-12</b> across all latitudes, and produces a physically-bounded gravity-disturbance map from the real ICGEM <b>EGM2008</b> field (RMS ≈ 26 mGal at degree/order 70). The map-reader code is validated; gravity-aided <em>fix accuracy</em> stays modelled — no public gravimeter-on-a-platform trajectory exists.</p>
+                    </div>
+                  </div>
+                </details>
+              </div>
+
+              <div class="xp-panel" role="tabpanel" data-domain="GNSS" aria-label="GNSS" hidden>
+                <p class="xp-dhead"><span class="xp-dfull">GNSS integrity &amp; positioning</span><span class="xp-dcount" data-count-for="GNSS"></span></p>
+                <div class="cards" data-cards-for="GNSS"></div>
+                <details class="xp-ev" data-ev-for="GNSS">
+                  <summary>Evidence &amp; provenance<span class="xp-evc"></span></summary>
+                  <div class="ev-list">
+                    <div class="ev-row" data-status="validated">
+                      <div class="ev-top"><span class="ev-name">Single-point positioning</span><span class="pill validated">Validated (real data)</span></div>
+                      <p class="ev-prose">Real observations in, a real position out: the <code>pvt</code> solver turns a station's RINEX code pseudoranges and the GPS broadcast ephemeris into a receiver position by iterated weighted least squares — Sagnac correction, broadcast satellite clock, the dual-frequency L1/L2 ionosphere-free combination, and the Saastamoinen/Niell troposphere. Run on real IGS data (station ABMF, Guadeloupe, 2018-05-13) it recovers the surveyed coordinate to <b>5.7 m</b> 3-D RMS (<b>1.1 m</b> horizontal). Code single-point positioning, not carrier-phase PPP/RTK.</p>
+                    </div>
+                    <div class="ev-row" data-status="modelled">
+                      <div class="ev-top"><span class="ev-name">Standards-traced integrity</span><span class="pill modelled">Modelled</span></div>
+                      <p class="ev-prose">Snapshot and solution-separation (ARAIM) RAIM with HPL/VPL, an MHSS integrity-risk budget, and the dual-/multi-constellation constellation-wide fault mode (EU ARAIM / DO-316), with Stanford integrity diagrams.</p>
+                    </div>
+                  </div>
+                </details>
+              </div>
+
+              <div class="xp-panel" role="tabpanel" data-domain="Resilience" aria-label="Resilience" hidden>
+                <p class="xp-dhead"><span class="xp-dfull">Resilience &amp; nav-signal</span><span class="xp-dcount" data-count-for="Resilience"></span></p>
+                <div class="cards" data-cards-for="Resilience"></div>
+                <details class="xp-ev" data-ev-for="Resilience">
+                  <summary>Evidence &amp; provenance<span class="xp-evc"></span></summary>
+                  <div class="ev-list">
+                    <div class="ev-row" data-status="modelled">
+                      <div class="ev-top"><span class="ev-name">Nav-signal performance</span><span class="pill modelled">Modelled (anchors)</span></div>
+                      <p class="ev-prose">Modulation power spectral densities, anti-jam spectral separation, RMS (Gabor) bandwidth, DLL code-tracking jitter and the multipath error envelope, checked against closed-form anchors: unit-area PSDs, the BPSK self-spectral-separation identity <b>2/(3R<sub>c</sub>)</b>, sub-metre coherent early–late C/A jitter at <b>45 dB-Hz</b>, and BOC &gt; BPSK Gabor bandwidth. The spectral-separation coefficient now <em>derives</em> the anti-jam Q the jamming model uses from the actual signal and jammer spectra. Signal-performance analysis, not RF-payload or antenna hardware design.</p>
+                    </div>
+                  </div>
+                </details>
+              </div>
+
+              <div class="xp-panel" role="tabpanel" data-domain="Lunar" aria-label="Lunar" hidden>
+                <p class="xp-dhead"><span class="xp-dfull">Lunar, cislunar &amp; deep-space</span><span class="xp-dcount" data-count-for="Lunar"></span></p>
+                <div class="cards" data-cards-for="Lunar"></div>
+                <details class="xp-ev" data-ev-for="Lunar">
+                  <summary>Evidence &amp; provenance<span class="xp-evc"></span></summary>
+                  <div class="ev-list">
+                    <div class="ev-row" data-status="modelled">
+                      <div class="ev-top"><span class="ev-name">Cislunar halo / NRHO</span><span class="pill modelled">Modelled (reproduction)</span></div>
+                      <p class="ev-prose">A 6×6 state-transition-matrix single-shooting differential corrector produces exactly periodic Earth–Moon halo / near-rectilinear halo orbits: it reproduces the published <b>L2 southern 9:2 NRHO</b> (the Gateway orbit) at a period of <b>~6.57 days</b> (published ~6.56) and a perilune of <b>~3,250 km</b> (published ~3,370). The STM is validated against finite differences and corrected orbits close to machine precision. This is a circular restricted three-body (Sun-free) solution — not validated against a real Gateway ephemeris or DSN tracking.</p>
+                    </div>
+                  </div>
+                </details>
+              </div>
+
+              <div class="xp-panel" role="tabpanel" data-domain="AI/ML" aria-label="AI/ML" hidden>
+                <p class="xp-dhead"><span class="xp-dfull">AI/ML, anomaly &amp; decision</span><span class="xp-dcount" data-count-for="AI/ML"></span></p>
+                <div class="cards" data-cards-for="AI/ML"></div>
+                <details class="xp-ev" data-ev-for="AI/ML">
+                  <summary>Evidence &amp; provenance<span class="xp-evc"></span></summary>
+                  <div class="ev-list">
+                    <div class="ev-row" data-status="validated">
+                      <div class="ev-top"><span class="ev-name">Anomaly detection on ESA telemetry</span><span class="pill validated">Validated (real data)</span></div>
+                      <p class="ev-prose">On real <b>ESA OPS-SAT</b> housekeeping telemetry (the OPSSAT-AD dataset, CC&nbsp;BY&nbsp;4.0) the ROC/AUC detector-evaluation reproduces <b>scikit-learn</b> to <b>&lt; 1e-9</b>, and a transparent peak-count detector separates the labelled anomalies at <b>AUC ≈ 0.85</b>. This reproduces the labelled separation on real mission data — not the source paper's own published model score.</p>
+                    </div>
+                    <div class="ev-row" data-status="modelled">
+                      <div class="ev-top"><span class="ev-name">Quantum-Enabled PNT demonstrator</span><span class="pill modelled">Modelled (demonstration)</span></div>
+                      <p class="ev-prose">Three runnable application areas behind the open engine — trusted quantum <b>time transfer</b>, <b>GNSS-free quantum navigation</b> (cold-atom interferometer vs nav-grade INS), and quantum-system <b>fault/anomaly detection</b> — each emitting a machine-checked representativeness + gaps-to-flight record, bundled into one reproducible study. Modelled demonstrations (validated-by-reuse where they ride a validated kernel); no TRL&nbsp;&gt;&nbsp;3, no flight heritage.</p>
+                    </div>
+                  </div>
+                </details>
+              </div>
+
+              <div class="xp-panel" role="tabpanel" data-domain="Interop" aria-label="Interop" hidden>
+                <p class="xp-dhead"><span class="xp-dfull">Interoperability &amp; assurance</span><span class="xp-dcount" data-count-for="Interop"></span></p>
+                <div class="cards" data-cards-for="Interop"></div>
+                <details class="xp-ev" data-ev-for="Interop">
+                  <summary>Evidence &amp; provenance<span class="xp-evc"></span></summary>
+                  <div class="ev-list">
+                    <div class="ev-row" data-status="info">
+                      <div class="ev-top"><span class="ev-name">Reproducible builds</span><span class="vstat-note">process</span></div>
+                      <p class="ev-prose">Deterministic from scenario + seed + engine version. A CycloneDX SBOM and SLSA build provenance ship on every release; the release toolchain is pinned to CI.</p>
+                    </div>
+                    <div class="ev-row" data-status="info">
+                      <div class="ev-top"><span class="ev-name">Honest scope</span><span class="vstat-note">note</span></div>
+                      <p class="ev-prose">Optical-clock figures are <em>space goals on ground hardware</em> — no strontium optical clock has flown. See <a target="_blank" rel="noopener noreferrer" href="https://github.com/AshfordeOU/kshana/blob/main/docs/VALIDATION.md">VALIDATION.md</a> and <a target="_blank" rel="noopener noreferrer" href="https://github.com/AshfordeOU/kshana/blob/main/docs/CAPABILITY.md">CAPABILITY.md</a> before citing any number.</p>
+                    </div>
+                  </div>
+                </details>
+              </div>
+
+            </div>
+          </div>
         </div>
       </section>
 
@@ -243,19 +404,15 @@
             <p class="eyebrow">Interactive playground</p>
             <h2>Run a scenario — locally, in your browser</h2>
             <p>
-              One click loads a worked scenario and runs the WebAssembly engine on your
-              machine; nothing is uploaded. Tune the universal knobs, or open the full
-              TOML to change anything. Every run is reproducible and shareable by link.
+              Pick a scenario below — or hit <b>▸ run</b> on any capability above — and
+              the WebAssembly engine runs it on your machine; nothing is uploaded. Tune
+              the universal knobs, or open the full TOML to change anything. Every run is
+              reproducible and shareable by link.
             </p>
             <p><button id="tour-launch" class="btn" type="button" title="A 60-second guided walkthrough that highlights each part of the page">▸ Take the 60-second tour</button></p>
           </div>
 
           <div class="pg-grid">
-            <div class="panel">
-              <p class="panel-title">Start here — pick a question</p>
-              <div id="presets" class="preset-groups" role="group" aria-label="One-click scenarios"></div>
-            </div>
-
             <div class="panel">
               <p class="panel-title">Controls</p>
               <div class="controls-row">
@@ -354,95 +511,6 @@
         </div>
       </section>
 
-      <!-- ── Validation & provenance ──────────────────────────────────── -->
-      <section class="block" id="validation">
-        <div class="wrap">
-          <div class="sec-head">
-            <p class="eyebrow">Validation &amp; provenance</p>
-            <h2>Evidence, not adjectives</h2>
-            <p>Institutional users can trace every claim. What is validated, against what, and how the build can be reproduced bit-for-bit.</p>
-          </div>
-          <div id="validation-cards" class="cap-wrap">
-            <div class="cap-toolbar">
-              <p class="cap-tally">15 evidence rows · 8 domains · 7 validated against external oracles</p>
-              <label class="cap-filter"><input type="checkbox" id="validation-validated-only" /><span>Validated only</span></label>
-            </div>
-            <table class="vmatrix">
-              <tbody>
-                <tr class="vgroup" data-v="2"><th colspan="2"><span class="vg-key">Orbits</span><span class="vg-full">Orbits, OD &amp; trajectory</span><span class="vg-count">2 ✓ · 3</span></th></tr>
-                <tr data-status="validated">
-                  <td class="c-name">Orbit propagation<span class="c-ev">SGP4/SDP4 matches all <b>666</b> AIAA 2006-6753 verification states to a worst-case <b>4.12 mm</b> — near-Earth, deep-space, and resonant. This is the model TLEs are defined against.</span></td>
-                  <td class="c-stat"><span class="pill validated">Validated</span></td>
-                </tr>
-                <tr data-status="modelled">
-                  <td class="c-name">Numerical propagator<span class="c-ev">The Cowell propagator's unperturbed orbit matches the exact universal-variable Kepler solution to <b>sub-metre over 24 h</b>, with energy and angular momentum conserved to ~1e-9. The J2–J6, third-body, SRP, drag and relativistic perturbations each match a hand-derived closed-form signature.</span></td>
-                  <td class="c-stat"><span class="pill modelled">Modelled (analytic)</span></td>
-                </tr>
-                <tr data-status="validated">
-                  <td class="c-name">Agency precise orbits<span class="c-ev">Force-model validation by ephemeris fitting against real agency precise orbits: a full-arc Galileo MEO post-fit residual of <b>0.61 m</b> (24 h, degree/order 70, force-only) and Swarm-A LEO <b>0.10 m</b> (reduced-dynamic — an empirical-tier bound, not a measure). The lunar LRO fit is <b>6.6 m</b>, reported honestly <em>above</em> the 5 m target, and a DE440/ANISE cross-validation leaves it unchanged. This fits the force model to published ephemerides; it is not measurement-level orbit determination.</span></td>
-                  <td class="c-stat"><span class="pill validated">Validated (fit)</span></td>
-                </tr>
-                <tr class="vgroup" data-v="2"><th colspan="2"><span class="vg-key">Timing</span><span class="vg-full">Time &amp; frequency</span><span class="vg-count">2 ✓ · 2</span></th></tr>
-                <tr data-status="validated">
-                  <td class="c-name">Clock stability<span class="c-ev">Allan-family deviations (ADEV/MDEV/TDEV/HDEV) computed by the standard overlapping estimators with confidence intervals — validated against the <b>NIST SP 1065</b> reference deviations (Riley / Stable32 on NBS14), and calibrated to published clock datasheets, with a full IEEE-1139 five-coefficient power-law fit. The estimators are also validated on <b>real measured hardware</b> against Stable32: a <b>5071A caesium clock vs a hydrogen maser</b> (556,990 samples, 16 averaging factors) and the canonical Stable32 <b>PHASE.DAT</b> series, both reproduced to <b>≤ 1e-3</b> (observed ≤ 3e-5).</span></td>
-                  <td class="c-stat"><span class="pill validated">Validated (NIST)</span></td>
-                </tr>
-                <tr data-status="validated">
-                  <td class="c-name">Reference frames<span class="c-ev">The CIO-based IAU 2006/2000A GCRS↔ITRS reduction is validated <b>bit-for-bit</b> against the SOFA/ERFA vectors, and independently cross-checked against <b>ANISE</b> (pure-Rust NAIF/SPICE): GCRS→ITRS vs ANISE's ITRF93 from JPL's high-precision Earth kernel, the same IERS Earth-orientation parameters fed to both, agree to <b>≤ 0.86 m on the ground / ≤ 3.6 m at GNSS orbit</b> across 2020–2023.</span></td>
-                  <td class="c-stat"><span class="pill validated">Validated</span></td>
-                </tr>
-                <tr class="vgroup" data-v="1"><th colspan="2"><span class="vg-key">Inertial</span><span class="vg-full">Inertial, fusion &amp; alt-PNT</span><span class="vg-count">1 ✓ · 2</span></th></tr>
-                <tr data-status="modelled">
-                  <td class="c-name">Tightly-coupled fusion<span class="c-ev">The tightly-coupled GNSS/INS UKF navigator holds <b>0.77 m RMS</b> over a 30-minute curving LEO pass that includes a 120-second GNSS outage, on a force-model orbital coast — pseudorange + Doppler with fewer than four satellites.</span></td>
-                  <td class="c-stat"><span class="pill modelled">Modelled (simulation)</span></td>
-                </tr>
-                <tr data-status="validated">
-                  <td class="c-name">Gravity-field synthesis (GNSS-free nav)<span class="c-ev">The spherical-harmonic gravity-functional kernel — the "map reader" a gravity-aided navigator matches against, loading any <b>ICGEM</b> model — reproduces the <b>GRS80</b> normal-gravity standard (closed-form Somigliana, with the published equator/pole values) to <b>3.5e-12</b> across all latitudes, and produces a physically-bounded gravity-disturbance map from the real ICGEM <b>EGM2008</b> field (RMS ≈ 26 mGal at degree/order 70). The map-reader code is validated; gravity-aided <em>fix accuracy</em> stays modelled — no public gravimeter-on-a-platform trajectory exists.</span></td>
-                  <td class="c-stat"><span class="pill validated">Validated</span></td>
-                </tr>
-                <tr class="vgroup" data-v="1"><th colspan="2"><span class="vg-key">GNSS</span><span class="vg-full">GNSS integrity &amp; positioning</span><span class="vg-count">1 ✓ · 2</span></th></tr>
-                <tr data-status="validated">
-                  <td class="c-name">Single-point positioning<span class="c-ev">Real observations in, a real position out: the <code>pvt</code> solver turns a station's RINEX code pseudoranges and the GPS broadcast ephemeris into a receiver position by iterated weighted least squares — Sagnac correction, broadcast satellite clock, the dual-frequency L1/L2 ionosphere-free combination, and the Saastamoinen/Niell troposphere. Run on real IGS data (station ABMF, Guadeloupe, 2018-05-13) it recovers the surveyed coordinate to <b>5.7 m</b> 3-D RMS (<b>1.1 m</b> horizontal). Code single-point positioning, not carrier-phase PPP/RTK.</span></td>
-                  <td class="c-stat"><span class="pill validated">Validated (real data)</span></td>
-                </tr>
-                <tr data-status="modelled">
-                  <td class="c-name">Standards-traced integrity<span class="c-ev">Snapshot and solution-separation (ARAIM) RAIM with HPL/VPL, an MHSS integrity-risk budget, and the dual-/multi-constellation constellation-wide fault mode (EU ARAIM / DO-316), with Stanford integrity diagrams.</span></td>
-                  <td class="c-stat"><span class="pill modelled">Modelled</span></td>
-                </tr>
-                <tr class="vgroup" data-v="0"><th colspan="2"><span class="vg-key">Resilience</span><span class="vg-full">Resilience &amp; nav-signal</span><span class="vg-count">0 ✓ · 1</span></th></tr>
-                <tr data-status="modelled">
-                  <td class="c-name">Nav-signal performance<span class="c-ev">Modulation power spectral densities, anti-jam spectral separation, RMS (Gabor) bandwidth, DLL code-tracking jitter and the multipath error envelope, checked against closed-form anchors: unit-area PSDs, the BPSK self-spectral-separation identity <b>2/(3R<sub>c</sub>)</b>, sub-metre coherent early–late C/A jitter at <b>45 dB-Hz</b>, and BOC &gt; BPSK Gabor bandwidth. The spectral-separation coefficient now <em>derives</em> the anti-jam Q the jamming model uses from the actual signal and jammer spectra. Signal-performance analysis, not RF-payload or antenna hardware design.</span></td>
-                  <td class="c-stat"><span class="pill modelled">Modelled (anchors)</span></td>
-                </tr>
-                <tr class="vgroup" data-v="0"><th colspan="2"><span class="vg-key">Lunar</span><span class="vg-full">Lunar, cislunar &amp; deep-space</span><span class="vg-count">0 ✓ · 1</span></th></tr>
-                <tr data-status="modelled">
-                  <td class="c-name">Cislunar halo / NRHO<span class="c-ev">A 6×6 state-transition-matrix single-shooting differential corrector produces exactly periodic Earth–Moon halo / near-rectilinear halo orbits: it reproduces the published <b>L2 southern 9:2 NRHO</b> (the Gateway orbit) at a period of <b>~6.57 days</b> (published ~6.56) and a perilune of <b>~3,250 km</b> (published ~3,370). The STM is validated against finite differences and corrected orbits close to machine precision. This is a circular restricted three-body (Sun-free) solution — not validated against a real Gateway ephemeris or DSN tracking.</span></td>
-                  <td class="c-stat"><span class="pill modelled">Modelled (reproduction)</span></td>
-                </tr>
-                <tr class="vgroup" data-v="1"><th colspan="2"><span class="vg-key">AI/ML</span><span class="vg-full">AI/ML, anomaly &amp; decision</span><span class="vg-count">1 ✓ · 2</span></th></tr>
-                <tr data-status="validated">
-                  <td class="c-name">Anomaly detection on ESA telemetry<span class="c-ev">On real <b>ESA OPS-SAT</b> housekeeping telemetry (the OPSSAT-AD dataset, CC&nbsp;BY&nbsp;4.0) the ROC/AUC detector-evaluation reproduces <b>scikit-learn</b> to <b>&lt; 1e-9</b>, and a transparent peak-count detector separates the labelled anomalies at <b>AUC ≈ 0.85</b>. This reproduces the labelled separation on real mission data — not the source paper's own published model score.</span></td>
-                  <td class="c-stat"><span class="pill validated">Validated (real data)</span></td>
-                </tr>
-                <tr data-status="modelled">
-                  <td class="c-name">Quantum-Enabled PNT demonstrator<span class="c-ev">Three runnable application areas behind the open engine — trusted quantum <b>time transfer</b>, <b>GNSS-free quantum navigation</b> (cold-atom interferometer vs nav-grade INS), and quantum-system <b>fault/anomaly detection</b> — each emitting a machine-checked representativeness + gaps-to-flight record, bundled into one reproducible study. Modelled demonstrations (validated-by-reuse where they ride a validated kernel); no TRL&nbsp;&gt;&nbsp;3, no flight heritage.</span></td>
-                  <td class="c-stat"><span class="pill modelled">Modelled (demonstration)</span></td>
-                </tr>
-                <tr class="vgroup" data-v="0"><th colspan="2"><span class="vg-key">Interop</span><span class="vg-full">Interoperability &amp; assurance</span><span class="vg-count">0 ✓ · 2</span></th></tr>
-                <tr data-status="info">
-                  <td class="c-name">Reproducible builds<span class="c-ev">Deterministic from scenario + seed + engine version. A CycloneDX SBOM and SLSA build provenance ship on every release; the release toolchain is pinned to CI.</span></td>
-                  <td class="c-stat"><span class="vstat-note">process</span></td>
-                </tr>
-                <tr data-status="info">
-                  <td class="c-name">Honest scope<span class="c-ev">Optical-clock figures are <em>space goals on ground hardware</em> — no strontium optical clock has flown. See <a target="_blank" rel="noopener noreferrer" href="https://github.com/AshfordeOU/kshana/blob/main/docs/VALIDATION.md">VALIDATION.md</a> and <a target="_blank" rel="noopener noreferrer" href="https://github.com/AshfordeOU/kshana/blob/main/docs/CAPABILITY.md">CAPABILITY.md</a> before citing any number.</span></td>
-                  <td class="c-stat"><span class="vstat-note">note</span></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
       <!-- ── Standards & interoperability (data-driven) ───────────────── -->
       <section class="block" id="standards">
         <div class="wrap">
@@ -451,7 +519,7 @@
             <h2>Speaks the formats your tools already use</h2>
             <p>Built on the open standards of the GNSS and timing community, so it drops into existing workflows.</p>
           </div>
-          <div class="card" id="standards-list"></div>
+          <div id="standards-list" class="std-grid"></div>
         </div>
       </section>
 
