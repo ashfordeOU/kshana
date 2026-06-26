@@ -32,4 +32,16 @@ fn readme_dispatch_counts_match_the_api() {
          api::list_scenario_kinds() (= {n}); expected the substring {layout:?}. \
          Update the `typed dispatch (N kinds)` line in README.md."
     );
+
+    // docs/ARCHITECTURE.md's §4 dispatch diagram states the count too; it previously
+    // drifted to "20 kinds" while this README count stayed pinned at the true value, so
+    // pin the architecture doc to the same source of truth.
+    let arch = include_str!("../docs/ARCHITECTURE.md");
+    let arch_count = format!("{n} kinds");
+    assert!(
+        arch.contains(&arch_count),
+        "docs/ARCHITECTURE.md scenario count is out of sync with \
+         api::list_scenario_kinds() (= {n}); expected the substring {arch_count:?}. \
+         Update the `ScenarioKind::classify … N kinds` node in the §4 dispatch diagram."
+    );
 }

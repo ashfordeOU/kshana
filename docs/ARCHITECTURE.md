@@ -278,6 +278,56 @@ flowchart TD
   under parameter uncertainty, and the measured-ADEV holdover-benefit trade; the trade
   numerical kernels are validated against scipy.
 
+## 1c. Integrity, GNSS, deep-space, lunar & mission layers
+
+The remaining domains plug into the same `api` dispatch and reuse the shared core,
+frames and geometry. Everything here is **MODELLED** unless a `verification`-matrix row
+cites an external oracle (RAIM kernel vs SciPy, SBAS vs the RTKLIB fork, the gnss_lib_py
+DOP kernel, the OPS-SAT eval) — the lunar suite and the quantum demonstrator are
+modelled, illustrative, public-source, and carry no TRL / heritage / agency-endorsement
+claim.
+
+```mermaid
+flowchart TD
+    api["api.rs — run_toml / run_scenario · 44 kinds"]
+
+    subgraph gnss["Integrity & GNSS measurement"]
+      raim["raim — RAIM/ARAIM · HPL/VPL (kernel vs SciPy)"]
+      sbas["sbas — DO-229E PL · L1/L5 (vs RTKLIB fork)"]
+      meas["gnss_sim · ionex · pvt · glonass — pseudorange · iono maps · single-point PVT"]
+      imp["integrity_impact · frugal — miss→integrity · cost-per-coverage"]
+    end
+
+    subgraph deep["Deep-space & Mars"]
+      core2["body · ephem_provider · clock_state — multi-body · ephemeris seam · onboard clock"]
+      radio["radiometric · ccsds_tdm — light-time · Doppler/range · Δ-DOR · TDM"]
+      mars["deepspace_od · mars_frame · mars_atmos · mars_pnt · linkbudget · gse_sim — SRIF OD · Mars frame · relay-PNT · GSE sim"]
+    end
+
+    subgraph lunar["Lunar PNT suite (MODELLED · illustrative public-source)"]
+      cis["cr3bp · lunar · lunar_frame · lunar_od — CR3BP · halo/NRHO · cislunar ARAIM · MCI↔MCMF"]
+      suite["lunar_time · lunar_vlbi · lunar_combination · lunar_frame_realise — LTC time · VLBI · joint OD+clock · frame realisation"]
+      suite2["lunar_service · lunar_dpnt · lunar_interop — Moonlight service-volume · differential PNT · LunaNet/IOAG interop"]
+    end
+
+    subgraph quantum["Quantum-Enabled PNT demonstrator (MODELLED)"]
+      qd["quantum_devices · quantum_faults · quantum_nav_od — device error models · fault catalogue · GNSS-free OD"]
+      qt["qtrade · timetransfer_chain · representativeness — unified trade · time-transfer chain · gaps-to-flight ledger"]
+    end
+
+    subgraph mission["Mission analysis, environment & interop"]
+      ma["launch · reentry · eo_payload · attitude_budget · passes · linkbudget — first-order budgets"]
+      env["space_weather — Jacchia-71 density"]
+      iop["rinex · rinex_obs · sp3 · oem · omm · ccsds_tdm · space_packet · interchange · permalink — interop formats + KIF"]
+      ver["verification — requirement→module→test→oracle→status matrix"]
+    end
+
+    api --> gnss & deep & lunar & quantum & mission
+    raim -. reuses .-> meas
+    suite -. reuses validated DOP / SBAS kernels .-> gnss
+    qt -. rides validated kernels (scipy / sklearn) .-> quantum
+```
+
 ## 2. Engine pipeline (per run)
 
 Each run steps a single sensor model through the time grid, disciplining it whenever
@@ -355,21 +405,19 @@ return them to the host. One dispatch, no drift.
 
 ```mermaid
 flowchart TD
-    F["api::run_toml(src) · run_scenario(src)"] --> K{"ScenarioKind::classify<br/>typed · exhaustive · 20 kinds"}
-    K --> G1["Timing<br/>clock (default) · timetransfer"]
-    K --> G2["Inertial & fusion<br/>inertial · hybrid · fusion · gnss-ins"]
+    F["api::run_toml(src) · run_scenario(src)"] --> K{"ScenarioKind::classify<br/>typed · exhaustive · 44 kinds<br/>(absent/unknown kind → clock)"}
+    K --> G1["Timing<br/>clock · timetransfer · quantum-time-transfer"]
+    K --> G2["Inertial & fusion<br/>inertial · hybrid · hybrid-ukf · fusion · gnss-ins · quantum-gnss-free-nav"]
     K --> G3["Orbit, geometry & positioning<br/>orbit · ephemeris · gnss-sim · pvt"]
     K --> G4["Integrity<br/>integrity · lunar-integrity"]
-    K --> G5["Resilience<br/>spoof · spoof-detect · jamming"]
-    K --> G6["Alt-PNT (GPS-denied)<br/>gravity-map · terrain-nav · combined-altpnt"]
-    K --> G7["Trade studies<br/>sweep · sweep-nd"]
-    G1 --> W["result json + svg + summary"]
-    G2 --> W
-    G3 --> W
-    G4 --> W
-    G5 --> W
-    G6 --> W
-    G7 --> W
+    K --> G5["Resilience<br/>jamming · spoof · spoof-detect · quantum-anomaly-detect"]
+    K --> G6["Alt-PNT (GPS-denied)<br/>gravity-map · terrain-nav · terrain-slam · combined-altpnt"]
+    K --> G7["Lunar / cislunar suite (MODELLED)<br/>lunar-time-offset · lunar-vlbi · lunar-joint-od-clock · lunar-frame-realisation<br/>moonlight-service-volume · lunar-differential-pnt · lunar-interop-export"]
+    K --> G8["Deep-space<br/>mars-pnt"]
+    K --> G9["AI/ML & trade<br/>impairment-eval · quantum-trade"]
+    K --> G10["Mission analysis & environment<br/>launch-window · reentry · eo-coverage · attitude-budget<br/>passes · link-budget · space-packet · space-weather"]
+    K --> G11["Trade studies & interop<br/>sweep · sweep-nd · oem-interop"]
+    G1 & G2 & G3 & G4 & G5 & G6 & G7 & G8 & G9 & G10 & G11 --> W["RunOutput { json, svg, summary }<br/>+ SHA-256 scenario_hash"]
 ```
 
 Dispatch is on a typed `ScenarioKind` enum, matched exhaustively (see the next
@@ -421,6 +469,34 @@ impl ExternalPack for MyPack {
 The built-in `jamming` pack is wired through `Scenario` as the worked example;
 out-of-tree packs follow the same contract without forking core (mirroring the
 `ErrorModel` extension point in §3, which the private resilience overlay uses).
+
+Kshana therefore has **two stable extension seams** — add a *sensor* by implementing
+`ErrorModel` (§3), or add a whole *scenario kind* by implementing `Scenario` +
+`ExternalPack` — both semver-stable, neither requiring a core fork:
+
+```mermaid
+classDiagram
+    class ErrorModel {
+      <<trait — sensor seam>>
+      +step(dt, rng)
+      +spec() ModelSpec
+    }
+    class Scenario {
+      <<trait — pack seam>>
+      +run() RunOutput
+    }
+    class ExternalPack {
+      <<trait : Scenario>>
+      +kind_name() str
+      +meta() ScenarioMeta
+    }
+    ErrorModel <|.. ClockModel
+    ErrorModel <|.. AccelModel
+    ErrorModel <|.. TimeTransferLink
+    Scenario <|.. ExternalPack
+    Scenario <|.. JammingPack : worked example
+    ExternalPack <|.. ThirdPartyPack : out-of-tree, no core fork
+```
 
 ## 5. The hybrid capstone
 
@@ -475,7 +551,26 @@ are optional, feature-gated dependencies (`--features python` / `--features wasm
 the default build, the test suite, and the dependency-audit gate never compile or
 scan them. Both call `api::run_toml`, so every surface returns identical results. The
 WebAssembly module backs the browser playground in `web/` (`run`, `chart_svg`,
-`summary`, `version`).
+`summary`, `version`, plus the `encode_permalink` / `decode_permalink` shareable-URL
+codec). Two further front doors reach the same `api`: the **MCP server**
+(`mcp/kshana-mcp`, a workspace-excluded `rmcp` crate exposing `run_scenario`,
+`list_scenario_kinds`, `validate_scenario`, `export_omm` as tools) and the **JetBrains
+IDE plugin** (`ide/jetbrains`, a Kotlin project that shells out to the `kshana` CLI
+rather than linking the library).
+
+```mermaid
+flowchart LR
+    cli["CLI · main.rs<br/>native binary"] --> api
+    py["Python · python.rs (PyO3 abi3)<br/>run · run_full · run_typed · list_kinds · validate_toml · error_kind · version"] --> api
+    wasm["WebAssembly · wasm.rs (wasm-bindgen)<br/>run · chart_svg · summary · list_kinds · error_kind · version · encode/decode_permalink"] --> api
+    mcp["MCP server · mcp/kshana-mcp (rmcp)<br/>tools: run_scenario · list_scenario_kinds · validate_scenario · export_omm"] --> api
+    ide["JetBrains plugin · ide/jetbrains (Kotlin)"] -- spawns process --> cli
+    api["api::run_toml / run_scenario / list_scenario_kinds"] --> out["identical { json, svg, summary } on every surface"]
+```
+
+Feature-gating: Python and WASM are `--features python` / `--features wasm`; the MCP
+server and the `xval/*` cross-checks are workspace-EXCLUDED crates; the IDE plugin links
+nothing — it runs the CLI.
 
 ## 8. Determinism & reproducibility
 
