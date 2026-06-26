@@ -12,14 +12,14 @@
 export const TOUR_STEPS = [
   {
     target: "#capabilities",
-    title: "One engine, the whole PNT stack",
-    body: "Every capability, grouped by domain — Orbits, Timing, Inertial, GNSS, Resilience, Lunar, AI/ML, Interop. Expand a group to see its cards, each labelled Validated or Modelled; flip “Validated only” to show just what is checked against an external oracle.",
+    title: "Explore the engine, one domain at a time",
+    body: "Pick a domain tab — Orbits, Timing, Inertial, GNSS, Resilience, Lunar, AI/ML, Interop — to see its capabilities, each labelled Validated or Modelled, with a ▸ run button for the worked scenarios. Open “Evidence & provenance” in any domain to trace the proof, or flip “Validated only” to show just what is checked against an external oracle.",
     side: "bottom",
   },
   {
-    target: "#presets",
-    title: "Pick a domain, then a question",
-    body: "Choose a domain tab, then a one-click scenario — it loads and runs the engine as WebAssembly in your browser. Nothing is uploaded.",
+    target: "#playground",
+    title: "Run it in your browser",
+    body: "Pick a scenario from the dropdown — or hit ▸ run on any capability above — and the engine runs as WebAssembly on your machine. Nothing is uploaded.",
     side: "bottom",
   },
   {
@@ -49,7 +49,7 @@ export const TOUR_STEPS = [
   {
     target: "#validation",
     title: "Evidence, not adjectives",
-    body: "Every claim laid out as a grouped table — the figure, the external oracle it is checked against, and an honest Validated / Modelled status per row. “Validated only” filters to the dataset-checked rows.",
+    body: "The same explorer is also the evidence ledger: every domain carries an “Evidence & provenance” drawer — the figure, the external oracle it is checked against, and an honest Validated / Modelled status per claim. “Validated only” filters to the dataset-checked rows.",
     side: "top",
   },
   {
