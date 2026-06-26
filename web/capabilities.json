@@ -269,11 +269,13 @@
     },
     {
       "name": "RAIM / ARAIM",
-      "note": "integrity · HPL / VPL · DO-316"
+      "note": "snapshot detection kernel (χ²/non-central χ²/normal) vs SciPy · ARAIM MHSS budget founder-gated",
+      "proof": "SciPy stats chi2/ncx2/norm (independent library) — tests/raim_reference.rs (statistical kernel; ARAIM MHSS PL value not pinned)"
     },
     {
       "name": "SBAS / DO-229E",
-      "note": "WAAS protection levels · L1/L5"
+      "note": "DO-229E HPL/VPL vs RTKLIB SBAS-PL fork on real EGNOS data · L1/L5 iono-free",
+      "proof": "RTKLIB SBAS-PL fork waasprotlevels() (Siki & Takács 2017, real EGNOS+RINEX) — tests/sbas_reference.rs"
     },
     {
       "name": "IONEX / Klobuchar",
