@@ -9,6 +9,86 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.21.0] - 2026-06-26
+
+This release adds two MODELLED application suites to the open engine — a
+**Quantum-Enabled PNT demonstrator** (trusted quantum time transfer, GNSS-free
+quantum navigation, quantum fault/anomaly detection) and a **lunar / cislunar PNT
+suite** (lunar coordinate time, lunar VLBI, joint OD+clock, frame realisation,
+service-volume, differential PNT, interoperability export) — each runnable from one
+`kind`, each emitting an honest `TradeEvidence` record plus a representativeness /
+gaps-to-flight ledger. It also lands **six new external-oracle validations**, taking
+the machine-checked validation matrix to **15 VALIDATED · 42 MODELLED · 4 PARTNER**
+across its 61 rows. The new application numbers are MODELLED from illustrative
+public-source parameters — no TRL, flight heritage, certification, or agency
+endorsement — and the validated kernels they reuse are labelled as such.
+
+### Added
+
+- **Quantum-Enabled PNT demonstrator suite** (`quantum-time-transfer`,
+  `quantum-gnss-free-nav`, `quantum-anomaly-detect`). Three runnable MODELLED
+  application areas behind the engine, each emitting `TradeEvidence` plus a
+  representativeness / gaps-to-flight record:
+  - **Trusted quantum time transfer** (`src/timetransfer_chain.rs`) — an
+    optical-lattice-clock + photonic-link vs CSAC + RF two-way budget, reusing the
+    timing protection level, with a delay/replay-attack security FoM (1 − P_md) and
+    clock-anomaly detection + CUSUM latency.
+  - **GNSS-free quantum navigation** (`src/quantum_nav_od.rs`) — a cold-atom-
+    interferometer inertial coast vs a navigation-grade INS across a GNSS outage,
+    honest that with no external fix the accelerometer bias stays unobservable so the
+    error still grows.
+  - **Quantum fault / anomaly detection** (`src/quantum_faults.rs`) — a labelled
+    fault catalogue with a bootstrap-CI ROC AUC and a minimum-detectable-fault at a
+    fixed false-alarm rate.
+  - A shared quantum device error-model library (`src/quantum_devices.rs`) and a
+    unified quantum-vs-classical trade harness (`src/qtrade.rs`) underpin all three.
+- **Lunar / cislunar PNT suite.** Seven runnable MODELLED `kind`s layered on the
+  CR3BP core: **Lunar Coordinate Time** (LTC/TCL − TT secular rate, `src/lunar_time.rs`),
+  geodetic **lunar VLBI** delay observable (`src/lunar_vlbi.rs`), **joint
+  multi-technique OD + clock** batch estimator (`src/lunar_combination.rs`),
+  **reference-frame realisation** (7-parameter Helmert + IAU 2015 WGCCRE tie,
+  `src/lunar_frame_realise.rs`), **Moonlight / LCNS-class service-volume** analysis
+  (`src/lunar_service.rs`), **lunar differential PNT** (`src/lunar_dpnt.rs`), and a
+  **LunaNet / IOAG-aligned interoperability export** (CCSDS-OEM + lunar time scale in
+  the KIF envelope, `src/lunar_interop.rs`). All MODELLED from illustrative
+  public-source parameters; not validated against real VLBI / Gateway tracking; no
+  agency affiliation or endorsement.
+- **Six new external-oracle validations** (the validation matrix now stands at 15
+  validated):
+  - **ADEV / HDEV on a real 5071A caesium clock** — validated against Stable32
+    decade-point references (`tests/cs5071a_reference.rs`).
+  - **OADEV / MDEV / TDEV on the Stable32 `PHASE.DAT` reference** — validated against
+    Stable32's published tables (`tests/phasedat_reference.rs`).
+  - **Anomaly-detection ROC AUC on real ESA OPS-SAT telemetry** — validated against
+    scikit-learn (`tests/opssat_ad_reference.rs`).
+  - **ICGEM gravity-functional synthesis** — validated against the GRS80
+    normal-gravity standard (Somigliana γ to 3.5e-12; EGM2008 disturbance map,
+    `tests/icgem_gravity_reference.rs`).
+  - **Klobuchar broadcast ionosphere model** — validated against RTKLIB
+    (`tests/klobuchar_reference.rs`).
+  - **RAIM detection kernel** (171 cases, `tests/raim_reference.rs`) and the **SBAS
+    DO-229E protection level** on real EGNOS data (RTKLIB SBAS-PL fork,
+    `tests/sbas_reference.rs`) — both validated against their external oracles.
+- **Representativeness & gaps-to-flight ledger** (`src/representativeness.rs`). A
+  structured record every demonstrator emits — what is representative, what is
+  simplified, and what stands between the model and flight — the honest companion to
+  every MODELLED trade.
+- **Study aggregation & CLI ergonomics.** A scenario-suite manifest with one-command
+  study aggregation, hash-stable study metadata + `--study-name`, `--validate`
+  scenario linting, and per-FoM validation-tier surfacing in study reports.
+
+### Changed
+
+- **kshana.dev redesigned around a shared domain spine** — capabilities and
+  validation folded into one domain explorer with a common vocabulary, the new
+  validated islands surfaced, a land-accurate animated Earth instrument and a
+  request-a-study CTA, and the Ashforde OÜ branding/links.
+- **README + ARCHITECTURE audited for completeness and honesty** — stale validated
+  counts corrected (now 15 external oracles), the diagrams extended, and the
+  Conditional Timing Protection Level (arXiv:2606.24210) and RF-impairment
+  optimism-gap (arXiv:2606.22054) preprints cited.
+- The `paper/` sources and the JOSS draft pipeline are kept in the public repo.
+
 ## [0.20.0] - 2026-06-22
 
 This release adds four study capabilities to the open engine — a conditional Timing
