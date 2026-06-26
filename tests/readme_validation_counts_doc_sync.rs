@@ -1,0 +1,71 @@
+//! Regression guard: the README's validated / modelled / partner counts must stay in
+//! lock-step with the verification matrix (`src/verification.rs`), the single source of
+//! truth.
+//!
+//! The headline "validated" badge is hand-maintained. An audit found it had drifted to
+//! "17 external oracles · 15 more MODELLED" while the matrix actually held
+//! 15 VALIDATED / 42 MODELLED / 4 PARTNER — overstating what is validated and
+//! understating what is modelled by ~3×. That is the one drift that reads as an honesty
+//! overclaim, so this test makes it a build failure instead of a silent lie. Sibling of
+//! `scenario_count_doc_sync.rs` (which pins the dispatchable-kind count).
+//!
+//! If you add or change a verification row, update the README badge and the
+//! "Validation at a glance" summary line; this test names exactly which site is stale.
+
+use kshana::verification::{verification_matrix, VerificationStatus};
+
+#[test]
+fn readme_validation_counts_match_the_matrix() {
+    let m = verification_matrix();
+    let validated = m
+        .iter()
+        .filter(|i| i.status == VerificationStatus::Validated)
+        .count();
+    let modelled = m
+        .iter()
+        .filter(|i| i.status == VerificationStatus::Modelled)
+        .count();
+    let partner = m
+        .iter()
+        .filter(|i| i.status == VerificationStatus::PartnerOwned)
+        .count();
+    let total = m.len();
+    let readme = include_str!("../README.md");
+
+    let badge = format!("validated-{validated}%20external%20oracles");
+    assert!(
+        readme.contains(&badge),
+        "README badge validated count is out of sync with verification_matrix() \
+         (= {validated} VALIDATED rows); expected the substring {badge:?}. \
+         Update the `validated-N external oracles` shield in README.md."
+    );
+
+    let alt = format!("{validated} capabilities validated against independent external oracles");
+    assert!(
+        readme.contains(&alt),
+        "README badge alt-text validated count is out of sync (= {validated}); \
+         expected {alt:?}."
+    );
+
+    let modelled_str = format!("{modelled} more are honestly labelled MODELLED");
+    assert!(
+        readme.contains(&modelled_str),
+        "README badge MODELLED count is out of sync with verification_matrix() \
+         (= {modelled} MODELLED rows); expected {modelled_str:?}."
+    );
+
+    let partner_str = format!("{partner} are PARTNER-owned");
+    assert!(
+        readme.contains(&partner_str),
+        "README badge PARTNER count is out of sync (= {partner}); expected {partner_str:?}."
+    );
+
+    let summary =
+        format!("{total} rows — {validated} VALIDATED, {modelled} MODELLED, {partner} PARTNER");
+    assert!(
+        readme.contains(&summary),
+        "README 'Validation at a glance' full-matrix line is out of sync with \
+         verification_matrix() ({total} rows = {validated}/{modelled}/{partner}); \
+         expected the substring {summary:?}."
+    );
+}
