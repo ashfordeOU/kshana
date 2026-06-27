@@ -21,8 +21,11 @@
 //!
 //! A parsed file is also a propagation source: [`Sp3File::interpolator`] builds a
 //! per-satellite [`Sp3Interpolator`] that fills the position between epochs with a
-//! 9th-order Lagrange polynomial (standard IGS practice) and rotates it into the
-//! shared TEME frame, exposed as a [`crate::orbit::Propagator`].
+//! 10th-order (11-point) polynomial (standard IGS practice). Each tabulated node
+//! is first Earth-rotation corrected — rotated about +Z by ω⊕·(t_node − t) so all
+//! nodes share the Earth-fixed frame of the query instant — exactly as RTKLIB's
+//! `peph2pos` does (`preceph.c`); the corrected ECEF result is then rotated into
+//! the shared TEME frame and exposed as a [`crate::orbit::Propagator`].
 //!
 //! Scope (this stage): the read/write round trip and Lagrange position
 //! interpolation. Clock interpolation and a RINEX/SP3 scenario kind are next. The
@@ -235,10 +238,16 @@ impl Sp3File {
         for epoch in &self.epochs {
             if let Some(st) = epoch.sats.iter().find(|s| s.sat == sat) {
                 let e = epoch.time;
-                let jd = crate::timescales::julian_date(
-                    e.year, e.month, e.day, e.hour, e.minute, e.second,
-                );
-                t_s.push((jd - jd0) * 86_400.0);
+                // Node time relative to the file start, in seconds. Computing this
+                // as `(julian_date(e) - julian_date(s0)) * 86400` suffers
+                // catastrophic cancellation: both JDs are ~2.45e6, whose f64 ULP
+                // is ~5e-10 day ≈ 47 µs, so the difference carries a ±13 µs jitter
+                // per node. At GNSS orbital velocity (~3.9 km/s for MEO) that
+                // jitter injects ~5 cm of interpolation error — the dominant
+                // discrepancy against RTKLIB. Instead difference the integer day
+                // number and the seconds-of-day SEPARATELY, both small-magnitude
+                // and exactly representable, eliminating the cancellation.
+                t_s.push(node_offset_s(s0, e));
                 x.push(st.pos_m[0]);
                 y.push(st.pos_m[1]);
                 z.push(st.pos_m[2]);
@@ -258,9 +267,35 @@ impl Sp3File {
     }
 }
 
-/// IGS-standard interpolation order for SP3 positions: a 9th-order (10-point)
-/// Lagrange polynomial over the epochs bracketing the query time.
-const SP3_INTERP_ORDER: usize = 9;
+/// Seconds elapsed from epoch `from` to epoch `to`, computed without the
+/// large-magnitude Julian-Date cancellation that injects per-node timing jitter.
+///
+/// The integer day number (whole-day JD, exactly representable) and the
+/// seconds-of-day (0‥86400, exact to full f64 precision for the values SP3
+/// carries) are differenced separately, so the result is the exact grid offset
+/// rather than a value contaminated by the ~13 µs ULP noise of subtracting two
+/// ~2.45e6 Julian Dates. See [`Sp3File::interpolator`] for why this matters at
+/// GNSS orbital velocity.
+fn node_offset_s(from: EpochUtc, to: EpochUtc) -> f64 {
+    // Whole-day JD: julian_date at midnight ends in .5, so + 0.5 is an integer.
+    let day_num = |e: &EpochUtc| -> f64 {
+        crate::timescales::julian_date(e.year, e.month, e.day, 0, 0, 0.0) + 0.5
+    };
+    let sod = |e: &EpochUtc| -> f64 {
+        e.hour as f64 * 3600.0 + e.minute as f64 * 60.0 + e.second
+    };
+    (day_num(&to) - day_num(&from)) * 86_400.0 + (sod(&to) - sod(&from))
+}
+
+/// Earth angular velocity (rad/s), IS-GPS-200 value — matches RTKLIB's `OMGE`
+/// (`rtklib.h`: `7.2921151467E-5`). Used for the per-node Earth-rotation
+/// correction in SP3 interpolation (see [`Sp3Interpolator::position_ecef`]).
+const OMGE: f64 = 7.292_115_146_7e-5;
+
+/// IGS-standard interpolation order for SP3 positions: a 10th-order (11-point)
+/// polynomial over the epochs bracketing the query time. This matches RTKLIB's
+/// `peph2pos`/`pephpos` (`preceph.c`: `NMAX = 10`, so `NMAX + 1 = 11` nodes).
+const SP3_INTERP_ORDER: usize = 10;
 
 /// Lagrange interpolation of the samples `(xs, ys)` evaluated at `x`. The nodes
 /// must be distinct. Exact at the nodes and for polynomials up to degree
@@ -280,9 +315,11 @@ fn lagrange(xs: &[f64], ys: &[f64], x: f64) -> f64 {
 }
 
 /// A per-satellite SP3 position interpolator: the Earth-fixed (ECEF) position
-/// samples and their times relative to the file start, queried by 9th-order
-/// Lagrange interpolation (standard IGS practice) and rotated into the shared
-/// TEME inertial frame. This is what turns a precise-ephemeris file into a
+/// samples and their times relative to the file start, queried by 10th-order
+/// (11-point) polynomial interpolation with the IGS-standard per-node
+/// Earth-rotation correction (the `peph2pos` scheme; see
+/// [`Sp3Interpolator::position_ecef`]) and rotated into the shared TEME inertial
+/// frame. This is what turns a precise-ephemeris file into a
 /// [`crate::orbit::Propagator`] source.
 #[derive(Clone, Debug)]
 pub struct Sp3Interpolator {
@@ -297,25 +334,60 @@ pub struct Sp3Interpolator {
 
 impl Sp3Interpolator {
     /// The contiguous window of up to `SP3_INTERP_ORDER + 1` sample indices
-    /// centred on `t`, clamped to the available range at the ends.
+    /// bracketing `t`, clamped to the available range at the ends. This mirrors
+    /// RTKLIB `pephpos` (`preceph.c`): locate `index`, the last node at or before
+    /// `t`, then take the window starting at `index - (NMAX+1)/2`, clamped so the
+    /// `NMAX + 1` (= 11) nodes stay inside the table.
     fn window(&self, t: f64) -> (usize, usize) {
         let n = self.t_s.len();
         let npts = (SP3_INTERP_ORDER + 1).min(n);
+        // First node at or after `t` (RTKLIB's binary-search result `i`).
         let mut i = 0;
         while i < n && self.t_s[i] < t {
             i += 1;
         }
-        let start = i.saturating_sub(npts / 2).min(n - npts);
+        // `index` = last node strictly before `t` (or 0), as in RTKLIB.
+        let index = i.saturating_sub(1);
+        // Window start = index - (NMAX+1)/2, clamped to [0, n - npts].
+        let start = index.saturating_sub(npts / 2).min(n - npts);
         (start, start + npts)
     }
 
     /// Interpolated ECEF position (m) at `t` seconds from the file start.
+    ///
+    /// This applies the IGS-standard Earth-rotation node correction used by
+    /// RTKLIB's `peph2pos`/`pephpos` (`preceph.c`, "correction for earh rotation
+    /// ver.2.4.0"): before fitting the polynomial, each tabulated node's ECEF
+    /// position is rotated about +Z by `OMGE·(t_node − t)` so that every node is
+    /// expressed in the Earth-fixed frame at the SAME evaluation instant `t`.
+    /// Only then is the 11-point Lagrange polynomial fit and evaluated. Without
+    /// this correction a plain Lagrange fit on the raw ECEF samples disagrees
+    /// with RTKLIB by several centimetres at GNSS orbital velocity, because the
+    /// Earth-fixed frame has rotated by ω⊕·(t_node − t) between each node and the
+    /// query instant.
     pub fn position_ecef(&self, t: f64) -> [f64; 3] {
         let (a, b) = self.window(t);
         let xs = &self.t_s[a..b];
+        // Earth-rotation correction per node: rotate (x, y) about +Z by
+        // OMGE·(t_node − t). R3(θ) with θ = OMGE·(t_node − t):
+        //   x' =  cosθ·x − sinθ·y
+        //   y' =  sinθ·x + cosθ·y
+        // (matches RTKLIB pephpos: sinl/cosl from sin/cos(OMGE·t[j]), where
+        //  t[j] = timediff(peph.time, time) = t_node − t.) Z is unaffected.
+        let n = xs.len();
+        let mut xr = Vec::with_capacity(n);
+        let mut yr = Vec::with_capacity(n);
+        for k in 0..n {
+            let theta = OMGE * (xs[k] - t);
+            let (sin_t, cos_t) = theta.sin_cos();
+            let x = self.x[a + k];
+            let y = self.y[a + k];
+            xr.push(cos_t * x - sin_t * y);
+            yr.push(sin_t * x + cos_t * y);
+        }
         [
-            lagrange(xs, &self.x[a..b], t),
-            lagrange(xs, &self.y[a..b], t),
+            lagrange(xs, &xr, t),
+            lagrange(xs, &yr, t),
             lagrange(xs, &self.z[a..b], t),
         ]
     }
@@ -648,6 +720,114 @@ EOF";
         let xs = [0.0, 1.0, 2.0, 3.0];
         let ys = xs.map(f);
         assert!((lagrange(&xs, &ys, 1.5) - f(1.5)).abs() < 1e-9);
+    }
+
+    #[test]
+    fn node_offset_is_exact_on_the_sp3_grid() {
+        // The node-time construction must be jitter-free: differencing two
+        // ~2.45e6 Julian Dates leaves ~13 µs ULP noise per node (≈5 cm at MEO
+        // velocity); node_offset_s differences day-number and seconds-of-day
+        // separately and is exact on a regular grid. Walk a full UTC day of
+        // 15-minute SP3 epochs (incl. the midnight day rollover) and require the
+        // offset to equal the exact grid value to the nanosecond.
+        let start = EpochUtc {
+            year: 2011,
+            month: 4,
+            day: 2,
+            hour: 0,
+            minute: 0,
+            second: 0.0,
+        };
+        for ep in 0..96i64 {
+            let tot = ep * 900;
+            let e = EpochUtc {
+                year: 2011,
+                month: 4,
+                day: (2 + tot / 86_400) as u32,
+                hour: ((tot / 3600) % 24) as u32,
+                minute: ((tot / 60) % 60) as u32,
+                second: (tot % 60) as f64,
+            };
+            let got = node_offset_s(start, e);
+            let exact = ep as f64 * 900.0;
+            assert!(
+                (got - exact).abs() < 1e-9,
+                "epoch {ep}: node_offset_s = {got} s vs exact {exact} s (Δ={:.3e} s)",
+                got - exact
+            );
+        }
+    }
+
+    #[test]
+    fn earth_rotation_correction_is_exact_at_a_node_and_changes_the_midpoint() {
+        // Build an SP3 from a Kepler orbit (enough epochs for the 11-point
+        // window) and check the two defining properties of the peph2pos scheme:
+        //  (1) at a tabulated node the interpolated ECEF equals the stored node
+        //      exactly (the per-node rotation argument OMGE·(t_node − t) is zero
+        //      at t = t_node, so the polynomial passes through the raw sample);
+        //  (2) off a node the Earth-rotation correction actually changes the
+        //      result versus a naïve raw-sample Lagrange fit — by a magnitude
+        //      consistent with ω⊕·Δt·r over the window half-width.
+        use crate::orbit::{Orbit, Propagator};
+        let a = 26_560_000.0;
+        let orbit = Orbit::keplerian(a, 0.01, 0.9, 0.3, 0.2, 0.4);
+        let sats = vec![Propagator::Kepler(orbit)];
+        let ids = vec!["G01".to_string()];
+        let start = EpochUtc {
+            year: 2023,
+            month: 1,
+            day: 1,
+            hour: 0,
+            minute: 0,
+            second: 0.0,
+        };
+        let jd = crate::timescales::julian_date(2023, 1, 1, 0, 0, 0.0);
+        let f = Sp3File::from_propagators(&ids, &sats, start, jd, 900.0, 20);
+        let interp = f.interpolator("G01").expect("interpolator builds");
+
+        // (1) Exact at an interior node: rotation is identity there (the
+        // argument OMGE·(t_node − t) is zero), so the corrected polynomial passes
+        // through the raw stored sample. Query at the node's OWN tabulated time
+        // (interp.t_s[10]); the nominal 10×900 s differs from it by the sub-µs
+        // round-trip noise of from_propagators' civil_from_jd, which at MEO
+        // velocity would otherwise show as ~cm — exactly the precision sensitivity
+        // this whole change is about.
+        let t_node = interp.t_s[10];
+        let stored = f.position_of("G01", 10).expect("stored node");
+        let at_node = interp.position_ecef(t_node);
+        for k in 0..3 {
+            assert!(
+                (at_node[k] - stored[k]).abs() < 1e-6,
+                "node axis {k}: corrected {} vs stored {}",
+                at_node[k],
+                stored[k]
+            );
+        }
+
+        // (2) Off a node, the correction shifts X/Y relative to a raw Lagrange
+        // fit (Z is untouched by a +Z rotation). The shift is sub-metre over a
+        // 900 s half-step at this radius but must be clearly non-zero.
+        let t_mid = 10.5 * 900.0;
+        let corrected = interp.position_ecef(t_mid);
+        // Reproduce the raw (uncorrected) Lagrange fit over the same window.
+        let (lo, hi) = interp.window(t_mid);
+        let xs = &interp.t_s[lo..hi];
+        let raw = [
+            lagrange(xs, &interp.x[lo..hi], t_mid),
+            lagrange(xs, &interp.y[lo..hi], t_mid),
+            lagrange(xs, &interp.z[lo..hi], t_mid),
+        ];
+        let dxy =
+            ((corrected[0] - raw[0]).powi(2) + (corrected[1] - raw[1]).powi(2)).sqrt();
+        assert!(
+            dxy > 1e-3,
+            "Earth-rotation correction should move the X/Y fit off the raw fit, Δxy={dxy:.6} m"
+        );
+        // Z is unaffected by a rotation about +Z.
+        assert!(
+            (corrected[2] - raw[2]).abs() < 1e-9,
+            "Z must be unchanged by the +Z Earth-rotation correction"
+        );
     }
 
     #[test]
