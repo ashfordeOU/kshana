@@ -1,0 +1,49 @@
+flowchart LR
+    REQ["Requirement<br/>tender-facing<br/>capability area"]
+
+    subgraph CHAIN["Provenance chain (per row in src/verification.rs)"]
+        direction LR
+        MOD["Module<br/>src/*.rs"]
+        TST["Test evidence<br/>tests/*.rs"]
+        ORA{"External oracle?<br/>independent dataset,<br/>published vectors,<br/>or reference impl"}
+    end
+
+    REQ --> MOD --> TST --> ORA
+
+    subgraph KINDS["OracleKind enum (src/verification.rs)"]
+        direction TD
+        EXT["ExternalDataset<br/>independent authority"]
+        REF["ReferenceImpl<br/>sibling code path"]
+        INT["InternalConsistency<br/>algebraic identity"]
+        NON["NoneKind<br/>partner gap"]
+    end
+
+    ORA -->|ExternalDataset| EXT
+    ORA -->|"ReferenceImpl or<br/>InternalConsistency"| INT
+    ORA -->|none| NON
+
+    GUARD["INVARIANT (CI-enforced)<br/>test validated_rows_require<br/>_an_external_oracle:<br/>Validated implies<br/>ExternalDataset<br/>else cannot be Validated"]
+    EXT -.-> GUARD
+    INT -.-> GUARD
+
+    EXT --> VAL["VALIDATED<br/>36 rows"]
+    REF --> MDL["MODELLED<br/>35 rows"]
+    INT --> MDL
+    NON --> PRT["PARTNER<br/>4 rows"]
+    GUARD ==> VAL
+
+    subgraph EX["Real example oracles"]
+        direction TD
+        E1["SGP4 vs<br/>AIAA 2006-6753<br/>666 vectors, 4.12 mm"]
+        E2["Cowell vs<br/>Orekit 12.2 DP853<br/>worst 0.08 m / 24 h"]
+        E3["Light-time vs<br/>ANISE 0.10 DE440<br/>worst 0.31 m at 2.5 AU"]
+    end
+
+    E1 -.-> EXT
+    E2 -.-> EXT
+    E3 -.-> EXT
+
+    TOTAL["Total 75 capability rows<br/>web/data/verification-matrix.json"]
+    VAL -.-> TOTAL
+    MDL -.-> TOTAL
+    PRT -.-> TOTAL
