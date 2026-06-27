@@ -62,7 +62,8 @@ use kshana::fusion::coupled::CoupledPntFilter;
 use kshana::fusion::gnss_ins_ekf::{EkfNoise, GnssInsEkf, GnssMeasurement};
 use kshana::fusion::tightly_coupled::{pseudorange, range_rate, Sat, TightlyCoupled};
 
-const REF: &str = include_str!("fixtures/gnss_ins_sensor_fusion/gnss_ins_sensor_fusion_reference.txt");
+const REF: &str =
+    include_str!("fixtures/gnss_ins_sensor_fusion/gnss_ins_sensor_fusion_reference.txt");
 
 // --- Tolerances ---------------------------------------------------------------
 /// Linear-KF cases (EKF loose/tight, coupled PNT): exact in theory.
@@ -89,7 +90,11 @@ fn approx(got: f64, want: f64, rel: f64, abs: f64) -> (bool, f64) {
 fn csv(s: &str) -> Vec<f64> {
     s.trim()
         .split(',')
-        .map(|x| x.trim().parse::<f64>().unwrap_or_else(|_| panic!("bad float '{x}'")))
+        .map(|x| {
+            x.trim()
+                .parse::<f64>()
+                .unwrap_or_else(|_| panic!("bad float '{x}'"))
+        })
         .collect()
 }
 
@@ -97,11 +102,26 @@ fn csv(s: &str) -> Vec<f64> {
 /// `tightly_coupled.rs::constellation`.
 fn constellation() -> Vec<Sat> {
     vec![
-        Sat { pos: [2.00e7, 1.00e7, 1.50e7], vel: [-1500.0, 2200.0, 600.0] },
-        Sat { pos: [1.50e7, -1.20e7, 1.80e7], vel: [1800.0, 1500.0, -700.0] },
-        Sat { pos: [2.20e7, 0.50e7, -1.00e7], vel: [-900.0, -2000.0, 1200.0] },
-        Sat { pos: [1.00e7, 1.80e7, -1.50e7], vel: [2100.0, -800.0, -1000.0] },
-        Sat { pos: [2.50e7, -0.80e7, 0.60e7], vel: [-1200.0, 1700.0, 1400.0] },
+        Sat {
+            pos: [2.00e7, 1.00e7, 1.50e7],
+            vel: [-1500.0, 2200.0, 600.0],
+        },
+        Sat {
+            pos: [1.50e7, -1.20e7, 1.80e7],
+            vel: [1800.0, 1500.0, -700.0],
+        },
+        Sat {
+            pos: [2.20e7, 0.50e7, -1.00e7],
+            vel: [-900.0, -2000.0, 1200.0],
+        },
+        Sat {
+            pos: [1.00e7, 1.80e7, -1.50e7],
+            vel: [2100.0, -800.0, -1000.0],
+        },
+        Sat {
+            pos: [2.50e7, -0.80e7, 0.60e7],
+            vel: [-1200.0, 1700.0, 1400.0],
+        },
     ]
 }
 
@@ -112,7 +132,16 @@ fn truth_state(t: f64) -> [f64; 8] {
 
 const SIGMA_PR: f64 = 1.0;
 const SIGMA_RR: f64 = 0.05;
-const X0_TC: [f64; 8] = [7.0e6 + 150.0, -120.0, 90.0, 2.0, 7.5e3 - 1.5, 1.0, 38.0, 0.15];
+const X0_TC: [f64; 8] = [
+    7.0e6 + 150.0,
+    -120.0,
+    90.0,
+    2.0,
+    7.5e3 - 1.5,
+    1.0,
+    38.0,
+    0.15,
+];
 const P0_TC: [f64; 8] = [1.0e4, 1.0e4, 1.0e4, 1.0e2, 1.0e2, 1.0e2, 1.0e4, 1.0e0];
 
 fn diag(d: &[f64]) -> Vec<Vec<f64>> {
@@ -139,7 +168,12 @@ fn run_kshana_ukf(sats: &[Sat], n_epochs: usize) -> Vec<(Vec<f64>, Vec<f64>)> {
             nav.update_gnss(sats, &pr, &rr, SIGMA_PR, SIGMA_RR),
             "update_gnss failed at epoch {step}"
         );
-        let pflat: Vec<f64> = nav.ukf.p.iter().flat_map(|row| row.iter().copied()).collect();
+        let pflat: Vec<f64> = nav
+            .ukf
+            .p
+            .iter()
+            .flat_map(|row| row.iter().copied())
+            .collect();
         out.push((nav.ukf.x.clone(), pflat));
     }
     out
@@ -193,7 +227,10 @@ fn ukf_tightly_coupled_matches_filterpy() {
         }
         n += 1;
     }
-    assert!(n >= 40, "expected >=40 UKF epoch cases (20 each, 5-sat + 3-sat), got {n}");
+    assert!(
+        n >= 40,
+        "expected >=40 UKF epoch cases (20 each, 5-sat + 3-sat), got {n}"
+    );
     eprintln!(
         "ukf_tightly_coupled: {n} epoch cases vs filterpy UKF, worst |Δx| = {worst_x:.3e}, worst |ΔP| = {worst_p:.3e}"
     );
@@ -239,7 +276,10 @@ fn ekf_loosely_coupled_matches_filterpy() {
         for (i, (&g, &w)) in dx.iter().zip(&dx_want).enumerate() {
             let (ok, d) = approx(g, w, LIN_REL, LIN_ABS);
             worst_x = worst_x.max(d);
-            assert!(ok, "EKFLOOSE {name} dx[{i}]: {g:.9e} vs filterpy {w:.9e} (|Δ|={d:.2e})");
+            assert!(
+                ok,
+                "EKFLOOSE {name} dx[{i}]: {g:.9e} vs filterpy {w:.9e} (|Δ|={d:.2e})"
+            );
         }
         // Compare the covariance diagonal (the public covariance accessor).
         for (i, &g) in pdiag.iter().enumerate() {
@@ -303,7 +343,10 @@ fn ekf_tightly_coupled_matches_filterpy() {
         for (i, (&g, &w)) in dx.iter().zip(&dx_want).enumerate() {
             let (ok, d) = approx(g, w, LIN_REL, LIN_ABS);
             worst_x = worst_x.max(d);
-            assert!(ok, "EKFTIGHT {name} dx[{i}]: {g:.9e} vs filterpy {w:.9e} (|Δ|={d:.2e})");
+            assert!(
+                ok,
+                "EKFTIGHT {name} dx[{i}]: {g:.9e} vs filterpy {w:.9e} (|Δ|={d:.2e})"
+            );
         }
         for (i, &g) in pdiag.iter().enumerate() {
             let w = p_want[i * 15 + i];
@@ -366,7 +409,10 @@ fn coupled_pnt_matches_filterpy() {
         for (lbl, g, w) in [("pos", pos, x_want[0]), ("phase", phase, x_want[2])] {
             let (ok, d) = approx(g, w, LIN_REL, LIN_ABS);
             worst_x = worst_x.max(d);
-            assert!(ok, "COUPLED {name} {lbl}: {g:.9e} vs filterpy {w:.9e} (|Δ|={d:.2e})");
+            assert!(
+                ok,
+                "COUPLED {name} {lbl}: {g:.9e} vs filterpy {w:.9e} (|Δ|={d:.2e})"
+            );
         }
         for i in 0..4 {
             for j in 0..4 {

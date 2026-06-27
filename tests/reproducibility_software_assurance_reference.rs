@@ -11,6 +11,7 @@
 //!   - `bom-1.5.schema.json`  ($id http://cyclonedx.org/schema/bom-1.5.schema.json)
 //!   - `spdx.schema.json`     ($comment "v1.0-3.21" — 613 enumerated SPDX ids)
 //!   - `jsf-0.82.schema.json`
+//!
 //! plus the pinned conformance verdict `*_reference.txt`, produced offline by the
 //! reference Python `jsonschema` validator (the committed generator alongside it).
 //! This test reads the vendored **official SPDX enum** and re-checks the live SBOM
@@ -57,8 +58,9 @@ use serde_json::Value;
 
 const SPDX_SCHEMA: &str =
     include_str!("fixtures/reproducibility_software_assurance/spdx.schema.json");
-const VERDICT: &str =
-    include_str!("fixtures/reproducibility_software_assurance/reproducibility_software_assurance_reference.txt");
+const VERDICT: &str = include_str!(
+    "fixtures/reproducibility_software_assurance/reproducibility_software_assurance_reference.txt"
+);
 
 const MIN_COMPONENTS: usize = 50;
 
@@ -157,7 +159,9 @@ fn sbom_conforms_to_official_cyclonedx_1_5_and_spdx() {
                 if entry.get("expression").and_then(|e| e.as_str()).is_some() {
                     continue;
                 }
-                shape_errors.push(format!("{name}: licence entry is neither license nor expression"));
+                shape_errors.push(format!(
+                    "{name}: licence entry is neither license nor expression"
+                ));
                 continue;
             }
             let has_id = lic.get("id").is_some();
@@ -221,7 +225,10 @@ fn sbom_conforms_to_official_cyclonedx_1_5_and_spdx() {
         "pinned oracle recorded {v_norm_errors} normalized schema errors; the SBOM does not \
          conform to CycloneDX 1.5 even after SPDX normalization"
     );
-    assert_eq!(v_atomic_valid, "1", "pinned oracle: not all atomic ids are valid SPDX");
+    assert_eq!(
+        v_atomic_valid, "1",
+        "pinned oracle: not all atomic ids are valid SPDX"
+    );
     assert_eq!(
         components.len(),
         v_components,

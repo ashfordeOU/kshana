@@ -272,10 +272,22 @@ fn gnss_free_quantum_navigation_matches_octave_and_freier() {
     }
 
     // Quantity gates from the validation plan.
-    assert_eq!(n_freier, 1, "expected exactly 1 Freier anchor row, got {n_freier}");
-    assert!(n_vrw >= 10, "expected >=10 VRW cases (2 budgets × 5 times), got {n_vrw}");
-    assert!(n_det >= 20, "expected >=20 deterministic component checks, got {n_det}");
-    assert!(n_rss >= 10, "expected >=10 end-to-end RSS checks, got {n_rss}");
+    assert_eq!(
+        n_freier, 1,
+        "expected exactly 1 Freier anchor row, got {n_freier}"
+    );
+    assert!(
+        n_vrw >= 10,
+        "expected >=10 VRW cases (2 budgets × 5 times), got {n_vrw}"
+    );
+    assert!(
+        n_det >= 20,
+        "expected >=20 deterministic component checks, got {n_det}"
+    );
+    assert!(
+        n_rss >= 10,
+        "expected >=10 end-to-end RSS checks, got {n_rss}"
+    );
 
     eprintln!(
         "gnss_free_quantum_navigation: Freier-2016 published/SQL = {freier_ratio:.1}× \

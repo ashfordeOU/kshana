@@ -36,9 +36,8 @@
 
 use kshana::resilience::stats::{dirichlet_weights, kendall_tau, percentile_ci, rank_of};
 
-const REF: &str = include_str!(
-    "fixtures/resilience_score_decision_instability/rankstats_reference.txt"
-);
+const REF: &str =
+    include_str!("fixtures/resilience_score_decision_instability/rankstats_reference.txt");
 
 fn csv_f64(s: &str) -> Vec<f64> {
     s.trim()
@@ -171,7 +170,10 @@ fn percentile_ci_matches_numpy_percentile_nearest() {
     }
     assert!(n >= 15, "expected >= 15 percentile cases, got {n}");
     // Measured: worst |Δ| = 0.0 (bit-exact sample selection) over 30 cases.
-    assert!(worst <= 1e-12, "worst percentile endpoint |Δ| = {worst:.2e}");
+    assert!(
+        worst <= 1e-12,
+        "worst percentile endpoint |Δ| = {worst:.2e}"
+    );
 }
 
 #[test]

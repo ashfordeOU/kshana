@@ -43,9 +43,8 @@ use kshana::forces::{EARTH_ZONALS_J2_J6, MU_EARTH};
 use kshana::integrator::Tolerance;
 use kshana::propagator::{propagate, ForceModel};
 
-const REF: &str = include_str!(
-    "fixtures/numerical_cowell_propagator/numerical_cowell_propagator_reference.txt"
-);
+const REF: &str =
+    include_str!("fixtures/numerical_cowell_propagator/numerical_cowell_propagator_reference.txt");
 
 /// SRP coefficient and area-to-mass used in the fixture (must match the generator literals).
 const CR: f64 = 1.5;
@@ -275,6 +274,9 @@ fn numerical_cowell_propagator_matches_orekit_dp853() {
         ef - e0
     );
     for (tier, w) in &per_tier_worst {
-        eprintln!("  per-tier worst |Δr|: {tier} = {w:.3e} m (tol {} m)", pos_tol_m(tier));
+        eprintln!(
+            "  per-tier worst |Δr|: {tier} = {w:.3e} m (tol {} m)",
+            pos_tol_m(tier)
+        );
     }
 }

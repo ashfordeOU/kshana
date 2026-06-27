@@ -56,7 +56,9 @@ use kshana::batch_ls::gauss_newton;
 use kshana::fusion::ukf::inverse;
 
 const INPUTS: &str = include_str!("fixtures/lunar_joint_multi_technique_od/cases.txt");
-const REF: &str = include_str!("fixtures/lunar_joint_multi_technique_od/lunar_joint_multi_technique_od_reference.txt");
+const REF: &str = include_str!(
+    "fixtures/lunar_joint_multi_technique_od/lunar_joint_multi_technique_od_reference.txt"
+);
 
 const C: f64 = 299_792_458.0; // m/s, == kshana::timegeo::C_M_PER_S
 
@@ -65,7 +67,7 @@ const C: f64 = 299_792_458.0; // m/s, == kshana::timegeo::C_M_PER_S
 // component the oracle reports as ~0.
 const POS_ABS_TOL_M: f64 = 1.0e-3;
 const CLK_ABS_TOL_M: f64 = C * 1.0e-12; // ≈ 3.0e-4 m
-// Covariance-diagonal agreement: 5 % relative per parameter, tiny absolute floor.
+                                        // Covariance-diagonal agreement: 5 % relative per parameter, tiny absolute floor.
 const COV_REL_TOL: f64 = 0.05;
 const COV_ABS_TOL: f64 = 1.0e-12;
 
@@ -120,7 +122,11 @@ impl Geom {
     }
     fn sat(&self, corr: &[f64], k: usize) -> Vec3 {
         let b = 3 + 3 * k;
-        [self.abs(corr, b), self.abs(corr, b + 1), self.abs(corr, b + 2)]
+        [
+            self.abs(corr, b),
+            self.abs(corr, b + 1),
+            self.abs(corr, b + 2),
+        ]
     }
     fn clk_st(&self, corr: &[f64]) -> f64 {
         self.abs(corr, 3 + 3 * self.n_sat)
@@ -200,14 +206,20 @@ impl Geom {
                 }
             }
         }
-        let cov = inverse(&info).expect("information matrix must be invertible (full-rank network)");
-        (0..n).map(|p| cov[p][p] * PARAM_SCALE * PARAM_SCALE).collect()
+        let cov =
+            inverse(&info).expect("information matrix must be invertible (full-rank network)");
+        (0..n)
+            .map(|p| cov[p][p] * PARAM_SCALE * PARAM_SCALE)
+            .collect()
     }
 }
 
 fn floats(rest: &str) -> Vec<f64> {
     rest.split_whitespace()
-        .map(|t| t.parse::<f64>().unwrap_or_else(|_| panic!("bad float '{t}'")))
+        .map(|t| {
+            t.parse::<f64>()
+                .unwrap_or_else(|_| panic!("bad float '{t}'"))
+        })
         .collect()
 }
 
@@ -258,7 +270,10 @@ fn parse_inputs() -> (Geom, Vec<Case>) {
                     .collect();
             }
             "PAIRS" => {
-                let toks: Vec<usize> = rest.split_whitespace().map(|t| t.parse().unwrap()).collect();
+                let toks: Vec<usize> = rest
+                    .split_whitespace()
+                    .map(|t| t.parse().unwrap())
+                    .collect();
                 pairs = toks.chunks_exact(2).map(|c| (c[0], c[1])).collect();
             }
             "SIGMA" => { /* not needed: weights drive the solve */ }
@@ -275,7 +290,10 @@ fn parse_inputs() -> (Geom, Vec<Case>) {
     }
     flush(&mut cases, &mut cur_seed, &mut cur_x0, &mut cur_z);
 
-    assert!(n_sat > 0 && n_params > 0 && !anchors.is_empty(), "header parse");
+    assert!(
+        n_sat > 0 && n_params > 0 && !anchors.is_empty(),
+        "header parse"
+    );
     let geom = Geom {
         n_sat,
         n_params,
@@ -357,7 +375,9 @@ fn batch_ls_matches_orekit_levenberg_marquardt() {
             case.seed
         );
         // Reconstruct the absolute estimated state (a-priori + correction×SCALE).
-        let x_hat: Vec<f64> = (0..np).map(|i| case.x0[i] + res.x[i] * PARAM_SCALE).collect();
+        let x_hat: Vec<f64> = (0..np)
+            .map(|i| case.x0[i] + res.x[i] * PARAM_SCALE)
+            .collect();
 
         let want = ref_states
             .get(&case.seed)
@@ -400,7 +420,11 @@ fn batch_ls_matches_orekit_levenberg_marquardt() {
         for p in 0..np {
             let got = cov_kshana[p];
             let exp = cov_oracle[p];
-            assert!(got > 0.0 && exp > 0.0, "seed {} cov[{p}] non-positive", case.seed);
+            assert!(
+                got > 0.0 && exp > 0.0,
+                "seed {} cov[{p}] non-positive",
+                case.seed
+            );
             let rel = (got - exp).abs() / (exp.abs() + COV_ABS_TOL);
             worst_cov_rel = worst_cov_rel.max(rel);
             assert!(

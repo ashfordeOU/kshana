@@ -60,7 +60,9 @@ fn hex_to_bytes(s: &str) -> Vec<u8> {
     assert!(s.len() % 2 == 0, "hex string must have even length: '{s}'");
     (0..s.len())
         .step_by(2)
-        .map(|i| u8::from_str_radix(&s[i..i + 2], 16).unwrap_or_else(|e| panic!("bad hex '{s}': {e}")))
+        .map(|i| {
+            u8::from_str_radix(&s[i..i + 2], 16).unwrap_or_else(|e| panic!("bad hex '{s}': {e}"))
+        })
         .collect()
 }
 
@@ -94,7 +96,11 @@ fn space_packet_framing_matches_spacepackets_ccsds_133() {
         let full_hex = parts[8].trim();
 
         let want_header = hex_to_bytes(header_hex);
-        assert_eq!(want_header.len(), 6, "{name}: oracle header must be 6 octets");
+        assert_eq!(
+            want_header.len(),
+            6,
+            "{name}: oracle header must be 6 octets"
+        );
 
         // The data field has dlen_field + 1 octets. Build the identical
         // deterministic payload the generator used so the full-packet bytes line

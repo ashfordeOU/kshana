@@ -167,7 +167,11 @@ fn empirical_auc_point_matches_sklearn_roc_auc_score() {
             scores.push((name.trim().to_string(), v));
         }
     }
-    assert!(want_auc.len() >= 5, "expected >= 5 AUC-point cases, got {}", want_auc.len());
+    assert!(
+        want_auc.len() >= 5,
+        "expected >= 5 AUC-point cases, got {}",
+        want_auc.len()
+    );
 
     let mut worst = 0.0_f64;
     for (name, sklearn_auc) in &want_auc {
@@ -195,12 +199,17 @@ fn empirical_auc_point_matches_sklearn_roc_auc_score() {
             "{name}: kshana auc {got:.15} vs sklearn {sklearn_auc:.15} (|d|={d:.3e})"
         );
     }
-    eprintln!("empirical AUC point vs sklearn.roc_auc_score: {} cases, worst |d| = {worst:.3e}", want_auc.len());
+    eprintln!(
+        "empirical AUC point vs sklearn.roc_auc_score: {} cases, worst |d| = {worst:.3e}",
+        want_auc.len()
+    );
 
     // The fixture must exercise both tails of discrimination so the oracle isn't
     // all mid-range: a perfect detector and a worse-than-chance one.
     assert!(
-        want_auc.iter().any(|(_, a)| (*a - 1.0).abs() < AUCPT_ABS_TOL),
+        want_auc
+            .iter()
+            .any(|(_, a)| (*a - 1.0).abs() < AUCPT_ABS_TOL),
         "need an AUC=1 case"
     );
     assert!(

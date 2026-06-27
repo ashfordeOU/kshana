@@ -12,6 +12,7 @@
 //!     polynomial Q;
 //!   * H = [1,0,0], scalar R, and the same Joseph-stabilised update
 //!     `P = (I-KH)P(I-KH)' + KRK'`.
+//!
 //! It is then driven through the SAME deterministic predict / update_phase call
 //! sequence over a multi-epoch coast-then-track run, and EVERY element of the
 //! 3-vector state x = [phase, freq, drift] and the full 3x3 covariance P after
@@ -82,7 +83,10 @@ fn clock_state_trajectory_matches_filterpy() {
             let parts: Vec<&str> = line.splitn(7, '|').collect();
             assert_eq!(parts.len(), 7, "CASE row needs 7 |-fields: {line}");
             let name = parts[0].trim_start_matches("CASE").trim().to_string();
-            let q: Vec<f64> = parts[1].split_whitespace().map(|x| x.parse().unwrap()).collect();
+            let q: Vec<f64> = parts[1]
+                .split_whitespace()
+                .map(|x| x.parse().unwrap())
+                .collect();
             assert_eq!(q.len(), 3, "CASE {name}: need q_wf q_rw q_drift");
             dt = parts[2].trim().parse().unwrap();
             r = parts[3].trim().parse().unwrap();
@@ -90,9 +94,7 @@ fn clock_state_trajectory_matches_filterpy() {
             assert_eq!(p0.len(), 3, "CASE {name}: need p0_phase,p0_freq,p0_drift");
             // (n_epochs = parts[5], coast = parts[6] are implicit in the STEP stream.)
 
-            kf = Some(
-                ClockState3::new(q[0], q[1], q[2]).with_initial_cov(p0[0], p0[1], p0[2]),
-            );
+            kf = Some(ClockState3::new(q[0], q[1], q[2]).with_initial_cov(p0[0], p0[1], p0[2]));
             case_name = name;
             case_steps = 0;
             n_cases += 1;
@@ -109,7 +111,10 @@ fn clock_state_trajectory_matches_filterpy() {
         let name = head[1];
         let kind = head[3];
         let z: f64 = head[4].parse().unwrap();
-        assert_eq!(name, case_name, "STEP for {name} but active case is {case_name}");
+        assert_eq!(
+            name, case_name,
+            "STEP for {name} but active case is {case_name}"
+        );
 
         let x_want = csv_f64(parts[1]);
         assert_eq!(x_want.len(), 3, "{name}: need x0,x1,x2");
@@ -178,10 +183,23 @@ fn clock_state_trajectory_matches_filterpy() {
         // expansions, so they agree to a few ULP, not necessarily bit-exact) and
         // positive-semidefinite.
         let sym_tol = 1e-12 * p_scale + 1e-300;
-        assert!((p[0][1] - p[1][0]).abs() <= sym_tol, "{name}: P not symmetric (01/10)");
-        assert!((p[0][2] - p[2][0]).abs() <= sym_tol, "{name}: P not symmetric (02/20)");
-        assert!((p[1][2] - p[2][1]).abs() <= sym_tol, "{name}: P not symmetric (12/21)");
-        assert!(filter.is_psd(), "{name} epoch {} {kind}: kshana P lost PSD-ness", head[2]);
+        assert!(
+            (p[0][1] - p[1][0]).abs() <= sym_tol,
+            "{name}: P not symmetric (01/10)"
+        );
+        assert!(
+            (p[0][2] - p[2][0]).abs() <= sym_tol,
+            "{name}: P not symmetric (02/20)"
+        );
+        assert!(
+            (p[1][2] - p[2][1]).abs() <= sym_tol,
+            "{name}: P not symmetric (12/21)"
+        );
+        assert!(
+            filter.is_psd(),
+            "{name} epoch {} {kind}: kshana P lost PSD-ness",
+            head[2]
+        );
 
         n_steps += 1;
         case_steps += 1;
@@ -189,7 +207,10 @@ fn clock_state_trajectory_matches_filterpy() {
     let _ = case_steps;
 
     // Coverage gates (planned minimum: >=200 epochs across >=4 parameter sets).
-    assert_eq!(n_cases, 4, "expected exactly 4 parameter sets, got {n_cases}");
+    assert_eq!(
+        n_cases, 4,
+        "expected exactly 4 parameter sets, got {n_cases}"
+    );
     assert!(
         n_predict + n_update == n_steps,
         "step accounting mismatch: {n_predict} predict + {n_update} update != {n_steps}"
@@ -198,8 +219,14 @@ fn clock_state_trajectory_matches_filterpy() {
         n_predict >= 4 * 200,
         "expected >= 800 predict steps (>=200 epochs x 4 cases), got {n_predict}"
     );
-    assert!(n_update >= 800, "expected >= 800 update steps, got {n_update}");
-    assert!(n_steps >= 1600, "expected >= 1600 total compared steps, got {n_steps}");
+    assert!(
+        n_update >= 800,
+        "expected >= 800 update steps, got {n_update}"
+    );
+    assert!(
+        n_steps >= 1600,
+        "expected >= 1600 total compared steps, got {n_steps}"
+    );
 
     eprintln!(
         "clock_state_reference: {n_cases} cases, {n_steps} steps \

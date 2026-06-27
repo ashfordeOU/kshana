@@ -281,9 +281,7 @@ fn node_offset_s(from: EpochUtc, to: EpochUtc) -> f64 {
     let day_num = |e: &EpochUtc| -> f64 {
         crate::timescales::julian_date(e.year, e.month, e.day, 0, 0, 0.0) + 0.5
     };
-    let sod = |e: &EpochUtc| -> f64 {
-        e.hour as f64 * 3600.0 + e.minute as f64 * 60.0 + e.second
-    };
+    let sod = |e: &EpochUtc| -> f64 { e.hour as f64 * 3600.0 + e.minute as f64 * 60.0 + e.second };
     (day_num(&to) - day_num(&from)) * 86_400.0 + (sod(&to) - sod(&from))
 }
 
@@ -377,8 +375,8 @@ impl Sp3Interpolator {
         let n = xs.len();
         let mut xr = Vec::with_capacity(n);
         let mut yr = Vec::with_capacity(n);
-        for k in 0..n {
-            let theta = OMGE * (xs[k] - t);
+        for (k, &node_t) in xs.iter().enumerate() {
+            let theta = OMGE * (node_t - t);
             let (sin_t, cos_t) = theta.sin_cos();
             let x = self.x[a + k];
             let y = self.y[a + k];
@@ -817,8 +815,7 @@ EOF";
             lagrange(xs, &interp.y[lo..hi], t_mid),
             lagrange(xs, &interp.z[lo..hi], t_mid),
         ];
-        let dxy =
-            ((corrected[0] - raw[0]).powi(2) + (corrected[1] - raw[1]).powi(2)).sqrt();
+        let dxy = ((corrected[0] - raw[0]).powi(2) + (corrected[1] - raw[1]).powi(2)).sqrt();
         assert!(
             dxy > 1e-3,
             "Earth-rotation correction should move the X/Y fit off the raw fit, Δxy={dxy:.6} m"
