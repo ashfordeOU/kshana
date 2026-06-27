@@ -41,9 +41,8 @@
 
 use kshana::eo_payload::{earth_angular_radius, ground_range, ground_track_spacing_equator};
 
-const REF: &str = include_str!(
-    "fixtures/eo_payload_coverage_geometry/eo_payload_coverage_reference.txt"
-);
+const REF: &str =
+    include_str!("fixtures/eo_payload_coverage_geometry/eo_payload_coverage_reference.txt");
 
 // kshana orbit::R_EARTH_EQUATORIAL_M and forces::EARTH_ROTATION_RATE, mirrored
 // here so the test re-derives kshana's node spacing from the oracle's period

@@ -233,5 +233,7 @@ fn cai_shot_noise_floor_is_below_and_near_published_devices() {
         n += 1;
     }
     assert!(n >= 2, "expected >=2 published-device cases, got {n}");
-    eprintln!("shot-noise floor: {n} devices, ideal floor <= published achieved (one-sided, same-order)");
+    eprintln!(
+        "shot-noise floor: {n} devices, ideal floor <= published achieved (one-sided, same-order)"
+    );
 }

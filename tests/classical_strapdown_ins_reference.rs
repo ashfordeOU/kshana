@@ -30,6 +30,7 @@
 //!   * gravity: NaveGo adds the deflection-of-vertical north term
 //!     gn(1) = -8.08e-9*h*sin(2 lat) (Groves eq. 2.140) that kshana's plumb-bob
 //!     gravity omits (gn(1) = 0).
+//!
 //! On the STATIC profile attitude is bit-identical (worst |Δatt| = 0) and the
 //! ENTIRE position/velocity residual is that one gn(1) term, matching its closed
 //! form ½|gn1|t² to every digit (see `static_matches_navego`). On the turn and
@@ -54,12 +55,17 @@ use kshana::frames::{geodetic_to_ecef, Geodetic, Vec3};
 use kshana::inertial::attitude::Quaternion;
 use kshana::inertial::mechanization::NavState;
 
-const REF: &str = include_str!("fixtures/classical_strapdown_ins/classical_strapdown_ins_reference.txt");
+const REF: &str =
+    include_str!("fixtures/classical_strapdown_ins/classical_strapdown_ins_reference.txt");
 
 fn csv_n(s: &str) -> Vec<f64> {
     s.trim()
         .split(',')
-        .map(|x| x.trim().parse::<f64>().unwrap_or_else(|e| panic!("parse '{x}': {e}")))
+        .map(|x| {
+            x.trim()
+                .parse::<f64>()
+                .unwrap_or_else(|e| panic!("parse '{x}': {e}"))
+        })
         .collect()
 }
 
@@ -320,6 +326,9 @@ fn total_epoch_count_meets_plan_minimum() {
         .iter()
         .map(|p| parse_profile(p).1.iter().filter(|e| e.k > 0).count())
         .sum();
-    assert!(n >= 30, "expected >= 30 compared epochs across profiles, got {n}");
+    assert!(
+        n >= 30,
+        "expected >= 30 compared epochs across profiles, got {n}"
+    );
     eprintln!("classical_strapdown_ins: {n} compared epochs across 3 profiles vs NaveGo");
 }

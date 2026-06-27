@@ -85,8 +85,8 @@ fn segment(
             ],
         });
     }
-    let start = states.first().unwrap().epoch.clone();
-    let stop = states.last().unwrap().epoch.clone();
+    let start = states.first().unwrap().epoch;
+    let stop = states.last().unwrap().epoch;
     OemSegment {
         meta: OemMetadata {
             object_name: object.to_string(),
@@ -106,39 +106,25 @@ fn main() {
     let t0 = epoch(2024, 1, 1, 0, 0, 0.0);
 
     // --- Fixture 1: single-segment LEO, 12 epochs at 300 s ---
-    let leo = Propagator::Kepler(Orbit::keplerian(
-        6_878_000.0,
-        0.001,
-        0.9,
-        0.3,
-        0.2,
-        0.4,
-    ));
+    let leo = Propagator::Kepler(Orbit::keplerian(6_878_000.0, 0.001, 0.9, 0.3, 0.2, 0.4));
     let f_leo = OemFile {
         version: "2.0".to_string(),
-        creation_date: created.clone(),
+        creation_date: created,
         originator: "KSHANA".to_string(),
-        segments: vec![segment("KSHANA-LEO-1", &leo, t0.clone(), 0.0, 0.0, 300.0, 12)],
+        segments: vec![segment("KSHANA-LEO-1", &leo, t0, 0.0, 0.0, 300.0, 12)],
     };
     let leo_text = f_leo.to_oem_string();
 
     // --- Fixture 2: two contiguous arcs (segments) of ONE MEO object ---
     // Arc A: epochs 0..6 (every 600 s); Arc B: epochs starting at 1h, 6 more.
-    let meo = Propagator::Kepler(Orbit::keplerian(
-        26_560_000.0,
-        0.01,
-        0.96,
-        0.3,
-        0.2,
-        0.4,
-    ));
-    let arc_a = segment("KSHANA-MEO-1", &meo, t0.clone(), 0.0, 0.0, 600.0, 6);
+    let meo = Propagator::Kepler(Orbit::keplerian(26_560_000.0, 0.01, 0.96, 0.3, 0.2, 0.4));
+    let arc_a = segment("KSHANA-MEO-1", &meo, t0, 0.0, 0.0, 600.0, 6);
     // Arc B picks up an hour after t0 (base_offset 3600 s) and samples the same
     // propagator from t = 3600 s onward — a genuine contiguous later arc.
-    let arc_b = segment("KSHANA-MEO-1", &meo, t0.clone(), 3600.0, 3600.0, 600.0, 6);
+    let arc_b = segment("KSHANA-MEO-1", &meo, t0, 3600.0, 3600.0, 600.0, 6);
     let f_meo = OemFile {
         version: "2.0".to_string(),
-        creation_date: created.clone(),
+        creation_date: created,
         originator: "KSHANA".to_string(),
         segments: vec![arc_a, arc_b],
     };
@@ -167,10 +153,6 @@ fn main() {
     );
     std::fs::create_dir_all(dir).unwrap();
     std::fs::write(format!("{dir}/kshana_leo_eme2000.oem"), &leo_text).unwrap();
-    std::fs::write(
-        format!("{dir}/kshana_meo_eme2000_multiseg.oem"),
-        &meo_text,
-    )
-    .unwrap();
+    std::fs::write(format!("{dir}/kshana_meo_eme2000_multiseg.oem"), &meo_text).unwrap();
     eprintln!("wrote fixtures to {dir}");
 }

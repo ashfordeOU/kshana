@@ -52,11 +52,9 @@ use kshana::oem::{parse_oem, OemFile, OemMetadata, OemSegment, OemStateLine};
 use kshana::orbit::{Orbit, Propagator};
 use kshana::rinex::EpochUtc;
 
-const REF: &str =
-    include_str!("fixtures/ccsds_oem_interop/ccsds_oem_interop_reference.txt");
+const REF: &str = include_str!("fixtures/ccsds_oem_interop/ccsds_oem_interop_reference.txt");
 const OEM_LEO: &str = include_str!("fixtures/ccsds_oem_interop/kshana_leo_eme2000.oem");
-const OEM_MEO: &str =
-    include_str!("fixtures/ccsds_oem_interop/kshana_meo_eme2000_multiseg.oem");
+const OEM_MEO: &str = include_str!("fixtures/ccsds_oem_interop/kshana_meo_eme2000_multiseg.oem");
 const EXTERNAL_LEO: &str = include_str!("fixtures/interop/external_leo.oem");
 
 // OEM data lines are printed at 6 dp (km position) and 9 dp (km/s velocity); the
@@ -118,8 +116,8 @@ fn segment(
             ],
         });
     }
-    let start = states.first().unwrap().epoch.clone();
-    let stop = states.last().unwrap().epoch.clone();
+    let start = states.first().unwrap().epoch;
+    let stop = states.last().unwrap().epoch;
     OemSegment {
         meta: OemMetadata {
             object_name: object.to_string(),
@@ -229,7 +227,10 @@ fn oem_oracle_matches_kshana_parse_of_its_own_export() {
     for c in &cs {
         // kshana's own parse of the committed bytes (the import side of src/oem.rs).
         let parsed = parse_oem(c.oem).unwrap_or_else(|e| {
-            panic!("{}: kshana parse_oem failed on its own export: {e}", c.label)
+            panic!(
+                "{}: kshana parse_oem failed on its own export: {e}",
+                c.label
+            )
         });
         assert_eq!(
             parsed.segments.len(),
@@ -248,22 +249,63 @@ fn oem_oracle_matches_kshana_parse_of_its_own_export() {
                 .find(|l| l.starts_with(&head))
                 .unwrap_or_else(|| panic!("{} seg {sidx}: no TOKENS line in reference", c.label));
             let parts: Vec<&str> = tok_line.splitn(6, '|').collect();
-            assert_eq!(parts.len(), 6, "{}: TOKENS needs 6 fields: {tok_line}", c.label);
+            assert_eq!(
+                parts.len(),
+                6,
+                "{}: TOKENS needs 6 fields: {tok_line}",
+                c.label
+            );
             let ref_frame = parts[1].trim();
             let time_system = parts[2].trim();
             let center_name = parts[3].trim();
             let object_name = parts[4].trim();
             let object_id = parts[5].trim();
             // Oracle tokens vs the tokens kshana's parser read from the same bytes.
-            assert_eq!(ref_frame, seg.meta.ref_frame, "{} seg {sidx}: REF_FRAME", c.label);
-            assert_eq!(ref_frame, "EME2000", "{} seg {sidx}: REF_FRAME token", c.label);
-            assert_eq!(time_system, seg.meta.time_system, "{} seg {sidx}: TIME_SYSTEM", c.label);
-            assert_eq!(time_system, "UTC", "{} seg {sidx}: TIME_SYSTEM token", c.label);
-            assert_eq!(center_name, seg.meta.center_name, "{} seg {sidx}: CENTER_NAME", c.label);
-            assert_eq!(center_name, "EARTH", "{} seg {sidx}: CENTER_NAME token", c.label);
-            assert_eq!(object_name, seg.meta.object_name, "{} seg {sidx}: OBJECT_NAME", c.label);
-            assert_eq!(object_name, c.object, "{} seg {sidx}: OBJECT_NAME token", c.label);
-            assert_eq!(object_id, seg.meta.object_id, "{} seg {sidx}: OBJECT_ID", c.label);
+            assert_eq!(
+                ref_frame, seg.meta.ref_frame,
+                "{} seg {sidx}: REF_FRAME",
+                c.label
+            );
+            assert_eq!(
+                ref_frame, "EME2000",
+                "{} seg {sidx}: REF_FRAME token",
+                c.label
+            );
+            assert_eq!(
+                time_system, seg.meta.time_system,
+                "{} seg {sidx}: TIME_SYSTEM",
+                c.label
+            );
+            assert_eq!(
+                time_system, "UTC",
+                "{} seg {sidx}: TIME_SYSTEM token",
+                c.label
+            );
+            assert_eq!(
+                center_name, seg.meta.center_name,
+                "{} seg {sidx}: CENTER_NAME",
+                c.label
+            );
+            assert_eq!(
+                center_name, "EARTH",
+                "{} seg {sidx}: CENTER_NAME token",
+                c.label
+            );
+            assert_eq!(
+                object_name, seg.meta.object_name,
+                "{} seg {sidx}: OBJECT_NAME",
+                c.label
+            );
+            assert_eq!(
+                object_name, c.object,
+                "{} seg {sidx}: OBJECT_NAME token",
+                c.label
+            );
+            assert_eq!(
+                object_id, seg.meta.object_id,
+                "{} seg {sidx}: OBJECT_ID",
+                c.label
+            );
 
             // --- per-state position / velocity, from the oracle's STATE lines ---
             assert_eq!(
@@ -357,9 +399,21 @@ fn external_oem_import_agrees_with_oracle() {
     assert_eq!(parts.len(), 6, "XTOKENS needs 6 fields: {xtok}");
     assert_eq!(parts[1].trim(), seg.meta.ref_frame, "external REF_FRAME");
     assert_eq!(parts[1].trim(), "EME2000", "external REF_FRAME token");
-    assert_eq!(parts[2].trim(), seg.meta.time_system, "external TIME_SYSTEM");
-    assert_eq!(parts[3].trim(), seg.meta.center_name, "external CENTER_NAME");
-    assert_eq!(parts[4].trim(), seg.meta.object_name, "external OBJECT_NAME");
+    assert_eq!(
+        parts[2].trim(),
+        seg.meta.time_system,
+        "external TIME_SYSTEM"
+    );
+    assert_eq!(
+        parts[3].trim(),
+        seg.meta.center_name,
+        "external CENTER_NAME"
+    );
+    assert_eq!(
+        parts[4].trim(),
+        seg.meta.object_name,
+        "external OBJECT_NAME"
+    );
     assert_eq!(parts[5].trim(), seg.meta.object_id, "external OBJECT_ID");
 
     // Per-state, oracle vs kshana, on the same file.
@@ -373,7 +427,12 @@ fn external_oem_import_agrees_with_oracle() {
         // XLEO <idx> | px,py,pz | vx,vy,vz
         let parts: Vec<&str> = line.splitn(3, '|').collect();
         assert_eq!(parts.len(), 3, "XLEO needs 3 fields: {line}");
-        let idx: usize = parts[0].trim().trim_start_matches("XLEO").trim().parse().unwrap();
+        let idx: usize = parts[0]
+            .trim()
+            .trim_start_matches("XLEO")
+            .trim()
+            .parse()
+            .unwrap();
         let pos = csv3(parts[1]);
         let vel = csv3(parts[2]);
         let st = &seg.states[idx];
@@ -385,17 +444,23 @@ fn external_oem_import_agrees_with_oracle() {
             assert!(
                 dp <= POS_TOL_KM,
                 "external state {idx} pos[{k}]: oracle {:.9} vs kshana {:.9} (|Δ|={dp:.2e})",
-                pos[k], st.pos_km[k]
+                pos[k],
+                st.pos_km[k]
             );
             assert!(
                 dv <= VEL_TOL_KM_S,
                 "external state {idx} vel[{k}]: oracle {:.12} vs kshana {:.12} (|Δ|={dv:.2e})",
-                vel[k], st.vel_km_s[k]
+                vel[k],
+                st.vel_km_s[k]
             );
         }
         seen += 1;
     }
-    assert_eq!(seen, seg.states.len(), "external: oracle/kshana state count");
+    assert_eq!(
+        seen,
+        seg.states.len(),
+        "external: oracle/kshana state count"
+    );
     assert_eq!(seen, 4, "external_leo.oem has 4 data lines");
     eprintln!(
         "ccsds_oem_interop import: kshana parse_oem and the oem library agree on all {seen} \

@@ -16,6 +16,7 @@
 //! outputs to:
 //!   * per-satellite single-difference corrected residual  |Δ| < 1e-9 m, and
 //!   * 3-D user position-error magnitude                    |Δ| < 1e-6 m
+//!
 //! (relative, with a small absolute floor for the zero-baseline exact-cancellation case).
 //!
 //! HONEST SCOPE / INDEPENDENCE: the geometry (Keplerian sat positions, selenographic→MCMF,
@@ -35,7 +36,8 @@ use kshana::lunar_dpnt::{
 
 type Vec3 = [f64; 3];
 
-const FIXTURE: &str = include_str!("fixtures/lunar_differential_pnt/lunar_differential_pnt_reference.txt");
+const FIXTURE: &str =
+    include_str!("fixtures/lunar_differential_pnt/lunar_differential_pnt_reference.txt");
 
 /// Per-satellite single-difference residual tolerance (m).
 const TOL_SD_M: f64 = 1e-9;

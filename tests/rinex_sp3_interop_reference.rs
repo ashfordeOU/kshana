@@ -66,7 +66,11 @@ fn parse_reference() -> Vec<Row> {
             toes: f[2].parse().unwrap(),
             // f[3] = iode (informational, not used for matching)
             tk: f[4].parse().unwrap(),
-            xyz: [f[5].parse().unwrap(), f[6].parse().unwrap(), f[7].parse().unwrap()],
+            xyz: [
+                f[5].parse().unwrap(),
+                f[6].parse().unwrap(),
+                f[7].parse().unwrap(),
+            ],
         });
     }
     rows
@@ -76,9 +80,7 @@ fn parse_reference() -> Vec<Row> {
 /// toe is the unambiguous key: the slice holds exactly one record per satellite.
 fn match_ephemeris<'a>(ephs: &'a [RinexEphemeris], row: &Row) -> &'a RinexEphemeris {
     ephs.iter()
-        .find(|e| {
-            e.system == row.system && e.prn == row.prn && (e.toe - row.toes).abs() < 1e-3
-        })
+        .find(|e| e.system == row.system && e.prn == row.prn && (e.toe - row.toes).abs() < 1e-3)
         .unwrap_or_else(|| {
             panic!(
                 "no kshana ephemeris for {}{:02} toe={} (oracle row)",
@@ -111,6 +113,7 @@ fn sv_position_ecef_matches_rtklib_eph2pos() {
         // Evaluate kshana at the SAME tk the oracle used: t = toe + tk.
         let got = eph.sv_position_ecef(eph.toe + row.tk);
 
+        #[allow(clippy::needless_range_loop)] // paired got/row.xyz axis indexing reads clearer
         for axis in 0..3 {
             let d = (got[axis] - row.xyz[axis]).abs();
             if d > worst {
@@ -139,9 +142,7 @@ fn sv_position_ecef_matches_rtklib_eph2pos() {
     // The cross-validation must actually span the three Keplerian constellations
     // present in the fixture, not silently collapse to one.
     assert!(
-        systems_seen.contains(&'G')
-            && systems_seen.contains(&'E')
-            && systems_seen.contains(&'C'),
+        systems_seen.contains(&'G') && systems_seen.contains(&'E') && systems_seen.contains(&'C'),
         "expected GPS+Galileo+BeiDou coverage, saw {systems_seen:?}"
     );
 

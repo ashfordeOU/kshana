@@ -44,15 +44,14 @@
 
 use kshana::cr3bp::{differential_correct_halo, Cr3bpState, EARTH_MOON_DIST_KM, EARTH_MOON_MU};
 
-const REF: &str = include_str!(
-    "fixtures/cislunar_mission_analysis/cislunar_mission_analysis_reference.txt"
-);
+const REF: &str =
+    include_str!("fixtures/cislunar_mission_analysis/cislunar_mission_analysis_reference.txt");
 
 // Tolerances on the non-dimensional CR3BP invariants (see header).
-const TOL_C: f64 = 5e-4;          // Jacobi constant, absolute
-const TOL_T_REL: f64 = 1e-3;      // period, relative
-const TOL_IC: f64 = 1e-3;         // {z0, vy0} initial-state components, absolute non-dim
-const TOL_PERI_KM: f64 = 150.0;   // perilune radius in the JPL length unit (km)
+const TOL_C: f64 = 5e-4; // Jacobi constant, absolute
+const TOL_T_REL: f64 = 1e-3; // period, relative
+const TOL_IC: f64 = 1e-3; // {z0, vy0} initial-state components, absolute non-dim
+const TOL_PERI_KM: f64 = 150.0; // perilune radius in the JPL length unit (km)
 
 struct Member {
     name: String,
@@ -167,10 +166,7 @@ fn cr3bp_corrector_reproduces_jpl_l2_southern_nrho_9to2() {
         );
 
         // (3) Initial-state components {z0, vy0} (x0 already checked).
-        for (lbl, got, want) in [
-            ("z0", orbit.ic.r[2], m.z0),
-            ("vy0", orbit.ic.v[1], m.vy0),
-        ] {
+        for (lbl, got, want) in [("z0", orbit.ic.r[2], m.z0), ("vy0", orbit.ic.v[1], m.vy0)] {
             let d = (got - want).abs();
             worst_ic = worst_ic.max(d);
             assert!(

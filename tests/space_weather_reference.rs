@@ -67,7 +67,8 @@ fn kshana_t_inf(f107: f64, f107a: f64, kp: f64) -> f64 {
 fn kshana_solarcycle_factor(alt_km: f64) -> f64 {
     let t_min = kshana_t_inf(70.0, 70.0, 0.0);
     let t_max = kshana_t_inf(230.0, 230.0, 0.0);
-    density_activity_factor(alt_km * 1000.0, t_max) / density_activity_factor(alt_km * 1000.0, t_min)
+    density_activity_factor(alt_km * 1000.0, t_max)
+        / density_activity_factor(alt_km * 1000.0, t_min)
 }
 
 #[test]
@@ -130,13 +131,19 @@ fn density_factor_direction_and_order_of_magnitude_vs_nrlmsise00() {
     let alt_m = 400_000.0;
     let cold = density_activity_factor(alt_m, kshana_t_inf(70.0, 70.0, 0.0));
     let hot = density_activity_factor(alt_m, kshana_t_inf(230.0, 230.0, 0.0));
-    assert!(cold < 1.0 && hot > 1.0 && hot > cold, "cold {cold} hot {hot}");
+    assert!(
+        cold < 1.0 && hot > 1.0 && hot > cold,
+        "cold {cold} hot {hot}"
+    );
 
     // Storm densifies at every NRLMSISE-00 reference altitude (sign check).
     for &alt in &ALTS_KM {
         let quiet = density_activity_factor(alt * 1000.0, kshana_t_inf(150.0, 150.0, 0.0));
         let storm = density_activity_factor(alt * 1000.0, kshana_t_inf(150.0, 150.0, 6.0));
-        assert!(storm > quiet, "storm must densify at {alt} km: {storm} <= {quiet}");
+        assert!(
+            storm > quiet,
+            "storm must densify at {alt} km: {storm} <= {quiet}"
+        );
     }
 
     // --- NRLMSISE-00 ratios from the committed oracle fixture ---
@@ -174,9 +181,8 @@ fn density_factor_direction_and_order_of_magnitude_vs_nrlmsise00() {
     // Both models must agree the 400 km storm increment is a modest >1 factor
     // (direction + rough magnitude, NOT tight): NRLMSISE-00 storm/quiet at 400 km
     // is a low single-digit factor and so is kshana.
-    let k_storm400 =
-        density_activity_factor(400_000.0, kshana_t_inf(150.0, 150.0, 6.0))
-            / density_activity_factor(400_000.0, kshana_t_inf(150.0, 150.0, 0.0));
+    let k_storm400 = density_activity_factor(400_000.0, kshana_t_inf(150.0, 150.0, 6.0))
+        / density_activity_factor(400_000.0, kshana_t_inf(150.0, 150.0, 0.0));
     let m_storm400 = msis_storm_mean[&400];
     assert!(
         k_storm400 > 1.0 && m_storm400 > 1.0,
@@ -194,17 +200,22 @@ fn density_factor_direction_and_order_of_magnitude_vs_nrlmsise00() {
     eprintln!(
         "  solar-cycle swing kshana vs NRLMSISE-00 (MSIS v0): \
          300km {:.1}/{:.1}x  400km {:.1}/{:.1}x  500km {:.1}/{:.1}x  800km {:.1}/{:.1}x",
-        kshana_solarcycle_factor(300.0), msis_solarcycle[&300],
-        k400, m400,
-        kshana_solarcycle_factor(500.0), msis_solarcycle[&500],
-        kshana_solarcycle_factor(800.0), msis_solarcycle[&800],
+        kshana_solarcycle_factor(300.0),
+        msis_solarcycle[&300],
+        k400,
+        m400,
+        kshana_solarcycle_factor(500.0),
+        msis_solarcycle[&500],
+        kshana_solarcycle_factor(800.0),
+        msis_solarcycle[&800],
     );
     eprintln!(
         "  -> GATED: 400 km swing within factor 3 (kshana/NRLMSISE = {ratio:.3}); \
          500/800 km diverge (kshana's calibrated coupling has NO per-altitude validity \
          aloft: 800 km kshana {:.0}x vs NRLMSISE-00 {:.0}x). 400 km storm increment \
          agrees to {:.0}%.",
-        kshana_solarcycle_factor(800.0), msis_solarcycle[&800],
+        kshana_solarcycle_factor(800.0),
+        msis_solarcycle[&800],
         (storm_ratio - 1.0).abs() * 100.0,
     );
 }
