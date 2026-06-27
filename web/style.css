@@ -1262,11 +1262,11 @@ a.std-row { text-decoration: none; color: inherit; }
 .hero-v2 .eyebrow .org a:hover { color: var(--accent-bright); border-bottom-color: var(--accent); }
 .hero-v2 h1 {
   font-family: var(--display);
-  font-size: clamp(2.6rem, 6vw, 4.6rem);
-  line-height: 1.02;
+  font-size: clamp(2.4rem, 5vw, 3.9rem);
+  line-height: 1.04;
   letter-spacing: -0.032em;
   font-weight: 560;
-  max-width: 17ch;
+  max-width: 24ch;
   margin: 1.15rem 0 0;
   text-wrap: balance;
 }
@@ -1293,7 +1293,7 @@ a.std-row { text-decoration: none; color: inherit; }
 }
 .hero-stat { display: flex; flex-direction: column; gap: 0.25rem; }
 .hero-stat b {
-  font: 600 clamp(1.7rem, 3vw, 2.4rem)/1 var(--mono);
+  font: 600 clamp(1.9rem, 3.2vw, 2.75rem)/1 var(--mono);
   color: var(--accent-bright);
   letter-spacing: -0.01em;
   font-feature-settings: "tnum" 1;
