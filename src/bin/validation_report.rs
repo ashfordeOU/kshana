@@ -3,102 +3,57 @@
 //!
 //! This collates Kshana's headline validation facts into a single print-ready page (a print
 //! stylesheet makes a clean PDF via any headless browser, with no LaTeX or other heavy
-//! dependency). Each row names the **test that enforces it in CI** and the **external oracle**
-//! it is checked against, so the page is a navigable index into the validation suite rather than
-//! a marketing sheet. Run it as `validation_report [out.html]` (defaults to stdout); the release
-//! workflow generates `kshana-validation-summary.html` and attaches it to the tagged release.
+//! dependency). It is driven directly by the verification matrix
+//! (`src/verification.rs::verification_matrix()`) — the SAME single source the kshana.dev
+//! ledger and the generated docs come from — so it can never drift from the code: every
+//! externally-validated row is listed with the module it lives in, the **test that enforces
+//! it in CI** and the **external oracle** it is checked against. Run it as
+//! `validation_report [out.html]` (defaults to stdout); the release workflow generates
+//! `kshana-validation-summary.html` and attaches it to the tagged release.
 //!
-//! Honest scope: this summarises *what the suite already asserts* — it does not itself re-run the
-//! physics. The authority is the cited test; if a test is removed or weakened, that is a code
-//! review concern, not something this page can detect.
+//! Honest scope: this summarises *what the suite already asserts* — it does not itself re-run
+//! the physics. The authority is the cited test; if a test is removed or weakened, that is a
+//! code review concern, not something this page can detect.
 
+use kshana::verification::{verification_matrix, VerificationItem, VerificationStatus};
 use std::io::Write;
 
-/// One validated capability: (area, headline result, the CI test that enforces it, the external
-/// oracle it is checked against).
-const ROWS: &[(&str, &str, &str, &str)] = &[
-    (
-        "SGP4/SDP4 propagation",
-        "666/666 AIAA vectors, worst 4.12 mm",
-        "tests/sgp4_verification.rs",
-        "AIAA 2006-6753 reference (Vallado tcppver.out)",
-    ),
-    (
-        "SGP4 cross-implementation",
-        "sub-micron vs the independent sgp4 crate (WGS72)",
-        "tests/sgp4_crate_comparison.rs",
-        "neuromorphicsystems/sgp4 2.4",
-    ),
-    (
-        "EGM2008 gravity (d/o 70)",
-        "point-mass + zonal + finite-difference oracles",
-        "src/gravity_sh.rs",
-        "NGA EGM2008 (ICGEM); analytic gradient identity",
-    ),
-    (
-        "Reference frames",
-        "IAU 2000A/2000B nutation, 2006 precession, CIO chain — bit-for-bit",
-        "src/nutation.rs, src/cio.rs",
-        "ERFA/SOFA reference routines",
-    ),
-    (
-        "Allan estimators",
-        "ADEV/MDEV/TDEV/HDEV reproduce the reference deviations",
-        "tests/allan_nist_sp1065_1000point.rs",
-        "NIST SP 1065 (Riley) 1000-point set",
-    ),
-    (
-        "IMU error model",
-        "ADIS16465/16488/16460 ARW/VRW/bias-instability recovered",
-        "tests/imu_allan_spec.rs",
-        "Manufacturer datasheets (IEEE 952 identification)",
-    ),
-    (
-        "Integrity (ARAIM / SBAS)",
-        "dual-constellation ARAIM HPL/VPL; DO-229E protection levels",
-        "src/raim.rs, src/sbas.rs",
-        "EU ARAIM TR; DO-229E K-factors; numpy inv(GᵀG)",
-    ),
-    (
-        "Geometry / DOP",
-        "GDOP/PDOP/HDOP/VDOP/TDOP match to 1e-6 across 8 geometries",
-        "tests/dop_reference.rs",
-        "gnss_lib_py 1.0.4 (Stanford NAV Lab)",
-    ),
-    (
-        "ML evaluation metrics",
-        "AUC/confusion/Pd-Pmd/precision/F1 — exact counts + <1e-9",
-        "tests/eval_metrics_reference.rs",
-        "scikit-learn 1.9.0 (Pedregosa et al., JMLR 2011)",
-    ),
-    (
-        "Quantum-trade kernels",
-        "ADEV NNLS fit, χ² consistency bands, van-Loan clock Q",
-        "tests/scipy_reference.rs",
-        "scipy 1.17.1 (optimize.nnls / stats.chi2 / linalg.expm)",
-    ),
-    (
-        "Reproducibility",
-        "input+shape goldens identical on ubuntu/macOS/windows",
-        "tests/cross_platform_golden.rs",
-        "3-OS CI matrix; SHA-256 goldens",
-    ),
-    (
-        "Coverage",
-        "~97% line coverage on src/, gated at 85%",
-        ".github/workflows/ci.yml (coverage job)",
-        "cargo-tarpaulin LLVM engine",
-    ),
-];
+/// The first repo-relative `tests/…` or `src/…` path mentioned in a free-text field,
+/// for the compact "enforced by" cell; falls back to the module name.
+fn primary_evidence(it: &VerificationItem) -> String {
+    for raw in it
+        .tests
+        .split(|c: char| c.is_whitespace() || c == ',' || c == ';' || c == '(' || c == ')')
+    {
+        let tok = raw.trim();
+        if tok.ends_with(".rs") && (tok.starts_with("tests/") || tok.starts_with("src/")) {
+            return tok.to_string();
+        }
+    }
+    if it.tests.contains("::") {
+        // an in-module unit test such as `navsignal::code_tests`
+        if let Some(first) = it.tests.split_whitespace().next() {
+            return first.to_string();
+        }
+    }
+    if !it.module.is_empty() {
+        return format!("module: {}", it.module);
+    }
+    "—".to_string()
+}
 
-/// Build the self-contained validation-summary HTML for `version`.
-fn render(version: &str) -> String {
+/// Build the self-contained validation-summary HTML for `version` from the matrix.
+fn render(version: &str, items: &[VerificationItem]) -> String {
+    let validated: Vec<&VerificationItem> = items
+        .iter()
+        .filter(|i| i.status == VerificationStatus::Validated)
+        .collect();
     let mut h = String::new();
     h.push_str("<!DOCTYPE html>\n<html lang=\"en\"><head><meta charset=\"utf-8\">\n");
     h.push_str("<title>Kshana validation summary</title>\n<style>\n");
     h.push_str(
         "body{font:14px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;color:#1a1a1a;\
-         max-width:60rem;margin:2rem auto;padding:0 1rem}\
+         max-width:64rem;margin:2rem auto;padding:0 1rem}\
          h1{font-size:1.5rem;margin:0 0 .25rem}.sub{color:#555;margin:0 0 1.5rem}\
          table{border-collapse:collapse;width:100%}th,td{border:1px solid #ddd;\
          padding:.5rem .6rem;text-align:left;vertical-align:top}\
@@ -110,29 +65,36 @@ fn render(version: &str) -> String {
     h.push_str(&format!(
         "<h1>Kshana validation summary <span class=\"ok\">{version}</span></h1>\n"
     ));
-    h.push_str(
-        "<p class=\"sub\">Every row below is enforced by a test in continuous integration and \
+    h.push_str(&format!(
+        "<p class=\"sub\">The {} externally-validated capabilities, generated from the \
+         verification matrix. Every row is enforced by a test in continuous integration and \
          checked against an external, authoritative oracle. This page indexes the validation \
-         suite; the cited test is the source of truth.</p>\n",
-    );
+         suite; the cited test is the source of truth. The full {}-row matrix (incl. the \
+         honestly-Modelled and partner-owned rows) is at docs/VERIFICATION-MATRIX.md and on \
+         kshana.dev.</p>\n",
+        validated.len(),
+        items.len(),
+    ));
     h.push_str(
-        "<table>\n<thead><tr><th>Capability</th><th>Result</th><th>Enforced by</th>\
+        "<table>\n<thead><tr><th>Capability</th><th>What it does</th><th>Enforced by</th>\
                 <th>External oracle</th></tr></thead>\n<tbody>\n",
     );
-    for (area, result, test, oracle) in ROWS {
+    for it in &validated {
         h.push_str(&format!(
-            "<tr><td>{}</td><td class=\"ok\">{}</td><td><code>{}</code></td><td>{}</td></tr>\n",
-            esc(area),
-            esc(result),
-            esc(test),
-            esc(oracle)
+            "<tr><td class=\"ok\">{}</td><td>{}</td><td><code>{}</code></td><td>{}</td></tr>\n",
+            esc(it.requirement),
+            esc(it.capability),
+            esc(&primary_evidence(it)),
+            esc(it.oracle),
         ));
     }
     h.push_str("</tbody></table>\n");
     h.push_str(
-        "<footer>Generated by <code>validation_report</code> from the Kshana test suite. \
-         Honest scope: this summarises what the suite asserts; it does not itself re-run the \
-         physics. See docs/VALIDATION.md and docs/CLAIMS-VS-REALITY.md.</footer>\n",
+        "<footer>Generated by <code>validation_report</code> from \
+         <code>verification_matrix()</code> — the same single source as the kshana.dev ledger \
+         and docs/VERIFICATION-MATRIX.md. Honest scope: this summarises what the suite asserts; \
+         it does not itself re-run the physics. See docs/VALIDATION.md and \
+         docs/CLAIMS-VS-REALITY.md.</footer>\n",
     );
     h.push_str("</body></html>\n");
     h
@@ -146,7 +108,7 @@ fn esc(s: &str) -> String {
 }
 
 fn main() {
-    let html = render(env!("CARGO_PKG_VERSION"));
+    let html = render(env!("CARGO_PKG_VERSION"), &verification_matrix());
     match std::env::args().nth(1) {
         Some(path) => {
             let mut f = std::fs::File::create(&path).expect("create output file");
@@ -165,20 +127,47 @@ mod tests {
 
     #[test]
     fn report_is_well_formed_and_lists_every_validated_capability() {
-        let h = render("v9.9.9");
+        let m = verification_matrix();
+        let h = render("v9.9.9", &m);
         assert!(h.starts_with("<!DOCTYPE html>"));
         assert!(h.trim_end().ends_with("</html>"));
         assert!(h.contains("v9.9.9"));
-        // Every capability row and its enforcing test must appear.
-        for (area, _result, test, _oracle) in ROWS {
-            assert!(h.contains(area), "missing capability {area}");
-            assert!(h.contains(test), "missing test reference {test}");
+        // Every externally-validated row and its enforcing evidence must appear.
+        for it in m
+            .iter()
+            .filter(|i| i.status == VerificationStatus::Validated)
+        {
+            assert!(
+                h.contains(&esc(it.requirement)),
+                "missing validated capability {}",
+                it.requirement
+            );
+            assert!(
+                h.contains(&esc(&primary_evidence(it))),
+                "missing evidence for {}",
+                it.requirement
+            );
         }
-        // Headline facts.
-        assert!(h.contains("666/666 AIAA vectors"));
-        assert!(h.contains("bit-for-bit"));
         // Honest-scope disclaimer must be present (no overclaim).
         assert!(h.to_lowercase().contains("does not itself re-run"));
+    }
+
+    #[test]
+    fn primary_evidence_prefers_a_real_test_path() {
+        let m = verification_matrix();
+        // At least most validated rows resolve to a concrete tests/ or src/ path.
+        let with_path = m
+            .iter()
+            .filter(|i| i.status == VerificationStatus::Validated)
+            .filter(|i| {
+                let p = primary_evidence(i);
+                p.starts_with("tests/") || p.starts_with("src/")
+            })
+            .count();
+        assert!(
+            with_path >= 25,
+            "too few validated rows resolve to a file path: {with_path}"
+        );
     }
 
     #[test]
