@@ -675,7 +675,7 @@ body.embed { background: var(--bg); }
 /* Capability feature cards */
 .card.feat { display: flex; flex-direction: column; gap: 0.5rem; height: 100%; }
 .card.feat .feat-head { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; min-height: 1.4rem; }
-.card.feat .eyebrow { color: var(--accent); margin: 0; }
+.card.feat .eyebrow { color: var(--accent); margin: 0; overflow-wrap: normal; word-break: keep-all; }
 .card.feat h3 { font-size: 1.02rem; margin: 0; min-height: 2.4rem; display: flex; align-items: flex-start; }
 .card.feat .run {
   font: inherit;
@@ -700,6 +700,70 @@ body.embed { background: var(--bg); }
   color: var(--ok);
   border-top: 1px solid var(--line);
   padding-top: 0.6rem;
+}
+
+/* Collapsible capability tiles: a compact tile is the click target; its summary prose
+   lives in a full-width detail band (.cap-detail) dropped in below the tile's row, one
+   open at a time. The title is a transparent <button> so the whole thing is keyboard-
+   operable with aria-expanded. */
+.card.feat.cap-tile { cursor: pointer; }
+.card.feat.cap-tile h3 { display: block; min-height: 2.4rem; margin: 0; }
+.cap-toggle {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.6rem;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  font-size: 1.02rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: inherit;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+}
+.cap-toggle:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; border-radius: 4px; }
+.cap-toggle .chev {
+  width: 1rem;
+  height: 1rem;
+  flex: none;
+  margin-top: 0.18rem;
+  color: var(--fg-2);
+  transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1), color 0.2s;
+}
+.card.feat.cap-tile:hover .cap-toggle .chev { color: var(--accent); }
+.card.feat.cap-tile.open {
+  border-color: var(--accent-line);
+  box-shadow: var(--shadow-2), inset 0 1px 0 var(--edge), 0 0 0 1px var(--accent-tint);
+}
+.card.feat.cap-tile.open .cap-toggle .chev { transform: rotate(180deg); color: var(--accent); }
+
+.cap-detail {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.32s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.cap-detail.open { grid-template-rows: 1fr; }
+.cap-detail-inner { overflow: hidden; min-height: 0; }
+.cap-detail-inner > p {
+  max-width: 72ch;
+  margin: 0;
+  padding: 0.1rem 0 0.3rem 1rem;
+  border-left: 2px solid var(--accent-line);
+  color: var(--fg-1);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+#explore.validated-only .cap-detail[data-status="modelled"] { display: none; }
+@media (prefers-reduced-motion: reduce) {
+  .cap-detail { transition: none; }
+  .cap-toggle .chev { transition: none; }
 }
 
 /* ── Footer ──────────────────────────────────────────────────────────── */
