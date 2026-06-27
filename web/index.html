@@ -33,6 +33,7 @@
           <a href="#capabilities">Capabilities</a>
           <a href="#playground">Playground</a>
           <a href="#validation">Validation</a>
+          <a href="#ledger">Ledger</a>
           <a href="#standards">Standards</a>
           <a href="#mcp">Agents</a>
           <a href="#cite">Cite</a>
@@ -394,6 +395,62 @@
 
             </div>
           </div>
+        </div>
+      </section>
+
+      <!-- ── Validation ledger ────────────────────────────────────────── -->
+      <!-- The complete machine-checked matrix, rendered from the generated
+           web/data/verification-matrix.json (single source: src/verification.rs).
+           Every row deep-links to the test that enforces it, the module that
+           implements it, and its committed provenance — so any claim is one click
+           from its evidence. -->
+      <section class="block alt" id="ledger">
+        <div class="wrap">
+          <div class="sec-head">
+            <p class="eyebrow">Evidence ledger</p>
+            <h2>The complete validation matrix — every row, every proof</h2>
+            <p>
+              All <span id="ldg-total">75</span> capabilities, generated from
+              <code>src/verification.rs</code> and pinned to it in CI. Each row links to the
+              <strong>test</strong> that enforces it, the <strong>module</strong> that
+              implements it, and any committed <strong>fixture/provenance</strong> — so every
+              claim is one click from its evidence. <span class="pill validated">Validated</span>
+              = checked against an independent external oracle;
+              <span class="pill modelled">Modelled</span> = honest first-principles model
+              (see <a target="_blank" rel="noopener noreferrer" href="https://github.com/AshfordeOU/kshana/blob/main/docs/MODELLED-RATIONALE.md">why</a>);
+              <span class="pill partner">Partner</span> = consortium gap, no code by design.
+            </p>
+          </div>
+
+          <div class="ldg-toolbar">
+            <input type="search" id="ldg-search" class="ldg-search"
+                   placeholder="Filter by capability, module, oracle…" aria-label="Filter the ledger" />
+            <div class="ldg-statuses" id="ldg-statuses" role="group" aria-label="Filter by status"></div>
+            <p class="ldg-tally" id="ldg-tally" aria-live="polite"></p>
+          </div>
+
+          <div class="ldg-wrap" role="region" aria-label="Validation ledger" tabindex="0">
+            <table class="ldg" id="ldg-table">
+              <thead>
+                <tr>
+                  <th scope="col">Capability</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Oracle</th>
+                  <th scope="col">Evidence</th>
+                </tr>
+              </thead>
+              <tbody id="ldg-body"></tbody>
+            </table>
+          </div>
+
+          <p class="ldg-foot">
+            Generated from the matrix by <code>gen_validation_artifacts</code> and pinned by
+            <code>verification_artifacts_doc_sync</code> — the table cannot drift from the code.
+            Full tables:
+            <a target="_blank" rel="noopener noreferrer" href="https://github.com/AshfordeOU/kshana/blob/main/docs/VERIFICATION-MATRIX.md">VERIFICATION-MATRIX.md</a> ·
+            <a target="_blank" rel="noopener noreferrer" href="https://github.com/AshfordeOU/kshana/blob/main/docs/MODELLED-RATIONALE.md">MODELLED-RATIONALE.md</a> ·
+            <a target="_blank" rel="noopener noreferrer" href="https://github.com/AshfordeOU/kshana/blob/main/docs/VALIDATION.md">VALIDATION.md</a>
+          </p>
         </div>
       </section>
 

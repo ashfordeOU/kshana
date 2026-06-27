@@ -1243,6 +1243,10 @@ function buildCapCard(c, idx) {
   const p = document.createElement("p");
   p.textContent = c.summary;
   inner.append(p);
+  // Machine-checked evidence deep-links for this capability (test, source, provenance),
+  // joined from the verification ledger; absent gracefully if the ledger didn't load.
+  const ev = buildCapEvidence(c.name);
+  if (ev) inner.append(ev);
   detail.append(inner);
 
   btn.addEventListener("click", () => toggleCap(tile, detail, btn));
@@ -1501,6 +1505,10 @@ async function renderCapabilities() {
     return;
   }
 
+  // Load the ledger + card→matrix map first so each card can grow its own
+  // machine-checked evidence deep-links (best-effort; cards still render without).
+  await Promise.all([loadLedger(), loadCardMap()]);
+
   // Capability cards + per-domain evidence, unified into the explorer.
   if (Array.isArray(data.capabilities)) buildExplorer(data.capabilities);
 
@@ -1532,8 +1540,254 @@ async function renderCapabilities() {
 }
 
 
+// --- Validation ledger (data-driven from data/verification-matrix.json) --------
+// The complete machine-checked matrix, rendered as a filterable table where every row
+// deep-links to its test, module source and committed provenance on GitHub. The JSON is
+// generated from src/verification.rs and pinned to it in CI, so the table cannot drift
+// from the code. Loaded once and memoised; the capability cards reuse it (by matrix
+// requirement) to grow their own evidence deep-links.
+let _ledgerPromise = null;
+const LEDGER_BY_REQ = new Map();
+function loadLedger() {
+  if (!_ledgerPromise) {
+    _ledgerPromise = fetch("data/verification-matrix.json", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`ledger ${r.status}`))))
+      .then((d) => {
+        for (const row of d.rows || []) LEDGER_BY_REQ.set(row.requirement, row);
+        return d;
+      })
+      .catch((e) => {
+        console.warn("[kshana] validation ledger unavailable:", e);
+        return null;
+      });
+  }
+  return _ledgerPromise;
+}
+
+// The card → matrix-requirement map (web/data/card-matrix-map.json, generated and
+// pinned by a doc-sync test), so each capability card can surface the exact ledger
+// rows that back it. Loaded once and memoised.
+let _cardMapPromise = null;
+const CARD_MATRIX = new Map();
+function loadCardMap() {
+  if (!_cardMapPromise) {
+    _cardMapPromise = fetch("data/card-matrix-map.json", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`card-map ${r.status}`))))
+      .then((m) => {
+        for (const [name, reqs] of Object.entries(m)) CARD_MATRIX.set(name, reqs);
+        return m;
+      })
+      .catch((e) => {
+        console.warn("[kshana] card→matrix map unavailable:", e);
+        return null;
+      });
+  }
+  return _cardMapPromise;
+}
+
+// Build the "Evidence" block for a capability card: each backing matrix row, with a
+// link to its ledger entry and deep-links to its test, module source and provenance.
+// Returns null when no mapping/ledger data is available (the card still renders).
+function buildCapEvidence(cardName) {
+  const reqs = CARD_MATRIX.get(cardName);
+  if (!reqs || !reqs.length || !LEDGER_BY_REQ.size) return null;
+  const wrap = document.createElement("div");
+  wrap.className = "cap-ev";
+  const head = document.createElement("p");
+  head.className = "cap-ev-head";
+  head.textContent = "Evidence";
+  wrap.append(head);
+  let any = false;
+  for (const req of reqs) {
+    const row = LEDGER_BY_REQ.get(req);
+    if (!row) continue;
+    any = true;
+    const item = document.createElement("div");
+    item.className = "cap-ev-item";
+    const top = document.createElement("div");
+    top.className = "cap-ev-top";
+    const a = document.createElement("a");
+    a.className = "cap-ev-req";
+    a.href = `#ldg-${slug(req)}`;
+    a.textContent = row.requirement;
+    a.title = "Jump to this row in the validation ledger";
+    a.addEventListener("click", (e) => e.stopPropagation());
+    const pill = document.createElement("span");
+    pill.className = `pill ${statusClass(row.status)}`;
+    pill.textContent = String(row.status).toLowerCase();
+    top.append(a, pill);
+    item.append(top);
+    const links = document.createElement("div");
+    links.className = "cap-ev-links";
+    for (const t of row.test_links || []) links.append(ledgerLink(t.path, t.url, "test"));
+    for (const m of row.module_links || []) links.append(ledgerLink(m.path, m.url, "src"));
+    if (row.fixture) {
+      links.append(ledgerLink(`${row.fixture.path}/`, row.fixture.url, "fixture"));
+      if (row.fixture.notice_url) links.append(ledgerLink("NOTICE", row.fixture.notice_url, "notice"));
+    }
+    if (links.childNodes.length) {
+      links.addEventListener("click", (e) => e.stopPropagation());
+      item.append(links);
+    }
+    wrap.append(item);
+  }
+  return any ? wrap : null;
+}
+
+// A small GitHub-blob link chip (path text, opens in a new tab). `kind` styles the icon.
+function ledgerLink(label, url, kind) {
+  const a = document.createElement("a");
+  a.className = `ldg-link ldg-link-${kind}`;
+  a.href = url;
+  a.target = "_blank";
+  a.rel = "noopener noreferrer";
+  a.textContent = label;
+  return a;
+}
+
+function statusClass(status) {
+  const s = String(status).toLowerCase();
+  return s === "validated" ? "validated" : s === "modelled" ? "modelled" : "partner";
+}
+
+async function renderLedger() {
+  const body = el("ldg-body");
+  if (!body) return;
+  const data = await loadLedger();
+  if (!data) {
+    const tr = document.createElement("tr");
+    const td = document.createElement("td");
+    td.colSpan = 4;
+    td.className = "ldg-empty";
+    td.textContent = "Validation ledger could not be loaded.";
+    tr.append(td);
+    body.append(tr);
+    return;
+  }
+
+  const totalEl = el("ldg-total");
+  if (totalEl) totalEl.textContent = String(data.summary.total);
+
+  // Build one table row per matrix row.
+  const rows = data.rows.map((r) => {
+    const tr = document.createElement("tr");
+    tr.className = `ldg-row ldg-${statusClass(r.status)}`;
+    tr.id = `ldg-${slug(r.requirement)}`;
+    // searchable text blob (lowercased)
+    tr._q = [r.requirement, r.capability, r.module, r.oracle, r.oracle_kind, r.status]
+      .join(" ")
+      .toLowerCase();
+    tr._status = statusClass(r.status);
+
+    // Capability cell: requirement (bold) + one-line capability.
+    const cap = document.createElement("td");
+    cap.className = "ldg-cap";
+    const req = document.createElement("div");
+    req.className = "ldg-req";
+    req.textContent = r.requirement;
+    const sub = document.createElement("div");
+    sub.className = "ldg-sub";
+    sub.textContent = r.capability;
+    cap.append(req, sub);
+
+    // Status cell: pill.
+    const st = document.createElement("td");
+    const pill = document.createElement("span");
+    pill.className = `pill ${statusClass(r.status)}`;
+    pill.textContent = String(r.status).toLowerCase();
+    st.append(pill);
+
+    // Oracle cell: oracle_kind badge + oracle prose.
+    const orc = document.createElement("td");
+    orc.className = "ldg-oracle";
+    if (r.oracle_kind) {
+      const k = document.createElement("span");
+      k.className = "ldg-kind";
+      k.textContent = r.oracle_kind;
+      orc.append(k);
+    }
+    if (r.oracle) {
+      const o = document.createElement("span");
+      o.className = "ldg-otext";
+      o.textContent = r.oracle;
+      orc.append(o);
+    }
+    if (!r.oracle && !r.oracle_kind) orc.textContent = "—";
+
+    // Evidence cell: deep-links to tests, module source and committed provenance.
+    const ev = document.createElement("td");
+    ev.className = "ldg-ev";
+    for (const t of r.test_links || []) ev.append(ledgerLink(t.path, t.url, "test"));
+    for (const mlink of r.module_links || []) ev.append(ledgerLink(mlink.path, mlink.url, "src"));
+    if (r.fixture) {
+      ev.append(ledgerLink(`${r.fixture.path}/`, r.fixture.url, "fixture"));
+      if (r.fixture.notice_url) ev.append(ledgerLink("NOTICE", r.fixture.notice_url, "notice"));
+    }
+    if (!ev.childNodes.length) ev.textContent = "—";
+
+    tr.append(cap, st, orc, ev);
+    return tr;
+  });
+  body.replaceChildren(...rows);
+
+  // Status filter chips (All + one per status) and the text search.
+  const search = el("ldg-search");
+  const statuses = el("ldg-statuses");
+  let activeStatus = "all";
+  const counts = { all: rows.length, validated: 0, modelled: 0, partner: 0 };
+  for (const tr of rows) counts[tr._status] += 1;
+
+  function apply() {
+    const q = (search && search.value ? search.value : "").trim().toLowerCase();
+    let shown = 0;
+    for (const tr of rows) {
+      const okStatus = activeStatus === "all" || tr._status === activeStatus;
+      const okText = !q || tr._q.includes(q);
+      const vis = okStatus && okText;
+      tr.hidden = !vis;
+      if (vis) shown += 1;
+    }
+    const tally = el("ldg-tally");
+    if (tally) tally.textContent = `${shown} of ${rows.length} capabilities`;
+  }
+
+  if (statuses) {
+    const defs = [
+      ["all", `All (${counts.all})`],
+      ["validated", `Validated (${counts.validated})`],
+      ["modelled", `Modelled (${counts.modelled})`],
+      ["partner", `Partner (${counts.partner})`],
+    ];
+    statuses.replaceChildren();
+    for (const [key, lbl] of defs) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "ldg-chip" + (key === "all" ? " active" : "");
+      b.dataset.status = key;
+      b.textContent = lbl;
+      b.addEventListener("click", () => {
+        activeStatus = key;
+        for (const c of statuses.children) c.classList.toggle("active", c === b);
+        apply();
+      });
+      statuses.append(b);
+    }
+  }
+  if (search) search.addEventListener("input", apply);
+  apply();
+}
+
+// Stable id/anchor slug from a requirement string.
+function slug(s) {
+  return String(s)
+    .toLowerCase()
+    .replace(/[^\w]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
 async function main() {
   renderCapabilities();
+  renderLedger();
 
   // The "Validation" nav link is the evidence doorway into the explorer: it scrolls
   // to the section (native #validation anchor), filters to the dataset-checked rows,
