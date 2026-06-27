@@ -3,6 +3,10 @@
 *.chart.svg
 *.report.html
 
+# Compiled Java oracle drivers under test fixtures: the .java source IS committed
+# (it generates the pinned reference vectors); the .class build output is not.
+tests/fixtures/**/*.class
+
 # Paper study artifacts: the byte-deterministic study JSONs the papers cite ARE
 # committed here for reproducibility (each is regenerable from its open generator,
 # e.g. `cargo run --release --example optimism_study -- paper-artifacts/optimism-study.json`).
@@ -46,8 +50,19 @@ __pycache__/
 # kernels, and generated reports. Source + Cargo.lock ARE committed; these are not.
 /xval/anise-mars-od/target
 /xval/anise-mars-od/kernels/*.bsp
+/xval/anise-mars-od/kernels/*.bpc
 /xval/anise-mars-od/report.json
 /xval/anise-mars-od/report.md
+/xval/anise-mars-od/lighttime_report.json
+/xval/anise-mars-od/report_lighttime.md
+
+# ANISE service-volume geometry cross-validation crate: build dir, downloaded kernels, and
+# generated reports. Source + Cargo.lock ARE committed; these are not.
+/xval/anise-service-geometry/target
+/xval/anise-service-geometry/kernels/*.bsp
+/xval/anise-service-geometry/kernels/*.bpc
+/xval/anise-service-geometry/report.json
+/xval/anise-service-geometry/report.md
 
 # MCP server crate: build dir only. Source + Cargo.lock ARE committed.
 /mcp/kshana-mcp/target
