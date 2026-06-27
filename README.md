@@ -76,8 +76,8 @@ from Ashforde OÜ for proprietary/closed integration (see [`LICENSING.md`](LICEN
 Professionally developed and maintained by [Ashforde OÜ](https://ashforde.org); commercial
 support, integration, and proprietary extensions available.*
 
-> **Status: v0.21.0 · a simulation substrate, not yet a product.** A validated,
-> fully reproducible engine spanning the PNT stack — orbit geometry and constellation
+> **Status: v0.21.0 · a validated, reproducible simulation substrate for PNT resilience.**
+> A fully reproducible engine spanning the PNT stack — orbit geometry and constellation
 > design, a numerical (Cowell) propagator with a seven-perturbation force model, maneuver
 > and trajectory design, time systems, inertial navigation (incl. map-aided and
 > gravity-map-matching alt-PNT), GNSS/INS fusion (loose, tight, UKF, coupled
@@ -233,10 +233,10 @@ Each scenario compares a quantum sensor against its classical counterpart throug
 The advantage is **outage- and vibration-dependent**, with an explicit break-even where classical wins — shown honestly across the technology-readiness ladder (optical-clock figures are ground-demonstrator targets; no strontium optical clock has flown):
 
 <p align="center">
-  <img src="paper/crossover/clock.png" alt="Quantum-vs-classical clock-holdover crossover across the technology-readiness ladder, with confidence bands" width="46%">
-  &nbsp;
-  <img src="paper/crossover/inertial.png" alt="Quantum-vs-classical inertial advantage heatmap over outage duration and vibration, with a break-even contour where classical wins" width="46%">
-  <br><sub>Quantum-vs-classical resilience crossover — clock holdover TRL ladder (left) · inertial advantage map with break-even contour (right). Regenerable via <code>cargo run --release --bin crossover_study</code>.</sub>
+  <img src="paper/crossover/clock.png" alt="Quantum-vs-classical clock-holdover crossover across the technology-readiness ladder, with confidence bands" width="62%">
+  <br>
+  <img src="paper/crossover/inertial.png" alt="Quantum-vs-classical inertial advantage heatmap over outage duration and vibration, with a break-even contour where classical wins" width="96%">
+  <br><sub>Quantum-vs-classical resilience crossover — clock holdover TRL ladder (top) · inertial advantage map with break-even contour (bottom). Regenerable via <code>cargo run --release --bin crossover_study</code>.</sub>
 </p>
 
 <p align="center">
@@ -1009,10 +1009,10 @@ kshana/
 </p>
 
 <p align="center">
-  <img src="docs/assets/figures/oracle-kind-stacked.png" alt="How each claim is backed: the Validated column is 36 of 36 ExternalDataset by construction (CI-enforced); Modelled rows are honestly tagged InternalConsistency, ReferenceImpl, or ExternalDataset; Partner rows have no Kshana oracle" width="48%">
-  &nbsp;
-  <img src="docs/assets/figures/sgp4-regime-bars.png" alt="SGP4/SDP4 worst-case position error vs the AIAA 2006-6753 reference by regime, log scale: every regime is far below the AIAA tolerance, worst case 4.12 mm in the deep-space non-resonant regime" width="48%">
-  <br><sub>Left: every Validated row is backed by an external dataset, by construction. Right: SGP4 matches the official reference in every regime (worst 4.12 mm). <a href="docs/assets/figures/oracle-kind-stacked.svg">SVG</a> · <a href="docs/assets/figures/sgp4-regime-bars.svg">SVG</a></sub>
+  <img src="docs/assets/figures/oracle-kind-stacked.png" alt="How each claim is backed: the Validated column is 36 of 36 ExternalDataset by construction (CI-enforced); Modelled rows are honestly tagged InternalConsistency, ReferenceImpl, or ExternalDataset; Partner rows have no Kshana oracle" width="62%">
+  <br>
+  <img src="docs/assets/figures/sgp4-regime-bars.png" alt="SGP4/SDP4 worst-case position error vs the AIAA 2006-6753 reference by regime, log scale: every regime is far below the AIAA tolerance, worst case 4.12 mm in the deep-space non-resonant regime" width="96%">
+  <br><sub>Top: every Validated row is backed by an external dataset, by construction. Bottom: SGP4 matches the official reference in every regime (worst 4.12 mm). <a href="docs/assets/figures/oracle-kind-stacked.svg">SVG</a> · <a href="docs/assets/figures/sgp4-regime-bars.svg">SVG</a></sub>
 </p>
 
 Every row is enforced by a named test in CI. This table is a **curated highlight**;
