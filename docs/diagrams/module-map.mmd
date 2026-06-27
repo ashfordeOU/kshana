@@ -1,0 +1,65 @@
+flowchart TD
+    cli["CLI · Python · WebAssembly<br/>MCP server · JetBrains plugin"] --> api["api — run_toml<br/>typed dispatch over 44 kinds"]
+    subgraph shared["Shared core"]
+      types["types · scenario<br/>GNSS timeline"]
+      allan["allan — ADEV/MDEV/TDEV/HDEV"]
+    end
+    subgraph frames["Time and reference frames"]
+      ts["timescales · jd2<br/>UTC/TAI/TT/UT1"]
+      cio["precession · nutation · cio<br/>GCRS to ITRS, SOFA-anchored"]
+    end
+    subgraph packs["Sensor packs"]
+      p1["clock — models · estimator<br/>kalman · security"]
+      p2["inertial — strapdown INS<br/>quantum-CAI"]
+      p3["timetransfer — optical/RF<br/>TWSTFT/PPP"]
+      p4["hybrid — fused PNT suite"]
+    end
+    subgraph astro["Astrodynamics and numerical"]
+      orbit["orbit · walker · sgp4 · tle<br/>geometry to GNSS and DOP"]
+      prop["propagator · forces<br/>gravity_sh · integrator"]
+      odm["orbit_determination · maneuver<br/>precise_od — full-force POD"]
+    end
+    subgraph intg["Integrity and GNSS"]
+      raim["raim · sbas — RAIM/ARAIM<br/>HPL/VPL · DO-229E"]
+      gsim["gnss_sim · ionex · pvt<br/>measurements + SPP fix"]
+      jam["jamming · navsignal<br/>J/S to C/N0 · anti-jam Q"]
+    end
+    subgraph spf["Spoof detection"]
+      spoof["spoof — time-spoof attack"]
+      spm["spoof_monitors — AGC power · SQM"]
+      det["detection — test-stat theory"]
+      spd["spoof_detect — runnable scenario"]
+    end
+    subgraph fnav["Fusion and alt-PNT"]
+      fus["fusion — EKF · UKF<br/>17-state · coupled"]
+      alt["gravimeter · mapmatch<br/>particle_filter · altpnt · igrf"]
+    end
+    subgraph deep["Deep-space · Mars · Lunar"]
+      dsr["radiometric · ccsds_tdm<br/>deepspace_od · mars_pnt"]
+      lun["lunar suite — cislunar ARAIM<br/>LTC time · VLBI · interop"]
+    end
+    subgraph resil["Resilience studies and AI/ML"]
+      tpl["tpl · resilience<br/>conditional TPL + RPCF"]
+      opt["impairment_* · eval_stats<br/>sdr · realdata · quantum_*"]
+    end
+    VER["verification<br/>machine-checked matrix<br/>SINGLE SOURCE OF TRUTH"]
+    api --> packs
+    api --> astro
+    api --> intg
+    api --> spf
+    api --> fnav
+    api --> deep
+    api --> resil
+    packs --> shared
+    astro --> frames
+    odm --> prop
+    spoof --> p1
+    spm --> det
+    spd --> spm
+    fus --> p2
+    alt --> p2
+    gsim -. uses .-> raim
+    VER -. cross-refs .-> packs
+    VER -. cross-refs .-> intg
+    VER -. cross-refs .-> spf
+    VER -. cross-refs .-> astro
