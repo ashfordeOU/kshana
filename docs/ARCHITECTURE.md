@@ -2,7 +2,7 @@
 
 Kshana is **one engine** organised in layers over a shared core: the **sensor packs**
 (clock, inertial, time-transfer, hybrid); an **astrodynamics / numerical** layer (analytic
-SGP4/SDP4, a numerical Cowell propagator with its six-perturbation force model, maneuver
+SGP4/SDP4, a numerical Cowell propagator with its seven-perturbation force model, maneuver
 design, orbit determination from ground-station ranges, and the force-model fit against
 agency precise ephemerides); a **time & reference-frame** layer (IERS time scales, IAU
 2006/2000A precession–nutation, and the CIO GCRS↔ITRS reduction); a **fusion** layer (the
@@ -584,7 +584,7 @@ nothing — it runs the CLI.
 ## 9. Deferred / future structure
 
 The astrodynamics, fusion, and alt-PNT layers in §1a — the full SGP4/SDP4 propagator,
-the numerical Cowell propagator with its six-perturbation force model and two adaptive
+the numerical Cowell propagator with its seven-perturbation force model and two adaptive
 integrators, maneuver/trajectory design, orbit determination, the 15-/8-/17-state
 GNSS/INS estimators, the coupled clock+position filter, and gravity-map matching — have
 all shipped, alongside the Security FoM with an active spoof demonstrator, real

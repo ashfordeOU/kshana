@@ -1,0 +1,31 @@
+flowchart LR
+    subgraph DOORS[Five front doors]
+        direction TB
+        CLI[CLI<br/>kshana run]
+        PY[Python wheel<br/>run and run_full]
+        WASM[WebAssembly<br/>browser playground]
+        MCP[MCP server]
+        IDE[JetBrains plugin]
+    end
+
+    DISPATCH[Single dispatch<br/>api::run_toml<br/>44 ScenarioKind variants]
+
+    subgraph ENGINE[One engine]
+        direction TB
+        CORE[Shared core<br/>scenario, types, chart, Kalman]
+        PACKS[Sensor packs<br/>and Astrodynamics / Frames]
+        DOMAIN[Integrity, Fusion, Lunar<br/>Deep-space, Resilience]
+        CORE --> PACKS
+        PACKS --> DOMAIN
+    end
+
+    OUT[result.json and chart.svg<br/>reproducible: scenario + seed + version]
+
+    CLI --> DISPATCH
+    PY --> DISPATCH
+    WASM --> DISPATCH
+    MCP --> DISPATCH
+    IDE --> DISPATCH
+
+    DISPATCH --> ENGINE
+    ENGINE --> OUT

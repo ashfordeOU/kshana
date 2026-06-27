@@ -1,0 +1,22 @@
+flowchart LR
+    subgraph repo["One repository"]
+      core["kshana core<br/>library and CLI"]
+      mcp["mcp/kshana-mcp<br/>MCP server (excluded crate)"]
+      ide["ide/jetbrains<br/>Kotlin IDE plugin"]
+      subgraph xval["xval cross-checks (excluded)"]
+        anise["anise-frames · lunar-od<br/>mars-od · service-geometry<br/>Rust ANISE / SPICE DE440"]
+        orekit["orekit-passes<br/>Java Orekit"]
+      end
+    end
+    core --> crates["crates.io"]
+    core --> pypi["PyPI — wheels"]
+    core --> npm["npm — WebAssembly"]
+    core --> rel["GitHub Releases<br/>binaries · SBOM · SLSA<br/>validation summary"]
+    core --> pages["kshana.dev<br/>GitHub Pages playground"]
+    core -. archived .-> zen["Zenodo DOI"]
+    mcp --> crates
+    mcp --> ghcr["ghcr.io — OCI image"]
+    mcp --> reg["official MCP registry"]
+    ide --> jb["JetBrains Marketplace"]
+    anise -. validates .-> core
+    orekit -. validates .-> core
