@@ -58,7 +58,9 @@ const DET_ABS: f64 = 1e-12; // m, floor for terms that are exactly 0
 const HOLD_REL: f64 = 1e-6;
 
 fn parse(s: &str) -> f64 {
-    s.trim().parse().unwrap_or_else(|_| panic!("not a float: '{s}'"))
+    s.trim()
+        .parse()
+        .unwrap_or_else(|_| panic!("not a float: '{s}'"))
 }
 
 #[derive(Clone, Copy)]
@@ -113,7 +115,11 @@ fn quantum_inertial_dead_reckoning_matches_independent_oracles() {
             cfgs.insert(name, cfg);
         }
     }
-    assert!(cfgs.len() >= 3, "need >=3 CAI configs (q_va decades), got {}", cfgs.len());
+    assert!(
+        cfgs.len() >= 3,
+        "need >=3 CAI configs (q_va decades), got {}",
+        cfgs.len()
+    );
 
     let budget_with = |cfg: &Cfg, bias: f64, ppm: f64, a_ref: f64| QuantumNavBudget {
         cai: cfg.cai(),
@@ -211,7 +217,11 @@ fn quantum_inertial_dead_reckoning_matches_independent_oracles() {
             let budget = budget_with(cfg, bias, ppm, a_ref);
 
             let hold = budget.holdover_seconds(thr);
-            assert!(hold.is_finite() && hold > 0.0, "HOLD {}: bad holdover {hold}", p[0].trim());
+            assert!(
+                hold.is_finite() && hold > 0.0,
+                "HOLD {}: bad holdover {hold}",
+                p[0].trim()
+            );
             let drift = budget.position_drift_1sigma(hold);
             let rel = (drift - thr).abs() / thr;
             worst_hold = worst_hold.max(rel);
@@ -226,11 +236,23 @@ fn quantum_inertial_dead_reckoning_matches_independent_oracles() {
     }
 
     // Quantity gates from the validation plan.
-    assert!(n_vrw >= 18, "expected >=18 VRW (6 times × >=3 decades), got {n_vrw}");
-    assert!(n_det >= 8, "expected >=8 deterministic Groves cases, got {n_det}");
-    assert!(n_hold >= 4, "expected >=4 holdover round-trip cases, got {n_hold}");
+    assert!(
+        n_vrw >= 18,
+        "expected >=18 VRW (6 times × >=3 decades), got {n_vrw}"
+    );
+    assert!(
+        n_det >= 8,
+        "expected >=8 deterministic Groves cases, got {n_det}"
+    );
+    assert!(
+        n_hold >= 4,
+        "expected >=4 holdover round-trip cases, got {n_hold}"
+    );
     let decades = (q_decades_hi / q_decades_lo).log10();
-    assert!(decades >= 3.0, "VRW must span >=3 q_va decades, got {decades:.2}");
+    assert!(
+        decades >= 3.0,
+        "VRW must span >=3 q_va decades, got {decades:.2}"
+    );
 
     eprintln!(
         "quantum_inertial_dead_reckoning: {n_vrw} VRW (worst MC dev {:.2}% < {:.0}%, \

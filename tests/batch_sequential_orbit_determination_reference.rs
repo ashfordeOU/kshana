@@ -56,20 +56,24 @@ const REF: &str = include_str!(
 // loosened pass. The planned floor was pos<1 m / vel<1 mm/s noiseless; we beat it by ~1000×.
 const BATCH_POS_TOL: f64 = 0.05; // m  (measured worst 1.0e-3)
 const BATCH_VEL_TOL: f64 = 5.0e-5; // m/s (measured worst 1.0e-6)
-// Noisy (sigma = 5 m): the LM and Gauss–Newton estimates sit at the same noise floor.
+                                   // Noisy (sigma = 5 m): the LM and Gauss–Newton estimates sit at the same noise floor.
 const BATCH_POS_TOL_NOISY: f64 = 0.05; // m  (measured worst 9.6e-4)
 const BATCH_VEL_TOL_NOISY: f64 = 5.0e-5; // m/s (measured worst 7.5e-7)
 const RMS_REL_TOL: f64 = 1.0e-3; // post-fit RMS within 0.1% (measured ~1e-8)
-// Sequential: kshana's UKF final-epoch state vs Orekit's Kalman (EKF) last-epoch state. The
-// two filters use different sigma-point/linearisation cores yet land on the same state:
-// sub-mm on noiseless data, sub-metre at the sigma=5m noise floor.
+                                 // Sequential: kshana's UKF final-epoch state vs Orekit's Kalman (EKF) last-epoch state. The
+                                 // two filters use different sigma-point/linearisation cores yet land on the same state:
+                                 // sub-mm on noiseless data, sub-metre at the sigma=5m noise floor.
 const SEQ_POS_TOL: f64 = 0.05; // m  (measured worst 1.8e-3)
 const SEQ_POS_TOL_NOISY: f64 = 3.0; // m  (measured worst 0.90)
 
 fn parse_csv(s: &str) -> Vec<f64> {
     s.trim()
         .split(',')
-        .map(|x| x.trim().parse::<f64>().unwrap_or_else(|_| panic!("bad number '{x}' in '{s}'")))
+        .map(|x| {
+            x.trim()
+                .parse::<f64>()
+                .unwrap_or_else(|_| panic!("bad number '{x}' in '{s}'"))
+        })
         .collect()
 }
 
@@ -192,7 +196,11 @@ fn batch_and_sequential_od_match_orekit() {
             assert_eq!(ep.len(), s.n_stations, "{}: batch range row width", s.name);
             z.extend_from_slice(ep);
         }
-        let w = if noisy { 1.0 / (s.sigma * s.sigma) } else { 1.0 };
+        let w = if noisy {
+            1.0 / (s.sigma * s.sigma)
+        } else {
+            1.0
+        };
         let weights = vec![w; z.len()];
         // Identical perturbed initial guess to the one the Orekit driver used.
         let guess = [
@@ -277,7 +285,11 @@ fn batch_and_sequential_od_match_orekit() {
             s.dt,
         );
         let sp = pos_err(&ukf.x, &s.orekit_seq_final);
-        let spt = if noisy { SEQ_POS_TOL_NOISY } else { SEQ_POS_TOL };
+        let spt = if noisy {
+            SEQ_POS_TOL_NOISY
+        } else {
+            SEQ_POS_TOL
+        };
         worst_seq_pos = worst_seq_pos.max(sp);
         assert!(
             sp <= spt,

@@ -134,7 +134,10 @@ fn cusum_latency_matches_first_passage_oracle_exactly() {
         );
         n += 1;
     }
-    assert!(n >= 12, "expected >= 12 deterministic latency cases, got {n}");
+    assert!(
+        n >= 12,
+        "expected >= 12 deterministic latency cases, got {n}"
+    );
     eprintln!("cusum latency: {n} cases vs first-passage oracle, EXACT integer match");
 }
 
@@ -170,7 +173,9 @@ fn cusum_arl1_matches_siegmund_and_montgomery() {
             "ARL1 validation is scoped to OUT-of-control shifts (delta > 0)"
         );
 
-        seed = seed.wrapping_mul(6364136223846793005).wrapping_add(1442695040888963407);
+        seed = seed
+            .wrapping_mul(6364136223846793005)
+            .wrapping_add(1442695040888963407);
         let arl = mc_arl1(kref, h, delta, seed);
 
         let rd_sieg = (arl - sieg).abs() / sieg;

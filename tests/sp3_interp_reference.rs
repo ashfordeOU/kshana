@@ -101,16 +101,15 @@ fn sp3_interpolation_matches_rtklib_peph2pos() {
     let mut sats_seen = std::collections::BTreeSet::new();
 
     for row in &rows {
-        let interp = interps
-            .entry(row.sat.clone())
-            .or_insert_with(|| {
-                file.interpolator(&row.sat)
-                    .unwrap_or_else(|| panic!("interpolator builds for {}", row.sat))
-            });
+        let interp = interps.entry(row.sat.clone()).or_insert_with(|| {
+            file.interpolator(&row.sat)
+                .unwrap_or_else(|| panic!("interpolator builds for {}", row.sat))
+        });
         sats_seen.insert(row.sat.clone());
 
         let got = interp.position_ecef(row.t_s);
 
+        #[allow(clippy::needless_range_loop)] // paired got/row.xyz axis indexing reads clearer
         for axis in 0..3 {
             let d = (got[axis] - row.xyz[axis]).abs();
             if d > worst {

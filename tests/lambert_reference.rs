@@ -35,7 +35,11 @@ fn approx(got: f64, want: f64) -> bool {
 }
 
 fn csv3(s: &str) -> [f64; 3] {
-    let v: Vec<f64> = s.trim().split(',').map(|x| x.trim().parse().unwrap()).collect();
+    let v: Vec<f64> = s
+        .trim()
+        .split(',')
+        .map(|x| x.trim().parse().unwrap())
+        .collect();
     assert_eq!(v.len(), 3, "expected 3 components in '{s}'");
     [v[0], v[1], v[2]]
 }

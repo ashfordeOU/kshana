@@ -178,16 +178,16 @@ fn passes_match_orekit_elevation_detector() {
 
     // Closure to finalise & assert one scenario once its COUNT line is read.
     let check = |name: &str,
-                     scn: &Scn,
-                     rps: &[RefPass],
-                     count: usize,
-                     total: f64,
-                     n_passes: &mut usize,
-                     worst_aos: &mut f64,
-                     worst_los: &mut f64,
-                     worst_el: &mut f64,
-                     worst_total: &mut f64,
-                     worst_tca: &mut f64| {
+                 scn: &Scn,
+                 rps: &[RefPass],
+                 count: usize,
+                 total: f64,
+                 n_passes: &mut usize,
+                 worst_aos: &mut f64,
+                 worst_los: &mut f64,
+                 worst_el: &mut f64,
+                 worst_total: &mut f64,
+                 worst_tca: &mut f64| {
         let got = run_kshana(scn);
 
         assert_eq!(
@@ -237,7 +237,8 @@ fn passes_match_orekit_elevation_detector() {
                 d_el <= MAX_EL_TOL_DEG,
                 "[{name}] pass {i} max elevation: kshana {:.5} vs Orekit {:.5} deg \
                  (|Δ|={d_el:.5} > {MAX_EL_TOL_DEG})",
-                g.max_elevation_deg, r.max_el_deg
+                g.max_elevation_deg,
+                r.max_el_deg
             );
             assert!(
                 d_dur <= DURATION_TOL_S,
@@ -251,7 +252,10 @@ fn passes_match_orekit_elevation_detector() {
                 g.tca_s, r.tca_s
             );
             // AOS <= TCA <= LOS ordering must hold in both.
-            assert!(g.aos_s <= g.tca_s + 1e-6 && g.tca_s <= g.los_s + 1e-6, "[{name}] pass {i} ordering");
+            assert!(
+                g.aos_s <= g.tca_s + 1e-6 && g.tca_s <= g.los_s + 1e-6,
+                "[{name}] pass {i} ordering"
+            );
             *n_passes += 1;
         }
     };
@@ -267,7 +271,10 @@ fn passes_match_orekit_elevation_detector() {
         } else if line.starts_with("PASS") {
             let (name, rp) = parse_pass(line);
             let (cur_name, _) = current.as_ref().expect("PASS before SCN");
-            assert_eq!(&name, cur_name, "PASS name {name} != current SCN {cur_name}");
+            assert_eq!(
+                &name, cur_name,
+                "PASS name {name} != current SCN {cur_name}"
+            );
             ref_passes.push(rp);
         } else if line.starts_with("COUNT") {
             let parts: Vec<&str> = line.trim_start_matches("COUNT").split('|').collect();
@@ -277,7 +284,10 @@ fn passes_match_orekit_elevation_detector() {
             let ref_total = parts[2].trim().parse::<f64>().unwrap();
 
             let (cur_name, scn) = current.as_ref().expect("COUNT before SCN").clone();
-            assert_eq!(name, cur_name, "COUNT name {name} != current SCN {cur_name}");
+            assert_eq!(
+                name, cur_name,
+                "COUNT name {name} != current SCN {cur_name}"
+            );
             check(
                 &cur_name,
                 &scn,
