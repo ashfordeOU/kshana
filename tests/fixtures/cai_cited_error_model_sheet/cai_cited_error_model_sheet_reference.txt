@@ -1,0 +1,16 @@
+# CAI cited error-model parameter sheet -- external reference.
+# Oracle: published per-instrument sensitivity (3 named real instruments,
+#   primary sources cited in generate_cai_cited_error_model_sheet_reference.py)
+#   + independent closed-form geometry 2*pi/(k_eff*T^2) = lambda/(2*T^2).
+# Consumed by tests/cai_cited_error_model_sheet_reference.rs.
+# Units: m (lambda), s (T, T_c), m/s^2/sqrt(Hz) (n_a), rad/(m/s^2) (scale),
+#        m/s^2 (fringe-ambiguity-limited accel).
+#
+# Geometry/scale identity is EXACT (<1e-9 rel target); shot-noise ASD is a
+# ONE-SIDED bracket: kshana SQL floor <= published achieved, within ~2 orders
+# (real devices are technical-/vibration-limited above the quantum floor).
+#
+# CAI name | lambda_m | T_s | N | C | Tc | scale_keffT2 | fringe_ambig_accel | sql_n_a | published_achieved_asd | source
+CAI Freier2016_GAIN | 7.80241209e-07 | 0.26 | 1000000.0 | 0.6 | 1.0 | 1088748.766063547 | 5.7710148594674556e-06 | 1.530809235901709e-09 | 9.6e-08 | Freier+2016_JPCS723_012050_arXiv1512.05660_96nm_s2_sqrtHz
+CAI Exail_AQG_B | 7.80241209e-07 | 0.06 | 1000000.0 | 0.4 | 0.5 | 57980.70351817705 | 0.00010836683458333335 | 3.048888415802287e-08 | 5e-07 | Menoret+2018_SciRep8_12300_arXiv1809.04908_500nm_s2_sqrtHz_T60ms_2Hz_C40pct
+CAI CARIOQA_space | 7.80241209e-07 | 2.5 | 500000.0 | 0.5 | 5.0 | 100660943.60794628 | 6.241929672e-08 | 6.283028048067584e-11 | 5e-10 | HosseiniArani+2024_arXiv2404.10471_Table1_SOA_space_2T5s_N5e5_5e-10_PMPtarget_1e-10

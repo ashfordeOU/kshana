@@ -1,0 +1,24 @@
+# kshana SBOM conformance verdict vs official CycloneDX 1.5 schema
+# oracle: CycloneDX 1.5 JSON Schema (Apache-2.0); SPDX list v1.0-3.21 (613 ids)
+# validator: python jsonschema (Draft-07). Inputs = stdout of scripts/gen-sbom.sh.
+# Lines are KEY value. See generator docstring for the honest scope.
+bom_format CycloneDX
+spec_version 1.5
+component_count 59
+spdx_enum_size 613
+raw_schema_errors 52
+normalized_schema_errors 0
+compound_count 52
+atomic_id_count 7
+atomic_ids_invalid_count 0
+atomic_ids_all_valid_spdx 1
+sbom_sha256 3c7ecf9fd48931f6b4dd87f51cd35f7e3e738cd5ea74467a366f8c2c68d56028
+atomic_id VALID AGPL-3.0-only
+atomic_id VALID MIT
+compound_id Apache-2.0 OR MIT
+compound_id MIT OR Apache-2.0
+compound_id Unlicense OR MIT
+compound_id (MIT OR Apache-2.0) AND Unicode-3.0
+compound_id MIT/Apache-2.0
+compound_id Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT
+compound_id BSD-2-Clause OR Apache-2.0 OR MIT

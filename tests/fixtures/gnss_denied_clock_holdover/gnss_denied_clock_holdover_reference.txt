@@ -1,0 +1,36 @@
+# scipy reference for the GNSS-denied clock-holdover kernel.
+# Oracle: scipy 1.18.0 — linalg.expm (Van Loan 1978) + optimize.brentq
+#         (Virtanen et al., Nature Methods 2020; BSD-3-Clause) + numpy.
+# Consumed by tests/gnss_denied_clock_holdover_reference.rs.
+# See generate_gnss_denied_clock_holdover_reference.py for provenance + scope.
+# COAST name q_wf q_rw q_drift t | var(=expm Van-Loan Q00)   [s^2]
+# HOLDOVER name q_wf q_rw q_drift threshold | seconds(=brentq of expm Q00)
+# TIE name freq_offset drift t | tie(=y0*t + 0.5*D*t^2)   [s]
+# RANGE dt | range(=c*dt)   [m]
+COAST white_only 1e-22 0.0 0.0 100.0 | 1.0000000000000007e-20
+COAST white_only 1e-22 0.0 0.0 3600.0 | 3.600000000000002e-19
+COAST white_only 1e-22 0.0 0.0 10000.0 | 1.0000000000000003e-18
+COAST white_only 1e-22 0.0 0.0 100000.0 | 1e-17
+COAST white_rw 1e-22 1e-28 0.0 100.0 | 1.003333333333334e-20
+COAST white_rw 1e-22 1e-28 0.0 3600.0 | 1.915199999999999e-18
+COAST white_rw 1e-22 1e-28 0.0 10000.0 | 3.433333333333335e-17
+COAST white_rw 1e-22 1e-28 0.0 100000.0 | 3.334333333333335e-14
+COAST all_three_floor 1e-20 1e-24 1e-30 100.0 | 1.3338333333333339e-18
+COAST all_three_floor 1e-20 1e-24 1e-30 3600.0 | 4.582108799999999e-14
+COAST all_three_floor 1e-20 1e-24 1e-30 10000.0 | 5.333433333333337e-12
+COAST all_three_floor 1e-20 1e-24 1e-30 100000.0 | 5.003333343333339e-07
+HOLDOVER white_1ns 9e-21 0.0 0.0 1e-09 | 111.11111111111113
+HOLDOVER white_10ns 9e-21 0.0 0.0 1e-08 | 11111.111111111113
+HOLDOVER white_rw_10ns 1e-22 1e-26 0.0 1e-08 | 3104.014209157192
+HOLDOVER all_three_10ns 1e-22 1e-26 1e-32 1e-08 | 2492.718456994691
+HOLDOVER all_three_100ns 1e-20 1e-24 1e-30 1e-07 | 2492.718456994691
+HOLDOVER rw_dominant_50ns 1e-24 1e-25 0.0 5e-08 | 4217.160955246543
+HOLDOVER drift_bearing_30ns 1e-23 1e-27 1e-31 3e-08 | 2820.5052739674657
+TIE offset_only 1e-13 0.0 1000.0 | 1e-10
+TIE drift_only 0.0 1e-12 1000.0 | 5.000000000000001e-07
+TIE both 5e-13 2e-13 3600.0 | 1.2977999999999999e-06
+TIE both_long 1e-12 1e-14 10000.0 | 5.1e-07
+RANGE 1e-09 | 0.29979245800000004
+RANGE 1e-08 | 2.9979245800000003
+RANGE 5e-09 | 1.4989622900000001
+RANGE 1e-06 | 299.792458

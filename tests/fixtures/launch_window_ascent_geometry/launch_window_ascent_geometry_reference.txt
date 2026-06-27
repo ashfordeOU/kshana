@@ -1,0 +1,18 @@
+# Launch-window / ascent-geometry reference for kshana::launch.
+# Oracle: Vallado, Fundamentals of Astrodynamics & Applications, 4th ed.
+#   (Alg. 37 inertial launch azimuth; Ex 6-2 plane-change Dv; vis-viva v_circ).
+# Consumed by tests/launch_window_ascent_geometry_reference.rs.
+# See generate_launch_window_ascent_geometry_reference.py for full provenance/scope.
+# Units: deg, m, m/s. HONEST: only the geometric/inertial azimuth is an
+#   external pin; plane-change Dv and v_circ are closed-form-vs-published-number.
+AZIMUTH ksc_to_iss | 28.500000 | 51.600000 | 44.9751330990
+AZIMUTH due_east_i_eq_lat | 28.500000 | 28.500000 | 90.0000000000
+AZIMUTH polar_from_ksc | 28.500000 | 90.000000 | 0.0000000000
+AZIMUTH vandenberg_sso | 34.700000 | 98.200000 | 350.0095448040
+AZIMUTH baikonur_to_iss | 45.600000 | 51.600000 | 62.5957122055
+PLANECHANGE vallado_ex6_2 | 5892.311000 | 15.000000 | 1538.2018364126
+PLANECHANGE plane_change_10deg_leo | 7700.000000 | 10.000000 | 1342.1984383139
+PLANECHANGE full_reversal_180 | 5892.311000 | 180.000000 | 11784.6220000000
+PLANECHANGE zero_change | 5892.311000 | 0.000000 | 0.0000000000
+CIRCVEL geo | 35786032.600000 | 3074.6601003948
+# PUBLISHED v_GEO (Vallado / standard tables) = 3074.660 m/s at r_GEO=42164.1696 km

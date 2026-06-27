@@ -14,7 +14,7 @@
 <p align="center">
   <a href="https://ashfordeou.github.io/kshana/"><img src="https://img.shields.io/badge/playground-try%20in%20browser-c79e63" alt="Live playground — run in your browser, no install"></a>
   <a href="tests/sgp4_verification.rs"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%204.12mm-3fb950" alt="SGP4 validated against all 666 AIAA 2006-6753 vectors, worst 4.12 mm"></a>
-  <a href="#validation-at-a-glance"><img src="https://img.shields.io/badge/validated-15%20external%20oracles-3fb950" alt="15 capabilities validated against independent external oracles (real data, independent libraries, or published reference vectors); 42 more are honestly labelled MODELLED and 4 are PARTNER-owned — see Validation at a glance"></a>
+  <a href="#validation-at-a-glance"><img src="https://img.shields.io/badge/validated-36%20external%20oracles-3fb950" alt="36 capabilities validated against independent external oracles (real data, independent libraries, or published reference vectors); 35 more are honestly labelled MODELLED and 4 are PARTNER-owned — see Validation at a glance"></a>
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/coverage-~96%25%20line-3fb950" alt="~96% line coverage on src/ (cargo-tarpaulin LLVM engine), gated at 85% in CI"></a>
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.21.0-c79e63" alt="Release v0.21.0"></a>
@@ -948,7 +948,7 @@ kshana/
 ### Validation at a glance
 
 Every row is enforced by a named test in CI. This table is a **curated highlight**;
-the full machine-checked matrix is **61 rows — 15 VALIDATED, 42 MODELLED, 4 PARTNER**
+the full machine-checked matrix is **75 rows — 36 VALIDATED, 35 MODELLED, 4 PARTNER**
 (`src/verification.rs`), with the complete evidence (and what is honestly *not* yet
 validated) in [`docs/VALIDATION.md`](docs/VALIDATION.md) and the per-release
 [`kshana-validation-summary.html`](https://github.com/AshfordeOU/kshana/releases)
