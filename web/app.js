@@ -1507,18 +1507,29 @@ async function renderCapabilities() {
 
   // Load the ledger + card→matrix map first so each card can grow its own
   // machine-checked evidence deep-links (best-effort; cards still render without).
-  await Promise.all([loadLedger(), loadCardMap()]);
+  await Promise.all([loadLedger(), loadCardMap(), loadStandardsMap()]);
 
   // Capability cards + per-domain evidence, unified into the explorer.
   if (Array.isArray(data.capabilities)) buildExplorer(data.capabilities);
 
-  // Standards the engine speaks (no status labels — confident support list).
+  // Standards the engine speaks — each card links its VALIDATED badge to the ledger
+  // row that proves it (when one exists), so the claim is one click from its evidence.
   const list = el("standards-list");
   if (list && Array.isArray(data.standards)) {
     list.replaceChildren();
     for (const s of data.standards) {
-      const row = document.createElement("div");
-      row.className = "std-row";
+      const req = STANDARDS_MATRIX.get(s.name);
+      const linked = !!req && LEDGER_BY_REQ.has(req);
+      const row = document.createElement(linked ? "a" : "div");
+      row.className = "std-row" + (linked ? " std-link" : "");
+      if (linked) {
+        row.href = `#ldg-${slug(req)}`;
+        row.title = `See the validation evidence for ${s.name}`;
+        row.addEventListener("click", () => {
+          const d = el("ldg-details"); // open the fold so the evidence row is visible
+          if (d) d.open = true;
+        });
+      }
       const n = document.createElement("div");
       n.className = "n";
       n.textContent = s.name;
@@ -1536,9 +1547,102 @@ async function renderCapabilities() {
       }
       list.append(row);
     }
+    const sc = el("std-summary-count");
+    if (sc) sc.textContent = t("standards.count", { count: data.standards.length });
   }
 }
 
+
+// --- Lightweight i18n (English baseline; structured to drop in more languages) ---
+// UI strings are keyed; static elements opt in via data-i18n (textContent),
+// data-i18n-html (innerHTML, trusted author strings only) or data-i18n-attr
+// ("attr:key,attr2:key2"). Dynamic strings use t(key, params) with {token}
+// interpolation. Language: ?lang= → localStorage → navigator.language → "en",
+// falling back to "en" for any key/locale not present. Currently only the ledger
+// section is keyed; add a locale block (e.g. I18N.fr = {...}) to translate it.
+const I18N = {
+  en: {
+    "ledger.eyebrow": "Evidence ledger",
+    "ledger.heading": "The complete validation matrix — every row, every proof",
+    "ledger.intro":
+      'All <span id="ldg-total">75</span> capabilities, generated from ' +
+      "<code>src/verification.rs</code> and pinned to it in CI. Each row links to the " +
+      "<strong>test</strong> that enforces it, the <strong>module</strong> that " +
+      "implements it, and any committed <strong>fixture/provenance</strong> — so every " +
+      'claim is one click from its evidence. <span class="pill validated">Validated</span> ' +
+      '= checked against an independent external oracle; <span class="pill modelled">Modelled</span> ' +
+      '= honest first-principles model (see <a target="_blank" rel="noopener noreferrer" ' +
+      'href="https://github.com/AshfordeOU/kshana/blob/main/docs/MODELLED-RATIONALE.md">why</a>); ' +
+      '<span class="pill partner">Partner</span> = consortium gap, no code by design.',
+    "ledger.summary.open": "Open the full validation ledger",
+    "ledger.summary.count": "({total} rows)",
+    "ledger.search.placeholder": "Filter by capability, module, oracle…",
+    "ledger.search.aria": "Filter the ledger",
+    "ledger.status.aria": "Filter by status",
+    "ledger.region.aria": "Validation ledger",
+    "ledger.col.capability": "Capability",
+    "ledger.col.status": "Status",
+    "ledger.col.oracle": "Oracle",
+    "ledger.col.evidence": "Evidence",
+    "ledger.chip.all": "All ({count})",
+    "ledger.chip.validated": "Validated ({count})",
+    "ledger.chip.modelled": "Modelled ({count})",
+    "ledger.chip.partner": "Partner ({count})",
+    "ledger.tally": "{shown} of {total} capabilities",
+    "ledger.sources": "Sources:",
+    "ledger.empty": "Validation ledger could not be loaded.",
+    "ledger.foot":
+      "Generated from the matrix by <code>gen_validation_artifacts</code> and pinned by " +
+      "<code>verification_artifacts_doc_sync</code> — the table cannot drift from the code. " +
+      "Full tables: " +
+      '<a target="_blank" rel="noopener noreferrer" href="https://github.com/AshfordeOU/kshana/blob/main/docs/VERIFICATION-MATRIX.md">VERIFICATION-MATRIX.md</a> · ' +
+      '<a target="_blank" rel="noopener noreferrer" href="https://github.com/AshfordeOU/kshana/blob/main/docs/MODELLED-RATIONALE.md">MODELLED-RATIONALE.md</a> · ' +
+      '<a target="_blank" rel="noopener noreferrer" href="https://github.com/AshfordeOU/kshana/blob/main/docs/VALIDATION.md">VALIDATION.md</a>',
+    "cap.evidence": "Evidence",
+    "standards.eyebrow": "Standards & interoperability",
+    "standards.heading": "Speaks the formats your tools already use",
+    "standards.intro":
+      "Built on the open standards of the GNSS and timing community, so it drops into " +
+      "existing workflows — and every standard below links to the test that proves it.",
+    "standards.summary": "Show the validated formats & standards",
+    "standards.count": "({count} validated)",
+  },
+};
+
+function currentLang() {
+  let l = null;
+  try {
+    l = new URLSearchParams(location.search).get("lang") || localStorage.getItem("lang");
+  } catch {
+    /* sandboxed / no storage — fall through */
+  }
+  l = l || (navigator.language || "en").slice(0, 2);
+  return I18N[l] ? l : "en";
+}
+
+function t(key, params) {
+  const lang = currentLang();
+  let s = (I18N[lang] && I18N[lang][key]) || (I18N.en && I18N.en[key]) || key;
+  if (params) {
+    for (const [k, v] of Object.entries(params)) s = s.split(`{${k}}`).join(String(v));
+  }
+  return s;
+}
+
+function applyI18n(root = document) {
+  root.querySelectorAll("[data-i18n]").forEach((node) => {
+    node.textContent = t(node.getAttribute("data-i18n"));
+  });
+  root.querySelectorAll("[data-i18n-html]").forEach((node) => {
+    node.innerHTML = t(node.getAttribute("data-i18n-html"));
+  });
+  root.querySelectorAll("[data-i18n-attr]").forEach((node) => {
+    for (const pair of node.getAttribute("data-i18n-attr").split(",")) {
+      const [attr, key] = pair.split(":").map((x) => x.trim());
+      if (attr && key) node.setAttribute(attr, t(key));
+    }
+  });
+}
 
 // --- Validation ledger (data-driven from data/verification-matrix.json) --------
 // The complete machine-checked matrix, rendered as a filterable table where every row
@@ -1548,6 +1652,44 @@ async function renderCapabilities() {
 // requirement) to grow their own evidence deep-links.
 let _ledgerPromise = null;
 const LEDGER_BY_REQ = new Map();
+
+// External-source registry: maps the named oracles (Orekit, ANISE, RTKLIB, scipy,
+// NIST SP 1065, …) to their canonical homepage/repo/dataset, so every oracle mention
+// in the ledger links out to the actual external thing it was checked against. Loaded
+// once and memoised; see web/data/oracle-references.json (validated in CI).
+let _oracleRefsPromise = null;
+let ORACLE_REFS = [];
+function loadOracleRefs() {
+  if (!_oracleRefsPromise) {
+    _oracleRefsPromise = fetch("data/oracle-references.json", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`oracle-refs ${r.status}`))))
+      .then((a) => {
+        ORACLE_REFS = Array.isArray(a) ? a : [];
+        return ORACLE_REFS;
+      })
+      .catch((e) => {
+        console.warn("[kshana] oracle references unavailable:", e);
+        return [];
+      });
+  }
+  return _oracleRefsPromise;
+}
+
+// The external sources an oracle string names (case-sensitive substring match,
+// de-duplicated by URL), each as a {label, url} link.
+function oracleSources(oracleText) {
+  if (!oracleText) return [];
+  const out = [];
+  const seen = new Set();
+  for (const e of ORACLE_REFS) {
+    if (seen.has(e.url)) continue;
+    if ((e.match || []).some((m) => oracleText.includes(m))) {
+      out.push(e);
+      seen.add(e.url);
+    }
+  }
+  return out;
+}
 function loadLedger() {
   if (!_ledgerPromise) {
     _ledgerPromise = fetch("data/verification-matrix.json", { cache: "no-store" })
@@ -1585,6 +1727,27 @@ function loadCardMap() {
   return _cardMapPromise;
 }
 
+// The standard → matrix-requirement map (web/data/standards-matrix-map.json), so each
+// "Standards & interoperability" card can link its VALIDATED badge to the ledger row
+// that actually proves it. Loaded once and memoised.
+let _stdMapPromise = null;
+const STANDARDS_MATRIX = new Map();
+function loadStandardsMap() {
+  if (!_stdMapPromise) {
+    _stdMapPromise = fetch("data/standards-matrix-map.json", { cache: "no-store" })
+      .then((r) => (r.ok ? r.json() : Promise.reject(new Error(`std-map ${r.status}`))))
+      .then((m) => {
+        for (const [name, req] of Object.entries(m)) STANDARDS_MATRIX.set(name, req);
+        return m;
+      })
+      .catch((e) => {
+        console.warn("[kshana] standards→matrix map unavailable:", e);
+        return null;
+      });
+  }
+  return _stdMapPromise;
+}
+
 // Build the "Evidence" block for a capability card: each backing matrix row, with a
 // link to its ledger entry and deep-links to its test, module source and provenance.
 // Returns null when no mapping/ledger data is available (the card still renders).
@@ -1595,7 +1758,7 @@ function buildCapEvidence(cardName) {
   wrap.className = "cap-ev";
   const head = document.createElement("p");
   head.className = "cap-ev-head";
-  head.textContent = "Evidence";
+  head.textContent = t("cap.evidence");
   wrap.append(head);
   let any = false;
   for (const req of reqs) {
@@ -1611,7 +1774,11 @@ function buildCapEvidence(cardName) {
     a.href = `#ldg-${slug(req)}`;
     a.textContent = row.requirement;
     a.title = "Jump to this row in the validation ledger";
-    a.addEventListener("click", (e) => e.stopPropagation());
+    a.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const d = el("ldg-details"); // open the fold so the targeted row is visible
+      if (d) d.open = true;
+    });
     const pill = document.createElement("span");
     pill.className = `pill ${statusClass(row.status)}`;
     pill.textContent = String(row.status).toLowerCase();
@@ -1653,13 +1820,13 @@ function statusClass(status) {
 async function renderLedger() {
   const body = el("ldg-body");
   if (!body) return;
-  const data = await loadLedger();
+  const [data] = await Promise.all([loadLedger(), loadOracleRefs()]);
   if (!data) {
     const tr = document.createElement("tr");
     const td = document.createElement("td");
     td.colSpan = 4;
     td.className = "ldg-empty";
-    td.textContent = "Validation ledger could not be loaded.";
+    td.textContent = t("ledger.empty");
     tr.append(td);
     body.append(tr);
     return;
@@ -1667,6 +1834,8 @@ async function renderLedger() {
 
   const totalEl = el("ldg-total");
   if (totalEl) totalEl.textContent = String(data.summary.total);
+  const summaryCount = el("ldg-summary-count");
+  if (summaryCount) summaryCount.textContent = t("ledger.summary.count", { total: data.summary.total });
 
   // Build one table row per matrix row.
   const rows = data.rows.map((r) => {
@@ -1682,6 +1851,7 @@ async function renderLedger() {
     // Capability cell: requirement (bold) + one-line capability.
     const cap = document.createElement("td");
     cap.className = "ldg-cap";
+    cap.dataset.label = t("ledger.col.capability");
     const req = document.createElement("div");
     req.className = "ldg-req";
     req.textContent = r.requirement;
@@ -1692,6 +1862,7 @@ async function renderLedger() {
 
     // Status cell: pill.
     const st = document.createElement("td");
+    st.dataset.label = t("ledger.col.status");
     const pill = document.createElement("span");
     pill.className = `pill ${statusClass(r.status)}`;
     pill.textContent = String(r.status).toLowerCase();
@@ -1700,6 +1871,7 @@ async function renderLedger() {
     // Oracle cell: oracle_kind badge + oracle prose.
     const orc = document.createElement("td");
     orc.className = "ldg-oracle";
+    orc.dataset.label = t("ledger.col.oracle");
     if (r.oracle_kind) {
       const k = document.createElement("span");
       k.className = "ldg-kind";
@@ -1713,10 +1885,23 @@ async function renderLedger() {
       orc.append(o);
     }
     if (!r.oracle && !r.oracle_kind) orc.textContent = "—";
+    // External sources the oracle names → links to the actual dataset/library/standard.
+    const srcs = oracleSources(r.oracle);
+    if (srcs.length) {
+      const sw = document.createElement("div");
+      sw.className = "ldg-sources";
+      const lbl = document.createElement("span");
+      lbl.className = "ldg-sources-label";
+      lbl.textContent = t("ledger.sources");
+      sw.append(lbl);
+      for (const s of srcs) sw.append(ledgerLink(s.label, s.url, "ext"));
+      orc.append(sw);
+    }
 
     // Evidence cell: deep-links to tests, module source and committed provenance.
     const ev = document.createElement("td");
     ev.className = "ldg-ev";
+    ev.dataset.label = t("ledger.col.evidence");
     for (const t of r.test_links || []) ev.append(ledgerLink(t.path, t.url, "test"));
     for (const mlink of r.module_links || []) ev.append(ledgerLink(mlink.path, mlink.url, "src"));
     if (r.fixture) {
@@ -1748,15 +1933,15 @@ async function renderLedger() {
       if (vis) shown += 1;
     }
     const tally = el("ldg-tally");
-    if (tally) tally.textContent = `${shown} of ${rows.length} capabilities`;
+    if (tally) tally.textContent = t("ledger.tally", { shown, total: rows.length });
   }
 
   if (statuses) {
     const defs = [
-      ["all", `All (${counts.all})`],
-      ["validated", `Validated (${counts.validated})`],
-      ["modelled", `Modelled (${counts.modelled})`],
-      ["partner", `Partner (${counts.partner})`],
+      ["all", t("ledger.chip.all", { count: counts.all })],
+      ["validated", t("ledger.chip.validated", { count: counts.validated })],
+      ["modelled", t("ledger.chip.modelled", { count: counts.modelled })],
+      ["partner", t("ledger.chip.partner", { count: counts.partner })],
     ];
     statuses.replaceChildren();
     for (const [key, lbl] of defs) {
@@ -1775,7 +1960,22 @@ async function renderLedger() {
   }
   if (search) search.addEventListener("input", apply);
   apply();
+
+  // If the page was opened on a specific ledger row (or one is targeted later), make
+  // sure the fold is open so the row is actually visible.
+  openLedgerForRowHash();
 }
+
+// Open the (collapsed-by-default) ledger fold and scroll to a row when the URL hash
+// targets one — "#ldg-<slug>" is a row; "#ledger" is just the section.
+function openLedgerForRowHash() {
+  if (!location.hash.startsWith("#ldg-")) return;
+  const d = el("ldg-details");
+  if (d) d.open = true;
+  const row = document.getElementById(location.hash.slice(1));
+  if (row) row.scrollIntoView({ block: "center" });
+}
+if (typeof window !== "undefined") window.addEventListener("hashchange", openLedgerForRowHash);
 
 // Stable id/anchor slug from a requirement string.
 function slug(s) {
@@ -1786,6 +1986,8 @@ function slug(s) {
 }
 
 async function main() {
+  // Apply static i18n strings first (the dynamic ledger/card strings use t() directly).
+  applyI18n();
   renderCapabilities();
   renderLedger();
 
