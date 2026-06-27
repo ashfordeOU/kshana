@@ -81,7 +81,7 @@ impl VerificationStatus {
 }
 
 /// One row of the verification matrix.
-#[derive(Clone, Copy, Debug)]
+#[derive(Clone, Copy, Debug, serde::Serialize)]
 pub struct VerificationItem {
     /// The tender-facing requirement / capability area.
     pub requirement: &'static str,
@@ -148,7 +148,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             requirement: "Orbit propagation & determination",
             capability: "SGP4/SDP4, Cowell 6-DOF + perturbations, batch/sequential OD",
             module: "sgp4, propagator, orbit_determination, precise_od",
-            tests: "tests/* (666 AIAA verification vectors, 4.12 mm)",
+            tests: "tests/sgp4_verification.rs (666 AIAA verification vectors, worst 4.12 mm); tests/sgp4_crate_comparison.rs (independent sgp4 crate)",
             oracle: "AIAA 2006-6753 SGP4 verification vectors",
             oracle_kind: ExternalDataset,
             status: Validated,
@@ -518,7 +518,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             requirement: "CCSDS OEM interoperability (GMAT/Orekit/STK ephemeris import)",
             capability: "CCSDS 502.0 OEM importer (parse_oem), tolerant of COMMENT lines / extra metadata keywords / covariance blocks and the exact inverse of the writer; round-trip + external-file ingest with a velocity-consistency check. Runnable from the CLI/bindings as the `oem-interop` scenario kind (scenarios/oem-interop.toml)",
             module: "oem",
-            tests: "oem::tests (parse an external-tool OEM with extra keywords/comments/covariance, write→read round-trip of the full state, pos+vel+accel tolerated, position-only + missing-mandatory-metadata rejected, scenario round-trip high-fidelity + external ingest); dominance_demonstrators (reachable + reproducible + round-trip exact + MODELLED-not-VALIDATED)",
+            tests: "tests/ccsds_oem_interop_reference.rs (24 states / 2 fixtures decoded byte-identically by the independent `oem` parser, pos/vel Δ = 0); oem::tests (parse an external-tool OEM with extra keywords/comments/covariance, write→read round-trip of the full state, pos+vel+accel tolerated, position-only + missing-mandatory-metadata rejected, scenario round-trip high-fidelity + external ingest); dominance_demonstrators (reachable + reproducible + round-trip exact + MODELLED-not-VALIDATED)",
             oracle: "Independent third-party CCSDS-502 parser `oem` 0.4.5 (B. Sease, MIT) — a separate codebase that decodes kshana's emitted EME2000/UTC OEM byte-identically (24 states across 2 fixtures, pos/vel Δ = 0) and whose strict reader confirms the metadata tokens; kshana's parser likewise agrees with it on a vendored external OEM. Two honest interop findings (the oem library rejects kshana's per-satellite multi-segment convention and its multi-entry covariance lines) are documented in the test — so this validates the conformant single-object interchange, not full CCSDS-502 conformance of every kshana variant",
             oracle_kind: ExternalDataset,
             status: Validated,
@@ -790,7 +790,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
 }
 
 /// Count of rows by status.
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, serde::Serialize)]
 pub struct MatrixSummary {
     pub validated: usize,
     pub modelled: usize,
@@ -873,6 +873,289 @@ pub fn to_csv(items: &[VerificationItem]) -> String {
     }
     out
 }
+
+// ── Browsable-evidence artifacts (single source → JSON for the web ledger + docs) ──
+//
+// These turn the matrix into the artifacts the public site and docs link to, so a
+// reader can click from "VALIDATED" through to the actual test, module source and
+// committed provenance. The link helpers EXISTENCE-CHECK every path against the repo
+// so the generated ledger never carries a dead link; the generator binary and the
+// `verification_artifacts_doc_sync` test call these same functions, and that test
+// pins the committed artifacts to the matrix (drift becomes a build failure). They
+// touch the filesystem, so they are native-only (the wasm build reads the committed
+// JSON, never regenerates it).
+#[cfg(not(target_arch = "wasm32"))]
+mod artifacts {
+    use super::*;
+    use std::path::Path;
+
+    /// GitHub blob root the deep-links are built against.
+    pub const REPO_BLOB_BASE: &str = "https://github.com/AshfordeOU/kshana/blob/main/";
+
+    /// A source/test deep-link: repo-relative path + its GitHub blob URL.
+    #[derive(serde::Serialize)]
+    struct Link {
+        path: String,
+        url: String,
+    }
+
+    /// A committed-provenance pointer for a validated row, when one exists on disk.
+    #[derive(serde::Serialize)]
+    struct Fixture {
+        path: String,
+        url: String,
+        notice_url: Option<String>,
+    }
+
+    /// One enriched ledger row: the raw matrix fields plus existence-checked links.
+    #[derive(serde::Serialize)]
+    struct LedgerRow {
+        requirement: &'static str,
+        capability: &'static str,
+        status: &'static str,
+        oracle_kind: String,
+        oracle: &'static str,
+        module: &'static str,
+        tests: &'static str,
+        module_links: Vec<Link>,
+        test_links: Vec<Link>,
+        fixture: Option<Fixture>,
+    }
+
+    #[derive(serde::Serialize)]
+    struct Ledger {
+        generated_from: &'static str,
+        note: &'static str,
+        repo_blob_base: &'static str,
+        summary: MatrixSummary,
+        rows: Vec<LedgerRow>,
+    }
+
+    /// Extract repo-relative `*.rs` paths (src/ tests/ examples/) from a free-text
+    /// field. Unicode-safe: splits on whitespace / separators (the fields carry
+    /// `×`, `Δ`, `≥`, …), so it never indexes mid-codepoint. A `tests/*` glob has no
+    /// `.rs` suffix and is ignored.
+    fn extract_rs_paths(field: &str) -> Vec<String> {
+        let mut out: Vec<String> = Vec::new();
+        for raw in
+            field.split(|c: char| c.is_whitespace() || c == ',' || c == ';' || c == '(' || c == ')')
+        {
+            let tok = raw.trim();
+            if tok.ends_with(".rs")
+                && (tok.starts_with("tests/")
+                    || tok.starts_with("src/")
+                    || tok.starts_with("examples/"))
+                && !out.iter().any(|p| p == tok)
+            {
+                out.push(tok.to_string());
+            }
+        }
+        out
+    }
+
+    /// Candidate source-file paths for a `module` field (comma-separated module
+    /// names, possibly `a::b` paths, possibly with a `(note)`). Both `src/x.rs` and
+    /// `src/x/mod.rs` forms are offered; the caller keeps only those that exist.
+    fn module_candidate_paths(module: &str) -> Vec<String> {
+        let mut out: Vec<String> = Vec::new();
+        let push = |p: String, out: &mut Vec<String>| {
+            if !out.contains(&p) {
+                out.push(p);
+            }
+        };
+        for raw in module.split(',') {
+            let mut name = raw.trim().to_string();
+            if let Some(p) = name.find('(') {
+                name.truncate(p);
+            }
+            let name = name.trim();
+            if name.is_empty() {
+                continue;
+            }
+            if name.ends_with(".rs") && (name.starts_with("src/") || name.starts_with("tests/")) {
+                push(name.to_string(), &mut out);
+                continue;
+            }
+            let rel = name.replace("::", "/");
+            push(format!("src/{rel}.rs"), &mut out);
+            push(format!("src/{rel}/mod.rs"), &mut out);
+        }
+        out
+    }
+
+    fn link_for(path: &str) -> Link {
+        Link {
+            path: path.to_string(),
+            url: format!("{REPO_BLOB_BASE}{path}"),
+        }
+    }
+
+    /// The committed fixture directory for a test, if one exists: `tests/<stem>.rs`
+    /// maps to `tests/fixtures/<stem-without-_reference>/`, with its NOTICE if present.
+    fn fixture_for(test_paths: &[String], repo_root: &Path) -> Option<Fixture> {
+        for tp in test_paths {
+            let stem = Path::new(tp).file_stem()?.to_str()?;
+            let base = stem.strip_suffix("_reference").unwrap_or(stem);
+            let rel = format!("tests/fixtures/{base}");
+            if !repo_root.join(&rel).is_dir() {
+                continue;
+            }
+            let notice_url = ["NOTICE", "NOTICE.md"]
+                .iter()
+                .map(|n| format!("{rel}/{n}"))
+                .find(|p| repo_root.join(p).is_file())
+                .map(|p| format!("{REPO_BLOB_BASE}{p}"));
+            return Some(Fixture {
+                path: rel.clone(),
+                url: format!("{REPO_BLOB_BASE}{rel}"),
+                notice_url,
+            });
+        }
+        None
+    }
+
+    /// Render the matrix as the enriched JSON ledger the web UI consumes. Every link
+    /// is existence-checked against `repo_root`, so no dead links are emitted.
+    pub fn to_ledger_json(items: &[VerificationItem], repo_root: &Path) -> String {
+        let rows: Vec<LedgerRow> = items
+            .iter()
+            .map(|it| {
+                let module_links: Vec<Link> = module_candidate_paths(it.module)
+                    .into_iter()
+                    .filter(|p| repo_root.join(p).is_file())
+                    .map(|p| link_for(&p))
+                    .collect();
+                let test_paths: Vec<String> = extract_rs_paths(it.tests)
+                    .into_iter()
+                    .filter(|p| repo_root.join(p).is_file())
+                    .collect();
+                let fixture = fixture_for(&test_paths, repo_root);
+                LedgerRow {
+                    requirement: it.requirement,
+                    capability: it.capability,
+                    status: it.status.tag(),
+                    oracle_kind: format!("{:?}", it.oracle_kind),
+                    oracle: it.oracle,
+                    module: it.module,
+                    tests: it.tests,
+                    module_links,
+                    test_links: test_paths.iter().map(|p| link_for(p)).collect(),
+                    fixture,
+                }
+            })
+            .collect();
+        let ledger = Ledger {
+            generated_from: "src/verification.rs::verification_matrix()",
+            note: "Generated by `cargo run --bin gen_validation_artifacts` and pinned by \
+                   tests/verification_artifacts_doc_sync.rs. Do not edit by hand.",
+            repo_blob_base: REPO_BLOB_BASE,
+            summary: summarize(items),
+            rows,
+        };
+        let mut s = serde_json::to_string_pretty(&ledger).expect("ledger serializes");
+        s.push('\n');
+        s
+    }
+
+    /// Render the full 75-row matrix as a titled Markdown document (the browsable
+    /// per-capability ledger in `docs/`). Wraps [`to_markdown`] with a generated-file
+    /// header so both the generator and the sync test produce byte-identical output.
+    pub fn to_verification_matrix_md(items: &[VerificationItem]) -> String {
+        let s = summarize(items);
+        let mut out = String::new();
+        out.push_str("# Verification matrix\n\n");
+        out.push_str(
+            "<!-- Generated by `cargo run --bin gen_validation_artifacts` from \
+             src/verification.rs; pinned by tests/verification_artifacts_doc_sync.rs. \
+             Do not edit by hand. -->\n\n",
+        );
+        out.push_str(&format!(
+            "The complete, machine-checked evidence ledger: **{} rows — {} VALIDATED, \
+             {} MODELLED, {} PARTNER**. A row may be VALIDATED only with an independent \
+             external oracle (the matrix invariant tests enforce this). The same data, \
+             with clickable per-row links to each test, module and committed fixture, is \
+             the *Validation ledger* on https://kshana.dev. See [MODELLED-RATIONALE.md]\
+             (MODELLED-RATIONALE.md) for why each Modelled row is not externally validated.\n\n",
+            s.total, s.validated, s.modelled, s.partner_owned
+        ));
+        out.push_str(&to_markdown(items));
+        out
+    }
+
+    /// Render the Modelled rows as a rationale table: each carries the honest reason
+    /// it is *not* externally validated (its [`OracleKind`] + the oracle text).
+    pub fn to_modelled_rationale_md(items: &[VerificationItem]) -> String {
+        let why = |k: OracleKind| -> &'static str {
+            match k {
+                OracleKind::ReferenceImpl => {
+                    "checked against a separate implementation in this same codebase — \
+                     independent of the unit under test, but not externally authoritative"
+                }
+                OracleKind::InternalConsistency => {
+                    "checked against its own closed-form / analytic identity — catches \
+                     transcription and coefficient errors, but is not an external oracle"
+                }
+                OracleKind::ExternalDataset => {
+                    "a sub-claim is externally checked, but the whole capability composes \
+                     modelled pieces, so the capability stays Modelled"
+                }
+                OracleKind::NoneKind => "no oracle",
+            }
+        };
+        let mut out = String::new();
+        out.push_str("# Modelled capabilities — rationale\n\n");
+        out.push_str(
+            "<!-- Generated by `cargo run --bin gen_validation_artifacts` from \
+             src/verification.rs; pinned by tests/verification_artifacts_doc_sync.rs. \
+             Do not edit by hand. -->\n\n",
+        );
+        out.push_str(
+            "These capabilities are implemented from published or first-principles physics \
+             with tests, but are **honestly labelled MODELLED** — not checked against an \
+             independent external oracle to a stated tolerance. The matrix invariant tests \
+             enforce that only `ExternalDataset`-backed rows may be VALIDATED, so nothing \
+             here can be silently promoted. Each row states why it stays Modelled.\n\n",
+        );
+        out.push_str(
+            "| Requirement | Capability | Oracle kind | Why it stays Modelled | Module | Tests |\n",
+        );
+        out.push_str("|---|---|---|---|---|---|\n");
+        for it in items
+            .iter()
+            .filter(|i| i.status == VerificationStatus::Modelled)
+        {
+            out.push_str(&format!(
+                "| {} | {} | {:?} | {} — {} | {} | {} |\n",
+                it.requirement,
+                it.capability,
+                it.oracle_kind,
+                why(it.oracle_kind),
+                if it.oracle.is_empty() {
+                    "—"
+                } else {
+                    it.oracle
+                },
+                if it.module.is_empty() {
+                    "—"
+                } else {
+                    it.module
+                },
+                if it.tests.is_empty() { "—" } else { it.tests },
+            ));
+        }
+        let s = summarize(items);
+        out.push_str(&format!(
+            "\n{} capabilities labelled MODELLED.\n",
+            s.modelled
+        ));
+        out
+    }
+}
+
+#[cfg(not(target_arch = "wasm32"))]
+pub use artifacts::{
+    to_ledger_json, to_modelled_rationale_md, to_verification_matrix_md, REPO_BLOB_BASE,
+};
 
 #[cfg(test)]
 mod tests {
