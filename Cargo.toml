@@ -11,7 +11,7 @@ authors = ["Chakshu Baweja <contact@ashforde.org>"]
 repository = "https://github.com/AshfordeOU/kshana"
 homepage = "https://kshana.dev"
 documentation = "https://docs.rs/kshana"
-readme = "README.md"
+readme = "README.crates.md"
 keywords = ["pnt", "navigation", "quantum", "gnss", "simulation"]
 categories = ["science", "simulation"]
 rust-version = "1.75"
@@ -24,6 +24,10 @@ rust-version = "1.75"
 exclude = [
     "/web",
     "/.github",
+    # Surface READMEs for the other publish targets (PyPI, npm) — crates.io uses
+    # README.crates.md (the `readme` field above); these would only be noise here.
+    "/README.pypi.md",
+    "/README.npm.md",
     "/tests/fixtures",
     "/tests/igs_real_data.rs",
     "/tests/sgp4_crate_comparison.rs",

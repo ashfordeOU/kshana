@@ -69,3 +69,48 @@ fn readme_validation_counts_match_the_matrix() {
          expected the substring {summary:?}."
     );
 }
+
+/// The per-surface READMEs (crates.io, PyPI, npm) carry the same headline counts and are
+/// published to public package registries — so a silent drift there is just as much an
+/// honesty overclaim as in the GitHub README. Pin every one of them to the matrix too.
+#[test]
+fn surface_readme_validation_counts_match_the_matrix() {
+    let m = verification_matrix();
+    let validated = m
+        .iter()
+        .filter(|i| i.status == VerificationStatus::Validated)
+        .count();
+    let modelled = m
+        .iter()
+        .filter(|i| i.status == VerificationStatus::Modelled)
+        .count();
+    let partner = m
+        .iter()
+        .filter(|i| i.status == VerificationStatus::PartnerOwned)
+        .count();
+    let total = m.len();
+
+    let surfaces = [
+        ("README.crates.md", include_str!("../README.crates.md")),
+        ("README.pypi.md", include_str!("../README.pypi.md")),
+        ("README.npm.md", include_str!("../README.npm.md")),
+    ];
+
+    let badge = format!("validated-{validated}%20external%20oracles");
+    let alt = format!(
+        "{validated} of {total} capabilities validated against independent external oracles"
+    );
+    let modelled_str = format!("{modelled} honestly labelled Modelled");
+    let partner_str = format!("{partner} partner-owned");
+
+    for (name, body) in surfaces {
+        for expected in [&badge, &alt, &modelled_str, &partner_str] {
+            assert!(
+                body.contains(expected.as_str()),
+                "{name} is out of sync with verification_matrix() \
+                 ({validated} VALIDATED / {modelled} MODELLED / {partner} PARTNER of {total}); \
+                 expected the substring {expected:?}."
+            );
+        }
+    }
+}
