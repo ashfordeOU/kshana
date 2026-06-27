@@ -1106,3 +1106,118 @@ table.ldg tbody tr:target { background: var(--accent-glow); }
 .cap-ev-req { font-size: 0.83rem; font-weight: 500; color: var(--fg-1); }
 .cap-ev-req:hover { color: var(--accent-bright); }
 .cap-ev-links { display: flex; flex-wrap: wrap; }
+
+/* Validation ledger — collapsible fold (long table, closed by default). */
+.ldg-details {
+  margin-top: 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-1);
+}
+.ldg-summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 0.85rem 1rem;
+  font-family: var(--mono);
+  font-size: 0.82rem;
+  color: var(--fg-1);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: var(--radius);
+}
+.ldg-summary::-webkit-details-marker { display: none; }
+.ldg-summary::before {
+  content: "▸";
+  color: var(--accent);
+  display: inline-block;
+  transition: transform 0.15s ease;
+}
+.ldg-details[open] .ldg-summary::before { transform: rotate(90deg); }
+.ldg-summary:hover { color: var(--fg); }
+.ldg-summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.ldg-summary-label { font-weight: 500; }
+.ldg-summary-count { color: var(--fg-2); }
+.ldg-panel { padding: 0.25rem 1rem 1.1rem; }
+
+/* Responsive: below ~720px the 4-column table stacks into labelled cards (the JS
+   stamps each cell with data-label; the header is visually hidden). */
+@media (max-width: 720px) {
+  .ldg-panel { padding: 0.25rem 0.6rem 1rem; }
+  .ldg-wrap { overflow-x: visible; border: 0; background: transparent; }
+  table.ldg { min-width: 0; font-size: 0.84rem; }
+  table.ldg thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+  }
+  table.ldg tbody tr {
+    display: block;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--bg-1);
+    margin-bottom: 0.75rem;
+    padding: 0.35rem 0.15rem;
+  }
+  table.ldg tbody tr:hover { background: var(--bg-1); }
+  table.ldg td {
+    display: block;
+    border: 0;
+    padding: 0.4rem 0.75rem;
+  }
+  table.ldg td::before {
+    content: attr(data-label);
+    display: block;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--fg-2);
+    margin-bottom: 0.25rem;
+  }
+  .ldg-cap, .ldg-oracle, .ldg-ev { max-width: none; min-width: 0; }
+  .ldg-link { max-width: 100%; }
+}
+
+/* Standards cards that link to their ledger evidence — clear clickable affordance. */
+.std-row { align-items: flex-start; }
+a.std-row { text-decoration: none; color: inherit; }
+.std-link { cursor: pointer; transition: border-color 0.15s ease, transform 0.12s ease, box-shadow 0.15s ease; }
+.std-link:hover {
+  border-color: var(--accent-line);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-2);
+  text-decoration: none;
+}
+.std-link:hover .pill.validated { background: var(--accent-tint); }
+.std-link:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+/* a small "opens its evidence" arrow on the badge of linked standards */
+.std-link .pill.validated::after { content: " ↗"; opacity: 0.65; }
+
+/* Standards grid inside the fold: cards hug their content (no stretched empty boxes)
+   and the columns adapt down to a single column on small screens. */
+.std-details .std-grid {
+  align-items: start;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 14rem), 1fr));
+  gap: 0.6rem;
+}
+@media (max-width: 720px) {
+  .std-details .std-grid { grid-template-columns: 1fr; }
+}
+
+/* External-source links in the ledger oracle cell (the actual dataset/library/standard). */
+.ldg-sources { margin-top: 0.45rem; display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem; }
+.ldg-sources-label {
+  font-family: var(--mono);
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-2);
+  margin-right: 0.15rem;
+}
+.ldg-link-ext::before { content: "↗"; color: var(--live); }

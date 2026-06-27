@@ -407,9 +407,9 @@
       <section class="block alt" id="ledger">
         <div class="wrap">
           <div class="sec-head">
-            <p class="eyebrow">Evidence ledger</p>
-            <h2>The complete validation matrix — every row, every proof</h2>
-            <p>
+            <p class="eyebrow" data-i18n="ledger.eyebrow">Evidence ledger</p>
+            <h2 data-i18n="ledger.heading">The complete validation matrix — every row, every proof</h2>
+            <p data-i18n-html="ledger.intro">
               All <span id="ldg-total">75</span> capabilities, generated from
               <code>src/verification.rs</code> and pinned to it in CI. Each row links to the
               <strong>test</strong> that enforces it, the <strong>module</strong> that
@@ -422,35 +422,49 @@
             </p>
           </div>
 
-          <div class="ldg-toolbar">
-            <input type="search" id="ldg-search" class="ldg-search"
-                   placeholder="Filter by capability, module, oracle…" aria-label="Filter the ledger" />
-            <div class="ldg-statuses" id="ldg-statuses" role="group" aria-label="Filter by status"></div>
-            <p class="ldg-tally" id="ldg-tally" aria-live="polite"></p>
-          </div>
+          <!-- The full table is long, so it is folded behind a disclosure by default;
+               per-card "Evidence" links and the nav open it on demand (see app.js). -->
+          <details class="ldg-details" id="ldg-details">
+            <summary class="ldg-summary" id="ldg-summary">
+              <span class="ldg-summary-label" data-i18n="ledger.summary.open">Open the full validation ledger</span>
+              <span class="ldg-summary-count" id="ldg-summary-count"></span>
+            </summary>
 
-          <div class="ldg-wrap" role="region" aria-label="Validation ledger" tabindex="0">
-            <table class="ldg" id="ldg-table">
-              <thead>
-                <tr>
-                  <th scope="col">Capability</th>
-                  <th scope="col">Status</th>
-                  <th scope="col">Oracle</th>
-                  <th scope="col">Evidence</th>
-                </tr>
-              </thead>
-              <tbody id="ldg-body"></tbody>
-            </table>
-          </div>
+            <div class="ldg-panel">
+              <div class="ldg-toolbar">
+                <input type="search" id="ldg-search" class="ldg-search"
+                       placeholder="Filter by capability, module, oracle…" aria-label="Filter the ledger"
+                       data-i18n-attr="placeholder:ledger.search.placeholder,aria-label:ledger.search.aria" />
+                <div class="ldg-statuses" id="ldg-statuses" role="group" aria-label="Filter by status"
+                     data-i18n-attr="aria-label:ledger.status.aria"></div>
+                <p class="ldg-tally" id="ldg-tally" aria-live="polite"></p>
+              </div>
 
-          <p class="ldg-foot">
-            Generated from the matrix by <code>gen_validation_artifacts</code> and pinned by
-            <code>verification_artifacts_doc_sync</code> — the table cannot drift from the code.
-            Full tables:
-            <a target="_blank" rel="noopener noreferrer" href="https://github.com/AshfordeOU/kshana/blob/main/docs/VERIFICATION-MATRIX.md">VERIFICATION-MATRIX.md</a> ·
-            <a target="_blank" rel="noopener noreferrer" href="https://github.com/AshfordeOU/kshana/blob/main/docs/MODELLED-RATIONALE.md">MODELLED-RATIONALE.md</a> ·
-            <a target="_blank" rel="noopener noreferrer" href="https://github.com/AshfordeOU/kshana/blob/main/docs/VALIDATION.md">VALIDATION.md</a>
-          </p>
+              <div class="ldg-wrap" role="region" aria-label="Validation ledger" tabindex="0"
+                   data-i18n-attr="aria-label:ledger.region.aria">
+                <table class="ldg" id="ldg-table">
+                  <thead>
+                    <tr>
+                      <th scope="col" data-i18n="ledger.col.capability">Capability</th>
+                      <th scope="col" data-i18n="ledger.col.status">Status</th>
+                      <th scope="col" data-i18n="ledger.col.oracle">Oracle</th>
+                      <th scope="col" data-i18n="ledger.col.evidence">Evidence</th>
+                    </tr>
+                  </thead>
+                  <tbody id="ldg-body"></tbody>
+                </table>
+              </div>
+
+              <p class="ldg-foot" data-i18n-html="ledger.foot">
+                Generated from the matrix by <code>gen_validation_artifacts</code> and pinned by
+                <code>verification_artifacts_doc_sync</code> — the table cannot drift from the code.
+                Full tables:
+                <a target="_blank" rel="noopener noreferrer" href="https://github.com/AshfordeOU/kshana/blob/main/docs/VERIFICATION-MATRIX.md">VERIFICATION-MATRIX.md</a> ·
+                <a target="_blank" rel="noopener noreferrer" href="https://github.com/AshfordeOU/kshana/blob/main/docs/MODELLED-RATIONALE.md">MODELLED-RATIONALE.md</a> ·
+                <a target="_blank" rel="noopener noreferrer" href="https://github.com/AshfordeOU/kshana/blob/main/docs/VALIDATION.md">VALIDATION.md</a>
+              </p>
+            </div>
+          </details>
         </div>
       </section>
 
@@ -572,11 +586,19 @@
       <section class="block" id="standards">
         <div class="wrap">
           <div class="sec-head">
-            <p class="eyebrow">Standards &amp; interoperability</p>
-            <h2>Speaks the formats your tools already use</h2>
-            <p>Built on the open standards of the GNSS and timing community, so it drops into existing workflows.</p>
+            <p class="eyebrow" data-i18n="standards.eyebrow">Standards &amp; interoperability</p>
+            <h2 data-i18n="standards.heading">Speaks the formats your tools already use</h2>
+            <p data-i18n="standards.intro">Built on the open standards of the GNSS and timing community, so it drops into existing workflows — and every standard below links to the test that proves it.</p>
           </div>
-          <div id="standards-list" class="std-grid"></div>
+          <details class="ldg-details std-details" id="std-details">
+            <summary class="ldg-summary" id="std-summary">
+              <span class="ldg-summary-label" data-i18n="standards.summary">Show the validated formats &amp; standards</span>
+              <span class="ldg-summary-count" id="std-summary-count"></span>
+            </summary>
+            <div class="ldg-panel">
+              <div id="standards-list" class="std-grid"></div>
+            </div>
+          </details>
         </div>
       </section>
 
