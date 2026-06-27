@@ -1139,15 +1139,24 @@ function knownScenario(file) {
   return SCENARIOS.some((s) => s[0] === file);
 }
 
-// One capability feature card. Carries data-status so the "Validated only"
-// filter can hide modelled cards via CSS. The proof footer is a green ✓ only
-// for validated capabilities; modelled capabilities show their check neutrally
-// so the tick never reads as an external-oracle claim.
-function buildCapCard(c) {
-  const card = document.createElement("div");
-  card.className = "card feat";
+// One capability: a compact, always-scannable tile (domain · status · action ·
+// title · proof) plus a full-width detail band that holds the summary prose and is
+// revealed on click. Tiles stay put; the band drops in directly below the clicked
+// tile's visual row (one open at a time per domain), so the dense prose gets full
+// width and the grid never leaves holes. The title is a real <button> (keyboard +
+// aria-expanded); run/docs stay independently clickable. data-status drives the
+// "Validated only" filter on both the tile and its band. The proof footer is a green
+// ✓ only for validated capabilities; modelled show their check neutrally so the tick
+// never reads as an external-oracle claim. Returns a fragment of [tile, detail].
+function buildCapCard(c, idx) {
+  const frag = document.createDocumentFragment();
   const validated = c.status === "validated";
-  card.dataset.status = validated ? "validated" : "modelled";
+  const status = validated ? "validated" : "modelled";
+  const bodyId = `capbody-${c.group || "x"}-${idx}`.replace(/[^\w-]/g, "");
+
+  const tile = document.createElement("article");
+  tile.className = "card feat cap-tile";
+  tile.dataset.status = status;
 
   const head = document.createElement("div");
   head.className = "feat-head";
@@ -1160,7 +1169,7 @@ function buildCapCard(c) {
   right.className = "feat-head-right";
   const pill = document.createElement("span");
   pill.className = validated ? "pill validated" : "pill modelled";
-  pill.textContent = validated ? "validated" : "modelled";
+  pill.textContent = status;
   right.append(pill);
   if (c.run && knownScenario(c.run)) {
     const run = document.createElement("button");
@@ -1168,7 +1177,8 @@ function buildCapCard(c) {
     run.className = "run";
     run.textContent = "▸ run";
     run.title = `Load and run ${c.name} in the playground`;
-    run.addEventListener("click", () => {
+    run.addEventListener("click", (e) => {
+      e.stopPropagation();
       selectEl.value = c.run;
       loadScenario(c.run);
       document.getElementById("playground").scrollIntoView({ behavior: "smooth" });
@@ -1184,22 +1194,156 @@ function buildCapCard(c) {
     docs.rel = "noopener noreferrer";
     docs.textContent = "docs ↗";
     docs.title = `Reference documentation for ${c.name}`;
+    docs.addEventListener("click", (e) => e.stopPropagation());
     right.append(docs);
   }
   head.append(right);
 
+  // Title is the disclosure control (native <button> → free keyboard + a11y).
   const h = document.createElement("h3");
-  h.textContent = c.name;
-  const p = document.createElement("p");
-  p.textContent = c.summary;
-  card.append(head, h, p);
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.className = "cap-toggle";
+  btn.setAttribute("aria-expanded", "false");
+  btn.setAttribute("aria-controls", bodyId);
+  const label = document.createElement("span");
+  label.className = "cap-title-text";
+  label.textContent = c.name;
+  const chev = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  chev.setAttribute("class", "chev");
+  chev.setAttribute("viewBox", "0 0 16 16");
+  chev.setAttribute("aria-hidden", "true");
+  const cp = document.createElementNS("http://www.w3.org/2000/svg", "path");
+  cp.setAttribute("d", "M4 6l4 4 4-4");
+  cp.setAttribute("fill", "none");
+  cp.setAttribute("stroke", "currentColor");
+  cp.setAttribute("stroke-width", "1.6");
+  cp.setAttribute("stroke-linecap", "round");
+  cp.setAttribute("stroke-linejoin", "round");
+  chev.append(cp);
+  btn.append(label, chev);
+  h.append(btn);
+
+  tile.append(head, h);
   if (c.proof) {
     const proof = document.createElement("span");
     proof.className = validated ? "proof" : "proof proof-modelled";
     proof.textContent = validated ? `✓ ${c.proof}` : c.proof;
-    card.append(proof);
+    tile.append(proof);
   }
-  return card;
+
+  // Full-width detail band (animated height; out of flow until opened).
+  const detail = document.createElement("div");
+  detail.className = "cap-detail";
+  detail.id = bodyId;
+  detail.dataset.status = status;
+  detail.hidden = true;
+  const inner = document.createElement("div");
+  inner.className = "cap-detail-inner";
+  const p = document.createElement("p");
+  p.textContent = c.summary;
+  inner.append(p);
+  detail.append(inner);
+
+  btn.addEventListener("click", () => toggleCap(tile, detail, btn));
+  tile.addEventListener("click", (e) => {
+    if (e.target.closest(".cap-toggle, .run, .cap-docs")) return;
+    toggleCap(tile, detail, btn);
+  });
+
+  frag.append(tile, detail);
+  return frag;
+}
+
+const capReduceMotion =
+  typeof matchMedia === "function" && matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+// Hide a detail band, animating closed unless reduced-motion is requested.
+function collapseDetail(detail) {
+  detail.classList.remove("open");
+  if (capReduceMotion) {
+    detail.hidden = true;
+    return;
+  }
+  const onEnd = (e) => {
+    if (e.target !== detail || e.propertyName !== "grid-template-rows") return;
+    detail.hidden = true;
+    detail.removeEventListener("transitionend", onEnd);
+  };
+  detail.addEventListener("transitionend", onEnd);
+}
+
+// Close every open capability within `scope` (a grid, or the whole document).
+function closeAllCaps(scope) {
+  (scope || document).querySelectorAll(".cap-tile.open").forEach((t) => {
+    t.classList.remove("open");
+    const b = t.querySelector(".cap-toggle");
+    if (b) b.setAttribute("aria-expanded", "false");
+    const d = b && document.getElementById(b.getAttribute("aria-controls"));
+    if (d) collapseDetail(d);
+  });
+}
+
+// Toggle one capability open (accordion: one per grid). The band is placed right after
+// the last tile in the clicked tile's visual row so it forms a clean full-width row
+// with no holes, at any column count.
+function toggleCap(tile, detail, btn) {
+  const grid = tile.closest("[data-cards-for]") || tile.parentElement;
+  const wasOpen = tile.classList.contains("open");
+
+  // Close siblings instantly (keeps the row measurement below honest — an animating
+  // band would still occupy flow and skew offsetTop).
+  grid.querySelectorAll(".cap-tile.open").forEach((t) => {
+    if (t === tile) return;
+    t.classList.remove("open");
+    const b = t.querySelector(".cap-toggle");
+    if (b) b.setAttribute("aria-expanded", "false");
+    const d = b && document.getElementById(b.getAttribute("aria-controls"));
+    if (d) {
+      d.classList.remove("open");
+      d.hidden = true;
+    }
+  });
+
+  if (wasOpen) {
+    tile.classList.remove("open");
+    btn.setAttribute("aria-expanded", "false");
+    collapseDetail(detail);
+    return;
+  }
+
+  const tiles = [...grid.querySelectorAll(".cap-tile")];
+  const top = tile.offsetTop;
+  let last = tile;
+  for (const t of tiles) if (Math.abs(t.offsetTop - top) < 2) last = t;
+  if (last.nextSibling !== detail) grid.insertBefore(detail, last.nextSibling);
+
+  tile.classList.add("open");
+  btn.setAttribute("aria-expanded", "true");
+  detail.hidden = false;
+  if (capReduceMotion) detail.classList.add("open");
+  else requestAnimationFrame(() => requestAnimationFrame(() => detail.classList.add("open")));
+  tile.scrollIntoView({ block: "nearest", behavior: capReduceMotion ? "auto" : "smooth" });
+}
+
+// Column count changes invalidate band placement — collapse everything on resize.
+let capResizeTimer;
+if (typeof window !== "undefined") {
+  window.addEventListener("resize", () => {
+    clearTimeout(capResizeTimer);
+    capResizeTimer = setTimeout(() => {
+      document.querySelectorAll(".cap-tile.open").forEach((t) => {
+        t.classList.remove("open");
+        const b = t.querySelector(".cap-toggle");
+        if (b) b.setAttribute("aria-expanded", "false");
+        const d = b && document.getElementById(b.getAttribute("aria-controls"));
+        if (d) {
+          d.classList.remove("open");
+          d.hidden = true;
+        }
+      });
+    }, 150);
+  });
 }
 
 // Reveal scroll-in children that became visible while off-screen or hidden — the
@@ -1249,7 +1393,7 @@ function buildExplorer(caps) {
     const grid = panel.querySelector("[data-cards-for]");
     if (grid) {
       grid.replaceChildren();
-      for (const c of arr) grid.append(buildCapCard(c));
+      arr.forEach((c, i) => grid.append(buildCapCard(c, i)));
     }
     const vCaps = arr.filter((c) => c.status === "validated").length;
     const runnable = arr.filter((c) => c.run && knownScenario(c.run)).length;
@@ -1323,6 +1467,7 @@ function buildExplorer(caps) {
   if (cb) {
     cb.addEventListener("change", () => {
       const only = cb.checked;
+      closeAllCaps(root);
       root.classList.toggle("validated-only", only);
       if (tally) {
         tally.textContent = only
