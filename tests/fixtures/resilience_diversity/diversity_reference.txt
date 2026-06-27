@@ -1,0 +1,24 @@
+# scikit-bio reference for the PNT-resilience effective-diversity kernel.
+# Oracle: scikit-bio 0.7.3 skbio.diversity.alpha.inv_simpson (BSD-3-Clause)
+#         = inverse Simpson / Hill number order 2 = 1 / sum(p_i^2).
+# Consumed by tests/resilience_diversity_reference.rs.
+# See generate_diversity_reference.py for provenance + honest scope.
+# CASE name | kind,group,quality;kind,group,quality;... | abundance_vec | inv_simpson_or_EXPECT_ZERO
+CASE equal_3_groups | GnssL1,1,1.0;GnssL5,2,1.0;Inertial,3,1.0 | 1.0,1.0,1.0 | 3.0
+CASE equal_4_groups | GnssMultiBand,1,1.0;Inertial,2,1.0;Clock,3,1.0;Eloran,4,1.0 | 1.0,1.0,1.0,1.0 | 4.0
+CASE equal_5_groups_half_quality | GnssL1,1,0.5;Inertial,2,0.5;Clock,3,0.5;Terrain,4,0.5;Magnetic,5,0.5 | 0.5,0.5,0.5,0.5,0.5 | 4.999999999999999
+CASE equal_2_groups_multisource | GnssL1,1,0.5;GnssL5,1,0.5;Inertial,2,0.6;Clock,2,0.4 | 1.0,1.0 | 2.0
+CASE collapsed_single_group_3src | GnssL1,7,1.0;GnssL5,7,1.0;GnssMultiBand,7,1.0 | 3.0 | 1.0
+CASE collapsed_single_group_unequal | GnssL1,2,0.9;GnssL5,2,0.3;GnssMultiBand,2,0.6 | 1.7999999999999998 | 1.0
+CASE unequal_dominant_2_1_1 | GnssMultiBand,1,1.0;GnssMultiBand,1,1.0;Inertial,2,1.0;Clock,3,1.0 | 2.0,1.0,1.0 | 2.6666666666666665
+CASE unequal_skewed_quality | GnssL1,1,0.9;Inertial,2,0.3;Terrain,3,0.3;Clock,4,0.5 | 0.9,0.3,0.3,0.5 | 3.2258064516129035
+CASE unequal_strong_plus_weak | GnssMultiBand,1,1.0;Magnetic,2,0.2;Gravity,3,0.2;SignalOfOpportunity,4,0.2 | 1.0,0.2,0.2,0.2 | 2.2857142857142856
+CASE unequal_six_groups_varied | GnssL1,1,1.0;GnssL5,2,0.8;Inertial,3,0.6;Clock,4,0.7;Terrain,5,0.4;Eloran,6,0.9 | 1.0,0.8,0.6,0.7,0.4,0.9 | 5.595375722543351
+CASE clamp_overunity_to_equal_3 | GnssL1,1,1.5;Inertial,2,2.0;Clock,3,3.0 | 1.0,1.0,1.0 | 3.0
+CASE clamp_negative_drops_to_zero_group | GnssL1,1,1.0;GnssL5,2,1.0;Inertial,3,-0.4 | 1.0,1.0,0.0 | 2.0
+CASE single_source | GnssMultiBand,1,0.6 | 0.6 | 1.0
+CASE single_source_full | Clock,9,1.0 | 1.0 | 1.0
+CASE empty_architecture |  |  | EXPECT_ZERO
+CASE all_zero_quality | GnssL1,1,0.0;Inertial,2,0.0 | 0.0,0.0 | EXPECT_ZERO
+CASE all_clamped_to_zero | GnssL1,1,-0.2;Inertial,2,-1.0 | 0.0,0.0 | EXPECT_ZERO
+# 17 cases total

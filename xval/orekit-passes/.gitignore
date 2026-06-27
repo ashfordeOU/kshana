@@ -1,0 +1,2 @@
+# Java build artifacts from the Orekit pass-prediction oracle driver.
+*.class
