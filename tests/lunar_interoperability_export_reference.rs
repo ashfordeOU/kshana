@@ -195,7 +195,12 @@ fn oem_oracle_roundtrips_tokens_and_states() {
             .find(|l| l.starts_with(&format!("TOKENS {} ", c.label)))
             .unwrap_or_else(|| panic!("{}: no TOKENS line in reference", c.label));
         let parts: Vec<&str> = tok_line.splitn(6, '|').collect();
-        assert_eq!(parts.len(), 6, "{}: TOKENS needs 6 fields: {tok_line}", c.label);
+        assert_eq!(
+            parts.len(),
+            6,
+            "{}: TOKENS needs 6 fields: {tok_line}",
+            c.label
+        );
         let ref_frame = parts[1].trim();
         let time_system = parts[2].trim();
         let center_name = parts[3].trim();
@@ -247,7 +252,11 @@ fn oem_oracle_roundtrips_tokens_and_states() {
             }
             seen += 1;
         }
-        assert_eq!(seen, c.n, "{}: expected {} STATE lines, saw {seen}", c.label, c.n);
+        assert_eq!(
+            seen, c.n,
+            "{}: expected {} STATE lines, saw {seen}",
+            c.label, c.n
+        );
         n_states += seen;
     }
 
@@ -310,6 +319,9 @@ fn negative_control_dropped_time_system_is_rejected() {
         );
         checked += 1;
     }
-    assert!(checked >= 2, "expected >=2 negative controls, got {checked}");
+    assert!(
+        checked >= 2,
+        "expected >=2 negative controls, got {checked}"
+    );
     eprintln!("lunar_interoperability_export: {checked} negative controls rejected by both oem 0.4.5 and kshana conformance");
 }

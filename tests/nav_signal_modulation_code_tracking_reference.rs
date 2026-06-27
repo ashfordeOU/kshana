@@ -58,7 +58,10 @@ fn gold_crosscorr_bound_matches_measured_isgps200_codes() {
         .max_crosscorr()
         .expect("n=10 Gold has a cross-correlation bound");
     let bound_int = (bound * L).round() as i64;
-    assert_eq!(bound_int, 65, "kshana Gold(10) cross bound should be 65/1023");
+    assert_eq!(
+        bound_int, 65,
+        "kshana Gold(10) cross bound should be 65/1023"
+    );
 
     let mut n = 0usize;
     for line in REF.lines() {
@@ -148,7 +151,8 @@ fn observed_gold_set_is_exactly_minus65_minus1_63() {
             );
             // t(10) = 1 + 2^6 = 65 is the magnitude bound; kshana encodes it as
             // 65/1023, and 65 is the largest magnitude in the observed set.
-            let bound_int = (CodeFamily::Gold { n: 10 }.max_crosscorr().unwrap() * L).round() as i64;
+            let bound_int =
+                (CodeFamily::Gold { n: 10 }.max_crosscorr().unwrap() * L).round() as i64;
             let observed_max_mag = vals.iter().map(|v| v.abs()).max().unwrap();
             assert_eq!(
                 bound_int, observed_max_mag,
@@ -201,7 +205,11 @@ fn psd_shape_matches_scipy_periodogram_within_5pct_rms() {
         emp_bpsk.push(parts[1].trim().parse::<f64>().unwrap());
         emp_boc.push(parts[2].trim().parse::<f64>().unwrap());
     }
-    assert!(centers.len() >= 40, "expected >= 40 PSD bins, got {}", centers.len());
+    assert!(
+        centers.len() >= 40,
+        "expected >= 40 PSD bins, got {}",
+        centers.len()
+    );
 
     // Closed-form binned PSD on the identical bins.
     let clf_bpsk: Vec<f64> = centers.iter().map(|&c| kshana_psd_bin(&bpsk, c)).collect();

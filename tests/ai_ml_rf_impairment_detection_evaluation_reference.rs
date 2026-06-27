@@ -128,8 +128,7 @@ fn parse() -> Reference {
                 });
             }
             "LABELS" => {
-                cur.as_mut().unwrap().labels =
-                    rest.split(',').map(|s| s.trim() == "1").collect();
+                cur.as_mut().unwrap().labels = rest.split(',').map(|s| s.trim() == "1").collect();
             }
             "CHAN" => {
                 cur.as_mut().unwrap().chan =
@@ -223,8 +222,16 @@ fn opssat_operating_points_match_scikit_learn_on_real_esa_telemetry() {
             .zip(&d.scores)
             .map(|(&l, &s)| (l, s))
             .collect();
-        let pos: Vec<f64> = labeled.iter().filter(|(l, _)| *l).map(|(_, s)| *s).collect();
-        let neg: Vec<f64> = labeled.iter().filter(|(l, _)| !*l).map(|(_, s)| *s).collect();
+        let pos: Vec<f64> = labeled
+            .iter()
+            .filter(|(l, _)| *l)
+            .map(|(_, s)| *s)
+            .collect();
+        let neg: Vec<f64> = labeled
+            .iter()
+            .filter(|(l, _)| !*l)
+            .map(|(_, s)| *s)
+            .collect();
 
         // (1) Threshold-free AUC vs sklearn roc_auc_score.
         let got_auc = auc(&pos, &neg);

@@ -34,30 +34,45 @@
 //! PART (c) -- JammerTest 2024 measured C/N0 fall (REAL field data, characterisation).
 //!   The oracle is the **JammerTest 2024** campaign (Zenodo `10.5281/zenodo.15910563`,
 //!   GPL-3.0), scenario 1.6.4: a stationary rover under a power-ramping broadband
-//!   jammer (0.2 uW -> 50 W). The fixture carries the per-30 s-bin median GPS-L1
-//!   `C/N0` and tracked-SV count, parsed by kshana's own
-//!   `jammertest::rinex_cn0_observations` from the committed `rinex.csv`. This asserts
+//!   jammer (0.2 uW -> 50 W). The committed fixture carries the per-30 s-bin median
+//!   GPS-L1 `C/N0` and tracked-SV count (generated offline from the JammerTest
+//!   `rinex.csv` by kshana's own `jammertest::rinex_cn0_observations`). This asserts
 //!   the ORDINAL real-data facts the resilience model predicts: a healthy clean
 //!   baseline (~43 dB-Hz), a strictly monotone fall as the jammer ramps up, a trough
 //!   that crosses the 25 dB-Hz C/A tracking threshold while the SV count collapses to
 //!   <= 1, and a symmetric recovery as the ramp comes down. A measurement, not a
 //!   re-derivation -- but ordinal, so this part keeps the capability MODELLED.
+//!
+//!   The raw 25 MB JammerTest `rinex.csv` itself carries no explicit redistribution
+//!   licence and is far too large to vendor, so it is **git-ignored**, not committed.
+//!   Fetch it into `realdata-cache/jammertest2024/` (override with
+//!   `KSHANA_JAMMERTEST_RINEX`); when present, the test additionally re-parses it with
+//!   kshana's own reader as a cross-check, and when absent it prints a skip notice and
+//!   still checks every ordinal fact from the committed fixture -- so CI without the
+//!   raw data stays green.
 
-use kshana::jamming::{
-    effective_cn0_dbhz, free_space_path_loss_db, j_over_s_db, nominal_cn0_dbhz,
-};
+use kshana::jamming::{effective_cn0_dbhz, free_space_path_loss_db, j_over_s_db, nominal_cn0_dbhz};
 use kshana::navsignal::{q_from_ssc, spectral_separation_coeff, Modulation, F0_HZ};
 use kshana::realdata::jammertest::rinex_cn0_observations;
 
-const REF: &str =
-    include_str!("fixtures/gnss_denied_jamming_resilience/gnss_denied_jamming_resilience_reference.txt");
+const REF: &str = include_str!(
+    "fixtures/gnss_denied_jamming_resilience/gnss_denied_jamming_resilience_reference.txt"
+);
 
-/// Real JammerTest 2024 rinex (Zenodo 10.5281/zenodo.15910563, GPL-3.0), scenario
-/// 1.6.4 -- consumed via kshana's own reader to cross-check the fixture's C/N0 series.
-const JAMMERTEST_RINEX: &str = include_str!(concat!(
-    env!("CARGO_MANIFEST_DIR"),
-    "/realdata-cache/jammertest2024/Jamming/stationary/Very High Power (≥10W)/Bands_L1_L2_L5/1.6.4/rinex.csv"
-));
+/// Locate the git-ignored raw JammerTest 2024 rinex (Zenodo 10.5281/zenodo.15910563,
+/// GPL-3.0), scenario 1.6.4, if it has been fetched. Overridable with
+/// `KSHANA_JAMMERTEST_RINEX`. Loaded at runtime (not `include_str!`) because the file
+/// is git-ignored, so CI without it still compiles and the test skips the raw cross-check.
+fn jammertest_rinex() -> Option<String> {
+    let path = if let Ok(p) = std::env::var("KSHANA_JAMMERTEST_RINEX") {
+        std::path::PathBuf::from(p)
+    } else {
+        std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join(
+            "realdata-cache/jammertest2024/Jamming/stationary/Very High Power (≥10W)/Bands_L1_L2_L5/1.6.4/rinex.csv",
+        )
+    };
+    std::fs::read_to_string(&path).ok()
+}
 
 /// Link-budget agreement: a relative bound plus a small absolute floor (dB). Both
 /// implementations evaluate the same closed forms, so the residual is pure float
@@ -295,7 +310,12 @@ fn jammertest_measured_cn0_falls_through_tracking_threshold() {
         .map(|b| b.n_sv)
         .max()
         .unwrap();
-    let attack_sv_min = bins.iter().filter(|b| b.attack).map(|b| b.n_sv).min().unwrap();
+    let attack_sv_min = bins
+        .iter()
+        .filter(|b| b.attack)
+        .map(|b| b.n_sv)
+        .min()
+        .unwrap();
     assert!(
         clean_sv_max >= 8,
         "clean baseline should track >=8 GPS SVs, had {clean_sv_max}"
@@ -317,55 +337,67 @@ fn jammertest_measured_cn0_falls_through_tracking_threshold() {
         "C/N0 should recover to >=40 dB-Hz as the ramp ends, max-late was {recovered}"
     );
 
-    // (6) Cross-check the fixture against kshana's OWN JammerTest reader: re-parse the
-    //     committed rinex.csv with rinex_cn0_observations and confirm the clean-baseline
-    //     vs deepest-attack GPS-L1 medians reproduce the same fall direction and that
-    //     the deepest attack window contains sub-25 dB-Hz GPS-L1 samples.
-    let obs = rinex_cn0_observations(JAMMERTEST_RINEX);
-    let mut clean_g1: Vec<f64> = Vec::new();
-    let mut deep_g1: Vec<f64> = Vec::new();
-    for o in &obs {
-        if o.obs.detector != "cn0_G_L1" {
-            continue;
-        }
-        let Some(secs) = secs_of_day(&o.time) else {
-            continue;
-        };
-        if (51570..51900).contains(&secs) {
-            clean_g1.push(o.obs.raw);
-        } else if (52140..52470).contains(&secs) {
-            deep_g1.push(o.obs.raw);
+    // (6) When the git-ignored raw rinex has been fetched, additionally cross-check the
+    //     committed fixture against kshana's OWN JammerTest reader: re-parse the raw
+    //     rinex.csv with rinex_cn0_observations and confirm the clean-baseline vs
+    //     deepest-attack GPS-L1 medians reproduce the same fall direction and that the
+    //     deepest attack window contains sub-25 dB-Hz GPS-L1 samples. Skipped (test still
+    //     passes on the committed ordinal facts above) when the raw data is absent.
+    match jammertest_rinex() {
+        None => eprintln!(
+            "gnss_denied_jamming_resilience PART(c): JammerTest 2024 scn 1.6.4 -- clean {clean_lo:.0} dB-Hz \
+             -> ramp drop {ramp_drop:.0} dB -> attack-min median {attack_min_median:.0} dB-Hz (< {TRACKING_THRESHOLD_DBHZ}); \
+             SV {clean_sv_max} -> {attack_sv_min}; raw rinex absent (git-ignored) -> reader cross-check skipped \
+             (set KSHANA_JAMMERTEST_RINEX to enable)"
+        ),
+        Some(raw) => {
+            let obs = rinex_cn0_observations(&raw);
+            let mut clean_g1: Vec<f64> = Vec::new();
+            let mut deep_g1: Vec<f64> = Vec::new();
+            for o in &obs {
+                if o.obs.detector != "cn0_G_L1" {
+                    continue;
+                }
+                let Some(secs) = secs_of_day(&o.time) else {
+                    continue;
+                };
+                if (51570..51900).contains(&secs) {
+                    clean_g1.push(o.obs.raw);
+                } else if (52140..52470).contains(&secs) {
+                    deep_g1.push(o.obs.raw);
+                }
+            }
+            assert!(
+                clean_g1.len() > 100 && deep_g1.len() > 10,
+                "reader cross-check needs samples: clean {} deep {}",
+                clean_g1.len(),
+                deep_g1.len()
+            );
+            let clean_med = median(&mut clean_g1);
+            let deep_med = median(&mut deep_g1);
+            assert!(
+                deep_med < clean_med - 10.0,
+                "reader cross-check: deep-attack median {deep_med} should fall >=10 dB-Hz below \
+                 clean median {clean_med}"
+            );
+            let n_below = deep_g1
+                .iter()
+                .filter(|&&v| v < TRACKING_THRESHOLD_DBHZ)
+                .count();
+            assert!(
+                n_below > 0,
+                "reader cross-check: deep-attack window must hold sub-{TRACKING_THRESHOLD_DBHZ} dB-Hz \
+                 GPS-L1 samples, found {n_below}"
+            );
+
+            eprintln!(
+                "gnss_denied_jamming_resilience PART(c): JammerTest 2024 scn 1.6.4 -- clean {clean_lo:.0} dB-Hz \
+                 -> ramp drop {ramp_drop:.0} dB -> attack-min median {attack_min_median:.0} dB-Hz (< {TRACKING_THRESHOLD_DBHZ}); \
+                 SV {clean_sv_max} -> {attack_sv_min}; reader cross-check clean {clean_med:.0} -> deep {deep_med:.0} dB-Hz, \
+                 {n_below} sub-threshold samples"
+            );
         }
     }
-    assert!(
-        clean_g1.len() > 100 && deep_g1.len() > 10,
-        "reader cross-check needs samples: clean {} deep {}",
-        clean_g1.len(),
-        deep_g1.len()
-    );
-    let clean_med = median(&mut clean_g1);
-    let deep_med = median(&mut deep_g1);
-    assert!(
-        deep_med < clean_med - 10.0,
-        "reader cross-check: deep-attack median {deep_med} should fall >=10 dB-Hz below \
-         clean median {clean_med}"
-    );
-    let n_below = deep_g1
-        .iter()
-        .filter(|&&v| v < TRACKING_THRESHOLD_DBHZ)
-        .count();
-    assert!(
-        n_below > 0,
-        "reader cross-check: deep-attack window must hold sub-{TRACKING_THRESHOLD_DBHZ} dB-Hz \
-         GPS-L1 samples, found {n_below}"
-    );
-
-    eprintln!(
-        "gnss_denied_jamming_resilience PART(c): JammerTest 2024 scn 1.6.4 -- clean {clean_lo:.0} dB-Hz \
-         -> ramp drop {ramp_drop:.0} dB -> attack-min median {attack_min_median:.0} dB-Hz (< {TRACKING_THRESHOLD_DBHZ}); \
-         SV {clean_sv_max} -> {attack_sv_min}; reader cross-check clean {clean_med:.0} -> deep {deep_med:.0} dB-Hz, \
-         {n_below} sub-threshold samples"
-    );
 }
 
 /// Seconds-of-day from a `"YYYY-MM-DD HH:MM:SS[.fff]"` rinex timestamp.

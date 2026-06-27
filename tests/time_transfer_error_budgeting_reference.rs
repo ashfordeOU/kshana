@@ -175,7 +175,10 @@ fn sagnac_iono_free_and_iono_delay_match_rtklib_2_4_3() {
 
     // Coverage gate: each quantity must meet the planned >=50-case minimum.
     assert!(n_sagnac >= 50, "only {n_sagnac} Sagnac cases (need >=50)");
-    assert!(n_ionofree >= 50, "only {n_ionofree} iono-free cases (need >=50)");
+    assert!(
+        n_ionofree >= 50,
+        "only {n_ionofree} iono-free cases (need >=50)"
+    );
     assert!(
         n_ionodelay >= 50,
         "only {n_ionodelay} iono-delay cases (need >=50)"

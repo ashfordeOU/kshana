@@ -37,7 +37,8 @@ use kshana::timescales::{TwoPartJd, SECONDS_PER_DAY};
 type Vec3 = [f64; 3];
 
 /// The committed ANISE/DE440 light-time fixture (real `cargo run` output of the `xval` crate).
-const FIXTURE: &str = include_str!("fixtures/deep_space_mars_radiometric/anise_lighttime_de440.txt");
+const FIXTURE: &str =
+    include_str!("fixtures/deep_space_mars_radiometric/anise_lighttime_de440.txt");
 
 /// The sub-microsecond gate: kshana's retarded τ must match the pinned ANISE converged-Newtonian τ
 /// to within this bound on every leg.
@@ -157,9 +158,13 @@ fn kshana_light_time_matches_anise_de440_to_sub_microsecond() {
         };
         let t_rx = TwoPartJd::from_f64(leg.jd_tdb);
 
-        let lt = light_time_solution(leg.obs_r, t_rx, &body, &center, &provider).unwrap_or_else(
-            || panic!("kshana light_time_solution returned None for {} @ JD {}", leg.target, leg.jd_tdb),
-        );
+        let lt =
+            light_time_solution(leg.obs_r, t_rx, &body, &center, &provider).unwrap_or_else(|| {
+                panic!(
+                    "kshana light_time_solution returned None for {} @ JD {}",
+                    leg.target, leg.jd_tdb
+                )
+            });
 
         let d_tau = (lt.tau_s - leg.anise_tau_s).abs();
         if d_tau > worst_d_tau {

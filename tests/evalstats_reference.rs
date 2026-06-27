@@ -148,7 +148,10 @@ fn delong_variance_and_ci_match_fast_delong_and_norm_ppf() {
         }
         n_var += 1;
     }
-    assert!(n_var >= 8, "expected >= 8 DeLong variance cases, got {n_var}");
+    assert!(
+        n_var >= 8,
+        "expected >= 8 DeLong variance cases, got {n_var}"
+    );
     assert!(
         n_half >= 6,
         "expected >= 6 clamp-free DeLong CI half-width cases, got {n_half}"
@@ -177,14 +180,15 @@ fn ridge_fit_matches_sklearn_ridge() {
         let p: usize = head[1].parse().unwrap();
         let lambda: f64 = head[2].parse().unwrap();
 
-        let x: Vec<Vec<f64>> = parts[2]
-            .trim()
-            .split(';')
-            .map(csv_f64)
-            .collect();
+        let x: Vec<Vec<f64>> = parts[2].trim().split(';').map(csv_f64).collect();
         assert_eq!(x.len(), nrows, "{name}: expected {nrows} rows");
         for (i, row) in x.iter().enumerate() {
-            assert_eq!(row.len(), p, "{name}: row {i} has {} feats, want {p}", row.len());
+            assert_eq!(
+                row.len(),
+                p,
+                "{name}: row {i} has {} feats, want {p}",
+                row.len()
+            );
         }
         let y = csv_f64(parts[3]);
         assert_eq!(y.len(), nrows, "{name}: y length mismatch");
@@ -198,7 +202,11 @@ fn ridge_fit_matches_sklearn_ridge() {
         let scale = want.iter().fold(0.0_f64, |m, &v| m.max(v.abs()));
         let abs_tol = 1e-9 * scale;
         for (k, (&g, &w)) in got.iter().zip(want.iter()).enumerate() {
-            let lbl = if k == 0 { "b0".to_string() } else { format!("w{k}") };
+            let lbl = if k == 0 {
+                "b0".to_string()
+            } else {
+                format!("w{k}")
+            };
             worst = worst.max((g - w).abs());
             assert!(
                 approx(g, w, 1e-6, abs_tol),

@@ -134,7 +134,11 @@ fn qparams_from_adev_curve_matches_scipy_nnls() {
         );
         let scipy_resid = resid_fields[0];
         let target_norm = resid_fields[1];
-        assert_eq!(taus.len(), adevs.len(), "{name}: taus/adevs length mismatch");
+        assert_eq!(
+            taus.len(),
+            adevs.len(),
+            "{name}: taus/adevs length mismatch"
+        );
         assert_eq!(
             want_fit.len(),
             taus.len(),
@@ -195,7 +199,10 @@ fn qparams_from_adev_curve_matches_scipy_nnls() {
         // residual-norm to the fit, i.e. |x_j| <= scipy_resid/||col_j||. Map that
         // to the q-scaling (q_wf=x0, q_rw=3*x1, q_drift=20*x2).
         let col_norm = |p: i32| -> f64 {
-            taus.iter().map(|&t| (t.powi(p)).powi(2)).sum::<f64>().sqrt()
+            taus.iter()
+                .map(|&t| (t.powi(p)).powi(2))
+                .sum::<f64>()
+                .sqrt()
         };
         let (n0, n1, n2) = (col_norm(-1), col_norm(1), col_norm(3));
         let dead = [

@@ -34,8 +34,9 @@
 
 use kshana::lunar_frame_realise::realise_frame;
 
-const REF: &str =
-    include_str!("fixtures/lunar_reference_frame_realisation/lunar_reference_frame_realisation_reference.txt");
+const REF: &str = include_str!(
+    "fixtures/lunar_reference_frame_realisation/lunar_reference_frame_realisation_reference.txt"
+);
 
 const PPB: f64 = 1.0e-9;
 
@@ -143,7 +144,12 @@ fn lunar_frame_realise_matches_umeyama_svd() {
 
         let noiseless = c.sigma_m == 0.0;
         let (trans_tol, rot_tol, scale_tol, rms_tol) = if noiseless {
-            (NL_TRANS_TOL_M, NL_ROT_TOL_RAD, NL_SCALE_TOL_PPB, NL_RMS_TOL_M)
+            (
+                NL_TRANS_TOL_M,
+                NL_ROT_TOL_RAD,
+                NL_SCALE_TOL_PPB,
+                NL_RMS_TOL_M,
+            )
         } else {
             (N_TRANS_TOL_M, N_ROT_TOL_RAD, N_SCALE_TOL_PPB, N_RMS_TOL_M)
         };
