@@ -1,0 +1,9 @@
+%% id="engine-flow"
+flowchart LR
+    SCN["Scenario .toml<br/>seed and GNSS timeline<br/>and sensor params"] --> ENG
+    subgraph ENG["Engine — per time step"]
+      direction TB
+      M["Error model<br/>step: evolve noise state"] --> E["Estimator<br/>GNSS-disciplined holdover"]
+      E --> F["FoM scoring<br/>vs the 6 figures of merit"]
+    end
+    ENG --> OUT["result.json and chart.svg<br/>reproducible from<br/>scenario and seed and version"]
