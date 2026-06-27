@@ -654,6 +654,7 @@ body.embed { background: var(--bg); }
 }
 .pill.validated { color: var(--ok); border: 1px solid var(--ok); }
 .pill.modelled { color: var(--fg-2); border: 1px solid var(--fg-2); }
+.pill.partner { color: var(--plan); border: 1px solid var(--plan); }
 .pill.aligned { color: var(--live); border: 1px solid var(--accent-line); }
 .pill.partial { color: var(--partial); border: 1px solid var(--partial); }
 .pill.roadmap { color: var(--plan); border: 1px solid var(--plan); }
@@ -972,3 +973,136 @@ details.xp-ev > summary:hover { background: var(--bg-1); }
 #explore.validated-only .card.feat[data-status="modelled"],
 #explore.validated-only .ev-row[data-status="modelled"],
 #explore.validated-only .ev-row[data-status="info"] { display: none; }
+
+/* ── Validation ledger ─────────────────────────────────────────────────────
+   The complete machine-checked matrix as a filterable table; every row deep-links
+   to its test, module source and committed provenance. */
+.ldg-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem 0.8rem;
+  margin: 0 0 1rem;
+}
+.ldg-search {
+  flex: 1 1 16rem;
+  min-width: 12rem;
+  font: inherit;
+  font-size: 0.9rem;
+  color: var(--fg);
+  background: var(--bg-1, #15120d);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 0.5rem 0.7rem;
+}
+.ldg-search:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.ldg-statuses { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.ldg-chip {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--fg-1);
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 0.28rem 0.7rem;
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+.ldg-chip:hover { color: var(--fg); border-color: var(--accent-line); }
+.ldg-chip.active {
+  color: var(--accent-bright);
+  border-color: var(--accent);
+  background: var(--accent-tint);
+}
+.ldg-tally { margin: 0; color: var(--fg-2); font-size: 0.8rem; font-family: var(--mono); }
+.ldg-tally { margin-left: auto; }
+
+.ldg-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-1, #15120d);
+}
+.ldg-wrap:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+table.ldg { border-collapse: collapse; width: 100%; min-width: 56rem; font-size: 0.86rem; }
+table.ldg th, table.ldg td {
+  text-align: left;
+  vertical-align: top;
+  padding: 0.6rem 0.75rem;
+  border-bottom: 1px solid var(--line);
+}
+table.ldg thead th {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: var(--bg-2, #1b1711);
+  color: var(--fg-1);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+table.ldg tbody tr:hover { background: var(--accent-tint); }
+table.ldg tbody tr:target { background: var(--accent-glow); }
+.ldg-cap { min-width: 16rem; max-width: 26rem; }
+.ldg-req { font-weight: 600; color: var(--fg); }
+.ldg-sub { color: var(--fg-2); font-size: 0.8rem; margin-top: 0.15rem; line-height: 1.4; }
+.ldg-oracle { min-width: 16rem; max-width: 30rem; }
+.ldg-kind {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  color: var(--accent);
+  border: 1px solid var(--accent-line);
+  border-radius: 4px;
+  padding: 0.05rem 0.35rem;
+  margin: 0 0 0.3rem;
+}
+.ldg-otext { display: block; color: var(--fg-1); font-size: 0.8rem; line-height: 1.45; }
+.ldg-ev { min-width: 13rem; }
+.ldg-link {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--fg-1);
+  text-decoration: none;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  padding: 0.12rem 0.4rem;
+  margin: 0 0.3rem 0.3rem 0;
+  white-space: nowrap;
+  max-width: 18rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+}
+.ldg-link::before { margin-right: 0.3rem; opacity: 0.85; }
+.ldg-link-test::before { content: "✓"; color: var(--ok); }
+.ldg-link-src::before { content: "{ }"; color: var(--accent); font-size: 0.7em; }
+.ldg-link-fixture::before { content: "▣"; color: var(--live); }
+.ldg-link-notice::before { content: "§"; color: var(--fg-2); }
+.ldg-link:hover { color: var(--fg); border-color: var(--accent); background: var(--accent-tint); }
+.ldg-empty { color: var(--fg-2); text-align: center; padding: 1.5rem; }
+.ldg-foot { margin: 1rem 0 0; color: var(--fg-2); font-size: 0.8rem; line-height: 1.6; }
+.ldg-foot a { color: var(--accent); }
+
+@media (max-width: 640px) {
+  .ldg-tally { margin-left: 0; width: 100%; }
+}
+
+/* Per-card evidence deep-links (inside the capability detail band). */
+.cap-ev { margin-top: 0.9rem; border-top: 1px solid var(--line); padding-top: 0.8rem; }
+.cap-ev-head {
+  margin: 0 0 0.55rem;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--fg-2);
+}
+.cap-ev-item { margin-bottom: 0.75rem; }
+.cap-ev-item:last-child { margin-bottom: 0; }
+.cap-ev-top { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.35rem; }
+.cap-ev-req { font-size: 0.83rem; font-weight: 500; color: var(--fg-1); }
+.cap-ev-req:hover { color: var(--accent-bright); }
+.cap-ev-links { display: flex; flex-wrap: wrap; }
