@@ -41,9 +41,8 @@ use kshana::lunar_time::{
     self_potential_rate_us_per_day, C2_M2_S2, RE_MOON_M, W0_EARTH_M2_S2,
 };
 
-const REF: &str = include_str!(
-    "fixtures/lunar_coordinate_time/lunar_coordinate_time_reference.txt"
-);
+const REF: &str =
+    include_str!("fixtures/lunar_coordinate_time/lunar_coordinate_time_reference.txt");
 
 const SEC_PER_DAY: f64 = 86_400.0;
 const US: f64 = 1e6;
@@ -57,9 +56,10 @@ fn term(name: &str) -> f64 {
         let parts: Vec<&str> = line.splitn(4, '|').collect();
         let key = parts[0].trim_start_matches("TERM").trim();
         if key == name {
-            return parts[1].trim().parse().unwrap_or_else(|_| {
-                panic!("could not parse TERM {name} value from '{line}'")
-            });
+            return parts[1]
+                .trim()
+                .parse()
+                .unwrap_or_else(|_| panic!("could not parse TERM {name} value from '{line}'"));
         }
     }
     panic!("TERM {name} not found in fixture");
@@ -173,7 +173,11 @@ fn lunar_rate_terms_match_ashby_patla_2024_published_breakdown() {
 fn moon_geocentric_speed_matches_de440() {
     // ORACLE B: kshana's central-differenced analytic Moon speed vs JPL DE440.
     let rows = speed_rows();
-    assert!(rows.len() >= 6, "expected >=6 DE440 speed epochs, got {}", rows.len());
+    assert!(
+        rows.len() >= 6,
+        "expected >=6 DE440 speed epochs, got {}",
+        rows.len()
+    );
 
     // Tolerance: analytic Montenbruck-Gill series truncation. The geocentric
     // speed lands within ~1.5% of DE440 across the sampled month.

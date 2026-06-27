@@ -44,16 +44,17 @@ use kshana::reentry::{
     altitude_at_peak_deceleration, peak_deceleration, velocity_at_peak_deceleration,
 };
 
-const REF: &str = include_str!(
-    "fixtures/ballistic_re_entry_corridor/ballistic_re_entry_corridor_reference.txt"
-);
+const REF: &str =
+    include_str!("fixtures/ballistic_re_entry_corridor/ballistic_re_entry_corridor_reference.txt");
 
 const A_REL_TOL: f64 = 5e-4; // 0.05% on peak deceleration
 const V_REL_TOL: f64 = 1e-3; // 0.1%  on velocity at peak-g
 const H_ABS_TOL: f64 = 50.0; // m, absolute on altitude at peak-g
 
 fn f(s: &str) -> f64 {
-    s.trim().parse().unwrap_or_else(|_| panic!("not a float: '{s}'"))
+    s.trim()
+        .parse()
+        .unwrap_or_else(|_| panic!("not a float: '{s}'"))
 }
 
 #[test]

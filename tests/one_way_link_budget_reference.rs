@@ -56,7 +56,9 @@ const FSL_TOL_DB: f64 = 0.05;
 const CARRIER_TOL_DB: f64 = 0.2;
 
 fn f(s: &str) -> f64 {
-    s.trim().parse().unwrap_or_else(|_| panic!("not a float: '{s}'"))
+    s.trim()
+        .parse()
+        .unwrap_or_else(|_| panic!("not a float: '{s}'"))
 }
 
 #[test]

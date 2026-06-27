@@ -37,13 +37,11 @@
 //! `tests/fixtures/gnss_denied_clock_holdover/`.
 
 use kshana::holdover::{
-    coast_phase_variance, deterministic_tie, holdover_seconds, phase_to_range_m,
-    C_LIGHT_M_PER_S,
+    coast_phase_variance, deterministic_tie, holdover_seconds, phase_to_range_m, C_LIGHT_M_PER_S,
 };
 
-const REF: &str = include_str!(
-    "fixtures/gnss_denied_clock_holdover/gnss_denied_clock_holdover_reference.txt"
-);
+const REF: &str =
+    include_str!("fixtures/gnss_denied_clock_holdover/gnss_denied_clock_holdover_reference.txt");
 
 /// `got` within tolerance of `want`: relative bound plus a tiny absolute floor so a
 /// quantity an oracle reports as a numerical zero matches kshana's exact 0.0.
@@ -87,9 +85,7 @@ fn coast_variance_matches_scipy_van_loan_expm() {
         n += 1;
     }
     assert!(n >= 12, "expected >= 12 COAST cases, got {n}");
-    eprintln!(
-        "coast_variance vs scipy expm Van-Loan Q00: {n} cases, worst rel = {worst:.3e}"
-    );
+    eprintln!("coast_variance vs scipy expm Van-Loan Q00: {n} cases, worst rel = {worst:.3e}");
 }
 
 /// HOLDOVER: `holdover_seconds` vs a brentq root-find of `Q00(t) − threshold² = 0`.
@@ -131,9 +127,7 @@ fn holdover_seconds_matches_scipy_brentq_inversion() {
         n += 1;
     }
     assert!(n >= 6, "expected >= 6 HOLDOVER cases, got {n}");
-    eprintln!(
-        "holdover_seconds vs scipy brentq inversion: {n} cases, worst rel = {worst:.3e}"
-    );
+    eprintln!("holdover_seconds vs scipy brentq inversion: {n} cases, worst rel = {worst:.3e}");
 }
 
 /// TIE / RANGE: the deterministic time-interval error and the timing→range map are
