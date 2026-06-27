@@ -1,0 +1,95 @@
+SP3 precise-ephemeris interpolation -> ECEF interop fixtures: provenance & licenses
+===================================================================================
+
+This directory holds an external-oracle cross-validation of kshana's SP3
+precise-ephemeris position interpolation (kshana::sp3::Sp3Interpolator) against
+RTKLIB, the de-facto open IGS reference. The pinned reference vectors
+(sp3_ecef_reference.txt) are REAL RTKLIB output, produced by compiling RTKLIB
+from C source and running it offline, so CI needs no runtime RTKLIB. See
+generate_sp3_interp_reference.sh to reproduce.
+
+WHAT IS VALIDATED
+-----------------
+RTKLIB's peph2pos()/pephpos() (src/preceph.c) is the de-facto IGS
+precise-ephemeris interpolator. For each query time it selects the 11 tabulated
+SP3 epochs (NMAX=10) bracketing it, rotates each node's ECEF position about +Z by
+OMGE*(t_node - t_eval) -- the "correction for earh rotation ver.2.4.0" comment in
+preceph.c -- so every node is expressed in the Earth-fixed frame at the SAME
+evaluation instant, THEN fits an 11-point Neville polynomial. Without this node
+correction a plain Lagrange fit on the raw ECEF samples disagrees with RTKLIB by
+several centimetres at GNSS orbital velocity. kshana's Sp3Interpolator implements
+the same Earth-rotation node correction and is checked to agree with RTKLIB
+peph2pos to <= 1e-3 m per axis over 72 off-node SV-epochs.
+
+Files
+-----
+- rtklib_sp3_driver.c
+    Our (AGPL-3.0-only) C driver. Calls RTKLIB readsp3() + peph2pos().
+- generate_sp3_interp_reference.sh
+    Our (AGPL-3.0-only) regeneration script.
+- igs16296.sp3
+    Vendored SP3-c precise-ephemeris file (input; see below).
+    SHA-256: ba56a435be22a192337d0f7fa41d37b988d1d5e20eef4a48070139de4ef16832
+- sp3_ecef_reference.txt
+    Pinned RTKLIB peph2pos ECEF positions (the committed reference vectors).
+
+
+ORACLE: RTKLIB
+--------------
+- Tool    : RTKLIB, by Tomoji Takasu.
+- Source  : https://github.com/tomojitakasu/RTKLIB
+- Version : library version "2.4.2", patch level "p13" (git tag v2.4.2-p13).
+- Commit  : 71db0ffa0d9735697c6adfd06fdf766d0e5ce807 (2018-01-30).
+- Files used (compiled from source, pure-C path with -ULAPACK; not vendored):
+    src/preceph.c   readsp3() SP3-c reader; peph2pos()/pephpos()/interppol()
+                    precise-ephemeris interpolator (Earth-rotation node
+                    correction + 11-point Neville fit)
+    src/rtkcmn.c    time/satellite primitives (gpst2time, timeadd, timediff,
+                    satid2no, satno, ...)
+    plus ephemeris.c, rinex.c, qzslex.c, sbas.c, rtcm*.c, ionex.c, tle.c
+    (link closure only).
+- RTKLIB is distributed under the BSD 2-Clause license with two additional
+  clauses, reproduced verbatim below. RTKLIB source is NOT redistributed in this
+  repository; it is fetched and compiled separately by the generator script.
+
+  Copyright (c) 2007-2013, T. Takasu, All rights reserved.
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+
+  - Redistributions of source code must retain the above copyright notice, this
+    list of conditions and the following disclaimer.
+
+  - Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+
+  - The software package includes some companion executive binaries or shared
+    libraries necessary to execute APs on Windows. These licenses succeed to the
+    original ones of these software.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+  OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+INPUT DATA: igs16296.sp3
+------------------------
+- Product : igs16296.sp3 -- IGS final combined precise GPS orbit product,
+  GPS week 1629, day 6 (2011-04-02). Final orbit combination from the weighted
+  average of cod/emr/esa/gfz/grg/jpl/mit/ngs/sio analysis centres, referenced to
+  IGS time. 96 epochs on a 15-minute (900 s) grid, 32 GPS satellites, ECEF
+  positions in km (SP3-c).
+- Source (open) : RTKLIB's own committed test datum, util/data/igs16296.sp3 in
+  github.com/tomojitakasu/RTKLIB at commit 71db0ffa (originally an IGS public
+  CDDIS/IGS-archive product).
+- Vendored bit-for-bit (the full file; the interior-epoch interpolation windows
+  need the surrounding nodes, so no epochs are removed).
+- SHA-256: ba56a435be22a192337d0f7fa41d37b988d1d5e20eef4a48070139de4ef16832
