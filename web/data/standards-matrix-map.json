@@ -1,0 +1,14 @@
+{
+  "TLE / SGP4": "Orbit propagation & determination",
+  "RINEX 3 / 4": "Broadcast-ephemeris satellite position (multi-GNSS RINEX)",
+  "SP3-c / d": "SP3 precise-ephemeris interpolation",
+  "CCSDS OEM / OMM": "CCSDS OEM interoperability (GMAT/Orekit/STK ephemeris import)",
+  "IS-GPS-200": "Broadcast ionosphere model (Klobuchar, IS-GPS-200)",
+  "IEEE 1139": "Allan estimator parity on the canonical Stable32 reference series",
+  "RAIM / ARAIM": "RAIM/ARAIM integrity statistical kernel (χ² / non-central χ² / normal laws)",
+  "SBAS / DO-229E": "SBAS protection level (DO-229E weighted-LS HPL/VPL)",
+  "IONEX / Klobuchar": "Broadcast ionosphere model (Klobuchar, IS-GPS-200)",
+  "IGRF-14": "Geomagnetic reference field (IGRF-14 synthesis)",
+  "CCSDS 133.0": "CCSDS Space Packet (133.0) TM/TC framing",
+  "CCSDS 401 / DSN": "One-way link budget (comms / link design)"
+}
