@@ -1,0 +1,110 @@
+{
+  "Orbit propagation & constellation design": [
+    "Orbit propagation & determination"
+  ],
+  "Cowell propagator & six-perturbation force model": [
+    "Numerical Cowell propagator & force model"
+  ],
+  "Burns, Lambert & porkchop": [
+    "Lambert two-body transfer solver"
+  ],
+  "Time scales & Earth-orientation frames": [
+    "Reference frames & timescales"
+  ],
+  "Strapdown INS & map-aided navigation": [
+    "Strapdown INS mechanization"
+  ],
+  "Gravity, terrain & magnetic map-matching": [
+    "Alternative / complementary PNT",
+    "Gravity-field functional synthesis (gravity-aided / GNSS-free nav map)",
+    "Geomagnetic reference field (IGRF-14 synthesis)"
+  ],
+  "GNSS / INS sensor fusion": [
+    "GNSS/INS sensor fusion"
+  ],
+  "Batch & sequential OD": [
+    "Batch & sequential orbit determination"
+  ],
+  "CR3BP propagation & LunaNet integrity": [
+    "Cislunar mission analysis",
+    "Lunar navigation service volume"
+  ],
+  "Radiometric navigation & relay-PNT": [
+    "Deep-space radiometric light-time solver"
+  ],
+  "Receiver autonomous integrity (ARAIM)": [
+    "Integrity (RAIM/ARAIM/SBAS)",
+    "RAIM/ARAIM integrity statistical kernel (χ² / non-central χ² / normal laws)"
+  ],
+  "SBAS / WAAS protection levels & dual-frequency": [
+    "SBAS protection level (DO-229E weighted-LS HPL/VPL)"
+  ],
+  "Holdover, stability & time-and-frequency transfer": [
+    "Frequency stability characterisation",
+    "Frequency stability on a real measured clock",
+    "Allan estimator parity on the canonical Stable32 reference series",
+    "Clock-holdover coast-variance & threshold inversion",
+    "Time-transfer error budgeting"
+  ],
+  "Pseudorange, ionosphere & troposphere": [
+    "Broadcast ionosphere model (Klobuchar, IS-GPS-200)"
+  ],
+  "Single-point positioning (PVT)": [
+    "GNSS geometry / dilution of precision (DOP)",
+    "Broadcast-ephemeris satellite position (multi-GNSS RINEX)"
+  ],
+  "Jamming & multi-layer spoof detection": [
+    "GNSS-denied jamming resilience",
+    "Spoofing detection"
+  ],
+  "Modulation, anti-jam & code tracking": [
+    "Nav-signal modulation & code-tracking analysis",
+    "Ranging-code design trade"
+  ],
+  "RINEX, SP3 & CCSDS formats": [
+    "Broadcast-ephemeris satellite position (multi-GNSS RINEX)",
+    "SP3 precise-ephemeris interpolation",
+    "CCSDS OEM interoperability (GMAT/Orekit/STK ephemeris import)",
+    "CCSDS Space Packet (133.0) TM/TC framing"
+  ],
+  "Machine-checked verification matrix": [
+    "Reproducibility & software assurance"
+  ],
+  "Launch, re-entry, coverage & pointing budgets": [
+    "Launch-window & ascent geometry (mission analysis)",
+    "Ballistic re-entry corridor (Allen–Eggers)",
+    "EO payload footprint & coverage geometry",
+    "3-DOF attitude & pointing error budget (AOCS)"
+  ],
+  "Space-weather & thermospheric density": [
+    "Space-weather environment & activity-driven thermospheric density"
+  ],
+  "RF-impairment detection eval & PNT trade": [
+    "ML detector-evaluation metrics (ROC/AUC/confusion/Pfa-Pmd)",
+    "Anomaly-detection scoring on real spacecraft telemetry",
+    "Detection statistics — Gaussian AUC & minimum detectable fault"
+  ],
+  "Quantum-vs-classical resilience crossover map": [
+    "Quantum-vs-classical PNT trade & GNSS-denied resilience (13503)",
+    "Quantum-trade numerical kernels (NNLS / χ² bands / van-Loan Q)"
+  ],
+  "Conditional Timing Protection Level": [
+    "Timing Protection Level under spoofing"
+  ],
+  "PNT-resilience scoring & decision-instability": [
+    "PNT-resilience framework-aligned scoring",
+    "Resilience-score decision-instability study",
+    "Rank-order statistics kernel (Kendall-τ / Dirichlet / percentile)",
+    "Inverse-Simpson diversity kernel"
+  ],
+  "Detection-miss → integrity regions": [
+    "Detection-miss integrity impact (context-aware HPL/VPL vs alert limit)"
+  ],
+  "Cost-per-coverage ROI": [
+    "Frugal cost-per-coverage / ROI framing"
+  ],
+  "Kshana Interchange Format (KIF)": [
+    "CCSDS OEM interoperability (GMAT/Orekit/STK ephemeris import)",
+    "Lunar interoperability export"
+  ]
+}
