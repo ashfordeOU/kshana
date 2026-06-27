@@ -45,59 +45,8 @@
 
     <main id="top">
       <!-- ── Hero ─────────────────────────────────────────────────────── -->
-      <section class="hero">
-        <div class="wrap hero-grid">
-          <div class="hero-copy">
-            <p class="eyebrow"><span class="deva">क्षण</span> · the precise instant</p>
-            <h1>Open <span class="hl">PNT</span> resilience simulation, validated and reproducible.</h1>
-            <p class="hero-org">Built and maintained by <a target="_blank" rel="noopener noreferrer" href="https://ashforde.org">Ashforde&nbsp;OÜ</a></p>
-            <p class="lede">
-              A dependency-light engine spanning the whole PNT stack — from orbit geometry
-              to deep-space navigation — scored against the operational figures of merit,
-              with RINEX/SP3/CCSDS interoperability.
-            </p>
-            <p class="caps-label">Across the stack</p>
-            <ul class="caps" aria-label="Capabilities">
-              <li class="cap">SGP4-validated orbits</li>
-              <li class="cap">Constellation design</li>
-              <li class="cap">Precise orbit determination</li>
-              <li class="cap">Time scales &amp; frames</li>
-              <li class="cap">Clocks · Allan &amp; holdover</li>
-              <li class="cap">Strapdown INS · cold-atom</li>
-              <li class="cap">GNSS/INS fusion · 17-state UKF</li>
-              <li class="cap">Gravity-aided GNSS-free nav</li>
-              <li class="cap">ARAIM integrity · HPL/VPL</li>
-              <li class="cap">Single-point positioning · real IGS</li>
-              <li class="cap">Jamming &amp; spoof resilience</li>
-              <li class="cap">Resilience scoring</li>
-              <li class="cap">Lunar &amp; cislunar PNT</li>
-              <li class="cap">Deep-space / Mars nav</li>
-              <li class="cap">Anomaly detection · real telemetry</li>
-              <li class="cap">Quantum-enabled PNT</li>
-            </ul>
-            <p class="honest">
-              The open reference simulator for PNT performance — transparent, fully
-              reproducible, and validated against the standards engineers already trust.
-            </p>
-            <div class="cta-row">
-              <a class="btn primary" href="#playground">Run it in your browser</a>
-              <a class="btn" href="#capabilities">View capability matrix</a>
-              <a target="_blank" rel="noopener noreferrer" class="btn ghost" href="https://github.com/AshfordeOU/kshana">Source &amp; docs</a>
-            </div>
-            <div class="badges" aria-label="Trust signals">
-              <span class="badge"><span class="dot"></span> SGP4 <b>666/666</b> AIAA vectors · <b>4.12 mm</b></span>
-              <span class="badge"><span class="dot"></span> <b>~96%</b> line coverage</span>
-              <span class="badge"><span class="dot"></span> Reproducible · <b>SBOM</b> + provenance</span>
-              <span class="badge"><span class="dot"></span> Runs <b>client-side</b> (WASM) · nothing uploaded</span>
-              <span class="badge"><span class="dot"></span> <b>AGPL-3.0</b> open source</span>
-              <a class="badge" target="_blank" rel="noopener noreferrer" href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator"><span class="dot"></span> On the <b>JetBrains Marketplace</b></a>
-              <a class="badge" target="_blank" rel="noopener noreferrer" href="https://doi.org/10.5281/zenodo.20528627"><span class="dot"></span> Citable · <b>Zenodo DOI</b></a>
-            </div>
-          </div>
-
-          <!-- Living instrument — Earth, an orbiting constellation, and a
-               positioning fix computed from satellite ranging. Drawn as the
-               page settles; honours prefers-reduced-motion. -->
+      <section class="hero hero-v2">
+        <div class="hero-bg" aria-hidden="true">
           <div class="instrument" aria-hidden="true">
             <svg viewBox="0 0 360 360" class="inst-svg" role="presentation">
               <defs>
@@ -218,6 +167,55 @@
                 <line x1="171" y1="206" x2="189" y2="206" stroke="#f6e8c5" stroke-width="0.7" stroke-opacity="0.7" />
               </g>
             </svg>
+          </div>
+        </div>
+        <div class="wrap hero-inner hero-copy">
+          <p class="eyebrow">
+            <span class="deva">क्षण</span> · the precise instant
+            <span class="org">· built &amp; maintained by <a target="_blank" rel="noopener noreferrer" href="https://ashforde.org">Ashforde&nbsp;OÜ</a></span>
+          </p>
+          <h1>Open <span class="hl">PNT</span> resilience<span class="sub">validated to the millimetre,</span><span class="sub">reproducible to the bit.</span></h1>
+          <p class="lede">
+            A dependency-light engine across the whole PNT stack — orbit geometry to
+            deep-space navigation — scored against the operational figures of merit, with
+            RINEX/SP3/CCSDS interoperability.
+          </p>
+          <div class="cta-row">
+            <a class="btn primary" href="#playground">Run it in your browser</a>
+            <a class="btn" href="#capabilities">View capability matrix</a>
+            <a target="_blank" rel="noopener noreferrer" class="btn ghost" href="https://github.com/AshfordeOU/kshana">Source &amp; docs</a>
+          </div>
+          <div class="hero-stats" aria-label="Validation at a glance">
+            <div class="hero-stat"><b>666/666</b><span>AIAA SGP4 vectors</span></div>
+            <div class="hero-stat"><b>4.12&nbsp;mm</b><span>worst-case error</span></div>
+            <div class="hero-stat"><b>~96%</b><span>line coverage</span></div>
+            <div class="hero-stat"><b>100%</b><span>client-side · WASM</span></div>
+          </div>
+          <p class="hero-credline">
+            <span class="dot"></span> AGPL-3.0 open · SBOM + provenance · reproducible · nothing uploaded
+            · <a target="_blank" rel="noopener noreferrer" href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator">JetBrains Marketplace</a>
+            · <a target="_blank" rel="noopener noreferrer" href="https://doi.org/10.5281/zenodo.20528627">Zenodo DOI</a>
+          </p>
+          <div class="hero-strip">
+            <p class="caps-label">Across the stack</p>
+            <ul class="caps" aria-label="Capabilities">
+              <li class="cap">SGP4-validated orbits</li>
+              <li class="cap">Constellation design</li>
+              <li class="cap">Precise orbit determination</li>
+              <li class="cap">Time scales &amp; frames</li>
+              <li class="cap">Clocks · Allan &amp; holdover</li>
+              <li class="cap">Strapdown INS · cold-atom</li>
+              <li class="cap">GNSS/INS fusion · 17-state UKF</li>
+              <li class="cap">Gravity-aided GNSS-free nav</li>
+              <li class="cap">ARAIM integrity · HPL/VPL</li>
+              <li class="cap">Single-point positioning · real IGS</li>
+              <li class="cap">Jamming &amp; spoof resilience</li>
+              <li class="cap">Resilience scoring</li>
+              <li class="cap">Lunar &amp; cislunar PNT</li>
+              <li class="cap">Deep-space / Mars nav</li>
+              <li class="cap">Anomaly detection · real telemetry</li>
+              <li class="cap">Quantum-enabled PNT</li>
+            </ul>
           </div>
         </div>
       </section>
