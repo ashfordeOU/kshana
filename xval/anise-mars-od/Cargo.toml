@@ -21,6 +21,13 @@ publish = false
 name = "mars-od-xval"
 path = "src/main.rs"
 
+# D0.7 — the deep-space light-time cross-check (kshana retarded light_time_solution vs ANISE
+# converged-Newtonian aberration light time over the same DE440 geometry). Writes the JSON/MD report
+# here and the committed fixture into the main crate's tests/fixtures/ tree.
+[[bin]]
+name = "lighttime-xval"
+path = "src/bin/lighttime_main.rs"
+
 [dependencies]
 # The kshana library supplies the Sun-central force model + propagator (propagator::propagate with
 # ForceModel::two_body().with_body(Body::sun())) and the body constants (body::Body::sun μ) — all

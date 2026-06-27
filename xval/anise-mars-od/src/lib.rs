@@ -19,9 +19,13 @@
 //! - [`anise_env`] — the DE-grade DE440 Mars/Sun/Earth ephemeris provider.
 //! - [`xval`]      — seed the Sun-central propagator from DE440 and measure the per-arc residual.
 //! - [`report`]    — the honest residual report (`report.json` / `report.md`).
+//! - [`lighttime`] — the deep-space **light-time** cross-check (D0.7): kshana's retarded
+//!   `light_time_solution` τ vs ANISE's converged-Newtonian aberration light time over the same
+//!   DE440 geometry, plus the committed-fixture renderer the main-repo gating test consumes.
 
 pub mod anise_env;
 pub mod kernel;
+pub mod lighttime;
 pub mod report;
 pub mod xval;
 

@@ -1,0 +1,42 @@
+# Reference vectors for the TPL spoof-monitor CUSUM kernel (src/tpl.rs).
+# Consumed by tests/timing_protection_level_under_spoofing_reference.rs.
+# Generator: generate_timing_protection_level_under_spoofing_reference.py.
+#
+# Oracle 1 (LATENCY): deterministic CUSUM first-passage N=floor(h/(z-kref))+1,
+#   computed by an independent Python simulation of S_n=max(0,S_{n-1}+z-kref)>h.
+#   EXACT integer identity. Rust asserts exact match of samples and latency_s.
+# Oracle 2 (ARL1): out-of-control Average Run Length, k=0.5, two anchors:
+#   siegmund = Siegmund(1985) Brownian ARL (Hawkins&Olwell 1998 eq 3.7),
+#   montgomery = published tabular-CUSUM ARL (Montgomery, Intro to SQC, Wiley,
+#     ARL tables k=1/2 h=4 & h=5). Two-sided table; compared only for delta>0
+#     where the lower accumulator is inert, so it equals the one-sided ARL1.
+#   Rust runs kshana's tpl::Cusum in a seeded >=20000-trial Monte Carlo and
+#   matches siegmund within 5% and montgomery within 8%.
+#
+# LATENCY kref h z dt | samples latency_s
+LATENCY 0.5 4.0 1.0 1.0 | 9 9.0
+LATENCY 0.5 4.0 1.25 1.0 | 6 6.0
+LATENCY 0.5 4.0 1.5 1.0 | 5 5.0
+LATENCY 0.5 4.0 2.0 1.0 | 3 3.0
+LATENCY 0.5 4.0 3.0 1.0 | 2 2.0
+LATENCY 0.5 4.0 4.5 1.0 | 2 2.0
+LATENCY 0.5 5.0 1.0 1.0 | 11 11.0
+LATENCY 0.5 5.0 1.1 1.0 | 9 9.0
+LATENCY 0.5 5.0 1.5 1.0 | 6 6.0
+LATENCY 0.5 5.0 2.0 1.0 | 4 4.0
+LATENCY 0.5 5.0 2.5 1.0 | 3 3.0
+LATENCY 0.5 5.0 5.5 0.1 | 2 0.2
+LATENCY 0.5 5.0 10.5 0.05 | 1 0.05
+LATENCY 0.25 4.0 1.25 0.5 | 5 2.5
+LATENCY 0.75 6.0 2.75 1.0 | 4 4.0
+LATENCY 1.0 8.0 3.0 2.0 | 5 10.0
+#
+# ARL1 kref h delta | siegmund montgomery
+ARL1 0.5 4.0 0.5 | 26.687556000000004 26.6
+ARL1 0.5 4.0 1.0 | 8.343414705263488 8.38
+ARL1 0.5 4.0 1.5 | 4.666016286937032 4.75
+ARL1 0.5 4.0 2.0 | 3.221777819091242 3.34
+ARL1 0.5 5.0 0.5 | 38.019556 38.0
+ARL1 0.5 5.0 1.0 | 10.336199235393469 10.4
+ARL1 0.5 5.0 1.5 | 5.666002204197237 5.75
+ARL1 0.5 5.0 2.0 | 3.8884444465013206 4.01
