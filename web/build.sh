@@ -16,6 +16,11 @@ fi
 echo "Building WebAssembly module…"
 wasm-pack build --target web --out-dir web/pkg --release -- --features wasm
 
+# wasm-pack copies the crate's `readme` (README.crates.md) into the npm package.
+# Override it with the npm-specific surface README (JS/WASM usage, absolute image URLs).
+echo "Staging npm package README…"
+cp README.npm.md web/pkg/README.md
+
 echo "Staging scenarios and assets…"
 mkdir -p web/scenarios web/assets web/assets/fonts
 cp scenarios/*.toml web/scenarios/

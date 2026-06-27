@@ -10,7 +10,7 @@ requires-python = ">=3.9"
 # Ashforde OÜ (contact@ashforde.org). See LICENSE and LICENSING.md.
 license = "AGPL-3.0-only"
 authors = [{ name = "Chakshu Baweja", email = "contact@ashforde.org" }]
-readme = "README.md"
+readme = "README.pypi.md"
 keywords = ["pnt", "navigation", "quantum", "gnss", "simulation"]
 classifiers = [
   "Programming Language :: Rust",
