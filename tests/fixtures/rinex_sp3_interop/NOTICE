@@ -1,0 +1,84 @@
+RINEX broadcast-ephemeris -> ECEF interop fixtures: provenance & licenses
+=========================================================================
+
+This directory holds an external-oracle cross-validation of kshana's RINEX
+broadcast-ephemeris satellite-position evaluation against RTKLIB, an independent
+IS-GPS-200 / Galileo OS SIS ICD / BeiDou OS SIS ICD implementation. The pinned
+reference vectors (rinex_ecef_reference.txt) are REAL RTKLIB output, produced by
+compiling RTKLIB from C source and running it offline, so CI needs no runtime
+RTKLIB. See generate_rinex_sp3_interop_reference.sh to reproduce.
+
+Files
+-----
+- rtklib_driver.c
+    Our (AGPL-3.0-only) C driver. Calls RTKLIB readrnx() + eph2pos().
+- generate_rinex_sp3_interop_reference.sh
+    Our (AGPL-3.0-only) regeneration script.
+- brdc_multignss_slice.rnx
+    Vendored multi-GNSS RINEX 3.05 navigation slice (input; see below).
+    SHA-256: 17339ab508d301dbbbad4dc48fd6ec8678d7a71d1024da7b4f54dea94b28ec27
+- rinex_ecef_reference.txt
+    Pinned RTKLIB eph2pos ECEF positions (the committed reference vectors).
+
+
+ORACLE: RTKLIB
+--------------
+- Tool    : RTKLIB, by Tomoji Takasu.
+- Source  : https://github.com/tomojitakasu/RTKLIB
+- Version : library version "2.4.2", patch level "p13" (git tag v2.4.2-p13).
+- Commit  : 71db0ffa0d9735697c6adfd06fdf766d0e5ce807 (2018-01-30).
+- Files used (compiled from source, pure-C path with -ULAPACK; not vendored):
+    src/rinex.c     readrnx()/decode_eph() RINEX 3 navigation decoder
+    src/ephemeris.c eph2pos() broadcast Keplerian -> ECEF user algorithm
+    src/rtkcmn.c    time/satellite primitives (gpst2time, timeadd, satsys, ...)
+    plus preceph.c, qzslex.c, sbas.c, rtcm*.c, ionex.c, tle.c (link closure only).
+- RTKLIB is distributed under the BSD 2-Clause license with two additional
+  clauses, reproduced verbatim below. RTKLIB source is NOT redistributed in this
+  repository; it is fetched and compiled separately by the generator script.
+
+  Copyright (c) 2007-2013, T. Takasu, All rights reserved.
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+
+  - Redistributions of source code must retain the above copyright notice, this
+    list of conditions and the following disclaimer.
+
+  - Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+
+  - The software package includes some companion executive binaries or shared
+    libraries necessary to execute APs on Windows. These licenses succeed to the
+    original ones of these software.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+  OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+INPUT DATA: brdc_multignss_slice.rnx
+------------------------------------
+- Product : BRDC00WRD_S_20242540000_01D_MN.rnx -- BKG/IGS "BRDC" merged real-time
+  multi-GNSS broadcast ephemeris (BNC 2.13.1, EBRE/IGS-IP streams), RINEX 3.05
+  MIXED navigation, day-of-year 254 of 2024 (2024-09-10), GPS week 2331.
+- Source (open) : BKG Ntrip/IGS real-time broadcast-ephemeris product archive,
+  www.igs-ip.net (the BNC "Ephemeris from Data Streams" product).
+- Slice : the verbatim original RINEX header plus one healthy broadcast record
+  each for GPS G08/G16/G21/G27, Galileo E10/E19/E24/E25, and BeiDou-MEO
+  C08/C19/C21/C29. All other satellites, systems (GLONASS, SBAS), and epochs
+  were removed; BeiDou geostationary PRNs and the file's QZSS records (all
+  flagged unhealthy, svh!=0) are excluded. The records are bit-for-bit identical
+  to the source product.
+- Parent file SHA-256:
+    fec7595d4f2136ec7b7d84b57136015266d1709c2004535ae1bf0e239377c98f
+    (BRDC00WRD_S_20242540000_01D_MN.rnx, the full-day cached product)
+- Slice SHA-256:
+    17339ab508d301dbbbad4dc48fd6ec8678d7a71d1024da7b4f54dea94b28ec27

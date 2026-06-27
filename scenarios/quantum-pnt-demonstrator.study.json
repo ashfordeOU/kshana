@@ -1,0 +1,23 @@
+{
+  "engine_version": "0.20.0",
+  "generated_utc": "2026-06-25T15:20:07Z",
+  "scenarios": [
+    {
+      "foms": {},
+      "label": "trusted-quantum-timing",
+      "scenario_hash": ""
+    },
+    {
+      "foms": {},
+      "label": "gnss-free-quantum-nav",
+      "scenario_hash": ""
+    },
+    {
+      "foms": {},
+      "label": "quantum-anomaly-detection",
+      "scenario_hash": ""
+    }
+  ],
+  "schema_version": "0.7",
+  "title": "Quantum-Enabled PNT Demonstrator (trusted timing + GNSS-free nav + anomaly detection)"
+}

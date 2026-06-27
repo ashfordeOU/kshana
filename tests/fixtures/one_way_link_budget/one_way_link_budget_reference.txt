@@ -1,0 +1,14 @@
+# One-way deep-space link-budget reference (published-vectors oracle).
+# Consumed by tests/one_way_link_budget_reference.rs.
+# See generate_one_way_link_budget_reference.py for full provenance.
+# ITU-R P.525 free-space-loss constant K (d_km,f_MHz) = 32.44778322188338 dB (published 32.45 dB).
+#
+# FSL  name | range_m | freq_hz | L_fs_db        (oracle: ITU-R P.525 / DESCANSO table)
+# DCT  name | range_m | freq_hz | eirp_dbw | g_over_t_db | other_losses_db | data_rate_bps | req_eb_n0_db | exp_fsl_db | exp_cn0_dbhz | exp_eb_n0_db   (oracle: DESCANSO Galileo Table 1-1)
+FSL galileo_x_6p37au | 952900000000.0 | 8420430000.0 | 290.5354151581965
+FSL dsn_x_1au | 149597870700.0 | 8420000000.0 | 274.45253329278995
+FSL dsn_x_2p5au | 373994676750.0 | 8420000000.0 | 282.4113334662307
+FSL dsn_ka_1p5au | 224396806050.0 | 32000000000.0 | 289.57111621030873
+FSL dsn_s_lunar | 400000000.0 | 2295000000.0 | 211.70463684590823
+FSL dsn_x_leo_2000km | 2000000.0 | 8420000000.0 | 176.974624965156
+DCT galileo_x_table_1_1 | 952900000000.0 | 8420430000.0 | 60.3 | 57.50044251510242 | 1.24 | 134400.0 | 2.31 | 290.54 | 54.6 | 3.316007312821938

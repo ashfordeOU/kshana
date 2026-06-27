@@ -1,0 +1,24 @@
+# Lunar Coordinate Time (LTC/TCL) external reference.
+# ORACLE A: Ashby & Patla 2024, AJ 167:149, doi:10.3847/1538-3881/ad643a
+#           (arXiv:2402.11150). Published rate-term breakdown, transcribed.
+# ORACLE B: JPL DE440 (de440s.bsp) via NAIF SPICE/spiceypy. Moon geocentric speed.
+# Consumed by tests/lunar_coordinate_time_reference.rs. See the generator docstring.
+#
+# --- ORACLE A: Ashby & Patla 2024 published terms (us/day unless noted) ---
+TERM L_G_dimensionless | 6.969290134e-10 | (1) | Table I -Phi0/c^2 (IAU TT defining)
+TERM L_m_dimensionless | 3.13881e-11 | (1) | Table I -Phi0m/c^2 (Moon self-potential)
+TERM L_G_us_per_day | 60.21466675776 | us/day | Earth-geoid TT term
+TERM L_m_us_per_day | 2.71193184 | us/day | Moon self-potential term
+TERM self_potential_net_us_per_day | 57.502734917759994 | us/day | (L_G - L_m): geoid minus Moon self-potential redshift
+TERM secular_total_headline_us_per_day | 56.0199 | us/day | Eq.(35) f-averaged
+TERM band_low_us_per_day | 56.0 | us/day | published band lower
+TERM band_high_us_per_day | 59.0 | us/day | published band upper
+#
+# --- ORACLE B: DE440 geocentric Moon speed at kshana's TT epochs (J2000 frame) ---
+# SPEED k | t_tt_jc | de440_speed_exact_km_s | de440_speed_fd_km_s | de440_range_km
+SPEED 0 | 0.0 | 0.9739623351904357 | 0.9739623316119693 | 402448.63988499047
+SPEED 1 | 0.00013689253935660506 | 0.9754586059860534 | 0.9754586024168216 | 405055.88398777606
+SPEED 2 | 0.0002737850787132101 | 1.0020644025184222 | 1.0020643985372593 | 391902.0551982188
+SPEED 3 | 0.0004106776180698152 | 1.0640645655090097 | 1.0640645604247714 | 368363.0672819303
+SPEED 4 | 0.0005475701574264203 | 1.0899785880832105 | 1.089978582491536 | 361522.83556468313
+SPEED 5 | 0.0006844626967830253 | 1.009708783992273 | 1.0097087798995297 | 388084.14641008666
