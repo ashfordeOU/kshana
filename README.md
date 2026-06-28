@@ -14,7 +14,7 @@
 <p align="center">
   <a href="https://ashfordeou.github.io/kshana/"><img src="https://img.shields.io/badge/playground-try%20in%20browser-c79e63" alt="Live playground — run in your browser, no install"></a>
   <a href="tests/sgp4_verification.rs"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%204.12mm-3fb950" alt="SGP4 validated against all 666 AIAA 2006-6753 vectors, worst 4.12 mm"></a>
-  <a href="#validation-at-a-glance"><img src="https://img.shields.io/badge/validated-36%20external%20oracles-3fb950" alt="36 capabilities validated against independent external oracles (real data, independent libraries, or published reference vectors); 37 more are honestly labelled MODELLED and 4 are PARTNER-owned — see Validation at a glance"></a>
+  <a href="#validation-at-a-glance"><img src="https://img.shields.io/badge/validated-36%20external%20oracles-3fb950" alt="36 capabilities validated against independent external oracles (real data, independent libraries, or published reference vectors); 38 more are honestly labelled MODELLED and 4 are PARTNER-owned — see Validation at a glance"></a>
   <a href="https://github.com/AshfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/coverage-~96%25%20line-3fb950" alt="~96% line coverage on src/ (cargo-tarpaulin LLVM engine), gated at 85% in CI"></a>
   <a href="https://github.com/AshfordeOU/kshana/actions/workflows/ci.yml"><img src="https://github.com/AshfordeOU/kshana/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="https://github.com/AshfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.22.0-c79e63" alt="Release v0.22.0"></a>
@@ -46,7 +46,7 @@ navigation. Every result is reproducible from `scenario + seed + engine version`
 and every sensor parameter is traceable to a published source — consolidated in one
 citable table in [`docs/PROVENANCE.md`](docs/PROVENANCE.md).
 
-<p align="center"><em><strong>Validated, not asserted.</strong> &nbsp;666/666 AIAA SGP4 vectors to <strong>4.12&nbsp;mm</strong> · Cowell force model <strong>0.08&nbsp;m</strong> vs Orekit&nbsp;12.2 · Galileo <strong>0.61&nbsp;m</strong> / Swarm-A <strong>0.10&nbsp;m</strong> vs real ESA precise ephemerides · GCRS→ITRS bit-for-bit vs SOFA/ERFA · ML metrics exact vs scikit-learn · <strong>36 of 77</strong> capabilities validated against independent external oracles; 37 honestly labelled Modelled.</em></p>
+<p align="center"><em><strong>Validated, not asserted.</strong> &nbsp;666/666 AIAA SGP4 vectors to <strong>4.12&nbsp;mm</strong> · Cowell force model <strong>0.08&nbsp;m</strong> vs Orekit&nbsp;12.2 · Galileo <strong>0.61&nbsp;m</strong> / Swarm-A <strong>0.10&nbsp;m</strong> vs real ESA precise ephemerides · GCRS→ITRS bit-for-bit vs SOFA/ERFA · ML metrics exact vs scikit-learn · <strong>36 of 78</strong> capabilities validated against independent external oracles; 38 honestly labelled Modelled.</em></p>
 
 <p align="center">
   <img src="docs/assets/diagrams/system-overview.png" alt="Kshana system overview: five front doors (CLI, Python wheel, WebAssembly playground, MCP server, JetBrains plugin) converge on a single api::run_toml dispatch over 44 scenario kinds, through the engine (shared core, sensor packs and astrodynamics, integrity/fusion/lunar/deep-space/resilience), to a reproducible result.json + chart.svg" width="840">
@@ -67,8 +67,8 @@ Each row is checked against an **independent external oracle** (real dataset, in
 | ✅ | GNSS DOP · ML detector metrics | to **1e-6** · to **1e-9** | gnss_lib_py · scikit-learn |
 
 <p align="center">
-  <img src="docs/assets/figures/validation-breakdown.png" alt="Verification status across all 77 capabilities: 36 Validated (checked vs external oracle), 37 Modelled, 4 Partner-owned" width="780">
-  <br><sub>36 Validated · 37 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
+  <img src="docs/assets/figures/validation-breakdown.png" alt="Verification status across all 78 capabilities: 36 Validated (checked vs external oracle), 38 Modelled, 4 Partner-owned" width="780">
+  <br><sub>36 Validated · 38 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
 </p>
 
 *Free and open source under the GNU AGPL-3.0 — with a commercial licence available
@@ -1005,7 +1005,7 @@ kshana/
 ### Validation at a glance
 
 <p align="center">
-  <img src="docs/assets/diagrams/validation-provenance.png" alt="How a capability earns its label: Requirement maps to a module in src, to a test in tests, to an external oracle (real dataset, independent reference implementation, or published vectors), to a status — with a CI-enforced guard that no capability can be Validated without an external oracle. Live counts: 36 Validated, 37 Modelled, 4 Partner, 77 total" width="900">
+  <img src="docs/assets/diagrams/validation-provenance.png" alt="How a capability earns its label: Requirement maps to a module in src, to a test in tests, to an external oracle (real dataset, independent reference implementation, or published vectors), to a status — with a CI-enforced guard that no capability can be Validated without an external oracle. Live counts: 36 Validated, 38 Modelled, 4 Partner, 78 total" width="900">
   <br><sub>How a capability earns its label — the CI-enforced invariant: no external oracle ⇒ cannot be Validated · <a href="docs/assets/diagrams/validation-provenance.svg">SVG</a></sub>
 </p>
 
@@ -1017,7 +1017,7 @@ kshana/
 </p>
 
 Every row is enforced by a named test in CI. This table is a **curated highlight**;
-the full machine-checked matrix is **77 rows — 36 VALIDATED, 37 MODELLED, 4 PARTNER**
+the full machine-checked matrix is **78 rows — 36 VALIDATED, 38 MODELLED, 4 PARTNER**
 (`src/verification.rs`), with the complete evidence (and what is honestly *not* yet
 validated) in [`docs/VALIDATION.md`](docs/VALIDATION.md) and the per-release
 [`kshana-validation-summary.html`](https://github.com/AshfordeOU/kshana/releases)
