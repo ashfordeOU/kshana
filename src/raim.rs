@@ -1523,7 +1523,8 @@ pub fn constellation_raim_availability(
     } else {
         1e-12
     };
-    let noise = Normal::new(0.0, sd).expect("finite positive sigma");
+    let noise = Normal::new(0.0, sd)
+        .expect("`sd` is set to a finite, strictly-positive value just above, which Normal::new always accepts");
     let mut stanford = StanfordDiagram::new(cfg.al_v_m);
     for i in 0..=n {
         let t = i as f64 * step_s;

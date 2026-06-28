@@ -182,7 +182,7 @@ fn run_fused_suite(
 }
 
 fn hash_fusion(scn: &HybridScenario) -> String {
-    let c = serde_json::to_string(scn).expect("scenario serializes");
+    let c = serde_json::to_string(scn).unwrap_or_default();
     let mut h = Sha256::new();
     h.update(c.as_bytes());
     hex::encode(h.finalize())

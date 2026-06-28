@@ -434,7 +434,19 @@ impl LunarFrameRealiseScenario {
         let p = point_network(self.n_points);
         // Datum points: inject the known transform, then add seeded Gaussian noise.
         let mut rng = ChaCha8Rng::seed_from_u64(self.seed);
-        let noise = Normal::new(0.0, self.noise_sigma_m.max(0.0)).unwrap();
+        // `Normal::new` (rand_distr 0.4) rejects only a non-finite std_dev; an `inf`
+        // `noise_sigma_m` would survive the `.max(0.0)` floor, so coerce to a finite
+        // value (0.0 ⇒ a degenerate, noise-free draw) first.
+        let noise_sigma = {
+            let s = self.noise_sigma_m.max(0.0);
+            if s.is_finite() {
+                s
+            } else {
+                0.0
+            }
+        };
+        let noise = Normal::new(0.0, noise_sigma)
+            .expect("noise_sigma is finite and non-negative, which Normal::new always accepts");
         let q: Vec<Vec3> = p
             .iter()
             .map(|&pi| {

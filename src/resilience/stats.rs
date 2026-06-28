@@ -21,7 +21,12 @@ pub fn dirichlet_weights(alpha: &[f64], seed: u64) -> Vec<f64> {
     let mut raw: Vec<f64> = Vec::with_capacity(alpha.len());
     for &a in alpha {
         let shape = if a > 0.0 { a } else { 1e-9 };
-        let g = Gamma::new(shape, 1.0).expect("gamma shape > 0");
+        // `shape` is `a` only when `a > 0.0` (so positive), else the positive `1e-9`, and
+        // is never NaN; the scale is the positive literal `1.0`. `Gamma::new` (rand_distr
+        // 0.4) errors only on a non-positive/NaN shape or a non-positive/non-finite
+        // scale, none of which can occur here.
+        let g = Gamma::new(shape, 1.0)
+            .expect("shape is strictly positive (never NaN) and scale is the literal 1.0, which Gamma::new always accepts");
         // Guard the degenerate all-zero draw so normalization is well defined.
         raw.push(g.sample(&mut rng).max(f64::MIN_POSITIVE));
     }

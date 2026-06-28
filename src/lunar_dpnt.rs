@@ -266,7 +266,16 @@ pub fn noisy_corrected_position_error_m(
         &corr,
     );
     let range_errors: Vec<f64> = if noise_sigma_m > 0.0 {
-        let g = Normal::new(0.0, noise_sigma_m).unwrap();
+        // The guard ensures positivity but not finiteness; `Normal::new` (rand_distr
+        // 0.4) rejects only a non-finite std_dev, so an `inf` sigma would still panic.
+        // Coerce a non-finite value to the smallest positive normal.
+        let sigma = if noise_sigma_m.is_finite() {
+            noise_sigma_m
+        } else {
+            f64::MIN_POSITIVE
+        };
+        let g = Normal::new(0.0, sigma)
+            .expect("sigma is finite and strictly positive, which Normal::new always accepts");
         clean
             .iter()
             // The independent user-minus-reference receiver noise survives the difference.
@@ -539,7 +548,8 @@ impl LunarDpntScenario {
     /// (random direction × `orbit_err_m`) and clock errors (`±clock_err_m`).
     fn inject_errors(&self, n: usize) -> (Vec<Vec3>, Vec<f64>) {
         let mut rng = ChaCha8Rng::seed_from_u64(self.seed);
-        let g = Normal::new(0.0, 1.0).unwrap();
+        let g = Normal::new(0.0, 1.0)
+            .expect("std_dev is the finite literal 1.0, which Normal::new always accepts");
         let mut orbit_err = Vec::with_capacity(n);
         let mut clock_err = Vec::with_capacity(n);
         for _ in 0..n {

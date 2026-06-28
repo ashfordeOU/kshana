@@ -587,7 +587,7 @@ pub struct PvtResult {
 }
 
 fn hash_scenario(scn: &PvtScenario) -> String {
-    let c = serde_json::to_string(scn).expect("scenario serializes");
+    let c = serde_json::to_string(scn).unwrap_or_default();
     let mut h = Sha256::new();
     h.update(c.as_bytes());
     hex::encode(h.finalize())

@@ -418,9 +418,22 @@ fn run_one_seed(scn: &HybridUkfScenario, q_va: f64, clock: (f64, f64), seed: u64
     let speed = scn.speed_m_s;
 
     let mut rng = ChaCha8Rng::seed_from_u64(seed);
-    let n01 = Normal::new(0.0, 1.0).unwrap();
-    let n_pr = Normal::new(0.0, scn.sigma_pr_m.max(1e-9)).unwrap();
-    let n_rr = Normal::new(0.0, scn.sigma_rr_mps.max(1e-9)).unwrap();
+    // `Normal::new` (rand_distr 0.4) rejects only a non-finite std_dev; floor the
+    // caller-supplied measurement sigmas (which may be `inf`/`nan`) to finite,
+    // strictly-positive values before constructing the distributions.
+    let finite_sigma = |sigma: f64| {
+        if sigma.is_finite() {
+            sigma.max(1e-9)
+        } else {
+            1e-9
+        }
+    };
+    let n01 = Normal::new(0.0, 1.0)
+        .expect("std_dev is the finite literal 1.0, which Normal::new always accepts");
+    let n_pr = Normal::new(0.0, finite_sigma(scn.sigma_pr_m))
+        .expect("finite_sigma returns a finite, strictly-positive std_dev, which Normal::new always accepts");
+    let n_rr = Normal::new(0.0, finite_sigma(scn.sigma_rr_mps))
+        .expect("finite_sigma returns a finite, strictly-positive std_dev, which Normal::new always accepts");
 
     // Initial truth = nominal CV state + a draw from P₀, so truth and filter agree on the
     // prior (the matched-filter requirement for first-step consistency).
@@ -640,7 +653,7 @@ fn coast_duration(gnss: &GnssTimeline) -> f64 {
 }
 
 fn hash(scn: &HybridUkfScenario) -> String {
-    let c = serde_json::to_string(scn).expect("scenario serializes");
+    let c = serde_json::to_string(scn).unwrap_or_default();
     let mut h = Sha256::new();
     h.update(c.as_bytes());
     hex::encode(h.finalize())
