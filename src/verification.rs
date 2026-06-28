@@ -813,6 +813,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
+        VerificationItem {
+            requirement: "Wahba/TRIAD/QUEST attitude determination",
+            capability: "Optimal three-axis attitude from weighted vector observations (star/sun/magnetometer directions): the deterministic two-vector TRIAD, Davenport's q-method (the exact Wahba-loss minimiser — the optimal quaternion is the largest-eigenvalue eigenvector of the 4×4 Davenport matrix K, solved by a symmetric Jacobi eigensolve), and QUEST (Newton/secant root of K's characteristic equation seeded at Σ weights, then Gibbs-vector quaternion recovery)",
+            module: "wahba",
+            tests: "wahba::tests (A(identity quaternion)=I; the Jacobi eigensolver satisfies Kv=λv and preserves the trace on a known symmetric matrix; K is symmetric); tests/wahba_reference.rs (TRIAD and the q-method recover a known rotation from noiseless observations to <1e-10 rad with λ_max=Σ weights and zero Wahba loss; the q-method quaternion round-trips the library body→nav convention and yields a proper rotation; QUEST agrees with the optimal q-method on λ_max and attitude to <1e-7 rad; the q-method solution minimises the Wahba loss — every small perturbation raises it; the optimal estimator beats two-vector TRIAD in RMS attitude error over 2000 noisy Monte-Carlo trials)",
+            oracle: "Self-consistency of the attitude estimators: closed-form recovery of a known rotation, the q-method/QUEST cross-check against each other and the optimal-loss property (the q-method is the exact Wahba minimiser, verified by perturbation), and the optimal estimator's statistical advantage over TRIAD under Monte-Carlo noise — internal-consistency checks, NOT an external dataset, so the row stays InternalConsistency. MODELLED point-direction attitude determination — unit-vector observations; no sensor field-of-view, measurement-bias, or temporal-correlation modelling, and QUEST is singular at a 180° rotation (the q-method covers that case)",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
     ]
 }
 
