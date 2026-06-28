@@ -636,7 +636,7 @@ impl QuantumTradeScenario {
     /// Reproducible scenario hash over the canonical inputs (cross-platform anchor).
     pub fn scenario_hash(&self) -> String {
         use sha2::{Digest, Sha256};
-        let c = serde_json::to_string(self).expect("scenario serializes");
+        let c = serde_json::to_string(self).unwrap_or_default();
         let mut h = Sha256::new();
         h.update(c.as_bytes());
         hex::encode(h.finalize())

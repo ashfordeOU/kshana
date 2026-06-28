@@ -173,7 +173,12 @@ impl TradeEvidence {
 
     /// Pretty JSON for embedding in a scenario report / artifact.
     pub fn to_json(&self) -> String {
-        serde_json::to_string_pretty(self).expect("trade evidence serialises")
+        // `TradeEvidence`'s entire field graph (TradeFrame / TradeFom / Representativeness
+        // and their nested Anchor/Gap/enum types) is Strings, primitives, unit enums and
+        // Vecs — no non-string-keyed map and no fallible custom `Serialize` — so JSON
+        // serialisation cannot fail. (A non-finite FoM serialises to `null`, not an error.)
+        serde_json::to_string_pretty(self)
+            .expect("TradeEvidence has no non-string-keyed map field, so it always serialises")
     }
 
     /// One-line human summary.

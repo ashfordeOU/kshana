@@ -517,7 +517,11 @@ pub struct PorkchopGrid {
 impl PorkchopGrid {
     /// Serialize the grid (epoch axes + the two 2-D arrays) for browser contour rendering.
     pub fn to_json(&self) -> String {
-        serde_json::to_string_pretty(self).expect("PorkchopGrid serializes")
+        // `PorkchopGrid` is only `Vec<f64>` / `Vec<Vec<f64>>` fields — no maps and no
+        // fallible custom `Serialize` impls — so JSON serialisation cannot fail. (A
+        // non-finite C3/v∞ entry serialises to `null`; it does not error.)
+        serde_json::to_string_pretty(self)
+            .expect("PorkchopGrid (only Vec<f64>/Vec<Vec<f64>> fields) always serialises")
     }
     /// The minimum finite C3 over the grid and its `(dep_index, arr_index)`.
     pub fn min_c3(&self) -> Option<(f64, usize, usize)> {

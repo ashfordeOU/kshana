@@ -481,7 +481,13 @@ pub fn compare_constellations(
             );
             ConstellationComparison {
                 name: name.to_string(),
-                cell: cells.into_iter().next().expect("one design cell"),
+                // `pdop_sweep` pushes exactly one cell per (planes, sats, incl) triple,
+                // and it was called above with single-element grids `&[planes]`/`&[sats]`/
+                // `&[incl]`, so `cells` has exactly one element.
+                cell: cells
+                    .into_iter()
+                    .next()
+                    .expect("pdop_sweep over single-element grids yields exactly one cell"),
             }
         })
         .collect()
@@ -522,7 +528,11 @@ impl WalkerDesignReport {
     /// Serialize the report (cells + Pareto front, including the revisit-time fields)
     /// as pretty JSON.
     pub fn to_json(&self) -> String {
-        serde_json::to_string_pretty(self).expect("WalkerDesignReport serializes")
+        // `WalkerDesignReport` is `Vec<WalkerDesignCell>` + `Vec<usize>`, and
+        // `WalkerDesignCell` is only `usize`/`f64`/`Option<f64>` fields — no map and no
+        // fallible custom `Serialize` — so JSON serialisation cannot fail.
+        serde_json::to_string_pretty(self)
+            .expect("WalkerDesignReport (Vecs of numeric cells, no maps) always serialises")
     }
 }
 

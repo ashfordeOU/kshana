@@ -278,8 +278,11 @@ pub fn export_kif_lunar(
         time_metadata: time_metadata.clone(),
         honesty: LUNAR_HONESTY_LABEL.to_string(),
     };
+    // `LunarInteropArtifacts` is four `String` fields plus a `LunarTimeMeta`
+    // (`String`s + `f64`s); it contains no non-string-keyed map, so the
+    // `serde_json::to_value` inside `Envelope::wrap` cannot fail.
     Envelope::wrap("lunar-interop", &artifacts)
-        .expect("lunar interop artifacts serialise")
+        .expect("LunarInteropArtifacts (Strings + f64s, no non-string-keyed maps) always serialises")
         .to_json()
 }
 
@@ -567,7 +570,10 @@ impl LunarInteropScenario {
             (breakdown.band_low, breakdown.band_high),
             "mean lunar surface (selenoid)",
         );
-        let meta_json = serde_json::to_string(&meta).expect("time metadata serialises");
+        // `LunarTimeMeta` is `String`s + `f64`s with no non-string-keyed map, so JSON
+        // serialisation cannot fail.
+        let meta_json = serde_json::to_string(&meta)
+            .expect("LunarTimeMeta (Strings + f64s, no non-string-keyed maps) always serialises");
         let time_metadata_roundtrip_ok =
             parse_lunar_time_metadata(&meta_json) == Some(meta.clone());
 

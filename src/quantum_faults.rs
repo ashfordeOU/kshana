@@ -168,8 +168,21 @@ impl QuantumAnomalyScenario {
 
         // Empirical cross-check of the quantum AUC against the validated eval_stats.
         let mut rng = ChaCha8Rng::seed_from_u64(self.seed);
-        let n0 = Normal::new(0.0, self.quantum_sigma.max(1e-12)).unwrap();
-        let n1 = Normal::new(self.fault_mu, self.quantum_sigma.max(1e-12)).unwrap();
+        // `Normal::new` (rand_distr 0.4) rejects only a non-finite std_dev; coerce a
+        // (possibly `inf`) configured sigma to a finite, strictly-positive value. The
+        // mean (`fault_mu`) is not validated by `Normal::new`, so it passes through.
+        let q_sigma = {
+            let s = self.quantum_sigma.max(1e-12);
+            if s.is_finite() {
+                s
+            } else {
+                1e-12
+            }
+        };
+        let n0 = Normal::new(0.0, q_sigma)
+            .expect("q_sigma is finite and strictly positive, which Normal::new always accepts");
+        let n1 = Normal::new(self.fault_mu, q_sigma)
+            .expect("q_sigma is finite and strictly positive, which Normal::new always accepts");
         let neg: Vec<f64> = (0..self.samples).map(|_| n0.sample(&mut rng)).collect();
         let pos: Vec<f64> = (0..self.samples).map(|_| n1.sample(&mut rng)).collect();
         let quantum_auc_ci = bootstrap_auc_ci(&pos, &neg, 200, self.seed, 0.05);

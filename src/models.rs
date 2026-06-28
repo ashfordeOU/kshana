@@ -3,6 +3,19 @@ use crate::types::{ModelSpec, Seconds};
 use rand::RngCore;
 use rand_distr::{Distribution, Normal};
 
+/// Coerce a per-step random-walk standard deviation into a value
+/// `rand_distr::Normal::new` is guaranteed to accept. `Normal::new` (0.4) rejects only a
+/// non-finite `std_dev`; a config-supplied `inf` PSD (or `dt`) would make the product —
+/// and hence `sqrt()` — `inf`. A non-finite value maps to the smallest positive normal;
+/// a finite value is floored to it. The result is always finite and strictly positive.
+fn finite_pos_std_dev(std_dev: f64) -> f64 {
+    if std_dev.is_finite() {
+        std_dev.max(f64::MIN_POSITIVE)
+    } else {
+        f64::MIN_POSITIVE
+    }
+}
+
 /// A sensor/clock error model: evolve internal error state, expose a spec.
 pub trait ErrorModel {
     fn step(&mut self, dt: Seconds, rng: &mut dyn RngCore);
@@ -68,7 +81,8 @@ impl Flicker {
     pub(crate) fn step(&mut self, dt: Seconds, rng: &mut dyn RngCore) -> f64 {
         let sd0 = self.comp_var.sqrt();
         if !self.initialized {
-            let n0 = Normal::new(0.0, sd0).unwrap();
+            let n0 = Normal::new(0.0, finite_pos_std_dev(sd0))
+                .expect("finite_pos_std_dev returns a finite, strictly-positive std_dev, which Normal::new always accepts");
             for s in &mut self.states {
                 *s = n0.sample(rng);
             }
@@ -78,7 +92,8 @@ impl Flicker {
         for (i, s) in self.states.iter_mut().enumerate() {
             let a = (-dt / self.taus[i]).exp();
             let sd = (self.comp_var * (1.0 - a * a)).sqrt();
-            let n = Normal::new(0.0, sd).unwrap();
+            let n = Normal::new(0.0, finite_pos_std_dev(sd))
+                .expect("finite_pos_std_dev returns a finite, strictly-positive std_dev, which Normal::new always accepts");
             *s = *s * a + n.sample(rng);
             sum += *s;
         }
@@ -162,7 +177,8 @@ impl ErrorModel for ClockModel {
             return;
         }
         if self.q_rw > 0.0 {
-            let n = Normal::new(0.0, (self.q_rw * dt).sqrt()).unwrap();
+            let n = Normal::new(0.0, finite_pos_std_dev((self.q_rw * dt).sqrt()))
+                .expect("finite_pos_std_dev returns a finite, strictly-positive std_dev, which Normal::new always accepts");
             self.freq += n.sample(rng);
         }
         let y_flicker = match &mut self.flicker {
@@ -172,7 +188,8 @@ impl ErrorModel for ClockModel {
         let y_det = self.y0 + self.drift * self.t;
         let mut dx = (y_det + self.freq + y_flicker) * dt;
         if self.q_wf > 0.0 {
-            let n = Normal::new(0.0, (self.q_wf * dt).sqrt()).unwrap();
+            let n = Normal::new(0.0, finite_pos_std_dev((self.q_wf * dt).sqrt()))
+                .expect("finite_pos_std_dev returns a finite, strictly-positive std_dev, which Normal::new always accepts");
             dx += n.sample(rng);
         }
         self.phase += dx;
