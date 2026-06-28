@@ -13,6 +13,7 @@ pub mod attitude_budget;
 pub mod attitude_dynamics;
 pub mod batch_ls;
 pub mod body;
+pub mod bplane;
 pub mod ccsds_tdm;
 pub mod chart;
 pub mod cio;
