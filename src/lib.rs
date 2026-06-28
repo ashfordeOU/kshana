@@ -61,6 +61,7 @@ pub mod ionex;
 pub mod jamming;
 pub mod jd2;
 pub mod kalman;
+pub mod lambda;
 pub mod launch;
 pub mod linkbudget;
 pub mod lunar;
