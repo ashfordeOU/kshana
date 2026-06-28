@@ -840,6 +840,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
+        VerificationItem {
+            requirement: "GNSS carrier-phase integer ambiguity resolution (LAMBDA)",
+            capability: "Integer least-squares ambiguity fixing the LAMBDA way: a volume-preserving integer (Z) decorrelating transform (integer-Gauss size reduction of the L D Lᵀ factor) + an exact Schnorr–Euchner depth-first branch-and-bound integer least-squares search + the closed-form bootstrapped success rate P_s=∏(2Φ(1/(2σ_{i|I}))−1), with the ratio test on the two best candidates",
+            module: "lambda",
+            tests: "lambda::tests (L D Lᵀ reconstructs Q); tests/lambda_reference.rs (the Z-transform is unimodular |det Z|=1 with Q_z=ZᵀQZ SPD, det-preserving, and lower total off-diagonal correlation; the Schnorr–Euchner ILS matches brute-force enumeration over 300 random covariances; the full decorrelate→search→back-transform pipeline equals the direct ILS and Z⁻ᵀZᵀ round-trips integers; the closed-form bootstrapped success rate matches a 200k-trial Monte-Carlo of sequential conditional rounding to <0.01)",
+            oracle: "Self-consistency of the integer estimator: the Z-transform invariants (unimodularity, congruence, determinant), the EXACT ILS verified against independent brute-force enumeration, and the bootstrapped success rate verified against a Monte-Carlo of the rounding process it models — internal-consistency checks, NOT an external dataset, so the row stays InternalConsistency. MODELLED integer-Gauss decorrelation (the conditional-variance reordering permutations of the full LAMBDA reduction are out of scope; they speed the search but change neither the exact ILS answer nor the bootstrapped rate)",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
     ]
 }
 
