@@ -1185,11 +1185,12 @@ function buildCapCard(c, idx) {
     });
     right.append(run);
   } else {
-    // No bundled playground demo for this capability — link to the reference docs
-    // so the card still has an action and "no run" never reads as "lesser".
+    // No bundled playground demo for this capability — link to its OWN reference
+    // (the source module / test that backs it, via the card→matrix map) so each
+    // card's "docs" points at distinct evidence instead of one generic page.
     const docs = document.createElement("a");
     docs.className = "cap-docs";
-    docs.href = c.docs || "https://github.com/AshfordeOU/kshana/blob/main/docs/CAPABILITY.md";
+    docs.href = c.docs || capDocsHref(c) || "https://github.com/AshfordeOU/kshana/blob/main/docs/CAPABILITY.md";
     docs.target = "_blank";
     docs.rel = "noopener noreferrer";
     docs.textContent = "docs ↗";
@@ -1799,6 +1800,22 @@ function buildCapEvidence(cardName) {
     wrap.append(item);
   }
   return any ? wrap : null;
+}
+
+// The per-capability "docs ↗" target: this card's own primary evidence on GitHub
+// (its source module, else its reference test) resolved through the card→matrix map,
+// so every non-runnable card links to distinct documentation rather than one generic
+// page. Returns null when the card has no mapped ledger row (caller falls back).
+function capDocsHref(c) {
+  const reqs = CARD_MATRIX.get(c.name);
+  if (!reqs || !reqs.length || !LEDGER_BY_REQ.size) return null;
+  for (const req of reqs) {
+    const row = LEDGER_BY_REQ.get(req);
+    if (!row) continue;
+    const link = (row.module_links && row.module_links[0]) || (row.test_links && row.test_links[0]);
+    if (link && link.url) return link.url;
+  }
+  return null;
 }
 
 // A small GitHub-blob link chip (path text, opens in a new tab). `kind` styles the icon.
