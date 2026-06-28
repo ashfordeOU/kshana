@@ -14,10 +14,18 @@
         <br/><br/>
         Scenarios cover SGP4/SDP4 orbits, IAU reference frames, Allan deviations, GNSS
         availability/DOP, ARAIM protection levels, GNSS/INS fusion, and quantum-sensor
-        models — each validated against published references. See https://kshana.dev.
+        models — each carrying an explicit, machine-checkable verification status
+        (validated against an external oracle, or transparently modelled). See https://kshana.dev.
     ]]></description>
 
     <change-notes><![CDATA[
+        <b>0.21.0</b> — the plugin now versions in lockstep with the Kshana engine, so the
+        Marketplace version always matches the <code>kshana</code> release it targets.
+        This build is also relicensed to <b>AGPL-3.0-only</b> (a commercial licence is
+        available from Ashforde OÜ; see the repository's <code>LICENSING.md</code>) — no
+        functional change to the plugin itself, but it brings the published artifact in
+        line with the open-source engine's current licence.
+        <br/>
         <b>0.1.1</b> — maintenance release; first build delivered through continuous
         publishing. Requires the <code>kshana</code> CLI
         (<code>cargo install kshana</code>); compatible with JetBrains IDEs 2024.3 and newer.

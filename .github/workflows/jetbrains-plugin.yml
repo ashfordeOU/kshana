@@ -5,12 +5,14 @@
 #            it can never block `main`.
 # - publish: runs on release tags (or manual dispatch). Publishes to JetBrains
 #            Marketplace via `publishPlugin`, gated on the JETBRAINS_MARKETPLACE_TOKEN
-#            secret. The plugin versions INDEPENDENTLY of the engine (it shells out to
-#            the user's `kshana` binary, so it only changes when its own code changes):
-#            the published version comes from ide/jetbrains/gradle.properties
-#            (`pluginVersion`), NOT the git tag. Bump pluginVersion to ship an update.
-#            Developer signing is used when the optional certificate secrets are present;
-#            otherwise the upload is Marketplace-signed.
+#            secret. The plugin versions in LOCKSTEP with the engine: on a release tag
+#            the published version is the tag (vX.Y.Z -> X.Y.Z), so the Marketplace
+#            version always matches the `kshana` release it targets. A manual dispatch
+#            can override via the `version` input; otherwise it falls back to
+#            ide/jetbrains/gradle.properties (`pluginVersion`), which is kept equal to
+#            the engine version by scripts/check-version-sync.sh. Developer signing is
+#            used when the optional certificate secrets are present; otherwise the upload
+#            is Marketplace-signed.
 name: JetBrains plugin
 on:
   workflow_dispatch:
@@ -75,13 +77,23 @@ jobs:
         with:
           distribution: temurin
           java-version: "21"
-      - name: Resolve plugin version (own version, not the engine tag)
+      - name: Resolve plugin version (lockstep with the engine tag)
         id: ver
         env:
+          REF: ${{ github.ref }}
           INPUT: ${{ github.event.inputs.version }}
         run: |
-          v="$(grep -E '^pluginVersion' gradle.properties | sed -E 's/.*= *//' | tr -d ' ')"
-          if [ -n "$INPUT" ]; then v="$INPUT"; fi
+          # Lockstep with the engine: a release tag (vX.Y.Z) is the source of truth, so
+          # the Marketplace version always matches the kshana release. A manual dispatch
+          # may override via the version input; otherwise fall back to gradle.properties
+          # (which check-version-sync.sh keeps equal to the engine version).
+          if [ -n "$INPUT" ]; then
+            v="$INPUT"
+          elif printf '%s' "$REF" | grep -q '^refs/tags/v'; then
+            v="${REF#refs/tags/v}"
+          else
+            v="$(grep -E '^pluginVersion' gradle.properties | sed -E 's/.*= *//' | tr -d ' ')"
+          fi
           echo "v=$v" >> "$GITHUB_OUTPUT"
       - name: Gate on Marketplace token
         id: gate
@@ -99,15 +111,17 @@ jobs:
           PRIVATE_KEY_PASSWORD: ${{ secrets.JETBRAINS_PRIVATE_KEY_PASSWORD }}
           PLUGIN_VERSION: ${{ steps.ver.outputs.v }}
         run: |
-          args="-PpluginVersion=$PLUGIN_VERSION --no-daemon --console=plain"
+          # Build the gradle arg list as an array so each token is passed intact
+          # (no word-splitting/globbing surprises — shellcheck SC2086).
+          args=(-PpluginVersion="$PLUGIN_VERSION" --no-daemon --console=plain)
           if [ -z "$CERTIFICATE_CHAIN" ]; then
             echo "No signing certificate set — publishing unsigned (Marketplace will sign)."
-            args="$args -x signPlugin"
+            args+=(-x signPlugin)
           fi
           set +e
           attempt=1; max=3
           while :; do
-            out="$(./gradlew publishPlugin $args 2>&1)"; rc=$?
+            out="$(./gradlew publishPlugin "${args[@]}" 2>&1)"; rc=$?
             printf '%s\n' "$out"
             if [ "$rc" -eq 0 ]; then break; fi
             # Idempotent: a version already submitted (incl. first-time moderation) is success.
