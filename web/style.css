@@ -677,8 +677,8 @@ body.embed { background: var(--bg); }
 
 /* Capability feature cards */
 .card.feat { display: flex; flex-direction: column; gap: 0.5rem; height: 100%; }
-.card.feat .feat-head { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; min-height: 1.4rem; }
-.card.feat .eyebrow { color: var(--accent); margin: 0; overflow-wrap: normal; word-break: keep-all; }
+.card.feat .feat-head { display: flex; align-items: center; justify-content: space-between; gap: 0.35rem 0.6rem; min-height: 1.4rem; flex-wrap: wrap; }
+.card.feat .eyebrow { color: var(--accent); margin: 0; overflow-wrap: normal; word-break: keep-all; flex: 1 1 auto; min-width: 0; }
 .card.feat h3 { font-size: 1.02rem; margin: 0; min-height: 2.4rem; display: flex; align-items: flex-start; }
 .card.feat .run {
   font: inherit;
@@ -846,7 +846,9 @@ footer .disclaimer { margin-top: 1rem; font-size: 0.8rem; color: var(--fg-3); ma
   display: flex;
   flex-wrap: wrap;
   gap: 0.5rem;
-  max-width: 62ch;
+  /* Let the chips span the full hero width so they flow across ~3 rows instead of
+     stacking into a narrow column (the h1/lede stay narrow for readability). */
+  max-width: none;
 }
 .hero .cap {
   display: inline-flex;
@@ -962,7 +964,10 @@ details.xp-ev > summary:hover { background: var(--bg-1); }
 .vstat-note { font-family: var(--mono); font-size: 0.66rem; color: var(--fg-3); text-transform: uppercase; letter-spacing: 0.08em; white-space: nowrap; }
 
 /* Status pill + run/docs action share the right edge of a capability card head. */
-.feat-head-right { display: flex; align-items: center; gap: 0.5rem; flex: 0 0 auto; }
+/* Pushed to the right edge of the head; with the head allowed to wrap, a long
+   eyebrow drops the pill+docs/run group onto its own line (right-aligned) instead
+   of overflowing the card and clipping the "docs ↗" badge. */
+.feat-head-right { display: flex; align-items: center; gap: 0.5rem; flex: 0 0 auto; margin-left: auto; }
 .card.feat .cap-docs {
   font-family: var(--mono); font-size: 0.68rem; font-weight: 500; color: var(--fg-2);
   border: 1px solid var(--line-2); border-radius: 4px; padding: 0.12rem 0.5rem;
@@ -1308,7 +1313,7 @@ a.std-row { text-decoration: none; color: inherit; }
 /* across-the-stack demoted to a quiet strip */
 .hero-strip { margin-top: 2.1rem; }
 .hero-strip .caps-label { margin: 0 0 0.6rem; font: 600 0.68rem/1 var(--mono); letter-spacing: 0.16em; text-transform: uppercase; color: var(--fg-3); }
-.hero-v2 .caps { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem; max-width: 54ch; }
+.hero-v2 .caps { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.4rem; max-width: none; }
 .hero-v2 .caps .cap {
   display: inline-flex;
   align-items: center;
