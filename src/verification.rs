@@ -867,6 +867,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
+        VerificationItem {
+            requirement: "IEEE-1139 power-law clock noise + flicker-FM floor",
+            capability: "The five-coefficient IEEE-1139 PSD↔Allan-variance conversion S_y(f)=Σh_α f^α → σ_y²(τ) (white/flicker PM, white/flicker/random-walk FM), the flicker-FM floor σ_y=√(2 ln2·h_{-1}) as a first-class fittable term, and a non-negative FM-family fit in the {(2π²/3)τ, 2 ln2, 1/(2τ)} basis that recovers the floor the drift basis {1/τ,τ,τ³} cannot represent",
+            module: "powerlaw",
+            tests: "powerlaw::tests (each pure noise type shows its signature ADEV log-log slope — white FM −½, flicker FM 0, random-walk FM +½, white PM −1; the flicker-FM term is a flat floor equal to √(2 ln2·h_{-1}) across five decades of τ; the FM-family fit round-trips known h_{-2},h_{-1},h_0 from a synthetic curve to <1e-6; and a flicker-dominated curve's floor is recovered here while the drift-basis fit (quantum_trade::qparams_from_adev_curve) is >10% wrong at long τ — closing a documented gap)",
+            oracle: "Self-consistency of the power-law conversion: the per-noise-type ADEV slopes, the closed-form flicker-FM floor identity, and round-trip coefficient recovery are analytic IEEE-1139/NIST-SP-1065 identities checked against the module's own forward model, plus a contrast against the existing drift-basis fit — internal-consistency checks, NOT an external dataset, so the row stays InternalConsistency. MODELLED stationary power-law model — no deterministic-drift (τ²) term, bias-instability/quantisation refinements, and the PM terms carry the usual bandwidth dependence",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
     ]
 }
 
