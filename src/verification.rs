@@ -858,6 +858,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
+        VerificationItem {
+            requirement: "CRPA anti-jam array beamforming",
+            capability: "Controlled-reception-pattern antenna nulling: complex array steering vectors a(û)=exp(j·k·pₙ·û), deterministic null-steering (unit gain toward the SV, exact nulls toward up to N−1 jammers via the minimum-norm w=Aᴴ(AAᴴ)⁻¹b), and MVDR adaptive weights w=R⁻¹a_sv/(a_svᴴR⁻¹a_sv) that self-steer deep nulls onto strong interferers (with a from-scratch complex linear-algebra kernel)",
+            module: "crpa",
+            tests: "crpa::tests (complex arithmetic identities incl. z/z=1, |exp(jθ)|=1, zᴴz=|z|²; deterministic null-steering gives exact unit SV gain and <1e-9 jammer nulls on a 4-element ULA with 3 jammers; an N-element array rejects >N−1 jammers and min-norm-nulls fewer; MVDR stays distortionless toward the SV while the jammer null deepens monotonically with jammer power to <1e-3 at 60 dB)",
+            oracle: "Self-consistency of the beamformer algebra: the constraint solutions are verified by evaluating the resulting array response (exact unit SV gain, deep jammer nulls), the N−1-null capacity, and the MVDR distortionless/null-deepening behaviour — internal-consistency checks against the engine's own steering/response functions, NOT an external dataset, so the row stays InternalConsistency. MODELLED narrowband far-field identical-isotropic-element array — no mutual coupling, per-element mismatch, finite-bandwidth (STAP), or steering-vector estimation error",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
     ]
 }
 
