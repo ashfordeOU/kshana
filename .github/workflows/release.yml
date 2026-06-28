@@ -87,3 +87,66 @@ jobs:
             mcp/kshana-mcp/target/release/kshana-mcp
             kshana-sbom.cdx.json
             kshana-validation-summary.html
+
+  # Post-release verification: pull the assets back DOWN from the just-created GitHub
+  # release (i.e. the published bytes, not the in-job build dir) and prove each one
+  # carries a valid SLSA build-provenance attestation tied to this repository. This is
+  # the consumer's own verification path (`gh attestation verify`), exercised in CI so a
+  # broken/un-attested asset is caught immediately rather than by a downstream user.
+  verify-release:
+    needs: release
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      # gh attestation verify reads the attestations attached to the repo; the default
+      # token with contents:read can read them, so no extra scope is needed.
+      contents: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TAG: ${{ inputs.tag || github.ref_name }}
+      REPO: ${{ github.repository }}
+    steps:
+      - name: Download the published release assets
+        run: |
+          set -euo pipefail
+          mkdir -p verify && cd verify
+          # Pull every asset attached to the release for this tag.
+          gh release download "$TAG" --repo "$REPO" --clobber
+          ls -l
+      - name: Verify SBOM is well-formed CycloneDX
+        run: |
+          set -euo pipefail
+          python3 - verify/kshana-sbom.cdx.json <<'PY'
+          import json, sys
+          with open(sys.argv[1]) as fh:
+              doc = json.load(fh)
+          assert doc.get("bomFormat") == "CycloneDX", "not a CycloneDX SBOM"
+          assert doc.get("specVersion"), "missing specVersion"
+          assert isinstance(doc.get("components"), list) and doc["components"], "no components"
+          print(f"OK: CycloneDX {doc['specVersion']} with {len(doc['components'])} components")
+          PY
+      - name: Verify SLSA build-provenance attestation of each binary + SBOM
+        run: |
+          set -euo pipefail
+          cd verify
+          for f in kshana kshana-mcp kshana-sbom.cdx.json; do
+            if [ -f "$f" ]; then
+              echo "== gh attestation verify $f =="
+              gh attestation verify "$f" --repo "$REPO"
+            else
+              echo "::warning::$f not present among release assets — skipping"
+            fi
+          done
+      - name: Smoke-run the verified binary
+        # The CLI has no --version flag; run it with no args and assert it executes and
+        # prints its usage banner. The documented "no scenario given" exit code is 2, so
+        # we check for the banner rather than a zero exit — this proves the downloaded
+        # binary runs on a clean runner, not that it parsed a scenario.
+        run: |
+          set -uo pipefail
+          chmod +x verify/kshana
+          out="$(verify/kshana 2>&1)" || true
+          printf '%s\n' "$out"
+          printf '%s\n' "$out" | grep -q "usage: kshana" \
+            || { echo "::error::binary did not run / print its usage banner"; exit 1; }
+          echo "OK: binary runs"

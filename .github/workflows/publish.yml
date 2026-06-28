@@ -9,6 +9,17 @@
 # workflow is inert until the maintainer adds the secret. Every publish is
 # idempotent: re-running after a version is already live is a no-op success, so a
 # partial failure (one registry) can be retried safely without touching the others.
+#
+# PyPI is the exception: it publishes via OIDC Trusted Publishing (no long-lived
+# API token). The wheels/sdist build as artifacts first, are SLSA-attested, then a
+# single publish job exchanges the workflow's OIDC identity for a short-lived PyPI
+# token. The publish job stays inert until the maintainer registers this workflow
+# as a Trusted Publisher on PyPI and sets the repo variable PYPI_TRUSTED_PUBLISH.
+#
+# Every distributed artifact (crate tarball, wheels, sdist, npm tarball) gets a
+# cryptographic SLSA build-provenance attestation (actions/attest-build-provenance)
+# so a consumer can verify, with `gh attestation verify`, that the exact bytes they
+# downloaded were produced by this workflow from this repository.
 name: publish
 
 on:
@@ -24,9 +35,23 @@ jobs:
     name: crates.io
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    permissions:
+      contents: read
+      # SLSA build-provenance attestation of the packaged .crate tarball.
+      id-token: write
+      attestations: write
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
+      - name: Package the crate (the exact tarball crates.io receives)
+        # `cargo package` produces target/package/<name>-<ver>.crate — the byte-for-byte
+        # tarball `cargo publish` uploads. Attesting it (below) ties the published crate
+        # to this workflow run. --locked so the SBOM/graph matches Cargo.lock.
+        run: cargo package --locked
+      - name: Attest build provenance (.crate)
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: "target/package/*.crate"
       - name: Gate on token
         id: gate
         env:
@@ -41,7 +66,8 @@ jobs:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
         run: |
           set +e
-          out="$(cargo publish 2>&1)"; rc=$?
+          # Reuse the already-packaged tarball (no second package step / re-verify).
+          out="$(cargo publish --locked --no-verify 2>&1)"; rc=$?
           printf '%s\n' "$out"
           if [ "$rc" -ne 0 ]; then
             printf '%s\n' "$out" | grep -qiE "already (exists|uploaded)|already been published|is already uploaded" \
@@ -91,14 +117,15 @@ jobs:
           echo "::error::kshana-mcp publish failed — is the matching kshana version on crates.io? (check the kshana = \"0.14\" requirement)"
           exit 1
 
-  pypi:
-    name: PyPI (${{ matrix.os }} / ${{ matrix.target }})
+  build-wheels:
+    name: build wheels (${{ matrix.os }} / ${{ matrix.target }})
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
+    permissions:
+      contents: read
     # Full platform-tag matrix (m37c34cfc): linux x86_64 + aarch64 (manylinux_2_28),
     # macOS arm64 + x86_64, Windows x64 + arm64 — the same matrix wheels.yml verifies.
-    # Each wheel uploads with --skip-existing so re-runs and the per-job sdist overlap
-    # are safe. fail-fast:false so one platform's runner hiccup never blocks the rest.
+    # fail-fast:false so one platform's runner hiccup never blocks the rest.
     strategy:
       fail-fast: false
       matrix:
@@ -141,28 +168,95 @@ jobs:
         with:
           command: sdist
           args: --out dist
-      - name: Gate on token
-        id: gate
+      - name: Generate the CycloneDX SBOM alongside the wheel
+        # Ship the SBOM beside the wheel/sdist in the same dist/ tree so it is attested
+        # below and downloadable next to the release. Built once (on the linux x86_64
+        # leg) from cargo metadata, which is platform-independent. Bash is the action's
+        # default shell on every OS; gen-sbom.sh needs only the Rust toolchain.
+        if: matrix.os == 'ubuntu-latest' && matrix.target == 'x86_64'
         shell: bash
-        env:
-          TOKEN: ${{ secrets.PYPI_API_TOKEN }}
-        run: |
-          if [ -n "$TOKEN" ]; then echo "go=true" >> "$GITHUB_OUTPUT";
-          else echo "PYPI_API_TOKEN not set; skipping PyPI publish"; fi
-      - name: Upload
-        if: steps.gate.outputs.go == 'true'
-        uses: PyO3/maturin-action@v1
-        env:
-          MATURIN_PYPI_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
+        run: ./scripts/gen-sbom.sh > dist/kshana-sbom.cdx.json
+      - uses: actions/upload-artifact@v4
         with:
-          # --skip-existing makes re-runs (and the per-OS overlap on the sdist) safe.
-          command: upload
-          args: --skip-existing dist/*
+          name: pypi-dist-${{ matrix.os }}-${{ matrix.target }}
+          path: dist
+          # Wheels are content-addressed by their filename; keep each platform's upload
+          # distinct so the merge in `pypi-publish` is lossless.
+          if-no-files-found: error
+
+  pypi-publish:
+    name: PyPI (OIDC Trusted Publishing)
+    needs: build-wheels
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: pypi
+    permissions:
+      contents: read
+      # OIDC: lets gh-action-pypi-publish mint a short-lived PyPI token, and lets the
+      # PEP 740 / SLSA attestation of every uploaded file be signed by this identity.
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          # Merge every platform's dist/ into one tree for a single atomic upload.
+          pattern: pypi-dist-*
+          path: dist
+          merge-multiple: true
+      - name: List artifacts to publish
+        run: ls -l dist
+      - name: Attest build provenance (wheels + sdist)
+        uses: actions/attest-build-provenance@v1
+        with:
+          # The CycloneDX SBOM (kshana-sbom.cdx.json) is itself attested below; here we
+          # bind every distributable Python artifact to this workflow run.
+          subject-path: |
+            dist/*.whl
+            dist/*.tar.gz
+      - name: Attest build provenance (SBOM)
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: "dist/kshana-sbom.cdx.json"
+      - name: Stage distributions only (move SBOM out of the upload set)
+        # gh-action-pypi-publish uploads every file under packages-dir; the SBOM JSON is
+        # not a distribution, so move it aside after attestation so twine sees only the
+        # wheels + sdist. (It remains attested and is also a release asset via release.yml.)
+        run: |
+          mkdir -p sbom
+          mv dist/kshana-sbom.cdx.json sbom/ 2>/dev/null || true
+          ls -l dist
+      - name: Gate on Trusted-Publishing opt-in
+        id: gate
+        env:
+          GO: ${{ vars.PYPI_TRUSTED_PUBLISH }}
+        run: |
+          if [ "$GO" = "true" ]; then echo "go=true" >> "$GITHUB_OUTPUT";
+          else echo "PYPI_TRUSTED_PUBLISH != true; skipping PyPI publish (register this workflow as a Trusted Publisher on PyPI and set the repo variable to enable)"; fi
+      - name: Publish to PyPI (Trusted Publishing)
+        if: steps.gate.outputs.go == 'true'
+        # No password/token: with id-token:write and a registered Trusted Publisher,
+        # the action exchanges the workflow OIDC identity for a short-lived upload token.
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          packages-dir: dist
+          # Re-runs after a version is live are a no-op success.
+          skip-existing: true
+          # PEP 740 attestations are generated and uploaded by default under id-token:write.
+          attestations: true
+          # twine's metadata check on each file before upload.
+          verbose: true
 
   npm:
     name: npm
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    permissions:
+      contents: read
+      # SLSA build-provenance attestation of the npm tarball. (npm-native provenance is
+      # generated by `npm publish --provenance`; this attestation is the registry-neutral
+      # GitHub one, verifiable with `gh attestation verify`.)
+      id-token: write
+      attestations: write
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
@@ -172,10 +266,38 @@ jobs:
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
       - name: Build module
         run: wasm-pack build --target web --out-dir web/pkg --release -- --features wasm
+      - name: Stage npm package README
+        # wasm-pack copies the crate readme (README.crates.md); override with the
+        # npm-specific surface README so the registry page renders JS/WASM usage.
+        run: cp README.npm.md web/pkg/README.md
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
           registry-url: "https://registry.npmjs.org"
+      - name: Ship the CycloneDX SBOM inside the npm package
+        # Generated into the package dir so it ships inside the published tarball, and
+        # listed in package.json "files" so `npm pack`/`npm publish` includes it. Runs
+        # after setup-node so the pinned Node interpreter drives the package.json patch.
+        run: |
+          ./scripts/gen-sbom.sh > web/pkg/kshana-sbom.cdx.json
+          node -e '
+            const fs = require("fs");
+            const p = "web/pkg/package.json";
+            const j = JSON.parse(fs.readFileSync(p, "utf8"));
+            j.files = Array.from(new Set([...(j.files || []), "kshana-sbom.cdx.json", "README.md"]));
+            fs.writeFileSync(p, JSON.stringify(j, null, 2) + "\n");
+          '
+          cat web/pkg/package.json
+      - name: Pack the npm tarball (the exact bytes npm publish uploads)
+        id: pack
+        run: |
+          tarball="$(npm pack ./web/pkg --pack-destination . --silent)"
+          echo "tarball=$tarball" >> "$GITHUB_OUTPUT"
+          ls -l "$tarball"
+      - name: Attest build provenance (npm tarball)
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-path: ${{ steps.pack.outputs.tarball }}
       - name: Gate on token
         id: gate
         env:
@@ -187,10 +309,12 @@ jobs:
         if: steps.gate.outputs.go == 'true'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        # ./-prefixed path so npm treats it as a directory, not a GitHub shorthand.
+          TARBALL: ${{ steps.pack.outputs.tarball }}
+        # Publish the already-packed tarball so the attested bytes are exactly what ships.
+        # --provenance records npm-native build provenance (id-token:write enables it).
         run: |
           set +e
-          out="$(npm publish ./web/pkg --access public 2>&1)"; rc=$?
+          out="$(npm publish "$TARBALL" --access public --provenance 2>&1)"; rc=$?
           printf '%s\n' "$out"
           if [ "$rc" -ne 0 ]; then
             printf '%s\n' "$out" | grep -qiE "cannot publish over|previously published|EPUBLISHCONFLICT|cannot modify pre-existing version" \
