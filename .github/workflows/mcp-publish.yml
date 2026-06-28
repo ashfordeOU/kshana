@@ -33,6 +33,11 @@ jobs:
     permissions:
       contents: read
       packages: write
+      # SLSA build-provenance attestation of the pushed multi-arch image, signed by this
+      # workflow's OIDC identity and pushed into ghcr.io alongside the image so that
+      # `gh attestation verify oci://ghcr.io/<owner>/kshana-mcp:<ver>` succeeds.
+      id-token: write
+      attestations: write
     steps:
       - uses: actions/checkout@v4
       - name: Resolve version + owner
@@ -55,7 +60,8 @@ jobs:
       # Multi-arch (amd64 + arm64) so `docker run` works on x86 and Apple-Silicon hosts.
       # arm64 builds under QEMU emulation, so this is the slow job — it only runs per
       # release. (gha cache keeps re-runs fast.) Drop to linux/amd64 if speed matters.
-      - uses: docker/build-push-action@v6
+      - id: build
+        uses: docker/build-push-action@v6
         with:
           context: .
           file: mcp/kshana-mcp/Dockerfile
@@ -66,6 +72,14 @@ jobs:
             ghcr.io/${{ steps.meta.outputs.owner }}/kshana-mcp:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
+      # Attest the image by its immutable digest and push the attestation into ghcr.io so
+      # a consumer can verify it directly from the registry (oci://…@<digest>).
+      - name: Attest image build provenance
+        uses: actions/attest-build-provenance@v1
+        with:
+          subject-name: ghcr.io/${{ steps.meta.outputs.owner }}/kshana-mcp
+          subject-digest: ${{ steps.build.outputs.digest }}
+          push-to-registry: true
 
   registry:
     name: MCP registry (OIDC)
