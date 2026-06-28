@@ -5,6 +5,7 @@
 // the proof in-source; `expect_used` is intentionally NOT enabled.
 #![cfg_attr(not(test), warn(clippy::unwrap_used))]
 
+pub mod acquisition;
 pub mod allan;
 pub mod altpnt;
 pub mod api;
