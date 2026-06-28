@@ -14,7 +14,7 @@
 
 <p align="center">
   <a href="https://github.com/AshfordeOU/kshana/blob/main/tests/sgp4_verification.rs"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%204.12mm-3fb950" alt="SGP4 validated against all 666 AIAA 2006-6753 vectors, worst 4.12 mm"></a>
-  <a href="https://github.com/AshfordeOU/kshana#validation-at-a-glance"><img src="https://img.shields.io/badge/validated-36%20external%20oracles-3fb950" alt="36 of 79 capabilities validated against independent external oracles"></a>
+  <a href="https://github.com/AshfordeOU/kshana#validation-at-a-glance"><img src="https://img.shields.io/badge/validated-36%20external%20oracles-3fb950" alt="36 of 80 capabilities validated against independent external oracles"></a>
   <a href="https://github.com/AshfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/coverage-~96%25%20line-3fb950" alt="~96% line coverage, gated at 85% in CI"></a>
   <a href="https://github.com/AshfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.22.0-c79e63" alt="Release v0.22.0"></a>
   <a href="https://ashforde.org"><img src="https://img.shields.io/badge/playground-try%20in%20browser-c79e63" alt="Live playground — run in your browser, no install"></a>
@@ -34,8 +34,8 @@ published source.
 > ***Validated, not asserted.*** 666/666 AIAA SGP4 vectors to **4.12 mm** · Cowell
 > force model **0.08 m** vs Orekit 12.2 · Galileo **0.61 m** / Swarm-A **0.10 m** vs
 > real ESA precise ephemerides · GCRS→ITRS bit-for-bit vs SOFA/ERFA · ML metrics exact
-> vs scikit-learn · **36 of 79** capabilities validated against independent external
-> oracles; 39 honestly labelled Modelled, 4 partner-owned.
+> vs scikit-learn · **36 of 80** capabilities validated against independent external
+> oracles; 40 honestly labelled Modelled, 4 partner-owned.
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/diagrams/system-overview.png" alt="Kshana system overview: five front doors (CLI, Python wheel, WebAssembly playground, MCP server, JetBrains plugin) converge on a single api::run_toml dispatch, through the engine, to a reproducible result.json + chart.svg" width="840">
@@ -56,7 +56,7 @@ independent reference implementation, or published reference vectors) and re-che
 | ✅ | GNSS DOP · ML detector metrics | to **1e-6** · to **1e-9** | gnss_lib_py · scikit-learn |
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/figures/validation-breakdown.png" alt="Verification status across all 79 capabilities: 36 Validated, 39 Modelled, 4 Partner-owned" width="780">
+  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/figures/validation-breakdown.png" alt="Verification status across all 80 capabilities: 36 Validated, 40 Modelled, 4 Partner-owned" width="780">
 </p>
 
 ## Install
