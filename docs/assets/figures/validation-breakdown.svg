@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" width="780" height="300" viewBox="0 0 780 300" font-family="Helvetica, Arial, sans-serif">
-  <title>kshana verification status breakdown across all 77 capabilities</title>
+  <title>kshana verification status breakdown across all 78 capabilities</title>
   <desc>Generated from src/verification.rs via web/data/verification-matrix.json by tools/gen_validation_figures.py. Do not edit by hand.</desc>
   <rect x="0" y="0" width="780" height="300" fill="#ffffff"/>
   <text x="40" y="56" font-size="26" font-weight="700" fill="#212121">Verification status</text>
-  <text x="40" y="86" font-size="16" fill="#555555">77 capabilities &#183; one row per requirement in the matrix</text>
-  <rect x="40" y="150" width="327.27" height="64" fill="#1b7837"/>
-  <text x="203.64" y="190" font-size="24" font-weight="700" fill="#ffffff" text-anchor="middle">36</text>
-  <rect x="367.27" y="150" width="336.36" height="64" fill="#b8860b"/>
-  <text x="535.45" y="190" font-size="24" font-weight="700" fill="#ffffff" text-anchor="middle">37</text>
-  <rect x="703.64" y="150" width="36.36" height="64" fill="#4a4a8a"/>
-  <text x="721.82" y="190" font-size="24" font-weight="700" fill="#ffffff" text-anchor="middle">4</text>
+  <text x="40" y="86" font-size="16" fill="#555555">78 capabilities &#183; one row per requirement in the matrix</text>
+  <rect x="40" y="150" width="323.08" height="64" fill="#1b7837"/>
+  <text x="201.54" y="190" font-size="24" font-weight="700" fill="#ffffff" text-anchor="middle">36</text>
+  <rect x="363.08" y="150" width="341.03" height="64" fill="#b8860b"/>
+  <text x="533.59" y="190" font-size="24" font-weight="700" fill="#ffffff" text-anchor="middle">38</text>
+  <rect x="704.1" y="150" width="35.9" height="64" fill="#4a4a8a"/>
+  <text x="722.05" y="190" font-size="24" font-weight="700" fill="#ffffff" text-anchor="middle">4</text>
   <rect x="40" y="150" width="700" height="64" fill="none" stroke="#212121" stroke-width="1"/>
   <rect x="40" y="251" width="18" height="18" fill="#1b7837"/>
   <text x="66" y="266" font-size="17" fill="#212121"><tspan font-weight="700">36</tspan> Validated</text>
   <rect x="273.33" y="251" width="18" height="18" fill="#b8860b"/>
-  <text x="299.33" y="266" font-size="17" fill="#212121"><tspan font-weight="700">37</tspan> Modelled</text>
+  <text x="299.33" y="266" font-size="17" fill="#212121"><tspan font-weight="700">38</tspan> Modelled</text>
   <rect x="506.67" y="251" width="18" height="18" fill="#4a4a8a"/>
   <text x="532.67" y="266" font-size="17" fill="#212121"><tspan font-weight="700">4</tspan> Partner</text>
 </svg>
