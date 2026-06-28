@@ -133,6 +133,7 @@ pub mod tle;
 pub mod tpl;
 pub mod types;
 pub mod verification;
+pub mod wahba;
 pub mod walker;
 #[cfg(feature = "wasm")]
 pub mod wasm;
