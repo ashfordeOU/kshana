@@ -17,7 +17,7 @@
   <a href="#validation-at-a-glance"><img src="https://img.shields.io/badge/validated-36%20external%20oracles-3fb950" alt="36 capabilities validated against independent external oracles (real data, independent libraries, or published reference vectors); 36 more are honestly labelled MODELLED and 4 are PARTNER-owned — see Validation at a glance"></a>
   <a href="https://github.com/AshfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/coverage-~96%25%20line-3fb950" alt="~96% line coverage on src/ (cargo-tarpaulin LLVM engine), gated at 85% in CI"></a>
   <a href="https://github.com/AshfordeOU/kshana/actions/workflows/ci.yml"><img src="https://github.com/AshfordeOU/kshana/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="https://github.com/AshfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.21.0-c79e63" alt="Release v0.21.0"></a>
+  <a href="https://github.com/AshfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.22.0-c79e63" alt="Release v0.22.0"></a>
   <a href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator"><img src="https://img.shields.io/badge/JetBrains-Marketplace-c79e63" alt="Kshana on the JetBrains Marketplace"></a>
   <a href="https://glama.ai/mcp/servers/ashfordeOU/kshana"><img src="https://glama.ai/mcp/servers/ashfordeOU/kshana/badges/score.svg" alt="kshana-mcp on Glama — MCP server quality score"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-AGPL_v3-blue.svg" alt="License: AGPL-3.0-only"></a>
@@ -76,7 +76,7 @@ from Ashforde OÜ for proprietary/closed integration (see [`LICENSING.md`](LICEN
 Professionally developed and maintained by [Ashforde OÜ](https://ashforde.org); commercial
 support, integration, and proprietary extensions available.*
 
-> **Status: v0.21.0 · a validated, reproducible simulation substrate for PNT resilience.**
+> **Status: v0.22.0 · a validated, reproducible simulation substrate for PNT resilience.**
 > A fully reproducible engine spanning the PNT stack — orbit geometry and constellation
 > design, a numerical (Cowell) propagator with a seven-perturbation force model, maneuver
 > and trajectory design, time systems, inertial navigation (incl. map-aided and
@@ -227,7 +227,7 @@ Each scenario compares a quantum sensor against its classical counterpart throug
 
 <p align="center">
   <img src="docs/assets/figures/scenario-fom.png" alt="What quantum sensors buy when GNSS is gone, clock-holdover scenario: quantum holds 6600 s of autonomy vs 2610 s classical, far lower timing error, and 100% vs 95.6% availability" width="88%">
-  <br><sub>What quantum sensors buy when GNSS is gone — <code>clock-holdover</code> · seed 42 · engine 0.21.0 · <a href="docs/assets/figures/scenario-fom.svg">SVG</a></sub>
+  <br><sub>What quantum sensors buy when GNSS is gone — <code>clock-holdover</code> · seed 42 · engine 0.22.0 · <a href="docs/assets/figures/scenario-fom.svg">SVG</a></sub>
 </p>
 
 The advantage is **outage- and vibration-dependent**, with an explicit break-even where classical wins — shown honestly across the technology-readiness ladder (optical-clock figures are ground-demonstrator targets; no strontium optical clock has flown):
@@ -1158,7 +1158,7 @@ entry for every user-visible change. Participation is governed by our
 
 If you use Kshana in academic or technical work, please cite it. Machine-readable
 metadata is in [`CITATION.cff`](CITATION.cff) (GitHub renders a "Cite this repository"
-button from it); cite the version you used (e.g. `v0.21.0`) together with the
+button from it); cite the version you used (e.g. `v0.22.0`) together with the
 scenario and seed for full reproducibility. Every release is archived on Zenodo with
 a citable DOI — the concept DOI [10.5281/zenodo.20528627](https://doi.org/10.5281/zenodo.20528627)
 always resolves to the latest version.

@@ -2554,7 +2554,7 @@ z
    </g>
   </g>
   <g id="text_40">
-   <!-- scenario: clock-holdover  ·  seed 42  ·  engine 0.21.0  ·  Modelled (reproducible simulation FoM, single seed — not flight data) -->
+   <!-- scenario: clock-holdover  ·  seed 42  ·  engine 0.22.0  ·  Modelled (reproducible simulation FoM, single seed — not flight data) -->
    <g style="fill: #8c8273" transform="translate(55.240781 33.696) scale(0.105 -0.105)">
     <defs>
      <path id="DejaVuSans-1d" d="M 750 794 
