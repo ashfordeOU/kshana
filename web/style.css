@@ -667,8 +667,10 @@ body.embed { background: var(--bg); }
   border-radius: 6px;
   padding: 0.8rem 0.9rem;
   color: var(--fg-1);
-  overflow-x: auto;
-  white-space: pre;
+  /* Wrap long commands (e.g. the ghcr.io docker image path) instead of clipping
+     them behind a horizontal scrollbar; keep the line breaks between commands. */
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
   line-height: 1.7;
 }
 .codeblock .k { color: var(--accent); }
