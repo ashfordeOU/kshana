@@ -51,7 +51,7 @@ parameter is traceable to a published source.
 | ✅ | GNSS DOP · ML detector metrics | to **1e-6** · to **1e-9** | gnss_lib_py · scikit-learn |
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/figures/validation-breakdown.png" alt="Verification status across all 75 capabilities: 36 Validated, 35 Modelled, 4 Partner-owned" width="780">
+  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/figures/validation-breakdown.png" alt="Verification status across all 76 capabilities: 36 Validated, 36 Modelled, 4 Partner-owned" width="780">
 </p>
 
 ## Install
