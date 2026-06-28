@@ -74,10 +74,31 @@ explicitly (see [`VALIDATION.md`](VALIDATION.md)), otherwise they are not modell
 
 ## 6. Validation datasets
 
-| Dataset | Use | Source |
-|---------|-----|--------|
-| AIAA 2006-6753 SGP4 test vectors (all 666) | SGP4 numerical validation — worst-case 4.12 mm | Vallado et al., AIAA 2006-6753 (`tests/sgp4_verification.rs`) |
-| Celestrak `gps-ops` TLE snapshot (2021-07-28, 30 sats) | real-constellation scenario `orbit-sgp4-gps.toml` | [Celestrak](https://celestrak.org/) (`scripts/fetch_tles.sh`); checksum-validated on load |
+**Vendoring policy.** We commit a verbatim copy of every validation dataset whose
+licence permits redistribution *and* whose size fits comfortably in git, so a clone can
+reproduce the validation offline with no network and no link-rot. A dataset is **fetch-gated**
+(downloaded by a `scripts/fetch_*.sh` helper into the git-ignored `realdata-cache/`,
+with only the small *derived* reference values committed) only when its licence does not
+clearly permit redistribution, or when it is too large for git. Each gated dataset records
+its specific reason below; nothing is gated for convenience.
+
+| Dataset | Use | Licence | In-repo status |
+|---------|-----|---------|----------------|
+| AIAA 2006-6753 SGP4 test vectors (all 666) | SGP4 numerical validation — worst 4.12 mm | Published reference vectors (Vallado, AIAA) | **Vendored** `tests/fixtures/sgp4/` |
+| ⁸⁸Sr optical-clock ADEV σ_y(τ) (Norcia et al., Science 366:93, 2019) | optical-clock measured-stability fit validation | **CC-BY-4.0** (Zenodo 10.5281/zenodo.3382347) | **Vendored** `tests/fixtures/optical_clock_adev/` |
+| CCSDS 502.0/503.0 Blue Book OEM/TDM examples | CCSDS parser round-trip validation | Published standard examples (CCSDS) | **Vendored** `tests/fixtures/ccsds/` |
+| IGS SP3 precise orbit + RINEX NAV samples | orbit-fit + integrity validation | IGS open data (free for any use, attribution) | **Vendored** `tests/fixtures/igs/` |
+| Celestrak TLE snapshots (`gps-ops`, `galileo`) | real-constellation scenarios | Celestrak terms (attribution; US-Gov-origin TLEs) | **Vendored** `tests/fixtures/celestrak/` + live `scripts/fetch_tles.sh` |
+| scipy / scikit-learn / filterpy reference outputs | numerical-kernel + estimator validation | Generated locally from BSD/MIT libraries | **Vendored** `tests/fixtures/scipy/` (+ generator scripts) |
+| Stable32 reference deviations (decade ADEV/HDEV ladders) | Allan-estimator parity | Derived summary values (small) | **Vendored** `tests/fixtures/cs5071a/`, `tests/fixtures/phasedat/` |
+| 5071A caesium **raw** phase series (556 990 pts, 12 MB) | overlapping ADEV/HDEV on a real Cs clock | **Unclear** — `allantools` is LGPL-3.0 (a software licence) with *no explicit data-redistribution grant*; the file is excluded from the PyPI dist | **Fetch-gated** `scripts/fetch_cs5071a.sh`; derived ladders committed |
+| **raw** PHASE.DAT (1000-pt regression series) | Stable32 estimator-parity series | **Unclear** — distributed with the commercial Stable32 (Hamilton Technical Services); NIST SP 1065 is public-domain but does not print the values | **Fetch-gated** `scripts/fetch_phasedat.sh`; derived ladders committed |
+| JammerTest 2024 GNSS jamming/spoofing capture (1.4 GB) | resilience/anomaly scenario calibration | GPL-3.0-or-later (Zenodo 10.5281/zenodo.15910563) — redistribution permitted, but **size exceeds GitHub's 100 MB file limit** and GPL copyleft conflicts with the AGPL tree | **Fetch-gated**; reference the DOI |
+
+The licence status of each fetch-gated dataset was researched against the upstream
+authority; the two "unclear" clock datasets stay gated pending an explicit redistribution
+grant (we already commit the values we *are* licensed to publish), and the JammerTest set
+is gated on size/copyleft grounds despite its open licence.
 
 ---
 
