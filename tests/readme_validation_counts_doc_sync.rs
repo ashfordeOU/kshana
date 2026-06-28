@@ -114,3 +114,71 @@ fn surface_readme_validation_counts_match_the_matrix() {
         }
     }
 }
+
+/// Beyond the badges and the "Validation at a glance" summary line, the matrix counts
+/// also surface in figure alt-text, the figure caption, the provenance-diagram alt-text,
+/// and the centred "N of T capabilities validated" strapline — both in the GitHub README
+/// and in all three per-registry READMEs (crates.io / PyPI / npm). Those sites were never
+/// pinned, so any one of them could silently drift out of step with the matrix while the
+/// guarded badges stayed correct. Pin every remaining count-bearing string so a row
+/// change that misses one is a build failure, not a published overclaim.
+#[test]
+fn every_public_validation_count_string_matches_the_matrix() {
+    let m = verification_matrix();
+    let v = m
+        .iter()
+        .filter(|i| i.status == VerificationStatus::Validated)
+        .count();
+    let md = m
+        .iter()
+        .filter(|i| i.status == VerificationStatus::Modelled)
+        .count();
+    let p = m
+        .iter()
+        .filter(|i| i.status == VerificationStatus::PartnerOwned)
+        .count();
+    let t = m.len();
+
+    let readme = include_str!("../README.md");
+    let crates = include_str!("../README.crates.md");
+    let pypi = include_str!("../README.pypi.md");
+    let npm = include_str!("../README.npm.md");
+
+    // (doc label, doc body, expected substring derived from the matrix). Each substring is
+    // written out in full (no line-continuation) so it is byte-for-byte what must appear.
+    let mut checks: Vec<(&str, &str, String)> = vec![
+        ("README.md (strapline)", readme,
+            format!("{v} of {t}</strong> capabilities validated against independent external oracles; {md} honestly labelled Modelled.")),
+        ("README.md (figure alt)", readme,
+            format!("across all {t} capabilities: {v} Validated (checked vs external oracle), {md} Modelled, {p} Partner-owned")),
+        ("README.md (figure caption)", readme,
+            format!("{v} Validated · {md} Modelled · {p} Partner")),
+        ("README.md (provenance-diagram alt)", readme,
+            format!("Live counts: {v} Validated, {md} Modelled, {p} Partner, {t} total")),
+    ];
+    for (name, body) in [
+        ("README.crates.md", crates),
+        ("README.pypi.md", pypi),
+        ("README.npm.md", npm),
+    ] {
+        checks.push((name, body,
+            format!("**{v} of {t}** capabilities validated against independent external")));
+        checks.push((name, body,
+            format!("oracles; {md} honestly labelled Modelled, {p} partner-owned.")));
+        checks.push((name, body,
+            format!("across all {t} capabilities: {v} Validated, {md} Modelled, {p} Partner-owned")));
+    }
+
+    let stale: Vec<String> = checks
+        .iter()
+        .filter(|(_, body, expected)| !body.contains(expected.as_str()))
+        .map(|(name, _, expected)| format!("  {name}: expected substring {expected:?}"))
+        .collect();
+
+    assert!(
+        stale.is_empty(),
+        "Public-facing validation count strings are out of sync with verification_matrix() \
+         ({v} VALIDATED / {md} MODELLED / {p} PARTNER of {t} total). Update each listed site:\n{}",
+        stale.join("\n")
+    );
+}
