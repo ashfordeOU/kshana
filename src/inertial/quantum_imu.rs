@@ -39,9 +39,12 @@
 //!   constant shift) — the two leading deterministic systematics — are modelled here.
 //!
 //! Honest scope: this module covers the **quantum-projection-noise floor** (the
-//! fundamental limit), the **vibration-limited** regime above it, and the Coriolis
-//! and light-shift systematics. Wavefront aberration and Mach–Zehnder fringe
-//! ambiguity are still out of scope; see [`docs/QUANTUM.md`](../../docs/QUANTUM.md).
+//! fundamental limit), the **vibration-limited** regime above it, the Coriolis and
+//! light-shift systematics, and the **Mach–Zehnder fringe ambiguity** — the
+//! `2π`-periodic fringe readout sets a maximum unambiguous specific force
+//! `a_max = π/(k_eff·T²)` and a scale-factor-independent dynamic range `π/σ_Φ` (see
+//! [`max_unambiguous_accel`], [`dynamic_range_cells`]). Wavefront aberration remains
+//! out of scope; see [`docs/QUANTUM.md`](../../docs/QUANTUM.md).
 
 use std::f64::consts::PI;
 
@@ -143,6 +146,53 @@ pub fn beam_axis_projection(beam_unit: [f64; 3], accel: [f64; 3]) -> f64 {
     (beam_unit[0] * accel[0] + beam_unit[1] * accel[1] + beam_unit[2] * accel[2]) / norm
 }
 
+/// Maximum **unambiguous** specific force (m/s²) of a three-pulse interferometer with
+/// scale factor `k_eff·T²`: the acceleration at which the fringe phase reaches the
+/// ±π half-fringe edge, `a_max = π/(k_eff·T²)`. Beyond ±`a_max` the measured fringe
+/// phase wraps modulo `2π`, so a single fringe reading is aliased — the same wrapped
+/// phase recurs every `2·a_max` of acceleration. This is the dynamic-range cost of the
+/// `T²` sensitivity gain: the longer interrogation that sharpens resolution shrinks the
+/// unambiguous range by the same factor.
+pub fn max_unambiguous_accel(k_eff: f64, pulse_sep_t: f64) -> f64 {
+    let scale = k_eff * pulse_sep_t * pulse_sep_t;
+    if scale == 0.0 {
+        return f64::INFINITY;
+    }
+    PI / scale
+}
+
+/// Wrap a fringe phase (rad) into the principal interval `[−π, π)` — the only part of
+/// the phase a single fringe readout can observe.
+pub fn wrap_phase(phi: f64) -> f64 {
+    let two_pi = 2.0 * PI;
+    (phi + PI).rem_euclid(two_pi) - PI
+}
+
+/// Specific force (m/s²) inferred from one **wrapped** fringe-phase reading
+/// `phi_wrapped ∈ [−π, π)`, assuming the signal lies within the unambiguous interval:
+/// `a = φ_w/(k_eff·T²)`. Outside `[−a_max, a_max]` this aliases by a multiple of
+/// `2·a_max` — the fringe-ambiguity that [`max_unambiguous_accel`] bounds.
+pub fn accel_from_wrapped_phase(k_eff: f64, phi_wrapped: f64, pulse_sep_t: f64) -> f64 {
+    let scale = k_eff * pulse_sep_t * pulse_sep_t;
+    if scale == 0.0 {
+        return 0.0;
+    }
+    phi_wrapped / scale
+}
+
+/// Unambiguous dynamic range expressed in **resolution cells**: the ratio of the
+/// half-fringe range `a_max` to the per-shot resolution `σ_a = σ_Φ/(k_eff·T²)`. Because
+/// both scale as `1/(k_eff·T²)`, the ratio collapses to `a_max/σ_a = π/σ_Φ`, which is
+/// independent of the optical scale factor — interrogation time trades resolution for
+/// range in exact lockstep, leaving the achievable number of cells fixed by the readout
+/// phase noise alone.
+pub fn dynamic_range_cells(sigma_phi: f64) -> f64 {
+    if sigma_phi == 0.0 {
+        return f64::INFINITY;
+    }
+    PI / sigma_phi
+}
+
 /// A cold-atom Mach–Zehnder accelerometer specified by its physics, with the
 /// derived performance the rest of the engine consumes.
 #[derive(Clone, Copy, Debug)]
@@ -223,6 +273,19 @@ impl CaiAccelerometer {
             return f64::INFINITY;
         }
         self.vibration_phase_noise(accel_psd) / scale
+    }
+
+    /// Maximum unambiguous specific force `a_max = π/(k_eff·T²)` (m/s²) — the
+    /// fringe-wrap edge of this configuration. See [`max_unambiguous_accel`].
+    pub fn max_unambiguous_accel(&self) -> f64 {
+        max_unambiguous_accel(self.k_eff(), self.pulse_sep_t)
+    }
+
+    /// Unambiguous dynamic range in resolution cells, `a_max/σ_a = π/σ_Φ` — fixed by
+    /// the projection-noise phase alone, independent of `k_eff` and `T`. See
+    /// [`dynamic_range_cells`].
+    pub fn dynamic_range_cells(&self) -> f64 {
+        dynamic_range_cells(self.projection_noise_phase())
     }
 }
 
@@ -651,6 +714,71 @@ mod tests {
             (phi2 / phi - 4.0).abs() < 1e-9,
             "T² scaling broken: {}",
             phi2 / phi
+        );
+    }
+
+    #[test]
+    fn fringe_ambiguity_bounds_and_aliasing() {
+        let k = effective_wavevector(RB87_D2_WAVELENGTH_M);
+        let t = 0.01_f64;
+        let a_max = max_unambiguous_accel(k, t);
+        // At a_max the fringe phase is exactly the ±π half-fringe edge.
+        assert!((mach_zehnder_phase(k, a_max, t) - PI).abs() < 1e-9);
+        // 1/T² scaling: doubling T quarters the unambiguous range.
+        let a_max2 = max_unambiguous_accel(k, 2.0 * t);
+        assert!((a_max / a_max2 - 4.0).abs() < 1e-9, "range/T² ratio {}", a_max / a_max2);
+
+        // Inside the unambiguous interval, wrapped-phase recovery is exact.
+        let a_true = 0.7 * a_max;
+        let phi_w = wrap_phase(mach_zehnder_phase(k, a_true, t));
+        let a_rec = accel_from_wrapped_phase(k, phi_w, t);
+        assert!((a_rec - a_true).abs() / a_max < 1e-9, "recovered {a_rec} vs {a_true}");
+
+        // Outside it, one reading aliases by exactly 2·a_max (a full fringe).
+        let a_over = 1.5 * a_max;
+        let a_alias = accel_from_wrapped_phase(k, wrap_phase(mach_zehnder_phase(k, a_over, t)), t);
+        let n = ((a_over - a_alias) / (2.0 * a_max)).round();
+        assert!(n.abs() >= 1.0, "expected an alias, got n={n}");
+        assert!(
+            (a_over - a_alias - n * 2.0 * a_max).abs() / a_max < 1e-9,
+            "alias spacing is not 2·a_max"
+        );
+    }
+
+    #[test]
+    fn dynamic_range_is_scale_factor_independent() {
+        // Same readout phase noise σ_Φ but very different optical scale factors
+        // (wavelength, T) ⇒ identical unambiguous range a_max/σ_a = π/σ_Φ.
+        let sigma_phi = projection_noise_rad(0.5, 1e6); // 2e-3 rad
+        let cells = dynamic_range_cells(sigma_phi);
+        assert!((cells - PI / sigma_phi).abs() < 1e-12);
+        for (lambda, t) in [(RB87_D2_WAVELENGTH_M, 0.01), (852e-9, 0.05)] {
+            let k = effective_wavevector(lambda);
+            let a_max = max_unambiguous_accel(k, t);
+            let sigma_a = accel_sensitivity_per_shot(sigma_phi, k, t);
+            assert!(
+                (a_max / sigma_a - cells).abs() / cells < 1e-9,
+                "range/resolution depends on scale factor: {} vs {cells}",
+                a_max / sigma_a
+            );
+        }
+    }
+
+    #[test]
+    fn cai_methods_match_free_functions() {
+        let cai = CaiAccelerometer {
+            wavelength_m: RB87_D2_WAVELENGTH_M,
+            pulse_sep_t: 0.02,
+            atom_number: 1e6,
+            contrast: 0.5,
+            cycle_time_s: 0.5,
+        };
+        assert!(
+            (cai.max_unambiguous_accel() - max_unambiguous_accel(cai.k_eff(), 0.02)).abs() < 1e-12
+        );
+        assert!(
+            (cai.dynamic_range_cells() - dynamic_range_cells(cai.projection_noise_phase())).abs()
+                < 1e-12
         );
     }
 
