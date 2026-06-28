@@ -615,6 +615,78 @@ impl OemInteropScenario {
     }
 }
 
+// ----------------------------------------------------------------------------
+// CCSDS 502.0 covariance-matrix block (COVARIANCE_START … COVARIANCE_STOP)
+// ----------------------------------------------------------------------------
+
+/// A 6×6 position/velocity covariance, ordered `[x, y, z, ẋ, ẏ, ż]` (row-major,
+/// symmetric). Units follow the OEM convention: position-position blocks in km²,
+/// position-velocity in km²/s, velocity-velocity in km²/s².
+pub type Covariance6 = [[f64; 6]; 6];
+
+/// Serialise a covariance into a CCSDS OEM `COVARIANCE_START … COVARIANCE_STOP` KVN
+/// block. `epoch` is a pre-formatted epoch string (same format as the segment state
+/// epochs); `cov_ref_frame` emits the optional `COV_REF_FRAME` keyword when present.
+/// Only the lower triangle is written (the matrix is symmetric), one matrix row per
+/// text line, exactly as CCSDS 502.0 specifies.
+pub fn covariance_block_kvn(epoch: &str, cov: &Covariance6, cov_ref_frame: Option<&str>) -> String {
+    let mut s = String::from("COVARIANCE_START\n");
+    s.push_str(&format!("EPOCH = {epoch}\n"));
+    if let Some(frame) = cov_ref_frame {
+        s.push_str(&format!("COV_REF_FRAME = {frame}\n"));
+    }
+    for (i, row) in cov.iter().enumerate() {
+        let cells: Vec<String> = (0..=i).map(|j| format!("{:.15e}", row[j])).collect();
+        s.push_str(&cells.join(" "));
+        s.push('\n');
+    }
+    s.push_str("COVARIANCE_STOP\n");
+    s
+}
+
+/// Parse the first CCSDS `COVARIANCE_START … COVARIANCE_STOP` block in `text` into a
+/// symmetric [`Covariance6`]. The 21 lower-triangular numbers are read in canonical
+/// order and mirrored to the upper triangle. Returns `Err` if the block is missing or
+/// does not contain exactly 21 covariance values.
+#[allow(clippy::needless_range_loop)]
+pub fn parse_covariance_block(text: &str) -> Result<Covariance6, String> {
+    let start = text
+        .find("COVARIANCE_START")
+        .ok_or("no COVARIANCE_START block")?;
+    let rest = &text[start..];
+    let stop = rest.find("COVARIANCE_STOP").ok_or("no COVARIANCE_STOP")?;
+    let body = &rest[..stop];
+
+    let mut vals: Vec<f64> = Vec::with_capacity(21);
+    for line in body.lines() {
+        let line = line.trim();
+        if line.is_empty()
+            || line.starts_with("COVARIANCE_START")
+            || line.starts_with("EPOCH")
+            || line.starts_with("COV_REF_FRAME")
+            || line.starts_with("COMMENT")
+        {
+            continue;
+        }
+        for tok in line.split_whitespace() {
+            vals.push(tok.parse::<f64>().map_err(|e| format!("bad covariance value '{tok}': {e}"))?);
+        }
+    }
+    if vals.len() != 21 {
+        return Err(format!("expected 21 covariance values, found {}", vals.len()));
+    }
+    let mut cov = [[0.0f64; 6]; 6];
+    let mut k = 0;
+    for i in 0..6 {
+        for j in 0..=i {
+            cov[i][j] = vals[k];
+            cov[j][i] = vals[k]; // mirror to the upper triangle
+            k += 1;
+        }
+    }
+    Ok(cov)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -629,6 +701,67 @@ mod tests {
             minute: 0,
             second: 0.0,
         }
+    }
+
+    // A representative symmetric positive-definite 6x6 covariance.
+    #[allow(clippy::needless_range_loop)]
+    fn sample_cov() -> Covariance6 {
+        let mut c = [[0.0f64; 6]; 6];
+        for i in 0..6 {
+            for j in 0..6 {
+                // symmetric, diagonally dominant: distinct off-diagonals + big diagonal
+                c[i][j] = if i == j {
+                    10.0 + i as f64
+                } else {
+                    0.1 * (i as f64 + 1.0) * (j as f64 + 1.0)
+                };
+            }
+        }
+        c
+    }
+
+    #[test]
+    #[allow(clippy::needless_range_loop)]
+    fn covariance_block_round_trips_and_stays_symmetric() {
+        let cov = sample_cov();
+        let kvn = covariance_block_kvn("2023-01-01T00:00:00.000", &cov, Some("RTN"));
+        // The block has the required delimiters and the optional frame keyword.
+        assert!(kvn.starts_with("COVARIANCE_START"));
+        assert!(kvn.contains("COV_REF_FRAME = RTN"));
+        assert!(kvn.trim_end().ends_with("COVARIANCE_STOP"));
+        // Round-trip is exact to f64 round-off and the matrix is symmetric.
+        let back = parse_covariance_block(&kvn).expect("parses");
+        for i in 0..6 {
+            for j in 0..6 {
+                assert!((back[i][j] - cov[i][j]).abs() < 1e-9, "[{i}][{j}]");
+                assert!((back[i][j] - back[j][i]).abs() < 1e-12, "not symmetric");
+            }
+        }
+    }
+
+    #[test]
+    fn covariance_block_emits_lower_triangle_only() {
+        // The i-th matrix row contributes exactly i+1 numbers (1+2+...+6 = 21 total).
+        let kvn = covariance_block_kvn("2023-01-01T00:00:00.000", &sample_cov(), None);
+        assert!(!kvn.contains("COV_REF_FRAME"));
+        let nums: usize = kvn
+            .lines()
+            .filter(|l| {
+                let t = l.trim();
+                !t.is_empty()
+                    && !t.starts_with("COVARIANCE")
+                    && !t.starts_with("EPOCH")
+            })
+            .map(|l| l.split_whitespace().count())
+            .sum();
+        assert_eq!(nums, 21, "expected 21 lower-triangular entries");
+    }
+
+    #[test]
+    fn parse_covariance_rejects_wrong_value_count() {
+        let bad = "COVARIANCE_START\nEPOCH = x\n1.0 2.0 3.0\nCOVARIANCE_STOP\n";
+        assert!(parse_covariance_block(bad).is_err());
+        assert!(parse_covariance_block("no block here").is_err());
     }
 
     // Pull the whitespace-separated numeric ephemeris lines (the ones beginning

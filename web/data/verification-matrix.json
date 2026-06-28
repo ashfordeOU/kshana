@@ -4,9 +4,9 @@
   "repo_blob_base": "https://github.com/AshfordeOU/kshana/blob/main/",
   "summary": {
     "validated": 36,
-    "modelled": 45,
+    "modelled": 46,
     "partner_owned": 4,
-    "total": 85
+    "total": 86
   },
   "rows": [
     {
@@ -2013,6 +2013,23 @@
         {
           "path": "src/powerlaw.rs",
           "url": "https://github.com/AshfordeOU/kshana/blob/main/src/powerlaw.rs"
+        }
+      ],
+      "test_links": [],
+      "fixture": null
+    },
+    {
+      "requirement": "CCSDS OEM covariance-block interchange",
+      "capability": "Serialise and parse the CCSDS 502.0 OEM COVARIANCE_START…COVARIANCE_STOP block — the 6×6 position/velocity covariance written as its 21-element lower triangle (canonical CX_X … CZ_DOT_Z_DOT order) with the optional COV_REF_FRAME, complementing the existing OEM state-vector writer/parser so orbit-determination and filter covariances round-trip in the standard format",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "Self-consistency of the CCSDS 502.0 covariance serialisation: the serialise→parse round-trip reproduces the matrix to f64 round-off, the lower-triangular ordering carries exactly 21 entries, and malformed blocks are rejected — internal-consistency checks against the module's own writer/reader, NOT an external dataset, so the row stays InternalConsistency. MODELLED format mapping — no cross-validation against a third-party CCSDS OEM covariance fixture",
+      "module": "oem (covariance_block_kvn, parse_covariance_block)",
+      "tests": "oem::tests (a symmetric PD covariance round-trips KVN→parse to f64 round-off and stays symmetric; the block emits exactly the 21 lower-triangular entries — i+1 per matrix row — with/without COV_REF_FRAME; a block with the wrong value count and a missing block are both rejected)",
+      "module_links": [
+        {
+          "path": "src/oem.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/oem.rs"
         }
       ],
       "test_links": [],
