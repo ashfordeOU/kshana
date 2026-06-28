@@ -127,7 +127,6 @@ pub fn rate(n: f64, s: &State6) -> State6 {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::f64::consts::PI;
 
     fn approx(a: f64, b: f64, tol: f64) -> bool {
         (a - b).abs() <= tol
