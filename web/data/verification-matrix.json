@@ -4,9 +4,9 @@
   "repo_blob_base": "https://github.com/AshfordeOU/kshana/blob/main/",
   "summary": {
     "validated": 36,
-    "modelled": 40,
+    "modelled": 41,
     "partner_owned": 4,
-    "total": 80
+    "total": 81
   },
   "rows": [
     {
@@ -1926,6 +1926,23 @@
           "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/wahba_reference.rs"
         }
       ],
+      "fixture": null
+    },
+    {
+      "requirement": "GNSS square-law acquisition detection statistics",
+      "capability": "Square-law (non-coherent) acquisition detector over a code-phase × Doppler search: false-alarm probability (central χ² with 2M dof), the threshold achieving a target P_fa (χ² CDF inverted by bisection), and detection probability (non-central χ² with non-centrality 2M·ρ for per-cell post-correlation SNR ρ), with the generalized Marcum Q-function Q_M(a,b)=1−F_{χ'²(2M,a²)}(b²)",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "Self-consistency of the detector statistics over the engine's validated chi-square machinery (raim::chi2_cdf / noncentral_chi2_cdf): the Marcum-Q ↔ non-central-χ² identity, the closed-form central-case exponential, P_fa/threshold inversion, ROC ordering, and the integration gain are analytic detection-theory identities checked against those CDFs — internal-consistency checks, NOT an external dataset, so the row stays InternalConsistency. MODELLED per-cell square-law detector — no CFAR cell-averaging or code/Doppler-bin straddling loss",
+      "module": "acquisition",
+      "tests": "acquisition::tests (Marcum-Q central case Q_1(0,b)=exp(−b²/2); the P_d=Q_M(√(2Mρ),√γ) identity; P_fa↔threshold round-trip across M and P_fa; ROC monotonicity — P_d rises with SNR, falls with threshold, P_d→P_fa as SNR→0; the non-coherent integration gain raises P_d at fixed P_fa; Marcum-Q monotone in a and b and bounded in [0,1])",
+      "module_links": [
+        {
+          "path": "src/acquisition.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/acquisition.rs"
+        }
+      ],
+      "test_links": [],
       "fixture": null
     }
   ]
