@@ -849,6 +849,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
+        VerificationItem {
+            requirement: "B-plane targeting & patched-conic gravity assist",
+            capability: "Hyperbolic-flyby geometry (a=−μ/v∞², e=1+r_p·v∞²/μ, turn angle δ=2·asin(1/e), impact parameter |B|=|a|·√(e²−1)), the B-plane Ŝ/T̂/R̂ aim-point frame and B·T̂/B·R̂ decomposition, and a patched-conic gravity assist (v∞-magnitude conserved, direction deflected by δ, heliocentric Δv=2·v∞·sin(δ/2) at no propellant cost) with the Tisserand parameter T_P=a_P/a+2√((a/a_P)(1−e²))cos i",
+            module: "bplane",
+            tests: "bplane::tests (the flyby scalars satisfy the closed forms with two agreeing |B| identities and |B|>r_p; the turn angle decreases with periapsis radius and hits the δ→0 / δ→π limits; deflection preserves v∞ speed and rotates exactly by δ; the assist Δv magnitude equals 2·v∞·sin(δ/2) and is bounded by 2·v∞; the B-plane axes are orthonormal and ⊥ Ŝ with |B|²=(B·T̂)²+(B·R̂)²; the Tisserand parameter is invariant across a v∞-preserving deflection that does change a,e,i, and equals 3−(v∞/v_circ)²)",
+            oracle: "Self-consistency of the flyby geometry and the patched-conic invariants: the hyperbolic closed forms, the B-plane orthonormal decomposition, v∞ conservation, and Tisserand invariance (cross-checked two ways — invariance across the deflection and the v∞ link) are analytic identities checked against the engine's own state→element conversion — internal-consistency checks, NOT an external dataset, so the row stays InternalConsistency. MODELLED patched-conic two-body flyby on a circular planetary orbit — no finite-sphere-of-influence transition, encounter third-body perturbations, or ephemeris",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
     ]
 }
 
