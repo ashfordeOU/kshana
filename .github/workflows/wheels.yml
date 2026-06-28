@@ -95,6 +95,67 @@ jobs:
           name: wheels-${{ matrix.os }}-${{ matrix.target }}
           path: dist
 
+  # Rebuild-and-diff reproducibility check for the wheel on an x86_64 runner: build
+  # the abi3 wheel twice from the same checkout and assert the two are byte-identical.
+  #
+  # HONESTY: byte-level wheel reproducibility is a goal, not a proven invariant of this
+  # toolchain. The build pins SOURCE_DATE_EPOCH (the standard knob that strips embedded
+  # mtimes from the wheel zip) and builds both wheels in the same pinned manylinux
+  # container; if maturin/pyo3 still embed nondeterministic bytes this job FAILS LOUDLY
+  # rather than masking it — that is the point. It is informational (continue-on-error)
+  # so an as-yet-unconfirmed nondeterminism never blocks a release while the guarantee
+  # is being established; flip continue-on-error off once CI confirms it is stably green.
+  wheel-repro:
+    name: wheel rebuild-and-diff (x86_64, byte-identical)
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    continue-on-error: true
+    permissions:
+      contents: read
+    env:
+      # Deterministic timestamp for the wheel zip (the canonical reproducible-builds knob).
+      SOURCE_DATE_EPOCH: "1700000000"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+      - name: Build wheel — pass 1
+        uses: PyO3/maturin-action@v1
+        with:
+          command: build
+          target: x86_64
+          args: --release --features python --out dist1
+          manylinux: 2_28
+      - name: Build wheel — pass 2
+        uses: PyO3/maturin-action@v1
+        with:
+          command: build
+          target: x86_64
+          args: --release --features python --out dist2
+          manylinux: 2_28
+      - name: Assert the two wheels are byte-identical
+        run: |
+          set -euo pipefail
+          w1="$(ls dist1/*.whl)"
+          w2="$(ls dist2/*.whl)"
+          echo "pass 1: $w1"
+          echo "pass 2: $w2"
+          h1="$(sha256sum "$w1" | awk '{print $1}')"
+          h2="$(sha256sum "$w2" | awk '{print $1}')"
+          echo "sha256 pass1 = $h1"
+          echo "sha256 pass2 = $h2"
+          if [ "$h1" != "$h2" ]; then
+            echo "::error::wheel is NOT byte-reproducible across rebuilds"
+            # Surface exactly which entries differ to make the nondeterminism diagnosable.
+            python -m zipfile -l "$w1" > list1.txt
+            python -m zipfile -l "$w2" > list2.txt
+            diff -u list1.txt list2.txt || true
+            cmp -l "$w1" "$w2" | head -40 || true
+            exit 1
+          fi
+          echo "OK: wheel is byte-reproducible ($h1)"
+
   # Best-effort smoke install on a native ARM64 Linux runner: proves the aarch64
   # wheel installs without building from source. continue-on-error so an
   # unavailable arm runner label never blocks the release.
