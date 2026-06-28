@@ -136,6 +136,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            requirement: "Optical-clock frequency stability on a real measured curve",
+            capability: "Power-law (white-FM + red-noise-floor) NNLS recovery from a published measured ⁸⁸Sr optical-clock-transition Allan deviation — reproducing σ_y(τ) and the headline 4.7e-16/√τ short-τ scaling with a genuine measured long-τ floor, rather than the synthesised optical-class floor holdover.rs otherwise assumes",
+            module: "quantum_trade (qparams_from_adev_curve), powerlaw",
+            tests: "tests/optical_clock_adev_reference.rs (Norcia et al. ⁸⁸Sr tweezer-clock σ_y(τ), 8 averaging times 0.92–117.76 s vendored verbatim under CC-BY-4.0: NNLS reconstructs the curve to ~10% RMS / ≤21% worst point; recovered √q_wf = 4.33e-16 matches the published 4.7e-16/√τ; q_rw > 0 measured red-noise floor)",
+            oracle: "Norcia, Young, Eckner, Oelker, Ye, Kaufman, Science 366:93 (2019), Fig. 4 measured ADEV; curve vendored verbatim from Zenodo 10.5281/zenodo.3382347 (CC-BY-4.0). Scoped to reproducing the published measured stability curve — the clock-class holdover-to-threshold device figures stay MODELLED",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
             requirement: "Integrity (RAIM/ARAIM/SBAS)",
             capability: "Snapshot/MHSS RAIM, ARAIM P_HMI budget, SBAS DO-229E combination",
             module: "raim, sbas, lunar",
