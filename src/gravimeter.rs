@@ -476,7 +476,19 @@ pub fn run_gps_denied_gravity_nav(cfg: &GravityMapBenchmarkCfg) -> GravityMapNav
         })
         .collect();
     let mut rng = ChaCha8Rng::seed_from_u64(cfg.noise_seed);
-    let noise = Normal::new(0.0, sensor_sigma.max(f64::MIN_POSITIVE)).unwrap();
+    // `Normal::new` (rand_distr 0.4) rejects only a non-finite std_dev; `sensor_sigma`
+    // is derived from caller config and could be non-finite, so floor it to a finite,
+    // strictly-positive value first.
+    let noise_sigma = {
+        let s = sensor_sigma.max(f64::MIN_POSITIVE);
+        if s.is_finite() {
+            s
+        } else {
+            f64::MIN_POSITIVE
+        }
+    };
+    let noise = Normal::new(0.0, noise_sigma)
+        .expect("noise_sigma is finite and strictly positive, which Normal::new always accepts");
     let measured: Vec<f64> = truth
         .iter()
         .map(|&(la, lo)| field(la, lo) + noise.sample(&mut rng))

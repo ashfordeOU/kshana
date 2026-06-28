@@ -1052,7 +1052,11 @@ mod artifacts {
             summary: summarize(items),
             rows,
         };
-        let mut s = serde_json::to_string_pretty(&ledger).expect("ledger serializes");
+        // `Ledger` is static strings + `MatrixSummary` (usizes) + `Vec<LedgerRow>`, whose
+        // fields are static strings / String / `Vec<Link>` / `Option<Fixture>` — no map
+        // and no fallible custom `Serialize`, so JSON serialisation cannot fail.
+        let mut s = serde_json::to_string_pretty(&ledger)
+            .expect("Ledger (strings + numeric summary + row Vecs, no maps) always serialises");
         s.push('\n');
         s
     }

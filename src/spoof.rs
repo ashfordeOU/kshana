@@ -263,7 +263,7 @@ fn run_clock(scn: &SpoofScenario, cfg: &ClockCfg) -> SpoofClock {
 }
 
 fn hash_spoof(scn: &SpoofScenario) -> String {
-    let c = serde_json::to_string(scn).expect("scenario serializes");
+    let c = serde_json::to_string(scn).unwrap_or_default();
     let mut h = Sha256::new();
     h.update(c.as_bytes());
     hex::encode(h.finalize())

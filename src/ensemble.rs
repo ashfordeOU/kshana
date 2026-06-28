@@ -108,7 +108,13 @@ fn aggregate(runs: &[ClockRun]) -> EnsembleClock {
     // Integrity varies with the realization; aggregate only if every run reports it.
     let integrity = if runs.iter().all(|r| r.fom.integrity.is_some()) {
         Some(stat(
-            runs.iter().map(|r| r.fom.integrity.unwrap()).collect(),
+            runs.iter()
+                .map(|r| {
+                    r.fom
+                        .integrity
+                        .expect("guarded by the enclosing `all(|r| r.fom.integrity.is_some())`")
+                })
+                .collect(),
         ))
     } else {
         None

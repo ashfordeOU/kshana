@@ -279,8 +279,20 @@ fn run_one(scn: &GnssInsScenario, cfg: &ImuCfg, seed: u64) -> FusedRun {
     let dt = scn.time.step_s;
     let n = (scn.time.duration_s / dt).round() as usize;
     let mut rng = ChaCha8Rng::seed_from_u64(seed);
-    let np = Normal::new(0.0, scn.sigma_pos_m.max(1e-9)).unwrap();
-    let nv = Normal::new(0.0, scn.sigma_vel_mps.max(1e-9)).unwrap();
+    // `Normal::new` (rand_distr 0.4) rejects only a non-finite std_dev; floor the
+    // caller-supplied measurement sigmas (which may be `inf`/`nan`) to finite,
+    // strictly-positive values before constructing the distributions.
+    let finite_sigma = |sigma: f64| {
+        if sigma.is_finite() {
+            sigma.max(1e-9)
+        } else {
+            1e-9
+        }
+    };
+    let np = Normal::new(0.0, finite_sigma(scn.sigma_pos_m))
+        .expect("finite_sigma returns a finite, strictly-positive std_dev, which Normal::new always accepts");
+    let nv = Normal::new(0.0, finite_sigma(scn.sigma_vel_mps))
+        .expect("finite_sigma returns a finite, strictly-positive std_dev, which Normal::new always accepts");
 
     let error_model = cfg.build_error_model();
     let mut series = Vec::with_capacity(n + 1);
@@ -366,7 +378,7 @@ pub fn run_gnss_ins(scn: &GnssInsScenario) -> GnssInsResult {
 }
 
 fn hash_gnss_ins(scn: &GnssInsScenario) -> String {
-    let c = serde_json::to_string(scn).expect("scenario serializes");
+    let c = serde_json::to_string(scn).unwrap_or_default();
     let mut h = Sha256::new();
     h.update(c.as_bytes());
     hex::encode(h.finalize())

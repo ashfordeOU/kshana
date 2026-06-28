@@ -129,8 +129,8 @@ fn parse_version(v: &str) -> Option<(u32, u32)> {
 /// Classify a foreign artifact's `schema_version` against this engine's
 /// [`SCHEMA_VERSION`]. See the module docs for the rule.
 pub fn compatibility(version: &str) -> Compatibility {
-    let (cur_major, cur_minor) =
-        parse_version(SCHEMA_VERSION).expect("SCHEMA_VERSION is a valid MAJOR.MINOR");
+    let (cur_major, cur_minor) = parse_version(SCHEMA_VERSION)
+        .expect("SCHEMA_VERSION is the compile-time constant \"0.7\", which parses as MAJOR.MINOR");
     match parse_version(version) {
         None => Compatibility::Malformed,
         Some((major, _)) if major != cur_major => Compatibility::MajorIncompatible,
@@ -156,12 +156,18 @@ impl Envelope {
 
     /// Compact canonical JSON.
     pub fn to_json(&self) -> String {
-        serde_json::to_string(self).expect("Envelope always serializes")
+        // `Envelope` is four `String` fields plus a `serde_json::Value` payload.
+        // `Value` serialises infallibly (its object keys are `String`), and JSON
+        // string serialisation never fails for such data, so this cannot error.
+        serde_json::to_string(self).expect("Envelope (Strings + serde_json::Value) always serialises")
     }
 
     /// Indented JSON for files a human will read.
     pub fn to_json_pretty(&self) -> String {
-        serde_json::to_string_pretty(self).expect("Envelope always serializes")
+        // See `to_json`: `Envelope` (four `String`s + a `serde_json::Value`) serialises
+        // infallibly.
+        serde_json::to_string_pretty(self)
+            .expect("Envelope (Strings + serde_json::Value) always serialises")
     }
 
     /// Read an envelope from JSON, **validating** that it is a Kshana artifact

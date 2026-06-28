@@ -116,8 +116,21 @@ pub fn assess(cfg: HealthConfig) -> FilterHealth {
     let lq = cholesky_2x2(process_q(cfg.q_wf, cfg.q_rw, dt));
     let l0 = cholesky_2x2([[PHASE_VAR0, 0.0], [0.0, FREQ_VAR0]]);
 
-    let n01 = Normal::new(0.0, 1.0).unwrap();
-    let meas = Normal::new(0.0, r.sqrt()).unwrap();
+    let n01 = Normal::new(0.0, 1.0)
+        .expect("std_dev is the finite literal 1.0, which Normal::new always accepts");
+    // `Normal::new` (rand_distr 0.4) rejects only a non-finite std_dev; a `cfg.r` of
+    // `inf` would yield `r.sqrt() == inf`, so floor the measurement std_dev to a finite,
+    // strictly-positive value before constructing the distribution.
+    let meas_sigma = {
+        let s = r.sqrt();
+        if s.is_finite() {
+            s.max(1e-300)
+        } else {
+            1e-300
+        }
+    };
+    let meas = Normal::new(0.0, meas_sigma)
+        .expect("meas_sigma is finite and strictly positive, which Normal::new always accepts");
 
     let mut nis_sum = 0.0;
     let mut nis_n = 0u64;

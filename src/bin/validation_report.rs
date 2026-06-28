@@ -107,18 +107,19 @@ fn esc(s: &str) -> String {
         .replace('>', "&gt;")
 }
 
-fn main() {
+fn main() -> std::io::Result<()> {
     let html = render(env!("CARGO_PKG_VERSION"), &verification_matrix());
     match std::env::args().nth(1) {
         Some(path) => {
-            let mut f = std::fs::File::create(&path).expect("create output file");
-            f.write_all(html.as_bytes()).expect("write report");
+            let mut f = std::fs::File::create(&path)?;
+            f.write_all(html.as_bytes())?;
             eprintln!("wrote validation summary to {path}");
         }
         None => {
             print!("{html}");
         }
     }
+    Ok(())
 }
 
 #[cfg(test)]
