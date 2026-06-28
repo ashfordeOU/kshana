@@ -786,6 +786,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
+        VerificationItem {
+            requirement: "Torque-free rigid-body attitude dynamics",
+            capability: "Euler's rotational equations of motion (I ω̇ = τ − ω × Iω, principal-axis and general inertia tensor) coupled to quaternion attitude kinematics (q̇ = ½ q ⊗ ω) and propagated with a fixed-step RK4 integrator that re-normalises the quaternion each step",
+            module: "attitude_dynamics",
+            tests: "attitude_dynamics::tests (apply/solve inverse, spherical-top zero torque, principal-axis fixed point, short-run energy+momentum conservation, q̇=½q⊗ω, symmetric-top rate sign + body-cone precession); tests/attitude_dynamics_reference.rs (200 000-step torque-free runs: |q|=1 to 1e-10, kinetic energy T=½ωᵀIω conserved to 1e-9 rel, |Iω| and the inertial momentum vector conserved to 1e-9/1e-8 rel, both on a tri-axial and a general non-diagonal inertia; symmetric-top oblate + prolate body-cone precession reproduced to 1e-6 vs the analytic λ=ω₃(I_a−I_t)/I_t)",
+            oracle: "Physical conservation laws of the free rigid body (quaternion-norm, rotational kinetic energy, body-frame and inertial angular-momentum) plus the closed-form symmetric-top body-cone precession rate (Goldstein §5.6–5.7; Wertz §16) — these are self-consistency invariants the integrator must preserve, NOT an external dataset, so the row stays InternalConsistency. MODELLED first-principles dynamics — no flexible-body / control-loop / external-torque environment",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
     ]
 }
 
