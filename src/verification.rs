@@ -795,6 +795,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
+        VerificationItem {
+            requirement: "Clohessy–Wiltshire / Hill relative-motion dynamics",
+            capability: "Linearised relative motion of a chaser about a target on a circular reference orbit in the LVLH frame (ẍ−2nẏ−3n²x=0, ÿ+2nẋ=0, z̈+n²z=0), solved by the closed-form 6×6 state-transition matrix Φ(n,t) (Clohessy–Wiltshire 1960; Vallado Alg. 48), with the bounded relative-orbit condition ẏ₀=−2n·x₀",
+            module: "cw_dynamics",
+            tests: "cw_dynamics::tests (Φ(0)=I, cross-track decoupled SHM); tests/cw_dynamics_reference.rs (closed-form Φ vs an independent fixed-step RK4 integration of the same Hill ODEs to <1e-6 over a third of an orbit; Φ(t)Φ(−t)=I to 1e-9; the bounded condition ẏ₀=−2n·x₀ closes the full state after one period to 1e-9 with no secular along-track drift over 10 orbits; a pure radial offset drifts the analytic −12π·x₀ per orbit)",
+            oracle: "The closed-form CW state-transition matrix cross-checked against an independent numeric integration of the same linearised equations of motion, plus the analytic relative-orbit invariants (time-reversibility Φ(t)Φ(−t)=I, the −2n·x₀ bounded-orbit condition, the −12π·x₀ per-orbit secular drift, decoupled cross-track SHM) — self-consistency checks of the linear dynamics, NOT an external dataset, so the row stays InternalConsistency. MODELLED linear relative motion on a circular reference orbit — no eccentricity (Tschauner–Hempel), J2, or differential-drag terms",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
     ]
 }
 
