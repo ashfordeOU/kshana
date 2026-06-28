@@ -19,7 +19,7 @@
     ]]></description>
 
     <change-notes><![CDATA[
-        <b>0.21.0</b> — the plugin now versions in lockstep with the Kshana engine, so the
+        <b>0.22.0</b> — the plugin now versions in lockstep with the Kshana engine, so the
         Marketplace version always matches the <code>kshana</code> release it targets.
         This build is also relicensed to <b>AGPL-3.0-only</b> (a commercial licence is
         available from Ashforde OÜ; see the repository's <code>LICENSING.md</code>) — no

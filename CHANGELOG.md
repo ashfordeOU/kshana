@@ -9,6 +9,62 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.22.0] - 2026-06-28
+
+A consolidation release focused on **evidence, provenance, and distribution discipline**.
+The machine-checked validation matrix grows to **36 VALIDATED · 36 MODELLED · 4 PARTNER**
+across its **76 rows** (was 15 · 42 · 4 across 61), driven by cross-validating modelled
+capabilities against independent external oracles. Every distributed artifact now carries
+a cryptographic SLSA build-provenance attestation, ships a CycloneDX SBOM, and is published
+in lockstep across all surfaces. No numeric model claim is upgraded without an external
+dataset behind it; new capability remains honestly MODELLED.
+
+### Added
+
+- **Attitude dynamics** (`src/attitude_dynamics.rs`, MODELLED) — torque-free rigid-body
+  Euler equations + quaternion kinematics (RK4), with conservation-law self-tests
+  (quaternion norm, kinetic energy, |Iω|, symmetric-top precession).
+- **Cross-validation of modelled capabilities** against independent external oracles,
+  taking the validation matrix to 36 VALIDATED rows, each backed by an external dataset
+  (the CI honesty gate forbids a VALIDATED status without one).
+- **Single-source evidence ledger** with generated verification docs and a drift guard;
+  a browsable validation ledger on kshana.dev with per-card evidence deep-links.
+- **Machine-readable citation metadata** — `codemeta.json` (CodeMeta 2.0) and
+  `.zenodo.json`, pinned to the Cargo manifest by `tests/citation_metadata_doc_sync.rs`.
+- **Supply-chain provenance** — SLSA build-provenance attestation for the crate tarball,
+  wheels, sdist and npm tarball; PyPI OIDC Trusted Publishing; CycloneDX SBOM shipped
+  inside the wheel and npm package; reproducible-build diff and post-release verification.
+- **Discoverability** — `robots.txt`, `sitemap.xml`, and Open Graph / JSON-LD metadata on
+  kshana.dev; a generated `validation-breakdown` figure derived from the matrix.
+- **Per-surface READMEs** for crates.io / PyPI / npm with a count honesty guard.
+
+### Changed
+
+- **Lockstep versioning.** Every distribution surface (crate, PyPI, npm, MCP crate +
+  OCI image, JetBrains plugin) now versions in lockstep with the engine, enforced by
+  `scripts/check-version-sync.sh` in CI.
+- **JetBrains plugin** relicensed to **AGPL-3.0-only** (the published 0.1.1 still
+  advertised Apache-2.0) and now derives its Marketplace version from the release tag.
+- **Robustness hardening** — non-test `unwrap`s removed or justified; `clippy::unwrap_used`
+  gated on non-test code.
+- **kshana.dev** proof-first overhaul: dominant hero, architecture diagrams and result
+  figures, i18n, collapsible/responsive ledger and Standards sections.
+
+### Fixed
+
+- **SP3 precise ephemeris** — apply the IGS Earth-rotation node correction during
+  interpolation.
+- **Registry images** — PyPI/crates.io/npm READMEs use absolute image URLs; the main
+  README's relative image paths rendered as broken images on the PyPI 0.21.0 page. A CI
+  guard (`tests/surface_readme_image_urls_doc_sync.rs`) prevents the regression.
+- **CI** — `fmt` + `clippy` green; stop compiling against git-ignored real data.
+
+### Tests
+
+- Kalman clock covariance stays PSD and symmetric (property test, `tests/property.rs`).
+- Doc-sync guards: every public validation-count string, citation metadata, the generated
+  figure, and surface-README image URLs are all pinned to their source of truth.
+
 ## [0.21.0] - 2026-06-26
 
 This release adds two MODELLED application suites to the open engine — a
