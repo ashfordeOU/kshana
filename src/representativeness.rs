@@ -186,7 +186,11 @@ impl Representativeness {
 
     /// Serialise to pretty JSON for embedding in a scenario report.
     pub fn to_json(&self) -> String {
-        serde_json::to_string_pretty(self).expect("representativeness serialises")
+        // `Representativeness` (Strings, unit enums, `Vec<Anchor>`/`Vec<Gap>`/`Vec<String>`
+        // and a `(u8, u8)` tuple) has no non-string-keyed map field, so JSON serialisation
+        // cannot fail.
+        serde_json::to_string_pretty(self)
+            .expect("Representativeness has no non-string-keyed map field, so it always serialises")
     }
 
     /// Render a short human-readable block.

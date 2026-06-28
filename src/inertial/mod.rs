@@ -16,6 +16,20 @@ use sha2::{Digest, Sha256};
 /// Standard gravity (m/s^2), the conventional value (CGPM 1901).
 pub const G_M_PER_S2: f64 = 9.806_65;
 
+/// Coerce a per-step random-walk standard deviation into a value
+/// `rand_distr::Normal::new` is guaranteed to accept. The callers already gate on a
+/// strictly-positive PSD, but a config-supplied `inf` PSD (or `dt`) would make the
+/// product — and hence `sqrt()` — `inf`, which `Normal::new` (0.4: `BadVariance` iff
+/// `!std_dev.is_finite()`) rejects. A non-finite value maps to the smallest positive
+/// normal; a finite value is floored to it. The result is always finite and positive.
+fn finite_pos_std_dev(std_dev: f64) -> f64 {
+    if std_dev.is_finite() {
+        std_dev.max(f64::MIN_POSITIVE)
+    } else {
+        f64::MIN_POSITIVE
+    }
+}
+
 /// Inertial error model for dead-reckoning a static platform.
 ///
 /// Accelerometer channel: a residual (post-GNSS-calibration) bias plus white
@@ -120,13 +134,15 @@ impl AccelModel {
         // Attitude error: gyro bias + angular random walk.
         self.theta += self.gyro_bias * dt;
         if self.q_arw > 0.0 {
-            let n = Normal::new(0.0, (self.q_arw * dt).sqrt()).unwrap();
+            let n = Normal::new(0.0, finite_pos_std_dev((self.q_arw * dt).sqrt()))
+                .expect("finite_pos_std_dev returns a finite, strictly-positive std_dev, which Normal::new always accepts");
             self.theta += n.sample(rng);
         }
         // Acceleration random walk: the bias does a random walk (increment variance
         // q_aa*dt).
         if self.q_aa > 0.0 {
-            let n = Normal::new(0.0, (self.q_aa * dt).sqrt()).unwrap();
+            let n = Normal::new(0.0, finite_pos_std_dev((self.q_aa * dt).sqrt()))
+                .expect("finite_pos_std_dev returns a finite, strictly-positive std_dev, which Normal::new always accepts");
             self.bias_rw += n.sample(rng);
         }
         // 1/f bias instability contribution (acceleration).
@@ -140,7 +156,8 @@ impl AccelModel {
         if self.q_va > 0.0 {
             // velocity random walk: integrating white accel (PSD S_a) over dt
             // adds a velocity increment of variance S_a*dt.
-            let n = Normal::new(0.0, (self.q_va * dt).sqrt()).unwrap();
+            let n = Normal::new(0.0, finite_pos_std_dev((self.q_va * dt).sqrt()))
+                .expect("finite_pos_std_dev returns a finite, strictly-positive std_dev, which Normal::new always accepts");
             self.vel += n.sample(rng);
         }
         self.pos += self.vel * dt;
@@ -443,7 +460,7 @@ pub struct InertialResult {
 }
 
 fn hash_inertial(scn: &InertialScenario) -> String {
-    let c = serde_json::to_string(scn).expect("scenario serializes");
+    let c = serde_json::to_string(scn).unwrap_or_default();
     let mut h = Sha256::new();
     h.update(c.as_bytes());
     hex::encode(h.finalize())
@@ -562,7 +579,10 @@ fn run_accel_ensemble(
             first = Some(run);
         }
     }
-    let mut run = first.expect("runs >= 1");
+    // This private function is called only from `run_inertial`, and only inside its
+    // `if runs > 1` branch (`runs = scn.runs.max(1)`), so `runs >= 2`: the loop above
+    // ran at least once and set `first = Some(_)`.
+    let mut run = first.expect("run_accel_ensemble is only ever called with runs > 1, so the loop set `first`");
     run.monte_carlo = true;
     run.ensemble = Some(InertialEnsemble {
         runs,

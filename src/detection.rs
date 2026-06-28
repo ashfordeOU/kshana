@@ -168,8 +168,19 @@ pub fn analytic_pd(mu: f64, sigma: f64, gamma: f64) -> f64 {
 pub fn monte_carlo_pfa_pmd(mu: f64, sigma: f64, gamma: f64, n: usize, seed: u64) -> (f64, f64) {
     let n = n.max(1);
     let mut rng = ChaCha8Rng::seed_from_u64(seed);
-    let h0 = Normal::new(0.0, sigma.max(1e-300)).unwrap();
-    let h1 = Normal::new(mu, sigma.max(1e-300)).unwrap();
+    // `rand_distr::Normal::new` (0.4) rejects only a non-finite `std_dev`; floor a
+    // caller-supplied `sigma` (which may be `inf`/`nan`) to a finite, strictly-positive
+    // value so the constructor cannot fail. `Normal::new` does not validate the mean,
+    // so `mu` is passed through unchanged.
+    let std_dev = if sigma.is_finite() {
+        sigma.max(1e-300)
+    } else {
+        1e-300
+    };
+    let h0 = Normal::new(0.0, std_dev)
+        .expect("std_dev is finite and strictly positive, which Normal::new always accepts");
+    let h1 = Normal::new(mu, std_dev)
+        .expect("std_dev is finite and strictly positive, which Normal::new always accepts");
     let mut false_alarms = 0usize;
     let mut misses = 0usize;
     for _ in 0..n {

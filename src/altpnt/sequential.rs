@@ -133,6 +133,20 @@ fn unit_draw(rng: &mut dyn RngCore) -> f64 {
     (rng.next_u64() >> 11) as f64 / (1u64 << 53) as f64
 }
 
+/// Coerce a configured standard deviation into a value that `rand_distr::Normal::new`
+/// is guaranteed to accept. `Normal::new` rejects only a non-finite `std_dev`
+/// (`rand_distr` 0.4: `BadVariance` iff `!std_dev.is_finite()`); a TOML-supplied
+/// `inf`/`nan` sigma would otherwise reach the constructor. Any non-finite input is
+/// mapped to the smallest positive normal, and finite inputs are floored to it, so the
+/// returned value is always finite and strictly positive.
+fn finite_std_dev(sigma: f64) -> f64 {
+    if sigma.is_finite() {
+        sigma.max(f64::MIN_POSITIVE)
+    } else {
+        f64::MIN_POSITIVE
+    }
+}
+
 /// Run the GPS-denied **sequential** terrain-referenced navigation benchmark.
 ///
 /// A vehicle flies a known-shape track with no GNSS while its inertial position error grows
@@ -180,14 +194,16 @@ pub fn run_sequential_trn(cfg: &SequentialTrnCfg) -> SequentialTrnResult {
             )
         })
         .collect();
-    let noise = Normal::new(0.0, cfg.altimeter_sigma_m.max(f64::MIN_POSITIVE)).unwrap();
+    let noise = Normal::new(0.0, finite_std_dev(cfg.altimeter_sigma_m))
+        .expect("finite_std_dev returns a finite, strictly-positive std_dev, which Normal::new always accepts");
     let measured: Vec<f64> = truth
         .iter()
         .map(|&(la, lo)| alt.measure(field(la, lo), noise.sample(&mut rng)))
         .collect();
 
     // Seed the cloud around the first INS fix (the filter is told nothing else).
-    let init = Normal::new(0.0, cfg.init_pos_sigma_deg.max(f64::MIN_POSITIVE)).unwrap();
+    let init = Normal::new(0.0, finite_std_dev(cfg.init_pos_sigma_deg))
+        .expect("finite_std_dev returns a finite, strictly-positive std_dev, which Normal::new always accepts");
     let particles: Vec<Vec<f64>> = (0..np)
         .map(|_| {
             vec![

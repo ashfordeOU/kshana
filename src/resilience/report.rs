@@ -65,7 +65,12 @@ pub fn assurance_report_json(profile: &ResilienceProfile, prov: &Provenance) -> 
         validated_count,
         modelled_count,
     };
-    serde_json::to_string_pretty(&doc).expect("report serializes")
+    // `ReportDoc` is a `&str`, a `Provenance`, two `usize`s and a `&ResilienceProfile`.
+    // The profile's only maps are keyed by unit enums (TechniqueCategory / RdrrFunction /
+    // YangCriterion), which serialise to JSON string keys; there is no tuple/float-keyed
+    // map and no fallible custom `Serialize`, so serialisation cannot fail.
+    serde_json::to_string_pretty(&doc)
+        .expect("ReportDoc's only maps are unit-enum-keyed (string keys), so it always serialises")
 }
 
 /// SHA-256 of arbitrary report bytes, lower-case hex.

@@ -115,7 +115,13 @@ impl ParticleFilter {
             let mut next = f(p);
             for (k, &sd) in noise_sd.iter().enumerate() {
                 if sd > 0.0 && k < next.len() {
-                    next[k] += Normal::new(0.0, sd).unwrap().sample(rng);
+                    // The `sd > 0.0` guard ensures positivity but not finiteness;
+                    // `Normal::new` (rand_distr 0.4) rejects only a non-finite std_dev, so
+                    // coerce an `inf` element to the smallest positive normal.
+                    let sigma = if sd.is_finite() { sd } else { f64::MIN_POSITIVE };
+                    next[k] += Normal::new(0.0, sigma)
+                        .expect("sigma is finite and strictly positive, which Normal::new always accepts")
+                        .sample(rng);
                 }
             }
             *p = next;

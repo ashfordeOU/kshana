@@ -177,13 +177,21 @@ fn marini_mapping(sin_e: f64, a: f64, b: f64, c: f64) -> f64 {
 /// with the table anchored at 15/30/45/60/75°.
 fn niell_interp(table: &[f64; 5], lat_deg_abs: f64) -> f64 {
     let lats = [15.0, 30.0, 45.0, 60.0, 75.0];
-    if lat_deg_abs <= lats[0] {
+    // A NaN latitude (e.g. a NaN scenario input propagated through `to_degrees().abs()`)
+    // would otherwise slip past both range clamps below and make the `position` search
+    // return `None`; anchor it to the equatorward endpoint so the search is total.
+    if lat_deg_abs.is_nan() || lat_deg_abs <= lats[0] {
         return table[0];
     }
     if lat_deg_abs >= lats[4] {
         return table[4];
     }
-    let i = lats.iter().position(|&l| lat_deg_abs < l).unwrap();
+    // `lat_deg_abs` is now finite with `lats[0] < lat_deg_abs < lats[4]`, so the
+    // predicate is satisfied at least at `lats[4]`: the search always finds an index.
+    let i = lats
+        .iter()
+        .position(|&l| lat_deg_abs < l)
+        .expect("lats[0] < lat_deg_abs < lats[4] guarantees a strictly-greater entry exists");
     let f = (lat_deg_abs - lats[i - 1]) / (lats[i] - lats[i - 1]);
     table[i - 1] + f * (table[i] - table[i - 1])
 }
@@ -468,7 +476,7 @@ fn sat_clock_m(prn: usize, rms: f64) -> f64 {
 }
 
 fn hash_scenario(scn: &GnssSimScenario) -> String {
-    let c = serde_json::to_string(scn).expect("scenario serializes");
+    let c = serde_json::to_string(scn).unwrap_or_default();
     let mut h = Sha256::new();
     h.update(c.as_bytes());
     hex::encode(h.finalize())
@@ -508,7 +516,19 @@ pub fn run_gnss_sim(scn: &GnssSimScenario) -> GnssSimResult {
     let dt = scn.time.step_s;
     let n = (scn.time.duration_s / dt).round() as usize;
     let mut rng = ChaCha8Rng::seed_from_u64(scn.seed);
-    let noise = Normal::new(0.0, scn.noise_sigma_m.max(0.0).max(1e-12)).unwrap();
+    // `Normal::new` (rand_distr 0.4) rejects only a non-finite std_dev; an `inf`
+    // `noise_sigma_m` would survive the `.max(..)` floors, so coerce to a finite,
+    // strictly-positive value first.
+    let noise_sigma = {
+        let s = scn.noise_sigma_m.max(0.0).max(1e-12);
+        if s.is_finite() {
+            s
+        } else {
+            1e-12
+        }
+    };
+    let noise = Normal::new(0.0, noise_sigma)
+        .expect("noise_sigma is finite and strictly positive, which Normal::new always accepts");
 
     let sat_ecef_at = |i: usize, t: f64| -> Vec3 {
         teme_to_ecef(sats[i].position_eci(t), walker_epoch_jd() + t / 86_400.0)

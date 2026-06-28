@@ -41,7 +41,11 @@ pub fn bounded_verdict(series: &[(f64, f64)], threshold: f64, horizon: f64) -> b
     if maxabs <= threshold {
         return true; // never breached
     }
-    let last_abs = s.last().unwrap().1.abs();
+    let last_abs = s
+        .last()
+        .expect("`s` is non-empty: the `s.is_empty()` early return above guarantees it")
+        .1
+        .abs();
     if last_abs <= threshold {
         return true; // recovered to in-spec by the end
     }

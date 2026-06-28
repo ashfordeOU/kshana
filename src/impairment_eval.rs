@@ -177,8 +177,15 @@ pub fn generate_corpus(cfg: &CorpusConfig, seed: u64) -> Vec<LabeledCase> {
     for (ci, class) in ImpairmentClass::all().into_iter().enumerate() {
         for i in 0..n {
             // Deterministic per-case noise draws.
-            let z =
-                |rng: &mut ChaCha8Rng, s: f64| Normal::new(0.0, s.max(1e-9)).unwrap().sample(rng);
+            // `Normal::new` (rand_distr 0.4) rejects only a non-finite std_dev; coerce
+            // the (possibly config-derived, possibly non-finite) `s` to a finite,
+            // strictly-positive value before constructing the distribution.
+            let z = |rng: &mut ChaCha8Rng, s: f64| {
+                let sigma = if s.is_finite() { s.max(1e-9) } else { 1e-9 };
+                Normal::new(0.0, sigma)
+                    .expect("sigma is finite and strictly positive, which Normal::new always accepts")
+                    .sample(rng)
+            };
             let u = |rng: &mut ChaCha8Rng| rand::Rng::gen_range(rng, 0.0..1.0);
             let frac = (i as f64 + 0.5) / n as f64; // spread severity deterministically
             let nm = cfg.meas_noise;
@@ -446,7 +453,9 @@ pub fn confusion_at(labeled: &[(bool, f64)], threshold: f64) -> Confusion {
 /// endpoints, ordered by increasing P_fa. Monotone non-decreasing in both axes.
 pub fn roc_curve(labeled: &[(bool, f64)]) -> Vec<RocPoint> {
     let mut thr: Vec<f64> = labeled.iter().map(|&(_, s)| s).collect();
-    thr.sort_by(|a, b| b.partial_cmp(a).unwrap());
+    // `total_cmp` is a total order over all f64, so a NaN score cannot make the
+    // descending sort comparator return `None` (which `partial_cmp` would).
+    thr.sort_by(|a, b| b.total_cmp(a));
     thr.dedup();
     let mut pts = vec![RocPoint {
         threshold: f64::INFINITY,
@@ -525,7 +534,9 @@ pub fn threshold_for_pfa(neg_scores: &[f64], target_pfa: f64) -> f64 {
     }
     let n = neg_scores.len() as f64;
     let mut s = neg_scores.to_vec();
-    s.sort_by(|a, b| b.partial_cmp(a).unwrap()); // descending
+    // `total_cmp` is a total order over all f64, so a NaN score cannot make the
+    // descending sort comparator return `None`.
+    s.sort_by(|a, b| b.total_cmp(a)); // descending
     let mut uniq = s.clone();
     uniq.dedup();
     // Walk unique scores high→low; P_fa = count(neg >= v)/n increases monotonically.
@@ -813,7 +824,7 @@ impl ImpairmentEvalScenario {
     /// Reproducible scenario hash over the canonical inputs (cross-platform anchor).
     pub fn scenario_hash(&self) -> String {
         use sha2::{Digest, Sha256};
-        let c = serde_json::to_string(self).expect("scenario serializes");
+        let c = serde_json::to_string(self).unwrap_or_default();
         let mut h = Sha256::new();
         h.update(c.as_bytes());
         hex::encode(h.finalize())

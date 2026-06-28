@@ -20,7 +20,10 @@ fn percentile_interval(v: &mut [f64], alpha: f64) -> (f64, f64) {
     if v.is_empty() {
         return (f64::NAN, f64::NAN);
     }
-    v.sort_by(|a, b| a.partial_cmp(b).expect("no NaN in bootstrap replicates"));
+    // `total_cmp` is a total order over all f64 (NaN included), so a NaN replicate
+    // cannot make the comparison return `None`. NaN sorts to one end; the percentile
+    // index arithmetic below is unaffected for finite data.
+    v.sort_by(|a, b| a.total_cmp(b));
     let n = v.len();
     let a = alpha.clamp(0.0, 1.0);
     let lo = (((a / 2.0) * n as f64).floor() as usize).min(n - 1);
@@ -155,7 +158,9 @@ pub fn delong_ci(pos: &[f64], neg: &[f64], alpha: f64) -> (f64, f64) {
 fn ranks(v: &[f64]) -> Vec<f64> {
     let n = v.len();
     let mut idx: Vec<usize> = (0..n).collect();
-    idx.sort_by(|&a, &b| v[a].partial_cmp(&v[b]).expect("no NaN in ranks"));
+    // `total_cmp` is a total order over all f64 (NaN included), so a NaN value cannot
+    // make the comparison return `None`.
+    idx.sort_by(|&a, &b| v[a].total_cmp(&v[b]));
     let mut r = vec![0.0; n];
     let mut i = 0;
     while i < n {
