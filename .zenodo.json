@@ -1,0 +1,40 @@
+{
+  "title": "Kshana — a PNT-resilience simulator with quantum-sensor performance models",
+  "upload_type": "software",
+  "description": "Open, reproducible PNT-resilience simulator for positioning, navigation and timing (PNT) with quantum-sensor performance models. Quantifies the performance, autonomy, and resilience advantage of quantum clocks, quantum inertial sensors, and optical time transfer over classical PNT, scored against operational figures of merit, with every sensor parameter traceable to a published source. Quantum sensors are driven by published Allan/noise-budget coefficients, not simulated from first principles.",
+  "creators": [
+    {
+      "name": "Baweja, Chakshu",
+      "affiliation": "Ashforde OÜ"
+    }
+  ],
+  "access_right": "open",
+  "license": "AGPL-3.0-only",
+  "version": "0.21.0",
+  "keywords": [
+    "PNT",
+    "navigation",
+    "quantum",
+    "GNSS",
+    "simulation"
+  ],
+  "related_identifiers": [
+    {
+      "identifier": "10.5281/zenodo.20528627",
+      "relation": "isVersionOf",
+      "scheme": "doi",
+      "resource_type": "software"
+    },
+    {
+      "identifier": "https://github.com/AshfordeOU/kshana",
+      "relation": "isSupplementTo",
+      "scheme": "url",
+      "resource_type": "software"
+    },
+    {
+      "identifier": "https://kshana.dev",
+      "relation": "isDocumentedBy",
+      "scheme": "url"
+    }
+  ]
+}
