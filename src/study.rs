@@ -150,7 +150,11 @@ pub fn run_suite(suite: &Suite, base_dir: &Path) -> Result<StudyOutput, String> 
             })
             .collect(),
     };
-    let json = serde_json::to_string_pretty(&artifact).expect("study artifact serialises");
+    // `StudyArtifact` is Strings/`Option<String>`s plus `Vec<StudyScenario>`, whose only
+    // non-trivial field is a `serde_json::Value` (whose object keys are `String`). There
+    // is no non-string-keyed map and no fallible custom `Serialize`, so this cannot fail.
+    let json = serde_json::to_string_pretty(&artifact)
+        .expect("StudyArtifact (Strings + serde_json::Value) always serialises");
 
     let html = render_html(&suite.title, suite.description.as_deref(), &resolved);
     let summary = format!(

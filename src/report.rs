@@ -108,7 +108,7 @@ pub fn study_meta_with_title(study_title: &str, generated_utc: &str) -> StudyMet
 
 /// sha256 hex over the canonical JSON of the scenario (field order is stable).
 pub fn hash_scenario(scn: &Scenario) -> String {
-    let canonical = serde_json::to_string(scn).expect("scenario serializes");
+    let canonical = serde_json::to_string(scn).unwrap_or_default();
     let mut h = Sha256::new();
     h.update(canonical.as_bytes());
     hex::encode(h.finalize())

@@ -428,8 +428,10 @@ pub fn id_features_from_scores(pos: &[f64], neg: &[f64], target_pfa: f64) -> [f6
     let var_ratio = sp / sn.max(1e-9);
     let mut posv = pos.to_vec();
     let mut negv = neg.to_vec();
-    posv.sort_by(|a, b| a.partial_cmp(b).expect("no NaN scores"));
-    negv.sort_by(|a, b| a.partial_cmp(b).expect("no NaN scores"));
+    // `total_cmp` is a total order over all f64, so a NaN score cannot make the sort
+    // comparator return `None` (which `partial_cmp` would).
+    posv.sort_by(|a, b| a.total_cmp(b));
+    negv.sort_by(|a, b| a.total_cmp(b));
     let q95_neg = quantile(&negv, 0.95);
     let tail_margin = (quantile(&posv, 0.05) - q95_neg) / pooled;
     let overlap = posv.iter().filter(|&&p| p <= q95_neg).count() as f64 / posv.len().max(1) as f64;

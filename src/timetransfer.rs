@@ -36,7 +36,16 @@ impl TimeTransferLink {
         if self.sigma_j <= 0.0 {
             return 0.0;
         }
-        Normal::new(0.0, self.sigma_j).unwrap().sample(rng)
+        // The guard ensures positivity but not finiteness; `Normal::new` (rand_distr 0.4)
+        // rejects only a non-finite std_dev, so coerce an `inf` sigma to a finite value.
+        let sigma = if self.sigma_j.is_finite() {
+            self.sigma_j
+        } else {
+            f64::MIN_POSITIVE
+        };
+        Normal::new(0.0, sigma)
+            .expect("sigma is finite and strictly positive, which Normal::new always accepts")
+            .sample(rng)
     }
     pub fn spec(&self) -> ModelSpec {
         ModelSpec {
@@ -105,7 +114,17 @@ impl TwoWayLink {
             self.diff.step(dt, rng);
         }
         let white = if self.sigma_j > 0.0 {
-            Normal::new(0.0, self.sigma_j).unwrap().sample(rng)
+            // The guard ensures positivity but not finiteness; coerce an `inf` sigma to a
+            // finite value so `Normal::new` (which rejects only non-finite std_dev) cannot
+            // fail.
+            let sigma = if self.sigma_j.is_finite() {
+                self.sigma_j
+            } else {
+                f64::MIN_POSITIVE
+            };
+            Normal::new(0.0, sigma)
+                .expect("sigma is finite and strictly positive, which Normal::new always accepts")
+                .sample(rng)
         } else {
             0.0
         };
@@ -220,7 +239,7 @@ pub struct TimeTransferResult {
 }
 
 fn hash_tt(scn: &TimeTransferScenario) -> String {
-    let c = serde_json::to_string(scn).expect("scenario serializes");
+    let c = serde_json::to_string(scn).unwrap_or_default();
     let mut h = Sha256::new();
     h.update(c.as_bytes());
     hex::encode(h.finalize())

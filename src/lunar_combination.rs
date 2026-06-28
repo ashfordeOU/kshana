@@ -75,6 +75,18 @@ type Vec3 = [f64; 3];
 // Config defaults (serde).
 // ---------------------------------------------------------------------------
 
+/// Coerce a measurement standard deviation into a value `rand_distr::Normal::new`
+/// accepts. `Normal::new` (0.4) rejects only a non-finite `std_dev`; a config-derived
+/// `sigma` could be `inf`/`nan`, so map any non-finite input to zero (a degenerate,
+/// zero-noise draw) and pass finite values through unchanged.
+fn finite_std_dev(sigma: f64) -> f64 {
+    if sigma.is_finite() {
+        sigma
+    } else {
+        0.0
+    }
+}
+
 fn d_n_sat() -> usize {
     3
 }
@@ -538,7 +550,8 @@ fn truth_state(cfg: &LunarNetworkConfig, rng: &mut ChaCha8Rng) -> Vec<f64> {
     let mut x = vec![0.0; n_params(cfg)];
     // Deterministic base pattern + small seeded jitter. All values are PHYSICAL (metres, or
     // range-metres for clocks) here and divided by PARAM_SCALE at the end to match the stored units.
-    let jit = Normal::new(0.0, 1.0).unwrap();
+    let jit = Normal::new(0.0, 1.0)
+        .expect("std_dev is the finite literal 1.0, which Normal::new always accepts");
     // Station position correction (~50 m/axis).
     for a in 0..3 {
         x[a] = 50.0 * [1.0, -1.0, 0.8][a] + 5.0 * jit.sample(rng);
@@ -583,7 +596,11 @@ pub fn estimate(cfg: &LunarNetworkConfig) -> JointSolution {
     let z: Vec<f64> = z_clean
         .iter()
         .zip(&sig)
-        .map(|(&zc, &s)| zc + Normal::new(0.0, s).unwrap().sample(&mut rng))
+        .map(|(&zc, &s)| {
+            zc + Normal::new(0.0, finite_std_dev(s))
+                .expect("finite_std_dev returns a finite std_dev, which Normal::new always accepts")
+                .sample(&mut rng)
+        })
         .collect();
     let weights: Vec<f64> = sig.iter().map(|&s| 1.0 / (s * s)).collect();
 
@@ -715,7 +732,11 @@ pub fn formal_covariance_nees(cfg: &LunarNetworkConfig) -> Option<f64> {
     let z: Vec<f64> = z_clean
         .iter()
         .zip(&sig)
-        .map(|(&zc, &s)| zc + Normal::new(0.0, s).unwrap().sample(&mut rng))
+        .map(|(&zc, &s)| {
+            zc + Normal::new(0.0, finite_std_dev(s))
+                .expect("finite_std_dev returns a finite std_dev, which Normal::new always accepts")
+                .sample(&mut rng)
+        })
         .collect();
     let weights: Vec<f64> = sig.iter().map(|&s| 1.0 / (s * s)).collect();
 

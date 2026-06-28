@@ -109,7 +109,7 @@ impl ForceModel for MarsForceModel {
             .body
             .gravity
             .as_ref()
-            .expect("mars_gmm3 populates the gravity field");
+            .expect("MarsForceModel.body is private and only ever set to Body::mars_gmm3(..), which unconditionally populates `gravity` to Some");
         let r_bf = inertial_to_bodyfixed(r, &self.body, jd);
         let a_bf = field.acceleration(r_bf);
         let m = iau_mars_rotation(&self.body, jd);
@@ -633,7 +633,7 @@ pub struct MarsPntResult {
 }
 
 fn hash_scenario(scn: &MarsScenario) -> String {
-    let c = serde_json::to_string(scn).expect("scenario serializes");
+    let c = serde_json::to_string(scn).unwrap_or_default();
     let mut h = Sha256::new();
     h.update(c.as_bytes());
     hex::encode(h.finalize())

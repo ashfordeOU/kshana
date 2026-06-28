@@ -1,4 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+// Panic-surface gate: a bare `.unwrap()` in non-test code is a lint. Combined with the
+// CI `-D warnings`, this makes any new `.unwrap()` outside `#[cfg(test)]` fail the build.
+// Retained non-test panics use `.expect("<provable invariant>")` instead, which carries
+// the proof in-source; `expect_used` is intentionally NOT enabled.
+#![cfg_attr(not(test), warn(clippy::unwrap_used))]
+
 pub mod allan;
 pub mod altpnt;
 pub mod api;

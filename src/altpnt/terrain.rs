@@ -336,6 +336,20 @@ fn mid_lat(start_lat: f64, step_lat: f64, n: usize) -> f64 {
     start_lat + step_lat * (n as f64 - 1.0) / 2.0
 }
 
+/// Coerce a configured standard deviation into a value `rand_distr::Normal::new` is
+/// guaranteed to accept. `Normal::new` rejects only a non-finite `std_dev`
+/// (`rand_distr` 0.4: `BadVariance` iff `!std_dev.is_finite()`); a TOML-supplied
+/// `inf`/`nan` sigma would otherwise reach the constructor. Non-finite input maps to
+/// the smallest positive normal; finite input is floored to it. The result is always
+/// finite and strictly positive.
+fn finite_std_dev(sigma: f64) -> f64 {
+    if sigma.is_finite() {
+        sigma.max(f64::MIN_POSITIVE)
+    } else {
+        f64::MIN_POSITIVE
+    }
+}
+
 /// Convert a (Δlat, Δlon) degree offset to metres at the representative latitude.
 pub(crate) fn deg_offset_to_m(dlat: f64, dlon: f64, ref_lat_deg: f64) -> f64 {
     let cos_lat = ref_lat_deg.to_radians().cos();
@@ -376,7 +390,8 @@ pub fn run_terrain_nav(cfg: &TerrainNavCfg) -> TerrainNavResult {
         })
         .collect();
     let mut rng = ChaCha8Rng::seed_from_u64(cfg.noise_seed);
-    let noise = Normal::new(0.0, cfg.altimeter_sigma_m.max(f64::MIN_POSITIVE)).unwrap();
+    let noise = Normal::new(0.0, finite_std_dev(cfg.altimeter_sigma_m))
+        .expect("finite_std_dev returns a finite, strictly-positive std_dev, which Normal::new always accepts");
     let measured: Vec<f64> = truth
         .iter()
         .map(|&(la, lo)| alt.measure(field(la, lo), noise.sample(&mut rng)))
@@ -601,9 +616,12 @@ pub fn run_combined_altpnt(cfg: &CombinedAltPntCfg) -> CombinedAltPntResult {
     let mut rng_g = ChaCha8Rng::seed_from_u64(cfg.noise_seed.wrapping_add(0x6772_6176)); // "grav"
     let mut rng_b = ChaCha8Rng::seed_from_u64(cfg.noise_seed.wrapping_add(0x6D61_6700)); // "mag"
     let mut rng_t = ChaCha8Rng::seed_from_u64(cfg.noise_seed.wrapping_add(0x7465_7272)); // "terr"
-    let ng = Normal::new(0.0, cfg.gravity_sigma_mgal.max(f64::MIN_POSITIVE)).unwrap();
-    let nb = Normal::new(0.0, cfg.magnetic_sigma_nt.max(f64::MIN_POSITIVE)).unwrap();
-    let nt = Normal::new(0.0, cfg.terrain_sigma_m.max(f64::MIN_POSITIVE)).unwrap();
+    let ng = Normal::new(0.0, finite_std_dev(cfg.gravity_sigma_mgal))
+        .expect("finite_std_dev returns a finite, strictly-positive std_dev, which Normal::new always accepts");
+    let nb = Normal::new(0.0, finite_std_dev(cfg.magnetic_sigma_nt))
+        .expect("finite_std_dev returns a finite, strictly-positive std_dev, which Normal::new always accepts");
+    let nt = Normal::new(0.0, finite_std_dev(cfg.terrain_sigma_m))
+        .expect("finite_std_dev returns a finite, strictly-positive std_dev, which Normal::new always accepts");
 
     let meas_g: Vec<f64> = truth
         .iter()

@@ -101,7 +101,15 @@ pub struct TwstftResult {
 pub fn run_twstft(scn: &TwstftScenario) -> TwstftResult {
     let sagnac = twstft_sagnac(scn.r_a, scn.r_s, scn.r_b);
     let bipm = twstft_sagnac_bipm(scn.r_a, scn.r_s, scn.r_b);
-    let nrm = Normal::new(0.0, scn.sigma_j).unwrap();
+    // `Normal::new` (rand_distr 0.4) rejects only a non-finite std_dev; a config-supplied
+    // `inf`/`nan` `sigma_j` would otherwise panic here, so coerce it to a finite value.
+    let sigma_j = if scn.sigma_j.is_finite() {
+        scn.sigma_j
+    } else {
+        f64::MIN_POSITIVE
+    };
+    let nrm = Normal::new(0.0, sigma_j)
+        .expect("sigma_j is finite, which Normal::new always accepts");
     let mut rng = ChaCha8Rng::seed_from_u64(scn.seed);
 
     // Each exchange: the raw two-way estimate carries the offset minus the loop Sagnac,
@@ -230,7 +238,19 @@ pub fn fried_parameter(cn2: f64, wavelength_m: f64, path_len_m: f64) -> f64 {
 /// mean offset `−σ_χ²` makes `E[I/⟨I⟩] = 1`; the variance is `exp(σ_R²) − 1 ≈ σ_R²`.
 pub fn lognormal_fading(sigma_r2: f64, rng: &mut dyn RngCore) -> f64 {
     let sig_chi2 = sigma_r2 / 4.0;
-    let nrm = Normal::new(-sig_chi2, sig_chi2.sqrt()).unwrap();
+    // `Normal::new` (rand_distr 0.4) rejects only a non-finite std_dev; a negative or
+    // `inf` `sigma_r2` would make `sig_chi2.sqrt()` NaN or `inf`, so floor it to a finite,
+    // non-negative std_dev. The mean (`-sig_chi2`) is not validated by `Normal::new`.
+    let std_dev = {
+        let s = sig_chi2.sqrt();
+        if s.is_finite() {
+            s
+        } else {
+            0.0
+        }
+    };
+    let nrm = Normal::new(-sig_chi2, std_dev)
+        .expect("std_dev is finite and non-negative, which Normal::new always accepts");
     (2.0 * nrm.sample(rng)).exp()
 }
 

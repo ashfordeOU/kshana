@@ -167,17 +167,20 @@ impl Srif {
     /// with `process_noise_std[i] ≤ 0` carries no noise variable (e.g. the six dynamic states under
     /// pure deterministic dynamics).
     ///
-    /// `stm` must be square `n×n` and invertible (a state-transition matrix always is — it is the
-    /// flow of a linear variational ODE).
-    pub fn time_update(&mut self, stm: &[Vec<f64>], process_noise_std: &[f64]) {
+    /// `stm` must be square `n×n`. A true state-transition matrix is invertible (it is the flow of a
+    /// linear variational ODE), but numerically — for an ill-conditioned segment built from
+    /// caller-supplied observation timing — the float inversion can still fail; in that case the
+    /// update cannot proceed and `None` is returned so the caller can abandon the run rather than
+    /// panic on a singular matrix.
+    #[must_use]
+    pub fn time_update(&mut self, stm: &[Vec<f64>], process_noise_std: &[f64]) -> Option<()> {
         assert_eq!(stm.len(), self.n, "stm dimension mismatch");
         assert_eq!(
             process_noise_std.len(),
             self.n,
             "process-noise dimension mismatch"
         );
-        let phi_inv =
-            invert_lower_or_full(stm).expect("state-transition matrix must be invertible");
+        let phi_inv = invert_lower_or_full(stm)?;
         // R⁺ = R · Φ⁻¹  (info square root in the propagated coordinates), with b unchanged.
         let mut r_new = vec![vec![0.0; self.n]; self.n];
         for (r_new_row, r_row) in r_new.iter_mut().zip(&self.r) {
@@ -209,7 +212,7 @@ impl Srif {
             }
             householder_triangularize(&mut aug, self.n);
             self.store_augmented(&aug);
-            return;
+            return Some(());
         }
 
         // Augmented array over columns [ w(p) | x(n) | rhs ], rows = p (noise) + n (state).
@@ -238,6 +241,7 @@ impl Srif {
             }
             *bi = aug[p + i][p + self.n];
         }
+        Some(())
     }
 
     /// Solve for the **state estimate** (back-substitution of `R·x = b`) and the **covariance**
@@ -694,7 +698,7 @@ impl<F: ForceModel> ReducedDynamicOd<F> {
                 let phi = self.segment_stm(r, v, emp, dt);
                 let q_emp = emp_q_rate * dt.sqrt();
                 let q = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, q_emp, q_emp, q_emp];
-                srif.time_update(&phi, &q);
+                srif.time_update(&phi, &q)?;
                 // Advance the reference state nonlinearly through the same segment.
                 let (rf, vf) = self.propagate_segment(r, v, emp, dt);
                 let decay = if self.cfg.emp_correlation_time > 0.0 {
@@ -1004,7 +1008,7 @@ impl<F: ForceModel> ReducedDynamicOd<F> {
                 let phi = self.segment_stm(r, v, emp, dt);
                 let q_emp = emp_q_rate * dt.sqrt();
                 let q = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, q_emp, q_emp, q_emp];
-                srif.time_update(&phi, &q);
+                srif.time_update(&phi, &q)?;
                 let (rf, vf) = self.propagate_segment(r, v, emp, dt);
                 let decay = if self.cfg.emp_correlation_time > 0.0 {
                     (-dt / self.cfg.emp_correlation_time).exp()
@@ -1414,7 +1418,7 @@ impl<F: ForceModel> FusionOd<F> {
                 // Time update: joint STM + process noise on the empirical and clock states.
                 let phi = self.joint_stm(r, v, emp, dt);
                 let q = self.process_noise_std(dt, emp_q_rate);
-                srif.time_update(&phi, &q);
+                srif.time_update(&phi, &q)?;
 
                 // Advance the orbit reference nonlinearly through the segment (as D2.2 does).
                 let (rf, vf) = self.orbit.propagate_segment(r, v, emp, dt);
@@ -1633,7 +1637,8 @@ mod tests {
         for (k, row) in rows.iter().cycle().take(18).enumerate() {
             srif.measurement_update(row, 0.3 * (k as f64 + 1.0).sin() + 1.0, 0.5);
             if k % 3 == 2 {
-                srif.time_update(&stm, &q);
+                srif.time_update(&stm, &q)
+                    .expect("well-conditioned test STM inverts");
             }
         }
         let (_x, p) = srif.solve();

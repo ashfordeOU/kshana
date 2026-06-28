@@ -287,8 +287,13 @@ struct Kind {
     kind: String,
 }
 
-fn json_of<T: serde::Serialize>(v: &T) -> String {
-    serde_json::to_string_pretty(v).expect("result serialises")
+// Serialise a report to pretty JSON. Returns an error string rather than
+// panicking: `serde_json` can fail when a `Serialize` impl errors or a map is
+// keyed by a non-string type, which is a property of the (evolving) report types
+// rather than something provable infallible at this call site, so the failure is
+// propagated to the caller instead of being asserted away.
+fn json_of<T: serde::Serialize>(v: &T) -> Result<String, String> {
+    serde_json::to_string_pretty(v).map_err(|e| format!("failed to serialise report to JSON: {e}"))
 }
 
 /// A minimal one-line SVG banner for scenario kinds whose primary artifact is the
@@ -592,7 +597,11 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
 /// The built-in scenario kinds and their metadata as a JSON array — the form the
 /// language bindings expose for programmatic introspection.
 pub fn list_scenario_kinds_json() -> String {
-    json_of(&list_scenario_kinds())
+    // `ScenarioMeta` holds only `&'static str` and `&[&'static str]` fields (see
+    // `list_scenario_kinds`): no floats, no maps, no fallible custom `Serialize`
+    // impls. Serialising a `Vec` of such values to JSON cannot fail, so the error
+    // arm is unreachable by construction.
+    json_of(&list_scenario_kinds()).expect("ScenarioMeta is all-static-string data; JSON serialisation is infallible")
 }
 
 /// Lint a scenario TOML against the crate's own introspection and return a list of
@@ -826,7 +835,7 @@ impl Scenario for crate::jamming::JammingScenario {
             if r.fom.mean_js_db.is_nan() { "n/a".to_string() } else { format!("{:.1} dB", r.fom.mean_js_db) },
         );
         Ok(RunOutput {
-            json: json_of(&r),
+            json: json_of(&r).map_err(KshanaError::InvalidInput)?,
             svg: crate::jamming::to_svg(&r),
             summary,
         })
@@ -868,7 +877,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 r.classical.fom.holdover_s, r.classical.fom.pos_p95_m,
             );
             Ok(RunOutput {
-                json: json_of(&r),
+                json: json_of(&r)?,
                 svg: crate::inertial::to_svg(&r),
                 summary,
             })
@@ -894,7 +903,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                     .count(crate::raim::StanfordRegion::HazardouslyMisleadingInformation),
             );
             Ok(RunOutput {
-                json: json_of(&report),
+                json: json_of(&report)?,
                 svg: crate::raim::availability_svg(&report),
                 summary,
             })
@@ -914,7 +923,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 report.max_hpl_m,
             );
             Ok(RunOutput {
-                json: json_of(&report),
+                json: json_of(&report)?,
                 svg: crate::lunar::lunar_report_svg(&report),
                 summary,
             })
@@ -934,7 +943,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 report.offset_at_horizon_us,
             );
             Ok(RunOutput {
-                json: json_of(&report),
+                json: json_of(&report)?,
                 svg: crate::lunar_time::lunar_time_svg(&report),
                 summary,
             })
@@ -954,7 +963,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 report.horizon_hours,
             );
             Ok(RunOutput {
-                json: json_of(&report),
+                json: json_of(&report)?,
                 svg: crate::lunar_vlbi::lunar_vlbi_svg(&report),
                 summary,
             })
@@ -976,7 +985,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 report.with_vlbi.n_params,
             );
             Ok(RunOutput {
-                json: json_of(&report),
+                json: json_of(&report)?,
                 svg: crate::lunar_combination::lunar_combination_svg(&report),
                 summary,
             })
@@ -995,7 +1004,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 report.converged,
             );
             Ok(RunOutput {
-                json: json_of(&report),
+                json: json_of(&report)?,
                 svg: crate::lunar_frame_realise::lunar_frame_realise_svg(&report),
                 summary,
             })
@@ -1021,7 +1030,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 report.pl_availability_pct,
             );
             Ok(RunOutput {
-                json: json_of(&report),
+                json: json_of(&report)?,
                 svg: crate::lunar_service::lunar_service_svg(&report),
                 summary,
             })
@@ -1041,7 +1050,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 report.residual_sigma_m,
             );
             Ok(RunOutput {
-                json: json_of(&report),
+                json: json_of(&report)?,
                 svg: crate::lunar_dpnt::lunar_dpnt_svg(&report),
                 summary,
             })
@@ -1064,7 +1073,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 report.kif_bytes,
             );
             Ok(RunOutput {
-                json: json_of(&report),
+                json: json_of(&report)?,
                 svg: crate::lunar_interop::lunar_interop_svg(&report),
                 summary,
             })
@@ -1080,7 +1089,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 r.classical.fom.sync_rms_ps, r.classical.fom.range_rms_mm, r.classical.fom.adev_tau0,
             );
             Ok(RunOutput {
-                json: json_of(&r),
+                json: json_of(&r)?,
                 svg: crate::timetransfer::to_svg(&r),
                 summary,
             })
@@ -1102,7 +1111,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 r.trade.foms.len(),
             );
             Ok(RunOutput {
-                json: json_of(&r),
+                json: json_of(&r)?,
                 svg: crate::timetransfer_chain::to_svg(&r),
                 summary,
             })
@@ -1124,7 +1133,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 r.trade.foms.len(),
             );
             Ok(RunOutput {
-                json: json_of(&r),
+                json: json_of(&r)?,
                 svg: crate::quantum_nav_od::to_svg(&r),
                 summary,
             })
@@ -1144,7 +1153,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 r.trade.foms.len(),
             );
             Ok(RunOutput {
-                json: json_of(&r),
+                json: json_of(&r)?,
                 svg: crate::quantum_faults::to_svg(&r),
                 summary,
             })
@@ -1161,7 +1170,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 r.classical.fom.pnt_holdover_s, r.classical.fom.timing_holdover_s, r.classical.fom.position_holdover_s, integ(r.classical.fom.integrity), integ(r.classical.fom.security),
             );
             Ok(RunOutput {
-                json: json_of(&r),
+                json: json_of(&r)?,
                 svg: crate::hybrid::to_svg(&r),
                 summary,
             })
@@ -1178,7 +1187,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 r.classical.fom.pnt_holdover_s, r.classical.fom.timing_holdover_s, r.classical.fom.position_holdover_s, integ(r.classical.fom.integrity), integ(r.classical.fom.security),
             );
             Ok(RunOutput {
-                json: json_of(&r),
+                json: json_of(&r)?,
                 svg: crate::hybrid::to_svg(&r),
                 summary,
             })
@@ -1201,7 +1210,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 r.coast.aided_pos_rms_m, r.coast.coast_end_pos_rms_m, r.coast.coast_duration_s,
             );
             Ok(RunOutput {
-                json: json_of(&r),
+                json: json_of(&r)?,
                 svg: crate::fusion::hybrid_ukf::to_svg(&r),
                 summary,
             })
@@ -1218,7 +1227,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 r.classical.fused_outage_rms_m, r.classical.free_outage_rms_m, r.classical.fom.holdover_s, r.classical.fom.availability,
             );
             Ok(RunOutput {
-                json: json_of(&r),
+                json: json_of(&r)?,
                 svg: crate::fusion::pack::to_svg(&r),
                 summary,
             })
@@ -1236,7 +1245,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 r.fom.raim_availability, r.fom.mean_hpl_m, r.fom.mean_vpl_m, r.fom.fault_rate,
             );
             Ok(RunOutput {
-                json: json_of(&r),
+                json: json_of(&r)?,
                 svg: crate::gnss_sim::to_svg(&r, alert_h, alert_v),
                 summary,
             })
@@ -1263,7 +1272,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 r.classical.security_fom, r.classical.detection.analytic_pmd, r.classical.detection.mc_pmd, det(&r.classical),
             );
             Ok(RunOutput {
-                json: json_of(&r),
+                json: json_of(&r)?,
                 svg: crate::spoof::to_svg(&r),
                 summary,
             })
@@ -1284,7 +1293,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 r.verdict,
             );
             Ok(RunOutput {
-                json: json_of(&r),
+                json: json_of(&r)?,
                 svg: crate::spoof_detect::to_svg(&r),
                 summary,
             })
@@ -1303,7 +1312,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 first.map_or(0.0, |p| p.classical), last.map_or(0.0, |p| p.classical),
             );
             Ok(RunOutput {
-                json: json_of(&r),
+                json: json_of(&r)?,
                 svg: crate::sweep::to_svg(&r),
                 summary,
             })
@@ -1321,7 +1330,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 r.metrics.join(", "),
             );
             Ok(RunOutput {
-                json: json_of(&r),
+                json: json_of(&r)?,
                 svg: crate::sweep::generic_to_svg(&r),
                 summary,
             })
@@ -1360,7 +1369,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 geometry: crate::orbit::DopSummary,
             }
             Ok(RunOutput {
-                json: json_of(&OrbitOutput { run: &r, geometry }),
+                json: json_of(&OrbitOutput { run: &r, geometry })?,
                 svg: crate::report::to_svg(&r),
                 summary,
             })
@@ -1388,7 +1397,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 pass,
             );
             Ok(RunOutput {
-                json: json_of(&r),
+                json: json_of(&r)?,
                 svg: crate::ephemeris::to_svg(&r),
                 summary,
             })
@@ -1413,7 +1422,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 measurement_sigma_mgal: r.measurement_sigma_mgal,
             };
             Ok(RunOutput {
-                json: json_of(&out),
+                json: json_of(&out)?,
                 svg: crate::altpnt::terrain::gravity_nav_svg(
                     r.free_inertial_drift_m,
                     r.map_matched_error_m,
@@ -1433,7 +1442,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 r.measurement_sigma_m,
             );
             Ok(RunOutput {
-                json: json_of(&r),
+                json: json_of(&r)?,
                 svg: crate::altpnt::terrain::terrain_nav_svg(&r),
                 summary,
             })
@@ -1455,7 +1464,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 r.measurement_sigma_m,
             );
             Ok(RunOutput {
-                json: json_of(&r),
+                json: json_of(&r)?,
                 svg: crate::altpnt::sequential::sequential_trn_svg(&r),
                 summary,
             })
@@ -1473,7 +1482,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 r.combined_m,
             );
             Ok(RunOutput {
-                json: json_of(&r),
+                json: json_of(&r)?,
                 svg: crate::altpnt::terrain::combined_altpnt_svg(&r),
                 summary,
             })
@@ -1484,7 +1493,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
             let r = crate::pvt::run_pvt(&scn)?;
             let summary = crate::pvt::summary(&r);
             Ok(RunOutput {
-                json: json_of(&r),
+                json: json_of(&r)?,
                 svg: crate::pvt::pvt_svg(&r),
                 summary,
             })
@@ -1495,7 +1504,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
             let r = crate::mars_pnt::run_mars_pnt(&scn)?;
             let summary = crate::mars_pnt::summary(&r);
             Ok(RunOutput {
-                json: json_of(&r),
+                json: json_of(&r)?,
                 svg: crate::mars_pnt::to_svg(&r),
                 summary,
             })
@@ -1593,7 +1602,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                     c.holdover_s.mean, c.holdover_s.p05, c.holdover_s.p95, c.timing_p95_ns.mean, integ(c.security),
                 );
                 return Ok(RunOutput {
-                    json: json_of(&r),
+                    json: json_of(&r)?,
                     svg: crate::ensemble::to_svg(&r),
                     summary,
                 });
@@ -1606,7 +1615,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
                 r.classical.fom.holdover_s, r.classical.fom.timing_p95_ns, integ(r.classical.fom.integrity), integ(r.classical.fom.security),
             );
             Ok(RunOutput {
-                json: json_of(&r),
+                json: json_of(&r)?,
                 svg: crate::report::to_svg(&r),
                 summary,
             })
