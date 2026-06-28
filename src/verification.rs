@@ -407,6 +407,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            requirement: "Quantum inertial sensor fringe-ambiguity / dynamic range",
+            capability: "Mach–Zehnder fringe-ambiguity dynamic range: the 2π-periodic fringe readout sets a maximum unambiguous specific force a_max=π/(k_eff·T²), and the unambiguous range in resolution cells a_max/σ_a=π/σ_Φ is independent of the optical scale factor — the T² sensitivity gain costs unambiguous range in exact lockstep (interrogation time trades resolution for range, leaving the cell count fixed by the readout phase noise)",
+            module: "inertial::quantum_imu",
+            tests: "quantum_imu::tests (a_max sits at the ±π half-fringe edge with the 1/T² range scaling; wrapped-phase recovery is exact inside [−a_max,a_max] and aliases by exactly 2·a_max outside it; the unambiguous dynamic range a_max/σ_a=π/σ_Φ is identical across two very different wavelength/T scale factors; the CaiAccelerometer methods match the free functions)",
+            oracle: "Self-consistency of the interferometer fringe model: the half-fringe edge, the 2π-periodic aliasing structure, and the scale-factor cancellation in the range/resolution ratio are closed-form algebraic identities checked against the engine's own Mach–Zehnder phase and sensitivity functions — internal-consistency checks, NOT an external dataset, so the row stays InternalConsistency. MODELLED ideal three-pulse fringe-ambiguity; no wavefront-aberration or contrast-loss bounds on the unambiguous range",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
             requirement: "Quantum inertial dead-reckoning resilience",
             capability: "Composed bias + scale-factor + VRW + stability-decay position budget over holdover",
             module: "inertial::quantum_imu (QuantumNavBudget)",
