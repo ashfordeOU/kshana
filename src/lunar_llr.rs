@@ -109,7 +109,7 @@ pub fn stations() -> Vec<Station> {
 /// Uses `crate::ephem::moon_position` for the geocentric Moon position and
 /// `crate::lunar_orientation::de440_moon_pa_body_to_inertial` for the PA body → geocentric-inertial rotation (real DE440 PA-frame orientation, with physical libration).
 pub fn reflector_inertial(pa_body_m: Vec3, t_tt_jc: f64) -> Vec3 {
-    let r_moon = crate::ephem::moon_position(t_tt_jc); // geocentric inertial [m]
+    let r_moon = crate::ephem::moon_position(t_tt_jc); // mean-equator/equinox of date (~0.3° from GCRS; a global rotation that leaves the degeneracy correlation and libration amplitude unchanged) [m]
     let r_body_in_inertial =
         crate::lunar_orientation::de440_moon_pa_body_to_inertial(pa_body_m, t_tt_jc);
     [
@@ -328,10 +328,13 @@ pub fn llr_datum_observability(
     for step in 0..n_steps {
         let t_tt_jc = t0_jc + step as f64 * step_jc;
         let jd_tt = JD_J2000 + t_tt_jc * 36_525.0;
-        // UT1 ≈ TT to a few hundred ms — acceptable for a 6-hour scheduling cadence.
+        // UT1 ≈ TT to ~69 s (TT−UT1 ≈ 69 s in 2024: TAI−UTC 37 s + TT−TAI 32.184 s) —
+        // acceptable here because it perturbs only near-horizon gate selection / LOS by ~1e-4 rad,
+        // immaterial to a structural claim at 6-hour cadence.
         let jd_ut1 = jd_tt;
 
-        // Geocentric inertial Moon position (GCRS frame).
+        // Moon position (mean-equator/equinox of date, ~0.3° from GCRS; a global rotation
+        // that leaves the degeneracy correlation and libration amplitude unchanged).
         let r_moon = crate::ephem::moon_position(t_tt_jc);
 
         for refl in &refls {
@@ -401,9 +404,9 @@ pub fn llr_datum_observability(
     // partials), bringing the condition number to ~100.  Correlation is scale-invariant
     // (corr(tx, c·scale) = corr(tx, scale) for any c > 0), so the result is unchanged
     // mathematically; only the CRLB units need adjusting: after the division the solver
-    // returns std_dev(scale_norm) = std_dev(scale / R_MOON), so
-    //   std_dev(scale) = R_MOON · cr.crlb_std[3]
-    //   scale_crlb_ppb = R_MOON · cr.crlb_std[3] · 1e9
+    // returns std_dev(s) where s = scale / R_MOON (dimensionless), so
+    //   std_dev(scale) = std_dev(s) / R_MOON = cr.crlb_std[3] / R_MOON
+    //   scale_crlb_ppb = cr.crlb_std[3] / R_MOON_M · 1e9
     const R_MOON_M: f64 = 1_737_400.0; // mean lunar radius [m] — normalisation length
     for row in &mut jac {
         row[3] /= R_MOON_M;

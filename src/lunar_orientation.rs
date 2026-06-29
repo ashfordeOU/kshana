@@ -355,10 +355,22 @@ mod tests {
              Got {lon_range:.2}° — a mean/tidally-locked rotation gives ≈ 0°.",
         );
         assert!(
+            lon_range < 18.0,
+            "REAL-DATA GATE (longitude upper): sub-Earth longitude range must be below 18° to \
+             reject a fabricated over-driven fixture.  Real DE440 optical libration measures \
+             ≈ 15.6°.  Got {lon_range:.2}°.",
+        );
+        assert!(
             lat_range > 8.0,
             "REAL-DATA GATE (latitude): sub-Earth latitude range must exceed 8° to confirm \
              real optical libration is encoded in the DE440 fixture.  \
              Got {lat_range:.2}° — a mean/tidally-locked rotation gives ≈ 0°.",
+        );
+        assert!(
+            lat_range < 16.0,
+            "REAL-DATA GATE (latitude upper): sub-Earth latitude range must be below 16° to \
+             reject a fabricated over-driven fixture.  Real DE440 optical libration measures \
+             ≈ 13.6°.  Got {lat_range:.2}°.",
         );
     }
 }
