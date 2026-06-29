@@ -266,6 +266,140 @@ pub fn range_partials_analytic(
     [dot(uhat, ex), dot(uhat, ey), dot(uhat, ez), dot(uhat, ps)]
 }
 
+/// Result of the LLR-only Fisher analysis: CoM-X↔scale degeneracy metrics.
+///
+/// The Fisher information matrix assembled from a ground-station tracking
+/// schedule over one synodic month reveals the classic LLR datum ambiguity:
+/// the X-translation of the lunar centre of mass and the lunar scale factor
+/// are nearly unobservable as a pair from Earth-facing range data alone.
+pub struct LlrDatumObservability {
+    /// Total number of (station, reflector, epoch) observations kept after the
+    /// geometry gate (reflector Earth-facing AND above station horizon).
+    pub n_obs: usize,
+    /// Correlation coefficient C[t_x, scale] / sqrt(C[t_x,t_x] · C[scale,scale]).
+    /// A value close to ±1 reproduces the published CoM-X↔scale degeneracy.
+    pub corr_tx_scale: f64,
+    /// CRLB standard deviation on the lunocentric X translation [m].
+    pub origin_crlb_m: f64,
+    /// CRLB standard deviation on the lunar scale factor [ppb].
+    pub scale_crlb_ppb: f64,
+    /// Datum-defect dimension (0 = full-rank Fisher; >0 = unobservable directions).
+    pub defect: usize,
+}
+
+/// LLR-only Fisher matrix → CoM-X↔scale degeneracy metric.
+///
+/// Sweeps all 4 stations × 5 reflectors over `days` at `step_hours` cadence
+/// (in Julian centuries relative to J2000.0 = JD 2 451 545.0 TT).  Only epochs
+/// where the reflector is on the Earth-facing lunar hemisphere **and** above the
+/// station's local horizon (elevation > 0) contribute a row to the Jacobian.
+///
+/// For each kept triple (station, reflector, epoch) the row is the analytic
+/// partial derivatives `[∂range/∂t_x, ∂range/∂t_y, ∂range/∂t_z, ∂range/∂scale]`
+/// at the zero datum, with weight `1/sigma_range_m²`.
+///
+/// Returns the CRLB metrics including the CoM-X↔scale correlation coefficient.
+#[allow(clippy::needless_range_loop)]
+pub fn llr_datum_observability(
+    sigma_range_m: f64,
+    days: f64,
+    step_hours: f64,
+) -> LlrDatumObservability {
+    const JD_J2000: f64 = 2_451_545.0;
+    let step_jc = step_hours / (24.0 * 36_525.0); // step in Julian centuries
+    let n_steps = (days * 24.0 / step_hours).ceil() as usize + 1;
+
+    let refls = reflectors();
+    let stats = stations();
+    let weight = 1.0 / (sigma_range_m * sigma_range_m);
+    let zero_datum = Datum4 {
+        t_m: [0.0, 0.0, 0.0],
+        scale: 0.0,
+    };
+
+    let mut jac: Vec<Vec<f64>> = Vec::new();
+    let mut weights: Vec<f64> = Vec::new();
+
+    for step in 0..n_steps {
+        let t_tt_jc = step as f64 * step_jc;
+        let jd_tt = JD_J2000 + t_tt_jc * 36_525.0;
+        // UT1 ≈ TT to a few hundred ms — acceptable for a 6-hour scheduling cadence.
+        let jd_ut1 = jd_tt;
+
+        // Geocentric inertial Moon position (GCRS frame).
+        let r_moon = crate::ephem::moon_position(t_tt_jc);
+
+        for refl in &refls {
+            // Reflector in geocentric inertial space.
+            let r_refl = reflector_inertial(refl.pa_body_m, t_tt_jc);
+
+            // Vector from Moon centre to reflector (in the inertial frame).
+            let rrel = [
+                r_refl[0] - r_moon[0],
+                r_refl[1] - r_moon[1],
+                r_refl[2] - r_moon[2],
+            ];
+            // Moon→Earth direction: Earth is at geocentric origin, so Moon→Earth = −r_moon.
+            // Earth-facing gate: the reflector must be on the hemisphere facing Earth.
+            let earth_facing_dot =
+                rrel[0] * (-r_moon[0]) + rrel[1] * (-r_moon[1]) + rrel[2] * (-r_moon[2]);
+            if earth_facing_dot <= 0.0 {
+                continue; // reflector is on the far side
+            }
+
+            // Convert reflector inertial (GCRS) → ECEF for the elevation check.
+            // polar-motion neglected (same caveat as station_inertial_position).
+            let r_refl_ecef = crate::cio::gcrs_to_itrs(r_refl, jd_tt, jd_ut1, 0.0, 0.0);
+
+            for st in &stats {
+                let g = crate::frames::Geodetic {
+                    lat_rad: st.lat_deg.to_radians(),
+                    lon_rad: st.lon_deg.to_radians(),
+                    alt_m: st.alt_m,
+                };
+                // Elevation of the reflector (on the Moon) from the Earth station.
+                // Negative elevation = reflector below the station horizon.
+                let el_rad = crate::frames::elevation(g, r_refl_ecef);
+                if el_rad <= 0.0 {
+                    continue;
+                }
+
+                // Both geometry gates pass: push a row into the Jacobian.
+                let row = range_partials_analytic(&zero_datum, st, refl.pa_body_m, t_tt_jc, jd_ut1);
+                jac.push(row.to_vec());
+                weights.push(weight);
+            }
+        }
+    }
+
+    if jac.is_empty() {
+        // Pathological: no observations passed the geometry gate.
+        return LlrDatumObservability {
+            n_obs: 0,
+            corr_tx_scale: 0.0,
+            origin_crlb_m: f64::INFINITY,
+            scale_crlb_ppb: f64::INFINITY,
+            defect: 4,
+        };
+    }
+
+    let m = crate::fim::information_matrix(&jac, &weights);
+    let cr = crate::fim::crlb(&m, 1e-12);
+    let cov = cr
+        .covariance
+        .clone()
+        .unwrap_or_else(|| cr.pseudo_covariance.clone());
+    // corr(t_x, scale) = C[0][3] / sqrt(C[0][0] · C[3][3])
+    let corr = cov[0][3] / (cov[0][0].sqrt() * cov[3][3].sqrt());
+    LlrDatumObservability {
+        n_obs: jac.len(),
+        corr_tx_scale: corr,
+        origin_crlb_m: cr.crlb_std[0],
+        scale_crlb_ppb: cr.crlb_std[3] * 1e9,
+        defect: cr.defect,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -363,6 +497,22 @@ mod tests {
             (c - b).abs() <= 1.0 + 1e-6,
             "1 m shift -> <=1 m range change, got {}",
             c - b
+        );
+    }
+
+    #[test]
+    fn llr_only_fisher_shows_strong_com_x_scale_degeneracy() {
+        // APOLLO-class mm normal points; ~1 synodic month of coverage at 6 h cadence.
+        let obs = llr_datum_observability(0.003, 29.5, 6.0);
+        assert!(
+            obs.n_obs > 20,
+            "need a populated schedule, got {}",
+            obs.n_obs
+        );
+        assert!(
+            obs.corr_tx_scale.abs() > 0.95,
+            "LLR-only geometry must reproduce the published CoM-X<->scale degeneracy (|r|>0.95), got {:.4}",
+            obs.corr_tx_scale
         );
     }
 }
