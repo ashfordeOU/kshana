@@ -161,12 +161,21 @@ fn every_public_validation_count_string_matches_the_matrix() {
         ("README.pypi.md", pypi),
         ("README.npm.md", npm),
     ] {
-        checks.push((name, body,
-            format!("**{v} of {t}** capabilities validated against independent external")));
-        checks.push((name, body,
-            format!("oracles; {md} honestly labelled Modelled, {p} partner-owned.")));
-        checks.push((name, body,
-            format!("across all {t} capabilities: {v} Validated, {md} Modelled, {p} Partner-owned")));
+        checks.push((
+            name,
+            body,
+            format!("**{v} of {t}** capabilities validated against independent external"),
+        ));
+        checks.push((
+            name,
+            body,
+            format!("oracles; {md} honestly labelled Modelled, {p} partner-owned."),
+        ));
+        checks.push((
+            name,
+            body,
+            format!("across all {t} capabilities: {v} Validated, {md} Modelled, {p} Partner-owned"),
+        ));
     }
 
     let stale: Vec<String> = checks

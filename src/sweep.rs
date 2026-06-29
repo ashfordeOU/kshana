@@ -632,7 +632,9 @@ fn eval_grid(
         // The worker chunks `[t*chunk, (t+1)*chunk)` for `t in 0..nthreads` (with
         // `chunk = total.div_ceil(nthreads)`) tile `[0, total)` with no gaps, and every
         // chunk succeeded above (`chunk?`), so every one of the `total` slots was filled.
-        .map(|p| p.expect("the chunked workers cover every flat index 0..total, so each slot is Some"))
+        .map(|p| {
+            p.expect("the chunked workers cover every flat index 0..total, so each slot is Some")
+        })
         .collect())
 }
 

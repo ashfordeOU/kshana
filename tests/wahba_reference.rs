@@ -154,7 +154,11 @@ fn davenport_recovers_known_rotation_noiseless() {
     }
     // λ_max == Σ weights and loss ≈ 0 for a perfect fit.
     let sum_w: f64 = weights.iter().sum();
-    assert!((sol.max_eigenvalue - sum_w).abs() < 1e-9, "λ={}", sol.max_eigenvalue);
+    assert!(
+        (sol.max_eigenvalue - sum_w).abs() < 1e-9,
+        "λ={}",
+        sol.max_eigenvalue
+    );
     assert!(sol.loss < 1e-12, "loss {}", sol.loss);
 }
 
@@ -277,7 +281,10 @@ fn q_method_solution_minimises_the_wahba_loss() {
             }
         }
     }
-    assert!(worse >= 10, "perturbations barely changed the loss ({worse})");
+    assert!(
+        worse >= 10,
+        "perturbations barely changed the loss ({worse})"
+    );
 }
 
 #[test]
@@ -342,7 +349,13 @@ fn degenerate_inputs_are_rejected() {
     assert!(solve_davenport(&single).is_none());
     assert!(solve_quest(&single).is_none());
     // TRIAD with parallel vectors.
-    assert!(triad([1.0, 0.0, 0.0], [1.0, 0.0, 0.0], [2.0, 0.0, 0.0], [3.0, 0.0, 0.0]).is_none());
+    assert!(triad(
+        [1.0, 0.0, 0.0],
+        [1.0, 0.0, 0.0],
+        [2.0, 0.0, 0.0],
+        [3.0, 0.0, 0.0]
+    )
+    .is_none());
 }
 
 #[test]

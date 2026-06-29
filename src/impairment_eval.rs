@@ -183,7 +183,9 @@ pub fn generate_corpus(cfg: &CorpusConfig, seed: u64) -> Vec<LabeledCase> {
             let z = |rng: &mut ChaCha8Rng, s: f64| {
                 let sigma = if s.is_finite() { s.max(1e-9) } else { 1e-9 };
                 Normal::new(0.0, sigma)
-                    .expect("sigma is finite and strictly positive, which Normal::new always accepts")
+                    .expect(
+                        "sigma is finite and strictly positive, which Normal::new always accepts",
+                    )
                     .sample(rng)
             };
             let u = |rng: &mut ChaCha8Rng| rand::Rng::gen_range(rng, 0.0..1.0);

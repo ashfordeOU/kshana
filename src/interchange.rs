@@ -159,7 +159,8 @@ impl Envelope {
         // `Envelope` is four `String` fields plus a `serde_json::Value` payload.
         // `Value` serialises infallibly (its object keys are `String`), and JSON
         // string serialisation never fails for such data, so this cannot error.
-        serde_json::to_string(self).expect("Envelope (Strings + serde_json::Value) always serialises")
+        serde_json::to_string(self)
+            .expect("Envelope (Strings + serde_json::Value) always serialises")
     }
 
     /// Indented JSON for files a human will read.
