@@ -9,6 +9,52 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.23.0] - 2026-06-29
+
+A capability release adding a general **Fisher-information / Cramér–Rao
+observability and optimal-experiment-design layer**, and the release the lunar-PNT
+observability paper rests on. The machine-checked validation matrix grows to
+**40 VALIDATED · 47 MODELLED · 4 PARTNER** across **91 rows** (was 39 · 46 · 4
+across 89): the new estimation engine is checked against an external oracle and is
+VALIDATED; the lunar application of it is honestly MODELLED. As ever, no numeric
+model claim is upgraded without an external dataset behind it.
+
+### Added
+- **`src/fim.rs` — Fisher information, Cramér–Rao bounds, and optimal experiment
+  design.** A general, reusable estimation-theory engine: the Fisher information
+  matrix `M = HᵀWH` from a measurement Jacobian and weights; a symmetric
+  eigensolver (cyclic Jacobi); the Cramér–Rao lower bound via the inverse, or the
+  Moore–Penrose pseudo-inverse plus a null-space basis when the information is
+  rank-deficient (the free-network / datum-defect case); and D-, A-, E- and
+  T-optimal experiment-design metrics with a `best_design` selector over candidate
+  geometries. **VALIDATED** against NumPy (`eigh`/`inv`) and the published
+  closed-form bounds of Kay (1993) to 1e-9 (`tests/fim_observability_reference.rs`),
+  so it enters the matrix as an external-oracle row rather than a self-check.
+- **Lunar joint-OD observability** (`lunar_observability` in
+  `src/lunar_combination.rs`, surfaced on the lunar-combination report): applies the
+  FIM/CRLB engine to the joint orbit-and-clock solve to expose the absolute-station
+  datum defect, its rank restoration as Earth-baseline stations are added, the
+  attained station-position CRLB, and the E-optimal conditioning. Honestly
+  **MODELLED** — the estimation engine is externally validated, but the lunar
+  network it is applied to is a representative simulation, and no current dataset
+  can turn that geometry into a measurement.
+- **Representative elliptical-lunar-frozen-orbit (ELFO) geometry** for the
+  lunar-combination scenario (`orbit_ecc`, `orbit_inc_deg`, `orbit_argp_deg`,
+  `orbit_planes`; circular placement stays the default) and a without-VLBI
+  observability field on the report, so the datum-defect result can be shown to be
+  geometry-general. The same 3→1→0 ladder and three-station threshold hold on a
+  Moonlight/LCNS-family ELFO, and with three Earth VLBI baselines the absolute
+  station position is observable at a sub-metre bound — locked by
+  `elfo_geometry_confirms_the_observability_structure`. Still MODELLED.
+
+### Changed
+- The validation matrix and every generated evidence artifact were regenerated from
+  the single source of truth (`src/verification.rs`): the ledger
+  (`web/data/verification-matrix.json`), `docs/VERIFICATION-MATRIX.md`,
+  `docs/MODELLED-RATIONALE.md`, the validation-breakdown and oracle-kind figures,
+  and the README count strings across all distribution surfaces now read
+  **40 / 47 / 4 of 91**.
+
 ## [0.22.1] - 2026-06-29
 
 A packaging-only patch release. No engine, scenario, or result changes; the
@@ -2369,7 +2415,8 @@ Initial release.
   services, not license fees.
 - `CITATION.cff` so the software can be cited.
 
-[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.22.1...HEAD
+[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.23.0...HEAD
+[0.23.0]: https://github.com/AshfordeOU/kshana/compare/v0.22.1...v0.23.0
 [0.22.1]: https://github.com/AshfordeOU/kshana/compare/v0.22.0...v0.22.1
 [0.22.0]: https://github.com/AshfordeOU/kshana/compare/v0.21.0...v0.22.0
 [0.21.0]: https://github.com/AshfordeOU/kshana/compare/v0.20.0...v0.21.0
