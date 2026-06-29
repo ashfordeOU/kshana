@@ -6,7 +6,7 @@
   "description": "Open, reproducible PNT-resilience simulator with quantum-sensor performance models",
   "version": "0.22.1",
   "license": "https://spdx.org/licenses/AGPL-3.0-only",
-  "codeRepository": "https://github.com/AshfordeOU/kshana",
+  "codeRepository": "https://github.com/ashfordeOU/kshana",
   "url": "https://kshana.dev",
   "programmingLanguage": "Rust",
   "runtimePlatform": "Rust 1.75+",
@@ -33,6 +33,6 @@
     "email": "contact@ashforde.org"
   },
   "developmentStatus": "active",
-  "issueTracker": "https://github.com/AshfordeOU/kshana/issues",
+  "issueTracker": "https://github.com/ashfordeOU/kshana/issues",
   "referencePublication": "CITATION.cff"
 }
