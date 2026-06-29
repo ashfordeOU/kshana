@@ -9,6 +9,23 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.22.1] - 2026-06-29
+
+A packaging-only patch release. No engine, scenario, or result changes; the
+validation matrix is unchanged at 39 VALIDATED · 46 MODELLED · 4 PARTNER across
+89 rows.
+
+### Fixed
+- npm publish: the package `repository.url` derived from the crate manifest used
+  the wrong-case GitHub owner (`AshfordeOU`), which failed npm's sigstore
+  provenance verification (it matches the owner case-sensitively). The manifest
+  `repository` is now the canonical lowercase `ashfordeOU`, so the generated
+  `package.json` matches the provenance subject and the npm release publishes.
+
+### Changed
+- Wheel build pins `codegen-units = 1` so the manylinux wheel is byte-reproducible
+  across rebuilds (the rebuild-and-diff reproducibility check).
+
 ## [0.22.0] - 2026-06-29
 
 A consolidation release focused on **evidence, provenance, and distribution discipline**.
@@ -2352,7 +2369,8 @@ Initial release.
   services, not license fees.
 - `CITATION.cff` so the software can be cited.
 
-[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.22.0...HEAD
+[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.22.1...HEAD
+[0.22.1]: https://github.com/AshfordeOU/kshana/compare/v0.22.0...v0.22.1
 [0.22.0]: https://github.com/AshfordeOU/kshana/compare/v0.21.0...v0.22.0
 [0.21.0]: https://github.com/AshfordeOU/kshana/compare/v0.20.0...v0.21.0
 [0.20.0]: https://github.com/AshfordeOU/kshana/compare/v0.19.0...v0.20.0
