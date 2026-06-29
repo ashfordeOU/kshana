@@ -178,6 +178,92 @@ pub fn llr_range_datum_m(
     llr_range_m(station, p, t_tt_jc, jd_ut1)
 }
 
+/// ∂range/∂{t_x, t_y, t_z, scale} by central finite difference.
+///
+/// Step sizes: 1 m for translation components, 1 ppb for scale.
+/// Order: `[∂/∂t_x, ∂/∂t_y, ∂/∂t_z, ∂/∂scale]`.
+pub fn range_partials_fd(
+    d: &Datum4,
+    station: &Station,
+    refl_pa_body_m: Vec3,
+    t_tt_jc: f64,
+    jd_ut1: f64,
+) -> [f64; 4] {
+    let mut g = [0.0_f64; 4];
+    let ht = 1.0; // 1 m step for translation
+    let hs = 1e-4; // step for scale: large enough to clear round-off, small enough for linearity
+    for (k, g_elem) in g.iter_mut().enumerate().take(3) {
+        let mut dp = Datum4 {
+            t_m: d.t_m,
+            scale: d.scale,
+        };
+        let mut dm = Datum4 {
+            t_m: d.t_m,
+            scale: d.scale,
+        };
+        dp.t_m[k] += ht;
+        dm.t_m[k] -= ht;
+        *g_elem = (llr_range_datum_m(&dp, station, refl_pa_body_m, t_tt_jc, jd_ut1)
+            - llr_range_datum_m(&dm, station, refl_pa_body_m, t_tt_jc, jd_ut1))
+            / (2.0 * ht);
+    }
+    let dp = Datum4 {
+        t_m: d.t_m,
+        scale: d.scale + hs,
+    };
+    let dm = Datum4 {
+        t_m: d.t_m,
+        scale: d.scale - hs,
+    };
+    g[3] = (llr_range_datum_m(&dp, station, refl_pa_body_m, t_tt_jc, jd_ut1)
+        - llr_range_datum_m(&dm, station, refl_pa_body_m, t_tt_jc, jd_ut1))
+        / (2.0 * hs);
+    g
+}
+
+/// ∂range/∂{t_x, t_y, t_z, scale} in closed form.
+///
+/// With `û = (r_ref − r_sta) / |r_ref − r_sta|` (unit vector from station to reflector):
+/// - `∂range/∂t_k = û · (R_body→inertial · ê_k)`
+/// - `∂range/∂scale = û · (R_body→inertial · pa_body)`
+///
+/// Order: `[∂/∂t_x, ∂/∂t_y, ∂/∂t_z, ∂/∂scale]`.
+pub fn range_partials_analytic(
+    d: &Datum4,
+    station: &Station,
+    refl_pa_body_m: Vec3,
+    t_tt_jc: f64,
+    jd_ut1: f64,
+) -> [f64; 4] {
+    let jd_tt = t_tt_jc * 36_525.0 + 2_451_545.0;
+    let seconds = t_tt_jc * 36_525.0 * 86_400.0;
+    let g = crate::frames::Geodetic {
+        lat_rad: station.lat_deg.to_radians(),
+        lon_rad: station.lon_deg.to_radians(),
+        alt_m: station.alt_m,
+    };
+    let r_sta = crate::lunar_vlbi::station_inertial_position(g, jd_tt, jd_ut1);
+    let p = apply_datum(d, refl_pa_body_m);
+    let r_ref = reflector_inertial(p, t_tt_jc);
+    let dv = [
+        r_ref[0] - r_sta[0],
+        r_ref[1] - r_sta[1],
+        r_ref[2] - r_sta[2],
+    ];
+    let n = (dv[0] * dv[0] + dv[1] * dv[1] + dv[2] * dv[2]).sqrt();
+    // û = (r_ref − r_sta)/|·|: points from station toward reflector;
+    // ∂range/∂r_ref = +û along this direction.
+    let uhat = [dv[0] / n, dv[1] / n, dv[2] / n];
+    // R_body→inertial columns and pa_body projected through the rotation.
+    let col = |bk: Vec3| crate::lunar::mcmf_to_mci(bk, seconds);
+    let ex = col([1.0, 0.0, 0.0]);
+    let ey = col([0.0, 1.0, 0.0]);
+    let ez = col([0.0, 0.0, 1.0]);
+    let ps = col(refl_pa_body_m);
+    let dot = |a: Vec3, b: Vec3| a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+    [dot(uhat, ex), dot(uhat, ey), dot(uhat, ez), dot(uhat, ps)]
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -217,6 +303,36 @@ mod tests {
         assert!(s
             .iter()
             .all(|st| st.lat_deg.abs() <= 90.0 && st.lon_deg.abs() <= 180.0));
+    }
+
+    #[test]
+    fn analytic_partials_match_finite_difference() {
+        let t_tt_jc = (2_460_311.0 - 2_451_545.0) / 36_525.0;
+        let jd_ut1 = 2_460_311.0;
+        let st = &stations()[1];
+        let refl = reflectors()[2].pa_body_m;
+        let d0 = Datum4 {
+            t_m: [0.0, 0.0, 0.0],
+            scale: 0.0,
+        };
+        let fd = range_partials_fd(&d0, st, refl, t_tt_jc, jd_ut1);
+        let an = range_partials_analytic(&d0, st, refl, t_tt_jc, jd_ut1);
+        for k in 0..3 {
+            assert!(
+                (fd[k] - an[k]).abs() < 1e-6,
+                "translation partial {k}: fd {} vs analytic {}",
+                fd[k],
+                an[k]
+            );
+        }
+        // scale partial is O(1.7e6 m); use a relative tolerance.
+        let rel = (fd[3] - an[3]).abs() / an[3].abs().max(1.0);
+        assert!(
+            rel < 1e-5,
+            "scale partial: fd {} vs analytic {} (rel {rel})",
+            fd[3],
+            an[3]
+        );
     }
 
     #[test]
