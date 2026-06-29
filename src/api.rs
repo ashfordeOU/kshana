@@ -823,6 +823,16 @@ pub trait ExternalPack: Scenario {
     fn kind_name(&self) -> &'static str;
     /// Introspection metadata, surfaced alongside the built-ins.
     fn meta(&self) -> ScenarioMeta;
+    /// Register this pack's [`crate::registry::ScenarioFactory`] into `reg` so the
+    /// dispatch seam can build it by id. The default is a no-op: pre-existing and
+    /// out-of-tree implementors that predate this seam keep compiling unchanged, and
+    /// only packs that opt into registry dispatch override it (typically by inserting
+    /// a `Box<dyn ScenarioFactory>` keyed on [`kind_name`](ExternalPack::kind_name)).
+    fn register_into(_reg: &mut crate::registry::PackRegistry)
+    where
+        Self: Sized,
+    {
+    }
 }
 
 // A built-in pack implemented through the `Scenario` trait, as the worked example
