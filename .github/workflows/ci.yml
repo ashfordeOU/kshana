@@ -191,3 +191,40 @@ jobs:
         run: node web/report.test.mjs
       - name: Test the guided-tour core
         run: node web/tour.test.mjs
+  # ---------------------------------------------------------------------------
+  # Overlay-registry assurance gates (Phase 0).
+  #
+  # These two jobs pin the public crate's standalone health independently of the
+  # umbrella `check` job: that the kshana library builds + tests on its own (so
+  # the registry conformance suite, tests/conformance.rs, always runs and the
+  # dispatch seam can never silently drift from registry::ids::all()), and that
+  # the library still compiles for the WASM target the registry was designed to
+  # stay friendly to (BTreeMap/Cow, no SystemTime::now()). The conformance test
+  # itself also runs in the `check` job's `cargo test --all`; this is a focused,
+  # faster-failing restatement scoped to the public crate.
+  # ---------------------------------------------------------------------------
+  public-standalone:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: Swatinem/rust-cache@v2
+      - name: Build the public crate standalone
+        run: cargo build -p kshana
+      - name: Test the public crate (includes registry conformance suite)
+        run: cargo test -p kshana
+  wasm-registry:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.93.0
+        with:
+          targets: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v2
+      - name: Build the public crate for wasm32-unknown-unknown
+        # Proves the registry/assurance seam stays no_std/WASM-safe. Scoped to
+        # --lib: the registry lives in the library, and the crate's native-only
+        # binaries (e.g. gen_validation_artifacts) are not WASM targets.
+        run: cargo build -p kshana --lib --target wasm32-unknown-unknown
