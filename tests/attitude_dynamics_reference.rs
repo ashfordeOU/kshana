@@ -16,9 +16,7 @@
 //! Tolerances are stated explicitly per assertion. They are RK4 truncation-error
 //! budgets, not measurement uncertainties — this is a MODELLED capability.
 
-use kshana::attitude_dynamics::{
-    propagate, symmetric_top_body_rate, AttitudeState, Inertia,
-};
+use kshana::attitude_dynamics::{propagate, symmetric_top_body_rate, AttitudeState, Inertia};
 use kshana::inertial::attitude::Quaternion;
 use std::f64::consts::PI;
 
@@ -112,11 +110,7 @@ fn angular_momentum_conserved_tri_axial() {
 /// off-diagonal products of inertia must not break the invariants.
 #[test]
 fn conservation_holds_for_general_inertia() {
-    let inertia = Inertia::general([
-        [8.0, 1.2, -0.6],
-        [1.2, 11.0, 0.9],
-        [-0.6, 0.9, 14.0],
-    ]);
+    let inertia = Inertia::general([[8.0, 1.2, -0.6], [1.2, 11.0, 0.9], [-0.6, 0.9, 14.0]]);
     let s0 = AttitudeState::new(
         Quaternion::from_axis_angle([0.5, 0.5, 0.5], 1.1),
         [0.7, -0.45, 0.3],
@@ -130,9 +124,15 @@ fn conservation_holds_for_general_inertia() {
 
     assert!((s.q.norm() - 1.0).abs() <= 1e-10, "norm drift on general I");
     let rel_t = (s.kinetic_energy(&inertia) - t0).abs() / t0.abs();
-    assert!(rel_t <= 1e-9, "energy not conserved on general I: rel={rel_t:e}");
+    assert!(
+        rel_t <= 1e-9,
+        "energy not conserved on general I: rel={rel_t:e}"
+    );
     let rel_h = (s.angular_momentum_magnitude(&inertia) - h0).abs() / h0.abs();
-    assert!(rel_h <= 1e-9, "|Iω| not conserved on general I: rel={rel_h:e}");
+    assert!(
+        rel_h <= 1e-9,
+        "|Iω| not conserved on general I: rel={rel_h:e}"
+    );
 }
 
 /// (iv) Symmetric-top body-cone precession reproduces the analytic rate for an
@@ -210,7 +210,10 @@ fn symmetric_top_prolate_precession_matches_analytic() {
     let angle = lambda * (steps as f64 * dt); // negative → ωy goes negative
     let wx_expected = w_perp * angle.cos();
     let wy_expected = w_perp * angle.sin();
-    assert!(wy_expected < 0.0, "prolate quarter-turn should drive ωy < 0");
+    assert!(
+        wy_expected < 0.0,
+        "prolate quarter-turn should drive ωy < 0"
+    );
     assert!(
         (s.omega[0] - wx_expected).abs() <= 1e-6,
         "ωx {} vs analytic {}",

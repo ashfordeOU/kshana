@@ -109,7 +109,8 @@ impl Inertia {
     pub fn general(matrix: [[f64; 3]; 3]) -> Self {
         // Reject a materially non-symmetric input (a transcription error), but
         // tolerate round-off by symmetrising afterwards.
-        #[allow(clippy::needless_range_loop)] // paired i,j upper-triangle indexing reads clearer than enumerate
+        #[allow(clippy::needless_range_loop)]
+        // paired i,j upper-triangle indexing reads clearer than enumerate
         for i in 0..3 {
             for j in (i + 1)..3 {
                 let asym = (matrix[i][j] - matrix[j][i]).abs();
@@ -123,7 +124,8 @@ impl Inertia {
             }
         }
         let mut m = [[0.0; 3]; 3];
-        #[allow(clippy::needless_range_loop)] // transpose read matrix[j][i] cannot be expressed via enumerate
+        #[allow(clippy::needless_range_loop)]
+        // transpose read matrix[j][i] cannot be expressed via enumerate
         for i in 0..3 {
             for j in 0..3 {
                 m[i][j] = 0.5 * (matrix[i][j] + matrix[j][i]);
@@ -240,7 +242,11 @@ struct StateDot {
 pub fn euler_omega_dot(inertia: &Inertia, omega: Vec3, torque: Vec3) -> Vec3 {
     let h = inertia.apply(omega);
     let gyro = cross(omega, h); // ω × Iω
-    let rhs = [torque[0] - gyro[0], torque[1] - gyro[1], torque[2] - gyro[2]];
+    let rhs = [
+        torque[0] - gyro[0],
+        torque[1] - gyro[1],
+        torque[2] - gyro[2],
+    ];
     inertia.solve(rhs)
 }
 
@@ -431,7 +437,11 @@ mod tests {
         let h0 = s0.angular_momentum_magnitude(&inertia);
         let s = propagate(&inertia, &s0, [0.0; 3], 1e-3, 5_000);
         assert!(close(s.kinetic_energy(&inertia), t0, 1e-10 * t0.abs()));
-        assert!(close(s.angular_momentum_magnitude(&inertia), h0, 1e-10 * h0.abs()));
+        assert!(close(
+            s.angular_momentum_magnitude(&inertia),
+            h0,
+            1e-10 * h0.abs()
+        ));
         assert!(close(s.q.norm(), 1.0, 1e-12));
     }
 

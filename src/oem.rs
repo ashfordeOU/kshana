@@ -669,11 +669,17 @@ pub fn parse_covariance_block(text: &str) -> Result<Covariance6, String> {
             continue;
         }
         for tok in line.split_whitespace() {
-            vals.push(tok.parse::<f64>().map_err(|e| format!("bad covariance value '{tok}': {e}"))?);
+            vals.push(
+                tok.parse::<f64>()
+                    .map_err(|e| format!("bad covariance value '{tok}': {e}"))?,
+            );
         }
     }
     if vals.len() != 21 {
-        return Err(format!("expected 21 covariance values, found {}", vals.len()));
+        return Err(format!(
+            "expected 21 covariance values, found {}",
+            vals.len()
+        ));
     }
     let mut cov = [[0.0f64; 6]; 6];
     let mut k = 0;
@@ -748,9 +754,7 @@ mod tests {
             .lines()
             .filter(|l| {
                 let t = l.trim();
-                !t.is_empty()
-                    && !t.starts_with("COVARIANCE")
-                    && !t.starts_with("EPOCH")
+                !t.is_empty() && !t.starts_with("COVARIANCE") && !t.starts_with("EPOCH")
             })
             .map(|l| l.split_whitespace().count())
             .sum();

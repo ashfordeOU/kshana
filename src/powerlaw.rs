@@ -193,23 +193,38 @@ mod tests {
     fn each_noise_type_has_its_signature_adev_slope() {
         let f_h = 100.0;
         // white FM ⇒ −1/2
-        let wfm = PowerLaw { h_0: 1e-22, ..Default::default() };
+        let wfm = PowerLaw {
+            h_0: 1e-22,
+            ..Default::default()
+        };
         assert!(approx(adev_slope(&wfm, f_h), -0.5, 1e-9));
         // flicker FM ⇒ 0 (the floor)
-        let ffm = PowerLaw { h_m1: 1e-24, ..Default::default() };
+        let ffm = PowerLaw {
+            h_m1: 1e-24,
+            ..Default::default()
+        };
         assert!(approx(adev_slope(&ffm, f_h), 0.0, 1e-9));
         // random-walk FM ⇒ +1/2
-        let rwfm = PowerLaw { h_m2: 1e-28, ..Default::default() };
+        let rwfm = PowerLaw {
+            h_m2: 1e-28,
+            ..Default::default()
+        };
         assert!(approx(adev_slope(&rwfm, f_h), 0.5, 1e-9));
         // white PM ⇒ −1
-        let wpm = PowerLaw { h_2: 1e-24, ..Default::default() };
+        let wpm = PowerLaw {
+            h_2: 1e-24,
+            ..Default::default()
+        };
         assert!(approx(adev_slope(&wpm, f_h), -1.0, 1e-9));
     }
 
     #[test]
     fn flicker_fm_is_a_flat_floor() {
         let h_m1 = 3.0e-25;
-        let p = PowerLaw { h_m1, ..Default::default() };
+        let p = PowerLaw {
+            h_m1,
+            ..Default::default()
+        };
         let floor = flicker_fm_floor(h_m1);
         for &tau in &[1.0_f64, 10.0, 1e3, 1e5] {
             assert!(
@@ -231,7 +246,10 @@ mod tests {
             ..Default::default()
         };
         let taus: Vec<f64> = (0..7).map(|k| 10f64.powi(k)).collect(); // 1 … 1e6 s
-        let adevs: Vec<f64> = taus.iter().map(|&t| allan_deviation(&truth, t, 100.0)).collect();
+        let adevs: Vec<f64> = taus
+            .iter()
+            .map(|&t| allan_deviation(&truth, t, 100.0))
+            .collect();
         let (h_m2, h_m1, h_0) = fit_fm_family(&taus, &adevs);
         assert!((h_m2 - truth.h_m2).abs() / truth.h_m2 < 1e-6, "h_-2 {h_m2}");
         assert!((h_m1 - truth.h_m1).abs() / truth.h_m1 < 1e-6, "h_-1 {h_m1}");
@@ -241,13 +259,23 @@ mod tests {
     #[test]
     fn drift_basis_cannot_represent_a_floor_but_this_basis_can() {
         // A flicker-FM-dominated curve (flat floor) over τ.
-        let truth = PowerLaw { h_m1: 1.0e-24, h_0: 1.0e-23, ..Default::default() };
+        let truth = PowerLaw {
+            h_m1: 1.0e-24,
+            h_0: 1.0e-23,
+            ..Default::default()
+        };
         let taus: Vec<f64> = (0..7).map(|k| 10f64.powi(k)).collect();
-        let adevs: Vec<f64> = taus.iter().map(|&t| allan_deviation(&truth, t, 100.0)).collect();
+        let adevs: Vec<f64> = taus
+            .iter()
+            .map(|&t| allan_deviation(&truth, t, 100.0))
+            .collect();
 
         // This basis recovers the floor.
         let (_h_m2, h_m1, _h_0) = fit_fm_family(&taus, &adevs);
-        assert!((h_m1 - truth.h_m1).abs() / truth.h_m1 < 1e-6, "floor not recovered: {h_m1}");
+        assert!(
+            (h_m1 - truth.h_m1).abs() / truth.h_m1 < 1e-6,
+            "floor not recovered: {h_m1}"
+        );
 
         // The drift basis {1/τ, τ, τ³} has no constant term, so it cannot fit the flat
         // floor: its best σ_y² reconstruction is materially wrong at large τ.
@@ -256,6 +284,9 @@ mod tests {
         let pred_var = q.q_wf / big_t + q.q_rw * big_t + q.q_drift * big_t * big_t * big_t;
         let true_var = allan_variance(&truth, big_t, 100.0);
         let rel = (pred_var - true_var).abs() / true_var;
-        assert!(rel > 0.1, "drift basis unexpectedly reproduced the floor (rel={rel})");
+        assert!(
+            rel > 0.1,
+            "drift basis unexpectedly reproduced the floor (rel={rel})"
+        );
     }
 }
