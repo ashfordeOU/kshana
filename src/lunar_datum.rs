@@ -194,9 +194,143 @@ pub fn vlbi_row_datum7(
     partials_datum7(grad, beacon_pa_body_m, t_tt_jc)
 }
 
+/// Geocentric-inertial position (m) of a lunar orbiter on a representative **circular**
+/// orbit, at epoch `t_tt_jc`. MODELLED: a fixed circular Keplerian orbit about the Moon
+/// (mean motion from `crate::forces::MU_MOON`), placed in the inertial frame and offset by
+/// the geocentric Moon position. Not a fitted ephemeris — a representative tracking geometry.
+///
+/// `alt_km` altitude above the lunar mean radius; `inc_deg` inclination; `raan_deg` right
+/// ascension of ascending node; `u0_deg` argument of latitude at `t0_jc`; `t0_jc` the epoch
+/// at which `u0_deg` applies.
+pub fn orbiter_position(
+    alt_km: f64,
+    inc_deg: f64,
+    raan_deg: f64,
+    u0_deg: f64,
+    t0_jc: f64,
+    t_tt_jc: f64,
+) -> Vec3 {
+    let a = crate::lunar::R_MOON_M + alt_km * 1_000.0; // semimajor axis (m)
+    let n = (crate::forces::MU_MOON / (a * a * a)).sqrt(); // mean motion (rad/s)
+    let dt_s = (t_tt_jc - t0_jc) * 36_525.0 * 86_400.0; // seconds since t0
+    let u = u0_deg.to_radians() + n * dt_s; // argument of latitude
+    let inc = inc_deg.to_radians();
+    let raan = raan_deg.to_radians();
+    // In-plane circular position, then R3(raan)·R1(inc) into inertial directions.
+    let xp = a * u.cos();
+    let yp = a * u.sin();
+    // R1(inc) about x:
+    let x1 = xp;
+    let y1 = yp * inc.cos();
+    let z1 = yp * inc.sin();
+    // R3(raan) about z:
+    let xi = x1 * raan.cos() - y1 * raan.sin();
+    let yi = x1 * raan.sin() + y1 * raan.cos();
+    let zi = z1;
+    // Offset by the geocentric Moon position (same of-date frame as reflector_inertial).
+    let r_moon = crate::ephem::moon_position(t_tt_jc);
+    [r_moon[0] + xi, r_moon[1] + yi, r_moon[2] + zi]
+}
+
+/// Datum-Jacobian row for an orbiter→surface-beacon one-way range. The observable is
+/// `range = |r_orbiter − r_beacon|`; its gradient w.r.t. the beacon inertial position is
+/// the unit vector from orbiter to beacon, `(r_beacon − r_orbiter)/range`. The beacon is
+/// placed with the SAME real DE440 orientation path as the reflectors.
+pub fn orbiter_range_row_datum7(
+    r_orbiter_inertial: Vec3,
+    beacon_pa_body_m: Vec3,
+    t_tt_jc: f64,
+) -> [f64; 7] {
+    let r_beacon = crate::lunar_llr::reflector_inertial(beacon_pa_body_m, t_tt_jc); // DE440 path
+    let dv = [
+        r_beacon[0] - r_orbiter_inertial[0],
+        r_beacon[1] - r_orbiter_inertial[1],
+        r_beacon[2] - r_orbiter_inertial[2],
+    ];
+    let n = (dv[0] * dv[0] + dv[1] * dv[1] + dv[2] * dv[2]).sqrt();
+    let grad = [dv[0] / n, dv[1] / n, dv[2] / n]; // d(range)/d(r_beacon)
+    partials_datum7(grad, beacon_pa_body_m, t_tt_jc)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn orbiter_position_is_a_valid_circular_orbit() {
+        let t0 = (2_460_310.5 - 2_451_545.0) / 36_525.0;
+        let r_moon = crate::ephem::moon_position(t0);
+        let p0 = orbiter_position(100.0, 85.0, 30.0, 0.0, t0, t0);
+        // Radius about the Moon centre ≈ a = R_MOON + 100 km.
+        let a = crate::lunar::R_MOON_M + 100_000.0;
+        let rad = {
+            let d = [p0[0] - r_moon[0], p0[1] - r_moon[1], p0[2] - r_moon[2]];
+            (d[0] * d[0] + d[1] * d[1] + d[2] * d[2]).sqrt()
+        };
+        assert!((rad - a).abs() < 1.0, "orbit radius {rad} vs a {a}");
+        // Position advances over a quarter-ish orbit (~30 min later it has moved a lot).
+        let later = t0 + (1800.0 / (36_525.0 * 86_400.0)); // +1800 s in JC
+        let p1 = orbiter_position(100.0, 85.0, 30.0, 0.0, t0, later);
+        let moved = {
+            let d = [p1[0] - p0[0], p1[1] - p0[1], p1[2] - p0[2]];
+            (d[0] * d[0] + d[1] * d[1] + d[2] * d[2]).sqrt()
+        };
+        assert!(
+            moved > 1.0e5,
+            "orbiter must move appreciably in 1800 s; moved {moved} m"
+        );
+    }
+
+    #[test]
+    fn orbiter_range_datum7_row_matches_finite_difference() {
+        use crate::lunar_llr::reflector_inertial;
+        let t0 = (2_460_310.5 - 2_451_545.0) / 36_525.0;
+        let beacon = [3.0e5_f64, 1.70e6, 2.0e5];
+        let r_orb = orbiter_position(100.0, 85.0, 30.0, 40.0, t0, t0); // off to the side, oblique
+        let analytic = orbiter_range_row_datum7(r_orb, beacon, t0);
+        let range_at = |d: &Datum7| {
+            let p = apply_datum7(d, beacon);
+            let r_b = reflector_inertial(p, t0);
+            let dv = [r_orb[0] - r_b[0], r_orb[1] - r_b[1], r_orb[2] - r_b[2]];
+            (dv[0] * dv[0] + dv[1] * dv[1] + dv[2] * dv[2]).sqrt()
+        };
+        let zero = Datum7 {
+            t_m: [0.0; 3],
+            scale: 0.0,
+            rot_rad: [0.0; 3],
+        };
+        let h = [1.0, 1.0, 1.0, 1e-6, 1e-7, 1e-7, 1e-7];
+        for j in 0..7 {
+            let mut dp = zero;
+            let mut dm = zero;
+            match j {
+                0..=2 => {
+                    dp.t_m[j] += h[j];
+                    dm.t_m[j] -= h[j];
+                }
+                3 => {
+                    dp.scale += h[3];
+                    dm.scale -= h[3];
+                }
+                _ => {
+                    dp.rot_rad[j - 4] += h[j];
+                    dm.rot_rad[j - 4] -= h[j];
+                }
+            }
+            let fd = (range_at(&dp) - range_at(&dm)) / (2.0 * h[j]);
+            assert!(
+                (analytic[j] - fd).abs() <= 1e-6 * analytic[j].abs() + 1e-9,
+                "col {j}: analytic {} vs fd {}",
+                analytic[j],
+                fd
+            );
+        }
+        let rot = (analytic[4].powi(2) + analytic[5].powi(2) + analytic[6].powi(2)).sqrt();
+        assert!(
+            rot.is_finite() && rot > 0.0,
+            "rotation cols degenerate: {rot}"
+        );
+    }
 
     #[test]
     fn vlbi_datum7_row_matches_finite_difference() {
