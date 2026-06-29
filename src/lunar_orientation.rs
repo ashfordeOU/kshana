@@ -44,9 +44,8 @@ struct Row {
 
 /// Parse all rows from the embedded CSV (header skipped).
 ///
-/// Called at most once per provider call; the result is a `Vec` allocated on the
-/// heap.  For the test scale (731 rows, each with 10 f64 values) this is fast (<1 ms)
-/// and the allocation is acceptable.  WASM-safe: no filesystem I/O.
+/// Raw parsing implementation — called exactly once (via [`fixture_rows`]).
+/// WASM-safe: `include_str!` bakes the data at compile time; no filesystem I/O.
 fn parse_rows() -> Vec<Row> {
     let mut rows = Vec::with_capacity(732);
     for (i, line) in DE440_MOON_PA_CSV.lines().enumerate() {
@@ -80,6 +79,18 @@ fn parse_rows() -> Vec<Row> {
         rows.push(Row { t, r });
     }
     rows
+}
+
+/// Process-wide cache for the parsed fixture rows.
+///
+/// `OnceLock` is part of `std` (stabilised Rust 1.70) and is `Send + Sync`, making
+/// this safe to use on all targets including WASM (single-threaded or multi-threaded).
+/// The CSV is parsed exactly once per process; subsequent calls return the cached slice.
+static FIXTURE_ROWS: std::sync::OnceLock<Vec<Row>> = std::sync::OnceLock::new();
+
+/// Return a reference to the (lazily-parsed, then cached) fixture rows.
+fn fixture_rows() -> &'static Vec<Row> {
+    FIXTURE_ROWS.get_or_init(parse_rows)
 }
 
 /// Gram-Schmidt orthonormalization of a 3×3 matrix (applied column-wise).
@@ -130,7 +141,7 @@ fn gram_schmidt(m: [[f64; 3]; 3]) -> [[f64; 3]; 3] {
 ///
 /// Returns a 3×3 matrix **R** with `v_inertial = R · v_body`.
 pub fn de440_moon_pa(t_tt_jc: f64) -> [[f64; 3]; 3] {
-    let rows = parse_rows();
+    let rows = fixture_rows();
     debug_assert!(!rows.is_empty(), "fixture must not be empty");
 
     // Clamp to window
@@ -194,7 +205,7 @@ mod tests {
     /// rotation (R^T R ≈ I to 1e-9, det ≈ +1 to 1e-9).
     #[test]
     fn de440_moon_pa_reproduces_fixture_rows() {
-        let rows = parse_rows();
+        let rows = fixture_rows();
         assert!(rows.len() >= 5, "fixture must have at least 5 rows");
 
         // Check a few exact knot points
@@ -241,56 +252,113 @@ mod tests {
         }
     }
 
-    /// Non-trivial sanity gate: the DE440 MOON_PA orientation varies by >1° across the
-    /// 730-day fixture window, proving real physical+optical libration is embedded (not a
-    /// fixed / mean rotation).
+    /// Decisive optical-libration gate: the sub-Earth point (Earth direction expressed in the
+    /// MOON_PA body frame) must wobble by the REAL optical-libration amplitude across the
+    /// 730-day fixture window.
     ///
-    /// The measured amplitude from the generation script is ±7.786° (longitude) and
-    /// ±6.797° (latitude); this test uses the pole direction (3rd column of R) which also
-    /// varies by the physical libration in latitude, and the X column (1st column) which
-    /// captures longitude + rotation.  A fixed orientation would give angle = 0°;
-    /// real libration gives >>1°.
+    /// # Why this is decisive
+    /// A mean/tidally-locked rotation model keeps the sub-Earth point essentially FIXED in the
+    /// body frame (the Moon's x-axis always points at Earth by construction), giving sub-Earth
+    /// longitude and latitude ranges ≈ 0°.  Real DE440, on the other hand, encodes genuine
+    /// physical + optical libration (amplitude ≈ ±7.9° longitude, ±6.7° latitude from JPL);
+    /// the resulting ranges across 730 days are ≈ 13–16° (longitude) and ≈ 11–14° (latitude).
+    /// Thresholds of 10° and 8° are comfortably inside the real-data band yet far above 0°,
+    /// so any mean-rotation fixture fails while real DE440 passes.
+    ///
+    /// # Frame geometry
+    /// `R = de440_moon_pa(t)` maps body → inertial (v_inertial = R · v_body).  So to express
+    /// the Earth direction (inertial) in the body frame we apply Rᵀ (= R⁻¹ for orthonormal R):
+    ///   body = Rᵀ · earth_inertial,  i.e.  body[i] = Σ_j R[j][i] * earth_inertial[j].
+    /// The geocentric Moon vector from `crate::ephem::moon_position` gives the Moon as seen
+    /// from Earth; negating it gives the Earth as seen from the Moon (low-precision, but the
+    /// libration wobble comes entirely from the orientation, not the ephemeris).
     #[test]
     fn de440_moon_pa_shows_real_libration() {
-        let rows = parse_rows();
+        let rows = fixture_rows();
         let n = rows.len();
         assert!(n >= 2, "fixture needs at least 2 rows");
 
-        // Compare orientation at t_start vs t_end via the angle between the X-axis columns
-        // (sub-Earth axis direction in inertial space).
-        let r_start = de440_moon_pa(rows[0].t);
-        let r_end = de440_moon_pa(rows[n - 1].t);
+        // Sample every 5th row to cover the full 730-day window (146 samples) without
+        // iterating all 731 rows.
+        let step = 5_usize;
 
-        // X-column of start
-        let x0 = [r_start[0][0], r_start[1][0], r_start[2][0]];
-        // X-column of end
-        let x1 = [r_end[0][0], r_end[1][0], r_end[2][0]];
+        let mut lon_min = f64::MAX;
+        let mut lon_max = f64::MIN;
+        let mut lat_min = f64::MAX;
+        let mut lat_max = f64::MIN;
 
-        // Angle between them (in degrees)
-        let dot = x0[0] * x1[0] + x0[1] * x1[1] + x0[2] * x1[2];
-        let cos_a = dot.clamp(-1.0, 1.0);
-        let angle_deg = cos_a.acos().to_degrees();
+        for row in rows.iter().step_by(step) {
+            let t = row.t;
 
-        assert!(
-            angle_deg > 1.0,
-            "REAL-DATA GATE: DE440 MOON_PA X-axis must wobble >1° across the 730-day window \
-             to prove real libration is present (a fixed/mean rotation would give 0°). \
-             Got {angle_deg:.4}° — if near 0°, the frame or kernel setup is WRONG.",
+            // Earth-direction in inertial frame: opposite the geocentric Moon vector.
+            let moon_inertial = crate::ephem::moon_position(t);
+            let mag = (moon_inertial[0] * moon_inertial[0]
+                + moon_inertial[1] * moon_inertial[1]
+                + moon_inertial[2] * moon_inertial[2])
+                .sqrt();
+            // Unit vector pointing from Moon to Earth (inertial).
+            let earth_inertial = [
+                -moon_inertial[0] / mag,
+                -moon_inertial[1] / mag,
+                -moon_inertial[2] / mag,
+            ];
+
+            // Rotate into the PA body frame: body = Rᵀ · earth_inertial.
+            // R = de440_moon_pa(t) is body→inertial; Rᵀ is inertial→body.
+            let r = de440_moon_pa(t);
+            let body = [
+                r[0][0] * earth_inertial[0]
+                    + r[1][0] * earth_inertial[1]
+                    + r[2][0] * earth_inertial[2],
+                r[0][1] * earth_inertial[0]
+                    + r[1][1] * earth_inertial[1]
+                    + r[2][1] * earth_inertial[2],
+                r[0][2] * earth_inertial[0]
+                    + r[1][2] * earth_inertial[1]
+                    + r[2][2] * earth_inertial[2],
+            ];
+
+            // Sub-Earth spherical coordinates in the body frame (degrees).
+            let lon = body[1].atan2(body[0]).to_degrees();
+            let lat = body[2].clamp(-1.0, 1.0).asin().to_degrees();
+
+            if lon < lon_min {
+                lon_min = lon;
+            }
+            if lon > lon_max {
+                lon_max = lon;
+            }
+            if lat < lat_min {
+                lat_min = lat;
+            }
+            if lat > lat_max {
+                lat_max = lat;
+            }
+        }
+
+        let lon_range = lon_max - lon_min;
+        let lat_range = lat_max - lat_min;
+
+        // Print so the test output records the measured amplitudes for CI audit.
+        println!(
+            "Sub-Earth libration (PA frame, {} samples, step {}):  \
+             lon range = {lon_range:.2}°  (min {lon_min:.2}°, max {lon_max:.2}°) \
+             |  lat range = {lat_range:.2}°  (min {lat_min:.2}°, max {lat_max:.2}°)",
+            n.div_ceil(step),
+            step,
         );
 
-        // Also verify the pole direction (Z column) changes — physical libration + precession
-        // in latitude.  The Moon's pole precesses with an 18.6-year period; over 730 days
-        // the inertial-space pole direction moves by ~0.9°–1.0° (precession + physical libration).
-        // A threshold of 0.5° is sufficient to distinguish real motion from a frozen fixture.
-        let z0 = [r_start[0][2], r_start[1][2], r_start[2][2]];
-        let z1 = [r_end[0][2], r_end[1][2], r_end[2][2]];
-        let dot_z = z0[0] * z1[0] + z0[1] * z1[1] + z0[2] * z1[2];
-        let angle_z_deg = dot_z.clamp(-1.0, 1.0).acos().to_degrees();
         assert!(
-            angle_z_deg > 0.5,
-            "DE440 MOON_PA Z-axis (pole direction) must vary >0.5° across the window \
-             (physical libration + precession); \
-             got {angle_z_deg:.4}°",
+            lon_range > 10.0,
+            "REAL-DATA GATE (longitude): sub-Earth longitude range must exceed 10° to confirm \
+             real optical libration is encoded in the DE440 fixture.  \
+             Got {lon_range:.2}° — a mean/tidally-locked rotation gives ≈ 0°.",
+        );
+        assert!(
+            lat_range > 8.0,
+            "REAL-DATA GATE (latitude): sub-Earth latitude range must exceed 8° to confirm \
+             real optical libration is encoded in the DE440 fixture.  \
+             Got {lat_range:.2}° — a mean/tidally-locked rotation gives ≈ 0°.",
         );
     }
 }
