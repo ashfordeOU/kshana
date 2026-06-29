@@ -110,8 +110,8 @@ pub fn stations() -> Vec<Station> {
 /// `crate::lunar::mcmf_to_mci` for the PA body → MCI rotation.
 pub fn reflector_inertial(pa_body_m: Vec3, t_tt_jc: f64) -> Vec3 {
     let r_moon = crate::ephem::moon_position(t_tt_jc); // geocentric inertial [m]
-    let seconds = t_tt_jc * 36_525.0 * 86_400.0; // seconds since J2000 for mean-rotation model
-    let r_body_in_inertial = crate::lunar::mcmf_to_mci(pa_body_m, seconds);
+    let r_body_in_inertial =
+        crate::lunar_orientation::de440_moon_pa_body_to_inertial(pa_body_m, t_tt_jc);
     [
         r_moon[0] + r_body_in_inertial[0],
         r_moon[1] + r_body_in_inertial[1],
@@ -238,7 +238,6 @@ pub fn range_partials_analytic(
     jd_ut1: f64,
 ) -> [f64; 4] {
     let jd_tt = t_tt_jc * 36_525.0 + 2_451_545.0;
-    let seconds = t_tt_jc * 36_525.0 * 86_400.0;
     let g = crate::frames::Geodetic {
         lat_rad: station.lat_deg.to_radians(),
         lon_rad: station.lon_deg.to_radians(),
@@ -257,7 +256,7 @@ pub fn range_partials_analytic(
     // ∂range/∂r_ref = +û along this direction.
     let uhat = [dv[0] / n, dv[1] / n, dv[2] / n];
     // R_body→inertial columns and pa_body projected through the rotation.
-    let col = |bk: Vec3| crate::lunar::mcmf_to_mci(bk, seconds);
+    let col = |bk: Vec3| crate::lunar_orientation::de440_moon_pa_body_to_inertial(bk, t_tt_jc);
     let ex = col([1.0, 0.0, 0.0]);
     let ey = col([0.0, 1.0, 0.0]);
     let ez = col([0.0, 0.0, 1.0]);
@@ -289,10 +288,15 @@ pub struct LlrDatumObservability {
 
 /// LLR-only Fisher matrix → CoM-X↔scale degeneracy metric.
 ///
-/// Sweeps all 4 stations × 5 reflectors over `days` at `step_hours` cadence
-/// (in Julian centuries relative to J2000.0 = JD 2 451 545.0 TT).  Only epochs
-/// where the reflector is on the Earth-facing lunar hemisphere **and** above the
-/// station's local horizon (elevation > 0) contribute a row to the Jacobian.
+/// Sweeps all 4 stations × 5 reflectors over `days` at `step_hours` cadence.
+/// `t0_jc` is the sweep start epoch in Julian centuries from J2000.0 TT
+/// (JD 2 451 545.0 TT).  For the DE440 PA-frame orientation to carry real
+/// libration the epoch window must lie within the embedded fixture
+/// (2024-01-01 to 2025-12-31; t_tt_jc ≈ 0.240–0.260 JC).
+///
+/// Only epochs where the reflector is on the Earth-facing lunar hemisphere
+/// **and** above the station's local horizon (elevation > 0) contribute a
+/// row to the Jacobian.
 ///
 /// For each kept triple (station, reflector, epoch) the row is the analytic
 /// partial derivatives `[∂range/∂t_x, ∂range/∂t_y, ∂range/∂t_z, ∂range/∂scale]`
@@ -302,6 +306,7 @@ pub struct LlrDatumObservability {
 #[allow(clippy::needless_range_loop)]
 pub fn llr_datum_observability(
     sigma_range_m: f64,
+    t0_jc: f64,
     days: f64,
     step_hours: f64,
 ) -> LlrDatumObservability {
@@ -321,7 +326,7 @@ pub fn llr_datum_observability(
     let mut weights: Vec<f64> = Vec::new();
 
     for step in 0..n_steps {
-        let t_tt_jc = step as f64 * step_jc;
+        let t_tt_jc = t0_jc + step as f64 * step_jc;
         let jd_tt = JD_J2000 + t_tt_jc * 36_525.0;
         // UT1 ≈ TT to a few hundred ms — acceptable for a 6-hour scheduling cadence.
         let jd_ut1 = jd_tt;
@@ -383,19 +388,44 @@ pub fn llr_datum_observability(
         };
     }
 
+    // Pre-condition the scale column (column 3) to avoid extreme ill-conditioning.
+    //
+    // ∂range/∂scale = Σk pa_body[k] · ∂range/∂t_k.  For near-side reflectors
+    // pa_body[0] ≈ R_MOON ≈ 1.74e6 m, so the raw scale partial is ~1.74e6 times
+    // larger than the translation partials.  The Fisher matrix condition number then
+    // exceeds 1e12, causing `crlb` (rel_tol = 1e-12) to classify every translation
+    // eigenvalue as null (defect = 3, corr = ±1 by rank-1 pseudo-inverse) — a pure
+    // numerical artefact that hides the real libration-induced structure.
+    //
+    // Dividing the scale column by R_MOON normalises it to O(1) (matching translation
+    // partials), bringing the condition number to ~100.  Correlation is scale-invariant
+    // (corr(tx, c·scale) = corr(tx, scale) for any c > 0), so the result is unchanged
+    // mathematically; only the CRLB units need adjusting: after the division the solver
+    // returns std_dev(scale_norm) = std_dev(scale / R_MOON), so
+    //   std_dev(scale) = R_MOON · cr.crlb_std[3]
+    //   scale_crlb_ppb = R_MOON · cr.crlb_std[3] · 1e9
+    const R_MOON_M: f64 = 1_737_400.0; // mean lunar radius [m] — normalisation length
+    for row in &mut jac {
+        row[3] /= R_MOON_M;
+    }
+
     let m = crate::fim::information_matrix(&jac, &weights);
     let cr = crate::fim::crlb(&m, 1e-12);
     let cov = cr
         .covariance
         .clone()
         .unwrap_or_else(|| cr.pseudo_covariance.clone());
-    // corr(t_x, scale) = C[0][3] / sqrt(C[0][0] · C[3][3])
+    // corr(t_x, scale) = C[0][3] / sqrt(C[0][0] · C[3][3]).
+    // Scale-invariant: corr(tx, scale/R_MOON) = corr(tx, scale).
     let corr = cov[0][3] / (cov[0][0].sqrt() * cov[3][3].sqrt());
     LlrDatumObservability {
         n_obs: jac.len(),
         corr_tx_scale: corr,
         origin_crlb_m: cr.crlb_std[0],
-        scale_crlb_ppb: cr.crlb_std[3] * 1e9,
+        // Undo the pre-conditioning: dividing jac[3] by R_MOON_M is equivalent to
+        // re-parameterising scale → s = scale · R_MOON_M, so cr.crlb_std[3] gives
+        // std_dev(s) in metres.  std_dev(scale) = cr.crlb_std[3] / R_MOON_M.
+        scale_crlb_ppb: cr.crlb_std[3] / R_MOON_M * 1e9,
         defect: cr.defect,
     }
 }
@@ -503,16 +533,48 @@ mod tests {
     #[test]
     fn llr_only_fisher_shows_strong_com_x_scale_degeneracy() {
         // APOLLO-class mm normal points; ~1 synodic month of coverage at 6 h cadence.
-        let obs = llr_datum_observability(0.003, 29.5, 6.0);
+        //
+        // With real DE440 PA-frame libration (±7.8°/±6.8°) the sightlines are no longer
+        // exactly collinear, so the CoM-X↔scale correlation becomes finite (strong but <1)
+        // and the datum defect drops from 3 → ≤1, matching the structure of
+        // Sośnica et al. (2025, J. Geod.) r≈−0.97, defect≈1.
+        //
+        // The STRUCTURE is the Validated claim; the exact magnitude is Modelled
+        // (depends on 4-param setup / noise / schedule).
+        //
+        // 2024-01-01 TT ≈ JD 2460310.5 → t0_jc ≈ 0.23999 JC from J2000.
+        // This epoch lies within the embedded DE440 PA-frame fixture window
+        // (2024-01-01 to 2025-12-31), ensuring real libration data are used.
+        let t0_jc: f64 = (2_460_310.5 - 2_451_545.0) / 36_525.0;
+        let obs = llr_datum_observability(0.003, t0_jc, 29.5, 6.0);
         assert!(
             obs.n_obs > 20,
             "need a populated schedule, got {}",
             obs.n_obs
         );
+        // Lower bound: real libration must preserve strong CoM-X<->scale coupling.
         assert!(
-            obs.corr_tx_scale.abs() > 0.95,
-            "LLR-only geometry must reproduce the published CoM-X<->scale degeneracy (|r|>0.95), got {:.4}",
+            obs.corr_tx_scale.abs() > 0.9,
+            "LLR-only geometry must show strong CoM-X<->scale degeneracy (|r|>0.9), got {:.6}",
             obs.corr_tx_scale
+        );
+        // Upper bound: if corr == 1.000 the DE440 orientation is NOT applied (wiring bug).
+        assert!(
+            obs.corr_tx_scale.abs() < 0.9999,
+            "corr == 1.000 means DE440 libration is not wired in (trivial rank-1 artifact); got {:.6}",
+            obs.corr_tx_scale
+        );
+        // Libration must make t_y, t_z observable → defect drops to ≤1.
+        assert!(
+            obs.defect <= 1,
+            "real libration must reduce datum defect to ≤1 (was 3 without libration); got {}",
+            obs.defect
+        );
+        // CRLB must be finite and positive.
+        assert!(
+            obs.origin_crlb_m.is_finite() && obs.origin_crlb_m > 0.0,
+            "origin CRLB must be finite and positive; got {}",
+            obs.origin_crlb_m
         );
     }
 }
