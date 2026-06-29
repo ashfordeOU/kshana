@@ -123,6 +123,12 @@ jobs:
     timeout-minutes: 60
     permissions:
       contents: read
+    env:
+      # Reproducible shipped wheels: a fixed timestamp strips embedded mtimes from
+      # the wheel zip; codegen-units=1 (Cargo.toml [profile.release]) makes the
+      # compiled extension byte-identical. Together these make the published wheel
+      # match the wheels.yml rebuild-and-diff check.
+      SOURCE_DATE_EPOCH: "1700000000"
     # Full platform-tag matrix (m37c34cfc): linux x86_64 + aarch64 (manylinux_2_28),
     # macOS arm64 + x86_64, Windows x64 + arm64 — the same matrix wheels.yml verifies.
     # fail-fast:false so one platform's runner hiccup never blocks the rest.
@@ -162,6 +168,8 @@ jobs:
           # Pin the manylinux container so every Linux wheel carries the same ABI floor
           # (GLIBC 2.28). Ignored off-Linux. The aarch64 build runs under QEMU emulation.
           manylinux: 2_28
+          # Forward the deterministic-timestamp knob into the manylinux container.
+          docker-options: -e SOURCE_DATE_EPOCH
       - name: Build source distribution
         if: matrix.os == 'ubuntu-latest' && matrix.target == 'x86_64'
         uses: PyO3/maturin-action@v1

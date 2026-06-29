@@ -30,9 +30,10 @@ jobs:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
     env:
-      # Single codegen unit removes the parallel-codegen ordering nondeterminism, so
-      # the shipped wheel is byte-reproducible and matches the rebuild-and-diff check.
-      CARGO_PROFILE_RELEASE_CODEGEN_UNITS: "1"
+      # Deterministic timestamps for the wheel zip; codegen-units=1 (now pinned in
+      # Cargo.toml [profile.release]) makes the compiled extension byte-identical, so
+      # these wheels match the rebuild-and-diff check and the published artifact.
+      SOURCE_DATE_EPOCH: "1700000000"
     strategy:
       fail-fast: false
       matrix:
@@ -72,6 +73,8 @@ jobs:
           # floor (GLIBC 2.28, RHEL8 / Ubuntu 20.04-era). Ignored off-Linux. The
           # aarch64 build runs in the container under QEMU emulation.
           manylinux: 2_28
+          # Forward the deterministic-timestamp knob into the manylinux container.
+          docker-options: -e SOURCE_DATE_EPOCH
       - name: Build source distribution
         if: matrix.os == 'ubuntu-latest' && matrix.target == 'x86_64'
         uses: PyO3/maturin-action@v1
@@ -133,6 +136,11 @@ jobs:
           target: x86_64
           args: --release --features python --out dist1
           manylinux: 2_28
+          # Forward the deterministic-timestamp knob into the manylinux container
+          # explicitly (the host job env does not otherwise cross the docker boundary).
+          # codegen-units=1 now comes from Cargo.toml [profile.release], so it applies
+          # inside the container without needing to be forwarded.
+          docker-options: -e SOURCE_DATE_EPOCH
       - name: Build wheel — pass 2
         uses: PyO3/maturin-action@v1
         with:
@@ -140,6 +148,7 @@ jobs:
           target: x86_64
           args: --release --features python --out dist2
           manylinux: 2_28
+          docker-options: -e SOURCE_DATE_EPOCH
       - name: Assert the two wheels are byte-identical
         run: |
           set -euo pipefail
@@ -156,7 +165,16 @@ jobs:
             # Surface exactly which entries differ to make the nondeterminism diagnosable.
             python -m zipfile -l "$w1" > list1.txt
             python -m zipfile -l "$w2" > list2.txt
+            echo "== zip listing diff (names / sizes / mtimes) =="
             diff -u list1.txt list2.txt || true
+            # Per-member content hashes: pinpoints whether the differing entry is the
+            # compiled extension (.so) or a metadata file, independent of zip framing.
+            echo "== per-member sha256 diff (payload content) =="
+            python -m zipfile -e "$w1" unz1
+            python -m zipfile -e "$w2" unz2
+            ( cd unz1 && find . -type f -exec sha256sum {} \; | sort -k2 ) > m1.txt
+            ( cd unz2 && find . -type f -exec sha256sum {} \; | sort -k2 ) > m2.txt
+            diff -u m1.txt m2.txt && echo "(payload identical — difference is in zip framing only)" || true
             cmp -l "$w1" "$w2" | head -40 || true
             exit 1
           fi
