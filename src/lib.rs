@@ -83,6 +83,7 @@ pub mod mapmatch;
 pub mod mars_atmos;
 pub mod mars_frame;
 pub mod mars_pnt;
+pub mod mcda;
 pub mod models;
 pub mod navsignal;
 pub mod nutation;
