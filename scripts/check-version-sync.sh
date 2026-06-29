@@ -56,9 +56,26 @@ if [ "$jb_ver" != "$ver" ]; then
   fail=1
 fi
 
+# 5. Web landing page (kshana.dev, web/index.html) — hand-authored HTML, not derived
+#    from Cargo.toml, so its version strings drift silently every release unless checked
+#    here. Enforce the JSON-LD softwareVersion (what crawlers read), the visible version
+#    chip fallback (what a no-JS visitor sees), and the asset cache-busters in lockstep.
+web="web/index.html"
+for needle in \
+  "\"softwareVersion\": \"${ver}\"" \
+  ">v${ver}<" \
+  "favicon.svg?v=${ver}" \
+  "style.css?v=${ver}" \
+  "app.js?v=${ver}"; do
+  if ! grep -qF -- "$needle" "$web"; then
+    echo "FAIL: $web is missing the v${ver} string: ${needle}" >&2
+    fail=1
+  fi
+done
+
 if [ "$fail" -ne 0 ]; then
   echo "Version drift detected — bring every surface to v${ver}." >&2
   exit 1
 fi
 
-echo "OK: all distribution surfaces in lockstep at v${ver} (README, MCP crate+dep, JetBrains; npm/PyPI/crates derive automatically)."
+echo "OK: all distribution surfaces in lockstep at v${ver} (README, MCP crate+dep, JetBrains, web landing page; npm/PyPI/crates derive automatically)."
