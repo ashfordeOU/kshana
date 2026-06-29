@@ -104,9 +104,9 @@ impl EopSeries {
             None => (0.0, 0.0, 0.0),
             Some(first) if mjd_utc <= first.mjd => tuple(first),
             Some(_) => {
-                let last = r
-                    .last()
-                    .expect("reached only via the `Some(_)` arm of `r.first()`, so `r` is non-empty");
+                let last = r.last().expect(
+                    "reached only via the `Some(_)` arm of `r.first()`, so `r` is non-empty",
+                );
                 if mjd_utc >= last.mjd {
                     return tuple(last);
                 }

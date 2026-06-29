@@ -601,7 +601,8 @@ pub fn list_scenario_kinds_json() -> String {
     // `list_scenario_kinds`): no floats, no maps, no fallible custom `Serialize`
     // impls. Serialising a `Vec` of such values to JSON cannot fail, so the error
     // arm is unreachable by construction.
-    json_of(&list_scenario_kinds()).expect("ScenarioMeta is all-static-string data; JSON serialisation is infallible")
+    json_of(&list_scenario_kinds())
+        .expect("ScenarioMeta is all-static-string data; JSON serialisation is infallible")
 }
 
 /// Lint a scenario TOML against the crate's own introspection and return a list of

@@ -123,7 +123,9 @@ fn dot3(a: Vec3, b: Vec3) -> f64 {
 /// `dir_unit`, and wavelength `lambda` (m): `aₙ = exp(j·(2π/λ)·pₙ·û)`.
 pub fn steering(pos: &[Vec3], dir_unit: Vec3, lambda: f64) -> Vec<C> {
     let k = 2.0 * PI / lambda;
-    pos.iter().map(|&p| C::expi(k * dot3(p, dir_unit))).collect()
+    pos.iter()
+        .map(|&p| C::expi(k * dot3(p, dir_unit)))
+        .collect()
 }
 
 /// Complex inner product `xᴴ y` (conjugate-linear in the first argument).
@@ -299,7 +301,10 @@ mod tests {
         let w = null_steering_weights(&pos, lambda, sv, &jammers).expect("solvable");
         // unity (distortionless) toward the SV.
         let g_sv = array_response(&w, &pos, sv, lambda);
-        assert!(approx(g_sv.re, 1.0, 1e-9) && approx(g_sv.im, 0.0, 1e-9), "SV gain {g_sv:?}");
+        assert!(
+            approx(g_sv.re, 1.0, 1e-9) && approx(g_sv.im, 0.0, 1e-9),
+            "SV gain {g_sv:?}"
+        );
         // deep nulls toward every jammer.
         for &j in &jammers {
             let g = array_response(&w, &pos, j, lambda);
@@ -350,7 +355,10 @@ mod tests {
             let w = mvdr_weights(&r, &a_sv).expect("mvdr");
             // distortionless toward the SV.
             let g_sv = inner(&w, &a_sv);
-            assert!(approx(g_sv.re, 1.0, 1e-7) && approx(g_sv.im, 0.0, 1e-7), "g_sv {g_sv:?}");
+            assert!(
+                approx(g_sv.re, 1.0, 1e-7) && approx(g_sv.im, 0.0, 1e-7),
+                "g_sv {g_sv:?}"
+            );
             // null toward the jammer deepens monotonically with jammer power.
             let g_j = array_response(&w, &pos, jam_dir, lambda).abs();
             assert!(g_j < prev, "null did not deepen: {g_j} !< {prev}");

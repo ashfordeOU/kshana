@@ -287,7 +287,9 @@ impl ForceModel {
                 None
             };
             if self.sun {
-                let sun = sun.expect("`sun` is Some whenever `self.sun || self.srp`, and `self.sun` holds here");
+                let sun = sun.expect(
+                    "`sun` is Some whenever `self.sun || self.srp`, and `self.sun` holds here",
+                );
                 let p = third_body_accel(r, sun, MU_SUN);
                 a = [a[0] + p[0], a[1] + p[1], a[2] + p[2]];
             }
@@ -296,7 +298,9 @@ impl ForceModel {
                 a = [a[0] + p[0], a[1] + p[1], a[2] + p[2]];
             }
             if self.srp {
-                let sun = sun.expect("`sun` is Some whenever `self.sun || self.srp`, and `self.srp` holds here");
+                let sun = sun.expect(
+                    "`sun` is Some whenever `self.sun || self.srp`, and `self.srp` holds here",
+                );
                 let p = srp_accel(r, sun, self.cr, self.area_over_mass);
                 a = [a[0] + p[0], a[1] + p[1], a[2] + p[2]];
             }

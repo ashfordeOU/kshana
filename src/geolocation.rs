@@ -235,7 +235,10 @@ mod tests {
         let mut more = base.to_vec();
         more.push([5_000.0, -7_000.0, 100.0]);
         let t5 = trace(tdoa_crlb(&more, emitter, 5e-9).expect("5 rx"));
-        assert!(t5 <= t4 + 1e-6, "adding a receiver worsened the bound: {t5} > {t4}");
+        assert!(
+            t5 <= t4 + 1e-6,
+            "adding a receiver worsened the bound: {t5} > {t4}"
+        );
     }
 
     #[test]
@@ -259,12 +262,20 @@ mod tests {
         let tdoa = tdoa_predict(emitter, &receivers);
         let fdoa = fdoa_predict(emitter, vel, &receivers, &recv_vel);
         let x0 = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
-        let got = solve_tdoa_fdoa(&receivers, &recv_vel, &tdoa, &fdoa, 1e-9, 1e-3, x0)
-            .expect("solves");
+        let got =
+            solve_tdoa_fdoa(&receivers, &recv_vel, &tdoa, &fdoa, 1e-9, 1e-3, x0).expect("solves");
         let perr = norm(sub([got[0], got[1], got[2]], emitter));
         let verr = norm(sub([got[3], got[4], got[5]], vel));
-        assert!(perr < 1e-4, "position {:?} vs {emitter:?} (err {perr} m)", &got[0..3]);
-        assert!(verr < 1e-4, "velocity {:?} vs {vel:?} (err {verr} m/s)", &got[3..6]);
+        assert!(
+            perr < 1e-4,
+            "position {:?} vs {emitter:?} (err {perr} m)",
+            &got[0..3]
+        );
+        assert!(
+            verr < 1e-4,
+            "velocity {:?} vs {vel:?} (err {verr} m/s)",
+            &got[3..6]
+        );
     }
 
     #[test]

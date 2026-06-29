@@ -726,13 +726,20 @@ mod tests {
         assert!((mach_zehnder_phase(k, a_max, t) - PI).abs() < 1e-9);
         // 1/T² scaling: doubling T quarters the unambiguous range.
         let a_max2 = max_unambiguous_accel(k, 2.0 * t);
-        assert!((a_max / a_max2 - 4.0).abs() < 1e-9, "range/T² ratio {}", a_max / a_max2);
+        assert!(
+            (a_max / a_max2 - 4.0).abs() < 1e-9,
+            "range/T² ratio {}",
+            a_max / a_max2
+        );
 
         // Inside the unambiguous interval, wrapped-phase recovery is exact.
         let a_true = 0.7 * a_max;
         let phi_w = wrap_phase(mach_zehnder_phase(k, a_true, t));
         let a_rec = accel_from_wrapped_phase(k, phi_w, t);
-        assert!((a_rec - a_true).abs() / a_max < 1e-9, "recovered {a_rec} vs {a_true}");
+        assert!(
+            (a_rec - a_true).abs() / a_max < 1e-9,
+            "recovered {a_rec} vs {a_true}"
+        );
 
         // Outside it, one reading aliases by exactly 2·a_max (a full fringe).
         let a_over = 1.5 * a_max;

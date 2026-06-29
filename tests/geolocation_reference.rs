@@ -31,7 +31,10 @@ impl Rng {
     }
     fn unit(&mut self) -> f64 {
         // SplitMix64-ish step, mapped to (0,1).
-        self.s = self.s.wrapping_mul(6364136223846793005).wrapping_add(1442695040888963407);
+        self.s = self
+            .s
+            .wrapping_mul(6364136223846793005)
+            .wrapping_add(1442695040888963407);
         let x = (self.s >> 11) as f64;
         (x + 0.5) / (1u64 << 53) as f64
     }
@@ -67,7 +70,10 @@ fn noiseless_round_trip_over_many_geometries() {
         let tdoa = tdoa_predict(e, &RECEIVERS);
         let got = solve_tdoa(&RECEIVERS, &tdoa, 1e-9, [0.0, 0.0, 0.0]).expect("solves");
         let err = norm(sub(got, e));
-        assert!(err < 1e-6, "emitter {e:?} recovered as {got:?} (err {err} m)");
+        assert!(
+            err < 1e-6,
+            "emitter {e:?} recovered as {got:?} (err {err} m)"
+        );
     }
 }
 
@@ -102,7 +108,10 @@ fn estimator_attains_the_cramer_rao_bound() {
             }
         }
     }
-    assert!(n_ok > trials as f64 * 0.95, "too many non-convergences: {n_ok}/{trials}");
+    assert!(
+        n_ok > trials as f64 * 0.95,
+        "too many non-convergences: {n_ok}/{trials}"
+    );
     let emp_trace = (0..3).map(|a| sq[a][a] / n_ok).sum::<f64>();
     // The empirical error variance should track the CRLB. Allow a generous band for
     // finite-sample scatter; the point is order-of-magnitude efficiency, not a tight fit.

@@ -118,7 +118,11 @@ impl ParticleFilter {
                     // The `sd > 0.0` guard ensures positivity but not finiteness;
                     // `Normal::new` (rand_distr 0.4) rejects only a non-finite std_dev, so
                     // coerce an `inf` element to the smallest positive normal.
-                    let sigma = if sd.is_finite() { sd } else { f64::MIN_POSITIVE };
+                    let sigma = if sd.is_finite() {
+                        sd
+                    } else {
+                        f64::MIN_POSITIVE
+                    };
                     next[k] += Normal::new(0.0, sigma)
                         .expect("sigma is finite and strictly positive, which Normal::new always accepts")
                         .sample(rng);
