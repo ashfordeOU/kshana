@@ -497,6 +497,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            requirement: "SRTM digital-elevation reader on real terrain",
+            capability: "Hand-rolled SRTM .hgt parser (16-bit big-endian, north-row-first, void-aware) + bilinear sampler reading a real public-domain DEM tile and resolving a documented survey benchmark",
+            module: "altpnt::terrain",
+            tests: "tests/terrain_nav_validation.rs (real_srtm_committed_badwater_tile_reads_real_relief — the committed 6-arc-second decimation of the public-domain SRTM v3 N36W117 tile places Badwater Basin, the lowest point in North America, at −78 m within the [−95,−70] m survey band and reads the tile's true ~2.2 km eastern-range relief; plus the hand-built bilinear-midpoint and synthetic-fixture parser oracles)",
+            oracle: "NASA/USGS SRTM v3 (1-arc-second) N36W117 tile — US-Government PUBLIC-DOMAIN elevation data from the AWS elevation-tiles-prod open mirror, decimated to 6-arc-second and committed under tests/fixtures/terrain/ (see NOTICE.md). The documented Badwater Basin benchmark (−86 m, lowest in North America) anchors the geo-referenced read. The terrain-matching/TERCOM nav-fix that consumes the DEM stays Modelled (separate Alternative/complementary PNT row)",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
             requirement: "Reproducibility & software assurance",
             capability: "Deterministic, scenario-hashed, SBOM + cross-platform golden gates",
             module: "report, scenario; CI (golden/determinism/SBOM)",
