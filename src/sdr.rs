@@ -773,16 +773,32 @@ mod code_tests {
     use super::*;
 
     // ── IS-GPS-200 first-10-chips octal anchors (the hardest external anchor) ──
+    /// Reproduce the **published verification vectors** in IS-GPS-200 Table 3-Ia
+    /// ("Code Phase Assignments"): the first 10 chips of each GPS L1 C/A code, in octal.
+    /// These are an authoritative, US-Government public-domain reference; kshana's own
+    /// G1/G2 LFSR generator must regenerate them exactly. (Source: IS-GPS-200,
+    /// GPS Directorate / navcen.uscg.gov, Table 3-Ia.)
     #[test]
     fn ca_first_ten_chips_match_is_gps_200_octal() {
-        // PRN 1: octal 1440 = 0b1100100000 = 800.
-        assert_eq!(CaCode::new(1).unwrap().first_chips_as_int(10), 0o1440);
-        // PRN 2: octal 1620.
-        assert_eq!(CaCode::new(2).unwrap().first_chips_as_int(10), 0o1620);
-        // PRN 3: octal 1710.
-        assert_eq!(CaCode::new(3).unwrap().first_chips_as_int(10), 0o1710);
-        // PRN 9: octal 1626.
-        assert_eq!(CaCode::new(9).unwrap().first_chips_as_int(10), 0o1626);
+        // (PRN, first-10-chips octal) straight from IS-GPS-200 Table 3-Ia.
+        const TABLE_3IA: &[(u8, u32)] = &[
+            (1, 0o1440),
+            (2, 0o1620),
+            (3, 0o1710),
+            (4, 0o1744),
+            (5, 0o1133),
+            (6, 0o1455),
+            (7, 0o1131),
+            (8, 0o1454),
+            (9, 0o1626),
+        ];
+        for &(prn, octal) in TABLE_3IA {
+            assert_eq!(
+                CaCode::new(prn).unwrap().first_chips_as_int(10),
+                octal,
+                "PRN {prn} first-10-chips must equal IS-GPS-200 Table 3-Ia octal {octal:#o}"
+            );
+        }
     }
 
     #[test]
