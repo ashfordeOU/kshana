@@ -407,6 +407,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            requirement: "GPS L1 C/A spreading-code generation",
+            capability: "G1/G2 LFSR C/A-code generator reproducing the IS-GPS-200 published first-10-chip octal verification vectors for PRN 1–9 (plus 1023-chip length, 512-ones balance, three-valued periodic autocorrelation)",
+            module: "sdr",
+            tests: "sdr::code_tests (ca_first_ten_chips_match_is_gps_200_octal — PRN 1–9 first-10-chips reproduce IS-GPS-200 Table 3-Ia octals 1440/1620/1710/1744/1133/1455/1131/1454/1626 exactly; ca_code_has_1023_chips_and_is_balanced; ca_periodic_autocorrelation_is_three_valued)",
+            oracle: "IS-GPS-200 Table 3-Ia 'Code Phase Assignments' — the authoritative US-Government public-domain published first-10-chip OCTAL verification vectors (GPS Directorate, navcen.uscg.gov); kshana's own G1/G2 LFSR regenerates every PRN 1–9 vector exactly. The downstream modulation/SSC/DLL closed forms stay Modelled (separate row)",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
             requirement: "Quantum inertial sensor performance",
             capability: "Cold-atom interferometer accelerometer from first principles (k_eff·T², QPN)",
             module: "inertial::quantum_imu",
