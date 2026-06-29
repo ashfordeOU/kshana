@@ -139,6 +139,45 @@ pub fn llr_range_m(station: &Station, refl_pa_body_m: Vec3, t_tt_jc: f64, jd_ut1
     (d[0] * d[0] + d[1] * d[1] + d[2] * d[2]).sqrt()
 }
 
+/// Four-parameter lunar datum: translation + scale.
+///
+/// Represents a frame redefinition in the body frame: `(1 + scale) * pa_body + t_m`.
+/// The scale and X-translation degeneracy is the classic lunar datum ambiguity.
+#[derive(Debug, Clone, Copy)]
+pub struct Datum4 {
+    /// Lunocenter translation [x, y, z] in metres.
+    pub t_m: Vec3,
+    /// Scale parameter (dimensionless). Apply as `(1 + scale) * pa_body`.
+    pub scale: f64,
+}
+
+/// Apply a datum transformation to a body-frame position.
+///
+/// `result = (1 + scale) * pa_body + t`.
+pub fn apply_datum(d: &Datum4, pa_body_m: Vec3) -> Vec3 {
+    let s = 1.0 + d.scale;
+    [
+        s * pa_body_m[0] + d.t_m[0],
+        s * pa_body_m[1] + d.t_m[1],
+        s * pa_body_m[2] + d.t_m[2],
+    ]
+}
+
+/// One-way range under a datum transformation.
+///
+/// The datum acts in the body frame before body→inertial rotation
+/// (frame redefinition at the source, not geometric repositioning).
+pub fn llr_range_datum_m(
+    d: &Datum4,
+    station: &Station,
+    refl_pa_body_m: Vec3,
+    t_tt_jc: f64,
+    jd_ut1: f64,
+) -> f64 {
+    let p = apply_datum(d, refl_pa_body_m);
+    llr_range_m(station, p, t_tt_jc, jd_ut1)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -178,5 +217,34 @@ mod tests {
         assert!(s
             .iter()
             .all(|st| st.lat_deg.abs() <= 90.0 && st.lon_deg.abs() <= 180.0));
+    }
+
+    #[test]
+    fn zero_datum_reproduces_nominal_range() {
+        let t_tt_jc = (2_460_311.0 - 2_451_545.0) / 36_525.0;
+        let jd_ut1 = 2_460_311.0;
+        let st = &stations()[0];
+        let refl = reflectors()[2].pa_body_m;
+        let zero = Datum4 {
+            t_m: [0.0, 0.0, 0.0],
+            scale: 0.0,
+        };
+        let a = llr_range_datum_m(&zero, st, refl, t_tt_jc, jd_ut1);
+        let b = llr_range_m(st, refl, t_tt_jc, jd_ut1);
+        assert!(
+            (a - b).abs() < 1e-6,
+            "zero datum must equal nominal: {a} vs {b}"
+        );
+        // A +1 m lunocenter shift moves the range by < 1 m (projection onto LOS).
+        let shifted = Datum4 {
+            t_m: [1.0, 0.0, 0.0],
+            scale: 0.0,
+        };
+        let c = llr_range_datum_m(&shifted, st, refl, t_tt_jc, jd_ut1);
+        assert!(
+            (c - b).abs() <= 1.0 + 1e-6,
+            "1 m shift -> <=1 m range change, got {}",
+            c - b
+        );
     }
 }
