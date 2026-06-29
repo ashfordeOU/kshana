@@ -9,6 +9,7 @@ pub mod acquisition;
 pub mod allan;
 pub mod altpnt;
 pub mod api;
+pub mod assurance;
 pub mod attitude_budget;
 pub mod attitude_dynamics;
 pub mod batch_ls;
