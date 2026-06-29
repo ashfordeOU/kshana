@@ -136,6 +136,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            requirement: "Extended-range frequency stability (Theo1 / TOTDEV)",
+            capability: "Theo1 and total deviation (TOTVAR) — extended-range long-tau stability estimators reaching ~75% of the record where the Allan deviation gives out near ~50%; the bias-removed ThêoH hybrid (allan::theoh_curve) built on them stays MODELLED",
+            module: "allan",
+            tests: "tests/theo1_totvar_reference.rs (Theo1 + TOTDEV on the NIST SP 1065 §12.4 1000-point LCG data set, 6 + 6 averaging factors vs allantools 2024.06 to <1e-9); allan::tests (white-FM closed-form tracking; TOTVAR=ADEV identity at m=1; Theo1/TOTVAR phase/frequency-offset invariance; -1/2 white-FM slope)",
+            oracle: "allantools 2024.06 — an independent third-party frequency-stability library — theo1 (NIST SP 1065 eq 30) and totdev (NIST SP 1065 eq 25) on the hermetic NIST SP 1065 §12.4 LCG data set; regenerable offline via tests/fixtures/theo1_totvar/generate_theo1_totvar_reference.py",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
             requirement: "Optical-clock frequency stability on a real measured curve",
             capability: "Power-law (white-FM + red-noise-floor) NNLS recovery from a published measured ⁸⁸Sr optical-clock-transition Allan deviation — reproducing σ_y(τ) and the headline 4.7e-16/√τ short-τ scaling with a genuine measured long-τ floor, rather than the synthesised optical-class floor holdover.rs otherwise assumes",
             module: "quantum_trade (qparams_from_adev_curve), powerlaw",

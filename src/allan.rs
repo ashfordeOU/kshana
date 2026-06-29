@@ -360,6 +360,295 @@ pub fn classify_power_law(phase: &[f64], tau0: Seconds) -> Option<PowerLawNoise>
     Some(PowerLawNoise::from_mdev_slope(slope))
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Extended-range / long-tau estimators: Theo1 (+ bias-removed ThêoH) and TOTVAR.
+//
+// The five estimators above run out near tau ≈ N/2·tau0 (ADEV) or N/3·tau0
+// (HDEV) and their long-tau tail is a single noisy point. The two below push the
+// useful range out toward ~75% of the record and tighten the long-tau confidence:
+//   * Theo1 (Howe & Peppler) — a two-sample variance over an even averaging
+//     factor with an effective tau of 0.75·m·tau0, plus its bias-removed ThêoH;
+//   * TOTVAR (Greenhall/Howe) — the Allan second difference taken over a phase
+//     series mirror-reflected at both ends, which removes the end effects that
+//     inflate the plain ADEV's long-tau scatter.
+// Both reduce to the overlapping ADEV at the short-tau end (TOTVAR exactly at
+// m = 1), the closed-form/identity oracle the unit tests lean on.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/// Effective averaging time of the Theo1 statistic at averaging factor `m`:
+/// `tau = 0.75·m·tau0`. Theo1 carries a 0.75 normalisation (Howe & Peppler) so
+/// that it estimates the Allan variance at this *effective* tau rather than at
+/// `m·tau0` — which is why its even-`m` ladder usefully reaches ~0.75·N·tau0,
+/// past where the plain Allan deviation gives out near ~0.5·N·tau0.
+pub fn theo1_tau(tau0: Seconds, m: usize) -> f64 {
+    0.75 * m as f64 * tau0
+}
+
+/// Theo1 deviation at the (even) averaging factor `m` from phase samples spaced
+/// `tau0`. Theo1 (Howe & Peppler) is a two-sample variance with an extended
+/// averaging-factor range — even `m`, `2 <= m <= N-1` — and better long-tau
+/// confidence than the plain Allan deviation, whose value it estimates at the
+/// *effective* averaging time `tau = 0.75·m·tau0` ([`theo1_tau`]). Raw Theo1 is
+/// already unbiased for white FM (the reason for the 0.75 factor); for other
+/// noise types use the bias-removed [`theo_br`].
+///
+/// Riley, NIST SP 1065 (eq 30) / Howe & Peppler:
+///   Theo1^2(m,tau0) = 1 / (0.75 (N-m) (m tau0)^2)
+///       * sum_{i=0}^{N-m-1} sum_{d=0}^{m/2-1}
+///           (1/(m/2 - d)) * ( (x_i - x_{i+m/2-d}) + (x_{i+m} - x_{i+m/2+d}) )^2
+pub fn theo1(phase: &[f64], tau0: Seconds, m: usize) -> f64 {
+    let n = phase.len();
+    assert!(m >= 2 && m % 2 == 0, "Theo1 requires an even averaging factor m >= 2");
+    assert!(n > m, "need more than m phase samples for Theo1");
+    let half = m / 2;
+    let count = n - m; // number of outer terms
+    let mut acc = 0.0;
+    for i in 0..count {
+        let mut inner = 0.0;
+        for d in 0..half {
+            // 1/(m/2 - d) weights the inner pair; (m/2 - d) ranges m/2 .. 1.
+            let w = 1.0 / (half - d) as f64;
+            let term = (phase[i] - phase[i + half - d]) + (phase[i + m] - phase[i + half + d]);
+            inner += w * term * term;
+        }
+        acc += inner;
+    }
+    let tau = m as f64 * tau0;
+    (acc / (0.75 * count as f64 * tau * tau)).sqrt()
+}
+
+/// Theo1 deviation across octave-spaced even averaging factors
+/// (`m = 2, 4, 8, …, <= N-1`), each carried at its effective tau `0.75·m·tau0`.
+/// The companion to [`overlapping_adev_curve`] for the long-tau region. (An octave
+/// grid keeps this O(N²) overall; the full even-`m` ladder would be O(N³) and is
+/// rarely needed for a stability plot.)
+pub fn theo1_curve(phase: &[f64], tau0: Seconds) -> Vec<AdevPoint> {
+    let n = phase.len();
+    let mut out = Vec::new();
+    if n < 3 {
+        return out;
+    }
+    let mut m = 2usize;
+    while m <= n - 1 {
+        out.push(AdevPoint {
+            tau_s: theo1_tau(tau0, m),
+            adev: theo1(phase, tau0, m),
+            n_samples: n - m,
+            noise: None,
+            edf: 0.0,
+            ci_lo: 0.0,
+            ci_hi: 0.0,
+        });
+        m *= 2;
+    }
+    out
+}
+
+/// The TheoBR bias-correction factor for a phase record: the average ratio of the
+/// overlapping Allan variance to the Theo1 variance over the record's available
+/// averaging factors (Howe & Peppler 2003; Riley, NIST SP 1065). It scales raw
+/// Theo1 onto the Allan-variance scale without first identifying the noise type:
+///   k = floor(N/6) - 3
+///   bias = 1/(k+1) · sum_{i=0}^{k} AVAR(9+3i) / Theo1(12+4i)
+/// The (9+3i, 12+4i) pairing is chosen so that the *expected* ratio is exactly
+/// `0.75·(12+4i)/(9+3i) = 1` for white FM — i.e. raw Theo1 already needs no
+/// correction there — while it differs from 1 for redder/whiter spectra and so
+/// removes their Theo1 bias. Returns 1.0 for records too short to form the average
+/// (`N < 24`). MODELLED — see [`theo_br`].
+pub fn theo_br_bias(phase: &[f64], tau0: Seconds) -> f64 {
+    let n = phase.len();
+    if n < 24 {
+        return 1.0;
+    }
+    let kmax = (n / 6).saturating_sub(3); // upper index of the averaging sum
+    let mut sum = 0.0;
+    let mut count = 0.0;
+    for i in 0..=kmax {
+        let k_av = 9 + 3 * i; // overlapping-ADEV averaging factor
+        let k_th = 12 + 4 * i; // Theo1 averaging factor (always even)
+        // Guard the estimators' own domain (ADEV needs N>2m, Theo1 needs N>m).
+        if n <= 2 * k_av || n <= k_th {
+            break;
+        }
+        let avar = overlapping_adev(phase, tau0, k_av).powi(2);
+        let theo = theo1(phase, tau0, k_th).powi(2);
+        if theo > 0.0 {
+            sum += avar / theo;
+            count += 1.0;
+        }
+    }
+    if count > 0.0 {
+        sum / count
+    } else {
+        1.0
+    }
+}
+
+/// Bias-removed Theo1 (ThêoH's long-tau kernel) deviation at even averaging
+/// factor `m`: raw [`theo1`] scaled by the record's [`theo_br_bias`] factor, which
+/// removes Theo1's noise-type-dependent bias relative to the Allan variance
+/// without first classifying the noise. Carried at the Theo1 effective tau
+/// `0.75·m·tau0`. MODELLED: the bias factor is a finite-record statistical estimate
+/// (Howe & Peppler 2003; Riley, NIST SP 1065), not an externally validated quantity.
+pub fn theo_br(phase: &[f64], tau0: Seconds, m: usize) -> f64 {
+    let t1 = theo1(phase, tau0, m);
+    (theo_br_bias(phase, tau0) * t1 * t1).sqrt()
+}
+
+/// One point on a ThêoH (Theo-Hybrid) stability curve.
+#[derive(Clone, Copy, Debug, Serialize, PartialEq)]
+pub struct TheoHPoint {
+    /// Averaging time (s). In the Allan region this is `m·tau0`; in the Theo
+    /// region it is the Theo1 effective tau `0.75·m·tau0`.
+    pub tau_s: f64,
+    /// ThêoH deviation: the overlapping Allan deviation in the short-tau region,
+    /// the bias-removed Theo1 ([`theo_br`]) in the long-tau region.
+    pub dev: f64,
+    /// Analysis-point count behind the estimate (a confidence proxy that falls
+    /// with tau): `N-2m` in the Allan region, `N-m` in the Theo region.
+    pub n_samples: usize,
+    /// `true` when this point is bias-removed Theo1 (long tau); `false` when it is
+    /// the overlapping Allan deviation (short tau).
+    pub from_theo: bool,
+}
+
+/// ThêoH (Howe) stability curve: the overlapping Allan deviation at short tau
+/// joined to bias-removed Theo1 ([`theo_br`]) at long tau, so the curve reaches
+/// ~0.75·N·tau0 — where the plain ADEV gives out near ~0.5·N·tau0 with a single
+/// noisy point. The crossover (octave ADEV up to averaging factor ~N/10, then
+/// even-`m` bias-removed Theo1 beyond) is a documented heuristic, not a uniquely
+/// defined quantity, so this is a MODELLED construction. Returns an empty vector
+/// for records too short to form a Theo region (`N < 24`).
+pub fn theoh_curve(phase: &[f64], tau0: Seconds) -> Vec<TheoHPoint> {
+    let n = phase.len();
+    let mut out = Vec::new();
+    if n < 24 {
+        return out;
+    }
+    // Short-tau Allan region: octave m = 1, 2, 4, … up to ~N/10.
+    let adev_max_m = (n / 10).max(1);
+    let mut m = 1usize;
+    while m <= adev_max_m && n > 2 * m {
+        out.push(TheoHPoint {
+            tau_s: m as f64 * tau0,
+            dev: overlapping_adev(phase, tau0, m),
+            n_samples: n - 2 * m,
+            from_theo: false,
+        });
+        m *= 2;
+    }
+    // Long-tau Theo region: even m from just past the Allan crossover up to N-1,
+    // on an octave-ish effective-tau grid. The bias factor is computed once.
+    let bias = theo_br_bias(phase, tau0);
+    let last_tau = out.last().map(|p| p.tau_s).unwrap_or(tau0);
+    // First even m whose effective tau 0.75·m·tau0 exceeds the last Allan tau.
+    let mut em = (((last_tau / tau0) / 0.75).ceil() as usize).max(2);
+    if em % 2 == 1 {
+        em += 1;
+    }
+    // Largest even averaging factor <= N-1: the terminal Theo point so the curve
+    // always reaches ~0.75·(N-1)·tau0 rather than stopping short on the octave grid.
+    let em_max = (n - 1) & !1usize;
+    let mut last_em = 0usize;
+    while em <= em_max {
+        let t1 = theo1(phase, tau0, em);
+        out.push(TheoHPoint {
+            tau_s: theo1_tau(tau0, em),
+            dev: (bias * t1 * t1).sqrt(),
+            n_samples: n - em,
+            from_theo: true,
+        });
+        last_em = em;
+        // Octave-ish growth in the effective tau, kept even.
+        let next = (em * 2).max(em + 2);
+        em = if next % 2 == 0 { next } else { next + 1 };
+    }
+    // Cap the curve at the terminal averaging factor if the octave grid stopped short.
+    if em_max >= 2 && last_em < em_max {
+        let t1 = theo1(phase, tau0, em_max);
+        out.push(TheoHPoint {
+            tau_s: theo1_tau(tau0, em_max),
+            dev: (bias * t1 * t1).sqrt(),
+            n_samples: n - em_max,
+            from_theo: true,
+        });
+    }
+    out
+}
+
+/// Total deviation (TOTVAR) at averaging factor `m` from phase samples spaced
+/// `tau0`. TOTVAR extends the overlapping Allan deviation to long tau (up to
+/// `m = N-1`, ~the full record) with tighter long-tau confidence, by taking the
+/// Allan second difference over the *interior* points of a phase series that has
+/// been mirror-reflected about each endpoint — which removes the end effects that
+/// inflate the plain ADEV's long-tau scatter. It equals the overlapping ADEV
+/// exactly at `m = 1`, and is an unbiased estimator of the Allan variance for
+/// white FM.
+///
+/// Greenhall/Howe; Riley, NIST SP 1065 (eq 25): reflect `x` to `x*` of length
+/// `3N-4` (`x*_{1-j} = 2x_1 - x_{1+j}`, `x*_{N+j} = 2x_N - x_{N-j}`), then
+///   TOTVAR^2(m,tau0) = 1 / (2 (m tau0)^2 (N-2))
+///       * sum_{i=2}^{N-1} (x*_{i-m} - 2 x*_i + x*_{i+m})^2.
+pub fn total_deviation(phase: &[f64], tau0: Seconds, m: usize) -> f64 {
+    let n = phase.len();
+    assert!(m >= 1, "m must be >= 1");
+    assert!(n >= 3, "need at least 3 phase samples for TOTVAR");
+    assert!(m <= n - 1, "TOTVAR requires m <= N-1");
+    // Build the reflected extension x* of length 3N-4: the record mirrored about
+    // each endpoint, with the original record in the centre at offset N-2.
+    let ext_len = 3 * n - 4;
+    let mut x = vec![0.0_f64; ext_len];
+    // Left reflection x*_{1-j} = 2x_1 - x_{1+j}, stored reversed: index k holds
+    // 2·x[0] - x[N-2-k] for k = 0..N-2.
+    for (k, slot) in x.iter_mut().take(n - 2).enumerate() {
+        *slot = 2.0 * phase[0] - phase[n - 2 - k];
+    }
+    // Original record in the centre.
+    x[(n - 2)..(2 * n - 2)].copy_from_slice(phase);
+    // Right reflection x*_{N+j} = 2x_N - x_{N-j}: index 2N-2+k holds
+    // 2·x[N-1] - x[N-2-k] for k = 0..N-2.
+    for k in 0..(n - 2) {
+        x[2 * n - 2 + k] = 2.0 * phase[n - 1] - phase[n - 2 - k];
+    }
+    let mid = n - 2; // offset of the original record = length of the left reflection
+    let mut acc = 0.0;
+    // Second difference over the N-2 interior original points (centre index
+    // c = mid+1+j maps to original phase indices 1..N-2).
+    for j in 0..(n - 2) {
+        let c = mid + 1 + j;
+        let v = x[c - m] - 2.0 * x[c] + x[c + m];
+        acc += v * v;
+    }
+    let tau = m as f64 * tau0;
+    (acc / (2.0 * tau * tau * (n - 2) as f64)).sqrt()
+}
+
+/// Total deviation across octave-spaced averaging factors (`m = 1, 2, 4, …`), the
+/// long-tau-robust companion to [`overlapping_adev_curve`]. The grid runs up to
+/// `m <= N-1` (TOTVAR's full range), so it carries useful points well past where
+/// the ADEV curve's `MIN_OVERLAPS` floor stops.
+pub fn total_deviation_curve(phase: &[f64], tau0: Seconds) -> Vec<AdevPoint> {
+    let n = phase.len();
+    let mut out = Vec::new();
+    if n < 3 {
+        return out;
+    }
+    let mut m = 1usize;
+    while m <= n - 1 {
+        out.push(AdevPoint {
+            tau_s: m as f64 * tau0,
+            adev: total_deviation(phase, tau0, m),
+            n_samples: n - 2,
+            noise: None,
+            edf: 0.0,
+            ci_lo: 0.0,
+            ci_hi: 0.0,
+        });
+        m *= 2;
+    }
+    out
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -949,5 +1238,239 @@ mod tests {
                 p.adev
             );
         }
+    }
+
+    // ---------------------------------------------------------------------
+    // Theo1 / ThêoH and TOTVAR (extended-range / long-tau estimators)
+    //
+    // The oracle for these is the same kind used above: closed-form power-law
+    // identities (white FM has σ_y(τ) = σ0/√τ), exact algebraic invariances the
+    // statistic must satisfy, and a reduction-to-ADEV identity at the short-tau
+    // end. Numeric parity against the independent allantools reference
+    // implementation lives in tests/theo1_totvar_reference.rs.
+    // ---------------------------------------------------------------------
+
+    #[test]
+    fn theo1_effective_tau_is_three_quarters_m_tau0() {
+        // Theo1's defining property: its averaging factor m maps to an effective
+        // averaging time 0.75·m·tau0, not m·tau0.
+        assert!((theo1_tau(1.0, 10) - 7.5).abs() < 1e-12);
+        assert!((theo1_tau(0.5, 8) - 3.0).abs() < 1e-12);
+    }
+
+    #[test]
+    fn theo1_ignores_constant_offset_and_frequency() {
+        // Each Theo1 pair term is (x_i - x_{i+m/2-d}) + (x_{i+m} - x_{i+m/2+d}),
+        // a balanced double difference: for a linear phase x_t = c0 + c1·t it sums
+        // to c1·[(d-m/2) + (m/2-d)] = 0. So Theo1 annihilates any constant phase
+        // offset and any constant frequency, exactly like the Allan deviation.
+        let phase = white_fm_phase(2.0e-12, 4096, 21);
+        let c0 = 1.0e-9;
+        let c1 = 1.0e-12;
+        let shifted: Vec<f64> = phase
+            .iter()
+            .enumerate()
+            .map(|(i, x)| x + c0 + c1 * i as f64)
+            .collect();
+        for &m in &[2usize, 8, 32, 128] {
+            let base = theo1(&phase, 1.0, m);
+            let got = theo1(&shifted, 1.0, m);
+            assert!(
+                (got - base).abs() / base < 1e-9,
+                "Theo1 offset/frequency invariance broke at m={m}"
+            );
+        }
+    }
+
+    #[test]
+    fn theo1_white_fm_tracks_allan_closed_form() {
+        // White-FM equivalence (closed-form oracle). For white FM σ_y(τ)=σ0/√τ, and
+        // Theo1 estimates the Allan deviation at its effective tau 0.75·m·tau0, so
+        // Theo1(m) must track σ0/√(0.75·m). Seed-average the variance to cut the
+        // estimator's own scatter, then compare to the closed form.
+        let sigma0 = 4.0e-12;
+        let n = 4096;
+        let seeds = [11u64, 22, 33, 44, 55, 66, 77, 88];
+        for &m in &[10usize, 20, 40, 100] {
+            let var = seeds
+                .iter()
+                .map(|&s| {
+                    let t = theo1(&white_fm_phase(sigma0, n, s), 1.0, m);
+                    t * t
+                })
+                .sum::<f64>()
+                / seeds.len() as f64;
+            let dev = var.sqrt();
+            let expect = sigma0 / (0.75 * m as f64).sqrt();
+            let rel = (dev - expect).abs() / expect;
+            assert!(rel < 0.05, "m={m}: Theo1={dev} vs σ0/√(0.75m)={expect}, rel={rel}");
+        }
+    }
+
+    #[test]
+    fn totvar_equals_overlapping_adev_at_m1() {
+        // Identity oracle: at m=1 the TOTVAR interior second differences are exactly
+        // the Allan second differences over the same interior points, and both
+        // normalise by 2(N-2)·tau². So TOTVAR(1) == OADEV(1) exactly, on ANY record —
+        // a reduction-to-ADEV check that needs no noise realisation.
+        let phase = [0.0, 1.0, 3.0, 6.0, 10.0, 9.0, 7.0, 12.0, 20.0, 18.0];
+        let tv = total_deviation(&phase, 1.0, 1);
+        let ad = overlapping_adev(&phase, 1.0, 1);
+        assert!((tv - ad).abs() < 1e-12, "TOTVAR(1) {tv} must equal OADEV(1) {ad}");
+        // And on a longer pseudo-random record.
+        let p2 = white_fm_phase(3.0e-12, 1024, 7);
+        assert!(
+            (total_deviation(&p2, 1.0, 1) - overlapping_adev(&p2, 1.0, 1)).abs() < 1e-18,
+            "TOTVAR(1) must equal OADEV(1) on the long record too"
+        );
+    }
+
+    #[test]
+    fn totvar_tracks_overlapping_adev_white_fm() {
+        // White-FM equivalence (the design intent): TOTVAR is an unbiased estimator
+        // of the Allan variance for white FM, so on the SAME tau grid the
+        // seed-averaged TOTVAR(m) tracks the overlapping ADEV(m) to within a few %
+        // at short/medium tau. (At long tau TOTVAR keeps useful confidence where the
+        // plain ADEV's single-point tail does not — checked structurally elsewhere.)
+        let sigma0 = 4.0e-12;
+        let n = 4096;
+        let seeds = [11u64, 22, 33, 44, 55, 66, 77, 88];
+        for &m in &[1usize, 2, 4, 8, 16, 64] {
+            let mut tv_var = 0.0;
+            let mut ad_var = 0.0;
+            for &s in &seeds {
+                let phase = white_fm_phase(sigma0, n, s);
+                let tv = total_deviation(&phase, 1.0, m);
+                let ad = overlapping_adev(&phase, 1.0, m);
+                tv_var += tv * tv;
+                ad_var += ad * ad;
+            }
+            let tv = (tv_var / seeds.len() as f64).sqrt();
+            let ad = (ad_var / seeds.len() as f64).sqrt();
+            let rel = (tv - ad).abs() / ad;
+            assert!(rel < 0.06, "m={m}: TOTVAR={tv} vs OADEV={ad}, rel={rel}");
+        }
+    }
+
+    #[test]
+    fn totvar_ignores_constant_offset_and_frequency() {
+        // TOTVAR is built from the Allan second difference, which annihilates a
+        // constant phase offset and a constant frequency — the reflected extension
+        // is an affine image of the data, so it preserves the invariance.
+        let phase = white_fm_phase(2.0e-12, 2048, 21);
+        let c0 = 1.0e-9;
+        let c1 = 1.0e-12;
+        let shifted: Vec<f64> = phase
+            .iter()
+            .enumerate()
+            .map(|(i, x)| x + c0 + c1 * i as f64)
+            .collect();
+        for &m in &[1usize, 2, 7, 31, 255] {
+            let base = total_deviation(&phase, 1.0, m);
+            let got = total_deviation(&shifted, 1.0, m);
+            assert!(
+                (got - base).abs() / base < 1e-9,
+                "TOTVAR offset/frequency invariance broke at m={m}"
+            );
+        }
+    }
+
+    #[test]
+    fn theo1_and_totvar_white_fm_loglog_slope_is_minus_half() {
+        // Both extended-range estimators carry the white-FM ADEV slope of -1/2.
+        // theo1_curve / total_deviation_curve return AdevPoint, so the existing
+        // log-log slope helper applies directly.
+        let phase = white_fm_phase(3.0e-12, 1 << 12, 2718);
+        let theo_slope = loglog_slope(&theo1_curve(&phase, 1.0));
+        let tv_slope = loglog_slope(&total_deviation_curve(&phase, 1.0));
+        assert!((theo_slope + 0.5).abs() < 0.08, "Theo1 white-FM slope {theo_slope}");
+        assert!((tv_slope + 0.5).abs() < 0.08, "TOTVAR white-FM slope {tv_slope}");
+    }
+
+    #[test]
+    fn theo_br_pairing_is_unbiased_for_white_fm() {
+        // The "known noise-dependent bias" property. TheoBR removes Theo1's bias by
+        // averaging AVAR(9+3i)/Theo1(12+4i). The (9+3i, 12+4i) pairing is chosen so
+        // the EXPECTED ratio for white FM is exactly 0.75·(12+4i)/(9+3i) = 1 — i.e.
+        // raw Theo1 already needs no correction for white FM. That target ratio is a
+        // deterministic algebraic identity, checked here for every i, which is the
+        // closed-form reason the bias factor sits at ~1 for white FM.
+        for i in 0..50usize {
+            let k_av = (9 + 3 * i) as f64;
+            let k_th = (12 + 4 * i) as f64;
+            let expected_ratio = 0.75 * k_th / k_av;
+            assert!(
+                (expected_ratio - 1.0).abs() < 1e-12,
+                "i={i}: white-FM expected AVAR/Theo1 ratio {expected_ratio} != 1"
+            );
+        }
+        // And the realised bias factor on a white-FM record is a finite, positive,
+        // order-unity number (it carries genuine finite-record scatter — this is a
+        // statistical estimate, hence MODELLED — so the band is deliberately loose).
+        // theo_br_bias is O(N²), so use a modest record here.
+        let sigma0 = 4.0e-12;
+        let phase = white_fm_phase(sigma0, 1024, 99);
+        let bias = theo_br_bias(&phase, 1.0);
+        assert!(
+            bias.is_finite() && (0.3..3.0).contains(&bias),
+            "white-FM TheoBR bias factor {bias} out of the order-unity band"
+        );
+        // Removing the (~1) white-FM bias leaves bias-removed Theo1 tracking the
+        // closed form σ0/√(0.75·m) on a single record to within finite-record
+        // scatter (one realisation, so a deliberately loose factor-of-1.6 band).
+        let m = 50usize;
+        let br = theo_br(&phase, 1.0, m);
+        let expect = sigma0 / (0.75 * m as f64).sqrt();
+        let ratio = br / expect;
+        assert!(
+            (0.6..1.7).contains(&ratio),
+            "TheoBR({m})={br} vs σ0/√(0.75m)={expect}, ratio {ratio} out of band"
+        );
+    }
+
+    #[test]
+    fn theoh_curve_extends_past_adev_and_tracks_white_fm_slope() {
+        // ThêoH must reach materially further in tau than the ADEV curve (its whole
+        // point), carry a long-tau Theo region, and still trace the white-FM slope.
+        // theoh_curve runs the O(N²) bias estimator once, so keep the record modest.
+        let phase = white_fm_phase(3.0e-12, 1024, 1234);
+        let adev = overlapping_adev_curve(&phase, 1.0);
+        let theoh = theoh_curve(&phase, 1.0);
+        assert!(!theoh.is_empty(), "ThêoH curve must have points");
+        let adev_max_tau = adev.iter().map(|p| p.tau_s).fold(0.0, f64::max);
+        let theoh_max_tau = theoh.iter().map(|p| p.tau_s).fold(0.0, f64::max);
+        assert!(
+            theoh_max_tau > 1.4 * adev_max_tau,
+            "ThêoH max tau {theoh_max_tau} should reach well past ADEV max tau {adev_max_tau}"
+        );
+        // It must contain both regions, and every deviation is finite and positive.
+        assert!(theoh.iter().any(|p| !p.from_theo), "needs a short-tau ADEV region");
+        assert!(theoh.iter().any(|p| p.from_theo), "needs a long-tau Theo region");
+        assert!(theoh.iter().all(|p| p.dev.is_finite() && p.dev > 0.0));
+        // Slope across the whole hybrid curve is the white-FM -1/2.
+        let xs: Vec<f64> = theoh.iter().map(|p| p.tau_s.log10()).collect();
+        let ys: Vec<f64> = theoh.iter().map(|p| p.dev.log10()).collect();
+        let k = xs.len() as f64;
+        let sx: f64 = xs.iter().sum();
+        let sy: f64 = ys.iter().sum();
+        let sxx: f64 = xs.iter().map(|x| x * x).sum();
+        let sxy: f64 = xs.iter().zip(&ys).map(|(x, y)| x * y).sum();
+        let slope = (k * sxy - sx * sy) / (k * sxx - sx * sx);
+        assert!((slope + 0.5).abs() < 0.1, "ThêoH white-FM slope {slope}, want -0.5");
+    }
+
+    #[test]
+    fn theoh_reaches_about_three_quarters_of_the_record() {
+        // The headline range claim: ThêoH's longest tau is ~0.75·N·tau0 (the Theo
+        // region runs to m = N-1), well past the ADEV curve's ~N/2 reach.
+        let phase = white_fm_phase(2.0e-12, 1000, 5);
+        let theoh = theoh_curve(&phase, 1.0);
+        let max_tau = theoh.iter().map(|p| p.tau_s).fold(0.0, f64::max);
+        // m up to N-1=999 (even -> 998), effective tau ~0.75·998 ≈ 748.
+        assert!(
+            max_tau > 0.7 * phase.len() as f64,
+            "ThêoH max tau {max_tau} should reach ~0.75·N = {}",
+            0.75 * phase.len() as f64
+        );
     }
 }
