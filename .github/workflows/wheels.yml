@@ -29,6 +29,10 @@ jobs:
     name: wheels (${{ matrix.os }} / ${{ matrix.target }})
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
+    env:
+      # Single codegen unit removes the parallel-codegen ordering nondeterminism, so
+      # the shipped wheel is byte-reproducible and matches the rebuild-and-diff check.
+      CARGO_PROFILE_RELEASE_CODEGEN_UNITS: "1"
     strategy:
       fail-fast: false
       matrix:
@@ -115,6 +119,8 @@ jobs:
     env:
       # Deterministic timestamp for the wheel zip (the canonical reproducible-builds knob).
       SOURCE_DATE_EPOCH: "1700000000"
+      # Single codegen unit removes parallel-codegen ordering nondeterminism in the .so.
+      CARGO_PROFILE_RELEASE_CODEGEN_UNITS: "1"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
