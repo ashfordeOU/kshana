@@ -108,8 +108,8 @@ pub fn run_twstft(scn: &TwstftScenario) -> TwstftResult {
     } else {
         f64::MIN_POSITIVE
     };
-    let nrm = Normal::new(0.0, sigma_j)
-        .expect("sigma_j is finite, which Normal::new always accepts");
+    let nrm =
+        Normal::new(0.0, sigma_j).expect("sigma_j is finite, which Normal::new always accepts");
     let mut rng = ChaCha8Rng::seed_from_u64(scn.seed);
 
     // Each exchange: the raw two-way estimate carries the offset minus the loop Sagnac,

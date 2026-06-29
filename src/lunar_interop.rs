@@ -282,7 +282,9 @@ pub fn export_kif_lunar(
     // (`String`s + `f64`s); it contains no non-string-keyed map, so the
     // `serde_json::to_value` inside `Envelope::wrap` cannot fail.
     Envelope::wrap("lunar-interop", &artifacts)
-        .expect("LunarInteropArtifacts (Strings + f64s, no non-string-keyed maps) always serialises")
+        .expect(
+            "LunarInteropArtifacts (Strings + f64s, no non-string-keyed maps) always serialises",
+        )
         .to_json()
 }
 

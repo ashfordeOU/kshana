@@ -272,8 +272,9 @@ impl Mlp {
 
         let mut rng = ChaCha8Rng::seed_from_u64(seed);
         // He-style init for the ReLU hidden layer; smaller Gaussian for the output.
-        let din = Normal::new(0.0, (2.0_f64 / 5.0).sqrt())
-            .expect("std_dev sqrt(2/5) is a finite positive constant, which Normal::new always accepts");
+        let din = Normal::new(0.0, (2.0_f64 / 5.0).sqrt()).expect(
+            "std_dev sqrt(2/5) is a finite positive constant, which Normal::new always accepts",
+        );
         // `h = hidden.max(1) >= 1`, so `2.0 / h as f64` is finite in (0, 2] and its
         // square root is finite and strictly positive: Normal::new always accepts it.
         let dout = Normal::new(0.0, (2.0_f64 / h as f64).sqrt())

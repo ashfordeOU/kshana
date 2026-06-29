@@ -64,7 +64,7 @@ pub fn pfa_square_law(gamma: f64, n_nc: f64) -> f64 {
 pub fn threshold_for_pfa(pfa: f64, n_nc: f64) -> f64 {
     let dof = 2.0 * n_nc;
     let target = (1.0 - pfa).clamp(0.0, 1.0); // desired chi²(dof) CDF value
-    // Bracket: grow the upper bound until the CDF exceeds the target.
+                                              // Bracket: grow the upper bound until the CDF exceeds the target.
     let mut hi = dof.max(1.0);
     let mut guard = 0;
     while chi2_cdf(hi, dof) < target && guard < 200 {
@@ -145,7 +145,10 @@ mod tests {
         // Pd increases with SNR.
         let pd_lo = pd_square_law(gamma, m, 0.5);
         let pd_hi = pd_square_law(gamma, m, 2.0);
-        assert!(pd_hi > pd_lo, "Pd not increasing in SNR: {pd_lo} -> {pd_hi}");
+        assert!(
+            pd_hi > pd_lo,
+            "Pd not increasing in SNR: {pd_lo} -> {pd_hi}"
+        );
         // Pd ≥ Pfa for snr > 0, and → Pfa as snr → 0.
         let pfa = pfa_square_law(gamma, m);
         assert!(pd_lo > pfa, "Pd {pd_lo} below Pfa {pfa}");

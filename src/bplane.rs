@@ -187,7 +187,10 @@ mod tests {
         let v_inf = 2500.0;
         let close = turn_angle(flyby_eccentricity(MU, v_inf, 6.6e6));
         let far = turn_angle(flyby_eccentricity(MU, v_inf, 5.0e7));
-        assert!(close > far, "closer flyby must deflect more: {close} vs {far}");
+        assert!(
+            close > far,
+            "closer flyby must deflect more: {close} vs {far}"
+        );
         // limits: r_p → ∞ ⇒ δ → 0; e → 1⁺ ⇒ δ → π.
         assert!(turn_angle(flyby_eccentricity(MU, v_inf, 1.0e12)) < 1e-3);
         assert!(turn_angle(1.0 + 1e-9) > PI - 1e-3);
@@ -275,10 +278,16 @@ mod tests {
         let t1 = tisserand(a1, e1, i1, a_p);
 
         // Invariance: the assist changes a, e, i but not the Tisserand parameter.
-        assert!(approx(t0, t1, 1e-9), "Tisserand not conserved: {t0} vs {t1}");
+        assert!(
+            approx(t0, t1, 1e-9),
+            "Tisserand not conserved: {t0} vs {t1}"
+        );
         // And the v∞ link: T_P = 3 − (v∞/v_circ)².
         let t_from_vinf = 3.0 - (v_inf_mag / v_circ).powi(2);
-        assert!(approx(t0, t_from_vinf, 1e-9), "T_P {t0} vs 3−(v∞/v_c)² {t_from_vinf}");
+        assert!(
+            approx(t0, t_from_vinf, 1e-9),
+            "T_P {t0} vs 3−(v∞/v_c)² {t_from_vinf}"
+        );
         // sanity: the orbit really did change.
         assert!((a0 - a1).abs() + (e0 - e1).abs() + (i0 - i1).abs() > 1e-3);
     }

@@ -305,7 +305,9 @@ pub fn wahba_loss(a: &Mat3, obs: &[VectorObs]) -> f64 {
 pub fn solve_davenport(obs: &[VectorObs]) -> Option<AttitudeSolution> {
     let usable = obs
         .iter()
-        .filter(|o| normalize(o.body).is_some() && normalize(o.reference).is_some() && o.weight > 0.0)
+        .filter(|o| {
+            normalize(o.body).is_some() && normalize(o.reference).is_some() && o.weight > 0.0
+        })
         .count();
     if usable < 2 {
         return None;
@@ -372,7 +374,9 @@ fn det4(m: &[[f64; 4]; 4]) -> f64 {
 pub fn solve_quest(obs: &[VectorObs]) -> Option<AttitudeSolution> {
     let usable: Vec<&VectorObs> = obs
         .iter()
-        .filter(|o| normalize(o.body).is_some() && normalize(o.reference).is_some() && o.weight > 0.0)
+        .filter(|o| {
+            normalize(o.body).is_some() && normalize(o.reference).is_some() && o.weight > 0.0
+        })
         .collect();
     if usable.len() < 2 {
         return None;
@@ -557,8 +561,16 @@ mod tests {
     #[allow(clippy::needless_range_loop)]
     fn davenport_k_is_symmetric() {
         let obs = [
-            VectorObs { body: [1.0, 0.0, 0.0], reference: [0.0, 1.0, 0.0], weight: 0.5 },
-            VectorObs { body: [0.0, 0.0, 1.0], reference: [1.0, 0.0, 0.0], weight: 0.5 },
+            VectorObs {
+                body: [1.0, 0.0, 0.0],
+                reference: [0.0, 1.0, 0.0],
+                weight: 0.5,
+            },
+            VectorObs {
+                body: [0.0, 0.0, 1.0],
+                reference: [1.0, 0.0, 0.0],
+                weight: 0.5,
+            },
         ];
         let k = davenport_k(&b_matrix(&obs));
         for i in 0..4 {

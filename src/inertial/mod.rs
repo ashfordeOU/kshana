@@ -582,7 +582,8 @@ fn run_accel_ensemble(
     // This private function is called only from `run_inertial`, and only inside its
     // `if runs > 1` branch (`runs = scn.runs.max(1)`), so `runs >= 2`: the loop above
     // ran at least once and set `first = Some(_)`.
-    let mut run = first.expect("run_accel_ensemble is only ever called with runs > 1, so the loop set `first`");
+    let mut run = first
+        .expect("run_accel_ensemble is only ever called with runs > 1, so the loop set `first`");
     run.monte_carlo = true;
     run.ensemble = Some(InertialEnsemble {
         runs,

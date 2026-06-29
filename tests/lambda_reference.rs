@@ -76,7 +76,11 @@ fn brute_force_ils(q: &Mat, a_hat: &[f64], k: i64) -> Vec<i64> {
             *zi += off;
             rem /= span;
         }
-        let e: Vec<f64> = z.iter().zip(a_hat).map(|(&zi, &ai)| zi as f64 - ai).collect();
+        let e: Vec<f64> = z
+            .iter()
+            .zip(a_hat)
+            .map(|(&zi, &ai)| zi as f64 - ai)
+            .collect();
         let cost = quad_form_inv(q, &e);
         if cost < best_cost {
             best_cost = cost;
@@ -147,7 +151,10 @@ fn z_transform_is_unimodular_and_preserves_determinant() {
         }
     }
     // det preserved.
-    assert!((det(&qz) - det(&q)).abs() / det(&q) < 1e-9, "det not preserved");
+    assert!(
+        (det(&qz) - det(&q)).abs() / det(&q) < 1e-9,
+        "det not preserved"
+    );
     // decorrelation reduces the total off-diagonal correlation.
     assert!(
         sum_sq_offdiag_corr(&qz) < sum_sq_offdiag_corr(&q),
@@ -160,7 +167,10 @@ fn z_transform_is_unimodular_and_preserves_determinant() {
 fn int_det(z: &[Vec<i64>]) -> i64 {
     // independent integer determinant via f64 elimination (rounded).
     let n = z.len();
-    let mut a: Vec<Vec<f64>> = z.iter().map(|r| r.iter().map(|&v| v as f64).collect()).collect();
+    let mut a: Vec<Vec<f64>> = z
+        .iter()
+        .map(|r| r.iter().map(|&v| v as f64).collect())
+        .collect();
     let mut d = 1.0;
     for i in 0..n {
         let mut p = i;

@@ -155,7 +155,15 @@ mod tests {
         let got = propagate(n, t, &s0);
         let z_expected = s0[2] * (n * t).cos() + s0[5] / n * (n * t).sin();
         let vz_expected = -n * s0[2] * (n * t).sin() + s0[5] * (n * t).cos();
-        assert!(approx(got[2], z_expected, 1e-9), "z {} vs {z_expected}", got[2]);
-        assert!(approx(got[5], vz_expected, 1e-12), "vz {} vs {vz_expected}", got[5]);
+        assert!(
+            approx(got[2], z_expected, 1e-9),
+            "z {} vs {z_expected}",
+            got[2]
+        );
+        assert!(
+            approx(got[5], vz_expected, 1e-12),
+            "vz {} vs {vz_expected}",
+            got[5]
+        );
     }
 }
