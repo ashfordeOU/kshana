@@ -9,9 +9,9 @@ platform, valid across CPython ≥ 3.9 — built by `.github/workflows/wheels.ym
 | Linux x86_64 | `ubuntu-latest` | `x86_64` | `manylinux_2_28_x86_64` |
 | **Linux aarch64** | `ubuntu-latest` (QEMU in manylinux container) | `aarch64` | `manylinux_2_28_aarch64` |
 | **macOS arm64** | `macos-latest` (Apple-silicon runner) | `aarch64` | `macosx_*_arm64` |
-| macOS x86_64 | `macos-13` | `x86_64` | `macosx_*_x86_64` |
+| macOS x86_64 | `macos-latest` (cross-compiled from Apple-silicon, avoiding the scarce `macos-13` Intel runner) | `x86_64` | `macosx_*_x86_64` |
 | Windows x64 | `windows-latest` | `x64` | `win_amd64` |
-| **Windows arm64** | `windows-latest` (cross-compile) | `aarch64` | `win_arm64` |
+| **Windows arm64** | `windows-11-arm` (native) | `aarch64` | `win_arm64` |
 
 The Python ABI tag is `cp39-abi3` everywhere (PyO3 `abi3-py39`), so a single wheel per row covers
 all supported interpreter versions.
@@ -30,8 +30,9 @@ independently of Kshana for both x86_64 and aarch64.
   `pip install`s it on a native ARM64 runner `--only-binary :all:` (no source build) and imports
   the module — proving the wheel is installable on real ARM hardware.
 - The **macOS arm64** wheel builds natively on the Apple-silicon `macos-latest` runner.
-- The **Windows arm64** wheel cross-compiles (target `aarch64-pc-windows-msvc`); it is produced as
-  a release asset but not executed in CI (no public Windows-ARM runners).
+- The **Windows arm64** wheel builds **natively** on a GitHub-hosted `windows-11-arm` runner
+  (target `aarch64-pc-windows-msvc`); building on the runner's own architecture avoids the
+  abi3 cross-build platform-tag mismatch that skips the wheel on an x86-64 host.
 
 ## Producing the release assets
 
