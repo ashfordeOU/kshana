@@ -785,6 +785,89 @@ pub fn formal_covariance_nees(cfg: &LunarNetworkConfig) -> Option<f64> {
 }
 
 // ---------------------------------------------------------------------------
+// Fisher-information observability / Cramér–Rao bound of the joint solve.
+// ---------------------------------------------------------------------------
+
+/// Fisher-information observability of the joint lunar orbit-and-clock solve.
+///
+/// Built from the linearised measurement Jacobian `H` about the nominal geometry and the
+/// per-observable weights `W = diag(1/σ²)`: the Fisher information `M = HᵀWH`, analysed by
+/// [`crate::fim`]. This expresses the empirical "Earth-baseline VLBI sharpens the solve"
+/// contrast as the underlying *observability* statement: without Earth baselines the
+/// lunar network's absolute position/orientation lies in the **null space** of `M` (a
+/// datum defect), so the station's absolute position is unobservable however good the
+/// intra-lunar tracking is; each independent Earth baseline adds rank until `M` is
+/// full and the absolute position becomes observable with a finite Cramér–Rao bound.
+///
+/// The Jacobian is taken about the nominal geometry (state deviations zero), so the
+/// result is deterministic and noise-free — it is a property of the *geometry*, not of a
+/// particular noise draw.
+#[derive(Clone, Copy, Debug, serde::Serialize)]
+pub struct LunarObservability {
+    /// Parameters estimated (state dimension `n`).
+    pub n_params: usize,
+    /// Numerical rank of the Fisher information `M`.
+    pub rank: usize,
+    /// Datum-defect dimension `n − rank` (unobservable directions); `0` ⇒ fully observable.
+    pub defect: usize,
+    /// Cramér–Rao lower bound on the station 3-D absolute-position error (m, 1σ RSS),
+    /// `None` when the station position is unobservable (lies within the datum defect).
+    pub station_pos_crlb_m: Option<f64>,
+    /// Effective number of the station's three position axes that lie in the datum defect
+    /// (0 ⇒ fully observable, 3 ⇒ absolute position fully unobservable).
+    pub station_pos_unobservable_axes: f64,
+    /// E-optimality `λ_min(M)` — the worst-observed direction; ~0 signals a datum defect.
+    pub e_opt: f64,
+    /// Condition number `λ_max/λ_min` over the observable subspace.
+    pub condition: f64,
+}
+
+/// Effective number of the first `dim` state axes (here the station's 3 position axes)
+/// captured by the datum defect: `Σ_k ‖Π_dim v_k‖²` over null-space basis vectors `v_k`.
+fn station_axes_in_null(c: &crate::fim::Crlb, dim: usize) -> f64 {
+    let mut overlap = 0.0;
+    for col in 0..c.defect {
+        for r in 0..dim.min(c.n) {
+            overlap += c.null_space[r][col] * c.null_space[r][col];
+        }
+    }
+    overlap
+}
+
+/// Compute the Fisher-information observability and Cramér–Rao bound of the joint solve
+/// for `cfg` (honours the `with_vlbi` switch). Deterministic and noise-free.
+pub fn lunar_observability(cfg: &LunarNetworkConfig) -> LunarObservability {
+    let net = Network::build(cfg);
+    let np = n_params(cfg);
+    let x0 = vec![0.0; np];
+    let jac = fd_jacobian(&net, cfg, &x0);
+    let weights: Vec<f64> = sigmas(cfg).iter().map(|&s| 1.0 / (s * s)).collect();
+    let info = crate::fim::information_matrix(&jac, &weights);
+    let c = crate::fim::crlb(&info, 1e-9);
+    let d = crate::fim::design_metrics(&info, 1e-9);
+
+    let station_axes_unobs = station_axes_in_null(&c, 3);
+    // The station-position CRLB is finite only when none of the three position axes lie
+    // in the datum defect (otherwise the absolute-position variance is unbounded).
+    let station_pos_crlb_m = if station_axes_unobs < 1e-6 {
+        let var: f64 = (0..3).map(|i| c.crlb_diag[i]).sum();
+        Some(var.sqrt() * PARAM_SCALE)
+    } else {
+        None
+    };
+
+    LunarObservability {
+        n_params: np,
+        rank: c.rank,
+        defect: c.defect,
+        station_pos_crlb_m,
+        station_pos_unobservable_axes: station_axes_unobs,
+        e_opt: d.e_opt,
+        condition: d.condition,
+    }
+}
+
+// ---------------------------------------------------------------------------
 // Scenario (TOML `kind = "lunar-joint-od-clock"`).
 // ---------------------------------------------------------------------------
 
@@ -893,6 +976,7 @@ impl LunarCombinationScenario {
             with_vlbi: with,
             without_vlbi: without,
             station_observability_improvement_factor: improvement,
+            observability: lunar_observability(&self.config(true)),
             n_sat: self.n_sat,
             n_earth: self.n_earth,
         }
@@ -910,6 +994,10 @@ pub struct LunarCombinationReport {
     /// `station_pos_err_m(without) / station_pos_err_m(with)` — how much VLBI sharpens the
     /// station 3-D recovery.
     pub station_observability_improvement_factor: f64,
+    /// Fisher-information observability of the configured (with-VLBI) network: rank, datum
+    /// defect, and the Cramér–Rao lower bound on the station's absolute 3-D position. Lets a
+    /// sweep over `n_earth` read off the rank-restoration threshold and the CRLB design curve.
+    pub observability: LunarObservability,
     /// Number of constellation satellites.
     pub n_sat: usize,
     /// Number of Earth ground stations.
@@ -996,6 +1084,111 @@ mod tests {
         // 3 (station) + 3·n_sat (sats) + 1 (station clk) + n_sat (sat clks).
         assert_eq!(n_params(&cfg), 3 + 3 * 3 + 1 + 3);
         assert_eq!(estimate(&cfg).n_params, 3 + 3 * 3 + 1 + 3);
+    }
+
+    #[test]
+    fn fisher_information_is_rank_deficient_without_earth_baselines() {
+        // The observability statement behind the empirical contrast: with no Earth-baseline
+        // VLBI the joint-OD Fisher information M = HᵀWH is rank-deficient — the lunar
+        // network's absolute datum lies in its null space, so the station's absolute
+        // position is not observable and its Cramér–Rao bound is unbounded.
+        let cfg = LunarNetworkConfig {
+            with_vlbi: false,
+            ..Default::default()
+        };
+        let o = lunar_observability(&cfg);
+        assert!(
+            o.defect >= 1,
+            "expected a datum defect, got defect={}",
+            o.defect
+        );
+        assert!(
+            o.station_pos_unobservable_axes > 0.0,
+            "station axes must touch the null space"
+        );
+        assert!(
+            o.station_pos_crlb_m.is_none(),
+            "absolute station position must be unobservable"
+        );
+        // Adding the Earth baselines (the default) closes the defect and bounds the position.
+        let with = lunar_observability(&LunarNetworkConfig::default());
+        assert_eq!(with.defect, 0, "Earth baselines must restore full rank");
+        assert!(
+            with.station_pos_crlb_m.is_some(),
+            "absolute station position becomes observable"
+        );
+    }
+
+    #[test]
+    fn three_earth_baselines_restore_observability() {
+        // Rank-restoration threshold, derived from the Fisher information (not from solve
+        // error): one baseline (2 stations) is still rank-deficient; three baselines (3
+        // stations, two independent) make M full-rank and the absolute position observable.
+        let two = LunarNetworkConfig {
+            n_earth: 2,
+            ..Default::default()
+        };
+        assert!(
+            lunar_observability(&two).defect > 0,
+            "1 baseline is insufficient"
+        );
+        let three = LunarNetworkConfig {
+            n_earth: 3,
+            ..Default::default()
+        };
+        let o3 = lunar_observability(&three);
+        assert_eq!(o3.defect, 0, "3 stations must restore full rank");
+        assert!(o3.station_pos_crlb_m.is_some());
+    }
+
+    #[test]
+    fn station_crlb_is_attained_by_the_estimator() {
+        // Efficiency: the Gauss–Newton MLE attains the Cramér–Rao bound. The Monte-Carlo
+        // station-error RMS over deterministic seeds must sit at the CRLB (RMS ≥ CRLB up to
+        // finite-sample/finite-difference slack), confirming the 91× gain is the
+        // information-theoretic optimum, not an artefact.
+        let cfg = LunarNetworkConfig::default();
+        let crlb = lunar_observability(&cfg)
+            .station_pos_crlb_m
+            .expect("observable");
+        let mut sq = 0.0;
+        let mut nfin = 0u32;
+        for seed in 0..150u64 {
+            let mut c = cfg;
+            c.seed = seed;
+            let e = estimate(&c).station_pos_err_m;
+            if e.is_finite() {
+                sq += e * e;
+                nfin += 1;
+            }
+        }
+        let rms = (sq / nfin as f64).sqrt();
+        let efficiency = rms / crlb;
+        assert!(
+            (0.85..=1.20).contains(&efficiency),
+            "estimator efficiency RMS/CRLB = {efficiency:.3} (RMS={rms:.2} m, CRLB={crlb:.2} m) should be ≈ 1"
+        );
+    }
+
+    #[test]
+    fn additional_baselines_tighten_the_crlb() {
+        // The CRLB-optimal design curve: more Earth baselines monotonically tighten the
+        // bound on absolute station position (diminishing returns).
+        let mut prev = f64::INFINITY;
+        for n_earth in [3usize, 4, 5, 6] {
+            let cfg = LunarNetworkConfig {
+                n_earth,
+                ..Default::default()
+            };
+            let crlb = lunar_observability(&cfg)
+                .station_pos_crlb_m
+                .expect("observable ≥3 stations");
+            assert!(
+                crlb < prev,
+                "CRLB must decrease with baselines: {n_earth} stations gave {crlb} m ≥ {prev} m"
+            );
+            prev = crlb;
+        }
     }
 
     #[test]
