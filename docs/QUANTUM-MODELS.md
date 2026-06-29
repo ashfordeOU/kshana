@@ -35,13 +35,17 @@ remaining systematics are still coefficient-level or unmodelled:
   first principles* for the CAI accelerometer (`src/inertial/quantum_imu.rs`), deriving
   the white-acceleration PSD `q_va` the classical model consumes — see
   [`QUANTUM.md`](QUANTUM.md);
-- still **not** modelled: **laser-phase noise**, Coriolis and AC-Stark **systematics**,
-  and clock-side first-principles physics;
+- the **Coriolis** systematic (`coriolis_phase` / `coriolis_accel_bias`, the
+  `2·v⊥·Ω` cross-coupling) and the **AC-Stark / light-shift** systematic
+  (`ac_stark_phase`, which cancels under a symmetric two-photon detuning) *are now
+  modelled and unit-tested* in `src/inertial/quantum_imu.rs`;
+- still **not** modelled: **laser-phase noise** and clock-side first-principles
+  physics;
 - no 3-axis mechanisation (the inertial model is 1-DOF — see the IMU note in the
   README and [`VALIDATION.md`](VALIDATION.md)).
 
-Completing the quantum-physics layer (laser-phase noise, Coriolis, light-shift
-systematics) is the remaining P2 roadmap work.
+Completing the quantum-physics layer (laser-phase noise, and clock-side
+first-principles physics) is the remaining P2 roadmap work.
 
 ## Ground-lab vs. flight-qualified figures
 
