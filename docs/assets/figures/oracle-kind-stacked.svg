@@ -4,11 +4,11 @@
   <desc>Generated from src/verification.rs via web/data/verification-matrix.json by tools/gen_validation_figures.py. Do not edit by hand.</desc>
   <rect x="0" y="0" width="820" height="400" fill="#ffffff"/>
   <text x="40" y="50" font-size="24" font-weight="700" fill="#212121">Validated means external oracle &#8212; by construction</text>
-  <text x="40" y="78" font-size="15" fill="#555555">Status &#215; oracle kind from verification-matrix.json (n=91). Validated = 40/40 ExternalDataset &#8212; CI-enforced.</text>
+  <text x="40" y="78" font-size="15" fill="#555555">Status &#215; oracle kind from verification-matrix.json (n=92). Validated = 41/41 ExternalDataset &#8212; CI-enforced.</text>
   <text x="40" y="146" font-size="17" font-weight="700" fill="#212121">Validated</text>
-  <rect x="168" y="120" width="495.32" height="42" fill="#1b7837"/>
-  <text x="415.66" y="147" font-size="18" font-weight="700" fill="#ffffff" text-anchor="middle">40</text>
-  <text x="675.32" y="147" font-size="18" font-weight="700" fill="#212121">40</text>
+  <rect x="168" y="120" width="507.7" height="42" fill="#1b7837"/>
+  <text x="421.85" y="147" font-size="18" font-weight="700" fill="#ffffff" text-anchor="middle">41</text>
+  <text x="687.7" y="147" font-size="18" font-weight="700" fill="#212121">41</text>
   <text x="40" y="208" font-size="17" font-weight="700" fill="#212121">Modelled</text>
   <rect x="168" y="182" width="99.06" height="42" fill="#1b7837"/>
   <text x="217.53" y="209" font-size="18" font-weight="700" fill="#ffffff" text-anchor="middle">8</text>
@@ -30,5 +30,5 @@
   <text x="432" y="352" font-size="13" fill="#212121">InternalConsistency</text>
   <rect x="595" y="339" width="16" height="16" fill="#4a4a8a"/>
   <text x="617" y="352" font-size="13" fill="#212121">NoneKind</text>
-  <text x="40" y="386" font-size="15" fill="#212121"><tspan font-weight="700">40</tspan> Validated &#183; <tspan font-weight="700">47</tspan> Modelled &#183; <tspan font-weight="700">4</tspan> Partner &#183; <tspan font-weight="700">91</tspan> total</text>
+  <text x="40" y="386" font-size="15" fill="#212121"><tspan font-weight="700">41</tspan> Validated &#183; <tspan font-weight="700">47</tspan> Modelled &#183; <tspan font-weight="700">4</tspan> Partner &#183; <tspan font-weight="700">92</tspan> total</text>
 </svg>
