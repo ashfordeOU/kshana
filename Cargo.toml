@@ -85,3 +85,12 @@ wasm = ["dep:wasm-bindgen"]
 # (tests/sgp4_crate_comparison.rs). Test-only: never compiled into the library,
 # CLI, or the published bindings; the package excludes the test that uses it.
 sgp4 = "2.4"
+
+[profile.release]
+# Reproducible release builds. A single codegen unit removes the parallel-codegen
+# ordering nondeterminism that otherwise makes the compiled extension differ
+# byte-for-byte between two builds of the same source. Pinned here (not just via a
+# CI env var) so it takes effect inside the manylinux build container too, where
+# arbitrary CARGO_* environment is not forwarded — this is what makes the published
+# wheel byte-reproducible and the rebuild-and-diff check (wheels.yml) green.
+codegen-units = 1
