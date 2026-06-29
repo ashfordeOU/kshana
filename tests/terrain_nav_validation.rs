@@ -173,3 +173,40 @@ fn gdal_cross_check() {
     // Compare a handful of nodes against `gdallocationinfo -valonly -geoloc N36W119.hgt <lon> <lat>`.
     assert!(dem.node(0, 0).is_finite());
 }
+
+/// ORACLE A.4 (CI, no network) — the **committed real-SRTM fixture**.
+/// `fixtures/terrain/N36W117_sub6.hgt` is the public-domain NASA SRTM v3 tile for
+/// N36 W117 (Death Valley), decimated to 6-arc-second (every 6th of the 3601 1-arc-second
+/// samples → 601×601, 722 KB) so a clone validates the `.hgt` reader against **real
+/// terrain** with zero external data (see the directory NOTICE.md). The reader must place
+/// Badwater Basin — the lowest point in North America (36.250°N, 116.825°W; surveyed −86 m)
+/// — in the same survey band the ignored full-tile test uses, and must read the tile's true
+/// mountainous relief on the eastern ranges.
+#[test]
+fn real_srtm_committed_badwater_tile_reads_real_relief() {
+    let bytes = include_bytes!("fixtures/terrain/N36W117_sub6.hgt");
+    let dem = DemGrid::from_srtm_hgt(bytes, 601, 36.0, -117.0).expect("fixture parses");
+
+    // Geo-reference: a full 1°×1° tile at 6-arc-second spacing.
+    assert_eq!((dem.n_lat, dem.n_lon), (601, 601));
+    assert!((dem.lat0_deg - 36.0).abs() < 1e-12 && (dem.lon0_deg + 117.0).abs() < 1e-12);
+    assert!((dem.dlat_deg - 1.0 / 600.0).abs() < 1e-12);
+
+    // Badwater Basin: real below-sea-level reading at the documented benchmark. The ~6 m
+    // gap to the surveyed −86 m is the 6-arc-second coarsening plus SRTM's ±9 m vertical
+    // accuracy; the same survey band [-95, -70] m as the full-resolution ignored test.
+    let h = dem.elevation_at(36.250, -116.825);
+    assert!(
+        (-95.0..=-70.0).contains(&h),
+        "Badwater sampled {h} m from the committed SRTM fixture, survey −86 m"
+    );
+
+    // Real dynamic range: the eastern Funeral/Black Mountains rise to ~2 km on this tile,
+    // so the reader must surface genuine mountain relief, not a flat or void grid.
+    let max = dem.elev_m.iter().cloned().fold(f64::MIN, f64::max);
+    assert!(
+        max > 1500.0,
+        "committed SRTM tile should carry real mountain relief, got max {max} m"
+    );
+    eprintln!("committed SRTM N36W117 (6\"): Badwater {h:.1} m, tile max {max:.0} m");
+}
