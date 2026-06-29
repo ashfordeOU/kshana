@@ -6,5 +6,6 @@
 //! accept timestamps as caller-supplied fields (never call [`std::time::SystemTime::now`]
 //! internally), and compile for `wasm32-unknown-unknown`.
 
+pub mod oracle;
 pub mod provenance;
 pub mod uncertainty;
