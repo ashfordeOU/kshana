@@ -73,6 +73,7 @@ pub mod lunar_datum;
 pub mod lunar_dpnt;
 pub mod lunar_frame;
 pub mod lunar_frame_realise;
+pub mod lunar_identifiability;
 pub mod lunar_interop;
 pub mod lunar_llr;
 pub mod lunar_od;
