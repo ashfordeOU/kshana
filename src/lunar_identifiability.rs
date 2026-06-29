@@ -9,6 +9,41 @@
 //! approaches zero exactly when the {origin-X, scale} pair becomes unobservable (the
 //! classic LLR datum ambiguity) and grows as libration separates the pair.
 //!
+//! # Null-space classification theorem
+//!
+//! **Null-space classification of the internal-ranging datum problem.** Let a rigid
+//! network of body-fixed points `{p_i}` be observed only by internal range measurements
+//! (Earth station → near-side reflector) under body→inertial orientation `R(t)`. For a
+//! 7-parameter Helmert datum `δ = [t, s, θ]` the per-observation sensitivity is
+//! `∂(range)/∂δ = û(t)·(R(t)·J_point(p_i)·δ)`, where `J_point` is the body-frame
+//! datum point-Jacobian. Then:
+//!
+//! 1. **(Rank-additivity.)** Each scalar range observation contributes a rank-1 outer
+//!    product to the Fisher information; a single observation leaves a 6-dimensional
+//!    datum null space. Observability is built up only by accumulating geometrically
+//!    distinct sightlines.
+//!
+//! 2. **(Origin–scale near-null.)** For a near-side cluster subtending a small angle
+//!    about the Earth–Moon line, the radial translation (lunocenter-X) and the scale
+//!    `s` act on every line of sight almost identically; with a single fixed orientation
+//!    `R₀` their difference lies in (or arbitrarily close to) the null space — the
+//!    classic LLR origin↔scale degeneracy.
+//!
+//! 3. **(Libration lift.)** Physical libration makes `R(t)` time-vary, rotating the
+//!    cluster relative to the line of sight; this projects the origin–scale combination
+//!    out of the null space, lifting the datum defect to zero while leaving the pair
+//!    *near*-degenerate. The separation grows monotonically with librational excursion
+//!    and tracking-arc length (the marginal {X,s} information — a Schur complement —
+//!    is operator-monotone under added observations). Transverse translations and the
+//!    line-of-sight rotation are weakly observable in proportion to the same excursion.
+//!
+//! *Status:* the classification (rank-additivity, which directions are null / near-null
+//! / weakly observable) is a geometric property — engine-verified in
+//! `tests/lunar_datum_identifiability_reference.rs`. The numeric magnitudes of the
+//! residual near-degeneracy (correlation, CRLB) under real DE440 geometry are
+//! **Modelled**; they reproduce the STRUCTURE of Sośnica et al. 2025
+//! (arXiv:2510.15484, r≈−0.97), not its magnitude.
+//!
 //! # Honesty note
 //! The `degeneracy_metric` and `origin_scale_corr` **magnitudes** from real LLR
 //! geometry are **Modelled** (the 4→7 param extension holds reflector coordinates and
@@ -71,6 +106,11 @@ pub struct DatumIdentifiability {
     /// CRLB standard deviation on the lunocenter-X translation [m], from
     /// `sqrt(S⁻¹[0][0])`. Invariant under positive scaling of columns 3–6, so
     /// physically meaningful in metres.
+    ///
+    /// **(Modelled magnitude; model-dependent — reflector coords + orientation held
+    /// fixed.)** The value here does not reproduce the ~12 cm floor of Sośnica et al.
+    /// 2025; it reflects the 7-parameter simplification that omits libration uncertainty,
+    /// reflector position errors, and atmospheric delays.
     pub origin_crlb_m: f64,
 }
 
