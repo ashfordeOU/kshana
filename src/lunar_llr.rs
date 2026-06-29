@@ -107,7 +107,7 @@ pub fn stations() -> Vec<Station> {
 /// `r_inertial = r_moon_geocentric + R_body→inertial(t) · pa_body`
 ///
 /// Uses `crate::ephem::moon_position` for the geocentric Moon position and
-/// `crate::lunar::mcmf_to_mci` for the PA body → MCI rotation.
+/// `crate::lunar_orientation::de440_moon_pa_body_to_inertial` for the PA body → geocentric-inertial rotation (real DE440 PA-frame orientation, with physical libration).
 pub fn reflector_inertial(pa_body_m: Vec3, t_tt_jc: f64) -> Vec3 {
     let r_moon = crate::ephem::moon_position(t_tt_jc); // geocentric inertial [m]
     let r_body_in_inertial =
