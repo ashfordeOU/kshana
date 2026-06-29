@@ -314,8 +314,19 @@ fn ils_two_best(q: &Mat, a_hat: &[f64]) -> Option<(Vec<i64>, f64, f64)> {
             z[i] = cand.round() as i64;
             u[i] = ui;
             dfs(
-                i + 1, n, l, d, a_hat, z, u, cost + add, best, best_cost, second_cost,
-                nodes, budget,
+                i + 1,
+                n,
+                l,
+                d,
+                a_hat,
+                z,
+                u,
+                cost + add,
+                best,
+                best_cost,
+                second_cost,
+                nodes,
+                budget,
             );
             // Safety bound: never wander more than a wide window from the centre.
             if (cand - center).abs() > 1_000.0 {
