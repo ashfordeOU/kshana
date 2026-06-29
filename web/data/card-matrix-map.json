@@ -25,6 +25,10 @@
   "Batch & sequential OD": [
     "Batch & sequential orbit determination"
   ],
+  "Fisher information & observability": [
+    "Fisher information & Cramér–Rao observability",
+    "Lunar absolute-station observability (datum defect)"
+  ],
   "CR3BP propagation & LunaNet integrity": [
     "Cislunar mission analysis",
     "Lunar navigation service volume"
@@ -60,6 +64,9 @@
   "Modulation, anti-jam & code tracking": [
     "Nav-signal modulation & code-tracking analysis",
     "Ranging-code design trade"
+  ],
+  "Passive RF geolocation (TDOA/FDOA)": [
+    "TDOA/FDOA passive emitter geolocation"
   ],
   "RINEX, SP3 & CCSDS formats": [
     "Broadcast-ephemeris satellite position (multi-GNSS RINEX)",

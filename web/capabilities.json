@@ -70,6 +70,14 @@
       "proof": "batch + sequential OD vs Orekit 12.2 BatchLSEstimator/KalmanEstimator"
     },
     {
+      "domain": "Observability & estimation theory",
+      "group": "Orbits",
+      "status": "validated",
+      "name": "Fisher information & observability",
+      "summary": "A general, reusable Fisher-information / Cramér–Rao layer (src/fim.rs): the information matrix M = HᵀWH, the Cramér–Rao lower bound, observability rank and the datum-defect null space (Moore–Penrose pseudo-inverse), and D/A/E/T-optimal experiment-design scalars from a symmetric Jacobi eigensolver. It underpins the DOP engine, the passive-geolocation bound, and the lunar absolute-station observability result — internal ranging leaves a six-DOF rigid-body datum defect that an Earth-baseline VLBI tie restores for a sparse constellation and sharpens for a rich one, the absolute datum closing at three non-collinear Earth stations.",
+      "proof": "eigenvalues vs numpy.linalg.eigh · CRLB vs σ²(XᵀX)⁻¹ via numpy.linalg.inv · GNSS DOP from the information matrix, all to 1e-9 · Kay (1993) closed forms + Monte-Carlo CRLB attainment"
+    },
+    {
       "domain": "Lunar & cislunar",
       "group": "Lunar",
       "status": "validated",
@@ -147,6 +155,14 @@
       "name": "Modulation, anti-jam & code tracking",
       "summary": "The signal-performance layer between the link budget and the measurement domain: unit-area power spectral densities for BPSK-R(n) and sine-BOC(m,n), the spectral-separation coefficient that derives the anti-jam Q the jamming model consumes directly from the actual signal and jammer spectra, the RMS (Gabor) bandwidth that sets the ranging-information content (BOC > BPSK), the coherent early–late DLL code-tracking thermal-noise jitter, and the coherent early-minus-late multipath error envelope with narrow-correlator suppression, and a ranging-code design-trade (m-sequence/Gold autocorrelation sidelobe and the three-valued Gold cross-correlation bound, plus the code-length-to-unambiguous-range inversion). This is signal-performance analysis, not RF-payload or antenna hardware design.",
       "proof": "BPSK self-SSC = 2/(3R_c) · sub-metre C/A DLL jitter at 45 dB-Hz · GPS C/A Gold cross-corr -23.9 dB"
+    },
+    {
+      "domain": "Passive RF geolocation",
+      "group": "Resilience",
+      "status": "modelled",
+      "name": "Passive RF geolocation (TDOA/FDOA)",
+      "summary": "Locate a jammer or spoofer (or an opportunistic source for reverse-PNT) from time-difference-of-arrival hyperboloids across a receiver network, solved by Gauss–Newton least squares; adding frequency-difference-of-arrival with moving receivers jointly recovers the emitter's position and velocity, with the Cramér–Rao bound on the position covariance from the network geometry. A point-source line-of-sight model — no multipath / NLOS, receiver-clock-bias, or refraction terms.",
+      "proof": "noiseless TDOA forward→inverse to 1e-6 m · J·CRLB = I · GDOP monotone in receivers · estimator attains its CRLB over 4000 Monte-Carlo trials"
     },
     {
       "domain": "Interoperability",
