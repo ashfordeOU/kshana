@@ -9,11 +9,11 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
-## [0.22.0] - 2026-06-28
+## [0.22.0] - 2026-06-29
 
 A consolidation release focused on **evidence, provenance, and distribution discipline**.
-The machine-checked validation matrix grows to **36 VALIDATED · 36 MODELLED · 4 PARTNER**
-across its **76 rows** (was 15 · 42 · 4 across 61), driven by cross-validating modelled
+The machine-checked validation matrix grows to **39 VALIDATED · 46 MODELLED · 4 PARTNER**
+across its **89 rows** (was 15 · 42 · 4 across 61), driven by cross-validating modelled
 capabilities against independent external oracles. Every distributed artifact now carries
 a cryptographic SLSA build-provenance attestation, ships a CycloneDX SBOM, and is published
 in lockstep across all surfaces. No numeric model claim is upgraded without an external
@@ -25,8 +25,23 @@ dataset behind it; new capability remains honestly MODELLED.
   Euler equations + quaternion kinematics (RK4), with conservation-law self-tests
   (quaternion norm, kinetic energy, |Iω|, symmetric-top precession).
 - **Cross-validation of modelled capabilities** against independent external oracles,
-  taking the validation matrix to 36 VALIDATED rows, each backed by an external dataset
-  (the CI honesty gate forbids a VALIDATED status without one).
+  taking the validation matrix to 39 VALIDATED rows, each backed by an external dataset
+  (the CI honesty gate forbids a VALIDATED status without one). The newest external-oracle
+  validations: the **optical-clock measured stability curve** (`quantum_trade`'s ADEV-curve
+  fit reproduces the published ⁸⁸Sr optical-lattice-clock σ_y(τ) of Norcia et al.,
+  *Science* 366:93 (2019), Zenodo 10.5281/zenodo.3382347, CC-BY-4.0, vendored under
+  `tests/fixtures/optical_clock_adev/`); **GPS L1 C/A spreading-code generation**
+  (`src/sdr.rs`'s G1/G2 LFSR reproduces the IS-GPS-200 Table 3-Ia code-phase octals for
+  PRN 1–9); and the **SRTM digital-elevation reader on real terrain** (`src/altpnt/terrain.rs`
+  reads a vendored public-domain NASA/USGS SRTM v3 tile, N36W117 / Death Valley, placing
+  Badwater Basin within its documented survey band).
+- **New MODELLED capabilities**, each internally cross-checked against a closed form or a
+  sibling code path: Clohessy–Wiltshire / Hill relative-motion dynamics, TDOA/FDOA passive
+  emitter geolocation, Wahba/TRIAD/QUEST attitude determination, GNSS carrier-phase integer
+  ambiguity resolution (LAMBDA), B-plane targeting & patched-conic gravity assist, CRPA
+  anti-jam array beamforming, GNSS square-law acquisition statistics, quantum inertial-sensor
+  fringe-ambiguity / dynamic range, IEEE-1139 power-law clock noise + flicker-FM floor, and
+  CCSDS-OEM covariance-block interchange.
 - **Single-source evidence ledger** with generated verification docs and a drift guard;
   a browsable validation ledger on kshana.dev with per-card evidence deep-links.
 - **Machine-readable citation metadata** — `codemeta.json` (CodeMeta 2.0) and
@@ -40,6 +55,16 @@ dataset behind it; new capability remains honestly MODELLED.
 
 ### Changed
 
+- **Sagnac time-transfer** oracle upgraded to ExternalDataset — the equatorial-
+  circumnavigation Sagnac correction is now checked against Ashby's published 207.4 ns
+  (*Living Reviews in Relativity* 6:1, 2003, Eq. 1.29; reproduced to < 0.05 ns). The
+  composite time-transfer capability remains honestly MODELLED.
+- **Documentation, diagrams and figures refreshed** to the live matrix (39/46/4/89): the
+  validation-provenance diagram, the `oracle-kind-stacked` figure (now generated from the
+  matrix with a CI drift-guard), VALIDATION/PROVENANCE/CAPABILITY/QUANTUM-MODELS/WHEEL_TAGS,
+  the architecture and tutorial docs, and the kshana.dev ledger total.
+- Reformatted the source tree with the pinned rustfmt (toolchain 1.93.0) — pure style,
+  no behavioural change.
 - **Lockstep versioning.** Every distribution surface (crate, PyPI, npm, MCP crate +
   OCI image, JetBrains plugin) now versions in lockstep with the engine, enforced by
   `scripts/check-version-sync.sh` in CI.
@@ -2327,12 +2352,25 @@ Initial release.
   services, not license fees.
 - `CITATION.cff` so the software can be cited.
 
-[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.15.1...HEAD
+[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.22.0...HEAD
+[0.22.0]: https://github.com/AshfordeOU/kshana/compare/v0.21.0...v0.22.0
+[0.21.0]: https://github.com/AshfordeOU/kshana/compare/v0.20.0...v0.21.0
+[0.20.0]: https://github.com/AshfordeOU/kshana/compare/v0.19.0...v0.20.0
+[0.19.0]: https://github.com/AshfordeOU/kshana/compare/v0.18.0...v0.19.0
+[0.18.0]: https://github.com/AshfordeOU/kshana/compare/v0.17.0...v0.18.0
+[0.17.0]: https://github.com/AshfordeOU/kshana/compare/v0.16.0...v0.17.0
+[0.16.0]: https://github.com/AshfordeOU/kshana/compare/v0.15.1...v0.16.0
 [0.15.1]: https://github.com/AshfordeOU/kshana/compare/v0.15.0...v0.15.1
 [0.15.0]: https://github.com/AshfordeOU/kshana/compare/v0.14.1...v0.15.0
 [0.14.1]: https://github.com/AshfordeOU/kshana/compare/v0.14.0...v0.14.1
 [0.14.0]: https://github.com/AshfordeOU/kshana/compare/v0.13.0...v0.14.0
 [0.13.0]: https://github.com/AshfordeOU/kshana/compare/v0.12.0...v0.13.0
+[0.12.0]: https://github.com/AshfordeOU/kshana/compare/v0.11.0...v0.12.0
+[0.11.0]: https://github.com/AshfordeOU/kshana/compare/v0.10.0...v0.11.0
+[0.10.0]: https://github.com/AshfordeOU/kshana/compare/v0.9.2...v0.10.0
+[0.9.2]: https://github.com/AshfordeOU/kshana/compare/v0.9.1...v0.9.2
+[0.9.1]: https://github.com/AshfordeOU/kshana/compare/v0.9.0...v0.9.1
+[0.9.0]: https://github.com/AshfordeOU/kshana/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/AshfordeOU/kshana/compare/v0.7.0...v0.8.0
 [0.7.0]: https://github.com/AshfordeOU/kshana/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/AshfordeOU/kshana/compare/v0.5.0...v0.6.0
