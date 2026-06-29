@@ -530,6 +530,12 @@ impl ScenarioKind {
             _ => ScenarioKind::Clock,
         })
     }
+
+    /// The registry id for this kind — the canonical kebab string interned as a
+    /// [`crate::registry::ScenarioId`].
+    pub fn to_id(&self) -> crate::registry::ScenarioId {
+        crate::registry::ScenarioId::from_static(self.as_str())
+    }
 }
 
 /// Metadata describing one scenario kind for programmatic introspection
@@ -863,9 +869,25 @@ pub fn run_toml(src: &str) -> Result<RunOutput, String> {
     Ok(out)
 }
 
-/// The dispatch itself, before the chart is provenance-stamped.
+/// The dispatch itself, before the chart is provenance-stamped. Classification is
+/// behaviour-preserving: resolve the typed kind, then route through the
+/// [`crate::registry::PackRegistry`] of built-ins. The error mapping is identical to
+/// the historical inline dispatch (the registry wraps the built-in's `String` error
+/// in `InvalidInput`, whose `Display` passes it through unchanged).
 fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
-    match ScenarioKind::classify(src).map_err(|e| e.to_string())? {
+    let kind = ScenarioKind::classify(src).map_err(|e| e.to_string())?;
+    crate::registry::PackRegistry::with_builtins()
+        .build(&kind.to_id(), src)?
+        .run()
+        .map_err(|e| e.to_string())
+}
+
+/// The built-in dispatch table, keyed on an already-resolved [`ScenarioKind`]. This
+/// is the same exhaustive match the engine has always run; it is now reached through
+/// the registry seam (see [`run_toml_inner`]) so out-of-tree packs can interpose
+/// without forking core.
+pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutput, String> {
+    match kind {
         ScenarioKind::Inertial => {
             let scn: crate::inertial::InertialScenario =
                 toml::from_str(src).map_err(|e| format!("invalid inertial scenario: {e}"))?;
