@@ -132,6 +132,18 @@ fn d_station_alt_m() -> f64 {
 fn d_orbit_radius_km() -> f64 {
     6000.0
 }
+fn d_orbit_ecc() -> f64 {
+    0.0 // 0 = the illustrative circular placement; > 0 selects a Keplerian ELFO
+}
+fn d_orbit_inc_deg() -> f64 {
+    57.7 // lunar frozen-orbit critical inclination (used only when orbit_ecc > 0)
+}
+fn d_orbit_argp_deg() -> f64 {
+    90.0 // argument of periapsis: apoapsis over the south pole (ELFO south-pole dwell)
+}
+fn d_orbit_planes() -> usize {
+    1
+}
 
 /// Configuration of the simulated joint OD + clock network.
 ///
@@ -181,9 +193,23 @@ pub struct LunarNetworkConfig {
     /// Station altitude above the mean lunar sphere (m).
     #[serde(default = "d_station_alt_m")]
     pub station_alt_m: f64,
-    /// Constellation orbit radius (km, MCI) on which the illustrative fixed satellites sit.
+    /// Constellation orbit radius (km, MCI) for the circular placement, or the semi-major
+    /// axis when `orbit_ecc > 0` (a Keplerian elliptical lunar frozen orbit, ELFO).
     #[serde(default = "d_orbit_radius_km")]
     pub orbit_radius_km: f64,
+    /// Orbit eccentricity. `0` keeps the illustrative circular placement; `> 0` places the
+    /// satellites on a representative ELFO (semi-major axis `orbit_radius_km`).
+    #[serde(default = "d_orbit_ecc")]
+    pub orbit_ecc: f64,
+    /// ELFO inclination (deg), used only when `orbit_ecc > 0`.
+    #[serde(default = "d_orbit_inc_deg")]
+    pub orbit_inc_deg: f64,
+    /// ELFO argument of periapsis (deg), used only when `orbit_ecc > 0`.
+    #[serde(default = "d_orbit_argp_deg")]
+    pub orbit_argp_deg: f64,
+    /// Number of orbital planes (RAAN-spread) for the ELFO placement.
+    #[serde(default = "d_orbit_planes")]
+    pub orbit_planes: usize,
 }
 
 impl Default for LunarNetworkConfig {
@@ -204,6 +230,10 @@ impl Default for LunarNetworkConfig {
             station_lon_deg: d_station_lon_deg(),
             station_alt_m: d_station_alt_m(),
             orbit_radius_km: d_orbit_radius_km(),
+            orbit_ecc: d_orbit_ecc(),
+            orbit_inc_deg: d_orbit_inc_deg(),
+            orbit_argp_deg: d_orbit_argp_deg(),
+            orbit_planes: d_orbit_planes(),
         }
     }
 }
@@ -290,29 +320,67 @@ impl Network {
         };
         let station_nom_mci = crate::lunar::selenographic_to_mcmf(station_sel);
 
-        // Constellation: fixed, distinct, illustrative points on a representative lunar orbit.
-        // Spread over true anomaly + alternating inclination so the satellites are NOT all on one
-        // line yet (deliberately) sit toward one side of the sky from the polar station, leaving a
-        // poorly-observed station direction for ranging-only — which VLBI then fixes.
-        let r = cfg.orbit_radius_km * 1.0e3;
-        let sat_nom_mci: Vec<Vec3> = (0..cfg.n_sat)
-            .map(|k| {
-                let frac = if cfg.n_sat > 1 {
-                    k as f64 / cfg.n_sat as f64
-                } else {
-                    0.0
-                };
-                // True anomaly spread over a ~110° arc (a partial pass, not full sky coverage).
-                let nu = (-55.0 + 110.0 * frac).to_radians();
-                // Mild inclination wobble so the points are not coplanar.
-                let inc = (60.0 + 8.0 * (k as f64).sin()).to_radians();
-                [
-                    r * nu.cos() * inc.sin(),
-                    r * nu.sin() * inc.sin(),
-                    r * inc.cos(),
-                ]
-            })
-            .collect();
+        // Constellation placement. Two geometries are supported:
+        //   * `orbit_ecc == 0` (default): the illustrative circular placement — points spread
+        //     over a ~110° true-anomaly arc with a mild inclination wobble, deliberately sitting
+        //     toward one side of the polar station's sky so ranging-only leaves a poorly-observed
+        //     station direction that VLBI then fixes.
+        //   * `orbit_ecc > 0`: a representative elliptical lunar frozen orbit (ELFO) of the
+        //     Moonlight/LCNS design family — semi-major axis `orbit_radius_km`, eccentricity
+        //     `orbit_ecc`, frozen inclination `orbit_inc_deg`, argument of periapsis
+        //     `orbit_argp_deg` (apoapsis over the south pole), satellites spread by true anomaly
+        //     across `orbit_planes` RAAN-separated planes. Representative, not a flown ephemeris.
+        let a = cfg.orbit_radius_km * 1.0e3;
+        let sat_nom_mci: Vec<Vec3> = if cfg.orbit_ecc > 0.0 {
+            let e = cfg.orbit_ecc;
+            let inc = cfg.orbit_inc_deg.to_radians();
+            let argp = cfg.orbit_argp_deg.to_radians();
+            let n_planes = cfg.orbit_planes.max(1);
+            let per_plane = cfg.n_sat.div_ceil(n_planes);
+            (0..cfg.n_sat)
+                .map(|k| {
+                    let plane = k % n_planes;
+                    let idx = k / n_planes;
+                    let raan = 2.0 * std::f64::consts::PI * plane as f64 / n_planes as f64;
+                    // Spread by true anomaly; offset planes so they are not phase-aligned.
+                    let nu = 2.0
+                        * std::f64::consts::PI
+                        * (idx as f64 + 0.5 * plane as f64 / n_planes as f64)
+                        / per_plane.max(1) as f64;
+                    let rr = a * (1.0 - e * e) / (1.0 + e * nu.cos());
+                    // Perifocal position, then 3-1-3 (argp, inc, raan) rotation into MCI.
+                    let (xp, yp) = (rr * nu.cos(), rr * nu.sin());
+                    let (ca, sa) = (argp.cos(), argp.sin());
+                    let (ci, si) = (inc.cos(), inc.sin());
+                    let (co, so) = (raan.cos(), raan.sin());
+                    // x1 = Rz(argp) * [xp, yp, 0]
+                    let (x1, y1) = (ca * xp - sa * yp, sa * xp + ca * yp);
+                    // x2 = Rx(inc) * x1
+                    let (x2, y2, z2) = (x1, ci * y1, si * y1);
+                    // x3 = Rz(raan) * x2
+                    [co * x2 - so * y2, so * x2 + co * y2, z2]
+                })
+                .collect()
+        } else {
+            (0..cfg.n_sat)
+                .map(|k| {
+                    let frac = if cfg.n_sat > 1 {
+                        k as f64 / cfg.n_sat as f64
+                    } else {
+                        0.0
+                    };
+                    // True anomaly spread over a ~110° arc (a partial pass, not full sky coverage).
+                    let nu = (-55.0 + 110.0 * frac).to_radians();
+                    // Mild inclination wobble so the points are not coplanar.
+                    let inc = (60.0 + 8.0 * (k as f64).sin()).to_radians();
+                    [
+                        a * nu.cos() * inc.sin(),
+                        a * nu.sin() * inc.sin(),
+                        a * inc.cos(),
+                    ]
+                })
+                .collect()
+        };
 
         // Earth ground stations: distinct lat/lon spread for ≥2 independent baselines.
         let earth_geodetics = earth_station_geodetics(cfg.n_earth);
@@ -906,9 +974,21 @@ pub struct LunarCombinationScenario {
     /// Station altitude above the mean lunar sphere (m).
     #[serde(default = "d_station_alt_m")]
     pub station_alt_m: f64,
-    /// Constellation orbit radius (km, MCI).
+    /// Constellation orbit radius (km, MCI), or the ELFO semi-major axis when `orbit_ecc > 0`.
     #[serde(default = "d_orbit_radius_km")]
     pub orbit_radius_km: f64,
+    /// Orbit eccentricity (0 = circular placement; > 0 = representative ELFO).
+    #[serde(default = "d_orbit_ecc")]
+    pub orbit_ecc: f64,
+    /// ELFO inclination (deg).
+    #[serde(default = "d_orbit_inc_deg")]
+    pub orbit_inc_deg: f64,
+    /// ELFO argument of periapsis (deg).
+    #[serde(default = "d_orbit_argp_deg")]
+    pub orbit_argp_deg: f64,
+    /// Number of ELFO orbital planes.
+    #[serde(default = "d_orbit_planes")]
+    pub orbit_planes: usize,
     /// Epoch UTC year.
     #[serde(default = "d_epoch_year")]
     pub epoch_year: i32,
@@ -935,6 +1015,10 @@ impl Default for LunarCombinationScenario {
             station_lon_deg: c.station_lon_deg,
             station_alt_m: c.station_alt_m,
             orbit_radius_km: c.orbit_radius_km,
+            orbit_ecc: c.orbit_ecc,
+            orbit_inc_deg: c.orbit_inc_deg,
+            orbit_argp_deg: c.orbit_argp_deg,
+            orbit_planes: c.orbit_planes,
             epoch_year: c.epoch_year,
             epoch_month: c.epoch_month,
             epoch_day: c.epoch_day,
@@ -960,6 +1044,10 @@ impl LunarCombinationScenario {
             station_lon_deg: self.station_lon_deg,
             station_alt_m: self.station_alt_m,
             orbit_radius_km: self.orbit_radius_km,
+            orbit_ecc: self.orbit_ecc,
+            orbit_inc_deg: self.orbit_inc_deg,
+            orbit_argp_deg: self.orbit_argp_deg,
+            orbit_planes: self.orbit_planes,
         }
     }
 
@@ -977,6 +1065,7 @@ impl LunarCombinationScenario {
             without_vlbi: without,
             station_observability_improvement_factor: improvement,
             observability: lunar_observability(&self.config(true)),
+            observability_without_vlbi: lunar_observability(&self.config(false)),
             n_sat: self.n_sat,
             n_earth: self.n_earth,
         }
@@ -998,6 +1087,10 @@ pub struct LunarCombinationReport {
     /// defect, and the Cramér–Rao lower bound on the station's absolute 3-D position. Lets a
     /// sweep over `n_earth` read off the rank-restoration threshold and the CRLB design curve.
     pub observability: LunarObservability,
+    /// Fisher-information observability of the SAME network WITHOUT the Earth-baseline VLBI
+    /// legs — lets a sweep read the restore-versus-sharpen contrast (is the absolute station
+    /// position observable from the indirect Earth-to-satellite tie alone?) directly.
+    pub observability_without_vlbi: LunarObservability,
     /// Number of constellation satellites.
     pub n_sat: usize,
     /// Number of Earth ground stations.
@@ -1077,6 +1170,242 @@ pub fn lunar_combination_svg(r: &LunarCombinationReport) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// Free-network datum-defect theorem (the paper's Theorem 1): for INTERNAL lunar
+    /// ranging only (station<->satellite + inter-satellite), the measurement Jacobian's
+    /// null space is the six rigid-body motions of the {station, satellites} cluster --
+    /// three translations and three rotations. This is the lunar instance of the geodetic
+    /// free-network (rank-deficiency) problem and the foundation of the observability result.
+    #[test]
+    fn rigid_body_motions_span_the_internal_datum_defect() {
+        let cfg = LunarNetworkConfig {
+            n_sat: 6,
+            n_earth: 3,
+            with_vlbi: true,
+            ..Default::default()
+        };
+        let net = Network::build(&cfg);
+        let np = n_params(&cfg);
+        let n_sat = cfg.n_sat;
+        let jac = fd_jacobian(&net, &cfg, &vec![0.0; np]); // rows: [clk, VLBI, E->sat, local, ISL]
+                                                           // Internal-observable rows = lunar-local (n_sat) + ISL (C(n_sat,2)).
+        let n_base = cfg.n_earth * (cfg.n_earth - 1) / 2;
+        let local_start = 1 + n_base + n_sat * cfg.n_earth;
+        let n_internal = n_sat + n_sat * (n_sat - 1) / 2;
+        let internal: Vec<Vec<f64>> = jac[local_start..local_start + n_internal].to_vec();
+
+        // Nominal cluster points (physical MCI), state order: station, then satellites.
+        let pts: Vec<Vec3> = std::iter::once(net.station_nom_mci)
+            .chain(net.sat_nom_mci.iter().copied())
+            .collect();
+        let mut c0 = [0.0; 3];
+        for p in &pts {
+            for a in 0..3 {
+                c0[a] += p[a] / pts.len() as f64;
+            }
+        }
+        // Assemble a state-layout vector from a per-point displacement.
+        let assemble = |disp: &dyn Fn(Vec3) -> Vec3| -> Vec<f64> {
+            let mut g = vec![0.0; np];
+            let d0 = disp(pts[0]);
+            g[..3].copy_from_slice(&d0);
+            for k in 0..n_sat {
+                let dk = disp(pts[k + 1]);
+                g[3 + 3 * k..3 + 3 * k + 3].copy_from_slice(&dk);
+            }
+            g
+        };
+        let mut generators: Vec<Vec<f64>> = Vec::new();
+        for axis in 0..3 {
+            generators.push(assemble(&move |_r| {
+                let mut d = [0.0; 3];
+                d[axis] = 1.0;
+                d
+            }));
+        }
+        for axis in 0..3 {
+            generators.push(assemble(&move |r| {
+                let rr = [r[0] - c0[0], r[1] - c0[1], r[2] - c0[2]];
+                let mut e = [0.0; 3];
+                e[axis] = 1.0;
+                [
+                    e[1] * rr[2] - e[2] * rr[1],
+                    e[2] * rr[0] - e[0] * rr[2],
+                    e[0] * rr[1] - e[1] * rr[0],
+                ]
+            }));
+        }
+        let jrms = {
+            let (mut s, mut n) = (0.0, 0usize);
+            for row in &internal {
+                for &v in row {
+                    s += v * v;
+                    n += 1;
+                }
+            }
+            (s / n as f64).sqrt()
+        };
+        let max_rel = |g: &[f64]| -> f64 {
+            let gn = g.iter().map(|v| v * v).sum::<f64>().sqrt();
+            let mut mx = 0.0_f64;
+            for row in &internal {
+                let dot: f64 = row.iter().zip(g).map(|(a, b)| a * b).sum();
+                mx = mx.max(dot.abs());
+            }
+            mx / (jrms * gn)
+        };
+        // Each rigid generator lies in the null space (residual at the finite-difference floor).
+        for (m, g) in generators.iter().enumerate() {
+            assert!(
+                max_rel(g) < 1e-6,
+                "rigid generator {m} not in internal null space: relative residual {:.2e}",
+                max_rel(g)
+            );
+        }
+        // Control: a generic non-rigid direction is strongly observed (residual O(1)).
+        let generic: Vec<f64> = (0..np).map(|i| ((i * 37 + 11) % 17) as f64 - 8.0).collect();
+        assert!(
+            max_rel(&generic) > 0.1,
+            "a non-rigid direction must be observed, got relative residual {:.2e}",
+            max_rel(&generic)
+        );
+    }
+
+    /// The true datum-defect ladder, separated from observation under-determination by
+    /// using a non-starved (six-satellite) network: the absolute station-position datum
+    /// defect closes 3 -> 1 -> 0 as the number of non-collinear Earth stations goes
+    /// 1 -> 2 -> 3, and the station becomes observable exactly at the three-station threshold.
+    #[test]
+    fn datum_defect_ladder_is_three_one_zero() {
+        let canonical = LunarNetworkConfig {
+            n_sat: 6,
+            ..Default::default()
+        };
+        for (n_earth, want) in [(1usize, 3usize), (2, 1), (3, 0)] {
+            let o = lunar_observability(&LunarNetworkConfig {
+                n_earth,
+                ..canonical
+            });
+            assert_eq!(
+                o.defect, want,
+                "n_earth={n_earth}: datum defect {} != {want}",
+                o.defect
+            );
+            assert_eq!(
+                o.station_pos_crlb_m.is_some(),
+                want == 0,
+                "station observability at {n_earth} stations inconsistent with defect {want}"
+            );
+        }
+        // The three-station threshold is robust to constellation size (not a count artefact).
+        for n_sat in [3usize, 6, 8] {
+            assert_eq!(
+                lunar_observability(&LunarNetworkConfig {
+                    n_sat,
+                    n_earth: 3,
+                    ..Default::default()
+                })
+                .defect,
+                0,
+                "three non-collinear Earth stations must restore full rank (n_sat={n_sat})"
+            );
+        }
+    }
+
+    /// The design law: VLBI RESTORES absolute observability for a sparse constellation
+    /// (without it the station is unobservable), and only SHARPENS the bound for a rich
+    /// one (already observable through Earth->satellite ranging). This is the actionable
+    /// when-is-VLBI-necessary result the paper turns into a design rule.
+    #[test]
+    fn vlbi_restores_for_sparse_and_sharpens_for_rich() {
+        let sparse = LunarNetworkConfig {
+            n_sat: 3,
+            n_earth: 6,
+            ..Default::default()
+        };
+        assert!(
+            lunar_observability(&LunarNetworkConfig {
+                with_vlbi: false,
+                ..sparse
+            })
+            .station_pos_crlb_m
+            .is_none(),
+            "sparse constellation must be unobservable without VLBI"
+        );
+        assert!(
+            lunar_observability(&sparse).station_pos_crlb_m.is_some(),
+            "VLBI must restore observability for the sparse constellation"
+        );
+        let rich = LunarNetworkConfig {
+            n_sat: 6,
+            n_earth: 6,
+            ..Default::default()
+        };
+        let without = lunar_observability(&LunarNetworkConfig {
+            with_vlbi: false,
+            ..rich
+        })
+        .station_pos_crlb_m
+        .expect("rich constellation observable even without VLBI");
+        let with = lunar_observability(&rich)
+            .station_pos_crlb_m
+            .expect("observable with VLBI");
+        assert!(
+            with < without,
+            "VLBI must sharpen the rich-constellation bound: with {with} >= without {without}"
+        );
+    }
+
+    /// Geometry-generality: the datum-defect structure is not an artefact of the illustrative
+    /// circular placement. On a representative elliptical lunar frozen orbit (ELFO) of the
+    /// Moonlight/LCNS design family (a=9750.7 km, e=0.6383, i=57.7 deg, argp=90 deg), the same
+    /// 3 -> 1 -> 0 ladder and three-station threshold hold; a sparse single-plane ELFO is still
+    /// unobservable without VLBI (VLBI restores it); and a multi-plane ELFO with three Earth VLBI
+    /// baselines is observable at a sub-metre Cramer-Rao bound.
+    #[test]
+    fn elfo_geometry_confirms_the_observability_structure() {
+        let elfo = |n_sat: usize, n_earth: usize, planes: usize| LunarNetworkConfig {
+            n_sat,
+            n_earth,
+            orbit_radius_km: 9750.7,
+            orbit_ecc: 0.6383,
+            orbit_inc_deg: 57.7,
+            orbit_argp_deg: 90.0,
+            orbit_planes: planes,
+            ..Default::default()
+        };
+        // Same true datum-defect ladder as the circular case (non-starved, 6 satellites).
+        for (n_earth, want) in [(1usize, 3usize), (2, 1), (3, 0)] {
+            assert_eq!(
+                lunar_observability(&elfo(6, n_earth, 3)).defect,
+                want,
+                "ELFO datum-defect ladder broke at n_earth={n_earth}"
+            );
+        }
+        // Sparse single-plane ELFO: VLBI restores observability.
+        let sparse = elfo(3, 6, 1);
+        assert!(
+            lunar_observability(&LunarNetworkConfig {
+                with_vlbi: false,
+                ..sparse
+            })
+            .station_pos_crlb_m
+            .is_none(),
+            "sparse single-plane ELFO must be unobservable without VLBI"
+        );
+        assert!(
+            lunar_observability(&sparse).station_pos_crlb_m.is_some(),
+            "VLBI must restore observability for the sparse ELFO"
+        );
+        // Multi-plane ELFO with three Earth VLBI baselines: sub-metre absolute-position bound.
+        let crlb = lunar_observability(&elfo(6, 3, 3))
+            .station_pos_crlb_m
+            .expect("observable at three Earth stations");
+        assert!(
+            crlb < 1.0,
+            "representative ELFO + 3 Earth VLBI baselines should give a sub-metre bound, got {crlb} m"
+        );
+    }
 
     #[test]
     fn parameter_count_matches_the_layout() {
