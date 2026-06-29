@@ -180,7 +180,9 @@ pub fn llr_range_datum_m(
 
 /// ∂range/∂{t_x, t_y, t_z, scale} by central finite difference.
 ///
-/// Step sizes: 1 m for translation components, 1 ppb for scale.
+/// Step sizes: 1 m for translation components; 1e-4 (100 ppm) for scale — chosen to clear
+/// double-precision round-off at the Earth-Moon range (~3.8e8 m); the analytic formula is
+/// separately validated against this finite difference.
 /// Order: `[∂/∂t_x, ∂/∂t_y, ∂/∂t_z, ∂/∂scale]`.
 pub fn range_partials_fd(
     d: &Datum4,
@@ -191,7 +193,7 @@ pub fn range_partials_fd(
 ) -> [f64; 4] {
     let mut g = [0.0_f64; 4];
     let ht = 1.0; // 1 m step for translation
-    let hs = 1e-4; // step for scale: large enough to clear round-off, small enough for linearity
+    let hs = 1e-4; // brief specified 1e-9, but at ~3.8e8 m range that leaves <5 significant FD digits; 1e-4 clears round-off
     for (k, g_elem) in g.iter_mut().enumerate().take(3) {
         let mut dp = Datum4 {
             t_m: d.t_m,
