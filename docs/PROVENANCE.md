@@ -86,6 +86,7 @@ its specific reason below; nothing is gated for convenience.
 |---------|-----|---------|----------------|
 | AIAA 2006-6753 SGP4 test vectors (all 666) | SGP4 numerical validation — worst 4.12 mm | Published reference vectors (Vallado, AIAA) | **Vendored** `tests/fixtures/sgp4/` |
 | ⁸⁸Sr optical-clock ADEV σ_y(τ) (Norcia et al., Science 366:93, 2019) | optical-clock measured-stability fit validation | **CC-BY-4.0** (Zenodo 10.5281/zenodo.3382347) | **Vendored** `tests/fixtures/optical_clock_adev/` |
+| NASA/USGS SRTM v3 elevation tile N36W117 (Death Valley, decimated to 6-arc-sec, 722 KB) | terrain-DEM `.hgt` reader validation on real relief (Badwater Basin ≈ −86 m) | **Public domain** (NASA/USGS SRTM v3; via AWS Open Data `elevation-tiles-prod`) | **Vendored** `tests/fixtures/terrain/N36W117_sub6.hgt` |
 | CCSDS 502.0/503.0 Blue Book OEM/TDM examples | CCSDS parser round-trip validation | Published standard examples (CCSDS) | **Vendored** `tests/fixtures/ccsds/` |
 | IGS SP3 precise orbit + RINEX NAV samples | orbit-fit + integrity validation | IGS open data (free for any use, attribution) | **Vendored** `tests/fixtures/igs/` |
 | Celestrak TLE snapshots (`gps-ops`, `galileo`) | real-constellation scenarios | Celestrak terms (attribution; US-Gov-origin TLEs) | **Vendored** `tests/fixtures/celestrak/` + live `scripts/fetch_tles.sh` |

@@ -19,7 +19,7 @@
 //! text-substring based on purpose: robust to whitespace/geometry changes, sensitive only
 //! to the counts.
 
-use kshana::verification::{verification_matrix, VerificationStatus};
+use kshana::verification::{verification_matrix, OracleKind, VerificationStatus};
 
 #[test]
 fn validation_breakdown_svg_shows_the_matrix_counts() {
@@ -75,4 +75,68 @@ fn validation_breakdown_svg_shows_the_matrix_counts() {
          ({total} rows); expected the substring {total_needle:?}. Regenerate with \
          `python3 tools/gen_validation_figures.py` and commit the SVG + PNG."
     );
+}
+
+#[test]
+fn oracle_kind_stacked_svg_shows_the_status_by_oracle_kind_counts() {
+    let m = verification_matrix();
+    let total = m.len();
+    let validated = m
+        .iter()
+        .filter(|i| i.status == VerificationStatus::Validated)
+        .count();
+    let modelled = m
+        .iter()
+        .filter(|i| i.status == VerificationStatus::Modelled)
+        .count();
+    let partner = m
+        .iter()
+        .filter(|i| i.status == VerificationStatus::PartnerOwned)
+        .count();
+    // The Modelled rows split across the three weaker oracle kinds; pin each.
+    let m_ext = m
+        .iter()
+        .filter(|i| {
+            i.status == VerificationStatus::Modelled && i.oracle_kind == OracleKind::ExternalDataset
+        })
+        .count();
+    let m_ref = m
+        .iter()
+        .filter(|i| {
+            i.status == VerificationStatus::Modelled && i.oracle_kind == OracleKind::ReferenceImpl
+        })
+        .count();
+    let m_int = m
+        .iter()
+        .filter(|i| {
+            i.status == VerificationStatus::Modelled
+                && i.oracle_kind == OracleKind::InternalConsistency
+        })
+        .count();
+
+    let svg = include_str!("../docs/assets/figures/oracle-kind-stacked.svg");
+
+    let want = [
+        // Subtitle: the validated count + the "all ExternalDataset" invariant + total.
+        format!("Validated = {validated}/{validated} ExternalDataset"),
+        format!("(n={total})"),
+        // Caption: the Modelled oracle-kind split.
+        format!(
+            "Modelled oracle kinds: {m_ext} ExternalDataset, {m_ref} ReferenceImpl, \
+             {m_int} InternalConsistency"
+        ),
+        // Status totals line (greppable tspan idiom).
+        format!("<tspan font-weight=\"700\">{validated}</tspan> Validated"),
+        format!("<tspan font-weight=\"700\">{modelled}</tspan> Modelled"),
+        format!("<tspan font-weight=\"700\">{partner}</tspan> Partner"),
+        format!("<tspan font-weight=\"700\">{total}</tspan> total"),
+    ];
+    for needle in &want {
+        assert!(
+            svg.contains(needle.as_str()),
+            "oracle-kind-stacked.svg is out of sync with verification_matrix(): \
+             expected the substring {needle:?}. Regenerate with \
+             `python3 tools/gen_validation_figures.py` and commit the SVG + PNG."
+        );
+    }
 }

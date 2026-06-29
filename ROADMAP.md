@@ -216,8 +216,10 @@ welcome collaboration: see [Support & professional services](README.md#support--
   measurements and an analytic J2 state-transition matrix remain.
 - Alternative (GNSS-denied) PNT: the map-matching measurement model
   (`src/mapmatch.rs`, `field_likelihood` / `map_match_likelihood`) closes the loop on the
-  shipped particle filter for terrain-/gravity-referenced navigation; the real reference maps
-  (SRTM elevation, EGM/EIGEN gravity anomaly) and their loaders remain.
+  shipped particle filter for terrain-/gravity-referenced navigation. The real **SRTM
+  elevation** reference map and its `.hgt` loader have shipped and are validated against a
+  vendored public-domain NASA/USGS SRTM v3 tile (`src/altpnt/terrain.rs`); the **EGM/EIGEN
+  gravity-anomaly** reference map and its loader remain.
 
 ---
 
