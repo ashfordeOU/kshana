@@ -352,6 +352,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            requirement: "MCDA priority-derivation kernel (AHP eigenvector / consistency ratio)",
+            capability: "Analytic Hierarchy Process priority weights = normalised principal (Perron) eigenvector of a reciprocal pairwise-comparison matrix by power iteration, with the Saaty Consistency Index / Consistency Ratio and the CR<0.10 acceptance gate",
+            module: "mcda::ahp",
+            tests: "tests/mcda_ahp_reference.rs (Saaty 1980 Random Index table n=1..10 EXACT; priority vector + λ_max + CR vs SciPy/LAPACK eig on a consistent 3×3 and inconsistent 3×3 / 4×4, matched to <1e-9)",
+            oracle: "Saaty (1980) canonical Random Index table (RI(5)=1.12) reproduced exactly + SciPy/LAPACK scipy.linalg.eig (BSD-3-Clause) as an independent eigensolver computing the same uniquely-defined Perron eigenvector/eigenvalue, matched to <1e-9. The WSM / Pareto / sensitivity / MAUT decision layer built on this kernel stays MODELLED",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
             requirement: "CUSUM change-detection latency & ARL",
             capability: "Tabular-CUSUM detector worst-case detection latency (⌊h/(z−k)⌋+1) and out-of-control average run length, used by the timing-protection-level and spoof monitors",
             module: "tpl (Cusum), security",
