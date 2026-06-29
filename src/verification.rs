@@ -750,6 +750,19 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Validated,
         },
         VerificationItem {
+            requirement: "Lunar reference-frame datum identifiability (LLR-only)",
+            capability: "LLR near-side geometry with real JPL DE440 PA-frame libration reproduces the \
+                         lunocenter-X <-> frame-scale degeneracy structure (strong finite correlation, \
+                         |r| ~= 0.99 in the published r ~= -0.97 regime; real libration drops the datum \
+                         defect from 3 to <= 1) from an LLR-only Fisher design matrix on the five real \
+                         near-side retroreflectors",
+            module: "lunar_llr",
+            tests: "tests/llr_datum_degeneracy_reference.rs (llr_geometry_reproduces_sosnica_2025_degeneracy_structure)",
+            oracle: "Sosnica et al. 2025 (arXiv:2510.15484) lunocenter-X <-> scale r ~= -0.97; orientation from JPL DE440 (Park 2021)",
+            oracle_kind: OracleKind::ExternalDataset,
+            status: VerificationStatus::Validated,
+        },
+        VerificationItem {
             requirement: "Lunar differential PNT",
             capability: "NovaMoon-class differential reference station: common-mode cancellation + baseline-growing residual + DGNSS protection levels",
             module: "lunar_dpnt",
