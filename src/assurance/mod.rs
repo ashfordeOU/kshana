@@ -7,3 +7,4 @@
 //! internally), and compile for `wasm32-unknown-unknown`.
 
 pub mod provenance;
+pub mod uncertainty;
