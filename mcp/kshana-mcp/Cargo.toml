@@ -13,7 +13,7 @@
 # the sole reason for isolation.
 [package]
 name = "kshana-mcp"
-version = "0.22.0"
+version = "0.22.1"
 edition = "2024"
 rust-version = "1.85"
 description = "Model Context Protocol (MCP) server exposing the Kshana PNT-resilience simulator to AI agents, MCP-compatible assistants, and JetBrains AI."
