@@ -114,25 +114,24 @@ pub struct DatumIdentifiability {
     pub origin_crlb_m: f64,
 }
 
-/// Assemble the 7×7 LLR datum Fisher information matrix over a tracking schedule.
+/// Generate raw (un-preconditioned) LLR datum rows over a tracking schedule.
 ///
 /// Replicates the exact schedule and geometry gates of
 /// `crate::lunar_llr::llr_datum_observability` (Earth-facing + station elevation > 0),
-/// but uses the 7-parameter row builder `crate::lunar_datum::llr_row_datum7`.
-/// Columns 3–6 (scale, θ_x, θ_y, θ_z) are divided by [`R_MOON_M`] before accumulation
-/// — see the invariance note on that constant.
+/// using the 7-parameter row builder `crate::lunar_datum::llr_row_datum7`.
+/// The returned rows have **not** been preconditioned — columns 3–6 retain their
+/// physical units. Call [`assemble_multi_info`] to apply preconditioning and weighting.
 ///
 /// `t0_jc` is the sweep start epoch in Julian centuries from J2000.0 TT.
 /// `days = 0.0` still yields at least one epoch (`n_steps ≥ 1`).
 ///
-/// Returns `(info_7x7, n_obs)`.
-#[allow(clippy::needless_range_loop)]
-pub fn assemble_llr_info(
+/// Returns `(raw_rows, sigma_range_m)`.
+pub fn llr_datum_rows(
     sigma_range_m: f64,
     t0_jc: f64,
     days: f64,
     step_hours: f64,
-) -> (Vec<Vec<f64>>, usize) {
+) -> (Vec<[f64; 7]>, f64) {
     const JD_J2000: f64 = 2_451_545.0;
     let step_jc = step_hours / (24.0 * 36_525.0);
     // Identical formula to llr_datum_observability; yields ≥ 1 step even for days = 0.
@@ -140,10 +139,8 @@ pub fn assemble_llr_info(
 
     let refls = reflectors();
     let stats = stations();
-    let weight = 1.0 / (sigma_range_m * sigma_range_m);
 
-    let mut jac: Vec<Vec<f64>> = Vec::new();
-    let mut weights: Vec<f64> = Vec::new();
+    let mut rows: Vec<[f64; 7]> = Vec::new();
 
     for step in 0..n_steps {
         let t_tt_jc = t0_jc + step as f64 * step_jc;
@@ -183,25 +180,79 @@ pub fn assemble_llr_info(
                     continue;
                 }
 
-                // Build the 7-parameter partial row and precondition cols 3–6.
+                // Build the 7-parameter partial row (raw, un-preconditioned).
                 let row7 = llr_row_datum7(st, refl.pa_body_m, t_tt_jc, jd_ut1);
-                let mut row = row7.to_vec();
-                for c in 3..7 {
-                    row[c] /= R_MOON_M;
-                }
-                jac.push(row);
-                weights.push(weight);
+                rows.push(row7);
             }
         }
     }
 
-    let n_obs = jac.len();
-    if n_obs == 0 {
-        return (vec![vec![0.0; 7]; 7], 0);
-    }
+    (rows, sigma_range_m)
+}
 
-    let info = information_matrix(&jac, &weights);
-    (info, n_obs)
+/// Assemble a combined 7×7 datum Fisher information matrix from multiple technique blocks.
+///
+/// For each `(rows, sigma)` block, applies the shared preconditioning convention
+/// (columns 3–6 divided by [`R_MOON_M`]) and accumulates `(1/σ²) · rowᵀrow` into
+/// the output matrix. Blocks from different techniques are summed directly —
+/// the preconditioned column scaling makes all 7 partials O(1) regardless of the
+/// observable's physical units, so the combined Fisher is well-conditioned.
+///
+/// **Degeneracy-collapse property (structural geometric fact):** Adding an off-radial
+/// technique (VLBI differential-delay or orbiter range to a transverse beacon) to LLR
+/// collapses the lunocenter-X ↔ scale near-degeneracy: `degeneracy_metric` rises,
+/// `origin_crlb_m` falls, and `|origin_scale_corr|` falls. This is because off-radial
+/// sightlines project the scale parameter differently from the radial translation,
+/// lifting the near-null direction in the Schur complement. The magnitudes depend on the
+/// Modelled beacon location, schedule, and noise figures — they are not a mission
+/// recommendation.
+///
+/// Empty blocks (zero rows) are skipped. Returns a 7×7 zero matrix if all blocks are
+/// empty (degenerate case; call [`decompose`] to recover the `defect = 7` result).
+pub fn assemble_multi_info(blocks: &[(Vec<[f64; 7]>, f64)]) -> Vec<Vec<f64>> {
+    let mut combined = vec![vec![0.0_f64; 7]; 7];
+    for (rows, sigma) in blocks {
+        if rows.is_empty() {
+            continue;
+        }
+        let weight = 1.0 / (sigma * sigma);
+        // Precondition: divide cols 3–6 by R_MOON_M so all entries are O(1).
+        let pre_rows: Vec<Vec<f64>> = rows
+            .iter()
+            .map(|r| {
+                let mut row = r.to_vec();
+                row[3..7].iter_mut().for_each(|v| *v /= R_MOON_M);
+                row
+            })
+            .collect();
+        let block_weights = vec![weight; pre_rows.len()];
+        let block_info = information_matrix(&pre_rows, &block_weights);
+        // Accumulate into combined (both matrices are 7×7).
+        for (ci, bi) in combined.iter_mut().zip(block_info.iter()) {
+            for (cv, bv) in ci.iter_mut().zip(bi.iter()) {
+                *cv += bv;
+            }
+        }
+    }
+    combined
+}
+
+/// Assemble the 7×7 LLR datum Fisher information matrix over a tracking schedule.
+///
+/// Calls [`llr_datum_rows`] then [`assemble_multi_info`], which applies the
+/// preconditioning convention (columns 3–6 divided by [`R_MOON_M`]).
+/// See [`llr_datum_rows`] for schedule and geometry-gate details.
+///
+/// Returns `(info_7x7, n_obs)`.
+pub fn assemble_llr_info(
+    sigma_range_m: f64,
+    t0_jc: f64,
+    days: f64,
+    step_hours: f64,
+) -> (Vec<Vec<f64>>, usize) {
+    let (rows, sigma) = llr_datum_rows(sigma_range_m, t0_jc, days, step_hours);
+    let n = rows.len();
+    (assemble_multi_info(&[(rows, sigma)]), n)
 }
 
 /// Decompose a 7×7 Fisher information matrix into Schur complement degeneracy metrics.
@@ -420,6 +471,98 @@ mod tests {
             d.defect, 0,
             "real DE440 libration lifts the 7-param defect to 0; got {}",
             d.defect
+        );
+    }
+
+    /// Multi-technique degeneracy-collapse demonstration.
+    ///
+    /// Proves the paper's headline result: adding an off-radial technique (VLBI or
+    /// orbiter range) to LLR collapses the lunocenter-X ↔ scale near-degeneracy —
+    /// metric rises, origin CRLB falls, |correlation| falls.
+    ///
+    /// **Structural geometric fact:** off-radial sightlines project scale and radial
+    /// translation differently, lifting the near-null Schur complement direction.
+    /// The MAGNITUDES (metric values, CRLB in metres, |corr|) are **Modelled**:
+    /// the beacon at 60° selenographic longitude, 6 h cadence over one synodic month,
+    /// VLBI sigma 1e-10 s (~0.03 mm equivalent), orbiter sigma 0.05 m, 100 km polar
+    /// orbit — all representative. This is not a mission recommendation.
+    #[test]
+    fn adding_an_offradial_technique_collapses_the_origin_scale_degeneracy() {
+        use crate::lunar_datum::{orbiter_position, orbiter_range_row_datum7, vlbi_row_datum7};
+        use crate::lunar_llr::{reflector_inertial, stations};
+
+        let t0 = (2_460_310.5 - 2_451_545.0) / 36_525.0;
+        let (llr_rows, llr_sig) = llr_datum_rows(0.003, t0, 29.5, 6.0);
+
+        // A representative off-Earth-line beacon (selenographic lon ~60°): transverse aspect.
+        let beacon = [0.5_f64 * 1_737_400.0, 0.866 * 1_737_400.0, 0.0];
+        let st1 = stations()[1]; // APOLLO
+        let st2 = stations()[0]; // Grasse (long baseline)
+
+        // Build a modest VLBI schedule to the beacon, gated to Earth-facing epochs.
+        let step_jc = 6.0 / (24.0 * 36_525.0);
+        let mut vlbi_rows = Vec::new();
+        let mut orb_rows = Vec::new();
+        for k in 0..120 {
+            let t = t0 + k as f64 * step_jc;
+            let r_moon = crate::ephem::moon_position(t);
+            let r_b = reflector_inertial(beacon, t);
+            let earth_facing = (r_b[0] - r_moon[0]) * (-r_moon[0])
+                + (r_b[1] - r_moon[1]) * (-r_moon[1])
+                + (r_b[2] - r_moon[2]) * (-r_moon[2]);
+            if earth_facing <= 0.0 {
+                continue;
+            } // beacon on far side
+            let jd_ut1 = t * 36_525.0 + 2_451_545.0;
+            vlbi_rows.push(vlbi_row_datum7(&st1, &st2, beacon, t, jd_ut1));
+            // Orbiter ranges to the same beacon from a 100 km polar orbit.
+            let r_orb = orbiter_position(100.0, 88.0, 30.0, k as f64 * 13.0, t0, t);
+            orb_rows.push(orbiter_range_row_datum7(r_orb, beacon, t));
+        }
+        assert!(vlbi_rows.len() > 20 && orb_rows.len() > 20);
+
+        let llr_only = decompose(&assemble_multi_info(&[(llr_rows.clone(), llr_sig)]), 1e-12);
+        let with_vlbi = decompose(
+            &assemble_multi_info(&[(llr_rows.clone(), llr_sig), (vlbi_rows, 1e-10)]),
+            1e-12,
+        );
+        let with_orb = decompose(
+            &assemble_multi_info(&[(llr_rows, llr_sig), (orb_rows, 0.05)]),
+            1e-12,
+        );
+
+        // VLBI breaks it: metric up, origin CRLB down, |corr| down.
+        assert!(
+            with_vlbi.degeneracy_metric > llr_only.degeneracy_metric,
+            "VLBI must raise the metric: {} -> {}",
+            llr_only.degeneracy_metric,
+            with_vlbi.degeneracy_metric
+        );
+        assert!(
+            with_vlbi.origin_crlb_m < llr_only.origin_crlb_m,
+            "VLBI must shrink origin CRLB: {} -> {}",
+            llr_only.origin_crlb_m,
+            with_vlbi.origin_crlb_m
+        );
+        assert!(
+            with_vlbi.origin_scale_corr.abs() < llr_only.origin_scale_corr.abs(),
+            "VLBI must reduce |corr|: {} -> {}",
+            llr_only.origin_scale_corr,
+            with_vlbi.origin_scale_corr
+        );
+
+        // Orbiter also breaks it (validates B2 as a degeneracy-breaker for the Part-C menu).
+        assert!(
+            with_orb.degeneracy_metric > llr_only.degeneracy_metric,
+            "orbiter must raise the metric: {} -> {}",
+            llr_only.degeneracy_metric,
+            with_orb.degeneracy_metric
+        );
+        assert!(
+            with_orb.origin_crlb_m < llr_only.origin_crlb_m,
+            "orbiter must shrink origin CRLB: {} -> {}",
+            llr_only.origin_crlb_m,
+            with_orb.origin_crlb_m
         );
     }
 }
