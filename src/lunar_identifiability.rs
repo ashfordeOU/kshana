@@ -112,6 +112,16 @@ pub struct DatumIdentifiability {
     /// 2025; it reflects the 7-parameter simplification that omits libration uncertainty,
     /// reflector position errors, and atmospheric delays.
     pub origin_crlb_m: f64,
+    /// Per-parameter CRLB standard deviations (length 7).
+    ///
+    /// Indices `[t_x, t_y, t_z, scale, θ_x, θ_y, θ_z]` (indices 0–6).
+    /// `t_x`, `t_y`, `t_z` (indices 0–2) are in metres (columns 0–2 are unscaled).
+    /// `scale` and the rotations (indices 3–6) are in PRECONDITIONED units
+    /// (columns 3–6 divided by `R_MOON_M`), so only the translation entries
+    /// (0–2) are directly physical.
+    ///
+    /// **Modelled magnitudes** (reflector coords, orientation, and noise held fixed).
+    pub crlb_diag: Vec<f64>,
 }
 
 /// Generate raw (un-preconditioned) LLR datum rows over a tracking schedule.
@@ -265,10 +275,11 @@ pub fn assemble_llr_info(
 /// handles rank-deficient sub-blocks). `λ_min(S)` is from `crate::fim::sym_eig`.
 /// The 2×2 `S⁻¹` is the only by-hand inversion performed.
 pub fn decompose(info: &[Vec<f64>], rel_tol: f64) -> DatumIdentifiability {
-    // Full 7×7 observability: eigenvalues and defect.
+    // Full 7×7 observability: eigenvalues, defect, and per-parameter CRLB std devs.
     let cr = crlb(info, rel_tol);
     let eigenvalues = cr.eigenvalues.clone();
     let defect = cr.defect;
+    let crlb_diag = cr.crlb_std.clone();
 
     // ── Extract sub-blocks ──────────────────────────────────────────────────
     // I_KK (2×2): rows/cols at K = {0, 3}.
@@ -352,6 +363,7 @@ pub fn decompose(info: &[Vec<f64>], rel_tol: f64) -> DatumIdentifiability {
         origin_scale_corr,
         degeneracy_metric,
         origin_crlb_m,
+        crlb_diag,
     }
 }
 
@@ -482,10 +494,20 @@ mod tests {
     ///
     /// **Structural geometric fact:** off-radial sightlines project scale and radial
     /// translation differently, lifting the near-null Schur complement direction.
+    ///
+    /// **Publishable nuance (engine-verified):** The {0,3} (origin-X ↔ scale) degeneracy
+    /// is a RADIAL ambiguity. Transverse VLBI delay improves the transverse translations
+    /// and rotations directly and lifts the radial pair only indirectly (Schur
+    /// monotonicity); orbiter ranging, sensing the beacon's radial position from varying
+    /// aspect, is the more effective direct breaker. The assertion `frac(t_y) > frac(t_x)`
+    /// under VLBI is verified by the `crlb_diag` field.
+    ///
     /// The MAGNITUDES (metric values, CRLB in metres, |corr|) are **Modelled**:
-    /// the beacon at 60° selenographic longitude, 6 h cadence over one synodic month,
-    /// VLBI sigma 1e-10 s (~0.03 mm equivalent), orbiter sigma 0.05 m, 100 km polar
-    /// orbit — all representative. This is not a mission recommendation.
+    /// beacon at 60° selenographic longitude, 6 h cadence over one synodic month,
+    /// VLBI same-beam differential delay sigma 1e-11 s ≈ 3 mm path-equivalent
+    /// (c·sigma); representative, comparable to LLR's 3 mm. Modelled.
+    /// Orbiter sigma 0.05 m (representative orbiter range precision (cm–dm); Modelled),
+    /// 100 km polar orbit — all representative. This is not a mission recommendation.
     #[test]
     fn adding_an_offradial_technique_collapses_the_origin_scale_degeneracy() {
         use crate::lunar_datum::{orbiter_position, orbiter_range_row_datum7, vlbi_row_datum7};
@@ -523,11 +545,20 @@ mod tests {
 
         let llr_only = decompose(&assemble_multi_info(&[(llr_rows.clone(), llr_sig)]), 1e-12);
         let with_vlbi = decompose(
-            &assemble_multi_info(&[(llr_rows.clone(), llr_sig), (vlbi_rows, 1e-10)]),
+            &assemble_multi_info(&[
+                (llr_rows.clone(), llr_sig),
+                // VLBI same-beam differential delay sigma 1e-11 s ≈ 3 mm path-equivalent
+                // (c·sigma); representative, comparable to LLR's 3 mm. Modelled.
+                (vlbi_rows, 1e-11),
+            ]),
             1e-12,
         );
         let with_orb = decompose(
-            &assemble_multi_info(&[(llr_rows, llr_sig), (orb_rows, 0.05)]),
+            &assemble_multi_info(&[
+                (llr_rows, llr_sig),
+                // representative orbiter range precision (cm–dm); Modelled.
+                (orb_rows, 0.05),
+            ]),
             1e-12,
         );
 
@@ -549,6 +580,20 @@ mod tests {
             "VLBI must reduce |corr|: {} -> {}",
             llr_only.origin_scale_corr,
             with_vlbi.origin_scale_corr
+        );
+
+        // Engine-verified nuance: VLBI's transverse content helps t_y (index 1) more than
+        // the radial origin-X (index 0). The {0,3} degeneracy is a RADIAL ambiguity;
+        // VLBI delay improves transverse translations directly and lifts the radial pair
+        // only indirectly (Schur monotonicity).
+        let frac =
+            |k: usize| (llr_only.crlb_diag[k] - with_vlbi.crlb_diag[k]) / llr_only.crlb_diag[k];
+        // VLBI must improve transverse t_y more than radial t_x.
+        assert!(
+            frac(1) > frac(0),
+            "VLBI must improve transverse t_y more than radial t_x: frac_ty={} frac_tx={}",
+            frac(1),
+            frac(0)
         );
 
         // Orbiter also breaks it (validates B2 as a degeneracy-breaker for the Part-C menu).
