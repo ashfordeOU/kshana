@@ -7,10 +7,9 @@
 //! provenance copy; the functions here are the runtime source.
 //!
 //! # Retroreflector coordinates
-//! PA (principal-axis) body-frame Cartesian positions in metres, derived from the
-//! DE440 LLR reflector solution (Park et al. 2021, AJ 161:105; Williams et al. 2008)
-//! by converting selenographic lat/lon to Cartesian on a sphere of radius 1737.4 km:
-//! `x = R·cos(φ)·cos(λ)`, `y = R·cos(φ)·sin(λ)`, `z = R·sin(φ)`.
+//! PA (principal-axis) body-frame Cartesian positions in metres, taken directly from
+//! the DE440 LLR reflector solution: Park, R. S. et al. (2021) "The JPL Planetary and
+//! Lunar Ephemerides DE440 and DE441", AJ 161:105, Table 1 (doi:10.3847/1538-3881/abd414).
 //!
 //! # Station coordinates
 //! ILRS geodetic coordinates (ITRF-aligned) for Grasse OCA, APOLLO/APO,
@@ -20,6 +19,7 @@
 pub type Vec3 = [f64; 3];
 
 /// A lunar retroreflector with its PA body-frame Cartesian position.
+#[derive(Debug, Clone, Copy)]
 pub struct Reflector {
     /// Short mission name (e.g. `"Apollo11"`).
     pub name: &'static str,
@@ -28,6 +28,7 @@ pub struct Reflector {
 }
 
 /// An LLR ground station with geodetic coordinates.
+#[derive(Debug, Clone, Copy)]
 pub struct Station {
     /// Station name / acronym (e.g. `"Grasse"`).
     pub name: &'static str,
@@ -42,28 +43,28 @@ pub struct Station {
 /// Returns the five near-side LLR retroreflectors in PA body-frame Cartesian metres.
 ///
 /// Coordinates match `tests/fixtures/llr_geometry/reflectors.csv` (SHA-256
-/// b400df1e9f8e912a9ac73417c6a0b68bb800dc66ea7b3c5c22d87e8f428480ad).
+/// 760b8a9b846b5d142add68381a5e92ac219094c4ef03f9ae349b9b06b904a8d1).
 pub fn reflectors() -> Vec<Reflector> {
     vec![
         Reflector {
             name: "Apollo11",
-            pa_body_m: [1_593_553.737, 691_904.978, 20_316.182],
+            pa_body_m: [1_591_967.049, 690_698.573, 21_004.461],
         },
         Reflector {
             name: "Apollo14",
-            pa_body_m: [1_653_827.004, -520_815.036, -110_302.763],
+            pa_body_m: [1_652_689.369, -520_998.431, -109_729.869],
         },
         Reflector {
             name: "Apollo15",
-            pa_body_m: [1_556_703.214, 98_757.806, 765_167.145],
+            pa_body_m: [1_554_678.104, 98_094.498, 765_005.863],
         },
         Reflector {
             name: "Lunokhod1",
-            pa_body_m: [1_116_735.653, -781_946.722, 1_077_042.044],
+            pa_body_m: [1_114_291.452, -781_299.273, 1_076_059.049],
         },
         Reflector {
             name: "Lunokhod2",
-            pa_body_m: [1_341_576.667, 803_553.242, 756_989.429],
+            pa_body_m: [1_339_363.598, 801_870.995, 756_359.260],
         },
     ]
 }
