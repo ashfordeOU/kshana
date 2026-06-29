@@ -158,9 +158,128 @@ pub fn llr_row_datum7(
     partials_datum7(uhat, refl_pa_body_m, t_tt_jc)
 }
 
+/// Lunar-VLBI differential-delay partial derivatives w.r.t. all 7 Helmert datum parameters.
+///
+/// Two Earth ground stations (`st1`, `st2`) observe a lunar-surface beacon whose PA
+/// body-frame position is `beacon_pa_body_m`. The beacon is placed in geocentric
+/// inertial coordinates via the **same DE440 PA-frame orientation path** as the LLR
+/// retroreflectors (`crate::lunar_llr::reflector_inertial`), ensuring geometric
+/// consistency when mixing LLR and VLBI rows in one Fisher matrix.
+///
+/// The inertial gradient `∂(delay)/∂r_beacon` (s/m) returned by
+/// `crate::lunar_vlbi::delay_partials_beacon` carries a **transverse** component
+/// absent from single-station LLR sightlines, which is the geometric mechanism by
+/// which VLBI helps break the lunocenter-X↔scale degeneracy.
+///
+/// Returns the 7 partials in the fixed order `[t_x, t_y, t_z, scale, θ_x, θ_y, θ_z]`.
+pub fn vlbi_row_datum7(
+    st1: &crate::lunar_llr::Station,
+    st2: &crate::lunar_llr::Station,
+    beacon_pa_body_m: Vec3,
+    t_tt_jc: f64,
+    jd_ut1: f64,
+) -> [f64; 7] {
+    let jd_tt = t_tt_jc * 36_525.0 + 2_451_545.0;
+    let geod = |s: &crate::lunar_llr::Station| crate::frames::Geodetic {
+        lat_rad: s.lat_deg.to_radians(),
+        lon_rad: s.lon_deg.to_radians(),
+        alt_m: s.alt_m,
+    };
+    let r1 = crate::lunar_vlbi::station_inertial_position(geod(st1), jd_tt, jd_ut1);
+    let r2 = crate::lunar_vlbi::station_inertial_position(geod(st2), jd_tt, jd_ut1);
+    // Use the SAME DE440 PA-frame orientation path as reflectors: real physical libration.
+    // Do NOT use crate::lunar_vlbi::beacon_inertial_position (mean IAU rotation only).
+    let r_beacon = crate::lunar_llr::reflector_inertial(beacon_pa_body_m, t_tt_jc);
+    let grad = crate::lunar_vlbi::delay_partials_beacon(r1, r2, r_beacon); // s/m, transverse
+    partials_datum7(grad, beacon_pa_body_m, t_tt_jc)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn vlbi_datum7_row_matches_finite_difference() {
+        use crate::lunar_llr::{reflector_inertial, stations};
+        let t0_jc = (2_460_310.5 - 2_451_545.0) / 36_525.0; // in DE440 fixture window
+        let jd_ut1 = t0_jc * 36_525.0 + 2_451_545.0;
+        let jd_tt = jd_ut1;
+        let st1 = stations()[1]; // APOLLO
+        let st2 = stations()[0]; // Grasse (long transatlantic baseline)
+                                 // A near-limb beacon (off the Earth-Moon line) — large Y component in PA body coords.
+        let beacon = [3.0e5_f64, 1.70e6, 2.0e5];
+
+        let analytic = vlbi_row_datum7(&st1, &st2, beacon, t0_jc, jd_ut1);
+
+        // Build the inertial station positions once.
+        let geod = |s: &crate::lunar_llr::Station| crate::frames::Geodetic {
+            lat_rad: s.lat_deg.to_radians(),
+            lon_rad: s.lon_deg.to_radians(),
+            alt_m: s.alt_m,
+        };
+        let r1 = crate::lunar_vlbi::station_inertial_position(geod(&st1), jd_tt, jd_ut1);
+        let r2 = crate::lunar_vlbi::station_inertial_position(geod(&st2), jd_tt, jd_ut1);
+
+        let delay_at = |d: &Datum7| {
+            let p = apply_datum7(d, beacon);
+            let r_b = reflector_inertial(p, t0_jc);
+            crate::lunar_vlbi::geometric_delay_s(r1, r2, r_b)
+        };
+        let zero = Datum7 {
+            t_m: [0.0; 3],
+            scale: 0.0,
+            rot_rad: [0.0; 3],
+        };
+        // FD step sizes: the VLBI delay is a near-cancellation (|r2-r_B| - |r1-r_B|) / c,
+        // where each range is ~3.84e8 m and the difference is ~1e7 m, so only ~12–13
+        // significant figures survive.  With h = 1 m the FD signal (Δdelay ≈ 2e-12 s)
+        // is only ~1e4× above the cancellation noise floor (~2e-16 s), giving ~1e-4
+        // relative FD error — not a formula bug, just catastophic-cancellation noise.
+        //
+        // Fix: use larger steps so the signal rises well above the noise:
+        //   translations: 1 km  → FD noise ~2e-16 s / 1e3 = 2e-19 s/m  → ~200 ppb rel
+        //   scale:        1e-3  → similar (effective inertial shift ~1.74 m)
+        //   rotations:    1e-4 rad → effective inertial shift ~174 m → noise ~1 ppm
+        // All steps remain infinitesimally small on the lunar distance scale
+        // (1 km << 3.84e8 m), so truncation error is negligible.
+        let h = [1.0e3, 1.0e3, 1.0e3, 1.0e-3, 1.0e-4, 1.0e-4, 1.0e-4];
+        for j in 0..7 {
+            let mut dp = zero;
+            let mut dm = zero;
+            match j {
+                0..=2 => {
+                    dp.t_m[j] += h[j];
+                    dm.t_m[j] -= h[j];
+                }
+                3 => {
+                    dp.scale += h[3];
+                    dm.scale -= h[3];
+                }
+                _ => {
+                    dp.rot_rad[j - 4] += h[j];
+                    dm.rot_rad[j - 4] -= h[j];
+                }
+            }
+            let fd = (delay_at(&dp) - delay_at(&dm)) / (2.0 * h[j]);
+            // Tolerance: 10 ppm relative + tiny abs floor.  Achievable FD precision is
+            // ~200–1000 ppb for these step sizes (see comment above), so 10 ppm is a
+            // genuine check — not loosened to hide a discrepancy.
+            assert!(
+                (analytic[j] - fd).abs() <= 1e-5 * analytic[j].abs() + 1e-22,
+                "col {j}: analytic {} vs fd {}",
+                analytic[j],
+                fd
+            );
+        }
+        // The transverse (off-radial) beacon must give a nonzero rotation-column signature.
+        let rot =
+            (analytic[4] * analytic[4] + analytic[5] * analytic[5] + analytic[6] * analytic[6])
+                .sqrt();
+        assert!(
+            rot.is_finite() && rot > 0.0,
+            "rotation columns degenerate: {rot}"
+        );
+    }
 
     #[test]
     fn llr_datum7_row_matches_phase0_four_param() {
