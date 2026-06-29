@@ -98,9 +98,100 @@ pub fn datum7_point_jacobian_body(p_body: Vec3) -> [[f64; 7]; 3] {
     ]
 }
 
+/// Build a single row of the 7-parameter datum Jacobian for any measurement technique.
+///
+/// `grad_inertial` is ∂observable/∂r_point in the geocentric inertial frame (a unit
+/// vector for range observables). `p_body` is the body-frame point (e.g. reflector PA
+/// coordinates). `t_tt_jc` is the epoch in Julian centuries from J2000.0 TT.
+///
+/// Algorithm:
+/// 1. Compute the 3×7 body-frame point-Jacobian `J = datum7_point_jacobian_body(p_body)`.
+/// 2. Rotate each column of J from body frame to inertial via DE440 PA orientation.
+/// 3. Contract with `grad_inertial`: `row[c] = grad_inertial · (R · col_c)`.
+///
+/// Returns the 7 partials in the fixed order `[t_x, t_y, t_z, scale, θ_x, θ_y, θ_z]`.
+pub fn partials_datum7(grad_inertial: Vec3, p_body: Vec3, t_tt_jc: f64) -> [f64; 7] {
+    let jac = datum7_point_jacobian_body(p_body);
+    let mut row = [0.0_f64; 7];
+    for (c, r) in row.iter_mut().enumerate() {
+        let col_body: Vec3 = [jac[0][c], jac[1][c], jac[2][c]];
+        let col_inertial =
+            crate::lunar_orientation::de440_moon_pa_body_to_inertial(col_body, t_tt_jc);
+        *r = grad_inertial[0] * col_inertial[0]
+            + grad_inertial[1] * col_inertial[1]
+            + grad_inertial[2] * col_inertial[2];
+    }
+    row
+}
+
+/// LLR range partial derivatives w.r.t. all 7 Helmert datum parameters.
+///
+/// Computes the line-of-sight unit vector `û = (r_ref − r_sta) / |r_ref − r_sta|`
+/// using the same geometry as `crate::lunar_llr::range_partials_analytic` at the zero
+/// datum, then delegates to `partials_datum7` to build the full 7-parameter row.
+///
+/// The first four entries `[∂/∂t_x, ∂/∂t_y, ∂/∂t_z, ∂/∂scale]` match the Phase-0
+/// analytic partials to within 1 × 10⁻⁹ relative error, providing the unification that
+/// lets later tasks mix LLR + VLBI + orbiter in one 7-parameter basis.
+pub fn llr_row_datum7(
+    station: &crate::lunar_llr::Station,
+    refl_pa_body_m: Vec3,
+    t_tt_jc: f64,
+    jd_ut1: f64,
+) -> [f64; 7] {
+    let jd_tt = t_tt_jc * 36_525.0 + 2_451_545.0;
+    let g = crate::frames::Geodetic {
+        lat_rad: station.lat_deg.to_radians(),
+        lon_rad: station.lon_deg.to_radians(),
+        alt_m: station.alt_m,
+    };
+    let r_sta = crate::lunar_vlbi::station_inertial_position(g, jd_tt, jd_ut1);
+    // zero datum => p_body = refl (identity); matches apply_datum(zero, refl) in Phase 0.
+    let r_ref = crate::lunar_llr::reflector_inertial(refl_pa_body_m, t_tt_jc);
+    let dv = [
+        r_ref[0] - r_sta[0],
+        r_ref[1] - r_sta[1],
+        r_ref[2] - r_sta[2],
+    ];
+    let n = (dv[0] * dv[0] + dv[1] * dv[1] + dv[2] * dv[2]).sqrt();
+    let uhat = [dv[0] / n, dv[1] / n, dv[2] / n];
+    partials_datum7(uhat, refl_pa_body_m, t_tt_jc)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn llr_datum7_row_matches_phase0_four_param() {
+        use crate::lunar_llr::{range_partials_analytic, reflectors, stations, Datum4};
+        // 2024-01-01 TT, inside the DE440 fixture window (real libration).
+        let t0_jc = (2_460_310.5 - 2_451_545.0) / 36_525.0;
+        let st = stations()[1]; // APOLLO (index 1); Station is Copy
+        let refl = reflectors()[2].pa_body_m; // any near-side reflector
+        let jd_ut1 = t0_jc * 36_525.0 + 2_451_545.0;
+        let zero4 = Datum4 {
+            t_m: [0.0; 3],
+            scale: 0.0,
+        };
+        let p4 = range_partials_analytic(&zero4, &st, refl, t0_jc, jd_ut1);
+        let row7 = llr_row_datum7(&st, refl, t0_jc, jd_ut1);
+        for k in 0..4 {
+            assert!(
+                (row7[k] - p4[k]).abs() <= 1e-9 * (1.0 + p4[k].abs()),
+                "col {k}: datum7 {} vs phase0 {}",
+                row7[k],
+                p4[k]
+            );
+        }
+        // The rotation columns must be finite and not all identically zero
+        // (a near-side reflector has nonzero ê_k × p moment arm).
+        let rot_norm = (row7[4] * row7[4] + row7[5] * row7[5] + row7[6] * row7[6]).sqrt();
+        assert!(
+            rot_norm.is_finite() && rot_norm > 0.0,
+            "rotation columns degenerate: {rot_norm}"
+        );
+    }
 
     #[test]
     fn zero_datum_is_identity() {
