@@ -102,9 +102,61 @@ pub fn stations() -> Vec<Station> {
     ]
 }
 
+/// Reflector PA body coordinates → geocentric inertial position [m].
+///
+/// `r_inertial = r_moon_geocentric + R_body→inertial(t) · pa_body`
+///
+/// Uses `crate::ephem::moon_position` for the geocentric Moon position and
+/// `crate::lunar::mcmf_to_mci` for the PA body → MCI rotation.
+pub fn reflector_inertial(pa_body_m: Vec3, t_tt_jc: f64) -> Vec3 {
+    let r_moon = crate::ephem::moon_position(t_tt_jc); // geocentric inertial [m]
+    let seconds = t_tt_jc * 36_525.0 * 86_400.0; // seconds since J2000 for mean-rotation model
+    let r_body_in_inertial = crate::lunar::mcmf_to_mci(pa_body_m, seconds);
+    [
+        r_moon[0] + r_body_in_inertial[0],
+        r_moon[1] + r_body_in_inertial[1],
+        r_moon[2] + r_body_in_inertial[2],
+    ]
+}
+
+/// One-way geometric Earth-station → reflector range [m].
+///
+/// Two-way range = 2 × this; the factor cancels in the Fisher correlation (documented in Task 6).
+pub fn llr_range_m(station: &Station, refl_pa_body_m: Vec3, t_tt_jc: f64, jd_ut1: f64) -> f64 {
+    let jd_tt = t_tt_jc * 36_525.0 + 2_451_545.0;
+    let g = crate::frames::Geodetic {
+        lat_rad: station.lat_deg.to_radians(),
+        lon_rad: station.lon_deg.to_radians(),
+        alt_m: station.alt_m,
+    };
+    let r_sta = crate::lunar_vlbi::station_inertial_position(g, jd_tt, jd_ut1);
+    let r_ref = reflector_inertial(refl_pa_body_m, t_tt_jc);
+    let d = [
+        r_ref[0] - r_sta[0],
+        r_ref[1] - r_sta[1],
+        r_ref[2] - r_sta[2],
+    ];
+    (d[0] * d[0] + d[1] * d[1] + d[2] * d[2]).sqrt()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn llr_one_way_range_is_earth_moon_scale() {
+        // 2024-01-01 12:00 TT ≈ JD 2460311.0; t in Julian centuries from J2000.
+        let t_tt_jc = (2_460_311.0 - 2_451_545.0) / 36_525.0;
+        let jd_ut1 = 2_460_311.0;
+        let st = &stations()[0];
+        let refl = reflectors()[2].pa_body_m; // Apollo 15
+        let rng = llr_range_m(st, refl, t_tt_jc, jd_ut1);
+        // Earth-Moon distance: perigee ~356,500 km to apogee ~406,700 km; surface station + reflector add <1e4 km.
+        assert!(
+            (3.4e8..4.2e8).contains(&rng),
+            "one-way LLR range {rng} m out of Earth-Moon band"
+        );
+    }
 
     #[test]
     fn reflector_and_station_catalogs_are_well_formed() {
