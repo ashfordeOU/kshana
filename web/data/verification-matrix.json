@@ -866,10 +866,10 @@
       "requirement": "Time-transfer error budgeting",
       "capability": "Two-way/TWSTFT (Sagnac), GNSS common-view, PPP; link-jitter→range",
       "status": "MODELLED",
-      "oracle_kind": "InternalConsistency",
-      "oracle": "BIPM 2Aω/c² Sagnac closed form, cross-checked against RTKLIB 2.4.3 geodist() (Takasu, BSD-2-Clause, compiled from C) which carries the same Sagnac geometry — independent code but the same closed form, so still InternalConsistency",
+      "oracle_kind": "ExternalDataset",
+      "oracle": "Sagnac magnitude checked against an authoritative PUBLISHED VALUE — N. Ashby, 'Relativity in the GPS', Living Reviews in Relativity 6:1 (2003), Eq. 1.29: an eastward equatorial circumnavigation accrues 207.4 ns (2ωA_E/c²); kshana reproduces 207.386 ns. Independently corroborated by RTKLIB 2.4.3 geodist() (Takasu, BSD-2-Clause), which carries the same 2Aω/c² geometry. The composite BIPM TWSTFT transponder/common-view/PPP budget has no external oracle, so the capability stays Modelled",
       "module": "timetransfer, timetransfer_adv",
-      "tests": "timetransfer::tests (reciprocal cancellation; two-form Sagnac identity); tests/time_transfer_error_budgeting_reference.rs (Sagnac/geodist geometry cross-checked against RTKLIB 2.4.3 geodist() compiled from C source)",
+      "tests": "timetransfer::tests (reciprocal cancellation; two-form Sagnac identity); tests/time_transfer_error_budgeting_reference.rs (equatorial-circumnavigation Sagnac = 207.386 ns vs the published Ashby 207.4 ns to <0.05 ns; plus Sagnac/geodist geometry cross-checked against RTKLIB 2.4.3 geodist() compiled from C source)",
       "module_links": [
         {
           "path": "src/timetransfer.rs",

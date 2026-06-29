@@ -193,3 +193,63 @@ fn sagnac_iono_free_and_iono_delay_match_rtklib_2_4_3() {
          iono_delay={n_ionodelay} (worst rel={worst_ionodelay:.3e})"
     );
 }
+
+/// **Published-value oracle (Ashby 2003).** A signal carried eastward all the way around
+/// the equator accrues a Sagnac discrepancy of **207.4 ns** — the canonical worked value
+/// in N. Ashby, "Relativity in the Global Positioning System," *Living Reviews in
+/// Relativity* 6:1 (2003), §"The Sagnac effect" (Eq. 1.29; `Δt = 2ωΑ_E/c²` with
+/// `A_E = πR_E²`). Summing `sagnac_correction` over a fine equatorial polygon telescopes
+/// to `(ω/c²)·2·(enclosed area)`, which must reproduce that published number. This is an
+/// independent *authoritative published value*, not another implementation of the formula,
+/// so it raises the Sagnac sub-claim's oracle to ExternalDataset; the composite
+/// TWSTFT/common-view/PPP capability stays Modelled.
+#[test]
+fn sagnac_equatorial_circumnavigation_matches_ashby_207ns() {
+    const R_E: f64 = 6_378_137.0; // WGS-84 equatorial radius (m)
+    const N: usize = 3600; // equatorial polygon vertices (0.1° spacing)
+    const ASHBY_NS: f64 = 207.4; // Ashby 2003 published equatorial Sagnac value
+    const TWO_PI: f64 = std::f64::consts::TAU;
+
+    // Vertices around the equator, eastward (increasing longitude).
+    let vertex = |k: usize| -> [f64; 3] {
+        let th = TWO_PI * (k as f64) / (N as f64);
+        [R_E * th.cos(), R_E * th.sin(), 0.0]
+    };
+
+    // Sum the per-leg Sagnac correction around the closed eastward loop.
+    let mut total_s = 0.0;
+    for k in 0..N {
+        total_s += sagnac_correction(vertex(k), vertex((k + 1) % N));
+    }
+    let total_ns = total_s * 1.0e9;
+
+    // Reproduces the published 207.4 ns to well under 0.05 ns (the 0.1° discretisation
+    // and the constant choices account for the sub-0.02 ns residual).
+    assert!(
+        (total_ns - ASHBY_NS).abs() < 0.05,
+        "equatorial Sagnac {total_ns:.4} ns vs Ashby published {ASHBY_NS} ns (|Δ| must be < 0.05 ns)"
+    );
+
+    // Direction sense: eastward is positive; the identical westward loop is its negative.
+    assert!(total_ns > 0.0, "eastward circumnavigation must be positive");
+    let mut west_s = 0.0;
+    for k in 0..N {
+        west_s += sagnac_correction(vertex((k + 1) % N), vertex(k));
+    }
+    assert!(
+        (west_s + total_s).abs() < 1e-18,
+        "westward loop must be the exact negative of eastward"
+    );
+
+    // Closed-form check: the limit is 2πωR_E²/c² (the area→πR_E² circumnavigation value).
+    let closed_form_ns = TWO_PI * OMEGA_EARTH * R_E * R_E / (C_M_PER_S * C_M_PER_S) * 1.0e9;
+    assert!(
+        (total_ns - closed_form_ns).abs() < 1e-3,
+        "polygon sum {total_ns:.5} ns must approach the closed form {closed_form_ns:.5} ns"
+    );
+
+    eprintln!(
+        "Ashby equatorial Sagnac: kshana {total_ns:.4} ns vs published {ASHBY_NS} ns \
+         (closed form {closed_form_ns:.4} ns)"
+    );
+}
