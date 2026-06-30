@@ -77,6 +77,7 @@ pub mod lunar_identifiability;
 pub mod lunar_interop;
 pub mod lunar_llr;
 pub mod lunar_od;
+pub mod lunar_oed;
 pub mod lunar_orientation;
 pub mod lunar_service;
 pub mod lunar_time;
