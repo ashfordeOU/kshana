@@ -208,7 +208,11 @@ mod tests {
         // Seeking (rho<0) is convex -> below.
         assert!(exp_utility(mid, RiskAttitude::Seeking.rho()) < mid);
         // Neutral is exactly the value.
-        assert!(approx(exp_utility(mid, RiskAttitude::Neutral.rho()), mid, 1e-15));
+        assert!(approx(
+            exp_utility(mid, RiskAttitude::Neutral.rho()),
+            mid,
+            1e-15
+        ));
     }
 
     #[test]
@@ -265,7 +269,11 @@ mod tests {
             weights.clone(),
         )
         .unwrap();
-        assert_eq!(averse.rank(&alts).unwrap()[0], 0, "averse prefers the safe option");
+        assert_eq!(
+            averse.rank(&alts).unwrap()[0],
+            0,
+            "averse prefers the safe option"
+        );
 
         let seeking = AdditiveUtility::new(
             vec![
@@ -275,7 +283,11 @@ mod tests {
             weights,
         )
         .unwrap();
-        assert_eq!(seeking.rank(&alts).unwrap()[0], 1, "seeking prefers the gamble");
+        assert_eq!(
+            seeking.rank(&alts).unwrap()[0],
+            1,
+            "seeking prefers the gamble"
+        );
     }
 
     #[test]

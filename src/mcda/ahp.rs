@@ -96,11 +96,16 @@ impl PairwiseMatrix {
         }
         for (i, row) in a.iter().enumerate() {
             if row.len() != n {
-                return Err(format!("pairwise matrix is not square (row {i} has {} of {n})", row.len()));
+                return Err(format!(
+                    "pairwise matrix is not square (row {i} has {} of {n})",
+                    row.len()
+                ));
             }
             for (j, &v) in row.iter().enumerate() {
                 if !v.is_finite() || v <= 0.0 {
-                    return Err(format!("entry a[{i}][{j}] = {v} must be finite and positive"));
+                    return Err(format!(
+                        "entry a[{i}][{j}] = {v} must be finite and positive"
+                    ));
                 }
             }
         }
@@ -137,7 +142,9 @@ impl PairwiseMatrix {
             for (k, &v) in row.iter().enumerate() {
                 let j = i + 1 + k;
                 if !v.is_finite() || v <= 0.0 {
-                    return Err(format!("upper entry ({i},{j}) = {v} must be finite and positive"));
+                    return Err(format!(
+                        "upper entry ({i},{j}) = {v} must be finite and positive"
+                    ));
                 }
                 a[i][j] = v;
                 a[j][i] = 1.0 / v;
@@ -315,7 +322,11 @@ mod tests {
         for (g, w) in r.priorities.iter().zip(pv) {
             assert!(approx(*g, w, 1e-9), "priority {g} != {w}");
         }
-        assert!(approx(r.consistency_ratio.unwrap(), 0.060954335240381, 1e-9));
+        assert!(approx(
+            r.consistency_ratio.unwrap(),
+            0.060954335240381,
+            1e-9
+        ));
         assert!(r.acceptable);
     }
 
