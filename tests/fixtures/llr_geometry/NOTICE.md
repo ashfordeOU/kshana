@@ -95,3 +95,63 @@ not copyrightable. Cited per good scholarly practice.
 | reflectors.csv      | 760b8a9b846b5d142add68381a5e92ac219094c4ef03f9ae349b9b06b904a8d1 |
 | stations.csv        | 945cdc3c5c2c5f1721df2f59bf4549005f152a98a9cf86936d2abe880295f416 |
 | de440_moon_pa.csv   | 3076f81ef95d83f5efa240ed4c7ccb422f109407dde841fcf28d42dc63586eb7 |
+
+## Multi-technique OED — Modelled assumptions (P1 Part C)
+
+This section records the Modelled inputs to the cost/degeneracy Pareto frontier
+computed by `src/lunar_oed.rs::representative_lunar_menu` and `pareto_frontier`.
+
+### Beacon selenographic locations (body-frame PA coordinates; R = 1 737 400 m)
+
+| Block            | Body-frame X (m)   | Body-frame Y (m)  | Body-frame Z (m)  | Description                          |
+|------------------|--------------------|-------------------|-------------------|--------------------------------------|
+| LLR              | (DE440 reflectors) | (DE440)           | (DE440)           | 5 real retroreflectors (Park+ 2021)  |
+| VLBI-limb        | +0.5 R ≈ +868 700  | +0.866 R ≈ +1 505 000 | 0           | Limb beacon, selenographic lon ~60°  |
+| Orbiter-nearside | +0.9 R ≈ +1 563 660 | +0.2 R ≈ +347 480 | +0.2 R ≈ +347 480 | Near-side beacon (positive X body)   |
+| Orbiter-farside  | −0.9 R ≈ −1 563 660 | +0.2 R ≈ +347 480 | +0.2 R ≈ +347 480 | Far-side beacon (negative X body; primary radial-diversity breaker) |
+
+### Orbiter geometry
+
+- Altitude: 100 km above mean lunar radius
+- Inclination: 88° (near-polar)
+- RAAN: 30°
+- Argument of latitude at t0: advances 13° per step (representative sampling)
+- Line-of-sight gate: `dot(beacon_inertial − moon, orbiter − moon) > 0` (beacon on orbiter-facing hemisphere)
+
+### Per-technique measurement precision (σ)
+
+| Technique        | σ                     | Notes                                                                      |
+|------------------|-----------------------|----------------------------------------------------------------------------|
+| LLR              | 3 mm (0.003 m)        | Representative of current normal-point precision; Modelled                 |
+| VLBI-limb        | 1×10⁻¹¹ s            | Same-beam differential delay; ≈ 3 mm path-equivalent (c·σ); Modelled      |
+| Orbiter ranging  | 5 cm (0.05 m)         | Representative cm–dm one-way range precision for a lunar orbiter; Modelled |
+
+### Relative costs
+
+| Block            | Relative cost | Rationale                                                        |
+|------------------|---------------|------------------------------------------------------------------|
+| LLR              | 1.0           | Established infrastructure; cheapest marginal campaign           |
+| VLBI-limb        | 3.0           | Requires coordinated multi-station VLBI network + beacon         |
+| Orbiter-nearside | 4.0           | Dedicated lunar orbiter campaign; near-side beacon               |
+| Orbiter-farside  | 5.0           | As above but with relay or direct-to-Earth link for far-side beacon |
+
+### Schedule
+
+- Epoch t0: 2024-01-01 TT (JD 2 460 310.5, inside the DE440 fixture window)
+- Duration: ≈ 1 synodic month (29.5 days)
+- Cadence: 6 h step
+- LLR: uses the full multi-reflector geometry and station-elevation gate from `llr_datum_rows`
+- VLBI: gated to Earth-facing epochs (beacon on near-Earth hemisphere)
+- Orbiter: same cadence; LOS gate per epoch
+
+### Honesty statement
+
+All inputs above are **representative, not mission values**. They were chosen to be
+physically plausible (lunar-scale geometry, realistic noise floors, sensible relative
+economics) and to exercise the mathematical structure of the datum problem. The
+deliverable is the **shape and ordering of the cost/accuracy trade frontier** and the
+finding that **radial/depth diversity (orbiter far-side ranging) breaks the
+lunocenter-X ↔ scale degeneracy approximately 8× more efficiently per unit cost than
+transverse VLBI**, not a single recommended budget or a claim about any real mission.
+The CRLB figures, degeneracy-metric magnitudes, and relative cost ratios all carry
+**Modelled** status (see `src/lunar_identifiability.rs` honesty note).

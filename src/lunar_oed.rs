@@ -59,6 +59,17 @@ pub struct DesignResult {
     pub origin_crlb_m: f64,
 }
 
+/// One point of the cost/degeneracy trade frontier.
+#[derive(Clone, Debug)]
+pub struct FrontierPoint {
+    pub budget: f64,
+    pub total_cost: f64,
+    pub degeneracy_metric: f64,
+    pub origin_crlb_m: f64,
+    /// Labels of the selected blocks at this budget level.
+    pub chosen: Vec<String>,
+}
+
 /// Sum the 7×7 `info` of the chosen blocks (zero matrix if none).
 ///
 /// Fisher information is additive across independent measurements; this is the
@@ -186,6 +197,131 @@ pub fn exhaustive_best(blocks: &[MeasurementBlock], budget: f64, rel_tol: f64) -
     }
 }
 
+/// Sweep `budgets` through [`greedy_design`], returning the trade frontier. This is a
+/// PARAMETERISED trade curve (Modelled costs/precisions), NOT a single optimum.
+pub fn pareto_frontier(
+    blocks: &[MeasurementBlock],
+    budgets: &[f64],
+    rel_tol: f64,
+) -> Vec<FrontierPoint> {
+    budgets
+        .iter()
+        .map(|&budget| {
+            let result = greedy_design(blocks, budget, rel_tol);
+            let chosen = result
+                .chosen
+                .iter()
+                .map(|&i| blocks[i].label.clone())
+                .collect();
+            FrontierPoint {
+                budget,
+                total_cost: result.total_cost,
+                degeneracy_metric: result.degeneracy_metric,
+                origin_crlb_m: result.origin_crlb_m,
+                chosen,
+            }
+        })
+        .collect()
+}
+
+/// Build a representative menu of measurement campaigns for the lunar datum problem.
+///
+/// **MODELLED:** beacon locations, orbiter geometry, per-technique precisions, and
+/// relative costs are representative choices, not mission values (see
+/// `tests/fixtures/llr_geometry/NOTICE.md`). Returns four blocks:
+/// - `"LLR"` — baseline; establishes observability but does NOT break the X↔scale pair.
+/// - `"VLBI-limb"` — limb beacon at selenographic lon ~60°; breaks degeneracy
+///   transversely (Y-direction, Schur monotonicity).
+/// - `"Orbiter-nearside"` — orbiter ranging to a near-side beacon.
+/// - `"Orbiter-farside"` — orbiter ranging to a far-side beacon (negative body-frame X);
+///   the primary radial-diversity breaker for the X↔scale degeneracy.
+pub fn representative_lunar_menu() -> Vec<MeasurementBlock> {
+    const R: f64 = 1_737_400.0_f64;
+    let t0 = (2_460_310.5_f64 - 2_451_545.0) / 36_525.0;
+    let step_jc = 6.0 / (24.0 * 36_525.0);
+    // ≈ 1 synodic month (29.5 d) at 6 h cadence; same schedule as the B3 demo.
+    let n_steps = (29.5_f64 * 24.0 / 6.0).ceil() as usize + 1;
+
+    // ── LLR block (baseline; established infrastructure) ────────────────────
+    let (llr_rows, _) = crate::lunar_identifiability::llr_datum_rows(0.003, t0, 29.5, 6.0);
+    let llr_block = block_from_rows("LLR", llr_rows, 0.003, 1.0);
+
+    // ── VLBI-limb block (transverse content; limb beacon lon ~60°) ──────────
+    let beacon_vlbi: [f64; 3] = [0.5 * R, 0.866 * R, 0.0];
+    let st1 = crate::lunar_llr::stations()[1]; // APOLLO
+    let st2 = crate::lunar_llr::stations()[0]; // Grasse (long transatlantic baseline)
+    let mut vlbi_rows: Vec<[f64; 7]> = Vec::new();
+    for k in 0..n_steps {
+        let t = t0 + k as f64 * step_jc;
+        let r_moon = crate::ephem::moon_position(t);
+        let r_b = crate::lunar_llr::reflector_inertial(beacon_vlbi, t);
+        // Earth-facing gate: beacon must be on the hemisphere facing Earth.
+        let earth_facing = (r_b[0] - r_moon[0]) * (-r_moon[0])
+            + (r_b[1] - r_moon[1]) * (-r_moon[1])
+            + (r_b[2] - r_moon[2]) * (-r_moon[2]);
+        if earth_facing <= 0.0 {
+            continue;
+        }
+        let jd_ut1 = t * 36_525.0 + 2_451_545.0;
+        vlbi_rows.push(crate::lunar_datum::vlbi_row_datum7(
+            &st1,
+            &st2,
+            beacon_vlbi,
+            t,
+            jd_ut1,
+        ));
+    }
+    let vlbi_block = block_from_rows("VLBI-limb", vlbi_rows, 1e-11, 3.0);
+
+    // ── Orbiter-nearside block (radial diversity, near hemisphere) ───────────
+    let beacon_near: [f64; 3] = [0.9 * R, 0.2 * R, 0.2 * R];
+    let mut orb_near_rows: Vec<[f64; 7]> = Vec::new();
+    for k in 0..n_steps {
+        let t = t0 + k as f64 * step_jc;
+        let r_moon = crate::ephem::moon_position(t);
+        let r_orb = crate::lunar_datum::orbiter_position(100.0, 88.0, 30.0, k as f64 * 13.0, t0, t);
+        let r_b = crate::lunar_llr::reflector_inertial(beacon_near, t);
+        // LOS gate: beacon and orbiter on same hemisphere relative to Moon centre.
+        let los = (r_b[0] - r_moon[0]) * (r_orb[0] - r_moon[0])
+            + (r_b[1] - r_moon[1]) * (r_orb[1] - r_moon[1])
+            + (r_b[2] - r_moon[2]) * (r_orb[2] - r_moon[2]);
+        if los <= 0.0 {
+            continue;
+        }
+        orb_near_rows.push(crate::lunar_datum::orbiter_range_row_datum7(
+            r_orb,
+            beacon_near,
+            t,
+        ));
+    }
+    let orb_near_block = block_from_rows("Orbiter-nearside", orb_near_rows, 0.05, 4.0);
+
+    // ── Orbiter-farside block (primary radial-diversity breaker) ────────────
+    // Negative body-frame X → anti-Earth hemisphere; ranging from polar orbit provides
+    // direct radial information that breaks the lunocenter-X ↔ scale near-degeneracy.
+    let beacon_far: [f64; 3] = [-0.9 * R, 0.2 * R, 0.2 * R];
+    let mut orb_far_rows: Vec<[f64; 7]> = Vec::new();
+    for k in 0..n_steps {
+        let t = t0 + k as f64 * step_jc;
+        let r_moon = crate::ephem::moon_position(t);
+        let r_orb = crate::lunar_datum::orbiter_position(100.0, 88.0, 30.0, k as f64 * 13.0, t0, t);
+        let r_b = crate::lunar_llr::reflector_inertial(beacon_far, t);
+        // LOS gate: orbiter must be on the far-side hemisphere to range the beacon.
+        let los = (r_b[0] - r_moon[0]) * (r_orb[0] - r_moon[0])
+            + (r_b[1] - r_moon[1]) * (r_orb[1] - r_moon[1])
+            + (r_b[2] - r_moon[2]) * (r_orb[2] - r_moon[2]);
+        if los <= 0.0 {
+            continue;
+        }
+        orb_far_rows.push(crate::lunar_datum::orbiter_range_row_datum7(
+            r_orb, beacon_far, t,
+        ));
+    }
+    let orb_far_block = block_from_rows("Orbiter-farside", orb_far_rows, 0.05, 5.0);
+
+    vec![llr_block, vlbi_block, orb_near_block, orb_far_block]
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -250,6 +386,85 @@ mod tests {
                 g.chosen,
             );
         }
+    }
+
+    #[test]
+    fn frontier_is_monotone_and_llr_only_is_the_degenerate_end() {
+        let blocks = super::representative_lunar_menu();
+        let budgets = [1.0, 4.0, 8.0, 13.0]; // affords: LLR; +1 technique; +2; all
+        let f = super::pareto_frontier(&blocks, &budgets, 1e-12);
+        assert_eq!(f.len(), 4);
+        for w in f.windows(2) {
+            assert!(
+                w[1].degeneracy_metric + 1e-6 >= w[0].degeneracy_metric,
+                "metric must not decrease as budget grows: {} -> {}",
+                w[0].degeneracy_metric,
+                w[1].degeneracy_metric
+            );
+            assert!(
+                w[1].origin_crlb_m <= w[0].origin_crlb_m + 1e-9,
+                "origin CRLB must not increase as budget grows: {} -> {}",
+                w[0].origin_crlb_m,
+                w[1].origin_crlb_m
+            );
+        }
+        // The smallest budget is LLR-only and the most degenerate; the largest is strictly better.
+        assert!(
+            f.first().unwrap().degeneracy_metric < f.last().unwrap().degeneracy_metric,
+            "frontier must span degenerate -> broken"
+        );
+        assert!(
+            f.first().unwrap().chosen == vec!["LLR".to_string()]
+                || f.first().unwrap().chosen.contains(&"LLR".to_string()),
+            "cheapest design is LLR-dominated; got {:?}",
+            f.first().unwrap().chosen
+        );
+        // Emit for report — visible with --nocapture; stripped by normal test runner.
+        for fp in &f {
+            eprintln!(
+                "frontier: budget={} cost={:.1} metric={:.6e} crlb_m={:.3} chosen={:?}",
+                fp.budget, fp.total_cost, fp.degeneracy_metric, fp.origin_crlb_m, fp.chosen
+            );
+        }
+    }
+
+    #[test]
+    fn radial_diversity_beats_transverse_for_breaking_the_degeneracy() {
+        // The Part-B finding, operationalised: per unit of degeneracy-metric gain, an orbiter
+        // (radial/depth diversity) block beats the VLBI (transverse) block. Compare LLR+each.
+        use crate::lunar_identifiability::{assemble_multi_info, decompose, llr_datum_rows};
+        let blocks = super::representative_lunar_menu();
+        let find = |name: &str| blocks.iter().find(|b| b.label == name).unwrap().clone();
+        let llr = find("LLR");
+        let vlbi = find("VLBI-limb");
+        let orb = find("Orbiter-farside");
+        let metric_of = |extra: &MeasurementBlock| {
+            let mut info = llr.info.clone();
+            for (row, extra_row) in info.iter_mut().zip(extra.info.iter()) {
+                for (v, ev) in row.iter_mut().zip(extra_row.iter()) {
+                    *v += ev;
+                }
+            }
+            decompose(&info, 1e-12).degeneracy_metric
+        };
+        let base = decompose(&llr.info, 1e-12).degeneracy_metric;
+        let gain_vlbi = metric_of(&vlbi) - base;
+        let gain_orb = metric_of(&orb) - base;
+        assert!(
+            gain_orb > gain_vlbi,
+            "radial-diversity orbiter must break the degeneracy more than transverse VLBI: orb {} vs vlbi {}",
+            gain_orb,
+            gain_vlbi
+        );
+        eprintln!(
+            "radial vs transverse: base={:.6e} gain_vlbi={:.6e} gain_orb={:.6e} ratio={:.1}x",
+            base,
+            gain_vlbi,
+            gain_orb,
+            gain_orb / gain_vlbi
+        );
+        let _ = assemble_multi_info;
+        let _ = llr_datum_rows; // (imports used above/by builder)
     }
 
     #[test]
