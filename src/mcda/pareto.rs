@@ -46,8 +46,7 @@ pub fn dominates(a: &[f64], b: &[f64], objectives: &[Objective]) -> bool {
 pub fn pareto_front(points: &[Vec<f64>], objectives: &[Objective]) -> Vec<usize> {
     (0..points.len())
         .filter(|&i| {
-            !(0..points.len())
-                .any(|j| j != i && dominates(&points[j], &points[i], objectives))
+            !(0..points.len()).any(|j| j != i && dominates(&points[j], &points[i], objectives))
         })
         .collect()
 }
@@ -173,8 +172,8 @@ pub fn knee_of_front(
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     use super::Objective::{Max, Min};
+    use super::*;
 
     #[test]
     fn dominance_known_answers_min_min() {
@@ -184,7 +183,7 @@ mod tests {
         assert!(!dominates(&[4.0, 4.0], &[2.0, 2.0], &o));
         assert!(!dominates(&[1.0, 4.0], &[4.0, 1.0], &o)); // incomparable
         assert!(!dominates(&[2.0, 2.0], &[2.0, 2.0], &o)); // equal: not strict
-        // Weak: equal on one, better on the other -> dominates.
+                                                           // Weak: equal on one, better on the other -> dominates.
         assert!(dominates(&[2.0, 1.0], &[2.0, 2.0], &o));
     }
 

@@ -215,7 +215,10 @@ fn preference(vf: ValueFn, dir: Direction, x: f64, lo: f64, hi: f64) -> f64 {
             }
             (1.0 - (x - target).abs() / spread).clamp(0.0, 1.0)
         }
-        ValueFn::Sigmoid { midpoint, steepness } => {
+        ValueFn::Sigmoid {
+            midpoint,
+            steepness,
+        } => {
             let s = 1.0 / (1.0 + (-steepness * (x - midpoint)).exp());
             match dir {
                 Direction::Benefit => s,
@@ -362,12 +365,7 @@ impl DecisionMatrix {
             .filter(|s| !s.eliminated)
             .map(|s| s.index)
             .collect();
-        ranking.sort_by(|&i, &j| {
-            scores[j]
-                .score
-                .total_cmp(&scores[i].score)
-                .then(i.cmp(&j))
-        });
+        ranking.sort_by(|&i, &j| scores[j].score.total_cmp(&scores[i].score).then(i.cmp(&j)));
 
         Ok(WsmReport { scores, ranking })
     }
@@ -480,10 +478,7 @@ mod tests {
     fn weights_are_ratio_invariant() {
         let mk = |w: [f64; 2]| {
             DecisionMatrix::new(
-                vec![
-                    Criterion::benefit("a", w[0]),
-                    Criterion::benefit("b", w[1]),
-                ],
+                vec![Criterion::benefit("a", w[0]), Criterion::benefit("b", w[1])],
                 vec![
                     Alternative::new("x", vec![1.0, 0.0]),
                     Alternative::new("y", vec![0.0, 1.0]),
