@@ -7,7 +7,7 @@
 
 use kshana::fim::{crlb, information_matrix};
 use kshana::lunar_datum::llr_row_datum7;
-use kshana::lunar_identifiability::llr_identifiability;
+use kshana::lunar_identifiability::{decompose, llr_identifiability};
 use kshana::lunar_llr::{reflectors, stations};
 
 #[test]
@@ -61,5 +61,61 @@ fn extending_the_librating_arc_lifts_the_origin_scale_degeneracy() {
         full.origin_scale_corr.abs() > 0.9 && full.origin_scale_corr.abs() < 0.9999,
         "pair stays near-degenerate (structural); got {}",
         full.origin_scale_corr
+    );
+}
+
+#[test]
+fn decompose_matches_scipy_reference() {
+    // External oracle: SciPy/NumPy-computed Schur metric / origin CRLB / corr on fixed
+    // synthetic 7x7 SPD matrices (tests/fixtures/datum_identifiability/scipy_ref.csv).
+    // This is the ExternalDataset validation of the decomposition linear algebra.
+    const CSV: &str = include_str!("fixtures/datum_identifiability/scipy_ref.csv");
+    let mut lines = CSV.lines();
+    let _header = lines.next().expect("header");
+    let mut n_checked = 0;
+    for line in lines.filter(|l| !l.trim().is_empty()) {
+        let v: Vec<f64> = line
+            .split(',')
+            .map(|s| s.trim().parse::<f64>().unwrap())
+            .collect();
+        assert_eq!(
+            v.len(),
+            49 + 3,
+            "row must be 49 matrix entries + 3 expected"
+        );
+        let mut info = vec![vec![0.0; 7]; 7];
+        for i in 0..7 {
+            for j in 0..7 {
+                info[i][j] = v[i * 7 + j];
+            }
+        }
+        let exp_metric = v[49];
+        let exp_crlb = v[50];
+        let exp_corr = v[51];
+        let d = decompose(&info, 1e-12);
+        let rel = |a: f64, b: f64| (a - b).abs() / (1.0 + b.abs());
+        assert!(
+            rel(d.degeneracy_metric, exp_metric) < 1e-9,
+            "metric: rust {} vs scipy {}",
+            d.degeneracy_metric,
+            exp_metric
+        );
+        assert!(
+            rel(d.origin_crlb_m, exp_crlb) < 1e-9,
+            "origin_crlb: rust {} vs scipy {}",
+            d.origin_crlb_m,
+            exp_crlb
+        );
+        assert!(
+            rel(d.origin_scale_corr.abs(), exp_corr.abs()) < 1e-9,
+            "corr: rust {} vs scipy {}",
+            d.origin_scale_corr,
+            exp_corr
+        );
+        n_checked += 1;
+    }
+    assert!(
+        n_checked >= 12,
+        "must check the full reference set; got {n_checked}"
     );
 }
