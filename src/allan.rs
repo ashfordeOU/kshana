@@ -398,7 +398,10 @@ pub fn theo1_tau(tau0: Seconds, m: usize) -> f64 {
 ///           (1/(m/2 - d)) * ( (x_i - x_{i+m/2-d}) + (x_{i+m} - x_{i+m/2+d}) )^2
 pub fn theo1(phase: &[f64], tau0: Seconds, m: usize) -> f64 {
     let n = phase.len();
-    assert!(m >= 2 && m % 2 == 0, "Theo1 requires an even averaging factor m >= 2");
+    assert!(
+        m >= 2 && m % 2 == 0,
+        "Theo1 requires an even averaging factor m >= 2"
+    );
     assert!(n > m, "need more than m phase samples for Theo1");
     let half = m / 2;
     let count = n - m; // number of outer terms
@@ -429,7 +432,7 @@ pub fn theo1_curve(phase: &[f64], tau0: Seconds) -> Vec<AdevPoint> {
         return out;
     }
     let mut m = 2usize;
-    while m <= n - 1 {
+    while m < n {
         out.push(AdevPoint {
             tau_s: theo1_tau(tau0, m),
             adev: theo1(phase, tau0, m),
@@ -466,7 +469,7 @@ pub fn theo_br_bias(phase: &[f64], tau0: Seconds) -> f64 {
     for i in 0..=kmax {
         let k_av = 9 + 3 * i; // overlapping-ADEV averaging factor
         let k_th = 12 + 4 * i; // Theo1 averaging factor (always even)
-        // Guard the estimators' own domain (ADEV needs N>2m, Theo1 needs N>m).
+                               // Guard the estimators' own domain (ADEV needs N>2m, Theo1 needs N>m).
         if n <= 2 * k_av || n <= k_th {
             break;
         }
@@ -593,7 +596,7 @@ pub fn total_deviation(phase: &[f64], tau0: Seconds, m: usize) -> f64 {
     let n = phase.len();
     assert!(m >= 1, "m must be >= 1");
     assert!(n >= 3, "need at least 3 phase samples for TOTVAR");
-    assert!(m <= n - 1, "TOTVAR requires m <= N-1");
+    assert!(m < n, "TOTVAR requires m <= N-1");
     // Build the reflected extension x* of length 3N-4: the record mirrored about
     // each endpoint, with the original record in the centre at offset N-2.
     let ext_len = 3 * n - 4;
@@ -634,7 +637,7 @@ pub fn total_deviation_curve(phase: &[f64], tau0: Seconds) -> Vec<AdevPoint> {
         return out;
     }
     let mut m = 1usize;
-    while m <= n - 1 {
+    while m < n {
         out.push(AdevPoint {
             tau_s: m as f64 * tau0,
             adev: total_deviation(phase, tau0, m),
@@ -1303,7 +1306,10 @@ mod tests {
             let dev = var.sqrt();
             let expect = sigma0 / (0.75 * m as f64).sqrt();
             let rel = (dev - expect).abs() / expect;
-            assert!(rel < 0.05, "m={m}: Theo1={dev} vs σ0/√(0.75m)={expect}, rel={rel}");
+            assert!(
+                rel < 0.05,
+                "m={m}: Theo1={dev} vs σ0/√(0.75m)={expect}, rel={rel}"
+            );
         }
     }
 
@@ -1316,7 +1322,10 @@ mod tests {
         let phase = [0.0, 1.0, 3.0, 6.0, 10.0, 9.0, 7.0, 12.0, 20.0, 18.0];
         let tv = total_deviation(&phase, 1.0, 1);
         let ad = overlapping_adev(&phase, 1.0, 1);
-        assert!((tv - ad).abs() < 1e-12, "TOTVAR(1) {tv} must equal OADEV(1) {ad}");
+        assert!(
+            (tv - ad).abs() < 1e-12,
+            "TOTVAR(1) {tv} must equal OADEV(1) {ad}"
+        );
         // And on a longer pseudo-random record.
         let p2 = white_fm_phase(3.0e-12, 1024, 7);
         assert!(
@@ -1383,8 +1392,14 @@ mod tests {
         let phase = white_fm_phase(3.0e-12, 1 << 12, 2718);
         let theo_slope = loglog_slope(&theo1_curve(&phase, 1.0));
         let tv_slope = loglog_slope(&total_deviation_curve(&phase, 1.0));
-        assert!((theo_slope + 0.5).abs() < 0.08, "Theo1 white-FM slope {theo_slope}");
-        assert!((tv_slope + 0.5).abs() < 0.08, "TOTVAR white-FM slope {tv_slope}");
+        assert!(
+            (theo_slope + 0.5).abs() < 0.08,
+            "Theo1 white-FM slope {theo_slope}"
+        );
+        assert!(
+            (tv_slope + 0.5).abs() < 0.08,
+            "TOTVAR white-FM slope {tv_slope}"
+        );
     }
 
     #[test]
@@ -1444,8 +1459,14 @@ mod tests {
             "ThêoH max tau {theoh_max_tau} should reach well past ADEV max tau {adev_max_tau}"
         );
         // It must contain both regions, and every deviation is finite and positive.
-        assert!(theoh.iter().any(|p| !p.from_theo), "needs a short-tau ADEV region");
-        assert!(theoh.iter().any(|p| p.from_theo), "needs a long-tau Theo region");
+        assert!(
+            theoh.iter().any(|p| !p.from_theo),
+            "needs a short-tau ADEV region"
+        );
+        assert!(
+            theoh.iter().any(|p| p.from_theo),
+            "needs a long-tau Theo region"
+        );
         assert!(theoh.iter().all(|p| p.dev.is_finite() && p.dev > 0.0));
         // Slope across the whole hybrid curve is the white-FM -1/2.
         let xs: Vec<f64> = theoh.iter().map(|p| p.tau_s.log10()).collect();
@@ -1456,7 +1477,10 @@ mod tests {
         let sxx: f64 = xs.iter().map(|x| x * x).sum();
         let sxy: f64 = xs.iter().zip(&ys).map(|(x, y)| x * y).sum();
         let slope = (k * sxy - sx * sy) / (k * sxx - sx * sx);
-        assert!((slope + 0.5).abs() < 0.1, "ThêoH white-FM slope {slope}, want -0.5");
+        assert!(
+            (slope + 0.5).abs() < 0.1,
+            "ThêoH white-FM slope {slope}, want -0.5"
+        );
     }
 
     #[test]

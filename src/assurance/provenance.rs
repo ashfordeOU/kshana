@@ -186,7 +186,11 @@ mod tests {
         // timestamp None vs Some
         let mut r = sample();
         r.timestamp = None;
-        assert_ne!(r.merkle_root(), base_root, "timestamp presence must affect root");
+        assert_ne!(
+            r.merkle_root(),
+            base_root,
+            "timestamp presence must affect root"
+        );
 
         // tolerance
         let mut r = sample();
@@ -196,7 +200,11 @@ mod tests {
         // tolerance None vs Some
         let mut r = sample();
         r.tolerance = None;
-        assert_ne!(r.merkle_root(), base_root, "tolerance presence must affect root");
+        assert_ne!(
+            r.merkle_root(),
+            base_root,
+            "tolerance presence must affect root"
+        );
     }
 
     #[test]

@@ -6,16 +6,16 @@
 //! `PackRegistry::with_builtins` changes the produced output for any of these packs.
 //!
 //! Each case pins two independent fingerprints of the result:
-//!   * `summary`  — the human-readable one-liner (contains the 12-hex `scenario_hash`
-//!                  for the packs that carry one);
-//!   * `fnv64`    — an FNV-1a/64 hash of the full result JSON (with the single
-//!                  build-dependent `engine_version` field normalized), i.e. a
-//!                  whole-document byte-identity check that is stable across crate
-//!                  version bumps. After an intentional engine version bump the
-//!                  `engine_version`-carrying hashes are unaffected; only a genuine
-//!                  change to produced output moves them. To re-baseline, run
-//!                  `cargo test -p kshana --test registry_golden zzz_emit_goldens
-//!                  -- --ignored --nocapture`.
+//!
+//! * `summary` — the human-readable one-liner (contains the 12-hex `scenario_hash`
+//!   for the packs that carry one);
+//! * `fnv64` — an FNV-1a/64 hash of the full result JSON (with the single
+//!   build-dependent `engine_version` field normalized), i.e. a whole-document
+//!   byte-identity check that is stable across crate version bumps. After an
+//!   intentional engine version bump the `engine_version`-carrying hashes are
+//!   unaffected; only a genuine change to produced output moves them. To
+//!   re-baseline, run `cargo test -p kshana --test registry_golden zzz_emit_goldens
+//!   -- --ignored --nocapture`.
 
 use std::fs;
 
@@ -54,10 +54,9 @@ fn normalize_volatile(json: &str) -> String {
 }
 
 fn check(g: &Golden) {
-    let src = fs::read_to_string(g.path)
-        .unwrap_or_else(|e| panic!("read {}: {e}", g.path));
-    let out = kshana::api::run_toml(&src)
-        .unwrap_or_else(|e| panic!("run_toml {} failed: {e}", g.path));
+    let src = fs::read_to_string(g.path).unwrap_or_else(|e| panic!("read {}: {e}", g.path));
+    let out =
+        kshana::api::run_toml(&src).unwrap_or_else(|e| panic!("run_toml {} failed: {e}", g.path));
     assert_eq!(
         out.summary, g.expect_summary,
         "summary drift for {}",
