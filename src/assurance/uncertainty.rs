@@ -192,7 +192,7 @@ pub fn chi2_inv(p: f64, dof: f64) -> f64 {
     let mut x = dof * base * base * base;
     // WH can fall to (or below) zero for tiny dof in the lower tail; start the
     // Newton iteration from a strictly positive point in that case.
-    if !(x > 0.0) || !x.is_finite() {
+    if x <= 0.0 || !x.is_finite() {
         x = 0.5 * dof.max(1e-3);
     }
 
@@ -204,7 +204,7 @@ pub fn chi2_inv(p: f64, dof: f64) -> f64 {
     for _ in 0..64 {
         let cdf = reg_lower_gamma(a, 0.5 * x);
         let pdf = chi2_pdf(x, dof);
-        if !(pdf > 0.0) || !pdf.is_finite() {
+        if pdf <= 0.0 || !pdf.is_finite() {
             break;
         }
         let dx = (cdf - p) / pdf;
@@ -320,7 +320,7 @@ fn norm_inv(p: f64) -> f64 {
         -3.969683028665376e+01,
         2.209460984245205e+02,
         -2.759285104469687e+02,
-        1.383577518672690e+02,
+        1.38357751867269e+02,
         -3.066479806614716e+01,
         2.506628277459239e+00,
     ];
@@ -454,7 +454,12 @@ mod tests {
     //   N=1000, m=10 -> 97.23
     #[test]
     fn edf_rw_fm_kat() {
-        assert!(rel(edf(NoiseType::RandomWalkFM, 1000, 10, VarType::Allan), 97.23) < 2e-2);
+        assert!(
+            rel(
+                edf(NoiseType::RandomWalkFM, 1000, 10, VarType::Allan),
+                97.23
+            ) < 2e-2
+        );
     }
 
     #[test]
