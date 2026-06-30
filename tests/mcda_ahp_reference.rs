@@ -72,7 +72,11 @@ fn inconsistent_3x3_matches_lapack() {
     ])
     .unwrap();
     let r = a.analyse();
-    assert!(close(r.lambda_max, 3.003694598063639), "lambda_max {}", r.lambda_max);
+    assert!(
+        close(r.lambda_max, 3.003694598063639),
+        "lambda_max {}",
+        r.lambda_max
+    );
     let pv = [
         5.815520668516161e-01,
         3.089956436328641e-01,
@@ -96,12 +100,16 @@ fn inconsistent_4x4_matches_lapack() {
     ])
     .unwrap();
     let r = a.analyse();
-    assert!(close(r.lambda_max, 4.164576705149029), "lambda_max {}", r.lambda_max);
+    assert!(
+        close(r.lambda_max, 4.164576705149029),
+        "lambda_max {}",
+        r.lambda_max
+    );
     let pv = [
         5.830887827444874e-01,
         2.895299468218655e-01,
         8.489604773075643e-02,
-        4.248522270289060e-02,
+        4.24852227028906e-02,
     ];
     for (g, w) in r.priorities.iter().zip(pv) {
         assert!(close(*g, w), "priority {g} vs LAPACK {w}");
@@ -120,7 +128,11 @@ fn reject_3x3_matches_lapack_and_fails_the_gate() {
     ])
     .unwrap();
     let r = a.analyse();
-    assert!(close(r.lambda_max, 3.324402625153282), "lambda_max {}", r.lambda_max);
+    assert!(
+        close(r.lambda_max, 3.324402625153282),
+        "lambda_max {}",
+        r.lambda_max
+    );
     assert!(close(r.consistency_ratio.unwrap(), 2.796574354769674e-01));
     assert!(!r.acceptable, "CR 0.28 > 0.10 must be rejected by the gate");
 }

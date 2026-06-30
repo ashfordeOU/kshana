@@ -117,7 +117,11 @@ pub fn tornado(weights: &[f64], vm: &[Vec<f64>], delta: f64) -> Vec<TornadoBar> 
             }
         })
         .collect();
-    bars.sort_by(|a, b| b.swing.total_cmp(&a.swing).then(a.criterion.cmp(&b.criterion)));
+    bars.sort_by(|a, b| {
+        b.swing
+            .total_cmp(&a.swing)
+            .then(a.criterion.cmp(&b.criterion))
+    });
     bars
 }
 
@@ -307,7 +311,11 @@ mod tests {
         assert_eq!(winner(&w, &vm), Some(0));
         let flip = min_weight_change_to_flip(&w, &vm).unwrap();
         assert_eq!(flip.new_winner, 1);
-        assert!(approx(flip.new_weights[0], 0.5, 1e-6), "{:?}", flip.new_weights);
+        assert!(
+            approx(flip.new_weights[0], 0.5, 1e-6),
+            "{:?}",
+            flip.new_weights
+        );
         assert!(approx(flip.new_weights[1], 0.5, 1e-6));
         assert!(approx(flip.l1_change, 0.2, 1e-6), "l1 {}", flip.l1_change);
     }
@@ -358,9 +366,16 @@ mod tests {
         // Criterion 0 (where alt0's advantage lives) dominates the swing:
         // swing = 2*0.2*0.5*|1-0| = 0.2.
         assert_eq!(bars[0].criterion, 0);
-        assert!(approx(bars[0].swing, 0.2, 1e-12), "swing0 {}", bars[0].swing);
+        assert!(
+            approx(bars[0].swing, 0.2, 1e-12),
+            "swing0 {}",
+            bars[0].swing
+        );
         // Criterion 1: winner and rival tied -> exactly zero swing.
         assert_eq!(bars[1].criterion, 1);
-        assert!(bars[1].swing <= 1e-12, "tied criterion cannot threaten the decision");
+        assert!(
+            bars[1].swing <= 1e-12,
+            "tied criterion cannot threaten the decision"
+        );
     }
 }
