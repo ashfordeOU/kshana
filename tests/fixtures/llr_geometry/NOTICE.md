@@ -110,6 +110,12 @@ computed by `src/lunar_oed.rs::representative_lunar_menu` and `pareto_frontier`.
 | Orbiter-nearside | +0.9 R ≈ +1 563 660 | +0.2 R ≈ +347 480 | +0.2 R ≈ +347 480 | Near-side beacon (positive X body)   |
 | Orbiter-farside  | −0.9 R ≈ −1 563 660 | +0.2 R ≈ +347 480 | +0.2 R ≈ +347 480 | Far-side beacon (negative X body; primary radial-diversity breaker) |
 
+Note: the orbiter near/far-side beacon body-frame coordinates above have norm ≈ 0.94 R
+(≈ 98 km below the mean lunar radius). This sub-surface placement is an intentional,
+representative body-fixed point; it is immaterial to the datum Jacobian, which depends
+on the body-point position, not on exact surface placement. The VLBI-limb beacon sits on
+the surface (norm = R). Paper figures use surface-normalized beacon coordinates.
+
 ### Orbiter geometry
 
 - Altitude: 100 km above mean lunar radius
@@ -151,7 +157,9 @@ physically plausible (lunar-scale geometry, realistic noise floors, sensible rel
 economics) and to exercise the mathematical structure of the datum problem. The
 deliverable is the **shape and ordering of the cost/accuracy trade frontier** and the
 finding that **radial/depth diversity (orbiter far-side ranging) breaks the
-lunocenter-X ↔ scale degeneracy approximately 8× more efficiently per unit cost than
-transverse VLBI**, not a single recommended budget or a claim about any real mission.
+lunocenter-X ↔ scale degeneracy more effectively than transverse VLBI** — ≈8× more
+raw degeneracy-metric gain for comparable measurement exposure, and ≈4.8× more *per
+unit cost* once the orbiter's higher relative cost (5 vs 3) is accounted for — not a
+single recommended budget or a claim about any real mission.
 The CRLB figures, degeneracy-metric magnitudes, and relative cost ratios all carry
 **Modelled** status (see `src/lunar_identifiability.rs` honesty note).
