@@ -97,10 +97,8 @@ pub mod ids {
     pub const INERTIAL: ScenarioId = ScenarioId::from_static("inertial");
     pub const INTEGRITY: ScenarioId = ScenarioId::from_static("integrity");
     pub const TIMETRANSFER: ScenarioId = ScenarioId::from_static("timetransfer");
-    pub const QUANTUM_TIME_TRANSFER: ScenarioId =
-        ScenarioId::from_static("quantum-time-transfer");
-    pub const QUANTUM_GNSS_FREE_NAV: ScenarioId =
-        ScenarioId::from_static("quantum-gnss-free-nav");
+    pub const QUANTUM_TIME_TRANSFER: ScenarioId = ScenarioId::from_static("quantum-time-transfer");
+    pub const QUANTUM_GNSS_FREE_NAV: ScenarioId = ScenarioId::from_static("quantum-gnss-free-nav");
     pub const QUANTUM_ANOMALY_DETECT: ScenarioId =
         ScenarioId::from_static("quantum-anomaly-detect");
     pub const HYBRID: ScenarioId = ScenarioId::from_static("hybrid");
@@ -116,19 +114,16 @@ pub mod ids {
     pub const ORBIT: ScenarioId = ScenarioId::from_static("orbit");
     pub const EPHEMERIS: ScenarioId = ScenarioId::from_static("ephemeris");
     pub const LUNAR_INTEGRITY: ScenarioId = ScenarioId::from_static("lunar-integrity");
-    pub const LUNAR_TIME_OFFSET: ScenarioId =
-        ScenarioId::from_static("lunar-time-offset");
+    pub const LUNAR_TIME_OFFSET: ScenarioId = ScenarioId::from_static("lunar-time-offset");
     pub const LUNAR_VLBI: ScenarioId = ScenarioId::from_static("lunar-vlbi");
-    pub const LUNAR_JOINT_OD_CLOCK: ScenarioId =
-        ScenarioId::from_static("lunar-joint-od-clock");
+    pub const LUNAR_JOINT_OD_CLOCK: ScenarioId = ScenarioId::from_static("lunar-joint-od-clock");
     pub const LUNAR_FRAME_REALISATION: ScenarioId =
         ScenarioId::from_static("lunar-frame-realisation");
     pub const MOONLIGHT_SERVICE_VOLUME: ScenarioId =
         ScenarioId::from_static("moonlight-service-volume");
     pub const LUNAR_DIFFERENTIAL_PNT: ScenarioId =
         ScenarioId::from_static("lunar-differential-pnt");
-    pub const LUNAR_INTEROP_EXPORT: ScenarioId =
-        ScenarioId::from_static("lunar-interop-export");
+    pub const LUNAR_INTEROP_EXPORT: ScenarioId = ScenarioId::from_static("lunar-interop-export");
     pub const GRAVITY_MAP: ScenarioId = ScenarioId::from_static("gravity-map");
     pub const TERRAIN_NAV: ScenarioId = ScenarioId::from_static("terrain-nav");
     pub const TERRAIN_SLAM: ScenarioId = ScenarioId::from_static("terrain-slam");
@@ -179,16 +174,9 @@ pub trait ScenarioFactory: Send + Sync {
 }
 
 /// A registry mapping [`ScenarioId`] to the factory that builds it.
+#[derive(Default)]
 pub struct PackRegistry {
     scenarios: BTreeMap<ScenarioId, Box<dyn ScenarioFactory>>,
-}
-
-impl Default for PackRegistry {
-    fn default() -> Self {
-        PackRegistry {
-            scenarios: BTreeMap::new(),
-        }
-    }
 }
 
 impl PackRegistry {
@@ -306,7 +294,12 @@ mod tests {
         let reg = PackRegistry::with_builtins();
         let ids: Vec<&ScenarioId> = reg.ids().collect();
         for w in ids.windows(2) {
-            assert!(w[0] < w[1], "ids must be strictly increasing: {} !< {}", w[0], w[1]);
+            assert!(
+                w[0] < w[1],
+                "ids must be strictly increasing: {} !< {}",
+                w[0],
+                w[1]
+            );
         }
     }
 
