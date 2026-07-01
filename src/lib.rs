@@ -75,6 +75,7 @@ pub mod lunar_frame;
 pub mod lunar_frame_realise;
 pub mod lunar_identifiability;
 pub mod lunar_interop;
+pub mod lunar_interop_budget;
 pub mod lunar_llr;
 pub mod lunar_od;
 pub mod lunar_oed;
