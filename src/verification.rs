@@ -816,6 +816,33 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: OracleKind::InternalConsistency,
             status: VerificationStatus::Modelled,
         },
+        VerificationItem {
+            requirement: "Cross-provider lunar frame/dynamics consistency (real inter-ephemeris)",
+            capability: "7-parameter Helmert + rotation-only decomposition of the DE440/INPOP21a/EPM2021 geocentric-Moon disagreement into a reducible common ICRF frame-tie and an irreducible lunar-orbit-orientation excess",
+            module: "lunar_interop_budget",
+            tests: "tests/lunar_interop_budget_reference.rs (raw / rotation-residual / theta_moon / theta_frametie / theta_excess / reducible / irreducible for 3 provider pairs vs the independent SciPy SVD lstsq fit in tests/fixtures/inter_ephemeris/reference.json, rel<1e-3 abs<1e-3 m; fixtures + oracle byte-consistent via scripts/gen_interop_ref.py on public DE440/INPOP21a/EPM2021 kernels through IMCCE calceph)",
+            oracle: "Three independent authoritative ephemerides — DE440 (JPL), INPOP21a (IMCCE), EPM2021 (IAA RAS) — sampled via IMCCE calceph, cross-checked by an independent numpy SVD least-squares fit",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
+            requirement: "Cross-provider consistency tolerance for a mixed-provider user",
+            capability: "consistency_tolerance: inverts a user position budget to a per-parameter inter-provider Helmert agreement requirement (origin/scale/rotation) at a reference lever arm, optionally inflated by the P1 single-provider realization CRLB",
+            module: "lunar_interop_budget",
+            tests: "lunar_interop_budget::tests (monotonicity in budget; RSS budget reduction under a per-provider CRLB; worked rotation tolerance at the lunar lever arm; binding-term = rotation)",
+            oracle: "Worst-case triangle bound on the Helmert point-Jacobian action (closed form)",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
+            requirement: "Multi-provider lunar interoperability error budget and frame-vs-ephemeris design law",
+            capability: "interop_budget: reducible (common frame-tie) vs irreducible (dynamics) split under PerProvider / CommonFrameTie / CommonEphemeris conventions, with the irreducible-fraction design-law metric (~0.69 on real DE440/INPOP/EPM: a common frame tag alone leaves the dominant floor)",
+            module: "lunar_interop_budget",
+            tests: "lunar_interop_budget::tests (CommonEphemeris zeroes the budget; CommonFrameTie < PerProvider; irreducible_fraction > 0.5 on the real splits; convention ordering)",
+            oracle: "RMS aggregation of the Validated per-pair splits under each convention (closed form)",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
         // ── Resilience scoring & instability study ────────────────────────────
         VerificationItem {
             requirement: "PNT-resilience framework-aligned scoring",
