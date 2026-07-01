@@ -35,6 +35,9 @@ jobs:
     name: crates.io
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    environment:
+      name: crates-io
+      url: https://crates.io/crates/kshana
     permissions:
       contents: read
       # SLSA build-provenance attestation of the packaged .crate tarball.
@@ -79,6 +82,9 @@ jobs:
     name: crates.io (kshana-mcp)
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    environment:
+      name: crates-io-mcp
+      url: https://crates.io/crates/kshana-mcp
     # The MCP server is a standalone, workspace-excluded crate that depends on the
     # published `kshana` crate (`kshana = { path = "../..", version = "0.14" }`), so it
     # must publish AFTER the `crates` job has pushed a matching `kshana` to crates.io.
@@ -258,6 +264,9 @@ jobs:
     name: npm
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    environment:
+      name: npm
+      url: https://www.npmjs.com/package/kshana
     permissions:
       contents: read
       # SLSA build-provenance attestation of the npm tarball. (npm-native provenance is

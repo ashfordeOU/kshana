@@ -68,6 +68,10 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    environment:
+      # No url: the Marketplace listing URL is a numeric plugin id assigned on first
+      # publish (id dev.kshana.ide, vendor Ashforde OÜ) — omit rather than guess.
+      name: jetbrains-marketplace
     defaults:
       run:
         working-directory: ide/jetbrains

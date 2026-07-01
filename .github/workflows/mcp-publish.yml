@@ -30,6 +30,9 @@ jobs:
     name: OCI image (ghcr.io)
     runs-on: ubuntu-latest
     timeout-minutes: 45
+    environment:
+      name: ghcr-image
+      url: https://github.com/ashfordeOU/kshana/pkgs/container/kshana-mcp
     permissions:
       contents: read
       packages: write
@@ -89,6 +92,9 @@ jobs:
     if: ${{ vars.MCP_REGISTRY_PUBLISH == 'true' }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    environment:
+      name: mcp-registry
+      url: https://registry.modelcontextprotocol.io
     permissions:
       contents: read
       id-token: write
