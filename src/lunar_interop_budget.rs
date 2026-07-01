@@ -214,6 +214,139 @@ pub fn rotation_fit(from: &[Vec3], to: &[Vec3]) -> (Vec3, f64) {
     (theta, (resid_sq / n).sqrt())
 }
 
+/// Decomposition of a cross-provider Moon-position disagreement into a reducible
+/// common frame-tie component and an irreducible Moon-specific excess rotation.
+///
+/// # Modelling note (honesty firewall — must accompany all magnitude fields)
+///
+/// Attributing the planet-common rotation to a *frame-tie* (reducible) and the
+/// Moon-excess to *lunar-orbit-orientation dynamics* (irreducible) is a stated
+/// modelling interpretation. The convention-free, robust claim is the
+/// Moon-**excess** rotation (`theta_excess`): no whole-frame convention removes
+/// it. All magnitude fields carry `VerificationStatus::Modelled` with a
+/// representativeness note. The only Validated claim is this split applied to
+/// real inter-ephemeris data in `tests/lunar_interop_budget_reference.rs`.
+#[derive(Debug, Clone, Copy)]
+pub struct ProvenanceSplit {
+    /// Raw RMS of `|moon_to[i] − moon_from[i]|`, metres.
+    pub raw_rms_m: f64,
+    /// RMS residual after the rotation-only fit of the Moon pair, metres.
+    pub rot_residual_m: f64,
+    /// Best-fit rotation of the Moon pair `[θ_x, θ_y, θ_z]`, radians.
+    pub theta_moon: Vec3,
+    /// Component-wise median of planet-pair rotations — the estimated common frame-tie, radians.
+    pub theta_frametie: Vec3,
+    /// `theta_moon − theta_frametie`: Moon-excess not attributable to a frame convention, radians.
+    pub theta_excess: Vec3,
+    /// `|theta_frametie| · lever_arm_m` — magnitude removable by adopting a common frame, metres.
+    pub reducible_m: f64,
+    /// `|theta_excess| · lever_arm_m` — magnitude irreducible by any whole-frame choice, metres.
+    pub irreducible_m: f64,
+}
+
+/// Decompose a cross-provider lunar disagreement into a reducible common frame-tie
+/// and an irreducible Moon-specific excess rotation.
+///
+/// **Algorithm:**
+/// 1. `(theta_moon, rot_residual_m) = rotation_fit(moon_from, moon_to)`;
+///    `raw_rms_m = √(Σ|moon_to[i] − moon_from[i]|² / N)`.
+/// 2. For each `(from, to)` in `planet_pairs`, `theta_k = rotation_fit(from, to).0`.
+/// 3. `theta_frametie` = component-wise **median** of `{theta_k}` (even count →
+///    mean of the two central values per component, sorted independently).
+/// 4. `theta_excess = theta_moon − theta_frametie`.
+/// 5. `reducible_m = |theta_frametie| · lever_arm_m`;
+///    `irreducible_m = |theta_excess| · lever_arm_m` (Euclidean norms).
+///
+/// **Interpretation caveat:** attributing the planet-common rotation to a frame-tie
+/// (reducible) and the Moon-excess to dynamics (irreducible) is a stated modelling
+/// interpretation. The convention-free claim is `theta_excess` — no whole-frame
+/// choice removes it.
+///
+/// # Panics
+///
+/// Panics if `moon_from` or `moon_to` is empty or mismatched, or if `planet_pairs`
+/// is empty, or any planet pair is empty or mismatched.
+pub fn provenance_split(
+    moon_from: &[Vec3],
+    moon_to: &[Vec3],
+    planet_pairs: &[(Vec<Vec3>, Vec<Vec3>)],
+    lever_arm_m: f64,
+) -> ProvenanceSplit {
+    assert!(!moon_from.is_empty(), "provenance_split: empty moon_from");
+    assert!(
+        !planet_pairs.is_empty(),
+        "provenance_split: empty planet_pairs"
+    );
+
+    // Step 1: Moon pair — rotation fit + raw rms.
+    let (theta_moon, rot_residual_m) = rotation_fit(moon_from, moon_to);
+    let n_moon = moon_from.len() as f64;
+    let raw_sq: f64 = moon_from
+        .iter()
+        .zip(moon_to.iter())
+        .map(|(p, q)| {
+            let d = [q[0] - p[0], q[1] - p[1], q[2] - p[2]];
+            d[0] * d[0] + d[1] * d[1] + d[2] * d[2]
+        })
+        .sum();
+    let raw_rms_m = (raw_sq / n_moon).sqrt();
+
+    // Step 2: Fit each planet pair → one theta per planet.
+    let planet_thetas: Vec<Vec3> = planet_pairs
+        .iter()
+        .map(|(from, to)| rotation_fit(from, to).0)
+        .collect();
+
+    // Step 3: Component-wise median of planet thetas.
+    let theta_frametie = component_median(&planet_thetas);
+
+    // Step 4: Moon-excess rotation not attributable to any whole-frame convention.
+    let theta_excess = [
+        theta_moon[0] - theta_frametie[0],
+        theta_moon[1] - theta_frametie[1],
+        theta_moon[2] - theta_frametie[2],
+    ];
+
+    // Step 5: Reducible and irreducible metre-equivalent magnitudes.
+    let reducible_m = norm3(theta_frametie) * lever_arm_m;
+    let irreducible_m = norm3(theta_excess) * lever_arm_m;
+
+    ProvenanceSplit {
+        raw_rms_m,
+        rot_residual_m,
+        theta_moon,
+        theta_frametie,
+        theta_excess,
+        reducible_m,
+        irreducible_m,
+    }
+}
+
+/// Component-wise median of a slice of [`Vec3`] values.
+///
+/// Each of the three components is sorted independently. For an even number of
+/// values the mean of the two central values is returned per component.
+fn component_median(thetas: &[Vec3]) -> Vec3 {
+    let n = thetas.len();
+    assert!(n > 0, "component_median: empty slice");
+    let mut result = [0.0_f64; 3];
+    for (ci, res) in result.iter_mut().enumerate() {
+        let mut vals: Vec<f64> = thetas.iter().map(|t| t[ci]).collect();
+        vals.sort_by(f64::total_cmp);
+        *res = if n % 2 == 1 {
+            vals[n / 2]
+        } else {
+            (vals[n / 2 - 1] + vals[n / 2]) / 2.0
+        };
+    }
+    result
+}
+
+/// Euclidean norm of a [`Vec3`].
+fn norm3(v: Vec3) -> f64 {
+    (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]).sqrt()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -268,5 +401,119 @@ mod tests {
             "adding scale cannot worsen the residual"
         );
         assert!(rot_res < 1e-6);
+    }
+
+    /// Scaled point cloud at radius `r` — same orbital sweep as `cloud` but at a
+    /// different heliocentric distance, used to build distinct planet-like samples.
+    fn cloud_scaled(n: usize, r: f64) -> Vec<Vec3> {
+        (0..n)
+            .map(|k| {
+                let a = (k as f64) * 0.11;
+                [r * a.cos(), r * a.sin(), 0.20 * r * (0.5 * a).sin()]
+            })
+            .collect()
+    }
+
+    #[test]
+    fn provenance_split_recovers_frametie_and_excess() {
+        // Synthetic truth: Moon sees frametie + known_excess; each planet sees only frametie.
+        let frametie: Vec3 = [1.5e-9, -2.3e-9, 0.8e-9];
+        let known_excess: Vec3 = [0.4e-9, -0.7e-9, 1.1e-9];
+        let moon_rot: Vec3 = [
+            frametie[0] + known_excess[0],
+            frametie[1] + known_excess[1],
+            frametie[2] + known_excess[2],
+        ];
+        let lever = 3.84e8_f64;
+
+        let moon_from = cloud(120);
+        let moon_truth = Datum7 {
+            t_m: [0.0; 3],
+            scale: 0.0,
+            rot_rad: moon_rot,
+        };
+        let moon_to = apply(&moon_truth, &moon_from);
+
+        // Four planet-like clouds at Mercury/Venus/Earth/Mars-scale radii — distinct so
+        // the component-wise median is well-determined for both odd and even counts.
+        let planet_truth = Datum7 {
+            t_m: [0.0; 3],
+            scale: 0.0,
+            rot_rad: frametie,
+        };
+        let planet_pairs: Vec<(Vec<Vec3>, Vec<Vec3>)> = [5.7e10_f64, 1.08e11, 1.50e11, 2.28e11]
+            .iter()
+            .map(|&r| {
+                let from = cloud_scaled(120, r);
+                let to = apply(&planet_truth, &from);
+                (from, to)
+            })
+            .collect();
+
+        let split = provenance_split(&moon_from, &moon_to, &planet_pairs, lever);
+
+        // theta_frametie and theta_excess must match truth to < 1e-12 rad (abs).
+        for i in 0..3 {
+            assert!(
+                (split.theta_frametie[i] - frametie[i]).abs() < 1e-12,
+                "theta_frametie[{i}]: got {:.6e}, expected {:.6e}",
+                split.theta_frametie[i],
+                frametie[i]
+            );
+            assert!(
+                (split.theta_excess[i] - known_excess[i]).abs() < 1e-12,
+                "theta_excess[{i}]: got {:.6e}, expected {:.6e}",
+                split.theta_excess[i],
+                known_excess[i]
+            );
+        }
+
+        // irreducible_m ≈ |known_excess| * lever_arm to 1e-6 relative.
+        let excess_norm =
+            (known_excess[0].powi(2) + known_excess[1].powi(2) + known_excess[2].powi(2)).sqrt();
+        let expected_irr = excess_norm * lever;
+        assert!(
+            (split.irreducible_m - expected_irr).abs() / expected_irr < 1e-6,
+            "irreducible_m: got {:.6e}, expected {:.6e}",
+            split.irreducible_m,
+            expected_irr
+        );
+    }
+
+    #[test]
+    fn provenance_split_zero_excess_gives_near_zero_irreducible() {
+        // When Moon rotation == frametie (no excess), irreducible_m must be negligible.
+        let frametie: Vec3 = [1.5e-9, -2.3e-9, 0.8e-9];
+        let lever = 3.84e8_f64;
+
+        let moon_from = cloud(120);
+        let moon_truth = Datum7 {
+            t_m: [0.0; 3],
+            scale: 0.0,
+            rot_rad: frametie,
+        };
+        let moon_to = apply(&moon_truth, &moon_from);
+
+        let planet_truth = Datum7 {
+            t_m: [0.0; 3],
+            scale: 0.0,
+            rot_rad: frametie,
+        };
+        let planet_pairs: Vec<(Vec<Vec3>, Vec<Vec3>)> = [5.7e10_f64, 1.08e11, 2.28e11]
+            .iter()
+            .map(|&r| {
+                let from = cloud_scaled(120, r);
+                let to = apply(&planet_truth, &from);
+                (from, to)
+            })
+            .collect();
+
+        let split = provenance_split(&moon_from, &moon_to, &planet_pairs, lever);
+        // |theta_excess| < ~1e-11 rad  →  irreducible_m < 1e-3 m at 3.84e8 lever.
+        assert!(
+            split.irreducible_m < 1e-3,
+            "zero excess must give irreducible_m < 1e-3 m, got {:.3e}",
+            split.irreducible_m
+        );
     }
 }
