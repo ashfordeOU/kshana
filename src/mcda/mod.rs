@@ -21,6 +21,13 @@
 //! * [`wpm`] — **Weighted Product Model** (value): the multiplicative sibling,
 //!   `Πⱼ nᵢⱼ^wⱼ` over sum-normalised values — scale-invariant, no additive unit-mixing,
 //!   with hard-zero annihilation.
+//! * [`waspas`] — **WASPAS** (value): the convex blend `λ·WSM + (1−λ)·WPM` over
+//!   linear-normalised values, the stability-hardened middle ground between the two.
+//! * [`moora`] — **MOORA** (ratio): vector-normalised weighted benefit total minus
+//!   weighted cost total — a signed ratio-system score.
+//! * [`copras`] — **COPRAS** (proportional): benefit significance plus a cost
+//!   significance inversely proportional to the alternative's own weighted cost, and
+//!   the utility degree `Q / max Q`.
 //! * [`topsis`] — **TOPSIS** (distance): relative closeness to the weighted positive
 //!   / negative ideal solutions under min–max normalisation.
 //! * [`vikor`] — **VIKOR** (compromise): group-utility `S`, individual-regret `R` and
@@ -48,11 +55,15 @@
 //! simulator's outputs, not a new physical measurement: every method here is a
 //! textbook closed-form procedure, so the strongest claim any of them can carry is
 //! "reproduces an independent reference implementation / published worked example to
-//! a stated tolerance." Six aggregators clear that bar against an external oracle to
-//! < 1e-9: **WSM, WPM, TOPSIS, VIKOR, PROMETHEE II** against the third-party `pymcdm`
-//! library, and **ELECTRE I** (concordance/discordance/dominance/kernel, element for
-//! element) against the third-party `pyDecision` library (see the `tests/mcda_*_reference.rs`
-//! cross-checks). The **AHP** priority vector + Consistency Ratio reproduce Saaty's
+//! a stated tolerance." Nine aggregators clear that bar against an external oracle to
+//! < 1e-9: **WSM, WPM, WASPAS, MOORA, TOPSIS, VIKOR, PROMETHEE II** against the
+//! third-party `pymcdm` library, and **ELECTRE I** (concordance/discordance/dominance/
+//! kernel, element for element) plus **COPRAS** against the third-party `pyDecision`
+//! library (see the `tests/mcda_*_reference.rs` cross-checks). COPRAS uses `pyDecision`
+//! deliberately: `pymcdm` 1.4.0's `COPRAS` collapses to the trivial `S⁺+S⁻` and is
+//! not a faithful reference, whereas `pyDecision` implements the canonical
+//! relative-significance formula. The **AHP** priority vector + Consistency Ratio
+//! reproduce Saaty's
 //! canonical Random Index table exactly and the SciPy/LAPACK principal eigensolver to
 //! < 1e-9. The Pareto, sensitivity, and utility pieces are property- and
 //! known-answer-checked closed form — honestly *Modelled*, not externally validated.
@@ -64,13 +75,16 @@
 //! the honest way to earn confidence a single method cannot give.
 
 pub mod ahp;
+pub mod copras;
 pub mod electre;
+pub mod moora;
 pub mod pareto;
 pub mod promethee;
 pub mod sensitivity;
 pub mod topsis;
 pub mod utility;
 pub mod vikor;
+pub mod waspas;
 pub mod wpm;
 pub mod wsm;
 
