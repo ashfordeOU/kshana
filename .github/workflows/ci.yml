@@ -212,8 +212,14 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - name: Build the public crate standalone
         run: cargo build -p kshana
-      - name: Test the public crate (includes registry conformance suite)
-        run: cargo test -p kshana
+      # Scope to the crate's unit tests plus the registry dispatch-seam suite. The
+      # multi-minute agency/precise-OD validation binaries (agency_lro ~24 min,
+      # agency_swarm ~11 min, property, ...) already run in the `check` job's
+      # `cargo test --all`; re-running them here overran the focused 30-min budget
+      # for zero extra coverage (single crate: `-p kshana` == `--all`), which is
+      # what this job's "faster-failing restatement" header promises to avoid.
+      - name: Test the public crate (unit tests + registry conformance/dispatch seam)
+        run: cargo test -p kshana --lib --test conformance --test external_pack --test registry_golden
   wasm-registry:
     runs-on: ubuntu-latest
     timeout-minutes: 30
