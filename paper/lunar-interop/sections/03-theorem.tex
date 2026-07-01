@@ -1,0 +1,230 @@
+\section{The consistency-tolerance theorem}
+\label{sec:theorem}
+
+This section states and proves the first contribution: a gauge lemma, a measured
+affine reducible/irreducible split with a proven removability structure, a closed-form
+consistency tolerance, and the design-law corollary. Each result carries an explicit
+honesty label. The algebraic statements (Lemma~\ref{lem:gauge}, the removability
+structure of Lemma~\ref{lem:split}, the triangle bound, and the $\tau(B)$ inversion
+form) are \Proven{}; the affine \emph{attribution} of the recovered rotation into a
+frame-tie and a Moon-excess is a modelling interpretation, stated as such
+(Remark~\ref{rem:attribution}); and the $B_{\mathrm{eff}}$ inflation and every
+system-level magnitude are \Modelled{}.
+
+\subsection{Gauge invisibility of a common datum}
+
+\begin{lemma}[Gauge invisibility and the differential tax]
+\label{lem:gauge}
+A datum component \emph{common} to all providers---$\datum_a=\datum$ for every
+$a$---is unobservable to any single-provider user and, being common, also cancels in
+provider-versus-provider fusion, $\datum_{ab}=\datum_b-\datum_a=\bm 0$. It becomes a
+real position error only against an \emph{absolute external tie}: a landmark surveyed
+in a designated frame that does not carry the same gauge. The object a purely
+multi-provider (fusion or hand-off) user pays is instead the \emph{differential} datum
+$\datum_{ab}\neq\bm 0$ that two providers do not share---the interop tax, and the
+quantity Section~\ref{sec:interephemeris} measures.
+\end{lemma}
+
+\begin{proof}
+A single provider's internal range and PVT observables depend only on relative
+geometry: distances, delays, and clock differences between points expressed in that
+provider's own frame. These are invariant under the frame \emph{gauge}---the subspace
+of similarity transforms that the provider's own observations cannot fix. For the
+single-frame lunar datum this residual gauge is generically of dimension at most six
+and collapses toward zero once lunar libration is observed and the scale becomes
+observable \citep{baweja2026datum}; it is \emph{not} the full seven-parameter
+similarity group. A common datum $\datum$ lying in that gauge changes no internal
+observable, so it is invisible intra-provider. Now form the cross-provider difference
+\eqref{eq:diffmodel}: a datum shared by both providers enters as
+$\datum_{ab}=\datum_b-\datum_a=\bm 0$ and cancels identically---fusing or handing off
+between two providers that share a gauge costs nothing. The common gauge becomes a
+real position error only when a provider coordinate is tied to an \emph{absolute}
+external reference that does not carry the same gauge, at which point it appears as
+$\Jac(\bm{p})\datum$; adopting a designated realization (one provider's frame, or a
+designated ILRF realization \citep{sosnica2025ilrf,altamimi2016itrf2014}) as the
+shared datum removes it by construction. The tax that a purely multi-provider user
+pays is therefore not the common gauge but the \emph{differential} datum
+$\datum_{ab}\neq\bm 0$ of \eqref{eq:diffmodel}, the part the two providers do not
+share.
+\end{proof}
+
+\noindent Lemma~\ref{lem:gauge} separates two objects that are easily conflated: a
+\emph{common} gauge, which cancels in multi-provider fusion and bites only against an
+absolute tie, and the \emph{differential} datum $\datum_{ab}$, which is invisible to
+each provider in isolation but real the instant two providers are mixed. The interop
+tax is the second. The lemma also identifies the mechanism by which a convention
+helps---agreement that shrinks $\datum_{ab}$ toward a shared realization---and thereby
+sets up the split.
+
+\subsection{The reducible/irreducible split}
+
+\begin{lemma}[Reducible/irreducible split]
+\label{lem:split}
+The cross-provider interop tax admits the measured affine split
+$\reduc + \irr + \resid$, where $\reduc$ (the reducible part) is the body-common
+Helmert rotation $\rot_{\mathrm{tie}}$, $\irr$ (the irreducible part) is the
+body-specific Moon-excess rotation
+$\rot_{\mathrm{exc}}=\rot_{\mathrm{moon}}-\rot_{\mathrm{tie}}$, and $\resid$ is the
+non-Helmert residual. Adopting a common frame realization sets $\reduc\to0$ and
+leaves $\irr$ and $\resid$ unchanged; only adopting a common designated dynamical
+reference sets $\irr\to0$ (and drives $\resid\to0$ with it). The split is affine, not
+orthogonal: $\rot_{\mathrm{tie}}$ and $\rot_{\mathrm{exc}}$ are in general
+non-parallel.
+\end{lemma}
+
+\begin{proof}
+Write the pairwise tax from \eqref{eq:diffmodel} as
+$\Jac(\bm{p})\datum_{ab}+\resid_{ab}$. Split the recovered Moon rotation as
+$\rot_{\mathrm{moon}}=\rot_{\mathrm{tie}}+\rot_{\mathrm{exc}}$, where
+$\rot_{\mathrm{tie}}$ is the body-common frame-tie rotation estimated from the
+planetary positions (Section~\ref{sec:interephemeris}) and
+$\rot_{\mathrm{exc}}=\rot_{\mathrm{moon}}-\rot_{\mathrm{tie}}$ is the Moon-specific
+remainder; set $\reduc=\Jac(\bm{p})\rot_{\mathrm{tie}}$,
+$\irr=\Jac(\bm{p})\rot_{\mathrm{exc}}$, and keep $\resid_{ab}$ as a separate term.
+This is a measured \emph{affine} decomposition, not an orthogonal one:
+$\rot_{\mathrm{tie}}$ and $\rot_{\mathrm{exc}}$ need not be perpendicular---on the real
+data they are $52^\circ$--$157^\circ$ apart (Section~\ref{sec:interephemeris})---so
+the metre envelopes $\|\reduc\|$ and $\|\irr\|$ do not combine in quadrature to the
+raw disagreement. What the proof establishes is the \emph{removability} structure. A
+common frame realization is a single similarity transform applied to every
+coordinate; it can cancel only a body-common rotation, so it sets $\reduc\to0$ and
+leaves $\rot_{\mathrm{exc}}$ (hence $\irr$) and the residual $\resid_{ab}$
+untouched---$\rot_{\mathrm{exc}}$ is by construction the part of the lunar rotation
+absent from the planetary tie, and $\resid_{ab}$ is, in the aggregate least-squares
+sense $\sum_i\Jac(\bm p_i)^{\!\top}\resid_{ab}(\bm p_i)=\bm 0$, the component of the
+difference that no constant Helmert transform reaches. A common designated dynamical
+reference replaces each provider's broadcast dynamics with one shared ephemeris, which
+by construction makes the differenced dynamics vanish and sets $\irr\to0$ (and
+$\resid_{ab}\to0$).
+\end{proof}
+
+\begin{remark}[The attribution is a modelling interpretation]
+\label{rem:attribution}
+Lemma~\ref{lem:split} establishes the removability structure---which convention
+removes which part---and is \Proven{} at that level. The affine \emph{attribution} of
+the recovered rotation into a frame-tie and a Moon-excess, and which physical cause we
+assign to each, is a modelling choice. We
+identify the body-common rotation with a removable ICRF \emph{frame-tie} (reducible)
+and the Moon-specific excess with irreducible \emph{dynamics}. The convention-free,
+attribution-independent content is the Moon-\emph{excess} rotation: it is by
+construction the part of the lunar disagreement that does \emph{not} appear in the
+planetary frame-tie, so it is unambiguously Moon-specific and therefore removable by
+no whole-frame choice. The reader who declines the frame-tie interpretation may read
+the split as ``planet-common rotation'' versus ``Moon-excess rotation'' and lose only
+the word \emph{reducible}, not the irreducible floor. We restate this caveat wherever
+the split is used (Sections~\ref{sec:interephemeris},~\ref{sec:budget},~%
+\ref{sec:discussion}).
+\end{remark}
+
+\subsection{The consistency tolerance}
+
+Let a mixed-provider user evaluate coordinates at lunocentric lever arm $\Rmoon$
+(for a surface user, $\Rmoon=R_{\mathrm{Moon}}$; for the geocentric Moon state,
+$\Rmoon$ is the Earth--Moon distance). The worst-case interop-tax position error from
+a Helmert disagreement $\datum=(\ttrans,s,\rot)$ obeys a triangle bound.
+
+\begin{theorem}[Consistency tolerance]
+\label{thm:tolerance}
+For a body-point at radius $\|\bm{p}\|\le\Rmoon$,
+\begin{equation}
+  \bigl|\Delta\xstate(\bm{p})\bigr|
+  \;=\; \bigl|\Jac(\bm{p})\datum\bigr|
+  \;\le\; |\ttrans| + |s|\,\Rmoon + |\rot|\,\Rmoon .
+  \label{eq:triangle}
+\end{equation}
+Consequently, to hold the interop tax within a budget $B$, the cross-provider
+consistency tolerances on the individual Helmert parameters are
+\begin{equation}
+  |\ttrans| \le \tau_t = B_{\mathrm{eff}},
+  \qquad
+  |s| \le \tau_s = \frac{B_{\mathrm{eff}}}{\Rmoon},
+  \qquad
+  |\rot| \le \tau_\theta = \frac{B_{\mathrm{eff}}}{\Rmoon},
+  \label{eq:tau}
+\end{equation}
+with $B_{\mathrm{eff}}=B$ if the per-provider frame is realized exactly and
+$B_{\mathrm{eff}}=\sqrt{\max(0,\,B^2-\sigma_{\mathrm{real}}^2)}$ otherwise, where
+$\sigma_{\mathrm{real}}$ is the single-provider datum-realization standard deviation
+from the companion frame-error covariance \citep{baweja2026datum}. At the lunar lever
+arm the scale and rotation tolerances coincide at $B_{\mathrm{eff}}/\Rmoon$ and are
+the binding (tightest) constraints; since $\Rmoon$ is large, an orientation error is
+the cheapest way to exhaust the budget.
+\end{theorem}
+
+\begin{proof}
+From \eqref{eq:pointjac},
+$\Jac(\bm{p})\datum=\ttrans+s\bm{p}+\rot\times\bm{p}$. The triangle inequality gives
+$|\Jac(\bm{p})\datum|\le|\ttrans|+|s|\,\|\bm{p}\|+|\rot\times\bm{p}|$, and
+$|\rot\times\bm{p}|\le|\rot|\,\|\bm{p}\|\le|\rot|\,\Rmoon$ while
+$|s|\,\|\bm{p}\|\le|s|\,\Rmoon$; substituting $\|\bm{p}\|\le\Rmoon$ yields
+\eqref{eq:triangle}. For the tolerance: if a single Helmert parameter is nonzero, the
+bound \eqref{eq:triangle} contributes exactly that term, and requiring it not to
+exceed $B_{\mathrm{eff}}$ gives \eqref{eq:tau}; the translation term is dimensionless
+in $\Rmoon$ while the scale and rotation terms carry the factor $\Rmoon$, so at
+$\Rmoon\gg1$ the latter two bind first, at the common value $B_{\mathrm{eff}}/\Rmoon$.
+The inflation $B_{\mathrm{eff}}=\sqrt{\max(0,B^2-\sigma_{\mathrm{real}}^2)}$ follows
+from budgeting in quadrature: a frame the provider cannot even realize consumes
+$\sigma_{\mathrm{real}}$ of the budget, leaving
+$\sqrt{B^2-\sigma_{\mathrm{real}}^2}$ for cross-provider agreement.
+\end{proof}
+
+\noindent The triangle bound \eqref{eq:triangle} and the inversion form
+\eqref{eq:tau} are \Proven{}. Each tolerance in \eqref{eq:tau} bounds a \emph{single}
+Helmert parameter \emph{in isolation}: it is the largest that parameter may be if it
+alone is nonzero. If translation, scale, and rotation saturate their tolerances
+simultaneously, the triangle bound \eqref{eq:triangle} permits a combined error of up
+to $3B_{\mathrm{eff}}$. A joint budget guarantee therefore requires allocating $B$
+across the three terms---$B/3$ apiece for a hard split, or a quadrature allocation of
+the expected magnitudes---rather than granting each parameter the full
+$B_{\mathrm{eff}}$; \eqref{eq:tau} states the per-parameter ceilings, not a
+simultaneous one. The $B_{\mathrm{eff}}$ inflation is \Modelled{}: it
+depends on the companion CRLB $\sigma_{\mathrm{real}}$, itself a modelled magnitude,
+and on treating realization and cross-provider errors as independent. When the
+per-provider realization is taken as exact (as in the reported tolerance map,
+Section~\ref{sec:budget}), $B_{\mathrm{eff}}=B$ and the tolerance is exact. The
+quantity $\tau(B)$ is precisely what an interoperability specification must state to
+convert a user PVT budget into a required per-provider frame-and-dynamics agreement:
+it is the number a standard at the AD-5 level---still unreleased---must contain.
+
+\subsection{The design-law corollary}
+
+\begin{corollary}[Frame-versus-ephemeris design law]
+\label{cor:designlaw}
+Define the \emph{irreducible fraction} of the cross-provider rotation budget as the
+linear ratio
+\begin{equation}
+  f_{\irr} \;:=\;
+  \frac{\|\rot_{\mathrm{exc}}\|_{\mathrm{rms}}}
+       {\|\rot_{\mathrm{tie}}\|_{\mathrm{rms}}+\|\rot_{\mathrm{exc}}\|_{\mathrm{rms}}} .
+  \label{eq:irrfrac}
+\end{equation}
+Under the frame convention today's interoperability standards pursue---agree on frame
+tags, format, and an ICRF realization, i.e.\ set $\reduc\to0$ but not $\irr\to0$---the
+residual interop tax is carried by $\rot_{\mathrm{exc}}$ (plus the small non-Helmert
+residual). If $f_{\irr}>\tfrac12$, the irreducible rotation exceeds the reducible one,
+so a common frame/format convention leaves the \emph{dominant} share of the
+cross-provider orientation disagreement in place; closing it requires additionally
+mandating a common (or consistency-bounded) designated dynamical reference, which sets
+$\irr\to0$.
+\end{corollary}
+
+\begin{proof}
+Immediate from Lemma~\ref{lem:split}: adopting a common frame realization removes
+$\reduc$ and leaves $\rot_{\mathrm{exc}}$, so the post-convention orientation tax is
+$\|\rot_{\mathrm{exc}}\|$. The linear ratio \eqref{eq:irrfrac} exceeds $\tfrac12$
+exactly when
+$\|\rot_{\mathrm{exc}}\|_{\mathrm{rms}}>\|\rot_{\mathrm{tie}}\|_{\mathrm{rms}}$. Because
+the split is affine rather than orthogonal (Lemma~\ref{lem:split}), we compare the
+rotations directly and do not combine them in quadrature; the lever-arm-independent
+rotations are the primary quantities, with metres following as worst-case envelopes at
+a stated lever arm (Section~\ref{sec:budget}). Removing $\irr$ requires the differenced
+dynamics to vanish, which a common designated ephemeris achieves by construction.
+\end{proof}
+
+\noindent Corollary~\ref{cor:designlaw} is a proven implication of the split; its
+\emph{premise}---whether the irreducible fraction actually exceeds $\tfrac12$ for real
+lunar providers---is an empirical question answered by the inter-ephemeris anchor of
+the next section, where we measure an irreducible fraction of $0.687$ (the irreducible
+rotation is about twice the reducible) for the representative provider set. That the
+premise holds, and hence that a common format leaves a real floor, is the design law's
+content; the specific magnitude of the floor is \Modelled{} (Section~\ref{sec:budget}).

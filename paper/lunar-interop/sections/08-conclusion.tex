@@ -1,0 +1,45 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+A multi-provider lunar PNT architecture needs a number that no interoperability
+standard yet publishes: the consistency tolerance, the maximum cross-provider
+frame-and-dynamics disagreement a user can absorb within a positioning budget. The
+LunaNet Interoperability Specification defers it to a still-unreleased applicable
+document---AD-5, the Lunar Reference System and LunaNet Reference Time System Standard
+({LNIS-TBD-AD0005})---which does not yet specify one. We have supplied it in three
+parts. A consistency-tolerance theorem shows the interop tax is a free-network gauge
+phenomenon---a datum common to all providers is invisible to a single provider and
+cancels in provider-versus-provider fusion, while the \emph{differential} datum that
+two providers do not share is the tax---that splits, as a measured affine
+decomposition of the recovered rotation, into a reducible part a common frame removes
+and an irreducible part only a common ephemeris removes, and that inverts into a
+closed-form tolerance $\tau(B)=B/R_{\mathrm{Moon}}$, binding on orientation, for a
+user budget $B$. The only real ``multiple providers'' that exist today---the three
+independent authoritative lunar ephemerides DE440, INPOP21a, and EPM2021---anchor the
+budget: their measured 2024--2025 geocentric-Moon disagreement is an orientation
+effect (a constant rotation explains $71$--$94\%$ by amplitude, $91$--$99.7\%$ by
+variance), splitting into a reducible frame-tie and an irreducible Moon-excess
+($\approx\!5$--$6$~nrad, a $\approx\!\SI{2}{m}$ geocentric-Moon-state envelope at the
+Earth--Moon lever arm) for the JPL-versus-others pairs; this decomposition is
+validated against an independent SciPy reference to a tolerance below $10^{-3}$.
+Folding the two together gives the design law: with an irreducible fraction of
+$0.687$ (the irreducible rotation about twice the reducible), a common
+format-and-frame tag leaves the dominant $\approx\!\SI{1.8}{m}$ geocentric-Moon-state
+floor---only millimetres for a surface user---and closing it requires mandating a
+common (or consistency-bounded) dynamical reference.
+
+The design law is compact enough to state in one line: \emph{for cross-provider lunar
+PNT, standardize the ephemeris, not just the format.} It gives interoperability
+programmes---LNIS AD-5, ESA Moonlight/LCNS, the CCSDS/IOAG cislunar standards---a
+concrete, real-data-backed requirement structure and a tolerance map, on an open,
+fully reproducible substrate. The theorem and the gauge lemma are proven; the
+inter-ephemeris decomposition is validated on real data; the system-level budget and
+tolerance map are explicitly modelled, because the providers are ephemerides and no
+two lunar-PNT providers fly. This paper is the second of a programme on lunar-PNT
+requirements science built on the same substrate as the companion datum-%
+identifiability paper \citep{baweja2026datum}; before any absolute budget number is
+trusted, a real multi-provider deployment must substitute flight data for the
+representative ephemeris analog used here. The convention-free content---an
+irreducible, orientation-type, Moon-specific disagreement between the real lunar
+dynamical references, removable by no coordinate convention---will carry over
+unchanged.

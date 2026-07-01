@@ -1,0 +1,110 @@
+\section{Methods and modelled assumptions}
+\label{app:methods}
+
+This appendix records the ephemeris handling, frame and timescale conventions, the
+sampling and numerical method, and the frame-tie discrimination behind the results.
+All are consistent with the vendored provenance notice
+(Section~\ref{sec:availability}).
+
+\subsection{Ephemeris provenance and access}
+\label{app:provenance}
+
+Three independent authoritative ephemeris families are differenced, read through the
+IMCCE \code{calceph} library so that all three are accessed by a single interface in
+one frame and timescale:
+\begin{itemize}
+  \item \textbf{DE440} (JPL/NASA), kernel \code{de440s.bsp}
+  \citep{park2021de440}, from
+  \url{https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/de440s.bsp};
+  \item \textbf{INPOP21a} (IMCCE / Observatoire de Paris), kernel
+  \code{inpop21a\_TDB\_}\allowbreak\code{m100\_p100\_}\allowbreak\code{littleendian.dat}
+  \citep{fienga2021inpop21a}, from
+  \url{https://ftp.imcce.fr/pub/ephem/planets/inpop21a/};
+  \item \textbf{EPM2021} (IAA~RAS), kernel \code{epm2021.bsp}
+  \citep{pitjeva2021epm2021}, from \url{https://ftp.iaaras.ru/pub/epm/EPM2021/SPICE/}.
+\end{itemize}
+Following the vendoring convention of the companion paper's LLR fixtures
+\citep{baweja2026datum}, the kernels are \emph{not} redistributed (they are large and
+their redistribution terms vary); only the sampled derived positions and the computed
+reference decomposition are vendored. Published scientific ephemeris positions are
+factual constants and are not copyrightable; the derived sample points are cited with
+full attribution to JPL, IMCCE, and IAA~RAS.
+
+\subsection{Frame, timescale, and sampling}
+\label{app:sampling}
+
+All positions are computed in the ICRF/J2000 frame and Barycentric Dynamical Time
+(TDB), so the three families are directly comparable without a frame or timescale
+conversion between them. Two position sets are sampled over the window 2024-01-01 to
+2025-12-31 (TDB) at two-day cadence ($366$ epochs):
+\begin{itemize}
+  \item \code{moon\_geo.csv}: the geocentric Moon position (NAIF body $301$ with
+  respect to $399$), in metres. This is the object whose disagreement is decomposed
+  in Table~\ref{tab:anchor}; its metre-per-nanoradian lever arm is the Earth--Moon
+  distance $\Rmoon=\SI{3.840e8}{m}$.
+  \item \code{planet\_ssb.csv}: the Mercury, Venus, Mars, and Earth--Moon-barycentre
+  positions with respect to the Solar System barycentre (NAIF bodies $1,2,4,3$ with
+  respect to $0$), in metres. These witness the common ICRF frame-tie rotation
+  (Section~\ref{app:frametie}).
+\end{itemize}
+Both files, and the SciPy oracle, round all positions to six decimals (micrometre
+resolution) \emph{before} the fit, so that the engine and the oracle consume
+byte-identical inputs. The validation therefore tests agreement of the two fitting
+\emph{algorithms}, not the coincidence of two independent samplings; any
+sampling-level difference is removed by the shared rounded fixture.
+
+\subsection{Numerical method}
+\label{app:numerics}
+
+The constant Helmert datum $\datum_{ab}$ of \eqref{eq:diffmodel} is the least-squares
+solution of the stacked point-difference system with design matrix rows
+$\Jac(\bm{p}_i)$. We solve the centred normal equations---subtracting the per-provider
+centroid before assembling the system---with Jacobi (diagonal) preconditioning. Two
+reasons motivate this choice. First, centring removes the translation--rotation
+cross-coupling that otherwise inflates the condition number: for points at radius
+$\sim\!\Rmoon$, the rotation and scale columns of $\Jac$ carry magnitudes
+$\sim\!\Rmoon$ while the translation columns are $O(1)$, so the raw normal matrix has
+condition number $\sim\!\Rmoon^2\sim10^{17}$; centring and Jacobi preconditioning
+(dividing each column by its norm) bring the columns to comparable scale and the
+condition number to $O(1)$, restoring double-precision accuracy. Second, for the
+rotation-only sub-fit \eqref{eq:rotonly} we use the closed-form singular value
+decomposition of the centred cross-covariance \citep{arun1987leastsquares}, which is
+the numerically stable route to the rotation and is the form the independent oracle
+also uses (so the two agree to the tight tolerance of Section~\ref{sec:oracle}). The
+general-purpose linear algebra follows standard practice
+\citep{golub2013matrix}.
+
+\subsection{Frame-tie discrimination and the Sun exclusion}
+\label{app:frametie}
+
+The reducible/irreducible split requires separating a rotation common to all bodies
+(a frame-tie) from a rotation specific to the Moon (dynamics). We estimate the
+body-common rotation $\rot_{\mathrm{tie}}$ by fitting the same rotation-only model
+\emph{separately} to each of the four witness bodies (Mercury, Venus, Mars, and the
+Earth--Moon barycentre), obtaining four per-body rotation vectors, and taking
+$\rot_{\mathrm{tie}}$ as their \emph{component-wise median} (the median of the four
+$x$-components, and likewise for $y$ and $z$). This is a deliberately robust but
+ad-hoc aggregate: the median resists a single discrepant witness, but it is
+\emph{not} a joint fit across the witness bodies and \emph{not} a weighted fit, and a
+different aggregation would shift the recovered $\rot_{\mathrm{tie}}$---and hence the
+split---quantitatively (Section~\ref{sec:limitations}). The Moon-specific excess is
+then $\rot_{\mathrm{exc}}=\rot_{\mathrm{moon}}-\rot_{\mathrm{tie}}$, and the metre
+envelopes of Table~\ref{tab:anchor} follow by mapping $\rot_{\mathrm{tie}}$ and
+$\rot_{\mathrm{exc}}$ through the Earth--Moon lever arm; because the two are in general
+non-parallel, these are worst-case upper bounds that do not sum to the raw
+disagreement.
+
+The witness set is the four inner bodies Mercury, Venus, Mars, and the Earth--Moon
+barycentre. The Sun is deliberately \emph{excluded}. The Sun's position with respect
+to the Solar System barycentre is dominated by the reflex motion imposed by the giant
+planets and is, by definition, tied to the barycentre convention itself; a difference
+in how two ephemeris families realize the barycentre therefore contaminates the Sun's
+SSB position with a signal that is not a clean rigid frame rotation. Including it would
+bias the frame-tie estimate toward a barycentre-definition artifact rather than the
+ICRF orientation tie we intend to capture. The inner planets and the Earth--Moon
+barycentre, by contrast, have SSB positions dominated by their own orbits and provide
+cleaner witnesses of a common frame rotation. This choice is a \Modelled{} decision;
+Section~\ref{sec:limitations} notes that a different witness set or weighting would
+shift the split quantitatively while leaving the qualitative Moon-excess dominance
+(for the JPL-versus-others pairs) intact, and that the convention-free content is the
+Moon-excess itself (Remark~\ref{rem:attribution}).

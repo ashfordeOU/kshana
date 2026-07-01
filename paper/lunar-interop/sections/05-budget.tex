@@ -1,0 +1,163 @@
+\section{The interop budget and the design law}
+\label{sec:budget}
+
+We now fold the theorem (Section~\ref{sec:theorem}) and the real anchor
+(Section~\ref{sec:interephemeris}) into a multi-provider interoperability budget and
+its consistency-tolerance map. Every quantity in this section is \Modelled{} and
+tagged \modtag{}: the ``providers'' are the three ephemerides, a representative
+analog for a real multi-provider constellation---\emph{no two lunar-PNT providers
+fly}---so the budget totals and tolerances describe the structure and ordering of the
+trade, not a certified system budget.
+
+\subsection{The budget under three frame conventions}
+\label{sec:budgetconventions}
+
+Combining the three provider pairs of Table~\ref{tab:anchor} gives a
+representative cross-provider position-inconsistency budget, evaluated under three
+interoperability conventions of increasing strength: (i) \code{PerProvider}, each
+user keeps each provider in its own realized frame and dynamics; (ii)
+\code{CommonFrameTie}, users adopt a common frame realization, removing the reducible
+frame-tie $\reduc$ but not the irreducible dynamics $\irr$---this is what today's
+format-and-frame standards achieve; and (iii) \code{CommonEphemeris}, users adopt a
+common designated dynamical reference, removing $\irr$ as well. Table~\ref{tab:budget}
+reports the result. Following the paper's convention, the rotations are the primary
+quantities and metres are envelopes: the reducible and irreducible columns are the
+RMS-combined frame-tie ($\SI{0.8182}{m}$, from
+$|\rot_{\mathrm{tie}}|_{\mathrm{rms}}=\SI{2.131}{nrad}$) and Moon-excess
+($\SI{1.7931}{m}$, from $|\rot_{\mathrm{exc}}|_{\mathrm{rms}}=\SI{4.669}{nrad}$)
+\emph{worst-case envelopes} $|\rot|\,\Rmoon$ at the Earth--Moon lever arm. The
+\code{PerProvider} total is the \emph{measured raw RMS} disagreement
+($\SI{1.855}{m}$), not the sum of the two envelopes, because $\rot_{\mathrm{tie}}$ and
+$\rot_{\mathrm{exc}}$ are non-parallel and the envelopes do not add in quadrature; each
+convention then zeroes the components it can remove. One further caveat is \Modelled{}:
+the three pairwise differences are linearly dependent
+($(A{-}B)+(B{-}C)=(A{-}C)$), so RMS-combining them overcounts the independent
+information---a deliberate, stated modelling choice for a representative envelope.
+
+\begin{table}[t]
+\centering
+\caption{Multi-provider interop budget (\Modelled{}, \modtag{}; the ``providers''
+are the three ephemerides, a representative analog). The reducible and irreducible
+columns are RMS-combined worst-case lever-arm envelopes $|\rot|\,\Rmoon$ at
+$\Rmoon=\SI{3.840e8}{m}$ (upper bounds; non-additive, since $\rot_{\mathrm{tie}}$ and
+$\rot_{\mathrm{exc}}$ are non-parallel). The \code{PerProvider} total is the
+\emph{measured raw RMS} disagreement ($\SI{1.855}{m}$), not a quadrature sum;
+\code{CommonFrameTie} removes the reducible frame-tie and leaves an
+irreducible-dominated $\approx\!\SI{1.8}{m}$ geocentric-Moon-state floor; only
+\code{CommonEphemeris} zeroes it. The irreducible fraction
+$\|\rot_{\mathrm{exc}}\|/(\|\rot_{\mathrm{tie}}\|+\|\rot_{\mathrm{exc}}\|)=0.687$
+(a linear ratio of the RMS rotations) is convention-independent. The three pairwise
+differences are linearly dependent ($(A{-}B)+(B{-}C)=(A{-}C)$), so the RMS combination
+overcounts---a \Modelled{} choice.}
+\label{tab:budget}
+\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+\textbf{Convention} & \textbf{reducible env.\ (m)} & \textbf{irreducible env.\ (m)} &
+\textbf{total (m)} & \textbf{irreducible fraction} \\
+\midrule
+\code{PerProvider}    & $0.8182$ & $1.7931$ & $1.8550$ & $0.6867$ \\
+\code{CommonFrameTie} & $0.8182$ & $1.7931$ & $1.8062$ & $0.6867$ \\
+\code{CommonEphemeris}& $0.8182$ & $1.7931$ & $0.0000$ & $0.6867$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The design law follows directly. The irreducible fraction is $0.687$: the irreducible
+Moon-excess rotation is about twice the reducible frame-tie, so more than two-thirds of
+the cross-provider orientation budget lives in the part that no coordinate convention
+removes. Adopting a common frame tie---agreeing on frame tags, format, and an ICRF
+realization---lowers the geocentric-Moon-state budget only from the measured
+$\SI{1.855}{m}$ to $\SI{1.8062}{m}$, leaving a $\approx\!\SI{1.8}{m}$
+irreducible-dominated floor (a Moon-state inconsistency at the Earth--Moon lever arm;
+the same excess rotation is only $\approx\!\SI{8}{mm}$ for a lunar-surface user); only
+a common designated dynamical reference drives the total to zero. The budget is
+monotone in convention strength,
+\code{CommonEphemeris}\,$\le$\,\code{CommonFrameTie}\,$<$\,\code{PerProvider}, as
+Corollary~\ref{cor:designlaw} requires. This is the concrete, real-data-backed input
+to an interoperability specification: \emph{a common format and frame realization is
+necessary but not sufficient; the cross-provider floor is set by the lunar-orbit
+dynamics, and closing it requires mandating a common (or consistency-bounded)
+ephemeris.}
+
+\subsection{The consistency tolerance map}
+\label{sec:tolmap}
+
+Inverting Theorem~\ref{thm:tolerance} for a lunar-surface user at
+$\Rmoon=R_{\mathrm{Moon}}=\SI{1737400}{m}$, with the per-provider realization taken
+as exact ($B_{\mathrm{eff}}=B$), gives the consistency tolerances of
+Table~\ref{tab:tolerance}: the maximum inter-provider disagreement, per Helmert
+parameter, that keeps a mixed-provider surface user within a position budget $B$. Note
+the lever arm here is the lunar \emph{surface} radius $R_{\mathrm{Moon}}$, two orders
+of magnitude smaller than the Earth--Moon lever arm at which the
+$\approx\!\SI{1.8}{m}$ geocentric-Moon-state floor of Table~\ref{tab:budget} is
+evaluated; the two tables therefore speak to different users (a surface asset versus an
+ephemeris/cislunar hand-off) and must not be compared metre-for-metre.
+
+\begin{table}[t]
+\centering
+\caption{Consistency tolerance $\tau(B)$ (\Modelled{}, \modtag{}) for a lunar-surface
+user at $\Rmoon=\SI{1737400}{m}$, from the triangle bound of
+Theorem~\ref{thm:tolerance} with $B_{\mathrm{eff}}=B$. The origin tolerance is $B$;
+the scale and rotation tolerances coincide at $B/\Rmoon$ and are the binding (tightest)
+constraints---an orientation error is the cheapest way to exhaust the budget at the
+lunar lever arm.}
+\label{tab:tolerance}
+\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+$\bm{B}$ \textbf{(m)} & \textbf{max origin (m)} & \textbf{max scale} &
+\textbf{max rotation (rad)} & \textbf{max rotation (nrad)} \\
+\midrule
+$5.0$  & $5.0000$  & $2.8779\times10^{-6}$ & $2.877863\times10^{-6}$ & $2877.86$ \\
+$10.0$ & $10.0000$ & $5.7557\times10^{-6}$ & $5.755727\times10^{-6}$ & $5755.73$ \\
+$15.0$ & $15.0000$ & $8.6336\times10^{-6}$ & $8.633590\times10^{-6}$ & $8633.59$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+For every budget the binding constraint is the rotation (equivalently the scale): at
+the lunar radius a rotation of $\SI{2877.86}{\nano\radian}$ already displaces a
+surface asset by the full $\SI{5}{m}$, whereas the origin can drift the full
+$\SI{5}{m}$ before it binds. This is consistent with, and explains the practical
+importance of, the real anchor being orientation-dominated
+(Section~\ref{sec:interephemeris}): the disagreement that actually exists between
+lunar providers is exactly of the kind---orientation---to which a surface user's
+budget is most sensitive. A specification writer can read Table~\ref{tab:tolerance} as
+the required cross-provider rotation agreement: to guarantee a $\SI{5}{m}$
+mixed-provider surface budget, compliant providers must agree in orientation to
+better than $\approx\!\SI{2.9}{\micro\radian}$. Whether they do so today is the
+question the anchor answers negatively for the irreducible Moon-excess: the measured
+excess rotations ($1.5$--$6.3$~nrad, Table~\ref{tab:anchor}) are nearly three orders of
+magnitude \emph{below} the $\SI{2877.86}{\nano\radian}$ tolerance (a factor of
+$460$--$1900$), so at a $\SI{5}{m}$ budget the current ephemeris-level orientation
+disagreement is not itself budget-threatening; the map's value is that it sets the
+tolerance a real provider constellation must not exceed, and identifies orientation as
+the parameter to watch.
+
+\subsection{Application to LNIS AD-5 and multi-provider procurement}
+\label{sec:application}
+
+Two immediate uses follow, both stated as \Modelled{} guidance rather than a
+certified budget. First, Table~\ref{tab:tolerance} supplies the functional form and
+representative magnitude of the cross-provider consistency tolerance that AD-5---the
+still-unreleased Lunar Reference System and LunaNet Reference Time System Standard
+({LNIS-TBD-AD0005})---does not yet specify: a user PVT budget $B$ maps to a
+per-parameter cross-provider tolerance, binding on orientation,
+$\tau_\theta=B/R_{\mathrm{Moon}}$. The alignment is pointed: the scope AD-5 itself
+declares---a lunar gravity field to finite degree and order together with a parametric
+precession/nutation model---is exactly the lunar-orbit dynamics that our anchor
+identifies as the irreducible floor, so a standard at the AD-5 level is already scoped
+over the very term that dominates the budget. Second, Table~\ref{tab:budget} gives a
+vendor-neutral design law for a multi-provider interoperability framework such as
+LunaNet, or an ESA procurement such as Moonlight/LCNS: mandating a common message
+format and frame realization is necessary but removes only the sub-metre reducible
+part; a residual floor set by the providers' independent lunar-orbit dynamics remains,
+and a programme that seeks metre-consistent multi-provider PNT must additionally
+require a common designated ephemeris, or bound the permissible ephemeris divergence,
+as an explicit interoperability criterion. We reiterate the honesty boundary: the
+ephemerides stand in for providers, the budget totals and tolerances are
+representative, and the reducible/irreducible attribution carries the caveat of
+Remark~\ref{rem:attribution}. The convention-free content is robust: an irreducible,
+orientation-type, Moon-specific disagreement exists between the real lunar dynamical
+references, and no coordinate convention removes it.

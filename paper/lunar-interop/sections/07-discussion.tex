@@ -1,0 +1,105 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Implications for interoperability standards}
+
+The practical import of the paper is one design law: \emph{a common format and frame
+is necessary but not sufficient; a metre-consistent multi-provider lunar PNT
+architecture must additionally mandate a common (or consistency-bounded) dynamical
+reference.} Today's interoperability work---LNIS, the CCSDS/IOAG cislunar standards,
+LunaNet \citep{lnis2023,ioag2022lunar,israel2020lunanet}---standardizes the parts of
+the disagreement that are, in our decomposition, \emph{reducible}: the message
+formats, the frame tags, and (through a designated ILRF realization
+\citep{sosnica2025ilrf}) the common frame-tie. That work is essential and it attacks
+the right quantity, orientation. But the real inter-ephemeris anchor shows the
+disagreement is dominated by an \emph{irreducible} Moon-specific orientation
+difference that no frame convention removes (irreducible fraction $0.687$: the
+irreducible rotation is about twice the reducible, Table~\ref{tab:budget}); a
+format-and-frame standard alone therefore leaves a $\approx\!\SI{1.8}{m}$
+geocentric-Moon-state floor at the Earth--Moon lever arm (a few millimetres for a
+surface user). Our contribution to the still-unreleased AD-5---the Lunar Reference
+System and LunaNet Reference Time System Standard ({LNIS-TBD-AD0005}), which does not
+yet specify a cross-provider consistency tolerance---is the functional form and
+representative magnitude of that tolerance (Table~\ref{tab:tolerance}), binding on
+orientation at $\tau_\theta=B/R_{\mathrm{Moon}}$; and it is doubly apposite because
+AD-5's own declared scope (a lunar gravity field to finite degree and order plus a
+parametric precession/nutation model) is exactly the lunar-orbit dynamics we identify
+as the floor. Our contribution to a vendor-neutral programme---a multi-provider
+framework such as LunaNet, or an ESA procurement such as Moonlight/LCNS---is the
+corresponding requirement structure: either a common designated lunar ephemeris, or an
+explicit bound on permissible ephemeris divergence, alongside the format and frame
+requirements.
+
+\subsection{Relation to prior work}
+
+This paper sits between two established strands and connects them. On one side, the
+user-side lunar-PNT performance analyses \citep{pohlmann2025hybrid,iiyama2023lupnt}
+bound the accuracy of locating a receiver given a single realized frame and dynamics;
+they do not model provider-to-provider disagreement. Our budget supplies exactly the
+missing input to those analyses: the cross-provider error a fusion or hand-off user
+incurs, on top of the single-provider CRLB, when the frame and dynamics are not
+shared. On the other side, the frame-realization work \citep{sosnica2025ilrf,%
+fienga2024moonlight} defines and realizes the ILRF and its timescales; our companion
+paper \citep{baweja2026datum} classifies the identifiability of that single-provider
+datum and supplies the per-provider frame-error covariance
+$\sigma_{\mathrm{real}}$ that enters the $B_{\mathrm{eff}}$ inflation of
+Theorem~\ref{thm:tolerance}. The present work is the cross-provider layer above both:
+it takes each provider's realized frame and dynamics as given and budgets their
+mutual disagreement. The gauge lemma (Lemma~\ref{lem:gauge}) makes the connection to
+the companion paper precise---the single-provider datum gauge (generically of
+dimension at most six, and collapsing under libration as the scale becomes observable)
+is the object whose \emph{differential} across providers becomes the interop tax; a
+gauge \emph{common} to both providers, by contrast, cancels in fusion and becomes real
+error only against an absolute external tie.
+
+\subsection{Limitations}
+\label{sec:limitations}
+
+The firewall of Section~\ref{sec:validation} is also a statement of limitations, and
+we make them explicit.
+
+\begin{itemize}
+  \item \textbf{The providers are ephemerides.} The single most important caveat:
+  no two lunar-PNT providers have flown, so the three ephemerides are a
+  \emph{representative analog} for a real multi-provider constellation. The budget
+  totals (Table~\ref{tab:budget}) and the tolerance map (Table~\ref{tab:tolerance})
+  are \Modelled{}; only the pairwise decomposition (Table~\ref{tab:anchor}) is
+  \Validated{}. A real provider constellation would disagree for additional reasons
+  (broadcast-ephemeris fit error, clock and signal-in-space errors, regional frame
+  ties) not present in the ephemeris comparison.
+
+  \item \textbf{The reducible/irreducible attribution is a modelling
+  interpretation.} As stated in Remark~\ref{rem:attribution} and
+  Section~\ref{sec:splitcaveat}, calling the planet-common rotation a removable
+  frame-tie is a reasonable reading, not a forced one. All irreducible-floor and
+  design-law claims rest only on the convention-free Moon-excess rotation.
+
+  \item \textbf{The frame-tie estimator is a robust but ad-hoc aggregate.} The
+  body-common rotation is estimated as the \emph{component-wise median} of four
+  separate per-witness-body rotation-only fits (Mercury, Venus, Mars, and the
+  Earth--Moon barycentre), with the Sun excluded as barycentre-contaminated
+  (Appendix~\ref{app:methods}). The median is deliberately robust to a single
+  discrepant witness, but it is not the only reasonable choice: a different witness
+  set, or a different aggregation (a joint or a weighted fit), would shift the
+  reducible/irreducible split quantitatively. The qualitative finding---a dominant
+  Moon-specific excess for the JPL-versus-others pairs---is robust to reasonable
+  choices, but the exact metre split is not a validated invariant.
+
+  \item \textbf{The budget model is first-order and static.} The datum difference
+  \eqref{eq:diffmodel} is a first-order Helmert model with a constant datum over the
+  two-year window; it does not resolve time-dependence of the datum, higher-order
+  terms, or the along-track structure of the residual. These would refine the residual
+  but do not change the orientation-dominated structure that the rotation fit already
+  captures at the $91$--$99.7\%$-of-variance level.
+
+  \item \textbf{No flight data, no TRL claim.} Nothing here is a certified
+  interoperability standard, a reproduction of any agency's internal budget, or a
+  statement at technology readiness level above analysis. The deliverable is a proven
+  theorem, one validated real-data decomposition, and a modelled design law built on
+  them.
+\end{itemize}
+
+None of these caveats touches the proven content---the gauge lemma, the removability
+structure of the split, and the tolerance inversion---or the validated content---the
+real inter-ephemeris decomposition. Each marks where a real multi-provider deployment
+must supply flight data before any absolute budget number is trusted.
