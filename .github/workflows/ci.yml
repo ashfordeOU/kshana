@@ -15,6 +15,10 @@ jobs:
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Full history so the repository-hygiene guard scans every commit message,
+          # not just the shallow tip (default fetch-depth 1 silently blinds the scan).
+          fetch-depth: 0
       # Pinned to the exact version in rust-toolchain.toml for a reproducible build.
       - uses: dtolnay/rust-toolchain@1.93.0
         with:
