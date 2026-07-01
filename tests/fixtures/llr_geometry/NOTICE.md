@@ -38,11 +38,13 @@ Coordinates are ITRF-aligned geodetic (WGS84 compatible):
 
 ## Oracle anchor for downstream analysis
 
-**Sośnica, K. et al. (2025)**, "Definition and Realization of the International Lunar
-Reference Frame", arXiv:2510.15484.
-Reports lunocenter-X ↔ scale correlation r ≈ −0.97 and a centre-of-mass origin X-floor
-~12 cm from LLR normal-point analysis. Used as the external oracle for validating the
-Fisher-information datum-defect results produced by `src/lunar_llr.rs`.
+**Sośnica, K., Fienga, A., Pavlov, D., Rambaux, N., Zajdel, R. (2025)**, "Definition and
+Realization of the International Lunar Reference Frame", arXiv:2510.15484.
+Reports lunocenter-X ↔ scale correlation up to r ≈ −0.97 and a combined ILRF mean
+position error of 17.6 cm over 2010–2030, of which 15.3 cm comes from the origin
+(driven by the near-side, near-equatorial retroreflector geometry). Used as the external
+structural anchor for the Fisher-information datum-degeneracy results (structure only —
+magnitudes here are Modelled and do NOT reproduce Sośnica's −0.97 / 15.3 cm values).
 
 ## DE440 lunar principal-axis orientation time series (`de440_moon_pa.csv`)
 
