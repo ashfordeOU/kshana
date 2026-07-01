@@ -1,0 +1,121 @@
+\section{Cost-aware optimal experiment design}
+\label{sec:oed}
+
+The radial-diversity law of Section~\ref{sec:radial} tells a realization programme
+\emph{what} to buy. Real programmes also face \emph{how much} to buy: each
+technique carries a cost, and a finite budget must be allocated across a menu of
+candidate campaigns. We cast this as gauge-constrained optimal experiment design
+(OED) and compute the trade explicitly.
+
+\subsection{The design problem}
+\label{sec:designproblem}
+
+Let a menu of candidate measurement campaigns be indexed $b=1,\dots,B$, each with
+a precomputed datum Fisher contribution $\Fisher_b$ \eqref{eq:fisher} (assembled
+over its own schedule and gates, and preconditioned identically) and a relative
+cost $c_b>0$. A design is a subset $\mathcal{A}\subseteq\{1,\dots,B\}$; by
+additivity its information is $\Fisher_{\mathcal{A}}=\sum_{b\in\mathcal{A}}\Fisher_b$
+and its degeneracy metric $\mu(\mathcal{A})=\lmin(\Schur(\Fisher_{\mathcal{A}}))$.
+The budget-constrained design problem is
+\begin{equation}
+  \mathcal{A}^\star(C) \;=\; \arg\max_{\mathcal{A}}\;
+  \mu(\mathcal{A})
+  \quad\text{subject to}\quad
+  \sum_{b\in\mathcal{A}} c_b \le C.
+  \label{eq:oed}
+\end{equation}
+We choose the objective $\mu=\lmin(\Schur)$ deliberately over the classical
+scalar OED criteria (D-, A-, E-optimality on the full $7\times7$ matrix): the
+programme's binding constraint is the \emph{specific} origin--scale degeneracy, and
+$\mu$ measures exactly that marginal, gauge-fixed subproblem
+\citep{pukelsheim2006oed}.
+
+\subsection{A greedy heuristic, verified against an exact oracle}
+\label{sec:greedy}
+
+Problem \eqref{eq:oed} is a combinatorial subset selection; the exact optimum is
+found by enumerating all $2^B$ subsets, which we retain as a brute-force oracle for
+menus of modest size. For scalability we also implement a forward-greedy heuristic:
+at each step add the affordable campaign maximizing the marginal gain per unit
+cost, $\bigl(\mu(\mathcal{A}\cup\{b\})-\mu(\mathcal{A})\bigr)/c_b$, stopping when no
+affordable campaign yields a positive gain. Greedy is a heuristic---it can be
+sub-optimal on adversarial menus, and we do not claim the objective is
+submodular---so we \emph{verify it against the exact oracle} rather than assume
+optimality: on a constructed representative menu the greedy design equals the
+exhaustive optimum at every budget, and the invariant
+$\mu(\text{exhaustive})\ge\mu(\text{greedy})$ is asserted in the test suite. The
+greedy heuristic is a \Modelled{} decision tool whose \emph{agreement} with the
+oracle is verified; where the two could diverge, the oracle governs, and any menu
+on which greedy is knowingly sub-optimal is documented rather than papered over.
+The near-optimality of greedy for monotone diminishing-returns objectives is
+classical \citep{nemhauser1978submodular}; our verification is empirical and
+menu-specific.
+
+\subsection{The cost/degeneracy Pareto frontier}
+\label{sec:frontier}
+
+Sweeping the budget $C$ through \eqref{eq:oed} traces the cost/degeneracy Pareto
+frontier: the best degeneracy-breaking a programme can achieve at each spend. We
+evaluate it over a representative four-campaign menu---LLR (cost $1$), a VLBI limb
+baseline (cost $3$), a near-side orbiter (cost $4$), and a far-side orbiter
+(cost $5$)---whose beacons, schedules, per-technique noise, and relative costs are
+representative \Modelled{} choices, itemized in Appendix~\ref{app:methods} and the
+reproducibility ledger. Table~\ref{tab:frontier} and Figure~\ref{fig:frontier}
+give the result.
+
+\begin{table}[t]
+\centering
+\caption{Cost/degeneracy Pareto frontier over the representative menu (all
+magnitudes \Modelled{}, \modtag). Each row is the budget-\emph{optimal} design at
+that spend, not a cumulative path: at budget $8$ the optimizer drops VLBI in favour
+of the far-side orbiter, because depth diversity buys more degeneracy-breaking per
+unit cost. LLR alone is the degenerate end of the frontier.}
+\label{tab:frontier}
+\small
+\begin{tabular}{@{}cccl@{}}
+\toprule
+\textbf{Budget} & \textbf{Cost used} &
+$\bm{\mu}$ \textbf{(rel.\ units)}~\modtag & \textbf{Optimal design} \\
+\midrule
+$1$  & $1$  & $3.5404\times10^5$ & LLR (baseline; degenerate) \\
+$4$  & $4$  & $3.5521\times10^5$ & LLR $+$ VLBI limb \\
+$8$  & $6$  & $3.6338\times10^5$ & LLR $+$ far-side orbiter \\
+$13$ & $13$ & $3.6472\times10^5$ & all four campaigns \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.72\linewidth]{frontier.pdf}
+  \caption{The cost/degeneracy Pareto frontier over the representative menu (all
+  magnitudes~\modtag). Each marker is the budget-optimal design; the steepest climb
+  is the addition of the far-side (radial) orbiter, not the VLBI (transverse)
+  baseline. Depth diversity is the priority acquisition: at a budget of $8$ the
+  optimizer spends only $6$, buying LLR plus the far-side orbiter and declining the
+  cheaper VLBI baseline, because the far-side orbiter's marginal gain per unit cost
+  is the largest on the menu.}
+  \label{fig:frontier}
+\end{figure}
+
+Two features of the frontier carry the design message. First, its shape:
+the largest single step is the far-side orbiter, consistent with
+Table~\ref{tab:multitech}. Second, and more telling, the optimizer's \emph{order}
+of purchase. At a budget of $8$---enough to afford LLR plus either the VLBI
+baseline (total cost $4$) or the far-side orbiter (total cost $6$)---the optimizer
+chooses the more expensive far-side orbiter and leaves budget unspent, because its
+gain-per-cost ($9.33\times10^3/5 \approx 1.9\times10^3$) dominates the VLBI
+baseline's ($1.16\times10^3/3 \approx 3.9\times10^2$). The far-side orbiter breaks
+the degeneracy $\approx\!4.8\times$ more efficiently \emph{per unit cost} than the
+VLBI baseline (and $8.0\times$ in raw gain). Under a realization budget, depth
+diversity is not merely effective---it is the rational first purchase.
+
+\begin{remark}[What the frontier is and is not]
+The frontier is a \emph{parameterized trade curve} whose axes are a relative cost
+and a relative, preconditioned degeneracy metric. Its \emph{shape and ordering}
+are the deliverable: LLR alone is degenerate, radial diversity is the efficient way
+off that floor, and transverse VLBI is a secondary refinement. The absolute
+numbers are \Modelled{} and are not a recommended budget for any specific mission;
+substituting a programme's true costs and noise floors into the same machinery
+yields its own frontier.
+\end{remark}

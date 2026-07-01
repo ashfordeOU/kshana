@@ -1,0 +1,153 @@
+\section{Methods and modelled assumptions}
+\label{app:methods}
+
+This appendix records the ephemeris handling, frame and timescale conventions, and
+representative inputs behind the results, and proves the preconditioning-invariance
+claim of Section~\ref{sec:fisher}. All are consistent with the vendored provenance
+notices (Section~\ref{sec:availability}).
+
+\subsection{DE440 orientation and beacon placement}
+\label{app:de440}
+
+The body$\rightarrow$inertial orientation $\Rmat(t)$ of \eqref{eq:beacon} is the
+numerically integrated MOON\_PA\_DE440 physical libration from the JPL DE440
+ephemeris \citep{park2021de440}, sampled over 2024--2025 at daily cadence
+($731$ epochs) via the SPICE toolkit and vendored as a rotation-matrix time series.
+Measured over the window, the sub-Earth libration amplitude is
+$\pm7.79^\circ$ in longitude and $\pm6.80^\circ$ in latitude, matching the known
+optical libration and confirming that real physical libration---not a mean or fixed
+rotation---is embedded. This distinction is essential: the mean IAU rotation
+produces a rank-deficient, artifactual degeneracy
+(Remark following Theorem~\ref{thm:classification}), so all lunar-geometry
+observability uses the DE440 orientation. For internal consistency, \emph{all}
+beacons across the three techniques---LLR reflectors, the VLBI limb beacon, and the
+orbiter beacons---are placed through this same DE440 map, so that a combined Fisher
+matrix mixes no orientation conventions.
+
+\paragraph{Hand-constructed frame kernel.} At generation time the standard NAIF
+companion frame kernel registering MOON\_PA\_DE440 as a named frame was not
+publicly available from the generic-kernels distribution (the expected
+\code{.tf} returned HTTP 404). We therefore constructed a minimal frame kernel that
+registers the frame against the binary PCK segment. This is a bookkeeping
+definition, not a re-derivation of the orientation---the numerical libration is JPL's---but
+we flag it as a \Modelled{} step in the pipeline for full disclosure.
+
+\subsection{Frame and timescale conventions}
+\label{app:conventions}
+
+The pipeline mixes an of-date body orientation with a J2000 inertial frame for the
+station and ephemeris positions, neglects $\mathrm{UT1}-\mathrm{TT}$
+($\approx\!\Delta T\approx69$~s at this epoch) in the Earth-rotation bookkeeping,
+and treats the epoch argument of the orientation series as $\mathrm{TT}$ where it
+was computed from $\mathrm{TDB}$. We record the magnitudes and their effect
+explicitly. The $\mathrm{TT}-\mathrm{TDB}$ difference is periodic and bounded at
+$\lesssim2$~ms; at libration rates of order microradians per second this maps to
+sub-nanoradian orientation error, immaterial to the datum Fisher structure. The
+$\Delta T\approx69$~s $\mathrm{UT1}$ error is larger: it mis-rotates the Earth (and
+with it the station longitudes) by $\Delta T\times\dot\theta_\oplus\approx0.29^\circ$
+about the pole. Crucially, this is a near-common rotation of all stations at a
+given epoch, and the null-space classification and radial-vs-transverse ordering
+depend only on the \emph{relative} sightline/orientation geometry (the rank,
+sign, and near-collinearity structure of Sections~\ref{sec:classification}--\ref{sec:radial});
+a common $0.29^\circ$ Earth rotation shifts absolute geometry but does not alter
+that structure. These are \Modelled{} conventions adequate for an identifiability
+study, not a rigorous multi-timescale realization; a mission analysis would adopt
+the full IAU/IERS conventions.
+
+\subsection{Representative OED inputs}
+\label{app:oedinputs}
+
+The multi-technique menu of Sections~\ref{sec:multitechnique}--\ref{sec:oed} uses
+the representative (\Modelled) inputs in Table~\ref{tab:oedinputs}, reproduced from
+the vendored ledger. Beacon body-frame coordinates are given as fractions of the
+mean lunar radius $R=\SI{1737400}{m}$; the schedule is a single synodic month
+($\approx29.5$~d) at $6$~h cadence from an epoch inside the DE440 window, with
+per-technique visibility gates (station elevation and Earth-facing for LLR and
+VLBI; line-of-sight hemisphere for the orbiter). Figures use surface-normalized
+beacon coordinates; the datum Jacobian \eqref{eq:pointjac} depends on the
+body-point position, so the exact surface placement is immaterial to the Fisher
+structure.
+
+\begin{table}[h]
+\centering
+\caption{Representative (\Modelled) inputs to the multi-technique OED. These are
+physically plausible choices chosen to exercise the datum structure, not mission
+values.}
+\label{tab:oedinputs}
+\small
+\begin{tabular}{@{}lllc@{}}
+\toprule
+\textbf{Campaign} & \textbf{Beacon (body frame)} & \textbf{Noise $\sigma$} &
+\textbf{Rel.\ cost} \\
+\midrule
+LLR              & 5 DE440 near-side reflectors        & $3$~mm            & $1.0$ \\
+VLBI limb        & $(0.5,\,0.866,\,0)\,R$ (lon $\sim60^\circ$) & $10^{-11}$~s ($\approx3$~mm) & $3.0$ \\
+Orbiter near-side& $(0.9,\,0.2,\,0.2)\,R$              & $5$~cm            & $4.0$ \\
+Orbiter far-side & $(-0.9,\,0.2,\,0.2)\,R$             & $5$~cm            & $5.0$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent The orbiter is a representative $\SI{100}{km}$ near-polar ($88^\circ$)
+circular arc. The VLBI same-beam differential-delay noise $10^{-11}$~s corresponds
+to $c\sigma\approx3$~mm of path, comparable to the LLR normal-point precision. The
+relative costs order the techniques by campaign complexity (established LLR
+infrastructure cheapest; a far-side beacon requiring a relay or direct-to-Earth
+link most expensive). All values are \Modelled{}; substituting a programme's true
+inputs into the same machinery yields its own frontier.
+
+\subsection{Preconditioning invariance}
+\label{app:precond}
+
+We prove the claim of Section~\ref{sec:fisher}: dividing columns $3$--$6$ of every
+sensitivity row by $R=R_{\mathrm{Moon}}$ leaves $\corr$ and $c_x$ exactly invariant
+and preserves rank and datum defect.
+
+\begin{proposition}
+\label{prop:precond}
+Let $\bm{D}=\operatorname{diag}(d_0,\dots,d_6)$ with all $d_k>0$, and let
+$\tilde{\Fisher}=\bm{D}\Fisher\bm{D}$ be the congruence of the Fisher matrix under
+column scaling $\bm{g}_i\mapsto\bm{D}\bm{g}_i$. Then \textnormal{(a)}
+$\operatorname{rank}(\tilde\Fisher)=\operatorname{rank}(\Fisher)$ and the datum
+defect is unchanged; \textnormal{(b)} the Schur complement transforms as
+$\tilde\Schur=\bm{D}_K\Schur\bm{D}_K$ with $\bm{D}_K=\operatorname{diag}(d_0,d_3)$;
+\textnormal{(c)} the origin--scale correlation $\corr$ of \eqref{eq:corr} is
+invariant; and \textnormal{(d)} if $d_0=1$ (column $0$ unscaled) the origin CRLB
+$c_x$ of \eqref{eq:crlb} is invariant.
+\end{proposition}
+
+\begin{proof}
+(a) $\bm{D}$ is nonsingular, so $\tilde\Fisher=\bm{D}\Fisher\bm{D}$ is a congruence
+and preserves rank (Sylvester); the defect $7-\operatorname{rank}$ is unchanged.
+(b) Write $K=\{0,3\}$, $M$ the complement. Congruence by a block-diagonal
+$\bm{D}=\operatorname{diag}(\bm{D}_K,\bm{D}_M)$ gives
+$\tilde\Fisher_{KK}=\bm{D}_K\Fisher_{KK}\bm{D}_K$,
+$\tilde\Fisher_{KM}=\bm{D}_K\Fisher_{KM}\bm{D}_M$, and
+$\tilde\Fisher_{MM}=\bm{D}_M\Fisher_{MM}\bm{D}_M$. Using
+$\tilde\Fisher_{MM}^{-1}=\bm{D}_M^{-1}\Fisher_{MM}^{-1}\bm{D}_M^{-1}$, the flanking
+$\bm{D}_M$ factors of $\tilde\Fisher_{KM}$ and $\tilde\Fisher_{MK}$ cancel against
+$\bm{D}_M^{-1}$, so
+\begin{align*}
+  \tilde\Schur
+  &= \tilde\Fisher_{KK}-\tilde\Fisher_{KM}\tilde\Fisher_{MM}^{-1}\tilde\Fisher_{MK}
+   = \bm{D}_K\Fisher_{KK}\bm{D}_K
+     - \bm{D}_K\Fisher_{KM}\Fisher_{MM}^{-1}\Fisher_{MK}\bm{D}_K\\
+  &= \bm{D}_K\bigl(\Fisher_{KK}-\Fisher_{KM}\Fisher_{MM}^{-1}\Fisher_{MK}\bigr)\bm{D}_K
+   = \bm{D}_K\Schur\bm{D}_K .
+\end{align*}
+(c) From (b),
+$\tilde\Schur^{-1}=\bm{D}_K^{-1}\Schur^{-1}\bm{D}_K^{-1}$, so
+$(\tilde\Schur^{-1})_{ab}=d_a^{-1}d_b^{-1}(\Schur^{-1})_{ab}$ for $a,b\in\{0,3\}$.
+The correlation \eqref{eq:corr} is
+$(\tilde\Schur^{-1})_{01}/\sqrt{(\tilde\Schur^{-1})_{00}(\tilde\Schur^{-1})_{11}}
+=(\Schur^{-1})_{01}/\sqrt{(\Schur^{-1})_{00}(\Schur^{-1})_{11}}$, the $d$-factors
+cancelling; hence $\corr$ is invariant. (d) With $d_0=1$,
+$(\tilde\Schur^{-1})_{00}=(\Schur^{-1})_{00}$, so
+$c_x=\sqrt{(\Schur^{-1})_{00}}$ is invariant.
+\end{proof}
+
+\noindent Since our preconditioner sets $d_0=d_1=d_2=1$ and
+$d_3=d_4=d_5=d_6=R^{-1}$, Proposition~\ref{prop:precond} applies:
+$\corr$ and $c_x$ are physical and preconditioning-independent, while the
+degeneracy metric $\mu=\lmin(\tilde\Schur)$ is rescaled into the relative,
+preconditioned units in which we report it as a design comparator.

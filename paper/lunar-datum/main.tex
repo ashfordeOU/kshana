@@ -1,0 +1,99 @@
+% SPDX-License-Identifier: CC-BY-4.0
+% P1 lunar-datum-identifiability manuscript. Target: Journal of Geodesy.
+% Build: tectonic main.tex   (or pdflatex + bibtex + pdflatex x2)
+\documentclass[11pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\setlength{\emergencystretch}{2em}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{siunitx}
+\usepackage{xcolor}
+\usepackage[colorlinks=true,linkcolor=black,citecolor=black,urlcolor=blue]{hyperref}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage{orcidlink}
+
+\graphicspath{{./}{figures/}}
+\setlength{\abovecaptionskip}{9pt}
+\setlength{\belowcaptionskip}{6pt}
+
+% Theorem environments
+\newtheorem{theorem}{Theorem}
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{remark}{Remark}
+
+% Notation macros
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Fisher}{\bm{\mathcal{I}}}       % Fisher information matrix
+\newcommand{\Schur}{\bm{S}}                   % Schur complement
+\newcommand{\datum}{\bm{\delta}}              % 7-parameter datum vector
+\newcommand{\ttrans}{\bm{t}}                  % translation
+\newcommand{\rot}{\bm{\theta}}                % small rotation
+\newcommand{\uhat}{\hat{\bm{u}}}              % line-of-sight unit vector
+\newcommand{\Rmat}{\bm{R}}                    % body->inertial orientation
+\newcommand{\lmin}{\lambda_{\min}}
+\newcommand{\corr}{\rho_{x s}}
+\newcommand{\Modelled}{\textsc{Modelled}}
+\newcommand{\Validated}{\textsc{Validated}}
+
+% Honesty tag for representative/modelled quantities
+\newcommand{\modtag}{{\footnotesize\textsf{[M]}}}
+
+\title{\textbf{Identifiability of the lunar geodetic datum: a null-space
+classification of the lunocentre--scale degeneracy and the observation
+geometry that resolves it}}
+
+\author{Chakshu Baweja\,\orcidlink{0009-0008-2098-0751}\\
+\small Ashforde O\"U, Tallinn, Estonia \\
+\small \texttt{contact@ashforde.org}}
+
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\input{sections/00-abstract}
+\end{abstract}
+
+\noindent\textbf{Keywords:} lunar reference frame; datum realization;
+identifiability; Fisher information; Cram\'er--Rao bound; lunar laser ranging;
+optimal experiment design; lunar PNT
+
+\vspace{0.5em}
+\input{sections/01-introduction}
+\input{sections/02-datum-and-fisher}
+\input{sections/03-classification}
+\input{sections/04-multitechnique}
+\input{sections/05-oed}
+\input{sections/06-validation}
+\input{sections/07-discussion}
+\input{sections/08-conclusion}
+
+\section*{Data and code availability}
+\input{sections/09-availability}
+
+\section*{Acknowledgements}
+The numerical substrate underlying this work is part of the open-source
+\code{kshana} engine. This research received no specific grant from any funding
+agency in the public, commercial, or not-for-profit sectors.
+
+\bibliographystyle{plainnat}
+\bibliography{refs}
+
+\appendix
+\input{sections/A-methods}
+
+\end{document}

@@ -1,0 +1,104 @@
+\section{Validation and the structure/magnitude firewall}
+\label{sec:validation}
+
+A paper that reports lunar decimetres must be scrupulous about which of its numbers
+are earned and which are illustrative. We enforce this with an explicit firewall,
+implemented as a rule in the engine's verification suite and stated plainly for the
+reader: a quantity is \Validated{} only when it is checked against an
+\emph{independent} oracle---a separate dataset, library, or published vector---to a
+stated tolerance; everything else is \Modelled{}. This section states what falls on
+each side and gives the external check that anchors the \Validated{} side.
+
+\subsection{An independent oracle for the decomposition}
+\label{sec:scipy}
+
+The load-bearing linear algebra of this paper is the decomposition of
+Definition~\ref{def:metrics}: from a $7\times7$ Fisher matrix, form the
+$\{0,3\}$ Schur complement \eqref{eq:schur} and extract $\mu$, $c_x$, and $\corr$.
+We validate this computation against an independent SciPy/NumPy reference. A
+generator script builds a deterministic set of $16$ synthetic $7\times7$
+symmetric positive-definite matrices spanning well-conditioned to
+$\{0,3\}$-near-degenerate regimes (including $\Fisher_{03}=\Fisher_{30}=\varrho$
+for $\varrho\in\{0.90,0.97,0.99,0.995\}$, mirroring the closed-form stress case),
+computes the Schur complement, its smallest eigenvalue, and its $2\times2$ inverse
+using \code{numpy.linalg.inv} and \code{scipy.linalg.eigvalsh}, and emits the
+expected $(\mu,c_x,|\corr|)$ to a vendored fixture (NumPy 2.4.6, SciPy 1.18.0). The
+engine's \code{decompose} reproduces every value to a maximum relative residual
+below $10^{-9}$---double-precision agreement between two independent
+implementations. This is the paper's one \Validated{} row: the decomposition
+\emph{linear algebra} is externally confirmed, independent of any lunar modelling.
+
+\subsection{What is Validated and what is Modelled}
+\label{sec:matrix}
+
+Table~\ref{tab:honesty} draws the line explicitly. The proven structure of
+Section~\ref{sec:classification}, the improvement \emph{direction} of
+Section~\ref{sec:radial}, and the greedy-vs-oracle \emph{agreement} of
+Section~\ref{sec:greedy} are established by engine-internal, analytic, or
+brute-force checks; they are honest but not independent, so they are recorded as
+\Modelled{} with an internal-consistency oracle. Only the decomposition against
+SciPy is \Validated{}. No lunar \emph{magnitude}---not the $0.9934$ correlation,
+not the CRLB values, not the degeneracy-metric numbers, not the relative
+costs---is \Validated{}, and none is claimed to reproduce the $-0.97$ or the
+$15$~cm origin figure of \citet{sosnica2025ilrf}; those are the empirical anchor
+whose \emph{structure} we explain, not a target we fit.
+
+\begin{table}[t]
+\centering
+\caption{The structure/magnitude firewall for this paper's results. Only the
+decomposition linear algebra is \Validated{} (independent SciPy/NumPy oracle);
+every lunar magnitude is \Modelled{}. The analytic derivative cross-checks and the
+greedy/oracle agreement are internal-consistency checks, honest but not
+independent.}
+\label{tab:honesty}
+\small
+\begin{tabular}{@{}p{5.4cm}p{4.0cm}cc@{}}
+\toprule
+\textbf{Result} & \textbf{Check} & \textbf{Oracle} & \textbf{Status} \\
+\midrule
+Schur decomposition $\mu,c_x,\corr$ &
+$16$ SPD matrices vs SciPy/NumPy, $<\!10^{-9}$ &
+external library & \Validated{} \\[3pt]
+Null-space classification (Thm.~\ref{thm:classification}) &
+single-row defect $6$; libration lift; monotone $\mu$ &
+engine + analytic & \Modelled{} \\[3pt]
+Multi-technique partials (LLR/VLBI/orbiter) &
+analytic vs finite difference ($\le\!8.2\times10^{-8}$) &
+internal & \Modelled{} \\[3pt]
+Radial-vs-transverse ordering &
+$\Delta\mu$ and per-parameter CRLB direction &
+engine (geometric fact) & \Modelled{} \\[3pt]
+OED greedy heuristic &
+greedy $=$ exhaustive on menu; $\mu_{\text{ex}}\ge\mu_{\text{gr}}$ &
+brute-force oracle & \Modelled{} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Derivative and consistency checks}
+\label{sec:derivchecks}
+
+Every analytic sensitivity row \eqref{eq:sensrow} is cross-checked against a
+finite-difference evaluation of its own measurement function. The LLR row
+reproduces the independent four-parameter Phase-0 datum row exactly; the
+two-station VLBI differential-delay row agrees with finite differences to a maximum
+relative residual of $8.2\times10^{-8}$ (the residual is largest on the
+weakest-signal rotation column, the fingerprint of floating-point cancellation in
+the near-differenced delay, not of an analytic error); and the orbiter range row
+agrees to below $10^{-8}$. The single-observation rank count, the defect lift under
+real libration, and the monotonicity of $\mu$ in arc length are each asserted in
+the continuous-integration suite. These checks confirm the derivatives and the
+geometric structure are implemented correctly; they are internal, and we label them
+so.
+
+\subsection{Reproducibility}
+\label{sec:reproducibility}
+
+Every quantitative result in this paper---the defect count, the LLR-only baseline,
+the marginal gains and their $8.0\times$ ratio, the per-parameter CRLB fractions,
+and the four Pareto-frontier points---is regenerated from the committed engine by a
+single command (Section~\ref{sec:availability}). The three figures are produced by
+a committed script from the same engine outputs. The DE440 orientation series, the
+retroreflector coordinates, and the SciPy reference fixture are vendored with
+provenance notices and SHA-256 checksums. There are no hand-entered results in the
+tables: the manuscript numbers and the engine outputs are the same numbers.

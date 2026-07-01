@@ -1,0 +1,11 @@
+*.aux
+*.log
+*.out
+*.bbl
+*.blg
+*.xdv
+*.synctex.gz
+
+# Figure PNGs are regenerable from gen_figures.py; the PDFs are the paper's
+# vector figures and ARE committed. main.pdf is committed as the built artifact.
+figures/*.png

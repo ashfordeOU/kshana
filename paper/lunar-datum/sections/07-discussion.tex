@@ -1,0 +1,80 @@
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Implications for ILRF realization and lunar PNT}
+
+The practical import of the classification is a single design law: \emph{to realize
+the lunar origin, buy radial diversity, not tracking volume.} The origin--scale
+degeneracy that limits the first ILRF \citep{sosnica2025ilrf} is not an artifact of
+too few near-side stations that more near-side stations would cure; it is a radial
+ambiguity (Theorem~\ref{thm:classification}, Figure~\ref{fig:schematic}) that only
+depth-diverse geometry resolves. For the realization programmes now standing up
+this infrastructure---ESA Moonlight/LCNS, NASA LunaNet, and their national
+counterparts \citep{israel2020lunanet,fienga2024moonlight}---this reframes a
+procurement question. A far-side beacon reached by an orbiter, or an orbiter arc
+with a strong anti-Earth radial component, contributes to origin realization out of
+proportion to its tracking volume; a longer or denser transverse VLBI network,
+valuable as it is for orientation and plane-of-sky geometry, does not attack the
+origin--scale pair at its source. \citet{fienga2024moonlight} anticipate
+qualitatively that orbiter altimetry could help the frame; our contribution is to
+identify the common ingredient---anti-Earth radial (depth-diverse) sensing,
+whether realized by far-side orbiter ranging (which we model) or by nadir
+altimetry---as the specific geometry that resolves the origin--scale pair, and to
+quantify the trade against transverse alternatives.
+
+\subsection{Relation to prior work}
+
+This paper is the frame-realization dual of the user-side Cram\'er--Rao analyses of
+lunar PNT. \citet{pohlmann2025hybrid} bound the accuracy of locating a
+\emph{user} given a realized frame; we bound the identifiability of the \emph{frame
+itself} given a set of observations. The two use the same Fisher machinery on
+different unknowns: their state is a user position and clock, ours is the seven
+datum parameters. The connection is more than analogy---an un-realized origin is a
+common-mode error that a downstream user cannot detect---and it motivates the later
+entries of the programme this paper opens (Section~\ref{sec:conclusion}). Relative
+to \citet{sosnica2025ilrf}, we do not produce a competing realization; we explain
+the structure of the degeneracy their realization exposes and provide the design
+guidance to break it. The engine-verified free-network structure and the
+observation partials also connect to companion work on lunar VLBI observability
+(Baweja, in preparation), which studies orientation recovery under the same DE440
+geometry.
+
+\subsection{Limitations}
+\label{sec:limitations}
+
+The honesty firewall of Section~\ref{sec:validation} is also a statement of
+limitations, and we make them explicit.
+
+\begin{itemize}
+  \item \textbf{Magnitudes are modelled.} Every lunar number---the residual
+  correlation, the CRLBs, the degeneracy-metric values, the relative costs---is
+  computed from representative geometry, noise, and economics. The results are the
+  \emph{structure and ordering} of the trade, not mission values, and in particular
+  do not reproduce the $-0.97$/$15$~cm magnitudes of \citet{sosnica2025ilrf}.
+  \item \textbf{The 7-parameter model omits real error sources.} The datum
+  Jacobian holds reflector coordinates and orientation fixed and does not propagate
+  libration uncertainty, reflector-position error, station-coordinate error, or
+  atmospheric and relativistic delays. These would loosen the absolute CRLB; they
+  do not change the null-space classification or the radial-vs-transverse ordering,
+  which are geometric.
+  \item \textbf{Representative orbiter and beacons.} The orbiter is a Keplerian arc,
+  not a fitted ephemeris, and the far-side and limb beacons are representative
+  selenographic placements. A mission study would substitute true ephemerides and
+  candidate beacon sites; the machinery is unchanged.
+  \item \textbf{Greedy is a heuristic.} We validate greedy against an exact oracle
+  on the menus we use rather than prove optimality; on adversarial menus the oracle
+  governs.
+  \item \textbf{Frame and timescale conventions are approximate.} The DE440
+  orientation series mixes of-date and J2000 conventions and neglects
+  $\mathrm{UT1}-\mathrm{TT}$ ($\approx\!\Delta T\approx69$~s at this epoch) and
+  $\mathrm{TT}-\mathrm{TDB}$ (periodic, $\lesssim2$~ms). These shift absolute
+  sightline geometry but, as the null-space classification and the
+  radial-vs-transverse ordering are properties of \emph{relative} geometry, leave
+  both unchanged (Appendix~\ref{app:methods}). They are \Modelled{} assumptions,
+  not a rigorous timescale realization.
+\end{itemize}
+
+None of these caveats touches the proven content of the paper---the classification,
+the radial character of the degeneracy, and the SciPy-validated decomposition---but
+each marks where a follow-on mission study must supply real data before any absolute
+number is trusted.
