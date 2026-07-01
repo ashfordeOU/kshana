@@ -590,6 +590,123 @@ pub fn consistency_tolerance(
     }
 }
 
+/// Frame-tie convention used when assembling a multi-provider interop budget.
+///
+/// Selects which components of the cross-provider disagreement remain after a
+/// hypothetical standardisation step.
+///
+/// **Modelled** — the "providers" here are ephemerides (DE440, INPOP21a, EPM2021),
+/// a representative analog for operational lunar-PNT providers (no two fly).
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum FrameConvention {
+    /// No standardisation: each provider uses its own native frame.
+    /// `total = sqrt(reducible² + irreducible² + residual²)`.
+    PerProvider,
+    /// All providers adopt a common ICRF frame-tie (e.g. via VLBI).
+    /// Reducible component removed; `total = sqrt(irreducible² + residual²)`.
+    CommonFrameTie,
+    /// All providers adopt an identical ephemeris (same dynamics + same frame).
+    /// All components removed by construction; `total = 0.0`.
+    CommonEphemeris,
+}
+
+/// Aggregated multi-provider interoperability error budget.
+///
+/// # Modelling note (honesty firewall)
+///
+/// This budget is **Modelled**: the "providers" are ephemerides (a representative
+/// analog for operational lunar-PNT providers; no two fly). The reducible/irreducible
+/// split is a modelling interpretation (see [`ProvenanceSplit`]). No certified standard,
+/// no TRL claim, no ESA endorsement.
+#[derive(Debug, Clone, Copy)]
+pub struct InteropBudget {
+    /// Frame convention applied to assemble this budget.
+    pub convention: FrameConvention,
+    /// RMS-combined reducible (frame-tie) component [m]. **Modelled.**
+    pub reducible_m: f64,
+    /// RMS-combined irreducible (lunar-dynamics) component [m]. **Modelled.**
+    pub irreducible_m: f64,
+    /// Total interoperability position error under this convention [m]. **Modelled.**
+    pub total_m: f64,
+    /// Design-law metric: `irreducible / (reducible + irreducible)`.
+    ///
+    /// Values > 0.5 indicate lunar-orbit dynamics dominate the non-residual budget;
+    /// a common frame-tie alone cannot halve the total error. **Modelled.**
+    pub irreducible_fraction: f64,
+}
+
+/// Assemble a multi-provider interoperability budget from a slice of [`ProvenanceSplit`]s.
+///
+/// **Algorithm (Modelled; representative multi-provider analog):**
+/// RMS-combine across the supplied splits:
+/// - `reducible  = sqrt(mean_i reducible_i²)`
+/// - `irreducible = sqrt(mean_i irreducible_i²)`
+/// - `residual   = sqrt(mean_i rot_residual_i²)`
+///
+/// Then by frame convention:
+/// - [`FrameConvention::PerProvider`]:
+///   `total = sqrt(reducible² + irreducible² + residual²)` (nothing standardised).
+/// - [`FrameConvention::CommonFrameTie`]:
+///   `total = sqrt(irreducible² + residual²)` (reducible removed by a common ICRF tie).
+/// - [`FrameConvention::CommonEphemeris`]:
+///   `total = 0.0` (all error removed by adopting an identical ephemeris).
+///
+/// `irreducible_fraction = irreducible / (reducible + irreducible)`, the design-law
+/// metric (0.0 if both are zero). The split-caveat from [`ProvenanceSplit`] propagates:
+/// attributing the planet-common rotation to a frame-tie (reducible) and the Moon-excess
+/// to dynamics (irreducible) is a stated modelling interpretation. The convention-free
+/// claim is `theta_excess`.
+///
+/// **Status:** Modelled. No certified standard, no TRL claim, no ESA endorsement.
+///
+/// # Panics
+/// Panics if `splits` is empty.
+pub fn interop_budget(splits: &[ProvenanceSplit], convention: FrameConvention) -> InteropBudget {
+    assert!(!splits.is_empty(), "interop_budget: empty splits");
+    let n = splits.len() as f64;
+
+    let reducible_m = (splits
+        .iter()
+        .map(|s| s.reducible_m * s.reducible_m)
+        .sum::<f64>()
+        / n)
+        .sqrt();
+    let irreducible_m = (splits
+        .iter()
+        .map(|s| s.irreducible_m * s.irreducible_m)
+        .sum::<f64>()
+        / n)
+        .sqrt();
+    let residual_sq = splits
+        .iter()
+        .map(|s| s.rot_residual_m * s.rot_residual_m)
+        .sum::<f64>()
+        / n;
+
+    let total_m = match convention {
+        FrameConvention::PerProvider => {
+            (reducible_m * reducible_m + irreducible_m * irreducible_m + residual_sq).sqrt()
+        }
+        FrameConvention::CommonFrameTie => (irreducible_m * irreducible_m + residual_sq).sqrt(),
+        FrameConvention::CommonEphemeris => 0.0,
+    };
+
+    let denom = reducible_m + irreducible_m;
+    let irreducible_fraction = if denom > 0.0 {
+        irreducible_m / denom
+    } else {
+        0.0
+    };
+
+    InteropBudget {
+        convention,
+        reducible_m,
+        irreducible_m,
+        total_m,
+        irreducible_fraction,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -815,5 +932,87 @@ mod tests {
         // (d) At the lunar lever arm, binding must be "rotation".
         let tol = consistency_tolerance(5.0, 1_737_400.0, None);
         assert_eq!(tol.binding, "rotation");
+    }
+
+    // ── Task 5: interop_budget ───────────────────────────────────────────────
+
+    /// Reference `ProvenanceSplit` literals from real inter-ephemeris numbers
+    /// (Table 1, P2 paper draft; `theta_*` zeroed; `raw_rms_m` set to nominal values).
+    fn real_splits() -> [ProvenanceSplit; 3] {
+        [
+            // DE440–INPOP21a
+            ProvenanceSplit {
+                raw_rms_m: 2.40,
+                rot_residual_m: 0.1387,
+                theta_moon: [0.0; 3],
+                theta_frametie: [0.0; 3],
+                theta_excess: [0.0; 3],
+                reducible_m: 0.8845,
+                irreducible_m: 1.8741,
+            },
+            // DE440–EPM2021
+            ProvenanceSplit {
+                raw_rms_m: 2.45,
+                rot_residual_m: 0.2789,
+                theta_moon: [0.0; 3],
+                theta_frametie: [0.0; 3],
+                theta_excess: [0.0; 3],
+                reducible_m: 0.4288,
+                irreducible_m: 2.4056,
+            },
+            // INPOP21a–EPM2021
+            ProvenanceSplit {
+                raw_rms_m: 1.30,
+                rot_residual_m: 0.2124,
+                theta_moon: [0.0; 3],
+                theta_frametie: [0.0; 3],
+                theta_excess: [0.0; 3],
+                reducible_m: 1.0209,
+                irreducible_m: 0.5884,
+            },
+        ]
+    }
+
+    #[test]
+    fn interop_budget_common_ephemeris_is_zero() {
+        // (a) CommonEphemeris.total_m == 0.0 exactly.
+        let splits = real_splits();
+        let b = interop_budget(&splits, FrameConvention::CommonEphemeris);
+        assert_eq!(b.total_m, 0.0);
+    }
+
+    #[test]
+    fn interop_budget_ordering_and_bounds() {
+        // (b) 0 < CommonFrameTie.total_m < PerProvider.total_m
+        // (d) ordering: CommonEphemeris ≤ CommonFrameTie ≤ PerProvider
+        let splits = real_splits();
+        let pp = interop_budget(&splits, FrameConvention::PerProvider);
+        let cft = interop_budget(&splits, FrameConvention::CommonFrameTie);
+        let ce = interop_budget(&splits, FrameConvention::CommonEphemeris);
+        assert!(
+            cft.total_m > 0.0,
+            "CommonFrameTie must be > 0, got {}",
+            cft.total_m
+        );
+        assert!(
+            cft.total_m < pp.total_m,
+            "CommonFrameTie {} must be < PerProvider {}",
+            cft.total_m,
+            pp.total_m
+        );
+        assert!(ce.total_m <= cft.total_m);
+        assert!(cft.total_m <= pp.total_m);
+    }
+
+    #[test]
+    fn interop_budget_design_law_dynamics_dominates() {
+        // (c) With real splits, irreducible_fraction > 0.5: dynamics dominate.
+        let splits = real_splits();
+        let b = interop_budget(&splits, FrameConvention::CommonFrameTie);
+        assert!(
+            b.irreducible_fraction > 0.5,
+            "design law: dynamics must dominate (irreducible_fraction={})",
+            b.irreducible_fraction
+        );
     }
 }
