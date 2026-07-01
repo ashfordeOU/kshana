@@ -7,22 +7,18 @@
 //! numpy SVD `lstsq`).
 //!
 //! This is the single Validated row for the P2 cross-provider module.  All scalar
-//! magnitude results are cross-checked against reference.json (generated offline by the
-//! SciPy SVD lstsq oracle) to relative error < 1e-3 AND absolute error < 1e-3 m /
-//! < 1e-2 nrad.  Jacobi preconditioning of the normal equations brings the Cholesky
-//! solver into agreement with SciPy SVD lstsq when both run on the same CSV data.
+//! magnitude results for all three provider pairs are cross-checked against reference.json
+//! to relative error < 1e-3 AND absolute error < 1e-3 m / < 1e-2 nrad.
 //!
-//! **Precision note for INPOP21a–EPM2021:** the planet rotation fit (`rotation_fit`) uses
-//! a 6-parameter simultaneous translation+rotation fit whose condition number is ~5.7×10¹⁰
-//! for Mercury (planet distance ÷ 1).  This gives an irreducible ~2 nrad numerical noise
-//! floor in the per-planet theta_z estimate.  reference.json was computed by the SciPy
-//! oracle at full kernel precision, producing one noise realization; the Rust Cholesky on
-//! the 3 d.p. CSV fixture produces another.  The two realizations of theta_frametie[z]
-//! differ by ~2.9 nrad, which propagates through the near-cancellation
-//! (theta_moon ≈ theta_frametie for this pair) to give ~1.8×10⁻³ relative error in
-//! irreducible_m — just outside the 1e-3 threshold.  The irreducible_m check therefore
-//! uses a tolerance of 3×10⁻³ / 2×10⁻³ m for this pair; all other quantities and all
-//! other pairs are tightened to 1×10⁻³.
+//! **Consistency of oracle and fixtures.** reference.json and the CSV fixtures are computed
+//! by `scripts/gen_interop_ref.py` from byte-identical inputs: the sampled positions are
+//! rounded to 6 decimals (1 µm) *before* both being written to CSV and being fed to the
+//! SciPy SVD `lstsq` oracle.  The Rust reference test reads the same CSVs, so the only
+//! difference between the two is the linear solver (Rust Jacobi-preconditioned Cholesky vs
+//! SciPy SVD), which agrees to well within 1e-3 even for the near-cancelling
+//! INPOP21a–EPM2021 reducible/irreducible split (theta_moon ≈ theta_frametie).  The
+//! *physical* sensitivity of that split — a difference of two comparable rotations — is a
+//! scientific point discussed in the manuscript, not a numerical artefact of this test.
 //!
 //! Fixture files are baked at compile time via `include_str!`; no runtime I/O occurs.
 
@@ -301,36 +297,20 @@ fn inter_ephemeris_decomposition_matches_scipy() {
             r.exp_theta_frametie_nrad
         );
 
-        // irreducible_m and theta_excess_nrad: widened to 3e-3/2e-3 for INPOP21a-EPM2021
-        // because the ~2 nrad noise floor of the ill-conditioned 6-param planet rotation
-        // fit causes ~1.8e-3 relative error in this near-cancelling pair (see module
-        // comment for full analysis).  All other pairs satisfy 1e-3 on both quantities.
-        if r.key == "INPOP21a-EPM2021" {
-            check_m_tol!(
-                r,
-                "irreducible_m",
-                r.irreducible_m,
-                r.exp_irreducible_m,
-                3e-3_f64,
-                2e-3_f64
-            );
-            check_nrad_tol!(
-                r,
-                "theta_excess_nrad",
-                r.theta_excess_nrad,
-                r.exp_theta_excess_nrad,
-                3e-3_f64,
-                1e-2_f64
-            );
-        } else {
-            check_m!(r, "irreducible_m", r.irreducible_m, r.exp_irreducible_m);
-            check_nrad!(
-                r,
-                "theta_excess_nrad",
-                r.theta_excess_nrad,
-                r.exp_theta_excess_nrad
-            );
-        }
+        // irreducible_m and theta_excess_nrad hold at the standard 1e-3 tolerance for
+        // every pair, including the near-cancelling INPOP21a-EPM2021 split
+        // (theta_moon ≈ theta_frametie).  The fixtures and the reference.json oracle are
+        // computed from byte-identical 6-decimal inputs (see scripts/gen_interop_ref.py),
+        // so the Rust-vs-SciPy difference here is pure solver precision, which the Jacobi
+        // preconditioning brings well within 1e-3.  The *physical* sensitivity of this
+        // split (a difference of two comparable rotations) is discussed in the manuscript.
+        check_m!(r, "irreducible_m", r.irreducible_m, r.exp_irreducible_m);
+        check_nrad!(
+            r,
+            "theta_excess_nrad",
+            r.theta_excess_nrad,
+            r.exp_theta_excess_nrad
+        );
     }
 
     // ── Sanity anchor (NOTICE.md headline numbers) ─────────────────────────────

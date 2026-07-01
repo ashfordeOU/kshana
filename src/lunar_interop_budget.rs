@@ -271,14 +271,15 @@ pub fn helmert_fit(from: &[Vec3], to: &[Vec3]) -> HelmertFit {
 /// input data.  The rotation parameters are unchanged by centring (the nuisance translation
 /// absorbs the origin shift); we only return `theta = [θ_x, θ_y, θ_z]`.
 ///
-/// **Condition number warning:** when inter-ephemeris planet position differences are large
-/// (100 km for INPOP21a–EPM2021) relative to the rotation signal (~0.1 m), the 6×6 normal
-/// matrix has condition number ~5.7×10¹⁰ (planet orbital radius ÷ 1 for the translation
-/// column), giving an irreducible ~2 nrad numerical noise floor even after preconditioning.
-/// This noise manifests as a ~2.9 nrad realization difference between the SciPy SVD oracle
-/// (reference.json) and the Rust Cholesky when running on fixture data of slightly differing
-/// precision (kernel vs 3 d.p. CSV).  See the tolerance note in
-/// `tests/lunar_interop_budget_reference.rs` for details.
+/// **Conditioning:** the rotation columns scale with the point magnitude (up to ~10¹¹ m for
+/// SSB planet positions) while the translation columns are O(1), so the raw normal matrix is
+/// severely ill-conditioned.  Centring (block-diagonal normal matrix) plus the Jacobi
+/// preconditioning in [`preconditioned_solve`] restore accuracy: on identical input data the
+/// Cholesky solution agrees with an SVD-based `lstsq` to well within 1e-3, including the
+/// near-cancelling INPOP21a–EPM2021 reducible/irreducible split (verified in
+/// `tests/lunar_interop_budget_reference.rs`).  The residual *physical* sensitivity of that
+/// split — a difference of two comparable rotations — is a scientific point, not a solver
+/// artefact.
 ///
 /// Returns `(theta_rad, residual_rms_m)` where:
 /// - `theta_rad = [θ_x, θ_y, θ_z]` = entries 3–5 of the 6-vector solution.
