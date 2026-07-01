@@ -145,6 +145,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            requirement: "Maximum Time Interval Error (MTIE) — telecom wander metric",
+            capability: "MTIE(τ): the maximum peak-to-peak time-error swing over any sliding window of τ = m·tau0, the ITU-T G.810/G.823/G.8261 wander statistic synchronisation-network limits (MTIE masks) are written against — an extremal (max/min) figure distinct from the RMS Allan family",
+            module: "allan (mtie, mtie_curve)",
+            tests: "tests/mtie_reference.rs (MTIE on the hermetic NIST SP 1065 §12.4 1000-point LCG phase series, 9 averaging factors m=1..256 vs allantools 2024.06 mtie to <1e-9, observed ≤4e-15); allan::tests (hand-derived peak-to-peak; monotone non-decreasing in τ; exact a·m on a pure ramp)",
+            oracle: "allantools 2024.06 — an independent third-party frequency-stability library — mtie() on the hermetic NIST SP 1065 §12.4 LCG phase series; MTIE is a pure max/min statistic, so the estimator output is bit-exact against allantools on the identically-built phase array (the committed 15-significant-figure reference constants sit within 1 ULP). Regenerable offline via tests/fixtures/mtie/generate_mtie_reference.py",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
             requirement: "Optical-clock frequency stability on a real measured curve",
             capability: "Power-law (white-FM + red-noise-floor) NNLS recovery from a published measured ⁸⁸Sr optical-clock-transition Allan deviation — reproducing σ_y(τ) and the headline 4.7e-16/√τ short-τ scaling with a genuine measured long-τ floor, rather than the synthesised optical-class floor holdover.rs otherwise assumes",
             module: "quantum_trade (qparams_from_adev_curve), powerlaw",

@@ -652,6 +652,74 @@ pub fn total_deviation_curve(phase: &[f64], tau0: Seconds) -> Vec<AdevPoint> {
     out
 }
 
+/// One point on an [`mtie_curve`]: the observation window `tau = m·tau0`, the MTIE
+/// over that window (seconds), and the number of window positions that went into it.
+#[derive(Clone, Copy, Debug, Serialize, PartialEq)]
+pub struct MtiePoint {
+    pub tau_s: f64,
+    pub mtie_s: f64,
+    pub n_windows: usize,
+}
+
+/// **Maximum Time Interval Error (MTIE)** for an observation window of `m+1`
+/// consecutive phase/time-error samples (so `tau = m·tau0`), from phase samples
+/// `phase` in seconds.
+///
+/// MTIE is the largest peak-to-peak time-error swing seen within a sliding window of
+/// `m+1` samples, maximised over every window position:
+///
+/// > MTIE(τ) = maxₖ [ max_{k ≤ i ≤ k+m} xᵢ − min_{k ≤ i ≤ k+m} xᵢ ].
+///
+/// It is the wander metric of ITU-T G.810 / G.823 / G.8261 — a bound on the worst
+/// time-interval error a clock can accumulate over *any* interval of length τ, and
+/// the quantity synchronisation network limits (MTIE masks) are written against.
+/// Unlike the Allan-family deviations, MTIE is an **extremal** (max/min) statistic:
+/// it is set by the single worst excursion in the record, not an RMS average, so it
+/// grows monotonically with τ and never averages a transient away.
+///
+/// The value is independent of `tau0` (it is a peak swing in the phase's own units);
+/// `tau0` only labels the averaging time in [`mtie_curve`]. Panics if `m < 1` or
+/// there are fewer than `m+1` samples.
+pub fn mtie(phase: &[f64], m: usize) -> f64 {
+    assert!(m >= 1, "m must be >= 1");
+    let win = m + 1;
+    assert!(
+        phase.len() >= win,
+        "need at least m+1 phase samples for MTIE"
+    );
+    let mut worst = 0.0_f64;
+    for seg in phase.windows(win) {
+        let mut lo = f64::INFINITY;
+        let mut hi = f64::NEG_INFINITY;
+        for &x in seg {
+            lo = lo.min(x);
+            hi = hi.max(x);
+        }
+        worst = worst.max(hi - lo);
+    }
+    worst
+}
+
+/// MTIE across octave-spaced observation windows (`m = 1, 2, 4, …`), from phase
+/// samples spaced `tau0` seconds. Each point carries `tau = m·tau0` and the MTIE over
+/// that window; the grid runs while a full `m+1`-sample window still fits. Because
+/// MTIE is monotone non-decreasing in τ, this is the telecom-wander companion to the
+/// Allan-family curves.
+pub fn mtie_curve(phase: &[f64], tau0: Seconds) -> Vec<MtiePoint> {
+    let n = phase.len();
+    let mut out = Vec::new();
+    let mut m = 1usize;
+    while m < n {
+        out.push(MtiePoint {
+            tau_s: m as f64 * tau0,
+            mtie_s: mtie(phase, m),
+            n_windows: n - m,
+        });
+        m *= 2;
+    }
+    out
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -661,6 +729,46 @@ mod tests {
         // Constant frequency => second differences are zero => ADEV = 0.
         let phase = [0.0, 2.0, 4.0, 6.0, 8.0];
         assert_eq!(overlapping_adev(&phase, 1.0, 1), 0.0);
+    }
+
+    #[test]
+    fn mtie_hand_derived() {
+        // phase = [0,1,3,2,5]:
+        //  m=1 (2-sample windows): swings |1-0|,|3-1|,|2-3|,|5-2| = 1,2,1,3 -> 3
+        //  m=2 (3-sample windows): {0,1,3}=3, {1,3,2}=2, {3,2,5}=3 -> 3
+        //  m=4 (whole 5-sample record): max-min = 5-0 = 5
+        let phase = [0.0, 1.0, 3.0, 2.0, 5.0];
+        assert_eq!(mtie(&phase, 1), 3.0);
+        assert_eq!(mtie(&phase, 2), 3.0);
+        assert_eq!(mtie(&phase, 4), 5.0);
+    }
+
+    #[test]
+    fn mtie_is_monotone_nondecreasing_in_tau() {
+        // MTIE can only grow as the window widens (a wider window contains every
+        // narrower one), so the curve is monotone non-decreasing.
+        let phase = white_fm_phase(3.0e-12, 200, 11);
+        let curve = mtie_curve(&phase, 1.0);
+        assert!(curve.len() >= 3);
+        for w in curve.windows(2) {
+            assert!(
+                w[1].mtie_s >= w[0].mtie_s - 1e-18,
+                "MTIE dropped from {} to {} as tau grew",
+                w[0].mtie_s,
+                w[1].mtie_s
+            );
+        }
+    }
+
+    #[test]
+    fn mtie_linear_phase_equals_full_swing() {
+        // A pure ramp x_i = a·i has, over any (m+1)-window, swing a·m; the max over
+        // all positions is still a·m, so MTIE(m) = a·m exactly.
+        let a = 2.5;
+        let phase: Vec<f64> = (0..20).map(|i| a * i as f64).collect();
+        for m in [1usize, 2, 4, 8] {
+            assert!((mtie(&phase, m) - a * m as f64).abs() < 1e-12);
+        }
     }
 
     #[test]
