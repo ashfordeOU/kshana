@@ -10,13 +10,27 @@
 //! fragile that decision is to the weighting and value-judgement choices that no
 //! amount of simulation can settle.
 //!
-//! The five pieces:
+//! The toolkit spans the four canonical MCDA families — value aggregation, distance
+//! to ideal, compromise programming and outranking — plus the priority-derivation
+//! and robustness machinery that surrounds them:
 //!
-//! * [`wsm`] — Weighted Sum Model: a [`wsm::DecisionMatrix`] of alternatives ×
-//!   criteria, per-criterion value-function normalisation (benefit/cost, min–max,
-//!   target peak, logistic), hard knock-out constraints, and a weighted aggregate
-//!   score + ranking.
-//! * [`ahp`] — Analytic Hierarchy Process: a reciprocal pairwise-comparison matrix
+//! * [`wsm`] — **Weighted Sum Model** (value): a [`wsm::DecisionMatrix`] of
+//!   alternatives × criteria, per-criterion value-function normalisation
+//!   (benefit/cost, min–max, target peak, logistic), hard knock-out constraints, and
+//!   a weighted additive aggregate score + ranking.
+//! * [`wpm`] — **Weighted Product Model** (value): the multiplicative sibling,
+//!   `Πⱼ nᵢⱼ^wⱼ` over sum-normalised values — scale-invariant, no additive unit-mixing,
+//!   with hard-zero annihilation.
+//! * [`topsis`] — **TOPSIS** (distance): relative closeness to the weighted positive
+//!   / negative ideal solutions under min–max normalisation.
+//! * [`vikor`] — **VIKOR** (compromise): group-utility `S`, individual-regret `R` and
+//!   the compromise index `Q` at strategy weight `v`.
+//! * [`promethee`] — **PROMETHEE II** (outranking): pairwise preference with the six
+//!   standard generalised-criterion shapes, positive/negative flows and a complete
+//!   net-flow ranking.
+//! * [`electre`] — **ELECTRE I** (outranking): concordance / discordance, the
+//!   concordance-and-non-veto dominance relation, and the choice **kernel**.
+//! * [`ahp`] — **Analytic Hierarchy Process**: a reciprocal pairwise-comparison matrix
 //!   → principal-eigenvector priority weights (power iteration), Consistency Index
 //!   and Consistency Ratio against Saaty's Random Index table, with the CR < 0.10
 //!   acceptance gate.
@@ -31,26 +45,33 @@
 //!   aggregation.
 //!
 //! **Honesty scope (load-bearing).** This is decision *bookkeeping over* the
-//! simulator's outputs, not a new physical measurement: WSM/AHP/Pareto/MAUT are
-//! textbook closed-form methods, so the strongest claim any of them can carry is
-//! "reproduces an independent reference implementation / published worked example
-//! to a stated tolerance." Two pieces clear that bar against an external oracle:
-//! the WSM aggregate + min–max normalisation reproduce the third-party `pymcdm`
-//! library to < 1e-9, and the AHP priority vector + Consistency Ratio reproduce
-//! Saaty's canonical Random Index table exactly and the SciPy/LAPACK principal
-//! eigensolver to < 1e-9 (see `tests/mcda_wsm_reference.rs`,
-//! `tests/mcda_ahp_reference.rs`). The Pareto, sensitivity, and utility pieces are
-//! property- and known-answer-checked closed form — honestly *Modelled*, not
-//! externally validated. None of this is a claim about the *correctness of the
-//! inputs*: garbage criteria in, garbage decision out. The module's real product is
-//! the [`sensitivity`] caution — a single-number ranking is only as trustworthy as
-//! its robustness to the weights, and this module measures that robustness instead
-//! of hiding it.
+//! simulator's outputs, not a new physical measurement: every method here is a
+//! textbook closed-form procedure, so the strongest claim any of them can carry is
+//! "reproduces an independent reference implementation / published worked example to
+//! a stated tolerance." Six aggregators clear that bar against an external oracle to
+//! < 1e-9: **WSM, WPM, TOPSIS, VIKOR, PROMETHEE II** against the third-party `pymcdm`
+//! library, and **ELECTRE I** (concordance/discordance/dominance/kernel, element for
+//! element) against the third-party `pyDecision` library (see the `tests/mcda_*_reference.rs`
+//! cross-checks). The **AHP** priority vector + Consistency Ratio reproduce Saaty's
+//! canonical Random Index table exactly and the SciPy/LAPACK principal eigensolver to
+//! < 1e-9. The Pareto, sensitivity, and utility pieces are property- and
+//! known-answer-checked closed form — honestly *Modelled*, not externally validated.
+//! None of this is a claim about the *correctness of the inputs*: garbage criteria in,
+//! garbage decision out. The module's real product is the [`sensitivity`] caution —
+//! a single-number ranking is only as trustworthy as its robustness to the weights,
+//! and this module measures that robustness instead of hiding it. Running several
+//! families and checking they agree (the pro overlay's multi-method concordance) is
+//! the honest way to earn confidence a single method cannot give.
 
 pub mod ahp;
+pub mod electre;
 pub mod pareto;
+pub mod promethee;
 pub mod sensitivity;
+pub mod topsis;
 pub mod utility;
+pub mod vikor;
+pub mod wpm;
 pub mod wsm;
 
 /// Whether a criterion / objective is to be **maximised** or **minimised**. Used by
