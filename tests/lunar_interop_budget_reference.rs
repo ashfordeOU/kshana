@@ -189,20 +189,12 @@ fn inter_ephemeris_decomposition_matches_scipy() {
 
     // ── Tolerance macros ───────────────────────────────────────────────────────
     //
-    // Standard tolerance: relative < 1e-3 AND absolute < 1e-3 m / < 1e-2 nrad.
-    //
-    // Exception for INPOP21a–EPM2021 irreducible_m and theta_excess_nrad: the
-    // 6-parameter planet rotation fit has condition number ~5.7×10¹⁰ (Mercury orbital
-    // radius ÷ translation column magnitude), giving ~2 nrad irreducible numerical noise
-    // in the per-planet theta_z estimate.  reference.json was computed by the SciPy
-    // SVD oracle at full kernel precision and the Rust Cholesky runs on 3 d.p. CSV data;
-    // the two are different realizations of this ~2 nrad noise, differing by ~2.9 nrad
-    // in theta_frametie[z].  For INPOP21a–EPM2021, theta_moon ≈ theta_frametie (near-
-    // cancellation), so the ~2.9 nrad theta_frametie[z] discrepancy propagates directly
-    // into theta_excess and irreducible_m as ~1.8×10⁻³ relative error — just above 1e-3.
-    // The widened tolerance (3×10⁻³ / 2×10⁻³) matches the achievable precision for this
-    // ill-conditioned quantity with the current fixture data.  All other quantities and
-    // all other pairs satisfy 1×10⁻³.
+    // Every quantity, every pair: relative < 1e-3 AND absolute < 1e-3 m / < 1e-2 nrad.
+    // reference.json and the CSV fixtures are computed from byte-identical inputs (the
+    // sampled positions are rounded to 6 decimals before BOTH being written to CSV and
+    // fed to the SciPy SVD oracle — see scripts/gen_interop_ref.py), so the Rust-vs-SciPy
+    // difference is pure solver precision, which the Jacobi preconditioning holds within
+    // 1e-3 even for the near-cancelling INPOP21a–EPM2021 split (theta_moon ≈ theta_frametie).
 
     // Relative error < `$rel_tol` AND absolute error < `$abs_tol` (metre quantities).
     macro_rules! check_m_tol {
