@@ -556,6 +556,14 @@ pub fn consistency_tolerance(
     r_user_m: f64,
     per_provider: Option<&crate::lunar_identifiability::DatumIdentifiability>,
 ) -> ConsistencyTolerance {
+    assert!(
+        r_user_m > 0.0,
+        "consistency_tolerance: r_user_m must be positive"
+    );
+    assert!(
+        budget_m >= 0.0,
+        "consistency_tolerance: budget_m must be non-negative"
+    );
     // Effective budget after consuming the realized single-provider datum uncertainty.
     let b_eff = match per_provider {
         None => budget_m,
@@ -936,13 +944,14 @@ mod tests {
 
     // ── Task 5: interop_budget ───────────────────────────────────────────────
 
-    /// Reference `ProvenanceSplit` literals from real inter-ephemeris numbers
-    /// (Table 1, P2 paper draft; `theta_*` zeroed; `raw_rms_m` set to nominal values).
+    /// Reference `ProvenanceSplit` literals matching the Validated oracle
+    /// (`tests/fixtures/inter_ephemeris/reference.json`; `theta_*` zeroed — not consumed
+    /// by `interop_budget`, which reads only the metre fields).
     fn real_splits() -> [ProvenanceSplit; 3] {
         [
             // DE440–INPOP21a
             ProvenanceSplit {
-                raw_rms_m: 2.40,
+                raw_rms_m: 2.3955,
                 rot_residual_m: 0.1387,
                 theta_moon: [0.0; 3],
                 theta_frametie: [0.0; 3],
@@ -952,7 +961,7 @@ mod tests {
             },
             // DE440–EPM2021
             ProvenanceSplit {
-                raw_rms_m: 2.45,
+                raw_rms_m: 2.0148,
                 rot_residual_m: 0.2789,
                 theta_moon: [0.0; 3],
                 theta_frametie: [0.0; 3],
@@ -962,7 +971,7 @@ mod tests {
             },
             // INPOP21a–EPM2021
             ProvenanceSplit {
-                raw_rms_m: 1.30,
+                raw_rms_m: 0.7236,
                 rot_residual_m: 0.2124,
                 theta_moon: [0.0; 3],
                 theta_frametie: [0.0; 3],
