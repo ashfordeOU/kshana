@@ -818,7 +818,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         VerificationItem {
             requirement: "Cross-provider lunar frame/dynamics consistency (real inter-ephemeris)",
-            capability: "7-parameter Helmert + rotation-only decomposition of the DE440/INPOP21a/EPM2021 geocentric-Moon disagreement into a reducible common ICRF frame-tie and an irreducible lunar-orbit-orientation excess",
+            capability: "rotation-only (6-parameter translation+rotation) decomposition of the DE440/INPOP21a/EPM2021 geocentric-Moon disagreement into a reducible common ICRF frame-tie and an irreducible lunar-orbit-orientation excess (the full 7-parameter Helmert fit is a separate public function covered only by an internal analytic-recovery unit test, not by this external check)",
             module: "lunar_interop_budget",
             tests: "tests/lunar_interop_budget_reference.rs (raw / rotation-residual / theta_moon / theta_frametie / theta_excess / reducible / irreducible for 3 provider pairs vs the independent SciPy SVD lstsq fit in tests/fixtures/inter_ephemeris/reference.json, rel<1e-3 abs<1e-3 m; fixtures + oracle byte-consistent via scripts/gen_interop_ref.py on public DE440/INPOP21a/EPM2021 kernels through IMCCE calceph)",
             oracle: "Three independent authoritative ephemerides — DE440 (JPL), INPOP21a (IMCCE), EPM2021 (IAA RAS) — sampled via IMCCE calceph, cross-checked by an independent numpy SVD least-squares fit",

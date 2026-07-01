@@ -50,7 +50,9 @@ reducible (frame-tie) / irreducible (Moon-orbit dynamics) metre split. Headline 
 | INPOP21a–EPM2021   | 0.72 m | 0.21 m         | 1.02 m (2.66 nrad)    | 0.59 m (1.53 nrad)     |
 
 **Interpretation (see the P2 manuscript for the honest split caveat):** the cross-provider
-disagreement is an *orientation* effect — a constant frame rotation explains 85–94 % — that
+disagreement is an *orientation* effect — a constant frame rotation explains **71–94 % of the
+disagreement by amplitude** `(raw − rot_residual)/raw` (94 % DE440–INPOP21a, 86 % DE440–EPM2021,
+71 % INPOP21a–EPM2021), i.e. **91–99.7 % of the variance** `1−(rot_residual/raw)²` — that
 decomposes into a **reducible common ICRF frame-tie** (removed by adopting a common frame
 realization) and a **Moon-specific excess rotation** (a real difference in the modelled lunar
 orbit orientation, removable only by a common designated ephemeris). Attributing the

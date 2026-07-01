@@ -7,10 +7,10 @@ decomposition for the P2 lunar-interop-budget module.
 Samples the geocentric Moon and four SSB planet positions from three INDEPENDENT
 authoritative lunar/planetary ephemerides — the only real "multiple providers" that
 exist today — and writes:
-  tests/fixtures/interop/moon_geo.csv    day,provider,x_m,y_m,z_m   (Moon wrt Earth, ICRF)
-  tests/fixtures/interop/planet_ssb.csv  day,provider,body,x_m,y_m,z_m (body wrt SSB, ICRF)
-  tests/fixtures/interop/reference.json  expected per-pair Helmert decomposition
-  tests/fixtures/interop/NOTICE.md       provenance
+  tests/fixtures/inter_ephemeris/moon_geo.csv    day,provider,x_m,y_m,z_m   (Moon wrt Earth, ICRF)
+  tests/fixtures/inter_ephemeris/planet_ssb.csv  day,provider,body,x_m,y_m,z_m (body wrt SSB, ICRF)
+  tests/fixtures/inter_ephemeris/reference.json  expected per-pair Helmert decomposition
+  tests/fixtures/inter_ephemeris/NOTICE.md       provenance
 
 Providers (independent families):
   DE440    JPL   (Park et al. 2021, AJ 161:105)          de440s.bsp
