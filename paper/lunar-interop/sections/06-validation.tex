@@ -1,0 +1,116 @@
+\section{Validation and the structure/magnitude firewall}
+\label{sec:validation}
+
+A paper that converts a metre-level lunar disagreement into a procurement design law
+must be scrupulous about which of its numbers are earned on real data and which are
+representative. We enforce this with an explicit firewall, implemented as a rule in
+the engine's verification suite and stated plainly here: a quantity is \Validated{}
+only when it is checked against an \emph{independent} oracle---a separate dataset,
+library, or published vector---to a stated tolerance; a result is \Proven{} when it is
+an algebraic theorem; everything else is \Modelled{}. This section states what falls
+on each side and gives the external check that anchors the \Validated{} side.
+
+\subsection{The independent oracle for the decomposition}
+\label{sec:oracle}
+
+The one load-bearing empirical object of this paper is the rotation-only
+decomposition of the real inter-ephemeris disagreement (Table~\ref{tab:anchor}). We
+validate it against an independent SciPy/NumPy reference. A generator script
+(Section~\ref{sec:availability}) reads the DE440/INPOP21a/EPM2021 kernels through
+\code{calceph}, samples the geocentric Moon and the planetary SSB positions on the
+same grid used by the engine, and computes the rotation-only Helmert-difference fit
+by an independent singular value decomposition of the centred cross-covariance
+\citep{arun1987leastsquares}, emitting the expected raw disagreement, rotation
+residual, reducible and irreducible metres, and the three rotation magnitudes to a
+vendored fixture (\code{reference.json}). Crucially, both the engine and the oracle
+consume positions rounded to six decimals, so the comparison is byte-consistent and
+tests the \emph{algorithm}, not floating-point sampling noise
+(Appendix~\ref{app:methods}). The engine's \code{provenance\_split} reproduces every
+value to a relative error below $10^{-3}$ and an absolute error below $\SI{e-3}{m}$
+(metre quantities) and $\SI{e-2}{\nano\radian}$ (angle quantities)---including the
+near-cancelling INPOP21a--EPM2021 excess, where $\rot_{\mathrm{moon}}$ and
+$\rot_{\mathrm{tie}}$ nearly coincide and the subtraction is the numerically hardest.
+This is the paper's single \Validated{} row: the decomposition of the \emph{real}
+ephemeris disagreement is externally confirmed by an independent implementation.
+
+\subsection{What is Validated, Proven, and Modelled}
+\label{sec:matrix}
+
+Table~\ref{tab:honesty} draws the line explicitly. Only the rotation-only
+inter-ephemeris decomposition is \Validated{}. The gauge lemma, the removability
+structure of the reducible/irreducible split, the triangle bound, and the $\tau(B)$
+inversion are \Proven{} (algebra); the affine numeric attribution of the rotation into
+a frame-tie and a Moon-excess is a modelling interpretation
+(Remark~\ref{rem:attribution}). Everything at the system level---the multi-provider user model,
+the budget totals of Table~\ref{tab:budget}, the design-law magnitudes, and the
+$\tau(B)$ map of Table~\ref{tab:tolerance}---is \Modelled{}, because the ``providers''
+are ephemerides, a representative analog. Two internal checks are honest but not
+independent and are labelled so: the full seven-parameter Helmert fit is exercised
+only by an analytic-recovery unit test (a synthetic datum is injected and recovered),
+and the budget assembly is an internal RMS combination of the validated pairwise
+numbers.
+
+\begin{table}[t]
+\centering
+\caption{The structure/magnitude firewall. Only the rotation-only inter-ephemeris
+decomposition is \Validated{} (independent SciPy/NumPy oracle on real
+DE440/INPOP21a/EPM2021 data). The theorem is \Proven{}; every system-level magnitude
+is \Modelled{}. The full seven-parameter Helmert fit and the budget assembly are
+internal-consistency checks, honest but not independent.}
+\label{tab:honesty}
+\small
+\begin{tabular}{@{}p{4.8cm}p{3.6cm}p{2.8cm}c@{}}
+\toprule
+\textbf{Result} & \textbf{Check} & \textbf{Oracle} & \textbf{Status} \\
+\midrule
+Rotation-only inter-ephemeris decomposition (Table~\ref{tab:anchor}) &
+real DE440/INPOP/EPM vs SciPy SVD, $<\!10^{-3}$ &
+ext.\ library + real data & \Validated{} \\[3pt]
+Gauge lemma; R/I removability structure; triangle bound; $\tau(B)$ inversion
+(Lem.~\ref{lem:gauge}--\ref{lem:split}, Thm.~\ref{thm:tolerance}) &
+algebraic proof &
+--- & \Proven{} \\[3pt]
+Full 7-parameter Helmert fit &
+analytic datum injection/recovery &
+internal & \Modelled{} \\[3pt]
+Multi-provider interop budget (Table~\ref{tab:budget}) &
+RMS assembly of validated pairs &
+internal & \Modelled{} \\[3pt]
+Consistency-tolerance map (Table~\ref{tab:tolerance}) &
+triangle bound, $B_{\mathrm{eff}}=B$ &
+internal (analytic) & \Modelled{} \\[3pt]
+$B_{\mathrm{eff}}$ inflation (Thm.~\ref{thm:tolerance}) &
+quadrature with companion CRLB &
+internal (mod.\ $\sigma$) & \Modelled{} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{The split caveat, restated}
+\label{sec:splitcaveat}
+
+The firewall has one boundary that is a modelling interpretation rather than a
+tolerance, and we restate it here so it is impossible to miss. Attributing the
+planet-common rotation to a removable ICRF frame-tie (the \emph{reducible} part) and
+the Moon-excess to irreducible dynamics is a stated modelling interpretation
+(Remark~\ref{rem:attribution}). It is the reasonable reading---a rotation shared by
+the Moon and the planets is naturally a frame-tie---but it is not forced by the data.
+The attribution-independent, convention-free claim, the one a skeptical reviewer can
+accept without granting the interpretation, is the Moon-\emph{excess} rotation
+$|\rot_{\mathrm{exc}}|$: it is by construction the part of the lunar disagreement that
+does not appear in the planetary tie, hence unambiguously Moon-specific and removable
+by no whole-frame choice. Every irreducible-floor and design-law statement in the
+paper rests only on the excess, not on the frame-tie label.
+
+\subsection{Reproducibility}
+\label{sec:reproducibility}
+
+Every quantitative result in this paper---the three-pair decomposition of
+Table~\ref{tab:anchor}, the budget of Table~\ref{tab:budget}, and the tolerance map
+of Table~\ref{tab:tolerance}---is regenerated from the committed engine and the
+vendored fixtures by a single command (Section~\ref{sec:availability}). The
+\Validated{} row is asserted in the continuous-integration test suite, which enforces
+the external-oracle gate: the pairwise decomposition must match \code{reference.json}
+to the stated tolerance or the build fails. There are no hand-entered results in the
+tables: the manuscript numbers and the engine outputs are the same numbers, traceable
+to one run.

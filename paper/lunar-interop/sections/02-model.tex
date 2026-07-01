@@ -1,0 +1,134 @@
+\section{The multi-provider datum-difference model}
+\label{sec:model}
+
+We model $N$ providers, each of which realizes a lunar reference frame and a lunar
+ephemeris. For a single physical body-point $\bm{p}$---a surface asset, or the
+lunocentre-referenced Moon state itself---provider $a$ reports a coordinate
+$\xstate_a(\bm{p},t)$. The object of study is the pairwise disagreement between two
+providers' reports of the \emph{same} physical point.
+
+\subsection{The seven-parameter datum difference}
+\label{sec:datumdiff}
+
+To first order, the difference between two providers' coordinates for one point
+decomposes into a constant seven-parameter similarity (Helmert) datum and a
+time-varying residual,
+\begin{equation}
+  \xstate_b(\bm{p},t) - \xstate_a(\bm{p},t)
+  \;=\; \Jac\!\bigl(\xstate_a\bigr)\,\datum_{ab} \;+\; \resid_{ab}(\bm{p},t),
+  \label{eq:diffmodel}
+\end{equation}
+where $\datum_{ab}\in\R^{7}$ is the constant Helmert datum of $b$ with respect to
+$a$, and $\resid_{ab}$ is the residual that no single constant Helmert transform can
+absorb---the genuine differential \emph{dynamics}, a prediction disagreement rather
+than a coordinate convention. The point-Jacobian is evaluated at the reporting
+provider's coordinate $\xstate_a$; since $\xstate_a=\bm{p}+O(\|\datum_{ab}\|)$, we may
+substitute the shared physical point $\bm{p}$, $\Jac(\xstate_a)=\Jac(\bm{p})+O(\|\datum_{ab}\|^{2})$,
+so at the first order at which \eqref{eq:diffmodel} holds the two are interchangeable.
+The decomposition is \emph{unique} exactly when the sampled point geometry gives the
+$3\times7$ design a full column rank of seven; for a single lever arm it need not (a
+uniform radial scale and a radial translation are then indistinguishable), which is
+why the externally validated fit below drops the scale column
+(Section~\ref{sec:rotonly}). The Helmert datum collects three translations
+$\ttrans=(t_x,t_y,t_z)$, one scale $s$, and three small rotations
+$\rot=(\theta_x,\theta_y,\theta_z)$,
+\begin{equation}
+  \datum \;=\; (t_x,\,t_y,\,t_z,\,s,\,\theta_x,\,\theta_y,\,\theta_z)^\top \in \R^7,
+  \label{eq:datumvec}
+\end{equation}
+and acts on a point $\bm{p}\in\R^3$ through the linearized similarity transform
+$\bm{p}\mapsto\bm{p}+\ttrans+s\bm{p}+\rot\times\bm{p}$, whose Jacobian with respect
+to $\datum$ is the $3\times7$ point-Jacobian
+\begin{equation}
+  \Jac(\bm{p}) \;=\; \bigl[\;\bm{I}_3\;\big|\;\bm{p}\;\big|\;-[\bm{p}]_\times\;\bigr],
+  \qquad
+  [\bm{p}]_\times\,\rot = \bm{p}\times\rot .
+  \label{eq:pointjac}
+\end{equation}
+The first three columns are the translation, the fourth (the point's own
+coordinates) is the scale, and the last three are the generators of rotation. This
+is the same point-Jacobian that governs the single-provider datum-identifiability
+problem of the companion paper \citep{baweja2026datum}; here it acts on the
+\emph{difference} between two providers rather than on a single frame's null space.
+
+Given a set of sampled points and epochs, the constant datum $\datum_{ab}$ that best
+explains the differences \eqref{eq:diffmodel} is the least-squares solution of the
+stacked linear system, and $\resid_{ab}$ is the residual left after removing it. We
+solve this by centred normal equations with Jacobi (diagonal) preconditioning, for
+the reasons given in Appendix~\ref{app:methods}.
+
+\subsection{The rotation-only sub-fit}
+\label{sec:rotonly}
+
+The full seven-parameter fit is used only as an internal analytic check
+(Section~\ref{sec:validation}). The externally validated decomposition uses a
+\emph{rotation-only} sub-fit: the six-parameter rigid-body (Euclidean) model that
+retains translation and rotation but drops the scale column,
+\begin{equation}
+  \xstate_b(\bm{p},t) - \xstate_a(\bm{p},t)
+  \;=\; \ttrans_{ab} \;-\;[\bm{p}]_\times\,\rot_{ab}
+   \;+\; \resid^{\mathrm{rot}}_{ab}(\bm{p},t).
+  \label{eq:rotonly}
+\end{equation}
+For a fixed body-point sampled through the physical geometry, the rotation
+$\rot_{ab}$ is recovered from the centred point correspondences by the classical
+singular value decomposition of their cross-covariance
+\citep{arun1987leastsquares}; the residual root-mean-square
+$\|\resid^{\mathrm{rot}}_{ab}\|$ measures the part of the disagreement that no
+constant translation-plus-rotation removes. We report, for each provider pair, the
+raw disagreement, the rotation-fit residual, and the recovered rotation magnitude;
+these are the \Validated{} quantities of Section~\ref{sec:interephemeris}. Using the
+rigid-body sub-fit rather than the full seven-parameter fit is deliberate: it is the
+minimal model whose recovered rotation is unambiguous (a scale column can trade
+against a radial translation, whereas a pure rotation cannot), so it is the fit we can
+reproduce against an independent oracle to a tight tolerance.
+
+\subsection{Reducible, irreducible, and the interop tax}
+\label{sec:defs}
+
+\begin{definition}[Interop tax]
+\label{def:tax}
+For a user that consumes coordinates from more than one provider (fusion) or ties a
+provider's coordinate to an asset defined in another provider's frame (hand-off, or a
+surveyed landmark), the \emph{interop tax} is the position error induced by
+$\{\datum_{ab},\resid_{ab}\}$ that a single self-consistent provider never sees.
+\end{definition}
+
+\begin{definition}[Reducible and irreducible components]
+\label{def:redirr}
+Collect the pairwise disagreements \eqref{eq:diffmodel}. The recovered Moon rotation
+admits the measured affine split
+$\rot_{\mathrm{moon}}=\rot_{\mathrm{tie}}+\rot_{\mathrm{exc}}$, and the cross-provider
+error separates into three terms:
+\begin{itemize}
+  \item a \emph{reducible} part $\reduc$: the Helmert rotation
+  $\rot_{\mathrm{tie}}$ that is common across bodies and directions and is therefore
+  removable by adopting a common frame realization---a coordinate convention.
+  Operationally we estimate it as the body-common (planet-common) frame-tie rotation
+  shared by the Moon and the planetary positions;
+  \item an \emph{irreducible} part $\irr$: the body-specific Moon-\emph{excess}
+  rotation $\rot_{\mathrm{exc}}=\rot_{\mathrm{moon}}-\rot_{\mathrm{tie}}$, a
+  lunar-orbit orientation difference that does \emph{not} appear in the planetary
+  frame-tie. No coordinate convention removes $\irr$; only a common designated
+  dynamical reference (a common ephemeris) sets $\irr\to0$ by construction;
+  \item a non-Helmert \emph{residual} $\resid_{ab}$: the part of the difference that
+  no constant rigid transform absorbs. It is bookkept separately from $\rot_{\mathrm{exc}}$
+  (it is small, sub-nanoradian in rotation-equivalent), is likewise irreducible by any
+  coordinate convention, and enters the budget total as its own term
+  (Table~\ref{tab:budget}).
+\end{itemize}
+The split $\reduc$/$\irr$ is affine (not orthogonal): $\rot_{\mathrm{tie}}$ and
+$\rot_{\mathrm{exc}}$ are in general non-parallel, so their metre envelopes do not add
+in quadrature to the raw disagreement (Section~\ref{sec:budget}).
+\end{definition}
+
+\noindent The reducible/irreducible split is the load-bearing structure of the
+paper. Section~\ref{sec:theorem} proves that a common frame convention removes only
+the body-common $\reduc$ and leaves $\irr$ (and the residual) intact;
+Section~\ref{sec:interephemeris} measures both parts on the real ephemerides; and
+Section~\ref{sec:budget} inverts the budget to the tolerance $\tau(B)$. We flag now,
+and repeat where it matters, that the \emph{attribution} of the planet-common
+rotation to a reducible frame-tie (as opposed to shared dynamics) is a stated
+modelling interpretation; the convention-free claim is the Moon-excess rotation
+(Definition~\ref{def:redirr}, second bullet), which is unambiguously Moon-specific and
+hence not removable by any whole-frame choice.

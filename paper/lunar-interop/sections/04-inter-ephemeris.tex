@@ -1,0 +1,158 @@
+\section{The real inter-ephemeris disagreement}
+\label{sec:interephemeris}
+
+We now anchor the budget on the real disagreement between the three independent
+authoritative lunar ephemerides. This is the paper's one \Validated{} result: the
+rotation-only decomposition of the measured DE440/INPOP21a/EPM2021 disagreement,
+reproduced against an independent numerical oracle.
+
+\subsection{Method}
+\label{sec:interephmethod}
+
+We sample the geocentric Moon position (NAIF body 301 with respect to 399) from each
+of DE440 \citep{park2021de440}, INPOP21a \citep{fienga2021inpop21a}, and EPM2021
+\citep{pitjeva2021epm2021} over 2024-01-01 to 2025-12-31 in Barycentric Dynamical
+Time (TDB), at two-day cadence ($366$ epochs), in the ICRF/J2000 frame, using the
+IMCCE \code{calceph} library so that all three families are read through one
+interface (Appendix~\ref{app:methods}). For each provider pair we form the epoch-wise
+position difference and fit the rotation-only (six-parameter) rigid-body model
+\eqref{eq:rotonly} by the singular value decomposition of the centred cross-covariance
+\citep{arun1987leastsquares}, recording the raw disagreement RMS, the rotation-fit
+residual RMS, and the recovered Moon rotation magnitude $|\rot_{\mathrm{moon}}|$.
+
+To separate a body-common frame-tie from a Moon-specific excess we additionally
+sample the planetary positions with respect to the Solar System barycentre
+(Mercury, Venus, Mars, and the Earth--Moon barycentre; NAIF bodies $1,2,4,3$ with
+respect to $0$). We fit the same rotation-only model separately to each of these four
+witness bodies, obtaining four per-body rotation vectors, and take
+$\rot_{\mathrm{tie}}$ as their \emph{component-wise median}: a deliberately robust but
+ad-hoc aggregate that resists a single discrepant witness (a joint or weighted fit
+would shift the split; Section~\ref{sec:limitations} and
+Appendix~\ref{app:methods}). The Sun is deliberately \emph{excluded}: its
+Solar-System-barycentre position is dominated by the giant planets and is
+barycentre-definition-contaminated, so it is not a clean witness of the ICRF
+frame-tie (Appendix~\ref{app:methods}). The Moon-specific \emph{excess} rotation is
+then $\rot_{\mathrm{exc}}=\rot_{\mathrm{moon}}-\rot_{\mathrm{tie}}$. We report the
+rotations---which are lever-arm-independent---as the primary quantities; the metre
+columns are worst-case envelopes obtained by mapping each rotation through the
+Earth--Moon lever arm $\Rmoon=\SI{3.840e8}{m}$, so the reducible (frame-tie) envelope
+is $|\rot_{\mathrm{tie}}|\,\Rmoon$ and the irreducible (Moon-orbit dynamics) envelope
+is $|\rot_{\mathrm{exc}}|\,\Rmoon$. Because $\rot_{\mathrm{tie}}$ and
+$\rot_{\mathrm{exc}}$ are in general non-parallel, these envelopes are upper bounds
+that do not sum to the raw disagreement. This lever arm is the \emph{geocentric-Moon
+state}: the metres quantify a Moon-state (ephemeris hand-off / cislunar) inconsistency,
+not a surface-user error; a lunar-surface user at radius $R_{\mathrm{Moon}}$ sees the
+same rotations scaled by the far smaller $R_{\mathrm{Moon}}$
+(Section~\ref{sec:interephresult}).
+
+\subsection{Result}
+\label{sec:interephresult}
+
+Table~\ref{tab:anchor} reports the decomposition for the three provider pairs. Three
+facts stand out, and all three are properties of the real data.
+
+\begin{table}[t]
+\centering
+\caption{The real inter-ephemeris disagreement (2024--2025 geocentric Moon,
+two-day cadence, $366$ epochs), decomposed by the rotation-only Helmert-difference
+fit. The rotations (right three columns, nrad) are the lever-arm-independent primary
+quantities; the reducible and irreducible metre columns are worst-case envelopes
+$|\rot_{\mathrm{tie}}|\,\Rmoon$ and $|\rot_{\mathrm{exc}}|\,\Rmoon$ at the
+geocentric-Moon-state lever arm $\Rmoon=\SI{3.840e8}{m}$ (upper bounds; because
+$\rot_{\mathrm{tie}}$ and $\rot_{\mathrm{exc}}$ are non-parallel they do not sum to the
+raw disagreement). This decomposition is \Validated{} against an independent
+SciPy singular value decomposition to a relative and absolute tolerance below
+$10^{-3}$ (Section~\ref{sec:validation}). The full seven-parameter Helmert fit is a
+separate internal analytic check and is \emph{not} claimed to be externally
+validated.}
+\label{tab:anchor}
+\small
+\begin{tabular}{@{}lccccccc@{}}
+\toprule
+\textbf{Pair} & \textbf{raw} & \textbf{rot.\ res.} &
+\textbf{reducible} & \textbf{irreducible} &
+$|\rot_{\mathrm{moon}}|$ & $|\rot_{\mathrm{tie}}|$ & $|\rot_{\mathrm{exc}}|$ \\
+ & (m) & (m) & (m) & (m) & (nrad) & (nrad) & (nrad) \\
+\midrule
+DE440--INPOP21a   & $2.3955$ & $0.1387$ & $0.8845$ & $1.8741$ & $6.5598$ & $2.3034$ & $4.8804$ \\
+DE440--EPM2021    & $2.0148$ & $0.2789$ & $0.4288$ & $2.4056$ & $5.2567$ & $1.1166$ & $6.2646$ \\
+INPOP21a--EPM2021 & $0.7236$ & $0.2124$ & $1.0209$ & $0.5884$ & $2.4171$ & $2.6585$ & $1.5323$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{The disagreement is an orientation effect.}
+A constant frame rotation removes the overwhelming majority of the disagreement: the
+rotation-fit residual falls to $0.14$--$0.28$~m from a raw disagreement of
+$0.72$--$2.40$~m. Quantifying the rotation's share honestly requires care about the
+metric. By \emph{amplitude}, $(\text{raw}-\text{rot.\ res.})/\text{raw}$, rotation
+explains $94\%$ (DE440--INPOP21a), $86\%$ (DE440--EPM2021), and $71\%$
+(INPOP21a--EPM2021), i.e.\ $71$--$94\%$; by \emph{variance},
+$1-(\text{rot.\ res.}/\text{raw})^2$, it explains $99.7\%$, $98\%$, and $91\%$,
+i.e.\ $91$--$99.7\%$. We report both metrics and their ranges rather than a single
+headline figure. The disagreement is emphatically \emph{not} a translation, a scale,
+or a format difference---those remove almost nothing---and the practical consequence
+is that a common frame/format tag, which can only cancel a body-common part of the
+rotation, is attacking the right quantity but not all of it.
+
+\paragraph{The rotation splits, and for the JPL pairs the irreducible part
+dominates.} The recovered Moon rotation separates, via the measured affine split
+$\rot_{\mathrm{moon}}=\rot_{\mathrm{tie}}+\rot_{\mathrm{exc}}$, into a body-common
+frame-tie ($|\rot_{\mathrm{tie}}|=1.1$--$2.7$~nrad; reducible) and a Moon-specific
+excess ($|\rot_{\mathrm{exc}}|=1.5$--$6.3$~nrad; irreducible). The two are
+\emph{non-parallel}---the angle between $\rot_{\mathrm{tie}}$ and $\rot_{\mathrm{exc}}$
+is $52^\circ$, $157^\circ$, and $116^\circ$ for the three pairs---so the split is
+affine, not orthogonal, and the metre envelopes below are upper bounds that do not add
+in quadrature. For the two JPL-versus-others pairs the irreducible excess rotation is
+$4.88$~nrad (DE440--INPOP21a) and $6.26$~nrad (DE440--EPM2021), each roughly twice the
+reducible frame-tie ($2.30$ and $1.12$~nrad); at the geocentric-Moon-state lever arm
+these are irreducible envelopes of $1.87$~m and $2.41$~m against reducible envelopes of
+$0.88$~m and $0.43$~m. The INPOP21a--EPM2021 pair, whose families share more heritage,
+is the exception and is more balanced ($2.66$~nrad tie versus $1.53$~nrad excess;
+$1.02$~m versus $0.59$~m). As an internal cross-check, the DE440--INPOP21a
+excess-rotation vector is $(0.601,\,3.362,\,-3.486)$~nrad, of magnitude $4.880$~nrad,
+which maps to the $1.874$~m irreducible envelope at the lever arm. These metres are
+geocentric-Moon-state inconsistencies (relevant to ephemeris hand-off and cislunar
+users); the identical excess rotations experienced by a lunar-\emph{surface} user
+scale instead by $R_{\mathrm{Moon}}=\SI{1.7374e6}{m}$, so the RMS irreducible excess
+($4.67$~nrad, Section~\ref{sec:budget}) is only $\approx\!8$~mm at the surface and even
+the largest single-pair excess ($6.26$~nrad) is $\approx\!11$~mm.
+
+\paragraph{The order of magnitude is physically reasonable, and is corroborated by the
+literature.}
+A metre-level geocentric-Moon disagreement between DE440 and INPOP21a is consistent
+with the known level of agreement between these independent reductions, which
+supports the correctness of the \code{calceph} reads underlying the fit. Independent
+corroboration comes from \citet{sosnica2025ilrf}, who compare the same ephemeris
+families against their ILRF combined solution and report along-track RMS lunar-position
+differences of $\approx\!0.51$~m (EPM2021), $\approx\!0.60$~m (INPOP21a), and
+$\approx\!1.67$~m (DE430), against much smaller radial ($0.08$--$0.17$~m) and
+cross-track ($0.21$--$0.37$~m) differences, and attribute the dominant along-track
+disagreement to dynamics (tidal dissipation and external torques). This is
+order-of-magnitude support for \emph{both} of our claims---the $\approx\!2$~m
+magnitude and the irreducible-\emph{dynamics} attribution---from an entirely
+independent comparison. We stress it is not a validation target: their comparison is
+DE430 (we use DE440) and pairwise-versus-combined (we compare providers pairwise), so
+it corroborates the order of magnitude and the dynamical origin, not a specific number.
+We do not otherwise claim to reproduce any published inter-ephemeris comparison as a
+target; the decomposition, not the raw magnitude, is the validated object.
+
+\subsection{What is validated, and what is not}
+\label{sec:interephvalidated}
+
+The rotation-only decomposition of Table~\ref{tab:anchor}---raw, rotation residual,
+reducible, irreducible, and the three rotation magnitudes, for all three pairs---is
+reproduced by the engine and by an independent SciPy singular value decomposition of
+the same six-decimal fixture data, agreeing to a relative error below $10^{-3}$ and an
+absolute error below $\SI{e-3}{m}$ (metre quantities) and $\SI{e-2}{\nano\radian}$
+(angle quantities), even for the near-cancelling INPOP21a--EPM2021 excess where
+$\rot_{\mathrm{moon}}\approx\rot_{\mathrm{tie}}$. This is the paper's single
+\Validated{} row (Section~\ref{sec:validation}). We stress two boundaries. First,
+only the \emph{rotation-only} decomposition is externally validated; the full
+seven-parameter Helmert fit (which additionally estimates translation and scale) is
+exercised only by an internal analytic-recovery unit test and is not claimed to be
+externally validated. Second, the reducible/irreducible \emph{attribution}---calling
+the planet-common rotation a removable frame-tie---is the modelling interpretation of
+Remark~\ref{rem:attribution}; the convention-free content is the Moon-excess rotation
+column $|\rot_{\mathrm{exc}}|$, which is unambiguously Moon-specific and removable by
+no whole-frame choice.

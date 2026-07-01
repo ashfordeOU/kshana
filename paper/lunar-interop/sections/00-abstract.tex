@@ -1,0 +1,49 @@
+A multi-provider lunar positioning, navigation, and timing (PNT) architecture---the
+declared vision of LunaNet, ESA Moonlight/LCNS, and their national counterparts---%
+requires a number that no interoperability standard yet supplies: the
+\emph{consistency tolerance}, the maximum cross-provider frame-and-dynamics
+disagreement a user can absorb while staying within a positioning budget. The
+LunaNet Interoperability Specification standardizes formats, frames, and time tags,
+but its cross-provider consistency tolerance is deferred to a still-unreleased
+applicable document---the Lunar Reference System and LunaNet Reference Time System
+Standard (AD-5, {LNIS-TBD-AD0005}). We supply it in three parts. First, we prove a
+\emph{consistency-tolerance theorem}: to first order the pairwise inter-provider
+coordinate difference decomposes into a constant seven-parameter Helmert datum and a
+dynamics residual (uniquely where the sampled geometry gives the datum full column
+rank). A datum \emph{common} to all providers is invisible to any single-provider
+user and cancels in provider-versus-provider fusion; it becomes real position error
+only against an absolute external tie. The object that a fusing or hand-off user
+actually pays---the ``interop tax''---is instead the \emph{differential} datum that
+two providers do not share. That tax splits, as a measured affine decomposition of
+the recovered rotation $\rot_{\mathrm{moon}}=\rot_{\mathrm{tie}}+\rot_{\mathrm{exc}}$,
+into a \emph{reducible} part a common frame convention removes and an
+\emph{irreducible} part that no coordinate convention removes; and inverting a
+triangle bound yields the closed-form tolerance $\tau(B)$ per Helmert parameter for a
+user budget $B$. Second, we anchor the budget on the only real ``multiple providers''
+that exist today---the three independent authoritative lunar ephemerides DE440 (JPL),
+INPOP21a (IMCCE), and EPM2021 (IAA~RAS)---and show, on their real 2024--2025
+geocentric-Moon disagreement, that the cross-provider inconsistency is an
+\emph{orientation} effect: a constant frame rotation explains $71$--$94\%$ of the
+disagreement by amplitude ($91$--$99.7\%$ by variance), splitting into a reducible
+frame-tie ($\approx\!1$--$3$~nrad) and an irreducible Moon-specific excess rotation
+($\approx\!5$--$6$~nrad for the JPL-versus-others pairs). Reported in the
+lever-arm-independent rotations, that irreducible excess is a
+\emph{geocentric-Moon-state} inconsistency: at the Earth--Moon lever arm it is a
+$\approx\!2$~m envelope relevant to ephemeris hand-off and cislunar users, while the
+same excess rotation seen by a lunar-\emph{surface} user is only $\approx\!8$~mm. This
+decomposition is \Validated{}: reproduced against an independent SciPy singular value
+decomposition to a relative and absolute tolerance below $10^{-3}$. Third, we fold the
+two into a multi-provider interop budget and a design law: because the irreducible
+rotation is about twice the reducible (irreducible fraction
+$\|\rot_{\mathrm{exc}}\|/(\|\rot_{\mathrm{tie}}\|+\|\rot_{\mathrm{exc}}\|)=0.687$), a
+common format-and-frame tag---what today's standards mandate---leaves the dominant
+floor (a $\approx\!1.8$~m geocentric-Moon-state envelope at the Earth--Moon lever
+arm); closing it requires mandating a \emph{common (or consistency-bounded) dynamical
+reference}, not merely a common format. The scope AD-5 itself declares---a lunar
+gravity field to finite degree and order plus a parametric precession/nutation
+model---is exactly the lunar-orbit dynamics we identify as the irreducible floor. The
+theorem, gauge lemma, and tolerance inversion are proven; the inter-ephemeris
+decomposition is Validated on real data; the system-level budget and $\tau(B)$ map are
+explicitly \Modelled{} (the ``providers'' are ephemerides, a representative
+analog---no two lunar-PNT providers fly), and every number is reproducible from a
+single command.

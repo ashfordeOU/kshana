@@ -1,0 +1,11 @@
+*.aux
+*.log
+*.out
+*.bbl
+*.blg
+*.xdv
+*.synctex.gz
+
+# Figure PNGs are regenerable; PDF/TikZ figures (if any) are the paper's vector
+# figures. main.pdf is committed as the built artifact.
+figures/*.png
