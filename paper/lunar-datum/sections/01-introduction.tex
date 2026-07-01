@@ -1,0 +1,105 @@
+\section{Introduction}
+\label{sec:intro}
+
+A wave of lunar exploration is placing new demands on the geodetic
+infrastructure of the Moon. ESA's Moonlight programme and its Lunar
+Communications and Navigation Service (LCNS), NASA's LunaNet and Lunar
+Communications Relay and Navigation Systems, and Japan's Lunar Navigation
+Satellite System will together provide positioning, navigation, and timing (PNT)
+for surface and orbital users \citep{israel2020lunanet,fienga2024moonlight}. Every
+one of these services is expressed in, and only as good as, a common lunar
+reference frame. Recognizing this, the community has begun to define and realize
+the International Lunar Reference Frame (ILRF): a principal-axis system co-rotating
+with the Moon, with origin at the lunar centre of mass \citep{sosnica2025ilrf}.
+
+The first ILRF realization exposes a sharp limitation. \citet{sosnica2025ilrf}
+report that a poor spatial distribution of the lunar laser-ranging (LLR)
+retroreflector network---five near-side reflectors, clustered near the equator,
+with a single station in the southern hemisphere---induces a correlation as large
+as $\corr \approx -0.97$ between the lunocentre $X$-translation and the overall
+frame scale. This near-degeneracy dominates the origin error budget: the combined
+solution carries a mean position error of $17.6$~cm over 2010--2030, of which
+$15.3$~cm comes from the origin. In terrestrial terms this is the lunar analogue
+of the origin-and-scale problem that the terrestrial reference frame community has
+spent decades taming through geometric and technique diversity
+\citep{altamimi2016itrf2014}: the datum---the seven degrees of freedom (three
+translations, one scale, three rotations) that no internal measurement can
+fix---must be pinned down by observations whose geometry actually senses those
+degrees of freedom.
+
+The empirical $-0.97$ is a symptom. The design questions behind it are not yet
+answered: \emph{Why} is it the $X$-translation and the scale, specifically, that
+lock together? \emph{Which} additional observations would separate them, and
+which would not? And, under a finite budget, \emph{what is the cost-optimal way}
+to buy the geometry that breaks the degeneracy? These are identifiability and
+experiment-design questions, and they are the subject of this paper.
+
+\paragraph{Related work.}
+Existing lunar-PNT performance analyses are, almost without exception, analyses of
+the \emph{user} positioning problem: given a realized frame and a set of beacons,
+how accurately can a receiver be located. \citet{pohlmann2025hybrid} derive
+realistic error models and Cram\'er--Rao lower bounds for hybrid satellite and
+cooperative navigation, showing sub-metre user accuracy with as few as two visible
+satellites when aided by a reference station; open simulators such as LuPNT
+\citep{iiyama2023lupnt} target the same user-side problem. These works take the frame as given. The
+frame-\emph{realization} problem---the identifiability of the datum parameters
+themselves---has been addressed empirically, as a by-product of a specific
+inversion \citep{sosnica2025ilrf}, and reviewed qualitatively:
+\citet{fienga2024moonlight} note that additional retroreflectors and orbiter
+altimetry could improve frame accuracy, but do not quantify which geometry
+resolves which degeneracy. To our knowledge, no prior work provides a general
+identifiability classification of the internal-ranging lunar datum, nor a
+cost-aware design of the observations that break its dominant degeneracy. This
+paper fills that gap. It is the geodetic-datum dual of the user-side Cram\'er--Rao
+analyses: the same Fisher-information machinery, applied to the seven datum
+parameters rather than to a user state.
+
+\paragraph{Contributions.}
+We make three contributions, each accompanied by an explicit statement of what is
+proven versus what is representative.
+
+\begin{enumerate}
+  \item \textbf{A null-space classification theorem} (Section~\ref{sec:classification})
+  for the internal-ranging lunar datum. We show that (i) each scalar range
+  observation contributes rank one to the seven-parameter datum Fisher
+  information, so a single observation leaves a six-dimensional null space;
+  (ii) for a near-side cluster under a fixed body orientation the origin-$X$ and
+  scale columns are near-collinear, placing their difference in (or arbitrarily
+  near) the null space; and (iii) physical libration lifts the datum defect to
+  zero while leaving the pair near-degenerate, with the marginal information a
+  monotone function of librational excursion and arc length. The classification
+  is a geometric property and is engine-verified.
+
+  \item \textbf{A radial-ambiguity characterization} (Section~\ref{sec:multitechnique}).
+  Building a unified datum-partials substrate for LLR, two-station lunar VLBI
+  differential delay, and orbiter-to-beacon range over the full seven-parameter
+  Helmert datum, we show that the lunocentre-$X$/scale degeneracy is a
+  \emph{radial} ambiguity. Radial, depth-diverse ranging (far-side orbiter
+  tracking) breaks it directly; transverse VLBI helps only indirectly, because its
+  differential-delay information lands in the transverse translation, lifting the
+  degenerate pair only through the operator-monotonicity of the marginal
+  information.
+
+  \item \textbf{A cost-aware design law} (Section~\ref{sec:oed}). We cast frame
+  realization as gauge-constrained optimal experiment design, verify a greedy
+  design heuristic against an exact brute-force oracle, and compute a
+  cost/degeneracy Pareto frontier over a representative multi-technique menu. A
+  far-side orbiter range delivers $\approx\!8\times$ the raw degeneracy-breaking
+  gain of a limb VLBI baseline for comparable exposure ($\approx\!4.8\times$ per
+  unit cost), making depth diversity the priority acquisition in any
+  budget-constrained realization campaign.
+\end{enumerate}
+
+\paragraph{Honesty scope.}
+Throughout, we separate two kinds of claim. The \emph{structure}---the rank
+count, the sign and near-collinearity of the degenerate directions, the
+classification, the improvement \emph{direction}, and the correctness of the
+decomposition linear algebra---is proven or independently validated. The
+\emph{magnitudes}---the residual correlation, the Cram\'er--Rao bounds, the
+degeneracy-metric values, and the relative costs---are computed from
+\emph{representative} lunar geometry, noise, and economics; they are labelled
+\Modelled{} (and tagged \modtag) and are \emph{not} claims about any real mission
+or a reproduction of the $-0.97$/$15$~cm magnitudes of \citet{sosnica2025ilrf}.
+Section~\ref{sec:validation} makes this firewall precise. Every number in the
+paper is regenerated from the committed engine by a single command
+(Section~\ref{sec:availability}).

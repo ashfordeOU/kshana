@@ -1,0 +1,30 @@
+The first realization of the International Lunar Reference Frame (ILRF) is
+limited at the decimetre level by a strong correlation ($\corr \approx -0.97$)
+between the lunocentre $X$-translation and the frame scale, an origin error of
+$\approx\!15$~cm traced to the near-side, near-equatorial geometry of the lunar
+laser-ranging (LLR) retroreflector network. We ask a design question behind that
+empirical result: \emph{which} additional observations resolve the degeneracy,
+and at what cost. We answer it in three parts. First, we prove a null-space
+classification theorem for the internal-ranging datum problem: a single range
+observation contributes rank one to the datum Fisher information and leaves a
+six-dimensional null space; the origin--scale pair is near-null for a near-side
+cluster under a fixed body orientation; and physical libration lifts the datum
+defect to zero while leaving the pair near-degenerate. Second, we build a unified
+multi-technique datum-information substrate over the full seven-parameter Helmert
+datum---Earth--reflector LLR, two-station lunar VLBI differential delay, and
+orbiter-to-beacon range---and use it to show that the lunocentre-$X$/scale
+degeneracy is a \emph{radial} ambiguity: radial (depth-diverse) ranging, such as
+far-side orbiter tracking, breaks it directly, whereas transverse VLBI helps only
+indirectly because its information lands in the transverse translation. Third, we
+cast frame realization as cost-aware, gauge-constrained optimal experiment design
+and compute a cost/degeneracy Pareto frontier; a far-side orbiter range delivers
+$\approx\!8\times$ the degeneracy-breaking gain of a limb VLBI baseline for
+comparable exposure. The decomposition linear algebra is validated to machine
+precision against an independent SciPy/NumPy reference; all reported lunar
+magnitudes are explicitly \emph{modelled} (representative geometry, noise, and
+cost), so the deliverable is the \emph{structure and ordering} of the trade, not a
+mission recommendation. The classification and the radial-diversity design law
+give ILRF realization and lunar-PNT programmes (ESA Moonlight/LCNS, NASA LunaNet)
+a principled basis for prioritizing tracking geometry over tracking volume. The
+substrate is released open source and every reported number is reproducible from a
+single command.

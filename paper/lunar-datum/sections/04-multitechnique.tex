@@ -1,0 +1,143 @@
+\section{Multi-technique datum information: a radial ambiguity}
+\label{sec:multitechnique}
+
+Theorem~\ref{thm:classification} says libration lifts the datum defect but leaves
+the origin--scale pair near-degenerate. The practical question is what
+\emph{additional} observations sharpen it. We answer it by extending the
+single-technique substrate of Section~\ref{sec:obsmodel} to three techniques over
+the common seven-parameter datum, and by reading off which geometry acts on the
+degenerate direction.
+
+\subsection{Three techniques, one datum}
+\label{sec:threetech}
+
+Each technique contributes rows of the form \eqref{eq:sensrow}, differing only in
+the measurement gradient that plays the role of $\uhat^\top$. All beacons are
+placed by the same DE440 body$\rightarrow$inertial map \eqref{eq:beacon}, so the
+techniques share a consistent geometry and their Fisher contributions are additive
+\eqref{eq:fisher}.
+
+\begin{description}
+  \item[LLR (Earth--reflector range).] The baseline of
+  Section~\ref{sec:obsmodel}: sensitivity $\uhat^\top\Rmat\bm{J}(\bm{p})$ for each
+  Earth station and near-side reflector passing an elevation and Earth-facing gate.
+
+  \item[Lunar VLBI (two-station differential delay).] For an inertial beacon
+  observed by two Earth stations $\bm{x}_1,\bm{x}_2$, the geometric delay is
+  $\tau = c^{-1}\bigl(\|\bm{r}-\bm{x}_2\|-\|\bm{r}-\bm{x}_1\|\bigr)$; its gradient
+  with respect to the inertial beacon position,
+  $\partial\tau/\partial\bm{r}=c^{-1}(\uhat_2-\uhat_1)^\top$, replaces $\uhat^\top$
+  in \eqref{eq:sensrow}. This is a \emph{transverse} observable: differencing two
+  sightlines cancels the common radial component and retains the angular
+  (plane-of-sky) content.
+
+  \item[Orbiter-to-beacon range.] A lunar orbiter at inertial position
+  $\bm{r}_{\mathrm{orb}}(t)$ ranges to a body-fixed beacon $\bm{p}$; the
+  sensitivity is $\uhat_{\mathrm{orb}}^\top\Rmat\bm{J}(\bm{p})$ with
+  $\uhat_{\mathrm{orb}}$ the orbiter--beacon line of sight. Crucially, an orbiter
+  can range to a \emph{far-side} beacon (negative body-frame $X$), giving a
+  sightline whose radial sense is opposite to the Earth-facing LLR geometry
+  (Figure~\ref{fig:schematic}). We model a representative $\SI{100}{km}$ near-polar
+  circular orbit.\footnote{The orbiter is a representative Keplerian arc, not a
+  fitted ephemeris, and its parameters are \Modelled{}; see
+  Appendix~\ref{app:methods} and the reproducibility ledger.}
+\end{description}
+
+Every analytic sensitivity row is cross-checked against a finite-difference
+evaluation of its measurement function: the LLR row reproduces the four-parameter
+Phase-0 result exactly, and the VLBI and orbiter rows agree with finite
+differences to a maximum relative residual of $8.2\times10^{-8}$ and
+$<\!10^{-8}$ respectively (Section~\ref{sec:validation}). These are internal
+consistency checks on the derivatives, and are labelled as such.
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{degeneracy-schematic.pdf}
+  \caption{Why the lunocentre-$X$\,$\leftrightarrow$\,scale degeneracy is a
+  \emph{radial} ambiguity. \textbf{(a)} For a near-side beacon on the Earth-facing
+  limb, a small origin shift $+\delta t_x$ (orange) and a small scale stretch
+  $+\varepsilon$ (blue) move the beacon in nearly the same direction along the
+  near-radial Earth sightline: the two produce the \emph{same} range change and are
+  indistinguishable. \textbf{(b)} For a far-side beacon reached by an orbiter, the
+  scale stretch points radially outward (anti-Earth) while the origin shift still
+  points along $+X$: the two produce range changes of \emph{opposite} sign and are
+  separable. Radial (depth-diverse) ranging thus breaks the degeneracy directly;
+  transverse geometry does not.}
+  \label{fig:schematic}
+\end{figure}
+
+\subsection{The degeneracy is radial}
+\label{sec:radial}
+
+Figure~\ref{fig:schematic} is the crux. The origin-$X$ translation and the scale
+both act \emph{radially} on a near-side beacon---an origin shift toward Earth and a
+uniform shrink both pull the beacon along the same Earth-facing line of sight---so
+no near-side, Earth-based measurement can separate them. Two consequences follow,
+and both are engine-verified.
+
+\paragraph{Radial ranging breaks it directly; transverse VLBI does not.}
+Starting from the LLR-only baseline (degeneracy metric $\mu_0=3.540\times10^5$,
+$\corr=-0.9934$, all~\modtag), we add each technique in turn and record the
+marginal gain $\Delta\mu$ in the degeneracy metric (Table~\ref{tab:multitech}). A
+far-side orbiter range raises $\mu$ by $9.33\times10^3$, whereas a limb VLBI
+baseline raises it by only $1.16\times10^3$---a factor of $8.0$. The far-side
+sightline carries a radial component of opposite sense to the LLR geometry
+(Figure~\ref{fig:schematic}b), which is exactly the direction the degenerate pair
+lives in; the VLBI baseline, being transverse by construction, does not.
+
+\paragraph{VLBI's information lands in the transverse translation.}
+That transverse VLBI helps \emph{at all} is a consequence of
+operator-monotonicity, not of acting on the degenerate direction. We confirm this
+by resolving the per-parameter Cram\'er--Rao improvement. Under an added VLBI
+baseline the fractional CRLB gain on the transverse translation $t_y$ is
+$4.76\times10^{-3}$, versus only $1.66\times10^{-3}$ on the radial $t_x$
+(Figure~\ref{fig:radial}b): VLBI improves the transverse parameter about
+$2.9\times$ more than the radial one. Its information genuinely lands in the
+transverse translation; the origin--scale pair is lifted only indirectly, through
+the monotone coupling of the Schur complement (Theorem~\ref{thm:classification}
+(iii)). Radial ranging, by contrast, deposits information directly onto the pair.
+
+\begin{table}[t]
+\centering
+\caption{Marginal effect of adding one technique to the LLR baseline, over a
+representative multi-technique menu (all magnitudes \Modelled{}, \modtag;
+representative beacons/noise/schedule, Appendix~\ref{app:methods}). The far-side
+orbiter---radial, depth-diverse---breaks the degeneracy $8.0\times$ more
+effectively than the transverse VLBI limb baseline.}
+\label{tab:multitech}
+\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+\textbf{Added technique} & \textbf{Geometry} &
+$\bm{\Delta\mu}$ \textbf{(rel.\ units)}~\modtag &
+\textbf{relative to VLBI} \\
+\midrule
+VLBI limb baseline      & transverse & $1.16\times10^3$ & $1.0\times$ \\
+Orbiter, far-side beacon & radial / depth & $9.33\times10^3$ & $\bm{8.0\times}$ \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=\linewidth]{radial-vs-transverse.pdf}
+  \caption{The radial-vs-transverse contrast, engine-measured (all
+  magnitudes~\modtag). \textbf{(a)} Marginal degeneracy-metric gain
+  $\Delta\mu$: a far-side orbiter range (radial) breaks the origin--scale
+  degeneracy $8.0\times$ more than a limb VLBI baseline (transverse) for
+  comparable exposure. \textbf{(b)} Where VLBI's information lands: the fractional
+  CRLB improvement under an added VLBI baseline is $2.9\times$ larger on the
+  transverse translation $t_y$ than on the radial $t_x$---confirming that VLBI
+  lifts the degenerate pair only indirectly.}
+  \label{fig:radial}
+\end{figure}
+
+\paragraph{Design consequence.}
+The finding inverts a natural but mistaken intuition. Faced with a stubborn
+origin--scale correlation, one might reach for more tracking---more stations,
+longer VLBI baselines, denser near-side coverage. Theorem~\ref{thm:classification}
+and Table~\ref{tab:multitech} say that none of these attack the degenerate
+direction: the pair is radial, and only \emph{depth diversity}---ranging that
+senses the anti-Earth radial, i.e.\ far-side or steeply off-Earth-line
+geometry---resolves it at the source. Section~\ref{sec:oed} turns this qualitative
+law into a cost-optimal acquisition order.

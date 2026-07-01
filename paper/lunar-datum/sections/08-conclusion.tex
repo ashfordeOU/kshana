@@ -1,0 +1,36 @@
+\section{Conclusion}
+\label{sec:conclusion}
+
+The first realization of the International Lunar Reference Frame is limited by a
+strong lunocentre-$X$\,$\leftrightarrow$\,scale correlation that the empirical
+inversion exposes but does not explain. We have given the explanation and the
+remedy. A null-space classification theorem shows the internal-ranging datum
+problem is rank-additive, that the origin--scale pair is near-null for the
+near-side geometry under a fixed orientation, and that physical libration lifts the
+datum defect to zero while leaving the pair near-degenerate. A unified
+multi-technique substrate then reveals the character of that residual degeneracy:
+it is a \emph{radial} ambiguity, broken directly by depth-diverse ranging
+(far-side orbiter tracking) and only indirectly by transverse VLBI, whose
+information demonstrably lands in the transverse translation. Cast as cost-aware
+optimal experiment design, the trade yields a Pareto frontier on which depth
+diversity is the rational first purchase---$\approx\!8\times$ the raw
+degeneracy-breaking gain of a transverse baseline, $\approx\!4.8\times$ per unit
+cost. The decomposition is validated to machine precision against an independent
+SciPy/NumPy reference; every lunar magnitude is explicitly modelled, so the
+deliverable is a design law, not a mission budget.
+
+The design law is compact enough to state in one line: \emph{for the lunar origin,
+invest in radial (depth) diversity, not tracking volume.} It gives ILRF and
+lunar-PNT programmes a principled basis for prioritizing tracking geometry over
+tracking quantity, and it does so on an open, fully reproducible substrate.
+
+This paper is the first of a programme on lunar-PNT requirements science built on
+the same substrate. Natural continuations---multi-provider interoperability
+budgets, common-mode integrity, the joint frame-and-timescale gauge, and
+ground-free fault observability---each reuse the datum-identifiability machinery
+developed here, with an un-realized origin recast as the common-mode error a
+downstream user cannot detect. Before any of the absolute numbers in this work are
+trusted, a mission study must substitute real ephemerides, candidate beacon sites,
+and full error budgets for the representative inputs used here; the classification
+and the radial-diversity law it rests on are geometric, and will carry over
+unchanged.

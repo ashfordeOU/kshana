@@ -1,0 +1,149 @@
+\section{The lunar datum and its Fisher information}
+\label{sec:setup}
+
+\subsection{The seven-parameter datum}
+
+A geodetic datum is the set of frame degrees of freedom that internal geometry
+cannot determine. For a rigid body observed by measurements that depend only on
+\emph{relative} positions, that set is the seven-parameter similarity (Helmert)
+group: three translations $\ttrans=(t_x,t_y,t_z)$, one scale $s$, and three
+small rotations $\rot=(\theta_x,\theta_y,\theta_z)$. We collect them in the datum
+vector
+\begin{equation}
+  \datum = (t_x,\,t_y,\,t_z,\,s,\,\theta_x,\,\theta_y,\,\theta_z)^\top \in \R^7,
+  \label{eq:datumvec}
+\end{equation}
+ordered so that indices $0$ and $3$ are the origin-$X$ translation and the scale.
+Acting on a body-fixed point $\bm{p}\in\R^3$, the linearized similarity transform is
+\begin{equation}
+  \bm{p}' \;=\; \bm{p} + \ttrans + s\,\bm{p} + \rot\times\bm{p} + O(\|\datum\|^2),
+  \label{eq:helmert}
+\end{equation}
+whose Jacobian with respect to the datum is the $3\times7$ point-Jacobian
+\begin{equation}
+  \bm{J}(\bm{p}) \;=\;
+  \frac{\partial \bm{p}'}{\partial \datum}
+  \;=\;
+  \bigl[\; \bm{I}_3 \;\big|\; \bm{p} \;\big|\; -[\bm{p}]_\times \;\bigr],
+  \qquad
+  [\bm{p}]_\times \rot = \bm{p}\times\rot,
+  \label{eq:pointjac}
+\end{equation}
+in which the first three columns are the translation, the fourth is the scale
+(the point's own coordinates), and the last three are the generators of rotation.
+The datum is expressed in the lunar principal-axis (PA) body frame in which the
+ILRF is defined \citep{sosnica2025ilrf,archinal2018iau}.
+
+\subsection{The internal-ranging observation model}
+\label{sec:obsmodel}
+
+We call this the \emph{internal-ranging} datum problem: the seven parameters of the
+lunar frame are realized from range (distance) observations alone, with no
+observation that directly fixes the frame's orientation, scale, or absolute
+position. The Earth stations are externally known in the terrestrial frame, but a
+range constrains only a distance, so the lunar-frame datum is bootstrapped from the
+accumulated ranging geometry and its libration-driven diversity
+(Theorem~\ref{thm:classification}). Throughout, \emph{radial} means along the
+Earth--Moon line of sight, which for the near-side reflector cluster coincides with
+the lunar body $+X$ (sub-Earth) axis; this coincidence is exactly why a lunocentric
+scale change and an $X$-origin shift alias on near-side ranges
+(Section~\ref{sec:radial}).
+
+An LLR normal point measures the round-trip range between an Earth station at
+inertial position $\bm{x}_{\mathrm{st}}(t)$ and a lunar retroreflector. A reflector
+with PA body coordinates $\bm{p}$ appears in the inertial frame at
+\begin{equation}
+  \bm{r}(\bm{p},t) \;=\; \bm{x}_{\mathrm{M}}(t) + \Rmat(t)\,\bm{p},
+  \label{eq:beacon}
+\end{equation}
+where $\bm{x}_{\mathrm{M}}(t)$ is the inertial lunar-centre position and
+$\Rmat(t)$ the PA-body$\rightarrow$inertial orientation. We take both from the
+JPL DE440 ephemeris \citep{park2021de440}, so that $\Rmat(t)$ carries the true
+physical libration (Appendix~\ref{app:methods}); this distinction is essential and
+is the mechanism behind item~(iii) of the classification theorem. The one-way
+range and its line-of-sight unit vector are
+\begin{equation}
+  \varrho(\bm{p},t) = \bigl\|\bm{r}(\bm{p},t)-\bm{x}_{\mathrm{st}}(t)\bigr\|,
+  \qquad
+  \uhat(\bm{p},t) = \frac{\bm{r}(\bm{p},t)-\bm{x}_{\mathrm{st}}(t)}
+                         {\varrho(\bm{p},t)}.
+  \label{eq:range}
+\end{equation}
+A datum perturbation $\datum$ moves the reflector by $\Rmat(t)\bm{J}(\bm{p})\datum$;
+projecting onto the sightline gives the per-observation datum sensitivity
+\begin{equation}
+  \bm{g}(\bm{p},t)^\top
+  \;=\; \frac{\partial \varrho}{\partial \datum}
+  \;=\; \uhat(\bm{p},t)^\top\,\Rmat(t)\,\bm{J}(\bm{p}) \;\in\;\R^{1\times7}.
+  \label{eq:sensrow}
+\end{equation}
+Equation~\eqref{eq:sensrow} is the single object on which everything below rests:
+it is a row vector, one per observation, and it is where the orientation $\Rmat(t)$
+enters. The same construction gives the sensitivity of a two-station VLBI
+differential delay and of an orbiter-to-beacon range once the appropriate
+measurement gradient replaces $\uhat^\top$; we defer those to
+Section~\ref{sec:multitechnique}.
+
+\subsection{Fisher information and the degeneracy metric}
+\label{sec:fisher}
+
+For zero-mean Gaussian measurement noise with standard deviation $\sigma$, a set of
+observations indexed by $i$ (each a station/beacon/epoch triple that passes a
+visibility gate) yields the datum Fisher information matrix
+\begin{equation}
+  \Fisher \;=\; \sum_i \frac{1}{\sigma_i^2}\,
+  \bm{g}_i\,\bm{g}_i^\top \;\in\;\R^{7\times7},
+  \label{eq:fisher}
+\end{equation}
+the sum of rank-one outer products \citep{kay1993estimation}. The Cram\'er--Rao
+bound $\mathrm{Cov}(\hat{\datum}) \succeq \Fisher^{-1}$ lower-bounds any unbiased
+estimator; the datum \emph{defect} is $7-\operatorname{rank}(\Fisher)$, the number
+of exactly unobservable directions.
+
+We are interested not in the full seven-parameter covariance but in the
+identifiability of the specific pair the ILRF struggles with:
+$K=\{t_x,\,s\}=\{0,3\}$, marginalized over the remaining
+$M=\{t_y,t_z,\theta_x,\theta_y,\theta_z\}=\{1,2,4,5,6\}$. The relevant object is
+the Schur complement of the $K$ block after eliminating $M$,
+\begin{equation}
+  \Schur \;=\; \Fisher_{KK} - \Fisher_{KM}\,\Fisher_{MM}^{-1}\,\Fisher_{MK}
+  \;\in\;\R^{2\times2},
+  \label{eq:schur}
+\end{equation}
+the \emph{marginal} information on $(t_x,s)$ once all coupling to the other five
+parameters has been accounted for \citep{zhang2005schur,boyd2004convex}. From
+$\Schur$ we read three scalars, defined once and used throughout:
+\begin{definition}[Degeneracy metric, origin CRLB, origin--scale correlation]
+\label{def:metrics}
+\begin{align}
+  \mu &\;=\; \lmin(\Schur)
+     && \text{(degeneracy metric)}, \label{eq:metric}\\
+  c_x &\;=\; \sqrt{\bigl(\Schur^{-1}\bigr)_{00}}
+     && \text{(origin-$X$ CRLB)}, \label{eq:crlb}\\
+  \corr &\;=\; \frac{\bigl(\Schur^{-1}\bigr)_{01}}
+                    {\sqrt{\bigl(\Schur^{-1}\bigr)_{00}\bigl(\Schur^{-1}\bigr)_{11}}}
+     && \text{(origin--scale correlation)}. \label{eq:corr}
+\end{align}
+\end{definition}
+The degeneracy metric $\mu\to0$ exactly when the pair becomes unobservable and
+grows as the two directions separate; $\corr\to\pm1$ signals the near-degeneracy
+that \citet{sosnica2025ilrf} observe. For the canonical case in which the
+\emph{information} has the form
+$\Schur=m\bigl[\begin{smallmatrix}1&\varrho\\\varrho&1\end{smallmatrix}\bigr]$
+($m>0$), these reduce to closed forms ($\mu=\lmin(\Schur)=m(1-|\varrho|)$,
+$c_x=m^{-1/2}(1-\varrho^2)^{-1/2}$, and $\corr=-\varrho$, so $|\varrho|=|\corr|$),
+which we use as an analytic cross-check.
+
+\paragraph{Preconditioning and units.}
+The translation columns of $\bm{J}$ carry units of metres while the scale and
+rotation columns carry units of the point coordinates ($\sim\!R_{\mathrm{Moon}}$),
+giving $\Fisher$ a condition number $\sim\!10^{12}$. We precondition by dividing
+columns $3$--$6$ by the mean lunar radius $R_{\mathrm{Moon}}=\SI{1737400}{m}$,
+bringing all partials to $O(1)$ and the condition number to $\sim\!10^2$. This is a
+positive diagonal congruence: it leaves the correlation $\corr$ (a pure
+correlation coefficient) and the origin CRLB $c_x$ (which reads column $0$, left
+unscaled) \emph{exactly invariant}, and it preserves rank and datum defect
+(Appendix~\ref{app:precond}). The degeneracy metric $\mu$ is therefore reported in
+these preconditioned, \emph{relative} units and is meaningful only for comparing
+designs on a common footing---never as an absolute physical quantity. It is a
+\Modelled{} figure of merit.

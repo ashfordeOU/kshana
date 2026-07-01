@@ -1,0 +1,177 @@
+\section{A null-space classification of the internal-ranging datum}
+\label{sec:classification}
+
+We now classify the datum observability of the internal-ranging problem. The
+result formalizes, and gives a proof for, the structure that
+\citet{sosnica2025ilrf} report empirically: which directions are unobservable,
+which are near-unobservable, and what makes the difference.
+
+\begin{theorem}[Null-space classification of the internal-ranging lunar datum]
+\label{thm:classification}
+Let a rigid network of body-fixed points $\{\bm{p}_i\}$ be observed only by
+internal range measurements \eqref{eq:range} under a body$\rightarrow$inertial
+orientation $\Rmat(t)$, with per-observation sensitivity \eqref{eq:sensrow} and
+Fisher information \eqref{eq:fisher}. Then:
+\begin{enumerate}
+  \item[\textnormal{(i)}] \textbf{(Rank-one accumulation.)} Each scalar range
+  observation contributes a rank-one term to $\Fisher$, so
+  $\operatorname{rank}(\Fisher)\le\#\{\text{observations}\}$ and a single
+  observation leaves a datum defect of $6$. Observability is built only by
+  accumulating geometrically distinct sightlines.
+  \item[\textnormal{(ii)}] \textbf{(Origin--scale near-null.)} For a near-side
+  cluster subtending a small angle about the Earth--Moon line, observed under a
+  single fixed orientation $\Rmat_0$, the origin-$X$ and scale sensitivity
+  columns are near-collinear; the combination
+  $\partial\varrho/\partial t_x - \kappa\,\partial\varrho/\partial s$ lies in, or
+  arbitrarily close to, the null space of $\Fisher$ for a scalar $\kappa$ of order
+  the inverse mean cluster depth ($\sim\!1/R_{\mathrm{Moon}}$). This is the
+  lunocentre-$X$\,$\leftrightarrow$\,scale degeneracy.
+  \item[\textnormal{(iii)}] \textbf{(Libration lift.)} If $\Rmat(t)$ varies in
+  time (physical libration), the origin--scale combination is projected out of the
+  null space, lifting the dominant degeneracy while the pair remains
+  near-degenerate. The marginal $(t_x,s)$ information $\Schur$ of
+  \eqref{eq:schur} is monotone nondecreasing in the Loewner order under added
+  observations, so its degeneracy metric $\mu$ grows with tracking-arc length (its
+  increase with librational \emph{amplitude} is observed numerically). Transverse
+  translations and the line-of-sight rotation are weakly observable in proportion
+  to the same excursion; with sufficient geometric diversity the datum defect is
+  removed entirely (Section~\ref{sec:classification-verify}).
+\end{enumerate}
+\end{theorem}
+
+\begin{proof}
+\textbf{(i)} By \eqref{eq:fisher} each observation adds
+$\sigma_i^{-2}\bm{g}_i\bm{g}_i^\top$, an outer product of a single row, which has
+rank one. Hence $\operatorname{rank}(\Fisher)\le \#\{\text{observations}\}$, and a
+single observation gives $\operatorname{rank}(\Fisher)=1$, defect $7-1=6$. Rank
+grows only as linearly independent rows $\bm{g}_i$ accumulate, i.e.\ as sightline
+geometry diversifies.
+
+\textbf{(ii)} Fix $\Rmat(t)\equiv\Rmat_0$. From \eqref{eq:pointjac} and
+\eqref{eq:sensrow}, and because the datum translation acts in the body frame
+(\eqref{eq:helmert}), both the origin-$X$ and scale sensitivities carry the
+orientation factor $\Rmat_0$:
+\begin{equation}
+  \frac{\partial\varrho_i}{\partial t_x} = \uhat_i^\top \Rmat_0\bm{e}_x,
+  \qquad
+  \frac{\partial\varrho_i}{\partial s} = \uhat_i^\top \Rmat_0\bm{p}_i .
+  \label{eq:txs}
+\end{equation}
+Write $\hat{\bm e}=\Rmat_0\bm{e}_x$, the inertial image of the body $+X$ (sub-Earth)
+axis. For a near-side cluster the reflectors lie near that axis,
+$\bm{p}_i = d_i\bm{e}_x + \bm\eta_i$ with depth $d_i$ and small transverse offset
+$\|\bm\eta_i\|\ll d_i$, so $\Rmat_0\bm{p}_i = d_i\hat{\bm e} + \Rmat_0\bm\eta_i$.
+Hence
+\begin{equation*}
+  \frac{\partial\varrho_i}{\partial t_x} = \uhat_i^\top\hat{\bm e},
+  \qquad
+  \frac{\partial\varrho_i}{\partial s}
+  = d_i\,(\uhat_i^\top\hat{\bm e}) + \uhat_i^\top\Rmat_0\bm\eta_i .
+\end{equation*}
+Choosing $\kappa=\bar d^{-1}$, the inverse mean depth, the residual
+\[
+  \frac{\partial\varrho_i}{\partial t_x}-\bar d^{-1}\frac{\partial\varrho_i}{\partial s}
+  = (\uhat_i^\top\hat{\bm e})\Bigl(1-\tfrac{d_i}{\bar d}\Bigr)
+    - \bar d^{-1}\,\uhat_i^\top\Rmat_0\bm\eta_i
+  = O\!\left(\frac{\delta d}{\bar d},\ \frac{\eta}{\bar d}\right)
+\]
+uniformly in $i$, where $\delta d = d_i-\bar d$ is the depth spread. As the
+cluster's transverse extent $\eta$ and depth spread $\delta d$ tend to zero this
+residual tends to zero for every observation, so the corresponding datum
+combination lies arbitrarily close to
+$\ker\Fisher$.\footnote{Equivalently: if every reflector sat at a common depth on
+the $+X$ axis, an origin shift and a uniform scale change would move each beacon
+along the same line by amounts in fixed ratio, producing proportional range
+changes on every observation---the two Jacobian columns coincide up to the scalar
+$\bar d$. The near-side lunar network satisfies this approximately, which is why
+\citet{sosnica2025ilrf} find $|\corr|\approx0.97$.}
+
+\textbf{(iii)} Now let $\Rmat(t)$ vary. Both columns of \eqref{eq:txs} share the
+factor $\Rmat(t_i)$: $\partial\varrho_i/\partial t_x=\uhat_i^\top\Rmat(t_i)\bm{e}_x$
+and $\partial\varrho_i/\partial s=\uhat_i^\top\Rmat(t_i)\bm{p}_i$. They are
+proportional across epochs only if $\bm{p}_i$ is a common scalar multiple of
+$\bm{e}_x$ for every observation. It is not: each reflector's fixed body offset
+$\bm{p}_i-\bar d\,\bm{e}_x$ from the sub-Earth axis is rotated into a different
+inertial direction by the librating $\Rmat(t_i)$, so the residual column
+$\uhat_i^\top\Rmat(t_i)(\bm{p}_i-\bar d\,\bm{e}_x)$ varies across the arc and no
+longer vanishes. The origin--scale combination thus acquires a component out of
+$\ker\Fisher$ whose size is set by the librational excursion, lifting the
+degeneracy from exact to near. For the monotonicity, adding observations adds
+positive-semidefinite terms to $\Fisher$; the Schur complement
+\eqref{eq:schur} is operator-monotone, i.e.\ $\Fisher^{(1)}\preceq\Fisher^{(2)}$
+implies $\Schur^{(1)}\preceq\Schur^{(2)}$ \citep{zhang2005schur,hornjohnson2013matrix},
+so $\mu=\lmin(\Schur)$ is nondecreasing under added observations and, in
+particular, increases as the tracking arc lengthens (this is monotonicity in arc
+length; the growth of $\mu$ with libration \emph{amplitude} modifies existing rows
+rather than appending terms and is established numerically rather than by
+operator-monotonicity, Section~\ref{sec:classification-verify}). The transverse
+translations $t_y,t_z$ and the line-of-sight rotation are likewise weakly
+observable, in proportion to the excursion. Once enough geometrically distinct
+sightlines accumulate the datum defect is removed entirely and the pair, though
+lifted, remains near-degenerate ($|\corr|$ close to but below $1$); that the real
+DE440 schedule reaches exactly full rank (defect $0$) is verified in
+Section~\ref{sec:classification-verify}.
+\end{proof}
+
+\begin{remark}[Why the of-date orientation matters]
+Item~(iii) fails if $\Rmat(t)$ is replaced by a \emph{mean} rotation without
+physical libration: the inertial images $\Rmat(t_i)\bm{p}_i$ collapse onto a fixed
+direction, the two columns stay proportional, and one recovers a spurious exact
+degeneracy. Using the true
+DE440 libration \citep{park2021de440} rather than a mean IAU rotation is thus not a
+numerical nicety but the physical content of the lift (Appendix~\ref{app:methods}).
+\end{remark}
+
+\subsection{Engine verification}
+\label{sec:classification-verify}
+
+The classification is a statement about rank, sign, and monotonicity, and we verify
+each element numerically against the committed \code{kshana} engine
+(Section~\ref{sec:availability}); the tests are part of the continuous-integration
+suite.
+
+\begin{itemize}
+  \item \emph{Item (i).} A single internal-range row assembled into $\Fisher$ has
+  datum defect exactly $6$ (test
+  \code{single\_internal\_range\_row\_has\_six\_dim\_datum\_null\_space}), confirming
+  rank-one accumulation.
+  \item \emph{Items (ii)--(iii).} Over a full-synodic-month LLR schedule with the
+  five DE440 retroreflectors and real libration, the datum defect is $0$
+  (full rank) while the origin--scale correlation is
+  $|\corr| = 0.9934$~\modtag---near-degenerate but lifted---and extending the
+  tracking arc strictly increases the degeneracy metric $\mu$ and decreases the
+  origin CRLB $c_x$ (test
+  \code{extending\_the\_librating\_arc\_lifts\_the\_origin\_scale\_degeneracy}). The
+  magnitude $0.9934$ is \Modelled{}; it reproduces the \emph{structure} of the
+  $-0.97$ of \citet{sosnica2025ilrf}, not the value.
+\end{itemize}
+
+\begin{table}[t]
+\centering
+\caption{The null-space classification of Theorem~\ref{thm:classification} and its
+engine verification. Structural claims are proven and reproduced; the residual
+correlation \emph{magnitude} is \Modelled{} (\modtag).}
+\label{tab:classification}
+\small
+\begin{tabular}{@{}p{3.1cm}p{6.0cm}p{4.6cm}@{}}
+\toprule
+\textbf{Item} & \textbf{Statement} & \textbf{Engine verification} \\
+\midrule
+(i) Rank-one accumulation &
+Each range observation adds rank one; one observation $\Rightarrow$ defect $6$ &
+Single row $\Rightarrow$ defect $=6$ (exact) \\[2pt]
+(ii) Origin--scale near-null &
+Near-side cluster, fixed orientation $\Rightarrow$ $t_x$ and $s$ columns
+near-collinear &
+$|\corr|=0.9934$~\modtag{} under real geometry \\[2pt]
+(iii) Libration lift &
+Time-varying $\Rmat(t)$ lifts defect to $0$; $\mu$ monotone in arc/excursion &
+Defect $=0$; $\mu$ increases, $c_x$ decreases with arc length \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\noindent Table~\ref{tab:classification} summarizes the three items and their
+verification. The geometric intuition behind item~(ii)---and behind why only
+certain observations break it---is captured in Figure~\ref{fig:schematic} and is
+the subject of the next section.
