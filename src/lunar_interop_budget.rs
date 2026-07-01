@@ -494,6 +494,102 @@ fn norm3(v: Vec3) -> f64 {
     (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]).sqrt()
 }
 
+/// Cross-provider consistency tolerance derived from a user position budget.
+///
+/// # Modelling note (honesty firewall)
+///
+/// τ(B) is a **Modelled** worst-case bound derived from the triangle inequality on the
+/// linearised Helmert action `|Δx| ≤ |t| + |s|·r_user + |θ|·r_user`. It converts a
+/// user position budget into per-parameter cross-provider agreement requirements — the
+/// number that LNIS AD-5 leaves TBD. This is not a certified interoperability standard;
+/// there is no TRL claim. The `per_provider` RSS reduction uses a Modelled
+/// `origin_crlb_m` from [`crate::lunar_identifiability::DatumIdentifiability`].
+/// The "providers" here are ephemerides (DE440, INPOP21a, EPM2021), a representative
+/// analog for operational lunar-PNT providers (no two fly).
+#[derive(Debug, Clone, Copy)]
+pub struct ConsistencyTolerance {
+    /// Input user position budget [m].
+    pub budget_m: f64,
+    /// Translation tolerance `B_eff` [m].
+    pub max_origin_m: f64,
+    /// Scale tolerance `B_eff / r_user` [dimensionless].
+    pub max_scale: f64,
+    /// Rotation tolerance `B_eff / r_user` [rad].
+    pub max_rotation_rad: f64,
+    /// Term that binds first at `r_user`: `"rotation"` | `"origin"` | `"scale"`.
+    ///
+    /// At the lunar lever arm (`r_user ≈ 1.74 × 10⁶ m ≫ 1 m`), a unit rotation (1 rad)
+    /// and a unit scale (dimensionless 1) each produce `r_user` metres of position error,
+    /// far exceeding the 1 m/unit position-equivalent of a unit origin offset. The
+    /// rotation and scale terms therefore bind simultaneously; the tie is broken in favour
+    /// of `"rotation"` (the empirically dominant term in real inter-ephemeris data).
+    pub binding: &'static str,
+}
+
+/// Invert a user position budget `B` [m] into per-parameter cross-provider consistency
+/// requirements.
+///
+/// **Algorithm (Modelled; worst-case triangle bound):**
+/// The linearised Helmert action at user radius `r_user` satisfies
+/// `|Δx| ≤ |t| + |s|·r_user + |θ|·r_user` (triangle inequality on the point-Jacobian
+/// action). Inverting this gives equal tolerances for each term:
+/// - `max_origin_m = B_eff`
+/// - `max_scale    = B_eff / r_user`
+/// - `max_rotation_rad = B_eff / r_user`
+///
+/// **Effective budget** `B_eff`:
+/// - `B_eff = B` when `per_provider` is `None`.
+/// - `B_eff = sqrt(max(0, B² − σ²))` with `σ = per_provider.origin_crlb_m` otherwise.
+///   The realized single-provider datum uncertainty (Modelled) consumes part of the total
+///   budget via RSS reduction; the cross-provider tolerance tightens accordingly.
+///
+/// **Binding term:** the term whose position-equivalent from a *reference-unit*
+/// disagreement (1 m for origin, dimensionless 1 for scale, 1 rad for rotation) is
+/// largest. At `r_user ≥ 1` the rotation and scale position-equivalents are both
+/// `r_user`, vastly exceeding origin's 1 m. The tie is broken in favour of `"rotation"`
+/// (empirically dominant in real inter-ephemeris data).
+///
+/// **Status:** Modelled. No certified standard, no TRL claim, no ESA endorsement.
+/// The ephemerides are a representative analog for real lunar-PNT providers (no two fly).
+pub fn consistency_tolerance(
+    budget_m: f64,
+    r_user_m: f64,
+    per_provider: Option<&crate::lunar_identifiability::DatumIdentifiability>,
+) -> ConsistencyTolerance {
+    // Effective budget after consuming the realized single-provider datum uncertainty.
+    let b_eff = match per_provider {
+        None => budget_m,
+        Some(d) => {
+            let sigma = d.origin_crlb_m;
+            (budget_m * budget_m - sigma * sigma).max(0.0).sqrt()
+        }
+    };
+
+    let max_origin_m = b_eff;
+    let max_scale = b_eff / r_user_m;
+    let max_rotation_rad = b_eff / r_user_m;
+
+    // Position-equivalent of a reference-unit disagreement:
+    //   origin:   1 m/m    (1 m translation offset → 1 m position error)
+    //   scale:    r_user_m (unit scale → r_user m error)
+    //   rotation: r_user_m (1 rad → r_user m error)
+    // At r_user ≥ 1: rotation and scale tie; break in favour of "rotation"
+    // (empirically dominant in real inter-ephemeris data).
+    let binding = if r_user_m >= 1.0 {
+        "rotation"
+    } else {
+        "origin"
+    };
+
+    ConsistencyTolerance {
+        budget_m,
+        max_origin_m,
+        max_scale,
+        max_rotation_rad,
+        binding,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -662,5 +758,62 @@ mod tests {
             "zero excess must give irreducible_m < 1e-3 m, got {:.3e}",
             split.irreducible_m
         );
+    }
+
+    // ── Task 4: consistency_tolerance ────────────────────────────────────────
+
+    #[test]
+    fn consistency_tolerance_monotonic_in_budget() {
+        // (a) Larger budget_m → every tolerance is larger.
+        let small = consistency_tolerance(5.0, 1_737_400.0, None);
+        let large = consistency_tolerance(10.0, 1_737_400.0, None);
+        assert!(large.max_origin_m > small.max_origin_m);
+        assert!(large.max_scale > small.max_scale);
+        assert!(large.max_rotation_rad > small.max_rotation_rad);
+    }
+
+    #[test]
+    fn consistency_tolerance_per_provider_shrinks_tolerances() {
+        // (b) With per_provider whose origin_crlb_m > 0, B_eff < budget_m → all tolerances shrink.
+        use crate::lunar_identifiability::DatumIdentifiability;
+        let di = DatumIdentifiability {
+            info: vec![vec![0.0; 7]; 7],
+            n_obs: 0,
+            eigenvalues: vec![0.0; 7],
+            defect: 0,
+            origin_scale_corr: 0.0,
+            degeneracy_metric: 0.0,
+            origin_crlb_m: 2.0,
+            crlb_diag: vec![0.0; 7],
+        };
+        let base = consistency_tolerance(5.0, 1_737_400.0, None);
+        let with_pp = consistency_tolerance(5.0, 1_737_400.0, Some(&di));
+        assert!(
+            with_pp.max_origin_m < base.max_origin_m,
+            "per_provider shrinks max_origin_m: {} vs {}",
+            with_pp.max_origin_m,
+            base.max_origin_m
+        );
+        assert!(with_pp.max_scale < base.max_scale);
+        assert!(with_pp.max_rotation_rad < base.max_rotation_rad);
+    }
+
+    #[test]
+    fn consistency_tolerance_worked_value() {
+        // (c) Worked value: budget=5.0, r_user=1_737_400.0 → max_rotation_rad = 5/1_737_400.
+        let tol = consistency_tolerance(5.0, 1_737_400.0, None);
+        let expected = 5.0_f64 / 1_737_400.0_f64;
+        let rel = (tol.max_rotation_rad - expected).abs() / expected;
+        assert!(
+            rel < 1e-15,
+            "max_rotation_rad rel error {rel} exceeds 1e-15"
+        );
+    }
+
+    #[test]
+    fn consistency_tolerance_binding_is_rotation_at_lunar_lever_arm() {
+        // (d) At the lunar lever arm, binding must be "rotation".
+        let tol = consistency_tolerance(5.0, 1_737_400.0, None);
+        assert_eq!(tol.binding, "rotation");
     }
 }
