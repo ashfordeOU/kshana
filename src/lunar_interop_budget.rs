@@ -82,15 +82,90 @@ fn solve_spd<const N: usize>(a: &[[f64; N]; N], b: &[f64; N]) -> [f64; N] {
     x
 }
 
+/// Solve a small `N×N` symmetric positive-definite normal system with Jacobi
+/// (diagonal) preconditioning and one step of iterative refinement.
+///
+/// # Why preconditioning?
+/// The design columns of the Helmert / rotation-fit Jacobian span ~8–11 orders of
+/// magnitude: translation columns are O(1) m while rotation columns are `−[p]×`
+/// with magnitude ~|p| (3.8 × 10⁸ m for the Moon, up to ~10¹¹ m for SSB planets).
+/// The raw normal matrix therefore has condition number ~|p|² (up to ~10²²), near
+/// the f64 machine-precision floor, causing Cholesky to lose ~7–10 significant digits.
+///
+/// **Column equilibration / Jacobi preconditioner** `D = diag(1/√N[i][i])`:
+/// 1. `d[i] = 1 / √N[i][i]`  (guard: treat zero as 1 to avoid division by zero —
+///    this cannot occur for a full-rank design but the guard makes the contract explicit).
+/// 2. Scaled system: `Nₛ[i][j] = N[i][j] · d[i] · d[j]`; `bₛ[i] = b[i] · d[i]`.
+///    `Nₛ` has unit diagonal and is well-conditioned.
+/// 3. Solve `Nₛ y₀ = bₛ` via [`solve_spd`].
+/// 4. Recover `δ₀[i] = y₀[i] · d[i]`.
+/// 5. **One step of iterative refinement**: compute residual `r = b − N δ₀` in the
+///    original space (better arithmetic cancellation than in the scaled space), then
+///    solve `Nₛ eₛ = D r` and add correction `δ[i] += eₛ[i] · d[i]`.
+///    This recovers the last ~1–2 digits that the initial Cholesky may lose due to the
+///    ~10⁸–10¹¹ scale ratio between the Jacobian column families.
+fn preconditioned_solve<const N: usize>(normal: &[[f64; N]; N], rhs: &[f64; N]) -> [f64; N] {
+    // Step 1: diagonal scaling factors d[i] = 1/√normal[i][i].
+    let d: [f64; N] = std::array::from_fn(|i| {
+        let diag = normal[i][i];
+        if diag > 0.0 {
+            1.0 / diag.sqrt()
+        } else {
+            1.0 // guard: zero diagonal cannot arise for a full-rank design
+        }
+    });
+    // Step 2: apply D from both sides → Nₛ = D N D; bₛ = D b.
+    let mut normal_s = [[0.0_f64; N]; N];
+    let mut rhs_s = [0.0_f64; N];
+    for i in 0..N {
+        rhs_s[i] = rhs[i] * d[i];
+        for j in 0..N {
+            normal_s[i][j] = normal[i][j] * d[i] * d[j];
+        }
+    }
+    // Step 3: solve the well-conditioned scaled system → initial solution.
+    let y0 = solve_spd(&normal_s, &rhs_s);
+    // Step 4: unscale — δ₀[i] = y₀[i] · d[i].
+    let mut delta: [f64; N] = std::array::from_fn(|i| y0[i] * d[i]);
+
+    // Step 5: one step of iterative refinement.
+    // Compute residual r = b − N δ₀ in the original (unscaled) space.
+    let mut resid = [0.0_f64; N];
+    for i in 0..N {
+        let nd_i: f64 = (0..N).map(|j| normal[i][j] * delta[j]).sum();
+        resid[i] = rhs[i] - nd_i;
+    }
+    // Scale residual: rₛ[i] = d[i] · r[i], then solve Nₛ eₛ = rₛ for the correction.
+    let resid_s: [f64; N] = std::array::from_fn(|i| resid[i] * d[i]);
+    let e_s = solve_spd(&normal_s, &resid_s);
+    // Add correction: δ[i] += eₛ[i] · d[i].
+    for i in 0..N {
+        delta[i] += e_s[i] * d[i];
+    }
+
+    delta
+}
+
 /// Fit a 7-parameter Helmert transformation from `from` to `to` by least squares.
 ///
 /// **Algorithm:** for each matched pair `(from[i], to[i])`:
-/// 1. Build the 3×7 Jacobian block `J_i = datum7_point_jacobian_body(from[i])`.
+/// 1. Build the 3×7 Jacobian block `J_i = datum7_point_jacobian_body(from_c[i])` using
+///    **centred** positions `from_c[i] = from[i] − from̄` (mean subtracted).
 /// 2. Form the residual target `d_i = to[i] − from[i]`.
 /// 3. Accumulate the normal system: `N += J_iᵀ J_i` (7×7), `b += J_iᵀ d_i` (7-vector).
 ///
-/// Solve `N δ = b` by Cholesky.  Return:
-/// - `datum = Datum7 { t_m:[δ0,δ1,δ2], scale:δ3, rot_rad:[δ4,δ5,δ6] }`.
+/// **Why centring?**  The Jacobian cross-block `J_trans^T J_rot = −[Σ p_c]× = 0`
+/// **exactly** after centring (because Σ(from_c) = 0 by construction).  The resulting
+/// normal matrix is block-diagonal — translation and rotation/scale blocks decouple —
+/// eliminating the dominant source of catastrophic cancellation during Cholesky.
+/// Jacobi preconditioning (`preconditioned_solve`) then handles the remaining
+/// ~8-order-of-magnitude scale difference between the translation and rotation columns.
+///
+/// After solving the centred system, the translation is recovered as
+/// `t = t_c − s·from̄ − [θ]×from̄` (a linear back-transform).
+///
+/// Solve `N δ_c = b` by Cholesky with Jacobi preconditioning.  Return:
+/// - `datum = Datum7 { t_m:[t_x,t_y,t_z], scale:s, rot_rad:[θ_x,θ_y,θ_z] }`.
 /// - `raw_rms_m = √(Σ|d_i|² / N)`.
 /// - `residual_rms_m = √(Σ|d_i − J_i δ|² / N)`.
 ///
@@ -101,17 +176,30 @@ pub fn helmert_fit(from: &[Vec3], to: &[Vec3]) -> HelmertFit {
     assert_eq!(from.len(), to.len(), "helmert_fit: from.len() != to.len()");
     let n = from.len() as f64;
 
+    // Compute the centroid of `from` positions.  Centring eliminates the
+    // translation×rotation cross-block in the normal matrix (Σ p_c = 0 ⟹ N_tr = 0).
+    let from_mean: Vec3 = {
+        let sx: f64 = from.iter().map(|p| p[0]).sum();
+        let sy: f64 = from.iter().map(|p| p[1]).sum();
+        let sz: f64 = from.iter().map(|p| p[2]).sum();
+        [sx / n, sy / n, sz / n]
+    };
+
     let mut normal = [[0.0_f64; 7]; 7];
     let mut rhs = [0.0_f64; 7];
     let mut raw_sq = 0.0_f64;
 
     for (p, q) in from.iter().zip(to.iter()) {
-        let j = datum7_point_jacobian_body(*p);
+        // Use centred position for Jacobian; residual d uses original positions.
+        let p_c = [
+            p[0] - from_mean[0],
+            p[1] - from_mean[1],
+            p[2] - from_mean[2],
+        ];
+        let j = datum7_point_jacobian_body(p_c);
         let d = [q[0] - p[0], q[1] - p[1], q[2] - p[2]];
         raw_sq += d[0] * d[0] + d[1] * d[1] + d[2] * d[2];
         // Accumulate N += Jᵀ J and b += Jᵀ d.
-        // Index loops are genuinely cross-product (c1 vs c2) and cannot be replaced by
-        // direct iteration — each cell normal[c1][c2] sums over all 3 rows.
         for c1 in 0..7 {
             for c2 in 0..7 {
                 normal[c1][c2] += j[0][c1] * j[0][c2] + j[1][c1] * j[1][c2] + j[2][c1] * j[2][c2];
@@ -120,14 +208,33 @@ pub fn helmert_fit(from: &[Vec3], to: &[Vec3]) -> HelmertFit {
         }
     }
 
-    let delta = solve_spd(&normal, &rhs);
+    // Solve the centred normal system with Jacobi preconditioning.
+    let delta_c = preconditioned_solve(&normal, &rhs);
+
+    // Back-transform: recover the true translation from the centred one.
+    // t = t_c − s·from̄ − [θ]×from̄  (derivation: the centred model d = t_c + s·p_c + [θ]×p_c
+    // equals t + s·p + [θ]×p iff t = t_c − s·from̄ − [θ]×from̄).
+    let (s, tx_c, ty_c, tz_c) = (delta_c[3], delta_c[0], delta_c[1], delta_c[2]);
+    let (theta_x, theta_y, theta_z) = (delta_c[4], delta_c[5], delta_c[6]);
+    let [mx, my, mz] = from_mean;
+    // [θ]×from̄ = [θ_y·mz − θ_z·my,  θ_z·mx − θ_x·mz,  θ_x·my − θ_y·mx]
+    let delta = [
+        tx_c - s * mx - (theta_y * mz - theta_z * my),
+        ty_c - s * my - (theta_z * mx - theta_x * mz),
+        tz_c - s * mz - (theta_x * my - theta_y * mx),
+        s,
+        theta_x,
+        theta_y,
+        theta_z,
+    ];
+
     let datum = Datum7 {
         t_m: [delta[0], delta[1], delta[2]],
         scale: delta[3],
         rot_rad: [delta[4], delta[5], delta[6]],
     };
 
-    // Second pass: residual rms √(Σ|d_i − J_i δ|² / N)
+    // Second pass: residual rms using original (uncentred) Jacobian and corrected delta.
     let resid_sq: f64 = from
         .iter()
         .zip(to.iter())
@@ -153,9 +260,25 @@ pub fn helmert_fit(from: &[Vec3], to: &[Vec3]) -> HelmertFit {
 /// Fit a 6-parameter (translation + rotation, no scale) transformation from `from` to
 /// `to` by least squares.
 ///
-/// **Algorithm:** identical to [`helmert_fit`] but the scale column (index 3) is dropped.
+/// **Algorithm:** identical to [`helmert_fit`] but the scale column (index 3) is dropped,
+/// and positions are centred before building Jacobians (same rationale as [`helmert_fit`]).
 /// Uses columns `[0, 1, 2, 4, 5, 6]` of `datum7_point_jacobian_body` — a 3×6 regressor —
 /// yielding the 6-parameter solution `[t_x, t_y, t_z, θ_x, θ_y, θ_z]`.
+///
+/// Centring eliminates the translation×rotation cross-block (`J_trans^T J_rot = −[Σ p_c]× = 0`)
+/// so the 6×6 normal matrix is block-diagonal.  Combined with Jacobi preconditioning this
+/// brings the Cholesky result into agreement with SVD-based lstsq when both run on the same
+/// input data.  The rotation parameters are unchanged by centring (the nuisance translation
+/// absorbs the origin shift); we only return `theta = [θ_x, θ_y, θ_z]`.
+///
+/// **Condition number warning:** when inter-ephemeris planet position differences are large
+/// (100 km for INPOP21a–EPM2021) relative to the rotation signal (~0.1 m), the 6×6 normal
+/// matrix has condition number ~5.7×10¹⁰ (planet orbital radius ÷ 1 for the translation
+/// column), giving an irreducible ~2 nrad numerical noise floor even after preconditioning.
+/// This noise manifests as a ~2.9 nrad realization difference between the SciPy SVD oracle
+/// (reference.json) and the Rust Cholesky when running on fixture data of slightly differing
+/// precision (kernel vs 3 d.p. CSV).  See the tolerance note in
+/// `tests/lunar_interop_budget_reference.rs` for details.
 ///
 /// Returns `(theta_rad, residual_rms_m)` where:
 /// - `theta_rad = [θ_x, θ_y, θ_z]` = entries 3–5 of the 6-vector solution.
@@ -168,6 +291,16 @@ pub fn rotation_fit(from: &[Vec3], to: &[Vec3]) -> (Vec3, f64) {
     assert_eq!(from.len(), to.len(), "rotation_fit: from.len() != to.len()");
     let n = from.len() as f64;
 
+    // Centroid of `from` — subtracted from each position before building the Jacobian.
+    // This makes Σ p_c = 0, so J_trans^T J_rot = −[Σ p_c]× = 0 exactly, decoupling
+    // the translation and rotation blocks of the 6×6 normal matrix.
+    let from_mean: Vec3 = {
+        let sx: f64 = from.iter().map(|p| p[0]).sum();
+        let sy: f64 = from.iter().map(|p| p[1]).sum();
+        let sz: f64 = from.iter().map(|p| p[2]).sum();
+        [sx / n, sy / n, sz / n]
+    };
+
     // Retain columns [0,1,2,4,5,6] of the 7-param Jacobian; drop column 3 (scale).
     // New index 0→col 0 (t_x), 1→col 1 (t_y), 2→col 2 (t_z),
     //           3→col 4 (θ_x), 4→col 5 (θ_y), 5→col 6 (θ_z).
@@ -177,7 +310,12 @@ pub fn rotation_fit(from: &[Vec3], to: &[Vec3]) -> (Vec3, f64) {
     let mut rhs = [0.0_f64; 6];
 
     for (p, q) in from.iter().zip(to.iter()) {
-        let j7 = datum7_point_jacobian_body(*p);
+        let p_c = [
+            p[0] - from_mean[0],
+            p[1] - from_mean[1],
+            p[2] - from_mean[2],
+        ];
+        let j7 = datum7_point_jacobian_body(p_c);
         let d = [q[0] - p[0], q[1] - p[1], q[2] - p[2]];
         for (c1, &col1) in COLS.iter().enumerate() {
             for (c2, &col2) in COLS.iter().enumerate() {
@@ -189,14 +327,22 @@ pub fn rotation_fit(from: &[Vec3], to: &[Vec3]) -> (Vec3, f64) {
         }
     }
 
-    let delta = solve_spd(&normal, &rhs);
+    // Precondition before Cholesky: after centring the cross-terms are zero, but the
+    // rotation columns (magnitude ~|p_c|, up to ~10¹¹ m for SSB planets) are still
+    // much larger than the translation columns (magnitude ~1).
+    let delta = preconditioned_solve(&normal, &rhs);
 
-    // Residual rms √(Σ|d_i − J6_i δ|² / N)
+    // Residual rms √(Σ|d_i − J6_i δ|² / N) — use centred Jacobian (delta is in centred coords).
     let resid_sq: f64 = from
         .iter()
         .zip(to.iter())
         .map(|(p, q)| {
-            let j7 = datum7_point_jacobian_body(*p);
+            let p_c = [
+                p[0] - from_mean[0],
+                p[1] - from_mean[1],
+                p[2] - from_mean[2],
+            ];
+            let j7 = datum7_point_jacobian_body(p_c);
             let d = [q[0] - p[0], q[1] - p[1], q[2] - p[2]];
             let fitted: [f64; 3] = std::array::from_fn(|row| {
                 COLS.iter()

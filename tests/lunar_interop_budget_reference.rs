@@ -7,9 +7,22 @@
 //! numpy SVD `lstsq`).
 //!
 //! This is the single Validated row for the P2 cross-provider module.  All scalar
-//! magnitude results are cross-checked to relative error < 1e-3 and a tight absolute
-//! floor (< 1e-3 m for metre quantities; < 1e-2 nrad for angle quantities) to absorb
-//! Cholesky-vs-SVD solver differences while still catching any wrong convention.
+//! magnitude results are cross-checked against reference.json (generated offline by the
+//! SciPy SVD lstsq oracle) to relative error < 1e-3 AND absolute error < 1e-3 m /
+//! < 1e-2 nrad.  Jacobi preconditioning of the normal equations brings the Cholesky
+//! solver into agreement with SciPy SVD lstsq when both run on the same CSV data.
+//!
+//! **Precision note for INPOP21a–EPM2021:** the planet rotation fit (`rotation_fit`) uses
+//! a 6-parameter simultaneous translation+rotation fit whose condition number is ~5.7×10¹⁰
+//! for Mercury (planet distance ÷ 1).  This gives an irreducible ~2 nrad numerical noise
+//! floor in the per-planet theta_z estimate.  reference.json was computed by the SciPy
+//! oracle at full kernel precision, producing one noise realization; the Rust Cholesky on
+//! the 3 d.p. CSV fixture produces another.  The two realizations of theta_frametie[z]
+//! differ by ~2.9 nrad, which propagates through the near-cancellation
+//! (theta_moon ≈ theta_frametie for this pair) to give ~1.8×10⁻³ relative error in
+//! irreducible_m — just outside the 1e-3 threshold.  The irreducible_m check therefore
+//! uses a tolerance of 3×10⁻³ / 2×10⁻³ m for this pair; all other quantities and all
+//! other pairs are tightened to 1×10⁻³.
 //!
 //! Fixture files are baked at compile time via `include_str!`; no runtime I/O occurs.
 
@@ -180,79 +193,93 @@ fn inter_ephemeris_decomposition_matches_scipy() {
 
     // ── Tolerance macros ───────────────────────────────────────────────────────
     //
-    // The target thresholds are < 1e-3 relative and < 1e-3 m absolute (metres) /
-    // < 1e-2 nrad absolute (angles), as specified in the plan.  We use 3e-3
-    // relative and 2e-3 m absolute to accommodate the documented Cholesky
-    // normal-equations vs numpy SVD lstsq precision difference, which is amplified
-    // for the INPOP21a–EPM2021 pair where theta_excess is computed as a
-    // near-cancellation of two vectors of similar magnitude.  Convention errors
-    // (sign flip, column swap, wrong lever arm) produce O(1) or O(10%) differences;
-    // the ~1.8e-3 effect seen here is clearly a solver-precision artifact.
+    // Standard tolerance: relative < 1e-3 AND absolute < 1e-3 m / < 1e-2 nrad.
+    //
+    // Exception for INPOP21a–EPM2021 irreducible_m and theta_excess_nrad: the
+    // 6-parameter planet rotation fit has condition number ~5.7×10¹⁰ (Mercury orbital
+    // radius ÷ translation column magnitude), giving ~2 nrad irreducible numerical noise
+    // in the per-planet theta_z estimate.  reference.json was computed by the SciPy
+    // SVD oracle at full kernel precision and the Rust Cholesky runs on 3 d.p. CSV data;
+    // the two are different realizations of this ~2 nrad noise, differing by ~2.9 nrad
+    // in theta_frametie[z].  For INPOP21a–EPM2021, theta_moon ≈ theta_frametie (near-
+    // cancellation), so the ~2.9 nrad theta_frametie[z] discrepancy propagates directly
+    // into theta_excess and irreducible_m as ~1.8×10⁻³ relative error — just above 1e-3.
+    // The widened tolerance (3×10⁻³ / 2×10⁻³) matches the achievable precision for this
+    // ill-conditioned quantity with the current fixture data.  All other quantities and
+    // all other pairs satisfy 1×10⁻³.
 
-    // Relative error < 3e-3 AND absolute error < 2e-3 m (metre quantities).
-    macro_rules! check_m {
-        ($r:expr, $label:expr, $got:expr, $exp:expr) => {{
+    // Relative error < `$rel_tol` AND absolute error < `$abs_tol` (metre quantities).
+    macro_rules! check_m_tol {
+        ($r:expr, $label:expr, $got:expr, $exp:expr, $rel_tol:expr, $abs_tol:expr) => {{
             let rel = ($got - $exp).abs() / $exp.abs().max(1e-15);
             let abs = ($got - $exp).abs();
-            if rel >= 3e-3 || abs >= 2e-3 {
+            if rel >= $rel_tol || abs >= $abs_tol {
                 eprintln!(
                     "MISMATCH  pair={:<22} qty={:<22} got={:.8e}  exp={:.8e}  \
-                     rel={:.3e}  abs={:.3e} m",
-                    $r.key, $label, $got, $exp, rel, abs
+                     rel={:.3e} (tol={:.0e})  abs={:.3e} m (tol={:.0e})",
+                    $r.key, $label, $got, $exp, rel, $rel_tol, abs, $abs_tol
                 );
             }
             assert!(
-                rel < 3e-3,
-                "pair={} qty={}: relative error {:.3e} >= 3e-3  (got={:.8e}  exp={:.8e})",
+                rel < $rel_tol,
+                "pair={} qty={}: relative error {:.3e} >= {:.0e}  (got={:.8e}  exp={:.8e})",
                 $r.key,
                 $label,
                 rel,
+                $rel_tol,
                 $got,
                 $exp
             );
             assert!(
-                abs < 2e-3,
-                "pair={} qty={}: absolute error {:.3e} m >= 2e-3 m  (got={:.8e}  exp={:.8e})",
+                abs < $abs_tol,
+                "pair={} qty={}: absolute error {:.3e} m >= {:.0e} m  (got={:.8e}  exp={:.8e})",
                 $r.key,
                 $label,
                 abs,
+                $abs_tol,
                 $got,
                 $exp
             );
         }};
     }
 
-    // Relative error < 3e-3 AND absolute error < 1e-2 nrad (angle quantities).
-    macro_rules! check_nrad {
-        ($r:expr, $label:expr, $got:expr, $exp:expr) => {{
+    // Standard-tolerance metre check.
+    macro_rules! check_m {
+        ($r:expr, $label:expr, $got:expr, $exp:expr) => {
+            check_m_tol!($r, $label, $got, $exp, 1e-3_f64, 1e-3_f64)
+        };
+    }
+
+    // Relative error < `$rel_tol` AND absolute error < `$abs_tol` (angle quantities, nrad).
+    macro_rules! check_nrad_tol {
+        ($r:expr, $label:expr, $got:expr, $exp:expr, $rel_tol:expr, $abs_tol:expr) => {{
             let rel = ($got - $exp).abs() / $exp.abs().max(1e-15);
             let abs = ($got - $exp).abs();
-            if rel >= 3e-3 || abs >= 1e-2 {
+            if rel >= $rel_tol || abs >= $abs_tol {
                 eprintln!(
                     "MISMATCH  pair={:<22} qty={:<22} got={:.8e}  exp={:.8e}  \
-                     rel={:.3e}  abs={:.3e} nrad",
-                    $r.key, $label, $got, $exp, rel, abs
+                     rel={:.3e} (tol={:.0e})  abs={:.3e} nrad (tol={:.0e})",
+                    $r.key, $label, $got, $exp, rel, $rel_tol, abs, $abs_tol
                 );
             }
             assert!(
-                rel < 3e-3,
-                "pair={} qty={}: relative error {:.3e} >= 3e-3  (got={:.8e}  exp={:.8e})",
-                $r.key,
-                $label,
-                rel,
-                $got,
-                $exp
+                rel < $rel_tol,
+                "pair={} qty={}: relative error {:.3e} >= {:.0e}  (got={:.8e}  exp={:.8e})",
+                $r.key, $label, rel, $rel_tol, $got, $exp
             );
             assert!(
-                abs < 1e-2,
-                "pair={} qty={}: absolute error {:.3e} nrad >= 1e-2 nrad  (got={:.8e}  exp={:.8e})",
-                $r.key,
-                $label,
-                abs,
-                $got,
-                $exp
+                abs < $abs_tol,
+                "pair={} qty={}: absolute error {:.3e} nrad >= {:.0e} nrad  (got={:.8e}  exp={:.8e})",
+                $r.key, $label, abs, $abs_tol, $got, $exp
             );
         }};
+    }
+
+    // Standard-tolerance angle check.
+    macro_rules! check_nrad {
+        ($r:expr, $label:expr, $got:expr, $exp:expr) => {
+            check_nrad_tol!($r, $label, $got, $exp, 1e-3_f64, 1e-2_f64)
+        };
     }
 
     // ── Per-pair tolerance checks ──────────────────────────────────────────────
@@ -261,7 +288,6 @@ fn inter_ephemeris_decomposition_matches_scipy() {
         check_m!(r, "raw_rms_m", r.raw_rms_m, r.exp_raw_rms_m);
         check_m!(r, "rot_residual_m", r.rot_residual_m, r.exp_rot_residual_m);
         check_m!(r, "reducible_m", r.reducible_m, r.exp_reducible_m);
-        check_m!(r, "irreducible_m", r.irreducible_m, r.exp_irreducible_m);
         check_nrad!(
             r,
             "theta_moon_nrad",
@@ -274,12 +300,37 @@ fn inter_ephemeris_decomposition_matches_scipy() {
             r.theta_frametie_nrad,
             r.exp_theta_frametie_nrad
         );
-        check_nrad!(
-            r,
-            "theta_excess_nrad",
-            r.theta_excess_nrad,
-            r.exp_theta_excess_nrad
-        );
+
+        // irreducible_m and theta_excess_nrad: widened to 3e-3/2e-3 for INPOP21a-EPM2021
+        // because the ~2 nrad noise floor of the ill-conditioned 6-param planet rotation
+        // fit causes ~1.8e-3 relative error in this near-cancelling pair (see module
+        // comment for full analysis).  All other pairs satisfy 1e-3 on both quantities.
+        if r.key == "INPOP21a-EPM2021" {
+            check_m_tol!(
+                r,
+                "irreducible_m",
+                r.irreducible_m,
+                r.exp_irreducible_m,
+                3e-3_f64,
+                2e-3_f64
+            );
+            check_nrad_tol!(
+                r,
+                "theta_excess_nrad",
+                r.theta_excess_nrad,
+                r.exp_theta_excess_nrad,
+                3e-3_f64,
+                1e-2_f64
+            );
+        } else {
+            check_m!(r, "irreducible_m", r.irreducible_m, r.exp_irreducible_m);
+            check_nrad!(
+                r,
+                "theta_excess_nrad",
+                r.theta_excess_nrad,
+                r.exp_theta_excess_nrad
+            );
+        }
     }
 
     // ── Sanity anchor (NOTICE.md headline numbers) ─────────────────────────────
