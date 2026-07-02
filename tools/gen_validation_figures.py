@@ -42,6 +42,25 @@ PNG_OUT = os.path.join(ROOT, "docs", "assets", "figures", "validation-breakdown.
 ORACLE_SVG_OUT = os.path.join(ROOT, "docs", "assets", "figures", "oracle-kind-stacked.svg")
 ORACLE_PNG_OUT = os.path.join(ROOT, "docs", "assets", "figures", "oracle-kind-stacked.png")
 
+# --- Dark brand theme -----------------------------------------------------------
+# These two figures share the visual language of the other README figures
+# (docs/assets/figures/{domain-coverage-map,scenario-fom,sgp4-regime-bars}.png):
+# a warm near-black canvas, a gold heading, a muted subtitle, cream body text, and a
+# seafoam / tan / amber / slate bar palette. Rendered opaque, so the panels read as
+# dark cards that blend into GitHub's dark theme and stay legible in light mode.
+# The hex values below are sampled from those figures so the whole README is one set.
+BG = "#0c0b08"  # warm near-black canvas
+TITLE = "#e0bd84"  # gold heading
+SUBTLE = "#8c8273"  # muted subtitle / caption
+INK = "#f1ece2"  # cream body text (row labels, legend, totals line)
+TOTAL = "#e0bd84"  # gold row-total to the right of a bar (matches brand)
+INBAR = "#0c0b08"  # dark count text inside a coloured bar (matches brand)
+OUTLINE = "#3a352b"  # faint bar outline
+GREEN = "#46b67e"  # Validated / ExternalDataset
+TAN = "#d2925e"  # Modelled / InternalConsistency
+AMBER = "#c99a3c"  # ReferenceImpl
+SLATE = "#7c81b8"  # Partner / NoneKind
+
 # Fixed canvas geometry (no auto-layout → deterministic across runs/machines).
 WIDTH = 780
 HEIGHT = 300
@@ -53,9 +72,9 @@ BAR_W = WIDTH - 2 * MARGIN_X  # full-width stacked bar
 # Segment styling. Order is FIXED (Validated, Modelled, Partner) so the emitted
 # element order — and therefore the bytes — never changes.
 SEGMENTS = [
-    ("validated", "Validated", "#1b7837"),  # external-oracle checked
-    ("modelled", "Modelled", "#b8860b"),  # honestly labelled simulation
-    ("partner_owned", "Partner", "#4a4a8a"),  # partner-owned evidence
+    ("validated", "Validated", GREEN),  # external-oracle checked
+    ("modelled", "Modelled", TAN),  # honestly labelled simulation
+    ("partner_owned", "Partner", SLATE),  # partner-owned evidence
 ]
 
 
@@ -100,15 +119,15 @@ def build_svg(counts):
     )
     a('  <desc>Generated from src/verification.rs via web/data/verification-matrix.json '
       'by tools/gen_validation_figures.py. Do not edit by hand.</desc>')
-    a(f'  <rect x="0" y="0" width="{WIDTH}" height="{HEIGHT}" fill="#ffffff"/>')
+    a(f'  <rect x="0" y="0" width="{WIDTH}" height="{HEIGHT}" fill="{BG}"/>')
 
     # Heading + total.
     a(
         f'  <text x="{MARGIN_X}" y="56" font-size="26" font-weight="700" '
-        f'fill="#212121">Verification status</text>'
+        f'fill="{TITLE}">Verification status</text>'
     )
     a(
-        f'  <text x="{MARGIN_X}" y="86" font-size="16" fill="#555555">'
+        f'  <text x="{MARGIN_X}" y="86" font-size="16" fill="{SUBTLE}">'
         f'{total} capabilities &#183; one row per requirement in the matrix</text>'
     )
 
@@ -133,14 +152,14 @@ def build_svg(counts):
             cy = BAR_Y + BAR_H / 2 + 8
             a(
                 f'  <text x="{fmt(cx)}" y="{fmt(cy)}" font-size="24" '
-                f'font-weight="700" fill="#ffffff" text-anchor="middle">{count}</text>'
+                f'font-weight="700" fill="{INBAR}" text-anchor="middle">{count}</text>'
             )
         x += seg_w
 
     # Outline so adjacent segments read as one bar.
     a(
         f'  <rect x="{MARGIN_X}" y="{BAR_Y}" width="{BAR_W}" height="{BAR_H}" '
-        f'fill="none" stroke="#212121" stroke-width="1"/>'
+        f'fill="none" stroke="{OUTLINE}" stroke-width="1"/>'
     )
 
     # Legend row: a swatch + "<count> <Label>" per segment, evenly spaced. Order is
@@ -157,7 +176,7 @@ def build_svg(counts):
         )
         a(
             f'  <text x="{fmt(sx + swatch + 8)}" y="{legend_y}" font-size="17" '
-            f'fill="#212121"><tspan font-weight="700">{count}</tspan> {label}</text>'
+            f'fill="{INK}"><tspan font-weight="700">{count}</tspan> {label}</text>'
         )
 
     a('</svg>')
@@ -199,10 +218,10 @@ OBAR_H = 42
 
 # Fixed oracle-kind order + colours (matches the validated-green of the other figure).
 ORACLE_KINDS = [
-    ("ExternalDataset", "#1b7837"),
-    ("ReferenceImpl", "#b8860b"),
-    ("InternalConsistency", "#cd853f"),
-    ("NoneKind", "#4a4a8a"),
+    ("ExternalDataset", GREEN),
+    ("ReferenceImpl", AMBER),
+    ("InternalConsistency", TAN),
+    ("NoneKind", SLATE),
 ]
 # Fixed status-row order (matrix JSON status string -> display label).
 STATUS_ROWS = [
@@ -249,15 +268,15 @@ def build_oracle_svg(bd, total):
     a('  <title>kshana verification status by oracle kind</title>')
     a('  <desc>Generated from src/verification.rs via web/data/verification-matrix.json '
       'by tools/gen_validation_figures.py. Do not edit by hand.</desc>')
-    a(f'  <rect x="0" y="0" width="{OWIDTH}" height="{OHEIGHT}" fill="#ffffff"/>')
+    a(f'  <rect x="0" y="0" width="{OWIDTH}" height="{OHEIGHT}" fill="{BG}"/>')
 
     # Heading + subtitle (the subtitle carries the validated invariant + the total).
     a(
         f'  <text x="{OMARGIN}" y="50" font-size="24" font-weight="700" '
-        f'fill="#212121">Validated means external oracle &#8212; by construction</text>'
+        f'fill="{TITLE}">Validated means external oracle &#8212; by construction</text>'
     )
     a(
-        f'  <text x="{OMARGIN}" y="78" font-size="15" fill="#555555">'
+        f'  <text x="{OMARGIN}" y="78" font-size="15" fill="{SUBTLE}">'
         f'Status &#215; oracle kind from verification-matrix.json (n={total}). '
         f'Validated = {validated}/{validated} ExternalDataset &#8212; CI-enforced.</text>'
     )
@@ -267,7 +286,7 @@ def build_oracle_svg(bd, total):
         y = OROW_Y0 + i * OROW_STEP
         a(
             f'  <text x="{OMARGIN}" y="{fmt(y + OBAR_H / 2 + 5)}" font-size="17" '
-            f'font-weight="700" fill="#212121">{label}</text>'
+            f'font-weight="700" fill="{INK}">{label}</text>'
         )
         x = float(OBAR_X)
         for kind, colour in ORACLE_KINDS:
@@ -282,20 +301,20 @@ def build_oracle_svg(bd, total):
             if seg_w >= 22:
                 a(
                     f'  <text x="{fmt(x + seg_w / 2)}" y="{fmt(y + OBAR_H / 2 + 6)}" '
-                    f'font-size="18" font-weight="700" fill="#ffffff" '
+                    f'font-size="18" font-weight="700" fill="{INBAR}" '
                     f'text-anchor="middle">{count}</text>'
                 )
             x += seg_w
         # Row total just past the bar's right end.
         a(
             f'  <text x="{fmt(x + 12)}" y="{fmt(y + OBAR_H / 2 + 6)}" font-size="18" '
-            f'font-weight="700" fill="#212121">{row_totals[status]}</text>'
+            f'font-weight="700" fill="{TOTAL}">{row_totals[status]}</text>'
         )
 
     # Caption: the Modelled oracle-kind split (greppable, pinned by the doc-sync test).
     cap_y = OROW_Y0 + len(STATUS_ROWS) * OROW_STEP + 10
     a(
-        f'  <text x="{OMARGIN}" y="{cap_y}" font-size="14" fill="#555555">'
+        f'  <text x="{OMARGIN}" y="{cap_y}" font-size="14" fill="{SUBTLE}">'
         f'Modelled oracle kinds: {modelled["ExternalDataset"]} ExternalDataset, '
         f'{modelled["ReferenceImpl"]} ReferenceImpl, '
         f'{modelled["InternalConsistency"]} InternalConsistency '
@@ -314,13 +333,13 @@ def build_oracle_svg(bd, total):
         )
         a(
             f'  <text x="{fmt(sx + swatch + 6)}" y="{fmt(legend_y)}" font-size="13" '
-            f'fill="#212121">{kind}</text>'
+            f'fill="{INK}">{kind}</text>'
         )
 
     # Status totals line (same idiom as validation-breakdown's legend → greppable).
     totals_y = legend_y + 34
     a(
-        f'  <text x="{OMARGIN}" y="{totals_y}" font-size="15" fill="#212121">'
+        f'  <text x="{OMARGIN}" y="{totals_y}" font-size="15" fill="{INK}">'
         f'<tspan font-weight="700">{validated}</tspan> Validated &#183; '
         f'<tspan font-weight="700">{modelled_total}</tspan> Modelled &#183; '
         f'<tspan font-weight="700">{partner}</tspan> Partner &#183; '

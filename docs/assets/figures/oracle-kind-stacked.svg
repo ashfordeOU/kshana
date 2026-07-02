@@ -2,33 +2,33 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="820" height="400" viewBox="0 0 820 400" font-family="Helvetica, Arial, sans-serif">
   <title>kshana verification status by oracle kind</title>
   <desc>Generated from src/verification.rs via web/data/verification-matrix.json by tools/gen_validation_figures.py. Do not edit by hand.</desc>
-  <rect x="0" y="0" width="820" height="400" fill="#ffffff"/>
-  <text x="40" y="50" font-size="24" font-weight="700" fill="#212121">Validated means external oracle &#8212; by construction</text>
-  <text x="40" y="78" font-size="15" fill="#555555">Status &#215; oracle kind from verification-matrix.json (n=102). Validated = 51/51 ExternalDataset &#8212; CI-enforced.</text>
-  <text x="40" y="146" font-size="17" font-weight="700" fill="#212121">Validated</text>
-  <rect x="168" y="120" width="582" height="42" fill="#1b7837"/>
-  <text x="459" y="147" font-size="18" font-weight="700" fill="#ffffff" text-anchor="middle">51</text>
-  <text x="762" y="147" font-size="18" font-weight="700" fill="#212121">51</text>
-  <text x="40" y="208" font-size="17" font-weight="700" fill="#212121">Modelled</text>
-  <rect x="168" y="182" width="91.29" height="42" fill="#1b7837"/>
-  <text x="213.65" y="209" font-size="18" font-weight="700" fill="#ffffff" text-anchor="middle">8</text>
-  <rect x="259.29" y="182" width="79.88" height="42" fill="#b8860b"/>
-  <text x="299.24" y="209" font-size="18" font-weight="700" fill="#ffffff" text-anchor="middle">7</text>
-  <rect x="339.18" y="182" width="365.18" height="42" fill="#cd853f"/>
-  <text x="521.76" y="209" font-size="18" font-weight="700" fill="#ffffff" text-anchor="middle">32</text>
-  <text x="716.35" y="209" font-size="18" font-weight="700" fill="#212121">47</text>
-  <text x="40" y="270" font-size="17" font-weight="700" fill="#212121">Partner</text>
-  <rect x="168" y="244" width="45.65" height="42" fill="#4a4a8a"/>
-  <text x="190.82" y="271" font-size="18" font-weight="700" fill="#ffffff" text-anchor="middle">4</text>
-  <text x="225.65" y="271" font-size="18" font-weight="700" fill="#212121">4</text>
-  <text x="40" y="316" font-size="14" fill="#555555">Modelled oracle kinds: 8 ExternalDataset, 7 ReferenceImpl, 32 InternalConsistency (total 47 Modelled).</text>
-  <rect x="40" y="339" width="16" height="16" fill="#1b7837"/>
-  <text x="62" y="352" font-size="13" fill="#212121">ExternalDataset</text>
-  <rect x="225" y="339" width="16" height="16" fill="#b8860b"/>
-  <text x="247" y="352" font-size="13" fill="#212121">ReferenceImpl</text>
-  <rect x="410" y="339" width="16" height="16" fill="#cd853f"/>
-  <text x="432" y="352" font-size="13" fill="#212121">InternalConsistency</text>
-  <rect x="595" y="339" width="16" height="16" fill="#4a4a8a"/>
-  <text x="617" y="352" font-size="13" fill="#212121">NoneKind</text>
-  <text x="40" y="386" font-size="15" fill="#212121"><tspan font-weight="700">51</tspan> Validated &#183; <tspan font-weight="700">47</tspan> Modelled &#183; <tspan font-weight="700">4</tspan> Partner &#183; <tspan font-weight="700">102</tspan> total</text>
+  <rect x="0" y="0" width="820" height="400" fill="#0c0b08"/>
+  <text x="40" y="50" font-size="24" font-weight="700" fill="#e0bd84">Validated means external oracle &#8212; by construction</text>
+  <text x="40" y="78" font-size="15" fill="#8c8273">Status &#215; oracle kind from verification-matrix.json (n=102). Validated = 51/51 ExternalDataset &#8212; CI-enforced.</text>
+  <text x="40" y="146" font-size="17" font-weight="700" fill="#f1ece2">Validated</text>
+  <rect x="168" y="120" width="582" height="42" fill="#46b67e"/>
+  <text x="459" y="147" font-size="18" font-weight="700" fill="#0c0b08" text-anchor="middle">51</text>
+  <text x="762" y="147" font-size="18" font-weight="700" fill="#e0bd84">51</text>
+  <text x="40" y="208" font-size="17" font-weight="700" fill="#f1ece2">Modelled</text>
+  <rect x="168" y="182" width="91.29" height="42" fill="#46b67e"/>
+  <text x="213.65" y="209" font-size="18" font-weight="700" fill="#0c0b08" text-anchor="middle">8</text>
+  <rect x="259.29" y="182" width="79.88" height="42" fill="#c99a3c"/>
+  <text x="299.24" y="209" font-size="18" font-weight="700" fill="#0c0b08" text-anchor="middle">7</text>
+  <rect x="339.18" y="182" width="365.18" height="42" fill="#d2925e"/>
+  <text x="521.76" y="209" font-size="18" font-weight="700" fill="#0c0b08" text-anchor="middle">32</text>
+  <text x="716.35" y="209" font-size="18" font-weight="700" fill="#e0bd84">47</text>
+  <text x="40" y="270" font-size="17" font-weight="700" fill="#f1ece2">Partner</text>
+  <rect x="168" y="244" width="45.65" height="42" fill="#7c81b8"/>
+  <text x="190.82" y="271" font-size="18" font-weight="700" fill="#0c0b08" text-anchor="middle">4</text>
+  <text x="225.65" y="271" font-size="18" font-weight="700" fill="#e0bd84">4</text>
+  <text x="40" y="316" font-size="14" fill="#8c8273">Modelled oracle kinds: 8 ExternalDataset, 7 ReferenceImpl, 32 InternalConsistency (total 47 Modelled).</text>
+  <rect x="40" y="339" width="16" height="16" fill="#46b67e"/>
+  <text x="62" y="352" font-size="13" fill="#f1ece2">ExternalDataset</text>
+  <rect x="225" y="339" width="16" height="16" fill="#c99a3c"/>
+  <text x="247" y="352" font-size="13" fill="#f1ece2">ReferenceImpl</text>
+  <rect x="410" y="339" width="16" height="16" fill="#d2925e"/>
+  <text x="432" y="352" font-size="13" fill="#f1ece2">InternalConsistency</text>
+  <rect x="595" y="339" width="16" height="16" fill="#7c81b8"/>
+  <text x="617" y="352" font-size="13" fill="#f1ece2">NoneKind</text>
+  <text x="40" y="386" font-size="15" fill="#f1ece2"><tspan font-weight="700">51</tspan> Validated &#183; <tspan font-weight="700">47</tspan> Modelled &#183; <tspan font-weight="700">4</tspan> Partner &#183; <tspan font-weight="700">102</tspan> total</text>
 </svg>
