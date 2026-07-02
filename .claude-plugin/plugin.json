@@ -1,0 +1,32 @@
+{
+  "name": "kshana",
+  "displayName": "Kshana PNT-resilience simulator",
+  "version": "0.23.0",
+  "description": "Run the validated Kshana PNT-resilience engine from an AI agent — SGP4/SDP4, IAU frames, GNSS availability/DOP/ARAIM, Allan/MTIE timing, GNSS-INS fusion and quantum-sensor models. The agent calls the real, externally-validated engine instead of guessing the math. Requires the kshana-mcp server on PATH (cargo install kshana-mcp) or Docker.",
+  "author": {
+    "name": "Ashforde OÜ",
+    "email": "contact@ashforde.org",
+    "url": "https://ashforde.org"
+  },
+  "homepage": "https://kshana.dev",
+  "repository": "https://github.com/ashfordeOU/kshana",
+  "license": "AGPL-3.0-only",
+  "keywords": [
+    "pnt",
+    "gnss",
+    "orbit",
+    "sgp4",
+    "timing",
+    "allan",
+    "gnss-ins-fusion",
+    "quantum-sensors",
+    "navigation",
+    "mcp"
+  ],
+  "mcpServers": {
+    "kshana": {
+      "command": "kshana-mcp",
+      "args": []
+    }
+  }
+}
