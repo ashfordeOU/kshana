@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "kshana": {
+      "command": "kshana-mcp",
+      "args": [],
+      "env": {}
+    }
+  }
+}
