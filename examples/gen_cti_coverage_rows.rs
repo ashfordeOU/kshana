@@ -12,7 +12,7 @@ fn main() {
         q_rw: 0.0,
         q_drift: 0.0,
         d_aging: 0.0,
-        flicker_floor_s: 0.0,
+        flicker_floor: 0.0,
         p0_phase_var_s2: 0.0,
     };
     println!("tau_days,envelope_ns");

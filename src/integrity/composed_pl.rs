@@ -30,7 +30,7 @@ pub struct HoldoverEnvelope {
     /// Deterministic aging / drift D (1/s²) → bias ½Dτ².
     pub d_aging: f64,
     /// Flicker-FM floor (fractional, dimensionless) → bounded (φ·τ)² inflation.
-    pub flicker_floor_s: f64,
+    pub flicker_floor: f64,
     /// Handover-state phase-error variance P₀ (s²) seeding the coast start.
     pub p0_phase_var_s2: f64,
 }
@@ -41,7 +41,7 @@ impl HoldoverEnvelope {
     pub fn stochastic_variance(&self, tau_s: f64) -> f64 {
         self.p0_phase_var_s2
             + coast_phase_variance(self.q_wf, self.q_rw, self.q_drift, tau_s)
-            + (self.flicker_floor_s * tau_s).powi(2)
+            + (self.flicker_floor * tau_s).powi(2)
     }
 
     /// Deterministic aging bias ½Dτ² (s).
@@ -85,7 +85,7 @@ mod tests {
             q_rw: 1e-30,
             q_drift: 1e-38,
             d_aging: 1e-18,
-            flicker_floor_s: 1e-13,
+            flicker_floor: 1e-13,
             p0_phase_var_s2: 4e-20, // (0.2 ns)²
         }
     }
@@ -121,7 +121,7 @@ mod tests {
         let t = 1000.0;
         let var = e.p0_phase_var_s2
             + crate::holdover::coast_phase_variance(e.q_wf, e.q_rw, e.q_drift, t)
-            + (e.flicker_floor_s * t).powi(2);
+            + (e.flicker_floor * t).powi(2);
         let bias = 0.5 * e.d_aging * t * t;
         let pointwise = bias + k_ir_two_sided(1e-5) * var.sqrt();
         let running = bias + k_running_max(1e-5) * var.sqrt();
@@ -154,7 +154,7 @@ mod tests {
             q_rw: 0.0,
             q_drift: 0.0,
             d_aging: 1e-16,
-            flicker_floor_s: 0.0,
+            flicker_floor: 0.0,
             p0_phase_var_s2: 0.0,
         };
         let t = 500.0;

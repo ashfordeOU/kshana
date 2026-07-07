@@ -41,7 +41,7 @@ fn main() {
         q_rw: 1e-30,
         q_drift: 1e-38,
         d_aging: 1e-18,
-        flicker_floor_s: 1e-13,
+        flicker_floor: 1e-13,
         p0_phase_var_s2: p0,
     };
 

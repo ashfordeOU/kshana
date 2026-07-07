@@ -133,19 +133,21 @@ mod tests {
 
     #[test]
     fn single_source_is_rank_one_no_subset() {
-        // N=1: no exclusion subset exists; PL = K(ir)·σ + b (fault-free only).
+        // N=1: no exclusion subset exists; PL = bias + sigma·Phi^-1(1 - ir/2/(1-p_fault)).
         let s = [TimeSource {
             sigma_s: 2e-9,
             bias_s: 1e-9,
             p_fault: 1e-4,
         }];
         let r = scalar_tpl(&s, 1e-5, 1e-3).unwrap();
-        let k = normal_quantile(1.0 - (1e-5 / 2.0) / 2.0); // two-sided at ir/2 (budget split)
-                                                           // PL is dominated by fault-free bias + K·σ; check order-of-magnitude ns.
+        // Exact absolute-scale check: PL = b + σ·Φ⁻¹(1 − (ir/2)/(1−p_fault)).
+        let expected = 1e-9 + 2e-9 * normal_quantile(1.0 - (1e-5 / 2.0) / (1.0 - 1e-4));
+        assert!(
+            (r.pl_s - expected).abs() < 1e-11,
+            "N=1 PL must equal bias + sigma·Phi^-1(1 - ir/2/(1-p_fault))"
+        );
         assert!(r.pl_s > s[0].bias_s);
-        assert!(r.pl_s < 50e-9);
         assert!(r.driving_subset.is_none() || r.driving_subset == Some(0));
-        let _ = k;
     }
 
     #[test]
@@ -166,6 +168,19 @@ mod tests {
         let r = scalar_tpl(&s, 1e-5, 1e-3).unwrap();
         assert!(r.pl_s.is_finite() && r.pl_s > 0.0);
         assert!(r.driving_subset.is_some());
+        // Fusion identity: call the private fn directly via super::.
+        // Two equal σ=3ns sources → fused σ_ff = σ/√2.
+        let sigma_ff = super::fused_variance([9e-18f64, 9e-18f64].into_iter()).sqrt();
+        assert!(
+            (sigma_ff - 3e-9 / 2f64.sqrt()).abs() < 1e-15,
+            "fault-free fusion of two equal sources must be sigma/sqrt(2)"
+        );
+        // Single-source-exclusion subset (one source remaining) → σ_sub = σ.
+        let sigma_sub = super::fused_variance([9e-18f64].into_iter()).sqrt();
+        assert!(
+            (sigma_sub - 3e-9).abs() < 1e-15,
+            "single-remaining-source subset must recover sigma"
+        );
     }
 
     #[test]
