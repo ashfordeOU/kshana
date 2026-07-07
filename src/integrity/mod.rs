@@ -17,4 +17,5 @@
 
 pub mod composed_pl;
 pub mod kir;
+pub mod lil_envelope;
 pub mod tpl_scalar;
