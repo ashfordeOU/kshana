@@ -1029,6 +1029,43 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
+        // ── CTI P1: Composed-timing integrity rows ────────────────────────────
+        VerificationItem {
+            requirement: "Composed timing PL — scalar MHSS specialization (H=1_N)",
+            capability: "Scalar-time solution-separation TPL over heterogeneous sources; PL driven by worst-exclusion subset noise + UTC(k) bias",
+            module: "src/integrity/tpl_scalar.rs",
+            tests: "integrity::tpl_scalar::tests (rank-1, fuse/exclude, bias-dominance, IR cross-check)",
+            oracle: "Direct MHSS integrity-risk sum Σ p·Q((PL−b−T)/σ) cross-check; ARAIM lineage Blanch 2015 / Joerger 2014",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
+            requirement: "Composed timing PL — P0-seeded holdover ride-through",
+            capability: "PL(τ)=max(TPL_handover,HPL(τ)); lower-semicontinuous PL(0+)≥PL(0−); K(IR/2) running-max; τ/τ³/τ⁵ phase exponents",
+            module: "src/integrity/composed_pl.rs",
+            tests: "integrity::composed_pl::tests (monotone, P0-floor, K(IR/2), exponents, lower-semicontinuity)",
+            oracle: "Property tests (monotonicity, no-drop-at-handover) + exponent lint against holdover::coast_phase_variance",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
+            requirement: "Composed timing PL — holdover envelope coverage, multi-year regime (tau>=90d)",
+            capability: "Running-max envelope overbound-covers (zero-piercing) a real metrological series at every tested lag tau>=90d on a disjoint segment; short-tau (<=30d) is a disclosed Modelled boundary",
+            module: "src/integrity/composed_pl.rs",
+            tests: "tests/cti_holdover_coverage_reference.rs",
+            oracle: "BIPM Circular-T [UTC-UTC(USNO)] 5-day series MJD 56074-60429 (872 pts, webtai API); disjoint fit/test, multi-year zero-piercing coverage",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
+            requirement: "Composed timing PL — LIL a.s. envelope (impossibility + consistency)",
+            capability: "No finite worst-case holdover (Brownian sup diverges); IR-allocated HPL consistent with Hartman-Wintner envelope as IR→0",
+            module: "src/integrity/lil_envelope.rs",
+            tests: "integrity::lil_envelope::tests (divergence, threshold, IR-tightening dominance)",
+            oracle: "Closed-form a.s. envelope √(2Dt·lnln t) identity + HPL-dominance check; Baweja arXiv:2606.24210 impossibility seam",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
     ]
 }
 
