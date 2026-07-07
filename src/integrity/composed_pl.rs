@@ -54,6 +54,26 @@ pub fn hpl(env: &HoldoverEnvelope, ir: f64, tau_s: f64) -> f64 {
     env.aging_bias(tau_s) + k_running_max(ir) * env.stochastic_variance(tau_s).sqrt()
 }
 
+/// The composed ride-through protection level across the RAIM → holdover seam:
+/// `PL(τ) = max( TPL_handover , HPL(τ) )`. Lower-semicontinuous and
+/// non-decreasing across handover (`PL(0⁺) ≥ PL(0⁻)`); the `max(·)` prevents the
+/// downward jump a naive continuity claim would force (TPL_handover carries
+/// fault-mode overbounds absent from a pure coast). Generalizes the single
+/// transition of Baweja (arXiv:2606.24210, N=1).
+pub fn composed_pl(tpl_handover_s: f64, env: &HoldoverEnvelope, ir: f64, tau_s: f64) -> f64 {
+    hpl(env, ir, tau_s).max(tpl_handover_s)
+}
+
+/// Machine-checkable statement of the handover property: `PL(0⁺) ≥ PL(0⁻)`,
+/// i.e. the composed PL does not drop when the last cross-check source is lost.
+pub fn is_lower_semicontinuous_at_handover(
+    tpl_handover_s: f64,
+    env: &HoldoverEnvelope,
+    ir: f64,
+) -> bool {
+    composed_pl(tpl_handover_s, env, ir, 0.0) >= tpl_handover_s
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -138,5 +158,39 @@ mod tests {
         };
         let t = 500.0;
         assert!((hpl(&e, 1e-5, t) - 0.5 * 1e-16 * t * t).abs() < 1e-24);
+    }
+
+    #[test]
+    fn pl_is_lower_semicontinuous_across_handover() {
+        // PL(0⁺) ≥ PL(0⁻)=TPL_handover for every envelope / handover TPL.
+        let e = env();
+        for &tpl in &[1e-9, 5e-9, 20e-9, 100e-9] {
+            let pl_plus = composed_pl(tpl, &e, 1e-5, 0.0);
+            assert!(pl_plus >= tpl, "PL(0⁺) must be ≥ TPL_handover (tpl={tpl})");
+            assert!(is_lower_semicontinuous_at_handover(tpl, &e, 1e-5));
+        }
+    }
+
+    #[test]
+    fn unseeded_raw_hpl_would_drop_but_composed_pl_does_not() {
+        // Without the max(), a P₀=0 HPL(0)=0 < TPL_handover → unsafe drop.
+        let mut unseeded = env();
+        unseeded.p0_phase_var_s2 = 0.0;
+        unseeded.d_aging = 0.0;
+        let tpl = 30e-9;
+        assert!(hpl(&unseeded, 1e-5, 0.0) < tpl); // raw HPL drops
+        assert_eq!(composed_pl(tpl, &unseeded, 1e-5, 0.0), tpl); // composed holds
+    }
+
+    #[test]
+    fn composed_pl_is_non_decreasing_over_coast() {
+        let e = env();
+        let tpl = 10e-9;
+        let mut prev = composed_pl(tpl, &e, 1e-5, 0.0);
+        for &t in &[1.0, 100.0, 1e4, 1e5, 1e6] {
+            let pl = composed_pl(tpl, &e, 1e-5, t);
+            assert!(pl >= prev, "composed PL must be non-decreasing (t={t})");
+            prev = pl;
+        }
     }
 }
