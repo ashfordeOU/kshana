@@ -259,13 +259,14 @@ pub trait PositionDrift {
             return f64::INFINITY;
         }
         let (mut lo, mut hi) = (0.0f64, 1.0f64);
-        let mut guard = 0;
-        while self.drift_m(hi) < threshold_m {
-            hi *= 2.0;
-            guard += 1;
-            if guard > 60 {
-                return f64::INFINITY;
+        for _ in 0..=60 {
+            if self.drift_m(hi) >= threshold_m {
+                break;
             }
+            hi *= 2.0;
+        }
+        if self.drift_m(hi) < threshold_m {
+            return f64::INFINITY;
         }
         for _ in 0..100 {
             let mid = 0.5 * (lo + hi);
@@ -493,7 +494,12 @@ pub fn resilience_envelope(
         (RESILIENCE_HORIZON_S, true)
     } else {
         let (mut lo, mut hi) = (0.0f64, 1.0f64);
-        while hi < RESILIENCE_HORIZON_S && err_at(hi) < threshold_m {
+        // hi doubles from 1.0 until it reaches the finite horizon; ⌈log2(horizon)⌉ ≪ 64.
+        const MAX_HORIZON_DOUBLINGS: usize = 64;
+        for _ in 0..MAX_HORIZON_DOUBLINGS {
+            if hi >= RESILIENCE_HORIZON_S || err_at(hi) >= threshold_m {
+                break;
+            }
             hi = (hi * 2.0).min(RESILIENCE_HORIZON_S);
         }
         for _ in 0..100 {

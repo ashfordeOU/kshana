@@ -413,23 +413,21 @@ pub fn to_svg(r: &EphemerisResult) -> String {
             "<path d=\"{d}\" fill=\"#201a11\" stroke=\"#39301f\" stroke-width=\"0.5\"/>"
         ));
     }
-    // Graticule every 30°.
-    let mut lon = -180.0;
-    while lon <= 180.0 {
+    // Graticule every 30°: 13 meridians (−180..=180) and 7 parallels (−90..=90).
+    for i in 0..=12 {
+        let lon = -180.0 + 30.0 * f64::from(i);
         let (x, _) = proj(lon, 0.0);
         svg.push_str(&format!(
             "<line x1=\"{x:.1}\" y1=\"0\" x2=\"{x:.1}\" y2=\"{h}\" stroke=\"#262019\" stroke-width=\"1\"/>"
         ));
-        lon += 30.0;
     }
-    let mut lat = -90.0;
-    while lat <= 90.0 {
+    for i in 0..=6 {
+        let lat = -90.0 + 30.0 * f64::from(i);
         let (_, y) = proj(0.0, lat);
         let col = if lat == 0.0 { "#342c21" } else { "#262019" };
         svg.push_str(&format!(
             "<line x1=\"0\" y1=\"{y:.1}\" x2=\"{w}\" y2=\"{y:.1}\" stroke=\"{col}\" stroke-width=\"1\"/>"
         ));
-        lat += 30.0;
     }
     // The ground track, split where the longitude wraps the antimeridian.
     let mut seg = String::new();

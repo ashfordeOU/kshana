@@ -461,7 +461,12 @@ pub fn south_pole_hpl_pass(
     let az_rate = [3.0, 5.5, 4.0, 6.5, 4.8, 5.2];
     let mut out = Vec::new();
     let mut t = 0.0;
-    while t < duration_s - 1e-6 {
+    // Integer-counted fixed-step sampler; the break preserves the original stop.
+    let n_steps = (((duration_s - 1e-6) / step_s).ceil().max(0.0) as usize).saturating_add(2);
+    for _ in 0..n_steps {
+        if t >= duration_s - 1e-6 {
+            break;
+        }
         let hours = t / 3600.0;
         let azels: Vec<(f64, f64)> = base
             .iter()
