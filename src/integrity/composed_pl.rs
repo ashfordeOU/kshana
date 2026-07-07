@@ -10,9 +10,10 @@
 //! bounded inflation `(φ·τ)²` for the flicker-FM (1/f) leg (which has no finite
 //! SDE state; Zucca-Tavella exclude it), and the handover-state phase variance
 //! P₀ seeding the coast start. An un-seeded PL (P₀ = 0) drops on source loss —
-//! unsafe. Multi-year envelope coverage is Validated against BIPM Circular-T
-//! `[UTC−UTC(USNO)]` (see `tests/cti_holdover_coverage_reference.rs`); the
-//! composition itself is Modelled (algebra + internal consistency).
+//! unsafe. Envelope overbound coverage for the multi-year regime (τ ≥ 90 d) is
+//! Validated against the BIPM Circular-T `[UTC−UTC(USNO)]` series (see
+//! `tests/cti_holdover_coverage_reference.rs`); the short-τ (≤ 30 d) regime and
+//! the composition itself remain Modelled.
 
 use crate::holdover::coast_phase_variance;
 use crate::integrity::kir::k_running_max;
