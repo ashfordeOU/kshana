@@ -3,7 +3,7 @@
 //! A pointwise protection level uses a two-sided multiplier `K(IR) = Φ⁻¹(1 −
 //! IR/2)`. A *running-max* protection level — the sup of the error process over
 //! a coast interval — must inflate this: reflecting the process about a level
-//! and applying the sup bound trades the pointwise `K(IR/2)` for the interval
+//! and applying the sup bound trades the pointwise `K(IR)` for the interval
 //! `K(IR/2) = Φ⁻¹(1 − IR/4)`. This reflection is **exact only for a white-FM
 //! (Brownian) leg**; for the random-walk-FM (τ³) and drift (τ⁵) legs, which are
 //! integrated Brownian motion rather than a martingale, it is a **conservative
