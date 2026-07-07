@@ -1,0 +1,41 @@
+{
+  "oracle": "BIPM Circular-T [UTC-UTC(USNO)] 5-day, MJD 56074-60429, 872 pts, webtai API",
+  "fit_mjd_max": 58000.0,
+  "ir": 0.01,
+  "q_wf": 7.533068783068784e-25,
+  "k_running_max": 2.8070337683438114,
+  "exceedance_frac": 0.2,
+  "coverage_ok": true,
+  "rows": [
+    {
+      "tau_days": 30.0,
+      "envelope_ns": 3.9223929734151497,
+      "empirical_max_ns": 4.4,
+      "covered": false
+    },
+    {
+      "tau_days": 90.0,
+      "envelope_ns": 6.7937839172062,
+      "empirical_max_ns": 5.6000000000000005,
+      "covered": true
+    },
+    {
+      "tau_days": 180.0,
+      "envelope_ns": 9.607861355545221,
+      "empirical_max_ns": 7.1000000000000005,
+      "covered": true
+    },
+    {
+      "tau_days": 365.0,
+      "envelope_ns": 13.681600567711657,
+      "empirical_max_ns": 7.1000000000000005,
+      "covered": true
+    },
+    {
+      "tau_days": 730.0,
+      "envelope_ns": 19.34870507782926,
+      "empirical_max_ns": 7.1000000000000005,
+      "covered": true
+    }
+  ]
+}
