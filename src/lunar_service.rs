@@ -594,7 +594,14 @@ impl LunarServiceScenario {
         } else {
             self.lat_step_deg.abs()
         };
-        while lat <= self.lat_max_deg + 1e-9 {
+        let n_lat = (((self.lat_max_deg + 1e-9 - self.lat_min_deg) / lat_step)
+            .ceil()
+            .max(0.0) as usize)
+            .saturating_add(2);
+        for _ in 0..n_lat {
+            if lat > self.lat_max_deg + 1e-9 {
+                break;
+            }
             let mut lon = self.lon_min_deg;
             let lon_step = if self.lon_step_deg.abs() < 1e-9 {
                 1.0
@@ -607,7 +614,12 @@ impl LunarServiceScenario {
             } else {
                 self.lon_max_deg + 1e-9
             };
-            while lon <= lon_hi {
+            let n_lon = (((lon_hi - self.lon_min_deg) / lon_step).ceil().max(0.0) as usize)
+                .saturating_add(2);
+            for _ in 0..n_lon {
+                if lon > lon_hi {
+                    break;
+                }
                 pts.push(Selenographic {
                     lat_rad: lat.to_radians(),
                     lon_rad: lon.to_radians(),
@@ -629,7 +641,11 @@ impl LunarServiceScenario {
             self.step_min.abs() * 60.0
         };
         let mut t = 0.0;
-        while t < horizon_s - 1e-6 {
+        let n_t = (((horizon_s - 1e-6) / step_s).ceil().max(0.0) as usize).saturating_add(2);
+        for _ in 0..n_t {
+            if t >= horizon_s - 1e-6 {
+                break;
+            }
             ts.push(t);
             t += step_s;
         }

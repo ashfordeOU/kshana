@@ -571,7 +571,13 @@ pub fn nodal_history(
     let mut y = vec![r0[0], r0[1], r0[2], v0[0], v0[1], v0[2]];
     let mut t = 0.0;
     let mut out = vec![(0.0, raan_rad(r0, v0))];
-    while t < t_end - 1e-9 {
+    // Fixed step `h`: bound the loop by the exact step count (integer counter);
+    // the `t >= t_end - 1e-9` break preserves the original stop condition.
+    let n_steps = (((t_end - 1e-9) / h).ceil().max(0.0) as usize).saturating_add(2);
+    for _ in 0..n_steps {
+        if t >= t_end - 1e-9 {
+            break;
+        }
         y = rk4_step(&f, t, &y, h);
         t += h;
         out.push((t, raan_rad([y[0], y[1], y[2]], [y[3], y[4], y[5]])));
@@ -589,10 +595,19 @@ pub fn secular_slope(samples: &[(f64, f64)]) -> f64 {
     let mut offset = 0.0;
     for &(_, th) in samples {
         let mut d = th - prev;
-        while d > std::f64::consts::PI {
+        // Normalize the step into (−π, π]. Integer-counted by |d|/2π; the break
+        // preserves the exact subtraction sequence of the original wrap loops.
+        let wraps = (d.abs() / std::f64::consts::TAU).ceil() as usize + 1;
+        for _ in 0..wraps {
+            if d <= std::f64::consts::PI {
+                break;
+            }
             d -= std::f64::consts::TAU;
         }
-        while d < -std::f64::consts::PI {
+        for _ in 0..wraps {
+            if d >= -std::f64::consts::PI {
+                break;
+            }
             d += std::f64::consts::TAU;
         }
         offset += d;

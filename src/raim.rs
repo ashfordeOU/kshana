@@ -48,6 +48,11 @@ use rand_chacha::ChaCha8Rng;
 use rand_distr::{Distribution, Normal};
 use serde::{Deserialize, Serialize};
 
+/// Upper bound on the number of doublings used to bracket a monotone quantile.
+/// It exceeds the f64 exponent range, so a positive `hi` reaches a value whose
+/// CDF is ≥ the target (→1) long before the bound; it only guards a runaway.
+const MAX_BRACKET_DOUBLINGS: usize = 2100;
+
 /// Natural log of the gamma function (Lanczos approximation, g=7, n=9).
 fn ln_gamma(x: f64) -> f64 {
     const G: f64 = 7.0;
@@ -146,7 +151,11 @@ pub fn chi2_quantile(p: f64, k: f64) -> f64 {
         return f64::INFINITY;
     }
     let (mut lo, mut hi) = (0.0_f64, k + 10.0 * k.sqrt() + 20.0);
-    while chi2_cdf(hi, k) < p {
+    // Integer-counted doubling to bracket the quantile (see MAX_BRACKET_DOUBLINGS).
+    for _ in 0..MAX_BRACKET_DOUBLINGS {
+        if chi2_cdf(hi, k) >= p {
+            break;
+        }
         hi *= 2.0;
     }
     for _ in 0..200 {
@@ -226,7 +235,10 @@ pub fn noncentral_chi2_cdf(x: f64, k: f64, lambda: f64) -> f64 {
 /// `noncentral_chi2_cdf(t2, dof, lambda)`.
 pub fn pbias(t2: f64, dof: f64, p_md: f64) -> f64 {
     let (mut lo, mut hi) = (0.0_f64, 10.0_f64);
-    while noncentral_chi2_cdf(t2, dof, hi) > p_md {
+    for _ in 0..MAX_BRACKET_DOUBLINGS {
+        if noncentral_chi2_cdf(t2, dof, hi) <= p_md {
+            break;
+        }
         hi *= 2.0;
         if hi > 1e9 {
             break;

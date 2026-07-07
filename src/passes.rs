@@ -83,7 +83,13 @@ pub fn predict_passes(
         max_el = prev_el;
     }
     let mut t = step_s;
-    while t <= duration_s + 1e-9 {
+    // Integer-counted fixed-step sampler; the break preserves the original stop.
+    let n_steps =
+        (((duration_s + 1e-9 - step_s) / step_s).ceil().max(0.0) as usize).saturating_add(2);
+    for _ in 0..n_steps {
+        if t > duration_s + 1e-9 {
+            break;
+        }
         let el = elevation_deg_at(orbit, station, jd0_ut1, t);
         if !in_pass {
             if el >= mask_deg {

@@ -115,7 +115,16 @@ where
     let mut y = y0.to_vec();
     let mut h = h0.max(tol.h_min).min(tol.h_max);
     let (mut accepted, mut rejected) = (0, 0);
-    while t < t_end {
+    // Adaptive step count is data-dependent (rejected steps retry without advancing t),
+    // so bound the loop generously by the finest-resolution step count; normal runs exit
+    // via `t >= t_end` — this only guards a pathological non-advancing run.
+    let max_steps = (((t_end - t0) / tol.h_min).ceil().max(1.0) as usize)
+        .saturating_mul(64)
+        .saturating_add(1024);
+    for _ in 0..max_steps {
+        if t >= t_end {
+            break;
+        }
         if t + h > t_end {
             h = t_end - t;
         }
@@ -228,7 +237,16 @@ where
     let mut y = y0.to_vec();
     let mut h = h0.max(tol.h_min).min(tol.h_max);
     let (mut accepted, mut rejected) = (0, 0);
-    while t < t_end {
+    // Adaptive step count is data-dependent (rejected steps retry without advancing t),
+    // so bound the loop generously by the finest-resolution step count; normal runs exit
+    // via `t >= t_end` — this only guards a pathological non-advancing run.
+    let max_steps = (((t_end - t0) / tol.h_min).ceil().max(1.0) as usize)
+        .saturating_mul(64)
+        .saturating_add(1024);
+    for _ in 0..max_steps {
+        if t >= t_end {
+            break;
+        }
         if t + h > t_end {
             h = t_end - t;
         }
@@ -260,9 +278,13 @@ mod tests {
         // y' = y, y(0) = 1 → y(1) = e. RK4 with a small fixed step is near-exact.
         let f = |_t: f64, y: &[f64]| vec![y[0]];
         let mut y = vec![1.0];
-        let h = 0.001;
+        let h = 0.001_f64;
         let mut t = 0.0;
-        while t < 1.0 - 1e-9 {
+        let n_steps = (((1.0 - 1e-9) / h).ceil().max(0.0) as usize).saturating_add(2);
+        for _ in 0..n_steps {
+            if t >= 1.0 - 1e-9 {
+                break;
+            }
             y = rk4_step(&f, t, &y, h);
             t += h;
         }

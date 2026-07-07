@@ -108,15 +108,17 @@ pub fn holdover_seconds(q_wf: f64, q_rw: f64, q_drift: f64, threshold_s: Seconds
     if var(1.0) == 0.0 && q_wf == 0.0 && q_rw == 0.0 && q_drift == 0.0 {
         return f64::INFINITY;
     }
-    // Bracket: expand hi until the variance exceeds the target.
+    // Bracket: expand hi until the variance exceeds the target. Integer-counted
+    // doubling; if still under target after the bound, the threshold is unreachable.
     let mut hi = 1.0_f64;
-    let mut guard = 0;
-    while var(hi) < target {
-        hi *= 2.0;
-        guard += 1;
-        if guard > 200 {
-            return f64::INFINITY; // unreachable threshold within any sane horizon
+    for _ in 0..=200 {
+        if var(hi) >= target {
+            break;
         }
+        hi *= 2.0;
+    }
+    if var(hi) < target {
+        return f64::INFINITY; // unreachable threshold within any sane horizon
     }
     // Bisection (variance is monotone increasing in t).
     let mut lo = 0.0_f64;

@@ -478,13 +478,14 @@ impl QuantumNavBudget {
             return f64::INFINITY;
         }
         let mut hi = 1.0_f64;
-        let mut guard = 0;
-        while drift(hi) < threshold_m {
-            hi *= 2.0;
-            guard += 1;
-            if guard > 200 {
-                return f64::INFINITY;
+        for _ in 0..=200 {
+            if drift(hi) >= threshold_m {
+                break;
             }
+            hi *= 2.0;
+        }
+        if drift(hi) < threshold_m {
+            return f64::INFINITY;
         }
         let mut lo = 0.0_f64;
         for _ in 0..100 {
