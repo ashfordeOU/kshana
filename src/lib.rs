@@ -59,6 +59,7 @@ pub mod impairment_ml;
 pub mod impairment_study;
 pub mod inertial;
 pub mod integrator;
+pub mod integrity;
 pub mod integrity_impact;
 pub mod interchange;
 pub mod ionex;
