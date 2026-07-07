@@ -15,5 +15,6 @@
 //! P1 scope: [`kir`] multipliers, [`tpl_scalar`] (R1), [`composed_pl`] (R4),
 //! [`lil_envelope`] (R4).
 
+pub mod composed_pl;
 pub mod kir;
 pub mod tpl_scalar;
