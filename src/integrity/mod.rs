@@ -16,3 +16,4 @@
 //! [`lil_envelope`] (R4).
 
 pub mod kir;
+pub mod tpl_scalar;
