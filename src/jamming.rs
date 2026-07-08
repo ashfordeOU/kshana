@@ -113,6 +113,30 @@ pub fn j_over_s_db(
     jammer_rx - signal_rx
 }
 
+/// Inverse of [`j_over_s_db`] (L02): the transmit power (dBW) an interferer must
+/// radiate to produce a target jammer-to-signal ratio `target_js_db` at the victim,
+/// given its antenna gain `tx_gain_dbi`, the receiver gain toward it, the standoff
+/// `distance_m`, carrier `f_hz`, the isotropic received signal power, and the receiver
+/// gain toward the satellite. Solving `j_over_s_db(...) = target_js_db` for transmit
+/// power gives `P_tx = J/S + P_sig + G_rx→sat + FSPL(d, f) − G_tx − G_rx→jam`. This
+/// turns the P1 spoof (J/S = 3 dB) and jam (J/S = 30 dB) required-power-versus-standoff
+/// curves into first-class engine output rather than a hand calculation.
+#[allow(clippy::too_many_arguments)]
+pub fn required_tx_power_dbw(
+    target_js_db: f64,
+    tx_gain_dbi: f64,
+    rx_gain_toward_jammer_db: f64,
+    distance_m: f64,
+    f_hz: f64,
+    signal_power_dbw: f64,
+    rx_gain_toward_sat_db: f64,
+) -> f64 {
+    target_js_db + signal_power_dbw + rx_gain_toward_sat_db
+        + free_space_path_loss_db(distance_m, f_hz)
+        - tx_gain_dbi
+        - rx_gain_toward_jammer_db
+}
+
 /// Thermal noise power spectral density (dBW/Hz) at temperature `temp_k`:
 /// `10·log₁₀(k·T)`.
 pub fn noise_density_dbw_per_hz(temp_k: f64) -> f64 {
@@ -697,5 +721,40 @@ mod tests {
             .map(|e| e.sats.iter().filter(|s| s.status == "LOST").count())
             .max()
             .unwrap_or(0)
+    }
+
+    // --- L02 required-transmit-power inverse solver -----------------------
+
+    #[test]
+    fn required_tx_power_round_trips_j_over_s() {
+        // Oracle: feed the solved transmit power back through j_over_s_db and recover
+        // the target J/S exactly — the two functions are algebraic inverses.
+        for &target in &[3.0, 10.0, 30.0] {
+            for &d in &[1_000.0, 20_000.0, 100_000.0] {
+                let p_tx = required_tx_power_dbw(target, 6.0, 3.0, d, 2.4e9, -143.6, 3.0);
+                let js = j_over_s_db(p_tx, 6.0, 3.0, d, 2.4e9, -143.6, 3.0);
+                assert!((js - target).abs() < 1e-9, "round-trip target={target} d={d}");
+            }
+        }
+    }
+
+    #[test]
+    fn spoof_and_jam_power_reproduce_p1_table() {
+        // Reproduces the P1 attacker-power table (Sec 3): AFS carrier 2.4 GHz, received
+        // signal −140.6 dBW (= −143.6 dBW isotropic + 3 dBi user gain), attacker antenna
+        // +6 dBi (the value that reproduces every tabulated figure). Spoof capture
+        // J/S = 3 dB; denial jam J/S = 30 dB.
+        let f = 2.4e9;
+        let p_sig_iso = -143.6; // −140.6 dBW P_rx with the +3 dBi user gain removed
+        let g_user = 3.0;
+        let g_tx = 6.0;
+        let watts = |dbw: f64| 10f64.powf(dbw / 10.0);
+        let spoof = |d: f64| watts(required_tx_power_dbw(3.0, g_tx, g_user, d, f, p_sig_iso, g_user));
+        assert!((spoof(1_000.0) * 1e3 - 0.022).abs() < 0.002, "spoof 1km = {} mW", spoof(1_000.0) * 1e3);
+        assert!((spoof(20_000.0) * 1e3 - 8.9).abs() < 0.4, "spoof 20km = {} mW", spoof(20_000.0) * 1e3);
+        assert!((spoof(100_000.0) - 0.222).abs() < 0.01, "spoof 100km = {} W", spoof(100_000.0));
+        let jam = |d: f64| watts(required_tx_power_dbw(30.0, g_tx, g_user, d, f, p_sig_iso, g_user));
+        assert!((jam(1_000.0) - 0.011).abs() < 0.001, "jam 1km = {} W", jam(1_000.0));
+        assert!((jam(100_000.0) - 111.0).abs() < 3.0, "jam 100km = {} W", jam(100_000.0));
     }
 }
