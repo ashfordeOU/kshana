@@ -748,6 +748,43 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
+        // ── Timing Integrity Benchmark (CTI P4) — honesty-immune, no accuracy claim ──
+        VerificationItem {
+            requirement: "Timing-integrity conformance benchmark — Stanford integrity-diagram epoch classifier",
+            capability: "TIB Stanford integrity-diagram epoch classification (nominal / unavailable / MI / HMI)",
+            module: "src/benchmark/stanford.rs",
+            tests: "src/benchmark/stanford.rs::tests (four regions + inclusive boundaries + |error| + PL>AL unavailability); tests/tib_scorer_reference.rs (classification counts vs independent numpy on a fixed synthetic set)",
+            oracle: "Independent numpy re-implementation of the four-region rule (scripts/gen_tib_scorer_reference.py) on the identical sample set; method Cited from the Stanford–ESA integrity diagram (Tossaint et al., ION GNSS 2007) and RTCA DO-229 WAAS MOPS. NOT an ExternalDataset accuracy oracle — the benchmark is honesty-immune.",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
+            requirement: "Timing-integrity conformance benchmark — integrity-coverage scorer",
+            capability: "TIB integrity-coverage scoring (HMI/MI/availability rates + overbound-coverage verdict)",
+            module: "src/benchmark/coverage.rs",
+            tests: "src/benchmark/coverage.rs::tests (clean/under-bounded/all-unavailable/empty); tests/tib_scorer_reference.rs (counts + rates + coverage_ok vs numpy to 1e-12)",
+            oracle: "Independent numpy region re-count in tests/fixtures/tib/reference.json; scorer machinery cross-check only, no accuracy claim.",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
+            requirement: "Timing-integrity conformance benchmark — fault catalog (parametric generators)",
+            capability: "TIB fault menu (domain-divergence, clock-slam, holdover-coast, static/incremental/symmetric/asymmetric delay, replay-within-freshness, path-selective, k-of-N quorum)",
+            module: "src/benchmark/faults.rs",
+            tests: "src/benchmark/faults.rs::tests (offset profiles, monotone coast, undetectable-set flagging, max_offset consistency, exactly two undetectable classes)",
+            oracle: "Representative parametric fault generators (Modelled); the undetectable set (symmetric delay, replay-within-freshness) is Cited from Mizrahi RFC 7384 and Narula & Humphreys (IEEE JSTSP 2018). No external oracle — a fault catalog makes no measured claim.",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
+            requirement: "Timing-integrity conformance benchmark — undetectable-absorption verdict",
+            capability: "TIB undetectable-absorption verdict (symmetric/replay must be absorbed by the PL, never reported detected)",
+            module: "src/benchmark/scorecard.rs",
+            tests: "src/benchmark/scorecard.rs::tests (reference PL absorbs; broken PL unabsorbed-never-detected; detectable coverage verdict; the honesty property that no coverage/detection verdict is reachable for an undetectable scenario)",
+            oracle: "Property check that the Verdict enum structurally cannot report an undetectable fault as detected (Mizrahi RFC 7384); absorbed ⟺ PL ≥ offset. No accuracy oracle.",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
         // ── Honestly partner-owned gaps (no code, by design) ──────────────────
         VerificationItem {
             requirement: "Spacecraft bus engineering (AOCS/thermal/structures/propulsion/power)",
