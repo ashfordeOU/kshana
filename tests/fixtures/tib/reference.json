@@ -172,6 +172,7 @@
   "n_hmi": 10,
   "hmi_rate": 0.125,
   "mi_rate": 0.25,
-  "availability": 0.5,
+  "availability": 0.875,
+  "nominal_rate": 0.5,
   "coverage_ok": false
 }

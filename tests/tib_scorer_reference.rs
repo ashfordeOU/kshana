@@ -44,5 +44,6 @@ fn scorer_matches_numpy_reference_counts() {
     assert!((s.hmi_rate - v["hmi_rate"].as_f64().unwrap()).abs() < 1e-12);
     assert!((s.mi_rate - v["mi_rate"].as_f64().unwrap()).abs() < 1e-12);
     assert!((s.availability - v["availability"].as_f64().unwrap()).abs() < 1e-12);
+    assert!((s.nominal_rate - v["nominal_rate"].as_f64().unwrap()).abs() < 1e-12);
     assert_eq!(s.coverage_ok, v["coverage_ok"].as_bool().unwrap());
 }

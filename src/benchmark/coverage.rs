@@ -3,9 +3,10 @@
 //! Aggregates [`crate::benchmark::stanford`] epoch classifications into
 //! per-scenario counts and the overbound-coverage verdict
 //! `coverage_ok ⟺ empirical HMI-rate ≤ stated integrity risk`. Reported
-//! alongside are the misleading-information rate (softer overbound signal) and
-//! availability (continuity signal). The benchmark asserts nothing about the
-//! *accuracy* of any monitor — it only counts.
+//! alongside are the misleading-information rate (softer overbound signal),
+//! the Stanford/WAAS availability (continuity signal, `1 − unavailable-frac`),
+//! and the nominal rate (tightness signal). The benchmark asserts nothing about
+//! the *accuracy* of any monitor — it only counts.
 
 use crate::benchmark::stanford::{classify, IntegrityClass};
 
@@ -26,7 +27,16 @@ pub struct ScenarioScore {
     pub n_hmi: usize,
     pub hmi_rate: f64,
     pub mi_rate: f64,
+    /// Stanford/WAAS availability: the fraction of epochs the monitor declares
+    /// usable, i.e. `PL ≤ AL`, equal to `1 − unavailable-fraction`. Nominal, MI,
+    /// and HMI epochs are all "available" in this continuity sense; only
+    /// `Unavailable` (`PL > AL`) epochs are not. This matches the cited
+    /// Stanford–ESA / WAAS accounting — it is NOT the nominal fraction.
     pub availability: f64,
+    /// The fraction of epochs classified `Nominal` (`|error| ≤ PL ≤ AL`) — a
+    /// tightness signal distinct from availability: an available-but-loose (MI)
+    /// epoch counts toward availability but not toward the nominal rate.
+    pub nominal_rate: f64,
     /// `empirical HMI-rate ≤ stated_ir`. Vacuously true for empty input.
     pub coverage_ok: bool,
 }
@@ -46,11 +56,16 @@ pub fn score(samples: &[Sample], al: f64, stated_ir: f64) -> ScenarioScore {
             IntegrityClass::HazardousMi => n_hmi += 1,
         }
     }
-    let (hmi_rate, mi_rate, availability) = if n == 0 {
-        (0.0, 0.0, 0.0)
+    let (hmi_rate, mi_rate, availability, nominal_rate) = if n == 0 {
+        (0.0, 0.0, 0.0, 0.0)
     } else {
         let nf = n as f64;
-        (n_hmi as f64 / nf, n_mi as f64 / nf, n_nominal as f64 / nf)
+        (
+            n_hmi as f64 / nf,
+            n_mi as f64 / nf,
+            1.0 - n_unavailable as f64 / nf,
+            n_nominal as f64 / nf,
+        )
     };
     ScenarioScore {
         n,
@@ -61,6 +76,7 @@ pub fn score(samples: &[Sample], al: f64, stated_ir: f64) -> ScenarioScore {
         hmi_rate,
         mi_rate,
         availability,
+        nominal_rate,
         coverage_ok: hmi_rate <= stated_ir,
     }
 }
@@ -85,6 +101,20 @@ mod tests {
         assert_eq!(s.n_hmi, 0);
         assert!(s.coverage_ok);
         assert!((s.availability - 1.0).abs() < 1e-12);
+        assert!((s.nominal_rate - 1.0).abs() < 1e-12);
+    }
+
+    #[test]
+    fn mi_is_available_but_not_nominal() {
+        // e=6 > pl=4 but ≤ al=10 → MI: available (pl ≤ al) yet loose (not nominal).
+        let s = score(&samples(&[(2.0, 4.0), (6.0, 4.0)]), 10.0, 1e-3);
+        assert_eq!(s.n_nominal, 1);
+        assert_eq!(s.n_mi, 1);
+        assert_eq!(s.n_unavailable, 0);
+        // Stanford availability counts both epochs (both pl ≤ al) …
+        assert!((s.availability - 1.0).abs() < 1e-12);
+        // … but only half are nominal.
+        assert!((s.nominal_rate - 0.5).abs() < 1e-12);
     }
 
     #[test]
@@ -104,6 +134,7 @@ mod tests {
         assert_eq!(s.n_hmi, 0);
         assert!(s.coverage_ok);
         assert!((s.availability).abs() < 1e-12);
+        assert!((s.nominal_rate).abs() < 1e-12);
     }
 
     #[test]

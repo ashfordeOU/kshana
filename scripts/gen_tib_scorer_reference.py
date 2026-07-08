@@ -46,7 +46,11 @@ for e, pl in zip(true_errors, pls):
 n = int(len(true_errors))
 hmi_rate = counts["hmi"] / n
 mi_rate = counts["mi"] / n
-availability = counts["nominal"] / n
+# Stanford/WAAS availability: fraction with PL <= AL (i.e. 1 - unavailable-frac);
+# nominal, MI and HMI epochs are all "available" in this continuity sense.
+availability = 1.0 - counts["unavailable"] / n
+# Tightness signal, distinct from availability: the Nominal fraction.
+nominal_rate = counts["nominal"] / n
 coverage_ok = bool(hmi_rate <= STATED_IR)
 
 out = {
@@ -62,6 +66,7 @@ out = {
     "hmi_rate": hmi_rate,
     "mi_rate": mi_rate,
     "availability": availability,
+    "nominal_rate": nominal_rate,
     "coverage_ok": coverage_ok,
 }
 path = pathlib.Path(__file__).resolve().parents[1] / "tests" / "fixtures" / "tib" / "reference.json"

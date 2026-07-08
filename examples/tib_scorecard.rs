@@ -56,9 +56,12 @@ fn demo_menu() -> Vec<FaultScenario> {
 
 fn print_card(title: &str, menu: &[FaultScenario], card: &Scorecard) {
     println!("\n{title}");
+    // avail = Stanford availability (PL≤AL, continuity); nom = nominal rate
+    // (|e|≤PL≤AL, tightness). MI epochs are available-but-loose: they raise
+    // avail but not nom.
     println!(
-        "  {:<24} {:<22} {:>6} {:>4} {:>4}",
-        "scenario", "verdict", "avail", "mi", "hmi"
+        "  {:<24} {:<22} {:>6} {:>5} {:>4} {:>4}",
+        "scenario", "verdict", "avail", "nom", "mi", "hmi"
     );
     for (report, scenario) in card.reports.iter().zip(menu.iter()) {
         let tag = match scenario.spec.detectability {
@@ -66,10 +69,11 @@ fn print_card(title: &str, menu: &[FaultScenario], card: &Scorecard) {
             Detectability::Detectable => "",
         };
         println!(
-            "  {:<24} {:<22} {:>5.0}% {:>4} {:>4}{}",
+            "  {:<24} {:<22} {:>5.0}% {:>4.0}% {:>4} {:>4}{}",
             report.scenario_name,
             format!("{:?}", report.verdict),
             report.score.availability * 100.0,
+            report.score.nominal_rate * 100.0,
             report.score.n_mi,
             report.score.n_hmi,
             tag,
