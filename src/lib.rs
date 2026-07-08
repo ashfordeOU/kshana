@@ -8,6 +8,7 @@
 pub mod acquisition;
 pub mod allan;
 pub mod altpnt;
+pub mod antenna;
 pub mod api;
 pub mod assurance;
 pub mod attitude_budget;
@@ -86,6 +87,7 @@ pub mod mars_pnt;
 pub mod mcda;
 pub mod models;
 pub mod navsignal;
+pub mod nma_budget;
 pub mod nutation;
 mod nutation_iau2000a_data;
 pub mod oem;
