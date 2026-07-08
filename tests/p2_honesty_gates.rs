@@ -53,13 +53,13 @@ fn no_worst_case_or_cert_overclaim() {
 fn correlated_bias_and_blind_spot_are_stated() {
     let hb = read("src/integrity/hetero_budget.rs").to_lowercase();
     assert!(
-        hb.contains("independence is violated") || hb.contains("correlated"),
-        "hetero_budget must state the correlated-bias hazard"
+        hb.contains("independence is violated"),
+        "hetero_budget must state the correlated-bias hazard (independence-violated sentence)"
     );
     let gls = read("src/integrity/gls_commonmode.rs").to_lowercase();
     assert!(
-        gls.contains("blind"),
-        "gls_commonmode must state the common-mode blind spot"
+        gls.contains("structurally blind"),
+        "gls_commonmode must state that separation is structurally blind to common-mode"
     );
     assert!(
         gls.contains("outside the modelled")

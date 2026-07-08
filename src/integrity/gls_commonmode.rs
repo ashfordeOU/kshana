@@ -83,6 +83,15 @@ pub struct CommonModeStatistic {
 /// Compute the common-mode consistency statistic for residual vector `r` under
 /// covariance `Ω`. Uses `1ᵀΩ⁻¹r = (L⁻¹1)·(L⁻¹r)` and `1ᵀΩ⁻¹1 = |L⁻¹1|²`.
 /// `None` if `Ω` is not positive-definite or is empty.
+///
+/// ANCHOR REQUIREMENT (honest caveat): this statistic is meaningful only when
+/// `r` are residuals formed against an INDEPENDENT time reference (pre-fit
+/// residuals). If `r` is the post-fit residual of the H=1_N GLS solve, the
+/// normal equations force `1ᵀΩ⁻¹r ≡ 0` and the statistic is identically zero:
+/// a shift shared by EVERY source is fundamentally UNOBSERVABLE without an
+/// external anchor. That unobservability is itself the deepest honest
+/// common-mode blind spot; the statistic detects common-mode only relative to
+/// whatever independent reference the caller supplies.
 pub fn common_mode_consistency(
     omega: &[Vec<f64>],
     residuals: &[f64],
@@ -106,22 +115,26 @@ pub fn common_mode_consistency(
 }
 
 /// The irreducible undetectable common-mode time error: the largest fault
-/// magnitude `α` along a unit direction `d` that keeps BOTH detectors below
-/// threshold, i.e. is seen by neither separation nor the common-mode statistic.
+/// magnitude `α` along a unit direction `d` that escapes BOTH detectors —
+/// separation (whitened contrast) and the common-mode statistic.
 ///
-/// * separation acts on contrasts — the whitened norm of the part of `d`
-///   orthogonal (in the `Ω` metric) to the common axis. If that norm is ~0
-///   (`d` ∝ `1`), separation is blind (`α_ss = ∞`).
-/// * the common-mode statistic scales as `α²(1ᵀΩ⁻¹d)²/(1ᵀΩ⁻¹1)`. If
-///   `1ᵀΩ⁻¹d ≈ 0` (the fault direction is `Ω⁻¹`-orthogonal to the modelled
-///   common axis — a shared-reference coupling the model did not put into `Ω`),
-///   the statistic is blind (`α_cm = ∞`).
+/// The ceiling is `min(α_ss, α_cm)`, where `α_ss = ∞ ⟺ d ∝ 1` (separation
+/// forms contrasts orthogonal to `1`, so a pure common-mode shift produces
+/// none) and `α_cm = ∞ ⟺ 1ᵀΩ⁻¹d = 0` (the fault is `Ω⁻¹`-orthogonal to the
+/// modelled common axis). Under a positive-definite `Ω` these two conditions
+/// are MUTUALLY EXCLUSIVE — if `d ∝ 1` then `1ᵀΩ⁻¹d = μ·1ᵀΩ⁻¹1 ≠ 0` — so the
+/// two detectors JOINTLY cover every nonzero direction and the ceiling is
+/// FINITE for every nonzero `d`. `f64::INFINITY` is returned ONLY for
+/// degenerate inputs: a zero direction, or a non-PD `Ω` where whitening fails.
 ///
-/// The undetectable ceiling is `min(α_ss, α_cm)`; when both are infinite the
-/// fault is the irreducible blind spot the paper publishes. `ss_threshold` and
-/// `cm_threshold` are the (whitened separation, χ²₁ common-mode) detection
-/// thresholds. Returns `f64::INFINITY` for a total blind spot; `0.0`/`None`-like
-/// degenerate inputs return `f64::INFINITY` (nothing detectable) conservatively.
+/// The honest published result is therefore a LARGE-BUT-FINITE irreducible
+/// blind spot, driven by the mismatch between the true coupling direction and
+/// the modelled `Ω` — not an infinite/total blind spot. Moreover `α_ss` uses an
+/// idealized single whitened-contrast-norm parity detector, which is MORE
+/// sensitive than a real IR-allocated MHSS subset detector; the returned
+/// ceiling is thus a LOWER BOUND on the true undetectable magnitude (the
+/// honest, conservative direction). `ss_threshold` / `cm_threshold` are the
+/// (whitened-separation, χ²₁ common-mode) detection thresholds.
 pub fn residual_outside_omega_bound(
     omega_modelled: &[Vec<f64>],
     true_common_mode_dir: &[f64],
@@ -279,12 +292,11 @@ mod tests {
     }
 
     #[test]
-    fn total_blind_spot_is_infinite() {
-        // A direction that is BOTH Ω⁻¹-orthogonal to 1 (cm-blind) AND has ~zero
-        // whitened contrast norm is undetectable by both -> INFINITY.
-        // Construct via a near-singular common-mode: Ω where the common axis
-        // dominates so a specific off-axis direction yields ~0 contrast.
-        // Simplest explicit case: n=1 (no contrasts, and 1ᵀΩ⁻¹d with d=[0]).
+    fn degenerate_direction_or_non_pd_gives_no_finite_ceiling() {
+        // INFINITY arises ONLY for degenerate inputs: a zero-signal direction
+        // (no signal to detect) or a non-PD Omega (whitening fails). For every
+        // NONZERO direction under a PD Omega the joint detector gives a FINITE
+        // ceiling — see `every_nonzero_direction_under_pd_omega_has_a_finite_ceiling`.
         let omega = vec![vec![1.0]];
         let d_zero = [0.0];
         let b = residual_outside_omega_bound(&omega, &d_zero, 3.0, 3.841);
@@ -292,5 +304,30 @@ mod tests {
             b.is_infinite(),
             "a zero-signal direction is undetectable by construction"
         );
+    }
+
+    #[test]
+    fn every_nonzero_direction_under_pd_omega_has_a_finite_ceiling() {
+        // Joint coverage: separation catches contrasts (d not ∝ 1); the
+        // common-mode statistic catches d ∝ 1. Under a PD Omega those blind
+        // directions are mutually exclusive, so no nonzero direction escapes
+        // both -> the irreducible blind spot is large-but-FINITE, never total.
+        let omega = vec![
+            vec![4.0, 1.5, 1.5],
+            vec![1.5, 4.0, 1.5],
+            vec![1.5, 1.5, 4.0],
+        ];
+        for d in [
+            [1.0, 1.0, 1.0],  // pure common-mode: caught by the cm statistic
+            [1.0, -1.0, 0.0], // pure contrast: caught by separation
+            [2.0, 0.3, -1.1], // mixed
+            [1.0, 1.0, 0.9],  // near-common-mode
+        ] {
+            let b = residual_outside_omega_bound(&omega, &d, 3.0, 3.841);
+            assert!(
+                b.is_finite() && b > 0.0,
+                "nonzero direction {d:?} must have a finite positive ceiling, got {b}"
+            );
+        }
     }
 }

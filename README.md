@@ -58,7 +58,7 @@ citable table in [`docs/PROVENANCE.md`](docs/PROVENANCE.md).
 
 ### Validated against external oracles — every row CI-gated
 
-Each row is checked against an **independent external oracle** (real dataset, independent reference implementation, or published reference vectors) and re-checked in CI. [Full 91-row matrix →](#validation-at-a-glance)
+Each row is checked against an **independent external oracle** (real dataset, independent reference implementation, or published reference vectors) and re-checked in CI. [Full 115-row matrix →](#validation-at-a-glance)
 
 | | Capability | Result | External oracle |
 |---|---|---|---|

@@ -113,7 +113,7 @@ fn main() {
     println!(
         "\nResidual-outside-Omega undetectable ceiling for the modelled common axis: {blind:.3}"
     );
-    println!(
-        "  (a shared-reference fault outside the modelled Omega stays an irreducible blind spot.)"
-    );
+    println!("  (FINITE: the common-mode statistic bounds the modelled axis. A shared-reference");
+    println!("   fault in a direction the modelled Omega does NOT capture raises this ceiling —");
+    println!("   a large-but-finite irreducible blind spot, published honestly, never total.)");
 }

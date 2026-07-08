@@ -92,6 +92,10 @@ pub fn bias_cross_covariance(
 /// Fused traceability bias of a weight vector `w` accounting for correlation:
 /// `b = sqrt(wᵀ Σ_b w)`. `w` are the fusion weights (e.g. inverse-variance).
 pub fn correlated_fused_bias(weights: &[f64], bias_cov: &[Vec<f64>]) -> f64 {
+    debug_assert!(
+        weights.iter().all(|&w| w >= 0.0),
+        "the correlated-bias theorem assumes non-negative fusion weights"
+    );
     quad_form(weights, bias_cov).max(0.0).sqrt()
 }
 
@@ -101,8 +105,19 @@ pub fn correlated_fused_bias(weights: &[f64], bias_cov: &[Vec<f64>]) -> f64 {
 /// THEOREM (correlated-bias-unsafe): for non-negative weights and overbounds,
 /// `correlated_fused_bias ≥ independent_fused_bias`, strict when any two
 /// same-realizer sources carry non-zero weight and `rho_common > 0`, with
-/// equality iff `rho_common = 0`. Ignoring correlation under-bounds the fused
+/// equality iff `rho_common = 0`, or no two same-realizer sources both carry non-zero weight (e.g. all realizers distinct). Ignoring correlation under-bounds the fused
 /// bias → optimistic → unsafe.
+///
+/// POSITIONING (honest): `correlated_fused_bias` / `independent_fused_bias` are
+/// STANDALONE analysis quantities characterizing the optimism of a VARIANCE
+/// (RSS) style bias allocation. They do NOT feed the R1 `tpl_scalar` protection
+/// level, whose nominal bias is fused LINEARLY (`Σ wᵢ|bᵢ|`) — the
+/// fully-correlated, worst-case-aligned upper bound that already DOMINATES both
+/// `correlated_fused_bias` (ρ<1) and `independent_fused_bias`. The
+/// "correlated-bias-unsafe" result therefore warns against a hypothetical
+/// variance-style allocation and motivates R1's linear treatment; it does NOT
+/// claim to harden the already-conservative R1 PL. (At ρ=1 the correlated fused
+/// bias reduces to the within-realizer linear sum, matching the R1 treatment.)
 pub fn independent_fused_bias(weights: &[f64], bias_cov: &[Vec<f64>]) -> f64 {
     let s: f64 = weights
         .iter()

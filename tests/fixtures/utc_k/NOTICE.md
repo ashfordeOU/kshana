@@ -10,3 +10,4 @@ representative magnitude for a per-source UTC(k) traceability bias. It is **NOT*
 re-validated here: reusing one Validated oracle for a second claim would be
 circular, and (per the design spine) reproducing Circular-T values is trivial
 bookkeeping that earns no `Validated` tag. Every P2 row is `Modelled`.
+This series ships as an illustrative Cited input; it is not consumed programmatically by any P2 test (only this NOTICE is read, by the honesty gate).
