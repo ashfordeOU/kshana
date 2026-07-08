@@ -154,22 +154,20 @@ mod tests {
     /// Place a surface site at ground distance `dist_m` and azimuth `az_deg` from a
     /// reference (lat, lon), at antenna height `height_m` (spherical direct geodesic).
     /// Used to put beacons a few km from the user at diverse azimuths, within horizon.
-    fn offset_site(
-        lat_deg: f64,
-        lon_deg: f64,
-        dist_m: f64,
-        az_deg: f64,
-        height_m: f64,
-    ) -> Vec3 {
+    fn offset_site(lat_deg: f64, lon_deg: f64, dist_m: f64, az_deg: f64, height_m: f64) -> Vec3 {
         let lat = lat_deg.to_radians();
         let lon = lon_deg.to_radians();
         let az = az_deg.to_radians();
         let ang = dist_m / R_MOON_M;
         let lat2 = (lat.sin() * ang.cos() + lat.cos() * ang.sin() * az.cos()).asin();
-        let lon2 = lon
-            + (az.sin() * ang.sin() * lat.cos()).atan2(ang.cos() - lat.sin() * lat2.sin());
+        let lon2 =
+            lon + (az.sin() * ang.sin() * lat.cos()).atan2(ang.cos() - lat.sin() * lat2.sin());
         let r = R_MOON_M + height_m;
-        [r * lat2.cos() * lon2.cos(), r * lat2.cos() * lon2.sin(), r * lat2.sin()]
+        [
+            r * lat2.cos() * lon2.cos(),
+            r * lat2.cos() * lon2.sin(),
+            r * lat2.sin(),
+        ]
     }
 
     #[test]
@@ -214,7 +212,10 @@ mod tests {
         let near = site(-88.0, 2.0, 2.0); // ~1.1 km of arc at this latitude
         let far = site(-80.0, 0.0, 2.0); // ~240 km of arc
         assert!(beacon_visible(user, near), "near beacon should be visible");
-        assert!(!beacon_visible(user, far), "far beacon should be over the horizon");
+        assert!(
+            !beacon_visible(user, far),
+            "far beacon should be over the horizon"
+        );
     }
 
     #[test]
@@ -238,7 +239,11 @@ mod tests {
             offset_site(-85.0, 0.0, 4_000.0, 0.0, 3.0),
             offset_site(-85.0, 0.0, 4_000.0, 90.0, 3.0),
         ];
-        assert_eq!(visible_beacons(user, &beacons).len(), 2, "both beacons visible");
+        assert_eq!(
+            visible_beacons(user, &beacons).len(),
+            2,
+            "both beacons visible"
+        );
         let d = dop_with_beacons(user, &sats, &beacons, 5.0_f64.to_radians())
             .expect("3 sats + 2 beacons is solvable");
         assert!(d.gdop.is_finite() && d.gdop > 0.0, "GDOP {}", d.gdop);
@@ -266,7 +271,11 @@ mod tests {
             offset_site(-85.0, 0.0, 4_000.0, 120.0, 3.0),
             offset_site(-85.0, 0.0, 4_000.0, 240.0, 3.0),
         ];
-        assert_eq!(visible_beacons(user, &beacons).len(), 3, "all beacons visible");
+        assert_eq!(
+            visible_beacons(user, &beacons).len(),
+            3,
+            "all beacons visible"
+        );
         let augmented = dop_with_beacons(user, &sats, &beacons, 5.0_f64.to_radians())
             .expect("sats + beacons solvable");
         assert!(

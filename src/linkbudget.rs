@@ -669,8 +669,14 @@ mod tests {
         // slant 3000 km; carrier 2.4 GHz → P_rx ≈ −140.6 dBW. GPS L1 C/A reference
         // −125 dBW → deficit 15.6 dB. Oracle: closed-form dB radiometry (Eq. prx).
         let p_rx = received_signal_power_dbw(26.0, 3.0, 3.0e6, 2.4e9);
-        assert!((p_rx - (-140.6)).abs() < 0.1, "P_rx = {p_rx} dBW (want −140.6)");
-        assert!((power_deficit_db(-125.0, p_rx) - 15.6).abs() < 0.1, "deficit");
+        assert!(
+            (p_rx - (-140.6)).abs() < 0.1,
+            "P_rx = {p_rx} dBW (want −140.6)"
+        );
+        assert!(
+            (power_deficit_db(-125.0, p_rx) - 15.6).abs() < 0.1,
+            "deficit"
+        );
     }
 
     #[test]
@@ -691,7 +697,10 @@ mod tests {
                 hi = hi.max(d);
             }
         }
-        assert!(lo >= 12.0 && hi <= 18.05, "band [{lo:.2}, {hi:.2}] dB (want ⊆ [12,18])");
+        assert!(
+            lo >= 12.0 && hi <= 18.05,
+            "band [{lo:.2}, {hi:.2}] dB (want ⊆ [12,18])"
+        );
         // The band's linear-factor endpoints are ~16× and ~63×.
         assert!((10f64.powf(12.0 / 10.0) - 15.85).abs() < 0.1);
         assert!((10f64.powf(18.0 / 10.0) - 63.1).abs() < 0.2);

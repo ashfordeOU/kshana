@@ -131,7 +131,9 @@ pub fn required_tx_power_dbw(
     signal_power_dbw: f64,
     rx_gain_toward_sat_db: f64,
 ) -> f64 {
-    target_js_db + signal_power_dbw + rx_gain_toward_sat_db
+    target_js_db
+        + signal_power_dbw
+        + rx_gain_toward_sat_db
         + free_space_path_loss_db(distance_m, f_hz)
         - tx_gain_dbi
         - rx_gain_toward_jammer_db
@@ -733,7 +735,10 @@ mod tests {
             for &d in &[1_000.0, 20_000.0, 100_000.0] {
                 let p_tx = required_tx_power_dbw(target, 6.0, 3.0, d, 2.4e9, -143.6, 3.0);
                 let js = j_over_s_db(p_tx, 6.0, 3.0, d, 2.4e9, -143.6, 3.0);
-                assert!((js - target).abs() < 1e-9, "round-trip target={target} d={d}");
+                assert!(
+                    (js - target).abs() < 1e-9,
+                    "round-trip target={target} d={d}"
+                );
             }
         }
     }
@@ -749,12 +754,40 @@ mod tests {
         let g_user = 3.0;
         let g_tx = 6.0;
         let watts = |dbw: f64| 10f64.powf(dbw / 10.0);
-        let spoof = |d: f64| watts(required_tx_power_dbw(3.0, g_tx, g_user, d, f, p_sig_iso, g_user));
-        assert!((spoof(1_000.0) * 1e3 - 0.022).abs() < 0.002, "spoof 1km = {} mW", spoof(1_000.0) * 1e3);
-        assert!((spoof(20_000.0) * 1e3 - 8.9).abs() < 0.4, "spoof 20km = {} mW", spoof(20_000.0) * 1e3);
-        assert!((spoof(100_000.0) - 0.222).abs() < 0.01, "spoof 100km = {} W", spoof(100_000.0));
-        let jam = |d: f64| watts(required_tx_power_dbw(30.0, g_tx, g_user, d, f, p_sig_iso, g_user));
-        assert!((jam(1_000.0) - 0.011).abs() < 0.001, "jam 1km = {} W", jam(1_000.0));
-        assert!((jam(100_000.0) - 111.0).abs() < 3.0, "jam 100km = {} W", jam(100_000.0));
+        let spoof = |d: f64| {
+            watts(required_tx_power_dbw(
+                3.0, g_tx, g_user, d, f, p_sig_iso, g_user,
+            ))
+        };
+        assert!(
+            (spoof(1_000.0) * 1e3 - 0.022).abs() < 0.002,
+            "spoof 1km = {} mW",
+            spoof(1_000.0) * 1e3
+        );
+        assert!(
+            (spoof(20_000.0) * 1e3 - 8.9).abs() < 0.4,
+            "spoof 20km = {} mW",
+            spoof(20_000.0) * 1e3
+        );
+        assert!(
+            (spoof(100_000.0) - 0.222).abs() < 0.01,
+            "spoof 100km = {} W",
+            spoof(100_000.0)
+        );
+        let jam = |d: f64| {
+            watts(required_tx_power_dbw(
+                30.0, g_tx, g_user, d, f, p_sig_iso, g_user,
+            ))
+        };
+        assert!(
+            (jam(1_000.0) - 0.011).abs() < 0.001,
+            "jam 1km = {} W",
+            jam(1_000.0)
+        );
+        assert!(
+            (jam(100_000.0) - 111.0).abs() < 3.0,
+            "jam 100km = {} W",
+            jam(100_000.0)
+        );
     }
 }

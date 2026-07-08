@@ -474,13 +474,23 @@ pub fn default_tolerance() -> Tolerance {
 /// Propagate an MCI state forward by `t_end` seconds under `model` with the adaptive
 /// step-doubling driver ([`crate::integrator::integrate`]) at `tol`, returning the final state.
 /// Deterministic. A non-positive `t_end` returns the input state unchanged.
-pub fn propagate(state0: &LunarState, t_end: f64, model: &LunarPerturbations, tol: &Tolerance) -> LunarState {
+pub fn propagate(
+    state0: &LunarState,
+    t_end: f64,
+    model: &LunarPerturbations,
+    tol: &Tolerance,
+) -> LunarState {
     if !(t_end.is_finite() && t_end > 0.0) {
         return *state0;
     }
     let f = model.rhs();
     let y0 = vec![
-        state0.r[0], state0.r[1], state0.r[2], state0.v[0], state0.v[1], state0.v[2],
+        state0.r[0],
+        state0.r[1],
+        state0.r[2],
+        state0.v[0],
+        state0.v[1],
+        state0.v[2],
     ];
     // A small fraction of the span is a safe, well-scaled initial step.
     let h0 = (t_end / 1000.0).clamp(1e-3, tol.h_max);
@@ -503,7 +513,12 @@ pub fn propagate_history(
 ) -> Vec<(f64, LunarState)> {
     let f = model.rhs();
     let mut y = vec![
-        state0.r[0], state0.r[1], state0.r[2], state0.v[0], state0.v[1], state0.v[2],
+        state0.r[0],
+        state0.r[1],
+        state0.r[2],
+        state0.v[0],
+        state0.v[1],
+        state0.v[2],
     ];
     let mut t = 0.0;
     let mut out = vec![(0.0, *state0)];
@@ -659,7 +674,14 @@ mod tests {
     const ARGP_TEST_DEG: f64 = 40.0;
 
     fn test_state() -> LunarState {
-        elements_to_state(A_TEST, E_TEST, I_TEST_DEG, RAAN_TEST_DEG, ARGP_TEST_DEG, 10.0)
+        elements_to_state(
+            A_TEST,
+            E_TEST,
+            I_TEST_DEG,
+            RAAN_TEST_DEG,
+            ARGP_TEST_DEG,
+            10.0,
+        )
     }
 
     // ---- IC generator consistency ----
@@ -712,7 +734,10 @@ mod tests {
             let got = propagate(&st, t, &model, &tol).r;
             let truth = sat.position_mci(t);
             let d = norm(sub(got, truth));
-            assert!(d < 1.0, "two-body limit at t={t:.0}s: {d:.4} m vs analytic Kepler");
+            assert!(
+                d < 1.0,
+                "two-body limit at t={t:.0}s: {d:.4} m vs analytic Kepler"
+            );
         }
     }
 
@@ -761,7 +786,10 @@ mod tests {
         // Nodal regression is retrograde for a prograde orbit; apsidal precession is prograde
         // below the critical inclination (i = 45° < 63.4°).
         assert!(raan_rate < 0.0, "Ω̇ must be retrograde: {raan_rate:.3e}");
-        assert!(argp_rate > 0.0, "ω̇ must be prograde below i_crit: {argp_rate:.3e}");
+        assert!(
+            argp_rate > 0.0,
+            "ω̇ must be prograde below i_crit: {argp_rate:.3e}"
+        );
     }
 
     // ---- Validated oracle 3: C22 gradient + energy/bounded sanity ----
@@ -778,7 +806,8 @@ mod tests {
             let mut rm = r;
             rp[k] += h;
             rm[k] -= h;
-            let fd = (moon_c22_potential_bodyfixed(rp) - moon_c22_potential_bodyfixed(rm)) / (2.0 * h);
+            let fd =
+                (moon_c22_potential_bodyfixed(rp) - moon_c22_potential_bodyfixed(rm)) / (2.0 * h);
             let rel = (a[k] - fd).abs() / fd.abs().max(1e-30);
             assert!(rel < 1e-5, "C22 ∇U comp {k}: analytic {} vs FD {fd}", a[k]);
         }
@@ -798,7 +827,10 @@ mod tests {
             let rel = (a - a0).abs() / a0;
             assert!(rel < 5e-3, "J2 must not change a secularly: rel {rel:.2e}");
             let rn = norm(s.r);
-            assert!(rn.is_finite() && rn > R_MOON_M, "orbit must stay above the surface: {rn:.0} m");
+            assert!(
+                rn.is_finite() && rn > R_MOON_M,
+                "orbit must stay above the surface: {rn:.0} m"
+            );
         }
     }
 
@@ -848,10 +880,16 @@ mod tests {
             let shift = norm(sub(*a, *b));
             max_shift = max_shift.max(shift);
             let rn = norm(*b);
-            assert!(rn.is_finite() && rn > R_MOON_M, "perturbed sat left the body: {rn:.0} m");
+            assert!(
+                rn.is_finite() && rn > R_MOON_M,
+                "perturbed sat left the body: {rn:.0} m"
+            );
         }
         // Earth third-body + J2/C22 must move the geometry by a meaningful margin over half a day.
-        assert!(max_shift > 1_000.0, "perturbed geometry barely moved: {max_shift:.1} m");
+        assert!(
+            max_shift > 1_000.0,
+            "perturbed geometry barely moved: {max_shift:.1} m"
+        );
     }
 
     // ---- Determinism ----
@@ -863,6 +901,9 @@ mod tests {
         let tol = default_tolerance();
         let a = propagate(&st, 12_345.0, &model, &tol);
         let b = propagate(&st, 12_345.0, &model, &tol);
-        assert_eq!(a, b, "no RNG / wall-clock: identical inputs give identical output");
+        assert_eq!(
+            a, b,
+            "no RNG / wall-clock: identical inputs give identical output"
+        );
     }
 }

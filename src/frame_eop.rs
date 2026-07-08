@@ -53,8 +53,7 @@ pub const D_EM_M: f64 = 384_400_000.0;
 /// Earth rotation rate `ω⊕`, rad/s, formed from the ERA rate that
 /// [`crate::cio::earth_rotation_angle`] advances at: `τ · 1.00273781191135448 / 86400`.
 /// Numerically ≈ `7.292115e-5 rad/s`.
-pub const OMEGA_EARTH_RAD_S: f64 =
-    std::f64::consts::TAU * ERA_TURNS_PER_UT1_DAY / SECONDS_PER_DAY;
+pub const OMEGA_EARTH_RAD_S: f64 = std::f64::consts::TAU * ERA_TURNS_PER_UT1_DAY / SECONDS_PER_DAY;
 
 /// Lever-arm gain `D_EM · ω⊕`, metres of Moon-frame displacement per second of UT1
 /// error (≈ 28 033.6 m/s → 28.03 m per ms).
@@ -131,7 +130,11 @@ fn percentile_sorted(sorted: &[f64], p: f64) -> f64 {
 fn stats(horizon: Horizon, mut abs_resid: Vec<f64>) -> HorizonError {
     let n = abs_resid.len();
     let sum_sq: f64 = abs_resid.iter().map(|r| r * r).sum();
-    let rms_s = if n == 0 { 0.0 } else { (sum_sq / n as f64).sqrt() };
+    let rms_s = if n == 0 {
+        0.0
+    } else {
+        (sum_sq / n as f64).sqrt()
+    };
     abs_resid.sort_by(|a, b| a.partial_cmp(b).unwrap_or(std::cmp::Ordering::Equal));
     HorizonError {
         horizon,
@@ -169,7 +172,11 @@ pub fn parse_daily_ut1(body: &str) -> Vec<DailyUt1> {
             })
         })
         .collect();
-    out.sort_by(|a, b| a.mjd.partial_cmp(&b.mjd).unwrap_or(std::cmp::Ordering::Equal));
+    out.sort_by(|a, b| {
+        a.mjd
+            .partial_cmp(&b.mjd)
+            .unwrap_or(std::cmp::Ordering::Equal)
+    });
     out
 }
 
@@ -563,8 +570,7 @@ mod tests {
     // Real IERS finals2000A rows (Bulletin A FINAL, flag `I`), MJD 59578..59582, lifted
     // verbatim from tests/fixtures/agency/eop/finals2000A_2022001.txt. Each carries both
     // the rapid Bulletin A UT1-UTC [58..68] and the final Bulletin B UT1-UTC [154..165].
-    const FIXTURE: &str =
-        include_str!("../tests/fixtures/agency/eop/finals2000A_2022001.txt");
+    const FIXTURE: &str = include_str!("../tests/fixtures/agency/eop/finals2000A_2022001.txt");
 
     // ---- L19: closed-form lever arm (Validated) ----
 
@@ -574,7 +580,10 @@ mod tests {
     #[test]
     fn one_ms_ut1_is_28m_and_93_5ns() {
         let (pos, t) = ut1_error_to_lunar(1e-3);
-        assert!((pos - 28.03).abs() < 0.02, "position {pos} m, expected 28.03");
+        assert!(
+            (pos - 28.03).abs() < 0.02,
+            "position {pos} m, expected 28.03"
+        );
         assert!(
             (t * 1e9 - 93.5).abs() < 0.1,
             "time {} ns, expected 93.5",
@@ -642,9 +651,7 @@ mod tests {
         let ut1_only = frame_position_error_at_moon(ut1, 0.0, 0.0);
         let pm_only = frame_position_error_at_moon(0.0, dxp, dyp);
         assert!((ut1_only - ut1_error_to_lunar(ut1).0.abs()).abs() < 1e-9);
-        assert!(
-            (combined - (ut1_only * ut1_only + pm_only * pm_only).sqrt()).abs() < 1e-9
-        );
+        assert!((combined - (ut1_only * ut1_only + pm_only * pm_only).sqrt()).abs() < 1e-9);
     }
 
     // ---- L18: measured prediction error vs horizon (Validated real data) ----
@@ -734,7 +741,12 @@ mod tests {
     fn svg_markers_match_numeric_outputs() {
         let curve = prediction_error_vs_horizon(
             FIXTURE,
-            &[Horizon::Final, Horizon::Days(1), Horizon::Days(2), Horizon::Days(3)],
+            &[
+                Horizon::Final,
+                Horizon::Days(1),
+                Horizon::Days(2),
+                Horizon::Days(3),
+            ],
         );
         let svg = frame_eop_svg(&curve);
 
@@ -789,9 +801,16 @@ mod tests {
             + b.frame_realization_floor_m * b.frame_realization_floor_m)
             .sqrt();
         assert!((b.total_m - expect).abs() < 1e-9, "RSS");
-        assert!((b.total_time_ns - b.total_m / C_M_S * 1e9).abs() < 1e-6, "time map");
+        assert!(
+            (b.total_time_ns - b.total_m / C_M_S * 1e9).abs() < 1e-6,
+            "time map"
+        );
         // The propagated ephemeris covariance dominates (~15 m), not an asserted constant.
-        assert!(b.ephemeris_term_m > 10.0, "ephemeris term {}", b.ephemeris_term_m);
+        assert!(
+            b.ephemeris_term_m > 10.0,
+            "ephemeris term {}",
+            b.ephemeris_term_m
+        );
         assert!((b.frame_realization_floor_m - 0.2).abs() < 1e-12);
     }
 }

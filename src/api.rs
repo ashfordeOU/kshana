@@ -1636,9 +1636,8 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
             Ok(RunOutput { json, svg, summary })
         }
         ScenarioKind::RealtimeFrameEop => {
-            let scn: crate::realtime_frame_eop::RealtimeFrameEopScenario =
-                toml::from_str(src)
-                    .map_err(|e| format!("invalid realtime-frame-eop scenario: {e}"))?;
+            let scn: crate::realtime_frame_eop::RealtimeFrameEopScenario = toml::from_str(src)
+                .map_err(|e| format!("invalid realtime-frame-eop scenario: {e}"))?;
             let (json, summary, svg) = scn.run_output()?;
             Ok(RunOutput { json, svg, summary })
         }

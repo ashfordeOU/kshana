@@ -189,8 +189,16 @@ mod tests {
             let p = clock.powerlaw();
             let adev_slope = slope(|t| sigma_y(&p, t), 1.0, 1e5);
             let x_slope = slope(|t| x_clock_s(&p, t), 1.0, 1e5);
-            assert!(adev_slope.abs() < 1e-9, "{}: adev slope {adev_slope}", clock.name());
-            assert!((x_slope - 1.0).abs() < 1e-9, "{}: x slope {x_slope}", clock.name());
+            assert!(
+                adev_slope.abs() < 1e-9,
+                "{}: adev slope {adev_slope}",
+                clock.name()
+            );
+            assert!(
+                (x_slope - 1.0).abs() < 1e-9,
+                "{}: x slope {x_slope}",
+                clock.name()
+            );
             assert!(!clock.is_white_fm_limited());
         }
     }
@@ -202,8 +210,16 @@ mod tests {
             let p = clock.powerlaw();
             let adev_slope = slope(|t| sigma_y(&p, t), 1.0, 1e5);
             let x_slope = slope(|t| x_clock_s(&p, t), 1.0, 1e5);
-            assert!((adev_slope + 0.5).abs() < 1e-9, "{}: adev slope {adev_slope}", clock.name());
-            assert!((x_slope - 0.5).abs() < 1e-9, "{}: x slope {x_slope}", clock.name());
+            assert!(
+                (adev_slope + 0.5).abs() < 1e-9,
+                "{}: adev slope {adev_slope}",
+                clock.name()
+            );
+            assert!(
+                (x_slope - 0.5).abs() < 1e-9,
+                "{}: x slope {x_slope}",
+                clock.name()
+            );
             assert!(clock.is_white_fm_limited());
         }
     }
