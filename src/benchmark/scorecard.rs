@@ -71,7 +71,7 @@ pub fn run_scorecard<F: Fn(usize) -> f64>(
                 }
             }
             Detectability::Detectable => {
-                if s.n_mi == 0 && s.n_hmi == 0 {
+                if s.coverage_ok {
                     Verdict::CoveragePass
                 } else {
                     Verdict::CoverageFail
@@ -125,7 +125,7 @@ mod tests {
             Verdict::CoveragePass
         );
         assert_eq!(
-            run_scorecard(&menu, 10.0, 1e-3, |_| 1.0).reports[0].verdict,
+            run_scorecard(&menu, 3.0, 1e-3, |_| 1.0).reports[0].verdict,
             Verdict::CoverageFail
         );
     }
