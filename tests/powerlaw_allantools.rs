@@ -135,5 +135,8 @@ fn scaling_h0_scales_recovered_adev_by_its_square_root() {
         hi += ah * ah;
     }
     let ratio = (hi / lo).sqrt();
-    assert!((ratio - 10.0).abs() < 0.3, "σ_y ratio {ratio} ≠ 10 for 100× h_0");
+    assert!(
+        (ratio - 10.0).abs() < 0.3,
+        "σ_y ratio {ratio} ≠ 10 for 100× h_0"
+    );
 }

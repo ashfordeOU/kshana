@@ -1016,11 +1016,13 @@ mod tests {
         let grid: Vec<Selenographic> = [-90.0_f64, -80.0]
             .iter()
             .flat_map(|&lat| {
-                [-120.0_f64, 0.0, 120.0].iter().map(move |&lon| Selenographic {
-                    lat_rad: lat.to_radians(),
-                    lon_rad: lon.to_radians(),
-                    alt_m: 0.0,
-                })
+                [-120.0_f64, 0.0, 120.0]
+                    .iter()
+                    .map(move |&lon| Selenographic {
+                        lat_rad: lat.to_radians(),
+                        lon_rad: lon.to_radians(),
+                        alt_m: 0.0,
+                    })
             })
             .collect();
         let times: Vec<f64> = (0..8).map(|k| k as f64 * 3600.0).collect();
@@ -1064,9 +1066,7 @@ mod tests {
         // Deterministic order statistics.
         assert_eq!(rows, sweep_over_n(4, 24, &grid, &times, mask, 6.0));
         // Availability improves with size.
-        assert!(
-            rows.last().unwrap().coverage_fraction >= rows[0].coverage_fraction - 1e-12
-        );
+        assert!(rows.last().unwrap().coverage_fraction >= rows[0].coverage_fraction - 1e-12);
     }
 
     /// Visibility honours the elevation mask: a satellite placed just below the mask is

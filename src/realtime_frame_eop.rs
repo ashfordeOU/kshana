@@ -58,7 +58,7 @@ frame product.";
 /// The `realtime-frame-eop` scenario. Every field is optional: with no fields the budget
 /// runs the representative lunar-relay OD covariance over the bundled real `finals2000A`
 /// fixture for the 1/2/3-day horizons.
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Default, Deserialize)]
 pub struct RealtimeFrameEopScenario {
     /// Informational epoch label (UTC date) for the report. Default `2022-01-01`.
     pub epoch: Option<String>,
@@ -82,23 +82,6 @@ pub struct RealtimeFrameEopScenario {
     pub delta_yp_mas: Option<f64>,
     /// Path to a real `finals2000A` EOP file. Absent ⇒ the bundled fixture is used.
     pub eop_finals2000a: Option<String>,
-}
-
-impl Default for RealtimeFrameEopScenario {
-    fn default() -> Self {
-        RealtimeFrameEopScenario {
-            epoch: None,
-            horizons_days: None,
-            ephemeris_pos_sigma_m: None,
-            ephemeris_vel_sigma_mps: None,
-            latency_s: None,
-            frame_realization_floor_m: None,
-            delta_ut1_ms: None,
-            delta_xp_mas: None,
-            delta_yp_mas: None,
-            eop_finals2000a: None,
-        }
-    }
 }
 
 /// One Table 1 row: a frame position (m) and its L19-equivalent UT1 error and light-time.
@@ -167,14 +150,19 @@ impl RealtimeFrameEopScenario {
     }
 
     fn compute(&self) -> Result<Computed, String> {
-        let epoch = self.epoch.clone().unwrap_or_else(|| "2022-01-01".to_string());
+        let epoch = self
+            .epoch
+            .clone()
+            .unwrap_or_else(|| "2022-01-01".to_string());
         let latency_s = self.latency_s.unwrap_or(REALTIME_LATENCY_S);
         let floor_m = self.frame_realization_floor_m.unwrap_or(0.2);
         let delta_ut1_ms = self.delta_ut1_ms.unwrap_or(0.5);
         let delta_xp_mas = self.delta_xp_mas.unwrap_or(0.0);
         let delta_yp_mas = self.delta_yp_mas.unwrap_or(0.0);
         if !latency_s.is_finite() || latency_s < 0.0 {
-            return Err(format!("latency_s must be finite and non-negative, got {latency_s}"));
+            return Err(format!(
+                "latency_s must be finite and non-negative, got {latency_s}"
+            ));
         }
 
         let cov = self.covariance();
@@ -240,10 +228,7 @@ impl RealtimeFrameEopScenario {
 
     /// The horizon list: the rapid-minus-final floor plus each requested lead time.
     fn horizons(&self) -> Vec<Horizon> {
-        let days = self
-            .horizons_days
-            .clone()
-            .unwrap_or_else(|| vec![1, 2, 3]);
+        let days = self.horizons_days.clone().unwrap_or_else(|| vec![1, 2, 3]);
         let mut hs = vec![Horizon::Final];
         hs.extend(days.into_iter().map(Horizon::Days));
         hs
@@ -411,7 +396,8 @@ mod tests {
 
         let rt = &v["table1_consistency"][1];
         assert!(
-            (rt["frame_position_m"].as_f64().unwrap() - predict.predicted_pos_sigma_m).abs() < 1e-12
+            (rt["frame_position_m"].as_f64().unwrap() - predict.predicted_pos_sigma_m).abs()
+                < 1e-12
         );
         assert!((rt["light_time_ns"].as_f64().unwrap() - predict.predicted_time_ns).abs() < 1e-9);
         // Round-trip: the reported UT1 equivalent maps back to the same position via L19.
@@ -420,12 +406,17 @@ mod tests {
         assert!((ut1_error_to_lunar(ut1_s).0 - pos).abs() < 1e-9);
 
         // The real-time regime lands near the P4 headline of ~15 m ↔ ~0.5 ms.
-        assert!((13.0..17.0).contains(&pos), "real-time frame position {pos} m");
+        assert!(
+            (13.0..17.0).contains(&pos),
+            "real-time frame position {pos} m"
+        );
         assert!((0.45..0.60).contains(&rt["ut1_equiv_ms"].as_f64().unwrap()));
 
         // Post-processed: ~0.27 m ↔ ~0.010 ms.
         let pp = &v["table1_consistency"][0];
-        assert!((pp["frame_position_m"].as_f64().unwrap() - predict.postproc_pos_sigma_m).abs() < 1e-12);
+        assert!(
+            (pp["frame_position_m"].as_f64().unwrap() - predict.postproc_pos_sigma_m).abs() < 1e-12
+        );
         assert!((0.005..0.015).contains(&pp["ut1_equiv_ms"].as_f64().unwrap()));
     }
 
@@ -436,7 +427,12 @@ mod tests {
         let v: Value = serde_json::from_str(&json).unwrap();
         let curve = prediction_error_vs_horizon(
             FIXTURE,
-            &[Horizon::Final, Horizon::Days(1), Horizon::Days(2), Horizon::Days(3)],
+            &[
+                Horizon::Final,
+                Horizon::Days(1),
+                Horizon::Days(2),
+                Horizon::Days(3),
+            ],
         );
         let rows = v["table2_error_vs_horizon"].as_array().unwrap();
         assert_eq!(rows.len(), curve.len());
@@ -444,7 +440,10 @@ mod tests {
             assert_eq!(row["n"].as_u64().unwrap() as usize, h.n);
             assert!((row["ut1_rms_ms"].as_f64().unwrap() - h.rms_ms()).abs() < 1e-12);
             // The Moon position is exactly the L19 image of the RMS UT1 error.
-            assert!((row["moon_position_m"].as_f64().unwrap() - ut1_error_to_lunar(h.rms_s).0).abs() < 1e-12);
+            assert!(
+                (row["moon_position_m"].as_f64().unwrap() - ut1_error_to_lunar(h.rms_s).0).abs()
+                    < 1e-12
+            );
         }
         // The final floor lands in the IERS-published ~0.01-0.02 ms band.
         let floor = rows[0]["ut1_rms_ms"].as_f64().unwrap();

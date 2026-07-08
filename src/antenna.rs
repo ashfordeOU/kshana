@@ -68,8 +68,7 @@ pub fn bessel_j1(x: f64) -> f64 {
             + t2 * (-0.562_499_85
                 + t2 * (0.210_935_73
                     + t2 * (-0.039_542_89
-                        + t2 * (0.004_433_19
-                            + t2 * (-0.000_317_61 + t2 * 0.000_011_09))))))
+                        + t2 * (0.004_433_19 + t2 * (-0.000_317_61 + t2 * 0.000_011_09))))))
     } else {
         // A&S 9.4.6: J₁(x) = x^{-1/2}·f₁·cos(θ₁), t = 3/x, |ε| < 4e-8.
         let t = 3.0 / ax;
@@ -77,14 +76,12 @@ pub fn bessel_j1(x: f64) -> f64 {
             + t * (0.000_001_56
                 + t * (0.016_596_67
                     + t * (0.000_171_05
-                        + t * (-0.002_495_11
-                            + t * (0.001_136_53 + t * (-0.000_200_33))))));
+                        + t * (-0.002_495_11 + t * (0.001_136_53 + t * (-0.000_200_33))))));
         let theta1 = ax - 2.356_194_49
             + t * (0.124_996_12
                 + t * (0.000_056_50
                     + t * (-0.006_378_79
-                        + t * (0.000_743_48
-                            + t * (0.000_798_24 + t * (-0.000_291_66))))));
+                        + t * (0.000_743_48 + t * (0.000_798_24 + t * (-0.000_291_66))))));
         let mag = f1 * theta1.cos() / ax.sqrt();
         // Restore the sign: 9.4.6 is stated for x > 0; J₁ is odd.
         if x < 0.0 {
@@ -317,14 +314,26 @@ mod tests {
     #[test]
     fn bessel_j1_matches_published_values() {
         assert_eq!(bessel_j1(0.0), 0.0);
-        assert!((bessel_j1(1.0) - 0.440_050_585_7).abs() < 1e-7, "J1(1)={}", bessel_j1(1.0));
+        assert!(
+            (bessel_j1(1.0) - 0.440_050_585_7).abs() < 1e-7,
+            "J1(1)={}",
+            bessel_j1(1.0)
+        );
         // First positive zero.
-        assert!(bessel_j1(3.831_705_97).abs() < 1e-4, "J1(j11)={}", bessel_j1(3.831_705_97));
+        assert!(
+            bessel_j1(3.831_705_97).abs() < 1e-4,
+            "J1(j11)={}",
+            bessel_j1(3.831_705_97)
+        );
         // Odd symmetry.
         assert!((bessel_j1(-1.0) + bessel_j1(1.0)).abs() < 1e-12);
         // J1'(0) = 1/2 via the small-x limit J1(x)/x.
         let h = 1e-4;
-        assert!((bessel_j1(h) / h - 0.5).abs() < 1e-6, "J1'(0)~{}", bessel_j1(h) / h);
+        assert!(
+            (bessel_j1(h) / h - 0.5).abs() < 1e-6,
+            "J1'(0)~{}",
+            bessel_j1(h) / h
+        );
         // Continuity across the 9.4.4 / 9.4.6 branch boundary at x = 3.
         assert!((bessel_j1(3.0 - 1e-6) - bessel_j1(3.0 + 1e-6)).abs() < 1e-6);
     }
@@ -351,11 +360,19 @@ mod tests {
         // At the HPBW half-angle the pattern is ~ -3 dB relative to boresight.
         let half = half_power_beamwidth_rad(d, f) / 2.0;
         let g_half = pattern_gain_dbi(d, f, eff, half);
-        assert!((g_half - g0 + 3.0).abs() < 0.2, "HPBW/2 rel gain = {} dB", g_half - g0);
+        assert!(
+            (g_half - g0 + 3.0).abs() < 0.2,
+            "HPBW/2 rel gain = {} dB",
+            g_half - g0
+        );
         // At the first null the pattern collapses (deep null).
         let null = first_null_angle_rad(d, f).expect("aperture > 1.22 lambda");
         let g_null = pattern_gain_dbi(d, f, eff, null);
-        assert!(g_null - g0 < -40.0, "first-null rel gain = {} dB", g_null - g0);
+        assert!(
+            g_null - g0 < -40.0,
+            "first-null rel gain = {} dB",
+            g_null - g0
+        );
         // Boresight equals G₀.
         assert!((pattern_gain_dbi(d, f, eff, 0.0) - g0).abs() < 1e-9);
         // Small aperture (< 1.22 λ) has no first null in the hemisphere.
@@ -378,18 +395,38 @@ mod tests {
         // Nadir point: on boresight, strongly captured.
         let nadir = res.points.first().expect("at least one point");
         assert!(nadir.off_boresight_rad < 1e-9);
-        assert!(nadir.captured && nadir.js_db > 30.0, "nadir J/S = {} dB", nadir.js_db);
+        assert!(
+            nadir.captured && nadir.js_db > 30.0,
+            "nadir J/S = {} dB",
+            nadir.js_db
+        );
 
         // Limb point: far off boresight (near the nadir-to-horizon angle) and NOT captured.
         let limb = res.points.last().expect("at least one point");
-        assert!(limb.off_boresight_rad > 1.0, "limb theta = {} rad", limb.off_boresight_rad);
-        assert!(!limb.captured && limb.js_db < 0.0, "limb J/S = {} dB", limb.js_db);
+        assert!(
+            limb.off_boresight_rad > 1.0,
+            "limb theta = {} rad",
+            limb.off_boresight_rad
+        );
+        assert!(
+            !limb.captured && limb.js_db < 0.0,
+            "limb J/S = {} dB",
+            limb.js_db
+        );
         assert!(!res.limb_captured);
 
         // The captured region is a genuine cap: a nonzero but small fraction of the disk,
         // decisively less than the whole hemisphere the P1 assertion assumed.
-        assert!(res.captured_fraction > 0.0, "captured fraction = {}", res.captured_fraction);
-        assert!(res.captured_fraction < 0.3, "captured fraction = {}", res.captured_fraction);
+        assert!(
+            res.captured_fraction > 0.0,
+            "captured fraction = {}",
+            res.captured_fraction
+        );
+        assert!(
+            res.captured_fraction < 0.3,
+            "captured fraction = {}",
+            res.captured_fraction
+        );
 
         // Capture is contiguous from nadir: once uncaptured near the limb it stays so.
         assert!(res.points[0].captured);

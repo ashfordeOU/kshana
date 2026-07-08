@@ -86,11 +86,7 @@ impl OdCovariance {
     /// post-processed position 1σ, combined with a caller-supplied velocity 1σ and
     /// correlation. This ties the post-processed magnitude to an actual frame realisation
     /// rather than a bare constant.
-    pub fn from_frame_residual(
-        rms_residual_m: f64,
-        vel_sigma_mps: f64,
-        pos_vel_corr: f64,
-    ) -> Self {
+    pub fn from_frame_residual(rms_residual_m: f64, vel_sigma_mps: f64, pos_vel_corr: f64) -> Self {
         Self::new(rms_residual_m, vel_sigma_mps, pos_vel_corr)
     }
 

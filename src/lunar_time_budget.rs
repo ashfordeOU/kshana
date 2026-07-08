@@ -280,8 +280,16 @@ mod tests {
                 b.crossover_x_s
             );
             // Dominance swaps across it.
-            assert!(x_clock(&p, tx * 0.5) < frame, "{}: clock not below frame pre-crossover", clock.name());
-            assert!(x_clock(&p, tx * 2.0) > frame, "{}: clock not above frame post-crossover", clock.name());
+            assert!(
+                x_clock(&p, tx * 0.5) < frame,
+                "{}: clock not below frame pre-crossover",
+                clock.name()
+            );
+            assert!(
+                x_clock(&p, tx * 2.0) > frame,
+                "{}: clock not above frame post-crossover",
+                clock.name()
+            );
         }
     }
 
@@ -295,7 +303,11 @@ mod tests {
         let frame = params.frame_term_s();
         let analytic = 2.0 * frame * frame / h0;
         let rel = (b.crossover_tau_s - analytic).abs() / analytic;
-        assert!(rel < 1e-6, "numeric τ* {} vs analytic {analytic} (rel {rel})", b.crossover_tau_s);
+        assert!(
+            rel < 1e-6,
+            "numeric τ* {} vs analytic {analytic} (rel {rel})",
+            b.crossover_tau_s
+        );
     }
 
     #[test]
@@ -307,7 +319,11 @@ mod tests {
         let frame = params.frame_term_s();
         let analytic = frame / floor;
         let rel = (b.crossover_tau_s - analytic).abs() / analytic;
-        assert!(rel < 1e-6, "numeric τ* {} vs analytic {analytic} (rel {rel})", b.crossover_tau_s);
+        assert!(
+            rel < 1e-6,
+            "numeric τ* {} vs analytic {analytic} (rel {rel})",
+            b.crossover_tau_s
+        );
     }
 
     #[test]
@@ -321,7 +337,10 @@ mod tests {
             .collect();
         // all()' ordering is best→worst, so crossover τ must be decreasing.
         for w in txs.windows(2) {
-            assert!(w[0] > w[1], "crossover not monotone in clock quality: {txs:?}");
+            assert!(
+                w[0] > w[1],
+                "crossover not monotone in clock quality: {txs:?}"
+            );
         }
         // Optical master: frame-limited out past ~10⁶ s; miniRAFS: clock-limited within seconds.
         assert!(txs[0] > 1e6, "optical crossover {} too early", txs[0]);

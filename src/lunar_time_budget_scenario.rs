@@ -35,7 +35,7 @@ number. Not certified for operational timekeeping.";
 
 /// The `lunar-time-budget` scenario. Every field is optional: with no fields the budget
 /// runs for a passive-H-maser master clock over the default 1 s … 1e7 s τ grid.
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Default, Deserialize)]
 pub struct LunarTimeBudgetScenario {
     /// On-board clock class driving the (growing) clock term. One of `optical-master`,
     /// `passive-h-maser`, `rafs`, `mini-rafs` (default `passive-h-maser`).
@@ -46,17 +46,6 @@ pub struct LunarTimeBudgetScenario {
     pub tau_max_s: Option<f64>,
     /// Grid density (points per decade of τ). Default 8.
     pub points_per_decade: Option<u32>,
-}
-
-impl Default for LunarTimeBudgetScenario {
-    fn default() -> Self {
-        LunarTimeBudgetScenario {
-            clock: None,
-            tau_min_s: None,
-            tau_max_s: None,
-            points_per_decade: None,
-        }
-    }
 }
 
 impl LunarTimeBudgetScenario {
@@ -89,7 +78,9 @@ impl LunarTimeBudgetScenario {
             return Err(format!("tau_min_s must be finite and positive, got {lo}"));
         }
         if !(hi.is_finite() && hi > lo) {
-            return Err(format!("tau_max_s must be finite and greater than tau_min_s ({lo}), got {hi}"));
+            return Err(format!(
+                "tau_max_s must be finite and greater than tau_min_s ({lo}), got {hi}"
+            ));
         }
         if ppd == 0 {
             return Err("points_per_decade must be ≥ 1".to_string());

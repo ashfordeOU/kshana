@@ -152,8 +152,7 @@ pub fn budget(cfg: &NmaConfig) -> Result<NmaBudget, String> {
         return Err("nav_data_rate_bps must be positive".to_string());
     }
 
-    let overhead_bps =
-        (cfg.mack_bits_per_subframe + cfg.hkroot_bits_per_subframe) / cfg.subframe_s;
+    let overhead_bps = (cfg.mack_bits_per_subframe + cfg.hkroot_bits_per_subframe) / cfg.subframe_s;
     let overhead_fraction = overhead_bps / cfg.nav_data_rate_bps;
     let auth_latency_s = cfg.subframe_s * cfg.disclosure_lag_subframes;
     let tag_forgery_prob = 2.0_f64.powf(-cfg.mac_tag_bits);

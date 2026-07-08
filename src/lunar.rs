@@ -758,7 +758,9 @@ pub fn lunar_report_svg(r: &LunarReport) -> String {
 /// point where the line grazes the sphere (`R^2 + d^2 = (R + h)^2`), i.e. the maximum
 /// range at which the object has line of sight to a point *at the surface*.
 pub fn horizon_los_distance_m(radius_m: f64, height_m: f64) -> f64 {
-    (2.0 * radius_m * height_m + height_m * height_m).max(0.0).sqrt()
+    (2.0 * radius_m * height_m + height_m * height_m)
+        .max(0.0)
+        .sqrt()
 }
 
 /// Great-circle (surface arc) distance, in metres, from the sub-object point to the
@@ -1239,7 +1241,10 @@ mod tests {
         // formula independently of the lunar application.
         const R_EARTH_M: f64 = 6_371_000.0;
         let d = horizon_los_distance_m(R_EARTH_M, 2.0);
-        assert!((d - 5048.0).abs() < 10.0, "earth horizon {d} m (want ~5048)");
+        assert!(
+            (d - 5048.0).abs() < 10.0,
+            "earth horizon {d} m (want ~5048)"
+        );
     }
 
     #[test]
@@ -1263,7 +1268,10 @@ mod tests {
             let ground = horizon_ground_range_m(R_MOON_M, h);
             let slant = horizon_los_distance_m(R_MOON_M, h);
             assert!((ground - R_MOON_M * theta).abs() < 1e-6, "ground h={h}");
-            assert!((slant - (R_MOON_M + h) * theta.sin()).abs() < 1e-3, "slant h={h}");
+            assert!(
+                (slant - (R_MOON_M + h) * theta.sin()).abs() < 1e-3,
+                "slant h={h}"
+            );
         }
     }
 
@@ -1312,6 +1320,9 @@ mod tests {
                 assert!(g >= 1.0, "GDOP {g} below the DOP floor");
             }
         }
-        assert_eq!(cells, lunar_gdop_map(&relays, &times, -90.0, -70.0, 3, 4, 5.0));
+        assert_eq!(
+            cells,
+            lunar_gdop_map(&relays, &times, -90.0, -70.0, 3, 4, 5.0)
+        );
     }
 }
