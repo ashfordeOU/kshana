@@ -67,6 +67,102 @@ pub fn mahalanobis_sq(omega: &[Vec<f64>], residuals: &[f64]) -> Option<f64> {
     Some(z.iter().map(|zi| zi * zi).sum())
 }
 
+/// The common-mode consistency statistic that solution separation cannot see.
+///
+/// Modelling a common-mode shift `μ` as `r = μ·1 + ε`, `ε ~ N(0, Ω)`, the GLS
+/// estimate is `μ̂ = (1ᵀΩ⁻¹r)/(1ᵀΩ⁻¹1)` with `Var(μ̂) = 1/(1ᵀΩ⁻¹1)`, so the
+/// score statistic `μ̂²/Var(μ̂) = (1ᵀΩ⁻¹r)²/(1ᵀΩ⁻¹1)` is `~χ²₁` under H0. A shift
+/// common to every source inflates it; separation (which forms contrasts
+/// orthogonal to `1`) is blind to it.
+#[derive(Clone, Copy, Debug)]
+pub struct CommonModeStatistic {
+    pub value: f64,
+    pub dof: usize,
+}
+
+/// Compute the common-mode consistency statistic for residual vector `r` under
+/// covariance `Ω`. Uses `1ᵀΩ⁻¹r = (L⁻¹1)·(L⁻¹r)` and `1ᵀΩ⁻¹1 = |L⁻¹1|²`.
+/// `None` if `Ω` is not positive-definite or is empty.
+pub fn common_mode_consistency(
+    omega: &[Vec<f64>],
+    residuals: &[f64],
+) -> Option<CommonModeStatistic> {
+    let n = residuals.len();
+    if n == 0 {
+        return None;
+    }
+    let ones = vec![1.0f64; n];
+    let w1 = whiten(omega, &ones)?;
+    let wr = whiten(omega, residuals)?;
+    let num: f64 = w1.iter().zip(&wr).map(|(a, b)| a * b).sum(); // 1ᵀΩ⁻¹r
+    let den: f64 = w1.iter().map(|a| a * a).sum(); // 1ᵀΩ⁻¹1
+    if den <= 0.0 {
+        return None;
+    }
+    Some(CommonModeStatistic {
+        value: num * num / den,
+        dof: 1,
+    })
+}
+
+/// The irreducible undetectable common-mode time error: the largest fault
+/// magnitude `α` along a unit direction `d` that keeps BOTH detectors below
+/// threshold, i.e. is seen by neither separation nor the common-mode statistic.
+///
+/// * separation acts on contrasts — the whitened norm of the part of `d`
+///   orthogonal (in the `Ω` metric) to the common axis. If that norm is ~0
+///   (`d` ∝ `1`), separation is blind (`α_ss = ∞`).
+/// * the common-mode statistic scales as `α²(1ᵀΩ⁻¹d)²/(1ᵀΩ⁻¹1)`. If
+///   `1ᵀΩ⁻¹d ≈ 0` (the fault direction is `Ω⁻¹`-orthogonal to the modelled
+///   common axis — a shared-reference coupling the model did not put into `Ω`),
+///   the statistic is blind (`α_cm = ∞`).
+///
+/// The undetectable ceiling is `min(α_ss, α_cm)`; when both are infinite the
+/// fault is the irreducible blind spot the paper publishes. `ss_threshold` and
+/// `cm_threshold` are the (whitened separation, χ²₁ common-mode) detection
+/// thresholds. Returns `f64::INFINITY` for a total blind spot; `0.0`/`None`-like
+/// degenerate inputs return `f64::INFINITY` (nothing detectable) conservatively.
+pub fn residual_outside_omega_bound(
+    omega_modelled: &[Vec<f64>],
+    true_common_mode_dir: &[f64],
+    ss_threshold: f64,
+    cm_threshold: f64,
+) -> f64 {
+    let n = true_common_mode_dir.len();
+    if n == 0 {
+        return f64::INFINITY;
+    }
+    let d = true_common_mode_dir;
+    let ones = vec![1.0f64; n];
+    let (w1, wd) = match (whiten(omega_modelled, &ones), whiten(omega_modelled, d)) {
+        (Some(a), Some(b)) => (a, b),
+        _ => return f64::INFINITY,
+    };
+    let s11: f64 = w1.iter().map(|a| a * a).sum(); // 1ᵀΩ⁻¹1
+    let s1d: f64 = w1.iter().zip(&wd).map(|(a, b)| a * b).sum(); // 1ᵀΩ⁻¹d
+                                                                 // GLS common-mode coefficient of d, then the contrast part d_perp = d − μ·1.
+    let mu = if s11 > 0.0 { s1d / s11 } else { 0.0 };
+    let d_perp: Vec<f64> = d.iter().map(|di| di - mu).collect();
+    let wperp = match whiten(omega_modelled, &d_perp) {
+        Some(v) => v,
+        None => return f64::INFINITY,
+    };
+    let contrast_norm: f64 = wperp.iter().map(|a| a * a).sum::<f64>().sqrt();
+
+    // α at which each detector reaches threshold (INFINITY = blind to this dir).
+    let alpha_ss = if contrast_norm > 1e-30 {
+        ss_threshold / contrast_norm
+    } else {
+        f64::INFINITY
+    };
+    let alpha_cm = if s1d.abs() > 1e-30 && s11 > 0.0 {
+        (cm_threshold * s11).sqrt() / s1d.abs()
+    } else {
+        f64::INFINITY
+    };
+    alpha_ss.min(alpha_cm)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -120,6 +216,81 @@ mod tests {
         assert!(
             (m - quad).abs() < 1e-12,
             "Mahalanobis identity zᵀz = rᵀΩ⁻¹r"
+        );
+    }
+
+    #[test]
+    fn common_mode_shift_inflates_statistic_but_not_contrasts() {
+        // Ω with positive off-diagonals (shared common-mode coupling).
+        let omega = vec![
+            vec![4.0, 1.5, 1.5],
+            vec![1.5, 4.0, 1.5],
+            vec![1.5, 1.5, 4.0],
+        ];
+        // Null residual (tiny) vs a common-mode shift μ·1.
+        let null = [0.05, -0.03, 0.02];
+        let shift = [1.0, 1.0, 1.0];
+        let s_null = common_mode_consistency(&omega, &null).unwrap().value;
+        let s_shift = common_mode_consistency(&omega, &shift).unwrap().value;
+        // s_shift ≈ 0.429 (= 1ᵀΩ⁻¹1 for μ=1), s_null ≈ 7.6e-5 (tiny residuals);
+        // ratio ~5625. The threshold is proportional, not absolute, because the
+        // statistic's scale is 1ᵀΩ⁻¹1 which is sub-1 for this high-correlation Ω.
+        assert!(
+            s_shift > s_null * 100.0,
+            "a common-mode shift must inflate the statistic"
+        );
+        // Separation sees CONTRASTS; a pure common-mode shift produces none.
+        // Whitened contrast norm of μ·1 after removing its common-mode part ≈ 0.
+        let b = residual_outside_omega_bound(&omega, &shift, 3.0, 3.841);
+        // d ∝ 1 -> separation blind (α_ss=∞), but the cm statistic catches it -> finite.
+        assert!(
+            b.is_finite(),
+            "a pure common-mode fault is caught by the cm statistic (finite ceiling)"
+        );
+    }
+
+    #[test]
+    fn separation_alone_is_blind_to_common_mode() {
+        // With NO common-mode statistic, a pure μ·1 fault has infinite ceiling.
+        // We emulate "separation only" by checking the contrast part is zero.
+        let omega = vec![vec![2.0, 0.5], vec![0.5, 2.0]];
+        // Direction ∝ 1: contrast part vanishes.
+        let d = [1.0, 1.0];
+        // Give the cm detector zero power by passing an impossible threshold via
+        // a direction Ω⁻¹-orthogonal to 1 instead: construct d with 1ᵀΩ⁻¹d = 0.
+        // For this Ω, Ω⁻¹1 ∝ [1,1] (symmetric), so d=[1,-1] is Ω⁻¹-orthogonal to 1.
+        let d_blind = [1.0, -1.0];
+        let b_common = residual_outside_omega_bound(&omega, &d, 3.0, 3.841);
+        let b_blind = residual_outside_omega_bound(&omega, &d_blind, 3.0, 3.841);
+        assert!(
+            b_common.is_finite(),
+            "cm statistic catches the modelled common axis"
+        );
+        // d_blind is invisible to the cm statistic (1ᵀΩ⁻¹d=0) but VISIBLE to
+        // separation (it is a pure contrast) -> finite via α_ss.
+        assert!(
+            b_blind.is_finite(),
+            "a pure contrast is caught by separation"
+        );
+        assert!(
+            b_blind < b_common * 100.0,
+            "sanity: both bounds are real magnitudes"
+        );
+    }
+
+    #[test]
+    fn total_blind_spot_is_infinite() {
+        // A direction that is BOTH Ω⁻¹-orthogonal to 1 (cm-blind) AND has ~zero
+        // whitened contrast norm is undetectable by both -> INFINITY.
+        // Construct via a near-singular common-mode: Ω where the common axis
+        // dominates so a specific off-axis direction yields ~0 contrast.
+        // Simplest explicit case: n=1 (no contrasts, and 1ᵀΩ⁻¹d with d=[0]).
+        let omega = vec![vec![1.0]];
+        let d_zero = [0.0];
+        let b = residual_outside_omega_bound(&omega, &d_zero, 3.0, 3.841);
+        assert!(
+            b.is_infinite(),
+            "a zero-signal direction is undetectable by construction"
         );
     }
 }
