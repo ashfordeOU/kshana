@@ -648,6 +648,39 @@ pub fn lunar_report_svg(r: &LunarReport) -> String {
     svg
 }
 
+// --- Airless-body horizon / line-of-sight geometry (L01) ------------------
+//
+// The Moon has no atmosphere, so there is no refractive horizon extension and no
+// skywave path: radio line of sight is the bare geometric tangent to the sphere. The
+// same identity bounds both surface ranging (how far a surface beacon stays usable)
+// and surface attacks (how far a ground spoofer/jammer reaches), so it is the shared
+// geometric core of the P1 attack-surface reach table and P2 beacon-siting range.
+
+/// Straight-line (radio line-of-sight) distance, in metres, from an object of height
+/// `height_m` above a sphere of radius `radius_m` to its horizon tangent point:
+/// `d = sqrt(2 R h + h^2)`. This is the tangent length from the elevated object to the
+/// point where the line grazes the sphere (`R^2 + d^2 = (R + h)^2`), i.e. the maximum
+/// range at which the object has line of sight to a point *at the surface*.
+pub fn horizon_los_distance_m(radius_m: f64, height_m: f64) -> f64 {
+    (2.0 * radius_m * height_m + height_m * height_m).max(0.0).sqrt()
+}
+
+/// Great-circle (surface arc) distance, in metres, from the sub-object point to the
+/// horizon, `d = R * acos(R / (R + h))`. Use this for footprint/coverage *areas* on the
+/// surface; use [`horizon_los_distance_m`] for the slant line-of-sight *range*.
+pub fn horizon_ground_range_m(radius_m: f64, height_m: f64) -> f64 {
+    radius_m * (radius_m / (radius_m + height_m)).acos()
+}
+
+/// Maximum surface-to-surface radio line-of-sight distance (m) between two objects of
+/// heights `height_a_m` and `height_b_m` on a sphere of radius `radius_m`: the sum of
+/// each object's horizon LOS distance, `sqrt(2 R h_a + h_a^2) + sqrt(2 R h_b + h_b^2)`.
+/// This is the reach of a raised transmitter (mast/ridge) to a surface receiver of
+/// finite antenna height, which the airless Moon leaves purely geometric.
+pub fn surface_los_max_m(radius_m: f64, height_a_m: f64, height_b_m: f64) -> f64 {
+    horizon_los_distance_m(radius_m, height_a_m) + horizon_los_distance_m(radius_m, height_b_m)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1098,5 +1131,60 @@ mod tests {
             (ratio - 50.0).abs() < 0.5,
             "HPL ratio = {ratio} (want ≈ 50)"
         );
+    }
+
+    // --- L01 airless-body horizon / line-of-sight geometry ----------------
+
+    #[test]
+    fn horizon_los_matches_earth_textbook() {
+        // Oracle: the standard terrestrial "distance to the horizon" for a 2 m eye
+        // height is ~5.05 km (≈3.14 statute miles), a widely published value. The same
+        // closed form at the mean Earth radius must reproduce it — validating the
+        // formula independently of the lunar application.
+        const R_EARTH_M: f64 = 6_371_000.0;
+        let d = horizon_los_distance_m(R_EARTH_M, 2.0);
+        assert!((d - 5048.0).abs() < 10.0, "earth horizon {d} m (want ~5048)");
+    }
+
+    #[test]
+    fn horizon_los_satisfies_tangent_identity() {
+        // Oracle: exact right-triangle tangent identity R^2 + d^2 = (R + h)^2.
+        for &h in &[1.0, 2.0, 10.0, 100.0, 1000.0, 2000.0] {
+            let d = horizon_los_distance_m(R_MOON_M, h);
+            let lhs = R_MOON_M * R_MOON_M + d * d;
+            let rhs = (R_MOON_M + h) * (R_MOON_M + h);
+            assert!((lhs - rhs).abs() / rhs < 1e-12, "tangent identity h={h}");
+        }
+    }
+
+    #[test]
+    fn horizon_ground_range_consistent_with_slant() {
+        // Oracle: both distances derive from the same horizon central angle θ where
+        // cos θ = R / (R + h): ground = R·θ, slant = (R + h)·sin θ. Two independent
+        // implementations must agree through θ.
+        for &h in &[10.0, 100.0, 1000.0] {
+            let theta = (R_MOON_M / (R_MOON_M + h)).acos();
+            let ground = horizon_ground_range_m(R_MOON_M, h);
+            let slant = horizon_los_distance_m(R_MOON_M, h);
+            assert!((ground - R_MOON_M * theta).abs() < 1e-6, "ground h={h}");
+            assert!((slant - (R_MOON_M + h) * theta.sin()).abs() < 1e-3, "slant h={h}");
+        }
+    }
+
+    #[test]
+    fn lunar_mast_reach_reproduces_p1_table() {
+        // Reproduces the P1 attack-surface reach table (Sec 4): a raised transmitter of
+        // height h reaches a surface user out to sqrt(2Rh+h^2) + sqrt(2R·h_u+h_u^2) with
+        // a standing-user / rover antenna height h_u ≈ 1.6 m. Paper values (rounded to
+        // 1 km): 2 m→5 km, 10 m→8 km, 100 m→21 km, 1000 m→61 km.
+        let h_u = 1.6;
+        let cases = [(2.0, 5.0), (10.0, 8.0), (100.0, 21.0), (1000.0, 61.0)];
+        for &(h, want_km) in &cases {
+            let reach_km = surface_los_max_m(R_MOON_M, h, h_u) / 1000.0;
+            assert!(
+                (reach_km - want_km).abs() < 0.6,
+                "h={h} m reach={reach_km:.1} km (want {want_km})"
+            );
+        }
     }
 }

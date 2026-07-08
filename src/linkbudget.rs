@@ -183,6 +183,30 @@ pub fn link_budget(p: &LinkParams, required_eb_n0_db: f64) -> LinkResult {
     }
 }
 
+/// Received navigation-signal power (dBW) at the user antenna output for a transmitter
+/// of `eirp_dbw` (transmit power + transmit antenna gain) and receive antenna gain
+/// `rx_gain_dbi`, over one-way `range_m` at carrier `freq_hz`: `P_rx = EIRP + G_user −
+/// L_fs`. This is the radiometric (received-power) form of the budget, distinct from the
+/// telecom Eb/N₀ closure in [`link_budget`]; it is the P1 AFS surface-power result and
+/// the reference the jamming/spoofing margins are taken against.
+pub fn received_signal_power_dbw(
+    eirp_dbw: f64,
+    rx_gain_dbi: f64,
+    range_m: f64,
+    freq_hz: f64,
+) -> f64 {
+    eirp_dbw + rx_gain_dbi - free_space_loss_db(range_m, freq_hz)
+}
+
+/// Power deficit (dB) of a received navigation signal versus a reference received power
+/// (e.g. terrestrial GPS L1 C/A at ≈ −125 dBW): `reference_dbw − received_dbw`. A
+/// positive value means the signal is weaker than the reference by that many dB, so
+/// every jamming and spoofing threshold sits proportionally lower in absolute watts;
+/// the linear power factor is `10^(deficit/10)`.
+pub fn power_deficit_db(reference_dbw: f64, received_dbw: f64) -> f64 {
+    reference_dbw - received_dbw
+}
+
 /// Representative [`LinkParams`] for a **MARCONI-class relay link** at the given `band` and mission
 /// `profile`, parameterised by the link `range_m` and `data_rate_bps`.
 ///
@@ -635,5 +659,41 @@ mod tests {
             r.cn0_dbhz,
             cn0_hand
         );
+    }
+
+    // --- L44 AFS radiometric received power + power-deficit band ----------
+
+    #[test]
+    fn afs_received_power_and_deficit_reproduce_p1() {
+        // P1 Table 1: EIRP = P_sat 13 dBW + G_sat 13 dBi = 26 dBW; user gain 3 dBi;
+        // slant 3000 km; carrier 2.4 GHz → P_rx ≈ −140.6 dBW. GPS L1 C/A reference
+        // −125 dBW → deficit 15.6 dB. Oracle: closed-form dB radiometry (Eq. prx).
+        let p_rx = received_signal_power_dbw(26.0, 3.0, 3.0e6, 2.4e9);
+        assert!((p_rx - (-140.6)).abs() < 0.1, "P_rx = {p_rx} dBW (want −140.6)");
+        assert!((power_deficit_db(-125.0, p_rx) - 15.6).abs() < 0.1, "deficit");
+    }
+
+    #[test]
+    fn power_deficit_stays_in_12_to_18_db_band() {
+        // P1 Sec 6 sensitivity: the deficit is driven by the GPS reference (−125 typical
+        // .. −128.5 dBW spec-min) and a lunar-power shift from satellite EIRP + slant
+        // range (each moves the lunar figure dB-for-dB; up to ~2.4 dB weaker over the
+        // plausible range). Across those axes the deficit stays in the 12–18 dB band
+        // (factor 16–63). Oracle: monotone dB arithmetic anchored on the P1 inputs.
+        let nominal = received_signal_power_dbw(26.0, 3.0, 3.0e6, 2.4e9); // ≈ −140.6
+        let mut lo = f64::INFINITY;
+        let mut hi = f64::NEG_INFINITY;
+        for gps_ref in [-128.5, -126.75, -125.0] {
+            for offset in [-2.4, -1.2, 0.0] {
+                // offset = combined EIRP + slant-range variation of the lunar figure
+                let d = power_deficit_db(gps_ref, nominal + offset);
+                lo = lo.min(d);
+                hi = hi.max(d);
+            }
+        }
+        assert!(lo >= 12.0 && hi <= 18.05, "band [{lo:.2}, {hi:.2}] dB (want ⊆ [12,18])");
+        // The band's linear-factor endpoints are ~16× and ~63×.
+        assert!((10f64.powf(12.0 / 10.0) - 15.85).abs() < 0.1);
+        assert!((10f64.powf(18.0 / 10.0) - 63.1).abs() < 0.2);
     }
 }
