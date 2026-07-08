@@ -422,6 +422,8 @@ pub enum ScenarioKind {
     AttitudeBudget,
     Passes,
     LinkBudget,
+    LunarTimeBudget,
+    RealtimeFrameEop,
 }
 
 impl ScenarioKind {
@@ -472,6 +474,8 @@ impl ScenarioKind {
             ScenarioKind::AttitudeBudget => "attitude-budget",
             ScenarioKind::Passes => "passes",
             ScenarioKind::LinkBudget => "link-budget",
+            ScenarioKind::LunarTimeBudget => "lunar-time-budget",
+            ScenarioKind::RealtimeFrameEop => "realtime-frame-eop",
         }
     }
 
@@ -526,6 +530,8 @@ impl ScenarioKind {
             "attitude-budget" => ScenarioKind::AttitudeBudget,
             "passes" => ScenarioKind::Passes,
             "link-budget" => ScenarioKind::LinkBudget,
+            "lunar-time-budget" => ScenarioKind::LunarTimeBudget,
+            "realtime-frame-eop" => ScenarioKind::RealtimeFrameEop,
             // Empty or unknown ⇒ the clock pack (historical default).
             _ => ScenarioKind::Clock,
         })
@@ -597,6 +603,8 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "attitude-budget", description: "3-DOF attitude & pointing error budget: the worst-case gravity-gradient disturbance torque ((3/2)(μ/R³)ΔI) and a root-sum-square pointing-error budget over named 1σ contributors (sensor noise, reaction-wheel jitter, thermal, alignment) with the dominant term, for an orbit altitude + body inertia spread. MODELLED scalar AOCS budget — a pre-hardware complement to Basilisk/42, not a control-loop/6-DoF/flexible-mode simulation.", required_fields: &[], optional_fields: &["altitude_km", "i_max_kg_m2", "i_min_kg_m2", "contributors"] },
         ScenarioMeta { name: "passes", description: "Ground-station pass prediction: the time-domain visibility passes (AOS/TCA/LOS, maximum elevation, duration) of a circular orbit over a station above an elevation mask across a window, with interpolated rise/set crossings and total access time. MODELLED Keplerian propagation + Earth rotation (no SGP4 drag/J2 regression), TCA at the sample-step resolution, no light-time/refraction correction.", required_fields: &[], optional_fields: &["altitude_km", "inclination_deg", "raan_deg", "arg_lat_deg", "station_lat_deg", "station_lon_deg", "station_alt_m", "epoch", "mask_deg", "duration_hours", "step_s"] },
         ScenarioMeta { name: "link-budget", description: "One-way link budget over the CCSDS 401 / DSN 810-005 link equation: free-space path loss, C/N₀, Eb/N₀, margin and closure for a transmit EIRP, receive G/T, range, data rate and band (s|x|ka) against a required Eb/N₀. A deterministic engineering calculation from the supplied inputs (not a calibrated terminal datasheet).", required_fields: &[], optional_fields: &["band", "eirp_dbw", "g_over_t_db", "range_km", "data_rate_bps", "other_losses_db", "required_eb_n0_db"] },
+        ScenarioMeta { name: "lunar-time-budget", description: "MODELLED end-to-end Coordinated Lunar Time (LTC) time-error budget: the seven LTC error terms assembled as time-error curves x_i(τ) over a whole averaging-time grid, root-summed into x_Σ(τ), and the clock-vs-frame CROSSOVER τ at which the growing clock term overtakes the constant real-time frame-realisation term (below it the budget is frame-limited, above it clock-limited) — the honest answer to the single-τ artifact. The τ-slopes are closed-form and analytically checkable (clock τ^{+1/2}/τ^{+1}, floors τ^0, measurement τ^{-1/2}) and the clock rows reproduce the published one-day clock specs (crate::clock_specs); the RF/optical-link, frame-realisation, relativistic-residual and ephemeris floor MAGNITUDES are Modelled budget allocations (documented defaults, caller-overridable), not measurements. The contribution is the reproducible crossover τ, not a certified per-term number; not certified for operational timekeeping.", required_fields: &[], optional_fields: &["clock", "tau_min_s", "tau_max_s", "points_per_decade"] },
+        ScenarioMeta { name: "realtime-frame-eop", description: "Real-time lunar frame / Earth-orientation prediction budget: P4 Table 1 (the frame-error consistency check — post-processed ~0.27 m ↔ ~0.010 ms and real-time ~15 m ↔ ~0.5 ms, each frame position expressed as its equivalent UT1 error via the L19 lever arm Δr = D_EM·ω⊕·ΔUT1) and Table 2 (measured UT1 prediction error vs horizon — the L18 curve read directly off the real IERS finals2000A series: the Bulletin A − Bulletin B final floor and the multi-day persistence-predictor error, each mapped to a Moon-frame position by L19), plus the L21 root-sum-square real-time frame-error budget (EOP + ephemeris + realisation floor). VALIDATED closed form (the L19 lever arm, ω⊕ cross-checked against the CIO Earth-rotation angle) and VALIDATED real data (the L18 curve off the real finals2000A rows); MODELLED are the lunar-relay OD covariance magnitudes and frame-realisation floor (representative allocations) and the persistence predictor (not IERS's operational Bulletin A algorithm). Not a certified real-time frame product.", required_fields: &[], optional_fields: &["epoch", "horizons_days", "ephemeris_pos_sigma_m", "ephemeris_vel_sigma_mps", "latency_s", "frame_realization_floor_m", "delta_ut1_ms", "delta_xp_mas", "delta_yp_mas", "eop_finals2000a"] },
     ]
 }
 
@@ -1617,6 +1625,21 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 toml::from_str(src).map_err(|e| format!("invalid link-budget scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
+            Ok(RunOutput { json, svg, summary })
+        }
+        ScenarioKind::LunarTimeBudget => {
+            let scn: crate::lunar_time_budget_scenario::LunarTimeBudgetScenario =
+                toml::from_str(src)
+                    .map_err(|e| format!("invalid lunar-time-budget scenario: {e}"))?;
+            let (json, summary) = scn.run_json()?;
+            let svg = minimal_svg(&summary);
+            Ok(RunOutput { json, svg, summary })
+        }
+        ScenarioKind::RealtimeFrameEop => {
+            let scn: crate::realtime_frame_eop::RealtimeFrameEopScenario =
+                toml::from_str(src)
+                    .map_err(|e| format!("invalid realtime-frame-eop scenario: {e}"))?;
+            let (json, summary, svg) = scn.run_output()?;
             Ok(RunOutput { json, svg, summary })
         }
         ScenarioKind::Clock => {
