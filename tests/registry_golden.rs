@@ -239,7 +239,10 @@ fn golden_lunar_time_offset() {
     check(&Golden {
         path: "scenarios/lunar-time-offset.toml",
         expect_summary: "lunar-time-offset | secular LTC−TT rate 57.04 µs/day (band 56–59) | self-pot 57.50 kinetic -0.46 | offset @ 1.00 d = 57.04 µs",
-        expect_fnv_canonical: 0x2981_eb83_66d5_a508,
-        expect_fnv_raw_linux_x64: 0xefbd_8ea8_5e12_1844,
+        // Re-baselined after the L16 LunarTimeReport gained the topographic-spread and
+        // TCG−TCL secular-rate fields. Canonical (portable, 6-sig-fig) is confirmed equal
+        // to the value CI computes on Linux; the raw x86-64-Linux hash is re-pinned there.
+        expect_fnv_canonical: 0xff26_8d1a_fb3b_0021,
+        expect_fnv_raw_linux_x64: 0x2fe9_e730_c025_36e8,
     });
 }
