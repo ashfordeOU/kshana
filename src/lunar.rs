@@ -415,6 +415,102 @@ pub fn lunar_coverage_grid(
     cells
 }
 
+/// One cell of the time-averaged polar GDOP map (L11 / P2 Figure 1a).
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+pub struct GdopMapCell {
+    pub lat_deg: f64,
+    pub lon_deg: f64,
+    /// Number of epochs at which the cell had a defined DOP (≥ 4 visible relays).
+    pub n_defined: usize,
+    /// Median GDOP over the defined-DOP epochs (`None` if never defined).
+    pub gdop_median: Option<f64>,
+    /// Median horizontal DOP over the defined-DOP epochs.
+    pub hdop_median: Option<f64>,
+    /// Median vertical DOP over the defined-DOP epochs.
+    pub vdop_median: Option<f64>,
+}
+
+/// Median of a sample as an exact order statistic (`None` if empty).
+fn median_of(mut v: Vec<f64>) -> Option<f64> {
+    if v.is_empty() {
+        return None;
+    }
+    v.sort_by(|a, b| a.partial_cmp(b).unwrap_or(std::cmp::Ordering::Equal));
+    let mid = v.len() / 2;
+    Some(if v.len() % 2 == 0 {
+        0.5 * (v[mid - 1] + v[mid])
+    } else {
+        v[mid]
+    })
+}
+
+/// Time-averaged per-cell GDOP/HDOP/VDOP map over a selenographic latitude band and a
+/// set of epochs (L11) — the P2 Figure 1a polar-coverage deliverable. For each cell of
+/// the `[lat_min_deg, lat_max_deg] × [−180, 180]` grid the relay set is placed at every
+/// epoch, the site DOP evaluated ([`lunar_site_dop`]), and the **median** of each DOP
+/// component reported. The median is an order statistic robust to the sparse-polar heavy
+/// tail (a few near-singular epochs), unlike the single-snapshot [`lunar_coverage_grid`].
+/// Reuses the Validated DOP kernel and is deterministic.
+pub fn lunar_gdop_map(
+    relays: &[LunarRelay],
+    times_s: &[f64],
+    lat_min_deg: f64,
+    lat_max_deg: f64,
+    n_lat: usize,
+    n_lon: usize,
+    mask_deg: f64,
+) -> Vec<GdopMapCell> {
+    let lat_span = |i: usize| -> f64 {
+        if n_lat <= 1 {
+            0.5 * (lat_min_deg + lat_max_deg)
+        } else {
+            lat_min_deg + (lat_max_deg - lat_min_deg) * (i as f64) / ((n_lat - 1) as f64)
+        }
+    };
+    let lon_span = |j: usize| -> f64 {
+        if n_lon <= 1 {
+            0.0
+        } else {
+            -180.0 + 360.0 * (j as f64) / ((n_lon - 1) as f64)
+        }
+    };
+    // Reduce the relay set to MCMF once per epoch (shared across all cells).
+    let sats_per_epoch: Vec<Vec<Vec3>> =
+        times_s.iter().map(|&t| relay_set_mcmf(relays, t)).collect();
+
+    let mut cells = Vec::with_capacity(n_lat.saturating_mul(n_lon));
+    for i in 0..n_lat {
+        let lat_deg = lat_span(i);
+        for j in 0..n_lon {
+            let lon_deg = lon_span(j);
+            let user = selenographic_to_mcmf(Selenographic {
+                lat_rad: lat_deg.to_radians(),
+                lon_rad: lon_deg.to_radians(),
+                alt_m: 0.0,
+            });
+            let mut gdops = Vec::new();
+            let mut hdops = Vec::new();
+            let mut vdops = Vec::new();
+            for sats in &sats_per_epoch {
+                if let Some(d) = lunar_site_dop(user, sats, mask_deg) {
+                    gdops.push(d.gdop);
+                    hdops.push(d.hdop);
+                    vdops.push(d.vdop);
+                }
+            }
+            cells.push(GdopMapCell {
+                lat_deg,
+                lon_deg,
+                n_defined: gdops.len(),
+                gdop_median: median_of(gdops),
+                hdop_median: median_of(hdops),
+                vdop_median: median_of(vdops),
+            });
+        }
+    }
+    cells
+}
+
 /// One epoch of a lunar-surface protection-level pass.
 #[derive(Clone, Copy, Debug, PartialEq, Serialize)]
 pub struct LunarPassPoint {
@@ -1186,5 +1282,36 @@ mod tests {
                 "h={h} m reach={reach_km:.1} km (want {want_km})"
             );
         }
+    }
+
+    // --- L11 time-averaged polar GDOP/HDOP/VDOP map -----------------------
+
+    #[test]
+    fn gdop_map_covers_polar_band_and_is_deterministic() {
+        // Oracle: reuses the Validated lunar_site_dop kernel; the per-cell medians are
+        // deterministic order statistics; DOP >= 1 always; the requested latitude band
+        // is honoured. A 6-relay ELFO-like set over a -90..-70 band, several epochs.
+        let relays: Vec<LunarRelay> = (0..6)
+            .map(|k| LunarRelay {
+                radius_m: R_MOON_M + 8_000_000.0,
+                inc_deg: 57.7,
+                raan_deg: 60.0 * k as f64,
+                phase_deg: 60.0 * k as f64,
+            })
+            .collect();
+        let times: Vec<f64> = (0..6).map(|k| k as f64 * 3600.0).collect();
+        let cells = lunar_gdop_map(&relays, &times, -90.0, -70.0, 3, 4, 5.0);
+        assert_eq!(cells.len(), 12, "3 lat x 4 lon cells");
+        for c in &cells {
+            assert!(
+                c.lat_deg >= -90.0 - 1e-9 && c.lat_deg <= -70.0 + 1e-9,
+                "lat {} outside band",
+                c.lat_deg
+            );
+            if let Some(g) = c.gdop_median {
+                assert!(g >= 1.0, "GDOP {g} below the DOP floor");
+            }
+        }
+        assert_eq!(cells, lunar_gdop_map(&relays, &times, -90.0, -70.0, 3, 4, 5.0));
     }
 }
