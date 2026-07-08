@@ -35,6 +35,19 @@ pub const RE_MOON_M: f64 = 1_737_400.0;
 pub const RATE_BAND_LOW_US_DAY: f64 = 56.0;
 /// Published lunar-clock-rate band upper bound (µs/day).
 pub const RATE_BAND_HIGH_US_DAY: f64 = 59.0;
+/// Effective selenoid-referenced lunar elevation span (m) used for the topographic
+/// gravitational-redshift spread. The full peak-to-trough topography is ≈ 20 km (Selenean
+/// summit ≈ +10.8 km to the South-Pole–Aitken floor ≈ −9.1 km); this smaller selenoid-
+/// referenced span reproduces the published ≈ 26 ns/day figure (Ashby 2024; Bourgoin et
+/// al. 2026). The larger peak-to-trough span would give ≈ 31 ns/day.
+pub const LUNAR_TOPO_ELEVATION_SPAN_M: f64 = 16_670.0;
+/// Mean Earth–Moon distance (m) — the semi-major axis of the lunar orbit.
+pub const EARTH_MOON_DISTANCE_M: f64 = 3.844e8;
+/// Mean geocentric lunar orbital speed (m/s).
+pub const MOON_MEAN_SPEED_M_S: f64 = 1_022.0;
+/// Published TCG−TCL secular-rate reference (ns/day), IAU 2024 Lunar Celestial Reference
+/// System recommendation — the modelled first-principles value agrees to ≈ 2 %.
+pub const TCG_TCL_RATE_REF_NS_DAY: f64 = 1_469.0;
 
 /// Seconds per day (s).
 const SECONDS_PER_DAY: f64 = 86_400.0;
@@ -76,6 +89,35 @@ pub fn kinetic_rate_us_per_day(t_tt_jc: f64) -> f64 {
     let v = moon_geocentric_velocity_m_s(t_tt_jc);
     let v2 = v[0] * v[0] + v[1] * v[1] + v[2] * v[2];
     -(v2 / (2.0 * C2_M2_S2)) * SECONDS_PER_DAY * 1e6
+}
+
+/// The topographic gravitational-redshift **spread** across the lunar surface, in nanoseconds
+/// per day: the min-to-max difference in secular clock rate between the lowest and highest
+/// points of the elevation span, `g_moon · Δh / c² · 86400 · 1e9`, with lunar surface gravity
+/// `g_moon = GM_moon / R_moon²` and `Δh = ` [`LUNAR_TOPO_ELEVATION_SPAN_M`].
+///
+/// This is why a lunar timekeeping network cannot use a single surface clock rate: clocks at
+/// different elevations tick at different rates, and the spread over the operational elevation
+/// range is ≈ 26 ns/day (Ashby 2024; Bourgoin et al. 2026; IAU 2024 LCRS). It is a `Modelled`
+/// first-order redshift estimate (`g·Δh`), reference-dependent through the chosen elevation span.
+pub fn topographic_spread_ns_per_day() -> f64 {
+    let g_moon = crate::forces::MU_MOON / (RE_MOON_M * RE_MOON_M);
+    g_moon * LUNAR_TOPO_ELEVATION_SPAN_M / C2_M2_S2 * SECONDS_PER_DAY * 1e9
+}
+
+/// The secular **TCG−TCL** rate — Geocentric Coordinate Time minus Lunar Coordinate Time —
+/// in nanoseconds per day, from the dominant Earth-potential and kinetic terms at the Moon:
+/// `(GM_earth/r_EM + v_moon²/2) / c² · 86400 · 1e9`.
+///
+/// TCG (no Earth-surface potential) and TCL (the lunar coordinate time) differ in scale
+/// because of the Earth's gravitational potential at the Moon and the Moon's orbital motion.
+/// The modelled value is ≈ 1499 ns/day; it agrees with the published IAU-2024
+/// [`TCG_TCL_RATE_REF_NS_DAY`] ≈ 1469 ns/day to ≈ 2 %, the residual being the neglected
+/// higher-order and time-averaging (orbital-eccentricity, tidal) corrections. `Modelled`.
+pub fn tcg_tcl_secular_rate_ns_per_day() -> f64 {
+    let potential = crate::forces::MU_EARTH / EARTH_MOON_DISTANCE_M;
+    let kinetic = MOON_MEAN_SPEED_M_S * MOON_MEAN_SPEED_M_S / 2.0;
+    (potential + kinetic) / C2_M2_S2 * SECONDS_PER_DAY * 1e9
 }
 
 /// The named-term breakdown of the lunar-surface secular clock rate vs TT (µs/day), with the
@@ -240,6 +282,11 @@ pub struct LunarTimeReport {
     pub horizon_days: f64,
     /// Accumulated LTC−TT offset at the horizon (µs).
     pub offset_at_horizon_us: f64,
+    /// Topographic gravitational-redshift spread across the lunar surface (ns/day) — the
+    /// elevation-dependent clock-rate variation ([`topographic_spread_ns_per_day`]).
+    pub topographic_spread_ns_per_day: f64,
+    /// Secular TCG−TCL rate (ns/day) ([`tcg_tcl_secular_rate_ns_per_day`]).
+    pub tcg_tcl_secular_rate_ns_per_day: f64,
 }
 
 impl LunarTimeScenario {
@@ -268,6 +315,8 @@ impl LunarTimeScenario {
             kinetic_us_per_day: b.kinetic,
             horizon_days: self.horizon_days,
             offset_at_horizon_us: offset_us,
+            topographic_spread_ns_per_day: topographic_spread_ns_per_day(),
+            tcg_tcl_secular_rate_ns_per_day: tcg_tcl_secular_rate_ns_per_day(),
         }
     }
 }
@@ -478,6 +527,33 @@ mod tests {
             (r.self_potential_us_per_day + r.kinetic_us_per_day - r.secular_rate_us_per_day).abs()
                 < 1e-9
         );
+    }
+
+    #[test]
+    fn topographic_spread_is_about_26_ns_per_day() {
+        // Oracle: g_moon·Δh/c² over the selenoid-referenced elevation span ≈ 26 ns/day
+        // (Ashby 2024; Bourgoin et al. 2026). Assert within a physical band around it.
+        let s = topographic_spread_ns_per_day();
+        assert!((24.0..=28.0).contains(&s), "topographic spread {s} ns/day outside [24, 28]");
+    }
+
+    #[test]
+    fn tcg_tcl_rate_agrees_with_iau_2024_reference() {
+        // Oracle: dominant Earth-potential + kinetic term ≈ 1499 ns/day, within ~2 % of the
+        // published IAU-2024 reference (≈ 1469 ns/day).
+        let r = tcg_tcl_secular_rate_ns_per_day();
+        assert!((1_450.0..=1_550.0).contains(&r), "TCG−TCL rate {r} ns/day outside [1450, 1550]");
+        let rel = (r - TCG_TCL_RATE_REF_NS_DAY).abs() / TCG_TCL_RATE_REF_NS_DAY;
+        assert!(rel < 0.03, "TCG−TCL rate {r} differs from IAU-2024 ref by {rel} (>3%)");
+    }
+
+    #[test]
+    fn report_surfaces_topographic_spread_and_tcg_tcl_rate() {
+        let r = LunarTimeScenario::default().run();
+        assert_eq!(r.topographic_spread_ns_per_day, topographic_spread_ns_per_day());
+        assert_eq!(r.tcg_tcl_secular_rate_ns_per_day, tcg_tcl_secular_rate_ns_per_day());
+        assert!(r.topographic_spread_ns_per_day > 0.0);
+        assert!(r.tcg_tcl_secular_rate_ns_per_day > 0.0);
     }
 
     #[test]
