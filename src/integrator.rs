@@ -104,12 +104,23 @@ pub struct Solution {
     pub rejected: usize,
 }
 
-/// Integrate `y' = f(t, y)` from `t0` to `t_end` with adaptive step-doubling control,
-/// starting from step `h0`. Steps that exceed the tolerance are rejected and retried
-/// with the smaller proposed step; the final step is clipped exactly to `t_end`.
-pub fn integrate<F>(f: &F, t0: f64, y0: &[f64], t_end: f64, h0: f64, tol: &Tolerance) -> Solution
+/// Shared adaptive-integration driver behind [`integrate`] and [`integrate_dopri`]: it applies
+/// `step` (one embedded / step-doubling step returning `(y_next, error_norm, h_next)`) with
+/// accept/reject control, clipping the final step exactly to `t_end`. The loop is bounded by the
+/// finest-resolution step count; normal runs exit via `t >= t_end` — the bound only guards a
+/// pathological non-advancing run.
+fn integrate_with<F, S>(
+    f: &F,
+    t0: f64,
+    y0: &[f64],
+    t_end: f64,
+    h0: f64,
+    tol: &Tolerance,
+    step: S,
+) -> Solution
 where
     F: Fn(f64, &[f64]) -> Vec<f64>,
+    S: Fn(&F, f64, &[f64], f64, &Tolerance) -> (Vec<f64>, f64, f64),
 {
     let mut t = t0;
     let mut y = y0.to_vec();
@@ -128,7 +139,7 @@ where
         if t + h > t_end {
             h = t_end - t;
         }
-        let (y_next, err, h_next) = step_doubling(f, t, &y, h, tol);
+        let (y_next, err, h_next) = step(f, t, &y, h, tol);
         if err <= 1.0 || h <= tol.h_min {
             t += h;
             y = y_next;
@@ -145,6 +156,16 @@ where
         accepted,
         rejected,
     }
+}
+
+/// Integrate `y' = f(t, y)` from `t0` to `t_end` with adaptive step-doubling control,
+/// starting from step `h0`. Steps that exceed the tolerance are rejected and retried
+/// with the smaller proposed step; the final step is clipped exactly to `t_end`.
+pub fn integrate<F>(f: &F, t0: f64, y0: &[f64], t_end: f64, h0: f64, tol: &Tolerance) -> Solution
+where
+    F: Fn(f64, &[f64]) -> Vec<f64>,
+{
+    integrate_with(f, t0, y0, t_end, h0, tol, step_doubling)
 }
 
 /// One **Dormand–Prince RK5(4)** embedded step of size `h` from `(t, y)`. Seven stages (FSAL)
@@ -233,40 +254,7 @@ pub fn integrate_dopri<F>(
 where
     F: Fn(f64, &[f64]) -> Vec<f64>,
 {
-    let mut t = t0;
-    let mut y = y0.to_vec();
-    let mut h = h0.max(tol.h_min).min(tol.h_max);
-    let (mut accepted, mut rejected) = (0, 0);
-    // Adaptive step count is data-dependent (rejected steps retry without advancing t),
-    // so bound the loop generously by the finest-resolution step count; normal runs exit
-    // via `t >= t_end` — this only guards a pathological non-advancing run.
-    let max_steps = (((t_end - t0) / tol.h_min).ceil().max(1.0) as usize)
-        .saturating_mul(64)
-        .saturating_add(1024);
-    for _ in 0..max_steps {
-        if t >= t_end {
-            break;
-        }
-        if t + h > t_end {
-            h = t_end - t;
-        }
-        let (y_next, err, h_next) = dopri54_step(f, t, &y, h, tol);
-        if err <= 1.0 || h <= tol.h_min {
-            t += h;
-            y = y_next;
-            accepted += 1;
-            h = h_next;
-        } else {
-            rejected += 1;
-            h = h_next;
-        }
-    }
-    Solution {
-        t,
-        y,
-        accepted,
-        rejected,
-    }
+    integrate_with(f, t0, y0, t_end, h0, tol, dopri54_step)
 }
 
 #[cfg(test)]
