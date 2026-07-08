@@ -16,6 +16,7 @@
 //! [`lil_envelope`] (R4).
 
 pub mod composed_pl;
+pub mod hetero_budget;
 pub mod kir;
 pub mod lil_envelope;
 pub mod tpl_scalar;
