@@ -6,14 +6,14 @@
 //! freshness) the ONLY honest passing outcome is **absorption** — `pl ≥ offset`
 //! at every epoch — scored as [`Verdict::AbsorbedUndetectable`]. There is no
 //! "detected" verdict for such scenarios: the enum makes reporting an
-//! undetectable fault as detected structurally impossible (Mizrahi RFC 7384).
+//! undetectable fault as "detected" is structurally impossible — never emitted (Mizrahi RFC 7384).
 
 use crate::benchmark::coverage::{score, Sample, ScenarioScore};
 use crate::benchmark::faults::{Detectability, FaultScenario};
 
 /// The per-scenario outcome. Detectable scenarios get a coverage verdict;
 /// undetectable ones get an absorption verdict. No variant reports an
-/// undetectable fault as "detected".
+/// undetectable fault as "detected" — it is never emitted.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum Verdict {
     CoveragePass,
