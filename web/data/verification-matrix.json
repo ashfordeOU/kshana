@@ -2633,7 +2633,7 @@
       "oracle_kind": "InternalConsistency",
       "oracle": "Independent numpy reproduction of the cross-covariance and the correlated-vs-independent fused bias inequality (InternalConsistency). Representative source set; Modelled scenario.",
       "module": "src/integrity/hetero_budget.rs",
-      "tests": "integrity::hetero_budget::tests (correlated_fused_bias_dominates_independent_when_correlated) + tests/hetero_budget_reference.rs",
+      "tests": "integrity::hetero_budget::tests (correlated_fused_bias_dominates_independent_when_correlated, rho_one_single_realizer_recovers_linear_sum) + tests/hetero_budget_reference.rs",
       "module_links": [
         {
           "path": "src/integrity/hetero_budget.rs",
@@ -2685,7 +2685,7 @@
       "oracle_kind": "InternalConsistency",
       "oracle": "Independent numpy reproduction of the statistic + property test that a common-mode injection inflates it (InternalConsistency). Modelled scenario.",
       "module": "src/integrity/gls_commonmode.rs",
-      "tests": "integrity::gls_commonmode::tests (common_mode_shift_inflates_statistic_but_not_contrasts) + tests/gls_reference.rs",
+      "tests": "integrity::gls_commonmode::tests (common_mode_shift_inflates_statistic_but_not_contrasts, post_fit_common_mode_statistic_is_zero) + tests/gls_reference.rs",
       "module_links": [
         {
           "path": "src/integrity/gls_commonmode.rs",
@@ -2711,7 +2711,7 @@
       "oracle_kind": "InternalConsistency",
       "oracle": "Property tests over the finite/infinite detectability boundary (InternalConsistency). PROVEN blind-spot bound; no accuracy claim. Modelled.",
       "module": "src/integrity/gls_commonmode.rs",
-      "tests": "integrity::gls_commonmode::tests (separation_alone_is_blind_to_common_mode, total_blind_spot_is_infinite)",
+      "tests": "integrity::gls_commonmode::tests (separation_alone_is_blind_to_common_mode, degenerate_direction_or_non_pd_gives_no_finite_ceiling)",
       "module_links": [
         {
           "path": "src/integrity/gls_commonmode.rs",

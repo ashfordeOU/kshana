@@ -116,8 +116,10 @@ pub fn correlated_fused_bias(weights: &[f64], bias_cov: &[Vec<f64>]) -> f64 {
 /// `correlated_fused_bias` (ρ<1) and `independent_fused_bias`. The
 /// "correlated-bias-unsafe" result therefore warns against a hypothetical
 /// variance-style allocation and motivates R1's linear treatment; it does NOT
-/// claim to harden the already-conservative R1 PL. (At ρ=1 the correlated fused
-/// bias reduces to the within-realizer linear sum, matching the R1 treatment.)
+/// claim to harden the already-conservative R1 PL. (At ρ=1 *within a single
+/// realizer* the correlated fused bias reduces to that realizer's linear sum
+/// Σ wᵢ|bᵢ|; with ≥2 realizer groups R1's across-all-sources linear fusion
+/// still STRICTLY dominates the correlated form, even at ρ=1.)
 pub fn independent_fused_bias(weights: &[f64], bias_cov: &[Vec<f64>]) -> f64 {
     let s: f64 = weights
         .iter()
@@ -267,6 +269,28 @@ mod tests {
         assert!(
             (got - 4e-9).abs() < 1e-16,
             "at k_cov tail the overbound equals U"
+        );
+    }
+
+    #[test]
+    fn rho_one_single_realizer_recovers_linear_sum() {
+        // With ALL sources on ONE realizer and rho=1, Σ_b = b bᵀ (rank-1), so
+        // correlated_fused_bias = sqrt((Σ wᵢbᵢ)²) = Σ wᵢbᵢ — the linear
+        // (worst-case-aligned) sum. Multi-realizer configs do NOT reduce this
+        // way: the linear form strictly dominates there even at rho=1.
+        let b = [
+            src(4e-9, 2.0, 0.0, 7),
+            src(3e-9, 2.0, 0.0, 7),
+            src(5e-9, 2.0, 0.0, 7),
+        ];
+        let ob = [4e-9, 3e-9, 5e-9];
+        let w = [0.5, 0.3, 0.2];
+        let sigma = bias_cross_covariance(&b, &ob, 1.0);
+        let corr = correlated_fused_bias(&w, &sigma);
+        let linear: f64 = w.iter().zip(ob.iter()).map(|(wi, bi)| wi * bi).sum();
+        assert!(
+            (corr - linear).abs() < 1e-18,
+            "rho=1 single realizer must recover the linear sum: {corr} vs {linear}"
         );
     }
 }

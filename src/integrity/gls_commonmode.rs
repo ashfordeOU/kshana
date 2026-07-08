@@ -330,4 +330,31 @@ mod tests {
             );
         }
     }
+
+    #[test]
+    fn post_fit_common_mode_statistic_is_zero() {
+        // On the post-fit H=1_N GLS residual r = y − x̂·1 (x̂ the GLS estimate
+        // of the common offset), the normal equation forces 1ᵀΩ⁻¹r ≡ 0, so the
+        // common-mode statistic is identically zero: a shift shared by every
+        // source is unobservable from the fused sources alone (caveat I2).
+        let omega = vec![
+            vec![4.0, 1.5, 0.8],
+            vec![1.5, 3.0, 0.5],
+            vec![0.8, 0.5, 2.5],
+        ];
+        let y = [1.2, -0.7, 0.4];
+        let ones = [1.0, 1.0, 1.0];
+        let w1 = whiten(&omega, &ones).unwrap();
+        let wy = whiten(&omega, &y).unwrap();
+        let s1y: f64 = w1.iter().zip(&wy).map(|(a, b)| a * b).sum();
+        let s11: f64 = w1.iter().map(|a| a * a).sum();
+        let xhat = s1y / s11; // GLS estimate of the common offset
+        let r_postfit: Vec<f64> = y.iter().map(|yi| yi - xhat).collect();
+        let s = common_mode_consistency(&omega, &r_postfit).unwrap();
+        assert!(
+            s.value.abs() < 1e-12,
+            "post-fit common-mode statistic must be ~0 (I2), got {}",
+            s.value
+        );
+    }
 }
