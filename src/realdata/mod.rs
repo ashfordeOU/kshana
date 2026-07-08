@@ -35,6 +35,7 @@
 pub mod gnsslogger;
 pub mod iqif;
 pub mod jammertest;
+pub mod lola_dem;
 pub mod raim;
 pub mod rinex;
 pub mod satgrid;
