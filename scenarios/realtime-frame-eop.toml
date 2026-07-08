@@ -1,0 +1,40 @@
+# Real-time lunar frame / Earth-orientation (EOP) prediction budget.
+#
+# A lunar navigation frame realised from an Earth-based UT1/polar-motion product is only as good
+# as the PREDICTED Earth orientation available in real time: the final IERS values for a given day
+# are published weeks later, so an operational service runs on the Bulletin A prediction. This
+# scenario emits the two P4 tables (src/frame_eop.rs):
+#
+#   Table 1 (frame-error consistency): the post-processed (definitive, zero-latency) ~0.27 m frame
+#     position and the real-time (predicted, one-hour latency) ~15 m frame position, each expressed
+#     as its equivalent UT1 error via the L19 lever arm Dr = D_EM * omega_earth * dUT1 —
+#     0.27 m <-> ~0.010 ms and 15 m <-> ~0.5 ms. The metre and millisecond views are two faces of
+#     the same budget linked by the lever arm.
+#   Table 2 (UT1 prediction error vs horizon): the L18 curve read directly off the real IERS
+#     finals2000A series — the Bulletin A minus Bulletin B final floor and the multi-day
+#     persistence-predictor error — each mapped to a Moon-frame position by L19.
+#
+# It also reports the L21 root-sum-square real-time frame-error budget (EOP + ephemeris + frame-
+# realisation floor).
+#
+# Honesty: VALIDATED closed form (the L19 lever arm, omega_earth cross-checked against the CIO
+# Earth-rotation angle) and VALIDATED real data (the L18 curve off the real finals2000A rows).
+# MODELLED are the lunar-relay OD covariance magnitudes (0.27 m post-processed, ~15 m real-time at
+# one-hour latency) and the frame-realisation floor (representative allocations), and the multi-day
+# predictor is persistence, not IERS's operational Bulletin A algorithm. Not a certified real-time
+# frame product.
+kind = "realtime-frame-eop"
+
+# With no eop_finals2000a path the bundled real finals2000A_2022001 fixture is used.
+# The defaults below reproduce the representative lunar-relay OD covariance (0.27 m / ~15 m) and
+# the P4 markers; uncomment to override.
+epoch = "2022-01-01"
+horizons_days = [1, 2, 3]
+# ephemeris_pos_sigma_m = 0.27
+# ephemeris_vel_sigma_mps = 4.16609916e-3
+# latency_s = 3600.0
+# frame_realization_floor_m = 0.2
+# delta_ut1_ms = 0.5
+# delta_xp_mas = 0.0
+# delta_yp_mas = 0.0
+# eop_finals2000a = "tests/fixtures/agency/eop/finals2000A_2022001.txt"
