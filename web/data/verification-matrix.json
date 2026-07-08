@@ -4,9 +4,9 @@
   "repo_blob_base": "https://github.com/AshfordeOU/kshana/blob/main/",
   "summary": {
     "validated": 52,
-    "modelled": 54,
+    "modelled": 59,
     "partner_owned": 4,
-    "total": 110
+    "total": 115
   },
   "rows": [
     {
@@ -2595,6 +2595,127 @@
         {
           "path": "src/integrity/lil_envelope.rs",
           "url": "https://github.com/AshfordeOU/kshana/blob/main/src/integrity/lil_envelope.rs"
+        }
+      ],
+      "test_links": [],
+      "fixture": null
+    },
+    {
+      "requirement": "Heterogeneous UTC(k) traceability-bias integrity overbound",
+      "capability": "Per-source bias overbound b = (U/k_cov)·Phi^-1(1-tail/2) + ageing, inflating a published Type-B expanded uncertainty to an allocated integrity tail; bridges to tpl_scalar as bias_s",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "Independent numpy + stdlib-statistics reproduction of the overbound closed form (InternalConsistency). The BIPM Circular-T [UTC-UTC(USNO)] series is a CITED input only — it is the SAME series already Validated for the R4 holdover-coverage row and is NOT re-validated here; reproducing its values proves nothing about R2. Deep integrity tail is Modelled.",
+      "module": "src/integrity/hetero_budget.rs",
+      "tests": "integrity::hetero_budget::tests + tests/hetero_budget_reference.rs",
+      "module_links": [
+        {
+          "path": "src/integrity/hetero_budget.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/integrity/hetero_budget.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/hetero_budget_reference.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/hetero_budget_reference.rs"
+        }
+      ],
+      "fixture": {
+        "path": "tests/fixtures/hetero_budget",
+        "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fixtures/hetero_budget",
+        "notice_url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fixtures/hetero_budget/NOTICE.md"
+      }
+    },
+    {
+      "requirement": "Correlated traceability-bias cross-covariance (common-mode-unsafe allocation)",
+      "capability": "N×N bias cross-covariance with rho·b_i·b_j off-diagonals for sources sharing a UTC(k) realizer; PROVEN correlated_fused_bias >= independent_fused_bias (naive independent allocation under-bounds the fused bias -> optimistic -> unsafe)",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "Independent numpy reproduction of the cross-covariance and the correlated-vs-independent fused bias inequality (InternalConsistency). Representative source set; Modelled scenario.",
+      "module": "src/integrity/hetero_budget.rs",
+      "tests": "integrity::hetero_budget::tests (correlated_fused_bias_dominates_independent_when_correlated) + tests/hetero_budget_reference.rs",
+      "module_links": [
+        {
+          "path": "src/integrity/hetero_budget.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/integrity/hetero_budget.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/hetero_budget_reference.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/hetero_budget_reference.rs"
+        }
+      ],
+      "fixture": {
+        "path": "tests/fixtures/hetero_budget",
+        "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fixtures/hetero_budget",
+        "notice_url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fixtures/hetero_budget/NOTICE.md"
+      }
+    },
+    {
+      "requirement": "GLS common-mode whitening (Aitken) + Mahalanobis identity",
+      "capability": "Hand-rolled Cholesky Omega=LL^T and forward-substitution whitening z=L^-1 r (Cov(z)=I when Cov(r)=Omega); Mahalanobis square z^T z = r^T Omega^-1 r",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "Independent numpy Cholesky/solve reproduction of the whitened Mahalanobis square (InternalConsistency). GLS/Aitken 1935 whitening is Cited.",
+      "module": "src/integrity/gls_commonmode.rs",
+      "tests": "integrity::gls_commonmode::tests + tests/gls_reference.rs",
+      "module_links": [
+        {
+          "path": "src/integrity/gls_commonmode.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/integrity/gls_commonmode.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/gls_reference.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/gls_reference.rs"
+        }
+      ],
+      "fixture": {
+        "path": "tests/fixtures/gls",
+        "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fixtures/gls",
+        "notice_url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fixtures/gls/NOTICE.md"
+      }
+    },
+    {
+      "requirement": "Common-mode consistency statistic (separation-blind shared-reference fault)",
+      "capability": "Score statistic (1^T Omega^-1 r)^2/(1^T Omega^-1 1) ~ chi^2_1 for a common-mode shift that solution separation (contrasts orthogonal to 1) cannot see; a common-mode shift inflates it while pairwise separations stay flat",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "Independent numpy reproduction of the statistic + property test that a common-mode injection inflates it (InternalConsistency). Modelled scenario.",
+      "module": "src/integrity/gls_commonmode.rs",
+      "tests": "integrity::gls_commonmode::tests (common_mode_shift_inflates_statistic_but_not_contrasts) + tests/gls_reference.rs",
+      "module_links": [
+        {
+          "path": "src/integrity/gls_commonmode.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/integrity/gls_commonmode.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/gls_reference.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/gls_reference.rs"
+        }
+      ],
+      "fixture": {
+        "path": "tests/fixtures/gls",
+        "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fixtures/gls",
+        "notice_url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fixtures/gls/NOTICE.md"
+      }
+    },
+    {
+      "requirement": "Residual-outside-Omega undetectable common-mode bound",
+      "capability": "Irreducible undetectable common-mode error: min(alpha_ss, alpha_cm) fault magnitude escaping BOTH separation (whitened contrast norm) and the common-mode statistic (1^T Omega^-1 d); INFINITY when the fault direction lies outside the modelled Omega common axis (published honest blind spot)",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "Property tests over the finite/infinite detectability boundary (InternalConsistency). PROVEN blind-spot bound; no accuracy claim. Modelled.",
+      "module": "src/integrity/gls_commonmode.rs",
+      "tests": "integrity::gls_commonmode::tests (separation_alone_is_blind_to_common_mode, total_blind_spot_is_infinite)",
+      "module_links": [
+        {
+          "path": "src/integrity/gls_commonmode.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/integrity/gls_commonmode.rs"
         }
       ],
       "test_links": [],
