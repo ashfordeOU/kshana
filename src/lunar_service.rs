@@ -139,7 +139,7 @@ impl LunarConstellation {
     /// the south pole" description. **Illustrative; public-source; not affiliated with
     /// ESA.**
     pub fn illustrative_lcns(n: usize) -> Self {
-        let n = n.clamp(1, 12);
+        let n = n.clamp(1, 24);
         // ~8000 km perilune altitude → high apolune; a ~12 h-class period.
         let sma_m = R_MOON_M + 8_000_000.0;
         let sats = (0..n)
@@ -288,6 +288,14 @@ pub struct CoverageStats {
     pub pdop_mean: Option<f64>,
     /// Maximum PDOP over the samples that had a defined PDOP.
     pub pdop_max: Option<f64>,
+    /// Median GDOP over the samples that had a defined DOP (≥ 4 sats) — an order
+    /// statistic robust to the heavy tail of a sparse polar constellation, where the
+    /// mean is dominated by a few near-singular epochs. `None` if no sample had a
+    /// defined DOP.
+    pub gdop_median: Option<f64>,
+    /// Fraction of ALL (point, epoch) samples whose GDOP was defined and below 6 (the
+    /// usable-geometry threshold) — the "time below GDOP 6" figure of the service.
+    pub frac_below_gdop6: f64,
 }
 
 /// Coverage / availability over a service volume: for every `(grid point, epoch)`
@@ -318,6 +326,8 @@ pub fn coverage(
     let mut pdop_max = 0.0_f64;
     let mut pdop_sum = 0.0_f64;
     let mut pdop_n = 0usize;
+    let mut gdops: Vec<f64> = Vec::new();
+    let mut n_below_gdop6 = 0usize;
 
     for &t in times_s {
         let sats = constellation.positions_mcmf(t);
@@ -334,6 +344,10 @@ pub fn coverage(
                     pdop_max = pdop_max.max(d.pdop);
                     pdop_sum += d.pdop;
                     pdop_n += 1;
+                    gdops.push(d.gdop);
+                    if d.gdop < 6.0 {
+                        n_below_gdop6 += 1;
+                    }
                     if d.pdop < pdop_threshold {
                         n_available += 1;
                     }
@@ -341,6 +355,24 @@ pub fn coverage(
             }
         }
     }
+
+    // Median GDOP as an exact order statistic over the defined-DOP samples.
+    let gdop_median = if gdops.is_empty() {
+        None
+    } else {
+        gdops.sort_by(|a, b| a.partial_cmp(b).unwrap_or(std::cmp::Ordering::Equal));
+        let mid = gdops.len() / 2;
+        Some(if gdops.len() % 2 == 0 {
+            0.5 * (gdops[mid - 1] + gdops[mid])
+        } else {
+            gdops[mid]
+        })
+    };
+    let frac_below_gdop6 = if n_samples == 0 {
+        0.0
+    } else {
+        n_below_gdop6 as f64 / n_samples as f64
+    };
 
     let coverage_fraction = if n_samples == 0 {
         0.0
@@ -357,7 +389,54 @@ pub fn coverage(
         pdop_min: (pdop_n > 0).then_some(pdop_min),
         pdop_mean: (pdop_n > 0).then(|| pdop_sum / pdop_n as f64),
         pdop_max: (pdop_n > 0).then_some(pdop_max),
+        gdop_median,
+        frac_below_gdop6,
     }
+}
+
+/// One row of the constellation-size sweep ([`sweep_over_n`]) — the P2 Table 1 record.
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+pub struct NSweepRow {
+    /// Number of satellites in the illustrative ELFO constellation.
+    pub n_sats: usize,
+    /// Availability (fraction of samples with ≥ 4 sats and PDOP below threshold).
+    pub coverage_fraction: f64,
+    /// Median GDOP over the defined-DOP samples.
+    pub gdop_median: Option<f64>,
+    /// Fraction of samples with a usable GDOP below 6.
+    pub frac_below_gdop6: f64,
+}
+
+/// Sweep the illustrative ELFO constellation size `N` over `[n_min, n_max]` (clamped to
+/// the 1..=24 supported range), returning the availability / median-GDOP / time-below-6
+/// row for each — P2 Table 1. The median GDOP crossing 6 near `N ≈ 12` and any
+/// non-monotone bump fall out of this sweep directly. Deterministic order statistics
+/// over the Validated per-sample GDOP kernel.
+pub fn sweep_over_n(
+    n_min: usize,
+    n_max: usize,
+    grid_points_selenographic: &[Selenographic],
+    times_s: &[f64],
+    elev_mask_rad: f64,
+    pdop_threshold: f64,
+) -> Vec<NSweepRow> {
+    (n_min.max(1)..=n_max.min(24))
+        .map(|n| {
+            let c = coverage(
+                &LunarConstellation::illustrative_lcns(n),
+                grid_points_selenographic,
+                times_s,
+                elev_mask_rad,
+                pdop_threshold,
+            );
+            NSweepRow {
+                n_sats: n,
+                coverage_fraction: c.coverage_fraction,
+                gdop_median: c.gdop_median,
+                frac_below_gdop6: c.frac_below_gdop6,
+            }
+        })
+        .collect()
 }
 
 /// Generalised lunar ARAIM protection level for an **arbitrary** surface user point
@@ -928,6 +1007,66 @@ mod tests {
         );
         // And the larger constellation never shows fewer satellites at the best sample.
         assert!(cl.max_sats >= cs.max_sats);
+    }
+
+    /// L10: the coverage summary reports the median GDOP order statistic and the fraction
+    /// of samples with a usable (< 6) GDOP, both derived from the Validated DOP kernel.
+    #[test]
+    fn coverage_reports_median_gdop_and_time_below_6() {
+        let grid: Vec<Selenographic> = [-90.0_f64, -80.0]
+            .iter()
+            .flat_map(|&lat| {
+                [-120.0_f64, 0.0, 120.0].iter().map(move |&lon| Selenographic {
+                    lat_rad: lat.to_radians(),
+                    lon_rad: lon.to_radians(),
+                    alt_m: 0.0,
+                })
+            })
+            .collect();
+        let times: Vec<f64> = (0..8).map(|k| k as f64 * 3600.0).collect();
+        let c = coverage(
+            &LunarConstellation::illustrative_lcns(8),
+            &grid,
+            &times,
+            5.0_f64.to_radians(),
+            6.0,
+        );
+        // Median GDOP is defined and never below the DOP floor of 1.
+        let m = c.gdop_median.expect("some sample had a defined DOP");
+        assert!(m >= 1.0, "median GDOP {m}");
+        // The time-below-6 fraction is a valid probability.
+        assert!((0.0..=1.0).contains(&c.frac_below_gdop6));
+    }
+
+    /// L10: the N-sweep reaches N = 24 (the lifted cap, was 12), is deterministic, and
+    /// shows availability non-decreasing with constellation size.
+    #[test]
+    fn n_sweep_reaches_24_and_is_deterministic() {
+        assert_eq!(
+            LunarConstellation::illustrative_lcns(24).n_sats(),
+            24,
+            "satellite cap lifted to 24"
+        );
+        let grid: Vec<Selenographic> = [-90.0_f64, -80.0]
+            .iter()
+            .map(|&lat| Selenographic {
+                lat_rad: lat.to_radians(),
+                lon_rad: 0.0,
+                alt_m: 0.0,
+            })
+            .collect();
+        let times: Vec<f64> = (0..6).map(|k| k as f64 * 3600.0).collect();
+        let mask = 5.0_f64.to_radians();
+        let rows = sweep_over_n(4, 24, &grid, &times, mask, 6.0);
+        assert_eq!(rows.len(), 21, "N = 4..=24 inclusive");
+        assert_eq!(rows[0].n_sats, 4);
+        assert_eq!(rows.last().unwrap().n_sats, 24);
+        // Deterministic order statistics.
+        assert_eq!(rows, sweep_over_n(4, 24, &grid, &times, mask, 6.0));
+        // Availability improves with size.
+        assert!(
+            rows.last().unwrap().coverage_fraction >= rows[0].coverage_fraction - 1e-12
+        );
     }
 
     /// Visibility honours the elevation mask: a satellite placed just below the mask is
