@@ -57,9 +57,46 @@ pub fn parse_line(line: &str) -> Option<EopRecord> {
     })
 }
 
-/// Parse every readable Bulletin A final row from a `finals2000A` file body.
+/// Parse every readable Bulletin A row from a `finals2000A` file body.
 pub fn parse_all(body: &str) -> Vec<EopRecord> {
     body.lines().filter_map(parse_line).collect()
+}
+
+/// Column slice for the Bulletin B (final EOP 14 C04) UT1−UTC, seconds
+/// (`finals2000A` columns 155–165, 0-indexed `[154..165]`). Verified against the same
+/// real rows as the Bulletin A map above (e.g. MJD 59580: A −0.1104988, B −0.1105197).
+/// This block is filled on **final** rows and **blank on prediction-only (future) rows**,
+/// which is exactly what distinguishes the two record kinds.
+const BULLETIN_B_UT1_COLS: std::ops::Range<usize> = 154..165;
+
+/// Parse the Bulletin B (final) UT1−UTC of a `finals2000A` row, or `None` when that
+/// trailing block is blank — i.e. the row is a Bulletin A prediction-only (future) row.
+pub fn parse_bulletin_b_ut1(line: &str) -> Option<f64> {
+    line.get(BULLETIN_B_UT1_COLS)?.trim().parse::<f64>().ok()
+}
+
+/// True when a row carries a Bulletin A value but **no** Bulletin B final value — a
+/// prediction-only (future) row (the `P`-flagged / blank-final section of Bulletin A).
+pub fn is_prediction_row(line: &str) -> bool {
+    parse_line(line).is_some() && parse_bulletin_b_ut1(line).is_none()
+}
+
+/// Parse a Bulletin A **prediction-only** row (future date, blank Bulletin B final
+/// section) into an [`EopRecord`] holding the *predicted* UT1 / polar-motion. Returns
+/// `None` for a final row (those carry a Bulletin B value, and are served unchanged by
+/// [`parse_line`]) and for unreadable rows. This is the prediction-record path that lets
+/// a real-time consumer read the future rows the file also publishes, without disturbing
+/// the existing final-row parsing.
+pub fn parse_predicted(line: &str) -> Option<EopRecord> {
+    if parse_bulletin_b_ut1(line).is_some() {
+        return None; // final row — handled by parse_line
+    }
+    parse_line(line)
+}
+
+/// Parse every Bulletin A **prediction-only** row from a `finals2000A` file body.
+pub fn parse_all_predicted(body: &str) -> Vec<EopRecord> {
+    body.lines().filter_map(parse_predicted).collect()
 }
 
 /// A time-ordered IERS Earth-orientation series, queried by epoch for the CIO frame
@@ -206,5 +243,44 @@ mod tests {
     fn rejects_a_short_or_blank_line() {
         assert!(parse_line("").is_none());
         assert!(parse_line("too short").is_none());
+    }
+
+    // A Bulletin A prediction-only row: same fixed layout as the real rows above with
+    // the `P` flags and a BLANK Bulletin B final section (columns [134..]). The Bulletin
+    // A predicted fields sit in the identical columns parse_line reads, so this is a
+    // pure column-layout check of the prediction path — not a data-accuracy claim.
+    const PRED_ROW: &str = "22 1 4 59583.00 P  0.052400 0.010000  0.280100 0.010000  P-0.1097500 0.0100000 -0.3000 0.0000  P                                                                                          ";
+
+    #[test]
+    fn final_row_is_not_a_prediction_and_carries_bulletin_b() {
+        // A real final row: Bulletin B present, so it is NOT a prediction row.
+        assert!(!is_prediction_row(ROW_59580));
+        assert!(parse_predicted(ROW_59580).is_none());
+        let b = parse_bulletin_b_ut1(ROW_59580).expect("final row has Bulletin B UT1");
+        assert!((b - (-0.1105197)).abs() < 1e-12);
+    }
+
+    #[test]
+    fn prediction_row_parses_bulletin_a_and_has_no_final() {
+        assert!(is_prediction_row(PRED_ROW));
+        assert!(parse_bulletin_b_ut1(PRED_ROW).is_none());
+        // parse_predicted reads the SAME Bulletin A columns as parse_line.
+        let p = parse_predicted(PRED_ROW).expect("prediction row parses");
+        let l = parse_line(PRED_ROW).expect("parse_line also reads the Bulletin A fields");
+        assert_eq!(p, l);
+        assert_eq!(p.mjd, 59583.0);
+        assert!((p.ut1_utc_s - (-0.1097500)).abs() < 1e-12);
+        assert!((p.xp_arcsec - 0.052400).abs() < 1e-12);
+        assert!((p.yp_arcsec - 0.280100).abs() < 1e-12);
+    }
+
+    #[test]
+    fn parse_all_predicted_selects_only_the_future_rows() {
+        let mixed = format!("{ROW_59579}\n{ROW_59580}\n{PRED_ROW}\n");
+        let preds = parse_all_predicted(&mixed);
+        assert_eq!(preds.len(), 1);
+        assert_eq!(preds[0].mjd, 59583.0);
+        // parse_all still returns every readable row (finals + prediction).
+        assert_eq!(parse_all(&mixed).len(), 3);
     }
 }
