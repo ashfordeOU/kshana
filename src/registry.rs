@@ -84,6 +84,8 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         AttitudeBudget,
         Passes,
         LinkBudget,
+        LunarTimeBudget,
+        RealtimeFrameEop,
     ]
 };
 
@@ -141,6 +143,8 @@ pub mod ids {
     pub const ATTITUDE_BUDGET: ScenarioId = ScenarioId::from_static("attitude-budget");
     pub const PASSES: ScenarioId = ScenarioId::from_static("passes");
     pub const LINK_BUDGET: ScenarioId = ScenarioId::from_static("link-budget");
+    pub const LUNAR_TIME_BUDGET: ScenarioId = ScenarioId::from_static("lunar-time-budget");
+    pub const REALTIME_FRAME_EOP: ScenarioId = ScenarioId::from_static("realtime-frame-eop");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {

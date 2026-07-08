@@ -1,0 +1,8 @@
+# realtime-frame-eop golden — P4 Table 1 (frame-error consistency, lever arm L19) + Table 2 (UT1 prediction error vs horizon, L18 over finals2000A, mapped to Moon by L19)
+section,label,n,ut1_ms,ut1_p50_ms,ut1_p95_ms,position_m,light_time_ns
+table1,post-processed,,0.009632,,,0.270000,0.900623
+table1,real-time,,0.535138,,,15.000387,50.035906
+table2,final,5,0.021171,0.017600,0.035100,0.593442,1.979511
+table2,day-1,4,0.221878,0.130600,0.332600,6.219436,20.745805
+table2,day-2,3,0.326700,0.379900,0.416800,9.157700,30.546798
+table2,day-3,2,0.290989,0.286200,0.295700,8.156674,27.207737
