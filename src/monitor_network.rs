@@ -140,8 +140,8 @@ pub fn great_circle_distance_m(
 ) -> f64 {
     let dlat = lat2_rad - lat1_rad;
     let dlon = lon2_rad - lon1_rad;
-    let a = (dlat * 0.5).sin().powi(2)
-        + lat1_rad.cos() * lat2_rad.cos() * (dlon * 0.5).sin().powi(2);
+    let a =
+        (dlat * 0.5).sin().powi(2) + lat1_rad.cos() * lat2_rad.cos() * (dlon * 0.5).sin().powi(2);
     let a = a.clamp(0.0, 1.0);
     let c = 2.0 * a.sqrt().atan2((1.0 - a).sqrt());
     body_radius_m * c

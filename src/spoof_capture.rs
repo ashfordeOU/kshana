@@ -406,9 +406,8 @@ pub fn run_capture(
         && err_spoof_last.abs() < cfg.capture_tol_chips;
 
     // Carrier error relative to whichever signal the loop settled on.
-    let settled_carrier = cfg.if_hz
-        + cfg.auth_doppler_hz
-        + if captured { carrier_offset_hz } else { 0.0 };
+    let settled_carrier =
+        cfg.if_hz + cfg.auth_doppler_hz + if captured { carrier_offset_hz } else { 0.0 };
     let final_carrier_err_hz = trace.carrier_freq[last] - settled_carrier;
 
     // Lock time: the first epoch after which the loop stays within tolerance of its final
@@ -517,7 +516,17 @@ mod tests {
         let doppler = 800.0;
         let n_epochs = 20;
         let n = (fs / 1000.0) as usize * n_epochs;
-        let iq = synth_if(&code, fs, if_hz + doppler, CA_CHIP_RATE_HZ, 123.0, 1.0, n, 0.0, 7);
+        let iq = synth_if(
+            &code,
+            fs,
+            if_hz + doppler,
+            CA_CHIP_RATE_HZ,
+            123.0,
+            1.0,
+            n,
+            0.0,
+            7,
+        );
         let acq = Acquisition {
             prn: 10,
             code_phase_chips: 123.0,
@@ -660,8 +669,10 @@ mod tests {
     /// clear in-range capture, showing the model is not brittle to a thermal floor.
     #[test]
     fn deterministic_under_thermal_noise() {
-        let mut cfg = CaptureConfig::default();
-        cfg.noise_std = 0.05;
+        let cfg = CaptureConfig {
+            noise_std: 0.05,
+            ..CaptureConfig::default()
+        };
         let a = run_capture(&cfg, 6.0, 0.3, 0.0);
         let b = run_capture(&cfg, 6.0, 0.3, 0.0);
         assert_eq!(a.captured, b.captured);

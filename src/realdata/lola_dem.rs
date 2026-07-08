@@ -74,15 +74,13 @@ impl DemTile {
         let fi = if self.n_lat <= 1 {
             0.0
         } else {
-            ((lat_deg - self.lat_min_deg) / (self.lat_max_deg - self.lat_min_deg))
-                .clamp(0.0, 1.0)
+            ((lat_deg - self.lat_min_deg) / (self.lat_max_deg - self.lat_min_deg)).clamp(0.0, 1.0)
                 * ((self.n_lat - 1) as f64)
         };
         let fj = if self.n_lon <= 1 {
             0.0
         } else {
-            ((lon_deg - self.lon_min_deg) / (self.lon_max_deg - self.lon_min_deg))
-                .clamp(0.0, 1.0)
+            ((lon_deg - self.lon_min_deg) / (self.lon_max_deg - self.lon_min_deg)).clamp(0.0, 1.0)
                 * ((self.n_lon - 1) as f64)
         };
         let i0 = fi.floor() as usize;
@@ -111,8 +109,14 @@ impl DemTile {
             .lines()
             .filter(|l| !l.trim_start().starts_with('#'))
             .flat_map(|l| l.split_whitespace())
-            .map(|t| t.parse::<f64>().map_err(|e| format!("bad number '{t}': {e}")));
-        let mut next = || nums.next().ok_or_else(|| "unexpected end of DEM".to_string())?;
+            .map(|t| {
+                t.parse::<f64>()
+                    .map_err(|e| format!("bad number '{t}': {e}"))
+            });
+        let mut next = || {
+            nums.next()
+                .ok_or_else(|| "unexpected end of DEM".to_string())?
+        };
         let lat_min_deg = next()?;
         let lat_max_deg = next()?;
         let lon_min_deg = next()?;
@@ -173,7 +177,7 @@ impl DemTile {
                 let lon = lon_min + (lon_max - lon_min) * (j as f64) / ((n_lon - 1) as f64);
                 // Colatitude (deg from the pole) drives a rim at ~5 deg and a basin inside.
                 let colat = 90.0 + lat; // 0 at the pole, 10 at -80
-                // Rim: a Gaussian ridge centred at colat 5 deg, ~2500 m high.
+                                        // Rim: a Gaussian ridge centred at colat 5 deg, ~2500 m high.
                 let rim = 2500.0 * (-((colat - 5.0).powi(2)) / (2.0 * 1.5_f64.powi(2))).exp();
                 // Basin: a broad depression near the pole, down to ~-1200 m.
                 let basin = -1200.0 * (-(colat.powi(2)) / (2.0 * 3.0_f64.powi(2))).exp();
@@ -229,7 +233,11 @@ mod tests {
         let lat = lat_deg.to_radians();
         let lon = lon_deg.to_radians();
         let r = R_MOON_M + height_m;
-        [r * lat.cos() * lon.cos(), r * lat.cos() * lon.sin(), r * lat.sin()]
+        [
+            r * lat.cos() * lon.cos(),
+            r * lat.cos() * lon.sin(),
+            r * lat.sin(),
+        ]
     }
 
     #[test]
@@ -273,7 +281,7 @@ mod tests {
         // Two users at 2 m height, 6 km apart across a 3000 m ridge in the middle.
         let a = site(-85.0, 0.0, 2.0);
         let b = site(-85.0, 0.2, 2.0); // ~6 km east along the surface
-        // Ridge tile spanning the pair, with a 3000 m wall at the midpoint longitude.
+                                       // Ridge tile spanning the pair, with a 3000 m wall at the midpoint longitude.
         let wall = DemTile {
             lat_min_deg: -86.0,
             lat_max_deg: -84.0,
@@ -310,6 +318,9 @@ mod tests {
         let dem = DemTile::representative_south_polar();
         let rim = dem.height_at(-85.0, 0.0); // colat 5
         let basin = dem.height_at(-90.0, 0.0); // colat 0
-        assert!(rim > basin + 1000.0, "rim {rim} should top the basin {basin}");
+        assert!(
+            rim > basin + 1000.0,
+            "rim {rim} should top the basin {basin}"
+        );
     }
 }

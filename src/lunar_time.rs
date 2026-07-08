@@ -534,7 +534,10 @@ mod tests {
         // Oracle: g_moon·Δh/c² over the selenoid-referenced elevation span ≈ 26 ns/day
         // (Ashby 2024; Bourgoin et al. 2026). Assert within a physical band around it.
         let s = topographic_spread_ns_per_day();
-        assert!((24.0..=28.0).contains(&s), "topographic spread {s} ns/day outside [24, 28]");
+        assert!(
+            (24.0..=28.0).contains(&s),
+            "topographic spread {s} ns/day outside [24, 28]"
+        );
     }
 
     #[test]
@@ -542,16 +545,28 @@ mod tests {
         // Oracle: dominant Earth-potential + kinetic term ≈ 1499 ns/day, within ~2 % of the
         // published IAU-2024 reference (≈ 1469 ns/day).
         let r = tcg_tcl_secular_rate_ns_per_day();
-        assert!((1_450.0..=1_550.0).contains(&r), "TCG−TCL rate {r} ns/day outside [1450, 1550]");
+        assert!(
+            (1_450.0..=1_550.0).contains(&r),
+            "TCG−TCL rate {r} ns/day outside [1450, 1550]"
+        );
         let rel = (r - TCG_TCL_RATE_REF_NS_DAY).abs() / TCG_TCL_RATE_REF_NS_DAY;
-        assert!(rel < 0.03, "TCG−TCL rate {r} differs from IAU-2024 ref by {rel} (>3%)");
+        assert!(
+            rel < 0.03,
+            "TCG−TCL rate {r} differs from IAU-2024 ref by {rel} (>3%)"
+        );
     }
 
     #[test]
     fn report_surfaces_topographic_spread_and_tcg_tcl_rate() {
         let r = LunarTimeScenario::default().run();
-        assert_eq!(r.topographic_spread_ns_per_day, topographic_spread_ns_per_day());
-        assert_eq!(r.tcg_tcl_secular_rate_ns_per_day, tcg_tcl_secular_rate_ns_per_day());
+        assert_eq!(
+            r.topographic_spread_ns_per_day,
+            topographic_spread_ns_per_day()
+        );
+        assert_eq!(
+            r.tcg_tcl_secular_rate_ns_per_day,
+            tcg_tcl_secular_rate_ns_per_day()
+        );
         assert!(r.topographic_spread_ns_per_day > 0.0);
         assert!(r.tcg_tcl_secular_rate_ns_per_day > 0.0);
     }

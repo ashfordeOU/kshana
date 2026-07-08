@@ -206,7 +206,12 @@ pub fn walk_is_detectable(
 /// [`min_detectable_position_walk`].
 pub fn min_detectable_clock_walk_rate_ss(inp: &TplInputs) -> f64 {
     let floor_s = crate::security::min_detectable_offset_ns(
-        inp.q_wf, inp.q_rw, inp.r, inp.tau, inp.samples, inp.k,
+        inp.q_wf,
+        inp.q_rw,
+        inp.r,
+        inp.tau,
+        inp.samples,
+        inp.k,
     ) * 1e-9;
     floor_s / inp.detection_latency_s.max(f64::MIN_POSITIVE)
 }
@@ -376,8 +381,8 @@ mod tests {
             k: 5.0,
             detection_latency_s: 60.0,
         };
-        let floor_s = min_detectable_offset_ns(inp.q_wf, inp.q_rw, inp.r, inp.tau, inp.samples, inp.k)
-            * 1e-9;
+        let floor_s =
+            min_detectable_offset_ns(inp.q_wf, inp.q_rw, inp.r, inp.tau, inp.samples, inp.k) * 1e-9;
         let expected = floor_s / inp.detection_latency_s;
         assert!((min_detectable_clock_walk_rate_ss(&inp) - expected).abs() < 1e-30);
         // Positive and finite for a real monitor.
@@ -412,7 +417,9 @@ mod tests {
             detection_latency_s: 600.0,
             ..base
         };
-        assert!(min_detectable_clock_walk_rate_ss(&slower) < min_detectable_clock_walk_rate_ss(&base));
+        assert!(
+            min_detectable_clock_walk_rate_ss(&slower) < min_detectable_clock_walk_rate_ss(&base)
+        );
     }
 
     #[test]
