@@ -8,7 +8,12 @@ fn read_all(rel: &[&str]) -> String {
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let mut s = String::new();
     for r in rel {
-        s.push_str(&fs::read_to_string(root.join(r)).unwrap_or_default());
+        // Fail loudly on a missing/renamed source — a silently-empty read would
+        // let the forbidden-phrase scans pass vacuously (a disabled honesty gate).
+        let body = fs::read_to_string(root.join(r)).unwrap_or_else(|e| {
+            panic!("honesty gate: benchmark source `{r}` is unreadable ({e}); a moved or renamed file must fail the gate, not silently skip it")
+        });
+        s.push_str(&body);
         s.push('\n');
     }
     s
