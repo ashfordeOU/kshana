@@ -21,6 +21,41 @@
 //! ranges over, so the reported spread is the honest reflection of that modelling
 //! uncertainty.
 
+use serde::Deserialize;
+
+/// The four named threat vectors of the P7 §4.2 graceful-degradation breakdown, in a
+/// fixed order (jamming, spoofing, kinetic, cyber). The aggregate
+/// [`ThreatParam::vector_weight`] couples a layer to the *shared RF* denial vector used by
+/// the headline resilience-ratio story; this decomposition resolves the threat into the
+/// four distinct vectors so a per-vector usable-PNT survival curve can be reported for each.
+pub const THREAT_VECTORS: [&str; 4] = ["jamming", "spoofing", "kinetic", "cyber"];
+
+/// Per-vector denial susceptibility of a layer, each component in `[0, 1]`. Under threat
+/// **vector `v` acting alone** at intensity `x`, the layer is denied with probability
+/// `clamp(susceptibility_v · x, 0, 1)` (see
+/// [`crate::conflict_resilience::per_vector_deny`]). Kept as absolute per-vector denial
+/// sensitivities — deliberately *not* multiplied by the aggregate RF `vulnerability` — so
+/// the §4.2 per-vector survival breakdown is a clean, independently oracle-checkable
+/// decomposition rather than a re-scaling of the headline RF story.
+#[derive(Clone, Copy, Debug, PartialEq, Deserialize)]
+pub struct VectorProfile {
+    /// Susceptibility to RF **jamming** (broadband power denial), in `[0, 1]`.
+    pub jamming: f64,
+    /// Susceptibility to **spoofing** (counterfeit-signal capture), in `[0, 1]`.
+    pub spoofing: f64,
+    /// Susceptibility to a **kinetic** strike on the layer's physical assets, in `[0, 1]`.
+    pub kinetic: f64,
+    /// Susceptibility to a **cyber** attack on the layer's control / network, in `[0, 1]`.
+    pub cyber: f64,
+}
+
+impl VectorProfile {
+    /// The susceptibilities in [`THREAT_VECTORS`] order.
+    pub fn as_array(&self) -> [f64; 4] {
+        [self.jamming, self.spoofing, self.kinetic, self.cyber]
+    }
+}
+
 /// A cited per-layer threat-parameter prior. All numbers are `Modelled` inputs with the
 /// [`ThreatParam::citation`] provenance string; the `min`/`nominal`/`max` vulnerability
 /// triple is the prior range the sensitivity sweep explores.
@@ -40,6 +75,10 @@ pub struct ThreatParam {
     pub vulnerability_max: f64,
     /// Coupling weight of this layer to the shared threat vector, in `[0, 1]`.
     pub vector_weight: f64,
+    /// Per-vector denial susceptibility (jamming / spoofing / kinetic / cyber) driving the
+    /// §4.2 graceful-degradation survival curves. `Modelled` allocation informed by the
+    /// same [`ThreatParam::citation`] sources.
+    pub vector_profile: VectorProfile,
     /// Provenance for the priors — an open, citable source. `Modelled`, not `Validated`.
     pub citation: &'static str,
 }
@@ -58,6 +97,15 @@ pub fn threat_catalog() -> Vec<ThreatParam> {
             vulnerability_nominal: 0.90,
             vulnerability_max: 0.98,
             vector_weight: 0.58,
+            // Jam-fragile (denied at the lowest power), spoofable (no message auth); the
+            // GNSS space segment is hard to strike kinetically and the open signal exposes
+            // little cyber surface at the user.
+            vector_profile: VectorProfile {
+                jamming: 0.98,
+                spoofing: 0.85,
+                kinetic: 0.12,
+                cyber: 0.18,
+            },
             citation: "JammerTest 2024 field campaign, Bleik/Andoya, Norway (Zenodo DOI \
                 10.5281/zenodo.15910563, GPL-3.0; vendored in crate::realdata::jammertest): \
                 L1 C/A loses lock at the lowest jammer power of any tracked signal. \
@@ -73,6 +121,14 @@ pub fn threat_catalog() -> Vec<ThreatParam> {
             vulnerability_nominal: 0.85,
             vulnerability_max: 0.95,
             vector_weight: 0.60,
+            // Wideband ⇒ more jam-resistant than L1 C/A but still RF-denied; comparable
+            // spoof/kinetic/cyber posture.
+            vector_profile: VectorProfile {
+                jamming: 0.90,
+                spoofing: 0.80,
+                kinetic: 0.12,
+                cyber: 0.18,
+            },
             citation: "JammerTest 2024 (Zenodo DOI 10.5281/zenodo.15910563): the wideband \
                 L5/E5 signal is more jam-resistant than L1 C/A yet is still denied at \
                 moderate jammer-to-signal ratios, and shares the same RF band as the \
@@ -86,6 +142,14 @@ pub fn threat_catalog() -> Vec<ThreatParam> {
             vulnerability_nominal: 0.88,
             vulnerability_max: 0.96,
             vector_weight: 0.59,
+            // OSNMA authentication sharply lowers the spoofing susceptibility while the
+            // shared RF band leaves the jamming susceptibility high.
+            vector_profile: VectorProfile {
+                jamming: 0.92,
+                spoofing: 0.40,
+                kinetic: 0.12,
+                cyber: 0.22,
+            },
             citation: "TEXBAT — the Texas Spoofing Test Battery (Humphreys et al., \
                 University of Texas Radionavigation Laboratory, 2012): recorded live-sky \
                 spoofing scenarios. Galileo OSNMA (navigation-message authentication) \
@@ -100,6 +164,14 @@ pub fn threat_catalog() -> Vec<ThreatParam> {
             vulnerability_nominal: 0.86,
             vulnerability_max: 0.95,
             vector_weight: 0.60,
+            // Rides the L1/L5 RF band (jam-fragile) and, being a networked augmentation
+            // service, carries a materially larger cyber and ground-segment kinetic surface.
+            vector_profile: VectorProfile {
+                jamming: 0.90,
+                spoofing: 0.68,
+                kinetic: 0.28,
+                cyber: 0.55,
+            },
             citation: "RTCA DO-229 (SBAS Minimum Operational Performance Standards) \
                 nominal accuracy; an SBAS relay rides the same L1/L5 RF band, so it \
                 shares the jamming vector documented by JammerTest 2024 and EASA SIB \
@@ -113,6 +185,14 @@ pub fn threat_catalog() -> Vec<ThreatParam> {
             vulnerability_nominal: 0.03,
             vulnerability_max: 0.10,
             vector_weight: 0.10,
+            // Immune to RF jamming/spoofing (self-contained); residual kinetic exposure is
+            // mechanical shock/upset, residual cyber exposure is onboard firmware only.
+            vector_profile: VectorProfile {
+                jamming: 0.00,
+                spoofing: 0.00,
+                kinetic: 0.20,
+                cyber: 0.10,
+            },
             citation: "Alt-PNT diversity layer: an inertial system is immune to the \
                 RF-denial vector (residual vulnerability = mechanical shock / upset only), \
                 per the DHS/CISA Resilient PNT Conformance Framework v2.0 diversity \
@@ -127,6 +207,14 @@ pub fn threat_catalog() -> Vec<ThreatParam> {
             vulnerability_nominal: 0.25,
             vulnerability_max: 0.45,
             vector_weight: 0.30,
+            // Shares only a partial RF vector with terrestrial GNSS; as a physical relay on
+            // a network it carries the largest kinetic and cyber surface of the catalog.
+            vector_profile: VectorProfile {
+                jamming: 0.40,
+                spoofing: 0.35,
+                kinetic: 0.50,
+                cyber: 0.50,
+            },
             citation: "LunaNet Interoperability Specification (NASA/ESA) and the IOAG \
                 Lunar Communications Architecture: an augmentation / relay PNT layer that \
                 shares only a partial RF vector with terrestrial GNSS. Magnitudes \
@@ -179,7 +267,51 @@ mod tests {
                 "{}: every prior must carry a provenance citation",
                 p.layer
             );
+            for (name, s) in THREAT_VECTORS.iter().zip(p.vector_profile.as_array()) {
+                assert!(
+                    (0.0..=1.0).contains(&s),
+                    "{}: {name} susceptibility {s} out of range",
+                    p.layer
+                );
+            }
         }
+    }
+
+    #[test]
+    fn baseline_layers_are_jamming_dominant() {
+        // The §4.2 qualitative claim: for the correlated-RF baseline, jamming is the
+        // sharpest vector — every baseline layer is at least as jam-susceptible as it is
+        // susceptible to any other vector, and the mean jamming susceptibility dominates.
+        let base = conflict_baseline();
+        let mean = |f: fn(&VectorProfile) -> f64| {
+            base.iter().map(|p| f(&p.vector_profile)).sum::<f64>() / base.len() as f64
+        };
+        let jam = mean(|v| v.jamming);
+        assert!(jam > mean(|v| v.spoofing), "jam must dominate spoofing");
+        assert!(jam > mean(|v| v.kinetic), "jam must dominate kinetic");
+        assert!(jam > mean(|v| v.cyber), "jam must dominate cyber");
+        for p in &base {
+            let prof = p.vector_profile;
+            assert!(
+                prof.jamming >= prof.spoofing
+                    && prof.jamming >= prof.kinetic
+                    && prof.jamming >= prof.cyber,
+                "{}: jamming must be the peak susceptibility",
+                p.layer
+            );
+        }
+    }
+
+    #[test]
+    fn inertial_is_rf_immune() {
+        // The diversity layer must be immune to the RF vectors (jam+spoof = 0) so it can
+        // carry PNT through a jamming campaign — the whole point of alt-PNT diversity.
+        let inertial = threat_catalog()
+            .into_iter()
+            .find(|p| p.layer.contains("Inertial"))
+            .expect("inertial layer present");
+        assert_eq!(inertial.vector_profile.jamming, 0.0);
+        assert_eq!(inertial.vector_profile.spoofing, 0.0);
     }
 
     #[test]

@@ -6,14 +6,20 @@
 #   * total-loss probability vs threat intensity (Monte-Carlo vs the closed-form
 #     independent product it converges to),
 #   * the ~7x layered-vs-single-layer resilience ratio under the independence
-#     assumption, and
+#     assumption,
 #   * how that ~7x collapses toward 1 as the denial correlation rises (a one-factor
-#     Gaussian copula) — correlation defeats layering.
+#     Gaussian copula) — correlation defeats layering, and
+#   * a §4.2 per-vector usable-PNT survival breakdown: for each named threat vector
+#     (jamming/spoofing/kinetic/cyber) acting alone, the graceful-degradation curve
+#     S_v(x) = 1 - Prod_i (1 - a_i*(1 - clamp(susceptibility_i,v * x, 0, 1))). Jamming
+#     is the sharpest vector for this correlated-RF stack.
 #
 # Every per-layer magnitude is a MODELLED input with provenance; see
-# src/conflict_threat_params.rs for the sourced [min, nominal, max] priors
-# (JammerTest 2024, TEXBAT, EASA SIB 2022-02, RTCA DO-229). Leaving `layers` out runs
-# the same sourced four-layer baseline; it is written out here for transparency.
+# src/conflict_threat_params.rs for the sourced [min, nominal, max] priors and the
+# per-vector susceptibility profiles (JammerTest 2024, TEXBAT, EASA SIB 2022-02,
+# RTCA DO-229, LunaNet/IOAG). Leaving `layers` out runs the same sourced four-layer
+# baseline; it is written out here — including each layer's vector_profile — for
+# transparency.
 
 kind = "conflict-resilience"
 trials = 4000
@@ -34,6 +40,12 @@ availability = 0.99
 sigma_m = 4.0
 vulnerability = 0.90
 vector_weight = 0.58
+# Denied at the lowest jammer power of any tracked signal; unauthenticated ⇒ spoofable.
+[layers.vector_profile]
+jamming = 0.98
+spoofing = 0.85
+kinetic = 0.12
+cyber = 0.18
 
 [[layers]]
 name = "GNSS L5 / E5a (wideband)"
@@ -41,6 +53,12 @@ availability = 0.97
 sigma_m = 3.0
 vulnerability = 0.85
 vector_weight = 0.60
+# Wideband ⇒ more jam-resistant than L1 C/A but still RF-denied.
+[layers.vector_profile]
+jamming = 0.90
+spoofing = 0.80
+kinetic = 0.12
+cyber = 0.18
 
 [[layers]]
 name = "Galileo E1 OS + OSNMA"
@@ -48,6 +66,12 @@ availability = 0.98
 sigma_m = 4.0
 vulnerability = 0.88
 vector_weight = 0.59
+# OSNMA authentication sharply lowers spoofing susceptibility; shared band keeps jamming high.
+[layers.vector_profile]
+jamming = 0.92
+spoofing = 0.40
+kinetic = 0.12
+cyber = 0.22
 
 [[layers]]
 name = "SBAS / augmentation (WAAS/EGNOS-class)"
@@ -55,3 +79,10 @@ availability = 0.96
 sigma_m = 3.0
 vulnerability = 0.86
 vector_weight = 0.60
+# Rides the L1/L5 band (jam-fragile) and, as a networked augmentation service, carries a
+# larger cyber and ground-segment kinetic surface.
+[layers.vector_profile]
+jamming = 0.90
+spoofing = 0.68
+kinetic = 0.28
+cyber = 0.55
