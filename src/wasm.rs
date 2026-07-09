@@ -71,3 +71,26 @@ pub fn encode_permalink(toml: &str) -> String {
 pub fn decode_permalink(token: &str) -> String {
     crate::permalink::decode_scenario(token).unwrap_or_default()
 }
+
+/// Export a propagated constellation scenario as an **SP3-c** precise-ephemeris string
+/// (the same artifact the CLI `--export-sp3` flag writes). Pure client-side; nothing is
+/// uploaded. Throws a JS error if the scenario cannot produce an SP3 (e.g. a non-orbit kind).
+#[wasm_bindgen]
+pub fn export_sp3(toml: &str) -> Result<String, JsValue> {
+    crate::api::export_sp3(toml).map_err(|e| JsValue::from_str(&e))
+}
+
+/// Export a constellation's mean elements as a **CCSDS OMM** catalogue string (one OMM
+/// message per TLE-defined satellite; the CLI `--export-omm` artifact). Pure client-side.
+#[wasm_bindgen]
+pub fn export_omm(toml: &str) -> Result<String, JsValue> {
+    crate::api::export_omm(toml).map_err(|e| JsValue::from_str(&e))
+}
+
+/// Export the velocity-carrying state as a **CCSDS OEM 2.0** ephemeris string for
+/// flight-dynamics tools (GMAT / Orekit / STK; the CLI `--export-oem` artifact). Pure
+/// client-side.
+#[wasm_bindgen]
+pub fn export_oem(toml: &str) -> Result<String, JsValue> {
+    crate::api::export_oem(toml).map_err(|e| JsValue::from_str(&e))
+}

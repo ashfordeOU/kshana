@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-import init, { run, summary, chart_svg, version } from "./pkg/kshana.js";
+import init, { run, summary, chart_svg, version, export_sp3, export_omm, export_oem } from "./pkg/kshana.js";
 import { encodeFragment, decodeFragment, patchScalar } from "./share.mjs";
 import { chartFilename, svgSize, svgBlob, triggerDownload, svgToPngBlob } from "./chartdl.mjs";
 import { attachChartHover, parsePolylineXs } from "./hover.mjs";
@@ -75,6 +75,55 @@ const SCENARIOS = [
     "Lunar integrity", "Does a sparse lunar relay set meet the integrity limits for an Artemis-region receiver?"],
   ["gnss-sim-raim.toml", "GNSS measurements — pseudorange, ionosphere & troposphere → RAIM",
     "GNSS measurements", "How do the ionosphere and troposphere shape raw pseudoranges, and does RAIM still protect?"],
+  // Resilience & security
+  ["jamming-demo.toml", "Jamming — link-budget J/S → loss of lock",
+    "Jamming", "At what jammer-to-signal ratio does the receiver lose lock?"],
+  ["spoof-detect.toml", "Multi-layer spoof detection — fused RAIM + AGC + SQM monitor",
+    "Multi-layer spoof detect", "Can a fused RF + measurement monitor catch a coordinated spoof?"],
+  ["conflict-resilience.toml", "Conflict resilience — layered-PNT Monte-Carlo + per-vector survival (modelled)",
+    "Conflict resilience", "How does a layered PNT architecture degrade under jamming / spoofing / kinetic / cyber threats? (modelled)"],
+  // Alt-PNT (GPS-denied)
+  ["terrain-nav.toml", "Terrain-referenced nav — TERCOM/SITAN batch match",
+    "Terrain nav", "Can an altimeter fix INS drift by matching a terrain elevation profile?"],
+  ["combined-altpnt.toml", "Combined alt-PNT — gravity + magnetic + terrain fusion",
+    "Combined alt-PNT", "What does fusing three scalar map channels buy over any one alone?"],
+  // Trade-study sweeps
+  ["sweep-clock-stability.toml", "Trade sweep — 1-D clock-stability vs holdover",
+    "Parameter sweep", "How does holdover change as one clock parameter is swept?"],
+  ["sweep-nd-inertial.toml", "N-D trade sweep — any pack, any parameters",
+    "N-D sweep", "How does a figure of merit vary across a multi-parameter grid?"],
+  // Quantum-enabled PNT demonstrator
+  ["quantum-time-transfer.toml", "Quantum time transfer — optical-clock + entanglement link (modelled)",
+    "Quantum time transfer", "What does trusted quantum timing buy over a classical CSAC + RF chain? (modelled)"],
+  ["quantum-gnss-free-nav.toml", "Quantum GNSS-free nav — cold-atom inertial coast (modelled)",
+    "Quantum GNSS-free nav", "How far does a cold-atom navigator coast vs a nav-grade INS with no GNSS? (modelled)"],
+  ["quantum-anomaly-detect.toml", "Quantum anomaly detection — fault ROC / AUC (modelled)",
+    "Quantum anomaly detect", "How well are quantum-system faults detected at a fixed false-alarm rate? (modelled)"],
+  // Optical/RF hybrid & cislunar
+  ["hybrid-optical-rf.toml", "Optical/RF hybrid — cross-domain continuity & integrity (modelled)",
+    "Optical/RF hybrid", "What continuity and integrity does combining optical and RF PNT buy? (modelled)"],
+  ["cislunar-observability.toml", "Cislunar observability — DRO constellation Gramian + SRIF",
+    "Cislunar observability", "How much of a cislunar spacecraft's state does an inter-satellite arc make observable?"],
+  // Lunar-surface PNT suite
+  ["lunar-time-offset.toml", "Lunar coordinate time — LTC/TCL secular offset",
+    "Lunar time offset", "How fast does a lunar clock diverge from Earth time (~56–59 µs/day)?"],
+  ["lunar-time-budget.toml", "Lunar time budget — LTC/TCL rate & error budget (modelled)",
+    "Lunar time budget", "How large is the Earth–Moon coordinate-time offset, and its error budget? (modelled)"],
+  ["lunar-vlbi.toml", "Lunar VLBI — Earth-baseline delay observable (modelled)",
+    "Lunar VLBI", "What delay does an Earth-baseline VLBI pair see for a lunar surface beacon? (modelled)"],
+  ["lunar-joint-od-clock.toml", "Lunar joint OD + clock — VLBI restores observability (modelled)",
+    "Lunar joint OD+clock", "Does an Earth-baseline VLBI tie make a lunar station's absolute position observable? (modelled)"],
+  ["lunar-frame-realisation.toml", "Lunar frame realisation — 7-parameter Helmert datum fit (modelled)",
+    "Lunar frame", "Can a Helmert datum fit recover a lunar reference-frame transform? (modelled)"],
+  ["moonlight-service-volume.toml", "Moonlight service volume — DOP / coverage / lunar ARAIM (modelled)",
+    "Lunar service volume", "What DOP, coverage and integrity does a Moonlight/LCNS-class constellation give the south pole? (modelled)"],
+  ["lunar-differential-pnt.toml", "Lunar differential PNT — DGNSS / SBAS analogue (modelled)",
+    "Lunar differential PNT", "How much does differential correction cancel common-mode error vs baseline on the Moon? (modelled)"],
+  ["lunar-interop-export.toml", "Lunar interop export — CCSDS OEM + LunaNet time in a KIF envelope",
+    "Lunar interop export", "Can lunar frame / time / ephemeris round-trip through CCSDS OEM + a KIF envelope?"],
+  // Real-time frame / Earth-orientation
+  ["realtime-frame-eop.toml", "Real-time frame / EOP budget — predicted-EOP error (modelled)",
+    "Real-time frame/EOP", "How much frame error does real-time (predicted) Earth-orientation introduce? (modelled)"],
 ];
 
 // Embedded default so the very first run needs no network fetch.
@@ -714,6 +763,7 @@ function runScenario() {
       orbit3dSvg: lastOrbit3dSvg,
     };
     mountTabs(result);
+    updateExportButtons();
     if (compareRuns.length >= 2) renderOverlay(compareRuns);
     else exitCompareView();
     syncSweepControls();
@@ -938,6 +988,55 @@ function runSweep() {
 // Gather the current run's charts, FoM rows, summary, and scenario TOML into a
 // single self-contained, offline HTML report (report.mjs escapes every
 // scenario-derived string; only OUR renderer SVGs go in as raw markup).
+// Standards-track exports (SP3 / CCSDS OMM / OEM) for the current run. The engine
+// serialises them client-side from the same scenario TOML; a format button appears only
+// when the run actually yields that artifact (orbit/constellation scenarios), so a clock
+// or resilience run shows none. Nothing is uploaded.
+const EXPORTERS = [
+  ["SP3", export_sp3, "sp3", "SP3-c precise ephemeris"],
+  ["OMM", export_omm, "omm", "CCSDS OMM mean-element catalogue"],
+  ["OEM", export_oem, "oem", "CCSDS OEM 2.0 ephemeris (GMAT / Orekit / STK)"],
+];
+
+function updateExportButtons() {
+  const tools = el("export-tools");
+  if (!tools) return;
+  tools.replaceChildren();
+  const toml = lastRun && lastRun.toml;
+  if (!toml) { tools.hidden = true; return; }
+  const meta = { ver: lastRun.result.engine_version, hash: lastRun.result.scenario_hash };
+  let any = false;
+  for (const [label, fn, ext, title] of EXPORTERS) {
+    let text;
+    try { text = fn(toml); } catch { continue; }        // kind can't produce it → skip
+    if (!text || !text.trim()) continue;
+    any = true;
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "chart-dl";
+    b.textContent = `⤓ ${label}`;
+    b.title = `Export this constellation as ${title} — client-side, nothing uploaded`;
+    b.addEventListener("click", () => triggerDownload(
+      new Blob([text], { type: "text/plain" }), chartFilename(ext, meta, ext)));
+    tools.appendChild(b);
+  }
+  tools.hidden = !any;
+}
+
+function downloadJson() {
+  if (!lastRun) return;
+  const meta = { ver: lastRun.result.engine_version, hash: lastRun.result.scenario_hash };
+  triggerDownload(
+    new Blob([el("json").textContent], { type: "application/json" }),
+    chartFilename("result", meta, "json"));
+}
+
+async function copyJson() {
+  const text = el("json").textContent;
+  if (!text) return;
+  try { await navigator.clipboard.writeText(text); flash(el("json-copy")); } catch { /* clipboard blocked */ }
+}
+
 function downloadReport() {
   if (!lastRun) return;
   const r = lastRun.result;
@@ -1566,7 +1665,7 @@ const I18N = {
     "ledger.eyebrow": "Evidence ledger",
     "ledger.heading": "The complete validation matrix — every row, every proof",
     "ledger.intro":
-      'All <span id="ldg-total">91</span> capabilities, generated from ' +
+      'All <span id="ldg-total">102</span> capabilities, generated from ' +
       "<code>src/verification.rs</code> and pinned to it in CI. Each row links to the " +
       "<strong>test</strong> that enforces it, the <strong>module</strong> that " +
       "implements it, and any committed <strong>fixture/provenance</strong> — so every " +
@@ -2075,6 +2174,8 @@ async function main() {
   el("sweep-run").addEventListener("click", runSweep);
   el("sweep-knob").addEventListener("change", syncSweepControls);
   el("download-report").addEventListener("click", downloadReport);
+  el("json-download").addEventListener("click", downloadJson);
+  el("json-copy").addEventListener("click", copyJson);
   // Both tour launchers — the in-context playground button and the persistent
   // floating button — start (or restart) the guided tour.
   for (const id of ["tour-launch", "tour-fab"]) {

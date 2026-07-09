@@ -4,7 +4,7 @@
   "identifier": "https://doi.org/10.5281/zenodo.20528627",
   "name": "Kshana",
   "description": "Open, reproducible PNT-resilience simulator with quantum-sensor performance models",
-  "version": "0.23.0",
+  "version": "0.24.0",
   "license": "https://spdx.org/licenses/AGPL-3.0-only",
   "codeRepository": "https://github.com/ashfordeOU/kshana",
   "url": "https://kshana.dev",
