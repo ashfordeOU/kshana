@@ -53,7 +53,7 @@ citable table in [`docs/PROVENANCE.md`](docs/PROVENANCE.md).
 <p align="center"><em><strong>Validated, not asserted.</strong> &nbsp;666/666 AIAA SGP4 vectors to <strong>4.12&nbsp;mm</strong> · Cowell force model <strong>0.08&nbsp;m</strong> vs Orekit&nbsp;12.2 · Galileo <strong>0.61&nbsp;m</strong> / Swarm-A <strong>0.10&nbsp;m</strong> vs real ESA precise ephemerides · GCRS→ITRS bit-for-bit vs SOFA/ERFA · ML metrics exact vs scikit-learn · <strong>51 of 102</strong> capabilities validated against independent external oracles; 47 honestly labelled Modelled.</em></p>
 
 <p align="center">
-  <img src="docs/assets/diagrams/system-overview.png" alt="Kshana system overview: five front doors (CLI, Python wheel, WebAssembly playground, MCP server, JetBrains plugin) converge on a single api::run_toml dispatch over 44 scenario kinds, through the engine (shared core, sensor packs and astrodynamics, integrity/fusion/lunar/deep-space/resilience), to a reproducible result.json + chart.svg" width="840">
+  <img src="docs/assets/diagrams/system-overview.png" alt="Kshana system overview: five front doors (CLI, Python wheel, WebAssembly playground, MCP server, JetBrains plugin) converge on a single api::run_toml dispatch over 47 scenario kinds, through the engine (shared core, sensor packs and astrodynamics, integrity/fusion/lunar/deep-space/resilience), to a reproducible result.json + chart.svg" width="840">
   <br><sub>One engine, five front doors · <a href="docs/assets/diagrams/system-overview.svg">SVG</a></sub>
 </p>
 
@@ -698,7 +698,7 @@ paper-clock). **MODELLED** — the headline figure is *reference-dependent* (Ear
 vs lunar selenoid, averaging window), which is why a band, not a single certified
 number, is reported (`scenarios/lunar-time-offset.toml`).
 
-See `scenarios/` for at least one worked example of every kind (46 kinds, 58 scenario
+See `scenarios/` for at least one worked example of every kind (47 kinds, 59 scenario
 `.toml` files + 1 suite manifest — several kinds ship more than one example). A few kinds have an example file
 whose name differs from the kind: `lunar-integrity` → `scenarios/lunanet-araim.toml`,
 `gravity-map` → `scenarios/gps-denied-gravity-nav.toml`. List the dispatchable kinds at
@@ -799,7 +799,7 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    cli["CLI · Python · WebAssembly<br/>MCP server · JetBrains plugin"] --> api["api — run_toml<br/>typed dispatch over 46 kinds"]
+    cli["CLI · Python · WebAssembly<br/>MCP server · JetBrains plugin"] --> api["api — run_toml<br/>typed dispatch over 47 kinds"]
     subgraph shared["Shared core"]
       types["types · scenario<br/>GNSS timeline"]
       allan["allan — ADEV/MDEV/TDEV/HDEV"]
@@ -911,7 +911,7 @@ flowchart LR
 ```
 kshana/
 ├── src/                                       # the kshana core crate (library + CLI)
-│   ├── api.rs · main.rs · lib.rs              # typed dispatch (46 kinds) + CLI + crate root
+│   ├── api.rs · main.rs · lib.rs              # typed dispatch (47 kinds) + CLI + crate root
 │   ├── python.rs · wasm.rs                    # optional PyO3 / wasm-bindgen bindings
 │   ├── types.rs · scenario.rs · allan.rs      # shared core (time grid, GNSS timeline, Allan)
 │   │

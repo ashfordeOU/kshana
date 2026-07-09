@@ -1,0 +1,54 @@
+# Heterogeneous optical + RF PNT joint availability / precision / integrity (P5).
+#
+# Composes the Phase-7 pieces into one end-to-end analysis:
+#   * L26 optical link budget  -> photon-limited two-way ranging CRLB + diffraction footprint
+#   * L22 cross-modality RAIM   -> position AND timing protection level (loose RF x tight optical)
+#   * L24 optical availability  -> N-station clear-sky diversity (independent + correlated union)
+#   * L23 optical<->RF handoff  -> proven bit-continuous (no-jump) mean + NEES chi-square gate
+#   * L25 joint FoM             -> P(available AND precision-grade AND integrity-assured)
+#
+# MODELLED. Validated closed forms: ranging CRLB (sigma_tau/sqrt(N)), diffraction footprint
+# (lambda/D * range), chi-square protection-level quantile, union combinatorics, handoff
+# mean-continuity + NEES gate, and the joint independent product. The loss allocations,
+# sigma magnitudes, cloud-climatology inputs, correlations and P_HMI budget are Modelled
+# representative inputs. Every field below is optional and shown at its default.
+kind = "hybrid-optical-rf"
+
+# --- L26 optical (1550 nm) two-way link budget ---
+wavelength_nm      = 1550.0     # telecom C-band, eye-safe, low atmospheric loss
+tx_power_w         = 1.0e-3     # 1 mW mean optical power (photon-starved lunar regime)
+tx_aperture_m      = 0.85       # -> ~0.7 km diffraction footprint at lunar range (lambda/D)
+rx_aperture_m      = 0.85
+range_km           = 384000.0   # mean Earth-Moon distance
+pulse_rms_ps       = 50.0       # signal-pulse RMS temporal width
+integration_s      = 1.0
+atmospheric_loss_db = 3.0       # Modelled 1550 nm clear-sky allocation
+pointing_loss_db    = 3.0       # Modelled terminal pointing/jitter allocation
+optics_efficiency   = 0.5       # Modelled
+detector_efficiency = 0.7       # Modelled
+two_way             = true      # round-trip ranging: range = c*dt/2, double-pass geometry
+
+# --- RF (loose) reference solution ---
+rf_pos_sigma_m      = 1.0       # horizontal 1-sigma
+rf_vertical_sigma_m = 1.5       # vertical 1-sigma (vertical dilution)
+rf_clock_sigma_s    = 3.0e-9    # 3 ns clock 1-sigma
+
+# --- L22 cross-modality RAIM ---
+p_fa              = 1.0e-5
+p_md              = 1.0e-3
+alert_limit_h_m   = 10.0
+alert_limit_v_m   = 15.0
+alert_limit_t_s   = 20.0e-9
+
+# --- precision grade (the high-grade service the FoM scores) ---
+grade_pos_m  = 0.1              # 10 cm position grade
+grade_time_s = 1.0e-9           # 1 ns timing grade
+
+# --- L24 optical ground-network availability ---
+n_optical_sites  = 5
+site_correlation = 0.15         # representative modest spatial (weather) correlation
+
+# --- L25 joint FoM + L23 handoff ---
+fom_correlation   = 0.5         # positive co-occurrence of the three P5 conditions
+handoff_inflation = 0.2         # modality-transition covariance inflation at the switch
+p_hmi             = 1.0e-7      # integrity-risk budget
