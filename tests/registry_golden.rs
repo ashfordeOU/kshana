@@ -296,11 +296,13 @@ fn golden_conflict_resilience() {
     // layered architecture vs a single layer, cross-checked against the closed-form
     // product, the correlation sweep that erodes layering, and the prior CI — every
     // headline magnitude Modelled, the identities (MC→closed-form, inverse-variance
-    // fuse, ρ=0 copula==independent) Validated. Canonical (portable) hash only.
+    // fuse, ρ=0 copula==independent, per-vector survival MC→closed-form) Validated, plus
+    // the §4.2 per-vector graceful-degradation breakdown (jamming sharpest). Canonical
+    // (portable) hash only.
     check(&Golden {
         path: "scenarios/conflict-resilience.toml",
-        expect_summary: "conflict-resilience | 4 layers (0 baseline) | reference intensity 1.00 | resilience ratio closed-form 6.73x MC 6.19x (layered vs single-layer) | correlation defeats layering: ratio 7.50x @ rho 0.00 -> 1.21x @ rho 0.95 | prior CI [5.51-8.48]x | ~7x headline MODELLED, VALIDATED MC->closed-form / fuse-identity / copula-marginals",
-        expect_fnv_canonical: 0xc845_296b_ea71_ab8c,
+        expect_summary: "conflict-resilience | 4 layers (0 baseline) | reference intensity 1.00 | resilience ratio closed-form 6.73x MC 6.19x (layered vs single-layer) | correlation defeats layering: ratio 7.50x @ rho 0.00 -> 1.21x @ rho 0.95 | prior CI [5.51-8.48]x | per-vector survival @ ref jam 26% spoof 80% kinetic 100% cyber 99% (sharpest jamming) | ~7x headline MODELLED, VALIDATED MC->closed-form / fuse-identity / copula-marginals / per-vector-survival",
+        expect_fnv_canonical: 0xfdd7_e3e5_f9c3_abcf,
         expect_fnv_raw_linux_x64: None,
     });
 }
