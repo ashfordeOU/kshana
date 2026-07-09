@@ -15,7 +15,7 @@
       "source": "./",
       "displayName": "Kshana PNT-resilience simulator",
       "description": "Run the validated Kshana PNT-resilience engine (orbits, GNSS, timing, fusion, quantum sensors) from an AI agent, over the kshana-mcp stdio server.",
-      "version": "0.23.0",
+      "version": "0.24.0",
       "author": {
         "name": "Ashforde OÜ",
         "email": "contact@ashforde.org"
