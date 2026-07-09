@@ -93,3 +93,48 @@ def test_validate_toml_reports_errors_without_raising():
     assert kshana.validate_toml(CLOCK_SCENARIO) == []
     errs = kshana.validate_toml("this = is not a valid scenario")
     assert isinstance(errs, list) and len(errs) >= 1 and isinstance(errs[0], str)
+
+
+CONFLICT_SCENARIO = """
+kind = "conflict-resilience"
+trials = 1500
+seed = 20260709
+[[layers]]
+name = "GNSS L1 C/A"
+availability = 0.99
+sigma_m = 4.0
+vulnerability = 0.90
+vector_weight = 0.58
+[layers.vector_profile]
+jamming = 0.98
+spoofing = 0.85
+kinetic = 0.12
+cyber = 0.18
+[[layers]]
+name = "Inertial"
+availability = 0.999
+sigma_m = 30.0
+vulnerability = 0.03
+vector_weight = 0.10
+[layers.vector_profile]
+jamming = 0.0
+spoofing = 0.0
+kinetic = 0.20
+cyber = 0.10
+"""
+
+
+def test_conflict_resilience_per_vector_survival_reachable_from_python():
+    # P7-G5: the layered-PNT conflict-resilience analysis and its §4.2 per-vector survival
+    # breakdown must be reachable through the Python binding, not only a Rust unit test.
+    result = json.loads(kshana.run(CONFLICT_SCENARIO))
+    assert result["kind"] == "conflict-resilience"
+    pvs = result["per_vector_survival"]
+    vectors = {v["vector"] for v in pvs["vectors"]}
+    assert vectors == {"jamming", "spoofing", "kinetic", "cyber"}
+    # A diverse stack (RF layer + RF-immune inertial) keeps usable PNT under jamming.
+    survival = {v["vector"]: v["survival_at_reference"] for v in pvs["vectors"]}
+    assert survival["jamming"] > 0.9, "the RF-immune inertial layer carries PNT through jam"
+    # The catalogue advertises the scenario.
+    names = {k["name"] for k in kshana.scenario_kinds()}
+    assert "conflict-resilience" in names
