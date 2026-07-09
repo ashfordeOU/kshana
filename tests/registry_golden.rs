@@ -124,7 +124,14 @@ struct Golden {
     /// the x86-64 Linux CI runner. Regenerate it there after an intentional output
     /// change. A raw mismatch while the canonical hash still matches means only
     /// sub-1e-6 runner FP drift: re-baseline this one value.
-    expect_fnv_raw_linux_x64: u64,
+    ///
+    /// `None` means the exact byte-pin was baselined on a non-Linux-x86-64 host, so
+    /// only the portable `expect_fnv_canonical` layer guards this scenario. That
+    /// layer already moves on any >~1e-6 output change; the raw layer only restores
+    /// last-digit resolution on the one canonical CI runner. To add it, run
+    /// `zzz_emit_goldens --ignored` on x86-64 Linux and paste the `raw(local)` value
+    /// here as `Some(0x…)`.
+    expect_fnv_raw_linux_x64: Option<u64>,
 }
 
 /// Replace the build-dependent `engine_version` value (always
@@ -166,14 +173,17 @@ fn check(g: &Golden) {
     );
 
     // Layer 3 — exact, full-precision byte-identity, only on the x86-64 Linux CI
-    // runner (other targets round their trailing float digits differently).
+    // runner (other targets round their trailing float digits differently), and only
+    // for scenarios whose raw hash was baselined there (`Some`).
     #[cfg(all(target_os = "linux", target_arch = "x86_64"))]
-    assert_eq!(
-        raw_fnv(&out.json),
-        g.expect_fnv_raw_linux_x64,
-        "raw result-JSON byte drift for {} on x86-64 Linux (exact fnv64 mismatch)",
-        g.path
-    );
+    if let Some(expect_raw) = g.expect_fnv_raw_linux_x64 {
+        assert_eq!(
+            raw_fnv(&out.json),
+            expect_raw,
+            "raw result-JSON byte drift for {} on x86-64 Linux (exact fnv64 mismatch)",
+            g.path
+        );
+    }
     // Read the field on every other target so it never trips dead-code lints.
     #[cfg(not(all(target_os = "linux", target_arch = "x86_64")))]
     let _ = g.expect_fnv_raw_linux_x64;
@@ -191,11 +201,15 @@ fn zzz_emit_goldens() {
         "scenarios/jamming-demo.toml",
         "scenarios/orbit-multignss.toml",
         "scenarios/lunar-time-offset.toml",
+        "scenarios/hybrid-optical-rf.toml",
+        "scenarios/cislunar-observability.toml",
+        "scenarios/conflict-resilience.toml",
     ] {
         let src = fs::read_to_string(path).unwrap();
         let out = kshana::api::run_toml(&src).unwrap();
         println!(
-            "EMIT {path}\n  canonical  = 0x{:016x}\n  raw(local) = 0x{:016x}",
+            "EMIT {path}\n  summary    = {}\n  canonical  = 0x{:016x}\n  raw(local) = 0x{:016x}",
+            out.summary,
             canonical_fnv(&out.json),
             raw_fnv(&out.json),
         );
@@ -208,7 +222,7 @@ fn golden_clock() {
         path: "scenarios/clock-holdover.toml",
         expect_summary: "scenario 5ba83a232b94 | quantum holdover 6600s p95 0.0ns integrity 1.000 security 0.997 | classical holdover 2610s p95 19.7ns integrity 1.000 security 0.000",
         expect_fnv_canonical: 0x8c8b_bb4b_75e2_c862,
-        expect_fnv_raw_linux_x64: 0x49cf_2055_e294_17a2,
+        expect_fnv_raw_linux_x64: Some(0x49cf_2055_e294_17a2),
     });
 }
 
@@ -218,7 +232,7 @@ fn golden_jamming() {
         path: "scenarios/jamming-demo.toml",
         expect_summary: "scenario 5aac34b045c7 | jamming ON | availability under jamming 0.00 (nominal 1.00) | min tracking 0 | mean J/S 72.2 dB",
         expect_fnv_canonical: 0xd732_8840_d904_043c,
-        expect_fnv_raw_linux_x64: 0xbc8c_8400_d3b4_a740,
+        expect_fnv_raw_linux_x64: Some(0xbc8c_8400_d3b4_a740),
     });
 }
 
@@ -228,7 +242,7 @@ fn golden_orbit() {
         path: "scenarios/orbit-multignss.toml",
         expect_summary: "scenario 6fd3fe9f1ff5 | 1441/1441 samples GNSS-nominal | best PDOP 1.32 pos 1.32m | quantum holdover 0s p95 0.0ns integrity n/a security 0.968 | classical holdover 0s p95 0.0ns integrity n/a security 0.000",
         expect_fnv_canonical: 0xdcbd_ef0d_1b62_c63d,
-        expect_fnv_raw_linux_x64: 0x19ae_2ba2_ce0f_6a1a,
+        expect_fnv_raw_linux_x64: Some(0x19ae_2ba2_ce0f_6a1a),
     });
 }
 
@@ -243,6 +257,50 @@ fn golden_lunar_time_offset() {
         // TCG−TCL secular-rate fields. Canonical (portable, 6-sig-fig) is confirmed equal
         // to the value CI computes on Linux; the raw x86-64-Linux hash is re-pinned there.
         expect_fnv_canonical: 0xff26_8d1a_fb3b_0021,
-        expect_fnv_raw_linux_x64: 0x2fe9_e730_c025_36e8,
+        expect_fnv_raw_linux_x64: Some(0x2fe9_e730_c025_36e8),
+    });
+}
+
+#[test]
+fn golden_hybrid_optical_rf() {
+    // P5 optical/RF hybrid: photon-limited ranging CRLB + diffraction footprint,
+    // cross-modality RAIM protection levels, N-station union availability, a
+    // bit-continuous handoff with a NEES χ² gate, and the joint availability ∧
+    // precision ∧ integrity figure of merit. Canonical (portable) hash only; the
+    // exact x86-64-Linux raw pin can be added later from a Linux emit run.
+    check(&Golden {
+        path: "scenarios/hybrid-optical-rf.toml",
+        expect_summary: "hybrid-optical-rf | optical footprint 700 m, 1489 photons -> ranging σ 0.194 mm, timing σ 1.30 ps | cross-RAIM HPL 6.2 m / VPL 6.6 m / TPL 13.3 ns (protected) | availability 96.3% (5 sites) | handoff no-jump OK NEES 3.34∈[0.48,11.14] in-gate | joint FoM 0.946 (A 0.963 · P 0.963 · I 1.000) | Validated CRLB/χ²-PL/union/handoff, Modelled σ/climatology",
+        expect_fnv_canonical: 0x8754_b7ea_fb9c_88e9,
+        expect_fnv_raw_linux_x64: None,
+    });
+}
+
+#[test]
+fn golden_cislunar_observability() {
+    // P6 cislunar observability: the observability Gramian over a tracking arc of a
+    // differentially-corrected DRO constellation — rank growth, eigen-spectrum and
+    // condition, range-only vs range+rate observability, DRO periodicity closure,
+    // and a rank-conditioned SRIF posterior. Canonical (portable) hash only.
+    check(&Golden {
+        path: "scenarios/cislunar-observability.toml",
+        expect_summary: "cislunar-observability | 4 s/c (3 refs) | 6.0 h arc, 24 epochs | rank 1 → 4 of 4 over arc | Gramian λ [2.92e-11…5.98e-2] cond 2.76e5 | instantaneous rank range-only 2 → range+rate 4 (3 links) | GDOP range-only undefined range+rate 6.353 | DRO ICs (max periodicity residual 4.7e-9) | SRIF posterior finite at rank-4 epoch 8 (Validated rank/STM/DRO-closure/SRIF, Modelled design)",
+        expect_fnv_canonical: 0x5d5a_9d65_5d81_aebd,
+        expect_fnv_raw_linux_x64: None,
+    });
+}
+
+#[test]
+fn golden_conflict_resilience() {
+    // P7 layered-PNT conflict resilience: the Monte-Carlo resilience ratio of a
+    // layered architecture vs a single layer, cross-checked against the closed-form
+    // product, the correlation sweep that erodes layering, and the prior CI — every
+    // headline magnitude Modelled, the identities (MC→closed-form, inverse-variance
+    // fuse, ρ=0 copula==independent) Validated. Canonical (portable) hash only.
+    check(&Golden {
+        path: "scenarios/conflict-resilience.toml",
+        expect_summary: "conflict-resilience | 4 layers (0 baseline) | reference intensity 1.00 | resilience ratio closed-form 6.73x MC 6.19x (layered vs single-layer) | correlation defeats layering: ratio 7.50x @ rho 0.00 -> 1.21x @ rho 0.95 | prior CI [5.51-8.48]x | ~7x headline MODELLED, VALIDATED MC->closed-form / fuse-identity / copula-marginals",
+        expect_fnv_canonical: 0xc845_296b_ea71_ab8c,
+        expect_fnv_raw_linux_x64: None,
     });
 }
