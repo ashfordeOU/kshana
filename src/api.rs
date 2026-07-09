@@ -425,6 +425,7 @@ pub enum ScenarioKind {
     LunarTimeBudget,
     RealtimeFrameEop,
     HybridOpticalRf,
+    CislunarObservability,
 }
 
 impl ScenarioKind {
@@ -478,6 +479,7 @@ impl ScenarioKind {
             ScenarioKind::LunarTimeBudget => "lunar-time-budget",
             ScenarioKind::RealtimeFrameEop => "realtime-frame-eop",
             ScenarioKind::HybridOpticalRf => "hybrid-optical-rf",
+            ScenarioKind::CislunarObservability => "cislunar-observability",
         }
     }
 
@@ -535,6 +537,7 @@ impl ScenarioKind {
             "lunar-time-budget" => ScenarioKind::LunarTimeBudget,
             "realtime-frame-eop" => ScenarioKind::RealtimeFrameEop,
             "hybrid-optical-rf" => ScenarioKind::HybridOpticalRf,
+            "cislunar-observability" => ScenarioKind::CislunarObservability,
             // Empty or unknown ⇒ the clock pack (historical default).
             _ => ScenarioKind::Clock,
         })
@@ -608,6 +611,7 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "link-budget", description: "One-way link budget over the CCSDS 401 / DSN 810-005 link equation: free-space path loss, C/N₀, Eb/N₀, margin and closure for a transmit EIRP, receive G/T, range, data rate and band (s|x|ka) against a required Eb/N₀. A deterministic engineering calculation from the supplied inputs (not a calibrated terminal datasheet).", required_fields: &[], optional_fields: &["band", "eirp_dbw", "g_over_t_db", "range_km", "data_rate_bps", "other_losses_db", "required_eb_n0_db"] },
         ScenarioMeta { name: "lunar-time-budget", description: "MODELLED end-to-end Coordinated Lunar Time (LTC) time-error budget: the seven LTC error terms assembled as time-error curves x_i(τ) over a whole averaging-time grid, root-summed into x_Σ(τ), and the clock-vs-frame CROSSOVER τ at which the growing clock term overtakes the constant real-time frame-realisation term (below it the budget is frame-limited, above it clock-limited) — the honest answer to the single-τ artifact. The τ-slopes are closed-form and analytically checkable (clock τ^{+1/2}/τ^{+1}, floors τ^0, measurement τ^{-1/2}) and the clock rows reproduce the published one-day clock specs (crate::clock_specs); the RF/optical-link, frame-realisation, relativistic-residual and ephemeris floor MAGNITUDES are Modelled budget allocations (documented defaults, caller-overridable), not measurements. The contribution is the reproducible crossover τ, not a certified per-term number; not certified for operational timekeeping.", required_fields: &[], optional_fields: &["clock", "tau_min_s", "tau_max_s", "points_per_decade"] },
         ScenarioMeta { name: "hybrid-optical-rf", description: "MODELLED heterogeneous optical + RF PNT joint figure of merit (P5): composes the 1550 nm two-way optical link budget (photon-limited two-way ranging CRLB σ_τ/√N and diffraction footprint λ/D·range), a cross-modality solution-separation RAIM protection level (position AND timing) that fuses the loose RF and tight optical solutions with disparate covariances, the N-station optical clear-sky availability (independent-union 1−Π(1−a_i) and a spatially-correlated variant), an optical↔RF state/covariance handoff with a PROVEN bit-continuous (no-jump) mean and a NEES χ² consistency gate, and a joint P(available AND precision-grade AND integrity-assured) score with correlation handling. VALIDATED closed form: the ranging CRLB, diffraction footprint, χ² protection-level quantile, union combinatorics, handoff mean-continuity + NEES gate, and the joint independent product. MODELLED: the optical loss allocations, RF/optical σ magnitudes, cloud-climatology inputs, correlations, and P_HMI budget. Not a certified availability/integrity product.", required_fields: &[], optional_fields: &["wavelength_nm", "tx_power_w", "tx_aperture_m", "rx_aperture_m", "range_km", "pulse_rms_ps", "integration_s", "atmospheric_loss_db", "pointing_loss_db", "optics_efficiency", "detector_efficiency", "two_way", "rf_pos_sigma_m", "rf_vertical_sigma_m", "rf_clock_sigma_s", "p_fa", "p_md", "alert_limit_h_m", "alert_limit_v_m", "alert_limit_t_s", "grade_pos_m", "grade_time_s", "n_optical_sites", "site_correlation", "fom_correlation", "handoff_inflation", "p_hmi"] },
+        ScenarioMeta { name: "cislunar-observability", description: "MODELLED planar cislunar constellation observability (P6): tracks a four-spacecraft differential-corrected planar-DRO constellation with inter-satellite ranging and reports how much of a spacecraft's four-state [x,y,ẋ,ẏ] the arc makes observable. Emits (1) the rank-vs-arc-length table for a single range-only link — instantaneously rank-1, growing toward the full four-state as the arc extends (P6 Table 1); (2) the observability-Gramian eigen-spectrum + condition number over the arc; (3) the range-only-vs-range+range-rate instantaneous-rank comparison (the Doppler design lever) plus the range-only-singular / range+rate-defined GDOP reporting; and (4) an independent SRIF cross-validation whose posterior covariance turns finite / well-conditioned exactly at the arc where the observable rank reaches four. VALIDATED core: the observable rank is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the eigen-spectrum obeys the spectral invariants (trace=Σλ, det=Πλ, Frobenius²=Σλ²); the variational STM is the finite-difference-validated CR3BP STM; the range/range-rate Jacobian rows are finite-difference-validated analytic partials (cross-checked against the crate's 3-D range-rate observable); the four initial conditions are differential-corrected planar DROs that close to a tight periodicity residual and are retrograde; the rank transition is cross-validated against the crate's square-root information filter (posterior covariance finite exactly at full rank, cond(P)=cond(OᵀO)); a rank-deficient snapshot is flagged GDOP-undefined (fim condition=inf), never a bogus finite value — the same singular-geometry guard pvt::solve_spp applies. MODELLED: the constellation design (DRO perilune amplitudes and phases) and the specific rank progression it produces. Not a certified navigation-performance product.", required_fields: &[], optional_fields: &["mu", "arc_hours", "epochs", "steps", "rel_tol"] },
         ScenarioMeta { name: "realtime-frame-eop", description: "Real-time lunar frame / Earth-orientation prediction budget: P4 Table 1 (the frame-error consistency check — post-processed ~0.27 m ↔ ~0.010 ms and real-time ~15 m ↔ ~0.5 ms, each frame position expressed as its equivalent UT1 error via the L19 lever arm Δr = D_EM·ω⊕·ΔUT1) and Table 2 (measured UT1 prediction error vs horizon — the L18 curve read directly off the real IERS finals2000A series: the Bulletin A − Bulletin B final floor and the multi-day persistence-predictor error, each mapped to a Moon-frame position by L19), plus the L21 root-sum-square real-time frame-error budget (EOP + ephemeris + realisation floor). VALIDATED closed form (the L19 lever arm, ω⊕ cross-checked against the CIO Earth-rotation angle) and VALIDATED real data (the L18 curve off the real finals2000A rows); MODELLED are the lunar-relay OD covariance magnitudes and frame-realisation floor (representative allocations) and the persistence predictor (not IERS's operational Bulletin A algorithm). Not a certified real-time frame product.", required_fields: &[], optional_fields: &["epoch", "horizons_days", "ephemeris_pos_sigma_m", "ephemeris_vel_sigma_mps", "latency_s", "frame_realization_floor_m", "delta_ut1_ms", "delta_xp_mas", "delta_yp_mas", "eop_finals2000a"] },
     ]
 }
@@ -1648,6 +1652,13 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
         ScenarioKind::HybridOpticalRf => {
             let scn: crate::hybrid_integrity::HybridOpticalRfScenario = toml::from_str(src)
                 .map_err(|e| format!("invalid hybrid-optical-rf scenario: {e}"))?;
+            let (json, summary, svg) = scn.run_output()?;
+            Ok(RunOutput { json, svg, summary })
+        }
+        ScenarioKind::CislunarObservability => {
+            let scn: crate::cislunar_observability::CislunarObservabilityScenario =
+                toml::from_str(src)
+                    .map_err(|e| format!("invalid cislunar-observability scenario: {e}"))?;
             let (json, summary, svg) = scn.run_output()?;
             Ok(RunOutput { json, svg, summary })
         }
