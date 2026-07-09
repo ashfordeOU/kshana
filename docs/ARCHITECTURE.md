@@ -289,7 +289,7 @@ claim.
 
 ```mermaid
 flowchart TD
-    api["api.rs — run_toml / run_scenario · 46 kinds"]
+    api["api.rs — run_toml / run_scenario · 47 kinds"]
 
     subgraph gnss["Integrity & GNSS measurement"]
       raim["raim — RAIM/ARAIM · HPL/VPL (kernel vs SciPy)"]
@@ -405,7 +405,7 @@ return them to the host. One dispatch, no drift.
 
 ```mermaid
 flowchart TD
-    F["api::run_toml(src) · run_scenario(src)"] --> K{"ScenarioKind::classify<br/>typed · exhaustive · 46 kinds<br/>(absent/unknown kind → clock)"}
+    F["api::run_toml(src) · run_scenario(src)"] --> K{"ScenarioKind::classify<br/>typed · exhaustive · 47 kinds<br/>(absent/unknown kind → clock)"}
     K --> G1["Timing<br/>clock · timetransfer · quantum-time-transfer"]
     K --> G2["Inertial & fusion<br/>inertial · hybrid · hybrid-ukf · fusion · gnss-ins · quantum-gnss-free-nav"]
     K --> G3["Orbit, geometry & positioning<br/>orbit · ephemeris · gnss-sim · pvt"]
