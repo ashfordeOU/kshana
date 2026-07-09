@@ -88,6 +88,7 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         RealtimeFrameEop,
         HybridOpticalRf,
         CislunarObservability,
+        ConflictResilience,
     ]
 };
 
@@ -150,6 +151,7 @@ pub mod ids {
     pub const HYBRID_OPTICAL_RF: ScenarioId = ScenarioId::from_static("hybrid-optical-rf");
     pub const CISLUNAR_OBSERVABILITY: ScenarioId =
         ScenarioId::from_static("cislunar-observability");
+    pub const CONFLICT_RESILIENCE: ScenarioId = ScenarioId::from_static("conflict-resilience");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {

@@ -1,0 +1,57 @@
+# Layered-PNT conflict resilience (paper P7).
+#
+# A contested-environment user fields four RF PNT layers that all ride the same band
+# and therefore share the jamming/spoofing denial vector — the fragile, correlated
+# case. The scenario reports:
+#   * total-loss probability vs threat intensity (Monte-Carlo vs the closed-form
+#     independent product it converges to),
+#   * the ~7x layered-vs-single-layer resilience ratio under the independence
+#     assumption, and
+#   * how that ~7x collapses toward 1 as the denial correlation rises (a one-factor
+#     Gaussian copula) — correlation defeats layering.
+#
+# Every per-layer magnitude is a MODELLED input with provenance; see
+# src/conflict_threat_params.rs for the sourced [min, nominal, max] priors
+# (JammerTest 2024, TEXBAT, EASA SIB 2022-02, RTCA DO-229). Leaving `layers` out runs
+# the same sourced four-layer baseline; it is written out here for transparency.
+
+kind = "conflict-resilience"
+trials = 4000
+seed = 20260709
+primary_layer = 0
+
+[intensity]
+min = 0.0
+max = 1.0
+steps = 11
+
+[correlation]
+values = [0.0, 0.2, 0.4, 0.6, 0.8, 0.95]
+
+[[layers]]
+name = "GNSS L1 C/A (open service)"
+availability = 0.99
+sigma_m = 4.0
+vulnerability = 0.90
+vector_weight = 0.58
+
+[[layers]]
+name = "GNSS L5 / E5a (wideband)"
+availability = 0.97
+sigma_m = 3.0
+vulnerability = 0.85
+vector_weight = 0.60
+
+[[layers]]
+name = "Galileo E1 OS + OSNMA"
+availability = 0.98
+sigma_m = 4.0
+vulnerability = 0.88
+vector_weight = 0.59
+
+[[layers]]
+name = "SBAS / augmentation (WAAS/EGNOS-class)"
+availability = 0.96
+sigma_m = 3.0
+vulnerability = 0.86
+vector_weight = 0.60

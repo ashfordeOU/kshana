@@ -24,6 +24,8 @@ pub mod cislunar_observability;
 pub mod cislunar_srif;
 pub mod clock_specs;
 pub mod clock_state;
+pub mod conflict_resilience;
+pub mod conflict_threat_params;
 pub mod cr3bp;
 pub mod cross_raim;
 pub mod cross_sensor_integrity;
