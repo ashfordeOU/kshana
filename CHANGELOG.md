@@ -9,6 +9,119 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.24.0] - 2026-07-09
+
+A broad capability release. It lands two fully **externally-validated** analysis
+suites — a complete **multi-criteria decision-analysis (MCDA)** family and the
+**Allan wander / long-τ clock-stability** estimators — and opens a new runnable
+**lunar time-budget, real-time frame/EOP, optical/RF-hybrid, cislunar-observability
+and layered-PNT conflict-resilience** scenario layer on top of the substrate, plus a
+**lunar surface-beacon** and **signal-security** capability substrate. The
+machine-checked validation matrix grows to **51 VALIDATED · 47 MODELLED · 4 PARTNER**
+across **102 rows** (was 40 · 47 · 4 across 91): all eleven new rows are
+external-oracle validations of the decision-analysis and timing estimators, checked
+against independent libraries (SciPy, pymcdm, pyDecision, allantools) to tight
+tolerance, while the new PNT capability surface is surfaced honestly as MODELLED. As
+ever, no numeric model claim is upgraded without an external dataset behind it.
+
+### Added
+
+**Runnable scenarios** — each a registered scenario `kind`, dispatched through the
+engine and CI-proven end-to-end by `tests/determinism.rs` (which runs every bundled
+`scenarios/*.toml` and hard-fails on any unrunnable fixture):
+
+- **Layered-PNT conflict-resilience** (`conflict-resilience`, `src/conflict_resilience.rs`)
+  — a seeded Monte-Carlo resilience engine for a multi-layer PNT architecture, with a
+  §4.2 **per-vector graceful-degradation survival** model (four named threat vectors,
+  the usable-PNT survival closed form each per-layer Monte-Carlo converges to, emitted
+  in the result JSON) and documented, drift-guarded threat-parameter provenance
+  (`src/conflict_threat_params.rs`). MODELLED architectures; the survival Monte-Carlo →
+  closed-form convergence is the Validated core.
+- **Cislunar observability** (`cislunar-observability`, `src/cislunar_observability.rs`)
+  — an observability-Gramian eigen-spectrum over an arc, a differential-corrected
+  distant-retrograde-orbit (DRO) seeder, and an independent square-root-information-filter
+  cross-check whose posterior covariance turns finite exactly at full observable rank.
+  MODELLED constellation; the rank/Gramian/STM/SRIF invariants are the Validated core.
+- **Heterogeneous optical/RF hybrid continuity & integrity** (`hybrid-optical-rf`,
+  `src/hybrid_integrity.rs`, `src/optical_availability.rs`, `src/optical_linkbudget.rs`,
+  `src/cross_raim.rs`) — cross-domain availability and integrity when optical and RF PNT
+  are combined. MODELLED.
+- **Endogenous lunar time-budget** (`lunar-time-budget`, `src/lunar_time_budget.rs`) and
+  **real-time frame / EOP budget** (`realtime-frame-eop`, `src/realtime_frame_eop.rs`,
+  `src/frame_eop.rs`) — the P3/P4 lunar-time and Earth-orientation budgets derived
+  endogenously from the timing chain rather than asserted. MODELLED.
+
+**Externally-validated analysis suites** — library capabilities, each entering the
+matrix as new VALIDATED rows (checked against an independent external oracle, not a
+self-check):
+
+- **Full multi-criteria decision-analysis (MCDA) suite** (`src/mcda/`) — the four
+  method families: value aggregation (**WSM**, **WPM**, **WASPAS**), ratio system
+  (**MOORA**) and proportional (**COPRAS**), distance-to-ideal (**TOPSIS**), compromise
+  programming (**VIKOR**), and outranking (**PROMETHEE II** with six generalised-criterion
+  shapes, **ELECTRE I** concordance/discordance) — plus **AHP** Perron-eigenvector
+  priority weights with the Saaty Consistency-Ratio (CR < 0.10) gate, **MAUT** utility,
+  Pareto-front extraction, and weight-**sensitivity** analysis. The nine aggregators
+  reproduce **pymcdm** / **pyDecision** and the AHP eigenvector matches SciPy/LAPACK, all
+  to < 1e-9 (`tests/mcda_*_reference.rs`). The sensitivity tornado is also surfaced inside
+  the conflict-resilience scenario.
+- **Allan wander & long-τ clock-stability estimators** (`src/allan.rs`) — **MTIE** (the
+  ITU-T G.810/G.823/G.8261 peak-to-peak time-error wander statistic sync masks are written
+  against), **MDEV** and **TDEV** time-domain wander, and **Theo1 / TOTVAR** extended-range
+  estimators. VALIDATED against **allantools** on the NIST SP 1065 series; the bias-removed
+  **ThéoH** hybrid built on TOTVAR stays honestly MODELLED.
+- **Assurance / external-oracle harness** (`src/assurance/`) — an oracle harness wired
+  directly to the CI honesty gate, a **W3C-PROV** provenance record with a deterministic
+  Merkle root, and **Greenhall** equivalent-degrees-of-freedom + chi-square confidence
+  intervals on stability estimates.
+- **PackRegistry / ExternalPack extension seam** (`src/registry.rs`, `src/api.rs`) — a
+  dispatch seam so capability packs route through one registry (built-in dispatch is on
+  the CLI hot path; out-of-tree packs attach behind a defaulted `ExternalPack::register_into`),
+  guarded by a golden byte-identity conformance suite and standalone / wasm32 CI gates.
+
+**Modelled capability substrate** — new library modules feeding the scenarios above and
+future ones (not yet a standalone scenario `kind`):
+
+- **Lunar surface-beacon DOP** (`src/lunar_beacon.rs`) with realized-accuracy budget,
+  N-satellite sweep and GDOP map, plus a perturbed lunar ephemeris (`src/lunar_perturbed.rs`)
+  and airless-horizon geometry / spoof-power inverse / AFS deficit band
+  (`src/jamming.rs`, `src/linkbudget.rs`). Reuses the gnss_lib_py-validated DOP kernel.
+- **LOLA-format DEM ingest** + terrain line-of-sight (`src/realdata/lola_dem.rs`).
+- **Signal-security three-layer defense** — spoof-capture, cross-sensor integrity and
+  monitor-network sizing (`src/spoof_capture.rs`, `src/cross_sensor_integrity.rs`,
+  `src/monitor_network.rs`) with an orbital-beam antenna footprint and an OSNMA
+  authentication budget (`src/antenna.rs`, `src/nma_budget.rs`). MODELLED.
+
+### Changed
+
+- The validation matrix and every derived artifact were regenerated from the single
+  source of truth (`src/verification.rs`): the on-site ledger, the module-map and
+  validation-provenance diagrams, and the README / per-surface count strings now read
+  **51 / 47 / 4 of 102** (was 40 / 47 / 4 of 91); the count-honesty guard now scans full
+  git history, and the README figures are unified on the dark brand palette.
+- One shared adaptive integration driver now backs both `integrate` and `integrate_dopri`
+  (`src/integrator.rs`), removing the duplicated stepper.
+- **SonarQube Cloud** static analysis added to CI (Rust + imported coverage), with
+  security / maintainability / reliability rating badges on the README.
+- Kshana is packaged as a **Claude Code plugin** (one-command marketplace install) that
+  wires the MCP server and a `/kshana-run` command, alongside multi-host MCP integration
+  docs (Claude Code, Claude Desktop, Codex, Cursor, VS Code, Windsurf, JetBrains).
+- Release / packaging discipline: CI registers a deployment environment per
+  package/registry publish, and the focused public-standalone job is scoped off the slow
+  validation binaries.
+- The no-attribution hygiene guard is scoped to authorship markers only, so naming an
+  integration host or product no longer fails the build.
+- Documentation: the README **Citing** section now lists the four published arXiv
+  preprints, and the surface-beacon DOP capability is documented in the lunar row.
+
+### Fixed
+
+- Integer loop counters for float-driven loops (Sonar S2193).
+- Accurate chi-square inverse at low degrees of freedom via Newton refinement in the
+  assurance confidence-interval path.
+- kshana.dev: the standards section now opens by default and the ledger count fallback is
+  corrected; stale README / site strings around the observability layer synced.
+
 ## [0.23.0] - 2026-06-29
 
 A capability release adding a general **Fisher-information / Cramér–Rao
@@ -2415,7 +2528,8 @@ Initial release.
   services, not license fees.
 - `CITATION.cff` so the software can be cited.
 
-[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.23.0...HEAD
+[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.24.0...HEAD
+[0.24.0]: https://github.com/AshfordeOU/kshana/compare/v0.23.0...v0.24.0
 [0.23.0]: https://github.com/AshfordeOU/kshana/compare/v0.22.1...v0.23.0
 [0.22.1]: https://github.com/AshfordeOU/kshana/compare/v0.22.0...v0.22.1
 [0.22.0]: https://github.com/AshfordeOU/kshana/compare/v0.21.0...v0.22.0
