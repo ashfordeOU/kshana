@@ -36,7 +36,7 @@
 //!   properties of that Modelled parameterisation, not certified figures. Not a certified
 //!   navigation-availability product.
 
-use crate::conflict_threat_params::conflict_baseline;
+use crate::conflict_threat_params::{conflict_baseline, VectorProfile, THREAT_VECTORS};
 use crate::mcda::sensitivity::{tornado, TornadoBar};
 use crate::resilience::stats::{dirichlet_weights, percentile_ci};
 use rand::Rng;
@@ -73,6 +73,27 @@ pub struct ConflictLayer {
     pub vulnerability: f64,
     /// Coupling weight to the shared threat vector, in `[0, 1]`.
     pub vector_weight: f64,
+    /// Per-vector (jamming/spoofing/kinetic/cyber) denial susceptibility for the §4.2
+    /// graceful-degradation breakdown. Optional in a scenario TOML: when omitted it is
+    /// derived from [`ConflictLayer::vector_weight`] (RF vectors take the weight, the
+    /// physical/cyber vectors a fifth of it) via [`ConflictLayer::profile`].
+    #[serde(default)]
+    pub vector_profile: Option<VectorProfile>,
+}
+
+impl ConflictLayer {
+    /// The resolved per-vector susceptibility profile: the explicit [`Self::vector_profile`]
+    /// when present, otherwise a default derived from the aggregate RF `vector_weight`
+    /// (jamming = spoofing = weight; kinetic = cyber = weight/5), so a user who supplies
+    /// only the headline fields still gets a defensible per-vector breakdown.
+    pub fn profile(&self) -> VectorProfile {
+        self.vector_profile.unwrap_or(VectorProfile {
+            jamming: self.vector_weight.clamp(0.0, 1.0),
+            spoofing: self.vector_weight.clamp(0.0, 1.0),
+            kinetic: (self.vector_weight * 0.2).clamp(0.0, 1.0),
+            cyber: (self.vector_weight * 0.2).clamp(0.0, 1.0),
+        })
+    }
 }
 
 /// The per-vector denial probability of `layer` at threat `intensity`:
@@ -136,6 +157,148 @@ pub fn resilience_ratio_closed_form(
     } else {
         f64::INFINITY
     }
+}
+
+// ── §4.2 per-vector graceful-degradation survival ──────────────────────────────────
+//
+// The headline resilience ratio lumps the shared RF threat into one aggregate denial
+// vector. §4.2 resolves the threat into the four *named* vectors (jamming, spoofing,
+// kinetic, cyber) and asks a sharper question: under one vector acting alone, does the
+// architecture keep *any* usable PNT? For vector `v` at intensity `x` each layer is
+// denied with `p = clamp(susceptibility_v · x, 0, 1)`, so its usable probability is
+// `a_i·(1 − p_i,v)` and the architecture's **usable-PNT survival** — the probability that
+// at least one layer remains usable — is the closed form
+// `S_v(x) = 1 − Π_i (1 − a_i·(1 − p_i,v))`. That closed form is the Validated oracle a
+// seeded Monte-Carlo of independent per-layer draws converges to.
+
+/// Per-vector denial probability of a layer under one vector at `intensity`:
+/// `clamp(susceptibility · intensity, 0, 1)`.
+pub fn per_vector_deny(susceptibility: f64, intensity: f64) -> f64 {
+    (susceptibility * intensity).clamp(0.0, 1.0)
+}
+
+/// Per-vector usable probability of `layer` under vector `vec_idx` at `intensity`:
+/// `availability · (1 − per_vector_deny)`.
+pub fn per_vector_usable(layer: &ConflictLayer, vec_idx: usize, intensity: f64) -> f64 {
+    let s = layer.profile().as_array()[vec_idx];
+    layer.availability.clamp(0.0, 1.0) * (1.0 - per_vector_deny(s, intensity))
+}
+
+/// Closed-form usable-PNT survival under vector `vec_idx` acting alone at `intensity`:
+/// `1 − Π_i (1 − per_vector_usable_i)`. This is the §4.2 graceful-degradation oracle.
+pub fn per_vector_survival_closed_form(
+    layers: &[ConflictLayer],
+    vec_idx: usize,
+    intensity: f64,
+) -> f64 {
+    let none_usable: f64 = layers
+        .iter()
+        .map(|l| 1.0 - per_vector_usable(l, vec_idx, intensity))
+        .product();
+    1.0 - none_usable
+}
+
+/// Seeded Monte-Carlo of the per-vector usable-PNT survival — the Validated check that the
+/// independent per-layer draws converge to [`per_vector_survival_closed_form`].
+pub fn simulate_per_vector_survival(
+    layers: &[ConflictLayer],
+    vec_idx: usize,
+    intensity: f64,
+    trials: usize,
+    seed: u64,
+) -> f64 {
+    let deny: Vec<f64> = layers
+        .iter()
+        .map(|l| per_vector_deny(l.profile().as_array()[vec_idx], intensity))
+        .collect();
+    let mut rng = ChaCha8Rng::seed_from_u64(seed);
+    let mut survived: u64 = 0;
+    for _ in 0..trials {
+        let mut any = false;
+        for (i, l) in layers.iter().enumerate() {
+            let avail_ok = rng.gen_range(0.0..1.0) < l.availability;
+            let denied = rng.gen_range(0.0..1.0) < deny[i];
+            if avail_ok && !denied {
+                any = true;
+            }
+        }
+        if any {
+            survived += 1;
+        }
+    }
+    survived as f64 / trials as f64
+}
+
+/// One `(intensity, survival)` sample of a per-vector graceful-degradation curve.
+#[derive(Clone, Debug)]
+pub struct VectorSurvivalRow {
+    /// Threat intensity.
+    pub intensity: f64,
+    /// Closed-form usable-PNT survival at this intensity.
+    pub survival_closed_form: f64,
+    /// Monte-Carlo usable-PNT survival at this intensity (Validated ≈ closed form).
+    pub survival_mc: f64,
+}
+
+/// The full graceful-degradation survival curve for one named threat vector.
+#[derive(Clone, Debug)]
+pub struct VectorSurvival {
+    /// Vector index into [`THREAT_VECTORS`].
+    pub vec_idx: usize,
+    /// Vector name (`"jamming"` / `"spoofing"` / `"kinetic"` / `"cyber"`).
+    pub name: &'static str,
+    /// Survival at the reference intensity (grid max) — the sharpness score.
+    pub survival_at_reference: f64,
+    /// The `(intensity, survival)` curve over the intensity grid.
+    pub rows: Vec<VectorSurvivalRow>,
+}
+
+/// Sweep the per-vector usable-PNT survival across the intensity grid for one vector.
+pub fn sweep_per_vector_survival(
+    layers: &[ConflictLayer],
+    vec_idx: usize,
+    grid: &[f64],
+    trials: usize,
+    seed: u64,
+) -> Vec<VectorSurvivalRow> {
+    grid.iter()
+        .enumerate()
+        .map(|(i, &intensity)| VectorSurvivalRow {
+            intensity,
+            survival_closed_form: per_vector_survival_closed_form(layers, vec_idx, intensity),
+            survival_mc: simulate_per_vector_survival(
+                layers,
+                vec_idx,
+                intensity,
+                trials,
+                mix_seed(seed, 30_000 + vec_idx * 97 + i),
+            ),
+        })
+        .collect()
+}
+
+/// Compute all four §4.2 per-vector survival curves, ordered by [`THREAT_VECTORS`].
+pub fn per_vector_survivals(
+    layers: &[ConflictLayer],
+    grid: &[f64],
+    reference_intensity: f64,
+    trials: usize,
+    seed: u64,
+) -> Vec<VectorSurvival> {
+    THREAT_VECTORS
+        .iter()
+        .enumerate()
+        .map(|(vec_idx, &name)| VectorSurvival {
+            vec_idx,
+            name,
+            survival_at_reference: per_vector_survival_closed_form(
+                layers,
+                vec_idx,
+                reference_intensity,
+            ),
+            rows: sweep_per_vector_survival(layers, vec_idx, grid, trials, seed),
+        })
+        .collect()
 }
 
 /// Inverse standard-normal CDF (probit) via Acklam's rational approximation (absolute
@@ -640,6 +803,7 @@ struct Computed {
     ratio_closed_form: f64,
     ratio_mc_independent: f64,
     sensitivity: PriorSensitivity,
+    per_vector_survival: Vec<VectorSurvival>,
 }
 
 impl ConflictResilienceScenario {
@@ -657,6 +821,7 @@ impl ConflictResilienceScenario {
                     sigma_m: p.sigma_m,
                     vulnerability: p.vulnerability_nominal,
                     vector_weight: p.vector_weight,
+                    vector_profile: Some(p.vector_profile),
                 })
                 .collect();
             let priors = base
@@ -768,6 +933,8 @@ impl ConflictResilienceScenario {
         };
         let sensitivity =
             prior_sensitivity(&layers, &priors, reference_intensity, primary, 2000, seed);
+        let per_vector_survival =
+            per_vector_survivals(&layers, &grid, reference_intensity, trials, seed);
 
         Ok(Computed {
             layers,
@@ -781,6 +948,7 @@ impl ConflictResilienceScenario {
             ratio_closed_form,
             ratio_mc_independent,
             sensitivity,
+            per_vector_survival,
         })
     }
 
@@ -797,6 +965,7 @@ impl ConflictResilienceScenario {
             .enumerate()
             .map(|(i, l)| {
                 let (lo, hi) = c.priors[i];
+                let prof = l.profile();
                 serde_json::json!({
                     "index": i,
                     "name": l.name,
@@ -808,6 +977,12 @@ impl ConflictResilienceScenario {
                     "vulnerability_prior_max": hi,
                     "deny_prob_at_reference": deny_prob(l, c.reference_intensity),
                     "loss_prob_at_reference": layer_loss_prob(l, c.reference_intensity),
+                    "vector_profile": {
+                        "jamming": prof.jamming,
+                        "spoofing": prof.spoofing,
+                        "kinetic": prof.kinetic,
+                        "cyber": prof.cyber,
+                    },
                 })
             })
             .collect();
@@ -862,6 +1037,37 @@ impl ConflictResilienceScenario {
             .filter(|r| r.is_finite())
             .fold(f64::INFINITY, f64::min);
 
+        let per_vector_survival: Vec<serde_json::Value> = c
+            .per_vector_survival
+            .iter()
+            .map(|vs| {
+                let rows: Vec<serde_json::Value> = vs
+                    .rows
+                    .iter()
+                    .map(|r| {
+                        serde_json::json!({
+                            "intensity": r.intensity,
+                            "survival_closed_form": r.survival_closed_form,
+                            "survival_mc": r.survival_mc,
+                        })
+                    })
+                    .collect();
+                serde_json::json!({
+                    "vector": vs.name,
+                    "survival_at_reference": vs.survival_at_reference,
+                    "rows": rows,
+                })
+            })
+            .collect();
+        // Sharpest vector = the one that drives usable-PNT survival lowest at the reference
+        // intensity (the §4.2 "jam sharpest" ranking is a property of the RF-heavy baseline).
+        let sharpest = c
+            .per_vector_survival
+            .iter()
+            .min_by(|a, b| a.survival_at_reference.total_cmp(&b.survival_at_reference))
+            .map(|vs| vs.name)
+            .unwrap_or("");
+
         let doc = serde_json::json!({
             "kind": "conflict-resilience",
             "label": LABEL,
@@ -895,6 +1101,12 @@ impl ConflictResilienceScenario {
                 "samples": c.sensitivity.samples,
                 "tornado": tornado,
                 "note": "Modelled sensitivity of the headline over the SOURCED vulnerability priors (crate::conflict_threat_params): the ratio/total-loss 95% CIs come from a uniform draw over each layer's [min,max] prior via resilience::stats::percentile_ci; the effort-reallocation CI re-splits the adversary's total threat effort across vectors via resilience::stats::dirichlet_weights; the tornado (mcda::sensitivity::tornado) ranks which vulnerability-prior weight most swings the layered-over-single decision margin. Cited priors are Modelled inputs with provenance, not Validated."
+            },
+            "per_vector_survival": {
+                "reference_intensity": c.reference_intensity,
+                "vectors": per_vector_survival,
+                "sharpest_vector": sharpest,
+                "note": "§4.2 graceful degradation: usable-PNT survival S_v(x) = 1 - Prod_i (1 - a_i*(1 - clamp(susceptibility_i,v * x, 0, 1))) under each named vector (jamming/spoofing/kinetic/cyber) acting alone, swept over the intensity grid. Validated: survival_mc (seeded independent per-layer Monte-Carlo) converges to survival_closed_form. Modelled: the per-vector susceptibilities are sourced-but-Modelled allocations (crate::conflict_threat_params::VectorProfile). For the correlated-RF baseline jamming is the sharpest vector (lowest survival at reference) — the alt-PNT (inertial) layer is the only RF-immune survivor, so a diverse architecture that includes it degrades gracefully where an all-RF stack collapses."
             }
         });
         serde_json::to_string_pretty(&doc).map_err(|e| e.to_string())
@@ -921,11 +1133,25 @@ fn summary(c: &Computed) -> String {
         "{:.2}",
         c.sensitivity.ratio_ci.0.max(c.sensitivity.ratio_ci.1)
     );
+    let surv = |name: &str| {
+        c.per_vector_survival
+            .iter()
+            .find(|v| v.name == name)
+            .map(|v| v.survival_at_reference * 100.0)
+            .unwrap_or(f64::NAN)
+    };
+    let sharpest = c
+        .per_vector_survival
+        .iter()
+        .min_by(|a, b| a.survival_at_reference.total_cmp(&b.survival_at_reference))
+        .map(|v| v.name)
+        .unwrap_or("");
     format!(
         "conflict-resilience | {} layers ({} baseline) | reference intensity {:.2} | \
          resilience ratio closed-form {:.2}x MC {:.2}x (layered vs single-layer) | \
          correlation defeats layering: ratio {:.2}x @ rho {:.2} -> {:.2}x @ rho {:.2} | \
-         prior CI [{ratio_lo}-{ratio_hi}]x | ~7x headline MODELLED, VALIDATED MC->closed-form / fuse-identity / copula-marginals",
+         prior CI [{ratio_lo}-{ratio_hi}]x | per-vector survival @ ref jam {:.0}% spoof {:.0}% kinetic {:.0}% cyber {:.0}% (sharpest {sharpest}) | \
+         ~7x headline MODELLED, VALIDATED MC->closed-form / fuse-identity / copula-marginals / per-vector-survival",
         c.layers.len(),
         c.primary,
         c.reference_intensity,
@@ -935,6 +1161,10 @@ fn summary(c: &Computed) -> String {
         first.map(|s| s.rho).unwrap_or(0.0),
         last.map(|s| s.resilience_ratio).unwrap_or(f64::NAN),
         last.map(|s| s.rho).unwrap_or(0.0),
+        surv("jamming"),
+        surv("spoofing"),
+        surv("kinetic"),
+        surv("cyber"),
     )
 }
 
@@ -1127,6 +1357,7 @@ mod tests {
                 sigma_m: 3.0,
                 vulnerability: 0.9,
                 vector_weight: 0.6,
+                vector_profile: None,
             },
             ConflictLayer {
                 name: "b".into(),
@@ -1134,6 +1365,7 @@ mod tests {
                 sigma_m: 4.0,
                 vulnerability: 0.8,
                 vector_weight: 0.6,
+                vector_profile: None,
             },
             ConflictLayer {
                 name: "c".into(),
@@ -1141,6 +1373,7 @@ mod tests {
                 sigma_m: 5.0,
                 vulnerability: 0.85,
                 vector_weight: 0.6,
+                vector_profile: None,
             },
         ]
     }
@@ -1348,5 +1581,101 @@ vector_weight = 0.6
         let layers = v["layers"].as_array().unwrap();
         assert_eq!(layers.len(), 2);
         assert_eq!(layers[0]["name"], "layer 0");
+    }
+
+    #[test]
+    fn per_vector_mc_converges_to_closed_form() {
+        // ORACLE (Validated): the seeded per-vector survival Monte-Carlo converges to the
+        // closed form S_v = 1 - Π_i (1 - a_i·(1 - p_i,v)) within MC standard error.
+        let layers = avail1_layers();
+        let intensity = 0.7;
+        for vec_idx in 0..THREAT_VECTORS.len() {
+            let closed = per_vector_survival_closed_form(&layers, vec_idx, intensity);
+            let n = 200_000;
+            let mc =
+                simulate_per_vector_survival(&layers, vec_idx, intensity, n, 77 + vec_idx as u64);
+            let stderr = (closed * (1.0 - closed) / n as f64).sqrt().max(1e-6);
+            assert!(
+                (mc - closed).abs() < 5.0 * stderr,
+                "vector {vec_idx}: MC {mc} vs closed {closed} (5σ = {})",
+                5.0 * stderr
+            );
+        }
+    }
+
+    #[test]
+    fn immune_vector_survival_is_availability_only() {
+        // A vector every layer is immune to (susceptibility 0) leaves survival at the
+        // availability-only floor 1 - Π_i (1 - a_i), independent of intensity.
+        let layers = vec![
+            ConflictLayer {
+                name: "x".into(),
+                availability: 0.9,
+                sigma_m: 3.0,
+                vulnerability: 0.5,
+                vector_weight: 0.5,
+                vector_profile: Some(VectorProfile {
+                    jamming: 0.0,
+                    spoofing: 0.0,
+                    kinetic: 0.0,
+                    cyber: 0.0,
+                }),
+            },
+            ConflictLayer {
+                name: "y".into(),
+                availability: 0.8,
+                sigma_m: 4.0,
+                vulnerability: 0.5,
+                vector_weight: 0.5,
+                vector_profile: Some(VectorProfile {
+                    jamming: 0.0,
+                    spoofing: 0.0,
+                    kinetic: 0.0,
+                    cyber: 0.0,
+                }),
+            },
+        ];
+        let floor = 1.0 - (1.0 - 0.9) * (1.0 - 0.8); // = 0.98
+        for x in [0.0, 0.5, 1.0] {
+            let s = per_vector_survival_closed_form(&layers, 0, x);
+            assert!(
+                (s - floor).abs() < 1e-12,
+                "immune survival {s} != floor {floor}"
+            );
+        }
+    }
+
+    #[test]
+    fn default_scenario_emits_jam_sharpest_per_vector_survival() {
+        let (json, summary, _svg) = ConflictResilienceScenario::default().run_output().unwrap();
+        let v: Value = serde_json::from_str(&json).unwrap();
+        let pvs = &v["per_vector_survival"];
+        let vectors = pvs["vectors"].as_array().unwrap();
+        assert_eq!(vectors.len(), 4);
+        // The §4.2 headline: jamming is the sharpest vector for the correlated-RF baseline.
+        assert_eq!(pvs["sharpest_vector"], "jamming");
+        let surv = |name: &str| {
+            vectors.iter().find(|v| v["vector"] == name).unwrap()["survival_at_reference"]
+                .as_f64()
+                .unwrap()
+        };
+        let jam = surv("jamming");
+        assert!(jam < surv("spoofing"), "jam must be sharper than spoof");
+        assert!(jam < surv("kinetic"), "jam must be sharper than kinetic");
+        assert!(jam < surv("cyber"), "jam must be sharper than cyber");
+        // Each vector's MC survival tracks its closed form (Validated).
+        for vec in vectors {
+            let rows = vec["rows"].as_array().unwrap();
+            for r in rows {
+                let cf = r["survival_closed_form"].as_f64().unwrap();
+                let mc = r["survival_mc"].as_f64().unwrap();
+                assert!(
+                    (cf - mc).abs() < 0.05,
+                    "MC {mc} strayed from closed form {cf}"
+                );
+            }
+        }
+        assert!(summary.contains("per-vector survival"));
+        assert!(summary.contains("sharpest jamming"));
     }
 }
