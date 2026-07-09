@@ -1,0 +1,107 @@
+{
+  "_comment": "SNAPSHOT of src/conflict_threat_params.rs::threat_catalog(). Regenerate with: cargo test --test conflict_threat_params_provenance emit_threat_parameters_fixture -- --ignored",
+  "layers": [
+    {
+      "availability": 0.99,
+      "citation": "JammerTest 2024 field campaign, Bleik/Andoya, Norway (Zenodo DOI 10.5281/zenodo.15910563, GPL-3.0; vendored in crate::realdata::jammertest): L1 C/A loses lock at the lowest jammer power of any tracked signal. Conflict-zone L1 interference incidence: OPSGROUP/GPSJAM 2024 daily aircraft GNSS-interference maps; EASA Safety Information Bulletin 2022-02 (GNSS outages and spoofing). Magnitudes Modelled.",
+      "layer": "GNSS L1 C/A (open service)",
+      "sigma_m": 4.0,
+      "vector_profile": {
+        "cyber": 0.18,
+        "jamming": 0.98,
+        "kinetic": 0.12,
+        "spoofing": 0.85
+      },
+      "vector_weight": 0.58,
+      "vulnerability_max": 0.98,
+      "vulnerability_min": 0.8,
+      "vulnerability_nominal": 0.9
+    },
+    {
+      "availability": 0.97,
+      "citation": "JammerTest 2024 (Zenodo DOI 10.5281/zenodo.15910563): the wideband L5/E5 signal is more jam-resistant than L1 C/A yet is still denied at moderate jammer-to-signal ratios, and shares the same RF band as the conflict-zone interference in EASA SIB 2022-02. Magnitudes Modelled.",
+      "layer": "GNSS L5 / E5a (wideband)",
+      "sigma_m": 3.0,
+      "vector_profile": {
+        "cyber": 0.18,
+        "jamming": 0.9,
+        "kinetic": 0.12,
+        "spoofing": 0.8
+      },
+      "vector_weight": 0.6,
+      "vulnerability_max": 0.95,
+      "vulnerability_min": 0.7,
+      "vulnerability_nominal": 0.85
+    },
+    {
+      "availability": 0.98,
+      "citation": "TEXBAT — the Texas Spoofing Test Battery (Humphreys et al., University of Texas Radionavigation Laboratory, 2012): recorded live-sky spoofing scenarios. Galileo OSNMA (navigation-message authentication) raises the spoofing bar but still shares the RF power-denial vector. Magnitudes Modelled.",
+      "layer": "Galileo E1 OS + OSNMA",
+      "sigma_m": 4.0,
+      "vector_profile": {
+        "cyber": 0.22,
+        "jamming": 0.92,
+        "kinetic": 0.12,
+        "spoofing": 0.4
+      },
+      "vector_weight": 0.59,
+      "vulnerability_max": 0.96,
+      "vulnerability_min": 0.72,
+      "vulnerability_nominal": 0.88
+    },
+    {
+      "availability": 0.96,
+      "citation": "RTCA DO-229 (SBAS Minimum Operational Performance Standards) nominal accuracy; an SBAS relay rides the same L1/L5 RF band, so it shares the jamming vector documented by JammerTest 2024 and EASA SIB 2022-02. Magnitudes Modelled.",
+      "layer": "SBAS / augmentation (WAAS/EGNOS-class)",
+      "sigma_m": 3.0,
+      "vector_profile": {
+        "cyber": 0.55,
+        "jamming": 0.9,
+        "kinetic": 0.28,
+        "spoofing": 0.68
+      },
+      "vector_weight": 0.6,
+      "vulnerability_max": 0.95,
+      "vulnerability_min": 0.72,
+      "vulnerability_nominal": 0.86
+    },
+    {
+      "availability": 0.999,
+      "citation": "Alt-PNT diversity layer: an inertial system is immune to the RF-denial vector (residual vulnerability = mechanical shock / upset only), per the DHS/CISA Resilient PNT Conformance Framework v2.0 diversity principle and DARPA All-Source Positioning and Navigation (ASPN). Magnitudes Modelled.",
+      "layer": "Inertial (navigation-grade INS)",
+      "sigma_m": 30.0,
+      "vector_profile": {
+        "cyber": 0.1,
+        "jamming": 0.0,
+        "kinetic": 0.2,
+        "spoofing": 0.0
+      },
+      "vector_weight": 0.1,
+      "vulnerability_max": 0.1,
+      "vulnerability_min": 0.0,
+      "vulnerability_nominal": 0.03
+    },
+    {
+      "availability": 0.95,
+      "citation": "LunaNet Interoperability Specification (NASA/ESA) and the IOAG Lunar Communications Architecture: an augmentation / relay PNT layer that shares only a partial RF vector with terrestrial GNSS. Magnitudes Modelled.",
+      "layer": "LunaNet / IOAG augmentation relay",
+      "sigma_m": 30.0,
+      "vector_profile": {
+        "cyber": 0.5,
+        "jamming": 0.4,
+        "kinetic": 0.5,
+        "spoofing": 0.35
+      },
+      "vector_weight": 0.3,
+      "vulnerability_max": 0.45,
+      "vulnerability_min": 0.1,
+      "vulnerability_nominal": 0.25
+    }
+  ],
+  "threat_vectors": [
+    "jamming",
+    "spoofing",
+    "kinetic",
+    "cyber"
+  ]
+}
