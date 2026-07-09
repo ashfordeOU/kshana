@@ -37,6 +37,16 @@ fn first_text(res: &rmcp::model::CallToolResult) -> String {
         .unwrap_or_default()
 }
 
+/// All text content items joined — `run_scenario` returns the summary and the JSON as
+/// separate items, so a check for a JSON key must scan both, not just the first.
+fn all_text(res: &rmcp::model::CallToolResult) -> String {
+    res.content
+        .iter()
+        .filter_map(|c| c.as_text().map(|t| t.text.clone()))
+        .collect::<Vec<_>>()
+        .join("\n")
+}
+
 #[tokio::test]
 async fn lists_all_five_tools() {
     let client = connect().await;
@@ -100,6 +110,35 @@ async fn run_scenario_executes_a_real_clock_scenario() {
     assert!(
         lower.contains("holdover") || lower.contains("quantum") || lower.contains("ns"),
         "run_scenario output missing expected clock FoM tokens: {text:.200}"
+    );
+    client.cancel().await.ok();
+}
+
+#[tokio::test]
+async fn run_scenario_reaches_conflict_resilience_per_vector_survival() {
+    // P7-G5: the layered-PNT conflict-resilience analysis and its §4.2 per-vector
+    // survival breakdown must be reachable through the MCP `run_scenario` tool, not only
+    // from a unit test — the MCP server is a thin `run_toml` wrapper, so this guards that
+    // the wiring stays intact.
+    let client = connect().await;
+    let toml = std::fs::read_to_string(
+        Path::new(env!("CARGO_MANIFEST_DIR")).join("../../scenarios/conflict-resilience.toml"),
+    )
+    .expect("read bundled conflict-resilience scenario");
+    let res = client
+        .call_tool(call("run_scenario", serde_json::json!({ "toml": toml })))
+        .await
+        .expect("call run_scenario");
+    assert_ne!(res.is_error, Some(true), "run_scenario returned an error");
+    // The JSON is a separate content item from the summary, so scan both.
+    let text = all_text(&res);
+    assert!(
+        text.contains("per_vector_survival") && text.contains("sharpest_vector"),
+        "MCP run_scenario must surface the §4.2 per-vector survival block"
+    );
+    assert!(
+        text.contains("conflict-resilience") && text.contains("resilience ratio"),
+        "MCP run_scenario must carry the conflict-resilience result"
     );
     client.cancel().await.ok();
 }
