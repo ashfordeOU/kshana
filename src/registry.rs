@@ -87,6 +87,7 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         LunarTimeBudget,
         RealtimeFrameEop,
         HybridOpticalRf,
+        CislunarObservability,
     ]
 };
 
@@ -147,6 +148,8 @@ pub mod ids {
     pub const LUNAR_TIME_BUDGET: ScenarioId = ScenarioId::from_static("lunar-time-budget");
     pub const REALTIME_FRAME_EOP: ScenarioId = ScenarioId::from_static("realtime-frame-eop");
     pub const HYBRID_OPTICAL_RF: ScenarioId = ScenarioId::from_static("hybrid-optical-rf");
+    pub const CISLUNAR_OBSERVABILITY: ScenarioId =
+        ScenarioId::from_static("cislunar-observability");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {
