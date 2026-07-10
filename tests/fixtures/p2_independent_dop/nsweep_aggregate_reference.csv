@@ -1,0 +1,6 @@
+# P2 satellite-count-sweep — INDEPENDENT numpy aggregate order statistics.
+# median GDOP + time-below-GDOP-6 + coverage(PDOP<6), computed over the numpy per-sample series.
+# N,ref_gdop_median,ref_frac_below_gdop6,ref_coverage_fraction,n_samples_total,n_defined_dop
+6,1.16073747493046771e+01,3.67521367521367548e-01,3.67521367521367548e-01,117,117
+12,7.40813077153196531e+00,4.87179487179487170e-01,4.87179487179487170e-01,117,117
+24,2.87775779106220853e+00,8.80341880341880323e-01,9.48717948717948678e-01,117,117
