@@ -1,0 +1,12 @@
+# P1 capture-footprint scalar invariants. Independent numpy/scipy.
+# n=400  D=1.0 f=2400000000.0 eta=0.6 h=100000.0 P_tx=16.020599913dBW
+# AFS=-140.6 thresh=3.0 R_MOON=1737400.0 c=299792458.0
+# captured_fraction is the DISCRETE sum(sin gamma_i | captured)/sum(sin gamma_i),
+# identical to Kshana's definition on the identical grid.
+# key ; value
+boresight_gain_dbi;2.579232073339e+01
+horizon_central_angle_rad;3.314383757734e-01
+captured_fraction;3.020268505628e-02
+nadir_js_db;4.236091259056e+01
+limb_js_db;-1.178354427389e+01
+num_captured_points;65
