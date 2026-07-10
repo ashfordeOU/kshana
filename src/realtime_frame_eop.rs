@@ -42,8 +42,12 @@ use crate::lunar_frame_predict::{
 use serde::Deserialize;
 
 /// The real IERS `finals2000A` fixture bundled for the offline/default run — the same
-/// verbatim rows the [`crate::frame_eop`] tests read.
-const FIXTURE: &str = include_str!("../tests/fixtures/agency/eop/finals2000A_2022001.txt");
+/// verbatim rows the [`crate::frame_eop`] tests read. Kept under `tools/` (a shipped
+/// crate asset, like `tools/egm2008_to70.gfc`) rather than `tests/fixtures/` — which is
+/// excluded from the published crate tarball — because this is a *runtime* default the
+/// library embeds, not a test-only fixture. The drift guard below pins it byte-for-byte
+/// to the test-fixture copy so the two cannot diverge.
+const FIXTURE: &str = include_str!("../tools/finals2000A_2022001.txt");
 
 /// The honesty label carried on the result document.
 const LABEL: &str = "Real-time lunar frame / Earth-orientation prediction budget. \
@@ -373,6 +377,20 @@ mod tests {
     use super::*;
     use crate::frame_eop::ut1_error_to_lunar;
     use serde_json::Value;
+
+    /// The bundled runtime EOP asset (`tools/finals2000A_2022001.txt`, shipped in the
+    /// crate tarball) must stay byte-for-byte identical to the test fixture under
+    /// `tests/fixtures/` — otherwise the offline default would silently diverge from the
+    /// data the `frame_eop` validation tests are pinned to.
+    #[test]
+    fn bundled_eop_matches_the_test_fixture() {
+        let test_fixture = include_str!("../tests/fixtures/agency/eop/finals2000A_2022001.txt");
+        assert_eq!(
+            FIXTURE, test_fixture,
+            "tools/finals2000A_2022001.txt (shipped runtime asset) has drifted from \
+             tests/fixtures/agency/eop/finals2000A_2022001.txt — re-copy it"
+        );
+    }
 
     #[test]
     fn default_scenario_runs_and_carries_the_honesty_label() {
