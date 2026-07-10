@@ -1,0 +1,7 @@
+# RF thermal-noise ranging/timing precision reference.
+# Oracle: Kaplan & Hegarty (3rd ed., Ch.8) DLL/PLL closed forms, hand-computed in Python.
+# See NOTICE and generate_rf_ranging_reference.py. Consumed by
+# tests/validate_p5_rf_ranging_precision.rs.
+# label;band;freq_hz;range_m;eirp_dbw;g_over_t_db;other_db;chip_rate_hz;loop_bw_hz;corr_spacing_chips;integ_time_s;fsl_db;cn0_dbhz;sigma_code_chips;sigma_range_m;sigma_code_time_ns;pll_phase_rad;pll_time_ps
+s_band_lunar_ranging;S;2.295000e+09;3.844000e+08;15.0000;15.0000;3.0000;1.023000e+06;1.000000;0.500000;0.020000;211.359104599;44.240062574;3.072638859730e-03;0.900443750;3.003557048;6.137575835834e-03;0.425632040
+ka_band_lunar_ranging;Ka;3.200000e+10;3.844000e+08;20.0000;30.0000;3.0000;1.000000e+07;1.000000;0.500000;0.020000;234.246450368;41.352716805;4.289353042003e-03;0.128591569;0.428935304;8.557839945390e-03;0.042563204
