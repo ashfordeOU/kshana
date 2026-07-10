@@ -1,0 +1,8 @@
+# P2 beacon before/after GDOP table golden (drift guard, NOT an independent oracle).
+# -80 deg user at (lat -80, lon 0, 2 m mast). 6-sat illustrative_lcns(6) snapshot at t=0.
+# 3 surveyed beacons at (-80,0),(-79,60),(-79,-60) on 2 km masts. 5 deg mask.
+# 24-sat row = median GDOP over the P2 volume from sweep_over_n(24,24,...).
+# Columns: label,gdop,pdop,hdop,vdop,tdop (empty = None / no fix)
+6sat_only,1.16627310070455117e1,9.69414658281511343e0,3.48682758194846620e0,9.04535855468811079e0,6.48404322730770399e0
+6sat_plus_3beacons,4.99789665831218244e0,4.11604233885146797e0,1.97214433677616974e0,3.61281763311401383e0,2.83498967757383902e0
+24sat_median,2.87775779106222540e0,,,,

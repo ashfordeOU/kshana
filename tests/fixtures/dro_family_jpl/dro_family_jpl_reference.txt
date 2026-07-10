@@ -1,0 +1,17 @@
+# NASA/JPL Three-Body Periodic Orbit Database -- Earth-Moon planar DRO family.
+# Query: https://ssd-api.jpl.nasa.gov/periodic_orbits.api?sys=earth-moon&family=dro
+# Selected: 4 planar DROs spanning perilune ~11,500 .. ~46,000 km (paper P6, L29).
+# Catalog row fields: x,y,z,vx,vy,vz,jacobi,period,stability (non-dim, mean motion=1).
+# The catalog lists the NEAR-side x-axis crossing (x<1-mu, vy>0).
+# system mass_ratio=0.01215058560962404  lunit_km=389703.264829278  tunit_s=382981.289129055  radius_secondary_km=1737.1
+# far_x = the FAR-side x-axis crossing (x>1-mu) of the SAME orbit, found by scipy
+#   DOP853 (rtol=atol=1e-13) from the JPL near-side state. kshana::dro is seeded there.
+# peri_nondim = min Moon-distance over one period, scipy DOP853 -- integrator
+#   independent of kshana's RK4; peri_km_jpl = peri_nondim * lunit.
+# Consumed by tests/validate_p6_dro_family_jpl.rs.
+# SYSTEM mass_ratio=0.01215058560962404 lunit_km=389703.264829278 tunit_s=382981.289129055
+# DRO name | near_x0 | near_vy0 | far_x | jacobi_C | period_T | period_days | peri_nondim | peri_km_jpl_lunit
+DRO DRO_peri11493km | 0.9583582123713223 | 0.6729514542953406 | 1.0174013590360331 | 3.32533617452605 | 0.27727357587157475 | 1.2290577723231313 | 0.02949120201905364 | 11492.817710565
+DRO DRO_peri19990km | 0.9365533473672659 | 0.543422052357867 | 1.0394898503176009 | 3.13809213281909 | 0.6101931543722168 | 2.7047750101758803 | 0.0512960670231043 | 19990.244791805206
+DRO DRO_peri29977km | 0.9109268205488843 | 0.48739292494611014 | 1.0658906592820276 | 3.04849229666134 | 1.0673527928177289 | 4.731205423018877 | 0.0769225938414917 | 29976.985959165824
+DRO DRO_peri46025km | 0.8697474306532285 | 0.47098755399886844 | 1.1094089735498835 | 2.98067599695224 | 1.8864822791798597 | 8.362122861104403 | 0.11810198373714753 | 46024.72864518069
