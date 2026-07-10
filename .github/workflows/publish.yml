@@ -10,11 +10,13 @@
 # idempotent: re-running after a version is already live is a no-op success, so a
 # partial failure (one registry) can be retried safely without touching the others.
 #
-# PyPI is the exception: it publishes via OIDC Trusted Publishing (no long-lived
-# API token). The wheels/sdist build as artifacts first, are SLSA-attested, then a
-# single publish job exchanges the workflow's OIDC identity for a short-lived PyPI
-# token. The publish job stays inert until the maintainer registers this workflow
-# as a Trusted Publisher on PyPI and sets the repo variable PYPI_TRUSTED_PUBLISH.
+# PyPI works exactly like the other registry jobs: the wheels/sdist build as
+# artifacts first (each SLSA build-provenance attested), then a single publish job
+# uploads them, gated on the PYPI_API_TOKEN secret. With the token unset the upload
+# is skipped and the job still succeeds; with it set every tagged version uploads
+# automatically. (PEP 740 upload attestations require OIDC Trusted Publishing and are
+# therefore off under token auth — but the GitHub SLSA attestation of every uploaded
+# file is emitted regardless and is verifiable with `gh attestation verify`.)
 #
 # Every distributed artifact (crate tarball, wheels, sdist, npm tarball) gets a
 # cryptographic SLSA build-provenance attestation (actions/attest-build-provenance)
@@ -199,15 +201,18 @@ jobs:
           if-no-files-found: error
 
   pypi-publish:
-    name: PyPI (OIDC Trusted Publishing)
+    name: PyPI
     needs: build-wheels
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    environment: pypi
+    environment:
+      name: pypi
+      url: https://pypi.org/project/kshana/
     permissions:
       contents: read
-      # OIDC: lets gh-action-pypi-publish mint a short-lived PyPI token, and lets the
-      # PEP 740 / SLSA attestation of every uploaded file be signed by this identity.
+      # id-token/attestations are for the GitHub SLSA build-provenance attestation of
+      # every uploaded file (actions/attest-build-provenance below) — NOT for PyPI auth,
+      # which uses the PYPI_API_TOKEN secret.
       id-token: write
       attestations: write
     steps:
@@ -239,24 +244,26 @@ jobs:
           mkdir -p sbom
           mv dist/kshana-sbom.cdx.json sbom/ 2>/dev/null || true
           ls -l dist
-      - name: Gate on Trusted-Publishing opt-in
+      - name: Gate on token
         id: gate
         env:
-          GO: ${{ vars.PYPI_TRUSTED_PUBLISH }}
+          TOKEN: ${{ secrets.PYPI_API_TOKEN }}
         run: |
-          if [ "$GO" = "true" ]; then echo "go=true" >> "$GITHUB_OUTPUT";
-          else echo "PYPI_TRUSTED_PUBLISH != true; skipping PyPI publish (register this workflow as a Trusted Publisher on PyPI and set the repo variable to enable)"; fi
-      - name: Publish to PyPI (Trusted Publishing)
+          if [ -n "$TOKEN" ]; then echo "go=true" >> "$GITHUB_OUTPUT";
+          else echo "PYPI_API_TOKEN not set; skipping PyPI publish"; fi
+      - name: Publish to PyPI
         if: steps.gate.outputs.go == 'true'
-        # No password/token: with id-token:write and a registered Trusted Publisher,
-        # the action exchanges the workflow OIDC identity for a short-lived upload token.
         uses: pypa/gh-action-pypi-publish@release/v1
         with:
           packages-dir: dist
-          # Re-runs after a version is live are a no-op success.
+          # __token__ + the project/account API token. skip-existing makes a re-run after
+          # a version is already live a no-op success (same idempotency as the other jobs).
+          password: ${{ secrets.PYPI_API_TOKEN }}
           skip-existing: true
-          # PEP 740 attestations are generated and uploaded by default under id-token:write.
-          attestations: true
+          # PEP 740 upload attestations require OIDC Trusted Publishing; PyPI rejects them
+          # under API-token auth, so they are off here. The GitHub SLSA attestation of every
+          # file (attest-build-provenance above) is emitted regardless.
+          attestations: false
           # twine's metadata check on each file before upload.
           verbose: true
 
