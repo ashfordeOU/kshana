@@ -1,0 +1,67 @@
+P2 surface-beacon-DOP — INDEPENDENT DOP validation reference
+============================================================
+
+These fixtures upgrade the three P2 (surface-beacon-DOP service-volume) paper
+GDOP claims from "Reproducible" (deterministic drift guard) to "Validated"
+(the specific GDOP numbers are cross-checked against an independent computation).
+They are not part of the Kshana source and are not shipped in the published
+crates/packages — they exist only for the test suite. No Python is required at
+test time; the reference values are committed here.
+
+The three claims
+----------------
+1. satellite-count sweep (median GDOP / time-below-GDOP-6 vs N),
+2. spatial GDOP map over the -70..-90 deg south-polar band (6-sat), and
+3. beacon before/after GDOP table for a -80 deg south-polar user.
+
+Oracle
+------
+An INDEPENDENT dilution-of-precision implementation in numpy (np.linalg.inv),
+distinct from Kshana's Rust `orbit::dop` kernel (a hand-rolled 4x4 Gauss-Jordan
+inversion). DOP is a deterministic function of the line-of-sight geometry alone:
+each source contributes a design-matrix row [-e_x, -e_y, -e_z, 1] (unit LOS plus
+clock term); the cofactor matrix is Q = (HᵀH)⁻¹ and
+  GDOP = sqrt(tr Q), PDOP = sqrt(Q00+Q11+Q22), TDOP = sqrt(Q33),
+with HDOP/VDOP the horizontal/vertical split of the 3x3 position block projected
+onto the user's East-North-Up basis. Reproducing this numpy output for a fully-
+specified geometry is a genuine external cross-check of Kshana's design-matrix
+assembly, inversion and ENU projection — the same technique tests/dop_reference.rs
+uses against gnss_lib_py.
+
+Non-circular boundary
+---------------------
+The DOP *number* is validated against the independent numpy oracle. Only the
+*geometry* (the per-source LOS unit vectors and the user's ENU basis) comes from
+Kshana's own public API — legitimate and non-circular because (a) it is exactly
+what tests/dop_reference.rs does, and (b) the geometry/propagation is a SEPARATE,
+already-Validated claim; here the DOP for that geometry is the object under test.
+Each Rust validation test additionally re-reconstructs the geometry via the public
+API and asserts the LOS unit vectors match the committed fixture vectors, so a
+silent geometry change is caught before the DOP comparison.
+
+Provenance / reproducibility
+----------------------------
+  # 1. dump the geometry Kshana's public API produces (throwaway generator)
+  cargo run --example gen_p2_independent_dop_geometry
+  # 2. recompute the reference DOP from scratch in numpy and emit the CSVs
+  python3 tests/fixtures/p2_independent_dop/gen_p2_independent_dop.py
+
+The numpy per-source DOP was verified against Kshana's own dumped DOP with a max
+relative difference < 1e-8 across all three configurations (dominated by the near-
+singular polar-tail geometries; well-conditioned cells agree to machine precision).
+The Rust tests assert agreement to a 1e-6 relative tolerance (matching
+tests/dop_reference.rs).
+
+Files
+-----
+gen_p2_independent_dop.py            numpy reference generator (independent oracle)
+nsweep_geometry.txt                  Kshana geometry dump, satellite-count sweep
+nsweep_samples_reference.csv         numpy per-sample DOP reference (sweep)
+nsweep_aggregate_reference.csv       numpy median-GDOP / time-below-6 / availability
+spatial_map_geometry.txt             Kshana geometry dump, spatial map (6-sat)
+spatial_map_reference.csv            numpy per-cell/epoch DOP reference (map)
+beacon_before_after_geometry.txt     Kshana geometry dump, beacon before/after
+beacon_before_after_reference.csv    numpy before/after GDOP + ratio reference
+
+The *_geometry.txt intermediates are regenerable from the public API; the *.csv
+files are the committed independent reference the Rust tests reload.
