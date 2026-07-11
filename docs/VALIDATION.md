@@ -535,3 +535,23 @@ what Kshana does today, and where the real version sits on the roadmap.
 | "validated to ~2%" | a *typical* observed agreement; the **enforced gate is 20–25%** relative error | a guaranteed 2% accuracy bound |
 | "reproducible / bit-identical" | bit-identical re-run on the **same OS + pinned toolchain** | a committed cross-platform golden-hash check (roadmap: reproducibility milestone) |
 | SGP4 GPS scenario (`orbit-sgp4-gps.toml`) | synthetic Walker TLEs (placeholder NORAD IDs) for geometry demonstration | the real `gps-ops` constellation — drop in a Celestrak snapshot (see [`REAL_TLE_GUIDE.md`](REAL_TLE_GUIDE.md)) |
+
+## Lunar-PNT paper cross-checks (regression evidence, not matrix rows)
+
+The modelled lunar/cislunar suite (the "Lunar & cislunar" and "Lunar PNT suite"
+capabilities in the README) has its published-paper claims independently cross-checked
+in `tests/validate_p*.rs`, each against an oracle from a *different* implementation:
+
+- **orbital transmit/capture footprint** vs `scipy.special.j1` (Cephes Bessel J1);
+- **surface-beacon geometry DOP** vs an independent NumPy `(HᵀH)⁻¹` solve;
+- **UT1/EOP persistence prediction-error growth** vs a NumPy re-parse of the same
+  verbatim IERS `finals2000A` rows;
+- **planar distant-retrograde-orbit family** vs the NASA/JPL Three-Body Periodic Orbit
+  Database;
+- **RF ranging-precision budget** vs a first-principles reference.
+
+Fixtures and oracle-generator scripts live under
+`tests/fixtures/{p1_footprint,lunar_service,eop_prediction,rf_ranging_precision,dro_family_jpl,p2_independent_dop}/`.
+These strengthen the evidence behind capabilities that remain **MODELLED** in the
+machine-checked matrix (`src/verification.rs`); they are regression checks, **not** new
+VALIDATED matrix rows, so the 51 / 47 / 4 of 102 count is unchanged.
