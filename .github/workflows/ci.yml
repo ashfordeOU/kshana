@@ -12,7 +12,12 @@ concurrency:
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    # The umbrella gate runs the full `cargo test --all`, which includes the
+    # multi-minute end-to-end validation binaries (agency_lro ~24 min,
+    # agency_swarm ~11 min, the P1-P6 paper cross-checks) — ~76 min steady-state.
+    # 120 min keeps comfortable headroom over runner-speed variance so a slow
+    # runner can never cancel a passing suite.
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
         with:
@@ -65,7 +70,12 @@ jobs:
         run: cargo deny check advisories licenses bans sources
   coverage:
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    # Source-based LLVM instrumentation runs the same full suite as `check` under
+    # coverage counters — 84-85 min steady-state, and it crept over the old 90 min
+    # cap once the validation campaign's binaries landed (job cancelled at exactly
+    # 90 min). 150 min lifts it clear of the timeout cliff it had been sitting on
+    # while preserving the exact measurement (and the --fail-under 85 floor below).
+    timeout-minutes: 150
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@1.93.0
