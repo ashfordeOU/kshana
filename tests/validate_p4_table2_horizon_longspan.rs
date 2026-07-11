@@ -33,8 +33,7 @@
 
 use kshana::frame_eop::{prediction_error_vs_horizon, ut1_error_to_lunar, Horizon, HorizonError};
 
-const FIXTURE: &str =
-    include_str!("fixtures/agency/eop/finals2000A_2022001_longspan.txt");
+const FIXTURE: &str = include_str!("fixtures/agency/eop/finals2000A_2022001_longspan.txt");
 const REFERENCE_CSV: &str = include_str!("fixtures/eop_prediction/eop_prediction_reference.csv");
 
 // ---- INDEPENDENT published physical constants (assembled locally, not from the engine) ----
@@ -62,7 +61,9 @@ fn reference_rms_s(horizon: Horizon) -> f64 {
         Horizon::Days(d) => format!("d{d}"),
     };
     for line in REFERENCE_CSV.lines() {
-        if line.trim_start().starts_with('#') || line.starts_with("horizon;") || line.trim().is_empty()
+        if line.trim_start().starts_with('#')
+            || line.starts_with("horizon;")
+            || line.trim().is_empty()
         {
             continue;
         }

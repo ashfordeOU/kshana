@@ -148,7 +148,11 @@ fn dro_corrector_reproduces_jpl_planar_dro_family() {
             m.name,
             dro.periodicity_residual
         );
-        assert!(dro.is_retrograde(), "{}: converged orbit is not retrograde", m.name);
+        assert!(
+            dro.is_retrograde(),
+            "{}: converged orbit is not retrograde",
+            m.name
+        );
 
         // (1) Jacobi constant of the converged IC (kshana::cr3bp::jacobi_constant,
         //     the C = 2U - v^2 Szebehely convention the JPL catalog uses).

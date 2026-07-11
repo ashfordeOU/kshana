@@ -25,8 +25,7 @@ const GOLDEN_CSV: &str = include_str!("golden/p3-figure1.csv");
 /// while remaining byte-stable for a fixed toolchain result). Three sections:
 ///   * `adev`   — σ_y(τ) for each of the four clocks over the default τ grid (Fig-1 top panel);
 ///   * `floor`  — the constant link/frame floors plotted as horizontal lines (Fig-1 top panel);
-///   * `bar`    — the sorted per-component one-day timing-error bars + the 1 ns reference line
-///                (Fig-1 bottom panel).
+///   * `bar`    — the sorted per-component one-day timing-error bars + the 1 ns reference line (Fig-1 bottom panel).
 fn emit_figure1_csv() -> String {
     let mut s = String::new();
     s.push_str("# P3 Figure 1 golden — deterministic self-regeneration (reproducibility drift guard, NOT an external oracle).\n");
@@ -73,7 +72,10 @@ fn emit_figure1_csv() -> String {
             x_clock_ns(clock, ONE_DAY_S)
         ));
     }
-    s.push_str(&format!("bar,one-ns-line,{:.17e},{:.17e}\n", ONE_DAY_S, 1.0));
+    s.push_str(&format!(
+        "bar,one-ns-line,{:.17e},{:.17e}\n",
+        ONE_DAY_S, 1.0
+    ));
 
     s
 }
@@ -112,7 +114,10 @@ fn golden_bar_rows_carry_the_cited_one_day_component_values() {
             .unwrap_or_else(|| panic!("golden missing bar row {label}"));
         let val: f64 = row.rsplit(',').next().unwrap().trim().parse().unwrap();
         let rel = (val - want).abs() / want;
-        assert!(rel < 0.01, "golden bar {label} = {val} vs cited {want} (rel {rel})");
+        assert!(
+            rel < 0.01,
+            "golden bar {label} = {val} vs cited {want} (rel {rel})"
+        );
     }
 }
 
@@ -145,7 +150,6 @@ fn golden_floor_rows_carry_the_documented_budget_defaults() {
 #[test]
 #[ignore = "run with --ignored to re-baseline the committed golden CSV"]
 fn zzz_emit_golden_csv() {
-    std::fs::write("tests/golden/p3-figure1.csv", emit_figure1_csv())
-        .expect("write golden CSV");
+    std::fs::write("tests/golden/p3-figure1.csv", emit_figure1_csv()).expect("write golden CSV");
     eprintln!("wrote tests/golden/p3-figure1.csv");
 }

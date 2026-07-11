@@ -21,11 +21,11 @@
 //!      must reproduce `σ_y(1 s)`, `σ_y(10 s) = σ_y(1 s)/√10`, `σ_y(1000 s) = σ_y(1 s)/√1000`.
 //!
 //! 2. **Independent scalar recomputation of `x(1 day)`** — computed a *different way* from the
-//!    engine's `σ_y(86 400)·86 400`:
+//!    engine's `σ_y(86 400)·86 400`, both using the closed-form IEEE-1139 / NIST SP 1065 §3
+//!    white-FM and flicker-FM laws (a mis-calibrated coefficient or a wrong slope would break
+//!    the agreement):
 //!    * white FM: `x(1 day) = σ_y(1 s)·√(86 400)` (from the SHORT-term spec point, a different τ);
 //!    * flicker floor: `x(1 day) = floor·86 400` (the floor read at τ = 1 s, a different τ).
-//!    Both use the closed-form IEEE-1139 / NIST SP 1065 §3 white-FM and flicker-FM laws, so a
-//!    mis-calibrated coefficient or a wrong slope would break the agreement.
 //!
 //! ## Honest scope
 //! The optical/PHM floor brackets and the RAFS `σ_y(1 s)=1e-11` short-term are *externally
@@ -75,8 +75,14 @@ fn optical_master_floor_is_in_the_published_optical_bracket_and_gives_0_009_ns()
     assert!(rel_diff(x_ind, 0.009) < 0.01, "optical x(1 day) {x_ind} ns");
     // The engine's own x(1 day) matches to <=1%.
     let x_eng = x_clock_ns(LunarClock::OpticalMaster, ONE_DAY_S);
-    assert!(rel_diff(x_eng, 0.009) <= 0.01, "engine optical x(1 day) {x_eng} ns");
-    assert!(rel_diff(x_eng, x_ind) < 1e-9, "engine vs independent path disagree");
+    assert!(
+        rel_diff(x_eng, 0.009) <= 0.01,
+        "engine optical x(1 day) {x_eng} ns"
+    );
+    assert!(
+        rel_diff(x_eng, x_ind) < 1e-9,
+        "engine vs independent path disagree"
+    );
 }
 
 #[test]
@@ -94,7 +100,10 @@ fn phm_floor_is_in_the_published_maser_bracket_and_gives_0_995_ns() {
     let x_ind = flicker_x_1day_ns(floor);
     assert!(rel_diff(x_ind, 0.995) <= 0.01, "PHM x(1 day) {x_ind} ns");
     let x_eng = x_clock_ns(LunarClock::Phm, ONE_DAY_S);
-    assert!(rel_diff(x_eng, 0.995) <= 0.01, "engine PHM x(1 day) {x_eng} ns");
+    assert!(
+        rel_diff(x_eng, 0.995) <= 0.01,
+        "engine PHM x(1 day) {x_eng} ns"
+    );
     assert!(rel_diff(x_eng, x_ind) < 1e-9);
 }
 
@@ -118,9 +127,15 @@ fn rafs_matches_the_published_short_term_point_and_averages_down_as_root_tau() {
     }
     // Independent one-day: σ_y(1 s)·√86400 (from the SHORT-term point) vs the cited ~2.94 ns.
     let x_ind = white_fm_x_1day_ns(sy1);
-    assert!(rel_diff(x_ind, 2.939_388) < 1e-3, "RAFS x(1 day) {x_ind} ns");
+    assert!(
+        rel_diff(x_ind, 2.939_388) < 1e-3,
+        "RAFS x(1 day) {x_ind} ns"
+    );
     let x_eng = x_clock_ns(LunarClock::Rafs, ONE_DAY_S);
-    assert!(rel_diff(x_eng, 2.939_388) <= 0.01, "engine RAFS x(1 day) {x_eng} ns");
+    assert!(
+        rel_diff(x_eng, 2.939_388) <= 0.01,
+        "engine RAFS x(1 day) {x_eng} ns"
+    );
     // The engine's x(1 day) (via σ_y(86400)·86400) equals the independent path (via σ_y(1 s)·√86400).
     assert!(
         rel_diff(x_eng, x_ind) < 1e-9,
@@ -138,7 +153,10 @@ fn minirafs_one_day_is_internally_consistent_across_two_root_tau_paths() {
     let sy1 = sigma_y(&p, 1.0);
     let x_ind = white_fm_x_1day_ns(sy1);
     let x_eng = x_clock_ns(LunarClock::MiniRafs, ONE_DAY_S);
-    assert!(rel_diff(x_eng, 151.238) <= 0.01, "engine miniRAFS x(1 day) {x_eng} ns");
+    assert!(
+        rel_diff(x_eng, 151.238) <= 0.01,
+        "engine miniRAFS x(1 day) {x_eng} ns"
+    );
     assert!(
         rel_diff(x_ind, 151.238) <= 0.01,
         "independent miniRAFS x(1 day) {x_ind} ns"
@@ -151,7 +169,10 @@ fn minirafs_one_day_is_internally_consistent_across_two_root_tau_paths() {
     for &tau in &[10.0_f64, 1000.0] {
         let got = sigma_y(&p, tau);
         let want = sy1 / tau.sqrt();
-        assert!(rel_diff(got, want) < 1e-9, "miniRAFS σ_y({tau}) {got} vs law {want}");
+        assert!(
+            rel_diff(got, want) < 1e-9,
+            "miniRAFS σ_y({tau}) {got} vs law {want}"
+        );
     }
 }
 

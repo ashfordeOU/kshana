@@ -36,8 +36,7 @@
 use kshana::frame_eop::{prediction_error_vs_horizon, Horizon, HorizonError};
 
 /// The extended verbatim IERS finals2000A fixture (45 daily rows, MJD 59578..59622).
-const FIXTURE: &str =
-    include_str!("fixtures/agency/eop/finals2000A_2022001_longspan.txt");
+const FIXTURE: &str = include_str!("fixtures/agency/eop/finals2000A_2022001_longspan.txt");
 /// The committed independent NumPy oracle output.
 const REFERENCE_CSV: &str = include_str!("fixtures/eop_prediction/eop_prediction_reference.csv");
 

@@ -136,7 +136,10 @@ fn nsweep_reproduces_committed_golden_exactly() {
                 ge
             ),
             (None, None) => {}
-            (a, b) => panic!("gdop_median None/Some drift at N={}: {:?} vs {:?}", r.n_sats, a, b),
+            (a, b) => panic!(
+                "gdop_median None/Some drift at N={}: {:?} vs {:?}",
+                r.n_sats, a, b
+            ),
         }
     }
 }
@@ -160,7 +163,9 @@ fn nsweep_structural_table1_facts_hold() {
     //     above 6, every N >= 13 is below 6 (the transition zone N in 9..=12 is
     //     non-monotone, matching the paper's noted bump).
     for r in &rows {
-        let g = r.gdop_median.expect("every N in the sweep yields a defined median GDOP");
+        let g = r
+            .gdop_median
+            .expect("every N in the sweep yields a defined median GDOP");
         if r.n_sats <= 8 {
             assert!(
                 g > 6.0,

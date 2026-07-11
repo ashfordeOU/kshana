@@ -158,11 +158,17 @@ fn sweep_matches_independent_reconstruction() {
         // off-boresight angle: independent spherical geometry
         let td = (pt.off_boresight_rad - theta_ref).abs();
         max_theta_dev = max_theta_dev.max(td);
-        assert!(td < 1e-9, "off-boresight dev {td:.2e} rad at gamma={gamma_ref:.6e}");
+        assert!(
+            td < 1e-9,
+            "off-boresight dev {td:.2e} rad at gamma={gamma_ref:.6e}"
+        );
         // slant range: independent chord geometry
         let sr = (pt.slant_range_m - slant_ref).abs() / slant_ref.max(1.0);
         max_slant_rel = max_slant_rel.max(sr);
-        assert!(sr < 1e-12, "slant rel dev {sr:.2e} at gamma={gamma_ref:.6e}");
+        assert!(
+            sr < 1e-12,
+            "slant rel dev {sr:.2e} at gamma={gamma_ref:.6e}"
+        );
         // transmit gain: independent scipy-J1 pattern (tolerance = pattern tol)
         let gd = (pt.gain_dbi - gain_ref).abs();
         max_gain_dev = max_gain_dev.max(gd);
