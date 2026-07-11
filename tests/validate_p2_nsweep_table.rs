@@ -13,10 +13,11 @@
 //!
 //! This test is a **deterministic-regeneration drift guard**, not a claim of
 //! external truth: it calls the public `sweep_over_n` on the paper's fixed
-//! scenario and asserts the result reproduces a committed golden CSV bit-for-bit
-//! (f64, parsed from `{:.17e}`), so any silent change to the aggregation pipeline
-//! (median definition, visibility test, coverage bookkeeping, illustrative-orbit
-//! elements) is caught. It additionally asserts the qualitative Table-1 structural
+//! scenario and asserts the result reproduces a committed golden CSV to a tight
+//! 1e-9 relative tolerance (the golden holds the full `{:.17e}` f64; a median GDOP's
+//! last ULPs are platform-dependent — see [`REPRO_REL_TOL`]), so any silent change to
+//! the aggregation pipeline (median definition, visibility test, coverage bookkeeping,
+//! illustrative-orbit elements) is caught. It additionally asserts the qualitative Table-1 structural
 //! facts that are robust properties of the geometry: availability increases with
 //! N, and the median GDOP transitions from > 6 (N <= 8) to < 6 (N >= 13),
 //! bracketing the paper's "median crosses 6 near N ~ 10-12" statement (the
@@ -88,11 +89,18 @@ fn parse_golden() -> Vec<GoldenRow> {
         .collect()
 }
 
-/// Bit-exact f64 comparison via the round-trip of the committed `{:.17e}` text:
-/// the golden stores the full 17-significant-digit decimal, which round-trips to
-/// the identical f64, so parse-then-compare is exact for a deterministic engine.
-fn same_f64(a: f64, b: f64) -> bool {
-    a.to_bits() == b.to_bits()
+/// Cross-platform reproduction tolerance. The golden stores the full 17-significant-digit
+/// `{:.17e}` decimal and regenerates bit-for-bit on its origin platform, but `gdop_median`
+/// is a matrix-inverse (`(HᵀH)⁻¹`) output whose last ULPs depend on the platform's libm/FMA
+/// (x86 vs ARM), so the drift guard compares to a tight *relative* tolerance rather than raw
+/// bit-equality. Any *real* aggregation-pipeline drift moves these values by many orders of
+/// magnitude more than this bound.
+const REPRO_REL_TOL: f64 = 1e-9;
+
+/// `a` reproduces `b` to the cross-platform drift-guard tolerance (exact bits, or within
+/// [`REPRO_REL_TOL`] relative).
+fn reproduces(a: f64, b: f64) -> bool {
+    a == b || (a - b).abs() <= REPRO_REL_TOL * a.abs().max(b.abs())
 }
 
 #[test]
@@ -114,14 +122,14 @@ fn nsweep_reproduces_committed_golden_exactly() {
     for (r, g) in rows.iter().zip(golden.iter()) {
         assert_eq!(r.n_sats, g.n_sats, "n_sats drift");
         assert!(
-            same_f64(r.coverage_fraction, g.coverage_fraction),
+            reproduces(r.coverage_fraction, g.coverage_fraction),
             "coverage_fraction drift at N={}: engine {:.17e} vs golden {:.17e}",
             r.n_sats,
             r.coverage_fraction,
             g.coverage_fraction
         );
         assert!(
-            same_f64(r.frac_below_gdop6, g.frac_below_gdop6),
+            reproduces(r.frac_below_gdop6, g.frac_below_gdop6),
             "frac_below_gdop6 drift at N={}: engine {:.17e} vs golden {:.17e}",
             r.n_sats,
             r.frac_below_gdop6,
@@ -129,7 +137,7 @@ fn nsweep_reproduces_committed_golden_exactly() {
         );
         match (r.gdop_median, g.gdop_median) {
             (Some(re), Some(ge)) => assert!(
-                same_f64(re, ge),
+                reproduces(re, ge),
                 "gdop_median drift at N={}: engine {:.17e} vs golden {:.17e}",
                 r.n_sats,
                 re,

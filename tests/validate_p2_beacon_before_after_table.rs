@@ -18,8 +18,9 @@
 //! an alternative route to the same end. This test therefore pins the
 //! **public-engine reproduction of that before/after table** for a fully-specified
 //! public scenario (a 6-sat `illustrative_lcns(6)` snapshot + three surveyed
-//! beacons) as a committed golden, bit-for-bit (f64), so the beacon-augmentation
-//! pipeline cannot silently drift. It additionally asserts the qualitative facts
+//! beacons) as a committed golden, reproduced to a tight 1e-9 relative tolerance
+//! (a GDOP's last ULPs are platform-dependent — see [`REPRO_REL_TOL`]), so the
+//! beacon-augmentation pipeline cannot silently drift. It additionally asserts the qualitative facts
 //! the paper's magnitudes illustrate: (a) the three beacons cut the 6-sat GDOP by
 //! a large factor; (b) expanding to 24 satellites also drives the GDOP down; and
 //! (c) both the beacon and the 24-sat GDOP land below the usable-geometry
@@ -128,13 +129,23 @@ fn parse_golden() -> Vec<GoldenRow> {
         .collect()
 }
 
-fn same_f64(a: f64, b: f64) -> bool {
-    a.to_bits() == b.to_bits()
+/// Cross-platform reproduction tolerance. The committed golden regenerates bit-for-bit
+/// on its origin platform, but a GDOP is the square-root of a trace of the normal-equations
+/// inverse `(HᵀH)⁻¹`, whose last ULPs depend on the platform's libm/FMA (x86 vs ARM), so the
+/// drift guard compares to a tight *relative* tolerance rather than raw bit-equality. Observed
+/// cross-platform jitter here is ~1e-14 relative; any *real* pipeline drift (a changed element
+/// set, mask, or DOP formula) moves these values by many orders of magnitude more than this.
+const REPRO_REL_TOL: f64 = 1e-9;
+
+/// `a` reproduces `b` to the cross-platform drift-guard tolerance (exact bits, or within
+/// [`REPRO_REL_TOL`] relative).
+fn reproduces(a: f64, b: f64) -> bool {
+    a == b || (a - b).abs() <= REPRO_REL_TOL * a.abs().max(b.abs())
 }
 
 fn assert_opt(name: &str, got: Option<f64>, want: Option<f64>) {
     match (got, want) {
-        (Some(a), Some(b)) => assert!(same_f64(a, b), "{name} drift: {a:.17e} vs {b:.17e}"),
+        (Some(a), Some(b)) => assert!(reproduces(a, b), "{name} drift: {a:.17e} vs {b:.17e}"),
         (None, None) => {}
         (a, b) => panic!("{name} None/Some drift: {a:?} vs {b:?}"),
     }

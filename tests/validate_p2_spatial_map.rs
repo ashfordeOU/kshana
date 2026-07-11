@@ -13,7 +13,8 @@
 //!
 //! It calls the public `coverage` once per grid cell (over the time axis) for the
 //! fixed 6-sat scenario and asserts the regenerated grid reproduces a committed
-//! golden CSV bit-for-bit (f64). It additionally cross-checks each cell's
+//! golden CSV to a tight 1e-9 relative tolerance (a median GDOP's last ULPs are
+//! platform-dependent — see [`REPRO_REL_TOL`]). It additionally cross-checks each cell's
 //! min/max visible-count envelope against an *independent recomputation* of the
 //! visible set built directly from `visible_sat_positions` (a different call path
 //! than `coverage`'s internal bookkeeping), and asserts the physical invariant
@@ -74,8 +75,17 @@ fn parse_golden() -> Vec<GoldenCell> {
         .collect()
 }
 
-fn same_f64(a: f64, b: f64) -> bool {
-    a.to_bits() == b.to_bits()
+/// Cross-platform reproduction tolerance. The committed golden regenerates bit-for-bit on its
+/// origin platform, but `gdop_median` is a matrix-inverse (`(HᵀH)⁻¹`) output whose last ULPs
+/// depend on the platform's libm/FMA (x86 vs ARM), so the drift guard compares to a tight
+/// *relative* tolerance rather than raw bit-equality. Any *real* aggregation-pipeline drift
+/// moves these values by many orders of magnitude more than this bound.
+const REPRO_REL_TOL: f64 = 1e-9;
+
+/// `a` reproduces `b` to the cross-platform drift-guard tolerance (exact bits, or within
+/// [`REPRO_REL_TOL`] relative).
+fn reproduces(a: f64, b: f64) -> bool {
+    a == b || (a - b).abs() <= REPRO_REL_TOL * a.abs().max(b.abs())
 }
 
 /// Independent recomputation of the mean visible count for a cell over the time
@@ -109,7 +119,7 @@ fn spatial_map_reproduces_committed_golden_exactly() {
         let c = coverage(&constellation, &pt, &times, mask, PDOP_THRESHOLD);
 
         assert!(
-            same_f64(c.coverage_fraction, g.coverage_fraction),
+            reproduces(c.coverage_fraction, g.coverage_fraction),
             "coverage_fraction drift at ({},{}): {:.17e} vs {:.17e}",
             g.lat_deg,
             g.lon_deg,
@@ -117,14 +127,14 @@ fn spatial_map_reproduces_committed_golden_exactly() {
             g.coverage_fraction
         );
         assert!(
-            same_f64(c.frac_below_gdop6, g.frac_below_gdop6),
+            reproduces(c.frac_below_gdop6, g.frac_below_gdop6),
             "frac_below_gdop6 drift at ({},{})",
             g.lat_deg,
             g.lon_deg
         );
         match (c.gdop_median, g.gdop_median) {
             (Some(re), Some(ge)) => assert!(
-                same_f64(re, ge),
+                reproduces(re, ge),
                 "gdop_median drift at ({},{}): {:.17e} vs {:.17e}",
                 g.lat_deg,
                 g.lon_deg,
@@ -151,7 +161,7 @@ fn spatial_map_reproduces_committed_golden_exactly() {
         // Independent-path cross-check of the mean visible count.
         let mv = mean_visible_indep(&constellation, pt[0], &times, mask);
         assert!(
-            same_f64(mv, g.mean_visible),
+            reproduces(mv, g.mean_visible),
             "mean_visible drift at ({},{}): indep {:.17e} vs golden {:.17e}",
             g.lat_deg,
             g.lon_deg,
