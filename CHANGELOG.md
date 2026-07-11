@@ -9,6 +9,24 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+
+- **Independent external cross-checks for the lunar-PNT geometry, DOP, EOP, DRO and
+  RF-ranging capabilities** (`tests/validate_p*.rs`, with fixtures and oracle
+  generators under
+  `tests/fixtures/{p1_footprint,lunar_service,eop_prediction,rf_ranging_precision,dro_family_jpl,p2_independent_dop}/`).
+  Each check drives an already-shipped **modelled** capability against an oracle
+  produced by a *different* implementation, so agreement is non-circular: the orbital
+  transmit/capture footprint against `scipy.special.j1` (Cephes — a genuinely
+  different Bessel J1); the surface-beacon geometry DOP against an independent NumPy
+  `(HᵀH)⁻¹` solve; the UT1/EOP persistence prediction-error growth against a separate
+  NumPy re-parse of the same verbatim IERS `finals2000A` rows; the planar
+  distant-retrograde-orbit family against the NASA/JPL Three-Body Periodic Orbit
+  Database; and the RF ranging-precision budget against a first-principles reference.
+  These are additional regression evidence for existing modules — the machine-checked
+  validation matrix stays **51 / 47 / 4 of 102** (`src/verification.rs`); adding a
+  cross-check test does not relabel any capability.
+
 ## [0.24.0] - 2026-07-09
 
 A broad capability release. It lands two fully **externally-validated** analysis
