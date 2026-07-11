@@ -15,22 +15,24 @@
 //! ## Independent reference (non-circular)
 //! The oracle is Kaplan & Hegarty, *Understanding GPS/GNSS: Principles and
 //! Applications*, 3rd ed. (Artech House, 2017), Ch. 8:
-//!   * DLL coherent early-late code-tracking jitter (eq. 8.90):
-//!         `sigma_code = sqrt( (B_L*d/(2c)) * (1 + 2/((2-d)*T*c)) )`  [chips]
-//!   * PLL carrier-phase thermal jitter (eq. 8.72):
-//!         `sigma_phi = sqrt( B_L / c )`  [rad]
-//!   with `c` the LINEAR C/N0. These closed forms are recomputed in pure
-//!   Python/NumPy by the committed generator
-//!   `tests/fixtures/rf_ranging_precision/generate_rf_ranging_reference.py`
-//!   (a different language and code path; it imports NOTHING from kshana), with
-//!   the C/N0 built by hand from the CCSDS-401 / DSN-810-005 one-way link
-//!   equation. The Rust test loads that committed fixture and confronts it with
-//!   the engine's OWN [`kshana::linkbudget::link_budget`] (C/N0 from EIRP/G/T/
-//!   range) and OWN [`kshana::navsignal::dll_code_jitter_chips`] (the DLL bound).
-//!   If the engine's link equation or DLL jitter formula were wrong, the test
-//!   fails. The two implementations share only the physics (Friis loss, the
-//!   Kaplan & Hegarty tracking bounds), never code — so this is a genuine
-//!   independent cross-check, not a self-comparison.
+//!
+//! * DLL coherent early-late code-tracking jitter (eq. 8.90):
+//!   `sigma_code = sqrt( (B_L*d/(2c)) * (1 + 2/((2-d)*T*c)) )` [chips]
+//! * PLL carrier-phase thermal jitter (eq. 8.72):
+//!   `sigma_phi = sqrt( B_L / c )` [rad]
+//!
+//! with `c` the LINEAR C/N0. These closed forms are recomputed in pure
+//! Python/NumPy by the committed generator
+//! `tests/fixtures/rf_ranging_precision/generate_rf_ranging_reference.py`
+//! (a different language and code path; it imports NOTHING from kshana), with
+//! the C/N0 built by hand from the CCSDS-401 / DSN-810-005 one-way link
+//! equation. The Rust test loads that committed fixture and confronts it with
+//! the engine's OWN [`kshana::linkbudget::link_budget`] (C/N0 from EIRP/G/T/
+//! range) and OWN [`kshana::navsignal::dll_code_jitter_chips`] (the DLL bound).
+//! If the engine's link equation or DLL jitter formula were wrong, the test
+//! fails. The two implementations share only the physics (Friis loss, the
+//! Kaplan & Hegarty tracking bounds), never code — so this is a genuine
+//! independent cross-check, not a self-comparison.
 //!
 //! ## Hardcoded textbook worked value
 //! At C/N0 = 45 dB-Hz, B_L = 1 Hz, d = 0.5 chip, T = 20 ms the DLL code jitter is
@@ -55,8 +57,7 @@ use kshana::radiometric::Band;
 
 const C_M_PER_S: f64 = 299_792_458.0;
 
-const REF: &str =
-    include_str!("fixtures/rf_ranging_precision/rf_ranging_reference.csv");
+const REF: &str = include_str!("fixtures/rf_ranging_precision/rf_ranging_reference.csv");
 
 /// One parsed reference row from the independent Python fixture.
 struct Row {
@@ -201,12 +202,8 @@ fn engine_dll_jitter_matches_independent_kaplan_hegarty_bound() {
         };
         let cn0 = link_budget(&params, 0.0).cn0_dbhz;
 
-        let sigma_chips = dll_code_jitter_chips(
-            cn0,
-            r.loop_bw_hz,
-            r.corr_spacing_chips,
-            r.integ_time_s,
-        );
+        let sigma_chips =
+            dll_code_jitter_chips(cn0, r.loop_bw_hz, r.corr_spacing_chips, r.integ_time_s);
         let sigma_m = sigma_chips * C_M_PER_S / r.chip_rate_hz;
         let sigma_time_ns = (sigma_m / C_M_PER_S) * 1.0e9;
 
@@ -293,17 +290,13 @@ fn forward_model_reproduces_table1_ranging_order_of_magnitude() {
             other_losses_db: r.other_db,
         };
         let cn0 = link_budget(&params, 0.0).cn0_dbhz;
-        let sigma_chips = dll_code_jitter_chips(
-            cn0,
-            r.loop_bw_hz,
-            r.corr_spacing_chips,
-            r.integ_time_s,
-        );
+        let sigma_chips =
+            dll_code_jitter_chips(cn0, r.loop_bw_hz, r.corr_spacing_chips, r.integ_time_s);
         let sigma_m = sigma_chips * C_M_PER_S / r.chip_rate_hz;
 
         let target = match r.band {
-            Band::S => 1.0,   // Table-1 S-band ~1 m ranging
-            Band::Ka => 0.1,  // Table-1 Ka-band ~0.1 m ranging
+            Band::S => 1.0,  // Table-1 S-band ~1 m ranging
+            Band::Ka => 0.1, // Table-1 Ka-band ~0.1 m ranging
             Band::X => continue,
         };
         // 30% engineering budget (order-of-magnitude), per the assessment.

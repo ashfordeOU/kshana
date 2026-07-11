@@ -206,11 +206,11 @@ fn random_walk_fm_synthesis_has_plus_half_slope_at_the_closed_form_level() {
     // Random-walk FM wanders far, so it needs a long record for a stable long-averaging ADEV;
     // keep m ≤ n/64 so every ADEV point rests on tens of thousands of overlapping differences.
     let n = 1usize << 16; // 65536 samples
-    // The overlapping-ADEV estimator has a well-documented short-τ bias for random-walk FM
-    // (Riley, NIST SP 1065, §5–6: the discrete τ0 point of an integrated-random-walk record
-    // sits above the −τ0 asymptote), which flattens the fitted slope. We therefore evaluate the
-    // +½ asymptotic law on the clean decade-plus tail τ ∈ [8, 1024] s — the region where the
-    // random-walk regime is fully developed — exactly as a Stable32/AllanTools slope fit would.
+                          // The overlapping-ADEV estimator has a well-documented short-τ bias for random-walk FM
+                          // (Riley, NIST SP 1065, §5–6: the discrete τ0 point of an integrated-random-walk record
+                          // sits above the −τ0 asymptote), which flattens the fitted slope. We therefore evaluate the
+                          // +½ asymptotic law on the clean decade-plus tail τ ∈ [8, 1024] s — the region where the
+                          // random-walk regime is fully developed — exactly as a Stable32/AllanTools slope fit would.
     let ms = [1usize, 2, 4, 8, 16, 32, 64, 128, 256, 512, 1024];
     let taus: Vec<f64> = ms.iter().map(|&m| m as f64 * tau0).collect();
     let tail_lo = 3usize; // first index with τ ≥ 8 s

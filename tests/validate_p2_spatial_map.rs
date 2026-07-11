@@ -132,10 +132,21 @@ fn spatial_map_reproduces_committed_golden_exactly() {
                 ge
             ),
             (None, None) => {}
-            (a, b) => panic!("gdop_median None/Some drift at ({},{}): {:?} vs {:?}", g.lat_deg, g.lon_deg, a, b),
+            (a, b) => panic!(
+                "gdop_median None/Some drift at ({},{}): {:?} vs {:?}",
+                g.lat_deg, g.lon_deg, a, b
+            ),
         }
-        assert_eq!(c.min_sats, g.min_sats, "min_sats drift at ({},{})", g.lat_deg, g.lon_deg);
-        assert_eq!(c.max_sats, g.max_sats, "max_sats drift at ({},{})", g.lat_deg, g.lon_deg);
+        assert_eq!(
+            c.min_sats, g.min_sats,
+            "min_sats drift at ({},{})",
+            g.lat_deg, g.lon_deg
+        );
+        assert_eq!(
+            c.max_sats, g.max_sats,
+            "max_sats drift at ({},{})",
+            g.lat_deg, g.lon_deg
+        );
 
         // Independent-path cross-check of the mean visible count.
         let mv = mean_visible_indep(&constellation, pt[0], &times, mask);
@@ -167,7 +178,12 @@ fn spatial_map_physical_invariants_hold() {
         // A defined median GDOP never dips below the DOP floor of 1 (a geometric
         // invariant of the (H^T H)^-1 trace, independent of the aggregation).
         if let Some(m) = g.gdop_median {
-            assert!(m >= 1.0, "median GDOP {m} below the DOP floor at ({},{})", g.lat_deg, g.lon_deg);
+            assert!(
+                m >= 1.0,
+                "median GDOP {m} below the DOP floor at ({},{})",
+                g.lat_deg,
+                g.lon_deg
+            );
         }
         // The mean visible count cannot exceed the constellation size.
         assert!(
@@ -185,7 +201,11 @@ fn spatial_map_physical_invariants_hold() {
     // qualitative "sparse south-pole geometry needs help" fact P2 rests on.
     let hardest = golden
         .iter()
-        .min_by(|a, b| a.coverage_fraction.partial_cmp(&b.coverage_fraction).unwrap())
+        .min_by(|a, b| {
+            a.coverage_fraction
+                .partial_cmp(&b.coverage_fraction)
+                .unwrap()
+        })
         .unwrap();
     assert!(
         hardest.coverage_fraction < 0.5,

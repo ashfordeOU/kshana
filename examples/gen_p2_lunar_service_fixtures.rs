@@ -98,7 +98,10 @@ fn p2_user_minus80_mcmf() -> Vec3 {
 }
 
 fn main() {
-    let out_dir = format!("{}/tests/fixtures/lunar_service", env!("CARGO_MANIFEST_DIR"));
+    let out_dir = format!(
+        "{}/tests/fixtures/lunar_service",
+        env!("CARGO_MANIFEST_DIR")
+    );
     fs::create_dir_all(&out_dir).expect("create fixture dir");
 
     write_nsweep(&out_dir);
@@ -118,11 +121,15 @@ fn write_nsweep(out_dir: &str) {
     let rows = sweep_over_n(4, 24, &grid, &times, mask_rad(), PDOP_THRESHOLD);
 
     let mut s = String::new();
-    s.push_str("# P2 satellite-count sweep golden table (drift guard, NOT an independent oracle).\n");
+    s.push_str(
+        "# P2 satellite-count sweep golden table (drift guard, NOT an independent oracle).\n",
+    );
     s.push_str("# Scenario: illustrative_lcns(N) for N=4..24; grid lat {-90,-80,-70} x lon {-120,0,120};\n");
     s.push_str("# horizon 12 h at 1 h steps (13 epochs); elev mask 5 deg; PDOP threshold 6.\n");
     s.push_str("# Columns: n_sats,coverage_fraction,gdop_median,frac_below_gdop6\n");
-    s.push_str("# gdop_median empty means None (no sample had >=4 sats). f64 hex-exact regeneration.\n");
+    s.push_str(
+        "# gdop_median empty means None (no sample had >=4 sats). f64 hex-exact regeneration.\n",
+    );
     for r in &rows {
         let gdop = match r.gdop_median {
             Some(v) => format!("{v:.17e}"),
@@ -218,7 +225,9 @@ fn write_beacon_table(out_dir: &str) {
     let gdop24 = sweep24[0].gdop_median;
 
     let mut s = String::new();
-    s.push_str("# P2 beacon before/after GDOP table golden (drift guard, NOT an independent oracle).\n");
+    s.push_str(
+        "# P2 beacon before/after GDOP table golden (drift guard, NOT an independent oracle).\n",
+    );
     s.push_str("# -80 deg user at (lat -80, lon 0, 2 m mast). 6-sat illustrative_lcns(6) snapshot at t=0.\n");
     s.push_str("# 3 surveyed beacons at (-80,0),(-79,60),(-79,-60) on 2 km masts. 5 deg mask.\n");
     s.push_str("# 24-sat row = median GDOP over the P2 volume from sweep_over_n(24,24,...).\n");

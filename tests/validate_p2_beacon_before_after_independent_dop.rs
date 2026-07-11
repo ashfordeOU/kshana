@@ -146,7 +146,8 @@ fn beacon_before_after_gdop_and_ratio_match_independent_numpy() {
     let los_after: Vec<Vec3> = sources.iter().filter_map(|&s| los_unit(user, s)).collect();
     assert_eq!(los_after.len(), refs[1].n_src, "after: source count");
     assert_los_matches("after", &los_after, &refs[1].los);
-    let after = dop_with_beacons(user, &sats, &beacons, mask).expect("6-sat + beacons admits a GDOP");
+    let after =
+        dop_with_beacons(user, &sats, &beacons, mask).expect("6-sat + beacons admits a GDOP");
 
     // (1) DOP number validation: before/after GDOP (and H/V) vs INDEPENDENT numpy.
     for (label, d, r) in [("before", before, &refs[0]), ("after", after, &refs[1])] {
@@ -180,7 +181,10 @@ fn beacon_before_after_gdop_and_ratio_match_independent_numpy() {
         numpy_ratio > 1.0,
         "beacon augmentation must reduce GDOP (independent ratio {numpy_ratio:.3} <= 1)"
     );
-    assert!(enu_basis(user).is_some(), "ENU basis defined at the -80 deg user");
+    assert!(
+        enu_basis(user).is_some(),
+        "ENU basis defined at the -80 deg user"
+    );
 
     println!(
         "beacon before/after: GDOP kshana {:.6}->{:.6} (ratio {:.4}) == numpy {:.6}->{:.6} (ratio {:.4})",

@@ -207,7 +207,10 @@ fn nsweep_per_sample_gdop_matches_independent_numpy() {
         let vis = visible_sat_positions(user, &sats, mask);
         let d = dop(user, &vis).unwrap_or_else(|| panic!("{label}: dop() None"));
         // Oracle must be a physical, non-trivial DOP.
-        assert!(s.ref_gdop > 0.0 && s.ref_pdop > 0.0, "{label}: trivial oracle");
+        assert!(
+            s.ref_gdop > 0.0 && s.ref_pdop > 0.0,
+            "{label}: trivial oracle"
+        );
         for (name, got, want) in [
             ("GDOP", d.gdop, s.ref_gdop),
             ("PDOP", d.pdop, s.ref_pdop),
@@ -233,7 +236,10 @@ fn nsweep_reported_aggregates_match_independent_numpy() {
     let times = p2_times();
     let mask = mask_rad();
     let agg = parse_agg();
-    assert!(agg.len() >= 3, "expected >=3 representative N aggregate rows");
+    assert!(
+        agg.len() >= 3,
+        "expected >=3 representative N aggregate rows"
+    );
 
     // Kshana's own reported aggregates for every N.
     let sweep: Vec<NSweepRow> = sweep_over_n(4, 24, &grid, &times, mask, PDOP_THRESHOLD);
