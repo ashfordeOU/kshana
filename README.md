@@ -428,6 +428,15 @@ optimism-gap study is written up in the preprint
 protection level (`tpl_jammertest` above) in the preprint
 [arXiv:2606.24210](https://arxiv.org/abs/2606.24210) (see [Citing](#citing)).
 
+The published lunar-PNT studies ([arXiv:2607.06212](https://arxiv.org/abs/2607.06212)
+surface-beacon DOP and [arXiv:2607.02566](https://arxiv.org/abs/2607.02566) VLBI
+observability) have their geometry, dilution-of-precision, real-time frame/EOP-prediction,
+distant-retrograde-orbit and RF-ranging claims independently cross-checked in
+`tests/validate_p*.rs` against separate oracles (`scipy.special.j1`, an independent NumPy
+`(HᵀH)⁻¹` DOP solve, a NumPy re-parse of the same IERS `finals2000A` rows, and the
+NASA/JPL Three-Body Periodic Orbit Database). These are additional regression checks over
+the **modelled** lunar suite; they do not change the machine-checked matrix count.
+
 ### Python
 
 An optional Python extension (PyO3, abi3) wraps the same engine. Build and install
