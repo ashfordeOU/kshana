@@ -46,7 +46,7 @@ fn x_sigma_is_the_exact_rss_of_the_seven_emitted_terms() {
         let b = lunar_time_budget(&BudgetParams::for_clock(clock), &taus);
         assert_eq!(b.terms.len(), 7, "{}: expected 7 terms", clock.name());
 
-        for i in 0..taus.len() {
+        for (i, &tau) in taus.iter().enumerate() {
             let per_term: Vec<f64> = b.terms.iter().map(|t| t.x_s[i]).collect();
             let independent = rss_hypot(&per_term);
             let engine = b.x_sigma_s[i];
@@ -55,7 +55,7 @@ fn x_sigma_is_the_exact_rss_of_the_seven_emitted_terms() {
                 rel < 1e-12,
                 "{}: τ={}: engine x_Σ={engine} vs hypot-RSS={independent} (rel {rel})",
                 clock.name(),
-                taus[i]
+                tau
             );
         }
     }
@@ -75,13 +75,13 @@ fn x_sigma_matches_a_hand_listed_seven_term_reconstruction() {
     for (i, &tau) in taus.iter().enumerate() {
         // The seven terms, assembled from the public BudgetParams / clock_specs surface:
         let terms = [
-            x_clock_s(&p, tau),                     // 1. clock (grows with τ)
-            params.rf_link_floor_s,                 // 2. RF one-way link floor
-            params.optical_link_floor_s,            // 3. optical two-way link floor
-            frame,                                  // 4. real-time frame realisation δr/c
-            params.relativistic_residual_s,         // 5. relativistic modelling residual
-            params.ephemeris_s,                     // 6. ephemeris / station
-            params.measurement_1s_s / tau.sqrt(),   // 7. measurement noise (averages ∝ τ^-1/2)
+            x_clock_s(&p, tau),                   // 1. clock (grows with τ)
+            params.rf_link_floor_s,               // 2. RF one-way link floor
+            params.optical_link_floor_s,          // 3. optical two-way link floor
+            frame,                                // 4. real-time frame realisation δr/c
+            params.relativistic_residual_s,       // 5. relativistic modelling residual
+            params.ephemeris_s,                   // 6. ephemeris / station
+            params.measurement_1s_s / tau.sqrt(), // 7. measurement noise (averages ∝ τ^-1/2)
         ];
         let independent = rss_hypot(&terms);
         let rel = rel_diff(b.x_sigma_s[i], independent);

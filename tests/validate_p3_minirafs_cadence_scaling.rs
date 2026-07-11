@@ -19,6 +19,7 @@
 //!     `x(τ₂)/x(τ₁) = √(τ₂/τ₁)`, independent of `h₀` (IEEE Std 1139-2008; W. J. Riley,
 //!     *Handbook of Frequency Stability Analysis*, NIST SP 1065 (2008), §3).
 //!   * The one-day anchor `x(86 400 s) = 151.238 ns` is the published P3 Table-1 miniRAFS row.
+//!
 //! The engine's [`kshana::clock_specs::x_clock_ns`] must reproduce both the ratio and the anchor.
 //! A wrong slope (e.g. a flicker-floor `∝ τ` law) would fail the ratio; a mis-calibrated `h₀`
 //! would fail the anchor.
@@ -72,8 +73,9 @@ fn accumulated_error_follows_the_sqrt_tau_law_across_many_resync_intervals() {
     let anchor_tau = ONE_DAY_S;
     let anchor_x = x_clock_ns(LunarClock::MiniRafs, anchor_tau);
     // Resync cadences from every-minute to every-4-days.
-    for &tau in &[60.0, 300.0, 900.0, 3600.0, 10_800.0, 21_600.0, 43_200.0, 172_800.0, 345_600.0]
-    {
+    for &tau in &[
+        60.0, 300.0, 900.0, 3600.0, 10_800.0, 21_600.0, 43_200.0, 172_800.0, 345_600.0,
+    ] {
         let engine = x_clock_ns(LunarClock::MiniRafs, tau);
         // Independent oracle: anchor scaled by the closed-form √τ ratio.
         let oracle = anchor_x * white_fm_ratio(tau, anchor_tau);
