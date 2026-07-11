@@ -30,9 +30,9 @@ jobs:
     name: Analyze (Rust + coverage)
     runs-on: ubuntu-latest
     # Runs the same instrumented tarpaulin coverage as ci.yml's coverage job
-    # (~89 min, cleared the old 90 min cap by ~30 s) plus the SonarQube scan on
-    # top, so it needs at least the same headroom. 150 min keeps it off the cliff.
-    timeout-minutes: 150
+    # (~89 min, cleared the old 90 min cap by only ~30 s) plus the SonarQube scan
+    # on top, so it needs at least as much headroom as that job — matched at 180.
+    timeout-minutes: 180
     steps:
       - name: Gate on SONAR_TOKEN
         id: gate

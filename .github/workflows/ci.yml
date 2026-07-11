@@ -71,11 +71,12 @@ jobs:
   coverage:
     runs-on: ubuntu-latest
     # Source-based LLVM instrumentation runs the same full suite as `check` under
-    # coverage counters — 84-85 min steady-state, and it crept over the old 90 min
-    # cap once the validation campaign's binaries landed (job cancelled at exactly
-    # 90 min). 150 min lifts it clear of the timeout cliff it had been sitting on
-    # while preserving the exact measurement (and the --fail-under 85 floor below).
-    timeout-minutes: 150
+    # coverage counters. It sat at 84-85 min steady-state, then crept over the old
+    # 90 min cap once the validation campaign's binaries landed (job cancelled at
+    # exactly 90 min, so its true runtime past that point was never observed). 180
+    # min gives generous headroom over any plausible instrumented runtime while
+    # preserving the exact measurement (and the --fail-under 85 floor below).
+    timeout-minutes: 180
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@1.93.0
