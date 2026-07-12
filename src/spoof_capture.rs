@@ -500,6 +500,91 @@ pub fn capture_map(
     }
 }
 
+/// A capture **cube**: the full three-dimensional sweep the P1 acceptance calls for —
+/// (power-advantage × code-offset × carrier-offset), with per-cell lock time as the
+/// output. Where [`CaptureMap`] fixes the carrier offset to a scalar, this exposes it as a
+/// genuine third axis so a spoofer's carrier/Doppler mismatch — not just its power and
+/// code alignment — is part of the geometry being mapped. `outcomes[i][j][k]` is the run
+/// at `powers_db[i]`, `offsets_chips[j]` and `carrier_offsets_hz[k]`.
+///
+/// ## Validated vs Modelled
+///
+/// **Validated** — the *reduction* and the *lock-time output*. Slicing the cube at
+/// `carrier_offsets_hz = [0.0]` reproduces [`capture_map`] at carrier offset `0.0`
+/// cell-for-cell (same `captured`, same `final_code_err_chips`), because each cell is the
+/// very same [`run_capture`] call the 2-D map makes — the third axis is added, nothing is
+/// perturbed. The "× lock time" dimension is the per-cell [`CaptureOutcome::lock_time_s`]
+/// *output*, carried through unchanged; captured cells report a finite `lock_time_s >= 0`.
+///
+/// **Modelled** — the specific numeric capture margins across the carrier axis. The
+/// physical mechanism is Validated (a spoofer's residual carrier rotates its correlation
+/// phasor by `TAU·Δf·T` over the 1 ms coherent integration; at `Δf ≳ 1/T ≈ 1 kHz` the
+/// spoofer's coherent gain hits its `sinc(π·Δf·T)` null and the DLL can no longer be
+/// dragged, so a far-out carrier offset denies capture even at healthy power — Kaplan &
+/// Hegarty ch. 8, and the Costas `atan(Q/I)` half-cycle pull-in edge at `Δf·T = 1/4`
+/// ≈ 250 Hz), but the exact offset at which a given cell flips is representative of *this*
+/// loop configuration, not a claim about any particular receiver.
+#[derive(Clone, Debug)]
+pub struct CaptureCube {
+    /// Power-advantage axis (dB), spoofer minus authentic.
+    pub powers_db: Vec<f64>,
+    /// Code-offset axis (chips), spoofer minus authentic.
+    pub offsets_chips: Vec<f64>,
+    /// Carrier/Doppler-offset axis (Hz), spoofer minus authentic — the genuine third axis.
+    pub carrier_offsets_hz: Vec<f64>,
+    /// Outcomes indexed `outcomes[power_index][offset_index][carrier_index]`.
+    pub outcomes: Vec<Vec<Vec<CaptureOutcome>>>,
+}
+
+impl CaptureCube {
+    /// The smallest power advantage in [`Self::powers_db`] at which the (offset, carrier)
+    /// column indexed by `offset_index` and `carrier_index` is captured, or `None` if no
+    /// grid power captures it. Mirrors [`CaptureMap::min_capture_power_db`]; assumes
+    /// `powers_db` is sorted ascending.
+    pub fn min_capture_power_db(&self, offset_index: usize, carrier_index: usize) -> Option<f64> {
+        for (i, &p) in self.powers_db.iter().enumerate() {
+            if self.outcomes[i][offset_index][carrier_index].captured {
+                return Some(p);
+            }
+        }
+        None
+    }
+}
+
+/// **Sweep** the full (power-advantage × code-offset × carrier-offset) cube, running one
+/// [`run_capture`] per cell. This is the *Modelled* capture cube: the three-dimensional
+/// picture of which spoofer geometries — power, code alignment *and* carrier/Doppler
+/// mismatch — take the loop for this receiver configuration. Reuses [`run_capture`]
+/// directly; the `carrier_offsets_hz = [0.0]` slice is an exact reduction to
+/// [`capture_map`] at carrier offset `0.0` (see [`CaptureCube`]).
+pub fn capture_cube(
+    cfg: &CaptureConfig,
+    powers_db: &[f64],
+    offsets_chips: &[f64],
+    carrier_offsets_hz: &[f64],
+) -> CaptureCube {
+    let outcomes = powers_db
+        .iter()
+        .map(|&p| {
+            offsets_chips
+                .iter()
+                .map(|&off| {
+                    carrier_offsets_hz
+                        .iter()
+                        .map(|&carrier| run_capture(cfg, p, off, carrier))
+                        .collect()
+                })
+                .collect()
+        })
+        .collect();
+    CaptureCube {
+        powers_db: powers_db.to_vec(),
+        offsets_chips: offsets_chips.to_vec(),
+        carrier_offsets_hz: carrier_offsets_hz.to_vec(),
+        outcomes,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -663,6 +748,169 @@ mod tests {
             !map.outcomes[0][1].captured,
             "1.5 chip at +10 dB does not capture"
         );
+    }
+
+    /// REDUCTION (Validated) — the third (carrier) axis is a genuine superset of the 2-D
+    /// map: a cube whose `carrier_offsets_hz` is the single value `[0.0]` must reproduce
+    /// [`capture_map`] at carrier offset `0.0` cell-for-cell. Same `captured` flag and same
+    /// `final_code_err_chips` for every (power, offset) cell, proving [`capture_cube`] only
+    /// adds a dimension and does not perturb the existing behaviour.
+    #[test]
+    fn cube_zero_carrier_slice_reduces_to_capture_map() {
+        let cfg = CaptureConfig::default();
+        let powers: Vec<f64> = vec![-6.0, 0.0, 6.0, 12.0];
+        let offsets: Vec<f64> = vec![0.15, 0.4, 0.7, 1.5];
+        let map = capture_map(&cfg, &powers, &offsets, 0.0);
+        let cube = capture_cube(&cfg, &powers, &offsets, &[0.0]);
+        assert_eq!(cube.carrier_offsets_hz, vec![0.0]);
+        assert_eq!(cube.outcomes.len(), powers.len());
+        for i in 0..powers.len() {
+            assert_eq!(cube.outcomes[i].len(), offsets.len());
+            for j in 0..offsets.len() {
+                assert_eq!(cube.outcomes[i][j].len(), 1);
+                let m = &map.outcomes[i][j];
+                let c = &cube.outcomes[i][j][0];
+                assert_eq!(
+                    c.captured, m.captured,
+                    "captured mismatch at power {} offset {}",
+                    powers[i], offsets[j]
+                );
+                assert_eq!(
+                    c.final_code_err_chips, m.final_code_err_chips,
+                    "final_code_err mismatch at power {} offset {}",
+                    powers[i], offsets[j]
+                );
+            }
+        }
+    }
+
+    /// OUTPUT (Validated) — `lock_time_s` is a per-cell *output* of the cube's "× lock
+    /// time" dimension, not an input axis. Every captured cell must report a finite
+    /// `lock_time_s >= 0`, and that value is carried through into the cube unchanged from
+    /// [`run_capture`].
+    #[test]
+    fn cube_reports_finite_lock_time_for_captured_cells() {
+        let cfg = CaptureConfig::default();
+        let powers: Vec<f64> = vec![6.0, 12.0];
+        let offsets: Vec<f64> = vec![0.2, 0.4];
+        let carriers: Vec<f64> = vec![0.0, 100.0];
+        let cube = capture_cube(&cfg, &powers, &offsets, &carriers);
+        let mut saw_capture = false;
+        for i in 0..powers.len() {
+            for j in 0..offsets.len() {
+                for k in 0..carriers.len() {
+                    let c = &cube.outcomes[i][j][k];
+                    if c.captured {
+                        saw_capture = true;
+                        assert!(
+                            c.lock_time_s.is_finite() && c.lock_time_s >= 0.0,
+                            "captured cell must report finite lock_time_s >= 0, got {} \
+                             at power {} offset {} carrier {}",
+                            c.lock_time_s,
+                            powers[i],
+                            offsets[j],
+                            carriers[k]
+                        );
+                        // The output equals what run_capture reports for the same cell.
+                        let direct = run_capture(&cfg, powers[i], offsets[j], carriers[k]);
+                        assert_eq!(c.lock_time_s, direct.lock_time_s);
+                    }
+                }
+            }
+        }
+        assert!(
+            saw_capture,
+            "grid should contain at least one captured cell"
+        );
+    }
+
+    /// CARRIER DOMAIN (Modelled magnitudes, Validated mechanism) — at a fixed in-range code
+    /// offset (0.3 chip) and healthy power (+6 dB) that captures at zero carrier offset, a
+    /// carrier offset far outside the loop's pull-in capability DENIES capture. The
+    /// spoofer's residual carrier rotates its correlation phasor by `TAU·Δf·T` over the 1 ms
+    /// coherent integration; at Δf ≳ 1/T ≈ 1 kHz this drives the spoofer's coherent
+    /// correlation gain to its `sinc(π·Δf·T)` null, so the amplified spoofer contributes
+    /// ≈zero net energy to the Early/Prompt/Late taps and the DLL cannot be dragged — the
+    /// loop holds the authentic signal (Kaplan & Hegarty ch. 8, coherent-integration
+    /// frequency response; the Costas `atan(Q/I)` half-cycle edge is Δf·T = 1/4 ≈ 250 Hz).
+    /// The specific far-offset magnitudes are Modelled for this configuration; the
+    /// denial-at-large-offset mechanism is the Validated part. The loop stays healthy
+    /// (lock ratio high), so this is genuine capture-denial, not loss of lock.
+    #[test]
+    fn far_carrier_offset_denies_in_range_capture() {
+        let cfg = CaptureConfig::default();
+        // Baseline: zero carrier offset captures.
+        let base = run_capture(&cfg, 6.0, 0.3, 0.0);
+        assert!(
+            base.captured,
+            "baseline (0 Hz carrier, +6 dB, 0.3 chip) must capture; lock={:.3}",
+            base.prompt_lock_ratio
+        );
+        // Sweep far-out carrier offsets through the cube; every one denies capture and the
+        // loop stays on the authentic signal (residual-to-spoofer ≈ the full offset).
+        let carriers: Vec<f64> = vec![1500.0, 2000.0, 3000.0, 4000.0];
+        let cube = capture_cube(&cfg, &[6.0], &[0.3], &carriers);
+        for (k, &c) in carriers.iter().enumerate() {
+            let out = &cube.outcomes[0][0][k];
+            assert!(
+                !out.captured,
+                "far carrier offset {c} Hz must deny capture; captured={} resid_spoof={:.3}",
+                out.captured, out.residual_to_spoofer_chips
+            );
+            assert!(
+                out.residual_to_spoofer_chips.abs() > 0.2,
+                "loop must hold the authentic signal (stay far from spoofer) at {c} Hz, \
+                 residual={:.3}",
+                out.residual_to_spoofer_chips
+            );
+        }
+    }
+
+    /// DETERMINISM across the carrier axis — [`capture_cube`] is a pure function of its
+    /// inputs: two cubes over the same grid are identical cell-for-cell on the key
+    /// observables. Complements the noise-determinism test but exercises the new axis.
+    #[test]
+    fn cube_is_deterministic_across_carrier_axis() {
+        let cfg = CaptureConfig::default();
+        let powers: Vec<f64> = vec![3.0, 9.0];
+        let offsets: Vec<f64> = vec![0.25, 0.6];
+        let carriers: Vec<f64> = vec![0.0, 400.0, 900.0];
+        let a = capture_cube(&cfg, &powers, &offsets, &carriers);
+        let b = capture_cube(&cfg, &powers, &offsets, &carriers);
+        for i in 0..powers.len() {
+            for j in 0..offsets.len() {
+                for k in 0..carriers.len() {
+                    assert_eq!(a.outcomes[i][j][k].captured, b.outcomes[i][j][k].captured);
+                    assert_eq!(
+                        a.outcomes[i][j][k].final_code_err_chips,
+                        b.outcomes[i][j][k].final_code_err_chips
+                    );
+                    assert_eq!(
+                        a.outcomes[i][j][k].final_carrier_err_hz,
+                        b.outcomes[i][j][k].final_carrier_err_hz
+                    );
+                }
+            }
+        }
+    }
+
+    /// The cube accessor mirrors [`CaptureMap::min_capture_power_db`]: at zero carrier
+    /// offset the min-capture-power for a given offset must equal the 2-D map's value.
+    #[test]
+    fn cube_min_capture_power_matches_map_at_zero_carrier() {
+        let cfg = CaptureConfig::default();
+        let powers: Vec<f64> = vec![-6.0, -3.0, 0.0, 3.0, 6.0, 9.0, 12.0];
+        let offsets: Vec<f64> = vec![0.15, 0.4, 0.7, 0.95];
+        let map = capture_map(&cfg, &powers, &offsets, 0.0);
+        let cube = capture_cube(&cfg, &powers, &offsets, &[0.0]);
+        for j in 0..offsets.len() {
+            assert_eq!(
+                cube.min_capture_power_db(j, 0),
+                map.min_capture_power_db(j),
+                "cube accessor must match map at offset {}",
+                offsets[j]
+            );
+        }
     }
 
     /// A run over a noisy composite stays deterministic (seeded) and still resolves a

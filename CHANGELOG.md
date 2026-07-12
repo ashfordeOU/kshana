@@ -11,6 +11,39 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Five capabilities promoted to externally VALIDATED**, each now cross-checked
+  against an independent third-party implementation of the same uniquely-defined
+  quantity (non-circular, with regenerable-offline fixtures):
+  - **IEEE-1139 power-law → Allan-deviation conversion** against `allantools` closed
+    forms for all five noise types (`tests/powerlaw_oadev_reference.rs`);
+  - **CRPA MVDR / minimum-norm null-steering beamformer weights** against numpy/scipy
+    LAPACK (`tests/crpa_reference.rs`);
+  - **Wahba / TRIAD / QUEST attitude determination** against SciPy's SVD
+    `Rotation.align_vectors` on noiseless observations (`tests/wahba_reference.rs`);
+  - **CCSDS 502.0 OEM covariance-block interchange** round-tripped through the
+    independent `oem` library's parser (`tests/ccsds_oem_covariance_reference.rs`);
+  - the **square-law acquisition detection-statistics kernel** (generalized
+    Marcum-Q / P_d / P_fa / threshold) against SciPy `ncx2`/`chi2`
+    (`tests/acquisition_reference.rs`).
+  The machine-checked validation matrix moves to **56 VALIDATED · 42 MODELLED · 4
+  PARTNER** across **102 rows** (was 51 · 47 · 4). Honest scope caveats are preserved
+  — e.g. the acquisition promotion covers the detection-statistics kernel only;
+  CFAR/straddling loss stays MODELLED.
+- **Position-domain figures of merit** (`fom::positioning_performance`): exact CEP,
+  SEP and 2DRMS from a navigation solution's 3-D ENU position covariance plus a
+  horizontal protection level. CEP/SEP are the *exact* median radial errors (not the
+  `0.589·(σ₁+σ₂)` linear rule), cross-checked against `scipy.stats` rayleigh/maxwell
+  quantiles and an independent NumPy Monte-Carlo median
+  (`tests/positioning_fom_reference.rs`). Replaces the previous honest
+  not-implemented stub — **the function signature changed** from `()` returning an
+  error to `(cov_enu, hpl_m)` returning a `PositioningFom`.
+- **Confidence-interval equivalent-degrees-of-freedom (EDF) completed for all
+  Allan-family estimators** (`assurance::uncertainty::edf`): the modified-Allan,
+  Hadamard and total-variance EDF now use the Greenhall & Riley combined-EDF
+  algorithm and the NIST SP 1065 Table-7 TOTVAR form (previously only the
+  overlapping-Allan EDF was implemented; the others silently reused it), cross-checked
+  against `allantools` `edf_greenhall`/`edf_totdev`
+  (`tests/uncertainty_edf_reference.rs`).
 - **Independent external cross-checks for the lunar-PNT geometry, DOP, EOP, DRO and
   RF-ranging capabilities** (`tests/validate_p*.rs`, with fixtures and oracle
   generators under
@@ -23,9 +56,45 @@ breaking changes are called out explicitly.
   NumPy re-parse of the same verbatim IERS `finals2000A` rows; the planar
   distant-retrograde-orbit family against the NASA/JPL Three-Body Periodic Orbit
   Database; and the RF ranging-precision budget against a first-principles reference.
-  These are additional regression evidence for existing modules — the machine-checked
-  validation matrix stays **51 / 47 / 4 of 102** (`src/verification.rs`); adding a
-  cross-check test does not relabel any capability.
+  These are additional regression evidence for existing modules; adding these
+  cross-check tests does not itself relabel any capability (the five promotions above
+  are separate, oracle-backed status changes in `src/verification.rs`).
+- **`lunar-attack-surface` scenario** (`src/attack_surface.rs`, `kind =
+  "lunar-attack-surface"`): a composed, binary-reachable (CLI / Python / MCP / wasm via
+  `run_toml`) P1 lunar signal-security run that stitches together the link-budget power
+  deficit and its 12–18 dB sensitivity band, the required jam/spoof transmit power vs
+  standoff, the orbital capture footprint under a real antenna pattern, the
+  tracking-loop spoof-capture pull-in outcome, the airless-body horizon reach, and the
+  OSNMA/TESLA authentication budget. An empty body reproduces the P1 baseline.
+- **Power-deficit sensitivity band** (`linkbudget::deficit_sensitivity_band`,
+  `deficit_power_factor`): a genuine multi-axis sweep (reference × EIRP × slant range)
+  built on `sweep::SweepAxis` and evaluated through `received_signal_power_dbw`,
+  reproducing the P1 12–18 dB band and reconciling the 32× (rounded) / 36× (unrounded)
+  linear-factor figures.
+- **Three-dimensional spoof-capture cube** (`spoof_capture::capture_cube`): adds the
+  carrier/Doppler-offset axis to the capture map (J/S × code-offset × carrier-offset,
+  lock time per cell); the zero-carrier slice exactly reduces to the 2-D `capture_map`.
+
+### Changed
+
+- **Sparse-monitor-network detection** (`monitor_network`) now composes the physical
+  `spoof_monitors` AGC statistic and the `lunar_service` selenographic visibility grid
+  to derive each station's detection statistic and geometry, instead of free parameters
+  and an ad-hoc great-circle overlap; the per-monitor and network detection
+  probabilities remain the `detection` chi-square/Marcum-Q closed forms. **The
+  `SurfaceMonitor` / `SpoofEvent` fields changed** to physical (lat/lon/alt/power)
+  quantities.
+
+### Fixed
+
+- **OSNMA/TESLA authentication-overhead sizing** (`nma_budget`): the per-page OSNMA
+  field portions (8-bit HKROOT + 32-bit MACK per 2 s page) were mislabeled as
+  per-subframe totals, understating the overhead 15× (1.33 bit/s). Corrected to the
+  published SIS-ICD per-30 s-subframe totals (HKROOT 120 + MACK 480 bits ⇒ **20 bit/s**).
+  The consequence is now stated honestly: at a 50 bit/s AFS nav rate the authentication
+  overhead is a **first-order ≈40 %** cost, not a negligible few percent; the
+  `auth_latency` field is documented as the key-disclosure delay (a lower bound on the
+  end-to-end time-to-first-authenticated-fix).
 
 ## [0.24.0] - 2026-07-09
 
