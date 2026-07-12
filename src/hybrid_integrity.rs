@@ -34,7 +34,7 @@
 //!   formulas. Not a certified availability/integrity product.
 
 use crate::cross_raim::{run_cross_raim, AxisRole, CrossAxis, CrossRaimResult};
-use crate::handoff::{optical_rf_handoff, HandoffOutcome, HandoffState};
+use crate::handoff::{optical_rf_handoff, rf_optical_handoff, HandoffOutcome, HandoffState};
 use crate::optical_availability::{
     default_network, run_optical_availability, OpticalAvailabilityResult,
 };
@@ -193,6 +193,7 @@ struct Computed {
     protected: bool,
     availability: OpticalAvailabilityResult,
     handoff: HandoffOutcome,
+    handoff_reverse: HandoffOutcome,
     fom: JointPntFoM,
     alert_h: f64,
     alert_v: f64,
@@ -345,12 +346,23 @@ impl HybridOpticalRfScenario {
         let rf_updates: Vec<(usize, f64, f64)> = (0..4)
             .map(|i| (i, truth[i] + p0[i].sqrt(), p0[i]))
             .collect();
+        let inflation = self.handoff_inflation.unwrap_or(0.2);
         let handoff = optical_rf_handoff(
-            HandoffState::new(x0, p0),
+            HandoffState::new(x0.clone(), p0.clone()),
             &truth,
             &optical_updates,
             &rf_updates,
-            self.handoff_inflation.unwrap_or(0.2),
+            inflation,
+        );
+        // The reverse ("and back") RF→optical direction: loose RF first, then hand off, then
+        // the tight optical update. The no-jump mean-continuity guarantee holds in either
+        // direction; the reverse pass tightens (optical deflates) instead of loosening.
+        let handoff_reverse = rf_optical_handoff(
+            HandoffState::new(x0, p0),
+            &truth,
+            &rf_updates,
+            &optical_updates,
+            inflation,
         );
 
         Ok(Computed {
@@ -365,6 +377,7 @@ impl HybridOpticalRfScenario {
             protected,
             availability,
             handoff,
+            handoff_reverse,
             fom,
             alert_h,
             alert_v,
@@ -435,6 +448,17 @@ impl HybridOpticalRfScenario {
                 "nees_gate_hi": c.handoff.nees_gate.1,
                 "nees_in_gate": c.handoff.nees_in_gate,
                 "dof": c.handoff.dof,
+            },
+            "handoff_reverse": {
+                "direction": "rf_to_optical",
+                "mean_continuous": c.handoff_reverse.mean_continuous,
+                "max_mean_jump": c.handoff_reverse.max_mean_jump,
+                "variance_after_rf_stage": c.handoff_reverse.variance_after_optical,
+                "variance_after_handoff": c.handoff_reverse.variance_after_handoff,
+                "variance_after_optical_stage": c.handoff_reverse.variance_after_rf,
+                "final_nees": c.handoff_reverse.final_nees,
+                "nees_in_gate": c.handoff_reverse.nees_in_gate,
+                "dof": c.handoff_reverse.dof,
             },
             "joint_fom": c.fom,
         });
@@ -559,6 +583,8 @@ impl HybridOpticalRfScenario {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rand::{Rng, SeedableRng};
+    use rand_chacha::ChaCha8Rng;
     use serde_json::Value;
 
     /// The joint independent product is exact `A·P·I`; the correlated joint reduces to it at
@@ -584,9 +610,76 @@ mod tests {
         assert!(a * p * i <= mid && mid <= a.min(p).min(i));
     }
 
+    /// **REDUCES-TO-MARGINAL (G4a).** The joint FoM reduces to each single marginal when the
+    /// other two factors are 1: `joint_fom(A,1,1,ρ).score == A` and the two symmetric cases,
+    /// for BOTH `ρ = 0` and `ρ > 0`. At any ρ, with two factors equal to 1 both the
+    /// independent product `A·1·1` and the min `min(A,1,1) = A` equal A, so the interpolation
+    /// collapses to A regardless of ρ. Oracle: the closed-form marginalisation identity.
+    #[test]
+    fn joint_fom_reduces_to_each_marginal() {
+        for rho in [0.0, 0.3, 0.5, 1.0] {
+            for x in [0.0, 0.25, 0.6, 0.9, 1.0] {
+                // First slot is the marginal, other two = 1.
+                assert!(
+                    (joint_fom(x, 1.0, 1.0, rho).score - x).abs() < 1e-12,
+                    "joint_fom({x},1,1,{rho}) must reduce to {x}"
+                );
+                // Second slot.
+                assert!(
+                    (joint_fom(1.0, x, 1.0, rho).score - x).abs() < 1e-12,
+                    "joint_fom(1,{x},1,{rho}) must reduce to {x}"
+                );
+                // Third slot.
+                assert!(
+                    (joint_fom(1.0, 1.0, x, rho).score - x).abs() < 1e-12,
+                    "joint_fom(1,1,{x},{rho}) must reduce to {x}"
+                );
+            }
+        }
+    }
+
+    /// **MONTE-CARLO CROSS-CHECK (G4b).** Drawing an epoch sample series where each epoch is
+    /// independently `available`, `precision-grade` and `PL-bounded` (integrity-assured) with
+    /// probabilities `A`, `P`, `I`, the empirical fraction of epochs SIMULTANEOUSLY satisfying
+    /// all three converges to the closed-form INDEPENDENT joint `A·P·I` (= `joint_fom(.,.,.,0)`).
+    /// Oracle: a seeded Monte-Carlo epoch ensemble (in the spirit of `hybrid::score_hybrid`)
+    /// vs the closed-form product — the same MC→closed-form pattern the P7 conflict_resilience
+    /// module uses, genuinely independent of the algebraic `joint_fom` evaluation.
+    #[test]
+    fn joint_fom_monte_carlo_matches_independent_product() {
+        let cases: [(f64, f64, f64); 3] =
+            [(0.96, 0.90, 0.99), (0.80, 0.75, 0.995), (0.5, 0.5, 0.5)];
+        let n = 400_000usize;
+        for (a, p, i) in cases {
+            let mut rng = ChaCha8Rng::seed_from_u64(0xC0FFEE ^ a.to_bits());
+            let mut all_three: u64 = 0;
+            for _ in 0..n {
+                // Independent per-epoch Bernoulli draws for the three P5 conditions.
+                let avail = rng.gen_range(0.0..1.0) < a;
+                let precise = rng.gen_range(0.0..1.0) < p;
+                let integ = rng.gen_range(0.0..1.0) < i;
+                if avail && precise && integ {
+                    all_three += 1;
+                }
+            }
+            let empirical = all_three as f64 / n as f64;
+            let closed_form = joint_fom(a, p, i, 0.0).joint_independent;
+            assert!((closed_form - a * p * i).abs() < 1e-12, "product sanity");
+            // MC standard error ~ √(q(1−q)/n); allow 4σ.
+            let q = closed_form;
+            let se = (q * (1.0 - q) / n as f64).sqrt();
+            assert!(
+                (empirical - closed_form).abs() < 4.0 * se + 1e-6,
+                "empirical joint-available∧precise∧integrity {empirical} vs closed form \
+                 {closed_form} (A={a}, P={p}, I={i}); 4σ = {}",
+                4.0 * se
+            );
+        }
+    }
+
     /// The default scenario runs end to end, carries the honesty label, and produces a
     /// finite, sensible joint FoM: the optical link is photon-limited (sub-mm ranging), the
-    /// cross-modality solution is protected, the network availability is ≈ 96 %, the handoff
+    /// cross-modality solution is protected, the network availability is ≈ 99.5 %, the handoff
     /// is bit-continuous with an in-gate NEES, and the score is dominated by availability.
     #[test]
     fn default_scenario_runs_and_is_honest() {
@@ -611,20 +704,32 @@ mod tests {
             .as_bool()
             .unwrap());
 
-        // Availability ≈ 96 %.
+        // Availability ≈ 99.5 % (five externally-sourced sites, correlated union).
         let a = v["optical_availability"]["correlated_union"]
             .as_f64()
             .unwrap();
-        assert!((0.94..0.975).contains(&a), "availability {a}");
+        assert!((0.99..0.997).contains(&a), "availability {a}");
 
         // Handoff: bit-continuous, NEES in gate.
         assert!(v["handoff"]["mean_continuous"].as_bool().unwrap());
         assert_eq!(v["handoff"]["max_mean_jump"].as_f64().unwrap(), 0.0);
         assert!(v["handoff"]["nees_in_gate"].as_bool().unwrap());
 
+        // Reverse ("and back") RF→optical handoff: also bit-continuous, and the final tight
+        // optical stage deflates below the post-handoff (inflated) variance.
+        let hr = &v["handoff_reverse"];
+        assert_eq!(hr["direction"], "rf_to_optical");
+        assert!(hr["mean_continuous"].as_bool().unwrap());
+        assert_eq!(hr["max_mean_jump"].as_f64().unwrap(), 0.0);
+        assert!(
+            hr["variance_after_optical_stage"].as_f64().unwrap()
+                < hr["variance_after_handoff"].as_f64().unwrap(),
+            "reverse handoff final optical stage must tighten"
+        );
+
         // Joint FoM: finite, availability-limited, in (0, 1).
         let score = v["joint_fom"]["score"].as_f64().unwrap();
-        assert!((0.85..0.98).contains(&score), "joint score {score}");
+        assert!((0.95..0.998).contains(&score), "joint score {score}");
         assert!(summary.contains("hybrid-optical-rf"));
     }
 
@@ -636,6 +741,47 @@ mod tests {
         let (_j, _s, svg) = scn.run_output().unwrap();
         assert!(svg.starts_with("<svg") && svg.ends_with("</svg>"));
         assert!(svg.contains("joint figure of merit"));
+    }
+
+    /// **SCENARIO ↔ STUDY SHARED-QUANTITY PIN (G7, engine side).** The `hybrid-optical-rf`
+    /// scenario emits its shared optical / FoM quantities DETERMINISTICALLY for the fixed
+    /// default configuration. This test pins those shared values so the pro-side G5 study
+    /// generator has a concrete, stable reconciliation target. These are exactly the shared
+    /// inputs the pro G5 `OpticalRfHybridStudy` must match to reconcile: the default 1550 nm /
+    /// 1 mW / 0.85 m-aperture / 1 s-integration / two-way link (with the two-way return-path
+    /// double-pass geometric loss applied). The pro-side alignment is handled separately; this
+    /// pins the kshana surface deterministically (the registry golden pins the summary string).
+    #[test]
+    fn scenario_emits_deterministic_shared_quantities_for_g5_reconciliation() {
+        let (json, _s) = HybridOpticalRfScenario::default().run_json().unwrap();
+        let v: Value = serde_json::from_str(&json).unwrap();
+        let ol = &v["optical_link"];
+
+        // Deterministic across repeated runs.
+        let (json2, _s2) = HybridOpticalRfScenario::default().run_json().unwrap();
+        assert_eq!(json, json2, "shared quantities must be deterministic");
+
+        // The pinned shared quantities the pro G5 study must reconcile with (fixed default
+        // config, two-way return-path handling ON). Tight tolerances — these are the contract.
+        let footprint = ol["footprint_m"].as_f64().unwrap();
+        assert!((footprint - 700.2352941176471).abs() < 1e-6, "footprint {footprint}");
+        let photons = ol["detected_photons"].as_f64().unwrap();
+        assert!((photons - 1489.439014904476).abs() < 1e-6, "photons {photons}");
+        let ranging = ol["optical_ranging_sigma_m"].as_f64().unwrap();
+        assert!(
+            (ranging - 0.00019420005507534736).abs() < 1e-12,
+            "ranging σ {ranging}"
+        );
+        let timing = ol["optical_timing_sigma_s"].as_f64().unwrap();
+        assert!(
+            (timing - 1.2955633131727907e-12).abs() < 1e-18,
+            "timing σ {timing}"
+        );
+        assert!(ol["two_way"].as_bool().unwrap(), "two-way path ON");
+        let geo_loss = ol["geometric_loss_db"].as_f64().unwrap();
+        assert!((geo_loss - 58.31650142218474).abs() < 1e-9, "geo loss {geo_loss}");
+        let score = v["joint_fom"]["score"].as_f64().unwrap();
+        assert!((score - 0.9926615252602455).abs() < 1e-12, "FoM score {score}");
     }
 
     /// Tightening the optical link (more photons via a bigger aperture / more power) lowers
