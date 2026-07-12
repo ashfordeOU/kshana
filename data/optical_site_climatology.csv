@@ -1,0 +1,28 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+#
+# External optical-ground-station clear-sky climatology (P5 / L24 optical availability).
+#
+# The `clear_sky_prob` column is the *satellite-derived fraction of clear (cloud-free)
+# nights* published for each site, NOT a value asserted by Kshana or the P5 paper. It is a
+# genuine external anchor for the optical-availability oracle: the diversity combinatorics
+# (1 - Prod(1 - a_i)) are validated closed form, and the per-site inputs are now traceable to
+# a published source row rather than illustrative.
+#
+# PRIMARY SOURCE
+#   Cavazzani, Ortolani, Zitelli & Maruccia, "Fraction of clear skies above astronomical
+#   sites: a new analysis from the GOES12 satellite", Mon. Not. R. Astron. Soc. (2011),
+#   arXiv:1011.4815. Abstract, time interval 2007-2008, satellite clear-night percentage:
+#     Paranal 88%, La Silla 76%, La Palma 72.5%, Mt. Graham 59%, Tolonchar 86.5%.
+#   Site coordinates (lat, lon) are from that paper's Table 3.
+#
+# The pointing/acquisition factor is the fraction of clear-sky time the optical terminal
+# points and acquires the link; it remains a MODELLED terminal allocation (0.90), separate
+# from the externally-sourced clear-sky column.
+#
+# columns: name,lat_deg,lon_deg,clear_sky_prob,pointing_acquisition_factor,source
+name,lat_deg,lon_deg,clear_sky_prob,pointing_acquisition_factor,source
+Paranal,-24.617,-70.400,0.880,0.90,Cavazzani et al. 2011 MNRAS (arXiv:1011.4815) GOES12 2007-2008 clear-night fraction
+La Silla,-29.250,-70.717,0.760,0.90,Cavazzani et al. 2011 MNRAS (arXiv:1011.4815) GOES12 2007-2008 clear-night fraction
+La Palma,28.750,-17.867,0.725,0.90,Cavazzani et al. 2011 MNRAS (arXiv:1011.4815) GOES12 2007-2008 clear-night fraction
+Mt. Graham,32.700,-109.867,0.590,0.90,Cavazzani et al. 2011 MNRAS (arXiv:1011.4815) GOES12 2007-2008 clear-night fraction
+Tolonchar,-23.933,-67.967,0.865,0.90,Cavazzani et al. 2011 MNRAS (arXiv:1011.4815) GOES12 2007-2008 clear-night fraction

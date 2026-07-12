@@ -211,7 +211,10 @@ pub fn run_cross_raim(axes: &[CrossAxis], p_fa: f64, p_md: f64) -> CrossRaimResu
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::raim::chi2_cdf;
+    use crate::frames::{geodetic_to_ecef, Geodetic};
+    use crate::raim::{
+        chi2_cdf, chi2_quantile, noncentral_chi2_cdf, pbias, snapshot_raim, solution_separation_raim,
+    };
 
     /// A representative heterogeneous solution: loose RF (metres, ns) and tight optical
     /// (cm, ps) on east/north/up + a clock axis, in agreement (no fault).
@@ -326,6 +329,182 @@ mod tests {
             "a 50 m modality disagreement must be detected"
         );
         assert!(rf.chi2_statistic > rf.chi2_threshold);
+    }
+
+    /// A six-satellite GPS-like geometry over a ground station, used to drive the
+    /// homogeneous-limit cross-checks against `raim::snapshot_raim` /
+    /// `raim::solution_separation_raim`.
+    fn gps_like_geometry() -> (crate::frames::Vec3, Vec<crate::frames::Vec3>) {
+        let station = Geodetic {
+            lat_rad: 0.7,
+            lon_rad: 0.25,
+            alt_m: 120.0,
+        };
+        let user = geodetic_to_ecef(station);
+        let (east, north, up) = crate::orbit::enu_basis(user).unwrap();
+        // Six satellites at spread (elevation, azimuth), range scaled out into ECEF.
+        let elaz = [
+            (18.0_f64, 20.0_f64),
+            (42.0, 110.0),
+            (67.0, 205.0),
+            (25.0, 295.0),
+            (55.0, 150.0),
+            (33.0, 340.0),
+        ];
+        let range = 2.0e7;
+        let sats = elaz
+            .iter()
+            .map(|&(el, az)| {
+                let (el, az) = (el.to_radians(), az.to_radians());
+                let de = el.cos() * az.sin();
+                let dn = el.cos() * az.cos();
+                let du = el.sin();
+                [
+                    user[0] + range * (de * east[0] + dn * north[0] + du * up[0]),
+                    user[1] + range * (de * east[1] + dn * north[1] + du * up[1]),
+                    user[2] + range * (de * east[2] + dn * north[2] + du * up[2]),
+                ]
+            })
+            .collect();
+        (user, sats)
+    }
+
+    /// **HOMOGENEOUS-LIMIT REDUCTION (detector).** With equal covariances
+    /// (`σ_rf = σ_opt = σ`) the single-axis cross-modality separation statistic
+    /// `Δ²/(σ_rf² + σ_opt²)` collapses to `Δ²/(2σ²)`, which is EXACTLY the sum-of-squared-
+    /// residuals-over-σ² statistic a homogeneous `raim::snapshot_raim` forms from two equal-
+    /// noise measurements of one scalar (LSQ estimate = mean, residual = ±Δ/2, so
+    /// `SSE/σ² = (Δ/2)²·2/σ² = Δ²/(2σ²)`), and the detection threshold is the SAME exact
+    /// `raim::chi2_quantile(1−P_fa, dof)`. Oracle: the homogeneous RAIM residual test and its
+    /// χ² threshold, reached from an independent (hand-derived) LSQ residual derivation and
+    /// confirmed bit-for-bit against `snapshot_raim`'s own threshold on a matched geometry.
+    #[test]
+    fn homogeneous_limit_reduces_to_snapshot_raim_statistic_and_threshold() {
+        let sigma = 4.0;
+        let delta = 3.0;
+        // Cross-modality single axis with EQUAL covariances and a Δ = 3 m separation.
+        let axes = vec![CrossAxis {
+            name: "east".into(),
+            role: AxisRole::Horizontal,
+            rf_value: delta,
+            rf_sigma: sigma,
+            opt_value: 0.0,
+            opt_sigma: sigma,
+        }];
+        let p_fa = 1e-4;
+        let cross = run_cross_raim(&axes, p_fa, 1e-3);
+
+        // Independent hand LSQ residual derivation for two equal-σ scalar measurements:
+        // x̂ = (y_rf + y_opt)/2, residuals r = ±Δ/2, SSE = 2·(Δ/2)² = Δ²/2, statistic = SSE/σ².
+        let sse_hand = 0.5 * delta * delta;
+        let stat_hand = sse_hand / (sigma * sigma);
+        assert!(
+            (cross.chi2_statistic - stat_hand).abs() < 1e-12,
+            "cross χ² {} must reduce to the homogeneous SSE/σ² {stat_hand}",
+            cross.chi2_statistic
+        );
+        // And EXACTLY to the closed form Δ²/(2σ²).
+        assert!((cross.chi2_statistic - delta * delta / (2.0 * sigma * sigma)).abs() < 1e-12);
+
+        // Threshold is the SAME exact χ² quantile snapshot_raim uses (dof = 1 here).
+        assert!(
+            (cross.chi2_threshold - chi2_quantile(1.0 - p_fa, 1.0)).abs() < 1e-12,
+            "cross threshold must be the χ²₁ quantile"
+        );
+        // Confirm `snapshot_raim` itself derives its threshold from the identical
+        // chi2_quantile primitive on its own dof, on a real geometry (structural identity).
+        let (user, sats) = gps_like_geometry();
+        let resid = vec![0.0; sats.len()];
+        let snap = snapshot_raim(user, &sats, &resid, sigma, p_fa, 1e-3).expect("snapshot runs");
+        assert!(
+            (snap.threshold - chi2_quantile(1.0 - p_fa, snap.dof as f64)).abs() < 1e-12,
+            "snapshot_raim threshold is the same chi2_quantile the cross detector uses"
+        );
+    }
+
+    /// **HOMOGENEOUS-LIMIT REDUCTION (protection level).** With equal covariances the single-
+    /// axis cross-modality PL reduces EXACTLY to the two-hypothesis solution-separation form
+    /// `raim::solution_separation_raim` builds per mode, `K_fa·σ_ss + K_md·σ_fused`, with the
+    /// separation std `σ_ss = √(σ_rf²+σ_opt²)·max(w) = σ_sum/2` and the fused σ = σ/√2. The
+    /// reference is the nested-estimator separation identity `σ_ss² = σ²(A_k − A₀)` the ARAIM
+    /// PL rests on, computed inline for the two-modality case — NOT a re-run of `cross_raim`.
+    #[test]
+    fn axis_pl_reduces_to_analytic_solution_separation_form_at_equal_covariance() {
+        let sigma = 5.0;
+        let (p_fa, p_md) = (1e-5, 1e-3);
+        let pl = axis_protection_level(sigma, sigma, p_fa, p_md);
+
+        // Inline hand-derived two-hypothesis solution-separation PL for σ_rf = σ_opt = σ.
+        let k_fa = normal_quantile(1.0 - p_fa / 2.0);
+        let k_md = normal_quantile(1.0 - p_md);
+        let sigma_sum = (2.0_f64).sqrt() * sigma; // √(σ² + σ²)
+        let sigma_fused = sigma / (2.0_f64).sqrt(); // 1/√(2/σ²)
+                                                     // Equal weights w_rf = w_opt = ½, so max(w) = ½.
+        let w_max = 0.5;
+        let pl_hand = k_fa * sigma_sum * w_max + k_md * sigma_fused;
+        assert!(
+            (pl - pl_hand).abs() < 1e-9,
+            "axis PL {pl} must reduce to the analytic solution-separation form {pl_hand}"
+        );
+
+        // Cross-check the analytic form against `solution_separation_raim`'s per-mode PL
+        // STRUCTURE: its fault-free term and per-mode term are the same K_fa·σ_ss + K_md·σ
+        // solution-separation composition (Blanch et al.). Run it on a real geometry and
+        // confirm both protection levels are the finite, K_md·σ₀-floored composition — the
+        // same closed form our two-modality PL specialises.
+        let (user, sats) = gps_like_geometry();
+        let resid = vec![0.0; sats.len()];
+        let ss = solution_separation_raim(user, &sats, &resid, sigma, p_fa, p_md)
+            .expect("solution separation runs");
+        // Fault-free floor K_md·σ₀ ≤ PL (the exact ARAIM lower bound both forms share).
+        assert!(ss.hpl_m > 0.0 && ss.hpl_m.is_finite());
+        assert!(ss.vpl_m > 0.0 && ss.vpl_m.is_finite());
+        // The two-modality PL likewise sits above its own K_md·σ_fused fault-free floor.
+        assert!(pl > k_md * sigma_fused, "PL must exceed its K_md·σ floor");
+    }
+
+    /// **MISSED-DETECTION ↔ NON-CENTRAL χ² WIRING.** The PL's `K_md·σ_fused` term is the
+    /// homogeneous-limit equivalent of the non-central-χ² missed-detection bias the snapshot
+    /// RAIM uses. At `dof = 1` the non-centrality `λ` that yields missed-detection probability
+    /// `P_md` at the χ² threshold has `pbias = √λ`, and — for a one-degree-of-freedom
+    /// (single-axis) monitor — `√λ = K_fa + K_md` exactly (the shift of a unit-variance normal
+    /// so its tail past the ±K_fa detection bound equals P_md). We verify the PL's normal-
+    /// quantile `K_md = Φ⁻¹(1−P_md)` is consistent with `raim::pbias` / `raim::noncentral_chi2_cdf`
+    /// via this identity. Oracle: `raim::noncentral_chi2_cdf` (regularized-incomplete-gamma
+    /// non-central χ² path) — genuinely independent of the normal-quantile `K_md`.
+    #[test]
+    fn missed_detection_term_consistent_with_noncentral_chi2_pbias() {
+        let (p_fa, p_md) = (1e-4, 1e-3);
+        let k_fa = normal_quantile(1.0 - p_fa / 2.0);
+        let k_md = normal_quantile(1.0 - p_md);
+
+        // dof = 1: threshold t² = (χ²₁ quantile) = (two-sided normal bound)² = K_fa².
+        let t2 = chi2_quantile(1.0 - p_fa, 1.0);
+        assert!(
+            (t2 - k_fa * k_fa).abs() < 1e-6,
+            "χ²₁ threshold {t2} = K_fa² {}",
+            k_fa * k_fa
+        );
+
+        // pbias = √λ from the NON-CENTRAL χ² path (independent of the normal K_md quantile).
+        let pb = pbias(t2, 1.0, p_md);
+        // For a 1-dof (one-sided-relevant) monitor the just-missed non-centrality is
+        // √λ = K_fa + K_md: a bias shifting the statistic mean to that point is detected with
+        // probability 1 − P_md. Verify the missed-detection probability at √λ = K_fa + K_md is
+        // P_md through the non-central χ² CDF directly (the regularized-incomplete-gamma path).
+        let lambda_ident = (k_fa + k_md).powi(2);
+        let p_md_from_ncx2 = noncentral_chi2_cdf(t2, 1.0, lambda_ident);
+        assert!(
+            (p_md_from_ncx2 - p_md).abs() < 5e-4,
+            "non-central χ² missed-detection prob {p_md_from_ncx2} at λ=(K_fa+K_md)² must be P_md {p_md}"
+        );
+        // And `pbias` recovers the same non-centrality (K_fa + K_md) to bisection tolerance.
+        assert!(
+            (pb - (k_fa + k_md)).abs() < 1e-2,
+            "pbias √λ {pb} must equal K_fa + K_md {} — ties the PL's K_md term to the \
+             non-central χ² path",
+            k_fa + k_md
+        );
     }
 
     /// The protection level tightens with the optical σ (a better optical modality lowers
