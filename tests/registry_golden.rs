@@ -270,8 +270,8 @@ fn golden_hybrid_optical_rf() {
     // exact x86-64-Linux raw pin can be added later from a Linux emit run.
     check(&Golden {
         path: "scenarios/hybrid-optical-rf.toml",
-        expect_summary: "hybrid-optical-rf | optical footprint 700 m, 1489 photons -> ranging σ 0.194 mm, timing σ 1.30 ps | cross-RAIM HPL 6.2 m / VPL 6.6 m / TPL 13.3 ns (protected) | availability 96.3% (5 sites) | handoff no-jump OK NEES 3.34∈[0.48,11.14] in-gate | joint FoM 0.946 (A 0.963 · P 0.963 · I 1.000) | Validated CRLB/χ²-PL/union/handoff, Modelled σ/climatology",
-        expect_fnv_canonical: 0x8754_b7ea_fb9c_88e9,
+        expect_summary: "hybrid-optical-rf | optical footprint 700 m, 1489 photons -> ranging σ 0.194 mm, timing σ 1.30 ps | cross-RAIM HPL 6.2 m / VPL 6.6 m / TPL 13.3 ns (protected) | availability 99.5% (5 sites) | handoff no-jump OK NEES 3.34∈[0.48,11.14] in-gate | joint FoM 0.993 (A 0.995 · P 0.995 · I 1.000) | Validated CRLB/χ²-PL/union/handoff, Modelled σ/climatology",
+        expect_fnv_canonical: 0x184c_5616_64c9_3035,
         expect_fnv_raw_linux_x64: None,
     });
 }

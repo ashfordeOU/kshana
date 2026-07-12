@@ -213,9 +213,67 @@ pub fn optical_rf_handoff(
     }
 }
 
+/// Run a full **RF → optical handoff** sequence (the reverse of [`optical_rf_handoff`]) and
+/// check both invariants.
+///
+/// Starting from `initial` and a `truth`, the loose RF measurements (`rf_updates`, each
+/// `(axis, z, r)` with large `r`) are applied, the state is handed off with covariance
+/// inflation `inflation_factor`, and then the tight optical measurements (`optical_updates`,
+/// small `r`) are applied. Symmetric to [`optical_rf_handoff`]: the report proves the mean is
+/// continuous across the switch (the no-jump guarantee holds in *either* direction) and
+/// reports whether the NEES stays inside its χ² gate. `variance_after_optical` here is the
+/// variance after the loose RF stage (the pre-handoff stage), `variance_after_rf` the variance
+/// after the final tight optical update — the field roles mirror the forward pass so the same
+/// [`HandoffOutcome`] type carries both directions.
+pub fn rf_optical_handoff(
+    initial: HandoffState,
+    truth: &[f64],
+    rf_updates: &[(usize, f64, f64)],
+    optical_updates: &[(usize, f64, f64)],
+    inflation_factor: f64,
+) -> HandoffOutcome {
+    let dof = initial.x.len();
+    let mut state = initial;
+    state.apply_updates(rf_updates);
+    let variance_after_optical = state.total_variance();
+    let mean_before = state.x.clone();
+
+    let mut handed = state.handoff(inflation_factor);
+    let mean_after = handed.x.clone();
+    let max_mean_jump = mean_before
+        .iter()
+        .zip(mean_after.iter())
+        .map(|(a, b)| (a - b).abs())
+        .fold(0.0_f64, f64::max);
+    let mean_continuous = mean_before == mean_after;
+    let variance_after_handoff = handed.total_variance();
+
+    handed.apply_updates(optical_updates);
+    let variance_after_rf = handed.total_variance();
+
+    let final_nees = handed.nees(truth);
+    let gate = nees_gate(dof);
+    HandoffOutcome {
+        mean_before,
+        mean_after,
+        mean_continuous,
+        max_mean_jump,
+        variance_after_optical,
+        variance_after_handoff,
+        variance_after_rf,
+        final_nees,
+        nees_gate: gate,
+        nees_in_gate: (gate.0..=gate.1).contains(&final_nees),
+        dof,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+    use rand::SeedableRng;
+    use rand_chacha::ChaCha8Rng;
+    use rand_distr::{Distribution, Normal};
 
     /// The handoff carries the mean bit-for-bit (the PROVEN no-jump guarantee) while
     /// inflating the covariance; a zero inflation reproduces the state exactly. Oracle: the
@@ -345,5 +403,167 @@ mod tests {
 
     fn init_variance(p0: &[f64]) -> f64 {
         p0.iter().sum()
+    }
+
+    /// **MONTE-CARLO UNBIASEDNESS (G2a).** Drawing many random truth/measurement
+    /// realizations through the optical→handoff→RF sequence, the ensemble-mean estimation
+    /// error is ≈ 0 (the estimator is unbiased) and the empirical NEES average is ≈ dof (the
+    /// covariance is neither optimistic nor conservative). Oracle: the sampling law
+    /// `E[x̂ − x] = 0` and `E[NEES] = dof` for a consistent linear-Gaussian estimator — checked
+    /// against a seeded Monte-Carlo ensemble, independent of any single closed-form value.
+    #[test]
+    fn monte_carlo_handoff_is_unbiased_with_nees_at_dof() {
+        let dof = 4usize;
+        // Prior variances and measurement noises (tight optical, loose RF).
+        let p0 = [9.0_f64, 9.0, 16.0, 1e-16];
+        let opt_r = [0.04_f64, 0.04, 0.09, 1e-20]; // tight
+        let rf_r = [4.0_f64, 4.0, 9.0, 4e-16]; // loose
+        // Zero handoff inflation: the pass is then the EXACT optimal linear-Gaussian filter,
+        // whose consistency law is E[x̂−x]=0 and E[NEES]=dof. (Non-zero inflation is a modelled
+        // conservatism — it deflates the empirical NEES below dof by construction — and is
+        // covered separately by the forward/reverse handoff tests.)
+        let inflation = 0.0;
+        let mut rng = ChaCha8Rng::seed_from_u64(20260712);
+        let n = 40_000usize;
+
+        // Per-axis normal samplers.
+        let prior_n: Vec<Normal<f64>> =
+            p0.iter().map(|&p| Normal::new(0.0, p.sqrt()).unwrap()).collect();
+        let opt_n: Vec<Normal<f64>> = opt_r
+            .iter()
+            .map(|&r| Normal::new(0.0, r.sqrt()).unwrap())
+            .collect();
+        let rf_n: Vec<Normal<f64>> =
+            rf_r.iter().map(|&r| Normal::new(0.0, r.sqrt()).unwrap()).collect();
+
+        let mut mean_err = [0.0_f64; 4];
+        let mut nees_sum = 0.0_f64;
+        for _ in 0..n {
+            // Truth fixed at origin (WLOG); prior estimate drawn 1σ-consistent from truth.
+            let truth = [0.0_f64; 4];
+            let x0: Vec<f64> = (0..dof).map(|i| prior_n[i].sample(&mut rng)).collect();
+            let mut state = HandoffState::new(x0, p0.to_vec());
+            // Optical (tight) measurements: truth + noise draw.
+            let optical: Vec<(usize, f64, f64)> = (0..dof)
+                .map(|i| (i, truth[i] + opt_n[i].sample(&mut rng), opt_r[i]))
+                .collect();
+            state.apply_updates(&optical);
+            let handed_pre = state.handoff(inflation);
+            // RF (loose) measurements after the handoff.
+            let rf: Vec<(usize, f64, f64)> = (0..dof)
+                .map(|i| (i, truth[i] + rf_n[i].sample(&mut rng), rf_r[i]))
+                .collect();
+            let mut handed = handed_pre;
+            handed.apply_updates(&rf);
+            for i in 0..dof {
+                mean_err[i] += handed.x[i] - truth[i];
+            }
+            nees_sum += handed.nees(&truth);
+        }
+        // Ensemble-mean estimation error ≈ 0 (unbiased): compare to the per-axis posterior σ
+        // scaled by 1/√n sampling error.
+        for i in 0..dof {
+            let mean = mean_err[i] / n as f64;
+            // Posterior σ is at most √p0[i]; sampling error of the mean ~ σ/√n. Allow 5×.
+            let tol = 5.0 * p0[i].sqrt() / (n as f64).sqrt();
+            assert!(
+                mean.abs() < tol.max(1e-12),
+                "axis {i} ensemble mean error {mean} exceeds unbiasedness tol {tol}"
+            );
+        }
+        // Empirical NEES average ≈ dof (consistency) for the zero-inflation optimal filter.
+        let nees_bar = nees_sum / n as f64;
+        assert!(
+            (nees_bar - dof as f64).abs() < 0.15,
+            "empirical mean NEES {nees_bar} not ≈ dof {dof}"
+        );
+    }
+
+    /// **VAN-LOAN / JOSEPH ANALYTIC COVARIANCE ORACLE (G2b).** After a Joseph measurement
+    /// update at the R switch the posterior variance equals the closed-form
+    /// `P⁺ = (1−K)²P + K²R` with `K = P/(P+R)` — which algebraically simplifies to the exact
+    /// information-form value `P⁺ = P·R/(P+R) = 1/(1/P + 1/R)`. We assert the module's Joseph
+    /// update reproduces BOTH independent closed forms to machine precision across a sweep of
+    /// disparate R changes (tight optical → loose RF and back). Oracle: the analytic
+    /// Joseph/information-form covariance propagation, hand-derived per case (not a scalar
+    /// hand value).
+    #[test]
+    fn joseph_update_matches_analytic_information_form_covariance_at_r_switch() {
+        // (prior P, measurement R) pairs spanning a tight optical R and a loose RF R.
+        let cases = [
+            (16.0_f64, 0.01_f64), // loose prior, very tight optical R
+            (0.05, 9.0),          // tight prior, loose RF R
+            (4.0, 4.0),           // equal
+            (100.0, 1e-6),        // extreme R change (optical acquisition)
+            (1e-12, 1e-9),        // clock-axis scale
+        ];
+        for &(p, r) in &cases {
+            let mut s = HandoffState::new(vec![0.0], vec![p]);
+            s.joseph_update_axis(0, 1.0, r);
+            let k = p / (p + r);
+            // Joseph closed form.
+            let joseph = (1.0 - k).powi(2) * p + k * k * r;
+            // Independent information-form closed form P⁺ = 1/(1/P + 1/R) = P·R/(P+R).
+            let info_form = p * r / (p + r);
+            let rel = 1e-9 * info_form.max(1e-18);
+            assert!(
+                (s.p_diag[0] - joseph).abs() <= rel,
+                "P⁺ {} vs Joseph {joseph} (P={p}, R={r})",
+                s.p_diag[0]
+            );
+            assert!(
+                (s.p_diag[0] - info_form).abs() <= rel,
+                "P⁺ {} vs information-form {info_form} (P={p}, R={r})",
+                s.p_diag[0]
+            );
+        }
+    }
+
+    /// **REVERSE RF → OPTICAL HANDOFF (G2c).** The handoff no-jump guarantee holds in *both*
+    /// directions: applying loose RF, handing off, then tight optical keeps the mean bit-for-
+    /// bit continuous across the switch and the final NEES inside its χ² gate. The reverse
+    /// pass tightens (optical deflates) rather than loosens, mirroring the forward pass.
+    /// Deterministic. Oracle: the mean-continuity invariant (exact float equality) and the χ²
+    /// NEES gate, exercised on the previously-untested reverse direction.
+    #[test]
+    fn reverse_rf_optical_handoff_is_continuous_and_consistent() {
+        let truth = vec![0.0_f64, 0.0, 0.0, 0.0];
+        let p0: Vec<f64> = vec![9.0, 9.0, 16.0, 1e-16];
+        let x0: Vec<f64> = p0.iter().map(|&p| p.sqrt()).collect(); // 1σ initial error
+        let init = HandoffState::new(x0, p0.clone());
+        let rf_r: Vec<f64> = p0.iter().map(|&p| p * 4.0).collect(); // loose
+        let opt_r: Vec<f64> = p0.iter().map(|&p| p * 1e-4).collect(); // tight
+        let rf: Vec<(usize, f64, f64)> = (0..4)
+            .map(|i| (i, truth[i] + rf_r[i].sqrt(), rf_r[i]))
+            .collect();
+        let optical: Vec<(usize, f64, f64)> = (0..4)
+            .map(|i| (i, truth[i] + opt_r[i].sqrt(), opt_r[i]))
+            .collect();
+
+        let a = rf_optical_handoff(init.clone(), &truth, &rf, &optical, 0.2);
+        let b = rf_optical_handoff(init, &truth, &rf, &optical, 0.2);
+        // Deterministic.
+        assert_eq!(a.mean_before, b.mean_before);
+        assert_eq!(a.final_nees, b.final_nees);
+        // No-jump across the switch (holds in the reverse direction too).
+        assert!(a.mean_continuous, "reverse handoff must be mean-continuous");
+        assert_eq!(a.max_mean_jump, 0.0);
+        // The final tight-optical update deflates below the post-handoff (inflated) variance.
+        assert!(
+            a.variance_after_rf < a.variance_after_handoff,
+            "final optical update must tighten: {} vs {}",
+            a.variance_after_rf,
+            a.variance_after_handoff
+        );
+        // Consistent estimate.
+        assert!(
+            a.nees_in_gate,
+            "reverse-handoff NEES {} not in gate {:?}",
+            a.final_nees,
+            a.nees_gate
+        );
+        // A round trip optical→RF→optical returns a tighter covariance than the loose RF
+        // interlude (the tight bookends dominate): sanity that both directions compose.
+        assert!(a.variance_after_rf < init_variance(&p0));
     }
 }
