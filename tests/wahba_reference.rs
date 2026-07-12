@@ -1,7 +1,30 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Reference tests for Wahba/TRIAD/QUEST attitude determination (`kshana::wahba`).
 //!
-//! Internal-consistency oracles (not an external dataset):
+//! # External independent oracle (scipy SVD)
+//!
+//! The `external_scipy_svd_*` tests validate the **noiseless, deterministic
+//! Wahba-optimal attitude** against a genuinely independent third-party oracle:
+//! `scipy.spatial.transform.Rotation.align_vectors` (scipy 1.13.1, Virtanen et
+//! al., *Nature Methods* 2020), which solves Wahba's problem by the **Kabsch /
+//! Markley SVD** of the attitude profile matrix. That is a different algorithm
+//! and codebase from kshana's Davenport K-matrix **Jacobi eigen** solve
+//! (`solve_davenport`), its QUEST characteristic-polynomial root + Gibbs recovery
+//! (`solve_quest`), and its closed-form **TRIAD** (`triad`) — all three of which
+//! compute the SAME uniquely-defined minimiser. The committed fixture
+//! `tests/fixtures/wahba/p4_wahba_reference.txt` (regenerable offline via
+//! `generate_p4_wahba_reference.py`, no kshana code involved) holds scipy's
+//! optimal reference→body DCM for each noiseless case; kshana must agree via the
+//! **frame-agnostic attitude-error angle** (immune to quaternion sign ambiguity
+//! and the body↔nav convention), not raw quaternion components.
+//!
+//! Honest scope: this validates the **noiseless deterministic** Wahba-optimal
+//! attitude (TRIAD / Davenport / QUEST) versus scipy's SVD. The noisy Monte-Carlo
+//! "q-method beats TRIAD in RMS" **statistical** efficiency claim
+//! (`q_method_beats_triad_under_noise` below) is an internal-consistency check and
+//! stays honestly **MODELLED** — see `src/verification.rs`.
+//!
+//! # Internal-consistency oracles (not an external dataset):
 //!
 //! (i)   TRIAD and the q-method recover a known rotation from noiseless vector
 //!       observations to machine precision; the q-method gain `λ_max` equals the
@@ -371,4 +394,178 @@ fn attitude_matrix_from_quat_is_orthonormal() {
             assert!((ata[i][j] - e).abs() < 1e-12, "not orthonormal");
         }
     }
+}
+
+// ---------------------------------------------------------------------------
+// External independent oracle: scipy Rotation.align_vectors (Kabsch/Markley SVD)
+// ---------------------------------------------------------------------------
+//
+// See the module doc comment for the honest scope. These tests load the committed
+// scipy fixture and require kshana's Davenport, QUEST, and TRIAD solvers to
+// reproduce scipy's optimal reference→body DCM for each NOISELESS case, compared
+// via the frame-agnostic attitude-error angle.
+
+const WAHBA_REF: &str = include_str!("fixtures/wahba/p4_wahba_reference.txt");
+
+/// One parsed fixture case: observations + scipy's optimal reference→body DCM.
+struct WahbaCase {
+    name: String,
+    /// true if the geometry is QUEST-safe (rotation well below 180°).
+    quest_safe: bool,
+    obs: Vec<VectorObs>,
+    /// scipy's optimal reference→body DCM (row-major).
+    scipy_dcm: Mat3,
+    /// scipy's reported residual root-sum-of-squares (≈0 for a noiseless fit).
+    rssd: f64,
+}
+
+/// Parse the committed scipy Wahba reference fixture.
+fn parse_wahba_cases() -> Vec<WahbaCase> {
+    let mut cases = Vec::new();
+    let mut cur_name = String::new();
+    let mut cur_quest = false;
+    let mut refs: Vec<Vec3> = Vec::new();
+    let mut weights: Vec<f64> = Vec::new();
+    let mut bodies: Vec<Vec3> = Vec::new();
+    let mut dcm_rows: Vec<[f64; 3]> = Vec::new();
+    let mut rssd = 0.0_f64;
+
+    let f = |s: &str| -> f64 { s.parse().unwrap() };
+
+    for line in WAHBA_REF.lines() {
+        let line = line.trim();
+        if line.is_empty() || line.starts_with('#') {
+            continue;
+        }
+        let tok: Vec<&str> = line.split_whitespace().collect();
+        match tok[0] {
+            "CASE" => {
+                cur_name = tok[1].to_string();
+                cur_quest = tok[2] == "quest";
+                refs.clear();
+                weights.clear();
+                bodies.clear();
+                dcm_rows.clear();
+                rssd = 0.0;
+            }
+            "OBS" => {
+                refs.push([f(tok[1]), f(tok[2]), f(tok[3])]);
+                weights.push(f(tok[4]));
+            }
+            "BODY" => bodies.push([f(tok[1]), f(tok[2]), f(tok[3])]),
+            "DCM" => dcm_rows.push([f(tok[1]), f(tok[2]), f(tok[3])]),
+            "RSSD" => rssd = f(tok[1]),
+            "ANGLE" => {}
+            "ENDCASE" => {
+                assert_eq!(refs.len(), bodies.len(), "{cur_name}: obs/body mismatch");
+                assert_eq!(dcm_rows.len(), 3, "{cur_name}: need 3 DCM rows");
+                let obs: Vec<VectorObs> = (0..refs.len())
+                    .map(|i| VectorObs {
+                        body: bodies[i],
+                        reference: refs[i],
+                        weight: weights[i],
+                    })
+                    .collect();
+                let scipy_dcm: Mat3 = [dcm_rows[0], dcm_rows[1], dcm_rows[2]];
+                cases.push(WahbaCase {
+                    name: std::mem::take(&mut cur_name),
+                    quest_safe: cur_quest,
+                    obs,
+                    scipy_dcm,
+                    rssd,
+                });
+            }
+            other => panic!("unexpected token {other:?} in wahba fixture"),
+        }
+    }
+    assert!(!cases.is_empty(), "no cases parsed from wahba fixture");
+    cases
+}
+
+/// A DCM read from scipy must itself be a proper orthonormal rotation.
+#[allow(clippy::needless_range_loop)]
+fn assert_proper_rotation(m: &Mat3, name: &str) {
+    let mtm = matmul3(&transpose3(m), m);
+    for i in 0..3 {
+        for j in 0..3 {
+            let e = if i == j { 1.0 } else { 0.0 };
+            assert!(
+                (mtm[i][j] - e).abs() < 1e-9,
+                "{name}: scipy DCM not orthonormal at [{i}][{j}]"
+            );
+        }
+    }
+}
+
+#[test]
+fn external_scipy_svd_davenport_matches() {
+    // kshana's Davenport q-method must reproduce scipy's SVD optimum for every
+    // noiseless case (multi- and two-vector). Tolerance 1e-9 rad on the
+    // frame-agnostic attitude-error angle — far tighter than any physical error,
+    // yet loose enough for the two solvers' differing round-off.
+    for c in parse_wahba_cases() {
+        assert!(c.rssd < 1e-7, "{}: fixture is not noiseless", c.name);
+        assert_proper_rotation(&c.scipy_dcm, &c.name);
+
+        let sol = solve_davenport(&c.obs).expect("davenport solves");
+        let err = attitude_error(&sol.dcm, &c.scipy_dcm);
+        assert!(
+            err < 1e-9,
+            "{}: Davenport vs scipy SVD attitude error {err:e} rad",
+            c.name
+        );
+        // The optimal loss is zero for a noiseless fit.
+        assert!(sol.loss < 1e-12, "{}: loss {}", c.name, sol.loss);
+    }
+}
+
+#[test]
+fn external_scipy_svd_quest_matches() {
+    // kshana's QUEST (a different λ_max solve + Gibbs recovery) must also
+    // reproduce scipy's SVD optimum, on the QUEST-safe geometries.
+    let mut checked = 0;
+    for c in parse_wahba_cases() {
+        if !c.quest_safe {
+            continue;
+        }
+        let sol = solve_quest(&c.obs).expect("QUEST solves (not 180°)");
+        let err = attitude_error(&sol.dcm, &c.scipy_dcm);
+        assert!(
+            err < 1e-8,
+            "{}: QUEST vs scipy SVD attitude error {err:e} rad",
+            c.name
+        );
+        checked += 1;
+    }
+    assert!(
+        checked >= 5,
+        "expected several QUEST-safe cases, got {checked}"
+    );
+}
+
+#[test]
+fn external_scipy_svd_triad_matches_on_two_vector_cases() {
+    // For NOISELESS two-vector observations the closed-form TRIAD attitude is the
+    // exact optimum, so it must equal scipy's SVD solution too.
+    let mut checked = 0;
+    for c in parse_wahba_cases() {
+        if c.obs.len() != 2 {
+            continue;
+        }
+        let a_est = triad(
+            c.obs[0].body,
+            c.obs[0].reference,
+            c.obs[1].body,
+            c.obs[1].reference,
+        )
+        .expect("non-degenerate");
+        let err = attitude_error(&a_est, &c.scipy_dcm);
+        assert!(
+            err < 1e-9,
+            "{}: TRIAD vs scipy SVD attitude error {err:e} rad",
+            c.name
+        );
+        checked += 1;
+    }
+    assert!(checked >= 2, "expected two-vector cases, got {checked}");
 }

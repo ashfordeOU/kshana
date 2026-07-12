@@ -427,6 +427,7 @@ pub enum ScenarioKind {
     HybridOpticalRf,
     CislunarObservability,
     ConflictResilience,
+    LunarAttackSurface,
 }
 
 impl ScenarioKind {
@@ -482,6 +483,7 @@ impl ScenarioKind {
             ScenarioKind::HybridOpticalRf => "hybrid-optical-rf",
             ScenarioKind::CislunarObservability => "cislunar-observability",
             ScenarioKind::ConflictResilience => "conflict-resilience",
+            ScenarioKind::LunarAttackSurface => "lunar-attack-surface",
         }
     }
 
@@ -541,6 +543,7 @@ impl ScenarioKind {
             "hybrid-optical-rf" => ScenarioKind::HybridOpticalRf,
             "cislunar-observability" => ScenarioKind::CislunarObservability,
             "conflict-resilience" => ScenarioKind::ConflictResilience,
+            "lunar-attack-surface" => ScenarioKind::LunarAttackSurface,
             // Empty or unknown ⇒ the clock pack (historical default).
             _ => ScenarioKind::Clock,
         })
@@ -616,6 +619,7 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "hybrid-optical-rf", description: "MODELLED heterogeneous optical + RF PNT joint figure of merit (P5): composes the 1550 nm two-way optical link budget (photon-limited two-way ranging CRLB σ_τ/√N and diffraction footprint λ/D·range), a cross-modality solution-separation RAIM protection level (position AND timing) that fuses the loose RF and tight optical solutions with disparate covariances, the N-station optical clear-sky availability (independent-union 1−Π(1−a_i) and a spatially-correlated variant), an optical↔RF state/covariance handoff with a PROVEN bit-continuous (no-jump) mean and a NEES χ² consistency gate, and a joint P(available AND precision-grade AND integrity-assured) score with correlation handling. VALIDATED closed form: the ranging CRLB, diffraction footprint, χ² protection-level quantile, union combinatorics, handoff mean-continuity + NEES gate, and the joint independent product. MODELLED: the optical loss allocations, RF/optical σ magnitudes, cloud-climatology inputs, correlations, and P_HMI budget. Not a certified availability/integrity product.", required_fields: &[], optional_fields: &["wavelength_nm", "tx_power_w", "tx_aperture_m", "rx_aperture_m", "range_km", "pulse_rms_ps", "integration_s", "atmospheric_loss_db", "pointing_loss_db", "optics_efficiency", "detector_efficiency", "two_way", "rf_pos_sigma_m", "rf_vertical_sigma_m", "rf_clock_sigma_s", "p_fa", "p_md", "alert_limit_h_m", "alert_limit_v_m", "alert_limit_t_s", "grade_pos_m", "grade_time_s", "n_optical_sites", "site_correlation", "fom_correlation", "handoff_inflation", "p_hmi"] },
         ScenarioMeta { name: "cislunar-observability", description: "MODELLED planar cislunar constellation observability (P6): tracks a four-spacecraft differential-corrected planar-DRO constellation with inter-satellite ranging and reports how much of a spacecraft's four-state [x,y,ẋ,ẏ] the arc makes observable. Emits (1) the rank-vs-arc-length table for a single range-only link — instantaneously rank-1, growing toward the full four-state as the arc extends (P6 Table 1); (2) the observability-Gramian eigen-spectrum + condition number over the arc; (3) the range-only-vs-range+range-rate instantaneous-rank comparison (the Doppler design lever) plus the range-only-singular / range+rate-defined GDOP reporting; and (4) an independent SRIF cross-validation whose posterior covariance turns finite / well-conditioned exactly at the arc where the observable rank reaches four. VALIDATED core: the observable rank is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the eigen-spectrum obeys the spectral invariants (trace=Σλ, det=Πλ, Frobenius²=Σλ²); the variational STM is the finite-difference-validated CR3BP STM; the range/range-rate Jacobian rows are finite-difference-validated analytic partials (cross-checked against the crate's 3-D range-rate observable); the four initial conditions are differential-corrected planar DROs that close to a tight periodicity residual and are retrograde; the rank transition is cross-validated against the crate's square-root information filter (posterior covariance finite exactly at full rank, cond(P)=cond(OᵀO)); a rank-deficient snapshot is flagged GDOP-undefined (fim condition=inf), never a bogus finite value — the same singular-geometry guard pvt::solve_spp applies. MODELLED: the constellation design (DRO perilune amplitudes and phases) and the specific rank progression it produces. Not a certified navigation-performance product.", required_fields: &[], optional_fields: &["mu", "arc_hours", "epochs", "steps", "rel_tol"] },
         ScenarioMeta { name: "conflict-resilience", description: "MODELLED layered-PNT conflict resilience (P7): a contested-environment user fields several PNT layers (open-service GNSS, wideband GNSS, an authenticated constellation, an augmentation relay), each with a base availability, a 1σ accuracy and a per-vector denial vulnerability to the shared jamming/spoofing threat. An intensity-swept SEEDED Monte-Carlo denies each layer with probability clamp(vulnerability·intensity·vector_weight,0,1), fuses the survivors by the closed-form inverse-variance rule σ_fused=(Σ 1/σ_i²)^(−1/2), and reports the total-loss probability (all layers denied), the median fused error and per-layer usable/denial statistics vs intensity. The headline resilience ratio (single-layer vs layered total-loss probability) lands at ~7x under the INDEPENDENCE assumption; a one-factor Gaussian-copula correlated-denial sweep then shows that ~7x collapse toward 1 as denial correlation rises (correlation defeats layering). A prior-sensitivity block ranges the headline over the SOURCED vulnerability priors via the mcda tornado + a Dirichlet threat-effort re-allocation + percentile CIs. VALIDATED core: the Monte-Carlo total-loss converges to the closed-form independent product Π_i p_deny_i (within MC standard error at a fixed seed and large N); the inverse-variance fuse is a closed-form identity; at ρ=0 the copula reduces to the independent model and every ρ preserves each layer's marginal denial rate. MODELLED: the per-layer vulnerability/availability/accuracy magnitudes are sourced-but-Modelled inputs (JammerTest 2024, TEXBAT, EASA SIB, RTCA DO-229, LunaNet/IOAG — see conflict_threat_params), and the specific ~7x magnitude and the ratio-vs-correlation curve shape follow from that parameterisation. A §4.2 per-vector survival breakdown then resolves the shared RF threat into the four named vectors (jamming/spoofing/kinetic/cyber) and reports each vector's usable-PNT graceful-degradation curve S_v(x)=1-Prod_i(1-a_i(1-clamp(susceptibility_i,v·x,0,1))) — VALIDATED: the seeded per-layer Monte-Carlo converges to that closed form; jamming is the sharpest vector for the correlated-RF baseline and the RF-immune inertial layer is the decisive survivor. Not a certified navigation-availability product.", required_fields: &[], optional_fields: &["layers", "intensity", "correlation", "trials", "seed", "primary_layer"] },
+        ScenarioMeta { name: "lunar-attack-surface", description: "Lunar surface-navigation signal-security attack surface (P1): composes the open signal-security analyses into one binary-reachable run. Reports (1) the AFS received power and its power deficit versus a terrestrial GPS reference, plus the 12-18 dB sensitivity band as a genuine multi-axis sweep over the link inputs (reference level x EIRP x slant range) with the 32x-rounded / 36x-unrounded linear-factor reconciliation; (2) the required attacker transmit power to spoof (J/S = 3 dB) and to deny (J/S = 30 dB) at each standoff, the inverse of the J/S link; (3) the orbital capture footprint under a real uniform-aperture antenna pattern (Airy [2 J1(x)/x]^2), an altitude-limited sub-hemispheric cap whose limb is NOT captured; (4) a computed tracking-loop spoof-capture pull-in outcome (does a matched-code spoofer at a given power advantage and code offset actually drag the DLL/PLL) rather than the asserted 3 dB threshold; (5) the airless-body geometric horizon reach of a raised surface transmitter; and (6) the OSNMA/TESLA authentication budget (20 bit/s overhead = ~40 % of a 50 bit/s AFS nav message, key-disclosure latency, 2^-40 forgery). An empty body reproduces the P1 baseline; every input is defaulted and overridable. VALIDATED sub-results carry their source module's oracle (closed-form dB radiometry; inverse-J/S round trip; Airy pattern vs A&S Bessel and spherical-cap geometry; DLL/PLL pull-in vs Kaplan & Hegarty; spherical-tangent horizon identity vs eo_payload; OSNMA SIS-ICD field sizing). MODELLED: the representative geometry/power magnitudes and the specific capture-map cell values. Not a certified security product.", required_fields: &[], optional_fields: &["afs_eirp_dbw", "user_gain_dbi", "slant_range_m", "slant_range_max_m", "carrier_hz", "gps_reference_dbw", "gps_reference_min_dbw", "afs_isotropic_signal_dbw", "transmitter_altitude_m", "transmitter_power_dbw", "antenna_diameter_m", "footprint_grid", "spoof_power_advantage_db", "spoof_code_offset_chips", "attacker_gain_dbi", "spoof_capture_js_db", "jam_denial_js_db", "standoffs_m", "mast_height_m", "user_antenna_height_m"] },
         ScenarioMeta { name: "realtime-frame-eop", description: "Real-time lunar frame / Earth-orientation prediction budget: P4 Table 1 (the frame-error consistency check — post-processed ~0.27 m ↔ ~0.010 ms and real-time ~15 m ↔ ~0.5 ms, each frame position expressed as its equivalent UT1 error via the L19 lever arm Δr = D_EM·ω⊕·ΔUT1) and Table 2 (measured UT1 prediction error vs horizon — the L18 curve read directly off the real IERS finals2000A series: the Bulletin A − Bulletin B final floor and the multi-day persistence-predictor error, each mapped to a Moon-frame position by L19), plus the L21 root-sum-square real-time frame-error budget (EOP + ephemeris + realisation floor). VALIDATED closed form (the L19 lever arm, ω⊕ cross-checked against the CIO Earth-rotation angle) and VALIDATED real data (the L18 curve off the real finals2000A rows); MODELLED are the lunar-relay OD covariance magnitudes and frame-realisation floor (representative allocations) and the persistence predictor (not IERS's operational Bulletin A algorithm). Not a certified real-time frame product.", required_fields: &[], optional_fields: &["epoch", "horizons_days", "ephemeris_pos_sigma_m", "ephemeris_vel_sigma_mps", "latency_s", "frame_realization_floor_m", "delta_ut1_ms", "delta_xp_mas", "delta_yp_mas", "eop_finals2000a"] },
     ]
 }
@@ -1673,6 +1677,12 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
             let (json, summary, svg) = scn.run_output()?;
             Ok(RunOutput { json, svg, summary })
         }
+        ScenarioKind::LunarAttackSurface => {
+            let scn: crate::attack_surface::LunarAttackSurfaceScenario = toml::from_str(src)
+                .map_err(|e| format!("invalid lunar-attack-surface scenario: {e}"))?;
+            let (json, summary, svg) = scn.run_output()?;
+            Ok(RunOutput { json, svg, summary })
+        }
         ScenarioKind::Clock => {
             let scn: crate::scenario::Scenario =
                 toml::from_str(src).map_err(|e| format!("invalid scenario: {e}"))?;
@@ -1885,6 +1895,34 @@ mod tests {
         // SVG and a one-line summary that names the kind.
         assert!(out.svg.starts_with("<svg"));
         assert!(out.summary.contains("moonlight-service-volume"));
+    }
+
+    #[test]
+    fn lunar_attack_surface_kind_round_trips_through_the_dispatch() {
+        // The composed P1 attack-surface kind dispatches end-to-end through the shared
+        // entry point the CLI/Python/wasm/MCP bindings use, with a bare kind line (every
+        // field has a serde default reproducing the P1 baseline): valid JSON + SVG out,
+        // carrying each composed sub-result, and a summary naming the kind. This is the
+        // binary-reachability the P1 audit (G1/G2/G5/G6) requires — the analyses are no
+        // longer library-only.
+        let src = "kind = \"lunar-attack-surface\"\n";
+        assert_eq!(
+            ScenarioKind::classify(src).unwrap(),
+            ScenarioKind::LunarAttackSurface
+        );
+        let out = run_toml(src).expect("lunar-attack-surface scenario dispatches");
+        assert!(out.json.starts_with('{'));
+        let v: serde_json::Value = serde_json::from_str(&out.json).unwrap();
+        // Each composed analysis is present in the JSON.
+        assert!(v.get("deficit_band_lo_db").is_some());
+        assert!(v.get("standoff_curve").is_some());
+        assert!(v.get("footprint_captured_fraction").is_some());
+        assert!(v.get("spoof_captured").is_some());
+        assert!(v.get("surface_transmitter_reach_m").is_some());
+        assert!(v.get("nma_overhead_bps").is_some());
+        // SVG and a one-line summary that names the kind.
+        assert!(out.svg.starts_with("<svg"));
+        assert!(out.summary.contains("lunar-attack-surface"));
     }
 
     #[test]

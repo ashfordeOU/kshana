@@ -1,0 +1,42 @@
+# Lunar surface-navigation signal-security attack surface (paper P1).
+#
+# Composes the open signal-security analyses into one binary-reachable run:
+#   * link-budget power deficit vs a terrestrial GPS reference + the 12-18 dB
+#     sensitivity band (a genuine reference x EIRP x slant-range sweep) with the
+#     32x-rounded / 36x-unrounded linear-factor reconciliation,
+#   * the attacker transmit power required to spoof (J/S = 3 dB) and to deny
+#     (J/S = 30 dB) at each standoff (the inverse of the J/S link),
+#   * the orbital capture footprint under a real uniform-aperture antenna pattern
+#     (an altitude-limited sub-hemispheric cap whose limb is NOT captured),
+#   * a computed tracking-loop spoof-capture pull-in outcome (does a matched-code
+#     spoofer at +6 dB / 0.3-chip actually drag the DLL/PLL) rather than the
+#     asserted 3 dB threshold,
+#   * the airless-body geometric horizon reach of a raised surface transmitter, and
+#   * the OSNMA/TESLA authentication budget (20 bit/s = ~40 % of a 50 bit/s AFS nav
+#     message, key-disclosure latency, 2^-40 forgery).
+#
+# Every input is defaulted to the P1 baseline; the body below leaves them at their
+# defaults (so this reproduces the paper's headline figures) while naming the knobs.
+# Override any field to explore a different attacker / link geometry.
+
+kind = "lunar-attack-surface"
+
+# Link geometry (defaults shown for transparency).
+afs_eirp_dbw = 26.0
+user_gain_dbi = 3.0
+slant_range_m = 3.0e6
+carrier_hz = 2.4e9
+gps_reference_dbw = -125.0
+gps_reference_min_dbw = -128.5
+
+# Orbital transmitter + footprint.
+transmitter_altitude_m = 100_000.0
+antenna_diameter_m = 1.0
+footprint_grid = 400
+
+# Attacker standoffs (m) for the required-transmit-power curve.
+standoffs_m = [1_000.0, 10_000.0, 100_000.0]
+
+# Representative spoofer for the tracking-loop pull-in.
+spoof_power_advantage_db = 6.0
+spoof_code_offset_chips = 0.3

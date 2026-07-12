@@ -1275,6 +1275,37 @@ mod tests {
         }
     }
 
+    // ORACLE (Validated): the airless-body horizon helper cross-checked against an
+    // INDEPENDENT implementation of the same spherical-tangent geometry —
+    // [`crate::eo_payload::earth_central_angle`]. At the horizon (zero elevation, ε = 0) the
+    // body-central angle to the tangent point is λ_max = acos(R/(R+h)) = π/2 − asin(R/(R+h)).
+    // eo_payload derives λ from λ = π/2 − η − ε (nadir-angle / elevation geometry, a
+    // different construction); this horizon helper derives the ground range as R·acos(R/(R+h)).
+    // The two must agree at any radius, and the helper reduced to the lunar radius is the same
+    // closed form — the exact identity the P1 audit's G6 oracle names.
+    #[test]
+    fn horizon_ground_range_matches_eo_payload_zero_elevation_geometry() {
+        use crate::eo_payload::{earth_angular_radius, earth_central_angle};
+        use crate::orbit::R_EARTH_EQUATORIAL_M as R_E;
+        for &h in &[500_000.0, 2_000_000.0, 20_000_000.0] {
+            // Horizon nadir angle η = ρ = asin(R/(R+h)); at η = ρ the elevation ε = 0.
+            let eta_horizon = earth_angular_radius(h);
+            let lambda_eo = earth_central_angle(eta_horizon, h).expect("grazing geometry is valid");
+            // The horizon helper, evaluated at the SAME (Earth) radius, must equal
+            // eo_payload's independently-derived central angle.
+            let lambda_helper = horizon_ground_range_m(R_E, h) / R_E;
+            assert!(
+                (lambda_eo - lambda_helper).abs() < 1e-9,
+                "h={h}: eo_payload λ={lambda_eo} vs horizon-helper λ={lambda_helper}"
+            );
+            // Both equal the closed-form spherical-tangent identity acos(R/(R+h)).
+            assert!((lambda_eo - (R_E / (R_E + h)).acos()).abs() < 1e-9);
+            // The identical helper reduced to the LUNAR radius is the same closed form.
+            let lambda_moon = horizon_ground_range_m(R_MOON_M, h) / R_MOON_M;
+            assert!((lambda_moon - (R_MOON_M / (R_MOON_M + h)).acos()).abs() < 1e-12);
+        }
+    }
+
     #[test]
     fn lunar_mast_reach_reproduces_p1_table() {
         // Reproduces the P1 attack-surface reach table (Sec 4): a raised transmitter of
