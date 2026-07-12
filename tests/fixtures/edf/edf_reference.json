@@ -1,0 +1,494 @@
+{
+  "_provenance": {
+    "description": "EDF of the modified-Allan (MVAR), overlapping-Hadamard (HVAR), and total (TOTVAR) variance estimators over a (VarType, NoiseType, N, m) grid.",
+    "functions": [
+      "allantools.ci.edf_greenhall (Greenhall & Riley 2003/2004 combined EDF)",
+      "allantools.ci.edf_totdev (NIST SP 1065 Table 7)"
+    ],
+    "note": "Independent oracle for kshana::assurance::uncertainty::edf. allantools is validated against Stable32. Regenerable offline with: python3 generate_s1_edf_reference.py",
+    "tool": "allantools",
+    "version": "2024.06"
+  },
+  "cases": [
+    {
+      "alpha": 2,
+      "edf": 123.81356692670393,
+      "m": 10,
+      "n": 1000,
+      "noise": "WhitePM",
+      "var": "Modified"
+    },
+    {
+      "alpha": 2,
+      "edf": 118.66760450160774,
+      "m": 5,
+      "n": 500,
+      "noise": "WhitePM",
+      "var": "Modified"
+    },
+    {
+      "alpha": 2,
+      "edf": 72.74165586656119,
+      "m": 4,
+      "n": 256,
+      "noise": "WhitePM",
+      "var": "Modified"
+    },
+    {
+      "alpha": 2,
+      "edf": 28.141926790927467,
+      "m": 2,
+      "n": 64,
+      "noise": "WhitePM",
+      "var": "Modified"
+    },
+    {
+      "alpha": 1,
+      "edf": 98.01619557149583,
+      "m": 10,
+      "n": 1000,
+      "noise": "FlickerPM",
+      "var": "Modified"
+    },
+    {
+      "alpha": 1,
+      "edf": 97.87425809569497,
+      "m": 5,
+      "n": 500,
+      "noise": "FlickerPM",
+      "var": "Modified"
+    },
+    {
+      "alpha": 1,
+      "edf": 61.72945913726785,
+      "m": 4,
+      "n": 256,
+      "noise": "FlickerPM",
+      "var": "Modified"
+    },
+    {
+      "alpha": 1,
+      "edf": 28.68839606610343,
+      "m": 2,
+      "n": 64,
+      "noise": "FlickerPM",
+      "var": "Modified"
+    },
+    {
+      "alpha": 0,
+      "edf": 94.5374886048681,
+      "m": 10,
+      "n": 1000,
+      "noise": "WhiteFM",
+      "var": "Modified"
+    },
+    {
+      "alpha": 0,
+      "edf": 94.61768530681412,
+      "m": 5,
+      "n": 500,
+      "noise": "WhiteFM",
+      "var": "Modified"
+    },
+    {
+      "alpha": 0,
+      "edf": 59.817912282948825,
+      "m": 4,
+      "n": 256,
+      "noise": "WhiteFM",
+      "var": "Modified"
+    },
+    {
+      "alpha": 0,
+      "edf": 28.870081064347527,
+      "m": 2,
+      "n": 64,
+      "noise": "WhiteFM",
+      "var": "Modified"
+    },
+    {
+      "alpha": -1,
+      "edf": 93.17752796552726,
+      "m": 10,
+      "n": 1000,
+      "noise": "FlickerFM",
+      "var": "Modified"
+    },
+    {
+      "alpha": -1,
+      "edf": 93.27192511851645,
+      "m": 5,
+      "n": 500,
+      "noise": "FlickerFM",
+      "var": "Modified"
+    },
+    {
+      "alpha": -1,
+      "edf": 58.95244958862706,
+      "m": 4,
+      "n": 256,
+      "noise": "FlickerFM",
+      "var": "Modified"
+    },
+    {
+      "alpha": -1,
+      "edf": 28.600268837755493,
+      "m": 2,
+      "n": 64,
+      "noise": "FlickerFM",
+      "var": "Modified"
+    },
+    {
+      "alpha": -2,
+      "edf": 74.88034139049553,
+      "m": 10,
+      "n": 1000,
+      "noise": "RandomWalkFM",
+      "var": "Modified"
+    },
+    {
+      "alpha": -2,
+      "edf": 74.95412604527745,
+      "m": 5,
+      "n": 500,
+      "noise": "RandomWalkFM",
+      "var": "Modified"
+    },
+    {
+      "alpha": -2,
+      "edf": 47.34618692059323,
+      "m": 4,
+      "n": 256,
+      "noise": "RandomWalkFM",
+      "var": "Modified"
+    },
+    {
+      "alpha": -2,
+      "edf": 22.94649773821328,
+      "m": 2,
+      "n": 64,
+      "noise": "RandomWalkFM",
+      "var": "Modified"
+    },
+    {
+      "alpha": 2,
+      "edf": 422.7434065687199,
+      "m": 10,
+      "n": 1000,
+      "noise": "WhitePM",
+      "var": "Hadamard"
+    },
+    {
+      "alpha": 2,
+      "edf": 211.37170328435994,
+      "m": 5,
+      "n": 500,
+      "noise": "WhitePM",
+      "var": "Hadamard"
+    },
+    {
+      "alpha": 2,
+      "edf": 106.76422064414318,
+      "m": 4,
+      "n": 256,
+      "noise": "WhitePM",
+      "var": "Hadamard"
+    },
+    {
+      "alpha": 2,
+      "edf": 25.683310429073142,
+      "m": 2,
+      "n": 64,
+      "noise": "WhitePM",
+      "var": "Hadamard"
+    },
+    {
+      "alpha": 1,
+      "edf": 207.73528532196275,
+      "m": 10,
+      "n": 1000,
+      "noise": "FlickerPM",
+      "var": "Hadamard"
+    },
+    {
+      "alpha": 1,
+      "edf": 145.1287263846548,
+      "m": 5,
+      "n": 500,
+      "noise": "FlickerPM",
+      "var": "Hadamard"
+    },
+    {
+      "alpha": 1,
+      "edf": 81.06425680158281,
+      "m": 4,
+      "n": 256,
+      "noise": "FlickerPM",
+      "var": "Hadamard"
+    },
+    {
+      "alpha": 1,
+      "edf": 26.38982391555614,
+      "m": 2,
+      "n": 64,
+      "noise": "FlickerPM",
+      "var": "Hadamard"
+    },
+    {
+      "alpha": 0,
+      "edf": 113.58259256348653,
+      "m": 10,
+      "n": 1000,
+      "noise": "WhiteFM",
+      "var": "Hadamard"
+    },
+    {
+      "alpha": 0,
+      "edf": 104.70706760882217,
+      "m": 5,
+      "n": 500,
+      "noise": "WhiteFM",
+      "var": "Hadamard"
+    },
+    {
+      "alpha": 0,
+      "edf": 63.83870193890179,
+      "m": 4,
+      "n": 256,
+      "noise": "WhiteFM",
+      "var": "Hadamard"
+    },
+    {
+      "alpha": 0,
+      "edf": 26.859235112087493,
+      "m": 2,
+      "n": 64,
+      "noise": "WhiteFM",
+      "var": "Hadamard"
+    },
+    {
+      "alpha": -1,
+      "edf": 96.92923657373312,
+      "m": 10,
+      "n": 1000,
+      "noise": "FlickerFM",
+      "var": "Hadamard"
+    },
+    {
+      "alpha": -1,
+      "edf": 95.23918896965259,
+      "m": 5,
+      "n": 500,
+      "noise": "FlickerFM",
+      "var": "Hadamard"
+    },
+    {
+      "alpha": -1,
+      "edf": 59.546977393076155,
+      "m": 4,
+      "n": 256,
+      "noise": "FlickerFM",
+      "var": "Hadamard"
+    },
+    {
+      "alpha": -1,
+      "edf": 27.279296490629704,
+      "m": 2,
+      "n": 64,
+      "noise": "FlickerFM",
+      "var": "Hadamard"
+    },
+    {
+      "alpha": -2,
+      "edf": 94.22727919283604,
+      "m": 10,
+      "n": 1000,
+      "noise": "RandomWalkFM",
+      "var": "Hadamard"
+    },
+    {
+      "alpha": -2,
+      "edf": 93.67630905918553,
+      "m": 5,
+      "n": 500,
+      "noise": "RandomWalkFM",
+      "var": "Hadamard"
+    },
+    {
+      "alpha": -2,
+      "edf": 58.8888794750298,
+      "m": 4,
+      "n": 256,
+      "noise": "RandomWalkFM",
+      "var": "Hadamard"
+    },
+    {
+      "alpha": -2,
+      "edf": 27.52669476497517,
+      "m": 2,
+      "n": 64,
+      "noise": "RandomWalkFM",
+      "var": "Hadamard"
+    },
+    {
+      "alpha": 2,
+      "edf": 495.44444444444446,
+      "m": 10,
+      "n": 1000,
+      "noise": "WhitePM",
+      "var": "Total"
+    },
+    {
+      "alpha": 2,
+      "edf": 247.96969696969697,
+      "m": 5,
+      "n": 500,
+      "noise": "WhitePM",
+      "var": "Total"
+    },
+    {
+      "alpha": 2,
+      "edf": 126.46031746031746,
+      "m": 4,
+      "n": 256,
+      "noise": "WhitePM",
+      "var": "Total"
+    },
+    {
+      "alpha": 2,
+      "edf": 31.451612903225808,
+      "m": 2,
+      "n": 64,
+      "noise": "WhitePM",
+      "var": "Total"
+    },
+    {
+      "alpha": 1,
+      "edf": 326.2721710300305,
+      "m": 10,
+      "n": 1000,
+      "noise": "FlickerPM",
+      "var": "Total"
+    },
+    {
+      "alpha": 1,
+      "edf": 203.318145860332,
+      "m": 5,
+      "n": 500,
+      "noise": "FlickerPM",
+      "var": "Total"
+    },
+    {
+      "alpha": 1,
+      "edf": 108.78431231136167,
+      "m": 4,
+      "n": 256,
+      "noise": "FlickerPM",
+      "var": "Total"
+    },
+    {
+      "alpha": 1,
+      "edf": 32.11929844477345,
+      "m": 2,
+      "n": 64,
+      "noise": "FlickerPM",
+      "var": "Total"
+    },
+    {
+      "alpha": 0,
+      "edf": 150.0,
+      "m": 10,
+      "n": 1000,
+      "noise": "WhiteFM",
+      "var": "Total"
+    },
+    {
+      "alpha": 0,
+      "edf": 150.0,
+      "m": 5,
+      "n": 500,
+      "noise": "WhiteFM",
+      "var": "Total"
+    },
+    {
+      "alpha": 0,
+      "edf": 96.0,
+      "m": 4,
+      "n": 256,
+      "noise": "WhiteFM",
+      "var": "Total"
+    },
+    {
+      "alpha": 0,
+      "edf": 48.0,
+      "m": 2,
+      "n": 64,
+      "noise": "WhiteFM",
+      "var": "Total"
+    },
+    {
+      "alpha": -1,
+      "edf": 116.78,
+      "m": 10,
+      "n": 1000,
+      "noise": "FlickerFM",
+      "var": "Total"
+    },
+    {
+      "alpha": -1,
+      "edf": 116.78,
+      "m": 5,
+      "n": 500,
+      "noise": "FlickerFM",
+      "var": "Total"
+    },
+    {
+      "alpha": -1,
+      "edf": 74.66,
+      "m": 4,
+      "n": 256,
+      "noise": "FlickerFM",
+      "var": "Total"
+    },
+    {
+      "alpha": -1,
+      "edf": 37.22,
+      "m": 2,
+      "n": 64,
+      "noise": "FlickerFM",
+      "var": "Total"
+    },
+    {
+      "alpha": -2,
+      "edf": 92.64,
+      "m": 10,
+      "n": 1000,
+      "noise": "RandomWalkFM",
+      "var": "Total"
+    },
+    {
+      "alpha": -2,
+      "edf": 92.64,
+      "m": 5,
+      "n": 500,
+      "noise": "RandomWalkFM",
+      "var": "Total"
+    },
+    {
+      "alpha": -2,
+      "edf": 59.160000000000004,
+      "m": 4,
+      "n": 256,
+      "noise": "RandomWalkFM",
+      "var": "Total"
+    },
+    {
+      "alpha": -2,
+      "edf": 29.400000000000002,
+      "m": 2,
+      "n": 64,
+      "noise": "RandomWalkFM",
+      "var": "Total"
+    }
+  ]
+}

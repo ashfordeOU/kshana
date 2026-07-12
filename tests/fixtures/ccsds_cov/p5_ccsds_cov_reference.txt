@@ -1,0 +1,44 @@
+# External-oracle reference for kshana's CCSDS 502.0 OEM COVARIANCE block.
+# Oracle: the oem library (Brad Sease <bradsease@gmail.com>, MIT, v0.4.5) + numpy.
+# Independent CCSDS 502.0-B OEM parser; separate codebase from src/oem.rs.
+# Consumed by tests/ccsds_oem_covariance_reference.rs.
+# See generate_p5_ccsds_cov_reference.py for provenance/scope/findings.
+# Regenerable offline; kshana is never imported here.
+#
+# The frozen fixture kshana_cov_leo.oem carries kshana's covariance_block_kvn
+# output (unlabelled lower-triangular 6x6) inside a full OEM 2.0 segment; the
+# oem library parses it and reconstructs the symmetric 6x6 matrix recorded here.
+#
+# COVEPOCH | <epoch>          — the covariance block epoch oem read
+# COVFRAME | <frame>          — the COV_REF_FRAME oem read
+# COV <i> <j> | <value>       — oem-reconstructed matrix entry (row i, col j),
+#                               21 lower-triangular entries in canonical order
+# NEGCTL | <ACCEPTED|REJECTED> | <reason>  — oem's verdict on the LABELLED
+#                               CX_X= variant (must be REJECTED: kshana's
+#                               unlabelled layout is the form oem needs)
+# sanity: min-eigval = 1.412812e-11, max|M-M^T| = 0.00e+00
+# sanity: position sigmas (m) = 12.000, 15.297, 18.547; velocity sigmas (mm/s) = 12.2066, 7.5664, 6.6393
+COVEPOCH | 2024-01-01T00:00:00.000000
+COVFRAME | RTN
+COV 0 0 | 0.000144
+COV 1 0 | 3.6e-05
+COV 1 1 | 0.000234
+COV 2 0 | -2.4e-05
+COV 2 1 | 5.4e-05
+COV 2 2 | 0.000344
+COV 3 0 | 1.2e-07
+COV 3 1 | -1.5e-08
+COV 3 2 | 3.999999999999996e-09
+COV 3 3 | 1.49e-10
+COV 4 0 | -2.4e-08
+COV 4 1 | 6.900000000000001e-08
+COV 4 2 | 4.2e-08
+COV 4 3 | -2.400000000000001e-11
+COV 4 4 | 5.725000000000001e-11
+COV 5 0 | 3.6e-08
+COV 5 1 | 2.4e-08
+COV 5 2 | -7.4e-08
+COV 5 3 | 2.38e-11
+COV 5 4 | 2.2e-12
+COV 5 5 | 4.408e-11
+NEGCTL | REJECTED | ValueError: Error on line 21: Invalid covariance header

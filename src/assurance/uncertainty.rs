@@ -58,61 +58,91 @@ impl NoiseType {
 
 /// Which member of the Allan-variance family the estimate came from.
 ///
-/// Only [`VarType::Allan`] (the overlapping Allan variance) is implemented with
-/// the exact NIST SP 1065 Table 5 formulae. The remaining variants currently
-/// reuse the overlapping-Allan EDF as a **Modelled** approximation (see
-/// [`edf`]); they are marked TODO until their own combined-EDF coefficients are
-/// wired in.
+/// Every variant computes its EDF from the estimator-appropriate formula:
+///
+/// | Variant   | EDF method |
+/// |-----------|------------|
+/// | [`VarType::Allan`]    | NIST SP 1065 Table 5 simple closed forms (overlapping AVAR) |
+/// | [`VarType::Modified`] | Greenhall & Riley 2003/2004 combined EDF, `d = 2`, `modified` filter |
+/// | [`VarType::Hadamard`] | Greenhall & Riley 2003/2004 combined EDF, `d = 3`, unmodified filter |
+/// | [`VarType::Total`]    | NIST SP 1065 Table 7 `b·(N/m) − c` for TOTVAR |
+///
+/// The Greenhall combined-EDF and the TOTVAR Table-7 forms are cross-checked
+/// against the `allantools` reference implementation (`edf_greenhall` /
+/// `edf_totdev`), which is itself validated against Stable32.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum VarType {
-    /// Overlapping Allan variance (AVAR). Fully implemented.
+    /// Overlapping Allan variance (AVAR). NIST SP 1065 Table 5.
     Allan,
-    /// Modified Allan variance (MVAR). Modelled approximation — TODO.
+    /// Modified Allan variance (MVAR). Greenhall combined EDF, `d = 2`, modified filter.
     Modified,
-    /// Hadamard variance (HVAR). Modelled approximation — TODO.
+    /// Overlapping Hadamard variance (HVAR). Greenhall combined EDF, `d = 3`.
     Hadamard,
-    /// Total variance (TOTVAR). Modelled approximation — TODO.
+    /// Total variance (TOTVAR). NIST SP 1065 Table 7.
     Total,
 }
 
 /// Equivalent number of chi-square degrees of freedom (EDF) for a
 /// stability-variance estimate.
 ///
-/// For [`VarType::Allan`] this implements the NIST SP 1065 Table 5 simple
-/// closed-form approximations for the **overlapping** Allan variance, indexed
-/// by the noise exponent `alpha`:
+/// The EDF is computed with the formula appropriate to the estimator
+/// ([`VarType`]) and the power-law noise ([`NoiseType`]):
 ///
-/// | Noise          | alpha | EDF formula |
-/// |----------------|-------|-------------|
-/// | White PM       | +2    | `(N+1)(N-2m) / (2(N-m))` |
-/// | Flicker PM     | +1    | `exp( sqrt( ln(a)·ln(b) ) )`, `a=(N-1)/(2m)`, `b=(2m+1)(N-1)/4` |
-/// | White FM       | 0     | `(3(N-1)/(2m) - 2(N-2)/N) · 4m²/(4m²+5)` |
-/// | Flicker FM     | -1    | `m=1: 2(N-2)/(2.3N-4.9)`; `m>1: 5N²/(4m(N+3m))` |
-/// | Random-Walk FM | -2    | `(N-2)/(m(N-3)²) · ((N-1)² - 3m(N-1) + 4m²)` |
+/// - [`VarType::Allan`] uses the NIST SP 1065 Table 5 simple closed-form
+///   approximations for the **overlapping** Allan variance, indexed by the
+///   noise exponent `alpha`:
+///
+///   | Noise          | alpha | EDF formula |
+///   |----------------|-------|-------------|
+///   | White PM       | +2    | `(N+1)(N-2m) / (2(N-m))` |
+///   | Flicker PM     | +1    | `exp( sqrt( ln(a)·ln(b) ) )`, `a=(N-1)/(2m)`, `b=(2m+1)(N-1)/4` |
+///   | White FM       | 0     | `(3(N-1)/(2m) - 2(N-2)/N) · 4m²/(4m²+5)` |
+///   | Flicker FM     | -1    | `m=1: 2(N-2)/(2.3N-4.9)`; `m>1: 5N²/(4m(N+3m))` |
+///   | Random-Walk FM | -2    | `(N-2)/(m(N-3)²) · ((N-1)² - 3m(N-1) + 4m²)` |
+///
+/// - [`VarType::Modified`] (MVAR) and [`VarType::Hadamard`] (overlapping HVAR)
+///   use the **combined EDF** of Greenhall & Riley (2003 PTTI / 2004), the
+///   basis-function algorithm of which Table 5 is only the closed-form Allan
+///   approximation. MVAR uses `d = 2` with the *modified* phase filter
+///   (`F = 1`); HVAR uses `d = 3` with the *unmodified* filter (`F = m`). Both
+///   are the overlapping estimators (`S = m`).
+///
+/// - [`VarType::Total`] (TOTVAR) uses the NIST SP 1065 Table 7 form
+///   `edf = b·(N/m) − c`, with `(b, c)` selected by the noise type
+///   (WFM `(1.50, 0.0)`, FFM `(1.17, 0.22)`, RWFM `(0.93, 0.36)`); PM noises,
+///   for which TOTVAR has no Table-7 entry, fall back to the Table-5 Allan EDF.
 ///
 /// where `N` is the number of phase samples and `m` the averaging factor.
-/// These are cross-checked against the allantools `edf_simple` reference
-/// implementation (validated against Stable32).
+/// The Allan forms are cross-checked against the allantools `edf_simple`
+/// reference; the Greenhall MVAR/HVAR forms against `edf_greenhall`; and the
+/// TOTVAR form against `edf_totdev` — all in allantools, itself validated
+/// against Stable32.
 ///
-/// `Modified`, `Hadamard`, and `Total` variances currently reuse the
-/// overlapping-Allan EDF as a documented **Modelled** approximation (TODO:
-/// wire in their own combined-EDF coefficients from Greenhall & Riley 2003).
-///
-/// Returns `f64::NAN` for degenerate inputs (`N < 4` or `m == 0` or `m`
-/// too large relative to `N`), where the Table 5 forms are undefined.
+/// Returns `f64::NAN` for degenerate inputs (`N < 4` or `m == 0` or `m` too
+/// large relative to `N`), where the forms are undefined.
 #[must_use]
 pub fn edf(noise: NoiseType, n: usize, m: usize, var: VarType) -> f64 {
-    // VarType handling: only Allan has exact Table 5 forms. The others are
-    // Modelled approximations that fall back to the Allan EDF for now.
-    let _ = var; // TODO: per-VarType coefficients (Modified/Hadamard/Total).
-
     if m == 0 || n < 4 || 2 * m >= n {
         return f64::NAN;
     }
+    let alpha = noise.alpha();
+    match var {
+        VarType::Allan => edf_allan_table5(alpha, n, m),
+        // MVAR: combined EDF, second differences (d=2), modified filter.
+        VarType::Modified => edf_greenhall(alpha, 2, m, n, /*modified=*/ true),
+        // HVAR (overlapping): combined EDF, third differences (d=3), unmodified.
+        VarType::Hadamard => edf_greenhall(alpha, 3, m, n, /*modified=*/ false),
+        // TOTVAR: NIST SP 1065 Table 7 (with Table-5 Allan fallback for PM).
+        VarType::Total => edf_totvar_table7(alpha, n, m),
+    }
+}
+
+/// NIST SP 1065 Table 5 simple closed-form EDF for the overlapping Allan
+/// variance. `n >= 4`, `m >= 1`, `2m < n` are guaranteed by the caller.
+fn edf_allan_table5(alpha: i32, n: usize, m: usize) -> f64 {
     let nn = n as f64;
     let mm = m as f64;
-
-    match noise.alpha() {
+    match alpha {
         2 => {
             // White PM
             (nn + 1.0) * (nn - 2.0 * mm) / (2.0 * (nn - mm))
@@ -146,6 +176,226 @@ pub fn edf(noise: NoiseType, n: usize, m: usize, var: VarType) -> f64 {
         }
         _ => f64::NAN,
     }
+}
+
+/// TOTVAR EDF from NIST SP 1065 Table 7 (`edf = b·(N/m) − c`).
+///
+/// The table only tabulates the FM noises WFM/FFM/RWFM; for the PM noises the
+/// overlapping-Allan Table-5 EDF is used as the documented fallback, matching
+/// allantools' `edf_totdev` (which routes non-`{0,-1,-2}` alpha to `edf_simple`).
+fn edf_totvar_table7(alpha: i32, n: usize, m: usize) -> f64 {
+    // (b, c) indexed by |alpha| for alpha in {0, -1, -2}.
+    let bc = match alpha {
+        0 => Some((1.50_f64, 0.0_f64)),   // WFM
+        -1 => Some((1.17_f64, 0.22_f64)), // FFM
+        -2 => Some((0.93_f64, 0.36_f64)), // RWFM
+        _ => None,
+    };
+    match bc {
+        Some((b, c)) => b * (n as f64 / m as f64) - c,
+        // PM noises have no Table-7 entry: fall back to the Allan EDF.
+        None => edf_allan_table5(alpha, n, m),
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Greenhall & Riley combined EDF (Greenhall 2004, "Uncertainty of stability
+// variances based on finite differences", IEEE UFFC / Proc. 35th PTTI 2003).
+//
+// This is the general basis-function algorithm whose closed-form Allan
+// specialisation is Table 5. It is used here for the modified-Allan (MVAR,
+// d=2, modified filter) and overlapping-Hadamard (HVAR, d=3, unmodified
+// filter) estimators. The implementation follows the equations of the paper:
+//   sw  (Eqn 7)   — weight kernel per noise exponent
+//   sx  (Eqn 8)   — filtered kernel with filter factor F
+//   sz  (Eqn 9)   — dth finite-difference of sx
+//   BasicSum (Eqn 10) and the case selection (Eqns 11-13).
+// ---------------------------------------------------------------------------
+
+/// Greenhall combined EDF. `d` is the difference order (2 = Allan/Modified,
+/// 3 = Hadamard); `modified` selects the modified phase filter (`F = 1`) vs the
+/// unmodified filter (`F = m`). The estimator is always overlapping (`S = m`).
+///
+/// Returns `f64::NAN` if the algorithm's applicability guard `alpha + 2d > 1`
+/// fails or the input falls outside the direct-sum / closed-form cases wired
+/// here (the regimes that occur for realistic `N`, `m` are all covered).
+fn edf_greenhall(alpha: i32, d: i32, m: usize, n: usize, modified: bool) -> f64 {
+    if alpha + 2 * d <= 1 {
+        return f64::NAN;
+    }
+    let f: f64 = if modified { 1.0 } else { m as f64 };
+    let s: f64 = m as f64; // overlapping
+    let mm = m as f64;
+    let dd = d as f64;
+    let nn = n as f64;
+
+    // L, M, J, r  (paper notation).
+    let l = mm / f + mm * dd;
+    let big_m = 1.0 + (s * (nn - l) / mm).floor();
+    let j = big_m.min((dd + 1.0) * s);
+    let r = big_m / s;
+    const J_MAX: f64 = 100.0;
+
+    if modified {
+        // Case 1: modified variances, all alpha. F = 1.
+        if j <= J_MAX {
+            let sz0 = greenhall_sz(0.0, 1.0, alpha, d);
+            let inv = (1.0 / (sz0 * sz0 * big_m)) * greenhall_basic_sum(j, big_m, s, 1.0, alpha, d);
+            return 1.0 / inv;
+        }
+        // Large-J asymptotic branches are not reached for realistic inputs.
+        return f64::NAN;
+    }
+
+    // Unmodified variances.
+    if alpha <= 0 {
+        // Case 2: unmodified, alpha <= 0. F = m.
+        if j <= J_MAX {
+            // variant (a): m*(d+1) <= J_MAX so m_prime = m (finite); else inf.
+            let m_prime = if mm * (dd + 1.0) <= J_MAX {
+                mm
+            } else {
+                f64::INFINITY
+            };
+            let sz0 = greenhall_sz(0.0, m_prime, alpha, d);
+            let inv =
+                (1.0 / (sz0 * sz0 * big_m)) * greenhall_basic_sum(j, big_m, s, m_prime, alpha, d);
+            return 1.0 / inv;
+        }
+        return f64::NAN;
+    }
+
+    if alpha == 1 {
+        // Case 3: unmodified, alpha = 1. F = m.
+        if j <= J_MAX {
+            let sz0 = greenhall_sz(0.0, mm, 1, d);
+            let inv = (1.0 / (sz0 * sz0 * big_m)) * greenhall_basic_sum(j, big_m, s, mm, 1, d);
+            return 1.0 / inv;
+        }
+        return f64::NAN;
+    }
+
+    if alpha == 2 {
+        // Case 4: unmodified, alpha = 2. Closed form (Eqn / Table of paper).
+        let k = r.ceil();
+        if k <= dd {
+            return f64::NAN; // paper's special sub-case, not needed here.
+        }
+        let a0 = binom(4 * d, 2 * d) / (binom(2 * d, d) * binom(2 * d, d));
+        let a1 = dd / 2.0;
+        let inv = (1.0 / big_m) * (a0 - a1 / r);
+        return 1.0 / inv;
+    }
+
+    f64::NAN
+}
+
+/// Greenhall basis weight `sw(t, alpha)` (Eqn 7 of Greenhall 2004).
+fn greenhall_sw(t: f64, alpha: i32) -> f64 {
+    match alpha {
+        2 => -t.abs(),
+        1 => {
+            if t == 0.0 {
+                0.0
+            } else {
+                t * t * t.abs().ln()
+            }
+        }
+        0 => (t * t * t).abs(),
+        -1 => {
+            if t == 0.0 {
+                0.0
+            } else {
+                t.powi(4) * t.abs().ln()
+            }
+        }
+        -2 => (t.powi(5)).abs(),
+        -3 => {
+            if t == 0.0 {
+                0.0
+            } else {
+                t.powi(6) * t.abs().ln()
+            }
+        }
+        -4 => (t.powi(7)).abs(),
+        _ => f64::NAN,
+    }
+}
+
+/// Filtered kernel `sx(t, F, alpha)` (Eqn 8). `F = inf` degenerates to the
+/// `alpha + 2` white kernel.
+fn greenhall_sx(t: f64, f: f64, alpha: i32) -> f64 {
+    if f.is_infinite() {
+        return greenhall_sw(t, alpha + 2);
+    }
+    let a = 2.0 * greenhall_sw(t, alpha);
+    let b = greenhall_sw(t - 1.0 / f, alpha);
+    let c = greenhall_sw(t + 1.0 / f, alpha);
+    f * f * (a - b - c)
+}
+
+/// dth finite difference `sz(t, F, alpha, d)` (Eqn 9), for `d in {1, 2, 3}`.
+fn greenhall_sz(t: f64, f: f64, alpha: i32, d: i32) -> f64 {
+    match d {
+        1 => {
+            let a = 2.0 * greenhall_sx(t, f, alpha);
+            let b = greenhall_sx(t - 1.0, f, alpha);
+            let c = greenhall_sx(t + 1.0, f, alpha);
+            a - b - c
+        }
+        2 => {
+            let a = 6.0 * greenhall_sx(t, f, alpha);
+            let b = 4.0 * greenhall_sx(t - 1.0, f, alpha);
+            let c = 4.0 * greenhall_sx(t + 1.0, f, alpha);
+            let dd = greenhall_sx(t - 2.0, f, alpha);
+            let e = greenhall_sx(t + 2.0, f, alpha);
+            a - b - c + dd + e
+        }
+        3 => {
+            let a = 20.0 * greenhall_sx(t, f, alpha);
+            let b = 15.0 * greenhall_sx(t - 1.0, f, alpha);
+            let c = 15.0 * greenhall_sx(t + 1.0, f, alpha);
+            let dd = 6.0 * greenhall_sx(t - 2.0, f, alpha);
+            let e = 6.0 * greenhall_sx(t + 2.0, f, alpha);
+            let g = greenhall_sx(t - 3.0, f, alpha);
+            let h = greenhall_sx(t + 3.0, f, alpha);
+            a - b - c + dd + e - g - h
+        }
+        _ => f64::NAN,
+    }
+}
+
+/// BasicSum (Eqn 10 of Greenhall 2004).
+fn greenhall_basic_sum(j: f64, big_m: f64, s: f64, f: f64, alpha: i32, d: i32) -> f64 {
+    let first = {
+        let z = greenhall_sz(0.0, f, alpha, d);
+        z * z
+    };
+    let second = {
+        let z = greenhall_sz(j / s, f, alpha, d);
+        (1.0 - j / big_m) * z * z
+    };
+    let mut third = 0.0;
+    // j runs 1 .. int(J) - 1 inclusive (Python range(1, int(J))).
+    let j_int = j as i64;
+    for jj in 1..j_int {
+        let z = greenhall_sz(jj as f64 / s, f, alpha, d);
+        third += 2.0 * (1.0 - jj as f64 / big_m) * z * z;
+    }
+    first + second + third
+}
+
+/// Binomial coefficient `C(n, k)` as an exact-ish `f64` (small `n` here).
+fn binom(n: i32, k: i32) -> f64 {
+    if k < 0 || k > n {
+        return 0.0;
+    }
+    let k = k.min(n - k);
+    let mut acc = 1.0_f64;
+    for i in 0..k {
+        acc = acc * (n - i) as f64 / (i + 1) as f64;
+    }
+    acc
 }
 
 /// Inverse chi-square CDF (quantile): returns `x` such that

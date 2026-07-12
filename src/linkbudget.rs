@@ -207,6 +207,110 @@ pub fn power_deficit_db(reference_dbw: f64, received_dbw: f64) -> f64 {
     reference_dbw - received_dbw
 }
 
+/// Linear power factor of a `deficit_db` power deficit: `10^(deficit_db/10)`.
+///
+/// This is the "×N weaker" reading of a dB deficit. It is also the reconciliation of the
+/// P1 headline figures: the AFS deficit versus terrestrial GPS is 15.6 dB, which is
+/// `10^(15.6/10) ≈ 36×` at full precision but `10^(15/10) ≈ 32×` when the deficit is
+/// quoted to a whole dB — the "32× (rounded) vs 36× (unrounded)" figures are one deficit
+/// read at two dB precisions (they differ only by the 0.6 dB rounding), not two results.
+pub fn deficit_power_factor(deficit_db: f64) -> f64 {
+    10.0_f64.powf(deficit_db / 10.0)
+}
+
+/// The power-deficit sensitivity band of a received navigation signal versus a reference,
+/// with the nominal-deficit linear factor read at both full and whole-dB precision.
+#[derive(Clone, Copy, Debug, PartialEq, serde::Serialize)]
+pub struct DeficitBand {
+    /// Smallest deficit over the swept grid (dB).
+    pub band_lo_db: f64,
+    /// Largest deficit over the swept grid (dB).
+    pub band_hi_db: f64,
+    /// Linear power factor at the low band edge, `10^(band_lo_db/10)`.
+    pub band_lo_factor: f64,
+    /// Linear power factor at the high band edge, `10^(band_hi_db/10)`.
+    pub band_hi_factor: f64,
+    /// Nominal (headline) deficit: strongest reference, highest EIRP, shortest range (dB).
+    pub nominal_deficit_db: f64,
+    /// Nominal deficit as a linear factor at full precision — the "36×" (unrounded) figure.
+    pub nominal_factor: f64,
+    /// Nominal deficit as a linear factor with the deficit quoted to a whole dB — the
+    /// "32×" (rounded) figure (`10^(⌊nominal_deficit_db⌋/10)`).
+    pub nominal_factor_whole_db: f64,
+}
+
+/// Compute the power-deficit sensitivity band as a **genuine multi-axis sweep over the
+/// link-budget inputs**, built on [`crate::sweep::SweepAxis`] and evaluated through
+/// [`received_signal_power_dbw`] — not a hand-picked offset array.
+///
+/// Three axes are swept as the Cartesian product:
+///  * the terrestrial GNSS **reference** received power `ref_lo_dbw..ref_hi_dbw`
+///    (e.g. −128.5..−125 dBW — the GPS L1 C/A received-power spread),
+///  * the AFS satellite **EIRP** `eirp_lo_dbw..eirp_hi_dbw` (dBW), and
+///  * the AFS **slant range** `range_lo_m..range_hi_m` (m).
+///
+/// At each grid node the AFS received power is `received_signal_power_dbw(eirp, rx_gain,
+/// range, freq)` and the deficit is `reference − received`; the band is the [min, max]
+/// deficit over the grid. With the P1 inputs (reference −128.5..−125 dBW, EIRP fixed at
+/// 26 dBW, user gain 3 dBi, slant 3000..3954 km, 2.4 GHz) the band reproduces the paper's
+/// Sec-6 **12–18 dB** sensitivity band and a 15.6 dB nominal deficit. The band is monotone
+/// in every input (each dB of reference or received power moves the deficit by its own dB).
+#[allow(clippy::too_many_arguments)]
+pub fn deficit_sensitivity_band(
+    ref_lo_dbw: f64,
+    ref_hi_dbw: f64,
+    eirp_lo_dbw: f64,
+    eirp_hi_dbw: f64,
+    rx_gain_dbi: f64,
+    range_lo_m: f64,
+    range_hi_m: f64,
+    freq_hz: f64,
+    steps: usize,
+) -> DeficitBand {
+    let axis = |name: &str, start: f64, stop: f64| crate::sweep::SweepAxis {
+        parameter: name.to_string(),
+        start,
+        stop,
+        steps,
+        scale: "linear".to_string(),
+    };
+    let ref_vals = axis("gnss_reference_dbw", ref_lo_dbw, ref_hi_dbw).values();
+    let eirp_vals = axis("afs_eirp_dbw", eirp_lo_dbw, eirp_hi_dbw).values();
+    let range_vals = axis("afs_slant_range_m", range_lo_m, range_hi_m).values();
+
+    let mut lo = f64::INFINITY;
+    let mut hi = f64::NEG_INFINITY;
+    for &r in &ref_vals {
+        for &eirp in &eirp_vals {
+            for &range in &range_vals {
+                let received = received_signal_power_dbw(eirp, rx_gain_dbi, range, freq_hz);
+                let d = power_deficit_db(r, received);
+                lo = lo.min(d);
+                hi = hi.max(d);
+            }
+        }
+    }
+
+    // Nominal headline: strongest reference (least-negative dBW), highest EIRP, shortest
+    // range — the best-case AFS signal against the strongest GPS reference.
+    let nominal_ref = ref_lo_dbw.max(ref_hi_dbw);
+    let nominal_eirp = eirp_lo_dbw.max(eirp_hi_dbw);
+    let nominal_range = range_lo_m.min(range_hi_m);
+    let nominal_received =
+        received_signal_power_dbw(nominal_eirp, rx_gain_dbi, nominal_range, freq_hz);
+    let nominal_deficit_db = power_deficit_db(nominal_ref, nominal_received);
+
+    DeficitBand {
+        band_lo_db: lo,
+        band_hi_db: hi,
+        band_lo_factor: deficit_power_factor(lo),
+        band_hi_factor: deficit_power_factor(hi),
+        nominal_deficit_db,
+        nominal_factor: deficit_power_factor(nominal_deficit_db),
+        nominal_factor_whole_db: deficit_power_factor(nominal_deficit_db.trunc()),
+    }
+}
+
 /// Representative [`LinkParams`] for a **MARCONI-class relay link** at the given `band` and mission
 /// `profile`, parameterised by the link `range_m` and `data_rate_bps`.
 ///
@@ -679,30 +783,131 @@ mod tests {
         );
     }
 
+    // P1 Sec 6 sensitivity band, computed as a GENUINE multi-axis sweep over the link
+    // inputs (reference, EIRP, slant range) via [`deficit_sensitivity_band`] — the band
+    // edges are read off the sweep, not asserted from a hand-picked offset array. A
+    // +2.4 dB slant-range spread is range 3000 km → 3000·10^(2.4/20) ≈ 3955 km. Oracle:
+    // monotone closed-form dB radiometry anchored on the P1 −125/−128.5 dBW inputs.
+    const P1_RANGE_HI_M: f64 = 3.0e6 * 1.318_256_738_556_407; // 3000 km × 10^(2.4/20)
+
     #[test]
-    fn power_deficit_stays_in_12_to_18_db_band() {
-        // P1 Sec 6 sensitivity: the deficit is driven by the GPS reference (−125 typical
-        // .. −128.5 dBW spec-min) and a lunar-power shift from satellite EIRP + slant
-        // range (each moves the lunar figure dB-for-dB; up to ~2.4 dB weaker over the
-        // plausible range). Across those axes the deficit stays in the 12–18 dB band
-        // (factor 16–63). Oracle: monotone dB arithmetic anchored on the P1 inputs.
-        let nominal = received_signal_power_dbw(26.0, 3.0, 3.0e6, 2.4e9); // ≈ −140.6
-        let mut lo = f64::INFINITY;
-        let mut hi = f64::NEG_INFINITY;
-        for gps_ref in [-128.5, -126.75, -125.0] {
-            for offset in [-2.4, -1.2, 0.0] {
-                // offset = combined EIRP + slant-range variation of the lunar figure
-                let d = power_deficit_db(gps_ref, nominal + offset);
-                lo = lo.min(d);
-                hi = hi.max(d);
-            }
-        }
-        assert!(
-            lo >= 12.0 && hi <= 18.05,
-            "band [{lo:.2}, {hi:.2}] dB (want ⊆ [12,18])"
+    fn deficit_band_reproduces_p1_12_to_18_via_sweep() {
+        let b = deficit_sensitivity_band(
+            -128.5,
+            -125.0, // GNSS reference −128.5..−125 dBW
+            26.0,
+            26.0, // AFS EIRP fixed at 26 dBW
+            3.0,  // user gain 3 dBi
+            3.0e6,
+            P1_RANGE_HI_M, // slant 3000..~3955 km
+            2.4e9,
+            8,
         );
-        // The band's linear-factor endpoints are ~16× and ~63×.
-        assert!((10f64.powf(12.0 / 10.0) - 15.85).abs() < 0.1);
-        assert!((10f64.powf(18.0 / 10.0) - 63.1).abs() < 0.2);
+        // Band edges emerge from the sweep at ~12.1 and ~18.0 dB.
+        assert!(
+            b.band_lo_db > 12.0 && b.band_lo_db < 12.3,
+            "band_lo = {} dB (want ≈12.1)",
+            b.band_lo_db
+        );
+        assert!(
+            b.band_hi_db > 17.9 && b.band_hi_db < 18.1,
+            "band_hi = {} dB (want ≈18.0)",
+            b.band_hi_db
+        );
+        // Nominal headline deficit vs GPS −125 is 15.6 dB.
+        assert!(
+            (b.nominal_deficit_db - 15.6).abs() < 0.1,
+            "nominal = {} dB",
+            b.nominal_deficit_db
+        );
+        // Linear-factor band edges ~16× and ~63×.
+        assert!(
+            (b.band_lo_factor - 16.2).abs() < 0.6,
+            "lo× = {}",
+            b.band_lo_factor
+        );
+        assert!(
+            (b.band_hi_factor - 63.1).abs() < 1.0,
+            "hi× = {}",
+            b.band_hi_factor
+        );
+    }
+
+    #[test]
+    fn deficit_factor_reconciles_32x_rounded_and_36x_unrounded() {
+        // The P1 "32× (rounded) vs 36× (unrounded)" figures are ONE 15.6 dB deficit read
+        // at two dB precisions — they differ only by the 0.6 dB rounding, not two results.
+        // Oracle: the 10^(dB/10) closed form.
+        assert!(
+            (deficit_power_factor(15.0) - 31.62).abs() < 0.05,
+            "15 dB → {}× (want ≈32)",
+            deficit_power_factor(15.0)
+        );
+        assert!(
+            (deficit_power_factor(15.6) - 36.31).abs() < 0.05,
+            "15.6 dB → {}× (want ≈36)",
+            deficit_power_factor(15.6)
+        );
+        let b = deficit_sensitivity_band(
+            -128.5,
+            -125.0,
+            26.0,
+            26.0,
+            3.0,
+            3.0e6,
+            P1_RANGE_HI_M,
+            2.4e9,
+            8,
+        );
+        // Whole-dB reading of the SAME nominal deficit is the rounded 32× figure…
+        assert!(
+            (b.nominal_factor_whole_db - 31.62).abs() < 0.05,
+            "whole-dB factor = {}× (want ≈32)",
+            b.nominal_factor_whole_db
+        );
+        assert_eq!(b.nominal_factor_whole_db.round(), 32.0);
+        // …and the full-precision reading is the unrounded 36× figure.
+        assert!(
+            (b.nominal_factor - 36.3).abs() < 1.0,
+            "full factor = {}× (want ≈36)",
+            b.nominal_factor
+        );
+    }
+
+    #[test]
+    fn deficit_band_is_monotone_in_received_power() {
+        // Monotone closed-form dB arithmetic: a weaker AFS signal (lower EIRP) raises the
+        // whole band dB-for-dB; a stronger GNSS reference raises it too.
+        let base = deficit_sensitivity_band(
+            -128.5,
+            -125.0,
+            26.0,
+            26.0,
+            3.0,
+            3.0e6,
+            P1_RANGE_HI_M,
+            2.4e9,
+            8,
+        );
+        let weaker_eirp = deficit_sensitivity_band(
+            -128.5,
+            -125.0,
+            22.0,
+            22.0,
+            3.0,
+            3.0e6,
+            P1_RANGE_HI_M,
+            2.4e9,
+            8,
+        );
+        assert!(
+            weaker_eirp.band_lo_db > base.band_lo_db + 3.9
+                && weaker_eirp.band_hi_db > base.band_hi_db + 3.9,
+            "4 dB weaker EIRP must raise the band ~4 dB: base [{:.1},{:.1}] vs [{:.1},{:.1}]",
+            base.band_lo_db,
+            base.band_hi_db,
+            weaker_eirp.band_lo_db,
+            weaker_eirp.band_hi_db
+        );
     }
 }

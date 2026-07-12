@@ -554,4 +554,5 @@ Fixtures and oracle-generator scripts live under
 `tests/fixtures/{p1_footprint,lunar_service,eop_prediction,rf_ranging_precision,dro_family_jpl,p2_independent_dop}/`.
 These strengthen the evidence behind capabilities that remain **MODELLED** in the
 machine-checked matrix (`src/verification.rs`); they are regression checks, **not** new
-VALIDATED matrix rows, so the 51 / 47 / 4 of 102 count is unchanged.
+VALIDATED matrix rows, so they do not themselves change the machine-checked matrix count
+(currently **56 VALIDATED / 42 MODELLED / 4 PARTNER of 102**).
