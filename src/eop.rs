@@ -75,6 +75,24 @@ pub fn parse_bulletin_b_ut1(line: &str) -> Option<f64> {
     line.get(BULLETIN_B_UT1_COLS)?.trim().parse::<f64>().ok()
 }
 
+/// Column slices for the Bulletin B (final EOP 14 C04) polar-motion pole, arc seconds
+/// (`finals2000A` PM-x columns 135–144 → 0-indexed `[134..144]`, PM-y columns 145–154 →
+/// `[144..154]`, per the IERS `readme.finals2000A`). Filled on **final** rows and **blank
+/// on prediction-only (future) rows**, exactly like the Bulletin B UT1 block above (e.g.
+/// MJD 59580: Bulletin B x_p 0.054574″, y_p 0.276983″).
+const BULLETIN_B_PMX_COLS: std::ops::Range<usize> = 134..144;
+const BULLETIN_B_PMY_COLS: std::ops::Range<usize> = 144..154;
+
+/// Parse the Bulletin B (final) polar-motion pole `(x_p, y_p)` of a `finals2000A` row (arc
+/// seconds), or `None` when either trailing block is blank — i.e. the row is a Bulletin A
+/// prediction-only (future) row. The same vintage distinction as [`parse_bulletin_b_ut1`],
+/// applied to the pole rather than the rotation phase.
+pub fn parse_bulletin_b_pm(line: &str) -> Option<(f64, f64)> {
+    let xp = line.get(BULLETIN_B_PMX_COLS)?.trim().parse::<f64>().ok()?;
+    let yp = line.get(BULLETIN_B_PMY_COLS)?.trim().parse::<f64>().ok()?;
+    Some((xp, yp))
+}
+
 /// True when a row carries a Bulletin A value but **no** Bulletin B final value — a
 /// prediction-only (future) row (the `P`-flagged / blank-final section of Bulletin A).
 pub fn is_prediction_row(line: &str) -> bool {
@@ -258,6 +276,29 @@ mod tests {
         assert!(parse_predicted(ROW_59580).is_none());
         let b = parse_bulletin_b_ut1(ROW_59580).expect("final row has Bulletin B UT1");
         assert!((b - (-0.1105197)).abs() < 1e-12);
+    }
+
+    #[test]
+    fn final_row_carries_bulletin_b_polar_motion() {
+        // The Bulletin B pole columns [134..144]/[144..154] on a real final row
+        // (MJD 59580: x_p 0.054574″, y_p 0.276983″ — the definitive C04 values, distinct
+        // from the Bulletin A rapid 0.054644″/0.276986″ that parse_line reads).
+        let (xp, yp) = parse_bulletin_b_pm(ROW_59580).expect("final row has Bulletin B PM");
+        assert!((xp - 0.054574).abs() < 1e-12, "Bulletin B x_p {xp}");
+        assert!((yp - 0.276983).abs() < 1e-12, "Bulletin B y_p {yp}");
+        // The Bulletin A rapid pole (parse_line) and the Bulletin B final pole differ — the
+        // rapid-minus-final residual that the PM prediction-floor curve measures.
+        let a = parse_line(ROW_59580).expect("row parses");
+        assert!((a.xp_arcsec - 0.054644).abs() < 1e-12);
+        assert!((a.yp_arcsec - 0.276986).abs() < 1e-12);
+        assert!((a.xp_arcsec - xp).abs() > 1e-9, "rapid and final x_p must differ");
+    }
+
+    #[test]
+    fn prediction_row_has_no_bulletin_b_polar_motion() {
+        // A prediction-only row's Bulletin B pole block is blank ⇒ None (same vintage
+        // distinction as the UT1 block).
+        assert!(parse_bulletin_b_pm(PRED_ROW).is_none());
     }
 
     #[test]

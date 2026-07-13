@@ -11,6 +11,16 @@ tests/validate_p4_table2_horizon_longspan.rs). These files are not part of the
 Kshana source and are not shipped in the published crates/packages — they exist
 only for the test suite.
 
+eop_pm_prediction_reference.csv is the POLAR-MOTION analogue: the persistence
+pole-prediction-error statistics (arc seconds) at the same horizons, computed by
+generate_eop_pm_prediction_reference.py over the verbatim IERS finals2000A 2026
+slice (tests/fixtures/agency/eop/finals2000A_2026.txt, 20 final + 12 real
+prediction-only rows carrying the Bulletin B pole columns). It externally
+validates frame_eop::pm_prediction_error_vs_horizon (see
+tests/validate_p4_pm_prediction_curve.rs). Same non-circular NumPy-vs-Rust
+cross-check and same honestly-Modelled persistence-predictor choice as the UT1
+reference.
+
 Oracle
 ------
 An independent NumPy re-implementation (generate_eop_prediction_reference.py) of
