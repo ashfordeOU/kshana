@@ -10,8 +10,8 @@
 //! (OSNMA) realisation of a TESLA (Timed Efficient Stream Loss-tolerant
 //! Authentication) protocol. OSNMA is carried in a 40-bit field in every E1-B
 //! I/NAV nominal page (one page every 2 s), split into an 8-bit HKROOT
-//! (header / root-key) portion and a 32-bit MACK (Message Authentication Codes
-//! + Key) portion. Over a 30 s subframe (15 pages) those portions accumulate
+//! (header / root-key) portion and a 32-bit MACK (Message Authentication Codes +
+//! Key) portion. Over a 30 s subframe (15 pages) those portions accumulate
 //! into the full HKROOT message (15 × 8 = 120 bits) and MACK message
 //! (15 × 32 = 480 bits) — 600 authentication bits per subframe, i.e. the OSNMA
 //! field's 40 bits / 2 s page = 20 bit/s. Authentication is delayed by the
