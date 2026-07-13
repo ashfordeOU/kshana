@@ -808,7 +808,7 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    cli["CLI · Python · WebAssembly<br/>MCP server · JetBrains plugin"] --> api["api — run_toml<br/>typed dispatch over 49 kinds"]
+    cli["CLI · Python · WebAssembly<br/>MCP server · JetBrains plugin"] --> api["api — run_toml<br/>typed dispatch over 50 kinds"]
     subgraph shared["Shared core"]
       types["types · scenario<br/>GNSS timeline"]
       allan["allan — ADEV/MDEV/TDEV/HDEV"]
@@ -920,7 +920,7 @@ flowchart LR
 ```
 kshana/
 ├── src/                                       # the kshana core crate (library + CLI)
-│   ├── api.rs · main.rs · lib.rs              # typed dispatch (49 kinds) + CLI + crate root
+│   ├── api.rs · main.rs · lib.rs              # typed dispatch (50 kinds) + CLI + crate root
 │   ├── python.rs · wasm.rs                    # optional PyO3 / wasm-bindgen bindings
 │   ├── types.rs · scenario.rs · allan.rs      # shared core (time grid, GNSS timeline, Allan)
 │   │

@@ -764,21 +764,21 @@ mod tests {
         let cube = capture_cube(&cfg, &powers, &offsets, &[0.0]);
         assert_eq!(cube.carrier_offsets_hz, vec![0.0]);
         assert_eq!(cube.outcomes.len(), powers.len());
-        for i in 0..powers.len() {
+        for (i, &power) in powers.iter().enumerate() {
             assert_eq!(cube.outcomes[i].len(), offsets.len());
-            for j in 0..offsets.len() {
+            for (j, &offset) in offsets.iter().enumerate() {
                 assert_eq!(cube.outcomes[i][j].len(), 1);
                 let m = &map.outcomes[i][j];
                 let c = &cube.outcomes[i][j][0];
                 assert_eq!(
                     c.captured, m.captured,
                     "captured mismatch at power {} offset {}",
-                    powers[i], offsets[j]
+                    power, offset
                 );
                 assert_eq!(
                     c.final_code_err_chips, m.final_code_err_chips,
                     "final_code_err mismatch at power {} offset {}",
-                    powers[i], offsets[j]
+                    power, offset
                 );
             }
         }
@@ -796,9 +796,9 @@ mod tests {
         let carriers: Vec<f64> = vec![0.0, 100.0];
         let cube = capture_cube(&cfg, &powers, &offsets, &carriers);
         let mut saw_capture = false;
-        for i in 0..powers.len() {
-            for j in 0..offsets.len() {
-                for k in 0..carriers.len() {
+        for (i, &power) in powers.iter().enumerate() {
+            for (j, &offset) in offsets.iter().enumerate() {
+                for (k, &carrier) in carriers.iter().enumerate() {
                     let c = &cube.outcomes[i][j][k];
                     if c.captured {
                         saw_capture = true;
@@ -807,12 +807,12 @@ mod tests {
                             "captured cell must report finite lock_time_s >= 0, got {} \
                              at power {} offset {} carrier {}",
                             c.lock_time_s,
-                            powers[i],
-                            offsets[j],
-                            carriers[k]
+                            power,
+                            offset,
+                            carrier
                         );
                         // The output equals what run_capture reports for the same cell.
-                        let direct = run_capture(&cfg, powers[i], offsets[j], carriers[k]);
+                        let direct = run_capture(&cfg, power, offset, carrier);
                         assert_eq!(c.lock_time_s, direct.lock_time_s);
                     }
                 }
@@ -903,12 +903,12 @@ mod tests {
         let offsets: Vec<f64> = vec![0.15, 0.4, 0.7, 0.95];
         let map = capture_map(&cfg, &powers, &offsets, 0.0);
         let cube = capture_cube(&cfg, &powers, &offsets, &[0.0]);
-        for j in 0..offsets.len() {
+        for (j, &offset) in offsets.iter().enumerate() {
             assert_eq!(
                 cube.min_capture_power_db(j, 0),
                 map.min_capture_power_db(j),
                 "cube accessor must match map at offset {}",
-                offsets[j]
+                offset
             );
         }
     }
