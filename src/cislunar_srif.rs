@@ -28,13 +28,30 @@
 //! independent estimator*: the SRIF, which shares no code with the eigen-Gramian beyond the
 //! measurement partials, confirms the same transition arc and the same conditioning.
 //!
+//! ## Honest scope of the SRIF cross-check (how the STM enters)
+//! The variational STM `Φ_k` is folded **analytically into the measurement rows** `H_k·Φ_k` by
+//! the chain rule *before* they reach the filter — the SRIF's Bierman square-root
+//! **time-update** ([`crate::deepspace_od::Srif::time_update`]) is deliberately **not** called
+//! here. Each row is a partial with respect to the *initial* epoch's state, so the whole batch is a
+//! single static-state estimation of `δs_0` and only `measurement_update` is needed. This is
+//! therefore a **different-algorithm consistency check** (Householder square-root information
+//! filtering vs the Jacobi eigen-Gramian), not a fully external oracle: both reduce to the same
+//! `OᵀO`. The genuinely **external** leg that closes that independence gap is a NumPy/SciPy
+//! **batch least-squares** on the identical stacked system `O` — its posterior covariance
+//! `(OᵀO)⁻¹` and condition number are computed by LAPACK and cross-checked against this SRIF's
+//! `P` at the rank-4 arc in `tests/cislunar_srif_batch_ls_reference.rs`. (The separate Bierman
+//! `time_update`, propagating an SRIF between epochs through `Φ`, is exercised on its own in
+//! [`crate::deepspace_od`]'s unit tests; it is not part of this static-state cross-check.)
+//!
 //! ## Validated vs Modelled
 //! * **Validated.** The rank at which the SRIF posterior covariance turns finite equals the
 //!   observability-matrix rank transition, and its condition number equals the observability-Gram
 //!   condition number — two independent routes (Householder square-root information filtering vs
 //!   the Jacobi eigen-Gramian) agreeing on the same subspace and conditioning (the module's unit
-//!   tests assert both). Thresholds are consistent (a relative singular-value floor, applied as
-//!   its square on the eigenvalue side), so the two rank reads cannot silently disagree.
+//!   tests assert both). Thresholds are consistent: every P6 rank read uses the one singular-value
+//!   floor `σ > rel_tol·σ_max` (on the Gram `OᵀO`, whose eigenvalues are `σ²`, applied as
+//!   `λ > rel_tol²·λ_max`), so the two rank reads cannot silently disagree — and both match
+//!   `numpy.linalg.matrix_rank` on the same `O` (see `tests/cislunar_srif_batch_ls_reference.rs`).
 //! * **Modelled.** The tracking geometry (which spacecraft, links, arc, epoch grid) is the same
 //!   Modelled scenario input as the rest of P6; the *specific* transition arc is a property of
 //!   that geometry, not a certified universal.
@@ -42,7 +59,7 @@
 use crate::deepspace_od::Srif;
 use crate::fim::{information_matrix, sym_eig};
 use crate::observability_gramian::{
-    observability_matrix, singular_values, Mat, ObsEpoch, N_PLANAR,
+    observability_matrix, rank_from_singular_values, singular_values, Mat, ObsEpoch, N_PLANAR,
 };
 
 /// One arc point of the SRIF ↔ observability-Gramian cross-validation: the observable rank and
@@ -99,10 +116,14 @@ fn srif_over_arc(o: &Mat, n: usize) -> Srif {
 /// sequence. For each prefix the observable rank and conditioning are read from the observability
 /// matrix (singular-value threshold, the eigen-Gramian route) and, **independently**, from a
 /// diffuse SRIF folded with the same observability rows (Householder square-root information
-/// filtering). `rel_tol` is the relative singular-value floor (applied as its square on the
-/// eigenvalue side, so the two rank reads use a consistent threshold).
+/// filtering). `rel_tol` is the one relative singular-value floor (`σ > rel_tol·σ_max`) used by
+/// every P6 rank read; on the eigenvalue side of the Gram `OᵀO` (whose eigenvalues are `σ²`) it is
+/// applied as `λ > rel_tol²·λ_max`, so the rank read and the well-posedness/condition read use the
+/// SAME effective floor and cannot disagree.
 pub fn srif_cross_validation(epochs: &[ObsEpoch], rel_tol: f64) -> Vec<SrifArcPoint> {
-    let floor = rel_tol * rel_tol; // singular-value floor rel_tol ⇒ eigenvalue floor rel_tol²
+    // The one convention on the eigenvalue side: σ-floor rel_tol·σ_max ⇔ λ-floor rel_tol²·λ_max
+    // (the Gram OᵀO squares the singular values), matching `rank_from_singular_values`.
+    let floor = rel_tol * rel_tol;
     let mut out = Vec::with_capacity(epochs.len());
     let mut arc = 0.0;
     for (k, ep) in epochs.iter().enumerate() {
@@ -110,14 +131,13 @@ pub fn srif_cross_validation(epochs: &[ObsEpoch], rel_tol: f64) -> Vec<SrifArcPo
         let sub = &epochs[..=k];
         let (o, _w) = observability_matrix(sub);
 
-        // Eigen-Gramian estimator: rank via singular-value threshold, condition of OᵀO.
+        // Eigen-Gramian estimator: rank via the one observability rank convention
+        // (σ > rel_tol·σ_max ⇔ λ > rel_tol²·λ_max on the Gram OᵀO — the SAME relative floor every
+        // P6 rank read uses, and the SAME `rank_from_singular_values` the rank-vs-arc table and
+        // gramian_spectrum use, so the two rank reads cannot silently disagree), and the condition
+        // of OᵀO.
         let sv = singular_values(&o);
-        let smax = sv.first().copied().unwrap_or(0.0);
-        let gramian_rank = if smax > 0.0 {
-            sv.iter().filter(|&&s| s > rel_tol * smax).count()
-        } else {
-            0
-        };
+        let gramian_rank = rank_from_singular_values(&sv, rel_tol);
         let ones = vec![1.0; o.len()];
         let gram = information_matrix(&o, &ones);
         let gram_eig = sym_eig(&gram);

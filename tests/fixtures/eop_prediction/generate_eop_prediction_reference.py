@@ -31,7 +31,14 @@ Definitions (identical to src/frame_eop.rs, re-implemented here):
   * max_s   = max(|resid|)
 
 Column map (0-indexed slices, per IERS readme.finals2000A and src/eop.rs):
-  MJD [7..15], rapid UT1-UTC [58..68], final Bulletin B UT1-UTC [154..165].
+  MJD [7..15], rapid UT1-UTC [58..68], final Bulletin B UT1-UTC [154..165],
+  rapid PM-x [18..27], rapid PM-y [37..46],
+  final Bulletin B PM-x [134..144], final Bulletin B PM-y [144..154].
+
+Polar-motion horizons (arc seconds), same construction as UT1:
+  * pm-final = |rapid A pole - final B pole| magnitude sqrt(dx^2+dy^2) per row.
+  * pm-d<h>  = persistence pole-displacement magnitude over h days.
+These populate the eop_pm_prediction_reference.csv sibling.
 
 Reproduce (offline, no Kshana code involved):
 

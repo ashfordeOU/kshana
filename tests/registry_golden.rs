@@ -284,8 +284,12 @@ fn golden_cislunar_observability() {
     // and a rank-conditioned SRIF posterior. Canonical (portable) hash only.
     check(&Golden {
         path: "scenarios/cislunar-observability.toml",
-        expect_summary: "cislunar-observability | 4 s/c (3 refs) | 6.0 h arc, 24 epochs | rank 1 → 4 of 4 over arc | Gramian λ [2.92e-11…5.98e-2] cond 2.76e5 | instantaneous rank range-only 2 → range+rate 4 (3 links) | GDOP range-only undefined range+rate 6.353 | DRO ICs (max periodicity residual 4.7e-9) | SRIF posterior finite at rank-4 epoch 8 (Validated rank/STM/DRO-closure/SRIF, Modelled design)",
-        expect_fnv_canonical: 0x5d5a_9d65_5d81_aebd,
+        // cond is over the SAME observable subspace the reported rank defines (rank 4 ⇒ all four
+        // λ counted), so a full-rank Gramian's condition is the true λ_max/λ_min (2.05e9) and
+        // matches numpy.linalg.cond — the P6-G2 reconciliation that removed the earlier
+        // rank-4-but-condition-over-3-modes self-contradiction (was cond 2.76e5).
+        expect_summary: "cislunar-observability | 4 s/c (3 refs) | 6.0 h arc, 24 epochs | rank 1 → 4 of 4 over arc | Gramian λ [2.92e-11…5.98e-2] cond 2.05e9 | instantaneous rank range-only 2 → range+rate 4 (3 links) | GDOP range-only undefined range+rate 6.353 | DRO ICs (max periodicity residual 4.7e-9) | SRIF posterior finite at rank-4 epoch 8 (Validated rank/STM/DRO-closure/SRIF, Modelled design)",
+        expect_fnv_canonical: 0x8347_e463_5b2e_2949,
         expect_fnv_raw_linux_x64: None,
     });
 }
