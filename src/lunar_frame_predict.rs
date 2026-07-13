@@ -22,11 +22,17 @@
 //!
 //! ## Validated vs Modelled
 //!
-//! * **Validated (exact closed form):** the range→time mapping `t = Δr / c` (with the
+//! * **Validated (independent oracle):** the range→time mapping `t = Δr / c` (with the
 //!   CODATA speed of light [`crate::holdover::C_LIGHT_M_PER_S`]). The oracle values
 //!   15 m → 50.035 ns and 0.27 m → 0.901 ns are reproduced to < 0.01 ns
-//!   (see `mapping_matches_light_time_oracle`). The covariance propagation
-//!   `P' = Φ P Φᵀ` is exact linear algebra for the given linear transition.
+//!   (see `mapping_matches_light_time_oracle`), and the map is cross-checked end-to-end
+//!   against NumPy's independent light-time evaluation over five cases in
+//!   `tests/lunar_frame_predict_covprop_reference.rs`. The covariance propagation
+//!   `P' = Φ P Φᵀ` — which this module evaluates through the hand-expanded scalar closed
+//!   form — is validated against an **independent NumPy general-matrix-multiply oracle**
+//!   (`Φ @ P @ Φᵀ`, a different codepath) over the same five fixed covariances, including
+//!   the correlated (±ρ) and zero-latency cases: agreement pins the propagation to an
+//!   external linear-algebra authority, not to this crate's own expansion.
 //! * **Modelled / representative:** the *magnitudes* of the input covariance — the
 //!   ~0.27 m post-processed position 1σ, the round 4 mm/s velocity 1σ and the ~3600 s
 //!   real-time latency that together yield ~14.4 m predicted — are representative of a
