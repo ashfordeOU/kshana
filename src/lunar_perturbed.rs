@@ -52,6 +52,23 @@
 //!   3. **C22 gradient** — the `C22` acceleration is the exact analytic gradient of its
 //!      disturbing potential (finite-difference gold standard), and `J2`-only energy /
 //!      semi-major-axis are conserved (a bounded orbit stays bounded).
+//!   4. **Independent integrator** — the full `J2 + C22` propagation is cross-checked against
+//!      SciPy's DOP853 (`scipy.integrate.solve_ivp`, a completely different adaptive
+//!      integrator) integrating the same force model to sub-metre over ~1.8 orbits — the
+//!      external-integrator oracle in `tests/lunar_perturbed_scipy_reference.rs`. This pins the
+//!      crate's own step-doubling driver to a third-party reference, not just to analytic
+//!      secular rates. (The third-body Earth/Sun terms are out of that oracle's scope — they
+//!      ride on the crate's analytic [`crate::ephem`] ephemeris and stay Modelled, covered by
+//!      the analytic third-body unit tests.)
+//!
+//! ## Reachability
+//!
+//! The perturbed twin is runnable end-to-end: set `perturbed = true` on the
+//! `moonlight-service-volume` scenario ([`crate::lunar_service::LunarServiceScenario`]) and the
+//! service-volume DOP / coverage / protection-level sweep runs against
+//! [`PerturbedConstellation`] instead of the idealised Keplerian set (via the shared
+//! [`crate::lunar_service::PositionsMcmf`] provider).
+//!
 //! * **Modelled** — a *specific* ELFO/LCNS constellation number is illustrative, not an
 //!   operational ephemeris. The frame simplifications are: MCI is taken **parallel to the
 //!   Earth mean-equator/equinox** used by [`crate::ephem`] (so Earth/Sun directions carry

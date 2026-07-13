@@ -298,15 +298,41 @@ pub struct CoverageStats {
     pub frac_below_gdop6: f64,
 }
 
+/// The one operation the coverage / DOP sweep needs from a constellation: place every
+/// satellite in the Moon-fixed (MCMF) frame at an epoch. Implemented by both the idealized
+/// Keplerian [`LunarConstellation`] and the perturbed
+/// [`crate::lunar_perturbed::PerturbedConstellation`] (J2 + C22 + Earth/Sun third body), so the
+/// identical service-volume sweep runs against either geometry.
+pub trait PositionsMcmf {
+    /// MCMF (Moon-fixed) positions (m) of every satellite at `t_s` seconds past epoch.
+    fn positions_mcmf(&self, t_s: f64) -> Vec<Vec3>;
+}
+
+impl PositionsMcmf for LunarConstellation {
+    fn positions_mcmf(&self, t_s: f64) -> Vec<Vec3> {
+        // Inherent method (chosen over the trait method by Rust's resolution) — no recursion.
+        LunarConstellation::positions_mcmf(self, t_s)
+    }
+}
+
+impl PositionsMcmf for crate::lunar_perturbed::PerturbedConstellation {
+    fn positions_mcmf(&self, t_s: f64) -> Vec<Vec3> {
+        crate::lunar_perturbed::PerturbedConstellation::positions_mcmf(self, t_s)
+    }
+}
+
 /// Coverage / availability over a service volume: for every `(grid point, epoch)`
 /// sample, place the constellation in MCMF, count visible satellites and compute the
 /// PDOP (reusing [`service_dop`]), and accumulate the fraction of samples with ≥ 4
 /// satellites and `PDOP < pdop_threshold`, plus the PDOP and visible-count envelopes.
 ///
+/// Generic over any [`PositionsMcmf`] provider, so the same sweep serves both the idealized
+/// Keplerian and the perturbed (J2/C22/third-body) constellation geometries.
+///
 /// `grid_points_selenographic` are surface points (their altitude is honoured);
 /// `times_s` are epochs (seconds past the MCI/MCMF-aligned epoch).
-pub fn coverage(
-    constellation: &LunarConstellation,
+pub fn coverage<C: PositionsMcmf + ?Sized>(
+    constellation: &C,
     grid_points_selenographic: &[Selenographic],
     times_s: &[f64],
     elev_mask_rad: f64,
@@ -602,6 +628,15 @@ pub struct LunarServiceScenario {
     /// Integrity-risk budget `P_HMI`.
     #[serde(default = "d_p_hmi")]
     pub p_hmi: f64,
+    /// Run the sweep against the **perturbed** constellation twin (lunar J2 + C22 + Earth/Sun
+    /// third body, each satellite numerically propagated from its epoch elements) instead of the
+    /// idealized Keplerian constellation. Off by default. The perturbation MECHANISM and its
+    /// propagation are Validated (analytic secular rates + an independent SciPy DOP853
+    /// integrator oracle); the resulting perturbed geometry is a Modelled/representative twin —
+    /// not tied to an external DE440 ephemeris. Propagating every satellite at every epoch is
+    /// far heavier than the closed-form Keplerian path, so keep the horizon / step modest.
+    #[serde(default)]
+    pub perturbed: bool,
 }
 
 impl Default for LunarServiceScenario {
@@ -624,6 +659,7 @@ impl Default for LunarServiceScenario {
             pdop_threshold: d_pdop_threshold(),
             alert_limit_m: d_alert_limit_m(),
             p_hmi: d_p_hmi(),
+            perturbed: false,
         }
     }
 }
@@ -662,6 +698,16 @@ pub struct LunarServiceReport {
     pub pl_availability_pct: f64,
     /// Honest scope note (illustrative / modelled).
     pub note: &'static str,
+    /// True when the sweep ran against the perturbed (J2/C22/third-body) constellation twin
+    /// rather than the idealized Keplerian one. Omitted from JSON when false so the default
+    /// (idealized) output is byte-identical to before this option existed.
+    #[serde(skip_serializing_if = "skip_if_false")]
+    pub perturbed: bool,
+}
+
+/// serde `skip_serializing_if` predicate: omit a `false` boolean.
+fn skip_if_false(b: &bool) -> bool {
+    !*b
 }
 
 impl LunarServiceScenario {
@@ -740,7 +786,7 @@ impl LunarServiceScenario {
     pub fn run(&self) -> LunarServiceReport {
         let sma_m = self.sma_km * 1000.0;
         let n = self.n_sats.clamp(1, 12);
-        let sats = (0..n)
+        let sats: Vec<LunarSat> = (0..n)
             .map(|k| LunarSat {
                 sma_m,
                 eccentricity: self.eccentricity,
@@ -750,14 +796,52 @@ impl LunarServiceScenario {
                 mean_anom_deg: 360.0 * (k as f64) / (n as f64),
             })
             .collect();
-        let constellation = LunarConstellation::new(sats);
+        if self.perturbed {
+            // Perturbed twin of the SAME epoch elements: numerically propagate each satellite
+            // under the full ELFO model (J2 + C22 + Earth/Sun third body). Much heavier than the
+            // closed-form Keplerian path — one adaptive integration per satellite per epoch.
+            use crate::lunar_perturbed as lp;
+            let states0 = sats
+                .iter()
+                .map(|s| {
+                    lp::elements_to_state(
+                        s.sma_m,
+                        s.eccentricity,
+                        s.inc_deg,
+                        s.raan_deg,
+                        s.argp_deg,
+                        s.mean_anom_deg,
+                    )
+                })
+                .collect();
+            let cons = lp::PerturbedConstellation::new(
+                states0,
+                lp::LunarPerturbations::elfo_full(),
+                lp::default_tolerance(),
+            );
+            self.sweep(&cons, n, true)
+        } else {
+            let cons = LunarConstellation::new(sats);
+            self.sweep(&cons, n, false)
+        }
+    }
 
+    /// Sweep the service volume against a constellation geometry (idealized or perturbed) and
+    /// summarise DOP / coverage / availability + the protection-level envelope. Generic over the
+    /// [`PositionsMcmf`] provider; deterministic (pure geometry; no randomness). The idealized
+    /// path (`perturbed = false`) is numerically identical to the pre-refactor `run`.
+    fn sweep<C: PositionsMcmf + ?Sized>(
+        &self,
+        constellation: &C,
+        n: usize,
+        perturbed: bool,
+    ) -> LunarServiceReport {
         let grid = self.grid();
         let times = self.times();
         let elev_mask_rad = self.elev_mask_deg.to_radians();
 
         let stats = coverage(
-            &constellation,
+            constellation,
             &grid,
             &times,
             elev_mask_rad,
@@ -823,6 +907,7 @@ impl LunarServiceScenario {
             },
             note: "Illustrative, public-source LCNS-class constellation; not affiliated with ESA. \
                    DOP geometry reuses the gnss_lib_py-validated kernel; coverage/integrity MODELLED.",
+            perturbed,
         }
     }
 }
