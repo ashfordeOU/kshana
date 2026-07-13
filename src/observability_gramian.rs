@@ -158,16 +158,42 @@ pub fn singular_values(o: &Mat) -> Vec<f64> {
     sv
 }
 
-/// Numerical **rank** of `O` from a singular-value threshold: `σ_i > rel_tol · σ_max`.
-/// This is the rank-revealing SVD read of observability.
-pub fn observable_rank(o: &Mat, rel_tol: f64) -> usize {
-    let sv = singular_values(o);
-    let smax = sv.first().copied().unwrap_or(0.0);
+/// Count of singular values that clear the observability rank threshold, given the sorted
+/// (descending) singular-value spectrum of `O`.
+///
+/// **The one, internally-consistent rank definition (a singular-value read on `O`).** A singular
+/// value counts as an observed direction iff `σ_i > rel_tol · σ_max`. This is the SVD read of
+/// observability that `numpy.linalg.matrix_rank(O)` implements, and it is applied **identically**
+/// wherever P6 reports an observable rank — the rank-vs-arc table ([`rank_vs_arc`]), the full-arc
+/// [`observable_rank`], the SRIF cross-validation ([`crate::cislunar_srif`]) **and** the
+/// Gramian-spectrum rank ([`gramian_spectrum`]) — so the committed table cannot be
+/// self-contradictory (one column reading a `σ`-threshold while another reads a mismatched
+/// `λ`-threshold).
+///
+/// **Consistency with the eigenvalue side.** The crate forms these singular values as
+/// `σ_i = √λ_i(OᵀO)` (eigenvalues of the Gram matrix, via [`crate::fim::sym_eig`]). Because the
+/// Gramian `W = OᵀO` squares the data, the equivalent eigenvalue floor for `σ > rel_tol · σ_max`
+/// is `λ = σ² > rel_tol² · λ_max`. [`gramian_spectrum`] therefore reads its rank through **this
+/// same function** (on `√λ(W)`), rather than through the generic `rel_tol · λ_max` eigenvalue floor
+/// of [`crate::fim::design_metrics`] (which is calibrated for un-squared information matrices):
+/// the two would otherwise disagree on a weakly-observed direction whose `λ`-ratio sits between
+/// `rel_tol²` and `rel_tol`. Reporting one `rel_tol` on the `σ` scale everywhere removes that
+/// ambiguity.
+pub fn rank_from_singular_values(sv_descending: &[f64], rel_tol: f64) -> usize {
+    let smax = sv_descending.first().copied().unwrap_or(0.0);
     if smax <= 0.0 {
         return 0;
     }
     let thr = rel_tol * smax;
-    sv.iter().filter(|&&s| s > thr).count()
+    sv_descending.iter().filter(|&&s| s > thr).count()
+}
+
+/// Numerical **rank** of `O` from the singular-value threshold — the rank-revealing SVD read of
+/// observability. See [`rank_from_singular_values`] for the one threshold convention (the same
+/// `rel_tol · σ_max` floor used by every P6 rank read, matching `numpy.linalg.matrix_rank(O)`).
+pub fn observable_rank(o: &Mat, rel_tol: f64) -> usize {
+    let sv = singular_values(o);
+    rank_from_singular_values(&sv, rel_tol)
 }
 
 /// The symmetric spectrum and conditioning of an observability Gramian `W`.
@@ -189,22 +215,54 @@ pub struct GramianSpectrum {
     pub defect: usize,
 }
 
-/// Eigen-spectrum, `λ_min`, condition number and rank of a Gramian `W`, read off the
+/// Eigen-spectrum, `λ_min`, condition number and rank of a Gramian `W = OᵀO`, read off the
 /// crate's symmetric eigensolver and experiment-design metrics.
+///
+/// **Rank, defect AND condition all use the one observability rank convention**
+/// ([`rank_from_singular_values`]): the eigenvalues are mapped back to singular values `σ = √λ` and
+/// thresholded at `σ > rel_tol · σ_max`, so this Gramian rank agrees exactly with the SVD rank of
+/// `O` ([`observable_rank`] / [`rank_vs_arc`]) and with `numpy.linalg.matrix_rank(O)`. Reading the
+/// rank off the raw `λ > rel_tol · λ_max` floor of [`crate::fim::design_metrics`] instead would
+/// apply a *different* effective floor (`rel_tol²` on the `σ` scale) and could report a different
+/// rank on a weakly-observed direction — the self-contradiction this reconciliation removes. The
+/// condition number is `λ_max / λ_min` over the **same** observable subspace this rank defines (the
+/// top-`rank` eigenvalues), so a full-rank Gramian's condition is the true `λ_max / λ_min`, matching
+/// `numpy.linalg.cond(W)`; a rank-deficient one's condition is taken over the observed modes only.
 pub fn gramian_spectrum(w: &Mat, rel_tol: f64) -> GramianSpectrum {
     let e = sym_eig(w);
-    let dm = design_metrics(w, rel_tol);
     let min_eigenvalue = e.values.first().copied().unwrap_or(0.0);
     let max_eigenvalue = e.values.last().copied().unwrap_or(0.0);
     let trace = e.values.iter().sum();
+    // The one rank convention: σ = √λ thresholded at rel_tol·σ_max (= λ > rel_tol²·λ_max), so the
+    // Gramian rank matches the SVD rank of O and numpy.linalg.matrix_rank(O).
+    let mut sv: Vec<f64> = e.values.iter().map(|&l| l.max(0.0).sqrt()).collect();
+    sv.sort_by(|a, b| b.total_cmp(a));
+    let rank = rank_from_singular_values(&sv, rel_tol);
+    let n = w.len();
+    let defect = n.saturating_sub(rank);
+    // Condition over the SAME observable subspace the rank defines: λ_max / (smallest of the
+    // top-`rank` eigenvalues). `e.values` is ascending, so the observed modes are the last `rank`,
+    // and the smallest observed eigenvalue is `e.values[n - rank]`. This keeps the condition
+    // consistent with the reported rank (a full-rank W's condition is the true λ_max/λ_min, so it
+    // matches numpy.linalg.cond(W)); an empty/zero subspace is `+∞`.
+    let condition = if rank == 0 {
+        f64::INFINITY
+    } else {
+        let lmin_obs = e.values[n - rank];
+        if lmin_obs > 0.0 {
+            max_eigenvalue / lmin_obs
+        } else {
+            f64::INFINITY
+        }
+    };
     GramianSpectrum {
         eigenvalues: e.values,
         min_eigenvalue,
         max_eigenvalue,
         trace,
-        condition: dm.condition,
-        rank: dm.rank,
-        defect: dm.defect,
+        condition,
+        rank,
+        defect,
     }
 }
 
@@ -241,12 +299,9 @@ pub fn rank_vs_arc(epochs: &[ObsEpoch], rel_tol: f64) -> Vec<RankArcPoint> {
         let sv = singular_values(&o);
         let sigma_max = sv.first().copied().unwrap_or(0.0);
         let sigma_min = sv.last().copied().unwrap_or(0.0);
-        let rank = if sigma_max > 0.0 {
-            let thr = rel_tol * sigma_max;
-            sv.iter().filter(|&&s| s > thr).count()
-        } else {
-            0
-        };
+        // The one, eigenvalue-consistent rank definition (see `rank_from_singular_values`): the
+        // σ-floor is √rel_tol·σ_max, i.e. the eigenvalue floor rel_tol·λ_max the Gramian read uses.
+        let rank = rank_from_singular_values(&sv, rel_tol);
         out.push(RankArcPoint {
             epoch_index: k,
             arc_time: arc,

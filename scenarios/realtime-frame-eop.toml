@@ -6,34 +6,42 @@
 # scenario emits the two P4 tables (src/frame_eop.rs):
 #
 #   Table 1 (frame-error consistency): the post-processed (definitive, zero-latency) ~0.27 m frame
-#     position and the real-time (predicted, one-hour latency) ~15 m frame position, each expressed
-#     as its equivalent UT1 error via the L19 lever arm Dr = D_EM * omega_earth * dUT1 —
-#     0.27 m <-> ~0.010 ms and 15 m <-> ~0.5 ms. The metre and millisecond views are two faces of
-#     the same budget linked by the lever arm.
+#     position and the real-time (predicted, one-hour latency) ~14.4 m frame position, each
+#     expressed as its equivalent UT1 error via the L19 lever arm Dr = D_EM * omega_earth * dUT1 —
+#     0.27 m <-> ~0.010 ms and 14.4 m <-> ~0.51 ms. The ~14.4 m is the GENUINE propagation of a
+#     round representative OD covariance (0.27 m / 4 mm/s) through the one-hour latency — NOT
+#     back-solved to hit 15 m; the order-15-m scale is independently bracketed by the real EOP-
+#     prediction curve (Table 2: ~9.9 m at 1 day, ~18.8 m at 2 days).
 #   Table 2 (UT1 prediction error vs horizon): the L18 curve read directly off the real IERS
 #     finals2000A series — the Bulletin A minus Bulletin B final floor and the multi-day
 #     persistence-predictor error — each mapped to a Moon-frame position by L19.
 #
 # It also reports the L21 root-sum-square real-time frame-error budget (EOP + ephemeris + frame-
-# realisation floor).
+# realisation floor). The frame-realisation floor is DERIVED from an actual 7-parameter Helmert
+# datum realisation (its post-fit RMS residual), and the polar-motion term is sourced from the
+# measured Bulletin-A-minus-Bulletin-B pole residual when a real EOP series is supplied.
+#
+# A plain run emits <scenario>.table.csv — the P4 Table 1 + Table 2 reproducibility artifact
+# (byte-stable, golden-pinned in tests/golden/realtime-frame-eop.csv).
 #
 # Honesty: VALIDATED closed form (the L19 lever arm, omega_earth cross-checked against the CIO
-# Earth-rotation angle) and VALIDATED real data (the L18 curve off the real finals2000A rows).
-# MODELLED are the lunar-relay OD covariance magnitudes (0.27 m post-processed, ~15 m real-time at
-# one-hour latency) and the frame-realisation floor (representative allocations), and the multi-day
-# predictor is persistence, not IERS's operational Bulletin A algorithm. Not a certified real-time
-# frame product.
+# Earth-rotation angle) and VALIDATED real data (the L18 UT1 and polar-motion curves off the real
+# finals2000A rows). DERIVED frame-realisation floor (the Helmert post-fit residual). MODELLED are
+# the lunar-relay OD covariance magnitudes (0.27 m post-processed, ~14.4 m real-time at one-hour
+# latency — a round, not back-solved, allocation), and the multi-day predictor is persistence, not
+# IERS's operational Bulletin A algorithm. Not a certified real-time frame product.
 kind = "realtime-frame-eop"
 
 # With no eop_finals2000a path the bundled real finals2000A_2022001 fixture is used.
-# The defaults below reproduce the representative lunar-relay OD covariance (0.27 m / ~15 m) and
+# The defaults below reproduce the representative lunar-relay OD covariance (0.27 m / ~14.4 m) and
 # the P4 markers; uncomment to override.
 epoch = "2022-01-01"
 horizons_days = [1, 2, 3]
 # ephemeris_pos_sigma_m = 0.27
-# ephemeris_vel_sigma_mps = 4.16609916e-3
+# ephemeris_vel_sigma_mps = 4.0e-3
 # latency_s = 3600.0
-# frame_realization_floor_m = 0.2
+# frame_realization_floor_m = 0.2  # explicit override; default is DERIVED from the Helmert residual
+# frame_realization_tie_noise_m = 0.2
 # delta_ut1_ms = 0.5
 # delta_xp_mas = 0.0
 # delta_yp_mas = 0.0

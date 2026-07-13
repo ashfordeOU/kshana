@@ -243,13 +243,35 @@ fn main() -> ExitCode {
         eprintln!("error: cannot write {}: {e}", html_path.display());
         return ExitCode::FAILURE;
     }
+    // CSV reproducibility artifact, when the scenario publishes one (e.g.
+    // realtime-frame-eop's P4 Table 1 + Table 2). A plain run now emits the CSV the
+    // paper cites, not only the golden-regen test.
+    let csv_path = output_base.with_extension("table.csv");
+    let wrote_csv = out.csv.is_some();
+    match out.write_csv(&csv_path) {
+        Ok(_) => {}
+        Err(e) => {
+            eprintln!("error: cannot write {}: {e}", csv_path.display());
+            return ExitCode::FAILURE;
+        }
+    }
     println!("{}", out.summary);
-    println!(
-        "wrote {}, {}, and {}",
-        json_path.display(),
-        svg_path.display(),
-        html_path.display()
-    );
+    if wrote_csv {
+        println!(
+            "wrote {}, {}, {}, and {}",
+            json_path.display(),
+            svg_path.display(),
+            html_path.display(),
+            csv_path.display()
+        );
+    } else {
+        println!(
+            "wrote {}, {}, and {}",
+            json_path.display(),
+            svg_path.display(),
+            html_path.display()
+        );
+    }
 
     // SP3 export: an explicit `--export-sp3 <path>`, or the scenario's `export_sp3`
     // option which auto-writes `<scenario>.sp3`. Both require an orbit scenario.

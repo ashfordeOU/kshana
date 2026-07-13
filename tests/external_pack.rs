@@ -18,6 +18,7 @@ impl Scenario for DemoPack {
             json: format!("{{\"src_len\":{}}}", self.src.len()),
             svg: String::new(),
             summary: format!("demo pack ran on {} bytes", self.src.len()),
+            csv: None,
         })
     }
 }
@@ -98,6 +99,7 @@ fn register_into_default_is_noop() {
                 json: "{}".into(),
                 svg: String::new(),
                 summary: String::new(),
+                csv: None,
             })
         }
     }

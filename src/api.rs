@@ -10,13 +10,32 @@ use crate::scenario::GnssState;
 use serde::Deserialize;
 use sha2::{Digest, Sha256};
 
-/// The outputs of a scenario run: the result document, an SVG chart, and a
-/// human-readable one-line summary.
-#[derive(Clone, Debug)]
+/// The outputs of a scenario run: the result document, an SVG chart, a
+/// human-readable one-line summary, and an optional CSV reproducibility artifact
+/// (emitted by scenarios that publish a byte-stable table — e.g. `realtime-frame-eop`
+/// writes its P4 Table 1 + Table 2 CSV here so a plain run produces the file the paper
+/// cites, not only the `#[ignore]` golden-regen test).
+#[derive(Clone, Debug, Default)]
 pub struct RunOutput {
     pub json: String,
     pub svg: String,
     pub summary: String,
+    /// Optional CSV artifact; `None` for scenarios that publish no CSV table.
+    pub csv: Option<String>,
+}
+
+impl RunOutput {
+    /// Write the CSV artifact (when present) to `path`, returning the bytes written.
+    /// A no-op returning `Ok(0)` when the scenario produced no CSV.
+    pub fn write_csv(&self, path: &std::path::Path) -> std::io::Result<usize> {
+        match &self.csv {
+            Some(csv) => {
+                std::fs::write(path, csv)?;
+                Ok(csv.len())
+            }
+            None => Ok(0),
+        }
+    }
 }
 
 /// Escape the five characters that matter in HTML text/attribute context.
@@ -879,6 +898,7 @@ impl Scenario for crate::jamming::JammingScenario {
             json: json_of(&r).map_err(KshanaError::InvalidInput)?,
             svg: crate::jamming::to_svg(&r),
             summary,
+            csv: None,
         })
     }
 }
@@ -937,6 +957,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&r)?,
                 svg: crate::inertial::to_svg(&r),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::Integrity => {
@@ -963,6 +984,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&report)?,
                 svg: crate::raim::availability_svg(&report),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::LunarIntegrity => {
@@ -983,6 +1005,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&report)?,
                 svg: crate::lunar::lunar_report_svg(&report),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::LunarTime => {
@@ -1003,6 +1026,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&report)?,
                 svg: crate::lunar_time::lunar_time_svg(&report),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::LunarVlbi => {
@@ -1023,6 +1047,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&report)?,
                 svg: crate::lunar_vlbi::lunar_vlbi_svg(&report),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::LunarCombination => {
@@ -1045,6 +1070,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&report)?,
                 svg: crate::lunar_combination::lunar_combination_svg(&report),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::LunarFrameRealise => {
@@ -1064,6 +1090,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&report)?,
                 svg: crate::lunar_frame_realise::lunar_frame_realise_svg(&report),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::LunarService => {
@@ -1090,6 +1117,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&report)?,
                 svg: crate::lunar_service::lunar_service_svg(&report),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::LunarDpnt => {
@@ -1110,6 +1138,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&report)?,
                 svg: crate::lunar_dpnt::lunar_dpnt_svg(&report),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::LunarInterop => {
@@ -1133,6 +1162,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&report)?,
                 svg: crate::lunar_interop::lunar_interop_svg(&report),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::TimeTransfer => {
@@ -1149,6 +1179,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&r)?,
                 svg: crate::timetransfer::to_svg(&r),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::QuantumTimeTransfer => {
@@ -1171,6 +1202,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&r)?,
                 svg: crate::timetransfer_chain::to_svg(&r),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::QuantumGnssFreeNav => {
@@ -1193,6 +1225,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&r)?,
                 svg: crate::quantum_nav_od::to_svg(&r),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::QuantumAnomalyDetect => {
@@ -1213,6 +1246,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&r)?,
                 svg: crate::quantum_faults::to_svg(&r),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::Hybrid => {
@@ -1230,6 +1264,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&r)?,
                 svg: crate::hybrid::to_svg(&r),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::Fusion => {
@@ -1247,6 +1282,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&r)?,
                 svg: crate::hybrid::to_svg(&r),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::HybridUkf => {
@@ -1270,6 +1306,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&r)?,
                 svg: crate::fusion::hybrid_ukf::to_svg(&r),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::GnssIns => {
@@ -1287,6 +1324,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&r)?,
                 svg: crate::fusion::pack::to_svg(&r),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::GnssSim => {
@@ -1305,6 +1343,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&r)?,
                 svg: crate::gnss_sim::to_svg(&r, alert_h, alert_v),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::Jamming => {
@@ -1332,6 +1371,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&r)?,
                 svg: crate::spoof::to_svg(&r),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::SpoofDetect => {
@@ -1353,6 +1393,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&r)?,
                 svg: crate::spoof_detect::to_svg(&r),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::Sweep => {
@@ -1372,6 +1413,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&r)?,
                 svg: crate::sweep::to_svg(&r),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::SweepNd => {
@@ -1390,6 +1432,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&r)?,
                 svg: crate::sweep::generic_to_svg(&r),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::Orbit => {
@@ -1429,6 +1472,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&OrbitOutput { run: &r, geometry })?,
                 svg: crate::report::to_svg(&r),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::Ephemeris => {
@@ -1457,6 +1501,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&r)?,
                 svg: crate::ephemeris::to_svg(&r),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::GravityMap => {
@@ -1485,6 +1530,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                     r.map_matched_error_m,
                 ),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::Terrain => {
@@ -1502,6 +1548,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&r)?,
                 svg: crate::altpnt::terrain::terrain_nav_svg(&r),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::TerrainSlam => {
@@ -1524,6 +1571,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&r)?,
                 svg: crate::altpnt::sequential::sequential_trn_svg(&r),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::CombinedAltPnt => {
@@ -1542,6 +1590,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&r)?,
                 svg: crate::altpnt::terrain::combined_altpnt_svg(&r),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::Pvt => {
@@ -1553,6 +1602,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&r)?,
                 svg: crate::pvt::pvt_svg(&r),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::MarsPnt => {
@@ -1564,6 +1614,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&r)?,
                 svg: crate::mars_pnt::to_svg(&r),
                 summary,
+                csv: None,
             })
         }
         ScenarioKind::ImpairmentEval => {
@@ -1571,77 +1622,77 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 .map_err(|e| format!("invalid impairment-eval scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
-            Ok(RunOutput { json, svg, summary })
+            Ok(RunOutput { json, svg, summary, csv: None })
         }
         ScenarioKind::QuantumTrade => {
             let scn: crate::quantum_trade::QuantumTradeScenario =
                 toml::from_str(src).map_err(|e| format!("invalid quantum-trade scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
-            Ok(RunOutput { json, svg, summary })
+            Ok(RunOutput { json, svg, summary, csv: None })
         }
         ScenarioKind::SpaceWeather => {
             let scn: crate::space_weather::SpaceWeatherScenario =
                 toml::from_str(src).map_err(|e| format!("invalid space-weather scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
-            Ok(RunOutput { json, svg, summary })
+            Ok(RunOutput { json, svg, summary, csv: None })
         }
         ScenarioKind::OemInterop => {
             let scn: crate::oem::OemInteropScenario =
                 toml::from_str(src).map_err(|e| format!("invalid oem-interop scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
-            Ok(RunOutput { json, svg, summary })
+            Ok(RunOutput { json, svg, summary, csv: None })
         }
         ScenarioKind::LaunchWindow => {
             let scn: crate::launch::LaunchWindowScenario =
                 toml::from_str(src).map_err(|e| format!("invalid launch-window scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
-            Ok(RunOutput { json, svg, summary })
+            Ok(RunOutput { json, svg, summary, csv: None })
         }
         ScenarioKind::Reentry => {
             let scn: crate::reentry::ReentryScenario =
                 toml::from_str(src).map_err(|e| format!("invalid reentry scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
-            Ok(RunOutput { json, svg, summary })
+            Ok(RunOutput { json, svg, summary, csv: None })
         }
         ScenarioKind::EoCoverage => {
             let scn: crate::eo_payload::EoCoverageScenario =
                 toml::from_str(src).map_err(|e| format!("invalid eo-coverage scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
-            Ok(RunOutput { json, svg, summary })
+            Ok(RunOutput { json, svg, summary, csv: None })
         }
         ScenarioKind::SpacePacket => {
             let scn: crate::space_packet::SpacePacketScenario =
                 toml::from_str(src).map_err(|e| format!("invalid space-packet scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
-            Ok(RunOutput { json, svg, summary })
+            Ok(RunOutput { json, svg, summary, csv: None })
         }
         ScenarioKind::AttitudeBudget => {
             let scn: crate::attitude_budget::AttitudeBudgetScenario = toml::from_str(src)
                 .map_err(|e| format!("invalid attitude-budget scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
-            Ok(RunOutput { json, svg, summary })
+            Ok(RunOutput { json, svg, summary, csv: None })
         }
         ScenarioKind::Passes => {
             let scn: crate::passes::PassesScenario =
                 toml::from_str(src).map_err(|e| format!("invalid passes scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
-            Ok(RunOutput { json, svg, summary })
+            Ok(RunOutput { json, svg, summary, csv: None })
         }
         ScenarioKind::LinkBudget => {
             let scn: crate::linkbudget::LinkBudgetScenario =
                 toml::from_str(src).map_err(|e| format!("invalid link-budget scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
-            Ok(RunOutput { json, svg, summary })
+            Ok(RunOutput { json, svg, summary, csv: None })
         }
         ScenarioKind::LunarTimeBudget => {
             let scn: crate::lunar_time_budget_scenario::LunarTimeBudgetScenario =
@@ -1649,39 +1700,48 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                     .map_err(|e| format!("invalid lunar-time-budget scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
-            Ok(RunOutput { json, svg, summary })
+            Ok(RunOutput { json, svg, summary, csv: None })
         }
         ScenarioKind::RealtimeFrameEop => {
             let scn: crate::realtime_frame_eop::RealtimeFrameEopScenario = toml::from_str(src)
                 .map_err(|e| format!("invalid realtime-frame-eop scenario: {e}"))?;
             let (json, summary, svg) = scn.run_output()?;
-            Ok(RunOutput { json, svg, summary })
+            // G4: publish the P4 Table 1 + Table 2 reproducibility CSV as a runtime
+            // artifact, so a plain scenario run produces the file the paper cites (not
+            // only the #[ignore] golden-regen test).
+            let csv = Some(scn.to_csv()?);
+            Ok(RunOutput { json, svg, summary, csv })
         }
         ScenarioKind::HybridOpticalRf => {
             let scn: crate::hybrid_integrity::HybridOpticalRfScenario = toml::from_str(src)
                 .map_err(|e| format!("invalid hybrid-optical-rf scenario: {e}"))?;
             let (json, summary, svg) = scn.run_output()?;
-            Ok(RunOutput { json, svg, summary })
+            Ok(RunOutput { json, svg, summary, csv: None })
         }
         ScenarioKind::CislunarObservability => {
             let scn: crate::cislunar_observability::CislunarObservabilityScenario =
                 toml::from_str(src)
                     .map_err(|e| format!("invalid cislunar-observability scenario: {e}"))?;
             let (json, summary, svg) = scn.run_output()?;
-            Ok(RunOutput { json, svg, summary })
+            Ok(RunOutput { json, svg, summary, csv: None })
         }
         ScenarioKind::ConflictResilience => {
             let scn: crate::conflict_resilience::ConflictResilienceScenario =
                 toml::from_str(src)
                     .map_err(|e| format!("invalid conflict-resilience scenario: {e}"))?;
             let (json, summary, svg) = scn.run_output()?;
-            Ok(RunOutput { json, svg, summary })
+            Ok(RunOutput { json, svg, summary, csv: None })
         }
         ScenarioKind::LunarAttackSurface => {
             let scn: crate::attack_surface::LunarAttackSurfaceScenario = toml::from_str(src)
                 .map_err(|e| format!("invalid lunar-attack-surface scenario: {e}"))?;
             let (json, summary, svg) = scn.run_output()?;
-            Ok(RunOutput { json, svg, summary })
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
         }
         ScenarioKind::Clock => {
             let scn: crate::scenario::Scenario =
@@ -1702,6 +1762,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                     json: json_of(&r)?,
                     svg: crate::ensemble::to_svg(&r),
                     summary,
+                    csv: None,
                 });
             }
             let r = crate::run::run(&scn);
@@ -1715,6 +1776,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 json: json_of(&r)?,
                 svg: crate::report::to_svg(&r),
                 summary,
+                csv: None,
             })
         }
     }
@@ -2121,6 +2183,7 @@ mod tests {
             json,
             svg: base.svg.clone(),
             summary: base.summary.clone(),
+            csv: None,
         };
         let html = out.html_report();
         // Study title drives the <title>; the default title string is gone.
@@ -2146,6 +2209,7 @@ mod tests {
             json,
             svg: base.svg.clone(),
             summary: base.summary.clone(),
+            csv: None,
         };
         let html = out.html_report();
         assert!(html.contains("<title>Only A Title \u{2014} Kshana</title>"));
@@ -2171,6 +2235,7 @@ mod tests {
             json: withed,
             svg: base.svg.clone(),
             summary: base.summary.clone(),
+            csv: None,
         };
         let html = out.html_report();
         assert!(html.contains("<title>My Study \u{2014} Kshana</title>"));

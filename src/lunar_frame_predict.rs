@@ -14,8 +14,11 @@
 //! mapped through the exact `Δt = Δr / c` light-time relation to a timing error.
 //!
 //! This is the endogenous replacement for P3's imported "~50 ns real-time frame"
-//! constant: instead of asserting 15 m, the 15 m falls out of propagating a
-//! representative OD covariance through a representative latency.
+//! constant: instead of asserting a magnitude, the real-time frame error falls out of
+//! propagating a representative OD covariance (a round 0.27 m / 4 mm/s, **not** a
+//! back-solved constant) through a representative latency — landing on ~14.4 m, an
+//! order-15-m figure the real EOP-prediction curve of [`crate::frame_eop`] independently
+//! brackets (persistence UT1 error → ~9.9 m at 1 day, ~18.8 m at 2 days).
 //!
 //! ## Validated vs Modelled
 //!
@@ -25,8 +28,8 @@
 //!   (see `mapping_matches_light_time_oracle`). The covariance propagation
 //!   `P' = Φ P Φᵀ` is exact linear algebra for the given linear transition.
 //! * **Modelled / representative:** the *magnitudes* of the input covariance — the
-//!   ~0.27 m post-processed position 1σ, the ~4.17 mm/s velocity 1σ and the ~3600 s
-//!   real-time latency that together yield ~15 m predicted — are representative of a
+//!   ~0.27 m post-processed position 1σ, the round 4 mm/s velocity 1σ and the ~3600 s
+//!   real-time latency that together yield ~14.4 m predicted — are representative of a
 //!   lunar-relay OD, not tied here to a specific real covariance file. A caller that
 //!   holds a validated OD covariance (e.g. from [`crate::lunar_od`] /
 //!   [`crate::batch_ls`]) can pass it to [`predict_frame_error`] and then the predicted
@@ -70,13 +73,22 @@ impl OdCovariance {
     }
 
     /// The **representative / Modelled** lunar-relay OD covariance: a 0.27 m
-    /// post-processed position 1σ and a 4.166 mm/s velocity 1σ, uncorrelated. Propagated
-    /// through the representative [`REALTIME_LATENCY_S`] (1 h) this yields ~15 m predicted
-    /// position 1σ — the endogenous origin of P3's "~50 ns real-time frame".
+    /// post-processed position 1σ and a **round 4 mm/s** velocity 1σ, uncorrelated.
+    /// Propagated through the representative [`REALTIME_LATENCY_S`] (1 h) this yields
+    /// ~14.4 m predicted position 1σ.
     ///
-    /// The numbers are representative of a lunar navigation-relay OD, not read from a
-    /// specific covariance file; hence Modelled. The velocity 1σ is chosen so that
-    /// `σ_v · Δt = √(15² − 0.27²) m`, placing the propagated position 1σ on 15 m.
+    /// ## Not back-solved (honesty)
+    /// The velocity 1σ is a plainly-stated round representative value of a lunar
+    /// navigation-relay along-track rate uncertainty — it is **not** algebraically chosen to
+    /// make the propagated position land on any target. The propagated ~14.4 m is simply
+    /// what `√(0.27² + (3600·0.004)²)` evaluates to; the earlier constant
+    /// `√(15² − 0.27²)/3600` (which forced the output to exactly 15.000 m by construction)
+    /// has been removed. The order-15-m real-time frame magnitude is *independently*
+    /// corroborated by the real EOP-prediction curve of [`crate::frame_eop`]: the persistence
+    /// UT1 prediction error over the real IERS `finals2000A` series maps through the lever arm
+    /// to ~9.9 m at 1 day and ~18.8 m at 2 days, bracketing 14–15 m — see
+    /// `frame_eop`'s longspan validation. Both figures are honestly Modelled/representative,
+    /// not a certified OD covariance file.
     pub fn representative() -> Self {
         Self::new(POSTPROC_POS_SIGMA_M, REPRESENTATIVE_VEL_SIGMA_MPS, 0.0)
     }
@@ -151,9 +163,11 @@ pub const REALTIME_LATENCY_S: f64 = 3600.0;
 /// uncertainty. Modelled.
 pub const POSTPROC_POS_SIGMA_M: f64 = 0.27;
 
-/// Representative velocity 1σ (m/s) chosen so that, at [`REALTIME_LATENCY_S`], the
-/// propagated position 1σ lands on ~15 m: `σ_v = √(15² − 0.27²) / 3600`. Modelled.
-pub const REPRESENTATIVE_VEL_SIGMA_MPS: f64 = 4.166_099_16e-3;
+/// Representative along-track velocity 1σ (m/s) of a lunar navigation-relay OD: a round
+/// **4 mm/s**. Modelled. This is a plainly-chosen representative magnitude, **not**
+/// back-solved to hit any target position; propagated through [`REALTIME_LATENCY_S`] it
+/// simply yields `√(0.27² + (3600·0.004)²) ≈ 14.4 m`.
+pub const REPRESENTATIVE_VEL_SIGMA_MPS: f64 = 4.0e-3;
 
 /// Map a position error (m) to the one-way light-time timing error it causes, in
 /// nanoseconds: `t = Δr / c · 1e9`. This is the exact inverse of
@@ -230,23 +244,38 @@ mod tests {
         assert!((back - r).abs() < 1e-9);
     }
 
-    /// Representative propagation reproduces P3's ~15 m real-time and ~0.27 m
-    /// post-processed magnitudes, mapping to ~50.035 ns and ~0.901 ns. Magnitudes are
-    /// Modelled (representative covariance); the mapping is Validated.
+    /// Representative propagation lands on an order-15-m real-time magnitude (~14.4 m) and
+    /// the ~0.27 m post-processed magnitude, mapping to ~48 ns and ~0.901 ns. The
+    /// magnitudes are Modelled (a round, NOT back-solved, representative covariance); the
+    /// mapping is Validated. Crucially the predicted magnitude is whatever
+    /// `√(0.27² + (3600·0.004)²)` genuinely evaluates to — it is not asserted to equal any
+    /// pre-chosen target, so this is no longer a self-fulfilling constant.
     #[test]
-    fn representative_reproduces_p3_magnitudes() {
+    fn representative_lands_in_the_order_15m_realtime_band() {
         let r = representative_report();
+        // The genuine propagated value of the round representative covariance.
+        let expect = (0.27_f64.powi(2) + (REALTIME_LATENCY_S * 4.0e-3).powi(2)).sqrt();
         assert!(
-            (r.predicted_pos_sigma_m - 15.0).abs() < 0.02,
-            "predicted {}",
+            (r.predicted_pos_sigma_m - expect).abs() < 1e-9,
+            "predicted {} vs genuine RSS {expect}",
+            r.predicted_pos_sigma_m
+        );
+        // Order-15-m: it sits in the band the real EOP-prediction curve brackets (9.9 m at
+        // 1 day, 18.8 m at 2 days), NOT pinned to 15.000.
+        assert!(
+            (10.0..18.0).contains(&r.predicted_pos_sigma_m),
+            "real-time predicted {} m outside the order-15-m band",
+            r.predicted_pos_sigma_m
+        );
+        // It is explicitly NOT the removed back-solved 15.000 m.
+        assert!(
+            (r.predicted_pos_sigma_m - 15.0).abs() > 0.3,
+            "predicted {} m is suspiciously pinned to 15.000",
             r.predicted_pos_sigma_m
         );
         assert!((r.postproc_pos_sigma_m - 0.27).abs() < 1e-12);
-        assert!(
-            (r.predicted_time_ns - 50.035).abs() < 0.1,
-            "predicted_ns {}",
-            r.predicted_time_ns
-        );
+        // Light-time is the exact image of whatever the position genuinely is.
+        assert!((r.predicted_time_ns - range_to_time_ns(r.predicted_pos_sigma_m)).abs() < 1e-9);
         assert!(
             (r.postproc_time_ns - 0.901).abs() < 0.01,
             "postproc_ns {}",
@@ -307,9 +336,12 @@ mod tests {
     /// `from_frame_residual` seeds the post-processed 1σ from a realised-frame residual.
     #[test]
     fn from_frame_residual_seeds_postproc_sigma() {
-        let cov = OdCovariance::from_frame_residual(0.27, 4.166_099_16e-3, 0.0);
+        let cov = OdCovariance::from_frame_residual(0.27, 4.0e-3, 0.0);
         assert_eq!(cov.pos_sigma_m, 0.27);
         let r = predict_frame_error(cov, REALTIME_LATENCY_S);
-        assert!((r.predicted_pos_sigma_m - 15.0).abs() < 0.02);
+        // The propagated value is the genuine RSS of the seeded post-processed 1σ and the
+        // latency-scaled velocity term — an order-15-m figure, not a pinned constant.
+        let expect = (0.27_f64.powi(2) + (REALTIME_LATENCY_S * 4.0e-3).powi(2)).sqrt();
+        assert!((r.predicted_pos_sigma_m - expect).abs() < 1e-9);
     }
 }
