@@ -214,14 +214,8 @@ impl RealtimeFrameEopScenario {
         // not separately reported by the combined magnitude); each axis carries
         // floor/√2 so the RSS reproduces the measured magnitude.
         let measured_axis_mas = measured_pm_floor_mas.map(|m| m / std::f64::consts::SQRT_2);
-        let delta_xp_mas = self
-            .delta_xp_mas
-            .or(measured_axis_mas)
-            .unwrap_or(0.0);
-        let delta_yp_mas = self
-            .delta_yp_mas
-            .or(measured_axis_mas)
-            .unwrap_or(0.0);
+        let delta_xp_mas = self.delta_xp_mas.or(measured_axis_mas).unwrap_or(0.0);
+        let delta_yp_mas = self.delta_yp_mas.or(measured_axis_mas).unwrap_or(0.0);
 
         // G1: ingest the real Bulletin A predicted rows the file publishes (exercises the
         // predicted-column parser on real data).
@@ -571,7 +565,10 @@ mod tests {
     #[test]
     fn runtime_dispatch_emits_the_csv_artifact() {
         let out = crate::api::run_toml("kind=\"realtime-frame-eop\"\n").unwrap();
-        let csv = out.csv.as_ref().expect("realtime-frame-eop must emit a CSV artifact");
+        let csv = out
+            .csv
+            .as_ref()
+            .expect("realtime-frame-eop must emit a CSV artifact");
         assert!(csv.contains("table1,real-time,"));
         assert!(csv.contains("table2,final,"));
         // The runtime CSV equals the scenario's own to_csv() byte-for-byte.
@@ -597,10 +594,16 @@ mod tests {
         let floor = b["frame_realization_floor_m"].as_f64().unwrap();
         // Independent recompute: the derived floor at the default 0.2 m tie noise.
         let derived = crate::frame_eop::derived_frame_realization_floor_m(0.2);
-        assert!((floor - derived).abs() < 1e-12, "floor {floor} != derived {derived}");
+        assert!(
+            (floor - derived).abs() < 1e-12,
+            "floor {floor} != derived {derived}"
+        );
         // It is a genuine sub-0.3 m residual near the tie level, not pinned to 0.2.
         assert!((0.10..0.30).contains(&floor), "derived floor {floor}");
-        assert!((floor - 0.2).abs() > 1e-6, "floor {floor} suspiciously pinned to 0.2");
+        assert!(
+            (floor - 0.2).abs() > 1e-6,
+            "floor {floor} suspiciously pinned to 0.2"
+        );
 
         // An explicit override is respected and flagged as NOT derived.
         let (j2, _) = RealtimeFrameEopScenario {
@@ -631,13 +634,22 @@ mod tests {
         let b = &v["realtime_frame_error_budget"];
         // A real measured PM floor is reported and drives the per-axis pole terms.
         let measured = b["measured_pm_floor_mas"].as_f64().unwrap();
-        assert!(measured > 0.0, "measured PM floor {measured} mas must be > 0");
+        assert!(
+            measured > 0.0,
+            "measured PM floor {measured} mas must be > 0"
+        );
         let xp = b["delta_xp_mas"].as_f64().unwrap();
         let yp = b["delta_yp_mas"].as_f64().unwrap();
-        assert!(xp > 0.0 && yp > 0.0, "PM axes must be measured, not 0: {xp}/{yp}");
+        assert!(
+            xp > 0.0 && yp > 0.0,
+            "PM axes must be measured, not 0: {xp}/{yp}"
+        );
         // Each axis is the measured combined floor split by √2, so the RSS reproduces it.
         let rss = (xp * xp + yp * yp).sqrt();
-        assert!((rss - measured).abs() < 1e-9, "axis RSS {rss} != measured {measured}");
+        assert!(
+            (rss - measured).abs() < 1e-9,
+            "axis RSS {rss} != measured {measured}"
+        );
 
         // An explicit override still wins and is used verbatim.
         let (j2, _) = RealtimeFrameEopScenario {
@@ -649,6 +661,11 @@ mod tests {
         .run_json()
         .unwrap();
         let v2: Value = serde_json::from_str(&j2).unwrap();
-        assert_eq!(v2["realtime_frame_error_budget"]["delta_xp_mas"].as_f64().unwrap(), 0.0);
+        assert_eq!(
+            v2["realtime_frame_error_budget"]["delta_xp_mas"]
+                .as_f64()
+                .unwrap(),
+            0.0
+        );
     }
 }

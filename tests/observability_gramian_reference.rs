@@ -31,11 +31,12 @@
 
 use kshana::intersat_range::{range_row, PlanarState};
 use kshana::observability_gramian::{
-    gramian, gramian_spectrum, observability_matrix, observable_rank, rank_vs_arc, ObsEpoch, Mat,
+    gramian, gramian_spectrum, observability_matrix, observable_rank, rank_vs_arc, Mat, ObsEpoch,
     N_PLANAR,
 };
 
-const REF: &str = include_str!("fixtures/observability_gramian/observability_gramian_reference.txt");
+const REF: &str =
+    include_str!("fixtures/observability_gramian/observability_gramian_reference.txt");
 
 /// LAPACK (NumPy) and the crate's Jacobi sweep agree to ~1e-12 on well-conditioned symmetric
 /// inputs; a relative bound of 1e-8 stays well inside that without hiding drift (the smallest
@@ -101,14 +102,21 @@ fn parse_fixture(text: &str) -> Fixture {
         } else if let Some(rest) = line.strip_prefix("# REF ") {
             reference = Some(parse_state4(&rest.split_whitespace().collect::<Vec<_>>()));
         } else if let Some(rest) = line.strip_prefix("# DTS ") {
-            dts = rest.split_whitespace().map(|s| s.parse().unwrap()).collect();
+            dts = rest
+                .split_whitespace()
+                .map(|s| s.parse().unwrap())
+                .collect();
         } else if let Some(rest) = line.strip_prefix("# MATRIX ") {
             flush_mat(&mut cur_mat, &mut cur_is_phi, &mut phis);
             cur_mat = Some(Vec::new());
             cur_is_phi = rest.starts_with("PHI");
         } else if let Some(rest) = line.strip_prefix("ROW ") {
             if let Some(m) = cur_mat.as_mut() {
-                m.push(rest.split_whitespace().map(|s| s.parse().unwrap()).collect());
+                m.push(
+                    rest.split_whitespace()
+                        .map(|s| s.parse().unwrap())
+                        .collect(),
+                );
             }
         } else if let Some(rest) = line.strip_prefix("RANKARC ") {
             let t: Vec<&str> = rest.split_whitespace().collect();
@@ -122,7 +130,10 @@ fn parse_fixture(text: &str) -> Fixture {
         } else if let Some(rest) = line.strip_prefix("# O_FULL_RANK ") {
             o_full_rank = Some(rest.trim().parse().unwrap());
         } else if let Some(rest) = line.strip_prefix("EIGS ") {
-            eigs = rest.split_whitespace().map(|s| s.parse().unwrap()).collect();
+            eigs = rest
+                .split_whitespace()
+                .map(|s| s.parse().unwrap())
+                .collect();
         } else if let Some(rest) = line.strip_prefix("# GRAMIAN_LAMBDA_MIN ") {
             lmin = Some(rest.trim().parse().unwrap());
         } else if let Some(rest) = line.strip_prefix("# GRAMIAN_LAMBDA_MAX ") {

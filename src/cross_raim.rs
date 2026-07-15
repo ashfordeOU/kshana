@@ -213,7 +213,8 @@ mod tests {
     use super::*;
     use crate::frames::{geodetic_to_ecef, Geodetic};
     use crate::raim::{
-        chi2_cdf, chi2_quantile, noncentral_chi2_cdf, pbias, snapshot_raim, solution_separation_raim,
+        chi2_cdf, chi2_quantile, noncentral_chi2_cdf, pbias, snapshot_raim,
+        solution_separation_raim,
     };
 
     /// A representative heterogeneous solution: loose RF (metres, ns) and tight optical
@@ -439,7 +440,7 @@ mod tests {
         let k_md = normal_quantile(1.0 - p_md);
         let sigma_sum = (2.0_f64).sqrt() * sigma; // √(σ² + σ²)
         let sigma_fused = sigma / (2.0_f64).sqrt(); // 1/√(2/σ²)
-                                                     // Equal weights w_rf = w_opt = ½, so max(w) = ½.
+                                                    // Equal weights w_rf = w_opt = ½, so max(w) = ½.
         let w_max = 0.5;
         let pl_hand = k_fa * sigma_sum * w_max + k_md * sigma_fused;
         assert!(

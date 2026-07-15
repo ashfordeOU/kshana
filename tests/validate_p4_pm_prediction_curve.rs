@@ -115,9 +115,21 @@ fn pm_prediction_stats_match_numpy_oracle() {
             e.rms_s,
             r.rms_as
         );
-        assert!((e.p50_s - r.p50_as).abs() < 1e-9, "{:?}: p50 mismatch", r.horizon);
-        assert!((e.p95_s - r.p95_as).abs() < 1e-9, "{:?}: p95 mismatch", r.horizon);
-        assert!((e.max_s - r.max_as).abs() < 1e-9, "{:?}: max mismatch", r.horizon);
+        assert!(
+            (e.p50_s - r.p50_as).abs() < 1e-9,
+            "{:?}: p50 mismatch",
+            r.horizon
+        );
+        assert!(
+            (e.p95_s - r.p95_as).abs() < 1e-9,
+            "{:?}: p95 mismatch",
+            r.horizon
+        );
+        assert!(
+            (e.max_s - r.max_as).abs() < 1e-9,
+            "{:?}: max mismatch",
+            r.horizon
+        );
     }
     eprintln!(
         "engine vs NumPy PM oracle: {} horizons matched to < 1e-9″",
@@ -177,5 +189,8 @@ fn pm_residual_maps_to_moon_frame_position() {
     let d5 = find(&curve, Horizon::Days(5));
     let pos = polar_motion_position_error(d5.rms_s * ARCSEC_TO_RAD, 0.0);
     assert!(pos > 0.0 && pos.is_finite());
-    eprintln!("5-day PM RMS {:.4} mas -> {pos:.2} m at Moon", d5.rms_s * 1e3);
+    eprintln!(
+        "5-day PM RMS {:.4} mas -> {pos:.2} m at Moon",
+        d5.rms_s * 1e3
+    );
 }

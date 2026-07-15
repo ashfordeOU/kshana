@@ -418,23 +418,27 @@ mod tests {
         let p0 = [9.0_f64, 9.0, 16.0, 1e-16];
         let opt_r = [0.04_f64, 0.04, 0.09, 1e-20]; // tight
         let rf_r = [4.0_f64, 4.0, 9.0, 4e-16]; // loose
-        // Zero handoff inflation: the pass is then the EXACT optimal linear-Gaussian filter,
-        // whose consistency law is E[x̂−x]=0 and E[NEES]=dof. (Non-zero inflation is a modelled
-        // conservatism — it deflates the empirical NEES below dof by construction — and is
-        // covered separately by the forward/reverse handoff tests.)
+                                               // Zero handoff inflation: the pass is then the EXACT optimal linear-Gaussian filter,
+                                               // whose consistency law is E[x̂−x]=0 and E[NEES]=dof. (Non-zero inflation is a modelled
+                                               // conservatism — it deflates the empirical NEES below dof by construction — and is
+                                               // covered separately by the forward/reverse handoff tests.)
         let inflation = 0.0;
         let mut rng = ChaCha8Rng::seed_from_u64(20260712);
         let n = 40_000usize;
 
         // Per-axis normal samplers.
-        let prior_n: Vec<Normal<f64>> =
-            p0.iter().map(|&p| Normal::new(0.0, p.sqrt()).unwrap()).collect();
+        let prior_n: Vec<Normal<f64>> = p0
+            .iter()
+            .map(|&p| Normal::new(0.0, p.sqrt()).unwrap())
+            .collect();
         let opt_n: Vec<Normal<f64>> = opt_r
             .iter()
             .map(|&r| Normal::new(0.0, r.sqrt()).unwrap())
             .collect();
-        let rf_n: Vec<Normal<f64>> =
-            rf_r.iter().map(|&r| Normal::new(0.0, r.sqrt()).unwrap()).collect();
+        let rf_n: Vec<Normal<f64>> = rf_r
+            .iter()
+            .map(|&r| Normal::new(0.0, r.sqrt()).unwrap())
+            .collect();
 
         let mut mean_err = [0.0_f64; 4];
         let mut nees_sum = 0.0_f64;
@@ -559,8 +563,7 @@ mod tests {
         assert!(
             a.nees_in_gate,
             "reverse-handoff NEES {} not in gate {:?}",
-            a.final_nees,
-            a.nees_gate
+            a.final_nees, a.nees_gate
         );
         // A round trip optical→RF→optical returns a tighter covariance than the loose RF
         // interlude (the tight bookends dominate): sanity that both directions compose.

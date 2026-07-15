@@ -18,7 +18,8 @@
 
 use kshana::cr3bp::{propagate_state_stm, Cr3bpState, EARTH_MOON_MU};
 
-const REF: &str = include_str!("fixtures/cr3bp_variational_stm/cr3bp_variational_stm_reference.txt");
+const REF: &str =
+    include_str!("fixtures/cr3bp_variational_stm/cr3bp_variational_stm_reference.txt");
 
 /// DOP853 (rtol=atol=1e-13) and kshana's fixed-step RK4 agree on Φ to ~1e-7 over these short arcs
 /// (the RK4 truncation with 8000 sub-steps is the honest, reported gap — NOT loosened to pass).
@@ -44,7 +45,10 @@ fn parse_cases(text: &str) -> Vec<Case> {
     let mut in_phi = false;
 
     let parse6 = |rest: &str| -> [f64; 6] {
-        let v: Vec<f64> = rest.split_whitespace().map(|s| s.parse().unwrap()).collect();
+        let v: Vec<f64> = rest
+            .split_whitespace()
+            .map(|s| s.parse().unwrap())
+            .collect();
         assert_eq!(v.len(), 6, "need 6 numbers");
         [v[0], v[1], v[2], v[3], v[4], v[5]]
     };
@@ -55,7 +59,14 @@ fn parse_cases(text: &str) -> Vec<Case> {
             // flush the previous case
             if let Some(nm) = name.take() {
                 assert_eq!(phi.len(), 6, "6 rows for {nm}");
-                cases.push(Case { name: nm, t, steps, state0, statef, phi: std::mem::take(&mut phi) });
+                cases.push(Case {
+                    name: nm,
+                    t,
+                    steps,
+                    state0,
+                    statef,
+                    phi: std::mem::take(&mut phi),
+                });
             }
             // "name t=<..> steps=<..>"
             let toks: Vec<&str> = rest.split_whitespace().collect();
@@ -77,13 +88,24 @@ fn parse_cases(text: &str) -> Vec<Case> {
             phi = Vec::new();
         } else if let Some(rest) = line.strip_prefix("ROW ") {
             if in_phi {
-                phi.push(rest.split_whitespace().map(|s| s.parse().unwrap()).collect());
+                phi.push(
+                    rest.split_whitespace()
+                        .map(|s| s.parse().unwrap())
+                        .collect(),
+                );
             }
         }
     }
     if let Some(nm) = name.take() {
         assert_eq!(phi.len(), 6, "6 rows for {nm}");
-        cases.push(Case { name: nm, t, steps, state0, statef, phi });
+        cases.push(Case {
+            name: nm,
+            t,
+            steps,
+            state0,
+            statef,
+            phi,
+        });
     }
     cases
 }
@@ -91,7 +113,11 @@ fn parse_cases(text: &str) -> Vec<Case> {
 #[test]
 fn cr3bp_stm_matches_scipy_variational_integration() {
     let cases = parse_cases(REF);
-    assert!(cases.len() >= 3, "expected >=3 STM cases, got {}", cases.len());
+    assert!(
+        cases.len() >= 3,
+        "expected >=3 STM cases, got {}",
+        cases.len()
+    );
 
     let mut worst_phi = 0.0_f64;
     let mut worst_state = 0.0_f64;
