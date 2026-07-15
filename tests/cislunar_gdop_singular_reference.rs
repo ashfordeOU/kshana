@@ -109,7 +109,10 @@ fn range_only_dro_snapshot_gdop_is_undefined_matching_numpy() {
     let f = parse_fixture(REF);
     assert!(f.states.len() >= 4, "need chief + 3 references");
     // numpy's own read of THIS geometry: rank-deficient, defect >= 2, condition non-finite.
-    assert!(!f.range_only_cond_finite, "numpy: range-only info matrix must be singular");
+    assert!(
+        !f.range_only_cond_finite,
+        "numpy: range-only info matrix must be singular"
+    );
     assert!(
         f.range_only_defect >= 2,
         "numpy: planar range-only defect must be >= 2, got {}",
@@ -131,7 +134,11 @@ fn range_only_dro_snapshot_gdop_is_undefined_matching_numpy() {
                 "kshana defect {defect} != numpy datum defect {}",
                 f.range_only_defect
             );
-            assert_eq!(rank + defect, N_PLANAR, "rank + defect must be the state dimension");
+            assert_eq!(
+                rank + defect,
+                N_PLANAR,
+                "rank + defect must be the state dimension"
+            );
         }
         CislunarGdop::Defined { gdop, .. } => {
             panic!("position-only DRO snapshot must be GDOP-undefined, got finite {gdop}")
@@ -143,8 +150,14 @@ fn range_only_dro_snapshot_gdop_is_undefined_matching_numpy() {
 #[test]
 fn range_rate_dro_snapshot_gdop_is_finite_matching_numpy() {
     let f = parse_fixture(REF);
-    assert!(f.range_rate_cond_finite, "numpy: range+rate info matrix must be full rank");
-    assert_eq!(f.range_rate_rank, N_PLANAR, "numpy: range+rate rank must be full");
+    assert!(
+        f.range_rate_cond_finite,
+        "numpy: range+rate info matrix must be full rank"
+    );
+    assert_eq!(
+        f.range_rate_rank, N_PLANAR,
+        "numpy: range+rate rank must be full"
+    );
     assert_eq!(f.range_rate_defect, 0);
 
     let chief = f.states[0];
@@ -153,7 +166,10 @@ fn range_rate_dro_snapshot_gdop_is_finite_matching_numpy() {
     match cislunar_gdop(&rows, REL_TOL) {
         CislunarGdop::Defined { gdop, rank } => {
             assert_eq!(rank, N_PLANAR, "full observability");
-            assert!(gdop.is_finite() && gdop > 0.0, "finite positive GDOP, got {gdop}");
+            assert!(
+                gdop.is_finite() && gdop > 0.0,
+                "finite positive GDOP, got {gdop}"
+            );
             eprintln!(
                 "cislunar_gdop_singular_reference: range-only rank {} (defect {}) → GDOP undefined; \
                  range+rate rank {} → GDOP {:.4} (numpy-cross-checked)",

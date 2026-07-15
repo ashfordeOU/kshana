@@ -153,8 +153,7 @@ pub mod ids {
     pub const CISLUNAR_OBSERVABILITY: ScenarioId =
         ScenarioId::from_static("cislunar-observability");
     pub const CONFLICT_RESILIENCE: ScenarioId = ScenarioId::from_static("conflict-resilience");
-    pub const LUNAR_ATTACK_SURFACE: ScenarioId =
-        ScenarioId::from_static("lunar-attack-surface");
+    pub const LUNAR_ATTACK_SURFACE: ScenarioId = ScenarioId::from_static("lunar-attack-surface");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {

@@ -43,7 +43,11 @@ fn parse_predicted_reads_the_real_future_rows() {
     // Each predicted row carries a finite, physically-plausible predicted UT1-UTC (~0.017 s).
     for p in &preds {
         assert!(p.ut1_utc_s.is_finite());
-        assert!(p.ut1_utc_s.abs() < 1.0, "predicted UT1 {} implausible", p.ut1_utc_s);
+        assert!(
+            p.ut1_utc_s.abs() < 1.0,
+            "predicted UT1 {} implausible",
+            p.ut1_utc_s
+        );
     }
     // The scenario summary path reports the same real prediction rows.
     let s = predicted_rows_summary(FIXTURE_2026);
@@ -91,14 +95,25 @@ fn vintage_differencing_residual_is_sub_10ms_on_real_rows() {
         }
         as_issued.push('\n');
     }
-    assert!(predicted_rows_summary(&as_issued).n > 0, "as-issued must have prediction rows");
+    assert!(
+        predicted_rows_summary(&as_issued).n > 0,
+        "as-issued must have prediction rows"
+    );
 
     let resid = predicted_vs_final_ut1(
         &as_issued,
         later,
-        &[Horizon::Days(1), Horizon::Days(2), Horizon::Days(5), Horizon::Days(10)],
+        &[
+            Horizon::Days(1),
+            Horizon::Days(2),
+            Horizon::Days(5),
+            Horizon::Days(10),
+        ],
     );
-    assert!(!resid.is_empty(), "no vintage-differenced residuals produced");
+    assert!(
+        !resid.is_empty(),
+        "no vintage-differenced residuals produced"
+    );
     for e in &resid {
         assert!(e.n >= 1);
         assert!(e.rms_s.is_finite() && e.rms_s >= 0.0);
@@ -110,5 +125,8 @@ fn vintage_differencing_residual_is_sub_10ms_on_real_rows() {
             e.rms_ms()
         );
     }
-    eprintln!("vintage-differenced predicted-vs-final residuals: {} horizons", resid.len());
+    eprintln!(
+        "vintage-differenced predicted-vs-final residuals: {} horizons",
+        resid.len()
+    );
 }

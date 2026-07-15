@@ -1622,77 +1622,132 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 .map_err(|e| format!("invalid impairment-eval scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
-            Ok(RunOutput { json, svg, summary, csv: None })
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
         }
         ScenarioKind::QuantumTrade => {
             let scn: crate::quantum_trade::QuantumTradeScenario =
                 toml::from_str(src).map_err(|e| format!("invalid quantum-trade scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
-            Ok(RunOutput { json, svg, summary, csv: None })
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
         }
         ScenarioKind::SpaceWeather => {
             let scn: crate::space_weather::SpaceWeatherScenario =
                 toml::from_str(src).map_err(|e| format!("invalid space-weather scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
-            Ok(RunOutput { json, svg, summary, csv: None })
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
         }
         ScenarioKind::OemInterop => {
             let scn: crate::oem::OemInteropScenario =
                 toml::from_str(src).map_err(|e| format!("invalid oem-interop scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
-            Ok(RunOutput { json, svg, summary, csv: None })
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
         }
         ScenarioKind::LaunchWindow => {
             let scn: crate::launch::LaunchWindowScenario =
                 toml::from_str(src).map_err(|e| format!("invalid launch-window scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
-            Ok(RunOutput { json, svg, summary, csv: None })
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
         }
         ScenarioKind::Reentry => {
             let scn: crate::reentry::ReentryScenario =
                 toml::from_str(src).map_err(|e| format!("invalid reentry scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
-            Ok(RunOutput { json, svg, summary, csv: None })
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
         }
         ScenarioKind::EoCoverage => {
             let scn: crate::eo_payload::EoCoverageScenario =
                 toml::from_str(src).map_err(|e| format!("invalid eo-coverage scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
-            Ok(RunOutput { json, svg, summary, csv: None })
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
         }
         ScenarioKind::SpacePacket => {
             let scn: crate::space_packet::SpacePacketScenario =
                 toml::from_str(src).map_err(|e| format!("invalid space-packet scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
-            Ok(RunOutput { json, svg, summary, csv: None })
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
         }
         ScenarioKind::AttitudeBudget => {
             let scn: crate::attitude_budget::AttitudeBudgetScenario = toml::from_str(src)
                 .map_err(|e| format!("invalid attitude-budget scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
-            Ok(RunOutput { json, svg, summary, csv: None })
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
         }
         ScenarioKind::Passes => {
             let scn: crate::passes::PassesScenario =
                 toml::from_str(src).map_err(|e| format!("invalid passes scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
-            Ok(RunOutput { json, svg, summary, csv: None })
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
         }
         ScenarioKind::LinkBudget => {
             let scn: crate::linkbudget::LinkBudgetScenario =
                 toml::from_str(src).map_err(|e| format!("invalid link-budget scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
-            Ok(RunOutput { json, svg, summary, csv: None })
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
         }
         ScenarioKind::LunarTimeBudget => {
             let scn: crate::lunar_time_budget_scenario::LunarTimeBudgetScenario =
@@ -1700,7 +1755,12 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                     .map_err(|e| format!("invalid lunar-time-budget scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
-            Ok(RunOutput { json, svg, summary, csv: None })
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
         }
         ScenarioKind::RealtimeFrameEop => {
             let scn: crate::realtime_frame_eop::RealtimeFrameEopScenario = toml::from_str(src)
@@ -1710,27 +1770,47 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
             // artifact, so a plain scenario run produces the file the paper cites (not
             // only the #[ignore] golden-regen test).
             let csv = Some(scn.to_csv()?);
-            Ok(RunOutput { json, svg, summary, csv })
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv,
+            })
         }
         ScenarioKind::HybridOpticalRf => {
             let scn: crate::hybrid_integrity::HybridOpticalRfScenario = toml::from_str(src)
                 .map_err(|e| format!("invalid hybrid-optical-rf scenario: {e}"))?;
             let (json, summary, svg) = scn.run_output()?;
-            Ok(RunOutput { json, svg, summary, csv: None })
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
         }
         ScenarioKind::CislunarObservability => {
             let scn: crate::cislunar_observability::CislunarObservabilityScenario =
                 toml::from_str(src)
                     .map_err(|e| format!("invalid cislunar-observability scenario: {e}"))?;
             let (json, summary, svg) = scn.run_output()?;
-            Ok(RunOutput { json, svg, summary, csv: None })
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
         }
         ScenarioKind::ConflictResilience => {
             let scn: crate::conflict_resilience::ConflictResilienceScenario =
                 toml::from_str(src)
                     .map_err(|e| format!("invalid conflict-resilience scenario: {e}"))?;
             let (json, summary, svg) = scn.run_output()?;
-            Ok(RunOutput { json, svg, summary, csv: None })
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
         }
         ScenarioKind::LunarAttackSurface => {
             let scn: crate::attack_surface::LunarAttackSurfaceScenario = toml::from_str(src)

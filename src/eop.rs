@@ -291,7 +291,10 @@ mod tests {
         let a = parse_line(ROW_59580).expect("row parses");
         assert!((a.xp_arcsec - 0.054644).abs() < 1e-12);
         assert!((a.yp_arcsec - 0.276986).abs() < 1e-12);
-        assert!((a.xp_arcsec - xp).abs() > 1e-9, "rapid and final x_p must differ");
+        assert!(
+            (a.xp_arcsec - xp).abs() > 1e-9,
+            "rapid and final x_p must differ"
+        );
     }
 
     #[test]
