@@ -57,13 +57,17 @@ fn perturbed_service_volume_dispatches_end_to_end() {
     );
     let v: serde_json::Value = serde_json::from_str(&out.json).expect("report is valid JSON");
     assert_eq!(
-        v["perturbed"], serde_json::Value::Bool(true),
+        v["perturbed"],
+        serde_json::Value::Bool(true),
         "the perturbed run must flag perturbed=true in its JSON: {}",
         out.json
     );
     // The sweep actually ran over the perturbed geometry: real, finite headline numbers.
     let cov = v["coverage_pct"].as_f64().expect("coverage_pct");
-    assert!((0.0..=100.0).contains(&cov), "coverage_pct out of range: {cov}");
+    assert!(
+        (0.0..=100.0).contains(&cov),
+        "coverage_pct out of range: {cov}"
+    );
     assert!(v["n_epochs"].as_u64().unwrap() >= 1);
     assert!(v["n_sats"].as_u64().unwrap() == 6);
 }
@@ -111,8 +115,11 @@ fn perturbed_geometry_is_materially_different_from_keplerian() {
             )
         })
         .collect();
-    let perturbed =
-        PerturbedConstellation::new(states0, LunarPerturbations::elfo_full(), default_tolerance());
+    let perturbed = PerturbedConstellation::new(
+        states0,
+        LunarPerturbations::elfo_full(),
+        default_tolerance(),
+    );
 
     let t = 12.0 * 3600.0;
     let pi = idealized.positions_mcmf(t);

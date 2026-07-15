@@ -24,7 +24,8 @@
 
 use kshana::lunar_perturbed::{default_tolerance, propagate, LunarPerturbations, LunarState};
 
-const REF: &str = include_str!("fixtures/lunar_perturbed_scipy/lunar_perturbed_scipy_reference.txt");
+const REF: &str =
+    include_str!("fixtures/lunar_perturbed_scipy/lunar_perturbed_scipy_reference.txt");
 
 /// Two high-order adaptive integrators at rtol ~1e-12 on the same ODE agree far better than a
 /// metre over ~1.8 orbits of a ~6500 km orbit; a 1 m bound stays inside that while a dropped or
@@ -69,7 +70,11 @@ fn parse() -> Fixture {
             _ => {}
         }
     }
-    assert!(samples.len() >= 5, "expected >=5 samples, got {}", samples.len());
+    assert!(
+        samples.len() >= 5,
+        "expected >=5 samples, got {}",
+        samples.len()
+    );
     Fixture { r0, v0, samples }
 }
 
@@ -115,7 +120,12 @@ fn c22_term_materially_affects_the_trajectory() {
     let state0 = LunarState { r: fx.r0, v: fx.v0 };
     let tol = default_tolerance();
     let t_end = fx.samples.last().unwrap().0;
-    let with_c22 = propagate(&state0, t_end, &LunarPerturbations::j2_only().with_c22(true), &tol);
+    let with_c22 = propagate(
+        &state0,
+        t_end,
+        &LunarPerturbations::j2_only().with_c22(true),
+        &tol,
+    );
     let no_c22 = propagate(&state0, t_end, &LunarPerturbations::j2_only(), &tol);
     let d = ((with_c22.r[0] - no_c22.r[0]).powi(2)
         + (with_c22.r[1] - no_c22.r[1]).powi(2)
@@ -123,5 +133,8 @@ fn c22_term_materially_affects_the_trajectory() {
     .sqrt();
     // C22 (~2e-5) over ~1.8 orbits shifts the position by many metres — well above POS_TOL_M,
     // so the scipy match is a genuine C22-inclusive check, not insensitive to it.
-    assert!(d > 10.0, "C22 changed the trajectory by only {d} m — oracle would be C22-blind");
+    assert!(
+        d > 10.0,
+        "C22 changed the trajectory by only {d} m — oracle would be C22-blind"
+    );
 }

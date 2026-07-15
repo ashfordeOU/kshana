@@ -28,8 +28,7 @@
 
 use kshana::lunar_frame_predict::{predict_frame_error, propagate_covariance, OdCovariance};
 
-const REF: &str =
-    include_str!("fixtures/lunar_frame_predict_covprop/covprop_reference.txt");
+const REF: &str = include_str!("fixtures/lunar_frame_predict_covprop/covprop_reference.txt");
 
 /// NumPy's `@` and kshana's scalar expansion are the same IEEE-754 double operations up to
 /// evaluation order; agreement to a few ULP is expected. A tight relative bound of 1e-12 with a
@@ -84,7 +83,11 @@ fn parse_cases() -> Vec<Case> {
             postproc_time_ns: f(12),
         });
     }
-    assert!(cases.len() >= 5, "expected >=5 oracle cases, got {}", cases.len());
+    assert!(
+        cases.len() >= 5,
+        "expected >=5 oracle cases, got {}",
+        cases.len()
+    );
     cases
 }
 

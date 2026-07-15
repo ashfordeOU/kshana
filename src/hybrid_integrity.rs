@@ -764,9 +764,15 @@ mod tests {
         // The pinned shared quantities the pro G5 study must reconcile with (fixed default
         // config, two-way return-path handling ON). Tight tolerances — these are the contract.
         let footprint = ol["footprint_m"].as_f64().unwrap();
-        assert!((footprint - 700.2352941176471).abs() < 1e-6, "footprint {footprint}");
+        assert!(
+            (footprint - 700.2352941176471).abs() < 1e-6,
+            "footprint {footprint}"
+        );
         let photons = ol["detected_photons"].as_f64().unwrap();
-        assert!((photons - 1489.439014904476).abs() < 1e-6, "photons {photons}");
+        assert!(
+            (photons - 1489.439014904476).abs() < 1e-6,
+            "photons {photons}"
+        );
         let ranging = ol["optical_ranging_sigma_m"].as_f64().unwrap();
         assert!(
             (ranging - 0.00019420005507534736).abs() < 1e-12,
@@ -779,9 +785,15 @@ mod tests {
         );
         assert!(ol["two_way"].as_bool().unwrap(), "two-way path ON");
         let geo_loss = ol["geometric_loss_db"].as_f64().unwrap();
-        assert!((geo_loss - 58.31650142218474).abs() < 1e-9, "geo loss {geo_loss}");
+        assert!(
+            (geo_loss - 58.31650142218474).abs() < 1e-9,
+            "geo loss {geo_loss}"
+        );
         let score = v["joint_fom"]["score"].as_f64().unwrap();
-        assert!((score - 0.9926615252602455).abs() < 1e-12, "FoM score {score}");
+        assert!(
+            (score - 0.9926615252602455).abs() < 1e-12,
+            "FoM score {score}"
+        );
     }
 
     /// Tightening the optical link (more photons via a bigger aperture / more power) lowers

@@ -22,7 +22,7 @@
 
 use kshana::deepspace_od::Srif;
 use kshana::intersat_range::{range_row, PlanarState};
-use kshana::observability_gramian::{observability_matrix, ObsEpoch, Mat, N_PLANAR};
+use kshana::observability_gramian::{observability_matrix, Mat, ObsEpoch, N_PLANAR};
 
 const REF: &str =
     include_str!("fixtures/cislunar_srif_batch_ls/cislunar_srif_batch_ls_reference.txt");
@@ -83,23 +83,36 @@ fn parse_fixture(text: &str) -> Fixture {
         } else if let Some(rest) = line.strip_prefix("# REF ") {
             reference = Some(parse_state4(&rest.split_whitespace().collect::<Vec<_>>()));
         } else if let Some(rest) = line.strip_prefix("# DTS ") {
-            dts = rest.split_whitespace().map(|s| s.parse().unwrap()).collect();
+            dts = rest
+                .split_whitespace()
+                .map(|s| s.parse().unwrap())
+                .collect();
         } else if let Some(rest) = line.strip_prefix("# MATRIX ") {
             finish(&mut cur, &mut phis, &mut p_unit);
             let name = rest.split_whitespace().next().unwrap().to_string();
             cur = Some((name, Vec::new()));
         } else if let Some(rest) = line.strip_prefix("ROW ") {
             if let Some((_, m)) = cur.as_mut() {
-                m.push(rest.split_whitespace().map(|s| s.parse().unwrap()).collect());
+                m.push(
+                    rest.split_whitespace()
+                        .map(|s| s.parse().unwrap())
+                        .collect(),
+                );
             }
         } else if let Some(rest) = line.strip_prefix("# COND_N_UNIT ") {
             cond_n_unit = Some(rest.trim().parse().unwrap());
         } else if let Some(rest) = line.strip_prefix("# LSTSQ_RANK ") {
             lstsq_rank = Some(rest.trim().parse().unwrap());
         } else if let Some(rest) = line.strip_prefix("# LSTSQ_INJECTED_DS0 ") {
-            injected = rest.split_whitespace().map(|s| s.parse().unwrap()).collect();
+            injected = rest
+                .split_whitespace()
+                .map(|s| s.parse().unwrap())
+                .collect();
         } else if let Some(rest) = line.strip_prefix("# LSTSQ_RECOVERED_DS0 ") {
-            recovered = rest.split_whitespace().map(|s| s.parse().unwrap()).collect();
+            recovered = rest
+                .split_whitespace()
+                .map(|s| s.parse().unwrap())
+                .collect();
         }
     }
     finish(&mut cur, &mut phis, &mut p_unit);

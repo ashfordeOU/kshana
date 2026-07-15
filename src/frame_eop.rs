@@ -360,12 +360,14 @@ pub fn predicted_rows_summary(body: &str) -> PredictedRowsSummary {
     let mjds: Vec<f64> = preds.iter().map(|r| r.mjd).collect();
     PredictedRowsSummary {
         n: preds.len(),
-        first_mjd: mjds.iter().cloned().fold(None, |acc, m| {
-            Some(acc.map_or(m, |a: f64| a.min(m)))
-        }),
-        last_mjd: mjds.iter().cloned().fold(None, |acc, m| {
-            Some(acc.map_or(m, |a: f64| a.max(m)))
-        }),
+        first_mjd: mjds
+            .iter()
+            .cloned()
+            .fold(None, |acc, m| Some(acc.map_or(m, |a: f64| a.min(m)))),
+        last_mjd: mjds
+            .iter()
+            .cloned()
+            .fold(None, |acc, m| Some(acc.map_or(m, |a: f64| a.max(m)))),
     }
 }
 
@@ -1139,7 +1141,10 @@ mod tests {
         );
         curve.reverse(); // scramble slice order
         let (_f, far_days) = growth_annotation(&curve).expect("annotation present");
-        assert_eq!(far_days, 10.0, "must pick the largest day VALUE (10), not index");
+        assert_eq!(
+            far_days, 10.0,
+            "must pick the largest day VALUE (10), not index"
+        );
     }
 
     // ---- G7: polar-motion residual curve + polar_motion_position_error (real data) ----
@@ -1151,7 +1156,7 @@ mod tests {
     fn polar_motion_position_error_matches_cio_rotation() {
         let dxp = crate::frames::arcsec(0.02); // 20 mas
         let dyp = crate::frames::arcsec(0.015); // 15 mas
-        // Pure pole projection equals the combined budget with ΔUT1 = 0.
+                                                // Pure pole projection equals the combined budget with ΔUT1 = 0.
         let pm = polar_motion_position_error(dxp, dyp);
         assert!((pm - frame_position_error_at_moon(0.0, dxp, dyp)).abs() < 1e-12);
         // Single-axis matches the cio rotation of a Moon-distance vector to < 0.5 %.
@@ -1164,7 +1169,10 @@ mod tests {
         let disp =
             ((r1[0] - r0[0]).powi(2) + (r1[1] - r0[1]).powi(2) + (r1[2] - r0[2]).powi(2)).sqrt();
         let closed = polar_motion_position_error(dxp, 0.0);
-        assert!((disp - closed).abs() / closed < 5e-3, "cio {disp} vs closed {closed}");
+        assert!(
+            (disp - closed).abs() / closed < 5e-3,
+            "cio {disp} vs closed {closed}"
+        );
     }
 
     // ORACLE: IERS-published Bulletin A/B polar-motion accuracy. The rapid-minus-final pole
@@ -1176,9 +1184,19 @@ mod tests {
     fn pm_prediction_error_curve_from_real_data_in_iers_band() {
         let curve = pm_prediction_error_vs_horizon(
             FIXTURE_2026,
-            &[Horizon::Final, Horizon::Days(1), Horizon::Days(2), Horizon::Days(5)],
+            &[
+                Horizon::Final,
+                Horizon::Days(1),
+                Horizon::Days(2),
+                Horizon::Days(5),
+            ],
         );
-        let get = |h: Horizon| *curve.iter().find(|e| e.horizon == h).expect("horizon present");
+        let get = |h: Horizon| {
+            *curve
+                .iter()
+                .find(|e| e.horizon == h)
+                .expect("horizon present")
+        };
         // rms_s carries ARC SECONDS for the PM curve; ×1e3 → mas.
         let floor_mas = get(Horizon::Final).rms_s * 1e3;
         let d1_mas = get(Horizon::Days(1)).rms_s * 1e3;
@@ -1301,14 +1319,22 @@ mod tests {
             later,
             &[Horizon::Days(1), Horizon::Days(2), Horizon::Days(5)],
         );
-        assert!(!resid.is_empty(), "vintage differencing produced no residuals");
+        assert!(
+            !resid.is_empty(),
+            "vintage differencing produced no residuals"
+        );
         for e in &resid {
             // Each residual is a real Bulletin-A-predicted minus Bulletin-B-final difference,
             // a positive, finite, sub-second UT1 quantity.
             assert!(e.rms_s.is_finite() && e.rms_s >= 0.0);
             assert!(e.n >= 1, "at least one matched predicted→final pair");
             // Sub-10-ms: real rapid/predicted UT1 tracks the final to well under 10 ms.
-            assert!(e.rms_ms() < 10.0, "{:?} residual {} ms implausibly large", e.horizon, e.rms_ms());
+            assert!(
+                e.rms_ms() < 10.0,
+                "{:?} residual {} ms implausibly large",
+                e.horizon,
+                e.rms_ms()
+            );
         }
     }
 }
