@@ -1,7 +1,7 @@
 {
   "name": "kshana",
   "displayName": "Kshana PNT-resilience simulator",
-  "version": "0.24.0",
+  "version": "0.25.0",
   "description": "Run the validated Kshana PNT-resilience engine from an AI agent — SGP4/SDP4, IAU frames, GNSS availability/DOP/ARAIM, Allan/MTIE timing, GNSS-INS fusion and quantum-sensor models. The agent calls the real, externally-validated engine instead of guessing the math. Requires the kshana-mcp server on PATH (cargo install kshana-mcp) or Docker.",
   "author": {
     "name": "Ashforde OÜ",
