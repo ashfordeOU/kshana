@@ -54,6 +54,14 @@ crate-type = ["rlib", "cdylib"]
 name = "kshana"
 path = "src/main.rs"
 
+[lints.rust]
+# `cargo-tarpaulin` injects `--cfg=tarpaulin` when it builds for coverage. The tests
+# read `cfg!(tarpaulin)` to run a lighter sample of the expensive scenario fuzzer under
+# instrumentation (the full sample still runs in the plain `cargo test` gate). Declare
+# it as a known cfg so the `unexpected_cfgs` lint (promoted to an error by the CI's
+# `clippy -D warnings`) does not flag that use.
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(tarpaulin)'] }
+
 [dependencies]
 rand = "0.8"
 rand_chacha = "0.3"
