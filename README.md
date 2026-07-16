@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-  <a href="https://ashfordeou.github.io/kshana/"><img src="https://img.shields.io/badge/playground-try%20in%20browser-c79e63" alt="Live playground — run in your browser, no install"></a>
+  <a href="https://kshana.dev"><img src="https://img.shields.io/badge/playground-try%20in%20browser-c79e63" alt="Live playground — run in your browser, no install"></a>
   <a href="tests/sgp4_verification.rs"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%204.12mm-3fb950" alt="SGP4 validated against all 666 AIAA 2006-6753 vectors, worst 4.12 mm"></a>
   <a href="#validation-at-a-glance"><img src="https://img.shields.io/badge/validated-56%20external%20oracles-3fb950" alt="56 capabilities validated against independent external oracles (real data, independent libraries, or published reference vectors); 42 more are honestly labelled MODELLED and 4 are PARTNER-owned — see Validation at a glance"></a>
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/coverage-~96%25%20line-3fb950" alt="~96% line coverage on src/ (cargo-tarpaulin LLVM engine), gated at 85% in CI"></a>
@@ -53,13 +53,13 @@ citable table in [`docs/PROVENANCE.md`](docs/PROVENANCE.md).
 <p align="center"><em><strong>Validated, not asserted.</strong> &nbsp;666/666 AIAA SGP4 vectors to <strong>4.12&nbsp;mm</strong> · Cowell force model <strong>0.08&nbsp;m</strong> vs Orekit&nbsp;12.2 · Galileo <strong>0.61&nbsp;m</strong> / Swarm-A <strong>0.10&nbsp;m</strong> vs real ESA precise ephemerides · GCRS→ITRS bit-for-bit vs SOFA/ERFA · ML metrics exact vs scikit-learn · <strong>56 of 102</strong> capabilities validated against independent external oracles; 42 honestly labelled Modelled.</em></p>
 
 <p align="center">
-  <img src="docs/assets/diagrams/system-overview.png" alt="Kshana system overview: five front doors (CLI, Python wheel, WebAssembly playground, MCP server, JetBrains plugin) converge on a single api::run_toml dispatch over 47 scenario kinds, through the engine (shared core, sensor packs and astrodynamics, integrity/fusion/lunar/deep-space/resilience), to a reproducible result.json + chart.svg" width="840">
+  <img src="docs/assets/diagrams/system-overview.png" alt="Kshana system overview: five front doors (CLI, Python wheel, WebAssembly playground, MCP server, JetBrains plugin) converge on a single api::run_toml dispatch over 50 scenario kinds, through the engine (shared core, sensor packs and astrodynamics, integrity/fusion/lunar/deep-space/resilience), to a reproducible result.json + chart.svg" width="840">
   <br><sub>One engine, five front doors · <a href="docs/assets/diagrams/system-overview.svg">SVG</a></sub>
 </p>
 
 ### Validated against external oracles — every row CI-gated
 
-Each row is checked against an **independent external oracle** (real dataset, independent reference implementation, or published reference vectors) and re-checked in CI. [Full 91-row matrix →](#validation-at-a-glance)
+Each row is checked against an **independent external oracle** (real dataset, independent reference implementation, or published reference vectors) and re-checked in CI. [Full 102-row matrix →](#validation-at-a-glance)
 
 | | Capability | Result | External oracle |
 |---|---|---|---|
@@ -198,7 +198,7 @@ The full domain-by-domain detail follows; for a per-capability maturity ledger s
 | **Time systems & reference frames** | IERS leap-second **UTC / TAI / TT / UT1** scales, a Julian-date API, the IAU-2000 **Earth Rotation Angle**, GMST-based **TEME ↔ ECEF** with WGS-84 geodetic frames, IAU 2006 precession (Fukushima–Williams), full **IAU 2000A/2000B nutation**, IERS **polar motion**, and the equinox-free **CIO-based IAU 2006/2000A GCRS↔ITRS** reduction — all validated **bit-for-bit** against the SOFA/ERFA vectors, and **independently cross-checked against ANISE** (the pure-Rust NAIF/SPICE reimplementation): kshana's GCRS→ITRS vs ANISE's ITRF93 from JPL's `earth_latest_high_prec.bpc`, the same IERS Earth-orientation parameters fed to both, agree to **≤ 0.86 m on the ground / ≤ 3.6 m at GNSS orbit** (max 0.028″) across eight epochs 2020–2023. |
 | **Inertial** | Three-axis strapdown INS — quaternion attitude, WGS-84 NED mechanization, coning/sculling compensation, and a deterministic IMU error model (scale-factor, misalignment, g-sensitivity, quantization, drift); a **first-principles cold-atom-interferometer accelerometer** (Mach–Zehnder phase, quantum projection noise, contrast decay, vibration coupling) that *derives* the velocity-random-walk coefficient; and a sequential-importance-resampling **particle filter** for map-aided (terrain-/gravity-referenced) GPS-denied navigation. |
 | **Alt-PNT (GPS-denied)** | A cold-atom **gravimeter measurement model** whose white-noise floor (`σ = ASD/√τ`) is derived from the CAI accelerometer physics; a low-degree, fully-normalised **spherical-harmonic gravity-anomaly field** (checked against the closed-form Legendre functions and a hand-derived single-term anomaly) plus synthetic mascons; the **gravity-functional synthesis kernel** (`gravity_sh::gravity_magnitude` / `gravity_disturbance_mgal`) — the "map reader" a gravity-aided navigator matches against — is validated against the **GRS80 normal-gravity standard**, reproducing the closed-form Somigliana normal gravity and the published γ_e / γ_p to **3.5e-12** and producing a physically-bounded disturbance map from the real ICGEM **EGM2008** field (RMS ≈ 26 mGal, max ≈ 89 mGal at d/o 70; `tests/icgem_gravity_reference.rs`); and a **gravity-map-matching particle filter** that recovers a GPS-denied track from the anomaly sequence it flies through. It extends to **terrain-referenced navigation** (TERCOM/SITAN against an SRTM `.hgt` DEM, `src/altpnt/terrain.rs`), an **IGRF-14 geomagnetic main field** to degree/order 13 (`src/igrf.rs`, checked against the tilted-dipole closed form and ∇V finite differences), and a **combined gravity + magnetic + terrain** navigator that fuses all three scalar channels through one particle filter (information is additive — no channel makes the fix worse). A **60-minute GPS-denied benchmark** (a ~700 km / one-hour outage where the inertial solution drifts to ~70 km) is recovered to **~145 m (< 500 m)** by a hierarchical coarse-to-fine matcher — the ESA NAVISP *Quantum Wayfarer* target. |
-| **Fusion** | Loosely-coupled 15-state GNSS/INS error-state EKF with closed-loop feedback (the `gnss-ins` pack); a **tightly-coupled** pseudorange update that keeps correcting with fewer than four satellites; a coupled **clock + position** filter; a general **unscented (sigma-point) Kalman** estimator for strongly nonlinear measurements; a tightly-coupled GNSS/INS **UKF navigator** (pseudorange + Doppler) whose force-model orbital coast is validated to **0.77 m RMS** over a 30-minute curving LEO pass that includes a 120-second GNSS outage; and a full **17-state tightly-coupled GNSS/INS UKF** (position, velocity, attitude error, accelerometer and gyro biases, clock bias and drift) whose **quantum-CAI dead-reckoning** coasts a 120-second outage on the cold-atom accelerometer's derived velocity-random-walk. |
+| **Fusion** | Loosely-coupled 15-state GNSS/INS error-state EKF with closed-loop feedback (the `gnss-ins` pack); a **tightly-coupled** pseudorange update that keeps correcting with fewer than four satellites; a coupled **clock + position** filter; a general **unscented (sigma-point) Kalman** estimator for strongly nonlinear measurements; a tightly-coupled GNSS/INS **UKF navigator** (pseudorange + Doppler) whose force-model orbital coast is self-consistency-checked to **0.77 m RMS** over a 30-minute curving LEO pass that includes a 120-second GNSS outage (a filter-consistency figure, not an external-oracle validation — this navigator stays MODELLED); and a full **17-state tightly-coupled GNSS/INS UKF** (position, velocity, attitude error, accelerometer and gyro biases, clock bias and drift) whose **quantum-CAI dead-reckoning** coasts a 120-second outage on the cold-atom accelerometer's derived velocity-random-walk. |
 | **Orbit determination** | Recovery of an orbital state `[r, v]` from ground-station range tracking, composing the two-body + J2 force model and RK4 integrator with a **Gauss–Newton batch** corrector (`determine_orbit_batch`, sub-metre / mm·s⁻¹ from noiseless ranges, ~2 m at a 5 m noise floor) and a **sequential** unscented-filter variant (`determine_orbit_sequential`). |
 | **Observability & estimation theory** | A general, reusable **Fisher-information / Cramér–Rao** layer (`src/fim.rs`): the information matrix M = HᵀWH, the **Cramér–Rao lower bound**, observability **rank and datum-defect null space** (Moore–Penrose pseudo-inverse), and **D/A/E/T-optimal** experiment-design scalars from a symmetric Jacobi eigensolver. **Validated** — eigenvalues vs `numpy.linalg.eigh`, the CRLB covariance vs σ²(XᵀX)⁻¹ via `numpy.linalg.inv`, and GNSS DOP from the information matrix, all matched to **1e-9** (`tests/fim_observability_reference.rs`), and additionally cross-checked against the **Kay (1993)** closed-form bounds with Monte-Carlo CRLB attainment. It underpins the DOP engine, the passive-geolocation CRLB, and the lunar absolute-station **observability theorem** (below). |
 | **Lunar & cislunar** | An Earth–Moon **circular restricted three-body (CR3BP)** propagator in the rotating frame — conserved Jacobi constant and all five Lagrange points (`src/cr3bp.rs`) — now with a **6×6 state-transition matrix and a single-shooting differential corrector** (`cr3bp_jacobian`, `propagate_state_stm`, `differential_correct_halo`) that produces genuinely periodic **halo / NRHO** orbits: the STM is validated against finite differences, corrected orbits close to machine precision, and seeding the published apolune state reproduces the **L2 southern 9:2 NRHO** (the Gateway orbit) at period ≈ 6.57 d / perilune ≈ 3,250 km, consistent with the published ≈ 6.56 d / ≈ 3,370 km (a CR3BP — circular, Sun-free — solution, **not** validated against a real LANS/Gateway ephemeris; the selenocentric MCI/MCMF transform of the corrected orbit is a follow-on); plus **LunaNet / LNIS** cislunar PNT geometry (MCI↔MCMF reduction, selenographic coordinates) with a **lunar south-pole ARAIM** pass that honestly surfaces the integrity gap: a ~30 m σ_URE drives the protection level well above a 50 m alert limit (`src/lunar.rs`, `scenarios/lunanet-araim.toml`); and a **surface-beacon DOP augmentation** (`src/lunar_beacon.rs`) showing how a few surveyed surface ranging beacons supply the low-elevation, wide-azimuth line-of-sight rows an all-overhead orbit-only set lacks — collapsing the ill-conditioned south-polar GDOP and, via a root-sum-square error budget, the realized position accuracy in metres (reusing the gnss_lib_py-validated DOP kernel and the airless-horizon visibility closed form; the dilution-of-precision analysis is written up in [arXiv:2607.06212](https://arxiv.org/abs/2607.06212)). |
@@ -491,7 +491,7 @@ address-bar fragment.
 [![kshana MCP server](https://glama.ai/mcp/servers/ashfordeOU/kshana/badges/card.svg)](https://glama.ai/mcp/servers/ashfordeOU/kshana)
 
 Kshana ships an [MCP](https://modelcontextprotocol.io) server, [`kshana-mcp`](mcp/kshana-mcp/),
-so AI assistants and agents can run the **validated** engine instead of guessing the
+so AI assistants and agents can run the **actual** engine instead of guessing the
 math — usable from **Cursor, JetBrains AI Assistant / Junie, and any MCP-compatible
 assistant or agent**. It exposes `run_scenario`, `list_scenario_kinds`,
 `validate_scenario`, `export_sp3`, and `export_omm` (each a thin wrapper over
@@ -518,7 +518,7 @@ plugin from the JetBrains Marketplace (or *Settings → Plugins → Marketplace 
 
 ## Scenario format
 
-Scenarios are declarative TOML. A top-level `kind` selects the pack — **forty-four** in
+Scenarios are declarative TOML. A top-level `kind` selects the pack — **fifty** in
 all (`clock` is the default if omitted): `inertial`, `timetransfer`, `hybrid`, `hybrid-ukf`, `fusion`,
 `gnss-ins`, `orbit`, `ephemeris`, `gnss-sim`, `integrity`, `lunar-integrity`, `lunar-time-offset`, `spoof`,
 `spoof-detect`, `jamming`, `sweep`, `sweep-nd`, `gravity-map`, `terrain-nav`, `terrain-slam`,
@@ -538,9 +538,12 @@ plane-change / opportunities), `reentry` (Allen-Eggers ballistic re-entry corrid
 access), and `link-budget` (one-way CCSDS/DSN link equation — FSPL / Eb·N₀ /
 margin / closure); the **lunar-PNT suite** `lunar-vlbi`, `lunar-joint-od-clock`,
 `lunar-frame-realisation`, `moonlight-service-volume`, `lunar-differential-pnt`,
-`lunar-interop-export`; and the **Quantum-Enabled PNT demonstrator**
-`quantum-time-transfer`, `quantum-gnss-free-nav`, `quantum-anomaly-detect` — the
-mission-analysis trio and these later kinds all MODELLED.
+`lunar-interop-export`; the **Quantum-Enabled PNT demonstrator**
+`quantum-time-transfer`, `quantum-gnss-free-nav`, `quantum-anomaly-detect`; and the
+**signal-security, cislunar & layered-resilience** research kinds `lunar-attack-surface`,
+`realtime-frame-eop`, `lunar-time-budget`, `hybrid-optical-rf`, `cislunar-observability`,
+`conflict-resilience` — the mission-analysis trio and these later kinds all MODELLED
+(each with a validated closed-form core; see the matrix).
 Common fields: `seed`, a `[time]` grid, a `[gnss]` availability timeline (the outage
 driver), and per-sensor blocks with `provenance` strings citing the source of every
 figure. Example (clock):
@@ -707,7 +710,7 @@ paper-clock). **MODELLED** — the headline figure is *reference-dependent* (Ear
 vs lunar selenoid, averaging window), which is why a band, not a single certified
 number, is reported (`scenarios/lunar-time-offset.toml`).
 
-See `scenarios/` for at least one worked example of every kind (47 kinds, 59 scenario
+See `scenarios/` for at least one worked example of every kind (50 kinds, 62 scenario
 `.toml` files + 1 suite manifest — several kinds ship more than one example). A few kinds have an example file
 whose name differs from the kind: `lunar-integrity` → `scenarios/lunanet-araim.toml`,
 `gravity-map` → `scenarios/gps-denied-gravity-nav.toml`. List the dispatchable kinds at
@@ -1212,7 +1215,7 @@ the [`CHANGELOG.md`](CHANGELOG.md). Every result is reproducible from
 
 | Channel | Install / get | Contents |
 |---------|---------------|----------|
-| [crates.io](https://crates.io/crates/kshana) | `cargo install kshana` · `kshana = "0.24"` | Rust library + CLI |
+| [crates.io](https://crates.io/crates/kshana) | `cargo install kshana` · `kshana = "0.25"` | Rust library + CLI |
 | [crates.io](https://crates.io/crates/kshana-mcp) | `cargo install kshana-mcp` | the MCP server |
 | [PyPI](https://pypi.org/project/kshana/) | `pip install kshana` | abi3 wheels (Linux/macOS/Windows) + sdist |
 | [npm](https://www.npmjs.com/package/kshana) | `npm install kshana` | WebAssembly module + JS wrapper |

@@ -17,7 +17,7 @@
   <a href="https://github.com/AshfordeOU/kshana#validation-at-a-glance"><img src="https://img.shields.io/badge/validated-56%20external%20oracles-3fb950" alt="56 of 102 capabilities validated against independent external oracles"></a>
   <a href="https://github.com/AshfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/coverage-~96%25%20line-3fb950" alt="~96% line coverage, gated at 85% in CI"></a>
   <a href="https://github.com/AshfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.25.0-c79e63" alt="Release v0.25.0"></a>
-  <a href="https://ashforde.org"><img src="https://img.shields.io/badge/playground-try%20in%20browser-c79e63" alt="Live playground — run in your browser, no install"></a>
+  <a href="https://kshana.dev"><img src="https://img.shields.io/badge/playground-try%20in%20browser-c79e63" alt="Live playground — run in your browser, no install"></a>
   <a href="https://github.com/AshfordeOU/kshana/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-AGPL_v3-blue.svg" alt="License: AGPL-3.0-only"></a>
   <a href="https://doi.org/10.5281/zenodo.20528627"><img src="https://img.shields.io/badge/DOI-10.5281%2Fzenodo.20528627-blue.svg" alt="DOI 10.5281/zenodo.20528627"></a>
 </p>
@@ -95,7 +95,7 @@ navigation is simulation-validated; real-mission deep-space OD is on the roadmap
 ## Learn more
 
 - **Full README & validation matrix** → <https://github.com/AshfordeOU/kshana>
-- **Live playground** (runs in your browser as WebAssembly) → <https://ashforde.org>
+- **Live playground** (runs in your browser as WebAssembly) → <https://kshana.dev>
 - **Capabilities** → [docs/CAPABILITY.md](https://github.com/AshfordeOU/kshana/blob/main/docs/CAPABILITY.md)
 - **Validation & provenance** → [docs/VALIDATION.md](https://github.com/AshfordeOU/kshana/blob/main/docs/VALIDATION.md) · [docs/PROVENANCE.md](https://github.com/AshfordeOU/kshana/blob/main/docs/PROVENANCE.md)
 - **Claims vs reality ledger** → [docs/CLAIMS-VS-REALITY.md](https://github.com/AshfordeOU/kshana/blob/main/docs/CLAIMS-VS-REALITY.md)
