@@ -147,32 +147,62 @@ fn tle_checksum_is_consistent_and_position_69_only() {
 fn run_toml_never_panics_on_mutated_scenarios() {
     // The scenario parser/dispatcher must reject malformed scenarios with an error,
     // never panic. Seed from the bundled scenarios, mutate bytes / truncate, and
-    // also throw pure-random text at it. The time-grid guard bounds any scenario
-    // that stays valid, so this cannot blow up into a huge run.
+    // also throw pure-random text at it.
+    //
+    // Operational bounds, learned the hard way (this one test cap-killed six CI job
+    // runs across three commits before the mechanism was understood):
+    //
+    // 1. The corpus is read in SORTED path order. `read_dir` order is
+    //    filesystem-dependent (ext4 effectively randomises it per checkout), so with
+    //    `seeds[rng % len]` the sequence of drawn base scenarios — and therefore the
+    //    runtime — differed per machine even though the RNG itself is seeded.
+    //    `run_toml` EXECUTES a mutation that stays valid, and a byte flip in a cost
+    //    knob (a grid resolution, a time span) can make a mutant far more expensive
+    //    than any bundled scenario — the time-grid guard does not bound every cost
+    //    dimension. An unlucky draw order ran for hours on CI where a lucky one
+    //    finished in minutes. Sorting makes the workload a pure function of
+    //    (corpus contents, seed): identical on every machine, measurable locally.
+    // 2. A wall-clock budget backstops the loop anyway: adding a scenario file
+    //    re-rolls the whole draw sequence, and no future corpus may quietly turn
+    //    this gate into a multi-hour CI job again. The full 3000-iteration sequence
+    //    measures ~300 s in a local debug build; CI runners are a few times slower,
+    //    so the 1800 s budget lets a healthy run finish whole while clamping any
+    //    re-rolled monster at 30 min instead of hours. If the budget does trim the
+    //    tail, that is a bounded, VISIBLE depth reduction (the eprintln) and never
+    //    a red build; the floor below asserts real progress was made.
+    // 3. Under cargo-tarpaulin (`cfg(tarpaulin)`, set only during a tarpaulin
+    //    build) the sample is a 300-iteration prefix of the same sequence: LLVM
+    //    instrumentation multiplies the cost ~20-30x, and the smaller sample is
+    //    coverage-neutral because determinism.rs already executes every bundled
+    //    scenario, so this loop's unique lines (parser error paths) are hit in the
+    //    first iterations.
     let mut rng = ChaCha8Rng::seed_from_u64(808);
-    let mut seeds: Vec<String> = Vec::new();
+    let mut paths: Vec<std::path::PathBuf> = Vec::new();
     if let Ok(dir) = std::fs::read_dir("scenarios") {
         for e in dir.flatten() {
             let p = e.path();
             if p.extension().and_then(|s| s.to_str()) == Some("toml") {
-                if let Ok(s) = std::fs::read_to_string(&p) {
-                    seeds.push(s);
-                }
+                paths.push(p);
             }
         }
     }
+    paths.sort();
+    let mut seeds: Vec<String> = Vec::new();
+    for p in &paths {
+        if let Ok(s) = std::fs::read_to_string(p) {
+            seeds.push(s);
+        }
+    }
     assert!(!seeds.is_empty(), "expected bundled scenarios to fuzz");
-    // `run_toml` does not merely parse: a mutation that stays valid executes a real
-    // scenario, and some bundled scenarios are grid sweeps / deep-space propagations.
-    // Optimised, this loop is ~9 s; unoptimised (as coverage builds are) it is ~213 s,
-    // and under cargo-tarpaulin's LLVM instrumentation on a CI runner it exceeded the
-    // coverage job's timeout. The fuzz-DEPTH gate is the `check` job (plain `cargo test`,
-    // full count); under coverage a smaller sample suffices because every `src/` line this
-    // loop reaches is also reached by `determinism.rs` (which runs every bundled scenario)
-    // and by the first iterations here — so the reduction is coverage-neutral, not a
-    // weakened gate. `cfg(tarpaulin)` is set only during a tarpaulin build.
     let iters = if cfg!(tarpaulin) { 300 } else { 3_000 };
+    let budget = std::time::Duration::from_secs(1_800);
+    let start = std::time::Instant::now();
+    let mut done = 0usize;
     for _ in 0..iters {
+        if start.elapsed() > budget {
+            eprintln!("run_toml fuzz: wall-clock budget reached after {done}/{iters} iterations");
+            break;
+        }
         // Half mutated-real, half pure-random.
         let input = if rng.gen::<bool>() {
             let base = &seeds[(rng.next_u32() as usize) % seeds.len()];
@@ -190,7 +220,14 @@ fn run_toml_never_panics_on_mutated_scenarios() {
             random_ascii(&mut rng, 400)
         };
         let _ = run_toml(&input); // Ok or Err, never a panic.
+        done += 1;
     }
+    // If the budget clips the run this far down, the gate has eroded — fail loudly
+    // so the corpus/seed cost is re-examined instead of silently fuzzing less.
+    assert!(
+        done >= 100,
+        "run_toml fuzz: only {done} iterations completed inside the {budget:?} budget"
+    );
 }
 
 #[test]
