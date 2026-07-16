@@ -19,9 +19,23 @@ concurrency:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    # No build cache on this job, so a cold compile of fmt/clippy/test can run long;
-    # the cap only guards against a stalled/dead runner hanging indefinitely.
-    timeout-minutes: 90
+    # This job runs the same fmt + clippy + `cargo test --all` umbrella as ci.yml's
+    # `check`, on a tag ref whose cache is usually cold, so it can only be SLOWER than
+    # that job — never faster. It must therefore never be capped below it.
+    #
+    # It sat at 90 while `check` went to 120 and then 240, which left the release gate
+    # the tightest cap in the repository: `check` was cancelled at 120 min on 41c5ea1,
+    # so a v0.25.0 tag would have timed this job out at 90 and skipped the dependent
+    # `release` job (SBOM + SLSA provenance + GitHub Release) — while publish.yml, which
+    # carries no `needs:` on this verify, still published to crates.io, PyPI and npm.
+    # Those publishes are irreversible (crates.io yanks, it does not delete), so a stale
+    # cap here does not merely fail a run: it ships a half-released version whose test
+    # suite was never observed to pass.
+    #
+    # Kept in lockstep with ci.yml `check` at 240, under the 360 min GitHub hard cap.
+    # (The prior comment here claimed this job had no build cache; it does — see the
+    # Swatinem/rust-cache step below.)
+    timeout-minutes: 240
     steps:
       - uses: actions/checkout@v4
         with:
