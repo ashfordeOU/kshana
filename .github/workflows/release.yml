@@ -25,9 +25,10 @@ jobs:
     #
     # It sat at 90 while `check` went to 120 and then 240, which left the release gate
     # the tightest cap in the repository. A tag ref always cold-compiles (fresh cache
-    # key), and `check` has been observed cancelled at 120 min on exactly such a
-    # cold-cache commit (41c5ea1, the v0.25.0 bump — see ci.yml), so 90 here could not
-    # survive one. A v0.25.0 tag would then have timed this job out and skipped the
+    # key), and `check` itself has exceeded 90 min under load (its cancellations during
+    # the v0.25.0 cut were ultimately the tests/property.rs fuzzer's unsorted-corpus
+    # lottery — see ci.yml — but the cold-compile overhead on a tag ref is real either
+    # way). A v0.25.0 tag at 90 could have timed this job out and skipped the
     # dependent `release` job (SBOM + SLSA provenance + GitHub Release) — while
     # publish.yml, which carries no `needs:` on this verify, still published to
     # crates.io, PyPI and npm. Those publishes are irreversible (crates.io yanks, it
