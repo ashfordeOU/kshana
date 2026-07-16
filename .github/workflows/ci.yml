@@ -14,10 +14,19 @@ jobs:
     runs-on: ubuntu-latest
     # The umbrella gate runs the full `cargo test --all`, which includes the
     # multi-minute end-to-end validation binaries (agency_lro ~24 min,
-    # agency_swarm ~11 min, the P1-P6 paper cross-checks) — ~76 min steady-state.
-    # 120 min keeps comfortable headroom over runner-speed variance so a slow
-    # runner can never cancel a passing suite.
-    timeout-minutes: 120
+    # agency_swarm ~11 min, the P1-P6 paper cross-checks).
+    #
+    # It sat at ~76-79 min through 4a66b3d, then exceeded the old 120 min cap once
+    # the P2/P4/P6 audit wave and the dominance-audit promotions landed (~12 further
+    # test binaries: the scipy/numpy/allantools reference oracles). This job compiles
+    # every target twice — `clippy --all-targets`, then `cargo test` re-compiles under
+    # different flags — so each added binary costs compile+link twice over, which is
+    # why it grew ~41 min while the single-compile `coverage` job moved only ~2 min.
+    # Cancelled at exactly 120 min on 41c5ea1, so its true runtime past that point was
+    # never observed; 240 gives generous headroom under the 360 min GitHub hard cap
+    # rather than guessing a number that may clip a passing run again.
+    # This weakens no gate: every command below is unchanged.
+    timeout-minutes: 240
     steps:
       - uses: actions/checkout@v4
         with:
