@@ -16,16 +16,17 @@ jobs:
     # multi-minute end-to-end validation binaries (agency_lro ~24 min,
     # agency_swarm ~11 min, the P1-P6 paper cross-checks).
     #
-    # Warm-cache steady-state is ~62-79 min. This job was cancelled at its then-120 min
-    # cap on 41c5ea1 but passed in 62.5 min on 3076e95 — the very next commit, same tree.
-    # The difference: 41c5ea1 was the version bump, which rewrites Cargo.lock and so busts
-    # the Swatinem/rust-cache key, forcing a full cold compile of the whole dependency +
-    # workspace graph on top of the ~76-79 min test run. A cold build plus runner variance
-    # is what exceeded 120; a warm cache (3076e95) does not. Raised to 240 so a
-    # cold-cache release-adjacent commit has headroom rather than being clipped mid-test.
-    # A job cancelled at its cap never reveals its true runtime, so err toward headroom.
-    # This weakens no gate: every command below is unchanged. (The separate ~180 min
-    # cancellations of the `coverage` job had a different, since-fixed cause — see there.)
+    # Healthy steady-state is ~62-79 min. During the v0.25.0 cut this job was cancelled
+    # at its cap twice (41c5ea1 at 120, e1a2cb0 at 240) and earlier explanations here
+    # blamed cold caches — wrong: the kill logs of every cancelled run name the same
+    # orphan process, the tests/property.rs `run_toml` fuzzer, still running hours after
+    # everything else finished. Its corpus was read in `read_dir` (filesystem-random)
+    # order, so each run drew a different mutation workload — a per-run lottery from
+    # minutes to hours on identical code. Fixed at the source: the corpus is now sorted
+    # (deterministic workload) and the loop is wall-clock-budgeted — see that test's
+    # comment. The 240 cap stays as pure headroom: it costs nothing when healthy, and a
+    # cap that clips a passing run reveals nothing (a job cancelled at its cap never
+    # reveals its true runtime). No gate below is weakened.
     timeout-minutes: 240
     steps:
       - uses: actions/checkout@v4
@@ -82,19 +83,18 @@ jobs:
     # Source-based LLVM instrumentation runs the same full suite as `check` under
     # coverage counters. Healthy steady-state is ~91-94 min.
     #
-    # This job was cancelled at exactly 180 min on 3076e95, twice. Root cause (proven,
-    # not inferred): the `run_toml_never_panics_on_mutated_scenarios` fuzzer in
-    # tests/property.rs executes 3000 mutated scenarios, some of which stay valid and run
-    # real grid-sweep / deep-space propagations. That test is ~9 s optimised but ~213 s
-    # unoptimised, and under LLVM instrumentation it dominated the job — the cancelled
-    # runs' orphan-process cleanup named `property` as the process still running at kill
-    # time. It is now bounded at the source (300 iters under `cfg(tarpaulin)`, full 3000
-    # in the `check` gate; coverage-neutral because determinism.rs already executes every
-    # scenario), which returns this job to its ~93 min steady-state — see the property.rs
-    # change in the same commit. The cap is a secondary guard: sonarcloud.yml ran the
-    # IDENTICAL tarpaulin workload on the same commit to success in 93.2 min, so the
-    # 180-min cancellations also needed a slower-than-that runner; 240 (~2.6x steady-state)
-    # absorbs that variance where 180 (~1.9x) did not.
+    # This job was cancelled at its cap three times during the v0.25.0 cut (180 min on
+    # 3076e95 twice, 240 min on e1a2cb0 — the last one even after its iterations were
+    # reduced under instrumentation). Every kill log names the same orphan process: the
+    # tests/property.rs `run_toml` fuzzer. Its corpus was read in `read_dir`
+    # (filesystem-random) order, so each run drew a different mutation workload, and a
+    # mutant that stays valid EXECUTES — a byte flip in a cost knob makes it far more
+    # expensive than any bundled scenario. That per-run lottery is why sonarcloud.yml
+    # once ran the identical tarpaulin workload to success in 93 min on a commit where
+    # this job hung twice. Fixed at the source: sorted (deterministic) corpus + a
+    # wall-clock budget + a 300-iteration prefix under `cfg(tarpaulin)` — see that
+    # test's comment. The 240 cap stays as pure headroom; a job cancelled at its cap
+    # never reveals its true runtime.
     #
     # The measurement and the --fail-under 85 floor below are unchanged.
     timeout-minutes: 240
