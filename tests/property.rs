@@ -162,7 +162,17 @@ fn run_toml_never_panics_on_mutated_scenarios() {
         }
     }
     assert!(!seeds.is_empty(), "expected bundled scenarios to fuzz");
-    for _ in 0..3_000 {
+    // `run_toml` does not merely parse: a mutation that stays valid executes a real
+    // scenario, and some bundled scenarios are grid sweeps / deep-space propagations.
+    // Optimised, this loop is ~9 s; unoptimised (as coverage builds are) it is ~213 s,
+    // and under cargo-tarpaulin's LLVM instrumentation on a CI runner it exceeded the
+    // coverage job's timeout. The fuzz-DEPTH gate is the `check` job (plain `cargo test`,
+    // full count); under coverage a smaller sample suffices because every `src/` line this
+    // loop reaches is also reached by `determinism.rs` (which runs every bundled scenario)
+    // and by the first iterations here — so the reduction is coverage-neutral, not a
+    // weakened gate. `cfg(tarpaulin)` is set only during a tarpaulin build.
+    let iters = if cfg!(tarpaulin) { 300 } else { 3_000 };
+    for _ in 0..iters {
         // Half mutated-real, half pure-random.
         let input = if rng.gen::<bool>() {
             let base = &seeds[(rng.next_u32() as usize) % seeds.len()];

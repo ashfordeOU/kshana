@@ -16,16 +16,16 @@ jobs:
     # multi-minute end-to-end validation binaries (agency_lro ~24 min,
     # agency_swarm ~11 min, the P1-P6 paper cross-checks).
     #
-    # It sat at ~76-79 min through 4a66b3d, then exceeded the old 120 min cap once
-    # the P2/P4/P6 audit wave and the dominance-audit promotions landed (~12 further
-    # test binaries: the scipy/numpy/allantools reference oracles). This job compiles
-    # every target twice — `clippy --all-targets`, then `cargo test` re-compiles under
-    # different flags — so each added binary costs compile+link twice over, which is
-    # why it grew ~41 min while the single-compile `coverage` job moved only ~2 min.
-    # Cancelled at exactly 120 min on 41c5ea1, so its true runtime past that point was
-    # never observed; 240 gives generous headroom under the 360 min GitHub hard cap
-    # rather than guessing a number that may clip a passing run again.
-    # This weakens no gate: every command below is unchanged.
+    # Warm-cache steady-state is ~62-79 min. This job was cancelled at its then-120 min
+    # cap on 41c5ea1 but passed in 62.5 min on 3076e95 — the very next commit, same tree.
+    # The difference: 41c5ea1 was the version bump, which rewrites Cargo.lock and so busts
+    # the Swatinem/rust-cache key, forcing a full cold compile of the whole dependency +
+    # workspace graph on top of the ~76-79 min test run. A cold build plus runner variance
+    # is what exceeded 120; a warm cache (3076e95) does not. Raised to 240 so a
+    # cold-cache release-adjacent commit has headroom rather than being clipped mid-test.
+    # A job cancelled at its cap never reveals its true runtime, so err toward headroom.
+    # This weakens no gate: every command below is unchanged. (The separate ~180 min
+    # cancellations of the `coverage` job had a different, since-fixed cause — see there.)
     timeout-minutes: 240
     steps:
       - uses: actions/checkout@v4
@@ -80,12 +80,24 @@ jobs:
   coverage:
     runs-on: ubuntu-latest
     # Source-based LLVM instrumentation runs the same full suite as `check` under
-    # coverage counters. It sat at 84-85 min steady-state, then crept over the old
-    # 90 min cap once the validation campaign's binaries landed (job cancelled at
-    # exactly 90 min, so its true runtime past that point was never observed). 180
-    # min gives generous headroom over any plausible instrumented runtime while
-    # preserving the exact measurement (and the --fail-under 85 floor below).
-    timeout-minutes: 180
+    # coverage counters. Healthy steady-state is ~91-94 min.
+    #
+    # This job was cancelled at exactly 180 min on 3076e95, twice. Root cause (proven,
+    # not inferred): the `run_toml_never_panics_on_mutated_scenarios` fuzzer in
+    # tests/property.rs executes 3000 mutated scenarios, some of which stay valid and run
+    # real grid-sweep / deep-space propagations. That test is ~9 s optimised but ~213 s
+    # unoptimised, and under LLVM instrumentation it dominated the job — the cancelled
+    # runs' orphan-process cleanup named `property` as the process still running at kill
+    # time. It is now bounded at the source (300 iters under `cfg(tarpaulin)`, full 3000
+    # in the `check` gate; coverage-neutral because determinism.rs already executes every
+    # scenario), which returns this job to its ~93 min steady-state — see the property.rs
+    # change in the same commit. The cap is a secondary guard: sonarcloud.yml ran the
+    # IDENTICAL tarpaulin workload on the same commit to success in 93.2 min, so the
+    # 180-min cancellations also needed a slower-than-that runner; 240 (~2.6x steady-state)
+    # absorbs that variance where 180 (~1.9x) did not.
+    #
+    # The measurement and the --fail-under 85 floor below are unchanged.
+    timeout-minutes: 240
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@1.93.0
