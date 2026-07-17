@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+//! Stochastic clock and error models — the noise processes a scenario samples to
+//! drive a run.
 use crate::types::{ModelSpec, Seconds};
 use rand::RngCore;
 use rand_distr::{Distribution, Normal};

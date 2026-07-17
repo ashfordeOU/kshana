@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+//! Result reporting: assembling a run's figures of merit, samples and provenance
+//! into the structured result returned to callers.
 use crate::fom::{FoMScores, Sample};
 use crate::scenario::Scenario;
 use crate::types::ModelSpec;

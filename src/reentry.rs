@@ -16,6 +16,10 @@
 //! atmosphere, constant flight-path angle, flat decel-only energy balance. No
 //! aerothermal (TPS) model — the heating output is the Allen–Eggers *velocity at
 //! peak heating*, not a heat-flux in W/m². Not a 3-/6-DoF trajectory.
+//!
+//! **Reference.** H. J. Allen & A. J. Eggers, *A Study of the Motion and
+//! Aerodynamic Heating of Ballistic Missiles Entering the Earth's Atmosphere at
+//! High Supersonic Speeds*, NACA Report 1381 (1958).
 
 use crate::orbit::R_EARTH_EQUATORIAL_M;
 use serde::Deserialize;

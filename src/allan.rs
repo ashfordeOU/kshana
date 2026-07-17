@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+//! Allan-family frequency-stability estimators — overlapping ADEV, MDEV, TDEV and
+//! HDEV, and the IEEE-1139 power-law noise fit.
 use crate::types::Seconds;
 use serde::Serialize;
 

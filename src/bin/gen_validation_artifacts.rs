@@ -6,13 +6,16 @@
 //!     renders (every row's status, oracle, and existence-checked deep-links to its
 //!     test, module source and committed fixture/NOTICE);
 //!   - `docs/VERIFICATION-MATRIX.md` — the full 75-row per-capability table;
-//!   - `docs/MODELLED-RATIONALE.md` — why each Modelled row is not externally validated.
+//!   - `docs/MODELLED-RATIONALE.md` — why each Modelled row is not externally validated;
+//!   - `docs/SCENARIOS.md` — the per-kind reference, generated from
+//!     `api::list_scenario_kinds()` so it can never drift from the dispatcher.
 //!
 //! Run from anywhere: `cargo run --bin gen_validation_artifacts` (paths are resolved
 //! against `CARGO_MANIFEST_DIR`). The matrix is the single source of truth; these are
 //! generated, and `tests/verification_artifacts_doc_sync.rs` fails the build if the
 //! committed copies drift from what the matrix would produce.
 
+use kshana::api::scenarios_reference_md;
 use kshana::verification::{
     to_ledger_json, to_modelled_rationale_md, to_verification_matrix_md, verification_matrix,
 };
@@ -28,6 +31,7 @@ fn main() {
         ),
         ("docs/VERIFICATION-MATRIX.md", to_verification_matrix_md(&m)),
         ("docs/MODELLED-RATIONALE.md", to_modelled_rationale_md(&m)),
+        ("docs/SCENARIOS.md", scenarios_reference_md()),
     ];
     for (rel, content) in outputs {
         let path = root.join(rel);

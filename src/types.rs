@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+//! Shared scalar and specification types used across the engine (e.g. `Seconds`,
+//! `ModelSpec`).
 use serde::{Deserialize, Serialize};
 
 pub type Seconds = f64;

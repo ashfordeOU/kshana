@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+//! Hybrid quantum + classical PNT: composing the clock-holdover and inertial models
+//! into one combined estimator.
 use crate::estimator::HoldoverEstimator;
 use crate::inertial::{AccelCfg, AccelModel};
 use crate::kalman::KalmanClock;

@@ -28,6 +28,10 @@
 //! [`monte_carlo_pfa_pmd`] re-derives `P_fa` and `P_md` empirically by drawing
 //! noise-only and signal-plus-noise realisations and applying the same test, so
 //! the analytic and simulated probabilities can be cross-checked.
+//!
+//! **Reference.** The Neyman–Pearson formulation, the χ²₁ energy test and the
+//! closed-form operating characteristics follow Kay, *Fundamentals of Statistical
+//! Signal Processing, Vol. II: Detection Theory* (1998), §3 and §5.
 
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
