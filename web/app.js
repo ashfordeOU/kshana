@@ -9,7 +9,7 @@ import { tabModel, buildFomRows } from "./tabs.mjs";
 import { sweepValues, sweepToml, sweepMetrics, sweepCurveSvg, SWEEP_GEOM, MAX_SWEEP } from "./sweep.mjs";
 import { overlayRows, overlaySeriesSvg, OVERLAY_COLORS } from "./overlay.mjs";
 import { isEmbed, embedConfig, embedClassList } from "./embed.mjs";
-import { buildReportHtml, reportFilename } from "./report.mjs";
+import { buildReportHtml, reportFilename, fomTier } from "./report.mjs";
 import { TOUR_STEPS, clampStep, placeTooltip } from "./tour.mjs";
 
 // Scenario catalogue: file in ./scenarios/ (copied from the repo at build) and a
@@ -121,6 +121,8 @@ const SCENARIOS = [
     "Lunar differential PNT", "How much does differential correction cancel common-mode error vs baseline on the Moon? (modelled)"],
   ["lunar-interop-export.toml", "Lunar interop export — CCSDS OEM + LunaNet time in a KIF envelope",
     "Lunar interop export", "Can lunar frame / time / ephemeris round-trip through CCSDS OEM + a KIF envelope?"],
+  ["lunar-attack-surface.toml", "Lunar attack surface — signal-security link / spoof / jam / auth budget (modelled)",
+    "Lunar attack surface", "What does it take to spoof or deny a lunar surface receiver, and what authentication budget answers it? (modelled)"],
   // Real-time frame / Earth-orientation
   ["realtime-frame-eop.toml", "Real-time frame / EOP budget — predicted-EOP error (modelled)",
     "Real-time frame/EOP", "How much frame error does real-time (predicted) Earth-orientation introduce? (modelled)"],
@@ -479,12 +481,17 @@ function chartImg(svgText, alt) {
 
 // The single-run figure-of-merit table, built with the same textContent-only
 // pattern as the overlay table (no innerHTML for any scenario-derived string).
+// Each row carries the honest per-FoM validation tier (VALIDATED / MODELLED) as
+// an inline pill, read from the same fomTier() lookup that the downloadable report
+// uses — which mirrors src/fom_label.rs, itself derived from the verification
+// matrix (the single source of truth). So the tier a reader sees next to a live
+// number can never disagree with the ledger.
 function buildFomTable(result) {
   const rows = buildFomRows(result);
   const table = document.createElement("table");
   table.className = "compare-table";
   const head = document.createElement("tr");
-  for (const h of ["Clock", "Metric", "Value"]) {
+  for (const h of ["Clock", "Metric", "Value", "Tier"]) {
     const th = document.createElement("th");
     th.textContent = h;
     head.append(th);
@@ -499,6 +506,16 @@ function buildFomTable(result) {
       if (i === 2) td.className = "num";
       tr.append(td);
     });
+    // Tier pill: conservative by construction — an unmapped metric gets no halo.
+    const tierTd = document.createElement("td");
+    const tier = fomTier(r.metric);
+    if (tier) {
+      const pill = document.createElement("span");
+      pill.className = tier === "VALIDATED" ? "pill validated" : "pill modelled";
+      pill.textContent = tier === "VALIDATED" ? "validated" : "modelled";
+      tierTd.append(pill);
+    }
+    tr.append(tierTd);
     table.append(tr);
   }
   return table;
