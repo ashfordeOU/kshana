@@ -32,6 +32,12 @@
 //! taken circular and the Sun is neglected). The eccentric/ephemeris (DE) model
 //! and the de-normalised transform of a corrected orbit into the selenocentric
 //! MCI/MCMF frames of [`crate::lunar`] are follow-ons (see `ROADMAP.md`).
+//!
+//! **References.** The synodic-frame equations of motion, the Jacobi integral and
+//! the Lagrange equilibria are the classical results of Szebehely, *Theory of
+//! Orbits: The Restricted Problem of Three Bodies* (1967); the single-shooting
+//! differential correction of periodic halo/NRHO orbits follows Koon, Lo, Marsden &
+//! Ross, *Dynamical Systems, the Three-Body Problem and Space Mission Design* (2011).
 
 /// Earth–Moon mass ratio `μ = m_moon/(m_earth + m_moon)` (DE405-consistent).
 pub const EARTH_MOON_MU: f64 = 0.012_150_585_609_624;

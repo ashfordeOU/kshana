@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+//! Clock-holdover state estimators: the coasted time-error prediction a
+//! GNSS-denied clock free-runs on.
 use crate::scenario::GnssState;
 use crate::types::Seconds;
 

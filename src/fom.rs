@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+//! Figures of merit — the scored timing, integrity and security metrics a scenario
+//! reports, and the samples that feed them.
 use crate::scenario::GnssState;
 use crate::types::Seconds;
 use serde::Serialize;

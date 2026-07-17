@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+//! Time-and-frequency transfer: TWSTFT, GNSS common-view, PPP and free-space-optical
+//! link transfer precision.
 use crate::allan::overlapping_adev;
 use crate::models::{ClockModel, ErrorModel};
 use crate::types::{ModelSpec, Seconds};

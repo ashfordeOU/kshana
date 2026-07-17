@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+//! Scenario model: the parsed TOML scenario the engine classifies, dispatches and
+//! runs.
 use crate::types::Seconds;
 use serde::{Deserialize, Serialize};
 
