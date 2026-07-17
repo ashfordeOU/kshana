@@ -15,7 +15,7 @@ merit with provenance.
 | Tool | What it does |
 |------|--------------|
 | `run_scenario` | Run a scenario from a TOML definition; returns the summary + full result JSON (FoMs, curves). Optional `include_chart` returns the SVG. |
-| `list_scenario_kinds` | The ~17 built-in scenario kinds with descriptions + required/optional fields — so the agent can construct a valid scenario. |
+| `list_scenario_kinds` | The 50 built-in scenario kinds with descriptions + required/optional fields — so the agent can construct a valid scenario. |
 | `validate_scenario` | Pre-flight check: parse the TOML and detect its kind, without running. |
 | `export_sp3` | Export an `orbit` scenario's constellation as SP3-c precise ephemeris. |
 | `export_omm` | Export an `orbit` scenario's elements as a CCSDS 502.0-B-2 OMM catalogue. |
