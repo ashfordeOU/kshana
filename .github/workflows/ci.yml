@@ -53,6 +53,8 @@ jobs:
         run: ./scripts/check-no-attribution.sh
       - name: Version consistency guard
         run: ./scripts/check-version-sync.sh
+      - name: Documentation-coverage ratchet
+        run: ./scripts/check-doc-coverage.sh
       - name: SBOM generation guard
         run: ./scripts/gen-sbom.sh > /dev/null
   msrv:
