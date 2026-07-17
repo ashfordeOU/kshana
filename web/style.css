@@ -505,6 +505,8 @@ details#advanced summary { cursor: pointer; color: var(--fg-1); font-size: 0.85r
 .compare-table th, .compare-table td { text-align: left; padding: 0.4rem 0.6rem; border-bottom: 1px solid var(--line); }
 .compare-table th { color: var(--fg-2); font-weight: 600; }
 .compare-table td { color: var(--fg-1); font-variant-numeric: tabular-nums; }
+.fom-tier-note { font-size: 0.78rem; color: var(--fg-2); line-height: 1.5; margin: 0.2rem 0 0; }
+.fom-tier-note .pill { vertical-align: baseline; }
 .cmp-delta { font-variant-numeric: tabular-nums; }
 .cmp-better { color: var(--ok); }
 .cmp-worse { color: var(--crit); }
