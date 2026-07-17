@@ -654,6 +654,72 @@ pub fn list_scenario_kinds_json() -> String {
         .expect("ScenarioMeta is all-static-string data; JSON serialisation is infallible")
 }
 
+/// Render the built-in scenario-kind catalogue as a standalone Markdown reference
+/// (`docs/SCENARIOS.md`): every dispatchable kind with its one-line description and
+/// its required / optional TOML fields.
+///
+/// Generated from [`list_scenario_kinds`] — the single source of truth — so the
+/// per-kind reference can never drift from the dispatcher.
+/// `tests/scenarios_reference_doc_sync.rs` fails the build if the committed copy is
+/// stale; regenerate with `cargo run --bin gen_validation_artifacts`.
+pub fn scenarios_reference_md() -> String {
+    // Escape the one character that would break a Markdown table cell.
+    fn cell(s: &str) -> String {
+        s.replace('|', "\\|")
+    }
+    // A field list as inline code, or an explicit "none" so an empty pack is not
+    // rendered as a silent blank.
+    fn fields(list: &[&str]) -> String {
+        if list.is_empty() {
+            "*(none)*".to_string()
+        } else {
+            list.iter()
+                .map(|f| format!("`{f}`"))
+                .collect::<Vec<_>>()
+                .join(", ")
+        }
+    }
+
+    let kinds = list_scenario_kinds();
+    let mut s = String::new();
+    s.push_str("# Scenario kinds\n\n");
+    s.push_str(&format!(
+        "The {} built-in scenario kinds that `kshana::api::run_toml` dispatches over, \
+each with its one-line description and its required / optional TOML fields.\n\n\
+This file is **generated** from `api::list_scenario_kinds()` — the single source of \
+truth — by `cargo run --bin gen_validation_artifacts`; edit the source, not this file. \
+Every binding (the Python package, the MCP server's `list_scenario_kinds` tool, and \
+the WASM playground) exposes this same catalogue, so what is listed here is exactly \
+what every surface can run.\n\n",
+        kinds.len()
+    ));
+
+    s.push_str("| # | Kind | Description |\n|--:|------|-------------|\n");
+    for (i, m) in kinds.iter().enumerate() {
+        s.push_str(&format!(
+            "| {} | [`{}`](#{}) | {} |\n",
+            i + 1,
+            m.name,
+            m.name,
+            cell(m.description)
+        ));
+    }
+    s.push('\n');
+
+    for m in &kinds {
+        s.push_str(&format!("## `{}`\n\n{}\n\n", m.name, m.description));
+        s.push_str(&format!(
+            "- **Required fields:** {}\n",
+            fields(m.required_fields)
+        ));
+        s.push_str(&format!(
+            "- **Optional fields:** {}\n\n",
+            fields(m.optional_fields)
+        ));
+    }
+    s
+}
+
 /// Lint a scenario TOML against the crate's own introspection and return a list of
 /// problems — so a caller can be told what is wrong BEFORE a (possibly long) run,
 /// instead of hitting a late runtime failure.

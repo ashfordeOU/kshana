@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+//! Inertial navigation: strapdown INS mechanization and the accelerometer error
+//! models (classical and cold-atom) a GNSS-denied coast dead-reckons on.
 pub mod attitude;
 pub mod cai_params;
 pub mod imu_errors;

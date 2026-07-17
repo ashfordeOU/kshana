@@ -14,6 +14,11 @@
 //! are delivered and tested, while the orbit-specific measurement model, the analytic
 //! state-transition matrix, and the published-case validation are follow-ons
 //! (see `ROADMAP.md`).
+//!
+//! **References.** The weighted-normal-equation batch corrector is the standard
+//! batch processor of Tapley, Schutz & Born, *Statistical Orbit Determination*
+//! (2004), §4; the underlying Gauss–Newton / weighted-least-squares numerics follow
+//! Björck, *Numerical Methods for Least Squares Problems* (1996).
 
 use crate::fusion::ukf::inverse;
 

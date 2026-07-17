@@ -1,4 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
+//! Single-run orchestration: driving a parsed scenario through the estimator and
+//! scoring it into a result.
 use crate::estimator::HoldoverEstimator;
 use crate::fom::{score, Sample};
 use crate::kalman::KalmanClock;

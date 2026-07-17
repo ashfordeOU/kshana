@@ -18,6 +18,11 @@
 //! quadrature sum of the 1σ contributors the caller supplies (sensor noise,
 //! reaction-wheel jitter, thermal distortion, alignment, …). No actuator dynamics,
 //! flexible modes, slew or momentum-management modelling.
+//!
+//! **References.** The gravity-gradient disturbance torque is the standard result of
+//! Wertz, *Spacecraft Attitude Determination and Control* (1978), and Sidi,
+//! *Spacecraft Dynamics and Control* (1997), §4; the root-sum-square combination of
+//! independent 1σ pointing-error contributors is the conventional AOCS/GNC budget.
 
 use crate::orbit::{MU_EARTH, R_EARTH_EQUATORIAL_M};
 use serde::Deserialize;
