@@ -75,7 +75,7 @@ jobs:
       # Docker Hub registry pull times out ("dial tcp ...: i/o timeout"). The
       # binary install has no Docker Hub dependency. cargo-deny reads
       # Cargo.lock + deny.toml and needs no project compilation.
-      - uses: taiki-e/install-action@v2
+      - uses: taiki-e/install-action@v2.85.4
         with:
           tool: cargo-deny
       - name: cargo-deny
@@ -108,7 +108,7 @@ jobs:
           # shipped by this component.
           components: llvm-tools-preview
       - uses: Swatinem/rust-cache@v2
-      - uses: taiki-e/install-action@v2
+      - uses: taiki-e/install-action@v2.85.4
         with:
           tool: cargo-tarpaulin
       - name: Coverage (LLVM engine, enforced line floor)
