@@ -1,0 +1,10 @@
+# Kshana — coordinated vulnerability disclosure.
+# Report security issues in the site, the crate, the Python package or
+# the MCP server to the address below. Please do not open a public
+# issue for a vulnerability. Renew this file before the Expires date.
+
+Contact: mailto:contact@ashforde.org
+Expires: 2027-08-26T23:59:59.000Z
+Preferred-Languages: en, de
+Canonical: https://kshana.dev/.well-known/security.txt
+Policy: https://github.com/ashfordeOU/kshana/blob/main/SECURITY.md
