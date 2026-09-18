@@ -9,6 +9,62 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.26.0] - 2026-09-18
+
+A documentation, transparency and playground release. No engine behaviour
+changes: the verification matrix stands at **102 rows — 56 VALIDATED, 42
+MODELLED, 4 PARTNER**, unchanged from 0.25.0.
+
+### Added
+
+- **Crate-level rustdoc** (`//!` in `lib.rs`) covering entry points, the
+  honesty/tier model and reproducibility, so docs.rs opens on a real landing
+  page rather than a bare module wall.
+- **`docs/SCENARIOS.md`** — a per-kind reference for all **50** scenario kinds,
+  generated from `api::list_scenario_kinds()` (the single source of truth) by
+  `gen_validation_artifacts` and guarded by
+  `tests/scenarios_reference_doc_sync.rs`, so it cannot drift from the
+  dispatcher.
+- **Module docs** for the 11 previously-undocumented public modules (`allan`,
+  `estimator`, `fom`, `hybrid`, `inertial`, `models`, `report`, `run`,
+  `scenario`, `timetransfer`, `types`).
+- **Literature sources** for five formula modules that stated an equation but
+  named no reference: `batch_ls` (Tapley/Schutz/Born; Bjorck), `cr3bp`
+  (Szebehely; Koon et al.), `detection` (Kay), `attitude_budget` (Wertz; Sidi),
+  `reentry` (Allen-Eggers, NACA TR-1381).
+- **A published `security.txt`** on kshana.dev for coordinated disclosure.
+- **Per-run validation tier in the playground.** The single-run figure-of-merit
+  table now carries a per-figure VALIDATED/MODELLED pill read from the same
+  `fomTier()` lookup the downloadable report uses (mirroring `src/fom_label.rs`,
+  itself derived from the verification matrix), so the tier shown beside a live
+  number can never disagree with the ledger.
+- **`lunar-attack-surface`** in the playground menu — all 50 dispatchable kinds
+  are now one click away (was 49/50).
+- **Five more runnable capability cards** (space-weather, RF-impairment eval,
+  resilience, CCSDS OEM interop, KIF), lifting runnable cards from 11 to 16.
+  API- and library-only cards keep an honest docs link rather than a fake run
+  button.
+
+### Changed
+
+- **Documentation coverage is now ratcheted in CI.** `check-doc-coverage.sh`
+  compiles the library with `missing_docs`, counts the warnings, and fails only
+  if the count rises above a pinned ceiling (986). A hard `#![warn(missing_docs)]`
+  under `-D warnings` would have turned ~1000 currently-undocumented public items
+  into an overnight build break; this way new undocumented public items fail the
+  build while the existing backlog is paid down deliberately.
+
+### Fixed
+
+- **The MCP `list_scenario_kinds` tool row advertised "~17 built-in scenario
+  kinds"** while `api::list_scenario_kinds()` had exposed 50 for some time — an
+  agent-facing doc understating real capability threefold. Pinned to the true
+  count.
+- Regenerated the CycloneDX SBOM conformance oracle for the updated dependency
+  graph (60 components). The conformance verdict is unchanged: zero normalized
+  schema errors and every atomic licence id still in the official SPDX
+  enumeration.
+
 ## [0.25.0] - 2026-07-15
 
 ### Added
