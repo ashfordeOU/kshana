@@ -271,7 +271,12 @@ fn golden_hybrid_optical_rf() {
     check(&Golden {
         path: "scenarios/hybrid-optical-rf.toml",
         expect_summary: "hybrid-optical-rf | optical footprint 700 m, 1489 photons -> ranging σ 0.194 mm, timing σ 1.30 ps | cross-RAIM HPL 6.2 m / VPL 6.6 m / TPL 13.3 ns (protected) | availability 99.5% (5 sites) | handoff no-jump OK NEES 3.34∈[0.48,11.14] in-gate | joint FoM 0.993 (A 0.995 · P 0.995 · I 1.000) | Validated CRLB/χ²-PL/union/handoff, Modelled σ/climatology",
-        expect_fnv_canonical: 0x184c_5616_64c9_3035,
+        // Re-baselined when the report gained the G15 fault-injection block (minimum
+        // detectable bias and detection-power curve per monitored axis) and the G17
+        // post-handover coast block. Purely additive: the summary string above is
+        // byte-identical and every pre-existing JSON field holds the value it held
+        // before, so only the whole-document hash moves.
+        expect_fnv_canonical: 0x46e4_b4e2_23f0_def8,
         expect_fnv_raw_linux_x64: None,
     });
 }
