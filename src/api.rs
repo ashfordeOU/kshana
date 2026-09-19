@@ -447,8 +447,11 @@ pub enum ScenarioKind {
     CislunarObservability,
     ConflictResilience,
     LunarAttackSurface,
+    /// Aperture navigation-versus-communications duty cycle from a contact plan.
     ApertureDutyCycle,
+    /// Lunar surface-navigation RF jamming with a per-satellite J/S table.
     LunarJamming,
+    /// INS/TRN coasting error growth and the coast durations reaching stated thresholds.
     InsTrnCoast,
 }
 
