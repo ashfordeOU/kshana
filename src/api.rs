@@ -448,6 +448,7 @@ pub enum ScenarioKind {
     ConflictResilience,
     LunarAttackSurface,
     ApertureDutyCycle,
+    LunarJamming,
 }
 
 impl ScenarioKind {
@@ -505,6 +506,7 @@ impl ScenarioKind {
             ScenarioKind::ConflictResilience => "conflict-resilience",
             ScenarioKind::LunarAttackSurface => "lunar-attack-surface",
             ScenarioKind::ApertureDutyCycle => "aperture-duty-cycle",
+            ScenarioKind::LunarJamming => "lunar-jamming",
         }
     }
 
@@ -566,6 +568,7 @@ impl ScenarioKind {
             "conflict-resilience" => ScenarioKind::ConflictResilience,
             "lunar-attack-surface" => ScenarioKind::LunarAttackSurface,
             "aperture-duty-cycle" => ScenarioKind::ApertureDutyCycle,
+            "lunar-jamming" => ScenarioKind::LunarJamming,
             // Empty or unknown ⇒ the clock pack (historical default).
             _ => ScenarioKind::Clock,
         })
@@ -644,6 +647,7 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "lunar-attack-surface", description: "Lunar surface-navigation signal-security attack surface (P1): composes the open signal-security analyses into one binary-reachable run. Reports (1) the AFS received power and its power deficit versus a terrestrial GPS reference, plus the 12-18 dB sensitivity band as a genuine multi-axis sweep over the link inputs (reference level x EIRP x slant range) with the 32x-rounded / 36x-unrounded linear-factor reconciliation; (2) the required attacker transmit power to spoof (J/S = 3 dB) and to deny (J/S = 30 dB) at each standoff, the inverse of the J/S link; (3) the orbital capture footprint under a real uniform-aperture antenna pattern (Airy [2 J1(x)/x]^2), an altitude-limited sub-hemispheric cap whose limb is NOT captured; (4) a computed tracking-loop spoof-capture pull-in outcome (does a matched-code spoofer at a given power advantage and code offset actually drag the DLL/PLL) rather than the asserted 3 dB threshold; (5) the airless-body geometric horizon reach of a raised surface transmitter; and (6) the OSNMA/TESLA authentication budget (20 bit/s overhead = ~40 % of a 50 bit/s AFS nav message, key-disclosure latency, 2^-40 forgery). An empty body reproduces the P1 baseline; every input is defaulted and overridable. VALIDATED sub-results carry their source module's oracle (closed-form dB radiometry; inverse-J/S round trip; Airy pattern vs A&S Bessel and spherical-cap geometry; DLL/PLL pull-in vs Kaplan & Hegarty; spherical-tangent horizon identity vs eo_payload; OSNMA SIS-ICD field sizing). MODELLED: the representative geometry/power magnitudes and the specific capture-map cell values. Not a certified security product.", required_fields: &[], optional_fields: &["afs_eirp_dbw", "user_gain_dbi", "slant_range_m", "slant_range_max_m", "carrier_hz", "gps_reference_dbw", "gps_reference_min_dbw", "afs_isotropic_signal_dbw", "transmitter_altitude_m", "transmitter_power_dbw", "antenna_diameter_m", "footprint_grid", "spoof_power_advantage_db", "spoof_code_offset_chips", "attacker_gain_dbi", "spoof_capture_js_db", "jam_denial_js_db", "standoffs_m", "mast_height_m", "user_antenna_height_m", "footprint_altitude_min_m", "footprint_altitude_max_m", "footprint_altitude_steps", "footprint_altitude_scale", "footprint_diameter_min_m", "footprint_diameter_max_m", "footprint_diameter_steps", "footprint_diameter_scale"] },
         ScenarioMeta { name: "realtime-frame-eop", description: "Real-time lunar frame / Earth-orientation prediction budget: P4 Table 1 (the frame-error consistency check — post-processed ~0.27 m ↔ ~0.010 ms and real-time ~15 m ↔ ~0.5 ms, each frame position expressed as its equivalent UT1 error via the L19 lever arm Δr = D_EM·ω⊕·ΔUT1) and Table 2 (measured UT1 prediction error vs horizon — the L18 curve read directly off the real IERS finals2000A series: the Bulletin A − Bulletin B final floor and the multi-day persistence-predictor error, each mapped to a Moon-frame position by L19), plus the L21 root-sum-square real-time frame-error budget (EOP + ephemeris + realisation floor). VALIDATED closed form (the L19 lever arm, ω⊕ cross-checked against the CIO Earth-rotation angle) and VALIDATED real data (the L18 curve off the real finals2000A rows); MODELLED are the lunar-relay OD covariance magnitudes and frame-realisation floor (representative allocations) and the persistence predictor (not IERS's operational Bulletin A algorithm). Not a certified real-time frame product.", required_fields: &[], optional_fields: &["epoch", "horizons_days", "ephemeris_pos_sigma_m", "ephemeris_vel_sigma_mps", "latency_s", "frame_realization_floor_m", "delta_ut1_ms", "delta_xp_mas", "delta_yp_mas", "eop_finals2000a", "eop_finals2000a_later"] },
         ScenarioMeta { name: "aperture-duty-cycle", description: "Aperture duty cycle: the navigation-versus-communications time-share a contact plan implies for a pool of steerable apertures. Takes a contact plan (a list of `[[contacts]]` aos_s/los_s windows, each asking for navigation or communications \u{2014} the same aos_s/los_s vocabulary the `passes` predictor emits), an aperture count, and an ARBITRATION POLICY (navigation-priority by default, or communications-priority, or non-preemptive first-come-first-served), and reports the navigation duty, the communications duty, the idle duty, and the per-session outage \u{2014} the contact time a session requested and no aperture served. An exact interval sweep over the window boundaries, so touching windows never contend and no aperture-second is double-counted; navigation, communications and idle aperture-seconds are accumulated independently and close against apertures*horizon_s. The report states the resolved policy, its full definition, and the duty and outage definitions, because a duty figure quoted without its arbitration policy is not reproducible. MODELLED scheduling arithmetic: no slew / retune / changeover time is charged when an aperture changes service or session, no data volume, buffer state, energy budget or link closure enters the decision, and the contact windows are inputs \u{2014} their geometry is whatever produced them. Not a ground-segment scheduling product.", required_fields: &[], optional_fields: &["apertures", "arbitration", "horizon_start_s", "horizon_end_s", "contacts"] },
+        ScenarioMeta { name: "lunar-jamming", description: "Lunar-native RF jamming: per-satellite jammer-to-signal ratio, effective C/N₀ and loss of lock for a selenographic surface user under a lunar surface (or raised) jammer, over the illustrative public-source Moonlight/LCNS-class lunar-orbit constellation. Composes the existing open jamming physics (jamming::j_over_s_db, effective_cn0_dbhz, rx_antenna_gain_db, lock_status, q_factor) with the existing lunar sky geometry (lunar_service::LunarConstellation + topocentric, lunar::selenographic_to_mcmf); no geometry or radiometry is re-derived. Unlike the Earth `jamming` kind, the signal leg is NOT a fixed received power: each satellite's isotropic received power is its own link budget EIRP − FSPL(slant range), so the J/S varies satellite by satellite with lunar range and elevation. Reports ONE ROW PER VISIBLE (epoch, satellite) LINK — azimuth, elevation, slant range, both received powers the J/S is the difference of, the J/S, the nominal and effective C/N₀ and the lock status — plus aggregate figures of merit beside (never in place of) that table, and the same table as a CSV artifact. Every emitted numeric field carries a unit and a provenance class. VALIDATED sub-results carry their source module oracle (the anti-jam equation and J/S link of Kaplan & Hegarty §9.4, externally referenced in tests/gnss_denied_jamming_resilience_reference.rs; the lunar geometry of lunar_service). The composition itself is cross-checked against an independent two-link-budget path (linkbudget::received_signal_power_dbw, a different free-space-loss expression) to 1e-9 dB. MODELLED: the illustrative constellation, the representative EIRP / jammer power / antenna gains / noise temperature, and the absence of terrain shadowing, multipath, AGC dynamics and adaptive nulling. Not a certified denial-of-service product.", required_fields: &[], optional_fields: &["n_sats", "sma_km", "eccentricity", "inc_deg", "argp_deg", "site_lat_deg", "site_lon_deg", "site_alt_m", "horizon_hours", "step_min", "elev_mask_deg", "sat_eirp_dbw", "carrier_hz", "chip_rate_hz", "user_boresight_gain_dbi", "temp_k", "tracking_threshold_dbhz", "degraded_margin_db", "jammer"] },
     ]
 }
 
@@ -1909,6 +1913,21 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 csv: None,
             })
         }
+        ScenarioKind::LunarJamming => {
+            let scn: crate::lunar_jamming::LunarJammingScenario =
+                toml::from_str(src).map_err(|e| format!("invalid lunar-jamming scenario: {e}"))?;
+            let (json, summary, svg) = scn.run_output()?;
+            // The per-satellite J/S table is the result, so it is published as a runtime
+            // CSV artifact too: the table a paper cites is then a file the engine wrote,
+            // not a block a manuscript transcribed out of two separate link-budget runs.
+            let csv = Some(scn.to_csv()?);
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv,
+            })
+        }
         ScenarioKind::Clock => {
             let scn: crate::scenario::Scenario =
                 toml::from_str(src).map_err(|e| format!("invalid scenario: {e}"))?;
@@ -2123,6 +2142,40 @@ mod tests {
         // SVG and a one-line summary that names the kind.
         assert!(out.svg.starts_with("<svg"));
         assert!(out.summary.contains("moonlight-service-volume"));
+    }
+
+    #[test]
+    fn lunar_jamming_kind_round_trips_through_the_dispatch_with_a_per_satellite_table() {
+        // The lunar-native jamming kind dispatches end-to-end through the shared entry
+        // point the CLI / Python / wasm / MCP bindings use, with a bare kind line (every
+        // field is defaulted). What it must carry out is the per-satellite J/S table —
+        // the thing a manuscript previously had to compose by hand from two separate
+        // link-budget runs — plus the CSV artifact of the same table, the units block,
+        // and the honesty labelling.
+        let src = "kind = \"lunar-jamming\"\n[jammer]\npower_dbw = 10.0\nrange_m = 25000.0\n";
+        assert_eq!(
+            ScenarioKind::classify(src).unwrap(),
+            ScenarioKind::LunarJamming
+        );
+        let out = run_toml(src).expect("lunar-jamming scenario dispatches");
+        let v: serde_json::Value = serde_json::from_str(&out.json).unwrap();
+        let links = v["links"].as_array().expect("a per-satellite link table");
+        assert!(links.len() > 1, "a table, not a single collapsed number");
+        for l in links {
+            assert!(l["js_db"].is_number(), "every row carries its own J/S");
+            assert!(l["sat"].is_number());
+            assert!(l["cn0_effective_dbhz"].is_number());
+        }
+        // No central statistic stands in for the table: the aggregate lives beside it.
+        assert!(v["fom"]["n_links"].as_u64().unwrap() as usize == links.len());
+        assert!(v["units"]["links.js_db"]["unit"].as_str() == Some("dB"));
+        assert!(v["units"]["links.js_db"]["provenance"].is_string());
+        // The table is also published as a CSV artifact, one row per link.
+        let csv = out.csv.as_ref().expect("a CSV table artifact");
+        assert_eq!(csv.lines().count(), links.len() + 1);
+        assert!(out.svg.starts_with("<svg"));
+        assert!(out.summary.contains("lunar-jamming"));
+        assert!(out.json.contains("MODELLED"));
     }
 
     #[test]
