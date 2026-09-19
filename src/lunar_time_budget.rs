@@ -262,6 +262,10 @@ pub struct ClockCrossover {
     pub clock: &'static str,
     /// Dominant power-law noise type at the day scale: `"flicker-fm"` or `"white-fm"`.
     pub noise_type: &'static str,
+    /// The clock's fractional frequency stability `σ_y(τ = 1 s)` — the level the closed form
+    /// reads its crossover off. Carried on the row so a consumer of this table never has to
+    /// re-derive the spec it was computed from.
+    pub sigma_y_one_s: f64,
     /// The clock's time error `x(τ) = σ_y(τ)·τ` at one day (s) — the P3 Table 1 spec row, in
     /// seconds, carried alongside the crossover so the table is self-describing.
     pub x_one_day_s: f64,
@@ -326,6 +330,7 @@ pub fn clock_crossover_table(frame_pos_error_m: f64, clocks: &[LunarClock]) -> V
                 } else {
                     "flicker-fm"
                 },
+                sigma_y_one_s: sigma_y(&p, 1.0),
                 x_one_day_s: x_clock_s(&p, ONE_DAY_S),
                 crossover_tau_s: bisected,
                 crossover_tau_s_closed_form: closed,
