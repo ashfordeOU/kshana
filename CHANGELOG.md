@@ -40,11 +40,23 @@ breaking changes are called out explicitly.
   written to 13 significant figures and each `x` to 7, so the bytes do not fork
   between builds of the same source. Purely additive: the report JSON is
   byte-identical.
+- **The `hybrid-optical-rf` report now describes itself.** A `link_configuration`
+  block echoes the resolved link inputs — carrier wavelength, transmit and
+  receive aperture, range, pulse width, integration time, efficiencies and
+  losses — with defaults applied, so a paper states the configuration it ran at
+  instead of quoting a default read out of the source. A `units` block gives the
+  unit and provenance class of every quantity a paper is likely to quote. The
+  handoff covariance traces are the reason it exists: they were emitted as a
+  bare `variance` and a manuscript inferred square metres from an internal
+  consistency check. The inference was right, which is exactly why it was a
+  defect — nothing would have caught it being wrong. Purely additive: measured
+  across four configurations, 456 pre-existing fields, **0 changed, 0 removed,
+  196 added**.
 - A verification-matrix row for the time-budget reproducibility table, honestly
   `InternalConsistency` / **MODELLED** — the total is checked against the
   root-sum-square of the terms in the same file, which shares the engine's own
   term definitions and is therefore not an independent oracle. Together these
-  move the matrix to **104 rows — 56 VALIDATED, 44 MODELLED, 4 PARTNER**.
+  move the matrix to **105 rows — 56 VALIDATED, 45 MODELLED, 4 PARTNER**.
 
 ### Fixed
 
