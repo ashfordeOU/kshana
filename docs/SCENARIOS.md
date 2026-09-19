@@ -11,7 +11,7 @@ This file is **generated** from `api::list_scenario_kinds()` — the single sour
 | 3 | [`orbit`](#orbit) | GNSS availability + DOP from an orbital constellation (Walker / TLE / RINEX). |
 | 4 | [`ephemeris`](#ephemeris) | Ephemeris & ground track: propagate one satellite (TLE→SGP4 or analytic orbit) and emit its TEME/GCRS state (position + velocity), ITRF/ECEF position, WGS-84 sub-satellite lat/lon/alt, and per-step station az/el/range + range-rate (Doppler). |
 | 5 | [`integrity`](#integrity) | Snapshot / solution-separation / ARAIM RAIM with HPL/VPL and a Stanford diagram. |
-| 6 | [`lunar-integrity`](#lunar-integrity) | Lunar south-pole ARAIM protection-level pass vs a representative LunaNet relay set. |
+| 6 | [`lunar-integrity`](#lunar-integrity) | Lunar south-pole ARAIM protection-level pass vs a representative LunaNet relay set. sigma_ure_m exposes the signal-in-space ranging accuracy (protection levels scale linearly with it, so sweeping it answers what ranging accuracy an alert limit requires). Defaults to the historical LNIS-class south-pole case. |
 | 7 | [`lunar-time-offset`](#lunar-time-offset) | Modelled relativistic Earth–Moon clock rate (Lunar Coordinate Time, LTC/TCL): the secular LTC−TT rate from the self-potential difference and the Moon's kinetic term, reported with the published 56–59 µs/day band, plus the accumulated offset over a horizon. |
 | 8 | [`lunar-vlbi`](#lunar-vlbi) | Modelled lunar geodetic VLBI delay observable: an Earth baseline (two ground stations, GCRS) observes a one-way signal from a NovaMoon-class lunar-surface beacon. Emits the near-field two-range-difference delay, its rate, and the wavefront-curvature near-field correction over a pass — cross-checked against the same-codebase plane-wave Δ-DOR observable in the far-field limit, with finite-difference-verified partials. MODELLED, NOT validated against real VLBI data; carries the frame-consistency, xp=yp=0 polar-motion and plane-wave-vs-near-field caveats. |
 | 9 | [`lunar-joint-od-clock`](#lunar-joint-od-clock) | Modelled joint multi-technique lunar OD + clock batch estimator on a SIMULATED network: a Gauss-Newton snapshot fit that fuses Earth-baseline geodetic VLBI delays, lunar-local station↔satellite ranges and inter-satellite ranges to recover, together, a lunar surface station's 3-D position, a small constellation's positions and every asset's clock offset from an injected truth. The headline honest result — VLBI makes the station's full 3-D position observable where lunar-local ranging alone leaves a weakly-observed direction — is reported as the with-vs-without-VLBI station-error contrast. MODELLED simulated closed-loop recovery (truth shares the observation model), deterministic (seeded), NOT real-data validated; no force-model propagation inside the solver; no TRL/heritage/agency endorsement. |
@@ -94,10 +94,10 @@ Snapshot / solution-separation / ARAIM RAIM with HPL/VPL and a Stanford diagram.
 
 ## `lunar-integrity`
 
-Lunar south-pole ARAIM protection-level pass vs a representative LunaNet relay set.
+Lunar south-pole ARAIM protection-level pass vs a representative LunaNet relay set. sigma_ure_m exposes the signal-in-space ranging accuracy (protection levels scale linearly with it, so sweeping it answers what ranging accuracy an alert limit requires). Defaults to the historical LNIS-class south-pole case.
 
 - **Required fields:** *(none)*
-- **Optional fields:** `step_s`, `duration_s`, `alert_limit_m`, `p_hmi`
+- **Optional fields:** `step_s`, `duration_s`, `alert_limit_m`, `p_hmi`, `sigma_ure_m`
 
 ## `lunar-time-offset`
 
@@ -132,7 +132,7 @@ Modelled lunar reference-frame realisation: a 7-parameter Helmert (similarity) d
 Modelled lunar navigation service-volume analysis from an ILLUSTRATIVE, public-source Moonlight/LCNS-class lunar-orbit constellation (not affiliated with ESA): sweeps a selenographic lat/lon grid over a time horizon and reports DOP / coverage / availability (≥4 sats AND PDOP < threshold) plus a generalised lunar ARAIM protection-level (HPL/VPL) envelope over the volume. The DOP geometry REUSES the gnss_lib_py-VALIDATED kernel (crate::orbit::dop); the protection level REUSES the LunaNet LNIS lunar ARAIM machinery (crate::lunar, σ_URE≈30 m) and reduces to the existing south-pole PL as a special case. MODELLED composition: a circular-/elliptical-Keplerian relay set (not the real differential-corrected LCNS/NRHO ephemeris), a mean-rotation Moon (no libration/precessing pole). Deterministic (pure geometry). No TRL/heritage/agency endorsement.
 
 - **Required fields:** *(none)*
-- **Optional fields:** `n_sats`, `sma_km`, `eccentricity`, `inc_deg`, `argp_deg`, `lat_min_deg`, `lat_max_deg`, `lat_step_deg`, `lon_min_deg`, `lon_max_deg`, `lon_step_deg`, `horizon_hours`, `step_min`, `elev_mask_deg`, `pdop_threshold`, `alert_limit_m`, `p_hmi`, `perturbed`
+- **Optional fields:** `n_sats`, `sma_km`, `eccentricity`, `inc_deg`, `argp_deg`, `lat_min_deg`, `lat_max_deg`, `lat_step_deg`, `lon_min_deg`, `lon_max_deg`, `lon_step_deg`, `horizon_hours`, `step_min`, `elev_mask_deg`, `pdop_threshold`, `alert_limit_m`, `p_hmi`, `perturbed`, `sigma_ure_m`, `export_site_lat_deg`, `export_site_lon_deg`
 
 ## `lunar-differential-pnt`
 
