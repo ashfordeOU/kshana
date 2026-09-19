@@ -539,6 +539,35 @@ pub fn south_pole_hpl_pass(
     alert_limit_m: f64,
     budget: IntegrityBudget,
 ) -> Vec<LunarPassPoint> {
+    south_pole_hpl_pass_cfg(step_s, duration_s, alert_limit_m, LUNAR_SIGMA_URE_M, budget)
+}
+
+/// As [`south_pole_hpl_pass`], but with the signal-in-space ranging accuracy
+/// `sigma_ure_m` as an explicit parameter.
+///
+/// The protection level scales linearly with `sigma_ure_m`, so exposing it turns
+/// the fixed "is LNIS-class ranging good enough?" question into the design
+/// question a navigation-service provider actually owns: *what ranging accuracy
+/// is required* for a given alert limit.
+///
+/// Passing `sigma_ure_m = LUNAR_SIGMA_URE_M` reproduces [`south_pole_hpl_pass`]
+/// bit-for-bit.
+///
+/// Note on site latitude: the representative relay sky is specified as fixed
+/// azimuth/elevation pairs in the *user's own* local ENU frame (see
+/// [`lunar_sky_geometry`]), so translating the user in latitude rotates the user
+/// and the relay sky together and leaves the relative geometry, and hence the
+/// DOP and protection level, exactly invariant. A genuine per-site study
+/// therefore requires relay positions propagated in MCMF and reduced to the
+/// site, not a site-latitude argument here; see `moonlight-service-volume` for
+/// the grid-based treatment.
+pub fn south_pole_hpl_pass_cfg(
+    step_s: f64,
+    duration_s: f64,
+    alert_limit_m: f64,
+    sigma_ure_m: f64,
+    budget: IntegrityBudget,
+) -> Vec<LunarPassPoint> {
     let user = selenographic_to_mcmf(Selenographic {
         lat_rad: -FRAC_PI_2,
         lon_rad: 0.0,
@@ -575,7 +604,7 @@ pub fn south_pole_hpl_pass(
             .collect();
         let sats = lunar_sky_geometry(user, 6.0e6, &azels);
         let resid = vec![0.0; sats.len()];
-        if let Some(r) = lunar_araim(user, &sats, &resid, budget) {
+        if let Some(r) = lunar_araim_with_sigma(user, &sats, &resid, sigma_ure_m, budget) {
             out.push(LunarPassPoint {
                 t_s: t,
                 hpl_m: r.hpl_m,
@@ -596,11 +625,28 @@ pub fn lunar_araim(
     range_residual_m: &[f64],
     budget: IntegrityBudget,
 ) -> Option<AraimResult> {
+    lunar_araim_with_sigma(user, sats, range_residual_m, LUNAR_SIGMA_URE_M, budget)
+}
+
+/// As [`lunar_araim`], but with an explicit signal-in-space ranging accuracy
+/// `sigma_ure_m` instead of the fixed [`LUNAR_SIGMA_URE_M`] LNIS-class value.
+///
+/// Protection levels scale linearly with the user-range-error sigma, so this is
+/// the entry point for answering "what ranging accuracy does a given alert limit
+/// require?". Calling it with `sigma_ure_m = LUNAR_SIGMA_URE_M` is identical to
+/// [`lunar_araim`].
+pub fn lunar_araim_with_sigma(
+    user: Vec3,
+    sats: &[Vec3],
+    range_residual_m: &[f64],
+    sigma_ure_m: f64,
+    budget: IntegrityBudget,
+) -> Option<AraimResult> {
     araim_raim(
         user,
         sats,
         range_residual_m,
-        LUNAR_SIGMA_URE_M,
+        sigma_ure_m,
         FaultPriors {
             p_sat: LUNAR_P_SAT,
             b_nom_m: 0.0,
@@ -621,6 +667,9 @@ fn default_alert_m() -> f64 {
 fn default_p_hmi() -> f64 {
     1e-4
 }
+fn default_sigma_ure() -> f64 {
+    LUNAR_SIGMA_URE_M
+}
 
 /// A runnable lunar-surface integrity scenario: a south-pole receiver against a
 /// representative LunaNet relay set over a pass. The TOML `kind = "lunar-integrity"`
@@ -639,6 +688,11 @@ pub struct LunarScenario {
     /// Integrity-risk budget `P_HMI` (lunar surface ops, ~1e-4 not aviation 1e-7).
     #[serde(default = "default_p_hmi")]
     pub p_hmi: f64,
+    /// Signal-in-space ranging accuracy (m, 1-sigma user range error). Defaults to
+    /// the LNIS-class [`LUNAR_SIGMA_URE_M`]. Protection levels scale linearly with
+    /// this, so sweeping it answers what ranging accuracy an alert limit requires.
+    #[serde(default = "default_sigma_ure")]
+    pub sigma_ure_m: f64,
 }
 
 /// The result of a [`LunarScenario`]: the south-pole protection-level pass plus its
@@ -673,13 +727,19 @@ impl LunarScenario {
             p_hmi_horz: self.p_hmi,
             p_fa: 1e-5,
         };
-        let pass = south_pole_hpl_pass(self.step_s, self.duration_s, self.alert_limit_m, budget);
+        let pass = south_pole_hpl_pass_cfg(
+            self.step_s,
+            self.duration_s,
+            self.alert_limit_m,
+            self.sigma_ure_m,
+            budget,
+        );
         let available = pass.iter().filter(|p| p.available).count();
         let min_hpl = pass.iter().map(|p| p.hpl_m).fold(f64::INFINITY, f64::min);
         let max_hpl = pass.iter().map(|p| p.hpl_m).fold(0.0_f64, f64::max);
         LunarReport {
             alert_limit_m: self.alert_limit_m,
-            sigma_ure_m: LUNAR_SIGMA_URE_M,
+            sigma_ure_m: self.sigma_ure_m,
             samples_total: pass.len(),
             samples_available: available,
             min_hpl_m: if min_hpl.is_finite() { min_hpl } else { 0.0 },

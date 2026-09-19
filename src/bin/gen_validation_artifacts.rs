@@ -5,7 +5,7 @@
 //!   - `web/data/verification-matrix.json` — the Validation ledger the public site
 //!     renders (every row's status, oracle, and existence-checked deep-links to its
 //!     test, module source and committed fixture/NOTICE);
-//!   - `docs/VERIFICATION-MATRIX.md` — the full 75-row per-capability table;
+//!   - `docs/VERIFICATION-MATRIX.md` — the full 103-row per-capability table;
 //!   - `docs/MODELLED-RATIONALE.md` — why each Modelled row is not externally validated;
 //!   - `docs/SCENARIOS.md` — the per-kind reference, generated from
 //!     `api::list_scenario_kinds()` so it can never drift from the dispatcher.

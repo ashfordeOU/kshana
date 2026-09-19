@@ -849,6 +849,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Validated,
         },
         VerificationItem {
+            requirement: "Lunar joint communications-and-navigation geometry",
+            capability: "Per-satellite topocentric look angles and slant range at a named selenographic site, and the signal-in-space ranging accuracy exposed as a scenario parameter so the service-volume sweep yields a ranging REQUIREMENT rather than a pass/fail at one fixed sigma",
+            module: "lunar_service",
+            tests: "lunar_service::tests (topocentric against hand-computed geometry: overhead, due north/east/west, antipodal, and the degenerate polar east direction; the exported visible flag agrees with the independent visibility filter over a full 6 h sweep; the export is off by default and provably changes nothing else; protection levels are exactly linear in the exposed sigma while the geometry underneath is untouched)",
+            oracle: "Closed-form geometry whose answer is known without running the code (elevation 90 deg overhead, azimuth 0/90/270 deg due north/east/west, Euclidean slant range) plus cross-agreement with lunar_service::visible_sat_positions, which computes the same elevation through a separate expression. MODELLED: the oracle is internal. The MCI propagation and the visible-satellite SET the export is derived from are separately Validated against ANISE 0.10.2 (see the service-volume row); an external azimuth/range oracle is the outstanding upgrade for this row",
+            oracle_kind: OracleKind::InternalConsistency,
+            status: VerificationStatus::Modelled,
+        },
+        VerificationItem {
             requirement: "Lunar differential PNT",
             capability: "NovaMoon-class differential reference station: common-mode cancellation + baseline-growing residual + DGNSS protection levels",
             module: "lunar_dpnt",
@@ -1304,7 +1313,7 @@ mod artifacts {
         s
     }
 
-    /// Render the full 75-row matrix as a titled Markdown document (the browsable
+    /// Render the full 103-row matrix as a titled Markdown document (the browsable
     /// per-capability ledger in `docs/`). Wraps [`to_markdown`] with a generated-file
     /// header so both the generator and the sync test produce byte-identical output.
     pub fn to_verification_matrix_md(items: &[VerificationItem]) -> String {
