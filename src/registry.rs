@@ -93,6 +93,7 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         ApertureDutyCycle,
         LunarJamming,
         InsTrnCoast,
+        LunarVlbiFim,
     ]
 };
 
@@ -163,6 +164,9 @@ pub mod ids {
     pub const LUNAR_JAMMING: ScenarioId = ScenarioId::from_static("lunar-jamming");
     /// INS/TRN coasting error growth and the coast durations reaching stated thresholds.
     pub const INS_TRN_COAST: ScenarioId = ScenarioId::from_static("ins-trn-coast");
+    /// Lunar-VLBI station-coordinate covariance accumulated from the delay partials over
+    /// a schedule of baselines and epochs.
+    pub const LUNAR_VLBI_FIM: ScenarioId = ScenarioId::from_static("lunar-vlbi-fim");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {
