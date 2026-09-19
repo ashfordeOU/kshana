@@ -309,6 +309,37 @@ pub fn topocentric(user_mcmf: Vec3, sat_mcmf: Vec3) -> (f64, f64, f64) {
     (az_deg, el_deg, rng)
 }
 
+/// Off-boresight angle (rad) at a **nadir-pointing** satellite, between its boresight
+/// (the direction from the satellite to the centre of the Moon) and the line of sight to
+/// a surface user. Both vectors are Moon-centred Moon-fixed (MCMF); the result is in
+/// `[0, π]`.
+///
+/// This is the angle the transmit antenna pattern
+/// ([`crate::antenna::pattern_gain_dbi`]) is a function of, and it is the one look angle
+/// the topocentric triple cannot give: azimuth and elevation are measured at the *user*,
+/// while the pattern is evaluated at the *satellite*. Zero at the sub-satellite point, and
+/// `asin(R/r)` at the limb for a satellite at Moon-centred radius `r` — both pinned by
+/// test against elementary triangle trigonometry, which is a different expression from the
+/// dot product used here.
+///
+/// Degenerate inputs (a satellite at the Moon's centre, or coincident with the user)
+/// return `0.0` rather than a NaN, so a sweep cannot be poisoned by one bad sample.
+pub fn nadir_off_boresight_rad(sat_mcmf: Vec3, user_mcmf: Vec3) -> f64 {
+    let boresight = unit_or_zero([-sat_mcmf[0], -sat_mcmf[1], -sat_mcmf[2]]);
+    let los = unit_or_zero([
+        user_mcmf[0] - sat_mcmf[0],
+        user_mcmf[1] - sat_mcmf[1],
+        user_mcmf[2] - sat_mcmf[2],
+    ]);
+    // `unit_or_zero` returns the zero vector for a degenerate input, and the zero vector
+    // has zero self-dot — so this catches both degeneracies without touching the
+    // perpendicular case, where the boresight dot is zero but the vectors are unit.
+    if dot(boresight, boresight) == 0.0 || dot(los, los) == 0.0 {
+        return 0.0;
+    }
+    dot(boresight, los).clamp(-1.0, 1.0).acos()
+}
+
 /// One per-satellite geometry sample at one epoch for one site.
 #[derive(Clone, Debug, Serialize)]
 pub struct GeometrySample {
@@ -326,6 +357,27 @@ pub struct GeometrySample {
     pub range_km: f64,
     /// Whether this satellite clears the scenario elevation mask at this epoch.
     pub visible: bool,
+    /// Off-boresight angle at the satellite (deg) between its nadir boresight and the
+    /// line of sight to the site — [`nadir_off_boresight_rad`] in degrees. Present only
+    /// when `export_antenna` is configured; pure geometry, independent of the antenna.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub off_boresight_deg: Option<f64>,
+    /// Transmit-antenna gain toward the site (dBi) from the **real** aperture pattern,
+    /// [`crate::antenna::pattern_gain_dbi`] at `off_boresight_deg`. Present only when
+    /// `export_antenna` is configured.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub pattern_gain_dbi: Option<f64>,
+    /// Whether the site lies inside the satellite's half-power beam under the **real**
+    /// pattern: `pattern_gain_dbi ≥ boresight_gain_dbi − 10·log₁₀(2)`
+    /// ([`crate::antenna::within_half_power_beam`]).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub in_beam_pattern: Option<bool>,
+    /// Whether the site lies inside the satellite's half-power beam under the
+    /// **symmetric approximation**: `off_boresight_deg ≤ ½·√(31000/G_lin)`
+    /// ([`crate::antenna::symmetric_beamwidth_rad`]). Emitted beside, never in place of,
+    /// `in_beam_pattern`.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub in_beam_symmetric: Option<bool>,
 }
 
 /// Dilution of precision at a lunar surface user from the visible satellites — a thin
@@ -660,6 +712,56 @@ fn d_p_hmi() -> f64 {
 fn d_sigma_ure_m() -> f64 {
     LUNAR_SIGMA_URE_M
 }
+/// S-band lunar augmented-forward-signal carrier (Hz) — the same 2.4 GHz the
+/// `lunar-attack-surface` and `lunar-jamming` packs already run at, so a geometry export
+/// and a jamming run describe the same radio.
+fn d_export_carrier_hz() -> f64 {
+    2.4e9
+}
+/// Aperture (illumination) efficiency of the satellite transmit dish — the engine-wide
+/// representative [`crate::antenna::DEFAULT_APERTURE_EFFICIENCY`] (0.60).
+fn d_export_efficiency() -> f64 {
+    crate::antenna::DEFAULT_APERTURE_EFFICIENCY
+}
+
+/// Satellite transmit-antenna configuration for the per-satellite geometry export.
+///
+/// Supplying this turns the geometry export from look angles into a **link-facing**
+/// export: each row gains the off-boresight angle at the satellite and the transmit gain
+/// toward the site from the real aperture pattern, and the report gains an
+/// [`AntennaPatternBlock`]. Purely additive — leaving it out reproduces the previous
+/// export byte-for-byte.
+///
+/// It is only read when the export site (`export_site_lat_deg` + `export_site_lon_deg`)
+/// is also set: without a site there is no direction to evaluate the pattern along. A
+/// non-finite or non-positive `diameter_m` / `carrier_hz`, or an `efficiency` outside
+/// `(0, 1]`, leaves the antenna block off rather than emitting a number derived from an
+/// impossible aperture.
+#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
+pub struct ExportAntennaCfg {
+    /// Satellite transmit-dish diameter (m). No default: the pattern is a statement about
+    /// a specific aperture, so the caller has to name one.
+    pub diameter_m: f64,
+    /// Carrier frequency (Hz). Default 2.4e9 (S-band lunar AFS).
+    #[serde(default = "d_export_carrier_hz")]
+    pub carrier_hz: f64,
+    /// Aperture (illumination) efficiency in `(0, 1]`. Default 0.60.
+    #[serde(default = "d_export_efficiency")]
+    pub efficiency: f64,
+}
+
+impl ExportAntennaCfg {
+    /// Whether this configuration describes a physically evaluable aperture.
+    fn is_usable(&self) -> bool {
+        self.diameter_m.is_finite()
+            && self.diameter_m > 0.0
+            && self.carrier_hz.is_finite()
+            && self.carrier_hz > 0.0
+            && self.efficiency.is_finite()
+            && self.efficiency > 0.0
+            && self.efficiency <= 1.0
+    }
+}
 
 /// A runnable lunar navigation **service-volume** scenario. The TOML
 /// `kind = "moonlight-service-volume"` entry the engine dispatches here builds an
@@ -751,6 +853,10 @@ pub struct LunarServiceScenario {
     /// Selenographic longitude (deg) of the per-satellite geometry export site.
     #[serde(default)]
     pub export_site_lon_deg: Option<f64>,
+    /// Optional satellite transmit-antenna configuration for the geometry export. See
+    /// [`ExportAntennaCfg`]. Read only when the export site is also set; purely additive.
+    #[serde(default)]
+    pub export_antenna: Option<ExportAntennaCfg>,
 }
 
 impl Default for LunarServiceScenario {
@@ -777,8 +883,280 @@ impl Default for LunarServiceScenario {
             perturbed: false,
             export_site_lat_deg: None,
             export_site_lon_deg: None,
+            export_antenna: None,
         }
     }
+}
+
+// ---------------------------------------------------------------------------
+// The antenna-pattern block: the real pattern beside the approximation it replaces.
+// ---------------------------------------------------------------------------
+
+/// The real transmit pattern, the symmetric approximation that usually stands in for it,
+/// and the **in-beam correction** between them, for one geometry export.
+///
+/// The engine has carried a real aperture pattern since P1
+/// ([`crate::antenna::pattern_gain_dbi`]) and nothing outside `antenna.rs` used it; a
+/// gain figure paired with a beamwidth rule of thumb was doing the work instead. Both are
+/// emitted here, side by side and both labelled, because the point is the *difference*:
+/// `in_beam_correction_links` is real minus approximate, so a reader can see what the
+/// approximation bought or cost rather than being asked to trust one of them.
+///
+/// The approximation is **not** removed or corrected anywhere. It is reported.
+#[derive(Clone, Debug, Serialize)]
+pub struct AntennaPatternBlock {
+    /// Satellite transmit-dish diameter (m) — echoed input.
+    pub diameter_m: f64,
+    /// Carrier frequency (Hz) — echoed input.
+    pub carrier_hz: f64,
+    /// Aperture efficiency — echoed input.
+    pub efficiency: f64,
+    /// Boresight gain `G₀ = 10·log₁₀(η(πD/λ)²)` (dBi).
+    pub boresight_gain_dbi: f64,
+    /// Real half-power beamwidth `1.02·λ/D` (deg), full width across the main lobe.
+    pub half_power_beamwidth_deg: f64,
+    /// Half of [`Self::half_power_beamwidth_deg`] — the beam-edge angle from boresight.
+    pub half_power_half_angle_deg: f64,
+    /// First-null (edge-of-main-lobe) angle from boresight (deg), `asin(1.22·λ/D)`.
+    /// Absent when the aperture is smaller than ≈ 1.22 wavelengths.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub first_null_deg: Option<f64>,
+    /// Beamwidth (deg) the **symmetric approximation** derives from `boresight_gain_dbi`
+    /// alone: `√(K/G_lin)` with `K = 31000 deg²`.
+    pub symmetric_beamwidth_deg: f64,
+    /// Half of [`Self::symmetric_beamwidth_deg`] — the approximation's beam-edge angle.
+    pub symmetric_half_angle_deg: f64,
+    /// The symmetric relation's constant `K` (deg²), stated rather than buried.
+    pub symmetric_relation_constant_deg2: f64,
+    /// Aperture efficiency the symmetric relation implies when paired with the
+    /// `θ₃dB[deg] = 70·λ/D` rule of thumb it is normally quoted with: ≈ **0.641**. This is
+    /// the efficiency a published gain→beamwidth analysis is assuming, said or unsaid.
+    pub symmetric_implied_efficiency_70deg_rule: f64,
+    /// Aperture efficiency the symmetric relation implies when paired with this engine's
+    /// uniform circular aperture (`1.02·λ/D`): ≈ 0.920. Above `efficiency`, which is why
+    /// the approximate beam comes out wider than the real one.
+    pub symmetric_implied_efficiency_uniform_aperture: f64,
+    /// `symmetric_beamwidth_deg / half_power_beamwidth_deg`. Equals
+    /// `√(symmetric_implied_efficiency_uniform_aperture / efficiency)` exactly.
+    pub beamwidth_ratio_symmetric_over_pattern: f64,
+    /// Number of exported rows the in-beam counts were taken over: the **visible** rows
+    /// only (a satellite below the site's local horizon cannot serve it, whatever its beam
+    /// is doing).
+    pub n_links_evaluated: usize,
+    /// Rows in beam under the **real pattern**.
+    pub in_beam_pattern_links: usize,
+    /// Rows in beam under the **symmetric approximation**.
+    pub in_beam_symmetric_links: usize,
+    /// **The in-beam pattern correction**, in links: `in_beam_pattern_links −
+    /// in_beam_symmetric_links`. Negative means the approximation over-counts, i.e. it
+    /// claims coverage the real pattern does not deliver.
+    pub in_beam_correction_links: i64,
+    /// [`Self::in_beam_pattern_links`] averaged over epochs — satellites in beam per epoch.
+    pub in_beam_pattern_sats_per_epoch: f64,
+    /// [`Self::in_beam_symmetric_links`] averaged over epochs.
+    pub in_beam_symmetric_sats_per_epoch: f64,
+    /// The correction as satellites per epoch — the figure "agree to within one satellite"
+    /// is about, on average.
+    pub in_beam_correction_sats_per_epoch: f64,
+    /// The largest single-epoch `|real − approximate|` in-beam count over the horizon.
+    /// This, not the mean, is the worst case a per-epoch claim has to survive.
+    pub max_abs_epoch_correction_sats: usize,
+    /// Unit and provenance class of every numeric field this block and the per-satellite
+    /// rows emit.
+    pub units: serde_json::Value,
+    /// Honest scope note.
+    pub note: &'static str,
+}
+
+/// Unit and provenance class for every numeric field the antenna-pattern block and the
+/// per-satellite geometry rows emit — paths relative to the report root, matching the
+/// contract [`crate::lunar_jamming`] and [`crate::linkbudget`] publish.
+const ANTENNA_UNITS: &[(&str, &str, &str, &str)] = &[
+    // (JSON path, unit, provenance class, note — "" for no note)
+    ("antenna_pattern.diameter_m", "m", "input", ""),
+    ("antenna_pattern.carrier_hz", "Hz", "input", ""),
+    (
+        "antenna_pattern.efficiency",
+        "fraction",
+        "input",
+        "aperture (illumination) efficiency of the transmit dish",
+    ),
+    (
+        "antenna_pattern.boresight_gain_dbi",
+        "dBi",
+        "computed",
+        "antenna::boresight_gain_dbi, closed-form aperture theory",
+    ),
+    (
+        "antenna_pattern.half_power_beamwidth_deg",
+        "deg",
+        "computed",
+        "antenna::half_power_beamwidth_rad, 1.02 lambda/D; the exact Airy width is 1.02899 lambda/D",
+    ),
+    (
+        "antenna_pattern.half_power_half_angle_deg",
+        "deg",
+        "computed",
+        "half of half_power_beamwidth_deg",
+    ),
+    (
+        "antenna_pattern.first_null_deg",
+        "deg",
+        "computed",
+        "antenna::first_null_angle_rad, asin(1.22 lambda/D); absent for an aperture under ~1.22 wavelengths",
+    ),
+    (
+        "antenna_pattern.symmetric_beamwidth_deg",
+        "deg",
+        "modelled",
+        "the APPROXIMATION: sqrt(31000/G_lin) from the boresight gain alone, no aperture",
+    ),
+    (
+        "antenna_pattern.symmetric_half_angle_deg",
+        "deg",
+        "modelled",
+        "half of symmetric_beamwidth_deg",
+    ),
+    (
+        "antenna_pattern.symmetric_relation_constant_deg2",
+        "deg^2",
+        "modelled",
+        "K in G_lin = K/theta_deg^2; the satcom working value, 4*pi*(180/pi)^2 = 41253 at unit efficiency",
+    ),
+    (
+        "antenna_pattern.symmetric_implied_efficiency_70deg_rule",
+        "fraction",
+        "computed",
+        "aperture efficiency the symmetric relation implies against the 70 lambda/D deg rule: 0.641",
+    ),
+    (
+        "antenna_pattern.symmetric_implied_efficiency_uniform_aperture",
+        "fraction",
+        "computed",
+        "same, against this engine's uniform circular aperture (1.02 lambda/D): 0.920",
+    ),
+    (
+        "antenna_pattern.beamwidth_ratio_symmetric_over_pattern",
+        "dimensionless",
+        "computed",
+        "sqrt(symmetric_implied_efficiency_uniform_aperture / efficiency)",
+    ),
+    (
+        "antenna_pattern.n_links_evaluated",
+        "count",
+        "computed",
+        "visible (epoch, satellite) rows; rows below the elevation mask are excluded",
+    ),
+    (
+        "antenna_pattern.in_beam_pattern_links",
+        "count",
+        "computed",
+        "real pattern: pattern_gain_dbi >= boresight_gain_dbi - 10*log10(2)",
+    ),
+    (
+        "antenna_pattern.in_beam_symmetric_links",
+        "count",
+        "modelled",
+        "symmetric approximation: off_boresight_deg <= symmetric_half_angle_deg",
+    ),
+    (
+        "antenna_pattern.in_beam_correction_links",
+        "count",
+        "computed",
+        "THE CORRECTION: in_beam_pattern_links - in_beam_symmetric_links; negative = the approximation over-counts",
+    ),
+    (
+        "antenna_pattern.in_beam_pattern_sats_per_epoch",
+        "count/epoch",
+        "computed",
+        "",
+    ),
+    (
+        "antenna_pattern.in_beam_symmetric_sats_per_epoch",
+        "count/epoch",
+        "modelled",
+        "",
+    ),
+    (
+        "antenna_pattern.in_beam_correction_sats_per_epoch",
+        "count/epoch",
+        "computed",
+        "the correction averaged over epochs",
+    ),
+    (
+        "antenna_pattern.max_abs_epoch_correction_sats",
+        "count",
+        "computed",
+        "worst single-epoch |real - approximate| in-beam count over the horizon",
+    ),
+    ("per_sat_geometry.t_s", "s", "computed", "seconds from epoch"),
+    ("per_sat_geometry.sat", "index", "computed", ""),
+    (
+        "per_sat_geometry.az_deg",
+        "deg",
+        "computed",
+        "clockwise from local north at the site, [0, 360)",
+    ),
+    (
+        "per_sat_geometry.el_deg",
+        "deg",
+        "computed",
+        "above the site's local horizon plane",
+    ),
+    (
+        "per_sat_geometry.range_km",
+        "km",
+        "computed",
+        "slant range site to satellite",
+    ),
+    (
+        "per_sat_geometry.off_boresight_deg",
+        "deg",
+        "computed",
+        "at the SATELLITE, from its nadir boresight to the site; lunar_service::nadir_off_boresight_rad",
+    ),
+    (
+        "per_sat_geometry.pattern_gain_dbi",
+        "dBi",
+        "computed",
+        "antenna::pattern_gain_dbi, the real Airy aperture pattern at off_boresight_deg",
+    ),
+    (
+        "per_sat_geometry.visible",
+        "boolean",
+        "computed",
+        "el_deg >= elev_mask_deg; only these rows enter the in-beam counts",
+    ),
+    (
+        "per_sat_geometry.in_beam_pattern",
+        "boolean",
+        "computed",
+        "real pattern: pattern_gain_dbi >= boresight_gain_dbi - 10*log10(2)",
+    ),
+    (
+        "per_sat_geometry.in_beam_symmetric",
+        "boolean",
+        "modelled",
+        "symmetric approximation: off_boresight_deg <= symmetric_half_angle_deg",
+    ),
+];
+
+/// Render [`ANTENNA_UNITS`] as the block's `units` object.
+fn antenna_units_block() -> serde_json::Value {
+    let mut m = serde_json::Map::new();
+    for (path, unit, provenance, note) in ANTENNA_UNITS {
+        let mut e = serde_json::Map::new();
+        e.insert("unit".into(), serde_json::Value::String((*unit).into()));
+        e.insert(
+            "provenance".into(),
+            serde_json::Value::String((*provenance).into()),
+        );
+        if !note.is_empty() {
+            e.insert("note".into(), serde_json::Value::String((*note).into()));
+        }
+        m.insert((*path).into(), serde_json::Value::Object(e));
+    }
+    serde_json::Value::Object(m)
 }
 
 /// The result of a [`LunarServiceScenario`]: the DOP / coverage / availability summary
@@ -817,6 +1195,11 @@ pub struct LunarServiceReport {
     /// `None` unless both `export_site_lat_deg` and `export_site_lon_deg` are set.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub per_sat_geometry: Option<Vec<GeometrySample>>,
+    /// The real transmit pattern beside the symmetric approximation, and the in-beam
+    /// correction between them. `None` unless the export site **and** a usable
+    /// `export_antenna` are both configured.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub antenna_pattern: Option<AntennaPatternBlock>,
     /// Honest scope note (illustrative / modelled).
     pub note: &'static str,
     /// True when the sweep ran against the perturbed (J2/C22/third-body) constellation twin
@@ -1009,6 +1392,9 @@ impl LunarServiceScenario {
         }
 
         // Optional per-satellite geometry export for one site (additive; None by default).
+        // The antenna block is a second, independently optional layer on top of it.
+        let antenna = self.export_antenna.filter(ExportAntennaCfg::is_usable);
+        let mut antenna_pattern: Option<AntennaPatternBlock> = None;
         let geom: Option<Vec<GeometrySample>> =
             match (self.export_site_lat_deg, self.export_site_lon_deg) {
                 (Some(lat), Some(lon)) => {
@@ -1018,20 +1404,129 @@ impl LunarServiceScenario {
                         alt_m: 0.0,
                     };
                     let user = selenographic_to_mcmf(site);
+                    // Antenna constants, hoisted out of the loop: they depend on the dish
+                    // and the carrier, never on the geometry.
+                    let ant = antenna.map(|a| {
+                        let g0 = crate::antenna::boresight_gain_dbi(
+                            a.diameter_m,
+                            a.carrier_hz,
+                            a.efficiency,
+                        );
+                        let sym_half = 0.5 * crate::antenna::symmetric_beamwidth_rad(g0);
+                        (a, g0, sym_half)
+                    });
                     let mut out = Vec::new();
+                    // Per-epoch in-beam tallies, so the worst single epoch is reported and
+                    // not just the horizon mean.
+                    let mut n_eval = 0usize;
+                    let mut n_pattern = 0usize;
+                    let mut n_symmetric = 0usize;
+                    let mut max_abs_epoch_delta = 0usize;
                     for &t in &times {
                         let sats_mcmf = constellation.positions_mcmf(t);
+                        let (mut ep_pattern, mut ep_symmetric) = (0usize, 0usize);
                         for (k, &sp) in sats_mcmf.iter().enumerate() {
                             let (az, el, rng_m) = topocentric(user, sp);
-                            out.push(GeometrySample {
+                            let visible = el >= self.elev_mask_deg;
+                            let mut row = GeometrySample {
                                 t_s: t,
                                 sat: k,
                                 az_deg: az,
                                 el_deg: el,
                                 range_km: rng_m / 1000.0,
-                                visible: el >= self.elev_mask_deg,
-                            });
+                                visible,
+                                off_boresight_deg: None,
+                                pattern_gain_dbi: None,
+                                in_beam_pattern: None,
+                                in_beam_symmetric: None,
+                            };
+                            if let Some((a, _g0, sym_half)) = ant {
+                                let theta = nadir_off_boresight_rad(sp, user);
+                                let in_pattern = crate::antenna::within_half_power_beam(
+                                    a.diameter_m,
+                                    a.carrier_hz,
+                                    a.efficiency,
+                                    theta,
+                                );
+                                let in_symmetric = theta <= sym_half;
+                                row.off_boresight_deg = Some(theta.to_degrees());
+                                row.pattern_gain_dbi = Some(crate::antenna::pattern_gain_dbi(
+                                    a.diameter_m,
+                                    a.carrier_hz,
+                                    a.efficiency,
+                                    theta,
+                                ));
+                                row.in_beam_pattern = Some(in_pattern);
+                                row.in_beam_symmetric = Some(in_symmetric);
+                                // The counts are over servable links only: a satellite the
+                                // site cannot see is not serving it, whatever its beam does.
+                                if visible {
+                                    n_eval += 1;
+                                    if in_pattern {
+                                        n_pattern += 1;
+                                        ep_pattern += 1;
+                                    }
+                                    if in_symmetric {
+                                        n_symmetric += 1;
+                                        ep_symmetric += 1;
+                                    }
+                                }
+                            }
+                            out.push(row);
                         }
+                        max_abs_epoch_delta =
+                            max_abs_epoch_delta.max(ep_pattern.abs_diff(ep_symmetric));
+                    }
+                    if let Some((a, g0, sym_half)) = ant {
+                        let hpbw =
+                            crate::antenna::half_power_beamwidth_rad(a.diameter_m, a.carrier_hz);
+                        let sym_full = 2.0 * sym_half;
+                        let n_ep = times.len().max(1) as f64;
+                        antenna_pattern = Some(AntennaPatternBlock {
+                            diameter_m: a.diameter_m,
+                            carrier_hz: a.carrier_hz,
+                            efficiency: a.efficiency,
+                            boresight_gain_dbi: g0,
+                            half_power_beamwidth_deg: hpbw.to_degrees(),
+                            half_power_half_angle_deg: (0.5 * hpbw).to_degrees(),
+                            first_null_deg: crate::antenna::first_null_angle_rad(
+                                a.diameter_m,
+                                a.carrier_hz,
+                            )
+                            .map(f64::to_degrees),
+                            symmetric_beamwidth_deg: sym_full.to_degrees(),
+                            symmetric_half_angle_deg: sym_half.to_degrees(),
+                            symmetric_relation_constant_deg2:
+                                crate::antenna::SYMMETRIC_GAIN_BEAMWIDTH_CONST_DEG2,
+                            symmetric_implied_efficiency_70deg_rule:
+                                crate::antenna::symmetric_relation_implied_efficiency(
+                                    70.0_f64.to_radians(),
+                                ),
+                            symmetric_implied_efficiency_uniform_aperture:
+                                crate::antenna::symmetric_relation_implied_efficiency(
+                                    crate::antenna::UNIFORM_APERTURE_HPBW_COEFF,
+                                ),
+                            beamwidth_ratio_symmetric_over_pattern: sym_full / hpbw,
+                            n_links_evaluated: n_eval,
+                            in_beam_pattern_links: n_pattern,
+                            in_beam_symmetric_links: n_symmetric,
+                            in_beam_correction_links: n_pattern as i64 - n_symmetric as i64,
+                            in_beam_pattern_sats_per_epoch: n_pattern as f64 / n_ep,
+                            in_beam_symmetric_sats_per_epoch: n_symmetric as f64 / n_ep,
+                            in_beam_correction_sats_per_epoch: (n_pattern as f64
+                                - n_symmetric as f64)
+                                / n_ep,
+                            max_abs_epoch_correction_sats: max_abs_epoch_delta,
+                            units: antenna_units_block(),
+                            note: "The real Airy aperture pattern and the symmetric \
+                                   gain-to-beamwidth approximation are BOTH reported; neither \
+                                   replaces the other. The approximation carries an aperture \
+                                   efficiency of its own (0.641 against the 70 lambda/D rule), \
+                                   so on a dish of a different efficiency it returns a beam of \
+                                   the wrong width. MODELLED geometry: the illustrative \
+                                   LCNS-class constellation, a nadir-pointing transmit dish, \
+                                   and no pointing error, terrain masking or feed spillover.",
+                        });
                     }
                     Some(out)
                 }
@@ -1064,6 +1559,7 @@ impl LunarServiceScenario {
                 n_pl_avail as f64 / n_pl as f64 * 100.0
             },
             per_sat_geometry: geom,
+            antenna_pattern,
             note: "Illustrative, public-source LCNS-class constellation; not affiliated with ESA. \
                    DOP geometry reuses the gnss_lib_py-validated kernel; coverage/integrity MODELLED.",
             perturbed,
@@ -1650,5 +2146,353 @@ mod tests {
         );
         // Above the builder limit the scenario still clamps, and says 24.
         assert_eq!(mk(40).run().n_sats, 24);
+    }
+
+    // -----------------------------------------------------------------------
+    // The antenna pattern in the geometry export.
+    // -----------------------------------------------------------------------
+
+    /// The documented working point: the illustrative LCNS-class shell seen from a
+    /// Shackleton-class south-polar site, with the engine's own representative lunar
+    /// transmit aperture (1 m dish at 2.4 GHz, η = 0.60 — the `lunar-attack-surface` /
+    /// `antenna::tests` dish). A 10 kbit/s S-band link closes across every visible link
+    /// of this geometry, so the aperture is a valid operating point, not a strawman.
+    fn working_point() -> LunarServiceScenario {
+        LunarServiceScenario {
+            n_sats: 8,
+            export_site_lat_deg: Some(-89.9),
+            export_site_lon_deg: Some(0.0),
+            export_antenna: Some(ExportAntennaCfg {
+                diameter_m: 1.0,
+                carrier_hz: 2.4e9,
+                efficiency: 0.60,
+            }),
+            ..LunarServiceScenario::default()
+        }
+    }
+
+    /// ORACLE — closed-form triangle trigonometry, an expression independent of the dot
+    /// product `nadir_off_boresight_rad` evaluates.
+    ///
+    /// For a satellite on the `+z` axis at Moon-centred radius `r` and a surface point at
+    /// central angle `γ`, the off-nadir angle satisfies
+    /// `tan θ = R·sin γ / (r − R·cos γ)`. Two limits are also pinned without any algebra:
+    /// the sub-satellite point (`γ = 0`) is exactly on boresight, and the limb
+    /// (`cos γ = R/r`) sits at exactly `asin(R/r)`.
+    #[test]
+    fn off_boresight_matches_hand_computed_triangle_geometry() {
+        let r = R_MOON_M + 8_000_000.0;
+        let sat = [0.0, 0.0, r];
+
+        // Sub-satellite point: exactly on boresight.
+        assert!(nadir_off_boresight_rad(sat, [0.0, 0.0, R_MOON_M]).abs() < 1e-12);
+
+        // Interior points against the closed form.
+        for i in 1..=20 {
+            let gamma = (R_MOON_M / r).acos() * (i as f64) / 20.0;
+            let user = [R_MOON_M * gamma.sin(), 0.0, R_MOON_M * gamma.cos()];
+            let got = nadir_off_boresight_rad(sat, user);
+            let want = (R_MOON_M * gamma.sin()).atan2(r - R_MOON_M * gamma.cos());
+            assert!(
+                (got - want).abs() < 1e-12,
+                "gamma = {gamma}: got {got} rad, closed form {want} rad"
+            );
+        }
+
+        // The limb sits at exactly asin(R/r) — the largest off-nadir angle that can
+        // reach the body at all.
+        let gamma_limb = (R_MOON_M / r).acos();
+        let limb = [
+            R_MOON_M * gamma_limb.sin(),
+            0.0,
+            R_MOON_M * gamma_limb.cos(),
+        ];
+        assert!((nadir_off_boresight_rad(sat, limb) - (R_MOON_M / r).asin()).abs() < 1e-12);
+
+        // Degenerate inputs stay finite rather than poisoning a sweep with a NaN.
+        assert_eq!(
+            nadir_off_boresight_rad([0.0, 0.0, 0.0], [0.0, 0.0, 0.0]),
+            0.0
+        );
+        assert_eq!(nadir_off_boresight_rad(sat, sat), 0.0);
+    }
+
+    /// R1, pinned: with no `export_antenna` the geometry export is exactly what it was —
+    /// the same six keys per row and no antenna block anywhere. A new capability that
+    /// quietly rewrites the old output is not additive.
+    #[test]
+    fn without_an_antenna_the_export_is_the_previous_export_unchanged() {
+        let scn = LunarServiceScenario {
+            export_antenna: None,
+            ..working_point()
+        };
+        let v: serde_json::Value = serde_json::to_value(scn.run()).unwrap();
+        assert!(
+            v.get("antenna_pattern").is_none(),
+            "no antenna configured, so no antenna block"
+        );
+        let row = &v["per_sat_geometry"][0];
+        // serde_json orders keys, so compare the sorted key set.
+        let keys: Vec<&str> = row
+            .as_object()
+            .unwrap()
+            .keys()
+            .map(|s| s.as_str())
+            .collect();
+        assert_eq!(
+            keys,
+            vec!["az_deg", "el_deg", "range_km", "sat", "t_s", "visible"],
+            "the pre-existing row shape must be unchanged without an antenna"
+        );
+
+        // And configuring one adds fields without moving any of those six.
+        let with = serde_json::to_value(working_point().run()).unwrap();
+        let row_with = &with["per_sat_geometry"][0];
+        for k in ["t_s", "sat", "az_deg", "el_deg", "range_km", "visible"] {
+            assert_eq!(row[k], row_with[k], "field {k} moved");
+        }
+    }
+
+    /// R3: every numeric field the antenna block and the per-satellite rows emit carries
+    /// a unit **and** a provenance class. Walks the produced JSON, not the table, so a
+    /// field added without a units entry fails here.
+    #[test]
+    fn every_emitted_numeric_field_of_the_antenna_export_has_a_unit_and_a_provenance_class() {
+        let v: serde_json::Value = serde_json::to_value(working_point().run()).unwrap();
+        let units = v["antenna_pattern"]["units"]
+            .as_object()
+            .expect("the antenna block carries a units block");
+        for (k, u) in units {
+            assert!(
+                u.get("unit").and_then(|x| x.as_str()).is_some(),
+                "{k} has no unit"
+            );
+            assert!(
+                u.get("provenance").and_then(|x| x.as_str()).is_some(),
+                "{k} has no provenance class"
+            );
+        }
+        let mut missing: Vec<String> = Vec::new();
+        let mut check = |prefix: &str, obj: &serde_json::Value| {
+            if let Some(m) = obj.as_object() {
+                for (k, val) in m {
+                    if (val.is_number() || val.is_boolean())
+                        && !units.contains_key(&format!("{prefix}.{k}"))
+                    {
+                        missing.push(format!("{prefix}.{k}"));
+                    }
+                }
+            }
+        };
+        check("antenna_pattern", &v["antenna_pattern"]);
+        check("per_sat_geometry", &v["per_sat_geometry"][0]);
+        assert!(
+            missing.is_empty(),
+            "emitted numeric fields with no units entry: {missing:?}"
+        );
+    }
+
+    /// The whole point of the block: BOTH in-beam counts are emitted, and the correction
+    /// between them is exactly their difference — never a single "corrected" number with
+    /// the approximation quietly deleted.
+    ///
+    /// The counts are also checked against the per-row flags they summarise, so the
+    /// headline and the table underneath it cannot drift apart, and the per-epoch figures
+    /// are checked against the link totals.
+    #[test]
+    fn both_in_beam_counts_are_emitted_with_their_difference_as_the_correction() {
+        let r = working_point().run();
+        let ap = r
+            .antenna_pattern
+            .as_ref()
+            .expect("an antenna is configured");
+        let geom = r.per_sat_geometry.as_ref().expect("a site is configured");
+
+        let vis: Vec<&GeometrySample> = geom.iter().filter(|g| g.visible).collect();
+        assert_eq!(ap.n_links_evaluated, vis.len());
+        assert_eq!(
+            ap.in_beam_pattern_links,
+            vis.iter()
+                .filter(|g| g.in_beam_pattern == Some(true))
+                .count()
+        );
+        assert_eq!(
+            ap.in_beam_symmetric_links,
+            vis.iter()
+                .filter(|g| g.in_beam_symmetric == Some(true))
+                .count()
+        );
+        assert_eq!(
+            ap.in_beam_correction_links,
+            ap.in_beam_pattern_links as i64 - ap.in_beam_symmetric_links as i64
+        );
+        let n_ep = r.n_epochs as f64;
+        assert!(
+            (ap.in_beam_correction_sats_per_epoch
+                - (ap.in_beam_pattern_sats_per_epoch - ap.in_beam_symmetric_sats_per_epoch))
+                .abs()
+                < 1e-12
+        );
+        assert!(
+            (ap.in_beam_pattern_sats_per_epoch * n_ep - ap.in_beam_pattern_links as f64).abs()
+                < 1e-9
+        );
+    }
+
+    /// ORACLE — set inclusion from closed-form algebra, then measured.
+    ///
+    /// The symmetric relation carries its own aperture efficiency: its half-angle is
+    /// `28.019/√η · λ/D` degrees, against the aperture's true half-power half-angle of
+    /// `29.479·λ/D` degrees, so the approximate cone strictly **contains** the real beam
+    /// for every `η ≤ 0.9035` and the correction can only be `≤ 0`. At the engine's
+    /// representative `η = 0.60` that containment must hold row by row.
+    ///
+    /// The measured size of the correction at the documented working point is pinned as a
+    /// literal, because it is the finding: the real pattern puts **0** of 76 visible links
+    /// inside the half-power beam while the approximation claims **28**. The nearest row
+    /// to either beam edge is 0.069° away, so these counts are not a rounding artefact.
+    #[test]
+    fn the_symmetric_approximation_over_counts_the_beam_and_by_how_much() {
+        let r = working_point().run();
+        let ap = r
+            .antenna_pattern
+            .as_ref()
+            .expect("an antenna is configured");
+        let geom = r.per_sat_geometry.as_ref().unwrap();
+
+        // Containment, row by row: nothing may be in the real beam and outside the
+        // approximate one.
+        for g in geom {
+            if g.in_beam_pattern == Some(true) {
+                assert_eq!(
+                    g.in_beam_symmetric,
+                    Some(true),
+                    "row at {} deg off boresight is inside the real beam but outside the \
+                     approximate one — the containment algebra is broken",
+                    g.off_boresight_deg.unwrap()
+                );
+            }
+        }
+        assert!(ap.in_beam_correction_links <= 0);
+        assert!(ap.beamwidth_ratio_symmetric_over_pattern > 1.0);
+
+        // The measured finding at the documented working point.
+        assert_eq!(ap.n_links_evaluated, 76);
+        assert_eq!(ap.in_beam_pattern_links, 0);
+        assert_eq!(ap.in_beam_symmetric_links, 28);
+        assert_eq!(ap.in_beam_correction_links, -28);
+        assert_eq!(ap.max_abs_epoch_correction_sats, 3);
+        assert!(
+            (ap.in_beam_correction_sats_per_epoch + 7.0 / 3.0).abs() < 1e-12,
+            "correction {} sats/epoch",
+            ap.in_beam_correction_sats_per_epoch
+        );
+    }
+
+    /// The report describes itself: a reader holding only the emitted JSON can recompute
+    /// each row's in-beam verdicts from that row's own numbers and the block's stated
+    /// beam edges. Nothing here needs the engine.
+    #[test]
+    fn each_row_in_beam_verdict_is_recomputable_from_the_emitted_report_alone() {
+        let r = working_point().run();
+        let ap = r.antenna_pattern.as_ref().unwrap();
+        let geom = r.per_sat_geometry.as_ref().unwrap();
+        assert!(!geom.is_empty());
+        for g in geom {
+            let gain = g.pattern_gain_dbi.expect("an antenna is configured");
+            let theta = g.off_boresight_deg.expect("an antenna is configured");
+            assert_eq!(
+                g.in_beam_pattern,
+                Some(gain >= ap.boresight_gain_dbi - crate::antenna::HALF_POWER_DROP_DB),
+                "row at {theta} deg, gain {gain} dBi"
+            );
+            assert_eq!(
+                g.in_beam_symmetric,
+                Some(theta <= ap.symmetric_half_angle_deg),
+                "row at {theta} deg"
+            );
+        }
+    }
+
+    /// An antenna that cannot exist must not produce a number. A zero / negative /
+    /// non-finite dish, an impossible efficiency or a zero carrier leaves the block off,
+    /// and the geometry export itself is untouched.
+    #[test]
+    fn an_impossible_aperture_leaves_the_block_off_rather_than_emitting_a_number() {
+        for bad in [
+            ExportAntennaCfg {
+                diameter_m: 0.0,
+                carrier_hz: 2.4e9,
+                efficiency: 0.6,
+            },
+            ExportAntennaCfg {
+                diameter_m: -1.0,
+                carrier_hz: 2.4e9,
+                efficiency: 0.6,
+            },
+            ExportAntennaCfg {
+                diameter_m: f64::NAN,
+                carrier_hz: 2.4e9,
+                efficiency: 0.6,
+            },
+            ExportAntennaCfg {
+                diameter_m: 1.0,
+                carrier_hz: 0.0,
+                efficiency: 0.6,
+            },
+            ExportAntennaCfg {
+                diameter_m: 1.0,
+                carrier_hz: 2.4e9,
+                efficiency: 0.0,
+            },
+            ExportAntennaCfg {
+                diameter_m: 1.0,
+                carrier_hz: 2.4e9,
+                efficiency: 1.5,
+            },
+        ] {
+            let r = LunarServiceScenario {
+                export_antenna: Some(bad),
+                ..working_point()
+            }
+            .run();
+            assert!(
+                r.antenna_pattern.is_none(),
+                "an impossible aperture produced a block: {bad:?}"
+            );
+            let g = r.per_sat_geometry.as_ref().expect("the site is still set");
+            assert!(g[0].off_boresight_deg.is_none() && g[0].pattern_gain_dbi.is_none());
+        }
+
+        // And an antenna with no export site has nothing to point at.
+        let r = LunarServiceScenario {
+            export_site_lat_deg: None,
+            export_site_lon_deg: None,
+            ..working_point()
+        }
+        .run();
+        assert!(r.antenna_pattern.is_none() && r.per_sat_geometry.is_none());
+    }
+
+    /// The antenna export is deterministic and changes nothing about the navigation
+    /// summary beside it — the coverage, DOP and protection-level figures are identical
+    /// with and without it.
+    #[test]
+    fn the_antenna_export_is_deterministic_and_leaves_the_navigation_summary_alone() {
+        let a = serde_json::to_string(&working_point().run()).unwrap();
+        let b = serde_json::to_string(&working_point().run()).unwrap();
+        assert_eq!(a, b);
+
+        let with = working_point().run();
+        let without = LunarServiceScenario {
+            export_antenna: None,
+            ..working_point()
+        }
+        .run();
+        assert_eq!(with.coverage_pct, without.coverage_pct);
+        assert_eq!(with.pdop_mean, without.pdop_mean);
+        assert_eq!(with.hpl_min_m, without.hpl_min_m);
+        assert_eq!(with.pl_availability_pct, without.pl_availability_pct);
+        assert_eq!(with.n_samples, without.n_samples);
     }
 }
