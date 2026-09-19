@@ -92,6 +92,74 @@ impl LunarTimeBudgetScenario {
             .collect())
     }
 
+    /// G11 — the long-form reproducibility table, emitted at runtime as
+    /// `<scenario>.table.csv`.
+    ///
+    /// The budget's array-valued fields (`tau_s`, the seven per-term `x_s` curves and the
+    /// root-sum-square total `x_sigma_s`) reach the report only as JSON arrays. That is
+    /// what a released table truncated at 400 characters, publishing 23 of 57 averaging
+    /// times under a column that claimed all of them, and what forced the manuscript to
+    /// rebuild the per-term curves from closed forms instead of reading them. One row per
+    /// (tau, term) pair cannot be truncated into something that still looks whole: a short
+    /// file is visibly short.
+    ///
+    /// Layout is long/tidy rather than one column per term, so adding a term is a new set
+    /// of rows rather than a schema change for every consumer. The total carries the
+    /// reserved term name `total`.
+    ///
+    /// Three different precisions, each chosen for what the column is *for*:
+    ///
+    /// * `i` — the integer grid index. This is the join key. An index cannot be rounded,
+    ///   so joining this table to another run, or to a released table, is exact no matter
+    ///   what any float formatting does.
+    /// * `tau_s` — 13 significant figures. τ is an independent variable, so a reader must
+    ///   be able to match it against the grid rather than merely read it; 13 figures
+    ///   round-trips for that purpose while stopping short of the last few bits, where
+    ///   `powf` is not identical across platform libm implementations.
+    /// * `x_s` — 7 significant figures, the same choice `realtime_frame_eop::to_csv`
+    ///   makes. Full `f64` precision here would expose last-ULP differences and fork the
+    ///   bytes between builds of the same source, which is a defect this programme has
+    ///   measured elsewhere. Seven figures is far beyond what any of these terms is known
+    ///   to, and the JSON report still carries the unrounded values.
+    pub fn to_csv(&self) -> Result<String, String> {
+        let clock = self.resolve_clock()?;
+        let taus = self.build_tau_grid()?;
+        let params = BudgetParams::for_clock(clock);
+        let budget = lunar_time_budget(&params, &taus);
+
+        let mut s = String::new();
+        s.push_str(
+            "# lunar-time-budget reproducibility table (emitted at runtime as \
+             <scenario>.table.csv) - one row per (averaging time, budget term). The term \
+             named `total` is the root-sum-square x_sigma(tau) of the others. `i` is the \
+             grid index and is the exact join key. Units: \
+             tau_s seconds, x_s seconds. Provenance: the clock term is Validated against \
+             published clock specifications; the link, frame, relativistic and ephemeris \
+             floor magnitudes are Modelled budget allocations.\n",
+        );
+        s.push_str("i,tau_s,term,x_s,grows_with_tau\n");
+        for (i, tau) in budget.tau_s.iter().enumerate() {
+            for t in &budget.terms {
+                let x = t
+                    .x_s
+                    .get(i)
+                    .copied()
+                    .ok_or_else(|| format!("term {} is shorter than the tau grid", t.name))?;
+                s.push_str(&format!(
+                    "{},{:.12e},{},{:.6e},{}\n",
+                    i, tau, t.name, x, t.grows_with_tau
+                ));
+            }
+            let total = budget
+                .x_sigma_s
+                .get(i)
+                .copied()
+                .ok_or_else(|| "x_sigma_s is shorter than the tau grid".to_string())?;
+            s.push_str(&format!("{},{:.12e},total,{:.6e},false\n", i, tau, total));
+        }
+        Ok(s)
+    }
+
     /// Run the scenario, returning `(json, summary)`.
     pub fn run_json(&self) -> Result<(String, String), String> {
         let clock = self.resolve_clock()?;
@@ -208,5 +276,110 @@ mod tests {
             ..Default::default()
         };
         assert!(scn.run_json().is_err());
+    }
+
+    /// The long-form table publishes EVERY averaging time, for every term.
+    ///
+    /// This is the regression guard for G11. The released `p3_time_budget.csv` carried
+    /// `tau_s` and `x_sigma_s` as JSON arrays that a consumer truncated at 400 characters,
+    /// publishing 23 of 57 averaging times under a column that claimed all of them. A row
+    /// per (tau, term) cannot fail that way silently: a truncated file is visibly short,
+    /// and this test pins the exact shape.
+    #[test]
+    fn long_form_table_publishes_every_tau_and_term() {
+        let scn = LunarTimeBudgetScenario::default();
+        let csv = scn.to_csv().expect("csv");
+        let body: Vec<&str> = csv
+            .lines()
+            .filter(|l| !l.starts_with('#') && !l.starts_with("i,"))
+            .collect();
+
+        // 57 grid points (7 decades x 8 per decade + 1), 7 budget terms plus the total.
+        assert_eq!(
+            body.len(),
+            57 * 8,
+            "one row per (tau, term) plus a total per tau"
+        );
+
+        let idx: Vec<usize> = body
+            .iter()
+            .map(|l| l.split(',').next().unwrap().parse().unwrap())
+            .collect();
+        assert_eq!(*idx.iter().max().unwrap(), 56, "grid index runs 0..=56");
+        for i in 0..=56usize {
+            assert_eq!(
+                idx.iter().filter(|&&j| j == i).count(),
+                8,
+                "tau index {i} must carry all 8 rows"
+            );
+        }
+    }
+
+    /// The `total` row is the root-sum-square of the terms beside it, at every tau.
+    ///
+    /// Without this the total is just another number in the file and a consumer has no way
+    /// to tell a correct table from a stale one.
+    #[test]
+    fn long_form_total_is_the_rss_of_its_own_terms() {
+        let scn = LunarTimeBudgetScenario::default();
+        let csv = scn.to_csv().expect("csv");
+        let mut by_tau: std::collections::BTreeMap<usize, (Vec<f64>, Option<f64>)> =
+            std::collections::BTreeMap::new();
+        for l in csv
+            .lines()
+            .filter(|l| !l.starts_with('#') && !l.starts_with("i,"))
+        {
+            let f: Vec<&str> = l.split(',').collect();
+            let i: usize = f[0].parse().unwrap();
+            let x: f64 = f[3].parse().unwrap();
+            let e = by_tau.entry(i).or_default();
+            if f[2] == "total" {
+                e.1 = Some(x);
+            } else {
+                e.0.push(x);
+            }
+        }
+        assert_eq!(by_tau.len(), 57);
+        for (i, (terms, total)) in &by_tau {
+            assert_eq!(terms.len(), 7, "tau {i} must carry seven terms");
+            let rss = terms.iter().map(|v| v * v).sum::<f64>().sqrt();
+            let total = total.expect("a total row");
+            // Both sides are printed at seven significant figures, so compare at that.
+            assert!(
+                (rss - total).abs() / total < 1e-6,
+                "tau {i}: total {total:e} is not the RSS {rss:e} of its terms"
+            );
+        }
+    }
+
+    /// The table follows the grid it was asked for, not a hard-coded one.
+    #[test]
+    fn long_form_table_follows_the_requested_grid() {
+        let scn = LunarTimeBudgetScenario {
+            tau_min_s: Some(1.0),
+            tau_max_s: Some(100.0),
+            points_per_decade: Some(4),
+            ..LunarTimeBudgetScenario::default()
+        };
+        let csv = scn.to_csv().expect("csv");
+        let rows = csv
+            .lines()
+            .filter(|l| !l.starts_with('#') && !l.starts_with("i,"))
+            .count();
+        // 2 decades x 4 per decade + 1 = 9 tau points, still 8 rows each.
+        assert_eq!(rows, 9 * 8);
+    }
+
+    /// Emitting the table must not change what the run already reported.
+    ///
+    /// R1 for this change: the CSV is a new artifact, not a new view that quietly
+    /// reformats the report.
+    #[test]
+    fn emitting_the_table_does_not_change_the_json() {
+        let scn = LunarTimeBudgetScenario::default();
+        let (before, _) = scn.run_json().expect("json");
+        let _ = scn.to_csv().expect("csv");
+        let (after, _) = scn.run_json().expect("json");
+        assert_eq!(before, after);
     }
 }
