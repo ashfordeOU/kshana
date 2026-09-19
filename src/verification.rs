@@ -795,6 +795,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Validated,
         },
         VerificationItem {
+            requirement: "Hybrid optical/RF report self-description",
+            capability: "The hybrid-optical-rf report states the link configuration it actually ran at (carrier wavelength, transmit and receive aperture, range, pulse width, integration time, efficiencies and losses, defaults resolved) and carries a units block giving the unit and provenance class of every quantity a paper is likely to quote, including the handoff covariance traces in square metres",
+            module: "hybrid_integrity",
+            tests: "hybrid_integrity::tests (the resolved configuration is echoed for defaults and for overrides, without round-tripping the wavelength through metres; every units entry carries both a unit and a provenance class; every field the units block names is actually emitted, so it cannot document a ghost)",
+            oracle: "No external oracle, and none is possible: this is self-description, not a measurement. It is recorded because the absence of it was a defect -- P5 had to quote the carrier wavelength and transmit aperture from source defaults, and to infer that a bare `variance` was in square metres from an internal consistency check. The inference was correct, which is precisely why it mattered: nothing would have caught it being wrong",
+            oracle_kind: OracleKind::InternalConsistency,
+            status: VerificationStatus::Modelled,
+        },
+        VerificationItem {
             requirement: "Lunar time-error budget reproducibility",
             capability: "The lunar-time-budget scenario publishes its array-valued outputs as a long-form (grid index, averaging time, term) table alongside the report, so the seven per-term x(tau) curves and the root-sum-square total are engine output rather than something a reader rebuilds from the method section",
             module: "lunar_time_budget_scenario",

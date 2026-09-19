@@ -183,6 +183,13 @@ pub struct HybridOpticalRfScenario {
 /// Everything the analysis produces, computed once and reused by the emitters.
 struct Computed {
     optical: OpticalLinkResult,
+    /// The link parameters as RESOLVED (defaults applied). Retained so the report can
+    /// state the configuration it was run at rather than leaving a reader to find the
+    /// defaults in the source -- G16.
+    link_params: OpticalLinkParams,
+    /// Resolved integration time (s), for the same reason. The pulse width is echoed
+    /// straight from the scenario input, so it is not carried here.
+    integration_s: f64,
     detected_photons: f64,
     opt_pos_sigma_m: f64,
     opt_clock_sigma_s: f64,
@@ -230,6 +237,7 @@ impl HybridOpticalRfScenario {
             pointing_loss_db: self.pointing_loss_db.unwrap_or(3.0),
         };
         let optical = optical_link_budget(&params);
+        let link_params = params;
         // A two-way ranging return path spreads the beam again (double-pass geometric loss).
         let return_factor = if two_way {
             10f64.powf(-optical.geometric_loss_db / 10.0)
@@ -367,6 +375,8 @@ impl HybridOpticalRfScenario {
 
         Ok(Computed {
             optical,
+            link_params,
+            integration_s,
             detected_photons: detected,
             opt_pos_sigma_m,
             opt_clock_sigma_s,
@@ -401,6 +411,45 @@ impl HybridOpticalRfScenario {
         let doc = serde_json::json!({
             "kind": "hybrid-optical-rf",
             "label": LABEL,
+            // G16 — the resolved link configuration. Every value here is an INPUT after
+            // defaults have been applied, echoed so a paper can state the configuration it
+            // ran at instead of quoting a default it read out of the source. Key names
+            // carry the unit; `units` below carries the provenance class.
+            "link_configuration": {
+                "wavelength_nm": self.wavelength_nm.unwrap_or(1550.0),
+                "tx_power_w": c.link_params.tx_power_w,
+                "tx_aperture_m": c.link_params.tx_aperture_m,
+                "rx_aperture_m": c.link_params.rx_aperture_m,
+                "range_km": self.range_km.unwrap_or(384_000.0),
+                "optics_efficiency": c.link_params.optics_efficiency,
+                "detector_efficiency": c.link_params.detector_efficiency,
+                "atmospheric_loss_db": c.link_params.atmospheric_loss_db,
+                "pointing_loss_db": c.link_params.pointing_loss_db,
+                "pulse_rms_ps": self.pulse_rms_ps.unwrap_or(50.0),
+                "integration_s": c.integration_s,
+            },
+            // G16 / R3 — unit and provenance class for every quantity a paper is likely to
+            // quote. The handoff variances are the reason this block exists: they were
+            // emitted as bare "variance" and a manuscript had to infer square metres from
+            // an internal consistency check. An inferred unit is an interface defect.
+            "units": {
+                "handoff.variance_after_optical": {"unit": "m^2", "provenance": "computed", "note": "covariance trace over the position axes"},
+                "handoff.variance_after_handoff": {"unit": "m^2", "provenance": "computed", "note": "covariance trace over the position axes"},
+                "handoff.variance_after_rf": {"unit": "m^2", "provenance": "computed", "note": "covariance trace over the position axes"},
+                "handoff.max_mean_jump": {"unit": "m", "provenance": "computed"},
+                "handoff.final_nees": {"unit": "dimensionless", "provenance": "computed", "note": "chi-square with dof = number of states"},
+                "optical_link.optical_ranging_sigma_m": {"unit": "m", "provenance": "computed"},
+                "optical_link.optical_timing_sigma_s": {"unit": "s", "provenance": "computed"},
+                "optical_link.rf_position_sigma_m": {"unit": "m", "provenance": "input", "note": "loose RF reference precision; a representative input, not a measurement"},
+                "optical_link.rf_clock_sigma_s": {"unit": "s", "provenance": "input"},
+                "optical_link.photon_rate_hz": {"unit": "Hz", "provenance": "computed"},
+                "cross_modality_raim.hpl_m": {"unit": "m", "provenance": "computed"},
+                "cross_modality_raim.vpl_m": {"unit": "m", "provenance": "computed"},
+                "cross_modality_raim.tpl_s": {"unit": "s", "provenance": "computed"},
+                "optical_availability.single_site_mean": {"unit": "fraction", "provenance": "modelled", "note": "weather-limited clear-sky climatology; no RF-availability counterpart is computed by this engine"},
+                "optical_availability.independent_union": {"unit": "fraction", "provenance": "modelled"},
+                "optical_availability.correlated_union": {"unit": "fraction", "provenance": "modelled"},
+            },
             "optical_link": {
                 "footprint_m": c.optical.footprint_m,
                 "divergence_rad": c.optical.divergence_rad,
@@ -812,5 +861,86 @@ mod tests {
             (p - a).abs() < 1e-9,
             "precision {p} should equal availability {a}"
         );
+    }
+
+    /// The report states the configuration it ran at, defaults included.
+    ///
+    /// G16. P5 had to quote the carrier wavelength and transmit aperture from the source
+    /// defaults because the report never echoed them. A paper that reads a number out of
+    /// an implementation instead of a result is not reproducible from the result.
+    #[test]
+    fn the_report_echoes_the_resolved_link_configuration() {
+        let scn = HybridOpticalRfScenario::default();
+        let (json, _, _) = scn.run_output().expect("run");
+        let v: serde_json::Value = serde_json::from_str(&json).unwrap();
+        let lc = &v["link_configuration"];
+        // Defaults are resolved and echoed exactly, not round-tripped through metres.
+        assert_eq!(lc["wavelength_nm"], 1550.0);
+        assert_eq!(lc["tx_aperture_m"], 0.85);
+        assert_eq!(lc["rx_aperture_m"], 0.85);
+        assert_eq!(lc["range_km"], 384_000.0);
+        assert_eq!(lc["pulse_rms_ps"], 50.0);
+
+        // An override is echoed as given, so the block always describes THIS run.
+        let scn = HybridOpticalRfScenario {
+            wavelength_nm: Some(1064.0),
+            tx_aperture_m: Some(0.3),
+            ..HybridOpticalRfScenario::default()
+        };
+        let (json, _, _) = scn.run_output().expect("run");
+        let v: serde_json::Value = serde_json::from_str(&json).unwrap();
+        assert_eq!(v["link_configuration"]["wavelength_nm"], 1064.0);
+        assert_eq!(v["link_configuration"]["tx_aperture_m"], 0.3);
+    }
+
+    /// Every quantity a paper is likely to quote carries a unit and a provenance class.
+    ///
+    /// R3. The handoff variances are the reason: they were emitted as a bare "variance"
+    /// and a manuscript inferred square metres from an internal consistency check. The
+    /// inference was right, which is exactly why it is a defect -- nothing would have
+    /// caught it being wrong.
+    #[test]
+    fn every_quoted_quantity_carries_a_unit_and_a_provenance_class() {
+        let scn = HybridOpticalRfScenario::default();
+        let (json, _, _) = scn.run_output().expect("run");
+        let v: serde_json::Value = serde_json::from_str(&json).unwrap();
+        let units = v["units"].as_object().expect("a units block");
+        assert!(!units.is_empty());
+        for (field, meta) in units {
+            assert!(meta["unit"].is_string(), "{field} has no unit");
+            assert!(
+                meta["provenance"].is_string(),
+                "{field} has no provenance class"
+            );
+        }
+        // The variance unit is stated, not left to be inferred.
+        for f in [
+            "handoff.variance_after_optical",
+            "handoff.variance_after_handoff",
+            "handoff.variance_after_rf",
+        ] {
+            assert_eq!(units[f]["unit"], "m^2", "{f} must state square metres");
+        }
+    }
+
+    /// Every field the units block describes must actually exist in the report.
+    ///
+    /// A units block that names a field nobody emits is worse than none: it reads as a
+    /// guarantee and documents a ghost.
+    #[test]
+    fn the_units_block_describes_only_fields_that_exist() {
+        let scn = HybridOpticalRfScenario::default();
+        let (json, _, _) = scn.run_output().expect("run");
+        let v: serde_json::Value = serde_json::from_str(&json).unwrap();
+        for field in v["units"].as_object().unwrap().keys() {
+            let mut cur = &v;
+            for seg in field.split('.') {
+                cur = &cur[seg];
+                assert!(
+                    !cur.is_null(),
+                    "units names {field}, which the report does not emit"
+                );
+            }
+        }
     }
 }
