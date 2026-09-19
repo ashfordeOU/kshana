@@ -447,6 +447,7 @@ pub enum ScenarioKind {
     CislunarObservability,
     ConflictResilience,
     LunarAttackSurface,
+    ApertureDutyCycle,
 }
 
 impl ScenarioKind {
@@ -503,6 +504,7 @@ impl ScenarioKind {
             ScenarioKind::CislunarObservability => "cislunar-observability",
             ScenarioKind::ConflictResilience => "conflict-resilience",
             ScenarioKind::LunarAttackSurface => "lunar-attack-surface",
+            ScenarioKind::ApertureDutyCycle => "aperture-duty-cycle",
         }
     }
 
@@ -563,6 +565,7 @@ impl ScenarioKind {
             "cislunar-observability" => ScenarioKind::CislunarObservability,
             "conflict-resilience" => ScenarioKind::ConflictResilience,
             "lunar-attack-surface" => ScenarioKind::LunarAttackSurface,
+            "aperture-duty-cycle" => ScenarioKind::ApertureDutyCycle,
             // Empty or unknown ⇒ the clock pack (historical default).
             _ => ScenarioKind::Clock,
         })
@@ -640,6 +643,7 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "conflict-resilience", description: "MODELLED layered-PNT conflict resilience (P7): a contested-environment user fields several PNT layers (open-service GNSS, wideband GNSS, an authenticated constellation, an augmentation relay), each with a base availability, a 1σ accuracy and a per-vector denial vulnerability to the shared jamming/spoofing threat. An intensity-swept SEEDED Monte-Carlo denies each layer with probability clamp(vulnerability·intensity·vector_weight,0,1), fuses the survivors by the closed-form inverse-variance rule σ_fused=(Σ 1/σ_i²)^(−1/2), and reports the total-loss probability (all layers denied), the median fused error and per-layer usable/denial statistics vs intensity. The headline resilience ratio (single-layer vs layered total-loss probability) lands at ~7x under the INDEPENDENCE assumption; a one-factor Gaussian-copula correlated-denial sweep then shows that ~7x collapse toward 1 as denial correlation rises (correlation defeats layering). A prior-sensitivity block ranges the headline over the SOURCED vulnerability priors via the mcda tornado + a Dirichlet threat-effort re-allocation + percentile CIs. VALIDATED core: the Monte-Carlo total-loss converges to the closed-form independent product Π_i p_deny_i (within MC standard error at a fixed seed and large N); the inverse-variance fuse is a closed-form identity; at ρ=0 the copula reduces to the independent model and every ρ preserves each layer's marginal denial rate. MODELLED: the per-layer vulnerability/availability/accuracy magnitudes are sourced-but-Modelled inputs (JammerTest 2024, TEXBAT, EASA SIB, RTCA DO-229, LunaNet/IOAG — see conflict_threat_params), and the specific ~7x magnitude and the ratio-vs-correlation curve shape follow from that parameterisation. A §4.2 per-vector survival breakdown then resolves the shared RF threat into the four named vectors (jamming/spoofing/kinetic/cyber) and reports each vector's usable-PNT graceful-degradation curve S_v(x)=1-Prod_i(1-a_i(1-clamp(susceptibility_i,v·x,0,1))) — VALIDATED: the seeded per-layer Monte-Carlo converges to that closed form; jamming is the sharpest vector for the correlated-RF baseline and the RF-immune inertial layer is the decisive survivor. Not a certified navigation-availability product.", required_fields: &[], optional_fields: &["layers", "intensity", "correlation", "trials", "seed", "primary_layer"] },
         ScenarioMeta { name: "lunar-attack-surface", description: "Lunar surface-navigation signal-security attack surface (P1): composes the open signal-security analyses into one binary-reachable run. Reports (1) the AFS received power and its power deficit versus a terrestrial GPS reference, plus the 12-18 dB sensitivity band as a genuine multi-axis sweep over the link inputs (reference level x EIRP x slant range) with the 32x-rounded / 36x-unrounded linear-factor reconciliation; (2) the required attacker transmit power to spoof (J/S = 3 dB) and to deny (J/S = 30 dB) at each standoff, the inverse of the J/S link; (3) the orbital capture footprint under a real uniform-aperture antenna pattern (Airy [2 J1(x)/x]^2), an altitude-limited sub-hemispheric cap whose limb is NOT captured; (4) a computed tracking-loop spoof-capture pull-in outcome (does a matched-code spoofer at a given power advantage and code offset actually drag the DLL/PLL) rather than the asserted 3 dB threshold; (5) the airless-body geometric horizon reach of a raised surface transmitter; and (6) the OSNMA/TESLA authentication budget (20 bit/s overhead = ~40 % of a 50 bit/s AFS nav message, key-disclosure latency, 2^-40 forgery). An empty body reproduces the P1 baseline; every input is defaulted and overridable. VALIDATED sub-results carry their source module's oracle (closed-form dB radiometry; inverse-J/S round trip; Airy pattern vs A&S Bessel and spherical-cap geometry; DLL/PLL pull-in vs Kaplan & Hegarty; spherical-tangent horizon identity vs eo_payload; OSNMA SIS-ICD field sizing). MODELLED: the representative geometry/power magnitudes and the specific capture-map cell values. Not a certified security product.", required_fields: &[], optional_fields: &["afs_eirp_dbw", "user_gain_dbi", "slant_range_m", "slant_range_max_m", "carrier_hz", "gps_reference_dbw", "gps_reference_min_dbw", "afs_isotropic_signal_dbw", "transmitter_altitude_m", "transmitter_power_dbw", "antenna_diameter_m", "footprint_grid", "spoof_power_advantage_db", "spoof_code_offset_chips", "attacker_gain_dbi", "spoof_capture_js_db", "jam_denial_js_db", "standoffs_m", "mast_height_m", "user_antenna_height_m", "footprint_altitude_min_m", "footprint_altitude_max_m", "footprint_altitude_steps", "footprint_altitude_scale", "footprint_diameter_min_m", "footprint_diameter_max_m", "footprint_diameter_steps", "footprint_diameter_scale"] },
         ScenarioMeta { name: "realtime-frame-eop", description: "Real-time lunar frame / Earth-orientation prediction budget: P4 Table 1 (the frame-error consistency check — post-processed ~0.27 m ↔ ~0.010 ms and real-time ~15 m ↔ ~0.5 ms, each frame position expressed as its equivalent UT1 error via the L19 lever arm Δr = D_EM·ω⊕·ΔUT1) and Table 2 (measured UT1 prediction error vs horizon — the L18 curve read directly off the real IERS finals2000A series: the Bulletin A − Bulletin B final floor and the multi-day persistence-predictor error, each mapped to a Moon-frame position by L19), plus the L21 root-sum-square real-time frame-error budget (EOP + ephemeris + realisation floor). VALIDATED closed form (the L19 lever arm, ω⊕ cross-checked against the CIO Earth-rotation angle) and VALIDATED real data (the L18 curve off the real finals2000A rows); MODELLED are the lunar-relay OD covariance magnitudes and frame-realisation floor (representative allocations) and the persistence predictor (not IERS's operational Bulletin A algorithm). Not a certified real-time frame product.", required_fields: &[], optional_fields: &["epoch", "horizons_days", "ephemeris_pos_sigma_m", "ephemeris_vel_sigma_mps", "latency_s", "frame_realization_floor_m", "delta_ut1_ms", "delta_xp_mas", "delta_yp_mas", "eop_finals2000a", "eop_finals2000a_later"] },
+        ScenarioMeta { name: "aperture-duty-cycle", description: "Aperture duty cycle: the navigation-versus-communications time-share a contact plan implies for a pool of steerable apertures. Takes a contact plan (a list of `[[contacts]]` aos_s/los_s windows, each asking for navigation or communications \u{2014} the same aos_s/los_s vocabulary the `passes` predictor emits), an aperture count, and an ARBITRATION POLICY (navigation-priority by default, or communications-priority, or non-preemptive first-come-first-served), and reports the navigation duty, the communications duty, the idle duty, and the per-session outage \u{2014} the contact time a session requested and no aperture served. An exact interval sweep over the window boundaries, so touching windows never contend and no aperture-second is double-counted; navigation, communications and idle aperture-seconds are accumulated independently and close against apertures*horizon_s. The report states the resolved policy, its full definition, and the duty and outage definitions, because a duty figure quoted without its arbitration policy is not reproducible. MODELLED scheduling arithmetic: no slew / retune / changeover time is charged when an aperture changes service or session, no data volume, buffer state, energy budget or link closure enters the decision, and the contact windows are inputs \u{2014} their geometry is whatever produced them. Not a ground-segment scheduling product.", required_fields: &[], optional_fields: &["apertures", "arbitration", "horizon_start_s", "horizon_end_s", "contacts"] },
     ]
 }
 
@@ -1893,6 +1897,18 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 csv: None,
             })
         }
+        ScenarioKind::ApertureDutyCycle => {
+            let scn: crate::aperture_duty::ApertureDutyCycleScenario = toml::from_str(src)
+                .map_err(|e| format!("invalid aperture-duty-cycle scenario: {e}"))?;
+            let (json, summary) = scn.run_json()?;
+            let svg = minimal_svg(&summary);
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
+        }
         ScenarioKind::Clock => {
             let scn: crate::scenario::Scenario =
                 toml::from_str(src).map_err(|e| format!("invalid scenario: {e}"))?;
@@ -2423,5 +2439,37 @@ mod tests {
         run_toml(&merged).expect("scenario with inlined EOP runs");
         // A non-TOML input is a clean error, not a panic.
         assert!(inject_eop("=$ not toml", row).is_err());
+    }
+
+    #[test]
+    fn aperture_duty_cycle_kind_round_trips_through_the_dispatch() {
+        // The scheduling kind dispatches end-to-end through the shared entry point the
+        // CLI/Python/wasm/MCP bindings all use, with a bare kind line (every field has a
+        // serde default, including the bundled illustrative contact plan): valid JSON +
+        // SVG out, the duty numbers and per-session outage present, and the arbitration
+        // policy named in both the document and the summary — a duty figure quoted
+        // without its policy is not reproducible.
+        let src = "kind = \"aperture-duty-cycle\"\n";
+        assert_eq!(
+            ScenarioKind::classify(src).unwrap(),
+            ScenarioKind::ApertureDutyCycle
+        );
+        let out = run_toml(src).expect("aperture-duty-cycle scenario dispatches");
+        assert!(out.json.starts_with('{'));
+        let v: serde_json::Value = serde_json::from_str(&out.json).unwrap();
+        assert_eq!(v["kind"], "aperture-duty-cycle");
+        assert!(v.get("navigation_duty").is_some());
+        assert!(v.get("communications_duty").is_some());
+        assert!(v["sessions"][0].get("outage_s").is_some());
+        assert_eq!(v["arbitration_policy"], "navigation-priority");
+        assert!(v["arbitration_policy_definition"].is_string());
+        assert!(v["label"].as_str().unwrap().contains("MODELLED"));
+        assert!(out.svg.starts_with("<svg"));
+        assert!(out.summary.contains("aperture-duty-cycle"));
+        assert!(out.summary.contains("navigation-priority"));
+        // The bundled TOML file is the same run.
+        let file = run_toml(include_str!("../scenarios/aperture-duty-cycle.toml"))
+            .expect("the bundled contact plan runs");
+        assert_eq!(file.json, out.json);
     }
 }
