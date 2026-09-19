@@ -4,9 +4,9 @@
   "repo_blob_base": "https://github.com/AshfordeOU/kshana/blob/main/",
   "summary": {
     "validated": 56,
-    "modelled": 46,
+    "modelled": 49,
     "partner_owned": 4,
-    "total": 106
+    "total": 109
   },
   "rows": [
     {
@@ -1928,6 +1928,57 @@
         {
           "path": "src/linkbudget.rs",
           "url": "https://github.com/AshfordeOU/kshana/blob/main/src/linkbudget.rs"
+        }
+      ],
+      "test_links": [],
+      "fixture": null
+    },
+    {
+      "requirement": "Per-clock-class lunar time crossover table",
+      "capability": "One lunar-time-budget run emits a clock-vs-frame crossover row per clock class against a single shared frame term, so the clock is the only variable in the comparison; each row carries the crossover reached two ways -- bisected from the general power-law time-error curve and inverted algebraically from the row's dominant noise type -- with the relative difference between them",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "Two different in-codebase computations of the same quantity, not one restated: bisection on the IEEE-1139 power-law curve knows nothing about noise type, while the closed form inverts the dominant type algebraically, so a misclassified noise type or a bad bracket shows as a non-tiny relative difference. The four values also reproduce the paper's published table to half its last printed digit -- but that table was itself reconstructed from the same closed form, so it is a reproducibility check and not an external oracle, and the frame term it is measured against is a Modelled allocation",
+      "module": "lunar_time_budget",
+      "tests": "lunar_time_budget::tests and lunar_time_budget_scenario::tests (all four classes present in one run and in a requested subset order; every row agrees with its own closed form to better than 1e-12 relative; scaling the frame error by k scales the crossover by k for a flicker-FM clock and by k^2 for a white-FM one, checked at k=2 and k=3, which separates the two noise classes; each row reproduces the single-clock crossover the budget already reported; every row recovers the one shared frame term; an unknown clock name is rejected)",
+      "module_links": [
+        {
+          "path": "src/lunar_time_budget.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/lunar_time_budget.rs"
+        }
+      ],
+      "test_links": [],
+      "fixture": null
+    },
+    {
+      "requirement": "Joint UT1 and polar-motion error over a common row set",
+      "capability": "One table reports the UT1 prediction error, the polar-motion pole error and their quadrature combination at the Moon over an IDENTICAL epoch set per horizon, emitting the epochs each component was measured at. Separately, the scenario names whichever EOP input is in force and decomposes its row census, and always emits the predicted-versus-final horizon table with an explicit statement of why it is empty when it is",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "An algebraic identity evaluated by a different expression than the one under test: the emitted combination is the root-mean-square of the per-epoch hypotenuse, and the check is the hypotenuse of the two components' own root-mean-squares. The residual path is cross-checked against a separate call into frame_eop, and the row census against the identity rows = finals + predictions. The residual MAGNITUDE is checked only against a plausibility band, never against an IERS-published prediction-accuracy figure -- reading a real product is provenance, not an oracle, which is why this stays Modelled",
+      "module": "frame_eop",
+      "tests": "frame_eop::tests and realtime_frame_eop::tests (all three components carry equal, elementwise-identical, strictly ascending epoch sets over both real IERS extracts; the joint set collapses to the intersection when the two Bulletin B blocks genuinely disagree, and a horizon with no shared rows is omitted rather than zero-filled; the emptiness of the predicted-versus-final table is stated in the document rather than implied by a missing field; a real second vintage populates it, cross-checked row for row; a missing later vintage is an error, not a silent empty table)",
+      "module_links": [
+        {
+          "path": "src/frame_eop.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/frame_eop.rs"
+        }
+      ],
+      "test_links": [],
+      "fixture": null
+    },
+    {
+      "requirement": "Capture footprint against altitude and beamwidth",
+      "capability": "Two-axis sweep of the pattern-weighted, altitude-limited surface capture footprint over transmitter altitude and dish diameter, emitted one row per operating point with the half-power beamwidth each diameter implies, and limb capture reported as a THRESHOLD -- per row the limb J/S, its margin and the transmit power that would close it; per grid the located crossings, or an explicit statement that the limb is not reached anywhere on the grid, with the shortfall",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "Set inclusion: the jammer-to-signal ratio enters as a uniform decibel offset, so the captured set at a higher transmit power contains the set at a lower one and the fraction can only rise -- a property the Airy pattern does NOT give in beamwidth or altitude, where the captured region breaks into rings and the fraction is genuinely non-monotone. No published table gives the captured disk fraction of a lunar orbital transmitter against altitude and beamwidth, so there is nothing external to check these cells against; the pattern underneath is separately Validated against published Bessel values and keeps its own row",
+      "module": "antenna",
+      "tests": "antenna::tests and attack_surface::tests (the grid is complete and every captured fraction lies in [0,1]; captured fraction is non-decreasing in transmit power at every node; it is NOT monotone in beamwidth or altitude, which is pinned by its own test so the sweep cannot later be smoothed; the baseline node reproduces the existing captured fraction bit-for-bit; the limb-only evaluation is bit-identical to the full sweep's last point; a located crossing sits on the threshold to 1e-9 dB and is straddled)",
+      "module_links": [
+        {
+          "path": "src/antenna.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/antenna.rs"
         }
       ],
       "test_links": [],
