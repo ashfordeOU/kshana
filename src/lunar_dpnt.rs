@@ -51,7 +51,46 @@
 //! level **reuses the DO-229E [`crate::sbas`] protection-level machinery** with the
 //! differential residual σ as the per-satellite error budget — it is the same algorithm,
 //! not a certified conformance statement.
+//!
+//! ## The correction link (what a differential budget actually spends)
+//!
+//! The identity above assumes a *perfect* correction: computed by a station that knows
+//! exactly where it is, delivered instantly, at infinite resolution. None of the three
+//! holds. The [`CorrectionLinkBudget`] models all three, each driven by one scenario
+//! input, and each is reported **separately** so the budget is a table rather than a
+//! single blended number:
+//!
+//! 1. **Survey error** (`survey_sigma_m`). The station computes its residual against its
+//!    *believed* coordinate. If that belief is wrong by `δ`, every correction it
+//!    broadcasts carries `+δ·û_ref,i`, and the user's corrected measurement carries
+//!    `−δ·û_ref,i`. That term contains **no user geometry at all** — it depends only on
+//!    the reference station's lines of sight — so, unlike the orbit term, it does
+//!    **not** vanish as the baseline → 0 and does **not** grow with baseline. It is a
+//!    floor the differential method cannot see, let alone remove. Mapped through the
+//!    user's least-squares solve it transfers essentially one-for-one into the user's
+//!    position (see [`survey_position_transfer`]): a station known to half a metre gives
+//!    a user known to no better than half a metre, at any baseline.
+//! 2. **Correction ageing** (`latency_s`). A correction computed at `t` and applied at
+//!    `t + τ` is stale in two ways, and both are modelled
+//!    ([`correction_ageing_orbit_range_sigmas`], [`correction_ageing_clock_range_sigma_m`]):
+//!    the satellite has *moved*, so the frozen orbit-error vector now projects onto a
+//!    rotated line of sight and the un-cancelled remainder is `−e_i·(û_ref,i(t+τ) −
+//!    û_ref,i(t))` — a rate taken from the crate's own Keplerian propagator, not an
+//!    assumed figure; and the satellite *clock* has drifted off the value the correction
+//!    froze, by `c·σ_y(τ)·τ` for the [`AGEING_CLOCK`] class whose power law
+//!    [`crate::clock_specs`] calibrates to a published one-day spec row.
+//! 3. **Quantization** (`quantization_bits`). The correction crosses a finite-rate link.
+//!    Quantized uniformly over the full scale the injected error model can actually
+//!    produce — `±(orbit_err_m + clock_err_m)`, which is an exact bound on
+//!    `|−e_i·û + c_i|`, not a guess — the step is `2·FS/2^bits` and the residual variance
+//!    is the uniform quantizer's `step²/12`.
+//!
+//! **Additivity.** Every one of these feeds *new* report fields only. With the three
+//! inputs at their defaults the pre-existing outputs — `user_error_corrected_m`, the
+//! `baseline_curve`, `protection_level_m`, everything — are bit-for-bit what they were
+//! before the budget existed, and a test pins exactly that.
 
+use crate::clock_specs::{x_clock_s, LunarClock};
 use crate::lunar::{lunar_look_angle, selenographic_to_mcmf, Selenographic, R_MOON_M};
 use crate::lunar_service::{LunarConstellation, LunarSat};
 use crate::sbas::{sbas_protection_level, SbasErrorModel, SbasMode, SbasProtectionLevel, SbasSat};
@@ -347,6 +386,437 @@ pub fn lunar_dgnss_protection_level(
 }
 
 // ───────────────────────────────────────────────────────────────────────────
+// Correction link — survey error, correction ageing, quantization
+// ───────────────────────────────────────────────────────────────────────────
+
+/// The satellite-clock class whose instability sets the **clock** half of the
+/// correction-ageing law.
+///
+/// [`LunarClock::Rafs`] is the Galileo-heritage full rubidium atomic frequency standard
+/// already modelled in [`crate::clock_specs`], whose IEEE-1139 power law is calibrated
+/// *there* to reproduce a published one-day time-error row
+/// ([`LunarClock::cited_one_day_ns`] = 2.939388 ns at τ = 86 400 s). Assuming an
+/// LCNS-class navigation satellite flies a clock of that class is an **illustrative**
+/// choice — no lunar navigation satellite has a published in-flight stability — but the
+/// curve it produces is the crate's own calibrated spec model, not an invented rate.
+pub const AGEING_CLOCK: LunarClock = LunarClock::Rafs;
+
+/// The largest number of bits [`correction_quantization_step_m`] will honour.
+///
+/// Beyond 64 bits the step underflows to zero anyway, and the cap keeps the `2^bits`
+/// exponentiation inside `i32` so a nonsense input cannot wrap it negative and hand back
+/// an enormous step.
+pub const MAX_QUANTIZATION_BITS: u32 = 64;
+
+/// `1/√3` — the RMS projection of an **isotropically directed** unit vector onto a fixed
+/// direction, since `E[(ê·v̂)²] = 1/3`.
+///
+/// The scenario injects each satellite's orbit error as a uniformly random *direction*
+/// times a fixed magnitude (see [`LunarDpntScenario::inject_errors`]), so this is exactly
+/// the factor that turns that magnitude into a per-satellite 1-σ along a line of sight.
+/// It is a property of the injected error model, not a tuning constant.
+fn isotropic_projection() -> f64 {
+    1.0 / 3.0_f64.sqrt()
+}
+
+/// The per-satellite differential corrections a reference station computes when the
+/// coordinate it *believes* (`ref_assumed_mcmf`) is not where it actually *is*
+/// (`ref_true_mcmf`).
+///
+/// The station forms its residual as `measured − predicted`. The measurement comes from
+/// where the antenna physically stands; the prediction is computed from the surveyed
+/// coordinate. The difference of the two geometric ranges,
+/// `|x_i − ref_true| − |x_i − ref_assumed|` (computed exactly here — no linearisation),
+/// therefore rides on top of the usual `−e_i·û_ref,i + c_i` and is broadcast to every
+/// user as if it were a real satellite error.
+///
+/// With `ref_assumed_mcmf == ref_true_mcmf` this is identically
+/// [`differential_corrections`].
+pub fn survey_biased_corrections(
+    ref_true_mcmf: Vec3,
+    ref_assumed_mcmf: Vec3,
+    sats_mcmf: &[Vec3],
+    orbit_err: &[Vec3],
+    clock_err_m: &[f64],
+) -> Vec<f64> {
+    sats_mcmf
+        .iter()
+        .enumerate()
+        .map(|(i, &s)| {
+            let u = los_unit(ref_true_mcmf, s);
+            let survey = norm(sub(s, ref_true_mcmf)) - norm(sub(s, ref_assumed_mcmf));
+            -dot(orbit_err[i], u) + clock_err_m[i] + survey
+        })
+        .collect()
+}
+
+/// `(GᵀG)⁻¹` for the user's snapshot geometry, whose rows are `g_i = [−û_i, 1]` — the
+/// same design matrix [`position_error_from_range_errors`] solves. `None` for fewer than
+/// four satellites or a singular geometry.
+fn user_normal_inverse(user_mcmf: Vec3, sats_mcmf: &[Vec3]) -> Option<[[f64; 4]; 4]> {
+    if sats_mcmf.len() < 4 {
+        return None;
+    }
+    let mut a = [[0.0_f64; 4]; 4];
+    for &s in sats_mcmf {
+        let u = los_unit(user_mcmf, s);
+        let g = [-u[0], -u[1], -u[2], 1.0];
+        for p in 0..4 {
+            for q in 0..4 {
+                a[p][q] += g[p] * g[q];
+            }
+        }
+    }
+    crate::orbit::invert4(a)
+}
+
+/// The user's **position dilution of precision** — `√(trace of the 3×3 position block of
+/// (GᵀG)⁻¹)` — for the lunar snapshot geometry. This is the factor by which an
+/// *independent* per-satellite range error inflates into a 3-D position error.
+///
+/// Returns `None` for fewer than four satellites or a singular geometry, exactly as the
+/// position solve does.
+pub fn user_pdop(user_mcmf: Vec3, sats_mcmf: &[Vec3]) -> Option<f64> {
+    let q = user_normal_inverse(user_mcmf, sats_mcmf)?;
+    let p2 = q[0][0] + q[1][1] + q[2][2];
+    if !p2.is_finite() || p2 < 0.0 {
+        return None;
+    }
+    Some(p2.sqrt())
+}
+
+/// The 3-D position-domain 1-σ (m) produced by **mutually independent** per-satellite
+/// range errors of 1-σ `range_sigmas`, propagated exactly through the user's
+/// least-squares solve.
+///
+/// For the estimator `δx = (GᵀG)⁻¹Gᵀ δρ`, the position covariance is
+/// `(GᵀG)⁻¹Gᵀ R G (GᵀG)⁻¹` with `R = diag(σ_i²)`; writing `w_i = (GᵀG)⁻¹g_i` for each
+/// satellite's column of the pseudo-inverse, the reported quantity is
+/// `√(Σ_i σ_i² (w_i,x² + w_i,y² + w_i,z²))`.
+///
+/// When every `σ_i` is the same `σ` this collapses **exactly** to `σ · PDOP`, which is
+/// how [`user_pdop`] and this function keep each other honest. It is the right
+/// propagation for the ageing and quantization terms, whose errors are independent
+/// satellite to satellite, and the **wrong** one for the survey term, whose error is
+/// fully correlated across satellites — see [`survey_position_transfer`].
+///
+/// `None` if the lengths disagree, or for a degenerate geometry.
+pub fn position_sigma_from_range_sigmas(
+    user_mcmf: Vec3,
+    sats_mcmf: &[Vec3],
+    range_sigmas: &[f64],
+) -> Option<f64> {
+    if sats_mcmf.len() != range_sigmas.len() {
+        return None;
+    }
+    let q = user_normal_inverse(user_mcmf, sats_mcmf)?;
+    let mut var = 0.0_f64;
+    for (i, &s) in sats_mcmf.iter().enumerate() {
+        let u = los_unit(user_mcmf, s);
+        let g = [-u[0], -u[1], -u[2], 1.0];
+        let w: [f64; 4] = std::array::from_fn(|p| (0..4).map(|k| q[p][k] * g[k]).sum());
+        var += range_sigmas[i] * range_sigmas[i] * (w[0] * w[0] + w[1] * w[1] + w[2] * w[2]);
+    }
+    if !var.is_finite() || var < 0.0 {
+        return None;
+    }
+    Some(var.sqrt())
+}
+
+/// The dimensionless **survey transfer**: the 3-D user position error committed per metre
+/// of reference-station coordinate 1-σ *per axis*, root-sum-squared over the three MCMF
+/// axes.
+///
+/// The station's coordinate error `δ` is one vector shared by every correction it
+/// broadcasts, so the induced range errors `−δ·û_ref,i` are perfectly correlated and the
+/// independent-error propagation of [`position_sigma_from_range_sigmas`] does not apply.
+/// Instead this walks the three axes: for each, a 1 m station error is pushed through
+/// [`survey_biased_corrections`] and the user's own solve, and the three responses are
+/// combined in quadrature (valid because the map is linear and the three axis errors are
+/// independent with equal σ).
+///
+/// The satellites are far enough away that `û_user,i ≈ û_ref,i`, so each axis response is
+/// ≈ 1 m and the RSS is ≈ √3 ≈ 1.732 — i.e. a station whose **3-D** uncertainty is `S`
+/// hands the user ≈ `S`. That near-unit transfer is the point: it carries no DOP
+/// amplification and no baseline dependence.
+///
+/// `None` for a degenerate geometry.
+pub fn survey_position_transfer(
+    user_mcmf: Vec3,
+    ref_mcmf: Vec3,
+    sats_mcmf: &[Vec3],
+) -> Option<f64> {
+    let zero_orbit = vec![[0.0_f64; 3]; sats_mcmf.len()];
+    let zero_clock = vec![0.0_f64; sats_mcmf.len()];
+    let mut sum = 0.0_f64;
+    for axis in 0..3 {
+        let mut assumed = ref_mcmf;
+        assumed[axis] += 1.0;
+        let corr =
+            survey_biased_corrections(ref_mcmf, assumed, sats_mcmf, &zero_orbit, &zero_clock);
+        // With no orbit or clock error the user's raw error is zero, so the corrected
+        // measurement is exactly minus the (survey-only) correction.
+        let range_errors: Vec<f64> = corr.iter().map(|&c| -c).collect();
+        let r = position_error_from_range_errors(user_mcmf, sats_mcmf, &range_errors)?;
+        sum += r * r;
+    }
+    Some(sum.sqrt())
+}
+
+/// Per-satellite range-domain 1-σ (m) of the **orbit** half of correction ageing.
+///
+/// A correction computed at `t` froze the projection `−e_i·û_ref,i(t)`. By the time it is
+/// applied the satellite has moved, and the un-cancelled remainder is
+/// `−e_i·(û_ref,i(t+τ) − û_ref,i(t))`. The line-of-sight rotation comes from the crate's
+/// own propagator (the caller passes `sats_aged` from
+/// [`LunarConstellation::positions_mcmf`] at `t + τ`) — **there is no assumed
+/// orbit-error rate anywhere in this function**. The only statistical step is the
+/// [`isotropic_projection`] factor, which is a property of how the scenario draws `e_i`.
+///
+/// With `sats_aged == sats_now` every σ is exactly `0.0`.
+pub fn correction_ageing_orbit_range_sigmas(
+    ref_mcmf: Vec3,
+    sats_now: &[Vec3],
+    sats_aged: &[Vec3],
+    orbit_err_m: f64,
+) -> Vec<f64> {
+    sats_now
+        .iter()
+        .zip(sats_aged)
+        .map(|(&now, &aged)| {
+            let d = sub(los_unit(ref_mcmf, aged), los_unit(ref_mcmf, now));
+            orbit_err_m.abs() * norm(d) * isotropic_projection()
+        })
+        .collect()
+}
+
+/// Range-domain 1-σ (m) of the **clock** half of correction ageing over `latency_s`.
+///
+/// The correction froze the satellite clock offset at `t`; by `t + τ` the clock has
+/// wandered by `x(τ) = σ_y(τ)·τ` seconds, which no differencing removes because the two
+/// observations are no longer simultaneous. The rate is [`AGEING_CLOCK`]'s
+/// [`crate::clock_specs`] power law, calibrated there to a published one-day spec row;
+/// `x(τ)` is converted to range by the speed of light.
+///
+/// Exactly `0.0` at `latency_s <= 0` (and for a non-finite input), so switching latency
+/// off recovers the un-aged residual bit-for-bit rather than to within a rounding error.
+pub fn correction_ageing_clock_range_sigma_m(latency_s: f64) -> f64 {
+    // NaN fails both tests below and so lands on the `0.0` branch, which is the only
+    // honest answer for an unusable latency.
+    if latency_s <= 0.0 || !latency_s.is_finite() {
+        return 0.0;
+    }
+    C_M_PER_S * x_clock_s(&AGEING_CLOCK.powerlaw(), latency_s)
+}
+
+/// The step (m) of the uniform quantizer a finite-rate correction link imposes.
+///
+/// `full_scale_m` is the **half**-range: the quantizer covers `±full_scale_m`, so the
+/// span is `2·full_scale_m` and the step is `2·full_scale_m / 2^bits`. Stating the range
+/// matters more than stating the bit count, because the range is what sets the step.
+/// [`LunarDpntScenario`] uses `orbit_err_m + clock_err_m`, which is an exact bound on
+/// `|−e_i·û_ref,i + c_i|` for the injected error model (`|e_i| = orbit_err_m` and
+/// `|c_i| = clock_err_m`), not a chosen dynamic range.
+///
+/// `bits == 0` means **no quantization** and returns `0.0`; `bits` is capped at
+/// [`MAX_QUANTIZATION_BITS`].
+pub fn correction_quantization_step_m(full_scale_m: f64, bits: u32) -> f64 {
+    if bits == 0 || full_scale_m <= 0.0 || !full_scale_m.is_finite() {
+        return 0.0;
+    }
+    let bits = bits.min(MAX_QUANTIZATION_BITS);
+    2.0 * full_scale_m / 2.0_f64.powi(bits as i32)
+}
+
+/// The 1-σ (m) of a uniform quantizer of step `step_m`: `step/√12`, the square root of
+/// the textbook `step²/12` uniform-quantization-error variance.
+pub fn uniform_quantization_sigma_m(step_m: f64) -> f64 {
+    step_m / 12.0_f64.sqrt()
+}
+
+/// The latency-**independent** half of the correction-link budget, carried together so
+/// the latency sweep evaluates exactly the same survey and quantization terms the headline
+/// figure does rather than recomputing (and possibly re-deriving) them per point.
+#[derive(Clone, Copy, Debug)]
+struct LinkFixedTerms {
+    /// The user PDOP the independent terms scale with.
+    pdop: f64,
+    /// Position-domain 3-D 1-σ (m) of the survey term.
+    survey_position_sigma_m: f64,
+    /// Position-domain 3-D 1-σ (m) of the quantization term.
+    quantization_position_sigma_m: f64,
+}
+
+/// Root-mean-square of a slice, or `0.0` for an empty one.
+fn rms(v: &[f64]) -> f64 {
+    if v.is_empty() {
+        return 0.0;
+    }
+    (v.iter().map(|x| x * x).sum::<f64>() / v.len() as f64).sqrt()
+}
+
+/// The modelled **correction-link residual budget**: what a differential correction picks
+/// up between being computed at the reference station and being used by the rover.
+///
+/// Three independent mechanisms, each with its own scenario input, each reported in both
+/// the **range** domain (per-satellite 1-σ, the domain `residual_sigma_m` and the DO-229E
+/// protection level live in) and the **position** domain (3-D 1-σ, the domain the
+/// scenario's headline error lives in). They are kept apart rather than blended: the
+/// three propagate differently, and a single number would hide that the survey term takes
+/// no DOP amplification and no baseline dependence while the other two take both.
+#[derive(Clone, Debug, Serialize)]
+pub struct CorrectionLinkBudget {
+    /// Input: the reference station's own **3-D** coordinate 1-σ (m), assumed isotropic.
+    pub survey_sigma_m: f64,
+    /// The per-axis 1-σ (m) that implies: `survey_sigma_m / √3`.
+    pub survey_sigma_per_axis_m: f64,
+    /// Range-domain per-satellite 1-σ (m) of the survey term. Since `|û| = 1`, this is
+    /// exactly the per-axis σ — but it is **correlated** across satellites, unlike the
+    /// other two terms.
+    pub survey_range_sigma_m: f64,
+    /// [`survey_position_transfer`] — 3-D position error per metre of per-axis station
+    /// error, RSS'd over the three axes (dimensionless, ≈ √3).
+    pub survey_transfer: f64,
+    /// Position-domain 3-D 1-σ (m) of the survey term: `survey_sigma_per_axis_m ×
+    /// survey_transfer`. Independent of baseline — that is the whole point.
+    pub survey_position_sigma_m: f64,
+    /// Input: the age of the correction when it is applied (s).
+    pub latency_s: f64,
+    /// The ageing law in words, so the report states its own model.
+    pub ageing_law: &'static str,
+    /// [`AGEING_CLOCK`]'s name — the clock class whose drift sets the clock half.
+    pub ageing_clock_class: &'static str,
+    /// The clock's time error `x(τ) = σ_y(τ)·τ` (s) at `latency_s`.
+    pub ageing_clock_time_error_s: f64,
+    /// RMS over satellites of the orbit-ageing range-error growth rate (m/s) — the rate
+    /// the geometry actually produced, reported so it can be checked rather than assumed.
+    pub ageing_orbit_rate_m_per_s: f64,
+    /// Range-domain 1-σ (m), RMS over satellites, of the orbit half of ageing.
+    pub latency_orbit_range_sigma_m: f64,
+    /// Range-domain 1-σ (m) of the clock half of ageing (identical for every satellite).
+    pub latency_clock_range_sigma_m: f64,
+    /// Range-domain 1-σ (m) of the whole latency term: the two halves in quadrature.
+    pub latency_range_sigma_m: f64,
+    /// Position-domain 3-D 1-σ (m) of the orbit half, propagated per satellite.
+    pub latency_orbit_position_sigma_m: f64,
+    /// Position-domain 3-D 1-σ (m) of the clock half: `latency_clock_range_sigma_m × PDOP`.
+    pub latency_clock_position_sigma_m: f64,
+    /// Position-domain 3-D 1-σ (m) of the whole latency term.
+    pub latency_position_sigma_m: f64,
+    /// Input: bits per transmitted correction. `0` disables the term.
+    pub quantization_bits: u32,
+    /// The quantizer's **half**-range (m): `orbit_err_m + clock_err_m`, an exact bound on
+    /// the correction magnitude for the injected error model.
+    pub quantization_full_scale_m: f64,
+    /// The resulting step (m): `2 × quantization_full_scale_m / 2^bits`.
+    pub quantization_step_m: f64,
+    /// Range-domain 1-σ (m): `step/√12`.
+    pub quantization_range_sigma_m: f64,
+    /// Position-domain 3-D 1-σ (m): `quantization_range_sigma_m × PDOP`.
+    pub quantization_position_sigma_m: f64,
+    /// The user PDOP the two independent terms scale with.
+    pub pdop: f64,
+    /// Root-sum-square of the three **range**-domain terms (m).
+    pub total_range_sigma_m: f64,
+    /// Root-sum-square of the three **position**-domain terms (m) — the budget total.
+    pub total_position_sigma_m: f64,
+    /// The scenario's pre-existing `residual_sigma_m` (m), repeated here so the budget
+    /// sits beside the residual it is being compared with.
+    pub residual_sigma_m: f64,
+    /// `√(residual_sigma_m² + total_range_sigma_m²)` (m) — the per-satellite σ a protection
+    /// level would use once the link is accounted for.
+    pub total_with_residual_range_sigma_m: f64,
+    /// The DO-229E horizontal protection level (m) recomputed at
+    /// `total_with_residual_range_sigma_m`. Reported **beside**, never in place of, the
+    /// scenario's existing `protection_level_m`.
+    pub protection_level_with_link_m: f64,
+    /// The matching vertical protection level (m).
+    pub vpl_with_link_m: f64,
+    /// `(latency_s, total_position_sigma_m)` over a sweep, so the single latency figure is
+    /// never the only thing on offer.
+    pub latency_curve: Vec<(f64, f64)>,
+    /// Honest scope note for the budget specifically.
+    pub note: &'static str,
+}
+
+/// Units and provenance class for every field [`CorrectionLinkBudget`] introduces.
+///
+/// The rest of the result document predates this block; this names only what the
+/// correction-link budget adds, which is what the R3 units guard checks.
+fn correction_link_units() -> serde_json::Value {
+    serde_json::json!({
+        "correction_link.survey_sigma_m": {
+            "unit": "m", "provenance": "input",
+            "note": "reference-station 3-D coordinate 1-sigma, isotropic"
+        },
+        "correction_link.survey_sigma_per_axis_m": {
+            "unit": "m", "provenance": "closed-form", "note": "survey_sigma_m / sqrt(3)"
+        },
+        "correction_link.survey_range_sigma_m": {
+            "unit": "m", "provenance": "closed-form",
+            "note": "per-satellite 1-sigma; CORRELATED across satellites"
+        },
+        "correction_link.survey_transfer": {
+            "unit": "1", "provenance": "computed",
+            "note": "3-D position error per metre of per-axis station error, RSS over the three MCMF axes"
+        },
+        "correction_link.survey_position_sigma_m": {
+            "unit": "m", "provenance": "computed", "note": "independent of baseline"
+        },
+        "correction_link.latency_s": { "unit": "s", "provenance": "input" },
+        "correction_link.ageing_law": { "unit": "text", "provenance": "modelled" },
+        "correction_link.ageing_clock_class": { "unit": "text", "provenance": "spec" },
+        "correction_link.ageing_clock_time_error_s": {
+            "unit": "s", "provenance": "spec",
+            "note": "sigma_y(tau)*tau for the AGEING_CLOCK power law in crate::clock_specs"
+        },
+        "correction_link.ageing_orbit_rate_m_per_s": {
+            "unit": "m/s", "provenance": "computed",
+            "note": "from the crate's own propagator; no assumed orbit-error rate"
+        },
+        "correction_link.latency_orbit_range_sigma_m": { "unit": "m", "provenance": "computed" },
+        "correction_link.latency_clock_range_sigma_m": { "unit": "m", "provenance": "spec" },
+        "correction_link.latency_range_sigma_m": { "unit": "m", "provenance": "computed" },
+        "correction_link.latency_orbit_position_sigma_m": { "unit": "m", "provenance": "computed" },
+        "correction_link.latency_clock_position_sigma_m": { "unit": "m", "provenance": "computed" },
+        "correction_link.latency_position_sigma_m": { "unit": "m", "provenance": "computed" },
+        "correction_link.quantization_bits": { "unit": "bit", "provenance": "input" },
+        "correction_link.quantization_full_scale_m": {
+            "unit": "m", "provenance": "closed-form",
+            "note": "half-range orbit_err_m + clock_err_m; an exact bound on |-e.u + c|"
+        },
+        "correction_link.quantization_step_m": {
+            "unit": "m", "provenance": "closed-form", "note": "2*full_scale / 2^bits"
+        },
+        "correction_link.quantization_range_sigma_m": {
+            "unit": "m", "provenance": "closed-form", "note": "step/sqrt(12)"
+        },
+        "correction_link.quantization_position_sigma_m": { "unit": "m", "provenance": "computed" },
+        "correction_link.pdop": { "unit": "1", "provenance": "computed" },
+        "correction_link.total_range_sigma_m": {
+            "unit": "m", "provenance": "computed",
+            "note": "RSS of the three range-domain terms; approximate, because the survey term is correlated across satellites"
+        },
+        "correction_link.total_position_sigma_m": {
+            "unit": "m", "provenance": "computed",
+            "note": "RSS of the three position-domain terms; the correlation-respecting total"
+        },
+        "correction_link.residual_sigma_m": { "unit": "m", "provenance": "input" },
+        "correction_link.total_with_residual_range_sigma_m": { "unit": "m", "provenance": "computed" },
+        "correction_link.protection_level_with_link_m": {
+            "unit": "m", "provenance": "computed",
+            "note": "DO-229E HPL at the augmented sigma; reported beside, never in place of, protection_level_m"
+        },
+        "correction_link.vpl_with_link_m": { "unit": "m", "provenance": "computed" },
+        "correction_link.latency_curve": {
+            "unit": "(s, m)", "provenance": "computed",
+            "note": "latency_s vs total_position_sigma_m"
+        },
+        "correction_link.note": { "unit": "text", "provenance": "modelled" }
+    })
+}
+
+// ───────────────────────────────────────────────────────────────────────────
 // Scenario
 // ───────────────────────────────────────────────────────────────────────────
 
@@ -394,6 +864,15 @@ fn d_residual_sigma_m() -> f64 {
 }
 fn d_p_hmi() -> f64 {
     1e-4
+}
+fn d_survey_sigma_m() -> f64 {
+    0.30
+}
+fn d_latency_s() -> f64 {
+    10.0
+}
+fn d_quantization_bits() -> u32 {
+    8
 }
 
 /// A runnable lunar **differential PNT** scenario. The TOML
@@ -459,6 +938,37 @@ pub struct LunarDpntScenario {
     /// Integrity-risk budget `P_HMI` (interface parity; DO-229E K-factors are fixed).
     #[serde(default = "d_p_hmi")]
     pub p_hmi: f64,
+    /// The reference station's own **3-D** coordinate 1-σ (m), assumed isotropic — the
+    /// survey error. It corrupts every correction the station computes and, unlike the
+    /// orbit term, does **not** decorrelate with baseline.
+    ///
+    /// **Default 0.30 m**, taken from the crate's own
+    /// [`crate::lunar_time_budget::BudgetParams::frame_pos_error_m`] default: the lunar
+    /// reference-frame position-realisation error, which is the ceiling on how well any
+    /// lunar surface coordinate can be known. That figure is itself a **Modelled** budget
+    /// allocation in this crate, not a measurement of a real station — no lunar surface
+    /// station has a published surveyed accuracy. Set it to `0.0` to switch the term off.
+    #[serde(default = "d_survey_sigma_m")]
+    pub survey_sigma_m: f64,
+    /// Age of the correction when the user applies it (s) — computed at one epoch,
+    /// applied at a later one.
+    ///
+    /// **Default 10 s, an illustrative input**: no lunar differential-correction link has
+    /// a published latency, so rather than lean on the single number the report also
+    /// emits `correction_link.latency_curve` over 0–300 s. Set it to `0.0` to switch the
+    /// term off, which reproduces the un-aged residual exactly.
+    #[serde(default = "d_latency_s")]
+    pub latency_s: f64,
+    /// Bits per transmitted correction on the finite-rate link.
+    ///
+    /// The quantizer range is **not** a free parameter: it is `±(orbit_err_m +
+    /// clock_err_m)`, an exact bound on the correction magnitude for the injected error
+    /// model, so the step is `2(orbit_err_m + clock_err_m)/2^bits`.
+    ///
+    /// **Default 8 bits, an illustrative input** — the link rate of a lunar correction
+    /// broadcast is a design choice nobody has published. `0` disables the term.
+    #[serde(default = "d_quantization_bits")]
+    pub quantization_bits: u32,
 }
 
 impl Default for LunarDpntScenario {
@@ -479,6 +989,9 @@ impl Default for LunarDpntScenario {
             t_s: d_t_s(),
             residual_sigma_m: d_residual_sigma_m(),
             p_hmi: d_p_hmi(),
+            survey_sigma_m: d_survey_sigma_m(),
+            latency_s: d_latency_s(),
+            quantization_bits: d_quantization_bits(),
         }
     }
 }
@@ -509,6 +1022,12 @@ pub struct LunarDpntReport {
     pub baseline_curve: Vec<(f64, f64)>,
     /// Honest scope note (illustrative / modelled).
     pub note: &'static str,
+    /// The modelled **correction-link** residual budget — survey error, correction ageing
+    /// and quantization — computed from the three inputs of the same names. Purely
+    /// additive: nothing above this field depends on it.
+    pub correction_link: CorrectionLinkBudget,
+    /// Unit + provenance class for every field `correction_link` introduces.
+    pub units: serde_json::Value,
 }
 
 impl LunarDpntScenario {
@@ -577,6 +1096,185 @@ impl LunarDpntScenario {
         (orbit_err, clock_err)
     }
 
+    /// The position-domain 3-D 1-σ (m) of the whole correction-link budget at an
+    /// arbitrary latency, reusing everything the full budget uses. Factored out so the
+    /// `latency_curve` and the headline number cannot drift apart.
+    fn link_total_position_sigma_m(
+        &self,
+        user_mcmf: Vec3,
+        ref_mcmf: Vec3,
+        sats_now: &[Vec3],
+        constellation: &LunarConstellation,
+        latency_s: f64,
+        fixed: LinkFixedTerms,
+    ) -> f64 {
+        let sats_aged = constellation.positions_mcmf(self.t_s + latency_s);
+        let orbit_sig =
+            correction_ageing_orbit_range_sigmas(ref_mcmf, sats_now, &sats_aged, self.orbit_err_m);
+        let orbit_pos =
+            position_sigma_from_range_sigmas(user_mcmf, sats_now, &orbit_sig).unwrap_or(0.0);
+        let clock_pos = correction_ageing_clock_range_sigma_m(latency_s) * fixed.pdop;
+        (fixed.survey_position_sigma_m * fixed.survey_position_sigma_m
+            + orbit_pos * orbit_pos
+            + clock_pos * clock_pos
+            + fixed.quantization_position_sigma_m * fixed.quantization_position_sigma_m)
+            .sqrt()
+    }
+
+    /// Evaluate the [`CorrectionLinkBudget`] for this configuration at the user position
+    /// `user_mcmf`. Pure geometry plus the [`AGEING_CLOCK`] spec curve — no RNG, so it
+    /// cannot perturb the seeded draws the rest of the scenario depends on.
+    fn correction_link_budget(
+        &self,
+        user_mcmf: Vec3,
+        ref_mcmf: Vec3,
+        sats_now: &[Vec3],
+        constellation: &LunarConstellation,
+    ) -> CorrectionLinkBudget {
+        let pdop = user_pdop(user_mcmf, sats_now).unwrap_or(0.0);
+
+        // ---- 1. Survey error: correlated across satellites, baseline-independent.
+        let survey_sigma_m = self.survey_sigma_m.max(0.0);
+        let survey_sigma_per_axis_m = survey_sigma_m / 3.0_f64.sqrt();
+        let survey_transfer =
+            survey_position_transfer(user_mcmf, ref_mcmf, sats_now).unwrap_or(0.0);
+        let survey_range_sigma_m = survey_sigma_per_axis_m;
+        let survey_position_sigma_m = survey_sigma_per_axis_m * survey_transfer;
+
+        // ---- 2. Correction ageing: orbit (from the propagator) + clock (from the spec).
+        let latency_s = if self.latency_s.is_finite() {
+            self.latency_s.max(0.0)
+        } else {
+            0.0
+        };
+        let sats_aged = constellation.positions_mcmf(self.t_s + latency_s);
+        let orbit_sigmas =
+            correction_ageing_orbit_range_sigmas(ref_mcmf, sats_now, &sats_aged, self.orbit_err_m);
+        let latency_orbit_range_sigma_m = rms(&orbit_sigmas);
+        let latency_clock_range_sigma_m = correction_ageing_clock_range_sigma_m(latency_s);
+        let latency_range_sigma_m = (latency_orbit_range_sigma_m * latency_orbit_range_sigma_m
+            + latency_clock_range_sigma_m * latency_clock_range_sigma_m)
+            .sqrt();
+        let latency_orbit_position_sigma_m =
+            position_sigma_from_range_sigmas(user_mcmf, sats_now, &orbit_sigmas).unwrap_or(0.0);
+        let latency_clock_position_sigma_m = latency_clock_range_sigma_m * pdop;
+        let latency_position_sigma_m = (latency_orbit_position_sigma_m
+            * latency_orbit_position_sigma_m
+            + latency_clock_position_sigma_m * latency_clock_position_sigma_m)
+            .sqrt();
+        let ageing_orbit_rate_m_per_s = if latency_s > 0.0 {
+            latency_orbit_range_sigma_m / latency_s
+        } else {
+            0.0
+        };
+
+        // ---- 3. Quantization: uniform, over the exact correction full scale.
+        let quantization_full_scale_m = self.orbit_err_m.abs() + self.clock_err_m.abs();
+        let quantization_step_m =
+            correction_quantization_step_m(quantization_full_scale_m, self.quantization_bits);
+        let quantization_range_sigma_m = uniform_quantization_sigma_m(quantization_step_m);
+        let quantization_position_sigma_m = quantization_range_sigma_m * pdop;
+
+        // ---- Totals.
+        let total_range_sigma_m = (survey_range_sigma_m * survey_range_sigma_m
+            + latency_range_sigma_m * latency_range_sigma_m
+            + quantization_range_sigma_m * quantization_range_sigma_m)
+            .sqrt();
+        let total_position_sigma_m = (survey_position_sigma_m * survey_position_sigma_m
+            + latency_position_sigma_m * latency_position_sigma_m
+            + quantization_position_sigma_m * quantization_position_sigma_m)
+            .sqrt();
+        let total_with_residual_range_sigma_m = (self.residual_sigma_m * self.residual_sigma_m
+            + total_range_sigma_m * total_range_sigma_m)
+            .sqrt();
+
+        let budget = crate::raim::IntegrityBudget {
+            p_hmi_vert: self.p_hmi,
+            p_hmi_horz: self.p_hmi,
+            p_fa: 1e-5,
+        };
+        let (protection_level_with_link_m, vpl_with_link_m) = match lunar_dgnss_protection_level(
+            user_mcmf,
+            sats_now,
+            total_with_residual_range_sigma_m,
+            budget,
+        ) {
+            Some(pl) => (pl.hpl_m, pl.vpl_m),
+            None => (0.0, 0.0),
+        };
+
+        let fixed = LinkFixedTerms {
+            pdop,
+            survey_position_sigma_m,
+            quantization_position_sigma_m,
+        };
+        let latency_curve = [0.0_f64, 1.0, 5.0, 10.0, 30.0, 60.0, 300.0]
+            .iter()
+            .map(|&t| {
+                (
+                    t,
+                    self.link_total_position_sigma_m(
+                        user_mcmf,
+                        ref_mcmf,
+                        sats_now,
+                        constellation,
+                        t,
+                        fixed,
+                    ),
+                )
+            })
+            .collect();
+
+        CorrectionLinkBudget {
+            survey_sigma_m,
+            survey_sigma_per_axis_m,
+            survey_range_sigma_m,
+            survey_transfer,
+            survey_position_sigma_m,
+            latency_s,
+            ageing_law: "correction ageing = orbit + clock. Orbit: the frozen per-satellite \
+                         orbit-error vector re-projected onto the line of sight the crate's own \
+                         Keplerian propagator puts the satellite on at t + latency, so no \
+                         orbit-error rate is assumed; growth of the ephemeris error VECTOR \
+                         itself is NOT modelled (that needs a real fit-interval prediction \
+                         model). Clock: c.sigma_y(tau).tau for the AGEING_CLOCK power law in \
+                         crate::clock_specs, calibrated there to a published one-day spec row.",
+            ageing_clock_class: AGEING_CLOCK.name(),
+            ageing_clock_time_error_s: if latency_s > 0.0 {
+                x_clock_s(&AGEING_CLOCK.powerlaw(), latency_s)
+            } else {
+                0.0
+            },
+            ageing_orbit_rate_m_per_s,
+            latency_orbit_range_sigma_m,
+            latency_clock_range_sigma_m,
+            latency_range_sigma_m,
+            latency_orbit_position_sigma_m,
+            latency_clock_position_sigma_m,
+            latency_position_sigma_m,
+            quantization_bits: self.quantization_bits,
+            quantization_full_scale_m,
+            quantization_step_m,
+            quantization_range_sigma_m,
+            quantization_position_sigma_m,
+            pdop,
+            total_range_sigma_m,
+            total_position_sigma_m,
+            residual_sigma_m: self.residual_sigma_m,
+            total_with_residual_range_sigma_m,
+            protection_level_with_link_m,
+            vpl_with_link_m,
+            latency_curve,
+            note: "MODELLED. The survey default is the crate's own lunar frame-realisation \
+                   allocation (itself Modelled, not a measured station); the latency and bit \
+                   count are ILLUSTRATIVE inputs, which is why the latency curve is reported \
+                   beside the single figure. The range-domain total RSSs a survey term that is \
+                   CORRELATED across satellites with two that are not, so the position-domain \
+                   total is the one that respects the correlation structure. No real-data \
+                   validation; no TRL/heritage/agency endorsement.",
+        }
+    }
+
     /// Run the scenario. Deterministic given the seed.
     pub fn run(&self) -> LunarDpntReport {
         let constellation = self.constellation();
@@ -635,6 +1333,10 @@ impl LunarDpntScenario {
             })
             .collect();
 
+        // The correction-link budget. Pure geometry + the AGEING_CLOCK spec curve, so it
+        // draws nothing from either RNG stream and cannot move any value above.
+        let correction_link = self.correction_link_budget(user, ref_mcmf, &sats, &constellation);
+
         LunarDpntReport {
             n_sats: n,
             baseline_km: self.baseline_km,
@@ -652,6 +1354,8 @@ impl LunarDpntScenario {
                    exact identity; the spatial-decorrelation residual is a first-order geometric \
                    model. Protection level REUSES the DO-229E SBAS machinery (crate::sbas). \
                    MODELLED; not real-data validated; no TRL/heritage/agency endorsement.",
+            correction_link,
+            units: correction_link_units(),
         }
     }
 }
@@ -1113,5 +1817,600 @@ mod tests {
         let json = serde_json::to_string(&r).unwrap();
         assert!(json.contains("not affiliated with ESA"));
         assert!(json.contains("MODELLED"));
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════════════
+    // The correction-link budget: survey error, correction ageing, quantization.
+    // ═══════════════════════════════════════════════════════════════════════════════
+
+    /// The EXACT result document the released scenario produced at its defaults **before**
+    /// the correction-link budget existed — captured by running
+    /// `kshana scenarios/lunar-differential-pnt.toml` on the parent commit, not
+    /// regenerated from the code under test.
+    ///
+    /// Written as Rust float **literals**, not as a JSON text blob: serde_json's default
+    /// float parser is a fast one that can land a unit in the last place away from the
+    /// decimal it is given, so parsing the captured text would compare against a number
+    /// that is *nearly* the released one. The Rust compiler's literal parser is exact, so
+    /// these are the released bits.
+    fn pre_link_budget_default_report() -> serde_json::Value {
+        serde_json::json!({
+          "n_sats": 8,
+          "baseline_km": 50.0_f64,
+          "user_error_uncorrected_m": 24.460_652_495_293_342_f64,
+          "user_error_corrected_m": 0.007_676_508_483_045_71_f64,
+          "reduction_factor": 3_186.429_422_870_696_f64,
+          "protection_level_m": 23.133_803_613_253_427_f64,
+          "vpl_m": 17.227_221_314_344_384_f64,
+          "residual_sigma_m": 5.0_f64,
+          "noise_m": 0.0_f64,
+          "clock_err_ns": 100.069_228_559_445_6_f64,
+          "baseline_curve": [
+            [0.0_f64, 0.0_f64],
+            [1.0_f64, 0.000_153_931_654_819_086_65_f64],
+            [10.0_f64, 0.001_538_599_186_168_784_5_f64],
+            [50.0_f64, 0.007_676_508_483_045_71_f64],
+            [100.0_f64, 0.015_309_308_830_229_898_f64],
+            [250.0_f64, 0.037_904_748_016_440_955_f64],
+            [500.0_f64, 0.074_320_702_306_343_22_f64]
+          ],
+          "note": "Illustrative, public-source LCNS-class constellation; NovaMoon referenced only as a system class (not affiliated with ESA). Common-mode cancellation is an exact identity; the spatial-decorrelation residual is a first-order geometric model. Protection level REUSES the DO-229E SBAS machinery (crate::sbas). MODELLED; not real-data validated; no TRL/heritage/agency endorsement."
+        })
+    }
+
+    /// **THE ADDITIVITY GUARD.** With every new input at its default, the scenario emits
+    /// the pre-existing document *unchanged* — same keys, same values, to the last bit —
+    /// plus exactly two new top-level keys.
+    ///
+    /// This is the most important test in the correction-link work. The budget is
+    /// allowed to add; it is not allowed to move a single released number. A field-by-field
+    /// `Value` comparison against a literal captured *before* the change is the only form
+    /// of that claim which cannot quietly re-baseline itself.
+    #[test]
+    fn the_link_budget_is_purely_additive_with_every_new_input_at_its_default() {
+        let mut v = serde_json::to_value(LunarDpntScenario::default().run()).unwrap();
+        let obj = v.as_object_mut().expect("the report is a JSON object");
+
+        // Exactly two new top-level keys, and nothing else new.
+        let before = pre_link_budget_default_report();
+        let before_keys: std::collections::BTreeSet<String> =
+            before.as_object().unwrap().keys().cloned().collect();
+        let after_keys: std::collections::BTreeSet<String> = obj.keys().cloned().collect();
+        let added: Vec<&String> = after_keys.difference(&before_keys).collect();
+        let removed: Vec<&String> = before_keys.difference(&after_keys).collect();
+        assert!(removed.is_empty(), "the budget REMOVED fields: {removed:?}");
+        assert_eq!(
+            added,
+            vec![&"correction_link".to_string(), &"units".to_string()],
+            "unexpected new top-level fields"
+        );
+
+        obj.remove("correction_link");
+        obj.remove("units");
+        assert_eq!(
+            v, before,
+            "a pre-existing value moved; the budget must be purely additive"
+        );
+
+        // Value equality folds 0.0 and -0.0, so pin the headline scalars bit-for-bit too.
+        let r = LunarDpntScenario::default().run();
+        for (name, got, want) in [
+            (
+                "user_error_uncorrected_m",
+                r.user_error_uncorrected_m,
+                24.460_652_495_293_342_f64,
+            ),
+            (
+                "user_error_corrected_m",
+                r.user_error_corrected_m,
+                0.007_676_508_483_045_71_f64,
+            ),
+            (
+                "reduction_factor",
+                r.reduction_factor,
+                3_186.429_422_870_696_f64,
+            ),
+            (
+                "protection_level_m",
+                r.protection_level_m,
+                23.133_803_613_253_427_f64,
+            ),
+            ("vpl_m", r.vpl_m, 17.227_221_314_344_384_f64),
+            ("clock_err_ns", r.clock_err_ns, 100.069_228_559_445_6_f64),
+        ] {
+            assert_eq!(
+                got.to_bits(),
+                want.to_bits(),
+                "{name} moved: {got} vs the pre-budget {want}"
+            );
+        }
+    }
+
+    /// **THE STRUCTURAL CHECK.** Survey error does **not** decorrelate with baseline;
+    /// the orbit term does. Wire the survey term into the user's geometry instead of the
+    /// reference station's and this test fails.
+    ///
+    /// At a zero baseline the differential identity cancels the orbit term to machine
+    /// precision — and the survey term is *entirely untouched*, because it never involved
+    /// the user's line of sight at all.
+    #[test]
+    fn survey_error_does_not_decorrelate_with_baseline_but_orbit_error_does() {
+        let scn = LunarDpntScenario::default();
+        let constellation = scn.constellation();
+        let sats = constellation.positions_mcmf(scn.t_s);
+        let ref_mcmf = scn.ref_mcmf();
+        let (orbit_err, clock_err) = scn.inject_errors(sats.len());
+
+        let baselines = [0.0_f64, 1.0, 10.0, 50.0, 250.0, 500.0];
+        let survey: Vec<f64> = baselines
+            .iter()
+            .map(|&b| {
+                let u = scn.user_mcmf(b);
+                scn.correction_link_budget(u, ref_mcmf, &sats, &constellation)
+                    .survey_position_sigma_m
+            })
+            .collect();
+        let orbit: Vec<f64> = baselines
+            .iter()
+            .map(|&b| {
+                let u = scn.user_mcmf(b);
+                user_position_error_m(u, ref_mcmf, &sats, &orbit_err, &clock_err, true).unwrap()
+            })
+            .collect();
+
+        // The survey term is alive at zero baseline, where the orbit term is exactly gone.
+        assert!(
+            survey[0] > 0.25,
+            "survey term must survive a zero baseline, got {}",
+            survey[0]
+        );
+        assert!(
+            orbit[0] < 1e-9,
+            "the orbit term must cancel at zero baseline, got {}",
+            orbit[0]
+        );
+
+        // The survey term is flat across a 0 → 500 km baseline …
+        let lo = survey.iter().cloned().fold(f64::INFINITY, f64::min);
+        let hi = survey.iter().cloned().fold(f64::NEG_INFINITY, f64::max);
+        assert!(
+            (hi - lo) / lo < 1e-2,
+            "survey term must not decorrelate with baseline: {survey:?}"
+        );
+        // … while the orbit term grows by orders of magnitude over the same span.
+        assert!(
+            orbit[5] > 100.0 * orbit[1],
+            "the orbit term must decorrelate with baseline: {orbit:?}"
+        );
+        // And at a 500 km baseline the survey term is STILL the larger of the two, which
+        // is why an unmodelled survey error is a floor and not a rounding error.
+        assert!(
+            survey[5] > orbit[5],
+            "survey {} vs orbit {} at 500 km",
+            survey[5],
+            orbit[5]
+        );
+    }
+
+    /// A one-metre station coordinate error moves the user by about one metre — per axis,
+    /// with no DOP amplification. The three-axis RSS is therefore ≈ √3.
+    ///
+    /// This is the physical oracle for the survey transfer: in a differential system the
+    /// base station's coordinate error transfers into the rover one-for-one, because the
+    /// satellites are far enough away that `û_user ≈ û_ref` and the least-squares solve
+    /// reads the injected `−δ·û` back out as `δ`.
+    #[test]
+    fn a_one_metre_station_survey_error_transfers_one_for_one_into_the_user() {
+        let scn = LunarDpntScenario::default();
+        let sats = scn.constellation().positions_mcmf(scn.t_s);
+        let ref_mcmf = scn.ref_mcmf();
+        let user = scn.user_mcmf(scn.baseline_km);
+        let transfer = survey_position_transfer(user, ref_mcmf, &sats).unwrap();
+        assert!(
+            (transfer - 3.0_f64.sqrt()).abs() < 1e-3,
+            "three-axis transfer must be ≈ √3 = {:.6}, got {transfer}",
+            3.0_f64.sqrt()
+        );
+        // PDOP here is ≈ 1.19, so a DOP-amplified answer would be visibly different: the
+        // survey term does NOT take the DOP an independent range error takes.
+        let pdop = user_pdop(user, &sats).unwrap();
+        assert!(
+            (transfer - 3.0_f64.sqrt() * pdop).abs() > 1e-3,
+            "transfer must not equal √3·PDOP (pdop {pdop}, transfer {transfer})"
+        );
+    }
+
+    /// Zero latency reproduces the un-aged residual **exactly** — not to a tolerance.
+    #[test]
+    fn zero_latency_reproduces_the_unaged_residual_exactly() {
+        let aged = LunarDpntScenario::default().run().correction_link;
+        let fresh = LunarDpntScenario {
+            latency_s: 0.0,
+            ..Default::default()
+        }
+        .run()
+        .correction_link;
+
+        assert_eq!(fresh.latency_orbit_range_sigma_m, 0.0);
+        assert_eq!(fresh.latency_clock_range_sigma_m, 0.0);
+        assert_eq!(fresh.latency_range_sigma_m, 0.0);
+        assert_eq!(fresh.latency_position_sigma_m, 0.0);
+        assert_eq!(fresh.ageing_clock_time_error_s, 0.0);
+        assert_eq!(fresh.ageing_orbit_rate_m_per_s, 0.0);
+
+        // The other two terms are untouched by latency, bit-for-bit …
+        assert_eq!(
+            fresh.survey_position_sigma_m.to_bits(),
+            aged.survey_position_sigma_m.to_bits()
+        );
+        assert_eq!(
+            fresh.quantization_position_sigma_m.to_bits(),
+            aged.quantization_position_sigma_m.to_bits()
+        );
+        // … and the total is exactly their quadrature sum.
+        let expect = (fresh.survey_position_sigma_m * fresh.survey_position_sigma_m
+            + fresh.quantization_position_sigma_m * fresh.quantization_position_sigma_m)
+            .sqrt();
+        assert_eq!(fresh.total_position_sigma_m.to_bits(), expect.to_bits());
+
+        // The reported latency curve's own zero-latency point agrees, to the bit.
+        assert_eq!(aged.latency_curve[0].0, 0.0);
+        assert_eq!(
+            aged.latency_curve[0].1.to_bits(),
+            fresh.total_position_sigma_m.to_bits()
+        );
+    }
+
+    /// The residual grows monotonically with the age of the correction.
+    #[test]
+    fn the_residual_grows_monotonically_with_latency() {
+        let at = |t: f64| {
+            LunarDpntScenario {
+                latency_s: t,
+                ..Default::default()
+            }
+            .run()
+            .correction_link
+        };
+        let taus = [0.0_f64, 1.0, 5.0, 10.0, 30.0, 60.0, 120.0, 300.0];
+        let totals: Vec<f64> = taus.iter().map(|&t| at(t).total_position_sigma_m).collect();
+        for w in totals.windows(2) {
+            assert!(
+                w[1] >= w[0],
+                "the residual must grow with correction age: {totals:?}"
+            );
+        }
+        assert!(
+            *totals.last().unwrap() > totals[0] * 1.5,
+            "a 300 s-old correction must be materially worse than a fresh one: {totals:?}"
+        );
+        // The emitted curve is the same function, evaluated at the same points.
+        let curve = at(10.0).latency_curve;
+        for (t, y) in &curve {
+            let direct = at(*t).total_position_sigma_m;
+            assert!(
+                (y - direct).abs() <= 1e-12 * direct.max(1.0),
+                "latency_curve at {t} s says {y}, a direct run says {direct}"
+            );
+        }
+    }
+
+    /// Quantization scales **exactly** as `2^(−bits)` in the step and as `step²/12` in the
+    /// residual variance.
+    #[test]
+    fn quantization_scales_as_two_to_the_minus_bits_and_step_squared_over_twelve() {
+        let full_scale = 130.0_f64;
+        for bits in 1_u32..=30 {
+            let s = correction_quantization_step_m(full_scale, bits);
+            let s_next = correction_quantization_step_m(full_scale, bits + 1);
+            // Halving a power-of-two-scaled step is exact in binary floating point.
+            assert_eq!(
+                (2.0 * s_next).to_bits(),
+                s.to_bits(),
+                "step must halve exactly from {bits} to {} bits",
+                bits + 1
+            );
+            assert_eq!(
+                s.to_bits(),
+                (2.0 * full_scale / 2.0_f64.powi(bits as i32)).to_bits(),
+                "step must be 2·full_scale·2^(−bits)"
+            );
+            // Uniform-quantizer variance: step²/12.
+            let sigma = uniform_quantization_sigma_m(s);
+            assert_eq!(sigma.to_bits(), (s / 12.0_f64.sqrt()).to_bits());
+            let var = sigma * sigma;
+            let want = s * s / 12.0;
+            assert!(
+                (var - want).abs() <= 1e-15 * want,
+                "variance {var} must be step²/12 = {want}"
+            );
+        }
+        // Zero bits means no quantizer at all.
+        assert_eq!(correction_quantization_step_m(full_scale, 0), 0.0);
+        assert_eq!(uniform_quantization_sigma_m(0.0), 0.0);
+
+        // End to end through the scenario: one more bit exactly halves the term.
+        let a = LunarDpntScenario {
+            quantization_bits: 8,
+            ..Default::default()
+        }
+        .run()
+        .correction_link;
+        let b = LunarDpntScenario {
+            quantization_bits: 9,
+            ..Default::default()
+        }
+        .run()
+        .correction_link;
+        assert_eq!(a.quantization_full_scale_m, 130.0, "orbit_err + clock_err");
+        assert_eq!(
+            (2.0 * b.quantization_step_m).to_bits(),
+            a.quantization_step_m.to_bits()
+        );
+        assert_eq!(
+            (2.0 * b.quantization_range_sigma_m).to_bits(),
+            a.quantization_range_sigma_m.to_bits()
+        );
+        assert_eq!(
+            (2.0 * b.quantization_position_sigma_m).to_bits(),
+            a.quantization_position_sigma_m.to_bits()
+        );
+        // And the quantizer range — not the bit count alone — sets the step: doubling the
+        // injected error magnitudes doubles the full scale and so doubles the step.
+        let wide = LunarDpntScenario {
+            orbit_err_m: 200.0,
+            clock_err_m: 60.0,
+            ..Default::default()
+        }
+        .run()
+        .correction_link;
+        assert_eq!(wide.quantization_full_scale_m, 260.0);
+        assert_eq!(
+            wide.quantization_step_m.to_bits(),
+            (2.0 * a.quantization_step_m).to_bits()
+        );
+    }
+
+    /// Switching each term off in turn recovers the other two in quadrature — so the
+    /// three really are being combined as independent contributions and nothing else is
+    /// hiding in the total.
+    #[test]
+    fn each_term_switched_off_recovers_the_remaining_total_in_quadrature() {
+        let full = LunarDpntScenario::default().run().correction_link;
+        let hypot2 = |a: f64, b: f64| (a * a + b * b).sqrt();
+        let close = |a: f64, b: f64| (a - b).abs() <= 1e-12 * a.abs().max(1.0);
+
+        // The full total is the quadrature sum of the three.
+        assert!(
+            close(
+                full.total_position_sigma_m,
+                (full.survey_position_sigma_m * full.survey_position_sigma_m
+                    + full.latency_position_sigma_m * full.latency_position_sigma_m
+                    + full.quantization_position_sigma_m * full.quantization_position_sigma_m)
+                    .sqrt()
+            ),
+            "total {} is not the RSS of {} / {} / {}",
+            full.total_position_sigma_m,
+            full.survey_position_sigma_m,
+            full.latency_position_sigma_m,
+            full.quantization_position_sigma_m
+        );
+
+        let no_survey = LunarDpntScenario {
+            survey_sigma_m: 0.0,
+            ..Default::default()
+        }
+        .run()
+        .correction_link;
+        assert_eq!(no_survey.survey_position_sigma_m, 0.0);
+        assert!(close(
+            no_survey.total_position_sigma_m,
+            hypot2(
+                full.latency_position_sigma_m,
+                full.quantization_position_sigma_m
+            )
+        ));
+
+        let no_latency = LunarDpntScenario {
+            latency_s: 0.0,
+            ..Default::default()
+        }
+        .run()
+        .correction_link;
+        assert_eq!(no_latency.latency_position_sigma_m, 0.0);
+        assert!(close(
+            no_latency.total_position_sigma_m,
+            hypot2(
+                full.survey_position_sigma_m,
+                full.quantization_position_sigma_m
+            )
+        ));
+
+        let no_quant = LunarDpntScenario {
+            quantization_bits: 0,
+            ..Default::default()
+        }
+        .run()
+        .correction_link;
+        assert_eq!(no_quant.quantization_position_sigma_m, 0.0);
+        assert!(close(
+            no_quant.total_position_sigma_m,
+            hypot2(full.survey_position_sigma_m, full.latency_position_sigma_m)
+        ));
+
+        // All three off ⇒ an exactly empty budget (and the scenario still runs).
+        let none = LunarDpntScenario {
+            survey_sigma_m: 0.0,
+            latency_s: 0.0,
+            quantization_bits: 0,
+            ..Default::default()
+        }
+        .run()
+        .correction_link;
+        assert_eq!(none.total_position_sigma_m, 0.0);
+        assert_eq!(none.total_range_sigma_m, 0.0);
+        assert_eq!(
+            none.total_with_residual_range_sigma_m.to_bits(),
+            5.0_f64.to_bits(),
+            "with the link switched off the augmented σ is exactly residual_sigma_m"
+        );
+    }
+
+    /// Independent per-satellite range errors propagate as `σ · PDOP`, and this module's
+    /// PDOP agrees with the crate's `orbit::dop` kernel.
+    ///
+    /// This is a **consistency** check, not an external oracle: both sides build the same
+    /// `[−û, 1]` normal matrix. What it catches is a wrong propagation of the *covariance*
+    /// — the general `(GᵀG)⁻¹Gᵀ R G (GᵀG)⁻¹` path collapsing to `σ·PDOP` only if the
+    /// algebra is right — and a PDOP that drifts from the crate's own definition.
+    #[test]
+    fn independent_range_sigmas_propagate_as_sigma_times_pdop() {
+        let scn = LunarDpntScenario::default();
+        let sats = scn.constellation().positions_mcmf(scn.t_s);
+        let user = scn.user_mcmf(scn.baseline_km);
+
+        let mine = user_pdop(user, &sats).expect("pdop");
+        let theirs = crate::orbit::dop(user, &sats).expect("orbit::dop").pdop;
+        assert!(
+            (mine - theirs).abs() < 1e-9,
+            "user_pdop {mine} vs orbit::dop {theirs}"
+        );
+
+        for sigma in [0.25_f64, 1.0, 7.5] {
+            let sigmas = vec![sigma; sats.len()];
+            let pos = position_sigma_from_range_sigmas(user, &sats, &sigmas).unwrap();
+            assert!(
+                (pos - sigma * mine).abs() <= 1e-12 * (sigma * mine),
+                "equal σ={sigma} must give σ·PDOP = {}, got {pos}",
+                sigma * mine
+            );
+        }
+        // A per-satellite σ set is not the same thing as its mean — the general path is
+        // genuinely doing per-satellite work.
+        let mut uneven = vec![0.0; sats.len()];
+        uneven[0] = 10.0;
+        let uneven_pos = position_sigma_from_range_sigmas(user, &sats, &uneven).unwrap();
+        assert!(uneven_pos > 0.0 && uneven_pos < 10.0 * mine);
+        // Length mismatch and degenerate geometry both return None rather than a number.
+        assert!(position_sigma_from_range_sigmas(user, &sats, &[1.0]).is_none());
+        assert!(user_pdop(user, &sats[..3]).is_none());
+    }
+
+    /// Every field the correction-link budget emits is named in the `units` block with a
+    /// unit **and** a provenance class, and the block names nothing that does not exist.
+    #[test]
+    fn every_correction_link_field_carries_a_unit_and_a_provenance_class() {
+        let v = serde_json::to_value(LunarDpntScenario::default().run()).unwrap();
+        let units = v["units"].as_object().expect("a units block");
+        assert!(!units.is_empty());
+
+        // Forward: every emitted field of the block is described.
+        for field in v["correction_link"].as_object().unwrap().keys() {
+            let key = format!("correction_link.{field}");
+            assert!(
+                units.contains_key(&key),
+                "{key} is emitted but carries no units entry"
+            );
+        }
+        // Each entry states both a unit and a provenance class.
+        for (field, meta) in units {
+            assert!(meta["unit"].is_string(), "{field} has no unit");
+            assert!(
+                meta["provenance"].is_string(),
+                "{field} has no provenance class"
+            );
+        }
+        // Reverse: the block describes nothing the report does not emit.
+        for field in units.keys() {
+            let mut cur = &v;
+            for seg in field.split('.') {
+                cur = &cur[seg];
+                assert!(
+                    !cur.is_null(),
+                    "units names {field}, which the report does not emit"
+                );
+            }
+        }
+        // The two domains are labelled, not left to be inferred.
+        assert_eq!(units["correction_link.total_position_sigma_m"]["unit"], "m");
+        assert_eq!(units["correction_link.pdop"]["unit"], "1");
+        assert_eq!(units["correction_link.quantization_bits"]["unit"], "bit");
+        assert_eq!(
+            units["correction_link.ageing_orbit_rate_m_per_s"]["unit"],
+            "m/s"
+        );
+    }
+
+    /// **THE FINDING, PINNED.** At the stated defaults the correction-link budget is two
+    /// orders of magnitude larger than the spatial-decorrelation residual the scenario
+    /// has always reported — and still far below a 9.12 m allocation.
+    ///
+    /// The differential residual at a 50 km baseline is ≈ 8 mm. The link the correction
+    /// travels over costs ≈ 0.47 m. Whichever way the allocation is read, the honest
+    /// statement is that the three modelled terms do **not** fill it; the defaults are not
+    /// tuned to make them.
+    #[test]
+    fn the_link_budget_dominates_the_decorrelation_residual_and_underfills_nine_metres() {
+        let r = LunarDpntScenario::default().run();
+        let b = &r.correction_link;
+        assert!(
+            b.total_position_sigma_m > 10.0 * r.user_error_corrected_m,
+            "link budget {} vs decorrelation residual {}",
+            b.total_position_sigma_m,
+            r.user_error_corrected_m
+        );
+        assert!(
+            b.total_position_sigma_m < 9.12,
+            "the three modelled terms total {} m; if this ever exceeds 9.12 m the finding \
+             reported alongside this work has changed and must be restated, NOT retuned",
+            b.total_position_sigma_m
+        );
+        // Each term is a real, non-zero contribution — none is a placeholder.
+        assert!(b.survey_position_sigma_m > 0.0);
+        assert!(b.latency_position_sigma_m > 0.0);
+        assert!(b.quantization_position_sigma_m > 0.0);
+        // The augmented protection level is reported beside, never in place of, the
+        // scenario's own, and is (slightly) the more conservative of the two.
+        assert!(b.protection_level_with_link_m > r.protection_level_m);
+        assert!(b.vpl_with_link_m > r.vpl_m);
+        assert!(b.total_with_residual_range_sigma_m > r.residual_sigma_m);
+    }
+
+    /// A survey-biased correction reduces to the unbiased one when the station's believed
+    /// coordinate is its real one, and the bias it injects is the reference station's
+    /// line-of-sight projection — with no user geometry in it anywhere.
+    #[test]
+    fn survey_biased_corrections_reduce_to_the_unbiased_ones_and_project_on_the_station_los() {
+        let scn = LunarDpntScenario::default();
+        let sats = scn.constellation().positions_mcmf(scn.t_s);
+        let ref_mcmf = scn.ref_mcmf();
+        let (orbit_err, clock_err) = scn.inject_errors(sats.len());
+
+        let plain = differential_corrections(ref_mcmf, &sats, &orbit_err, &clock_err);
+        let same = survey_biased_corrections(ref_mcmf, ref_mcmf, &sats, &orbit_err, &clock_err);
+        for (a, b) in plain.iter().zip(&same) {
+            assert_eq!(
+                a.to_bits(),
+                b.to_bits(),
+                "a zero survey error must change nothing"
+            );
+        }
+
+        // A 3 m offset along +x: the extra term is δ·û_ref to first order.
+        let delta = [3.0, 0.0, 0.0];
+        let assumed = [
+            ref_mcmf[0] + delta[0],
+            ref_mcmf[1] + delta[1],
+            ref_mcmf[2] + delta[2],
+        ];
+        let biased = survey_biased_corrections(ref_mcmf, assumed, &sats, &orbit_err, &clock_err);
+        for (i, &s) in sats.iter().enumerate() {
+            let expect = dot(delta, los_unit(ref_mcmf, s));
+            let got = biased[i] - plain[i];
+            assert!(
+                (got - expect).abs() < 1e-5,
+                "sat {i}: survey bias {got} must be δ·û_ref = {expect}"
+            );
+        }
     }
 }

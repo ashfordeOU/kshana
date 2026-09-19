@@ -53,3 +53,35 @@ t_s = 0.0              # epoch (seconds past the MCI/MCMF-aligned epoch)
 # Differential residual sigma fed to the SBAS DO-229E protection-level reuse.
 residual_sigma_m = 5.0
 p_hmi = 1e-4           # integrity-risk budget (interface parity; DO-229E K-factors fixed)
+
+# ── THE CORRECTION LINK ──────────────────────────────────────────────────────────────
+# The identity above assumes a PERFECT correction: computed by a station that knows
+# exactly where it stands, delivered instantly, at infinite resolution. None of the three
+# holds, and the three inputs below model what each costs. They feed the `correction_link`
+# block of the result document ONLY -- with all three at the values written here, every
+# number this scenario emitted before they existed is bit-for-bit unchanged.
+#
+# 1. SURVEY ERROR. The station forms its correction against the coordinate it BELIEVES.
+#    An error there rides on every correction it broadcasts and reaches the user as
+#    -delta . u_ref -- which contains no user geometry at all, so unlike the orbit term it
+#    neither vanishes at zero baseline nor grows with baseline, and it transfers about
+#    one-for-one into the user's position. Default 0.30 m is the crate's own lunar
+#    reference-frame position-realisation allocation (lunar_time_budget frame_pos_error_m),
+#    itself MODELLED: no lunar surface station has a published surveyed accuracy.
+survey_sigma_m = 0.30      # reference-station 3-D coordinate 1-sigma (m), isotropic
+
+# 2. CORRECTION AGEING. A correction computed at t and applied at t+tau is stale two ways.
+#    Orbit: the satellite has MOVED, so the frozen orbit-error vector now projects onto a
+#    rotated line of sight; the rotation comes from this crate's own propagator, so no
+#    orbit-error rate is assumed anywhere. Clock: the satellite clock has drifted by
+#    c*sigma_y(tau)*tau for the full-RAFS power law in crate::clock_specs, calibrated there
+#    to a published one-day spec row. ILLUSTRATIVE default -- no lunar correction link has
+#    a published latency -- which is why the report also emits a 0-300 s latency curve.
+latency_s = 10.0           # age of the correction when the user applies it (s)
+
+# 3. QUANTIZATION. The correction crosses a finite-rate link. The quantizer range is NOT a
+#    free parameter: it is +/-(orbit_err_m + clock_err_m), an exact bound on the correction
+#    magnitude for the injected error model, so the step is 2*(100+30)/2^bits = 1.0156 m at
+#    8 bits and the residual variance is the uniform quantizer's step^2/12. The bit count
+#    itself is an ILLUSTRATIVE input; 0 disables the term.
+quantization_bits = 8      # bits per transmitted correction
