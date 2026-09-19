@@ -56,6 +56,7 @@ fn parse_clock_name(name: &str) -> Result<LunarClock, String> {
 /// `docs/SCHEMA.md`; this names only what `clock_crossovers` introduces.
 fn crossover_units() -> serde_json::Value {
     serde_json::json!({
+        "clock_crossovers.sigma_y_one_s": { "unit": "1", "provenance": "spec" },
         "clock_crossovers.x_one_day_s": { "unit": "s", "provenance": "computed" },
         "clock_crossovers.crossover_tau_s": { "unit": "s", "provenance": "computed" },
         "clock_crossovers.crossover_tau_s_closed_form": {
@@ -473,6 +474,7 @@ mod tests {
             for f in [
                 "clock",
                 "noise_type",
+                "sigma_y_one_s",
                 "x_one_day_s",
                 "crossover_tau_s",
                 "crossover_tau_s_closed_form",
@@ -519,6 +521,64 @@ mod tests {
             (tau - 86_894.3).abs() <= 0.05,
             "P3 abstract: scenario PHM τ* = {tau} s vs printed 86894.3 s"
         );
+    }
+
+    #[test]
+    fn the_row_carries_the_stability_spec_its_own_crossover_was_read_off() {
+        // The released P3 crossover table publishes σ_y(1 s) alongside τ*, and until now that
+        // column was the one cell of the table the engine did not emit — a reader had to take
+        // it from the paper. These are the released values, to the six figures the table
+        // prints. They are the clock SPEC, not a computed result: the row carries them so the
+        // crossover and the level it was read off travel together.
+        const RELEASED_SIGMA_Y_1S: [(&str, f64); 4] = [
+            ("optical-master", 1.041667e-16),
+            ("passive-h-maser", 1.151620e-14),
+            ("rafs", 1.000000e-11),
+            ("mini-rafs", 5.145221e-10),
+        ];
+        let (json, _s) = LunarTimeBudgetScenario::default().run_json().unwrap();
+        let v: Value = serde_json::from_str(&json).unwrap();
+        for (r, (name, released)) in crossovers_of(&v).iter().zip(RELEASED_SIGMA_Y_1S) {
+            assert_eq!(r["clock"].as_str().unwrap(), name);
+            let got = r["sigma_y_one_s"].as_f64().unwrap();
+            let rel = (got - released).abs() / released;
+            assert!(
+                rel < 5e-7,
+                "{name}: engine σ_y(1 s) = {got}, released table prints {released} \
+                 (rel diff {rel})"
+            );
+        }
+    }
+
+    #[test]
+    fn the_closed_form_crossover_is_recoverable_from_the_row_alone() {
+        // The point of carrying σ_y(1 s) on the row: a consumer holding ONLY this table can
+        // re-derive the closed-form crossover without the clock spec sheet. flicker-FM gives
+        // τ* = F/σ_y(1 s); white FM gives τ* = (F/σ_y(1 s))². F is the frame term, itself
+        // recoverable as x(τ*) at the crossover. This is the row proving it is self-contained.
+        let (json, _s) = LunarTimeBudgetScenario::default().run_json().unwrap();
+        let v: Value = serde_json::from_str(&json).unwrap();
+        let frame_term_s = v["frame_floor_s"]
+            .as_f64()
+            .or_else(|| v["crossover_x_s"].as_f64())
+            .expect("the document states the frame term");
+        for r in crossovers_of(&v) {
+            let sigma = r["sigma_y_one_s"].as_f64().unwrap();
+            let ratio = frame_term_s / sigma;
+            let expect = if r["noise_type"] == "white-fm" {
+                ratio * ratio
+            } else {
+                ratio
+            };
+            let closed = r["crossover_tau_s_closed_form"].as_f64().unwrap();
+            let rel = (closed - expect).abs() / closed;
+            assert!(
+                rel < 1e-12,
+                "{}: τ* from the row alone = {expect} s, engine closed form = {closed} s \
+                 (rel diff {rel})",
+                r["clock"]
+            );
+        }
     }
 
     #[test]
@@ -615,6 +675,7 @@ mod tests {
         let v: Value = serde_json::from_str(&json).unwrap();
         let units = v["units"].as_object().expect("units object");
         for (key, unit) in [
+            ("clock_crossovers.sigma_y_one_s", "1"),
             ("clock_crossovers.x_one_day_s", "s"),
             ("clock_crossovers.crossover_tau_s", "s"),
             ("clock_crossovers.crossover_tau_s_closed_form", "s"),
@@ -626,7 +687,7 @@ mod tests {
             assert_eq!(e["unit"], unit, "{key} unit");
             assert!(e["provenance"].is_string(), "{key} provenance class");
         }
-        assert_eq!(units.len(), 4, "units must describe only the new fields");
+        assert_eq!(units.len(), 5, "units must describe only the new fields");
     }
 
     #[test]
