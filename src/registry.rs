@@ -94,6 +94,7 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         LunarJamming,
         InsTrnCoast,
         LunarVlbiFim,
+        TrackingLoop,
     ]
 };
 
@@ -167,6 +168,9 @@ pub mod ids {
     /// Lunar-VLBI station-coordinate covariance accumulated from the delay partials over
     /// a schedule of baselines and epochs.
     pub const LUNAR_VLBI_FIM: ScenarioId = ScenarioId::from_static("lunar-vlbi-fim");
+    /// Tracking-loop loss of lock, hysteresis, spoof pull-in and the loop-dynamics
+    /// denial radius alongside the power-ratio one.
+    pub const TRACKING_LOOP: ScenarioId = ScenarioId::from_static("tracking-loop");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {
