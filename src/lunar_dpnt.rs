@@ -408,7 +408,13 @@ fn d_p_hmi() -> f64 {
 /// MODELLED — see the module docs for the honesty boundary.**
 #[derive(Clone, Copy, Debug, Deserialize)]
 pub struct LunarDpntScenario {
-    /// Number of satellites in the illustrative constellation (1–12).
+    /// Number of satellites in the illustrative constellation (1–24).
+    ///
+    /// The upper limit is the size of the illustrative LCNS-class set the constellation
+    /// builder lays out, and matches [`crate::lunar_service`]. It was 12 until v0.27.0;
+    /// a differential run asking for more satellites silently got twelve, which is
+    /// visible in the published `dpnt_nsats_sweep.csv` as an n = 16 row identical to its
+    /// n = 12 row. Raising it moves that row: see CHANGELOG.
     #[serde(default = "d_n_sats")]
     pub n_sats: usize,
     /// Semi-major axis (km).
@@ -508,7 +514,10 @@ pub struct LunarDpntReport {
 impl LunarDpntScenario {
     fn constellation(&self) -> LunarConstellation {
         let sma_m = self.sma_km * 1000.0;
-        let n = self.n_sats.clamp(1, 12);
+        // 24, not 12: the builder below lays out an evenly spread constellation for any
+        // n, and the service-volume scenario already sweeps to 24. A lower limit here
+        // returned a twelve-satellite answer under a larger n_sats label.
+        let n = self.n_sats.clamp(1, 24);
         let sats = (0..n)
             .map(|k| LunarSat {
                 sma_m,
@@ -1044,13 +1053,48 @@ mod tests {
         );
     }
 
+    /// The satellite count is honoured up to the builder's own limit of 24.
+    ///
+    /// This is the regression guard for the clamp lifted in v0.27.0. Before it, a run
+    /// asking for 16 or 24 satellites silently returned the twelve-satellite answer under
+    /// the larger label, which is visible in the published `dpnt_nsats_sweep.csv` as an
+    /// n = 16 row byte-identical to its n = 12 row. Each larger constellation must both
+    /// report its own count and produce a genuinely different geometry: more satellites
+    /// improve the user geometry, so the protection level must strictly fall.
+    #[test]
+    fn satellite_count_is_honoured_up_to_the_builder_limit() {
+        let at = |n: usize| {
+            LunarDpntScenario {
+                n_sats: n,
+                ..LunarDpntScenario::default()
+            }
+            .run()
+        };
+        let (a, b, c) = (at(12), at(16), at(24));
+        assert_eq!((a.n_sats, b.n_sats, c.n_sats), (12, 16, 24));
+        assert!(
+            b.protection_level_m < a.protection_level_m,
+            "16 satellites must improve on 12, got {} vs {}",
+            b.protection_level_m,
+            a.protection_level_m
+        );
+        assert!(
+            c.protection_level_m < b.protection_level_m,
+            "24 satellites must improve on 16, got {} vs {}",
+            c.protection_level_m,
+            b.protection_level_m
+        );
+        // And the clamp itself still holds at the top.
+        assert_eq!(at(64).n_sats, 24);
+    }
+
     /// The scenario produces a self-consistent report and a well-formed SVG carrying the
     /// honest illustrative/MODELLED note.
     #[test]
     fn scenario_report_self_consistent() {
         let scn = LunarDpntScenario::default();
         let r = scn.run();
-        assert_eq!(r.n_sats, scn.n_sats.clamp(1, 12));
+        assert_eq!(r.n_sats, scn.n_sats.clamp(1, 24));
         assert!(r.user_error_uncorrected_m > 0.0);
         assert!(r.user_error_corrected_m >= 0.0);
         assert!(r.reduction_factor.is_finite() && r.reduction_factor > 1.0);
