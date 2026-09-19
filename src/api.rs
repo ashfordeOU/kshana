@@ -453,6 +453,9 @@ pub enum ScenarioKind {
     LunarJamming,
     /// INS/TRN coasting error growth and the coast durations reaching stated thresholds.
     InsTrnCoast,
+    /// Lunar-VLBI station-coordinate covariance accumulated from the delay partials over a
+    /// schedule of baselines and epochs.
+    LunarVlbiFim,
 }
 
 impl ScenarioKind {
@@ -512,6 +515,7 @@ impl ScenarioKind {
             ScenarioKind::ApertureDutyCycle => "aperture-duty-cycle",
             ScenarioKind::LunarJamming => "lunar-jamming",
             ScenarioKind::InsTrnCoast => "ins-trn-coast",
+            ScenarioKind::LunarVlbiFim => "lunar-vlbi-fim",
         }
     }
 
@@ -575,6 +579,7 @@ impl ScenarioKind {
             "aperture-duty-cycle" => ScenarioKind::ApertureDutyCycle,
             "lunar-jamming" => ScenarioKind::LunarJamming,
             "ins-trn-coast" => ScenarioKind::InsTrnCoast,
+            "lunar-vlbi-fim" => ScenarioKind::LunarVlbiFim,
             // Empty or unknown ⇒ the clock pack (historical default).
             _ => ScenarioKind::Clock,
         })
@@ -1923,6 +1928,18 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
         ScenarioKind::InsTrnCoast => {
             let scn: crate::inertial::coast::InsTrnCoastScenario =
                 toml::from_str(src).map_err(|e| format!("invalid ins-trn-coast scenario: {e}"))?;
+            let (json, summary) = scn.run_json()?;
+            let svg = minimal_svg(&summary);
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
+        }
+        ScenarioKind::LunarVlbiFim => {
+            let scn: crate::lunar_vlbi_fim::LunarVlbiFimScenario =
+                toml::from_str(src).map_err(|e| format!("invalid lunar-vlbi-fim scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
             Ok(RunOutput {
