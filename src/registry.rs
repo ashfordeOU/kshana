@@ -157,8 +157,11 @@ pub mod ids {
         ScenarioId::from_static("cislunar-observability");
     pub const CONFLICT_RESILIENCE: ScenarioId = ScenarioId::from_static("conflict-resilience");
     pub const LUNAR_ATTACK_SURFACE: ScenarioId = ScenarioId::from_static("lunar-attack-surface");
+    /// Aperture navigation-versus-communications duty cycle from a contact plan.
     pub const APERTURE_DUTY_CYCLE: ScenarioId = ScenarioId::from_static("aperture-duty-cycle");
+    /// Lunar surface-navigation RF jamming with a per-satellite J/S table.
     pub const LUNAR_JAMMING: ScenarioId = ScenarioId::from_static("lunar-jamming");
+    /// INS/TRN coasting error growth and the coast durations reaching stated thresholds.
     pub const INS_TRN_COAST: ScenarioId = ScenarioId::from_static("ins-trn-coast");
 
     /// Every built-in scenario id, in the engine's canonical order.
