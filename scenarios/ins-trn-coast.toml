@@ -1,0 +1,55 @@
+# INS/TRN coasting error model — position error against coast duration, and the coast
+# durations at which it crosses 10 m and 50 m.
+#
+# The question this answers: when a GNSS (or aperture-duty-cycled) study says "assume a
+# dead-reckoning drift of 0.001–0.050 m/s", where does that number come from? It comes
+# from the IMU, and this scenario computes it instead of sweeping it. Five growth terms —
+# accelerometer bias (t^2), gyro-bias tilt through gravity (t^3), velocity random walk
+# (t^1.5), angle random walk (t^2.5) and scale factor times the travelled distance — are
+# combined under a stated rule, and the threshold crossings are located by bisection on
+# the combined model. Every crossing carries the per-contribution breakdown that says
+# which error source put it there.
+#
+# Consumed by `kshana::inertial::coast` and dispatched as `kind = "ins-trn-coast"`. The
+# growth laws are cross-checked against the engine's own stochastic dead-reckoner
+# (`inertial::AccelModel`, Monte-Carlo) and its IMU error model
+# (`inertial::imu_errors::ImuErrorModel`, double-integrated); the IMU class coefficients
+# are representative Groves-Table-4.1-band figures, NOT a datasheet for any part.
+kind = "ins-trn-coast"
+
+# Representative IMU class: navigation, tactical, industrial or consumer. Any individual
+# coefficient below can be overridden, which relabels the reported grade as `custom`.
+imu_grade = "navigation"
+
+# Airborne cruise. The scale-factor error mis-scales the TRAVELLED DISTANCE, so the speed
+# is part of the error model, not decoration: at 250 m/s a 100 ppm scale factor is a
+# 0.025 m/s floor on the mean drift rate that no coast duration falls below.
+speed_m_s = 250.0
+ref_accel_m_s2 = 0.0
+
+# How the five contributions combine into one number. A MODELLING CHOICE, stated: `rss`
+# reads each coefficient as a 1-sigma spec, `linear-sum` is the coherent worst case, and
+# `det-sum-stoch-rss` adds the systematic terms while root-sum-squaring the independently
+# driven random walks. All three are reported in `combination_sensitivity` either way.
+combination = "rss"
+
+# The crossings to report (m). These are inputs: the 10 m / 50 m pair is the default, not
+# a constant compiled into the model.
+crossing_thresholds_m = [10.0, 50.0]
+
+# The drift-rate band a duty-cycle study sweeps (m/s), checked against per grade.
+drift_band_lo_m_per_s = 0.001
+drift_band_hi_m_per_s = 0.050
+
+# Terrain-referenced aiding. TRN in this engine (`altpnt::terrain`, `altpnt::sequential`)
+# recovers a POSITION offset by matching measured ground elevation against a stored DEM,
+# so it bounds the coast with a fix rather than slowing the growth between fixes.
+# `position-only` is what a bare position fix does — velocity error and tilt keep
+# integrating across it; `full-reset` re-zeroes the whole error state, as
+# `AccelModel::reset` does for a GNSS re-alignment.
+trn_fix_mode = "position-only"
+trn_fix_interval_s = 120.0
+# The matching sigma of the shipped terrain-nav configuration: hypot(altimeter 8 m,
+# DEM 15 m). NOT the achieved batch-matcher residual on that scenario's track.
+trn_fix_residual_m = 17.0
+mission_duration_s = 1200.0
