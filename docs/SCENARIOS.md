@@ -363,7 +363,7 @@ Ground-station pass prediction: the time-domain visibility passes (AOS/TCA/LOS, 
 One-way link budget over the CCSDS 401 / DSN 810-005 link equation: free-space path loss, C/N₀, Eb/N₀, margin and closure for a transmit EIRP, receive G/T, range, data rate and band (s|x|ka) against a required Eb/N₀. A deterministic engineering calculation from the supplied inputs (not a calibrated terminal datasheet).
 
 - **Required fields:** *(none)*
-- **Optional fields:** `band`, `eirp_dbw`, `g_over_t_db`, `range_km`, `data_rate_bps`, `other_losses_db`, `required_eb_n0_db`
+- **Optional fields:** `band`, `eirp_dbw`, `g_over_t_db`, `range_km`, `data_rate_bps`, `other_losses_db`, `required_eb_n0_db`, `tsys_k`
 
 ## `lunar-time-budget`
 
