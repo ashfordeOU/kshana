@@ -40,3 +40,18 @@ standoffs_m = [1_000.0, 10_000.0, 100_000.0]
 # Representative spoofer for the tracking-loop pull-in.
 spoof_power_advantage_db = 6.0
 spoof_code_offset_chips = 0.3
+
+# Capture-footprint sweep axes: the captured fraction above is ONE operating point
+# (100 km, 1 m dish); these sweep it over transmitter altitude x beamwidth so the
+# fraction is read against the two inputs that set it, and so limb capture is reported
+# as a threshold (the altitude / beamwidth / transmit power at which it switches on)
+# rather than a boolean at a single point. Both defaults are chosen so the baseline
+# operating point above is an exact sample of the grid.
+footprint_altitude_min_m = 20_000.0    # 20 km ... 500 km in 80 km steps
+footprint_altitude_max_m = 500_000.0
+footprint_altitude_steps = 7
+footprint_altitude_scale = "linear"
+footprint_diameter_min_m = 0.25        # 0.25 m ... 4 m, i.e. HPBW 29.2 deg ... 1.83 deg
+footprint_diameter_max_m = 4.0
+footprint_diameter_steps = 5
+footprint_diameter_scale = "log"
