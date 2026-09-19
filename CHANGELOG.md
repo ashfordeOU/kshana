@@ -9,6 +9,36 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+
+- **`sigma_ure_m` as a scenario parameter** on `lunar-integrity` and
+  `moonlight-service-volume`. The signal-in-space ranging accuracy was a
+  compile-time constant (`LUNAR_SIGMA_URE_M`), so a service-volume sweep could
+  only ever answer pass/fail at one fixed value. Protection levels are exactly
+  linear in it, so exposing it turns the sweep into a ranging-accuracy
+  **requirement** over the whole volume. The default reproduces prior behaviour
+  bit-for-bit.
+- **Per-satellite geometry export** on `moonlight-service-volume`:
+  `export_site_lat_deg` + `export_site_lon_deg` add a `per_sat_geometry` array
+  giving azimuth, elevation and slant range to every satellite at every epoch
+  for one named selenographic site, plus the visibility flag. The aggregate
+  coverage summary deliberately collapses per-satellite geometry, but slant
+  range is exactly what a link budget consumes, so a joint
+  communications-and-navigation analysis could not be done from the summary
+  alone. Off unless both coordinates are given; purely additive.
+- `lunar_service::topocentric`, the public look-angle helper behind the export.
+- A verification-matrix row for the new geometry capability (the matrix moves to
+  **103 rows — 56 VALIDATED, 43 MODELLED, 4 PARTNER**).
+
+### Fixed
+
+- **A stale satellite clamp in `moonlight-service-volume`.** The scenario
+  clamped `n_sats` to 12 although its own constellation builder supports 24 and
+  a test asserts 24, so every requested count above 12 was silently reduced and
+  a satellite-count sweep returned identical values above 12 — indistinguishable
+  from genuine geometric saturation. Now clamped at the builder limit. This is a
+  behaviour change for `n_sats > 12` only.
+
 ## [0.26.0] - 2026-09-18
 
 A documentation, transparency and playground release. No engine behaviour
