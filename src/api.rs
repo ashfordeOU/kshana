@@ -1821,11 +1821,15 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                     .map_err(|e| format!("invalid lunar-time-budget scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
+            // G11: publish the long-form (tau, term) budget table as a runtime artifact.
+            // The array-valued fields previously reached consumers only as JSON arrays,
+            // which is how a released table came to publish 23 of its 57 averaging times.
+            let csv = Some(scn.to_csv()?);
             Ok(RunOutput {
                 json,
                 svg,
                 summary,
-                csv: None,
+                csv,
             })
         }
         ScenarioKind::RealtimeFrameEop => {
