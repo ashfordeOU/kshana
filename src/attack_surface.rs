@@ -33,12 +33,15 @@
 //! MODELLED sub-results (the representative geometry / power inputs) are flagged as such in
 //! the emitted JSON.
 
-use crate::antenna::{capture_footprint, FootprintParams};
+use crate::antenna::{
+    capture_footprint, capture_footprint_sweep, FootprintParams, FootprintSweepResult,
+};
 use crate::jamming::required_tx_power_dbw;
 use crate::linkbudget::{deficit_sensitivity_band, received_signal_power_dbw};
 use crate::lunar::{horizon_los_distance_m, surface_los_max_m, R_MOON_M};
 use crate::nma_budget::{budget as nma_budget, NmaConfig};
 use crate::spoof_capture::{run_capture, CaptureConfig};
+use crate::sweep::SweepAxis;
 use serde::{Deserialize, Serialize};
 
 fn d_afs_eirp_dbw() -> f64 {
@@ -102,6 +105,39 @@ fn d_mast_height_m() -> f64 {
 }
 fn d_user_antenna_height_m() -> f64 {
     1.6
+}
+// --- capture-footprint sweep axes (additive; the baseline point is ON the grid) -------
+// Altitude: a linear 20–500 km ladder in 80 km steps. Linear, not log, for a reason worth
+// stating: 20 000 + 480 000·(i/6) lands on 100 000.0 m EXACTLY in IEEE-754 at i = 1, so
+// the P1 baseline altitude is a *sample* of the grid rather than a value the grid nearly
+// hits. A log axis over the same span misses it by ~1e-11 m and the grid would then only
+// approximate the operating point it is supposed to contain.
+fn d_footprint_altitude_min_m() -> f64 {
+    20_000.0
+}
+fn d_footprint_altitude_max_m() -> f64 {
+    500_000.0
+}
+fn d_footprint_altitude_steps() -> usize {
+    7
+}
+fn d_footprint_altitude_scale() -> String {
+    "linear".to_string()
+}
+// Diameter: a log ladder 0.25–4 m, i.e. beamwidths 29.2°–1.83° at 2.4 GHz, doubling each
+// step. exp(½·(ln 0.25 + ln 4)) is exactly 1.0, so the baseline 1 m dish is likewise a
+// sample and not an approximation.
+fn d_footprint_diameter_min_m() -> f64 {
+    0.25
+}
+fn d_footprint_diameter_max_m() -> f64 {
+    4.0
+}
+fn d_footprint_diameter_steps() -> usize {
+    5
+}
+fn d_footprint_diameter_scale() -> String {
+    "log".to_string()
 }
 
 /// Composed lunar attack-surface scenario. Every field defaults to the P1 baseline, so an
@@ -168,6 +204,30 @@ pub struct LunarAttackSurfaceScenario {
     /// Surface user's antenna height (m).
     #[serde(default = "d_user_antenna_height_m")]
     pub user_antenna_height_m: f64,
+    /// Capture-footprint sweep: lowest transmitter altitude on the grid (m).
+    #[serde(default = "d_footprint_altitude_min_m")]
+    pub footprint_altitude_min_m: f64,
+    /// Capture-footprint sweep: highest transmitter altitude on the grid (m).
+    #[serde(default = "d_footprint_altitude_max_m")]
+    pub footprint_altitude_max_m: f64,
+    /// Capture-footprint sweep: altitude samples (≥ 2).
+    #[serde(default = "d_footprint_altitude_steps")]
+    pub footprint_altitude_steps: usize,
+    /// Capture-footprint sweep: altitude axis spacing, `linear` or `log`.
+    #[serde(default = "d_footprint_altitude_scale")]
+    pub footprint_altitude_scale: String,
+    /// Capture-footprint sweep: smallest transmit dish on the grid (m) — the *widest* beam.
+    #[serde(default = "d_footprint_diameter_min_m")]
+    pub footprint_diameter_min_m: f64,
+    /// Capture-footprint sweep: largest transmit dish on the grid (m) — the *narrowest* beam.
+    #[serde(default = "d_footprint_diameter_max_m")]
+    pub footprint_diameter_max_m: f64,
+    /// Capture-footprint sweep: diameter (beamwidth) samples (≥ 2).
+    #[serde(default = "d_footprint_diameter_steps")]
+    pub footprint_diameter_steps: usize,
+    /// Capture-footprint sweep: diameter axis spacing, `linear` or `log`.
+    #[serde(default = "d_footprint_diameter_scale")]
+    pub footprint_diameter_scale: String,
 }
 
 impl Default for LunarAttackSurfaceScenario {
@@ -233,6 +293,20 @@ pub struct AttackSurface {
     pub nma_overhead_fraction: f64,
     /// OSNMA key-disclosure latency (s).
     pub nma_auth_latency_s: f64,
+    // --- capture footprint against altitude × beamwidth (additive) --------------------
+    // Appended at the end of the struct on purpose: serde emits fields in declaration
+    // order, so every pre-existing key keeps its position and its value byte-for-byte.
+    /// J/S at the limb at the baseline operating point (dB). The companion to
+    /// `footprint_limb_captured`: the boolean says *whether*, this says *by how much*.
+    pub footprint_limb_js_db: f64,
+    /// Baseline limb J/S minus the capture threshold (dB); negative = short by that much.
+    pub footprint_limb_margin_db: f64,
+    /// Transmit power (dBW) at which the **baseline** operating point would capture the
+    /// limb — limb capture stated as a threshold rather than a boolean at one point.
+    pub footprint_limb_capture_tx_power_dbw: f64,
+    /// The captured fraction swept over transmitter altitude × beamwidth: a long-form
+    /// grid (one row per operating point) plus the limb-capture threshold over that grid.
+    pub footprint_sweep: FootprintSweepResult,
 }
 
 impl LunarAttackSurfaceScenario {
@@ -294,14 +368,39 @@ impl LunarAttackSurfaceScenario {
             })
             .collect();
 
-        // 3. Orbital capture footprint.
-        let fp = capture_footprint(&FootprintParams::new(
+        // 3. Orbital capture footprint — at the baseline operating point, and then swept
+        //    over transmitter altitude × beamwidth so the headline captured fraction is
+        //    read against the two inputs that set it rather than quoted at one point.
+        let fp_params = FootprintParams::new(
             self.transmitter_altitude_m,
             self.transmitter_power_dbw,
             self.antenna_diameter_m,
             self.carrier_hz,
             self.footprint_grid,
-        ));
+        );
+        let fp = capture_footprint(&fp_params);
+        let fp_limb = fp
+            .points
+            .last()
+            .copied()
+            .ok_or_else(|| "capture_footprint emitted no points".to_string())?;
+        let footprint_sweep = capture_footprint_sweep(
+            &fp_params,
+            &SweepAxis {
+                parameter: "transmitter_altitude_m".to_string(),
+                start: self.footprint_altitude_min_m,
+                stop: self.footprint_altitude_max_m,
+                steps: self.footprint_altitude_steps,
+                scale: self.footprint_altitude_scale.clone(),
+            },
+            &SweepAxis {
+                parameter: "antenna_diameter_m".to_string(),
+                start: self.footprint_diameter_min_m,
+                stop: self.footprint_diameter_max_m,
+                steps: self.footprint_diameter_steps,
+                scale: self.footprint_diameter_scale.clone(),
+            },
+        );
 
         // 4. Tracking-loop spoof capture.
         let outcome = run_capture(
@@ -337,6 +436,11 @@ impl LunarAttackSurfaceScenario {
             nma_overhead_bps: nma.overhead_bps,
             nma_overhead_fraction: nma.overhead_fraction,
             nma_auth_latency_s: nma.auth_latency_s,
+            footprint_limb_js_db: fp_limb.js_db,
+            footprint_limb_margin_db: fp_limb.js_db - fp_params.capture_threshold_db,
+            footprint_limb_capture_tx_power_dbw: fp_params.p_tx_dbw
+                + (fp_params.capture_threshold_db - fp_limb.js_db),
+            footprint_sweep,
         })
     }
 
@@ -370,8 +474,65 @@ impl LunarAttackSurfaceScenario {
             a.nma_overhead_fraction * 100.0,
             a.nma_auth_latency_s,
         );
+        // Appended, never interleaved: every character of the summary above is unchanged,
+        // so the pre-existing line remains an exact prefix of this one.
+        let summary = summary + &Self::footprint_sweep_clause(&a);
         let svg = self.svg(&a);
         Ok((json, summary, svg))
+    }
+
+    /// One-line rendering of the altitude × beamwidth sweep and the limb threshold, for
+    /// the CLI summary and the SVG card. Appended to both, so neither existing string is
+    /// altered — the point is that the surface a human reads no longer says only
+    /// "limb false" at a single operating point.
+    fn footprint_sweep_clause(a: &AttackSurface) -> String {
+        let s = &a.footprint_sweep;
+        let lt = &s.limb_threshold;
+        let alt_lo = s.altitude_m_values.first().copied().unwrap_or(f64::NAN);
+        let alt_hi = s.altitude_m_values.last().copied().unwrap_or(f64::NAN);
+        let bw_lo = s
+            .hpbw_deg_values
+            .iter()
+            .copied()
+            .fold(f64::INFINITY, f64::min);
+        let bw_hi = s
+            .hpbw_deg_values
+            .iter()
+            .copied()
+            .fold(f64::NEG_INFINITY, f64::max);
+        let limb = if lt.reached {
+            format!(
+                "reached ({} crossing(s), best {:.1} dB)",
+                lt.crossings.len(),
+                lt.best_limb_js_db
+            )
+        } else {
+            format!(
+                "NOT reached on this grid (best {:.1} dB, {:.1} dB short; needs {:.1} dBW vs {:.1} dBW)",
+                lt.best_limb_js_db,
+                lt.best_limb_shortfall_db,
+                lt.best_limb_capture_tx_power_dbw,
+                s.p_tx_dbw
+            )
+        };
+        format!(
+            " | footprint sweep {}x{} (alt {:.0}-{:.0} km x HPBW {bw_lo:.2}-{bw_hi:.2} deg), \
+             capture {:.1}-{:.1}% | limb {limb}",
+            s.shape.first().copied().unwrap_or(0),
+            s.shape.get(1).copied().unwrap_or(0),
+            alt_lo / 1000.0,
+            alt_hi / 1000.0,
+            100.0
+                * s.points
+                    .iter()
+                    .map(|p| p.captured_fraction)
+                    .fold(f64::INFINITY, f64::min),
+            100.0
+                * s.points
+                    .iter()
+                    .map(|p| p.captured_fraction)
+                    .fold(f64::NEG_INFINITY, f64::max),
+        )
     }
 
     fn svg(&self, a: &AttackSurface) -> String {
@@ -400,6 +561,27 @@ impl LunarAttackSurfaceScenario {
                 a.nma_overhead_bps,
                 a.nma_overhead_fraction * 100.0
             ),
+            // Sixth line, appended: the five above keep their y positions (70..190) and
+            // this one lands at y = 220, inside the existing 240-high canvas — so the SVG
+            // grows by one <text> element and nothing else moves.
+            {
+                let lt = &a.footprint_sweep.limb_threshold;
+                let (na, nb) = (
+                    a.footprint_sweep.shape.first().copied().unwrap_or(0),
+                    a.footprint_sweep.shape.get(1).copied().unwrap_or(0),
+                );
+                if lt.reached {
+                    format!(
+                        "Limb: captured on {na}x{nb} grid, {} crossing(s)",
+                        lt.crossings.len()
+                    )
+                } else {
+                    format!(
+                        "Limb: not captured on {na}x{nb} grid; needs {:.1} dBW (flown {:.1})",
+                        lt.best_limb_capture_tx_power_dbw, a.footprint_sweep.p_tx_dbw
+                    )
+                }
+            },
         ];
         let mut body = String::new();
         for (i, l) in lines.iter().enumerate() {
@@ -485,6 +667,99 @@ mod tests {
         assert!(j1.contains("deficit_band_lo_db"));
         assert!(s1.contains("lunar-attack-surface"));
         assert!(v1.starts_with("<svg"));
+    }
+
+    /// The composed scenario reports the captured fraction against altitude AND beamwidth,
+    /// and the swept grid contains the baseline operating point rather than approximating
+    /// it: the (100 km, 1 m) row must reproduce the scalar `footprint_captured_fraction`
+    /// — the published P1 0.0302 — bit for bit. Limb capture is reported as a threshold:
+    /// the transmit power at which the baseline point would capture the limb, plus the
+    /// grid-level statement that it is not reached anywhere on the shipped grid.
+    #[test]
+    fn footprint_sweep_is_reported_against_altitude_and_beamwidth() {
+        let scn = LunarAttackSurfaceScenario::default();
+        let a = scn.analyse().expect("baseline analyses");
+        let s = &a.footprint_sweep;
+
+        // Long form: one row per (altitude, beamwidth) point, 7 × 5.
+        assert_eq!(s.shape, vec![7, 5]);
+        assert_eq!(s.points.len(), 35);
+        assert_eq!(s.axes[0].parameter, "transmitter_altitude_m");
+        assert_eq!(s.axes[1].parameter, "antenna_diameter_m");
+        assert_eq!(s.axes[0].scale, "linear");
+        assert_eq!(s.axes[1].scale, "log");
+
+        // The baseline operating point is a grid node, and reproduces exactly.
+        let row = s
+            .points
+            .iter()
+            .find(|p| {
+                p.altitude_m == scn.transmitter_altitude_m && p.diameter_m == scn.antenna_diameter_m
+            })
+            .expect("the baseline operating point is on the grid");
+        assert_eq!(
+            row.captured_fraction.to_bits(),
+            a.footprint_captured_fraction.to_bits()
+        );
+        assert_eq!(a.footprint_captured_fraction, 0.030_202_685_056_276_844);
+        assert!((row.hpbw_deg - 7.300).abs() < 0.01, "HPBW {}", row.hpbw_deg);
+
+        // Limb capture as a threshold, not a boolean at one point.
+        assert!(!a.footprint_limb_captured);
+        assert_eq!(a.footprint_limb_js_db, row.limb_js_db);
+        assert!(
+            (a.footprint_limb_margin_db - (a.footprint_limb_js_db - 3.0)).abs() < 1e-12,
+            "margin must be measured against the 3 dB capture threshold"
+        );
+        assert!(a.footprint_limb_margin_db < 0.0);
+        assert!(
+            (a.footprint_limb_capture_tx_power_dbw - 30.804).abs() < 0.01,
+            "baseline limb-capture power {} dBW",
+            a.footprint_limb_capture_tx_power_dbw
+        );
+        // Not reached on this grid — stated as an absence, with the shortfall.
+        assert!(!s.limb_threshold.reached);
+        assert!(s.limb_threshold.crossings.is_empty());
+        assert!(s
+            .limb_threshold
+            .statement
+            .contains("NOT reached anywhere on this grid"));
+        assert!(s.limb_threshold.best_limb_shortfall_db > 0.0);
+
+        // The grid genuinely spreads: the widest beam at the lowest altitude captures
+        // more than an order of magnitude more of the disk than the narrowest beam at the
+        // highest, so the headline 3 % is an operating point, not a property of the Moon.
+        let lo = s
+            .points
+            .iter()
+            .map(|p| p.captured_fraction)
+            .fold(f64::INFINITY, f64::min);
+        let hi = s
+            .points
+            .iter()
+            .map(|p| p.captured_fraction)
+            .fold(f64::NEG_INFINITY, f64::max);
+        assert!(hi > 10.0 * lo, "captured fraction spread {lo} .. {hi}");
+    }
+
+    /// The sweep axes are overridable from TOML like every other input, and overriding
+    /// them moves only the sweep — the baseline scalars are untouched.
+    #[test]
+    fn footprint_sweep_axes_are_overridable_and_do_not_move_the_baseline() {
+        let src = "kind = \"lunar-attack-surface\"\n\
+                   footprint_altitude_min_m = 50_000.0\n\
+                   footprint_altitude_max_m = 250_000.0\n\
+                   footprint_altitude_steps = 3\n\
+                   footprint_diameter_steps = 4\n";
+        let scn: LunarAttackSurfaceScenario =
+            toml::from_str(src).expect("sweep axes parse from TOML");
+        let a = scn.analyse().expect("analyses");
+        assert_eq!(a.footprint_sweep.shape, vec![3, 4]);
+        assert_eq!(a.footprint_sweep.points.len(), 12);
+        assert_eq!(a.footprint_sweep.altitude_m_values[0], 50_000.0);
+        assert_eq!(a.footprint_sweep.altitude_m_values[2], 250_000.0);
+        // The headline figure is the baseline operating point and does not follow the grid.
+        assert_eq!(a.footprint_captured_fraction, 0.030_202_685_056_276_844);
     }
 
     /// A stronger spoofer power advantage cannot make an in-range capture fail (monotone
