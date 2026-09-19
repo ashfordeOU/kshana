@@ -710,7 +710,7 @@ paper-clock). **MODELLED** — the headline figure is *reference-dependent* (Ear
 vs lunar selenoid, averaging window), which is why a band, not a single certified
 number, is reported (`scenarios/lunar-time-offset.toml`).
 
-See `scenarios/` for at least one worked example of every kind (50 kinds, 62 scenario
+See `scenarios/` for at least one worked example of every kind (53 kinds, 66 scenario
 `.toml` files + 1 suite manifest — several kinds ship more than one example). A few kinds have an example file
 whose name differs from the kind: `lunar-integrity` → `scenarios/lunanet-araim.toml`,
 `gravity-map` → `scenarios/gps-denied-gravity-nav.toml`. List the dispatchable kinds at
@@ -811,7 +811,7 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    cli["CLI · Python · WebAssembly<br/>MCP server · JetBrains plugin"] --> api["api — run_toml<br/>typed dispatch over 50 kinds"]
+    cli["CLI · Python · WebAssembly<br/>MCP server · JetBrains plugin"] --> api["api — run_toml<br/>typed dispatch over 53 kinds"]
     subgraph shared["Shared core"]
       types["types · scenario<br/>GNSS timeline"]
       allan["allan — ADEV/MDEV/TDEV/HDEV"]
@@ -923,7 +923,7 @@ flowchart LR
 ```
 kshana/
 ├── src/                                       # the kshana core crate (library + CLI)
-│   ├── api.rs · main.rs · lib.rs              # typed dispatch (50 kinds) + CLI + crate root
+│   ├── api.rs · main.rs · lib.rs              # typed dispatch (53 kinds) + CLI + crate root
 │   ├── python.rs · wasm.rs                    # optional PyO3 / wasm-bindgen bindings
 │   ├── types.rs · scenario.rs · allan.rs      # shared core (time grid, GNSS timeline, Allan)
 │   │

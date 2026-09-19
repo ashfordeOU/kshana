@@ -92,6 +92,7 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         LunarAttackSurface,
         ApertureDutyCycle,
         LunarJamming,
+        InsTrnCoast,
     ]
 };
 
@@ -158,6 +159,7 @@ pub mod ids {
     pub const LUNAR_ATTACK_SURFACE: ScenarioId = ScenarioId::from_static("lunar-attack-surface");
     pub const APERTURE_DUTY_CYCLE: ScenarioId = ScenarioId::from_static("aperture-duty-cycle");
     pub const LUNAR_JAMMING: ScenarioId = ScenarioId::from_static("lunar-jamming");
+    pub const INS_TRN_COAST: ScenarioId = ScenarioId::from_static("ins-trn-coast");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {
