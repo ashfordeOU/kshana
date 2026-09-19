@@ -28,6 +28,39 @@ breaking changes are called out explicitly.
   alone. Off unless both coordinates are given; purely additive.
 - `lunar_service::topocentric`, the public look-angle helper behind the export.
 - A verification-matrix row for the new geometry capability.
+- **The real antenna pattern in the geometry export.** The engine has carried a
+  uniformly-illuminated circular-aperture pattern since P1
+  (`antenna::pattern_gain_dbi`, the Airy `[2·J₁(x)/x]²` form) and **nothing
+  outside `antenna.rs` used it** — a boresight gain paired with a
+  gain-to-beamwidth rule of thumb was doing the work instead. An optional
+  `export_antenna` table on `moonlight-service-volume` (read only when the export
+  site is set) now gives every exported row the **off-boresight angle at the
+  satellite** and the **transmit gain toward the site from that pattern**, and
+  adds an `antenna_pattern` block that reports the **in-beam count under the real
+  pattern beside the in-beam count under the symmetric approximation**
+  (`θ₃dB[deg] = √(31000/G_lin)`) with the difference as a named correction. Both
+  numbers are emitted; neither replaces the other. Measured at the engine's own
+  representative lunar aperture (1 m dish, 2.4 GHz, η = 0.60) over a south-polar
+  site and the illustrative LCNS-class shell, the two **disagree by more than one
+  satellite**: the real pattern puts 0 of 76 visible links inside the half-power
+  beam, the approximation claims 28 — a correction of −2.33 satellites per epoch,
+  worst single epoch 3. The approximation carries an aperture efficiency of its
+  own (0.641 against the `70·λ/D` degrees rule it is normally quoted with, 0.920
+  against a uniform circular aperture), so on a η = 0.60 dish it returns a beam
+  1.238× too wide; the block emits both implied efficiencies rather than leaving
+  them to be inferred. Purely additive: measured over the documented working
+  point, 597 pre-existing leaves, **0 changed, 0 removed, 494 added**.
+- `antenna::symmetric_beamwidth_rad`,
+  `antenna::symmetric_relation_implied_efficiency`,
+  `antenna::within_half_power_beam`, `antenna::HALF_POWER_DROP_DB`,
+  `antenna::SYMMETRIC_GAIN_BEAMWIDTH_CONST_DEG2`,
+  `antenna::UNIFORM_APERTURE_HPBW_COEFF` and
+  `lunar_service::nadir_off_boresight_rad`, the public pieces behind it. The
+  pattern is also now anchored against the published Airy constants rather than
+  only against itself: the half-power crossing is located by bisection and
+  compared with `x = 1.61634`, which makes the exact half-power width
+  `1.02899·λ/D` and records honestly that the conventional `1.02` coefficient
+  puts `pattern_gain_dbi` at **−2.955 dB**, not −3.010 dB.
 - **A long-form reproducibility table for `lunar-time-budget`.** The scenario's
   array-valued outputs — the averaging-time grid, the seven per-term `x(τ)`
   curves and their root-sum-square total — reached consumers only as JSON

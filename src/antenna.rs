@@ -122,11 +122,20 @@ pub fn pattern_gain_dbi(diameter_m: f64, freq_hz: f64, efficiency: f64, theta_ra
     g0 + 10.0 * (factor * factor).max(1e-30).log10()
 }
 
-/// Half-power (−3 dB) beamwidth (rad) of a uniform circular aperture, `≈ 1.02·λ/D`.
+/// Beamwidth coefficient `k` of a uniform circular aperture in
+/// `θ₃dB = k·λ/D` (rad): the conventional `1.02`. The exact Airy half-power width is
+/// `1.0290·λ/D` (the `[2·J₁(x)/x]² = ½` crossing sits at `x = 1.61634`), so this rounded
+/// textbook coefficient runs `0.87 %` narrow; [`pattern_gain_dbi`] at
+/// `half_power_beamwidth_rad/2` is therefore `−2.955 dB`, not `−3.010 dB`. Both figures
+/// are pinned by test.
+pub const UNIFORM_APERTURE_HPBW_COEFF: f64 = 1.02;
+
+/// Half-power (−3 dB) beamwidth (rad) of a uniform circular aperture, `≈ 1.02·λ/D`
+/// ([`UNIFORM_APERTURE_HPBW_COEFF`]).
 /// This is the full angular width between the two half-power points across the main lobe.
 pub fn half_power_beamwidth_rad(diameter_m: f64, freq_hz: f64) -> f64 {
     let lambda = C_M_PER_S / freq_hz;
-    1.02 * lambda / diameter_m
+    UNIFORM_APERTURE_HPBW_COEFF * lambda / diameter_m
 }
 
 /// First-null (edge-of-main-lobe) angle from boresight (rad): `θ = asin(1.22·λ/D)`, the
@@ -140,6 +149,81 @@ pub fn first_null_angle_rad(diameter_m: f64, freq_hz: f64) -> Option<f64> {
     } else {
         Some(s.asin())
     }
+}
+
+// ---------------------------------------------------------------------------
+// The symmetric-pattern gain↔beamwidth approximation. MODELLED (a rule of thumb).
+//
+// This is NOT a pattern. It is the closure an analysis reaches for when it has a gain
+// figure and no aperture: assume the beam is a symmetric pencil whose solid angle is
+// θ₃dB², so G_lin ≈ K/θ₃dB[deg]². It is kept here, named and beside the real pattern,
+// precisely so a report can print BOTH and the reader can see what the approximation
+// costs — never so it can stand in for `pattern_gain_dbi`.
+// ---------------------------------------------------------------------------
+
+/// Half-power drop, `10·log₁₀(2) = 3.0103 dB` — the *exact* half-power point, as opposed
+/// to the rounded "−3 dB" of ordinary speech. A direction is inside the half-power beam
+/// when the pattern gain there is within this of the boresight gain.
+pub const HALF_POWER_DROP_DB: f64 = 3.010_299_956_639_812;
+
+/// The symmetric-pattern ("pencil beam") gain ↔ beamwidth constant, in **square degrees**:
+/// `G_lin ≈ K / θ₃dB[deg]²`, with `K = 31 000`.
+///
+/// The geometric parent of the rule is `G = 4π/Ω_A` with the beam solid angle taken as
+/// `Ω_A ≈ θ₃dB²` for a symmetric beam, which in square degrees would give
+/// `K = 4π·(180/π)² = 41 253` at 100 % efficiency; the satcom working constant is reduced
+/// to 31 000 to absorb illumination taper, spillover and ohmic loss. See
+/// [`symmetric_relation_implied_efficiency`] for what that reduction is worth in aperture
+/// terms — and note that the constant carries an efficiency *inside* it, so a beamwidth it
+/// produces is not free to be paired with an arbitrary `η`.
+pub const SYMMETRIC_GAIN_BEAMWIDTH_CONST_DEG2: f64 = 31_000.0;
+
+/// Half-power beamwidth (rad) implied by a boresight gain **alone**, through the symmetric
+/// relation `θ₃dB[deg] = √(K / G_lin)` with `K = `[`SYMMETRIC_GAIN_BEAMWIDTH_CONST_DEG2`].
+///
+/// This is the approximation a published analysis uses when it has a gain number and no
+/// aperture. It knows nothing about `D`, `λ` or the illumination, so it cannot tell a
+/// tapered aperture from a uniform one, and it has no off-boresight behaviour at all — the
+/// beam it describes is a cone with a hard edge. Use [`pattern_gain_dbi`] for the real
+/// thing; use this only to *quantify* the difference.
+pub fn symmetric_beamwidth_rad(gain_dbi: f64) -> f64 {
+    let g_lin = 10.0_f64.powf(gain_dbi / 10.0);
+    (SYMMETRIC_GAIN_BEAMWIDTH_CONST_DEG2 / g_lin)
+        .sqrt()
+        .to_radians()
+}
+
+/// The aperture efficiency the symmetric relation *implies* when it is paired with a
+/// beamwidth rule `θ₃dB = k·λ/D` (rad), i.e. the single `η` at which
+/// `G_lin = K/θ₃dB[deg]²` and `G_lin = η·(πD/λ)²` are the same statement:
+/// `η = K / ((k·180/π)² · π²)`. Independent of `D` and `λ`.
+///
+/// Two values matter here:
+///
+/// * `k = 70·π/180` (the "`θ₃dB ≈ 70·λ/D` degrees" rule of thumb the 31 000 constant is
+///   usually quoted with) gives **`η ≈ 0.641`** — the aperture efficiency a published
+///   analysis is assuming when it derives a beamwidth from a gain this way, whether or
+///   not it says so.
+/// * `k = `[`UNIFORM_APERTURE_HPBW_COEFF`] (this engine's own uniform circular aperture)
+///   gives `η ≈ 0.920` — so on a `η = 0.60` dish the symmetric relation returns a beam
+///   materially **wider** than the aperture actually has.
+pub fn symmetric_relation_implied_efficiency(beamwidth_coeff_rad: f64) -> f64 {
+    let k_deg = beamwidth_coeff_rad.to_degrees();
+    SYMMETRIC_GAIN_BEAMWIDTH_CONST_DEG2 / (k_deg * k_deg * PI * PI)
+}
+
+/// Is the direction `theta_rad` off boresight inside the **real** half-power beam of the
+/// aperture — that is, is [`pattern_gain_dbi`] there within [`HALF_POWER_DROP_DB`] of
+/// [`boresight_gain_dbi`]? A pattern test, not an angle test: it asks the Airy function,
+/// so it is the criterion [`symmetric_beamwidth_rad`] is standing in for.
+pub fn within_half_power_beam(
+    diameter_m: f64,
+    freq_hz: f64,
+    efficiency: f64,
+    theta_rad: f64,
+) -> bool {
+    let g0 = boresight_gain_dbi(diameter_m, freq_hz, efficiency);
+    pattern_gain_dbi(diameter_m, freq_hz, efficiency, theta_rad) >= g0 - HALF_POWER_DROP_DB
 }
 
 // ---------------------------------------------------------------------------
@@ -768,6 +852,152 @@ mod tests {
         assert!((pattern_gain_dbi(d, f, eff, 0.0) - g0).abs() < 1e-9);
         // Small aperture (< 1.22 λ) has no first null in the hemisphere.
         assert!(first_null_angle_rad(0.05, f).is_none());
+    }
+
+    /// ORACLE — mixed, labelled per assertion.
+    ///
+    /// * **Published constant (external).** The Airy half-power crossing
+    ///   `[2·J₁(x)/x]² = ½` sits at `x = 1.61634` (Abramowitz & Stegun 9.5 / any
+    ///   diffraction table), so the *exact* uniform-aperture half-power width is
+    ///   `2·1.61634/π = 1.02899·λ/D`. The pattern is solved for that crossing here by
+    ///   bisection and compared with the published `x`; nothing in the engine supplies it.
+    /// * **Internal identity (NOT an oracle, labelled as such).** `G(0) = G₀` and "the
+    ///   pattern at `half_power_beamwidth_rad/2` is ≈ −3 dB" both check the pattern
+    ///   against the engine's own closed forms. They catch transcription errors, not
+    ///   modelling errors. The honest figure is recorded: the rounded `1.02` coefficient
+    ///   puts that point at **−2.955 dB**, not −3.010 dB.
+    /// * **Shape (closed form).** `[2·J₁(x)/x]²` is strictly decreasing on `(0, x₀)` for
+    ///   the first zero `x₀`, so the pattern must fall monotonically from boresight to the
+    ///   first null. Swept at 400 points.
+    #[test]
+    fn the_pattern_matches_the_published_airy_anchors_and_is_monotone_in_the_main_lobe() {
+        let (d, f, eff) = (1.0, 2.4e9, 0.6);
+        let lambda = C_M_PER_S / f;
+        let g0 = boresight_gain_dbi(d, f, eff);
+
+        // --- Internal identity: boresight is exactly G₀ (limit 2·J₁(x)/x → 1). ---
+        assert!((pattern_gain_dbi(d, f, eff, 0.0) - g0).abs() < 1e-12);
+
+        // --- External anchor: locate the true half-power crossing by bisection on the
+        // engine's pattern, and compare with the published Airy value x = 1.61634. ---
+        let rel = |theta: f64| pattern_gain_dbi(d, f, eff, theta) - g0;
+        let (mut lo, mut hi) = (0.0_f64, first_null_angle_rad(d, f).unwrap());
+        for _ in 0..200 {
+            let mid = 0.5 * (lo + hi);
+            if rel(mid) > -HALF_POWER_DROP_DB {
+                lo = mid;
+            } else {
+                hi = mid;
+            }
+        }
+        let theta_half = 0.5 * (lo + hi);
+        let x_half = PI * d / lambda * theta_half.sin();
+        assert!(
+            (x_half - 1.616_34).abs() < 2e-4,
+            "half-power crossing at x = {x_half}, published Airy value is 1.61634"
+        );
+        // …and therefore the exact full half-power width is 1.02899·λ/D. The coefficient
+        // lives in `sin θ` (that is where `x` is defined), so it is read back the same way;
+        // the angle itself runs 0.07 % wider at this aperture because `θ > sin θ`.
+        let exact_coeff = 2.0 * theta_half.sin() / (lambda / d);
+        assert!(
+            (exact_coeff - 1.028_99).abs() < 2e-4,
+            "exact HPBW coefficient {exact_coeff}, published 1.02899"
+        );
+
+        // --- The rounded engine coefficient, and what it actually costs, stated. ---
+        assert_eq!(UNIFORM_APERTURE_HPBW_COEFF, 1.02);
+        let at_engine_half = rel(half_power_beamwidth_rad(d, f) / 2.0);
+        assert!(
+            (at_engine_half + 2.9546).abs() < 5e-3,
+            "1.02·λ/D half-angle sits at {at_engine_half} dB; the honest figure is -2.955 dB"
+        );
+        assert!(
+            UNIFORM_APERTURE_HPBW_COEFF < exact_coeff,
+            "the rounded coefficient is narrow, not wide"
+        );
+
+        // --- Shape: strictly decreasing from boresight to the first null. ---
+        let null = first_null_angle_rad(d, f).unwrap();
+        let mut prev = f64::INFINITY;
+        for i in 0..=400 {
+            let theta = null * (i as f64) / 400.0;
+            let g = pattern_gain_dbi(d, f, eff, theta);
+            assert!(
+                g < prev,
+                "pattern not monotone inside the main lobe at theta = {theta}: {g} >= {prev}"
+            );
+            prev = g;
+        }
+    }
+
+    /// ORACLE — closed-form algebra, external constants.
+    ///
+    /// The symmetric relation `G_lin = K/θ[deg]²` and the aperture law
+    /// `G_lin = η·(πD/λ)²` are the same statement only at `η = K/((k·180/π)²·π²)`. That
+    /// algebra is independent of the implementation, and the two efficiencies it lands on
+    /// are the published pairings: **0.641** with the `70·λ/D` degrees rule of thumb (the
+    /// efficiency a gain→beamwidth analysis is silently assuming), **0.920** with this
+    /// engine's uniform circular aperture. The round trip is then closed numerically: fed
+    /// the gain of a dish at exactly the implied efficiency, `symmetric_beamwidth_rad`
+    /// must return `half_power_beamwidth_rad` — and at the engine's own `η = 0.60` it must
+    /// return something materially wider.
+    #[test]
+    fn the_symmetric_relation_carries_an_aperture_efficiency_of_about_064() {
+        let eta_70 = symmetric_relation_implied_efficiency(70.0_f64.to_radians());
+        assert!(
+            (eta_70 - 0.641_012).abs() < 1e-5,
+            "the 70·λ/D pairing implies eta = {eta_70}, expected 0.6410"
+        );
+        let eta_uniform = symmetric_relation_implied_efficiency(UNIFORM_APERTURE_HPBW_COEFF);
+        assert!(
+            (eta_uniform - 0.919_637).abs() < 1e-5,
+            "the 1.02·λ/D pairing implies eta = {eta_uniform}, expected 0.9196"
+        );
+
+        // Round trip: at the implied efficiency the approximation IS the beamwidth.
+        let (d, f) = (1.0, 2.4e9);
+        let g0 = boresight_gain_dbi(d, f, eta_uniform);
+        let hpbw = half_power_beamwidth_rad(d, f);
+        assert!(
+            (symmetric_beamwidth_rad(g0) - hpbw).abs() < 1e-12,
+            "round trip {} vs {hpbw}",
+            symmetric_beamwidth_rad(g0)
+        );
+
+        // At the engine's representative efficiency the approximation is WIDE, by the
+        // square root of the efficiency ratio: sqrt(0.919637/0.60) = 1.23803.
+        let g0_real = boresight_gain_dbi(d, f, DEFAULT_APERTURE_EFFICIENCY);
+        let ratio = symmetric_beamwidth_rad(g0_real) / hpbw;
+        assert!(
+            (ratio - (eta_uniform / DEFAULT_APERTURE_EFFICIENCY).sqrt()).abs() < 1e-12,
+            "ratio {ratio} must be sqrt(eta_implied/eta)"
+        );
+        assert!(
+            (ratio - 1.238_034).abs() < 1e-5,
+            "at eta = 0.60 the symmetric beam is {ratio}x the real one, expected 1.2380"
+        );
+    }
+
+    /// ORACLE — internal identity, labelled. `within_half_power_beam` must agree with the
+    /// pattern it is built from on both sides of the true half-power crossing, and must
+    /// stay false all the way out to the first null (the main lobe never re-enters).
+    #[test]
+    fn the_half_power_beam_test_brackets_the_true_crossing() {
+        let (d, f, eff) = (1.0, 2.4e9, DEFAULT_APERTURE_EFFICIENCY);
+        // Exact crossing: `sin θ = ½·1.028994·λ/D` (the coefficient is defined in sin θ).
+        let theta_c = (0.5 * 1.028_994 * (C_M_PER_S / f) / d).asin();
+        assert!(within_half_power_beam(d, f, eff, theta_c * 0.999));
+        assert!(!within_half_power_beam(d, f, eff, theta_c * 1.001));
+        assert!(within_half_power_beam(d, f, eff, 0.0));
+        let null = first_null_angle_rad(d, f).unwrap();
+        for i in 1..=50 {
+            let theta = theta_c * 1.002 + (null - theta_c * 1.002) * (i as f64) / 50.0;
+            assert!(
+                !within_half_power_beam(d, f, eff, theta),
+                "main lobe re-entered the half-power beam at {theta}"
+            );
+        }
     }
 
     // ORACLE (Modelled): representative geometry. A 1 m dish at 2.4 GHz from 100 km with a
