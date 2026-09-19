@@ -804,6 +804,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Modelled,
         },
         VerificationItem {
+            requirement: "Link-budget report self-description",
+            capability: "The link-budget report states every absolute constant its own margin was computed from -- the carrier frequency the free-space loss used, the EIRP, the figure of merit, the lumped loss and the Boltzmann term -- plus the required G/T at which the margin is zero, the link constant (EIRP - losses - required Eb/N0) that is the only combination a published rate/gain table can ever fix, and, when a caller states a system noise temperature, the receive antenna gain that figure of merit implies",
+            module: "linkbudget",
+            tests: "linkbudget::tests (across three bands, four decades of range and both closure verdicts, the margin and the free-space loss under it are recomputed from the report alone to better than 1e-9 dB; the required G/T assembled from the equation terms agrees with the same quantity reached as G/T minus margin, and re-running at it zeroes the margin; three budgets with wildly different EIRP, loss and threshold but an equal link constant give an identical requirement, while 1 dB on the constant moves it exactly 1 dB; the gain split is absent unless a noise temperature is stated and a non-positive one is refused; every field the units block names is actually emitted)",
+            oracle: "No external oracle: this is self-description over an equation already validated against a published design-control table (see the one-way link budget row). It is recorded because the absence of it was a measured defect -- reproducing the released d1_rate_gain_beamwidth.csv required back-solving one effective constant to 0.0034 dB from all thirty rows, and the engine now both names that combination and proves, by test, that no released table could ever have separated its three components",
+            oracle_kind: OracleKind::InternalConsistency,
+            status: VerificationStatus::Modelled,
+        },
+        VerificationItem {
             requirement: "Lunar time-error budget reproducibility",
             capability: "The lunar-time-budget scenario publishes its array-valued outputs as a long-form (grid index, averaging time, term) table alongside the report, so the seven per-term x(tau) curves and the root-sum-square total are engine output rather than something a reader rebuilds from the method section",
             module: "lunar_time_budget_scenario",
