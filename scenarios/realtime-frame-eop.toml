@@ -32,7 +32,28 @@
 # IERS's operational Bulletin A algorithm. Not a certified real-time frame product.
 kind = "realtime-frame-eop"
 
-# With no eop_finals2000a path the bundled real finals2000A_2022001 fixture is used.
+# THE EOP INPUT. The documented input is a REAL IERS finals2000A product, supplied through
+# `eop_finals2000a`. Two verbatim extracts are committed with the repository and are what the
+# published P4 real-EOP tables were produced from:
+#
+#   eop_finals2000a = "tests/fixtures/agency/eop/finals2000A_2022001_longspan.txt"   # 45 final rows
+#   eop_finals2000a = "tests/fixtures/agency/eop/finals2000A_2026.txt"               # 20 final + 12 real
+#                                                                                    # Bulletin A prediction rows
+#
+# With no path the bundled offline fixture (tools/finals2000A_2022001.txt) is used instead. That
+# fixture is a FINAL-ONLY 5-row excerpt: every row carries a Bulletin B block, so it publishes no
+# Bulletin A prediction rows and `predicted_rows.n` is 0 on a bare run for that reason alone — not
+# because the engine cannot read a prediction row (point it at the 2026 extract above and it
+# reports 12). The bundled fixture stays the RUNTIME default only because changing it would
+# renumber the already-published P4 tables; the emitted `eop_input` block names whichever input is
+# actually in force and carries its row census.
+#
+# `eop_finals2000a_later` takes an ARCHIVED LATER VINTAGE of the same product — the file as it
+# stood once the dates the first file predicts had become Bulletin B final. Supplying it turns on
+# the true predicted-vs-final vintage differencing. Without it, `table4_predicted_vs_final_horizon`
+# is emitted with no rows and says so explicitly: a single instantaneous fetch predicts only dates
+# that have no final yet, so the residual does not exist and none is synthesised.
+#
 # The defaults below reproduce the representative lunar-relay OD covariance (0.27 m / ~14.4 m) and
 # the P4 markers; uncomment to override.
 epoch = "2022-01-01"
@@ -45,4 +66,5 @@ horizons_days = [1, 2, 3]
 # delta_ut1_ms = 0.5
 # delta_xp_mas = 0.0
 # delta_yp_mas = 0.0
-# eop_finals2000a = "tests/fixtures/agency/eop/finals2000A_2022001.txt"
+# eop_finals2000a = "tests/fixtures/agency/eop/finals2000A_2026.txt"
+# eop_finals2000a_later = "<archived later vintage of the SAME product>"
