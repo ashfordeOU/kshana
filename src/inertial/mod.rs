@@ -3,6 +3,9 @@
 //! models (classical and cold-atom) a GNSS-denied coast dead-reckons on.
 pub mod attitude;
 pub mod cai_params;
+/// INS/TRN coasting error model: position error against coast duration, and the coast
+/// durations at which it crosses stated position thresholds.
+pub mod coast;
 pub mod imu_errors;
 pub mod mechanization;
 pub mod quantum_imu;
