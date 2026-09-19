@@ -63,3 +63,23 @@ pdop_threshold = 6.0
 # Integrity (LunaNet LNIS): surface-ops alert limit and integrity-risk budget.
 alert_limit_m = 50.0
 p_hmi = 1e-4
+
+# OPTIONAL per-satellite geometry export for ONE named selenographic site. Off unless
+# BOTH coordinates are given; the aggregate coverage / DOP summary above collapses
+# per-satellite geometry, but slant range and look angles are what a link budget consumes.
+#   export_site_lat_deg = -89.9
+#   export_site_lon_deg = 0.0
+#
+# OPTIONAL transmit antenna for that export. Read only when the export site is also set.
+# Each exported row then also carries the off-boresight angle AT THE SATELLITE and the
+# transmit gain toward the site from the REAL Airy aperture pattern
+# (antenna::pattern_gain_dbi), and the report gains an `antenna_pattern` block reporting
+# the in-beam count under that pattern BESIDE the in-beam count under the symmetric
+# gain-to-beamwidth approximation (theta_3dB[deg] = sqrt(31000/G_lin)), plus the
+# correction between them. Both are emitted; neither replaces the other. The defaults
+# below are the engine's own representative lunar transmit aperture, the same 1 m dish at
+# 2.4 GHz that scenarios/lunar-attack-surface.toml runs.
+#   [export_antenna]
+#   diameter_m = 1.0       # required: the pattern is a statement about one aperture
+#   carrier_hz = 2.4e9     # default 2.4e9 (S-band lunar AFS)
+#   efficiency = 0.60      # default 0.60 (antenna::DEFAULT_APERTURE_EFFICIENCY)
