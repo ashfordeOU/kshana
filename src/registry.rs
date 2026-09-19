@@ -93,6 +93,7 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         ApertureDutyCycle,
         LunarJamming,
         InsTrnCoast,
+        TrackingLoop,
     ]
 };
 
@@ -163,6 +164,9 @@ pub mod ids {
     pub const LUNAR_JAMMING: ScenarioId = ScenarioId::from_static("lunar-jamming");
     /// INS/TRN coasting error growth and the coast durations reaching stated thresholds.
     pub const INS_TRN_COAST: ScenarioId = ScenarioId::from_static("ins-trn-coast");
+    /// Tracking-loop loss of lock, hysteresis, spoof pull-in and the loop-dynamics
+    /// denial radius alongside the power-ratio one.
+    pub const TRACKING_LOOP: ScenarioId = ScenarioId::from_static("tracking-loop");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {
