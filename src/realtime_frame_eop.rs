@@ -917,8 +917,9 @@ mod tests {
                 assert_eq!(e.len() as u64, n, "{k} epoch list length differs");
             }
             // Elementwise identity of the three epoch sets.
-            for i in 0..(n as usize) {
-                let a = epochs[0][i].as_f64().unwrap();
+            // Every list was just asserted to be n long, so indexing the other two is safe.
+            for (i, ea) in epochs[0].iter().enumerate().take(n as usize) {
+                let a = ea.as_f64().unwrap();
                 let b = epochs[1][i].as_f64().unwrap();
                 let c = epochs[2][i].as_f64().unwrap();
                 assert!(
