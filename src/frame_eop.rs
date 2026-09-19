@@ -439,6 +439,13 @@ pub struct JointComponent {
     /// The RMS residual mapped to a Moon-frame position error through the L19/L20 lever
     /// arms, metres.
     pub rms_position_m: f64,
+    /// The 95th-percentile residual through the same lever arms, metres. The mapping is
+    /// linear, so this is the p95 of the displacement and not a displacement of the p95 —
+    /// the two coincide here, and a test pins that they do.
+    pub p95_position_m: f64,
+    /// [`Self::rms_position_m`] expressed as the one-way light time it costs, nanoseconds.
+    /// A user ranging against this frame sees the error in this unit, not in metres.
+    pub rms_light_time_ns: f64,
 }
 
 /// One row of the joint Earth-orientation table: UT1, polar motion and their combination
@@ -482,6 +489,8 @@ fn joint_component(
         p95_native: s.p95_s,
         max_native: s.max_s,
         rms_position_m: to_position_m(s.rms_s),
+        p95_position_m: to_position_m(s.p95_s),
+        rms_light_time_ns: to_position_m(s.rms_s) / C_M_S * 1e9,
     }
 }
 

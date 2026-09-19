@@ -460,6 +460,8 @@ impl RealtimeFrameEopScenario {
                 "p95_native": c.p95_native,
                 "max_native": c.max_native,
                 "rms_position_m": c.rms_position_m,
+                "p95_position_m": c.p95_position_m,
+                "rms_light_time_ns": c.rms_light_time_ns,
             })
         };
         let table3: Vec<serde_json::Value> = c
@@ -927,6 +929,45 @@ mod tests {
                     "epoch {i}: UT1 {a}, pole {b}, combined {c}"
                 );
             }
+            // The 95th-percentile position and the RMS position must share ONE lever arm.
+            // Two columns that map the same residual series to metres through two different
+            // constants would be the quiet way for this table to become incoherent, and a
+            // consumer reading both columns cannot detect it from the numbers alone.
+            for k in comps {
+                let rms_native = row[k]["rms_native"].as_f64().unwrap();
+                let p95_native = row[k]["p95_native"].as_f64().unwrap();
+                let rms_pos = row[k]["rms_position_m"].as_f64().unwrap();
+                let p95_pos = row[k]["p95_position_m"].as_f64().unwrap();
+                if rms_native > 0.0 && p95_native > 0.0 {
+                    let lever_rms = rms_pos / rms_native;
+                    let lever_p95 = p95_pos / p95_native;
+                    let rel = (lever_rms - lever_p95).abs() / lever_rms;
+                    assert!(
+                        rel < 1e-12,
+                        "{k}: RMS maps to metres at {lever_rms} but p95 at {lever_p95} \
+                         (rel {rel}) -- the two position columns disagree on the lever arm"
+                    );
+                }
+                // Ordering survives the mapping: p95 >= RMS in native units must still hold
+                // in metres, which it does only because the mapping is linear and positive.
+                assert_eq!(
+                    p95_native >= rms_native,
+                    p95_pos >= rms_pos,
+                    "{k}: the native and metre columns disagree on which of p95/RMS is larger"
+                );
+            }
+
+            // The light-time column is the position column in flight time, nothing else.
+            for k in comps {
+                let pos = row[k]["rms_position_m"].as_f64().unwrap();
+                let ns = row[k]["rms_light_time_ns"].as_f64().unwrap();
+                let expect = pos / crate::frame_eop::C_M_S * 1e9;
+                assert!(
+                    (ns - expect).abs() <= 1e-9 * expect.max(1.0),
+                    "{k}: light time {ns} ns != {expect} ns for {pos} m"
+                );
+            }
+
             // The combination is the quadrature sum of its own two components.
             let u = row["ut1"]["rms_position_m"].as_f64().unwrap();
             let p = row["polar_motion"]["rms_position_m"].as_f64().unwrap();
