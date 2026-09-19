@@ -38,6 +38,17 @@ breaking changes are called out explicitly.
   a satellite-count sweep returned identical values above 12 — indistinguishable
   from genuine geometric saturation. Now clamped at the builder limit. This is a
   behaviour change for `n_sats > 12` only.
+- **The same stale clamp in `lunar-differential-pnt`.** `lunar_dpnt` clamped
+  `n_sats` to 12 with the same consequence, and this one reached a published
+  table: `dpnt_nsats_sweep.csv` carries an `n = 16` row byte-identical to its
+  `n = 12` row, because the engine returned a twelve-satellite answer under a
+  sixteen-satellite label. Now clamped at the builder limit of 24, and a new
+  test pins it — each larger constellation must both report its own count and
+  strictly improve the protection level, so the clamp cannot return unnoticed.
+  **This moves published numbers**: the `n = 16` protection level becomes
+  16.92 m → 14.57 m. Swept to 24, the curve is strictly monotone (11.94 m at
+  24 satellites, 29.5 % better than at 12), so there is no saturation at 12 —
+  the apparent plateau was the clamp. Behaviour change for `n_sats > 12` only.
 
 ## [0.26.0] - 2026-09-18
 

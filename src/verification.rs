@@ -861,7 +861,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             requirement: "Lunar differential PNT",
             capability: "NovaMoon-class differential reference station: common-mode cancellation + baseline-growing residual + DGNSS protection levels",
             module: "lunar_dpnt",
-            tests: "lunar_dpnt::tests (clock common-mode cancels exactly; residual grows with baseline; reuses SBAS PL); tests/lunar_differential_pnt_reference.rs (single-difference residual + WLS position solve vs RTKLIB's lsq() compiled from C source)",
+            tests: "lunar_dpnt::tests (clock common-mode cancels exactly; residual grows with baseline; reuses SBAS PL; the satellite count is honoured to the builder's limit of 24, so a larger constellation cannot silently return a smaller one); tests/lunar_differential_pnt_reference.rs (single-difference residual + WLS position solve vs RTKLIB's lsq() compiled from C source)",
             oracle: "Differential error-cancellation identity + reuse of the DO-229E SBAS PL machinery; the single-difference + WLS solve is additionally cross-checked against RTKLIB's lsq()/matinv() (Takasu, BSD-2-Clause, compiled C) — independent solver code, but the same first-order LOS-difference algebra, so still InternalConsistency",
             oracle_kind: OracleKind::InternalConsistency,
             status: VerificationStatus::Modelled,
