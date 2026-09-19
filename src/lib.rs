@@ -58,6 +58,7 @@ pub mod acquisition;
 pub mod allan;
 pub mod altpnt;
 pub mod antenna;
+pub mod aperture_duty;
 pub mod api;
 pub mod assurance;
 pub mod attack_surface;
