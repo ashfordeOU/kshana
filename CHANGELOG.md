@@ -27,8 +27,24 @@ breaking changes are called out explicitly.
   communications-and-navigation analysis could not be done from the summary
   alone. Off unless both coordinates are given; purely additive.
 - `lunar_service::topocentric`, the public look-angle helper behind the export.
-- A verification-matrix row for the new geometry capability (the matrix moves to
-  **103 rows — 56 VALIDATED, 43 MODELLED, 4 PARTNER**).
+- A verification-matrix row for the new geometry capability.
+- **A long-form reproducibility table for `lunar-time-budget`.** The scenario's
+  array-valued outputs — the averaging-time grid, the seven per-term `x(τ)`
+  curves and their root-sum-square total — reached consumers only as JSON
+  arrays. One released table was truncated at 400 characters and published 23 of
+  its 57 averaging times under a column that claimed all of them, and the
+  manuscript rebuilt the per-term curves from closed forms because the engine
+  never emitted them. A plain run now also writes `<scenario>.table.csv` with one
+  row per (grid index, averaging time, term), which cannot be truncated into
+  something that still looks whole. The grid index is an exact join key; `τ` is
+  written to 13 significant figures and each `x` to 7, so the bytes do not fork
+  between builds of the same source. Purely additive: the report JSON is
+  byte-identical.
+- A verification-matrix row for the time-budget reproducibility table, honestly
+  `InternalConsistency` / **MODELLED** — the total is checked against the
+  root-sum-square of the terms in the same file, which shares the engine's own
+  term definitions and is therefore not an independent oracle. Together these
+  move the matrix to **104 rows — 56 VALIDATED, 44 MODELLED, 4 PARTNER**.
 
 ### Fixed
 

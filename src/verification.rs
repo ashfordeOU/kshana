@@ -795,6 +795,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Validated,
         },
         VerificationItem {
+            requirement: "Lunar time-error budget reproducibility",
+            capability: "The lunar-time-budget scenario publishes its array-valued outputs as a long-form (grid index, averaging time, term) table alongside the report, so the seven per-term x(tau) curves and the root-sum-square total are engine output rather than something a reader rebuilds from the method section",
+            module: "lunar_time_budget_scenario",
+            tests: "lunar_time_budget_scenario::tests (all 57 averaging times x 8 terms present, the grid index runs 0..=56 and carries 8 rows each; the `total` row equals the root-sum-square of the seven terms beside it at every tau; the table follows a requested grid rather than a hard-coded one; emitting it leaves the report JSON byte-identical)",
+            oracle: "Self-consistency only: the published total is checked against the root-sum-square of the terms in the same file, and the emitted curve reproduces the released p3_time_budget_curve.csv over all 57 points. Both checks share this engine's own term definitions, so neither is independent. The clock term rests on published clock specifications, but the link, frame, relativistic and ephemeris floor MAGNITUDES are documented budget allocations with no external oracle",
+            oracle_kind: OracleKind::InternalConsistency,
+            status: VerificationStatus::Modelled,
+        },
+        VerificationItem {
             requirement: "Lunar geodetic VLBI",
             capability: "Near-field VLBI delay for an Earth baseline observing a lunar beacon + partials",
             module: "lunar_vlbi",
