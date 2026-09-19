@@ -29,6 +29,11 @@
 //! - **G1 [`predicted_rows_summary`] / [`predicted_vs_final_ut1`]** — ingest the real
 //!   Bulletin A prediction-only rows and (given two vintages) the true predicted-vs-final
 //!   vintage difference.
+//! - **G14 [`joint_eop_error_vs_horizon`]** — UT1, polar motion and their quadrature
+//!   combination over ONE identical row set per horizon. The two curves above each measure
+//!   over whatever rows their own Bulletin B block populates, so their root-sum-square is
+//!   not a joint statistic; this intersects the two epoch sets first and reports the epochs
+//!   each component was measured at.
 //! - **L39 [`frame_eop_svg`]** — a deterministic two-panel chart.
 //!
 //! ## Validated vs Modelled
@@ -334,6 +339,224 @@ pub fn pm_prediction_error_vs_horizon(body: &str, horizons: &[Horizon]) -> Vec<H
                 }
             }
         }
+    }
+    out
+}
+
+// ---------------------------------------------------------------------------
+// G14 — joint UT1 + polar-motion statistic over a COMMON row set.
+// ---------------------------------------------------------------------------
+
+/// Key a daily MJD onto an exact integer grid so two independently-built epoch lists can
+/// be intersected without float-equality hazards (the `finals2000A` series is tabulated on
+/// whole days; the 1e-6 scale matches the tolerance the horizon pairing already uses).
+fn epoch_key(mjd: f64) -> i64 {
+    (mjd * 1e6).round() as i64
+}
+
+/// The per-epoch UT1 residuals (seconds) at one horizon, as `(epoch MJD, |residual|)`
+/// pairs in ascending epoch order. The epoch of a [`Horizon::Days`] sample is its **base**
+/// day — the day the persistence prediction is issued from — so a UT1 and a polar-motion
+/// sample carry the same epoch label exactly when they rest on the same pair of rows.
+fn ut1_residuals_by_epoch(daily: &[DailyUt1], h: Horizon) -> Vec<(f64, f64)> {
+    let mut out = Vec::new();
+    match h {
+        Horizon::Final => {
+            for d in daily {
+                if let Some(f) = d.ut1_final_s {
+                    out.push((d.mjd, (d.ut1_rapid_s - f).abs()));
+                }
+            }
+        }
+        Horizon::Days(days) => {
+            for (i, base) in daily.iter().enumerate() {
+                let target_mjd = base.mjd + days as f64;
+                if let Some(target) = daily[i + 1..]
+                    .iter()
+                    .find(|d| (d.mjd - target_mjd).abs() < 1e-6)
+                {
+                    out.push((base.mjd, (truth_ut1(base) - truth_ut1(target)).abs()));
+                }
+            }
+        }
+    }
+    out
+}
+
+/// The per-epoch **combined pole** residuals (arc seconds) at one horizon, as
+/// `(epoch MJD, √(Δx_p² + Δy_p²))` pairs in ascending epoch order. The polar-motion twin of
+/// [`ut1_residuals_by_epoch`], built independently from the pole columns.
+fn pm_residuals_by_epoch(daily: &[DailyPm], h: Horizon) -> Vec<(f64, f64)> {
+    let mag = |dx: f64, dy: f64| (dx * dx + dy * dy).sqrt();
+    let mut out = Vec::new();
+    match h {
+        Horizon::Final => {
+            for d in daily {
+                if let Some((fx, fy)) = d.pm_final_as {
+                    out.push((d.mjd, mag(d.xp_rapid_as - fx, d.yp_rapid_as - fy)));
+                }
+            }
+        }
+        Horizon::Days(days) => {
+            for (i, base) in daily.iter().enumerate() {
+                let target_mjd = base.mjd + days as f64;
+                if let Some(target) = daily[i + 1..]
+                    .iter()
+                    .find(|d| (d.mjd - target_mjd).abs() < 1e-6)
+                {
+                    let (bx, by) = truth_pm(base);
+                    let (tx, ty) = truth_pm(target);
+                    out.push((base.mjd, mag(bx - tx, by - ty)));
+                }
+            }
+        }
+    }
+    out
+}
+
+/// One component (UT1, polar motion, or their combination) of a [`JointEopError`] row,
+/// carrying the epochs it was actually measured at so the "same rows" claim is checkable
+/// from the emitted report rather than asserted in prose.
+#[derive(Clone, Debug, PartialEq)]
+pub struct JointComponent {
+    /// `"ut1"`, `"polar-motion"` or `"combined"`.
+    pub component: &'static str,
+    /// Unit of the `*_native` statistics: `"s"` (UT1), `"arcsec"` (pole), `"m"` (combined).
+    pub unit: &'static str,
+    /// Number of residual samples — equal across the three components of a row.
+    pub n: usize,
+    /// The epochs (MJD) the samples were measured at, ascending — equal across the three
+    /// components of a row.
+    pub epochs_mjd: Vec<f64>,
+    /// Root-mean-square residual in [`Self::unit`].
+    pub rms_native: f64,
+    /// Median absolute residual in [`Self::unit`].
+    pub p50_native: f64,
+    /// 95th-percentile absolute residual in [`Self::unit`].
+    pub p95_native: f64,
+    /// Largest absolute residual in [`Self::unit`].
+    pub max_native: f64,
+    /// The RMS residual mapped to a Moon-frame position error through the L19/L20 lever
+    /// arms, metres.
+    pub rms_position_m: f64,
+}
+
+/// One row of the joint Earth-orientation table: UT1, polar motion and their combination
+/// at a single horizon, measured over an **identical** epoch set.
+///
+/// The three components are built by three separate passes over the parsed series and then
+/// restricted to the intersection of their epochs, so `n` and `epochs_mjd` agree by
+/// construction *and* remain independently checkable.
+#[derive(Clone, Debug, PartialEq)]
+pub struct JointEopError {
+    /// The horizon these statistics were measured at.
+    pub horizon: Horizon,
+    /// The shared sample count (`ut1.n == polar_motion.n == combined.n`).
+    pub n: usize,
+    /// UT1 residual statistics over the shared epochs (seconds).
+    pub ut1: JointComponent,
+    /// Combined-pole residual statistics over the same shared epochs (arc seconds).
+    pub polar_motion: JointComponent,
+    /// Their quadrature combination at the Moon over the same shared epochs (metres): the
+    /// per-epoch `√(Δr_UT1² + Δr_pole²)`, reduced by the same statistics.
+    pub combined: JointComponent,
+}
+
+/// Build one [`JointComponent`] from `(epoch, residual)` pairs and the linear map from the
+/// residual's native unit to a Moon-frame position (metres).
+fn joint_component(
+    component: &'static str,
+    unit: &'static str,
+    horizon: Horizon,
+    pairs: &[(f64, f64)],
+    to_position_m: impl Fn(f64) -> f64,
+) -> JointComponent {
+    let s = stats(horizon, pairs.iter().map(|(_, r)| *r).collect());
+    JointComponent {
+        component,
+        unit,
+        n: s.n,
+        epochs_mjd: pairs.iter().map(|(m, _)| *m).collect(),
+        rms_native: s.rms_s,
+        p50_native: s.p50_s,
+        p95_native: s.p95_s,
+        max_native: s.max_s,
+        rms_position_m: to_position_m(s.rms_s),
+    }
+}
+
+/// G14 — the **joint** Earth-orientation prediction-error table: UT1, polar motion and
+/// their combination reported over one **identical** row set per horizon.
+///
+/// [`prediction_error_vs_horizon`] and [`pm_prediction_error_vs_horizon`] each measure over
+/// whatever rows their own Bulletin B block populates, so the two can (and on real files
+/// do) cover different epochs — a Bulletin A prediction-only row carries neither final, and
+/// the UT1 persistence pairing reaches rows the pole floor cannot. Root-sum-squaring two
+/// statistics taken over different epochs sizes a correction; it is not a joint statistic.
+/// This function intersects the two epoch sets first and reduces all three components over
+/// that shared set, so the combination is a genuine joint quantity.
+///
+/// The combined component is the per-epoch quadrature sum of the two Moon-frame
+/// displacements, `√((D_EM·ω⊕·ΔUT1)² + (D_EM·Δpole)²)` — the L20 projection of
+/// [`frame_position_error_at_moon`] evaluated row by row. Because the root-mean-square of a
+/// per-row hypotenuse equals the hypotenuse of the per-row root-mean-squares, its
+/// `rms_position_m` is exactly `hypot(ut1.rms_position_m, polar_motion.rms_position_m)` —
+/// an identity the tests check against the independently-computed component RMSs.
+///
+/// A horizon whose shared epoch set is empty is omitted (never faked), exactly as the two
+/// single-quantity curves do.
+pub fn joint_eop_error_vs_horizon(body: &str, horizons: &[Horizon]) -> Vec<JointEopError> {
+    let daily_ut1 = parse_daily_ut1(body);
+    let daily_pm = parse_daily_pm(body);
+    let mut out = Vec::new();
+    for &h in horizons {
+        let u = ut1_residuals_by_epoch(&daily_ut1, h);
+        let p = pm_residuals_by_epoch(&daily_pm, h);
+        // The shared epoch set: only days where BOTH quantities produced a residual.
+        let u_keys: std::collections::BTreeSet<i64> =
+            u.iter().map(|(m, _)| epoch_key(*m)).collect();
+        let p_keys: std::collections::BTreeSet<i64> =
+            p.iter().map(|(m, _)| epoch_key(*m)).collect();
+        let shared: std::collections::BTreeSet<i64> =
+            u_keys.intersection(&p_keys).copied().collect();
+        if shared.is_empty() {
+            continue;
+        }
+        let keep = |pairs: &[(f64, f64)]| -> Vec<(f64, f64)> {
+            pairs
+                .iter()
+                .filter(|(m, _)| shared.contains(&epoch_key(*m)))
+                .copied()
+                .collect()
+        };
+        let u_shared = keep(&u);
+        let p_shared = keep(&p);
+        // Per-epoch quadrature combination, joined on the shared epoch key.
+        let pm_pos = |as_: f64| polar_motion_position_error(as_ * crate::eop::ARCSEC_TO_RAD, 0.0);
+        let ut1_pos = |s_: f64| ut1_error_to_lunar(s_).0;
+        let combined: Vec<(f64, f64)> = u_shared
+            .iter()
+            .filter_map(|(m, ur)| {
+                p_shared
+                    .iter()
+                    .find(|(pm, _)| epoch_key(*pm) == epoch_key(*m))
+                    .map(|(_, pr)| {
+                        let a = ut1_pos(*ur);
+                        let b = pm_pos(*pr);
+                        (*m, (a * a + b * b).sqrt())
+                    })
+            })
+            .collect();
+        let ut1 = joint_component("ut1", "s", h, &u_shared, ut1_pos);
+        let polar_motion = joint_component("polar-motion", "arcsec", h, &p_shared, pm_pos);
+        let combined = joint_component("combined", "m", h, &combined, |m| m);
+        out.push(JointEopError {
+            horizon: h,
+            n: ut1.n,
+            ut1,
+            polar_motion,
+            combined,
+        });
     }
     out
 }
@@ -1336,5 +1559,202 @@ mod tests {
                 e.rms_ms()
             );
         }
+    }
+
+    // ---- G14: the JOINT UT1 + polar-motion table over a COMMON row set ----
+
+    // Blank the Bulletin B POLE block (cols [134..154]) of a real final row while leaving
+    // its Bulletin B UT1 block (cols [154..165]) intact. A pure column-layout construction
+    // (not a data claim): it manufactures the epoch-set disagreement that the joint table
+    // exists to resolve, and that the real fixtures happen not to exhibit.
+    fn blank_the_pole_final(line: &str) -> String {
+        let c: Vec<char> = line.chars().collect();
+        assert!(c.len() > 165, "row must reach the Bulletin B UT1 block");
+        let mut out: String = c[..134].iter().collect();
+        out.push_str(&" ".repeat(20));
+        out.extend(&c[154..]);
+        out
+    }
+
+    // ORACLE: the emitted epoch vectors themselves. Each of the three components is built
+    // by its own pass over the parsed series, so "identical rows" is a checkable property
+    // of the output, not an assertion in the doc comment. Row counts must agree AND the
+    // epochs must match elementwise, at every horizon, over BOTH real fixtures.
+    #[test]
+    fn joint_table_components_share_one_identical_epoch_set() {
+        let horizons = [
+            Horizon::Final,
+            Horizon::Days(1),
+            Horizon::Days(2),
+            Horizon::Days(5),
+        ];
+        for (name, body) in [("longspan", LONGSPAN), ("2026", FIXTURE_2026)] {
+            let joint = joint_eop_error_vs_horizon(body, &horizons);
+            assert!(!joint.is_empty(), "{name}: joint table must populate");
+            for row in &joint {
+                assert_eq!(row.ut1.component, "ut1");
+                assert_eq!(row.polar_motion.component, "polar-motion");
+                assert_eq!(row.combined.component, "combined");
+                // Counts agree with each other and with the row's own n.
+                assert_eq!(
+                    row.ut1.n, row.polar_motion.n,
+                    "{name} {:?}: UT1 n {} != pole n {}",
+                    row.horizon, row.ut1.n, row.polar_motion.n
+                );
+                assert_eq!(row.combined.n, row.ut1.n, "{name} {:?}", row.horizon);
+                assert_eq!(row.n, row.ut1.n, "{name} {:?}", row.horizon);
+                assert!(
+                    row.n > 0,
+                    "{name} {:?}: empty rows must be omitted",
+                    row.horizon
+                );
+                // Lengths agree with the counts, and the epochs match elementwise.
+                assert_eq!(row.ut1.epochs_mjd.len(), row.n);
+                assert_eq!(row.polar_motion.epochs_mjd.len(), row.n);
+                assert_eq!(row.combined.epochs_mjd.len(), row.n);
+                for i in 0..row.n {
+                    let (a, b, c) = (
+                        row.ut1.epochs_mjd[i],
+                        row.polar_motion.epochs_mjd[i],
+                        row.combined.epochs_mjd[i],
+                    );
+                    assert!(
+                        (a - b).abs() < 1e-9 && (a - c).abs() < 1e-9,
+                        "{name} {:?}: epoch {i} differs - UT1 {a}, pole {b}, combined {c}",
+                        row.horizon
+                    );
+                }
+                // Strictly ascending, so "elementwise" is a real ordering, not coincidence.
+                for w in row.ut1.epochs_mjd.windows(2) {
+                    assert!(
+                        w[1] > w[0],
+                        "{name} {:?}: epochs not ascending",
+                        row.horizon
+                    );
+                }
+            }
+        }
+    }
+
+    // ORACLE: the quadrature identity, evaluated two independent ways. The emitted
+    // combination is the root-mean-square of the PER-EPOCH hypotenuse; the check is the
+    // hypotenuse of the two components' own RMSs. They are equal in exact arithmetic
+    // (sum(u^2+p^2) = sum u^2 + sum p^2) but are different expressions, so the check cannot
+    // pass by sharing the computation it tests.
+    #[test]
+    fn joint_combination_is_the_quadrature_sum_of_its_own_two_components() {
+        let horizons = [
+            Horizon::Final,
+            Horizon::Days(1),
+            Horizon::Days(2),
+            Horizon::Days(5),
+            Horizon::Days(10),
+        ];
+        for (name, body) in [("longspan", LONGSPAN), ("2026", FIXTURE_2026)] {
+            let joint = joint_eop_error_vs_horizon(body, &horizons);
+            assert!(!joint.is_empty(), "{name}: joint table must populate");
+            for row in &joint {
+                let u = row.ut1.rms_position_m;
+                let p = row.polar_motion.rms_position_m;
+                let expect = (u * u + p * p).sqrt();
+                let got = row.combined.rms_position_m;
+                assert!(
+                    (got - expect).abs() <= 1e-9 * expect.max(1.0),
+                    "{name} {:?}: combined {got} m != quadrature sum {expect} m (UT1 {u}, pole {p})",
+                    row.horizon
+                );
+                // The combination's native unit IS the Moon-frame metre, so its RMS and its
+                // position are the same number.
+                assert_eq!(row.combined.unit, "m");
+                assert!((row.combined.rms_native - got).abs() < 1e-12);
+                // Both components genuinely contribute: neither is silently zero.
+                assert!(u > 0.0 && p > 0.0, "{name} {:?}: u {u}, p {p}", row.horizon);
+                assert!(
+                    got >= u && got >= p,
+                    "{name} {:?}: combination below a component",
+                    row.horizon
+                );
+                // And the component positions really are the L19/L20 images of their RMSs.
+                assert!((u - ut1_error_to_lunar(row.ut1.rms_native).0).abs() < 1e-9);
+                assert!(
+                    (p - polar_motion_position_error(
+                        row.polar_motion.rms_native * crate::eop::ARCSEC_TO_RAD,
+                        0.0
+                    ))
+                    .abs()
+                        < 1e-9
+                );
+            }
+        }
+    }
+
+    // ORACLE: the two single-quantity curves. When a row's Bulletin B POLE block is blank
+    // but its Bulletin B UT1 is present, the UT1 floor covers that row and the pole floor
+    // does not - the exact "different row sets" defect. The joint table must fall back to
+    // the INTERSECTION and report one common count, while the separate curves keep their
+    // own differing counts (this test fails if the joint table simply reuses either curve).
+    #[test]
+    fn joint_table_intersects_when_the_two_bulletin_b_blocks_disagree() {
+        let mut body = String::new();
+        let mut blanked = 0usize;
+        for (i, line) in LONGSPAN.lines().enumerate() {
+            if line.trim_start().starts_with('#') || line.len() < 165 {
+                body.push_str(line);
+            } else if i % 3 == 0 {
+                body.push_str(&blank_the_pole_final(line));
+                blanked += 1;
+            } else {
+                body.push_str(line);
+            }
+            body.push('\n');
+        }
+        assert!(
+            blanked >= 5,
+            "must blank several pole finals, blanked {blanked}"
+        );
+
+        let ut1 = prediction_error_vs_horizon(&body, &[Horizon::Final]);
+        let pm = pm_prediction_error_vs_horizon(&body, &[Horizon::Final]);
+        let joint = joint_eop_error_vs_horizon(&body, &[Horizon::Final]);
+        assert_eq!(ut1.len(), 1);
+        assert_eq!(pm.len(), 1);
+        assert_eq!(joint.len(), 1);
+        // The premise: the two separate curves DO disagree on this body.
+        assert!(
+            ut1[0].n > pm[0].n,
+            "premise broken - UT1 n {} must exceed pole n {}",
+            ut1[0].n,
+            pm[0].n
+        );
+        // The joint table reports the intersection: the smaller, common set.
+        let row = &joint[0];
+        assert_eq!(row.n, pm[0].n, "joint n must be the intersection size");
+        assert!(
+            row.n < ut1[0].n,
+            "joint n must drop below the UT1-only count"
+        );
+        assert_eq!(row.ut1.n, row.polar_motion.n);
+        assert_eq!(row.ut1.epochs_mjd, row.polar_motion.epochs_mjd);
+        // And the UT1 statistic is NOT the whole-series one - it was recomputed over the
+        // shared rows only.
+        assert!(
+            (row.ut1.rms_native - ut1[0].rms_s).abs() > 0.0,
+            "UT1 RMS over the shared rows must differ from the full-series RMS"
+        );
+        // The quadrature identity still holds on the restricted set.
+        let (u, p) = (row.ut1.rms_position_m, row.polar_motion.rms_position_m);
+        assert!((row.combined.rms_position_m - (u * u + p * p).sqrt()).abs() < 1e-9);
+    }
+
+    // ORACLE: the joint table must never invent a horizon the data cannot populate - a
+    // horizon with an empty shared set is omitted, exactly as the two curves do.
+    #[test]
+    fn joint_table_omits_a_horizon_with_no_shared_rows() {
+        // The 5-row fixture spans 4 days: a 90-day horizon has no pairs at all.
+        let joint = joint_eop_error_vs_horizon(FIXTURE, &[Horizon::Final, Horizon::Days(90)]);
+        assert_eq!(joint.len(), 1, "only the final floor can populate");
+        assert_eq!(joint[0].horizon, Horizon::Final);
+        // An empty body yields nothing rather than a zero-filled row.
+        assert!(joint_eop_error_vs_horizon("", &[Horizon::Final]).is_empty());
     }
 }

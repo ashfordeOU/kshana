@@ -18,8 +18,32 @@
 //!   the multi-day persistence-predictor error, each mapped to a Moon-frame position by
 //!   L19.
 //!
+//! * **Table 3 — the joint Earth-orientation table (G14).** UT1, polar motion and their
+//!   quadrature combination reduced over one **identical** row set per horizon. The two
+//!   single-quantity statistics each cover whatever rows their own Bulletin B block
+//!   populates, so root-sum-squaring them sizes a correction rather than forming a joint
+//!   statistic; this table intersects the two epoch sets first and reports the epochs each
+//!   component was measured at, so the claim is checkable from the document.
+//! * **Table 4 — the predicted-vs-final horizon table (G12).** Always emitted. It is
+//!   populated only when an archived LATER vintage of the same `finals2000A` product is
+//!   supplied through `eop_finals2000a_later`; with a single vintage there is no
+//!   predicted-vs-final residual to measure, and the table says that explicitly in its
+//!   `status` and `statement` rather than leaving an unexplained empty array. No row is
+//!   ever synthesised.
+//!
 //! It also reports the L21 root-sum-square real-time frame-error budget (EOP + ephemeris
 //! + realisation floor).
+//!
+//! ## The EOP input (G12)
+//! The **documented** input is a real IERS `finals2000A` product passed through
+//! `eop_finals2000a`; two verbatim extracts are committed under
+//! `tests/fixtures/agency/eop/`. The bundled offline fixture is the fallback, and it is a
+//! FINAL-ONLY excerpt — which is the whole reason a bare run reports `predicted_rows.n = 0`.
+//! Pointed at the real 2026 extract the same code reports the 12 genuine Bulletin A
+//! prediction rows that file publishes. The bundled fixture remains the runtime default
+//! because switching it would renumber the already-published P4 tables; the emitted
+//! `eop_input` block names the input actually in force and carries its row census
+//! (`rows = final_rows + prediction_rows`).
 //!
 //! ## Validated vs Modelled
 //! - **Validated (closed form).** The L19 lever arm (`1 ms ↔ 28.03 m ↔ 93.5 ns`) is exact
@@ -37,9 +61,9 @@
 
 use crate::frame_eop::{
     derived_frame_realization_floor_m, frame_eop_svg, frame_error_budget,
-    pm_prediction_error_vs_horizon, predicted_rows_summary, prediction_error_vs_horizon,
-    FrameErrorBudget, Horizon, HorizonError, PredictedRowsSummary, C_M_S, D_EM_M, LEVER_M_PER_S,
-    OMEGA_EARTH_RAD_S,
+    joint_eop_error_vs_horizon, pm_prediction_error_vs_horizon, predicted_rows_summary,
+    predicted_vs_final_ut1, prediction_error_vs_horizon, FrameErrorBudget, Horizon, HorizonError,
+    JointEopError, PredictedRowsSummary, C_M_S, D_EM_M, LEVER_M_PER_S, OMEGA_EARTH_RAD_S,
 };
 use crate::frames::arcsec;
 use crate::lunar_frame_predict::{
@@ -107,8 +131,22 @@ pub struct RealtimeFrameEopScenario {
     /// Polar-motion y-pole prediction error (milliarcseconds) for the L21 budget. Measured
     /// from the real PM residual when omitted (see [`Self::delta_xp_mas`]).
     pub delta_yp_mas: Option<f64>,
-    /// Path to a real `finals2000A` EOP file. Absent ⇒ the bundled fixture is used.
+    /// Path to a real `finals2000A` EOP file. This is the **documented** EOP input: point
+    /// it at a real IERS product (the repository ships two verbatim extracts under
+    /// `tests/fixtures/agency/eop/`). Absent ⇒ the bundled offline fixture is used, which is
+    /// a FINAL-ONLY excerpt and therefore publishes no Bulletin A prediction rows; the
+    /// emitted `eop_input` block says which of the two is in force. The bundled fixture
+    /// remains the *runtime* default only because changing it would renumber the published
+    /// P4 tables.
     pub eop_finals2000a: Option<String>,
+    /// Path to an **archived later vintage** of the same `finals2000A` product — the file as
+    /// it stood after the dates [`Self::eop_finals2000a`] predicts had become Bulletin B
+    /// final. Supplying it turns on the true predicted-vs-final vintage differencing
+    /// ([`crate::frame_eop::predicted_vs_final_ut1`]). Absent ⇒ that comparison has no rows,
+    /// which the report states explicitly rather than leaving an unexplained empty array: a
+    /// single instantaneous fetch carries predictions only for dates that do not yet have a
+    /// final, so no residual exists to measure and none is synthesised.
+    pub eop_finals2000a_later: Option<String>,
 }
 
 /// One Table 1 row: a frame position (m) and its L19-equivalent UT1 error and light-time.
@@ -145,6 +183,19 @@ struct Computed {
     budget: FrameErrorBudget,
     table1: Vec<Table1Row>,
     table2: Vec<Table2Row>,
+    /// G14 — UT1, polar motion and their combination over one identical row set.
+    joint: Vec<JointEopError>,
+    /// G12 — the true predicted-vs-final vintage-differenced curve; empty unless an
+    /// archived later vintage was supplied.
+    predicted_vs_final: Vec<HorizonError>,
+    /// The archived later-vintage path, when one was supplied.
+    later_source: Option<String>,
+    /// Row census of the EOP input: total parsed rows, and how many carry a Bulletin B
+    /// final block.
+    eop_rows: usize,
+    eop_final_rows: usize,
+    /// True when the EOP series came from the bundled offline fixture.
+    eop_is_bundled_fixture: bool,
     predicted_rows: PredictedRowsSummary,
     measured_pm_floor_mas: Option<f64>,
     frame_realization_floor_derived: bool,
@@ -220,6 +271,25 @@ impl RealtimeFrameEopScenario {
         // G1: ingest the real Bulletin A predicted rows the file publishes (exercises the
         // predicted-column parser on real data).
         let predicted_rows = predicted_rows_summary(&body);
+        // G12: a row census of whatever EOP product is actually in force, so the report
+        // shows WHY `predicted_rows.n` is what it is instead of leaving a bare 0.
+        let eop_rows = crate::eop::parse_all(&body).len();
+        let eop_final_rows = eop_rows.saturating_sub(predicted_rows.n);
+
+        // G12: the TRUE predicted-vs-final vintage differencing, run only when an archived
+        // later vintage of the same product is supplied. With one vintage there is nothing
+        // to difference against and the table stays empty — stated, never synthesised.
+        let (predicted_vs_final, later_source) = match &self.eop_finals2000a_later {
+            Some(path) => {
+                let later = std::fs::read_to_string(path)
+                    .map_err(|e| format!("cannot read later-vintage EOP file {path}: {e}"))?;
+                (
+                    predicted_vs_final_ut1(&body, &later, &self.horizons()),
+                    Some(path.clone()),
+                )
+            }
+            None => (Vec::new(), None),
+        };
 
         // Table 1 — the post-processed vs real-time frame-error consistency (L13 + L19).
         let predict = predict_frame_error(cov, latency_s);
@@ -255,6 +325,11 @@ impl RealtimeFrameEopScenario {
             })
             .collect();
 
+        // G14 — the JOINT UT1 + polar-motion table: both quantities and their quadrature
+        // combination reduced over one IDENTICAL row set, so the combination is a joint
+        // statistic rather than the root-sum-square of two differently-sized samples.
+        let joint = joint_eop_error_vs_horizon(&body, &horizons);
+
         // L21 — the RSS real-time frame-error budget.
         let budget = frame_error_budget(
             delta_ut1_ms * 1e-3,
@@ -276,6 +351,12 @@ impl RealtimeFrameEopScenario {
             budget,
             table1,
             table2,
+            joint,
+            predicted_vs_final,
+            later_source,
+            eop_rows,
+            eop_final_rows,
+            eop_is_bundled_fixture: self.eop_finals2000a.is_none(),
             predicted_rows,
             measured_pm_floor_mas,
             frame_realization_floor_derived: self.frame_realization_floor_m.is_none(),
@@ -366,6 +447,56 @@ impl RealtimeFrameEopScenario {
                 })
             })
             .collect();
+        // G14 — one table carrying UT1, polar motion and their combination over an
+        // IDENTICAL row set, each component reporting the epochs it was measured at.
+        let component = |c: &crate::frame_eop::JointComponent| {
+            serde_json::json!({
+                "component": c.component,
+                "unit": c.unit,
+                "n": c.n,
+                "epochs_mjd": c.epochs_mjd,
+                "rms_native": c.rms_native,
+                "p50_native": c.p50_native,
+                "p95_native": c.p95_native,
+                "max_native": c.max_native,
+                "rms_position_m": c.rms_position_m,
+            })
+        };
+        let table3: Vec<serde_json::Value> = c
+            .joint
+            .iter()
+            .map(|r| {
+                serde_json::json!({
+                    "horizon": horizon_label(r.horizon),
+                    "horizon_days": r.horizon.days(),
+                    "n": r.n,
+                    "ut1": component(&r.ut1),
+                    "polar_motion": component(&r.polar_motion),
+                    "combined": component(&r.combined),
+                })
+            })
+            .collect();
+
+        // G12 — the predicted-vs-final horizon table is ALWAYS emitted. When it has no rows
+        // the report says so, and why, in `status` + `statement`; it never leaves a bare
+        // empty array for a reader to interpret, and it never invents a row.
+        let pvf_rows: Vec<serde_json::Value> = c
+            .predicted_vs_final
+            .iter()
+            .map(|h| {
+                serde_json::json!({
+                    "horizon": horizon_label(h.horizon),
+                    "horizon_days": h.horizon.days(),
+                    "n": h.n,
+                    "ut1_rms_ms": h.rms_ms(),
+                    "ut1_p50_ms": h.p50_ms(),
+                    "ut1_p95_ms": h.p95_ms(),
+                    "moon_position_m": h.rms_position_m(),
+                })
+            })
+            .collect();
+        let (pvf_status, pvf_statement) = predicted_vs_final_status(c);
+
         let doc = serde_json::json!({
             "kind": "realtime-frame-eop",
             "label": LABEL,
@@ -377,6 +508,41 @@ impl RealtimeFrameEopScenario {
             "omega_earth_rad_s": OMEGA_EARTH_RAD_S,
             "table1_consistency": table1,
             "table2_error_vs_horizon": table2,
+            "table3_joint_eop": table3,
+            "table3_note": "G14 — UT1, polar motion and their quadrature combination over one \
+                            IDENTICAL row set per horizon. The two single-quantity curves \
+                            (`table2_error_vs_horizon` and the budget's measured pole floor) \
+                            each cover whatever rows their own Bulletin B block populates and \
+                            can therefore rest on different epochs; this table intersects the \
+                            two epoch sets first, so `combined` is a joint statistic and not \
+                            the root-sum-square of two differently-sized samples. Each \
+                            component reports the epochs it was measured at.",
+            "table4_predicted_vs_final_horizon": {
+                "status": pvf_status,
+                "n_rows": pvf_rows.len(),
+                "statement": pvf_statement,
+                "as_issued_source": c.eop_source,
+                "later_vintage_source": c.later_source,
+                "rows": pvf_rows,
+            },
+            "eop_input": {
+                "source": c.eop_source,
+                "kind": if c.eop_is_bundled_fixture { "bundled-offline-fixture" } else { "supplied-finals2000a-file" },
+                "rows": c.eop_rows,
+                "final_rows": c.eop_final_rows,
+                "prediction_rows": c.predicted_rows.n,
+                "note": "The DOCUMENTED EOP input is a real IERS finals2000A product supplied \
+                         through `eop_finals2000a` (the repository ships two verbatim extracts \
+                         under tests/fixtures/agency/eop/). The bundled offline fixture is the \
+                         fallback only: it is a FINAL-ONLY excerpt, every row carrying a \
+                         Bulletin B block, so it publishes no Bulletin A prediction rows and \
+                         `predicted_rows.n` is 0 on a bare run for that reason alone — not \
+                         because a prediction row is unreadable. A real full product does \
+                         carry prediction rows and reports a non-zero count. The bundled \
+                         fixture is retained as the runtime default because changing it would \
+                         renumber the already-published P4 tables; `rows` = `final_rows` + \
+                         `prediction_rows` for whichever input is in force.",
+            },
             "predicted_rows": {
                 "n": c.predicted_rows.n,
                 "first_mjd": c.predicted_rows.first_mjd,
@@ -424,6 +590,52 @@ impl RealtimeFrameEopScenario {
             c.budget.total_time_ns,
         )
     }
+}
+
+/// G12 — the explicit status and prose statement for the predicted-vs-final horizon
+/// table. The table is emitted on every run; when it carries no rows this says which of the
+/// two reasons applies, so an empty table is never left to be read as "measured and zero".
+fn predicted_vs_final_status(c: &Computed) -> (&'static str, String) {
+    if !c.predicted_vs_final.is_empty() {
+        return (
+            "measured",
+            format!(
+                "Measured over a genuine two-vintage pair: the Bulletin A PREDICTED UT1 of \
+                 the as-issued file ({}) differenced against the eventual Bulletin B FINAL \
+                 of the archived later vintage ({}), at {} horizon(s).",
+                c.eop_source,
+                c.later_source.clone().unwrap_or_default(),
+                c.predicted_vs_final.len(),
+            ),
+        );
+    }
+    if c.later_source.is_some() {
+        return (
+            "no-matched-pairs",
+            format!(
+                "EMPTY, and deliberately so: an archived later vintage was supplied ({}) but \
+                 no date is carried as a Bulletin A PREDICTION in the as-issued file ({}) and \
+                 as a Bulletin B FINAL in the later one at any requested horizon, so there is \
+                 no predicted-vs-final residual to report. No row is synthesised.",
+                c.later_source.clone().unwrap_or_default(),
+                c.eop_source,
+            ),
+        );
+    }
+    (
+        "no-second-vintage",
+        format!(
+            "EMPTY, and deliberately so: a predicted-vs-final residual needs TWO vintages of \
+             the same finals2000A product. This run was given one ({}). Its Bulletin A \
+             prediction rows are for future dates that have no Bulletin B final yet, so the \
+             residual does not exist to be measured and none is invented here. Supply an \
+             archived later vintage through `eop_finals2000a_later` to populate this table. \
+             Until then the multi-day growth reported in `table2_error_vs_horizon` is the \
+             PERSISTENCE predictor scored over the real finals — a real measured error, but a \
+             Modelled predictor, and not the IERS Bulletin A prediction residual.",
+            c.eop_source,
+        ),
+    )
 }
 
 /// A frame position error (m) as its L19-equivalent UT1 error, in milliseconds.
@@ -667,5 +879,238 @@ mod tests {
                 .unwrap(),
             0.0
         );
+    }
+
+    // ---- G14: the joint UT1 + polar-motion table reaches the report ----
+
+    // ORACLE: the emitted epoch vectors, plus the quadrature identity recomputed from the
+    // two components' own reported positions. Run over a REAL IERS product (the 2026
+    // extract), where the pole floor and the UT1 curve genuinely cover different rows.
+    #[test]
+    fn joint_table_reports_all_three_components_over_identical_rows() {
+        let (json, _s) = RealtimeFrameEopScenario {
+            eop_finals2000a: Some("tests/fixtures/agency/eop/finals2000A_2026.txt".to_string()),
+            horizons_days: Some(vec![1, 2, 5]),
+            ..Default::default()
+        }
+        .run_json()
+        .unwrap();
+        let v: Value = serde_json::from_str(&json).unwrap();
+        let rows = v["table3_joint_eop"]
+            .as_array()
+            .expect("the joint table must be emitted");
+        assert!(!rows.is_empty(), "joint table must carry rows");
+        for row in rows {
+            let n = row["n"].as_u64().unwrap();
+            assert!(n > 0);
+            let comps = ["ut1", "polar_motion", "combined"];
+            let epochs: Vec<&Vec<Value>> = comps
+                .iter()
+                .map(|k| row[k]["epochs_mjd"].as_array().unwrap())
+                .collect();
+            for (k, e) in comps.iter().zip(&epochs) {
+                assert_eq!(
+                    row[k]["n"].as_u64().unwrap(),
+                    n,
+                    "{k} count differs from the row count"
+                );
+                assert_eq!(e.len() as u64, n, "{k} epoch list length differs");
+            }
+            // Elementwise identity of the three epoch sets.
+            for i in 0..(n as usize) {
+                let a = epochs[0][i].as_f64().unwrap();
+                let b = epochs[1][i].as_f64().unwrap();
+                let c = epochs[2][i].as_f64().unwrap();
+                assert!(
+                    (a - b).abs() < 1e-9 && (a - c).abs() < 1e-9,
+                    "epoch {i}: UT1 {a}, pole {b}, combined {c}"
+                );
+            }
+            // The combination is the quadrature sum of its own two components.
+            let u = row["ut1"]["rms_position_m"].as_f64().unwrap();
+            let p = row["polar_motion"]["rms_position_m"].as_f64().unwrap();
+            let got = row["combined"]["rms_position_m"].as_f64().unwrap();
+            let expect = (u * u + p * p).sqrt();
+            assert!(
+                (got - expect).abs() <= 1e-9 * expect.max(1.0),
+                "combined {got} m != quadrature sum {expect} m"
+            );
+            assert!(u > 0.0 && p > 0.0, "both components must contribute");
+        }
+        // The point of the table: on this real product the joint FINAL row is measured over
+        // the shared rows, which is NOT the row count the UT1-only curve reports at the
+        // multi-day horizons (those reach the Bulletin A prediction rows the pole cannot).
+        let joint_final = rows
+            .iter()
+            .find(|r| r["horizon"] == "final")
+            .expect("a final row");
+        let t2_day1 = v["table2_error_vs_horizon"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|r| r["horizon"] == "day-1")
+            .expect("a day-1 row");
+        assert!(
+            joint_final["n"].as_u64().unwrap() != t2_day1["n"].as_u64().unwrap(),
+            "the row sets are expected to differ on this real product"
+        );
+    }
+
+    // ---- G12: the real-EOP path, and the always-emitted horizon table ----
+
+    // ORACLE: the real IERS products themselves. `predicted_rows.n` is 0 on a bare run
+    // because the BUNDLED fixture is a final-only excerpt — not because the engine cannot
+    // read a prediction row. Pointed at a real full product it reports the real count, and
+    // the emitted census decomposes exactly.
+    #[test]
+    fn real_eop_path_publishes_the_prediction_rows_the_fixture_has_none_of() {
+        let run = |scn: RealtimeFrameEopScenario| -> Value {
+            serde_json::from_str(&scn.run_json().unwrap().0).unwrap()
+        };
+        let bundled = run(RealtimeFrameEopScenario::default());
+        assert_eq!(bundled["predicted_rows"]["n"], 0);
+        assert_eq!(bundled["eop_input"]["kind"], "bundled-offline-fixture");
+        assert_eq!(bundled["eop_input"]["prediction_rows"], 0);
+        // Every bundled row is a final row — that is WHY the count is zero.
+        assert_eq!(
+            bundled["eop_input"]["rows"], bundled["eop_input"]["final_rows"],
+            "the bundled fixture must be a final-only excerpt"
+        );
+
+        let real = run(RealtimeFrameEopScenario {
+            eop_finals2000a: Some("tests/fixtures/agency/eop/finals2000A_2026.txt".to_string()),
+            ..Default::default()
+        });
+        assert_eq!(real["eop_input"]["kind"], "supplied-finals2000a-file");
+        // The real product carries 12 genuine Bulletin A prediction-only rows.
+        assert_eq!(real["predicted_rows"]["n"], 12);
+        assert_eq!(real["eop_input"]["prediction_rows"], 12);
+        // The census decomposes exactly on both inputs.
+        for v in [&bundled, &real] {
+            let e = &v["eop_input"];
+            assert_eq!(
+                e["rows"].as_u64().unwrap(),
+                e["final_rows"].as_u64().unwrap() + e["prediction_rows"].as_u64().unwrap(),
+                "row census must decompose"
+            );
+            assert!(e["note"].as_str().unwrap().contains("eop_finals2000a"));
+        }
+    }
+
+    // ORACLE: the report's own field set. The horizon table must be PRESENT on a run that
+    // can produce no rows, and its emptiness must be stated in the document — not implied
+    // by a missing field, and not left as a bare empty array.
+    #[test]
+    fn predicted_vs_final_horizon_table_is_emitted_and_states_its_own_emptiness() {
+        for scn in [
+            RealtimeFrameEopScenario::default(),
+            RealtimeFrameEopScenario {
+                eop_finals2000a: Some("tests/fixtures/agency/eop/finals2000A_2026.txt".to_string()),
+                ..Default::default()
+            },
+        ] {
+            let v: Value = serde_json::from_str(&scn.run_json().unwrap().0).unwrap();
+            let t = v
+                .get("table4_predicted_vs_final_horizon")
+                .expect("the horizon table must always be emitted, even with no rows");
+            // Empty — and every part of that emptiness is stated, not implied.
+            assert_eq!(t["rows"].as_array().unwrap().len(), 0);
+            assert_eq!(t["n_rows"], 0);
+            assert_eq!(t["status"], "no-second-vintage");
+            assert!(t["later_vintage_source"].is_null());
+            let statement = t["statement"].as_str().unwrap();
+            assert!(
+                statement.contains("EMPTY") && statement.contains("TWO vintages"),
+                "the statement must say it is empty and why: {statement}"
+            );
+            assert!(
+                statement.contains("eop_finals2000a_later"),
+                "the statement must name the input that would populate it: {statement}"
+            );
+            // And it must not have quietly borrowed the persistence curve's rows.
+            assert!(!v["table2_error_vs_horizon"].as_array().unwrap().is_empty());
+        }
+    }
+
+    // ORACLE: `frame_eop::predicted_vs_final_ut1` on a genuine two-vintage pair built from
+    // REAL rows (an early data cutoff, with the later real rows re-emitted as
+    // prediction-only so they carry their real Bulletin A UT1 in the identical columns).
+    // Proves the emitted table is reachable and not permanently dead.
+    #[test]
+    fn predicted_vs_final_horizon_table_populates_from_a_real_second_vintage() {
+        let later = include_str!("../tests/fixtures/agency/eop/finals2000A_2022001_longspan.txt");
+        let mut as_issued = String::new();
+        let mut kept = 0;
+        for line in later.lines() {
+            if line.trim_start().starts_with('#') || line.len() < 68 {
+                as_issued.push_str(line);
+            } else if kept < 5 {
+                as_issued.push_str(line);
+                kept += 1;
+            } else {
+                // Blank the Bulletin B tail: a real prediction-only row carrying the row's
+                // genuine Bulletin A UT1.
+                let head: String = line.chars().take(134).collect();
+                as_issued.push_str(head.trim_end());
+            }
+            as_issued.push('\n');
+        }
+        let dir = std::env::temp_dir();
+        let pid = std::process::id();
+        let a = dir.join(format!("kshana_eop_issued_{pid}.txt"));
+        let b = dir.join(format!("kshana_eop_later_{pid}.txt"));
+        std::fs::write(&a, &as_issued).unwrap();
+        std::fs::write(&b, later).unwrap();
+
+        let (json, _s) = RealtimeFrameEopScenario {
+            eop_finals2000a: Some(a.to_string_lossy().to_string()),
+            eop_finals2000a_later: Some(b.to_string_lossy().to_string()),
+            horizons_days: Some(vec![1, 2, 5]),
+            ..Default::default()
+        }
+        .run_json()
+        .unwrap();
+        let _ = std::fs::remove_file(&a);
+        let _ = std::fs::remove_file(&b);
+
+        let v: Value = serde_json::from_str(&json).unwrap();
+        let t = &v["table4_predicted_vs_final_horizon"];
+        assert_eq!(t["status"], "measured", "statement: {}", t["statement"]);
+        let rows = t["rows"].as_array().unwrap();
+        assert!(!rows.is_empty(), "a real second vintage must produce rows");
+        assert_eq!(t["n_rows"].as_u64().unwrap() as usize, rows.len());
+        assert!(!t["later_vintage_source"].is_null());
+        // Independent oracle: the same residuals straight from frame_eop.
+        let direct = predicted_vs_final_ut1(
+            &as_issued,
+            later,
+            &[
+                Horizon::Final,
+                Horizon::Days(1),
+                Horizon::Days(2),
+                Horizon::Days(5),
+            ],
+        );
+        assert_eq!(rows.len(), direct.len());
+        for (row, h) in rows.iter().zip(direct.iter()) {
+            assert_eq!(row["n"].as_u64().unwrap() as usize, h.n);
+            assert!(row["n"].as_u64().unwrap() >= 1);
+            assert!((row["ut1_rms_ms"].as_f64().unwrap() - h.rms_ms()).abs() < 1e-12);
+            // Real Bulletin A UT1 tracks the final to well under 10 ms.
+            assert!(row["ut1_rms_ms"].as_f64().unwrap() < 10.0);
+        }
+        assert!(t["statement"].as_str().unwrap().contains("two-vintage"));
+    }
+
+    // A missing later-vintage file is a loud error, not a silently empty table.
+    #[test]
+    fn a_missing_later_vintage_file_is_reported_not_swallowed() {
+        let err = RealtimeFrameEopScenario {
+            eop_finals2000a_later: Some("/nonexistent/finals2000A_later.txt".to_string()),
+            ..Default::default()
+        }
+        .run_json()
+        .unwrap_err();
+        assert!(err.contains("later-vintage EOP file"), "{err}");
     }
 }
