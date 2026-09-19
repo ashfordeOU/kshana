@@ -183,6 +183,63 @@ pub fn link_budget(p: &LinkParams, required_eb_n0_db: f64) -> LinkResult {
     }
 }
 
+/// The **required receive `G/T`** (dB/K) for the link to close: the figure of merit at which
+/// `margin_db` is exactly zero, assembled straight from the link equation's own terms,
+///
+/// ```text
+///   (G/T)_required = L_fs + L_other − EIRP + k + 10·log10(R_b) + (Eb/N₀)_required     [dB/K]
+/// ```
+///
+/// with `L_fs` the free-space loss at the band frequency and `k` the (negative) Boltzmann term
+/// [`BOLTZMANN_DBW_PER_K_PER_HZ`]. Because the margin is linear in `G/T` with unit slope, this is
+/// also exactly `p.g_over_t_db − margin_db` — the same quantity reached from the other end, which
+/// is what [`link_budget`] already reports. It is stated here because a *requirement* is the
+/// question a terminal-sizing study actually asks ("how big an antenna do I need?"), and reading it
+/// out of a margin is a subtraction every caller would otherwise redo by hand against constants the
+/// report did not state.
+pub fn required_g_over_t_db(p: &LinkParams, required_eb_n0_db: f64) -> f64 {
+    let fsl_db = free_space_loss_db(p.range_m, band_frequency_hz(p.band));
+    fsl_db + p.other_losses_db - p.eirp_dbw
+        + BOLTZMANN_DBW_PER_K_PER_HZ
+        + 10.0 * p.data_rate_bps.log10()
+        + required_eb_n0_db
+}
+
+/// The **link constant** (dBW): `EIRP − L_other − (Eb/N₀)_required`.
+///
+/// This is the *only* combination in which a budget's three absolute constants enter the required
+/// `G/T`: rearranging [`required_g_over_t_db`] gives
+///
+/// ```text
+///   (G/T)_required = L_fs + 10·log10(R_b) + k − (EIRP − L_other − (Eb/N₀)_required)
+/// ```
+///
+/// so two budgets sharing this one number have the same required `G/T` at **every** range and data
+/// rate, whatever their individual EIRP, loss and threshold. The converse is the reason it is worth
+/// naming: a published rate/gain table fixes this combination and nothing finer, so the three
+/// constants cannot be recovered separately from such a table — only their difference can. Stating
+/// it turns what would otherwise be a back-solved fitting constant into a reported quantity with a
+/// definition.
+pub fn link_constant_dbw(p: &LinkParams, required_eb_n0_db: f64) -> f64 {
+    p.eirp_dbw - p.other_losses_db - required_eb_n0_db
+}
+
+/// The receive **antenna gain** (dBi) implied by a figure of merit `g_over_t_db` (dB/K) and a system
+/// noise temperature `tsys_k` (K): `G = G/T + 10·log10(T_sys)`.
+///
+/// `G/T` is a ratio, so it does not on its own carry a gain — a terminal with `G/T = 0 dB/K` is a
+/// 24.8 dBi antenna on a 300 K system and a 14.6 dBi antenna on a 29 K one. The engine's link
+/// equation needs only the ratio and therefore never forms the split; a study that wants an antenna
+/// *size* has to supply the noise temperature it assumed. Returns `None` unless `tsys_k` is finite
+/// and positive, since `10·log10(T)` is undefined otherwise — an absent split is reported as absent,
+/// never as zero.
+pub fn rx_gain_from_g_over_t_dbi(g_over_t_db: f64, tsys_k: f64) -> Option<f64> {
+    if !tsys_k.is_finite() || tsys_k <= 0.0 {
+        return None;
+    }
+    Some(g_over_t_db + 10.0 * tsys_k.log10())
+}
+
 /// Received navigation-signal power (dBW) at the user antenna output for a transmitter
 /// of `eirp_dbw` (transmit power + transmit antenna gain) and receive antenna gain
 /// `rx_gain_dbi`, over one-way `range_m` at carrier `freq_hz`: `P_rx = EIRP + G_user −
@@ -428,6 +485,12 @@ pub struct LinkBudgetScenario {
     /// Required Eb/N₀ for closure (dB).
     #[serde(default = "lb_default_req")]
     pub required_eb_n0_db: f64,
+    /// Receive **system noise temperature** (K), optional. The link equation needs only the
+    /// figure of merit `G/T`, so this is not an input to the budget; supplying it lets the
+    /// report also state the receive antenna gain the figure of merit implies
+    /// (`G = G/T + 10·log10(T_sys)`, [`rx_gain_from_g_over_t_dbi`]). Omitted by default, and
+    /// then the gain split is **absent from the report** rather than assumed.
+    pub tsys_k: Option<f64>,
 }
 
 impl LinkBudgetScenario {
@@ -456,8 +519,13 @@ impl LinkBudgetScenario {
             data_rate_bps: self.data_rate_bps,
             other_losses_db: self.other_losses_db,
         };
+        if let Some(t) = self.tsys_k {
+            if !t.is_finite() || t <= 0.0 {
+                return Err("tsys_k must be finite and positive when supplied".to_string());
+            }
+        }
         let r = link_budget(&p, self.required_eb_n0_db);
-        let json = serde_json::json!({
+        let mut json = serde_json::json!({
             "kind": "link-budget",
             "label": "One-way link budget over the CCSDS 401 / DSN 810-005 link \
                       equation (EIRP − FSPL − L_other + G/T − k); a deterministic \
@@ -472,7 +540,58 @@ impl LinkBudgetScenario {
             "required_eb_n0_db": self.required_eb_n0_db,
             "margin_db": r.margin_db,
             "closes": r.closes,
+            // The absolute constants the equation was evaluated at. Every term of the link
+            // equation is now named in the report, so `margin_db` can be recomputed from the
+            // report alone; before this, the carrier frequency, EIRP, G/T, lumped loss and the
+            // Boltzmann term all had to be supplied from outside, and a published table fixed
+            // only their combination (`link_constant_dbw`).
+            "link_constants": {
+                "carrier_frequency_hz": band_frequency_hz(band),
+                "eirp_dbw": self.eirp_dbw,
+                "g_over_t_db": self.g_over_t_db,
+                "other_losses_db": self.other_losses_db,
+                "boltzmann_dbw_per_k_per_hz": BOLTZMANN_DBW_PER_K_PER_HZ,
+                "link_constant_dbw": link_constant_dbw(&p, self.required_eb_n0_db),
+            },
+            "required_g_over_t_db": required_g_over_t_db(&p, self.required_eb_n0_db),
+            "margin_definition": "margin_db = eb_n0_db - required_eb_n0_db, with \
+                                  eb_n0_db = eirp_dbw - free_space_loss_db - other_losses_db \
+                                  + g_over_t_db - boltzmann_dbw_per_k_per_hz \
+                                  - 10*log10(data_rate_bps); the link closes when margin_db >= 0",
+            "units": {
+                "free_space_loss_db": {"unit": "dB", "provenance": "computed"},
+                "cn0_dbhz": {"unit": "dB-Hz", "provenance": "computed"},
+                "eb_n0_db": {"unit": "dB", "provenance": "computed"},
+                "margin_db": {"unit": "dB", "provenance": "computed"},
+                "required_g_over_t_db": {"unit": "dB/K", "provenance": "computed", "note": "the G/T at which margin_db is zero"},
+                "link_constants.carrier_frequency_hz": {"unit": "Hz", "provenance": "computed", "note": "DSN downlink band centre for the selected band"},
+                "link_constants.eirp_dbw": {"unit": "dBW", "provenance": "input"},
+                "link_constants.g_over_t_db": {"unit": "dB/K", "provenance": "input"},
+                "link_constants.other_losses_db": {"unit": "dB", "provenance": "input", "note": "lumped pointing + polarisation + atmosphere + implementation; this engine does not resolve the split, and no bandwidth or system noise temperature enters the equation at all"},
+                "link_constants.boltzmann_dbw_per_k_per_hz": {"unit": "dBW/K/Hz", "provenance": "constant", "note": "10*log10 of the SI 2019 fixed Boltzmann constant"},
+                "link_constants.link_constant_dbw": {"unit": "dBW", "provenance": "computed", "note": "eirp_dbw - other_losses_db - required_eb_n0_db; the only combination of the three that required_g_over_t_db depends on"},
+                "required_eb_n0_db": {"unit": "dB", "provenance": "input"},
+                "range_km": {"unit": "km", "provenance": "input"},
+                "data_rate_bps": {"unit": "bit/s", "provenance": "input"},
+            },
         });
+
+        // The G/T-to-gain split exists only if the caller states the noise temperature it
+        // assumed; G/T is a ratio and carries no gain by itself. Absent input, absent block.
+        if let Some(tsys_k) = self.tsys_k {
+            if let Some(gain) = rx_gain_from_g_over_t_dbi(self.g_over_t_db, tsys_k) {
+                json["receive_terminal"] = serde_json::json!({
+                    "tsys_k": tsys_k,
+                    "rx_gain_dbi": gain,
+                    "g_over_t_to_gain_offset_db": 10.0 * tsys_k.log10(),
+                });
+                json["units"]["receive_terminal.tsys_k"] =
+                    serde_json::json!({"unit": "K", "provenance": "input"});
+                json["units"]["receive_terminal.rx_gain_dbi"] = serde_json::json!({"unit": "dBi", "provenance": "computed", "note": "g_over_t_db + 10*log10(tsys_k)"});
+                json["units"]["receive_terminal.g_over_t_to_gain_offset_db"] =
+                    serde_json::json!({"unit": "dB", "provenance": "computed"});
+            }
+        }
         let summary = format!(
             "link-budget: {}-band, {:.0} km, {:.0} bit/s -> FSPL {:.1} dB, Eb/N0 {:.1} dB, \
              margin {:.1} dB ({})",
@@ -909,5 +1028,273 @@ mod tests {
             weaker_eirp.band_lo_db,
             weaker_eirp.band_hi_db
         );
+    }
+
+    // -----------------------------------------------------------------------------------
+    // G1 — the report states its own absolute constants.
+    //
+    // Before these, `link-budget` reported five derived numbers and none of the constants
+    // they were derived from: not the carrier frequency the free-space loss used, not the
+    // EIRP, not the G/T, not the lumped loss, not the Boltzmann term. A published table
+    // built on such a report could only be reproduced by back-solving, and — see
+    // `the_requirement_sees_only_the_link_constant` below — back-solving cannot in
+    // principle recover the three absolute constants separately, only their difference.
+    // -----------------------------------------------------------------------------------
+
+    /// Four configurations spanning the three bands, four decades of range and both closure
+    /// verdicts. Each report must carry enough to **recompute its own `margin_db`** — and the
+    /// free-space loss underneath it — with nothing supplied from outside, to 1e-9 dB.
+    #[test]
+    fn the_report_states_every_term_of_its_own_margin() {
+        let cases = [
+            ("x", 55.0, 53.0, 2000.0, 1.0e6, 3.0, 4.5),
+            ("s", 38.0, 12.0, 400_000.0, 100.0, 6.0, 2.0),
+            ("ka", 74.0, 61.0, 3.6e8, 1.0e5, 4.0, 1.0),
+            ("x", 0.0, 0.0, 12_499.0, 1000.0, 0.0, 0.0),
+        ];
+        for (band, eirp, gt, range_km, rate, other, req) in cases {
+            let src = format!(
+                "band = \"{band}\"\neirp_dbw = {eirp}\ng_over_t_db = {gt}\n\
+                 range_km = {range_km}\ndata_rate_bps = {rate}\n\
+                 other_losses_db = {other}\nrequired_eb_n0_db = {req}\n"
+            );
+            let scn: LinkBudgetScenario = toml::from_str(&src).expect("parse");
+            let (json, _) = scn.run_json().expect("run");
+            let v: serde_json::Value = serde_json::from_str(&json).expect("json");
+
+            let f = |p: &str| -> f64 {
+                let mut cur = &v;
+                for seg in p.split('.') {
+                    cur = &cur[seg];
+                }
+                cur.as_f64()
+                    .unwrap_or_else(|| panic!("report has no numeric field {p}"))
+            };
+
+            // (a) the free-space loss, from the report's own carrier frequency and range.
+            let fsl = 20.0
+                * (4.0 * PI * f("range_km") * 1000.0 * f("link_constants.carrier_frequency_hz")
+                    / C_M_PER_S)
+                    .log10();
+            assert!(
+                (fsl - f("free_space_loss_db")).abs() < 1e-9,
+                "{band}: FSL from the report's own constants {fsl} vs reported {}",
+                f("free_space_loss_db")
+            );
+
+            // (b) the margin, from the report's own constants alone.
+            let eb_n0 = f("link_constants.eirp_dbw")
+                - f("free_space_loss_db")
+                - f("link_constants.other_losses_db")
+                + f("link_constants.g_over_t_db")
+                - f("link_constants.boltzmann_dbw_per_k_per_hz")
+                - 10.0 * f("data_rate_bps").log10();
+            let margin = eb_n0 - f("required_eb_n0_db");
+            assert!(
+                (margin - f("margin_db")).abs() < 1e-9,
+                "{band}: margin recomputed from the report {margin} dB vs reported {} dB",
+                f("margin_db")
+            );
+        }
+    }
+
+    /// The reported `required_g_over_t_db` really is the figure of merit that zeroes the
+    /// margin: re-running the same budget at it lands on `margin_db = 0`. It is assembled in
+    /// [`required_g_over_t_db`] from the equation's terms, and checked here against the
+    /// budget reached from the other end — two different expressions, so a sign or
+    /// transcription slip in either one fails.
+    #[test]
+    fn required_g_over_t_is_the_figure_of_merit_that_zeroes_the_margin() {
+        for (band, range_m, rate, eirp, other, req) in [
+            (Band::X, 2.0e6, 1.0e6, 55.0, 3.0, 4.5),
+            (Band::S, 4.0e8, 100.0, 38.0, 6.0, 2.0),
+            (Band::Ka, 3.6e11, 1.0e5, 74.0, 4.0, 1.0),
+        ] {
+            let p = LinkParams {
+                band,
+                eirp_dbw: eirp,
+                g_over_t_db: 17.0, // arbitrary; the requirement must not depend on it
+                range_m,
+                data_rate_bps: rate,
+                other_losses_db: other,
+            };
+            let need = required_g_over_t_db(&p, req);
+
+            // (a) at the required G/T the margin is zero.
+            let at_need = link_budget(
+                &LinkParams {
+                    g_over_t_db: need,
+                    ..p
+                },
+                req,
+            );
+            assert!(
+                at_need.margin_db.abs() < 1e-9,
+                "margin at the required G/T is {} dB, not 0",
+                at_need.margin_db
+            );
+
+            // (b) the identity: the requirement is the actual G/T less the margin it earns.
+            let actual = link_budget(&p, req);
+            assert!(
+                (p.g_over_t_db - actual.margin_db - need).abs() < 1e-9,
+                "G/T − margin = {} vs required {need}",
+                p.g_over_t_db - actual.margin_db
+            );
+        }
+    }
+
+    /// **Why a published rate/gain table cannot yield the three absolute constants.** The
+    /// required `G/T` depends on EIRP, lumped loss and the required `Eb/N₀` **only** through
+    /// `link_constant_dbw = EIRP − L_other − (Eb/N₀)_req`. Three budgets whose constants
+    /// differ wildly but whose link constant agrees give an identical requirement at every
+    /// range and rate; move the constant by 1 dB and the requirement moves by exactly 1 dB.
+    ///
+    /// This is the formal statement of what reproducing D1's released table cost: only the
+    /// combination was ever recoverable, so reporting it is not a convenience — it is the
+    /// only honest thing a report can say about those three numbers after the fact.
+    #[test]
+    fn the_requirement_sees_only_the_link_constant() {
+        let base = |eirp: f64, other: f64, req: f64| {
+            (
+                LinkParams {
+                    band: Band::X,
+                    eirp_dbw: eirp,
+                    g_over_t_db: 0.0,
+                    range_m: 1.2499e7,
+                    data_rate_bps: 1000.0,
+                    other_losses_db: other,
+                },
+                req,
+            )
+        };
+        // Same constant (20.79 dBW) reached three different ways.
+        let same = [
+            base(20.79, 0.0, 0.0),
+            base(55.0, 30.0, 4.21),
+            base(30.79, 6.0, 4.0),
+        ];
+        let mut reqs = Vec::new();
+        for (p, r) in &same {
+            assert!(
+                (link_constant_dbw(p, *r) - 20.79).abs() < 1e-12,
+                "test setup: link constant is not 20.79"
+            );
+            reqs.push(required_g_over_t_db(p, *r));
+        }
+        for w in reqs.windows(2) {
+            assert!(
+                (w[0] - w[1]).abs() < 1e-12,
+                "equal link constants must give an equal requirement: {} vs {}",
+                w[0],
+                w[1]
+            );
+        }
+
+        // And the requirement is not simply insensitive: 1 dB on the constant moves it 1 dB.
+        let (p, r) = base(21.79, 0.0, 0.0);
+        assert!(
+            (required_g_over_t_db(&p, r) - (reqs[0] - 1.0)).abs() < 1e-12,
+            "1 dB more link constant must lower the requirement by exactly 1 dB"
+        );
+    }
+
+    /// `G/T` is a ratio and carries no antenna gain by itself, so the split is reported only
+    /// when the caller states the system noise temperature it assumed — and is **absent**,
+    /// not zero, when they do not. At 300 K the offset is the 24.77 dB a 300 K terminal has;
+    /// at 29 K it is a different number, which is the point.
+    #[test]
+    fn the_gain_split_is_absent_unless_the_noise_temperature_is_stated() {
+        let run = |extra: &str| -> serde_json::Value {
+            let src = format!(
+                "band = \"x\"\neirp_dbw = 20.79\ng_over_t_db = 0.0\nrange_km = 12499.0\n\
+                 data_rate_bps = 1000.0\nother_losses_db = 0.0\nrequired_eb_n0_db = 0.0\n{extra}"
+            );
+            let scn: LinkBudgetScenario = toml::from_str(&src).expect("parse");
+            let (json, _) = scn.run_json().expect("run");
+            serde_json::from_str(&json).expect("json")
+        };
+
+        let without = run("");
+        assert!(
+            without.get("receive_terminal").is_none(),
+            "no noise temperature was stated, so no gain split may be reported"
+        );
+
+        let warm = run("tsys_k = 300.0\n");
+        let offset = warm["receive_terminal"]["g_over_t_to_gain_offset_db"]
+            .as_f64()
+            .expect("offset");
+        assert!(
+            (offset - 10.0 * 300.0_f64.log10()).abs() < 1e-12,
+            "300 K offset is {offset} dB"
+        );
+        assert!(
+            (offset - 24.771_212_5).abs() < 1e-6,
+            "a 300 K terminal's G/T-to-gain offset is 24.77 dB, got {offset}"
+        );
+        assert!(
+            (warm["receive_terminal"]["rx_gain_dbi"].as_f64().unwrap() - offset).abs() < 1e-12,
+            "at G/T = 0 dB/K the gain is exactly the offset"
+        );
+
+        // A cryogenic station has a different offset — the split is a real function of T.
+        let cold = run("tsys_k = 29.0\n");
+        let cold_offset = cold["receive_terminal"]["g_over_t_to_gain_offset_db"]
+            .as_f64()
+            .unwrap();
+        assert!(
+            (cold_offset - 10.0 * 29.0_f64.log10()).abs() < 1e-12
+                && (cold_offset - offset).abs() > 10.0,
+            "29 K offset {cold_offset} must differ from the 300 K offset {offset}"
+        );
+
+        // A nonsensical temperature is refused, not silently dropped.
+        let src = "band = \"x\"\ntsys_k = 0.0\n";
+        let scn: LinkBudgetScenario = toml::from_str(src).expect("parse");
+        assert!(
+            scn.run_json().is_err(),
+            "a non-positive noise temperature must be an error"
+        );
+    }
+
+    /// Every field the `units` block describes must actually exist in the report. A units
+    /// block naming a field nobody emits is worse than none: it reads as a promise the
+    /// report keeps elsewhere, and sends a reader looking for a number that is not there.
+    #[test]
+    fn the_units_block_describes_only_fields_that_exist() {
+        for extra in ["", "tsys_k = 300.0\n"] {
+            let src = format!(
+                "band = \"ka\"\neirp_dbw = 74.0\ng_over_t_db = 61.0\nrange_km = 3.6e8\n\
+                 data_rate_bps = 1.0e5\nother_losses_db = 4.0\nrequired_eb_n0_db = 1.0\n{extra}"
+            );
+            let scn: LinkBudgetScenario = toml::from_str(&src).expect("parse");
+            let (json, _) = scn.run_json().expect("run");
+            let v: serde_json::Value = serde_json::from_str(&json).expect("json");
+            let units = v["units"].as_object().expect("a units block");
+            assert!(!units.is_empty());
+            for (field, meta) in units {
+                let mut cur = &v;
+                for seg in field.split('.') {
+                    cur = cur.get(seg).unwrap_or_else(|| {
+                        panic!("units names {field}, which the report does not emit")
+                    });
+                }
+                assert!(
+                    meta.get("unit").and_then(|u| u.as_str()).is_some(),
+                    "{field} must state a unit"
+                );
+                assert!(
+                    meta.get("provenance").and_then(|u| u.as_str()).is_some(),
+                    "{field} must state a provenance class"
+                );
+            }
+            // The gain split is described exactly when it is emitted.
+            assert_eq!(
+                units.contains_key("receive_terminal.rx_gain_dbi"),
+                v.get("receive_terminal").is_some(),
+                "the units block and the report must agree on whether a gain split exists"
+            );
+        }
     }
 }
