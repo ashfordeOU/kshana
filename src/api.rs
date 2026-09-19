@@ -456,6 +456,10 @@ pub enum ScenarioKind {
     /// Lunar-VLBI station-coordinate covariance accumulated from the delay partials over a
     /// schedule of baselines and epochs.
     LunarVlbiFim,
+    /// Tracking-loop loss of lock: C/N0 thresholds with hysteresis, time to lose lock,
+    /// spoof pull-in versus code and carrier offset rate, and a loop-dynamics denial
+    /// radius reported alongside the power-ratio one.
+    TrackingLoop,
 }
 
 impl ScenarioKind {
@@ -516,6 +520,7 @@ impl ScenarioKind {
             ScenarioKind::LunarJamming => "lunar-jamming",
             ScenarioKind::InsTrnCoast => "ins-trn-coast",
             ScenarioKind::LunarVlbiFim => "lunar-vlbi-fim",
+            ScenarioKind::TrackingLoop => "tracking-loop",
         }
     }
 
@@ -580,6 +585,7 @@ impl ScenarioKind {
             "lunar-jamming" => ScenarioKind::LunarJamming,
             "ins-trn-coast" => ScenarioKind::InsTrnCoast,
             "lunar-vlbi-fim" => ScenarioKind::LunarVlbiFim,
+            "tracking-loop" => ScenarioKind::TrackingLoop,
             // Empty or unknown ⇒ the clock pack (historical default).
             _ => ScenarioKind::Clock,
         })
@@ -1925,6 +1931,18 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 csv: None,
             })
         }
+        ScenarioKind::TrackingLoop => {
+            let scn: crate::tracking_loop::TrackingLoopScenario =
+                toml::from_str(src).map_err(|e| format!("invalid tracking-loop scenario: {e}"))?;
+            let (json, summary) = scn.run_json()?;
+            let svg = minimal_svg(&summary);
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
+        }
         ScenarioKind::InsTrnCoast => {
             let scn: crate::inertial::coast::InsTrnCoastScenario =
                 toml::from_str(src).map_err(|e| format!("invalid ins-trn-coast scenario: {e}"))?;
@@ -2559,6 +2577,44 @@ mod tests {
         // The bundled TOML file is the same run.
         let file = run_toml(include_str!("../scenarios/aperture-duty-cycle.toml"))
             .expect("the bundled contact plan runs");
+        assert_eq!(file.json, out.json);
+    }
+
+    #[test]
+    fn tracking_loop_kind_round_trips_through_the_dispatch() {
+        // The tracking-loop kind dispatches end-to-end through the shared entry point the
+        // CLI/Python/wasm/MCP bindings all use, from a bare kind line. The acceptance
+        // contract travels with it: BOTH denial radii are present and their difference is
+        // a named field, so the loop-dynamics answer is reported alongside the existing
+        // power-ratio one rather than silently replacing it.
+        let src = "kind = \"tracking-loop\"\n";
+        assert_eq!(
+            ScenarioKind::classify(src).unwrap(),
+            ScenarioKind::TrackingLoop
+        );
+        let out = run_toml(src).expect("tracking-loop scenario dispatches");
+        assert!(out.json.starts_with('{'));
+        let v: serde_json::Value = serde_json::from_str(&out.json).unwrap();
+        assert_eq!(v["kind"], "tracking-loop");
+        let d = &v["denial"];
+        assert!(d["denial_radius_threshold_km"].as_f64().is_some());
+        assert!(d["denial_radius_loop_dynamics_km"].as_f64().is_some());
+        assert!(d["denial_radius_delta_km"].as_f64().is_some());
+        assert!(d["denial_radius_delta_definition"].is_string());
+        assert!(v["thresholds"]["hysteresis_db"].as_f64().is_some());
+        assert!(v["lock_history"]["declared_loss_of_lock_s"]
+            .as_f64()
+            .is_some());
+        assert!(v["spoof_pull_in"]["max_code_slew_chips_per_s"]
+            .as_f64()
+            .is_some());
+        assert!(v["units"]["denial.denial_radius_delta_km"]["provenance"].is_string());
+        assert!(v["label"].as_str().unwrap().contains("MODELLED"));
+        assert!(out.svg.starts_with("<svg"));
+        assert!(out.summary.contains("tracking-loop"));
+        // The bundled TOML file is the same run.
+        let file = run_toml(include_str!("../scenarios/tracking-loop.toml"))
+            .expect("the bundled tracking-loop scenario runs");
         assert_eq!(file.json, out.json);
     }
 }
