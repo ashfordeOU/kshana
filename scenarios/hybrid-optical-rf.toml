@@ -52,3 +52,19 @@ site_correlation = 0.15         # representative modest spatial (weather) correl
 fom_correlation   = 0.5         # positive co-occurrence of the three P5 conditions
 handoff_inflation = 0.2         # modality-transition covariance inflation at the switch
 p_hmi             = 1.0e-7      # integrity-risk budget
+
+# --- G15 bias / ramp fault injection against the cross-modality monitor ---
+# The minimum detectable bias and the detection-power curve are ANALYTIC (non-central
+# chi-square inversion), so they need no inputs of their own. These two only set the ramp
+# rate the reported time-to-detect is a rate conversion of. Both MODELLED.
+fault_ramp_rate_pos_m_s   = 0.05      # position-axis bias growth (m/s)
+fault_ramp_rate_clock_s_s = 1.0e-11   # clock-axis bias growth (s/s)
+
+# --- G17 post-handover coast: process noise and the alert-limit crossing ---
+# Random walk on the existing 4-state (east, north, up, clock) handoff filter. The alert
+# limits are the ones already declared above; only the process noise and the coverage
+# factor are new. Both PSDs are MODELLED representative inputs and the crossing times
+# scale directly with them.
+process_noise_pos_psd_m2_s   = 1.0e-3   # 1 m (1-sigma) of unmodelled growth per 1000 s, per axis
+process_noise_clock_psd_s2_s = 1.0e-22  # white-FM phase random walk at sigma_y(1 s) = 1e-11
+# coast_coverage_k                      # default Phi^-1(1 - P_HMI/2) = 5.327; uncomment to override
