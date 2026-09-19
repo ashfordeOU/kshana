@@ -21,7 +21,9 @@
 //! certified per-term number. Nothing here is certified for operational timekeeping.
 
 use crate::clock_specs::{x_clock_ns, LunarClock};
-use crate::lunar_time_budget::{default_tau_grid, lunar_time_budget, BudgetParams};
+use crate::lunar_time_budget::{
+    clock_crossover_table, default_tau_grid, lunar_time_budget, BudgetParams,
+};
 use serde::Deserialize;
 
 /// The honesty label carried on the result document.
@@ -33,8 +35,43 @@ Modelled budget allocations (documented defaults, caller-overridable), not measu
 The contribution is the reproducible clock-vs-frame crossover τ, not a certified per-term \
 number. Not certified for operational timekeeping.";
 
+/// Map a scenario clock-class string to a [`LunarClock`]. The single name mapping both the
+/// single-clock `clock` field and the per-clock `clocks` crossover list go through, so the two
+/// inputs can never drift apart on spelling or on what counts as an unknown name.
+fn parse_clock_name(name: &str) -> Result<LunarClock, String> {
+    match name {
+        "optical-master" => Ok(LunarClock::OpticalMaster),
+        "passive-h-maser" | "phm" => Ok(LunarClock::Phm),
+        "rafs" => Ok(LunarClock::Rafs),
+        "mini-rafs" => Ok(LunarClock::MiniRafs),
+        other => Err(format!(
+            "unknown clock {other:?}; expected one of optical-master, \
+             passive-h-maser, rafs, mini-rafs"
+        )),
+    }
+}
+
+/// Units + provenance class for the fields the per-clock crossover table adds to the result
+/// document. The rest of the document predates this block and is described in
+/// `docs/SCHEMA.md`; this names only what `clock_crossovers` introduces.
+fn crossover_units() -> serde_json::Value {
+    serde_json::json!({
+        "clock_crossovers.x_one_day_s": { "unit": "s", "provenance": "computed" },
+        "clock_crossovers.crossover_tau_s": { "unit": "s", "provenance": "computed" },
+        "clock_crossovers.crossover_tau_s_closed_form": {
+            "unit": "s",
+            "provenance": "closed-form"
+        },
+        "clock_crossovers.closed_form_rel_diff": {
+            "unit": "1",
+            "provenance": "internal-consistency"
+        }
+    })
+}
+
 /// The `lunar-time-budget` scenario. Every field is optional: with no fields the budget
-/// runs for a passive-H-maser master clock over the default 1 s … 1e7 s τ grid.
+/// runs for a passive-H-maser master clock over the default 1 s … 1e7 s τ grid, and the
+/// per-clock crossover table covers all four clock classes.
 #[derive(Clone, Debug, Default, Deserialize)]
 pub struct LunarTimeBudgetScenario {
     /// On-board clock class driving the (growing) clock term. One of `optical-master`,
@@ -46,20 +83,27 @@ pub struct LunarTimeBudgetScenario {
     pub tau_max_s: Option<f64>,
     /// Grid density (points per decade of τ). Default 8.
     pub points_per_decade: Option<u32>,
+    /// Clock classes for the per-clock `clock_crossovers` table — the whole of P3 Table 2 in
+    /// one run, every row against the same frame term. Names are the same set the `clock`
+    /// field accepts. Default: all four classes, best (optical) to coarsest (miniRAFS).
+    pub clocks: Option<Vec<String>>,
 }
 
 impl LunarTimeBudgetScenario {
     /// Resolve the requested clock-class string to a [`LunarClock`].
     fn resolve_clock(&self) -> Result<LunarClock, String> {
-        match self.clock.as_deref().unwrap_or("passive-h-maser") {
-            "optical-master" => Ok(LunarClock::OpticalMaster),
-            "passive-h-maser" | "phm" => Ok(LunarClock::Phm),
-            "rafs" => Ok(LunarClock::Rafs),
-            "mini-rafs" => Ok(LunarClock::MiniRafs),
-            other => Err(format!(
-                "unknown clock {other:?}; expected one of optical-master, \
-                 passive-h-maser, rafs, mini-rafs"
-            )),
+        parse_clock_name(self.clock.as_deref().unwrap_or("passive-h-maser"))
+    }
+
+    /// Resolve the clock classes for the per-clock crossover table. Default: all four, in
+    /// [`LunarClock::all`] order. An unknown name is an error, exactly as for `clock`.
+    fn resolve_crossover_clocks(&self) -> Result<Vec<LunarClock>, String> {
+        match &self.clocks {
+            None => Ok(LunarClock::all().to_vec()),
+            Some(names) if names.is_empty() => {
+                Err("clocks must name at least one clock class".to_string())
+            }
+            Some(names) => names.iter().map(|n| parse_clock_name(n)).collect(),
         }
     }
 
@@ -167,6 +211,12 @@ impl LunarTimeBudgetScenario {
         let params = BudgetParams::for_clock(clock);
         let budget = lunar_time_budget(&params, &taus);
 
+        // G10: the whole of P3 Table 2 from ONE run — a crossover row per clock class, every
+        // row bisected against the same frame term δr/c this budget uses, so the clock class
+        // is the only variable across the rows.
+        let crossovers =
+            clock_crossover_table(params.frame_pos_error_m, &self.resolve_crossover_clocks()?);
+
         // Serialize the budget document and stamp it with the kind + honesty label.
         let mut v = serde_json::to_value(&budget).map_err(|e| e.to_string())?;
         if let Some(obj) = v.as_object_mut() {
@@ -175,6 +225,11 @@ impl LunarTimeBudgetScenario {
                 serde_json::Value::from("lunar-time-budget"),
             );
             obj.insert("label".to_string(), serde_json::Value::from(LABEL));
+            obj.insert(
+                "clock_crossovers".to_string(),
+                serde_json::to_value(&crossovers).map_err(|e| e.to_string())?,
+            );
+            obj.insert("units".to_string(), crossover_units());
         }
         let json = serde_json::to_string_pretty(&v).map_err(|e| e.to_string())?;
 
@@ -261,6 +316,7 @@ mod tests {
             tau_min_s: Some(1.0),
             tau_max_s: Some(1.0e6),
             points_per_decade: Some(4),
+            ..Default::default()
         };
         let (json, _s) = scn.run_json().unwrap();
         let v: Value = serde_json::from_str(&json).unwrap();
@@ -381,5 +437,215 @@ mod tests {
         let _ = scn.to_csv().expect("csv");
         let (after, _) = scn.run_json().expect("json");
         assert_eq!(before, after);
+    }
+
+    /// P3 Table 2 as the paper prints it: `(clock, printed τ*, half of the last printed digit)`.
+    const P3_TABLE2: [(&str, f64, f64); 4] = [
+        ("optical-master", 9.607e6, 5.0e2),
+        ("passive-h-maser", 8.689e4, 5.0e0),
+        ("rafs", 1.001e4, 5.0e0),
+        ("mini-rafs", 3.78, 5.0e-3),
+    ];
+
+    fn crossovers_of(v: &Value) -> Vec<&Value> {
+        v["clock_crossovers"]
+            .as_array()
+            .expect("clock_crossovers array")
+            .iter()
+            .collect()
+    }
+
+    #[test]
+    fn one_run_emits_a_crossover_for_every_clock_class_in_order() {
+        // G10: a single default run must carry the whole per-clock crossover table, in
+        // LunarClock::all() order — not one crossover for whichever clock `clock` named.
+        let (json, _s) = LunarTimeBudgetScenario::default().run_json().unwrap();
+        let v: Value = serde_json::from_str(&json).unwrap();
+        let rows = crossovers_of(&v);
+        assert_eq!(rows.len(), 4, "expected four clock-crossover rows");
+        let got: Vec<&str> = rows.iter().map(|r| r["clock"].as_str().unwrap()).collect();
+        assert_eq!(
+            got,
+            vec!["optical-master", "passive-h-maser", "rafs", "mini-rafs"]
+        );
+        // Every row must carry the full field set.
+        for r in &rows {
+            for f in [
+                "clock",
+                "noise_type",
+                "x_one_day_s",
+                "crossover_tau_s",
+                "crossover_tau_s_closed_form",
+                "closed_form_rel_diff",
+            ] {
+                assert!(!r[f].is_null(), "row {} missing field {f}", r["clock"]);
+            }
+        }
+    }
+
+    #[test]
+    fn one_run_reproduces_p3_table_2() {
+        // ACCEPTANCE (G10). The four per-clock crossovers are ENGINE OUTPUTS of one run and
+        // must reproduce P3 Table 2 to the precision the paper prints:
+        //   optical-master 9.607e6 s | passive-h-maser 8.689e4 s (abstract 86894.3 s)
+        //   rafs 1.001e4 s           | mini-rafs 3.78 s
+        let (json, _s) = LunarTimeBudgetScenario::default().run_json().unwrap();
+        let v: Value = serde_json::from_str(&json).unwrap();
+        let rows = crossovers_of(&v);
+        for (r, (name, printed, half_ulp)) in rows.iter().zip(P3_TABLE2) {
+            assert_eq!(r["clock"].as_str().unwrap(), name);
+            let tau = r["crossover_tau_s"].as_f64().unwrap();
+            let d = (tau - printed).abs();
+            assert!(
+                d <= half_ulp,
+                "P3 Table 2 {name}: scenario τ* = {tau} s, paper prints {printed} s \
+                 (|Δ| = {d} s > half-ulp {half_ulp} s)"
+            );
+            // Each row's own internal check must be tight.
+            let rel = r["closed_form_rel_diff"].as_f64().unwrap();
+            assert!(
+                rel < 1e-12,
+                "{name}: bisected τ* {tau} vs closed form {} (rel diff {rel})",
+                r["crossover_tau_s_closed_form"]
+            );
+        }
+        // The abstract's one-decimal PHM figure.
+        let phm = rows
+            .iter()
+            .find(|r| r["clock"] == "passive-h-maser")
+            .unwrap();
+        let tau = phm["crossover_tau_s"].as_f64().unwrap();
+        assert!(
+            (tau - 86_894.3).abs() <= 0.05,
+            "P3 abstract: scenario PHM τ* = {tau} s vs printed 86894.3 s"
+        );
+    }
+
+    #[test]
+    fn the_table_row_for_the_selected_clock_matches_the_single_clock_crossover() {
+        // The per-clock table and the document's own single-clock crossover must agree — one
+        // model, not two. Checked for each selectable clock.
+        for name in ["optical-master", "passive-h-maser", "rafs", "mini-rafs"] {
+            let scn = LunarTimeBudgetScenario {
+                clock: Some(name.to_string()),
+                ..Default::default()
+            };
+            let (json, _s) = scn.run_json().unwrap();
+            let v: Value = serde_json::from_str(&json).unwrap();
+            let single = v["crossover_tau_s"].as_f64().unwrap();
+            let row = crossovers_of(&v)
+                .into_iter()
+                .find(|r| r["clock"] == name)
+                .unwrap_or_else(|| panic!("no crossover row for {name}"));
+            let tabled = row["crossover_tau_s"].as_f64().unwrap();
+            assert!(
+                (single - tabled).abs() / single < 1e-12,
+                "{name}: document crossover {single} vs table row {tabled}"
+            );
+        }
+    }
+
+    #[test]
+    fn every_row_shares_one_frame_term() {
+        // The clock must be the ONLY variable across rows: recover δr/c from each row's own
+        // noise law and check every row lands on the document's frame term.
+        let (json, _s) = LunarTimeBudgetScenario::default().run_json().unwrap();
+        let v: Value = serde_json::from_str(&json).unwrap();
+        let frame = v["frame_term_s"].as_f64().unwrap();
+        for r in crossovers_of(&v) {
+            let name = r["clock"].as_str().unwrap();
+            let clock = LunarClock::all()
+                .into_iter()
+                .find(|c| c.name() == name)
+                .unwrap();
+            let sigma_1s = sigma_y(&clock.powerlaw(), 1.0);
+            let tau = r["crossover_tau_s"].as_f64().unwrap();
+            let recovered = if clock.is_white_fm_limited() {
+                tau.sqrt() * sigma_1s
+            } else {
+                tau * sigma_1s
+            };
+            assert!(
+                (recovered - frame).abs() / frame < 1e-12,
+                "{name}: recovered frame term {recovered} ≠ document frame term {frame}"
+            );
+        }
+    }
+
+    #[test]
+    fn a_clocks_subset_is_honoured_in_the_requested_order() {
+        let scn = LunarTimeBudgetScenario {
+            clocks: Some(vec!["mini-rafs".into(), "phm".into()]),
+            ..Default::default()
+        };
+        let (json, _s) = scn.run_json().unwrap();
+        let v: Value = serde_json::from_str(&json).unwrap();
+        let got: Vec<&str> = crossovers_of(&v)
+            .iter()
+            .map(|r| r["clock"].as_str().unwrap())
+            .collect();
+        // `phm` is the documented alias of `passive-h-maser`, same as for the `clock` field.
+        assert_eq!(got, vec!["mini-rafs", "passive-h-maser"]);
+    }
+
+    #[test]
+    fn an_unknown_clocks_entry_is_rejected() {
+        let scn = LunarTimeBudgetScenario {
+            clocks: Some(vec!["passive-h-maser".into(), "sundial".into()]),
+            ..Default::default()
+        };
+        let err = scn
+            .run_json()
+            .expect_err("unknown clock name must be an error");
+        assert!(
+            err.contains("sundial") && err.contains("expected one of"),
+            "error must name the bad clock and the accepted set, got: {err}"
+        );
+        // An empty list is a mistake, not an implicit "all four".
+        let empty = LunarTimeBudgetScenario {
+            clocks: Some(vec![]),
+            ..Default::default()
+        };
+        assert!(empty.run_json().is_err());
+    }
+
+    #[test]
+    fn units_block_describes_the_new_fields() {
+        let (json, _s) = LunarTimeBudgetScenario::default().run_json().unwrap();
+        let v: Value = serde_json::from_str(&json).unwrap();
+        let units = v["units"].as_object().expect("units object");
+        for (key, unit) in [
+            ("clock_crossovers.x_one_day_s", "s"),
+            ("clock_crossovers.crossover_tau_s", "s"),
+            ("clock_crossovers.crossover_tau_s_closed_form", "s"),
+            ("clock_crossovers.closed_form_rel_diff", "1"),
+        ] {
+            let e = units
+                .get(key)
+                .unwrap_or_else(|| panic!("no units entry {key}"));
+            assert_eq!(e["unit"], unit, "{key} unit");
+            assert!(e["provenance"].is_string(), "{key} provenance class");
+        }
+        assert_eq!(units.len(), 4, "units must describe only the new fields");
+    }
+
+    #[test]
+    fn the_crossover_table_does_not_depend_on_the_tau_grid_or_the_selected_clock() {
+        // The table is a property of the clock classes and the frame term, so changing the
+        // grid or the headline clock must leave every row bit-identical.
+        let a = LunarTimeBudgetScenario::default().run_json().unwrap().0;
+        let b = LunarTimeBudgetScenario {
+            clock: Some("mini-rafs".into()),
+            tau_min_s: Some(0.5),
+            tau_max_s: Some(1.0e5),
+            points_per_decade: Some(3),
+            ..Default::default()
+        }
+        .run_json()
+        .unwrap()
+        .0;
+        let va: Value = serde_json::from_str(&a).unwrap();
+        let vb: Value = serde_json::from_str(&b).unwrap();
+        assert_eq!(va["clock_crossovers"], vb["clock_crossovers"]);
     }
 }
