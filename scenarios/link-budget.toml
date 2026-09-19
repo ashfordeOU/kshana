@@ -17,3 +17,9 @@ range_km = 2000.0
 data_rate_bps = 1.0e6
 other_losses_db = 3.0
 required_eb_n0_db = 4.5
+
+# Optional: the receive system noise temperature (K). It is NOT an input to the link
+# equation -- that needs only the ratio G/T -- but stating it lets the report also give
+# the receive antenna gain the figure of merit implies (G = G/T + 10*log10(T_sys)).
+# Left out, the gain split is absent from the report rather than assumed.
+# tsys_k = 300.0
