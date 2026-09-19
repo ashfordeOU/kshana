@@ -555,4 +555,4 @@ Fixtures and oracle-generator scripts live under
 These strengthen the evidence behind capabilities that remain **MODELLED** in the
 machine-checked matrix (`src/verification.rs`); they are regression checks, **not** new
 VALIDATED matrix rows, so they do not themselves change the machine-checked matrix count
-(currently **56 VALIDATED / 42 MODELLED / 4 PARTNER of 102**).
+(currently **56 VALIDATED / 43 MODELLED / 4 PARTNER of 103**).

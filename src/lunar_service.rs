@@ -42,8 +42,7 @@
 //! / LCNS public material; NASA/ESA LunaNet Interoperability Specification (LNIS).
 
 use crate::lunar::{
-    lunar_araim, mci_to_mcmf, selenographic_to_mcmf, Selenographic, LUNAR_SIGMA_URE_M,
-    MOON_GM_M3_S2, R_MOON_M,
+    mci_to_mcmf, selenographic_to_mcmf, Selenographic, LUNAR_SIGMA_URE_M, MOON_GM_M3_S2, R_MOON_M,
 };
 use crate::orbit::Dop;
 use crate::raim::IntegrityBudget;
@@ -131,7 +130,7 @@ impl LunarConstellation {
     }
 
     /// The default illustrative LCNS-class constellation: `n` satellites (clamped to
-    /// `[1, 12]`, default-call uses 4) phased evenly in mean anomaly on a shared
+    /// `[1, 24]`, default-call uses 4) phased evenly in mean anomaly on a shared
     /// inclined, eccentric, south-favouring elliptical lunar orbit. The orbit
     /// (`sma ≈ R_moon + 8000 km`, `e = 0.6`, `i = 57.7°`, `argp = 90°`) places apolune
     /// over the southern hemisphere so a south-pole user sees the satellites dwelling
@@ -254,6 +253,79 @@ fn unit_or_zero(v: Vec3) -> Vec3 {
     } else {
         [v[0] / n, v[1] / n, v[2] / n]
     }
+}
+
+/// Topocentric look angles and slant range from a lunar surface user to one satellite.
+///
+/// Returns `(azimuth_deg, elevation_deg, range_m)` in the user's local east-north-up
+/// frame, with azimuth measured clockwise from north in `[0, 360)`. Elevation is
+/// negative for a satellite below the local horizon, so the caller applies its own
+/// mask; this function does not filter.
+///
+/// The per-satellite slant range is what a link budget needs and what the aggregate
+/// coverage/DOP summary discards, so this is the geometry a joint communications and
+/// navigation analysis has to see. Pure geometry: deterministic, no randomness.
+pub fn topocentric(user_mcmf: Vec3, sat_mcmf: Vec3) -> (f64, f64, f64) {
+    fn cross3(a: Vec3, b: Vec3) -> Vec3 {
+        [
+            a[1] * b[2] - a[2] * b[1],
+            a[2] * b[0] - a[0] * b[2],
+            a[0] * b[1] - a[1] * b[0],
+        ]
+    }
+    fn norm3(v: Vec3) -> f64 {
+        dot(v, v).sqrt()
+    }
+    let up = unit_or_zero(user_mcmf);
+    // Local east/north from the body spin axis. At a pole the east direction is
+    // degenerate; fall back to the x axis so azimuth stays finite there.
+    let mut east = cross3([0.0, 0.0, 1.0], up);
+    if norm3(east) < 1e-12 {
+        east = [1.0, 0.0, 0.0];
+    } else {
+        east = unit_or_zero(east);
+    }
+    let north = unit_or_zero(cross3(up, east));
+    let d = [
+        sat_mcmf[0] - user_mcmf[0],
+        sat_mcmf[1] - user_mcmf[1],
+        sat_mcmf[2] - user_mcmf[2],
+    ];
+    let rng = norm3(d);
+    if rng < 1e-9 {
+        return (0.0, 90.0, 0.0);
+    }
+    let e = unit_or_zero(d);
+    let sin_el = dot(e, up).clamp(-1.0, 1.0);
+    let el_deg = sin_el.asin().to_degrees();
+    let az_deg = {
+        let a = dot(e, east).atan2(dot(e, north)).to_degrees();
+        if a < 0.0 {
+            a + 360.0
+        } else {
+            a
+        }
+    };
+    (az_deg, el_deg, rng)
+}
+
+/// One per-satellite geometry sample at one epoch for one site.
+#[derive(Clone, Debug, Serialize)]
+pub struct GeometrySample {
+    /// Seconds from scenario epoch.
+    pub t_s: f64,
+    /// Satellite index within the constellation.
+    pub sat: usize,
+    /// Azimuth from the site, degrees clockwise from local north, in `[0, 360)`.
+    /// MODELLED: the geometry is the illustrative constellation, not a flown ephemeris.
+    pub az_deg: f64,
+    /// Elevation above the site's local horizon plane, degrees, in `[-90, 90]`.
+    pub el_deg: f64,
+    /// Slant range from the site to the satellite, kilometres — the quantity a link
+    /// budget consumes, which the aggregate coverage summary collapses away.
+    pub range_km: f64,
+    /// Whether this satellite clears the scenario elevation mask at this epoch.
+    pub visible: bool,
 }
 
 /// Dilution of precision at a lunar surface user from the visible satellites — a thin
@@ -482,13 +554,32 @@ pub fn lunar_protection_level(
     sats_mcmf: &[Vec3],
     budget: IntegrityBudget,
 ) -> Option<ProtLevel> {
+    lunar_protection_level_with_sigma(user_selenographic, sats_mcmf, LUNAR_SIGMA_URE_M, budget)
+}
+
+/// As [`lunar_protection_level`], but with the signal-in-space ranging accuracy
+/// `sigma_ure_m` as an explicit parameter.
+///
+/// Protection levels are linear and homogeneous in the ranging sigma when the
+/// nominal bias is zero, so exposing it lets a service-volume sweep answer what
+/// ranging accuracy an alert limit requires, rather than only whether a fixed
+/// LNIS-class value passes. Passing `LUNAR_SIGMA_URE_M` reproduces
+/// [`lunar_protection_level`] bit-for-bit.
+pub fn lunar_protection_level_with_sigma(
+    user_selenographic: Selenographic,
+    sats_mcmf: &[Vec3],
+    sigma_ure_m: f64,
+    budget: IntegrityBudget,
+) -> Option<ProtLevel> {
     let user = selenographic_to_mcmf(user_selenographic);
     let resid = vec![0.0; sats_mcmf.len()];
-    lunar_araim(user, sats_mcmf, &resid, budget).map(|r| ProtLevel {
-        hpl_m: r.hpl_m,
-        vpl_m: r.vpl_m,
-        n_used: r.n_used,
-        sigma_ure_m: LUNAR_SIGMA_URE_M,
+    crate::lunar::lunar_araim_with_sigma(user, sats_mcmf, &resid, sigma_ure_m, budget).map(|r| {
+        ProtLevel {
+            hpl_m: r.hpl_m,
+            vpl_m: r.vpl_m,
+            n_used: r.n_used,
+            sigma_ure_m,
+        }
     })
 }
 
@@ -566,6 +657,9 @@ fn d_alert_limit_m() -> f64 {
 fn d_p_hmi() -> f64 {
     1e-4
 }
+fn d_sigma_ure_m() -> f64 {
+    LUNAR_SIGMA_URE_M
+}
 
 /// A runnable lunar navigation **service-volume** scenario. The TOML
 /// `kind = "moonlight-service-volume"` entry the engine dispatches here builds an
@@ -577,7 +671,7 @@ fn d_p_hmi() -> f64 {
 /// docs for the honesty boundary.
 #[derive(Clone, Copy, Debug, Deserialize)]
 pub struct LunarServiceScenario {
-    /// Number of satellites in the illustrative constellation (1–12).
+    /// Number of satellites in the illustrative constellation (1 to 24).
     #[serde(default = "d_n_sats")]
     pub n_sats: usize,
     /// Semi-major axis (km).
@@ -628,6 +722,12 @@ pub struct LunarServiceScenario {
     /// Integrity-risk budget `P_HMI`.
     #[serde(default = "d_p_hmi")]
     pub p_hmi: f64,
+    /// Signal-in-space ranging accuracy (m, 1-sigma user range error). Defaults to
+    /// the LNIS-class [`LUNAR_SIGMA_URE_M`]. Protection levels are linear in this,
+    /// so sweeping it turns the sweep into a ranging-accuracy requirement over the
+    /// whole service volume rather than a pass/fail at one fixed value.
+    #[serde(default = "d_sigma_ure_m")]
+    pub sigma_ure_m: f64,
     /// Run the sweep against the **perturbed** constellation twin (lunar J2 + C22 + Earth/Sun
     /// third body, each satellite numerically propagated from its epoch elements) instead of the
     /// idealized Keplerian constellation. Off by default. The perturbation MECHANISM and its
@@ -637,6 +737,20 @@ pub struct LunarServiceScenario {
     /// far heavier than the closed-form Keplerian path, so keep the horizon / step modest.
     #[serde(default)]
     pub perturbed: bool,
+    /// Optional per-satellite geometry export: selenographic latitude (deg) of one
+    /// site. When both this and `export_site_lon_deg` are set, the report carries a
+    /// `per_sat_geometry` array giving azimuth, elevation and slant range to every
+    /// satellite at every epoch for that one site.
+    ///
+    /// The aggregate coverage and DOP summary deliberately collapses per-satellite
+    /// geometry, but slant range is exactly what a link budget consumes, so a joint
+    /// communications-and-navigation analysis cannot be done from the summary alone.
+    /// Purely additive: leaving these unset reproduces the previous report exactly.
+    #[serde(default)]
+    pub export_site_lat_deg: Option<f64>,
+    /// Selenographic longitude (deg) of the per-satellite geometry export site.
+    #[serde(default)]
+    pub export_site_lon_deg: Option<f64>,
 }
 
 impl Default for LunarServiceScenario {
@@ -659,7 +773,10 @@ impl Default for LunarServiceScenario {
             pdop_threshold: d_pdop_threshold(),
             alert_limit_m: d_alert_limit_m(),
             p_hmi: d_p_hmi(),
+            sigma_ure_m: d_sigma_ure_m(),
             perturbed: false,
+            export_site_lat_deg: None,
+            export_site_lon_deg: None,
         }
     }
 }
@@ -696,6 +813,10 @@ pub struct LunarServiceReport {
     pub n_pl_samples: usize,
     /// Fraction of PL samples with HPL ≤ alert limit, as a percentage.
     pub pl_availability_pct: f64,
+    /// Per-satellite azimuth, elevation and slant range for the optional export site.
+    /// `None` unless both `export_site_lat_deg` and `export_site_lon_deg` are set.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub per_sat_geometry: Option<Vec<GeometrySample>>,
     /// Honest scope note (illustrative / modelled).
     pub note: &'static str,
     /// True when the sweep ran against the perturbed (J2/C22/third-body) constellation twin
@@ -785,7 +906,12 @@ impl LunarServiceScenario {
     /// geometry; no randomness).
     pub fn run(&self) -> LunarServiceReport {
         let sma_m = self.sma_km * 1000.0;
-        let n = self.n_sats.clamp(1, 12);
+        // The constellation builder's cap was lifted to 24 (see
+        // `illustrative_lcns`, and the L10 test asserting it), but this scenario
+        // clamp was left at the old value of 12, so any requested count above 12
+        // was silently reduced and an N-sweep appeared to saturate there. Align
+        // the two so larger constellations are actually evaluated.
+        let n = self.n_sats.clamp(1, 24);
         let sats: Vec<LunarSat> = (0..n)
             .map(|k| LunarSat {
                 sma_m,
@@ -867,7 +993,9 @@ impl LunarServiceScenario {
                 // gate as the DOP path.
                 let user = selenographic_to_mcmf(g);
                 let vis = visible_sat_positions(user, &sats_mcmf, elev_mask_rad);
-                if let Some(pl) = lunar_protection_level(g, &vis, budget) {
+                if let Some(pl) =
+                    lunar_protection_level_with_sigma(g, &vis, self.sigma_ure_m, budget)
+                {
                     hpl_min = hpl_min.min(pl.hpl_m);
                     hpl_max = hpl_max.max(pl.hpl_m);
                     vpl_min = vpl_min.min(pl.vpl_m);
@@ -880,6 +1008,36 @@ impl LunarServiceScenario {
             }
         }
 
+        // Optional per-satellite geometry export for one site (additive; None by default).
+        let geom: Option<Vec<GeometrySample>> =
+            match (self.export_site_lat_deg, self.export_site_lon_deg) {
+                (Some(lat), Some(lon)) => {
+                    let site = Selenographic {
+                        lat_rad: lat.to_radians(),
+                        lon_rad: lon.to_radians(),
+                        alt_m: 0.0,
+                    };
+                    let user = selenographic_to_mcmf(site);
+                    let mut out = Vec::new();
+                    for &t in &times {
+                        let sats_mcmf = constellation.positions_mcmf(t);
+                        for (k, &sp) in sats_mcmf.iter().enumerate() {
+                            let (az, el, rng_m) = topocentric(user, sp);
+                            out.push(GeometrySample {
+                                t_s: t,
+                                sat: k,
+                                az_deg: az,
+                                el_deg: el,
+                                range_km: rng_m / 1000.0,
+                                visible: el >= self.elev_mask_deg,
+                            });
+                        }
+                    }
+                    Some(out)
+                }
+                _ => None,
+            };
+
         LunarServiceReport {
             n_sats: n,
             n_grid_points: grid.len(),
@@ -888,7 +1046,7 @@ impl LunarServiceScenario {
             elev_mask_deg: self.elev_mask_deg,
             pdop_threshold: self.pdop_threshold,
             alert_limit_m: self.alert_limit_m,
-            sigma_ure_m: LUNAR_SIGMA_URE_M,
+            sigma_ure_m: self.sigma_ure_m,
             coverage_pct: stats.coverage_fraction * 100.0,
             min_sats: stats.min_sats,
             max_sats: stats.max_sats,
@@ -905,6 +1063,7 @@ impl LunarServiceScenario {
             } else {
                 n_pl_avail as f64 / n_pl as f64 * 100.0
             },
+            per_sat_geometry: geom,
             note: "Illustrative, public-source LCNS-class constellation; not affiliated with ESA. \
                    DOP geometry reuses the gnss_lib_py-validated kernel; coverage/integrity MODELLED.",
             perturbed,
@@ -1245,5 +1404,251 @@ mod tests {
         let json = serde_json::to_string(&r).unwrap();
         assert!(json.contains("not affiliated with ESA"));
         assert!(json.contains("MODELLED"));
+    }
+
+    /// `topocentric` against geometry whose answer is known without running the code:
+    /// straight overhead is elevation 90 deg; a satellite displaced due north / due east
+    /// of an equatorial site on the local horizon plane takes azimuth 0 / 90 deg; and the
+    /// slant range is the Euclidean distance.
+    #[test]
+    fn topocentric_matches_hand_computed_geometry() {
+        // Equatorial site on the prime meridian: up = +x, east = +y, north = +z.
+        let user = [R_MOON_M, 0.0, 0.0];
+
+        let (_, el, rng) = topocentric(user, [R_MOON_M + 1000.0, 0.0, 0.0]);
+        assert!((el - 90.0).abs() < 1e-9, "straight up is 90 deg, got {el}");
+        assert!((rng - 1000.0).abs() < 1e-6, "range {rng}");
+
+        let (az, el, _) = topocentric(user, [R_MOON_M, 0.0, 1000.0]);
+        assert!(
+            el.abs() < 1e-9,
+            "horizon-plane target has zero elevation, got {el}"
+        );
+        assert!((az - 0.0).abs() < 1e-9, "due north is azimuth 0, got {az}");
+
+        let (az, el, _) = topocentric(user, [R_MOON_M, 1000.0, 0.0]);
+        assert!(
+            el.abs() < 1e-9,
+            "horizon-plane target has zero elevation, got {el}"
+        );
+        assert!((az - 90.0).abs() < 1e-9, "due east is azimuth 90, got {az}");
+
+        let (az, _, _) = topocentric(user, [R_MOON_M, -1000.0, 0.0]);
+        assert!(
+            (az - 270.0).abs() < 1e-9,
+            "due west is azimuth 270, got {az}"
+        );
+
+        // Below the horizon plane, on the far side of the Moon: negative elevation.
+        let (_, el, _) = topocentric(user, [-(R_MOON_M + 1000.0), 0.0, 0.0]);
+        assert!(
+            el < -80.0,
+            "antipodal target is far below the horizon, got {el}"
+        );
+
+        // A polar site has a degenerate east direction; azimuth must stay finite there.
+        let (az, el, rng) = topocentric([0.0, 0.0, R_MOON_M], [0.0, 0.0, R_MOON_M + 500.0]);
+        assert!(az.is_finite() && el.is_finite() && rng.is_finite());
+        assert!((el - 90.0).abs() < 1e-9);
+    }
+
+    /// The geometry export and the visibility filter are two SEPARATE pieces of code
+    /// reading the same geometry (`topocentric` takes an arcsine, `visible_sat_positions`
+    /// compares a dot product against sin(mask)). If they ever disagree, the exported
+    /// `visible` flag would contradict the coverage statistics computed beside it, so
+    /// this pins them together over a whole sweep.
+    #[test]
+    fn exported_geometry_agrees_with_the_visibility_filter() {
+        let scn = LunarServiceScenario {
+            n_sats: 8,
+            horizon_hours: 6.0,
+            step_min: 30.0,
+            elev_mask_deg: 5.0,
+            export_site_lat_deg: Some(-89.0),
+            export_site_lon_deg: Some(0.0),
+            ..LunarServiceScenario::default()
+        };
+        let r = scn.run();
+        let geom = r
+            .per_sat_geometry
+            .as_ref()
+            .expect("the export site is set, so the report must carry the geometry");
+        assert!(!geom.is_empty());
+
+        let site = Selenographic {
+            lat_rad: (-89.0f64).to_radians(),
+            lon_rad: 0.0,
+            alt_m: 0.0,
+        };
+        let user = selenographic_to_mcmf(site);
+        // The same illustrative constellation `run` builds for this satellite count.
+        let sma_m = scn.sma_km * 1000.0;
+        let n = scn.n_sats;
+        let constellation = LunarConstellation::new(
+            (0..n)
+                .map(|k| LunarSat {
+                    sma_m,
+                    eccentricity: scn.eccentricity,
+                    inc_deg: scn.inc_deg,
+                    raan_deg: 360.0 * (k as f64) / (n as f64),
+                    argp_deg: scn.argp_deg,
+                    mean_anom_deg: 360.0 * (k as f64) / (n as f64),
+                })
+                .collect(),
+        );
+        let mask_rad = scn.elev_mask_deg.to_radians();
+
+        let mut checked = 0usize;
+        let mut times: Vec<f64> = geom.iter().map(|g| g.t_s).collect();
+        times.dedup();
+        for &t in &times {
+            let sats = constellation.positions_mcmf(t);
+            let vis = visible_sat_positions(user, &sats, mask_rad);
+            let n_vis_filter = vis.len();
+            let n_vis_export = geom.iter().filter(|g| g.t_s == t && g.visible).count();
+            assert_eq!(
+                n_vis_filter, n_vis_export,
+                "at t = {t} the visibility filter sees {n_vis_filter} satellites but the \
+                 export flags {n_vis_export}"
+            );
+            checked += 1;
+        }
+        assert!(
+            checked >= 12,
+            "the sweep must cover the whole horizon, got {checked} epochs"
+        );
+
+        // Every exported flag is exactly the mask applied to the exported elevation, and
+        // every exported range is positive and finite.
+        for g in geom {
+            assert_eq!(
+                g.visible,
+                g.el_deg >= scn.elev_mask_deg,
+                "sat {} at t = {}: visible={} but el={} against a {} deg mask",
+                g.sat,
+                g.t_s,
+                g.visible,
+                g.el_deg,
+                scn.elev_mask_deg
+            );
+            assert!(
+                (0.0..360.0).contains(&g.az_deg),
+                "azimuth out of range: {}",
+                g.az_deg
+            );
+            assert!(
+                (-90.0..=90.0).contains(&g.el_deg),
+                "elevation out of range: {}",
+                g.el_deg
+            );
+            assert!(g.range_km.is_finite() && g.range_km > 0.0);
+        }
+    }
+
+    /// The export is purely additive: with no export site the report carries no geometry
+    /// and is byte-identical to the same scenario before the export existed.
+    #[test]
+    fn geometry_export_is_off_by_default_and_changes_nothing() {
+        let plain = LunarServiceScenario::default();
+        let with_site = LunarServiceScenario {
+            export_site_lat_deg: Some(-89.0),
+            export_site_lon_deg: Some(0.0),
+            ..LunarServiceScenario::default()
+        };
+        let a = plain.run();
+        let b = with_site.run();
+        assert!(
+            a.per_sat_geometry.is_none(),
+            "the export must be off by default"
+        );
+        assert!(b.per_sat_geometry.is_some());
+
+        // Everything the report said before the export existed is unchanged by it.
+        let mut va = serde_json::to_value(&a).unwrap();
+        let mut vb = serde_json::to_value(&b).unwrap();
+        va.as_object_mut().unwrap().remove("per_sat_geometry");
+        vb.as_object_mut().unwrap().remove("per_sat_geometry");
+        assert_eq!(va, vb);
+    }
+
+    /// One latitude/longitude alone is not enough to place a site, so the export stays
+    /// off unless BOTH coordinates are given.
+    #[test]
+    fn geometry_export_needs_both_coordinates() {
+        for (lat, lon) in [(Some(-89.0), None), (None, Some(0.0))] {
+            let scn = LunarServiceScenario {
+                export_site_lat_deg: lat,
+                export_site_lon_deg: lon,
+                ..LunarServiceScenario::default()
+            };
+            assert!(
+                scn.run().per_sat_geometry.is_none(),
+                "a half-specified site ({lat:?}, {lon:?}) must not produce an export"
+            );
+        }
+    }
+
+    /// The signal-in-space ranging accuracy is exposed as a scenario parameter, and the
+    /// protection levels are exactly linear in it — which is what makes the sweep a
+    /// ranging-accuracy REQUIREMENT over the service volume rather than a pass/fail at
+    /// one fixed value. At the default value the report is unchanged.
+    #[test]
+    fn protection_levels_are_linear_in_the_exposed_sigma() {
+        let base = LunarServiceScenario {
+            n_sats: 8,
+            horizon_hours: 6.0,
+            ..LunarServiceScenario::default()
+        };
+        let at_default = base.run();
+        assert!((at_default.sigma_ure_m - LUNAR_SIGMA_URE_M).abs() < 1e-12);
+
+        let unit = LunarServiceScenario {
+            sigma_ure_m: 1.0,
+            ..base
+        }
+        .run();
+        let ten = LunarServiceScenario {
+            sigma_ure_m: 10.0,
+            ..base
+        }
+        .run();
+        assert!(
+            (ten.hpl_min_m - 10.0 * unit.hpl_min_m).abs() < 1e-9 * ten.hpl_min_m.abs(),
+            "HPL must scale exactly with sigma: {} vs {}",
+            ten.hpl_min_m,
+            10.0 * unit.hpl_min_m
+        );
+        assert!(
+            (ten.vpl_max_m - 10.0 * unit.vpl_max_m).abs() < 1e-9 * ten.vpl_max_m.abs(),
+            "VPL must scale exactly with sigma"
+        );
+        // The geometry underneath is untouched by a ranging-accuracy change.
+        assert_eq!(unit.coverage_pct, ten.coverage_pct);
+        assert_eq!(unit.min_sats, ten.min_sats);
+        assert_eq!(unit.max_sats, ten.max_sats);
+    }
+
+    /// The service-volume constellation builder supports 24 satellites, and the scenario
+    /// must not silently truncate below that: a satellite-count sweep that saturates at a
+    /// clamp looks exactly like a geometry result, which is the more dangerous failure.
+    #[test]
+    fn satellite_count_is_not_clamped_below_the_builder_limit() {
+        let mk = |n: usize| LunarServiceScenario {
+            n_sats: n,
+            horizon_hours: 3.0,
+            ..LunarServiceScenario::default()
+        };
+        let a = mk(16).run();
+        let b = mk(24).run();
+        assert_eq!(a.n_sats, 16);
+        assert_eq!(b.n_sats, 24);
+        assert_ne!(
+            (a.coverage_pct, a.pdop_mean),
+            (b.coverage_pct, b.pdop_mean),
+            "16 and 24 satellites must not report identical geometry — that is what a \
+             stale clamp looks like"
+        );
+        // Above the builder limit the scenario still clamps, and says 24.
+        assert_eq!(mk(40).run().n_sats, 24);
     }
 }
