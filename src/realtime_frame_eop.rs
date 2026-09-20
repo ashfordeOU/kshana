@@ -60,10 +60,14 @@
 //!   least-squares/AR algorithm). Not a certified real-time frame product.
 
 use crate::frame_eop::{
-    derived_frame_realization_floor_m, frame_eop_svg, frame_error_budget,
-    joint_eop_error_vs_horizon, pm_prediction_error_vs_horizon, predicted_rows_summary,
-    predicted_vs_final_ut1, prediction_error_vs_horizon, FrameErrorBudget, Horizon, HorizonError,
-    JointEopError, PredictedRowsSummary, C_M_S, D_EM_M, LEVER_M_PER_S, OMEGA_EARTH_RAD_S,
+    archived_vintage_comparison, bulletin_a_agreement, derived_frame_realization_floor_m,
+    equivalent_horizon_days, frame_eop_svg, frame_error_budget, joint_eop_error_vs_horizon,
+    latest_operational_fits, operational_vs_persistence_vs_horizon, pm_prediction_error_vs_horizon,
+    predicted_rows_summary, predicted_vs_final_ut1, prediction_error_vs_horizon,
+    ArchivedVintageRow, BulletinAAgreement, FrameErrorBudget, Horizon, HorizonError, JointEopError,
+    OperationalFit, OperationalPredictorConfig, PredictedRowsSummary, PredictorComparisonRow,
+    PredictorError, C_M_S, DEFAULT_OPERATIONAL_WINDOW_DAYS, D_EM_M, LEVER_M_PER_S,
+    OMEGA_EARTH_RAD_S,
 };
 use crate::frames::arcsec;
 use crate::lunar_frame_predict::{
@@ -147,6 +151,20 @@ pub struct RealtimeFrameEopScenario {
     /// single instantaneous fetch carries predictions only for dates that do not yet have a
     /// final, so no residual exists to measure and none is synthesised.
     pub eop_finals2000a_later: Option<String>,
+    /// G13 — least-squares fitting window (days) of the **operational-style** Earth-orientation
+    /// predictor that Table 5 scores against persistence. Default
+    /// [`crate::frame_eop::DEFAULT_OPERATIONAL_WINDOW_DAYS`]; set it to 365 against a real
+    /// year-long `finals2000A` product to get the IERS Bulletin A window (which then also
+    /// admits the annual, semi-annual and Chandler terms).
+    pub operational_window_days: Option<f64>,
+    /// G13 — how many cycles of a periodic term the fitting window must span before that
+    /// term is admitted to the design matrix. Default 0.5. Terms that fail are reported as
+    /// rejected, with the cycles the window spans, rather than silently dropped.
+    pub operational_min_cycle_fraction: Option<f64>,
+    /// G13 — carry the last in-window fit residual forward onto every forecast (default
+    /// `true`), the zero-decay limit of the autoregressive residual stage IERS runs after
+    /// its least-squares extrapolation. `false` gives the bare least-squares extrapolation.
+    pub operational_anchor_residual: Option<bool>,
 }
 
 /// One Table 1 row: a frame position (m) and its L19-equivalent UT1 error and light-time.
@@ -199,6 +217,22 @@ struct Computed {
     predicted_rows: PredictedRowsSummary,
     measured_pm_floor_mas: Option<f64>,
     frame_realization_floor_derived: bool,
+    /// G13 — the operational-predictor configuration in force.
+    op_cfg: OperationalPredictorConfig,
+    /// G13 — Table 5: the operational predictor and persistence scored side by side
+    /// against the later-published Bulletin B final, over one identical epoch set.
+    op_vs_pers: Vec<PredictorComparisonRow>,
+    /// G13 — Table 6: the archived-vintage comparison; empty unless a later vintage was
+    /// supplied and it matched a prediction row of the as-issued vintage.
+    archived: Vec<ArchivedVintageRow>,
+    /// G13 — how this crate's forecast compares with the genuine archived Bulletin A
+    /// prediction rows the in-force product publishes.
+    bulletin_a: Option<BulletinAAgreement>,
+    /// G13 — a representative UT1 fit (at the series' last issue epoch) for the model
+    /// block, so the admitted and rejected terms are visible in the report.
+    rep_ut1_fit: Option<OperationalFit>,
+    /// G13 — the polar-motion twin of [`Computed::rep_ut1_fit`] (the `x_p` fit).
+    rep_pm_fit: Option<OperationalFit>,
 }
 
 impl RealtimeFrameEopScenario {
@@ -325,6 +359,23 @@ impl RealtimeFrameEopScenario {
             })
             .collect();
 
+        // G13 — the operational-style predictor, scored predicted-vs-final against the
+        // later-published Bulletin B final, with persistence beside it over the SAME
+        // epochs and the SAME truth so the two differ only in the predictor.
+        let op_cfg = self.op_config();
+        let op_vs_pers = operational_vs_persistence_vs_horizon(&body, &horizons, &op_cfg);
+        let (rep_ut1_fit, rep_pm_fit) = latest_operational_fits(&body, &op_cfg);
+        let bulletin_a = bulletin_a_agreement(&body, &op_cfg);
+        // G13 — the archived-vintage path: only a genuine second vintage can populate it.
+        let archived = match &self.eop_finals2000a_later {
+            Some(path) => {
+                let later = std::fs::read_to_string(path)
+                    .map_err(|e| format!("cannot read later-vintage EOP file {path}: {e}"))?;
+                archived_vintage_comparison(&body, &later, &horizons, &op_cfg)
+            }
+            None => Vec::new(),
+        };
+
         // G14 — the JOINT UT1 + polar-motion table: both quantities and their quadrature
         // combination reduced over one IDENTICAL row set, so the combination is a joint
         // statistic rather than the root-sum-square of two differently-sized samples.
@@ -360,7 +411,30 @@ impl RealtimeFrameEopScenario {
             predicted_rows,
             measured_pm_floor_mas,
             frame_realization_floor_derived: self.frame_realization_floor_m.is_none(),
+            op_cfg,
+            op_vs_pers,
+            archived,
+            bulletin_a,
+            rep_ut1_fit,
+            rep_pm_fit,
         })
+    }
+
+    /// G13 — the operational-predictor configuration in force: the crate defaults with
+    /// whichever of the three scenario overrides were supplied.
+    fn op_config(&self) -> OperationalPredictorConfig {
+        let d = OperationalPredictorConfig::default();
+        OperationalPredictorConfig {
+            window_days: self
+                .operational_window_days
+                .unwrap_or(DEFAULT_OPERATIONAL_WINDOW_DAYS),
+            min_cycle_fraction: self
+                .operational_min_cycle_fraction
+                .unwrap_or(d.min_cycle_fraction),
+            anchor_residual: self
+                .operational_anchor_residual
+                .unwrap_or(d.anchor_residual),
+        }
     }
 
     /// The horizon list: the rapid-minus-final floor plus each requested lead time.
@@ -499,7 +573,7 @@ impl RealtimeFrameEopScenario {
             .collect();
         let (pvf_status, pvf_statement) = predicted_vs_final_status(c);
 
-        let doc = serde_json::json!({
+        let mut doc = serde_json::json!({
             "kind": "realtime-frame-eop",
             "label": LABEL,
             "epoch": c.epoch,
@@ -570,7 +644,261 @@ impl RealtimeFrameEopScenario {
                 "total_time_ns": c.budget.total_time_ns,
             },
         });
+        // G13 — three new top-level blocks, added beside the P4 tables and changing none
+        // of them, plus the unit/provenance map for every numeric field of the document.
+        doc["operational_predictor_model"] = self.operational_model_json(c);
+        doc["table5_operational_vs_persistence"] = self.table5_json(c);
+        doc["table6_archived_vintage_predicted_vs_final"] = self.table6_json(c);
+        doc["units"] = units_block();
         serde_json::to_string_pretty(&doc).map_err(|e| e.to_string())
+    }
+
+    /// G13 — the model block: what the operational predictor actually is, the window and
+    /// admission threshold in force, the terms it admitted and rejected on this input, and
+    /// its agreement with the published Bulletin A prediction rows.
+    fn operational_model_json(&self, c: &Computed) -> serde_json::Value {
+        let fit = |f: &Option<OperationalFit>| match f {
+            Some(f) => fit_json(f),
+            None => serde_json::json!({
+                "status": "no-complete-window",
+                "statement": "No fit is reported for this input: the configured window does \
+                              not fit inside the supplied series, and a partial window is \
+                              refused rather than quietly shortened.",
+            }),
+        };
+        let agreement = match &c.bulletin_a {
+            Some(a) => bulletin_a_json(a),
+            None => serde_json::json!({
+                "status": "no-published-prediction-rows",
+                "statement": "EMPTY, and deliberately so: this check compares the forecast \
+                              against the GENUINE Bulletin A prediction rows a real product \
+                              publishes past its own data cutoff. The input in force either \
+                              carries none (a final-only excerpt) or gives the fit no \
+                              complete window at that cutoff. Nothing is invented to fill it.",
+            }),
+        };
+        serde_json::json!({
+            "label": G13_LABEL,
+            "name": "least-squares bias + rate + principal periodic terms over a trailing \
+                     window, extrapolated, with the last in-window residual carried forward",
+            "model": "y(t) = a + b·(t−T)/W + Σₖ [cₖ·cos(2π(t−T)/Pₖ) + sₖ·sin(2π(t−T)/Pₖ)] + r, \
+                      where T is the issue epoch, W the window, Pₖ the admitted periods and r \
+                      the residual at the last in-window observation.",
+            "window_days": c.op_cfg.window_days,
+            "window_rule": "observations in [T − window_days, T]; the window must be COMPLETE \
+                            (the series must reach back to its start) or no forecast is issued \
+                            at that epoch. The fit never sees an observation later than T, and \
+                            each Table 5 row emits `min_fit_lead_days` as the proof.",
+            "min_cycle_fraction": c.op_cfg.min_cycle_fraction,
+            "residual_anchored": c.op_cfg.anchor_residual,
+            "candidate_terms_ut1": ["bias", "rate", "annual", "semi-annual",
+                                    "monthly-zonal-tide", "fortnightly-zonal-tide"],
+            "candidate_terms_polar_motion": ["bias", "rate", "chandler", "annual", "semi-annual"],
+            "fitted_on": "the rapid Bulletin A columns ONLY — the product a real-time user \
+                          holds at the issue epoch. A Bulletin B final never enters a fit; it \
+                          is used only as the truth at the target epoch.",
+            "leap_seconds": "UT1 is fitted as UT1−TAI and restored to UT1−UTC at the target \
+                             epoch, so a leap second inside a window or a forecast is a step in \
+                             neither predictor. The same restoration is applied to persistence.",
+            "reference_algorithm": "IERS Bulletin A: a least-squares bias + rate + annual + \
+                                    semi-annual fit over the last 365 days of tide-reduced UT1R \
+                                    (and bias + rate + Chandler + annual for the pole), followed \
+                                    by an autoregressive model of the fit residuals.",
+            "declared_deviations": [
+                "The autoregressive residual stage is NOT reproduced. Carrying the last \
+                 in-window residual forward is its zero-decay limit.",
+                "The tabulated IERS Conventions zonal-tide reduction to UT1R is NOT \
+                 reproduced. The two principal zonal-tide periods (Mm, Mf) are carried as \
+                 fitted cos/sin pairs instead, with the amplitude estimated over the window \
+                 rather than tabulated.",
+                "The 365-day operational window is not reachable with the series committed \
+                 here; the window is a scenario input and the value in force is reported \
+                 above, together with the periodic terms it was too short to admit.",
+                "This is the model CLASS Bulletin A uses. It is not Bulletin A, and the \
+                 `published_bulletin_a_agreement` block below measures how far apart the two \
+                 are at each lead on whichever real product carries prediction rows.",
+            ],
+            "representative_fit": {
+                "note": "The UT1 and x_p models as they stand at the LAST epoch of the input \
+                         series — the most recent forecast this product could have issued. \
+                         Reported so the admitted and rejected terms are visible as data \
+                         rather than asserted in prose.",
+                "ut1": fit(&c.rep_ut1_fit),
+                "polar_motion_xp": fit(&c.rep_pm_fit),
+            },
+            "published_bulletin_a_agreement": agreement,
+        })
+    }
+
+    /// G13 — Table 5: the operational predictor and persistence, scored predicted-versus-
+    /// final over one identical epoch set.
+    fn table5_json(&self, c: &Computed) -> serde_json::Value {
+        let rows: Vec<serde_json::Value> = c
+            .op_vs_pers
+            .iter()
+            .map(|r| {
+                serde_json::json!({
+                    "horizon": horizon_label(r.horizon),
+                    "horizon_days": r.horizon.days(),
+                    "n": r.n,
+                    "epochs_mjd": r.epochs_mjd,
+                    "target_mjds": r.target_mjds,
+                    "min_fit_lead_days": r.min_fit_lead_days,
+                    "fit_rows_min": r.fit_rows_min,
+                    "fit_rows_max": r.fit_rows_max,
+                    "ut1": quantity_pair_json("ut1", &r.ut1_operational, &r.ut1_persistence),
+                    "polar_motion": quantity_pair_json(
+                        "polar-motion", &r.pm_operational, &r.pm_persistence),
+                    "combined": quantity_pair_json(
+                        "combined", &r.combined_operational, &r.combined_persistence),
+                })
+            })
+            .collect();
+        let target_m = c.table1[1].frame_position_m;
+        let cross = |pick: fn(&PredictorComparisonRow) -> (f64, f64)| -> serde_json::Value {
+            let curve: Vec<(f64, f64)> = c.op_vs_pers.iter().map(pick).collect();
+            match equivalent_horizon_days(&curve, target_m) {
+                Some(d) => d.into(),
+                None => serde_json::Value::Null,
+            }
+        };
+        let (status, statement) = if c.op_vs_pers.is_empty() {
+            (
+                "insufficient-data",
+                format!(
+                "EMPTY, and deliberately so: a predicted-versus-final row needs an issue epoch \
+                 with a COMPLETE {:.0}-day fit window behind it and a published Bulletin B \
+                 final at the target epoch. The input in force ({}) supplies no epoch meeting \
+                 both. Shorten `operational_window_days`, or supply a longer real finals2000A \
+                 series — no row is manufactured to fill the table.",
+                c.op_cfg.window_days, c.eop_source),
+            )
+        } else {
+            (
+                "measured",
+                format!(
+                    "Measured over the real series in force ({}). Every row is a genuine \
+                 prediction error: a forecast for T+h formed from rapid Bulletin A rows at or \
+                 before T, scored against the LATER-PUBLISHED Bulletin B final at T+h. \
+                 Persistence is scored over the identical epoch set against the identical \
+                 finals, so the two columns differ in the predictor and in nothing else. \
+                 `improvement_factor` below 1 means the operational predictor is WORSE than \
+                 persistence at that horizon, and is reported as such.",
+                    c.eop_source
+                ),
+            )
+        };
+        serde_json::json!({
+            "status": status,
+            "statement": statement,
+            "n_rows": rows.len(),
+            "truth_definition": "the Bulletin B FINAL at the target epoch. A target epoch with \
+                                 no published final is skipped; the rapid Bulletin A value is \
+                                 never substituted as truth, which is what separates this table \
+                                 from `table2_error_vs_horizon`.",
+            "relation_to_table2": "table2_error_vs_horizon is unchanged and still reports the \
+                                   PERSISTENCE curve with the rapid-if-no-final truth rule over \
+                                   its own epoch set. Its numbers are NOT the persistence column \
+                                   here: this table requires a published final at the target and \
+                                   a complete fit window behind the issue epoch, so it covers a \
+                                   smaller, different epoch set. Compare within a table, never \
+                                   across the two.",
+            "rows": rows,
+            "equivalent_horizon_days": {
+                "target_position_m": target_m,
+                "statement": "The horizon at which each predictor's measured Moon-frame error \
+                              reaches the Table 1 real-time frame position, by linear \
+                              interpolation BETWEEN two measured horizons that bracket it. Null \
+                              when no measured pair brackets the target — the curve is never \
+                              extrapolated past its own data to manufacture a horizon.",
+                "ut1": {
+                    "operational": cross(|r| (r.horizon.days(), r.ut1_operational.rms_position_m)),
+                    "persistence": cross(|r| (r.horizon.days(), r.ut1_persistence.rms_position_m)),
+                },
+                "combined": {
+                    "operational": cross(|r| (
+                        r.horizon.days(), r.combined_operational.rms_position_m)),
+                    "persistence": cross(|r| (
+                        r.horizon.days(), r.combined_persistence.rms_position_m)),
+                },
+            },
+        })
+    }
+
+    /// G13 — Table 6: the archived-vintage predicted-versus-final comparison. Always
+    /// emitted; populated only by a genuine second vintage.
+    fn table6_json(&self, c: &Computed) -> serde_json::Value {
+        let rows: Vec<serde_json::Value> = c
+            .archived
+            .iter()
+            .map(|r| {
+                let trio = |q: &str, a: &PredictorError, o: &PredictorError, p: &PredictorError| {
+                    serde_json::json!({
+                        "quantity": q,
+                        "archived_bulletin_a": predictor_error_json(a),
+                        "operational": predictor_error_json(o),
+                        "persistence": predictor_error_json(p),
+                    })
+                };
+                serde_json::json!({
+                    "horizon": horizon_label(r.horizon),
+                    "horizon_days": r.horizon.days(),
+                    "issue_mjd": r.issue_mjd,
+                    "n": r.n,
+                    "epochs_mjd": r.epochs_mjd,
+                    "ut1": trio("ut1", &r.ut1_archived, &r.ut1_operational, &r.ut1_persistence),
+                    "polar_motion": trio(
+                        "polar-motion", &r.pm_archived, &r.pm_operational, &r.pm_persistence),
+                })
+            })
+            .collect();
+        let (status, statement) =
+            if !rows.is_empty() {
+                (
+                    "measured",
+                    format!(
+                "Measured over a genuine two-vintage pair: the as-issued vintage ({}) carries \
+                 real Bulletin A predictions past its own data cutoff, and the archived later \
+                 vintage ({}) carries the Bulletin B finals those dates eventually received. \
+                 Three forecasts are scored against that final — the archived Bulletin A \
+                 prediction itself, this crate's operational-style fit over the as-issued \
+                 vintage, and persistence at the cutoff.",
+                c.eop_source, c.later_source.clone().unwrap_or_default()),
+                )
+            } else if c.later_source.is_some() {
+                (
+                    "no-matched-pairs",
+                    format!(
+                "EMPTY, and deliberately so: a later vintage was supplied ({}) but no date is \
+                 carried as a Bulletin A PREDICTION in the as-issued file ({}) and as a \
+                 Bulletin B FINAL in the later one at any requested horizon. No row is \
+                 synthesised.",
+                c.later_source.clone().unwrap_or_default(), c.eop_source),
+                )
+            } else {
+                (
+                    "no-second-vintage",
+                    format!(
+                "EMPTY, and deliberately so. Scoring a GENUINE ARCHIVED prediction needs two \
+                 vintages of the same finals2000A product; this run was given one ({}). The \
+                 repository ships no archived earlier vintage, and one is NOT manufactured by \
+                 perturbing the vintage it has — a synthesised archive would make every number \
+                 in this table a measurement of the perturbation. Supply a real archived later \
+                 vintage through `eop_finals2000a_later` to populate it. Until then the \
+                 genuine predicted-versus-final errors this report does carry are in \
+                 `table5_operational_vs_persistence`, where the forecast is this crate's own \
+                 and the truth is the later-published Bulletin B final.",
+                c.eop_source),
+                )
+            };
+        serde_json::json!({
+            "status": status,
+            "statement": statement,
+            "n_rows": rows.len(),
+            "as_issued_source": c.eop_source,
+            "later_vintage_source": c.later_source,
+            "rows": rows,
+        })
     }
 
     fn summary(&self, c: &Computed) -> String {
@@ -594,6 +922,649 @@ impl RealtimeFrameEopScenario {
     }
 }
 
+// ---------------------------------------------------------------------------
+// G13 — emission of the operational-predictor model, Table 5 and Table 6.
+// ---------------------------------------------------------------------------
+
+/// The G13 honesty label. The document's top-level `label` describes P4 Tables 1–4 and is
+/// deliberately left byte-identical by the additive-only rule; this one covers the
+/// operational-predictor additions.
+const G13_LABEL: &str = "Operational-style Earth-orientation predictor (Table 5) and the \
+archived-vintage predicted-vs-final path (Table 6). VALIDATED real data: every residual is \
+a genuine prediction error — a forecast formed from rapid Bulletin A rows at or before the \
+issue epoch, scored against the LATER-PUBLISHED Bulletin B final at the target epoch; no \
+target without a published final is scored, and no value is back-filled. MODELLED: the \
+predictor is a least-squares bias+rate fit plus the principal periodic terms with the last \
+in-window residual carried forward — the class Bulletin A uses, NOT Bulletin A. IERS \
+additionally reduces UT1 to UT1R with the tabulated IERS Conventions zonal-tide \
+coefficients and runs an autoregressive filter on the fit residuals; neither is reproduced \
+here, and the two principal zonal-tide periods are fitted instead of tabulated. NOTHING in \
+Table 6 is produced from a synthesised vintage: an archived earlier vintage of the same \
+product is an input, and with only one vintage the table reports no rows and says why.";
+
+/// The `unit` + `provenance` map for every numeric field the report publishes. Paths are
+/// dotted; `x[]` descends into the first element of the array `x`, and `*` stands for
+/// every object-valued member of an object (the three quantity blocks of a Table 5/6 row).
+fn units_block() -> serde_json::Value {
+    let mut m = serde_json::Map::new();
+    let mut put = |k: &str, unit: &str, prov: &str, note: &str| {
+        let mut e = serde_json::Map::new();
+        e.insert("unit".into(), unit.into());
+        e.insert("provenance".into(), prov.into());
+        if !note.is_empty() {
+            e.insert("note".into(), note.into());
+        }
+        m.insert(k.to_string(), serde_json::Value::Object(e));
+    };
+
+    // --- document scalars and the pre-existing P4 tables ---
+    put(
+        "latency_s",
+        "s",
+        "input",
+        "real-time EOP prediction latency",
+    );
+    put(
+        "lever_arm_m_per_s",
+        "m/s",
+        "constant",
+        "D_EM * omega_earth (L19)",
+    );
+    put(
+        "earth_moon_distance_m",
+        "m",
+        "constant",
+        "DE440 mean Earth-Moon distance",
+    );
+    put("omega_earth_rad_s", "rad/s", "constant", "");
+    put("table1_consistency[].frame_position_m", "m", "modelled", "");
+    put(
+        "table1_consistency[].ut1_equiv_ms",
+        "ms",
+        "computed",
+        "L19 image of the position",
+    );
+    put("table1_consistency[].light_time_ns", "ns", "computed", "");
+    put("table2_error_vs_horizon[].horizon_days", "day", "input", "");
+    put("table2_error_vs_horizon[].n", "count", "measured", "");
+    put("table2_error_vs_horizon[].ut1_rms_ms", "ms", "measured", "");
+    put("table2_error_vs_horizon[].ut1_p50_ms", "ms", "measured", "");
+    put("table2_error_vs_horizon[].ut1_p95_ms", "ms", "measured", "");
+    put(
+        "table2_error_vs_horizon[].moon_position_m",
+        "m",
+        "computed",
+        "",
+    );
+    put(
+        "table2_error_vs_horizon[].moon_light_time_ns",
+        "ns",
+        "computed",
+        "",
+    );
+    put("table3_joint_eop[].horizon_days", "day", "input", "");
+    put("table3_joint_eop[].n", "count", "measured", "");
+    for q in ["ut1", "polar_motion", "combined"] {
+        put(
+            &format!("table3_joint_eop[].{q}.n"),
+            "count",
+            "measured",
+            "",
+        );
+        put(
+            &format!("table3_joint_eop[].{q}.epochs_mjd"),
+            "MJD (day)",
+            "measured",
+            "",
+        );
+        put(
+            &format!("table3_joint_eop[].{q}.rms_native"),
+            "see the sibling `unit` field",
+            "measured",
+            "",
+        );
+        put(
+            &format!("table3_joint_eop[].{q}.p50_native"),
+            "see the sibling `unit` field",
+            "measured",
+            "",
+        );
+        put(
+            &format!("table3_joint_eop[].{q}.p95_native"),
+            "see the sibling `unit` field",
+            "measured",
+            "",
+        );
+        put(
+            &format!("table3_joint_eop[].{q}.max_native"),
+            "see the sibling `unit` field",
+            "measured",
+            "",
+        );
+        put(
+            &format!("table3_joint_eop[].{q}.rms_position_m"),
+            "m",
+            "computed",
+            "",
+        );
+        put(
+            &format!("table3_joint_eop[].{q}.p95_position_m"),
+            "m",
+            "computed",
+            "",
+        );
+        put(
+            &format!("table3_joint_eop[].{q}.rms_light_time_ns"),
+            "ns",
+            "computed",
+            "",
+        );
+    }
+    put(
+        "table4_predicted_vs_final_horizon.n_rows",
+        "count",
+        "measured",
+        "",
+    );
+    put(
+        "table4_predicted_vs_final_horizon.rows[].horizon_days",
+        "day",
+        "input",
+        "",
+    );
+    put(
+        "table4_predicted_vs_final_horizon.rows[].n",
+        "count",
+        "measured",
+        "",
+    );
+    put(
+        "table4_predicted_vs_final_horizon.rows[].ut1_rms_ms",
+        "ms",
+        "measured",
+        "",
+    );
+    put(
+        "table4_predicted_vs_final_horizon.rows[].ut1_p50_ms",
+        "ms",
+        "measured",
+        "",
+    );
+    put(
+        "table4_predicted_vs_final_horizon.rows[].ut1_p95_ms",
+        "ms",
+        "measured",
+        "",
+    );
+    put(
+        "table4_predicted_vs_final_horizon.rows[].moon_position_m",
+        "m",
+        "computed",
+        "",
+    );
+    put("eop_input.rows", "count", "measured", "");
+    put("eop_input.final_rows", "count", "measured", "");
+    put("eop_input.prediction_rows", "count", "measured", "");
+    put("predicted_rows.n", "count", "measured", "");
+    put(
+        "predicted_rows.first_mjd",
+        "MJD (day)",
+        "measured",
+        "null when the input publishes no prediction row",
+    );
+    put(
+        "predicted_rows.last_mjd",
+        "MJD (day)",
+        "measured",
+        "null when the input publishes no prediction row",
+    );
+    put(
+        "realtime_frame_error_budget.delta_ut1_ms",
+        "ms",
+        "input",
+        "",
+    );
+    put(
+        "realtime_frame_error_budget.delta_xp_mas",
+        "mas",
+        "measured-or-input",
+        "measured pole floor / sqrt(2) unless overridden",
+    );
+    put(
+        "realtime_frame_error_budget.delta_yp_mas",
+        "mas",
+        "measured-or-input",
+        "",
+    );
+    put(
+        "realtime_frame_error_budget.measured_pm_floor_mas",
+        "mas",
+        "measured",
+        "null when the input carries no Bulletin B pole",
+    );
+    put(
+        "realtime_frame_error_budget.eop_term_m",
+        "m",
+        "computed",
+        "",
+    );
+    put(
+        "realtime_frame_error_budget.ephemeris_term_m",
+        "m",
+        "modelled",
+        "",
+    );
+    put(
+        "realtime_frame_error_budget.frame_realization_floor_m",
+        "m",
+        "derived",
+        "Helmert post-fit RMS residual unless overridden",
+    );
+    put("realtime_frame_error_budget.total_m", "m", "computed", "");
+    put(
+        "realtime_frame_error_budget.total_time_ns",
+        "ns",
+        "computed",
+        "",
+    );
+
+    // --- G13: the operational predictor ---
+    put(
+        "operational_predictor_model.window_days",
+        "day",
+        "input",
+        "",
+    );
+    put(
+        "operational_predictor_model.min_cycle_fraction",
+        "cycle (dimensionless)",
+        "input",
+        "",
+    );
+    for q in ["ut1", "polar_motion_xp"] {
+        let u = if q == "ut1" { "s" } else { "arcsec" };
+        put(
+            &format!("operational_predictor_model.representative_fit.{q}.issue_mjd"),
+            "MJD (day)",
+            "measured",
+            "",
+        );
+        put(
+            &format!("operational_predictor_model.representative_fit.{q}.window_first_mjd"),
+            "MJD (day)",
+            "measured",
+            "",
+        );
+        put(
+            &format!("operational_predictor_model.representative_fit.{q}.window_last_mjd"),
+            "MJD (day)",
+            "measured",
+            "",
+        );
+        put(
+            &format!("operational_predictor_model.representative_fit.{q}.n_fit"),
+            "count",
+            "measured",
+            "",
+        );
+        put(
+            &format!("operational_predictor_model.representative_fit.{q}.rms_fit_residual_native"),
+            u,
+            "computed",
+            "in-window post-fit RMS, NOT a prediction error",
+        );
+        put(
+            &format!("operational_predictor_model.representative_fit.{q}.anchor_residual_native"),
+            u,
+            "computed",
+            "the last in-window residual carried onto every forecast",
+        );
+        put(
+            &format!(
+                "operational_predictor_model.representative_fit.{q}.terms_rejected[].period_days"
+            ),
+            "day",
+            "constant",
+            "",
+        );
+        put(&format!("operational_predictor_model.representative_fit.{q}.terms_rejected[].cycles_spanned"), "cycle (dimensionless)", "computed", "");
+        put(&format!("operational_predictor_model.representative_fit.{q}.terms_rejected[].threshold_cycles"), "cycle (dimensionless)", "input", "");
+    }
+    put(
+        "operational_predictor_model.published_bulletin_a_agreement.issue_mjd",
+        "MJD (day)",
+        "measured",
+        "",
+    );
+    put(
+        "operational_predictor_model.published_bulletin_a_agreement.n",
+        "count",
+        "measured",
+        "",
+    );
+    put(
+        "operational_predictor_model.published_bulletin_a_agreement.first_lead_days",
+        "day",
+        "measured",
+        "",
+    );
+    put(
+        "operational_predictor_model.published_bulletin_a_agreement.last_lead_days",
+        "day",
+        "measured",
+        "",
+    );
+    put(
+        "operational_predictor_model.published_bulletin_a_agreement.ut1_rms_s",
+        "s",
+        "computed",
+        "agreement with the published prediction, NOT an error",
+    );
+    put(
+        "operational_predictor_model.published_bulletin_a_agreement.ut1_rms_position_m",
+        "m",
+        "computed",
+        "",
+    );
+    put(
+        "operational_predictor_model.published_bulletin_a_agreement.pm_rms_arcsec",
+        "arcsec",
+        "computed",
+        "",
+    );
+    put(
+        "operational_predictor_model.published_bulletin_a_agreement.pm_rms_position_m",
+        "m",
+        "computed",
+        "",
+    );
+    put(
+        "operational_predictor_model.published_bulletin_a_agreement.leads[].lead_days",
+        "day",
+        "measured",
+        "",
+    );
+    put(
+        "operational_predictor_model.published_bulletin_a_agreement.leads[].ut1_diff_s",
+        "s",
+        "computed",
+        "",
+    );
+    put(
+        "operational_predictor_model.published_bulletin_a_agreement.leads[].ut1_position_m",
+        "m",
+        "computed",
+        "",
+    );
+    put(
+        "operational_predictor_model.published_bulletin_a_agreement.leads[].pm_diff_arcsec",
+        "arcsec",
+        "computed",
+        "",
+    );
+    put(
+        "operational_predictor_model.published_bulletin_a_agreement.leads[].pm_position_m",
+        "m",
+        "computed",
+        "",
+    );
+
+    // --- G13: Table 5 ---
+    let t5 = "table5_operational_vs_persistence";
+    put(&format!("{t5}.n_rows"), "count", "measured", "");
+    put(&format!("{t5}.rows[].horizon_days"), "day", "input", "");
+    put(&format!("{t5}.rows[].n"), "count", "measured", "");
+    put(
+        &format!("{t5}.rows[].epochs_mjd"),
+        "MJD (day)",
+        "measured",
+        "the issue epochs the forecasts were made at",
+    );
+    put(
+        &format!("{t5}.rows[].target_mjds"),
+        "MJD (day)",
+        "measured",
+        "the epochs the forecasts were scored at",
+    );
+    put(&format!("{t5}.rows[].min_fit_lead_days"), "day", "computed", "smallest gap between any fit window's last observation and the epoch it predicted; > 0 is the no-look-ahead proof");
+    put(
+        &format!("{t5}.rows[].fit_rows_min"),
+        "count",
+        "measured",
+        "",
+    );
+    put(
+        &format!("{t5}.rows[].fit_rows_max"),
+        "count",
+        "measured",
+        "",
+    );
+    put(&format!("{t5}.rows[].*.improvement_factor"), "ratio (dimensionless)", "computed", "persistence RMS / operational RMS; below 1 means the operational predictor is WORSE at that horizon");
+    for p in ["operational", "persistence"] {
+        put(&format!("{t5}.rows[].*.{p}.n"), "count", "measured", "");
+        put(
+            &format!("{t5}.rows[].*.{p}.rms_native"),
+            "see the sibling `unit` field",
+            "measured",
+            "",
+        );
+        put(
+            &format!("{t5}.rows[].*.{p}.p50_native"),
+            "see the sibling `unit` field",
+            "measured",
+            "",
+        );
+        put(
+            &format!("{t5}.rows[].*.{p}.p95_native"),
+            "see the sibling `unit` field",
+            "measured",
+            "",
+        );
+        put(
+            &format!("{t5}.rows[].*.{p}.max_native"),
+            "see the sibling `unit` field",
+            "measured",
+            "",
+        );
+        put(
+            &format!("{t5}.rows[].*.{p}.rms_position_m"),
+            "m",
+            "computed",
+            "",
+        );
+        put(
+            &format!("{t5}.rows[].*.{p}.p95_position_m"),
+            "m",
+            "computed",
+            "",
+        );
+        put(
+            &format!("{t5}.rows[].*.{p}.rms_light_time_ns"),
+            "ns",
+            "computed",
+            "",
+        );
+    }
+    put(
+        &format!("{t5}.equivalent_horizon_days.target_position_m"),
+        "m",
+        "modelled",
+        "the Table 1 real-time frame position the horizon is read against",
+    );
+    for q in ["ut1", "combined"] {
+        for p in ["operational", "persistence"] {
+            put(&format!("{t5}.equivalent_horizon_days.{q}.{p}"), "day", "computed", "null when no measured pair of horizons brackets the target; the curve is never extrapolated");
+        }
+    }
+
+    // --- G13: Table 6 ---
+    let t6 = "table6_archived_vintage_predicted_vs_final";
+    put(&format!("{t6}.n_rows"), "count", "measured", "");
+    put(&format!("{t6}.rows[].horizon_days"), "day", "input", "");
+    put(&format!("{t6}.rows[].n"), "count", "measured", "");
+    put(
+        &format!("{t6}.rows[].issue_mjd"),
+        "MJD (day)",
+        "measured",
+        "the as-issued vintage's data cutoff",
+    );
+    put(
+        &format!("{t6}.rows[].epochs_mjd"),
+        "MJD (day)",
+        "measured",
+        "",
+    );
+    for p in ["archived_bulletin_a", "operational", "persistence"] {
+        put(&format!("{t6}.rows[].*.{p}.n"), "count", "measured", "");
+        put(
+            &format!("{t6}.rows[].*.{p}.rms_native"),
+            "see the sibling `unit` field",
+            "measured",
+            "",
+        );
+        put(
+            &format!("{t6}.rows[].*.{p}.p50_native"),
+            "see the sibling `unit` field",
+            "measured",
+            "",
+        );
+        put(
+            &format!("{t6}.rows[].*.{p}.p95_native"),
+            "see the sibling `unit` field",
+            "measured",
+            "",
+        );
+        put(
+            &format!("{t6}.rows[].*.{p}.max_native"),
+            "see the sibling `unit` field",
+            "measured",
+            "",
+        );
+        put(
+            &format!("{t6}.rows[].*.{p}.rms_position_m"),
+            "m",
+            "computed",
+            "",
+        );
+        put(
+            &format!("{t6}.rows[].*.{p}.p95_position_m"),
+            "m",
+            "computed",
+            "",
+        );
+        put(
+            &format!("{t6}.rows[].*.{p}.rms_light_time_ns"),
+            "ns",
+            "computed",
+            "",
+        );
+    }
+    serde_json::Value::Object(m)
+}
+
+/// One [`PredictorError`] as JSON.
+fn predictor_error_json(e: &PredictorError) -> serde_json::Value {
+    serde_json::json!({
+        "predictor": e.predictor,
+        "unit": e.unit,
+        "n": e.n,
+        "rms_native": e.rms_native,
+        "p50_native": e.p50_native,
+        "p95_native": e.p95_native,
+        "max_native": e.max_native,
+        "rms_position_m": e.rms_position_m,
+        "p95_position_m": e.p95_position_m,
+        "rms_light_time_ns": e.rms_light_time_ns,
+    })
+}
+
+/// `persistence RMS / operational RMS` on the Moon-frame position, or `null`.
+fn improvement_factor(op: &PredictorError, pers: &PredictorError) -> serde_json::Value {
+    if op.rms_position_m > 0.0 {
+        (pers.rms_position_m / op.rms_position_m).into()
+    } else {
+        serde_json::Value::Null
+    }
+}
+
+/// One Table 5 quantity block: both predictors plus the ratio between them.
+fn quantity_pair_json(
+    quantity: &str,
+    op: &PredictorError,
+    pers: &PredictorError,
+) -> serde_json::Value {
+    serde_json::json!({
+        "quantity": quantity,
+        "improvement_factor": improvement_factor(op, pers),
+        "operational": predictor_error_json(op),
+        "persistence": predictor_error_json(pers),
+    })
+}
+
+/// One fitted model as JSON, for the report's model block.
+fn fit_json(f: &OperationalFit) -> serde_json::Value {
+    let rejected: Vec<serde_json::Value> = f
+        .rejected_terms
+        .iter()
+        .map(|r| {
+            serde_json::json!({
+                "term": r.name,
+                "period_days": r.period_days,
+                "cycles_spanned": r.cycles_spanned,
+                "threshold_cycles": r.threshold_cycles,
+                "reason": "the fitting window spans fewer cycles of this period than the \
+                           admission threshold, so the term cannot be separated from the \
+                           bias/rate pair; it is rejected rather than fitted",
+            })
+        })
+        .collect();
+    serde_json::json!({
+        "issue_mjd": f.issue_mjd,
+        "window_first_mjd": f.window_first_mjd,
+        "window_last_mjd": f.window_last_mjd,
+        "n_fit": f.n_fit,
+        "terms_admitted": f.term_names,
+        "terms_rejected": rejected,
+        "rms_fit_residual_native": f.rms_fit_residual,
+        "anchor_residual_native": f.anchor_residual,
+    })
+}
+
+/// The Bulletin A agreement block.
+fn bulletin_a_json(a: &BulletinAAgreement) -> serde_json::Value {
+    let leads: Vec<serde_json::Value> = a
+        .leads
+        .iter()
+        .map(|l| {
+            serde_json::json!({
+                "lead_days": l.lead_days,
+                "ut1_diff_s": l.ut1_diff_s,
+                "ut1_position_m": l.ut1_position_m,
+                "pm_diff_arcsec": l.pm_diff_arcsec,
+                "pm_position_m": l.pm_position_m,
+            })
+        })
+        .collect();
+    serde_json::json!({
+        "status": "measured",
+        "statement": "How far this crate's operational-style forecast sits from the GENUINE \
+                      ARCHIVED Bulletin A prediction the same file publishes for the same \
+                      future dates. This is an AGREEMENT statistic, not an error: neither \
+                      quantity is a truth value and no Bulletin B final is involved. It is \
+                      the only external check on the predictor available from a single \
+                      vintage, and it is the honest place to read how far this model class \
+                      is from the operational product at each lead.",
+        "issue_mjd": a.issue_mjd,
+        "n": a.n,
+        "first_lead_days": a.first_lead_days,
+        "last_lead_days": a.last_lead_days,
+        "ut1_rms_s": a.ut1_rms_s,
+        "ut1_rms_position_m": a.ut1_rms_position_m,
+        "pm_rms_arcsec": a.pm_rms_arcsec,
+        "pm_rms_position_m": a.pm_rms_position_m,
+        "leads": leads,
+    })
+}
 /// G12 — the explicit status and prose statement for the predicted-vs-final horizon
 /// table. The table is emitted on every run; when it carries no rows this says which of the
 /// two reasons applies, so an empty table is never left to be read as "measured and zero".
@@ -1154,5 +2125,669 @@ mod tests {
         .run_json()
         .unwrap_err();
         assert!(err.contains("later-vintage EOP file"), "{err}");
+    }
+
+    // ---- G13: the operational-style predictor reaches the report ----
+
+    /// The real 45-row extract: the longest verbatim series committed here, and the only
+    /// input whose row count makes a per-horizon statistic worth reading.
+    const LONGSPAN_PATH: &str = "tests/fixtures/agency/eop/finals2000A_2022001_longspan.txt";
+    /// The real 2026 extract: 20 final rows plus 12 genuine Bulletin A prediction rows.
+    const REAL_2026_PATH: &str = "tests/fixtures/agency/eop/finals2000A_2026.txt";
+
+    /// Run a scenario and parse its report.
+    fn run(scn: RealtimeFrameEopScenario) -> Value {
+        serde_json::from_str(&scn.run_json().expect("run").0).expect("valid JSON")
+    }
+
+    /// The report over the real 45-row series at five horizons — the configuration every
+    /// G13 number quoted anywhere comes from.
+    fn longspan_report() -> Value {
+        run(RealtimeFrameEopScenario {
+            eop_finals2000a: Some(LONGSPAN_PATH.to_string()),
+            horizons_days: Some(vec![1, 2, 3, 5, 10]),
+            ..Default::default()
+        })
+    }
+
+    /// The report over the real 2026 extract — the only shipped input that publishes
+    /// genuine Bulletin A prediction rows, so the only one whose agreement block fills.
+    fn real_2026_report() -> Value {
+        run(RealtimeFrameEopScenario {
+            eop_finals2000a: Some(REAL_2026_PATH.to_string()),
+            ..Default::default()
+        })
+    }
+
+    /// An as-issued vintage built by truncating the Bulletin B tail of the real 45-row
+    /// series after its first `kept` rows, so the later rows read as prediction-only.
+    /// Every value is a real IERS value; only the trailing final block is removed. See
+    /// [`tests::table6_populates_from_a_two_vintage_pair_and_scores_all_three_predictors`]
+    /// for why this is a reachability construction and not an archived vintage.
+    fn truncated_as_issued(later: &str, kept: usize) -> String {
+        let mut out = String::new();
+        let mut n = 0;
+        for line in later.lines() {
+            if line.trim_start().starts_with('#') || line.len() < 68 {
+                out.push_str(line);
+            } else if n < kept {
+                out.push_str(line);
+                n += 1;
+            } else {
+                let head: String = line.chars().take(134).collect();
+                out.push_str(head.trim_end());
+            }
+            out.push('\n');
+        }
+        out
+    }
+
+    /// Run the scenario over a genuine two-vintage pair (see [`truncated_as_issued`]),
+    /// through real files on disk, and return the report.
+    fn two_vintage_report(kept: usize, tag: &str) -> Value {
+        let later = include_str!("../tests/fixtures/agency/eop/finals2000A_2022001_longspan.txt");
+        let as_issued = truncated_as_issued(later, kept);
+        let dir = std::env::temp_dir();
+        let pid = std::process::id();
+        let a = dir.join(format!("kshana_g13_issued_{tag}_{pid}.txt"));
+        let b = dir.join(format!("kshana_g13_later_{tag}_{pid}.txt"));
+        std::fs::write(&a, &as_issued).unwrap();
+        std::fs::write(&b, later).unwrap();
+        let v = run(RealtimeFrameEopScenario {
+            eop_finals2000a: Some(a.to_string_lossy().to_string()),
+            eop_finals2000a_later: Some(b.to_string_lossy().to_string()),
+            horizons_days: Some(vec![1, 2, 5]),
+            ..Default::default()
+        });
+        let _ = std::fs::remove_file(&a);
+        let _ = std::fs::remove_file(&b);
+        v
+    }
+
+    /// The reports the unit/provenance ratchet is run over. Between them every block of
+    /// the document is populated at least once, so a field that only exists on a real
+    /// input — or only on a two-vintage run — cannot escape the check by being absent
+    /// from the bare default run.
+    fn all_reports() -> Vec<Value> {
+        vec![
+            run(RealtimeFrameEopScenario::default()),
+            longspan_report(),
+            real_2026_report(),
+            two_vintage_report(25, "units"),
+        ]
+    }
+
+    // ORACLE: the library curve recomputed directly from the same real file, through the
+    // public `frame_eop` entry point rather than the scenario. Every emitted statistic
+    // must equal it, and the row must satisfy the identities the report claims for it.
+    #[test]
+    fn table5_equals_the_library_comparison_over_the_same_real_series() {
+        let v = longspan_report();
+        let t5 = &v["table5_operational_vs_persistence"];
+        assert_eq!(t5["status"], "measured", "{}", t5["statement"]);
+        let rows = t5["rows"].as_array().expect("rows");
+        let body = std::fs::read_to_string(LONGSPAN_PATH).expect("fixture");
+        let direct = crate::frame_eop::operational_vs_persistence_vs_horizon(
+            &body,
+            &[
+                Horizon::Final,
+                Horizon::Days(1),
+                Horizon::Days(2),
+                Horizon::Days(3),
+                Horizon::Days(5),
+                Horizon::Days(10),
+            ],
+            &OperationalPredictorConfig::default(),
+        );
+        assert_eq!(rows.len(), direct.len());
+        assert_eq!(t5["n_rows"].as_u64().unwrap() as usize, rows.len());
+        for (row, d) in rows.iter().zip(&direct) {
+            assert_eq!(row["n"].as_u64().unwrap() as usize, d.n);
+            assert!(d.n > 0);
+            for (key, pair) in [
+                ("ut1", (&d.ut1_operational, &d.ut1_persistence)),
+                ("polar_motion", (&d.pm_operational, &d.pm_persistence)),
+                (
+                    "combined",
+                    (&d.combined_operational, &d.combined_persistence),
+                ),
+            ] {
+                for (who, e) in [("operational", pair.0), ("persistence", pair.1)] {
+                    let j = &row[key][who];
+                    assert_eq!(j["unit"], e.unit, "{key}/{who} unit");
+                    assert_eq!(j["n"].as_u64().unwrap() as usize, e.n);
+                    let got = j["rms_native"].as_f64().unwrap();
+                    assert!(
+                        (got - e.rms_native).abs() <= 1e-12 * e.rms_native.abs().max(1e-12),
+                        "{key}/{who}: {got} != {}",
+                        e.rms_native
+                    );
+                    assert!(
+                        (j["rms_position_m"].as_f64().unwrap() - e.rms_position_m).abs() < 1e-12
+                    );
+                }
+                // The ratio is the two emitted position RMSs and nothing else.
+                let o = row[key]["operational"]["rms_position_m"].as_f64().unwrap();
+                let p = row[key]["persistence"]["rms_position_m"].as_f64().unwrap();
+                let f = row[key]["improvement_factor"].as_f64().unwrap();
+                assert!(
+                    (f - p / o).abs() <= 1e-12 * f.max(1.0),
+                    "{key}: {f} != {}",
+                    p / o
+                );
+            }
+            // No fit ever saw its own target, and the report says so per row.
+            assert!(
+                row["min_fit_lead_days"].as_f64().unwrap() >= 1.0,
+                "a fit window reached within a day of its target"
+            );
+            assert_eq!(
+                row["epochs_mjd"].as_array().unwrap().len(),
+                row["n"].as_u64().unwrap() as usize
+            );
+            assert_eq!(
+                row["target_mjds"].as_array().unwrap().len(),
+                row["n"].as_u64().unwrap() as usize
+            );
+        }
+    }
+
+    // The point of the whole exercise: the operational predictor's error is a DIFFERENT
+    // number from persistence's, both are reported, and the horizon the ~14.4 m real-time
+    // frame error corresponds to moves when the predictor changes. If these ever coincide
+    // the table has stopped saying anything.
+    #[test]
+    fn the_operational_predictor_moves_the_equivalent_horizon_away_from_persistence() {
+        let v = longspan_report();
+        let t5 = &v["table5_operational_vs_persistence"];
+        let eh = &t5["equivalent_horizon_days"];
+        // The target is the Table 1 real-time frame position, unchanged by G13.
+        let target = eh["target_position_m"].as_f64().unwrap();
+        assert!(
+            (target
+                - v["table1_consistency"][1]["frame_position_m"]
+                    .as_f64()
+                    .unwrap())
+            .abs()
+                < 1e-12
+        );
+        for q in ["ut1", "combined"] {
+            let op = eh[q]["operational"].as_f64().expect("a bracketed crossing");
+            let pers = eh[q]["persistence"].as_f64().expect("a bracketed crossing");
+            assert!(
+                op > pers,
+                "{q}: the operational predictor must not reach {target} m sooner than \
+                 persistence (op {op} d, persistence {pers} d)"
+            );
+            // Both crossings lie inside the measured horizon span, never beyond it.
+            assert!((1.0..=10.0).contains(&op) && (1.0..=10.0).contains(&pers));
+        }
+        // At the 1-day lead the operational predictor is genuinely better here, and the
+        // report carries the factor rather than leaving it to be divided out by hand.
+        let day1 = t5["rows"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|r| r["horizon"] == "day-1")
+            .expect("a 1-day row");
+        assert!(day1["combined"]["improvement_factor"].as_f64().unwrap() > 1.5);
+        // And where it is WORSE the table says so with a factor below 1, instead of
+        // quietly reporting only the horizons that flatter it.
+        let far = t5["rows"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|r| r["horizon"] == "day-10")
+            .expect("a 10-day row");
+        assert!(
+            far["combined"]["improvement_factor"].as_f64().unwrap() < 1.0,
+            "on this series the bare extrapolation is worse at 10 days and must say so"
+        );
+    }
+
+    // The persistence column of Table 5 is NOT Table 2's: the two use different truth
+    // rules over different epoch sets, and the report must not let them be confused.
+    // Table 2 itself is untouched.
+    #[test]
+    fn table2_is_unchanged_and_table5_says_it_is_a_different_statistic() {
+        let v = longspan_report();
+        let body = std::fs::read_to_string(LONGSPAN_PATH).expect("fixture");
+        let t2 = crate::frame_eop::prediction_error_vs_horizon(
+            &body,
+            &[
+                Horizon::Final,
+                Horizon::Days(1),
+                Horizon::Days(2),
+                Horizon::Days(3),
+                Horizon::Days(5),
+                Horizon::Days(10),
+            ],
+        );
+        let rows = v["table2_error_vs_horizon"].as_array().unwrap();
+        assert_eq!(rows.len(), t2.len());
+        for (row, h) in rows.iter().zip(&t2) {
+            assert!((row["ut1_rms_ms"].as_f64().unwrap() - h.rms_ms()).abs() < 1e-15);
+            assert_eq!(row["n"].as_u64().unwrap() as usize, h.n);
+        }
+        let note = v["table5_operational_vs_persistence"]["relation_to_table2"]
+            .as_str()
+            .unwrap();
+        assert!(note.contains("table2_error_vs_horizon") && note.contains("never across"));
+        // They really do differ, which is why the note exists.
+        let t5_day1 = v["table5_operational_vs_persistence"]["rows"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|r| r["horizon"] == "day-1")
+            .unwrap()["n"]
+            .as_u64()
+            .unwrap();
+        let t2_day1 = rows.iter().find(|r| r["horizon"] == "day-1").unwrap()["n"]
+            .as_u64()
+            .unwrap();
+        assert_ne!(t5_day1, t2_day1);
+    }
+
+    // An input that cannot support the model says so, in words, rather than publishing an
+    // empty array for a reader to interpret as "measured and zero".
+    #[test]
+    fn table5_states_its_own_emptiness_on_an_input_that_cannot_feed_it() {
+        let v = run(RealtimeFrameEopScenario::default());
+        let t5 = &v["table5_operational_vs_persistence"];
+        assert_eq!(t5["status"], "insufficient-data");
+        assert_eq!(t5["n_rows"], 0);
+        assert_eq!(t5["rows"].as_array().unwrap().len(), 0);
+        let s = t5["statement"].as_str().unwrap();
+        assert!(s.contains("EMPTY") && s.contains("operational_window_days"));
+        assert!(s.contains("no row is manufactured"));
+        // No crossing is invented from an empty curve either.
+        for q in ["ut1", "combined"] {
+            assert!(t5["equivalent_horizon_days"][q]["operational"].is_null());
+            assert!(t5["equivalent_horizon_days"][q]["persistence"].is_null());
+        }
+        // The model block still describes the predictor, and says why it did not fit.
+        let m = &v["operational_predictor_model"];
+        assert_eq!(
+            m["representative_fit"]["ut1"]["status"],
+            "no-complete-window"
+        );
+        assert_eq!(
+            m["published_bulletin_a_agreement"]["status"],
+            "no-published-prediction-rows"
+        );
+    }
+
+    // The archived-vintage table is always present, and with one vintage it states that
+    // the repository has no archived earlier vintage and that none is manufactured.
+    #[test]
+    fn table6_states_that_a_second_vintage_is_missing_and_is_not_invented() {
+        for scn in [
+            RealtimeFrameEopScenario::default(),
+            RealtimeFrameEopScenario {
+                eop_finals2000a: Some(REAL_2026_PATH.to_string()),
+                ..Default::default()
+            },
+        ] {
+            let v = run(scn);
+            let t6 = &v["table6_archived_vintage_predicted_vs_final"];
+            assert_eq!(t6["status"], "no-second-vintage");
+            assert_eq!(t6["n_rows"], 0);
+            assert!(t6["later_vintage_source"].is_null());
+            let s = t6["statement"].as_str().unwrap();
+            assert!(s.contains("two vintages") && s.contains("perturbing"));
+            assert!(s.contains("eop_finals2000a_later"));
+        }
+    }
+
+    // ORACLE: `frame_eop::archived_vintage_comparison` on a two-vintage pair built from
+    // REAL rows — a later vintage, and the same file with its Bulletin B tail truncated so
+    // the later rows read as prediction-only.
+    //
+    // This proves the emitted table is REACHABLE and is not permanently dead code. It is
+    // not, and is not reported as, a measurement of a prediction error: the Bulletin A
+    // column of a truncated later vintage holds the *rapid* value, not the value IERS
+    // predicted at the earlier epoch, so the `archived_bulletin_a` residual it produces is
+    // the rapid-minus-final publication floor. The repository ships no archived earlier
+    // vintage, and no number here is quoted as a Bulletin A prediction error.
+    #[test]
+    fn table6_populates_from_a_two_vintage_pair_and_scores_all_three_predictors() {
+        let later = include_str!("../tests/fixtures/agency/eop/finals2000A_2022001_longspan.txt");
+        let as_issued = truncated_as_issued(later, 25);
+        let v = two_vintage_report(25, "t6");
+        let t6 = &v["table6_archived_vintage_predicted_vs_final"];
+        assert_eq!(t6["status"], "measured", "{}", t6["statement"]);
+        let rows = t6["rows"].as_array().unwrap();
+        assert!(!rows.is_empty());
+        assert_eq!(t6["n_rows"].as_u64().unwrap() as usize, rows.len());
+        assert!(!t6["later_vintage_source"].is_null());
+        let direct = crate::frame_eop::archived_vintage_comparison(
+            &as_issued,
+            later,
+            &[
+                Horizon::Final,
+                Horizon::Days(1),
+                Horizon::Days(2),
+                Horizon::Days(5),
+            ],
+            &OperationalPredictorConfig::default(),
+        );
+        assert_eq!(rows.len(), direct.len());
+        for (row, d) in rows.iter().zip(&direct) {
+            assert_eq!(row["n"].as_u64().unwrap() as usize, d.n);
+            assert!(d.n >= 1);
+            assert!((row["issue_mjd"].as_f64().unwrap() - d.issue_mjd).abs() < 1e-9);
+            // All three predictors are scored, for both quantities, over the same epochs.
+            for q in ["ut1", "polar_motion"] {
+                for who in ["archived_bulletin_a", "operational", "persistence"] {
+                    let j = &row[q][who];
+                    assert_eq!(j["n"].as_u64().unwrap() as usize, d.n, "{q}/{who}");
+                    assert!(j["rms_native"].as_f64().unwrap() >= 0.0);
+                    assert!(j["rms_position_m"].as_f64().unwrap() >= 0.0);
+                }
+            }
+            assert!(
+                (row["ut1"]["archived_bulletin_a"]["rms_native"]
+                    .as_f64()
+                    .unwrap()
+                    - d.ut1_archived.rms_native)
+                    .abs()
+                    < 1e-15
+            );
+        }
+    }
+
+    // The three G13 scenario inputs are parsed and are actually in force — a knob that
+    // parses but changes nothing is worse than no knob.
+    #[test]
+    fn the_operational_predictor_inputs_parse_and_take_effect() {
+        let scn: RealtimeFrameEopScenario = toml::from_str(
+            "kind=\"realtime-frame-eop\"\n\
+             operational_window_days = 25.0\n\
+             operational_min_cycle_fraction = 0.75\n\
+             operational_anchor_residual = false\n",
+        )
+        .expect("the G13 fields must parse");
+        assert_eq!(scn.operational_window_days, Some(25.0));
+        assert_eq!(scn.operational_min_cycle_fraction, Some(0.75));
+        assert_eq!(scn.operational_anchor_residual, Some(false));
+
+        let base = longspan_report();
+        let m = &base["operational_predictor_model"];
+        assert_eq!(m["window_days"].as_f64().unwrap(), 15.0);
+        assert_eq!(m["residual_anchored"], true);
+        assert_eq!(m["min_cycle_fraction"].as_f64().unwrap(), 0.5);
+
+        let tuned = run(RealtimeFrameEopScenario {
+            eop_finals2000a: Some(LONGSPAN_PATH.to_string()),
+            horizons_days: Some(vec![1, 2, 3, 5, 10]),
+            operational_window_days: Some(25.0),
+            operational_anchor_residual: Some(false),
+            ..Default::default()
+        });
+        let tm = &tuned["operational_predictor_model"];
+        assert_eq!(tm["window_days"].as_f64().unwrap(), 25.0);
+        assert_eq!(tm["residual_anchored"], false);
+        assert_eq!(
+            tm["representative_fit"]["ut1"]["anchor_residual_native"],
+            0.0
+        );
+        // A different window is a different fit and a different measured error.
+        let rms = |v: &Value| {
+            v["table5_operational_vs_persistence"]["rows"][0]["ut1"]["operational"]["rms_native"]
+                .as_f64()
+                .unwrap()
+        };
+        assert!((rms(&base) - rms(&tuned)).abs() > 1e-9);
+        // A tighter admission threshold really does drop a term.
+        let strict = run(RealtimeFrameEopScenario {
+            eop_finals2000a: Some(LONGSPAN_PATH.to_string()),
+            operational_min_cycle_fraction: Some(0.9),
+            ..Default::default()
+        });
+        let admitted = |v: &Value| {
+            v["operational_predictor_model"]["representative_fit"]["ut1"]["terms_admitted"]
+                .as_array()
+                .unwrap()
+                .len()
+        };
+        assert!(admitted(&strict) < admitted(&base));
+    }
+
+    // The model block names the model, the window, the terms it admitted and the terms it
+    // could not, and declares what it does NOT reproduce. A model class asserted in prose
+    // with no admitted-term list is not checkable.
+    #[test]
+    fn the_model_block_reports_the_terms_it_admitted_and_the_ones_it_could_not() {
+        let v = longspan_report();
+        let m = &v["operational_predictor_model"];
+        assert!(m["label"].as_str().unwrap().contains("VALIDATED real data"));
+        assert!(m["label"].as_str().unwrap().contains("MODELLED"));
+        assert!(m["model"].as_str().unwrap().contains("cos"));
+        let dev = m["declared_deviations"].as_array().unwrap();
+        assert!(dev.len() >= 3);
+        let joined = dev
+            .iter()
+            .map(|d| d.as_str().unwrap())
+            .collect::<Vec<_>>()
+            .join(" ");
+        assert!(joined.contains("autoregressive"), "{joined}");
+        assert!(joined.contains("UT1R"), "{joined}");
+        let ut1 = &m["representative_fit"]["ut1"];
+        let admitted: Vec<&str> = ut1["terms_admitted"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(|t| t.as_str().unwrap())
+            .collect();
+        assert_eq!(
+            admitted,
+            vec![
+                "bias",
+                "rate",
+                "monthly-zonal-tide",
+                "fortnightly-zonal-tide"
+            ],
+            "the 15-day default window over this real series"
+        );
+        // The long-period terms are reported as rejected, with the shortfall quantified.
+        let rejected = ut1["terms_rejected"].as_array().unwrap();
+        assert_eq!(rejected.len(), 2);
+        for r in rejected {
+            assert!(
+                r["cycles_spanned"].as_f64().unwrap() < r["threshold_cycles"].as_f64().unwrap()
+            );
+            assert!(r["reason"].as_str().unwrap().contains("bias/rate"));
+        }
+        // The window really ends at or before the issue epoch.
+        assert!(
+            ut1["window_last_mjd"].as_f64().unwrap() <= ut1["issue_mjd"].as_f64().unwrap(),
+            "the representative fit window runs past its own issue epoch"
+        );
+    }
+
+    // ORACLE: the real published Bulletin A prediction rows of the 2026 extract, through
+    // the scenario. The agreement block must reach the report and carry one row per
+    // published prediction.
+    #[test]
+    fn the_report_carries_the_agreement_with_the_published_bulletin_a_predictions() {
+        let v = run(RealtimeFrameEopScenario {
+            eop_finals2000a: Some(REAL_2026_PATH.to_string()),
+            ..Default::default()
+        });
+        let a = &v["operational_predictor_model"]["published_bulletin_a_agreement"];
+        assert_eq!(a["status"], "measured");
+        assert_eq!(a["n"], 12);
+        assert_eq!(a["leads"].as_array().unwrap().len(), 12);
+        assert!(a["statement"]
+            .as_str()
+            .unwrap()
+            .contains("AGREEMENT statistic, not an error"));
+        // It matches the same count the report already publishes for the prediction rows.
+        assert_eq!(a["n"], v["eop_input"]["prediction_rows"]);
+    }
+
+    // ---- R3: every reported figure carries a unit and a provenance class ----
+
+    /// Walk a report and collect the dotted path of every numeric field. An array whose
+    /// elements are all numbers is one field (`epochs_mjd`), not one field per element;
+    /// an array of objects descends into its first element as `name[]`.
+    fn numeric_paths(v: &Value, prefix: &str, out: &mut std::collections::BTreeSet<String>) {
+        match v {
+            Value::Object(o) => {
+                for (k, val) in o {
+                    let path = if prefix.is_empty() {
+                        k.clone()
+                    } else {
+                        format!("{prefix}.{k}")
+                    };
+                    match val {
+                        Value::Number(_) => {
+                            out.insert(path);
+                        }
+                        Value::Array(a) if a.iter().all(|e| e.is_number()) && !a.is_empty() => {
+                            out.insert(path);
+                        }
+                        Value::Array(a) => {
+                            if let Some(first) = a.first() {
+                                numeric_paths(first, &format!("{path}[]"), out);
+                            }
+                        }
+                        Value::Object(_) => numeric_paths(val, &path, out),
+                        _ => {}
+                    }
+                }
+            }
+            _ => {
+                if v.is_number() {
+                    out.insert(prefix.to_string());
+                }
+            }
+        }
+    }
+
+    /// Resolve a dotted units path against a report, yielding every value it names.
+    /// `x[]` takes the first element of the array `x`; `*` takes every object-valued
+    /// member of an object. Returns an empty vector when the path is not reachable in
+    /// this particular report (an empty array, say), so a caller can require reachability
+    /// in at least one of several reports.
+    fn resolve(v: &Value, path: &str) -> Vec<Value> {
+        let mut cur = vec![v.clone()];
+        for seg in path.split('.') {
+            let mut next = Vec::new();
+            for c in &cur {
+                if seg == "*" {
+                    if let Some(o) = c.as_object() {
+                        next.extend(o.values().filter(|x| x.is_object()).cloned());
+                    }
+                } else if let Some(name) = seg.strip_suffix("[]") {
+                    if let Some(a) = c.get(name).and_then(|x| x.as_array()) {
+                        if let Some(first) = a.first() {
+                            next.push(first.clone());
+                        }
+                    }
+                } else if let Some(x) = c.get(seg) {
+                    next.push(x.clone());
+                }
+            }
+            cur = next;
+            if cur.is_empty() {
+                return Vec::new();
+            }
+        }
+        cur
+    }
+
+    /// Every path the units block declares, expanded over a report.
+    fn declared(v: &Value) -> std::collections::BTreeSet<String> {
+        let mut out = std::collections::BTreeSet::new();
+        for key in v["units"].as_object().expect("a units block").keys() {
+            if !key.contains('*') {
+                out.insert(key.clone());
+                continue;
+            }
+            // Expand `*` against the components actually present in this report.
+            let (head, tail) = key.split_once(".*.").expect("a `*` segment");
+            let parent = resolve(v, head);
+            for p in &parent {
+                if let Some(o) = p.as_object() {
+                    for (name, val) in o {
+                        if val.is_object() {
+                            out.insert(format!("{head}.{name}.{tail}"));
+                        }
+                    }
+                }
+            }
+        }
+        out
+    }
+
+    // R3. Every numeric field the report publishes carries a unit and a provenance class.
+    // Run over two reports — the bare default and the rich real-data configuration — so a
+    // block that is empty in one is covered by the other.
+    #[test]
+    fn every_reported_figure_carries_a_unit_and_a_provenance_class() {
+        for v in all_reports() {
+            let units = v["units"].as_object().expect("a units block");
+            assert!(!units.is_empty());
+            for (field, meta) in units {
+                assert!(meta["unit"].is_string(), "{field} has no unit");
+                assert!(
+                    meta["provenance"].is_string(),
+                    "{field} has no provenance class"
+                );
+                assert!(
+                    !meta["unit"].as_str().unwrap().is_empty(),
+                    "{field} has a blank unit"
+                );
+            }
+            let mut found = std::collections::BTreeSet::new();
+            numeric_paths(&v, "", &mut found);
+            let described = declared(&v);
+            for path in &found {
+                assert!(
+                    described.contains(path),
+                    "numeric field `{path}` is missing from the units block"
+                );
+            }
+        }
+    }
+
+    // A units block that names a field nobody emits reads as a guarantee and documents a
+    // ghost. Every declared path must resolve in at least one of the two reports.
+    #[test]
+    fn the_units_block_describes_only_fields_that_exist() {
+        let reports = all_reports();
+        let keys: Vec<String> = reports[0]["units"]
+            .as_object()
+            .unwrap()
+            .keys()
+            .cloned()
+            .collect();
+        for key in keys {
+            let hits: Vec<Value> = reports.iter().flat_map(|v| resolve(v, &key)).collect();
+            assert!(
+                !hits.is_empty(),
+                "the units block names a field no report emits: {key}"
+            );
+            // A declared field must be a number, a null (an explicitly nullable figure)
+            // or an array of numbers (an epoch list) — never a string or an object.
+            assert!(
+                hits.iter().any(|h| h.is_number()
+                    || h.is_null()
+                    || h.as_array()
+                        .is_some_and(|a| a.iter().all(|e| e.is_number()))),
+                "the units block names a non-numeric field: {key}"
+            );
+        }
+    }
+
+    // The two reports must declare the same unit map — a units block that changed with the
+    // input would be describing one run, not the document.
+    #[test]
+    fn the_units_block_is_the_same_for_every_run() {
+        let reports = all_reports();
+        for v in &reports[1..] {
+            assert_eq!(reports[0]["units"], v["units"]);
+        }
     }
 }
