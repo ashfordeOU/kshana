@@ -33,6 +33,11 @@
 set -uo pipefail
 
 N="${1:-${REPEAT:-3}}"
+# An empty parse is not a green. If the harness output format ever changes, the `test ...
+# ok` sed below silently yields nothing and every run "agrees" on the empty set. The
+# library suite is ~2000 tests; anything near zero means the parse broke, not that the
+# suite shrank.
+MIN_PASSING="${MIN_PASSING:-100}"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 WORK="$(mktemp -d "${TMPDIR:-/tmp}/kshana-repeat.XXXXXX")"
 trap 'rm -rf "$WORK"' EXIT
@@ -47,8 +52,14 @@ if [ "$BUILD_EXIT" -ne 0 ]; then
   exit 1
 fi
 
+case "$N" in
+  ''|*[!0-9]*) echo "repeatability: N must be a positive integer, got '$N'" >&2; exit 1 ;;
+esac
+[ "$N" -ge 1 ] || { echo "repeatability: N must be >= 1, got $N" >&2; exit 1; }
+
 FAILED_RUNS=""
-for i in $(seq 1 "$N"); do
+i=1
+while [ "$i" -le "$N" ]; do
   OUT="$WORK/run-$i.txt"
   START=$(date +%s)
   # No pipe on this command: a pipeline would report the exit status of the LAST stage and
@@ -63,6 +74,7 @@ for i in $(seq 1 "$N"); do
   if [ "$EXIT" -ne 0 ]; then
     FAILED_RUNS="$FAILED_RUNS $i"
   fi
+  i=$((i + 1))
 done
 
 if [ -n "$FAILED_RUNS" ]; then
@@ -74,13 +86,25 @@ if [ -n "$FAILED_RUNS" ]; then
   exit 1
 fi
 
+BASE_COUNT=$(wc -l < "$WORK/pass-1.txt" | tr -d ' ')
+if [ "$BASE_COUNT" -lt "$MIN_PASSING" ]; then
+  echo "repeatability: FAILED — parsed only $BASE_COUNT passing tests (expected >= $MIN_PASSING)." >&2
+  echo "  The suite did not shrink; the output parse broke. An empty set agrees with itself" >&2
+  echo "  on every run, so this would otherwise report a green that checked nothing." >&2
+  exit 1
+fi
+
 DRIFT=0
-for i in $(seq 2 "$N"); do
+# `seq 2 1` counts DOWN on BSD/macOS and would compare run 1 against a run that never
+# happened, so N=1 must skip this loop explicitly rather than rely on an empty range.
+i=2
+while [ "$i" -le "$N" ]; do
   if ! diff -u "$WORK/pass-1.txt" "$WORK/pass-$i.txt" > "$WORK/diff-$i.txt"; then
     DRIFT=1
     echo "repeatability: run $i disagrees with run 1 about which tests pass:" >&2
     sed -n '3,40p' "$WORK/diff-$i.txt" >&2
   fi
+  i=$((i + 1))
 done
 
 if [ "$DRIFT" -ne 0 ]; then
@@ -92,5 +116,5 @@ EOT
   exit 1
 fi
 
-echo "repeatability: OK — $N runs, identical passing set ($(wc -l < "$WORK/pass-1.txt" | tr -d ' ') tests)"
+echo "repeatability: OK — $N runs, identical passing set ($BASE_COUNT tests)"
 exit 0
