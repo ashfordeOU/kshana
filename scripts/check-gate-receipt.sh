@@ -36,6 +36,8 @@ RECEIPT="$ROOT/.gate-receipt.json"
 # The smallest number of integration test binaries a real `cargo test --all` runs here. A
 # receipt claiming fewer came from something that was not the whole suite.
 MIN_INTEGRATION_BINARIES="${KSHANA_MIN_INTEGRATION_BINARIES:-100}"
+# Likewise for the test count: a receipt that parsed nothing must not read as a green.
+MIN_TESTS_PASSED="${KSHANA_MIN_TESTS_PASSED:-1000}"
 
 if [ "${KSHANA_SKIP_RECEIPT:-0}" = "1" ]; then
   echo "gate receipt: SKIPPED by KSHANA_SKIP_RECEIPT=1 — this push is not gate-backed" >&2
@@ -77,6 +79,13 @@ case "$R_BINS" in
 esac
 [ "$R_BINS" -ge "$MIN_INTEGRATION_BINARIES" ] \
   || fail "the receipt ran only $R_BINS integration binaries (expected >= $MIN_INTEGRATION_BINARIES) — that was not the whole suite"
+
+R_TESTS="$(field tests_passed)"
+case "$R_TESTS" in
+  ''|*[!0-9]*) fail "the receipt's tests_passed field is not a number" ;;
+esac
+[ "$R_TESTS" -ge "$MIN_TESTS_PASSED" ] \
+  || fail "the receipt records only $R_TESTS passing tests (expected >= $MIN_TESTS_PASSED) — that was not the whole suite"
 
 if [ -n "$(git -C "$ROOT" status --porcelain)" ]; then
   fail "the working tree is dirty — what would be pushed is not what was tested"
