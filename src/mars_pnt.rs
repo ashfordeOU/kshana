@@ -553,6 +553,121 @@ fn gaussian_noise(seed: u64, amp: f64) -> impl FnMut() -> f64 {
 // The result.
 // =============================================================================================
 
+/// Unit and provenance class for every numeric field the `mars-pnt` report emits.
+///
+/// `clock_freq_sigma` is a FRACTIONAL frequency and therefore dimensionless: the estimator
+/// state enters the range-rate observable as `c · clock_freq`, so multiplying a speed by it
+/// must give a speed. (The struct's own doc comment says `1/s`; the observable model is the
+/// authority and the doc comment is wrong. Nothing here changes the value.)
+pub const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "n_relays",
+            unit: "count",
+            provenance: Modelled,
+            definition: "relays in the modelled MARCONI relay set (three areostationary plus \
+                         two inclined), built from published Mars constants",
+        },
+        FieldUnit {
+            path: "areostationary_radius_m",
+            unit: "m",
+            provenance: ClosedForm,
+            definition: "areocentric synchronous radius, cbrt(mu_Mars / omega_Mars^2)",
+        },
+        FieldUnit {
+            path: "fom.epochs",
+            unit: "count",
+            provenance: Computed,
+            definition: "estimation epochs on the arc",
+        },
+        FieldUnit {
+            path: "fom.mean_relays_in_view",
+            unit: "count",
+            provenance: Computed,
+            definition: "relays in line of sight of the user, averaged over the arc",
+        },
+        FieldUnit {
+            path: "fom.converged_pos_rms_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "RMS of the 3-D position error against the synthetic truth over the \
+                         converged back half of the arc",
+        },
+        FieldUnit {
+            path: "fom.converged_pos_sigma_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "mean formal 1-sigma position uncertainty over the converged back \
+                         half; a filter covariance bound, not a certified protection level",
+        },
+        FieldUnit {
+            path: "fom.converged_pos_3sigma_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "3 * fom.converged_pos_sigma_m",
+        },
+        FieldUnit {
+            path: "fom.final_clock_freq_sigma",
+            unit: "1",
+            provenance: Computed,
+            definition: "formal 1-sigma uncertainty of the recovered onboard-clock FRACTIONAL \
+                         frequency offset at the last epoch; dimensionless (s/s)",
+        },
+        FieldUnit {
+            path: "fom.initial_pos_error_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "3-D error of the seeded a-priori position guess, reported so the \
+                         recovery can be read against where it started",
+        },
+        FieldUnit {
+            path: "geometry[].t",
+            unit: "s",
+            provenance: Computed,
+            definition: "seconds past the arc epoch",
+        },
+        FieldUnit {
+            path: "geometry[].relays_in_view",
+            unit: "count",
+            provenance: Computed,
+            definition: "relays not occulted by Mars at this epoch",
+        },
+        FieldUnit {
+            path: "estimation[].t",
+            unit: "s",
+            provenance: Computed,
+            definition: "seconds past the arc epoch",
+        },
+        FieldUnit {
+            path: "estimation[].pos_error_3d_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "3-D position error of the estimate against the synthetic truth",
+        },
+        FieldUnit {
+            path: "estimation[].pos_sigma_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "formal 1-sigma position uncertainty, sqrt(trace of the 3x3 position \
+                         covariance block)",
+        },
+        FieldUnit {
+            path: "estimation[].pos_3sigma_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "3 * estimation[].pos_sigma_m",
+        },
+        FieldUnit {
+            path: "estimation[].clock_freq_sigma",
+            unit: "1",
+            provenance: Computed,
+            definition: "formal 1-sigma uncertainty of the onboard-clock FRACTIONAL frequency \
+                         offset at this epoch; dimensionless (s/s)",
+        },
+    ]
+};
+
 /// One per-epoch geometry/visibility record: which relays were in view of the user and how many.
 #[derive(Clone, Debug, Serialize)]
 pub struct GeometryStep {

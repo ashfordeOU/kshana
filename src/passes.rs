@@ -132,6 +132,114 @@ pub fn predict_passes(
     passes
 }
 
+/// Unit and provenance class for every numeric field the `passes` report emits.
+const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "station_lat_deg",
+            unit: "deg",
+            provenance: Input,
+            definition: "ground-station geodetic (WGS-84) latitude, north positive",
+        },
+        FieldUnit {
+            path: "station_lon_deg",
+            unit: "deg",
+            provenance: Input,
+            definition: "ground-station geodetic (WGS-84) longitude, east positive",
+        },
+        FieldUnit {
+            path: "altitude_km",
+            unit: "km",
+            provenance: Input,
+            definition: "circular-orbit altitude above the equatorial radius; the orbit \
+                         radius is R_eq + this",
+        },
+        FieldUnit {
+            path: "inclination_deg",
+            unit: "deg",
+            provenance: Input,
+            definition: "orbital inclination of the circular orbit",
+        },
+        FieldUnit {
+            path: "mask_deg",
+            unit: "deg",
+            provenance: Input,
+            definition: "elevation mask: the angle above the station's local horizon (the \
+                         WGS-84 ellipsoid normal) a pass must clear to count as visible",
+        },
+        FieldUnit {
+            path: "duration_hours",
+            unit: "hr",
+            provenance: Input,
+            definition: "length of the prediction window, from the window start epoch",
+        },
+        FieldUnit {
+            path: "step_s",
+            unit: "s",
+            provenance: Input,
+            definition: "sampling step of the rise/set search, which sets the TCA and \
+                         maximum-elevation resolution",
+        },
+        FieldUnit {
+            path: "pass_count",
+            unit: "count",
+            provenance: Computed,
+            definition: "number of mask-clearing visibility passes found in the window",
+        },
+        FieldUnit {
+            path: "total_access_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "sum of every pass duration_s: total time the satellite is above \
+                         the mask during the window",
+        },
+        FieldUnit {
+            path: "best_max_elevation_deg",
+            unit: "deg",
+            provenance: Computed,
+            definition: "the largest per-pass maximum elevation above the station's local \
+                         horizon; null when the window contains no pass",
+        },
+        FieldUnit {
+            path: "passes[].aos_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "acquisition of signal: seconds from the window start at which the \
+                         elevation rises through the mask, linearly interpolated between the \
+                         bracketing samples; clamped to 0 for a pass already in progress",
+        },
+        FieldUnit {
+            path: "passes[].tca_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "time of closest approach: seconds from the window start of the \
+                         highest-elevation sample of the pass, at the step_s resolution",
+        },
+        FieldUnit {
+            path: "passes[].los_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "loss of signal: seconds from the window start at which the elevation \
+                         falls back through the mask, linearly interpolated; clamped to the \
+                         window length for a pass still in progress at the end",
+        },
+        FieldUnit {
+            path: "passes[].max_elevation_deg",
+            unit: "deg",
+            provenance: Computed,
+            definition: "highest elevation above the station's local horizon reached during \
+                         the pass, at the step_s sampling resolution",
+        },
+        FieldUnit {
+            path: "passes[].duration_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "los_s - aos_s: the length of the pass",
+        },
+    ]
+};
+
 fn pa_default_alt() -> f64 {
     550.0
 }
@@ -256,6 +364,7 @@ impl PassesScenario {
                       propagation + Earth rotation (no SGP4 drag/J2 regression), \
                       TCA/max-elevation at the sample-step resolution, no light-time / \
                       refraction correction",
+            "units": crate::field_schema::units_block(UNITS),
             "station_lat_deg": self.station_lat_deg,
             "station_lon_deg": self.station_lon_deg,
             "altitude_km": self.altitude_km,

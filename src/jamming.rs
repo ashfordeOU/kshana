@@ -319,6 +319,101 @@ pub struct JammingFoM {
     pub mean_js_db: f64,
 }
 
+/// Unit and provenance class for every numeric field the `jamming` report emits.
+pub const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "seed",
+            unit: "1",
+            provenance: Input,
+            definition: "scenario random seed, echoed back; the interference chain is \
+                         deterministic and draws no random numbers",
+        },
+        FieldUnit {
+            path: "fom.availability_under_jamming",
+            unit: "1",
+            provenance: Computed,
+            definition: "fraction of epochs at which at least four satellites are still \
+                         tracking under the jammer",
+        },
+        FieldUnit {
+            path: "fom.availability_nominal",
+            unit: "1",
+            provenance: Computed,
+            definition: "fraction of epochs at which at least four satellites are \
+                         geometrically visible — the clean-sky ceiling for this geometry",
+        },
+        FieldUnit {
+            path: "fom.min_tracking",
+            unit: "count",
+            provenance: Computed,
+            definition: "fewest satellites still tracking at any epoch of the run",
+        },
+        FieldUnit {
+            path: "fom.mean_js_db",
+            unit: "dB",
+            provenance: Computed,
+            definition: "mean jammer-to-signal power ratio over every visible-satellite \
+                         sample; not-a-number (so null once serialised) with no jammer",
+        },
+        FieldUnit {
+            path: "epochs[].t",
+            unit: "s",
+            provenance: Computed,
+            definition: "epoch time since the start of the run: the grid index times \
+                         time.step_s",
+        },
+        FieldUnit {
+            path: "epochs[].visible",
+            unit: "count",
+            provenance: Computed,
+            definition: "satellites above the elevation mask at this epoch",
+        },
+        FieldUnit {
+            path: "epochs[].tracking",
+            unit: "count",
+            provenance: Computed,
+            definition: "visible satellites whose effective C/N0 stays at or above the \
+                         tracking-loss threshold — locked or degraded, but not lost",
+        },
+        FieldUnit {
+            path: "epochs[].sats[].prn",
+            unit: "1",
+            provenance: Computed,
+            definition: "zero-based index of the satellite within the configured \
+                         constellation, carried as its pseudo-random-noise code number",
+        },
+        FieldUnit {
+            path: "epochs[].sats[].el_deg",
+            unit: "deg",
+            provenance: Computed,
+            definition: "satellite elevation above the receiver's local horizon",
+        },
+        FieldUnit {
+            path: "epochs[].sats[].js_db",
+            unit: "dB",
+            provenance: Computed,
+            definition: "jammer-to-signal power ratio at the receiver antenna output for \
+                         this satellite's link; negative infinity (null) with no jammer",
+        },
+        FieldUnit {
+            path: "epochs[].sats[].cn0_nominal_dbhz",
+            unit: "dB-Hz",
+            provenance: Computed,
+            definition: "un-jammed carrier-to-noise-density ratio: received signal power \
+                         plus receive-antenna gain minus the thermal noise density",
+        },
+        FieldUnit {
+            path: "epochs[].sats[].cn0_effective_dbhz",
+            unit: "dB-Hz",
+            provenance: Computed,
+            definition: "carrier-to-noise-density ratio under the interference, from the \
+                         anti-jam equation with the despreading processing gain",
+        },
+    ]
+};
+
 /// A jamming run result.
 #[derive(Clone, Debug, Serialize)]
 pub struct JammingResult {

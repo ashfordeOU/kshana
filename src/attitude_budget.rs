@@ -82,6 +82,58 @@ fn ab_default_contributors() -> Vec<PointingContributor> {
     ]
 }
 
+/// Unit and provenance class for every numeric field the `attitude-budget` report emits.
+///
+/// `gravity_gradient_torque_max_nm` is a torque in **newton-metres** — the `nm` suffix
+/// abbreviates `N·m`, not nanometres: see [`gravity_gradient_torque_max`], whose doc
+/// comment and summary line both state N·m.
+const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "altitude_km",
+            unit: "km",
+            provenance: Input,
+            definition: "circular-orbit altitude above the equatorial radius",
+        },
+        FieldUnit {
+            path: "delta_inertia_kg_m2",
+            unit: "kg*m^2",
+            provenance: Computed,
+            definition: "principal moment-of-inertia spread |I_max - I_min| of the body",
+        },
+        FieldUnit {
+            path: "gravity_gradient_torque_max_nm",
+            unit: "N*m",
+            provenance: ClosedForm,
+            definition: "worst-case gravity-gradient disturbance torque in newton-metres, \
+                         (3/2) * (mu_Earth / R^3) * delta_inertia, the value at the 45 deg \
+                         attitude",
+        },
+        FieldUnit {
+            path: "total_pointing_error_arcsec",
+            unit: "arcsec",
+            provenance: ClosedForm,
+            definition: "1 sigma pointing error of the whole budget: the root-sum-square \
+                         sqrt(sum of contributor sigma^2)",
+        },
+        FieldUnit {
+            path: "contributors[].sigma_arcsec",
+            unit: "arcsec",
+            provenance: ModelledInput,
+            definition: "1 sigma pointing-error contribution of one named source; the default \
+                         set is an illustrative budget allocation the caller may override",
+        },
+        FieldUnit {
+            path: "contributors[].variance_fraction",
+            unit: "1",
+            provenance: Computed,
+            definition: "share of the total pointing variance this contributor carries, \
+                         sigma_i^2 / sigma_total^2; the fractions sum to 1",
+        },
+    ]
+};
+
 /// The `attitude-budget` scenario: the gravity-gradient disturbance torque and the
 /// RSS pointing-error budget (with per-contributor breakdown and the dominant
 /// term) for an orbit altitude, body inertia spread and a set of 1σ contributors.
@@ -146,6 +198,7 @@ impl AttitudeBudgetScenario {
                       worst-case disturbance torque + RSS pointing budget; NOT a \
                       control-loop / 6-DoF / flexible-mode simulation (a pre-hardware \
                       complement to Basilisk/42, not a replacement)",
+            "units": crate::field_schema::units_block(UNITS),
             "altitude_km": self.altitude_km,
             "delta_inertia_kg_m2": delta_i,
             "gravity_gradient_torque_max_nm": t_gg,

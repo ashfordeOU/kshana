@@ -21,6 +21,103 @@ use crate::spoof_monitors::{
     SqmMonitor,
 };
 
+/// Unit and provenance class for every numeric field the `spoof-detect` report emits.
+pub const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "n_sats",
+            unit: "count",
+            provenance: Computed,
+            definition: "satellites in the evaluated line-of-sight geometry — the length of \
+                         the scenario's satellite list, or of the built-in eight-satellite one",
+        },
+        FieldUnit {
+            path: "power_floor_dbm",
+            unit: "dBm",
+            provenance: Computed,
+            definition: "expected total received power with no interferer: the incoherent \
+                         sum of n_sats satellites at sat_power_dbm each",
+        },
+        FieldUnit {
+            path: "measured_dbm",
+            unit: "dBm",
+            provenance: Computed,
+            definition: "total received power the AGC monitor sees under the attack, \
+                         power_floor_dbm plus the spoofer's power advantage",
+        },
+        FieldUnit {
+            path: "attack.power_advantage_db",
+            unit: "dB",
+            provenance: Input,
+            definition: "the spoofer's transmit-power advantage over the nominal received \
+                         power floor, echoed from the scenario",
+        },
+        FieldUnit {
+            path: "attack.push_magnitude_m",
+            unit: "m",
+            provenance: Input,
+            definition: "the pseudorange bias the spoofer applies: common-mode for a time \
+                         push, per-satellite on num_biased satellites for a position push",
+        },
+        FieldUnit {
+            path: "attack.num_biased",
+            unit: "count",
+            provenance: Input,
+            definition: "satellites whose pseudoranges a position push biases",
+        },
+        FieldUnit {
+            path: "attack.el_imbalance",
+            unit: "1",
+            provenance: Input,
+            definition: "fractional Early/Late correlator imbalance a non-carrier-aligned \
+                         spoofer imparts; ignored when the spoofer is carrier-aligned",
+        },
+        FieldUnit {
+            path: "decision.raim.statistic",
+            unit: "1",
+            provenance: Computed,
+            definition: "the parity-space test statistic: the leftover residual sum of \
+                         squares divided by sigma_m^2, so dimensionless, not metres",
+        },
+        FieldUnit {
+            path: "decision.raim.threshold",
+            unit: "1",
+            provenance: ClosedForm,
+            definition: "the chi-squared quantile at 1 - raim_p_fa for dof degrees of \
+                         freedom that statistic is compared against; also dimensionless",
+        },
+        FieldUnit {
+            path: "decision.raim.dof",
+            unit: "count",
+            provenance: Computed,
+            definition: "redundancy of the geometry, n_sats - 4: the chi-squared degrees of \
+                         freedom of the statistic",
+        },
+        FieldUnit {
+            path: "decision.agc_excess_db",
+            unit: "dB",
+            provenance: Computed,
+            definition: "measured_dbm minus power_floor_dbm: the received-power excess the \
+                         AGC monitor tests, negative when below the expected floor",
+        },
+        FieldUnit {
+            path: "decision.sqm_el_metric",
+            unit: "1",
+            provenance: Computed,
+            definition: "the signal-quality Early-minus-Late imbalance (E - L)/(E + L) of \
+                         the correlation peak; zero for a symmetric, undistorted peak",
+        },
+        FieldUnit {
+            path: "decision.fused.score",
+            unit: "1",
+            provenance: Computed,
+            definition: "the fused evidence score: the sum of the configured weights of the \
+                         layers that fired, compared against fusion_threshold",
+        },
+    ]
+};
+
 /// A satellite line-of-sight direction (degrees).
 #[derive(Clone, Copy, Debug, Deserialize, Serialize)]
 pub struct AzEl {
