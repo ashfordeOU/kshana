@@ -425,11 +425,25 @@ fn d_slant_range_max_m() -> f64 {
 fn d_carrier_hz() -> f64 {
     2.4e9
 }
+/// Terrestrial GPS L1 C/A received power, TYPICAL, in dBW.
+///
+/// This was `-125.0` — which is the figure in **dBm**, not dBW, and is 30 dB too strong.
+/// The same 30 dB error sat in the specification minimum below, and the pair was the
+/// entire basis of P1's published "15.6 dB lunar power deficit". Correcting the unit
+/// inverts the sign of that result: the modelled lunar AFS signal is not weaker than
+/// terrestrial GPS, it is stronger. See `gps_reference_agrees_with_the_jamming_module`
+/// for the guard that now makes the two engine copies of this quantity agree.
 fn d_gps_reference_dbw() -> f64 {
-    -125.0
+    -155.0
 }
+/// Terrestrial GPS L1 C/A received power, SPECIFICATION MINIMUM, in dBW.
+///
+/// ICD-GPS-200: -158.5 dBW at the Earth's surface for a 0 dBic antenna at 5 degrees
+/// elevation, worst case. This is the same constant the jamming module has always
+/// carried correctly as [`crate::jamming::DEFAULT_SIGNAL_POWER_DBW`]; it was `-128.5`
+/// here, which is that value in dBm.
 fn d_gps_reference_min_dbw() -> f64 {
-    -128.5
+    crate::jamming::DEFAULT_SIGNAL_POWER_DBW
 }
 fn d_afs_isotropic_signal_dbw() -> f64 {
     -143.6
@@ -831,16 +845,34 @@ impl LunarAttackSurfaceScenario {
             .first()
             .map(|p| p.spoof_tx_power_w)
             .unwrap_or(f64::NAN);
+        // The reference correction turned the deficit negative, and `{:.0}×` on a linear
+        // ratio below one prints "0×" — a true number rendered as nonsense. Say which
+        // direction the link sits in, and quote the factor the reader can act on: the
+        // ratio as it is when the signal is weaker, its reciprocal when it is stronger.
+        let (sense, shown_rounded, shown_unrounded) = if a.deficit_db >= 0.0 {
+            (
+                "deficit",
+                a.deficit_factor_rounded,
+                a.deficit_factor_unrounded,
+            )
+        } else {
+            (
+                "surplus",
+                1.0 / a.deficit_factor_rounded,
+                1.0 / a.deficit_factor_unrounded,
+            )
+        };
         let summary = format!(
-            "lunar-attack-surface | AFS {:.1} dBW, deficit {:.1} dB (band {:.1}–{:.1}, {:.0}×/{:.0}×) | \
+            "lunar-attack-surface | AFS {:.1} dBW, {sense} {:.1} dB (band {:.1}–{:.1}, \
+             {:.0}×/{:.0}× {sense}) | \
              spoof@{:.0} m {:.3} W | footprint {:.0}% cap, limb {} | spoof-capture {} (lock {:.2} s) | \
              mast reach {:.1} km | OSNMA {:.0} bit/s ({:.0}% of 50 bit/s), {:.0} s latency",
             a.afs_received_dbw,
-            a.deficit_db,
+            a.deficit_db.abs(),
             a.deficit_band_lo_db,
             a.deficit_band_hi_db,
-            a.deficit_factor_rounded,
-            a.deficit_factor_unrounded,
+            shown_rounded,
+            shown_unrounded,
             self.standoffs_m[0],
             nearest,
             a.footprint_captured_fraction * 100.0,
@@ -980,6 +1012,73 @@ impl LunarAttackSurfaceScenario {
 
 #[cfg(test)]
 mod tests {
+    /// The engine must not hold two different values for one physical quantity.
+    ///
+    /// It did. `jamming.rs` has always carried terrestrial GPS L1 C/A received power
+    /// correctly as -158.5 dBW (ICD-GPS-200) and derives C/N0 from it. This module
+    /// carried the same quantity, with `dbw` in the field name, as -125.0 / -128.5 —
+    /// the **dBm** figures, 30 dB too strong — and that pair was the whole basis of
+    /// P1's published "15.6 dB lunar power deficit", whose sign the correction inverts.
+    ///
+    /// Nothing compared them, because no test knew the two constants named the same
+    /// thing. This one does.
+    #[test]
+    fn gps_reference_agrees_with_the_jamming_module() {
+        assert_eq!(
+            super::d_gps_reference_min_dbw(),
+            crate::jamming::DEFAULT_SIGNAL_POWER_DBW,
+            "the specification-minimum GPS reference and jamming::DEFAULT_SIGNAL_POWER_DBW \
+             are the same physical quantity in the same unit and must be the same number"
+        );
+        // The typical received power sits above the specification minimum, and by a
+        // realistic margin rather than an arbitrary one: the spec is a worst-case
+        // antenna at low elevation, and the usual quoted separation is a few dB.
+        let (typ, min) = (
+            super::d_gps_reference_dbw(),
+            super::d_gps_reference_min_dbw(),
+        );
+        assert!(
+            typ > min && typ - min <= 6.0,
+            "typical {typ} dBW must exceed the specification minimum {min} dBW by a few dB"
+        );
+    }
+
+    /// A dBm value in a dBW field is 30 dB out, which no plausibility band on a *ratio*
+    /// can catch — but an ABSOLUTE received power at the Earth's surface has a narrow
+    /// physical range, and 30 dB leaves it. A GNSS signal arriving at -125 dBW would be
+    /// a kilowatt-class emitter overhead; the real figure is near -158.5 dBW.
+    ///
+    /// This is the general form of the guard above: it fires on any received-power
+    /// constant that has quietly been written in the wrong decibel reference.
+    #[test]
+    fn every_received_power_reference_is_a_plausible_dbw_figure() {
+        // -170 dBW is below any usable GNSS signal; -140 dBW is above the strongest
+        // received power a terrestrial GNSS user sees. A dBm transcription of either
+        // bound lands outside it by construction.
+        const FLOOR_DBW: f64 = -170.0;
+        const CEILING_DBW: f64 = -140.0;
+        for (name, v) in [
+            (
+                "attack_surface::gps_reference_dbw",
+                super::d_gps_reference_dbw(),
+            ),
+            (
+                "attack_surface::gps_reference_min_dbw",
+                super::d_gps_reference_min_dbw(),
+            ),
+            (
+                "jamming::DEFAULT_SIGNAL_POWER_DBW",
+                crate::jamming::DEFAULT_SIGNAL_POWER_DBW,
+            ),
+        ] {
+            assert!(
+                (FLOOR_DBW..=CEILING_DBW).contains(&v),
+                "{name} = {v} dBW is outside the plausible received-power band \
+                 [{FLOOR_DBW}, {CEILING_DBW}] dBW — is it a dBm figure?"
+            );
+        }
+    }
+
     use super::*;
 
     /// Empty TOML reproduces the P1 baseline headline numbers across all six composed
@@ -989,22 +1088,60 @@ mod tests {
         let scn = LunarAttackSurfaceScenario::default();
         let a = scn.analyse().expect("baseline analyses");
 
-        // Link budget: AFS received ≈ −140.6 dBW, deficit 15.6 dB, band ≈ 12–18 dB.
+        // Link budget. The received power is unchanged and always was right: a closed-form
+        // FSPL of 169.594 dB at 3000 km and 2.4 GHz on a 26 dBW EIRP and 3 dBi user gain.
         assert!(
             (a.afs_received_dbw - (-140.6)).abs() < 0.1,
             "afs {}",
             a.afs_received_dbw
         );
+
+        // REVISION (rule R4). This block asserted a deficit of +15.6 dB with a 12–18 dB
+        // band and a 36x linear factor. Those came from a GPS reference of -125 / -128.5
+        // "dBW", which are the dBm figures — 30 dB too strong. With the reference in the
+        // unit its field name claims, the sign inverts: the modelled lunar AFS signal is
+        // STRONGER than terrestrial GPS L1 C/A, not weaker. Nothing else moved; the
+        // received power above is identical to the digit.
         assert!(
-            (a.deficit_db - 15.6).abs() < 0.1,
-            "deficit {}",
+            (a.deficit_db - (-14.4056)).abs() < 0.001,
+            "deficit {} — expected a SURPLUS of 14.41 dB, not a deficit",
             a.deficit_db
         );
-        assert!(a.deficit_band_lo_db > 12.0 && a.deficit_band_lo_db < 12.3);
-        assert!(a.deficit_band_hi_db > 17.9 && a.deficit_band_hi_db < 18.1);
-        // 32×/36× reconciliation.
-        assert_eq!(a.deficit_factor_rounded.round(), 32.0);
-        assert!((a.deficit_factor_unrounded - 36.3).abs() < 1.0);
+        assert!(
+            a.deficit_band_lo_db > -17.92 && a.deficit_band_lo_db < -17.89,
+            "band lo {}",
+            a.deficit_band_lo_db
+        );
+        assert!(
+            a.deficit_band_hi_db > -12.02 && a.deficit_band_hi_db < -11.99,
+            "band hi {}",
+            a.deficit_band_hi_db
+        );
+        // The linear factor keeps its definition, 10^(dP/10), and therefore now reads
+        // BELOW one: 0.0362613, i.e. the lunar signal is 1/0.0362613 = 27.58x stronger.
+        //
+        // This number is the proof that the unit was the only thing wrong. The released
+        // value was 36.26129542174349 and the corrected one is 0.036261295421743486 —
+        // the same mantissa to fifteen digits, exactly 1000x apart. A factor of 1000 is
+        // exactly 30 dB, which is exactly the dBm-to-dBW offset. Nothing else in the
+        // link budget moved by so much as a bit.
+        assert!(
+            (a.deficit_factor_unrounded - 0.036_261_295_421_743_486).abs() < 1e-12,
+            "factor {}",
+            a.deficit_factor_unrounded
+        );
+        assert!(
+            (a.deficit_factor_unrounded * 1000.0 - 36.261_295_421_743_49).abs() < 1e-9,
+            "the corrected factor must be the released one over exactly 1000 (30 dB), \
+             got {}",
+            a.deficit_factor_unrounded
+        );
+        // And the defect itself is pinned, so restoring either dBm constant fails here
+        // as well as in gps_reference_agrees_with_the_jamming_module.
+        assert!(
+            a.deficit_db < 0.0,
+            "a positive deficit means the dBm-for-dBW reference is back"
+        );
 
         // Footprint is a sub-hemispheric cap, limb NOT captured.
         assert!(!a.footprint_limb_captured);
