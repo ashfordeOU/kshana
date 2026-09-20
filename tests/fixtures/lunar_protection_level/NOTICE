@@ -1,0 +1,152 @@
+Lunar ARAIM protection-level external-oracle fixtures: provenance & licences
+============================================================================
+
+This directory cross-validates kshana's lunar ARAIM protection level
+(`lunar_service::lunar_protection_level` and
+`lunar_service::lunar_protection_level_with_sigma`, driven by
+`lunar::lunar_araim_with_sigma` -> `raim::araim_raim`) against an oracle assembled
+from two established third-party implementations. The pinned reference values in
+lunar_protection_level_reference.txt are REAL oracle output, produced offline, so CI
+needs neither RTKLIB nor SciPy at run time. See tests/lunar_protection_level_reference.rs
+for the checks and generate_lunar_protection_level_reference.sh to reproduce. These
+files are not part of the kshana source and are not shipped in the published
+crates/packages -- they exist only for the test suite.
+
+Files
+-----
+- oracle.c
+    Our (AGPL-3.0-only) C driver. Calls RTKLIB norm() and lsq(); emits one
+    (GtG)^-1 per hypothesis geometry.
+- generate_lunar_protection_level_reference.py
+    Our (AGPL-3.0-only) SciPy/NumPy generator: projects those covariances onto the
+    local vertical/horizontal, builds the MHSS fault-hypothesis modes, and solves for
+    the protection level.
+- generate_lunar_protection_level_reference.sh
+    Our (AGPL-3.0-only) end-to-end regeneration script.
+- lunar_protection_level_reference.txt
+    The committed reference vectors (geometry + oracle protection levels + oracle
+    dilution-of-precision factors + oracle detector multiplier).
+
+
+WHAT THIS ORACLE COVERS -- AND WHAT IT DOES NOT
+-----------------------------------------------
+The lunar protection level is not a certified algorithm with published verification
+vectors, so the honest statement is split three ways:
+
+1. STATISTICAL KERNEL -- externally checked. The normal quantile that sets the
+   detection thresholds, the normal upper tail of every fault hypothesis, and the
+   root solve that maps an integrity-risk budget onto a protection level are
+   uniquely-defined mathematical objects. SciPy computes them with Cephes `ndtr` /
+   `ndtri` and Brent's method; kshana computes them with a Numerical-Recipes
+   incomplete-gamma series, a bisected inverse, and a 200-step bisection root find.
+   Different algorithms, same object.
+
+2. GEOMETRY -> COVARIANCE -- externally checked. (GtG)^-1 is standard unweighted
+   least squares. RTKLIB's lsq() inverts the normal matrix with Crout LU and partial
+   pivoting (ludcmp/lubksb); numpy.linalg.inv does it again through LAPACK
+   getrf/getri; kshana does it with a hand-written Gauss-Jordan invert4(). Three
+   independent inverses. The projection onto the local vertical uses the radial unit
+   vector -- the definition of local vertical for a spherical Moon, not a convention
+   -- and the horizontal variance is taken as the trace of the horizontal block, so
+   no East/North azimuth convention is shared with kshana.
+
+3. SIGMA_URE BUDGET AND THE LUNAR CONSTELLATION -- NOT externally checked, and
+   nothing here should be read as claiming otherwise. sigma_URE (30 m LunaNet-class),
+   the per-satellite fault prior (1e-4) and the illustrative Moonlight/LCNS-class
+   orbit set are MODELLED inputs; they are handed to the oracle as given numbers.
+
+There is a fourth thing that is also NOT externally validated: the FORM of the
+single-fault MHSS integrity equation,
+    P_HMI(PL) = sum_k p_k * Q((PL - T_k)/sigma_k),  T_k = K_fa * sigma_ss,k,
+    K_fa = Phi^-1(1 - P_fa / 2N),
+which the Python generator transcribes from the same published bound kshana's
+raim::araim_raim implements. A shared closed form is a shared assumption: these
+fixtures would catch a wrong evaluation of that equation, not a wrong choice of
+equation.
+
+
+ORACLE 1: RTKLIB
+----------------
+- Tool    : RTKLIB, by Tomoji Takasu.
+- Source  : github.com/tomojitakasu/RTKLIB
+- Version : library version string "2.4.2", patch level "p13" (git tag v2.4.2-p13).
+- Commit  : 71db0ffa0d9735697c6adfd06fdf766d0e5ce807 (2018-01-30).
+- Files used (fetched and compiled from source; NOT vendored here):
+    src/rtklib.h  SHA-256 5b61545cb703c781b206497040194efdc8b8a23cdac4c627283efd1260693653
+    src/rtkcmn.c  SHA-256 c1d7e9af54518733dc874fc64523114b4a77a45e80895d0bb8ff4fcecfea65c7
+  From rtkcmn.c: norm() (line-of-sight normalisation), lsq() (the normal-equations
+  least-squares solve pntpos.c::estpos() drives; it leaves (GtG)^-1 in its Q output),
+  and matinv() -> ludcmp()/lubksb(). Built with -ULAPACK so the pure-C Crout-LU path
+  is selected and no BLAS/LAPACK is linked.
+- RTKLIB is distributed under the BSD 2-Clause license with two additional clauses,
+  reproduced verbatim below. RTKLIB source is NOT redistributed in this repository;
+  it is fetched and compiled separately by the generator script.
+
+  Copyright (c) 2007-2013, T. Takasu, All rights reserved.
+
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+
+  - Redistributions of source code must retain the above copyright notice, this
+    list of conditions and the following disclaimer.
+
+  - Redistributions in binary form must reproduce the above copyright notice,
+    this list of conditions and the following disclaimer in the documentation
+    and/or other materials provided with the distribution.
+
+  - The software package includes some companion executive binaries or shared
+    libraries necessary to execute APs on Windows. These licenses succeed to the
+    original ones of these software.
+
+  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+  AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+  IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+  ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+  LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+  CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE
+  GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+  LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT
+  OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+ORACLE 2: SciPy / NumPy
+-----------------------
+- Tools   : SciPy 1.17.0 and NumPy 2.4.1 (both BSD-3-Clause), under Python 3.14.2 on
+            macOS/arm64. Not vendored; not needed at test run time.
+- Used for: scipy.stats.norm.isf (Phi^-1, Cephes ndtri) for the Bonferroni detector
+            multiplier; scipy.stats.norm.sf (Cephes ndtr) for each integrity-risk tail
+            term; scipy.optimize.brentq for the protection-level root;
+            numpy.linalg.inv (LAPACK getrf/getri) as a third independent inverse of
+            every normal matrix.
+- The largest RTKLIB-vs-LAPACK disagreement over every hypothesis geometry in the
+  committed fixture is measured by the generator and printed into the fixture header.
+
+
+INPUT GEOMETRY (MODELLED, shared with kshana on purpose)
+--------------------------------------------------------
+kshana's illustrative Moonlight/LCNS-class constellation
+(`lunar_service::LunarConstellation::illustrative_lcns`) reduced to Moon-fixed
+coordinates and filtered by the elevation mask, at seven service-volume points:
+south-polar (the Artemis target region), mid-latitude, equatorial and a raised
+highland site; 6 to 19 satellites in view; sigma_URE 10 / 30 / 60 m; P_HMI 1e-3 to
+1e-7. The constellation parameters are illustrative public-source approximations of
+the system CLASS -- not the real Moonlight/LCNS ephemeris, and implying no
+affiliation, endorsement, heritage, certification or TRL. Re-deriving them inside the
+oracle would only re-implement kshana, so they are passed in as given numbers; the
+Rust test's `the_fixture_geometry_is_still_the_engines_own_service_volume` proves the
+committed geometry is still the geometry the engine produces.
+
+
+TOLERANCES AND MEASURED AGREEMENT
+---------------------------------
+Measured over the committed fixture (printed by the tests themselves):
+  protection level    worst |delta| 1.061e-8 m (HPL) and 1.044e-8 m (VPL) against a
+                      1e-6 m tolerance, on protection levels of 1.7e2 to 6.9e3 m
+  dilution of precision worst relative |delta| 1.790e-14 against a 1e-9 tolerance
+  detector multiplier worst relative |delta| 2.716e-11 against a 1e-10 tolerance
+  RTKLIB vs LAPACK inverse  1.112e-12 relative, over every hypothesis geometry
+Three negative controls prove the comparison is not vacuous: a 5 km shift of one
+satellite, a 1e-6 relative increase in sigma_URE, and a 0.1 % tightening of P_HMI each
+move the protection level by at least 1.7e-4 m -- more than two orders of magnitude
+outside the tolerance -- and the tests assert that they do.
