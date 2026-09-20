@@ -68,3 +68,25 @@ fault_ramp_rate_clock_s_s = 1.0e-11   # clock-axis bias growth (s/s)
 process_noise_pos_psd_m2_s   = 1.0e-3   # 1 m (1-sigma) of unmodelled growth per 1000 s, per axis
 process_noise_clock_psd_s2_s = 1.0e-22  # white-FM phase random walk at sigma_y(1 s) = 1e-11
 # coast_coverage_k                      # default Phi^-1(1 - P_HMI/2) = 5.327; uncomment to override
+
+# --- G16 RF link leg: availability, and the like-for-like ranging comparison ---
+# The RF side of a hybrid service needs its own link, and this is it. Both the RF
+# availability block (A_rf = I_closure * I_track over the Eb/N0 margin and the tracking
+# threshold) and the RF leg of the optical-versus-RF ranging ratio are evaluated from
+# exactly these values, at the range_km and integration_s already declared above, so the
+# two modalities can never be compared at different operating points.
+rf_band                     = "x"       # s | x | ka -> the CCSDS-401 / DSN-810-005 band centre
+rf_eirp_dbw                 = 26.0      # MODELLED: the lunar augmented-forward-signal EIRP
+rf_g_over_t_db              = 53.0      # MODELLED: DSN 34 m beam-waveguide X-band figure of merit
+rf_other_losses_db          = 3.0       # MODELLED: lumped pointing/polarisation/atmosphere/implementation
+rf_data_rate_bps            = 1.0e6     # sets Eb/N0 and the closure margin; does not touch C/N0
+rf_required_eb_n0_db        = 4.5
+rf_chip_rate_hz             = 1.023e6   # GPS C/A reference chip rate
+rf_correlator_spacing_chips = 0.5       # standard half-chip early-late correlator
+rf_tracking_threshold_dbhz  = 25.0      # MODELLED receiver loss-of-lock threshold
+rf_degraded_margin_db       = 6.0       # MODELLED: DEGRADED band above that threshold
+# rf_dll_bandwidth_hz                   # DERIVED as 1/(2*integration_s) = 0.5 Hz, the loop
+#                                       # noise bandwidth whose equivalent averaging time is
+#                                       # exactly the optical accumulation time. Overriding it
+#                                       # so the two disagree REFUSES the ranging ratio rather
+#                                       # than quoting one at two operating points.
