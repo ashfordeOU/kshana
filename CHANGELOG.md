@@ -11,6 +11,27 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **`lunar-llr-datum` — the lunar frame datum from a real observing campaign.**
+  `lunar-frame-campaign` replaced an injected Helmert transform with a *simulated*
+  campaign and said so: its station network, its schedule and its per-observation
+  sigma are illustrative inputs. This scenario removes the simulation from the two
+  places where a schedule and an error model enter the answer. The epochs are the
+  transmit times of 337 archived ILRS lunar laser ranging normal points
+  (2015-04-08 .. 2015-06-27, Grasse MeO 7845 and Matera MLRO 7941, all five
+  retroreflector arrays), and every observation weight is that normal point's own
+  archived precision, `bin_rms / sqrt(n_raw)` — a median of 5.13 mm of one-way
+  range, out of the file rather than chosen here. Station coordinates come from
+  IERS ITRF2020 and the reflector coordinates from JPL DE430 Table 7; each fixture
+  records a URL, a retrieval date and a SHA-256 and regenerates from its source by
+  a committed generator that verifies the source and aborts rather than emit a
+  number. The report names which links are measured and which remain modelled, and
+  the modelled ones are *measured*: the observed-minus-computed one-way range over
+  the real data is 156 494 m RMS, which the same test set confirms against JPL
+  Horizons over the same span (195 655 m RMS vector, worst epoch 0.054° — inside
+  the ~0.3° the built-in analytic lunar series claims for itself). Additive: a new
+  kind, a new reader (`realdata::llr_crd`) and a new module (`lunar_llr`); the
+  existing lunar frame packs are pinned bit-for-bit.
+
 - **`sigma_ure_m` as a scenario parameter** on `lunar-integrity` and
   `moonlight-service-volume`. The signal-in-space ranging accuracy was a
   compile-time constant (`LUNAR_SIGMA_URE_M`), so a service-volume sweep could
