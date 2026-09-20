@@ -2182,6 +2182,9 @@ mod tests {
         out
     }
 
+    /// Distinguishes the temp files of concurrent `two_vintage_report` calls.
+    static TWO_VINTAGE_SEQ: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+
     /// Run the scenario over a genuine two-vintage pair (see [`truncated_as_issued`]),
     /// through real files on disk, and return the report.
     fn two_vintage_report(kept: usize, tag: &str) -> Value {
@@ -2189,8 +2192,16 @@ mod tests {
         let as_issued = truncated_as_issued(later, kept);
         let dir = std::env::temp_dir();
         let pid = std::process::id();
-        let a = dir.join(format!("kshana_g13_issued_{tag}_{pid}.txt"));
-        let b = dir.join(format!("kshana_g13_later_{tag}_{pid}.txt"));
+        // The sequence number is what makes these paths unique, not the tag. Cargo runs
+        // the library tests as parallel threads of ONE process, so the pid is shared, and
+        // `all_reports()` — itself called by three separate tests — passes the same tag
+        // every time. Keyed on tag alone, those three raced on one pair of files: whichever
+        // finished first removed them while another was still reading, and the run failed
+        // with ENOENT on a file it had just written. Intermittent, so it passed the gate
+        // once before it failed one.
+        let seq = TWO_VINTAGE_SEQ.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+        let a = dir.join(format!("kshana_g13_issued_{tag}_{pid}_{seq}.txt"));
+        let b = dir.join(format!("kshana_g13_later_{tag}_{pid}_{seq}.txt"));
         std::fs::write(&a, &as_issued).unwrap();
         std::fs::write(&b, later).unwrap();
         let v = run(RealtimeFrameEopScenario {
