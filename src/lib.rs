@@ -138,6 +138,7 @@ pub mod linkbudget;
 pub mod lunar;
 pub mod lunar_beacon;
 pub mod lunar_combination;
+pub mod lunar_common_mode;
 pub mod lunar_dpnt;
 pub mod lunar_ephemeris;
 pub mod lunar_frame;
