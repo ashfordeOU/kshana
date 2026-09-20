@@ -92,6 +92,19 @@ impl FeatureStageConfig {
             track: TrackConfig::default(),
         }
     }
+
+    /// Where [`Self::fs_hz`] sits against the C/A chip grid — check this before trusting
+    /// tracking output from a rate you chose yourself.
+    ///
+    /// At an exactly commensurate rate (an integer number of samples per chip) the
+    /// zero-order-hold code replica cannot resolve sub-chip code-phase error, so the DLL
+    /// discriminator is a staircase with a one-sample dead band rather than a triangle and
+    /// the loop tracks at the wrong lag. See [`crate::sdr::ChipGrid`] for the measured size
+    /// of the effect. 25 MHz is 24.4379 samples/chip and is not affected; 4.092, 8.184,
+    /// 10.23 and 20.46 MHz are.
+    pub fn chip_grid(&self) -> crate::sdr::ChipGrid {
+        crate::sdr::chip_grid(self.fs_hz, sdr::CA_CHIP_RATE_HZ)
+    }
 }
 
 /// Acquire and track a single `prn` in `iq`, returning its per-epoch correlator dumps,

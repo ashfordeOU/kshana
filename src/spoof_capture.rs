@@ -104,6 +104,21 @@ impl Default for CaptureConfig {
     }
 }
 
+impl CaptureConfig {
+    /// Where [`Self::fs_hz`] sits against the C/A chip grid — check this before trusting a
+    /// pull-in verdict from a rate you chose yourself.
+    ///
+    /// At an exactly commensurate rate (an integer number of samples per chip) the
+    /// zero-order-hold code replica cannot resolve sub-chip code-phase error, the DLL
+    /// discriminator becomes a staircase with a one-sample dead band, and the loop settles at
+    /// the wrong lag — so a capture verdict read off it is not a capture verdict. See
+    /// [`crate::sdr::ChipGrid`] for the measured size of the effect. The default 5 MHz is
+    /// 4.8876 samples/chip and is not affected.
+    pub fn chip_grid(&self) -> crate::sdr::ChipGrid {
+        crate::sdr::chip_grid(self.fs_hz, CA_CHIP_RATE_HZ)
+    }
+}
+
 /// The outcome of one pull-in experiment: whether the spoofer captured the loop, and the
 /// loop's terminal code/carrier state relative to the authentic and spoofed truths.
 #[derive(Clone, Copy, Debug)]
