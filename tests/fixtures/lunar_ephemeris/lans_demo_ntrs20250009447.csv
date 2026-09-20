@@ -1,0 +1,20 @@
+# kshana-lunar-constellation 1
+# format: elements
+# provenance: published-elements
+# name: LANS interoperability demonstration reference constellation (5 satellites)
+# elements_frame: icrf
+# epoch_jd_tdb: 2461406.500000000
+# epoch: 2027-01-01 00:00:00.000 TDB, as stated by the source
+# source: Melman, Swinden, Oduber, Audet, Stallo, Gramling, Crenshaw, Murata, Okamoto, Ventura-Traveset and Molli, "Lunar Augmented Navigation Service Interoperability Demonstration - Reference Products and Expected PVT Accuracy", ION GNSS+ 2025, Baltimore MD, 8-12 September 2025; NASA NTRS 20250009447, Table 3
+# url: https://ntrs.nasa.gov/api/citations/20250009447/downloads/LANS_Demo_ION_Paper_v1_3.pdf
+# retrieved: 2026-09-20
+# source_sha256: d1b916be31afad8ff6fc535cff2df1a0c3233c2123830f792e5e1cf439c6ce05
+# published_frame: ICRF, as stated by the source; used as such, no frame approximation
+# source_caveat: the source states that these orbits are NOTIONAL and are only applicable for a preliminary performance analysis within the context of that publication
+# generator: tests/fixtures/lunar_ephemeris/generate_lans_demo_ntrs.py
+sat,name,sma_km,ecc,inc_deg,raan_deg,argp_deg,true_anom_deg
+0,ESA Moonlight LCNS Nav #1,9748.14,0.70,48.04,89.49,123.60,90.0
+1,Japan LNSS Demo,3870.00,0,104.428,53.563,90.0,-5.0
+2,NASA LCRNS #1,11999.2626,0.655,32.22,-162.33,75.96,-147.49
+3,NASA LCRNS #2,12027.7960,0.641,31.33,-164.02,76.14,151.30
+4,NASA LCRNS #3,11993.3508,0.721,79.07,-42.86,68.18,-119.79
