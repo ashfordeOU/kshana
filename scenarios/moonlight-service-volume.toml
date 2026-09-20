@@ -83,3 +83,47 @@ p_hmi = 1e-4
 #   diameter_m = 1.0       # required: the pattern is a statement about one aperture
 #   carrier_hz = 2.4e9     # default 2.4e9 (S-band lunar AFS)
 #   efficiency = 0.60      # default 0.60 (antenna::DEFAULT_APERTURE_EFFICIENCY)
+#
+# OPTIONAL real, retrieved geometry in place of the illustrative constellation above.
+# UNSET BY DEFAULT, and unset changes nothing: the report is byte-identical to what it is
+# without this line. Point it at a file and that file's geometry drives the headline
+# coverage / DOP / protection-level figures, the report gains an `ephemeris` provenance
+# block (path, SHA-256 of the exact bytes, upstream document, URL, retrieval date), and an
+# `ephemeris_comparison` block carries the sigma_URE RANGING REQUIREMENT under that
+# geometry BESIDE the unchanged Keplerian and perturbed results, with the difference and
+# the ratio emitted as their own named quantities. Nothing is replaced; nothing is tuned to
+# bring the geometries together.
+#
+# Two file formats, two distinct provenance classes (see src/lunar_ephemeris.rs and
+# tests/fixtures/lunar_ephemeris/NOTICE.md):
+#   * `# format: elements` -> a PUBLISHED CONSTELLATION DEFINITION, propagated by the same
+#     Kepler solver the illustrative set uses, so the only difference between the two runs
+#     is the constellation design. Provenance class `published-elements`.
+#   * `# format: states`   -> a TABULATED MOON-CENTRED STATE EPHEMERIS (what an SPK/BSP
+#     kernel evaluates to), Lagrange-interpolated and reduced to MCMF by the IAU 2015 /
+#     WGCCRE lunar orientation. Provenance class `published-ephemeris`. A horizon past the
+#     end of the table is REFUSED rather than extrapolated.
+#
+# An `elements` file states its own frame (`# elements_frame: icrf` or `mci`, default
+# `mci`) and may give the phase as either a mean or a TRUE anomaly, so a fixture can carry
+# exactly the numbers its source printed. An ICRF-stated set is propagated in ICRF and
+# reduced by the IAU 2015 / WGCCRE lunar orientation, with no frame approximation; an
+# OP-frame set (the Ely / Ely and Lieb convention) is read as MCI, and the report emits the
+# COMPUTED tilt that introduces as `ephemeris.published_frame_tie_angle_deg`.
+#
+# The committed candidates (all regenerable from their recorded sources):
+#   ephemeris_path = "tests/fixtures/lunar_ephemeris/lans_demo_ntrs20250009447.csv"
+#     the 5-satellite joint ESA/NASA/JAXA LANS interoperability-demonstration reference
+#     constellation, Table 3 of Melman et al., ION GNSS+ 2025 / NASA NTRS 20250009447.
+#     Elements in ICRF at a stated epoch; the source calls the orbits NOTIONAL and that
+#     caveat is emitted with them. Five satellites can never put the six in view ARAIM
+#     needs, so this yields coverage and DOP but NO protection level and NO sigma
+#     requirement - reported absent, not manufactured.
+#   ephemeris_path = "tests/fixtures/lunar_ephemeris/lncss_case_a_navi613.csv"
+#     8-satellite LNCSS case study A, Table 1 of Bhamidipati, Mina, Sanchez and Gao,
+#     NAVIGATION 70(4) navi.613, 2023 (open access, CC BY). Cases B (12 sats) and C (16)
+#     are committed beside it.
+#   ephemeris_path = "tests/fixtures/lunar_ephemeris/horizons_lunar_orbiters_2023001_12h.csv"
+#     the four spacecraft really in lunar orbit on 2023-01-01, from JPL Horizons. NOT a
+#     navigation constellation: 1-2 in view over the south pole, no protection level, so
+#     the sigma requirement comes back ABSENT rather than invented.
