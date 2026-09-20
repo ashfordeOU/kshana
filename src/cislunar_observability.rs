@@ -68,8 +68,9 @@ use crate::intersat_range::{
 };
 use crate::observability_gramian::{
     cislunar_gdop, gramian, gramian_spectrum, observability_matrix, observable_rank,
-    range_vs_range_rate_rank, rank_vs_arc, whitened_posterior, CislunarGdop, GramianSpectrum, Mat,
-    ObsEpoch, RankArcPoint, RankLever, WhitenedPosterior, N_PLANAR, N_SPATIAL,
+    range_vs_range_rate_rank, rank_tolerance_note, rank_vs_arc, whitened_posterior, CislunarGdop,
+    GramianSpectrum, Mat, ObsEpoch, RankArcPoint, RankLever, WhitenedPosterior, N_PLANAR,
+    N_SPATIAL,
 };
 use serde::Deserialize;
 use std::sync::{Mutex, OnceLock};
@@ -802,7 +803,7 @@ impl CislunarObservabilityScenario {
             .rank_arc
             .iter()
             .map(|p| {
-                serde_json::json!({
+                let mut row = serde_json::json!({
                     "epoch_index": p.epoch_index,
                     "arc_time_tu": p.arc_time,
                     "arc_hours": p.arc_time / tu_per_hour(),
@@ -810,7 +811,16 @@ impl CislunarObservabilityScenario {
                     "rank": p.rank,
                     "sigma_max": p.sigma_max,
                     "sigma_min": p.sigma_min,
-                })
+                });
+                // Present only on a prefix whose singular-value count exceeded what the matrix
+                // shape admits, so the released document (rel_tol 1e-6, where the bound never
+                // binds) is unchanged and a clamp is never silent.
+                if let Some(reason) = &p.rank_limited_by {
+                    row.as_object_mut()
+                        .expect("rank row is an object")
+                        .insert("rank_limited_by".into(), reason.as_str().into());
+                }
+                row
             })
             .collect();
         // Constellation provenance: one entry per member (chief first), carrying the parent
@@ -924,11 +934,19 @@ impl CislunarObservabilityScenario {
                     full-space λmax/λmin (\"inf\" below full rank)."
             }
         });
-        let doc = if c.extended {
+        let mut doc = if c.extended {
             extend_document(doc, c)
         } else {
             doc
         };
+        // A rank read taken below the f64 noise floor is reported as such rather than being
+        // quietly re-floored. Absent at every tolerance at or above sqrt(f64::EPSILON)
+        // (~1.49e-8), so the released default document (rel_tol 1e-6) is unchanged.
+        if let Some(note) = rank_tolerance_note(c.rel_tol) {
+            doc.as_object_mut()
+                .expect("the report is an object")
+                .insert("rank_tolerance_note".into(), note.into());
+        }
         serde_json::to_string_pretty(&doc).map_err(|e| e.to_string())
     }
 
@@ -1145,7 +1163,7 @@ fn extend_document(mut doc: serde_json::Value, c: &Computed) -> serde_json::Valu
         .posterior_arc
         .iter()
         .map(|p| {
-            serde_json::json!({
+            let mut row = serde_json::json!({
                 "epoch_index": p.epoch_index,
                 "arc_time_tu": p.arc_time,
                 "arc_hours": p.arc_time / tu_per_hour(),
@@ -1154,7 +1172,13 @@ fn extend_document(mut doc: serde_json::Value, c: &Computed) -> serde_json::Valu
                 "condition": condition_json(p.post.condition),
                 "sigma_position_km": p.sigma_position_km,
                 "sigma_velocity_mm_s": p.sigma_velocity_mm_s,
-            })
+            });
+            if let Some(reason) = &p.post.rank_limited_by {
+                row.as_object_mut()
+                    .expect("posterior row is an object")
+                    .insert("rank_limited_by".into(), reason.as_str().into());
+            }
+            row
         })
         .collect();
     let last_post = c.posterior_arc.last();
@@ -2393,5 +2417,78 @@ mod tests {
             ..Default::default()
         };
         assert!(scn.run_output().is_err());
+    }
+
+    /// The rank read never reports more observable directions than the arc has measurement
+    /// rows — on the published planar grid, at every tolerance including the ones far below
+    /// the f64 rank-read noise floor where the raw singular-value count used to run past the
+    /// matrix shape (epoch 1 reported rank 3 from 2 rows at rel_tol 1e-12; the whitened leg
+    /// reported rank 2 from 1 row from rel_tol 1e-9 down).
+    #[test]
+    fn no_arc_prefix_reports_more_rank_than_it_has_rows() {
+        for (rel_tol, sigma_range_m) in [
+            (1e-6_f64, 0.0_f64),
+            (1e-9, 0.0),
+            (1e-12, 0.0),
+            (1e-9, 1.0),
+            (1e-10, 1.0),
+            (1e-12, 1.0),
+        ] {
+            let scn = CislunarObservabilityScenario {
+                arc_hours: Some(6.0),
+                epochs: Some(24),
+                rel_tol: Some(rel_tol),
+                sigma_range_m: Some(sigma_range_m),
+                ..Default::default()
+            };
+            let (json, _s, _g) = scn.run_output().expect("the published grid runs");
+            let v: Value = serde_json::from_str(&json).unwrap();
+            for row in v["rank_vs_arc"].as_array().expect("rank table") {
+                let rows = row["n_rows"].as_u64().expect("n_rows");
+                let rank = row["rank"].as_u64().expect("rank");
+                assert!(
+                    rank <= rows.min(N_PLANAR as u64),
+                    "rel_tol {rel_tol:e}, sigma {sigma_range_m} m, epoch {}: rank {rank} from \
+                     {rows} measurement rows is not a rank",
+                    row["epoch_index"]
+                );
+            }
+            // A tolerance below the noise floor is named in the document rather than being
+            // quietly re-floored; at 1e-6 there is nothing to say.
+            let note = v.get("rank_tolerance_note");
+            if rel_tol < 1e-8 {
+                assert!(
+                    note.is_some(),
+                    "rel_tol {rel_tol:e} must be reported as sub-floor"
+                );
+            } else {
+                assert!(note.is_none(), "rel_tol {rel_tol:e} needs no note");
+            }
+        }
+    }
+
+    /// The measured reproduction, pinned: at `rel_tol = 1e-12` on the published noise-free
+    /// grid the raw singular-value count at epoch 1 is 3 from two measurement rows, and the
+    /// emitted rank is 2 with the clamp stated.
+    #[test]
+    fn the_sub_floor_rank_inflation_is_clamped_and_named() {
+        let scn = CislunarObservabilityScenario {
+            arc_hours: Some(6.0),
+            epochs: Some(24),
+            rel_tol: Some(1e-12),
+            ..Default::default()
+        };
+        let (json, _s, _g) = scn.run_output().expect("the published grid runs");
+        let v: Value = serde_json::from_str(&json).unwrap();
+        let row = &v["rank_vs_arc"][1];
+        assert_eq!(row["n_rows"], 2);
+        assert_eq!(row["rank"], 2);
+        let reason = row["rank_limited_by"]
+            .as_str()
+            .expect("the clamped row states its reason");
+        assert!(
+            reason.contains("count 3") && reason.contains("min(2, 4) = 2"),
+            "reason: {reason}"
+        );
     }
 }
