@@ -111,6 +111,11 @@ fn the_whole_archive_slice_is_accounted_for_record_by_record() {
 /// Moon and not a plausible-looking table: every one of the 349 records, read with no model
 /// at all, must place the target between the real lunar perigee and apogee — and the set as a
 /// whole must span most of that envelope, which a constant or a smooth invention would not.
+///
+/// PIN-SCOPE:    the 349-record count of the committed CRD normal-point slice, so a
+///               silently re-cut fixture cannot change what this envelope check covers.
+/// PIN-EXCLUDES: every value kshana computes. The count is a property of the archived
+///               third-party data; nothing this repository emits can move it.
 #[test]
 fn every_archived_range_lands_inside_the_real_perigee_apogee_envelope() {
     let dir = Path::new(FIXTURES).join("normal_points");
@@ -456,13 +461,37 @@ fn the_datum_is_reported_with_its_rank_and_beside_the_simulated_campaign() {
     );
 }
 
-/// R1: adding this pack changed no released document.
+/// R1: adding the LLR pack changed no released document.
 ///
 /// The three lunar frame packs that were already here must emit byte-identical defaults. The
 /// fingerprints are FNV-1a-64 over `json‖summary`. Nothing they depend on was touched — the
 /// whole change to pre-existing sources is 22 inserted lines and 0 deleted across `api.rs`,
 /// `lib.rs`, `registry.rs` and `realdata/mod.rs`, all of them registration — so a move here
 /// would mean the registration leaked into the dispatch it was supposed to extend.
+///
+/// # `lunar-vlbi-fim` re-baselined once, deliberately
+///
+/// `0xa963_227a_ecef_12a9` → `0x1ade_292a_1021_dfb0`. Not a leak from the LLR pack: the
+/// `lunar-vlbi-fim` scenario gained a `beacon_link` block and its six units entries, which
+/// is the separate change that made the lunar-SURFACE-POINT datum measurable instead of only
+/// the Earth-station one.
+///
+/// The move was not accepted on the strength of "I only added a block". It was measured. With
+/// `beacon_link` and its `units.beacon_link.*` entries removed, the document is content-
+/// identical to the pre-change output and the summary string is byte-identical; and the other
+/// two packs' fingerprints never moved, which is the evidence the change stayed inside the
+/// scenario it belongs to. Had either of those failed, the right answer would have been to
+/// find out why, not to re-baseline.
+///
+/// Re-baselined rather than stripped, because the scope below says whole-document and means
+/// it. Narrowing the pin to exclude `beacon_link` would buy a green today and stop guarding
+/// that block forever, which is the failure this file's declaration exists to prevent.
+///
+/// PIN-SCOPE:    the whole default emission of the three named packs — `json‖summary`,
+///               byte for byte.
+/// PIN-EXCLUDES: nothing — the whole document, deliberately, and the SVG is simply not
+///               covered. A cross-cutting change that appends a block to every scenario
+///               document is IN scope here and must re-baseline all three.
 #[test]
 fn the_pre_existing_lunar_frame_packs_are_bit_for_bit_unchanged() {
     fn fnv(s: &str) -> u64 {
@@ -476,7 +505,7 @@ fn the_pre_existing_lunar_frame_packs_are_bit_for_bit_unchanged() {
     for (kind, want) in [
         ("lunar-frame-campaign", 0xe665_dacd_96ef_2654_u64),
         ("lunar-frame-realisation", 0xcbf3_878f_ed02_92e5),
-        ("lunar-vlbi-fim", 0xa963_227a_ecef_12a9),
+        ("lunar-vlbi-fim", 0x1ade_292a_1021_dfb0),
     ] {
         let out = run_toml(&format!("kind = \"{kind}\"\n")).expect("runs");
         let got = fnv(&format!("{}{}", out.json, out.summary));

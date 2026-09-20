@@ -449,6 +449,14 @@ fn the_released_observability_document_is_unchanged() {
 
 /// Whole-document fingerprint of the released `cislunar-observability` default, over the
 /// canonical six-significant-figure form.
+///
+/// PIN-SCOPE:    the whole released `cislunar-observability` default document, rendered to
+///               the canonical six-significant-figure form so libm last-digit differences
+///               between targets collapse to identical text.
+/// PIN-EXCLUDES: full float precision — deliberately given up for cross-platform
+///               stability; a change smaller than ~1e-6 in any value does not move this.
+///               Nothing else: every field of the document is in scope, so a cross-cutting
+///               change that appends a block to every scenario IS in scope here.
 const RELEASED_OBSERVABILITY_CANONICAL_FNV: u64 = 9_459_780_657_697_663_305;
 
 /// FNV-1a 64-bit — a tiny, dependency-free byte-identity fingerprint (the same one the

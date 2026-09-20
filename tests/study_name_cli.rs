@@ -12,10 +12,22 @@ fn bin() -> &'static str {
     env!("CARGO_BIN_EXE_kshana")
 }
 
+/// Per-call working directory under the system temp dir.
+///
+/// The sequence is what makes it unique, not the pid: every test in this binary runs as a
+/// thread of ONE process and shares the pid, so a pid-keyed name separates concurrent
+/// `cargo test` processes and nothing inside one. Enforced by `tests/source_guards.rs`.
+fn temp_workdir(label: &str) -> std::path::PathBuf {
+    static SEQ: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+    let seq = SEQ.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+    let dir = std::env::temp_dir().join(format!("kshana-{label}-{}-{seq}", std::process::id()));
+    std::fs::create_dir_all(&dir).unwrap();
+    dir
+}
+
 #[test]
 fn study_name_slugs_filenames_and_stamps_meta() {
-    let dir = std::env::temp_dir().join(format!("kshana-studyname-{}", std::process::id()));
-    std::fs::create_dir_all(&dir).unwrap();
+    let dir = temp_workdir("studyname");
     let scn = dir.join("scenario-input.toml");
     std::fs::write(&scn, include_str!("../scenarios/clock-holdover.toml")).unwrap();
 
@@ -59,8 +71,7 @@ fn study_name_slugs_filenames_and_stamps_meta() {
 
 #[test]
 fn no_study_name_keeps_scenario_stem_and_no_meta() {
-    let dir = std::env::temp_dir().join(format!("kshana-nostudyname-{}", std::process::id()));
-    std::fs::create_dir_all(&dir).unwrap();
+    let dir = temp_workdir("nostudyname");
     let scn = dir.join("plain.toml");
     std::fs::write(&scn, include_str!("../scenarios/clock-holdover.toml")).unwrap();
 

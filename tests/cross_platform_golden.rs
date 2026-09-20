@@ -20,6 +20,15 @@
 //!
 //! Regenerate the committed hashes with
 //! `KSHANA_REGEN_FIXTURES=1 cargo test --test cross_platform_golden`.
+//!
+//! PIN-SCOPE:    a SHA-256 over the cross-platform-invariant projection of each scenario's
+//!               result — the input `scenario_hash` plus the document SHAPE (field names,
+//!               nesting, leaf value types, array lengths). Held in `tests/golden/*.sha256`.
+//! PIN-EXCLUDES: every numeric VALUE. A model change that moves a number without moving a
+//!               key, a type or an array length does not trip these; that is what
+//!               `tests/golden.rs` and `tests/sgp4_verification.rs` are for. A
+//!               cross-cutting change that adds a field to every scenario document IS in
+//!               scope here, because it changes the shape.
 
 use std::fs;
 use std::path::Path;

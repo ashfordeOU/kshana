@@ -191,6 +191,11 @@ fn parse() -> Reference {
     }
 }
 
+// PIN-SCOPE:    the shape of the committed OPSSAT-AD reference fixture — 529 test rows,
+//               113 anomalies, 9 channels, 2 detectors — so a silently re-cut split
+//               cannot change what the operating-point comparison is run over.
+// PIN-EXCLUDES: every value kshana computes. These counts come from the third-party
+//               fixture; nothing this repository emits can move them.
 #[test]
 fn opssat_operating_points_match_scikit_learn_on_real_esa_telemetry() {
     let r = parse();
