@@ -37,6 +37,38 @@ REC="$DIR/rendered-from.json"
 [ -f "$SVG" ] || { echo "no such diagram SVG: $SVG" >&2; exit 1; }
 command -v rsvg-convert >/dev/null || { echo "rsvg-convert not found (brew install librsvg)" >&2; exit 1; }
 
+# REFUSE a diagram whose text lives in <foreignObject>.
+#
+# Mermaid emits node labels one of two ways: as native SVG <text>, or — when htmlLabels
+# is on — as an HTML <div><span><p> inside a <foreignObject>. librsvg implements no HTML
+# layout, so it renders a foreignObject as NOTHING: every box comes out empty and the
+# PNG is a wireframe with all its labels silently gone. It does not warn and it exits 0.
+#
+# This is not hypothetical. validation-provenance.png was re-rendered through this script
+# to correct a stale count, and the result lost every label in the diagram. The hash
+# record in rendered-from.json still validated, because it binds the PNG to the SVG it
+# came from and cannot tell that the render came out blank — so the only thing that
+# caught it was a human looking at the image.
+#
+# Two of this repo's five diagrams (module-map, validation-provenance) are foreignObject
+# diagrams. Render those with a browser engine, which is what mermaid-cli used to produce
+# them in the first place:
+#
+#   Wrap the SVG in a minimal HTML page that sets
+#     svg{max-width:none!important;width:<W>px!important;height:<H>px!important}
+#   (the !important is load-bearing: mermaid writes an inline max-width that otherwise
+#   pins the drawing to its authored size and leaves the rest of the canvas empty), then
+#     "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless \
+#       --disable-gpu --hide-scrollbars --force-device-scale-factor=1 \
+#       --window-size=<W>,<H> --screenshot=out.png file://wrap.html
+#   and update this directory's rendered-from.json entry with the new SVG sha256.
+if grep -q '<foreignObject' "$SVG"; then
+  echo "refusing: $NAME.svg puts its labels in <foreignObject>, which rsvg-convert drops" >&2
+  echo "silently — the PNG would come out with every label blank. Render it with a" >&2
+  echo "browser engine instead; see the comment above this check for the exact command." >&2
+  exit 1
+fi
+
 python3 - "$SVG" <<'PY'
 import re, sys
 p = sys.argv[1]
