@@ -64,6 +64,9 @@ fn rel_err(got: f64, want: f64) -> f64 {
 /// agreement is to machine precision; 1e-9 is a comfortable regression bound.
 const TOL: f64 = 1e-9;
 
+// PIN-SCOPE:    the 1001-point phase series the allantools Theo1 comparison is run over.
+// PIN-EXCLUDES: every kshana result document; this is the length of the reference input,
+//               not of anything emitted.
 #[test]
 fn theo1_matches_allantools_on_sp1065_1000point() {
     // Oracle: allantools 2024.06 `theo1` on the SP 1065 §12.4 LCG data set

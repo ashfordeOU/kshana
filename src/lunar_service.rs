@@ -3109,6 +3109,12 @@ mod tests {
     /// pin for R1: with `ephemeris_path` unset, not one byte of the published result may
     /// move. Never update this to make a test pass — a change here is a changed published
     /// number and has to be reported as a revision.
+    ///
+    /// PIN-SCOPE:    the whole default `lunar-navigation-service` report document, every
+    ///               byte of `serde_json::to_string` of it.
+    /// PIN-EXCLUDES: nothing — the whole document, deliberately. Any cross-cutting change
+    ///               that adds a field to every scenario document is IN scope here and
+    ///               must re-baseline this digest as part of that change.
     const DEFAULT_REPORT_SHA256: &str =
         "a0872964c7313b96a96d075ac3eda6a621af31432dce43cc1c651fec3ce8b84d";
 
