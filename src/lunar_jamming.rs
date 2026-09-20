@@ -67,6 +67,25 @@
 //! emitted as CSV so the paper-facing artifact is a file the engine writes rather than a
 //! transcription.
 //!
+//! ## The denial contour, and why it carries a band
+//!
+//! A denial contour drawn from one number is a contour whose position is an assumption.
+//! Quote a single median wanted-signal C/N₀ and the contour becomes one curve, one
+//! radius, one verdict for a whole constellation whose links differ by several dB — and
+//! at a mixed operating point that single verdict is simply wrong for a real share of
+//! the rows it replaced (the test
+//! `a_single_median_j_over_s_would_misreport_the_outcome_that_the_table_reports`
+//! measures exactly that).
+//!
+//! So [`LunarJammingReport::denial_contour`] emits the measured C/N₀ *distribution*
+//! ([`Cn0Distribution`]) and then evaluates the contour at that distribution's own
+//! order statistics, under both denial criteria the engine recognises
+//! ([`DenialContour`]). The band is the p05 and p95 contours — the same closed-form map
+//! applied to two real quantiles — so it is not a sigma, not a fit, and not
+//! `median ± k·stdev`; the standard deviation is reported for continuity and is used by
+//! nothing. Where a quantile is already below the tracking threshold no finite jammer
+//! denies it, and the column is a null with a counted reason rather than an infinity.
+//!
 //! ## Honest scope
 //!
 //! The constellation is the **illustrative, public-source LCNS-class** geometry of
@@ -82,8 +101,8 @@
 //! radiometry, no random state.
 
 use crate::jamming::{
-    effective_cn0_dbhz, free_space_path_loss_db, j_over_s_db, lock_status, nominal_cn0_dbhz,
-    q_factor, rx_antenna_gain_db,
+    effective_cn0_dbhz, free_space_path_loss_db, j_over_s_db, lock_status,
+    noise_density_dbw_per_hz, nominal_cn0_dbhz, q_factor, rx_antenna_gain_db, C_M_PER_S,
 };
 use crate::lunar::{selenographic_to_mcmf, Selenographic, R_MOON_M};
 use crate::lunar_service::{topocentric, LunarConstellation, LunarSat};
@@ -436,6 +455,334 @@ pub struct LunarJammingFoM {
     pub n_lost: usize,
 }
 
+// ---------------------------------------------------------------------------
+// The denial contour and the band the measured C/N₀ spread puts on it
+// ---------------------------------------------------------------------------
+
+/// The jammer-to-signal ratio (dB) at which the engine's **incumbent** power-ratio
+/// denial criterion fires.
+///
+/// This is not a new number: it is the same 30 dB
+/// [`crate::attack_surface`]`::jam_denial_js_db` sizes its required-transmit-power curve
+/// against and [`crate::tracking_loop`]`::denial_js_threshold_db` inverts for its denial
+/// radius. It is repeated here as a named constant, rather than added as a scenario
+/// input, so that the contour this module reports is the *same* criterion the rest of
+/// the engine already publishes; a test pins it against the tracking-loop default so
+/// the two cannot drift apart.
+pub const DENIAL_JS_THRESHOLD_DB: f64 = 30.0;
+
+/// Quantile levels the denial contour is evaluated at, ordered by increasing quantile
+/// (and therefore by non-decreasing C/N₀). `min` and `max` are the sample extremes;
+/// `p05`/`p95` are the reported band edges.
+const CONTOUR_QUANTILES: &[(&str, f64)] = &[
+    ("min", 0.0),
+    ("p05", 0.05),
+    ("p25", 0.25),
+    ("median", 0.50),
+    ("p75", 0.75),
+    ("p95", 0.95),
+    ("max", 1.0),
+];
+
+/// Linear-interpolation quantile of an already-sorted, non-empty sample: with `n`
+/// values the level `q` sits at position `h = (n−1)·q`, and the result interpolates
+/// linearly between the two order statistics that bracket `h`. This is the rule
+/// `numpy.quantile` calls `linear` and the statistics literature calls type 7; it is
+/// stated here because a quantile without its interpolation rule is not reproducible.
+/// `q` outside `[0, 1]` is clamped.
+fn quantile_sorted(sorted: &[f64], q: f64) -> f64 {
+    let n = sorted.len();
+    if n == 1 {
+        return sorted[0];
+    }
+    let h = (n - 1) as f64 * q.clamp(0.0, 1.0);
+    let floor = h.floor();
+    let i = floor as usize;
+    if i + 1 >= n {
+        return sorted[n - 1];
+    }
+    sorted[i] + (h - floor) * (sorted[i + 1] - sorted[i])
+}
+
+/// The standoff (m) at which the free-space path loss reaches `fspl_db` at `f_hz` — the
+/// exact inverse of [`crate::jamming::free_space_path_loss_db`] in distance, obtained by
+/// solving `20·log₁₀(d) + 20·log₁₀(f) + 20·log₁₀(4π/c) = fspl_db` for `d`.
+///
+/// The forward function clamps its distance to 1 mm; this inverse does not clamp, so a
+/// round trip through the pair is exact wherever the forward clamp is not active, and
+/// the tests check that on the values this module actually produces.
+pub fn range_for_free_space_path_loss_m(fspl_db: f64, f_hz: f64) -> f64 {
+    let k = 20.0 * f_hz.log10() + 20.0 * (4.0 * std::f64::consts::PI / C_M_PER_S).log10();
+    10f64.powf((fspl_db - k) / 20.0)
+}
+
+/// The jammer-to-signal ratio (dB) at which the anti-jam equation takes a link whose
+/// un-jammed carrier-to-noise density is `cn0_nominal_dbhz` down to exactly
+/// `threshold_dbhz` — the closed-form inverse of
+/// [`crate::jamming::effective_cn0_dbhz`] on its `js_db` argument:
+///
+/// ```text
+///   (C/N₀)_eff = [1/(C/N₀) + (J/S)/(Q·R_c)]⁻¹ = threshold
+///     ⇒  (J/S) = Q·R_c · ( 10^(−threshold/10) − 10^(−cn0/10) )
+/// ```
+///
+/// Returns `None` when `cn0_nominal_dbhz` is at or below `threshold_dbhz`: such a link
+/// is already under the tracking threshold with no jammer at all, so no finite J/S
+/// denies it. A `None` is reported as a null with a stated count rather than as an
+/// infinity or a clamped radius, because a fabricated contour point at an already-lost
+/// link would be the exact failure this task exists to close.
+pub fn denial_js_db(
+    cn0_nominal_dbhz: f64,
+    threshold_dbhz: f64,
+    q: f64,
+    chip_rate_hz: f64,
+) -> Option<f64> {
+    // `q.max(1e-9)` mirrors the clamp `effective_cn0_dbhz` applies, so the inverse is
+    // the inverse of the function the report's own rows were scored with.
+    let arg = (q.max(1e-9) * chip_rate_hz)
+        * (10f64.powf(-threshold_dbhz / 10.0) - 10f64.powf(-cn0_nominal_dbhz / 10.0));
+    if arg.is_finite() && arg > 0.0 {
+        Some(10.0 * arg.log10())
+    } else {
+        None
+    }
+}
+
+/// Order statistics of the measured wanted-signal C/N₀ sample — the distribution the
+/// denial contour's band is driven by, reported in full rather than collapsed to its
+/// median. Every figure is over the same per-link rows
+/// ([`LunarJammingReport::links`]) the table already carries.
+#[derive(Clone, Copy, Debug, Serialize)]
+pub struct Cn0Distribution {
+    /// Links in the sample — the whole per-satellite table.
+    pub n: usize,
+    /// Smallest nominal C/N₀ in the sample (dB-Hz).
+    pub min_dbhz: f64,
+    /// 5th-percentile nominal C/N₀ (dB-Hz).
+    pub p05_dbhz: f64,
+    /// 25th-percentile nominal C/N₀ (dB-Hz).
+    pub p25_dbhz: f64,
+    /// Median nominal C/N₀ (dB-Hz) — the single scalar the contour used to rest on,
+    /// kept so the collapse can be compared against the spread beside it.
+    pub median_dbhz: f64,
+    /// 75th-percentile nominal C/N₀ (dB-Hz).
+    pub p75_dbhz: f64,
+    /// 95th-percentile nominal C/N₀ (dB-Hz).
+    pub p95_dbhz: f64,
+    /// Largest nominal C/N₀ in the sample (dB-Hz).
+    pub max_dbhz: f64,
+    /// Arithmetic mean nominal C/N₀ (dB-Hz).
+    pub mean_dbhz: f64,
+    /// Sample standard deviation (n−1 divisor) of the nominal C/N₀ (dB); `0.0` for a
+    /// single-row sample. Reported for continuity with the rest of the engine, **not**
+    /// used to build the band.
+    pub stdev_dbhz: f64,
+    /// How far the sample is from symmetric about its own median:
+    /// `(p95 − median) − (median − p05)`, in dB. Zero for a symmetric sample.
+    pub asymmetry_db: f64,
+}
+
+impl Cn0Distribution {
+    /// Order statistics of an already-sorted, non-empty sample.
+    fn from_sorted(sorted: &[f64]) -> Self {
+        let n = sorted.len();
+        let mean = sorted.iter().sum::<f64>() / n as f64;
+        let stdev = if n < 2 {
+            0.0
+        } else {
+            (sorted.iter().map(|x| (x - mean).powi(2)).sum::<f64>() / (n - 1) as f64).sqrt()
+        };
+        let (p05, med, p95) = (
+            quantile_sorted(sorted, 0.05),
+            quantile_sorted(sorted, 0.50),
+            quantile_sorted(sorted, 0.95),
+        );
+        Self {
+            n,
+            min_dbhz: sorted[0],
+            p05_dbhz: p05,
+            p25_dbhz: quantile_sorted(sorted, 0.25),
+            median_dbhz: med,
+            p75_dbhz: quantile_sorted(sorted, 0.75),
+            p95_dbhz: p95,
+            max_dbhz: sorted[n - 1],
+            mean_dbhz: mean,
+            stdev_dbhz: stdev,
+            asymmetry_db: (p95 - med) - (med - p05),
+        }
+    }
+}
+
+/// One point of the denial contour: the contour function evaluated at **one quantile of
+/// the measured C/N₀ sample**, under both criteria. Nothing here is fitted — each row is
+/// the same closed-form map applied to an order statistic the table actually produced.
+#[derive(Clone, Debug, Serialize)]
+pub struct DenialContourPoint {
+    /// Which order statistic this row is: `min`, `p05`, `p25`, `median`, `p75`, `p95`
+    /// or `max`.
+    pub label: &'static str,
+    /// The quantile level, in `[0, 1]`.
+    pub quantile: f64,
+    /// The measured nominal C/N₀ at that quantile (dB-Hz) — the contour's argument.
+    pub cn0_nominal_dbhz: f64,
+    /// **Loss-of-lock criterion.** The J/S (dB) at which the anti-jam equation takes
+    /// this C/N₀ down to `tracking_threshold_dbhz`. Null when the C/N₀ is already at or
+    /// below the threshold.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub loss_of_lock_js_db: Option<f64>,
+    /// **Loss-of-lock criterion.** The jammer EIRP (dBW) that reaches that J/S at the
+    /// scenario's own jammer standoff. Null when the criterion has no point here.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub loss_of_lock_eirp_dbw: Option<f64>,
+    /// **Loss-of-lock criterion.** The standoff (km) at which the scenario's own jammer
+    /// EIRP reaches that J/S — the denial radius for a link of this C/N₀. Null when the
+    /// criterion has no point here.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub loss_of_lock_standoff_km: Option<f64>,
+    /// **Power-ratio criterion.** The jammer EIRP (dBW) that reaches
+    /// [`DENIAL_JS_THRESHOLD_DB`] against this C/N₀ at the scenario's jammer standoff.
+    pub power_ratio_eirp_dbw: f64,
+    /// **Power-ratio criterion.** The standoff (km) at which the scenario's own jammer
+    /// EIRP reaches [`DENIAL_JS_THRESHOLD_DB`] against this C/N₀.
+    pub power_ratio_standoff_km: f64,
+}
+
+/// The contour and its band under **one** criterion, on both axes of the denial plane:
+/// the standoff at the scenario's jammer EIRP, and the jammer EIRP at the scenario's
+/// standoff. Every figure is read off [`DenialContour::points`]; nothing is refitted.
+#[derive(Clone, Copy, Debug, Serialize)]
+pub struct ContourBand {
+    /// Denial standoff at the 5th-percentile C/N₀ (km) — the weak-signal band edge.
+    pub standoff_p05_km: f64,
+    /// Denial standoff at the median C/N₀ (km) — the single-scalar contour.
+    pub standoff_median_km: f64,
+    /// Denial standoff at the 95th-percentile C/N₀ (km) — the strong-signal band edge.
+    pub standoff_p95_km: f64,
+    /// Width of the standoff band, `|standoff_p05_km − standoff_p95_km|` (km).
+    pub standoff_width_km: f64,
+    /// `(standoff_p95_km − standoff_median_km) − (standoff_median_km − standoff_p05_km)`
+    /// (km). Zero would mean the band sits symmetrically about the median contour.
+    pub standoff_asymmetry_km: f64,
+    /// Required jammer EIRP at the 5th-percentile C/N₀ (dBW).
+    pub eirp_p05_dbw: f64,
+    /// Required jammer EIRP at the median C/N₀ (dBW) — the single-scalar contour.
+    pub eirp_median_dbw: f64,
+    /// Required jammer EIRP at the 95th-percentile C/N₀ (dBW).
+    pub eirp_p95_dbw: f64,
+    /// Width of the EIRP band, `|eirp_p95_dbw − eirp_p05_dbw|` (dB).
+    pub eirp_width_db: f64,
+    /// `(eirp_p95_dbw − eirp_median_dbw) − (eirp_median_dbw − eirp_p05_dbw)` (dB).
+    pub eirp_asymmetry_db: f64,
+    /// Measured over the emitted points, ordered by increasing C/N₀: `true` when the
+    /// denial standoff never increases. Non-strict, because two quantiles of a small
+    /// sample can coincide.
+    pub standoff_monotone_in_cn0: bool,
+    /// Measured over the emitted points, ordered by increasing C/N₀: `true` when the
+    /// required jammer EIRP never decreases.
+    pub eirp_monotone_in_cn0: bool,
+}
+
+impl ContourBand {
+    /// Assemble the band from the per-quantile contour values, in the same order as
+    /// [`CONTOUR_QUANTILES`]. Returns `None` if any quantile has no contour point.
+    fn from_points(standoff_km: &[Option<f64>], eirp_dbw: &[Option<f64>]) -> Option<Self> {
+        if standoff_km.iter().any(|x| x.is_none()) || eirp_dbw.iter().any(|x| x.is_none()) {
+            return None;
+        }
+        let s: Vec<f64> = standoff_km.iter().map(|x| x.expect("checked")).collect();
+        let e: Vec<f64> = eirp_dbw.iter().map(|x| x.expect("checked")).collect();
+        let idx = |label: &str| {
+            CONTOUR_QUANTILES
+                .iter()
+                .position(|(l, _)| *l == label)
+                .expect("the quantile grid names p05, median and p95")
+        };
+        let (i05, imed, i95) = (idx("p05"), idx("median"), idx("p95"));
+        Some(Self {
+            standoff_p05_km: s[i05],
+            standoff_median_km: s[imed],
+            standoff_p95_km: s[i95],
+            standoff_width_km: (s[i05] - s[i95]).abs(),
+            standoff_asymmetry_km: (s[i95] - s[imed]) - (s[imed] - s[i05]),
+            eirp_p05_dbw: e[i05],
+            eirp_median_dbw: e[imed],
+            eirp_p95_dbw: e[i95],
+            eirp_width_db: (e[i95] - e[i05]).abs(),
+            eirp_asymmetry_db: (e[i95] - e[imed]) - (e[imed] - e[i05]),
+            standoff_monotone_in_cn0: s.windows(2).all(|w| w[1] <= w[0]),
+            eirp_monotone_in_cn0: e.windows(2).all(|w| w[1] >= w[0]),
+        })
+    }
+}
+
+/// **The denial contour, reported with the uncertainty band the real C/N₀ spread
+/// implies** instead of as one scalar read off the median.
+///
+/// Two criteria are reported, never one in place of the other:
+///
+/// * **power-ratio** — `J/S ≥ `[`DENIAL_JS_THRESHOLD_DB`], the engine's incumbent
+///   criterion ([`crate::attack_surface`], [`crate::tracking_loop`]) and the criterion
+///   behind the released lunar link-jamming table's `denial` column;
+/// * **loss-of-lock** — the effective C/N₀ falling to `tracking_threshold_dbhz`, which
+///   is the criterion this report's own `links[].status` column is scored with.
+///
+/// The band is **not** a sigma. Each edge is the same closed-form contour map applied to
+/// an order statistic of the measured sample, so the band inherits the sample's own
+/// shape: [`Cn0Distribution::asymmetry_db`] states that shape, and the band's own
+/// asymmetry fields state what the contour did with it.
+#[derive(Clone, Debug, Serialize)]
+pub struct DenialContour {
+    /// The measured wanted-signal C/N₀ distribution the band is driven by.
+    pub cn0_nominal: Cn0Distribution,
+    /// The power-ratio criterion's J/S threshold (dB) — [`DENIAL_JS_THRESHOLD_DB`].
+    pub power_ratio_js_threshold_db: f64,
+    /// The jammer EIRP the standoff contour is evaluated at (dBW): the scenario's
+    /// `jammer.power_dbw + jammer.gain_dbi`.
+    pub jammer_eirp_dbw: f64,
+    /// The contour at each quantile of the measured sample, ordered by increasing
+    /// quantile.
+    pub points: Vec<DenialContourPoint>,
+    /// The band under the loss-of-lock criterion. Null when any of p05 / median / p95
+    /// sits at or below the tracking threshold, where that criterion has no contour.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub loss_of_lock: Option<ContourBand>,
+    /// The band under the power-ratio criterion. Always defined: a power ratio has a
+    /// solution at every C/N₀.
+    pub power_ratio: ContourBand,
+    /// How many of the emitted points have no loss-of-lock contour because their C/N₀
+    /// is already at or below the tracking threshold.
+    pub n_points_without_loss_of_lock_contour: usize,
+    /// The two criteria, in words, so the report is self-describing.
+    pub criterion_definition: &'static str,
+    /// How the band is built, in words — including what it is *not*.
+    pub band_definition: &'static str,
+}
+
+const CRITERION_DEFINITION: &str =
+    "Two denial criteria, reported side by side. power_ratio: the jammer denies when \
+     J/S reaches power_ratio_js_threshold_db (30 dB), the engine's incumbent criterion \
+     in attack_surface and tracking_loop. loss_of_lock: the jammer denies when the \
+     anti-jam equation jamming::effective_cn0_dbhz takes the link's effective C/N0 down \
+     to tracking_threshold_dbhz, which is the criterion this report's own \
+     links[].status column is scored with. Each contour point is the closed-form \
+     inverse of those same functions, evaluated at one order statistic of the measured \
+     cn0_nominal_dbhz sample; the standoff column inverts \
+     jamming::free_space_path_loss_db at the scenario's own jammer EIRP, holding the \
+     receive-antenna gain toward the jammer fixed at its resolved value (the same \
+     convention tracking_loop::DenialLink uses when it bisects a denial radius).";
+
+const BAND_DEFINITION: &str =
+    "The band is the measured distribution pushed through the SAME contour map, \
+     evaluated at the distribution's own quantiles: the p05 and p95 edges are \
+     contour(p05_dbhz) and contour(p95_dbhz), not median +/- k*stdev and not a sigma \
+     fitted to the sample. stdev_dbhz is reported for continuity and is not used to \
+     build any edge. Because the map is applied to order statistics, the band carries \
+     the sample's own shape: cn0_nominal.asymmetry_db states how far the sample is from \
+     symmetric, and the *_asymmetry_* fields state what the contour did with it - a \
+     band symmetric about the median contour would have to come from a symmetric sample \
+     AND a locally linear contour, and the power-ratio EIRP contour is the only one of \
+     the four that is exactly linear in C/N0.";
+
 /// The `lunar-jamming` result.
 #[derive(Clone, Debug, Serialize)]
 pub struct LunarJammingReport {
@@ -478,6 +825,12 @@ pub struct LunarJammingReport {
     pub note: &'static str,
     /// How the J/S is formed, in words, so the report is self-describing.
     pub js_definition: &'static str,
+    /// **The denial contour with the band the measured C/N₀ spread puts on it.**
+    /// Appended at the end of the struct on purpose: every pre-existing key keeps its
+    /// value byte-for-byte and nothing above it moves. `None` with no jammer — with no
+    /// interfering signal there is no J/S and no contour to draw.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub denial_contour: Option<DenialContour>,
 }
 
 const NOTE: &str = "MODELLED. Illustrative, public-source LCNS-class lunar constellation \
@@ -723,6 +1076,11 @@ impl LunarJammingScenario {
             (f64::NAN, f64::NAN, f64::NAN)
         };
 
+        let denial_contour = jam
+            .as_ref()
+            .filter(|_| !links.is_empty())
+            .map(|g| self.denial_contour(g, &links));
+
         Ok(LunarJammingReport {
             n_sats,
             n_epochs: epochs.len(),
@@ -756,7 +1114,90 @@ impl LunarJammingScenario {
             links,
             note: NOTE,
             js_definition: JS_DEFINITION,
+            denial_contour,
         })
+    }
+
+    /// Build the denial contour and its band from the measured per-link C/N₀ sample.
+    ///
+    /// The whole point of the block is that no step here collapses the sample: the
+    /// quantiles come out of the table the report already carries, and each one is
+    /// pushed through the identical closed-form map. `links` must be non-empty.
+    fn denial_contour(&self, g: &LunarJammerGeometry, links: &[LunarJamLink]) -> DenialContour {
+        let mut sample: Vec<f64> = links.iter().map(|l| l.cn0_nominal_dbhz).collect();
+        sample.sort_by(|a, b| a.partial_cmp(b).unwrap_or(std::cmp::Ordering::Equal));
+        let cn0_nominal = Cn0Distribution::from_sorted(&sample);
+
+        let n0 = noise_density_dbw_per_hz(self.temp_k);
+        let jammer_eirp_dbw = g.power_dbw + g.gain_dbi;
+
+        // Required received jammer power (dBW) for a J/S of `js_db` against a link whose
+        // un-jammed C/N0 is `cn0`: the received wanted power is `cn0 + 10log10(kT)`, and
+        // J/S is the difference of the two received powers, so P_J = J/S + C/N0 + N0.
+        let received_for = |js_db: f64, cn0: f64| js_db + cn0 + n0;
+        // ...the EIRP that delivers it at the scenario's own jammer standoff...
+        let eirp_for = |pj: f64| pj - g.rx_gain_toward_jammer_dbi + g.fspl_db;
+        // ...and the standoff at which the scenario's own jammer EIRP delivers it.
+        let standoff_km_for = |pj: f64| {
+            range_for_free_space_path_loss_m(
+                jammer_eirp_dbw + g.rx_gain_toward_jammer_dbi - pj,
+                self.carrier_hz,
+            ) / 1000.0
+        };
+
+        let mut points = Vec::with_capacity(CONTOUR_QUANTILES.len());
+        let mut lol_standoff: Vec<Option<f64>> = Vec::with_capacity(CONTOUR_QUANTILES.len());
+        let mut lol_eirp: Vec<Option<f64>> = Vec::with_capacity(CONTOUR_QUANTILES.len());
+        let mut pr_standoff: Vec<Option<f64>> = Vec::with_capacity(CONTOUR_QUANTILES.len());
+        let mut pr_eirp: Vec<Option<f64>> = Vec::with_capacity(CONTOUR_QUANTILES.len());
+
+        for (label, q) in CONTOUR_QUANTILES {
+            let cn0 = quantile_sorted(&sample, *q);
+
+            let js = denial_js_db(cn0, self.tracking_threshold_dbhz, g.q, self.chip_rate_hz);
+            let (lol_js, lol_e, lol_s) = match js {
+                Some(js) => {
+                    let pj = received_for(js, cn0);
+                    (Some(js), Some(eirp_for(pj)), Some(standoff_km_for(pj)))
+                }
+                None => (None, None, None),
+            };
+
+            let pj_pr = received_for(DENIAL_JS_THRESHOLD_DB, cn0);
+            let (pr_e, pr_s) = (eirp_for(pj_pr), standoff_km_for(pj_pr));
+
+            lol_standoff.push(lol_s);
+            lol_eirp.push(lol_e);
+            pr_standoff.push(Some(pr_s));
+            pr_eirp.push(Some(pr_e));
+
+            points.push(DenialContourPoint {
+                label,
+                quantile: *q,
+                cn0_nominal_dbhz: cn0,
+                loss_of_lock_js_db: lol_js,
+                loss_of_lock_eirp_dbw: lol_e,
+                loss_of_lock_standoff_km: lol_s,
+                power_ratio_eirp_dbw: pr_e,
+                power_ratio_standoff_km: pr_s,
+            });
+        }
+
+        DenialContour {
+            cn0_nominal,
+            power_ratio_js_threshold_db: DENIAL_JS_THRESHOLD_DB,
+            jammer_eirp_dbw,
+            n_points_without_loss_of_lock_contour: points
+                .iter()
+                .filter(|p| p.loss_of_lock_js_db.is_none())
+                .count(),
+            loss_of_lock: ContourBand::from_points(&lol_standoff, &lol_eirp),
+            power_ratio: ContourBand::from_points(&pr_standoff, &pr_eirp)
+                .expect("the power-ratio criterion has a solution at every C/N0"),
+            points,
+            criterion_definition: CRITERION_DEFINITION,
+            band_definition: BAND_DEFINITION,
+        }
     }
 
     /// The per-satellite J/S table as CSV — the paper-facing artifact, written by the
@@ -1002,6 +1443,269 @@ const UNITS: &[(&str, &str, &str, &str)] = &[
     ),
     ("fom.n_links", "count", "computed", ""),
     ("fom.n_lost", "count", "computed", ""),
+    // --- the denial contour and its band (additive; emitted only with a jammer) -----
+    (
+        "denial_contour.cn0_nominal.n",
+        "count",
+        "computed",
+        "links in the measured wanted-signal C/N0 sample: the whole per-satellite table",
+    ),
+    (
+        "denial_contour.cn0_nominal.min_dbhz",
+        "dB-Hz",
+        "computed",
+        "smallest nominal C/N0 over the per-satellite table",
+    ),
+    (
+        "denial_contour.cn0_nominal.p05_dbhz",
+        "dB-Hz",
+        "computed",
+        "5th-percentile nominal C/N0, linear-interpolation (type 7) quantile of the table",
+    ),
+    (
+        "denial_contour.cn0_nominal.p25_dbhz",
+        "dB-Hz",
+        "computed",
+        "25th-percentile nominal C/N0, same quantile rule",
+    ),
+    (
+        "denial_contour.cn0_nominal.median_dbhz",
+        "dB-Hz",
+        "computed",
+        "median nominal C/N0 - the single scalar the contour used to rest on, kept beside \
+         the spread rather than in place of it",
+    ),
+    (
+        "denial_contour.cn0_nominal.p75_dbhz",
+        "dB-Hz",
+        "computed",
+        "75th-percentile nominal C/N0, same quantile rule",
+    ),
+    (
+        "denial_contour.cn0_nominal.p95_dbhz",
+        "dB-Hz",
+        "computed",
+        "95th-percentile nominal C/N0, same quantile rule",
+    ),
+    (
+        "denial_contour.cn0_nominal.max_dbhz",
+        "dB-Hz",
+        "computed",
+        "largest nominal C/N0 over the per-satellite table",
+    ),
+    (
+        "denial_contour.cn0_nominal.mean_dbhz",
+        "dB-Hz",
+        "computed",
+        "arithmetic mean nominal C/N0 over the table",
+    ),
+    (
+        "denial_contour.cn0_nominal.stdev_dbhz",
+        "dB",
+        "computed",
+        "sample standard deviation (n-1 divisor) of the nominal C/N0; reported for \
+         continuity and NOT used to build any band edge",
+    ),
+    (
+        "denial_contour.cn0_nominal.asymmetry_db",
+        "dB",
+        "computed",
+        "(p95 - median) - (median - p05) of the C/N0 sample: how far the measured \
+         distribution is from symmetric about its own median",
+    ),
+    (
+        "denial_contour.power_ratio_js_threshold_db",
+        "dB",
+        "constant",
+        "J/S at which the incumbent power-ratio criterion denies (30 dB), the same value \
+         attack_surface and tracking_loop use",
+    ),
+    (
+        "denial_contour.jammer_eirp_dbw",
+        "dBW",
+        "computed",
+        "jammer.power_dbw + jammer.gain_dbi - the EIRP the standoff contour is evaluated at",
+    ),
+    (
+        "denial_contour.n_points_without_loss_of_lock_contour",
+        "count",
+        "computed",
+        "contour points whose C/N0 is already at or below tracking_threshold_dbhz, where no \
+         finite J/S denies the link and the loss-of-lock columns are null rather than \
+         fabricated",
+    ),
+    (
+        "denial_contour.points[].quantile",
+        "1",
+        "constant",
+        "the quantile level this contour point is evaluated at, in [0, 1]",
+    ),
+    (
+        "denial_contour.points[].cn0_nominal_dbhz",
+        "dB-Hz",
+        "computed",
+        "the measured nominal C/N0 at this quantile - the contour function's argument",
+    ),
+    (
+        "denial_contour.points[].loss_of_lock_js_db",
+        "dB",
+        "closed-form",
+        "J/S at which jamming::effective_cn0_dbhz takes this C/N0 down to \
+         tracking_threshold_dbhz; the closed-form inverse of that same function",
+    ),
+    (
+        "denial_contour.points[].loss_of_lock_eirp_dbw",
+        "dBW",
+        "closed-form",
+        "jammer EIRP reaching that J/S at the scenario's own jammer standoff",
+    ),
+    (
+        "denial_contour.points[].loss_of_lock_standoff_km",
+        "km",
+        "closed-form",
+        "standoff at which the scenario's own jammer EIRP reaches that J/S - the denial \
+         radius for a link of this C/N0, with the receive gain toward the jammer held at \
+         its resolved value",
+    ),
+    (
+        "denial_contour.points[].power_ratio_eirp_dbw",
+        "dBW",
+        "closed-form",
+        "jammer EIRP reaching power_ratio_js_threshold_db against this C/N0 at the \
+         scenario's own jammer standoff",
+    ),
+    (
+        "denial_contour.points[].power_ratio_standoff_km",
+        "km",
+        "closed-form",
+        "standoff at which the scenario's own jammer EIRP reaches \
+         power_ratio_js_threshold_db against this C/N0",
+    ),
+    (
+        "denial_contour.loss_of_lock.standoff_p05_km",
+        "km",
+        "closed-form",
+        "loss-of-lock denial standoff at the 5th-percentile C/N0 - the weak-signal band edge",
+    ),
+    (
+        "denial_contour.loss_of_lock.standoff_median_km",
+        "km",
+        "closed-form",
+        "loss-of-lock denial standoff at the median C/N0 - the single-scalar contour",
+    ),
+    (
+        "denial_contour.loss_of_lock.standoff_p95_km",
+        "km",
+        "closed-form",
+        "loss-of-lock denial standoff at the 95th-percentile C/N0 - the strong-signal band \
+         edge",
+    ),
+    (
+        "denial_contour.loss_of_lock.standoff_width_km",
+        "km",
+        "computed",
+        "|standoff_p05_km - standoff_p95_km|",
+    ),
+    (
+        "denial_contour.loss_of_lock.standoff_asymmetry_km",
+        "km",
+        "computed",
+        "(standoff_p95_km - standoff_median_km) - (standoff_median_km - standoff_p05_km); \
+         zero would mean the band sits symmetrically about the median contour",
+    ),
+    (
+        "denial_contour.loss_of_lock.eirp_p05_dbw",
+        "dBW",
+        "closed-form",
+        "loss-of-lock required jammer EIRP at the 5th-percentile C/N0",
+    ),
+    (
+        "denial_contour.loss_of_lock.eirp_median_dbw",
+        "dBW",
+        "closed-form",
+        "loss-of-lock required jammer EIRP at the median C/N0",
+    ),
+    (
+        "denial_contour.loss_of_lock.eirp_p95_dbw",
+        "dBW",
+        "closed-form",
+        "loss-of-lock required jammer EIRP at the 95th-percentile C/N0",
+    ),
+    (
+        "denial_contour.loss_of_lock.eirp_width_db",
+        "dB",
+        "computed",
+        "|eirp_p95_dbw - eirp_p05_dbw|",
+    ),
+    (
+        "denial_contour.loss_of_lock.eirp_asymmetry_db",
+        "dB",
+        "computed",
+        "(eirp_p95_dbw - eirp_median_dbw) - (eirp_median_dbw - eirp_p05_dbw)",
+    ),
+    (
+        "denial_contour.power_ratio.standoff_p05_km",
+        "km",
+        "closed-form",
+        "power-ratio denial standoff at the 5th-percentile C/N0",
+    ),
+    (
+        "denial_contour.power_ratio.standoff_median_km",
+        "km",
+        "closed-form",
+        "power-ratio denial standoff at the median C/N0 - the single-scalar contour",
+    ),
+    (
+        "denial_contour.power_ratio.standoff_p95_km",
+        "km",
+        "closed-form",
+        "power-ratio denial standoff at the 95th-percentile C/N0",
+    ),
+    (
+        "denial_contour.power_ratio.standoff_width_km",
+        "km",
+        "computed",
+        "|standoff_p05_km - standoff_p95_km| under the power-ratio criterion",
+    ),
+    (
+        "denial_contour.power_ratio.standoff_asymmetry_km",
+        "km",
+        "computed",
+        "(standoff_p95_km - standoff_median_km) - (standoff_median_km - standoff_p05_km) \
+         under the power-ratio criterion",
+    ),
+    (
+        "denial_contour.power_ratio.eirp_p05_dbw",
+        "dBW",
+        "closed-form",
+        "power-ratio required jammer EIRP at the 5th-percentile C/N0",
+    ),
+    (
+        "denial_contour.power_ratio.eirp_median_dbw",
+        "dBW",
+        "closed-form",
+        "power-ratio required jammer EIRP at the median C/N0",
+    ),
+    (
+        "denial_contour.power_ratio.eirp_p95_dbw",
+        "dBW",
+        "closed-form",
+        "power-ratio required jammer EIRP at the 95th-percentile C/N0",
+    ),
+    (
+        "denial_contour.power_ratio.eirp_width_db",
+        "dB",
+        "computed",
+        "|eirp_p95_dbw - eirp_p05_dbw| under the power-ratio criterion",
+    ),
+    (
+        "denial_contour.power_ratio.eirp_asymmetry_db",
+        "dB",
+        "computed",
+        "(eirp_p95_dbw - eirp_median_dbw) - (eirp_median_dbw - eirp_p05_dbw) under the \
+         power-ratio criterion; exactly equal to cn0_nominal.asymmetry_db, because this \
+         one contour of the four is an exact unit-slope translate of the C/N0 sample",
+    ),
 ];
 
 /// Render [`UNITS`] as the report's `units` block.
@@ -1586,5 +2290,561 @@ mod tests {
             );
         }
         assert!(rh.links.iter().all(|l| l.el_deg >= 25.0));
+    }
+
+    // -----------------------------------------------------------------------
+    // The denial contour and the band the measured C/N₀ spread puts on it
+    // -----------------------------------------------------------------------
+
+    /// The operating point the whole contour argument is made at: the jammer 25 km off,
+    /// every other input at the module's documented default. It is the same point
+    /// `a_single_median_j_over_s_would_misreport_the_outcome_that_the_table_reports`
+    /// uses, because the claim being made is about that table.
+    fn mixed_operating_point() -> LunarJammingScenario {
+        LunarJammingScenario {
+            jammer: Some(LunarJammerCfg {
+                range_m: 25_000.0,
+                ..LunarJammerCfg::default()
+            }),
+            ..Default::default()
+        }
+    }
+
+    #[test]
+    fn the_denial_threshold_is_the_same_thirty_decibels_the_rest_of_the_engine_uses() {
+        // The power-ratio criterion is not a new constant invented here. If the
+        // tracking-loop pack ever moves its threshold, this fails rather than letting
+        // two packs publish two different "denial" contours under one word.
+        assert_eq!(
+            DENIAL_JS_THRESHOLD_DB,
+            crate::tracking_loop::TrackingLoopScenario::default().denial_js_threshold_db,
+            "the lunar contour's power-ratio threshold has drifted from tracking_loop's"
+        );
+    }
+
+    #[test]
+    fn the_contour_is_the_exact_inverse_of_the_functions_the_rows_were_scored_with() {
+        // A contour is only "the same contour function" if it round-trips through the
+        // forward functions the report itself uses. Three inversions, each checked
+        // against its own forward expression on every emitted point.
+        let r = mixed_operating_point().run().unwrap();
+        let c = r.denial_contour.as_ref().expect("a jammer means a contour");
+        let g = r.jammer.as_ref().unwrap();
+        let eirp = g.power_dbw + g.gain_dbi;
+
+        for p in &c.points {
+            let js = p
+                .loss_of_lock_js_db
+                .expect("defined at this operating point");
+            // 1. the anti-jam equation, forward, lands exactly on the threshold...
+            let eff = effective_cn0_dbhz(p.cn0_nominal_dbhz, js, g.q, r.chip_rate_hz);
+            assert!(
+                (eff - r.tracking_threshold_dbhz).abs() < 1e-9,
+                "{}: inverting effective_cn0_dbhz gave {js} dB, which the forward \
+                 function maps to {eff} dB-Hz, not the {} dB-Hz threshold",
+                p.label,
+                r.tracking_threshold_dbhz
+            );
+            // ...and the contour is the *boundary* of the denial set, so the verdict
+            // must flip across it. Exactly on the contour the residual is float
+            // round-off (~1e-15 dB-Hz above) and `lock_status`'s strict `<` can land
+            // either way on the last bit, which is why the flip is measured a real
+            // 1e-4 dB of J/S either side rather than at the point itself.
+            let verdict = |dj: f64| {
+                status_label(lock_status(
+                    effective_cn0_dbhz(p.cn0_nominal_dbhz, js + dj, g.q, r.chip_rate_hz),
+                    r.tracking_threshold_dbhz,
+                    r.degraded_margin_db,
+                ))
+            };
+            assert_eq!(
+                (verdict(-1e-4), verdict(1e-4)),
+                ("DEGRADED", "LOST"),
+                "{}: the verdict must flip across the contour",
+                p.label
+            );
+
+            // 2. the free-space-loss inversion round-trips.
+            let range_m = p.loss_of_lock_standoff_km.unwrap() * 1000.0;
+            let fspl = free_space_path_loss_db(range_m, r.carrier_hz);
+            let back = range_for_free_space_path_loss_m(fspl, r.carrier_hz);
+            assert!(
+                (back - range_m).abs() < 1e-6,
+                "{}: FSPL round trip moved {range_m} m to {back} m",
+                p.label
+            );
+
+            // 3. the standoff really does produce that J/S, measured with the FORWARD
+            //    j_over_s_db against a link of this C/N0 — the same function the table's
+            //    own js_db column is built with.
+            let signal_rx = p.cn0_nominal_dbhz + noise_density_dbw_per_hz(r.temp_k);
+            let js_fwd = j_over_s_db(
+                g.power_dbw,
+                g.gain_dbi,
+                g.rx_gain_toward_jammer_dbi,
+                range_m,
+                r.carrier_hz,
+                signal_rx,
+                0.0,
+            );
+            assert!(
+                (js_fwd - js).abs() < 1e-9,
+                "{}: the contour standoff {range_m} m gives J/S {js_fwd} dB, not {js} dB",
+                p.label
+            );
+
+            // 4. the EIRP axis: the required EIRP, put back through the forward J/S at
+            //    the scenario's own standoff, reproduces the same J/S.
+            let js_eirp = j_over_s_db(
+                p.loss_of_lock_eirp_dbw.unwrap(),
+                0.0,
+                g.rx_gain_toward_jammer_dbi,
+                g.range_m,
+                r.carrier_hz,
+                signal_rx,
+                0.0,
+            );
+            assert!((js_eirp - js).abs() < 1e-9, "{}: EIRP axis", p.label);
+
+            // …and the same for the power-ratio criterion, which must land on 30 dB.
+            let js_pr = j_over_s_db(
+                p.power_ratio_eirp_dbw,
+                0.0,
+                g.rx_gain_toward_jammer_dbi,
+                g.range_m,
+                r.carrier_hz,
+                signal_rx,
+                0.0,
+            );
+            assert!((js_pr - DENIAL_JS_THRESHOLD_DB).abs() < 1e-9);
+        }
+        assert_eq!(c.n_points_without_loss_of_lock_contour, 0);
+        assert!((c.jammer_eirp_dbw - eirp).abs() < 1e-12);
+    }
+
+    #[test]
+    fn the_band_is_the_measured_quantiles_pushed_through_the_contour_not_a_sigma() {
+        // The band edges must BE contour(p05) and contour(p95) — the same map applied to
+        // the sample's own order statistics — and must not be reproducible by any
+        // median ± k·stdev.
+        let r = mixed_operating_point().run().unwrap();
+        let c = r.denial_contour.as_ref().unwrap();
+        let b = c.loss_of_lock.as_ref().expect("defined here");
+        let at = |label: &str| {
+            c.points
+                .iter()
+                .find(|p| p.label == label)
+                .expect("the grid names it")
+        };
+
+        // The edges are literally the points, not a refit.
+        assert_eq!(
+            b.standoff_p05_km.to_bits(),
+            at("p05").loss_of_lock_standoff_km.unwrap().to_bits()
+        );
+        assert_eq!(
+            b.standoff_p95_km.to_bits(),
+            at("p95").loss_of_lock_standoff_km.unwrap().to_bits()
+        );
+        assert_eq!(
+            b.eirp_median_dbw.to_bits(),
+            at("median").loss_of_lock_eirp_dbw.unwrap().to_bits()
+        );
+
+        // A ±k·σ band would place both edges the same distance from the median. Measure
+        // the two half-widths on each axis and require them to differ.
+        let lo_half = b.standoff_p05_km - b.standoff_median_km;
+        let hi_half = b.standoff_median_km - b.standoff_p95_km;
+        assert!(
+            (lo_half - hi_half).abs() > 1e-6,
+            "the standoff band is symmetric about the median contour: {lo_half} km out, \
+             {hi_half} km in. That is the reparametrised-sigma failure this test exists \
+             to catch — report it rather than forcing it."
+        );
+        let e_lo = b.eirp_median_dbw - b.eirp_p05_dbw;
+        let e_hi = b.eirp_p95_dbw - b.eirp_median_dbw;
+        assert!(
+            (e_lo - e_hi).abs() > 1e-6,
+            "the EIRP band is symmetric about the median contour ({e_lo} vs {e_hi} dB)"
+        );
+
+        // And no single k reproduces both edges from the stdev.
+        let sd = c.cn0_nominal.stdev_dbhz;
+        assert!(sd > 0.0);
+        let k_lo = e_lo / sd;
+        let k_hi = e_hi / sd;
+        assert!(
+            (k_lo - k_hi).abs() > 1e-6,
+            "one k reproduced both EIRP edges ({k_lo} vs {k_hi}) — the band would be a \
+             reparametrised sigma after all"
+        );
+    }
+
+    #[test]
+    fn the_asymmetry_the_band_carries_is_the_samples_own_shape_bent_by_the_criterion() {
+        // The sharpest statement that the band is not a sigma: the power-ratio EIRP
+        // contour is an EXACT unit-slope translate of the C/N0 sample, so its band's
+        // asymmetry equals the sample's asymmetry to the last bit; the loss-of-lock
+        // contour is not linear, so its band's asymmetry differs — by a measured amount.
+        let r = mixed_operating_point().run().unwrap();
+        let c = r.denial_contour.as_ref().unwrap();
+        let skew = c.cn0_nominal.asymmetry_db;
+        assert!(
+            skew.abs() > 1e-3,
+            "this operating point's C/N0 sample is symmetric ({skew} dB); the asymmetry \
+             claim cannot be demonstrated here"
+        );
+
+        let pr = c.power_ratio.eirp_asymmetry_db;
+        assert!(
+            (pr - skew).abs() < 1e-9,
+            "the power-ratio EIRP band asymmetry {pr} dB should equal the sample's own \
+             {skew} dB exactly: that contour is C/N0 + 30 dB + N0, unit slope"
+        );
+
+        let lol = c.loss_of_lock.as_ref().unwrap().eirp_asymmetry_db;
+        let bend = lol - skew;
+        assert!(
+            bend.abs() > 1e-6,
+            "the loss-of-lock EIRP band asymmetry {lol} dB matched the sample's own \
+             {skew} dB; the anti-jam equation added no curvature at this operating point"
+        );
+
+        // Pinned at the documented operating point (jammer 25 km, all else default):
+        // sample skew +1.439070 dB, power-ratio band +1.439070 dB, loss-of-lock band
+        // +1.442570 dB — a +0.003500 dB bend from the anti-jam equation.
+        assert!((skew - 1.439_070).abs() < 5e-6, "sample skew {skew}");
+        assert!(
+            (lol - 1.442_570).abs() < 5e-6,
+            "loss-of-lock band skew {lol}"
+        );
+        assert!((bend - 0.003_500).abs() < 5e-6, "the bend {bend}");
+
+        // On the standoff axis both bands are strongly asymmetric even where the EIRP
+        // contour is exactly linear, because range is exponential in dB.
+        assert!((c.power_ratio.standoff_asymmetry_km + 6.503_720).abs() < 5e-5);
+        assert!((c.loss_of_lock.as_ref().unwrap().standoff_asymmetry_km + 3.628_364).abs() < 5e-5);
+    }
+
+    #[test]
+    fn the_contour_is_monotone_in_cn0_measured_over_a_dense_sweep_not_assumed() {
+        // The quantile ordering is only trivial if the map is monotone, and that is a
+        // claim about the anti-jam equation, not an axiom. Sweep the contour densely
+        // across and well beyond the C/N0 range the table produces and count the
+        // violations; if the map ever folds, this is the test that catches it.
+        let r = mixed_operating_point().run().unwrap();
+        let c = r.denial_contour.as_ref().unwrap();
+        let g = r.jammer.as_ref().unwrap();
+        let n0 = noise_density_dbw_per_hz(r.temp_k);
+        let eirp = g.power_dbw + g.gain_dbi;
+
+        let standoff_km = |cn0: f64| -> Option<f64> {
+            let js = denial_js_db(cn0, r.tracking_threshold_dbhz, g.q, r.chip_rate_hz)?;
+            Some(
+                range_for_free_space_path_loss_m(
+                    eirp + g.rx_gain_toward_jammer_dbi - (js + cn0 + n0),
+                    r.carrier_hz,
+                ) / 1000.0,
+            )
+        };
+
+        let (lo, hi, n) = (r.tracking_threshold_dbhz + 1e-3, 80.0_f64, 20_001usize);
+        let mut prev: Option<(f64, f64)> = None;
+        let mut violations = 0usize;
+        let mut first: Option<String> = None;
+        for i in 0..n {
+            let cn0 = lo + (hi - lo) * i as f64 / (n - 1) as f64;
+            let s = standoff_km(cn0).expect("above the threshold, so defined");
+            let p =
+                denial_js_db(cn0, r.tracking_threshold_dbhz, g.q, r.chip_rate_hz).unwrap() + cn0;
+            // Finiteness first, so the ordering test below can use plain comparisons
+            // without a NaN quietly passing as "not a violation".
+            assert!(
+                s.is_finite() && p.is_finite(),
+                "the contour returned a non-finite value at C/N0 {cn0} dB-Hz"
+            );
+            if let Some((ps, pp)) = prev {
+                if s >= ps || p <= pp {
+                    violations += 1;
+                    first.get_or_insert(format!(
+                        "at C/N0 {cn0} dB-Hz: standoff {ps} -> {s} km, required power \
+                         {pp} -> {p} dBW"
+                    ));
+                }
+            }
+            prev = Some((s, p));
+        }
+        assert_eq!(
+            violations, 0,
+            "the denial contour is NOT monotone in C/N0 over [{lo}, {hi}] dB-Hz \
+             ({violations} of {n} samples break the ordering; first: {first:?}). That is \
+             a real finding about the anti-jam equation — pin it, do not smooth it."
+        );
+
+        // Having measured it, the emitted ordering must agree: strictly here, because
+        // this sample's quantiles are distinct.
+        let b = c.loss_of_lock.as_ref().unwrap();
+        assert!(b.standoff_monotone_in_cn0 && b.eirp_monotone_in_cn0);
+        assert!(c.power_ratio.standoff_monotone_in_cn0 && c.power_ratio.eirp_monotone_in_cn0);
+        let mut prev_s = f64::INFINITY;
+        for p in &c.points {
+            let s = p.loss_of_lock_standoff_km.unwrap();
+            assert!(
+                s < prev_s,
+                "{}: the emitted points are not strictly ordered ({s} after {prev_s})",
+                p.label
+            );
+            prev_s = s;
+        }
+        // …so the band edges are the p05/p95 ones and never crossed.
+        assert!(b.standoff_p05_km > b.standoff_median_km);
+        assert!(b.standoff_median_km > b.standoff_p95_km);
+    }
+
+    #[test]
+    fn the_band_recovers_the_split_verdict_the_single_scalar_contour_lost() {
+        // The acceptance case, at the operating point the sibling median test already
+        // uses. The scalar contour puts the whole constellation on one side of the
+        // boundary; the band puts the boundary THROUGH the constellation, which is what
+        // the per-satellite table says is happening.
+        let scn = mixed_operating_point();
+        let r = scn.run().unwrap();
+        let c = r.denial_contour.as_ref().unwrap();
+        let b = c.loss_of_lock.as_ref().unwrap();
+        let g = r.jammer.as_ref().unwrap();
+        let standoff_km = g.range_m / 1000.0;
+        assert!((standoff_km - 25.0).abs() < 1e-12);
+
+        // What the table actually reports, per satellite.
+        let lost = r.links.iter().filter(|l| l.status == "LOST").count();
+        assert_eq!((lost, r.links.len()), (26, 38));
+
+        // The single-scalar contour: one radius, one verdict, for all 38 rows.
+        assert!(
+            standoff_km < b.standoff_median_km,
+            "the median contour must bracket the operating point for this test to bite"
+        );
+        let scalar_verdict_wrong = r.links.len() - lost;
+        assert_eq!(
+            scalar_verdict_wrong, 12,
+            "the median contour declares every link denied; it is wrong for the rows \
+             that are not"
+        );
+        assert!(scalar_verdict_wrong * 4 >= r.links.len());
+
+        // The band: the operating point sits INSIDE it, so the report states that the
+        // constellation straddles the denial boundary rather than asserting one verdict.
+        assert!(
+            b.standoff_p95_km < standoff_km && standoff_km < b.standoff_p05_km,
+            "25 km must fall inside [{}, {}] km for the band to carry the split",
+            b.standoff_p95_km,
+            b.standoff_p05_km
+        );
+
+        // And the contour map, applied per link rather than per quantile, reproduces the
+        // report's own status column exactly — so the band is an envelope of the real
+        // per-link contours, not a decoration on top of them.
+        let n0 = noise_density_dbw_per_hz(r.temp_k);
+        let eirp = g.power_dbw + g.gain_dbi;
+        let mut disagree = 0usize;
+        let mut above = 0usize;
+        for l in &r.links {
+            let js = denial_js_db(
+                l.cn0_nominal_dbhz,
+                r.tracking_threshold_dbhz,
+                g.q,
+                r.chip_rate_hz,
+            )
+            .expect("every link here is above the threshold unjammed");
+            let radius_km = range_for_free_space_path_loss_m(
+                eirp + g.rx_gain_toward_jammer_dbi - (js + l.cn0_nominal_dbhz + n0),
+                r.carrier_hz,
+            ) / 1000.0;
+            // Strict, to match `lock_status`'s strict `<`: a link exactly on the
+            // contour is the boundary and is not denied.
+            if radius_km > standoff_km {
+                above += 1;
+            }
+            if (radius_km > standoff_km) != (l.status == "LOST") {
+                disagree += 1;
+            }
+        }
+        assert_eq!(
+            disagree,
+            0,
+            "the per-link contour radius disagreed with the report's own status column \
+             on {disagree} of {} rows",
+            r.links.len()
+        );
+        assert_eq!(above, lost);
+
+        // Pinned numbers at this exact configuration (kind = lunar-jamming, every input
+        // default except jammer.range_m = 25 000 m): the scalar contour 27.402916 km,
+        // the band 21.256108 .. 29.921360 km, 8.665251 km wide.
+        assert!((b.standoff_median_km - 27.402_916).abs() < 5e-5);
+        assert!((b.standoff_p95_km - 21.256_108).abs() < 5e-5);
+        assert!((b.standoff_p05_km - 29.921_360).abs() < 5e-5);
+        assert!((b.standoff_width_km - 8.665_251).abs() < 5e-5);
+        // The two criteria disagree about where the contour is, which is exactly why
+        // both are reported: the power-ratio band does not even contain 25 km.
+        assert!(c.power_ratio.standoff_p95_km > standoff_km);
+    }
+
+    #[test]
+    fn a_link_already_below_the_threshold_gets_a_null_contour_point_not_a_number() {
+        // Raise the tracking threshold above every link's un-jammed C/N0. No finite J/S
+        // denies a link that is already lost, and the report must say so rather than
+        // print an infinity or a clamped radius.
+        let scn = LunarJammingScenario {
+            tracking_threshold_dbhz: 60.0,
+            jammer: Some(LunarJammerCfg::default()),
+            ..Default::default()
+        };
+        let r = scn.run().unwrap();
+        let c = r.denial_contour.as_ref().unwrap();
+        assert!(r.links.iter().all(|l| l.cn0_nominal_dbhz < 60.0));
+        assert_eq!(c.n_points_without_loss_of_lock_contour, c.points.len());
+        assert!(c.points.iter().all(|p| p.loss_of_lock_js_db.is_none()));
+        assert!(c.loss_of_lock.is_none());
+        // The power-ratio criterion still has a solution everywhere, so it is still
+        // reported — one criterion going undefined does not silence the other.
+        assert!(c.power_ratio.standoff_median_km.is_finite());
+        let v = serde_json::to_value(&r).unwrap();
+        assert!(v["denial_contour"]["loss_of_lock"].is_null());
+        assert!(v["denial_contour"]["power_ratio"]["standoff_median_km"].is_number());
+    }
+
+    #[test]
+    fn a_clean_sky_run_has_no_contour_at_all_rather_than_an_empty_one() {
+        let r = LunarJammingScenario::default().run().unwrap();
+        assert!(!r.jammer_present);
+        assert!(r.denial_contour.is_none());
+        let v = serde_json::to_value(&r).unwrap();
+        assert!(v.get("denial_contour").is_none());
+    }
+
+    #[test]
+    fn the_distribution_is_the_tables_own_order_statistics_and_keeps_the_rows() {
+        // The distribution must be computed over the same rows the report emits, and
+        // emitting it must not have removed them.
+        let r = mixed_operating_point().run().unwrap();
+        let c = r.denial_contour.as_ref().unwrap();
+        let d = &c.cn0_nominal;
+        let mut s: Vec<f64> = r.links.iter().map(|l| l.cn0_nominal_dbhz).collect();
+        s.sort_by(|a, b| a.partial_cmp(b).unwrap());
+        assert_eq!(d.n, r.links.len());
+        assert_eq!(d.n, r.fom.n_links);
+        assert_eq!(d.min_dbhz.to_bits(), s[0].to_bits());
+        assert_eq!(d.max_dbhz.to_bits(), s[s.len() - 1].to_bits());
+        assert!(d.min_dbhz <= d.p05_dbhz);
+        assert!(d.p05_dbhz <= d.p25_dbhz);
+        assert!(d.p25_dbhz <= d.median_dbhz);
+        assert!(d.median_dbhz <= d.p75_dbhz);
+        assert!(d.p75_dbhz <= d.p95_dbhz);
+        assert!(d.p95_dbhz <= d.max_dbhz);
+        // The median is the same median the sibling collapse test computes by hand.
+        let n = s.len();
+        let hand = if n % 2 == 1 {
+            s[n / 2]
+        } else {
+            0.5 * (s[n / 2 - 1] + s[n / 2])
+        };
+        assert!((d.median_dbhz - hand).abs() < 1e-12);
+        // Mean and stdev, recomputed independently.
+        let mean = s.iter().sum::<f64>() / n as f64;
+        assert!((d.mean_dbhz - mean).abs() < 1e-12);
+        let var = s.iter().map(|x| (x - mean).powi(2)).sum::<f64>() / (n - 1) as f64;
+        assert!((d.stdev_dbhz - var.sqrt()).abs() < 1e-12);
+        // …and the per-link rows are still all there.
+        assert_eq!(
+            r.links.len(),
+            r.epochs.iter().map(|e| e.visible).sum::<usize>()
+        );
+    }
+
+    #[test]
+    fn the_units_block_describes_the_contour_and_names_nothing_the_report_omits() {
+        // Forward: every numeric leaf of the contour block carries a unit and a
+        // provenance class. Reverse: the block names no field the report does not emit.
+        // A units entry nobody emits reads as a guarantee.
+        let (json, _s, _svg) = mixed_operating_point().run_output().unwrap();
+        let v: serde_json::Value = serde_json::from_str(&json).unwrap();
+        let units = v["units"].as_object().expect("a units block");
+
+        let mut emitted: std::collections::HashSet<String> = std::collections::HashSet::new();
+        fn walk(v: &serde_json::Value, prefix: &str, out: &mut std::collections::HashSet<String>) {
+            match v {
+                serde_json::Value::Object(m) => {
+                    for (k, val) in m {
+                        let p = if prefix.is_empty() {
+                            k.clone()
+                        } else {
+                            format!("{prefix}.{k}")
+                        };
+                        walk(val, &p, out);
+                    }
+                }
+                serde_json::Value::Array(a) => {
+                    for e in a {
+                        walk(e, &format!("{prefix}[]"), out);
+                    }
+                }
+                serde_json::Value::Number(_) => {
+                    out.insert(prefix.to_string());
+                }
+                _ => {}
+            }
+        }
+        // `units` describes the document, it is not part of it.
+        let mut doc = v.clone();
+        doc.as_object_mut().unwrap().remove("units");
+        walk(&doc, "", &mut emitted);
+
+        // Forward, over the contour block only — the rest of the document has its own
+        // test, unchanged.
+        let missing: Vec<&String> = emitted
+            .iter()
+            .filter(|p| p.starts_with("denial_contour"))
+            .filter(|p| !units.contains_key(p.as_str()))
+            .collect();
+        assert!(
+            missing.is_empty(),
+            "contour fields with no units entry: {missing:?}"
+        );
+        assert!(
+            emitted
+                .iter()
+                .filter(|p| p.starts_with("denial_contour"))
+                .count()
+                >= 40,
+            "the contour block should carry the whole distribution and both bands"
+        );
+
+        // Reverse, over the whole block: strip the optional `[]` suffix on both sides so
+        // the older unsuffixed spellings this module already ships still match.
+        let norm = |s: &str| s.replace("[]", "");
+        let seen: std::collections::HashSet<String> = emitted.iter().map(|p| norm(p)).collect();
+        let orphan: Vec<&str> = UNITS
+            .iter()
+            .map(|(f, _, _, _)| *f)
+            .filter(|f| !seen.contains(&norm(f)))
+            .collect();
+        assert!(
+            orphan.is_empty(),
+            "units entries naming fields the report does not emit: {orphan:?}"
+        );
+
+        // Every entry is well formed against the shared vocabulary, and every NEW entry
+        // states a definition.
+        for (path, unit, provenance, note) in UNITS {
+            assert!(!unit.is_empty(), "{path} has no unit");
+            assert!(
+                crate::field_schema::ProvenanceClass::parse(provenance).is_some(),
+                "{path} has provenance {provenance:?}, outside the vocabulary"
+            );
+            if path.starts_with("denial_contour") {
+                assert!(!note.is_empty(), "{path} is a new entry with no definition");
+            }
+        }
     }
 }
