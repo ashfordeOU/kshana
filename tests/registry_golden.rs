@@ -317,7 +317,17 @@ fn golden_hybrid_optical_rf() {
         // tests/field_units_global.rs). Purely additive: the summary string above is
         // byte-identical, no pre-existing key changed value or position, and the whole
         // delta is the new `units` object.
-        expect_fnv_canonical: 0x1afa_3f13_153b_f126,
+        // Re-baselined when the report gained the G16 RF leg: `rf_link_configuration`,
+        // `rf_availability` (the margin/tracking-limited RF link availability) and
+        // `ranging_comparison` (the like-for-like optical-versus-RF ranging ratio at one
+        // common configuration). Purely additive, measured rather than asserted: the
+        // summary string above is byte-identical, and a leaf census over the emitted
+        // document at this scenario and at a non-default one found 124 pre-existing
+        // numeric leaves with 0 changed and 0 removed (151 scalar leaves including bools
+        // and strings, likewise 0 and 0). The only value anywhere that moved is the
+        // `units` note on `optical_availability.single_site_mean`, which claimed no
+        // RF-availability counterpart existed and became false when this landed.
+        expect_fnv_canonical: 0x2bf6_b4ed_e1fb_f1f6,
         expect_fnv_raw_linux_x64: None,
     });
 }
