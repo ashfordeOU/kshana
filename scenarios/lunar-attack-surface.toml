@@ -26,8 +26,8 @@ afs_eirp_dbw = 26.0
 user_gain_dbi = 3.0
 slant_range_m = 3.0e6
 carrier_hz = 2.4e9
-gps_reference_dbw = -125.0
-gps_reference_min_dbw = -128.5
+gps_reference_dbw = -155.0       # GPS L1 C/A typical received power, dBW (was -125.0, which is dBm)
+gps_reference_min_dbw = -158.5   # ICD-GPS-200 specification minimum, dBW (was -128.5, which is dBm)
 
 # Orbital transmitter + footprint.
 transmitter_altitude_m = 100_000.0
