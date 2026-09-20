@@ -32,21 +32,24 @@
 # IERS's operational Bulletin A algorithm. Not a certified real-time frame product.
 kind = "realtime-frame-eop"
 
-# THE EOP INPUT. The documented input is a REAL IERS finals2000A product, supplied through
-# `eop_finals2000a`. Two verbatim extracts are committed with the repository and are what the
-# published P4 real-EOP tables were produced from:
+# THE EOP INPUT. Always a REAL IERS finals2000A product, used verbatim. With no path the
+# library's own embedded copy of the 2026 extract (tools/finals2000A_2026.txt, MJD 61173-61204)
+# is in force: 20 rows carry a Bulletin B final block and 12 are Bulletin A PREDICTION-ONLY rows
+# (MJD 61193-61204), so a bare run reports `predicted_rows.n` = 12 and a populated
+# `table2_error_vs_horizon` with no file argument and no network (G12).
+#
+# Other verbatim extracts committed with the repository, for `eop_finals2000a`:
 #
 #   eop_finals2000a = "tests/fixtures/agency/eop/finals2000A_2022001_longspan.txt"   # 45 final rows
-#   eop_finals2000a = "tests/fixtures/agency/eop/finals2000A_2026.txt"               # 20 final + 12 real
-#                                                                                    # Bulletin A prediction rows
+#   eop_finals2000a = "tests/fixtures/agency/eop/finals2000A_2022001.txt"            # 5 final rows
+#                                                                                    # (the pre-G12 default)
 #
-# With no path the bundled offline fixture (tools/finals2000A_2022001.txt) is used instead. That
-# fixture is a FINAL-ONLY 5-row excerpt: every row carries a Bulletin B block, so it publishes no
-# Bulletin A prediction rows and `predicted_rows.n` is 0 on a bare run for that reason alone — not
-# because the engine cannot read a prediction row (point it at the 2026 extract above and it
-# reports 12). The bundled fixture stays the RUNTIME default only because changing it would
-# renumber the already-published P4 tables; the emitted `eop_input` block names whichever input is
-# actually in force and carries its row census.
+# Both of those are FINAL-ONLY: every row carries a Bulletin B block, so they publish no Bulletin A
+# prediction row and `predicted_rows.n` is 0 on them. That zero is the FILE's property, not a
+# parser failure, and it stays exercised by test. Moving the default onto the 2026 extract moved
+# ten cells of the released p4_frame_eop.csv; they are enumerated old-to-new in
+# docs/revisions/G12-default-eop-cell-changes.md under programme rule R4. The emitted `eop_input`
+# block names whichever input is actually in force and carries its row census.
 #
 # `eop_finals2000a_later` takes an ARCHIVED LATER VINTAGE of the same product — the file as it
 # stood once the dates the first file predicts had become Bulletin B final. Supplying it turns on
@@ -66,7 +69,7 @@ horizons_days = [1, 2, 3]
 # delta_ut1_ms = 0.5
 # delta_xp_mas = 0.0
 # delta_yp_mas = 0.0
-# eop_finals2000a = "tests/fixtures/agency/eop/finals2000A_2026.txt"
+# eop_finals2000a = "tests/fixtures/agency/eop/finals2000A_2022001_longspan.txt"
 # eop_finals2000a_later = "<archived later vintage of the SAME product>"
 
 # THE OPERATIONAL-STYLE PREDICTOR (Table 5 + Table 6).
@@ -86,8 +89,9 @@ horizons_days = [1, 2, 3]
 # window is 15 days: at most 19 so BOTH committed real extracts can populate it (the 2026 extract
 # spans 19 days of finals), and at least ~13.8 so the monthly zonal tide clears the half-cycle
 # admission threshold. A term the window cannot constrain is REPORTED as rejected, with the cycles
-# the window spans, rather than silently dropped. The bundled 5-row offline fixture supports no
-# complete window at all, so a bare run reports Table 5 as `insufficient-data` and says why.
+# the window spans, rather than silently dropped. The bundled 2026 default spans 19 days of
+# finals, so a bare run populates Table 5. The 5-row finals2000A_2022001 excerpt supports no
+# complete window at all, and on that input Table 5 reports `insufficient-data` and says why.
 #
 # operational_window_days = 15.0          # 365.0 against a real year-long product
 # operational_min_cycle_fraction = 0.5    # cycles of a period the window must span to admit it

@@ -35,15 +35,22 @@
 //! + realisation floor).
 //!
 //! ## The EOP input (G12)
-//! The **documented** input is a real IERS `finals2000A` product passed through
-//! `eop_finals2000a`; two verbatim extracts are committed under
-//! `tests/fixtures/agency/eop/`. The bundled offline fixture is the fallback, and it is a
-//! FINAL-ONLY excerpt — which is the whole reason a bare run reports `predicted_rows.n = 0`.
-//! Pointed at the real 2026 extract the same code reports the 12 genuine Bulletin A
-//! prediction rows that file publishes. The bundled fixture remains the runtime default
-//! because switching it would renumber the already-published P4 tables; the emitted
-//! `eop_input` block names the input actually in force and carries its row census
+//! The bundled offline default **is** a real IERS `finals2000A` product: the verbatim
+//! 2026 extract (`tools/finals2000A_2026.txt`, MJD 61173–61204), embedded in the library
+//! so a bare run needs no file argument and no network. It publishes 20 Bulletin B final
+//! rows and **12 genuine Bulletin A prediction-only rows** (MJD 61193–61204), so a bare
+//! run reports `predicted_rows.n = 12` and a populated `table2_error_vs_horizon`. A
+//! caller can still point `eop_finals2000a` at any other real product; the emitted
+//! `eop_input` block names whichever input is in force and carries its row census
 //! (`rows = final_rows + prediction_rows`).
+//!
+//! The earlier default, `tools/finals2000A_2022001.txt`, is a FINAL-ONLY five-row excerpt
+//! and is still committed and still drift-guarded. On that input `predicted_rows.n = 0` —
+//! correct behaviour for a file that publishes no prediction row, not a parser failure —
+//! and a test keeps that path exercised so the evidence for the old figure survives the
+//! change of default. Switching the default moved ten cells of the released
+//! `p4_frame_eop.csv`; they are enumerated old→new in
+//! `docs/revisions/G12-default-eop-cell-changes.md` under programme rule R4.
 //!
 //! ## Validated vs Modelled
 //! - **Validated (closed form).** The L19 lever arm (`1 ms ↔ 28.03 m ↔ 93.5 ns`) is exact
@@ -76,13 +83,20 @@ use crate::lunar_frame_predict::{
 };
 use serde::Deserialize;
 
-/// The real IERS `finals2000A` fixture bundled for the offline/default run — the same
-/// verbatim rows the [`crate::frame_eop`] tests read. Kept under `tools/` (a shipped
-/// crate asset, like `tools/egm2008_to70.gfc`) rather than `tests/fixtures/` — which is
-/// excluded from the published crate tarball — because this is a *runtime* default the
-/// library embeds, not a test-only fixture. The drift guard below pins it byte-for-byte
-/// to the test-fixture copy so the two cannot diverge.
-const FIXTURE: &str = include_str!("../tools/finals2000A_2022001.txt");
+/// The real IERS `finals2000A` product bundled for the offline/default run — the verbatim
+/// 2026 extract, the same bytes the [`crate::frame_eop`] tests read. Kept under `tools/`
+/// (a shipped crate asset, like `tools/egm2008_to70.gfc`) rather than `tests/fixtures/` —
+/// which is excluded from the published crate tarball — because this is a *runtime*
+/// default the library embeds, not a test-only fixture. The drift guard below pins it
+/// byte-for-byte to the test-fixture copy so the two cannot diverge.
+///
+/// G12: this file carries both vintages of row the format defines — 20 Bulletin B finals
+/// and 12 Bulletin A prediction-only rows — so the default run exercises the prediction
+/// path on real data instead of reporting an empty census.
+const FIXTURE: &str = include_str!("../tools/finals2000A_2026.txt");
+
+/// The name [`FIXTURE`] is reported under in `eop_source` and `eop_input.source`.
+const BUNDLED_EOP_SOURCE: &str = "bundled fixture finals2000A_2026";
 
 /// The honesty label carried on the result document.
 const LABEL: &str = "Real-time lunar frame / Earth-orientation prediction budget. \
@@ -100,8 +114,8 @@ algorithm, and a genuine predicted-vs-final vintage difference needs an archived
 file vintage (not available from a single fetch). Not a certified real-time frame product.";
 
 /// The `realtime-frame-eop` scenario. Every field is optional: with no fields the budget
-/// runs the representative lunar-relay OD covariance over the bundled real `finals2000A`
-/// fixture for the 1/2/3-day horizons.
+/// runs the representative lunar-relay OD covariance over the bundled real IERS
+/// `finals2000A` 2026 extract for the 1/2/3-day horizons.
 #[derive(Clone, Debug, Default, Deserialize)]
 pub struct RealtimeFrameEopScenario {
     /// Informational epoch label (UTC date) for the report. Default `2022-01-01`.
@@ -135,13 +149,17 @@ pub struct RealtimeFrameEopScenario {
     /// Polar-motion y-pole prediction error (milliarcseconds) for the L21 budget. Measured
     /// from the real PM residual when omitted (see [`Self::delta_xp_mas`]).
     pub delta_yp_mas: Option<f64>,
-    /// Path to a real `finals2000A` EOP file. This is the **documented** EOP input: point
-    /// it at a real IERS product (the repository ships two verbatim extracts under
-    /// `tests/fixtures/agency/eop/`). Absent ⇒ the bundled offline fixture is used, which is
-    /// a FINAL-ONLY excerpt and therefore publishes no Bulletin A prediction rows; the
-    /// emitted `eop_input` block says which of the two is in force. The bundled fixture
-    /// remains the *runtime* default only because changing it would renumber the published
-    /// P4 tables.
+    /// Path to a real `finals2000A` EOP file. Absent ⇒ the bundled real IERS 2026 extract
+    /// (`tools/finals2000A_2026.txt`, 20 Bulletin B finals + 12 Bulletin A prediction-only
+    /// rows) is used, which is why a bare run reports `predicted_rows.n = 12` and a
+    /// populated per-horizon table. Supply a path to run against any other real product —
+    /// the repository also ships a 45-row final-only extract
+    /// (`tests/fixtures/agency/eop/finals2000A_2022001_longspan.txt`) and the five-row
+    /// final-only excerpt that used to be the default
+    /// (`tests/fixtures/agency/eop/finals2000A_2022001.txt`, mirrored at
+    /// `tools/finals2000A_2022001.txt`), on which `predicted_rows.n` is 0 because those
+    /// files publish no prediction row. The emitted `eop_input` block always names the
+    /// input in force and carries its row census.
     pub eop_finals2000a: Option<String>,
     /// Path to an **archived later vintage** of the same `finals2000A` product — the file as
     /// it stood after the dates [`Self::eop_finals2000a`] predicts had become Bulletin B
@@ -249,7 +267,7 @@ impl RealtimeFrameEopScenario {
         }
     }
 
-    /// Read the EOP series body: the bundled fixture, or the caller-supplied path.
+    /// Read the EOP series body: the bundled real 2026 extract, or the caller-supplied path.
     fn eop_body(&self) -> Result<(String, String), String> {
         match &self.eop_finals2000a {
             Some(path) => {
@@ -257,10 +275,7 @@ impl RealtimeFrameEopScenario {
                     .map_err(|e| format!("cannot read EOP file {path}: {e}"))?;
                 Ok((body, path.clone()))
             }
-            None => Ok((
-                FIXTURE.to_string(),
-                "bundled fixture finals2000A_2022001".to_string(),
-            )),
+            None => Ok((FIXTURE.to_string(), BUNDLED_EOP_SOURCE.to_string())),
         }
     }
 
@@ -607,17 +622,22 @@ impl RealtimeFrameEopScenario {
                 "rows": c.eop_rows,
                 "final_rows": c.eop_final_rows,
                 "prediction_rows": c.predicted_rows.n,
-                "note": "The DOCUMENTED EOP input is a real IERS finals2000A product supplied \
-                         through `eop_finals2000a` (the repository ships two verbatim extracts \
-                         under tests/fixtures/agency/eop/). The bundled offline fixture is the \
-                         fallback only: it is a FINAL-ONLY excerpt, every row carrying a \
-                         Bulletin B block, so it publishes no Bulletin A prediction rows and \
-                         `predicted_rows.n` is 0 on a bare run for that reason alone — not \
-                         because a prediction row is unreadable. A real full product does \
-                         carry prediction rows and reports a non-zero count. The bundled \
-                         fixture is retained as the runtime default because changing it would \
-                         renumber the already-published P4 tables; `rows` = `final_rows` + \
-                         `prediction_rows` for whichever input is in force.",
+                "note": "The EOP input is always a real IERS finals2000A product used \
+                         verbatim. With no `eop_finals2000a` path the library's own embedded \
+                         copy of the 2026 extract (tools/finals2000A_2026.txt, MJD \
+                         61173-61204) is in force: 20 rows carry a Bulletin B final block and \
+                         12 are Bulletin A prediction-only rows (MJD 61193-61204), so a bare \
+                         run reports `prediction_rows` = 12 and the per-horizon table is \
+                         populated from real rows. `predicted_rows.n` is 0 only on an input \
+                         that publishes no prediction row at all — the five-row \
+                         finals2000A_2022001 excerpt that used to be the default, and the \
+                         45-row finals2000A_2022001_longspan extract, are both final-only and \
+                         both still committed; a zero there is the file's property, not a \
+                         parser failure. Switching the default moved ten cells of the released \
+                         p4_frame_eop.csv, enumerated old-to-new in \
+                         docs/revisions/G12-default-eop-cell-changes.md under programme rule \
+                         R4. `rows` = `final_rows` + `prediction_rows` for whichever input is \
+                         in force.",
             },
             "predicted_rows": {
                 "n": c.predicted_rows.n,
@@ -1187,25 +1207,25 @@ fn units_block() -> serde_json::Value {
             &format!("operational_predictor_model.representative_fit.{q}.issue_mjd"),
             "MJD (day)",
             "measured",
-            "",
+            "the epoch the representative forecast is issued at; the fit sees no observation after it",
         );
         put(
             &format!("operational_predictor_model.representative_fit.{q}.window_first_mjd"),
             "MJD (day)",
             "measured",
-            "",
+            "first observation epoch inside the trailing fit window",
         );
         put(
             &format!("operational_predictor_model.representative_fit.{q}.window_last_mjd"),
             "MJD (day)",
             "measured",
-            "",
+            "last observation epoch inside the trailing fit window",
         );
         put(
             &format!("operational_predictor_model.representative_fit.{q}.n_fit"),
             "count",
             "measured",
-            "",
+            "observations the fit was formed from",
         );
         put(
             &format!("operational_predictor_model.representative_fit.{q}.rms_fit_residual_native"),
@@ -1225,34 +1245,34 @@ fn units_block() -> serde_json::Value {
             ),
             "day",
             "constant",
-            "",
+            "period of a candidate periodic term the window was too short to admit",
         );
-        put(&format!("operational_predictor_model.representative_fit.{q}.terms_rejected[].cycles_spanned"), "cycle (dimensionless)", "computed", "");
-        put(&format!("operational_predictor_model.representative_fit.{q}.terms_rejected[].threshold_cycles"), "cycle (dimensionless)", "input", "");
+        put(&format!("operational_predictor_model.representative_fit.{q}.terms_rejected[].cycles_spanned"), "cycle (dimensionless)", "computed", "cycles of that period the fit window actually spans");
+        put(&format!("operational_predictor_model.representative_fit.{q}.terms_rejected[].threshold_cycles"), "cycle (dimensionless)", "input", "cycles a term must span to be admitted to the design matrix");
     }
     put(
         "operational_predictor_model.published_bulletin_a_agreement.issue_mjd",
         "MJD (day)",
         "measured",
-        "",
+        "the data cutoff of the in-force product, past which its Bulletin A rows are predictions",
     );
     put(
         "operational_predictor_model.published_bulletin_a_agreement.n",
         "count",
         "measured",
-        "",
+        "published Bulletin A prediction rows the forecast was compared against",
     );
     put(
         "operational_predictor_model.published_bulletin_a_agreement.first_lead_days",
         "day",
         "measured",
-        "",
+        "shortest lead compared",
     );
     put(
         "operational_predictor_model.published_bulletin_a_agreement.last_lead_days",
         "day",
         "measured",
-        "",
+        "longest lead compared",
     );
     put(
         "operational_predictor_model.published_bulletin_a_agreement.ut1_rms_s",
@@ -1264,56 +1284,66 @@ fn units_block() -> serde_json::Value {
         "operational_predictor_model.published_bulletin_a_agreement.ut1_rms_position_m",
         "m",
         "computed",
-        "",
+        "the UT1 agreement at the Moon through the L19 lever arm",
     );
     put(
         "operational_predictor_model.published_bulletin_a_agreement.pm_rms_arcsec",
         "arcsec",
         "computed",
-        "",
+        "pole-displacement agreement with the published prediction, NOT an error",
     );
     put(
         "operational_predictor_model.published_bulletin_a_agreement.pm_rms_position_m",
         "m",
         "computed",
-        "",
+        "the pole agreement at the Moon",
     );
     put(
         "operational_predictor_model.published_bulletin_a_agreement.leads[].lead_days",
         "day",
         "measured",
-        "",
+        "days between the issue epoch and the predicted epoch",
     );
     put(
         "operational_predictor_model.published_bulletin_a_agreement.leads[].ut1_diff_s",
         "s",
         "computed",
-        "",
+        "this crate's forecast minus the published Bulletin A prediction at that lead",
     );
     put(
         "operational_predictor_model.published_bulletin_a_agreement.leads[].ut1_position_m",
         "m",
         "computed",
-        "",
+        "that UT1 difference at the Moon",
     );
     put(
         "operational_predictor_model.published_bulletin_a_agreement.leads[].pm_diff_arcsec",
         "arcsec",
         "computed",
-        "",
+        "pole-displacement difference from the published prediction at that lead",
     );
     put(
         "operational_predictor_model.published_bulletin_a_agreement.leads[].pm_position_m",
         "m",
         "computed",
-        "",
+        "that pole difference at the Moon",
     );
 
     // --- G13: Table 5 ---
     let t5 = "table5_operational_vs_persistence";
     put(&format!("{t5}.n_rows"), "count", "measured", "");
-    put(&format!("{t5}.rows[].horizon_days"), "day", "input", "");
-    put(&format!("{t5}.rows[].n"), "count", "measured", "");
+    put(
+        &format!("{t5}.rows[].horizon_days"),
+        "day",
+        "input",
+        "forecast lead the row was scored at",
+    );
+    put(
+        &format!("{t5}.rows[].n"),
+        "count",
+        "measured",
+        "epochs BOTH predictors were scored over; the two columns share this set exactly",
+    );
     put(
         &format!("{t5}.rows[].epochs_mjd"),
         "MJD (day)",
@@ -1331,58 +1361,63 @@ fn units_block() -> serde_json::Value {
         &format!("{t5}.rows[].fit_rows_min"),
         "count",
         "measured",
-        "",
+        "fewest observations any fit in the row was formed from",
     );
     put(
         &format!("{t5}.rows[].fit_rows_max"),
         "count",
         "measured",
-        "",
+        "most observations any fit in the row was formed from",
     );
     put(&format!("{t5}.rows[].*.improvement_factor"), "ratio (dimensionless)", "computed", "persistence RMS / operational RMS; below 1 means the operational predictor is WORSE at that horizon");
     for p in ["operational", "persistence"] {
-        put(&format!("{t5}.rows[].*.{p}.n"), "count", "measured", "");
+        put(
+            &format!("{t5}.rows[].*.{p}.n"),
+            "count",
+            "measured",
+            "epochs this predictor was scored at (equal to the row's n)",
+        );
         put(
             &format!("{t5}.rows[].*.{p}.rms_native"),
             "see the sibling `unit` field",
             "measured",
-            "",
+            "root-mean-square predicted-minus-final residual over the row's epochs",
         );
         put(
             &format!("{t5}.rows[].*.{p}.p50_native"),
             "see the sibling `unit` field",
             "measured",
-            "",
+            "median absolute predicted-minus-final residual",
         );
         put(
             &format!("{t5}.rows[].*.{p}.p95_native"),
             "see the sibling `unit` field",
             "measured",
-            "",
+            "95th-percentile absolute predicted-minus-final residual",
         );
         put(
             &format!("{t5}.rows[].*.{p}.max_native"),
             "see the sibling `unit` field",
             "measured",
-            "",
+            "largest absolute predicted-minus-final residual",
         );
         put(
             &format!("{t5}.rows[].*.{p}.rms_position_m"),
             "m",
             "computed",
-            "",
+            "the RMS residual at the Moon through the L19 lever arm",
         );
         put(
             &format!("{t5}.rows[].*.{p}.p95_position_m"),
             "m",
             "computed",
-            "",
+            "the 95th-percentile residual at the Moon",
         );
         put(
             &format!("{t5}.rows[].*.{p}.rms_light_time_ns"),
             "ns",
             "computed",
-            "",
+            "the RMS residual as one-way light time at the Moon",
         );
     }
     put(
@@ -1630,18 +1665,35 @@ mod tests {
     use crate::frame_eop::ut1_error_to_lunar;
     use serde_json::Value;
 
-    /// The bundled runtime EOP asset (`tools/finals2000A_2022001.txt`, shipped in the
-    /// crate tarball) must stay byte-for-byte identical to the test fixture under
-    /// `tests/fixtures/` — otherwise the offline default would silently diverge from the
-    /// data the `frame_eop` validation tests are pinned to.
+    /// The final-only five-row excerpt that was the runtime default before G12 closed. It
+    /// is still shipped under `tools/` and still mirrored under `tests/fixtures/`, and it
+    /// is what keeps the `predicted_rows.n = 0` path — correct behaviour on a file with no
+    /// prediction row — exercised after the default moved off it.
+    const FINAL_ONLY_FIXTURE: &str = include_str!("../tools/finals2000A_2022001.txt");
+
+    /// The same file as a path, for the scenario input.
+    const FINAL_ONLY_PATH: &str = "tests/fixtures/agency/eop/finals2000A_2022001.txt";
+
+    /// Both bundled runtime EOP assets under `tools/` (shipped in the crate tarball) must
+    /// stay byte-for-byte identical to their test fixtures under `tests/fixtures/` —
+    /// otherwise the offline default, or the final-only path it used to take, would
+    /// silently diverge from the data the `frame_eop` validation tests are pinned to.
     #[test]
     fn bundled_eop_matches_the_test_fixture() {
-        let test_fixture = include_str!("../tests/fixtures/agency/eop/finals2000A_2022001.txt");
         assert_eq!(
-            FIXTURE, test_fixture,
+            FIXTURE,
+            include_str!("../tests/fixtures/agency/eop/finals2000A_2026.txt"),
+            "tools/finals2000A_2026.txt (the shipped runtime DEFAULT) has drifted from \
+             tests/fixtures/agency/eop/finals2000A_2026.txt — re-copy it"
+        );
+        assert_eq!(
+            FINAL_ONLY_FIXTURE,
+            include_str!("../tests/fixtures/agency/eop/finals2000A_2022001.txt"),
             "tools/finals2000A_2022001.txt (shipped runtime asset) has drifted from \
              tests/fixtures/agency/eop/finals2000A_2022001.txt — re-copy it"
         );
+        // The two are genuinely different products, not one file under two names.
+        assert_ne!(FIXTURE, FINAL_ONLY_FIXTURE);
     }
 
     #[test]
@@ -1971,35 +2023,72 @@ mod tests {
 
     // ---- G12: the real-EOP path, and the always-emitted horizon table ----
 
-    // ORACLE: the real IERS products themselves. `predicted_rows.n` is 0 on a bare run
-    // because the BUNDLED fixture is a final-only excerpt — not because the engine cannot
-    // read a prediction row. Pointed at a real full product it reports the real count, and
-    // the emitted census decomposes exactly.
+    // G12 ACCEPTANCE. ORACLE: the real IERS products themselves, counted independently of
+    // the scenario by `eop::parse_all` / `eop::parse_all_predicted` over the same verbatim
+    // bytes. A BARE run now emits a populated per-horizon table AND `predicted_rows.n > 0`,
+    // because the bundled default is a real product carrying both row vintages. The
+    // final-only path is kept beside it: on a file that publishes no prediction row the
+    // count is 0, which is the file's property and not a parser failure.
     #[test]
-    fn real_eop_path_publishes_the_prediction_rows_the_fixture_has_none_of() {
+    fn a_default_run_publishes_the_real_prediction_rows_and_the_horizon_table() {
         let run = |scn: RealtimeFrameEopScenario| -> Value {
             serde_json::from_str(&scn.run_json().unwrap().0).unwrap()
         };
         let bundled = run(RealtimeFrameEopScenario::default());
-        assert_eq!(bundled["predicted_rows"]["n"], 0);
         assert_eq!(bundled["eop_input"]["kind"], "bundled-offline-fixture");
-        assert_eq!(bundled["eop_input"]["prediction_rows"], 0);
-        // Every bundled row is a final row — that is WHY the count is zero.
-        assert_eq!(
-            bundled["eop_input"]["rows"], bundled["eop_input"]["final_rows"],
-            "the bundled fixture must be a final-only excerpt"
-        );
+        assert_eq!(bundled["eop_source"], BUNDLED_EOP_SOURCE);
 
-        let real = run(RealtimeFrameEopScenario {
-            eop_finals2000a: Some("tests/fixtures/agency/eop/finals2000A_2026.txt".to_string()),
+        // Independent census over the same bytes, not a restatement of the report.
+        let rows = crate::eop::parse_all(FIXTURE).len();
+        let preds = crate::eop::parse_all_predicted(FIXTURE);
+        assert_eq!(
+            rows, 32,
+            "the bundled 2026 extract carries 32 readable rows"
+        );
+        assert_eq!(preds.len(), 12, "12 of them are prediction-only");
+        assert_eq!(bundled["eop_input"]["rows"], rows);
+        assert_eq!(bundled["eop_input"]["prediction_rows"], preds.len());
+        assert_eq!(bundled["eop_input"]["final_rows"], rows - preds.len());
+
+        // THE ACCEPTANCE CRITERION: a default run, no inputs at all.
+        assert_eq!(bundled["predicted_rows"]["n"], 12);
+        assert!(
+            bundled["predicted_rows"]["n"].as_u64().unwrap() > 0,
+            "a default run must publish prediction rows"
+        );
+        assert_eq!(bundled["predicted_rows"]["first_mjd"], 61193.0);
+        assert_eq!(bundled["predicted_rows"]["last_mjd"], 61204.0);
+        assert_eq!(preds.first().unwrap().mjd, 61193.0);
+        assert_eq!(preds.last().unwrap().mjd, 61204.0);
+        let t2 = bundled["table2_error_vs_horizon"].as_array().unwrap();
+        assert_eq!(
+            t2.len(),
+            4,
+            "the final floor plus the three default horizons"
+        );
+        for r in t2 {
+            assert!(
+                r["n"].as_u64().unwrap() > 0,
+                "every default horizon row must be measured from real rows: {r}"
+            );
+        }
+
+        // The final-only path, kept provable: 0 prediction rows is the FILE's property.
+        let final_only = run(RealtimeFrameEopScenario {
+            eop_finals2000a: Some(FINAL_ONLY_PATH.to_string()),
             ..Default::default()
         });
-        assert_eq!(real["eop_input"]["kind"], "supplied-finals2000a-file");
-        // The real product carries 12 genuine Bulletin A prediction-only rows.
-        assert_eq!(real["predicted_rows"]["n"], 12);
-        assert_eq!(real["eop_input"]["prediction_rows"], 12);
+        assert_eq!(final_only["eop_input"]["kind"], "supplied-finals2000a-file");
+        assert_eq!(final_only["predicted_rows"]["n"], 0);
+        assert_eq!(final_only["eop_input"]["prediction_rows"], 0);
+        assert_eq!(
+            final_only["eop_input"]["rows"], final_only["eop_input"]["final_rows"],
+            "the 2022001 excerpt must be a final-only excerpt"
+        );
+        assert!(crate::eop::parse_all_predicted(FINAL_ONLY_FIXTURE).is_empty());
+
         // The census decomposes exactly on both inputs.
-        for v in [&bundled, &real] {
+        for v in [&bundled, &final_only] {
             let e = &v["eop_input"];
             assert_eq!(
                 e["rows"].as_u64().unwrap(),
@@ -2008,6 +2097,16 @@ mod tests {
             );
             assert!(e["note"].as_str().unwrap().contains("eop_finals2000a"));
         }
+        // The prose must not still explain the default as a final-only excerpt.
+        let note = bundled["eop_input"]["note"].as_str().unwrap();
+        assert!(
+            note.contains("finals2000A_2026"),
+            "the census note must name the input actually in force: {note}"
+        );
+        assert!(
+            !note.contains("bundled offline fixture is the fallback"),
+            "stale pre-G12 explanation left standing beside the new default: {note}"
+        );
     }
 
     // ORACLE: the report's own field set. The horizon table must be PRESENT on a run that
@@ -2400,10 +2499,16 @@ mod tests {
     }
 
     // An input that cannot support the model says so, in words, rather than publishing an
-    // empty array for a reader to interpret as "measured and zero".
+    // empty array for a reader to interpret as "measured and zero". G12 moved the default
+    // onto a 32-row product that DOES feed the model, so the input that cannot is now named
+    // explicitly: the five-row final-only excerpt, which supports no complete window and
+    // publishes no Bulletin A prediction row.
     #[test]
     fn table5_states_its_own_emptiness_on_an_input_that_cannot_feed_it() {
-        let v = run(RealtimeFrameEopScenario::default());
+        let v = run(RealtimeFrameEopScenario {
+            eop_finals2000a: Some(FINAL_ONLY_PATH.to_string()),
+            ..Default::default()
+        });
         let t5 = &v["table5_operational_vs_persistence"];
         assert_eq!(t5["status"], "insufficient-data");
         assert_eq!(t5["n_rows"], 0);
