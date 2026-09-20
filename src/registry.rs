@@ -64,6 +64,7 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         LunarVlbi,
         LunarCombination,
         LunarFrameRealise,
+        LunarFrameCampaign,
         LunarService,
         LunarDpnt,
         LunarInterop,
@@ -131,6 +132,9 @@ pub mod ids {
     pub const LUNAR_JOINT_OD_CLOCK: ScenarioId = ScenarioId::from_static("lunar-joint-od-clock");
     pub const LUNAR_FRAME_REALISATION: ScenarioId =
         ScenarioId::from_static("lunar-frame-realisation");
+    /// Seven-parameter Helmert frame datum propagated from a simulated lunar-VLBI
+    /// observing campaign rather than recovered from an injected transform.
+    pub const LUNAR_FRAME_CAMPAIGN: ScenarioId = ScenarioId::from_static("lunar-frame-campaign");
     pub const MOONLIGHT_SERVICE_VOLUME: ScenarioId =
         ScenarioId::from_static("moonlight-service-volume");
     pub const LUNAR_DIFFERENTIAL_PNT: ScenarioId =
