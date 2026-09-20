@@ -62,6 +62,14 @@ use crate::observability_gramian::{
     observability_matrix, rank_from_singular_values, singular_values, Mat, ObsEpoch, N_PLANAR,
 };
 
+/// The state dimension an epoch sequence estimates, read off the width of its variational
+/// STM (4 for the planar `[x, y, ẋ, ẏ]` path, 6 for the spatial `[x, y, z, ẋ, ẏ, ż]` one).
+/// Falls back to the planar dimension for an empty sequence so the planar contract is
+/// unchanged.
+fn state_dim_of(epochs: &[ObsEpoch]) -> usize {
+    epochs.first().map(|e| e.phi.len()).unwrap_or(N_PLANAR)
+}
+
 /// One arc point of the SRIF ↔ observability-Gramian cross-validation: the observable rank and
 /// conditioning read two independent ways over the tracking arc truncated at `epoch_index`.
 #[derive(Clone, Debug)]
@@ -72,6 +80,9 @@ pub struct SrifArcPoint {
     pub arc_time: f64,
     /// Stacked observability rows accumulated up to and including this epoch.
     pub n_rows: usize,
+    /// The state dimension this arc point is read against — 4 for the planar path, 6 for
+    /// the spatial one. Full observability means `gramian_rank == state_dim`.
+    pub state_dim: usize,
     /// Observable rank from the observability matrix `O` (singular-value threshold) — the same
     /// rank the P6 `rank-vs-arc` table reports.
     pub gramian_rank: usize,
@@ -79,7 +90,7 @@ pub struct SrifArcPoint {
     /// eigen-Gramian estimator's conditioning verdict.
     pub gramian_condition: f64,
     /// Whether the SRIF posterior covariance `P = R⁻¹R⁻ᵀ` is finite **and** well-conditioned
-    /// (full rank): `true` exactly when the observable rank reaches the full four-state.
+    /// (full rank): `true` exactly when the observable rank reaches the full state dimension.
     pub srif_posterior_wellposed: bool,
     /// SRIF posterior-covariance condition number (`+∞` when rank-deficient / singular). At full
     /// rank this equals [`Self::gramian_condition`] to numerical precision.
@@ -120,10 +131,14 @@ fn srif_over_arc(o: &Mat, n: usize) -> Srif {
 /// every P6 rank read; on the eigenvalue side of the Gram `OᵀO` (whose eigenvalues are `σ²`) it is
 /// applied as `λ > rel_tol²·λ_max`, so the rank read and the well-posedness/condition read use the
 /// SAME effective floor and cannot disagree.
+///
+/// The state dimension is read off the width of the epochs' variational STM, so the SAME function
+/// serves the planar four-state and the spatial six-state paths; the planar behaviour is unchanged.
 pub fn srif_cross_validation(epochs: &[ObsEpoch], rel_tol: f64) -> Vec<SrifArcPoint> {
     // The one convention on the eigenvalue side: σ-floor rel_tol·σ_max ⇔ λ-floor rel_tol²·λ_max
     // (the Gram OᵀO squares the singular values), matching `rank_from_singular_values`.
     let floor = rel_tol * rel_tol;
+    let n_state = state_dim_of(epochs);
     let mut out = Vec::with_capacity(epochs.len());
     let mut arc = 0.0;
     for (k, ep) in epochs.iter().enumerate() {
@@ -141,14 +156,14 @@ pub fn srif_cross_validation(epochs: &[ObsEpoch], rel_tol: f64) -> Vec<SrifArcPo
         let ones = vec![1.0; o.len()];
         let gram = information_matrix(&o, &ones);
         let gram_eig = sym_eig(&gram);
-        let gramian_condition = if gramian_rank == N_PLANAR {
+        let gramian_condition = if gramian_rank == n_state {
             floored_condition(&gram_eig.values, floor)
         } else {
             f64::INFINITY
         };
 
         // Independent SRIF estimator: posterior covariance finiteness + condition.
-        let srif = srif_over_arc(&o, N_PLANAR);
+        let srif = srif_over_arc(&o, n_state);
         let (_x, p) = srif.solve();
         let p_finite = p.iter().flatten().all(|v| v.is_finite());
         let p_eig = sym_eig(&p);
@@ -163,6 +178,7 @@ pub fn srif_cross_validation(epochs: &[ObsEpoch], rel_tol: f64) -> Vec<SrifArcPo
             epoch_index: k,
             arc_time: arc,
             n_rows: o.len(),
+            state_dim: n_state,
             gramian_rank,
             gramian_condition,
             srif_posterior_wellposed,
@@ -172,12 +188,13 @@ pub fn srif_cross_validation(epochs: &[ObsEpoch], rel_tol: f64) -> Vec<SrifArcPo
     out
 }
 
-/// The first arc index at which the observable rank reaches the full four-state, or `None` if it
-/// never does over the arc — the P6 transition the SRIF is cross-checked against.
+/// The first arc index at which the observable rank reaches the full state dimension
+/// ([`SrifArcPoint::state_dim`] — four in the planar path, six in the spatial one), or `None` if
+/// it never does over the arc — the P6 transition the SRIF is cross-checked against.
 pub fn full_rank_transition(points: &[SrifArcPoint]) -> Option<usize> {
     points
         .iter()
-        .find(|p| p.gramian_rank == N_PLANAR)
+        .find(|p| p.gramian_rank == p.state_dim)
         .map(|p| p.epoch_index)
 }
 

@@ -31,15 +31,30 @@
 //! * **Modelled.** The particular tracking geometry (which spacecraft, which links, the
 //!   arc length and epoch grid) is a scenario input; the *specific* rank progression it
 //!   produces is a property of that Modelled geometry, not an oracle-verified universal.
+//!
+//! ## Three dimensions and measurement noise
+//! The same assembly serves the **spatial** six-state `[x, y, z, ẋ, ẏ, ż]`:
+//! [`spatial_state_stm`] is the crate's finite-difference-validated CR3BP STM at full
+//! width, of which [`planar_state_stm`] is the `{x, y, ẋ, ẏ}` restriction, so both paths
+//! share one validated linearisation. **Measurement noise** enters through
+//! [`whiten_epochs`] — with `R = σ²I` the batch information is the unit-weight Gram of the
+//! rows `H/σ` — and [`whitened_posterior`] reads the formal covariance that whitening
+//! implies. Reported rather than glossed: a homoscedastic `σ` scales `O` by a scalar, so
+//! rank, defect and condition number are *invariant* under it, and only the posterior
+//! uncertainty moves.
 
-use crate::fim::{design_metrics, information_matrix, sym_eig};
-use crate::intersat_range::{range_rate_row, range_row, PlanarState};
+use crate::fim::{crlb, design_metrics, information_matrix, sym_eig};
+use crate::intersat_range::{range_rate_row, range_row, PlanarState, SpatialState};
 
 /// A dense matrix as rows of columns (matching the rest of the crate).
 pub type Mat = Vec<Vec<f64>>;
 
 /// Planar CR3BP state dimension `[x, y, ẋ, ẏ]`.
 pub const N_PLANAR: usize = 4;
+
+/// Spatial CR3BP state dimension `[x, y, z, ẋ, ẏ, ż]` — the full three-dimensional state
+/// the spatial observability path estimates.
+pub const N_SPATIAL: usize = 6;
 
 /// The rotating-frame in-plane component indices in the 6-vector `[x, y, z, ẋ, ẏ, ż]`.
 const PLANAR_IDX: [usize; N_PLANAR] = [0, 1, 3, 4];
@@ -83,6 +98,38 @@ pub fn planar_propagate(s0: &PlanarState, mu: f64, t: f64, steps: usize) -> Plan
     };
     let st = crate::cr3bp::propagate_cr3bp(embed, mu, t, steps);
     [st.r[0], st.r[1], st.v[0], st.v[1]]
+}
+
+/// Propagate a **spatial** CR3BP state and its 6×6 variational STM for time `t`.
+///
+/// This is the crate's finite-difference-validated CR3BP STM
+/// ([`crate::cr3bp::propagate_state_stm`]) used at full width — no sub-block extraction,
+/// no re-derivation. Returns `(state(t), Φ(t))` with `Φ` the true linearisation of the
+/// three-dimensional flow. [`planar_state_stm`] is the `{x, y, ẋ, ẏ}` restriction of this
+/// same matrix, so the two paths share one validated linearisation.
+pub fn spatial_state_stm(
+    s0: &SpatialState,
+    mu: f64,
+    t: f64,
+    steps: usize,
+) -> (SpatialState, [[f64; N_SPATIAL]; N_SPATIAL]) {
+    let embed = crate::cr3bp::Cr3bpState {
+        r: [s0[0], s0[1], s0[2]],
+        v: [s0[3], s0[4], s0[5]],
+    };
+    let (st, phi) = crate::cr3bp::propagate_state_stm(&embed, mu, t, steps);
+    ([st.r[0], st.r[1], st.r[2], st.v[0], st.v[1], st.v[2]], phi)
+}
+
+/// Spatial CR3BP state after time `t` (position + velocity), without the STM — the flow
+/// used to place the reference spacecraft along a three-dimensional arc.
+pub fn spatial_propagate(s0: &SpatialState, mu: f64, t: f64, steps: usize) -> SpatialState {
+    let embed = crate::cr3bp::Cr3bpState {
+        r: [s0[0], s0[1], s0[2]],
+        v: [s0[3], s0[4], s0[5]],
+    };
+    let st = crate::cr3bp::propagate_cr3bp(embed, mu, t, steps);
+    [st.r[0], st.r[1], st.r[2], st.v[0], st.v[1], st.v[2]]
 }
 
 // ── Observability assembly (L27) ─────────────────────────────────────────────
@@ -312,6 +359,139 @@ pub fn rank_vs_arc(epochs: &[ObsEpoch], rel_tol: f64) -> Vec<RankArcPoint> {
         });
     }
     out
+}
+
+// ── Measurement noise: whitening and the formal posterior (R3) ───────────────
+//
+// A rank test knows nothing about measurement noise. The standard way noise enters a
+// least-squares observability analysis is **whitening**: with a measurement covariance
+// `R = σ²I` the information is `Σ Hᵀ R⁻¹ H = Σ (H/σ)ᵀ(H/σ)`, i.e. every Jacobian row is
+// divided by its measurement sigma before the Gram matrix is formed. Two consequences,
+// both reported rather than glossed:
+//
+// 1. For a **homoscedastic** σ the whitened observability matrix is `Õ = O/σ`, a *scalar
+//    multiple* of `O`. Its singular-value spectrum is uniformly scaled, so its RELATIVE
+//    spectrum — and therefore its numerical rank, datum defect and condition number — is
+//    bit-for-bit invariant. A rank-based arc-length threshold cannot move with noise; any
+//    reported movement would be an artefact, not physics.
+// 2. What noise does move is the **formal posterior uncertainty** `P = (ÕᵀÕ)⁻¹ = σ²(OᵀO)⁻¹`,
+//    which scales as `σ²` in variance (`σ` in standard deviation). That is the quantity an
+//    estimator designer actually has to clear, so it is the criterion under which an
+//    arc-length threshold is noise-dependent at all.
+
+/// Divide every measurement Jacobian row of an epoch sequence by the measurement sigma —
+/// the **whitening** step that puts measurement noise into the Gramian.
+///
+/// With a measurement covariance `R = σ²I` the Fisher information of the batch is
+/// `Σ Hᵀ R⁻¹ H`, which is exactly the unit-weight Gram matrix of the rows `H/σ`. A
+/// non-finite or non-positive `sigma` is treated as the **noise-free** case (unit weight),
+/// so `sigma = 0` reproduces the un-whitened epochs exactly.
+///
+/// Because a homoscedastic `sigma` scales every row identically, this changes the SCALE of
+/// the observability spectrum but not its shape: rank, defect and condition number are
+/// invariant (asserted in this module's unit tests). The posterior covariance it implies
+/// is not.
+pub fn whiten_epochs(epochs: &[ObsEpoch], sigma: f64) -> Vec<ObsEpoch> {
+    let scale = if sigma.is_finite() && sigma > 0.0 {
+        1.0 / sigma
+    } else {
+        1.0
+    };
+    epochs
+        .iter()
+        .map(|ep| ObsEpoch {
+            h: ep
+                .h
+                .iter()
+                .map(|row| row.iter().map(|v| v * scale).collect())
+                .collect(),
+            phi: ep.phi.clone(),
+            dt: ep.dt,
+        })
+        .collect()
+}
+
+/// The formal posterior uncertainty of a batch least-squares estimate of the initial
+/// state, read from a **noise-whitened** observability matrix `Õ` (see [`whiten_epochs`]).
+///
+/// `P = (ÕᵀÕ)⁻¹` is the covariance of the batch estimator under the whitened measurement
+/// model; the fields below are its standard-deviation summaries in the state's own
+/// (normalised, nondimensional) units. A rank-deficient geometry has no finite `P`, so the
+/// position/velocity summaries are `None` rather than a fabricated number — the same
+/// honesty rule [`cislunar_gdop`] applies to a singular geometry.
+#[derive(Clone, Debug)]
+pub struct WhitenedPosterior {
+    /// Numerical rank of `Õ` (the one P6 convention, `σ > rel_tol·σ_max`).
+    pub rank: usize,
+    /// Datum-defect dimension `n − rank` (unobservable directions).
+    pub defect: usize,
+    /// Condition number `λ_max/λ_min` of `ÕᵀÕ` over the observable subspace (`+∞` if empty).
+    pub condition: f64,
+    /// Per-state 1σ standard deviations from the diagonal of `P` (or of the Moore–Penrose
+    /// pseudo-inverse when rank-deficient, where the null directions are meaningless).
+    pub sigma_state: Vec<f64>,
+    /// Root-sum-square of the position-block 1σ values (nondimensional length units), or
+    /// `None` when the geometry is rank-deficient and no finite covariance exists.
+    pub sigma_position: Option<f64>,
+    /// Root-sum-square of the velocity-block 1σ values (nondimensional velocity units), or
+    /// `None` when the geometry is rank-deficient.
+    pub sigma_velocity: Option<f64>,
+    /// Orthonormal basis of the unobservable directions as columns (`n × defect`).
+    pub null_space: Mat,
+}
+
+/// Formal posterior uncertainty of the initial state from a noise-whitened observability
+/// matrix `o`, with the first `n_pos` state components taken as the position block.
+///
+/// The rank threshold is the one P6 convention (`σ > rel_tol·σ_max`), transported to the
+/// eigenvalue side of the Gram matrix as `λ > rel_tol²·λ_max`, so this rank agrees exactly
+/// with [`observable_rank`], [`rank_vs_arc`] and [`gramian_spectrum`] on the same matrix.
+pub fn whitened_posterior(o: &Mat, n_pos: usize, rel_tol: f64) -> WhitenedPosterior {
+    if o.is_empty() || o[0].is_empty() {
+        return WhitenedPosterior {
+            rank: 0,
+            defect: 0,
+            condition: f64::INFINITY,
+            sigma_state: vec![],
+            sigma_position: None,
+            sigma_velocity: None,
+            null_space: vec![],
+        };
+    }
+    let n = o[0].len();
+    let ones = vec![1.0; o.len()];
+    let gram = information_matrix(o, &ones);
+    // λ-floor rel_tol² ⇔ the σ-floor rel_tol the rest of P6 reads its rank at.
+    let c = crlb(&gram, rel_tol * rel_tol);
+    let lmax = c.eigenvalues.last().copied().unwrap_or(0.0);
+    let condition = if c.rank == 0 {
+        f64::INFINITY
+    } else {
+        let lmin_obs = c.eigenvalues[n - c.rank];
+        if lmin_obs > 0.0 {
+            lmax / lmin_obs
+        } else {
+            f64::INFINITY
+        }
+    };
+    let full = c.defect == 0;
+    let rss = |lo: usize, hi: usize| -> Option<f64> {
+        if !full {
+            return None;
+        }
+        let s: f64 = c.crlb_diag[lo..hi].iter().map(|v| v.max(0.0)).sum();
+        Some(s.sqrt())
+    };
+    let n_pos = n_pos.min(n);
+    WhitenedPosterior {
+        rank: c.rank,
+        defect: c.defect,
+        condition,
+        sigma_state: c.crlb_std.clone(),
+        sigma_position: rss(0, n_pos),
+        sigma_velocity: rss(n_pos, n),
+        null_space: c.null_space,
+    }
 }
 
 // ── Range-rate design lever (L30) ────────────────────────────────────────────
@@ -672,6 +852,155 @@ mod tests {
         assert!((determinant(&m) - (4.0 * 3.0 - 3.0 * 6.0)).abs() < 1e-12);
         let sing: Mat = vec![vec![1.0, 2.0], vec![2.0, 4.0]];
         assert!(determinant(&sing).abs() < 1e-12);
+    }
+
+    // ── Spatial STM bridge ───────────────────────────────────────────────────
+
+    /// ORACLE (Validated): the 6×6 spatial STM equals a central finite-difference STM of
+    /// the CR3BP flow (a different code path — plain state propagation) to tolerance.
+    #[test]
+    fn spatial_stm_matches_finite_difference() {
+        let s0: SpatialState = [1.05, 0.02, -0.10, 0.10, 0.20, -0.05];
+        let (t, steps) = (0.20, 4000);
+        let (_st, phi) = spatial_state_stm(&s0, EARTH_MOON_MU, t, steps);
+        let eps = 1e-6;
+        for j in 0..N_SPATIAL {
+            let mut sp = s0;
+            let mut sm = s0;
+            sp[j] += eps;
+            sm[j] -= eps;
+            let ep = spatial_propagate(&sp, EARTH_MOON_MU, t, steps);
+            let em = spatial_propagate(&sm, EARTH_MOON_MU, t, steps);
+            for i in 0..N_SPATIAL {
+                let fd = (ep[i] - em[i]) / (2.0 * eps);
+                assert!(
+                    (phi[i][j] - fd).abs() < 1e-5,
+                    "spatial STM[{i}][{j}] = {} vs finite-diff {fd}",
+                    phi[i][j]
+                );
+            }
+        }
+    }
+
+    /// The planar STM is EXACTLY the `{x, y, ẋ, ẏ}` sub-block of the spatial STM in the
+    /// `z = ż = 0` embedding — one validated linearisation, two views of it.
+    #[test]
+    fn planar_stm_is_the_spatial_stm_sub_block() {
+        let s4: PlanarState = [1.08, 0.03, 0.10, -0.50];
+        let s6: SpatialState = [s4[0], s4[1], 0.0, s4[2], s4[3], 0.0];
+        let (t, steps) = (0.05, 2000);
+        let (_a, phi4) = planar_state_stm(&s4, EARTH_MOON_MU, t, steps);
+        let (_b, phi6) = spatial_state_stm(&s6, EARTH_MOON_MU, t, steps);
+        let idx = [0usize, 1, 3, 4];
+        for (i, &ri) in idx.iter().enumerate() {
+            for (j, &cj) in idx.iter().enumerate() {
+                assert_eq!(phi4[i][j], phi6[ri][cj], "sub-block [{i}][{j}]");
+            }
+        }
+    }
+
+    /// In the `z = 0` plane the out-of-plane block DECOUPLES exactly: the STM's
+    /// in-plane↔out-of-plane cross terms are identically zero. This is the dynamical half
+    /// of why a wholly planar constellation cannot observe a six-state (the measurement
+    /// half is the zero `û_z` column of a coplanar range row).
+    #[test]
+    fn out_of_plane_block_decouples_at_z_zero() {
+        let s6: SpatialState = [1.08, 0.03, 0.0, 0.10, -0.50, 0.0];
+        let (_st, phi) = spatial_state_stm(&s6, EARTH_MOON_MU, 0.05, 2000);
+        let inplane = [0usize, 1, 3, 4];
+        let outplane = [2usize, 5];
+        for &i in &inplane {
+            for &j in &outplane {
+                assert_eq!(
+                    phi[i][j], 0.0,
+                    "Φ[{i}][{j}] couples out-of-plane into plane"
+                );
+                assert_eq!(
+                    phi[j][i], 0.0,
+                    "Φ[{j}][{i}] couples plane into out-of-plane"
+                );
+            }
+        }
+    }
+
+    // ── Measurement noise: whitening ─────────────────────────────────────────
+
+    /// Homoscedastic whitening is a SCALAR multiple of the observability matrix, so the
+    /// numerical rank, the datum defect and the condition number are invariant — the
+    /// reason a rank-based arc-length threshold cannot move with measurement noise.
+    #[test]
+    fn homoscedastic_whitening_leaves_rank_and_condition_invariant() {
+        let epochs = sample_arc();
+        let (o0, _) = observability_matrix(&epochs);
+        let spec0 = gramian_spectrum(&gramian(&epochs), 1e-9);
+        for &sigma in &[1e-3_f64, 1e-6, 1e-9, 1e-12] {
+            let w = whiten_epochs(&epochs, sigma);
+            let (o1, _) = observability_matrix(&w);
+            assert_eq!(
+                observable_rank(&o0, 1e-9),
+                observable_rank(&o1, 1e-9),
+                "rank moved under whitening at σ = {sigma}"
+            );
+            let spec1 = gramian_spectrum(&gramian(&w), 1e-9);
+            assert_eq!(spec0.rank, spec1.rank);
+            assert_eq!(spec0.defect, spec1.defect);
+            let ratio = spec1.condition / spec0.condition;
+            // Invariant to eigensolver precision: the Jacobi rotations are not bit-exact
+            // under a uniform rescale, but the condition number agrees to ~1e-8 relative.
+            assert!(
+                (ratio - 1.0).abs() < 1e-6,
+                "condition moved under whitening at σ = {sigma}: ratio {ratio}"
+            );
+        }
+        // σ = 0 is the noise-free case: the epochs come back untouched.
+        let free = whiten_epochs(&epochs, 0.0);
+        let (o_free, _) = observability_matrix(&free);
+        assert_eq!(o_free, o0);
+    }
+
+    /// The posterior standard deviation scales EXACTLY linearly with the measurement
+    /// sigma (`P = σ²(OᵀO)⁻¹`) — the quantity under which an arc-length threshold is
+    /// genuinely noise-dependent.
+    #[test]
+    fn posterior_sigma_scales_linearly_with_measurement_sigma() {
+        let epochs = sample_arc();
+        let (o1, _) = observability_matrix(&whiten_epochs(&epochs, 1e-9));
+        let (o2, _) = observability_matrix(&whiten_epochs(&epochs, 2e-9));
+        let p1 = whitened_posterior(&o1, 2, 1e-9);
+        let p2 = whitened_posterior(&o2, 2, 1e-9);
+        assert_eq!(p1.rank, p2.rank);
+        let (s1, s2) = (p1.sigma_position.unwrap(), p2.sigma_position.unwrap());
+        assert!(
+            ((s2 / s1) - 2.0).abs() < 1e-9,
+            "posterior σ ratio {} is not 2 (σ doubled)",
+            s2 / s1
+        );
+    }
+
+    /// A rank-deficient geometry yields NO finite posterior summary — `None`, never a
+    /// fabricated number — and reports its unobservable directions.
+    #[test]
+    fn rank_deficient_posterior_is_none_with_a_null_space() {
+        // A single instantaneous range row: rank 1 of 4.
+        let chief: PlanarState = [1.10, 0.02, 0.05, -0.50];
+        let reference: PlanarState = [1.02, -0.03, -0.06, -0.55];
+        let (_rho, row) = range_row(&chief, &reference);
+        let o: Mat = vec![row.to_vec()];
+        let p = whitened_posterior(&o, 2, 1e-9);
+        assert_eq!(p.rank, 1);
+        assert_eq!(p.defect, 3);
+        assert!(p.sigma_position.is_none() && p.sigma_velocity.is_none());
+        assert_eq!(p.null_space.len(), N_PLANAR);
+        assert_eq!(p.null_space[0].len(), 3);
+        // The condition number is taken over the SAME observable subspace the rank
+        // defines (one mode here), exactly as `gramian_spectrum` does — so it is 1, and
+        // the honest "no finite covariance" verdict is carried by the `None` summaries
+        // and the non-zero defect, not by an infinite condition.
+        assert!(
+            (p.condition - 1.0).abs() < 1e-12,
+            "condition {}",
+            p.condition
+        );
     }
 
     #[test]
