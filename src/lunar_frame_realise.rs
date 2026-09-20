@@ -522,6 +522,114 @@ impl LunarFrameRealiseScenario {
     }
 }
 
+/// Unit and provenance class for every numeric field the `lunar-frame-realisation` report
+/// emits.
+///
+/// The three Helmert parameter groups each keep the unit [`FrameDatum`] stores them in,
+/// which is not the unit the scenario input names them in: translations are metres (as
+/// input), rotations are **radians** (the `rot_*_urad` inputs multiplied by 1e-6 on the
+/// way in), and the scale offset is **parts per billion** (the dimensionless scale is
+/// `scale_ppb * 1e-9`, so the emitted number is 1e9 times the ratio). The emitted
+/// magnitudes agree: a 3 urad input appears as 3e-6.
+pub const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "injected.translation_m[]",
+            unit: "m",
+            provenance: Input,
+            definition: "per-axis translation of the injected truth datum, echoed from the \
+                         `tx_m` / `ty_m` / `tz_m` inputs",
+        },
+        FieldUnit {
+            path: "injected.rotation_rad[]",
+            unit: "rad",
+            provenance: Input,
+            definition: "per-axis small rotation angle of the injected truth datum, the \
+                         `rot_x_urad` / `rot_y_urad` / `rot_z_urad` inputs times 1e-6",
+        },
+        FieldUnit {
+            path: "injected.scale_ppb",
+            unit: "ppb",
+            provenance: Input,
+            definition: "scale offset of the injected truth datum in parts per billion; the \
+                         transform applies s = scale_ppb * 1e-9",
+        },
+        FieldUnit {
+            path: "recovered.translation_m[]",
+            unit: "m",
+            provenance: Computed,
+            definition: "per-axis translation recovered by the weighted-least-squares \
+                         7-parameter Helmert fit",
+        },
+        FieldUnit {
+            path: "recovered.rotation_rad[]",
+            unit: "rad",
+            provenance: Computed,
+            definition: "per-axis small rotation angle recovered by the Helmert fit",
+        },
+        FieldUnit {
+            path: "recovered.scale_ppb",
+            unit: "ppb",
+            provenance: Computed,
+            definition: "scale offset recovered by the Helmert fit, in parts per billion",
+        },
+        FieldUnit {
+            path: "trans_err_m[]",
+            unit: "m",
+            provenance: Computed,
+            definition: "per-axis translation recovery error, recovered minus injected",
+        },
+        FieldUnit {
+            path: "rot_err_rad[]",
+            unit: "rad",
+            provenance: Computed,
+            definition: "per-axis rotation recovery error, recovered minus injected",
+        },
+        FieldUnit {
+            path: "scale_err_ppb",
+            unit: "ppb",
+            provenance: Computed,
+            definition: "scale recovery error, recovered minus injected, in parts per billion",
+        },
+        FieldUnit {
+            path: "trans_err_norm_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "Euclidean norm of the three-axis translation recovery error",
+        },
+        FieldUnit {
+            path: "rot_err_norm_rad",
+            unit: "rad",
+            provenance: Computed,
+            definition: "Euclidean norm of the three-axis rotation recovery error",
+        },
+        FieldUnit {
+            path: "rms_residual_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "post-fit RMS coordinate residual of the Helmert fit over the point \
+                         network",
+        },
+        FieldUnit {
+            path: "icrf_tie_rad[]",
+            unit: "rad",
+            provenance: Computed,
+            definition: "per-axis small angle of the realised rotation re-expressed about the \
+                         ICRF axes, M = B R_r B^T with B the IAU-2015 body-to-ICRF rotation; \
+                         a change of the frame the rotation is expressed in, not an \
+                         independent pole estimate",
+        },
+        FieldUnit {
+            path: "n_points",
+            unit: "count",
+            provenance: Computed,
+            definition: "points in the synthetic selenographic network the fit ran over, the \
+                         `n_points` input floored at 3",
+        },
+    ]
+};
+
 /// The result of a [`LunarFrameRealiseScenario`]: the injected vs recovered datum, the recovery
 /// errors, the post-fit residual and the realised-rotation ICRF orientation tie.
 #[derive(Clone, Copy, Debug, serde::Serialize)]

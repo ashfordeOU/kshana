@@ -184,6 +184,285 @@ impl AccelModel {
     }
 }
 
+/// Unit and provenance class for every numeric field the `inertial` report
+/// ([`InertialResult`]) emits.
+///
+/// `quantum` and `classical` are the same [`AccelRun`] shape, so every column is
+/// stated once and carried under both roots. The `ensemble.*` rows describe the
+/// block that appears only when the scenario asks for `runs > 1`.
+///
+/// The sensor-model parameters under `spec.params` are the raw arguments of
+/// [`AccelModel`], and each noise intensity is the variance its state gains per
+/// second of propagation: `q_va*dt` on velocity (`(m/s)^2`, hence `(m/s^2)^2/Hz`),
+/// `q_aa*dt` on the accelerometer bias (`(m/s^2)^2`, hence `(m/s^2)^2/s`) and
+/// `q_arw*dt` on the attitude error (`rad^2`, hence `(rad/s)^2/Hz`).
+pub const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    macro_rules! inertial_units {
+        ($($s:literal),+ $(,)?) => {
+            &[
+                FieldUnit {
+                    path: "seed",
+                    unit: "1",
+                    provenance: Input,
+                    definition: "RNG seed of the quantum realisation; the classical \
+                                 realisation runs at seed + 0x9e3779b97f4a7c15",
+                },
+                FieldUnit {
+                    path: "threshold_m",
+                    unit: "m",
+                    provenance: Input,
+                    definition: "position spec: a sample whose absolute dead-reckoning \
+                                 position error is at or below this is in spec",
+                },
+                $(
+                FieldUnit {
+                    path: concat!($s, ".spec.params.bias"),
+                    unit: "m/s^2",
+                    provenance: Input,
+                    definition: "residual (post-GNSS-calibration) accelerometer bias — the \
+                                 sensor's published bias stability",
+                },
+                FieldUnit {
+                    path: concat!($s, ".spec.params.q_va"),
+                    unit: "(m/s^2)^2/Hz",
+                    provenance: Input,
+                    definition: "white acceleration noise PSD driving velocity random walk \
+                                 (velocity gains variance q_va*dt per step); derived from \
+                                 the cold-atom-interferometer physics instead of echoed \
+                                 when the sensor carries a `cai` block",
+                },
+                FieldUnit {
+                    path: concat!($s, ".spec.params.q_aa"),
+                    unit: "(m/s^2)^2/s",
+                    provenance: Input,
+                    definition: "acceleration-random-walk (rate-random-walk) PSD: the \
+                                 accelerometer bias gains variance q_aa*dt per step",
+                },
+                FieldUnit {
+                    path: concat!($s, ".spec.params.gyro_bias"),
+                    unit: "rad/s",
+                    provenance: Input,
+                    definition: "residual gyro bias; the tilt error it accumulates couples \
+                                 gravity into a g*theta specific-force error",
+                },
+                FieldUnit {
+                    path: concat!($s, ".spec.params.q_arw"),
+                    unit: "(rad/s)^2/Hz",
+                    provenance: Input,
+                    definition: "angular-random-walk PSD: the attitude (tilt) error gains \
+                                 variance q_arw*dt per step",
+                },
+                FieldUnit {
+                    path: concat!($s, ".series[].t"),
+                    unit: "s",
+                    provenance: Computed,
+                    definition: "sample time on the uniform run grid, i*time.step_s",
+                },
+                FieldUnit {
+                    path: concat!($s, ".series[].error_m"),
+                    unit: "m",
+                    provenance: Computed,
+                    definition: "single-axis (1-DOF) dead-reckoning position error at t; \
+                                 zero while GNSS is nominal, where the fix re-aligns the \
+                                 model",
+                },
+                FieldUnit {
+                    path: concat!($s, ".fom.pos_rms_m"),
+                    unit: "m",
+                    provenance: Computed,
+                    definition: "root mean square of the position error over the outage \
+                                 samples",
+                },
+                FieldUnit {
+                    path: concat!($s, ".fom.pos_p95_m"),
+                    unit: "m",
+                    provenance: Computed,
+                    definition: "95th percentile (nearest-rank) of the absolute position \
+                                 error over the outage samples",
+                },
+                FieldUnit {
+                    path: concat!($s, ".fom.holdover_s"),
+                    unit: "s",
+                    provenance: Computed,
+                    definition: "worst-case (shortest) in-spec coast across the outage \
+                                 segments; grid-bounded at time.step_s",
+                },
+                FieldUnit {
+                    path: concat!($s, ".fom.drift_slope_m_per_s"),
+                    unit: "m/s",
+                    provenance: Computed,
+                    definition: "least-squares slope of the absolute position error against \
+                                 time over the outage",
+                },
+                FieldUnit {
+                    path: concat!($s, ".fom.availability"),
+                    unit: "1",
+                    provenance: Computed,
+                    definition: "fraction of all samples in the run whose absolute position \
+                                 error is within threshold_m",
+                },
+                FieldUnit {
+                    path: concat!($s, ".ensemble.runs"),
+                    unit: "count",
+                    provenance: Input,
+                    definition: "number of Monte Carlo realisations behind the ensemble \
+                                 statistics",
+                },
+                FieldUnit {
+                    path: concat!($s, ".ensemble.pos_rms_m.mean"),
+                    unit: "m",
+                    provenance: Computed,
+                    definition: "mean across the realisations of the RMS outage position \
+                                 error",
+                },
+                FieldUnit {
+                    path: concat!($s, ".ensemble.pos_rms_m.std"),
+                    unit: "m",
+                    provenance: Computed,
+                    definition: "standard deviation across the realisations of the RMS \
+                                 outage position error",
+                },
+                FieldUnit {
+                    path: concat!($s, ".ensemble.pos_rms_m.p05"),
+                    unit: "m",
+                    provenance: Computed,
+                    definition: "5th percentile across the realisations of the RMS outage \
+                                 position error",
+                },
+                FieldUnit {
+                    path: concat!($s, ".ensemble.pos_rms_m.p50"),
+                    unit: "m",
+                    provenance: Computed,
+                    definition: "median across the realisations of the RMS outage position \
+                                 error",
+                },
+                FieldUnit {
+                    path: concat!($s, ".ensemble.pos_rms_m.p95"),
+                    unit: "m",
+                    provenance: Computed,
+                    definition: "95th percentile across the realisations of the RMS outage \
+                                 position error",
+                },
+                FieldUnit {
+                    path: concat!($s, ".ensemble.pos_rms_m.ci95_low"),
+                    unit: "m",
+                    provenance: Computed,
+                    definition: "lower end of the percentile-bootstrap 95% confidence \
+                                 interval on the mean RMS outage position error",
+                },
+                FieldUnit {
+                    path: concat!($s, ".ensemble.pos_rms_m.ci95_high"),
+                    unit: "m",
+                    provenance: Computed,
+                    definition: "upper end of the percentile-bootstrap 95% confidence \
+                                 interval on the mean RMS outage position error",
+                },
+                FieldUnit {
+                    path: concat!($s, ".ensemble.pos_p95_m.mean"),
+                    unit: "m",
+                    provenance: Computed,
+                    definition: "mean across the realisations of the 95th-percentile \
+                                 outage position error",
+                },
+                FieldUnit {
+                    path: concat!($s, ".ensemble.pos_p95_m.std"),
+                    unit: "m",
+                    provenance: Computed,
+                    definition: "standard deviation across the realisations of the \
+                                 95th-percentile outage position error",
+                },
+                FieldUnit {
+                    path: concat!($s, ".ensemble.pos_p95_m.p05"),
+                    unit: "m",
+                    provenance: Computed,
+                    definition: "5th percentile across the realisations of the \
+                                 95th-percentile outage position error",
+                },
+                FieldUnit {
+                    path: concat!($s, ".ensemble.pos_p95_m.p50"),
+                    unit: "m",
+                    provenance: Computed,
+                    definition: "median across the realisations of the 95th-percentile \
+                                 outage position error",
+                },
+                FieldUnit {
+                    path: concat!($s, ".ensemble.pos_p95_m.p95"),
+                    unit: "m",
+                    provenance: Computed,
+                    definition: "95th percentile across the realisations of the \
+                                 95th-percentile outage position error",
+                },
+                FieldUnit {
+                    path: concat!($s, ".ensemble.pos_p95_m.ci95_low"),
+                    unit: "m",
+                    provenance: Computed,
+                    definition: "lower end of the percentile-bootstrap 95% confidence \
+                                 interval on the mean 95th-percentile outage position error",
+                },
+                FieldUnit {
+                    path: concat!($s, ".ensemble.pos_p95_m.ci95_high"),
+                    unit: "m",
+                    provenance: Computed,
+                    definition: "upper end of the percentile-bootstrap 95% confidence \
+                                 interval on the mean 95th-percentile outage position error",
+                },
+                FieldUnit {
+                    path: concat!($s, ".ensemble.holdover_s.mean"),
+                    unit: "s",
+                    provenance: Computed,
+                    definition: "mean across the realisations of the worst-case in-spec \
+                                 coast",
+                },
+                FieldUnit {
+                    path: concat!($s, ".ensemble.holdover_s.std"),
+                    unit: "s",
+                    provenance: Computed,
+                    definition: "standard deviation across the realisations of the \
+                                 worst-case in-spec coast",
+                },
+                FieldUnit {
+                    path: concat!($s, ".ensemble.holdover_s.p05"),
+                    unit: "s",
+                    provenance: Computed,
+                    definition: "5th percentile across the realisations of the worst-case \
+                                 in-spec coast",
+                },
+                FieldUnit {
+                    path: concat!($s, ".ensemble.holdover_s.p50"),
+                    unit: "s",
+                    provenance: Computed,
+                    definition: "median across the realisations of the worst-case in-spec \
+                                 coast",
+                },
+                FieldUnit {
+                    path: concat!($s, ".ensemble.holdover_s.p95"),
+                    unit: "s",
+                    provenance: Computed,
+                    definition: "95th percentile across the realisations of the worst-case \
+                                 in-spec coast",
+                },
+                FieldUnit {
+                    path: concat!($s, ".ensemble.holdover_s.ci95_low"),
+                    unit: "s",
+                    provenance: Computed,
+                    definition: "lower end of the percentile-bootstrap 95% confidence \
+                                 interval on the mean worst-case in-spec coast",
+                },
+                FieldUnit {
+                    path: concat!($s, ".ensemble.holdover_s.ci95_high"),
+                    unit: "s",
+                    provenance: Computed,
+                    definition: "upper end of the percentile-bootstrap 95% confidence \
+                                 interval on the mean worst-case in-spec coast",
+                },
+                )+
+            ]
+        };
+    }
+    inertial_units!("quantum", "classical")
+};
+
 /// One scored sample: dead-reckoning position error (m) and GNSS state.
 #[derive(Clone, Debug, Serialize)]
 pub struct PosSample {

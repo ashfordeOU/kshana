@@ -310,6 +310,110 @@ impl Default for LunarVlbiScenario {
     }
 }
 
+/// Unit and provenance class for every numeric field the `lunar-vlbi` report emits.
+///
+/// Delays are seconds of the near-field two-range difference; the delay *rate* is a
+/// seconds-of-delay per second-of-time ratio, so it is dimensionless. The near-field
+/// correction is reported in microseconds because that is its magnitude at lunar
+/// distance, while the delay it corrects is reported in seconds.
+pub const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "baseline_km",
+            unit: "km",
+            provenance: Computed,
+            definition: "Earth baseline length |r2 - r1| at the epoch, the two configured \
+                         stations reduced to geocentric inertial (GCRS) coordinates",
+        },
+        FieldUnit {
+            path: "beacon_range_km",
+            unit: "km",
+            provenance: Computed,
+            definition: "geocentric range |r_B| of the lunar-surface beacon at the epoch",
+        },
+        FieldUnit {
+            path: "delay_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "full VLBI delay at the epoch: the near-field two-range difference \
+                         (|r2 - r_B| - |r1 - r_B|)/c plus the differenced Shapiro term, with \
+                         both station clock offsets zero",
+        },
+        FieldUnit {
+            path: "delay_rate_s_per_s",
+            unit: "s/s",
+            provenance: Computed,
+            definition: "one-step forward finite difference of the full delay, \
+                         (delay(t0 + dt) - delay(t0)) / dt; seconds of delay per second of \
+                         time, hence dimensionless",
+        },
+        FieldUnit {
+            path: "near_field_correction_us",
+            unit: "us",
+            provenance: Computed,
+            definition: "wavefront-curvature term at the epoch: the near-field geometric \
+                         delay minus the far-field plane-wave delay -(B.s_B)/c, in \
+                         microseconds",
+        },
+        FieldUnit {
+            path: "samples",
+            unit: "count",
+            provenance: Computed,
+            definition: "epochs in `series`, sampled at `step_min` out to `horizon_hours`",
+        },
+        FieldUnit {
+            path: "min_delay_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "smallest full VLBI delay over the sampled horizon",
+        },
+        FieldUnit {
+            path: "max_delay_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "largest full VLBI delay over the sampled horizon",
+        },
+        FieldUnit {
+            path: "horizon_hours",
+            unit: "hr",
+            provenance: Input,
+            definition: "length of the observed pass",
+        },
+        FieldUnit {
+            path: "series[].t_hours",
+            unit: "hr",
+            provenance: Computed,
+            definition: "offset of this sample from the scenario epoch",
+        },
+        FieldUnit {
+            path: "series[].delay_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "full VLBI delay at this sample, as `delay_s` at the epoch",
+        },
+        FieldUnit {
+            path: "series[].geometric_delay_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "geometric (near-field) two-range-difference delay at this sample, \
+                         (|r2 - r_B| - |r1 - r_B|)/c, without the Shapiro or clock terms",
+        },
+        FieldUnit {
+            path: "series[].near_field_correction_us",
+            unit: "us",
+            provenance: Computed,
+            definition: "wavefront-curvature correction at this sample, in microseconds",
+        },
+        FieldUnit {
+            path: "series[].beacon_range_km",
+            unit: "km",
+            provenance: Computed,
+            definition: "geocentric beacon range at this sample",
+        },
+    ]
+};
+
 /// One per-epoch VLBI sample.
 #[derive(Clone, Copy, Debug, serde::Serialize)]
 pub struct LunarVlbiSample {

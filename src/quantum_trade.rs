@@ -638,6 +638,99 @@ fn qt_quantum_class(s: &str) -> Result<QuantumClockClass, String> {
     }
 }
 
+/// Unit and provenance class for every numeric field the `quantum-trade` report
+/// emits.
+const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "trade.timing_threshold_s",
+            unit: "s",
+            provenance: Input,
+            definition: "clock phase-error threshold both rows' timing holdover is measured \
+                         to",
+        },
+        FieldUnit {
+            path: "trade.position_threshold_m",
+            unit: "m",
+            provenance: Input,
+            definition: "position-error threshold both rows' inertial holdover is measured to",
+        },
+        FieldUnit {
+            path: "trade.baseline.timing_holdover_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "coast time at which the classical baseline clock's phase error first \
+                         reaches trade.timing_threshold_s",
+        },
+        FieldUnit {
+            path: "trade.baseline.inertial_holdover_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "coast time at which the classical baseline INS budget's position \
+                         drift first reaches trade.position_threshold_m",
+        },
+        FieldUnit {
+            path: "trade.candidate.timing_holdover_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "coast time at which the candidate clock's phase error first reaches \
+                         trade.timing_threshold_s",
+        },
+        FieldUnit {
+            path: "trade.candidate.inertial_holdover_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "coast time at which the candidate INS budget's position drift first \
+                         reaches trade.position_threshold_m",
+        },
+        FieldUnit {
+            path: "trade.timing_benefit_x",
+            unit: "1",
+            provenance: Computed,
+            definition: "candidate / baseline timing-holdover ratio, a dimensionless factor \
+                         greater than 1 when the candidate clock coasts longer",
+        },
+        FieldUnit {
+            path: "trade.inertial_benefit_x",
+            unit: "1",
+            provenance: Computed,
+            definition: "candidate / baseline inertial-holdover ratio, a dimensionless factor \
+                         greater than 1 when the candidate sensor coasts longer",
+        },
+        FieldUnit {
+            path: "resilience.coast_time_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "time since GNSS loss at which the composed resilience envelope first \
+                         reaches resilience.threshold_m, found by bisection and capped at the \
+                         modelled horizon (then a lower bound, flagged by exceeds_horizon)",
+        },
+        FieldUnit {
+            path: "resilience.threshold_m",
+            unit: "m",
+            provenance: Input,
+            definition: "position-equivalent error threshold the resilience coast time is \
+                         measured to (the scenario's position_threshold_m)",
+        },
+        FieldUnit {
+            path: "resilience.points[].t",
+            unit: "s",
+            provenance: Input,
+            definition: "time since GNSS loss at which the envelope is sampled, from the \
+                         scenario's resilience_times_s or its default spread out to 4 h",
+        },
+        FieldUnit {
+            path: "resilience.points[].error_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "composed position-equivalent error at that time: the RSS of the \
+                         alt-PNT-bounded inertial position drift and the clock phase error \
+                         mapped to a range error by c * sigma_x",
+        },
+    ]
+};
+
 impl QuantumTradeScenario {
     /// Reproducible scenario hash over the canonical inputs (cross-platform anchor).
     pub fn scenario_hash(&self) -> String {
@@ -724,6 +817,7 @@ impl QuantumTradeScenario {
 
         let value = serde_json::json!({
             "kind": "quantum-trade",
+            "units": crate::field_schema::units_block(UNITS),
             "scenario_hash": self.scenario_hash(),
             "label": "MODELLED — quantifies (never validates) a partner clock/sensor; not flight-demonstrated",
             "candidate_source": candidate_source,
