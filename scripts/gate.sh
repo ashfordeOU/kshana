@@ -24,9 +24,19 @@
 #   .gate-receipt.json at the repo root. Untracked and gitignored: it is machine state
 #   about one run on one machine, not content. It is written ONLY when cargo exits 0.
 #
+# MEMORY
+#   cargo runs a binary's tests on one thread per CPU. On a 14-core machine that is 14
+#   heavy numerical tests resident at once, and a run of this suite was killed by the OS
+#   for low memory partway through — not a failure, but no verdict either. TEST_THREADS
+#   caps that concurrency. It is RECORDED IN THE RECEIPT, because a run at reduced
+#   concurrency is a slightly weaker run: a thread-interleaving race has fewer threads to
+#   interleave. The repeatability loop is deliberately left at full concurrency, since
+#   catching exactly that class of race is its whole job.
+#
 # USAGE
 #   scripts/gate.sh
-#   REPEAT=0 scripts/gate.sh          # canonical suite only, no repeatability loop
+#   REPEAT=0 scripts/gate.sh           # canonical suite only, no repeatability loop
+#   TEST_THREADS=6 scripts/gate.sh     # cap per-binary test concurrency (default: all cores)
 #
 # Exit 0 and a fresh receipt on success; the true cargo exit code on failure, and no
 # receipt is written or left behind.
@@ -39,6 +49,7 @@ cd "$ROOT" || exit 1
 RECEIPT="$ROOT/.gate-receipt.json"
 LOG="$ROOT/target/gate-run.log"
 REPEAT="${REPEAT:-3}"
+TEST_THREADS="${TEST_THREADS:-}"
 
 mkdir -p "$ROOT/target"
 
@@ -59,7 +70,12 @@ rm -f "$RECEIPT"
 START=$(date +%s)
 # NO PIPE. A pipeline reports the exit status of its LAST stage, so `cargo test | tee` would
 # report tee's success while cargo exited 101. Redirect to a file and read $? from cargo.
-cargo test --all > "$LOG" 2>&1
+if [ -n "$TEST_THREADS" ]; then
+  echo "gate: per-binary test concurrency capped at $TEST_THREADS (recorded in the receipt)"
+  cargo test --all -- --test-threads="$TEST_THREADS" > "$LOG" 2>&1
+else
+  cargo test --all > "$LOG" 2>&1
+fi
 EXIT=$?
 END=$(date +%s)
 DURATION=$((END - START))
@@ -68,6 +84,19 @@ tail -40 "$LOG"
 echo "gate: cargo test --all exited $EXIT after ${DURATION}s (full log: $LOG)"
 
 if [ "$EXIT" -ne 0 ]; then
+  # A process killed by a signal exits 128+N. That is NOT a test failure and must not be
+  # read as one: an OS out-of-memory kill leaves a log with zero failing tests, and the
+  # failure grep below would then print nothing at all, which reads like a mystery red.
+  # Say plainly which of the two happened.
+  if [ "$EXIT" -gt 128 ]; then
+    SIG=$((EXIT - 128))
+    echo "gate: KILLED by signal $SIG after ${DURATION}s — this is NOT a test failure." >&2
+    echo "gate: $(grep -c '^test result: ok' "$LOG") test binaries had completed, with \
+$(grep -c '^test result: FAILED' "$LOG") failing. No verdict was reached and no receipt \
+is written. Signal 9 during a long run is usually the OS reclaiming memory; re-run, and \
+if it recurs cap concurrency with TEST_THREADS." >&2
+    exit "$EXIT"
+  fi
   echo "gate: FAILED — no receipt written" >&2
   grep -E '^(test .* FAILED|error(\[|:)|failures:)' "$LOG" | head -40 >&2
   exit "$EXIT"
@@ -105,6 +134,7 @@ cat > "$RECEIPT" <<EOF
   "tests_passed": $TOTAL_PASSED,
   "tests_ignored": $TOTAL_IGNORED,
   "repeat_runs": $REPEAT_RUNS,
+  "test_threads": "${TEST_THREADS:-default (one per core)}",
   "duration_s": $DURATION,
   "finished_utc": "$(date -u +%Y-%m-%dT%H:%M:%SZ)",
   "host": "$(hostname -s 2>/dev/null || echo unknown)",
