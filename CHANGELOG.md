@@ -114,6 +114,30 @@ breaking changes are called out explicitly.
 
 ### Fixed
 
+- **`realtime-frame-eop` defaulted to an EOP file with no prediction rows (G12).**
+  The scenario embedded a five-row *final-only* `finals2000A` excerpt as its
+  offline default, so a bare run reported `predicted_rows.n = 0` and the
+  per-horizon table rested on 5, 4, 3 and 2 pairs. The engine could always read
+  a prediction row — the input simply had none. The default is now the verbatim
+  IERS 2026 extract (`tools/finals2000A_2026.txt`, MJD 61173–61204): 20 Bulletin B
+  finals and **12 Bulletin A prediction-only rows**, so a bare run with no file
+  argument and no network reports `predicted_rows.n = 12` and a per-horizon table
+  at n = 20 / 31 / 30 / 29, and the operational-predictor comparison and the
+  agreement against the product's own published predictions populate too. The
+  long-span 45-row extract was measured as the alternative and rejected: it is
+  also final-only, so it would have left `predicted_rows.n` at 0.
+  **This moves published numbers**, under rule R4 and with founder authorisation:
+  ten of the 22 cells of the released `p4_frame_eop.csv` and 24 of the 42
+  populated cells of `tests/golden/realtime-frame-eop.csv`. The measured
+  rapid-minus-final pole floor becomes 0.0678 mas (from 0.0769 mas), which is
+  the value paper P4's own polar-motion table already publishes at n = 20 — the
+  two now agree instead of differing by 13.5 %. Every other figure P4 prints from
+  this table is unchanged at the precision printed. The full old → new
+  enumeration, including the fields that did *not* move, is in
+  [`docs/revisions/G12-default-eop-cell-changes.md`](docs/revisions/G12-default-eop-cell-changes.md).
+  The final-only excerpt remains shipped, byte-pinned and exercised: a zero
+  prediction-row count on it is the file's property, and a test still proves it.
+
 - **A stale satellite clamp in `moonlight-service-volume`.** The scenario
   clamped `n_sats` to 12 although its own constellation builder supports 24 and
   a test asserts 24, so every requested count above 12 was silently reduced and

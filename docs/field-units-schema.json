@@ -1,8 +1,8 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 1513,
-    "fields_total": 1556,
+    "fields_described": 1608,
+    "fields_total": 1651,
     "fields_without_units": 43,
     "kinds_complete": 57,
     "kinds_total": 59,
@@ -8368,11 +8368,209 @@
           "provenance": "input",
           "unit": "cycle (dimensionless)"
         },
+        "operational_predictor_model.published_bulletin_a_agreement.first_lead_days": {
+          "definition": "shortest lead compared",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "day"
+        },
+        "operational_predictor_model.published_bulletin_a_agreement.issue_mjd": {
+          "definition": "the data cutoff of the in-force product, past which its Bulletin A rows are predictions",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "MJD (day)"
+        },
+        "operational_predictor_model.published_bulletin_a_agreement.last_lead_days": {
+          "definition": "longest lead compared",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "day"
+        },
+        "operational_predictor_model.published_bulletin_a_agreement.leads[].lead_days": {
+          "definition": "days between the issue epoch and the predicted epoch",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "day"
+        },
+        "operational_predictor_model.published_bulletin_a_agreement.leads[].pm_diff_arcsec": {
+          "definition": "pole-displacement difference from the published prediction at that lead",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "arcsec"
+        },
+        "operational_predictor_model.published_bulletin_a_agreement.leads[].pm_position_m": {
+          "definition": "that pole difference at the Moon",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "operational_predictor_model.published_bulletin_a_agreement.leads[].ut1_diff_s": {
+          "definition": "this crate's forecast minus the published Bulletin A prediction at that lead",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "operational_predictor_model.published_bulletin_a_agreement.leads[].ut1_position_m": {
+          "definition": "that UT1 difference at the Moon",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "operational_predictor_model.published_bulletin_a_agreement.n": {
+          "definition": "published Bulletin A prediction rows the forecast was compared against",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "count"
+        },
+        "operational_predictor_model.published_bulletin_a_agreement.pm_rms_arcsec": {
+          "definition": "pole-displacement agreement with the published prediction, NOT an error",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "arcsec"
+        },
+        "operational_predictor_model.published_bulletin_a_agreement.pm_rms_position_m": {
+          "definition": "the pole agreement at the Moon",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "operational_predictor_model.published_bulletin_a_agreement.ut1_rms_position_m": {
+          "definition": "the UT1 agreement at the Moon through the L19 lever arm",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "operational_predictor_model.published_bulletin_a_agreement.ut1_rms_s": {
+          "definition": "agreement with the published prediction, NOT an error",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "operational_predictor_model.representative_fit.polar_motion_xp.anchor_residual_native": {
+          "definition": "the last in-window residual carried onto every forecast",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "arcsec"
+        },
+        "operational_predictor_model.representative_fit.polar_motion_xp.issue_mjd": {
+          "definition": "the epoch the representative forecast is issued at; the fit sees no observation after it",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "MJD (day)"
+        },
+        "operational_predictor_model.representative_fit.polar_motion_xp.n_fit": {
+          "definition": "observations the fit was formed from",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "count"
+        },
+        "operational_predictor_model.representative_fit.polar_motion_xp.rms_fit_residual_native": {
+          "definition": "in-window post-fit RMS, NOT a prediction error",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "arcsec"
+        },
+        "operational_predictor_model.representative_fit.polar_motion_xp.terms_rejected[].cycles_spanned": {
+          "definition": "cycles of that period the fit window actually spans",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "cycle (dimensionless)"
+        },
+        "operational_predictor_model.representative_fit.polar_motion_xp.terms_rejected[].period_days": {
+          "definition": "period of a candidate periodic term the window was too short to admit",
+          "evidence_tier": "validated",
+          "provenance": "constant",
+          "unit": "day"
+        },
+        "operational_predictor_model.representative_fit.polar_motion_xp.terms_rejected[].threshold_cycles": {
+          "definition": "cycles a term must span to be admitted to the design matrix",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "cycle (dimensionless)"
+        },
+        "operational_predictor_model.representative_fit.polar_motion_xp.window_first_mjd": {
+          "definition": "first observation epoch inside the trailing fit window",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "MJD (day)"
+        },
+        "operational_predictor_model.representative_fit.polar_motion_xp.window_last_mjd": {
+          "definition": "last observation epoch inside the trailing fit window",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "MJD (day)"
+        },
+        "operational_predictor_model.representative_fit.ut1.anchor_residual_native": {
+          "definition": "the last in-window residual carried onto every forecast",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "operational_predictor_model.representative_fit.ut1.issue_mjd": {
+          "definition": "the epoch the representative forecast is issued at; the fit sees no observation after it",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "MJD (day)"
+        },
+        "operational_predictor_model.representative_fit.ut1.n_fit": {
+          "definition": "observations the fit was formed from",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "count"
+        },
+        "operational_predictor_model.representative_fit.ut1.rms_fit_residual_native": {
+          "definition": "in-window post-fit RMS, NOT a prediction error",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "operational_predictor_model.representative_fit.ut1.terms_rejected[].cycles_spanned": {
+          "definition": "cycles of that period the fit window actually spans",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "cycle (dimensionless)"
+        },
+        "operational_predictor_model.representative_fit.ut1.terms_rejected[].period_days": {
+          "definition": "period of a candidate periodic term the window was too short to admit",
+          "evidence_tier": "validated",
+          "provenance": "constant",
+          "unit": "day"
+        },
+        "operational_predictor_model.representative_fit.ut1.terms_rejected[].threshold_cycles": {
+          "definition": "cycles a term must span to be admitted to the design matrix",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "cycle (dimensionless)"
+        },
+        "operational_predictor_model.representative_fit.ut1.window_first_mjd": {
+          "definition": "first observation epoch inside the trailing fit window",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "MJD (day)"
+        },
+        "operational_predictor_model.representative_fit.ut1.window_last_mjd": {
+          "definition": "last observation epoch inside the trailing fit window",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "MJD (day)"
+        },
         "operational_predictor_model.window_days": {
           "definition": null,
           "evidence_tier": "illustrative",
           "provenance": "input",
           "unit": "day"
+        },
+        "predicted_rows.first_mjd": {
+          "definition": "null when the input publishes no prediction row",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "MJD (day)"
+        },
+        "predicted_rows.last_mjd": {
+          "definition": "null when the input publishes no prediction row",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "MJD (day)"
         },
         "predicted_rows.n": {
           "definition": null,
@@ -8677,17 +8875,442 @@
           "provenance": "measured",
           "unit": "count"
         },
+        "table5_operational_vs_persistence.equivalent_horizon_days.combined.operational": {
+          "definition": "null when no measured pair of horizons brackets the target; the curve is never extrapolated",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "day"
+        },
+        "table5_operational_vs_persistence.equivalent_horizon_days.combined.persistence": {
+          "definition": "null when no measured pair of horizons brackets the target; the curve is never extrapolated",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "day"
+        },
         "table5_operational_vs_persistence.equivalent_horizon_days.target_position_m": {
           "definition": "the Table 1 real-time frame position the horizon is read against",
           "evidence_tier": "modelled",
           "provenance": "modelled",
           "unit": "m"
         },
+        "table5_operational_vs_persistence.equivalent_horizon_days.ut1.operational": {
+          "definition": "null when no measured pair of horizons brackets the target; the curve is never extrapolated",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "day"
+        },
+        "table5_operational_vs_persistence.equivalent_horizon_days.ut1.persistence": {
+          "definition": "null when no measured pair of horizons brackets the target; the curve is never extrapolated",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "day"
+        },
         "table5_operational_vs_persistence.n_rows": {
           "definition": null,
           "evidence_tier": "validated",
           "provenance": "measured",
           "unit": "count"
+        },
+        "table5_operational_vs_persistence.rows[].combined.improvement_factor": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.improvement_factor",
+          "definition": "persistence RMS / operational RMS; below 1 means the operational predictor is WORSE at that horizon",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ratio (dimensionless)"
+        },
+        "table5_operational_vs_persistence.rows[].combined.operational.max_native": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.operational.max_native",
+          "definition": "largest absolute predicted-minus-final residual",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "see the sibling `unit` field"
+        },
+        "table5_operational_vs_persistence.rows[].combined.operational.n": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.operational.n",
+          "definition": "epochs this predictor was scored at (equal to the row's n)",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "count"
+        },
+        "table5_operational_vs_persistence.rows[].combined.operational.p50_native": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.operational.p50_native",
+          "definition": "median absolute predicted-minus-final residual",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "see the sibling `unit` field"
+        },
+        "table5_operational_vs_persistence.rows[].combined.operational.p95_native": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.operational.p95_native",
+          "definition": "95th-percentile absolute predicted-minus-final residual",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "see the sibling `unit` field"
+        },
+        "table5_operational_vs_persistence.rows[].combined.operational.p95_position_m": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.operational.p95_position_m",
+          "definition": "the 95th-percentile residual at the Moon",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "table5_operational_vs_persistence.rows[].combined.operational.rms_light_time_ns": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.operational.rms_light_time_ns",
+          "definition": "the RMS residual as one-way light time at the Moon",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "table5_operational_vs_persistence.rows[].combined.operational.rms_native": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.operational.rms_native",
+          "definition": "root-mean-square predicted-minus-final residual over the row's epochs",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "see the sibling `unit` field"
+        },
+        "table5_operational_vs_persistence.rows[].combined.operational.rms_position_m": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.operational.rms_position_m",
+          "definition": "the RMS residual at the Moon through the L19 lever arm",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "table5_operational_vs_persistence.rows[].combined.persistence.max_native": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.persistence.max_native",
+          "definition": "largest absolute predicted-minus-final residual",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "see the sibling `unit` field"
+        },
+        "table5_operational_vs_persistence.rows[].combined.persistence.n": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.persistence.n",
+          "definition": "epochs this predictor was scored at (equal to the row's n)",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "count"
+        },
+        "table5_operational_vs_persistence.rows[].combined.persistence.p50_native": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.persistence.p50_native",
+          "definition": "median absolute predicted-minus-final residual",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "see the sibling `unit` field"
+        },
+        "table5_operational_vs_persistence.rows[].combined.persistence.p95_native": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.persistence.p95_native",
+          "definition": "95th-percentile absolute predicted-minus-final residual",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "see the sibling `unit` field"
+        },
+        "table5_operational_vs_persistence.rows[].combined.persistence.p95_position_m": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.persistence.p95_position_m",
+          "definition": "the 95th-percentile residual at the Moon",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "table5_operational_vs_persistence.rows[].combined.persistence.rms_light_time_ns": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.persistence.rms_light_time_ns",
+          "definition": "the RMS residual as one-way light time at the Moon",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "table5_operational_vs_persistence.rows[].combined.persistence.rms_native": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.persistence.rms_native",
+          "definition": "root-mean-square predicted-minus-final residual over the row's epochs",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "see the sibling `unit` field"
+        },
+        "table5_operational_vs_persistence.rows[].combined.persistence.rms_position_m": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.persistence.rms_position_m",
+          "definition": "the RMS residual at the Moon through the L19 lever arm",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "table5_operational_vs_persistence.rows[].epochs_mjd[]": {
+          "declared_as": "table5_operational_vs_persistence.rows[].epochs_mjd",
+          "definition": "the issue epochs the forecasts were made at",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "MJD (day)"
+        },
+        "table5_operational_vs_persistence.rows[].fit_rows_max": {
+          "definition": "most observations any fit in the row was formed from",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "count"
+        },
+        "table5_operational_vs_persistence.rows[].fit_rows_min": {
+          "definition": "fewest observations any fit in the row was formed from",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "count"
+        },
+        "table5_operational_vs_persistence.rows[].horizon_days": {
+          "definition": "forecast lead the row was scored at",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "day"
+        },
+        "table5_operational_vs_persistence.rows[].min_fit_lead_days": {
+          "definition": "smallest gap between any fit window's last observation and the epoch it predicted; > 0 is the no-look-ahead proof",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "day"
+        },
+        "table5_operational_vs_persistence.rows[].n": {
+          "definition": "epochs BOTH predictors were scored over; the two columns share this set exactly",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "count"
+        },
+        "table5_operational_vs_persistence.rows[].polar_motion.improvement_factor": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.improvement_factor",
+          "definition": "persistence RMS / operational RMS; below 1 means the operational predictor is WORSE at that horizon",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ratio (dimensionless)"
+        },
+        "table5_operational_vs_persistence.rows[].polar_motion.operational.max_native": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.operational.max_native",
+          "definition": "largest absolute predicted-minus-final residual",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "see the sibling `unit` field"
+        },
+        "table5_operational_vs_persistence.rows[].polar_motion.operational.n": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.operational.n",
+          "definition": "epochs this predictor was scored at (equal to the row's n)",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "count"
+        },
+        "table5_operational_vs_persistence.rows[].polar_motion.operational.p50_native": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.operational.p50_native",
+          "definition": "median absolute predicted-minus-final residual",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "see the sibling `unit` field"
+        },
+        "table5_operational_vs_persistence.rows[].polar_motion.operational.p95_native": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.operational.p95_native",
+          "definition": "95th-percentile absolute predicted-minus-final residual",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "see the sibling `unit` field"
+        },
+        "table5_operational_vs_persistence.rows[].polar_motion.operational.p95_position_m": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.operational.p95_position_m",
+          "definition": "the 95th-percentile residual at the Moon",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "table5_operational_vs_persistence.rows[].polar_motion.operational.rms_light_time_ns": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.operational.rms_light_time_ns",
+          "definition": "the RMS residual as one-way light time at the Moon",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "table5_operational_vs_persistence.rows[].polar_motion.operational.rms_native": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.operational.rms_native",
+          "definition": "root-mean-square predicted-minus-final residual over the row's epochs",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "see the sibling `unit` field"
+        },
+        "table5_operational_vs_persistence.rows[].polar_motion.operational.rms_position_m": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.operational.rms_position_m",
+          "definition": "the RMS residual at the Moon through the L19 lever arm",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "table5_operational_vs_persistence.rows[].polar_motion.persistence.max_native": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.persistence.max_native",
+          "definition": "largest absolute predicted-minus-final residual",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "see the sibling `unit` field"
+        },
+        "table5_operational_vs_persistence.rows[].polar_motion.persistence.n": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.persistence.n",
+          "definition": "epochs this predictor was scored at (equal to the row's n)",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "count"
+        },
+        "table5_operational_vs_persistence.rows[].polar_motion.persistence.p50_native": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.persistence.p50_native",
+          "definition": "median absolute predicted-minus-final residual",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "see the sibling `unit` field"
+        },
+        "table5_operational_vs_persistence.rows[].polar_motion.persistence.p95_native": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.persistence.p95_native",
+          "definition": "95th-percentile absolute predicted-minus-final residual",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "see the sibling `unit` field"
+        },
+        "table5_operational_vs_persistence.rows[].polar_motion.persistence.p95_position_m": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.persistence.p95_position_m",
+          "definition": "the 95th-percentile residual at the Moon",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "table5_operational_vs_persistence.rows[].polar_motion.persistence.rms_light_time_ns": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.persistence.rms_light_time_ns",
+          "definition": "the RMS residual as one-way light time at the Moon",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "table5_operational_vs_persistence.rows[].polar_motion.persistence.rms_native": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.persistence.rms_native",
+          "definition": "root-mean-square predicted-minus-final residual over the row's epochs",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "see the sibling `unit` field"
+        },
+        "table5_operational_vs_persistence.rows[].polar_motion.persistence.rms_position_m": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.persistence.rms_position_m",
+          "definition": "the RMS residual at the Moon through the L19 lever arm",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "table5_operational_vs_persistence.rows[].target_mjds[]": {
+          "declared_as": "table5_operational_vs_persistence.rows[].target_mjds",
+          "definition": "the epochs the forecasts were scored at",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "MJD (day)"
+        },
+        "table5_operational_vs_persistence.rows[].ut1.improvement_factor": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.improvement_factor",
+          "definition": "persistence RMS / operational RMS; below 1 means the operational predictor is WORSE at that horizon",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ratio (dimensionless)"
+        },
+        "table5_operational_vs_persistence.rows[].ut1.operational.max_native": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.operational.max_native",
+          "definition": "largest absolute predicted-minus-final residual",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "see the sibling `unit` field"
+        },
+        "table5_operational_vs_persistence.rows[].ut1.operational.n": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.operational.n",
+          "definition": "epochs this predictor was scored at (equal to the row's n)",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "count"
+        },
+        "table5_operational_vs_persistence.rows[].ut1.operational.p50_native": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.operational.p50_native",
+          "definition": "median absolute predicted-minus-final residual",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "see the sibling `unit` field"
+        },
+        "table5_operational_vs_persistence.rows[].ut1.operational.p95_native": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.operational.p95_native",
+          "definition": "95th-percentile absolute predicted-minus-final residual",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "see the sibling `unit` field"
+        },
+        "table5_operational_vs_persistence.rows[].ut1.operational.p95_position_m": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.operational.p95_position_m",
+          "definition": "the 95th-percentile residual at the Moon",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "table5_operational_vs_persistence.rows[].ut1.operational.rms_light_time_ns": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.operational.rms_light_time_ns",
+          "definition": "the RMS residual as one-way light time at the Moon",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "table5_operational_vs_persistence.rows[].ut1.operational.rms_native": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.operational.rms_native",
+          "definition": "root-mean-square predicted-minus-final residual over the row's epochs",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "see the sibling `unit` field"
+        },
+        "table5_operational_vs_persistence.rows[].ut1.operational.rms_position_m": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.operational.rms_position_m",
+          "definition": "the RMS residual at the Moon through the L19 lever arm",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "table5_operational_vs_persistence.rows[].ut1.persistence.max_native": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.persistence.max_native",
+          "definition": "largest absolute predicted-minus-final residual",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "see the sibling `unit` field"
+        },
+        "table5_operational_vs_persistence.rows[].ut1.persistence.n": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.persistence.n",
+          "definition": "epochs this predictor was scored at (equal to the row's n)",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "count"
+        },
+        "table5_operational_vs_persistence.rows[].ut1.persistence.p50_native": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.persistence.p50_native",
+          "definition": "median absolute predicted-minus-final residual",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "see the sibling `unit` field"
+        },
+        "table5_operational_vs_persistence.rows[].ut1.persistence.p95_native": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.persistence.p95_native",
+          "definition": "95th-percentile absolute predicted-minus-final residual",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "see the sibling `unit` field"
+        },
+        "table5_operational_vs_persistence.rows[].ut1.persistence.p95_position_m": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.persistence.p95_position_m",
+          "definition": "the 95th-percentile residual at the Moon",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "table5_operational_vs_persistence.rows[].ut1.persistence.rms_light_time_ns": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.persistence.rms_light_time_ns",
+          "definition": "the RMS residual as one-way light time at the Moon",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "table5_operational_vs_persistence.rows[].ut1.persistence.rms_native": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.persistence.rms_native",
+          "definition": "root-mean-square predicted-minus-final residual over the row's epochs",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "see the sibling `unit` field"
+        },
+        "table5_operational_vs_persistence.rows[].ut1.persistence.rms_position_m": {
+          "declared_as": "table5_operational_vs_persistence.rows[].*.persistence.rms_position_m",
+          "definition": "the RMS residual at the Moon through the L19 lever arm",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
         },
         "table6_archived_vintage_predicted_vs_final.n_rows": {
           "definition": null,
@@ -8696,8 +9319,8 @@
           "unit": "count"
         }
       },
-      "fields_described": 62,
-      "fields_total": 62,
+      "fields_described": 157,
+      "fields_total": 157,
       "fields_without_units": [],
       "label": "Real-time lunar frame / Earth-orientation prediction budget. VALIDATED closed form: the L19 lever arm (1 ms ↔ 28.03 m ↔ 93.5 ns), ω⊕ cross-checked against the CIO Earth-rotation angle. VALIDATED real data: the L18 UT1 and polar-motion prediction-error curves read directly off the real IERS finals2000A series (Bulletin A rapid vs Bulletin B final, and multi-day persistence over the real daily rows). DERIVED: the frame-realisation floor is the post-fit RMS residual of an actual 7-parameter Helmert datum realisation (not an asserted 0.2 m). MODELLED: the lunar-relay OD covariance magnitudes (0.27 m post-processed, ~14.4 m real-time at 1 h latency) are a round, NOT back-solved, representative allocation — the order-15-m real-time figure is independently bracketed by the real EOP-prediction curve (≈9.9 m at 1 day, ≈18.8 m at 2 days). The multi-day predictor is persistence, not IERS's operational Bulletin A algorithm, and a genuine predicted-vs-final vintage difference needs an archived earlier file vintage (not available from a single fetch). Not a certified real-time frame product.",
       "source": "defaults"
