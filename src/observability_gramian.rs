@@ -235,12 +235,126 @@ pub fn rank_from_singular_values(sv_descending: &[f64], rel_tol: f64) -> usize {
     sv_descending.iter().filter(|&&s| s > thr).count()
 }
 
+/// The relative singular-value tolerance below which a rank read stops being a rank.
+///
+/// The `σ > rel_tol·σ_max` count is taken on singular values reconstructed as `σ = √λ(OᵀO)`,
+/// so on the eigenvalue side the floor is `rel_tol²·λ_max`. The Gram matrix itself is only
+/// accurate to about `f64::EPSILON·λ_max`, so once `rel_tol² < f64::EPSILON` — that is, once
+/// `rel_tol < √f64::EPSILON ≈ 1.49e-8` — the floor sits *below* the rounding noise of the
+/// matrix being decomposed and the count starts including directions that are pure
+/// arithmetic residue. [`bounded_rank_from_singular_values`] says so in its stated reason
+/// rather than silently returning the inflated count.
+///
+/// The constant is `f64::EPSILON.sqrt()` written out (`sqrt` is not a `const fn`); the
+/// module's unit tests assert the two are bit-identical.
+pub const RANK_TOLERANCE_NOISE_FLOOR: f64 = 1.490_116_119_384_765_6e-8;
+
+/// A numerical rank read together with the algebraic bound that limited it.
+///
+/// A matrix of `m` rows and `n` columns cannot have rank above `min(m, n)` — Sylvester's
+/// bound, an identity, not a tolerance. A singular-value count at a tight `rel_tol` can
+/// exceed it anyway (the reconstructed spectrum carries f64 residue below
+/// [`RANK_TOLERANCE_NOISE_FLOOR`]), and then the number reported is not a rank at all. This
+/// carries both the reported rank and what it would have been, so the clamp is visible.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct BoundedRank {
+    /// The reported rank: the singular-value count, never above [`Self::shape_bound`].
+    pub rank: usize,
+    /// The raw `σ > rel_tol·σ_max` count, before the algebraic bound was applied.
+    pub counted: usize,
+    /// `min(rows, cols)` — the largest rank the matrix shape admits.
+    pub shape_bound: usize,
+    /// Why the reported rank is below the raw count. `Some` exactly when the count was
+    /// clamped; never a silent clamp.
+    pub reason: Option<String>,
+}
+
+/// The rank of an `n_rows × n_cols` matrix from its descending singular-value spectrum,
+/// with the algebraic bound `rank ≤ min(rows, cols)` applied and the clamp stated.
+///
+/// The threshold convention is unchanged — `σ_i > rel_tol · σ_max`, the one P6 convention of
+/// [`rank_from_singular_values`], which this calls. What is added is the shape bound: the
+/// count is an *estimate* of the rank and can exceed what the matrix dimensions allow once
+/// `rel_tol` drops below [`RANK_TOLERANCE_NOISE_FLOOR`], where the equivalent eigenvalue
+/// floor `rel_tol²·λ_max` sinks under the f64 noise of the Gram matrix. Above that floor the
+/// clamp never fires and the read is bit-identical to the unbounded one.
+pub fn bounded_rank_from_singular_values(
+    sv_descending: &[f64],
+    rel_tol: f64,
+    n_rows: usize,
+    n_cols: usize,
+) -> BoundedRank {
+    let counted = rank_from_singular_values(sv_descending, rel_tol);
+    let shape_bound = n_rows.min(n_cols);
+    if counted <= shape_bound {
+        return BoundedRank {
+            rank: counted,
+            counted,
+            shape_bound,
+            reason: None,
+        };
+    }
+    let floor_note = if rel_tol < RANK_TOLERANCE_NOISE_FLOOR {
+        format!(
+            " The tolerance is below the f64 rank-read noise floor {RANK_TOLERANCE_NOISE_FLOOR:.3e} \
+             (= sqrt(f64::EPSILON)): its equivalent eigenvalue floor rel_tol^2 = {:.3e} sits under \
+             the rounding noise of the Gram matrix, so the extra directions are arithmetic \
+             residue, not observability.",
+            rel_tol * rel_tol
+        )
+    } else {
+        String::new()
+    };
+    BoundedRank {
+        rank: shape_bound,
+        counted,
+        shape_bound,
+        reason: Some(format!(
+            "rank clamped from the singular-value count {counted} to min(rows, cols) = \
+             min({n_rows}, {n_cols}) = {shape_bound} at rel_tol {rel_tol:.3e}: a {n_rows}x{n_cols} \
+             matrix cannot have rank {counted}.{floor_note}"
+        )),
+    }
+}
+
+/// A stated reason when `rel_tol` sits below [`RANK_TOLERANCE_NOISE_FLOOR`], or `None` when
+/// it does not — the document-level companion to [`bounded_rank_from_singular_values`].
+///
+/// The tolerance is *not* altered: flooring it would move every rank read taken below the
+/// floor, which is a change to a published convention rather than a repair. The read is left
+/// exactly as asked for and the caller is told what it is reading.
+pub fn rank_tolerance_note(rel_tol: f64) -> Option<String> {
+    if rel_tol >= RANK_TOLERANCE_NOISE_FLOOR || rel_tol <= 0.0 {
+        return None;
+    }
+    Some(format!(
+        "rel_tol {rel_tol:.3e} is below the f64 rank-read noise floor \
+         {RANK_TOLERANCE_NOISE_FLOOR:.3e} (= sqrt(f64::EPSILON)). Ranks are read as \
+         sigma > rel_tol*sigma_max on sigma = sqrt(lambda(O^T O)), so the equivalent eigenvalue \
+         floor is rel_tol^2 = {:.3e}; below sqrt(f64::EPSILON) that floor sits under the rounding \
+         noise of the Gram matrix and the count can include directions that are arithmetic \
+         residue. The tolerance asked for is used unchanged; every read is additionally held to \
+         rank <= min(rows, cols), and any read that hits that bound says so.",
+        rel_tol * rel_tol
+    ))
+}
+
 /// Numerical **rank** of `O` from the singular-value threshold — the rank-revealing SVD read of
 /// observability. See [`rank_from_singular_values`] for the one threshold convention (the same
-/// `rel_tol · σ_max` floor used by every P6 rank read, matching `numpy.linalg.matrix_rank(O)`).
+/// `rel_tol · σ_max` floor used by every P6 rank read, matching `numpy.linalg.matrix_rank(O)`),
+/// and [`bounded_rank_from_singular_values`] for the algebraic `rank ≤ min(rows, cols)` bound
+/// this applies on top of it (a no-op at every tolerance above
+/// [`RANK_TOLERANCE_NOISE_FLOOR`]).
 pub fn observable_rank(o: &Mat, rel_tol: f64) -> usize {
+    bounded_observable_rank(o, rel_tol).rank
+}
+
+/// [`observable_rank`] with the clamp made visible: the reported rank, the raw
+/// singular-value count, and a stated reason whenever the two differ.
+pub fn bounded_observable_rank(o: &Mat, rel_tol: f64) -> BoundedRank {
     let sv = singular_values(o);
-    rank_from_singular_values(&sv, rel_tol)
+    let n_cols = o.first().map(|r| r.len()).unwrap_or(0);
+    bounded_rank_from_singular_values(&sv, rel_tol, o.len(), n_cols)
 }
 
 /// The symmetric spectrum and conditioning of an observability Gramian `W`.
@@ -329,6 +443,10 @@ pub struct RankArcPoint {
     pub sigma_max: f64,
     /// Smallest singular value of the stacked `O` so far.
     pub sigma_min: f64,
+    /// Why [`Self::rank`] is below the raw singular-value count at this prefix — `Some`
+    /// exactly when the algebraic `rank ≤ min(rows, cols)` bound clamped the read (see
+    /// [`bounded_rank_from_singular_values`]), so the clamp is never silent.
+    pub rank_limited_by: Option<String>,
 }
 
 /// The **rank-vs-arc-length** table: for each growing prefix of the epoch sequence, the
@@ -347,15 +465,23 @@ pub fn rank_vs_arc(epochs: &[ObsEpoch], rel_tol: f64) -> Vec<RankArcPoint> {
         let sigma_max = sv.first().copied().unwrap_or(0.0);
         let sigma_min = sv.last().copied().unwrap_or(0.0);
         // The one, eigenvalue-consistent rank definition (see `rank_from_singular_values`): the
-        // σ-floor is √rel_tol·σ_max, i.e. the eigenvalue floor rel_tol·λ_max the Gramian read uses.
-        let rank = rank_from_singular_values(&sv, rel_tol);
+        // σ-floor is rel_tol·σ_max, i.e. the eigenvalue floor rel_tol²·λ_max the Gramian read
+        // uses. (This comment previously named √rel_tol·σ_max and rel_tol·λ_max, contradicting
+        // the convention every other doc-comment in the module states; the code always did the
+        // above.)
+        // …and the read is additionally held to the algebraic bound rank <= min(rows, cols):
+        // a prefix of two measurement rows cannot observe three directions however tight the
+        // tolerance. The clamp states itself in `rank_limited_by` rather than happening quietly.
+        let n_cols = o.first().map(|r| r.len()).unwrap_or(0);
+        let read = bounded_rank_from_singular_values(&sv, rel_tol, o.len(), n_cols);
         out.push(RankArcPoint {
             epoch_index: k,
             arc_time: arc,
             n_rows: o.len(),
-            rank,
+            rank: read.rank,
             sigma_max,
             sigma_min,
+            rank_limited_by: read.reason,
         });
     }
     out
@@ -438,6 +564,12 @@ pub struct WhitenedPosterior {
     pub sigma_velocity: Option<f64>,
     /// Orthonormal basis of the unobservable directions as columns (`n × defect`).
     pub null_space: Mat,
+    /// Why [`Self::rank`] is below the raw eigenvalue count — `Some` exactly when the
+    /// algebraic `rank ≤ min(rows, cols)` bound clamped the read (see
+    /// [`bounded_rank_from_singular_values`]). The posterior is then recomputed over the
+    /// bounded subspace, so `defect`, `null_space` and the σ summaries all agree with the
+    /// reported rank rather than with the inflated count.
+    pub rank_limited_by: Option<String>,
 }
 
 /// Formal posterior uncertainty of the initial state from a noise-whitened observability
@@ -456,6 +588,7 @@ pub fn whitened_posterior(o: &Mat, n_pos: usize, rel_tol: f64) -> WhitenedPoster
             sigma_position: None,
             sigma_velocity: None,
             null_space: vec![],
+            rank_limited_by: None,
         };
     }
     let n = o[0].len();
@@ -463,6 +596,40 @@ pub fn whitened_posterior(o: &Mat, n_pos: usize, rel_tol: f64) -> WhitenedPoster
     let gram = information_matrix(o, &ones);
     // λ-floor rel_tol² ⇔ the σ-floor rel_tol the rest of P6 reads its rank at.
     let c = crlb(&gram, rel_tol * rel_tol);
+    // …then the algebraic bound: a batch of `o.len()` scalar measurement rows cannot determine
+    // more than `min(rows, n)` directions of the state, however tight the tolerance. When the
+    // eigenvalue count exceeds it the whole posterior — not just the rank — was read off
+    // directions that are f64 residue, so the pseudo-inverse is rebuilt over the bounded
+    // subspace and the clamp states itself.
+    let shape_bound = o.len().min(n);
+    let mut rank_limited_by: Option<String> = None;
+    let c = if c.rank > shape_bound {
+        // Reconstruct the σ-scale count so the stated reason speaks the one P6 convention.
+        let mut sv: Vec<f64> = c.eigenvalues.iter().map(|&l| l.max(0.0).sqrt()).collect();
+        sv.sort_by(|a, b| b.total_cmp(a));
+        rank_limited_by = bounded_rank_from_singular_values(&sv, rel_tol, o.len(), n).reason;
+        // A relative λ-floor that keeps exactly `shape_bound` directions: the geometric
+        // midpoint between the smallest kept eigenvalue and the largest dropped one. Nothing
+        // is tuned — the bound is the matrix shape, and this is only the threshold that
+        // realises it.
+        let lmax = c.eigenvalues.last().copied().unwrap_or(0.0);
+        // `shape_bound < n` holds here (the branch needs `c.rank > shape_bound` and
+        // `c.rank <= n`), so both indices are in range.
+        let smallest_kept = c.eigenvalues[n - shape_bound];
+        let largest_dropped = c.eigenvalues[n - shape_bound - 1];
+        let rel = if lmax > 0.0 {
+            if largest_dropped > 0.0 {
+                (smallest_kept * largest_dropped).sqrt() / lmax
+            } else {
+                0.5 * smallest_kept / lmax
+            }
+        } else {
+            rel_tol * rel_tol
+        };
+        crlb(&gram, rel)
+    } else {
+        c
+    };
     let lmax = c.eigenvalues.last().copied().unwrap_or(0.0);
     let condition = if c.rank == 0 {
         f64::INFINITY
@@ -491,6 +658,7 @@ pub fn whitened_posterior(o: &Mat, n_pos: usize, rel_tol: f64) -> WhitenedPoster
         sigma_position: rss(0, n_pos),
         sigma_velocity: rss(n_pos, n),
         null_space: c.null_space,
+        rank_limited_by,
     }
 }
 
@@ -1042,5 +1210,116 @@ mod tests {
             N_PLANAR,
             "full observability over arc"
         );
+    }
+
+    // ── The rank read can no longer report more rank than the matrix has rows ──────
+
+    /// The noise-floor constant is exactly `f64::EPSILON.sqrt()`, written out because `sqrt`
+    /// is not a `const fn`. If the two ever drift apart, every message that quotes the floor
+    /// is quoting a different number from the one the code compares against.
+    #[test]
+    fn the_rank_tolerance_noise_floor_is_the_square_root_of_machine_epsilon() {
+        assert_eq!(RANK_TOLERANCE_NOISE_FLOOR, f64::EPSILON.sqrt());
+    }
+
+    /// A two-row, four-column observability matrix cannot have rank 3, whatever the
+    /// tolerance. Built so the raw singular-value count DOES exceed the shape bound at a
+    /// tight `rel_tol` (the reconstructed spectrum carries two f64-residue directions below
+    /// the noise floor), so this exercises the clamp rather than asserting a tautology.
+    #[test]
+    fn a_two_row_matrix_cannot_report_rank_three() {
+        let o: Mat = vec![vec![1.0, 2.0, 3.0, 4.0], vec![4.0, 3.0, 2.0, 1.0]];
+        let sv = singular_values(&o);
+        // The true rank is 2: the Gram has exactly two non-zero eigenvalues, and the other
+        // two come back as rounding residue rather than exact zeros.
+        let counted = rank_from_singular_values(&sv, 1e-14);
+        assert!(
+            counted > 2,
+            "setup: the unbounded count must exceed the row count for this to test anything \
+             (counted {counted}, spectrum {sv:?})"
+        );
+        let read = bounded_rank_from_singular_values(&sv, 1e-14, o.len(), 4);
+        assert_eq!(read.rank, 2, "rank is held to min(rows, cols) = 2");
+        assert_eq!(read.counted, counted);
+        assert_eq!(read.shape_bound, 2);
+        let reason = read.reason.expect("a clamp must state its reason");
+        assert!(
+            reason.contains("min(2, 4) = 2") && reason.contains("noise floor"),
+            "the stated reason must name the bound and the floor: {reason}"
+        );
+        assert_eq!(observable_rank(&o, 1e-14), 2);
+        // The posterior read is held to the same bound, and its defect, null space and the
+        // sigma summaries are rebuilt over the bounded subspace rather than left disagreeing
+        // with the reported rank.
+        let post = whitened_posterior(&o, 2, 1e-14);
+        assert_eq!(post.rank, 2);
+        assert_eq!(post.defect, 2);
+        assert_eq!(post.null_space[0].len(), 2, "null space matches the defect");
+        assert!(
+            post.sigma_position.is_none() && post.sigma_velocity.is_none(),
+            "an underdetermined batch has no finite covariance"
+        );
+        assert!(post.rank_limited_by.is_some(), "the clamp states itself");
+    }
+
+    /// R1 — above the f64 noise floor the bound never binds, so every rank read is
+    /// bit-identical to the unbounded one it replaced. Asserted over the tolerances the
+    /// repository actually ships at, on a growing single-link arc.
+    #[test]
+    fn the_bound_changes_nothing_at_any_shipped_tolerance() {
+        let chief: PlanarState = [1.10, 0.02, 0.05, -0.50];
+        let reference: PlanarState = [1.02, -0.03, -0.06, -0.55];
+        let mu = EARTH_MOON_MU;
+        let n_epochs = 12;
+        let arc = 0.06_f64;
+        let mut epochs = Vec::new();
+        let mut prev = 0.0;
+        for k in 0..n_epochs {
+            let t = arc * (k as f64) / ((n_epochs - 1) as f64);
+            let (cs, phi) = planar_state_stm(&chief, mu, t, 1500);
+            let rs = planar_propagate(&reference, mu, t, 1500);
+            let (_rho, r_row) = range_row(&cs, &rs);
+            epochs.push(ObsEpoch {
+                h: vec![r_row.to_vec()],
+                phi: phi.iter().map(|r| r.to_vec()).collect(),
+                dt: t - prev,
+            });
+            prev = t;
+        }
+        for rel_tol in [1e-4_f64, 1e-5, 1e-6, 1e-7, 1e-8] {
+            assert!(
+                rel_tol >= RANK_TOLERANCE_NOISE_FLOOR || rel_tol == 1e-8,
+                "the shipped tolerances sit at or above the noise floor"
+            );
+            let table = rank_vs_arc(&epochs, rel_tol);
+            for (k, point) in table.iter().enumerate() {
+                let (o, _w) = observability_matrix(&epochs[..=k]);
+                let unbounded = rank_from_singular_values(&singular_values(&o), rel_tol);
+                assert_eq!(
+                    point.rank, unbounded,
+                    "rel_tol {rel_tol:e}, prefix {k}: the bound moved a shipped value"
+                );
+                assert!(
+                    point.rank_limited_by.is_none(),
+                    "rel_tol {rel_tol:e}, prefix {k}: nothing should be clamped here"
+                );
+            }
+        }
+    }
+
+    /// The tolerance itself is never re-floored — a read below the noise floor is still
+    /// taken at the tolerance asked for, and is reported as such.
+    #[test]
+    fn a_tolerance_below_the_noise_floor_is_reported_not_rewritten() {
+        assert!(rank_tolerance_note(1e-6).is_none());
+        assert!(rank_tolerance_note(RANK_TOLERANCE_NOISE_FLOOR).is_none());
+        let note = rank_tolerance_note(1e-12).expect("a sub-floor tolerance must be named");
+        assert!(
+            note.contains("1.000e-12") && note.contains("1.490e-8"),
+            "the note must quote both the tolerance and the floor: {note}"
+        );
+        // Rank reads at a loose tolerance are unaffected by the note's existence.
+        let o: Mat = vec![vec![1.0, 0.0], vec![0.0, 1.0]];
+        assert_eq!(observable_rank(&o, 1e-6), 2);
     }
 }
