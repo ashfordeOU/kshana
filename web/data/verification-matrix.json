@@ -4,9 +4,9 @@
   "repo_blob_base": "https://github.com/AshfordeOU/kshana/blob/main/",
   "summary": {
     "validated": 59,
-    "modelled": 72,
+    "modelled": 73,
     "partner_owned": 4,
-    "total": 135
+    "total": 136
   },
   "rows": [
     {
@@ -2096,6 +2096,32 @@
         }
       ],
       "test_links": [],
+      "fixture": null
+    },
+    {
+      "requirement": "Lunar surface-beacon DOP augmentation",
+      "capability": "Beacon-augmented dilution of precision for a lunar surface user: the visible-satellite line-of-sight rows and the visible-surface-beacon ranging rows are concatenated into one design matrix and evaluated through the shared DOP kernel, and the resulting DOP is mapped to a realised 1-sigma accuracy IN METRES through a per-beacon user-equivalent ranging error assembled as the root-sum-square of clock-synchronisation, multipath and survey terms. Beacon visibility is the airless-Moon two-height geometric horizon, which has no refractive extension and is therefore exact rather than approximate. Runnable as the `lunar-beacon` scenario kind, which reports satellites alone, satellites plus beacons, and a larger constellation as the competing route to the same geometry. MEASURED on the bundled golden geometry (user at -80 deg, three surveyed beacons, six-satellite illustrative LCNS at t=0, 5 deg mask): 5 visible satellites give PDOP 9.6941 and a 3-D 1-sigma of 11.222 m; adding the beacons that actually clear the horizon gives PDOP 4.1160 and 4.765 m, a factor of 2.355; the 24-satellite service instead gives PDOP 2.4226 and 2.804 m, a factor of 4.002. The report prints the VISIBLE beacon count rather than the configured one, and on this geometry only ONE of the three beacons clears the horizon: the two flanking sites lie about 333 km from the user against an 86 km horizon for a 2 m antenna, so a reader is never left to assume all three contributed",
+      "status": "MODELLED",
+      "oracle_kind": "ReferenceImpl",
+      "oracle": "The DOP arithmetic is the crate::orbit::dop kernel, separately externally validated against gnss_lib_py in tests/dop_reference.rs; this row does not re-borrow that row's status. The beacon-visibility horizon is the L01 closed form, and sigma = DOP x sigma_URE is the standard GNSS relation (Kaplan and Hegarty, Understanding GPS/GNSS, section 7). Within this row the augmentation itself is checked against an independent in-repo DOP path and pinned to a committed golden. WHY MODELLED: the constellation design, the beacon placement, the antenna heights and all three error-budget magnitudes are illustrative inputs rather than a fielded survey or a measured link, so the reported metres are a property of a chosen scenario and not of any deployed service. NOTE ON PROVENANCE: this capability was advertised in the README and exercised by two validation tests, yet carried NO matrix row and no scenario kind, so it could not be reached from a run at all. It was claimed in prose, absent from the ledger, and unreachable in the engine at the same time. The row and the kind were added together",
+      "module": "lunar_beacon",
+      "tests": "lunar_beacon::tests (horizon visibility against the L01 closed form; the beacon-augmented DOP against the bare one; the error-budget root-sum-square; the DOP-to-metres relation); tests/validate_p2_beacon_before_after_table.rs (the whole before/after table pinned to a committed golden at 1e-9 relative); tests/validate_p2_beacon_before_after_independent_dop.rs (the same geometry through an INDEPENDENT DOP path, so the augmentation is not checked against the kernel that produced it)",
+      "module_links": [
+        {
+          "path": "src/lunar_beacon.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/lunar_beacon.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/validate_p2_beacon_before_after_table.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/validate_p2_beacon_before_after_table.rs"
+        },
+        {
+          "path": "tests/validate_p2_beacon_before_after_independent_dop.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/validate_p2_beacon_before_after_independent_dop.rs"
+        }
+      ],
       "fixture": null
     },
     {
