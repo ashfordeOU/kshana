@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" xml:space="preserve">
+  <defs>
+    <linearGradient id="ground" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#080A12"/>
+      <stop offset="0.55" stop-color="#0B0B10"/>
+      <stop offset="1" stop-color="#040508"/>
+    </linearGradient>
+    <radialGradient id="warm" cx="0.78" cy="0.12" r="0.55">
+      <stop offset="0" stop-color="#241E18" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#241E18" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#ground)"/>
+  <rect width="1200" height="630" fill="url(#warm)"/>
+
+  <text x="955" y="170" text-anchor="middle" font-family="Kohinoor Devanagari, Devanagari MT, sans-serif"
+        font-size="132" fill="#241E19">&#2325;&#2381;&#2359;&#2339;</text>
+
+  <rect x="72" y="86" width="118" height="5" fill="#C79E63"/>
+
+  <text x="72" y="139" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="25"
+        font-weight="700" letter-spacing="4.6" fill="#C79E63">PNT-RESILIENCE SIMULATOR</text>
+
+  <text x="72" y="274" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="152"
+        font-weight="700" letter-spacing="-2" fill="#F4F6FB">Kshana</text>
+
+  <text x="72" y="352" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="40"
+        fill="#CDD3DF">Open, reproducible simulation of positioning,</text>
+  <text x="72" y="406" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="40"
+        fill="#CDD3DF">navigation &amp; timing when GNSS is denied.</text>
+
+  <rect x="73" y="453" width="746" height="62" rx="31" fill="#0D1A10" stroke="#3FB950" stroke-width="2"/>
+  <circle cx="113" cy="484" r="9" fill="#3FB950"/>
+  <text x="145" y="494" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="28"
+        font-weight="700" fill="#E7F6EC">59 of 134 validated against external oracles</text>
+
+  <text x="72" y="577" font-family="Helvetica Neue, Helvetica, Arial, sans-serif" font-size="22"
+        fill="#8A93A3">kshana.dev</text>
+  <text x="1128" y="577" text-anchor="end" font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
+        font-size="22" fill="#8A93A3">quantum &#183; inertial &#183; optical &#183; AGPL-3.0</text>
+</svg>
