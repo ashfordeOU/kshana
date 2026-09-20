@@ -460,6 +460,10 @@ pub enum ScenarioKind {
     /// spoof pull-in versus code and carrier offset rate, and a loop-dynamics denial
     /// radius reported alongside the power-ratio one.
     TrackingLoop,
+    /// The engine's ARAIM HPL/VPL against the published worked numerical examples
+    /// of the EU-U.S. Working Group C ARAIM Technical Subgroup reference airborne
+    /// algorithm, at the tolerance (`TOL_PL`) those documents themselves state.
+    AraimReferenceCheck,
 }
 
 impl ScenarioKind {
@@ -521,6 +525,7 @@ impl ScenarioKind {
             ScenarioKind::InsTrnCoast => "ins-trn-coast",
             ScenarioKind::LunarVlbiFim => "lunar-vlbi-fim",
             ScenarioKind::TrackingLoop => "tracking-loop",
+            ScenarioKind::AraimReferenceCheck => "araim-reference-check",
         }
     }
 
@@ -586,6 +591,7 @@ impl ScenarioKind {
             "ins-trn-coast" => ScenarioKind::InsTrnCoast,
             "lunar-vlbi-fim" => ScenarioKind::LunarVlbiFim,
             "tracking-loop" => ScenarioKind::TrackingLoop,
+            "araim-reference-check" => ScenarioKind::AraimReferenceCheck,
             // Empty or unknown ⇒ the clock pack (historical default).
             _ => ScenarioKind::Clock,
         })
@@ -1936,6 +1942,18 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
         ScenarioKind::TrackingLoop => {
             let scn: crate::tracking_loop::TrackingLoopScenario =
                 toml::from_str(src).map_err(|e| format!("invalid tracking-loop scenario: {e}"))?;
+            let (json, summary) = scn.run_json()?;
+            let svg = minimal_svg(&summary);
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
+        }
+        ScenarioKind::AraimReferenceCheck => {
+            let scn: crate::araim_reference::AraimReferenceCheckScenario = toml::from_str(src)
+                .map_err(|e| format!("invalid araim-reference-check scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
             Ok(RunOutput {

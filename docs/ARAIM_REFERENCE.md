@@ -122,16 +122,45 @@ locations, not a per-snapshot guarantee.
   geometry and constellation-fault benefits above, and exercise on **real IGS
   precise-orbit (SP3) geometry** (`tests/igs_real_data.rs`), not only synthetic
   constellations.
-- **Honest residual (external / founder-gated):** numerically reproducing the EU
-  ARAIM Technical Note worked example (Table A-3) and the 15–25 % availability
-  figure against a **version-locked real Celestrak TLE snapshot**, and depositing
-  the ARAIM test fixtures as a citable **Zenodo** record. Wiring `araim_dual_raim`
-  into the scenario-file runner (today the TOML runner uses classic
-  solution-separation RAIM) is a further follow-on.
+- **External oracle — the published WG-C worked example:** the protection levels
+  are checked against the ARAIM Technical Subgroup's own numerical example, in
+  [`src/araim_reference.rs`](../src/araim_reference.rs),
+  `tests/araim_reference_vectors.rs` and the committed fixture
+  `tests/fixtures/araim_reference/wgc_araim_reference_vectors.txt` (each vector
+  carries its retrieval URL, retrieval date, source-file SHA-256 and page). The
+  acceptance tolerance is the reference's own `TOL_PL = 5 × 10⁻² m`. Against the
+  Reference Airborne Algorithm Description Document v3.1 (2019), Appendix D:
+  **VPL 18.2926 m vs 18.3 m published (Δ 0.0074 m)**, **HPL 13.4063 m vs 13.45 m
+  (Δ 0.0437 m)**, EMT 7.2997 m vs 7.2998 m, σ_v,acc 1.3694 m vs 1.3694 m, and all
+  six published constellation-fault intermediates (σ₃⁽ᵏ⁾, σ_ss,3⁽ᵏ⁾, b₃⁽ᵏ⁾) to
+  within half a unit in their last printed decimal. The 2016 Milestone 3 Report
+  states the same example but carries two internal defects — a sign typo in row 3
+  of `G`, and a `K_fa,3` evaluated at 57 fault modes while the document states
+  `N_fault,max = 1` (12 modes) — so its geometry intermediates reproduce exactly
+  while its protection levels are recorded as measured discrepancies (VPL Δ
+  0.0171 m, HPL Δ 0.0842 m, EMT Δ 0.4806 m) and excluded from the acceptance
+  figure. The check is reachable as the `araim-reference-check` scenario kind.
+- **Honest residual (external / founder-gated):** the 15–25 % availability figure
+  against a **version-locked real Celestrak TLE snapshot**, and depositing the
+  ARAIM test fixtures as a citable **Zenodo** record. The reference check above
+  covers `N_fault,max = 1` (single-satellite and single-constellation fault modes)
+  only; simultaneous multi-event fault subsets, fault exclusion, the χ²
+  consistency check and the double-counting re-allocation step of the reference
+  algorithm are not implemented, and a case whose priors would need them is
+  refused rather than truncated. Wiring `araim_dual_raim` into the scenario-file
+  runner (today the TOML runner uses classic solution-separation RAIM) is a
+  further follow-on.
 
 ## References
 
-- GPS–Galileo Working Group C, *ARAIM Technical Subgroup Milestone 3 Report* (2016).
+- EU–U.S. Cooperation on Satellite Navigation, Working Group C, ARAIM Technical
+  Subgroup, *Milestone 3 Report*, Final Version, 25 February 2016 — Annex A
+  (reference user algorithm) and §A.IX (numerical example).
+  <https://www.gps.gov/sites/default/files/2025-09/ARAIM-milestone-3-report.pdf>
+- EU–U.S. Cooperation on Satellite Navigation, Working Group C, ARAIM Technical
+  Subgroup, *Reference Airborne Algorithm Description Document*, Version 3.1,
+  20 June 2019 — Appendix D (numerical example for LPV-200).
+  <https://web.stanford.edu/group/scpnt/gpslab/website_files/maast/ARAIM_TSG_Reference_ADD_v3.1.pdf>
 - EU–US Cooperation on Satellite Navigation, *ARAIM Technical Note*.
 - RTCA DO-316 / DO-229 MOPS; DO-316 ARAIM MASPS material.
 - Blanch et al., *Baseline Advanced RAIM User Algorithm and Possible Improvements*,

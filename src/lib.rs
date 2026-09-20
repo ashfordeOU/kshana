@@ -60,6 +60,7 @@ pub mod altpnt;
 pub mod antenna;
 pub mod aperture_duty;
 pub mod api;
+pub mod araim_reference;
 pub mod assurance;
 pub mod attack_surface;
 pub mod attitude_budget;
