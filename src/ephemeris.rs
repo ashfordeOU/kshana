@@ -180,6 +180,188 @@ pub struct EphemerisResult {
     pub samples: Vec<EphemSample>,
 }
 
+/// Unit and provenance class for every numeric field the `ephemeris` report emits.
+///
+/// The report is a serialised [`EphemerisResult`], so `api.rs` attaches this table with
+/// `json_of_with_units` rather than the pack building a `units` key inline.
+pub const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "jd_utc0",
+            unit: "day",
+            provenance: Computed,
+            definition: "Julian Date, UTC scale, of t = 0: the scenario `epoch` when given, \
+                         otherwise the TLE's own epoch (its 1950-origin day count plus \
+                         2433281.5)",
+        },
+        FieldUnit {
+            path: "n_samples",
+            unit: "count",
+            provenance: Computed,
+            definition: "number of time samples emitted, round(duration_s / step_s) + 1",
+        },
+        FieldUnit {
+            path: "lat_min_deg",
+            unit: "deg",
+            provenance: Computed,
+            definition: "smallest WGS-84 geodetic sub-satellite latitude over the samples",
+        },
+        FieldUnit {
+            path: "lat_max_deg",
+            unit: "deg",
+            provenance: Computed,
+            definition: "largest WGS-84 geodetic sub-satellite latitude over the samples",
+        },
+        FieldUnit {
+            path: "alt_min_km",
+            unit: "km",
+            provenance: Computed,
+            definition: "smallest WGS-84 geodetic height of the satellite over the samples",
+        },
+        FieldUnit {
+            path: "alt_max_km",
+            unit: "km",
+            provenance: Computed,
+            definition: "largest WGS-84 geodetic height of the satellite over the samples",
+        },
+        FieldUnit {
+            path: "speed_min_m_s",
+            unit: "m/s",
+            provenance: Computed,
+            definition: "smallest inertial (TEME) speed |v| over the samples",
+        },
+        FieldUnit {
+            path: "speed_max_m_s",
+            unit: "m/s",
+            provenance: Computed,
+            definition: "largest inertial (TEME) speed |v| over the samples",
+        },
+        FieldUnit {
+            path: "max_elevation_deg",
+            unit: "deg",
+            provenance: Computed,
+            definition: "highest station elevation above the local horizon reached over the \
+                         samples; absent when the scenario declares no station or the \
+                         satellite never rises",
+        },
+        FieldUnit {
+            path: "peak_doppler_hz",
+            unit: "Hz",
+            provenance: Computed,
+            definition: "largest |station_view.doppler_hz| over the samples where the \
+                         satellite is at or above the horizon, at the scenario's carrier \
+                         frequency; absent when there is no station or no visibility",
+        },
+        FieldUnit {
+            path: "samples[].t_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "seconds from t = 0 of this sample, i * step_s",
+        },
+        FieldUnit {
+            path: "samples[].jd_utc",
+            unit: "day",
+            provenance: Computed,
+            definition: "Julian Date, UTC scale, of this sample: jd_utc0 + t_s / 86400",
+        },
+        FieldUnit {
+            path: "samples[].teme_r_m[]",
+            unit: "m",
+            provenance: Computed,
+            definition: "satellite position [x, y, z] in the propagator's true-equator \
+                         mean-equinox (TEME) of-date inertial frame",
+        },
+        FieldUnit {
+            path: "samples[].teme_v_m_s[]",
+            unit: "m/s",
+            provenance: Computed,
+            definition: "satellite velocity [vx, vy, vz] in the TEME of-date inertial frame",
+        },
+        FieldUnit {
+            path: "samples[].gcrs_r_m[]",
+            unit: "m",
+            provenance: Computed,
+            definition: "satellite position [x, y, z] reduced to GCRS (~J2000) by the \
+                         precession/nutation chain at this epoch's TT",
+        },
+        FieldUnit {
+            path: "samples[].gcrs_v_m_s[]",
+            unit: "m/s",
+            provenance: Computed,
+            definition: "satellite velocity [vx, vy, vz] reduced to GCRS (~J2000)",
+        },
+        FieldUnit {
+            path: "samples[].ecef_r_m[]",
+            unit: "m",
+            provenance: Computed,
+            definition: "satellite position [x, y, z] in the Earth-fixed ITRF/ECEF frame: \
+                         the TEME->PEF sidereal rotation at UT1 followed by IERS polar motion",
+        },
+        FieldUnit {
+            path: "samples[].lat_deg",
+            unit: "deg",
+            provenance: Computed,
+            definition: "sub-satellite WGS-84 geodetic latitude, north positive",
+        },
+        FieldUnit {
+            path: "samples[].lon_deg",
+            unit: "deg",
+            provenance: Computed,
+            definition: "sub-satellite WGS-84 geodetic longitude, east positive",
+        },
+        FieldUnit {
+            path: "samples[].alt_km",
+            unit: "km",
+            provenance: Computed,
+            definition: "satellite height above the WGS-84 ellipsoid along the local normal",
+        },
+        FieldUnit {
+            path: "samples[].speed_m_s",
+            unit: "m/s",
+            provenance: Computed,
+            definition: "inertial (TEME) speed |v| at this sample",
+        },
+        FieldUnit {
+            path: "samples[].station_view.az_deg",
+            unit: "deg",
+            provenance: Computed,
+            definition: "topocentric azimuth of the satellite from the station, measured \
+                         clockwise from true north in [0, 360), in the station's local \
+                         East-North-Up frame",
+        },
+        FieldUnit {
+            path: "samples[].station_view.el_deg",
+            unit: "deg",
+            provenance: Computed,
+            definition: "topocentric elevation of the satellite above the station's local \
+                         horizon (the WGS-84 ellipsoid normal), in [-90, 90]; negative means \
+                         below the horizon",
+        },
+        FieldUnit {
+            path: "samples[].station_view.range_km",
+            unit: "km",
+            provenance: Computed,
+            definition: "geometric slant range from the station to the satellite",
+        },
+        FieldUnit {
+            path: "samples[].station_view.range_rate_m_s",
+            unit: "m/s",
+            provenance: Computed,
+            definition: "d(range)/dt: the station-to-satellite relative velocity projected \
+                         onto the line of sight, both endpoints taken in TEME with the \
+                         station carrying omega x r; positive means receding",
+        },
+        FieldUnit {
+            path: "samples[].station_view.doppler_hz",
+            unit: "Hz",
+            provenance: Computed,
+            definition: "carrier Doppler shift -range_rate_m_s / lambda, with lambda = c / \
+                         carrier_hz (GPS L1 by default); positive as the satellite closes",
+        },
+    ]
+};
+
 fn norm(v: Vec3) -> f64 {
     (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]).sqrt()
 }

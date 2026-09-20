@@ -322,6 +322,40 @@ fn default_refine_factor() -> f64 {
     8.0
 }
 
+/// Unit and provenance class for every numeric field the `gravity-map` report emits.
+///
+/// The report is the three fields of [`GravityMapNavResult`], serialised by the scenario
+/// dispatcher; all three are metric quantities the run derives from the configured drift,
+/// the recovered offset and the sensor/map noise budget.
+pub const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "free_inertial_drift_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "horizontal position error of the unaided inertial solution at the \
+                         end of the outage: the configured constant drift in degrees \
+                         converted to metres at the track's mid-latitude",
+        },
+        FieldUnit {
+            path: "map_matched_error_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "residual horizontal position error after gravity-map matching: the \
+                         true drift minus the recovered offset estimate, in metres",
+        },
+        FieldUnit {
+            path: "measurement_sigma_mgal",
+            unit: "mGal",
+            provenance: Computed,
+            definition: "1 sigma matching noise used by the likelihood: the gravimeter white \
+                         floor ASD/sqrt(tau) combined in quadrature with the configured map \
+                         representation error",
+        },
+    ]
+};
+
 /// Result of the gravity-map-matching benchmark.
 #[derive(Clone, Copy, Debug)]
 pub struct GravityMapNavResult {

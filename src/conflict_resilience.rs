@@ -59,6 +59,368 @@ crate::conflict_threat_params — JammerTest 2024, TEXBAT, EASA SIB, LunaNet/IOA
 of that Modelled parameterisation, not certified figures. Not a certified navigation-\
 availability product.";
 
+/// Unit and provenance class for every numeric field the `conflict-resilience` report
+/// emits.
+///
+/// The per-layer availability / accuracy / vulnerability magnitudes are the catalog's
+/// sourced-but-Modelled allocations (see [`crate::conflict_threat_params`]), so they
+/// carry [`crate::field_schema::ProvenanceClass::ModelledInput`] rather than `Input`.
+/// Every probability here is a dimensionless probability in `[0, 1]` — never a
+/// percentage, never a per-second rate.
+const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "trials",
+            unit: "count",
+            provenance: Input,
+            definition: "Monte-Carlo trials run at every intensity and every correlation grid \
+                         point",
+        },
+        FieldUnit {
+            path: "primary_layer",
+            unit: "count",
+            provenance: Input,
+            definition: "zero-based index of the layer used as the single-layer baseline the \
+                         resilience ratio is taken against",
+        },
+        FieldUnit {
+            path: "reference_intensity",
+            unit: "1",
+            provenance: Input,
+            definition: "the intensity grid's highest point, at which the headline ratio, the \
+                         correlation sweep and the per-vector survival are all evaluated; \
+                         intensity is a dimensionless scale factor on a layer's denial \
+                         sensitivity, not a power or a rate",
+        },
+        FieldUnit {
+            path: "intensity_grid[]",
+            unit: "1",
+            provenance: Input,
+            definition: "the swept threat intensities; a layer's denial probability at \
+                         intensity x is clamp(vulnerability * x * vector_weight, 0, 1), so x is \
+                         dimensionless",
+        },
+        FieldUnit {
+            path: "layers[].index",
+            unit: "count",
+            provenance: Computed,
+            definition: "zero-based position of this layer in the emitted layers array",
+        },
+        FieldUnit {
+            path: "layers[].availability",
+            unit: "1",
+            provenance: ModelledInput,
+            definition: "probability that this layer produces a fix at all absent any threat, \
+                         in [0, 1]; a sourced-but-Modelled allocation from \
+                         crate::conflict_threat_params, not a measured availability",
+        },
+        FieldUnit {
+            path: "layers[].sigma_m",
+            unit: "m",
+            provenance: ModelledInput,
+            definition: "standard deviation (1 sigma) of this layer's own position error, the \
+                         per-layer term entering the inverse-variance fuse; a \
+                         sourced-but-Modelled allocation",
+        },
+        FieldUnit {
+            path: "layers[].vulnerability",
+            unit: "1",
+            provenance: ModelledInput,
+            definition: "nominal denial sensitivity of this layer to the shared threat, in [0, \
+                         1]; a prior SOURCED from published material (JammerTest 2024, TEXBAT, \
+                         EASA SIB 2022-02, RTCA DO-229, LunaNet/IOAG) whose magnitude the \
+                         catalog states is Modelled",
+        },
+        FieldUnit {
+            path: "layers[].vector_weight",
+            unit: "1",
+            provenance: ModelledInput,
+            definition: "coupling weight of this layer to the shared threat vector, in [0, 1]; \
+                         a sourced-but-Modelled allocation",
+        },
+        FieldUnit {
+            path: "layers[].vulnerability_prior_min",
+            unit: "1",
+            provenance: ModelledInput,
+            definition: "lower end of the sourced [min, max] vulnerability prior the \
+                         sensitivity block draws over, in [0, 1]",
+        },
+        FieldUnit {
+            path: "layers[].vulnerability_prior_max",
+            unit: "1",
+            provenance: ModelledInput,
+            definition: "upper end of the sourced [min, max] vulnerability prior the \
+                         sensitivity block draws over, in [0, 1]",
+        },
+        FieldUnit {
+            path: "layers[].deny_prob_at_reference",
+            unit: "1",
+            provenance: ClosedForm,
+            definition: "probability that the shared threat denies this layer at the reference \
+                         intensity: clamp(vulnerability * reference_intensity * vector_weight, \
+                         0, 1)",
+        },
+        FieldUnit {
+            path: "layers[].loss_prob_at_reference",
+            unit: "1",
+            provenance: ClosedForm,
+            definition: "probability that this layer yields no usable fix at the reference \
+                         intensity (unavailable or denied): 1 - availability * (1 - \
+                         deny_prob_at_reference)",
+        },
+        FieldUnit {
+            path: "layers[].vector_profile.jamming",
+            unit: "1",
+            provenance: ModelledInput,
+            definition: "probability that broadband RF jamming acting alone at unit intensity \
+                         denies this layer, in [0, 1]; a sourced-but-Modelled per-vector \
+                         susceptibility, held separate from the aggregate vulnerability",
+        },
+        FieldUnit {
+            path: "layers[].vector_profile.spoofing",
+            unit: "1",
+            provenance: ModelledInput,
+            definition: "probability that counterfeit-signal spoofing acting alone at unit \
+                         intensity denies this layer, in [0, 1]; a sourced-but-Modelled \
+                         per-vector susceptibility",
+        },
+        FieldUnit {
+            path: "layers[].vector_profile.kinetic",
+            unit: "1",
+            provenance: ModelledInput,
+            definition: "probability that a kinetic strike on this layer's physical assets, \
+                         acting alone at unit intensity, denies it, in [0, 1]; a \
+                         sourced-but-Modelled per-vector susceptibility",
+        },
+        FieldUnit {
+            path: "layers[].vector_profile.cyber",
+            unit: "1",
+            provenance: ModelledInput,
+            definition: "probability that a cyber attack on this layer's control or network, \
+                         acting alone at unit intensity, denies it, in [0, 1]; a \
+                         sourced-but-Modelled per-vector susceptibility",
+        },
+        FieldUnit {
+            path: "resilience_ratio.closed_form_independent",
+            unit: "1",
+            provenance: ClosedForm,
+            definition: "the primary layer's loss probability divided by the closed-form \
+                         layered total-loss probability at the reference intensity, under \
+                         independent denial; a pure ratio, how many times less often the \
+                         layered user loses PNT",
+        },
+        FieldUnit {
+            path: "resilience_ratio.monte_carlo_independent",
+            unit: "1",
+            provenance: Computed,
+            definition: "the same ratio estimated from the independent Monte-Carlo: the primary \
+                         layer's empirical loss fraction divided by the empirical total-loss \
+                         fraction",
+        },
+        FieldUnit {
+            path: "intensity_sweep.rows[].intensity",
+            unit: "1",
+            provenance: Input,
+            definition: "the grid threat intensity this row was simulated at",
+        },
+        FieldUnit {
+            path: "intensity_sweep.rows[].total_loss_probability",
+            unit: "1",
+            provenance: Computed,
+            definition: "Monte-Carlo probability of a total loss of PNT at this intensity, i.e. \
+                         the fraction of trials in which no layer was usable",
+        },
+        FieldUnit {
+            path: "intensity_sweep.rows[].total_loss_closed_form",
+            unit: "1",
+            provenance: ClosedForm,
+            definition: "closed-form probability of that same event under independent denial: \
+                         the product over layers of (1 - availability * (1 - p_deny))",
+        },
+        FieldUnit {
+            path: "intensity_sweep.rows[].median_fused_error_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "median, over the trials that were not a total loss, of the \
+                         inverse-variance-fused 1 sigma position error (sum_i \
+                         1/sigma_i^2)^(-1/2) taken over the surviving layers",
+        },
+        FieldUnit {
+            path: "intensity_sweep.rows[].mean_fused_error_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "mean of that same fused 1 sigma position error over the trials that \
+                         were not a total loss",
+        },
+        FieldUnit {
+            path: "intensity_sweep.rows[].per_layer_usable[]",
+            unit: "1",
+            provenance: Computed,
+            definition: "one entry per layer, in layers order: the fraction of trials in which \
+                         that layer was both available and not denied",
+        },
+        FieldUnit {
+            path: "intensity_sweep.rows[].per_layer_deny_rate[]",
+            unit: "1",
+            provenance: Computed,
+            definition: "one entry per layer, in layers order: the fraction of trials in which \
+                         that layer was denied; a probability estimate in [0, 1], not a \
+                         per-second rate",
+        },
+        FieldUnit {
+            path: "correlation_sweep.reference_intensity",
+            unit: "1",
+            provenance: Input,
+            definition: "the fixed threat intensity the whole correlation sweep is run at",
+        },
+        FieldUnit {
+            path: "correlation_sweep.rows[].rho",
+            unit: "1",
+            provenance: Input,
+            definition: "equicorrelation of the one-factor Gaussian copula coupling the layers' \
+                         denials, in [0, 1]; 0 is the independent model",
+        },
+        FieldUnit {
+            path: "correlation_sweep.rows[].layered_total_loss",
+            unit: "1",
+            provenance: Computed,
+            definition: "Monte-Carlo probability that no layer is usable at this correlation, \
+                         i.e. the fraction of trials with a total loss of PNT",
+        },
+        FieldUnit {
+            path: "correlation_sweep.rows[].single_layer_loss",
+            unit: "1",
+            provenance: Computed,
+            definition: "Monte-Carlo probability that the primary layer alone is unusable at \
+                         this correlation: 1 minus its empirical usable fraction",
+        },
+        FieldUnit {
+            path: "correlation_sweep.rows[].resilience_ratio",
+            unit: "1",
+            provenance: Computed,
+            definition: "single_layer_loss divided by layered_total_loss at this correlation; \
+                         null when the layered total loss was never observed",
+        },
+        FieldUnit {
+            path: "correlation_sweep.rows[].per_layer_deny_rate[]",
+            unit: "1",
+            provenance: Computed,
+            definition: "one entry per layer, in layers order: the fraction of trials in which \
+                         that layer was denied at this correlation, the copula \
+                         marginal-preservation check",
+        },
+        FieldUnit {
+            path: "correlation_sweep.min_ratio_over_grid",
+            unit: "1",
+            provenance: Computed,
+            definition: "the smallest finite resilience_ratio found over the correlation grid",
+        },
+        FieldUnit {
+            path: "prior_sensitivity.reference_intensity",
+            unit: "1",
+            provenance: Input,
+            definition: "the threat intensity the sensitivity block evaluates the headline \
+                         ratio at",
+        },
+        FieldUnit {
+            path: "prior_sensitivity.nominal_ratio",
+            unit: "1",
+            provenance: ClosedForm,
+            definition: "the closed-form resilience ratio evaluated at the catalog-nominal \
+                         vulnerability priors",
+        },
+        FieldUnit {
+            path: "prior_sensitivity.ratio_ci_95[]",
+            unit: "1",
+            provenance: Computed,
+            definition: "the two endpoints, 2.5th then 97.5th percentile, of a central 95 % \
+                         interval for the resilience ratio; the underlying quantity is the \
+                         dimensionless single-over-layered loss ratio, sampled by drawing each \
+                         layer's vulnerability uniformly over its sourced [min, max] prior",
+        },
+        FieldUnit {
+            path: "prior_sensitivity.total_loss_ci_95[]",
+            unit: "1",
+            provenance: Computed,
+            definition: "the two endpoints, 2.5th then 97.5th percentile, of a central 95 % \
+                         interval for the closed-form total-loss probability; the underlying \
+                         quantity is that dimensionless probability in [0, 1], over the same \
+                         prior draws",
+        },
+        FieldUnit {
+            path: "prior_sensitivity.effort_reallocation_ratio_ci_95[]",
+            unit: "1",
+            provenance: Computed,
+            definition: "the two endpoints, 2.5th then 97.5th percentile, of a central 95 % \
+                         interval for the resilience ratio when the adversary's total threat \
+                         effort (the sum of the layers' vector_weight) is held fixed and \
+                         re-split across the layers by a seeded Dirichlet draw; the underlying \
+                         quantity is the dimensionless loss ratio",
+        },
+        FieldUnit {
+            path: "prior_sensitivity.samples",
+            unit: "count",
+            provenance: ModelledInput,
+            definition: "prior draws behind each percentile interval and behind the effort \
+                         re-allocation; a fixed engine setting (2000), not a scenario input",
+        },
+        FieldUnit {
+            path: "prior_sensitivity.tornado[].layer_index",
+            unit: "count",
+            provenance: Computed,
+            definition: "zero-based index of the layer whose prior weight this tornado bar \
+                         scans",
+        },
+        FieldUnit {
+            path: "prior_sensitivity.tornado[].margin_swing",
+            unit: "1",
+            provenance: Computed,
+            definition: "absolute change in the layered-over-single decision margin when this \
+                         layer's weight is scanned by plus and minus 25 %, i.e. 2 * 0.25 * w_k \
+                         * |v_layered,k - v_single,k| with w_k the layer's nominal \
+                         vulnerability and v the per-layer usable probability at the reference \
+                         intensity; a dimensionless weighted-score difference, not a \
+                         probability",
+        },
+        FieldUnit {
+            path: "per_vector_survival.reference_intensity",
+            unit: "1",
+            provenance: Input,
+            definition: "the threat intensity each vector's survival is scored at for the \
+                         sharpest-vector ranking",
+        },
+        FieldUnit {
+            path: "per_vector_survival.vectors[].survival_at_reference",
+            unit: "1",
+            provenance: ClosedForm,
+            definition: "probability that at least one layer is still usable under this named \
+                         vector acting alone at the reference intensity",
+        },
+        FieldUnit {
+            path: "per_vector_survival.vectors[].rows[].intensity",
+            unit: "1",
+            provenance: Input,
+            definition: "the grid threat intensity this survival sample was taken at",
+        },
+        FieldUnit {
+            path: "per_vector_survival.vectors[].rows[].survival_closed_form",
+            unit: "1",
+            provenance: ClosedForm,
+            definition: "closed-form probability that at least one layer is still usable under \
+                         this vector alone: 1 - prod_i (1 - a_i * (1 - clamp(susceptibility_i,v \
+                         * x, 0, 1)))",
+        },
+        FieldUnit {
+            path: "per_vector_survival.vectors[].rows[].survival_mc",
+            unit: "1",
+            provenance: Computed,
+            definition: "Monte-Carlo estimate of that same probability, from seeded independent \
+                         per-layer availability and denial draws",
+        },
+    ]
+};
+
 /// One PNT layer in the conflict architecture.
 #[derive(Clone, Debug, Deserialize)]
 pub struct ConflictLayer {
@@ -1071,6 +1433,7 @@ impl ConflictResilienceScenario {
         let doc = serde_json::json!({
             "kind": "conflict-resilience",
             "label": LABEL,
+            "units": crate::field_schema::units_block(UNITS),
             "trials": c.trials,
             "primary_layer": c.primary,
             "reference_intensity": c.reference_intensity,
