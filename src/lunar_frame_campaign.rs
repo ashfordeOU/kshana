@@ -1954,6 +1954,18 @@ mod tests {
             }
             h
         }
+        // PIN-SCOPE:    the `lunar-frame-realisation` scenario's own emission — its JSON,
+        //               summary and SVG, byte for byte, at the default document and two
+        //               non-default ones. Length AND hash, so a same-length substitution
+        //               cannot slip past.
+        // PIN-EXCLUDES: the top-level `units` block, stripped by `strip_top_level_units`
+        //               before hashing. That block is appended to EVERY scenario document
+        //               by the global unit/provenance schema, so leaving it in would make
+        //               this pin fail whenever a unit is documented anywhere in the
+        //               repository — which is exactly what happened (finding F25) and why
+        //               the hashes below are still the ORIGINAL ones rather than
+        //               re-baselined. A change to the `units` schema is OUT of scope here
+        //               and must not be "fixed" by re-taking these numbers.
         for (src, expect, expect_len) in [
             (
                 "kind = \"lunar-frame-realisation\"\n",

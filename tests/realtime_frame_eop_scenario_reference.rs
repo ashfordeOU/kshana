@@ -11,6 +11,13 @@
 //!
 //! Re-baseline the CSV with:
 //!   `cargo test --test realtime_frame_eop_scenario_reference zzz_emit_golden_csv -- --ignored`
+//!
+//! PIN-SCOPE:    the committed `tests/golden/realtime-frame-eop.csv` — the whole
+//!               reproducibility table, byte for byte.
+//! PIN-EXCLUDES: the result JSON. The CSV is a separate, fixed-precision artifact built by
+//!               `to_csv()`, so a field added to the JSON report — by this scenario or by
+//!               a cross-cutting change to every scenario — does not move it. If the CSV
+//!               moves, the table itself changed.
 
 use kshana::api::run_toml;
 use kshana::frame_eop::{

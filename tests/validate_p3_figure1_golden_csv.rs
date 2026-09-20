@@ -16,6 +16,13 @@
 //!
 //! Re-baseline (only when the figure model changes on purpose) with:
 //!   `cargo test --test validate_p3_figure1_golden_csv zzz_emit_golden_csv -- --ignored`
+//!
+//! PIN-SCOPE:    the committed `tests/golden/p3-figure1.csv` — every row and column of the
+//!               Figure-1 data, string columns exactly and numeric columns to
+//!               [`REPRO_REL_TOL`].
+//! PIN-EXCLUDES: the whole scenario result document. This CSV is assembled here from the
+//!               public engine functions, not read out of a scenario report, so a
+//!               cross-cutting change to what scenarios emit cannot move it.
 
 use kshana::clock_specs::{sigma_y, x_clock_ns, LunarClock, ONE_DAY_S};
 use kshana::lunar_time_budget::{default_tau_grid, BudgetParams};

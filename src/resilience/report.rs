@@ -169,6 +169,10 @@ mod tests {
         }
     }
 
+    /// PIN-SCOPE:    the SHA-256 implementation itself, against the published NIST test
+    ///               vector for the input "abc".
+    /// PIN-EXCLUDES: every kshana document. Nothing this repository emits can move this
+    ///               digest — only a broken hash would.
     #[test]
     fn integrity_hash_matches_known_vector() {
         // SHA-256("abc") is a published NIST test vector.
