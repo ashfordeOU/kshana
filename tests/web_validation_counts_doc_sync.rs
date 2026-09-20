@@ -14,6 +14,32 @@
 
 use kshana::verification::{summarize, verification_matrix};
 
+/// The ledger section's own total, which no gate listed either.
+///
+/// It read `102` while the matrix stood at 133 rows — stale by thirty-one, and static: no
+/// script sets it at runtime, so what the page says is what is committed. It drifted for
+/// exactly the reason the module docs above give, one surface further along. Finding it
+/// took reading the file rather than trusting the guard that was already green, which is
+/// the actual lesson: a passing gate is evidence about the surfaces it lists and about
+/// nothing else.
+#[test]
+fn the_ledger_sections_own_total_matches_the_matrix() {
+    let s = summarize(&verification_matrix());
+    let html = include_str!("../web/index.html");
+    let want = format!("<span id=\"ldg-total\">{}</span>", s.total);
+    assert!(
+        html.contains(want.as_str()),
+        "web/index.html's ledger section must state the matrix total as {want:?}. The \
+         matrix is {} rows. This element is static — nothing sets it at runtime — so a \
+         stale value here is what a visitor reads.",
+        s.total
+    );
+    // The id must be unique, or the assertion above could be satisfied by one occurrence
+    // while a second, stale one renders instead.
+    let n = html.matches("id=\"ldg-total\"").count();
+    assert_eq!(n, 1, "expected exactly one ldg-total element, found {n}");
+}
+
 #[test]
 fn website_validation_counts_match_the_matrix() {
     let s = summarize(&verification_matrix());
