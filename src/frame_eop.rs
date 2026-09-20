@@ -659,6 +659,1055 @@ pub fn predicted_vs_final_ut1(
     out
 }
 
+// ---------------------------------------------------------------------------
+// G13 — an operational-style Earth-orientation predictor, and the
+// archived-vintage predicted-vs-final comparison.
+// ---------------------------------------------------------------------------
+
+/// Annual period, days (one Julian year). The dominant seasonal term in both UT1 and
+/// polar motion, and the first periodic term IERS fits for Bulletin A.
+pub const ANNUAL_PERIOD_DAYS: f64 = 365.25;
+
+/// Semi-annual period, days — half of [`ANNUAL_PERIOD_DAYS`].
+pub const SEMIANNUAL_PERIOD_DAYS: f64 = ANNUAL_PERIOD_DAYS / 2.0;
+
+/// Chandler-wobble period, days (≈433 d): the free Eulerian nutation of the pole. A
+/// **polar-motion-only** term — it does not appear in UT1.
+pub const CHANDLER_PERIOD_DAYS: f64 = 433.0;
+
+/// Monthly zonal-tide period `Mm`, days (the lunar anomalistic month).
+///
+/// IERS does not *fit* this term: it **removes** the zonal tides from UT1 with the
+/// tabulated IERS Conventions (2010) Table 8.1 coefficients to form UT1R, fits the
+/// smooth remainder, and restores the tides on output. This crate has no zonal-tide
+/// coefficient table, so it carries the two principal zonal-tide periods as fitted
+/// `cos`/`sin` pairs instead — the same physics with the amplitude estimated over the
+/// window rather than tabulated. The deviation is declared in the emitted model block;
+/// it matters because on a real daily series the sub-monthly UT1 variation these two
+/// terms carry is *larger* than the day-to-day drift a bias/rate pair can model, so a
+/// predictor without them does not beat persistence at a 1–2 day lead.
+pub const MONTHLY_ZONAL_TIDE_PERIOD_DAYS: f64 = 27.554_550;
+
+/// Fortnightly zonal-tide period `Mf`, days — the dominant sub-monthly UT1 term. See
+/// [`MONTHLY_ZONAL_TIDE_PERIOD_DAYS`] for why it is fitted rather than tabulated.
+pub const FORTNIGHTLY_ZONAL_TIDE_PERIOD_DAYS: f64 = 13.660_791;
+
+/// Default least-squares fitting window, days.
+///
+/// IERS fits Bulletin A over the **last 365 days**; no series committed with this
+/// repository is anywhere near that long, so a 365-day default would admit no
+/// complete-window issue epoch and the predictor would never run on the shipped data. The
+/// default is derived from two constraints that have nothing to do with the result:
+///
+/// * **at most 19 days**, so that *both* committed verbatim real `finals2000A` extracts
+///   can populate it — the 2026 extract carries 20 final rows, a 19-day span; and
+/// * **at least ≈13.8 days**, so the longest periodic term the shipped data can constrain
+///   at all — the monthly zonal tide, [`MONTHLY_ZONAL_TIDE_PERIOD_DAYS`] — clears the
+///   half-cycle admission threshold.
+///
+/// 15 days is the round value inside that band. It is a *default*, not a tuned constant:
+/// the window is a scenario input, the emitted model block reports the value in force and
+/// the terms it admitted, and the measured operational-versus-persistence ratio is stable
+/// across the whole 10–25 day band.
+pub const DEFAULT_OPERATIONAL_WINDOW_DAYS: f64 = 15.0;
+
+/// MJD comparison tolerance for the whole-day `finals2000A` grid (matches the tolerance
+/// the horizon pairing already uses).
+const MJD_EPS: f64 = 1e-6;
+
+/// One periodic term of the operational model: a `cos`/`sin` pair at a fixed period.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct PeriodicTerm {
+    /// Term name as emitted in the report (`"annual"`, `"semi-annual"`, `"chandler"`).
+    pub name: &'static str,
+    /// Period, days.
+    pub period_days: f64,
+}
+
+/// The periodic terms of the **UT1** model: annual, semi-annual and the two principal
+/// zonal tides (monthly `Mm`, fortnightly `Mf`). The Chandler wobble is a polar-motion
+/// mode and is deliberately absent; the zonal-tide pair stands in for the tabulated UT1R
+/// reduction this crate does not carry (see [`MONTHLY_ZONAL_TIDE_PERIOD_DAYS`]).
+///
+/// Ordered long period first, so a short window admits the terms it can constrain and
+/// rejects the rest in a stable, reported order.
+pub const UT1_PERIODIC_TERMS: &[PeriodicTerm] = &[
+    PeriodicTerm {
+        name: "annual",
+        period_days: ANNUAL_PERIOD_DAYS,
+    },
+    PeriodicTerm {
+        name: "semi-annual",
+        period_days: SEMIANNUAL_PERIOD_DAYS,
+    },
+    PeriodicTerm {
+        name: "monthly-zonal-tide",
+        period_days: MONTHLY_ZONAL_TIDE_PERIOD_DAYS,
+    },
+    PeriodicTerm {
+        name: "fortnightly-zonal-tide",
+        period_days: FORTNIGHTLY_ZONAL_TIDE_PERIOD_DAYS,
+    },
+];
+
+/// The periodic terms of the **polar-motion** model: the Chandler wobble, annual and
+/// semi-annual — the set IERS fits for the Bulletin A pole prediction. No zonal-tide pair:
+/// the tidal polar-motion terms are diurnal and semi-diurnal, and a daily-sampled series
+/// cannot carry them.
+///
+/// Ordered long period first, matching [`UT1_PERIODIC_TERMS`].
+pub const PM_PERIODIC_TERMS: &[PeriodicTerm] = &[
+    PeriodicTerm {
+        name: "chandler",
+        period_days: CHANDLER_PERIOD_DAYS,
+    },
+    PeriodicTerm {
+        name: "annual",
+        period_days: ANNUAL_PERIOD_DAYS,
+    },
+    PeriodicTerm {
+        name: "semi-annual",
+        period_days: SEMIANNUAL_PERIOD_DAYS,
+    },
+];
+
+/// Configuration of the G13 operational-style Earth-orientation predictor.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct OperationalPredictorConfig {
+    /// Least-squares fitting window, days. The fit uses observations in
+    /// `[issue_mjd − window_days, issue_mjd]` and **requires the window to be complete**
+    /// (the series must reach back to its start), so a partially-filled window never
+    /// masquerades as a full one. Default [`DEFAULT_OPERATIONAL_WINDOW_DAYS`].
+    pub window_days: f64,
+    /// Minimum number of cycles of a periodic term the fitting window must span before
+    /// that term is admitted to the design matrix. Default 0.5 (half a cycle). A window
+    /// spanning a small fraction of a period cannot separate that sinusoid from the
+    /// bias/rate pair — admitting it anyway produces a near-degenerate normal matrix and a
+    /// wild extrapolation. Terms that fail the test are **reported as rejected**, with the
+    /// number of cycles the window actually spans, rather than silently dropped.
+    pub min_cycle_fraction: f64,
+    /// Carry the last in-window fit residual forward onto every forecast (default `true`).
+    ///
+    /// IERS follows its least-squares extrapolation with an **autoregressive** model of
+    /// the fit residuals and adds the two. This is the zero-decay limit of that stage: the
+    /// residual at the last observation is held constant over the forecast, so the
+    /// forecast is continuous with the last value a real-time user actually has. Set
+    /// `false` for the bare least-squares extrapolation. The AR filter itself is *not*
+    /// reproduced.
+    pub anchor_residual: bool,
+}
+
+impl Default for OperationalPredictorConfig {
+    fn default() -> Self {
+        Self {
+            window_days: DEFAULT_OPERATIONAL_WINDOW_DAYS,
+            min_cycle_fraction: 0.5,
+            anchor_residual: true,
+        }
+    }
+}
+
+/// A periodic term the fitting window was too short to constrain, reported rather than
+/// silently dropped.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct RejectedTerm {
+    /// The term's name.
+    pub name: &'static str,
+    /// The term's period, days.
+    pub period_days: f64,
+    /// How many cycles of that period the fitting window actually spans.
+    pub cycles_spanned: f64,
+    /// The admission threshold in cycles
+    /// ([`OperationalPredictorConfig::min_cycle_fraction`]).
+    pub threshold_cycles: f64,
+}
+
+/// A fitted operational-style Earth-orientation model, valid for forecasts **after**
+/// [`Self::issue_mjd`].
+///
+/// The model is
+/// `y(t) = a + b·(t − T)/W + Σₖ [cₖ·cos(2π(t−T)/Pₖ) + sₖ·sin(2π(t−T)/Pₖ)] + r`,
+/// where `T` is the issue epoch, `W` the window length, `Pₖ` the admitted periods and `r`
+/// the anchored residual (zero when
+/// [`OperationalPredictorConfig::anchor_residual`] is `false`).
+#[derive(Clone, Debug, PartialEq)]
+pub struct OperationalFit {
+    /// The epoch the forecast is issued at (MJD). No observation later than this entered
+    /// the fit — [`Self::window_last_mjd`] is the proof, and it is emitted.
+    pub issue_mjd: f64,
+    /// The configured window length, days.
+    pub window_days: f64,
+    /// Earliest observation MJD in the fitting window.
+    pub window_first_mjd: f64,
+    /// Latest observation MJD in the fitting window. Always `<= issue_mjd`.
+    pub window_last_mjd: f64,
+    /// Number of observations the fit used.
+    pub n_fit: usize,
+    /// Names of the fitted terms, in design-matrix order (`"bias"`, `"rate"`, then each
+    /// admitted periodic term).
+    pub term_names: Vec<&'static str>,
+    /// Periodic terms the window was too short to admit, with the cycles it spans.
+    pub rejected_terms: Vec<RejectedTerm>,
+    /// Fitted coefficients `[a, b, c₁, s₁, c₂, s₂, …]`, in the native unit of the fitted
+    /// quantity (seconds for UT1−TAI, arc seconds for a pole coordinate).
+    pub coefficients: Vec<f64>,
+    /// Periods (days) of the admitted periodic terms, in coefficient-pair order.
+    pub periods_days: Vec<f64>,
+    /// The residual at [`Self::window_last_mjd`] carried onto every forecast (native
+    /// unit); `0.0` when residual anchoring is off.
+    pub anchor_residual: f64,
+    /// Root-mean-square in-window post-fit residual (native unit) — a within-window
+    /// goodness measure, **not** a prediction error.
+    pub rms_fit_residual: f64,
+}
+
+impl OperationalFit {
+    /// Evaluate the fitted model at `target_mjd` (native unit of the fitted quantity).
+    ///
+    /// Nothing here consults an observation: the forecast is a function of the fitted
+    /// coefficients alone, so evaluating it at an epoch inside the window is a *fit* and
+    /// evaluating it beyond [`Self::issue_mjd`] is a *prediction*.
+    pub fn predict(&self, target_mjd: f64) -> f64 {
+        let t = target_mjd - self.issue_mjd;
+        let mut y = self.coefficients[0] + self.coefficients[1] * (t / self.window_days);
+        for (k, p) in self.periods_days.iter().enumerate() {
+            let w = std::f64::consts::TAU * t / p;
+            y += self.coefficients[2 + 2 * k] * w.cos() + self.coefficients[3 + 2 * k] * w.sin();
+        }
+        y + self.anchor_residual
+    }
+}
+
+/// Solve the normal system `A x = b` by Gaussian elimination with partial pivoting.
+/// Returns `None` when the matrix is numerically singular (a design that could not
+/// separate its own columns).
+fn solve_normal_system(mut a: Vec<Vec<f64>>, mut b: Vec<f64>) -> Option<Vec<f64>> {
+    let k = b.len();
+    for col in 0..k {
+        let mut p = col;
+        for row in (col + 1)..k {
+            if a[row][col].abs() > a[p][col].abs() {
+                p = row;
+            }
+        }
+        if !a[p][col].is_finite() || a[p][col].abs() < 1e-300 {
+            return None;
+        }
+        a.swap(col, p);
+        b.swap(col, p);
+        for row in (col + 1)..k {
+            let f = a[row][col] / a[col][col];
+            // `row > col`, so the pivot row and the row being eliminated are disjoint.
+            let (upper, lower) = a.split_at_mut(row);
+            for (t, p) in lower[0][col..].iter_mut().zip(&upper[col][col..]) {
+                *t -= f * p;
+            }
+            b[row] -= f * b[col];
+        }
+    }
+    let mut x = vec![0.0; k];
+    for i in (0..k).rev() {
+        let mut s = b[i];
+        for c in (i + 1)..k {
+            s -= a[i][c] * x[c];
+        }
+        x[i] = s / a[i][i];
+    }
+    x.iter().all(|v| v.is_finite()).then_some(x)
+}
+
+/// Fit the operational-style model to `(mjd, value)` samples for a forecast issued at
+/// `issue_mjd`.
+///
+/// **No look-ahead by construction.** Every sample later than `issue_mjd` is discarded
+/// before anything else happens, so the returned fit cannot depend on an observation at or
+/// after the epoch it will be asked to predict; [`OperationalFit::window_last_mjd`] carries
+/// the proof into the emitted report. The window must additionally be *complete* — the
+/// samples must reach back to `issue_mjd − window_days` — so a short archive quietly
+/// producing a two-point "30-day fit" is refused (`None`) rather than reported.
+///
+/// Returns `None` when the window is incomplete, when fewer than two observations per
+/// fitted parameter are available, or when the normal matrix is singular.
+pub fn fit_operational(
+    samples: &[(f64, f64)],
+    issue_mjd: f64,
+    terms: &[PeriodicTerm],
+    cfg: &OperationalPredictorConfig,
+) -> Option<OperationalFit> {
+    if !(cfg.window_days.is_finite() && cfg.window_days > 0.0) {
+        return None;
+    }
+    // The look-ahead barrier: nothing after the issue epoch survives this filter.
+    let window: Vec<(f64, f64)> = samples
+        .iter()
+        .copied()
+        .filter(|(m, v)| {
+            m.is_finite()
+                && v.is_finite()
+                && *m <= issue_mjd + MJD_EPS
+                && *m >= issue_mjd - cfg.window_days - MJD_EPS
+        })
+        .collect();
+    if window.len() < 2 {
+        return None;
+    }
+    let first = window.iter().map(|(m, _)| *m).fold(f64::INFINITY, f64::min);
+    let last = window
+        .iter()
+        .map(|(m, _)| *m)
+        .fold(f64::NEG_INFINITY, f64::max);
+    // A complete window, or nothing: a partial window is not the model that was declared.
+    if first > issue_mjd - cfg.window_days + MJD_EPS {
+        return None;
+    }
+    let span = last - first;
+    let mut periods = Vec::new();
+    let mut term_names: Vec<&'static str> = vec!["bias", "rate"];
+    let mut rejected = Vec::new();
+    for t in terms {
+        let cycles = span / t.period_days;
+        if cycles >= cfg.min_cycle_fraction {
+            periods.push(t.period_days);
+            term_names.push(t.name);
+        } else {
+            rejected.push(RejectedTerm {
+                name: t.name,
+                period_days: t.period_days,
+                cycles_spanned: cycles,
+                threshold_cycles: cfg.min_cycle_fraction,
+            });
+        }
+    }
+    let n_params = 2 + 2 * periods.len();
+    // At least two observations per fitted parameter, so the fit is never a near-exact
+    // interpolation of its own window.
+    if window.len() < 2 * n_params {
+        return None;
+    }
+
+    let row = |mjd: f64| -> Vec<f64> {
+        let t = mjd - issue_mjd;
+        let mut r = vec![1.0, t / cfg.window_days];
+        for p in &periods {
+            let w = std::f64::consts::TAU * t / p;
+            r.push(w.cos());
+            r.push(w.sin());
+        }
+        r
+    };
+    let mut ata = vec![vec![0.0f64; n_params]; n_params];
+    let mut atb = vec![0.0f64; n_params];
+    for (m, v) in &window {
+        let r = row(*m);
+        for i in 0..n_params {
+            atb[i] += r[i] * v;
+            for j in 0..n_params {
+                ata[i][j] += r[i] * r[j];
+            }
+        }
+    }
+    let coefficients = solve_normal_system(ata, atb)?;
+
+    let model_at = |mjd: f64| -> f64 {
+        row(mjd)
+            .iter()
+            .zip(&coefficients)
+            .map(|(a, b)| a * b)
+            .sum::<f64>()
+    };
+    let sum_sq: f64 = window
+        .iter()
+        .map(|(m, v)| {
+            let e = v - model_at(*m);
+            e * e
+        })
+        .sum();
+    let rms_fit_residual = (sum_sq / window.len() as f64).sqrt();
+    let anchor_residual = if cfg.anchor_residual {
+        let v_last = window
+            .iter()
+            .filter(|(m, _)| (m - last).abs() < MJD_EPS)
+            .map(|(_, v)| *v)
+            .next_back()?;
+        v_last - model_at(last)
+    } else {
+        0.0
+    };
+
+    Some(OperationalFit {
+        issue_mjd,
+        window_days: cfg.window_days,
+        window_first_mjd: first,
+        window_last_mjd: last,
+        n_fit: window.len(),
+        term_names,
+        rejected_terms: rejected,
+        coefficients,
+        periods_days: periods,
+        anchor_residual,
+        rms_fit_residual,
+    })
+}
+
+/// TAI − UTC (seconds) at an MJD, from the crate leap-second table.
+fn dat_at(mjd: f64) -> f64 {
+    crate::timescales::tai_minus_utc(mjd + crate::timescales::MJD_OFFSET)
+}
+
+/// The UT1 − TAI series a real-time user has at hand: the **rapid Bulletin A** UT1−UTC of
+/// each row with the leap-second step removed, so the fit sees a continuous quantity.
+/// Bulletin B finals are deliberately NOT used here — they are not published yet at the
+/// epoch the forecast is issued, and fitting them would be look-ahead.
+fn rapid_ut1_tai_samples(daily: &[DailyUt1]) -> Vec<(f64, f64)> {
+    daily
+        .iter()
+        .map(|d| (d.mjd, d.ut1_rapid_s - dat_at(d.mjd)))
+        .collect()
+}
+
+/// A representative pair of operational fits for a series: the UT1 and the `x_p` model as
+/// they stand at the series' **last** epoch — the most recent forecast the product could
+/// have issued. Returned so a report can show which periodic terms the configured window
+/// actually admitted and which it rejected, instead of naming a model class in prose.
+///
+/// Either element is `None` when that quantity's window at the last epoch is incomplete.
+pub fn latest_operational_fits(
+    body: &str,
+    cfg: &OperationalPredictorConfig,
+) -> (Option<OperationalFit>, Option<OperationalFit>) {
+    let daily_ut1 = parse_daily_ut1(body);
+    let daily_pm = parse_daily_pm(body);
+    let last = daily_ut1
+        .iter()
+        .map(|d| d.mjd)
+        .fold(f64::NEG_INFINITY, f64::max);
+    if !last.is_finite() {
+        return (None, None);
+    }
+    let xp_samples: Vec<(f64, f64)> = daily_pm.iter().map(|d| (d.mjd, d.xp_rapid_as)).collect();
+    (
+        fit_operational(
+            &rapid_ut1_tai_samples(&daily_ut1),
+            last,
+            UT1_PERIODIC_TERMS,
+            cfg,
+        ),
+        fit_operational(&xp_samples, last, PM_PERIODIC_TERMS, cfg),
+    )
+}
+
+/// One predictor's error statistics for one Earth-orientation quantity at one horizon.
+///
+/// `*_native` are in [`Self::unit`]; the `*_position_m` columns are the same residuals
+/// carried to the Moon through the L19/L20 lever arms.
+#[derive(Clone, Debug, PartialEq)]
+pub struct PredictorError {
+    /// `"operational"`, `"persistence"` or `"archived-bulletin-a"`.
+    pub predictor: &'static str,
+    /// `"ut1"`, `"polar-motion"` or `"combined"`.
+    pub quantity: &'static str,
+    /// Unit of the `*_native` statistics: `"s"`, `"arcsec"` or `"m"`.
+    pub unit: &'static str,
+    /// Number of predicted-versus-final residual samples.
+    pub n: usize,
+    /// Root-mean-square residual in [`Self::unit`].
+    pub rms_native: f64,
+    /// Median absolute residual in [`Self::unit`].
+    pub p50_native: f64,
+    /// 95th-percentile absolute residual in [`Self::unit`].
+    pub p95_native: f64,
+    /// Largest absolute residual in [`Self::unit`].
+    pub max_native: f64,
+    /// [`Self::rms_native`] as a Moon-frame position error, metres.
+    pub rms_position_m: f64,
+    /// [`Self::p95_native`] as a Moon-frame position error, metres.
+    pub p95_position_m: f64,
+    /// [`Self::rms_position_m`] as the one-way light time it costs, nanoseconds.
+    pub rms_light_time_ns: f64,
+}
+
+/// Reduce absolute residuals to a [`PredictorError`] through a linear map from the
+/// residual's native unit to a Moon-frame position (metres).
+fn predictor_error(
+    predictor: &'static str,
+    quantity: &'static str,
+    unit: &'static str,
+    resid: &[f64],
+    to_position_m: impl Fn(f64) -> f64,
+) -> PredictorError {
+    let s = stats(Horizon::Final, resid.to_vec());
+    PredictorError {
+        predictor,
+        quantity,
+        unit,
+        n: s.n,
+        rms_native: s.rms_s,
+        p50_native: s.p50_s,
+        p95_native: s.p95_s,
+        max_native: s.max_s,
+        rms_position_m: to_position_m(s.rms_s),
+        p95_position_m: to_position_m(s.p95_s),
+        rms_light_time_ns: to_position_m(s.rms_s) / C_M_S * 1e9,
+    }
+}
+
+/// A UT1 residual (seconds) as a Moon-frame position error, metres.
+fn ut1_to_position_m(s: f64) -> f64 {
+    ut1_error_to_lunar(s).0
+}
+
+/// A combined-pole residual (arc seconds) as a Moon-frame position error, metres.
+fn pm_to_position_m(arcsec: f64) -> f64 {
+    polar_motion_position_error(arcsec * crate::eop::ARCSEC_TO_RAD, 0.0)
+}
+
+/// One horizon row of the G13 operational-versus-persistence **predicted-versus-final**
+/// comparison: both predictors scored over one identical issue-epoch set, against the
+/// later-published Bulletin B final.
+#[derive(Clone, Debug, PartialEq)]
+pub struct PredictorComparisonRow {
+    /// The horizon these statistics were measured at.
+    pub horizon: Horizon,
+    /// Shared sample count — identical for every component of the row.
+    pub n: usize,
+    /// The issue epochs (MJD) the forecasts were made at, ascending.
+    pub epochs_mjd: Vec<f64>,
+    /// The target epochs (MJD) the forecasts were scored at (`epoch + horizon`).
+    pub target_mjds: Vec<f64>,
+    /// Smallest lead (days) between any fit window's last observation and the epoch that
+    /// fit was asked to predict. Strictly positive whenever the row exists — the emitted
+    /// proof that no fit could see its own target.
+    pub min_fit_lead_days: f64,
+    /// Fewest observations any of the row's fits used.
+    pub fit_rows_min: usize,
+    /// Most observations any of the row's fits used.
+    pub fit_rows_max: usize,
+    /// UT1 error of the operational predictor (seconds).
+    pub ut1_operational: PredictorError,
+    /// UT1 error of the persistence predictor over the same epochs (seconds).
+    pub ut1_persistence: PredictorError,
+    /// Combined-pole error of the operational predictor (arc seconds).
+    pub pm_operational: PredictorError,
+    /// Combined-pole error of the persistence predictor over the same epochs (arc
+    /// seconds).
+    pub pm_persistence: PredictorError,
+    /// Per-epoch quadrature combination of the two operational components, metres.
+    pub combined_operational: PredictorError,
+    /// Per-epoch quadrature combination of the two persistence components, metres.
+    pub combined_persistence: PredictorError,
+}
+
+impl PredictorComparisonRow {
+    /// Ratio of the persistence RMS to the operational RMS for the combined Moon-frame
+    /// position error: how many times smaller the operational predictor's error is.
+    /// `None` when the operational RMS is not positive.
+    pub fn combined_improvement_factor(&self) -> Option<f64> {
+        let o = self.combined_operational.rms_position_m;
+        (o > 0.0).then(|| self.combined_persistence.rms_position_m / o)
+    }
+}
+
+/// The per-epoch predicted-versus-final residuals of both predictors at one horizon.
+struct HorizonSamples {
+    epochs: Vec<f64>,
+    targets: Vec<f64>,
+    ut1_op: Vec<f64>,
+    ut1_pers: Vec<f64>,
+    pm_op: Vec<f64>,
+    pm_pers: Vec<f64>,
+    comb_op: Vec<f64>,
+    comb_pers: Vec<f64>,
+    min_lead: f64,
+    fit_rows_min: usize,
+    fit_rows_max: usize,
+}
+
+/// Find the row of a daily series at exactly `mjd`.
+fn at_mjd<T: Copy>(rows: &[T], mjd: f64, key: impl Fn(&T) -> f64) -> Option<T> {
+    rows.iter()
+        .find(|r| (key(r) - mjd).abs() < MJD_EPS)
+        .copied()
+}
+
+/// Collect both predictors' residuals at one horizon over the epochs where **every**
+/// ingredient is genuinely present: a complete fit window ending at or before the issue
+/// epoch, and a published Bulletin B **final** UT1 *and* pole at the target epoch. An
+/// epoch missing any of those is skipped; nothing is back-filled and no truth value is
+/// ever taken from the rapid column.
+#[allow(clippy::too_many_arguments)]
+fn collect_horizon_samples(
+    daily_ut1: &[DailyUt1],
+    daily_pm: &[DailyPm],
+    ut1_samples: &[(f64, f64)],
+    xp_samples: &[(f64, f64)],
+    yp_samples: &[(f64, f64)],
+    days: u32,
+    cfg: &OperationalPredictorConfig,
+) -> HorizonSamples {
+    let mut s = HorizonSamples {
+        epochs: Vec::new(),
+        targets: Vec::new(),
+        ut1_op: Vec::new(),
+        ut1_pers: Vec::new(),
+        pm_op: Vec::new(),
+        pm_pers: Vec::new(),
+        comb_op: Vec::new(),
+        comb_pers: Vec::new(),
+        min_lead: f64::INFINITY,
+        fit_rows_min: usize::MAX,
+        fit_rows_max: 0,
+    };
+    let mag = |dx: f64, dy: f64| (dx * dx + dy * dy).sqrt();
+    for base in daily_ut1 {
+        let t = base.mjd;
+        let target = t + days as f64;
+        let Some(final_ut1) = at_mjd(daily_ut1, target, |d| d.mjd).and_then(|d| d.ut1_final_s)
+        else {
+            continue;
+        };
+        let Some((final_xp, final_yp)) =
+            at_mjd(daily_pm, target, |d| d.mjd).and_then(|d| d.pm_final_as)
+        else {
+            continue;
+        };
+        let Some(p_base) = at_mjd(daily_pm, t, |d| d.mjd) else {
+            continue;
+        };
+        let (Some(f_ut1), Some(f_xp), Some(f_yp)) = (
+            fit_operational(ut1_samples, t, UT1_PERIODIC_TERMS, cfg),
+            fit_operational(xp_samples, t, PM_PERIODIC_TERMS, cfg),
+            fit_operational(yp_samples, t, PM_PERIODIC_TERMS, cfg),
+        ) else {
+            continue;
+        };
+
+        // Operational: the fitted models evaluated at the target, UT1 restored to UTC.
+        let op_ut1 = f_ut1.predict(target) + dat_at(target);
+        let op_xp = f_xp.predict(target);
+        let op_yp = f_yp.predict(target);
+        // Persistence: the last rapid value a real-time user holds, carried forward. The
+        // same leap-second restoration is applied to both, so the two columns differ in
+        // the predictor and in nothing else.
+        let pers_ut1 = (base.ut1_rapid_s - dat_at(t)) + dat_at(target);
+        let (pers_xp, pers_yp) = (p_base.xp_rapid_as, p_base.yp_rapid_as);
+
+        let r_ut1_op = (op_ut1 - final_ut1).abs();
+        let r_ut1_pers = (pers_ut1 - final_ut1).abs();
+        let r_pm_op = mag(op_xp - final_xp, op_yp - final_yp);
+        let r_pm_pers = mag(pers_xp - final_xp, pers_yp - final_yp);
+
+        s.epochs.push(t);
+        s.targets.push(target);
+        s.comb_op
+            .push(mag(ut1_to_position_m(r_ut1_op), pm_to_position_m(r_pm_op)));
+        s.comb_pers.push(mag(
+            ut1_to_position_m(r_ut1_pers),
+            pm_to_position_m(r_pm_pers),
+        ));
+        s.ut1_op.push(r_ut1_op);
+        s.ut1_pers.push(r_ut1_pers);
+        s.pm_op.push(r_pm_op);
+        s.pm_pers.push(r_pm_pers);
+        for f in [&f_ut1, &f_xp, &f_yp] {
+            s.min_lead = s.min_lead.min(target - f.window_last_mjd);
+            s.fit_rows_min = s.fit_rows_min.min(f.n_fit);
+            s.fit_rows_max = s.fit_rows_max.max(f.n_fit);
+        }
+    }
+    s
+}
+
+/// G13 — the **operational-versus-persistence predicted-versus-final** table.
+///
+/// For every issue epoch `T` the series supports, an operational-style forecast for `T+h`
+/// is formed from observations **at or before `T`** (and only from the rapid Bulletin A
+/// column, which is what a real-time user holds), then scored against the *later-published
+/// Bulletin B final* at `T+h`. The persistence forecast `UT1(T+h) = UT1(T)` is scored over
+/// the **same** epochs against the **same** finals, so the two columns differ in the
+/// predictor and in nothing else.
+///
+/// A target epoch without a published final is skipped — the comparison never falls back
+/// to the rapid value as truth, because "the later published final" is the only honest
+/// definition of the thing a prediction is wrong about. [`Horizon::Final`] is skipped: it
+/// is a publication residual at zero lead, not a forecast.
+///
+/// Returns one row per horizon the data can populate; a horizon with no usable epoch is
+/// omitted and never faked.
+pub fn operational_vs_persistence_vs_horizon(
+    body: &str,
+    horizons: &[Horizon],
+    cfg: &OperationalPredictorConfig,
+) -> Vec<PredictorComparisonRow> {
+    let daily_ut1 = parse_daily_ut1(body);
+    let daily_pm = parse_daily_pm(body);
+    let ut1_samples = rapid_ut1_tai_samples(&daily_ut1);
+    let xp_samples: Vec<(f64, f64)> = daily_pm.iter().map(|d| (d.mjd, d.xp_rapid_as)).collect();
+    let yp_samples: Vec<(f64, f64)> = daily_pm.iter().map(|d| (d.mjd, d.yp_rapid_as)).collect();
+
+    let mut out = Vec::new();
+    for &h in horizons {
+        let Horizon::Days(days) = h else { continue };
+        let s = collect_horizon_samples(
+            &daily_ut1,
+            &daily_pm,
+            &ut1_samples,
+            &xp_samples,
+            &yp_samples,
+            days,
+            cfg,
+        );
+        if s.epochs.is_empty() {
+            continue;
+        }
+        out.push(PredictorComparisonRow {
+            horizon: h,
+            n: s.epochs.len(),
+            min_fit_lead_days: s.min_lead,
+            fit_rows_min: s.fit_rows_min,
+            fit_rows_max: s.fit_rows_max,
+            ut1_operational: predictor_error(
+                "operational",
+                "ut1",
+                "s",
+                &s.ut1_op,
+                ut1_to_position_m,
+            ),
+            ut1_persistence: predictor_error(
+                "persistence",
+                "ut1",
+                "s",
+                &s.ut1_pers,
+                ut1_to_position_m,
+            ),
+            pm_operational: predictor_error(
+                "operational",
+                "polar-motion",
+                "arcsec",
+                &s.pm_op,
+                pm_to_position_m,
+            ),
+            pm_persistence: predictor_error(
+                "persistence",
+                "polar-motion",
+                "arcsec",
+                &s.pm_pers,
+                pm_to_position_m,
+            ),
+            combined_operational: predictor_error(
+                "operational",
+                "combined",
+                "m",
+                &s.comb_op,
+                |m| m,
+            ),
+            combined_persistence: predictor_error("persistence", "combined", "m", &s.comb_pers, {
+                |m| m
+            }),
+            epochs_mjd: s.epochs,
+            target_mjds: s.targets,
+        })
+    }
+    out
+}
+
+/// The horizon (days) at which a measured error curve crosses `target_position_m`, by
+/// linear interpolation **between two measured horizons that bracket it**.
+///
+/// Returns `None` when the curve never brackets the target — the honest answer when the
+/// crossing lies beyond the longest measured horizon, because extrapolating a measured
+/// curve past its own data is how a horizon claim gets invented. `curve` is
+/// `(horizon_days, position_m)` pairs; they need not be sorted.
+pub fn equivalent_horizon_days(curve: &[(f64, f64)], target_position_m: f64) -> Option<f64> {
+    let mut pts: Vec<(f64, f64)> = curve
+        .iter()
+        .copied()
+        .filter(|(d, p)| d.is_finite() && p.is_finite())
+        .collect();
+    pts.sort_by(|a, b| a.0.partial_cmp(&b.0).unwrap_or(std::cmp::Ordering::Equal));
+    for w in pts.windows(2) {
+        let ((d0, p0), (d1, p1)) = (w[0], w[1]);
+        if (p0.min(p1)..=p0.max(p1)).contains(&target_position_m) && (p1 - p0).abs() > 0.0 {
+            return Some(d0 + (target_position_m - p0) * (d1 - d0) / (p1 - p0));
+        }
+    }
+    None
+}
+
+/// One horizon row of the G13 **archived-vintage** predicted-versus-final comparison: the
+/// genuine IERS Bulletin A prediction archived in the as-issued vintage, this crate's
+/// operational-style forecast fitted on that same as-issued vintage, and persistence — all
+/// three scored against the later vintage's published Bulletin B final for the same date.
+#[derive(Clone, Debug, PartialEq)]
+pub struct ArchivedVintageRow {
+    /// The horizon these statistics were measured at.
+    pub horizon: Horizon,
+    /// The as-issued vintage's data cutoff (MJD): the last date it carries a final for,
+    /// and therefore the epoch every forecast in this row is issued at.
+    pub issue_mjd: f64,
+    /// Number of matched predicted→final pairs.
+    pub n: usize,
+    /// The target epochs (MJD) scored.
+    pub epochs_mjd: Vec<f64>,
+    /// UT1 error of the archived Bulletin A prediction (seconds).
+    pub ut1_archived: PredictorError,
+    /// UT1 error of this crate's operational-style forecast (seconds).
+    pub ut1_operational: PredictorError,
+    /// UT1 error of persistence (seconds).
+    pub ut1_persistence: PredictorError,
+    /// Combined-pole error of the archived Bulletin A prediction (arc seconds).
+    pub pm_archived: PredictorError,
+    /// Combined-pole error of this crate's operational-style forecast (arc seconds).
+    pub pm_operational: PredictorError,
+    /// Combined-pole error of persistence (arc seconds).
+    pub pm_persistence: PredictorError,
+}
+
+/// G13 — the **archived-vintage** predicted-versus-final comparison path.
+///
+/// This is the only construction in which the error of a *genuine archived prediction* can
+/// be measured: the `as_issued` vintage is the product as it stood at its own data cutoff
+/// `T`, carrying real Bulletin A predictions for dates `T+h` that had no final yet, and
+/// `later_final` is the same product after those dates became Bulletin B final. For each
+/// horizon it scores three forecasts for `T+h` against that later final — the archived
+/// Bulletin A prediction, this crate's operational-style fit over the as-issued vintage's
+/// rapid rows, and persistence at `T`.
+///
+/// Requires two real vintages. A horizon with no matched predicted→final pair is omitted;
+/// a second vintage is never synthesised from the first, because a perturbed copy of one
+/// vintage would make every number below a measurement of the perturbation.
+pub fn archived_vintage_comparison(
+    as_issued: &str,
+    later_final: &str,
+    horizons: &[Horizon],
+    cfg: &OperationalPredictorConfig,
+) -> Vec<ArchivedVintageRow> {
+    let issued_pred = parse_all_predicted(as_issued);
+    let issued_ut1 = parse_daily_ut1(as_issued);
+    let issued_pm = parse_daily_pm(as_issued);
+    let cutoff = issued_ut1
+        .iter()
+        .filter(|d| d.ut1_final_s.is_some())
+        .map(|d| d.mjd)
+        .fold(f64::NEG_INFINITY, f64::max);
+    if !cutoff.is_finite() {
+        return Vec::new();
+    }
+    let later_ut1 = parse_daily_ut1(later_final);
+    let later_pm = parse_daily_pm(later_final);
+
+    let ut1_samples = rapid_ut1_tai_samples(&issued_ut1);
+    let xp_samples: Vec<(f64, f64)> = issued_pm.iter().map(|d| (d.mjd, d.xp_rapid_as)).collect();
+    let yp_samples: Vec<(f64, f64)> = issued_pm.iter().map(|d| (d.mjd, d.yp_rapid_as)).collect();
+    let base_ut1 = at_mjd(&issued_ut1, cutoff, |d| d.mjd);
+    let base_pm = at_mjd(&issued_pm, cutoff, |d| d.mjd);
+    let fit_ut1 = fit_operational(&ut1_samples, cutoff, UT1_PERIODIC_TERMS, cfg);
+    let fit_xp = fit_operational(&xp_samples, cutoff, PM_PERIODIC_TERMS, cfg);
+    let fit_yp = fit_operational(&yp_samples, cutoff, PM_PERIODIC_TERMS, cfg);
+    let mag = |dx: f64, dy: f64| (dx * dx + dy * dy).sqrt();
+
+    let mut out = Vec::new();
+    for &h in horizons {
+        let Horizon::Days(days) = h else { continue };
+        let target = cutoff + days as f64;
+        let mut epochs = Vec::new();
+        let (mut a_u, mut o_u, mut p_u) = (Vec::new(), Vec::new(), Vec::new());
+        let (mut a_p, mut o_p, mut p_p) = (Vec::new(), Vec::new(), Vec::new());
+        for pred in issued_pred
+            .iter()
+            .filter(|p| (p.mjd - target).abs() < MJD_EPS)
+        {
+            let Some(f_ut1) = at_mjd(&later_ut1, pred.mjd, |d| d.mjd).and_then(|d| d.ut1_final_s)
+            else {
+                continue;
+            };
+            epochs.push(pred.mjd);
+            a_u.push((pred.ut1_utc_s - f_ut1).abs());
+            if let Some(fit) = &fit_ut1 {
+                o_u.push((fit.predict(pred.mjd) + dat_at(pred.mjd) - f_ut1).abs());
+            }
+            if let Some(b) = base_ut1 {
+                p_u.push(((b.ut1_rapid_s - dat_at(cutoff) + dat_at(pred.mjd)) - f_ut1).abs());
+            }
+            if let Some((fx, fy)) =
+                at_mjd(&later_pm, pred.mjd, |d| d.mjd).and_then(|d| d.pm_final_as)
+            {
+                a_p.push(mag(pred.xp_arcsec - fx, pred.yp_arcsec - fy));
+                if let (Some(fx_fit), Some(fy_fit)) = (&fit_xp, &fit_yp) {
+                    o_p.push(mag(
+                        fx_fit.predict(pred.mjd) - fx,
+                        fy_fit.predict(pred.mjd) - fy,
+                    ));
+                }
+                if let Some(b) = base_pm {
+                    p_p.push(mag(b.xp_rapid_as - fx, b.yp_rapid_as - fy));
+                }
+            }
+        }
+        if epochs.is_empty() {
+            continue;
+        }
+        out.push(ArchivedVintageRow {
+            horizon: h,
+            issue_mjd: cutoff,
+            n: epochs.len(),
+            epochs_mjd: epochs,
+            ut1_archived: predictor_error(
+                "archived-bulletin-a",
+                "ut1",
+                "s",
+                &a_u,
+                ut1_to_position_m,
+            ),
+            ut1_operational: predictor_error("operational", "ut1", "s", &o_u, ut1_to_position_m),
+            ut1_persistence: predictor_error("persistence", "ut1", "s", &p_u, ut1_to_position_m),
+            pm_archived: predictor_error(
+                "archived-bulletin-a",
+                "polar-motion",
+                "arcsec",
+                &a_p,
+                pm_to_position_m,
+            ),
+            pm_operational: predictor_error(
+                "operational",
+                "polar-motion",
+                "arcsec",
+                &o_p,
+                pm_to_position_m,
+            ),
+            pm_persistence: predictor_error(
+                "persistence",
+                "polar-motion",
+                "arcsec",
+                &p_p,
+                pm_to_position_m,
+            ),
+        });
+    }
+    out
+}
+
+/// How closely this crate's operational-style forecast tracks the **genuine archived IERS
+/// Bulletin A prediction** the same file publishes for the same future dates.
+///
+/// This is an *agreement* statistic, not an error: neither quantity is a truth value, and
+/// no Bulletin B final is involved. It exists because a single real `finals2000A` fetch
+/// does carry genuine archived predictions even when it carries no later vintage to score
+/// them against, so the model class implemented here can still be checked against the
+/// operational product it stands in for.
+#[derive(Clone, Debug, PartialEq)]
+pub struct BulletinAAgreement {
+    /// The as-issued data cutoff (MJD) the forecast is issued at.
+    pub issue_mjd: f64,
+    /// Number of published prediction rows compared.
+    pub n: usize,
+    /// Lead time (days) of the nearest published prediction row.
+    pub first_lead_days: f64,
+    /// Lead time (days) of the farthest published prediction row.
+    pub last_lead_days: f64,
+    /// RMS UT1 difference from the published Bulletin A prediction, seconds.
+    pub ut1_rms_s: f64,
+    /// That difference as a Moon-frame position, metres.
+    pub ut1_rms_position_m: f64,
+    /// RMS combined-pole difference from the published Bulletin A prediction, arc seconds.
+    pub pm_rms_arcsec: f64,
+    /// That difference as a Moon-frame position, metres.
+    pub pm_rms_position_m: f64,
+    /// The per-lead differences the RMS figures above reduce, so a reader can see where
+    /// the two predictors part company instead of only how far apart they are on average.
+    pub leads: Vec<BulletinALead>,
+}
+
+/// One published-prediction row compared against this crate's forecast for the same date.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct BulletinALead {
+    /// Lead time past the as-issued data cutoff, days.
+    pub lead_days: f64,
+    /// |this crate's UT1 forecast − the published Bulletin A prediction|, seconds.
+    pub ut1_diff_s: f64,
+    /// That difference as a Moon-frame position, metres.
+    pub ut1_position_m: f64,
+    /// |this crate's pole forecast − the published Bulletin A prediction|, arc seconds.
+    pub pm_diff_arcsec: f64,
+    /// That difference as a Moon-frame position, metres.
+    pub pm_position_m: f64,
+}
+
+/// Compare this crate's operational-style forecast against the genuine archived Bulletin A
+/// prediction rows a real `finals2000A` product publishes — see [`BulletinAAgreement`].
+/// Returns `None` when the file carries no prediction rows past its own data cutoff, or
+/// when the fit window at that cutoff is incomplete.
+pub fn bulletin_a_agreement(
+    body: &str,
+    cfg: &OperationalPredictorConfig,
+) -> Option<BulletinAAgreement> {
+    let preds = parse_all_predicted(body);
+    if preds.is_empty() {
+        return None;
+    }
+    let daily_ut1 = parse_daily_ut1(body);
+    let daily_pm = parse_daily_pm(body);
+    let cutoff = daily_ut1
+        .iter()
+        .filter(|d| d.ut1_final_s.is_some())
+        .map(|d| d.mjd)
+        .fold(f64::NEG_INFINITY, f64::max);
+    if !cutoff.is_finite() {
+        return None;
+    }
+    let f_ut1 = fit_operational(
+        &rapid_ut1_tai_samples(&daily_ut1),
+        cutoff,
+        UT1_PERIODIC_TERMS,
+        cfg,
+    )?;
+    let xp_samples: Vec<(f64, f64)> = daily_pm.iter().map(|d| (d.mjd, d.xp_rapid_as)).collect();
+    let yp_samples: Vec<(f64, f64)> = daily_pm.iter().map(|d| (d.mjd, d.yp_rapid_as)).collect();
+    let f_xp = fit_operational(&xp_samples, cutoff, PM_PERIODIC_TERMS, cfg)?;
+    let f_yp = fit_operational(&yp_samples, cutoff, PM_PERIODIC_TERMS, cfg)?;
+
+    let ahead: Vec<&EopRecord> = preds.iter().filter(|p| p.mjd > cutoff + MJD_EPS).collect();
+    if ahead.is_empty() {
+        return None;
+    }
+    let mut du = Vec::new();
+    let mut dp = Vec::new();
+    let mut leads = Vec::new();
+    for p in &ahead {
+        let u = (f_ut1.predict(p.mjd) + dat_at(p.mjd) - p.ut1_utc_s).abs();
+        let dx = f_xp.predict(p.mjd) - p.xp_arcsec;
+        let dy = f_yp.predict(p.mjd) - p.yp_arcsec;
+        let m = (dx * dx + dy * dy).sqrt();
+        du.push(u);
+        dp.push(m);
+        leads.push(BulletinALead {
+            lead_days: p.mjd - cutoff,
+            ut1_diff_s: u,
+            ut1_position_m: ut1_to_position_m(u),
+            pm_diff_arcsec: m,
+            pm_position_m: pm_to_position_m(m),
+        });
+    }
+    leads.sort_by(|a, b| {
+        a.lead_days
+            .partial_cmp(&b.lead_days)
+            .unwrap_or(std::cmp::Ordering::Equal)
+    });
+    let rms = |v: &[f64]| (v.iter().map(|x| x * x).sum::<f64>() / v.len() as f64).sqrt();
+    let ut1_rms_s = rms(&du);
+    let pm_rms_arcsec = rms(&dp);
+    Some(BulletinAAgreement {
+        issue_mjd: cutoff,
+        n: ahead.len(),
+        first_lead_days: leads.first().map(|l| l.lead_days).unwrap_or(0.0),
+        last_lead_days: leads.last().map(|l| l.lead_days).unwrap_or(0.0),
+        ut1_rms_s,
+        ut1_rms_position_m: ut1_to_position_m(ut1_rms_s),
+        pm_rms_arcsec,
+        pm_rms_position_m: pm_to_position_m(pm_rms_arcsec),
+        leads,
+    })
+}
+
 /// L19 — map a UT1 error (seconds) to the induced lunar frame error: the tangential
 /// position displacement of a point at the Earth–Moon distance, `Δr = D_EM · ω⊕ · ΔUT1`,
 /// and the equivalent light-time `Δt = Δr / c`.
@@ -1765,5 +2814,486 @@ mod tests {
         assert_eq!(joint[0].horizon, Horizon::Final);
         // An empty body yields nothing rather than a zero-filled row.
         assert!(joint_eop_error_vs_horizon("", &[Horizon::Final]).is_empty());
+    }
+
+    // ---- G13: the operational-style predictor ----
+
+    // ORACLE: an analytic signal with known coefficients. A bias + rate + annual +
+    // semi-annual series sampled daily must be recovered exactly by the design the
+    // predictor builds, and the forecast one year past the window must land on the
+    // analytic value — not merely "close". This is the only place the periodic machinery
+    // can be exercised, because no series committed here is long enough to admit an
+    // annual term from real data.
+    #[test]
+    fn the_fit_recovers_an_analytic_bias_rate_and_periodic_signal() {
+        let issue = 60000.0;
+        let truth = |mjd: f64| -> f64 {
+            let t = mjd - issue;
+            let a = std::f64::consts::TAU * t / ANNUAL_PERIOD_DAYS;
+            let s = std::f64::consts::TAU * t / SEMIANNUAL_PERIOD_DAYS;
+            -0.25 + 3.5e-4 * t + 0.031 * a.cos() - 0.017 * a.sin()
+                + 0.009 * s.cos()
+                + 0.004 * s.sin()
+        };
+        let samples: Vec<(f64, f64)> = (0..=400)
+            .map(|i| {
+                let mjd = issue - 400.0 + i as f64;
+                (mjd, truth(mjd))
+            })
+            .collect();
+        let cfg = OperationalPredictorConfig {
+            window_days: 365.0,
+            ..Default::default()
+        };
+        let fit = fit_operational(&samples, issue, UT1_PERIODIC_TERMS, &cfg)
+            .expect("a 365-day window over 400 days of daily samples must fit");
+        // Both long-period terms are admitted at a 365-day window; the two zonal-tide
+        // terms are admitted too (the window spans many cycles of each).
+        assert_eq!(
+            fit.term_names,
+            vec![
+                "bias",
+                "rate",
+                "annual",
+                "semi-annual",
+                "monthly-zonal-tide",
+                "fortnightly-zonal-tide"
+            ],
+            "a 365-day window must admit every candidate term"
+        );
+        assert!(fit.rejected_terms.is_empty());
+        // The analytic coefficients come back: bias, and rate expressed per window.
+        assert!(
+            (fit.coefficients[0] - (-0.25)).abs() < 1e-9,
+            "{:?}",
+            fit.coefficients
+        );
+        assert!(
+            (fit.coefficients[1] - 3.5e-4 * 365.0).abs() < 1e-9,
+            "{:?}",
+            fit.coefficients
+        );
+        assert!((fit.coefficients[2] - 0.031).abs() < 1e-9);
+        assert!((fit.coefficients[3] - (-0.017)).abs() < 1e-9);
+        assert!(fit.rms_fit_residual < 1e-12, "{}", fit.rms_fit_residual);
+        assert!(fit.anchor_residual.abs() < 1e-12);
+        // And the forecast is the analytic value, at 1 day and 100 days out.
+        for h in [1.0, 10.0, 100.0] {
+            let got = fit.predict(issue + h);
+            assert!(
+                (got - truth(issue + h)).abs() < 1e-9,
+                "h={h}: {got} != {}",
+                truth(issue + h)
+            );
+        }
+    }
+
+    // ORACLE: the textbook closed-form ordinary-least-squares slope and intercept,
+    // computed by different algebra from the matrix solve the fitter runs. Run over the
+    // REAL series with the periodic terms switched off by a window too short to admit any,
+    // so the model reduces to the two-parameter case the closed form covers.
+    #[test]
+    fn a_bias_rate_fit_equals_the_closed_form_least_squares_solution() {
+        let daily = parse_daily_ut1(LONGSPAN);
+        let samples: Vec<(f64, f64)> = daily.iter().map(|d| (d.mjd, d.ut1_rapid_s)).collect();
+        let issue = 59600.0;
+        let cfg = OperationalPredictorConfig {
+            window_days: 6.0, // below half a cycle of every candidate period
+            anchor_residual: false,
+            ..Default::default()
+        };
+        let fit = fit_operational(&samples, issue, UT1_PERIODIC_TERMS, &cfg).expect("fit");
+        assert_eq!(fit.term_names, vec!["bias", "rate"]);
+        assert_eq!(fit.rejected_terms.len(), UT1_PERIODIC_TERMS.len());
+
+        // Closed form on the same rows, in the same (t − T)/W abscissa.
+        let rows: Vec<(f64, f64)> = samples
+            .iter()
+            .filter(|(m, _)| *m <= issue && *m >= issue - cfg.window_days)
+            .map(|(m, v)| ((m - issue) / cfg.window_days, *v))
+            .collect();
+        let n = rows.len() as f64;
+        let sx: f64 = rows.iter().map(|(x, _)| *x).sum();
+        let sy: f64 = rows.iter().map(|(_, y)| *y).sum();
+        let sxx: f64 = rows.iter().map(|(x, _)| x * x).sum();
+        let sxy: f64 = rows.iter().map(|(x, y)| x * y).sum();
+        let slope = (n * sxy - sx * sy) / (n * sxx - sx * sx);
+        let intercept = (sy - slope * sx) / n;
+        assert!(
+            (fit.coefficients[0] - intercept).abs() < 1e-14,
+            "intercept {} != {intercept}",
+            fit.coefficients[0]
+        );
+        assert!(
+            (fit.coefficients[1] - slope).abs() < 1e-12,
+            "slope {} != {slope}",
+            fit.coefficients[1]
+        );
+    }
+
+    // THE LOOK-AHEAD DETECTOR. A predictor that can see the epoch it predicts is not a
+    // predictor. Replace every observation strictly after the issue epoch with a value
+    // that would wreck any fit that touched it, and demand the fit and its forecast come
+    // back bit-for-bit identical. A fitter that leaked one future row fails here loudly.
+    #[test]
+    fn a_fit_cannot_see_a_single_observation_past_its_issue_epoch() {
+        let daily = parse_daily_ut1(LONGSPAN);
+        let issue = 59605.0;
+        let clean: Vec<(f64, f64)> = daily.iter().map(|d| (d.mjd, d.ut1_rapid_s)).collect();
+        let poisoned: Vec<(f64, f64)> = clean
+            .iter()
+            .map(|(m, v)| {
+                if *m > issue {
+                    (*m, *v + 1_000.0)
+                } else {
+                    (*m, *v)
+                }
+            })
+            .collect();
+        assert!(
+            poisoned.iter().any(|(m, _)| *m > issue),
+            "the fixture must carry rows past the issue epoch, or this proves nothing"
+        );
+        for window in [6.0, 15.0, 25.0] {
+            let cfg = OperationalPredictorConfig {
+                window_days: window,
+                ..Default::default()
+            };
+            let a = fit_operational(&clean, issue, UT1_PERIODIC_TERMS, &cfg).expect("clean fit");
+            let b =
+                fit_operational(&poisoned, issue, UT1_PERIODIC_TERMS, &cfg).expect("poisoned fit");
+            assert_eq!(a, b, "window {window}: a future row reached the fit");
+            for h in [1.0, 2.0, 10.0] {
+                assert_eq!(a.predict(issue + h), b.predict(issue + h));
+            }
+            // And the window really does end at or before the issue epoch.
+            assert!(
+                a.window_last_mjd <= issue,
+                "{} > {issue}",
+                a.window_last_mjd
+            );
+        }
+    }
+
+    // The window is complete or the fit is refused: a two-point "25-day fit" is never
+    // reported as one.
+    #[test]
+    fn an_incomplete_window_is_refused_rather_than_shortened() {
+        let daily = parse_daily_ut1(LONGSPAN);
+        let samples: Vec<(f64, f64)> = daily.iter().map(|d| (d.mjd, d.ut1_rapid_s)).collect();
+        let first = samples
+            .iter()
+            .map(|(m, _)| *m)
+            .fold(f64::INFINITY, f64::min);
+        let cfg = OperationalPredictorConfig {
+            window_days: 15.0,
+            ..Default::default()
+        };
+        // An issue epoch whose 15-day window runs off the front of the series.
+        assert!(fit_operational(&samples, first + 14.0, UT1_PERIODIC_TERMS, &cfg).is_none());
+        // One day later the window is exactly complete.
+        let fit = fit_operational(&samples, first + 15.0, UT1_PERIODIC_TERMS, &cfg)
+            .expect("a complete window must fit");
+        assert!((fit.window_first_mjd - first).abs() < 1e-9);
+        assert_eq!(fit.n_fit, 16);
+    }
+
+    // Term admission is governed by the declared threshold, and the Chandler wobble is a
+    // polar-motion term only.
+    #[test]
+    fn periodic_terms_are_admitted_only_when_the_window_can_constrain_them() {
+        let issue = 60000.0;
+        let build = |span: f64| -> Vec<(f64, f64)> {
+            (0..=(span as i64 + 10))
+                .map(|i| {
+                    let mjd = issue - span - 10.0 + i as f64;
+                    (mjd, 0.1 + 1e-4 * (mjd - issue))
+                })
+                .collect()
+        };
+        for (window, expect_ut1, expect_pm) in [
+            (6.0f64, vec!["bias", "rate"], vec!["bias", "rate"]),
+            (
+                15.0,
+                vec![
+                    "bias",
+                    "rate",
+                    "monthly-zonal-tide",
+                    "fortnightly-zonal-tide",
+                ],
+                vec!["bias", "rate"],
+            ),
+            (
+                150.0,
+                vec![
+                    "bias",
+                    "rate",
+                    "semi-annual",
+                    "monthly-zonal-tide",
+                    "fortnightly-zonal-tide",
+                ],
+                vec!["bias", "rate", "semi-annual"],
+            ),
+            (
+                365.0,
+                vec![
+                    "bias",
+                    "rate",
+                    "annual",
+                    "semi-annual",
+                    "monthly-zonal-tide",
+                    "fortnightly-zonal-tide",
+                ],
+                vec!["bias", "rate", "chandler", "annual", "semi-annual"],
+            ),
+        ] {
+            let cfg = OperationalPredictorConfig {
+                window_days: window,
+                ..Default::default()
+            };
+            let s = build(window);
+            let u = fit_operational(&s, issue, UT1_PERIODIC_TERMS, &cfg).expect("ut1 fit");
+            let p = fit_operational(&s, issue, PM_PERIODIC_TERMS, &cfg).expect("pm fit");
+            assert_eq!(u.term_names, expect_ut1, "UT1 terms at window {window}");
+            assert_eq!(p.term_names, expect_pm, "PM terms at window {window}");
+            assert!(
+                !u.term_names.contains(&"chandler"),
+                "the Chandler wobble must never enter the UT1 model"
+            );
+            // Every rejected term reports how far short the window fell.
+            for r in u.rejected_terms.iter().chain(p.rejected_terms.iter()) {
+                assert!(r.cycles_spanned < r.threshold_cycles);
+                assert!(r.cycles_spanned >= 0.0 && r.period_days > 0.0);
+            }
+        }
+    }
+
+    // ORACLE: an independently-built epoch list. The comparison must score exactly the
+    // issue epochs that have BOTH a complete fit window behind them AND a published
+    // Bulletin B final at the target — and both predictors must be scored over that one
+    // list, so the comparison is of predictors and not of samples.
+    #[test]
+    fn both_predictors_are_scored_over_one_independently_reproducible_epoch_set() {
+        let cfg = OperationalPredictorConfig::default();
+        let hs = [Horizon::Days(1), Horizon::Days(3), Horizon::Days(10)];
+        let rows = operational_vs_persistence_vs_horizon(LONGSPAN, &hs, &cfg);
+        assert_eq!(rows.len(), hs.len());
+        let daily = parse_daily_ut1(LONGSPAN);
+        let pm = parse_daily_pm(LONGSPAN);
+        let first = daily.iter().map(|d| d.mjd).fold(f64::INFINITY, f64::min);
+        for row in &rows {
+            let Horizon::Days(h) = row.horizon else {
+                panic!("the Final horizon must not appear")
+            };
+            // Rebuild the epoch list from the raw rows, without touching the fitter.
+            let expect: Vec<f64> = daily
+                .iter()
+                .filter(|d| d.mjd >= first + cfg.window_days - 1e-9)
+                .filter(|d| {
+                    let t = d.mjd + h as f64;
+                    daily
+                        .iter()
+                        .any(|x| (x.mjd - t).abs() < 1e-6 && x.ut1_final_s.is_some())
+                        && pm
+                            .iter()
+                            .any(|x| (x.mjd - t).abs() < 1e-6 && x.pm_final_as.is_some())
+                })
+                .map(|d| d.mjd)
+                .collect();
+            assert_eq!(row.epochs_mjd, expect, "horizon {h}");
+            assert_eq!(row.n, expect.len());
+            assert!(row.n > 0);
+            // One epoch set, six statistics.
+            for e in [
+                &row.ut1_operational,
+                &row.ut1_persistence,
+                &row.pm_operational,
+                &row.pm_persistence,
+                &row.combined_operational,
+                &row.combined_persistence,
+            ] {
+                assert_eq!(e.n, row.n, "{} {} sample count", e.predictor, e.quantity);
+            }
+            // The target epochs are exactly the issue epochs plus the horizon, and the
+            // lead is the horizon: no fit ever reached its own target.
+            for (t, e) in row.target_mjds.iter().zip(&row.epochs_mjd) {
+                assert!((t - e - h as f64).abs() < 1e-9);
+            }
+            assert!(
+                (row.min_fit_lead_days - h as f64).abs() < 1e-9,
+                "lead {} at horizon {h}",
+                row.min_fit_lead_days
+            );
+            assert!(row.min_fit_lead_days > 0.0);
+            // The combined column is the quadrature of the two components, which for an
+            // RMS of per-row hypotenuses is the hypotenuse of the per-row RMSs.
+            for (c, u, p) in [
+                (
+                    &row.combined_operational,
+                    &row.ut1_operational,
+                    &row.pm_operational,
+                ),
+                (
+                    &row.combined_persistence,
+                    &row.ut1_persistence,
+                    &row.pm_persistence,
+                ),
+            ] {
+                let expect = (u.rms_position_m.powi(2) + p.rms_position_m.powi(2)).sqrt();
+                assert!(
+                    (c.rms_position_m - expect).abs() <= 1e-9 * expect.max(1.0),
+                    "combined {} != {expect}",
+                    c.rms_position_m
+                );
+            }
+        }
+        // Row counts shrink with the horizon: a longer lead can only lose epochs. (The
+        // pre-existing persistence curves do not share this property, because they do not
+        // require a published final at the target — which is exactly why this table is
+        // built separately instead of filtering theirs.)
+        for w in rows.windows(2) {
+            assert!(
+                w[1].n <= w[0].n,
+                "row counts must be non-increasing in the horizon: {} then {}",
+                w[0].n,
+                w[1].n
+            );
+        }
+    }
+
+    // The truth is the published FINAL, never the rapid value. Blank one target row's
+    // Bulletin B block and that epoch must leave the table, rather than being re-scored
+    // against the rapid column.
+    #[test]
+    fn a_target_without_a_published_final_is_dropped_not_rescored_against_the_rapid_value() {
+        let cfg = OperationalPredictorConfig::default();
+        let hs = [Horizon::Days(1)];
+        let before = operational_vs_persistence_vs_horizon(LONGSPAN, &hs, &cfg);
+        let target = *before[0]
+            .target_mjds
+            .last()
+            .expect("at least one scored target");
+        // Re-emit the series with that one row's Bulletin B tail blanked — a real row,
+        // truncated, never a value invented or changed.
+        let blanked: String = LONGSPAN
+            .lines()
+            .map(|line| match parse_line(line) {
+                Some(r) if (r.mjd - target).abs() < 1e-6 => line
+                    .chars()
+                    .take(134)
+                    .collect::<String>()
+                    .trim_end()
+                    .to_string(),
+                _ => line.to_string(),
+            })
+            .collect::<Vec<_>>()
+            .join("\n");
+        let after = operational_vs_persistence_vs_horizon(&blanked, &hs, &cfg);
+        assert_eq!(after[0].n, before[0].n - 1, "the epoch must be dropped");
+        assert!(!after[0]
+            .target_mjds
+            .iter()
+            .any(|t| (t - target).abs() < 1e-6));
+    }
+
+    // The equivalent-horizon reader interpolates between measured points and refuses to
+    // extrapolate past them — the difference between reading a horizon off a curve and
+    // inventing one.
+    #[test]
+    fn the_equivalent_horizon_interpolates_and_never_extrapolates() {
+        let curve = [(1.0, 10.0), (2.0, 20.0), (3.0, 30.0)];
+        let got = equivalent_horizon_days(&curve, 15.0).expect("15 m is bracketed");
+        assert!((got - 1.5).abs() < 1e-12, "{got}");
+        assert!((equivalent_horizon_days(&curve, 10.0).unwrap() - 1.0).abs() < 1e-12);
+        assert!((equivalent_horizon_days(&curve, 30.0).unwrap() - 3.0).abs() < 1e-12);
+        // Outside the measured range in either direction: no answer, not an extrapolation.
+        assert!(equivalent_horizon_days(&curve, 5.0).is_none());
+        assert!(equivalent_horizon_days(&curve, 45.0).is_none());
+        assert!(equivalent_horizon_days(&[], 15.0).is_none());
+        // Unsorted input is sorted first, so the caller's row order cannot change the read.
+        let shuffled = [(3.0, 30.0), (1.0, 10.0), (2.0, 20.0)];
+        assert_eq!(
+            equivalent_horizon_days(&shuffled, 15.0),
+            equivalent_horizon_days(&curve, 15.0)
+        );
+    }
+
+    // ORACLE: the real published Bulletin A prediction rows of the 2026 extract. The
+    // agreement statistic must be measurable there, must cover every published prediction
+    // row, and must be reported per lead — and it must be ABSENT on the final-only
+    // fixture rather than invented.
+    #[test]
+    fn the_bulletin_a_agreement_reads_the_real_published_prediction_rows() {
+        let cfg = OperationalPredictorConfig::default();
+        let a =
+            bulletin_a_agreement(FIXTURE_2026, &cfg).expect("the 2026 extract publishes 12 rows");
+        assert_eq!(a.n, 12);
+        assert_eq!(a.leads.len(), 12);
+        assert_eq!(a.issue_mjd, 61192.0);
+        assert!((a.first_lead_days - 1.0).abs() < 1e-9);
+        assert!((a.last_lead_days - 12.0).abs() < 1e-9);
+        // Ascending leads, each a genuine difference against the archived prediction.
+        for w in a.leads.windows(2) {
+            assert!(w[1].lead_days > w[0].lead_days);
+        }
+        for l in &a.leads {
+            assert!(l.ut1_diff_s > 0.0 && l.pm_diff_arcsec > 0.0);
+            assert!(
+                (l.ut1_position_m - ut1_error_to_lunar(l.ut1_diff_s).0).abs() < 1e-9,
+                "the position column must be the lever-arm image of the difference"
+            );
+        }
+        // The RMS columns reduce exactly the per-lead differences reported beside them.
+        let rms = |v: Vec<f64>| (v.iter().map(|x| x * x).sum::<f64>() / v.len() as f64).sqrt();
+        assert!((a.ut1_rms_s - rms(a.leads.iter().map(|l| l.ut1_diff_s).collect())).abs() < 1e-15);
+        // The disagreement grows with lead: this model class tracks Bulletin A closely
+        // only at short lead, and the report must be able to say so from its own numbers.
+        assert!(a.leads[0].ut1_diff_s < a.leads[8].ut1_diff_s);
+        // A final-only excerpt publishes no prediction row, and nothing is manufactured.
+        assert!(bulletin_a_agreement(FIXTURE, &cfg).is_none());
+    }
+
+    // Residual anchoring is a real, reported choice, not a hidden constant: turning it off
+    // changes the forecast, and the anchored forecast passes exactly through the last
+    // observation at zero lead.
+    #[test]
+    fn residual_anchoring_is_an_effective_and_reversible_choice() {
+        let daily = parse_daily_ut1(LONGSPAN);
+        let samples: Vec<(f64, f64)> = daily.iter().map(|d| (d.mjd, d.ut1_rapid_s)).collect();
+        let issue = 59610.0;
+        let on = fit_operational(
+            &samples,
+            issue,
+            UT1_PERIODIC_TERMS,
+            &OperationalPredictorConfig::default(),
+        )
+        .expect("fit");
+        let off = fit_operational(
+            &samples,
+            issue,
+            UT1_PERIODIC_TERMS,
+            &OperationalPredictorConfig {
+                anchor_residual: false,
+                ..Default::default()
+            },
+        )
+        .expect("fit");
+        assert_eq!(off.anchor_residual, 0.0);
+        assert!(on.anchor_residual.abs() > 0.0);
+        assert!(
+            (on.predict(issue + 1.0) - off.predict(issue + 1.0) - on.anchor_residual).abs() < 1e-15
+        );
+        // Anchored, the model reproduces the last observation it was given exactly.
+        let last = samples
+            .iter()
+            .filter(|(m, _)| (m - issue).abs() < 1e-9)
+            .map(|(_, v)| *v)
+            .next_back()
+            .expect("an observation at the issue epoch");
+        assert!(
+            (on.predict(issue) - last).abs() < 1e-12,
+            "{} != {last}",
+            on.predict(issue)
+        );
     }
 }
