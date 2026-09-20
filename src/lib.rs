@@ -72,6 +72,7 @@ pub mod ccsds_tdm;
 pub mod chart;
 pub mod cio;
 mod cio_s06_data;
+pub mod cislunar_arc_recovery;
 pub mod cislunar_observability;
 pub mod cislunar_srif;
 pub mod clock_specs;
