@@ -71,3 +71,67 @@ fn website_validation_counts_match_the_matrix() {
         );
     }
 }
+
+/// The social card itself — the image, not the text beside it.
+///
+/// The header of this file says "a gate only grades the surfaces it lists, and a surface
+/// nobody listed is a surface nobody checked", and then lists the social-card
+/// *description* while leaving the social *card* out. `web/og-card.png` is the image every
+/// link preview renders — LinkedIn, Slack, iMessage, a search result's thumbnail — and it
+/// had the count printed into it. It was committed once as a bare PNG with no source and
+/// never regenerated, so it read **"56 of 102 validated against external oracles"** while
+/// the ledger held 59 of 134: a total wrong by thirty-two rows, for months, on the
+/// most-shared artefact the project has. Nothing could have caught it. A count inside a
+/// rendered image cannot be read by a test, and there was no source to check against.
+///
+/// So the card now has one. `web/og-card.svg` carries the text, `tools/gen_og_card.py`
+/// takes the numbers from the ledger and re-renders both the SVG's count and the PNG, and
+/// this test does the two things a test can do: assert the SVG's sentence against the
+/// matrix, and bind the PNG to the exact SVG bytes it came from so an SVG corrected
+/// without a re-render is a build failure rather than a picture that disagrees with the
+/// page around it.
+#[test]
+fn the_social_card_image_states_the_matrixs_counts() {
+    use std::path::Path;
+
+    let m = verification_matrix();
+    let s = summarize(&m);
+    let root = Path::new(env!("CARGO_MANIFEST_DIR"));
+
+    let svg_path = root.join("web/og-card.svg");
+    let svg = std::fs::read_to_string(&svg_path).expect("web/og-card.svg");
+    let want = format!(
+        "{} of {} validated against external oracles",
+        s.validated,
+        m.len()
+    );
+    assert!(
+        svg.contains(&want),
+        "web/og-card.svg — the source of the social card every link preview renders — does \
+         not state the matrix's counts. Expected the substring {want:?}. Regenerate with \
+         `python3 tools/gen_og_card.py`, which rewrites the count, re-renders the PNG and \
+         updates the render record together."
+    );
+
+    let record: serde_json::Value = serde_json::from_str(
+        &std::fs::read_to_string(root.join("web/og-card.rendered-from.json"))
+            .expect("web/og-card.rendered-from.json"),
+    )
+    .expect("render record is valid JSON");
+
+    let recorded = record["svg_sha256"].as_str().expect("svg_sha256");
+    let actual = {
+        use sha2::{Digest, Sha256};
+        let mut h = Sha256::new();
+        h.update(std::fs::read(&svg_path).expect("read og-card.svg"));
+        h.finalize()
+            .iter()
+            .map(|b| format!("{b:02x}"))
+            .collect::<String>()
+    };
+    assert_eq!(
+        actual, recorded,
+        "web/og-card.png was rendered from an older web/og-card.svg, so the card people see \
+         is not the card in the repository. Re-render with `python3 tools/gen_og_card.py`."
+    );
+}
