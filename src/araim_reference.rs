@@ -716,6 +716,13 @@ pub struct PublishedVector {
 /// Annex A §A.IX — the same example in the report the research bibliographies
 /// cite, kept because it is the cited authority, and carrying the two internal
 /// inconsistencies its `note` records.
+///
+/// PIN-SCOPE:    the `source_sha256` of each cited PDF as retrieved — provenance for the
+///               external document the numbers below were transcribed from, checked by
+///               `tests/araim_reference_vectors.rs` against the fixture header.
+/// PIN-EXCLUDES: everything kshana emits. These digests are of third-party documents and
+///               cannot move when kshana's own output changes; equally, a re-issue of
+///               either PDF moves them without any change here being wrong.
 pub fn published_vectors() -> Vec<PublishedVector> {
     vec![
         PublishedVector {

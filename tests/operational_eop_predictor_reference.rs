@@ -18,6 +18,17 @@
 //! * **A real, published predictor.** The three new inputs reach the report, the emitted
 //!   per-row lead proves the fit window closed before the target, and the operational and
 //!   persistence columns are different numbers measured over one identical epoch set.
+//!
+//! PIN-SCOPE:    `golden/realtime-frame-eop.pre-g13.json` pins every field the pre-G13
+//!               default report CONTAINED, by value — a subset check, not an equality:
+//!               today's report may add fields. `golden/realtime-frame-eop.csv` is pinned
+//!               byte for byte.
+//! PIN-EXCLUDES: anything ADDED to the JSON report since the capture. That is the whole
+//!               point of the frozen file: it proves nothing was removed or changed, and
+//!               deliberately says nothing about what was added — so a cross-cutting
+//!               change that appends a block to every scenario document is OUT of scope
+//!               here and must not cause this file to be regenerated. The CSV pin has no
+//!               such escape: the reproducibility table is covered whole.
 
 use kshana::api::run_toml;
 use kshana::frame_eop::{
@@ -231,8 +242,12 @@ fn wrecking_every_row_after_the_issue_epoch_does_not_move_a_single_emitted_figur
 
     let dir = std::env::temp_dir();
     let pid = std::process::id();
-    let a = dir.join(format!("kshana_g13_clean_{pid}.txt"));
-    let b = dir.join(format!("kshana_g13_wrecked_{pid}.txt"));
+    // The sequence, not the pid, is what separates two calls: every test in a binary runs
+    // as a thread of ONE process and shares the pid. Enforced by tests/source_guards.rs.
+    static SEQ: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+    let seq = SEQ.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+    let a = dir.join(format!("kshana_g13_clean_{pid}_{seq}.txt"));
+    let b = dir.join(format!("kshana_g13_wrecked_{pid}_{seq}.txt"));
     std::fs::write(&a, &clean).unwrap();
     std::fs::write(&b, &poisoned).unwrap();
     let go = |p: &std::path::Path| -> Value {

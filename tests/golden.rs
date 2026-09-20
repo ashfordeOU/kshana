@@ -32,6 +32,10 @@ fn assert_pinned(got: f64, want: f64, name: &str) {
     );
 }
 
+// PIN-SCOPE:    the content-addressed `scenario_hash` of scenarios/clock-holdover.toml —
+//               a digest of the INPUT configuration, not of any output.
+// PIN-EXCLUDES: the whole result document. A change to what the engine emits cannot move
+//               this hash; only editing the scenario file can.
 #[test]
 fn golden_clock_holdover_fom_is_pinned() {
     let src = fs::read_to_string("scenarios/clock-holdover.toml").unwrap();

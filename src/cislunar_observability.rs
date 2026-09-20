@@ -1691,6 +1691,12 @@ mod tests {
     /// the released document BYTE FOR BYTE — the three artifacts are hashed, not merely
     /// spot-checked — and setting each extension field explicitly to its default value
     /// changes nothing either.
+    ///
+    /// PIN-SCOPE:    all three released artifacts of the default `cislunar-observability`
+    ///               run — result JSON, summary and SVG — byte for byte.
+    /// PIN-EXCLUDES: nothing — the whole document, deliberately. A cross-cutting change
+    ///               that appends a block to every scenario document is IN scope and must
+    ///               re-baseline these three with `zzz_emit_default_document_pins`.
     #[test]
     fn default_document_is_bit_for_bit_the_released_one() {
         let (json, summary, svg) = CislunarObservabilityScenario::default()

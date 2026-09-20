@@ -75,6 +75,12 @@ __pycache__/
 /ide/jetbrains/.kotlin
 /ide/jetbrains/build
 
+# Full-gate receipt written by scripts/gate.sh and checked by scripts/check-gate-receipt.sh
+# before every push. Machine state about one run on one machine — which commit was tested,
+# how long it took, how many binaries ran — not repository content, and meaningless on any
+# other machine or commit. Never committed.
+/.gate-receipt.json
+
 # macOS finder metadata
 .DS_Store
 

@@ -111,6 +111,11 @@ fn the_whole_archive_slice_is_accounted_for_record_by_record() {
 /// Moon and not a plausible-looking table: every one of the 349 records, read with no model
 /// at all, must place the target between the real lunar perigee and apogee — and the set as a
 /// whole must span most of that envelope, which a constant or a smooth invention would not.
+///
+/// PIN-SCOPE:    the 349-record count of the committed CRD normal-point slice, so a
+///               silently re-cut fixture cannot change what this envelope check covers.
+/// PIN-EXCLUDES: every value kshana computes. The count is a property of the archived
+///               third-party data; nothing this repository emits can move it.
 #[test]
 fn every_archived_range_lands_inside_the_real_perigee_apogee_envelope() {
     let dir = Path::new(FIXTURES).join("normal_points");
@@ -463,6 +468,12 @@ fn the_datum_is_reported_with_its_rank_and_beside_the_simulated_campaign() {
 /// whole change to pre-existing sources is 22 inserted lines and 0 deleted across `api.rs`,
 /// `lib.rs`, `registry.rs` and `realdata/mod.rs`, all of them registration — so a move here
 /// would mean the registration leaked into the dispatch it was supposed to extend.
+///
+/// PIN-SCOPE:    the whole default emission of the three named packs — `json‖summary`,
+///               byte for byte.
+/// PIN-EXCLUDES: nothing — the whole document, deliberately, and the SVG is simply not
+///               covered. A cross-cutting change that appends a block to every scenario
+///               document is IN scope here and must re-baseline all three.
 #[test]
 fn the_pre_existing_lunar_frame_packs_are_bit_for_bit_unchanged() {
     fn fnv(s: &str) -> u64 {
