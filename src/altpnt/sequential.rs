@@ -91,6 +91,101 @@ pub struct SequentialTrnCfg {
     pub seed: u64,
 }
 
+/// Unit and provenance class for every numeric field the `terrain-slam` report emits.
+///
+/// The report is [`SequentialTrnResult`] with its `epochs` table, serialised by the
+/// scenario dispatcher. Effective sample size is an *effective* number of particles
+/// (`1 / sum(w_i^2)`, so real-valued, between 1 and the particle count) and is therefore a
+/// cardinality, while the waypoint index `k` is a dimensionless ordinal.
+pub const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "waypoints",
+            unit: "count",
+            provenance: Input,
+            definition: "number of waypoints flown along the track, the configured value \
+                         floored at 1",
+        },
+        FieldUnit {
+            path: "measurement_sigma_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "1 sigma matching noise used by the terrain-match likelihood: \
+                         hypot(altimeter sigma, map sigma)",
+        },
+        FieldUnit {
+            path: "free_inertial_final_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "horizontal position error of the unaided inertial solution at the \
+                         last waypoint, where the injected drift ramp is largest",
+        },
+        FieldUnit {
+            path: "free_inertial_rms_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "root-mean-square unaided inertial horizontal position error over \
+                         every waypoint of the track",
+        },
+        FieldUnit {
+            path: "matched_final_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "horizontal position error of the particle-filter estimate at the \
+                         last waypoint",
+        },
+        FieldUnit {
+            path: "matched_rms_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "root-mean-square particle-filter horizontal position error over \
+                         every waypoint of the track",
+        },
+        FieldUnit {
+            path: "mean_ess",
+            unit: "count",
+            provenance: Computed,
+            definition: "mean effective sample size of the particle cloud over the track, \
+                         an effective number of particles and a filter-health monitor",
+        },
+        FieldUnit {
+            path: "min_ess",
+            unit: "count",
+            provenance: Computed,
+            definition: "smallest effective sample size seen over the track: the worst-case \
+                         weight degeneracy of the particle cloud",
+        },
+        FieldUnit {
+            path: "epochs[].k",
+            unit: "1",
+            provenance: Computed,
+            definition: "zero-based waypoint index along the track, a dimensionless ordinal",
+        },
+        FieldUnit {
+            path: "epochs[].free_inertial_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "horizontal position error of the unaided inertial solution at this \
+                         waypoint, growing with the injected drift ramp",
+        },
+        FieldUnit {
+            path: "epochs[].matched_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "horizontal position error of the particle-filter weighted-mean \
+                         estimate at this waypoint",
+        },
+        FieldUnit {
+            path: "epochs[].ess",
+            unit: "count",
+            provenance: Computed,
+            definition: "effective sample size of the particle cloud after this update, \
+                         1 / sum(w_i^2) over the normalised weights",
+        },
+    ]
+};
+
 /// One epoch of a sequential terrain-navigation run.
 #[derive(Clone, Copy, Debug, Serialize)]
 pub struct SeqEpoch {

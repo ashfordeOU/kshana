@@ -92,6 +92,79 @@ fn lw_default_alt() -> f64 {
     400.0
 }
 
+/// Unit and provenance class for every numeric field the `launch-window` report emits.
+/// The closed-form rows are the two-body relations documented on the free functions
+/// above, each checkable by hand from the site latitude and the target orbit.
+const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "site_lat_deg",
+            unit: "deg",
+            provenance: Input,
+            definition: "launch-site geodetic latitude",
+        },
+        FieldUnit {
+            path: "target_inclination_deg",
+            unit: "deg",
+            provenance: Input,
+            definition: "target orbital inclination",
+        },
+        FieldUnit {
+            path: "altitude_km",
+            unit: "km",
+            provenance: Input,
+            definition: "target circular-orbit geometric altitude above the equatorial radius",
+        },
+        FieldUnit {
+            path: "min_inclination_deg",
+            unit: "deg",
+            provenance: ClosedForm,
+            definition: "|site latitude| — the lowest inclination a direct launch reaches",
+        },
+        FieldUnit {
+            path: "circular_velocity_m_s",
+            unit: "m/s",
+            provenance: ClosedForm,
+            definition: "sqrt(mu_Earth / (R_eq + altitude))",
+        },
+        FieldUnit {
+            path: "site_rotation_speed_m_s",
+            unit: "m/s",
+            provenance: ClosedForm,
+            definition: "omega_Earth * R_eq * cos(lat): the eastward speed a posigrade \
+                         launch starts with",
+        },
+        FieldUnit {
+            path: "daily_opportunities",
+            unit: "count",
+            provenance: Computed,
+            definition: "ascending plus descending node passes per day: 2 in general, 1 when \
+                         the target inclination equals the site latitude, 0 when unreachable",
+        },
+        FieldUnit {
+            path: "launch_azimuth_deg.ascending",
+            unit: "deg",
+            provenance: ClosedForm,
+            definition: "clockwise from north, from sin(Az) = cos(i)/cos(lat); the whole \
+                         object is null when the inclination is unreachable directly",
+        },
+        FieldUnit {
+            path: "launch_azimuth_deg.descending",
+            unit: "deg",
+            provenance: ClosedForm,
+            definition: "the descending-pass mirror, 180 deg - ascending",
+        },
+        FieldUnit {
+            path: "dogleg_plane_change_dv_m_s",
+            unit: "m/s",
+            provenance: ClosedForm,
+            definition: "2 * v_circular * sin(|lat - i| / 2); null whenever a direct \
+                         azimuth exists",
+        },
+    ]
+};
+
 /// The `launch-window` scenario: launch azimuth(s), minimum inclination, circular
 /// velocity, Earth-rotation bonus, dogleg Δv (if the target is below the site
 /// latitude) and daily opportunities for a site latitude + target orbit.
@@ -140,6 +213,7 @@ impl LaunchWindowScenario {
             "label": "MODELLED — two-body spherical-Earth launch geometry; azimuth \
                       is the geometric sin(Az)=cos(i)/cos(lat) relation (no rotating-Earth \
                       velocity-triangle correction, no ascent/drag-loss model)",
+            "units": crate::field_schema::units_block(UNITS),
             "site_lat_deg": self.site_lat_deg,
             "target_inclination_deg": self.target_inclination_deg,
             "altitude_km": self.altitude_km,

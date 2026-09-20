@@ -451,6 +451,169 @@ pub struct GnssSimFoM {
     pub mean_tropo_m: f64,
 }
 
+/// Unit and provenance class for every numeric field the `gnss-sim` report emits.
+pub const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "seed",
+            unit: "1",
+            provenance: Input,
+            definition: "seed of the pseudorange thermal-noise generator; the run is \
+                         reproducible in it",
+        },
+        FieldUnit {
+            path: "fom.raim_availability",
+            unit: "1",
+            provenance: Computed,
+            definition: "fraction of epochs at which RAIM produced protection levels and \
+                         both were at or below their alert limits",
+        },
+        FieldUnit {
+            path: "fom.mean_hpl_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "mean horizontal protection level over the epochs that had one",
+        },
+        FieldUnit {
+            path: "fom.mean_vpl_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "mean vertical protection level over the epochs that had one",
+        },
+        FieldUnit {
+            path: "fom.fault_rate",
+            unit: "1",
+            provenance: Computed,
+            definition: "fraction of epochs at which the RAIM chi-squared test declared a \
+                         fault",
+        },
+        FieldUnit {
+            path: "fom.mean_iono_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "mean modelled slant ionospheric delay over every satellite sample \
+                         of the run",
+        },
+        FieldUnit {
+            path: "fom.mean_tropo_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "mean modelled slant tropospheric delay over every satellite sample \
+                         of the run",
+        },
+        FieldUnit {
+            path: "gnss_measurements[].t",
+            unit: "s",
+            provenance: Computed,
+            definition: "epoch time since the start of the run: the grid index times \
+                         time.step_s",
+        },
+        FieldUnit {
+            path: "gnss_measurements[].n_visible",
+            unit: "count",
+            provenance: Computed,
+            definition: "satellites above the elevation mask at this epoch",
+        },
+        FieldUnit {
+            path: "gnss_measurements[].raim.n_used",
+            unit: "count",
+            provenance: Computed,
+            definition: "satellites entering the snapshot-RAIM least-squares solution at \
+                         this epoch",
+        },
+        FieldUnit {
+            path: "gnss_measurements[].raim.hpl_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "horizontal (east-north) protection level: the largest horizontal \
+                         slope times pbias times the 1-sigma user-equivalent range error",
+        },
+        FieldUnit {
+            path: "gnss_measurements[].raim.vpl_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "vertical (up) protection level, formed the same way from the \
+                         largest vertical slope",
+        },
+        FieldUnit {
+            path: "gnss_measurements[].raim.test_statistic",
+            unit: "1",
+            provenance: Computed,
+            definition: "normalised residual sum of squares SSE / sigma^2 — dimensionless, \
+                         chi-squared with n_used - 4 degrees of freedom when fault-free",
+        },
+        FieldUnit {
+            path: "gnss_measurements[].raim.threshold",
+            unit: "1",
+            provenance: ClosedForm,
+            definition: "the chi-squared quantile at 1 - p_fa for n_used - 4 degrees of \
+                         freedom that test_statistic is compared against; also dimensionless",
+        },
+        FieldUnit {
+            path: "gnss_measurements[].measurements[].prn",
+            unit: "1",
+            provenance: Computed,
+            definition: "zero-based index of the satellite within the configured \
+                         constellation, carried as its pseudo-random-noise code number",
+        },
+        FieldUnit {
+            path: "gnss_measurements[].measurements[].el_deg",
+            unit: "deg",
+            provenance: Computed,
+            definition: "satellite elevation above the receiver's local horizon",
+        },
+        FieldUnit {
+            path: "gnss_measurements[].measurements[].az_deg",
+            unit: "deg",
+            provenance: Computed,
+            definition: "satellite azimuth at the receiver, clockwise from north",
+        },
+        FieldUnit {
+            path: "gnss_measurements[].measurements[].pseudorange_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "simulated code pseudorange: geometric range + receiver clock \
+                         - satellite clock + iono + tropo + multipath + thermal noise",
+        },
+        FieldUnit {
+            path: "gnss_measurements[].measurements[].doppler_hz",
+            unit: "Hz",
+            provenance: Computed,
+            definition: "L1 Doppler shift: minus the central-differenced geometric range \
+                         rate divided by the L1 wavelength",
+        },
+        FieldUnit {
+            path: "gnss_measurements[].measurements[].cn0_dbhz",
+            unit: "dB-Hz",
+            provenance: Modelled,
+            definition: "representative elevation-dependent carrier-to-noise-density ratio, \
+                         40 + 8*sin(elevation); an illustrative magnitude, not a link budget",
+        },
+        FieldUnit {
+            path: "gnss_measurements[].measurements[].iono_correction_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "Klobuchar single-frequency slant ionospheric group delay added to \
+                         this pseudorange",
+        },
+        FieldUnit {
+            path: "gnss_measurements[].measurements[].tropo_correction_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "Saastamoinen zenith tropospheric delay projected to this elevation \
+                         by the Niell mapping function",
+        },
+        FieldUnit {
+            path: "gnss_measurements[].measurements[].sat_clock_m",
+            unit: "m",
+            provenance: Modelled,
+            definition: "satellite clock offset as a range: a deterministic per-satellite \
+                         value spread over plus/minus sat_clock_rms_m by a fixed stride",
+        },
+    ]
+};
+
 /// The measurement-domain GNSS simulation result.
 #[derive(Clone, Debug, Serialize)]
 pub struct GnssSimResult {

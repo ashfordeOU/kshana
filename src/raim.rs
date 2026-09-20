@@ -1438,6 +1438,90 @@ pub struct RaimAvailabilityEpoch {
     pub available: bool,
 }
 
+/// Unit and provenance class for every numeric field the `integrity` report — a
+/// [`RaimAvailabilityReport`] — emits.
+pub const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "al_h_m",
+            unit: "m",
+            provenance: Input,
+            definition: "horizontal alert limit the horizontal protection level is judged \
+                         against, echoed from the scenario",
+        },
+        FieldUnit {
+            path: "al_v_m",
+            unit: "m",
+            provenance: Input,
+            definition: "vertical alert limit the vertical protection level is judged \
+                         against, echoed from the scenario",
+        },
+        FieldUnit {
+            path: "samples_total",
+            unit: "count",
+            provenance: Computed,
+            definition: "epochs sampled on the time grid, one per step over the configured \
+                         duration",
+        },
+        FieldUnit {
+            path: "samples_available",
+            unit: "count",
+            provenance: Computed,
+            definition: "sampled epochs at which a protected fix existed and both protection \
+                         levels were at or below their alert limits",
+        },
+        FieldUnit {
+            path: "epochs[].t_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "epoch time since the start of the run: the grid index times \
+                         time.step_s",
+        },
+        FieldUnit {
+            path: "epochs[].n_visible",
+            unit: "count",
+            provenance: Computed,
+            definition: "satellites above the elevation mask at this epoch",
+        },
+        FieldUnit {
+            path: "epochs[].hpl_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "horizontal (east-north) protection level: the largest horizontal \
+                         slope times pbias times sigma_uere_m; null without redundancy",
+        },
+        FieldUnit {
+            path: "epochs[].vpl_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "vertical (up) protection level, formed the same way from the \
+                         largest vertical slope; null without redundancy",
+        },
+        FieldUnit {
+            path: "stanford.alert_limit_m",
+            unit: "m",
+            provenance: Input,
+            definition: "the alert limit dividing the Stanford diagram's regions; this \
+                         diagram is the vertical one, so it is al_v_m",
+        },
+        FieldUnit {
+            path: "stanford.points[].error_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "the diagram's x-axis: the absolute actual vertical position error \
+                         from one seeded no-fault range-error draw mapped through the geometry",
+        },
+        FieldUnit {
+            path: "stanford.points[].pl_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "the diagram's y-axis: the vertical protection level at the same \
+                         epoch, the value error_m is classified against",
+        },
+    ]
+};
+
 /// A RAIM availability map over a time grid: the per-epoch protection levels and
 /// the fraction of epochs at which the geometry meets the alert limits.
 #[derive(Clone, Debug, Serialize)]

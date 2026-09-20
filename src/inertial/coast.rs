@@ -1397,12 +1397,28 @@ const UNITS: &[(&str, &str, &str, Option<&str>)] = &[
     ("crossings.error_at_coast_m", "m", "computed", Some("the model re-evaluated at the located crossing; a residual check on the bisection")),
     ("crossings.travelled_distance_m", "m", "computed", None),
     ("crossings.implied_mean_drift_rate_m_per_s", "m/s", "computed", Some("threshold / crossing duration; the quantity a duty-cycle study sweeps")),
+    ("crossings.dominant_contribution_error_m", "m", "computed", Some("the error the single largest contribution had accumulated at the crossing; `dominant_contribution` names which one")),
     ("crossings.breakdown.error_m", "m", "computed", None),
+    ("crossings.breakdown.exponent", "1", "modelled", Some("the power of coast duration that contribution grows with, repeated on the breakdown row")),
     ("crossings.breakdown.fraction_of_linear_sum", "1", "computed", None),
+    // The four rows below were spelled one nesting level too shallow when this table was
+    // written: the per-contribution crossings live in `contribution_crossings[].crossings[]`,
+    // not directly on the row. The correct spellings are added here; the shallow ones are
+    // left in place because a released document loses no key.
     ("contribution_crossings.closed_form_s", "s", "closed-form", Some("exact algebraic inversion of that contribution's monomial")),
     ("contribution_crossings.bisection_s", "s", "computed", Some("the engine's bisection on the same monomial")),
     ("contribution_crossings.rel_diff", "1", "internal-consistency", None),
+    ("contribution_crossings.exponent", "1", "modelled", Some("the power of coast duration this contribution grows with")),
+    ("contribution_crossings.coefficient_si", "m/s^exponent", "computed", None),
+    ("contribution_crossings.crossings.threshold_m", "m", "input", None),
+    ("contribution_crossings.crossings.closed_form_s", "s", "closed-form", Some("exact algebraic inversion of that contribution's monomial")),
+    ("contribution_crossings.crossings.bisection_s", "s", "computed", Some("the engine's bisection on the same monomial")),
+    ("contribution_crossings.crossings.rel_diff", "1", "internal-consistency", Some("|bisection - closed form| / closed form; the agreement of the two routes to the same crossing")),
+    ("combination_sensitivity.crossings.threshold_m", "m", "input", None),
     ("combination_sensitivity.crossings.coast_s", "s", "computed", None),
+    ("grade_table.accel_bias_ug", "ug", "spec", Some("the representative accelerometer-bias coefficient of that IMU grade band, in the units a datasheet quotes; a class figure, not a measured unit")),
+    ("grade_table.gyro_bias_deg_per_hr", "deg/hr", "spec", Some("the representative gyro-bias coefficient of that IMU grade band; a class figure, not a measured unit")),
+    ("grade_table.crossings.threshold_m", "m", "input", None),
     ("grade_table.crossings.coast_s", "s", "computed", None),
     ("grade_table.crossings.implied_mean_drift_rate_m_per_s", "m/s", "computed", None),
     ("swept_drift_band.lo_m_per_s", "m/s", "input", None),
@@ -1417,6 +1433,8 @@ const UNITS: &[(&str, &str, &str, Option<&str>)] = &[
     ("trn.intervals_evaluated", "count", "computed", Some("0 in fix_mode none, where the single reported error is the free-inertial value at the mission duration")),
     ("trn.peak_error_m", "m", "computed", Some("maximum over every evaluated inter-fix interval, scanned rather than assumed to be the last")),
     ("trn.interval_errors_m", "m", "computed", None),
+    ("trn.max_interval_scan", "count", "constant", Some("the fixed cap on how many inter-fix intervals are evaluated, and the divisor of the bisection bracket's lower end")),
+    ("trn.thresholds.threshold_m", "m", "input", None),
     ("trn.thresholds.max_fix_interval_s", "s", "computed", Some("bisection over [mission/4096, mission]; null with a status when unbracketed")),
 ];
 
@@ -2029,19 +2047,23 @@ mod tests {
                 e["unit"].is_string(),
                 "{field} declares no unit in the units block"
             );
+            // The vocabulary is the crate-wide closed set, not a local copy that can
+            // drift from it.
             let p = e["provenance"].as_str().unwrap_or_default();
             assert!(
-                [
-                    "input",
-                    "computed",
-                    "modelled",
-                    "closed-form",
-                    "internal-consistency",
-                ]
-                .contains(&p),
+                crate::field_schema::ProvenanceClass::parse(p).is_some(),
                 "{field} carries an unrecognised provenance class {p:?}"
             );
         }
+        // …and every numeric field the document emits is described, not just the ones
+        // whoever last edited this table remembered.
+        let audit = crate::field_schema::audit_document(&v);
+        assert!(
+            audit.missing.is_empty() && audit.malformed.is_empty(),
+            "missing {:?}, malformed {:?}",
+            audit.missing,
+            audit.malformed
+        );
     }
 
     #[test]

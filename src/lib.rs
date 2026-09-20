@@ -98,6 +98,7 @@ pub mod ephemeris;
 pub mod estimator;
 pub mod eval_stats;
 mod fes2004_data;
+pub mod field_schema;
 pub mod filter_health;
 pub mod fim;
 pub mod fom;

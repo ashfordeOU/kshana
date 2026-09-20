@@ -122,6 +122,111 @@ pub struct QuantumTimeTransferReport {
     pub trade: TradeEvidence,
 }
 
+/// Unit and provenance class for every numeric field the `quantum-time-transfer`
+/// report emits.
+pub const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "quantum_chain_sigma_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "end-to-end user-time 1 sigma of the quantum chain: the quadrature \
+                         sum of the entanglement link's timing precision at the integration \
+                         time and the optical-lattice clock's coast phase error over the \
+                         dissemination interval",
+        },
+        FieldUnit {
+            path: "classical_chain_sigma_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "end-to-end user-time 1 sigma of the classical chain: the quadrature \
+                         sum of the two-way RF link timing 1 sigma and the CSAC coast phase \
+                         error over the dissemination interval",
+        },
+        FieldUnit {
+            path: "quantum_link_rate_hz",
+            unit: "Hz",
+            provenance: Computed,
+            definition: "detected two-fold coincidence rate of the entanglement time link, \
+                         source_pair_rate * eta_a * eta_b * 10^(-link_loss_db/10)",
+        },
+        FieldUnit {
+            path: "protection_level_ns",
+            unit: "ns",
+            provenance: Computed,
+            definition: "timing protection level bounding the undetected time error of the \
+                         disseminated time, from the reused k = 5 TPL bound over the quantum \
+                         clock's noise parameters",
+        },
+        FieldUnit {
+            path: "security_pd",
+            unit: "1",
+            provenance: Computed,
+            definition: "security figure of merit 1 - P_md: the probability the delay/replay \
+                         attack offset is detected by the k-sigma gate set for the monitor \
+                         false-alarm rate",
+        },
+        FieldUnit {
+            path: "monitor_pfa",
+            unit: "1",
+            provenance: Input,
+            definition: "assumed integrity-monitor false-alarm probability, which sets the \
+                         detection gate the security and anomaly detection probabilities are \
+                         evaluated at",
+        },
+        FieldUnit {
+            path: "anomaly_pd",
+            unit: "1",
+            provenance: Computed,
+            definition: "probability that the injected clock anomaly, of magnitude \
+                         clock_fault_sigma times the monitor noise, is detected at that same \
+                         false-alarm gate",
+        },
+        FieldUnit {
+            path: "anomaly_cusum_latency_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "CUSUM change-detection latency for the standardized fault, \
+                         (floor(h / (z - kref)) + 1) samples at the integration-time cadence",
+        },
+        FieldUnit {
+            path: "trade.frame.seed",
+            unit: "1",
+            provenance: Constant,
+            definition: "the RNG seed stamped into the trade's comparison frame so the \
+                         comparison is reproducible; a dimensionless integer label, not a \
+                         measured quantity, and fixed at 0 because this pack draws no random \
+                         numbers",
+        },
+        FieldUnit {
+            path: "trade.foms[].quantum",
+            unit: "see the sibling `unit` field",
+            provenance: Computed,
+            definition: "the quantum candidate's score on that row's figure of merit; the \
+                         unit is data, differing row by row (s for the end-to-end precision, \
+                         dimensionless fractional frequency for the reference clock's \
+                         sigma_y(1 s)), so the row's own `unit` string names it",
+        },
+        FieldUnit {
+            path: "trade.foms[].classical",
+            unit: "see the sibling `unit` field",
+            provenance: Computed,
+            definition: "the classical baseline's score on that row's figure of merit, in the \
+                         same data-dependent unit as the row's quantum value",
+        },
+        FieldUnit {
+            path: "trade.representativeness.trl_band[]",
+            unit: "1",
+            provenance: Modelled,
+            definition: "the (lo, hi) endpoints of the technology-readiness band this \
+                         modelled demonstration is claimed to be representative for; a TRL is \
+                         an ordinal readiness index on the 1-9 scale, not a physical quantity, \
+                         so it is dimensionless and its differences are not metric",
+        },
+    ]
+};
+
 impl QuantumTimeTransferScenario {
     /// Run the scenario.
     pub fn run(&self) -> QuantumTimeTransferReport {
