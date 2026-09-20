@@ -771,7 +771,7 @@ impl ExportAntennaCfg {
 ///
 /// **Illustrative; public-source; not affiliated with ESA. MODELLED** — see the module
 /// docs for the honesty boundary.
-#[derive(Clone, Copy, Debug, Deserialize)]
+#[derive(Clone, Debug, Deserialize)]
 pub struct LunarServiceScenario {
     /// Number of satellites in the illustrative constellation (1 to 24).
     #[serde(default = "d_n_sats")]
@@ -857,6 +857,28 @@ pub struct LunarServiceScenario {
     /// [`ExportAntennaCfg`]. Read only when the export site is also set; purely additive.
     #[serde(default)]
     pub export_antenna: Option<ExportAntennaCfg>,
+    /// Optional path to a **real, retrieved** constellation geometry — either a tabulated
+    /// Moon-centred state ephemeris (the evaluation of an SPK/BSP kernel) or a published
+    /// constellation definition in classical elements. See
+    /// [`crate::lunar_ephemeris`] for the file format, the two provenance classes, and why
+    /// this reads an evaluated kernel rather than parsing a binary one.
+    ///
+    /// **Unset by default, and unset means nothing changes**: the scenario emits exactly
+    /// the bytes it emitted before this field existed. When it *is* set, the file's
+    /// geometry drives the headline coverage / DOP / protection-level figures, an
+    /// `ephemeris` provenance block records the bytes it came from, and an
+    /// `ephemeris_comparison` block carries the **σ_URE requirement** under that geometry
+    /// beside the unchanged Keplerian and perturbed results and the explicit difference
+    /// between them. The illustrative results are never replaced — this is a revision,
+    /// reported as one.
+    ///
+    /// With a path set, [`Self::perturbed`] no longer selects the headline geometry (the
+    /// file does); the perturbed twin is computed regardless, as one comparison row.
+    ///
+    /// Reading it needs the filesystem, so use [`Self::try_run`] rather than
+    /// [`Self::run`] when a scenario may name a file.
+    #[serde(default)]
+    pub ephemeris_path: Option<String>,
 }
 
 impl Default for LunarServiceScenario {
@@ -884,6 +906,7 @@ impl Default for LunarServiceScenario {
             export_site_lat_deg: None,
             export_site_lon_deg: None,
             export_antenna: None,
+            ephemeris_path: None,
         }
     }
 }
@@ -1207,6 +1230,257 @@ pub struct LunarServiceReport {
     /// (idealized) output is byte-identical to before this option existed.
     #[serde(skip_serializing_if = "skip_if_false")]
     pub perturbed: bool,
+    /// Where the headline geometry came from, when `ephemeris_path` named a file: the
+    /// bytes, their SHA-256, the upstream document, and the frame caveat. `None` — and
+    /// absent from the JSON — whenever `ephemeris_path` is unset.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ephemeris: Option<crate::lunar_ephemeris::EphemerisSourceBlock>,
+    /// The σ_URE requirement under the real geometry, **beside** the unchanged Keplerian
+    /// and perturbed results, with the difference between them as its own named quantity.
+    /// `None` — and absent from the JSON — whenever `ephemeris_path` is unset.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ephemeris_comparison: Option<SigmaRequirementComparison>,
+}
+
+// ---------------------------------------------------------------------------
+// The σ_URE requirement, and the three geometries it is evaluated over
+// ---------------------------------------------------------------------------
+
+/// The signal-in-space ranging accuracy (σ_URE, metres) a protection-level envelope
+/// implies for an alert limit: the largest σ_URE at which `hpl_m` — evaluated at
+/// `sigma_ure_m` — still meets `alert_limit_m`.
+///
+/// Exact, not fitted. With a zero nominal bias the ARAIM protection level is linear and
+/// homogeneous in the ranging sigma (`lunar_protection_level_with_sigma` scales the whole
+/// budget by it, and `protection_levels_are_exactly_linear_in_sigma` pins that), so
+/// `HPL(σ) = σ · HPL(σ₀)/σ₀` and the σ that lands `HPL` on the alert limit is
+/// `AL · σ₀ / HPL(σ₀)`.
+///
+/// `None` when there is no protection level to invert — no sample admitted one, or the
+/// inputs are not a positive, finite pair.
+pub fn sigma_required_m(alert_limit_m: f64, sigma_ure_m: f64, hpl_m: f64) -> Option<f64> {
+    (hpl_m.is_finite() && hpl_m > 0.0 && sigma_ure_m.is_finite() && sigma_ure_m > 0.0)
+        .then(|| alert_limit_m * sigma_ure_m / hpl_m)
+}
+
+/// One geometry's row in the σ_URE-requirement comparison: what the sweep found, and the
+/// ranging accuracy the alert limit therefore demands of it.
+#[derive(Clone, Debug, PartialEq, Serialize)]
+pub struct SigmaRequirementRow {
+    /// Which geometry this row is: `ephemeris`, `keplerian` or `perturbed`.
+    pub geometry: &'static str,
+    /// The provenance class of every figure in this row — `published-ephemeris`,
+    /// `published-elements`, `modelled-keplerian` or `modelled-perturbed`. A
+    /// kernel-derived figure and an element-derived one are distinguishable by this
+    /// string alone.
+    pub provenance: String,
+    /// Satellites in this geometry.
+    pub n_sats: usize,
+    /// Coverage / availability over the service volume, percent.
+    pub coverage_pct: f64,
+    /// Samples that admitted a protection level (≥ 6 satellites, non-singular).
+    pub n_pl_samples: usize,
+    /// Worst (largest) HPL over those samples, metres, at the run's `sigma_ure_m`.
+    pub hpl_max_m: f64,
+    /// 95th-percentile HPL (nearest-rank) over those samples, metres — the robust
+    /// companion to `hpl_max_m`, so one near-singular sample cannot set the requirement
+    /// on its own.
+    pub hpl_p95_m: f64,
+    /// Fraction of PL samples already meeting the alert limit at the run's `sigma_ure_m`,
+    /// percent.
+    pub pl_availability_pct: f64,
+    /// **The requirement**: σ_URE (m) at which every PL sample meets the alert limit.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub sigma_required_m: Option<f64>,
+    /// The requirement taken at the 95th-percentile HPL instead of the worst sample.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub sigma_required_p95_m: Option<f64>,
+}
+
+/// The σ_URE requirement under a real, retrieved geometry beside the illustrative
+/// Keplerian and perturbed results, and the difference between them.
+///
+/// Nothing here replaces anything. The Keplerian row is the figure the engine published
+/// before this block existed, recomputed unchanged from the same scenario fields; the
+/// ephemeris row is the new one; and the deltas and ratios are emitted as their own named
+/// quantities so the magnitude of the change is the reported result rather than something
+/// a reader has to infer by comparing two runs.
+#[derive(Clone, Debug, Serialize)]
+pub struct SigmaRequirementComparison {
+    /// Alert limit (m) the requirement is taken against — echoed input.
+    pub alert_limit_m: f64,
+    /// σ_URE (m) the sweeps were evaluated at, and which the requirement inverts.
+    pub sigma_ure_m: f64,
+    /// The real, retrieved geometry named by `ephemeris_path`.
+    pub ephemeris: SigmaRequirementRow,
+    /// The illustrative Keplerian constellation — the pre-existing published result.
+    pub keplerian: SigmaRequirementRow,
+    /// The perturbed (J2 + C22 + Earth/Sun third body) twin of the same elements.
+    pub perturbed: SigmaRequirementRow,
+    /// `ephemeris.sigma_required_m − keplerian.sigma_required_m` (m).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub sigma_requirement_delta_vs_keplerian_m: Option<f64>,
+    /// `ephemeris.sigma_required_m / keplerian.sigma_required_m` (dimensionless).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub sigma_requirement_ratio_vs_keplerian: Option<f64>,
+    /// `ephemeris.sigma_required_m − perturbed.sigma_required_m` (m).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub sigma_requirement_delta_vs_perturbed_m: Option<f64>,
+    /// `ephemeris.sigma_required_m / perturbed.sigma_required_m` (dimensionless).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub sigma_requirement_ratio_vs_perturbed: Option<f64>,
+    /// Unit and provenance class of every numeric field this block emits.
+    pub units: serde_json::Value,
+    /// Honest scope note.
+    pub note: &'static str,
+}
+
+/// Unit and provenance class for every numeric field the ephemeris provenance block and
+/// the σ_URE-requirement comparison emit — paths relative to the report root, the same
+/// contract [`ANTENNA_UNITS`] publishes.
+///
+/// The provenance column is doing real work here: `published-ephemeris` marks a figure
+/// that came out of a kernel-derived state table, `published-elements` one that came out
+/// of a published constellation definition, and `modelled-keplerian` /
+/// `modelled-perturbed` the illustrative geometries. A reader can tell which is which
+/// from the class alone, without knowing how the run was configured.
+const EPHEMERIS_UNITS: &[(&str, &str, &str, &str)] = &[
+    // (JSON path, unit, provenance class, note — "" for no note)
+    (
+        "ephemeris.n_sats",
+        "count",
+        "input",
+        "satellites in the retrieved file",
+    ),
+    (
+        "ephemeris.n_epochs",
+        "count",
+        "input",
+        "tabulated epochs per satellite; absent for a closed-form element set",
+    ),
+    (
+        "ephemeris.covered_until_s",
+        "s",
+        "input",
+        "last epoch the table covers, past the file epoch; the sweep is refused beyond it",
+    ),
+    (
+        "ephemeris.published_frame_tie_angle_deg",
+        "deg",
+        "computed",
+        "angle between the OP-frame z axis published elements are stated in and the lunar spin axis MCI z means here; lunar_ephemeris::published_frame_tie_angle_deg",
+    ),
+    (
+        "ephemeris_comparison.alert_limit_m",
+        "m",
+        "input",
+        "the HPL bound the requirement is taken against",
+    ),
+    (
+        "ephemeris_comparison.sigma_ure_m",
+        "m",
+        "input",
+        "the sigma the sweeps ran at; the requirement inverts the linear PL scaling in it",
+    ),
+    (
+        "ephemeris_comparison.sigma_requirement_delta_vs_keplerian_m",
+        "m",
+        "computed",
+        "THE REVISION: ephemeris sigma_required_m - keplerian sigma_required_m",
+    ),
+    (
+        "ephemeris_comparison.sigma_requirement_ratio_vs_keplerian",
+        "dimensionless",
+        "computed",
+        "ephemeris sigma_required_m / keplerian sigma_required_m",
+    ),
+    (
+        "ephemeris_comparison.sigma_requirement_delta_vs_perturbed_m",
+        "m",
+        "computed",
+        "ephemeris sigma_required_m - perturbed sigma_required_m",
+    ),
+    (
+        "ephemeris_comparison.sigma_requirement_ratio_vs_perturbed",
+        "dimensionless",
+        "computed",
+        "ephemeris sigma_required_m / perturbed sigma_required_m",
+    ),
+];
+
+/// Unit and provenance class of the per-geometry row fields. The provenance class is
+/// *per row*, so it is supplied by the row itself (`SigmaRequirementRow::provenance`) and
+/// these entries name it as `per-row`; the unit is fixed.
+const SIGMA_ROW_UNITS: &[(&str, &str, &str)] = &[
+    ("n_sats", "count", "satellites in this geometry"),
+    (
+        "coverage_pct",
+        "percent",
+        ">= 4 satellites AND PDOP below threshold",
+    ),
+    (
+        "n_pl_samples",
+        "count",
+        "samples that admitted an ARAIM protection level",
+    ),
+    (
+        "hpl_max_m",
+        "m",
+        "worst horizontal protection level over the service volume at sigma_ure_m",
+    ),
+    (
+        "hpl_p95_m",
+        "m",
+        "95th-percentile (nearest-rank) horizontal protection level",
+    ),
+    (
+        "pl_availability_pct",
+        "percent",
+        "PL samples already meeting the alert limit at sigma_ure_m",
+    ),
+    (
+        "sigma_required_m",
+        "m",
+        "THE REQUIREMENT: alert_limit_m * sigma_ure_m / hpl_max_m",
+    ),
+    (
+        "sigma_required_p95_m",
+        "m",
+        "the same inversion taken at hpl_p95_m",
+    ),
+];
+
+/// Render [`EPHEMERIS_UNITS`] and [`SIGMA_ROW_UNITS`] as the comparison block's `units`
+/// object, with one entry per emitted numeric path (the per-geometry rows expanded for
+/// each of the three geometries, each carrying that geometry's own provenance class).
+fn ephemeris_units_block(rows: [(&str, &str); 3]) -> serde_json::Value {
+    let mut m = serde_json::Map::new();
+    let mut put = |path: String, unit: &str, provenance: &str, note: &str| {
+        let mut e = serde_json::Map::new();
+        e.insert("unit".into(), serde_json::Value::String(unit.into()));
+        e.insert(
+            "provenance".into(),
+            serde_json::Value::String(provenance.into()),
+        );
+        if !note.is_empty() {
+            e.insert("note".into(), serde_json::Value::String(note.into()));
+        }
+        m.insert(path, serde_json::Value::Object(e));
+    };
+    for (path, unit, provenance, note) in EPHEMERIS_UNITS {
+        put((*path).into(), unit, provenance, note);
+    }
+    for (geometry, provenance) in rows {
+        for (field, unit, note) in SIGMA_ROW_UNITS {
+            put(
+                format!("ephemeris_comparison.{geometry}.{field}"),
+                unit,
+                provenance,
+                note,
+            );
+        }
+    }
+    serde_json::Value::Object(m)
 }
 
 /// serde `skip_serializing_if` predicate: omit a `false` boolean.
@@ -1284,18 +1558,18 @@ impl LunarServiceScenario {
         ts
     }
 
-    /// Build the illustrative constellation, sweep the grid × horizon, and summarise the
-    /// DOP / coverage / availability + protection-level envelope. Deterministic (pure
-    /// geometry; no randomness).
-    pub fn run(&self) -> LunarServiceReport {
+    /// The illustrative constellation this scenario's element fields describe, and the
+    /// satellite count actually used.
+    ///
+    /// The constellation builder's cap was lifted to 24 (see [`LunarConstellation::illustrative_lcns`],
+    /// and the L10 test asserting it), but this scenario clamp was left at the old value of
+    /// 12, so any requested count above 12 was silently reduced and an N-sweep appeared to
+    /// saturate there. The two are aligned here so larger constellations are actually
+    /// evaluated.
+    fn keplerian_sats(&self) -> (Vec<LunarSat>, usize) {
         let sma_m = self.sma_km * 1000.0;
-        // The constellation builder's cap was lifted to 24 (see
-        // `illustrative_lcns`, and the L10 test asserting it), but this scenario
-        // clamp was left at the old value of 12, so any requested count above 12
-        // was silently reduced and an N-sweep appeared to saturate there. Align
-        // the two so larger constellations are actually evaluated.
         let n = self.n_sats.clamp(1, 24);
-        let sats: Vec<LunarSat> = (0..n)
+        let sats = (0..n)
             .map(|k| LunarSat {
                 sma_m,
                 eccentricity: self.eccentricity,
@@ -1305,46 +1579,195 @@ impl LunarServiceScenario {
                 mean_anom_deg: 360.0 * (k as f64) / (n as f64),
             })
             .collect();
-        if self.perturbed {
-            // Perturbed twin of the SAME epoch elements: numerically propagate each satellite
-            // under the full ELFO model (J2 + C22 + Earth/Sun third body). Much heavier than the
-            // closed-form Keplerian path — one adaptive integration per satellite per epoch.
-            use crate::lunar_perturbed as lp;
-            let states0 = sats
-                .iter()
-                .map(|s| {
-                    lp::elements_to_state(
-                        s.sma_m,
-                        s.eccentricity,
-                        s.inc_deg,
-                        s.raan_deg,
-                        s.argp_deg,
-                        s.mean_anom_deg,
-                    )
-                })
-                .collect();
-            let cons = lp::PerturbedConstellation::new(
-                states0,
-                lp::LunarPerturbations::elfo_full(),
-                lp::default_tolerance(),
-            );
-            self.sweep(&cons, n, true)
-        } else {
-            let cons = LunarConstellation::new(sats);
-            self.sweep(&cons, n, false)
+        (sats, n)
+    }
+
+    /// The perturbed twin of the SAME epoch elements: each satellite numerically
+    /// propagated under the full ELFO model (J2 + C22 + Earth/Sun third body). Much
+    /// heavier than the closed-form Keplerian path — one adaptive integration per
+    /// satellite per epoch.
+    fn perturbed_constellation(
+        sats: &[LunarSat],
+    ) -> crate::lunar_perturbed::PerturbedConstellation {
+        use crate::lunar_perturbed as lp;
+        let states0 = sats
+            .iter()
+            .map(|s| {
+                lp::elements_to_state(
+                    s.sma_m,
+                    s.eccentricity,
+                    s.inc_deg,
+                    s.raan_deg,
+                    s.argp_deg,
+                    s.mean_anom_deg,
+                )
+            })
+            .collect();
+        lp::PerturbedConstellation::new(
+            states0,
+            lp::LunarPerturbations::elfo_full(),
+            lp::default_tolerance(),
+        )
+    }
+
+    /// Build the illustrative constellation, sweep the grid × horizon, and summarise the
+    /// DOP / coverage / availability + protection-level envelope. Deterministic (pure
+    /// geometry; no randomness).
+    ///
+    /// # Panics
+    ///
+    /// Only when [`Self::ephemeris_path`] is set and the named file cannot be read or
+    /// parsed — the one part of this scenario that touches the world outside it. With the
+    /// path unset (the default, and every pre-existing caller) this cannot fail. Use
+    /// [`Self::try_run`] when a scenario may name a file.
+    pub fn run(&self) -> LunarServiceReport {
+        self.try_run()
+            .unwrap_or_else(|e| panic!("moonlight-service-volume: {e}"))
+    }
+
+    /// [`Self::run`], returning the ephemeris-loading failure instead of panicking.
+    ///
+    /// With [`Self::ephemeris_path`] unset this is exactly [`Self::run`] and always
+    /// succeeds. With it set, the named file supplies the headline geometry, and the
+    /// report additionally carries the provenance block and the σ_URE-requirement
+    /// comparison against the unchanged Keplerian and perturbed results.
+    pub fn try_run(&self) -> Result<LunarServiceReport, String> {
+        let (sats, n) = self.keplerian_sats();
+        let Some(path) = self.ephemeris_path.as_deref() else {
+            // Unchanged path: exactly what this scenario emitted before `ephemeris_path`
+            // existed, byte for byte.
+            return Ok(if self.perturbed {
+                self.sweep(&Self::perturbed_constellation(&sats), n, true).0
+            } else {
+                self.sweep(&LunarConstellation::new(sats), n, false).0
+            });
+        };
+
+        let eph = crate::lunar_ephemeris::LunarEphemeris::load(path)?;
+        // An extrapolated state is not an ephemeris: refuse a horizon the table does not
+        // cover rather than quietly running off the end of it.
+        if let Some(until) = eph.covered_until_s() {
+            let last = self.times().last().copied().unwrap_or(0.0);
+            if last > until + 1e-6 {
+                return Err(format!(
+                    "lunar ephemeris {path} covers {until} s past its epoch but the scenario \
+                     horizon reaches {last} s; shorten horizon_hours or retrieve a longer arc \
+                     (extrapolating a tabulated ephemeris is refused)"
+                ));
+            }
         }
+
+        let (mut report, ex_eph) = self.sweep(&eph, eph.n_sats(), false);
+        // The headline geometry is no longer the illustrative set, so the headline note
+        // must stop calling it that. The default note is untouched.
+        report.note = match eph.format() {
+            crate::lunar_ephemeris::EphemerisFormat::States => {
+                "Headline geometry is a RETRIEVED, tabulated Moon-centred state ephemeris \
+                 (provenance class published-ephemeris) named by ephemeris_path, not the \
+                 illustrative LCNS-class set; see the `ephemeris` block for the bytes and \
+                 their source. DOP geometry reuses the gnss_lib_py-validated kernel; the \
+                 LNIS integrity budget is unchanged and remains MODELLED. The illustrative \
+                 Keplerian and perturbed results are retained in `ephemeris_comparison`."
+            }
+            crate::lunar_ephemeris::EphemerisFormat::Elements => {
+                "Headline geometry is a RETRIEVED, published constellation DEFINITION \
+                 (provenance class published-elements) named by ephemeris_path, propagated \
+                 by this engine's Kepler solver — not the illustrative LCNS-class set; see \
+                 the `ephemeris` block for the bytes, their source and the published-frame \
+                 tie. DOP geometry reuses the gnss_lib_py-validated kernel; the LNIS \
+                 integrity budget is unchanged and remains MODELLED. The illustrative \
+                 Keplerian and perturbed results are retained in `ephemeris_comparison`."
+            }
+        };
+        let (kep, ex_kep) = self.sweep(&LunarConstellation::new(sats.clone()), n, false);
+        let (per, ex_per) = self.sweep(&Self::perturbed_constellation(&sats), n, true);
+
+        let row = |geometry: &'static str,
+                   provenance: &str,
+                   r: &LunarServiceReport,
+                   ex: &SweepExtras| SigmaRequirementRow {
+            geometry,
+            provenance: provenance.to_string(),
+            n_sats: r.n_sats,
+            coverage_pct: r.coverage_pct,
+            n_pl_samples: r.n_pl_samples,
+            hpl_max_m: r.hpl_max_m,
+            hpl_p95_m: ex.hpl_p95_m(),
+            pl_availability_pct: r.pl_availability_pct,
+            sigma_required_m: sigma_required_m(self.alert_limit_m, self.sigma_ure_m, r.hpl_max_m),
+            sigma_required_p95_m: sigma_required_m(
+                self.alert_limit_m,
+                self.sigma_ure_m,
+                ex.hpl_p95_m(),
+            ),
+        };
+        let eph_class = eph.provenance_class();
+        let e_row = row("ephemeris", eph_class, &report, &ex_eph);
+        let k_row = row("keplerian", "modelled-keplerian", &kep, &ex_kep);
+        let p_row = row("perturbed", "modelled-perturbed", &per, &ex_per);
+        let delta = |a: Option<f64>, b: Option<f64>| match (a, b) {
+            (Some(x), Some(y)) => Some(x - y),
+            _ => None,
+        };
+        let ratio = |a: Option<f64>, b: Option<f64>| match (a, b) {
+            (Some(x), Some(y)) if y != 0.0 => Some(x / y),
+            _ => None,
+        };
+        let comparison = SigmaRequirementComparison {
+            alert_limit_m: self.alert_limit_m,
+            sigma_ure_m: self.sigma_ure_m,
+            sigma_requirement_delta_vs_keplerian_m: delta(
+                e_row.sigma_required_m,
+                k_row.sigma_required_m,
+            ),
+            sigma_requirement_ratio_vs_keplerian: ratio(
+                e_row.sigma_required_m,
+                k_row.sigma_required_m,
+            ),
+            sigma_requirement_delta_vs_perturbed_m: delta(
+                e_row.sigma_required_m,
+                p_row.sigma_required_m,
+            ),
+            sigma_requirement_ratio_vs_perturbed: ratio(
+                e_row.sigma_required_m,
+                p_row.sigma_required_m,
+            ),
+            units: ephemeris_units_block([
+                ("ephemeris", eph_class),
+                ("keplerian", "modelled-keplerian"),
+                ("perturbed", "modelled-perturbed"),
+            ]),
+            ephemeris: e_row,
+            keplerian: k_row,
+            perturbed: p_row,
+            note: "The Keplerian row is the pre-existing published result, recomputed \
+                   unchanged from the same scenario fields; it is emitted BESIDE the \
+                   ephemeris row, never replaced by it. sigma_required_m inverts the exact \
+                   linear scaling of the ARAIM protection level in the ranging sigma at zero \
+                   nominal bias, so it is the sigma at which EVERY protection-level sample \
+                   over the service volume meets the alert limit. Nothing is tuned to bring \
+                   the geometries together: the delta and the ratio ARE the result. The DOP \
+                   kernel and the LNIS integrity budget are unchanged from the Keplerian run \
+                   — only the geometry differs.",
+        };
+        report.ephemeris = Some(crate::lunar_ephemeris::source_block(&eph));
+        report.ephemeris_comparison = Some(comparison);
+        Ok(report)
     }
 
     /// Sweep the service volume against a constellation geometry (idealized or perturbed) and
     /// summarise DOP / coverage / availability + the protection-level envelope. Generic over the
     /// [`PositionsMcmf`] provider; deterministic (pure geometry; no randomness). The idealized
     /// path (`perturbed = false`) is numerically identical to the pre-refactor `run`.
+    ///
+    /// The second element is the per-sample detail the report summarises away
+    /// ([`SweepExtras`]); it is internal, never serialised, and cannot change the report.
     fn sweep<C: PositionsMcmf + ?Sized>(
         &self,
         constellation: &C,
         n: usize,
         perturbed: bool,
-    ) -> LunarServiceReport {
+    ) -> (LunarServiceReport, SweepExtras) {
         let grid = self.grid();
         let times = self.times();
         let elev_mask_rad = self.elev_mask_deg.to_radians();
@@ -1369,6 +1792,7 @@ impl LunarServiceScenario {
         let mut vpl_max = 0.0_f64;
         let mut n_pl = 0usize;
         let mut n_pl_avail = 0usize;
+        let mut hpl_all: Vec<f64> = Vec::new();
         for &t in &times {
             let sats_mcmf = constellation.positions_mcmf(t);
             for &g in &grid {
@@ -1383,6 +1807,7 @@ impl LunarServiceScenario {
                     hpl_max = hpl_max.max(pl.hpl_m);
                     vpl_min = vpl_min.min(pl.vpl_m);
                     vpl_max = vpl_max.max(pl.vpl_m);
+                    hpl_all.push(pl.hpl_m);
                     n_pl += 1;
                     if pl.hpl_m <= self.alert_limit_m {
                         n_pl_avail += 1;
@@ -1533,7 +1958,7 @@ impl LunarServiceScenario {
                 _ => None,
             };
 
-        LunarServiceReport {
+        let report = LunarServiceReport {
             n_sats: n,
             n_grid_points: grid.len(),
             n_epochs: times.len(),
@@ -1563,7 +1988,38 @@ impl LunarServiceScenario {
             note: "Illustrative, public-source LCNS-class constellation; not affiliated with ESA. \
                    DOP geometry reuses the gnss_lib_py-validated kernel; coverage/integrity MODELLED.",
             perturbed,
+            ephemeris: None,
+            ephemeris_comparison: None,
+        };
+        (report, SweepExtras::new(hpl_all))
+    }
+}
+
+/// Per-sample detail one [`LunarServiceScenario::sweep`] produced that the report
+/// summarises away. Internal: never serialised, never reachable from the report, so it
+/// cannot move a published byte. It exists so the σ_URE requirement can be taken at a
+/// robust order statistic as well as at the worst sample.
+#[derive(Clone, Debug, Default)]
+struct SweepExtras {
+    /// Every horizontal protection level the sweep produced, ascending.
+    hpl_sorted_m: Vec<f64>,
+}
+
+impl SweepExtras {
+    fn new(mut hpl: Vec<f64>) -> Self {
+        hpl.sort_by(|a, b| a.partial_cmp(b).unwrap_or(std::cmp::Ordering::Equal));
+        Self { hpl_sorted_m: hpl }
+    }
+
+    /// Nearest-rank 95th percentile of the HPL samples; `0.0` when there were none (the
+    /// same "no protection level" sentinel `hpl_max_m` uses).
+    fn hpl_p95_m(&self) -> f64 {
+        let n = self.hpl_sorted_m.len();
+        if n == 0 {
+            return 0.0;
         }
+        let rank = ((0.95 * n as f64).ceil() as usize).clamp(1, n);
+        self.hpl_sorted_m[rank - 1]
     }
 }
 
@@ -2100,7 +2556,7 @@ mod tests {
 
         let unit = LunarServiceScenario {
             sigma_ure_m: 1.0,
-            ..base
+            ..base.clone()
         }
         .run();
         let ten = LunarServiceScenario {
@@ -2494,5 +2950,483 @@ mod tests {
         assert_eq!(with.hpl_min_m, without.hpl_min_m);
         assert_eq!(with.pl_availability_pct, without.pl_availability_pct);
         assert_eq!(with.n_samples, without.n_samples);
+    }
+
+    // -----------------------------------------------------------------------
+    // ephemeris_path: the real-geometry route, and the rules it has to obey
+    // -----------------------------------------------------------------------
+
+    /// SHA-256 of `serde_json::to_string` of the DEFAULT scenario's report. The bit-for-bit
+    /// pin for R1: with `ephemeris_path` unset, not one byte of the published result may
+    /// move. Never update this to make a test pass — a change here is a changed published
+    /// number and has to be reported as a revision.
+    const DEFAULT_REPORT_SHA256: &str =
+        "a0872964c7313b96a96d075ac3eda6a621af31432dce43cc1c651fec3ce8b84d";
+
+    /// Unique temp paths per CALL, not per test: the library tests run as parallel threads
+    /// of ONE process, so a name derived from the test would collide with itself across
+    /// repeats and with any sibling that happened to reuse it.
+    fn temp_ephemeris(body: &str) -> std::path::PathBuf {
+        use std::sync::atomic::{AtomicUsize, Ordering};
+        static N: AtomicUsize = AtomicUsize::new(0);
+        let p = std::env::temp_dir().join(format!(
+            "kshana_lunar_eph_{}_{}.csv",
+            std::process::id(),
+            N.fetch_add(1, Ordering::Relaxed)
+        ));
+        std::fs::write(&p, body).expect("write temp ephemeris");
+        p
+    }
+
+    fn fixture(name: &str) -> String {
+        std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("tests/fixtures/lunar_ephemeris")
+            .join(name)
+            .to_string_lossy()
+            .into_owned()
+    }
+
+    fn sha256_hex(bytes: &[u8]) -> String {
+        use sha2::Digest;
+        hex::encode(sha2::Sha256::digest(bytes))
+    }
+
+    /// The historical key set of the report, exactly as it was before `ephemeris_path`
+    /// existed. Both new keys are `Option` + `skip_serializing_if`, so with the path unset
+    /// neither may appear.
+    const HISTORICAL_REPORT_KEYS: &[&str] = &[
+        "alert_limit_m",
+        "coverage_pct",
+        "elev_mask_deg",
+        "hpl_max_m",
+        "hpl_min_m",
+        "max_sats",
+        "min_sats",
+        "n_epochs",
+        "n_grid_points",
+        "n_pl_samples",
+        "n_samples",
+        "n_sats",
+        "note",
+        "pdop_max",
+        "pdop_mean",
+        "pdop_min",
+        "pdop_threshold",
+        "pl_availability_pct",
+        "sigma_ure_m",
+        "vpl_max_m",
+        "vpl_min_m",
+    ];
+
+    /// **R1, additive only.** With `ephemeris_path` unset the default scenario emits
+    /// bit-for-bit what it emitted before the field existed: the same key set, and the
+    /// same bytes — pinned by hash, so a numeric drift of one ULP fails here.
+    #[test]
+    fn with_no_ephemeris_path_the_report_is_bit_for_bit_unchanged() {
+        let r = LunarServiceScenario::default().run();
+        let v = serde_json::to_value(&r).unwrap();
+        let mut keys: Vec<&str> = v.as_object().unwrap().keys().map(|s| s.as_str()).collect();
+        keys.sort_unstable();
+        assert_eq!(
+            keys, HISTORICAL_REPORT_KEYS,
+            "the default report's key set moved; ephemeris_path must be purely additive"
+        );
+        let bytes = serde_json::to_string(&r).unwrap();
+        assert_eq!(
+            sha256_hex(bytes.as_bytes()),
+            DEFAULT_REPORT_SHA256,
+            "the default moonlight-service-volume report changed; with ephemeris_path unset \
+             nothing may move"
+        );
+        // Explicitly setting the field to None must produce the same bytes, not merely an
+        // equal-looking report.
+        let explicit = LunarServiceScenario {
+            ephemeris_path: None,
+            ..LunarServiceScenario::default()
+        }
+        .run();
+        assert_eq!(bytes, serde_json::to_string(&explicit).unwrap());
+    }
+
+    /// The perturbed default is equally frozen — the second pre-existing published path.
+    #[test]
+    fn with_no_ephemeris_path_the_perturbed_report_emits_no_new_blocks() {
+        let r = LunarServiceScenario {
+            perturbed: true,
+            horizon_hours: 3.0,
+            lat_max_deg: -80.0,
+            lon_step_deg: 120.0,
+            ..LunarServiceScenario::default()
+        }
+        .run();
+        let v = serde_json::to_value(&r).unwrap();
+        assert!(
+            v.get("ephemeris").is_none() && v.get("ephemeris_comparison").is_none(),
+            "no ephemeris_path, so neither new block may be emitted"
+        );
+        assert_eq!(v["perturbed"], serde_json::json!(true));
+    }
+
+    fn published_run() -> LunarServiceReport {
+        LunarServiceScenario {
+            ephemeris_path: Some(fixture("lncss_case_a_navi613.csv")),
+            ..LunarServiceScenario::default()
+        }
+        .try_run()
+        .expect("the committed published-constellation fixture loads and runs")
+    }
+
+    /// The published candidate constellation drives the headline, and the pre-existing
+    /// Keplerian result is emitted BESIDE it — identical to the run that produces it on
+    /// its own. A revision, never a silent correction.
+    #[test]
+    fn the_keplerian_result_is_retained_unchanged_beside_the_published_one() {
+        let r = published_run();
+        let c = r.ephemeris_comparison.as_ref().expect("comparison emitted");
+        let alone = LunarServiceScenario::default().run();
+        assert_eq!(c.keplerian.n_sats, alone.n_sats);
+        assert_eq!(c.keplerian.coverage_pct, alone.coverage_pct);
+        assert_eq!(c.keplerian.hpl_max_m, alone.hpl_max_m);
+        assert_eq!(c.keplerian.n_pl_samples, alone.n_pl_samples);
+        assert_eq!(c.keplerian.pl_availability_pct, alone.pl_availability_pct);
+        // And the headline really is the published geometry, not the illustrative one.
+        assert_ne!(
+            r.hpl_max_m, alone.hpl_max_m,
+            "the published constellation must actually drive the headline"
+        );
+        assert_eq!(r.hpl_max_m, c.ephemeris.hpl_max_m);
+    }
+
+    /// The requirement is the exact inversion of the protection level's linearity in the
+    /// ranging sigma, for every geometry: `sigma_required · HPL_max / sigma_ure = AL`.
+    /// Then an END-TO-END re-run AT that sigma must actually reach full availability —
+    /// a different expression answering the same question, so an algebra slip cannot pass.
+    #[test]
+    fn the_sigma_requirement_is_the_exact_inversion_of_the_alert_limit() {
+        let r = published_run();
+        let c = r.ephemeris_comparison.as_ref().unwrap();
+        for row in [&c.ephemeris, &c.keplerian, &c.perturbed] {
+            let s = row.sigma_required_m.expect("every row admits a PL here");
+            assert!(
+                (s * row.hpl_max_m / c.sigma_ure_m - c.alert_limit_m).abs() < 1e-9,
+                "{}: sigma_required {s} does not land HPL_max on the alert limit",
+                row.geometry
+            );
+            // A hair under the requirement, because at exactly the requirement the worst
+            // sample's HPL lands ON the alert limit and the `<=` test then turns on the
+            // last bit of the floating-point division.
+            let at = LunarServiceScenario {
+                sigma_ure_m: s * (1.0 - 1e-9),
+                ephemeris_path: (row.geometry == "ephemeris")
+                    .then(|| fixture("lncss_case_a_navi613.csv")),
+                perturbed: row.geometry == "perturbed",
+                ..LunarServiceScenario::default()
+            }
+            .try_run()
+            .unwrap();
+            assert!(
+                at.pl_availability_pct > 99.999,
+                "{}: at sigma_required {s} the PL availability is {}%, not 100%",
+                row.geometry,
+                at.pl_availability_pct
+            );
+            // And a hair over it must NOT be fully available, or the "requirement" would
+            // be a bound nothing actually binds.
+            let over = LunarServiceScenario {
+                sigma_ure_m: s * 1.01,
+                ephemeris_path: (row.geometry == "ephemeris")
+                    .then(|| fixture("lncss_case_a_navi613.csv")),
+                perturbed: row.geometry == "perturbed",
+                ..LunarServiceScenario::default()
+            }
+            .try_run()
+            .unwrap();
+            assert!(
+                over.pl_availability_pct < 100.0,
+                "{}: 1% above sigma_required the service is still fully available, so the \
+                 requirement is not binding",
+                row.geometry
+            );
+        }
+    }
+
+    /// The difference is emitted as its own named quantity, and it is exactly the
+    /// difference — not a rounded or separately re-derived one.
+    #[test]
+    fn the_difference_is_its_own_named_quantity() {
+        let c = published_run().ephemeris_comparison.unwrap();
+        let (e, k, p) = (
+            c.ephemeris.sigma_required_m.unwrap(),
+            c.keplerian.sigma_required_m.unwrap(),
+            c.perturbed.sigma_required_m.unwrap(),
+        );
+        assert_eq!(c.sigma_requirement_delta_vs_keplerian_m, Some(e - k));
+        assert_eq!(c.sigma_requirement_ratio_vs_keplerian, Some(e / k));
+        assert_eq!(c.sigma_requirement_delta_vs_perturbed_m, Some(e - p));
+        assert_eq!(c.sigma_requirement_ratio_vs_perturbed, Some(e / p));
+    }
+
+    /// **R3, provenance.** A figure from a kernel-derived state table and one from
+    /// published elements must be distinguishable by their provenance class alone — and
+    /// both from the two modelled geometries.
+    #[test]
+    fn every_geometry_carries_a_distinct_provenance_class() {
+        let by_elements = published_run().ephemeris_comparison.unwrap();
+        assert_eq!(by_elements.ephemeris.provenance, "published-elements");
+        assert_eq!(by_elements.keplerian.provenance, "modelled-keplerian");
+        assert_eq!(by_elements.perturbed.provenance, "modelled-perturbed");
+
+        let by_kernel = LunarServiceScenario {
+            ephemeris_path: Some(fixture("horizons_lunar_orbiters_2023001_12h.csv")),
+            ..LunarServiceScenario::default()
+        }
+        .try_run()
+        .expect("the committed real-ephemeris fixture loads and runs")
+        .ephemeris_comparison
+        .unwrap();
+        assert_eq!(by_kernel.ephemeris.provenance, "published-ephemeris");
+        assert_ne!(
+            by_kernel.ephemeris.provenance, by_elements.ephemeris.provenance,
+            "a kernel-derived figure and an element-derived one must not share a class"
+        );
+        // The real spacecraft set cannot support a protection level at all, and the
+        // requirement is ABSENT rather than invented from an empty envelope.
+        assert_eq!(by_kernel.ephemeris.n_pl_samples, 0);
+        assert_eq!(by_kernel.ephemeris.sigma_required_m, None);
+        assert_eq!(by_kernel.sigma_requirement_delta_vs_keplerian_m, None);
+    }
+
+    /// **R3, units.** Every numeric field the two new blocks emit carries a unit AND a
+    /// provenance class. Walks the produced JSON, not the tables, so a field added without
+    /// a units entry fails here.
+    #[test]
+    fn every_emitted_numeric_field_of_the_ephemeris_blocks_has_a_unit_and_a_provenance_class() {
+        let v = serde_json::to_value(published_run()).unwrap();
+        let units = v["ephemeris_comparison"]["units"]
+            .as_object()
+            .expect("the comparison block carries a units block");
+        for (k, u) in units {
+            assert!(
+                u.get("unit").and_then(|x| x.as_str()).is_some(),
+                "{k} has no unit"
+            );
+            assert!(
+                u.get("provenance").and_then(|x| x.as_str()).is_some(),
+                "{k} has no provenance class"
+            );
+        }
+        let mut missing: Vec<String> = Vec::new();
+        let mut check = |prefix: &str, obj: &serde_json::Value| {
+            if let Some(m) = obj.as_object() {
+                for (k, val) in m {
+                    if (val.is_number() || val.is_boolean())
+                        && !units.contains_key(&format!("{prefix}.{k}"))
+                    {
+                        missing.push(format!("{prefix}.{k}"));
+                    }
+                }
+            }
+        };
+        check("ephemeris", &v["ephemeris"]);
+        check("ephemeris_comparison", &v["ephemeris_comparison"]);
+        for g in ["ephemeris", "keplerian", "perturbed"] {
+            check(
+                &format!("ephemeris_comparison.{g}"),
+                &v["ephemeris_comparison"][g],
+            );
+        }
+        assert!(
+            missing.is_empty(),
+            "emitted numeric fields with no units entry: {missing:?}"
+        );
+    }
+
+    /// The provenance block ties every figure in the run to the exact bytes it came from,
+    /// and to the upstream document behind them.
+    #[test]
+    fn the_provenance_block_names_the_bytes_and_the_upstream_document() {
+        let r = published_run();
+        let e = r.ephemeris.as_ref().unwrap();
+        let on_disk = std::fs::read(fixture("lncss_case_a_navi613.csv")).unwrap();
+        assert_eq!(
+            e.sha256,
+            sha256_hex(&on_disk),
+            "the reported hash must be of the file actually read"
+        );
+        assert_eq!(
+            e.source_sha256.len(),
+            64,
+            "the upstream document's hash is recorded"
+        );
+        assert!(e.url.starts_with("https://"), "the source URL is recorded");
+        assert!(!e.retrieved.is_empty(), "the retrieval date is recorded");
+        // The published frame is not the frame the elements are read in, and the size of
+        // that tilt is stated rather than hidden.
+        assert!(e.published_frame.starts_with("OP"));
+        let tie = e
+            .published_frame_tie_angle_deg
+            .expect("the frame tie is quantified");
+        assert!(
+            (1.0..15.0).contains(&tie),
+            "tie angle {tie} deg is implausible"
+        );
+    }
+
+    /// An extrapolated state is not an ephemeris: a horizon past the end of the table is
+    /// refused, with the numbers in the message, rather than silently run off the end.
+    #[test]
+    fn a_horizon_past_the_end_of_the_table_is_refused() {
+        let e = LunarServiceScenario {
+            ephemeris_path: Some(fixture("horizons_lunar_orbiters_2023001_12h.csv")),
+            horizon_hours: 48.0,
+            ..LunarServiceScenario::default()
+        }
+        .try_run()
+        .expect_err("must refuse to extrapolate");
+        assert!(e.contains("extrapolating"), "unhelpful message: {e}");
+    }
+
+    /// A missing or malformed file is an error the caller sees, never a quiet fallback to
+    /// the illustrative geometry dressed up as a retrieved one.
+    #[test]
+    fn a_bad_ephemeris_path_is_an_error_not_a_silent_fallback() {
+        let missing = LunarServiceScenario {
+            ephemeris_path: Some("/nonexistent/kshana-no-such-ephemeris.csv".to_string()),
+            ..LunarServiceScenario::default()
+        }
+        .try_run()
+        .expect_err("a missing file must fail");
+        assert!(
+            missing.contains("cannot read"),
+            "unhelpful message: {missing}"
+        );
+
+        let p = temp_ephemeris("not a kshana ephemeris at all\n");
+        let bad = LunarServiceScenario {
+            ephemeris_path: Some(p.to_string_lossy().into_owned()),
+            ..LunarServiceScenario::default()
+        }
+        .try_run()
+        .expect_err("a malformed file must fail");
+        assert!(bad.contains("first line"), "unhelpful message: {bad}");
+        let _ = std::fs::remove_file(&p);
+    }
+
+    /// The committed published-constellation fixture is the paper's Table 1 case A,
+    /// satellite for satellite: the eight `[RAAN, mean anomaly]` pairs its caption
+    /// enumerates, on the one shared orbit the table gives.
+    #[test]
+    fn the_committed_published_constellation_is_the_sources_own_satellite_set() {
+        let e = crate::lunar_ephemeris::LunarEphemeris::load(&fixture("lncss_case_a_navi613.csv"))
+            .expect("loads");
+        let want: [(f64, f64); 8] = [
+            (0.0, 0.0),
+            (0.0, 90.0),
+            (0.0, 180.0),
+            (0.0, 270.0),
+            (180.0, 0.0),
+            (180.0, 90.0),
+            (180.0, 180.0),
+            (180.0, 270.0),
+        ];
+        assert_eq!(e.n_sats(), want.len());
+        for (s, (raan, anom)) in e.elements().iter().zip(want) {
+            assert_eq!((s.raan_deg, s.mean_anom_deg), (raan, anom));
+            assert_eq!(s.sma_m, 6_143_000.0);
+            assert_eq!(s.eccentricity, 0.6);
+            assert_eq!(s.inc_deg, 51.7);
+            assert_eq!(s.argp_deg, 90.0);
+        }
+    }
+
+    /// The second committed published constellation is the joint ESA/NASA/JAXA LANS
+    /// interoperability-demonstration reference set, satellite for satellite and digit for
+    /// digit as its Table 3 prints them — stated in ICRF at an epoch, so it takes the
+    /// rigorous IAU reduction and carries **no** frame-tie approximation, and it brings its
+    /// source's own "notional" caveat with it.
+    #[test]
+    fn the_committed_lans_demo_constellation_matches_its_source_table() {
+        let e =
+            crate::lunar_ephemeris::LunarEphemeris::load(&fixture("lans_demo_ntrs20250009447.csv"))
+                .expect("loads");
+        assert_eq!(e.n_sats(), 5);
+        assert_eq!(
+            e.state_frame(),
+            crate::lunar_ephemeris::StateFrame::Icrf,
+            "the source states ICRF, so the reduction must be the IAU one"
+        );
+        // (sma_km, ecc, inc_deg, raan_deg, argp_deg) exactly as Table 3 prints them.
+        let want = [
+            (9748.14, 0.70, 48.04, 89.49, 123.60),
+            (3870.00, 0.0, 104.428, 53.563, 90.0),
+            (11999.2626, 0.655, 32.22, -162.33, 75.96),
+            (12027.7960, 0.641, 31.33, -164.02, 76.14),
+            (11993.3508, 0.721, 79.07, -42.86, 68.18),
+        ];
+        for (s, (a, ecc, inc, raan, argp)) in e.elements().iter().zip(want) {
+            assert_eq!(s.sma_m, a * 1000.0);
+            assert_eq!(s.eccentricity, ecc);
+            assert_eq!(s.inc_deg, inc);
+            assert_eq!(s.raan_deg, raan);
+            assert_eq!(s.argp_deg, argp);
+        }
+
+        let r = LunarServiceScenario {
+            ephemeris_path: Some(fixture("lans_demo_ntrs20250009447.csv")),
+            ..LunarServiceScenario::default()
+        }
+        .try_run()
+        .expect("runs");
+        let b = r.ephemeris.as_ref().unwrap();
+        assert!(
+            b.published_frame_tie_angle_deg.is_none(),
+            "an ICRF-stated element set has no OP-frame tie to report"
+        );
+        assert!(
+            b.source_caveat.contains("NOTIONAL"),
+            "the source's own caveat must travel with the numbers: {:?}",
+            b.source_caveat
+        );
+        // Five satellites can never put the six in view the single-fault ARAIM hypothesis
+        // set needs, so there is no protection level and therefore NO sigma requirement —
+        // reported as absent rather than manufactured from an empty envelope.
+        let c = r.ephemeris_comparison.as_ref().unwrap();
+        assert_eq!(c.ephemeris.n_pl_samples, 0);
+        assert_eq!(c.ephemeris.sigma_required_m, None);
+        assert_eq!(c.sigma_requirement_ratio_vs_keplerian, None);
+        // The Keplerian and perturbed rows are still there, unchanged, beside it.
+        assert!(c.keplerian.sigma_required_m.is_some());
+        assert!(c.perturbed.sigma_required_m.is_some());
+    }
+
+    /// The committed real-ephemeris fixture is four real spacecraft over a 12 h arc, and
+    /// the states put them where those spacecraft actually were: three low lunar orbiters
+    /// within a few thousand kilometres of the Moon, and CAPSTONE out on its NRHO, tens of
+    /// thousands. A unit or transcription error could not survive this.
+    #[test]
+    fn the_committed_real_ephemeris_is_four_real_spacecraft_where_they_really_were() {
+        let e = crate::lunar_ephemeris::LunarEphemeris::load(&fixture(
+            "horizons_lunar_orbiters_2023001_12h.csv",
+        ))
+        .expect("loads");
+        assert_eq!(e.n_sats(), 4);
+        assert_eq!(e.n_epochs(), Some(145));
+        assert_eq!(e.covered_until_s(), Some(43_200.0));
+        let r = e.positions_mcmf(0.0);
+        let radius_km = |v: [f64; 3]| (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]).sqrt() / 1000.0;
+        for (k, low) in [(0usize, true), (1, true), (2, true), (3, false)] {
+            let rad = radius_km(r[k]);
+            if low {
+                assert!(
+                    (1700.0..4000.0).contains(&rad),
+                    "sat {k} is a low lunar orbiter but sits at {rad} km"
+                );
+            } else {
+                assert!(
+                    (10_000.0..120_000.0).contains(&rad),
+                    "sat {k} is the NRHO pathfinder but sits at {rad} km"
+                );
+            }
+        }
     }
 }
