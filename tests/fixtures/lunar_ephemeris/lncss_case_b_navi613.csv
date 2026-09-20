@@ -1,0 +1,24 @@
+# kshana-lunar-constellation 1
+# format: elements
+# provenance: published-elements
+# name: LNCSS case study B (12 satellites)
+# source: Bhamidipati, Mina, Sanchez and Gao, "Satellite Constellation Design for a Lunar Navigation and Communication System", NAVIGATION: Journal of the Institute of Navigation 70(4), navi.613, 2023 (open access, CC BY), Table 1
+# doi: 10.33012/navi.613
+# url: https://navi.ion.org/content/navi/70/4/navi.613.full.pdf
+# retrieved: 2026-09-20
+# source_sha256: 4e2946873f1b62f98615f500f894cfe05c128444f9770235095bd4606df35162
+# published_frame: OP (Earth orbital plane frame of Ely 2005 / Ely and Lieb 2006), as stated by the source
+# generator: tests/fixtures/lunar_ephemeris/generate_lncss_navi613.py
+sat,sma_km,ecc,inc_deg,raan_deg,argp_deg,mean_anom_deg
+0,6143,0.6,51.7,0,90,0
+1,6143,0.6,51.7,0,90,120
+2,6143,0.6,51.7,0,90,240
+3,6143,0.6,51.7,90,90,0
+4,6143,0.6,51.7,90,90,120
+5,6143,0.6,51.7,90,90,240
+6,6143,0.6,51.7,180,90,0
+7,6143,0.6,51.7,180,90,120
+8,6143,0.6,51.7,180,90,240
+9,6143,0.6,51.7,270,90,0
+10,6143,0.6,51.7,270,90,120
+11,6143,0.6,51.7,270,90,240
