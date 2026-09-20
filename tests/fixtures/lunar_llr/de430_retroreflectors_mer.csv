@@ -1,0 +1,19 @@
+# format: kshana-lunar-retroreflectors v1
+# source: Williams, Boggs & Folkner, 'DE430 Lunar Orbit, Physical Librations,
+#   and Surface Coordinates', JPL IOM 335-JW,DB,WF-20130722-016, 22 July 2013,
+#   Table 7 (mean Earth / mean rotation axis frame, centre of mass)
+# url: https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/de430_moon_coord.pdf
+# retrieved: 2026-09-20
+# source_sha256: 98fb33fb0a13da9087ce180c8f3868464d03e357ee07309ed407e62ec3d04d0f
+# frame: MER (mean Earth / mean rotation axes), Moon centre of mass
+# note: the constant tidal displacements of the source's Table 8 are NOT
+#   included in these coordinates, exactly as the source states.
+# note: the source states the MER rotation is uncertain by 0.2 arcsec (1.7 m on
+#   the equator) and the PA coordinates by 0.12-0.27 m.
+# generator: generate_de430_retroreflectors.py
+array,ilrs_target,x_m,y_m,z_m,radius_m,east_lon_deg,lat_deg
+Apollo 11,apollo11,1591748.076,691220.843,20398.420,1735472.352,23.4730244,0.6734595
+Apollo 14,apollo14,1652818.172,-520455.918,-110360.813,1736335.734,-17.4786937,-3.6441535
+Apollo 15,apollo15,1554937.340,98603.741,764413.168,1735476.972,3.6284572,26.1334178
+Lunokhod 1,luna17,1114957.971,-780934.909,1075633.109,1734928.585,-35.0080312,38.3151827
+Lunokhod 2,luna21,1339388.601,802309.554,755849.750,1734638.662,30.9221056,25.8323282

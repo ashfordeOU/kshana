@@ -98,6 +98,7 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         LunarVlbiFim,
         TrackingLoop,
         AraimReferenceCheck,
+        LunarLlrDatum,
     ]
 };
 
@@ -184,6 +185,9 @@ pub mod ids {
     /// The engine's ARAIM protection levels against the published WG-C reference
     /// airborne-algorithm worked examples, at the tolerance those documents state.
     pub const ARAIM_REFERENCE_CHECK: ScenarioId = ScenarioId::from_static("araim-reference-check");
+    /// The seven-parameter Helmert lunar frame datum driven by archived ILRS lunar laser
+    /// ranging normal points -- a real observing campaign rather than a simulated one.
+    pub const LUNAR_LLR_DATUM: ScenarioId = ScenarioId::from_static("lunar-llr-datum");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {
