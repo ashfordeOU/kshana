@@ -885,6 +885,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: VerificationStatus::Modelled,
         },
         VerificationItem {
+            requirement: "Common-mode integrity blindness",
+            capability: "Exact parity-subspace split of a measurement error into the part RAIM cannot see and the part it can. For the linearised snapshot model y = G\u{b7}x + e, any error dy decomposes uniquely into a BLIND component in range(G) \u{2014} absorbed as a state error S\u{b7}dy and annihilated by the residual projector Pperp = I \u{2212} G\u{b7}S, so invisible to ANY residual test, not merely to a particular threshold \u{2014} and a DETECTABLE component in parity space. The module returns the projector, the split, and the blind fraction, so a caller can quantify how much of a specific error a snapshot monitor is structurally unable to report. Applied to the real inter-ephemeris floor: the metre-level DE440-vs-INPOP21a and DE440-vs-EPM2021 disagreement in the geocentric Moon position is absorbed almost entirely as user position error (median blind fraction 1.000000; median blind position error 2.3955 m and 2.0050 m) against a parity residual at the 1e-15 m level",
+            module: "lunar_common_mode",
+            tests: "lunar_common_mode::tests (8 lib tests: the split is additive and reconstructs dy; a common-mode covariance yields a positive common-mode protection level while a parity-only covariance yields a near-zero one; the projector annihilates range(G)); tests/lunar_common_mode_integrity_reference.rs (the engine split against an independent numpy computation on byte-identical inputs over the committed 366-epoch sample, relative AND absolute error < 1e-3)",
+            oracle: "An independent numpy implementation of the same 4x4 least-squares split, fed byte-identical inputs (user, satellites and every per-satellite dy are rounded to 1 micrometre before being written to reference.json and before reaching the oracle), so the only difference between the two sides is the linear solver. WHY THIS IS NOT VALIDATED, despite using real data: the DE440 / INPOP21a / EPM2021 inter-ephemeris disagreement is an INPUT both sides receive, not an independent check of the answer \u{2014} numpy evaluates the same formula, so it corroborates the implementation and not the model. The lunar constellation geometry (8 LCNS-like nodes at 5000 km slant range) is an original deterministic construction, not a surveyed or published one. The blindness is in any case a known, correct property of all snapshot RAIM; the contribution is quantifying it on a real inter-ephemeris floor, not discovering it. Ephemeris provenance for the reused Moon states is in tests/fixtures/inter_ephemeris/NOTICE.md (JPL, IMCCE, IAA RAS)",
+            oracle_kind: OracleKind::ReferenceImpl,
+            status: VerificationStatus::Modelled,
+        },
+        VerificationItem {
             requirement: "Lunar joint multi-technique OD + clock",
             capability: "Batch fusion of VLBI + lunar-local range + inter-sat range to recover station+constellation positions and clocks",
             module: "lunar_combination",
