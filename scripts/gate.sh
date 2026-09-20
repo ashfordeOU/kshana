@@ -102,6 +102,28 @@ if it recurs cap concurrency with TEST_THREADS." >&2
   exit "$EXIT"
 fi
 
+# The receipt names a commit and a tree state, and both were read BEFORE the suite ran.
+# A run takes over an hour, which is ample time for someone — including whoever launched
+# it — to edit the tree underneath it. That happened: files were changed mid-run, and the
+# receipt would have certified a "clean" tree at a commit whose working copy no longer
+# matched what was compiled. A receipt that describes what the gate INTENDED to test
+# rather than what it tested is worse than no receipt, because the pre-push hook trusts
+# it. Re-read both and refuse if either moved.
+COMMIT_AFTER="$(git rev-parse HEAD 2>/dev/null || echo unknown)"
+if [ -z "$(git status --porcelain 2>/dev/null)" ]; then
+  TREE_AFTER="clean"
+else
+  TREE_AFTER="dirty"
+fi
+if [ "$COMMIT_AFTER" != "$COMMIT" ] || [ "$TREE_AFTER" != "$TREE" ]; then
+  echo "gate: FAILED — the working tree moved while the suite was running." >&2
+  echo "gate:   at start: $COMMIT (tree $TREE)" >&2
+  echo "gate:   at end:   $COMMIT_AFTER (tree $TREE_AFTER)" >&2
+  echo "gate: The suite is green, but it is green for a mixture of states, so no receipt \
+is written. Commit or stash, then re-run on a tree that stays still." >&2
+  exit 1
+fi
+
 # Counts, read out of the run that just happened rather than asserted.
 INTEGRATION_BINS=$(grep -cE '^[[:space:]]+Running tests/' "$LOG")
 TOTAL_PASSED=$(sed -n 's/^test result: ok\. \([0-9]*\) passed.*/\1/p' "$LOG" \
