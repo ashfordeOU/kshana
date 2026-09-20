@@ -1,8 +1,8 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 1513,
-    "fields_total": 1556,
+    "fields_described": 1560,
+    "fields_total": 1603,
     "fields_without_units": 43,
     "kinds_complete": 57,
     "kinds_total": 59,
@@ -3099,7 +3099,7 @@
           "unit": "1"
         },
         "optical_availability.single_site_mean": {
-          "definition": "weather-limited clear-sky climatology; no RF-availability counterpart is computed by this engine",
+          "definition": "weather-limited clear-sky climatology. The RF counterpart is rf_availability.availability, and it is NOT the same kind of number: this one is a probability built from a published clear-sky climatology and a modelled pointing factor, while the RF figure is a DETERMINISTIC 0/1 indicator product over an Eb/N0 link margin and a tracking threshold, evaluated once at one range on one link budget. It carries no distribution, so it can only be 0 or 1. Quoting the two side by side as comparable percentages is a category error; rf_availability.differs_from_optical states the difference in full and rf_availability.factors_not_included names the RF outage climatology that would be needed to make them comparable",
           "evidence_tier": "modelled",
           "provenance": "modelled",
           "unit": "fraction"
@@ -3349,10 +3349,292 @@
           "evidence_tier": "inherits-scenario-label",
           "provenance": "computed",
           "unit": "s"
+        },
+        "ranging_comparison.common_configuration.accumulation_time_s": {
+          "definition": "the accumulation time both legs must average over - the scenario's own integration_s",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "ranging_comparison.common_configuration.optical_accumulation_s": {
+          "definition": "the optical leg's photon accumulation time; equal to accumulation_time_s by construction",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "ranging_comparison.common_configuration.range_km": {
+          "definition": "the one-way range BOTH legs were evaluated at - the scenario's own range_km",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "km"
+        },
+        "ranging_comparison.common_configuration.rf_equivalent_averaging_s": {
+          "definition": "1/(2*B_L), the equivalent averaging time of a single-sided loop noise bandwidth. The ratio is quoted only when this equals optical_accumulation_s, and refused otherwise",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "s"
+        },
+        "ranging_comparison.optical_advantage_db": {
+          "definition": "the same ratio in decibels, 20*log10(sigma_rf/sigma_optical); positive means optical is tighter. null when the comparison is refused",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "ranging_comparison.optical_leg.detected_photons_one_way": {
+          "definition": "photon_rate_hz * integration_s: the ONE-WAY detected photon count, without the two-way return-path geometric loss that optical_link.detected_photons carries. An expectation, so not an integer",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "ranging_comparison.optical_leg.pulse_rms_s": {
+          "definition": "RMS signal-pulse width, the scenario's pulse_rms_ps in seconds",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "ranging_comparison.optical_leg.sigma_range_m": {
+          "definition": "the optical leg of the ratio: 1 sigma ONE-WAY ranging precision c*pulse_rms/sqrt(N_one_way), the photon-limited CRLB at the common configuration. NOT optical_link.optical_ranging_sigma_m, which is the two-way headline - two_way_penalty_factor is the exact bridge",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m"
+        },
+        "ranging_comparison.optical_leg.sigma_time_s": {
+          "definition": "the same bound as a time of arrival, pulse_rms/sqrt(N_one_way); sigma_range_m = c * sigma_time_s exactly",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "s"
+        },
+        "ranging_comparison.optical_over_rf": {
+          "definition": "THE LIKE-FOR-LIKE RATIO: optical_leg.sigma_range_m / rf_leg.sigma_range_m, both at the one common configuration emitted in this same object. Below 1 means optical is the tighter modality. null when the comparison is refused - read refusal_reason",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "ranging_comparison.released_rf_position_sigma_m": {
+          "definition": "the scenario's CHOSEN RF 1 sigma input optical_link.rf_position_sigma_m, carried only so the refusal beside it can name the number it declines to divide by - see ratio_against_chosen_rf_sigma_refused",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "ranging_comparison.released_two_way_optical_sigma_m": {
+          "definition": "the released headline optical_link.optical_ranging_sigma_m, carried here so the one-way comparison leg reconciles with it exactly rather than looking like a second, disagreeing optical number",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "ranging_comparison.rf_leg.chip_rate_hz": {
+          "definition": "the chip rate the jitter was converted to metres through; the same value rf_link_configuration.chip_rate_hz reports",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "chip/s"
+        },
+        "ranging_comparison.rf_leg.cn0_dbhz": {
+          "definition": "the C/N0 the jitter was evaluated at - the same value rf_availability.cn0_dbhz reports, from the same single link budget, not a re-derivation",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "ranging_comparison.rf_leg.code_jitter_chips": {
+          "definition": "DLL coherent early-late thermal jitter sqrt((B_L*d/(2c))*(1 + 2/((2-d)*T*c))) with c the linear C/N0 (Kaplan & Hegarty eq. 8.90, navsignal::dll_code_jitter_chips)",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "chip"
+        },
+        "ranging_comparison.rf_leg.dll_bandwidth_hz": {
+          "definition": "the loop noise bandwidth used; the same value rf_link_configuration.dll_bandwidth_hz reports",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "Hz"
+        },
+        "ranging_comparison.rf_leg.sigma_range_m": {
+          "definition": "the RF leg of the ratio: 1 sigma ONE-WAY ranging precision from the DLL early-late thermal code-tracking jitter at the same range and the same averaging time. Thermal noise only - no media delay, clock or ambiguity error - exactly as the optical leg excludes its own systematics",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "ranging_comparison.rf_leg.sigma_time_s": {
+          "definition": "the same bound as a code-phase time error, code_jitter_chips / chip_rate_hz; sigma_range_m = c * sigma_time_s exactly",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "ranging_comparison.rf_over_optical": {
+          "definition": "the reciprocal: the factor by which the optical leg beats the RF leg at this configuration. null when the comparison is refused",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "ranging_comparison.two_way_penalty_factor": {
+          "definition": "released_two_way_optical_sigma_m / optical_leg.sigma_range_m: exactly 1 when the scenario runs one-way, and the full two-way penalty (the 0.5 range-from-round-trip factor over the square root of the return-path geometric loss) otherwise",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "rf_availability.availability": {
+          "definition": "THE RF AVAILABILITY FIGURE: A_rf = I_closure * I_track, so it takes only the values 0 and 1. It is margin- and tracking-limited and DETERMINISTIC, unlike the weather-limited probability in optical_availability - see rf_availability.differs_from_optical before quoting the two together",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "rf_availability.closure_indicator": {
+          "definition": "I_closure: 1 when the Eb/N0 margin is non-negative, 0 otherwise. An indicator, not a probability",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "rf_availability.closure_range_km": {
+          "definition": "range_km * 10^(link_margin_db/20): the range at which the Eb/N0 margin reaches zero. Exact, because the free-space loss is the only range-dependent term in the link equation",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "km"
+        },
+        "rf_availability.cn0_dbhz": {
+          "definition": "carrier-to-noise density EIRP - FSL - other losses + G/T - k on the one-way RF leg; the single C/N0 BOTH the tracking indicator and the ranging comparison's RF leg are evaluated at",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "rf_availability.cn0_margin_db": {
+          "definition": "C/N0 - tracking_threshold_dbhz; the loop holds lock when this is >= 0, which is the I_track factor of the availability rule",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "rf_availability.eb_n0_db": {
+          "definition": "energy-per-bit to noise density, C/N0 - 10*log10(data_rate_bps)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "rf_availability.factors[].value": {
+          "definition": "the value of this factor of the A_rf product - 0 or 1; the row's own `source`, `provenance` and `condition` fields carry where it came from",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "rf_availability.fsl_db": {
+          "definition": "free-space path loss 20*log10(4*pi*R*f/c) on the one-way RF leg at rf_link_configuration.carrier_hz and the scenario's range_km",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "dB"
+        },
+        "rf_availability.link_margin_db": {
+          "definition": "Eb/N0 - required_eb_n0_db; the link closes when this is >= 0, which is the I_closure factor of the availability rule",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "rf_availability.max_range_km": {
+          "definition": "the smaller of closure_range_km and tracking_range_km - the range beyond which A_rf becomes 0; binding_constraint names which one it is",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "km"
+        },
+        "rf_availability.precision_grade_with_rf_availability": {
+          "definition": "A*[optical meets grade] + (1-A)*A_rf*[RF meets grade]: the precision-grade factor with the RF fallback's own availability applied. The released joint_fom.precision_grade assumes the RF fallback is always there (A_rf = 1) and is NOT changed by this figure; the two agree exactly whenever A_rf = 1",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "rf_availability.range_utilisation": {
+          "definition": "range_km / max_range_km: below 1 the link is inside both constraints, and the reciprocal is how much further it would still reach. The continuous figure to quote beside the 0/1 availability",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "rf_availability.tracking_indicator": {
+          "definition": "I_track: 1 when jamming::lock_status on this C/N0 is LOCKED or DEGRADED, 0 when it is LOST. An indicator, not a probability",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "rf_availability.tracking_range_km": {
+          "definition": "range_km * 10^(cn0_margin_db/20): the range at which C/N0 reaches the tracking threshold, by the same exact inversion",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "km"
+        },
+        "rf_link_configuration.carrier_hz": {
+          "definition": "the downlink band centre the free-space loss was evaluated at, selected by rf_band from the CCSDS-401 / DSN-810-005 deep-space allocations (S 2.295 GHz, X 8.420 GHz, Ka 32.0 GHz)",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "Hz"
+        },
+        "rf_link_configuration.chip_rate_hz": {
+          "definition": "spreading-code chip rate the code jitter is converted to metres through (default 1.023e6, the GPS C/A reference rate this crate already carries as jamming::CA_CHIP_RATE_HZ)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "chip/s"
+        },
+        "rf_link_configuration.correlator_spacing_chips": {
+          "definition": "early-late correlator spacing d (default 0.5, the half-chip correlator the DLL thermal bound is conventionally quoted at)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "chip"
+        },
+        "rf_link_configuration.data_rate_bps": {
+          "definition": "RF information bit rate the Eb/N0 is formed at (default 1e6); it moves Eb/N0 and the closure margin, and does not touch C/N0 or the ranging leg",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "bit/s"
+        },
+        "rf_link_configuration.degraded_margin_db": {
+          "definition": "extra margin above the tracking threshold below which the loop is reported DEGRADED rather than LOCKED (default 6 dB, jamming::DEFAULT_DEGRADED_MARGIN_DB)",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "dB"
+        },
+        "rf_link_configuration.dll_bandwidth_hz": {
+          "definition": "DLL single-sided loop noise bandwidth. Derived as 1/(2*integration_s) so the RF leg's equivalent averaging time is exactly the optical leg's accumulation time, unless the caller supplies rf_dll_bandwidth_hz - dll_bandwidth_source says which, and an override that breaks the match makes the ranging ratio refuse",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "Hz"
+        },
+        "rf_link_configuration.eirp_dbw": {
+          "definition": "RF transmit effective isotropic radiated power (default 26 dBW, the lunar augmented-forward-signal EIRP this crate's lunar RF work already uses): a representative terminal allocation, not a datasheet",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "dBW"
+        },
+        "rf_link_configuration.g_over_t_db": {
+          "definition": "RF receive figure of merit G/T (default 53 dB/K, the DSN 34 m beam-waveguide X-band figure the link-budget kind defaults to): a representative station allocation",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "dB/K"
+        },
+        "rf_link_configuration.other_losses_db": {
+          "definition": "lumped pointing / polarisation / atmosphere / implementation loss on the RF leg (default 3 dB): a modelled budget line, not a measurement",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "dB"
+        },
+        "rf_link_configuration.predetection_integration_s": {
+          "definition": "coherent predetection integration time in the DLL squaring-loss term: the scenario's own integration_s, the same accumulation time the optical photon count uses",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "rf_link_configuration.range_km": {
+          "definition": "the one-way range the RF budget was evaluated at: the scenario's own range_km, so the RF leg cannot sit at a different range from the optical one",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "km"
+        },
+        "rf_link_configuration.required_eb_n0_db": {
+          "definition": "the Eb/N0 the RF margin is taken over (default 4.5 dB)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "dB"
+        },
+        "rf_link_configuration.tracking_threshold_dbhz": {
+          "definition": "C/N0 below which the tracking loop is taken to have lost lock (default 25 dB-Hz, jamming::DEFAULT_TRACKING_THRESHOLD_DBHZ): a modelled receiver allocation",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "dB-Hz"
         }
       },
-      "fields_described": 124,
-      "fields_total": 124,
+      "fields_described": 171,
+      "fields_total": 171,
       "fields_without_units": [],
       "label": "Heterogeneous optical + RF PNT joint availability / precision / integrity figure of merit (P5). VALIDATED closed form: the photon-limited ranging CRLB (σ_τ/√N) and diffraction footprint (λ/D·range), the χ² cross-modality protection-level quantile, the N-station independent-union availability (1 − Π(1−a_i)), the optical↔RF handoff mean-continuity (bit-for-bit no-jump) invariant and NEES χ² gate, and the joint-FoM independent product. MODELLED: the optical loss allocations, the RF/optical 1σ magnitudes, the cloud-climatology inputs and spatial correlation, the FoM correlation, and the integrity-risk budget P_HMI are representative inputs. Not a certified availability/integrity product.",
       "source": "defaults"
