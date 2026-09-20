@@ -1630,6 +1630,12 @@ mod tests {
     use crate::frame_eop::ut1_error_to_lunar;
     use serde_json::Value;
 
+    /// Distinguishes the temp files of the tests below that are not served by
+    /// [`TWO_VINTAGE_SEQ`]. Cargo runs the library tests as parallel threads of ONE
+    /// process, so the pid is shared by all of them and cannot separate two calls; only a
+    /// process-wide sequence can. Enforced repository-wide by `tests/source_guards.rs`.
+    static TEMP_PATH_SEQ: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+
     /// The bundled runtime EOP asset (`tools/finals2000A_2022001.txt`, shipped in the
     /// crate tarball) must stay byte-for-byte identical to the test fixture under
     /// `tests/fixtures/` — otherwise the offline default would silently diverge from the
@@ -1760,7 +1766,11 @@ mod tests {
         assert_eq!(csv, &RealtimeFrameEopScenario::default().to_csv().unwrap());
         // And write_csv actually writes it to a path.
         let dir = std::env::temp_dir();
-        let path = dir.join(format!("kshana_rt_frame_eop_{}.csv", std::process::id()));
+        let seq = TEMP_PATH_SEQ.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+        let path = dir.join(format!(
+            "kshana_rt_frame_eop_{}_{seq}.csv",
+            std::process::id()
+        ));
         let n = out.write_csv(&path).unwrap();
         assert!(n > 0);
         let read = std::fs::read_to_string(&path).unwrap();
@@ -2070,8 +2080,9 @@ mod tests {
         }
         let dir = std::env::temp_dir();
         let pid = std::process::id();
-        let a = dir.join(format!("kshana_eop_issued_{pid}.txt"));
-        let b = dir.join(format!("kshana_eop_later_{pid}.txt"));
+        let seq = TEMP_PATH_SEQ.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+        let a = dir.join(format!("kshana_eop_issued_{pid}_{seq}.txt"));
+        let b = dir.join(format!("kshana_eop_later_{pid}_{seq}.txt"));
         std::fs::write(&a, &as_issued).unwrap();
         std::fs::write(&b, later).unwrap();
 

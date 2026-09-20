@@ -99,6 +99,10 @@ fn rel_err(got: f64, want: f64) -> f64 {
     ((got - want) / want).abs()
 }
 
+// PIN-SCOPE:    the 529-row held-out test split of the committed OPSSAT-AD fixture, so a
+//               silently re-cut split cannot change what the AUC comparison is run over.
+// PIN-EXCLUDES: every value kshana computes. The count comes from the third-party
+//               dataset; nothing this repository emits can move it.
 #[test]
 fn opssat_ad_auc_reproduces_sklearn_on_real_esa_telemetry() {
     let t = parse_csv(DATASET);
