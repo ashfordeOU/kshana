@@ -1,0 +1,127 @@
+# PUBLISHED ARAIM CERTIFICATION REFERENCE VECTORS — external oracle for
+# kshana::araim_reference (tests/araim_reference_vectors.rs).
+#
+# WHAT THIS FILE IS
+#   An independent transcription of the two published worked numerical examples of
+#   the EU-U.S. Working Group C ARAIM Technical Subgroup reference airborne
+#   algorithm. Every number below was read out of a PDF that was retrieved in full
+#   and whose SHA-256 is recorded here; NONE of it is reconstructed, recalled or
+#   computed by this project. tests/araim_reference_vectors.rs asserts that the
+#   constants compiled into src/araim_reference.rs equal this transcription, so a
+#   published figure cannot be quietly edited to make a check pass, and then runs
+#   the engine against the published outputs at the tolerance the sources state.
+#
+# SOURCE 1 — the acceptance vector (self-consistent, current)
+#   EU-U.S. Cooperation on Satellite Navigation, Working Group C, ARAIM Technical
+#   Subgroup, "Reference Airborne Algorithm Description Document", Version 3.1,
+#   20 June 2019. Appendix D, "Numerical example for LPV-200", eqs (79)-(84).
+#   URL      https://web.stanford.edu/group/scpnt/gpslab/website_files/maast/ARAIM_TSG_Reference_ADD_v3.1.pdf
+#   Retrieved 2026-09-20 (HTTP 200, 1165710 bytes, 35 pages)
+#   SHA-256  7f42934488c5c2261363439fabd48385e39526df34d514f395e22b6990b6bdb7
+#
+# SOURCE 2 — the vector the research bibliographies cite (`wgc2016araim`)
+#   EU-U.S. Cooperation on Satellite Navigation, Working Group C, ARAIM Technical
+#   Subgroup, "Milestone 3 Report", Final Version, 25 February 2016. Annex A,
+#   section A.IX "Numerical example", eqs (60)-(65), pp. 95-97.
+#   URL      https://www.gps.gov/sites/default/files/2025-09/ARAIM-milestone-3-report.pdf
+#   Retrieved 2026-09-20 (HTTP 200, 6124972 bytes, 121 pages)
+#   SHA-256  156147e1e7aa9514cf7c9b7c7df9762daa7845981ec7037ad3e8aa5baeae13d8
+#
+# THE TOLERANCE IS THE SOURCE'S OWN
+#   TOL_PL = 5e-2 m, "tolerance for the computation of the Protection Level", in
+#   the list of constants derived from the navigation requirements (ADD v3.1
+#   Table 4; Milestone 3 Annex A Table 24). Both documents require the output
+#   protection level to be within TOL_PL of the solution of the protection-level
+#   equation. It is NOT a tolerance chosen by this project.
+#
+# TWO DEFECTS IN SOURCE 2, RECORDED HERE AND DEMONSTRATED IN THE TEST
+#   (a) Row 3's Up component is printed as +0.7477 in Milestone 3 and as -0.7477
+#       in ADD v3.1. Milestone 3's own sigma_v,acc = 1.47 m is reproducible only
+#       with -0.7477, so the 2016 print carries a sign typo. Both values are
+#       recorded below (GROW as printed, ROW3_UP_SIGN_CORRECTED as used) and the
+#       test runs BOTH rather than asserting which is right.
+#   (b) Milestone 3 states N_fault,max = 1, which yields 12 monitored fault modes
+#       (10 single-satellite + 2 constellation), but prints K_fa,3 evaluated at
+#       2 x 57. Its EMT follows the 57-mode K_fa while its VPL and HPL do not, so
+#       no single conforming implementation can reproduce all of its outputs. ADD
+#       v3.1 prints the same example with 2 x 12 throughout and is consistent.
+#       Source 2 therefore carries PL_REPRODUCIBLE no, and its protection levels
+#       are reported as measured discrepancies rather than graded.
+#
+# FORMAT
+#   Blank lines and lines beginning with '#' are ignored. Each record runs from
+#   VECTOR to END. GROW rows are `east north up constellation_index` in the
+#   published order; CINT/CACC are the published diagonals of C_int and C_acc in
+#   m^2 (variances, not standard deviations). CONST_* carry the two
+#   constellation-fault modes in constellation order.
+
+VECTOR add-v3.1-appendix-d
+URL https://web.stanford.edu/group/scpnt/gpslab/website_files/maast/ARAIM_TSG_Reference_ADD_v3.1.pdf
+RETRIEVED 2026-09-20
+SHA256 7f42934488c5c2261363439fabd48385e39526df34d514f395e22b6990b6bdb7
+CONSTELLATIONS 2
+SIGMA_URA_M 0.75
+SIGMA_URE_M 0.50
+B_NOM_M 0.5
+P_SAT 1e-5
+P_CONST 1e-4
+TOL_PL_M 5e-2
+GROW 0.0225 0.9951 -0.0966 0
+GROW 0.6750 -0.6900 -0.2612 0
+GROW 0.0723 -0.6601 -0.7477 0
+GROW -0.9398 0.2553 -0.2269 0
+GROW -0.5907 -0.7539 -0.2877 0
+GROW -0.3236 -0.0354 -0.9455 1
+GROW -0.6748 0.4356 -0.5957 1
+GROW 0.0938 -0.7004 -0.7075 1
+GROW 0.5571 0.3088 -0.7709 1
+GROW 0.6622 0.6958 -0.2780 1
+CINT 3.2899 1.2792 0.7901 1.4430 1.1847 0.7737 0.8233 0.7962 0.7871 1.2166
+CACC 2.9774 0.9667 0.4776 1.1305 0.8722 0.4612 0.5108 0.4837 0.4746 0.9041
+KFA3 5.1083
+NFAULTMODES_IN_KFA 12
+CONST_SIGMA3 2.4600 2.4359
+CONST_SIGMASS3 1.4290 1.4217
+CONST_B3 2.8915 2.0875
+VPL_M 18.3
+HPL_M 13.45
+EMT_M 7.2998
+SIGMA_V_ACC_M 1.3694
+PL_REPRODUCIBLE yes
+END
+
+VECTOR milestone3-annex-a-ix
+URL https://www.gps.gov/sites/default/files/2025-09/ARAIM-milestone-3-report.pdf
+RETRIEVED 2026-09-20
+SHA256 156147e1e7aa9514cf7c9b7c7df9762daa7845981ec7037ad3e8aa5baeae13d8
+CONSTELLATIONS 2
+SIGMA_URA_M 0.75
+SIGMA_URE_M 0.50
+B_NOM_M 0.5
+P_SAT 1e-5
+P_CONST 1e-4
+TOL_PL_M 5e-2
+GROW 0.0225 0.9951 -0.0966 0
+GROW 0.6750 -0.6900 -0.2612 0
+GROW 0.0723 -0.6601 0.7477 0
+GROW -0.9398 0.2553 -0.2269 0
+GROW -0.5907 -0.7539 -0.2877 0
+GROW -0.3236 -0.0354 -0.9455 1
+GROW -0.6748 0.4356 -0.5957 1
+GROW 0.0938 -0.7004 -0.7075 1
+GROW 0.5571 0.3088 -0.7709 1
+GROW 0.6622 0.6958 -0.2780 1
+ROW3_UP_SIGN_CORRECTED -0.7477
+CINT 3.8865 1.4377 0.8604 1.6383 1.3229 0.8434 0.8963 0.8669 0.8573 1.3616
+CACC 3.5740 1.1252 0.5479 1.3258 1.0104 0.5309 0.5838 0.5544 0.5448 1.0491
+KFA3 5.3953
+NFAULTMODES_IN_KFA 57
+CONST_SIGMA3 2.5760 2.5577
+CONST_SIGMASS3 1.5307 1.5292
+CONST_B3 2.8935 2.0875
+VPL_M 19.2
+HPL_M 14.5
+EMT_M 8.3
+SIGMA_V_ACC_M 1.47
+PL_REPRODUCIBLE no
+END

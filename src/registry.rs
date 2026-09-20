@@ -95,6 +95,7 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         InsTrnCoast,
         LunarVlbiFim,
         TrackingLoop,
+        AraimReferenceCheck,
     ]
 };
 
@@ -171,6 +172,9 @@ pub mod ids {
     /// Tracking-loop loss of lock, hysteresis, spoof pull-in and the loop-dynamics
     /// denial radius alongside the power-ratio one.
     pub const TRACKING_LOOP: ScenarioId = ScenarioId::from_static("tracking-loop");
+    /// The engine's ARAIM protection levels against the published WG-C reference
+    /// airborne-algorithm worked examples, at the tolerance those documents state.
+    pub const ARAIM_REFERENCE_CHECK: ScenarioId = ScenarioId::from_static("araim-reference-check");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {
