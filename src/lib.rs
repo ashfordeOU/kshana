@@ -138,6 +138,7 @@ pub mod lunar_beacon;
 pub mod lunar_combination;
 pub mod lunar_dpnt;
 pub mod lunar_frame;
+pub mod lunar_frame_campaign;
 pub mod lunar_frame_predict;
 pub mod lunar_frame_realise;
 pub mod lunar_interop;

@@ -502,7 +502,7 @@ pub struct StationInput {
 /// The illustrative default network: the three DSN-flavoured Earth sites the crate already
 /// carries (`lunar_combination`'s station table, itself the two `lunar-vlbi` defaults plus
 /// Madrid). Round public complex coordinates, **not** surveyed ITRF positions.
-const DEFAULT_STATIONS: [(&str, f64, f64, f64); 3] = [
+pub const DEFAULT_STATIONS: [(&str, f64, f64, f64); 3] = [
     ("goldstone-like", 40.4256, -116.8893, 1000.0),
     ("canberra-like", -35.4014, 148.9819, 688.0),
     ("madrid-like", 40.4314, -4.2481, 837.0),
