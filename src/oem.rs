@@ -481,6 +481,68 @@ fn oem_default_oem_text() -> Option<String> {
     None
 }
 
+/// Unit and provenance class for every numeric field the `oem-interop` report emits.
+///
+/// The two round-trip error rows and the per-segment velocity residual are
+/// internal-consistency checks: their expected value is known before the run (zero for an
+/// exact export/re-import, small for a smooth ephemeris), so they grade the run against
+/// itself rather than reporting a modelled quantity. Both round-trip rows are absent
+/// (JSON `null`, so not numeric leaves) when the caller supplies their own OEM text.
+const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "n_segments",
+            unit: "count",
+            provenance: Computed,
+            definition: "number of ephemeris segments parsed out of the OEM message",
+        },
+        FieldUnit {
+            path: "n_states_total",
+            unit: "count",
+            provenance: Computed,
+            definition: "number of state vectors parsed across every segment",
+        },
+        FieldUnit {
+            path: "round_trip_max_pos_error_km",
+            unit: "km",
+            provenance: InternalConsistency,
+            definition: "largest absolute per-component position difference between the \
+                         generated reference ephemeris and the same ephemeris after \
+                         export and re-import; expected to be zero up to text precision",
+        },
+        FieldUnit {
+            path: "round_trip_max_vel_error_km_s",
+            unit: "km/s",
+            provenance: InternalConsistency,
+            definition: "largest absolute per-component velocity difference across the same \
+                         export/re-import round trip; expected to be zero up to text \
+                         precision",
+        },
+        FieldUnit {
+            path: "segments[].n_states",
+            unit: "count",
+            provenance: Computed,
+            definition: "number of state vectors in this segment",
+        },
+        FieldUnit {
+            path: "segments[].span_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "elapsed time from this segment's first state epoch to its last, \
+                         differenced through the Julian date so day rollovers are exact",
+        },
+        FieldUnit {
+            path: "segments[].velocity_consistency_residual_km_s",
+            unit: "km/s",
+            provenance: InternalConsistency,
+            definition: "largest central-difference residual over the segment's interior \
+                         epochs between the stated velocities and the numerical derivative \
+                         of the stated positions; small for a smooth ephemeris",
+        },
+    ]
+};
+
 /// The `oem-interop` scenario: demonstrate the CCSDS OEM **import** bridge that
 /// lets Kshana ingest ephemerides produced by external flight-dynamics tools
 /// (GMAT, Orekit, STK). With no input it round-trips a generated reference orbit
@@ -585,6 +647,7 @@ impl OemInteropScenario {
             "label": "MODELLED — CCSDS OEM import/round-trip interop bridge \
                       (GMAT/Orekit/STK emit OEM); a structural + physical ingest \
                       check, NOT an orbit-accuracy validation of the source",
+            "units": crate::field_schema::units_block(UNITS),
             "source": source,
             "originator": parsed.originator,
             "n_segments": parsed.segments.len(),

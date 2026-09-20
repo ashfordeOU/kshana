@@ -160,6 +160,103 @@ pub struct QuantumAnomalyReport {
     pub trade: TradeEvidence,
 }
 
+/// Unit and provenance class for every numeric field the `quantum-anomaly-detect`
+/// report emits.
+///
+/// The detection statistic this pack models is an abstract, unnormalised score: the
+/// scenario states the fault magnitude and both monitor noise sigmas as bare numbers
+/// in "detection-statistic units" and only their ratio enters the results, so the
+/// statistic carries no physical dimension and the quantities expressed in it are
+/// recorded as dimensionless.
+pub const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "quantum_auc",
+            unit: "1",
+            provenance: ClosedForm,
+            definition: "ROC area under the curve of the quantum-clock-aided monitor, \
+                         Phi(mu / (sigma_q * sqrt(2))): the probability a random faulted \
+                         window scores above a random nominal one, so a pure number in \
+                         [0, 1]",
+        },
+        FieldUnit {
+            path: "classical_auc",
+            unit: "1",
+            provenance: ClosedForm,
+            definition: "the same closed-form ROC area for the classical monitor, \
+                         Phi(mu / (sigma_c * sqrt(2)))",
+        },
+        FieldUnit {
+            path: "quantum_auc_ci[]",
+            unit: "1",
+            provenance: Computed,
+            definition: "the (lo, hi) endpoints of the empirical bootstrap 95% confidence \
+                         interval on the quantum AUC, drawn from the seeded synthetic \
+                         nominal/faulted samples; an area, so dimensionless like the AUC \
+                         itself",
+        },
+        FieldUnit {
+            path: "quantum_min_detectable",
+            unit: "1",
+            provenance: ClosedForm,
+            definition: "smallest fault the quantum monitor detects at the configured pd and \
+                         pfa, sigma_q * (Phi^-1(1 - pfa) + Phi^-1(pd)); a mean shift of the \
+                         detection statistic, measured in the same abstract statistic units \
+                         as the monitor noise sigma, to which the model attaches no physical \
+                         dimension",
+        },
+        FieldUnit {
+            path: "classical_min_detectable",
+            unit: "1",
+            provenance: ClosedForm,
+            definition: "the same minimum detectable statistic shift for the classical \
+                         monitor, sigma_c * (Phi^-1(1 - pfa) + Phi^-1(pd))",
+        },
+        FieldUnit {
+            path: "trade.frame.seed",
+            unit: "1",
+            provenance: Input,
+            definition: "the scenario's RNG seed, stamped into the trade's comparison frame \
+                         so the bootstrap is reproducible; a dimensionless integer label, not \
+                         a measured quantity",
+        },
+        FieldUnit {
+            path: "trade.foms[].quantum",
+            unit: "see the sibling `unit` field",
+            provenance: ClosedForm,
+            definition: "the quantum monitor's score on that row's figure of merit; the unit \
+                         is data, differing row by row (a dimensionless area for the \
+                         detection AUC, abstract detection-statistic units for the minimum \
+                         detectable fault), so the row's own `unit` string names it",
+        },
+        FieldUnit {
+            path: "trade.foms[].classical",
+            unit: "see the sibling `unit` field",
+            provenance: ClosedForm,
+            definition: "the classical monitor's score on that row's figure of merit, in the \
+                         same data-dependent unit as the row's quantum value",
+        },
+        FieldUnit {
+            path: "trade.foms[].ci95[]",
+            unit: "see the sibling `unit` field",
+            provenance: Computed,
+            definition: "the (lo, hi) endpoints of the 95% confidence interval on that row's \
+                         quantum value, in the same data-dependent unit as it; present only \
+                         on the rows that carry one",
+        },
+        FieldUnit {
+            path: "trade.representativeness.trl_band[]",
+            unit: "1",
+            provenance: Modelled,
+            definition: "the (lo, hi) endpoints of the technology-readiness band this \
+                         modelled demonstration is claimed to be representative for; a TRL is \
+                         an ordinal readiness index on the 1-9 scale, not a physical quantity, \
+                         so it is dimensionless and its differences are not metric",
+        },
+    ]
+};
+
 impl QuantumAnomalyScenario {
     /// Run the scenario.
     pub fn run(&self) -> QuantumAnomalyReport {

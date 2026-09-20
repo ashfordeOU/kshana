@@ -76,6 +76,77 @@ fn re_default_bc() -> f64 {
     100.0
 }
 
+/// Unit and provenance class for every numeric field the `reentry` report emits.
+///
+/// The closed-form rows are the Allen–Eggers relations documented on the free functions
+/// above, each checkable by hand from the entry velocity, flight-path angle and scale
+/// height. `peak_deceleration_g` is the dimensionless ratio `a_max / G0` with
+/// [`G0`] = 9.806 65 m/s² (standard gravity), so it is written as a pure number.
+const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "entry_velocity_m_s",
+            unit: "m/s",
+            provenance: Input,
+            definition: "speed at the atmospheric entry interface",
+        },
+        FieldUnit {
+            path: "flight_path_angle_deg",
+            unit: "deg",
+            provenance: Input,
+            definition: "entry flight-path angle below the local horizontal, positive downward",
+        },
+        FieldUnit {
+            path: "ballistic_coeff_kg_m2",
+            unit: "kg/m^2",
+            provenance: Input,
+            definition: "ballistic coefficient B = m / (C_D * A) of the entering body",
+        },
+        FieldUnit {
+            path: "scale_height_m",
+            unit: "m",
+            provenance: Input,
+            definition: "density scale height of the exponential isothermal atmosphere; \
+                         defaults to the Earth value of 7200 m",
+        },
+        FieldUnit {
+            path: "peak_deceleration_m_s2",
+            unit: "m/s^2",
+            provenance: ClosedForm,
+            definition: "Allen-Eggers peak deceleration V_e^2 * sin|gamma| / (2 * e * H), \
+                         independent of the ballistic coefficient",
+        },
+        FieldUnit {
+            path: "peak_deceleration_g",
+            unit: "1",
+            provenance: ClosedForm,
+            definition: "the same peak deceleration expressed in units of standard gravity: \
+                         a_max / g_0 with g_0 = 9.80665 m/s^2",
+        },
+        FieldUnit {
+            path: "velocity_at_peak_g_m_s",
+            unit: "m/s",
+            provenance: ClosedForm,
+            definition: "speed where the deceleration peaks: V_e * exp(-1/2)",
+        },
+        FieldUnit {
+            path: "altitude_at_peak_g_m",
+            unit: "m",
+            provenance: ClosedForm,
+            definition: "altitude where the deceleration peaks: \
+                         H * ln(rho0 * H / (B * sin|gamma|))",
+        },
+        FieldUnit {
+            path: "velocity_at_peak_heating_m_s",
+            unit: "m/s",
+            provenance: ClosedForm,
+            definition: "speed where convective stagnation heating peaks: V_e * exp(-1/6); \
+                         a velocity, not a heat flux",
+        },
+    ]
+};
+
 /// The `reentry` scenario: the Allen–Eggers ballistic re-entry corridor — peak
 /// deceleration (m/s² and g), the velocity and altitude at peak-g, and the
 /// peak-heating velocity — for an entry velocity, flight-path angle and ballistic
@@ -127,6 +198,7 @@ impl ReentryScenario {
                       isothermal atmosphere, constant flight-path angle; peak-g is \
                       ballistic-coefficient-independent; heating is the peak-heating \
                       VELOCITY, NOT a heat-flux (no aerothermal/TPS model)",
+            "units": crate::field_schema::units_block(UNITS),
             "entry_velocity_m_s": v,
             "flight_path_angle_deg": self.flight_path_angle_deg,
             "ballistic_coeff_kg_m2": self.ballistic_coeff_kg_m2,
