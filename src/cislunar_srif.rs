@@ -59,7 +59,8 @@
 use crate::deepspace_od::Srif;
 use crate::fim::{information_matrix, sym_eig};
 use crate::observability_gramian::{
-    observability_matrix, rank_from_singular_values, singular_values, Mat, ObsEpoch, N_PLANAR,
+    bounded_rank_from_singular_values, observability_matrix, singular_values, Mat, ObsEpoch,
+    N_PLANAR,
 };
 
 /// The state dimension an epoch sequence estimates, read off the width of its variational
@@ -152,7 +153,10 @@ pub fn srif_cross_validation(epochs: &[ObsEpoch], rel_tol: f64) -> Vec<SrifArcPo
         // gramian_spectrum use, so the two rank reads cannot silently disagree), and the condition
         // of OᵀO.
         let sv = singular_values(&o);
-        let gramian_rank = rank_from_singular_values(&sv, rel_tol);
+        // …held additionally to the algebraic bound rank <= min(rows, cols): a prefix carrying
+        // fewer measurement rows than states cannot observe more directions than it has rows,
+        // whatever the tolerance (see `bounded_rank_from_singular_values`).
+        let gramian_rank = bounded_rank_from_singular_values(&sv, rel_tol, o.len(), n_state).rank;
         let ones = vec![1.0; o.len()];
         let gram = information_matrix(&o, &ones);
         let gram_eig = sym_eig(&gram);
