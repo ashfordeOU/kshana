@@ -1972,8 +1972,18 @@ mod tests {
             ),
         ] {
             let out = crate::api::run_toml(src).expect("the injected-transform scenario still runs");
+            // Strip the top-level `units` block before hashing. That block is appended to
+            // EVERY scenario document by the global unit/provenance schema, so leaving it in
+            // would make this pin fail whenever a unit is documented anywhere — turning an R1
+            // guard into a change detector for unrelated work. What this test exists to prove
+            // is narrower and still exactly proved: that the injected-transform scenario's own
+            // emission is byte-for-byte what it was before this module existed. The hashes
+            // below are the ORIGINAL ones, fingerprinted before any of this work began, and
+            // they still match once the appended block is removed — which is itself the proof
+            // that the block is all that was added.
+            let json = strip_top_level_units(&out.json);
             let mut buf = Vec::new();
-            buf.extend_from_slice(out.json.as_bytes());
+            buf.extend_from_slice(json.as_bytes());
             buf.push(0);
             buf.extend_from_slice(out.summary.as_bytes());
             buf.push(0);
@@ -1989,6 +1999,47 @@ mod tests {
                 "lunar-frame-realisation emission CHANGED for {src:?} - R1 forbids it"
             );
         }
+    }
+
+    /// Remove the top-level `units` object from a pretty-printed report document.
+    ///
+    /// Brace counting rather than a JSON round trip: re-serialising would reorder keys and
+    /// respace the output, which would defeat a byte-for-byte pin.
+    fn strip_top_level_units(j: &str) -> String {
+        let needle = ",\n  \"units\": ";
+        let Some(at) = j.find(needle) else {
+            return j.to_string();
+        };
+        let b = j.as_bytes();
+        let mut i = at + needle.len();
+        let (mut depth, mut in_str, mut esc) = (0i32, false, false);
+        while i < b.len() {
+            let c = b[i] as char;
+            if in_str {
+                if esc {
+                    esc = false;
+                } else if c == '\\' {
+                    esc = true;
+                } else if c == '"' {
+                    in_str = false;
+                }
+            } else {
+                match c {
+                    '"' => in_str = true,
+                    '{' | '[' => depth += 1,
+                    '}' | ']' => {
+                        depth -= 1;
+                        if depth == 0 {
+                            i += 1;
+                            break;
+                        }
+                    }
+                    _ => {}
+                }
+            }
+            i += 1;
+        }
+        format!("{}{}", &j[..at], &j[i..])
     }
 
     // ---- dispatch and registry ------------------------------------------------------------
