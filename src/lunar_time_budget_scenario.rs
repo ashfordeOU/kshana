@@ -51,9 +51,11 @@ fn parse_clock_name(name: &str) -> Result<LunarClock, String> {
     }
 }
 
-/// Units + provenance class for the fields the per-clock crossover table adds to the result
-/// document. The rest of the document predates this block and is described in
-/// `docs/SCHEMA.md`; this names only what `clock_crossovers` introduces.
+/// Units + provenance class for every numeric field the result document emits — the
+/// per-clock crossover table and the budget curves alike. Every term of this budget is a
+/// **time error** `x(τ)` in seconds, including the root-sum-square total and the constant
+/// frame floor, so the table is short and the one dimensionless row (`sigma_y_one_s`, a
+/// fractional frequency) is the exception rather than the rule.
 fn crossover_units() -> serde_json::Value {
     serde_json::json!({
         "clock_crossovers.sigma_y_one_s": { "unit": "1", "provenance": "spec" },
@@ -66,6 +68,41 @@ fn crossover_units() -> serde_json::Value {
         "clock_crossovers.closed_form_rel_diff": {
             "unit": "1",
             "provenance": "internal-consistency"
+        },
+        "tau_s[]": {
+            "unit": "s",
+            "provenance": "input",
+            "note": "the averaging-time grid every curve below is evaluated on"
+        },
+        "terms[].x_s[]": {
+            "unit": "s",
+            "provenance": "computed",
+            "note": "the term's time error x_i(tau) at each grid tau; the row's `name` says \
+                     which of the seven budget terms it is and `grows_with_tau` whether it \
+                     grows (only the clock term does)"
+        },
+        "x_sigma_s[]": {
+            "unit": "s",
+            "provenance": "computed",
+            "note": "the root-sum-square total x_Sigma(tau) = sqrt(sum of x_i(tau)^2)"
+        },
+        "crossover_tau_s": {
+            "unit": "s",
+            "provenance": "computed",
+            "note": "the averaging time at which the growing clock term equals the constant \
+                     frame term; below it the budget is frame-limited, above it clock-limited"
+        },
+        "crossover_x_s": {
+            "unit": "s",
+            "provenance": "computed",
+            "note": "the common time error at the crossover, x_clock = x_frame"
+        },
+        "frame_term_s": {
+            "unit": "s",
+            "provenance": "modelled-input",
+            "note": "the constant reference-frame realisation term delta_r / c, from the \
+                     documented default frame position error (a budget allocation, not a \
+                     measurement)"
         }
     })
 }
@@ -670,7 +707,7 @@ mod tests {
     }
 
     #[test]
-    fn units_block_describes_the_new_fields() {
+    fn units_block_describes_every_emitted_numeric_field() {
         let (json, _s) = LunarTimeBudgetScenario::default().run_json().unwrap();
         let v: Value = serde_json::from_str(&json).unwrap();
         let units = v["units"].as_object().expect("units object");
@@ -680,6 +717,14 @@ mod tests {
             ("clock_crossovers.crossover_tau_s", "s"),
             ("clock_crossovers.crossover_tau_s_closed_form", "s"),
             ("clock_crossovers.closed_form_rel_diff", "1"),
+            // …and the budget curves themselves, which the first version of this block
+            // left to `docs/SCHEMA.md` and the global gate now requires here.
+            ("tau_s[]", "s"),
+            ("terms[].x_s[]", "s"),
+            ("x_sigma_s[]", "s"),
+            ("crossover_tau_s", "s"),
+            ("crossover_x_s", "s"),
+            ("frame_term_s", "s"),
         ] {
             let e = units
                 .get(key)
@@ -687,7 +732,19 @@ mod tests {
             assert_eq!(e["unit"], unit, "{key} unit");
             assert!(e["provenance"].is_string(), "{key} provenance class");
         }
-        assert_eq!(units.len(), 5, "units must describe only the new fields");
+        assert_eq!(
+            units.len(),
+            11,
+            "units must describe exactly what is emitted"
+        );
+        // The document-wide contract, checked here as well as in the global gate.
+        let audit = crate::field_schema::audit_document(&v);
+        assert!(
+            audit.is_complete(),
+            "missing {:?}, malformed {:?}",
+            audit.missing,
+            audit.malformed
+        );
     }
 
     #[test]

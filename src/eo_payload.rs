@@ -90,6 +90,75 @@ fn eo_default_ifov() -> f64 {
     14.0
 }
 
+/// Unit and provenance class for every numeric field the `eo-coverage` report emits.
+///
+/// The closed-form rows are the spherical-Earth space-triangle relations documented on the
+/// free functions above, each checkable by hand from the altitude and the sensor geometry.
+const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "altitude_km",
+            unit: "km",
+            provenance: Input,
+            definition: "circular-orbit geometric altitude above the equatorial radius",
+        },
+        FieldUnit {
+            path: "half_fov_deg",
+            unit: "deg",
+            provenance: Input,
+            definition: "sensor half field of view, as a nadir angle measured from boresight",
+        },
+        FieldUnit {
+            path: "earth_angular_radius_deg",
+            unit: "deg",
+            provenance: ClosedForm,
+            definition: "angular radius of the Earth seen from the spacecraft: \
+                         asin(R_eq / (R_eq + h))",
+        },
+        FieldUnit {
+            path: "swath_width_km",
+            unit: "km",
+            provenance: ClosedForm,
+            definition: "surface-arc swath of a nadir-pointing sensor: \
+                         2 * R_eq * lambda(half_fov)",
+        },
+        FieldUnit {
+            path: "nadir_gsd_m",
+            unit: "m",
+            provenance: ClosedForm,
+            definition: "nadir ground sample distance: altitude * per-pixel IFOV",
+        },
+        FieldUnit {
+            path: "max_off_nadir_deg",
+            unit: "deg",
+            provenance: Computed,
+            definition: "effective field-of-regard edge: the caller's slew limit clamped to \
+                         the Earth angular radius, and the angular radius itself by default",
+        },
+        FieldUnit {
+            path: "max_access_ground_range_km",
+            unit: "km",
+            provenance: ClosedForm,
+            definition: "surface-arc ground range from the sub-satellite point to a target at \
+                         the field-of-regard edge: R_eq * lambda(max_off_nadir)",
+        },
+        FieldUnit {
+            path: "orbital_period_min",
+            unit: "min",
+            provenance: ClosedForm,
+            definition: "circular-orbit period 2*pi*sqrt((R_eq + h)^3 / mu_Earth)",
+        },
+        FieldUnit {
+            path: "equatorial_ground_track_spacing_km",
+            unit: "km",
+            provenance: ClosedForm,
+            definition: "equatorial distance between successive ascending nodes: \
+                         R_eq * omega_Earth * T, with no J2 nodal regression",
+        },
+    ]
+};
+
 /// The `eo-coverage` scenario: Earth angular radius, swath width, nadir GSD,
 /// maximum off-nadir access and equatorial ground-track spacing (with a contiguous-
 /// coverage flag) for an EO payload on a circular orbit.
@@ -144,6 +213,7 @@ impl EoCoverageScenario {
             "label": "MODELLED — spherical-Earth space-triangle geometry; swath/GSD/access \
                       are geometric (no radiometry/MTF/atmosphere/jitter/glint), ground-track \
                       spacing is simple nodal R_e·ω·T (no J2 regression)",
+            "units": crate::field_schema::units_block(UNITS),
             "altitude_km": self.altitude_km,
             "half_fov_deg": self.half_fov_deg,
             "earth_angular_radius_deg": rho.to_degrees(),

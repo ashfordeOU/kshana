@@ -7,6 +7,239 @@ use crate::types::ModelSpec;
 use serde::Serialize;
 use sha2::{Digest, Sha256};
 
+/// Unit and provenance class for every numeric field the single-run `clock` report
+/// ([`RunResult`]) emits.
+///
+/// `quantum` and `classical` are the same [`ClockRun`] shape, so every column is
+/// stated once and carried under both roots — a units entry describes the column, not
+/// the row, and the two suites differ only in which sensor configuration filled it.
+///
+/// The sensor-model parameters under `spec.params` are the raw arguments of
+/// [`crate::models::ClockModel`]: `q_wf` is the intensity of the phase random walk
+/// (`Var[dx] = q_wf*dt` with `dx` in seconds, hence `s^2/s`) and `q_rw` the intensity
+/// of the fractional-frequency random walk (`Var[dy] = q_rw*dt` with `y`
+/// dimensionless, hence `1/s`). [`crate::security::monitor_sigma_s`] carries the same
+/// convention: `sigma^2 = r/m + q_wf*tau + q_rw*tau^3/3`, in `s^2`.
+pub const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    macro_rules! clock_units {
+        ($($s:literal),+ $(,)?) => {
+            &[
+                FieldUnit {
+                    path: "seed",
+                    unit: "1",
+                    provenance: Input,
+                    definition: "RNG seed of the quantum realisation; the classical \
+                                 realisation runs at seed + 0x9e3779b97f4a7c15",
+                },
+                FieldUnit {
+                    path: "threshold_ns",
+                    unit: "ns",
+                    provenance: Input,
+                    definition: "timing spec: a sample whose absolute timing error is at \
+                                 or below this is in spec",
+                },
+                FieldUnit {
+                    path: "eci_track[][]",
+                    unit: "km",
+                    provenance: Computed,
+                    definition: "one Earth-centred-inertial [x, y, z] component of the \
+                                 propagated user spacecraft at one sampled time; emitted \
+                                 only by the orbit pack, absent from a clock run",
+                },
+                $(
+                FieldUnit {
+                    path: concat!($s, ".spec.params.y0"),
+                    unit: "1",
+                    provenance: Input,
+                    definition: "deterministic fractional-frequency offset of the clock \
+                                 model (dimensionless df/f)",
+                },
+                FieldUnit {
+                    path: concat!($s, ".spec.params.q_wf"),
+                    unit: "s^2/s",
+                    provenance: Input,
+                    definition: "white-FM process-noise intensity: the clock phase gains \
+                                 variance q_wf*dt over a step dt, so q_wf is numerically \
+                                 sigma_y(1 s)^2",
+                },
+                FieldUnit {
+                    path: concat!($s, ".spec.params.q_rw"),
+                    unit: "1/s",
+                    provenance: Input,
+                    definition: "random-walk-FM process-noise intensity: the fractional \
+                                 frequency gains variance q_rw*dt over a step dt",
+                },
+                FieldUnit {
+                    path: concat!($s, ".spec.params.drift"),
+                    unit: "1/s",
+                    provenance: Input,
+                    definition: "linear fractional-frequency aging rate: the deterministic \
+                                 frequency is y0 + drift*t",
+                },
+                FieldUnit {
+                    path: concat!($s, ".spec.params.flicker_floor"),
+                    unit: "1",
+                    provenance: Input,
+                    definition: "flat flicker-FM Allan-deviation floor sigma_y of the clock \
+                                 model; null when no flicker component is configured",
+                },
+                FieldUnit {
+                    path: concat!($s, ".series[].t"),
+                    unit: "s",
+                    provenance: Computed,
+                    definition: "sample time on the uniform run grid, i*time.step_s",
+                },
+                FieldUnit {
+                    path: concat!($s, ".series[].error_ns"),
+                    unit: "ns",
+                    provenance: Computed,
+                    definition: "timing error at t: the true clock phase minus the coasted \
+                                 prediction; zero while GNSS is nominal",
+                },
+                FieldUnit {
+                    path: concat!($s, ".fom.timing_rms_ns"),
+                    unit: "ns",
+                    provenance: Computed,
+                    definition: "root mean square of the timing error over the outage \
+                                 samples",
+                },
+                FieldUnit {
+                    path: concat!($s, ".fom.timing_p95_ns"),
+                    unit: "ns",
+                    provenance: Computed,
+                    definition: "95th percentile (nearest-rank) of the absolute timing \
+                                 error over the outage samples",
+                },
+                FieldUnit {
+                    path: concat!($s, ".fom.holdover_s"),
+                    unit: "s",
+                    provenance: Computed,
+                    definition: "worst-case (shortest) in-spec coast across the outage \
+                                 segments; grid-bounded at time.step_s",
+                },
+                FieldUnit {
+                    path: concat!($s, ".fom.resilience_slope_ns_per_s"),
+                    unit: "ns/s",
+                    provenance: Computed,
+                    definition: "least-squares slope of the absolute timing error against \
+                                 time over the outage",
+                },
+                FieldUnit {
+                    path: concat!($s, ".fom.availability"),
+                    unit: "1",
+                    provenance: Computed,
+                    definition: "fraction of all samples in the run whose absolute timing \
+                                 error is within threshold_ns",
+                },
+                FieldUnit {
+                    path: concat!($s, ".fom.integrity"),
+                    unit: "1",
+                    provenance: Computed,
+                    definition: "filter self-consistency: the fraction of outage samples \
+                                 whose true error stays inside the Kalman 3-sigma phase \
+                                 bound; not an aviation HPL/VPL/RAIM integrity figure",
+                },
+                FieldUnit {
+                    path: concat!($s, ".fom.security"),
+                    unit: "1",
+                    provenance: Computed,
+                    definition: "analytic spoof-detectability bound from clock stability, \
+                                 clamp(1 - smallest detectable offset / threshold_ns, 0, \
+                                 1); meaningful only against a configured attack, and not \
+                                 a multi-satellite RAIM detector",
+                },
+                FieldUnit {
+                    path: concat!($s, ".adev_curve[].tau_s"),
+                    unit: "s",
+                    provenance: Computed,
+                    definition: "averaging time of this overlapping-Allan point, \
+                                 m*time.step_s at octave-spaced m",
+                },
+                FieldUnit {
+                    path: concat!($s, ".adev_curve[].adev"),
+                    unit: "1",
+                    provenance: Computed,
+                    definition: "overlapping Allan deviation sigma_y(tau) of the clock \
+                                 phase — a dimensionless fractional-frequency stability",
+                },
+                FieldUnit {
+                    path: concat!($s, ".adev_curve[].n_samples"),
+                    unit: "count",
+                    provenance: Computed,
+                    definition: "number of overlapping second differences averaged into \
+                                 this point",
+                },
+                FieldUnit {
+                    path: concat!($s, ".adev_curve[].edf"),
+                    unit: "1",
+                    provenance: Computed,
+                    definition: "effective degrees of freedom of this point for the \
+                                 power-law noise type identified over the whole record",
+                },
+                FieldUnit {
+                    path: concat!($s, ".adev_curve[].ci_lo"),
+                    unit: "1",
+                    provenance: Computed,
+                    definition: "lower end of the chi-squared 95% confidence interval on \
+                                 adev at this tau",
+                },
+                FieldUnit {
+                    path: concat!($s, ".adev_curve[].ci_hi"),
+                    unit: "1",
+                    provenance: Computed,
+                    definition: "upper end of the chi-squared 95% confidence interval on \
+                                 adev at this tau",
+                },
+                FieldUnit {
+                    path: concat!($s, ".filter_health.nis_mean"),
+                    unit: "1",
+                    provenance: InternalConsistency,
+                    definition: "pooled mean normalised innovation squared over the \
+                                 consistency ensemble; a matched filter gives 1",
+                },
+                FieldUnit {
+                    path: concat!($s, ".filter_health.nis_chi2_lower_95"),
+                    unit: "1",
+                    provenance: ClosedForm,
+                    definition: "lower 95% chi-squared acceptance bound on the NIS mean, \
+                                 chi2_0.025(K)/K over K pooled innovations",
+                },
+                FieldUnit {
+                    path: concat!($s, ".filter_health.nis_chi2_upper_95"),
+                    unit: "1",
+                    provenance: ClosedForm,
+                    definition: "upper 95% chi-squared acceptance bound on the NIS mean, \
+                                 chi2_0.975(K)/K over K pooled innovations",
+                },
+                FieldUnit {
+                    path: concat!($s, ".filter_health.nees_mean"),
+                    unit: "1",
+                    provenance: InternalConsistency,
+                    definition: "pooled mean normalised estimation error squared; a \
+                                 matched two-state filter gives 2",
+                },
+                FieldUnit {
+                    path: concat!($s, ".filter_health.nees_chi2_lower_95"),
+                    unit: "1",
+                    provenance: ClosedForm,
+                    definition: "lower 95% chi-squared acceptance bound on the NEES mean, \
+                                 chi2_0.025(2*seeds)/seeds",
+                },
+                FieldUnit {
+                    path: concat!($s, ".filter_health.nees_chi2_upper_95"),
+                    unit: "1",
+                    provenance: ClosedForm,
+                    definition: "upper 95% chi-squared acceptance bound on the NEES mean, \
+                                 chi2_0.975(2*seeds)/seeds",
+                },
+                )+
+            ]
+        };
+    }
+    clock_units!("quantum", "classical")
+};
+
 /// One clock's run: its spec, full error series, scored FoMs, and the
 /// overlapping Allan-deviation curve of the clock's phase over the run.
 #[derive(Clone, Debug, Serialize)]

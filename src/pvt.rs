@@ -573,6 +573,183 @@ pub struct PvtFoM {
     pub rms_v_m: Option<f64>,
 }
 
+/// Unit and provenance class for every numeric field the `pvt` report emits.
+pub const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "n_satellites_nav",
+            unit: "count",
+            provenance: Measured,
+            definition: "distinct satellites carrying a broadcast-ephemeris record in the \
+                         supplied RINEX navigation file",
+        },
+        FieldUnit {
+            path: "truth_ecef_m[]",
+            unit: "m",
+            provenance: Input,
+            definition: "one component of the surveyed receiver position in ECEF, echoed \
+                         from the scenario as the validation truth",
+        },
+        FieldUnit {
+            path: "fom.epochs_total",
+            unit: "count",
+            provenance: Measured,
+            definition: "observation epochs present in the supplied RINEX observation file",
+        },
+        FieldUnit {
+            path: "fom.epochs_solved",
+            unit: "count",
+            provenance: Computed,
+            definition: "epochs at which the least-squares solve returned a fix (at least \
+                         four usable measurements and a non-singular geometry)",
+        },
+        FieldUnit {
+            path: "fom.mean_n_used",
+            unit: "count",
+            provenance: Computed,
+            definition: "mean number of satellites entering the solve, averaged over the \
+                         solved epochs",
+        },
+        FieldUnit {
+            path: "fom.mean_pdop",
+            unit: "1",
+            provenance: Computed,
+            definition: "mean position dilution of precision over the solved epochs; a \
+                         dimensionless geometry factor multiplying the ranging error",
+        },
+        FieldUnit {
+            path: "fom.mean_postfit_rms_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "mean of the per-epoch post-fit pseudorange residual RMS over the \
+                         solved epochs",
+        },
+        FieldUnit {
+            path: "fom.rms_3d_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "root-mean-square three-dimensional position error against the \
+                         surveyed truth over the solved epochs",
+        },
+        FieldUnit {
+            path: "fom.max_3d_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "largest three-dimensional position error against the surveyed truth \
+                         at any solved epoch",
+        },
+        FieldUnit {
+            path: "fom.rms_h_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "root-mean-square horizontal (east-north) position error against the \
+                         surveyed truth over the solved epochs",
+        },
+        FieldUnit {
+            path: "fom.rms_v_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "root-mean-square vertical (up) position error against the surveyed \
+                         truth over the solved epochs",
+        },
+        FieldUnit {
+            path: "epochs[].n_used",
+            unit: "count",
+            provenance: Computed,
+            definition: "usable satellite measurements assembled for this epoch, after the \
+                         elevation mask and the ephemeris-age and observation-code checks",
+        },
+        FieldUnit {
+            path: "epochs[].fix.ecef_m[]",
+            unit: "m",
+            provenance: Computed,
+            definition: "one component of the estimated receiver position in ECEF",
+        },
+        FieldUnit {
+            path: "epochs[].fix.lat_deg",
+            unit: "deg",
+            provenance: Computed,
+            definition: "estimated receiver WGS-84 geodetic latitude",
+        },
+        FieldUnit {
+            path: "epochs[].fix.lon_deg",
+            unit: "deg",
+            provenance: Computed,
+            definition: "estimated receiver WGS-84 geodetic longitude, positive east",
+        },
+        FieldUnit {
+            path: "epochs[].fix.alt_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "estimated receiver height above the WGS-84 ellipsoid",
+        },
+        FieldUnit {
+            path: "epochs[].fix.clock_bias_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "estimated receiver clock offset expressed as a range, c times the \
+                         clock offset — the fourth state of the solve",
+        },
+        FieldUnit {
+            path: "epochs[].fix.gdop",
+            unit: "1",
+            provenance: Computed,
+            definition: "geometric dilution of precision: the position and clock states \
+                         combined, sqrt(PDOP^2 + TDOP^2)",
+        },
+        FieldUnit {
+            path: "epochs[].fix.pdop",
+            unit: "1",
+            provenance: Computed,
+            definition: "position dilution of precision: the three-dimensional position \
+                         part, sqrt(HDOP^2 + VDOP^2)",
+        },
+        FieldUnit {
+            path: "epochs[].fix.hdop",
+            unit: "1",
+            provenance: Computed,
+            definition: "horizontal dilution of precision, the east and north part of the \
+                         unweighted normal-matrix inverse",
+        },
+        FieldUnit {
+            path: "epochs[].fix.vdop",
+            unit: "1",
+            provenance: Computed,
+            definition: "vertical dilution of precision, the up part of the unweighted \
+                         normal-matrix inverse",
+        },
+        FieldUnit {
+            path: "epochs[].fix.postfit_rms_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "root-mean-square of the post-fit pseudorange residuals at this \
+                         epoch, sqrt(sum of squared residuals / n_used)",
+        },
+        FieldUnit {
+            path: "epochs[].fix.error_h_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "horizontal position error against the surveyed truth, \
+                         sqrt(east^2 + north^2) in the truth's local frame; non-negative",
+        },
+        FieldUnit {
+            path: "epochs[].fix.error_v_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "absolute vertical (up) position error against the surveyed truth in \
+                         the truth's local frame; the sign is not carried",
+        },
+        FieldUnit {
+            path: "epochs[].fix.error_3d_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "Euclidean three-dimensional position error between the estimate and \
+                         the surveyed truth",
+        },
+    ]
+};
+
 /// The single-point-positioning run result.
 #[derive(Clone, Debug, Serialize)]
 pub struct PvtResult {

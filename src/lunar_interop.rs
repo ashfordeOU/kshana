@@ -499,6 +499,46 @@ impl Default for LunarInteropScenario {
     }
 }
 
+/// Unit and provenance class for every numeric field the `lunar-interop-export` report
+/// emits.
+///
+/// The report is [`LunarInteropReport`], serialised by the scenario dispatcher. Its four
+/// numeric leaves are all cardinalities of emitted artefacts except `kif_bytes`, which is
+/// the byte length of the KIF envelope's JSON text.
+pub const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "n_states",
+            unit: "count",
+            provenance: Input,
+            definition: "number of ephemeris states exported, the configured value floored \
+                         at 1",
+        },
+        FieldUnit {
+            path: "oem_line_count",
+            unit: "count",
+            provenance: Computed,
+            definition: "total number of text lines in the emitted CCSDS OEM message, \
+                         headers and data lines together",
+        },
+        FieldUnit {
+            path: "conformance.data_lines",
+            unit: "count",
+            provenance: Computed,
+            definition: "number of well-formed OEM data lines found by the conformance \
+                         check: an epoch token followed by 6 or 9 numeric components",
+        },
+        FieldUnit {
+            path: "kif_bytes",
+            unit: "octet",
+            provenance: Computed,
+            definition: "byte length of the serialised KIF envelope JSON wrapping the \
+                         emitted artefacts",
+        },
+    ]
+};
+
 /// The result of a [`LunarInteropScenario`].
 #[derive(Clone, Debug, Serialize)]
 pub struct LunarInteropReport {

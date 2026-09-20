@@ -221,8 +221,17 @@ fn golden_clock() {
     check(&Golden {
         path: "scenarios/clock-holdover.toml",
         expect_summary: "scenario 5ba83a232b94 | quantum holdover 6600s p95 0.0ns integrity 1.000 security 0.997 | classical holdover 2610s p95 19.7ns integrity 1.000 security 0.000",
-        expect_fnv_canonical: 0x8c8b_bb4b_75e2_c862,
-        expect_fnv_raw_linux_x64: Some(0x49cf_2055_e294_17a2),
+        // Re-baselined when the report gained its `units` block (a unit and a
+        // provenance class for every numeric field it emits, enforced by
+        // tests/field_units_global.rs). Purely additive: the summary string above is
+        // byte-identical, no pre-existing key changed value or position, and the whole
+        // delta is the new `units` object.
+        // The raw pin is re-taken on the re-baselining host: this scenario's
+        // pre-change raw hash on that host equalled the pinned Linux one exactly, so
+        // its document is byte-identical across the two targets, and the appended
+        // `units` block is pure static text that cannot differ between them.
+        expect_fnv_canonical: 0x3b3a_e56e_f8c2_b8c8,
+        expect_fnv_raw_linux_x64: Some(0x91c3_d4b4_ad21_bd94),
     });
 }
 
@@ -231,8 +240,18 @@ fn golden_jamming() {
     check(&Golden {
         path: "scenarios/jamming-demo.toml",
         expect_summary: "scenario 5aac34b045c7 | jamming ON | availability under jamming 0.00 (nominal 1.00) | min tracking 0 | mean J/S 72.2 dB",
-        expect_fnv_canonical: 0xd732_8840_d904_043c,
-        expect_fnv_raw_linux_x64: Some(0xbc8c_8400_d3b4_a740),
+        // Re-baselined when the report gained its `units` block (a unit and a
+        // provenance class for every numeric field it emits, enforced by
+        // tests/field_units_global.rs). Purely additive: the summary string above is
+        // byte-identical, no pre-existing key changed value or position, and the whole
+        // delta is the new `units` object.
+        // The exact x86-64-Linux raw pin is dropped to None: it could not be
+        // regenerated on the host that re-baselined this, and this scenario's raw hash
+        // is genuinely platform-dependent (its pre-change value on that host differed
+        // from the pinned Linux one, so the two texts differ in trailing float digits).
+        // Re-add it with a `zzz_emit_goldens --ignored` run on x86-64 Linux.
+        expect_fnv_canonical: 0x6b7d_2ec5_c92b_4a47,
+        expect_fnv_raw_linux_x64: None,
     });
 }
 
@@ -241,8 +260,18 @@ fn golden_orbit() {
     check(&Golden {
         path: "scenarios/orbit-multignss.toml",
         expect_summary: "scenario 6fd3fe9f1ff5 | 1441/1441 samples GNSS-nominal | best PDOP 1.32 pos 1.32m | quantum holdover 0s p95 0.0ns integrity n/a security 0.968 | classical holdover 0s p95 0.0ns integrity n/a security 0.000",
-        expect_fnv_canonical: 0xdcbd_ef0d_1b62_c63d,
-        expect_fnv_raw_linux_x64: Some(0x19ae_2ba2_ce0f_6a1a),
+        // Re-baselined when the report gained its `units` block (a unit and a
+        // provenance class for every numeric field it emits, enforced by
+        // tests/field_units_global.rs). Purely additive: the summary string above is
+        // byte-identical, no pre-existing key changed value or position, and the whole
+        // delta is the new `units` object.
+        // The exact x86-64-Linux raw pin is dropped to None: it could not be
+        // regenerated on the host that re-baselined this, and this scenario's raw hash
+        // is genuinely platform-dependent (its pre-change value on that host differed
+        // from the pinned Linux one, so the two texts differ in trailing float digits).
+        // Re-add it with a `zzz_emit_goldens --ignored` run on x86-64 Linux.
+        expect_fnv_canonical: 0x559c_a58f_246f_c3be,
+        expect_fnv_raw_linux_x64: None,
     });
 }
 
@@ -256,8 +285,15 @@ fn golden_lunar_time_offset() {
         // Re-baselined after the L16 LunarTimeReport gained the topographic-spread and
         // TCG−TCL secular-rate fields. Canonical (portable, 6-sig-fig) is confirmed equal
         // to the value CI computes on Linux; the raw x86-64-Linux hash is re-pinned there.
-        expect_fnv_canonical: 0xff26_8d1a_fb3b_0021,
-        expect_fnv_raw_linux_x64: Some(0x2fe9_e730_c025_36e8),
+        // Re-baselined when the report gained its `units` block (a unit and a
+        // provenance class for every numeric field it emits, enforced by
+        // tests/field_units_global.rs). Purely additive: the summary string above is
+        // byte-identical, no pre-existing key changed value or position, and the whole
+        // delta is the new `units` object.
+        // Raw pin re-taken on the re-baselining host, on the same evidence as the
+        // clock golden: the pre-change raw hash there equalled the pinned Linux one.
+        expect_fnv_canonical: 0xc1df_df20_58da_984a,
+        expect_fnv_raw_linux_x64: Some(0x6b13_e532_a488_4e9b),
     });
 }
 
@@ -276,7 +312,12 @@ fn golden_hybrid_optical_rf() {
         // post-handover coast block. Purely additive: the summary string above is
         // byte-identical and every pre-existing JSON field holds the value it held
         // before, so only the whole-document hash moves.
-        expect_fnv_canonical: 0x46e4_b4e2_23f0_def8,
+        // Re-baselined when the report gained its `units` block (a unit and a
+        // provenance class for every numeric field it emits, enforced by
+        // tests/field_units_global.rs). Purely additive: the summary string above is
+        // byte-identical, no pre-existing key changed value or position, and the whole
+        // delta is the new `units` object.
+        expect_fnv_canonical: 0x1afa_3f13_153b_f126,
         expect_fnv_raw_linux_x64: None,
     });
 }
@@ -311,7 +352,12 @@ fn golden_conflict_resilience() {
     check(&Golden {
         path: "scenarios/conflict-resilience.toml",
         expect_summary: "conflict-resilience | 4 layers (0 baseline) | reference intensity 1.00 | resilience ratio closed-form 6.73x MC 6.19x (layered vs single-layer) | correlation defeats layering: ratio 7.50x @ rho 0.00 -> 1.21x @ rho 0.95 | prior CI [5.51-8.48]x | per-vector survival @ ref jam 26% spoof 80% kinetic 100% cyber 99% (sharpest jamming) | ~7x headline MODELLED, VALIDATED MC->closed-form / fuse-identity / copula-marginals / per-vector-survival",
-        expect_fnv_canonical: 0xfdd7_e3e5_f9c3_abcf,
+        // Re-baselined when the report gained its `units` block (a unit and a
+        // provenance class for every numeric field it emits, enforced by
+        // tests/field_units_global.rs). Purely additive: the summary string above is
+        // byte-identical, no pre-existing key changed value or position, and the whole
+        // delta is the new `units` object.
+        expect_fnv_canonical: 0xe277_1b72_459f_7730,
         expect_fnv_raw_linux_x64: None,
     });
 }

@@ -671,6 +671,73 @@ fn default_sigma_ure() -> f64 {
     LUNAR_SIGMA_URE_M
 }
 
+/// Unit and provenance class for every numeric field the `lunar-integrity` report emits.
+///
+/// The two echoed inputs are the alert limit the pass is graded against and the
+/// signal-in-space ranging accuracy the protection levels scale linearly with; everything
+/// else is the output of [`lunar_araim_with_sigma`] over the sampled relay geometry.
+pub const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "alert_limit_m",
+            unit: "m",
+            provenance: Input,
+            definition: "horizontal alert limit the epoch's HPL is compared against to call \
+                         the surface user available; the LunaNet CONOPS ~50 m by default",
+        },
+        FieldUnit {
+            path: "sigma_ure_m",
+            unit: "m",
+            provenance: Input,
+            definition: "signal-in-space ranging accuracy (1-sigma user range error) fed to \
+                         the ARAIM engine; defaults to the LNIS-class [`LUNAR_SIGMA_URE_M`]",
+        },
+        FieldUnit {
+            path: "samples_total",
+            unit: "count",
+            provenance: Computed,
+            definition: "epochs sampled over the pass at `step_s` out to `duration_s`",
+        },
+        FieldUnit {
+            path: "samples_available",
+            unit: "count",
+            provenance: Computed,
+            definition: "sampled epochs whose HPL is at or below the alert limit",
+        },
+        FieldUnit {
+            path: "min_hpl_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "smallest horizontal protection level over the sampled pass",
+        },
+        FieldUnit {
+            path: "max_hpl_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "largest horizontal protection level over the sampled pass",
+        },
+        FieldUnit {
+            path: "pass[].t_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "seconds since the start of the pass at this epoch",
+        },
+        FieldUnit {
+            path: "pass[].hpl_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "lunar ARAIM horizontal protection level at this epoch",
+        },
+        FieldUnit {
+            path: "pass[].vpl_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "lunar ARAIM vertical protection level at this epoch",
+        },
+    ]
+};
+
 /// A runnable lunar-surface integrity scenario: a south-pole receiver against a
 /// representative LunaNet relay set over a pass. The TOML `kind = "lunar-integrity"`
 /// entry the engine dispatches to [`south_pole_hpl_pass`].

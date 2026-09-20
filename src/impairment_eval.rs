@@ -822,6 +822,130 @@ fn ie_default_optimism_tol() -> f64 {
     0.05
 }
 
+/// Unit and provenance class for every numeric field the `impairment-eval` report
+/// emits.
+const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "corpus.n_cases",
+            unit: "count",
+            provenance: Computed,
+            definition: "cases scored from the in-distribution corpus: n_per_class times the \
+                         number of impairment classes",
+        },
+        FieldUnit {
+            path: "corpus.n_per_class",
+            unit: "count",
+            provenance: Input,
+            definition: "cases generated per impairment class; the corpus is class-balanced \
+                         by construction",
+        },
+        FieldUnit {
+            path: "auc",
+            unit: "1",
+            provenance: Computed,
+            definition: "threshold-free ROC area under the curve of the scored detector over \
+                         the in-distribution corpus, from the Mann-Whitney U statistic: the \
+                         probability a random impaired case scores above a random nominal one \
+                         (ties count half), so a pure number in [0, 1]",
+        },
+        FieldUnit {
+            path: "target_pfa",
+            unit: "1",
+            provenance: Input,
+            definition: "target false-alarm probability the detector's operating threshold is \
+                         set at",
+        },
+        FieldUnit {
+            path: "roc_points",
+            unit: "count",
+            provenance: Computed,
+            definition: "number of points on the computed ROC curve, one per distinct \
+                         operating threshold the corpus's scores produce",
+        },
+        FieldUnit {
+            path: "operating_point.pd",
+            unit: "1",
+            provenance: Computed,
+            definition: "achieved detection probability at the operating threshold, \
+                         TP / (TP + FN)",
+        },
+        FieldUnit {
+            path: "operating_point.pfa",
+            unit: "1",
+            provenance: Computed,
+            definition: "achieved false-alarm probability at the operating threshold, \
+                         FP / (FP + TN); it need not equal target_pfa exactly because the \
+                         threshold is chosen from a finite score sample",
+        },
+        FieldUnit {
+            path: "operating_point.pmd",
+            unit: "1",
+            provenance: Computed,
+            definition: "missed-detection probability at the operating threshold, 1 - pd",
+        },
+        FieldUnit {
+            path: "operating_point.precision",
+            unit: "1",
+            provenance: Computed,
+            definition: "fraction of flagged cases that are genuinely impaired, \
+                         TP / (TP + FP)",
+        },
+        FieldUnit {
+            path: "operating_point.accuracy",
+            unit: "1",
+            provenance: Computed,
+            definition: "fraction of all cases classified correctly at the operating \
+                         threshold, (TP + TN) / N",
+        },
+        FieldUnit {
+            path: "operating_point.f1",
+            unit: "1",
+            provenance: Computed,
+            definition: "harmonic mean of precision and recall, \
+                         2 * precision * pd / (precision + pd)",
+        },
+        FieldUnit {
+            path: "per_class_pd[].pd",
+            unit: "1",
+            provenance: Computed,
+            definition: "fraction of that impaired class's cases flagged at the operating \
+                         threshold",
+        },
+        FieldUnit {
+            path: "distribution_shift.auc_in",
+            unit: "1",
+            provenance: Computed,
+            definition: "the detector's ROC area on the in-distribution (nominal-severity) \
+                         corpus",
+        },
+        FieldUnit {
+            path: "distribution_shift.auc_out",
+            unit: "1",
+            provenance: Computed,
+            definition: "the detector's ROC area on the out-of-distribution corpus, the same \
+                         corpus regenerated with impairment severities scaled by \
+                         shift_severity_scale",
+        },
+        FieldUnit {
+            path: "distribution_shift.optimism_gap",
+            unit: "1",
+            provenance: Computed,
+            definition: "auc_in - auc_out: how much the in-distribution area over-states the \
+                         shifted-regime performance; a difference of two dimensionless areas",
+        },
+        FieldUnit {
+            path: "distribution_shift.shift_severity_scale",
+            unit: "1",
+            provenance: Input,
+            definition: "dimensionless multiplier applied to every impairment severity when \
+                         generating the out-of-distribution corpus; below 1 makes the \
+                         impairments subtler than the tuning regime",
+        },
+    ]
+};
+
 impl ImpairmentEvalScenario {
     /// Reproducible scenario hash over the canonical inputs (cross-platform anchor).
     pub fn scenario_hash(&self) -> String {
@@ -856,6 +980,7 @@ impl ImpairmentEvalScenario {
 
         let value = serde_json::json!({
             "kind": "impairment-eval",
+            "units": crate::field_schema::units_block(UNITS),
             "scenario_hash": self.scenario_hash(),
             "label": "MODELLED — synthetic parameter-grounded corpus (never field/IQ); operating characteristics only, no good/bad verdict",
             "detector": report.detector,

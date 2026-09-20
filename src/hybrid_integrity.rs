@@ -708,6 +708,653 @@ fn build_coast_direction(
     }
 }
 
+/// Unit and provenance class for every numeric leaf the report emits that the released
+/// `units` literal in `HybridOpticalRfScenario::json` does not already name.
+///
+/// The released literal covers the headline scalars plus two subtree placeholders
+/// (`fault_injection.axes`, `post_handover_coast.directions`) that describe a whole block in
+/// prose. Neither placeholder is a leaf path, so under the path grammar of
+/// [`crate::field_schema`] neither covers a field; both stay because they are part of a
+/// released document, and the per-leaf entries below are merged in beside them.
+const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "cross_modality_raim.alert_limit_h_m",
+            unit: "m",
+            provenance: Input,
+            definition: "horizontal alert limit the horizontal protection level is compared \
+                         against; the scenario's alert_limit_h_m after defaults (10 m)",
+        },
+        FieldUnit {
+            path: "cross_modality_raim.alert_limit_v_m",
+            unit: "m",
+            provenance: Input,
+            definition: "vertical alert limit the vertical protection level is compared against; \
+                         the scenario's alert_limit_v_m after defaults (15 m)",
+        },
+        FieldUnit {
+            path: "cross_modality_raim.alert_limit_t_s",
+            unit: "s",
+            provenance: Input,
+            definition: "timing alert limit the timing protection level is compared against; the \
+                         scenario's alert_limit_t_s after defaults (20 ns)",
+        },
+        FieldUnit {
+            path: "cross_modality_raim.n_axes",
+            unit: "count",
+            provenance: Computed,
+            definition: "number of monitored axes, which is also the degrees of freedom of the \
+                         chi-square detector",
+        },
+        FieldUnit {
+            path: "cross_modality_raim.chi2_statistic",
+            unit: "1",
+            provenance: Computed,
+            definition: "the monitor statistic sum_axes (y_rf - y_opt)^2/(sigma_rf^2 + \
+                         sigma_opt^2); chi-square with n_axes = 4 degrees of freedom under the \
+                         fault-free hypothesis",
+        },
+        FieldUnit {
+            path: "cross_modality_raim.chi2_threshold",
+            unit: "1",
+            provenance: ClosedForm,
+            definition: "the detection threshold chi-square_{1-P_fa}(n_axes): the exact quantile \
+                         at 4 degrees of freedom, the same value fault_injection.chi2_threshold \
+                         reports",
+        },
+        FieldUnit {
+            path: "cross_modality_raim.axes[].fused_value",
+            unit: "mixed - see note",
+            provenance: Computed,
+            definition: "the inverse-variance (minimum-variance) fusion of the RF and optical \
+                         estimates on this axis; metres on the east/north/up rows and seconds on \
+                         the clock row, as the row's own `role` field says",
+        },
+        FieldUnit {
+            path: "cross_modality_raim.axes[].fused_sigma",
+            unit: "mixed - see note",
+            provenance: Computed,
+            definition:
+                "1 sigma of that fusion, sqrt(1/(1/sigma_rf^2 + 1/sigma_opt^2)); metres on \
+                         the east/north/up rows and seconds on the clock row, as the row's own \
+                         `role` field says",
+        },
+        FieldUnit {
+            path: "cross_modality_raim.axes[].separation_statistic",
+            unit: "1",
+            provenance: Computed,
+            definition: "the axis term (y_rf - y_opt)^2/(sigma_rf^2 + sigma_opt^2) of the monitor \
+                         statistic, chi-square with 1 degree of freedom under the fault-free \
+                         hypothesis",
+        },
+        FieldUnit {
+            path: "cross_modality_raim.axes[].protection_level",
+            unit: "mixed - see note",
+            provenance: Computed,
+            definition: "the solution-separation protection level K_fa*sqrt(sigma_rf^2 + \
+                         sigma_opt^2)*max(w_rf, w_opt) + K_md*sigma_fused on this axis; metres on \
+                         the east/north/up rows and seconds on the clock row, as the row's own \
+                         `role` field says",
+        },
+        FieldUnit {
+            path: "fault_injection.dof",
+            unit: "count",
+            provenance: Computed,
+            definition: "degrees of freedom of the monitor's chi-square statistic, the number of \
+                         monitored axes",
+        },
+        FieldUnit {
+            path: "fault_injection.p_fa",
+            unit: "1",
+            provenance: Input,
+            definition: "false-alarm probability the detection threshold was set at (default 1e-5)",
+        },
+        FieldUnit {
+            path: "fault_injection.p_md",
+            unit: "1",
+            provenance: Input,
+            definition: "missed-detection probability the minimum detectable bias and the power \
+                         curve are stated at (default 1e-3)",
+        },
+        FieldUnit {
+            path: "fault_injection.axes[].sigma_separation",
+            unit: "mixed - see note",
+            provenance: Computed,
+            definition: "sqrt(sigma_rf^2 + sigma_opt^2), the 1 sigma of the fault-free \
+                         RF-minus-optical separation on this axis, in the unit the row's own \
+                         `unit` field names (m on east/north/up, s on clock)",
+        },
+        FieldUnit {
+            path: "fault_injection.axes[].minimum_detectable_bias",
+            unit: "mixed - see note",
+            provenance: Computed,
+            definition: "the smallest bias on this axis the monitor detects with probability 1 - \
+                         P_md, sqrt(lambda*)*sigma_separation, in the unit the row's own `unit` \
+                         field names (m on east/north/up, s on clock)",
+        },
+        FieldUnit {
+            path: "fault_injection.axes[].alert_limit",
+            unit: "mixed - see note",
+            provenance: Input,
+            definition: "the alert limit this axis is compared against, selected from the \
+                         scenario's alert limits by the axis role, in the unit the row's own \
+                         `unit` field names (m on east/north/up, s on clock)",
+        },
+        FieldUnit {
+            path: "fault_injection.axes[].mdb_over_alert_limit",
+            unit: "1",
+            provenance: Computed,
+            definition: "minimum_detectable_bias / alert_limit; above 1 the smallest fault the \
+                         monitor can catch is already outside tolerance",
+        },
+        FieldUnit {
+            path: "fault_injection.axes[].ramp_rate_per_s",
+            unit: "mixed - see note",
+            provenance: ModelledInput,
+            definition: "the ramp rate the ramp treatment uses, in the axis unit per second (m/s \
+                         on the position axes, s/s on the clock axis); a representative modelled \
+                         input, default 0.05 m/s and 1e-11 s/s",
+        },
+        FieldUnit {
+            path: "fault_injection.axes[].ramp_time_to_detect_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "minimum_detectable_bias / ramp_rate_per_s, a rate conversion and not a \
+                         time-series simulation; see fault_injection.ramp_note",
+        },
+        FieldUnit {
+            path: "fault_injection.axes[].detection_power_curve[].fault_multiple_of_mdb",
+            unit: "1",
+            provenance: Computed,
+            definition: "the bias magnitude of this curve point, expressed as a multiple of the \
+                         axis minimum detectable bias",
+        },
+        FieldUnit {
+            path: "fault_injection.axes[].detection_power_curve[].fault_magnitude",
+            unit: "mixed - see note",
+            provenance: Computed,
+            definition: "the same bias magnitude in the axis unit, fault_multiple_of_mdb * \
+                         minimum_detectable_bias, in the unit the row's own `unit` field names (m \
+                         on east/north/up, s on clock)",
+        },
+        FieldUnit {
+            path: "fault_injection.axes[].detection_power_curve[].noncentrality",
+            unit: "1",
+            provenance: ClosedForm,
+            definition: "lambda = bias^2/(sigma_rf^2 + sigma_opt^2), the non-centrality that bias \
+                         injects into the chi-square statistic",
+        },
+        FieldUnit {
+            path: "fault_injection.axes[].detection_power_curve[].p_detect",
+            unit: "1",
+            provenance: ClosedForm,
+            definition: "probability the monitor flags that bias, 1 - F_noncentral_chi2(T; dof, \
+                         lambda); its zero-fault end equals P_fa",
+        },
+        FieldUnit {
+            path: "fault_injection.axes[].injected[].fault_multiple_of_mdb",
+            unit: "1",
+            provenance: Computed,
+            definition:
+                "the size of the bias actually written into the RF estimate, as a multiple \
+                         of the axis minimum detectable bias",
+        },
+        FieldUnit {
+            path: "fault_injection.axes[].injected[].injected_bias",
+            unit: "mixed - see note",
+            provenance: Computed,
+            definition: "the bias actually added to the RF estimate on this axis before the \
+                         monitor was re-run, in the unit the row's own `unit` field names (m on \
+                         east/north/up, s on clock)",
+        },
+        FieldUnit {
+            path: "fault_injection.axes[].injected[].expected_noncentrality",
+            unit: "1",
+            provenance: ClosedForm,
+            definition: "the non-centrality the analytic model predicts for that injected bias, \
+                         bias^2/(sigma_rf^2 + sigma_opt^2)",
+        },
+        FieldUnit {
+            path: "fault_injection.axes[].injected[].realised_chi2_statistic",
+            unit: "1",
+            provenance: Computed,
+            definition: "the statistic the monitor itself returned with the bias injected, read \
+                         back from the re-run rather than predicted",
+        },
+        FieldUnit {
+            path: "handoff.dof",
+            unit: "count",
+            provenance: Computed,
+            definition: "degrees of freedom of the NEES chi-square, the number of filter states \
+                         (4: east, north, up, clock)",
+        },
+        FieldUnit {
+            path: "handoff.nees_gate_lo",
+            unit: "1",
+            provenance: ClosedForm,
+            definition: "lower bound of the two-sided NEES consistency gate, the chi-square 0.025 \
+                         quantile at dof degrees of freedom",
+        },
+        FieldUnit {
+            path: "handoff.nees_gate_hi",
+            unit: "1",
+            provenance: ClosedForm,
+            definition: "upper bound of the two-sided NEES consistency gate, the chi-square 0.975 \
+                         quantile at dof degrees of freedom",
+        },
+        FieldUnit {
+            path: "handoff_reverse.dof",
+            unit: "count",
+            provenance: Computed,
+            definition: "degrees of freedom of the reverse pass' NEES chi-square, the number of \
+                         filter states (4)",
+        },
+        FieldUnit {
+            path: "handoff_reverse.final_nees",
+            unit: "1",
+            provenance: Computed,
+            definition: "normalised estimation error squared of the final estimate against truth \
+                         after the RF->optical pass; chi-square with dof degrees of freedom when \
+                         the filter is consistent, judged against the same handoff.nees_gate_lo/hi",
+        },
+        FieldUnit {
+            path: "handoff_reverse.max_mean_jump",
+            unit: "m",
+            provenance: Computed,
+            definition: "largest per-axis change in the state mean across the reverse switch; the \
+                         maximum runs over the 4-state (east, north, up, clock) diagonal, so the \
+                         metre spelling follows the three position axes, and the bit-for-bit \
+                         mean-continuity invariant holds the value at exactly 0",
+        },
+        FieldUnit {
+            path: "handoff_reverse.variance_after_rf_stage",
+            unit: "m^2",
+            provenance: Computed,
+            definition: "covariance trace after the loose RF update that precedes the reverse \
+                         handoff; the trace runs over the whole 4-state diagonal (three position \
+                         axes in m^2 plus the clock axis in s^2, about 1e-17 of the total here), \
+                         the quantity handoff.variance_after_optical reports for the forward pass",
+        },
+        FieldUnit {
+            path: "handoff_reverse.variance_after_handoff",
+            unit: "m^2",
+            provenance: Computed,
+            definition: "covariance trace immediately after the reverse handoff's covariance \
+                         inflation, over the same whole 4-state diagonal as \
+                         handoff.variance_after_handoff",
+        },
+        FieldUnit {
+            path: "handoff_reverse.variance_after_optical_stage",
+            unit: "m^2",
+            provenance: Computed,
+            definition: "covariance trace after the final tight optical update of the reverse \
+                         pass, over the same whole 4-state diagonal as handoff.variance_after_rf",
+        },
+        FieldUnit {
+            path: "joint_fom.availability",
+            unit: "1",
+            provenance: Computed,
+            definition:
+                "the availability factor A: the spatially-correlated union availability of \
+                         the optical ground network",
+        },
+        FieldUnit {
+            path: "joint_fom.precision_grade",
+            unit: "1",
+            provenance: Computed,
+            definition: "the precision factor P: A*[optical meets the grade] + (1 - A)*[RF meets \
+                         the grade], the probability the delivered precision meets grade_pos_m and \
+                         grade_time_s",
+        },
+        FieldUnit {
+            path: "joint_fom.integrity_assured",
+            unit: "1",
+            provenance: Computed,
+            definition:
+                "the integrity factor I: 1 - P_HMI when every protection level sits inside \
+                         its alert limit, and 0 otherwise",
+        },
+        FieldUnit {
+            path: "joint_fom.joint_independent",
+            unit: "1",
+            provenance: Computed,
+            definition: "A*P*I, the joint probability under the independence assumption",
+        },
+        FieldUnit {
+            path: "joint_fom.joint_correlated",
+            unit: "1",
+            provenance: Computed,
+            definition: "A*P*I + rho*(min(A,P,I) - A*P*I), the correlation-adjusted joint \
+                         probability",
+        },
+        FieldUnit {
+            path: "joint_fom.correlation",
+            unit: "1",
+            provenance: Input,
+            definition: "the correlation rho in [0,1] that interpolates the joint between the \
+                         independent product and the co-occurrence bound (default 0.5)",
+        },
+        FieldUnit {
+            path: "joint_fom.score",
+            unit: "1",
+            provenance: Computed,
+            definition: "the headline figure of merit, equal to joint_correlated",
+        },
+        FieldUnit {
+            path: "link_configuration.wavelength_nm",
+            unit: "nm",
+            provenance: Input,
+            definition: "optical carrier wavelength as supplied (default 1550 nm), echoed in the \
+                         unit it was given in rather than round-tripped through metres",
+        },
+        FieldUnit {
+            path: "link_configuration.tx_power_w",
+            unit: "W",
+            provenance: Input,
+            definition: "optical transmit power (default 1e-3 W)",
+        },
+        FieldUnit {
+            path: "link_configuration.tx_aperture_m",
+            unit: "m",
+            provenance: Input,
+            definition: "transmit aperture diameter (default 0.85 m)",
+        },
+        FieldUnit {
+            path: "link_configuration.rx_aperture_m",
+            unit: "m",
+            provenance: Input,
+            definition: "receive aperture diameter (default 0.85 m)",
+        },
+        FieldUnit {
+            path: "link_configuration.range_km",
+            unit: "km",
+            provenance: Input,
+            definition: "one-way link range as supplied (default 384000 km, the Earth-Moon \
+                         distance)",
+        },
+        FieldUnit {
+            path: "link_configuration.optics_efficiency",
+            unit: "1",
+            provenance: Input,
+            definition: "optics throughput as a fraction in [0,1] (default 0.5)",
+        },
+        FieldUnit {
+            path: "link_configuration.detector_efficiency",
+            unit: "1",
+            provenance: Input,
+            definition: "detector quantum efficiency as a fraction in [0,1] (default 0.7)",
+        },
+        FieldUnit {
+            path: "link_configuration.atmospheric_loss_db",
+            unit: "dB",
+            provenance: ModelledInput,
+            definition: "one-way atmospheric loss allocation (default 3 dB): a modelled budget \
+                         line, not a measurement",
+        },
+        FieldUnit {
+            path: "link_configuration.pointing_loss_db",
+            unit: "dB",
+            provenance: ModelledInput,
+            definition:
+                "pointing / jitter loss allocation (default 3 dB): a modelled budget line, \
+                         not a measurement",
+        },
+        FieldUnit {
+            path: "link_configuration.pulse_rms_ps",
+            unit: "ps",
+            provenance: Input,
+            definition: "RMS width of the signal pulse as supplied (default 50 ps)",
+        },
+        FieldUnit {
+            path: "link_configuration.integration_s",
+            unit: "s",
+            provenance: Input,
+            definition: "detector integration time over which photons are accumulated (default 1 \
+                         s)",
+        },
+        FieldUnit {
+            path: "optical_link.divergence_rad",
+            unit: "rad",
+            provenance: ClosedForm,
+            definition: "diffraction divergence half-angle lambda/D of the transmit aperture",
+        },
+        FieldUnit {
+            path: "optical_link.footprint_m",
+            unit: "m",
+            provenance: ClosedForm,
+            definition: "far-field beam footprint diameter (lambda/D)*range",
+        },
+        FieldUnit {
+            path: "optical_link.geometric_loss_db",
+            unit: "dB",
+            provenance: ClosedForm,
+            definition: "far-field geometric capture loss -10*log10(min((D_rx/d_beam)^2, 1)), one \
+                         way",
+        },
+        FieldUnit {
+            path: "optical_link.total_loss_db",
+            unit: "dB",
+            provenance: Computed,
+            definition: "one-way total loss: the geometric capture loss plus the atmospheric and \
+                         pointing allocations",
+        },
+        FieldUnit {
+            path: "optical_link.detected_photons",
+            unit: "count",
+            provenance: Computed,
+            definition: "expected photon count over the integration time: the one-way \
+                         photon_rate_hz reduced by the two-way return-path geometric loss, times \
+                         integration_s; an expectation, so not an integer",
+        },
+        FieldUnit {
+            path: "optical_availability.n_sites",
+            unit: "count",
+            provenance: Input,
+            definition: "number of optical ground sites used: the scenario's n_optical_sites \
+                         clamped to the bundled network (default 5)",
+        },
+        FieldUnit {
+            path: "optical_availability.correlation",
+            unit: "1",
+            provenance: Input,
+            definition: "spatial correlation rho in [0,1] of the site outages, used for the \
+                         correlated union (default 0.15)",
+        },
+        FieldUnit {
+            path: "optical_availability.per_site[].clear_sky_prob",
+            unit: "1",
+            provenance: Published,
+            definition: "published satellite-derived fraction of clear nights at this site, read \
+                         from the bundled climatology table (Cavazzani et al. 2011, MNRAS, GOES12 \
+                         2007-2008 analysis)",
+        },
+        FieldUnit {
+            path: "optical_availability.per_site[].pointing_acquisition_factor",
+            unit: "1",
+            provenance: ModelledInput,
+            definition: "fraction of clear-sky time the optical terminal points and acquires the \
+                         link: a modelled terminal allocation (0.90), kept separate from the \
+                         published clear-sky column",
+        },
+        FieldUnit {
+            path: "optical_availability.per_site[].availability",
+            unit: "1",
+            provenance: Computed,
+            definition: "single-site availability, clear_sky_prob * pointing_acquisition_factor \
+                         clamped to [0,1]",
+        },
+        FieldUnit {
+            path: "optical_availability.diversity_curve[].n_sites",
+            unit: "count",
+            provenance: Computed,
+            definition: "number of sites in this prefix of the network",
+        },
+        FieldUnit {
+            path: "optical_availability.diversity_curve[].independent",
+            unit: "1",
+            provenance: Modelled,
+            definition: "independent-union availability of that prefix, 1 - prod_i (1 - a_i)",
+        },
+        FieldUnit {
+            path: "optical_availability.diversity_curve[].correlated",
+            unit: "1",
+            provenance: Modelled,
+            definition: "spatially-correlated-union availability of that prefix, 1 - gbar^N_eff \
+                         with N_eff = 1 + (n-1)(1-rho)",
+        },
+        FieldUnit {
+            path: "post_handover_coast.directions[].position_variance_after_handoff_m2",
+            unit: "m^2",
+            provenance: Computed,
+            definition: "sum of the three position-axis variances immediately after the handover \
+                         covariance inflation",
+        },
+        FieldUnit {
+            path: "post_handover_coast.directions[].clock_variance_after_handoff_s2",
+            unit: "s^2",
+            provenance: Computed,
+            definition: "clock-axis variance immediately after the handover covariance inflation",
+        },
+        FieldUnit {
+            path: "post_handover_coast.directions[].total_variance_after_handoff",
+            unit: "m^2",
+            provenance: Computed,
+            definition: "the whole 4-state diagonal trace immediately after the handover (three \
+                         position axes in m^2 plus the clock axis in s^2), carried so it can be \
+                         reconciled against handoff.variance_after_handoff",
+        },
+        FieldUnit {
+            path: "post_handover_coast.directions[].sigma_h_at_handover_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "horizontal 1 sigma sqrt(P_east + P_north) at the handover instant",
+        },
+        FieldUnit {
+            path: "post_handover_coast.directions[].sigma_v_at_handover_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "vertical 1 sigma at the handover instant",
+        },
+        FieldUnit {
+            path: "post_handover_coast.directions[].sigma_t_at_handover_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "clock 1 sigma at the handover instant",
+        },
+        FieldUnit {
+            path: "post_handover_coast.directions[].bound_h_at_handover_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "k*sigma_h at the handover instant, the quantity compared against \
+                         alert_limit_h_m",
+        },
+        FieldUnit {
+            path: "post_handover_coast.directions[].bound_v_at_handover_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "k*sigma_v at the handover instant, compared against alert_limit_v_m",
+        },
+        FieldUnit {
+            path: "post_handover_coast.directions[].bound_t_at_handover_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "k*sigma_t at the handover instant, compared against alert_limit_t_s",
+        },
+        FieldUnit {
+            path: "post_handover_coast.directions[].time_to_alert_limit_h_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "time after the handover at which k*sigma_h(t) first reaches \
+                         alert_limit_h_m; null means it never does",
+        },
+        FieldUnit {
+            path: "post_handover_coast.directions[].time_to_alert_limit_v_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "time after the handover at which k*sigma_v(t) first reaches \
+                         alert_limit_v_m; null means it never does",
+        },
+        FieldUnit {
+            path: "post_handover_coast.directions[].time_to_alert_limit_t_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "time after the handover at which k*sigma_t(t) first reaches \
+                         alert_limit_t_s; null means it never does",
+        },
+        FieldUnit {
+            path: "post_handover_coast.directions[].time_inside_alert_limits_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "how long this direction's coasting solution stays inside every alert \
+                         limit, the earliest of the three crossing times; null when no limit is \
+                         ever reached",
+        },
+        FieldUnit {
+            path: "post_handover_coast.directions[].horizontal_variance_doubling_time_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "P_h(0)/(2*q_pos), the time for the coasting horizontal variance to \
+                         double; the horizontal axis sums two independent random walks, hence \
+                         2*q_pos",
+        },
+        FieldUnit {
+            path: "post_handover_coast.directions[].vertical_variance_doubling_time_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "P_v(0)/q_pos, the time for the coasting vertical variance to double",
+        },
+        FieldUnit {
+            path: "post_handover_coast.directions[].clock_variance_doubling_time_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "P_t(0)/q_clock, the time for the coasting clock variance to double",
+        },
+        FieldUnit {
+            path: "post_handover_coast.directions[].profile[].t_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "time since the handover at this profile sample",
+        },
+        FieldUnit {
+            path: "post_handover_coast.directions[].profile[].sigma_h_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "horizontal 1 sigma sqrt(P_east(t) + P_north(t)) at this coast time",
+        },
+        FieldUnit {
+            path: "post_handover_coast.directions[].profile[].bound_h_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "k*sigma_h at this coast time",
+        },
+        FieldUnit {
+            path: "post_handover_coast.directions[].profile[].sigma_v_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "vertical 1 sigma at this coast time",
+        },
+        FieldUnit {
+            path: "post_handover_coast.directions[].profile[].bound_v_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "k*sigma_v at this coast time",
+        },
+        FieldUnit {
+            path: "post_handover_coast.directions[].profile[].sigma_t_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "clock 1 sigma at this coast time",
+        },
+        FieldUnit {
+            path: "post_handover_coast.directions[].profile[].bound_t_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "k*sigma_t at this coast time",
+        },
+    ]
+};
+
 /// The `hybrid-optical-rf` scenario: every field is optional, so a bare `kind =
 /// "hybrid-optical-rf"` runs the representative P5 analysis.
 #[derive(Clone, Debug, Default, Deserialize)]
@@ -1107,7 +1754,7 @@ impl HybridOpticalRfScenario {
         // quote. The handoff variances are the reason this block exists: they were
         // emitted as bare "variance" and a manuscript had to infer square metres from
         // an internal consistency check. An inferred unit is an interface defect.
-        let units = serde_json::json!({
+        let mut units = serde_json::json!({
             "handoff.variance_after_optical": {"unit": "m^2", "provenance": "computed", "note": "covariance trace over the position axes"},
             "handoff.variance_after_handoff": {"unit": "m^2", "provenance": "computed", "note": "covariance trace over the position axes"},
             "handoff.variance_after_rf": {"unit": "m^2", "provenance": "computed", "note": "covariance trace over the position axes"},
@@ -1147,6 +1794,17 @@ impl HybridOpticalRfScenario {
             "post_handover_coast.time_inside_alert_limits_rf_to_optical_s": {"unit": "s", "provenance": "computed"},
             "post_handover_coast.directions": {"unit": "mixed - see note", "provenance": "computed", "note": "per element: position_variance_after_handoff_m2 in m^2, clock_variance_after_handoff_s2 in s^2, total_variance_after_handoff the whole diagonal (m^2 position plus s^2 clock, matching handoff.variance_after_handoff), sigma_h/sigma_v and their bounds in m, sigma_t and its bound in s, and every *_time_s / time_to_* / time_inside_* in seconds"},
         });
+        // …and one entry per remaining numeric leaf, in the `crate::field_schema` path
+        // grammar, so the document describes every number it emits and not only the
+        // headline ones. Merged, never overwritten: a key the literal above already
+        // states wins, so no released entry can move.
+        {
+            let extra = crate::field_schema::units_block(UNITS);
+            let obj = units.as_object_mut().expect("the units block is an object");
+            for (path, meta) in extra.as_object().expect("units_block renders an object") {
+                obj.entry(path.as_str()).or_insert_with(|| meta.clone());
+            }
+        }
 
         let doc = serde_json::json!({
             "kind": "hybrid-optical-rf",
@@ -1650,6 +2308,31 @@ mod tests {
         }
     }
 
+    /// Resolve a units-block path against the emitted document, in the path grammar of
+    /// [`crate::field_schema`]: an array contributes one `[]`-suffixed segment shared by
+    /// every row, and a `*` segment stands for each key of a data-keyed object.
+    fn units_path_resolves(v: &Value, segs: &[&str]) -> bool {
+        let Some((seg, rest)) = segs.split_first() else {
+            return !v.is_null();
+        };
+        // An array's rows all share the segment that named the array, so descend into
+        // the rows without consuming another segment.
+        if let Value::Array(rows) = v {
+            return rows.iter().any(|row| units_path_resolves(row, segs));
+        }
+        let Value::Object(m) = v else {
+            return false;
+        };
+        let name = seg.trim_end_matches("[]");
+        if name == "*" {
+            return m.values().any(|child| units_path_resolves(child, rest));
+        }
+        match m.get(name) {
+            Some(child) => units_path_resolves(child, rest),
+            None => false,
+        }
+    }
+
     /// Every field the units block describes must actually exist in the report.
     ///
     /// A units block that names a field nobody emits is worse than none: it reads as a
@@ -1660,15 +2343,34 @@ mod tests {
         let (json, _, _) = scn.run_output().expect("run");
         let v: serde_json::Value = serde_json::from_str(&json).unwrap();
         for field in v["units"].as_object().unwrap().keys() {
-            let mut cur = &v;
-            for seg in field.split('.') {
-                cur = &cur[seg];
-                assert!(
-                    !cur.is_null(),
-                    "units names {field}, which the report does not emit"
-                );
-            }
+            let segs: Vec<&str> = field.split('.').collect();
+            assert!(
+                units_path_resolves(&v, &segs),
+                "units names {field}, which the report does not emit"
+            );
         }
+    }
+
+    /// …and the converse: every numeric leaf of the report is described by the block, so
+    /// the document cannot grow a number nobody stated a unit for.
+    #[test]
+    fn every_numeric_leaf_of_the_report_is_described() {
+        let scn = HybridOpticalRfScenario::default();
+        let (json, _, _) = scn.run_output().expect("run");
+        let v: serde_json::Value = serde_json::from_str(&json).unwrap();
+        let audit = crate::field_schema::audit_document(&v);
+        assert!(
+            audit.missing.is_empty(),
+            "{} numeric fields carry no units entry: {:?}",
+            audit.missing.len(),
+            audit.missing
+        );
+        assert!(
+            audit.malformed.is_empty(),
+            "malformed units entries: {:?}",
+            audit.malformed
+        );
+        assert!(audit.field_count() >= 90, "{}", audit.field_count());
     }
 
     // ---------------------------------------------------------------------------------
