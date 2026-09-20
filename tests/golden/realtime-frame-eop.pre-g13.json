@@ -1,0 +1,333 @@
+{
+  "earth_moon_distance_m": 384400000.0,
+  "eop_input": {
+    "final_rows": 5,
+    "kind": "bundled-offline-fixture",
+    "note": "The DOCUMENTED EOP input is a real IERS finals2000A product supplied through `eop_finals2000a` (the repository ships two verbatim extracts under tests/fixtures/agency/eop/). The bundled offline fixture is the fallback only: it is a FINAL-ONLY excerpt, every row carrying a Bulletin B block, so it publishes no Bulletin A prediction rows and `predicted_rows.n` is 0 on a bare run for that reason alone — not because a prediction row is unreadable. A real full product does carry prediction rows and reports a non-zero count. The bundled fixture is retained as the runtime default because changing it would renumber the already-published P4 tables; `rows` = `final_rows` + `prediction_rows` for whichever input is in force.",
+    "prediction_rows": 0,
+    "rows": 5,
+    "source": "bundled fixture finals2000A_2022001"
+  },
+  "eop_source": "bundled fixture finals2000A_2022001",
+  "epoch": "2022-01-01",
+  "kind": "realtime-frame-eop",
+  "label": "Real-time lunar frame / Earth-orientation prediction budget. VALIDATED closed form: the L19 lever arm (1 ms ↔ 28.03 m ↔ 93.5 ns), ω⊕ cross-checked against the CIO Earth-rotation angle. VALIDATED real data: the L18 UT1 and polar-motion prediction-error curves read directly off the real IERS finals2000A series (Bulletin A rapid vs Bulletin B final, and multi-day persistence over the real daily rows). DERIVED: the frame-realisation floor is the post-fit RMS residual of an actual 7-parameter Helmert datum realisation (not an asserted 0.2 m). MODELLED: the lunar-relay OD covariance magnitudes (0.27 m post-processed, ~14.4 m real-time at 1 h latency) are a round, NOT back-solved, representative allocation — the order-15-m real-time figure is independently bracketed by the real EOP-prediction curve (≈9.9 m at 1 day, ≈18.8 m at 2 days). The multi-day predictor is persistence, not IERS's operational Bulletin A algorithm, and a genuine predicted-vs-final vintage difference needs an archived earlier file vintage (not available from a single fetch). Not a certified real-time frame product.",
+  "latency_s": 3600.0,
+  "lever_arm_m_per_s": 28030.890623941632,
+  "omega_earth_rad_s": 0.0000729211514670698,
+  "predicted_rows": {
+    "first_mjd": null,
+    "last_mjd": null,
+    "n": 0,
+    "note": "Real Bulletin A prediction-only rows (blank Bulletin B) the file publishes, parsed by eop::parse_all_predicted. A genuine predicted-vs-final residual needs an archived earlier vintage of the SAME product; from a single instantaneous fetch these future dates have no eventual final yet, so the multi-day Table 2 growth uses the persistence predictor over the real finals instead (honestly Modelled predictor, real measured error)."
+  },
+  "realtime_frame_error_budget": {
+    "delta_ut1_ms": 0.5,
+    "delta_xp_mas": 0.05439852939188552,
+    "delta_yp_mas": 0.05439852939188552,
+    "eop_term_m": 14.016178596543083,
+    "ephemeris_term_m": 14.402531027565953,
+    "frame_realization_floor_derived": true,
+    "frame_realization_floor_m": 0.17746546853220646,
+    "measured_pm_floor_mas": 0.07693113803915594,
+    "total_m": 20.097702765309116,
+    "total_time_ns": 67.03872038471734
+  },
+  "table1_consistency": [
+    {
+      "frame_position_m": 0.27,
+      "light_time_ns": 0.9006230570350107,
+      "regime": "post-processed",
+      "ut1_equiv_ms": 0.009632230513909847
+    },
+    {
+      "frame_position_m": 14.402531027565953,
+      "light_time_ns": 48.041672307733485,
+      "regime": "real-time",
+      "ut1_equiv_ms": 0.5138092549676079
+    }
+  ],
+  "table2_error_vs_horizon": [
+    {
+      "horizon": "final",
+      "horizon_days": 0.0,
+      "moon_light_time_ns": 1.9795110651717314,
+      "moon_position_m": 0.5934424878660315,
+      "n": 5,
+      "ut1_p50_ms": 0.0176000000000065,
+      "ut1_p95_ms": 0.035099999999996245,
+      "ut1_rms_ms": 0.02117101792545838
+    },
+    {
+      "horizon": "day-1",
+      "horizon_days": 1.0,
+      "moon_light_time_ns": 20.74580467902371,
+      "moon_position_m": 6.21943577791242,
+      "n": 4,
+      "ut1_p50_ms": 0.1305999999999946,
+      "ut1_p95_ms": 0.33260000000000234,
+      "ut1_rms_ms": 0.2218779225159653
+    },
+    {
+      "horizon": "day-2",
+      "horizon_days": 2.0,
+      "moon_light_time_ns": 30.54679810806608,
+      "moon_position_m": 9.157699688846881,
+      "n": 3,
+      "ut1_p50_ms": 0.37990000000000246,
+      "ut1_p95_ms": 0.41679999999999495,
+      "ut1_rms_ms": 0.3267002754819764
+    },
+    {
+      "horizon": "day-3",
+      "horizon_days": 3.0,
+      "moon_light_time_ns": 27.207737227375656,
+      "moon_position_m": 8.156674420013053,
+      "n": 2,
+      "ut1_p50_ms": 0.28620000000000034,
+      "ut1_p95_ms": 0.29570000000000984,
+      "ut1_rms_ms": 0.29098877126102823
+    }
+  ],
+  "table3_joint_eop": [
+    {
+      "combined": {
+        "component": "combined",
+        "epochs_mjd": [
+          59578.0,
+          59579.0,
+          59580.0,
+          59581.0,
+          59582.0
+        ],
+        "max_native": 1.0121213377341014,
+        "n": 5,
+        "p50_native": 0.504168453737597,
+        "p95_native": 1.0121213377341014,
+        "p95_position_m": 1.0121213377341014,
+        "rms_light_time_ns": 2.036460416234232,
+        "rms_native": 0.6105154738025634,
+        "rms_position_m": 0.6105154738025634,
+        "unit": "m"
+      },
+      "horizon": "final",
+      "horizon_days": 0.0,
+      "n": 5,
+      "polar_motion": {
+        "component": "polar-motion",
+        "epochs_mjd": [
+          59578.0,
+          59579.0,
+          59580.0,
+          59581.0,
+          59582.0
+        ],
+        "max_native": 0.00012738916751435064,
+        "n": 5,
+        "p50_native": 0.00007006425622241537,
+        "p95_native": 0.00012738916751435064,
+        "p95_position_m": 0.2374054831916132,
+        "rms_light_time_ns": 0.4782331750846833,
+        "rms_native": 0.00007693113803915594,
+        "rms_position_m": 0.14337069905578156,
+        "unit": "arcsec"
+      },
+      "ut1": {
+        "component": "ut1",
+        "epochs_mjd": [
+          59578.0,
+          59579.0,
+          59580.0,
+          59581.0,
+          59582.0
+        ],
+        "max_native": 0.000035099999999996245,
+        "n": 5,
+        "p50_native": 0.0000176000000000065,
+        "p95_native": 0.000035099999999996245,
+        "p95_position_m": 0.983884260900246,
+        "rms_light_time_ns": 1.9795110651717314,
+        "rms_native": 0.00002117101792545838,
+        "rms_position_m": 0.5934424878660315,
+        "unit": "s"
+      }
+    },
+    {
+      "combined": {
+        "component": "combined",
+        "epochs_mjd": [
+          59578.0,
+          59579.0,
+          59580.0,
+          59581.0
+        ],
+        "max_native": 9.979739764012589,
+        "n": 4,
+        "p50_native": 4.601823196082327,
+        "p95_native": 9.979739764012589,
+        "p95_position_m": 9.979739764012589,
+        "rms_light_time_ns": 23.25260535985718,
+        "rms_native": 6.97095571573556,
+        "rms_position_m": 6.97095571573556,
+        "unit": "m"
+      },
+      "horizon": "day-1",
+      "horizon_days": 1.0,
+      "n": 4,
+      "polar_motion": {
+        "component": "polar-motion",
+        "epochs_mjd": [
+          59578.0,
+          59579.0,
+          59580.0,
+          59581.0
+        ],
+        "max_native": 0.002003247363657299,
+        "n": 4,
+        "p50_native": 0.0014962145568066354,
+        "p95_native": 0.002003247363657299,
+        "p95_position_m": 3.7332994445372374,
+        "rms_light_time_ns": 10.502154266675811,
+        "rms_native": 0.0016894325230680214,
+        "rms_position_m": 3.148466641901929,
+        "unit": "arcsec"
+      },
+      "ut1": {
+        "component": "ut1",
+        "epochs_mjd": [
+          59578.0,
+          59579.0,
+          59580.0,
+          59581.0
+        ],
+        "max_native": 0.00033260000000000234,
+        "n": 4,
+        "p50_native": 0.0001305999999999946,
+        "p95_native": 0.00033260000000000234,
+        "p95_position_m": 9.323074221523052,
+        "rms_light_time_ns": 20.74580467902371,
+        "rms_native": 0.0002218779225159653,
+        "rms_position_m": 6.21943577791242,
+        "unit": "s"
+      }
+    },
+    {
+      "combined": {
+        "component": "combined",
+        "epochs_mjd": [
+          59578.0,
+          59579.0,
+          59580.0
+        ],
+        "max_native": 13.757140482623099,
+        "n": 3,
+        "p50_native": 11.737896826363725,
+        "p95_native": 13.757140482623099,
+        "p95_position_m": 13.757140482623099,
+        "rms_light_time_ns": 37.09979954876965,
+        "rms_native": 11.122240098032945,
+        "rms_position_m": 11.122240098032945,
+        "unit": "m"
+      },
+      "horizon": "day-2",
+      "horizon_days": 2.0,
+      "n": 3,
+      "polar_motion": {
+        "component": "polar-motion",
+        "epochs_mjd": [
+          59578.0,
+          59579.0,
+          59580.0
+        ],
+        "max_native": 0.003897571808190298,
+        "n": 3,
+        "p50_native": 0.003493350540670089,
+        "p95_native": 0.003897571808190298,
+        "p95_position_m": 7.263607545698027,
+        "rms_light_time_ns": 21.054411696932764,
+        "rms_native": 0.00338692490813323,
+        "rms_position_m": 6.311953834367424,
+        "unit": "arcsec"
+      },
+      "ut1": {
+        "component": "ut1",
+        "epochs_mjd": [
+          59578.0,
+          59579.0,
+          59580.0
+        ],
+        "max_native": 0.00041679999999999495,
+        "n": 3,
+        "p50_native": 0.00037990000000000246,
+        "p95_native": 0.00041679999999999495,
+        "p95_position_m": 11.683275212058732,
+        "rms_light_time_ns": 30.54679810806608,
+        "rms_native": 0.0003267002754819764,
+        "rms_position_m": 9.157699688846881,
+        "unit": "s"
+      }
+    },
+    {
+      "combined": {
+        "component": "combined",
+        "epochs_mjd": [
+          59578.0,
+          59579.0
+        ],
+        "max_native": 12.860118235477886,
+        "n": 2,
+        "p50_native": 11.908805415455452,
+        "p95_native": 12.860118235477886,
+        "p95_position_m": 12.860118235477886,
+        "rms_light_time_ns": 41.3405758520068,
+        "rms_native": 12.393592849808565,
+        "rms_position_m": 12.393592849808565,
+        "unit": "m"
+      },
+      "horizon": "day-3",
+      "horizon_days": 3.0,
+      "n": 2,
+      "polar_motion": {
+        "component": "polar-motion",
+        "epochs_mjd": [
+          59578.0,
+          59579.0
+        ],
+        "max_native": 0.005393268767639897,
+        "n": 2,
+        "p50_native": 0.004588276037903544,
+        "p95_native": 0.005393268767639897,
+        "p95_position_m": 10.051023982235751,
+        "rms_light_time_ns": 31.12526701478407,
+        "rms_native": 0.005006976383008003,
+        "rms_position_m": 9.331120304268438,
+        "unit": "arcsec"
+      },
+      "ut1": {
+        "component": "ut1",
+        "epochs_mjd": [
+          59578.0,
+          59579.0
+        ],
+        "max_native": 0.00029570000000000984,
+        "n": 2,
+        "p50_native": 0.00028620000000000034,
+        "p95_native": 0.00029570000000000984,
+        "p95_position_m": 8.288734357499816,
+        "rms_light_time_ns": 27.207737227375656,
+        "rms_native": 0.00029098877126102824,
+        "rms_position_m": 8.156674420013053,
+        "unit": "s"
+      }
+    }
+  ],
+  "table3_note": "G14 — UT1, polar motion and their quadrature combination over one IDENTICAL row set per horizon. The two single-quantity curves (`table2_error_vs_horizon` and the budget's measured pole floor) each cover whatever rows their own Bulletin B block populates and can therefore rest on different epochs; this table intersects the two epoch sets first, so `combined` is a joint statistic and not the root-sum-square of two differently-sized samples. Each component reports the epochs it was measured at.",
+  "table4_predicted_vs_final_horizon": {
+    "as_issued_source": "bundled fixture finals2000A_2022001",
+    "later_vintage_source": null,
+    "n_rows": 0,
+    "rows": [],
+    "statement": "EMPTY, and deliberately so: a predicted-vs-final residual needs TWO vintages of the same finals2000A product. This run was given one (bundled fixture finals2000A_2022001). Its Bulletin A prediction rows are for future dates that have no Bulletin B final yet, so the residual does not exist to be measured and none is invented here. Supply an archived later vintage through `eop_finals2000a_later` to populate this table. Until then the multi-day growth reported in `table2_error_vs_horizon` is the PERSISTENCE predictor scored over the real finals — a real measured error, but a Modelled predictor, and not the IERS Bulletin A prediction residual.",
+    "status": "no-second-vintage"
+  }
+}
