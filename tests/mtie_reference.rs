@@ -55,6 +55,9 @@ fn nbs14_1000_phase() -> Vec<f64> {
     phase
 }
 
+// PIN-SCOPE:    the 1001-point phase series the allantools MTIE comparison is run over.
+// PIN-EXCLUDES: every kshana result document; this is the length of the reference input,
+//               not of anything emitted.
 #[test]
 fn mtie_matches_allantools_on_nist_sp1065() {
     let phase = nbs14_1000_phase();

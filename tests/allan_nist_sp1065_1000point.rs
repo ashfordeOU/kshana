@@ -95,6 +95,10 @@ fn rel_err(got: f64, want: f64) -> f64 {
 /// figures, far inside it.
 const TOL: f64 = 1e-4;
 
+// PIN-SCOPE:    the NBS14 1000-point generator against the verification values printed
+//               in NIST SP 1065 p. 108, including the 1000-element series length.
+// PIN-EXCLUDES: every kshana result document. This pins a published reference sequence,
+//               not an emission, so no change to what kshana reports can move it.
 #[test]
 fn nbs14_1000_lcg_matches_sp1065_verification_values() {
     // Guard the generator before any deviation is computed: SP 1065 p. 108 prints
@@ -119,6 +123,10 @@ fn nbs14_1000_lcg_matches_sp1065_verification_values() {
     );
 }
 
+// PIN-SCOPE:    the 1001-point phase series the SP 1065 Table 31 comparison is run over
+//               (1000 frequency samples integrate to 1001 phase samples).
+// PIN-EXCLUDES: every kshana result document; this is the length of the reference input,
+//               not of anything emitted.
 #[test]
 fn overlapping_adev_matches_sp1065_table31() {
     // Oracle: NIST SP 1065 Table 31, "Overlap Allan Dev" row, p. 108

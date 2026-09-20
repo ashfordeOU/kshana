@@ -24,6 +24,18 @@
 //! them. To re-baseline, run `cargo test -p kshana --test registry_golden
 //! zzz_emit_goldens -- --ignored --nocapture` (the raw hash must be regenerated on
 //! x86-64 Linux).
+//!
+//! PIN-SCOPE:    every pin in this file covers the WHOLE result document of its scenario —
+//!               the summary string verbatim, the canonical six-significant-figure form of
+//!               the JSON on every platform, and on x86-64 Linux the raw pretty JSON byte
+//!               for byte.
+//! PIN-EXCLUDES: `engine_version`, normalised away so a version bump is not a document
+//!               change; full float precision in the canonical layer (given up for
+//!               cross-platform stability, and restored by the raw layer on Linux); and
+//!               the raw layer everywhere except x86-64 Linux. Nothing else: a
+//!               cross-cutting change that appends a block to every scenario document is
+//!               IN scope for every pin here and must re-baseline them — as the `units`
+//!               block did, per the note on `golden_clock`.
 
 use serde_json::Value;
 use std::fs;
