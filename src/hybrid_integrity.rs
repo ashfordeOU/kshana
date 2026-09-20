@@ -69,6 +69,12 @@
 
 use crate::cross_raim::{run_cross_raim, AxisRole, CrossAxis, CrossRaimResult};
 use crate::handoff::{optical_rf_handoff, rf_optical_handoff, HandoffOutcome, HandoffState};
+use crate::jamming::{
+    lock_status, LockStatus, CA_CHIP_RATE_HZ, DEFAULT_DEGRADED_MARGIN_DB,
+    DEFAULT_TRACKING_THRESHOLD_DBHZ,
+};
+use crate::linkbudget::{band_frequency_hz, link_budget, LinkParams};
+use crate::navsignal::dll_code_jitter_chips;
 use crate::optical_availability::{
     default_network, run_optical_availability, OpticalAvailabilityResult,
 };
@@ -76,7 +82,9 @@ use crate::optical_linkbudget::{
     detected_photons, optical_link_budget, photon_limited_range_crlb_m, photon_limited_toa_crlb_s,
     OpticalLinkParams, OpticalLinkResult,
 };
+use crate::radiometric::Band;
 use crate::raim::{chi2_cdf, noncentral_chi2_cdf, normal_quantile, pbias};
+use crate::timegeo::C_M_PER_S;
 use serde::{Deserialize, Serialize};
 
 /// The honesty label carried on the result document.
@@ -128,6 +136,72 @@ solution-separation protection level exists; the coast bound k*sigma(t) is compa
 the same alert limits the cross-modality block uses. The process-noise PSDs are MODELLED \
 representative inputs and the crossing times scale directly with them - halving q_pos \
 doubles the horizontal coast time - so quote the PSD alongside any coast time.";
+
+/// The RF-availability composition rule, stated in full on the report (G16).
+const RF_AVAILABILITY_RULE: &str = "A_rf = I_closure * I_track, a product of two \
+deterministic indicators read off engine quantities, NOT a probability. I_closure is 1 \
+when the one-way CCSDS-401 / DSN-810-005 link budget closes at the scenario's own range - \
+linkbudget::link_budget(...).closes, i.e. Eb/N0 margin >= 0 - and 0 otherwise. I_track is 1 \
+when the same budget's C/N0 is at or above the tracking threshold - \
+jamming::lock_status(C/N0, tracking_threshold_dbhz, degraded_margin_db) is LOCKED or \
+DEGRADED rather than LOST - and 0 otherwise. Both indicators come from the SAME link \
+budget, so the two can never be stated at different operating points. The continuous \
+figures beside them are the closed-form range inversions of the same budget: the only \
+range-dependent term is the free-space loss 20*log10(R), so the range at which each margin \
+reaches zero is range_km * 10^(margin_db/20), and max_range_km is the smaller of the two.";
+
+/// What the RF availability figure is, what it is not, and how it differs from the
+/// optical one — stated on the report so the two can never be read as the same kind of
+/// number just because both are called an availability (G16).
+const RF_VS_OPTICAL_AVAILABILITY: &str = "OPTICAL availability \
+(optical_availability.correlated_union) and RF availability (rf_availability.availability) \
+are NOT the same kind of quantity and must never be quoted as a pair of comparable \
+percentages. The optical figure is WEATHER/CLIMATOLOGY-LIMITED: a probability in [0,1] \
+built from published per-site clear-night fractions (Cavazzani et al. 2011, GOES12) times a \
+modelled pointing/acquisition factor, combined over an N-site network by the union \
+combinatorics, so it takes values strictly between 0 and 1 and moves when the site list or \
+the spatial correlation moves. The RF figure is MARGIN/GEOMETRY-LIMITED and DETERMINISTIC: \
+it is the product of two 0/1 indicators evaluated once, at one range, on one link budget, \
+so it can only ever be 0 or 1 and it moves only when the link configuration crosses a \
+threshold. It carries no distribution, no ensemble and no time base. To make the RF figure \
+a probability comparable with the optical one this engine would need an input it does not \
+have and does not invent: an RF link-outage distribution at this band and geometry - a rain \
+/ scintillation fade climatology, or an epoch grid of the RF geometry - named in \
+rf_availability.factors_not_included.";
+
+/// How the like-for-like ranging comparison is set up, and why the released two-way
+/// optical figure is not its numerator (G16).
+const RANGING_COMPARISON_METHOD: &str = "A ratio of two ranging sigmas measured at \
+different operating points is not a comparison. Both legs here are therefore evaluated at \
+ONE common configuration, emitted beside the ratio: the same one-way path at the same \
+range_km, and the same accumulation time integration_s. The optical leg is the engine's \
+photon-limited two-way-capable ToA CRLB (optical_linkbudget::photon_limited_range_crlb_m) \
+evaluated ONE-WAY, i.e. on the one-way photon count photon_rate_hz * integration_s. The RF \
+leg is the engine's DLL early-late thermal code-tracking jitter \
+(navsignal::dll_code_jitter_chips, Kaplan & Hegarty eq. 8.90) at the C/N0 the engine's own \
+link budget returns for the same one-way range, converted to metres through the chip rate. \
+The loop noise bandwidth is NOT a free knob here: a single-sided loop noise bandwidth B_L \
+averages over 1/(2*B_L) seconds, so B_L defaults to 1/(2*integration_s), which puts the RF \
+leg at exactly the optical leg's accumulation time. If a caller overrides \
+rf_dll_bandwidth_hz so the two averaging times no longer agree, the ratio is REFUSED \
+(null, with the reason stated) rather than quoted at mismatched operating points. What the \
+two legs do NOT share is the estimator family - photon counting against a correlator - \
+because that difference IS the comparison; both are thermal/shot-noise bounds and both \
+exclude media delay, clock error, ambiguity and every other systematic, so the exclusion is \
+the same on each side. The scenario's two_way flag is deliberately not applied here: the \
+optical two-way path charges the beam-spreading capture loss a second time and no RF return \
+path is modelled, so honouring the flag on one leg only would be exactly the operating-point \
+mismatch this object exists to prevent. released_two_way_optical_sigma_m and \
+two_way_penalty_factor carry the exact bridge back to the released headline.";
+
+/// Why no ratio is formed against the scenario's chosen RF 1σ input (G16).
+const RF_SIGMA_RATIO_REFUSAL: &str = "No ratio is formed against \
+optical_link.rf_position_sigma_m. That field is a CHOSEN parametric 1 sigma - a \
+representative Paper-5 Table-1 magnitude the scenario takes as an input - and it carries no \
+configuration at all: no band, no EIRP, no figure of merit, no range and no integration \
+time. Dividing a computed optical CRLB at a stated operating point by a number that has no \
+operating point would produce a figure that looks like a measurement and is not one. The \
+comparison therefore uses the forward-modelled RF leg above, and this ratio is refused.";
 
 /// Convert a boolean condition to a 0/1 probability weight.
 fn indicator(b: bool) -> f64 {
@@ -263,6 +337,507 @@ pub fn random_walk_time_to_limit(p0: f64, q: f64, k: f64, limit: f64) -> Option<
         return None;
     }
     Some((p_limit - p0) / q)
+}
+
+// =====================================================================================
+// G16 — the RF leg: link availability, and the like-for-like ranging comparison.
+// =====================================================================================
+
+/// The resolved RF link leg — every value an INPUT after defaults, echoed so a paper can
+/// state the RF configuration it ran at instead of reading a default out of the source.
+/// The optical counterpart is the `link_configuration` block.
+#[derive(Clone, Debug, Serialize)]
+pub struct RfLinkConfiguration {
+    /// Carrier band label (`s` / `x` / `ka`).
+    pub band: &'static str,
+    /// The band's downlink centre frequency (Hz), the frequency the free-space loss used.
+    pub carrier_hz: f64,
+    /// Transmit effective isotropic radiated power (dBW).
+    pub eirp_dbw: f64,
+    /// Receive figure of merit `G/T` (dB/K).
+    pub g_over_t_db: f64,
+    /// Lumped non-free-space loss (dB).
+    pub other_losses_db: f64,
+    /// Information bit rate the `Eb/N0` is formed at (bit/s).
+    pub data_rate_bps: f64,
+    /// Required `Eb/N0` (dB) the margin is taken over.
+    pub required_eb_n0_db: f64,
+    /// The one-way range the RF budget was evaluated at (km) — the scenario's own
+    /// `range_km`, so the RF leg cannot sit at a different range from the optical one.
+    pub range_km: f64,
+    /// Spreading-code chip rate (chip/s).
+    pub chip_rate_hz: f64,
+    /// Early-late correlator spacing (chip).
+    pub correlator_spacing_chips: f64,
+    /// DLL single-sided loop noise bandwidth (Hz).
+    pub dll_bandwidth_hz: f64,
+    /// Where the loop bandwidth came from.
+    pub dll_bandwidth_source: &'static str,
+    /// Coherent predetection integration time (s) — the scenario's `integration_s`.
+    pub predetection_integration_s: f64,
+    /// Tracking-loop loss-of-lock threshold (dB-Hz).
+    pub tracking_threshold_dbhz: f64,
+    /// Extra margin (dB) above the threshold below which the link is `DEGRADED`.
+    pub degraded_margin_db: f64,
+}
+
+/// One factor of the RF-availability product, carrying the provenance of its own input.
+#[derive(Clone, Debug, Serialize)]
+pub struct RfAvailabilityFactor {
+    /// The factor's name in the composition rule.
+    pub name: &'static str,
+    /// Its value — 0 or 1; these are indicators, not probabilities.
+    pub value: f64,
+    /// The engine quantity the indicator was read off.
+    pub source: &'static str,
+    /// The provenance class of that quantity, carried through to this output.
+    pub provenance: &'static str,
+    /// The condition the indicator tests.
+    pub condition: &'static str,
+}
+
+/// A factor that is deliberately NOT in the product, and why. Named rather than omitted:
+/// a composition that silently drops a term reads as a complete one.
+#[derive(Clone, Debug, Serialize)]
+pub struct OmittedFactor {
+    /// What is missing.
+    pub name: &'static str,
+    /// Why this scenario cannot supply it, and where it does exist if it does.
+    pub reason: &'static str,
+}
+
+/// **RF link availability** (G16) — margin- and tracking-limited, deterministic, and
+/// explicitly not the same kind of number as the weather-limited optical availability.
+#[derive(Clone, Debug, Serialize)]
+pub struct RfAvailability {
+    /// The composition rule, stated in full.
+    pub rule: &'static str,
+    /// One-word basis, so the kind of figure is machine-readable.
+    pub basis: &'static str,
+    /// Always `false`: this is an indicator product, not a probability.
+    pub is_a_probability: bool,
+    /// Always `false`: see `differs_from_optical`.
+    pub comparable_to_optical_availability: bool,
+    /// How this figure differs from `optical_availability`, in full.
+    pub differs_from_optical: &'static str,
+    /// Free-space path loss at the band centre over `range_km` (dB).
+    pub fsl_db: f64,
+    /// Carrier-to-noise density (dB-Hz).
+    pub cn0_dbhz: f64,
+    /// Energy-per-bit to noise density (dB).
+    pub eb_n0_db: f64,
+    /// `Eb/N0` margin over the requirement (dB).
+    pub link_margin_db: f64,
+    /// Whether the budget closes (`margin_db >= 0`).
+    pub closes: bool,
+    /// `C/N0 − tracking_threshold_dbhz` (dB).
+    pub cn0_margin_db: f64,
+    /// The tracking-loop verdict: `LOCKED`, `DEGRADED` or `LOST`.
+    pub lock_status: &'static str,
+    /// Whether the loop holds lock at all (`LOCKED` or `DEGRADED`).
+    pub tracking_ok: bool,
+    /// `I_closure` — 0 or 1.
+    pub closure_indicator: f64,
+    /// `I_track` — 0 or 1.
+    pub tracking_indicator: f64,
+    /// **The headline**: `A_rf = I_closure · I_track`, 0 or 1.
+    pub availability: f64,
+    /// Range at which the `Eb/N0` margin reaches zero (km).
+    pub closure_range_km: f64,
+    /// Range at which `C/N0` reaches the tracking threshold (km).
+    pub tracking_range_km: f64,
+    /// The smaller of the two — the range beyond which `A_rf` becomes 0 (km).
+    pub max_range_km: f64,
+    /// `range_km / max_range_km`: below 1 the link is inside both constraints.
+    pub range_utilisation: f64,
+    /// Which constraint binds first (`eb_n0_closure` / `tracking_threshold`).
+    pub binding_constraint: &'static str,
+    /// The factors in the product, each with its input's provenance.
+    pub factors: Vec<RfAvailabilityFactor>,
+    /// The factors deliberately not in it, each with the reason.
+    pub factors_not_included: Vec<OmittedFactor>,
+    /// `A·[optical meets grade] + (1−A)·A_rf·[RF meets grade]` — the precision-grade
+    /// factor with the RF fallback's own availability applied. The released
+    /// `joint_fom.precision_grade` assumes the RF fallback is always there (`A_rf = 1`)
+    /// and is NOT changed by this figure; the two agree exactly whenever `A_rf = 1`.
+    pub precision_grade_with_rf_availability: f64,
+}
+
+/// The optical leg of the like-for-like ranging comparison.
+#[derive(Clone, Debug, Serialize)]
+pub struct OpticalRangingLeg {
+    /// 1σ one-way ranging precision (m).
+    pub sigma_range_m: f64,
+    /// 1σ one-way time-of-arrival precision (s); `sigma_range_m = c · sigma_time_s`.
+    pub sigma_time_s: f64,
+    /// Detected photons over the accumulation time on the ONE-WAY path.
+    pub detected_photons_one_way: f64,
+    /// RMS signal-pulse width (s).
+    pub pulse_rms_s: f64,
+    /// What estimator bound this is.
+    pub estimator: &'static str,
+}
+
+/// The RF leg of the like-for-like ranging comparison.
+#[derive(Clone, Debug, Serialize)]
+pub struct RfRangingLeg {
+    /// 1σ one-way ranging precision (m).
+    pub sigma_range_m: f64,
+    /// 1σ one-way code-phase timing precision (s); `sigma_range_m = c · sigma_time_s`.
+    pub sigma_time_s: f64,
+    /// Carrier-to-noise density the jitter was evaluated at (dB-Hz).
+    pub cn0_dbhz: f64,
+    /// DLL code-tracking jitter (chip).
+    pub code_jitter_chips: f64,
+    /// The chip rate the jitter was converted to metres through (chip/s).
+    pub chip_rate_hz: f64,
+    /// The loop noise bandwidth used (Hz).
+    pub dll_bandwidth_hz: f64,
+    /// What estimator bound this is.
+    pub estimator: &'static str,
+}
+
+/// The one configuration both legs of the ranging comparison were evaluated at.
+#[derive(Clone, Debug, Serialize)]
+pub struct RangingCommonConfig {
+    /// The one-way range both legs used (km).
+    pub range_km: f64,
+    /// The accumulation time both legs must average over (s).
+    pub accumulation_time_s: f64,
+    /// The propagation path convention — always `one-way` here.
+    pub path: &'static str,
+    /// The optical leg's accumulation time (s).
+    pub optical_accumulation_s: f64,
+    /// The RF leg's equivalent averaging time `1/(2·B_L)` (s).
+    pub rf_equivalent_averaging_s: f64,
+    /// Whether the two averaging times agree to 1e-9 relative. The ratio is refused
+    /// when they do not.
+    pub averaging_times_match: bool,
+}
+
+/// **Like-for-like optical-versus-RF ranging comparison** (G16): the same quantity, to
+/// the same definition, at one common configuration emitted in this same object.
+#[derive(Clone, Debug, Serialize)]
+pub struct RangingComparison {
+    /// How the comparison is set up and why, in full.
+    pub method: &'static str,
+    /// The configuration both legs were evaluated at.
+    pub common_configuration: RangingCommonConfig,
+    /// The optical leg.
+    pub optical_leg: OpticalRangingLeg,
+    /// The RF leg.
+    pub rf_leg: RfRangingLeg,
+    /// **The headline ratio** `sigma_optical / sigma_rf`; below 1 means optical is the
+    /// tighter modality. `null` when the comparison is refused.
+    pub optical_over_rf: Option<f64>,
+    /// Its reciprocal, the factor by which optical beats RF. `null` when refused.
+    pub rf_over_optical: Option<f64>,
+    /// `20·log10(sigma_rf / sigma_optical)` — the same ratio in dB. `null` when refused.
+    pub optical_advantage_db: Option<f64>,
+    /// Whether the ratio was refused rather than quoted.
+    pub refused: bool,
+    /// Why, when it was. Empty when it was not.
+    pub refusal_reason: String,
+    /// The released headline `optical_link.optical_ranging_sigma_m` (m), carried so the
+    /// comparison leg reconciles with it exactly.
+    pub released_two_way_optical_sigma_m: f64,
+    /// `released_two_way_optical_sigma_m / optical_leg.sigma_range_m` — exactly 1 when
+    /// the scenario runs one-way, and the full two-way penalty otherwise.
+    pub two_way_penalty_factor: f64,
+    /// The scenario's CHOSEN RF 1σ input (m), carried only so the refusal below can name
+    /// the number it declines to divide by.
+    pub released_rf_position_sigma_m: f64,
+    /// Why no ratio is formed against that chosen input.
+    pub ratio_against_chosen_rf_sigma_refused: &'static str,
+}
+
+/// Resolved RF-leg inputs, grouped so the builders stay short.
+struct RfInputs {
+    band: Band,
+    band_label: &'static str,
+    eirp_dbw: f64,
+    g_over_t_db: f64,
+    other_losses_db: f64,
+    data_rate_bps: f64,
+    required_eb_n0_db: f64,
+    range_m: f64,
+    chip_rate_hz: f64,
+    correlator_spacing_chips: f64,
+    dll_bandwidth_hz: f64,
+    dll_bandwidth_source: &'static str,
+    integration_s: f64,
+    tracking_threshold_dbhz: f64,
+    degraded_margin_db: f64,
+}
+
+impl RfInputs {
+    /// The one-way link budget both the availability and the ranging leg read from, so
+    /// neither can be stated at an operating point the other did not see.
+    fn link_params(&self) -> LinkParams {
+        LinkParams {
+            band: self.band,
+            eirp_dbw: self.eirp_dbw,
+            g_over_t_db: self.g_over_t_db,
+            range_m: self.range_m,
+            data_rate_bps: self.data_rate_bps,
+            other_losses_db: self.other_losses_db,
+        }
+    }
+
+    fn configuration(&self) -> RfLinkConfiguration {
+        RfLinkConfiguration {
+            band: self.band_label,
+            carrier_hz: band_frequency_hz(self.band),
+            eirp_dbw: self.eirp_dbw,
+            g_over_t_db: self.g_over_t_db,
+            other_losses_db: self.other_losses_db,
+            data_rate_bps: self.data_rate_bps,
+            required_eb_n0_db: self.required_eb_n0_db,
+            range_km: self.range_m / 1000.0,
+            chip_rate_hz: self.chip_rate_hz,
+            correlator_spacing_chips: self.correlator_spacing_chips,
+            dll_bandwidth_hz: self.dll_bandwidth_hz,
+            dll_bandwidth_source: self.dll_bandwidth_source,
+            predetection_integration_s: self.integration_s,
+            tracking_threshold_dbhz: self.tracking_threshold_dbhz,
+            degraded_margin_db: self.degraded_margin_db,
+        }
+    }
+}
+
+/// The range (m) at which a margin that is linear in `−20·log10(R)` reaches zero:
+/// `R · 10^(margin/20)`. The free-space loss is the only range-dependent term in the link
+/// equation, so this is exact, not a fit. Non-finite inputs give a non-finite answer
+/// rather than a fabricated one.
+pub fn margin_limited_range_m(range_m: f64, margin_db: f64) -> f64 {
+    if !range_m.is_finite() || !margin_db.is_finite() || range_m <= 0.0 {
+        return f64::NAN;
+    }
+    range_m * 10f64.powf(margin_db / 20.0)
+}
+
+/// Build the RF-availability block from the one-way link budget and the tracking
+/// threshold. `precision_*` are the pieces the recomputed precision-grade factor needs:
+/// the optical availability `a`, and whether each modality meets the stated grade.
+fn build_rf_availability(
+    inp: &RfInputs,
+    a_optical: f64,
+    opt_meets_grade: bool,
+    rf_meets_grade: bool,
+) -> RfAvailability {
+    let params = inp.link_params();
+    let lb = link_budget(&params, inp.required_eb_n0_db);
+    let cn0_margin_db = lb.cn0_dbhz - inp.tracking_threshold_dbhz;
+    let status = lock_status(
+        lb.cn0_dbhz,
+        inp.tracking_threshold_dbhz,
+        inp.degraded_margin_db,
+    );
+    let status_label = match status {
+        LockStatus::Locked => "LOCKED",
+        LockStatus::Degraded => "DEGRADED",
+        LockStatus::Lost => "LOST",
+    };
+    let tracking_ok = status != LockStatus::Lost;
+    let i_closure = indicator(lb.closes);
+    let i_track = indicator(tracking_ok);
+    let availability = i_closure * i_track;
+
+    let closure_range_m = margin_limited_range_m(inp.range_m, lb.margin_db);
+    let tracking_range_m = margin_limited_range_m(inp.range_m, cn0_margin_db);
+    let (max_range_m, binding_constraint) = if closure_range_m <= tracking_range_m {
+        (closure_range_m, "eb_n0_closure")
+    } else {
+        (tracking_range_m, "tracking_threshold")
+    };
+
+    RfAvailability {
+        rule: RF_AVAILABILITY_RULE,
+        basis: "margin-and-tracking-threshold, deterministic indicator product",
+        is_a_probability: false,
+        comparable_to_optical_availability: false,
+        differs_from_optical: RF_VS_OPTICAL_AVAILABILITY,
+        fsl_db: lb.fsl_db,
+        cn0_dbhz: lb.cn0_dbhz,
+        eb_n0_db: lb.eb_n0_db,
+        link_margin_db: lb.margin_db,
+        closes: lb.closes,
+        cn0_margin_db,
+        lock_status: status_label,
+        tracking_ok,
+        closure_indicator: i_closure,
+        tracking_indicator: i_track,
+        availability,
+        closure_range_km: closure_range_m / 1000.0,
+        tracking_range_km: tracking_range_m / 1000.0,
+        max_range_km: max_range_m / 1000.0,
+        range_utilisation: inp.range_m / max_range_m,
+        binding_constraint,
+        factors: vec![
+            RfAvailabilityFactor {
+                name: "I_closure",
+                value: i_closure,
+                source: "linkbudget::link_budget(...).closes, over the CCSDS-401 / \
+                         DSN-810-005 link equation at rf_link_configuration and the \
+                         scenario's own range_km",
+                provenance: "computed",
+                condition: "Eb/N0 margin over required_eb_n0_db is >= 0 dB",
+            },
+            RfAvailabilityFactor {
+                name: "I_track",
+                value: i_track,
+                source: "jamming::lock_status(C/N0, tracking_threshold_dbhz, \
+                         degraded_margin_db), on the C/N0 the SAME link budget returned",
+                provenance: "computed",
+                condition: "the tracking loop holds lock (LOCKED or DEGRADED, not LOST)",
+            },
+        ],
+        factors_not_included: vec![
+            OmittedFactor {
+                name: "geometric_visibility",
+                reason: "this scenario carries no constellation, no site coordinates and \
+                         no epoch grid: the RF link is one point-to-point path at one \
+                         stated range. A visibility fraction needs an orbit and a site, \
+                         neither of which this kind takes as input, and inventing them \
+                         would put the RF leg at a geometry the optical leg is not at. \
+                         The `lunar-jamming` kind computes per-(epoch, satellite) \
+                         visibility over a lunar constellation and is the kind to run for \
+                         it. The factor is named here rather than silently set to 1",
+            },
+            OmittedFactor {
+                name: "interference_denial",
+                reason: "no jammer is configured in this kind, so jamming::lock_status is \
+                         evaluated against the clean-link C/N0 and no per-satellite denial \
+                         status exists to compose. `lunar-jamming` emits that status per \
+                         (epoch, satellite); it is not re-derived here",
+            },
+            OmittedFactor {
+                name: "rf_outage_climatology",
+                reason: "THE MISSING INPUT. Nothing in this engine measures an RF \
+                         link-outage distribution at this band and geometry - no rain or \
+                         scintillation fade statistics, no measured outage record. Without \
+                         one there is no distribution to integrate the margin over, so the \
+                         figure above is an indicator and not a probability. Supplying a \
+                         fade climatology is the smallest change that would make the RF \
+                         figure comparable with the optical one; it is named here rather \
+                         than invented",
+            },
+        ],
+        precision_grade_with_rf_availability: a_optical * indicator(opt_meets_grade)
+            + (1.0 - a_optical) * availability * indicator(rf_meets_grade),
+    }
+}
+
+/// Build the like-for-like ranging comparison. `optical` supplies the one-way photon
+/// rate; `released_two_way_sigma_m` is the headline the comparison must reconcile with.
+fn build_ranging_comparison(
+    inp: &RfInputs,
+    optical: &OpticalLinkResult,
+    pulse_rms_s: f64,
+    released_two_way_sigma_m: f64,
+    released_rf_position_sigma_m: f64,
+) -> RangingComparison {
+    // --- optical leg, evaluated ONE-WAY at the common configuration ---
+    let n_one_way = detected_photons(optical.photon_rate_hz, inp.integration_s);
+    let opt_sigma_time_s = photon_limited_toa_crlb_s(pulse_rms_s, n_one_way);
+    let opt_sigma_range_m = photon_limited_range_crlb_m(pulse_rms_s, n_one_way, false);
+
+    // --- RF leg, evaluated ONE-WAY at the same range and accumulation time ---
+    let lb = link_budget(&inp.link_params(), inp.required_eb_n0_db);
+    let code_jitter_chips = dll_code_jitter_chips(
+        lb.cn0_dbhz,
+        inp.dll_bandwidth_hz,
+        inp.correlator_spacing_chips,
+        inp.integration_s,
+    );
+    let rf_sigma_time_s = code_jitter_chips / inp.chip_rate_hz;
+    let rf_sigma_range_m = C_M_PER_S * rf_sigma_time_s;
+
+    // --- the common-configuration gate ---
+    let rf_equivalent_averaging_s = if inp.dll_bandwidth_hz > 0.0 {
+        1.0 / (2.0 * inp.dll_bandwidth_hz)
+    } else {
+        f64::INFINITY
+    };
+    let scale = inp.integration_s.abs().max(rf_equivalent_averaging_s.abs());
+    let averaging_times_match = rf_equivalent_averaging_s.is_finite()
+        && (rf_equivalent_averaging_s - inp.integration_s).abs() <= 1e-9 * scale.max(1.0);
+
+    let legs_usable = opt_sigma_range_m.is_finite()
+        && opt_sigma_range_m > 0.0
+        && rf_sigma_range_m.is_finite()
+        && rf_sigma_range_m > 0.0;
+
+    let refusal_reason = if !averaging_times_match {
+        format!(
+            "REFUSED: the two legs are not at a common averaging time. The optical leg \
+             accumulates over integration_s = {} s; the RF leg's loop noise bandwidth \
+             B_L = {} Hz averages over 1/(2*B_L) = {} s. A ratio of two sigmas taken at \
+             different averaging times is not a comparison, so none is quoted. Remove the \
+             rf_dll_bandwidth_hz override (it then defaults to 1/(2*integration_s)) or set \
+             it to {} Hz.",
+            inp.integration_s,
+            inp.dll_bandwidth_hz,
+            rf_equivalent_averaging_s,
+            1.0 / (2.0 * inp.integration_s)
+        )
+    } else if !legs_usable {
+        format!(
+            "REFUSED: a leg is not a usable positive finite sigma (optical {opt_sigma_range_m} \
+             m, RF {rf_sigma_range_m} m), so no ratio is formed."
+        )
+    } else {
+        String::new()
+    };
+    let refused = !refusal_reason.is_empty();
+    let ratio = if refused {
+        None
+    } else {
+        Some(opt_sigma_range_m / rf_sigma_range_m)
+    };
+
+    RangingComparison {
+        method: RANGING_COMPARISON_METHOD,
+        common_configuration: RangingCommonConfig {
+            range_km: inp.range_m / 1000.0,
+            accumulation_time_s: inp.integration_s,
+            path: "one-way",
+            optical_accumulation_s: inp.integration_s,
+            rf_equivalent_averaging_s,
+            averaging_times_match,
+        },
+        optical_leg: OpticalRangingLeg {
+            sigma_range_m: opt_sigma_range_m,
+            sigma_time_s: opt_sigma_time_s,
+            detected_photons_one_way: n_one_way,
+            pulse_rms_s,
+            estimator: "photon-limited time-of-arrival CRLB, sigma_tau = \
+                        pulse_rms / sqrt(N_detected), range = c * sigma_tau on the one-way \
+                        path (optical_linkbudget::photon_limited_range_crlb_m with \
+                        two_way = false)",
+        },
+        rf_leg: RfRangingLeg {
+            sigma_range_m: rf_sigma_range_m,
+            sigma_time_s: rf_sigma_time_s,
+            cn0_dbhz: lb.cn0_dbhz,
+            code_jitter_chips,
+            chip_rate_hz: inp.chip_rate_hz,
+            dll_bandwidth_hz: inp.dll_bandwidth_hz,
+            estimator: "DLL early-late coherent thermal code-tracking jitter (Kaplan & \
+                        Hegarty eq. 8.90, navsignal::dll_code_jitter_chips) at the C/N0 \
+                        linkbudget::link_budget returns for the same one-way range, \
+                        converted to metres through the chip rate",
+        },
+        optical_over_rf: ratio,
+        rf_over_optical: ratio.map(|r| 1.0 / r),
+        optical_advantage_db: ratio.map(|r| -20.0 * r.log10()),
+        refused,
+        refusal_reason,
+        released_two_way_optical_sigma_m: released_two_way_sigma_m,
+        two_way_penalty_factor: released_two_way_sigma_m / opt_sigma_range_m,
+        released_rf_position_sigma_m,
+        ratio_against_chosen_rf_sigma_refused: RF_SIGMA_RATIO_REFUSAL,
+    }
 }
 
 /// One point of the analytic detection-power curve for a bias fault on one axis.
@@ -1352,6 +1927,373 @@ const UNITS: &[crate::field_schema::FieldUnit] = {
             provenance: Computed,
             definition: "k*sigma_t at this coast time",
         },
+        // ----- G16: the RF link leg -----
+        FieldUnit {
+            path: "rf_link_configuration.carrier_hz",
+            unit: "Hz",
+            provenance: Spec,
+            definition: "the downlink band centre the free-space loss was evaluated at, \
+                         selected by rf_band from the CCSDS-401 / DSN-810-005 deep-space \
+                         allocations (S 2.295 GHz, X 8.420 GHz, Ka 32.0 GHz)",
+        },
+        FieldUnit {
+            path: "rf_link_configuration.eirp_dbw",
+            unit: "dBW",
+            provenance: ModelledInput,
+            definition: "RF transmit effective isotropic radiated power (default 26 dBW, the \
+                         lunar augmented-forward-signal EIRP this crate's lunar RF work \
+                         already uses): a representative terminal allocation, not a datasheet",
+        },
+        FieldUnit {
+            path: "rf_link_configuration.g_over_t_db",
+            unit: "dB/K",
+            provenance: ModelledInput,
+            definition: "RF receive figure of merit G/T (default 53 dB/K, the DSN 34 m \
+                         beam-waveguide X-band figure the link-budget kind defaults to): a \
+                         representative station allocation",
+        },
+        FieldUnit {
+            path: "rf_link_configuration.other_losses_db",
+            unit: "dB",
+            provenance: ModelledInput,
+            definition: "lumped pointing / polarisation / atmosphere / implementation loss on \
+                         the RF leg (default 3 dB): a modelled budget line, not a measurement",
+        },
+        FieldUnit {
+            path: "rf_link_configuration.data_rate_bps",
+            unit: "bit/s",
+            provenance: Input,
+            definition: "RF information bit rate the Eb/N0 is formed at (default 1e6); it \
+                         moves Eb/N0 and the closure margin, and does not touch C/N0 or the \
+                         ranging leg",
+        },
+        FieldUnit {
+            path: "rf_link_configuration.required_eb_n0_db",
+            unit: "dB",
+            provenance: Input,
+            definition: "the Eb/N0 the RF margin is taken over (default 4.5 dB)",
+        },
+        FieldUnit {
+            path: "rf_link_configuration.range_km",
+            unit: "km",
+            provenance: Input,
+            definition: "the one-way range the RF budget was evaluated at: the scenario's own \
+                         range_km, so the RF leg cannot sit at a different range from the \
+                         optical one",
+        },
+        FieldUnit {
+            path: "rf_link_configuration.chip_rate_hz",
+            unit: "chip/s",
+            provenance: Input,
+            definition: "spreading-code chip rate the code jitter is converted to metres \
+                         through (default 1.023e6, the GPS C/A reference rate this crate \
+                         already carries as jamming::CA_CHIP_RATE_HZ)",
+        },
+        FieldUnit {
+            path: "rf_link_configuration.correlator_spacing_chips",
+            unit: "chip",
+            provenance: Input,
+            definition: "early-late correlator spacing d (default 0.5, the half-chip \
+                         correlator the DLL thermal bound is conventionally quoted at)",
+        },
+        FieldUnit {
+            path: "rf_link_configuration.dll_bandwidth_hz",
+            unit: "Hz",
+            provenance: Computed,
+            definition: "DLL single-sided loop noise bandwidth. Derived as 1/(2*integration_s) \
+                         so the RF leg's equivalent averaging time is exactly the optical \
+                         leg's accumulation time, unless the caller supplies \
+                         rf_dll_bandwidth_hz - dll_bandwidth_source says which, and an \
+                         override that breaks the match makes the ranging ratio refuse",
+        },
+        FieldUnit {
+            path: "rf_link_configuration.predetection_integration_s",
+            unit: "s",
+            provenance: Input,
+            definition: "coherent predetection integration time in the DLL squaring-loss term: \
+                         the scenario's own integration_s, the same accumulation time the \
+                         optical photon count uses",
+        },
+        FieldUnit {
+            path: "rf_link_configuration.tracking_threshold_dbhz",
+            unit: "dB-Hz",
+            provenance: ModelledInput,
+            definition: "C/N0 below which the tracking loop is taken to have lost lock \
+                         (default 25 dB-Hz, jamming::DEFAULT_TRACKING_THRESHOLD_DBHZ): a \
+                         modelled receiver allocation",
+        },
+        FieldUnit {
+            path: "rf_link_configuration.degraded_margin_db",
+            unit: "dB",
+            provenance: ModelledInput,
+            definition: "extra margin above the tracking threshold below which the loop is \
+                         reported DEGRADED rather than LOCKED (default 6 dB, \
+                         jamming::DEFAULT_DEGRADED_MARGIN_DB)",
+        },
+        // ----- G16: RF link availability -----
+        FieldUnit {
+            path: "rf_availability.fsl_db",
+            unit: "dB",
+            provenance: ClosedForm,
+            definition: "free-space path loss 20*log10(4*pi*R*f/c) on the one-way RF leg at \
+                         rf_link_configuration.carrier_hz and the scenario's range_km",
+        },
+        FieldUnit {
+            path: "rf_availability.cn0_dbhz",
+            unit: "dB-Hz",
+            provenance: Computed,
+            definition: "carrier-to-noise density EIRP - FSL - other losses + G/T - k on the \
+                         one-way RF leg; the single C/N0 BOTH the tracking indicator and the \
+                         ranging comparison's RF leg are evaluated at",
+        },
+        FieldUnit {
+            path: "rf_availability.eb_n0_db",
+            unit: "dB",
+            provenance: Computed,
+            definition: "energy-per-bit to noise density, C/N0 - 10*log10(data_rate_bps)",
+        },
+        FieldUnit {
+            path: "rf_availability.link_margin_db",
+            unit: "dB",
+            provenance: Computed,
+            definition: "Eb/N0 - required_eb_n0_db; the link closes when this is >= 0, which \
+                         is the I_closure factor of the availability rule",
+        },
+        FieldUnit {
+            path: "rf_availability.cn0_margin_db",
+            unit: "dB",
+            provenance: Computed,
+            definition: "C/N0 - tracking_threshold_dbhz; the loop holds lock when this is >= 0, \
+                         which is the I_track factor of the availability rule",
+        },
+        FieldUnit {
+            path: "rf_availability.closure_indicator",
+            unit: "1",
+            provenance: Computed,
+            definition: "I_closure: 1 when the Eb/N0 margin is non-negative, 0 otherwise. An \
+                         indicator, not a probability",
+        },
+        FieldUnit {
+            path: "rf_availability.tracking_indicator",
+            unit: "1",
+            provenance: Computed,
+            definition: "I_track: 1 when jamming::lock_status on this C/N0 is LOCKED or \
+                         DEGRADED, 0 when it is LOST. An indicator, not a probability",
+        },
+        FieldUnit {
+            path: "rf_availability.availability",
+            unit: "1",
+            provenance: Computed,
+            definition: "THE RF AVAILABILITY FIGURE: A_rf = I_closure * I_track, so it takes \
+                         only the values 0 and 1. It is margin- and tracking-limited and \
+                         DETERMINISTIC, unlike the weather-limited probability in \
+                         optical_availability - see rf_availability.differs_from_optical \
+                         before quoting the two together",
+        },
+        FieldUnit {
+            path: "rf_availability.closure_range_km",
+            unit: "km",
+            provenance: ClosedForm,
+            definition: "range_km * 10^(link_margin_db/20): the range at which the Eb/N0 margin \
+                         reaches zero. Exact, because the free-space loss is the only \
+                         range-dependent term in the link equation",
+        },
+        FieldUnit {
+            path: "rf_availability.tracking_range_km",
+            unit: "km",
+            provenance: ClosedForm,
+            definition: "range_km * 10^(cn0_margin_db/20): the range at which C/N0 reaches the \
+                         tracking threshold, by the same exact inversion",
+        },
+        FieldUnit {
+            path: "rf_availability.max_range_km",
+            unit: "km",
+            provenance: Computed,
+            definition: "the smaller of closure_range_km and tracking_range_km - the range \
+                         beyond which A_rf becomes 0; binding_constraint names which one it is",
+        },
+        FieldUnit {
+            path: "rf_availability.range_utilisation",
+            unit: "1",
+            provenance: Computed,
+            definition: "range_km / max_range_km: below 1 the link is inside both constraints, \
+                         and the reciprocal is how much further it would still reach. The \
+                         continuous figure to quote beside the 0/1 availability",
+        },
+        FieldUnit {
+            path: "rf_availability.factors[].value",
+            unit: "1",
+            provenance: Computed,
+            definition: "the value of this factor of the A_rf product - 0 or 1; the row's own \
+                         `source`, `provenance` and `condition` fields carry where it came from",
+        },
+        FieldUnit {
+            path: "rf_availability.precision_grade_with_rf_availability",
+            unit: "1",
+            provenance: Computed,
+            definition: "A*[optical meets grade] + (1-A)*A_rf*[RF meets grade]: the \
+                         precision-grade factor with the RF fallback's own availability \
+                         applied. The released joint_fom.precision_grade assumes the RF \
+                         fallback is always there (A_rf = 1) and is NOT changed by this \
+                         figure; the two agree exactly whenever A_rf = 1",
+        },
+        // ----- G16: the like-for-like ranging comparison -----
+        FieldUnit {
+            path: "ranging_comparison.common_configuration.range_km",
+            unit: "km",
+            provenance: Input,
+            definition: "the one-way range BOTH legs were evaluated at - the scenario's own \
+                         range_km",
+        },
+        FieldUnit {
+            path: "ranging_comparison.common_configuration.accumulation_time_s",
+            unit: "s",
+            provenance: Input,
+            definition: "the accumulation time both legs must average over - the scenario's own \
+                         integration_s",
+        },
+        FieldUnit {
+            path: "ranging_comparison.common_configuration.optical_accumulation_s",
+            unit: "s",
+            provenance: Input,
+            definition: "the optical leg's photon accumulation time; equal to \
+                         accumulation_time_s by construction",
+        },
+        FieldUnit {
+            path: "ranging_comparison.common_configuration.rf_equivalent_averaging_s",
+            unit: "s",
+            provenance: ClosedForm,
+            definition: "1/(2*B_L), the equivalent averaging time of a single-sided loop noise \
+                         bandwidth. The ratio is quoted only when this equals \
+                         optical_accumulation_s, and refused otherwise",
+        },
+        FieldUnit {
+            path: "ranging_comparison.optical_leg.sigma_range_m",
+            unit: "m",
+            provenance: ClosedForm,
+            definition: "the optical leg of the ratio: 1 sigma ONE-WAY ranging precision \
+                         c*pulse_rms/sqrt(N_one_way), the photon-limited CRLB at the common \
+                         configuration. NOT optical_link.optical_ranging_sigma_m, which is the \
+                         two-way headline - two_way_penalty_factor is the exact bridge",
+        },
+        FieldUnit {
+            path: "ranging_comparison.optical_leg.sigma_time_s",
+            unit: "s",
+            provenance: ClosedForm,
+            definition: "the same bound as a time of arrival, pulse_rms/sqrt(N_one_way); \
+                         sigma_range_m = c * sigma_time_s exactly",
+        },
+        FieldUnit {
+            path: "ranging_comparison.optical_leg.detected_photons_one_way",
+            unit: "count",
+            provenance: Computed,
+            definition: "photon_rate_hz * integration_s: the ONE-WAY detected photon count, \
+                         without the two-way return-path geometric loss that \
+                         optical_link.detected_photons carries. An expectation, so not an \
+                         integer",
+        },
+        FieldUnit {
+            path: "ranging_comparison.optical_leg.pulse_rms_s",
+            unit: "s",
+            provenance: Input,
+            definition: "RMS signal-pulse width, the scenario's pulse_rms_ps in seconds",
+        },
+        FieldUnit {
+            path: "ranging_comparison.rf_leg.sigma_range_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "the RF leg of the ratio: 1 sigma ONE-WAY ranging precision from the \
+                         DLL early-late thermal code-tracking jitter at the same range and the \
+                         same averaging time. Thermal noise only - no media delay, clock or \
+                         ambiguity error - exactly as the optical leg excludes its own \
+                         systematics",
+        },
+        FieldUnit {
+            path: "ranging_comparison.rf_leg.sigma_time_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "the same bound as a code-phase time error, code_jitter_chips / \
+                         chip_rate_hz; sigma_range_m = c * sigma_time_s exactly",
+        },
+        FieldUnit {
+            path: "ranging_comparison.rf_leg.cn0_dbhz",
+            unit: "dB-Hz",
+            provenance: Computed,
+            definition: "the C/N0 the jitter was evaluated at - the same value \
+                         rf_availability.cn0_dbhz reports, from the same single link budget, \
+                         not a re-derivation",
+        },
+        FieldUnit {
+            path: "ranging_comparison.rf_leg.code_jitter_chips",
+            unit: "chip",
+            provenance: ClosedForm,
+            definition: "DLL coherent early-late thermal jitter sqrt((B_L*d/(2c))*(1 + \
+                         2/((2-d)*T*c))) with c the linear C/N0 (Kaplan & Hegarty eq. 8.90, \
+                         navsignal::dll_code_jitter_chips)",
+        },
+        FieldUnit {
+            path: "ranging_comparison.rf_leg.chip_rate_hz",
+            unit: "chip/s",
+            provenance: Input,
+            definition: "the chip rate the jitter was converted to metres through; the same \
+                         value rf_link_configuration.chip_rate_hz reports",
+        },
+        FieldUnit {
+            path: "ranging_comparison.rf_leg.dll_bandwidth_hz",
+            unit: "Hz",
+            provenance: Computed,
+            definition: "the loop noise bandwidth used; the same value \
+                         rf_link_configuration.dll_bandwidth_hz reports",
+        },
+        FieldUnit {
+            path: "ranging_comparison.optical_over_rf",
+            unit: "1",
+            provenance: Computed,
+            definition: "THE LIKE-FOR-LIKE RATIO: optical_leg.sigma_range_m / \
+                         rf_leg.sigma_range_m, both at the one common configuration emitted in \
+                         this same object. Below 1 means optical is the tighter modality. null \
+                         when the comparison is refused - read refusal_reason",
+        },
+        FieldUnit {
+            path: "ranging_comparison.rf_over_optical",
+            unit: "1",
+            provenance: Computed,
+            definition: "the reciprocal: the factor by which the optical leg beats the RF leg \
+                         at this configuration. null when the comparison is refused",
+        },
+        FieldUnit {
+            path: "ranging_comparison.optical_advantage_db",
+            unit: "dB",
+            provenance: Computed,
+            definition: "the same ratio in decibels, 20*log10(sigma_rf/sigma_optical); positive \
+                         means optical is tighter. null when the comparison is refused",
+        },
+        FieldUnit {
+            path: "ranging_comparison.released_two_way_optical_sigma_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "the released headline optical_link.optical_ranging_sigma_m, carried \
+                         here so the one-way comparison leg reconciles with it exactly rather \
+                         than looking like a second, disagreeing optical number",
+        },
+        FieldUnit {
+            path: "ranging_comparison.two_way_penalty_factor",
+            unit: "1",
+            provenance: Computed,
+            definition: "released_two_way_optical_sigma_m / optical_leg.sigma_range_m: exactly \
+                         1 when the scenario runs one-way, and the full two-way penalty (the \
+                         0.5 range-from-round-trip factor over the square root of the \
+                         return-path geometric loss) otherwise",
+        },
+        FieldUnit {
+            path: "ranging_comparison.released_rf_position_sigma_m",
+            unit: "m",
+            provenance: Input,
+            definition: "the scenario's CHOSEN RF 1 sigma input \
+                         optical_link.rf_position_sigma_m, carried only so the refusal beside \
+                         it can name the number it declines to divide by - see \
+                         ratio_against_chosen_rf_sigma_refused",
+        },
     ]
 };
 
@@ -1433,6 +2375,40 @@ pub struct HybridOpticalRfScenario {
     /// Default `Φ⁻¹(1 − P_HMI/2)` — the two-sided normal coverage at the integrity-risk
     /// budget, so the coast bound is stated at the same risk as the rest of the report.
     pub coast_coverage_k: Option<f64>,
+    // --- G16 RF link leg: availability, and the like-for-like ranging comparison ---
+    /// RF carrier band, `s` / `x` / `ka`. Default `x` — the deep-space workhorse and the
+    /// `link-budget` kind's own default band.
+    pub rf_band: Option<String>,
+    /// RF transmit EIRP (dBW). Default 26.0 — the lunar augmented-forward-signal EIRP
+    /// the crate's lunar RF work already uses (`lunar-jamming` / `lunar-attack-surface`,
+    /// P1). A representative terminal allocation, not a datasheet (Modelled).
+    pub rf_eirp_dbw: Option<f64>,
+    /// RF receive figure of merit `G/T` (dB/K). Default 53.0 — the DSN 34 m
+    /// beam-waveguide station X-band figure of merit the `link-budget` kind defaults to
+    /// (DSN 810-005 module 101/104). Modelled.
+    pub rf_g_over_t_db: Option<f64>,
+    /// Lumped non-free-space RF loss (dB). Default 3.0, the `link-budget` kind's default.
+    pub rf_other_losses_db: Option<f64>,
+    /// RF information bit rate (bit/s) the `Eb/N0` is formed at. Default 1e6.
+    pub rf_data_rate_bps: Option<f64>,
+    /// Required `Eb/N0` (dB) the RF margin is taken over. Default 4.5.
+    pub rf_required_eb_n0_db: Option<f64>,
+    /// Spreading-code chip rate (chip/s). Default `jamming::CA_CHIP_RATE_HZ` (1.023e6).
+    pub rf_chip_rate_hz: Option<f64>,
+    /// Early-late correlator spacing (chip). Default 0.5, the standard half-chip
+    /// correlator the DLL bound is quoted at.
+    pub rf_correlator_spacing_chips: Option<f64>,
+    /// DLL single-sided loop noise bandwidth (Hz). Default `1/(2·integration_s)`, the
+    /// bandwidth whose equivalent averaging time is exactly the optical leg's
+    /// accumulation time. **Overriding this breaks the common configuration and the
+    /// ranging ratio is then refused rather than quoted.**
+    pub rf_dll_bandwidth_hz: Option<f64>,
+    /// Tracking-loop loss-of-lock threshold (dB-Hz). Default
+    /// `jamming::DEFAULT_TRACKING_THRESHOLD_DBHZ` (25.0).
+    pub rf_tracking_threshold_dbhz: Option<f64>,
+    /// Extra margin (dB) above the threshold below which the loop is `DEGRADED` rather
+    /// than `LOCKED`. Default `jamming::DEFAULT_DEGRADED_MARGIN_DB` (6.0).
+    pub rf_degraded_margin_db: Option<f64>,
 }
 
 /// Everything the analysis produces, computed once and reused by the emitters.
@@ -1464,6 +2440,12 @@ struct Computed {
     fault_study: CrossMonitorFaultStudy,
     /// G17 - post-handover covariance re-growth against the alert limits.
     coast: CoastStudy,
+    /// G16 - the resolved RF link leg, echoed like `link_configuration`.
+    rf_config: RfLinkConfiguration,
+    /// G16 - margin/tracking-limited RF link availability.
+    rf_availability: RfAvailability,
+    /// G16 - the like-for-like optical-versus-RF ranging comparison.
+    ranging: RangingComparison,
 }
 
 impl HybridOpticalRfScenario {
@@ -1713,6 +2695,15 @@ impl HybridOpticalRfScenario {
             caveat: COAST_CAVEAT,
         };
 
+        // G16 - the RF leg. Every input is resolved here, once, and the same resolved
+        // set feeds BOTH the availability block and the ranging comparison, so the two
+        // can never be stated at different operating points.
+        let rf = self.resolve_rf_inputs(range_m, integration_s)?;
+        let rf_config = rf.configuration();
+        let rf_availability = build_rf_availability(&rf, a, opt_meets, rf_meets);
+        let ranging =
+            build_ranging_comparison(&rf, &optical, pulse_rms_s, opt_pos_sigma_m, rf_pos_sigma_m);
+
         Ok(Computed {
             optical,
             link_params,
@@ -1734,6 +2725,94 @@ impl HybridOpticalRfScenario {
             alert_t,
             fault_study,
             coast,
+            rf_config,
+            rf_availability,
+            ranging,
+        })
+    }
+
+    /// Resolve the G16 RF-leg inputs: defaults applied, validated, and pinned to the
+    /// scenario's own range and integration time so the RF leg cannot drift to a
+    /// different operating point from the optical one.
+    fn resolve_rf_inputs(&self, range_m: f64, integration_s: f64) -> Result<RfInputs, String> {
+        let raw = self.rf_band.clone().unwrap_or_else(|| "x".to_string());
+        let (band, band_label) = match raw.to_ascii_lowercase().as_str() {
+            "s" => (Band::S, "s"),
+            "x" => (Band::X, "x"),
+            "ka" => (Band::Ka, "ka"),
+            other => return Err(format!("unknown rf_band '{other}' (expected s|x|ka)")),
+        };
+        let eirp_dbw = self.rf_eirp_dbw.unwrap_or(26.0);
+        let g_over_t_db = self.rf_g_over_t_db.unwrap_or(53.0);
+        let other_losses_db = self.rf_other_losses_db.unwrap_or(3.0);
+        let data_rate_bps = self.rf_data_rate_bps.unwrap_or(1.0e6);
+        let required_eb_n0_db = self.rf_required_eb_n0_db.unwrap_or(4.5);
+        let chip_rate_hz = self.rf_chip_rate_hz.unwrap_or(CA_CHIP_RATE_HZ);
+        let correlator_spacing_chips = self.rf_correlator_spacing_chips.unwrap_or(0.5);
+        let tracking_threshold_dbhz = self
+            .rf_tracking_threshold_dbhz
+            .unwrap_or(DEFAULT_TRACKING_THRESHOLD_DBHZ);
+        let degraded_margin_db = self
+            .rf_degraded_margin_db
+            .unwrap_or(DEFAULT_DEGRADED_MARGIN_DB);
+        // The loop noise bandwidth is derived, not guessed: a single-sided B_L averages
+        // over 1/(2·B_L) seconds, so this puts the RF leg at the optical accumulation
+        // time exactly. A caller may override it, and the ranging ratio is then refused.
+        let (dll_bandwidth_hz, dll_bandwidth_source) = match self.rf_dll_bandwidth_hz {
+            Some(b) => (
+                b,
+                "caller-supplied rf_dll_bandwidth_hz (the ranging ratio is refused unless \
+                 1/(2*B_L) equals integration_s)",
+            ),
+            None => (
+                1.0 / (2.0 * integration_s),
+                "1/(2*integration_s): the single-sided loop noise bandwidth whose \
+                 equivalent averaging time is exactly the optical leg's accumulation time",
+            ),
+        };
+        for (name, v) in [
+            ("rf_eirp_dbw", eirp_dbw),
+            ("rf_g_over_t_db", g_over_t_db),
+            ("rf_required_eb_n0_db", required_eb_n0_db),
+        ] {
+            if !v.is_finite() {
+                return Err(format!("{name} must be finite"));
+            }
+        }
+        if !other_losses_db.is_finite() || other_losses_db < 0.0 {
+            return Err("rf_other_losses_db must be finite and >= 0".to_string());
+        }
+        for (name, v) in [
+            ("rf_data_rate_bps", data_rate_bps),
+            ("rf_chip_rate_hz", chip_rate_hz),
+            ("rf_correlator_spacing_chips", correlator_spacing_chips),
+            ("rf_dll_bandwidth_hz", dll_bandwidth_hz),
+        ] {
+            if !v.is_finite() || v <= 0.0 {
+                return Err(format!("{name} must be finite and positive"));
+            }
+        }
+        if !tracking_threshold_dbhz.is_finite() || !degraded_margin_db.is_finite() {
+            return Err(
+                "rf_tracking_threshold_dbhz and rf_degraded_margin_db must be finite".to_string(),
+            );
+        }
+        Ok(RfInputs {
+            band,
+            band_label,
+            eirp_dbw,
+            g_over_t_db,
+            other_losses_db,
+            data_rate_bps,
+            required_eb_n0_db,
+            range_m,
+            chip_rate_hz,
+            correlator_spacing_chips,
+            dll_bandwidth_hz,
+            dll_bandwidth_source,
+            integration_s,
+            tracking_threshold_dbhz,
+            degraded_margin_db,
         })
     }
 
@@ -1768,7 +2847,7 @@ impl HybridOpticalRfScenario {
             "cross_modality_raim.hpl_m": {"unit": "m", "provenance": "computed"},
             "cross_modality_raim.vpl_m": {"unit": "m", "provenance": "computed"},
             "cross_modality_raim.tpl_s": {"unit": "s", "provenance": "computed"},
-            "optical_availability.single_site_mean": {"unit": "fraction", "provenance": "modelled", "note": "weather-limited clear-sky climatology; no RF-availability counterpart is computed by this engine"},
+            "optical_availability.single_site_mean": {"unit": "fraction", "provenance": "modelled", "note": "weather-limited clear-sky climatology. The RF counterpart is rf_availability.availability, and it is NOT the same kind of number: this one is a probability built from a published clear-sky climatology and a modelled pointing factor, while the RF figure is a DETERMINISTIC 0/1 indicator product over an Eb/N0 link margin and a tracking threshold, evaluated once at one range on one link budget. It carries no distribution, so it can only be 0 or 1. Quoting the two side by side as comparable percentages is a category error; rf_availability.differs_from_optical states the difference in full and rf_availability.factors_not_included names the RF outage climatology that would be needed to make them comparable"},
             "optical_availability.independent_union": {"unit": "fraction", "provenance": "modelled"},
             "optical_availability.correlated_union": {"unit": "fraction", "provenance": "modelled"},
             // G15 - fault injection / detection power.
@@ -1826,6 +2905,11 @@ impl HybridOpticalRfScenario {
                 "pulse_rms_ps": self.pulse_rms_ps.unwrap_or(50.0),
                 "integration_s": c.integration_s,
             },
+            // G16 — the resolved RF link leg, the same self-description the optical
+            // `link_configuration` block gives. Both the RF availability and the ranging
+            // comparison are evaluated from exactly these values, at the scenario's own
+            // range and integration time.
+            "rf_link_configuration": c.rf_config,
             "units": units,
             "optical_link": {
                 "footprint_m": c.optical.footprint_m,
@@ -1895,6 +2979,18 @@ impl HybridOpticalRfScenario {
             // G17 - the post-handover covariance re-growth, and how long the coasting
             // solution stays inside the alert limits.
             "post_handover_coast": c.coast,
+            // G16 - RF link availability. The engine used to compute optical
+            // weather-limited availability and nothing on the RF side, and P5 had to drop
+            // its RF availability figure. This block composes one from quantities the
+            // engine already has - the link margin and the tracking threshold - states
+            // the composition as a named rule, and says in full why it is NOT the same
+            // kind of number as the optical availability beside it.
+            "rf_availability": c.rf_availability,
+            // G16 - the like-for-like optical-versus-RF ranging comparison: one quantity,
+            // one definition, ONE configuration, emitted in this same object. A ratio at
+            // two operating points would be worse than no ratio, so the block refuses
+            // rather than quotes when the operating points do not match.
+            "ranging_comparison": c.ranging,
         });
         serde_json::to_string_pretty(&doc).map_err(|e| e.to_string())
     }
@@ -3130,5 +4226,544 @@ mod tests {
         assert!((t1 / t2 - 4.0).abs() < 1e-12);
         // Non-finite inputs give no crossing rather than a bogus one.
         assert_eq!(random_walk_time_to_limit(f64::NAN, 1.0, 1.0, 10.0), None);
+    }
+
+    // ---------------------------------------------------------------------------------
+    // G16 -- RF link availability, and the like-for-like ranging comparison.
+    // ---------------------------------------------------------------------------------
+
+    /// Helper: the report of an arbitrary scenario.
+    fn report_of(scn: &HybridOpticalRfScenario) -> Value {
+        let (json, _s) = scn.run_json().expect("run");
+        serde_json::from_str(&json).unwrap()
+    }
+
+    /// The RF availability figure is exactly the product of the two indicators its rule
+    /// names, each recomputed from the report's own margins -- not a number the emitter
+    /// asserted.
+    ///
+    /// G16. The engine computed optical weather-limited availability and nothing at all
+    /// on the RF side, and P5 dropped its RF availability figure as a result.
+    #[test]
+    fn the_rf_availability_is_the_product_of_the_two_indicators_its_rule_names() {
+        let v = default_report();
+        let r = &v["rf_availability"];
+
+        // Each indicator is recomputed from the report's own margin, not read back.
+        let margin = r["link_margin_db"].as_f64().unwrap();
+        let cn0_margin = r["cn0_margin_db"].as_f64().unwrap();
+        let i_closure = if margin >= 0.0 { 1.0 } else { 0.0 };
+        let i_track = if cn0_margin >= 0.0 { 1.0 } else { 0.0 };
+        assert_eq!(r["closure_indicator"].as_f64().unwrap(), i_closure);
+        assert_eq!(r["tracking_indicator"].as_f64().unwrap(), i_track);
+        assert_eq!(r["availability"].as_f64().unwrap(), i_closure * i_track);
+
+        // …and the margins themselves are reconstructible from the report's own terms.
+        let cfg = &v["rf_link_configuration"];
+        let cn0 = r["cn0_dbhz"].as_f64().unwrap();
+        let hand_cn0 = cfg["eirp_dbw"].as_f64().unwrap()
+            - r["fsl_db"].as_f64().unwrap()
+            - cfg["other_losses_db"].as_f64().unwrap()
+            + cfg["g_over_t_db"].as_f64().unwrap()
+            - crate::linkbudget::BOLTZMANN_DBW_PER_K_PER_HZ;
+        assert!((cn0 - hand_cn0).abs() < 1e-9, "{cn0} vs {hand_cn0}");
+        let hand_ebn0 = cn0 - 10.0 * cfg["data_rate_bps"].as_f64().unwrap().log10();
+        assert!((r["eb_n0_db"].as_f64().unwrap() - hand_ebn0).abs() < 1e-9);
+        assert!((margin - (hand_ebn0 - cfg["required_eb_n0_db"].as_f64().unwrap())).abs() < 1e-9);
+        assert!(
+            (cn0_margin - (cn0 - cfg["tracking_threshold_dbhz"].as_f64().unwrap())).abs() < 1e-9
+        );
+
+        // The factor rows carry the same values and each names its input's provenance.
+        let factors = r["factors"].as_array().unwrap();
+        assert_eq!(factors.len(), 2);
+        assert_eq!(factors[0]["name"], "I_closure");
+        assert_eq!(factors[0]["value"].as_f64().unwrap(), i_closure);
+        assert_eq!(factors[1]["name"], "I_track");
+        assert_eq!(factors[1]["value"].as_f64().unwrap(), i_track);
+        for f in factors {
+            assert!(
+                crate::field_schema::ProvenanceClass::parse(f["provenance"].as_str().unwrap())
+                    .is_some(),
+                "each factor carries a provenance class from the closed vocabulary"
+            );
+            assert!(!f["source"].as_str().unwrap().is_empty());
+            assert!(!f["condition"].as_str().unwrap().is_empty());
+        }
+
+        // It is an indicator, and the report says so rather than leaving it to be read
+        // as a percentage beside the optical figure.
+        assert_eq!(r["is_a_probability"], false);
+        assert_eq!(r["comparable_to_optical_availability"], false);
+        let a = r["availability"].as_f64().unwrap();
+        assert!(a == 0.0 || a == 1.0, "a deterministic indicator, got {a}");
+        // …and the optical one, at the same run, is NOT 0 or 1: the two really are
+        // different kinds of number, which is the whole point of the warning.
+        let a_opt = v["optical_availability"]["correlated_union"]
+            .as_f64()
+            .unwrap();
+        assert!(a_opt > 0.0 && a_opt < 1.0, "optical availability {a_opt}");
+    }
+
+    /// The report says, in the entry a reader most likely lands on, that the RF figure is
+    /// not the same kind of number as the optical one -- and no longer says the opposite.
+    ///
+    /// G16. The units block used to carry "no RF-availability counterpart is computed by
+    /// this engine". That sentence became false the moment the block above landed, and a
+    /// stale honesty note is worse than none.
+    #[test]
+    fn the_units_block_no_longer_claims_there_is_no_rf_counterpart() {
+        let v = default_report();
+        let note = v["units"]["optical_availability.single_site_mean"]["note"]
+            .as_str()
+            .unwrap();
+        assert!(
+            !note.contains("no RF-availability counterpart"),
+            "the superseded asymmetry note is still standing: {note}"
+        );
+        assert!(note.contains("rf_availability.availability"));
+        assert!(note.contains("DETERMINISTIC"));
+        // The full statement lives on the block itself and names the missing input.
+        let d = v["rf_availability"]["differs_from_optical"]
+            .as_str()
+            .unwrap();
+        assert!(d.contains("WEATHER/CLIMATOLOGY-LIMITED"));
+        assert!(d.contains("MARGIN/GEOMETRY-LIMITED"));
+        let omitted = v["rf_availability"]["factors_not_included"]
+            .as_array()
+            .unwrap();
+        let names: Vec<&str> = omitted
+            .iter()
+            .map(|o| o["name"].as_str().unwrap())
+            .collect();
+        assert!(names.contains(&"rf_outage_climatology"), "{names:?}");
+        assert!(names.contains(&"geometric_visibility"), "{names:?}");
+        for o in omitted {
+            assert!(
+                o["reason"].as_str().unwrap().len() > 60,
+                "an omitted factor must say why"
+            );
+        }
+    }
+
+    /// The reported closure range is the range at which the link budget's own margin
+    /// reaches zero -- re-run the budget there and the margin vanishes.
+    ///
+    /// The free-space loss is the only range-dependent term, so the closure range is also
+    /// INDEPENDENT of the range the scenario happened to run at. That is measured here,
+    /// not asserted: two runs four orders of magnitude apart in range report the same
+    /// closure range to float round-off.
+    #[test]
+    fn the_rf_closure_range_is_where_the_reported_margin_reaches_zero() {
+        let v = default_report();
+        let r = &v["rf_availability"];
+        let cfg = &v["rf_link_configuration"];
+        let p = crate::linkbudget::LinkParams {
+            band: crate::radiometric::Band::X,
+            eirp_dbw: cfg["eirp_dbw"].as_f64().unwrap(),
+            g_over_t_db: cfg["g_over_t_db"].as_f64().unwrap(),
+            range_m: r["closure_range_km"].as_f64().unwrap() * 1000.0,
+            data_rate_bps: cfg["data_rate_bps"].as_f64().unwrap(),
+            other_losses_db: cfg["other_losses_db"].as_f64().unwrap(),
+        };
+        let at_closure =
+            crate::linkbudget::link_budget(&p, cfg["required_eb_n0_db"].as_f64().unwrap());
+        assert!(
+            at_closure.margin_db.abs() < 1e-9,
+            "margin at the reported closure range is {} dB, not 0",
+            at_closure.margin_db
+        );
+
+        // Range-independence, measured across four decades.
+        let near = report_of(&HybridOpticalRfScenario {
+            range_km: Some(40.0),
+            ..HybridOpticalRfScenario::default()
+        });
+        let a = r["closure_range_km"].as_f64().unwrap();
+        let b = near["rf_availability"]["closure_range_km"]
+            .as_f64()
+            .unwrap();
+        assert!(
+            (a - b).abs() / a < 1e-12,
+            "the closure range must not depend on the range the run sat at: {a} vs {b}"
+        );
+        // …while the utilisation, which does depend on it, moves by exactly the range ratio.
+        let ua = r["range_utilisation"].as_f64().unwrap();
+        let ub = near["rf_availability"]["range_utilisation"]
+            .as_f64()
+            .unwrap();
+        let want = 384_000.0 / 40.0;
+        assert!((ua / ub - want).abs() / want < 1e-9);
+        assert_eq!(r["binding_constraint"], "eb_n0_closure");
+    }
+
+    /// An RF link that does not close reports availability 0 -- not a fraction, and not a
+    /// silently omitted field.
+    #[test]
+    fn an_rf_link_that_does_not_close_reports_zero_and_says_which_constraint_bound() {
+        let v = report_of(&HybridOpticalRfScenario {
+            rf_eirp_dbw: Some(-40.0),
+            ..HybridOpticalRfScenario::default()
+        });
+        let r = &v["rf_availability"];
+        assert_eq!(r["closes"], false);
+        assert_eq!(r["lock_status"], "LOST");
+        assert_eq!(r["tracking_ok"], false);
+        assert_eq!(r["closure_indicator"].as_f64().unwrap(), 0.0);
+        assert_eq!(r["tracking_indicator"].as_f64().unwrap(), 0.0);
+        assert_eq!(r["availability"].as_f64().unwrap(), 0.0);
+        // Beyond the link's reach, so the utilisation is above 1 -- the continuous figure
+        // still says how far beyond.
+        assert!(r["range_utilisation"].as_f64().unwrap() > 1.0);
+        assert!(
+            r["max_range_km"].as_f64().unwrap()
+                < v["link_configuration"]["range_km"].as_f64().unwrap()
+        );
+        // With the default (too loose) RF sigma the recomputed precision factor and the
+        // released one coincide, because the RF fallback never met the grade anyway.
+        let with_rf = r["precision_grade_with_rf_availability"].as_f64().unwrap();
+        let released = v["joint_fom"]["precision_grade"].as_f64().unwrap();
+        assert!((with_rf - released).abs() < 1e-12);
+
+        // Now a run where the RF fallback DOES meet the grade: the recomputed factor
+        // drops to exactly the optical availability when that fallback is unavailable.
+        let tight = HybridOpticalRfScenario {
+            rf_pos_sigma_m: Some(0.01),
+            rf_clock_sigma_s: Some(1.0e-10),
+            ..HybridOpticalRfScenario::default()
+        };
+        let up = report_of(&tight);
+        let down = report_of(&HybridOpticalRfScenario {
+            rf_eirp_dbw: Some(-40.0),
+            ..tight.clone()
+        });
+        let a = up["optical_availability"]["correlated_union"]
+            .as_f64()
+            .unwrap();
+        assert!(
+            (up["rf_availability"]["precision_grade_with_rf_availability"]
+                .as_f64()
+                .unwrap()
+                - 1.0)
+                .abs()
+                < 1e-12,
+            "with a grade-meeting RF fallback that is available, P is 1"
+        );
+        assert!(
+            (down["rf_availability"]["precision_grade_with_rf_availability"]
+                .as_f64()
+                .unwrap()
+                - a)
+                .abs()
+                < 1e-12,
+            "…and exactly A when that fallback is unavailable"
+        );
+        // The released joint-FoM factor is NOT moved by any of this (R1).
+        assert_eq!(
+            up["joint_fom"]["precision_grade"],
+            down["joint_fom"]["precision_grade"]
+        );
+    }
+
+    /// The ranging ratio is the two legs divided, both evaluated at the one common
+    /// configuration the same object emits -- and that configuration is the scenario's own.
+    ///
+    /// G16. A ratio of two sigmas measured at different operating points is the error this
+    /// campaign has already been burned by, so the operating point is emitted beside the
+    /// ratio and checked here rather than trusted.
+    #[test]
+    fn the_ranging_ratio_is_the_two_legs_at_one_common_configuration() {
+        let v = default_report();
+        let c = &v["ranging_comparison"];
+        let cc = &c["common_configuration"];
+
+        // The common configuration IS the scenario's own, on both legs.
+        assert_eq!(cc["range_km"], v["link_configuration"]["range_km"]);
+        assert_eq!(
+            cc["accumulation_time_s"],
+            v["link_configuration"]["integration_s"]
+        );
+        assert_eq!(cc["optical_accumulation_s"], cc["accumulation_time_s"]);
+        assert_eq!(cc["path"], "one-way");
+        assert_eq!(cc["averaging_times_match"], true);
+        assert_eq!(
+            v["rf_link_configuration"]["range_km"], v["link_configuration"]["range_km"],
+            "the RF leg must sit at the optical leg's range"
+        );
+        // The RF equivalent averaging time is 1/(2·B_L) and equals the optical one.
+        let bl = c["rf_leg"]["dll_bandwidth_hz"].as_f64().unwrap();
+        let t = cc["accumulation_time_s"].as_f64().unwrap();
+        assert!(
+            (cc["rf_equivalent_averaging_s"].as_f64().unwrap() - 1.0 / (2.0 * bl)).abs() < 1e-15
+        );
+        assert!((1.0 / (2.0 * bl) - t).abs() < 1e-12);
+
+        // Both legs are a range and a time related by exactly c.
+        for leg in ["optical_leg", "rf_leg"] {
+            let sr = c[leg]["sigma_range_m"].as_f64().unwrap();
+            let st = c[leg]["sigma_time_s"].as_f64().unwrap();
+            assert!(
+                (sr - crate::timegeo::C_M_PER_S * st).abs() / sr < 1e-12,
+                "{leg}: {sr} m vs c*{st} s"
+            );
+            assert!(sr.is_finite() && sr > 0.0);
+        }
+
+        // The ratio is those two legs, and nothing else.
+        let so = c["optical_leg"]["sigma_range_m"].as_f64().unwrap();
+        let sr = c["rf_leg"]["sigma_range_m"].as_f64().unwrap();
+        let ratio = c["optical_over_rf"].as_f64().unwrap();
+        assert!((ratio - so / sr).abs() / ratio < 1e-15);
+        assert!(
+            (c["rf_over_optical"].as_f64().unwrap() - 1.0 / ratio).abs() * ratio < 1e-12,
+            "the reciprocal must be the reciprocal"
+        );
+        assert!(
+            (c["optical_advantage_db"].as_f64().unwrap() - 20.0 * (sr / so).log10()).abs() < 1e-9
+        );
+        assert_eq!(c["refused"], false);
+        assert_eq!(c["refusal_reason"], "");
+
+        // The RF leg reads the SAME link budget the availability block does, bit for bit.
+        assert_eq!(c["rf_leg"]["cn0_dbhz"], v["rf_availability"]["cn0_dbhz"]);
+    }
+
+    /// **The like-for-like property, measured.** Both legs average over the same time, so
+    /// quadrupling that time must halve BOTH sigmas and leave the ratio where it was. A
+    /// leg secretly averaging over something else would move the ratio.
+    #[test]
+    fn the_ranging_ratio_is_invariant_to_the_common_accumulation_time() {
+        let one = default_report();
+        let four = report_of(&HybridOpticalRfScenario {
+            integration_s: Some(4.0),
+            ..HybridOpticalRfScenario::default()
+        });
+        let (a, b) = (&one["ranging_comparison"], &four["ranging_comparison"]);
+
+        // Each leg falls as 1/√T: a 4× longer accumulation halves it.
+        let so = |v: &Value| v["optical_leg"]["sigma_range_m"].as_f64().unwrap();
+        let sr = |v: &Value| v["rf_leg"]["sigma_range_m"].as_f64().unwrap();
+        assert!(
+            (so(a) / so(b) - 2.0).abs() < 1e-12,
+            "optical {}",
+            so(a) / so(b)
+        );
+        assert!(
+            (sr(a) / sr(b) - 2.0).abs() < 1e-7,
+            "RF {} (the residual is the DLL squaring-loss term, not a scaling error)",
+            sr(a) / sr(b)
+        );
+        // …so the ratio is unchanged. Measured: 3.19e-9 relative at the default link.
+        let (ra, rb) = (
+            a["optical_over_rf"].as_f64().unwrap(),
+            b["optical_over_rf"].as_f64().unwrap(),
+        );
+        assert!(
+            (rb - ra).abs() / ra < 1e-7,
+            "the ratio moved by {} relative when only the common accumulation time changed",
+            (rb - ra).abs() / ra
+        );
+    }
+
+    /// A ratio at two different operating points is refused, with the reason stated --
+    /// shipping one would be worse than shipping nothing.
+    #[test]
+    fn the_ranging_ratio_is_refused_when_the_legs_are_not_at_a_common_averaging_time() {
+        let v = report_of(&HybridOpticalRfScenario {
+            integration_s: Some(1.0),
+            rf_dll_bandwidth_hz: Some(2.0),
+            ..HybridOpticalRfScenario::default()
+        });
+        let c = &v["ranging_comparison"];
+        assert_eq!(c["refused"], true);
+        assert!(c["optical_over_rf"].is_null());
+        assert!(c["rf_over_optical"].is_null());
+        assert!(c["optical_advantage_db"].is_null());
+        assert_eq!(c["common_configuration"]["averaging_times_match"], false);
+        // 1/(2·2) = 0.25 s against a 1 s optical accumulation.
+        assert!(
+            (c["common_configuration"]["rf_equivalent_averaging_s"]
+                .as_f64()
+                .unwrap()
+                - 0.25)
+                .abs()
+                < 1e-15
+        );
+        let why = c["refusal_reason"].as_str().unwrap();
+        assert!(why.starts_with("REFUSED:"), "{why}");
+        assert!(
+            why.contains("0.25"),
+            "the reason must name both times: {why}"
+        );
+        assert!(why.contains("common averaging time"), "{why}");
+        // Both legs are still emitted -- the refusal withholds the RATIO, not the inputs.
+        assert!(c["optical_leg"]["sigma_range_m"].as_f64().unwrap() > 0.0);
+        assert!(c["rf_leg"]["sigma_range_m"].as_f64().unwrap() > 0.0);
+        // …and no ratio is ever formed against the CHOSEN parametric RF sigma.
+        assert!(c["ratio_against_chosen_rf_sigma_refused"]
+            .as_str()
+            .unwrap()
+            .contains("carries no configuration"));
+        assert_eq!(
+            c["released_rf_position_sigma_m"],
+            v["optical_link"]["rf_position_sigma_m"]
+        );
+    }
+
+    /// The one-way comparison leg reconciles with the released two-way headline exactly,
+    /// so the report cannot be read as carrying two disagreeing optical sigmas.
+    #[test]
+    fn the_one_way_comparison_leg_reconciles_with_the_released_two_way_headline() {
+        // One-way run: the comparison leg IS the headline, and the factor is exactly 1.
+        let one_way = report_of(&HybridOpticalRfScenario {
+            two_way: Some(false),
+            ..HybridOpticalRfScenario::default()
+        });
+        let c = &one_way["ranging_comparison"];
+        assert_eq!(
+            c["optical_leg"]["sigma_range_m"],
+            one_way["optical_link"]["optical_ranging_sigma_m"]
+        );
+        assert_eq!(c["two_way_penalty_factor"].as_f64().unwrap(), 1.0);
+        assert_eq!(
+            c["released_two_way_optical_sigma_m"],
+            one_way["optical_link"]["optical_ranging_sigma_m"]
+        );
+
+        // Two-way run: the factor is 0.5 / √(return-path geometric loss), recomputed from
+        // the report's own geometric_loss_db rather than from the emitter.
+        let v = default_report();
+        let c = &v["ranging_comparison"];
+        let g_db = v["optical_link"]["geometric_loss_db"].as_f64().unwrap();
+        let return_factor = 10f64.powf(-g_db / 10.0);
+        let hand = 0.5 / return_factor.sqrt();
+        let got = c["two_way_penalty_factor"].as_f64().unwrap();
+        assert!(
+            (got - hand).abs() / hand < 1e-12,
+            "two-way penalty {got} vs hand {hand}"
+        );
+        assert!(got > 1.0, "the two-way path costs precision, not buys it");
+        // The bridge closes: released = factor × one-way leg.
+        let released = v["optical_link"]["optical_ranging_sigma_m"]
+            .as_f64()
+            .unwrap();
+        let leg = c["optical_leg"]["sigma_range_m"].as_f64().unwrap();
+        assert!((released - got * leg).abs() / released < 1e-12);
+        // …and the one-way photon count is the two-way one divided by the return factor.
+        let n_one = c["optical_leg"]["detected_photons_one_way"]
+            .as_f64()
+            .unwrap();
+        let n_two = v["optical_link"]["detected_photons"].as_f64().unwrap();
+        assert!((n_two / n_one - return_factor).abs() / return_factor < 1e-12);
+    }
+
+    /// Every field the RF and ranging blocks emit is named in the units block, with a unit
+    /// and a provenance class -- checked at a NON-default configuration too, because a
+    /// gate that only ever sees the defaults is a gate on the defaults.
+    #[test]
+    fn every_new_rf_and_ranging_field_carries_a_unit_and_a_provenance_class() {
+        for scn in [
+            HybridOpticalRfScenario::default(),
+            HybridOpticalRfScenario {
+                wavelength_nm: Some(1064.0),
+                tx_aperture_m: Some(0.30),
+                rx_aperture_m: Some(1.20),
+                range_km: Some(4000.0),
+                integration_s: Some(4.0),
+                pulse_rms_ps: Some(20.0),
+                two_way: Some(false),
+                rf_band: Some("ka".to_string()),
+                rf_eirp_dbw: Some(34.0),
+                rf_g_over_t_db: Some(40.0),
+                rf_chip_rate_hz: Some(10.23e6),
+                n_optical_sites: Some(3),
+                ..HybridOpticalRfScenario::default()
+            },
+        ] {
+            let v = report_of(&scn);
+            let audit = crate::field_schema::audit_document(&v);
+            assert!(
+                audit.missing.is_empty(),
+                "{} numeric fields carry no units entry: {:?}",
+                audit.missing.len(),
+                audit.missing
+            );
+            assert!(audit.malformed.is_empty(), "{:?}", audit.malformed);
+            // …and the new blocks are genuinely in the covered set, not merely absent.
+            for want in [
+                "rf_availability.availability",
+                "rf_availability.link_margin_db",
+                "rf_availability.cn0_dbhz",
+                "rf_availability.closure_range_km",
+                "rf_availability.factors[].value",
+                "rf_availability.precision_grade_with_rf_availability",
+                "ranging_comparison.optical_over_rf",
+                "ranging_comparison.optical_leg.sigma_range_m",
+                "ranging_comparison.rf_leg.sigma_range_m",
+                "ranging_comparison.two_way_penalty_factor",
+                "rf_link_configuration.eirp_dbw",
+                "rf_link_configuration.dll_bandwidth_hz",
+            ] {
+                let f = audit
+                    .covered
+                    .iter()
+                    .find(|f| f.path == want)
+                    .unwrap_or_else(|| panic!("{want} is not a described emitted field"));
+                assert!(!f.unit.is_empty(), "{want} has an empty unit");
+                assert!(
+                    f.definition.as_deref().is_some_and(|d| d.len() > 20),
+                    "{want} must state what the quantity is"
+                );
+            }
+            // The converse direction: every units key still resolves to an emitted field.
+            for field in v["units"].as_object().unwrap().keys() {
+                let segs: Vec<&str> = field.split('.').collect();
+                assert!(
+                    units_path_resolves(&v, &segs),
+                    "units names {field}, which the report does not emit"
+                );
+            }
+        }
+    }
+
+    /// A malformed RF input is refused, not clamped into a number the report then states
+    /// as if it had been asked for.
+    #[test]
+    fn a_malformed_rf_input_is_refused_rather_than_clamped() {
+        for scn in [
+            HybridOpticalRfScenario {
+                rf_band: Some("l".to_string()),
+                ..HybridOpticalRfScenario::default()
+            },
+            HybridOpticalRfScenario {
+                rf_chip_rate_hz: Some(0.0),
+                ..HybridOpticalRfScenario::default()
+            },
+            HybridOpticalRfScenario {
+                rf_dll_bandwidth_hz: Some(-1.0),
+                ..HybridOpticalRfScenario::default()
+            },
+            HybridOpticalRfScenario {
+                rf_other_losses_db: Some(-2.0),
+                ..HybridOpticalRfScenario::default()
+            },
+        ] {
+            assert!(scn.run_json().is_err(), "a bad RF input must be refused");
+        }
+        // …and a legal band spelling of any case is accepted, at the band's own carrier.
+        for (b, want_hz) in [("s", Band::S), ("X", Band::X), ("Ka", Band::Ka)] {
+            let v = report_of(&HybridOpticalRfScenario {
+                rf_band: Some(b.to_string()),
+                ..HybridOpticalRfScenario::default()
+            });
+            assert_eq!(
+                v["rf_link_configuration"]["band"],
+                b.to_ascii_lowercase().as_str()
+            );
+            assert_eq!(
+                v["rf_link_configuration"]["carrier_hz"].as_f64().unwrap(),
+                band_frequency_hz(want_hz)
+            );
+        }
     }
 }
