@@ -1,0 +1,40 @@
+# Seven-parameter Helmert lunar frame datum from a REAL, ARCHIVED observing campaign (V3).
+#
+# Where lunar-frame-campaign removed the injected transform but still stated its station
+# network, its schedule and its per-observation sigma as ILLUSTRATIVE inputs, this kind
+# takes all three from measurement:
+#
+#   * the epochs are the ground-transmit times of archived ILRS Consolidated Laser Ranging
+#     Data normal points;
+#   * the observations are the laser ranges really fired at the five retroreflector arrays
+#     on the Moon;
+#   * every observation weight is that normal point's OWN archived precision,
+#     bin_rms/sqrt(n_raw), read out of the file rather than assumed.
+#
+# Station coordinates come from the IERS ITRF2020 SLR solution propagated to epoch by their
+# published velocities; reflector coordinates from JPL DE430 Table 7 in the
+# mean-Earth/mean-rotation frame the IAU 2015 WGCCRE model realises.
+#
+# WHICH LINKS ARE MEASURED AND WHICH ARE MODELLED IS THE REPORT, NOT A FOOTNOTE. The
+# Moon-centre ephemeris and the IAU body orientation stay modelled, and their combined size
+# is emitted as the observed-minus-computed one-way range residual over every point used;
+# troposphere, solid-body tides, station eccentricity, polar motion, UT1-UTC, relativistic
+# delay and station clocks are absent and sit inside that residual. Because an ephemeris
+# error reaches a covariance only through the DIRECTION of each line of sight, every run
+# also re-solves the whole datum with all partials tilted by sensitivity_tilt_deg (sign
+# alternating) and emits the ratio — so the covariance's insensitivity to the modelled
+# ephemeris is a number, not an argument.
+#
+# Inter-array correlation is MEASURED at exactly zero rather than assumed, because a laser
+# range touches one array. A record the catalogues cannot place — a station with no
+# published ITRF position — is SKIPPED AND COUNTED, never given a substituted coordinate.
+# The simulated campaign's own figures are RUN and printed beside the measured ones.
+#
+# MODELLED: the seven-parameter figures are a Cramer-Rao bound for a reduced parameter set
+# on a real schedule. Not a solved datum, not an LLR analysis, not a geodetic product.
+#
+# DATA: the committed real-data slice ships with the repository but NOT with the published
+# crate. From a repository checkout this file runs as written; from the crate, set
+# data_dir to a copy of that slice.
+
+kind = "lunar-llr-datum"

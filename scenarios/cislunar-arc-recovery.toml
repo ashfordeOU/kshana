@@ -1,0 +1,37 @@
+# Independent-estimator test of the cislunar arc-length observability threshold (R6, paper B).
+#
+# Paper B's threshold is a RANK read on an observability matrix assembled from the ANALYTIC
+# range Jacobian rows and the ANALYTIC variational state-transition matrix, and its
+# square-root-information-filter cross-check folds those same rows. The paper says so: that
+# is a consistency check between two numerical machines, not corroboration. This scenario is
+# the missing arbiter — a batch least-squares estimator that actually RECOVERS the chief's
+# initial state from simulated measurements, with the measurement partials taken as CENTRAL
+# FINITE DIFFERENCES of the composed forward model.
+#
+# It calls no analytic Jacobian row, no variational STM, no singular-value or eigen
+# decomposition, no rank tolerance and no square-root information filter. That is enforced,
+# not promised: a source-text guard in tests/cislunar_arc_recovery_reference.rs fails if any
+# of them appears. The dynamics (the same RK4 CR3BP flow), the initial conditions (the same
+# differential-corrected constellation), the scalar observable and the epoch grid ARE shared,
+# deliberately and by name, in the emitted `independence` block — two analyses of one
+# physical problem must agree about the physics to be comparable.
+#
+# Two criteria, each swept over five decades of its own bound:
+#   * NOISE-FREE RECOVERY — every seeded trial's final state error at most recovery_factor
+#     times its a-priori displacement. The rank analogue, with no singular-value tolerance
+#     anywhere in it.
+#   * MONTE-CARLO ESTIMABILITY — measured RMS position error over a seeded noise ensemble
+#     below a stated bound. The estimability analogue, measured rather than predicted.
+#
+# MEASURED on the published planar DRO grid: the estimator recovers the four-state from
+# 0.782609 h against the rank criterion's 2.086957 h at rel_tol 1e-6, a ratio of 0.375 — so
+# the rank threshold is NOT corroborated as a recoverability boundary. The measured
+# estimability boundary lands in the same grid cell as the formal one, 5.739130 h, and the
+# measured error curve reproduces the formal 1-sigma over 21 arc lengths to a geometric-mean
+# ratio of 0.98.
+#
+# MODELLED: the constellation design, the epoch grid, the single tracked link, the
+# displacement magnitude, the measurement sigma and the two stated bounds.
+# Not a certified navigation-performance product.
+
+kind = "cislunar-arc-recovery"

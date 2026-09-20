@@ -1,0 +1,37 @@
+# Lunar-VLBI station-coordinate covariance from an explicit observing schedule (G8, paper D3).
+#
+# D3's published chain goes from a per-observation delay precision to a station coordinate
+# uncertainty through an assumed ISOTROPIC equipartition factor g = 3. That step is the one
+# the paper's own abstract calls modelled rather than measured. This scenario removes it:
+# the lunar-VLBI delay partials are accumulated over a real schedule of (baseline x epoch)
+# pairs into a Fisher information matrix, inverted, and reported as the station coordinate
+# covariance — so the station sigma is an engine output.
+#
+# The state carries Earth-FIXED (ITRS) coordinates, so the Jacobian is the inertial partial
+# rotated by each epoch's GCRS->ITRS matrix: Earth rotation is what makes those coordinates
+# observable at all, and the report MEASURES the Earth-fixed line-of-sight sweep and the
+# beacon declination rather than assuming them. One observation is one (baseline, epoch)
+# pair with BOTH stations above the elevation mask, weighted 1/delay_sigma_s^2.
+#
+# What to read in the report
+#   * per-station per-axis and 3-D sigmas — the computed answer;
+#   * the equipartition value c*delay_sigma_s*sqrt(g/N) for the SAME schedule, printed
+#     beside it with the ratio. That ratio IS the anisotropy the assumption discarded, and
+#     the isotropic trace bound sqrt(p/trace(M)) makes AM-HM a hard floor, so the
+#     assumption can only ever understate;
+#   * rank, datum defect, condition number, the full spectrum and the free-network null
+#     space, on every run. Under a rank deficiency the headline sigma is published NULL
+#     with a status, never read out of a near-singular inverse;
+#   * both baseline counts: delay closure tau_ik = tau_ij + tau_jk leaves only n-1 of the
+#     n(n-1)/2 baselines geometrically independent.
+#
+# MODELLED: the Moon-centre ephemeris, station clocks, troposphere and Earth-orientation
+# parameters are held FIXED and observations are treated as independent, so this is a
+# Cramer-Rao bound for a reduced parameter set, not a predicted session result. The
+# omitted differenced-Shapiro partial is measured by finite difference and emitted.
+# Not a geodetic product.
+#
+# Every field below is the module default, written out so the run is reproducible from
+# this file alone. Delete any line to fall back to the same value.
+
+kind = "lunar-vlbi-fim"
