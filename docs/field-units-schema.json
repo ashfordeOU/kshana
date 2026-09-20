@@ -1,11 +1,11 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 1311,
-    "fields_total": 1354,
+    "fields_described": 1434,
+    "fields_total": 1477,
     "fields_without_units": 43,
-    "kinds_complete": 54,
-    "kinds_total": 56,
+    "kinds_complete": 56,
+    "kinds_total": 58,
     "kinds_uncovered": 2,
     "uncovered_kind_ceiling": 2,
     "uncovered_kinds": [
@@ -472,6 +472,340 @@
       "fields_total": 6,
       "fields_without_units": [],
       "label": "MODELLED — scalar 3-DOF AOCS error budget: gravity-gradient worst-case disturbance torque + RSS pointing budget; NOT a control-loop / 6-DoF / flexible-mode simulation (a pre-hardware complement to Basilisk/42, not a replacement)",
+      "source": "defaults"
+    },
+    "cislunar-arc-recovery": {
+      "complete": true,
+      "fields": {
+        "arc_hours": {
+          "definition": "total span of the sampled arc the prefixes are drawn from",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "h"
+        },
+        "claim_under_test.estimability_ratio_estimator_over_gramian": {
+          "definition": "measured boundary divided by the formal one; one means the covariance prediction is borne out",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ratio (dimensionless)"
+        },
+        "claim_under_test.estimator_estimability_boundary_hours": {
+          "definition": "this pack's measured estimability boundary, the number to set against the formal one",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "h"
+        },
+        "claim_under_test.estimator_noise_free_boundary_hours": {
+          "definition": "this pack's own recovery boundary, the number to set against the published rank threshold",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "h"
+        },
+        "claim_under_test.gramian_estimability_threshold_hours": {
+          "definition": "the estimability-criterion arc-length threshold from the same cislunar-observability run: the first arc at which the FORMAL 1-sigma position uncertainty falls below the stated bound, against which this pack's MEASURED Monte-Carlo boundary is compared",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "h"
+        },
+        "claim_under_test.gramian_rank_threshold_hours": {
+          "definition": "the rank-criterion arc-length threshold, obtained by RUNNING cislunar-observability on the identical grid and reading its result — not transcribed. Computed by that pack, not by this one, and printed here only so the two verdicts sit side by side",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "h"
+        },
+        "claim_under_test.rank_ratio_estimator_over_gramian": {
+          "definition": "estimator recovery boundary divided by the Gramian rank threshold; below one means the state is recoverable before the rank read says so",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ratio (dimensionless)"
+        },
+        "claim_under_test.rel_tol": {
+          "definition": "relative singular-value tolerance of the QUOTED Gramian read; no effect on the estimator",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "fraction (dimensionless)"
+        },
+        "displacement_km": {
+          "definition": "displacement_nd x 384400 km; the position scale of the a-priori error",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "km"
+        },
+        "displacement_nd": {
+          "definition": "how far the estimator is started from truth, as a fraction of the rotating-frame length unit — the a-priori error it has to remove",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "nondimensional rotating-frame state units"
+        },
+        "epoch_grid_hours": {
+          "definition": "arc_hours/(epochs-1); no boundary is resolved finer than this",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "h"
+        },
+        "epochs": {
+          "definition": "measurement epochs on that arc, so prefix k carries k+1 measurements",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "error_bound_km": {
+          "definition": "position-error bound the Monte-Carlo RMS must fall below for the estimability criterion",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "km"
+        },
+        "link.chief_state[]": {
+          "definition": "differential-corrected periodic-orbit initial condition",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "nondimensional rotating-frame state units"
+        },
+        "link.reference_state[]": {
+          "definition": "the reference member's state at epoch zero, the other end of the single tracked link",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "nondimensional rotating-frame state units"
+        },
+        "max_iterations": {
+          "definition": "fixed Gauss-Newton iteration count; the tolerance is zero so the count is deterministic",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "mu": {
+          "definition": "Earth-Moon mass ratio",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "fraction (dimensionless)"
+        },
+        "n_spacecraft": {
+          "definition": "constellation members; only the chief and reference 0 are linked",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "recovery_factor": {
+          "definition": "fraction of that displacement the final error must fall below for the prefix to count as recovered",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "fraction (dimensionless)"
+        },
+        "recovery_threshold.epoch_grid_hours": {
+          "definition": "spacing of the prefix grid; no threshold is resolved finer than this, which is why each carries a bracket",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "h"
+        },
+        "recovery_threshold.error_bound_sweep[].arc_hours": {
+          "definition": "the resulting estimability boundary at that bound",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "h"
+        },
+        "recovery_threshold.error_bound_sweep[].epoch_index": {
+          "definition": "prefix at which the measured RMS first meets that bound",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count (index)"
+        },
+        "recovery_threshold.error_bound_sweep[].error_bound_km": {
+          "definition": "the position bound this sweep row was run at",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "km"
+        },
+        "recovery_threshold.estimability_criterion.arc_hours": {
+          "definition": "arc length at which the MEASURED Monte-Carlo RMS first meets the bound",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "h"
+        },
+        "recovery_threshold.estimability_criterion.arc_time_tu": {
+          "definition": "the same boundary in rotating-frame time units",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "rotating-frame time units"
+        },
+        "recovery_threshold.estimability_criterion.bracket_high_hours": {
+          "definition": "first prefix that met it; the crossing lies in between",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "h"
+        },
+        "recovery_threshold.estimability_criterion.bracket_low_hours": {
+          "definition": "last prefix that failed the criterion",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "h"
+        },
+        "recovery_threshold.estimability_criterion.epoch_index": {
+          "definition": "prefix at which the measured RMS first falls below the bound",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count (index)"
+        },
+        "recovery_threshold.estimability_criterion.n_measurements": {
+          "definition": "measurements available at that prefix",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "recovery_threshold.noise_free_criterion.arc_hours": {
+          "definition": "arc length at which every trial first recovers, noise-free",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "h"
+        },
+        "recovery_threshold.noise_free_criterion.arc_time_tu": {
+          "definition": "the same boundary in rotating-frame time units",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "rotating-frame time units"
+        },
+        "recovery_threshold.noise_free_criterion.bracket_high_hours": {
+          "definition": "first prefix that meets the criterion; the true crossing lies in (bracket_low, bracket_high]",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "h"
+        },
+        "recovery_threshold.noise_free_criterion.bracket_low_hours": {
+          "definition": "last epoch NOT recovering; the true crossing lies above this",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "h"
+        },
+        "recovery_threshold.noise_free_criterion.epoch_index": {
+          "definition": "prefix at which noise-free recovery first holds",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count (index)"
+        },
+        "recovery_threshold.noise_free_criterion.n_measurements": {
+          "definition": "measurements available at that prefix",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "recovery_threshold.recovery_factor_sweep[].arc_hours": {
+          "definition": "the resulting boundary; flat across decades here, unlike the rank threshold's dependence on its own tolerance",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "h"
+        },
+        "recovery_threshold.recovery_factor_sweep[].epoch_index": {
+          "definition": "prefix at which recovery first holds at that fraction",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count (index)"
+        },
+        "recovery_threshold.recovery_factor_sweep[].recovery_factor": {
+          "definition": "the recovery fraction this sweep row was run at",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "fraction (dimensionless)"
+        },
+        "recovery_vs_arc[].arc_hours": {
+          "definition": "the prefix's span in hours",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "h"
+        },
+        "recovery_vs_arc[].arc_time_tu": {
+          "definition": "the prefix's span in rotating-frame time units",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "rotating-frame time units"
+        },
+        "recovery_vs_arc[].epoch_index": {
+          "definition": "which prefix this row is, counted from zero",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count (index)"
+        },
+        "recovery_vs_arc[].mc_rms_position_km": {
+          "definition": "measured RMS distance from estimate to known truth over the noise ensemble",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "km"
+        },
+        "recovery_vs_arc[].mc_rms_velocity_mm_s": {
+          "definition": "RMS velocity error over the noisy trials at this prefix",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "mm/s"
+        },
+        "recovery_vs_arc[].mc_worst_position_km": {
+          "definition": "worst single-trial position error at this prefix, which is what a mean would hide",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "km"
+        },
+        "recovery_vs_arc[].n_measurements": {
+          "definition": "measurements in this prefix; below the state dimension the row is underdetermined and gets no verdict",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "recovery_vs_arc[].noise_free_worst_ratio": {
+          "definition": "worst trial's final state error divided by its a-priori displacement; null when underdetermined or unsolvable",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "fraction (dimensionless)"
+        },
+        "recovery_vs_arc[].trials_solved": {
+          "definition": "trials whose Gauss-Newton solve returned a state at all",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "seed": {
+          "definition": "ChaCha8 stream seed",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count (opaque)"
+        },
+        "sigma_measurement_nd": {
+          "definition": "the measurement sigma converted to rotating-frame units, which is what the weights actually use",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "nondimensional (length or velocity, per observable)"
+        },
+        "sigma_range_m": {
+          "definition": "1-sigma range measurement noise; used only when observable = range",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "sigma_range_rate_mm_s": {
+          "definition": "1-sigma range-rate measurement noise; used only when observable = range-rate",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "mm/s"
+        },
+        "state_dim": {
+          "definition": "4 planar, 6 spatial",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "steps": {
+          "definition": "RK4 sub-steps per inter-epoch propagation",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "trials": {
+          "definition": "seeded starts per prefix; every one must recover for the prefix to count",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        }
+      },
+      "fields_described": 54,
+      "fields_total": 54,
+      "fields_without_units": [],
+      "label": "MODELLED cislunar arc-length recovery test (independent-estimator corroboration of the P6 observability threshold). VALIDATED core: the estimator is the crate's pre-existing weighted Gauss-Newton batch corrector (crate::batch_ls), whose design matrix is a CENTRAL FINITE DIFFERENCE of the composed forward model - it calls no analytic measurement Jacobian row, no variational state-transition matrix, no singular-value or eigen decomposition, no rank tolerance and no square-root information filter, so its verdict does not restate the observability Gramian's; the verdict itself is a direct state RECOVERY ERROR against a known truth, in km and mm/s, not a predicted covariance; the initial conditions are the same differential-corrected periodic orbits the Gramian path uses, and the dynamics are the same RK4 CR3BP flow - both shared deliberately and named here, because two analyses of one physical problem must share the physics to be comparable at all. MODELLED: the constellation design, the epoch grid, the single tracked link, the displacement magnitude of the a-priori error, the measurement sigma, and the two stated bounds (recovery_factor and error_bound_km), each of which is swept so its arbitrariness is visible. Not a certified navigation-performance product.",
       "source": "defaults"
     },
     "cislunar-observability": {
@@ -4580,6 +4914,452 @@
       "fields_total": 38,
       "fields_without_units": [],
       "label": null,
+      "source": "defaults"
+    },
+    "lunar-frame-campaign": {
+      "complete": true,
+      "fields": {
+        "beacon_information.defect": {
+          "definition": "unobservable directions in the beacon block: dimension minus rank",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "beacon_information.dimension": {
+          "definition": "3 per beacon",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "beacon_information.eigenvalues_per_m2[]": {
+          "declared_as": "beacon_information.eigenvalues_per_m2",
+          "definition": "ascending",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1/m^2"
+        },
+        "beacon_information.max_interbeacon_correlation": {
+          "definition": "largest absolute correlation coefficient between coordinates of different beacons",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "beacon_information.offblock_fraction": {
+          "definition": "largest inter-beacon entry over the largest diagonal entry; exactly 0 when no observation touches two beacons",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "beacon_information.rank": {
+          "definition": "eigenvalues above rel_tol * lambda_max",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "campaign.arc_hours": {
+          "definition": "total span of the observing schedule, first epoch to last",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "hr"
+        },
+        "campaign.beacons[].alt_m": {
+          "declared_as": "campaign.beacons.alt_m",
+          "definition": "height of the beacon above the mean lunar radius",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "campaign.beacons[].epochs_with_no_station_above_its_horizon": {
+          "declared_as": "campaign.beacons.epochs_with_no_station_above_its_horizon",
+          "definition": "epochs at which no Earth station cleared this beacon's own local horizon mask",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "campaign.beacons[].lat_deg": {
+          "declared_as": "campaign.beacons.lat_deg",
+          "definition": "sourced from the crate's named-site table unless the TOML overrides it; coordinate_provenance says which",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "campaign.beacons[].lon_deg": {
+          "declared_as": "campaign.beacons.lon_deg",
+          "definition": "selenographic longitude of the beacon, east positive",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "campaign.beacons[].observations": {
+          "declared_as": "campaign.beacons.observations",
+          "definition": "surviving (baseline, epoch) pairs that observe this beacon after both masks",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "campaign.beacons[].sigma_3d_m": {
+          "declared_as": "campaign.beacons.sigma_3d_m",
+          "definition": "root-sum-square of the three axis sigmas",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "campaign.beacons[].sigma_x_m": {
+          "declared_as": "campaign.beacons.sigma_x_m",
+          "definition": "MCMF x standard deviation from the campaign's beacon covariance; null under a rank deficiency",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "campaign.beacons[].sigma_y_m": {
+          "declared_as": "campaign.beacons.sigma_y_m",
+          "definition": "formal 1-sigma of this beacon's Moon-body-fixed y coordinate",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "campaign.beacons[].sigma_z_m": {
+          "declared_as": "campaign.beacons.sigma_z_m",
+          "definition": "formal 1-sigma of this beacon's Moon-body-fixed z coordinate",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "campaign.delay_sigma_range_equivalent_m": {
+          "definition": "c * delay_sigma_s",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "campaign.delay_sigma_s": {
+          "definition": "illustrative; the same magnitude lunar_vlbi_fim uses, not a measured system spec",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "campaign.earth_elevation_mask_deg": {
+          "definition": "the mask an Earth station must clear above the BEACON's local horizon",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "campaign.elevation_mask_deg": {
+          "definition": "minimum elevation the Moon must clear at an Earth station, applied at BOTH ends of a baseline",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "campaign.n_baselines": {
+          "definition": "n(n-1)/2 unordered station pairs",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "campaign.n_beacons": {
+          "definition": "lunar-surface beacons whose coordinates the campaign solves for",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "campaign.n_epochs": {
+          "definition": "floor(arc_hours / step) + 1",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "campaign.n_observations": {
+          "definition": "(beacon, baseline, epoch) triples clearing both visibility tests",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "campaign.n_observations_unmasked": {
+          "definition": "what the campaign would hold with no visibility test",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "campaign.n_stations": {
+          "definition": "Earth stations in the observing network",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "campaign.stations[].alt_m": {
+          "declared_as": "campaign.stations.alt_m",
+          "definition": "height of the Earth station above the reference ellipsoid",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "campaign.stations[].lat_deg": {
+          "declared_as": "campaign.stations.lat_deg",
+          "definition": "geodetic latitude of the Earth station",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "campaign.stations[].lon_deg": {
+          "declared_as": "campaign.stations.lon_deg",
+          "definition": "geodetic longitude of the Earth station, east positive",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "campaign.step_min": {
+          "definition": "spacing between consecutive epochs of the schedule",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "min"
+        },
+        "campaign.sub_earth_direction_mcmf_unit[]": {
+          "declared_as": "campaign.sub_earth_direction_mcmf_unit",
+          "definition": "the arc-mean Moon-body-fixed unit vector toward Earth; the direction the delay observable determines WORST, because the beacon partial is a difference of near-parallel unit vectors and so lies in the plane of the sky",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "campaign.sub_earth_direction_sweep_deg": {
+          "definition": "largest angle the Moon-body-fixed direction to Earth makes with its first-epoch value across the arc; the libration that separates the line-of-sight beacon coordinate",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "campaign.weight_per_observation_s_minus2": {
+          "definition": "1 / delay_sigma_s^2",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1/s^2"
+        },
+        "comparison.assumed_isotropic.coordinate_sigma_m": {
+          "definition": "the per-coordinate sigma of the error model being replaced",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "comparison.assumed_isotropic.rank": {
+          "definition": "rank of the design under the isotropic substitution; it shares the geometry, so it should match",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "comparison.assumed_isotropic.rotation_sigma_norm_rad": {
+          "definition": "the SAME Helmert propagation run with one isotropic per-coordinate sigma in place of the campaign covariance, so only the error model differs",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "rad"
+        },
+        "comparison.assumed_isotropic.scale_sigma_ppb": {
+          "definition": "scale sigma under that same isotropic substitution",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "ppb"
+        },
+        "comparison.assumed_isotropic.translation_sigma_norm_m": {
+          "definition": "the same propagation with an isotropic coordinate covariance - the assumption this scenario replaces, computed here only to be compared against",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "comparison.independence_discarded.rank": {
+          "definition": "rank with the inter-beacon correlations zeroed, which changes weights but not geometry",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "comparison.independence_discarded.translation_sigma_norm_m": {
+          "definition": "the campaign covariance with inter-beacon correlations zeroed and re-propagated",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "comparison.injected_transform_scenario.n_points": {
+          "definition": "the default lunar-frame-realisation network size",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "comparison.injected_transform_scenario.rms_residual_m": {
+          "definition": "RMS fit residual of that scenario's own Helmert solve",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "comparison.injected_transform_scenario.rotation_error_norm_rad": {
+          "definition": "the lunar-frame-realisation scenario's RECOVERY ERROR against its injected transform — an error, not a formal sigma, and not comparable term for term",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "rad"
+        },
+        "comparison.injected_transform_scenario.scale_error_ppb": {
+          "definition": "that scenario's scale recovery error against its injected value",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "ppb"
+        },
+        "comparison.injected_transform_scenario.translation_error_norm_m": {
+          "definition": "that scenario's single-realisation recovery error against its own injected transform, run here rather than quoted",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "comparison.ratio_assumed_isotropic_over_campaign_rotation": {
+          "definition": "below 1 means the campaign determines the rotation BETTER than the isotropic assumption claims",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "comparison.ratio_assumed_isotropic_over_campaign_scale": {
+          "definition": "isotropic scale sigma divided by the campaign's: how much the error model alone moves the answer",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "comparison.ratio_assumed_isotropic_over_campaign_translation": {
+          "definition": "the like-for-like ratio: same design, same network, only the error model changes",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "comparison.ratio_independence_discarded_over_campaign_translation": {
+          "definition": "exactly 1 when the campaign's beacon covariance is already block-diagonal",
+          "evidence_tier": "validated",
+          "provenance": "internal-consistency",
+          "unit": "1"
+        },
+        "comparison.ratio_injected_over_campaign_rotation": {
+          "definition": "same construction caveat as the translation ratio",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "comparison.ratio_injected_over_campaign_scale": {
+          "definition": "the injected-transform scenario's scale error is signed; its MAGNITUDE is used here",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "comparison.ratio_injected_over_campaign_translation": {
+          "definition": "the injected-transform figure over the campaign-derived one; a ratio between two different constructions, which is the finding and not a validation",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "datum_accuracy.rotation_sigma_norm_rad": {
+          "definition": "Euclidean norm of the three per-axis rotation sigmas",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "rad"
+        },
+        "datum_accuracy.rotation_sigma_urad[]": {
+          "declared_as": "datum_accuracy.rotation_sigma_urad",
+          "definition": "per-axis formal 1-sigma of the three rotation parameters",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "urad"
+        },
+        "datum_accuracy.scale_sigma_ppb": {
+          "definition": "formal 1-sigma of the single scale parameter",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ppb"
+        },
+        "datum_accuracy.translation_sigma_m[]": {
+          "declared_as": "datum_accuracy.translation_sigma_m",
+          "definition": "per-axis; null under a rank deficiency",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "datum_accuracy.translation_sigma_norm_m": {
+          "definition": "THE DELIVERABLE: the root-sum-square translation standard deviation of the seven-parameter datum, derived from the campaign's beacon covariance",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "helmert.condition_number": {
+          "definition": "lambda_max / lambda_min over the observable subspace",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "helmert.defect": {
+          "definition": "7 - rank; the similarity directions the campaign does not constrain",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "helmert.eigenvalues[]": {
+          "declared_as": "helmert.eigenvalues",
+          "definition": "ascending",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1/(balanced unit)^2"
+        },
+        "helmert.information_matrix[][]": {
+          "declared_as": "helmert.information_matrix",
+          "definition": "A^T M_b A in the balanced units of parameter_units: 1/m^2, 1/urad^2, 1/ppm^2 on the diagonal and the mixed products off it",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1/(balanced unit)^2"
+        },
+        "helmert.parameters[].constrained_fraction": {
+          "declared_as": "helmert.parameters.constrained_fraction",
+          "definition": "1 - the squared projection of that parameter direction onto the null space; 1 means fully constrained, 0 means not constrained at all",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "helmert.parameters[].sigma": {
+          "declared_as": "helmert.parameters.sigma",
+          "definition": "the standard deviation of that Helmert parameter in the unit its row names; null when the datum is rank-deficient",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "see parameters.unit"
+        },
+        "helmert.parameters[].weakest_direction_share": {
+          "declared_as": "helmert.parameters.weakest_direction_share",
+          "definition": "the squared component of this parameter in weakest_direction - which parameters live in the poorly determined combination",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "helmert.rank": {
+          "definition": "how many of the seven similarity parameters this campaign constrains",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "helmert.rel_tol": {
+          "definition": "singular-value ratio below which a direction is counted unobservable",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "helmert.weakest_direction.direction[]": {
+          "declared_as": "helmert.weakest_direction.direction",
+          "definition": "that eigenvector in parameter_order, sign-normalised so its largest-magnitude component is positive; a FULL-RANK datum still has one, and seven sigmas alone would hide it",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "helmert.weakest_direction.eigenvalue": {
+          "definition": "the smallest eigenvalue of A^T M_b A; the information the campaign puts into the direction it determines least well",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1/(balanced unit)^2"
+        },
+        "station_datum.n_station_columns": {
+          "definition": "3 x (n_stations - 1) when the stations are estimated, else 0",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        }
+      },
+      "fields_described": 69,
+      "fields_total": 69,
+      "fields_without_units": [],
+      "label": "MODELLED campaign-driven lunar frame datum. The seven-parameter Helmert covariance is propagated from a beacon-coordinate information matrix accumulated from the engine's own lunar-VLBI delay partials over an explicit schedule of beacons, baselines and epochs; NO similarity transform is injected and nothing is recovered from a planted answer. The beacon catalogue is the crate's sourced named-site table, but the CAMPAIGN is simulated: the Earth-station network is an illustrative set of round public complex coordinates (NOT surveyed ITRF positions), the per-observation delay sigma is a stated illustrative input, and no observation here was ever made. Individual delay observations are weighted 1/sigma_tau^2 and treated as INDEPENDENT of one another, which a correlated troposphere and clock are not. The Moon-centre ephemeris, the station clocks, the troposphere and the Earth-orientation parameters are held FIXED; a real campaign estimating them alongside the coordinates would report LARGER sigmas. Cramer-Rao bound for the stated reduced parameter set, not a predicted campaign result. Not a geodetic product.",
       "source": "defaults"
     },
     "lunar-frame-realisation": {
