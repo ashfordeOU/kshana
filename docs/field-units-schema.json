@@ -1,11 +1,11 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 1434,
-    "fields_total": 1477,
+    "fields_described": 1513,
+    "fields_total": 1556,
     "fields_without_units": 43,
-    "kinds_complete": 56,
-    "kinds_total": 58,
+    "kinds_complete": 57,
+    "kinds_total": 59,
     "kinds_uncovered": 2,
     "uncovered_kind_ceiling": 2,
     "uncovered_kinds": [
@@ -5957,6 +5957,524 @@
       "fields_total": 32,
       "fields_without_units": [],
       "label": null,
+      "source": "defaults"
+    },
+    "lunar-llr-datum": {
+      "complete": true,
+      "fields": {
+        "comparison.ratio_simulated_over_measured_rotation": {
+          "definition": "same construction caveat as the translation ratio",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "comparison.ratio_simulated_over_measured_scale": {
+          "definition": "same construction caveat as the translation ratio",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "comparison.ratio_simulated_over_measured_translation": {
+          "definition": "simulated over measured; a ratio between two different observables (VLBI delay against laser range) and two different networks, so it is a finding, not a validation",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "comparison.simulated_campaign.rotation_sigma_norm_rad": {
+          "definition": "that simulated campaign's rotation figure",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "rad"
+        },
+        "comparison.simulated_campaign.scale_sigma_ppb": {
+          "definition": "that simulated campaign's scale figure",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "ppb"
+        },
+        "comparison.simulated_campaign.translation_sigma_norm_m": {
+          "definition": "the lunar-frame-campaign scenario's own figure at its defaults, RUN here rather than transcribed; its station network and delay sigma are illustrative",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "data.dut1_s": {
+          "definition": "UT1 - UTC applied to the Earth-rotation angle; 0 unless stated, and the omission is inside the reported residual",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "data.first_epoch_jd_utc": {
+          "definition": "Julian date (UTC) of the earliest normal point used",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "d"
+        },
+        "data.last_epoch_jd_utc": {
+          "definition": "Julian date (UTC) of the latest normal point used",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "d"
+        },
+        "data.median_bin_rms_ps": {
+          "definition": "median over the used points of the archived scatter of the raw ranges about the bin trend, in picoseconds of two-way time of flight",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "ps"
+        },
+        "data.median_raw_ranges_per_point": {
+          "definition": "median number of raw returns compressed into one normal point",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "count"
+        },
+        "data.median_sigma_range_mm": {
+          "definition": "the same median expressed as a one-way range, c * sigma / 2",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "mm"
+        },
+        "data.median_sigma_two_way_s": {
+          "definition": "median of bin_rms / sqrt(n_raw): the per-observation standard error the weights use, straight out of the file",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "s"
+        },
+        "data.normal_points_parsed": {
+          "definition": "normal-point records read out of the committed CRD files",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "count"
+        },
+        "data.normal_points_used": {
+          "definition": "records that joined to both catalogues, carry the ground-transmit epoch convention and state a usable precision",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "count"
+        },
+        "data.skipped_epoch_event_not_ground_transmit": {
+          "definition": "records whose CRD epoch-event code is not 2; the light-time root here is solved from the ground transmit time only",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "count"
+        },
+        "data.skipped_no_measured_precision": {
+          "definition": "records with a zero bin RMS or an empty bin, so the file states no precision to weight by",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "count"
+        },
+        "data.skipped_station_not_in_catalogue": {
+          "definition": "records from a station with no published ITRF2020 position; skipped rather than given a substituted coordinate",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "count"
+        },
+        "data.skipped_target_not_in_catalogue": {
+          "definition": "records whose CRD target name is not one of the five DE430 Table 7 arrays",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "count"
+        },
+        "data.span_days": {
+          "definition": "last epoch minus first epoch; the arc the libration is sampled over",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "d"
+        },
+        "data.stations[].ilrs_id": {
+          "declared_as": "data.stations.ilrs_id",
+          "definition": "ILRS numeric station identifier exactly as the CRD h2 record states it -- a label that happens to be written as digits, with no unit and no arithmetic meaning",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "id"
+        },
+        "data.stations[].itrf_x_m": {
+          "declared_as": "data.stations.itrf_x_m",
+          "definition": "ITRF2020 SLR station X at the solution epoch, IERS",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "m"
+        },
+        "data.stations[].itrf_y_m": {
+          "declared_as": "data.stations.itrf_y_m",
+          "definition": "ITRF2020 SLR station Y at the solution epoch, IERS",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "m"
+        },
+        "data.stations[].itrf_z_m": {
+          "declared_as": "data.stations.itrf_z_m",
+          "definition": "ITRF2020 SLR station Z at the solution epoch, IERS",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "m"
+        },
+        "data.stations[].observations": {
+          "declared_as": "data.stations.observations",
+          "definition": "normal points this station contributed after the joins",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "count"
+        },
+        "datum_accuracy.rotation_sigma_norm_rad": {
+          "definition": "Euclidean norm of the three rotation bounds",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "rad"
+        },
+        "datum_accuracy.rotation_sigma_urad[]": {
+          "declared_as": "datum_accuracy.rotation_sigma_urad",
+          "definition": "per-axis bound on the three small-angle rotation parameters",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "urad"
+        },
+        "datum_accuracy.scale_sigma_ppb": {
+          "definition": "bound on the single scale parameter",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ppb"
+        },
+        "datum_accuracy.translation_sigma_m[]": {
+          "declared_as": "datum_accuracy.translation_sigma_m",
+          "definition": "per-axis translation bound; null under a rank deficiency",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "datum_accuracy.translation_sigma_norm_m": {
+          "definition": "THE DELIVERABLE: root-sum-square translation standard deviation of the seven-parameter datum, from a measured schedule and measured weights",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "helmert.condition_number": {
+          "definition": "lambda_max / lambda_min of A^T M_b A over the observable subspace",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "helmert.defect": {
+          "definition": "7 - rank",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "helmert.eigenvalues[]": {
+          "declared_as": "helmert.eigenvalues",
+          "definition": "ascending eigenvalues of A^T M_b A in the balanced units of parameter_order",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1/(balanced unit)^2"
+        },
+        "helmert.information_matrix[][]": {
+          "declared_as": "helmert.information_matrix",
+          "definition": "A^T M_b A: 1/m^2, 1/urad^2 and 1/ppm^2 on the diagonal, mixed products off it",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1/(balanced unit)^2"
+        },
+        "helmert.parameters[].constrained_fraction": {
+          "declared_as": "helmert.parameters.constrained_fraction",
+          "definition": "1 minus the squared projection of that parameter direction onto the null space",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "helmert.parameters[].sigma": {
+          "declared_as": "helmert.parameters.sigma",
+          "definition": "standard-deviation bound of that Helmert parameter in the unit its row names; null when the datum is rank-deficient",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "see parameters.unit"
+        },
+        "helmert.parameters[].weakest_direction_share": {
+          "declared_as": "helmert.parameters.weakest_direction_share",
+          "definition": "squared component of this parameter in the weakest direction",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "helmert.rank": {
+          "definition": "how many of the seven similarity parameters this real campaign constrains",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "helmert.rel_tol": {
+          "definition": "eigenvalue ratio below which a similarity direction counts as unobservable",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "helmert.weakest_direction.direction[]": {
+          "declared_as": "helmert.weakest_direction.direction",
+          "definition": "that eigenvector in parameter_order, sign-normalised so its largest-magnitude component is positive",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "helmert.weakest_direction.eigenvalue": {
+          "definition": "smallest eigenvalue of A^T M_b A; a full-rank datum still has a weakest direction and seven sigmas alone would hide it",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1/(balanced unit)^2"
+        },
+        "reflector_information.defect": {
+          "definition": "dimension minus rank: coordinate directions the campaign does not constrain",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "reflector_information.dimension": {
+          "definition": "three coordinates per array",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "reflector_information.eigenvalues_per_m2[]": {
+          "declared_as": "reflector_information.eigenvalues_per_m2",
+          "definition": "ascending eigenvalues of the joint reflector-coordinate information matrix",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1/m^2"
+        },
+        "reflector_information.offblock_fraction": {
+          "definition": "largest inter-array entry over the largest diagonal entry; exactly 0 because a range touches one array, which is measured here rather than assumed",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "reflector_information.rank": {
+          "definition": "eigenvalues of the joint information matrix above rel_tol * lambda_max",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "reflectors[].isotropic_sweep_ratio_lower_bound": {
+          "declared_as": "reflectors.isotropic_sweep_ratio_lower_bound",
+          "definition": "1 / weighted_rms_sweep in radians: what ratio_across_over_along would be if the sweep were an isotropic disc. The MEASURED ratio is several times larger because a libration sweep is an ellipse, not a disc; principal_transverse_anisotropy is that difference printed",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "reflectors[].libration_sweep_deg": {
+          "declared_as": "reflectors.libration_sweep_deg",
+          "definition": "largest angle any used observation's body-fixed direction to its station makes with the arc-mean direction: the libration plus diurnal-parallax sweep the REAL schedule sampled for this array",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "reflectors[].mer_x_m": {
+          "declared_as": "reflectors.mer_x_m",
+          "definition": "DE430 Table 7 mean-Earth-frame X of the retroreflector array",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "m"
+        },
+        "reflectors[].mer_y_m": {
+          "declared_as": "reflectors.mer_y_m",
+          "definition": "DE430 Table 7 mean-Earth-frame Y of the retroreflector array",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "m"
+        },
+        "reflectors[].mer_z_m": {
+          "declared_as": "reflectors.mer_z_m",
+          "definition": "DE430 Table 7 mean-Earth-frame Z of the retroreflector array",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "m"
+        },
+        "reflectors[].observations": {
+          "declared_as": "reflectors.observations",
+          "definition": "normal points that ranged to this array in the committed slice",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "count"
+        },
+        "reflectors[].principal_transverse_anisotropy": {
+          "declared_as": "reflectors.principal_transverse_anisotropy",
+          "definition": "largest over middle principal sigma; 1 would mean an isotropic sweep, and the measured value is why the isotropic lower bound is optimistic",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "reflectors[].ratio_across_over_along": {
+          "declared_as": "reflectors.ratio_across_over_along",
+          "definition": "how much worse the plane-of-sky coordinates are than the line-of-sight one; set by the libration amplitude over the arc, not by the data volume",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "reflectors[].residual_mean_m": {
+          "declared_as": "reflectors.residual_mean_m",
+          "definition": "mean observed-minus-computed one-way range for this array: measurement minus the modelled chain",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "m"
+        },
+        "reflectors[].residual_rms_m": {
+          "declared_as": "reflectors.residual_rms_m",
+          "definition": "RMS observed-minus-computed one-way range for this array",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "m"
+        },
+        "reflectors[].sigma_3d_m": {
+          "declared_as": "reflectors.sigma_3d_m",
+          "definition": "root-sum-square of the three axis bounds",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "reflectors[].sigma_across_line_of_sight_m": {
+          "declared_as": "reflectors.sigma_across_line_of_sight_m",
+          "definition": "bound in the plane of the sky, which only the libration constrains",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "reflectors[].sigma_along_line_of_sight_m": {
+          "declared_as": "reflectors.sigma_along_line_of_sight_m",
+          "definition": "bound along the arc-mean body-fixed direction to the observing station: the direction a range measures directly",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "reflectors[].sigma_principal_max_m": {
+          "declared_as": "reflectors.sigma_principal_max_m",
+          "definition": "largest principal standard deviation: the plane-of-sky direction this real schedule's libration ellipse sampled least",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "reflectors[].sigma_principal_mid_m": {
+          "declared_as": "reflectors.sigma_principal_mid_m",
+          "definition": "middle principal standard deviation: the better-sampled of the two plane-of-sky directions",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "reflectors[].sigma_principal_min_m": {
+          "declared_as": "reflectors.sigma_principal_min_m",
+          "definition": "smallest principal standard deviation of this array's 3x3 covariance block; the line-of-sight direction a range measures directly",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "reflectors[].sigma_x_m": {
+          "declared_as": "reflectors.sigma_x_m",
+          "definition": "Cramer-Rao bound on the array's body-fixed X from this schedule and these weights; a bound for a reduced parameter set, not an accuracy",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "reflectors[].sigma_y_m": {
+          "declared_as": "reflectors.sigma_y_m",
+          "definition": "Cramer-Rao bound on the array's body-fixed Y coordinate",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "reflectors[].sigma_z_m": {
+          "declared_as": "reflectors.sigma_z_m",
+          "definition": "Cramer-Rao bound on the array's body-fixed Z coordinate",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "reflectors[].weighted_rms_sweep_deg": {
+          "declared_as": "reflectors.weighted_rms_sweep_deg",
+          "definition": "that same sweep weighted by each normal point's own measured 1/sigma^2, which is how the information matrix sees it -- a wide arc observed badly buys little",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "residuals.max_m": {
+          "definition": "largest observed-minus-computed one-way range",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "m"
+        },
+        "residuals.mean_m": {
+          "definition": "mean observed-minus-computed one-way range over every point used",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "m"
+        },
+        "residuals.median_m": {
+          "definition": "median observed-minus-computed one-way range",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "m"
+        },
+        "residuals.min_m": {
+          "definition": "most negative observed-minus-computed one-way range",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "m"
+        },
+        "residuals.n": {
+          "definition": "residuals in the statistics; equals normal_points_used",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "count"
+        },
+        "residuals.rms_m": {
+          "definition": "RMS observed-minus-computed one-way range: THE MEASURED SIZE of every link this engine still models, dominated by the analytic Moon-centre ephemeris",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "m"
+        },
+        "sensitivity.line_of_sight_tilt_deg": {
+          "definition": "stated bound on the line-of-sight direction error the MODELLED Moon-centre ephemeris can induce; an input, not a measurement -- tests/lunar_llr_real_data.rs measures the worst-epoch value against JPL Horizons and asserts it is below this",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "sensitivity.ratio_tilted_over_nominal_rotation": {
+          "definition": "the same sensitivity for the rotation norm",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "sensitivity.ratio_tilted_over_nominal_scale": {
+          "definition": "the same sensitivity for the scale parameter",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "sensitivity.ratio_tilted_over_nominal_translation": {
+          "definition": "THE ANSWER to 'does a kilometre-level range residual invalidate a centimetre-level datum sigma': how far the deliverable moves when the geometry is perturbed by the full stated ephemeris-induced tilt",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "sensitivity.rotation_sigma_norm_rad": {
+          "definition": "rotation norm under the same tilted geometry",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "rad"
+        },
+        "sensitivity.scale_sigma_ppb": {
+          "definition": "scale sigma under the same tilted geometry",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ppb"
+        },
+        "sensitivity.translation_sigma_norm_m": {
+          "definition": "the whole datum re-solved with every partial tilted by that angle about g x z, sign alternating observation by observation so the perturbation scatters the directions rather than rotating the frame; the line-of-sight direction is the ONLY route by which an ephemeris error reaches a Fisher information matrix",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        }
+      },
+      "fields_described": 79,
+      "fields_total": 79,
+      "fields_without_units": [],
+      "label": "Lunar frame datum from a REAL observing campaign. The schedule, the observation count and every observation weight come from archived ILRS lunar laser ranging normal points (measured); the station coordinates come from IERS ITRF2020 and the retroreflector coordinates from JPL DE430 Table 7 (published). The Moon-centre ephemeris, the IAU 2015 WGCCRE body orientation, and the absence of troposphere, tides, station eccentricity, polar motion, UT1-UTC, relativistic delay and station clocks remain MODELLED, and the emitted observed-minus-computed residual is their combined size. The seven-parameter figures are a Cramer-Rao bound for a reduced parameter set on a real schedule, NOT a solved datum, NOT an LLR analysis and NOT a geodetic product.",
       "source": "defaults"
     },
     "lunar-time-budget": {
