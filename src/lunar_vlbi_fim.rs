@@ -887,7 +887,8 @@ impl LunarVlbiFimScenario {
 
         let weights = vec![1.0 / (sigma * sigma); n_obs];
         let free_layout = StateLayout::new(n_stations, &[], estimate_beacon);
-        let used_layout = StateLayout::new(n_stations, &datum.held_fixed(n_stations), estimate_beacon);
+        let used_layout =
+            StateLayout::new(n_stations, &datum.held_fixed(n_stations), estimate_beacon);
         if used_layout.dim() == 0 {
             return Err("the datum leaves no parameter to estimate".to_string());
         }
@@ -2219,7 +2220,11 @@ mod tests {
             "extra keys must precede the array-of-tables or they are not top level"
         );
         let scn: LunarVlbiFimScenario = toml::from_str(&src).expect("parses");
-        assert_eq!(scn.datum.as_deref(), Some("free-network"), "key must reach the scenario");
+        assert_eq!(
+            scn.datum.as_deref(),
+            Some("free-network"),
+            "key must reach the scenario"
+        );
         assert_eq!(scn.stations.as_ref().map(Vec::len), Some(2));
     }
 
@@ -2230,7 +2235,12 @@ mod tests {
             Datum::FreeNetwork,
             Datum::AllStationsFixed,
         ] {
-            assert_eq!(Datum::parse(d.as_str()), Ok(d), "{:?} did not round-trip", d);
+            assert_eq!(
+                Datum::parse(d.as_str()),
+                Ok(d),
+                "{:?} did not round-trip",
+                d
+            );
         }
         assert!(Datum::parse("all-stations-free").is_err());
     }
@@ -2263,7 +2273,10 @@ mod tests {
         let rho = b["beacon_range_m"].as_f64().expect("range");
         let base = b["longest_baseline_m"].as_f64().expect("baseline");
         let lever = b["lever_arm_range_over_baseline"].as_f64().expect("lever");
-        assert!((lever - rho / base).abs() / lever < 1e-15, "lever arm is rho/B");
+        assert!(
+            (lever - rho / base).abs() / lever < 1e-15,
+            "lever arm is rho/B"
+        );
 
         let station_eq = v["headline"]["equipartition_per_coordinate_sigma_m"]
             .as_f64()
@@ -2350,7 +2363,10 @@ mod tests {
         // nothing rather than publish a pseudo-inverse average as if it were a sigma.
         let src = d3_pair("estimate_beacon = true\n");
         let v = run(&src);
-        assert!(v["fim"]["defect"].as_u64().expect("defect") > 0, "expected a defect");
+        assert!(
+            v["fim"]["defect"].as_u64().expect("defect") > 0,
+            "expected a defect"
+        );
         assert!(v["beacon_link"]["ratio_computed_over_equipartition"].is_null());
         assert!(v["beacon_link"]["computed_per_coordinate_sigma_m"].is_null());
         // But the modelled comparand is still reported, because it needs no solve.
