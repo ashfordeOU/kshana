@@ -161,7 +161,10 @@ fn each_rendered_png_was_rendered_from_the_committed_svg() {
         .filter(|f| f.ends_with(".png"))
         .collect();
     on_disk.sort();
-    let missing: Vec<&String> = on_disk.iter().filter(|f| !entries.contains_key(*f)).collect();
+    let missing: Vec<&String> = on_disk
+        .iter()
+        .filter(|f| !entries.contains_key(*f))
+        .collect();
     assert!(
         missing.is_empty(),
         "these rendered PNGs are not covered by docs/assets/diagrams/rendered-from.json, \
