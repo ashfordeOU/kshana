@@ -5,12 +5,20 @@
 //! Three guarantees, each with its own oracle:
 //!
 //! * **Additivity (R1).** `tests/golden/realtime-frame-eop.pre-g13.json` is a frozen
-//!   capture of the default `realtime-frame-eop` report as it stood *before* the
-//!   operational predictor existed. Every field it contains must still be present in
-//!   today's default report with the identical value: no released figure changed, no field
-//!   removed. The file is a historical record — it must **never** be regenerated. The
-//!   committed golden CSV is likewise byte-identical, because the new table is emitted in
-//!   the JSON only and the reproducibility CSV was deliberately left alone.
+//!   capture of the `realtime-frame-eop` report as it stood *before* the operational
+//!   predictor existed, taken on the five-row final-only `finals2000A_2022001` excerpt
+//!   that was then the runtime default. Every field it contains must still be present,
+//!   with the identical value, in today's report **on that same input**: no released
+//!   figure changed, no field removed. The file is a historical record — it must **never**
+//!   be regenerated.
+//!
+//!   G12 later moved the runtime *default* onto the real 2026 product (20 Bulletin B
+//!   finals + 12 Bulletin A prediction rows), so the capture is reached by naming the old
+//!   input rather than by a bare run. That is the one authorised R1 exception, enumerated
+//!   cell by cell in `docs/revisions/G12-default-eop-cell-changes.md`; the three
+//!   source-identity strings it moved are pinned individually below, old → new, so the
+//!   allowance cannot absorb a numeric change. The committed golden CSV moved with the
+//!   default and was reissued under the same revision; G13 itself still adds no row to it.
 //! * **No look-ahead.** A prediction fitted on data that includes the epoch it predicts is
 //!   not a prediction. Every real row later than the issue epoch — the target row's own
 //!   rapid value included — is wrecked, while the Bulletin B finals the forecast is scored
@@ -75,11 +83,88 @@ fn assert_superset(base: &Value, now: &Value, path: &str, bad: &mut Vec<String>)
     }
 }
 
+/// The final-only five-row excerpt the pre-G13 capture was taken on. G12 moved the RUNTIME
+/// default onto the real 2026 product (20 finals + 12 Bulletin A prediction rows), so the
+/// capture is no longer reproduced by a bare run — it is reproduced by naming that input.
+const FINAL_ONLY: &str = "tests/fixtures/agency/eop/finals2000A_2022001.txt";
+
+/// The G12 default switch renamed the input, and only the input. These are the ONLY fields
+/// of the frozen capture whose value is allowed to differ, each pinned old → new so the
+/// allowance cannot absorb anything else: a numeric cell that moved would still fail.
+/// `eop_input.note` is the census prose, rewritten because the default is no longer a
+/// final-only excerpt; it is compared by the substring that carries the claim.
+const SOURCE_IDENTITY: &[(&str, &str, &str)] = &[
+    (
+        "eop_source",
+        "bundled fixture finals2000A_2022001",
+        FINAL_ONLY,
+    ),
+    (
+        "eop_input.source",
+        "bundled fixture finals2000A_2022001",
+        FINAL_ONLY,
+    ),
+    (
+        "eop_input.kind",
+        "bundled-offline-fixture",
+        "supplied-finals2000a-file",
+    ),
+];
+
+/// Rewrite the frozen capture's source-identity strings to the values the same input now
+/// reports, asserting each old value was the one recorded. Everything else is untouched.
+fn retarget_source_identity(base: &mut Value) {
+    for (path, was, now) in SOURCE_IDENTITY {
+        let mut cur = &mut *base;
+        for seg in path.split('.') {
+            cur = cur.get_mut(seg).unwrap_or_else(|| {
+                panic!("the frozen capture has no `{path}` — it is not the pre-G13 document")
+            });
+        }
+        assert_eq!(
+            cur.as_str(),
+            Some(*was),
+            "`{path}` of the frozen capture is not the value G12 renamed"
+        );
+        *cur = Value::String((*now).to_string());
+    }
+    // The predicted-vs-final table embeds the source name in two places.
+    let t4 = &mut base["table4_predicted_vs_final_horizon"];
+    t4["as_issued_source"] = Value::String(FINAL_ONLY.to_string());
+    let stated = t4["statement"].as_str().expect("a statement").to_string();
+    t4["statement"] =
+        Value::String(stated.replace("bundled fixture finals2000A_2022001", FINAL_ONLY));
+    // The census note is prose, rewritten by G12 because the default is no longer a
+    // final-only excerpt. It is lifted out of the byte-for-byte comparison and checked
+    // for its CLAIM instead (see the caller); nothing else is.
+    base["eop_input"]
+        .as_object_mut()
+        .expect("eop_input is an object")
+        .remove("note")
+        .expect("the frozen capture carries a census note");
+}
+
 #[test]
 fn the_defaults_still_emit_every_pre_g13_field_with_its_pre_g13_value() {
-    let base: Value = serde_json::from_str(PRE_G13).expect("the frozen capture parses");
-    let now: Value =
-        serde_json::from_str(&run_toml("kind=\"realtime-frame-eop\"\n").unwrap().json).unwrap();
+    let mut base: Value = serde_json::from_str(PRE_G13).expect("the frozen capture parses");
+    // G12 (default EOP switch) is the one enumerated exception; see
+    // docs/revisions/G12-default-eop-cell-changes.md. The capture is reproduced on the
+    // input it was taken on, which is now named rather than defaulted to.
+    retarget_source_identity(&mut base);
+    let now: Value = serde_json::from_str(
+        &run_toml(&format!(
+            "kind=\"realtime-frame-eop\"\neop_finals2000a=\"{FINAL_ONLY}\"\n"
+        ))
+        .unwrap()
+        .json,
+    )
+    .unwrap();
+    // The rewritten census note must still say the thing the old one said.
+    let note = now["eop_input"]["note"].as_str().expect("a census note");
+    assert!(
+        note.contains("final-only"),
+        "the census prose must still explain the zero-prediction-row case: {note}"
+    );
     let mut bad = Vec::new();
     assert_superset(&base, &now, "$", &mut bad);
     assert!(
@@ -108,7 +193,10 @@ fn the_defaults_still_emit_every_pre_g13_field_with_its_pre_g13_value() {
 #[test]
 fn the_persistence_reproducibility_table_is_byte_identical() {
     // The CSV carries P4 Tables 1 and 2 — the persistence curve among them. G13 adds no
-    // row to it, so the committed golden must still be reproduced byte-for-byte.
+    // row to it. G12 DID move its Table 2 rows, by moving the default EOP input onto a
+    // real product carrying prediction rows; the committed golden was reissued with that
+    // revision (docs/revisions/G12-default-eop-cell-changes.md) and must be reproduced
+    // byte-for-byte from here on.
     let out = run_toml("kind=\"realtime-frame-eop\"\n").unwrap();
     let csv = out.csv.as_ref().expect("a CSV artifact");
     assert_eq!(
