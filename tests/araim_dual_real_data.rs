@@ -8,9 +8,17 @@
 //!
 //! This is a *snapshot-epoch* study (each SGP4 satellite is propagated from its own
 //! TLE epoch, the convention the engine documents for a real constellation), not a
-//! single-instant sky. The numerically exact reproduction of the EU ARAIM Technical
-//! Note worked example (Table A-3) against a single version-locked epoch, and a
-//! Zenodo fixture record, remain external/founder-gated (see docs/ARAIM_REFERENCE.md).
+//! single-instant sky.
+//!
+//! **What this file does NOT do.** Every assertion below is a *relation* the answer
+//! must satisfy — pooling a constellation cannot raise a protection level, the
+//! constellation-fault hypothesis must cost availability, a looser alert limit must
+//! help. Those are self-consistency properties; none of them says what a protection
+//! level should be. The external oracle — the WG-C ARAIM Technical Subgroup's own
+//! published worked numerical example, reproduced to the tolerance that reference
+//! itself specifies — lives in `tests/araim_reference_vectors.rs`. The 15–25 %
+//! availability figure against a single version-locked epoch, and a Zenodo fixture
+//! record, remain external/founder-gated (see docs/ARAIM_REFERENCE.md).
 
 use kshana::orbit::{Orbit, Propagator, R_EARTH_M};
 use kshana::raim::{araim_dual_constellation_availability, DualFaultPriors, IntegrityBudget};
