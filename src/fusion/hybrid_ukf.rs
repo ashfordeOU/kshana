@@ -104,6 +104,168 @@ const G_M_S2: f64 = 9.81;
 /// points along −x (Groves 2013 §2.4.2). The MEO satellite geometry is fixed about it.
 const R_EARTH_M: f64 = 6.378_137e6;
 
+/// Unit and provenance class for every numeric field the `hybrid-ukf` report emits.
+///
+/// Three process-noise power spectral densities have their unit read off the expression that
+/// *consumes* them rather than off their name:
+///
+/// * `effective_q_va` drives the three velocity states as `q_va * dt`, a velocity variance
+///   (m^2/s^2), so `q_va` is an acceleration PSD: `(m/s^2)^2/Hz`. That is the spelling the
+///   [`crate::inertial::AccelCfg`] field it comes from already carries.
+/// * `clock_q_wf` and `clock_q_rw` are the two-state clock PSDs in **phase / fractional
+///   frequency** units, as the q-parameter engine returns them and *before* the filter's
+///   `c^2` rescaling into the range units the clock state is carried in. `q_wf * dt` is a
+///   phase variance (s^2), so `q_wf` is `s^2/s`; `q_rw * dt` is a fractional-frequency
+///   variance (dimensionless), so `q_rw` is `1/s`.
+///
+/// [`ClockAllanCfg::psds`]'s own doc comment spells the second of those `(1/s)^2/s`, which is
+/// `s^-3`. The expressions are the authority — [`crate::clock_state::q_from_allan`] squares a
+/// dimensionless Allan deviation at tau = 1 s, and the filter forms the clock-drift process
+/// increment as `q_rw * dt * c^2` with `c^2` in `(m/s)^2` — and both give `s^-1`, so the doc
+/// comment is wrong. Nothing here changes a value.
+///
+/// The NIS and NEES means and their chi-square bands are all dimensionless: each is a
+/// quadratic form of a residual in its own covariance. They state the filter's
+/// **self-consistency** — whether its reported covariance matches the spread of its own
+/// errors under the modelled noise — and not its accuracy, exactly as the report's summary
+/// line and `modelled_note` say.
+pub const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "seed",
+            unit: "1",
+            provenance: Input,
+            definition: "master RNG seed; each Monte-Carlo run's seed is this plus a fixed \
+                         odd-constant stride, so the whole ensemble is reproducible",
+        },
+        FieldUnit {
+            path: "effective_q_va",
+            unit: "(m/s^2)^2/Hz",
+            provenance: Modelled,
+            definition: "white-acceleration (velocity-random-walk) PSD the filter's velocity \
+                         states are driven with, as q_va*dt per step; derived from cold-atom \
+                         interferometer physics when the scenario carries an [accel.cai] \
+                         block, otherwise the supplied accel.q_va",
+        },
+        FieldUnit {
+            path: "clock_q_wf",
+            unit: "s^2/s",
+            provenance: Computed,
+            definition: "white-FM clock phase PSD from the q-parameter engine, \
+                         q_wf = sigma_y(1 s)^2; the clock-phase process increment is \
+                         q_wf*dt, a variance in s^2",
+        },
+        FieldUnit {
+            path: "clock_q_rw",
+            unit: "1/s",
+            provenance: Computed,
+            definition: "random-walk-FM clock frequency PSD, q_rw = 3*b^2 for the \
+                         dimensionless +1/2-slope Allan level b at tau = 1 s; the \
+                         fractional-frequency process increment is q_rw*dt, dimensionless",
+        },
+        FieldUnit {
+            path: "consistency.nis_mean",
+            unit: "1",
+            provenance: Computed,
+            definition: "mean Normalised Innovation Squared, nu^T S^-1 nu, pooled over every \
+                         GNSS update of every seed: the innovation-whiteness consistency \
+                         statistic of the 17-state filter, dimensionless because it is a \
+                         quadratic form in its own innovation covariance. A self-consistency \
+                         measure, not an accuracy measure",
+        },
+        FieldUnit {
+            path: "consistency.nis_dof",
+            unit: "count",
+            provenance: Computed,
+            definition: "per-update measurement dimension m = 2*n_sat (pseudorange plus \
+                         range-rate for each of the six fixed satellites), the chi-square(m) \
+                         target the NIS mean is compared against",
+        },
+        FieldUnit {
+            path: "consistency.nis_chi2_lower_95",
+            unit: "1",
+            provenance: ClosedForm,
+            definition: "lower 95% acceptance bound on the NIS mean, \
+                         chi2_inv(0.025, m*seeds)/seeds on run-based degrees of freedom; \
+                         dimensionless because the NIS it bounds is",
+        },
+        FieldUnit {
+            path: "consistency.nis_chi2_upper_95",
+            unit: "1",
+            provenance: ClosedForm,
+            definition: "upper 95% acceptance bound on the NIS mean, \
+                         chi2_inv(0.975, m*seeds)/seeds on run-based degrees of freedom",
+        },
+        FieldUnit {
+            path: "consistency.nees_mean",
+            unit: "1",
+            provenance: Computed,
+            definition: "mean Normalised Estimation Error Squared, e^T P^-1 e over the \
+                         observable state subset (position, velocity, two-state clock) read \
+                         at the converged GNSS-aided epoch and averaged over the seeds: the \
+                         estimation-error consistency statistic of the filter, dimensionless \
+                         because it is a quadratic form in its own covariance. A \
+                         self-consistency measure, not an accuracy measure",
+        },
+        FieldUnit {
+            path: "consistency.nees_dof",
+            unit: "count",
+            provenance: Computed,
+            definition: "the observable-subset state dimension the NEES is assessed over \
+                         (position 3 + velocity 3 + clock 2 = 8), the chi-square(n_x) target \
+                         the NEES mean is compared against",
+        },
+        FieldUnit {
+            path: "consistency.nees_chi2_lower_95",
+            unit: "1",
+            provenance: ClosedForm,
+            definition: "lower 95% acceptance bound on the NEES mean, \
+                         chi2_inv(0.025, n_x*runs)/runs on run-based degrees of freedom",
+        },
+        FieldUnit {
+            path: "consistency.nees_chi2_upper_95",
+            unit: "1",
+            provenance: ClosedForm,
+            definition: "upper 95% acceptance bound on the NEES mean, \
+                         chi2_inv(0.975, n_x*runs)/runs on run-based degrees of freedom",
+        },
+        FieldUnit {
+            path: "consistency.seeds",
+            unit: "count",
+            provenance: Input,
+            definition: "Monte-Carlo seeds the consistency oracle pooled over, the scenario's \
+                         consistency_seeds floored at 1",
+        },
+        FieldUnit {
+            path: "coast.aided_pos_rms_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "ensemble mean, over the pooled seeds, of the three-axis position \
+                         error magnitude at the last GNSS-aided epoch of the run — the \
+                         converged accuracy the coast starts from; the ensemble statistic is \
+                         an arithmetic mean of per-run magnitudes, not a root-mean-square",
+        },
+        FieldUnit {
+            path: "coast.coast_end_pos_rms_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "ensemble mean, over the same seeds, of the three-axis position error \
+                         magnitude at the last GNSS-denied epoch, i.e. at the end of the \
+                         coast; an arithmetic mean of per-run magnitudes, not a \
+                         root-mean-square",
+        },
+        FieldUnit {
+            path: "coast.coast_duration_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "total GNSS-denied time, the sum of (t1 - t0) over every non-nominal \
+                         window of the input timeline — the window at whose end \
+                         coast_end_pos_rms_m is read",
+        },
+    ]
+};
+
 /// Default GNSS pseudorange measurement noise 1-σ (m): a ~1 m code fix, the value the
 /// loosely-coupled pack also uses; sets the measurement covariance R on each pseudorange.
 fn default_sigma_pr() -> f64 {

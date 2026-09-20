@@ -44,6 +44,371 @@ use crate::spoof_capture::{run_capture, CaptureConfig};
 use crate::sweep::SweepAxis;
 use serde::{Deserialize, Serialize};
 
+/// Unit and provenance class for every numeric field the `lunar-attack-surface` report
+/// emits.
+///
+/// The `crossings[]` rows are described too, although the shipped grid reaches no limb
+/// crossing and the array is therefore empty at the defaults: both swept axes of this
+/// pack are lengths in metres, so a crossing coordinate has a settled unit whether or
+/// not one is ever emitted.
+const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "afs_received_dbw",
+            unit: "dBW",
+            provenance: ClosedForm,
+            definition: "AFS signal power received by the surface user: satellite EIRP plus \
+                         user antenna gain minus the free-space path loss at the slant range \
+                         and carrier",
+        },
+        FieldUnit {
+            path: "deficit_db",
+            unit: "dB",
+            provenance: ClosedForm,
+            definition: "how far the AFS received power sits below the terrestrial GPS \
+                         reference level: gps_reference_dbw - afs_received_dbw",
+        },
+        FieldUnit {
+            path: "deficit_band_lo_db",
+            unit: "dB",
+            provenance: Computed,
+            definition: "smallest deficit found over the reference-level x EIRP x slant-range \
+                         sensitivity sweep",
+        },
+        FieldUnit {
+            path: "deficit_band_hi_db",
+            unit: "dB",
+            provenance: Computed,
+            definition: "largest deficit found over that same sweep",
+        },
+        FieldUnit {
+            path: "deficit_factor_unrounded",
+            unit: "1",
+            provenance: ClosedForm,
+            definition: "the nominal deficit expressed as a linear power ratio at full \
+                         precision, 10^(nominal_deficit_db/10) — the ~36x figure",
+        },
+        FieldUnit {
+            path: "deficit_factor_rounded",
+            unit: "1",
+            provenance: ClosedForm,
+            definition: "the same linear power ratio with the deficit first truncated to a \
+                         whole dB, 10^(trunc(nominal_deficit_db)/10) — the ~32x figure",
+        },
+        FieldUnit {
+            path: "standoff_curve[].standoff_m",
+            unit: "m",
+            provenance: Input,
+            definition: "attacker-to-victim distance this row sizes the required transmit power \
+                         at",
+        },
+        FieldUnit {
+            path: "standoff_curve[].spoof_tx_power_dbw",
+            unit: "dBW",
+            provenance: ClosedForm,
+            definition: "transmit power an attacker needs at this standoff to reach the \
+                         spoof-capture jammer-to-signal ratio (default 3 dB) at the victim; the \
+                         inverse of the J/S link equation",
+        },
+        FieldUnit {
+            path: "standoff_curve[].jam_tx_power_dbw",
+            unit: "dBW",
+            provenance: ClosedForm,
+            definition: "transmit power needed at this standoff to reach the denial \
+                         jammer-to-signal ratio (default 30 dB) at the victim",
+        },
+        FieldUnit {
+            path: "standoff_curve[].spoof_tx_power_w",
+            unit: "W",
+            provenance: ClosedForm,
+            definition: "spoof_tx_power_dbw expressed in watts, 10^(dBW/10)",
+        },
+        FieldUnit {
+            path: "footprint_captured_fraction",
+            unit: "1",
+            provenance: Computed,
+            definition: "fraction of the visible lunar disk, out to the limb and area-weighted \
+                         by sin(central angle), on which the orbital transmitter's J/S meets \
+                         the capture threshold",
+        },
+        FieldUnit {
+            path: "footprint_boresight_gain_dbi",
+            unit: "dBi",
+            provenance: ClosedForm,
+            definition: "boresight gain of the orbital transmit aperture, 10*log10(efficiency * \
+                         (pi * D / lambda)^2)",
+        },
+        FieldUnit {
+            path: "spoof_lock_time_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "time from the start of the pull-in run at which the tracking loop \
+                         first settled, and stayed, within tolerance of the signal it ended on; \
+                         null when it never settled",
+        },
+        FieldUnit {
+            path: "surface_transmitter_reach_m",
+            unit: "m",
+            provenance: ClosedForm,
+            definition: "line-of-sight reach of the raised surface transmitter to the user \
+                         antenna over an airless sphere: sqrt(2Rh + h^2) summed over the two \
+                         heights at the lunar radius",
+        },
+        FieldUnit {
+            path: "orbital_horizon_los_m",
+            unit: "m",
+            provenance: ClosedForm,
+            definition: "the orbital transmitter's own straight-line tangent distance to the \
+                         lunar horizon, sqrt(2Rh + h^2)",
+        },
+        FieldUnit {
+            path: "nma_overhead_bps",
+            unit: "bit/s",
+            provenance: Spec,
+            definition: "OSNMA authentication overhead, (MACK + HKROOT bits) / subframe = 600 \
+                         bit / 30 s, reproducing the published Galileo OSNMA Signal-in-Space \
+                         ICD field sizing",
+        },
+        FieldUnit {
+            path: "nma_overhead_fraction",
+            unit: "1",
+            provenance: Computed,
+            definition: "that overhead as a fraction of the nav-data rate it is measured \
+                         against; the 50 bit/s AFS denominator is a Modelled representative \
+                         rate, so the fraction is dimensionless but its magnitude rests on that \
+                         assumption",
+        },
+        FieldUnit {
+            path: "nma_auth_latency_s",
+            unit: "s",
+            provenance: Spec,
+            definition: "TESLA key-disclosure delay before a received message can be \
+                         authenticated: subframe duration times the disclosure lag (30 s x 1)",
+        },
+        FieldUnit {
+            path: "footprint_limb_js_db",
+            unit: "dB",
+            provenance: Computed,
+            definition: "jammer-to-signal ratio the orbital transmitter delivers at the limb at \
+                         the baseline operating point",
+        },
+        FieldUnit {
+            path: "footprint_limb_margin_db",
+            unit: "dB",
+            provenance: Computed,
+            definition: "footprint_limb_js_db minus the capture threshold; negative means the \
+                         limb falls short by that many dB",
+        },
+        FieldUnit {
+            path: "footprint_limb_capture_tx_power_dbw",
+            unit: "dBW",
+            provenance: ClosedForm,
+            definition: "transmit power at which the baseline operating point would capture the \
+                         limb: p_tx + (capture threshold - limb J/S), exact because J/S moves \
+                         dB for dB with transmit power",
+        },
+        FieldUnit {
+            path: "footprint_sweep.axes[].start",
+            unit: "m",
+            provenance: Input,
+            definition: "first sample of a swept axis; both axes of this sweep are lengths in \
+                         metres (transmitter altitude, then transmit-dish diameter)",
+        },
+        FieldUnit {
+            path: "footprint_sweep.axes[].stop",
+            unit: "m",
+            provenance: Input,
+            definition: "last sample of that axis; likewise a length in metres for both axes of \
+                         this sweep",
+        },
+        FieldUnit {
+            path: "footprint_sweep.axes[].steps",
+            unit: "count",
+            provenance: Input,
+            definition: "number of samples taken along that axis",
+        },
+        FieldUnit {
+            path: "footprint_sweep.shape[]",
+            unit: "count",
+            provenance: Computed,
+            definition: "samples per axis, in axis order; their product is the number of rows \
+                         in points",
+        },
+        FieldUnit {
+            path: "footprint_sweep.altitude_m_values[]",
+            unit: "m",
+            provenance: Computed,
+            definition: "the transmitter-altitude samples above the mean lunar surface the grid \
+                         was evaluated at",
+        },
+        FieldUnit {
+            path: "footprint_sweep.diameter_m_values[]",
+            unit: "m",
+            provenance: Computed,
+            definition: "the transmit-dish diameter samples the grid was evaluated at",
+        },
+        FieldUnit {
+            path: "footprint_sweep.hpbw_deg_values[]",
+            unit: "deg",
+            provenance: ClosedForm,
+            definition: "the half-power beamwidth each diameter sample implies at the carrier",
+        },
+        FieldUnit {
+            path: "footprint_sweep.freq_hz",
+            unit: "Hz",
+            provenance: Input,
+            definition: "carrier frequency held fixed across the grid",
+        },
+        FieldUnit {
+            path: "footprint_sweep.p_tx_dbw",
+            unit: "dBW",
+            provenance: Input,
+            definition: "transmit power fed to the antenna, held fixed across the grid",
+        },
+        FieldUnit {
+            path: "footprint_sweep.capture_threshold_db",
+            unit: "dB",
+            provenance: ModelledInput,
+            definition: "the jammer-to-signal ratio at which a spoofer is taken to capture a \
+                         surface victim (3 dB), held fixed across the grid; a stated criterion, \
+                         not a measurement",
+        },
+        FieldUnit {
+            path: "footprint_sweep.points[].altitude_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "transmitter altitude above the mean lunar surface at this grid row",
+        },
+        FieldUnit {
+            path: "footprint_sweep.points[].diameter_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "transmit-dish diameter at this grid row",
+        },
+        FieldUnit {
+            path: "footprint_sweep.points[].hpbw_rad",
+            unit: "rad",
+            provenance: ClosedForm,
+            definition: "half-power beamwidth this diameter implies at the carrier, \
+                         approximately 1.02 * lambda / D",
+        },
+        FieldUnit {
+            path: "footprint_sweep.points[].hpbw_deg",
+            unit: "deg",
+            provenance: ClosedForm,
+            definition: "that same half-power beamwidth in degrees",
+        },
+        FieldUnit {
+            path: "footprint_sweep.points[].boresight_gain_dbi",
+            unit: "dBi",
+            provenance: ClosedForm,
+            definition: "boresight gain of the aperture at this diameter, 10*log10(efficiency * \
+                         (pi * D / lambda)^2)",
+        },
+        FieldUnit {
+            path: "footprint_sweep.points[].horizon_central_angle_rad",
+            unit: "rad",
+            provenance: ClosedForm,
+            definition: "central angle at the Moon's centre from the nadir point to the limb at \
+                         this altitude, acos(R / (R + h))",
+        },
+        FieldUnit {
+            path: "footprint_sweep.points[].captured_fraction",
+            unit: "1",
+            provenance: Computed,
+            definition: "area-weighted fraction of the visible disk captured at this operating \
+                         point",
+        },
+        FieldUnit {
+            path: "footprint_sweep.points[].limb_js_db",
+            unit: "dB",
+            provenance: Computed,
+            definition: "jammer-to-signal ratio delivered at the limb at this operating point",
+        },
+        FieldUnit {
+            path: "footprint_sweep.points[].limb_margin_db",
+            unit: "dB",
+            provenance: Computed,
+            definition: "limb_js_db minus the capture threshold at this operating point; \
+                         negative means the limb falls short by that many dB",
+        },
+        FieldUnit {
+            path: "footprint_sweep.points[].limb_capture_tx_power_dbw",
+            unit: "dBW",
+            provenance: ClosedForm,
+            definition: "transmit power at which this operating point would capture the limb: \
+                         p_tx + (capture threshold - limb J/S)",
+        },
+        FieldUnit {
+            path: "footprint_sweep.limb_threshold.best_limb_js_db",
+            unit: "dB",
+            provenance: Computed,
+            definition: "highest limb jammer-to-signal ratio found at any sampled point of the \
+                         grid",
+        },
+        FieldUnit {
+            path: "footprint_sweep.limb_threshold.best_limb_shortfall_db",
+            unit: "dB",
+            provenance: Computed,
+            definition: "how far that best point sits below the capture threshold; positive \
+                         while the limb is never captured on the grid",
+        },
+        FieldUnit {
+            path: "footprint_sweep.limb_threshold.best_altitude_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "transmitter altitude of that best grid point",
+        },
+        FieldUnit {
+            path: "footprint_sweep.limb_threshold.best_diameter_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "transmit-dish diameter of that best grid point",
+        },
+        FieldUnit {
+            path: "footprint_sweep.limb_threshold.best_hpbw_deg",
+            unit: "deg",
+            provenance: ClosedForm,
+            definition: "half-power beamwidth at that best grid point",
+        },
+        FieldUnit {
+            path: "footprint_sweep.limb_threshold.best_limb_capture_tx_power_dbw",
+            unit: "dBW",
+            provenance: Computed,
+            definition: "transmit power at which that best grid point would capture the limb",
+        },
+        FieldUnit {
+            path: "footprint_sweep.limb_threshold.crossings[].value",
+            unit: "m",
+            provenance: Computed,
+            definition: "the located limb-capture boundary coordinate on the swept axis; both \
+                         axes of this sweep are lengths in metres, so this is a metre \
+                         coordinate either way",
+        },
+        FieldUnit {
+            path: "footprint_sweep.limb_threshold.crossings[].hpbw_deg",
+            unit: "deg",
+            provenance: ClosedForm,
+            definition: "half-power beamwidth at that located crossing",
+        },
+        FieldUnit {
+            path: "footprint_sweep.limb_threshold.crossings[].held_value",
+            unit: "m",
+            provenance: Computed,
+            definition: "value of the axis held fixed while the crossing was bisected; likewise \
+                         a length in metres for both axes of this sweep",
+        },
+        FieldUnit {
+            path: "footprint_sweep.limb_threshold.crossings[].limb_js_db",
+            unit: "dB",
+            provenance: Computed,
+            definition: "limb jammer-to-signal ratio at the located crossing, equal to the \
+                         capture threshold to bisection precision",
+        },
+    ]
+};
+
 fn d_afs_eirp_dbw() -> f64 {
     26.0
 }
@@ -447,7 +812,20 @@ impl LunarAttackSurfaceScenario {
     /// Run the scenario, returning `(json, summary, svg)` for the engine dispatch.
     pub fn run_output(&self) -> Result<(String, String, String), String> {
         let a = self.analyse()?;
-        let json = serde_json::to_string(&a).map_err(|e| e.to_string())?;
+        // The units block is appended as one further key rather than folded in through a
+        // `serde_json::Value`: flattening the report keeps serde's declaration order, so
+        // every pre-existing key holds its position and its bytes and only `units` is new.
+        #[derive(serde::Serialize)]
+        struct Documented<'a> {
+            #[serde(flatten)]
+            report: &'a AttackSurface,
+            units: serde_json::Value,
+        }
+        let json = serde_json::to_string(&Documented {
+            report: &a,
+            units: crate::field_schema::units_block(UNITS),
+        })
+        .map_err(|e| e.to_string())?;
         let nearest = a
             .standoff_curve
             .first()

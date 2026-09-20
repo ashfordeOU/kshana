@@ -320,6 +320,39 @@ pub struct TerrainNavCfg {
     pub noise_seed: u64,
 }
 
+/// Unit and provenance class for every numeric field the `terrain-nav` report emits.
+///
+/// The report is the three fields of [`TerrainNavResult`], serialised by the scenario
+/// dispatcher. The table is named for the scenario rather than plain `UNITS` because this
+/// module also computes the `combined-altpnt` report ([`COMBINED_ALTPNT_UNITS`]).
+pub const TERRAIN_NAV_UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "free_inertial_drift_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "horizontal position error of the unaided inertial solution: the \
+                         configured constant drift in degrees converted to metres at the \
+                         track's mid-latitude",
+        },
+        FieldUnit {
+            path: "matched_error_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "residual horizontal position error after terrain matching: the true \
+                         drift minus the recovered offset estimate, in metres",
+        },
+        FieldUnit {
+            path: "measurement_sigma_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "1 sigma matching noise used by the likelihood: \
+                         hypot(altimeter sigma, map sigma)",
+        },
+    ]
+};
+
 /// Result of a TERCOM/SITAN terrain-referenced navigation run.
 #[derive(Clone, Copy, Debug, Serialize)]
 pub struct TerrainNavResult {
@@ -519,6 +552,53 @@ pub struct CombinedAltPntCfg {
     /// Terrain-channel matching 1σ (m).
     pub terrain_sigma_m: f64,
 }
+
+/// Unit and provenance class for every numeric field the `combined-altpnt` report emits.
+///
+/// The report is the five fields of [`CombinedAltPntResult`], serialised by the scenario
+/// dispatcher; every one is a horizontal position error in metres, measured against the
+/// independently injected drift.
+pub const COMBINED_ALTPNT_UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "free_inertial_drift_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "horizontal position error of the unaided inertial solution: the \
+                         configured constant drift in degrees converted to metres at the \
+                         track's mid-latitude",
+        },
+        FieldUnit {
+            path: "gravity_only_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "residual horizontal position error when only the gravity-anomaly \
+                         channel drives the offset search",
+        },
+        FieldUnit {
+            path: "magnetic_only_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "residual horizontal position error when only the magnetic-anomaly \
+                         channel drives the offset search",
+        },
+        FieldUnit {
+            path: "terrain_only_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "residual horizontal position error when only the ground-elevation \
+                         channel drives the offset search",
+        },
+        FieldUnit {
+            path: "combined_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "residual horizontal position error when all three channels are \
+                         fused, the search maximising the product of the three likelihoods",
+        },
+    ]
+};
 
 /// Result of the combined gravity + magnetic + terrain navigator: the unaided drift, each
 /// single-field matched residual, and the three-channel fused residual (all metres).

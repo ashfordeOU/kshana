@@ -21,6 +21,307 @@ use serde::Serialize;
 /// (golden-ratio constant), matching the single-run convention in [`crate::run`].
 const GOLDEN: u64 = 0x9e37_79b9_7f4a_7c15;
 
+/// Unit and provenance class for every numeric field the Monte Carlo `clock` report
+/// ([`EnsembleResult`], emitted when the scenario asks for `runs > 1`) carries.
+///
+/// The document is a different shape from the single-run
+/// [`crate::report::RunResult`]: each figure of merit is a [`Stat`] over the
+/// realisations rather than one number, and the error trajectory is a percentile
+/// [`BandPoint`] band rather than a series. The sensor-model parameters under
+/// `spec.params` are the same [`crate::models::ClockModel`] arguments the single-run
+/// table describes, with the same intensity conventions (`q_wf` in `s^2/s`, `q_rw` in
+/// `1/s`).
+pub const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    macro_rules! ensemble_units {
+        ($($s:literal),+ $(,)?) => {
+            &[
+                FieldUnit {
+                    path: "seed",
+                    unit: "1",
+                    provenance: Input,
+                    definition: "base RNG seed; realisation k runs at seed + k for the \
+                                 quantum clock and seed + k + 0x9e3779b97f4a7c15 for the \
+                                 classical one",
+                },
+                FieldUnit {
+                    path: "runs",
+                    unit: "count",
+                    provenance: Input,
+                    definition: "number of Monte Carlo realisations aggregated",
+                },
+                FieldUnit {
+                    path: "threshold_ns",
+                    unit: "ns",
+                    provenance: Input,
+                    definition: "timing spec: a sample whose absolute timing error is at \
+                                 or below this is in spec",
+                },
+                $(
+                FieldUnit {
+                    path: concat!($s, ".spec.params.y0"),
+                    unit: "1",
+                    provenance: Input,
+                    definition: "deterministic fractional-frequency offset of the clock \
+                                 model (dimensionless df/f)",
+                },
+                FieldUnit {
+                    path: concat!($s, ".spec.params.q_wf"),
+                    unit: "s^2/s",
+                    provenance: Input,
+                    definition: "white-FM process-noise intensity: the clock phase gains \
+                                 variance q_wf*dt over a step dt, so q_wf is numerically \
+                                 sigma_y(1 s)^2",
+                },
+                FieldUnit {
+                    path: concat!($s, ".spec.params.q_rw"),
+                    unit: "1/s",
+                    provenance: Input,
+                    definition: "random-walk-FM process-noise intensity: the fractional \
+                                 frequency gains variance q_rw*dt over a step dt",
+                },
+                FieldUnit {
+                    path: concat!($s, ".spec.params.drift"),
+                    unit: "1/s",
+                    provenance: Input,
+                    definition: "linear fractional-frequency aging rate: the deterministic \
+                                 frequency is y0 + drift*t",
+                },
+                FieldUnit {
+                    path: concat!($s, ".spec.params.flicker_floor"),
+                    unit: "1",
+                    provenance: Input,
+                    definition: "flat flicker-FM Allan-deviation floor sigma_y of the clock \
+                                 model; null when no flicker component is configured",
+                },
+                FieldUnit {
+                    path: concat!($s, ".holdover_s.mean"),
+                    unit: "s",
+                    provenance: Computed,
+                    definition: "mean across the realisations of the worst-case in-spec \
+                                 coast",
+                },
+                FieldUnit {
+                    path: concat!($s, ".holdover_s.p05"),
+                    unit: "s",
+                    provenance: Computed,
+                    definition: "5th percentile (nearest-rank) across the realisations of \
+                                 the worst-case in-spec coast",
+                },
+                FieldUnit {
+                    path: concat!($s, ".holdover_s.p50"),
+                    unit: "s",
+                    provenance: Computed,
+                    definition: "median across the realisations of the worst-case in-spec \
+                                 coast",
+                },
+                FieldUnit {
+                    path: concat!($s, ".holdover_s.p95"),
+                    unit: "s",
+                    provenance: Computed,
+                    definition: "95th percentile (nearest-rank) across the realisations of \
+                                 the worst-case in-spec coast",
+                },
+                FieldUnit {
+                    path: concat!($s, ".timing_p95_ns.mean"),
+                    unit: "ns",
+                    provenance: Computed,
+                    definition: "mean across the realisations of the 95th-percentile \
+                                 outage timing error",
+                },
+                FieldUnit {
+                    path: concat!($s, ".timing_p95_ns.p05"),
+                    unit: "ns",
+                    provenance: Computed,
+                    definition: "5th percentile (nearest-rank) across the realisations of \
+                                 the 95th-percentile outage timing error",
+                },
+                FieldUnit {
+                    path: concat!($s, ".timing_p95_ns.p50"),
+                    unit: "ns",
+                    provenance: Computed,
+                    definition: "median across the realisations of the 95th-percentile \
+                                 outage timing error",
+                },
+                FieldUnit {
+                    path: concat!($s, ".timing_p95_ns.p95"),
+                    unit: "ns",
+                    provenance: Computed,
+                    definition: "95th percentile (nearest-rank) across the realisations of \
+                                 the 95th-percentile outage timing error",
+                },
+                FieldUnit {
+                    path: concat!($s, ".timing_rms_ns.mean"),
+                    unit: "ns",
+                    provenance: Computed,
+                    definition: "mean across the realisations of the RMS outage timing \
+                                 error",
+                },
+                FieldUnit {
+                    path: concat!($s, ".timing_rms_ns.p05"),
+                    unit: "ns",
+                    provenance: Computed,
+                    definition: "5th percentile (nearest-rank) across the realisations of \
+                                 the RMS outage timing error",
+                },
+                FieldUnit {
+                    path: concat!($s, ".timing_rms_ns.p50"),
+                    unit: "ns",
+                    provenance: Computed,
+                    definition: "median across the realisations of the RMS outage timing \
+                                 error",
+                },
+                FieldUnit {
+                    path: concat!($s, ".timing_rms_ns.p95"),
+                    unit: "ns",
+                    provenance: Computed,
+                    definition: "95th percentile (nearest-rank) across the realisations of \
+                                 the RMS outage timing error",
+                },
+                FieldUnit {
+                    path: concat!($s, ".availability.mean"),
+                    unit: "1",
+                    provenance: Computed,
+                    definition: "mean across the realisations of the in-spec fraction of \
+                                 the run",
+                },
+                FieldUnit {
+                    path: concat!($s, ".availability.p05"),
+                    unit: "1",
+                    provenance: Computed,
+                    definition: "5th percentile (nearest-rank) across the realisations of \
+                                 the in-spec fraction of the run",
+                },
+                FieldUnit {
+                    path: concat!($s, ".availability.p50"),
+                    unit: "1",
+                    provenance: Computed,
+                    definition: "median across the realisations of the in-spec fraction of \
+                                 the run",
+                },
+                FieldUnit {
+                    path: concat!($s, ".availability.p95"),
+                    unit: "1",
+                    provenance: Computed,
+                    definition: "95th percentile (nearest-rank) across the realisations of \
+                                 the in-spec fraction of the run",
+                },
+                FieldUnit {
+                    path: concat!($s, ".integrity.mean"),
+                    unit: "1",
+                    provenance: Computed,
+                    definition: "mean across the realisations of the fraction of outage \
+                                 samples inside the Kalman 3-sigma phase bound; not an \
+                                 aviation HPL/VPL/RAIM integrity figure",
+                },
+                FieldUnit {
+                    path: concat!($s, ".integrity.p05"),
+                    unit: "1",
+                    provenance: Computed,
+                    definition: "5th percentile (nearest-rank) across the realisations of \
+                                 the fraction of outage samples inside the Kalman 3-sigma \
+                                 phase bound",
+                },
+                FieldUnit {
+                    path: concat!($s, ".integrity.p50"),
+                    unit: "1",
+                    provenance: Computed,
+                    definition: "median across the realisations of the fraction of outage \
+                                 samples inside the Kalman 3-sigma phase bound",
+                },
+                FieldUnit {
+                    path: concat!($s, ".integrity.p95"),
+                    unit: "1",
+                    provenance: Computed,
+                    definition: "95th percentile (nearest-rank) across the realisations of \
+                                 the fraction of outage samples inside the Kalman 3-sigma \
+                                 phase bound",
+                },
+                FieldUnit {
+                    path: concat!($s, ".security"),
+                    unit: "1",
+                    provenance: Computed,
+                    definition: "analytic spoof-detectability bound from clock stability; \
+                                 deterministic in the clock parameters, so one value rather \
+                                 than a spread, and not a multi-satellite RAIM detector",
+                },
+                FieldUnit {
+                    path: concat!($s, ".filter_health.nis_mean"),
+                    unit: "1",
+                    provenance: InternalConsistency,
+                    definition: "pooled mean normalised innovation squared over the \
+                                 consistency ensemble; a matched filter gives 1",
+                },
+                FieldUnit {
+                    path: concat!($s, ".filter_health.nis_chi2_lower_95"),
+                    unit: "1",
+                    provenance: ClosedForm,
+                    definition: "lower 95% chi-squared acceptance bound on the NIS mean, \
+                                 chi2_0.025(K)/K over K pooled innovations",
+                },
+                FieldUnit {
+                    path: concat!($s, ".filter_health.nis_chi2_upper_95"),
+                    unit: "1",
+                    provenance: ClosedForm,
+                    definition: "upper 95% chi-squared acceptance bound on the NIS mean, \
+                                 chi2_0.975(K)/K over K pooled innovations",
+                },
+                FieldUnit {
+                    path: concat!($s, ".filter_health.nees_mean"),
+                    unit: "1",
+                    provenance: InternalConsistency,
+                    definition: "pooled mean normalised estimation error squared; a \
+                                 matched two-state filter gives 2",
+                },
+                FieldUnit {
+                    path: concat!($s, ".filter_health.nees_chi2_lower_95"),
+                    unit: "1",
+                    provenance: ClosedForm,
+                    definition: "lower 95% chi-squared acceptance bound on the NEES mean, \
+                                 chi2_0.025(2*seeds)/seeds",
+                },
+                FieldUnit {
+                    path: concat!($s, ".filter_health.nees_chi2_upper_95"),
+                    unit: "1",
+                    provenance: ClosedForm,
+                    definition: "upper 95% chi-squared acceptance bound on the NEES mean, \
+                                 chi2_0.975(2*seeds)/seeds",
+                },
+                FieldUnit {
+                    path: concat!($s, ".band[].t"),
+                    unit: "s",
+                    provenance: Computed,
+                    definition: "time of this confidence-band point; every realisation \
+                                 shares the run's time grid",
+                },
+                FieldUnit {
+                    path: concat!($s, ".band[].p05_ns"),
+                    unit: "ns",
+                    provenance: Computed,
+                    definition: "5th percentile (nearest-rank) of the absolute timing error \
+                                 across the realisations at this time",
+                },
+                FieldUnit {
+                    path: concat!($s, ".band[].p50_ns"),
+                    unit: "ns",
+                    provenance: Computed,
+                    definition: "median absolute timing error across the realisations at \
+                                 this time",
+                },
+                FieldUnit {
+                    path: concat!($s, ".band[].p95_ns"),
+                    unit: "ns",
+                    provenance: Computed,
+                    definition: "95th percentile (nearest-rank) of the absolute timing \
+                                 error across the realisations at this time",
+                },
+                )+
+            ]
+        };
+    }
+    ensemble_units!("quantum", "classical")
+};
+
 /// Summary statistics of one figure of merit across the ensemble.
 #[derive(Clone, Copy, Debug, Serialize)]
 pub struct Stat {

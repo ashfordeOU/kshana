@@ -147,6 +147,126 @@ impl TwoWayLink {
     }
 }
 
+/// Unit and provenance class for every numeric field the `timetransfer` report
+/// ([`TimeTransferResult`]) emits.
+///
+/// `quantum` (the optical link) and `classical` (the RF link) are the same
+/// [`LinkRun`] shape, so every column is stated once and carried under both roots.
+///
+/// The parameters under `spec.params` are [`TwoWayLink`]'s: `sigma_j_s` is a
+/// per-exchange 1-sigma jitter in seconds, while `q_wf` and `q_rw` are the
+/// [`crate::models::ClockModel`] intensities of the non-reciprocal differential
+/// delay — the delay gains variance `q_wf*dt` (hence `s^2/s`) and its rate gains
+/// variance `q_rw*dt` on a dimensionless fractional rate (hence `1/s`, consistent
+/// with the module's own `sigma_y^2(tau) = q_rw*tau/3`).
+pub const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    macro_rules! timetransfer_units {
+        ($($s:literal),+ $(,)?) => {
+            &[
+                FieldUnit {
+                    path: "seed",
+                    unit: "1",
+                    provenance: Input,
+                    definition: "RNG seed of the optical (quantum) link; the RF link runs \
+                                 at seed + 0x9e3779b97f4a7c15",
+                },
+                FieldUnit {
+                    path: "range_spec_mm",
+                    unit: "mm",
+                    provenance: Input,
+                    definition: "one-way ranging spec: an exchange whose synchronisation \
+                                 error maps through c to a range error at or below this is \
+                                 in spec",
+                },
+                $(
+                FieldUnit {
+                    path: concat!($s, ".spec.params.sigma_j_s"),
+                    unit: "s",
+                    provenance: Input,
+                    definition: "1-sigma white timing jitter on the two-way offset estimate \
+                                 of a single exchange",
+                },
+                FieldUnit {
+                    path: concat!($s, ".spec.params.q_wf"),
+                    unit: "s^2/s",
+                    provenance: Input,
+                    definition: "white-FM intensity of the non-reciprocal differential \
+                                 delay: the delay gains variance q_wf*dt over a step dt",
+                },
+                FieldUnit {
+                    path: concat!($s, ".spec.params.q_rw"),
+                    unit: "1/s",
+                    provenance: Input,
+                    definition: "random-walk-FM intensity of the non-reciprocal differential \
+                                 delay, giving the link a long-tau Allan floor \
+                                 sigma_y^2(tau) = q_rw*tau/3",
+                },
+                FieldUnit {
+                    path: concat!($s, ".series[].t"),
+                    unit: "s",
+                    provenance: Computed,
+                    definition: "time of this exchange on the uniform measurement grid, \
+                                 i*step_s",
+                },
+                FieldUnit {
+                    path: concat!($s, ".series[].sync_error_s"),
+                    unit: "s",
+                    provenance: Computed,
+                    definition: "residual synchronisation error of the two-way estimate: \
+                                 the evolved non-reciprocal differential delay plus this \
+                                 exchange's white measurement residual",
+                },
+                FieldUnit {
+                    path: concat!($s, ".fom.sync_rms_ps"),
+                    unit: "ps",
+                    provenance: Computed,
+                    definition: "root mean square of the synchronisation error over the \
+                                 whole series",
+                },
+                FieldUnit {
+                    path: concat!($s, ".fom.sync_p95_ps"),
+                    unit: "ps",
+                    provenance: Computed,
+                    definition: "95th percentile (nearest-rank) of the absolute \
+                                 synchronisation error over the whole series",
+                },
+                FieldUnit {
+                    path: concat!($s, ".fom.range_rms_mm"),
+                    unit: "mm",
+                    provenance: Computed,
+                    definition: "the RMS synchronisation error as a one-way range error, \
+                                 c * sync_rms",
+                },
+                FieldUnit {
+                    path: concat!($s, ".fom.range_p95_mm"),
+                    unit: "mm",
+                    provenance: Computed,
+                    definition: "the 95th-percentile synchronisation error as a one-way \
+                                 range error, c * sync_p95",
+                },
+                FieldUnit {
+                    path: concat!($s, ".fom.within_spec_fraction"),
+                    unit: "1",
+                    provenance: Computed,
+                    definition: "fraction of exchanges whose one-way range error is within \
+                                 range_spec_mm",
+                },
+                FieldUnit {
+                    path: concat!($s, ".fom.adev_tau0"),
+                    unit: "1",
+                    provenance: Computed,
+                    definition: "overlapping Allan deviation of the sync-error series at \
+                                 tau = step_s — a dimensionless fractional-frequency \
+                                 stability; 0 when the series is too short to form one",
+                },
+                )+
+            ]
+        };
+    }
+    timetransfer_units!("quantum", "classical")
+};
+
 /// One synchronization measurement: timing (sync) error in seconds at time t.
 #[derive(Clone, Debug, Serialize)]
 pub struct SyncSample {

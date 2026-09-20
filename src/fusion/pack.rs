@@ -115,6 +115,208 @@ impl ImuCfg {
     }
 }
 
+/// Unit and provenance class for every numeric field the `gnss-ins` report emits.
+///
+/// The `quantum.*` and `classical.*` halves are the same [`FusedRun`] shape run with two
+/// different IMU bias sets, so every row appears twice under a literal prefix; the table is
+/// keyed by the path in *this* document, so the shared-struct rows live here too.
+///
+/// The `fom` block is [`crate::inertial::PositionFoM`] — the **position**-domain figures of
+/// merit — not the timing-domain `FoMScores` that `docs/SCHEMA.md` tabulates field by field.
+/// The one field the two share by construction is `holdover_s`, which this pack scores
+/// through the same `crate::fom::worst_case_holdover` helper, breaching on
+/// `|error_m| > threshold_m` instead of a timing threshold; its unit and grid-bounded caveat
+/// match that document's row. The remaining rows are read off
+/// [`crate::inertial::score_position`], which is where they are computed.
+///
+/// Two windows differ and the definitions say which is which: `pos_rms_m`, `pos_p95_m`,
+/// `drift_slope_m_per_s`, `fused_outage_rms_m` and `free_outage_rms_m` are all over the
+/// GNSS-denied samples only, while `availability` is over the whole run.
+pub const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "seed",
+            unit: "1",
+            provenance: Input,
+            definition: "master RNG seed; the quantum run uses it directly and the classical \
+                         run uses it plus a fixed odd-constant stride, so both are \
+                         reproducible and independently drawn",
+        },
+        FieldUnit {
+            path: "threshold_m",
+            unit: "m",
+            provenance: Input,
+            definition: "horizontal-error alert threshold: a sample is in spec when \
+                         |error_m| <= threshold_m, which is what sets availability and what \
+                         ends a holdover segment",
+        },
+        FieldUnit {
+            path: "quantum.spec.params.accel_bias[]",
+            unit: "m/s^2",
+            provenance: Input,
+            definition: "the quantum-grade IMU's true constant accelerometer turn-on bias, \
+                         body axes (x, y, z), echoed from imu_quantum.accel_bias",
+        },
+        FieldUnit {
+            path: "quantum.spec.params.gyro_bias[]",
+            unit: "rad/s",
+            provenance: Input,
+            definition: "the quantum-grade IMU's true constant gyro turn-on bias, body axes \
+                         (x, y, z), echoed from imu_quantum.gyro_bias",
+        },
+        FieldUnit {
+            path: "quantum.series[].t",
+            unit: "s",
+            provenance: Computed,
+            definition: "epoch of the sample, step index times time.step_s from the run start",
+        },
+        FieldUnit {
+            path: "quantum.series[].error_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "horizontal (north/east) distance between the fused INS/GNSS position \
+                         and truth in the tangent plane at that epoch, for the quantum-grade \
+                         IMU",
+        },
+        FieldUnit {
+            path: "quantum.fom.pos_rms_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "root-mean-square of series[].error_m over the GNSS-denied (outage) \
+                         samples only",
+        },
+        FieldUnit {
+            path: "quantum.fom.pos_p95_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "95th percentile (nearest-rank on the sorted values) of \
+                         |series[].error_m| over the GNSS-denied samples only",
+        },
+        FieldUnit {
+            path: "quantum.fom.holdover_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "worst-case (shortest) in-spec coast across the outage segments: per \
+                         segment, the time from its start to the first sample breaching \
+                         threshold_m, or to its end if none does; grid-bounded, so a lower \
+                         bound at the time-step resolution",
+        },
+        FieldUnit {
+            path: "quantum.fom.drift_slope_m_per_s",
+            unit: "m/s",
+            provenance: Computed,
+            definition: "least-squares slope of |series[].error_m| against t over the \
+                         GNSS-denied samples: the growth rate of the horizontal error \
+                         through the outage",
+        },
+        FieldUnit {
+            path: "quantum.fom.availability",
+            unit: "1",
+            provenance: Computed,
+            definition: "fraction in [0, 1] of the samples of the WHOLE run — not just the \
+                         outage — whose |error_m| is within threshold_m",
+        },
+        FieldUnit {
+            path: "quantum.fused_outage_rms_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "time-RMS horizontal error of the fused INS/GNSS solution over the \
+                         GNSS-denied samples; the same statistic as fom.pos_rms_m, \
+                         accumulated independently as the run proceeds",
+        },
+        FieldUnit {
+            path: "quantum.free_outage_rms_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "time-RMS horizontal error over the same GNSS-denied samples of the \
+                         unaided free-running INS, which never receives a fix — the \
+                         comparison baseline the fused figure is read against",
+        },
+        FieldUnit {
+            path: "classical.spec.params.accel_bias[]",
+            unit: "m/s^2",
+            provenance: Input,
+            definition: "the classical IMU's true constant accelerometer turn-on bias, body \
+                         axes (x, y, z), echoed from imu_classical.accel_bias",
+        },
+        FieldUnit {
+            path: "classical.spec.params.gyro_bias[]",
+            unit: "rad/s",
+            provenance: Input,
+            definition: "the classical IMU's true constant gyro turn-on bias, body axes \
+                         (x, y, z), echoed from imu_classical.gyro_bias",
+        },
+        FieldUnit {
+            path: "classical.series[].t",
+            unit: "s",
+            provenance: Computed,
+            definition: "epoch of the sample, step index times time.step_s from the run start",
+        },
+        FieldUnit {
+            path: "classical.series[].error_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "horizontal (north/east) distance between the fused INS/GNSS position \
+                         and truth in the tangent plane at that epoch, for the classical IMU",
+        },
+        FieldUnit {
+            path: "classical.fom.pos_rms_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "root-mean-square of series[].error_m over the GNSS-denied (outage) \
+                         samples only",
+        },
+        FieldUnit {
+            path: "classical.fom.pos_p95_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "95th percentile (nearest-rank on the sorted values) of \
+                         |series[].error_m| over the GNSS-denied samples only",
+        },
+        FieldUnit {
+            path: "classical.fom.holdover_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "worst-case (shortest) in-spec coast across the outage segments: per \
+                         segment, the time from its start to the first sample breaching \
+                         threshold_m, or to its end if none does; grid-bounded, so a lower \
+                         bound at the time-step resolution",
+        },
+        FieldUnit {
+            path: "classical.fom.drift_slope_m_per_s",
+            unit: "m/s",
+            provenance: Computed,
+            definition: "least-squares slope of |series[].error_m| against t over the \
+                         GNSS-denied samples: the growth rate of the horizontal error \
+                         through the outage",
+        },
+        FieldUnit {
+            path: "classical.fom.availability",
+            unit: "1",
+            provenance: Computed,
+            definition: "fraction in [0, 1] of the samples of the WHOLE run — not just the \
+                         outage — whose |error_m| is within threshold_m",
+        },
+        FieldUnit {
+            path: "classical.fused_outage_rms_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "time-RMS horizontal error of the fused INS/GNSS solution over the \
+                         GNSS-denied samples; the same statistic as fom.pos_rms_m, \
+                         accumulated independently as the run proceeds",
+        },
+        FieldUnit {
+            path: "classical.free_outage_rms_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "time-RMS horizontal error over the same GNSS-denied samples of the \
+                         unaided free-running INS, which never receives a fix — the \
+                         comparison baseline the fused figure is read against",
+        },
+    ]
+};
+
 fn default_fix_interval() -> f64 {
     1.0
 }

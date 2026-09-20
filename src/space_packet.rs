@@ -147,6 +147,82 @@ fn sp_default_data_len() -> usize {
     16
 }
 
+/// Unit and provenance class for every numeric field the `space-packet` report emits.
+///
+/// Three of the CCSDS primary-header quantities are *not* counts and are written as
+/// dimensionless (`"1"`): the APID is an 11-bit process identifier, the sequence count a
+/// 14-bit rolling counter value, and the packet-data-length field a 16-bit header field
+/// holding `(data-field octets − 1)` — one less than the octet count it encodes, so
+/// labelling it `octet` would misstate it by one. `data_len_octets` and `total_octets` are
+/// genuine octet counts, and `packet_count` a genuine cardinality.
+const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "apid",
+            unit: "1",
+            provenance: Input,
+            definition: "CCSDS Application Process Identifier, an 11-bit (0..=2047) \
+                         dimensionless process identifier, not a count",
+        },
+        FieldUnit {
+            path: "packet_count",
+            unit: "count",
+            provenance: Input,
+            definition: "number of packets framed into the stream",
+        },
+        FieldUnit {
+            path: "data_len_octets",
+            unit: "octet",
+            provenance: Input,
+            definition: "length of each packet's user data field",
+        },
+        FieldUnit {
+            path: "total_stream_octets",
+            unit: "octet",
+            provenance: Computed,
+            definition: "total encoded length of the whole stream: \
+                         packet_count * (6-octet primary header + data_len_octets)",
+        },
+        FieldUnit {
+            path: "first_packet.index",
+            unit: "1",
+            provenance: Computed,
+            definition: "zero-based position of this packet in the framed stream, a \
+                         dimensionless ordinal",
+        },
+        FieldUnit {
+            path: "first_packet.apid",
+            unit: "1",
+            provenance: Computed,
+            definition: "the 11-bit APID decoded back out of the encoded primary header; \
+                         an identifier, not a count",
+        },
+        FieldUnit {
+            path: "first_packet.sequence_count",
+            unit: "1",
+            provenance: Computed,
+            definition: "CCSDS packet sequence count decoded from the header: a 14-bit \
+                         (0..=16383) rolling counter value, here equal to the packet index",
+        },
+        FieldUnit {
+            path: "first_packet.data_length_field",
+            unit: "1",
+            provenance: Computed,
+            definition: "CCSDS packet-data-length header field decoded from the header: the \
+                         16-bit value (data-field octets - 1), so it is one less than \
+                         data_len_octets rather than an octet count itself",
+        },
+        FieldUnit {
+            path: "first_packet.total_octets",
+            unit: "octet",
+            provenance: Computed,
+            definition: "encoded length of this packet: 6-octet primary header plus the \
+                         data field",
+        },
+    ]
+};
+
 /// The `space-packet` scenario: frame a synthetic TM/TC Space Packet stream and
 /// report the per-packet primary-header decode, the total byte count, and that the
 /// encode↔decode round trip is exact — the CCSDS-133.0 framing interop check.
@@ -223,6 +299,7 @@ impl SpacePacketScenario {
                       deterministic bit layout, encode↔decode round-trip verified; \
                       NOT a conformance certification (no secondary header / CRC / \
                       segmentation logic beyond the flags)",
+            "units": crate::field_schema::units_block(UNITS),
             "apid": self.apid,
             "type": if self.telecommand { "TC" } else { "TM" },
             "packet_count": self.packet_count,

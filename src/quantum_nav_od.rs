@@ -85,6 +85,99 @@ pub struct QuantumNavOdReport {
     pub trade: TradeEvidence,
 }
 
+/// Unit and provenance class for every numeric field the `quantum-gnss-free-nav`
+/// report emits.
+pub const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "outage_s",
+            unit: "s",
+            provenance: Input,
+            definition: "GNSS-outage (coast) duration the dead-reckoning error is evaluated \
+                         at",
+        },
+        FieldUnit {
+            path: "quantum_pos_err_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "position error 1 sigma of the cold-atom (quantum) inertial budget at \
+                         the end of the outage, the RSS of its bias, scale-factor and \
+                         interferometer noise contributions",
+        },
+        FieldUnit {
+            path: "classical_pos_err_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "position error 1 sigma of the navigation-grade INS budget at the end \
+                         of the outage, the RSS of 0.5*bias*t^2, the scale-factor term and \
+                         the velocity-random-walk term",
+        },
+        FieldUnit {
+            path: "improvement_x",
+            unit: "1",
+            provenance: Computed,
+            definition: "classical_pos_err_m / quantum_pos_err_m at the end of the outage: a \
+                         dimensionless ratio, greater than 1 when the quantum budget drifts \
+                         less",
+        },
+        FieldUnit {
+            path: "quantum_holdover_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "coast time at which the quantum inertial budget's position error \
+                         first reaches threshold_m",
+        },
+        FieldUnit {
+            path: "classical_holdover_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "coast time at which the classical INS budget's position error first \
+                         reaches threshold_m",
+        },
+        FieldUnit {
+            path: "threshold_m",
+            unit: "m",
+            provenance: Input,
+            definition: "position-error threshold the two holdover times are measured to",
+        },
+        FieldUnit {
+            path: "trade.frame.seed",
+            unit: "1",
+            provenance: Constant,
+            definition: "the RNG seed stamped into the trade's comparison frame so the \
+                         comparison is reproducible; a dimensionless integer label, not a \
+                         measured quantity, and fixed at 0 because this pack draws no random \
+                         numbers",
+        },
+        FieldUnit {
+            path: "trade.foms[].quantum",
+            unit: "see the sibling `unit` field",
+            provenance: Computed,
+            definition: "the quantum candidate's score on that row's figure of merit; the \
+                         unit is data, differing row by row (m for the outage position error, \
+                         s for the holdover to threshold), so the row's own `unit` string \
+                         names it",
+        },
+        FieldUnit {
+            path: "trade.foms[].classical",
+            unit: "see the sibling `unit` field",
+            provenance: Computed,
+            definition: "the classical baseline's score on that row's figure of merit, in the \
+                         same data-dependent unit as the row's quantum value",
+        },
+        FieldUnit {
+            path: "trade.representativeness.trl_band[]",
+            unit: "1",
+            provenance: Modelled,
+            definition: "the (lo, hi) endpoints of the technology-readiness band this \
+                         modelled demonstration is claimed to be representative for; a TRL is \
+                         an ordinal readiness index on the 1-9 scale, not a physical quantity, \
+                         so it is dimensionless and its differences are not metric",
+        },
+    ]
+};
+
 fn quantum_budget(bias: f64) -> QuantumNavBudget {
     QuantumNavBudget {
         cai: CaiAccelerometer {

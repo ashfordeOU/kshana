@@ -39,6 +39,215 @@ pub struct HybridScenario {
     pub accel_classical: AccelCfg,
 }
 
+/// Unit and provenance class for every numeric field the `hybrid` report
+/// ([`HybridResult`]) emits.
+///
+/// `quantum` and `classical` are the same [`SuiteRun`] shape — a clock plus an
+/// accelerometer per suite — so every column is stated once and carried under both
+/// roots. The `clock_spec.params` rows follow [`crate::models::ClockModel`] (`q_wf`
+/// in `s^2/s`, `q_rw` in `1/s`) and the `accel_spec.params` rows
+/// [`crate::inertial::AccelModel`] (`q_va` in `(m/s^2)^2/Hz`, `q_aa` in
+/// `(m/s^2)^2/s`, `q_arw` in `(rad/s)^2/Hz`); in both cases the intensity is the
+/// variance the driven state gains per second of propagation.
+///
+/// The same document shape is emitted by the `fusion` pack, which computes it with a
+/// joint estimator rather than by composing two open-loop predictors; that pack
+/// publishes its own table ([`crate::fusion::UNITS`]) because several definitions
+/// differ even though the paths and units do not.
+pub const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    macro_rules! hybrid_units {
+        ($($s:literal),+ $(,)?) => {
+            &[
+                FieldUnit {
+                    path: "seed",
+                    unit: "1",
+                    provenance: Input,
+                    definition: "RNG seed of the quantum suite; the classical suite runs at \
+                                 seed + 0x9e3779b97f4a7c15",
+                },
+                FieldUnit {
+                    path: "timing_spec_ns",
+                    unit: "ns",
+                    provenance: Input,
+                    definition: "timing spec: a sample whose absolute timing error is at or \
+                                 below this is in spec",
+                },
+                FieldUnit {
+                    path: "position_spec_m",
+                    unit: "m",
+                    provenance: Input,
+                    definition: "position spec: a sample whose absolute position error is \
+                                 at or below this is in spec",
+                },
+                $(
+                FieldUnit {
+                    path: concat!($s, ".clock_spec.params.y0"),
+                    unit: "1",
+                    provenance: Input,
+                    definition: "deterministic fractional-frequency offset of the clock \
+                                 model (dimensionless df/f)",
+                },
+                FieldUnit {
+                    path: concat!($s, ".clock_spec.params.q_wf"),
+                    unit: "s^2/s",
+                    provenance: Input,
+                    definition: "white-FM process-noise intensity: the clock phase gains \
+                                 variance q_wf*dt over a step dt, so q_wf is numerically \
+                                 sigma_y(1 s)^2",
+                },
+                FieldUnit {
+                    path: concat!($s, ".clock_spec.params.q_rw"),
+                    unit: "1/s",
+                    provenance: Input,
+                    definition: "random-walk-FM process-noise intensity: the fractional \
+                                 frequency gains variance q_rw*dt over a step dt",
+                },
+                FieldUnit {
+                    path: concat!($s, ".clock_spec.params.drift"),
+                    unit: "1/s",
+                    provenance: Input,
+                    definition: "linear fractional-frequency aging rate: the deterministic \
+                                 frequency is y0 + drift*t",
+                },
+                FieldUnit {
+                    path: concat!($s, ".clock_spec.params.flicker_floor"),
+                    unit: "1",
+                    provenance: Input,
+                    definition: "flat flicker-FM Allan-deviation floor sigma_y of the clock \
+                                 model; null when no flicker component is configured",
+                },
+                FieldUnit {
+                    path: concat!($s, ".accel_spec.params.bias"),
+                    unit: "m/s^2",
+                    provenance: Input,
+                    definition: "residual (post-GNSS-calibration) accelerometer bias — the \
+                                 sensor's published bias stability",
+                },
+                FieldUnit {
+                    path: concat!($s, ".accel_spec.params.q_va"),
+                    unit: "(m/s^2)^2/Hz",
+                    provenance: Input,
+                    definition: "white acceleration noise PSD driving velocity random walk \
+                                 (velocity gains variance q_va*dt per step); derived from \
+                                 the cold-atom-interferometer physics instead of echoed \
+                                 when the sensor carries a `cai` block",
+                },
+                FieldUnit {
+                    path: concat!($s, ".accel_spec.params.q_aa"),
+                    unit: "(m/s^2)^2/s",
+                    provenance: Input,
+                    definition: "acceleration-random-walk (rate-random-walk) PSD: the \
+                                 accelerometer bias gains variance q_aa*dt per step",
+                },
+                FieldUnit {
+                    path: concat!($s, ".accel_spec.params.gyro_bias"),
+                    unit: "rad/s",
+                    provenance: Input,
+                    definition: "residual gyro bias; the tilt error it accumulates couples \
+                                 gravity into a g*theta specific-force error",
+                },
+                FieldUnit {
+                    path: concat!($s, ".accel_spec.params.q_arw"),
+                    unit: "(rad/s)^2/Hz",
+                    provenance: Input,
+                    definition: "angular-random-walk PSD: the attitude (tilt) error gains \
+                                 variance q_arw*dt per step",
+                },
+                FieldUnit {
+                    path: concat!($s, ".series[].t"),
+                    unit: "s",
+                    provenance: Computed,
+                    definition: "sample time on the uniform run grid, i*time.step_s",
+                },
+                FieldUnit {
+                    path: concat!($s, ".series[].timing_ns"),
+                    unit: "ns",
+                    provenance: Computed,
+                    definition: "timing error at t: the clock's coasted prediction residual, \
+                                 plus the optical inter-satellite link's fresh measurement \
+                                 residual when re-sync is enabled; zero while GNSS is \
+                                 nominal",
+                },
+                FieldUnit {
+                    path: concat!($s, ".series[].position_m"),
+                    unit: "m",
+                    provenance: Computed,
+                    definition: "single-axis (1-DOF) dead-reckoning position error at t; \
+                                 zero while GNSS is nominal, where the fix re-aligns the \
+                                 model",
+                },
+                FieldUnit {
+                    path: concat!($s, ".fom.timing_holdover_s"),
+                    unit: "s",
+                    provenance: Computed,
+                    definition: "worst-case (shortest) coast before the timing error leaves \
+                                 timing_spec_ns, across the outage segments; grid-bounded \
+                                 at time.step_s",
+                },
+                FieldUnit {
+                    path: concat!($s, ".fom.position_holdover_s"),
+                    unit: "s",
+                    provenance: Computed,
+                    definition: "worst-case (shortest) coast before the position error \
+                                 leaves position_spec_m, across the outage segments; \
+                                 grid-bounded at time.step_s",
+                },
+                FieldUnit {
+                    path: concat!($s, ".fom.pnt_holdover_s"),
+                    unit: "s",
+                    provenance: Computed,
+                    definition: "worst-case (shortest) coast before either channel leaves \
+                                 its spec, across the outage segments; grid-bounded at \
+                                 time.step_s",
+                },
+                FieldUnit {
+                    path: concat!($s, ".fom.timing_p95_ns"),
+                    unit: "ns",
+                    provenance: Computed,
+                    definition: "95th percentile (nearest-rank) of the absolute timing \
+                                 error over the outage samples",
+                },
+                FieldUnit {
+                    path: concat!($s, ".fom.position_p95_m"),
+                    unit: "m",
+                    provenance: Computed,
+                    definition: "95th percentile (nearest-rank) of the absolute position \
+                                 error over the outage samples",
+                },
+                FieldUnit {
+                    path: concat!($s, ".fom.pnt_availability"),
+                    unit: "1",
+                    provenance: Computed,
+                    definition: "fraction of all samples in the run with both the timing \
+                                 and the position error inside their specs",
+                },
+                FieldUnit {
+                    path: concat!($s, ".fom.integrity"),
+                    unit: "1",
+                    provenance: Computed,
+                    definition: "filter self-consistency on the timing channel: the \
+                                 fraction of outage samples whose timing error stays inside \
+                                 the Kalman 3-sigma phase bound, widened by the re-sync \
+                                 link variance when re-sync is enabled; not an aviation \
+                                 HPL/VPL/RAIM integrity figure",
+                },
+                FieldUnit {
+                    path: concat!($s, ".fom.security"),
+                    unit: "1",
+                    provenance: Computed,
+                    definition: "analytic spoof-detectability bound from clock stability, \
+                                 clamp(1 - smallest detectable offset / timing_spec_ns, 0, \
+                                 1); meaningful only against a configured attack, and not \
+                                 a multi-satellite RAIM detector",
+                },
+                )+
+            ]
+        };
+    }
+    hybrid_units!("quantum", "classical")
+};
+
 /// One combined PNT sample: timing error (ns) and position error (m).
 #[derive(Clone, Debug, Serialize)]
 pub struct HybridSample {

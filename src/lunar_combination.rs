@@ -1072,6 +1072,275 @@ impl LunarCombinationScenario {
     }
 }
 
+/// Unit and provenance class for every numeric field the `lunar-joint-od-clock` report emits.
+///
+/// Every number here is an output of the simulated closed-loop solve or of the Fisher-
+/// information analysis of the same network, so all of them are `Computed` bar the two
+/// echoed network sizes. Two rows deserve their stated caveat rather than a tidier unit:
+/// `rms_residual` is an unweighted RMS over an observation vector that mixes seconds with
+/// metres, and the information-matrix scalars are expressed in the solver's stored
+/// parameter unit (`PARAM_SCALE` = 1e6 m), not in metres.
+pub const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "with_vlbi.station_pos_err_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "magnitude of the recovered-minus-true lunar station 3-D position \
+                         error, with the Earth-baseline VLBI legs included",
+        },
+        FieldUnit {
+            path: "with_vlbi.sat_pos_rms_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "RMS over the constellation of the per-satellite 3-D position error \
+                         (recovered minus true), with the Earth-baseline VLBI legs included",
+        },
+        FieldUnit {
+            path: "with_vlbi.station_clock_err_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "magnitude of the station clock-offset error; the clock state is \
+                         estimated in range-equivalent metres and divided by c on the way \
+                         out, with the Earth-baseline VLBI legs included",
+        },
+        FieldUnit {
+            path: "with_vlbi.sat_clock_rms_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "RMS over the constellation of the per-satellite clock-offset error, \
+                         in seconds after the range-equivalent-metre state is divided by c, \
+                         with the Earth-baseline VLBI legs included",
+        },
+        FieldUnit {
+            path: "with_vlbi.iterations",
+            unit: "count",
+            provenance: Computed,
+            definition: "Gauss-Newton iterations actually run before the step norm fell below \
+                         tolerance (or the cap was hit), with the Earth-baseline VLBI legs \
+                         included",
+        },
+        FieldUnit {
+            path: "with_vlbi.rms_residual",
+            unit: "mixed - see note",
+            provenance: Computed,
+            definition: "unweighted RMS of the post-fit residual z - h(x) over the whole \
+                         observation vector, which mixes the VLBI delays (s) with the \
+                         clock-sync pseudo-observation and every range (m, clocks carried as \
+                         range-equivalent metres); a diagnostic, not a single-unit quantity, \
+                         with the Earth-baseline VLBI legs included",
+        },
+        FieldUnit {
+            path: "with_vlbi.n_obs",
+            unit: "count",
+            provenance: Computed,
+            definition: "observables in the batch, with the Earth-baseline VLBI legs included",
+        },
+        FieldUnit {
+            path: "with_vlbi.n_params",
+            unit: "count",
+            provenance: Computed,
+            definition: "estimated parameters: 3 station position + 3 per satellite + one \
+                         clock per asset, with the Earth-baseline VLBI legs included",
+        },
+        FieldUnit {
+            path: "without_vlbi.station_pos_err_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "magnitude of the recovered-minus-true lunar station 3-D position \
+                         error, with lunar-local ranging only",
+        },
+        FieldUnit {
+            path: "without_vlbi.sat_pos_rms_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "RMS over the constellation of the per-satellite 3-D position error \
+                         (recovered minus true), with lunar-local ranging only",
+        },
+        FieldUnit {
+            path: "without_vlbi.station_clock_err_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "magnitude of the station clock-offset error; the clock state is \
+                         estimated in range-equivalent metres and divided by c on the way \
+                         out, with lunar-local ranging only",
+        },
+        FieldUnit {
+            path: "without_vlbi.sat_clock_rms_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "RMS over the constellation of the per-satellite clock-offset error, \
+                         in seconds after the range-equivalent-metre state is divided by c, \
+                         with lunar-local ranging only",
+        },
+        FieldUnit {
+            path: "without_vlbi.iterations",
+            unit: "count",
+            provenance: Computed,
+            definition: "Gauss-Newton iterations actually run before the step norm fell below \
+                         tolerance (or the cap was hit), with lunar-local ranging only",
+        },
+        FieldUnit {
+            path: "without_vlbi.rms_residual",
+            unit: "mixed - see note",
+            provenance: Computed,
+            definition: "unweighted RMS of the post-fit residual z - h(x) over the whole \
+                         observation vector, which mixes the VLBI delays (s) with the \
+                         clock-sync pseudo-observation and every range (m, clocks carried as \
+                         range-equivalent metres); a diagnostic, not a single-unit quantity, \
+                         with lunar-local ranging only",
+        },
+        FieldUnit {
+            path: "without_vlbi.n_obs",
+            unit: "count",
+            provenance: Computed,
+            definition: "observables in the batch, with lunar-local ranging only",
+        },
+        FieldUnit {
+            path: "without_vlbi.n_params",
+            unit: "count",
+            provenance: Computed,
+            definition: "estimated parameters: 3 station position + 3 per satellite + one \
+                         clock per asset, with lunar-local ranging only",
+        },
+        FieldUnit {
+            path: "station_observability_improvement_factor",
+            unit: "1",
+            provenance: Computed,
+            definition: "without_vlbi.station_pos_err_m / with_vlbi.station_pos_err_m - how \
+                         many times the Earth-baseline VLBI legs sharpen the station 3-D \
+                         recovery",
+        },
+        FieldUnit {
+            path: "observability.n_params",
+            unit: "count",
+            provenance: Computed,
+            definition: "state dimension n of the Fisher information matrix, for the \
+                         configured network with VLBI",
+        },
+        FieldUnit {
+            path: "observability.rank",
+            unit: "count",
+            provenance: Computed,
+            definition: "numerical rank of the Fisher information matrix, for the configured \
+                         network with VLBI",
+        },
+        FieldUnit {
+            path: "observability.defect",
+            unit: "count",
+            provenance: Computed,
+            definition: "datum-defect dimension n - rank, the number of unobservable \
+                         directions; 0 means fully observable, for the configured network \
+                         with VLBI",
+        },
+        FieldUnit {
+            path: "observability.station_pos_crlb_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "Cramer-Rao lower bound on the station 3-D absolute-position error \
+                         (1-sigma RSS of the three position variances, rescaled to metres); \
+                         null when the station position lies inside the datum defect, for the \
+                         configured network with VLBI",
+        },
+        FieldUnit {
+            path: "observability.station_pos_unobservable_axes",
+            unit: "1",
+            provenance: Computed,
+            definition: "effective number of the station's three position axes captured by \
+                         the datum defect, sum over null-space basis vectors of the squared \
+                         projection onto those axes; a generally fractional number in [0, 3] \
+                         where 0 is fully observable, for the configured network with VLBI",
+        },
+        FieldUnit {
+            path: "observability.e_opt",
+            unit: "1/(10^6 m)^2",
+            provenance: Computed,
+            definition: "E-optimality lambda_min of the Fisher information matrix, the \
+                         worst-observed direction; the state is stored in units of 1e6 m \
+                         (clocks as range-equivalent metres) so the information is an inverse \
+                         squared stored unit, for the configured network with VLBI",
+        },
+        FieldUnit {
+            path: "observability.condition",
+            unit: "1",
+            provenance: Computed,
+            definition: "condition number lambda_max / lambda_min of the Fisher information \
+                         over the observable subspace, for the configured network with VLBI",
+        },
+        FieldUnit {
+            path: "observability_without_vlbi.n_params",
+            unit: "count",
+            provenance: Computed,
+            definition: "state dimension n of the Fisher information matrix, for the same \
+                         network with the VLBI legs removed",
+        },
+        FieldUnit {
+            path: "observability_without_vlbi.rank",
+            unit: "count",
+            provenance: Computed,
+            definition: "numerical rank of the Fisher information matrix, for the same \
+                         network with the VLBI legs removed",
+        },
+        FieldUnit {
+            path: "observability_without_vlbi.defect",
+            unit: "count",
+            provenance: Computed,
+            definition: "datum-defect dimension n - rank, the number of unobservable \
+                         directions; 0 means fully observable, for the same network with the \
+                         VLBI legs removed",
+        },
+        FieldUnit {
+            path: "observability_without_vlbi.station_pos_crlb_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "Cramer-Rao lower bound on the station 3-D absolute-position error \
+                         (1-sigma RSS of the three position variances, rescaled to metres); \
+                         null when the station position lies inside the datum defect, for the \
+                         same network with the VLBI legs removed",
+        },
+        FieldUnit {
+            path: "observability_without_vlbi.station_pos_unobservable_axes",
+            unit: "1",
+            provenance: Computed,
+            definition: "effective number of the station's three position axes captured by \
+                         the datum defect, sum over null-space basis vectors of the squared \
+                         projection onto those axes; a generally fractional number in [0, 3] \
+                         where 0 is fully observable, for the same network with the VLBI legs \
+                         removed",
+        },
+        FieldUnit {
+            path: "observability_without_vlbi.e_opt",
+            unit: "1/(10^6 m)^2",
+            provenance: Computed,
+            definition: "E-optimality lambda_min of the Fisher information matrix, the \
+                         worst-observed direction; the state is stored in units of 1e6 m \
+                         (clocks as range-equivalent metres) so the information is an inverse \
+                         squared stored unit, for the same network with the VLBI legs removed",
+        },
+        FieldUnit {
+            path: "observability_without_vlbi.condition",
+            unit: "1",
+            provenance: Computed,
+            definition: "condition number lambda_max / lambda_min of the Fisher information \
+                         over the observable subspace, for the same network with the VLBI \
+                         legs removed",
+        },
+        FieldUnit {
+            path: "n_sat",
+            unit: "count",
+            provenance: Input,
+            definition: "constellation satellites in the simulated network",
+        },
+        FieldUnit {
+            path: "n_earth",
+            unit: "count",
+            provenance: Input,
+            definition: "Earth ground stations in the simulated network",
+        },
+    ]
+};
+
 /// The result of a [`LunarCombinationScenario`]: the with/without-VLBI joint solutions plus the
 /// station-observability improvement factor (the headline fusion contrast).
 #[derive(Clone, Copy, Debug, serde::Serialize)]
