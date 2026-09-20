@@ -68,3 +68,27 @@ horizons_days = [1, 2, 3]
 # delta_yp_mas = 0.0
 # eop_finals2000a = "tests/fixtures/agency/eop/finals2000A_2026.txt"
 # eop_finals2000a_later = "<archived later vintage of the SAME product>"
+
+# THE OPERATIONAL-STYLE PREDICTOR (Table 5 + Table 6).
+#
+# Table 2's multi-day curve is PERSISTENCE ("tomorrow's UT1 is today's"), which is not what an
+# operational user runs on: they consume the IERS Bulletin A prediction. Table 5 adds the class of
+# model Bulletin A uses — a least-squares bias + rate fit over a trailing window plus the principal
+# periodic terms (annual, semi-annual and the two principal zonal tides for UT1; the Chandler
+# wobble, annual and semi-annual for the pole), extrapolated, with the last in-window residual
+# carried forward — and scores it PREDICTED-VERSUS-FINAL: a forecast for T+h built only from rapid
+# Bulletin A rows at or before T, measured against the LATER-PUBLISHED Bulletin B final at T+h.
+# Persistence is scored over the identical epochs against the identical finals beside it, so the
+# two columns differ in the predictor and in nothing else. Both are reported; neither replaces the
+# other, and Table 2 is unchanged.
+#
+# IERS fits 365 days. No series committed with this repository is close to that, so the default
+# window is 15 days: at most 19 so BOTH committed real extracts can populate it (the 2026 extract
+# spans 19 days of finals), and at least ~13.8 so the monthly zonal tide clears the half-cycle
+# admission threshold. A term the window cannot constrain is REPORTED as rejected, with the cycles
+# the window spans, rather than silently dropped. The bundled 5-row offline fixture supports no
+# complete window at all, so a bare run reports Table 5 as `insufficient-data` and says why.
+#
+# operational_window_days = 15.0          # 365.0 against a real year-long product
+# operational_min_cycle_fraction = 0.5    # cycles of a period the window must span to admit it
+# operational_anchor_residual = true      # false gives the bare least-squares extrapolation
