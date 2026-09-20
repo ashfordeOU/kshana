@@ -4,9 +4,9 @@
   "repo_blob_base": "https://github.com/AshfordeOU/kshana/blob/main/",
   "summary": {
     "validated": 59,
-    "modelled": 70,
+    "modelled": 71,
     "partner_owned": 4,
-    "total": 133
+    "total": 134
   },
   "rows": [
     {
@@ -3185,6 +3185,23 @@
         }
       ],
       "test_links": [],
+      "fixture": null
+    },
+    {
+      "requirement": "Gate integrity — a green that means what it says",
+      "capability": "Three structural guards over the verification process itself, each closing a class of defect that reached the canonical gate as an intermittent or spurious red. (1) Every constructed temp path in the Rust sources must carry a per-call unique component; a process id is rejected, because cargo runs the library tests as parallel threads of ONE process and the pid is shared by all of them. (2) Every byte-for-byte or hash pin must declare, next to itself or in its module header, what it covers and what it deliberately excludes — so a cross-cutting change can tell at a glance which pins are in scope and which have silently become repository-wide change detectors. (3) A green is claimable only from the FULL suite: scripts/gate.sh runs `cargo test --all`, captures the true exit code with no pipe in the way, and writes a receipt naming the commit, the integration-binary count, the test count and the duration; the pre-push check refuses a push whose commit no valid receipt names, on a clean tree. Repeatability is sampled separately by scripts/check-repeatability.sh, which runs the library suite N times and fails if the set of passing tests differs.",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "Closed-form: each guard is run over a fixed known-bad snippet that must fire and a fixed known-good snippet that must stay silent, both literal constants the detector cannot influence. The two known-bad snippets are the F22 and F25 defects in their original shape. This is an INTERNAL oracle and the row is MODELLED accordingly: it proves the guards discriminate the defect from its fix, not that the classes they describe are exhaustive. Their stated blind spots — shared state that is not a path, a pin held in a short named constant, a rare race that three runs do not sample, and a receipt that anyone who can write the file can forge — are written out in the module documentation of tests/source_guards.rs and in each script's header rather than left to be discovered.",
+      "module": "scripts/gate.sh, scripts/check-gate-receipt.sh, scripts/check-repeatability.sh, scripts/install-gate-hook.sh",
+      "tests": "tests/source_guards.rs (9 tests: both guards over the whole source tree, plus mutation fixtures that grade each guard in both directions — the F22 pattern reported on both colliding paths, the shipped atomic-sequence fix accepted, a half-fix reported on exactly the path that lost its unique component, a tempfile handle and an inherited unique directory accepted, a wall clock rejected; an undeclared pin reported, a declared one accepted, a scope without an exclusion rejected, a declaration in the enclosing test's doc comment accepted and shown not to leak to the next test; and each pin spelling — hex, decimal, digest string, byte length, named byte count, golden file — seen while algorithm constants, RNG seeds and small cardinality checks are not)",
+      "module_links": [],
+      "test_links": [
+        {
+          "path": "tests/source_guards.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/source_guards.rs"
+        }
+      ],
       "fixture": null
     }
   ]
