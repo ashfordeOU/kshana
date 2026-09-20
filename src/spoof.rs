@@ -156,6 +156,237 @@ pub struct SpoofClock {
     pub series: Vec<SpoofSample>,
 }
 
+/// Unit and provenance class for every numeric field the `spoof` report emits.
+///
+/// The two clocks carry identical sub-documents, so every per-clock row appears
+/// twice, once under `quantum` and once under `classical`.
+pub const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "threshold_ns",
+            unit: "ns",
+            provenance: Input,
+            definition: "the operational timing specification: the offset at which a time spoof \
+                         becomes harmful, and the magnitude each clock's missed-detection \
+                         probability is scored at",
+        },
+        FieldUnit {
+            path: "quantum.min_detectable_ns",
+            unit: "ns",
+            provenance: ClosedForm,
+            definition: "smallest time-spoof offset the quantum clock's monitor can flag: the \
+                         5-sigma detection multiplier times the monitor's 1-sigma floor over the \
+                         600 s window",
+        },
+        FieldUnit {
+            path: "quantum.detect_time_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "time since the start of the run at which the injected offset first \
+                         exceeds the quantum clock's detection bound; absent (null) if that never \
+                         happens within the run",
+        },
+        FieldUnit {
+            path: "quantum.offset_at_detection_ns",
+            unit: "ns",
+            provenance: Computed,
+            definition: "the injected spoof offset at detect_time_s for the quantum clock",
+        },
+        FieldUnit {
+            path: "quantum.security_fom",
+            unit: "1",
+            provenance: Computed,
+            definition: "probability the quantum clock's detector correctly flags a spec-sized \
+                         spoof, 1 - analytic_pmd; higher is better",
+        },
+        FieldUnit {
+            path: "quantum.detection.monitor_sigma_ns",
+            unit: "ns",
+            provenance: ClosedForm,
+            definition: "1-sigma of the quantum clock's monitor statistic — the discrepancy \
+                         between the GNSS-asserted time and the clock's own coasted prediction \
+                         over the 600 s window",
+        },
+        FieldUnit {
+            path: "quantum.detection.target_pfa",
+            unit: "1",
+            provenance: Input,
+            definition:
+                "the quantum clock detector's design false-alarm probability per decision, \
+                         attack.target_pfa",
+        },
+        FieldUnit {
+            path: "quantum.detection.boundary_ns",
+            unit: "ns",
+            provenance: ClosedForm,
+            definition: "the two-sided detection boundary on |y| for the quantum clock, gamma = \
+                         monitor_sigma * inverse-normal-CDF(1 - target_pfa/2)",
+        },
+        FieldUnit {
+            path: "quantum.detection.eval_offset_ns",
+            unit: "ns",
+            provenance: Input,
+            definition: "the spoof magnitude the quantum clock's missed-detection probability is \
+                         evaluated at: the operational timing spec, threshold_ns",
+        },
+        FieldUnit {
+            path: "quantum.detection.analytic_pmd",
+            unit: "1",
+            provenance: ClosedForm,
+            definition: "closed-form probability the quantum clock's detector misses a spoof of \
+                         eval_offset_ns, Phi((gamma-mu)/sigma) - Phi((-gamma-mu)/sigma)",
+        },
+        FieldUnit {
+            path: "quantum.detection.mc_pfa",
+            unit: "1",
+            provenance: Computed,
+            definition: "Monte-Carlo false-alarm probability for the quantum clock: the fraction \
+                         of noise-only trials whose |y| exceeds the boundary",
+        },
+        FieldUnit {
+            path: "quantum.detection.mc_pmd",
+            unit: "1",
+            provenance: Computed,
+            definition: "Monte-Carlo missed-detection probability for the quantum clock: the \
+                         fraction of signal-plus-noise trials whose |y| stays within the boundary",
+        },
+        FieldUnit {
+            path: "quantum.detection.mc_runs",
+            unit: "count",
+            provenance: Input,
+            definition: "Monte-Carlo trials drawn per hypothesis for the quantum clock, \
+                         attack.mc_runs (floored at one)",
+        },
+        FieldUnit {
+            path: "quantum.series[].t",
+            unit: "s",
+            provenance: Computed,
+            definition: "sample time since the start of the run: the grid index times time.step_s",
+        },
+        FieldUnit {
+            path: "quantum.series[].offset_ns",
+            unit: "ns",
+            provenance: Computed,
+            definition: "the injected spoof offset at this sample, zero before attack.start_s",
+        },
+        FieldUnit {
+            path: "quantum.series[].bound_ns",
+            unit: "ns",
+            provenance: ClosedForm,
+            definition: "the quantum clock's detection bound at this sample; constant over the \
+                         run, equal to min_detectable_ns",
+        },
+        FieldUnit {
+            path: "classical.min_detectable_ns",
+            unit: "ns",
+            provenance: ClosedForm,
+            definition: "smallest time-spoof offset the classical clock's monitor can flag: the \
+                         5-sigma detection multiplier times the monitor's 1-sigma floor over the \
+                         600 s window",
+        },
+        FieldUnit {
+            path: "classical.detect_time_s",
+            unit: "s",
+            provenance: Computed,
+            definition: "time since the start of the run at which the injected offset first \
+                         exceeds the classical clock's detection bound; absent (null) if that \
+                         never happens within the run",
+        },
+        FieldUnit {
+            path: "classical.offset_at_detection_ns",
+            unit: "ns",
+            provenance: Computed,
+            definition: "the injected spoof offset at detect_time_s for the classical clock",
+        },
+        FieldUnit {
+            path: "classical.security_fom",
+            unit: "1",
+            provenance: Computed,
+            definition: "probability the classical clock's detector correctly flags a spec-sized \
+                         spoof, 1 - analytic_pmd; higher is better",
+        },
+        FieldUnit {
+            path: "classical.detection.monitor_sigma_ns",
+            unit: "ns",
+            provenance: ClosedForm,
+            definition: "1-sigma of the classical clock's monitor statistic — the discrepancy \
+                         between the GNSS-asserted time and the clock's own coasted prediction \
+                         over the 600 s window",
+        },
+        FieldUnit {
+            path: "classical.detection.target_pfa",
+            unit: "1",
+            provenance: Input,
+            definition: "the classical clock detector's design false-alarm probability per \
+                         decision, attack.target_pfa",
+        },
+        FieldUnit {
+            path: "classical.detection.boundary_ns",
+            unit: "ns",
+            provenance: ClosedForm,
+            definition: "the two-sided detection boundary on |y| for the classical clock, gamma = \
+                         monitor_sigma * inverse-normal-CDF(1 - target_pfa/2)",
+        },
+        FieldUnit {
+            path: "classical.detection.eval_offset_ns",
+            unit: "ns",
+            provenance: Input,
+            definition:
+                "the spoof magnitude the classical clock's missed-detection probability is \
+                         evaluated at: the operational timing spec, threshold_ns",
+        },
+        FieldUnit {
+            path: "classical.detection.analytic_pmd",
+            unit: "1",
+            provenance: ClosedForm,
+            definition: "closed-form probability the classical clock's detector misses a spoof of \
+                         eval_offset_ns, Phi((gamma-mu)/sigma) - Phi((-gamma-mu)/sigma)",
+        },
+        FieldUnit {
+            path: "classical.detection.mc_pfa",
+            unit: "1",
+            provenance: Computed,
+            definition:
+                "Monte-Carlo false-alarm probability for the classical clock: the fraction \
+                         of noise-only trials whose |y| exceeds the boundary",
+        },
+        FieldUnit {
+            path: "classical.detection.mc_pmd",
+            unit: "1",
+            provenance: Computed,
+            definition: "Monte-Carlo missed-detection probability for the classical clock: the \
+                         fraction of signal-plus-noise trials whose |y| stays within the boundary",
+        },
+        FieldUnit {
+            path: "classical.detection.mc_runs",
+            unit: "count",
+            provenance: Input,
+            definition: "Monte-Carlo trials drawn per hypothesis for the classical clock, \
+                         attack.mc_runs (floored at one)",
+        },
+        FieldUnit {
+            path: "classical.series[].t",
+            unit: "s",
+            provenance: Computed,
+            definition: "sample time since the start of the run: the grid index times time.step_s",
+        },
+        FieldUnit {
+            path: "classical.series[].offset_ns",
+            unit: "ns",
+            provenance: Computed,
+            definition: "the injected spoof offset at this sample, zero before attack.start_s",
+        },
+        FieldUnit {
+            path: "classical.series[].bound_ns",
+            unit: "ns",
+            provenance: ClosedForm,
+            definition: "the classical clock's detection bound at this sample; constant over the \
+                         run, equal to min_detectable_ns",
+        },
+    ]
+};
+
 /// Top-level spoofing-attack result.
 #[derive(Clone, Debug, Serialize)]
 pub struct SpoofResult {

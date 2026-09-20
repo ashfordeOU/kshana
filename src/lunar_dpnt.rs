@@ -739,6 +739,62 @@ pub struct CorrectionLinkBudget {
     pub note: &'static str,
 }
 
+/// Units and provenance class for every numeric field the **top-level**
+/// `lunar-differential-pnt` document emits — the headline single-baseline result, the
+/// protection levels, the echoed sigmas and the error-vs-baseline sweep.
+///
+/// Split from [`correction_link_units`] only because one `serde_json::json!` literal
+/// covering both tables exceeds the macro recursion limit; [`report_units`] merges them
+/// into the single `units` block the document carries.
+fn top_level_units() -> serde_json::Value {
+    serde_json::json!({
+        "n_sats": {
+            "unit": "count", "provenance": "computed",
+            "note": "satellites in the illustrative LCNS-class constellation placed at t_s, from the n_sats input"
+        },
+        "baseline_km": {
+            "unit": "km", "provenance": "input",
+            "note": "separation of the user from the reference station; the spatial-decorrelation lever arm"
+        },
+        "user_error_uncorrected_m": {
+            "unit": "m", "provenance": "computed",
+            "note": "user 3-D position error from the broadcast ephemeris alone, no differential corrections applied"
+        },
+        "user_error_corrected_m": {
+            "unit": "m", "provenance": "computed",
+            "note": "user 3-D position error after the differential corrections, including the noise_m per-receiver noise draw"
+        },
+        "reduction_factor": {
+            "unit": "1", "provenance": "computed",
+            "note": "user_error_uncorrected_m / user_error_corrected_m; infinite when the corrected error underflows 1e-12 m"
+        },
+        "protection_level_m": {
+            "unit": "m", "provenance": "computed",
+            "note": "DO-229E HORIZONTAL protection level at the user, computed at the differential residual sigma"
+        },
+        "vpl_m": {
+            "unit": "m", "provenance": "computed",
+            "note": "DO-229E vertical protection level at the same residual sigma"
+        },
+        "residual_sigma_m": {
+            "unit": "m", "provenance": "input",
+            "note": "differential residual 1-sigma the protection levels scale with"
+        },
+        "noise_m": {
+            "unit": "m", "provenance": "input",
+            "note": "per-receiver measurement-noise 1-sigma added to the corrected error; 0 gives the exact noise-free residual"
+        },
+        "clock_err_ns": {
+            "unit": "ns", "provenance": "computed",
+            "note": "the injected per-satellite clock-error magnitude clock_err_m read in the timing domain, clock_err_m / c * 1e9"
+        },
+        "baseline_curve": {
+            "unit": "(km, m)", "provenance": "computed",
+            "note": "noise-free corrected-error sweep, each row the pair (baseline_km, corrected user 3-D position error in m)"
+        },
+    })
+}
+
 /// Units and provenance class for every field [`CorrectionLinkBudget`] introduces.
 ///
 /// The rest of the result document predates this block; this names only what the
@@ -814,6 +870,19 @@ fn correction_link_units() -> serde_json::Value {
         },
         "correction_link.note": { "unit": "text", "provenance": "modelled" }
     })
+}
+
+/// The whole `units` block the result document carries: [`top_level_units`] merged with
+/// [`correction_link_units`]. The two tables name disjoint paths, so the merge is an
+/// append — it cannot silently redefine an entry either table already states.
+fn report_units() -> serde_json::Value {
+    let mut out = serde_json::Map::new();
+    for table in [top_level_units(), correction_link_units()] {
+        if let serde_json::Value::Object(m) = table {
+            out.extend(m);
+        }
+    }
+    serde_json::Value::Object(out)
 }
 
 // ───────────────────────────────────────────────────────────────────────────
@@ -1026,7 +1095,8 @@ pub struct LunarDpntReport {
     /// and quantization — computed from the three inputs of the same names. Purely
     /// additive: nothing above this field depends on it.
     pub correction_link: CorrectionLinkBudget,
-    /// Unit + provenance class for every field `correction_link` introduces.
+    /// Unit + provenance class for every numeric field this report emits — the top-level
+    /// document and everything `correction_link` introduces.
     pub units: serde_json::Value,
 }
 
@@ -1355,7 +1425,7 @@ impl LunarDpntScenario {
                    model. Protection level REUSES the DO-229E SBAS machinery (crate::sbas). \
                    MODELLED; not real-data validated; no TRL/heritage/agency endorsement.",
             correction_link,
-            units: correction_link_units(),
+            units: report_units(),
         }
     }
 }

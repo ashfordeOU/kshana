@@ -154,6 +154,90 @@ impl SpaceWeather {
     }
 }
 
+/// Unit and provenance class for every numeric field the `space-weather` report emits.
+const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "f107",
+            unit: "sfu",
+            provenance: Input,
+            definition: "daily 10.7 cm solar radio flux F10.7, in solar flux units \
+                         (1 sfu = 1e-22 W m^-2 Hz^-1)",
+        },
+        FieldUnit {
+            path: "f107a",
+            unit: "sfu",
+            provenance: Input,
+            definition: "centred 81-day average of the daily F10.7 series; defaults to `f107` \
+                         when the scenario does not supply it",
+        },
+        FieldUnit {
+            path: "kp",
+            unit: "1",
+            provenance: Input,
+            definition: "planetary geomagnetic activity index Kp, a dimensionless \
+                         quasi-logarithmic index on the 0-9 scale",
+        },
+        FieldUnit {
+            path: "ap",
+            unit: "2 nT",
+            provenance: Published,
+            definition: "the ap equivalent of `kp` read from the definitional IAGA/GFZ 28-step \
+                         Kp->ap table; ap is conventionally expressed in units of 2 nT, so the \
+                         emitted number times 2 is the amplitude in nT",
+        },
+        FieldUnit {
+            path: "exospheric_temperature_k",
+            unit: "K",
+            provenance: ClosedForm,
+            definition: "Jacchia-1971 global exospheric temperature T_inf = 379 + 3.24*f107a \
+                         + 1.3*(f107 - f107a) + 28*kp + 0.03*exp(kp)",
+        },
+        FieldUnit {
+            path: "reference_exospheric_temperature_k",
+            unit: "K",
+            provenance: Modelled,
+            definition: "the exospheric temperature at which the density activity factor is \
+                         unity: the moderate-activity value (1000 K) assigned to the static \
+                         USSA76 thermosphere, a modelling choice rather than a measurement",
+        },
+        FieldUnit {
+            path: "altitudes[].altitude_km",
+            unit: "km",
+            provenance: Input,
+            definition: "geometric altitude above the spherical Earth at which the density \
+                         row is reported",
+        },
+        FieldUnit {
+            path: "altitudes[].static_density_kg_m3",
+            unit: "kg/m^3",
+            provenance: Published,
+            definition: "neutral mass density from the published static piecewise-exponential \
+                         atmosphere (Vallado Table 8-4, after CIRA-72): rho0*exp(-(h-h0)/H) \
+                         for the tabulated band containing the altitude; solar-activity \
+                         independent, and the reference the activity-corrected value is \
+                         compared against",
+        },
+        FieldUnit {
+            path: "altitudes[].activity_density_kg_m3",
+            unit: "kg/m^3",
+            provenance: Computed,
+            definition: "static_density_kg_m3 * activity_factor: the same row's static density \
+                         scaled by this space-weather state",
+        },
+        FieldUnit {
+            path: "altitudes[].activity_factor",
+            unit: "1",
+            provenance: Modelled,
+            definition: "dimensionless density multiplier exp[C*(h - 120 km)*(1/T_ref - \
+                         1/T_inf)] above the 120 km thermosphere base and 1 below it; the \
+                         coupling coefficient C is calibrated to the observed 400 km \
+                         solar-cycle swing, so the magnitude is a model assumption",
+        },
+    ]
+};
+
 fn sw_default_f107() -> f64 {
     150.0
 }
@@ -230,6 +314,7 @@ impl SpaceWeatherScenario {
             "label": "MODELLED — solar/geomagnetic indices + Jacchia-71 exospheric \
                       temperature; density is a calibrated first-order activity \
                       correction, NOT a data-validated (NRLMSISE) atmosphere",
+            "units": crate::field_schema::units_block(UNITS),
             "f107": self.f107,
             "f107a": f107a,
             "kp": self.kp,

@@ -97,3 +97,29 @@ distinct artifacts:
 
 For the precise field set of each, run the scenario and read the emitted JSON, or see
 the corresponding `*Result` struct in `src/`.
+
+## Units and provenance, per field, for every kind
+
+This page is hand-written and covers the clock and orbit packs. The machine-readable
+counterpart covers **every** built-in kind:
+
+- **In the result itself.** Each scenario's result document carries a top-level `units`
+  object mapping an emitted field's path to `{"unit", "provenance", "note"}`. The path
+  grammar (an array contributes one `[]`-suffixed segment shared by its rows; `*` is a
+  single-segment wildcard for data-keyed objects) and the closed provenance vocabulary
+  are defined in [`src/field_schema.rs`](../src/field_schema.rs).
+- **As one file.** [`field-units-schema.json`](field-units-schema.json) is the harvested
+  union: for every kind, every numeric field it emits at a stated source, with its unit,
+  provenance class, evidence tier and definition — and, named rather than omitted, every
+  field that does not have one yet. Its `coverage` block carries the counts.
+
+Both are enforced by `tests/field_units_global.rs`, which runs every registered kind and
+fails if an emitted numeric field lacks a unit and a provenance class. Kinds not yet
+covered are named individually in that file's `UNCOVERED_KINDS` with the reason each is
+open, and the count is pinned so the list can only shrink.
+
+Regenerate the JSON after any change to a report's shape or to a `units` block:
+
+```
+cargo test --test field_units_global zzz_emit_field_units_schema -- --ignored
+```

@@ -1159,6 +1159,155 @@ fn antenna_units_block() -> serde_json::Value {
     serde_json::Value::Object(m)
 }
 
+/// Unit and provenance class for every numeric field the `moonlight-service-volume`
+/// report emits at the defaults.
+///
+/// Two percentages are emitted as percentages, not fractions: `coverage_pct` is
+/// `coverage_fraction * 100` and `pl_availability_pct` is a count ratio times 100, so
+/// their unit is `%` rather than `1`. The DOP rows are dimensionless by construction (a
+/// dilution of precision is a ratio), and the protection-level rows are metres from the
+/// reused lunar ARAIM machinery.
+///
+/// The optional `per_sat_geometry` and `antenna_pattern` blocks are not described here:
+/// they are emitted only when `export_site_lat_deg` / `export_site_lon_deg` (and, for the
+/// antenna block, `export_antenna`) are configured, and are absent from the default
+/// document.
+pub const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "n_sats",
+            unit: "count",
+            provenance: Computed,
+            definition: "satellites in the illustrative LCNS-class constellation the sweep \
+                         ran against, as built from the `n_sats` input",
+        },
+        FieldUnit {
+            path: "n_grid_points",
+            unit: "count",
+            provenance: Computed,
+            definition: "selenographic grid points swept, from the lat/lon min, max and step \
+                         inputs",
+        },
+        FieldUnit {
+            path: "n_epochs",
+            unit: "count",
+            provenance: Computed,
+            definition: "epochs swept, from `horizon_hours` at `step_min`",
+        },
+        FieldUnit {
+            path: "n_samples",
+            unit: "count",
+            provenance: Computed,
+            definition: "(grid point, epoch) samples evaluated, n_grid_points * n_epochs",
+        },
+        FieldUnit {
+            path: "elev_mask_deg",
+            unit: "deg",
+            provenance: Input,
+            definition: "elevation above the site's local horizon a satellite must clear to \
+                         count as visible",
+        },
+        FieldUnit {
+            path: "pdop_threshold",
+            unit: "1",
+            provenance: Input,
+            definition: "PDOP a sample must be below (together with 4 or more visible \
+                         satellites) to count as covered",
+        },
+        FieldUnit {
+            path: "alert_limit_m",
+            unit: "m",
+            provenance: Input,
+            definition: "horizontal alert limit the protection-level availability is graded \
+                         against",
+        },
+        FieldUnit {
+            path: "sigma_ure_m",
+            unit: "m",
+            provenance: Input,
+            definition: "signal-in-space ranging accuracy (1-sigma user range error) the \
+                         protection levels scale linearly with",
+        },
+        FieldUnit {
+            path: "coverage_pct",
+            unit: "%",
+            provenance: Computed,
+            definition: "percentage of all (grid point, epoch) samples with 4 or more visible \
+                         satellites AND PDOP below the threshold",
+        },
+        FieldUnit {
+            path: "min_sats",
+            unit: "count",
+            provenance: Computed,
+            definition: "fewest satellites visible at any sampled point and epoch",
+        },
+        FieldUnit {
+            path: "max_sats",
+            unit: "count",
+            provenance: Computed,
+            definition: "most satellites visible at any sampled point and epoch",
+        },
+        FieldUnit {
+            path: "pdop_min",
+            unit: "1",
+            provenance: Computed,
+            definition: "smallest position dilution of precision over the samples that had a \
+                         defined PDOP (4 or more visible satellites, non-singular geometry)",
+        },
+        FieldUnit {
+            path: "pdop_mean",
+            unit: "1",
+            provenance: Computed,
+            definition: "arithmetic mean PDOP over those same samples",
+        },
+        FieldUnit {
+            path: "pdop_max",
+            unit: "1",
+            provenance: Computed,
+            definition: "largest PDOP over those same samples",
+        },
+        FieldUnit {
+            path: "hpl_min_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "smallest horizontal protection level over the samples that admitted \
+                         one",
+        },
+        FieldUnit {
+            path: "hpl_max_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "largest horizontal protection level over those samples",
+        },
+        FieldUnit {
+            path: "vpl_min_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "smallest vertical protection level over those samples",
+        },
+        FieldUnit {
+            path: "vpl_max_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "largest vertical protection level over those samples",
+        },
+        FieldUnit {
+            path: "n_pl_samples",
+            unit: "count",
+            provenance: Computed,
+            definition: "samples for which the lunar ARAIM engine returned a protection level",
+        },
+        FieldUnit {
+            path: "pl_availability_pct",
+            unit: "%",
+            provenance: Computed,
+            definition: "percentage of the protection-level samples whose HPL is at or below \
+                         the alert limit",
+        },
+    ]
+};
+
 /// The result of a [`LunarServiceScenario`]: the DOP / coverage / availability summary
 /// over the service volume plus the generalised protection-level envelope and the
 /// availability against the alert limit.

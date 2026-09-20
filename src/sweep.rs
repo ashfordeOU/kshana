@@ -69,6 +69,88 @@ pub struct SweepResult {
     pub points: Vec<SweepPoint>,
 }
 
+/// The unit of a 1-D sweep's swept `parameter`, or `None` for a name outside the closed
+/// set [`apply`] accepts. The two lists are kept side by side deliberately: a parameter
+/// that gains a sweep arm without gaining a unit here loses its units entry, and the
+/// global gate fails loudly rather than the report stating a guessed unit.
+fn parameter_unit(parameter: &str) -> Option<&'static str> {
+    Some(match parameter {
+        "threshold_ns" => "ns",
+        "duration_s" => "s",
+        // The white-FM clock phase PSD: `Var(dx) = q_wf * dt` with `dx` a phase in
+        // seconds, so the PSD is s^2 per second.
+        "quantum_q_wf" | "classical_q_wf" => "s^2/s",
+        _ => return None,
+    })
+}
+
+/// The unit of a 1-D sweep's chosen `metric`, or `None` for a name outside the closed set
+/// [`metric_of`] accepts. Same discipline as [`parameter_unit`].
+fn metric_unit(metric: &str) -> Option<&'static str> {
+    Some(match metric {
+        "holdover_s" => "s",
+        "timing_p95_ns" | "timing_rms_ns" => "ns",
+        // All three are fractions in [0, 1].
+        "availability" | "integrity" | "security" => "1",
+        _ => return None,
+    })
+}
+
+/// Unit and provenance class for the numeric fields a 1-D sweep emits.
+///
+/// A sweep's columns have no *static* unit: `points[].value` is measured in whatever the
+/// caller's `parameter` is measured in, and `points[].quantum` / `.classical` in whatever
+/// their `metric` is. Both names come from a closed set, though, so the unit is resolved
+/// at run time from the values the document itself reports — and a name this table does
+/// not know yields no entry at all rather than a guess.
+pub fn units(parameter: &str, metric: &str) -> Vec<crate::field_schema::FieldUnit> {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    let mut out = Vec::with_capacity(3);
+    if let Some(unit) = parameter_unit(parameter) {
+        out.push(FieldUnit {
+            path: "points[].value",
+            unit,
+            provenance: Input,
+            definition: "the swept parameter's value at this node; the unit is the one the \
+                         `parameter` named in this document is measured in",
+        });
+    }
+    if let Some(unit) = metric_unit(metric) {
+        out.push(FieldUnit {
+            path: "points[].quantum",
+            unit,
+            provenance: Computed,
+            definition: "the `metric` named in this document, scored on the quantum clock \
+                         at this node",
+        });
+        out.push(FieldUnit {
+            path: "points[].classical",
+            unit,
+            provenance: Computed,
+            definition: "the same metric scored on the classical clock at this node",
+        });
+    }
+    out
+}
+
+/// Unit and provenance class for the fields of an N-D sweep whose unit is not data.
+///
+/// Only `shape[]`. The other two columns are genuinely open: `points[].coords[]` carries
+/// one value per caller-chosen dotted scenario key and `points[].metrics[]` one per
+/// caller-chosen dotted result path, so their units are whatever those paths are measured
+/// in — resolvable only against the swept pack's own units table, which this pack does
+/// not consult.
+pub const GENERIC_UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[FieldUnit {
+        path: "shape[]",
+        unit: "count",
+        provenance: Computed,
+        definition: "grid points along each axis, in `axes` order; the product is the \
+                     number of nodes in `points`",
+    }]
+};
+
 /// Apply a swept parameter value to a clone of the base scenario.
 fn apply(base: &Scenario, parameter: &str, value: f64) -> Result<Scenario, String> {
     let mut s = base.clone();

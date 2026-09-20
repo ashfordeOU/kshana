@@ -234,6 +234,86 @@ fn d_horizon_days() -> f64 {
     1.0
 }
 
+/// Unit and provenance class for every numeric field the `lunar-time-offset` report emits.
+///
+/// The rate terms are microseconds per day of Lunar Coordinate Time against Terrestrial
+/// Time; the two `*_ns_per_day` rows are nanoseconds per day because those effects are
+/// three orders of magnitude smaller. The band rows are the published reference interval
+/// the modelled rate is reported inside, not an engine output.
+pub const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "secular_rate_us_per_day",
+            unit: "us/day",
+            provenance: Computed,
+            definition: "total secular LTC-TT rate: microseconds a lunar-surface clock gains \
+                         on an Earth-geoid (TT) clock per day, the sum of the self-potential \
+                         and kinetic terms",
+        },
+        FieldUnit {
+            path: "band_low",
+            unit: "us/day",
+            provenance: Published,
+            definition: "lower bound of the published lunar-clock-rate band \
+                         ([`RATE_BAND_LOW_US_DAY`]), carried so the modelled rate can be \
+                         compared against it",
+        },
+        FieldUnit {
+            path: "band_high",
+            unit: "us/day",
+            provenance: Published,
+            definition: "upper bound of the published lunar-clock-rate band \
+                         ([`RATE_BAND_HIGH_US_DAY`])",
+        },
+        FieldUnit {
+            path: "self_potential_us_per_day",
+            unit: "us/day",
+            provenance: ClosedForm,
+            definition: "gravitational-redshift term ((W0_earth - GM_moon/R_moon) / c^2) * \
+                         86400 * 1e6, evaluated from defined constants alone",
+        },
+        FieldUnit {
+            path: "kinetic_us_per_day",
+            unit: "us/day",
+            provenance: Computed,
+            definition: "second-order-Doppler term -(v.v)/(2 c^2) * 86400 * 1e6, with v the \
+                         geocentric Moon velocity from a central finite difference of the \
+                         analytic Moon series at the epoch; small and negative",
+        },
+        FieldUnit {
+            path: "horizon_days",
+            unit: "day",
+            provenance: Input,
+            definition: "interval over which the LTC-TT offset is accumulated",
+        },
+        FieldUnit {
+            path: "offset_at_horizon_us",
+            unit: "us",
+            provenance: Computed,
+            definition: "accumulated LTC-TT offset at the horizon, secular_rate_us_per_day * \
+                         horizon_days",
+        },
+        FieldUnit {
+            path: "topographic_spread_ns_per_day",
+            unit: "ns/day",
+            provenance: Modelled,
+            definition: "min-to-max clock-rate spread across the lunar surface, g_moon * \
+                         delta_h / c^2 * 86400 * 1e9; the magnitude is an assumption through \
+                         the chosen selenoid-referenced elevation span \
+                         [`LUNAR_TOPO_ELEVATION_SPAN_M`]",
+        },
+        FieldUnit {
+            path: "tcg_tcl_secular_rate_ns_per_day",
+            unit: "ns/day",
+            provenance: Modelled,
+            definition: "secular TCG-TCL rate (GM_earth/r_EM + v_moon^2/2) / c^2 * 86400 * \
+                         1e9, from the mean Earth-Moon distance and mean lunar orbital speed \
+                         rather than the epoch geometry",
+        },
+    ]
+};
+
 /// A runnable lunar-coordinate-time scenario: pick a UTC epoch and a horizon, then report the
 /// secular LTC−TT rate (with its band) and the accumulated LTC−TT offset at the horizon. The
 /// TOML `kind = "lunar-time-offset"` entry the engine dispatches to [`LunarTimeScenario::run`].

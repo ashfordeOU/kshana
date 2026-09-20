@@ -852,6 +852,73 @@ pub fn visible_positions_labeled(
     (positions, out_labels)
 }
 
+/// Unit and provenance class for the numeric fields the `orbit` report's `geometry`
+/// block emits — the [`DopSummary`] this module computes.
+///
+/// The `orbit` result document is a serialised [`crate::report::RunResult`] flattened
+/// alongside this `geometry` object, so `api.rs` attaches the table with
+/// `json_of_with_units` rather than the pack building a `units` key inline. This table
+/// covers only the `geometry.*` paths; the clock and figure-of-merit half of the
+/// document (`seed`, `threshold_ns`, `quantum.*`, `classical.*`, `eci_track[][]`) is
+/// described by the module that computes the run result.
+pub const UNITS: &[crate::field_schema::FieldUnit] = {
+    use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+    &[
+        FieldUnit {
+            path: "geometry.samples_total",
+            unit: "count",
+            provenance: Computed,
+            definition: "time-grid samples at which the geometry was evaluated, \
+                         round(duration_s / step_s) + 1",
+        },
+        FieldUnit {
+            path: "geometry.samples_with_fix",
+            unit: "count",
+            provenance: Computed,
+            definition: "samples at which at least four satellites cleared the elevation \
+                         mask with a non-singular geometry, so a position fix exists",
+        },
+        FieldUnit {
+            path: "geometry.sigma_uere_m",
+            unit: "m",
+            provenance: ModelledInput,
+            definition: "1-sigma user-equivalent range error: the per-satellite pseudorange \
+                         error budget the dilution of precision is scaled by; the default \
+                         1 m is a representative dual-frequency budget line, not a \
+                         measurement, and the caller may override it",
+        },
+        FieldUnit {
+            path: "geometry.best_pdop",
+            unit: "1",
+            provenance: Computed,
+            definition: "smallest position dilution of precision (PDOP) over the grid: the \
+                         dimensionless sqrt of the trace of the position block of \
+                         (H^T H)^-1; null when no sample had a fix",
+        },
+        FieldUnit {
+            path: "geometry.median_pdop",
+            unit: "1",
+            provenance: Computed,
+            definition: "median position dilution of precision (PDOP) over the samples that \
+                         had a fix, dimensionless; null when no sample had a fix",
+        },
+        FieldUnit {
+            path: "geometry.best_position_sigma_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "best_pdop * sigma_uere_m: the 1-sigma 3-D position accuracy at the \
+                         most favourable geometry; null when no sample had a fix",
+        },
+        FieldUnit {
+            path: "geometry.median_position_sigma_m",
+            unit: "m",
+            provenance: Computed,
+            definition: "median_pdop * sigma_uere_m: the 1-sigma 3-D position accuracy at \
+                         the typical geometry; null when no sample had a fix",
+        },
+    ]
+};
+
 /// A geometry summary over the run: how often a position fix is possible and the
 /// resulting position accuracy (position DOP times the user-equivalent range
 /// error). Best is the most favourable geometry, median the typical one.
