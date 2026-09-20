@@ -451,6 +451,13 @@ pub enum Datum {
     /// Nothing held fixed. The free network keeps its datum defect, so the headline is
     /// reported on the observable subspace (pseudo-inverse) and flagged.
     FreeNetwork,
+    /// **Every** Earth station held fixed, so the only estimated parameters are the
+    /// beacon's. This is the configuration a *lunar surface point* uncertainty is
+    /// quoted for: Earth station coordinates are an input to the delay model, not an
+    /// unknown of it, and the quantity being bought is the position of the thing on the
+    /// Moon. It requires `estimate_beacon`, because with every station fixed and the
+    /// beacon fixed there is nothing left to estimate.
+    AllStationsFixed,
 }
 
 impl Datum {
@@ -459,6 +466,7 @@ impl Datum {
         match self {
             Datum::AnchorFirstStation => "anchor-first-station",
             Datum::FreeNetwork => "free-network",
+            Datum::AllStationsFixed => "all-stations-fixed",
         }
     }
 
@@ -467,17 +475,20 @@ impl Datum {
         match name {
             "anchor-first-station" => Ok(Datum::AnchorFirstStation),
             "free-network" => Ok(Datum::FreeNetwork),
+            "all-stations-fixed" => Ok(Datum::AllStationsFixed),
             other => Err(format!(
-                "unknown datum {other:?}: expected \"anchor-first-station\" or \"free-network\""
+                "unknown datum {other:?}: expected \"anchor-first-station\", \"free-network\" \
+                 or \"all-stations-fixed\""
             )),
         }
     }
 
-    /// The station indices this datum holds fixed.
-    pub fn held_fixed(self) -> Vec<usize> {
+    /// The station indices this datum holds fixed, out of `n_stations`.
+    pub fn held_fixed(self, n_stations: usize) -> Vec<usize> {
         match self {
             Datum::AnchorFirstStation => vec![0],
             Datum::FreeNetwork => vec![],
+            Datum::AllStationsFixed => (0..n_stations).collect(),
         }
     }
 }
@@ -855,6 +866,13 @@ impl LunarVlbiFimScenario {
                 .unwrap_or(Datum::AnchorFirstStation.as_str()),
         )?;
         let estimate_beacon = self.estimate_beacon.unwrap_or(false);
+        if datum == Datum::AllStationsFixed && !estimate_beacon {
+            return Err(
+                "datum \"all-stations-fixed\" holds every station fixed, so it estimates \
+                 nothing unless the beacon is estimated: set estimate_beacon = true"
+                    .to_string(),
+            );
+        }
 
         let (geoms, observations) = self.schedule()?;
         let n_obs = observations.len();
@@ -869,7 +887,7 @@ impl LunarVlbiFimScenario {
 
         let weights = vec![1.0 / (sigma * sigma); n_obs];
         let free_layout = StateLayout::new(n_stations, &[], estimate_beacon);
-        let used_layout = StateLayout::new(n_stations, &datum.held_fixed(), estimate_beacon);
+        let used_layout = StateLayout::new(n_stations, &datum.held_fixed(n_stations), estimate_beacon);
         if used_layout.dim() == 0 {
             return Err("the datum leaves no parameter to estimate".to_string());
         }
@@ -1039,6 +1057,50 @@ impl LunarVlbiFimScenario {
         let trace_bound = used.isotropic_trace_bound_m();
         let eq_g = equipartition_sigma_m(sigma, n_obs, g);
         let eq_p = equipartition_sigma_m(sigma, n_obs, used_layout.dim() as f64);
+
+        // --- The BEACON-side equipartition link. -----------------------------------
+        // The station-level comparison above answers "how well is an EARTH station
+        // placed"; a lunar-surface-point budget asks a different question, and the two
+        // differ by the lever arm rho/B. A delay error is an ANGLE error c*sigma_tau/B,
+        // and at the beacon's range that angle is a transverse position error
+        // rho*c*sigma_tau/B. Quoting the station-level number against a surface-point
+        // budget, or the reverse, compares two different quantities.
+        //
+        // B is taken as the LONGEST baseline present, which is the most favourable one:
+        // it gives the smallest lever arm and therefore the most optimistic equipartition
+        // value, so a computed-over-equipartition ratio built on it can only understate
+        // the correction, never inflate it.
+        let beacon_range_m = norm(geoms[0].beacon_inertial);
+        let longest_baseline_m = {
+            let mut best = 0.0f64;
+            for i in 0..n_stations {
+                for j in (i + 1)..n_stations {
+                    let l = norm(sub(
+                        geoms[0].stations_inertial[j],
+                        geoms[0].stations_inertial[i],
+                    ));
+                    if l > best {
+                        best = l;
+                    }
+                }
+            }
+            best
+        };
+        let lever_arm = if longest_baseline_m > 0.0 {
+            beacon_range_m / longest_baseline_m
+        } else {
+            f64::NAN
+        };
+        let beacon_eq = eq_g * lever_arm;
+        let beacon_columns: Vec<usize> = used_layout
+            .beacon_offset()
+            .map(|o| vec![o, o + 1, o + 2])
+            .unwrap_or_default();
+        let computed_beacon: Option<f64> = if used.full_rank && !beacon_columns.is_empty() {
+            Some(used.rms_sigma_over(&beacon_columns))
+        } else {
+            None
+        };
         let status = if used.full_rank {
             "full-rank: the headline sigma is the inverse of the information matrix".to_string()
         } else {
@@ -1149,7 +1211,7 @@ impl LunarVlbiFimScenario {
             },
             "datum": {
                 "choice": datum.as_str(),
-                "held_fixed": datum.held_fixed(),
+                "held_fixed": datum.held_fixed(n_stations),
                 "note": "anchor-first-station estimates the remaining coordinates RELATIVE to \
         station 1, which is what a VLBI session delivers without an external datum; \
         free-network keeps the defect and reports the observable subspace.",
@@ -1205,6 +1267,31 @@ impl LunarVlbiFimScenario {
         computed value can never be below it, so ratio_computed_over_trace_bound >= 1 is the \
         anisotropy of the schedule - exactly what the equipartition assumption discarded.",
                 "status": status,
+            },
+            "beacon_link": {
+                "beacon_range_m": beacon_range_m,
+                "longest_baseline_m": longest_baseline_m,
+                "lever_arm_range_over_baseline": lever_arm,
+                "equipartition_per_coordinate_sigma_m": beacon_eq,
+                "equipartition_formula":
+                    "sigma = c * delay_sigma_s * (beacon_range / longest_baseline) * sqrt(g / n_observations)",
+                "computed_per_coordinate_sigma_m": computed_beacon,
+                "ratio_computed_over_equipartition": match computed_beacon {
+                    Some(c) if beacon_eq > 0.0 => serde_json::json!(c / beacon_eq),
+                    _ => serde_json::Value::Null,
+                },
+                "estimated": !beacon_columns.is_empty(),
+                "note": "The STATION-level equipartition beside this one answers how well an \
+                         EARTH station is placed. A lunar-surface-point budget is a different \
+                         quantity: a delay error is an angle error c*sigma_tau/B, which at the \
+                         beacon's range is a TRANSVERSE POSITION error rho*c*sigma_tau/B. The \
+                         two differ by the lever arm rho/B emitted here, and neither may be \
+                         quoted against the other. `computed_per_coordinate_sigma_m` is null \
+                         unless the beacon is estimated AND the information matrix is full \
+                         rank - a delay from a fixed baseline constrains the beacon's \
+                         DIRECTION, so the line-of-sight component is reachable only through \
+                         the near-field range term and a rank deficiency here is the expected \
+                         result, not a failure.",
             },
         });
 
@@ -1282,6 +1369,12 @@ const UNITS: &[(&str, &str, &str, Option<&str>)] = &[
     ("headline.ratio_computed_over_equipartition", "1", "computed", Some("NaN when rank-deficient")),
     ("headline.ratio_computed_over_equipartition_all_parameters", "1", "computed", None),
     ("headline.isotropic_trace_bound_m", "m", "closed-form", Some("sqrt(p / trace(M)); the arithmetic-mean/harmonic-mean lower bound this covariance cannot go below")),
+    ("beacon_link.beacon_range_m", "m", "computed", Some("|r_beacon| at the first epoch")),
+    ("beacon_link.longest_baseline_m", "m", "computed", Some("the longest station pair present; the most favourable lever arm, so the ratio built on it can only understate")),
+    ("beacon_link.lever_arm_range_over_baseline", "1", "computed", Some("rho / B - the factor separating a station-coordinate budget from a lunar-surface-point one")),
+    ("beacon_link.equipartition_per_coordinate_sigma_m", "m", "modelled", Some("the surface-point form of the equipartition link: the station-level value times the lever arm")),
+    ("beacon_link.computed_per_coordinate_sigma_m", "m", "computed", Some("RMS sigma over the beacon columns; null unless the beacon is estimated and the matrix is full rank")),
+    ("beacon_link.ratio_computed_over_equipartition", "1", "computed", Some("null when the beacon is not estimated or the matrix is rank-deficient")),
     ("headline.ratio_computed_over_trace_bound", "1", "internal-consistency", Some(">= 1 by AM-HM; the measured anisotropy of the schedule")),
 ];
 
@@ -2058,6 +2151,10 @@ mod tests {
             "kind = \"lunar-vlbi-fim\"\n",
             "kind = \"lunar-vlbi-fim\"\ndatum = \"free-network\"\n",
             "kind = \"lunar-vlbi-fim\"\nestimate_beacon = true\n",
+            // The beacon block's two nullable numerics are only numbers when the beacon is
+            // the ONLY thing estimated, so this shape has to be in the list or the units
+            // guard would never see them.
+            "kind = \"lunar-vlbi-fim\"\ndatum = \"all-stations-fixed\"\nestimate_beacon = true\n",
             "kind = \"lunar-vlbi-fim\"\narc_hours = 0.01\nelevation_mask_deg = -90.0\n",
         ] {
             let v = run(src);
@@ -2092,6 +2189,174 @@ mod tests {
         }
     }
 
+    /// D3's released baseline: the Goldstone-like / Canberra-like chord is 10726.748 km,
+    /// which is the paper's B to the metre. Both stations are needed to reproduce it.
+    ///
+    /// `extra` is spliced in BEFORE the `[[stations]]` tables, never after. Appending a
+    /// top-level key after an array-of-tables makes it a key of the LAST TABLE instead, so
+    /// the run silently uses a different configuration from the one the test names — which
+    /// is the whole failure mode these tests exist to pin.
+    fn d3_pair(extra: &str) -> String {
+        format!(
+            "kind = \"lunar-vlbi-fim\"\n\
+             arc_hours = 12.0\nstep_min = 15.0\ndelay_sigma_s = 1e-10\n\
+             epoch_year = 2024\nepoch_month = 4\nepoch_day = 14\n\
+             {extra}\
+             [[stations]]\nname = \"goldstone-like\"\n\
+             lat_deg = 40.4256\nlon_deg = -116.8893\nalt_m = 1000.0\n\
+             [[stations]]\nname = \"canberra-like\"\n\
+             lat_deg = -35.4014\nlon_deg = 148.9819\nalt_m = 688.0\n"
+        )
+    }
+
+    #[test]
+    fn the_test_fixture_splices_keys_where_they_stay_top_level() {
+        // A guard on the guard. If `extra` ever lands after the station tables again, the
+        // key becomes station data and every test built on it quietly tests the default.
+        let src = d3_pair("datum = \"free-network\"\n");
+        assert!(
+            src.find("datum").expect("present") < src.find("[[stations]]").expect("present"),
+            "extra keys must precede the array-of-tables or they are not top level"
+        );
+        let scn: LunarVlbiFimScenario = toml::from_str(&src).expect("parses");
+        assert_eq!(scn.datum.as_deref(), Some("free-network"), "key must reach the scenario");
+        assert_eq!(scn.stations.as_ref().map(Vec::len), Some(2));
+    }
+
+    #[test]
+    fn every_datum_spelling_round_trips() {
+        for d in [
+            Datum::AnchorFirstStation,
+            Datum::FreeNetwork,
+            Datum::AllStationsFixed,
+        ] {
+            assert_eq!(Datum::parse(d.as_str()), Ok(d), "{:?} did not round-trip", d);
+        }
+        assert!(Datum::parse("all-stations-free").is_err());
+    }
+
+    #[test]
+    fn holding_every_station_fixed_without_the_beacon_is_refused() {
+        // With every station held and the beacon held there is nothing to estimate. The
+        // old code would have reached "the datum leaves no parameter to estimate"; this
+        // says WHICH input to change, because a message that names the fix is the
+        // difference between a usable error and a puzzle.
+        let scn: LunarVlbiFimScenario =
+            toml::from_str("datum = \"all-stations-fixed\"\n").expect("parses");
+        let err = match scn.compute() {
+            Err(e) => e,
+            Ok(_) => panic!("all-stations-fixed without a beacon must be refused"),
+        };
+        assert!(
+            err.contains("estimate_beacon"),
+            "the error must name the input that fixes it, got {err:?}"
+        );
+    }
+
+    #[test]
+    fn the_lever_arm_is_exactly_what_separates_the_two_budgets() {
+        // A station-coordinate budget and a lunar-surface-point budget are different
+        // quantities, and the factor between them is rho/B -- not a fudge, an identity.
+        // Quoting one against the other is the error this block exists to prevent.
+        let v = run(&d3_pair(""));
+        let b = &v["beacon_link"];
+        let rho = b["beacon_range_m"].as_f64().expect("range");
+        let base = b["longest_baseline_m"].as_f64().expect("baseline");
+        let lever = b["lever_arm_range_over_baseline"].as_f64().expect("lever");
+        assert!((lever - rho / base).abs() / lever < 1e-15, "lever arm is rho/B");
+
+        let station_eq = v["headline"]["equipartition_per_coordinate_sigma_m"]
+            .as_f64()
+            .expect("station equipartition");
+        let beacon_eq = b["equipartition_per_coordinate_sigma_m"]
+            .as_f64()
+            .expect("beacon equipartition");
+        assert!(
+            (beacon_eq - station_eq * lever).abs() / beacon_eq < 1e-15,
+            "the beacon link must be the station link times the lever arm, exactly"
+        );
+        // And the two must not be confusable: on this real geometry they differ by more
+        // than an order of magnitude, so a reader who swapped them would be badly wrong.
+        assert!(
+            lever > 10.0,
+            "expected a lever arm large enough that confusing the two budgets matters, \
+             got {lever}"
+        );
+    }
+
+    #[test]
+    fn d3s_own_pair_reproduces_its_published_baseline() {
+        // The paper never names its stations. It does publish B = 10726.748 km, and that
+        // is this pair's chord -- which is how the configuration was identified at all.
+        let v = run(&d3_pair(""));
+        let km = v["beacon_link"]["longest_baseline_m"].as_f64().expect("b") / 1000.0;
+        assert!(
+            (km - 10726.748).abs() < 1e-3,
+            "expected D3's published 10726.748 km baseline, got {km}"
+        );
+        // And its 49-sample session is a schedule, not an observation count: the mask
+        // rejects most of it. This is measured here, not assumed.
+        let s = &v["schedule"];
+        assert_eq!(s["n_observations_unmasked"].as_u64(), Some(49));
+        let used = s["n_observations"].as_u64().expect("observations");
+        assert!(
+            used < 49,
+            "the whole point is that fewer than 49 epochs are mutually visible, got {used}"
+        );
+    }
+
+    #[test]
+    fn a_single_baseline_starves_the_line_of_sight() {
+        // A delay from a FIXED baseline measures the beacon's DIRECTION; the line-of-sight
+        // component reaches the information matrix only through the near-field range term.
+        // So the beacon spectrum must be violently anisotropic, and that is what makes the
+        // isotropic-equipartition link understate. Measured off the emitted spectrum
+        // rather than asserted from the algebra.
+        let src = d3_pair("datum = \"all-stations-fixed\"\nestimate_beacon = true\n");
+        let v = run(&src);
+        let ev: Vec<f64> = v["fim"]["eigenvalues_per_m2"]
+            .as_array()
+            .expect("spectrum")
+            .iter()
+            .map(|x| x.as_f64().expect("finite"))
+            .collect();
+        assert_eq!(ev.len(), 3, "the beacon alone is a three-parameter state");
+        let spread = ev[2] / ev[0];
+        assert!(
+            spread > 1e5,
+            "expected a starved line-of-sight direction spanning at least five decades of \
+             information, got {spread:.3e} over {ev:?}"
+        );
+        // The consequence, which is the number a programme is sized on.
+        let ratio = v["beacon_link"]["ratio_computed_over_equipartition"]
+            .as_f64()
+            .expect("a full-rank beacon solve reports a ratio");
+        assert!(
+            ratio > 1.0,
+            "AM-HM makes the isotropic value a floor, so the ratio cannot be below one; \
+             got {ratio}"
+        );
+        assert!(
+            ratio > 100.0,
+            "on this geometry the three-component understatement is two orders of \
+             magnitude or worse; got {ratio}"
+        );
+    }
+
+    #[test]
+    fn the_beacon_ratio_is_null_rather_than_misleading_when_it_cannot_be_measured() {
+        // Estimating the stations AND the beacon off one baseline is rank-deficient: a
+        // shift of the beacon is absorbed by a shift of the station. The block must say
+        // nothing rather than publish a pseudo-inverse average as if it were a sigma.
+        let src = d3_pair("estimate_beacon = true\n");
+        let v = run(&src);
+        assert!(v["fim"]["defect"].as_u64().expect("defect") > 0, "expected a defect");
+        assert!(v["beacon_link"]["ratio_computed_over_equipartition"].is_null());
+        assert!(v["beacon_link"]["computed_per_coordinate_sigma_m"].is_null());
+        // But the modelled comparand is still reported, because it needs no solve.
+        assert!(v["beacon_link"]["equipartition_per_coordinate_sigma_m"].is_f64());
+    }
+
     #[test]
     fn the_units_block_describes_only_fields_that_exist() {
         // A units entry naming a field nobody emits reads as a guarantee. Every declared
@@ -2101,6 +2366,10 @@ mod tests {
             "kind = \"lunar-vlbi-fim\"\n",
             "kind = \"lunar-vlbi-fim\"\ndatum = \"free-network\"\n",
             "kind = \"lunar-vlbi-fim\"\nestimate_beacon = true\n",
+            // The beacon block's two nullable numerics are only numbers when the beacon is
+            // the ONLY thing estimated, so this shape has to be in the list or the units
+            // guard would never see them.
+            "kind = \"lunar-vlbi-fim\"\ndatum = \"all-stations-fixed\"\nestimate_beacon = true\n",
             "kind = \"lunar-vlbi-fim\"\narc_hours = 0.01\nelevation_mask_deg = -90.0\n",
         ] {
             let v = run(src);
