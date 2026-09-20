@@ -445,6 +445,11 @@ pub enum ScenarioKind {
     RealtimeFrameEop,
     HybridOpticalRf,
     CislunarObservability,
+    /// Independent-estimator corroboration of the cislunar arc-length observability
+    /// threshold: a seeded Monte-Carlo batch least-squares recovery study whose
+    /// measurement partials are central finite differences of the forward model, so it
+    /// shares no Jacobian with the observability Gramian it is tested against.
+    CislunarArcRecovery,
     ConflictResilience,
     LunarAttackSurface,
     /// Aperture navigation-versus-communications duty cycle from a contact plan.
@@ -518,6 +523,7 @@ impl ScenarioKind {
             ScenarioKind::RealtimeFrameEop => "realtime-frame-eop",
             ScenarioKind::HybridOpticalRf => "hybrid-optical-rf",
             ScenarioKind::CislunarObservability => "cislunar-observability",
+            ScenarioKind::CislunarArcRecovery => "cislunar-arc-recovery",
             ScenarioKind::ConflictResilience => "conflict-resilience",
             ScenarioKind::LunarAttackSurface => "lunar-attack-surface",
             ScenarioKind::ApertureDutyCycle => "aperture-duty-cycle",
@@ -584,6 +590,7 @@ impl ScenarioKind {
             "realtime-frame-eop" => ScenarioKind::RealtimeFrameEop,
             "hybrid-optical-rf" => ScenarioKind::HybridOpticalRf,
             "cislunar-observability" => ScenarioKind::CislunarObservability,
+            "cislunar-arc-recovery" => ScenarioKind::CislunarArcRecovery,
             "conflict-resilience" => ScenarioKind::ConflictResilience,
             "lunar-attack-surface" => ScenarioKind::LunarAttackSurface,
             "aperture-duty-cycle" => ScenarioKind::ApertureDutyCycle,
@@ -1897,6 +1904,18 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
             let scn: crate::cislunar_observability::CislunarObservabilityScenario =
                 toml::from_str(src)
                     .map_err(|e| format!("invalid cislunar-observability scenario: {e}"))?;
+            let (json, summary, svg) = scn.run_output()?;
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
+        }
+        ScenarioKind::CislunarArcRecovery => {
+            let scn: crate::cislunar_arc_recovery::CislunarArcRecoveryScenario =
+                toml::from_str(src)
+                    .map_err(|e| format!("invalid cislunar-arc-recovery scenario: {e}"))?;
             let (json, summary, svg) = scn.run_output()?;
             Ok(RunOutput {
                 json,
