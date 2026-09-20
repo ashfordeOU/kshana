@@ -16,8 +16,9 @@
 //! Oracle: SciPy 1.17.0 (NumPy 2.4.1). Reference values are the SciPy outputs to full f64.
 //! The geometry that wraps this kernel (the `(GᵀG)⁻¹` slope/covariance projection) is
 //! validated separately against gnss_lib_py (DOP) and on real IGS SP3 geometry; the
-//! ARAIM MHSS *integrity-risk budget allocation* has no published numeric oracle and is
-//! tracked honestly as founder-gated in `docs/ARAIM_REFERENCE.md` — not asserted here.
+//! ARAIM MHSS *integrity-risk budget allocation* has its own published numeric oracle
+//! in `tests/araim_reference_vectors.rs` (the WG-C ARAIM Technical Subgroup's worked
+//! numerical example, at that reference's own TOL_PL) — not asserted here.
 
 use kshana::raim::{
     chi2_cdf, chi2_quantile, noncentral_chi2_cdf, normal_cdf, normal_quantile, pbias,
