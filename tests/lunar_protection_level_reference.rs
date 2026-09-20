@@ -428,6 +428,10 @@ fn a_perturbed_integrity_budget_must_fail() {
              only {dv:.3e} m",
             c.label
         );
+        println!(
+            "case {}: 0.1 % tighter P_HMI moves HPL by {dh:.3e} m, VPL by {dv:.3e} m",
+            c.label
+        );
     }
 }
 
