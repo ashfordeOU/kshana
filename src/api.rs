@@ -1210,9 +1210,22 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
         ScenarioKind::LunarService => {
             let scn: crate::lunar_service::LunarServiceScenario = toml::from_str(src)
                 .map_err(|e| format!("invalid moonlight-service-volume scenario: {e}"))?;
-            let report = scn.run();
-            let summary = format!(
-                "moonlight-service-volume | {} sats (illustrative LCNS-class, not affiliated) | {} pts × {} epochs | coverage {:.1}% (PDOP<{:.1}) | sats {}–{} | PDOP {:.2}/{:.2}/{:.2} | HPL {:.0}–{:.0} m | PL avail {:.1}% | MODELLED",
+            // `try_run` rather than `run`: with `ephemeris_path` set the scenario reads a
+            // file, and a missing or malformed one must surface as a clean dispatch error
+            // rather than a panic. With the path unset the two are identical.
+            let report = scn.try_run()?;
+            // The headline geometry is the illustrative set UNLESS a file supplied it, in
+            // which case saying "illustrative LCNS-class" of it would be false. The
+            // default wording is byte-unchanged.
+            let geometry_label = match &report.ephemeris {
+                None => "illustrative LCNS-class, not affiliated",
+                Some(e) if e.provenance_class == "published-ephemeris" => {
+                    "retrieved ephemeris, published-ephemeris"
+                }
+                Some(_) => "retrieved constellation definition, published-elements",
+            };
+            let mut summary = format!(
+                "moonlight-service-volume | {} sats ({geometry_label}) | {} pts × {} epochs | coverage {:.1}% (PDOP<{:.1}) | sats {}–{} | PDOP {:.2}/{:.2}/{:.2} | HPL {:.0}–{:.0} m | PL avail {:.1}% | MODELLED",
                 report.n_sats,
                 report.n_grid_points,
                 report.n_epochs,
@@ -1227,6 +1240,28 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 report.hpl_max_m,
                 report.pl_availability_pct,
             );
+            // Appended only when `ephemeris_path` named a file, so the default summary
+            // line is unchanged: the sigma requirement under the retrieved geometry and
+            // the one it is reported beside, never in place of.
+            if let Some(c) = &report.ephemeris_comparison {
+                let fmt = |v: Option<f64>| match v {
+                    Some(x) => format!("{x:.4} m"),
+                    None => "n/a".to_string(),
+                };
+                summary.push_str(&format!(
+                    " | ephemeris {} ({}) σ_URE required {} vs Keplerian {} vs perturbed {} (Δ {})",
+                    report
+                        .ephemeris
+                        .as_ref()
+                        .map(|e| e.name.as_str())
+                        .unwrap_or(""),
+                    c.ephemeris.provenance,
+                    fmt(c.ephemeris.sigma_required_m),
+                    fmt(c.keplerian.sigma_required_m),
+                    fmt(c.perturbed.sigma_required_m),
+                    fmt(c.sigma_requirement_delta_vs_keplerian_m),
+                ));
+            }
             Ok(RunOutput {
                 json: json_of(&report)?,
                 svg: crate::lunar_service::lunar_service_svg(&report),
