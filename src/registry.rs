@@ -89,6 +89,7 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         RealtimeFrameEop,
         HybridOpticalRf,
         CislunarObservability,
+        CislunarArcRecovery,
         ConflictResilience,
         LunarAttackSurface,
         ApertureDutyCycle,
@@ -162,6 +163,10 @@ pub mod ids {
     pub const HYBRID_OPTICAL_RF: ScenarioId = ScenarioId::from_static("hybrid-optical-rf");
     pub const CISLUNAR_OBSERVABILITY: ScenarioId =
         ScenarioId::from_static("cislunar-observability");
+    /// Independent-estimator corroboration of the cislunar arc-length observability
+    /// threshold: a finite-difference batch corrector that shares no measurement
+    /// Jacobian with the Gramian.
+    pub const CISLUNAR_ARC_RECOVERY: ScenarioId = ScenarioId::from_static("cislunar-arc-recovery");
     pub const CONFLICT_RESILIENCE: ScenarioId = ScenarioId::from_static("conflict-resilience");
     pub const LUNAR_ATTACK_SURFACE: ScenarioId = ScenarioId::from_static("lunar-attack-surface");
     /// Aperture navigation-versus-communications duty cycle from a contact plan.
