@@ -128,6 +128,468 @@ pub fn realized_accuracy(d: &Dop, sigma_ure_m: f64) -> RealizedAccuracy {
     }
 }
 
+// ---------------------------------------------------------------------------
+// Scenario surface
+//
+// The module above has been in the engine, and validated against an independent
+// DOP path, since L08/L09 — but it was not reachable from a run. There was no
+// `ScenarioKind`, no dispatch arm and no bundled example, so the only way to reach
+// `dop_with_beacons` was to write Rust against the library. A capability the engine
+// cannot be ASKED to perform is not a capability of the tool, only of the crate,
+// and the verification matrix quietly claimed it either way. This is that gap
+// closed; the physics below is unchanged.
+//
+// The defaults are deliberately the geometry that already carries a committed
+// golden (tests/validate_p2_beacon_before_after_table.rs and its
+// beacon_before_after_golden.csv): a user at -80 deg, three surveyed beacons, a
+// six-satellite illustrative LCNS snapshot at t = 0 and a 5 deg mask. Running the
+// bundled scenario therefore reproduces a table that already has an oracle behind
+// it, rather than inventing a fresh configuration whose numbers nothing checks.
+// ---------------------------------------------------------------------------
+
+/// A surface site in selenographic coordinates, as a scenario supplies it.
+#[derive(Clone, Copy, Debug, Deserialize, Serialize)]
+pub struct BeaconSite {
+    /// Selenographic latitude (degrees, north positive).
+    pub lat_deg: f64,
+    /// Selenographic longitude (degrees, east positive).
+    pub lon_deg: f64,
+    /// Antenna height above the mean lunar sphere (metres).
+    #[serde(default)]
+    pub alt_m: f64,
+}
+
+impl BeaconSite {
+    fn to_mcmf(self) -> Vec3 {
+        crate::lunar::selenographic_to_mcmf(crate::lunar::Selenographic {
+            lat_rad: self.lat_deg.to_radians(),
+            lon_rad: self.lon_deg.to_radians(),
+            alt_m: self.alt_m,
+        })
+    }
+}
+
+/// Surface-beacon augmentation of a lunar orbital navigation service: the
+/// before/after dilution of precision at one user, and what it costs in metres.
+#[derive(Clone, Debug, Deserialize)]
+pub struct LunarBeaconScenario {
+    /// The user site. Default: -80 deg latitude, 0 deg longitude, 2 m antenna.
+    #[serde(default)]
+    pub user: Option<BeaconSite>,
+    /// The surveyed surface beacons. Default: the three-beacon set of the
+    /// before/after golden.
+    #[serde(default)]
+    pub beacons: Option<Vec<BeaconSite>>,
+    /// Satellites in the illustrative LCNS constellation. Default 6.
+    #[serde(default)]
+    pub n_satellites: Option<usize>,
+    /// A second, larger constellation run for comparison — the alternative route to
+    /// the same geometry. Default 24; set equal to `n_satellites` to skip the contrast.
+    #[serde(default)]
+    pub comparison_n_satellites: Option<usize>,
+    /// Seconds after the constellation epoch at which to snapshot. Default 0.
+    #[serde(default)]
+    pub epoch_s: Option<f64>,
+    /// Satellite elevation mask (degrees). Default 5.
+    #[serde(default)]
+    pub elevation_mask_deg: Option<f64>,
+    /// Beacon time-synchronisation error mapped to range (m). Default 1.0.
+    #[serde(default)]
+    pub clock_sync_m: Option<f64>,
+    /// Surface-to-surface multipath error (m). Default 0.5.
+    #[serde(default)]
+    pub multipath_m: Option<f64>,
+    /// Beacon survey error (m). Default 0.3.
+    #[serde(default)]
+    pub survey_m: Option<f64>,
+}
+
+/// One DOP row of the before/after table, with the geometry that produced it.
+#[derive(Clone, Debug, Serialize)]
+pub struct BeaconDopRow {
+    /// What this row is ("satellites only", "satellites + beacons", ...).
+    pub label: String,
+    /// Satellites above the mask.
+    pub n_visible_sats: usize,
+    /// Beacons above the airless horizon.
+    pub n_visible_beacons: usize,
+    /// The DOP, or `None` where the geometry admits no solution.
+    pub dop: Option<Dop>,
+    /// Realised 1-sigma accuracy at the configured ranging error, or `None` with no DOP.
+    pub accuracy: Option<RealizedAccuracy>,
+}
+
+/// The computed before/after picture.
+#[derive(Clone, Debug, Serialize)]
+pub struct LunarBeaconReport {
+    /// Rows of the before/after table, in reporting order.
+    pub rows: Vec<BeaconDopRow>,
+    /// Per-beacon user-equivalent ranging error (m) used for every accuracy above.
+    pub sigma_ure_m: f64,
+    /// PDOP improvement factor from adding the beacons (before / after), or `None`
+    /// when either geometry admits no solution.
+    pub beacon_pdop_improvement: Option<f64>,
+    /// PDOP improvement factor from the larger constellation instead, or `None`.
+    pub constellation_pdop_improvement: Option<f64>,
+    /// Satellite elevation mask actually applied (degrees).
+    pub elevation_mask_deg: f64,
+    /// Epoch offset actually applied (seconds).
+    pub epoch_s: f64,
+}
+
+fn default_user() -> BeaconSite {
+    BeaconSite {
+        lat_deg: -80.0,
+        lon_deg: 0.0,
+        alt_m: 2.0,
+    }
+}
+
+fn default_beacons() -> Vec<BeaconSite> {
+    vec![
+        BeaconSite {
+            lat_deg: -80.0,
+            lon_deg: 0.0,
+            alt_m: 2_000.0,
+        },
+        BeaconSite {
+            lat_deg: -79.0,
+            lon_deg: 60.0,
+            alt_m: 2_000.0,
+        },
+        BeaconSite {
+            lat_deg: -79.0,
+            lon_deg: -60.0,
+            alt_m: 2_000.0,
+        },
+    ]
+}
+
+impl LunarBeaconScenario {
+    /// Run the scenario and return `(json, summary, svg)`.
+    pub fn run_output(&self) -> Result<(String, String, String), String> {
+        let r = self.compute()?;
+        Ok((beacon_json(&r)?, beacon_summary(&r), beacon_svg(&r)))
+    }
+
+    /// The before/after report.
+    pub fn compute(&self) -> Result<LunarBeaconReport, String> {
+        let n_sats = self.n_satellites.unwrap_or(6);
+        if n_sats < 1 {
+            return Err("n_satellites must be at least 1".to_string());
+        }
+        let n_cmp = self.comparison_n_satellites.unwrap_or(24);
+        if n_cmp < 1 {
+            return Err("comparison_n_satellites must be at least 1".to_string());
+        }
+        let epoch_s = self.epoch_s.unwrap_or(0.0);
+        let mask_deg = self.elevation_mask_deg.unwrap_or(5.0);
+        if !(0.0..90.0).contains(&mask_deg) {
+            return Err(format!(
+                "elevation_mask_deg must be in [0, 90); got {mask_deg}"
+            ));
+        }
+        let mask = mask_deg.to_radians();
+
+        let budget = BeaconErrorBudget {
+            clock_sync_m: self.clock_sync_m.unwrap_or(1.0),
+            multipath_m: self.multipath_m.unwrap_or(0.5),
+            survey_m: self.survey_m.unwrap_or(0.3),
+        };
+        let sigma = budget.sigma_ure_m();
+
+        let user = self.user.unwrap_or_else(default_user).to_mcmf();
+        let beacon_sites = self.beacons.clone().unwrap_or_else(default_beacons);
+        let beacons: Vec<Vec3> = beacon_sites.iter().map(|b| b.to_mcmf()).collect();
+
+        let sats = crate::lunar_service::LunarConstellation::illustrative_lcns(n_sats)
+            .positions_mcmf(epoch_s);
+        let sats_cmp = crate::lunar_service::LunarConstellation::illustrative_lcns(n_cmp)
+            .positions_mcmf(epoch_s);
+
+        let n_vis = |ss: &[Vec3]| crate::lunar_service::visible_sat_positions(user, ss, mask).len();
+        let n_vis_beacons = visible_beacons(user, &beacons).len();
+
+        let row = |label: &str, ss: &[Vec3], bs: &[Vec3]| BeaconDopRow {
+            label: label.to_string(),
+            n_visible_sats: n_vis(ss),
+            n_visible_beacons: visible_beacons(user, bs).len(),
+            dop: dop_with_beacons(user, ss, bs, mask),
+            accuracy: dop_with_beacons(user, ss, bs, mask).map(|d| realized_accuracy(&d, sigma)),
+        };
+
+        let before = row(&format!("{n_sats} satellites, no beacons"), &sats, &[]);
+        let after = row(
+            &format!("{n_sats} satellites + {n_vis_beacons} visible beacons"),
+            &sats,
+            &beacons,
+        );
+        let bigger = row(&format!("{n_cmp} satellites, no beacons"), &sats_cmp, &[]);
+
+        let ratio = |a: &BeaconDopRow, b: &BeaconDopRow| match (a.dop, b.dop) {
+            (Some(x), Some(y)) if y.pdop > 0.0 => Some(x.pdop / y.pdop),
+            _ => None,
+        };
+        let beacon_pdop_improvement = ratio(&before, &after);
+        let constellation_pdop_improvement = ratio(&before, &bigger);
+
+        Ok(LunarBeaconReport {
+            rows: vec![before, after, bigger],
+            sigma_ure_m: sigma,
+            beacon_pdop_improvement,
+            constellation_pdop_improvement,
+            elevation_mask_deg: mask_deg,
+            epoch_s,
+        })
+    }
+}
+
+/// Units and provenance for every numeric leaf this pack emits. See
+/// [`crate::field_schema`] for the path grammar and the closed provenance vocabulary;
+/// tests/field_units_global.rs runs the audit over the emitted document.
+///
+/// Note the provenance split that matters for reading these numbers: the DOPs and the
+/// accuracies are `computed`, but `sigma_ure_m` is `modelled-input` — a budget the caller
+/// may override and which nothing here measured. Every accuracy in metres is that modelled
+/// budget multiplied by a computed DOP, so its magnitude is only ever as good as the budget.
+const UNITS: &[(&str, &str, &str, &str)] = &[
+    // (JSON path, unit, provenance class, note - "" for no note)
+    (
+        "rows[].n_visible_sats",
+        "count",
+        "computed",
+        "satellites above the elevation mask at this epoch, not the configured total",
+    ),
+    (
+        "rows[].n_visible_beacons",
+        "count",
+        "computed",
+        "beacons clearing the airless two-height horizon; routinely FEWER than the number \
+         configured, which is why the visible count is reported rather than the configured one",
+    ),
+    (
+        "rows[].dop.gdop",
+        "1",
+        "computed",
+        "geometric dilution of precision",
+    ),
+    (
+        "rows[].dop.pdop",
+        "1",
+        "computed",
+        "position dilution of precision",
+    ),
+    (
+        "rows[].dop.hdop",
+        "1",
+        "computed",
+        "horizontal dilution of precision",
+    ),
+    (
+        "rows[].dop.vdop",
+        "1",
+        "computed",
+        "vertical dilution of precision",
+    ),
+    (
+        "rows[].dop.tdop",
+        "1",
+        "computed",
+        "time dilution of precision",
+    ),
+    (
+        "rows[].accuracy.pos_3d_m",
+        "m",
+        "computed",
+        "PDOP x sigma_URE; inherits the modelled ranging budget",
+    ),
+    (
+        "rows[].accuracy.horizontal_m",
+        "m",
+        "computed",
+        "HDOP x sigma_URE; inherits the modelled ranging budget",
+    ),
+    (
+        "rows[].accuracy.vertical_m",
+        "m",
+        "computed",
+        "VDOP x sigma_URE; inherits the modelled ranging budget",
+    ),
+    (
+        "rows[].accuracy.time_m",
+        "m",
+        "computed",
+        "TDOP x sigma_URE - the time solution expressed as a range, not a duration",
+    ),
+    (
+        "sigma_ure_m",
+        "m",
+        "modelled-input",
+        "root-sum-square of the clock-synchronisation, multipath and survey terms, every one \
+         a modelled allocation rather than a measured link",
+    ),
+    (
+        "beacon_pdop_improvement",
+        "1",
+        "computed",
+        "PDOP without beacons divided by PDOP with them; greater than one is an improvement",
+    ),
+    (
+        "constellation_pdop_improvement",
+        "1",
+        "computed",
+        "PDOP of the baseline constellation divided by that of the larger one",
+    ),
+    (
+        "elevation_mask_deg",
+        "deg",
+        "input",
+        "satellite elevation mask applied",
+    ),
+    (
+        "epoch_s",
+        "s",
+        "input",
+        "seconds after the constellation epoch at which the snapshot is taken",
+    ),
+];
+
+fn units_block() -> serde_json::Value {
+    let mut m = serde_json::Map::new();
+    for (path, unit, provenance, note) in UNITS {
+        let mut e = serde_json::Map::new();
+        e.insert("unit".into(), serde_json::Value::String((*unit).into()));
+        e.insert(
+            "provenance".into(),
+            serde_json::Value::String((*provenance).into()),
+        );
+        if !note.is_empty() {
+            e.insert("note".into(), serde_json::Value::String((*note).into()));
+        }
+        m.insert((*path).into(), serde_json::Value::Object(e));
+    }
+    serde_json::Value::Object(m)
+}
+
+fn beacon_json(r: &LunarBeaconReport) -> Result<String, String> {
+    let mut doc = serde_json::to_value(r).map_err(|e| format!("serialising beacon report: {e}"))?;
+    match doc.as_object_mut() {
+        Some(o) => {
+            o.insert("units".into(), units_block());
+        }
+        None => return Err("the beacon report must serialise to a JSON object".to_string()),
+    }
+    serde_json::to_string_pretty(&doc).map_err(|e| format!("serialising beacon report: {e}"))
+}
+
+fn fmt_dop(d: &Option<Dop>) -> String {
+    match d {
+        Some(d) => format!(
+            "GDOP {:.4}  PDOP {:.4}  HDOP {:.4}  VDOP {:.4}  TDOP {:.4}",
+            d.gdop, d.pdop, d.hdop, d.vdop, d.tdop
+        ),
+        None => "no solution (fewer than four usable sources, or singular)".to_string(),
+    }
+}
+
+fn beacon_summary(r: &LunarBeaconReport) -> String {
+    let mut s = String::new();
+    s.push_str(&format!(
+        "Lunar surface-beacon augmentation — mask {:.1} deg, epoch +{:.0} s, \
+         per-beacon sigma_URE {:.4} m\n",
+        r.elevation_mask_deg, r.epoch_s, r.sigma_ure_m
+    ));
+    for row in &r.rows {
+        s.push_str(&format!(
+            "  {:<44}  sats {:>2}  beacons {:>2}  {}\n",
+            row.label,
+            row.n_visible_sats,
+            row.n_visible_beacons,
+            fmt_dop(&row.dop)
+        ));
+        if let Some(a) = row.accuracy {
+            s.push_str(&format!(
+                "  {:<44}  realised 1-sigma: 3D {:.3} m  H {:.3} m  V {:.3} m\n",
+                "", a.pos_3d_m, a.horizontal_m, a.vertical_m
+            ));
+        }
+    }
+    match r.beacon_pdop_improvement {
+        Some(f) => s.push_str(&format!("  beacons improve PDOP by {f:.3}x; ",)),
+        None => s.push_str("  beacon improvement undefined (a geometry had no solution); "),
+    }
+    match r.constellation_pdop_improvement {
+        Some(f) => s.push_str(&format!("a larger constellation instead, {f:.3}x\n")),
+        None => s.push_str("the larger constellation had no solution\n"),
+    }
+    s.push_str(
+        "  MODELLED: the constellation, the beacon placement and the error budget are \
+         illustrative inputs.\n  The DOP kernel underneath is the gnss_lib_py-validated one \
+         and the beacon horizon is the L01 closed form.\n",
+    );
+    s
+}
+
+fn beacon_svg(r: &LunarBeaconReport) -> String {
+    let (w, h) = (900.0_f64, 360.0_f64);
+    let mut s = format!(
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" \
+         font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\">\
+         <rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"
+    );
+    s.push_str(
+        "<text x=\"24\" y=\"32\" font-size=\"15\" fill=\"#e8e0d0\">\
+         Surface-beacon augmentation — PDOP by configuration</text>",
+    );
+    let pdops: Vec<f64> = r
+        .rows
+        .iter()
+        .filter_map(|x| x.dop.map(|d| d.pdop))
+        .collect();
+    let max = pdops.iter().cloned().fold(1.0_f64, f64::max);
+    let (x0, y0, bar_h, gap) = (300.0_f64, 70.0_f64, 34.0_f64, 22.0_f64);
+    let track = w - x0 - 90.0;
+    for (i, row) in r.rows.iter().enumerate() {
+        let y = y0 + i as f64 * (bar_h + gap);
+        s.push_str(&format!(
+            "<text x=\"24\" y=\"{:.0}\">{}</text>",
+            y + bar_h * 0.65,
+            xml_escape(&row.label)
+        ));
+        match row.dop {
+            Some(d) => {
+                let len = (d.pdop / max) * track;
+                s.push_str(&format!(
+                    "<rect x=\"{x0:.0}\" y=\"{y:.0}\" width=\"{len:.1}\" height=\"{bar_h:.0}\" \
+                     fill=\"#c9a227\" opacity=\"0.85\"/>\
+                     <text x=\"{:.0}\" y=\"{:.0}\" fill=\"#e8e0d0\">PDOP {:.3}</text>",
+                    x0 + len + 10.0,
+                    y + bar_h * 0.65,
+                    d.pdop
+                ));
+            }
+            None => s.push_str(&format!(
+                "<text x=\"{x0:.0}\" y=\"{:.0}\" fill=\"#b4553c\">no solution</text>",
+                y + bar_h * 0.65
+            )),
+        }
+    }
+    s.push_str(&format!(
+        "<text x=\"24\" y=\"{:.0}\" fill=\"#8d8577\">lower is better; \
+         per-beacon sigma_URE {:.3} m, mask {:.1} deg</text></svg>",
+        h - 22.0,
+        r.sigma_ure_m,
+        r.elevation_mask_deg
+    ));
+    s
+}
+
+fn xml_escape(s: &str) -> String {
+    s.replace('&', "&amp;")
+        .replace('<', "&lt;")
+        .replace('>', "&gt;")
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

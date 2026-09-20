@@ -65,7 +65,7 @@ command -v rsvg-convert >/dev/null || { echo "rsvg-convert not found (brew insta
 if grep -q '<foreignObject' "$SVG"; then
   echo "refusing: $NAME.svg puts its labels in <foreignObject>, which rsvg-convert drops" >&2
   echo "silently — the PNG would come out with every label blank. Render it with a" >&2
-  echo "browser engine instead; see the comment above this check for the exact command." >&2
+  echo "browser engine instead:  tools/render-diagram-browser.sh $NAME" >&2
   exit 1
 fi
 

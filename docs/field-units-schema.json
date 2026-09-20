@@ -1,11 +1,11 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 1659,
-    "fields_total": 1702,
+    "fields_described": 1675,
+    "fields_total": 1718,
     "fields_without_units": 43,
-    "kinds_complete": 57,
-    "kinds_total": 59,
+    "kinds_complete": 58,
+    "kinds_total": 60,
     "kinds_uncovered": 2,
     "uncovered_kind_ceiling": 2,
     "uncovered_kinds": [
@@ -4957,6 +4957,112 @@
       "fields_without_units": [],
       "label": null,
       "source": "defaults"
+    },
+    "lunar-beacon": {
+      "complete": true,
+      "fields": {
+        "beacon_pdop_improvement": {
+          "definition": "PDOP without beacons divided by PDOP with them; greater than one is an improvement",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "constellation_pdop_improvement": {
+          "definition": "PDOP of the baseline constellation divided by that of the larger one",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "elevation_mask_deg": {
+          "definition": "satellite elevation mask applied",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "epoch_s": {
+          "definition": "seconds after the constellation epoch at which the snapshot is taken",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "rows[].accuracy.horizontal_m": {
+          "definition": "HDOP x sigma_URE; inherits the modelled ranging budget",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "rows[].accuracy.pos_3d_m": {
+          "definition": "PDOP x sigma_URE; inherits the modelled ranging budget",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "rows[].accuracy.time_m": {
+          "definition": "TDOP x sigma_URE - the time solution expressed as a range, not a duration",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "rows[].accuracy.vertical_m": {
+          "definition": "VDOP x sigma_URE; inherits the modelled ranging budget",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "rows[].dop.gdop": {
+          "definition": "geometric dilution of precision",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "rows[].dop.hdop": {
+          "definition": "horizontal dilution of precision",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "rows[].dop.pdop": {
+          "definition": "position dilution of precision",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "rows[].dop.tdop": {
+          "definition": "time dilution of precision",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "rows[].dop.vdop": {
+          "definition": "vertical dilution of precision",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "rows[].n_visible_beacons": {
+          "definition": "beacons clearing the airless two-height horizon; routinely FEWER than the number configured, which is why the visible count is reported rather than the configured one",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "rows[].n_visible_sats": {
+          "definition": "satellites above the elevation mask at this epoch, not the configured total",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "sigma_ure_m": {
+          "definition": "root-sum-square of the clock-synchronisation, multipath and survey terms, every one a modelled allocation rather than a measured link",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "m"
+        }
+      },
+      "fields_described": 16,
+      "fields_total": 16,
+      "fields_without_units": [],
+      "label": null,
+      "source": "scenarios/lunar-beacon.toml"
     },
     "lunar-differential-pnt": {
       "complete": true,

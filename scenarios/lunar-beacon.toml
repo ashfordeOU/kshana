@@ -1,0 +1,85 @@
+# Surface-beacon augmentation of a lunar orbital navigation service.
+#
+# A south-polar lunar user sees a sparse orbital constellation inside a narrow, slowly
+# moving patch of sky. Every line of sight points into roughly the same direction, so the
+# ranging design matrix is ill-conditioned and the dilution of precision is large — the
+# geometry problem, not a signal-power problem. A handful of SURVEYED SURFACE BEACONS fix
+# it cheaply: a beacon near the local horizon contributes the low-elevation, wide-azimuth
+# line-of-sight rows an all-overhead orbital set structurally cannot supply, and the
+# horizontal DOP collapses.
+#
+# This run reports three configurations at one epoch, so the two routes to usable geometry
+# can be compared directly:
+#
+#   * the satellites alone,
+#   * the satellites plus whichever beacons clear the horizon, and
+#   * a larger constellation instead — the expensive alternative to the same end.
+#
+# Each row carries its visible-source counts, its full DOP, and the realised 1-sigma
+# accuracy in METRES. That last step is the point: a bare "PDOP 1.6" is dimensionless and
+# easy to over-read, so the report multiplies it through a per-beacon user-equivalent
+# ranging error (the root-sum-square of the clock-synchronisation, multipath and survey
+# terms below) and states the answer as a distance.
+#
+# WHY THIS FILE EXISTS
+# The module behind this kind has been in the engine since L08/L09 and is checked against
+# an independent DOP path in tests/validate_p2_beacon_before_after_independent_dop.rs. But
+# it was not reachable from a run — no scenario kind, no dispatch arm, no bundled example.
+# The README advertised the capability; the verification matrix carried NO row for it at all.
+# So it was claimed in prose, unclaimed in the ledger, and unreachable in the engine at the
+# same time. A capability the engine cannot be ASKED to perform is not a capability of the
+# engine, and one the ledger does not list is not accounted for either.
+#
+# DEFAULTS ARE THE GOLDEN GEOMETRY
+# Every value below is the configuration that already carries a committed golden
+# (tests/validate_p2_beacon_before_after_table.rs against
+# tests/fixtures/lunar_service/beacon_before_after_golden.csv). Running this file therefore
+# reproduces a table an oracle already covers, instead of inventing a fresh configuration
+# whose numbers nothing checks. Change them freely — they are inputs, not constants.
+#
+# WHAT IS ANCHORED AND WHAT IS NOT
+# Anchored: the DOP assembly is the kernel cross-checked against gnss_lib_py in
+# tests/dop_reference.rs; beacon visibility is the airless-Moon two-height geometric horizon
+# closed form (no atmosphere, so there is no refractive extension and the bound is exact);
+# and sigma = DOP x sigma_URE is the standard relation (Kaplan & Hegarty, Understanding
+# GPS/GNSS, section 7).
+# NOT anchored — MODELLED inputs, every one: the constellation design, the beacon
+# placement, the antenna heights, and all three error-budget magnitudes. They are
+# representative choices, not a fielded survey or a measured link. Nothing here is a
+# service-performance commitment, a TRL claim, or affiliated with any agency's programme.
+
+kind = "lunar-beacon"
+
+# The user: a south-polar site with a 2 m antenna.
+[user]
+lat_deg = -80.0
+lon_deg = 0.0
+alt_m = 2.0
+
+# Three surveyed beacons on 2 km relief, spread in azimuth about the user. The two flanking
+# sites at +/-60 deg longitude are what supply the wide-azimuth rows.
+[[beacons]]
+lat_deg = -80.0
+lon_deg = 0.0
+alt_m = 2000.0
+
+[[beacons]]
+lat_deg = -79.0
+lon_deg = 60.0
+alt_m = 2000.0
+
+[[beacons]]
+lat_deg = -79.0
+lon_deg = -60.0
+alt_m = 2000.0
+
+# A sparse six-satellite service, and a 24-satellite service as the contrast.
+n_satellites = 6
+comparison_n_satellites = 24
+epoch_s = 0.0
+elevation_mask_deg = 5.0
+
+# Per-beacon ranging error budget, in metres of range. Root-sum-squared into sigma_URE.
+clock_sync_m = 1.0
+multipath_m = 0.5
+survey_m = 0.3
