@@ -146,6 +146,7 @@ pub mod lunar_frame_predict;
 pub mod lunar_frame_realise;
 pub mod lunar_interop;
 pub mod lunar_jamming;
+pub mod lunar_llr;
 pub mod lunar_od;
 pub mod lunar_perturbed;
 pub mod lunar_service;
