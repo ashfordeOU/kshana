@@ -21,6 +21,22 @@
 //! 4. [`track`] - a closed DLL+PLL loop over successive code periods emitting
 //!    [`CorrelatorDump`]s (Early/Prompt/Late taps per epoch).
 //!
+//! ## One constraint on the sample rate, stated rather than assumed
+//!
+//! The code replica is a **zero-order hold** on `floor(code phase)` (there is nothing between
+//! chips of a rectangular BPSK waveform to interpolate). It follows that the smallest code-phase
+//! change the correlator can see is one sample, `1 / (fs / R_c)` chips — and that at an
+//! *exactly commensurate* rate, where `fs` is an integer multiple of the chip rate, every sample
+//! of every epoch lands at the same fractional position inside its chip, so the Early/Late
+//! response is a staircase with a one-sample dead band rather than a triangle. Measured at
+//! 4.092 MHz (4.000 samples/chip) the discriminator slope is 6.3x its ideal value over a
+//! 0.02-chip error and the closed DLL settles at 4.68x the correct lag; at 5 MHz
+//! (4.8876 samples/chip) both are right to better than 0.5 %. Nothing here runs at a
+//! commensurate rate, but 4.092 / 8.184 / 10.23 / 20.46 MHz are the rates a user reaches for
+//! first: grade a rate with [`chip_grid`] (or [`crate::spoof_capture::CaptureConfig::chip_grid`]
+//! / [`crate::realdata::iqif::FeatureStageConfig::chip_grid`]) before trusting a result from it.
+//! [`ChipGrid`] carries the measured numbers.
+//!
 //! References: Kaplan & Hegarty, *Understanding GPS/GNSS* (3rd ed., chs. 8 & 14);
 //! Borre et al., *A Software-Defined GPS and Galileo Receiver* (2007); IS-GPS-200.
 
@@ -223,7 +239,117 @@ pub struct CorrParams {
     pub corr_spacing_chips: f64,
 }
 
+// ── Sampling-grid commensurability (the zero-order-hold dead band) ──────────────────
+
+/// How close a sampling rate sits to an integer number of samples per code chip, at which
+/// the point-sampled replica stops resolving sub-chip code-phase error.
+///
+/// A rate is treated as commensurate when `fs / code_rate` is within this many samples of a
+/// whole number. The tolerance is deliberately tight: what matters is *exact* commensurability
+/// (4.000000 samples/chip), because it is the exact case in which every sample of every epoch
+/// lands at the same fractional position inside its chip. A rate a thousandth of a sample off
+/// an integer sweeps the chip over a few hundred epochs and recovers.
+pub const CHIP_GRID_TOLERANCE_SAMPLES: f64 = 1e-6;
+
+/// Where a sampling rate sits against the code-chip grid, and the code-phase dead band that
+/// follows from it.
+///
+/// [`chip_at`](fn@chip_at) — the replica lookup every correlation in this module goes through —
+/// is a **zero-order hold** on `floor(code phase)`. The replica therefore only changes when the
+/// code phase crosses a chip boundary, and the smallest code-phase step that can move it is
+/// `1 / samples_per_chip` chips. When `samples_per_chip` is an integer *and* the signal is
+/// sampled on the same grid (which is the case for this module's own [`synth_if`], and for any
+/// front end clocked off the code rate), every sample of every epoch sits at the same fractional
+/// position inside its chip, so the Early/Late response degenerates from a triangle into a
+/// staircase with a dead band one sample wide.
+///
+/// Measured on PRN 10 at Early-Late spacing `d = 0.5` (ideal discriminator slope
+/// `1/(2 − d) = 0.6667`, central difference at `±h` chips):
+///
+/// | `fs` | samples/chip | slope at h = 0.02 / 0.05 / 0.10 |
+/// |------|--------------|---------------------------------|
+/// | 4.092 MHz | 4.0000 | 4.1721 / 1.6688 / 0.8344 |
+/// | 8.184 MHz | 8.0000 | 2.0860 / 0.8344 / 0.4172 |
+/// | 10.23 MHz | 10.0000 | 0.0000 / 0.5886 / 0.6675 |
+/// | 2.046 MHz | 2.0000 | 0.0000 / 0.0000 / 0.0000 |
+/// | 5.0 MHz | 4.8876 | 0.6989 / 0.6594 / 0.6684 |
+/// | 25.0 MHz | 24.4379 | 0.6659 / 0.6666 / 0.6678 |
+///
+/// and closing a first-order DLL (`g = 0.1`, `T = 1 ms`) around a 2 chip/s code slew, the
+/// settled lag is 4.68× the closed-form value at 4.092 MHz and 0.999× at 5 MHz.
+///
+/// Nothing this crate ships runs at a commensurate rate — [`crate::spoof_capture::CaptureConfig`]
+/// defaults to 5 MHz and [`crate::realdata::iqif::FeatureStageConfig::texbat_like`] to 25 MHz,
+/// both non-commensurate — but 4.092 / 8.184 / 10.23 / 20.46 MHz are the rates a user reaches
+/// for first, and before this type they failed silently. Check a rate with [`chip_grid`] before
+/// trusting a tracking result from it.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct ChipGrid {
+    /// Sampling rate divided by the code chipping rate (samples per chip).
+    pub samples_per_chip: f64,
+    /// Distance from [`Self::samples_per_chip`] to the nearest whole number (samples). Zero
+    /// at an exactly commensurate rate.
+    pub offset_from_integer_samples: f64,
+    /// The code-phase step below which the zero-order-hold replica cannot move (chips):
+    /// `1 / samples_per_chip`, the width of the dead band at a commensurate rate.
+    pub dead_band_chips: f64,
+    /// `true` when the rate is commensurate to within [`CHIP_GRID_TOLERANCE_SAMPLES`] — the
+    /// case in which the Early/Late discriminator is a staircase rather than a triangle.
+    pub commensurate: bool,
+}
+
+impl ChipGrid {
+    /// The stated reason a commensurate rate cannot be trusted, or `None` when the rate is
+    /// safe. Text, not a silent boolean: it names the rate, the dead band, and the rate to
+    /// move to.
+    pub fn warning(&self) -> Option<String> {
+        if !self.commensurate {
+            return None;
+        }
+        Some(format!(
+            "sampling rate is commensurate with the code rate ({:.6} samples/chip, {:.3e} \
+             samples from a whole number): the zero-order-hold code replica cannot resolve a \
+             code-phase change below {:.6} chips, so the Early/Late discriminator is a \
+             staircase with a one-sample dead band instead of a triangle and the DLL settles \
+             at the wrong lag. Offset the sample rate off the integer multiple (5 MHz is \
+             4.8876 samples/chip; 25 MHz is 24.4379) or oversample far enough that the dead \
+             band is below the code-phase accuracy you need.",
+            self.samples_per_chip, self.offset_from_integer_samples, self.dead_band_chips
+        ))
+    }
+}
+
+/// Grade a sampling rate against a code chipping rate — see [`ChipGrid`] for what a
+/// commensurate rate does to the correlator.
+///
+/// A non-positive or non-finite rate is reported as non-commensurate with a `NaN`
+/// samples-per-chip rather than being treated as a failure of the grid: it is a different
+/// error, and this function does not own it.
+pub fn chip_grid(fs_hz: f64, code_rate_hz: f64) -> ChipGrid {
+    if !(fs_hz.is_finite() && code_rate_hz.is_finite()) || fs_hz <= 0.0 || code_rate_hz <= 0.0 {
+        return ChipGrid {
+            samples_per_chip: f64::NAN,
+            offset_from_integer_samples: f64::NAN,
+            dead_band_chips: f64::NAN,
+            commensurate: false,
+        };
+    }
+    let spc = fs_hz / code_rate_hz;
+    let offset = (spc - spc.round()).abs();
+    ChipGrid {
+        samples_per_chip: spc,
+        offset_from_integer_samples: offset,
+        dead_band_chips: 1.0 / spc,
+        commensurate: offset <= CHIP_GRID_TOLERANCE_SAMPLES,
+    }
+}
+
 /// The `±1` chip at fractional code phase `phase_chips` (wrapped into one period).
+///
+/// A **zero-order hold**: the chip waveform is piecewise constant, so this returns the chip the
+/// phase falls in and nothing between chips. That is the right value for a point-sampled
+/// rectangular BPSK waveform, and it is also why an exactly-commensurate sampling rate
+/// degenerates the Early/Late response — see [`ChipGrid`], and [`chip_grid`] to check a rate.
 #[inline]
 fn chip_at(code: &CaCode, phase_chips: f64) -> f64 {
     let idx = phase_chips.floor().rem_euclid(CA_CODE_LEN as f64) as usize;
@@ -712,6 +838,131 @@ mod acq_tests {
 #[cfg(test)]
 mod corr_tests {
     use super::*;
+
+    /// The normalised Early-minus-Late amplitude discriminator `0.5·(|E|−|L|)/(|E|+|L|)` —
+    /// the exact expression `track` closes its DLL on — at code-phase error `eps` chips.
+    fn dll_disc(code: &CaCode, fs: f64, d: f64, eps: f64) -> f64 {
+        let n = (fs / 1000.0).round() as usize;
+        let iq = synth_if(code, fs, 0.0, CA_CHIP_RATE_HZ, 0.0, 1.0, n, 0.0, 1);
+        let c = correlate(
+            &iq,
+            code,
+            &CorrParams {
+                fs_hz: fs,
+                carrier_freq_hz: 0.0,
+                carrier_phase_rad: 0.0,
+                code_rate_hz: CA_CHIP_RATE_HZ,
+                code_phase_chips: eps,
+                corr_spacing_chips: d,
+            },
+        );
+        let (e, l) = (c.early.abs(), c.late.abs());
+        0.5 * (e - l) / (e + l)
+    }
+
+    /// Central-difference discriminator slope (per chip) over `±h` chips.
+    fn dll_slope(code: &CaCode, fs: f64, d: f64, h: f64) -> f64 {
+        (dll_disc(code, fs, d, h) - dll_disc(code, fs, d, -h)).abs() / (2.0 * h)
+    }
+
+    /// [`chip_grid`] flags exactly the rates that are integer multiples of the chip rate, and
+    /// clears the two this crate actually ships at.
+    #[test]
+    fn the_chip_grid_check_flags_commensurate_rates_and_clears_the_shipped_ones() {
+        for fs in [1.023e6_f64, 2.046e6, 4.092e6, 8.184e6, 10.23e6, 20.46e6] {
+            let g = chip_grid(fs, CA_CHIP_RATE_HZ);
+            assert!(g.commensurate, "{} MHz must be flagged", fs / 1e6);
+            assert!(
+                (g.samples_per_chip - g.samples_per_chip.round()).abs() < 1e-9,
+                "{} MHz is an integer samples/chip",
+                fs / 1e6
+            );
+            let w = g.warning().expect("a flagged rate must state why");
+            assert!(w.contains("dead band") || w.contains("staircase"), "{w}");
+            assert!(
+                (g.dead_band_chips - 1.0 / g.samples_per_chip).abs() < 1e-12,
+                "the dead band is one sample wide"
+            );
+        }
+        for fs in [5.0e6_f64, 25.0e6, 2.5e6, 4.0e6] {
+            let g = chip_grid(fs, CA_CHIP_RATE_HZ);
+            assert!(!g.commensurate, "{} MHz must not be flagged", fs / 1e6);
+            assert!(g.warning().is_none());
+        }
+        // A nonsense rate is not silently called safe-and-commensurate.
+        let bad = chip_grid(0.0, CA_CHIP_RATE_HZ);
+        assert!(!bad.commensurate && bad.samples_per_chip.is_nan());
+    }
+
+    /// The defect the check exists for, measured rather than asserted: at an exactly
+    /// commensurate rate the discriminator slope is wrong by a factor that grows as the
+    /// code-phase error shrinks inside the dead band, while at the shipped non-commensurate
+    /// rate it is the ideal `1/(2 − d)`.
+    ///
+    /// This is a **characterisation** of the zero-order-hold correlator as it stands, not a
+    /// statement that the behaviour is desirable. It is pinned so the flag in [`chip_grid`]
+    /// cannot quietly become a warning about nothing, and so that a future sub-chip
+    /// correlator change announces itself here first.
+    #[test]
+    fn a_commensurate_rate_makes_the_discriminator_a_staircase() {
+        let code = CaCode::new(10).expect("PRN 10");
+        let d = 0.5_f64;
+        let ideal = 1.0 / (2.0 - d);
+
+        // 5 MHz — 4.8876 samples/chip, what spoof_capture ships: the ideal triangle.
+        for h in [0.05_f64, 0.10, 0.15] {
+            let s = dll_slope(&code, 5.0e6, d, h);
+            assert!(
+                (s - ideal).abs() / ideal < 0.02,
+                "5 MHz, h {h}: slope {s:.4} should be the ideal {ideal:.4}"
+            );
+        }
+
+        // 4.092 MHz — exactly 4 samples/chip: one step of the staircase, so the measured
+        // slope is (step / 2h) and scales as 1/h instead of being constant.
+        let s02 = dll_slope(&code, 4.092e6, d, 0.02);
+        let s05 = dll_slope(&code, 4.092e6, d, 0.05);
+        let s10 = dll_slope(&code, 4.092e6, d, 0.10);
+        assert!(
+            s02 > 6.0 * ideal,
+            "4.092 MHz, h 0.02: slope {s02:.4} should be many times the ideal {ideal:.4}"
+        );
+        for (h, s) in [(0.02_f64, s02), (0.05, s05), (0.10, s10)] {
+            assert!(
+                (s * h - s02 * 0.02).abs() < 1e-3 * s02 * 0.02,
+                "4.092 MHz: slope*h must be constant across the dead band (h {h}: {:.6} vs \
+                 {:.6}) — that is what a single staircase step looks like",
+                s * h,
+                s02 * 0.02
+            );
+        }
+
+        // 2.046 MHz — 2 samples/chip: the dead band is half a chip, so the discriminator does
+        // not move at all over ±0.2 chips. A DLL there has no restoring force whatsoever.
+        for h in [0.02_f64, 0.10, 0.20] {
+            assert_eq!(
+                dll_slope(&code, 2.046e6, d, h),
+                0.0,
+                "2.046 MHz, h {h}: the discriminator must be measurably dead"
+            );
+        }
+    }
+
+    /// The two configurations this crate ships are on the safe side of the check — a guard
+    /// against someone "tidying" a sample rate to a round multiple of the chip rate.
+    #[test]
+    fn the_shipped_front_end_configurations_are_not_commensurate() {
+        assert!(
+            !crate::spoof_capture::CaptureConfig::default()
+                .chip_grid()
+                .commensurate
+        );
+        assert!(
+            !crate::realdata::iqif::FeatureStageConfig::texbat_like()
+                .chip_grid()
+                .commensurate
+        );
+    }
 
     fn params(fs: f64, fc: f64, phase: f64) -> CorrParams {
         CorrParams {
