@@ -29,6 +29,23 @@ is tied to the exact bytes below by SHA-256.
   the E11 arc (which crosses UTC midnight) for per-epoch interpolation. FINAL
   values for past dates never change.
 - **SHA-256:** `6b781d3619550a4a404806f0ce6074a8516ea9ba18ddf111ac23f0e2cb2ed00f`
+- **Also shipped at** `tools/finals2000A_2022001.txt` (byte-identical; pinned by
+  `realtime_frame_eop::tests::bundled_eop_matches_the_test_fixture`). It was the
+  `realtime-frame-eop` runtime default until G12; it is final-only, so on it
+  `predicted_rows.n` is 0, and a test keeps that path exercised.
+
+### `eop/finals2000A_2026.txt`
+- **Product:** IERS `finals2000A.all` (`finals.all.iau2000.txt`) — Bulletin A rapid
+  UT1−UTC and pole, plus the Bulletin B (EOP 14 C04) final block where published.
+- **Source (open, no login):** IERS Data Centre,
+  `https://datacenter.iers.org/data/latestVersion/finals.all.iau2000.txt`.
+- **Slice:** MJD 61173..61204 (2026-05-13 .. 2026-06-13), 32 consecutive daily rows
+  lifted verbatim. The first **20** carry a Bulletin B final block; the last **12**
+  (MJD 61193..61204) are Bulletin A **prediction-only** rows with that block blank.
+- **SHA-256:** `bba73f0524eda18e78c1e0cde6843a60a1cf1fe0a3afcc9afc6239c0f63df822`
+- **Also shipped at** `tools/finals2000A_2026.txt` (byte-identical; same drift guard).
+  Since G12 this is the `realtime-frame-eop` **runtime default**, which is why a bare
+  run reports `predicted_rows.n = 12`.
 
 ## Swarm-A LEO (W4a)
 
