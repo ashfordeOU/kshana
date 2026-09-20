@@ -122,6 +122,14 @@ fn surface_readme_validation_counts_match_the_matrix() {
 /// pinned, so any one of them could silently drift out of step with the matrix while the
 /// guarded badges stayed correct. Pin every remaining count-bearing string so a row
 /// change that misses one is a build failure, not a published overclaim.
+///
+/// A later audit found this test had not in fact pinned *every* such string: the
+/// oracle-kind stacked-bar figure's alt-text states the Validated column's
+/// ExternalDataset count ("the Validated column is N of N ExternalDataset by
+/// construction"), and it still read 56 of 56 when the matrix held 59 — the figure
+/// itself, which is regenerated, had moved on without its alt. An alt attribute is a
+/// published surface (screen readers and indexers read it, and it is the only text a
+/// reader gets when the image fails to load), so it is pinned here with the rest.
 #[test]
 fn every_public_validation_count_string_matches_the_matrix() {
     let m = verification_matrix();
@@ -155,6 +163,10 @@ fn every_public_validation_count_string_matches_the_matrix() {
             format!("{v} Validated · {md} Modelled · {p} Partner")),
         ("README.md (provenance-diagram alt)", readme,
             format!("Live counts: {v} Validated, {md} Modelled, {p} Partner, {t} total")),
+        // The oracle-kind stacked bar is regenerated from the matrix, so its bars are
+        // always current; its alt-text is hand-written and was not.
+        ("README.md (oracle-kind figure alt)", readme,
+            format!("the Validated column is {v} of {v} ExternalDataset by construction")),
     ];
     for (name, body) in [
         ("README.crates.md", crates),

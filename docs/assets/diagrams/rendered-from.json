@@ -1,0 +1,25 @@
+{
+  "note": "Binds each rendered PNG in this directory to the exact SVG bytes it was rendered from. A count inside an image cannot be text-searched by a test, so the image's text is pinned in its .mmd source and its SVG, and this record catches the remaining gap: an SVG corrected without its PNG being re-rendered. Regenerate with tools/render-diagram.sh <name>, which re-renders the PNG and rewrites the entry together. Checked by tests/scenario_count_doc_sync.rs.",
+  "rendered": {
+    "distribution.png": {
+      "svg": "distribution.svg",
+      "svg_sha256": "50a6f36d4a01632842c33734536a98ee1e2f2fcf981525728b7e91f11c1b05a3"
+    },
+    "engine-flow.png": {
+      "svg": "engine-flow.svg",
+      "svg_sha256": "3f1ab26c8f55471f3873c4fd45709563cdb16f96c29d72c60759131026b93f78"
+    },
+    "module-map.png": {
+      "svg": "module-map.svg",
+      "svg_sha256": "97c6f256d9244861dcea8ecc6f318766768c785aca3e7e0659cbb6bd335daea5"
+    },
+    "system-overview.png": {
+      "svg": "system-overview.svg",
+      "svg_sha256": "9904d269f5954a66290e0761dbfee4c65c33bb5d401e8357250df9f70d877c46"
+    },
+    "validation-provenance.png": {
+      "svg": "validation-provenance.svg",
+      "svg_sha256": "de1b05ebce033cc1e63390101a8900f28de15e58b220803ae618122b892f5196"
+    }
+  }
+}
