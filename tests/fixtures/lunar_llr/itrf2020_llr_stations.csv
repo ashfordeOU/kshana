@@ -1,0 +1,14 @@
+# format: kshana-llr-stations v1
+# source: IERS ITRF2020, SLR station positions and velocities (ITRF Product
+#   Centre, IGN France)
+# url: https://itrf.ign.fr/ftp/pub/itrf/itrf2020/ITRF2020_SLR.SSC.txt
+# retrieved: 2026-09-20
+# source_sha256: d0f7afc0111eec3ccb292c496884d98c8aeafade44abdc7a475735f546809b4d
+# frame: ITRF2020, positions at epoch 2015.0, velocities m/y
+# note: these are SLR reference-point coordinates. The station eccentricity
+#   (reference point to telescope intersection of axes) is not applied.
+# generator: generate_itrf2020_llr_stations.py
+position_epoch_year,2015.0
+crd_name,ilrs_id,domes,site,x_m,y_m,z_m,sigma_x_m,sigma_y_m,sigma_z_m,vx_m_per_year,vy_m_per_year,vz_m_per_year
+GRSM,7845,10002S002,Grasse (OCA),4581691.9389,556196.3678,4389355.2869,0.0007,0.0007,0.0007,-.01388,0.01886,0.01117
+MATM,7941,12734S008,Matera,4641978.5239,1393067.8197,4133249.6959,0.0006,0.0007,0.0006,-.01863,0.01906,0.01462

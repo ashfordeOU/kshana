@@ -506,6 +506,10 @@ pub enum ScenarioKind {
     /// lunar-VLBI beacon-coordinate information accumulated over a schedule and propagated
     /// through the Helmert design, with no transform injected anywhere.
     LunarFrameCampaign,
+    /// The same seven-parameter Helmert frame datum driven by a **real, archived** observing
+    /// campaign: measured ILRS lunar laser ranging normal points supply the schedule and
+    /// every observation weight.
+    LunarLlrDatum,
 }
 
 impl ScenarioKind {
@@ -537,6 +541,7 @@ impl ScenarioKind {
             ScenarioKind::LunarCombination => "lunar-joint-od-clock",
             ScenarioKind::LunarFrameRealise => "lunar-frame-realisation",
             ScenarioKind::LunarFrameCampaign => "lunar-frame-campaign",
+            ScenarioKind::LunarLlrDatum => "lunar-llr-datum",
             ScenarioKind::LunarService => "moonlight-service-volume",
             ScenarioKind::LunarDpnt => "lunar-differential-pnt",
             ScenarioKind::LunarInterop => "lunar-interop-export",
@@ -605,6 +610,7 @@ impl ScenarioKind {
             "lunar-joint-od-clock" => ScenarioKind::LunarCombination,
             "lunar-frame-realisation" => ScenarioKind::LunarFrameRealise,
             "lunar-frame-campaign" => ScenarioKind::LunarFrameCampaign,
+            "lunar-llr-datum" => ScenarioKind::LunarLlrDatum,
             "moonlight-service-volume" => ScenarioKind::LunarService,
             "lunar-differential-pnt" => ScenarioKind::LunarDpnt,
             "lunar-interop-export" => ScenarioKind::LunarInterop,
@@ -2066,6 +2072,18 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
         ScenarioKind::InsTrnCoast => {
             let scn: crate::inertial::coast::InsTrnCoastScenario =
                 toml::from_str(src).map_err(|e| format!("invalid ins-trn-coast scenario: {e}"))?;
+            let (json, summary) = scn.run_json()?;
+            let svg = minimal_svg(&summary);
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
+        }
+        ScenarioKind::LunarLlrDatum => {
+            let scn: crate::lunar_llr::LunarLlrDatumScenario = toml::from_str(src)
+                .map_err(|e| format!("invalid lunar-llr-datum scenario: {e}"))?;
             let (json, summary) = scn.run_json()?;
             let svg = minimal_svg(&summary);
             Ok(RunOutput {

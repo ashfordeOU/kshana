@@ -117,6 +117,7 @@ const RUNNERS: &[(&str, &str)] = &[
     ("lunar-vlbi-fim", ""),
     ("tracking-loop", ""),
     ("araim-reference-check", ""),
+    ("lunar-llr-datum", ""),
 ];
 
 /// The kinds whose reports do not yet describe every numeric field they emit, each with
