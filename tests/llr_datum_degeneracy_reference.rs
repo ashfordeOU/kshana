@@ -26,12 +26,12 @@
 //! # What is VALIDATED (structural claim)
 //! The LLR near-side geometry, combined with real JPL DE440 PA-frame libration (Park et al.
 //! 2021, AJ 161:105), REPRODUCES THE DEGENERACY STRUCTURE — a strong, finite CoM-X-to-scale
-//! correlation in the r ≈ -0.97 regime the paper reports. Specifically: |corr(t_x, scale)|
-//! > 0.9 and < 0.9999, and the datum defect ≤ 1. This is a geometric property of the nearly
-//! radial Earth–Moon lines of sight to the five near-side retroreflectors, recovered from an
-//! LLR-only Fisher design matrix. The orientation is drawn from the embedded DE440 PA-frame
-//! fixture, which covers 2024–2025 with real libration data (±7.8°/±6.8°), not a simplified
-//! spherical model.
+//! correlation in the r ≈ -0.97 regime the paper reports. Specifically:
+//! `|corr(t_x, scale)| > 0.9` and `< 0.9999`, and the datum defect ≤ 1. This is a geometric
+//! property of the nearly radial Earth–Moon lines of sight to the five near-side
+//! retroreflectors, recovered from an LLR-only Fisher design matrix. The orientation is drawn
+//! from the embedded DE440 PA-frame fixture, which covers 2024–2025 with real libration data
+//! (±7.8°/±6.8°), not a simplified spherical model.
 //!
 //! # What is NOT VALIDATED (Modelled)
 //! - The exact correlation magnitude (≈ -0.988 here vs. -0.97 in the paper). The difference
@@ -46,7 +46,7 @@
 //! # Honesty firewall
 //! The upper bound on |corr| < 0.9999 is a WIRING CHECK: corr == 1.000 exactly signals that
 //! DE440 orientation is NOT applied (trivial rank-1 no-libration artefact). The lower bound
-//! > 0.9 confirms the strong CoM-X-to-scale degeneracy is present. Both bounds together
+//! `> 0.9` confirms the strong CoM-X-to-scale degeneracy is present. Both bounds together
 //! validate the structural reproduction without overclaiming the magnitude.
 //!
 //! # Module name

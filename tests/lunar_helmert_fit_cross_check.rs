@@ -123,7 +123,8 @@ fn both_helmert_fits_recover_the_same_small_datum() {
     let from = network();
     let to = transform(&truth, &from);
 
-    let exact = exact_fit(&from, &to, SIGMA_M).expect("exact fit converges on a well-posed network");
+    let exact =
+        exact_fit(&from, &to, SIGMA_M).expect("exact fit converges on a well-posed network");
     let linear = linear_fit(&from, &to);
 
     // Round-trip through the module's OWN forward model. This separates "the two fits use
@@ -145,7 +146,10 @@ fn both_helmert_fits_recover_the_same_small_datum() {
         );
         println!("truth  theta = {:?}", truth.rotation_rad);
         println!("exact  theta = {:?}", exact.rotation_rad);
-        println!("linear theta = {:?}  (raw, interop convention)", linear.datum.rot_rad);
+        println!(
+            "linear theta = {:?}  (raw, interop convention)",
+            linear.datum.rot_rad
+        );
         println!(
             "linear theta = {:?}  (converted)",
             as_frame_realise_theta(linear.datum.rot_rad)
@@ -195,15 +199,33 @@ fn both_helmert_fits_recover_the_same_small_datum() {
     println!("translation vs truth : exact {d_exact_t:.3e} m   linear {d_linear_t:.3e} m");
     println!("rotation    vs truth : exact {d_exact_r:.3e} rad linear {d_linear_r:.3e} rad");
     println!("pairwise             : t {d_pair_t:.3e} m  θ {d_pair_r:.3e} rad  s {d_pair_s:.3e}");
-    println!("post-fit residual rms: linear {:.3e} m", linear.residual_rms_m);
+    println!(
+        "post-fit residual rms: linear {:.3e} m",
+        linear.residual_rms_m
+    );
 
     assert!(d_exact_t < TOL_T_M, "exact fit translation: {d_exact_t:e}");
-    assert!(d_linear_t < TOL_T_M, "linear fit translation: {d_linear_t:e}");
+    assert!(
+        d_linear_t < TOL_T_M,
+        "linear fit translation: {d_linear_t:e}"
+    );
     assert!(d_exact_r < TOL_R_RAD, "exact fit rotation: {d_exact_r:e}");
-    assert!(d_linear_r < TOL_R_RAD, "linear fit rotation: {d_linear_r:e}");
-    assert!(d_pair_t < TOL_T_M, "the two fits disagree on translation: {d_pair_t:e}");
-    assert!(d_pair_r < TOL_R_RAD, "the two fits disagree on rotation: {d_pair_r:e}");
-    assert!(d_pair_s < TOL_S, "the two fits disagree on scale: {d_pair_s:e}");
+    assert!(
+        d_linear_r < TOL_R_RAD,
+        "linear fit rotation: {d_linear_r:e}"
+    );
+    assert!(
+        d_pair_t < TOL_T_M,
+        "the two fits disagree on translation: {d_pair_t:e}"
+    );
+    assert!(
+        d_pair_r < TOL_R_RAD,
+        "the two fits disagree on rotation: {d_pair_r:e}"
+    );
+    assert!(
+        d_pair_s < TOL_S,
+        "the two fits disagree on scale: {d_pair_s:e}"
+    );
 }
 
 /// The network actually carries rotation information, so the agreement above is not vacuous.
@@ -215,7 +237,11 @@ fn the_network_constrains_rotation_sign_in_both_fits() {
     let from = network();
     let theta: Vec3 = [4.0e-9, -2.5e-9, 1.8e-9];
 
-    let pos = FrameDatum { translation_m: [0.0; 3], rotation_rad: theta, scale_ppb: 0.0 };
+    let pos = FrameDatum {
+        translation_m: [0.0; 3],
+        rotation_rad: theta,
+        scale_ppb: 0.0,
+    };
     let neg = FrameDatum {
         translation_m: [0.0; 3],
         rotation_rad: [-theta[0], -theta[1], -theta[2]],
@@ -224,8 +250,10 @@ fn the_network_constrains_rotation_sign_in_both_fits() {
 
     let fit_pos_e = exact_fit(&from, &transform(&pos, &from), SIGMA_M).expect("converges");
     let fit_neg_e = exact_fit(&from, &transform(&neg, &from), SIGMA_M).expect("converges");
-    let fit_pos_l = as_frame_realise_theta(linear_fit(&from, &transform(&pos, &from)).datum.rot_rad);
-    let fit_neg_l = as_frame_realise_theta(linear_fit(&from, &transform(&neg, &from)).datum.rot_rad);
+    let fit_pos_l =
+        as_frame_realise_theta(linear_fit(&from, &transform(&pos, &from)).datum.rot_rad);
+    let fit_neg_l =
+        as_frame_realise_theta(linear_fit(&from, &transform(&neg, &from)).datum.rot_rad);
 
     for k in 0..3 {
         // Each component is recovered with the sign it was injected with, by BOTH fits.
@@ -263,7 +291,11 @@ fn large_rotation_separates_the_exact_fit_from_the_linear_one() {
     // 1 milliradian — far above any inter-ephemeris datum, chosen so the second-order term
     // (~|θ|²·|p|/2 ≈ 0.9 m over a lunar-radius lever arm) is unmistakable.
     let theta: Vec3 = [1.0e-3, -0.7e-3, 0.4e-3];
-    let truth = FrameDatum { translation_m: [0.0; 3], rotation_rad: theta, scale_ppb: 0.0 };
+    let truth = FrameDatum {
+        translation_m: [0.0; 3],
+        rotation_rad: theta,
+        scale_ppb: 0.0,
+    };
     let to = transform(&truth, &from);
 
     let exact = exact_fit(&from, &to, SIGMA_M).expect("converges");
@@ -272,10 +304,16 @@ fn large_rotation_separates_the_exact_fit_from_the_linear_one() {
     let d_exact = max_abs(&exact.rotation_rad, &theta);
     let d_linear = max_abs(&as_frame_realise_theta(linear.datum.rot_rad), &theta);
     println!("large rotation: exact |Δθ| {d_exact:.3e} rad, linear |Δθ| {d_linear:.3e} rad");
-    println!("large rotation: linear post-fit residual rms {:.3e} m", linear.residual_rms_m);
+    println!(
+        "large rotation: linear post-fit residual rms {:.3e} m",
+        linear.residual_rms_m
+    );
 
     // The exact, iterated fit still recovers the truth.
-    assert!(d_exact < TOL_R_RAD, "exact fit should stay exact at 1 mrad: {d_exact:e}");
+    assert!(
+        d_exact < TOL_R_RAD,
+        "exact fit should stay exact at 1 mrad: {d_exact:e}"
+    );
     // The single-linearisation fit measurably does not — that is its stated domain limit,
     // and if this assertion ever fails the module doc is wrong, not the test.
     assert!(
@@ -297,13 +335,21 @@ fn the_two_modules_use_opposite_rotation_sign_conventions() {
     let theta: Vec3 = [3.1e-9, -1.7e-9, 2.4e-9];
     let from = network();
 
-    let helmert = FrameDatum { translation_m: [0.0; 3], rotation_rad: theta, scale_ppb: 0.0 };
+    let helmert = FrameDatum {
+        translation_m: [0.0; 3],
+        rotation_rad: theta,
+        scale_ppb: 0.0,
+    };
     let negated = kshana::lunar_datum::Datum7 {
         t_m: [0.0; 3],
         scale: 0.0,
         rot_rad: as_frame_realise_theta(theta),
     };
-    let same = kshana::lunar_datum::Datum7 { t_m: [0.0; 3], scale: 0.0, rot_rad: theta };
+    let same = kshana::lunar_datum::Datum7 {
+        t_m: [0.0; 3],
+        scale: 0.0,
+        rot_rad: theta,
+    };
 
     let mut worst_negated = 0.0_f64;
     let mut worst_same = 0.0_f64;

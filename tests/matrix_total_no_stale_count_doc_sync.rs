@@ -105,30 +105,30 @@ fn no_published_surface_states_a_stale_matrix_total() {
 
     // (surface, every stated total found on it). Each entry is a phrase that, wherever it
     // appears, is stating the size of the verification matrix.
-    let mut found: Vec<(&str, Vec<(usize, String)>)> = Vec::new();
-
-    // "[Full 134-row matrix →](#validation-at-a-glance)" and any sibling phrasing.
-    found.push(("README.md", counts_before(readme, "-row matrix")));
-    // The provenance diagram, in source and in the committed rendering the README embeds.
-    found.push((
-        "docs/diagrams/validation-provenance.mmd",
-        counts_between(mmd, "Total ", " capability rows"),
-    ));
-    found.push((
-        "docs/assets/diagrams/validation-provenance.svg",
-        counts_between(svg, "Total ", " capability rows"),
-    ));
-    // The ledger strapline's pre-hydration value. JS overwrites it from the JSON at
-    // runtime, so a reader with JS sees the right number — but this is what ships in the
-    // bundle, what a no-JS reader sees, and what a scraper indexes.
-    found.push((
-        "web/app.js",
-        counts_between(app_js, "<span id=\"ldg-total\">", "</span>"),
-    ));
-    found.push((
-        "web/index.html",
-        counts_between(index_html, "<span id=\"ldg-total\">", "</span>"),
-    ));
+    let found: Vec<(&str, Vec<(usize, String)>)> = vec![
+        // "[Full 134-row matrix →](#validation-at-a-glance)" and any sibling phrasing.
+        ("README.md", counts_before(readme, "-row matrix")),
+        // The provenance diagram, in source and in the committed rendering the README embeds.
+        (
+            "docs/diagrams/validation-provenance.mmd",
+            counts_between(mmd, "Total ", " capability rows"),
+        ),
+        (
+            "docs/assets/diagrams/validation-provenance.svg",
+            counts_between(svg, "Total ", " capability rows"),
+        ),
+        // The ledger strapline's pre-hydration value. JS overwrites it from the JSON at
+        // runtime, so a reader with JS sees the right number — but this is what ships in the
+        // bundle, what a no-JS reader sees, and what a scraper indexes.
+        (
+            "web/app.js",
+            counts_between(app_js, "<span id=\"ldg-total\">", "</span>"),
+        ),
+        (
+            "web/index.html",
+            counts_between(index_html, "<span id=\"ldg-total\">", "</span>"),
+        ),
+    ];
 
     let mut stale: Vec<String> = Vec::new();
     let mut checked = 0usize;
