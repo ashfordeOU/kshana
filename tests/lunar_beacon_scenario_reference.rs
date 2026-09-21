@@ -81,6 +81,11 @@ fn scalar_key_line(key: &str) -> usize {
         .unwrap_or_else(|| panic!("the bundled scenario must set {key} at the document root"))
 }
 
+/// One pinned scenario row: label, satellite count, beacon count, the five per-satellite
+/// figures, and the four summary figures. Named because the bare tuple trips
+/// `clippy::type_complexity`, and because the column order is the thing a reader needs.
+type ExpectRow = (&'static str, usize, usize, [f64; 5], [f64; 4]);
+
 #[test]
 fn the_bundled_scenario_reproduces_its_committed_figures() {
     let v = run();
@@ -98,7 +103,7 @@ fn the_bundled_scenario_reproduces_its_committed_figures() {
     //               is prose over these same values, and the chart is a rendering of them);
     //               and no figure for any OTHER input is pinned, so the scenario stays free
     //               to be run with different geometry without touching this test.
-    let expect: &[(&str, usize, usize, [f64; 5], [f64; 4])] = &[
+    let expect: &[ExpectRow] = &[
         (
             "6 satellites, no beacons",
             5,
@@ -340,8 +345,7 @@ fn the_scenario_file_is_read_and_not_silently_defaulted() {
     //    `deny_unknown_fields` on BeaconSite this parses happily and drops the key.
     let spliced = format!("{SCENARIO}\nelevation_mask_deg = 12.0\n");
     let err = run_toml(&spliced)
-        .err()
-        .expect("a scalar written after [[beacons]] must be REFUSED, not silently dropped");
+        .expect_err("a scalar written after [[beacons]] must be REFUSED, not silently dropped");
     assert!(
         err.contains("elevation_mask_deg") || err.contains("unknown field"),
         "the refusal must name the offending key so the mistake is findable; got: {err}"

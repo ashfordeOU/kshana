@@ -232,13 +232,12 @@ mod tests {
 
         // Additivity, checked against an independently written element-wise sum.
         let pair = combine(&blocks, &[0, 2]);
-        for i in 0..7 {
-            for j in 0..7 {
+        for (i, row) in pair.iter().enumerate() {
+            for (j, &got) in row.iter().enumerate() {
                 let expect = blocks[0].info[i][j] + blocks[2].info[i][j];
                 assert!(
-                    (pair[i][j] - expect).abs() <= 1e-12 * expect.abs().max(1.0),
-                    "combine must add independent information at ({i},{j}): got {} want {expect}",
-                    pair[i][j]
+                    (got - expect).abs() <= 1e-12 * expect.abs().max(1.0),
+                    "combine must add independent information at ({i},{j}): got {got} want {expect}"
                 );
             }
         }
