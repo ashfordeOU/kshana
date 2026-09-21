@@ -73,12 +73,19 @@ fn every_scenario_count_surface_matches_the_dispatcher() {
     let readme = include_str!("../README.md");
     let mmd = include_str!("../docs/diagrams/system-overview.mmd");
     let svg = include_str!("../docs/assets/diagrams/system-overview.svg");
+    // The module map states the same count in its own words, and nothing watched it: it
+    // read "44 kinds" while the dispatcher had 61 and every check here stayed green,
+    // because this test only ever listed the hero diagram. A second diagram carrying the
+    // same number is a second place it can go stale, so it is listed now.
+    let map_mmd = include_str!("../docs/diagrams/module-map.mmd");
+    let map_svg = include_str!("../docs/assets/diagrams/module-map.svg");
     let mcp = include_str!("../mcp/kshana-mcp/README.md");
     let scenarios = include_str!("../docs/SCENARIOS.md");
 
     // The SVG splits a label across one <tspan> per word, so the count and the words after
     // it are in different elements. Strip the markup and search the concatenated text.
     let svg_text = strip_xml_tags(svg);
+    let map_svg_text = strip_xml_tags(map_svg);
 
     let checks: Vec<(&str, &str, String)> = vec![
         (
@@ -105,6 +112,16 @@ fn every_scenario_count_surface_matches_the_dispatcher() {
             "docs/SCENARIOS.md (generated reference header)",
             scenarios,
             format!("The {n} built-in scenario kinds that"),
+        ),
+        (
+            "docs/diagrams/module-map.mmd (the module map's source)",
+            map_mmd,
+            format!("typed dispatch over {n} kinds"),
+        ),
+        (
+            "docs/assets/diagrams/module-map.svg (rendered module map)",
+            &map_svg_text,
+            format!("typed dispatch over {n} kinds"),
         ),
     ];
 
