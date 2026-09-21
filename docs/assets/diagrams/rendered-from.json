@@ -11,7 +11,7 @@
     },
     "module-map.png": {
       "svg": "module-map.svg",
-      "svg_sha256": "97c6f256d9244861dcea8ecc6f318766768c785aca3e7e0659cbb6bd335daea5"
+      "svg_sha256": "d5b82f5259ccec7b05d23ae7872301f5c185306c340017659e2aa066291cb79c"
     },
     "system-overview.png": {
       "svg": "system-overview.svg",
@@ -19,7 +19,7 @@
     },
     "validation-provenance.png": {
       "svg": "validation-provenance.svg",
-      "svg_sha256": "f52596c882bf11b4b9cbf4fd81b3c509b82a3e01c7ed13a64d8d09e102d39932"
+      "svg_sha256": "9056fe2b0aa4dc579ed5ba6c4ae196e8481bb90933fac60da0d7b081bc16fac6"
     }
   }
 }

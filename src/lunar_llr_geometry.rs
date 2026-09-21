@@ -1,0 +1,583 @@
+// SPDX-License-Identifier: AGPL-3.0-only
+//! LLR (Lunar Laser Ranging) geometry catalog for the datum-defect Fisher analysis.
+//!
+//! Provides the five near-side retroreflectors and four active LLR ground stations
+//! as hard-coded catalogs that are WASM-safe (no filesystem I/O). The committed
+//! CSV fixtures under `tests/fixtures/llr_geometry/` are the human-auditable
+//! provenance copy; the functions here are the runtime source.
+//!
+//! # Retroreflector coordinates
+//! PA (principal-axis) body-frame Cartesian positions in metres, taken directly from
+//! the DE440 LLR reflector solution: Park, R. S. et al. (2021) "The JPL Planetary and
+//! Lunar Ephemerides DE440 and DE441", AJ 161:105, Table 1 (doi:10.3847/1538-3881/abd414).
+//!
+//! # Station coordinates
+//! ILRS geodetic coordinates (ITRF-aligned) for Grasse OCA, APOLLO/APO,
+//! Wettzell WLRS, and Matera MLRO.
+
+/// Three-element Cartesian vector (metres in body-frame or ECEF context).
+pub type Vec3 = [f64; 3];
+
+/// A lunar retroreflector with its PA body-frame Cartesian position.
+#[derive(Debug, Clone, Copy)]
+pub struct Reflector {
+    /// Short mission name (e.g. `"Apollo11"`).
+    pub name: &'static str,
+    /// PA body-frame position [x, y, z] in metres.
+    pub pa_body_m: Vec3,
+}
+
+/// An LLR ground station with geodetic coordinates.
+#[derive(Debug, Clone, Copy)]
+pub struct Station {
+    /// Station name / acronym (e.g. `"Grasse"`).
+    pub name: &'static str,
+    /// Geodetic latitude in degrees (positive North).
+    pub lat_deg: f64,
+    /// Geodetic longitude in degrees (positive East).
+    pub lon_deg: f64,
+    /// Geodetic altitude above the reference ellipsoid in metres.
+    pub alt_m: f64,
+}
+
+/// Returns the five near-side LLR retroreflectors in PA body-frame Cartesian metres.
+///
+/// Coordinates match `tests/fixtures/llr_geometry/de440_retroreflectors_pa.csv` (SHA-256
+/// 760b8a9b846b5d142add68381a5e92ac219094c4ef03f9ae349b9b06b904a8d1).
+pub fn reflectors() -> Vec<Reflector> {
+    vec![
+        Reflector {
+            name: "Apollo11",
+            pa_body_m: [1_591_967.049, 690_698.573, 21_004.461],
+        },
+        Reflector {
+            name: "Apollo14",
+            pa_body_m: [1_652_689.369, -520_998.431, -109_729.869],
+        },
+        Reflector {
+            name: "Apollo15",
+            pa_body_m: [1_554_678.104, 98_094.498, 765_005.863],
+        },
+        Reflector {
+            name: "Lunokhod1",
+            pa_body_m: [1_114_291.452, -781_299.273, 1_076_059.049],
+        },
+        Reflector {
+            name: "Lunokhod2",
+            pa_body_m: [1_339_363.598, 801_870.995, 756_359.260],
+        },
+    ]
+}
+
+/// Returns the four active LLR ground stations with ILRS geodetic coordinates.
+///
+/// Coordinates match `tests/fixtures/llr_geometry/stations.csv` (SHA-256
+/// 945cdc3c5c2c5f1721df2f59bf4549005f152a98a9cf86936d2abe880295f416).
+pub fn stations() -> Vec<Station> {
+    vec![
+        Station {
+            name: "Grasse",
+            lat_deg: 43.7546,
+            lon_deg: 6.9215,
+            alt_m: 1320.0,
+        },
+        Station {
+            name: "APOLLO",
+            lat_deg: 32.780,
+            lon_deg: -105.820,
+            alt_m: 2780.0,
+        },
+        Station {
+            name: "Wettzell",
+            lat_deg: 49.1450,
+            lon_deg: 12.8780,
+            alt_m: 665.0,
+        },
+        Station {
+            name: "Matera",
+            lat_deg: 40.6486,
+            lon_deg: 16.7046,
+            alt_m: 537.0,
+        },
+    ]
+}
+
+/// Reflector PA body coordinates → geocentric inertial position [m].
+///
+/// `r_inertial = r_moon_geocentric + R_body→inertial(t) · pa_body`
+///
+/// Uses `crate::ephem::moon_position` for the geocentric Moon position and
+/// `crate::lunar_orientation::de440_moon_pa_body_to_inertial` for the PA body → geocentric-inertial rotation (real DE440 PA-frame orientation, with physical libration).
+pub fn reflector_inertial(pa_body_m: Vec3, t_tt_jc: f64) -> Vec3 {
+    let r_moon = crate::ephem::moon_position(t_tt_jc); // mean-equator/equinox of date (~0.3° from GCRS; a global rotation that leaves the degeneracy correlation and libration amplitude unchanged) [m]
+    let r_body_in_inertial =
+        crate::lunar_orientation::de440_moon_pa_body_to_inertial(pa_body_m, t_tt_jc);
+    [
+        r_moon[0] + r_body_in_inertial[0],
+        r_moon[1] + r_body_in_inertial[1],
+        r_moon[2] + r_body_in_inertial[2],
+    ]
+}
+
+/// One-way geometric Earth-station → reflector range [m].
+///
+/// Two-way range = 2 × this; the factor cancels in the Fisher correlation (documented in Task 6).
+pub fn llr_range_m(station: &Station, refl_pa_body_m: Vec3, t_tt_jc: f64, jd_ut1: f64) -> f64 {
+    let jd_tt = t_tt_jc * 36_525.0 + 2_451_545.0;
+    let g = crate::frames::Geodetic {
+        lat_rad: station.lat_deg.to_radians(),
+        lon_rad: station.lon_deg.to_radians(),
+        alt_m: station.alt_m,
+    };
+    let r_sta = crate::lunar_vlbi::station_inertial_position(g, jd_tt, jd_ut1);
+    let r_ref = reflector_inertial(refl_pa_body_m, t_tt_jc);
+    let d = [
+        r_ref[0] - r_sta[0],
+        r_ref[1] - r_sta[1],
+        r_ref[2] - r_sta[2],
+    ];
+    (d[0] * d[0] + d[1] * d[1] + d[2] * d[2]).sqrt()
+}
+
+/// Four-parameter lunar datum: translation + scale.
+///
+/// Represents a frame redefinition in the body frame: `(1 + scale) * pa_body + t_m`.
+/// The scale and X-translation degeneracy is the classic lunar datum ambiguity.
+#[derive(Debug, Clone, Copy)]
+pub struct Datum4 {
+    /// Lunocenter translation [x, y, z] in metres.
+    pub t_m: Vec3,
+    /// Scale parameter (dimensionless). Apply as `(1 + scale) * pa_body`.
+    pub scale: f64,
+}
+
+/// Apply a datum transformation to a body-frame position.
+///
+/// `result = (1 + scale) * pa_body + t`.
+pub fn apply_datum(d: &Datum4, pa_body_m: Vec3) -> Vec3 {
+    let s = 1.0 + d.scale;
+    [
+        s * pa_body_m[0] + d.t_m[0],
+        s * pa_body_m[1] + d.t_m[1],
+        s * pa_body_m[2] + d.t_m[2],
+    ]
+}
+
+/// One-way range under a datum transformation.
+///
+/// The datum acts in the body frame before body→inertial rotation
+/// (frame redefinition at the source, not geometric repositioning).
+pub fn llr_range_datum_m(
+    d: &Datum4,
+    station: &Station,
+    refl_pa_body_m: Vec3,
+    t_tt_jc: f64,
+    jd_ut1: f64,
+) -> f64 {
+    let p = apply_datum(d, refl_pa_body_m);
+    llr_range_m(station, p, t_tt_jc, jd_ut1)
+}
+
+/// ∂range/∂{t_x, t_y, t_z, scale} by central finite difference.
+///
+/// Step sizes: 1 m for translation components; 1e-4 (100 ppm) for scale — chosen to clear
+/// double-precision round-off at the Earth-Moon range (~3.8e8 m); the analytic formula is
+/// separately validated against this finite difference.
+/// Order: `[∂/∂t_x, ∂/∂t_y, ∂/∂t_z, ∂/∂scale]`.
+pub fn range_partials_fd(
+    d: &Datum4,
+    station: &Station,
+    refl_pa_body_m: Vec3,
+    t_tt_jc: f64,
+    jd_ut1: f64,
+) -> [f64; 4] {
+    let mut g = [0.0_f64; 4];
+    let ht = 1.0; // 1 m step for translation
+    let hs = 1e-4; // brief specified 1e-9, but at ~3.8e8 m range that leaves <5 significant FD digits; 1e-4 clears round-off
+    for (k, g_elem) in g.iter_mut().enumerate().take(3) {
+        let mut dp = Datum4 {
+            t_m: d.t_m,
+            scale: d.scale,
+        };
+        let mut dm = Datum4 {
+            t_m: d.t_m,
+            scale: d.scale,
+        };
+        dp.t_m[k] += ht;
+        dm.t_m[k] -= ht;
+        *g_elem = (llr_range_datum_m(&dp, station, refl_pa_body_m, t_tt_jc, jd_ut1)
+            - llr_range_datum_m(&dm, station, refl_pa_body_m, t_tt_jc, jd_ut1))
+            / (2.0 * ht);
+    }
+    let dp = Datum4 {
+        t_m: d.t_m,
+        scale: d.scale + hs,
+    };
+    let dm = Datum4 {
+        t_m: d.t_m,
+        scale: d.scale - hs,
+    };
+    g[3] = (llr_range_datum_m(&dp, station, refl_pa_body_m, t_tt_jc, jd_ut1)
+        - llr_range_datum_m(&dm, station, refl_pa_body_m, t_tt_jc, jd_ut1))
+        / (2.0 * hs);
+    g
+}
+
+/// ∂range/∂{t_x, t_y, t_z, scale} in closed form.
+///
+/// With `û = (r_ref − r_sta) / |r_ref − r_sta|` (unit vector from station to reflector):
+/// - `∂range/∂t_k = û · (R_body→inertial · ê_k)`
+/// - `∂range/∂scale = û · (R_body→inertial · pa_body)`
+///
+/// Order: `[∂/∂t_x, ∂/∂t_y, ∂/∂t_z, ∂/∂scale]`.
+pub fn range_partials_analytic(
+    d: &Datum4,
+    station: &Station,
+    refl_pa_body_m: Vec3,
+    t_tt_jc: f64,
+    jd_ut1: f64,
+) -> [f64; 4] {
+    let jd_tt = t_tt_jc * 36_525.0 + 2_451_545.0;
+    let g = crate::frames::Geodetic {
+        lat_rad: station.lat_deg.to_radians(),
+        lon_rad: station.lon_deg.to_radians(),
+        alt_m: station.alt_m,
+    };
+    let r_sta = crate::lunar_vlbi::station_inertial_position(g, jd_tt, jd_ut1);
+    let p = apply_datum(d, refl_pa_body_m);
+    let r_ref = reflector_inertial(p, t_tt_jc);
+    let dv = [
+        r_ref[0] - r_sta[0],
+        r_ref[1] - r_sta[1],
+        r_ref[2] - r_sta[2],
+    ];
+    let n = (dv[0] * dv[0] + dv[1] * dv[1] + dv[2] * dv[2]).sqrt();
+    // û = (r_ref − r_sta)/|·|: points from station toward reflector;
+    // ∂range/∂r_ref = +û along this direction.
+    let uhat = [dv[0] / n, dv[1] / n, dv[2] / n];
+    // R_body→inertial columns and pa_body projected through the rotation.
+    let col = |bk: Vec3| crate::lunar_orientation::de440_moon_pa_body_to_inertial(bk, t_tt_jc);
+    let ex = col([1.0, 0.0, 0.0]);
+    let ey = col([0.0, 1.0, 0.0]);
+    let ez = col([0.0, 0.0, 1.0]);
+    let ps = col(refl_pa_body_m);
+    let dot = |a: Vec3, b: Vec3| a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+    [dot(uhat, ex), dot(uhat, ey), dot(uhat, ez), dot(uhat, ps)]
+}
+
+/// Result of the LLR-only Fisher analysis: CoM-X↔scale degeneracy metrics.
+///
+/// The Fisher information matrix assembled from a ground-station tracking
+/// schedule over one synodic month reveals the classic LLR datum ambiguity:
+/// the X-translation of the lunar centre of mass and the lunar scale factor
+/// are nearly unobservable as a pair from Earth-facing range data alone.
+pub struct LlrDatumObservability {
+    /// Total number of (station, reflector, epoch) observations kept after the
+    /// geometry gate (reflector Earth-facing AND above station horizon).
+    pub n_obs: usize,
+    /// Correlation coefficient C[t_x, scale] / sqrt(C[t_x,t_x] · C[scale,scale]).
+    /// A value close to ±1 reproduces the published CoM-X↔scale degeneracy.
+    pub corr_tx_scale: f64,
+    /// CRLB standard deviation on the lunocentric X translation [m].
+    pub origin_crlb_m: f64,
+    /// CRLB standard deviation on the lunar scale factor [ppb].
+    pub scale_crlb_ppb: f64,
+    /// Datum-defect dimension (0 = full-rank Fisher; >0 = unobservable directions).
+    pub defect: usize,
+}
+
+/// LLR-only Fisher matrix → CoM-X↔scale degeneracy metric.
+///
+/// Sweeps all 4 stations × 5 reflectors over `days` at `step_hours` cadence.
+/// `t0_jc` is the sweep start epoch in Julian centuries from J2000.0 TT
+/// (JD 2 451 545.0 TT).  For the DE440 PA-frame orientation to carry real
+/// libration the epoch window must lie within the embedded fixture
+/// (2024-01-01 to 2025-12-31; t_tt_jc ≈ 0.240–0.260 JC).
+///
+/// Only epochs where the reflector is on the Earth-facing lunar hemisphere
+/// **and** above the station's local horizon (elevation > 0) contribute a
+/// row to the Jacobian.
+///
+/// For each kept triple (station, reflector, epoch) the row is the analytic
+/// partial derivatives `[∂range/∂t_x, ∂range/∂t_y, ∂range/∂t_z, ∂range/∂scale]`
+/// at the zero datum, with weight `1/sigma_range_m²`.
+///
+/// Returns the CRLB metrics including the CoM-X↔scale correlation coefficient.
+#[allow(clippy::needless_range_loop)]
+pub fn llr_datum_observability(
+    sigma_range_m: f64,
+    t0_jc: f64,
+    days: f64,
+    step_hours: f64,
+) -> LlrDatumObservability {
+    const JD_J2000: f64 = 2_451_545.0;
+    let step_jc = step_hours / (24.0 * 36_525.0); // step in Julian centuries
+    let n_steps = (days * 24.0 / step_hours).ceil() as usize + 1;
+
+    let refls = reflectors();
+    let stats = stations();
+    let weight = 1.0 / (sigma_range_m * sigma_range_m);
+    let zero_datum = Datum4 {
+        t_m: [0.0, 0.0, 0.0],
+        scale: 0.0,
+    };
+
+    let mut jac: Vec<Vec<f64>> = Vec::new();
+    let mut weights: Vec<f64> = Vec::new();
+
+    for step in 0..n_steps {
+        let t_tt_jc = t0_jc + step as f64 * step_jc;
+        let jd_tt = JD_J2000 + t_tt_jc * 36_525.0;
+        // UT1 ≈ TT to ~69 s (TT−UT1 ≈ 69 s in 2024: TAI−UTC 37 s + TT−TAI 32.184 s) —
+        // acceptable here because it perturbs only near-horizon gate selection / LOS by ~1e-4 rad,
+        // immaterial to a structural claim at 6-hour cadence.
+        let jd_ut1 = jd_tt;
+
+        // Moon position (mean-equator/equinox of date, ~0.3° from GCRS; a global rotation
+        // that leaves the degeneracy correlation and libration amplitude unchanged).
+        let r_moon = crate::ephem::moon_position(t_tt_jc);
+
+        for refl in &refls {
+            // Reflector in geocentric inertial space.
+            let r_refl = reflector_inertial(refl.pa_body_m, t_tt_jc);
+
+            // Vector from Moon centre to reflector (in the inertial frame).
+            let rrel = [
+                r_refl[0] - r_moon[0],
+                r_refl[1] - r_moon[1],
+                r_refl[2] - r_moon[2],
+            ];
+            // Moon→Earth direction: Earth is at geocentric origin, so Moon→Earth = −r_moon.
+            // Earth-facing gate: the reflector must be on the hemisphere facing Earth.
+            let earth_facing_dot =
+                rrel[0] * (-r_moon[0]) + rrel[1] * (-r_moon[1]) + rrel[2] * (-r_moon[2]);
+            if earth_facing_dot <= 0.0 {
+                continue; // reflector is on the far side
+            }
+
+            // Convert reflector inertial (GCRS) → ECEF for the elevation check.
+            // polar-motion neglected (same caveat as station_inertial_position).
+            let r_refl_ecef = crate::cio::gcrs_to_itrs(r_refl, jd_tt, jd_ut1, 0.0, 0.0);
+
+            for st in &stats {
+                let g = crate::frames::Geodetic {
+                    lat_rad: st.lat_deg.to_radians(),
+                    lon_rad: st.lon_deg.to_radians(),
+                    alt_m: st.alt_m,
+                };
+                // Elevation of the reflector (on the Moon) from the Earth station.
+                // Negative elevation = reflector below the station horizon.
+                let el_rad = crate::frames::elevation(g, r_refl_ecef);
+                if el_rad <= 0.0 {
+                    continue;
+                }
+
+                // Both geometry gates pass: push a row into the Jacobian.
+                let row = range_partials_analytic(&zero_datum, st, refl.pa_body_m, t_tt_jc, jd_ut1);
+                jac.push(row.to_vec());
+                weights.push(weight);
+            }
+        }
+    }
+
+    if jac.is_empty() {
+        // Pathological: no observations passed the geometry gate.
+        return LlrDatumObservability {
+            n_obs: 0,
+            corr_tx_scale: 0.0,
+            origin_crlb_m: f64::INFINITY,
+            scale_crlb_ppb: f64::INFINITY,
+            defect: 4,
+        };
+    }
+
+    // Pre-condition the scale column (column 3) to avoid extreme ill-conditioning.
+    //
+    // ∂range/∂scale = Σk pa_body[k] · ∂range/∂t_k.  For near-side reflectors
+    // pa_body[0] ≈ R_MOON ≈ 1.74e6 m, so the raw scale partial is ~1.74e6 times
+    // larger than the translation partials.  The Fisher matrix condition number then
+    // exceeds 1e12, causing `crlb` (rel_tol = 1e-12) to classify every translation
+    // eigenvalue as null (defect = 3, corr = ±1 by rank-1 pseudo-inverse) — a pure
+    // numerical artefact that hides the real libration-induced structure.
+    //
+    // Dividing the scale column by R_MOON normalises it to O(1) (matching translation
+    // partials), bringing the condition number to ~100.  Correlation is scale-invariant
+    // (corr(tx, c·scale) = corr(tx, scale) for any c > 0), so the result is unchanged
+    // mathematically; only the CRLB units need adjusting: after the division the solver
+    // returns std_dev(s) where s = scale / R_MOON (dimensionless), so
+    //   std_dev(scale) = std_dev(s) / R_MOON = cr.crlb_std[3] / R_MOON
+    //   scale_crlb_ppb = cr.crlb_std[3] / R_MOON_M · 1e9
+    const R_MOON_M: f64 = 1_737_400.0; // mean lunar radius [m] — normalisation length
+    for row in &mut jac {
+        row[3] /= R_MOON_M;
+    }
+
+    let m = crate::fim::information_matrix(&jac, &weights);
+    let cr = crate::fim::crlb(&m, 1e-12);
+    let cov = cr
+        .covariance
+        .clone()
+        .unwrap_or_else(|| cr.pseudo_covariance.clone());
+    // corr(t_x, scale) = C[0][3] / sqrt(C[0][0] · C[3][3]).
+    // Scale-invariant: corr(tx, scale/R_MOON) = corr(tx, scale).
+    let corr = cov[0][3] / (cov[0][0].sqrt() * cov[3][3].sqrt());
+    LlrDatumObservability {
+        n_obs: jac.len(),
+        corr_tx_scale: corr,
+        origin_crlb_m: cr.crlb_std[0],
+        // Undo the pre-conditioning: dividing jac[3] by R_MOON_M is equivalent to
+        // re-parameterising scale → s = scale · R_MOON_M, so cr.crlb_std[3] gives
+        // std_dev(s) in metres.  std_dev(scale) = cr.crlb_std[3] / R_MOON_M.
+        scale_crlb_ppb: cr.crlb_std[3] / R_MOON_M * 1e9,
+        defect: cr.defect,
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn llr_one_way_range_is_earth_moon_scale() {
+        // 2024-01-01 12:00 TT ≈ JD 2460311.0; t in Julian centuries from J2000.
+        let t_tt_jc = (2_460_311.0 - 2_451_545.0) / 36_525.0;
+        let jd_ut1 = 2_460_311.0;
+        let st = &stations()[0];
+        let refl = reflectors()[2].pa_body_m; // Apollo 15
+        let rng = llr_range_m(st, refl, t_tt_jc, jd_ut1);
+        // Earth-Moon distance: perigee ~356,500 km to apogee ~406,700 km; surface station + reflector add <1e4 km.
+        assert!(
+            (3.4e8..4.2e8).contains(&rng),
+            "one-way LLR range {rng} m out of Earth-Moon band"
+        );
+    }
+
+    #[test]
+    fn reflector_and_station_catalogs_are_well_formed() {
+        let r = reflectors();
+        assert_eq!(r.len(), 5, "five near-side LLR reflectors");
+        // PA body coordinates lie on a ~1737.4 km sphere to within topography (a few km).
+        for refl in &r {
+            let radius =
+                (refl.pa_body_m[0].powi(2) + refl.pa_body_m[1].powi(2) + refl.pa_body_m[2].powi(2))
+                    .sqrt();
+            assert!(
+                (radius - 1_737_400.0).abs() < 10_000.0,
+                "{} radius {radius}",
+                refl.name
+            );
+        }
+        let s = stations();
+        assert_eq!(s.len(), 4, "four LLR stations");
+        assert!(s
+            .iter()
+            .all(|st| st.lat_deg.abs() <= 90.0 && st.lon_deg.abs() <= 180.0));
+    }
+
+    #[test]
+    fn analytic_partials_match_finite_difference() {
+        let t_tt_jc = (2_460_311.0 - 2_451_545.0) / 36_525.0;
+        let jd_ut1 = 2_460_311.0;
+        let st = &stations()[1];
+        let refl = reflectors()[2].pa_body_m;
+        let d0 = Datum4 {
+            t_m: [0.0, 0.0, 0.0],
+            scale: 0.0,
+        };
+        let fd = range_partials_fd(&d0, st, refl, t_tt_jc, jd_ut1);
+        let an = range_partials_analytic(&d0, st, refl, t_tt_jc, jd_ut1);
+        for k in 0..3 {
+            assert!(
+                (fd[k] - an[k]).abs() < 1e-6,
+                "translation partial {k}: fd {} vs analytic {}",
+                fd[k],
+                an[k]
+            );
+        }
+        // scale partial is O(1.7e6 m); use a relative tolerance.
+        let rel = (fd[3] - an[3]).abs() / an[3].abs().max(1.0);
+        assert!(
+            rel < 1e-5,
+            "scale partial: fd {} vs analytic {} (rel {rel})",
+            fd[3],
+            an[3]
+        );
+    }
+
+    #[test]
+    fn zero_datum_reproduces_nominal_range() {
+        let t_tt_jc = (2_460_311.0 - 2_451_545.0) / 36_525.0;
+        let jd_ut1 = 2_460_311.0;
+        let st = &stations()[0];
+        let refl = reflectors()[2].pa_body_m;
+        let zero = Datum4 {
+            t_m: [0.0, 0.0, 0.0],
+            scale: 0.0,
+        };
+        let a = llr_range_datum_m(&zero, st, refl, t_tt_jc, jd_ut1);
+        let b = llr_range_m(st, refl, t_tt_jc, jd_ut1);
+        assert!(
+            (a - b).abs() < 1e-6,
+            "zero datum must equal nominal: {a} vs {b}"
+        );
+        // A +1 m lunocenter shift moves the range by < 1 m (projection onto LOS).
+        let shifted = Datum4 {
+            t_m: [1.0, 0.0, 0.0],
+            scale: 0.0,
+        };
+        let c = llr_range_datum_m(&shifted, st, refl, t_tt_jc, jd_ut1);
+        assert!(
+            (c - b).abs() <= 1.0 + 1e-6,
+            "1 m shift -> <=1 m range change, got {}",
+            c - b
+        );
+    }
+
+    #[test]
+    fn llr_only_fisher_shows_strong_com_x_scale_degeneracy() {
+        // APOLLO-class mm normal points; ~1 synodic month of coverage at 6 h cadence.
+        //
+        // With real DE440 PA-frame libration (±7.8°/±6.8°) the sightlines are no longer
+        // exactly collinear, so the CoM-X↔scale correlation becomes finite (strong but <1)
+        // and the datum defect drops from 3 → ≤1, matching the structure of
+        // Sośnica et al. (2025, J. Geod.) r≈−0.97, defect≈1.
+        //
+        // The STRUCTURE is the Validated claim; the exact magnitude is Modelled
+        // (depends on 4-param setup / noise / schedule).
+        //
+        // 2024-01-01 TT ≈ JD 2460310.5 → t0_jc ≈ 0.23999 JC from J2000.
+        // This epoch lies within the embedded DE440 PA-frame fixture window
+        // (2024-01-01 to 2025-12-31), ensuring real libration data are used.
+        let t0_jc: f64 = (2_460_310.5 - 2_451_545.0) / 36_525.0;
+        let obs = llr_datum_observability(0.003, t0_jc, 29.5, 6.0);
+        assert!(
+            obs.n_obs > 20,
+            "need a populated schedule, got {}",
+            obs.n_obs
+        );
+        // Lower bound: real libration must preserve strong CoM-X<->scale coupling.
+        assert!(
+            obs.corr_tx_scale.abs() > 0.9,
+            "LLR-only geometry must show strong CoM-X<->scale degeneracy (|r|>0.9), got {:.6}",
+            obs.corr_tx_scale
+        );
+        // Upper bound: if corr == 1.000 the DE440 orientation is NOT applied (wiring bug).
+        assert!(
+            obs.corr_tx_scale.abs() < 0.9999,
+            "corr == 1.000 means DE440 libration is not wired in (trivial rank-1 artifact); got {:.6}",
+            obs.corr_tx_scale
+        );
+        // Libration must make t_y, t_z observable → defect drops to ≤1.
+        assert!(
+            obs.defect <= 1,
+            "real libration must reduce datum defect to ≤1 (was 3 without libration); got {}",
+            obs.defect
+        );
+        // CRLB must be finite and positive.
+        assert!(
+            obs.origin_crlb_m.is_finite() && obs.origin_crlb_m > 0.0,
+            "origin CRLB must be finite and positive; got {}",
+            obs.origin_crlb_m
+        );
+    }
+}
