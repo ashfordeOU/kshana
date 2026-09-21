@@ -4,9 +4,9 @@
   "repo_blob_base": "https://github.com/AshfordeOU/kshana/blob/main/",
   "summary": {
     "validated": 60,
-    "modelled": 85,
+    "modelled": 86,
     "partner_owned": 4,
-    "total": 149
+    "total": 150
   },
   "rows": [
     {
@@ -2171,6 +2171,23 @@
         {
           "path": "src/lunar_vlbi.rs",
           "url": "https://github.com/AshfordeOU/kshana/blob/main/src/lunar_vlbi.rs"
+        }
+      ],
+      "test_links": [],
+      "fixture": null
+    },
+    {
+      "requirement": "Earth-GNSS at lunar distance",
+      "capability": "Earth-GNSS reception at lunar distance: the weak-signal layer P7 Table 1 names and the engine had no model for. Per satellite and per epoch it computes the off-boresight angle against the transmitter nadir, whether the Earth occults the straight path, the slant range and its free-space loss, the transmit gain at that angle, the received power and the carrier-to-noise density; it then aggregates only the links clearing a tracking threshold, and sweeps a full constellation revolution so the answer is a DISTRIBUTION rather than one snapshot. Three facts drive the result and the report states each: the Earth subtends 13.90 deg from the constellation radius so the beam PEAK is geometrically unavailable to any lunar-bound ray; what remains is the main-lobe edge and the sidelobes, the regime LuGRE operated in at the Moon in 2025; and the L1 path loss is about 208 dB, some 25 dB more than a terrestrial user pays. MEASURED on the bundled 24-satellite GPS-class geometry over 64 epochs of one orbital period: SIGNAL availability 0.375 with a best link of 30.93 dB-Hz, and FIX availability 0.000 - at most two simultaneous trackable links, never the four a position needs. The separation of those two availabilities is the point, and the report refuses to let them be confused: Earth-GNSS at lunar distance is a TIMING-grade layer, not a position-grade one, and a layered-resilience prior must take the fix availability. The conditioning is emitted for the same reason - every visible satellite lies inside a cone a couple of degrees wide as seen from the Moon, so the lines of sight are near-parallel by construction. Runnable as the `earth-gnss-lunar` kind",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "Closed-form identities and internal consistency; NO external oracle is claimed. The limb half angle is checked against asin(R_earth/r_orbit) and the geometry against it; the free-space loss, the DOP kernel and the SGP4 propagation this composes are each externally validated in their own rows and this row does not borrow their status. WHY MODELLED, and it is the transmit pattern: the gain at angle is a uniformly illuminated circular aperture, the Airy pattern, while a real GPS L1 antenna is a twelve-element helical array with a shaped main lobe peaked off-boresight to even out power across the Earth disc and sidelobes that are not Airy. Published measured patterns exist and are not vendored here, so orderings and orders of magnitude carry, while the dB of any single satellite does not. A FIRST IMPLEMENTATION OF THIS ROW WAS WRONG IN A WAY WORTH RECORDING: the Airy expression is valid only in the forward hemisphere, its argument goes as sin(theta), and at theta near 180 deg it wraps around and returns FULL BORESIGHT GAIN behind the aperture - so the two strongest links in the first report were satellites pointing their antennas away from the Moon, and they were the only two that cleared the threshold. Behind the aperture the model now applies a flat back-lobe floor, stated as a bound rather than a fabricated pattern shape. Deliberately absent, each making the budget OPTIMISTIC: no ionospheric or tropospheric loss on the limb-grazing rays, no polarisation, pointing or implementation loss, and a spherical Earth with no refractive extension. The Moon position is an INPUT, not an ephemeris lookup, because the quantity under test is the link and the beam geometry. Upgrading this row to Validated needs a measured transmit pattern and LuGRE normal points to check against; neither is in the repository and neither is invented here",
+      "module": "earth_gnss_lunar",
+      "tests": "earth_gnss_lunar::tests (11 lib tests: the Earth-limb half angle against its closed form asin(R/r) with a further assertion that EVERY un-occulted link lies outside that cone, so the occultation test and the limb angle cannot disagree; the occultation predicate checked on the near side, the far side and the case where the body lies BEHIND the transmitter; path loss bounded to the plausible lunar-range band on every link; the trackable set shown to be a subset of the geometrically visible set and disjoint from the occulted one; monotonicity in both directions - more receiving gain never reduces the count, a stricter threshold never raises it; no link credited with more than boresight gain; a receiver inside the Earth refused; the sweep asserted to actually VARY with epoch; and signal-vs-fix availability asserted distinct, correctly ordered, and consistent with the per-epoch rows)",
+      "module_links": [
+        {
+          "path": "src/earth_gnss_lunar.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/earth_gnss_lunar.rs"
         }
       ],
       "test_links": [],

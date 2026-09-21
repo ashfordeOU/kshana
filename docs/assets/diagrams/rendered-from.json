@@ -15,11 +15,11 @@
     },
     "system-overview.png": {
       "svg": "system-overview.svg",
-      "svg_sha256": "acb7f03a78b93f59fd06eb4469804d325ec194818504c1d7eef6160825d1fe4a"
+      "svg_sha256": "724ef3ee55c3ac00143bd9e5ebdff6147add2a9509ed8d207ea8c161f29a4816"
     },
     "validation-provenance.png": {
       "svg": "validation-provenance.svg",
-      "svg_sha256": "43db3327559aaf7bee7b31e129d1c8bb004d5ade57bb0d688f7736f53ac5a2f0"
+      "svg_sha256": "f52596c882bf11b4b9cbf4fd81b3c509b82a3e01c7ed13a64d8d09e102d39932"
     }
   }
 }

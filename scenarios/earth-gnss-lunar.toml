@@ -1,0 +1,74 @@
+# Earth-GNSS reception at lunar distance.
+#
+# A GNSS constellation is built to serve users under it. A receiver near the Moon is
+# roughly fifteen times the orbital radius away, outside that service volume entirely, and
+# three facts decide whether it can hear anything at all:
+#
+#   1. THE EARTH BLOCKS THE BORESIGHT. From 26,560 km the Earth subtends a half-angle of
+#      about 13.9 deg. Any ray that reaches the Moon must therefore leave the transmitter
+#      at least that far off nadir — the peak of the beam is geometrically unavailable
+#      before a single dB is computed.
+#   2. WHAT IS LEFT IS THE EDGE OF THE MAIN LOBE AND THE SIDELOBES. The usable rays sit in
+#      a thin annulus just outside the limb, where the transmit gain is already falling.
+#      This is the regime the LuGRE payload operated in when it tracked GNSS at the Moon
+#      in 2025.
+#   3. THE PATH LOSS IS ABOUT 208 dB AT L1 — some 25 dB more than a terrestrial user pays.
+#      The budget closes only with a high-gain receiving antenna, and it closes narrowly.
+#
+# The run reports one row per satellite (off-boresight angle, Earth occultation, range,
+# path loss, transmit gain at that angle, received power, C/N0) and then aggregates only
+# the links that clear the tracking threshold.
+#
+# READ THE CONDITIONING, NOT JUST THE COUNT
+# Every satellite the receiver can hear lies inside a cone a couple of degrees wide, so the
+# lines of sight are nearly parallel and the dilution of precision is enormous. That is not
+# a defect of the model; it is the defining property of the layer. An Earth-GNSS fix at
+# lunar distance is a TIMING-grade observation far more than a position-grade one, and the
+# report prints the DOP rather than quietly omitting it.
+#
+# WHAT IS MODELLED, AND WHY IT IS NOT VALIDATED
+# The transmit gain at angle is a uniformly illuminated circular aperture — an Airy
+# pattern. A real GPS L1 antenna is a twelve-element helical array whose measured pattern
+# has a shaped main lobe, deliberately peaked off-boresight to even out power across the
+# Earth disc, and sidelobes that are not Airy at all. Measured patterns are published; they
+# are not vendored in this repository, so they are not used here. Orderings and orders of
+# magnitude are meaningful. The dB of any single satellite is not.
+#
+# Also absent, and every one of these makes the budget OPTIMISTIC: no ionospheric or
+# tropospheric loss on the limb-grazing rays (which do clip the upper atmosphere at small
+# clearance angles), no polarisation mismatch, no pointing loss, no receiver implementation
+# loss, and a spherical Earth with no refractive extension of the occultation.
+#
+# Upgrading this to Validated needs two things the repository does not hold: a measured
+# transmit pattern, and LuGRE normal points to check against. Neither is invented here.
+#
+# The Moon position is an INPUT — a range and an inertial direction — not an ephemeris
+# lookup. What is under test is the link and the beam geometry; the engine models the lunar
+# ephemeris elsewhere and coupling them would only obscure which part is being checked.
+
+kind = "earth-gnss-lunar"
+
+# The constellation: a 24-satellite Walker at GPS altitude and inclination.
+altitude_km = 20180.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 2.0
+epoch_s = 0.0
+
+# The receiver, at the mean lunar distance along the inertial x-axis.
+receiver_range_m = 384400000.0
+receiver_ra_deg = 0.0
+receiver_dec_deg = 0.0
+
+# Transmitter: about 27 W into an aperture sized so the boresight gain lands near the
+# 13 dBi a GPS L1 antenna is usually quoted at.
+tx_power_dbw = 13.4
+tx_diameter_m = 0.35
+tx_efficiency = 0.6
+freq_hz = 1575420000.0
+
+# Receiver: a modest high-gain lunar antenna and a room-temperature system.
+rx_gain_dbi = 12.0
+system_temp_k = 290.0
+tracking_threshold_dbhz = 25.0
