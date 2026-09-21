@@ -2,6 +2,7 @@
 *.result.json
 *.chart.svg
 *.report.html
+*.table.csv
 
 # Compiled Java oracle drivers under test fixtures: the .java source IS committed
 # (it generates the pinned reference vectors); the .class build output is not.
