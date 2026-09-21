@@ -110,7 +110,8 @@ breaking changes are called out explicitly.
   `InternalConsistency` / **MODELLED** — the total is checked against the
   root-sum-square of the terms in the same file, which shares the engine's own
   term definitions and is therefore not an independent oracle. Together these
-  move the matrix to **105 rows — 56 VALIDATED, 45 MODELLED, 4 PARTNER**.
+  add three rows. The running total for this unreleased section is
+  **168 rows — 64 VALIDATED, 100 MODELLED, 4 PARTNER**.
 
 ### Fixed
 
