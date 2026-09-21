@@ -2916,4 +2916,53 @@ mod tests {
             .expect("the bundled tracking-loop scenario runs");
         assert_eq!(file.json, out.json);
     }
+
+    /// The engine-flow diagram states how many figures of merit the engine scores. Pin
+    /// that number to [`FOM_LABELS`], which is the set the report and the tier lookup
+    /// both read, so the picture cannot drift from the engine.
+    ///
+    /// It already had. The diagram, its committed SVG and the README's inline copy all
+    /// said "the 6 figures of merit" while `FoMScores` carried seven — `timing_p95_ns`
+    /// was added and the figure was never revisited. Nothing caught it: every other
+    /// diagram has a doc-sync guard, and these two (engine-flow, distribution) had none
+    /// since June. A published figure that contradicts the code is worse than no figure,
+    /// because a reader has no reason to doubt it.
+    ///
+    /// The SVG is checked separately from the prose because mermaid splits a label into
+    /// one element per word — the count lands in its own `<tspan>`, so no phrase search
+    /// over the rendered file can ever see it. That is precisely why this went unnoticed.
+    #[test]
+    fn the_engine_flow_diagram_states_the_live_figure_of_merit_count() {
+        let n = FOM_LABELS.len();
+        assert!(
+            n >= 5,
+            "FOM_LABELS collapsed to {n} — the guard would be vacuous"
+        );
+
+        let phrase = format!("vs the {n} figures of merit");
+        for (name, body) in [
+            (
+                "docs/diagrams/engine-flow.mmd",
+                include_str!("../docs/diagrams/engine-flow.mmd"),
+            ),
+            ("README.md", include_str!("../README.md")),
+        ] {
+            assert!(
+                body.contains(&phrase),
+                "{name} does not say {phrase:?}; the engine scores {n} figures of merit                  (FOM_LABELS). Fix the .mmd AND the README's inline mermaid block AND the                  committed SVG, then re-render the PNG with tools/render-diagram.sh — the                  README embeds the PNG, not the source."
+            );
+        }
+
+        // The rendered SVG: mermaid emits the number as its own tspan, so look for the
+        // digit as a standalone text node rather than inside the sentence.
+        let svg = include_str!("../docs/assets/diagrams/engine-flow.svg");
+        assert!(
+            svg.contains("> figures<") && svg.contains("> merit<"),
+            "the engine-flow SVG no longer splits the label word-per-word; this guard's              assumption about the rendering changed, so re-derive it rather than delete it"
+        );
+        assert!(
+            svg.contains(&format!("> {n}</tspan>")),
+            "the committed engine-flow SVG does not carry {n} as a standalone tspan — the              picture a reader sees still states the old count"
+        );
+    }
 }
