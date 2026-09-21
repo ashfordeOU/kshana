@@ -247,3 +247,103 @@ fn no_published_surface_states_a_stale_status_count() {
         "expected 3 status counts × 2 surfaces = 6 pinned sites, matched {checked}"
     );
 }
+
+/// The same absence check for the RELEASE NOTES — specifically the `[Unreleased]` section.
+///
+/// The two guards above scan the README, the provenance diagram and the web ledger. They
+/// do not scan `CHANGELOG.md`, and for the RELEASED sections that exclusion is correct:
+/// those record what was true at a version that actually shipped, and rewriting one to
+/// match today's matrix would falsify the record rather than repair it. A changed
+/// published number is a revision, never a silent correction.
+///
+/// `[Unreleased]` is a different object. It describes a release that has not happened, so
+/// a matrix count stated there is a claim about the NEXT release — and it goes stale every
+/// time a row lands without someone rereading the sentence. That is not hypothetical: the
+/// section claimed "105 rows — 56 VALIDATED, 45 MODELLED, 4 PARTNER" while the matrix held
+/// 168 / 64 / 100 / 4. Sixty-three rows of drift survived on a public surface precisely
+/// because every count guard stopped at the files listed above.
+#[test]
+fn the_unreleased_release_notes_state_the_live_matrix_counts() {
+    use kshana::verification::VerificationStatus;
+    let m = verification_matrix();
+    let total = m.len();
+    let validated = m
+        .iter()
+        .filter(|i| i.status == VerificationStatus::Validated)
+        .count();
+    let modelled = m
+        .iter()
+        .filter(|i| i.status == VerificationStatus::Modelled)
+        .count();
+    let partner = m
+        .iter()
+        .filter(|i| i.status == VerificationStatus::PartnerOwned)
+        .count();
+
+    // Prove the scanner still reads the phrasing BEFORE trusting its silence on the real
+    // file. An `[Unreleased]` section need not state a matrix count at all, so on the real
+    // input alone "found nothing" is indistinguishable from "quietly stopped working".
+    let sample = "**105 rows — 56 VALIDATED, 45 MODELLED, 4 PARTNER**";
+    assert_eq!(
+        counts_between(sample, "**", " rows — ")
+            .iter()
+            .map(|(n, _)| *n)
+            .collect::<Vec<_>>(),
+        vec![105],
+        "the total scanner no longer reads the phrasing it is meant to police"
+    );
+    for (marker, want) in [(" VALIDATED", 56usize), (" MODELLED", 45), (" PARTNER", 4)] {
+        assert_eq!(
+            counts_before(sample, marker)
+                .iter()
+                .map(|(n, _)| *n)
+                .collect::<Vec<_>>(),
+            vec![want],
+            "the {marker} scanner no longer reads the phrasing it is meant to police"
+        );
+    }
+
+    let changelog = include_str!("../CHANGELOG.md");
+    const HEAD: &str = "## [Unreleased]";
+    let start = changelog.find(HEAD).expect(
+        "CHANGELOG.md has no `## [Unreleased]` heading — if it was renamed or removed, \
+         update this guard rather than deleting it",
+    );
+    let after = start + HEAD.len();
+    let end = changelog[after..]
+        .find("\n## [")
+        .map(|i| after + i)
+        .unwrap_or(changelog.len());
+    let section = &changelog[start..end];
+
+    let mut stale: Vec<String> = Vec::new();
+    for (n, ctx) in counts_between(section, "**", " rows — ") {
+        if n != total {
+            stale.push(format!(
+                "  total states {n}, matrix holds {total}\n      {ctx}"
+            ));
+        }
+    }
+    for (label, marker, want) in [
+        ("VALIDATED", " VALIDATED", validated),
+        ("MODELLED", " MODELLED", modelled),
+        ("PARTNER", " PARTNER", partner),
+    ] {
+        for (n, ctx) in counts_before(section, marker) {
+            if n != want {
+                stale.push(format!(
+                    "  {label} states {n}, matrix holds {want}\n      {ctx}"
+                ));
+            }
+        }
+    }
+
+    assert!(
+        stale.is_empty(),
+        "CHANGELOG.md `[Unreleased]` states matrix counts that are not the live ones \
+         ({total} rows: {validated} VALIDATED / {modelled} MODELLED / {partner} PARTNER):\n{}\n\n\
+         Update the sentence in the `[Unreleased]` section. Do NOT edit a released section \
+         to make this pass — those record what shipped.",
+        stale.join("\n")
+    );
+}
