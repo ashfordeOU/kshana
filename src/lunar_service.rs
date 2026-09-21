@@ -3118,6 +3118,37 @@ mod tests {
     const DEFAULT_REPORT_SHA256: &str =
         "a0872964c7313b96a96d075ac3eda6a621af31432dce43cc1c651fec3ce8b84d";
 
+    /// The same document, as values rather than as a digest, for the portable layer.
+    ///
+    /// A digest answers "did anything change" and nothing else; on a host whose libm
+    /// rounds a transcendental differently it answers "yes" for a reason that is not a
+    /// change. This literal carries the same claim in a form that survives the crossing —
+    /// and when it does fail it names the field, which the digest never could.
+    /// Regenerate with the `zzz_emit_default_report` emitter above.
+    const DEFAULT_REPORT_PORTABLE: &str = r#"{
+      "alert_limit_m": 50.0,
+      "coverage_pct": 37.84722222222222,
+      "elev_mask_deg": 5.0,
+      "hpl_max_m": 4176.665442880556,
+      "hpl_min_m": 138.72572640573344,
+      "max_sats": 7,
+      "min_sats": 4,
+      "n_epochs": 12,
+      "n_grid_points": 24,
+      "n_pl_samples": 249,
+      "n_samples": 288,
+      "n_sats": 8,
+      "note": "Illustrative, public-source LCNS-class constellation; not affiliated with ESA. DOP geometry reuses the gnss_lib_py-validated kernel; coverage/integrity MODELLED.",
+      "pdop_max": 180.30393367673344,
+      "pdop_mean": 13.742839339512948,
+      "pdop_min": 2.191490320232946,
+      "pdop_threshold": 6.0,
+      "pl_availability_pct": 0.0,
+      "sigma_ure_m": 30.0,
+      "vpl_max_m": 6707.573553544267,
+      "vpl_min_m": 436.2056898877597
+    }"#;
+
     /// Unique temp paths per CALL, not per test: the library tests run as parallel threads
     /// of ONE process, so a name derived from the test would collide with itself across
     /// repeats and with any sibling that happened to reuse it.
@@ -3173,6 +3204,19 @@ mod tests {
         "vpl_min_m",
     ];
 
+    /// Emit the portable expected document for the guard below. Not a check: run with
+    /// `cargo test --lib -- --ignored --nocapture zzz_emit_default_report` after an
+    /// INTENTIONAL change. The exact SHA-256 pin is never re-taken this way.
+    #[test]
+    #[ignore = "emitter, not a check"]
+    fn zzz_emit_default_report() {
+        let r = LunarServiceScenario::default().run();
+        println!(
+            "{}",
+            serde_json::to_string_pretty(&serde_json::to_value(&r).unwrap()).unwrap()
+        );
+    }
+
     /// **R1, additive only.** With `ephemeris_path` unset the default scenario emits
     /// bit-for-bit what it emitted before the field existed: the same key set, and the
     /// same bytes — pinned by hash, so a numeric drift of one ULP fails here.
@@ -3186,13 +3230,26 @@ mod tests {
             keys, HISTORICAL_REPORT_KEYS,
             "the default report's key set moved; ephemeris_path must be purely additive"
         );
-        let bytes = serde_json::to_string(&r).unwrap();
-        assert_eq!(
-            sha256_hex(bytes.as_bytes()),
-            DEFAULT_REPORT_SHA256,
+        // Portable layer: field by field, on every platform.
+        let want: serde_json::Value =
+            serde_json::from_str(DEFAULT_REPORT_PORTABLE).expect("the pinned document parses");
+        let moved = crate::test_support::json_diff(&v, &want);
+        assert!(
+            moved.is_empty(),
             "the default moonlight-service-volume report changed; with ephemeris_path unset \
-             nothing may move"
+             nothing may move:\n{}",
+            moved.join("\n")
         );
+        // Exact layer: the whole document to the byte, where the digest was taken.
+        let bytes = serde_json::to_string(&r).unwrap();
+        if crate::test_support::ON_BASELINE_HOST {
+            assert_eq!(
+                sha256_hex(bytes.as_bytes()),
+                DEFAULT_REPORT_SHA256,
+                "the default moonlight-service-volume report changed in the last bit; with \
+                 ephemeris_path unset nothing may move"
+            );
+        }
         // Explicitly setting the field to None must produce the same bytes, not merely an
         // equal-looking report.
         let explicit = LunarServiceScenario {

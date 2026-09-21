@@ -269,6 +269,28 @@ fn the_fixed_sigma_entry_point_matches_the_external_oracle() {
     );
 }
 
+/// True on the host the committed fixture's 17 significant digits were generated on.
+///
+/// The fixture records positions to the last bit. Those positions come out of `sin`/`cos`,
+/// and no platform libm rounds a transcendental the same way as another, so the last bit
+/// is a property of the host and not of the geometry. Asserting it elsewhere tests the C
+/// library, not kshana.
+const ON_BASELINE_HOST: bool = cfg!(all(target_arch = "aarch64", target_os = "macos"));
+
+/// Agreement of two selenographic/MCMF positions, to a part in 1e9.
+///
+/// Tighter than the crate's general 1e-6 canonical scale, deliberately: these are direct
+/// trigonometric outputs rather than a ratio of two nearly-equal quantities, so they
+/// diverge between hosts at the ulp (~1e-16), not at the 1e-10 an amplifying quotient
+/// reaches. A part in 1e9 is ~1.7 mm on the lunar radius — seven orders of magnitude
+/// above the noise, and far below any change that would mean the constellation moved.
+fn vec3_close(a: [f64; 3], b: [f64; 3]) -> bool {
+    a.iter().zip(&b).all(|(x, y)| {
+        let d = (x - y).abs();
+        d <= 1e-12 || d <= 1e-9 * x.abs().max(y.abs())
+    })
+}
+
 /// Stale-fixture guard. The committed geometry must still be the geometry the engine's
 /// own illustrative Moonlight/LCNS-class service volume produces for
 /// [`DUMP_CASES`] — otherwise the oracle would keep agreeing with a snapshot of a
@@ -295,14 +317,41 @@ fn the_fixture_geometry_is_still_the_engines_own_service_volume() {
             alt_m: alt,
         };
         let user = kshana::lunar::selenographic_to_mcmf(site);
-        assert_eq!(user, c.user_mcmf, "case {label}: user point drifted");
+        assert!(
+            vec3_close(user, c.user_mcmf),
+            "case {label}: user point drifted: {user:?} vs {:?}",
+            c.user_mcmf
+        );
+        if ON_BASELINE_HOST {
+            assert_eq!(
+                user, c.user_mcmf,
+                "case {label}: user point drifted in the last bit"
+            );
+        }
         let all = LunarConstellation::illustrative_lcns(n).positions_mcmf(t_s);
         let vis = visible_sat_positions(user, &all, mask.to_radians());
+        // The COUNT is never given tolerance: a satellite crossing the elevation mask is a
+        // real change in what the oracle is scored against, not a rounding difference.
         assert_eq!(
-            vis, c.sats_mcmf,
-            "case {label}: the engine's visible-satellite geometry no longer matches the \
+            vis.len(),
+            c.sats_mcmf.len(),
+            "case {label}: the engine now sees a different NUMBER of satellites than the \
              committed fixture — regenerate it with the generator script"
         );
+        for (i, (got, want)) in vis.iter().zip(&c.sats_mcmf).enumerate() {
+            assert!(
+                vec3_close(*got, *want),
+                "case {label}, satellite {i}: the engine's visible-satellite geometry no \
+                 longer matches the committed fixture — regenerate it with the generator \
+                 script. {got:?} vs {want:?}"
+            );
+        }
+        if ON_BASELINE_HOST {
+            assert_eq!(
+                vis, c.sats_mcmf,
+                "case {label}: the engine's visible-satellite geometry moved in the last bit"
+            );
+        }
     }
 }
 
