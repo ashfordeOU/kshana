@@ -50,6 +50,27 @@
 
 kind = "lunar-beacon"
 
+# EVERY SCALAR KEY MUST STAY ABOVE THE [[beacons]] ARRAY BELOW.
+# In TOML, a bare key after an array-of-tables header belongs to that TABLE, not to the
+# document root. These keys were originally written underneath [[beacons]] and were
+# therefore parsed as fields of the LAST beacon, where serde silently dropped them: the
+# scenario ran entirely on its defaults, and because the defaults matched what was written
+# here, every printed number looked correct. `deny_unknown_fields` on BeaconSite now makes
+# that mistake an error instead of silence, and
+# tests/lunar_beacon_scenario_reference.rs asserts the parsed scenario really carries
+# these values.
+
+# A sparse six-satellite service, and a 24-satellite service as the contrast.
+n_satellites = 6
+comparison_n_satellites = 24
+epoch_s = 0.0
+elevation_mask_deg = 5.0
+
+# Per-beacon ranging error budget, in metres of range. Root-sum-squared into sigma_URE.
+clock_sync_m = 1.0
+multipath_m = 0.5
+survey_m = 0.3
+
 # The user: a south-polar site with a 2 m antenna.
 [user]
 lat_deg = -80.0
@@ -72,14 +93,3 @@ alt_m = 2000.0
 lat_deg = -79.0
 lon_deg = -60.0
 alt_m = 2000.0
-
-# A sparse six-satellite service, and a 24-satellite service as the contrast.
-n_satellites = 6
-comparison_n_satellites = 24
-epoch_s = 0.0
-elevation_mask_deg = 5.0
-
-# Per-beacon ranging error budget, in metres of range. Root-sum-squared into sigma_URE.
-clock_sync_m = 1.0
-multipath_m = 0.5
-survey_m = 0.3

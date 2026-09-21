@@ -148,7 +148,16 @@ pub fn realized_accuracy(d: &Dop, sigma_ure_m: f64) -> RealizedAccuracy {
 // ---------------------------------------------------------------------------
 
 /// A surface site in selenographic coordinates, as a scenario supplies it.
+///
+/// `deny_unknown_fields` is load-bearing, not tidiness. TOML gives a bare key written
+/// after an `[[beacons]]` header to that TABLE, not to the document root, so a scalar
+/// such as `elevation_mask_deg` placed below the beacon list parses as a field of the
+/// last beacon. Without this attribute serde drops it silently and the scenario runs on
+/// its defaults while appearing to honour the file. That happened to the bundled scenario
+/// and every printed number still looked right, because the defaults matched what the
+/// file said. Now it is a parse error naming the key.
 #[derive(Clone, Copy, Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
 pub struct BeaconSite {
     /// Selenographic latitude (degrees, north positive).
     pub lat_deg: f64,
