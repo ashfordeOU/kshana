@@ -103,3 +103,49 @@ fn no_authorship_attribution_tokens() {
         assert!(!body.contains(c), "{f}: attribution token");
     }
 }
+
+/// The lunar P2/P5 sources are deliberately NOT in [`SOURCES`]. That list bans "TRL",
+/// "DO-178" and "ECSS" outright — negated or not — because those three files should
+/// never raise the subject at all. The lunar files do raise it, in order to disclaim it
+/// ("No certified standard, no TRL claim, no ESA endorsement"), so listing them there
+/// would force deleting honest disclaimers to make the gate green. They get the
+/// mirror-image rule instead: the disclaimer must be PRESENT.
+#[test]
+fn lunar_p2_p5_sources_carry_their_disclaimers() {
+    // Doc-comment markers and hard wrapping must not hide a phrase that spans lines.
+    fn prose(rel: &str) -> String {
+        read(rel)
+            .to_lowercase()
+            .replace("//!", " ")
+            .replace("///", " ")
+            .split_whitespace()
+            .collect::<Vec<_>>()
+            .join(" ")
+    }
+
+    for f in [
+        "src/lunar_interop_budget.rs",
+        "examples/p2_cross_provider_interop.rs",
+        "examples/p5_autonomous_fault_observability.rs",
+    ] {
+        assert!(
+            prose(f).contains("no trl claim"),
+            "{f}: must disclaim any TRL claim"
+        );
+    }
+
+    let p5 = prose("examples/p5_autonomous_fault_observability.rs");
+    assert!(
+        p5.contains("not lnis-certified"),
+        "p5 example: the hypothetical alert limit must be marked NOT LNIS-certified"
+    );
+
+    // The Validated carve-out is the whole reason the 7-parameter fit needs its own
+    // cross-check. If a later edit widens the module doc back to a blanket Validated
+    // claim, the matrix row it contradicts is the one that is right.
+    let ib = prose("src/lunar_interop_budget.rs");
+    assert!(
+        ib.contains("not covered by that external check"),
+        "lunar_interop_budget doc must carve the 7-parameter fit out of the Validated claim"
+    );
+}

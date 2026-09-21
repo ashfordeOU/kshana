@@ -39,9 +39,17 @@ TDB timescale, so they are directly comparable.
 
 Per provider pair, computed by the independent SciPy oracle in `scripts/gen_interop_ref.py`
 and reproduced by `src/lunar_interop_budget.rs` in `tests/lunar_interop_budget_reference.rs`
-(the Modelled row): raw disagreement, rotation-fit residual, the Moon rotation `theta_moon`,
+(the Validated row): raw disagreement, rotation-fit residual, the Moon rotation `theta_moon`,
 the common planet frame-tie `theta_frametie`, the Moon-specific excess `theta_excess`, and the
-reducible (frame-tie) / irreducible (Moon-orbit dynamics) metre split. Headline (2024–25):
+reducible (frame-tie) / irreducible (Moon-orbit dynamics) metre split.
+
+These fixtures feed three matrix rows under two different statuses, which is deliberate. The
+row above is **Validated** because the reported quantity — the mutual disagreement of three
+independently published ephemerides — is a property of the published data itself, so the data
+is the oracle rather than an input. The `interop_budget` design-law row and `lunar_common_mode`
+are **Modelled** because they feed that same disagreement into a modelled configuration (a
+convention set; a constellation geometry) and report a property of that model. Headline
+(2024–25):
 
 | pair               | raw    | after rotation | reducible (frame-tie) | irreducible (dynamics) |
 |--------------------|--------|----------------|-----------------------|------------------------|
