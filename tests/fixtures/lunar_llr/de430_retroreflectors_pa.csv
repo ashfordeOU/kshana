@@ -1,0 +1,30 @@
+# format: kshana-lunar-retroreflectors v1
+# source: Williams, Boggs & Folkner, 'DE430 Lunar Orbit, Physical Librations,
+#   and Surface Coordinates', JPL IOM 335-JW,DB,WF-20130722-016, 22 July 2013,
+#   Table 6 (principal axis frame, centre of mass)
+# url: https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/de430_moon_coord.pdf
+# retrieved: 2026-09-20
+# source_sha256: 98fb33fb0a13da9087ce180c8f3868464d03e357ee07309ed407e62ec3d04d0f
+# frame: PA (principal axes), Moon centre of mass
+# note: these are the SOLVED coordinates. The source states that the mean
+#   Earth / mean rotation coordinates of its Table 7 were obtained FROM these
+#   by its Equation (4), not the other way round.
+# note: PA and MER differ by 672-871 m at these five arrays while the
+#   geocentric radii agree to 1 mm. Never hand this file to a mean-Earth
+#   rotation, or the other file to a principal-axis one.
+# note: the constant tidal displacements of the source's Table 8 are NOT
+#   included in these coordinates, exactly as the source states.
+# note: the source states the principal-axis coordinates are uncertain by
+#   0.12-0.27 m.
+# note: this is the DE430 PA realisation. DE421 and DE440 realise the
+#   principal-axis frame differently at the ~1-2 m level (the DE421 ME-PA
+#   offset is 67.92 arcsec about z; this document states 67.731 arcsec for
+#   DE430). Pair these coordinates only with a rotation whose realisation is
+#   declared, and declare the residual offset.
+# generator: generate_de430_retroreflectors_pa.py
+array,ilrs_target,x_m,y_m,z_m,radius_m,east_lon_deg,lat_deg
+Apollo 11,apollo11,1591966.550,690699.375,21003.866,1735472.353,23.4543587,0.6934494
+Apollo 14,apollo14,1652689.504,-520997.525,-109730.417,1736335.734,-17.4970524,-3.6233098
+Apollo 15,apollo15,1554678.231,98095.485,765005.355,1735476.972,3.6104039,26.1551968
+Lunokhod 1,luna17,1114292.213,-781298.510,1076058.872,1734928.585,-35.0366497,38.3331055
+Lunokhod 2,luna21,1339363.318,801871.862,756358.849,1734638.663,30.9088010,25.8510123
