@@ -113,6 +113,42 @@ breaking changes are called out explicitly.
   add three rows. The running total for this unreleased section is
   **168 rows — 64 VALIDATED, 100 MODELLED, 4 PARTNER**.
 
+### Changed
+
+- **Commit authorship across the whole history is now a single identity, and two
+  published crates point at a commit that no longer exists.** On 2026-09-21 the git
+  history was rewritten so that every human commit is authored and committed by
+  `ashfordeOU <236818772+ashfordeOU@users.noreply.github.com>`. It previously carried
+  three spellings of one person — 688 commits as `ashfordeOU <contact@ashforde.org>`,
+  34 as `Chakshu Baweja <contact@ashforde.org>` and 94 already canonical. The one
+  `dependabot[bot]` commit was deliberately left as its own author: relabelling a bot's
+  dependency bump would claim authorship of work nobody here did.
+
+  **No content changed.** The rewrite touched author and committer headers only, and
+  that is checkable rather than asserted: the tree of every tag and every branch is
+  bit-identical to what it was before. `v0.26.0` still resolves to tree
+  `92284e9420605568f1bfabb78cd95d383b40f3e2`, exactly as it did.
+
+  **What it cost.** A commit's name is a hash over its tree, its parents and its author
+  headers, so changing an ancestor renames every descendant. The `v0.26.0` release
+  commit was `dce2dbf7700788cf6de46260c14673c0e5347360` and is now
+  `d4921f3025569e00e425e1747d0acfc261e96e18`. Two artifacts recorded the old name at
+  publish time and cannot be corrected, because a published registry version is
+  immutable by design:
+
+  - `kshana` 0.26.0 on crates.io — `.cargo_vcs_info.json` records `dce2dbf…`
+  - `kshana-mcp` 0.26.0 on crates.io — the same sha1, `path_in_vcs: mcp/kshana-mcp`
+
+  Nothing else is affected. The npm package records no `gitHead`, and the PyPI
+  distribution records no commit at all; both were checked rather than assumed.
+
+  There is no repair that makes `dce2dbf…` name the rewritten commit: that string *is*
+  the old ancestry, and the only way it resolves is to keep the pre-rewrite history
+  published, which would restore the authorship the rewrite removed. Provenance for
+  0.26.0 therefore runs through the tag rather than through the recorded sha1 — and the
+  tag delivers the identical bytes the crate was built from. The next release records a
+  valid commit with no action needed.
+
 ### Fixed
 
 - **`realtime-frame-eop` defaulted to an EOP file with no prediction rows (G12).**
