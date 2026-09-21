@@ -1,0 +1,55 @@
+{
+ "description": "Validated anchor reference for `tests/lunar_coupled_gauge_reference.rs`. Computed independently by numpy/LAPACK from the rows in `network.json` (built by `examples/gen_coupled_gauge_rows.rs` with real DE440 Moon PA orientation). Validated claim: kshana's coupled-gauge linear algebra reproduces these values to rel<1e-3 AND abs<1e-3 on real-DE440-derived rows.",
+ "oracle": "numpy/LAPACK (np.linalg.eigvalsh, np.linalg.eigh, np.linalg.pinv)",
+ "R_MOON_M": 1737400.0,
+ "rel_tol": 1e-09,
+ "gram_tol": 1e-09,
+ "networks": {
+  "single_epoch": {
+   "eigenvalues": [
+    0.0,
+    0.160459915788011,
+    0.2069679478986271,
+    0.25018383571537955,
+    0.39042883620238555,
+    2.0479744773496713,
+    15.451161786857226,
+    19.780549627570064,
+    44.97336995205813
+   ],
+   "lambda_max": 44.97336995205813,
+   "defect": 1,
+   "dim_spatial": 0,
+   "dim_temporal": 1,
+   "coupled_dim": 0,
+   "p_st_norm": 0.0,
+   "marginal_eigs": [
+    0.41709023292143294,
+    5.970929800456938
+   ]
+  },
+  "well_posed": {
+   "eigenvalues": [
+    0.5685378461696746,
+    0.7266117376688972,
+    1.0761030953406108,
+    1.783746903933097,
+    6.295412428568569,
+    48.22824059340821,
+    54.05474330056258,
+    79.05815545688762,
+    164.95076234896203
+   ],
+   "lambda_max": 164.95076234896203,
+   "defect": 0,
+   "dim_spatial": 0,
+   "dim_temporal": 0,
+   "coupled_dim": 0,
+   "p_st_norm": 0.0,
+   "marginal_eigs": [
+    1.8720075881765712,
+    35.999510430931636
+   ]
+  }
+ }
+}
