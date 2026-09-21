@@ -1,0 +1,41 @@
+# Emit the exact x86-64-Linux golden byte-pins for tests/registry_golden.rs.
+#
+# WHY THIS EXISTS
+#   `Golden::expect_fnv_raw_linux_x64` is, by definition, the fnv64 of the raw pretty
+#   JSON as produced on x86-64 Linux. Five of the seven scenarios carry `None` there,
+#   because the value cannot be produced anywhere else: an emit run on an arm64 macOS
+#   development host yields that host's hash, which is a DIFFERENT quantity. Pasting it
+#   in would not fill the pin, it would fabricate it — and the fabrication would only
+#   surface later, as a CI failure on a runner that was right.
+#
+#   The portable `expect_fnv_canonical` layer already guards all seven scenarios on
+#   every platform and moves on any output change above ~1e-6. The raw layer only
+#   restores last-digit resolution, and only on this one runner.
+#
+# MANUAL ONLY (`workflow_dispatch`): never triggered by push or pull_request, so it can
+# never block `main`. Run it from the Actions tab and paste each `raw(local)` value into
+# the matching `expect_fnv_raw_linux_x64` field as `Some(0x…)`.
+name: Emit golden byte-pins (x86-64 Linux)
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  emit-goldens:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: Swatinem/rust-cache@v2
+      - name: Confirm the runner really is x86-64 Linux
+        # The pin is defined by this platform. A runner that is not x86-64 Linux would
+        # emit a valid-looking hash for the wrong quantity, which is the exact failure
+        # this job exists to prevent — so it fails loudly instead.
+        run: |
+          arch="$(uname -m)"; os="$(uname -s)"
+          echo "runner: $os/$arch"
+          test "$os" = "Linux"  || { echo "not Linux — refusing to emit"; exit 1; }
+          test "$arch" = "x86_64" || { echo "not x86_64 — refusing to emit"; exit 1; }
+      - name: Emit
+        run: cargo test --test registry_golden -- --ignored --nocapture zzz_emit_goldens
