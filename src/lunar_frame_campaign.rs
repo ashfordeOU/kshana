@@ -1966,21 +1966,34 @@ mod tests {
         //               the hashes below are still the ORIGINAL ones rather than
         //               re-baselined. A change to the `units` schema is OUT of scope here
         //               and must not be "fixed" by re-taking these numbers.
-        for (src, expect, expect_len) in [
+        // (scenario, exact fnv, exact length | portable: skeleton fnv, value count, |sum|)
+        // The first two are the ORIGINAL pins and are asserted only on the host they were
+        // taken on. The last three are platform-independent by construction: the skeleton
+        // has had every digit removed, so a last-ulp difference cannot reach it.
+        for (src, expect, expect_len, skel_fnv, n_numbers, abs_sum) in [
             (
                 "kind = \"lunar-frame-realisation\"\n",
                 0xd4a0_2b1d_bf29_91c4_u64,
                 2938_usize,
+                0x2927_0f7b_6a2c_d583_u64,
+                121_usize,
+                17_578.163_792_326_643_f64,
             ),
             (
                 "kind = \"lunar-frame-realisation\"\nn_points = 12\nnoise_sigma_m = 0.5\nseed = 7\n",
                 0x3556_a721_e142_cb29,
                 2935,
+                0xc59a_0598_7bca_0f08,
+                121,
+                15_179.742_553_962_893,
             ),
             (
                 "kind = \"lunar-frame-realisation\"\nnoise_sigma_m = 0.0\n",
                 0xd930_d2e4_f86f_b1ef,
                 2964,
+                0xb6ef_635f_6fc6_739c,
+                121,
+                14_926.000_030_141_684,
             ),
         ] {
             let out = crate::api::run_toml(src).expect("the injected-transform scenario still runs");
@@ -2000,15 +2013,71 @@ mod tests {
             buf.extend_from_slice(out.summary.as_bytes());
             buf.push(0);
             buf.extend_from_slice(out.svg.as_bytes());
+            // ── Portable layer: runs everywhere ──────────────────────────────────
+            // The document's SHAPE (keys, prose, SVG structure, and the fingerprint in
+            // the footer) with every digit stripped out, plus how many values it carries
+            // and what they sum to in absolute value. A field added, removed or renamed
+            // moves the skeleton; a value that moves moves the sum.
+            let text = String::from_utf8_lossy(&buf);
+            let (skel, n, sum) = crate::test_support::numeric_skeleton(&text);
             assert_eq!(
-                buf.len(),
-                expect_len,
-                "lunar-frame-realisation emission LENGTH changed for {src:?}"
+                crate::test_support::fnv1a64(skel.as_bytes()),
+                skel_fnv,
+                "lunar-frame-realisation emission SHAPE changed for {src:?} - R1 forbids it"
             );
             assert_eq!(
-                fnv1a64(&buf),
-                expect,
-                "lunar-frame-realisation emission CHANGED for {src:?} - R1 forbids it"
+                n, n_numbers,
+                "lunar-frame-realisation emission VALUE COUNT changed for {src:?}"
+            );
+            assert!(
+                crate::test_support::close(sum, abs_sum),
+                "lunar-frame-realisation emission VALUES moved for {src:?}: \
+                 |sum| {sum} vs the pinned {abs_sum}"
+            );
+
+            // ── Exact layer: only where these literals were captured ─────────────
+            if crate::test_support::ON_BASELINE_HOST {
+                assert_eq!(
+                    buf.len(),
+                    expect_len,
+                    "lunar-frame-realisation emission LENGTH changed for {src:?}"
+                );
+                assert_eq!(
+                    fnv1a64(&buf),
+                    expect,
+                    "lunar-frame-realisation emission CHANGED for {src:?} - R1 forbids it"
+                );
+            }
+        }
+    }
+
+    /// Emit the portable skeleton pins for the guard above. Not a test: run it with
+    /// `cargo test -p kshana --lib -- --ignored --nocapture zzz_emit_frame_skeletons`
+    /// after an INTENTIONAL emission change, and paste the numbers in. The exact fnv/length
+    /// pins are never re-taken this way — see the guard's own note on finding F25.
+    #[test]
+    #[ignore = "emitter, not a check"]
+    fn zzz_emit_frame_skeletons() {
+        for src in [
+            "kind = \"lunar-frame-realisation\"\n",
+            "kind = \"lunar-frame-realisation\"\nn_points = 12\nnoise_sigma_m = 0.5\nseed = 7\n",
+            "kind = \"lunar-frame-realisation\"\nnoise_sigma_m = 0.0\n",
+        ] {
+            let out = crate::api::run_toml(src).expect("scenario runs");
+            let json = strip_top_level_units(&out.json);
+            let mut buf = Vec::new();
+            buf.extend_from_slice(json.as_bytes());
+            buf.push(0);
+            buf.extend_from_slice(out.summary.as_bytes());
+            buf.push(0);
+            buf.extend_from_slice(out.svg.as_bytes());
+            let text = String::from_utf8_lossy(&buf);
+            let (skel, n, abs_sum) = crate::test_support::numeric_skeleton(&text);
+            println!(
+                "{src:?}\n  skeleton_fnv = 0x{:016x}\n  numeric_count = {}\n  abs_sum = {:?}",
+                crate::test_support::fnv1a64(skel.as_bytes()),
+                n,
+                abs_sum
             );
         }
     }

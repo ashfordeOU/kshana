@@ -1957,10 +1957,23 @@ mod tests {
 
         obj.remove("correction_link");
         obj.remove("units");
-        assert_eq!(
-            v, before,
-            "a pre-existing value moved; the budget must be purely additive"
+        // Portable layer: every pre-existing field still holds its value, compared
+        // numerically. This is the claim on every platform.
+        let moved = crate::test_support::json_diff(&v, &before);
+        assert!(
+            moved.is_empty(),
+            "a pre-existing value moved; the budget must be purely additive:\n{}",
+            moved.join("\n")
         );
+        // Exact layer: on the host these literals were captured on, the document is the
+        // same to the last bit. See `crate::test_support` for why this cannot be asserted
+        // on a host with a different libm.
+        if crate::test_support::ON_BASELINE_HOST {
+            assert_eq!(
+                v, before,
+                "a pre-existing value moved in the last bit; the budget must be purely additive"
+            );
+        }
 
         // Value equality folds 0.0 and -0.0, so pin the headline scalars bit-for-bit too.
         let r = LunarDpntScenario::default().run();
@@ -1988,11 +2001,17 @@ mod tests {
             ("vpl_m", r.vpl_m, 17.227_221_314_344_384_f64),
             ("clock_err_ns", r.clock_err_ns, 100.069_228_559_445_6_f64),
         ] {
-            assert_eq!(
-                got.to_bits(),
-                want.to_bits(),
+            assert!(
+                crate::test_support::close(got, want),
                 "{name} moved: {got} vs the pre-budget {want}"
             );
+            if crate::test_support::ON_BASELINE_HOST {
+                assert_eq!(
+                    got.to_bits(),
+                    want.to_bits(),
+                    "{name} moved in the last bit: {got} vs the pre-budget {want}"
+                );
+            }
         }
     }
 
