@@ -66,6 +66,22 @@ pub(crate) const ABS_FLOOR: f64 = 1e-12;
 /// NaN equals NaN here, and the infinities equal themselves: this is an *agreement*
 /// predicate for two computations of the same quantity, not IEEE `==`.
 pub(crate) fn close(a: f64, b: f64) -> bool {
+    close_within(a, b, REL_TOL)
+}
+
+/// [`close`] at a caller-chosen relative tolerance.
+///
+/// Not every emission diverges by the same amount, and pretending otherwise costs either a
+/// false red or a guard that checks nothing. A closed-form report diverges at the ulp, and
+/// a ratio of near-equal quantities amplifies that to ~1e-9. But an emission produced by an
+/// **iterative estimator** is a different regime: a least-squares fit whose inputs differ in
+/// the last place can take a slightly different path to convergence, and the divergence in
+/// its output is bounded by the solver's own tolerance, not by the machine's.
+///
+/// That is measured, not assumed. The lunar-frame-realisation emission's absolute-value sum
+/// came out as 15179.844667977733 on x86-64 Linux against 15179.742553962893 here — 6.7e-6
+/// relative, nearly seven times the 1e-6 that fits every closed-form report in this crate.
+pub(crate) fn close_within(a: f64, b: f64, rel: f64) -> bool {
     if a.is_nan() || b.is_nan() {
         return a.is_nan() && b.is_nan();
     }
@@ -76,7 +92,7 @@ pub(crate) fn close(a: f64, b: f64) -> bool {
         return false;
     }
     let diff = (a - b).abs();
-    diff <= ABS_FLOOR || diff <= REL_TOL * a.abs().max(b.abs())
+    diff <= ABS_FLOOR || diff <= rel * a.abs().max(b.abs())
 }
 
 /// Compare two JSON documents structurally, with numbers compared by [`close`].

@@ -36,6 +36,8 @@ use kshana::api::run_toml;
 use serde_json::Value;
 use std::path::Path;
 
+mod support;
+
 const FIXTURES: &str = "tests/fixtures/lunar_llr";
 
 fn report() -> Value {
@@ -502,13 +504,100 @@ fn the_pre_existing_lunar_frame_packs_are_bit_for_bit_unchanged() {
         }
         h
     }
-    for (kind, want) in [
-        ("lunar-frame-campaign", 0xe665_dacd_96ef_2654_u64),
-        ("lunar-frame-realisation", 0xcbf3_878f_ed02_92e5),
-        ("lunar-vlbi-fim", 0x1ade_292a_1021_dfb0),
+    // (kind, exact fnv | portable: skeleton fnv, value count, sentinel count, |sum| of
+    // the non-sentinel values). Sentinels are excluded from the sum deliberately: these
+    // documents carry 1e22 for an unset covariance, and a total containing it tolerates
+    // absolute changes of order 1e19 under any relative comparison — every real value
+    // disappears into the rounding, and the backstop silently checks nothing.
+    for (kind, want, skel_fnv, n_numbers, n_sentinels, abs_sum) in [
+        (
+            "lunar-frame-campaign",
+            0xe665_dacd_96ef_2654_u64,
+            0x8874_8fbd_eb8b_6341_u64,
+            274_usize,
+            1_usize,
+            1_214_645.400_508_843_4_f64,
+        ),
+        (
+            "lunar-frame-realisation",
+            0xcbf3_878f_ed02_92e5,
+            0x089c_2eff_8e27_8f8a,
+            38,
+            0,
+            3_971.148_063_327_643_7,
+        ),
+        (
+            "lunar-vlbi-fim",
+            0x1ade_292a_1021_dfb0,
+            0x8856_fb57_e6c9_676b,
+            629,
+            2,
+            880_156_284.713_891_4,
+        ),
     ] {
         let out = run_toml(&format!("kind = \"{kind}\"\n")).expect("runs");
-        let got = fnv(&format!("{}{}", out.json, out.summary));
-        assert_eq!(got, want, "{kind} emission moved: {got:#018x}");
+        let doc = format!("{}{}", out.json, out.summary);
+
+        // Portable layer: the document's shape exactly, its value count exactly, and its
+        // magnitude as a backstop. Digits are stripped from the skeleton, so a last-ulp
+        // difference cannot reach it.
+        let (skel, vals) = support::numeric_values(&doc);
+        let sentinels = vals.iter().filter(|v| v.abs() >= 1e12).count();
+        let sum: f64 = vals
+            .iter()
+            .filter(|v| v.abs() < 1e12)
+            .map(|v| v.abs())
+            .sum();
+        assert_eq!(
+            support::fnv1a64(skel.as_bytes()),
+            skel_fnv,
+            "{kind} emission SHAPE moved"
+        );
+        assert_eq!(vals.len(), n_numbers, "{kind} emission VALUE COUNT moved");
+        assert_eq!(
+            sentinels, n_sentinels,
+            "{kind} emission SENTINEL COUNT moved — an unset covariance became set, or the \
+             reverse"
+        );
+        assert!(
+            support::close_within(sum, abs_sum, 1e-3),
+            "{kind} emission VALUES moved: |sum| {sum} vs the pinned {abs_sum}"
+        );
+
+        // Exact layer: the whole document to the byte, on the host the pin was taken on.
+        if support::ON_BASELINE_HOST {
+            let got = fnv(&doc);
+            assert_eq!(got, want, "{kind} emission moved: {got:#018x}");
+        }
+    }
+}
+
+/// Emit the portable pins for the guard above. Not a check: run with
+/// `cargo test --test lunar_llr_real_data -- --ignored --nocapture zzz_emit_pack_skeletons`
+/// after an INTENTIONAL change. The exact fnv pins are never re-taken this way.
+#[test]
+#[ignore = "emitter, not a check"]
+fn zzz_emit_pack_skeletons() {
+    for kind in [
+        "lunar-frame-campaign",
+        "lunar-frame-realisation",
+        "lunar-vlbi-fim",
+    ] {
+        let out = run_toml(&format!("kind = \"{kind}\"\n")).expect("runs");
+        let doc = format!("{}{}", out.json, out.summary);
+        let (skel, vals) = support::numeric_values(&doc);
+        let big = vals.iter().filter(|v| v.abs() >= 1e12).count();
+        let small: f64 = vals
+            .iter()
+            .filter(|v| v.abs() < 1e12)
+            .map(|v| v.abs())
+            .sum();
+        println!(
+            "{kind}: skel_fnv=0x{:016x} n={} sentinels={} sum_small={:?}",
+            support::fnv1a64(skel.as_bytes()),
+            vals.len(),
+            big,
+            small
+        );
     }
 }
