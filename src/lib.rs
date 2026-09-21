@@ -230,6 +230,10 @@ pub mod spoof_monitors;
 pub mod study;
 pub mod suite;
 pub mod sweep;
+// Comparison helpers shared by the byte-identity guards. Test-only: it exists so those
+// guards can assert the exact pin where it is true and a portable one everywhere else.
+#[cfg(test)]
+mod test_support;
 pub mod tides;
 pub mod timegeo;
 pub mod timescales;
