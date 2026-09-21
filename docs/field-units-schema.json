@@ -1,11 +1,11 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 1675,
-    "fields_total": 1718,
+    "fields_described": 1698,
+    "fields_total": 1741,
     "fields_without_units": 43,
-    "kinds_complete": 58,
-    "kinds_total": 60,
+    "kinds_complete": 59,
+    "kinds_total": 61,
     "kinds_uncovered": 2,
     "uncovered_kind_ceiling": 2,
     "uncovered_kinds": [
@@ -1506,6 +1506,154 @@
       "fields_without_units": [],
       "label": "MODELLED layered-PNT conflict resilience (P7). VALIDATED core: the Monte-Carlo total-loss probability converges to the closed-form independent product Pi_i p_deny_i (asserted within Monte-Carlo standard error at a fixed seed and large N); the inverse-variance position fuse sigma_fused = (sum_i 1/sigma_i^2)^(-1/2) is a closed-form identity; at correlation rho=0 the Gaussian copula reduces exactly to the independent model (agreeing within MC error for the same seed) and preserves each layer's marginal denial rate at every rho. MODELLED: the per-layer vulnerability / availability / accuracy magnitudes are sourced-but-Modelled inputs (see crate::conflict_threat_params — JammerTest 2024, TEXBAT, EASA SIB, LunaNet/IOAG); the ~7x headline resilience ratio and the ratio-vs-correlation curve shape are properties of that Modelled parameterisation, not certified figures. Not a certified navigation-availability product.",
       "source": "defaults"
+    },
+    "earth-gnss-lunar": {
+      "complete": true,
+      "fields": {
+        "earth_limb_half_angle_deg": {
+          "definition": "asin(R_earth / r_orbit): the minimum off-boresight angle a lunar-bound ray must exceed to clear the Earth",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "deg"
+        },
+        "links[].cn0_dbhz": {
+          "definition": "carrier-to-noise density with the receiving antenna gain applied; inherits the modelled transmit gain",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "links[].off_boresight_deg": {
+          "definition": "angle from the satellite's nadir direction to the receiver; the transmit beam is referenced to nadir",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "links[].path_loss_db": {
+          "definition": "free-space loss at the carrier; about 208 dB at L1 over the mean lunar distance",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "dB"
+        },
+        "links[].range_m": {
+          "definition": "straight-line transmitter-to-receiver distance",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "links[].received_power_dbw": {
+          "definition": "tx_power + tx_gain - path_loss, isotropic at the receiver",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dBW"
+        },
+        "links[].sat_index": {
+          "definition": "index in generation order",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "links[].tx_gain_dbi": {
+          "definition": "uniform-circular-aperture (Airy) gain at the off-boresight angle. A real GPS L1 antenna is a helical array with a shaped main lobe and non-Airy sidelobes, so this is a first-principles stand-in and not a measured beam",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "dBi"
+        },
+        "n_geometrically_visible": {
+          "definition": "satellites the Earth does not occult",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "n_satellites": {
+          "definition": "constellation size",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "n_trackable": {
+          "definition": "of those, the ones clearing the tracking threshold",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "receiver_range_m": {
+          "definition": "receiver distance from the Earth's centre; the Moon's position is an input here, not an ephemeris lookup",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "sweep.best_cn0_dbhz": {
+          "definition": "best carrier-to-noise density anywhere in the sweep",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "sweep.epochs[].best_cn0_dbhz": {
+          "definition": "strongest trackable link at this epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "sweep.epochs[].n_trackable": {
+          "definition": "links clearing the threshold in the forward hemisphere, un-occulted, at this epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "sweep.epochs[].t_s": {
+          "definition": "seconds after the constellation epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "sweep.fix_availability": {
+          "definition": "fraction of epochs with at least FOUR trackable links. This is the figure a layered-resilience prior should take from this scenario, not the signal availability",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "sweep.max_trackable": {
+          "definition": "largest trackable count over the sweep",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "sweep.mean_trackable": {
+          "definition": "mean trackable count over the sweep",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "sweep.signal_availability": {
+          "definition": "fraction of epochs with at least ONE trackable link: a timing observation, not a fix",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "sweep.span_s": {
+          "definition": "span the epochs cover",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "tracking_threshold_dbhz": {
+          "definition": "carrier-to-noise density a link must reach to count as trackable",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "dB-Hz"
+        },
+        "tx_boresight_gain_dbi": {
+          "definition": "peak gain the pattern is referenced to",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "dBi"
+        }
+      },
+      "fields_described": 23,
+      "fields_total": 23,
+      "fields_without_units": [],
+      "label": null,
+      "source": "scenarios/earth-gnss-lunar.toml"
     },
     "eo-coverage": {
       "complete": true,
