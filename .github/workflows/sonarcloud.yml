@@ -82,9 +82,25 @@ jobs:
           run-id: ${{ github.event.workflow_run.id }}
           # Cross-run artifact downloads need an explicit token.
           github-token: ${{ github.token }}
+      # Report the crate version the analysed commit carries. Without it SonarCloud
+      # records the analysis as "VERSION=not provided" and its `previous_version` new-code
+      # period never advances: on 2026-09-22 the window was still anchored at the
+      # 2026-07-02 analysis, so eighty-two days of work was being graded as one delta and
+      # the duplication condition measured 7877 "new" duplicated lines. Passing the version
+      # makes the new-code period mean what the gate assumes it means — the change this
+      # release introduced.
+      - name: Read the crate version
+        if: steps.gate.outputs.go == 'true'
+        id: ver
+        run: |
+          v="$(sed -n 's/^version[[:space:]]*=[[:space:]]*"\(.*\)"/\1/p' Cargo.toml | head -1)"
+          test -n "$v" || { echo "cannot read version from Cargo.toml"; exit 1; }
+          echo "version=$v" >> "$GITHUB_OUTPUT"
       - name: SonarQube Cloud scan
         if: steps.gate.outputs.go == 'true'
         uses: SonarSource/sonarqube-scan-action@v5
+        with:
+          args: -Dsonar.projectVersion=${{ steps.ver.outputs.version }}
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: https://sonarcloud.io
