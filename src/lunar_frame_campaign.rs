@@ -1967,35 +1967,37 @@ mod tests {
         //               re-baselined. A change to the `units` schema is OUT of scope here
         //               and must not be "fixed" by re-taking these numbers.
         // (scenario, exact fnv, exact length | portable: skeleton fnv, value count, |sum|)
-        // RE-BASELINED AT v0.27.0. The SVG footer carries the engine version, so every
-        // release moves both hashes. That this was ONLY the version is checkable and was
-        // checked: the byte length, the value count and the absolute sum are unchanged
-        // from v0.26.0 — a content change could not leave all three identical.
+        // RE-BASELINED ONCE AT v0.27.1, and version-independent from here. The engine
+        // version is normalised to a placeholder before hashing (see
+        // `version_normalised_emission`), so a release no longer moves these. That this
+        // re-baseline was ONLY the version substitution is checkable and was checked:
+        // every length fell by exactly one byte ("v0.27.1" -> "vX.Y.Z") and the value
+        // count and absolute sum are identical across all three scenarios.
         // The first two are the ORIGINAL pins and are asserted only on the host they were
         // taken on. The last three are platform-independent by construction: the skeleton
         // has had every digit removed, so a last-ulp difference cannot reach it.
         for (src, expect, expect_len, skel_fnv, n_numbers, abs_sum) in [
             (
                 "kind = \"lunar-frame-realisation\"\n",
-                0x7dfe_0e3f_598e_da53_u64,
-                2938_usize,
-                0xbce1_498b_5751_bb98_u64,
+                0x0135_f8fb_7db0_642f_u64,
+                2937_usize,
+                0x982d_8926_f0e9_f97e_u64,
                 121_usize,
                 17_578.163_792_326_643_f64,
             ),
             (
                 "kind = \"lunar-frame-realisation\"\nn_points = 12\nnoise_sigma_m = 0.5\nseed = 7\n",
-                0x9b1f_a903_4709_8cd2,
-                2935,
-                0x1a40_1933_f567_04ab,
+                0x11e6_9d87_96d7_a02e,
+                2934,
+                0x69dd_a9e4_a0e9_0e4d,
                 121,
                 15_179.742_553_962_893,
             ),
             (
                 "kind = \"lunar-frame-realisation\"\nnoise_sigma_m = 0.0\n",
-                0x33e3_5759_8613_75dc,
-                2964,
-                0x56c3_9702_88fa_ddf3,
+                0x470b_02e4_73b6_742e,
+                2963,
+                0xc546_7339_8434_454f,
                 121,
                 14_926.000_030_141_684,
             ),
@@ -2010,13 +2012,7 @@ mod tests {
             // below are the ORIGINAL ones, fingerprinted before any of this work began, and
             // they still match once the appended block is removed — which is itself the proof
             // that the block is all that was added.
-            let json = strip_top_level_units(&out.json);
-            let mut buf = Vec::new();
-            buf.extend_from_slice(json.as_bytes());
-            buf.push(0);
-            buf.extend_from_slice(out.summary.as_bytes());
-            buf.push(0);
-            buf.extend_from_slice(out.svg.as_bytes());
+            let buf = version_normalised_emission(&out);
             // ── Portable layer: runs everywhere ──────────────────────────────────
             // The document's SHAPE (keys, prose, SVG structure, and the fingerprint in
             // the footer) with every digit stripped out, plus how many values it carries
@@ -2075,13 +2071,7 @@ mod tests {
             "kind = \"lunar-frame-realisation\"\nnoise_sigma_m = 0.0\n",
         ] {
             let out = crate::api::run_toml(src).expect("scenario runs");
-            let json = strip_top_level_units(&out.json);
-            let mut buf = Vec::new();
-            buf.extend_from_slice(json.as_bytes());
-            buf.push(0);
-            buf.extend_from_slice(out.summary.as_bytes());
-            buf.push(0);
-            buf.extend_from_slice(out.svg.as_bytes());
+            let buf = version_normalised_emission(&out);
             let text = String::from_utf8_lossy(&buf);
             let (skel, n, abs_sum) = crate::test_support::numeric_skeleton(&text);
             // The exact pins too. These are re-taken ONLY for an intended change to the
@@ -2100,6 +2090,36 @@ mod tests {
                 abs_sum
             );
         }
+    }
+
+    /// The emission, with the engine version replaced by a fixed placeholder.
+    ///
+    /// The `units` block is stripped for the reason given at the guard below. The VERSION
+    /// is normalised for the same class of reason: the SVG footer carries it, so every
+    /// release moved all three hashes and the pins were re-baselined as routine. A pin
+    /// re-taken by routine stops being read, which is the failure mode finding F25 is
+    /// about — reached by a different road.
+    ///
+    /// Nothing is lost by normalising it. That the emission states the running version is
+    /// asserted here directly, which is a sharper check than a hash that merely changes
+    /// when it does: a hash cannot tell a version bump from a corrupted footer.
+    fn version_normalised_emission(out: &crate::api::RunOutput) -> Vec<u8> {
+        let json = strip_top_level_units(&out.json);
+        let mut buf = Vec::new();
+        buf.extend_from_slice(json.as_bytes());
+        buf.push(0);
+        buf.extend_from_slice(out.summary.as_bytes());
+        buf.push(0);
+        buf.extend_from_slice(out.svg.as_bytes());
+
+        let text = String::from_utf8_lossy(&buf).into_owned();
+        let marker = format!("v{}", env!("CARGO_PKG_VERSION"));
+        assert!(
+            text.contains(&marker),
+            "the lunar-frame-realisation emission no longer states the engine version \
+             ({marker}); the footer changed shape, so normalising it is no longer safe"
+        );
+        text.replace(&marker, "vX.Y.Z").into_bytes()
     }
 
     /// Remove the top-level `units` object from a pretty-printed report document.

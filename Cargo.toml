@@ -1,6 +1,6 @@
 [package]
 name = "kshana"
-version = "0.27.0"
+version = "0.27.1"
 edition = "2021"
 description = "Open, reproducible PNT-resilience simulator with quantum-sensor performance models"
 # Dual-licensed: GNU AGPL-3.0-only for open use, OR a commercial licence from
@@ -29,6 +29,10 @@ exclude = [
     "/README.pypi.md",
     "/README.npm.md",
     "/tests/fixtures",
+    # ...except the one fixture the LIBRARY itself embeds. src/lunar_orientation.rs holds
+    # a top-level `include_str!` of this catalogue, so excluding it makes the published
+    # crate fail to compile — which is exactly what happened to the v0.27.0 publish.
+    "!/tests/fixtures/llr_geometry/de440_moon_pa.csv",
     "/tests/igs_real_data.rs",
     "/tests/sgp4_crate_comparison.rs",
     "/tests/terrain_nav_validation.rs",

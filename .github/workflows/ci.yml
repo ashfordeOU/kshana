@@ -57,6 +57,33 @@ jobs:
         run: ./scripts/check-doc-coverage.sh
       - name: SBOM generation guard
         run: ./scripts/gen-sbom.sh > /dev/null
+  package:
+    # Build the exact tarball crates.io receives, and compile it.
+    #
+    # WHY THIS JOB EXISTS
+    #   `cargo package` runs a verification build against ONLY the files the tarball
+    #   carries. That is a different file set from the working tree, so a library that
+    #   compiles here can still fail there — and nothing else in CI notices, because
+    #   every other job builds from the full checkout.
+    #
+    #   It happened. src/lunar_orientation.rs holds a top-level `include_str!` of
+    #   tests/fixtures/llr_geometry/de440_moon_pa.csv, and the manifest excludes
+    #   /tests/fixtures from the package. The v0.27.0 publish was the first thing to run
+    #   `cargo package`, it failed there, and by then npm and PyPI had already published
+    #   — publish.yml's jobs are independent, so a crates.io failure does not stop them.
+    #   A half-released version is the worst outcome available, and a tag is far too late
+    #   to discover it.
+    #
+    #   Every other src/ `include_str!` of a fixture sits inside a #[cfg(test)] module and
+    #   so never reaches the packaged library. Only a top-level one does. This job is the
+    #   difference between finding that on a push and finding it mid-release.
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo package --locked
   msrv:
     runs-on: ubuntu-latest
     timeout-minutes: 30
