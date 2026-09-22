@@ -35,8 +35,10 @@ permissions:
   # Downloading an artifact from the triggering CI run requires actions:read.
   actions: read
 
+# Per-commit, not per-branch: see the note in ci.yml. Keyed on the branch, a second CI
+# completion cancelled the scan of the commit before it.
 concurrency:
-  group: sonarcloud-${{ github.event.workflow_run.head_branch }}
+  group: sonarcloud-${{ github.event.workflow_run.head_branch }}-${{ github.event.workflow_run.head_sha }}
   cancel-in-progress: true
 
 jobs:

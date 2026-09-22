@@ -795,7 +795,7 @@ flowchart LR
     subgraph ENG["Engine (per step)"]
       direction TB
       M["Error model<br/>step(): evolve noise state"] --> E["Estimator<br/>GNSS-disciplined holdover"]
-      E --> F["FoM scoring<br/>vs the 6 figures of merit"]
+      E --> F["FoM scoring<br/>vs the 7 figures of merit"]
     end
     ENG --> OUT["result.json + chart.svg<br/>(reproducible: scenario+seed+version)"]
 ```

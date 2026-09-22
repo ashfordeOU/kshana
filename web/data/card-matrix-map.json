@@ -26,7 +26,7 @@
     "Batch & sequential orbit determination"
   ],
   "Fisher information & observability": [
-    "Fisher information & Cramér–Rao observability",
+    "Fisher information & Cram\u00e9r\u2013Rao observability",
     "Lunar absolute-station observability (datum defect)"
   ],
   "CR3BP propagation & LunaNet integrity": [
@@ -38,7 +38,7 @@
   ],
   "Receiver autonomous integrity (ARAIM)": [
     "Integrity (RAIM/ARAIM/SBAS)",
-    "RAIM/ARAIM integrity statistical kernel (χ² / non-central χ² / normal laws)"
+    "RAIM/ARAIM integrity statistical kernel (\u03c7\u00b2 / non-central \u03c7\u00b2 / normal laws)"
   ],
   "SBAS / WAAS protection levels & dual-frequency": [
     "SBAS protection level (DO-229E weighted-LS HPL/VPL)"
@@ -79,7 +79,7 @@
   ],
   "Launch, re-entry, coverage & pointing budgets": [
     "Launch-window & ascent geometry (mission analysis)",
-    "Ballistic re-entry corridor (Allen–Eggers)",
+    "Ballistic re-entry corridor (Allen\u2013Eggers)",
     "EO payload footprint & coverage geometry",
     "3-DOF attitude & pointing error budget (AOCS)"
   ],
@@ -89,11 +89,11 @@
   "RF-impairment detection eval & PNT trade": [
     "ML detector-evaluation metrics (ROC/AUC/confusion/Pfa-Pmd)",
     "Anomaly-detection scoring on real spacecraft telemetry",
-    "Detection statistics — Gaussian AUC & minimum detectable fault"
+    "Detection statistics \u2014 Gaussian AUC & minimum detectable fault"
   ],
   "Quantum-vs-classical resilience crossover map": [
     "Quantum-vs-classical PNT trade & GNSS-denied resilience (13503)",
-    "Quantum-trade numerical kernels (NNLS / χ² bands / van-Loan Q)"
+    "Quantum-trade numerical kernels (NNLS / \u03c7\u00b2 bands / van-Loan Q)"
   ],
   "Conditional Timing Protection Level": [
     "Timing Protection Level under spoofing"
@@ -101,10 +101,10 @@
   "PNT-resilience scoring & decision-instability": [
     "PNT-resilience framework-aligned scoring",
     "Resilience-score decision-instability study",
-    "Rank-order statistics kernel (Kendall-τ / Dirichlet / percentile)",
+    "Rank-order statistics kernel (Kendall-\u03c4 / Dirichlet / percentile)",
     "Inverse-Simpson diversity kernel"
   ],
-  "Detection-miss → integrity regions": [
+  "Detection-miss \u2192 integrity regions": [
     "Detection-miss integrity impact (context-aware HPL/VPL vs alert limit)"
   ],
   "Cost-per-coverage ROI": [
@@ -113,5 +113,39 @@
   "Kshana Interchange Format (KIF)": [
     "CCSDS OEM interoperability (GMAT/Orekit/STK ephemeris import)",
     "Lunar interoperability export"
+  ],
+  "Lunar reference-frame realisation": [
+    "Lunar reference-frame realisation"
+  ],
+  "Lunar navigation service volume & ARAIM": [
+    "Lunar navigation service volume",
+    "Lunar ARAIM protection-level kernel",
+    "Lunar joint communications-and-navigation geometry",
+    "Off-boresight antenna pattern in the lunar geometry export"
+  ],
+  "Cross-provider lunar interoperability budget": [
+    "Cross-provider lunar frame/dynamics consistency (real inter-ephemeris)",
+    "Cross-provider consistency tolerance for a mixed-provider user",
+    "Multi-provider lunar interoperability error budget and frame-vs-ephemeris design law"
+  ],
+  "Autonomous free-network fault observability": [
+    "Autonomous free-network fault-observability linear-algebra pipeline (parity projector, detectability, MDB non-centrality, Byzantine block-spark)",
+    "Byzantine block-spark detect/identify bound on the autonomous per-node lunar network (T3)",
+    "Autonomous-holdover temporal-gauge floor for the self-referential lunar constellation (T4)",
+    "Provider common/differential split, one-rank-deficiency unification, and protection-gap slope (T5 / \u00a70 / g7)"
+  ],
+  "Lunar frame datum from real laser ranging": [
+    "Lunar frame datum from a REAL observing campaign",
+    "Multi-technique lunar datum information (LLR + lunar VLBI + orbiter range)",
+    "Lunar LLR datum geometry substrate (principal-axis reflectors, ground stations, analytic range partials)",
+    "Representative multi-technique measurement menu and the additive Fisher combination rule"
+  ],
+  "Lunar differential PNT": [
+    "Lunar differential PNT",
+    "Lunar differential PNT \u2014 correction-link residual budget"
+  ],
+  "Lunar time scales & geodetic VLBI": [
+    "Per-clock-class lunar time crossover table",
+    "Lunar geodetic VLBI"
   ]
 }

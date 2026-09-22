@@ -6,8 +6,14 @@ on:
     branches: [main]
 permissions:
   contents: read
+# Scoped to the COMMIT, not just the branch. With a branch-wide group every push to main
+# cancelled the previous commit's verification mid-flight, so on a busy day every commit
+# but the newest carried a cancelled run — indistinguishable at a glance from a failure,
+# and it destroys the record of whether that commit actually passed. Worse, re-running an
+# older run then evicted the CURRENT one. Keying on the SHA still collapses duplicate runs
+# of the same commit, which is all cancel-in-progress was ever needed for here.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.sha }}
   cancel-in-progress: true
 jobs:
   check:
@@ -119,13 +125,33 @@ jobs:
         # The floor is 85% — above the >=80% target and comfortably under the
         # measured ~96% line coverage on src/ — so it guards against regressions
         # without flaking. SGP4 and the clock modules sit at >=95%.
+        #
+        # --timeout is tarpaulin's per-test "no response" limit, not a budget for the
+        # whole job. At 900 s it killed the run on
+        # agency_swarm::swarm_a_leo_reduced_dynamic_fit — a real ESA Swarm-A LEO
+        # reduced-dynamic fit at geopotential degree 70, whose differential correction
+        # evaluates the full force model over the arc once per iteration. Measured on
+        # an arm64 laptop, debug build, NO instrumentation: agency_swarm 691 s and
+        # agency_lro 2250 s. Both tests were already present on 7bba514, whose coverage
+        # job passed in 91 minutes under this same 900 s limit, so the instrumented fit
+        # used to land just inside it: the setting was marginal, not newly broken.
+        # 3600 s restores headroom without hiding a hang — the job's own 240-minute
+        # ceiling is the real backstop. If this trips again the answer is NOT a bigger
+        # number, it is to take the multi-minute agency fits out of the coverage run
+        # and leave them to scripts/gate.sh, which runs them for correctness anyway.
+        #
+        # These lines are YAML comments ABOVE `run:` on purpose. `run: >` is a FOLDED
+        # scalar: every line is joined into one shell command, so a `#` placed inside
+        # it is not a comment — it comments out the REST OF THE COMMAND. That mistake
+        # shipped once here, silently dropping --timeout and --fail-under and leaving
+        # an unmatched apostrophe from the word "tarpaulin's". It parsed as valid YAML.
         run: >
           cargo tarpaulin --engine llvm --out Lcov --output-dir coverage
           --exclude-files 'src/*_data.rs'
           --exclude-files 'src/main.rs'
           --exclude-files 'tests/*'
           --exclude-files 'web/*'
-          --timeout 900 --fail-under 85
+          --timeout 3600 --fail-under 85
       - name: Upload lcov report
         uses: actions/upload-artifact@v4
         with:
