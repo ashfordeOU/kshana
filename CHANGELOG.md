@@ -9,6 +9,10 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+Nothing yet.
+
+## [0.27.0] - 2026-09-22
+
 ### Added
 
 - **`lunar-llr-datum` — the lunar frame datum from a real observing campaign.**
@@ -2857,7 +2861,9 @@ Initial release.
   services, not license fees.
 - `CITATION.cff` so the software can be cited.
 
-[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.25.0...HEAD
+[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.27.0...HEAD
+[0.27.0]: https://github.com/AshfordeOU/kshana/compare/v0.26.0...v0.27.0
+[0.26.0]: https://github.com/AshfordeOU/kshana/compare/v0.25.0...v0.26.0
 [0.25.0]: https://github.com/AshfordeOU/kshana/compare/v0.24.0...v0.25.0
 [0.24.0]: https://github.com/AshfordeOU/kshana/compare/v0.23.0...v0.24.0
 [0.23.0]: https://github.com/AshfordeOU/kshana/compare/v0.22.1...v0.23.0
