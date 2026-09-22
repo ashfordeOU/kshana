@@ -2029,8 +2029,15 @@ mod tests {
                 n, n_numbers,
                 "lunar-frame-realisation emission VALUE COUNT changed for {src:?}"
             );
+            // A BACKSTOP, not a precision check. The structure is already pinned exactly
+            // above; this catches a value moving materially while the shape stays put. It
+            // is compared at 1e-3 because this emission is the output of an iterative
+            // least-squares fit, whose cross-host divergence was measured at 6.7e-6 — see
+            // `crate::test_support::close_within`. A real R1 violation moves a value by a
+            // percent or more, which this still catches with two orders of margin; the
+            // exact pin below catches everything on the host that can assert it.
             assert!(
-                crate::test_support::close(sum, abs_sum),
+                crate::test_support::close_within(sum, abs_sum, 1e-3),
                 "lunar-frame-realisation emission VALUES moved for {src:?}: \
                  |sum| {sum} vs the pinned {abs_sum}"
             );

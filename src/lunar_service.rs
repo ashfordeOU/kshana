@@ -120,6 +120,7 @@ impl LunarSat {
 /// used only to exercise the service-volume method. See the module docs for sources.
 #[derive(Clone, Debug, PartialEq)]
 pub struct LunarConstellation {
+    /// The satellites making up this constellation, in generation order.
     pub sats: Vec<LunarSat>,
 }
 
@@ -1336,20 +1337,33 @@ pub const UNITS: &[crate::field_schema::FieldUnit] = {
 /// availability against the alert limit.
 #[derive(Clone, Debug, Serialize)]
 pub struct LunarServiceReport {
+    /// Satellites in the constellation.
     pub n_sats: usize,
+    /// Selenographic grid points swept.
     pub n_grid_points: usize,
+    /// Epochs evaluated at each grid point.
     pub n_epochs: usize,
+    /// Grid-point by epoch samples evaluated.
     pub n_samples: usize,
+    /// Elevation mask below which a satellite is not counted visible (deg).
     pub elev_mask_deg: f64,
+    /// PDOP above which a sample is not counted as covered.
     pub pdop_threshold: f64,
+    /// Alert limit the protection levels are scored against (m).
     pub alert_limit_m: f64,
+    /// Signal-in-space ranging accuracy assumed per satellite (m, 1-sigma).
     pub sigma_ure_m: f64,
     /// Coverage fraction (≥ 4 sats AND PDOP < threshold) as a percentage.
     pub coverage_pct: f64,
+    /// Fewest satellites visible at any evaluated sample.
     pub min_sats: usize,
+    /// Most satellites visible at any evaluated sample.
     pub max_sats: usize,
+    /// Smallest PDOP over the samples with a solvable geometry.
     pub pdop_min: f64,
+    /// Mean PDOP over the samples with a solvable geometry.
     pub pdop_mean: f64,
+    /// Largest PDOP over the samples with a solvable geometry.
     pub pdop_max: f64,
     /// Minimum HPL (m) over the volume samples that admitted a protection level (≥ 6 sats).
     pub hpl_min_m: f64,
