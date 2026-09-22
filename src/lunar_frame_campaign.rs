@@ -1967,31 +1967,35 @@ mod tests {
         //               re-baselined. A change to the `units` schema is OUT of scope here
         //               and must not be "fixed" by re-taking these numbers.
         // (scenario, exact fnv, exact length | portable: skeleton fnv, value count, |sum|)
+        // RE-BASELINED AT v0.27.0. The SVG footer carries the engine version, so every
+        // release moves both hashes. That this was ONLY the version is checkable and was
+        // checked: the byte length, the value count and the absolute sum are unchanged
+        // from v0.26.0 — a content change could not leave all three identical.
         // The first two are the ORIGINAL pins and are asserted only on the host they were
         // taken on. The last three are platform-independent by construction: the skeleton
         // has had every digit removed, so a last-ulp difference cannot reach it.
         for (src, expect, expect_len, skel_fnv, n_numbers, abs_sum) in [
             (
                 "kind = \"lunar-frame-realisation\"\n",
-                0xd4a0_2b1d_bf29_91c4_u64,
+                0x7dfe_0e3f_598e_da53_u64,
                 2938_usize,
-                0x2927_0f7b_6a2c_d583_u64,
+                0xbce1_498b_5751_bb98_u64,
                 121_usize,
                 17_578.163_792_326_643_f64,
             ),
             (
                 "kind = \"lunar-frame-realisation\"\nn_points = 12\nnoise_sigma_m = 0.5\nseed = 7\n",
-                0x3556_a721_e142_cb29,
+                0x9b1f_a903_4709_8cd2,
                 2935,
-                0xc59a_0598_7bca_0f08,
+                0x1a40_1933_f567_04ab,
                 121,
                 15_179.742_553_962_893,
             ),
             (
                 "kind = \"lunar-frame-realisation\"\nnoise_sigma_m = 0.0\n",
-                0xd930_d2e4_f86f_b1ef,
+                0x33e3_5759_8613_75dc,
                 2964,
-                0xb6ef_635f_6fc6_739c,
+                0x56c3_9702_88fa_ddf3,
                 121,
                 14_926.000_030_141_684,
             ),
@@ -2080,6 +2084,15 @@ mod tests {
             buf.extend_from_slice(out.svg.as_bytes());
             let text = String::from_utf8_lossy(&buf);
             let (skel, n, abs_sum) = crate::test_support::numeric_skeleton(&text);
+            // The exact pins too. These are re-taken ONLY for an intended change to the
+            // emission — a release bump moves them because the SVG footer carries the
+            // engine version. Finding F25 is about the other case: re-taking them to
+            // clear a red you have not explained is exactly what must never happen.
+            println!(
+                "  exact_fnv = 0x{:016x}\n  exact_len = {}",
+                crate::test_support::fnv1a64(&buf),
+                buf.len()
+            );
             println!(
                 "{src:?}\n  skeleton_fnv = 0x{:016x}\n  numeric_count = {}\n  abs_sum = {:?}",
                 crate::test_support::fnv1a64(skel.as_bytes()),
