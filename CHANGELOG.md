@@ -9,6 +9,10 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+Nothing yet.
+
+## [0.27.2] - 2026-09-22
+
 ### Added
 
 - **Every Rust item a verification-matrix row cites is now resolved against the
@@ -62,11 +66,67 @@ breaking changes are called out explicitly.
   168-row verification table, and it is named here as work rather than excluded
   from measurement.
 
+- **`scripts/gate.sh` had no single-writer lock, and every run wrote the same log.**
+  That is not tidiness: the receipt's `integration_binaries`, `tests_passed` and
+  `tests_ignored` are read back OUT of that log, and the pre-push hook trusts the
+  receipt. A gate that was killed but whose test binary was still alive kept
+  writing into the file the next run had just truncated — so one run's counts
+  could have been certified as another run's, authorising a push on the strength
+  of a suite that never ran on the tree being pushed. It is now one gate per
+  checkout (refusing with exit 75 alongside a live one, clearing a stale lock
+  whose pid is gone) and one log per run, with `target/gate-run.log` refreshed
+  from the finishing run on the way out. Both directions are tested: a live pid
+  refuses, a dead one is cleared.
+
 - `src/verification.rs` claimed its tests "do **not** prove the named test/oracle
   strings resolve to live code". Two guards now do exactly that, so the module doc
   said the opposite of the truth; it now states what is machine-checked and what
   is left to human judgement. A stale reference to `verification::gen` — the
   module is `artifacts` — is corrected in the sibling guard's own documentation.
+
+### Changed
+
+- **`main` was rewritten on 2026-09-22 and force-pushed.** Ten commits became
+  four. The rewrite folded each commit that left a gate red into the commit that
+  cleared it, so every commit on `main` now has a tree that passes, and removed
+  the cancelled runs that a branch-wide concurrency group had been leaving on
+  every superseded commit.
+
+  Nothing was discarded. The pre-rewrite commits remain reachable through the
+  tags that point at them, and the final tree is byte-identical to the tree the
+  rewrite started from — `git diff` between the old tip and the new one is empty
+  apart from the three workflow files this release changes.
+
+  The superseded SHAs, for anyone holding a reference to one:
+
+  | old | subject |
+  |---|---|
+  | `9733177` | docs(changelog): disclose the authorship rewrite and the two dangling crate sha1s |
+  | `5d16ea8` | fix(docs): the engine-flow diagram said 6 figures of merit; the engine scores 7 |
+  | `148d31d` | fix(test): two more cross-platform pins, and two wrong assumptions of my own |
+  | `a3a2667` | feat(web): surface the lunar cluster on the site — seven capability cards |
+  | `1e8bec6` | docs(lunar): document 42 public fields and ratchet the ceiling down to 985 |
+  | `7bba514` | chore(release): v0.27.0 |
+  | `3154548` | test(docs): guard the distribution diagram, the last unguarded one |
+  | `7864142` | chore(release): v0.27.1 |
+
+  **The v0.27.0 and v0.27.1 tags were deliberately NOT moved.** They still point
+  at `7bba514` and `7864142`, the exact commits whose trees produced the
+  artefacts now live on crates.io, npm, PyPI, ghcr.io and the MCP registry. A
+  crate's `.cargo_vcs_info.json` records the sha1 it was packaged from, registries
+  are immutable, and the SLSA build-provenance attestation on the v0.27.1 release
+  assets is bound to that commit. Moving the tags would have left every one of
+  those published artefacts pointing at a commit that no longer exists. Leaving
+  them keeps the old commits reachable and every published provenance chain
+  resolving, at the cost of two tags that are no longer ancestors of `main` —
+  which is why this release exists: v0.27.2 gives `main` a tag of its own,
+  packaged from a commit that is on it.
+
+  This is the second disclosed rewrite of this history; the first, on
+  2026-09-21, canonicalised authorship and is recorded in the 0.27.0 notes with
+  its own two dangling crate sha1s. A rewrite is disclosed here every time,
+  because a repository that sells verifiable provenance cannot quietly move the
+  ground under a published artefact.
 
 ## [0.27.1] - 2026-09-22
 
@@ -2947,7 +3007,8 @@ Initial release.
   services, not license fees.
 - `CITATION.cff` so the software can be cited.
 
-[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.27.1...HEAD
+[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.27.2...HEAD
+[0.27.2]: https://github.com/AshfordeOU/kshana/compare/v0.27.1...v0.27.2
 [0.27.1]: https://github.com/AshfordeOU/kshana/compare/v0.27.0...v0.27.1
 [0.27.0]: https://github.com/AshfordeOU/kshana/compare/v0.26.0...v0.27.0
 [0.26.0]: https://github.com/AshfordeOU/kshana/compare/v0.25.0...v0.26.0
