@@ -16,7 +16,7 @@ set -euo pipefail
 # The current number of `missing_docs` warnings. Lower this (never raise it) whenever you
 # document public items; keep it exactly in step with the real count so the ratchet stays
 # tight.
-CEILING=986
+CEILING=985
 
 cd "$(dirname "$0")/.."
 

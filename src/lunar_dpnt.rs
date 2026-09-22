@@ -1068,7 +1068,9 @@ impl Default for LunarDpntScenario {
 /// The result of a [`LunarDpntScenario`].
 #[derive(Clone, Debug, Serialize)]
 pub struct LunarDpntReport {
+    /// Satellites in the illustrative constellation the budget was evaluated over.
     pub n_sats: usize,
+    /// Reference-station-to-user separation the corrections were evaluated at (km).
     pub baseline_km: f64,
     /// User 3-D position error (m) with the broadcast ephemeris only (no corrections).
     pub user_error_uncorrected_m: f64,
