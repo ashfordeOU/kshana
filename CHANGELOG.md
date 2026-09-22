@@ -11,6 +11,35 @@ breaking changes are called out explicitly.
 
 Nothing yet.
 
+## [0.27.1] - 2026-09-22
+
+### Fixed
+
+- **The published crate did not compile.** `src/lunar_orientation.rs` holds a
+  top-level `include_str!` of `tests/fixtures/llr_geometry/de440_moon_pa.csv`,
+  and the manifest excludes `/tests/fixtures` from the package, so the tarball
+  crates.io receives was missing a file the library itself embeds. The v0.27.0
+  publish failed its verification build for that reason and no 0.27.0 reached
+  crates.io; npm and PyPI, whose jobs do not depend on it, published normally.
+  The exclusion now carries an exception for that one catalogue.
+
+  Every other `include_str!` of a fixture in `src/` sits inside a `#[cfg(test)]`
+  module and so never reaches the packaged library. Only a top-level one does.
+
+- **Nothing in CI ran `cargo package`,** which is why a tarball that cannot
+  compile was first discovered by the publish job, after two other registries had
+  already shipped. A `package` job now builds and compiles the exact tarball on
+  every push.
+
+### Changed
+
+- The lunar-frame-realisation emission pins no longer move on a version bump. The
+  SVG footer carries the engine version, so every release re-baselined three
+  hashes — twice in one day — and a pin re-taken by routine stops being read. The
+  version string is normalised to a placeholder before hashing, and the emission
+  is separately asserted to state the running version, so that fact is checked
+  more precisely than the hash ever checked it.
+
 ## [0.27.0] - 2026-09-22
 
 ### Added
@@ -2861,7 +2890,8 @@ Initial release.
   services, not license fees.
 - `CITATION.cff` so the software can be cited.
 
-[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.27.0...HEAD
+[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.27.1...HEAD
+[0.27.1]: https://github.com/AshfordeOU/kshana/compare/v0.27.0...v0.27.1
 [0.27.0]: https://github.com/AshfordeOU/kshana/compare/v0.26.0...v0.27.0
 [0.26.0]: https://github.com/AshfordeOU/kshana/compare/v0.25.0...v0.26.0
 [0.25.0]: https://github.com/AshfordeOU/kshana/compare/v0.24.0...v0.25.0
