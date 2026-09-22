@@ -29,13 +29,22 @@
 //!   provide (spacecraft-bus, RF-payload, quantum-hardware and flight-PA
 //!   engineering): no module, no test, no oracle, by design.
 //!
-//! The tests check the *classification* (a Validated row must be tagged external;
-//! a partner row must claim nothing; counts are consistent). They do **not** prove
-//! the named test/oracle strings resolve to live code — those are curated
-//! references, maintained by hand and cross-checked in code review, exactly as the
-//! citations in `docs/VALIDATION.md` are. The "machine-checked" claim is therefore
-//! scoped to the status/oracle-kind invariants, not to the existence of every
-//! string — stated plainly so the artifact does not oversell itself.
+//! The unit tests here check the *classification* (a Validated row must be tagged
+//! external; a partner row must claim nothing; counts are consistent). Two
+//! integration guards extend that to the citations themselves:
+//! `tests/verification_rows_cite_evidence_that_exists.rs` requires every
+//! repo-relative artefact a row names to be on disk, and
+//! `tests/verification_rows_name_a_test_that_exists.rs` resolves every Rust item
+//! path a row names — `navsignal::code_tests`, `eop::parse_all`,
+//! `api::tests::tracking_loop_kind_round_trips_through_the_dispatch` — against the
+//! crate source, and requires every non-partner row to name at least one test that
+//! actually carries `#[test]`.
+//!
+//! What stays outside the machine's reach is the *judgement*: whether the oracle a
+//! row names is a good one for the claim, and whether the prose describes what the
+//! test does. Those are read by a human. So "machine-checked" here means the status
+//! and oracle-kind invariants hold and nothing a row cites is missing — not that the
+//! oracle has been graded — stated plainly so the artifact does not oversell itself.
 
 /// How a row's claim is actually backed — the distinction that separates an
 /// external validation from a self-consistency check.
@@ -590,7 +599,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             requirement: "Alternative / complementary PNT",
             capability: "Gravity-map matching, terrain-referenced (TERCOM/SITAN), magnetic anomaly",
             module: "altpnt, mapmatch, gravimeter, igrf",
-            tests: "tests/* (map-matching CRLB; IGRF-14 field)",
+            tests: "tests/alternative_complementary_pnt_reference.rs (map-matching CRLB; IGRF-14 field); mapmatch::tests; gravimeter::tests; igrf::tests",
             oracle: "IGRF-14 coefficients; first-principles matched-filter CRLB",
             oracle_kind: InternalConsistency,
             status: Modelled,

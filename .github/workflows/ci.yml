@@ -10,8 +10,9 @@ permissions:
 # cancelled the previous commit's verification mid-flight, so on a busy day every commit
 # but the newest carried a cancelled run — indistinguishable at a glance from a failure,
 # and it destroys the record of whether that commit actually passed. Worse, re-running an
-# older run then evicted the CURRENT one. Keying on the SHA still collapses duplicate runs
-# of the same commit, which is all cancel-in-progress was ever needed for here.
+# older run then evicted the CURRENT one (this cost 7864142 its coverage job at 87 of ~92
+# minutes). Keying on the SHA still collapses duplicate runs of the same commit, which is
+# all cancel-in-progress was ever needed for here.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-${{ github.sha }}
   cancel-in-progress: true

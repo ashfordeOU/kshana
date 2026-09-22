@@ -235,7 +235,7 @@ Each scenario compares a quantum sensor against its classical counterpart throug
 
 <p align="center">
   <img src="docs/assets/figures/scenario-fom.png" alt="What quantum sensors buy when GNSS is gone, clock-holdover scenario: quantum holds 6600 s of autonomy vs 2610 s classical, far lower timing error, and 100% vs 95.6% availability" width="88%">
-  <br><sub>What quantum sensors buy when GNSS is gone — <code>clock-holdover</code> · seed 42 · engine 0.22.0 · <a href="docs/assets/figures/scenario-fom.svg">SVG</a></sub>
+  <br><sub>What quantum sensors buy when GNSS is gone — <code>clock-holdover</code> · seed 42 · drawn at engine 0.22.0, and every figure above re-checked against the current engine on each build by <code>tests/published_figures_still_reproduce.rs</code> · <a href="docs/assets/figures/scenario-fom.svg">SVG</a></sub>
 </p>
 
 The advantage is **outage- and vibration-dependent**, with an explicit break-even where classical wins — shown honestly across the technology-readiness ladder (optical-clock figures are ground-demonstrator targets; no strontium optical clock has flown):
