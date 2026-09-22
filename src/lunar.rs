@@ -121,8 +121,11 @@ pub fn mcmf_to_mci(r_mcmf: Vec3, seconds: f64) -> Vec3 {
 /// [`R_MOON_M`] (its flattening is ~0.0012, well below this fidelity).
 #[derive(Clone, Copy, Debug, PartialEq, Serialize)]
 pub struct Selenographic {
+    /// Selenographic latitude, positive north (rad).
     pub lat_rad: f64,
+    /// Selenographic longitude, positive east (rad).
     pub lon_rad: f64,
+    /// Height above the adopted lunar reference radius (m).
     pub alt_m: f64,
 }
 
@@ -163,8 +166,11 @@ pub fn selenographic_to_mcmf(s: Selenographic) -> Vec3 {
 /// use. Sources are cited per row on the constants below.
 #[derive(Clone, Copy, Debug, PartialEq, Serialize)]
 pub struct LunarSite {
+    /// Short site label, as used in reports and figures.
     pub name: &'static str,
+    /// Selenographic latitude of the site, positive north (deg).
     pub lat_deg: f64,
+    /// Selenographic longitude of the site, positive east (deg).
     pub lon_deg: f64,
 }
 
@@ -318,9 +324,13 @@ pub fn lunar_site_dop(user: Vec3, relays: &[Vec3], mask_deg: f64) -> Option<crat
 /// coverage / visibility / DOP geometry that LANS design studies need first.
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct LunarRelay {
+    /// Circular orbit radius from the Moon's centre (m).
     pub radius_m: f64,
+    /// Inclination to the lunar equator (deg).
     pub inc_deg: f64,
+    /// Right ascension of the ascending node (deg).
     pub raan_deg: f64,
+    /// In-plane phase at epoch (deg).
     pub phase_deg: f64,
 }
 
@@ -358,9 +368,14 @@ pub fn relay_set_mcmf(relays: &[LunarRelay], seconds: f64) -> Vec<Vec3> {
 /// One sampled surface point's instantaneous geometry against the relay set.
 #[derive(Clone, Copy, Debug, PartialEq, Serialize)]
 pub struct CoverageCell {
+    /// Selenographic latitude of the cell centre (deg).
     pub lat_deg: f64,
+    /// Selenographic longitude of the cell centre (deg).
     pub lon_deg: f64,
+    /// Satellites above the elevation mask at this cell.
     pub n_visible: usize,
+    /// Position dilution of precision here. `None` when fewer than four satellites are
+    /// visible, so the geometry is not solvable — distinct from a large but finite PDOP.
     pub pdop: Option<f64>,
 }
 
@@ -418,7 +433,9 @@ pub fn lunar_coverage_grid(
 /// One cell of the time-averaged polar GDOP map (L11 / P2 Figure 1a).
 #[derive(Clone, Copy, Debug, PartialEq, Serialize)]
 pub struct GdopMapCell {
+    /// Selenographic latitude of the cell centre (deg).
     pub lat_deg: f64,
+    /// Selenographic longitude of the cell centre (deg).
     pub lon_deg: f64,
     /// Number of epochs at which the cell had a defined DOP (≥ 4 visible relays).
     pub n_defined: usize,
@@ -766,12 +783,19 @@ pub struct LunarScenario {
 /// availability and HPL envelope against the alert limit.
 #[derive(Clone, Debug, Serialize)]
 pub struct LunarReport {
+    /// Horizontal alert limit the availability statistic is scored against (m).
     pub alert_limit_m: f64,
+    /// Signal-in-space ranging accuracy assumed per satellite (m, 1-sigma).
     pub sigma_ure_m: f64,
+    /// Pass samples evaluated.
     pub samples_total: usize,
+    /// Samples whose horizontal protection level stayed inside the alert limit.
     pub samples_available: usize,
+    /// Smallest horizontal protection level over the pass (m).
     pub min_hpl_m: f64,
+    /// Largest horizontal protection level over the pass (m).
     pub max_hpl_m: f64,
+    /// The pass itself, one entry per evaluated epoch.
     pub pass: Vec<LunarPassPoint>,
 }
 

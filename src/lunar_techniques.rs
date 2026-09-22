@@ -21,8 +21,12 @@
 /// caller-defined relative cost (**Modelled**).
 #[derive(Clone, Debug)]
 pub struct MeasurementBlock {
+    /// Human-readable name of the candidate campaign.
     pub label: String,
+    /// Its 7x7 Fisher information contribution, already preconditioned by
+    /// [`crate::lunar_identifiability::assemble_multi_info`].
     pub info: Vec<Vec<f64>>,
+    /// Caller-defined relative acquisition cost (**Modelled**).
     pub cost: f64,
 }
 
