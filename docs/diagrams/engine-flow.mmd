@@ -4,6 +4,6 @@ flowchart LR
     subgraph ENG["Engine — per time step"]
       direction TB
       M["Error model<br/>step: evolve noise state"] --> E["Estimator<br/>GNSS-disciplined holdover"]
-      E --> F["FoM scoring<br/>vs the 6 figures of merit"]
+      E --> F["FoM scoring<br/>vs the 7 figures of merit"]
     end
     ENG --> OUT["result.json and chart.svg<br/>reproducible from<br/>scenario and seed and version"]

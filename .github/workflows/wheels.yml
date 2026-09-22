@@ -20,8 +20,10 @@ on:
 permissions:
   contents: read
 
+# Per-commit, not per-branch: see the note in ci.yml. A branch-wide group leaves every
+# superseded commit showing a cancelled wheel build it never actually failed.
 concurrency:
-  group: wheels-${{ github.ref }}
+  group: wheels-${{ github.ref }}-${{ github.sha }}
   cancel-in-progress: true
 
 jobs:
