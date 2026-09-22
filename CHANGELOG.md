@@ -9,7 +9,64 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
-Nothing yet.
+### Added
+
+- **Every Rust item a verification-matrix row cites is now resolved against the
+  crate.** The existing guard checked the citations shaped like file paths; 63 of
+  the 164 non-partner rows name their evidence as an in-crate item instead —
+  `navsignal::code_tests`, `integrity::tpl_scalar::tests`,
+  `api::tests::tracking_loop_kind_round_trips_through_the_dispatch` — and a token
+  with no `.rs` suffix was invisible to a path scanner. Those rows could have
+  named a renamed module, an emptied test module or a function that never
+  existed, and every gate would have stayed green.
+
+  `tests/verification_rows_name_a_test_that_exists.rs` resolves all 339 such
+  citations through the module tree, requires every non-partner row to name at
+  least one test that actually carries `#[test]`, and requires partner rows to
+  name none. Four mutations were used to grade it: renaming a cited module,
+  pointing a row's only test citation at a non-test function, renaming the real
+  `mod tests`, and stripping the `#[test]` attributes from it — each goes red on
+  the assertion that owns it.
+
+  One row was already wrong: *Alternative / complementary PNT* cited `tests/*`, a
+  glob, which is not a citation. It now names
+  `tests/alternative_complementary_pnt_reference.rs` and the three in-crate test
+  modules behind it.
+
+- **The published figures are re-checked against the engine on every build**
+  (`tests/published_figures_still_reproduce.rs`). The three README demo charts are
+  the engine's own `chart.svg` output and nothing re-ran the scenario; the paper's
+  two crossover studies were generated once and committed; and the README states
+  four figures of merit in prose beside `scenario-fom.png`. All three are now
+  pinned to live engine output.
+
+  Reconciling them turned up the useful result: the demo charts had been drawn at
+  engine 0.22.0 and the paper's crossover JSON at 0.20.0, and at 0.27.1 **every
+  plotted value in all five artefacts is identical** — the three chart SVGs differ
+  from a fresh run by exactly two characters each, the version stamp in the
+  footer. The charts have been re-rendered so the footer is true. The paper's JSON
+  is deliberately left stamped 0.20.0: it is the record of the run whose figure a
+  published paper embeds, and restamping it would claim a provenance the PDF does
+  not have. The guard asserts the stronger property instead — that the current
+  engine still reproduces every published value.
+
+### Fixed
+
+- SonarCloud analyses were recorded as `VERSION=not provided`, so the
+  `previous_version` new-code period never advanced: it was still anchored at the
+  2026-07-02 analysis, grading eighty-two days of work as a single delta and
+  measuring 7877 "new" duplicated lines against a 3 % threshold. The scan now
+  passes the crate version. The underlying duplication is real and is not hidden
+  by this: it is concentrated in the declarative `FieldUnit` registries repeated
+  across `ensemble`, `hybrid`, `fusion`, `inertial` and `report`, and in the
+  168-row verification table, and it is named here as work rather than excluded
+  from measurement.
+
+- `src/verification.rs` claimed its tests "do **not** prove the named test/oracle
+  strings resolve to live code". Two guards now do exactly that, so the module doc
+  said the opposite of the truth; it now states what is machine-checked and what
+  is left to human judgement. A stale reference to `verification::gen` — the
+  module is `artifacts` — is corrected in the sibling guard's own documentation.
 
 ## [0.27.1] - 2026-09-22
 

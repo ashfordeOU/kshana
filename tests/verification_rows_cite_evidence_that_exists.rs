@@ -4,7 +4,7 @@
 //! ## Why this is not already covered
 //!
 //! The ledger generator existence-checks the paths it turns into links
-//! (`verification::gen::to_ledger_json` filters on `is_file()`) so that the published
+//! (`verification::artifacts::to_ledger_json` filters on `is_file()`) so that the published
 //! matrix never shows a dead link. That is the right behaviour for a link, and it is
 //! exactly why a missing evidence file is invisible: the row regenerates clean, the web
 //! ledger simply shows one fewer link, and the row goes on asserting in prose that it is

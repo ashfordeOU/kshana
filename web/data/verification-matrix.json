@@ -1439,7 +1439,7 @@
       "oracle_kind": "InternalConsistency",
       "oracle": "IGRF-14 coefficients; first-principles matched-filter CRLB",
       "module": "altpnt, mapmatch, gravimeter, igrf",
-      "tests": "tests/* (map-matching CRLB; IGRF-14 field)",
+      "tests": "tests/alternative_complementary_pnt_reference.rs (map-matching CRLB; IGRF-14 field); mapmatch::tests; gravimeter::tests; igrf::tests",
       "module_links": [
         {
           "path": "src/altpnt/mod.rs",
@@ -1458,8 +1458,17 @@
           "url": "https://github.com/AshfordeOU/kshana/blob/main/src/igrf.rs"
         }
       ],
-      "test_links": [],
-      "fixture": null
+      "test_links": [
+        {
+          "path": "tests/alternative_complementary_pnt_reference.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/alternative_complementary_pnt_reference.rs"
+        }
+      ],
+      "fixture": {
+        "path": "tests/fixtures/alternative_complementary_pnt",
+        "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fixtures/alternative_complementary_pnt",
+        "notice_url": null
+      }
     },
     {
       "requirement": "SRTM digital-elevation reader on real terrain",
