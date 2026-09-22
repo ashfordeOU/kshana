@@ -59,23 +59,86 @@ fn read(rel: &str) -> String {
     fs::read_to_string(root().join(rel)).unwrap_or_else(|e| panic!("cannot read {rel}: {e}"))
 }
 
+/// Replace the engine version in the chart footer with a placeholder.
+///
+/// The footer reads `Kshana v0.27.2 · scenario <hash> · kshana.dev`, so a release bump
+/// changes every chart by one character while every plotted value stays put. That is a
+/// completely different situation from a curve moving, and the guard should say which one
+/// it found rather than leaving the reader to diff two 19 kB SVGs by eye.
+fn without_version_stamp(svg: &str) -> String {
+    let Some(at) = svg.find("Kshana v") else {
+        return svg.to_string();
+    };
+    let start = at + "Kshana v".len();
+    let end = svg[start..]
+        .find(|c: char| !c.is_ascii_digit() && c != '.')
+        .map_or(svg.len(), |o| start + o);
+    format!("{}Kshana vX.Y.Z{}", &svg[..at], &svg[end..])
+}
+
 #[test]
 fn every_readme_demo_chart_is_what_the_engine_emits_today() {
     for (toml, chart) in DEMO_CHARTS {
         let out = kshana::api::run_scenario(&read(toml))
             .unwrap_or_else(|e| panic!("{toml} does not run: {e:?}"));
         let committed = read(chart);
-        assert_eq!(
-            committed, out.svg,
-            "{chart} is not what {toml} produces today. The README publishes this file as \
-             the engine's own output, footer version and all, so a stale copy is a false \
-             claim about the current engine. Re-run `cargo run -- {toml}` and copy the \
-             emitted .chart.svg over it — after checking WHY it moved."
+        if committed == out.svg {
+            continue;
+        }
+        let only_the_stamp = without_version_stamp(&committed) == without_version_stamp(&out.svg);
+        let diagnosis = if only_the_stamp {
+            "ONLY the engine-version stamp in the footer moved — every plotted value is \
+             identical. This is the routine release re-render."
+        } else {
+            "a PLOTTED VALUE moved, not just the version stamp. Work out what changed in \
+             the engine and whether it is intended BEFORE re-rendering; this figure is \
+             published in the README."
+        };
+        panic!(
+            "{chart} is not what {toml} produces today.\n\n{diagnosis}\n\nFix: \
+             `cargo run -- {toml}` and copy the emitted .chart.svg over {chart}."
         );
     }
 }
 
 #[test]
+fn the_version_stamp_normaliser_hides_the_version_and_nothing_else() {
+    let a = "<svg>x</svg>Kshana v0.27.1 · scenario abc · kshana.dev";
+    let b = "<svg>x</svg>Kshana v9.9.9 · scenario abc · kshana.dev";
+    let moved = "<svg>y</svg>Kshana v0.27.1 · scenario abc · kshana.dev";
+    assert_eq!(
+        without_version_stamp(a),
+        without_version_stamp(b),
+        "two charts differing only in the version stamp must normalise equal"
+    );
+    assert_ne!(
+        without_version_stamp(a),
+        without_version_stamp(moved),
+        "a normaliser that also hid a moved plotted value would make the guard blind"
+    );
+    assert!(
+        without_version_stamp(a).contains("scenario abc"),
+        "the scenario hash must survive normalisation"
+    );
+    assert_eq!(
+        without_version_stamp("no footer here"),
+        "no footer here",
+        "a chart with no footer must pass through untouched"
+    );
+}
+
+/// Skipped under `cargo-tarpaulin` (`cfg(tarpaulin)`, set only during a coverage build).
+///
+/// The two paper studies take ~107 s uninstrumented, and LLVM instrumentation multiplies
+/// that ~20-30x — thirty-five to fifty minutes added to a job whose healthy steady state is
+/// 91-94 minutes and which has a documented history of being killed at its cap (see the
+/// `coverage` job in ci.yml). The skip is coverage-neutral: `src/crossover.rs`'s own unit
+/// tests already call `InertialCrossover::paper_inertial().run()` and `ClockHoldover::run()`,
+/// so the same lines are executed either way. What the coverage build gives up is the
+/// REPRODUCTION check — which is not a coverage question, and still runs on every ordinary
+/// `cargo test`, including the gate.
+#[test]
+#[cfg_attr(tarpaulin, ignore)]
 fn the_papers_crossover_studies_still_reproduce_value_for_value() {
     let fresh_inertial = kshana::crossover::InertialCrossover::paper_inertial().run();
     let fresh_clock = kshana::crossover::ClockHoldover::paper_clocks().run();

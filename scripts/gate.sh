@@ -47,11 +47,43 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT" || exit 1
 
 RECEIPT="$ROOT/.gate-receipt.json"
-LOG="$ROOT/target/gate-run.log"
 REPEAT="${REPEAT:-3}"
 TEST_THREADS="${TEST_THREADS:-}"
 
 mkdir -p "$ROOT/target"
+
+# SINGLE WRITER, and a per-run log.
+#
+# Two gates on one checkout share target/, and before this they also shared ONE log path.
+# That is not a tidiness problem: the counts in the receipt below — integration_binaries,
+# tests_passed, tests_ignored — are read back OUT of that log. A gate that was killed but
+# whose test binary was still alive kept writing into the file the next run had just
+# truncated, so one run's numbers could land in the other run's receipt, and the pre-push
+# hook trusts the receipt. That is how a push gets authorised by a suite that never ran on
+# the tree being pushed.
+#
+# So: refuse to start alongside a live gate, and give each run its own log. Exit 75 marks
+# the refusal as "not run", distinct from a red suite.
+LOCK="$ROOT/target/.gate.lock"
+if [ -e "$LOCK" ]; then
+  OTHER="$(cat "$LOCK" 2>/dev/null || true)"
+  if [ -n "${OTHER:-}" ] && kill -0 "$OTHER" 2>/dev/null; then
+    echo "gate: REFUSED — another gate (pid $OTHER) is already running on this checkout." >&2
+    echo "gate:   Two gates race for target/, and the receipt reads its counts back out of" >&2
+    echo "gate:   the run log, so a second writer can put one run's numbers into the" >&2
+    echo "gate:   other's receipt. Wait for it to finish, or kill pid $OTHER." >&2
+    exit 75
+  fi
+  echo "gate: clearing a stale lock left by pid ${OTHER:-unknown} (no such process)"
+  rm -f "$LOCK"
+fi
+echo $$ > "$LOCK"
+
+LOG="$ROOT/target/gate-run.$$.log"
+# Keep target/gate-run.log as the name a human looks for, refreshed from THIS run's log on
+# the way out, whichever way out that is.
+trap 'cp -f "$LOG" "$ROOT/target/gate-run.log" 2>/dev/null || true; rm -f "$LOCK"' EXIT
+find "$ROOT/target" -maxdepth 1 -name 'gate-run.*.log' -mtime +1 -delete 2>/dev/null || true
 
 COMMIT="$(git rev-parse HEAD 2>/dev/null || echo unknown)"
 if [ -z "$(git status --porcelain 2>/dev/null)" ]; then
