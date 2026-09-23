@@ -542,6 +542,8 @@ impl RealtimeFrameEopScenario {
             serde_json::json!({
                 "component": c.component,
                 "unit": c.unit,
+                "truth_source": c.truth_source,
+                "truth_fallback_rows": c.truth_fallback_rows,
                 "n": c.n,
                 "epochs_mjd": c.epochs_mjd,
                 "rms_native": c.rms_native,
@@ -1030,6 +1032,16 @@ fn units_block() -> serde_json::Value {
             "count",
             "measured",
             "",
+        );
+        put(
+            &format!("table3_joint_eop[].{q}.truth_fallback_rows"),
+            "count",
+            "measured",
+            "How many of this component's `n` samples were scored against the Bulletin A \
+             RAPID value because no Bulletin B final was published for one of the days the \
+             sample spans. Always 0 at the `final` floor, whose residual is \
+             rapid-minus-final and so cannot form without a final. At a prediction horizon \
+             it is the measure of how far that row's truth departs from the floor row's.",
         );
         put(
             &format!("table3_joint_eop[].{q}.epochs_mjd"),

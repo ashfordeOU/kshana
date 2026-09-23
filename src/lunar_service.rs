@@ -1572,6 +1572,25 @@ pub struct SigmaRequirementComparison {
     pub ephemeris: SigmaRequirementRow,
     /// The illustrative Keplerian constellation — the pre-existing published result.
     pub keplerian: SigmaRequirementRow,
+    /// The SAME illustrative Keplerian constellation re-run at the RETRIEVED set's own
+    /// satellite count, so the comparison separates constellation DESIGN from constellation
+    /// SIZE.
+    ///
+    /// Present only when the two counts differ; when they already match, `keplerian` is
+    /// itself the like-for-like row and a duplicate would say nothing. Without this a
+    /// five-satellite retrieved set is scored against an eight-satellite illustrative one
+    /// and the reader cannot tell which part of the gap is the design and which part is
+    /// three more satellites.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub keplerian_matched: Option<SigmaRequirementRow>,
+    /// `ephemeris.sigma_required_m − keplerian_matched.sigma_required_m` (m) — the
+    /// size-controlled difference. Absent whenever `keplerian_matched` is.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub sigma_requirement_delta_vs_keplerian_matched_m: Option<f64>,
+    /// `ephemeris.sigma_required_m / keplerian_matched.sigma_required_m` — the
+    /// size-controlled ratio. Absent whenever `keplerian_matched` is.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub sigma_requirement_ratio_vs_keplerian_matched: Option<f64>,
     /// The perturbed (J2 + C22 + Earth/Sun third body) twin of the same elements.
     pub perturbed: SigmaRequirementRow,
     /// `ephemeris.sigma_required_m − keplerian.sigma_required_m` (m).
@@ -1710,7 +1729,7 @@ const SIGMA_ROW_UNITS: &[(&str, &str, &str)] = &[
 /// Render [`EPHEMERIS_UNITS`] and [`SIGMA_ROW_UNITS`] as the comparison block's `units`
 /// object, with one entry per emitted numeric path (the per-geometry rows expanded for
 /// each of the three geometries, each carrying that geometry's own provenance class).
-fn ephemeris_units_block(rows: [(&str, &str); 3]) -> serde_json::Value {
+fn ephemeris_units_block(rows: &[(&str, &str)]) -> serde_json::Value {
     let mut m = serde_json::Map::new();
     let mut put = |path: String, unit: &str, provenance: &str, note: &str| {
         let mut e = serde_json::Map::new();
@@ -1824,9 +1843,22 @@ impl LunarServiceScenario {
     /// saturate there. The two are aligned here so larger constellations are actually
     /// evaluated.
     fn keplerian_sats(&self) -> (Vec<LunarSat>, usize) {
-        let sma_m = self.sma_km * 1000.0;
         let n = self.n_sats.clamp(1, 24);
-        let sats = (0..n)
+        (self.keplerian_sats_at(n), n)
+    }
+
+    /// The same illustrative design at an ARBITRARY satellite count.
+    ///
+    /// The count is not a label on this constellation, it is part of its geometry: both the
+    /// RAAN and the mean anomaly are spread as `360 k / n`, so a five-satellite set is a
+    /// differently phased constellation and not the eight-satellite one with three members
+    /// hidden. Anything comparing against a retrieved set of a different size has to rebuild
+    /// here rather than re-report, or it prints one constellation's coverage under another
+    /// one's satellite count.
+    fn keplerian_sats_at(&self, n: usize) -> Vec<LunarSat> {
+        let sma_m = self.sma_km * 1000.0;
+        let n = n.clamp(1, 24);
+        (0..n)
             .map(|k| LunarSat {
                 sma_m,
                 eccentricity: self.eccentricity,
@@ -1835,8 +1867,7 @@ impl LunarServiceScenario {
                 argp_deg: self.argp_deg,
                 mean_anom_deg: 360.0 * (k as f64) / (n as f64),
             })
-            .collect();
-        (sats, n)
+            .collect()
     }
 
     /// The perturbed twin of the SAME epoch elements: each satellite numerically
@@ -1960,6 +1991,15 @@ impl LunarServiceScenario {
         };
         let eph_class = eph.provenance_class();
         let e_row = row("ephemeris", eph_class, &report, &ex_eph);
+        // The like-for-like baseline: the illustrative set at the RETRIEVED count. Computed
+        // only when the counts differ, so a run whose retrieved set is already the same size
+        // emits exactly the bytes it emitted before this field existed.
+        let matched = (report.n_sats != n).then(|| {
+            let m_sats = self.keplerian_sats_at(report.n_sats);
+            let m_n = m_sats.len();
+            let (m_kep, ex_m) = self.sweep(&LunarConstellation::new(m_sats), m_n, false);
+            row("keplerian-matched", "modelled-keplerian", &m_kep, &ex_m)
+        });
         let k_row = row("keplerian", "modelled-keplerian", &kep, &ex_kep);
         let p_row = row("perturbed", "modelled-perturbed", &per, &ex_per);
         let delta = |a: Option<f64>, b: Option<f64>| match (a, b) {
@@ -1989,13 +2029,30 @@ impl LunarServiceScenario {
                 e_row.sigma_required_m,
                 p_row.sigma_required_m,
             ),
-            units: ephemeris_units_block([
-                ("ephemeris", eph_class),
-                ("keplerian", "modelled-keplerian"),
-                ("perturbed", "modelled-perturbed"),
-            ]),
+            sigma_requirement_delta_vs_keplerian_matched_m: delta(
+                e_row.sigma_required_m,
+                matched.as_ref().and_then(|m| m.sigma_required_m),
+            ),
+            sigma_requirement_ratio_vs_keplerian_matched: ratio(
+                e_row.sigma_required_m,
+                matched.as_ref().and_then(|m| m.sigma_required_m),
+            ),
+            units: ephemeris_units_block(&{
+                let mut g = vec![
+                    ("ephemeris", eph_class),
+                    ("keplerian", "modelled-keplerian"),
+                    ("perturbed", "modelled-perturbed"),
+                ];
+                // Document the matched row only when it is emitted: a units entry for a
+                // field the document does not carry is an orphan the global gate rejects.
+                if matched.is_some() {
+                    g.push(("keplerian_matched", "modelled-keplerian"));
+                }
+                g
+            }),
             ephemeris: e_row,
             keplerian: k_row,
+            keplerian_matched: matched,
             perturbed: p_row,
             note: "The Keplerian row is the pre-existing published result, recomputed \
                    unchanged from the same scenario fields; it is emitted BESIDE the \
@@ -2005,7 +2062,13 @@ impl LunarServiceScenario {
                    over the service volume meets the alert limit. Nothing is tuned to bring \
                    the geometries together: the delta and the ratio ARE the result. The DOP \
                    kernel and the LNIS integrity budget are unchanged from the Keplerian run \
-                   — only the geometry differs.",
+                   — only the geometry differs. When the retrieved set has a DIFFERENT \
+                   satellite count from the scenario's, a `keplerian_matched` row carries the \
+                   illustrative constellation re-run at the retrieved count, so the \
+                   size-controlled comparison is available beside the as-configured one; \
+                   without it a five-satellite retrieved set is scored against an \
+                   eight-satellite illustrative one and the design and the size are \
+                   conflated.",
         };
         report.ephemeris = Some(crate::lunar_ephemeris::source_block(&eph));
         report.ephemeris_comparison = Some(comparison);
@@ -3549,7 +3612,7 @@ mod tests {
         };
         check("ephemeris", &v["ephemeris"]);
         check("ephemeris_comparison", &v["ephemeris_comparison"]);
-        for g in ["ephemeris", "keplerian", "perturbed"] {
+        for g in ["ephemeris", "keplerian", "keplerian_matched", "perturbed"] {
             check(
                 &format!("ephemeris_comparison.{g}"),
                 &v["ephemeris_comparison"][g],
@@ -3590,6 +3653,86 @@ mod tests {
             (1.0..15.0).contains(&tie),
             "tie angle {tie} deg is implausible"
         );
+    }
+
+    /// ORACLE: the size-matched Keplerian row must be a DIFFERENT CONSTELLATION, not the
+    /// as-configured one relabelled.
+    ///
+    /// The illustrative design spreads both RAAN and mean anomaly as `360 k / n`, so the
+    /// satellite count is part of the geometry. A matched row built by passing a new count
+    /// to the sweep while handing it the eight-satellite element set compiles, runs, and
+    /// reports `n_sats = 5` against eight satellites' coverage — the failure this asserts
+    /// against, and the one that was actually written first.
+    #[test]
+    fn the_size_matched_baseline_rebuilds_the_constellation_rather_than_relabelling_it() {
+        let r = LunarServiceScenario {
+            ephemeris_path: Some(fixture("lans_demo_ntrs20250009447.csv")),
+            ..LunarServiceScenario::default()
+        }
+        .try_run()
+        .expect("the five-satellite LANS set runs");
+        let c = r
+            .ephemeris_comparison
+            .as_ref()
+            .expect("a retrieved geometry emits the comparison");
+        let m = c
+            .keplerian_matched
+            .as_ref()
+            .expect("five retrieved satellites against eight configured must emit the matched row");
+
+        assert_eq!(
+            m.n_sats, c.ephemeris.n_sats,
+            "matched row must take the RETRIEVED count"
+        );
+        assert_ne!(
+            m.n_sats, c.keplerian.n_sats,
+            "the premise: the counts differ"
+        );
+        // The defect: identical coverage under a different reported count.
+        assert_ne!(
+            m.coverage_pct, c.keplerian.coverage_pct,
+            "the matched row reports {} satellites but the as-configured row's coverage \
+             ({}%) — the constellation was relabelled, not rebuilt",
+            m.n_sats, c.keplerian.coverage_pct
+        );
+        // ...and it must sit between them: fewer satellites than the eight-satellite run,
+        // and this design still beats the retrieved set it is controlling for.
+        assert!(
+            m.coverage_pct < c.keplerian.coverage_pct,
+            "fewer satellites cannot cover more: matched {} vs configured {}",
+            m.coverage_pct,
+            c.keplerian.coverage_pct
+        );
+        assert!(
+            m.coverage_pct > c.ephemeris.coverage_pct,
+            "matched {} vs retrieved {}",
+            m.coverage_pct,
+            c.ephemeris.coverage_pct
+        );
+    }
+
+    /// The matched row is ABSENT when it would say nothing: LNCSS case A is itself an
+    /// eight-satellite set, so the as-configured row is already like-for-like and a
+    /// duplicate of it would be noise. This also keeps that run byte-identical to what it
+    /// emitted before the field existed.
+    #[test]
+    fn no_size_matched_row_when_the_counts_already_agree() {
+        let r = LunarServiceScenario {
+            ephemeris_path: Some(fixture("lncss_case_a_navi613.csv")),
+            ..LunarServiceScenario::default()
+        }
+        .try_run()
+        .expect("the eight-satellite LNCSS case A runs");
+        let c = r.ephemeris_comparison.as_ref().expect("comparison present");
+        assert_eq!(
+            c.ephemeris.n_sats, c.keplerian.n_sats,
+            "the premise: counts agree"
+        );
+        assert!(
+            c.keplerian_matched.is_none(),
+            "a matched row that duplicates the keplerian row says nothing"
+        );
+        assert!(c.sigma_requirement_ratio_vs_keplerian_matched.is_none());
     }
 
     /// An extrapolated state is not an ephemeris: a horizon past the end of the table is

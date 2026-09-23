@@ -433,12 +433,27 @@ fn the_released_observability_document_is_unchanged() {
             "rel_tol",
             "srif_cross_validation",
             "state_dim",
+            "units",
         ],
         "the released cislunar-observability document gained or lost a top-level field"
     );
 
+    // The `units` block describes the released fields; it is not one of them. Strip it and
+    // fingerprint what is left, so the constant below is the SAME one that was pinned
+    // before the block existed — an additive key cannot move it, and a released value
+    // still does. That is what "additive only" means, and this pin now enforces it rather
+    // than merely saying so in its failure message.
+    let mut without_units = doc.clone();
+    assert!(
+        without_units
+            .as_object_mut()
+            .expect("object")
+            .remove("units")
+            .is_some(),
+        "the released document lost its units block"
+    );
     let mut canon = String::new();
-    canonicalize(&doc, &mut canon);
+    canonicalize(&without_units, &mut canon);
     assert_eq!(
         fnv64(&canon),
         RELEASED_OBSERVABILITY_CANONICAL_FNV,
@@ -455,8 +470,12 @@ fn the_released_observability_document_is_unchanged() {
 ///               between targets collapse to identical text.
 /// PIN-EXCLUDES: full float precision — deliberately given up for cross-platform
 ///               stability; a change smaller than ~1e-6 in any value does not move this.
-///               Nothing else: every field of the document is in scope, so a cross-cutting
-///               change that appends a block to every scenario IS in scope here.
+///               And the top-level `units` block, which describes the released fields
+///               rather than being one of them: it is stripped before canonicalisation, so
+///               this constant is the one pinned before that block existed and an additive
+///               key cannot move it. Its PRESENCE is still required, by the key-set
+///               assertion above. Nothing else — a cross-cutting change that appends any
+///               OTHER block to every scenario IS in scope here.
 const RELEASED_OBSERVABILITY_CANONICAL_FNV: u64 = 9_459_780_657_697_663_305;
 
 /// FNV-1a 64-bit — a tiny, dependency-free byte-identity fingerprint (the same one the

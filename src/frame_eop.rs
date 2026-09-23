@@ -414,6 +414,28 @@ fn pm_residuals_by_epoch(daily: &[DailyPm], h: Horizon) -> Vec<(f64, f64)> {
     out
 }
 
+/// How many samples at `epochs` were scored against the RAPID fallback instead of a
+/// published Bulletin B final, for each of the two quantities.
+///
+/// A [`Horizon::Days`] sample spans two days and is a fallback sample when EITHER end
+/// lacks a final — the residual is a difference, so one missing final is enough to make it
+/// rest on the rapid series. [`Horizon::Final`] is always zero: its residual is
+/// rapid-minus-final, which an epoch with no final cannot form.
+fn fallback_rows(epochs: &[f64], h: Horizon, has_final: impl Fn(f64) -> Option<bool>) -> usize {
+    let Horizon::Days(days) = h else { return 0 };
+    epochs
+        .iter()
+        .filter(|&&m| {
+            // An epoch the series does not carry cannot be judged; it is not counted as a
+            // fallback, because that would report a gap in the input as a property of the
+            // truth rule.
+            let base = has_final(m).unwrap_or(true);
+            let target = has_final(m + days as f64).unwrap_or(true);
+            !base || !target
+        })
+        .count()
+}
+
 /// One component (UT1, polar motion, or their combination) of a [`JointEopError`] row,
 /// carrying the epochs it was actually measured at so the "same rows" claim is checkable
 /// from the emitted report rather than asserted in prose.
@@ -423,6 +445,31 @@ pub struct JointComponent {
     pub component: &'static str,
     /// Unit of the `*_native` statistics: `"s"` (UT1), `"arcsec"` (pole), `"m"` (combined).
     pub unit: &'static str,
+    /// Which value the samples were scored AGAINST. The two horizons do not use the same
+    /// truth, and a reader comparing the floor row against a prediction row has to know it:
+    ///
+    /// * [`Horizon::Final`] → `"bulletin-b final"`. The residual is `|rapid − final|`, so
+    ///   only epochs that carry a published Bulletin B value can contribute at all.
+    /// * [`Horizon::Days`] → `"bulletin-b final where published, else bulletin-a rapid"`.
+    ///   The persistence predictor is scored against `truth_ut1()` / `truth_pm()`, which
+    ///   fall back to the rapid value on days no final exists, so these rows reach epochs
+    ///   the floor row cannot.
+    ///
+    /// This is why a series whose Bulletin B block is shorter than its Bulletin A block
+    /// reports FEWER samples at the `final` floor than at a one-day horizon. That rise
+    /// looks impossible for nested horizons and is not: the two rows rest on different
+    /// truth, which is a fact about what they mean, not a defect.
+    pub truth_source: &'static str,
+    /// How many of this component's [`Self::n`] samples were actually scored against the
+    /// RAPID fallback rather than a published Bulletin B final.
+    ///
+    /// Always `0` at [`Horizon::Final`], by construction: that residual *is*
+    /// rapid-minus-final, so an epoch carrying no final cannot contribute to it at all.
+    /// At a [`Horizon::Days`] horizon this is the number that says whether the fallback
+    /// named in [`Self::truth_source`] fired once or throughout — naming a fallback
+    /// without counting it leaves a reader unable to judge how far the row departs from
+    /// the floor row it sits beside.
+    pub truth_fallback_rows: usize,
     /// Number of residual samples — equal across the three components of a row.
     pub n: usize,
     /// The epochs (MJD) the samples were measured at, ascending — equal across the three
@@ -476,12 +523,18 @@ fn joint_component(
     unit: &'static str,
     horizon: Horizon,
     pairs: &[(f64, f64)],
+    truth_fallback_rows: usize,
     to_position_m: impl Fn(f64) -> f64,
 ) -> JointComponent {
     let s = stats(horizon, pairs.iter().map(|(_, r)| *r).collect());
     JointComponent {
         component,
         unit,
+        truth_source: match horizon {
+            Horizon::Final => "bulletin-b final",
+            Horizon::Days(_) => "bulletin-b final where published, else bulletin-a rapid",
+        },
+        truth_fallback_rows,
         n: s.n,
         epochs_mjd: pairs.iter().map(|(m, _)| *m).collect(),
         rms_native: s.rms_s,
@@ -556,9 +609,35 @@ pub fn joint_eop_error_vs_horizon(body: &str, horizons: &[Horizon]) -> Vec<Joint
                     })
             })
             .collect();
-        let ut1 = joint_component("ut1", "s", h, &u_shared, ut1_pos);
-        let polar_motion = joint_component("polar-motion", "arcsec", h, &p_shared, pm_pos);
-        let combined = joint_component("combined", "m", h, &combined, |m| m);
+        // Which of the kept samples rested on the rapid fallback. `combined` is a joint
+        // sample, so it falls back when EITHER of its two quantities did — the union, not
+        // either count on its own.
+        let u_epochs: Vec<f64> = u_shared.iter().map(|(m, _)| *m).collect();
+        let p_epochs: Vec<f64> = p_shared.iter().map(|(m, _)| *m).collect();
+        let ut1_has_final = |m: f64| {
+            daily_ut1
+                .iter()
+                .find(|d| epoch_key(d.mjd) == epoch_key(m))
+                .map(|d| d.ut1_final_s.is_some())
+        };
+        let pm_has_final = |m: f64| {
+            daily_pm
+                .iter()
+                .find(|d| epoch_key(d.mjd) == epoch_key(m))
+                .map(|d| d.pm_final_as.is_some())
+        };
+        let u_fb = fallback_rows(&u_epochs, h, ut1_has_final);
+        let p_fb = fallback_rows(&p_epochs, h, pm_has_final);
+        let c_epochs: Vec<f64> = combined.iter().map(|(m, _)| *m).collect();
+        let c_fb = fallback_rows(&c_epochs, h, |m| {
+            match (ut1_has_final(m), pm_has_final(m)) {
+                (None, None) => None,
+                (a, b) => Some(a.unwrap_or(true) && b.unwrap_or(true)),
+            }
+        });
+        let ut1 = joint_component("ut1", "s", h, &u_shared, u_fb, ut1_pos);
+        let polar_motion = joint_component("polar-motion", "arcsec", h, &p_shared, p_fb, pm_pos);
+        let combined = joint_component("combined", "m", h, &combined, c_fb, |m| m);
         out.push(JointEopError {
             horizon: h,
             n: ut1.n,
@@ -2814,6 +2893,75 @@ mod tests {
         assert_eq!(joint[0].horizon, Horizon::Final);
         // An empty body yields nothing rather than a zero-filled row.
         assert!(joint_eop_error_vs_horizon("", &[Horizon::Final]).is_empty());
+    }
+
+    // ORACLE: the sample count RISES from the `final` floor to the one-day horizon on a
+    // series whose Bulletin B block is shorter than its Bulletin A block, and the emitted
+    // `truth_source` is what explains the rise.
+    //
+    // This sequence (20 at the floor, 31 at one day) was read for a long time as proof that
+    // no single rule could have produced the published table, and six released rows were
+    // declared unreproducible because of it. One rule does produce it: the floor can only
+    // score epochs carrying a published Bulletin B pole, while a persistence horizon scores
+    // against `truth_pm()`, which falls back to the rapid value and so reaches epochs the
+    // floor cannot. The two rows are measured against DIFFERENT TRUTH, and until the field
+    // asserted below existed a reader had no way to see that from the report.
+    #[test]
+    fn the_floor_and_the_prediction_rows_declare_the_different_truth_they_are_scored_against() {
+        let joint = joint_eop_error_vs_horizon(FIXTURE_2026, &[Horizon::Final, Horizon::Days(1)]);
+        assert_eq!(joint.len(), 2, "both horizons populate on this series");
+        let floor = &joint[0];
+        let day1 = &joint[1];
+        assert_eq!(floor.horizon, Horizon::Final);
+        assert_eq!(day1.horizon, Horizon::Days(1));
+
+        // The premise: the count rises. If a future fixture edit removes the rise this test
+        // is grading nothing, so the rise itself is asserted rather than assumed.
+        assert!(
+            day1.n > floor.n,
+            "the fixture no longer exhibits the rise this test exists to explain: \
+             floor n = {}, day-1 n = {}",
+            floor.n,
+            day1.n
+        );
+
+        // ...and the report says why, on every component of both rows.
+        for c in [&floor.ut1, &floor.polar_motion, &floor.combined] {
+            assert_eq!(
+                c.truth_source, "bulletin-b final",
+                "component {}",
+                c.component
+            );
+        }
+        for c in [&day1.ut1, &day1.polar_motion, &day1.combined] {
+            assert_eq!(
+                c.truth_source, "bulletin-b final where published, else bulletin-a rapid",
+                "component {}",
+                c.component
+            );
+        }
+        assert_ne!(
+            floor.ut1.truth_source, day1.ut1.truth_source,
+            "the two rows must not claim the same truth — that claim is the defect"
+        );
+
+        // Naming the fallback is not enough: the count is what says how far the row
+        // departs from the floor beside it. This series carries 32 rows of which 20 hold a
+        // Bulletin B final and 12 are Bulletin A prediction-only, so every prediction
+        // horizon touches exactly those 12 — at day 1 that is 12 of 31 samples, not one.
+        assert_eq!(
+            floor.polar_motion.truth_fallback_rows, 0,
+            "the floor cannot fall back"
+        );
+        assert_eq!(floor.ut1.truth_fallback_rows, 0);
+        assert_eq!(floor.combined.truth_fallback_rows, 0);
+        assert_eq!(day1.polar_motion.truth_fallback_rows, 12);
+        assert_eq!(day1.ut1.truth_fallback_rows, 12);
+        assert_eq!(day1.combined.truth_fallback_rows, 12);
+        assert!(
+            day1.polar_motion.truth_fallback_rows < day1.n,
+            "a fallback count equal to n would mean no row was scored against a final"
+        );
     }
 
     // ---- G13: the operational-style predictor ----
