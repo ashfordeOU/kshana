@@ -62,9 +62,16 @@ fn every_bundled_scenario_is_deterministic() {
     }
     // Guard the guard: ensure we actually exercised the bundled corpus and did not,
     // after some refactor of the scenarios directory, silently match near-zero files.
+    // CORPUS is the real size of the runnable corpus (74 `.toml` files minus the one
+    // suite manifest at v0.27.2), not a slack round number: with the old floor of 50
+    // a dozen scenarios could be deleted and this gate — the only place that both
+    // enumerates and executes every shipped scenario — would stay green. Adding a
+    // scenario keeps it green; raise CORPUS deliberately when that happens. A drop
+    // means a file went missing, which is exactly what this is here to catch.
+    const CORPUS: usize = 73;
     assert!(
-        checked >= 50,
-        "expected to run the full bundled scenario corpus, only ran {checked}"
+        checked >= CORPUS,
+        "expected to run all {CORPUS} bundled scenarios, only ran {checked}"
     );
     eprintln!(
         "determinism: {checked} bundled scenarios byte-identical on re-run ({suites} suite manifest(s) skipped)"

@@ -69,7 +69,13 @@ fn sub(a: Vec3, b: Vec3) -> Vec3 {
 
 /// Hyperbolic semi-major axis `a = −μ/v∞²` (m; negative). `v_inf` is the
 /// hyperbolic-excess speed (m/s).
+///
+/// Requires `v_inf != 0`: a zero-energy encounter is not a hyperbola and the
+/// closed form returns `−∞` rather than an error. The signature is kept
+/// infallible because the whole module is a set of closed forms over an
+/// already-hyperbolic encounter; the precondition is checked in debug builds.
 pub fn hyperbolic_sma(mu: f64, v_inf: f64) -> f64 {
+    debug_assert!(v_inf != 0.0, "hyperbolic_sma needs a non-zero v_inf");
     -mu / (v_inf * v_inf)
 }
 
@@ -79,11 +85,20 @@ pub fn flyby_eccentricity(mu: f64, v_inf: f64, r_p: f64) -> f64 {
 }
 
 /// Turn (deflection) angle `δ = 2·asin(1/e)` (rad) for flyby eccentricity `e`.
+///
+/// Requires `e >= 1` (the flyby must be hyperbolic, or parabolic at the limit,
+/// where `turn_angle(1.0) = π`). For `e < 1` the argument of `asin` leaves
+/// `[-1, 1]` and the result is `NaN`, which then survives every arithmetic
+/// operation downstream — so the precondition is checked in debug builds.
 pub fn turn_angle(e: f64) -> f64 {
+    debug_assert!(e >= 1.0, "turn_angle needs a hyperbolic eccentricity");
     2.0 * (1.0 / e).asin()
 }
 
 /// Impact parameter (B-plane aim radius) `|B| = |a|·√(e²−1)` (m).
+///
+/// Requires `v_inf != 0` (see [`hyperbolic_sma`]): at `v_inf = 0` the two
+/// factors are `∞` and `0` and the product is `NaN`.
 pub fn impact_parameter(mu: f64, v_inf: f64, r_p: f64) -> f64 {
     let a = hyperbolic_sma(mu, v_inf);
     let e = flyby_eccentricity(mu, v_inf, r_p);

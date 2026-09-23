@@ -14,7 +14,12 @@ documentation = "https://docs.rs/kshana"
 readme = "README.crates.md"
 keywords = ["pnt", "navigation", "quantum", "gnss", "simulation"]
 categories = ["science", "simulation"]
-rust-version = "1.75"
+# Measured, not aspirational: 1.85 is the highest `rust-version` declared anywhere in
+# the locked graph (hashbrown 0.17.1 and indexmap 2.14.0, both edition-2024, reached
+# through the ordinary `toml` dependency), and Cargo.lock is lockfile v4, which Cargo
+# below 1.78 cannot parse at all. This field read 1.75 for ten releases while the graph
+# had already moved; verified by `cargo +1.85.0 build --all --locked`, clean in 56s.
+rust-version = "1.85"
 # Keep the published crate lean: the browser playground, CI config, and the
 # fixture-backed validation tests aren't part of the library distribution. (Those
 # tests read the fixtures via include_str!, so each must be excluded alongside the
@@ -37,15 +42,24 @@ exclude = [
     "/tests/sgp4_crate_comparison.rs",
     "/tests/terrain_nav_validation.rs",
     # The ANISE frame cross-validation is a standalone, workspace-excluded crate with
-    # its own Cargo.lock (it depends on the MPL-2.0 / edition-2024 `anise` + `hifitime`,
-    # which must never enter the published crate's dependency graph). See xval/.
+    # its own Cargo.lock: it depends on `anise` + `hifitime`, whose MPL-2.0 licence the
+    # cargo-deny gate refuses in the published crate's dependency graph. See xval/.
     "/xval",
-    # The MCP server is likewise a standalone, workspace-excluded crate: the `rmcp` SDK
-    # is edition-2024, so it cannot sit in the MSRV-1.75 build graph. See mcp/.
+    # The MCP server is likewise a standalone, workspace-excluded crate: it is published
+    # separately as `kshana-mcp`, depends on THIS crate, and carries its own binary and
+    # Cargo.lock, so it cannot live inside this package. (It used to be excluded because
+    # the edition-2024 `rmcp` SDK could not sit in an MSRV-1.75 graph; that reason died
+    # when the graph itself went edition-2024 and rust-version moved to 1.85.) See mcp/.
     "/mcp",
     # The JetBrains IDE plugin is a standalone Kotlin/Gradle project, not part of the
     # Rust crate at all. See ide/jetbrains/.
     "/ide",
+    # rust-toolchain.toml pins THIS repository's CI and developer compiler to an exact
+    # release. Shipping it in the .crate/sdist re-exports that decision to consumers: on
+    # a rustup host it silently downloads that exact compiler mid-`pip install`, while a
+    # distro-rustc host ignores the file — the same command, two behaviours. The
+    # floor consumers must meet is `rust-version` above, which is the field cargo reads.
+    "/rust-toolchain.toml",
 ]
 
 [lib]

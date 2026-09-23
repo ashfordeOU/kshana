@@ -46,11 +46,46 @@ a bare line 2 is treated as analytic Keplerian mean elements. The two may be mix
 a good integrity check on a freshly downloaded file. It defaults to `false` because the
 synthetic teaching scenarios use placeholder checksums.
 
-## 3. Notes on epochs
+## 3. Notes on epochs — read this before quoting a geometry number
 
-SGP4 propagates each satellite from **its own TLE epoch**. For a meaningful snapshot
-study, use a set downloaded close together in time (Celestrak group files are), and
-interpret the scenario time as seconds from that common epoch.
+SGP4 propagates each satellite from **its own TLE epoch**, and `parse_propagators`
+returns propagators only, so scenario time `t` is applied as `tsince = t` to every
+satellite independently. That is the right convention only if all the element sets in
+the file share an epoch.
+
+**A Celestrak group file does not give you that.** The file is *downloaded* at one
+instant, but each satellite's element set is refreshed on its own cadence, so the
+epochs inside it are spread over days. Measured on the sets vendored in this
+repository (line 1, columns 19–32):
+
+| fixture | sets | epoch spread |
+|---------|-----:|-------------:|
+| `tests/fixtures/celestrak/gps-ops_2026-06-07.txt` | 32 | **70.6 h** |
+| `tests/fixtures/celestrak/gps-ops_2021-07-28.txt` | 30 | **76.4 h** |
+| `tests/fixtures/celestrak/galileo_2026-06-07.txt` | 33 | **335.7 h** |
+
+70.6 h is 5.9 GPS revolutions. Propagated as-is, the in-plane phasing is scrambled:
+the satellites are at the right altitudes and inclinations, but not where they were on
+any one day, so the visible set, the DOP and any availability computed from them
+describe a constellation that never existed. Nothing in the parser measures this spread
+for you.
+
+**Do this instead.** Keep the epoch alongside the propagator, pick one reference
+instant, and offset each satellite's `tsince` to it. `Tle::epoch_days_1950` is public,
+so the parse loop is short; `tests/igs_real_data.rs` (`real_gps_tle_snapshot`) is the
+worked example in this tree:
+
+```rust
+let tle = parse_tle(line1, line2)?;
+let jd_epoch = 2_433_281.5 + tle.epoch_days_1950;
+let prop = Propagator::Sgp4(Box::new(tle.to_sgp4(wgs72(), false)));
+// … then, for a common reference instant `t_ref_jd` and scenario time `t`:
+let tsince_s = (t_ref_jd - jd_epoch) * 86_400.0 + t;
+let r_teme = prop.position_eci(tsince_s);
+```
+
+If you do not align, say so when you report the number: it is a statement about orbital
+*shells*, not about a real sky.
 
 ## See also
 

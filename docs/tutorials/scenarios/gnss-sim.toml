@@ -17,7 +17,7 @@
 #  - Saastamoinen zenith troposphere ~2.3 m, mapped to ~6.8 m at low elevation by
 #    the Niell (1996) mapping function — correct order of magnitude.
 #
-# expected: scenario <hash> | gnss-sim | mean iono 19.9m tropo 6.8m | RAIM avail 0.82 mean HPL 22.1m VPL 40.0m fault-rate 0.000
+# expected: scenario ab854d9d7886 | gnss-sim | mean iono 19.9m tropo 6.8m | RAIM avail 0.82 mean HPL 22.1m VPL 40.0m fault-rate 0.000
 # ============================================================================
 
 kind = "gnss-sim"

@@ -19,6 +19,12 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <b>0.27.2</b> — the plugin itself is unchanged since 0.22.0; every release since
+        has been the same build republished so the Marketplace version keeps matching the
+        <code>kshana</code> engine it targets. All the work is in the engine — update it
+        separately with <code>cargo install kshana</code> and see the release notes at
+        https://github.com/ashfordeOU/kshana/releases.
+        <br/>
         <b>0.22.0</b> — the plugin now versions in lockstep with the Kshana engine, so the
         Marketplace version always matches the <code>kshana</code> release it targets.
         This build is also relicensed to <b>AGPL-3.0-only</b> (a commercial licence is

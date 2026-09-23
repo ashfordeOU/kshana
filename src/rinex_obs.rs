@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-//! RINEX 3.0x / 4.00 observation-file parser.
+//! RINEX 3.0x observation-file parser.
 //!
 //! Where [`crate::rinex`] reads the *navigation* message (the broadcast ephemeris
 //! a satellite transmits), this module reads the other half of RINEX: the
@@ -11,9 +11,13 @@
 //! IGS station network distribute raw GNSS measurements in; ingesting it is what
 //! lets a real receiver log feed this engine rather than only synthetic geometry.
 //!
-//! The parser handles the RINEX 3.0x and 4.00 observation layout (they share the
-//! same epoch/observation record structure; RINEX 4 adds new *navigation* header
-//! records, which do not affect observation files). It reads the header it needs —
+//! The parser handles the RINEX 3.0x observation layout. RINEX 4.00 keeps the
+//! same epoch/observation record structure (its changes are to the *navigation*
+//! message), so a 4.00 observation file is expected to parse here unchanged — but
+//! no 4.00 artifact has been read through this code, so that is an expectation,
+//! not a validated claim. The RINEX 4 *navigation* layout is a different matter:
+//! [`crate::rinex::parse_nav`] rejects it outright rather than mis-walk it.
+//! It reads the header it needs —
 //! the version/type line, the per-system `SYS / # / OBS TYPES` lists (with
 //! continuation lines), the approximate receiver position, the sampling interval,
 //! and the time of first observation — then each epoch's `>`-prefixed header and

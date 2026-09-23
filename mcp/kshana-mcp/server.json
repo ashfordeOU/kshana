@@ -3,17 +3,17 @@
   "name": "io.github.ashfordeOU/kshana-mcp",
   "title": "Kshana PNT-resilience simulator",
   "description": "Run the validated Kshana PNT-resilience simulator (orbits, frames, GNSS, fusion) from an AI agent.",
-  "version": "0.26.0",
+  "version": "0.27.2",
   "websiteUrl": "https://kshana.dev",
   "repository": {
-    "url": "https://github.com/AshfordeOU/kshana",
+    "url": "https://github.com/ashfordeOU/kshana",
     "source": "github",
     "subfolder": "mcp/kshana-mcp"
   },
   "packages": [
     {
       "registryType": "oci",
-      "identifier": "ghcr.io/ashfordeou/kshana-mcp:0.26.0",
+      "identifier": "ghcr.io/ashfordeou/kshana-mcp:0.27.2",
       "transport": {
         "type": "stdio"
       }

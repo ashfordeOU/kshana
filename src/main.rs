@@ -3,6 +3,16 @@ use std::path::PathBuf;
 use std::process::ExitCode;
 use std::time::{SystemTime, UNIX_EPOCH};
 
+/// The one usage text. Both the no-argument path and `--help` print this, so the two
+/// cannot drift apart (they were two separate copies before, one of them a comment).
+/// `.github/workflows/release.yml` greps the first line on the no-argument path, so
+/// that line stays verbatim.
+const USAGE: &str = "usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>]
+   or: kshana --study <suite.toml>
+   or: kshana --validate <scenario.toml>
+   or: kshana kinds [--json]
+   or: kshana --help | --version";
+
 /// Format the current system time as a UTC ISO-8601 second-precision stamp
 /// (e.g. `2026-06-23T14:05:09Z`). This is the ONLY clock read in the whole crate:
 /// the library/engine/api stay pure and deterministic, and the timestamp is passed
@@ -37,9 +47,14 @@ fn civil_from_days(z: i64) -> (i64, u32, u32) {
 
 fn main() -> ExitCode {
     let args: Vec<String> = std::env::args().collect();
-    // usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>]
-    //    or: kshana --study <suite.toml>
-    //    or: kshana --validate <scenario.toml>
+    // `kshana kinds [--json]` is a terminal subcommand, resolved before the flag loop
+    // because that loop's positional arm would otherwise read `kinds` as a scenario
+    // path. The engine's unknown-kind error tells the user "`kshana kinds` lists all N
+    // built-in kinds", so the CLI has to be able to answer it. The cost is that a file
+    // literally named `kinds` can no longer be run by that bare name; `./kinds` can.
+    if args.get(1).map(String::as_str) == Some("kinds") {
+        return print_kinds(&args[2..]);
+    }
     let mut positional: Option<String> = None;
     let mut export_sp3_path: Option<PathBuf> = None;
     let mut export_omm_path: Option<PathBuf> = None;
@@ -51,6 +66,19 @@ fn main() -> ExitCode {
     let mut i = 1;
     while i < args.len() {
         match args[i].as_str() {
+            // Help and version are the first two things typed at a newly installed
+            // binary. Before these arms they fell through to the positional catch-all
+            // and came back as `error: cannot read --help: No such file or directory`.
+            "--help" | "-h" | "help" => {
+                println!("{USAGE}");
+                return ExitCode::SUCCESS;
+            }
+            // `--version` is how a result file gets tied back to the engine build that
+            // wrote it: not every result JSON carries an engine_version of its own.
+            "--version" | "-V" => {
+                println!("kshana {}", env!("CARGO_PKG_VERSION"));
+                return ExitCode::SUCCESS;
+            }
             "--validate" => {
                 i += 1;
                 match args.get(i) {
@@ -121,6 +149,16 @@ fn main() -> ExitCode {
                     }
                 }
             }
+            // A token starting with '-' that matched no arm above is a misspelled or
+            // unsupported option, not a scenario path. Without this arm it became the
+            // positional and the NEXT token was blamed, so `--exprot-sp3 out.sp3 s.toml`
+            // reported "unexpected argument 'out.sp3'" and pointed away from the typo.
+            // Flag VALUES never reach here: each flag arm consumes its own value.
+            other if other.starts_with('-') => {
+                eprintln!("error: unknown option '{other}'");
+                eprintln!("{USAGE}");
+                return ExitCode::from(2);
+            }
             other if positional.is_none() => positional = Some(other.to_string()),
             other => {
                 eprintln!("error: unexpected argument '{other}'");
@@ -148,6 +186,17 @@ fn main() -> ExitCode {
         };
         let violations = kshana::api::validate_scenario(&src);
         if violations.is_empty() {
+            // Name what passed AND what was never looked at. The lint resolves the kind
+            // and checks that the kind's published required top-level fields are
+            // present; it does not check any field's VALUE, so `time.step_s = -10` lints
+            // clean here and then fails the run. Silence was the only success signal
+            // before, which reads as a full check.
+            let kind = kshana::api::ScenarioKind::classify(&src)
+                .map(|k| k.as_str())
+                .unwrap_or("scenario");
+            println!(
+                "ok: {kind} — kind resolves and its published required fields are present; field values are not checked"
+            );
             return ExitCode::SUCCESS;
         }
         for v in &violations {
@@ -167,13 +216,20 @@ fn main() -> ExitCode {
             eprintln!("error: --study runs a suite; do not also pass a single scenario file");
             return ExitCode::from(2);
         }
+        // `--study-name` is a single-scenario flag: it slugs the output name and stamps
+        // StudyMeta into the result JSON. A study takes its title from the manifest's
+        // `title =` instead, and run_study never reads this variable. Say the flag was
+        // dropped rather than dropping it in silence.
+        if study_name.is_some() {
+            eprintln!(
+                "warning: --study-name is ignored with --study; a study is titled by the suite manifest's `title =`"
+            );
+        }
         return run_study(&suite_path);
     }
 
     let Some(scenario_arg) = positional else {
-        eprintln!(
-            "usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>]\n   or: kshana --study <suite.toml>\n   or: kshana --validate <scenario.toml>"
-        );
+        eprintln!("{USAGE}");
         return ExitCode::from(2);
     };
     let path = PathBuf::from(&scenario_arg);
@@ -347,6 +403,35 @@ fn main() -> ExitCode {
         }
     }
     ExitCode::SUCCESS
+}
+
+/// `kshana kinds [--json]`: list the built-in scenario kinds.
+///
+/// The engine's unknown-kind error has always said "`kshana kinds` lists all N
+/// built-in kinds" while no such subcommand existed, so the one remediation the CLI
+/// printed could not be followed. Plain output is one kind name per line, which is
+/// what that sentence promises and is greppable; `--json` emits the same
+/// [`kshana::api::list_scenario_kinds_json`] metadata the Python, WASM and MCP faces
+/// already serve, so every surface lists from one source.
+fn print_kinds(rest: &[String]) -> ExitCode {
+    match rest {
+        [] => {
+            for meta in kshana::api::list_scenario_kinds() {
+                println!("{}", meta.name);
+            }
+            ExitCode::SUCCESS
+        }
+        [flag] if flag == "--json" => {
+            println!("{}", kshana::api::list_scenario_kinds_json());
+            ExitCode::SUCCESS
+        }
+        [other, ..] => {
+            eprintln!(
+                "error: unexpected argument '{other}' after `kinds`; only --json is accepted"
+            );
+            ExitCode::from(2)
+        }
+    }
 }
 
 /// `--study <suite.toml>` handler: parse the suite manifest, run every scenario it

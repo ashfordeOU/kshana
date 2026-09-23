@@ -50,8 +50,9 @@ fn json_to_py<'py>(py: Python<'py>, v: &serde_json::Value) -> PyResult<pyo3::Bou
     })
 }
 
-/// A scenario run result: the result JSON, the chart SVG, and the human summary,
-/// with a `data()` accessor that returns the parsed result as a Python dict.
+/// A scenario run result: the result JSON, the chart SVG, the human summary, and
+/// — for the scenario kinds that emit one — the reproducibility table CSV, with a
+/// `data()` accessor that returns the parsed result as a Python dict.
 // pyo3 0.29 makes the auto `FromPyObject` derive for `Clone` pyclasses opt-in.
 // `RunOutput` is only ever returned to Python, never accepted as an argument, so
 // we explicitly skip the derive rather than opt in.
@@ -64,6 +65,14 @@ struct PyRunOutput {
     svg: String,
     #[pyo3(get)]
     summary: String,
+    /// The reproducibility table the CLI writes as `<scenario>.table.csv`, for
+    /// the kinds that emit one (`realtime-frame-eop`, `lunar-time-budget`,
+    /// `lunar-jamming`, `moonlight-service-volume`); `None` otherwise. It is the
+    /// byte-stable, golden-pinned form of the table the papers cite, so a
+    /// reviewer reproducing one from the wheel needs it here and not only from
+    /// the command line.
+    #[pyo3(get)]
+    csv: Option<String>,
 }
 
 #[pymethods]
@@ -77,18 +86,32 @@ impl PyRunOutput {
         json_to_py(py, &v)
     }
 
+    /// Write the reproducibility table to `path`, returning the number of bytes
+    /// written — 0 when this scenario kind emits no table. Mirrors
+    /// `kshana::api::RunOutput::write_csv`, which is what the CLI uses.
+    fn write_csv(&self, path: &str) -> PyResult<usize> {
+        match &self.csv {
+            Some(csv) => std::fs::write(path, csv)
+                .map(|()| csv.len())
+                .map_err(|e| PyValueError::new_err(e.to_string())),
+            None => Ok(0),
+        }
+    }
+
     fn __repr__(&self) -> String {
         format!(
-            "RunOutput(json={} chars, svg={} chars, summary={:?})",
+            "RunOutput(json={} chars, svg={} chars, csv={} chars, summary={:?})",
             self.json.len(),
             self.svg.len(),
+            self.csv.as_ref().map_or(0, |c| c.len()),
             self.summary.chars().take(48).collect::<String>()
         )
     }
 }
 
 /// Run a scenario from a TOML string and return a typed [`RunOutput`] (with
-/// `.json`, `.svg`, `.summary`, and `.data()`). Raises `ValueError` if invalid.
+/// `.json`, `.svg`, `.summary`, `.csv`, `.write_csv()`, and `.data()`). Raises
+/// `ValueError` if invalid.
 #[pyfunction]
 fn run_typed(toml: &str) -> PyResult<PyRunOutput> {
     crate::api::run_toml(toml)
@@ -96,6 +119,7 @@ fn run_typed(toml: &str) -> PyResult<PyRunOutput> {
             json: o.json,
             svg: o.svg,
             summary: o.summary,
+            csv: o.csv,
         })
         .map_err(PyValueError::new_err)
 }

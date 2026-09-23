@@ -4,6 +4,13 @@
 // Retained non-test panics use `.expect("<provable invariant>")` instead, which carries
 // the proof in-source; `expect_used` is intentionally NOT enabled.
 #![cfg_attr(not(test), warn(clippy::unwrap_used))]
+// Memory-safety gate: the crate has never contained an `unsafe` block, fn, impl or
+// extern, and this makes that a compiler-enforced property rather than an accident of
+// discipline. Unguarded on purpose: the pyo3 (`--features python`) and wasm-bindgen
+// (`--features wasm`) macro expansions both compile clean under it, and the wheel is
+// the one surface where FFI would ever plausibly be introduced, so exempting it would
+// exempt the only place that matters.
+#![forbid(unsafe_code)]
 //! # kshana — a validated, reproducible PNT simulation substrate
 //!
 //! `kshana` is an open-source engine for positioning, navigation and timing

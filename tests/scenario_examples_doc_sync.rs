@@ -30,7 +30,20 @@ fn bundled_examples() -> BTreeMap<String, Vec<String>> {
         .filter(|p| p.extension().and_then(|s| s.to_str()) == Some("toml"))
         .collect();
     paths.sort();
+    let mut suites = 0usize;
     for p in paths {
+        // A suite manifest (`*.suite.toml`) is run through the study path, not the
+        // scenario dispatcher. It carries no `kind` key, so `classify` defaults it
+        // to the clock pack and it would be counted here as a clock example that
+        // `--validate` rejects with five missing required fields. tests/determinism.rs
+        // already excludes them for the same reason; keep the two gates agreeing on
+        // what the directory contains.
+        if p.file_name()
+            .is_some_and(|n| n.to_string_lossy().ends_with(".suite.toml"))
+        {
+            suites += 1;
+            continue;
+        }
         let src = std::fs::read_to_string(&p).expect("readable scenario");
         // An unparseable or unknown-kind document is a separate failure, reported by
         // name rather than silently skipped — that silence is what this campaign's
@@ -43,6 +56,14 @@ fn bundled_examples() -> BTreeMap<String, Vec<String>> {
             .or_default()
             .push(p.file_name().unwrap().to_string_lossy().into_owned());
     }
+    // An exclusion that matches nothing reads exactly like an exclusion that works.
+    // scenarios/ ships one suite manifest; if it is renamed out from under this
+    // filter, fail here rather than silently go back to counting it as a clock example.
+    assert!(
+        suites >= 1,
+        "the `*.suite.toml` exclusion matched no file; scenarios/ is expected to ship \
+         at least one suite manifest, so the filter is grading nothing"
+    );
     by_kind
 }
 

@@ -51,6 +51,15 @@ jobs:
           components: rustfmt, clippy
       - uses: Swatinem/rust-cache@v2
       - run: ./scripts/check-toolchain.sh
+      # ci.yml is triggered only by `push: branches: [main]` and `pull_request`, so on a
+      # tag push this gate runs nowhere else. Tags are not always cut from a commit main
+      # contains — `git merge-base --is-ancestor` says v0.27.0 and v0.27.1 are not
+      # ancestors of main — so "ci.yml already checked that commit" does not hold. Placed
+      # before the 240-minute suite so a drifted surface fails in seconds, not hours.
+      # (check-doc-coverage.sh is deliberately NOT here: it is a full library compile
+      # ratcheting a hand-pinned doc-warning ceiling, which has no bearing on whether a
+      # release is safe to publish.)
+      - run: ./scripts/check-version-sync.sh
       - run: cargo fmt --all -- --check
       - run: cargo clippy --all-targets -- -D warnings
       - run: cargo test --all
@@ -144,18 +153,34 @@ jobs:
           assert isinstance(doc.get("components"), list) and doc["components"], "no components"
           print(f"OK: CycloneDX {doc['specVersion']} with {len(doc['components'])} components")
           PY
-      - name: Verify SLSA build-provenance attestation of each binary + SBOM
+      - name: Verify SLSA build-provenance attestation of every published asset
+        # An absent asset used to emit `::warning::` and continue, which does not fail a
+        # step — so this job could verify two, one or zero assets and still report that
+        # every asset carries provenance. Nothing upstream would have caught the gap
+        # either: softprops/action-gh-release defaults fail_on_unmatched_files to false,
+        # and attest-build-provenance globs all its subject-paths together and errors only
+        # when the total is empty, so one missing subject is silently dropped from the
+        # attestation. Absence is now fatal, and the count is asserted so a shortened list
+        # cannot read as a full pass.
+        #
+        # The list must stay equal to the `files:` block of the `release` job above.
+        # kshana-validation-summary.html was uploaded, attested and named in the release
+        # notes' provenance claim (scripts/changelog-extract.sh) but verified by no step;
+        # kshana-mcp is the only asset with no other check in this job (the SBOM has the
+        # CycloneDX step, the CLI has the smoke-run).
         run: |
           set -euo pipefail
           cd verify
-          for f in kshana kshana-mcp kshana-sbom.cdx.json; do
-            if [ -f "$f" ]; then
-              echo "== gh attestation verify $f =="
-              gh attestation verify "$f" --repo "$REPO"
-            else
-              echo "::warning::$f not present among release assets — skipping"
-            fi
+          expected=4
+          n=0
+          for f in kshana kshana-mcp kshana-sbom.cdx.json kshana-validation-summary.html; do
+            [ -f "$f" ] || { echo "::error::$f is not among the published release assets"; exit 1; }
+            echo "== gh attestation verify $f =="
+            gh attestation verify "$f" --repo "$REPO"
+            n=$((n+1))
           done
+          [ "$n" -eq "$expected" ] || { echo "::error::verified $n assets, expected $expected"; exit 1; }
+          echo "OK: $n published assets verified"
       - name: Smoke-run the verified binary
         # The CLI has no --version flag; run it with no args and assert it executes and
         # prints its usage banner. The documented "no scenario given" exit code is 2, so

@@ -117,7 +117,7 @@ pub fn fit_fm_family(taus: &[f64], adevs: &[f64]) -> (f64, f64, f64) {
                     (pred - yi) * (pred - yi)
                 })
                 .sum();
-            if best.map_or(true, |(_, r)| resid < r) {
+            if best.is_none_or(|(_, r)| resid < r) {
                 best = Some((full, resid));
             }
         }
