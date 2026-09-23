@@ -832,7 +832,7 @@ EOF";
         use crate::orbit::{Orbit, Propagator};
         // Build an SP3 from a known Kepler orbit (20 epochs × 900 s), then
         // interpolate. At a node the result is exact; at a midpoint it matches the
-        // true Kepler position to well under a metre (9th-order Lagrange at IGS
+        // true Kepler position to well under a metre (10th-order Lagrange at IGS
         // spacing).
         let a = 26_560_000.0;
         let orbit = Orbit::keplerian(a, 0.01, 0.9, 0.3, 0.2, 0.4);

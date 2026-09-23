@@ -123,6 +123,10 @@ const SCENARIOS = [
     "Lunar frame", "Can a Helmert datum fit recover a lunar reference-frame transform? (modelled)"],
   ["moonlight-service-volume.toml", "Moonlight service volume — DOP / coverage / lunar ARAIM (modelled)",
     "Lunar service volume", "What DOP, coverage and integrity does a Moonlight/LCNS-class constellation give the south pole? (modelled)"],
+  ["lunar-beacon.toml", "Lunar surface beacons — DOP augmentation of a sparse orbital set (modelled)",
+    "Lunar surface beacons", "How much does a handful of surveyed surface beacons collapse south-polar DOP? (modelled)"],
+  ["earth-gnss-lunar.toml", "Earth-GNSS at lunar distance — sidelobe link budget, signal vs fix availability (modelled)",
+    "Earth-GNSS at the Moon", "Can a receiver near the Moon hear Earth's GNSS, and is it ever enough for a fix? (modelled)"],
   ["lunar-differential-pnt.toml", "Lunar differential PNT — DGNSS / SBAS analogue (modelled)",
     "Lunar differential PNT", "How much does differential correction cancel common-mode error vs baseline on the Moon? (modelled)"],
   ["lunar-interop-export.toml", "Lunar interop export — CCSDS OEM + LunaNet time in a KIF envelope",
@@ -550,6 +554,9 @@ function selectTab(id) {
     for (const b of row.children) {
       const sel = b.dataset.tab === id;
       b.setAttribute("aria-selected", sel ? "true" : "false");
+      // Roving tabindex: the strip is one Tab stop and the arrow keys move inside it,
+      // matching the domain tablist further down the page.
+      b.tabIndex = sel ? 0 : -1;
     }
   }
 }
@@ -573,6 +580,8 @@ function mountTabs(result) {
     b.type = "button";
     b.className = "tab-btn";
     b.setAttribute("role", "tab");
+    b.id = `tabbtn-${t.id}`;
+    b.setAttribute("aria-controls", TAB_PANEL[t.id]);
     b.dataset.tab = t.id;
     b.textContent = t.label;
     b.addEventListener("click", () => selectTab(t.id));
@@ -580,6 +589,26 @@ function mountTabs(result) {
   }
   if (!ids.includes(activeTab)) activeTab = ids[0] || "fom";
   selectTab(activeTab);
+  // Bound once, on the row that survives replaceChildren(), so re-mounting the strip
+  // after every run does not stack listeners. The panels keep their own aria-label:
+  // only the tabs a result earns are mounted, so aria-labelledby would dangle.
+  if (!row.dataset.keysBound) {
+    row.dataset.keysBound = "1";
+    row.addEventListener("keydown", (e) => {
+      const btns = Array.from(row.children);
+      const cur = btns.indexOf(document.activeElement);
+      if (cur === -1 || btns.length === 0) return;
+      let next = cur;
+      if (e.key === "ArrowRight") next = (cur + 1) % btns.length;
+      else if (e.key === "ArrowLeft") next = (cur - 1 + btns.length) % btns.length;
+      else if (e.key === "Home") next = 0;
+      else if (e.key === "End") next = btns.length - 1;
+      else return;
+      e.preventDefault();
+      selectTab(btns[next].dataset.tab);
+      btns[next].focus();
+    });
+  }
 }
 
 // --- 3D orbit tab ---------------------------------------------------------
@@ -1104,7 +1133,7 @@ const TOUR_KEY = "kshana_tour_seen";
 function tourSeen() { try { return localStorage.getItem(TOUR_KEY) === "1"; } catch { return false; } }
 function markTourSeen() { try { localStorage.setItem(TOUR_KEY, "1"); } catch { /* storage blocked */ } }
 
-const tourState = { steps: [], i: 0, on: false, overlay: null, refs: null, reposition: null };
+const tourState = { steps: [], i: 0, on: false, overlay: null, refs: null, reposition: null, opener: null };
 
 function reducedMotion() {
   return !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
@@ -1159,15 +1188,44 @@ function buildTourOverlay() {
     if (tourState.i >= tourState.steps.length - 1) endTour();
     else gotoStep(tourState.i + 1);
   });
-  ov.addEventListener("keydown", (e) => {
-    if (e.key === "Escape") endTour();
-    else if (e.key === "ArrowRight") next.click();
+  // Bound to the document, not to the overlay: the overlay only receives events
+  // that bubble from a focused descendant, so with focus anywhere else Escape
+  // silently stopped closing the dialog. Guarded on tourState.on so it is inert
+  // whenever the tour is not running.
+  document.addEventListener("keydown", (e) => {
+    if (!tourState.on) return;
+    if (e.key === "Escape") { endTour(); return; }
+    if (e.key === "Tab") { trapTourFocus(e); return; }
+    const typing = /^(INPUT|TEXTAREA|SELECT)$/.test((e.target && e.target.tagName) || "");
+    if (typing) return;
+    if (e.key === "ArrowRight") next.click();
     else if (e.key === "ArrowLeft" && tourState.i > 0) back.click();
   });
 
   tourState.overlay = ov;
-  tourState.refs = { spot, tip, title, body, prog, back, next };
+  tourState.refs = { spot, tip, title, body, prog, back, next, skip };
   return ov;
+}
+
+// aria-modal="true" tells assistive tech the rest of the page is inert, so Tab must
+// not leave the dialog. Disabled buttons are skipped — "Back" is disabled on step 0
+// and focusing it would dead-end the cycle.
+function tourFocusables() {
+  const ov = tourState.overlay;
+  if (!ov) return [];
+  return Array.from(ov.querySelectorAll("button, [href], input, select, textarea"))
+    .filter((node) => !node.disabled && node.getClientRects().length > 0);
+}
+
+function trapTourFocus(e) {
+  const items = tourFocusables();
+  if (items.length === 0) return;
+  const at = items.indexOf(document.activeElement);
+  let to;
+  if (e.shiftKey) to = at <= 0 ? items.length - 1 : at - 1;
+  else to = at === -1 || at === items.length - 1 ? 0 : at + 1;
+  items[to].focus();
+  e.preventDefault();
 }
 
 // Place the spotlight ring + tooltip for the current step (also called on scroll/resize).
@@ -1229,6 +1287,9 @@ function startTour() {
   window.addEventListener("resize", tourState.reposition);
   window.addEventListener("scroll", tourState.reposition, { passive: true });
   tourState.overlay.setAttribute("tabindex", "-1");
+  // Remember where focus came from so closing can put it back; the auto-launch path
+  // starts from <body>, the #tour-fab / "Take the tour" paths from a real button.
+  tourState.opener = document.activeElement;
   tourState.overlay.focus();
   gotoStep(0);
 }
@@ -1242,6 +1303,13 @@ function endTour() {
     tourState.reposition = null;
   }
   markTourSeen();
+  // The overlay is display:none once "on" is dropped, so the browser would otherwise
+  // strand focus on <body> and the keyboard user loses their place in the document.
+  const opener = tourState.opener;
+  tourState.opener = null;
+  if (opener && opener !== document.body && opener.isConnected && typeof opener.focus === "function") {
+    opener.focus();
+  }
 }
 
 async function loadScenario(file) {
@@ -1597,7 +1665,11 @@ function buildExplorer(caps) {
   // the modelled/info items and the counts retitle to validated-only totals).
   const totalV = caps.filter((c) => c.status === "validated").length;
   const tally = el("xp-tally");
-  const baseTally = `${caps.length} capabilities · ${totalEv} evidence claims · ${order.length} domains · ${totalV} validated against external oracles`;
+  // Worded as "capability cards", not "capabilities": this is the curated card layer,
+  // 46 of them, while the ledger below counts the 168 matrix rows. The two populations
+  // used to share the phrase "capabilities validated against external oracles", so the
+  // page appeared to give two different answers to the same question.
+  const baseTally = `${caps.length} capability cards · ${totalEv} evidence claims · ${order.length} domains · ${totalV} backed by an external oracle`;
   if (tally) tally.textContent = baseTally;
 
   const cb = el("xp-validated-only");
@@ -1608,7 +1680,7 @@ function buildExplorer(caps) {
       root.classList.toggle("validated-only", only);
       if (tally) {
         tally.textContent = only
-          ? `${totalV} validated capabilities · ${totalEvV} external-oracle evidence claims · ${order.length} domains`
+          ? `${totalV} oracle-backed capability cards · ${totalEvV} external-oracle evidence claims · ${order.length} domains`
           : baseTally;
       }
       for (const g of order) {
@@ -1681,7 +1753,13 @@ async function renderCapabilities() {
       list.append(row);
     }
     const sc = el("std-summary-count");
-    if (sc) sc.textContent = t("standards.count", { count: data.standards.length });
+    // Count the predicate the pill is gated on, not the number of cards. The two are
+    // equal today (13 of 13 carry a proof), so adding an honestly-unproven card must
+    // not silently push the public "(N validated)" above the number of pills shown.
+    if (sc) {
+      const proven = data.standards.filter((st) => st.proof).length;
+      sc.textContent = t("standards.count", { count: proven });
+    }
   }
 }
 
@@ -2242,6 +2320,39 @@ async function main() {
   // Auto-run the guided tour once (non-embed only); persists via localStorage. A
   // short delay lets the first scenario render so the result tabs exist as targets.
   if (!embed && !tourSeen()) setTimeout(startTour, 900);
+
+  bindPrintExpansion();
+}
+
+// Every <details> on the page ships closed except the standards fold, so a printed
+// copy drops the 168-row ledger and all eight evidence panels — the substance a
+// reviewer saves the PDF for. CSS cannot reach that content (Chrome keeps it in a
+// UA shadow slot), so open the folds for the duration of the print and put every
+// one of them back exactly as the reader left it.
+function bindPrintExpansion() {
+  let reopened = null;
+  const expand = () => {
+    // Both beforeprint and the print media query can fire for one print; only the
+    // first call may record the state, or the second would record "nothing was
+    // closed" and the folds would stay open afterwards.
+    if (reopened) return;
+    reopened = Array.from(document.querySelectorAll("details:not([open])"));
+    for (const d of reopened) d.open = true;
+  };
+  const restore = () => {
+    if (!reopened) return;
+    for (const d of reopened) d.open = false;
+    reopened = null;
+  };
+  window.addEventListener("beforeprint", expand);
+  window.addEventListener("afterprint", restore);
+  // Safari and older WebKit fire no before/afterprint; the media query does.
+  if (window.matchMedia) {
+    const mq = window.matchMedia("print");
+    const onChange = (e) => (e.matches ? expand() : restore());
+    if (mq.addEventListener) mq.addEventListener("change", onChange);
+    else if (mq.addListener) mq.addListener(onChange);
+  }
 }
 
 main();

@@ -16,7 +16,7 @@
 <p align="center">
   <a href="https://github.com/AshfordeOU/kshana/blob/main/tests/sgp4_verification.rs"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%204.12mm-3fb950" alt="SGP4 validated against all 666 AIAA 2006-6753 vectors, worst 4.12 mm"></a>
   <a href="https://github.com/AshfordeOU/kshana#validation-at-a-glance"><img src="https://img.shields.io/badge/validated-64%20external%20oracles-3fb950" alt="64 of 168 capabilities validated against independent external oracles"></a>
-  <a href="https://github.com/AshfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.26.0-c79e63" alt="Release v0.26.0"></a>
+  <a href="https://github.com/AshfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.27.2-c79e63" alt="Release v0.27.2"></a>
   <a href="https://kshana.dev"><img src="https://img.shields.io/badge/playground-try%20in%20browser-c79e63" alt="Live playground — run in your browser, no install"></a>
   <a href="https://github.com/AshfordeOU/kshana/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-AGPL_v3-blue.svg" alt="License: AGPL-3.0-only"></a>
   <a href="https://doi.org/10.5281/zenodo.20528627"><img src="https://img.shields.io/badge/DOI-10.5281%2Fzenodo.20528627-blue.svg" alt="DOI 10.5281/zenodo.20528627"></a>
@@ -66,23 +66,57 @@ The package is an ES module with a WebAssembly payload. Initialise it once, then
 the engine synchronously:
 
 ```js
-import init, { run, run_full, chart_svg, version } from "kshana";
+import init, { run, summary, chart_svg, version } from "kshana";
 
 await init();                                   // load the wasm
 
-const toml = `kind = "clock_holdover"\n# ... scenario fields ...`;
-const result = JSON.parse(run(toml));
+// A complete scenario, not a sketch: 2 h run, 10 min of GNSS then ~1.8 h denied.
+// This is scenarios/clock-holdover.toml, with its kind stated explicitly (the file
+// omits it, and an absent kind means `clock`) and its provenance notes shortened.
+const toml = `
+kind = "clock"
+seed = 42
+threshold_ns = 20.0
+
+[time]
+step_s = 10.0
+duration_s = 7200.0
+
+[gnss]
+windows = [
+  { t0 = 0.0,   t1 = 600.0,  state = "nominal" },
+  { t0 = 600.0, t1 = 7200.0, state = "denied" },
+]
+
+[clock_quantum]
+id = "optical-sr-lattice"
+provenance = "Sr optical lattice, space goal sigma_y(1s)=1e-15 (arXiv:1503.08457); not flown"
+y0 = 5.0e-17
+q_wf = 1.0e-30
+q_rw = 0.0
+
+[clock_classical]
+id = "csac-sa45s"
+provenance = "Microchip SA.45s CSAC datasheet sigma_y(1s)=3e-10"
+y0 = 5.0e-10
+q_wf = 9.0e-20
+q_rw = 0.0
+`;
+
+const result = JSON.parse(run(toml));           // the full result document
 console.log(version(), result.classical.fom.timing_p95_ns);
 
-// JSON result + SVG chart in one call:
-const { json, svg } = run_full(toml);
+console.log(summary(toml));                     // the one-line result string
+const svg = chart_svg(toml);                    // the same chart the CLI writes
 ```
 
-Beyond `run` / `run_full` / `version`, the module also exports `summary` (the one-line
-result string), `list_kinds` / `error_kind` (introspection), and
-`encode_permalink` / `decode_permalink` — the shareable-URL codec the
-[playground](https://kshana.dev) uses to round-trip a whole scenario through the
-address-bar fragment.
+On the WebAssembly face every entry point is a separate call: `run` (the result
+document as a JSON string), `summary`, `chart_svg`, `version`, `list_kinds` /
+`error_kind` (introspection), `encode_permalink` / `decode_permalink` — the
+shareable-URL codec the [playground](https://kshana.dev) uses to round-trip a whole
+scenario through the address-bar fragment — and `export_sp3` / `export_omm` /
+`export_oem`, the SP3-c and CCSDS ephemeris artifacts the CLI writes. There is no
+one-call `run_full` here; that binding exists only on the Python wheel.
 
 Every figure of merit is labelled **validated** or **modelled**; optical-clock figures
 are space goals on ground hardware (no strontium optical clock has flown). Maturity is

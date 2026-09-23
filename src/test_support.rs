@@ -34,8 +34,15 @@
 //!   by a percent, not by a part in ten million) while tolerating libm divergence with a
 //!   margin of roughly 1400x over the worst case measured above.
 //! - an **exact** layer, gated to [`ON_BASELINE_HOST`], keeping the original literals
-//!   untouched. GitHub's `macos-latest` runners are aarch64, so this layer is still
-//!   exercised in CI — on the platform where it is true.
+//!   untouched. No hosted CI job evaluates it: the only macOS leg there is the
+//!   reproducibility matrix, which runs four deliberately platform-independent targets
+//!   (`cross_platform_golden`, `golden`, `determinism`, `sgp4_verification`) and none of
+//!   them carries an [`ON_BASELINE_HOST`] block, while every other `cargo test` job runs
+//!   on Linux, where the constant is false. What enforces this layer is the native
+//!   pre-push gate: `scripts/check-gate-receipt.sh` refuses a push whose HEAD is not
+//!   backed by a clean-tree `cargo test --all` receipt for that exact commit, and that
+//!   run happens on the aarch64 macOS baseline host, where the constant is true and
+//!   `--all` covers both the `--lib` blocks and the `tests/` ones.
 //!
 //! The literals are never re-taken to make a red go green. Finding F25 is precisely that
 //! failure mode, and the pins it protects are the ones below.

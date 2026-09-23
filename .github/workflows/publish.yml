@@ -22,6 +22,13 @@
 # cryptographic SLSA build-provenance attestation (actions/attest-build-provenance)
 # so a consumer can verify, with `gh attestation verify`, that the exact bytes they
 # downloaded were produced by this workflow from this repository.
+#
+# Two guards sit in front of every publish, because these publishes cannot be taken
+# back: the `gates` job below (cheap script gates, see its own comment) which every
+# publishing job `needs:`, and `if: startsWith(github.ref, 'refs/tags/v')` on each of
+# them, so a manual dispatch from a branch is inert rather than publishing whatever is
+# on that branch. A dispatch can still select a tag ref, which is the documented retry
+# path, and that keeps working.
 name: publish
 
 on:
@@ -33,10 +40,51 @@ permissions:
   contents: read
 
 jobs:
+  # Cheap correctness gates, run before anything irreversible.
+  #
+  # crates.io yanks rather than deletes and PyPI refuses a re-upload of a filename, so
+  # a publish is final. release.yml does run the full fmt/clippy/`cargo test --all`
+  # suite on this same tag push, but it is a SEPARATE workflow and `needs:` is
+  # intra-workflow only, so the publishes never waited for it. Measured from the run
+  # history, v0.27.2 (tag pushed 00:04:09): crates.io finished 00:05:03, npm 00:07:14,
+  # PyPI 00:08:35 — while release.yml's `verify` did not return until 01:28:07. The
+  # crate was public and unrecallable for 83 minutes before anything said the suite
+  # passed. Same shape on v0.27.1 (PyPI 08:54:54, verdict 09:56:29) and on v0.27.0,
+  # where npm and PyPI both succeeded while the crates.io job FAILED at 07:38:22 — the
+  # half-release ci.yml's `package` job comment records.
+  #
+  # Re-running the 240-minute suite here would double the runner cost per release and
+  # add a second independent flake lottery that a tag must also win, so this job carries
+  # only the seconds-long script gates — the ones that catch a drifted or mis-tagged
+  # tree. The long suite stays where it is, in release.yml. This narrows the race; it
+  # does not close it.
+  gates:
+    name: pre-publish gates
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    if: startsWith(github.ref, 'refs/tags/v')
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          # Full history: check-no-attribution.sh scans every commit message, and the
+          # default shallow checkout silently blinds that scan (same reason as ci.yml).
+          fetch-depth: 0
+      # Pinned to rust-toolchain.toml rather than @stable, because check-toolchain.sh
+      # asserts the active rustc equals the pinned channel — a floating stable fails it.
+      - uses: dtolnay/rust-toolchain@1.93.0
+      - name: Toolchain pin guard
+        run: ./scripts/check-toolchain.sh
+      - name: Version consistency guard
+        run: ./scripts/check-version-sync.sh
+      - name: Repository hygiene guard
+        run: ./scripts/check-no-attribution.sh
+
   crates:
     name: crates.io
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    needs: gates
+    if: startsWith(github.ref, 'refs/tags/v')
     environment:
       name: crates-io
       url: https://crates.io/crates/kshana
@@ -88,9 +136,14 @@ jobs:
       name: crates-io-mcp
       url: https://crates.io/crates/kshana-mcp
     # The MCP server is a standalone, workspace-excluded crate that depends on the
-    # published `kshana` crate (`kshana = { path = "../..", version = "0.14" }`), so it
-    # must publish AFTER the `crates` job has pushed a matching `kshana` to crates.io.
+    # published `kshana` crate (`kshana = { path = "../..", version = "<major.minor>" }`
+    # in mcp/kshana-mcp/Cargo.toml, kept equal to the engine's major.minor by
+    # scripts/check-version-sync.sh), so it must publish AFTER the `crates` job has
+    # pushed a matching `kshana` to crates.io. The requirement is deliberately not
+    # quoted here: the last time it was, the comment said 0.14 fifteen minor releases
+    # after the manifest had moved on.
     needs: crates
+    if: startsWith(github.ref, 'refs/tags/v')
     defaults:
       run:
         working-directory: mcp/kshana-mcp
@@ -122,13 +175,16 @@ jobs:
               && { echo "kshana not yet indexed; retrying ($attempt/5)…"; sleep 15; continue; }
             exit "$rc"
           done
-          echo "::error::kshana-mcp publish failed — is the matching kshana version on crates.io? (check the kshana = \"0.14\" requirement)"
+          req="$(sed -nE 's/^kshana = .*version = "([^"]+)".*/\1/p' Cargo.toml)"
+          echo "::error::kshana-mcp publish failed — is the matching kshana version on crates.io? (check the kshana = \"${req:-?}\" requirement in mcp/kshana-mcp/Cargo.toml)"
           exit 1
 
   build-wheels:
     name: build wheels (${{ matrix.os }} / ${{ matrix.target }})
     runs-on: ${{ matrix.os }}
     timeout-minutes: 60
+    needs: gates
+    if: startsWith(github.ref, 'refs/tags/v')
     permissions:
       contents: read
     env:
@@ -191,7 +247,21 @@ jobs:
         # default shell on every OS; gen-sbom.sh needs only the Rust toolchain.
         if: matrix.os == 'ubuntu-latest' && matrix.target == 'x86_64'
         shell: bash
-        run: ./scripts/gen-sbom.sh > dist/kshana-sbom.cdx.json
+        run: |
+          set -euo pipefail
+          ./scripts/gen-sbom.sh > dist/kshana-sbom.cdx.json
+          # Assert the document before it is attested. attest-build-provenance signs
+          # whatever bytes it is given, so an empty or componentless SBOM would ship as
+          # a cryptographically verified bill of materials — the worst shape this
+          # failure can take, because the signature makes it look checked.
+          python3 - dist/kshana-sbom.cdx.json <<'PY'
+          import json, sys
+          doc = json.load(open(sys.argv[1]))
+          assert doc.get("bomFormat") == "CycloneDX", "not a CycloneDX document"
+          n = len(doc.get("components") or [])
+          assert n > 0, "SBOM carries no components"
+          print(f"OK: CycloneDX {doc.get('specVersion')} with {n} components")
+          PY
       - uses: actions/upload-artifact@v4
         with:
           name: pypi-dist-${{ matrix.os }}-${{ matrix.target }}
@@ -205,6 +275,7 @@ jobs:
     needs: build-wheels
     runs-on: ubuntu-latest
     timeout-minutes: 20
+    if: startsWith(github.ref, 'refs/tags/v')
     environment:
       name: pypi
       url: https://pypi.org/project/kshana/
@@ -253,7 +324,12 @@ jobs:
           else echo "PYPI_API_TOKEN not set; skipping PyPI publish"; fi
       - name: Publish to PyPI
         if: steps.gate.outputs.go == 'true'
-        uses: pypa/gh-action-pypi-publish@release/v1
+        # Pinned to a commit SHA, not the mutable `release/v1` branch: this step holds a
+        # live PyPI API token and an OIDC identity, and a branch (or a force-moved tag)
+        # can change under us with no review. Dependabot's github-actions ecosystem keeps
+        # the SHA current. Do NOT apply this to dtolnay/rust-toolchain — there the ref IS
+        # the toolchain selector, and a SHA would silently install stable.
+        uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2 (release/v1 as of 2026-09-23)
         with:
           packages-dir: dist
           # __token__ + the project/account API token. skip-existing makes a re-run after
@@ -271,6 +347,8 @@ jobs:
     name: npm
     runs-on: ubuntu-latest
     timeout-minutes: 25
+    needs: gates
+    if: startsWith(github.ref, 'refs/tags/v')
     environment:
       name: npm
       url: https://www.npmjs.com/package/kshana
@@ -303,7 +381,16 @@ jobs:
         # listed in package.json "files" so `npm pack`/`npm publish` includes it. Runs
         # after setup-node so the pinned Node interpreter drives the package.json patch.
         run: |
+          set -euo pipefail
           ./scripts/gen-sbom.sh > web/pkg/kshana-sbom.cdx.json
+          python3 - web/pkg/kshana-sbom.cdx.json <<'PY'
+          import json, sys
+          doc = json.load(open(sys.argv[1]))
+          assert doc.get("bomFormat") == "CycloneDX", "not a CycloneDX document"
+          n = len(doc.get("components") or [])
+          assert n > 0, "SBOM carries no components"
+          print(f"OK: CycloneDX {doc.get('specVersion')} with {n} components")
+          PY
           node -e '
             const fs = require("fs");
             const p = "web/pkg/package.json";

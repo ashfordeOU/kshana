@@ -11,11 +11,19 @@
 #   docker run --rm -i ghcr.io/ashfordeou/kshana-mcp
 #
 # ---- build stage -----------------------------------------------------------------
-# `rust:1-slim-bookworm` tracks the latest stable 1.x toolchain (edition 2024 needs
-# >= 1.85) on Debian bookworm; the slim image carries the C linker the build needs.
-# The server is self-contained (it links the `kshana` library and runs scenarios
-# in-process), and nothing in the graph needs system libraries — pure Rust + stdio.
-FROM rust:1-slim-bookworm AS build
+# Pinned to the SAME compiler as rust-toolchain.toml (channel = "1.93.0") rather than
+# the floating `rust:1-slim-bookworm`, which resolves to whatever the newest stable 1.x
+# is that morning — 1.98.1 as of this writing. The floating tag was not producing a
+# 1.98.1 binary, because `COPY . .` below brings rust-toolchain.toml into /src and
+# rustup honours it; it was quietly downloading a second toolchain on every build, on
+# both architectures, with the arm64 leg under QEMU. Pinning the base makes the two
+# agree, so the image is built by the reviewed compiler with nothing to fetch. Keep
+# rust-toolchain.toml in the build context: it is the belt to this tag's braces, and
+# mcp-publish.yml runs no toolchain gate that would catch the two drifting apart.
+# The slim image carries the C linker the build needs. The server is self-contained
+# (it links the `kshana` library and runs scenarios in-process), and nothing in the
+# graph needs system libraries — pure Rust + stdio.
+FROM rust:1.93.0-slim-bookworm AS build
 WORKDIR /src
 COPY . .
 WORKDIR /src/mcp/kshana-mcp
@@ -31,7 +39,7 @@ FROM debian:bookworm-slim AS runtime
 LABEL io.modelcontextprotocol.server.name="io.github.ashfordeOU/kshana-mcp"
 LABEL org.opencontainers.image.title="kshana-mcp"
 LABEL org.opencontainers.image.description="MCP server exposing the validated Kshana PNT-resilience simulator to AI agents."
-LABEL org.opencontainers.image.source="https://github.com/AshfordeOU/kshana"
+LABEL org.opencontainers.image.source="https://github.com/ashfordeOU/kshana"
 LABEL org.opencontainers.image.url="https://kshana.dev"
 LABEL org.opencontainers.image.licenses="AGPL-3.0-only"
 

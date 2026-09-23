@@ -328,7 +328,7 @@ pub fn select_ephemeris(
         if d > MAX_EPH_AGE_S {
             continue;
         }
-        if best.map_or(true, |(_, bd)| d < bd) {
+        if best.is_none_or(|(_, bd)| d < bd) {
             best = Some((e, d));
         }
     }
@@ -410,14 +410,23 @@ pub fn assemble_epoch(
             Some(p2) => (iono_free_combination(p1, p2), true),
             None => (p1, false),
         };
-        let eph = match select_ephemeris(ephs, system, prn, tow) {
+        // A BeiDou record's Toe and Toc are on the BDT scale — RINEX writes them
+        // that way and `parse_nav` keeps them there — so the ephemeris must be
+        // selected and evaluated against a BDT time of week. GPS leads BDT by a
+        // fixed 14 s; over that interval a MEO satellite moves ~42 km, which
+        // projects to a kilometre or more of pseudorange error.
+        let tow_sys = match system {
+            'C' => tow - crate::rinex::BDT_MINUS_GPS_S,
+            _ => tow,
+        };
+        let eph = match select_ephemeris(ephs, system, prn, tow_sys) {
             Some(e) => e,
             None => continue,
         };
         // Transmit time: first guess from the pseudorange, then corrected for the
-        // satellite clock so the broadcast position is evaluated at the true GPS
+        // satellite clock so the broadcast position is evaluated at the true
         // system time of transmission (IS-GPS-200 user algorithm).
-        let mut t_tx = tow - rho / C_M_PER_S;
+        let mut t_tx = tow_sys - rho / C_M_PER_S;
         t_tx -= eph.sv_clock_bias_s(t_tx);
         let sat_raw = eph.sv_position_ecef(t_tx);
         // Sagnac correction uses the *geometric* travel time (from the a-priori
@@ -1244,6 +1253,80 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
         assert!((k.beta[3] - 4.5875e5).abs() < 1.0);
         // A header without the iono records yields None.
         assert!(klobuchar_from_nav_header(NAV_SAMPLE).is_none());
+    }
+
+    #[test]
+    fn assemble_epoch_evaluates_a_beidou_record_on_the_bdt_scale() {
+        // A BeiDou record's Toe/Toc stay on the BDT scale, which runs 14 s behind
+        // GPS. Handing the observation epoch's GPS time of week straight to the
+        // evaluation moved the satellite by 14 s of orbital motion — tens of km —
+        // and the least-squares fit absorbed that into the position and clock.
+        let mut eph = parse_nav(NAV_SAMPLE).unwrap()[0];
+        eph.system = 'C';
+        eph.prn = 8; // a MEO PRN; the GEO block C01-C05 is not decoded
+        let tow_gps = 172_800.0;
+        let tow_bdt = tow_gps - crate::rinex::BDT_MINUS_GPS_S;
+        // 14 s of orbital motion is the size of the error being removed.
+        let drift = dist(eph.sv_position_ecef(tow_gps), eph.sv_position_ecef(tow_bdt));
+        assert!(drift > 10_000.0, "14 s of motion is only {drift:.0} m");
+
+        let approx_tx = eph.sv_position_ecef(tow_bdt - 0.075);
+        let rx = {
+            let u = norm(approx_tx);
+            [u[0] * 6_371_000.0, u[1] * 6_371_000.0, u[2] * 6_371_000.0]
+        };
+        let rho = dist(rx, approx_tx);
+        // 2023-01-03 00:00:00 is GPS time-of-week 172 800 s.
+        let epoch_time = EpochUtc {
+            year: 2023,
+            month: 1,
+            day: 3,
+            hour: 0,
+            minute: 0,
+            second: 0.0,
+        };
+        let obs = RinexObs {
+            header: ObsHeader {
+                version: 3.04,
+                system: 'C',
+                obs_types: vec![('C', vec!["C1P".to_string()])],
+                approx_xyz: Some(rx),
+                interval_s: Some(30.0),
+                time_of_first_obs: Some(epoch_time),
+            },
+            epochs: vec![ObsEpoch {
+                time: epoch_time,
+                flag: 0,
+                sats: vec![SatObs {
+                    sat: "C08".to_string(),
+                    obs: vec![Some(Observation {
+                        value: rho,
+                        lli: None,
+                        ssi: None,
+                    })],
+                }],
+            }],
+        };
+        let m = assemble_epoch(&obs, 0, &[eph], rx, &AtmosModel::default(), 5.0, false);
+        assert_eq!(m.len(), 1, "one visible BeiDou satellite");
+        let (id, sm) = &m[0];
+        assert_eq!(id, "C08");
+        // The assembled position is the one at the BDT transmit time...
+        let mut t_tx = tow_bdt - rho / C_M_PER_S;
+        t_tx -= eph.sv_clock_bias_s(t_tx);
+        let sat_raw = eph.sv_position_ecef(t_tx);
+        let exp = sagnac_rotate(sat_raw, dist(rx, sat_raw) / C_M_PER_S);
+        assert!((0..3).all(|k| (sm.sat_ecef[k] - exp[k]).abs() < 1e-3));
+        // ...and not the one 14 s of orbital motion away that the GPS time of
+        // week would have produced.
+        let mut t_tx_gps = tow_gps - rho / C_M_PER_S;
+        t_tx_gps -= eph.sv_clock_bias_s(t_tx_gps);
+        let wrong_raw = eph.sv_position_ecef(t_tx_gps);
+        let wrong = sagnac_rotate(wrong_raw, dist(rx, wrong_raw) / C_M_PER_S);
+        assert!(
+            dist(sm.sat_ecef, wrong) > 10_000.0,
+            "still evaluating on the GPS scale"
+        );
     }
 
     #[test]

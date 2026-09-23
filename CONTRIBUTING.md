@@ -25,11 +25,18 @@ wasm-pack build --target web -- --features wasm    # WebAssembly module
 cargo clippy --features python --features wasm     # lint the binding modules
 ```
 
-## Before every commit, both guards must pass
+## Before every commit — the fast loop
+
+These take seconds. They are a subset of `ci.yml`'s `check` job, in the same order, so
+a failure here is a failure there:
 
 ```bash
+cargo fmt --all -- --check
+cargo clippy --all-targets -- -D warnings
 ./scripts/check-reproducible.sh     # reference scenario is byte-identical across runs
 ./scripts/check-no-attribution.sh   # repo hygiene (see below)
+./scripts/check-version-sync.sh     # every version surface agrees with Cargo.toml
+./scripts/check-doc-coverage.sh     # missing-docs ratchet: the count may fall, never rise
 ```
 
 - **Reproducibility is a hard invariant.** A change that makes `(scenario, seed,
@@ -39,6 +46,31 @@ cargo clippy --features python --features wasm     # lint the binding modules
   trailers or footers, and must not name an AI assistant as an author anywhere in
   content, file names, or history. The guard enforces this.
 
+## Before you push — the full gate
+
+`scripts/gate.sh` is the canonical gate: it runs `cargo test --all` unabridged, then
+`scripts/check-repeatability.sh` to re-run the library suite a few more times, because a
+thread-interleaving race is invisible to a single run. Only on success does it write
+`.gate-receipt.json` (untracked — machine state about one run, not content).
+
+```bash
+scripts/gate.sh
+REPEAT=0 scripts/gate.sh           # canonical suite only, no repeatability loop
+TEST_THREADS=6 scripts/gate.sh     # cap per-binary concurrency if the run is memory-starved
+scripts/check-gate-receipt.sh      # is there a valid receipt for the commit being pushed?
+scripts/install-gate-hook.sh --check   # is the pre-push hook installed on this clone?
+```
+
+It is slow on purpose — 62-79 minutes in the healthy steady state, per the header of
+`scripts/gate.sh`, which carries the current figure — and there is no timeout, because
+a timeout short enough to be useful would kill a healthy run. A subset run that came
+back green is not a gate: both of the defects this mechanism exists for reached it
+that way.
+
+Contributors working from a fork do not need the receipt hook — it is a local
+maintainer gate, and **CI is what actually gates a pull request**. Running `gate.sh`
+before you open one simply means CI tells you nothing you did not already know.
+
 ## Adding or changing a sensor model
 
 1. **Every numeric parameter needs provenance.** Put the citation in the model's
@@ -47,8 +79,14 @@ cargo clippy --features python --features wasm     # lint the binding modules
    Allan deviation for clocks, Groves' dead-reckoning error growth for inertial, the
    timing→ranging conversion for time transfer. Add a test that the simulated output
    reproduces the published/relation value within a stated tolerance.
-3. **Be honest about maturity.** Update `docs/VALIDATION.md`: mark each term
-   `validated` or `not modeled`, and label figures that are targets or ground-
+3. **Be honest about maturity.** The status registry is
+   `src/verification.rs::verification_matrix()` — add or amend the row there, name its
+   external oracle (or say plainly that there is none, which makes it `Modelled`), then
+   regenerate the published artifacts with `cargo run --bin gen_validation_artifacts`.
+   `docs/VERIFICATION-MATRIX.md`, `docs/MODELLED-RATIONALE.md` and
+   `web/data/verification-matrix.json` are all generated from that function and say
+   "do not edit by hand" for a reason. Update the `docs/VALIDATION.md` narrative as
+   well when the prose needs it, and label figures that are targets or ground-
    demonstrator results as such.
 
 ## Tests

@@ -574,7 +574,7 @@ impl CoastModel {
         let mut best: Option<(&'static str, f64)> = None;
         for c in &self.contributions {
             let e = c.error_m(t);
-            if e > 0.0 && best.map_or(true, |(_, b)| e > b) {
+            if e > 0.0 && best.is_none_or(|(_, b)| e > b) {
                 best = Some((c.name, e));
             }
         }

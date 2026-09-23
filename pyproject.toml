@@ -1,5 +1,11 @@
 [build-system]
-requires = ["maturin>=1.5,<2"]
+# 1.9.2 is the floor, not 1.5: `license = "AGPL-3.0-only"` below is the PEP 639
+# expression form, and maturin only emits it as core-metadata `License-Expression`
+# from 1.9.2 on. 1.9.1 and older write the SPDX string into the deprecated `License`
+# field instead (measured: 1.5.1 -> Metadata-Version 2.3 + License:, 1.8.7/1.9.0/1.9.1
+# -> 2.4 + License:, 1.9.2/1.15.0 -> 2.4 + License-Expression:). A dual-licensed
+# project cannot afford its licence landing in a deprecated free-text field.
+requires = ["maturin>=1.9.2,<2"]
 build-backend = "maturin"
 
 [project]
@@ -28,7 +34,7 @@ test = ["pytest", "numpy"]
 
 [project.urls]
 Homepage = "https://kshana.dev"
-Repository = "https://github.com/AshfordeOU/kshana"
+Repository = "https://github.com/ashfordeOU/kshana"
 Documentation = "https://docs.rs/kshana"
 
 [tool.maturin]
@@ -36,6 +42,9 @@ Documentation = "https://docs.rs/kshana"
 # across CPython >= 3.9. maturin sets the macOS `-undefined dynamic_lookup` link
 # flag automatically.
 features = ["python"]
-# Ship the type stub + PEP 561 marker next to the extension so mypy/pyright and
-# editors see the typed surface.
-include = ["kshana.pyi", "py.typed"]
+# No `include` for the type stub: maturin already detects the root kshana.pyi and
+# installs it as kshana/__init__.pyi, and synthesizes kshana/py.typed, so mypy and
+# pyright see the typed surface. Listing them here ALSO copied both to the wheel
+# ROOT, which put a kshana.pyi and an unowned py.typed straight into site-packages
+# (py.typed is a per-package marker: a copy at the root belongs to no distribution,
+# and `pip uninstall kshana` would delete whichever package really owned it).

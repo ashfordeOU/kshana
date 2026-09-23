@@ -3,9 +3,14 @@
 
 Kshana speaks the standard interchange formats of the GNSS, flight-dynamics, and
 timing communities so it can sit alongside RTKLIB, gLAB, Ginan, GMAT, Orekit, and
-the IGS analysis-centre tooling rather than on a private island. This page maps
-every standard the engine reads or writes to the module that implements it and
-to the authoritative specification.
+the IGS analysis-centre tooling rather than on a private island. This page maps the
+**interchange formats** the engine parses or emits to the module that implements each
+one and to the authoritative specification.
+
+It is scoped to formats — things with a read/write direction. The signal and algorithm
+standards the engine *implements* rather than parses (IS-GPS-200, IEEE 1139,
+RTCA DO-229E, IGRF-14, the ARAIM WG-C reference, CCSDS 401/DSN) are evidenced row by
+row in [`VERIFICATION-MATRIX.md`](VERIFICATION-MATRIX.md) instead.
 
 ## Formats the engine speaks
 
@@ -18,6 +23,11 @@ to the authoritative specification.
 | **SP3-c / SP3-d** (precise ephemeris) | read **and** write | [`src/sp3.rs`](../src/sp3.rs) | IGS Standard Product 3 (c/d) | Earth-fixed (ECEF) position + clock time series. Round-trip validated to < 0.5 m on a real `gps-ops` snapshot ([`tests/sp3_export_roundtrip.rs`](../tests/sp3_export_roundtrip.rs)). |
 | **RINEX 3** (broadcast navigation) | read | [`src/rinex.rs`](../src/rinex.rs) | RINEX 3.x NAV (IS-GPS-200, Galileo ICD, BeiDou ICD, GLONASS ICD) | Multi-GNSS NAV ingestion (GPS LNAV, Galileo F/NAV, QZSS, BeiDou MEO/IGSO, GLONASS state vector); usable as a first-class `Propagator` source. |
 | **TLE / 3LE** (two-/three-line elements) | read | [`src/tle.rs`](../src/tle.rs) | NORAD / Celestrak, AIAA 2006-6753 | Propagated by the validated SGP4/SDP4 core (4.12 mm vs the 666 official AIAA vectors). |
+| **RINEX 3.0x / 4.00** (observation) | read | [`src/rinex_obs.rs`](../src/rinex_obs.rs) | RINEX 3.0x / 4.00 OBS | The other half of RINEX: the receiver's own code/carrier/Doppler/SNR records (`parse_obs`). This is the input the `pvt` single-point-positioning solver consumes alongside the broadcast navigation file ([`tests/pvt_abmf.rs`](../tests/pvt_abmf.rs), real IGS station ABMF). |
+| **IONEX** (global TEC maps) | read | [`src/ionex.rs`](../src/ionex.rs) | IONEX 1.x (IGS ionosphere product) | `parse_ionex` reads the IGS global total-electron-content grids — the *measured* alternative to the broadcast Klobuchar correction — with bilinear spatial and temporal interpolation and the obliquity mapping to slant delay. |
+| **IERS `finals2000A` / Bulletin B** (Earth orientation) | read | [`src/eop.rs`](../src/eop.rs), [`src/frame_eop.rs`](../src/frame_eop.rs) | IERS Conventions; IERS EOP 14 C04 / `finals2000A.all` | UT1−UTC and polar motion from the official product, including the **predicted** rows, so the frame reduction can be run in real time and its prediction-error growth budgeted ([`tests/operational_eop_predictor_reference.rs`](../tests/operational_eop_predictor_reference.rs)). |
+| **KIF** (Kshana Interchange Format) | read **and** write | [`src/interchange.rs`](../src/interchange.rs) | this repository — see the envelope table above | The neutral, versioned envelope every artifact can be wrapped in: `format` / `schema_version` / `kind` / `engine_version` / `payload`, with an explicit major-minor compatibility verdict for a consumer. Not an external standard; documented here because a foreign tool has to recognise it. |
+| **LunaNet / IOAG lunar interchange** | write (time metadata also read) | [`src/lunar_interop.rs`](../src/lunar_interop.rs) | LunaNet interoperability specification / IOAG lunar communications architecture, over CCSDS 502.0 | The lunar frame, lunar time scale and lunar ephemeris emitted in LunaNet/IOAG-aligned CCSDS forms (`export_lunar_oem`, `export_kif_lunar`, `export_lunar_time_metadata`), with a field-conformance check on the emitted OEM ([`tests/lunar_interoperability_export_reference.rs`](../tests/lunar_interoperability_export_reference.rs)). |
 
 ## Reference frames & time
 
@@ -56,7 +66,10 @@ For an orbit scenario, the result JSON / OEM correspondence is:
 
 ## Honest scope
 
-- OEM, TDM, and Space Packet are **read and write**; OMM is a **writer** (an OMM reader and the XML serialization are follow-ons).
+- OEM, TDM, Space Packet and KIF are **read and write**; OMM is a **writer** (an OMM
+  reader and the XML serialization are follow-ons); RINEX NAV, RINEX OBS, IONEX, the
+  IERS EOP products and TLE are **readers**; the LunaNet/IOAG lunar export is a writer
+  whose time metadata round-trips.
 - The CCSDS/IGS field mapping above is documentation, not a certified conformance
   statement; formal conformance (and registration in the ESA ESSR / NASA open
   catalogue) is tracked separately and is founder-gated.

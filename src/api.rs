@@ -704,10 +704,13 @@ pub struct ScenarioMeta {
 
 /// The built-in kind closest to `probe`, for the "did you mean" on an unknown kind.
 ///
-/// Plain Levenshtein distance, accepted only when it is at most a third of the probe's
-/// length (minimum 1). That bound is deliberate: a suggestion is useful for a typo and
-/// actively misleading for a name the caller invented, so `"lunar-vbli-fim"` earns a
-/// hint and `"frobnicate"` earns none.
+/// Two passes. First plain Levenshtein distance, accepted only when it is at most a
+/// third of the probe's length (minimum 1). That bound is deliberate: a suggestion is
+/// useful for a typo and actively misleading for a name the caller invented, so
+/// `"lunar-vbli-fim"` earns a hint and `"frobnicate"` earns none. Then, only if that
+/// finds nothing, a prefix relation in either direction — because the other common
+/// slip is a real kind plus or minus a whole qualifier, which edit distance scores as
+/// far away.
 fn nearest_kind(probe: &str) -> Option<&'static str> {
     fn distance(a: &str, b: &str) -> usize {
         let (a, b): (Vec<char>, Vec<char>) = (a.chars().collect(), b.chars().collect());
@@ -724,12 +727,25 @@ fn nearest_kind(probe: &str) -> Option<&'static str> {
         prev[b.len()]
     }
     let budget = (probe.chars().count() / 3).max(1);
-    list_scenario_kinds()
+    let by_distance = list_scenario_kinds()
         .into_iter()
         .map(|m| (distance(probe, m.name), m.name))
         .filter(|(d, _)| *d <= budget)
         .min_by_key(|(d, name)| (*d, *name))
-        .map(|(_, name)| name)
+        .map(|(_, name)| name);
+    if by_distance.is_some() {
+        return by_distance;
+    }
+    // `"integrity-raim"` — the README's own scenario FILE name typed as a kind — is 5
+    // edits from `"integrity"` against a budget of 4, so it earned no hint at all. A
+    // prefix relation is a stronger signal than a long edit path and still refuses an
+    // invented name: no kind starts with "frobnicate" and "frobnicate" starts with no
+    // kind. Shortest match first, then alphabetical, so the answer is deterministic.
+    list_scenario_kinds()
+        .into_iter()
+        .map(|m| m.name)
+        .filter(|name| probe.starts_with(name) || name.starts_with(probe))
+        .min_by_key(|name| (name.len(), *name))
 }
 
 /// List every built-in scenario kind with its metadata. Bindings expose this so a

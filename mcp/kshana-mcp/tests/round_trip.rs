@@ -7,6 +7,7 @@
 use kshana_mcp::server::KshanaServer;
 use rmcp::ServiceExt;
 use rmcp::model::CallToolRequestParams;
+use std::collections::BTreeSet;
 use std::path::Path;
 
 /// Spawn the server on one end of a duplex pipe and return a connected client.
@@ -47,24 +48,83 @@ fn all_text(res: &rmcp::model::CallToolResult) -> String {
         .join("\n")
 }
 
+/// Core `kshana::api` exports that are deliberately NOT served over MCP, each with the
+/// reason. Empty on purpose: every public export function currently reaches an agent. An
+/// entry here is a decision on the record, which is what the previous silence was not.
+const EXPORTS_NOT_SERVED_OVER_MCP: &[(&str, &str)] = &[];
+
+/// The served tool set must match EXACTLY, not merely contain the expected names.
+///
+/// The predecessor of this test asserted containment over a hard-coded list, which grades
+/// neither direction of drift: `export_oem` shipped in the core, the CLI, the WASM bundle
+/// and the web app while MCP never gained it, and the test stayed green throughout; a tool
+/// dropped from the literal would likewise drop out of the gate with it.
 #[tokio::test]
-async fn lists_all_five_tools() {
+async fn serves_exactly_the_expected_tool_set() {
     let client = connect().await;
     let tools = client.list_all_tools().await.expect("list tools");
-    let names: Vec<&str> = tools.iter().map(|t| t.name.as_ref()).collect();
-    for expected in [
+    let served: BTreeSet<&str> = tools.iter().map(|t| t.name.as_ref()).collect();
+    let expected: BTreeSet<&str> = [
         "run_scenario",
         "list_scenario_kinds",
         "validate_scenario",
         "export_sp3",
         "export_omm",
-    ] {
-        assert!(
-            names.contains(&expected),
-            "missing tool {expected}; got {names:?}"
-        );
-    }
+        "export_oem",
+    ]
+    .into_iter()
+    .collect();
+    assert_eq!(
+        served,
+        expected,
+        "MCP tool set drifted: only in server {:?}, only in this test {:?}",
+        served.difference(&expected).collect::<Vec<_>>(),
+        expected.difference(&served).collect::<Vec<_>>()
+    );
     client.cancel().await.ok();
+}
+
+/// Cross-face gate: every `pub fn export_*` in the core `kshana::api` must reach an agent as
+/// a tool, or be listed in `EXPORTS_NOT_SERVED_OVER_MCP` with a reason.
+///
+/// The core is read as TEXT rather than linked: this crate is workspace-excluded and cannot
+/// enumerate another crate's items at runtime. Reading a path relative to CARGO_MANIFEST_DIR
+/// is the same arrangement the scenario tests below already use.
+#[tokio::test]
+async fn every_core_export_function_is_served() {
+    let api =
+        std::fs::read_to_string(Path::new(env!("CARGO_MANIFEST_DIR")).join("../../src/api.rs"))
+            .expect("read the core kshana::api source");
+    // `auto_export_*` are the CLI's write-alongside helpers, not agent-facing entry points,
+    // and they do not match this prefix.
+    let core_exports: BTreeSet<&str> = api
+        .lines()
+        .filter_map(|l| l.strip_prefix("pub fn "))
+        .filter(|rest| rest.starts_with("export_"))
+        .filter_map(|rest| rest.split('(').next())
+        .collect();
+    // A prefix scan that silently matches nothing would read as a clean gate, so pin the
+    // floor: SP3, OMM and OEM have all shipped since v0.16.0.
+    assert!(
+        core_exports.len() >= 3,
+        "parsed only {core_exports:?} from src/api.rs — the scan, not the core, is broken"
+    );
+
+    let client = connect().await;
+    let tools = client.list_all_tools().await.expect("list tools");
+    let served: BTreeSet<&str> = tools.iter().map(|t| t.name.as_ref()).collect();
+    client.cancel().await.ok();
+
+    let missing: Vec<&str> = core_exports
+        .iter()
+        .copied()
+        .filter(|n| !served.contains(n))
+        .filter(|n| !EXPORTS_NOT_SERVED_OVER_MCP.iter().any(|(e, _)| e == n))
+        .collect();
+    assert!(
+        missing.is_empty(),
+        "core kshana::api exports with no MCP tool and no stated reason: {missing:?}"
+    );
 }
 
 #[tokio::test]

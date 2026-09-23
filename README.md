@@ -15,7 +15,7 @@
   <a href="https://kshana.dev"><img src="https://img.shields.io/badge/playground-try%20in%20browser-c79e63" alt="Live playground — run in your browser, no install"></a>
   <a href="tests/sgp4_verification.rs"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%204.12mm-3fb950" alt="SGP4 validated against all 666 AIAA 2006-6753 vectors, worst 4.12 mm"></a>
   <a href="#validation-at-a-glance"><img src="https://img.shields.io/badge/validated-64%20external%20oracles-3fb950" alt="64 capabilities validated against independent external oracles (real data, independent libraries, or published reference vectors); 100 more are honestly labelled MODELLED and 4 are PARTNER-owned — see Validation at a glance"></a>
-  <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/coverage-~96%25%20line-3fb950" alt="~96% line coverage on src/ (cargo-tarpaulin LLVM engine), gated at 85% in CI"></a>
+  <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/coverage-~96%25%20line-3fb950" alt="~96% line coverage on src/ excluding the generated data tables and the CLI entrypoint (cargo-tarpaulin LLVM engine), gated at 85% in CI"></a>
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://sonarcloud.io/api/project_badges/measure?project=ashfordeOU_kshana&metric=alert_status" alt="SonarQube Cloud Quality Gate status"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://sonarcloud.io/api/project_badges/measure?project=ashfordeOU_kshana&metric=security_rating" alt="SonarQube Cloud Security Rating"></a>
@@ -318,8 +318,9 @@ cargo test          # all tests pass
 
 ## Usage
 
-Run any scenario; the CLI dispatches on the scenario's `kind` field and writes a
-`<scenario>.result.json` and a `<scenario>.chart.svg` next to it:
+Run any scenario; the CLI dispatches on the scenario's `kind` field and writes
+`<scenario>.result.json`, `<scenario>.chart.svg` and `<scenario>.report.html` next to
+it — plus `<scenario>.table.csv` for the kinds that publish a table:
 
 ```bash
 cargo run -- scenarios/clock-holdover.toml
@@ -376,8 +377,8 @@ OMM-aware consumer instead of a bespoke two-line element set.
 Example output (clock holdover — note the Integrity and Security figures of merit):
 
 ```
-scenario c827e5d40d25 | quantum holdover 6600s p95 0.0ns integrity 1.000 security 0.997 | classical holdover 2610s p95 19.7ns integrity 1.000 security 0.000
-wrote scenarios/clock-holdover.result.json and scenarios/clock-holdover.chart.svg
+scenario 5ba83a232b94 | quantum holdover 6600s p95 0.0ns integrity 1.000 security 0.997 | classical holdover 2610s p95 19.7ns integrity 1.000 security 0.000
+wrote scenarios/clock-holdover.result.json, scenarios/clock-holdover.chart.svg, and scenarios/clock-holdover.report.html
 ```
 
 The optical clock's tight detection floor keeps `security 0.997`; the chip-scale
@@ -710,12 +711,12 @@ paper-clock). **MODELLED** — the headline figure is *reference-dependent* (Ear
 vs lunar selenoid, averaging window), which is why a band, not a single certified
 number, is reported (`scenarios/lunar-time-offset.toml`).
 
-See `scenarios/` for at least one worked example of every kind (53 kinds, 66 scenario
-`.toml` files + 1 suite manifest — several kinds ship more than one example). A few kinds have an example file
-whose name differs from the kind: `lunar-integrity` → `scenarios/lunanet-araim.toml`,
-`gravity-map` → `scenarios/gps-denied-gravity-nav.toml`. List the dispatchable kinds at
-any time with `cargo run -- --validate <file>` errors, the Python `list_kinds()`, or the
-MCP `list_scenario_kinds` tool.
+See `scenarios/` for at least one worked example of every kind (61 kinds, 73 scenario
+`.toml` files + 1 suite manifest — several kinds ship more than one example). Not every
+kind has a file named after it: `lunar-integrity` → `scenarios/lunanet-araim.toml` and
+`gravity-map` → `scenarios/gps-denied-gravity-nav.toml` are two of several such.
+List the dispatchable kinds at any time with `cargo run -- --validate <file>`
+errors, the Python `list_kinds()`, or the MCP `list_scenario_kinds` tool.
 
 ## Output
 
@@ -989,6 +990,8 @@ kshana/
 | [Glossary](docs/GLOSSARY.md) | everyone | plain-language definitions of every term |
 | [Architecture](docs/ARCHITECTURE.md) | developers / reviewers | module map, engine pipeline, dispatch, and diagrams |
 | [Validation status](docs/VALIDATION.md) | reviewers / citers | what is `validated` vs `not modeled`, with evidence |
+| [Verification matrix](docs/VERIFICATION-MATRIX.md) | reviewers / citers | the machine-checked evidence ledger — every capability row with its status, module, test and external oracle, generated from `src/verification.rs` |
+| [Modelled rationale](docs/MODELLED-RATIONALE.md) | reviewers | why each **Modelled** row has no external oracle, stated row by row |
 | [Provenance](docs/PROVENANCE.md) | reviewers / citers | every sensor parameter, model, and dataset traced to its published source, in one citable table |
 | [Reproducibility &amp; provenance](docs/REPRODUCIBILITY.md) | reviewers / packagers | determinism guarantees, golden-pinning, SBOM, build provenance |
 | [Wheel platform tags](docs/WHEEL_TAGS.md) | packagers | the abi3 Python wheel matrix — which platform tag `pip install kshana` resolves |
@@ -1002,6 +1005,7 @@ kshana/
 | [Quantum models](docs/QUANTUM.md) · [details](docs/QUANTUM-MODELS.md) | reviewers | the cold-atom-interferometer physics layer, and where coefficients are still looked up |
 | [Compliance](docs/COMPLIANCE.md) | evaluators | DO-229E / DO-316 algorithm scope, and what is **not** a conformance claim |
 | [Standards &amp; interoperability](docs/STANDARDS.md) | integrators | the GNSS / flight-dynamics / agency interchange formats Kshana reads and writes (RINEX, SP3, CCSDS OEM/OMM/TDM/Space-Packet, …) |
+| [Scenario catalogue](docs/SCENARIOS.md) | users / integrators | every dispatchable kind with its required and optional TOML fields — generated from `api::list_scenario_kinds()` |
 | [Result schema](docs/SCHEMA.md) | integrators | every field of the result JSON, with units and a source pointer |
 | [Python API](docs/PYTHON_API.md) | Python users | the PyO3 binding surface — calling the engine, the scenario/result types, and examples |
 | [Claims vs reality](docs/CLAIMS-VS-REALITY.md) | reviewers | the overclaim-closure ledger + the CI guard (`tests/no_overclaims.rs`) that keeps it resolved |
@@ -1087,7 +1091,7 @@ The **Status** column states the *kind* of evidence, matching the validation lad
 | **MODELLED** | PNT-resilience scoring + decision-instability | 35 hand-derived oracle tests; byte-deterministic study artifact (fixed seed) | DHS RPCF v2.0 mapping + Dirichlet / Kendall-τ / Hill-N2 closed forms — synthetic architectures, not a certification |
 | **MODELLED** | RF-impairment optimism-gap study (scaling laws + leave-one-out predictor) | permutation-null significance; byte-deterministic artifact (5 seeds) | synthetic parameter-grounded corpus — the eval *metrics* are VALIDATED vs scikit-learn (above); the study is MODELLED |
 | CI | Cross-platform reproducibility | bit-identical input + shape goldens on 3 OSes | Linux / macOS / Windows CI matrix, SHA-256 goldens |
-| CI | Test coverage | **~96 % line** on `src/`, gated ≥ 85 % | cargo-tarpaulin (LLVM engine) |
+| CI | Test coverage | **~96 % line** on `src/` excluding `src/*_data.rs` and `src/main.rs`, gated ≥ 85 % | cargo-tarpaulin (LLVM engine) |
 
 ## FAQ
 
@@ -1142,8 +1146,10 @@ CPython versions).
 **WebAssembly build can't find the target.** Install it once with
 `rustup target add wasm32-unknown-unknown`, then `wasm-pack build --target web -- --features wasm`.
 
-**Where did my output go?** Each run writes `<scenario>.result.json` and
-`<scenario>.chart.svg` next to the input `.toml`. These are git-ignored by design.
+**Where did my output go?** Each run writes `<scenario>.result.json`,
+`<scenario>.chart.svg` and `<scenario>.report.html` next to the input `.toml`, and
+`<scenario>.table.csv` too for the kinds that publish a table. All of them are
+git-ignored by design.
 
 ## Roadmap
 

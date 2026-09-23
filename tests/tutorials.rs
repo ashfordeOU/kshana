@@ -38,24 +38,158 @@ fn tutorial_scenarios_use_real_kinds() {
     }
 }
 
+/// Every teaching scenario, its source, and the canonical parent under
+/// `scenarios/` whose field values `docs/tutorials/README.md` promises it
+/// reproduces. One table drives the run, the expected-summary and the
+/// parent-identity checks so the three cannot drift apart.
+const TEACHING: &[(&str, &str, &str)] = &[
+    (
+        "clock.toml",
+        include_str!("../docs/tutorials/scenarios/clock.toml"),
+        include_str!("../scenarios/clock-holdover.toml"),
+    ),
+    (
+        "orbit.toml",
+        include_str!("../docs/tutorials/scenarios/orbit.toml"),
+        include_str!("../scenarios/orbit-sgp4-gps.toml"),
+    ),
+    (
+        "integrity.toml",
+        include_str!("../docs/tutorials/scenarios/integrity.toml"),
+        include_str!("../scenarios/integrity-raim.toml"),
+    ),
+    (
+        "security.toml",
+        include_str!("../docs/tutorials/scenarios/security.toml"),
+        include_str!("../scenarios/spoof-attack.toml"),
+    ),
+    (
+        "hybrid.toml",
+        include_str!("../docs/tutorials/scenarios/hybrid.toml"),
+        include_str!("../scenarios/hybrid-pnt.toml"),
+    ),
+    (
+        "inertial.toml",
+        include_str!("../docs/tutorials/scenarios/inertial.toml"),
+        include_str!("../scenarios/imu-deadreckoning.toml"),
+    ),
+    (
+        "timetransfer.toml",
+        include_str!("../docs/tutorials/scenarios/timetransfer.toml"),
+        include_str!("../scenarios/timetransfer.toml"),
+    ),
+    (
+        "gnss-sim.toml",
+        include_str!("../docs/tutorials/scenarios/gnss-sim.toml"),
+        include_str!("../scenarios/gnss-sim-raim.toml"),
+    ),
+];
+
 /// Every annotated teaching scenario runs end-to-end and emits the unified output
 /// envelope (JSON + SVG + summary). Mirrors `api.rs::dispatches_each_kind`.
 #[test]
 fn annotated_tutorial_scenarios_run() {
-    for src in [
-        include_str!("../docs/tutorials/scenarios/clock.toml"),
-        include_str!("../docs/tutorials/scenarios/orbit.toml"),
-        include_str!("../docs/tutorials/scenarios/integrity.toml"),
-        include_str!("../docs/tutorials/scenarios/security.toml"),
-        include_str!("../docs/tutorials/scenarios/hybrid.toml"),
-        include_str!("../docs/tutorials/scenarios/inertial.toml"),
-        include_str!("../docs/tutorials/scenarios/timetransfer.toml"),
-        include_str!("../docs/tutorials/scenarios/gnss-sim.toml"),
-    ] {
+    for (name, src, _) in TEACHING {
         let out = kshana::api::run_toml(src).expect("tutorial scenario runs");
-        assert!(out.json.starts_with('{'));
-        assert!(out.svg.starts_with("<svg"));
-        assert!(!out.summary.is_empty());
+        assert!(out.json.starts_with('{'), "{name}");
+        assert!(out.svg.starts_with("<svg"), "{name}");
+        assert!(!out.summary.is_empty(), "{name}");
+    }
+}
+
+/// The `TEACHING` table must name every file in the tutorials directory. Without
+/// this, a ninth teaching scenario could be added with no entry and every check
+/// below would grade a set that silently excludes it.
+#[test]
+fn the_teaching_table_covers_the_whole_tutorials_directory() {
+    let dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("docs/tutorials/scenarios");
+    let mut on_disk: Vec<String> = std::fs::read_dir(&dir)
+        .expect("docs/tutorials/scenarios must exist")
+        .map(|e| {
+            e.expect("dir entry")
+                .file_name()
+                .to_string_lossy()
+                .into_owned()
+        })
+        .filter(|n| n.ends_with(".toml"))
+        .collect();
+    on_disk.sort();
+    let mut tabled: Vec<String> = TEACHING.iter().map(|(n, _, _)| n.to_string()).collect();
+    tabled.sort();
+    assert_eq!(
+        on_disk, tabled,
+        "the tutorials directory and the TEACHING table disagree"
+    );
+    assert!(!on_disk.is_empty(), "read_dir matched no teaching scenario");
+}
+
+/// Pull the `# expected:` one-line summary a teaching scenario records for itself.
+fn recorded_summary(src: &str) -> &str {
+    src.lines()
+        .find_map(|l| l.trim().strip_prefix("# expected:"))
+        .map(str::trim)
+        .expect("every teaching scenario records an `# expected:` summary")
+}
+
+/// Compare one `|`-separated segment, treating the `<hash>` placeholder some
+/// recorded summaries carry as a wildcard for the content-addressed scenario id.
+fn segment_matches(expected: &str, actual: &str) -> bool {
+    match expected.split_once("<hash>") {
+        None => expected == actual,
+        Some((pre, post)) => {
+            actual.len() > pre.len() + post.len()
+                && actual.starts_with(pre)
+                && actual.ends_with(post)
+        }
+    }
+}
+
+/// The `# expected:` line each teaching scenario records is the output a reader is
+/// promised, so it must be the output the engine produces. Nothing else in the
+/// repo reads these lines: without this test they are prose, and an edit to a
+/// teaching copy moves the real summary while the recorded one stays stale.
+#[test]
+fn teaching_scenarios_match_their_recorded_expected_summary() {
+    for (name, src, _) in TEACHING {
+        let expected = recorded_summary(src);
+        let actual = kshana::api::run_toml(src)
+            .unwrap_or_else(|e| panic!("{name} runs: {e}"))
+            .summary;
+        let want: Vec<&str> = expected.split(" | ").collect();
+        let got: Vec<&str> = actual.split(" | ").collect();
+        assert_eq!(
+            want.len(),
+            got.len(),
+            "{name}: recorded summary has {} segments, the engine emits {}\n  recorded: {expected}\n  actual:   {actual}",
+            want.len(),
+            got.len()
+        );
+        for (w, g) in want.iter().zip(&got) {
+            assert!(
+                segment_matches(w, g),
+                "{name}: recorded `{w}` but the engine emits `{g}`\n  recorded: {expected}\n  actual:   {actual}"
+            );
+        }
+    }
+}
+
+/// `docs/tutorials/README.md` promises the teaching copies carry the parent
+/// scenario's field values, with only the commentary added. Comparing parsed TOML
+/// (not text) is exactly that claim: comments and layout are free to differ, every
+/// value must not. Without it, a parent edit plus a golden regen can leave the
+/// teaching copy behind with a green build.
+#[test]
+fn teaching_copies_carry_their_parents_field_values() {
+    for (name, teaching, parent) in TEACHING {
+        let t: toml::Value =
+            toml::from_str(teaching).unwrap_or_else(|e| panic!("{name} parses: {e}"));
+        let p: toml::Value =
+            toml::from_str(parent).unwrap_or_else(|e| panic!("parent of {name} parses: {e}"));
+        assert_eq!(
+            t, p,
+            "{name} has drifted from its parent in scenarios/; the tutorials README \
+             promises the field values are identical"
+        );
     }
 }
 

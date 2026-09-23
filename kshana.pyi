@@ -5,10 +5,29 @@ Kshana is an open hybrid quantum/classical PNT performance simulator. The Python
 surface runs a TOML scenario string and returns the result document; see
 docs/PYTHON_API.md for a quickstart.
 """
-from typing import Any, Optional
+from typing import Any, Optional, final
+
+# Mirrors the runtime `__all__` pyo3 generates for the module, so a checker's
+# view of `from kshana import *` matches what the extension actually exports.
+__all__ = [
+    "RunOutput",
+    "run",
+    "run_full",
+    "run_typed",
+    "scenario_kinds",
+    "validate_toml",
+    "list_kinds",
+    "error_kind",
+    "version",
+    "__version__",
+]
 
 __version__: str
 
+# pyo3 emits a plain extension type: `type 'builtins.RunOutput' is not an acceptable
+# base type`. Without @final, mypy and pyright green-light a subclass that dies at
+# import time — the stub would be promising a contract the extension refuses.
+@final
 class RunOutput:
     """A scenario run result."""
 

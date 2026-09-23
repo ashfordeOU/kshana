@@ -103,16 +103,23 @@ pub struct IonexMap {
 }
 
 /// The label field of an IONEX record begins at column 60.
+///
+/// IONEX is a fixed-column ASCII format, so column 60 is also byte 60 — until an
+/// off-spec non-ASCII character straddles it, at which point a naive `&str` byte
+/// slice panics. `str::get` returns `None` there instead and the line is treated
+/// as unlabelled, i.e. ignored, which is what `parse_ionex`'s documented `None`
+/// contract requires of it. `crate::eop`, the crate's other fixed-column reader,
+/// already slices this way.
 fn ionex_label(line: &str) -> &str {
-    if line.len() >= 60 {
-        line[60..].trim()
-    } else {
-        ""
-    }
+    line.get(60..).unwrap_or("").trim()
 }
 
+/// The numeric fields ahead of the column-60 label. Same byte-boundary caveat as
+/// [`ionex_label`]: on a straddling character the whole line is scanned instead,
+/// which is harmless because [`ionex_label`] returns `""` for that same line, so
+/// the numbers are discarded.
 fn nums_before_label(line: &str) -> Vec<f64> {
-    let body = &line[..line.len().min(60)];
+    let body = line.get(..line.len().min(60)).unwrap_or(line);
     body.split_whitespace()
         .filter_map(|t| t.parse().ok())
         .collect()
@@ -373,6 +380,35 @@ mod tests {
             rec("1", "END OF TEC MAP"),
         ]
         .join("\n")
+    }
+
+    #[test]
+    fn a_character_straddling_column_60_is_ignored_not_a_panic() {
+        // IONEX is fixed-column ASCII, but a DESCRIPTION or COMMENT block can
+        // carry off-spec free text. A multi-byte character sitting across byte 60
+        // used to panic out of a function whose contract is `Option`. Two
+        // independent sites had to be fixed: the header loop reaches
+        // `nums_before_label` first, the post-END-OF-HEADER map loop reaches
+        // `ionex_label` first.
+        let straddle = format!("{}\u{00b5}  EPOCH OF CURRENT MAP", "1".repeat(59));
+        // A: inside the header.
+        let header_hit = sample_ionex().replacen(
+            &rec("-1", "EXPONENT"),
+            &format!("{}\n{straddle}", rec("-1", "EXPONENT")),
+            1,
+        );
+        assert!(parse_ionex(&header_hit).is_some(), "header straddle");
+        // B: inside the map body.
+        let body_hit = sample_ionex().replacen(
+            &rec("100 110 120 130", ""),
+            &format!("{straddle}\n{}", rec("100 110 120 130", "")),
+            1,
+        );
+        assert!(parse_ionex(&body_hit).is_some(), "map-body straddle");
+        // The two helpers degrade rather than panic: the label reads as absent,
+        // so the line is ignored, and the numeric scan finds nothing to keep.
+        assert_eq!(ionex_label(&straddle), "");
+        assert!(nums_before_label(&straddle).is_empty());
     }
 
     #[test]

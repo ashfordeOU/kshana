@@ -21,6 +21,10 @@
 //! present the estimators are checked against the Stable32 reference across the
 //! whole decade τ ladder. Only the public reference numbers are committed; no
 //! third-party code is used.
+//!
+//! A job that fetches the series first should set `KSHANA_REQUIRE_REALDATA=1`: the
+//! green skip is then a hard failure, so a fetch that quietly failed cannot leave
+//! the run reporting success having compared nothing.
 
 use kshana::allan::{hadamard_adev, overlapping_adev};
 
@@ -67,6 +71,14 @@ fn phase_path() -> std::path::PathBuf {
         return std::path::PathBuf::from(p);
     }
     std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("realdata-cache/cs5071a/5071A_phase.txt")
+}
+
+/// True when the caller asserts the raw series must be present — set by a job that
+/// has just fetched it. A fetch that silently fails would otherwise leave this
+/// island skipping green while the matrix row it backs still reads VALIDATED, so
+/// the gated run must not be able to pass having compared nothing.
+fn realdata_required() -> bool {
+    std::env::var("KSHANA_REQUIRE_REALDATA").is_ok_and(|v| v == "1")
 }
 
 /// Read the phase series (one dimensionless phase sample per line; `#` comments).
@@ -143,6 +155,12 @@ fn check_estimator(
 #[test]
 fn cs5071a_real_caesium_estimators_match_stable32() {
     let Some(phase) = load_phase() else {
+        assert!(
+            !realdata_required(),
+            "[cs5071a] KSHANA_REQUIRE_REALDATA=1 but the raw phase series is absent at {}; \
+             the fetch did not land and this parity check would have graded nothing",
+            phase_path().display()
+        );
         eprintln!(
             "[cs5071a] SKIP: raw phase data not found at {} \
              (run scripts/fetch_cs5071a.sh or set KSHANA_CS5071A_PATH); CI stays green.",
