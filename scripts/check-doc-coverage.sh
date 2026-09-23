@@ -23,8 +23,39 @@ cd "$(dirname "$0")/.."
 echo "Compiling the library with -W missing_docs to count documentation gaps…"
 # `--features wasm` matches the widest public surface (the wasm bindings add public items),
 # so the ratchet covers every item any binding exposes.
-warnings="$(cargo rustc --lib --features wasm -- -W missing_docs 2>&1 \
-  | grep -c 'missing documentation for' || true)"
+#
+# NO PIPE INTO grep. This used to be `cargo rustc ... | grep -c ... || true`, which reports
+# the exit status of grep, not of cargo. A failed compile emits no `missing documentation
+# for` lines at all, so grep matched nothing, returned 1, `|| true` swallowed it, the count
+# became 0, and 0 is not greater than the ceiling — the step exited 0 and printed "Coverage
+# improved (0 < 985)" on a build that never compiled. That is the same shape scripts/gate.sh
+# warns about in its own header. Capture the output to a file, read cargo's own status, and
+# only then count.
+log="$(mktemp)"
+trap 'rm -f "$log"' EXIT
+set +e
+cargo rustc --lib --features wasm -- -W missing_docs > "$log" 2>&1
+rc=$?
+set -e
+if [ "$rc" -ne 0 ]; then
+  echo "FAIL: the library did not compile under -W missing_docs (cargo exited ${rc})." >&2
+  echo "The documentation count below would have been 0 for the wrong reason, so this is a" >&2
+  echo "build failure, not a coverage pass. Last 40 lines:" >&2
+  tail -40 "$log" >&2
+  exit 1
+fi
+
+warnings="$(grep -c 'missing documentation for' "$log" || true)"
+
+# A zero count while the ceiling is still high is far more likely to be a broken lint or a
+# changed rustc message than a completed documentation sweep, and it is the one reading
+# that always passes the ratchet. Refuse it and name both remedies rather than guess.
+if [ "${warnings}" -eq 0 ] && [ "${CEILING}" -ne 0 ]; then
+  echo "FAIL: counted 0 missing_docs warnings while CEILING is ${CEILING}." >&2
+  echo "Either the sweep is real — in which case set CEILING=0 in this script — or the lint" >&2
+  echo "did not run and the count is meaningless. Do not let this read as a pass." >&2
+  exit 1
+fi
 
 echo "missing_docs warnings: ${warnings} (ceiling: ${CEILING})"
 

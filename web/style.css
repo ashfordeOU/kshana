@@ -39,14 +39,20 @@
   /* Text — warm off-white, never clinical blue-white */
   --fg: #f1ece2;
   --fg-1: #bcb3a3;
-  --fg-2: #8c8273;
-  --fg-3: #62594b;
+  --fg-2: #a29887;
+  /* Third text step. The ramp is re-spaced so the quietest tone still clears
+     WCAG AA 4.5:1 for small text on every declared surface: #8c8273 measures
+     5.21:1 on --bg, 5.04 on --bg-1, 4.86 on --bg-2, 4.53 on --bg-3. The old
+     #62594b was 2.86:1 on --bg, and it carries the footer disclaimer, every
+     panel title and the hero capability label at 0.66-0.8rem. --fg-2 moved up
+     with it (6.91:1 on --bg) so the three steps stay visibly distinct rather
+     than collapsing into one tone. */
+  --fg-3: #8c8273;
 
   /* Single signal accent — a soft, warm honey-gold. Muted and warmed so it
      glows gently like aged brass rather than glaring; easy on the eyes. */
   --accent: #c79e63;
   --accent-bright: #e0bd84;
-  --accent-deep: #6f5125;
   --accent-tint: rgba(199, 158, 99, 0.09);
   --accent-line: rgba(199, 158, 99, 0.26);
   --accent-glow: rgba(199, 158, 99, 0.14);
@@ -1342,4 +1348,108 @@ a.std-row { text-decoration: none; color: inherit; }
 }
 @media (max-width: 420px) {
   .hero-stats { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Self-hosted DOI badge. The shields.io image it replaces was the page's only
+   third-party subresource, so every visitor's IP and user-agent reached a US CDN
+   on load — on a page whose claim is that nothing leaves the machine — and the
+   cite card rendered a broken image on a filtered or air-gapped network. Built
+   from type rather than a fixed-width SVG so it cannot go stale against the font,
+   and it picks up the print palette like everything else. */
+.doi-badge {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1px solid var(--line-2);
+  border-radius: 4px;
+  overflow: hidden;
+  font: 600 0.72rem/1 var(--mono);
+  text-decoration: none;
+}
+.doi-badge:hover { text-decoration: none; }
+.doi-badge .k, .doi-badge .v { padding: 0.36rem 0.5rem; }
+.doi-badge .k { background: var(--bg-3); color: var(--fg-1); letter-spacing: 0.08em; }
+.doi-badge .v { background: var(--accent-tint); color: var(--accent); }
+.doi-badge:hover .v { color: var(--accent-bright); }
+.doi-badge:hover { border-color: var(--accent-line); }
+
+/* ── Print ───────────────────────────────────────────────────────────────
+   The page is a common PDF annex (Cmd+P, or a reviewer saving the evidence
+   surface), and the default print of it is unusable for four reasons, each
+   fixed below:
+     - the guided tour is position:fixed, so a first-time visitor's tooltip
+       card is painted on every sheet (measured: all 9 pages of a fresh print);
+     - the scroll-reveal start state is opacity:0, so anything never scrolled
+       into view prints blank;
+     - the screen palette is light text on a near-black ground, which prints
+       as solid black sheets;
+     - the folds ship closed, so the 168-row ledger prints as nothing. That
+       last one cannot be fixed from CSS — Chrome hides closed-<details>
+       content in a UA shadow slot author CSS cannot reach — so app.js opens
+       them on beforeprint and restores them on afterprint.
+   Only the palette is redefined, not the layout, so the printed page is the
+   same document in ink-on-paper form. */
+@media print {
+  :root {
+    --bg: #ffffff;
+    --bg-1: #ffffff;
+    --bg-2: #f5f3ef;
+    --bg-3: #edeae4;
+    --line: #c6c0b5;
+    --line-2: #aaa294;
+    --edge: transparent;
+    --fg: #14120d;
+    --fg-1: #2c2820;
+    --fg-2: #46402f;
+    --fg-3: #58513f;
+    --accent: #6d5015;
+    --accent-bright: #4e3a0e;
+    --accent-tint: transparent;
+    --accent-line: #c6c0b5;
+    --accent-glow: transparent;
+    --ok: #1c6b41;
+    --live: #1b5c73;
+    --built: #6b5411;
+    --partial: #7a4412;
+    --plan: #3c4550;
+    --crit: #8c211a;
+    --shadow-1: none;
+    --shadow-2: none;
+  }
+
+  body { background: #fff; font-size: 10.5pt; }
+  /* Decorative fixed layers: the engineering grid and the ambient glow. */
+  body::before, body::after { display: none; }
+  /* Fixed-position chrome repeats on every sheet; navigation is dead on paper. */
+  .topbar, .tour-overlay, .tour-fab, .tour-spot, .tour-tip { display: none !important; }
+  .hero-v2 .hero-bg { display: none; }
+  .reveal { opacity: 1 !important; transform: none !important; transition: none; }
+  * { box-shadow: none !important; }
+
+  /* Outbound evidence links are the point of the page; keep their targets. */
+  a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.82em;
+    color: var(--fg-2);
+    word-break: break-all;
+  }
+
+  /* Anything that scrolls on screen has to wrap on paper instead — the same
+     relaxation the narrow-viewport rules above already apply to the ledger. */
+  .ldg-wrap { overflow-x: visible; border: 0; background: transparent; }
+  /* Fixed layout so the column widths below are honoured. Under auto layout the
+     oracle prose wins every pixel and the capability column collapses to one word
+     per line. */
+  table.ldg { min-width: 0; table-layout: fixed; }
+  .ldg-cap, .ldg-oracle, .ldg-ev { max-width: none; min-width: 0; }
+  .ldg-cap { width: 22%; }
+  .ldg-oracle { width: 42%; }
+  .ldg-ev { width: 26%; }
+  table.ldg th, table.ldg td { overflow-wrap: anywhere; }
+  pre#json { max-height: none; overflow: visible; }
+
+  /* The badge is an inline-flex anchor, so an ::after URL would land inside it. */
+  .doi-badge::after { content: none !important; }
+
+  .card, .panel, .ev-row, tr { break-inside: avoid; }
+  h1, h2, h3 { break-after: avoid; }
 }

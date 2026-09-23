@@ -9,9 +9,22 @@ fn read_all(rel: &[&str]) -> String {
     let root = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let mut s = String::new();
     for r in rel {
-        s.push_str(&fs::read_to_string(root.join(r)).unwrap_or_default());
+        // Fail loudly on a missing/renamed source — a silently-empty read would
+        // let the forbidden-phrase scans pass vacuously (a disabled honesty gate).
+        let body = fs::read_to_string(root.join(r)).unwrap_or_else(|e| {
+            panic!("honesty gate: integrity source `{r}` is unreadable ({e}); a moved or renamed file must fail the gate, not silently skip it")
+        });
+        s.push_str(&body);
         s.push('\n');
     }
+    // Size floor so a shortened INTEGRITY_SRC list cannot make the scans vacuous.
+    // The five integrity sources measured 22,322 bytes at v0.27.2; the floor sits
+    // ~33% below that so legitimate trimming does not trip CI.
+    assert!(
+        s.len() > 15_000,
+        "the integrity scan read only {} bytes; the gate would be vacuous",
+        s.len()
+    );
     s
 }
 

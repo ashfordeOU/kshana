@@ -133,14 +133,29 @@ pub fn parse_d(s: &str) -> Result<f64, String> {
         .map_err(|_| format!("not a number: {s:?}"))
 }
 
+/// Returned by [`col`] when a requested column boundary falls inside a
+/// multi-byte character. It is deliberately unparseable as a number, a PRN, or a
+/// date field, so the record is rejected the way any other malformed field is.
+/// An empty string would be wrong here: [`parse_d`] reads a blank field as
+/// `0.0`, so a corrupted file would become a silently zeroed orbital element or
+/// clock coefficient — a quiet wrong answer in place of a loud one.
+pub(crate) const NON_ASCII_COLUMN: &str = "<non-ascii column>";
+
 /// Slice a fixed-width column `[lo, hi)` from `line`, clamped to its length
 /// (RINEX lines may be short when trailing fields are blank).
+///
+/// RINEX is a fixed-column ASCII format, so a column boundary is also a byte
+/// boundary — until a non-ASCII byte appears in a record, which slides the two
+/// apart and makes a naive `&str` byte slice panic mid-character. `str::get`
+/// returns `None` there instead, and [`NON_ASCII_COLUMN`] carries that through
+/// to the caller's normal error path. `tle::ascii_guard` is the same defence,
+/// applied at the front of the TLE parser instead.
 pub(crate) fn col(line: &str, lo: usize, hi: usize) -> &str {
     let n = line.len();
     if lo >= n {
         return "";
     }
-    &line[lo..hi.min(n)]
+    line.get(lo..hi.min(n)).unwrap_or(NON_ASCII_COLUMN)
 }
 
 /// The four 19-character data fields of a RINEX 3 `BROADCAST ORBIT` line, which
@@ -195,10 +210,27 @@ fn is_beidou_geo(prn: u8) -> bool {
 /// ephemerides it can validly decode.
 pub fn parse_nav(text: &str) -> Result<Vec<RinexEphemeris>, String> {
     let lines: Vec<&str> = text.lines().collect();
-    // Find the end of the header.
+    // Find the end of the header, checking the declared version on the way.
+    // RINEX 4 changed the navigation record layout: every record is preceded by
+    // a `> EPH G01 LNAV` header line. A reader that walks fixed line counts does
+    // not see that line for what it is, swallows it as eight lines of data, and
+    // desynchronises from there — decoding a few ephemerides out of misaligned
+    // fields and reporting no error at all. Refusing the file is the only honest
+    // answer until the RINEX 4 layout is actually read.
     let mut i = 0;
     while i < lines.len() {
-        let done = lines[i].contains("END OF HEADER");
+        let line = lines[i];
+        if line.contains("RINEX VERSION / TYPE") {
+            if let Ok(v) = col(line, 0, 9).trim().parse::<f64>() {
+                if v >= 4.0 {
+                    return Err(format!(
+                        "RINEX {v:.2} navigation file: this reader decodes RINEX 3.0x \
+                         navigation records only"
+                    ));
+                }
+            }
+        }
+        let done = line.contains("END OF HEADER");
         i += 1;
         if done {
             break;
@@ -210,6 +242,13 @@ pub fn parse_nav(text: &str) -> Result<Vec<RinexEphemeris>, String> {
         if head.trim().is_empty() {
             i += 1;
             continue;
+        }
+        if head.starts_with('>') {
+            // Reached even when the header is absent or does not declare a version.
+            return Err(format!(
+                "unsupported navigation record header {head:?}: a line beginning with \
+                 '>' is a RINEX 4 record header, not a RINEX 3 navigation record"
+            ));
         }
         let system = head.chars().next().unwrap_or(' ');
         let nlines = record_lines(system);
@@ -287,6 +326,16 @@ pub fn parse_nav(text: &str) -> Result<Vec<RinexEphemeris>, String> {
     Ok(out)
 }
 
+/// Whole weeks from the GPS epoch (1980-01-06) to the BeiDou time epoch
+/// (2006-01-01 00:00:00 UTC): 9492 days, exactly 1356 weeks. A RINEX BeiDou
+/// record's week counter is on the BDT scale, so this is what turns it into a
+/// GPS week number.
+const BDT_MINUS_GPS_WEEKS: f64 = 1356.0;
+/// Seconds GPS time leads BeiDou time. BDT was aligned with UTC at its 2006
+/// epoch, by which point GPS already led UTC by 14 leap seconds; both scales are
+/// leap-free since, so the offset is fixed. `gps_tow = bdt_tow + 14`.
+pub(crate) const BDT_MINUS_GPS_S: f64 = 14.0;
+
 /// WGS-84 / GPS gravitational constant `μ` (m³/s²), the value mandated by
 /// IS-GPS-200 for broadcast-ephemeris evaluation (subtly different from the
 /// WGS-84 `GM`).
@@ -324,6 +373,17 @@ impl EpochUtc {
             - julian_day_number(1980, 1, 6);
         let day_of_week = days.rem_euclid(7) as f64;
         day_of_week * 86_400.0 + self.hour as f64 * 3600.0 + self.minute as f64 * 60.0 + self.second
+    }
+
+    /// Seconds from the GPS epoch (1980-01-06 00:00:00) for this calendar epoch,
+    /// on the same leap-second-free scale as [`Self::gps_time_of_week`]. Unlike
+    /// that one this does not wrap at the week boundary, so two epochs from
+    /// different weeks can be ordered and differenced directly — which is what a
+    /// nearest-epoch record selection needs.
+    pub fn seconds_from_gps_epoch(&self) -> f64 {
+        let days = julian_day_number(self.year as i64, self.month as i64, self.day as i64)
+            - julian_day_number(1980, 1, 6);
+        days as f64 * 86_400.0 + self.hour as f64 * 3600.0 + self.minute as f64 * 60.0 + self.second
     }
 }
 
@@ -422,16 +482,28 @@ impl RinexEphemeris {
         [xp * co - yp * ci * so, xp * so + yp * ci * co, yp * i.sin()]
     }
 
-    /// The UT1 Julian Date of GPS time-of-week `t_tow_s` in this ephemeris's GPS
-    /// week. GPS time runs ahead of UTC by the integer leap-second offset
+    /// The UT1 Julian Date of time-of-week `t_tow_s` in this ephemeris's week.
+    /// GPS time runs ahead of UTC by the integer leap-second offset
     /// (`GPS − UTC = (TAI − UTC) − 19 s`), and UT1 ≈ UTC: the sub-second DUT1
     /// term is neglected, consistent with the GMST-only frame rotation in
     /// [`crate::frames`]. This is the time argument the ECEF→TEME rotation needs.
+    ///
+    /// A BeiDou record's week and time of week are on the BDT scale, and
+    /// [`parse_nav`] keeps them there so that `Toe` and `Toc` stay on one scale
+    /// for the IS-GPS-200 evaluation (which only ever differences them). Forming
+    /// an absolute date is the one place the scale matters, so the BDT→GPS
+    /// conversion happens here.
     pub fn jd_ut1(&self, t_tow_s: f64) -> f64 {
+        let (week, tow_s) = match self.system {
+            'C' => (
+                self.gps_week + BDT_MINUS_GPS_WEEKS,
+                t_tow_s + BDT_MINUS_GPS_S,
+            ),
+            _ => (self.gps_week, t_tow_s),
+        };
         // GPS time epoch is 1980-01-06 00:00:00; whole weeks then the time of week.
-        let jd_gps = crate::timescales::julian_date(1980, 1, 6, 0, 0, 0.0)
-            + self.gps_week * 7.0
-            + t_tow_s / 86_400.0;
+        let jd_gps =
+            crate::timescales::julian_date(1980, 1, 6, 0, 0, 0.0) + week * 7.0 + tow_s / 86_400.0;
         let gps_minus_utc = crate::timescales::tai_minus_utc(jd_gps) - 19.0;
         jd_gps - gps_minus_utc / 86_400.0
     }
@@ -617,6 +689,76 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
         let v =
             (((b[0] - a[0]).powi(2) + (b[1] - a[1]).powi(2) + (b[2] - a[2]).powi(2)).sqrt()) / dt;
         assert!((3.0e3..4.5e3).contains(&v), "ECEF speed {v:.1} m/s");
+    }
+
+    #[test]
+    fn a_multibyte_character_in_a_record_is_an_error_not_a_panic() {
+        // RINEX is fixed-column ASCII, so a non-ASCII byte slides the column
+        // boundaries off the character boundaries. Slicing there used to panic
+        // (exit 101 from the CLI, a trap in WebAssembly) instead of taking the
+        // `Err` path every other malformed input takes. Sweeping one U+00B5
+        // across a record line must never panic, and must never quietly decode:
+        // a blank field parses as 0.0, so a zeroed orbital element would be
+        // worse than the panic.
+        let base_line = SAMPLE.lines().nth(3).expect("a BROADCAST ORBIT line");
+        for pos in 0..base_line.chars().count() {
+            let mutated: String = base_line
+                .chars()
+                .enumerate()
+                .map(|(k, c)| if k == pos { '\u{00b5}' } else { c })
+                .collect();
+            let text = SAMPLE.replacen(base_line, &mutated, 1);
+            // No panic, and no record decoded from a corrupted line.
+            assert!(
+                parse_nav(&text).is_err(),
+                "a corrupted column at {pos} decoded anyway"
+            );
+        }
+        // The sentinel never reads as a blank (0.0) field.
+        assert!(parse_d(NON_ASCII_COLUMN).is_err());
+    }
+
+    #[test]
+    fn rinex_4_navigation_is_refused_rather_than_silently_mis_walked() {
+        // RINEX 4 precedes every navigation record with a `> EPH G01 LNAV` line.
+        // A RINEX 3 reader does not recognise it, swallows it as data, and
+        // desynchronises from there: on a real 4.00 file that turned 11 decoded
+        // satellites into 2 built from misaligned lines, with exit code 0 and no
+        // warning. Both the declared version and the record marker must refuse.
+        let v4 = SAMPLE.replacen("3.04", "4.00", 1);
+        let err = parse_nav(&v4).expect_err("a RINEX 4.00 header is refused");
+        assert!(err.contains("RINEX 4.00"), "{err}");
+
+        // A slice whose header does not declare a version still trips on the
+        // record marker itself.
+        let body = SAMPLE.lines().skip(2).collect::<Vec<_>>().join("\n");
+        let headerless = format!("{:60}END OF HEADER\n> EPH G01 LNAV\n{body}", "");
+        let err = parse_nav(&headerless).expect_err("a '>' record header is refused");
+        assert!(err.contains("RINEX 4 record header"), "{err}");
+    }
+
+    #[test]
+    fn beidou_and_gps_records_from_one_file_share_a_calendar_day() {
+        // RINEX stores a BeiDou record's week counter on the BDT scale, whose
+        // epoch is 1356 GPS weeks (26 years) after the GPS epoch. Read against
+        // the GPS epoch, every BeiDou satellite in this 2024-09-10 file landed
+        // on 1998-09-14 — a 2.3 Mm displacement once ECEF is rotated into TEME,
+        // and invisible in ECEF, where the rotation cancels.
+        const MIXED: &str =
+            include_str!("../tests/fixtures/rinex_sp3_interop/brdc_multignss_slice.rnx");
+        let ephs = parse_nav(MIXED).expect("the multi-GNSS slice parses");
+        let gps = ephs.iter().find(|e| e.system == 'G').expect("a GPS record");
+        let bds = ephs
+            .iter()
+            .find(|e| e.system == 'C')
+            .expect("a BeiDou record");
+        // The file's own week fields: GPS 2331, BeiDou 975 — exactly 1356 apart.
+        assert_eq!(gps.gps_week - bds.gps_week, BDT_MINUS_GPS_WEEKS);
+        let gap_days = (gps.jd_ut1(gps.toe) - bds.jd_ut1(bds.toe)).abs();
+        assert!(
+            gap_days < 1.0,
+            "GPS and BeiDou records from one file are {gap_days} days apart"
+        );
     }
 
     #[test]

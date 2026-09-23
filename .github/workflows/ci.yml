@@ -113,7 +113,17 @@ jobs:
         with:
           tool: cargo-deny
       - name: cargo-deny
-        run: cargo deny check advisories licenses bans sources
+        # --all-features, because the default resolve omits the crates that only the
+        # shipped feature sets pull in. pyo3 is `optional = true` behind the `python`
+        # feature, so without this flag the eight-crate pyo3 tree compiled into every
+        # PyPI wheel (publish.yml builds with --features python) is inspected by no
+        # advisory, licence, ban or source check anywhere in the repo. (The wasm-bindgen
+        # tree was already covered: Cargo.toml pulls it in through a TARGET-gated
+        # getrandom dependency, which cargo-deny sees regardless of features.) The flag
+        # is a top-level cargo-deny option and must precede `check`. Measured on this
+        # tree: 57 crates inspected without it, 65 with; both verdicts clean today, so
+        # the change adds coverage without turning the gate red.
+        run: cargo deny --all-features check advisories licenses bans sources
   coverage:
     runs-on: ubuntu-latest
     # Source-based LLVM instrumentation runs the same full suite as `check` under
@@ -257,6 +267,19 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
+      - name: Assert every web test file has a step
+        # The test steps below are written out one per file so the Actions UI names which
+        # module failed. Nothing used to assert that the list was complete, so adding a
+        # new web/*.test.mjs without adding a step here would leave it untested with CI
+        # green. This compares the two sets in both directions instead: a file on disk
+        # with no step, or a step naming a file that no longer exists, fails here.
+        run: |
+          set -euo pipefail
+          diff <(find web -maxdepth 1 -name '*.test.mjs' | sort) \
+               <(grep -oE '^ +run: node web/[A-Za-z0-9_.-]+\.test\.mjs$' .github/workflows/ci.yml \
+                 | awk '{print $3}' | sort -u) \
+            || { echo "::error::web/*.test.mjs and the steps in ci.yml disagree (< on disk, > enumerated)"; exit 1; }
+          echo "OK: every web/*.test.mjs has its own step in ci.yml"
       - name: Run wasm smoke test
         run: node web/smoke.mjs
       - name: Test the share-link codec

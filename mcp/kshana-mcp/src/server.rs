@@ -9,6 +9,7 @@
 //! - `validate_scenario`   — classify a scenario TOML (kind detection) without running it.
 //! - `export_sp3`          — export an `orbit` scenario's constellation as SP3-c.
 //! - `export_omm`          — export an `orbit` scenario's elements as CCSDS OMM.
+//! - `export_oem`          — export an `orbit` scenario's state series as CCSDS OEM.
 
 use rmcp::handler::server::router::tool::ToolRouter;
 use rmcp::handler::server::wrapper::Parameters;
@@ -144,6 +145,22 @@ impl KshanaServer {
             )),
         }
     }
+
+    #[tool(
+        description = "Export an `orbit` scenario's propagated constellation as CCSDS OEM 2.0 ephemeris text — the inertial (TEME) state time series carrying position AND velocity, which flight-dynamics tools (GMAT / Orekit / STK) read. This is the velocity-carrying complement of the position-only `export_sp3`. Errors if the scenario is not an orbit kind."
+    )]
+    fn export_oem(
+        &self,
+        Parameters(TomlRequest { toml }): Parameters<TomlRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        match kshana::api::export_oem(&toml) {
+            Ok(oem) => Ok(CallToolResult::success(vec![Content::text(oem)])),
+            Err(e) => Err(McpError::invalid_params(
+                format!("OEM export failed: {e}"),
+                None,
+            )),
+        }
+    }
 }
 
 #[tool_handler]
@@ -172,8 +189,9 @@ impl ServerHandler for KshanaServer {
                  simulator. Each tool wraps the validated engine: run_scenario executes a \
                  scenario TOML and returns figures of merit; list_scenario_kinds enumerates the \
                  scenario types and their fields; validate_scenario checks a TOML; export_sp3 / \
-                 export_omm emit standard GNSS/CCSDS products from an orbit scenario. Construct \
-                 scenarios from list_scenario_kinds metadata; do not invent fields."
+                 export_omm / export_oem emit standard GNSS/CCSDS products from an orbit \
+                 scenario (export_oem is the one carrying velocity). Construct scenarios from \
+                 list_scenario_kinds metadata; do not invent fields."
                     .to_string(),
             )
     }

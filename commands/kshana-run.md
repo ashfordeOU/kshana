@@ -14,8 +14,10 @@ Do this:
 
 1. If the request doesn't already map to a known scenario, call the **`list_scenario_kinds`**
    tool to see the built-in kinds and their required/optional fields, and pick the one that
-   fits. There are ~17 kinds (orbit, GNSS availability/DOP, ARAIM, clock-holdover,
-   Allan/MTIE timing, GNSS-INS fusion, quantum dead-reckoning, and more).
+   fits. There are 61 built-in kinds (orbit, GNSS availability/DOP, ARAIM, clock-holdover,
+   Allan/MTIE timing, GNSS-INS fusion, quantum dead-reckoning, lunar/cislunar navigation,
+   and more); always call `list_scenario_kinds` rather than guessing from the handful this
+   sentence names.
 2. Build a minimal, valid scenario TOML for that kind. If unsure it parses, call
    **`validate_scenario`** first (it detects the kind without running).
 3. Call **`run_scenario`** with the TOML. Pass `include_chart: true` if a chart would help.

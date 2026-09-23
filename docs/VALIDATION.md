@@ -554,5 +554,9 @@ Fixtures and oracle-generator scripts live under
 `tests/fixtures/{p1_footprint,lunar_service,eop_prediction,rf_ranging_precision,dro_family_jpl,p2_independent_dop}/`.
 These strengthen the evidence behind capabilities that remain **MODELLED** in the
 machine-checked matrix (`src/verification.rs`); they are regression checks, **not** new
-VALIDATED matrix rows, so they do not themselves change the machine-checked matrix count
-(currently **56 VALIDATED / 43 MODELLED / 4 PARTNER of 103**).
+VALIDATED matrix rows, so they do not themselves change the machine-checked matrix
+count. That count is not restated here, because a hand-typed copy of it drifts: the
+live split is the generated header of
+[`VERIFICATION-MATRIX.md`](VERIFICATION-MATRIX.md), which `gen_validation_artifacts`
+writes from `verification_matrix()` and `tests/verification_artifacts_doc_sync.rs`
+pins.

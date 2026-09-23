@@ -83,10 +83,11 @@ scenario hash).
 
 The engine dispatches on the scenario’s `kind`. The table below lists the most
 commonly-used kinds (the eight tutorial domains above plus their nearest neighbours).
-It is **not** the complete set: `src/api.rs::list_scenario_kinds()` returns all **44**
-built-in kinds — that function (exposed as `list_kinds()` in the Python/WASM bindings,
-and enumerated in [`ARCHITECTURE.md`](../ARCHITECTURE.md) §4) is the authoritative,
-always-current catalogue. `tests/tutorials.rs::tutorial_scenarios_use_real_kinds`
+It is **not** the complete set: `src/api.rs::list_scenario_kinds()` returns all **61**
+built-in kinds — that function (exposed as `list_kinds()` in the Python/WASM bindings)
+is the authoritative, always-current catalogue, and
+[`SCENARIOS.md`](../SCENARIOS.md) is its generated enumeration, one section per kind
+with the required and optional TOML fields. `tests/tutorials.rs::tutorial_scenarios_use_real_kinds`
 enforces that every kind a tutorial documents is a real dispatch kind, so nothing in
 this table can name a kind that does not exist.
 

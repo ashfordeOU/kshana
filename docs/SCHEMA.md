@@ -2,10 +2,18 @@
 # Result schema — reading a Kshana `*.result.json`
 
 Every run writes a versioned, self-describing JSON artifact next to the scenario.
-This page documents every field, its **unit**, where it is computed in the source,
-and how to read it. The canonical type is `RunResult` in
+This page is the hand-written reader's guide to the interchange envelope and to the
+**clock and orbit** result shapes: each field's **unit**, where it is computed in the
+source, and how to read it. The canonical type is `RunResult` in
 [`src/report.rs`](../src/report.rs); the figures of merit are `FoMScores` in
 [`src/fom.rs`](../src/fom.rs).
+
+It is **not** the complete field reference. The engine dispatches over far more kinds
+than these two, and each emits its own pack. The complete reference — unit, provenance
+class and definition for every numeric field of every built-in kind — is generated, not
+hand-written: see
+[Units and provenance, per field, for every kind](#units-and-provenance-per-field-for-every-kind)
+below.
 
 ## Interchange envelope (KIF) — recognising and version-checking an artifact
 
@@ -51,6 +59,10 @@ by design and are read as the raw `payload` JSON value.
 | `threshold_ns` | nanoseconds | The timing spec: an error within ±`threshold_ns` is "in spec". | scenario |
 | `quantum` | object (`ClockRun`) | The quantum sensor's run (see below). | `report.rs` |
 | `classical` | object (`ClockRun`) | The classical sensor's run, for comparison. | `report.rs` |
+| `units` | object | Per-field unit/provenance map for this document, keyed by field path. See §Units and provenance below. | `field_schema.rs:units_block` |
+| `geometry` | object, optional | Orbit-pack geometry summary: `samples_total`, `samples_with_fix`, `sigma_uere_m` (m, the modelled per-satellite range-error budget), `best_pdop` / `median_pdop` (dimensionless) and `best_position_sigma_m` / `median_position_sigma_m` (m, PDOP × `sigma_uere_m`). **Orbit pack only.** | `orbit.rs` |
+| `eci_track` | array of `[x, y, z]` km, optional | Propagated Earth-centred-inertial track of the user spacecraft, one entry per sampled time. **Orbit pack only**; omitted otherwise. Output-only — not hashed. | `report.rs` |
+| `meta` | object (`StudyMeta`), optional | Additive report metadata (study title, generation stamp, author, disclaimer). Omitted when absent, so a meta-less run is byte-identical to legacy output. Output-only — not hashed. | `report.rs` |
 
 ## `ClockRun` (each of `quantum` / `classical`)
 
@@ -62,7 +74,8 @@ by design and are read as the raw `payload` JSON value.
 | `spec.params` | object | The raw model parameters used. |
 | `series` | array of `{t, error_ns, gnss}` | Per-step time series: `t` seconds, `error_ns` the timing error in **nanoseconds**, `gnss` one of `nominal`/`degraded`/`denied`. |
 | `fom` | object (`FoMScores`) | The scored figures of merit (below). |
-| `adev_curve` | array of `{tau_s, adev, n_samples}` | Overlapping Allan deviation: `tau_s` the averaging time (s), `adev` the dimensionless fractional-frequency stability σ_y(τ), `n_samples` the overlap count behind that point. Computed in `allan.rs:overlapping_adev_curve`. |
+| `adev_curve` | array of `{tau_s, adev, n_samples, noise, edf, ci_lo, ci_hi}` | Overlapping Allan deviation: `tau_s` the averaging time (s), `adev` the dimensionless fractional-frequency stability σ_y(τ), `n_samples` the overlap count behind that point, `noise` the power-law type identified from the MDEV slope (e.g. `WhiteFm`), `edf` the noise-type-specific effective degrees of freedom, and `ci_lo`/`ci_hi` the χ²-based 95% confidence band on `adev` at that τ. Computed in `allan.rs:overlapping_adev_curve`. |
+| `filter_health` | object, optional | Kalman filter-consistency assessment (NIS/NEES against their χ² bands). `None` for runs that do not assess it. | `filter_health.rs` |
 
 ## `FoMScores` (the `fom` object)
 

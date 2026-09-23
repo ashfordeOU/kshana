@@ -48,6 +48,14 @@ version with much better long-term stability; **navigation-grade** is the classi
 **Gyroscope.** Measures rotation. A small rotation error tilts the platform, which
 leaks gravity into the horizontal direction and corrupts the position estimate.
 
+**IMU — Inertial Measurement Unit.** The accelerometer-and-gyroscope package itself:
+three axes of each, reporting specific force and angular rate. It measures motion; on
+its own it does not know where it is.
+
+**INS — Inertial Navigation System.** An IMU plus the "mechanization" that integrates
+its output into attitude, velocity and position. The INS is what dead-reckons through a
+GNSS outage, and its accuracy is set by the IMU error processes listed below.
+
 **Time transfer.** Sending a precise time signal between two places (e.g. satellite to
 satellite). **Optical** links are far more precise than **RF** (radio) links.
 
@@ -88,7 +96,8 @@ the formal way to specify white / random-walk / flicker noise.
 
 The six operational PNT figures of merit Kshana reports (see the README "Output" table):
 
-- **Positioning / Timing performance** — the size of the error (RMS and 95th percentile).
+- **Positioning / Timing performance** — the size of the error, as RMS (root mean
+  square, the quadratic average) and as the 95th percentile.
 - **Autonomy** — the holdover duration (how long it stays in spec without GNSS).
 - **Resilience** — how fast the error grows once GNSS is lost.
 - **Availability** — the fraction of the run that has an in-spec solution.
@@ -97,7 +106,45 @@ The six operational PNT figures of merit Kshana reports (see the README "Output"
   bound.
 - **Security** — robustness to spoofing: a clock-stability-based spoof-detectability
   score (since v0.3.0), meaningful only when a spoofing-attack scenario is configured.
-  It is *not* aviation-grade integrity (no HPL/VPL/RAIM/ARAIM). Export-sensitive.
+  It is *not* aviation-grade integrity: it computes no horizontal or vertical protection
+  level (HPL/VPL) and runs no receiver autonomous integrity monitoring (RAIM), advanced
+  or otherwise. Those come from the separate integrity and ARAIM scenario kinds and are
+  defined under "Integrity & augmentation" below. Export-sensitive.
+
+## Integrity & augmentation
+
+Integrity is the *trust* question: not "how big is my error?" but "can I bound it, and
+will I be told when the bound is broken?" These are the aviation terms for that.
+
+**RAIM — Receiver Autonomous Integrity Monitoring.**
+In plain terms: *the receiver checks the satellites against each other.* With more
+satellites than the four a fix needs, the leftovers (the residuals) should be small; a
+large residual means one satellite is lying, and the receiver can say so without help
+from the ground. Implemented in [`src/raim.rs`](../src/raim.rs).
+
+**ARAIM — Advanced Receiver Autonomous Integrity Monitoring.**
+The modern, dual-frequency multi-constellation form of RAIM. It is fed an integrity
+support message stating each satellite's assumed error and fault probability, and
+returns protection levels rather than a pass/fail flag. Full treatment, with every
+assumption, in [`ARAIM_REFERENCE.md`](ARAIM_REFERENCE.md).
+
+**MHSS — Multiple Hypothesis Solution Separation.**
+The method ARAIM uses. For each way the constellation could be faulted it forms a
+solution that excludes the suspect satellites, and bounds how far that sub-solution can
+sit from the all-in-view one.
+
+**HPL / VPL — Horizontal / Vertical Protection Level.**
+In plain terms: *the radius the system promises the true error is inside, at a stated
+integrity risk.* It is a bound the algorithm computes, not a measured error. A run is
+available when the protection level stays under the alert limit the operation allows
+(VAL, the vertical alert limit; HAL, the horizontal one).
+
+**SBAS — Satellite-Based Augmentation System.**
+A ground network that watches GNSS, computes corrections and integrity bounds, and
+broadcasts them from geostationary satellites. **WAAS — Wide Area Augmentation
+System** is the United States one; EGNOS is the European equivalent. Kshana computes
+protection levels in the DO-229E weighted-least-squares form
+([`src/sbas.rs`](../src/sbas.rs)).
 
 ## Estimation & geometry
 
@@ -107,6 +154,21 @@ the sensor model. Kshana has an analytic holdover predictor and a **Kalman filte
 **Kalman filter.** In plain terms: *an algorithm that tracks a quantity and also tracks
 how uncertain it is.* Kshana uses its uncertainty bound to compute Integrity.
 
+**EKF — Extended Kalman Filter.** A Kalman filter for a non-linear problem: it
+linearises the model about the current estimate at every step. The standard choice for
+coupling GNSS to an INS.
+
+**UKF — Unscented Kalman Filter.** The same job without linearising: it pushes a small
+set of deterministically chosen sample points through the true non-linear model and
+rebuilds the mean and covariance from where they land. Better behaved when the
+non-linearity is strong, which is why the orbit determination uses it.
+
+**DOP — Dilution Of Precision.** In plain terms: *how much the satellites' geometry
+amplifies ranging error into position or time error.* Position error ≈ PDOP × ranging
+error, so a low number is good geometry. The family: **GDOP** (geometric — position and
+time together), **PDOP** (position), **HDOP** (horizontal), **VDOP** (vertical),
+**TDOP** (time).
+
 **Walker constellation.** A standard way to describe a satellite constellation by its
 number of orbital planes and satellites per plane (GPS is roughly a 24/6 Walker shell).
 
@@ -114,6 +176,23 @@ number of orbital planes and satellites per plane (GPS is roughly a 24/6 Walker 
 considered usable; signals too low are excluded.
 
 **Occultation.** When the Earth physically blocks the line of sight to a satellite.
+
+## Orbits & cislunar
+
+**CR3BP — Circular Restricted Three-Body Problem.**
+The Earth–Moon system treated as two bodies on circular orbits about their common centre
+of mass, plus a spacecraft too light to pull back. Near the Moon, a two-body Kepler
+ellipse is simply the wrong shape; the CR3BP is the cheapest dynamics that is right
+([`src/cr3bp.rs`](../src/cr3bp.rs)).
+
+**NRHO — Near-Rectilinear Halo Orbit.**
+A periodic CR3BP orbit that swings close over one lunar pole and far out over the other,
+so it is almost a straight line end-on — hence "near-rectilinear". It is the orbit
+chosen for the lunar Gateway, and it keeps near-continuous line of sight to Earth.
+
+**DRO — Distant Retrograde Orbit.**
+Another CR3BP family: a large, stable orbit that circles the Moon backwards as seen in
+the rotating frame.
 
 ## Reproducibility & licensing
 

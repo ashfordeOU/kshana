@@ -46,6 +46,45 @@ fn readme_dispatch_counts_match_the_api() {
     );
 }
 
+/// The README also states how many scenario FILES ship, and nothing pinned that.
+///
+/// The kind count above is read from `api::list_scenario_kinds()`, so it cannot drift. The
+/// file count was a hand-typed figure on a surface no test read, which is the same shape as
+/// every drift this file already guards against — a number in prose is a copy of a fact, and
+/// copies go stale silently. It was correct when written; that is not a reason to leave it
+/// unpinned, it is the reason the drift would have been invisible.
+///
+/// "Scenario file" means a runnable `.toml` under `scenarios/`. The suite manifests are
+/// excluded deliberately: `*.suite.toml` is a study that LISTS scenarios (it carries a
+/// `scenarios = [...]` array and no scenario body of its own), so counting it would count a
+/// table of contents as a chapter.
+#[test]
+fn readme_scenario_file_count_matches_the_directory() {
+    let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR"));
+    let mut files: Vec<String> = std::fs::read_dir(root.join("scenarios"))
+        .expect("scenarios/ must exist")
+        .filter_map(|e| e.ok())
+        .map(|e| e.file_name().to_string_lossy().into_owned())
+        .filter(|n| n.ends_with(".toml") && !n.ends_with(".suite.toml"))
+        .collect();
+    files.sort();
+    let n = files.len();
+
+    // A directory read that matched nothing would satisfy the assertion below vacuously
+    // against a README that had also lost its number. Refuse the empty case outright.
+    assert!(
+        n > 50,
+        "only {n} scenario .toml files found under scenarios/ — the directory walk is          probably wrong, and a count this low would make the README check meaningless"
+    );
+
+    let readme = include_str!("../README.md");
+    let claim = format!("{n} scenario");
+    assert!(
+        readme.contains(&claim),
+        "README scenario-FILE count is out of sync with scenarios/ (= {n} runnable .toml          files, excluding *.suite.toml); expected the substring {claim:?}. Update the          \"(61 kinds, N scenario files)\" line in README.md."
+    );
+}
+
 /// The count above was pinned in three places. This test exists because that was not all
 /// of them, and the docstring at the top of this file said so out loud — "the README
 /// states the number ... in three places. **Two** of them are digit-form" — and then

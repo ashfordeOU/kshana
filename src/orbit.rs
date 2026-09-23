@@ -245,7 +245,8 @@ pub enum Propagator {
     /// shared TEME inertial frame. Time `t` (s) is measured from that epoch.
     Glonass(Box<crate::glonass::GlonassEphemeris>),
     /// A satellite driven by an SP3 precise ephemeris: the tabulated ECEF
-    /// positions are interpolated (9th-order Lagrange) and rotated into the shared
+    /// positions are interpolated (10th-order, 11-point Lagrange, matching
+    /// RTKLIB's `peph2pos` `NMAX = 10`) and rotated into the shared
     /// TEME inertial frame. Time `t` (s) is measured from the SP3 file start.
     Sp3Precise(Box<crate::sp3::Sp3Interpolator>),
 }
@@ -762,16 +763,64 @@ impl ConstellationCfg {
         if let Some(text) = &self.rinex {
             // Keplerian systems (GPS/Galileo/QZSS/BeiDou) and the GLONASS
             // state-vector model are parsed by their respective readers and
-            // combined into one constellation.
-            let mut sats: Vec<Propagator> = crate::rinex::parse_nav(text)?
-                .into_iter()
-                .map(Propagator::from)
-                .collect();
-            sats.extend(
-                crate::glonass::parse_glonass_nav(text)?
-                    .into_iter()
-                    .map(Propagator::from),
-            );
+            // combined into one constellation — ONE propagator per satellite,
+            // not one per broadcast record. A daily navigation file carries a
+            // record roughly every two hours per satellite, so mapping every
+            // record would put a dozen copies of each satellite in the sky at
+            // once, scattered around its own orbit, and every visibility count,
+            // DOP and protection level taken over that set would be fiction.
+            let keplerian = crate::rinex::parse_nav(text)?;
+            let mut sats: Vec<Propagator> = Vec::new();
+            // Reference epoch for the snapshot: the earliest Toe in the file,
+            // i.e. the file's own start. Each satellite then contributes the
+            // record whose Toe is nearest it, by the same nearest-Toe rule the
+            // PVT solver already uses. A satellite with no record inside that
+            // fit window has no valid ephemeris at the reference epoch and is
+            // left out rather than propagated from an arbitrary later record.
+            let ref_tow = keplerian
+                .iter()
+                .map(|e| e.toe)
+                .fold(f64::INFINITY, f64::min);
+            let mut seen: Vec<(char, u8)> = Vec::new();
+            for e in &keplerian {
+                if seen.contains(&(e.system, e.prn)) {
+                    continue;
+                }
+                seen.push((e.system, e.prn));
+                if let Some(best) =
+                    crate::pvt::select_ephemeris(&keplerian, e.system, e.prn, ref_tow)
+                {
+                    sats.push(Propagator::from(*best));
+                }
+            }
+            // GLONASS records carry a calendar epoch rather than a time of week,
+            // and `select_ephemeris` does not cover them, so the same one-per-slot
+            // rule is applied on that scale: nearest epoch to the file's earliest
+            // GLONASS epoch. No fit window is imposed here — the state-vector model
+            // has no published fit interval to borrow — so every slot present in
+            // the file appears exactly once.
+            let glonass = crate::glonass::parse_glonass_nav(text)?;
+            let ref_s = glonass
+                .iter()
+                .map(|e| e.epoch.seconds_from_gps_epoch())
+                .fold(f64::INFINITY, f64::min);
+            let mut seen_slots: Vec<u8> = Vec::new();
+            for e in &glonass {
+                if seen_slots.contains(&e.prn) {
+                    continue;
+                }
+                seen_slots.push(e.prn);
+                let best = glonass
+                    .iter()
+                    .filter(|c| c.prn == e.prn)
+                    .min_by(|a, b| {
+                        let da = (a.epoch.seconds_from_gps_epoch() - ref_s).abs();
+                        let db = (b.epoch.seconds_from_gps_epoch() - ref_s).abs();
+                        da.total_cmp(&db)
+                    })
+                    .expect("the slot was taken from this list");
+                sats.push(Propagator::from(*best));
+            }
             if sats.is_empty() {
                 return Err("rinex block parsed but contained no supported ephemerides".into());
             }
@@ -1426,6 +1475,69 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
         assert_eq!(sats.len(), 2);
         assert!(sats.iter().any(|s| matches!(s, Propagator::Rinex(_))));
         assert!(sats.iter().any(|s| matches!(s, Propagator::Glonass(_))));
+    }
+
+    #[test]
+    fn constellation_from_a_real_broadcast_file_has_one_propagator_per_satellite() {
+        // A real daily IGS navigation file carries a fresh record per satellite
+        // roughly every two hours, so one propagator per RECORD puts several
+        // copies of the same satellite in the sky at once, each at its own Toe
+        // and so at a different point on its orbit. That phantom constellation
+        // reports a physically impossible geometry (BRDC below gave 57
+        // propagators for 32 GPS satellites, GDOP 0.42, where a real GPS sky is
+        // ~31 satellites at GDOP 1.5-2.5). The constellation must be one
+        // propagator per (system, PRN).
+        const BRDM: &str = include_str!("../tests/fixtures/igs/BRDM00DLR_R_20130010000_01D_MN.rnx");
+        const BRDC: &str = include_str!("../tests/fixtures/igs/BRDC00WRD_R_20181330000_01D_GN.rnx");
+        for (name, text) in [("BRDM00DLR", BRDM), ("BRDC00WRD", BRDC)] {
+            let cfg = ConstellationCfg {
+                altitude_km: 0.0,
+                inclination_deg: 0.0,
+                planes: 0,
+                sats_per_plane: 0,
+                phasing_f: 0.0,
+                tle: None,
+                rinex: Some(text.to_string()),
+                strict_checksum: false,
+            };
+            let sats = cfg
+                .satellites()
+                .unwrap_or_else(|e| panic!("{name}: real nav file builds a constellation: {e}"));
+            let mut keys: Vec<(char, u8)> = sats
+                .iter()
+                .map(|p| match p {
+                    Propagator::Rinex(e) => (e.system, e.prn),
+                    Propagator::Glonass(e) => ('R', e.prn),
+                    other => panic!("{name}: unexpected propagator {other:?}"),
+                })
+                .collect();
+            let built = keys.len();
+            keys.sort_unstable();
+            keys.dedup();
+            assert_eq!(
+                keys.len(),
+                built,
+                "{name}: {} propagators for {} distinct satellites",
+                built,
+                keys.len()
+            );
+            // No satellite the parsers decode is lost on the way: every distinct
+            // (system, PRN) in the file is still represented exactly once.
+            let mut parsed: Vec<(char, u8)> = crate::rinex::parse_nav(text)
+                .expect("nav parses")
+                .iter()
+                .map(|e| (e.system, e.prn))
+                .collect();
+            parsed.extend(
+                crate::glonass::parse_glonass_nav(text)
+                    .expect("glonass parses")
+                    .iter()
+                    .map(|e| ('R', e.prn)),
+            );
+            parsed.sort_unstable();
+            parsed.dedup();
+            assert_eq!(keys, parsed, "{name}: satellite set changed");
+        }
     }
 
     #[test]

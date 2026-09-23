@@ -22,13 +22,15 @@ toml = open("scenarios/clock-holdover.toml").read()
 # Typed result with a parsed-dict accessor:
 out = kshana.run_typed(toml)
 print(out.summary)
-fom = out.data()["figures_of_merit"]      # a Python dict — no JSON re-parsing
+data = out.data()                         # a Python dict — no JSON re-parsing
+fom = data["quantum"]["fom"]              # figures of merit, quantum side
+classical_fom = data["classical"]["fom"]  # … and the classical baseline
 print(out.json[:80], "...")               # raw JSON also available
 open("chart.svg", "w").write(out.svg)     # the chart SVG
 
 # NumPy interop — wrap any numeric list from the result:
 import numpy as np
-adev = np.asarray([p["adev"] for p in out.data().get("adev_curve", [])])
+adev = np.asarray([p["adev"] for p in data["quantum"]["adev_curve"]])
 ```
 
 ## Surface
@@ -51,7 +53,23 @@ adev = np.asarray([p["adev"] for p in out.data().get("adev_curve", [])])
 | `.json` | `str` | full result document (JSON) |
 | `.svg` | `str` | standalone chart SVG |
 | `.summary` | `str` | one-line human summary |
-| `.data()` | `dict` | the result parsed into a Python dict |
+| `.data()` | `dict` | the result parsed into a Python dict (see the shape note below) |
+
+## Result shape
+
+The figures of merit and the time series live **per run side**, not at the top level.
+For a clock run the document is:
+
+```text
+schema_version  engine_version  scenario_hash  seed  threshold_ns  units
+quantum   → fom · series · adev_curve · filter_health · spec
+classical → fom · series · adev_curve · filter_health · spec
+```
+
+so the figures of merit are `data["quantum"]["fom"]`, never `data["figures_of_merit"]`.
+Other kinds emit their own packs; the complete per-field reference, with units and a
+source pointer, is [`field-units-schema.json`](field-units-schema.json) and the reader's
+guide is [`SCHEMA.md`](SCHEMA.md).
 
 ## Notes
 

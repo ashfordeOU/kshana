@@ -192,6 +192,18 @@ pub fn zonal_accel_body(r: Vec3, b: &crate::body::Body) -> Vec3 {
 /// Sun gravitational parameter `GM☉` (m³/s²), IAU/DE value.
 pub const MU_SUN: f64 = 1.327_124_400_18e20;
 /// Moon gravitational parameter `GM☾` (m³/s²), DE value.
+///
+/// This is the value the Orekit 12.2 cross-validation was generated with —
+/// `tests/fixtures/numerical_cowell_propagator/*_reference.txt` names it in its
+/// own header as `MU_MOON=4.902800066e12` — so the Cowell propagator, the solid
+/// tides and the relativistic lunar chain that are graded against that oracle
+/// stay on it. `lunar::MOON_GM_M3_S2` (4.902800118e12, the DE440 / Moon Fact
+/// Sheet value) is deliberately different: it is what the ANISE and SciPy
+/// lunar-service fixtures were generated with. The two differ by 1.1e-8
+/// relative, far inside every tolerance either oracle is checked at, and
+/// collapsing them to one number would leave one fixture header stating a
+/// constant the crate no longer uses. Each pipeline carries the GM of the model
+/// it is validated against; that is the rule, not an accident.
 pub const MU_MOON: f64 = 4.902_800_066e12;
 
 /// Third-body perturbing acceleration (m/s², ECI) on a satellite at geocentric position `r`

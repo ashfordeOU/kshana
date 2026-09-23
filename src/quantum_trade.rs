@@ -175,7 +175,7 @@ pub fn qparams_from_adev_curve(taus: &[f64], adevs: &[f64]) -> QParams {
                     (pred - yi) * (pred - yi)
                 })
                 .sum();
-            if best.map_or(true, |(_, br)| resid < br) {
+            if best.is_none_or(|(_, br)| resid < br) {
                 best = Some((full, resid));
             }
         }
