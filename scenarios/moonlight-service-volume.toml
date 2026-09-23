@@ -84,6 +84,14 @@ p_hmi = 1e-4
 #   carrier_hz = 2.4e9     # default 2.4e9 (S-band lunar AFS)
 #   efficiency = 0.60      # default 0.60 (antenna::DEFAULT_APERTURE_EFFICIENCY)
 #
+# With an export site set, a plain run ALSO emits <scenario>.table.csv: the per-satellite
+# geometry in long form, one row per (epoch, satellite), with the row count on the header
+# line. This is the largest array the crate publishes — 2304 rows in the released joint
+# communications-and-navigation table — and inside JSON it is the shape a naive consumer
+# truncates without anything objecting. The four antenna columns are present only when
+# export_antenna is configured, and the header says which case the file is. No export
+# site, no array, no file.
+#
 # OPTIONAL real, retrieved geometry in place of the illustrative constellation above.
 # UNSET BY DEFAULT, and unset changes nothing: the report is byte-identical to what it is
 # without this line. Point it at a file and that file's geometry drives the headline

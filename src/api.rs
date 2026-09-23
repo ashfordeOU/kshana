@@ -1372,11 +1372,18 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                     fmt(c.sigma_requirement_delta_vs_keplerian_m),
                 ));
             }
+            // G11: publish the per-satellite geometry as a long-form runtime artifact.
+            // It is the largest array the crate emits — 2304 rows in the released joint
+            // communications-and-navigation table — and reached consumers only inside
+            // JSON, the shape that silently truncated a sibling scenario's curve.
+            // `None` unless an export site was configured, so the default run is
+            // byte-unchanged and no empty file is written.
+            let csv = report.per_sat_geometry_csv();
             Ok(RunOutput {
                 json: json_of_with_units(&report, crate::lunar_service::UNITS)?,
                 svg: crate::lunar_service::lunar_service_svg(&report),
                 summary,
-                csv: None,
+                csv,
             })
         }
         ScenarioKind::LunarDpnt => {
