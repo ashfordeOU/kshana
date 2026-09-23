@@ -63,6 +63,7 @@ use crate::cr3bp::{
     differential_correct_halo, jacobi_constant, propagate_cr3bp, Cr3bpState, EARTH_MOON_DIST_KM,
     EARTH_MOON_MU, SIDEREAL_MONTH_DAYS,
 };
+use crate::field_schema::{units_block, FieldUnit, ProvenanceClass};
 use crate::intersat_range::{
     range_rate_row, range_rate_row_spatial, range_row, range_row_spatial, PlanarState, SpatialState,
 };
@@ -934,6 +935,13 @@ impl CislunarObservabilityScenario {
                     full-space λmax/λmin (\"inf\" below full rank)."
             }
         });
+        // Unit and provenance for every numeric field of the RELEASED document. Inserted
+        // on the base document so it is present on BOTH paths; the extension then merges
+        // its own entries into this block rather than replacing it.
+        let mut doc = doc;
+        doc.as_object_mut()
+            .expect("the report is an object")
+            .insert("units".into(), units_block(RELEASED_UNITS));
         let mut doc = if c.extended {
             extend_document(doc, c)
         } else {
@@ -1335,7 +1343,19 @@ fn extend_document(mut doc: serde_json::Value, c: &Computed) -> serde_json::Valu
     );
     obj.insert("posterior_vs_arc".into(), posterior.into());
     obj.insert("unobservable_directions".into(), unobservable);
-    obj.insert("units".into(), units);
+    // MERGE, never replace. The released document already carries a `units` block
+    // describing its own 41 fields; a plain insert here would drop all of them from the
+    // extended document, and no pin covers the extended document to catch that.
+    match obj.get_mut("units").and_then(|u| u.as_object_mut()) {
+        Some(existing) => {
+            for (k, v) in units.as_object().expect("units is an object") {
+                existing.insert(k.clone(), v.clone());
+            }
+        }
+        None => {
+            obj.insert("units".into(), units);
+        }
+    }
     doc
 }
 
@@ -1513,6 +1533,313 @@ fn svg(c: &Computed) -> String {
     s.push_str("</svg>");
     s
 }
+
+/// Unit, provenance class and definition for every numeric field the RELEASED document
+/// emits — all 41 of them.
+///
+/// This block was the last gap in the crate-wide field-units gate
+/// (`tests/field_units_global.rs`). It was open not because the quantities were unclear
+/// but because the released document is hash-pinned, and the pin's absent-key list named
+/// `units` specifically: adding one was a decision about the pin. The pin now proves the
+/// addition is additive instead of forbidding it — strip `units` back off and the
+/// document still hashes to the value that was frozen before this block existed.
+///
+/// The extension document has its own, separate table for the fields only IT emits; the
+/// two are merged there, never replaced, so an extended run documents both sets.
+const RELEASED_UNITS: &[FieldUnit] = &[
+    FieldUnit {
+        path: "mu",
+        unit: "ratio (dimensionless)",
+        provenance: ProvenanceClass::Constant,
+        definition: "CR3BP mass ratio m2/(m1+m2) for the Earth-Moon system; fixes the \
+                     libration-point geometry every other quantity here is expressed in.",
+    },
+    FieldUnit {
+        path: "arc_hours",
+        unit: "h",
+        provenance: ProvenanceClass::Input,
+        definition: "Total length of the tracking arc the observability question is asked \
+                     over.",
+    },
+    FieldUnit {
+        path: "arc_time_tu",
+        unit: "rotating-frame time units",
+        provenance: ProvenanceClass::Computed,
+        definition: "The same arc in rotating-frame time units, where 2*pi time units is one \
+                     sidereal month; this is the unit the dynamics are integrated in.",
+    },
+    FieldUnit {
+        path: "rel_tol",
+        unit: "ratio (dimensionless)",
+        provenance: ProvenanceClass::Input,
+        definition: "Relative singular-value threshold for the rank test: a singular value \
+                     below rel_tol * sigma_max counts as zero. Every rank and defect in this \
+                     document is a statement at THIS tolerance.",
+    },
+    FieldUnit {
+        path: "state_dim",
+        unit: "count",
+        provenance: ProvenanceClass::Computed,
+        definition: "Dimension of the estimated state: 4 for the planar released run \
+                     (x, y, xdot, ydot), 6 when the spatial extension is enabled.",
+    },
+    FieldUnit {
+        path: "chief_state[]",
+        unit: "nondimensional length (Earth-Moon distances) and its time derivative",
+        provenance: ProvenanceClass::Computed,
+        definition: "Rotating-frame initial state of the TRACKED spacecraft, in the state \
+                     order named by state_dim; the differential corrector's converged value, \
+                     not a hand-set number.",
+    },
+    FieldUnit {
+        path: "reference_states[][]",
+        unit: "nondimensional length (Earth-Moon distances) and its time derivative",
+        provenance: ProvenanceClass::Computed,
+        definition: "One row per reference beacon, each the same converged rotating-frame \
+                     initial state in the same order as chief_state.",
+    },
+    FieldUnit {
+        path: "dro_provenance.members[].state[]",
+        unit: "nondimensional length (Earth-Moon distances) and its time derivative",
+        provenance: ProvenanceClass::Computed,
+        definition: "This member's rotating-frame initial state, chief first; the same values \
+                     as chief_state / reference_states, repeated beside the provenance of the \
+                     orbit they came from.",
+    },
+    FieldUnit {
+        path: "dro_provenance.members[].perilune_km",
+        unit: "km",
+        provenance: ProvenanceClass::Computed,
+        definition: "Closest approach of this member's parent distant retrograde orbit to the \
+                     Moon's centre — the amplitude that names the orbit within the family.",
+    },
+    FieldUnit {
+        path: "dro_provenance.members[].period_tu",
+        unit: "rotating-frame time units",
+        provenance: ProvenanceClass::Computed,
+        definition: "Full period of the parent periodic orbit, as found by the differential \
+                     corrector.",
+    },
+    FieldUnit {
+        path: "dro_provenance.members[].periodicity_residual",
+        unit: "nondimensional length (Earth-Moon distances)",
+        provenance: ProvenanceClass::InternalConsistency,
+        definition: "Norm of the state difference after propagating the member one full \
+                     period. It is the closure check on the corrector, so its expected value \
+                     is zero and its size is how far from periodic the orbit actually is.",
+    },
+    FieldUnit {
+        path: "dro_provenance.members[].phase_fraction",
+        unit: "ratio (dimensionless)",
+        provenance: ProvenanceClass::Modelled,
+        definition: "Where this member sits on its parent orbit, as a fraction of the period \
+                     from the reference point. A constellation DESIGN choice, not a measured \
+                     or derived quantity.",
+    },
+    FieldUnit {
+        path: "rank_vs_arc[].epoch_index",
+        unit: "count (index)",
+        provenance: ProvenanceClass::Computed,
+        definition: "Zero-based index of the epoch this prefix of the arc ends at.",
+    },
+    FieldUnit {
+        path: "rank_vs_arc[].arc_time_tu",
+        unit: "rotating-frame time units",
+        provenance: ProvenanceClass::Computed,
+        definition: "Length of the arc PREFIX scored on this row, not the whole arc.",
+    },
+    FieldUnit {
+        path: "rank_vs_arc[].arc_hours",
+        unit: "h",
+        provenance: ProvenanceClass::Computed,
+        definition: "The same prefix length in hours.",
+    },
+    FieldUnit {
+        path: "rank_vs_arc[].n_rows",
+        unit: "count",
+        provenance: ProvenanceClass::Computed,
+        definition: "Number of measurement rows accumulated over the prefix — the height of \
+                     the observability matrix whose rank is reported beside it.",
+    },
+    FieldUnit {
+        path: "rank_vs_arc[].rank",
+        unit: "count",
+        provenance: ProvenanceClass::Computed,
+        definition: "Numerical rank of that observability matrix at rel_tol. The arc is fully \
+                     observable when this reaches state_dim.",
+    },
+    FieldUnit {
+        path: "rank_vs_arc[].sigma_max",
+        unit: "ratio (dimensionless)",
+        provenance: ProvenanceClass::Computed,
+        definition: "Largest singular value of the prefix observability matrix; the scale the \
+                     rel_tol threshold is taken relative to.",
+    },
+    FieldUnit {
+        path: "rank_vs_arc[].sigma_min",
+        unit: "ratio (dimensionless)",
+        provenance: ProvenanceClass::Computed,
+        definition: "Smallest singular value of the same matrix; its ratio to sigma_max is \
+                     what the rank test compares against rel_tol.",
+    },
+    FieldUnit {
+        path: "gramian_spectrum.eigenvalues_ascending[]",
+        unit: "ratio (dimensionless)",
+        provenance: ProvenanceClass::Computed,
+        definition: "Eigenvalues of the whole-arc observability Gramian O^T O, ascending. \
+                     Each is the squared singular value of the design in one direction of \
+                     state space, so a near-zero entry names a direction the arc barely sees.",
+    },
+    FieldUnit {
+        path: "gramian_spectrum.min_eigenvalue",
+        unit: "ratio (dimensionless)",
+        provenance: ProvenanceClass::Computed,
+        definition: "First entry of eigenvalues_ascending — the worst-observed direction.",
+    },
+    FieldUnit {
+        path: "gramian_spectrum.max_eigenvalue",
+        unit: "ratio (dimensionless)",
+        provenance: ProvenanceClass::Computed,
+        definition: "Last entry of eigenvalues_ascending — the best-observed direction.",
+    },
+    FieldUnit {
+        path: "gramian_spectrum.trace",
+        unit: "ratio (dimensionless)",
+        provenance: ProvenanceClass::Computed,
+        definition: "Sum of the eigenvalues, carried because it is one of the three \
+                     invariants the eigensolver is checked against (trace = sum of \
+                     eigenvalues).",
+    },
+    FieldUnit {
+        path: "gramian_spectrum.condition",
+        unit: "ratio (dimensionless)",
+        provenance: ProvenanceClass::Computed,
+        definition: "lambda_max/lambda_min over the full state. Emitted as the string \
+                     \"inf\" rather than a number when the Gramian is singular, so a \
+                     rank-deficient arc is never reported as a finite conditioning.",
+    },
+    FieldUnit {
+        path: "gramian_spectrum.rank",
+        unit: "count",
+        provenance: ProvenanceClass::Computed,
+        definition: "Eigen-rank of the Gramian at rel_tol, cross-checking the SVD rank \
+                     reported in rank_vs_arc.",
+    },
+    FieldUnit {
+        path: "gramian_spectrum.defect",
+        unit: "count",
+        provenance: ProvenanceClass::Computed,
+        definition: "state_dim minus rank: how many directions of the state the whole arc \
+                     leaves unobservable.",
+    },
+    FieldUnit {
+        path: "range_rate_lever.n_links",
+        unit: "count",
+        provenance: ProvenanceClass::Computed,
+        definition: "Number of chief-to-reference links contributing rows at the single \
+                     epoch this lever-arm comparison is taken at.",
+    },
+    FieldUnit {
+        path: "range_rate_lever.rank_range_only",
+        unit: "count",
+        provenance: ProvenanceClass::Computed,
+        definition: "Instantaneous rank from range rows alone. Range rows carry zero velocity \
+                     columns, so this cannot exceed the position dimension however many links \
+                     there are.",
+    },
+    FieldUnit {
+        path: "range_rate_lever.rank_range_rate",
+        unit: "count",
+        provenance: ProvenanceClass::Computed,
+        definition: "Instantaneous rank once Doppler rows are added. Their non-zero velocity \
+                     columns are the lever the whole field is named for; the gap between the \
+                     two ranks is what one epoch of Doppler buys.",
+    },
+    FieldUnit {
+        path: "gdop.range_only.rank",
+        unit: "count",
+        provenance: ProvenanceClass::Computed,
+        definition: "Rank of the range-only design at the snapshot epoch. Reported instead of \
+                     a GDOP value because the geometry is rank-deficient there and a finite \
+                     GDOP would be meaningless.",
+    },
+    FieldUnit {
+        path: "gdop.range_only.defect",
+        unit: "count",
+        provenance: ProvenanceClass::Computed,
+        definition: "State dimension minus that rank — the size of the null space the \
+                     undefined verdict rests on.",
+    },
+    FieldUnit {
+        path: "gdop.range_rate.gdop",
+        unit: "ratio (dimensionless)",
+        provenance: ProvenanceClass::Computed,
+        definition: "Geometric dilution of precision of the range-rate snapshot geometry, \
+                     sqrt(trace((H^T H)^-1)): the factor by which measurement error is \
+                     amplified into state error by geometry alone. Present only when that \
+                     geometry is non-singular.",
+    },
+    FieldUnit {
+        path: "gdop.range_rate.rank",
+        unit: "count",
+        provenance: ProvenanceClass::Computed,
+        definition: "Rank of the range-rate design at the same snapshot epoch.",
+    },
+    FieldUnit {
+        path: "srif_cross_validation.arc[].epoch_index",
+        unit: "count (index)",
+        provenance: ProvenanceClass::Computed,
+        definition: "Zero-based epoch index of this prefix, matching rank_vs_arc row for row.",
+    },
+    FieldUnit {
+        path: "srif_cross_validation.arc[].arc_time_tu",
+        unit: "rotating-frame time units",
+        provenance: ProvenanceClass::Computed,
+        definition: "Prefix length in rotating-frame time units.",
+    },
+    FieldUnit {
+        path: "srif_cross_validation.arc[].arc_hours",
+        unit: "h",
+        provenance: ProvenanceClass::Computed,
+        definition: "The same prefix length in hours.",
+    },
+    FieldUnit {
+        path: "srif_cross_validation.arc[].n_rows",
+        unit: "count",
+        provenance: ProvenanceClass::Computed,
+        definition: "Measurement rows folded into the filter over this prefix.",
+    },
+    FieldUnit {
+        path: "srif_cross_validation.arc[].observable_rank",
+        unit: "count",
+        provenance: ProvenanceClass::Computed,
+        definition: "Rank of the observability Gramian over the prefix — the quantity the \
+                     independent filter's posterior is cross-checked against.",
+    },
+    FieldUnit {
+        path: "srif_cross_validation.arc[].gramian_condition",
+        unit: "ratio (dimensionless)",
+        provenance: ProvenanceClass::Computed,
+        definition: "Full-space lambda_max/lambda_min of that Gramian, the string \"inf\" \
+                     below full rank.",
+    },
+    FieldUnit {
+        path: "srif_cross_validation.arc[].srif_condition",
+        unit: "ratio (dimensionless)",
+        provenance: ProvenanceClass::Computed,
+        definition: "Condition number of the square-root information filter's posterior \
+                     covariance over the same prefix. The cross-check is that it equals \
+                     gramian_condition: two independent routes to one number.",
+    },
+    FieldUnit {
+        path: "srif_cross_validation.full_rank_transition_epoch",
+        unit: "count (index)",
+        provenance: ProvenanceClass::Computed,
+        definition: "First epoch index at which the observable rank reaches the full state \
+                     dimension, and at which the filter's posterior covariance turns finite. \
+                     The single number this cross-validation exists to agree on.",
+    },
+];
 
 #[cfg(test)]
 mod tests {
@@ -1694,18 +2021,46 @@ mod tests {
     ///
     /// PIN-SCOPE:    all three released artifacts of the default `cislunar-observability`
     ///               run — result JSON, summary and SVG — byte for byte.
-    /// PIN-EXCLUDES: nothing — the whole document, deliberately. A cross-cutting change
-    ///               that appends a block to every scenario document is IN scope and must
-    ///               re-baseline these three with `zzz_emit_default_document_pins`.
+    /// PIN-EXCLUDES: the top-level `units` block of the result JSON, and only it. The JSON
+    ///               is hashed TWICE: once whole, and once with `units` stripped back off,
+    ///               against the hash that was frozen before the block existed. The second
+    ///               hash is what makes the exclusion safe — it proves the units block is
+    ///               the entire delta rather than asserting it, so a released value that
+    ///               moved underneath the addition still fails. The summary and the SVG are
+    ///               excluded from nothing. A cross-cutting change that appends a block to
+    ///               every scenario document is IN scope and must re-baseline with
+    ///               `zzz_emit_default_document_pins`.
     #[test]
     fn default_document_is_bit_for_bit_the_released_one() {
         let (json, summary, svg) = CislunarObservabilityScenario::default()
             .run_output()
             .unwrap();
+        // The whole document, units block included.
         assert_eq!(
             fnv1a64(&json),
-            0x2207_bc72_0606_2c80,
+            0xe249_22aa_5af8_8194,
             "released result-JSON byte drift"
+        );
+        // ...and the SAME document with `units` stripped back off, against the hash that
+        // was frozen before the block existed. This is the assertion that keeps the pin
+        // honest across the addition: a re-baselined hash alone cannot tell a new key from
+        // a changed value, and this one can. If a released number moves, this fails even
+        // though the hash above was updated in the same commit.
+        const RELEASED_JSON_WITHOUT_UNITS_FNV: u64 = 0x2207_bc72_0606_2c80;
+        let mut stripped: Value = serde_json::from_str(&json).unwrap();
+        assert!(
+            stripped
+                .as_object_mut()
+                .expect("the document is an object")
+                .remove("units")
+                .is_some(),
+            "the released document lost its units block"
+        );
+        assert_eq!(
+            fnv1a64(&serde_json::to_string_pretty(&stripped).unwrap()),
+            RELEASED_JSON_WITHOUT_UNITS_FNV,
+            "a RELEASED value moved: the document minus its units block no longer matches \
+             the bytes frozen before that block was added"
         );
         assert_eq!(
             fnv1a64(&summary),
@@ -1741,10 +2096,17 @@ mod tests {
             "arc_threshold",
             "posterior_vs_arc",
             "unobservable_directions",
-            "units",
+            // `units` was on this list. It is not an extension block: it describes the
+            // released fields themselves, and the strip-and-rehash above proves its
+            // addition moved nothing. The other eight stay — they ARE extension-only.
         ] {
             assert!(v.get(k).is_none(), "released document gained a `{k}` field");
         }
+        // The released document must CARRY the units block, not merely be allowed one.
+        assert!(
+            v.get("units").is_some(),
+            "the released document lost its units block"
+        );
         // …and every released field is still present, unremoved.
         for k in [
             "kind",
@@ -2271,11 +2633,17 @@ mod tests {
                  provenance entry"
             );
         }
-        // Nothing is documented that is never emitted.
+        // Nothing is documented that is never emitted — by EITHER document. Since the
+        // released document gained its own units block, the merged table legitimately
+        // describes released-only paths too, and `gdop.range_rate.gdop` is exactly one:
+        // the planar released run emits a finite GDOP, while both spatial runs take the
+        // range-rate-undefined branch and emit only `rank` and `defect` there. Grading the
+        // merged table against the spatial runs alone would call that entry an orphan.
         for d in &described {
             assert!(
-                ext.contains(*d),
-                "units documents `{d}`, which the report never emits"
+                ext.contains(*d) || base.contains(*d),
+                "units documents `{d}`, which neither the released nor the extended \
+                 document emits"
             );
         }
     }
