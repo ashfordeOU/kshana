@@ -9,7 +9,16 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
-Nothing yet.
+### Added
+
+- **`moonlight-service-volume` emits its per-satellite geometry as
+  `<scenario>.table.csv`** when an export site is configured (G11). It is the
+  largest array the crate publishes — 2304 rows in the released joint
+  communications-and-navigation table — and it reached consumers only inside JSON,
+  the shape that truncated a sibling scenario's 57-point curve to 23 points under a
+  column claiming all of them. One row per link, the row count on the header line,
+  the antenna columns present only when an antenna was configured. A run with no
+  export site is byte-unchanged and writes no file.
 
 ## [0.27.2] - 2026-09-22
 
