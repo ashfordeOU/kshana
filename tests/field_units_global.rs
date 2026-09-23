@@ -129,30 +129,24 @@ const RUNNERS: &[(&str, &str)] = &[
 /// should ever be made: the gate fails if a listed kind turns out to be fully covered, so
 /// an entry cannot be left here to pad the budget, and it fails if the list grows past
 /// [`UNCOVERED_KIND_CEILING`]. There is no wildcard — every uncovered kind is named.
-const UNCOVERED_KINDS: &[(&str, &str)] = &[
-    (
-        "sweep-nd",
-        "two of its three columns have no unit that is not itself data: \
+const UNCOVERED_KINDS: &[(&str, &str)] = &[(
+    "sweep-nd",
+    "two of its three columns have no unit that is not itself data: \
          `points[].coords[]` carries one value per caller-chosen dotted scenario key and \
          `points[].metrics[]` one per caller-chosen dotted result path, so each is a \
          column of mixed units. Resolving them means looking each path up in the SWEPT \
          pack's own units table, which this pack does not consult. Its third column, \
          `shape[]`, is described — 2 fields",
-    ),
-    (
-        "cislunar-observability",
-        "the released document is byte-frozen by an explicit R1 additivity pin \
-         (src/cislunar_observability.rs, `default_document_is_bit_for_bit_the_released_one`), \
-         which asserts the released document has NO `units` key and pins its fnv64; the \
-         pack does publish a units block, but only inside its opt-in extension document. \
-         Adding one to the released document means deleting that assertion, which is a \
-         decision about the pin, not about units — 41 fields",
-    ),
-];
+)];
 
 /// The pinned size of [`UNCOVERED_KINDS`]. Lower it whenever a kind is finished; never
 /// raise it.
-const UNCOVERED_KIND_CEILING: usize = 2;
+///
+/// Was 2. `cislunar-observability` came off the list when its released document gained a
+/// units block: the pin that had blocked it now proves the addition is additive (strip
+/// `units` back off and the document still hashes to the value frozen before it existed)
+/// instead of forbidding it outright.
+const UNCOVERED_KIND_CEILING: usize = 1;
 
 /// The pinned number of covered fields whose units entry carries no definition. The
 /// entries that predate this gate largely have none; new entries must. Lower it as the

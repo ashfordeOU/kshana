@@ -1,23 +1,18 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 1698,
-    "fields_total": 1741,
-    "fields_without_units": 43,
-    "kinds_complete": 59,
+    "fields_described": 1742,
+    "fields_total": 1744,
+    "fields_without_units": 2,
+    "kinds_complete": 60,
     "kinds_total": 61,
-    "kinds_uncovered": 2,
-    "uncovered_kind_ceiling": 2,
+    "kinds_uncovered": 1,
+    "uncovered_kind_ceiling": 1,
     "uncovered_kinds": [
       {
         "fields_without_units": 2,
         "kind": "sweep-nd",
         "reason": "two of its three columns have no unit that is not itself data: `points[].coords[]` carries one value per caller-chosen dotted scenario key and `points[].metrics[]` one per caller-chosen dotted result path, so each is a column of mixed units. Resolving them means looking each path up in the SWEPT pack's own units table, which this pack does not consult. Its third column, `shape[]`, is described — 2 fields"
-      },
-      {
-        "fields_without_units": 41,
-        "kind": "cislunar-observability",
-        "reason": "the released document is byte-frozen by an explicit R1 additivity pin (src/cislunar_observability.rs, `default_document_is_bit_for_bit_the_released_one`), which asserts the released document has NO `units` key and pins its fnv64; the pack does publish a units block, but only inside its opt-in extension document. Adding one to the released document means deleting that assertion, which is a decision about the pin, not about units — 41 fields"
       }
     ]
   },
@@ -809,53 +804,258 @@
       "source": "defaults"
     },
     "cislunar-observability": {
-      "complete": false,
-      "fields": {},
-      "fields_described": 0,
+      "complete": true,
+      "fields": {
+        "arc_hours": {
+          "definition": "Total length of the tracking arc the observability question is asked over.",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "h"
+        },
+        "arc_time_tu": {
+          "definition": "The same arc in rotating-frame time units, where 2*pi time units is one sidereal month; this is the unit the dynamics are integrated in.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "rotating-frame time units"
+        },
+        "chief_state[]": {
+          "definition": "Rotating-frame initial state of the TRACKED spacecraft, in the state order named by state_dim; the differential corrector's converged value, not a hand-set number.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "nondimensional length (Earth-Moon distances) and its time derivative"
+        },
+        "dro_provenance.members[].perilune_km": {
+          "definition": "Closest approach of this member's parent distant retrograde orbit to the Moon's centre — the amplitude that names the orbit within the family.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "km"
+        },
+        "dro_provenance.members[].period_tu": {
+          "definition": "Full period of the parent periodic orbit, as found by the differential corrector.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "rotating-frame time units"
+        },
+        "dro_provenance.members[].periodicity_residual": {
+          "definition": "Norm of the state difference after propagating the member one full period. It is the closure check on the corrector, so its expected value is zero and its size is how far from periodic the orbit actually is.",
+          "evidence_tier": "validated",
+          "provenance": "internal-consistency",
+          "unit": "nondimensional length (Earth-Moon distances)"
+        },
+        "dro_provenance.members[].phase_fraction": {
+          "definition": "Where this member sits on its parent orbit, as a fraction of the period from the reference point. A constellation DESIGN choice, not a measured or derived quantity.",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "ratio (dimensionless)"
+        },
+        "dro_provenance.members[].state[]": {
+          "definition": "This member's rotating-frame initial state, chief first; the same values as chief_state / reference_states, repeated beside the provenance of the orbit they came from.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "nondimensional length (Earth-Moon distances) and its time derivative"
+        },
+        "gdop.range_only.defect": {
+          "definition": "State dimension minus that rank — the size of the null space the undefined verdict rests on.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "gdop.range_only.rank": {
+          "definition": "Rank of the range-only design at the snapshot epoch. Reported instead of a GDOP value because the geometry is rank-deficient there and a finite GDOP would be meaningless.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "gdop.range_rate.gdop": {
+          "definition": "Geometric dilution of precision of the range-rate snapshot geometry, sqrt(trace((H^T H)^-1)): the factor by which measurement error is amplified into state error by geometry alone. Present only when that geometry is non-singular.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ratio (dimensionless)"
+        },
+        "gdop.range_rate.rank": {
+          "definition": "Rank of the range-rate design at the same snapshot epoch.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "gramian_spectrum.condition": {
+          "definition": "lambda_max/lambda_min over the full state. Emitted as the string \"inf\" rather than a number when the Gramian is singular, so a rank-deficient arc is never reported as a finite conditioning.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ratio (dimensionless)"
+        },
+        "gramian_spectrum.defect": {
+          "definition": "state_dim minus rank: how many directions of the state the whole arc leaves unobservable.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "gramian_spectrum.eigenvalues_ascending[]": {
+          "definition": "Eigenvalues of the whole-arc observability Gramian O^T O, ascending. Each is the squared singular value of the design in one direction of state space, so a near-zero entry names a direction the arc barely sees.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ratio (dimensionless)"
+        },
+        "gramian_spectrum.max_eigenvalue": {
+          "definition": "Last entry of eigenvalues_ascending — the best-observed direction.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ratio (dimensionless)"
+        },
+        "gramian_spectrum.min_eigenvalue": {
+          "definition": "First entry of eigenvalues_ascending — the worst-observed direction.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ratio (dimensionless)"
+        },
+        "gramian_spectrum.rank": {
+          "definition": "Eigen-rank of the Gramian at rel_tol, cross-checking the SVD rank reported in rank_vs_arc.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "gramian_spectrum.trace": {
+          "definition": "Sum of the eigenvalues, carried because it is one of the three invariants the eigensolver is checked against (trace = sum of eigenvalues).",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ratio (dimensionless)"
+        },
+        "mu": {
+          "definition": "CR3BP mass ratio m2/(m1+m2) for the Earth-Moon system; fixes the libration-point geometry every other quantity here is expressed in.",
+          "evidence_tier": "validated",
+          "provenance": "constant",
+          "unit": "ratio (dimensionless)"
+        },
+        "range_rate_lever.n_links": {
+          "definition": "Number of chief-to-reference links contributing rows at the single epoch this lever-arm comparison is taken at.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "range_rate_lever.rank_range_only": {
+          "definition": "Instantaneous rank from range rows alone. Range rows carry zero velocity columns, so this cannot exceed the position dimension however many links there are.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "range_rate_lever.rank_range_rate": {
+          "definition": "Instantaneous rank once Doppler rows are added. Their non-zero velocity columns are the lever the whole field is named for; the gap between the two ranks is what one epoch of Doppler buys.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "rank_vs_arc[].arc_hours": {
+          "definition": "The same prefix length in hours.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "h"
+        },
+        "rank_vs_arc[].arc_time_tu": {
+          "definition": "Length of the arc PREFIX scored on this row, not the whole arc.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "rotating-frame time units"
+        },
+        "rank_vs_arc[].epoch_index": {
+          "definition": "Zero-based index of the epoch this prefix of the arc ends at.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count (index)"
+        },
+        "rank_vs_arc[].n_rows": {
+          "definition": "Number of measurement rows accumulated over the prefix — the height of the observability matrix whose rank is reported beside it.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "rank_vs_arc[].rank": {
+          "definition": "Numerical rank of that observability matrix at rel_tol. The arc is fully observable when this reaches state_dim.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "rank_vs_arc[].sigma_max": {
+          "definition": "Largest singular value of the prefix observability matrix; the scale the rel_tol threshold is taken relative to.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ratio (dimensionless)"
+        },
+        "rank_vs_arc[].sigma_min": {
+          "definition": "Smallest singular value of the same matrix; its ratio to sigma_max is what the rank test compares against rel_tol.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ratio (dimensionless)"
+        },
+        "reference_states[][]": {
+          "definition": "One row per reference beacon, each the same converged rotating-frame initial state in the same order as chief_state.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "nondimensional length (Earth-Moon distances) and its time derivative"
+        },
+        "rel_tol": {
+          "definition": "Relative singular-value threshold for the rank test: a singular value below rel_tol * sigma_max counts as zero. Every rank and defect in this document is a statement at THIS tolerance.",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "ratio (dimensionless)"
+        },
+        "srif_cross_validation.arc[].arc_hours": {
+          "definition": "The same prefix length in hours.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "h"
+        },
+        "srif_cross_validation.arc[].arc_time_tu": {
+          "definition": "Prefix length in rotating-frame time units.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "rotating-frame time units"
+        },
+        "srif_cross_validation.arc[].epoch_index": {
+          "definition": "Zero-based epoch index of this prefix, matching rank_vs_arc row for row.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count (index)"
+        },
+        "srif_cross_validation.arc[].gramian_condition": {
+          "definition": "Full-space lambda_max/lambda_min of that Gramian, the string \"inf\" below full rank.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ratio (dimensionless)"
+        },
+        "srif_cross_validation.arc[].n_rows": {
+          "definition": "Measurement rows folded into the filter over this prefix.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "srif_cross_validation.arc[].observable_rank": {
+          "definition": "Rank of the observability Gramian over the prefix — the quantity the independent filter's posterior is cross-checked against.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "srif_cross_validation.arc[].srif_condition": {
+          "definition": "Condition number of the square-root information filter's posterior covariance over the same prefix. The cross-check is that it equals gramian_condition: two independent routes to one number.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ratio (dimensionless)"
+        },
+        "srif_cross_validation.full_rank_transition_epoch": {
+          "definition": "First epoch index at which the observable rank reaches the full state dimension, and at which the filter's posterior covariance turns finite. The single number this cross-validation exists to agree on.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count (index)"
+        },
+        "state_dim": {
+          "definition": "Dimension of the estimated state: 4 for the planar released run (x, y, xdot, ydot), 6 when the spatial extension is enabled.",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        }
+      },
+      "fields_described": 41,
       "fields_total": 41,
-      "fields_without_units": [
-        "arc_hours",
-        "arc_time_tu",
-        "chief_state[]",
-        "dro_provenance.members[].perilune_km",
-        "dro_provenance.members[].period_tu",
-        "dro_provenance.members[].periodicity_residual",
-        "dro_provenance.members[].phase_fraction",
-        "dro_provenance.members[].state[]",
-        "gdop.range_only.defect",
-        "gdop.range_only.rank",
-        "gdop.range_rate.gdop",
-        "gdop.range_rate.rank",
-        "gramian_spectrum.condition",
-        "gramian_spectrum.defect",
-        "gramian_spectrum.eigenvalues_ascending[]",
-        "gramian_spectrum.max_eigenvalue",
-        "gramian_spectrum.min_eigenvalue",
-        "gramian_spectrum.rank",
-        "gramian_spectrum.trace",
-        "mu",
-        "range_rate_lever.n_links",
-        "range_rate_lever.rank_range_only",
-        "range_rate_lever.rank_range_rate",
-        "rank_vs_arc[].arc_hours",
-        "rank_vs_arc[].arc_time_tu",
-        "rank_vs_arc[].epoch_index",
-        "rank_vs_arc[].n_rows",
-        "rank_vs_arc[].rank",
-        "rank_vs_arc[].sigma_max",
-        "rank_vs_arc[].sigma_min",
-        "reference_states[][]",
-        "rel_tol",
-        "srif_cross_validation.arc[].arc_hours",
-        "srif_cross_validation.arc[].arc_time_tu",
-        "srif_cross_validation.arc[].epoch_index",
-        "srif_cross_validation.arc[].gramian_condition",
-        "srif_cross_validation.arc[].n_rows",
-        "srif_cross_validation.arc[].observable_rank",
-        "srif_cross_validation.arc[].srif_condition",
-        "srif_cross_validation.full_rank_transition_epoch",
-        "state_dim"
-      ],
+      "fields_without_units": [],
       "label": "MODELLED planar cislunar constellation observability (P6). VALIDATED core: the observable RANK is a rank-revealing singular-value threshold cross-checked against the Gramian eigen-rank; the Gramian eigen-spectrum obeys the spectral invariants (trace = sum eig, det = prod eig, Frobenius^2 = sum eig^2); the variational STM is the finite-difference-validated CR3BP STM (crate::cr3bp); the range / range-rate Jacobian rows are finite-difference-validated analytic partials (cross-checked against the crate's 3-D range-rate observable); the four-spacecraft initial conditions are differential-corrected planar DROs (crate::dro) that close to a tight periodicity residual and are retrograde; and the rank transition is cross-validated against an independent square-root information filter (crate::cislunar_srif) whose posterior covariance turns finite exactly at full observable rank. MODELLED: the constellation design (which DRO perilune amplitudes and phases) and the specific rank-vs-arc progression it produces. Not a certified navigation-performance product.",
       "source": "defaults"
     },
@@ -9307,6 +9507,12 @@
           "provenance": "computed",
           "unit": "m"
         },
+        "table3_joint_eop[].combined.truth_fallback_rows": {
+          "definition": "How many of this component's `n` samples were scored against the Bulletin A RAPID value because no Bulletin B final was published for one of the days the sample spans. Always 0 at the `final` floor, whose residual is rapid-minus-final and so cannot form without a final. At a prediction horizon it is the measure of how far that row's truth departs from the floor row's.",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "count"
+        },
         "table3_joint_eop[].horizon_days": {
           "definition": null,
           "evidence_tier": "illustrative",
@@ -9374,6 +9580,12 @@
           "provenance": "computed",
           "unit": "m"
         },
+        "table3_joint_eop[].polar_motion.truth_fallback_rows": {
+          "definition": "How many of this component's `n` samples were scored against the Bulletin A RAPID value because no Bulletin B final was published for one of the days the sample spans. Always 0 at the `final` floor, whose residual is rapid-minus-final and so cannot form without a final. At a prediction horizon it is the measure of how far that row's truth departs from the floor row's.",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "count"
+        },
         "table3_joint_eop[].ut1.epochs_mjd[]": {
           "declared_as": "table3_joint_eop[].ut1.epochs_mjd",
           "definition": null,
@@ -9428,6 +9640,12 @@
           "evidence_tier": "inherits-scenario-label",
           "provenance": "computed",
           "unit": "m"
+        },
+        "table3_joint_eop[].ut1.truth_fallback_rows": {
+          "definition": "How many of this component's `n` samples were scored against the Bulletin A RAPID value because no Bulletin B final was published for one of the days the sample spans. Always 0 at the `final` floor, whose residual is rapid-minus-final and so cannot form without a final. At a prediction horizon it is the measure of how far that row's truth departs from the floor row's.",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "count"
         },
         "table4_predicted_vs_final_horizon.n_rows": {
           "definition": null,
@@ -9879,8 +10097,8 @@
           "unit": "count"
         }
       },
-      "fields_described": 157,
-      "fields_total": 157,
+      "fields_described": 160,
+      "fields_total": 160,
       "fields_without_units": [],
       "label": "Real-time lunar frame / Earth-orientation prediction budget. VALIDATED closed form: the L19 lever arm (1 ms ↔ 28.03 m ↔ 93.5 ns), ω⊕ cross-checked against the CIO Earth-rotation angle. VALIDATED real data: the L18 UT1 and polar-motion prediction-error curves read directly off the real IERS finals2000A series (Bulletin A rapid vs Bulletin B final, and multi-day persistence over the real daily rows). DERIVED: the frame-realisation floor is the post-fit RMS residual of an actual 7-parameter Helmert datum realisation (not an asserted 0.2 m). MODELLED: the lunar-relay OD covariance magnitudes (0.27 m post-processed, ~14.4 m real-time at 1 h latency) are a round, NOT back-solved, representative allocation — the order-15-m real-time figure is independently bracketed by the real EOP-prediction curve (≈9.9 m at 1 day, ≈18.8 m at 2 days). The multi-day predictor is persistence, not IERS's operational Bulletin A algorithm, and a genuine predicted-vs-final vintage difference needs an archived earlier file vintage (not available from a single fetch). Not a certified real-time frame product.",
       "source": "defaults"

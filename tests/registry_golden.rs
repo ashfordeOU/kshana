@@ -357,7 +357,15 @@ fn golden_cislunar_observability() {
         // matches numpy.linalg.cond — the P6-G2 reconciliation that removed the earlier
         // rank-4-but-condition-over-3-modes self-contradiction (was cond 2.76e5).
         expect_summary: "cislunar-observability | 4 s/c (3 refs) | 6.0 h arc, 24 epochs | rank 1 → 4 of 4 over arc | Gramian λ [2.92e-11…5.98e-2] cond 2.05e9 | instantaneous rank range-only 2 → range+rate 4 (3 links) | GDOP range-only undefined range+rate 6.353 | DRO ICs (max periodicity residual 4.7e-9) | SRIF posterior finite at rank-4 epoch 8 (Validated rank/STM/DRO-closure/SRIF, Modelled design)",
-        expect_fnv_canonical: 0x8347_e463_5b2e_2949,
+        // Re-baselined when the report gained its `units` block (a unit and a
+        // provenance class for every numeric field it emits, enforced by
+        // tests/field_units_global.rs). Purely additive: the summary string above is
+        // byte-identical, no pre-existing key changed value or position, and the whole
+        // delta is the new `units` object. This pack's own pins prove that rather than
+        // assert it — src/cislunar_observability.rs and
+        // tests/cislunar_arc_recovery_reference.rs both now strip `units` back off and
+        // re-hash against the constants frozen BEFORE it existed, and both are unchanged.
+        expect_fnv_canonical: 0x2cb0_2851_850e_09c1,
         expect_fnv_raw_linux_x64: None,
     });
 }

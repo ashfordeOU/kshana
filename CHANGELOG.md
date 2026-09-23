@@ -11,6 +11,49 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Every reported quantity of `cislunar-observability` now carries a unit, a
+  provenance class and a definition — the last kind on the crate-wide exemption
+  list but one.** All 41 numeric fields of the RELEASED document are described, so
+  field-units coverage goes from 59 of 61 kinds to 60 of 61 and from 1,698 to 1,742
+  described fields, with the definitionless backlog unchanged at 239.
+
+  This was blocked by the pin that freezes the released document, which named
+  `units` as a key the document must never gain. Adding one would have meant
+  deleting that assertion and re-baselining three hashes in three files — a shape
+  indistinguishable from covering up a regression. Instead the two pins that
+  measure this document now *prove* the addition is additive: each strips the
+  `units` block back off and re-hashes against the constant frozen before the block
+  existed, and **both constants are unchanged**. A mutation confirms the guarantee
+  is real — move a released value and re-baseline the whole-document hash the way a
+  careless fix would, and the strip-and-rehash still fails. The third pin, in the
+  generic registry-golden harness, is re-baselined in line with the six siblings
+  that were re-baselined for exactly this reason, and its value-bearing
+  `expect_summary` literal does not move.
+
+- **`realtime-frame-eop` reports which truth each Earth-orientation row was scored
+  against, and how often the fallback fired.** `table3_joint_eop[].{ut1,
+  polar_motion,combined}` gain `truth_source` and `truth_fallback_rows`. The
+  `final` floor is scored against the Bulletin B final and can only use epochs that
+  publish one; every `dN` row is scored against `truth_pm()`/`truth_ut1()`, which
+  fall back to the Bulletin A rapid value. On the bundled 2026 extract that is 12 of
+  31 samples at one day, against 0 at the floor — so the floor row and the
+  prediction rows beside it rest on measurably different truth, which the report
+  now states instead of leaving to be inferred from a sample count that rises where
+  nested horizons say it cannot.
+
+- **`moonlight-service-volume` emits a size-matched Keplerian baseline.**
+  `ephemeris_comparison.keplerian_matched` re-runs the illustrative constellation at
+  the RETRIEVED set's own satellite count, present only when the counts differ. The
+  count is part of that design's geometry — RAAN and mean anomaly are both spread as
+  `360k/n` — so without it a five-satellite retrieved set was scored against an
+  eight-satellite illustrative one and design was conflated with size. For the
+  five-satellite LANS reference set, 8.68 of the 14.24-point coverage gap turns out
+  to be the three missing satellites and only 5.56 points the design; for the four
+  spacecraft really in lunar orbit, a purpose-built four-satellite set reaches
+  4.86 % where they reach 0 %. A test pins that the matched row is a rebuilt
+  constellation and not the configured one relabelled, which is how it was first
+  written and what the run then reported.
+
 - **Nine capability cards on the public site, covering 22 verification-matrix rows
   that shipped with no product-level card.** The engine had grown a family of
   capabilities — the ARAIM check against published Working Group C reference
