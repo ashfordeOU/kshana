@@ -19,6 +19,7 @@ merit with provenance.
 | `validate_scenario` | Pre-flight check: parse the TOML and detect its kind, without running. |
 | `export_sp3` | Export an `orbit` scenario's constellation as SP3-c precise ephemeris. |
 | `export_omm` | Export an `orbit` scenario's elements as a CCSDS 502.0-B-2 OMM catalogue. |
+| `export_oem` | Export an `orbit` scenario's state series as CCSDS OEM 2.0 ephemeris — the TEME position *and* velocity series flight-dynamics tools (GMAT / Orekit / STK) read; the velocity-carrying complement of the position-only `export_sp3`. |
 
 Each tool is a thin, faithful wrapper over a public `kshana::api` function — no new
 simulation logic lives here, so an agent runs exactly the validated engine.

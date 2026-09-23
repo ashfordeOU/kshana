@@ -5,8 +5,9 @@ the validated engine as agent tools. MCP is the shared plugin protocol, so the *
 plugs into Claude Code, Claude Desktop, Codex, Cursor, VS Code, Windsurf, and JetBrains — the
 agent calls the real, externally-validated engine instead of guessing the math.
 
-Tools exposed: `run_scenario`, `list_scenario_kinds`, `validate_scenario`, `export_sp3`,
-`export_omm` — each a thin, faithful wrapper over a public `kshana::api` function.
+Tools exposed (six): `run_scenario`, `list_scenario_kinds`, `validate_scenario`,
+`export_sp3`, `export_omm`, `export_oem` — each a thin, faithful wrapper over a public
+`kshana::api` function.
 
 ## 1. Install the server (once)
 

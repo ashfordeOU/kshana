@@ -23,11 +23,17 @@ allow = [
   "Zlib",
   "CC0-1.0",
 ]
-# AGPL is allowed ONLY for our own crate, not the dependency tree. This lets the
-# license gate accept kshana's own AGPL-3.0-only license without opening the door
-# to copyleft dependencies (which would break commercial dual-licensing).
+# AGPL is allowed ONLY for crates we publish ourselves, never for the dependency tree.
+# This lets the license gate accept our own AGPL-3.0-only license without opening the
+# door to copyleft dependencies (which would break commercial dual-licensing).
 exceptions = [
   { name = "kshana", allow = ["AGPL-3.0-only"] },
+  # kshana-mcp (mcp/kshana-mcp) is a separate package with its own Cargo.lock, excluded
+  # from the root one, carrying the identical AGPL-3.0-only + commercial dual licence.
+  # This entry matters only when cargo-deny runs from that directory, where kshana-mcp is
+  # the ROOT of the inspected graph: measured there, it was the single licence rejection
+  # in the whole tree, so the carve-out opens nothing beyond our own crate.
+  { name = "kshana-mcp", allow = ["AGPL-3.0-only"] },
 ]
 
 [bans]
