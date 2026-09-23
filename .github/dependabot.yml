@@ -12,6 +12,20 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
+  # The MCP server crate is EXCLUDED from the root package ("/mcp" in Cargo.toml's
+  # `exclude`) and carries its own Cargo.lock, so the "/" entry above sees none of its
+  # dependency graph. Left ungated, its crates only moved when someone edited them by
+  # hand. Same policy as the root: one grouped monthly PR, patch and minor only.
+  - package-ecosystem: cargo
+    directory: "/mcp/kshana-mcp"
+    schedule:
+      interval: monthly
+    groups:
+      cargo-mcp:
+        patterns: ["*"]
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
   # GitHub Actions: one grouped PR per month.
   - package-ecosystem: github-actions
     directory: "/"
