@@ -35,6 +35,15 @@
       "proof": "bit-for-bit vs SOFA/ERFA \u00b7 Vallado end-to-end 4 mm"
     },
     {
+      "domain": "Time systems",
+      "group": "Timing",
+      "status": "modelled",
+      "name": "Real-time Earth-orientation prediction",
+      "summary": "An operational-style Earth-orientation predictor \u2014 least squares over bias, rate and the principal periodic terms across a trailing window \u2014 measured against genuinely archived Bulletin A predictions rather than against persistence. The offline default input is a real IERS finals2000A product carrying Bulletin A prediction rows, so a bare run emits a populated per-horizon table instead of an empty one. UT1 and polar motion are reported over a common row set together with their combination, so the joint figure is one statistic rather than a quadrature sum of two different samples.",
+      "proof": "12 leads against archived Bulletin A: UT1 2.93 ms, polar motion 1.76 mas",
+      "run": "realtime-frame-eop.toml"
+    },
+    {
       "domain": "Inertial",
       "group": "Inertial",
       "status": "modelled",
@@ -42,6 +51,15 @@
       "summary": "Three-axis strapdown INS \u2014 quaternion attitude, WGS-84 NED mechanization, coning/sculling compensation, and a full deterministic IMU error model \u2014 plus a first-principles cold-atom-interferometer accelerometer (Mach\u2013Zehnder phase, projection noise, contrast decay, vibration coupling) and a particle filter for terrain-/gravity-referenced GPS-denied navigation.",
       "proof": "first-principles CAI accelerometer \u00b7 derived VRW cross-checked vs an independent integrator",
       "run": "imu-deadreckoning.toml"
+    },
+    {
+      "domain": "Inertial",
+      "group": "Inertial",
+      "status": "modelled",
+      "name": "Inertial and terrain-relative coasting through an outage",
+      "summary": "Position error against coast duration from an IMU error budget \u2014 bias, random walk and scale factor, each with its own growth law and its own share of the crossing \u2014 so the cost of a navigation outage is a computed curve rather than a swept drift rate. Threshold crossings are engine output with the dominant contribution named at each one, across four IMU grades, and a terrain-fix interval is scored in its own block so the headline crossings stay unaided.",
+      "proof": "10 m at 249 s, 50 m at 595 s, accelerometer bias dominant at both",
+      "run": "ins-trn-coast.toml"
     },
     {
       "domain": "Alt-PNT (GPS-denied)",
@@ -149,6 +167,33 @@
       "run": "lunar-time-budget.toml"
     },
     {
+      "domain": "Lunar & cislunar",
+      "group": "Lunar",
+      "status": "modelled",
+      "name": "Real, retrieved lunar constellation geometry",
+      "summary": "The service volume runs on published constellation designs instead of an illustrative one: the five-satellite LANS interoperability-demonstration reference set, the LNCSS case studies at 8, 12 and 16 satellites, and the four spacecraft actually in lunar orbit on 2023-01-01 from JPL Horizons. Each file states its own frame and its own provenance class, a horizon past the end of a tabulated ephemeris is refused rather than extrapolated, and the illustrative Keplerian result is emitted beside the retrieved one with the difference between them, never replaced by it.",
+      "proof": "5 committed fixtures, each regenerable from its recorded source",
+      "run": "moonlight-service-volume.toml"
+    },
+    {
+      "domain": "Lunar & cislunar",
+      "group": "Lunar",
+      "status": "modelled",
+      "name": "Lunar denial contour from a measured C/N\u2080 spread",
+      "summary": "Per-satellite jammer-to-signal ratio over real lunar slant ranges, with the wanted-signal side kept as a distribution rather than collapsed to a median, so the denial contour carries the uncertainty band the relay geometry actually produces. Two criteria are reported side by side: the power-ratio threshold, and loss of lock computed from tracking-loop dynamics. The orbital capture footprint is swept over transmitter altitude and beamwidth, and where the grid never reaches limb capture the report says so and prints the shortfall.",
+      "proof": "Standoff 49.2 km by power ratio against 27.4 km by loss of lock",
+      "run": "lunar-jamming.toml"
+    },
+    {
+      "domain": "Lunar & cislunar",
+      "group": "Lunar",
+      "status": "modelled",
+      "name": "VLBI schedule to station-coordinate covariance",
+      "summary": "Accumulates the lunar VLBI delay partials into a Fisher information matrix over a baselines-by-epochs schedule and returns the station coordinate covariance, so the step from delay precision to coordinate sigma is estimated rather than assumed. The free network is reported beside the datum-fixed one, with its rank defect and the unobservable direction named. The surface-point covariance is kept distinct from the Earth-station one, because the near-field beacon partial is a difference of two station unit vectors and does not behave like the far-field case.",
+      "proof": "Rank 6, defect 0; free-network defect 1 named as a common translation",
+      "run": "lunar-vlbi-fim.toml"
+    },
+    {
       "domain": "Deep-space & Mars PNT",
       "group": "Lunar",
       "status": "modelled",
@@ -158,6 +203,15 @@
       "run": "mars-pnt-lmo.toml"
     },
     {
+      "domain": "Optical / RF PNT",
+      "group": "Lunar",
+      "status": "modelled",
+      "name": "Optical and RF handover with cross-modality integrity",
+      "summary": "Fault injection gives the cross-modality monitor a detection power rather than a fault-free pass: a minimum detectable bias per axis at a stated false-alarm and missed-detection budget. After a handover the covariance re-growth is propagated against the alert limits, so the report states how long the single-modality solution stays inside them rather than only that the handover was continuous. The optical and RF ranging legs are compared only at matched accumulation time and path, and the report refuses to form a ratio against a value that was chosen rather than measured.",
+      "proof": "Minimum detectable bias 8.20 m horizontal, 12.30 m vertical, 24.6 ns timing",
+      "run": "hybrid-optical-rf.toml"
+    },
+    {
       "domain": "Integrity",
       "group": "GNSS",
       "status": "validated",
@@ -165,6 +219,15 @@
       "summary": "Snapshot and solution-separation RAIM with horizontal and vertical protection levels (HPL/VPL), fault detection and exclusion, and Stanford integrity diagrams \u2014 plus an explicit integrity-risk-budget (MHSS) protection level with the dual-/multi-constellation constellation-wide fault mode (EU ARAIM / DO-316).",
       "proof": "MHSS on a real GPS + Galileo snapshot \u00b7 DO-316 dual-constellation",
       "run": "integrity-raim.toml"
+    },
+    {
+      "domain": "Integrity",
+      "group": "GNSS",
+      "status": "validated",
+      "name": "ARAIM against published reference vectors",
+      "summary": "The engine's MHSS protection levels run against the EU-U.S. Working Group C reference airborne algorithm's own published worked examples, each transcribed with its retrieval URL, date, page and file SHA-256 and held in two places that a test asserts agree. The acceptance vector is the internally consistent Reference Airborne Algorithm Description Document v3.1, Appendix D. The Milestone 3 report carries two internal defects \u2014 a sign typo in the geometry, and a false-alarm multiplier evaluated at 57 fault modes while the text states one \u2014 so its protection levels are reported as measured discrepancies rather than graded, and the defects are demonstrated by running the document's own numbers.",
+      "proof": "Worst error 0.044 m against the sources' own 0.05 m tolerance",
+      "run": "araim-reference-check.toml"
     },
     {
       "domain": "Augmentation (SBAS)",
@@ -244,12 +307,29 @@
       "proof": "validated rows require an external oracle (invariant enforced in CI)"
     },
     {
+      "domain": "Verification & assurance",
+      "group": "Interop",
+      "status": "modelled",
+      "name": "Unit and provenance on every reported quantity",
+      "summary": "Every numeric field a scenario emits carries a unit and a provenance class drawn from a closed vocabulary, with a definition where one exists, published as a machine-readable schema beside the engine. A ratcheted gate runs every built-in kind and fails on a field that carries none; the kinds not yet complete are named one by one with the reason each is still open, and the list can only shrink. Reports that state their own constants \u2014 the one-way link budget, the optical and RF budget \u2014 let a reader recompute the headline from the report alone.",
+      "proof": "59 of 61 kinds, 1698 of 1741 numeric fields"
+    },
+    {
       "domain": "Mission analysis",
       "group": "Orbits",
       "status": "modelled",
       "name": "Launch, re-entry, coverage & pointing budgets",
       "summary": "First-order mission-design budgets, each a runnable scenario: two-body launch & ascent geometry (launch azimuth, minimum inclination, Earth-rotation bonus, dogleg plane-change \u0394v, daily opportunities), an Allen\u2013Eggers ballistic re-entry corridor (peak deceleration, peak-g and peak-heating velocities), Earth-observation coverage geometry (swath / nadir GSD / off-nadir access / revisit via the SMAD space triangle), a 3-DOF attitude & pointing error budget (gravity-gradient torque + RSS pointing budget), ground-station pass prediction (AOS/TCA/LOS, max elevation, access), and a one-way link budget over the CCSDS 401 / DSN 810-005 link equation (FSPL, C/N\u2080, Eb/N\u2080, margin, closure). The pre-hardware analytic layer below STK/GMAT/Basilisk \u2014 modelled first-order budgets, not a 6-DoF or radiometric replacement.",
       "proof": "checked vs closed-form (launch azimuth \u00b7 Allen-Eggers \u00b7 SMAD)"
+    },
+    {
+      "domain": "Mission analysis",
+      "group": "Orbits",
+      "status": "modelled",
+      "name": "Navigation-versus-communications aperture sharing",
+      "summary": "A contact plan and an aperture count in; navigation duty, communications duty, per-session outage and contention out. The arbitration policy is named in the report rather than implied, and a session that cannot be fully served reports the fraction of it that was lost instead of disappearing into an average.",
+      "proof": "Per-session outage and contention, not one duty figure",
+      "run": "aperture-duty-cycle.toml"
     },
     {
       "domain": "Space environment",

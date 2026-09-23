@@ -11,6 +11,25 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Nine capability cards on the public site, covering 22 verification-matrix rows
+  that shipped with no product-level card.** The engine had grown a family of
+  capabilities — the ARAIM check against published Working Group C reference
+  vectors, real retrieved lunar constellation geometry, the lunar denial contour
+  with a measured C/N₀ band, the VLBI-schedule-to-station-covariance step, optical
+  and RF handover with cross-modality fault injection, real-time Earth-orientation
+  prediction against archived Bulletin A, navigation-versus-communications aperture
+  sharing, INS/TRN coasting, and unit-and-provenance coverage — each with a matrix
+  row and a bundled scenario, and none of them named on kshana.dev. Card-to-row
+  coverage goes from 72 of 168 rows to 94.
+
+- **Eight scenarios added to the playground catalogue.** A capability card's Run
+  button only appears when `web/app.js` also carries the file; six cards named a
+  scenario it did not, so they rendered with no way to run them — one of those, the
+  real-laser-ranging datum, had been in that state since it shipped.
+  `tests/scenario_examples_doc_sync.rs` now gates the invariant in both halves: a
+  card's `run` target must be bundled under `scenarios/` *and* offered by the
+  catalogue. Mutation-tested against both failure modes.
+
 - **`moonlight-service-volume` emits its per-satellite geometry as
   `<scenario>.table.csv`** when an export site is configured (G11). It is the
   largest array the crate publishes — 2304 rows in the released joint

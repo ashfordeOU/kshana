@@ -48,7 +48,8 @@
     "Frequency stability on a real measured clock",
     "Allan estimator parity on the canonical Stable32 reference series",
     "Clock-holdover coast-variance & threshold inversion",
-    "Time-transfer error budgeting"
+    "Time-transfer error budgeting",
+    "Optical-clock frequency stability on a real measured curve"
   ],
   "Pseudorange, ionosphere & troposphere": [
     "Broadcast ionosphere model (Klobuchar, IS-GPS-200)"
@@ -63,7 +64,8 @@
   ],
   "Modulation, anti-jam & code tracking": [
     "Nav-signal modulation & code-tracking analysis",
-    "Ranging-code design trade"
+    "Ranging-code design trade",
+    "Tracking-loop loss of lock and spoof pull-in under interference"
   ],
   "Passive RF geolocation (TDOA/FDOA)": [
     "TDOA/FDOA passive emitter geolocation"
@@ -147,5 +149,43 @@
   "Lunar time scales & geodetic VLBI": [
     "Per-clock-class lunar time crossover table",
     "Lunar geodetic VLBI"
+  ],
+  "ARAIM against published reference vectors": [
+    "ARAIM MHSS protection levels against published reference vectors"
+  ],
+  "Real, retrieved lunar constellation geometry": [
+    "Lunar service volume from real, retrieved constellation geometry"
+  ],
+  "Lunar denial contour from a measured C/N\u2080 spread": [
+    "Lunar surface-navigation RF jamming (per-satellite J/S)",
+    "Lunar denial contour with an uncertainty band from the measured C/N\u2080 spread",
+    "Capture footprint against altitude and beamwidth"
+  ],
+  "VLBI schedule to station-coordinate covariance": [
+    "Lunar-VLBI station-coordinate covariance from a tracking schedule",
+    "Lunar-surface-point coordinate covariance from a VLBI delay schedule, kept distinct from the Earth-station one",
+    "Lunar frame datum from an observing campaign"
+  ],
+  "Optical and RF handover with cross-modality integrity": [
+    "Cross-modality integrity monitor detection power",
+    "Post-handover covariance re-growth against the alert limit",
+    "Hybrid optical/RF link availability on the RF side",
+    "Like-for-like optical-versus-RF ranging comparison"
+  ],
+  "Real-time Earth-orientation prediction": [
+    "Operational-style Earth-orientation prediction error, measured predicted-versus-final",
+    "Joint UT1 and polar-motion error over a common row set",
+    "Offline default Earth-orientation input is a real IERS product"
+  ],
+  "Navigation-versus-communications aperture sharing": [
+    "Aperture navigation-versus-communications duty cycle"
+  ],
+  "Inertial and terrain-relative coasting through an outage": [
+    "INS/TRN coasting error growth & threshold crossings"
+  ],
+  "Unit and provenance on every reported quantity": [
+    "Unit and provenance declared for every reported quantity",
+    "Link-budget report self-description",
+    "Hybrid optical/RF report self-description"
   ]
 }
