@@ -92,12 +92,43 @@ jobs:
       - uses: Swatinem/rust-cache@v2
       - run: cargo package --locked
   msrv:
+    # Does the crate still build on the OLDEST compiler Cargo.toml promises? That promise
+    # is the `rust-version` field, and a consumer stuck on that compiler is its only reader.
+    #
+    # For ten releases this job tested nothing of the sort. dtolnay/rust-toolchain runs
+    # `rustup default <ver>`, the LOWEST-precedence toolchain selector rustup has:
+    # rust-toolchain.toml outranks it, so every step below silently compiled on the pinned
+    # 1.93.0 and the job reported a pass it had never earned. The proof is that it stayed
+    # green while pinned at 1.75.0 — Cargo.lock is lockfile v4, which cargo before 1.78
+    # refuses to parse at all, so a genuine 1.75.0 run could not have compiled one line.
+    # RUSTUP_TOOLCHAIN sits at precedence 2, above the toolchain file, and is what actually
+    # pins the compiler here. Measured: `RUSTUP_TOOLCHAIN=1.85.0 cargo build --all --locked`
+    # is clean in 32s on this tree.
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      # Keep in lockstep with `rust-version` in Cargo.toml. The guard step below fails the
+      # job if the two disagree, so the pin cannot drift out from under the claim again.
+      RUSTUP_TOOLCHAIN: 1.85.0
     steps:
       - uses: actions/checkout@v4
-      - uses: dtolnay/rust-toolchain@1.75.0
-      - run: cargo build --all
+      - uses: dtolnay/rust-toolchain@1.85.0
+      - name: Assert the compiler in use IS the declared MSRV
+        # Grades both halves of what this job claims: that RUSTUP_TOOLCHAIN really did beat
+        # rust-toolchain.toml, and that the pin above still equals the rust-version the
+        # published crate advertises. Either one drifting turns the job red instead of quiet.
+        run: |
+          set -euo pipefail
+          declared=$(grep -m1 '^rust-version' Cargo.toml | sed 's/.*"\(.*\)".*/\1/')
+          active=$(rustc --version | awk '{print $2}')
+          echo "declared rust-version=$declared, active rustc=$active"
+          case "$active" in
+            "$declared"|"$declared".*) ;;
+            *) echo "::error::msrv job is compiling with rustc $active, not the declared rust-version $declared"; exit 1 ;;
+          esac
+      # --locked as well as --all: the MSRV claim is about the lockfile we ship, and a
+      # resolver that is free to pick newer crates is not testing the graph consumers get.
+      - run: cargo build --all --locked
   deny:
     runs-on: ubuntu-latest
     timeout-minutes: 20
@@ -349,3 +380,69 @@ jobs:
         # --lib: the registry lives in the library, and the crate's native-only
         # binaries (e.g. gen_validation_artifacts) are not WASM targets.
         run: cargo build -p kshana --lib --target wasm32-unknown-unknown
+  # ---------------------------------------------------------------------------
+  # The MCP server crate (mcp/kshana-mcp).
+  #
+  # It is EXCLUDED from the root package — Cargo.toml lists "/mcp" in `exclude` — and
+  # carries its OWN Cargo.lock, so root `cargo test --all` and root `cargo deny` reach
+  # not one line of it. Until these two jobs existed, nothing on any push ran the six
+  # protocol round-trip tests in mcp/kshana-mcp/tests/round_trip.rs, and no advisory,
+  # licence, ban or source check had ever seen that crate's dependency graph. The crate
+  # is published on every release — crates.io, ghcr.io and the MCP registry — so the
+  # unverified surface was a shipped one.
+  #
+  # Same shape frame-xval.yml uses for the other workspace-excluded crate
+  # (xval/anise-frames): check out, pin the toolchain, cache under the crate's own
+  # workspace key, run cargo from its directory. Unlike that one, these gate: they run
+  # on push and pull_request with everything else in this file.
+  # ---------------------------------------------------------------------------
+  mcp-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    defaults:
+      run:
+        working-directory: mcp/kshana-mcp
+    steps:
+      - uses: actions/checkout@v4
+      # Pinned to the repo toolchain like every other job. The crate is edition 2024
+      # (the rmcp SDK), so it needs >= 1.85; 1.93.0 satisfies that.
+      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: Swatinem/rust-cache@v2
+        with:
+          # The crate sits outside the root package and has its own lockfile and target
+          # dir, so the cache key has to name it or every run is a cold build.
+          workspaces: mcp/kshana-mcp
+      - name: Test the MCP server (protocol round-trip over an in-memory duplex)
+        # tests/round_trip.rs drives the real server with an in-process rmcp client and
+        # asserts the served tool set EXACTLY, in both directions — that is the check
+        # that catches a core export which never reached an agent (export_oem did, and
+        # the containment-only predecessor of that test stayed green throughout).
+        # --locked because the crate ships its own Cargo.lock and the publish path
+        # builds from it; a resolve that drifts here is not the graph we release.
+        run: cargo test --locked
+  mcp-deny:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: mcp/kshana-mcp
+    steps:
+      - uses: actions/checkout@v4
+      # Prebuilt binary, same as the root `deny` job and for the same reason (no Docker
+      # Hub dependency). cargo-deny reads Cargo.lock + deny.toml and compiles nothing.
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-deny
+      - name: cargo-deny over the MCP server's own lockfile
+        # Run from mcp/kshana-mcp so cargo-deny resolves THAT Cargo.lock. It walks up for
+        # its config, so it shares the root deny.toml — deliberate: one licence policy for
+        # everything this repository publishes. The `kshana-mcp` entry in that file's
+        # `exceptions` exists for this run, where our own AGPL-3.0-only crate is the root
+        # of the graph being inspected.
+        #
+        # No --all-features here, unlike the root job. kshana-mcp declares no features of
+        # its own, so the flag would only switch on the `python`/`wasm` features of the
+        # path dependency kshana and inspect a pyo3 + wasm-bindgen tree that the MCP
+        # binary, its image and its crates.io release never build. Those trees are already
+        # covered by the root `deny` job against the root lockfile.
+        run: cargo deny check advisories licenses bans sources

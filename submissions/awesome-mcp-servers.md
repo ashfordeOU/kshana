@@ -56,7 +56,7 @@ given a Dockerfile to build yet).
    then, and auto-updates — so the badge can be added to the PR at any time).
 
 **Verified locally (2026-06-22)** that Glama's check will pass once it has the Dockerfile:
-- Native binary: `initialize` + `tools/list` over stdio returns all 5 tools.
+- Native binary: `initialize` + `tools/list` over stdio returns all 6 tools.
 - OCI image `docker build -f mcp/kshana-mcp/Dockerfile .` (repo-root context): builds
   clean (144 MB), and `docker run --rm -i` answers the same `initialize` + `tools/list`
   handshake — the Glama-equivalent check passes end-to-end.

@@ -37,7 +37,7 @@ adev = np.asarray([p["adev"] for p in data["quantum"]["adev_curve"]])
 
 | Symbol | Signature | Returns |
 |--------|-----------|---------|
-| `run_typed` | `(toml: str) -> RunOutput` | typed result (`.json`, `.svg`, `.summary`, `.data()`) |
+| `run_typed` | `(toml: str) -> RunOutput` | typed result (`.json`, `.svg`, `.summary`, `.csv`, `.data()`, `.write_csv()`) |
 | `run` | `(toml: str) -> str` | result document as a JSON string |
 | `run_full` | `(toml: str) -> tuple[str, str, str]` | `(json, svg, summary)` |
 | `scenario_kinds` | `() -> list[dict]` | available scenario kinds + metadata (parsed) |
@@ -53,7 +53,23 @@ adev = np.asarray([p["adev"] for p in data["quantum"]["adev_curve"]])
 | `.json` | `str` | full result document (JSON) |
 | `.svg` | `str` | standalone chart SVG |
 | `.summary` | `str` | one-line human summary |
+| `.csv` | `str \| None` | the reproducibility table, for the kinds that emit one (see below) |
 | `.data()` | `dict` | the result parsed into a Python dict (see the shape note below) |
+| `.write_csv(path)` | `int` | write that table to `path`; returns the bytes written, or 0 (and writes nothing) when the kind emits no table |
+
+### The reproducibility table
+
+`realtime-frame-eop`, `lunar-time-budget` and `lunar-jamming` always publish a table;
+`moonlight-service-volume` publishes one when an export site (`export_site_lat_deg` +
+`export_site_lon_deg`) is configured. Every other kind returns `csv = None`. The text is
+the same bytes the CLI writes as `<scenario>.table.csv`, so a reviewer reproducing a
+published table from the wheel never has to drop to the command line:
+
+```python
+out = kshana.run_typed(open("scenarios/realtime-frame-eop.toml").read())
+if out.csv is not None:
+    print(out.write_csv("table.csv"), "bytes written")
+```
 
 ## Result shape
 

@@ -40,9 +40,18 @@ class RunOutput:
     @property
     def summary(self) -> str:
         """A short human-readable summary line."""
+    @property
+    def csv(self) -> Optional[str]:
+        """The reproducibility table as CSV text, for the kinds that emit one:
+        ``realtime-frame-eop``, ``lunar-time-budget``, ``lunar-jamming``, and
+        ``moonlight-service-volume`` when an export site is configured. ``None``
+        for every other kind. Same bytes the CLI writes as ``<scenario>.table.csv``."""
     def data(self) -> dict[str, Any]:
         """The result document parsed into a dict (figures of merit, time series,
         provenance, ...). Wrap numeric lists with ``numpy.asarray(...)`` for arrays."""
+    def write_csv(self, path: str) -> int:
+        """Write :attr:`csv` to ``path``; returns the bytes written, or 0 when this
+        scenario kind emits no table — in which case no file is created."""
     def __repr__(self) -> str: ...
 
 def run(toml: str) -> str:
@@ -54,7 +63,8 @@ def run_full(toml: str) -> tuple[str, str, str]:
 
 def run_typed(toml: str) -> RunOutput:
     """Run a scenario; return a typed :class:`RunOutput` with ``.json``/``.svg``/
-    ``.summary``/``.data()``. Raises ``ValueError`` if invalid."""
+    ``.summary``/``.csv``/``.data()``/``.write_csv()``. Raises ``ValueError`` if
+    invalid."""
 
 def scenario_kinds() -> list[dict[str, Any]]:
     """The available scenario kinds and their metadata (name, description, required

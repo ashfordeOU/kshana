@@ -72,22 +72,22 @@ This file is **generated** from `api::list_scenario_kinds()` — the single sour
 
 Clock holdover vs spec; optional Monte-Carlo ensemble (runs > 1).
 
-- **Required fields:** `threshold_ns`, `time`, `gnss`, `clock_quantum`, `clock_classical`
-- **Optional fields:** `seed`, `runs`
+- **Required fields:** `seed`, `threshold_ns`, `time`, `gnss`, `clock_quantum`, `clock_classical`
+- **Optional fields:** `runs`
 
 ## `inertial`
 
 1-DOF inertial dead-reckoning during a GNSS outage.
 
-- **Required fields:** `threshold_m`, `time`, `gnss`, `accel_quantum`, `accel_classical`
-- **Optional fields:** `seed`, `runs`
+- **Required fields:** `seed`, `threshold_m`, `time`, `gnss`, `accel_quantum`, `accel_classical`
+- **Optional fields:** `runs`
 
 ## `orbit`
 
 GNSS availability + DOP from an orbital constellation (Walker / TLE / RINEX).
 
-- **Required fields:** `threshold_ns`, `time`, `user`, `constellation`, `clock_quantum`, `clock_classical`
-- **Optional fields:** `mask_deg`, `sigma_uere_m`, `seed`
+- **Required fields:** `seed`, `threshold_ns`, `mask_deg`, `time`, `user`, `constellation`, `clock_quantum`, `clock_classical`
+- **Optional fields:** `sigma_uere_m`, `constellations`, `epoch`, `export_sp3`, `export_omm`, `export_oem`
 
 ## `ephemeris`
 
@@ -100,8 +100,8 @@ Ephemeris & ground track: propagate one satellite (TLE→SGP4 or analytic orbit)
 
 Snapshot / solution-separation / ARAIM RAIM with HPL/VPL and a Stanford diagram.
 
-- **Required fields:** `time`, `user`, `constellation`
-- **Optional fields:** `mask_deg`, `sigma_uere_m`, `p_fa`, `p_md`
+- **Required fields:** `mask_deg`, `sigma_uere_m`, `p_fa`, `p_md`, `al_h_m`, `al_v_m`, `time`, `user`, `constellation`
+- **Optional fields:** `sigma_ura_m`, `b_nom_m`, `constellations`, `seed`, `araim_dual`, `p_hmi`
 
 ## `lunar-integrity`
 
@@ -163,8 +163,8 @@ Modelled lunar interoperability export: emits the lunar reference frame, lunar t
 
 Optical vs RF two-way time/frequency transfer.
 
-- **Required fields:** `time`, `optical`, `rf`
-- **Optional fields:** `seed`
+- **Required fields:** `seed`, `samples`, `step_s`, `range_spec_mm`, `link_quantum`, `link_classical`
+- **Optional fields:** *(none)*
 
 ## `quantum-anomaly-detect`
 
@@ -191,29 +191,29 @@ MODELLED trusted-quantum-timing chain: an end-to-end quantum (optical-lattice cl
 
 Hybrid PNT capstone: clock + IMU + time-transfer aiding.
 
-- **Required fields:** `timing_spec_ns`, `position_spec_m`, `time`, `gnss`, `clock_quantum`, `clock_classical`, `accel_quantum`, `accel_classical`
-- **Optional fields:** `resync`, `seed`
+- **Required fields:** `seed`, `timing_spec_ns`, `position_spec_m`, `time`, `gnss`, `resync`, `clock_quantum`, `clock_classical`, `accel_quantum`, `accel_classical`
+- **Optional fields:** *(none)*
 
 ## `fusion`
 
 Joint Kalman sensor-fusion PNT over the same hybrid inputs.
 
-- **Required fields:** `timing_spec_ns`, `position_spec_m`, `time`, `gnss`, `clock_quantum`, `clock_classical`, `accel_quantum`, `accel_classical`
-- **Optional fields:** `resync`, `seed`
+- **Required fields:** `seed`, `timing_spec_ns`, `position_spec_m`, `time`, `gnss`, `resync`, `clock_quantum`, `clock_classical`, `accel_quantum`, `accel_classical`
+- **Optional fields:** *(none)*
 
 ## `hybrid-ukf`
 
 17-state hybrid quantum+classical tightly-coupled GNSS/INS UKF (MODELLED): 15 INS error states + CAI-derived accel-bias correction + a 2-state (phase+frequency) clock from the q-parameter clock engine, driven by the bracketed CAI error model. The figure of merit is filter self-consistency (NEES + innovation-whiteness vs χ² bounds) — a self-consistency statement, NOT a real-world accuracy guarantee. Simulation only; no TRL>3, no flight heritage, no external validation.
 
-- **Required fields:** `time`, `gnss`, `accel`, `clock`
-- **Optional fields:** `seed`, `residual_accel_bias_m_s2`, `speed_m_s`, `sigma_pr_m`, `sigma_rr_mps`, `consistency_seeds`, `q_factor`, `r_factor`
+- **Required fields:** `seed`, `time`, `gnss`, `accel`, `clock`
+- **Optional fields:** `residual_accel_bias_m_s2`, `speed_m_s`, `sigma_pr_m`, `sigma_rr_mps`, `consistency_seeds`, `q_factor`, `r_factor`
 
 ## `gnss-ins`
 
 Loosely- and tightly-coupled GNSS/INS error-state EKF.
 
-- **Required fields:** `time`, `gnss`, `imu_quantum`, `imu_classical`
-- **Optional fields:** `seed`, `threshold_m`, `fix_interval_s`, `sigma_pos_m`, `sigma_vel_mps`, `lat_deg`, `lon_deg`, `alt_m`
+- **Required fields:** `seed`, `threshold_m`, `time`, `gnss`, `imu_quantum`, `imu_classical`
+- **Optional fields:** `fix_interval_s`, `sigma_pos_m`, `sigma_vel_mps`, `lat_deg`, `lon_deg`, `alt_m`
 
 ## `gnss-sim`
 

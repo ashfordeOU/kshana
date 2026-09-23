@@ -25,7 +25,9 @@ all call the *one* engine, so the numbers are identical (mirrors the README
 [Usage](../../README.md#usage) section).
 
 **Command line** — dispatches on the scenario’s `kind` field and writes
-`<scenario>.result.json` and `<scenario>.chart.svg` next to the input:
+`<scenario>.result.json`, `<scenario>.chart.svg` and `<scenario>.report.html` next to
+the input (and `<scenario>.table.csv` for the four kinds that publish a reproducibility
+table — none of the three tutorials is one of them, so you will not see that file here):
 
 ```bash
 cargo run -- scenarios/orbit-sgp4-gps.toml

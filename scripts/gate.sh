@@ -11,8 +11,9 @@
 # WHAT IT RUNS
 #   1. `cargo test --all` — the canonical suite, unabridged.
 #   2. `scripts/check-repeatability.sh` — the library suite N more times, to catch a
-#      thread-interleaving race that one run cannot see. Set REPEAT=0 to skip it (the
-#      receipt records how many repeat runs were actually done, so a skip is visible).
+#      thread-interleaving race that one run cannot see. REPEAT=0 skips it, and the
+#      receipt records how many repeat runs were actually done, so a skip is visible —
+#      visible enough that the pre-push check refuses the receipt on its own. See USAGE.
 #
 # TIMING
 #   The repo's own ci.yml puts the healthy steady state at 62-79 minutes, with agency_lro
@@ -37,6 +38,15 @@
 #   scripts/gate.sh
 #   REPEAT=0 scripts/gate.sh           # canonical suite only, no repeatability loop
 #   TEST_THREADS=6 scripts/gate.sh     # cap per-binary test concurrency (default: all cores)
+#
+#   REPEAT=0 is a LOCAL shortcut, and on its own it is not a push. The receipt it writes
+#   records "repeat_runs": 0, and scripts/check-gate-receipt.sh refuses a push backed by
+#   that receipt — its floor is 3, on the grounds that a skipped repeatability loop means
+#   the thread-interleaving race was never sampled. So the skip has to be stated twice,
+#   once at each end:
+#     REPEAT=0 scripts/gate.sh && KSHANA_MIN_REPEAT_RUNS=0 git push
+#   Say only the first half and the push is refused after the suite has already run, which
+#   is the worst possible moment to learn it. This used to read as a plain escape hatch.
 #
 # Exit 0 and a fresh receipt on success; the true cargo exit code on failure, and no
 # receipt is written or left behind.
@@ -174,7 +184,10 @@ if [ "$REPEAT" -gt 0 ]; then
   fi
   REPEAT_RUNS="$REPEAT"
 else
-  echo "gate: repeatability loop SKIPPED (REPEAT=0) — the receipt records repeat_runs 0"
+  echo "gate: repeatability loop SKIPPED (REPEAT=0) — the receipt records repeat_runs 0."
+  echo "gate:   scripts/check-gate-receipt.sh refuses a push on a receipt with 0 repeat"
+  echo "gate:   runs; to push this one, say so at the push too:"
+  echo "gate:     KSHANA_MIN_REPEAT_RUNS=0 git push"
 fi
 
 cat > "$RECEIPT" <<EOF
