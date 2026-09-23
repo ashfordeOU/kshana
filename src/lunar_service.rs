@@ -1405,6 +1405,100 @@ pub struct LunarServiceReport {
     pub ephemeris_comparison: Option<SigmaRequirementComparison>,
 }
 
+impl LunarServiceReport {
+    /// G11 — the per-satellite geometry as a long-form table, emitted at runtime as
+    /// `<scenario>.table.csv`.
+    ///
+    /// `per_sat_geometry` is the largest array this crate publishes: one row per
+    /// (epoch, satellite), 2304 rows in the released joint communications-and-navigation
+    /// table. It reached consumers only as a JSON array, which is exactly the shape that
+    /// truncated a sibling scenario's 57-point curve to 23 points under a column claiming
+    /// all of them. One row per link cannot be truncated into something that still looks
+    /// whole: a short file is visibly short, and the row count is on the header line.
+    ///
+    /// `None` when no export site is configured, because the array does not exist then;
+    /// an empty table would claim a run produced no links rather than that none were
+    /// asked for.
+    ///
+    /// The four antenna columns are present only when `export_antenna` was configured,
+    /// and the header says which case this file is, so a reader never has to infer
+    /// whether a blank column means "no antenna" or "no value".
+    ///
+    /// Precision follows the sibling emitters: 7 significant figures on every float. Full
+    /// `f64` here would fork the bytes between builds of the same source on last-ULP
+    /// differences, which this programme has measured elsewhere; the JSON report still
+    /// carries the unrounded values. `t_s` and `sat` together are the exact join key.
+    pub fn per_sat_geometry_csv(&self) -> Option<String> {
+        let rows = self.per_sat_geometry.as_ref()?;
+        let with_antenna = self.antenna_pattern.is_some();
+
+        let mut s = String::new();
+        s.push_str(&format!(
+            "# moonlight-service-volume per-satellite geometry (emitted at runtime as \
+             <scenario>.table.csv) - one row per (epoch, satellite) for the export site, \
+             {} row(s). `t_s` and `sat` together are the exact join key. Units: t_s \
+             seconds, az_deg/el_deg degrees, range_km kilometres{}. Provenance: the DOP \
+             geometry kernel is Validated; the constellation is {}. {}\n",
+            rows.len(),
+            // Naming a column the file does not carry would send a reader looking for it.
+            if with_antenna {
+                ", off_boresight_deg degrees, pattern_gain_dbi dBi"
+            } else {
+                ""
+            },
+            match &self.ephemeris {
+                None => "the illustrative public-source LCNS-class set, Modelled",
+                Some(e) => e.provenance_class.as_str(),
+            },
+            if with_antenna {
+                "The four antenna columns are present because export_antenna was \
+                 configured; in_beam_pattern is the real aperture pattern and \
+                 in_beam_symmetric the approximation it is reported beside."
+            } else {
+                "The antenna columns are absent because export_antenna was not \
+                 configured - they are omitted, not blank."
+            },
+        ));
+
+        if with_antenna {
+            s.push_str(
+                "t_s,sat,az_deg,el_deg,range_km,visible,off_boresight_deg,\
+                 pattern_gain_dbi,in_beam_pattern,in_beam_symmetric\n",
+            );
+        } else {
+            s.push_str("t_s,sat,az_deg,el_deg,range_km,visible\n");
+        }
+
+        // An Option that is None where the header promised a column would be a silent
+        // hole, so it is written as the empty field and the header explains the case.
+        let f = |v: Option<f64>| match v {
+            Some(x) => format!("{x:.6e}"),
+            None => String::new(),
+        };
+        let b = |v: Option<bool>| match v {
+            Some(x) => x.to_string(),
+            None => String::new(),
+        };
+        for r in rows {
+            s.push_str(&format!(
+                "{:.6e},{},{:.6e},{:.6e},{:.6e},{}",
+                r.t_s, r.sat, r.az_deg, r.el_deg, r.range_km, r.visible
+            ));
+            if with_antenna {
+                s.push_str(&format!(
+                    ",{},{},{},{}",
+                    f(r.off_boresight_deg),
+                    f(r.pattern_gain_dbi),
+                    b(r.in_beam_pattern),
+                    b(r.in_beam_symmetric),
+                ));
+            }
+            s.push('\n');
+        }
+        Some(s)
+    }
+}
+
 // ---------------------------------------------------------------------------
 // The σ_URE requirement, and the three geometries it is evaluated over
 // ---------------------------------------------------------------------------
@@ -3654,5 +3748,100 @@ mod tests {
                 );
             }
         }
+    }
+
+    /// G11 regression guard: the long-form geometry table publishes EVERY link, and the
+    /// row count is on the header line so a truncated file is visibly short.
+    ///
+    /// The defect this exists to prevent is not hypothetical. A sibling scenario's
+    /// 57-point array reached a released table as a JSON string truncated at 400
+    /// characters, publishing 23 points under a column that claimed all 57, and nothing
+    /// objected because a truncated array still parses as an array.
+    #[test]
+    fn long_form_geometry_publishes_every_link() {
+        let scn = LunarServiceScenario {
+            export_site_lat_deg: Some(-89.9),
+            export_site_lon_deg: Some(0.0),
+            ..Default::default()
+        };
+        let report = scn.run();
+        let n = report
+            .per_sat_geometry
+            .as_ref()
+            .expect("export site set, so the array exists")
+            .len();
+        let csv = report.per_sat_geometry_csv().expect("csv");
+        let body: Vec<&str> = csv
+            .lines()
+            .filter(|l| !l.starts_with('#') && !l.starts_with("t_s,"))
+            .collect();
+        assert_eq!(
+            body.len(),
+            n,
+            "the table dropped rows: {} of {n}",
+            body.len()
+        );
+        assert!(
+            csv.contains(&format!("{n} row(s)")),
+            "the header must state the row count so a short file is visibly short"
+        );
+        // Every data row carries the same field count as the header it is under.
+        let cols = csv
+            .lines()
+            .find(|l| l.starts_with("t_s,"))
+            .expect("header")
+            .split(',')
+            .count();
+        assert_eq!(
+            cols, 6,
+            "without an antenna the table is the six geometry columns"
+        );
+        for (i, l) in body.iter().enumerate() {
+            assert_eq!(l.split(',').count(), cols, "row {i} is ragged: {l:?}");
+        }
+    }
+
+    /// The antenna columns appear only when an antenna was configured, and the header
+    /// says which case the file is — so a reader never has to infer whether a missing
+    /// column means "no antenna" or "no value".
+    #[test]
+    fn long_form_geometry_adds_the_antenna_columns_only_when_configured() {
+        let base = LunarServiceScenario {
+            export_site_lat_deg: Some(-89.9),
+            export_site_lon_deg: Some(0.0),
+            ..Default::default()
+        };
+        let plain = base.run().per_sat_geometry_csv().expect("csv");
+        assert!(!plain.contains("pattern_gain_dbi"));
+        assert!(plain.contains("are absent because export_antenna was not"));
+
+        let with_antenna = LunarServiceScenario {
+            export_antenna: Some(ExportAntennaCfg {
+                diameter_m: 0.5,
+                carrier_hz: 2.4e9,
+                efficiency: 0.60,
+            }),
+            ..base
+        };
+        let csv = with_antenna.run().per_sat_geometry_csv().expect("csv");
+        let header = csv.lines().find(|l| l.starts_with("t_s,")).expect("header");
+        assert_eq!(header.split(',').count(), 10);
+        for c in [
+            "off_boresight_deg",
+            "pattern_gain_dbi",
+            "in_beam_pattern",
+            "in_beam_symmetric",
+        ] {
+            assert!(header.contains(c), "missing column {c}");
+        }
+    }
+
+    /// No export site, no array, no file. An empty table would claim the run produced no
+    /// links, when in fact none were asked for.
+    #[test]
+    fn long_form_geometry_is_absent_when_no_export_site_is_configured() {
+        let report = LunarServiceScenario::default().run();
+        assert!(report.per_sat_geometry.is_none());
+        assert!(report.per_sat_geometry_csv().is_none());
     }
 }
