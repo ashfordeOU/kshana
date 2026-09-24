@@ -266,6 +266,15 @@ breaking changes are called out explicitly.
   (Marketplace) race `publish.yml` rather than wait for it, so a mis-cut tag was gated
   only in a sibling. Both now run `scripts/check-version-sync.sh` before building.
 
+- **Four advisories Dependabot raised the day its alerts were switched on are fixed.**
+  The MCP server moves from `rmcp` 1.7 to 2.2: three advisories against `rmcp` < 2.1 (a
+  Streamable-HTTP session-table leak, missing OAuth protected-resource validation, custom
+  headers following a cross-origin redirect) — none reachable here, since the server
+  speaks stdio only, but a published crate should not pin a vulnerable SDK. `rmcp` 2's
+  macros need Rust 1.88, so `kshana-mcp` alone now declares `rust-version = "1.88"`; the
+  `kshana` library stays at 1.85. The one API change (`Content` → `ContentBlock`) is
+  applied, and the round-trip tests pass. The SonarQube scan action moves from v5 to v6,
+  which fixes an argument-injection advisory (≥ 4.0, < 6.0).
 
 ## [0.27.2] - 2026-09-22
 
