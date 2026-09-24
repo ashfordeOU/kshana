@@ -98,7 +98,7 @@ jobs:
           echo "version=$v" >> "$GITHUB_OUTPUT"
       - name: SonarQube Cloud scan
         if: steps.gate.outputs.go == 'true'
-        uses: SonarSource/sonarqube-scan-action@v5
+        uses: SonarSource/sonarqube-scan-action@v6
         with:
           args: -Dsonar.projectVersion=${{ steps.ver.outputs.version }}
         env:
