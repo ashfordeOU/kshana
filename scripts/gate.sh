@@ -60,6 +60,18 @@ RECEIPT="$ROOT/.gate-receipt.json"
 REPEAT="${REPEAT:-3}"
 TEST_THREADS="${TEST_THREADS:-}"
 
+# Both knobs are compared numerically below. Under bash 3.2 a non-numeric value makes
+# `[ "$REPEAT" -gt 0 ]` print an error and evaluate false, so `REPEAT=no` used to fall into
+# the skip branch, announce "SKIPPED (REPEAT=0)" for a value that was not 0, and still
+# write a receipt. Refuse anything that is not a plain non-negative integer instead.
+case "$REPEAT" in
+  ''|*[!0-9]*) echo "gate: REPEAT must be a non-negative integer, got '$REPEAT'" >&2; exit 2 ;;
+esac
+case "$TEST_THREADS" in
+  '') ;;
+  *[!0-9]*|0) echo "gate: TEST_THREADS must be a positive integer, got '$TEST_THREADS'" >&2; exit 2 ;;
+esac
+
 mkdir -p "$ROOT/target"
 
 # SINGLE WRITER, and a per-run log.

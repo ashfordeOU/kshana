@@ -7,12 +7,13 @@ one-line "in plain terms" and then adds the precise meaning where it helps.
 
 **PNT — Positioning, Navigation, and Timing.**
 Knowing *where* you are, *which way* you are going, and *what time it is* — precisely.
-Modern PNT mostly comes from satellite signals (GNSS); Kshana studies what happens to
+Modern PNT mostly comes from satellite signals (GNSS, the global navigation satellite
+systems defined next); Kshana studies what happens to
 *time* and *position* when those signals are lost.
 
 **GNSS — Global Navigation Satellite System.**
-The satellite constellations that provide PNT: GPS (USA), Galileo (EU), GLONASS
-(Russia), BeiDou (China). A receiver that can see ≥ 4 satellites can compute a full
+The satellite constellations that provide PNT: GPS (the Global Positioning System,
+USA), Galileo (EU), GLONASS (Russia's Global Navigation Satellite System), BeiDou (China). A receiver that can see ≥ 4 satellites can compute a full
 3D position and time fix.
 
 **GNSS outage / denied / degraded / jammed.**
@@ -57,7 +58,7 @@ its output into attitude, velocity and position. The INS is what dead-reckons th
 GNSS outage, and its accuracy is set by the IMU error processes listed below.
 
 **Time transfer.** Sending a precise time signal between two places (e.g. satellite to
-satellite). **Optical** links are far more precise than **RF** (radio) links.
+satellite). **Optical** links are far more precise than **RF** (radio-frequency) links.
 
 ## How errors are modelled (clock noise)
 
@@ -87,7 +88,7 @@ Parameter `q_arw`.
 clock is over a given averaging time `τ`.* A clock datasheet quotes, e.g.,
 `σ_y(1 s) = 3×10⁻¹⁰`. Kshana validates its clock model by computing the Allan deviation
 of its own output and checking it matches the published number. (Reference: Riley,
-NIST SP 1065.)
+NIST SP 1065 — National Institute of Standards and Technology Special Publication 1065.)
 
 **PSD — Power Spectral Density.** How a noise's power is distributed across frequencies;
 the formal way to specify white / random-walk / flicker noise.
@@ -95,6 +96,10 @@ the formal way to specify white / random-walk / flicker noise.
 ## The figures of merit (how a run is scored)
 
 The six operational PNT figures of merit Kshana reports (see the README "Output" table):
+
+**FoM — Figure of Merit.** One number that scores one aspect of a run, reported with
+its unit and whether it is validated or modelled. The six below are Kshana's
+operational FoMs.
 
 - **Positioning / Timing performance** — the size of the error, as RMS (root mean
   square, the quadratic average) and as the 95th percentile.
@@ -108,8 +113,32 @@ The six operational PNT figures of merit Kshana reports (see the README "Output"
   score (since v0.3.0), meaningful only when a spoofing-attack scenario is configured.
   It is *not* aviation-grade integrity: it computes no horizontal or vertical protection
   level (HPL/VPL) and runs no receiver autonomous integrity monitoring (RAIM), advanced
-  or otherwise. Those come from the separate integrity and ARAIM scenario kinds and are
+  or otherwise. Those come from the separate integrity and ARAIM (advanced RAIM) scenario kinds and are
   defined under "Integrity & augmentation" below. Export-sensitive.
+
+Terms used alongside the figures of merit:
+
+**Spoofing.** In plain terms: *a fake satellite signal that lies about position or time.*
+A spoofer feeds the receiver a plausible but wrong answer, which is worse than jamming
+because the receiver may not notice.
+
+**1-DOF — one degree of freedom.** A single axis. Kshana's scenario-pack position error
+is single-axis; a full 3-D answer needs the three-axis model.
+
+**Monte Carlo ensemble.** Running the same scenario many times with different random
+seeds and reporting the spread of the results rather than one run.
+
+**CI — confidence interval.** The range a statistic is expected to fall in at a stated
+probability (for example 95 %). In the README's tables and badges "CI" more often means
+**continuous integration** — the automated build-and-test run on every change; the
+context says which.
+
+**k-sigma bound.** A bound set at *k* standard deviations of the filter's own
+uncertainty; the Integrity figure of merit counts how often the true error stays inside it.
+
+**CEP / 2DRMS — circular error probable / twice the distance root mean square.** Two
+standard ways of stating 2-D horizontal accuracy: CEP is the radius holding 50 % of fixes;
+2DRMS is twice the root-mean-square horizontal error. Kshana does not report either yet.
 
 ## Integrity & augmentation
 
@@ -128,6 +157,11 @@ support message stating each satellite's assumed error and fault probability, an
 returns protection levels rather than a pass/fail flag. Full treatment, with every
 assumption, in [`ARAIM_REFERENCE.md`](ARAIM_REFERENCE.md).
 
+**URE — User Range Error.**
+In plain terms: *how wrong a satellite's own broadcast orbit and clock make every range
+to it.* Also called the signal-in-space error (SISE); it is the per-satellite error
+budget ARAIM and RAIM are fed (`sigma_ure_m` in [`src/raim.rs`](../src/raim.rs)).
+
 **MHSS — Multiple Hypothesis Solution Separation.**
 The method ARAIM uses. For each way the constellation could be faulted it forms a
 solution that excludes the suspect satellites, and bounds how far that sub-solution can
@@ -142,8 +176,10 @@ available when the protection level stays under the alert limit the operation al
 **SBAS — Satellite-Based Augmentation System.**
 A ground network that watches GNSS, computes corrections and integrity bounds, and
 broadcasts them from geostationary satellites. **WAAS — Wide Area Augmentation
-System** is the United States one; EGNOS is the European equivalent. Kshana computes
-protection levels in the DO-229E weighted-least-squares form
+System** is the United States one; EGNOS (the European Geostationary Navigation Overlay
+Service) is the European equivalent. Kshana computes protection levels in the DO-229E
+weighted-least-squares form (DO-229E is the RTCA minimum operational performance standard
+for SBAS receivers; RTCA was formerly the Radio Technical Commission for Aeronautics)
 ([`src/sbas.rs`](../src/sbas.rs)).
 
 ## Estimation & geometry
@@ -177,6 +213,18 @@ considered usable; signals too low are excluded.
 
 **Occultation.** When the Earth physically blocks the line of sight to a satellite.
 
+**CTI — Composed Timing Integrity.**
+Protection levels for *time* rather than position, computed across a hand-over between
+different time sources — for example from a satellite-checked (RAIM-available) clock to
+a free-running one in holdover — so the bound stays valid through the transition
+([`src/integrity/mod.rs`](../src/integrity/mod.rs)).
+
+**TIB — Timing Integrity Benchmark.**
+A yardstick for *other people's* timing monitors: it injects a menu of faults and checks
+whether the monitor's stated protection level actually bounded its error. It makes no
+accuracy claim of its own, so it cannot overstate one
+([`src/benchmark/mod.rs`](../src/benchmark/mod.rs)).
+
 ## Orbits & cislunar
 
 **CR3BP — Circular Restricted Three-Body Problem.**
@@ -194,6 +242,90 @@ chosen for the lunar Gateway, and it keeps near-continuous line of sight to Eart
 Another CR3BP family: a large, stable orbit that circles the Moon backwards as seen in
 the rotating frame.
 
+**EOP — Earth Orientation Parameters.**
+The measured, slightly irregular wobble and spin of the Earth (polar motion, UT1−UTC —
+Earth-rotation time minus Coordinated Universal Time — and length of day) that is needed
+to turn an Earth-fixed position into an inertial one to better than metres. The IERS
+(International Earth Rotation and Reference Systems Service) publishes them; Kshana reads its `finals2000A` file via
+`--eop`.
+
+## Standards, formats & organisations
+
+The abbreviations the README and the package pages use for standards, file formats,
+time scales, frames and the bodies behind them. Each is also spelled out at its first
+use in those pages.
+
+*Orbits, frames and time*
+
+- **SGP4 / SDP4 — Simplified General Perturbations 4 / Simplified Deep-space
+  Perturbations 4.** The standard analytic propagators for published satellite orbits.
+- **TLE — two-line element set.** The public orbit format SGP4 reads.
+- **LEO / MEO / GTO / IGSO — low Earth orbit / medium Earth orbit / geostationary
+  transfer orbit / inclined geosynchronous orbit.** Orbit regimes; most GNSS satellites fly in MEO.
+- **LMO — low Mars orbit.**
+- **ECI / ECEF — Earth-centred inertial / Earth-centred, Earth-fixed.** A frame that does
+  not rotate with the Earth, and one that does.
+- **TEME — true equator, mean equinox.** The frame SGP4 outputs in.
+- **GCRS / ITRS / ITRF — Geocentric Celestial Reference System / International
+  Terrestrial Reference System / its realisation, the International Terrestrial Reference
+  Frame.** The modern inertial and Earth-fixed frames.
+- **CIO — Celestial Intermediate Origin.** The reference point of the modern,
+  equinox-free Earth-rotation chain.
+- **LVLH — local vertical, local horizontal.** A frame that moves with the spacecraft.
+- **WGS-84 — World Geodetic System 1984.** The Earth ellipsoid GPS uses.
+- **UTC / TAI / TT / UT1 / TDB — Coordinated Universal Time / International Atomic Time /
+  Terrestrial Time / Universal Time 1 (Earth-rotation time) / Barycentric Dynamical Time.**
+- **LTC / TCL — Lunar Coordinate Time (Temps-Coordonnée Lunaire).** The proposed time
+  scale for the Moon.
+- **OD — orbit determination.** Recovering an orbit from tracking measurements.
+- **CR3BP**, **NRHO** and **DRO** are defined under "Orbits & cislunar" above.
+
+*File formats and messages*
+
+- **SP3 — Standard Product 3.** The precise-orbit file format of the International GNSS
+  Service (IGS), in versions c and d.
+- **RINEX — Receiver Independent Exchange Format.** The standard file format for GNSS
+  observations and broadcast ephemerides.
+- **IONEX — IONosphere map EXchange format.**
+- **OEM / OMM / TDM — Orbit Ephemeris Message / Orbit Mean-elements Message / Tracking
+  Data Message.** Standard messages for orbits and tracking data from the Consultative
+  Committee for Space Data Systems (CCSDS).
+- **TOML — Tom's Obvious, Minimal Language.** The plain-text format of Kshana scenarios.
+- **KIF — Kshana Interchange Format.** Kshana's versioned, self-describing result envelope.
+
+*Standards*
+
+- **DO-229E / DO-316.** RTCA minimum operational performance standards for SBAS
+  receivers and for GPS airborne equipment with aircraft-based augmentation.
+- **IS-GPS-200 / IS-GPS-705.** The GPS interface specifications (the second covers the
+  L5 signal).
+- **NIST SP 1065.** The National Institute of Standards and Technology *Handbook of
+  Frequency Stability Analysis*.
+- **TRL — technology readiness level.** A 1-to-9 scale of hardware maturity.
+
+*Organisations*
+
+- **ESA / ESOC / ESTRACK** — the European Space Agency, its European Space Operations
+  Centre, and its European Space Tracking network.
+- **NASA / JPL / NAIF / DSN** — the US National Aeronautics and Space Administration, its
+  Jet Propulsion Laboratory, its Navigation and Ancillary Information Facility (which
+  publishes the SPICE — Spacecraft, Planet, Instrument, C-matrix, Events — toolkit), and
+  its Deep Space Network.
+- **IGS** — the International GNSS Service. **IERS** — the International Earth Rotation
+  and Reference Systems Service. **IAU** — the International Astronomical Union (whose
+  SOFA library, Standards of Fundamental Astronomy, and its open port ERFA, Essential
+  Routines for Fundamental Astronomy, are Kshana's frame references).
+- **CCSDS** — the Consultative Committee for Space Data Systems. **AIAA** — the American
+  Institute of Aeronautics and Astronautics. **RTCA** — formerly the Radio Technical
+  Commission for Aeronautics.
+
+*Software and supply chain*
+
+- **CLI — command-line interface.** **MCP — Model Context Protocol**, the protocol Kshana's
+  agent server speaks. **IDE — integrated development environment.**
+- **SBOM — software bill of materials.** **SLSA — Supply-chain Levels for Software
+  Artifacts**, the build-provenance framework Kshana's releases are attested under.
+
 ## Reproducibility & licensing
 
 **Reproducible (deterministic).** The same input always gives bit-for-bit identical
@@ -202,15 +334,16 @@ output — `scenario + seed + version → identical result`. No hidden randomnes
 **Seed.** The number that initialises the (deterministic) random generator, so runs are
 repeatable.
 
-**Open core.** The business model: the engine is free and open source (AGPL-3.0,
-dual-licensed commercially); the sustaining business is support, integration,
+**Open core.** The business model: the engine is free and open source (AGPL-3.0, the
+GNU Affero General Public License defined below; dual-licensed commercially); the sustaining business is support, integration,
 commercial licences, and proprietary add-ons — not seat fees on the open engine.
 
-**AGPL-3.0.** The GNU Affero General Public License v3 — an OSI-approved, strong
-copyleft open-source licence. Like the GPL, but with an extra clause (§13) covering
+**AGPL-3.0.** The GNU Affero General Public License v3 — an OSI-approved (Open Source
+Initiative), strong copyleft open-source licence. Like the GPL (GNU General Public License), but with an extra clause (§13) covering
 software offered to users **over a network**: a modified version reached over a network
 must offer those users its corresponding source. Kshana's open licence.
 
 **Dual-licensing.** Offering the same code under two licences so users choose: here,
-the AGPL-3.0 (open, copyleft) **or** a commercial licence from Ashforde OÜ for
+the AGPL-3.0 (open, copyleft) **or** a commercial licence from Ashforde OÜ (an Estonian
+private limited company; OÜ = osaühing) for
 proprietary/closed use the AGPL does not suit. See `LICENSING.md`.

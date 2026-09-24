@@ -35,6 +35,18 @@ pub fn summary(toml: &str) -> Result<String, JsValue> {
         .map_err(|e| JsValue::from_str(&e))
 }
 
+/// Run a scenario and return its reproducibility table as CSV text — the same bytes the
+/// CLI writes as `<scenario>.table.csv`. Returns `undefined` for kinds that publish no
+/// table (only `realtime-frame-eop`, `lunar-time-budget`, `lunar-jamming`, and
+/// `moonlight-service-volume` with an export site configured emit one). Throws a JS error
+/// if the scenario is invalid.
+#[wasm_bindgen]
+pub fn table_csv(toml: &str) -> Result<Option<String>, JsValue> {
+    crate::api::run_toml(toml)
+        .map(|o| o.csv)
+        .map_err(|e| JsValue::from_str(&e))
+}
+
 /// List the available scenario kinds and their metadata as a JSON array (name,
 /// description, required and optional fields), for programmatic introspection.
 #[wasm_bindgen]

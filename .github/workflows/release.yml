@@ -40,7 +40,7 @@ jobs:
     # Swatinem/rust-cache step below.)
     timeout-minutes: 240
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           ref: ${{ inputs.tag || github.ref }}
           # Full history so the repository-hygiene guard scans every commit message.
@@ -49,7 +49,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@1.93.0
         with:
           components: rustfmt, clippy
-      - uses: Swatinem/rust-cache@v2
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
       - run: ./scripts/check-toolchain.sh
       # ci.yml is triggered only by `push: branches: [main]` and `pull_request`, so on a
       # tag push this gate runs nowhere else. Tags are not always cut from a commit main
@@ -75,11 +75,11 @@ jobs:
       id-token: write
       attestations: write
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           ref: ${{ inputs.tag || github.ref }}
       - uses: dtolnay/rust-toolchain@1.93.0
-      - uses: Swatinem/rust-cache@v2
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
       - run: cargo build --release
       - name: Build the kshana-mcp server binary
         # The MCP server is a standalone, workspace-excluded crate (edition 2024), so it
@@ -97,14 +97,14 @@ jobs:
       # Cryptographic build provenance (SLSA) for the binary and the SBOM, so a
       # consumer can verify the artifacts were produced by this workflow.
       - name: Attest build provenance
-        uses: actions/attest-build-provenance@v1
+        uses: actions/attest-build-provenance@ef244123eb79f2f7a7e75d99086184180e6d0018 # v1
         with:
           subject-path: |
             target/release/kshana
             mcp/kshana-mcp/target/release/kshana-mcp
             kshana-sbom.cdx.json
             kshana-validation-summary.html
-      - uses: softprops/action-gh-release@v2
+      - uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2
         with:
           # Explicit so a workflow_dispatch run (whose github.ref is the branch) still
           # attaches to the right tag; on a tag push this equals the pushed tag.

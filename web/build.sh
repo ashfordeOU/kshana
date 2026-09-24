@@ -24,7 +24,6 @@ cp README.npm.md web/pkg/README.md
 echo "Staging scenarios and assets…"
 mkdir -p web/scenarios web/assets web/assets/fonts
 cp scenarios/*.toml web/scenarios/
-cp docs/assets/kshana-banner.svg web/assets/
 cp docs/assets/fonts/* web/assets/fonts/
 
 echo "Done. Serve the site with:  python3 -m http.server -d web 8000"

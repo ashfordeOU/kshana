@@ -25,7 +25,8 @@ checked against the official CycloneDX 1.5 schema, and every atomic licence id i
 checked for membership in the official 613-entry SPDX enumeration. Concretely the
 verdict records:
 
-  * component_count                     (the locked dependency graph)
+  * component_count                     (the shipped graph: normal + build
+                                         edges, default+python+wasm features)
   * raw_schema_errors                   (the SBOM exactly as gen-sbom.sh emits it)
   * normalized_schema_errors            (after the SPDX/CycloneDX rule below)
   * atomic_ids_all_valid_spdx           (every single-id licence is in the enum)
@@ -48,14 +49,13 @@ DOES (genuine external check against a published standard):
   * Once each compound expression is placed in the standard `expression` field
     (the documented SPDX/CycloneDX rule, applied verbatim — no kshana logic),
     the WHOLE document validates against the official CycloneDX 1.5 schema with
-    ZERO errors over the full ~59-component locked graph.
+    ZERO errors over the full shipped graph (66 components).
   * The generator is byte-deterministic (sbom_sha256 reproduces across runs).
 
 DOES NOT (and is reported as the known gap, NOT hidden):
-  * The `gen-sbom.sh` *fallback* path (used when cargo-cyclonedx is absent, as on
-    CI here) emits compound expressions inside `license.id`, so the RAW document
-    fails the schema with `raw_schema_errors` > 0. That misuse is recorded, not
-    masked. The script's preferred `cargo cyclonedx` path is not exercised here.
+  * `gen-sbom.sh` (a `cargo metadata` generator; it has no other path) emits
+    compound expressions inside `license.id`, so the RAW document fails the
+    schema with `raw_schema_errors` > 0. That misuse is recorded, not masked.
   * `Unicode-3.0` appears in one expression but is absent from this schema's SPDX
     snapshot (v1.0-3.21, which predates it) — recorded as a known list-version lag.
   * The reproducibility/determinism claim is self-consistency (re-run stability),

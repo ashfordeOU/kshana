@@ -61,12 +61,12 @@ jobs:
           - os: windows-11-arm
             target: aarch64
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: "3.x"
       - name: Build abi3 wheels
-        uses: PyO3/maturin-action@v1
+        uses: PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b # v1
         with:
           command: build
           target: ${{ matrix.target }}
@@ -79,7 +79,7 @@ jobs:
           docker-options: -e SOURCE_DATE_EPOCH
       - name: Build source distribution
         if: matrix.os == 'ubuntu-latest' && matrix.target == 'x86_64'
-        uses: PyO3/maturin-action@v1
+        uses: PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b # v1
         with:
           command: sdist
           args: --out dist
@@ -99,7 +99,7 @@ jobs:
             auditwheel show "$whl" | grep -q "manylinux_2_28_${ARCH}" \
               || { echo "ERROR: $whl is not tagged manylinux_2_28_${ARCH}"; exit 1; }
           done
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: wheels-${{ matrix.os }}-${{ matrix.target }}
           path: dist
@@ -141,12 +141,12 @@ jobs:
       # Single codegen unit removes parallel-codegen ordering nondeterminism in the .so.
       CARGO_PROFILE_RELEASE_CODEGEN_UNITS: "1"
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: "3.x"
       - name: Build wheel — pass 1
-        uses: PyO3/maturin-action@v1
+        uses: PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b # v1
         with:
           command: build
           target: x86_64
@@ -158,7 +158,7 @@ jobs:
           # inside the container without needing to be forwarded.
           docker-options: -e SOURCE_DATE_EPOCH
       - name: Build wheel — pass 2
-        uses: PyO3/maturin-action@v1
+        uses: PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b # v1
         with:
           command: build
           target: x86_64
@@ -206,11 +206,11 @@ jobs:
     timeout-minutes: 20
     continue-on-error: true
     steps:
-      - uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: wheels-ubuntu-latest-aarch64
           path: dist
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: "3.x"
       - name: Install the aarch64 wheel without building from source

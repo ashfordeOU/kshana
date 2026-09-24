@@ -10,6 +10,7 @@
 //! - `export_sp3`          — export an `orbit` scenario's constellation as SP3-c.
 //! - `export_omm`          — export an `orbit` scenario's elements as CCSDS OMM.
 //! - `export_oem`          — export an `orbit` scenario's state series as CCSDS OEM.
+//! - `export_table_csv`    — run a scenario and return its reproducibility table as CSV.
 
 use rmcp::handler::server::router::tool::ToolRouter;
 use rmcp::handler::server::wrapper::Parameters;
@@ -35,6 +36,11 @@ pub struct TomlRequest {
     /// The scenario definition as a Kshana TOML document.
     pub toml: String,
 }
+
+/// The scenario kinds whose run publishes a CSV reproducibility table (`RunOutput.csv`),
+/// named in `export_table_csv`'s error so an agent can correct course without guessing.
+const CSV_TABLE_KINDS: &str = "`realtime-frame-eop`, `lunar-time-budget`, `lunar-jamming`, \
+     and `moonlight-service-volume` (only with `export_site_lat_deg` + `export_site_lon_deg` set)";
 
 /// The Kshana MCP server handle.
 #[derive(Clone)]
@@ -161,6 +167,31 @@ impl KshanaServer {
             )),
         }
     }
+
+    #[tool(
+        description = "Run a Kshana scenario and return its reproducibility table as CSV text — the byte-stable table the CLI writes as `<scenario>.table.csv` and the papers cite. Only these kinds emit one: `realtime-frame-eop`, `lunar-time-budget`, `lunar-jamming`, and `moonlight-service-volume` when both `export_site_lat_deg` and `export_site_lon_deg` are set. Errors for any other kind (or an invalid scenario); use run_scenario for the figures of merit."
+    )]
+    fn export_table_csv(
+        &self,
+        Parameters(TomlRequest { toml }): Parameters<TomlRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let out = kshana::api::run_toml(&toml)
+            .map_err(|e| McpError::invalid_params(format!("scenario run failed: {e}"), None))?;
+        match out.csv {
+            Some(csv) => Ok(CallToolResult::success(vec![Content::text(csv)])),
+            None => {
+                let kind = kshana::api::ScenarioKind::classify(&toml)
+                    .map(|k| k.as_str())
+                    .unwrap_or("clock");
+                Err(McpError::invalid_params(
+                    format!(
+                        "scenario kind `{kind}` publishes no CSV table; only {CSV_TABLE_KINDS} do"
+                    ),
+                    None,
+                ))
+            }
+        }
+    }
 }
 
 #[tool_handler]
@@ -190,7 +221,8 @@ impl ServerHandler for KshanaServer {
                  scenario TOML and returns figures of merit; list_scenario_kinds enumerates the \
                  scenario types and their fields; validate_scenario checks a TOML; export_sp3 / \
                  export_omm / export_oem emit standard GNSS/CCSDS products from an orbit \
-                 scenario (export_oem is the one carrying velocity). Construct scenarios from \
+                 scenario (export_oem is the one carrying velocity); export_table_csv returns the \
+                 CSV reproducibility table for the kinds that publish one. Construct scenarios from \
                  list_scenario_kinds metadata; do not invent fields."
                     .to_string(),
             )

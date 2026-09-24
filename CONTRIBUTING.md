@@ -55,7 +55,9 @@ thread-interleaving race is invisible to a single run. Only on success does it w
 
 ```bash
 scripts/gate.sh
-REPEAT=0 scripts/gate.sh           # canonical suite only, no repeatability loop
+REPEAT=0 scripts/gate.sh           # canonical suite only, no repeatability loop — a LOCAL
+                                   # shortcut: the pre-push gate refuses its receipt unless
+                                   # KSHANA_MIN_REPEAT_RUNS=0 is also set on the push
 TEST_THREADS=6 scripts/gate.sh     # cap per-binary concurrency if the run is memory-starved
 scripts/check-gate-receipt.sh      # is there a valid receipt for the commit being pushed?
 scripts/install-gate-hook.sh --check   # is the pre-push hook installed on this clone?

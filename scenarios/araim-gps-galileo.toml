@@ -8,11 +8,14 @@
 # each `[[constellations]]` entry the next group.
 #
 # Constellation-fault-robust integrity (staying safe even if an entire constellation
-# fails) is demanding: with only two constellations the residual one must carry the
-# fix alone, which is exactly why robust dual-constellation ARAIM drives toward a
-# third constellation or SBAS augmentation. A version-locked real-TLE study and the
-# numerically exact EU ARAIM TN Table A-3 reproduction are external follow-ons (see
-# docs/ARAIM_REFERENCE.md and tests/araim_dual_real_data.rs).
+# fails) is the demanding mode: under the constellation-fault hypothesis the residual
+# constellation must carry the fix alone, so it always costs availability relative to
+# pooling. How much depends on the sky. On the real 2026-06-07 GPS + Galileo catalogue,
+# evaluated at one common epoch, it still reaches 0.990 at a 12 m VAL against 1.000
+# pooled (tests/araim_dual_real_data.rs) — two full constellations can carry it; a
+# depleted one is where a third constellation or SBAS augmentation earns its place.
+# The numerically exact EU ARAIM TN Table A-3 reproduction is an external follow-on
+# (docs/ARAIM_REFERENCE.md).
 kind = "integrity"
 
 mask_deg = 5.0

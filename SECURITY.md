@@ -1,9 +1,16 @@
 # Security policy
 
 ## Reporting a vulnerability
-Email **contact@ashforde.org** with details and reproduction steps. Please do not open
-a public issue for security-sensitive reports. We aim to acknowledge within a few
-business days.
+Report it privately, by either route:
+
+- **GitHub private vulnerability reporting** — the *Report a vulnerability* button on
+  the repository's [Security tab](https://github.com/ashfordeOU/kshana/security/advisories/new).
+  The report is visible only to the maintainers, and a fix can be prepared in a private
+  fork and published as a GitHub Security Advisory.
+- **Email** — **contact@ashforde.org**, with details and reproduction steps.
+
+Please do not open a public issue for security-sensitive reports. We aim to acknowledge
+within a few business days.
 
 ## Supported versions
 Pre-1.0: only the latest tagged release is supported.
@@ -23,7 +30,9 @@ Scope, stated precisely, because `forbid` is per-crate:
   `xval/` cross-validation crates are separate crate roots and are not covered by it. None
   of them contains `unsafe` today, but that is discipline, not a compiler-enforced property.
 - It says nothing about dependencies. Those are gated separately by
-  `cargo deny check advisories licenses bans sources` in CI.
+  `cargo deny check advisories licenses bans sources` in CI — for the root crate and,
+  as its own job, for the workspace-excluded MCP server crate — and watched by
+  Dependabot alerts and security updates on the repository.
 
 ## Export control / dual-use note
 PNT resilience and quantum sensing can fall under dual-use export controls. This public

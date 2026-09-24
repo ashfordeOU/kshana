@@ -23,36 +23,41 @@
 </p>
 
 **Kshana** is an open, reproducible **PNT-resilience simulator with quantum-sensor
-performance models** — positioning, navigation, and timing. It quantifies, in hard
+performance models** — PNT being positioning, navigation, and timing. It quantifies, in hard
 and reproducible numbers, what quantum clocks, quantum inertial sensors, and optical
 time-transfer buy a navigation system over classical PNT — scored against the
 operational figures of merit that matter for resilient navigation. Every result is
 reproducible from `scenario + seed + engine version`, and every sensor parameter is
 traceable to a published source.
 
-> ***Validated, not asserted.*** 666/666 AIAA SGP4 vectors to **4.12 mm** · Cowell
-> force model **0.08 m** vs Orekit 12.2 · Galileo **0.61 m** / Swarm-A **0.10 m** vs
-> real ESA precise ephemerides · GCRS→ITRS bit-for-bit vs SOFA/ERFA · ML metrics exact
+> ***Validated, not asserted.*** 666/666 AIAA (American Institute of Aeronautics and
+> Astronautics) SGP4 (Simplified General Perturbations 4, the standard satellite-orbit
+> propagator) vectors to **4.12 mm** · Cowell force model **0.08 m** vs Orekit 12.2 ·
+> Galileo **0.61 m** / Swarm-A **0.10 m** vs real ESA (European Space Agency) precise
+> ephemerides · GCRS→ITRS (Geocentric Celestial Reference System to International
+> Terrestrial Reference System) bit-for-bit vs SOFA/ERFA (the International Astronomical
+> Union's Standards of Fundamental Astronomy library and its open port, Essential Routines
+> for Fundamental Astronomy) · ML (machine-learning) metrics exact
 > vs scikit-learn · **64 of 168** capabilities validated against independent external
 > oracles; 100 honestly labelled Modelled, 4 partner-owned.
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/diagrams/system-overview.png" alt="Kshana system overview: five front doors (CLI, Python wheel, WebAssembly playground, MCP server, JetBrains plugin) converge on a single api::run_toml dispatch, through the engine, to a reproducible result.json + chart.svg" width="840">
+  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/diagrams/system-overview.png" alt="Kshana system overview: five front doors (command-line interface, Python wheel, WebAssembly playground, Model Context Protocol server, JetBrains plugin) converge on a single api::run_toml dispatch, through the engine, to a reproducible result.json + chart.svg" width="840">
 </p>
 
 ### Validated against external oracles — every row CI-gated
 
 Each row is checked against an **independent external oracle** (real dataset,
-independent reference implementation, or published reference vectors) and re-checked in CI.
+independent reference implementation, or published reference vectors) and re-checked in CI (continuous integration).
 
 | | Capability | Result | External oracle |
 |---|---|---|---|
-| ✅ | SGP4/SDP4 propagation | 666/666 vectors, worst **4.12 mm** | AIAA 2006-6753 (Vallado) + independent `sgp4` crate |
+| ✅ | SGP4/SDP4 (Simplified Deep-space Perturbations 4) propagation | 666/666 vectors, worst **4.12 mm** | AIAA 2006-6753 (Vallado) + independent `sgp4` crate |
 | ✅ | Numerical Cowell force model | **0.08 m** / 24 h, 275 epochs | Orekit 12.2 `DormandPrince853` (CS GROUP) |
-| ✅ | Orbit fit vs precise ephemeris | Galileo **0.61 m** · Swarm-A **0.10 m** | ESA/ESOC SP3 precise orbits |
-| ✅ | GCRS→ITRS frame chain | bit-for-bit vs SOFA; ≤ 0.86 m vs SPICE | ERFA/SOFA + ANISE (pure-Rust SPICE) |
-| ✅ | Allan deviations | reproduce reference deviations | NIST SP 1065 + Stable32 on a real Cs clock |
-| ✅ | GNSS DOP · ML detector metrics | to **1e-6** · to **1e-9** | gnss_lib_py · scikit-learn |
+| ✅ | Orbit fit vs precise ephemeris | Galileo **0.61 m** · Swarm-A **0.10 m** | ESA/ESOC (European Space Operations Centre) SP3 (the Standard Product 3 precise-orbit format of the International GNSS Service, GNSS being Global Navigation Satellite System) precise orbits |
+| ✅ | GCRS→ITRS frame chain | bit-for-bit vs SOFA; ≤ 0.86 m vs SPICE (Spacecraft, Planet, Instrument, C-matrix, Events — the planetary-geometry toolkit) | ERFA/SOFA + ANISE (Attitude, Navigation, Instrument, Spacecraft, Ephemeris — a pure-Rust SPICE) |
+| ✅ | Allan deviations | reproduce reference deviations | NIST SP 1065 (National Institute of Standards and Technology Special Publication 1065) + Stable32 on a real Cs (caesium) clock |
+| ✅ | GNSS DOP (dilution of precision) · ML detector metrics | to **1e-6** · to **1e-9** | gnss_lib_py · scikit-learn |
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/figures/validation-breakdown.png" alt="Verification status across all 168 capabilities: 64 Validated, 100 Modelled, 4 Partner-owned" width="780">
@@ -86,13 +91,13 @@ std::fs::write("clock-holdover.result.json", &out.json)?;
 kshana scenarios/clock-holdover.toml
 kshana scenarios/orbit-gnss-challenged.toml
 kshana --validate scenarios/integrity-raim.toml     # lint without running
-kshana --study scenarios/quantum-pnt-demonstrator.suite.toml --study-name "PNT demo"
+kshana --study scenarios/quantum-pnt-demonstrator.suite.toml
 ```
 
 Every figure of merit is labelled **validated** or **modelled**; optical-clock figures
 are space goals on ground hardware (no strontium optical clock has flown). Maturity is
 *not* uniform across domains — Earth PNT is real-data validated; deep-space / Mars
-navigation is simulation-validated; real-mission deep-space OD is on the roadmap.
+navigation is simulation-validated; real-mission deep-space OD (orbit determination) is on the roadmap.
 
 ## Learn more
 
@@ -104,8 +109,9 @@ navigation is simulation-validated; real-mission deep-space OD is on the roadmap
 
 ## Licence
 
-Free and open source under the **GNU AGPL-3.0-only**. A **commercial licence** is
-available from [Ashforde OÜ](https://ashforde.org) for proprietary/closed integration
+Free and open source under the **GNU AGPL-3.0-only** (the GNU Affero General Public License, version 3 only). A **commercial licence** is
+available from [Ashforde OÜ](https://ashforde.org) (an Estonian private limited company;
+OÜ = osaühing) for proprietary/closed integration
 — see [LICENSING.md](https://github.com/AshfordeOU/kshana/blob/main/LICENSING.md).
 Professionally developed and maintained by Ashforde OÜ; commercial support, integration,
 and proprietary extensions available.

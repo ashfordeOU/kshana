@@ -23,7 +23,11 @@
 # The slim image carries the C linker the build needs. The server is self-contained
 # (it links the `kshana` library and runs scenarios in-process), and nothing in the
 # graph needs system libraries — pure Rust + stdio.
-FROM rust:1.93.0-slim-bookworm AS build
+# Both bases are pinned by multi-arch INDEX digest as well as tag, so a re-push of the tag
+# cannot change what gets built. Dependabot's docker ecosystem (.github/dependabot.yml,
+# directory /mcp/kshana-mcp) proposes the digest bumps, so the OS layers still receive
+# security updates — through a reviewed PR instead of silently.
+FROM rust:1.93.0-slim-bookworm@sha256:776861219cd851131c1cec3bbd7cbeb16b99a794048097eb69ad9682a8ed0d57 AS build
 WORKDIR /src
 COPY . .
 WORKDIR /src/mcp/kshana-mcp
@@ -32,7 +36,7 @@ RUN cargo build --release && strip target/release/kshana-mcp
 # ---- runtime stage ---------------------------------------------------------------
 # bookworm-slim matches the builder's glibc (2.36), so the dynamically linked binary
 # runs as-is. No extra packages: the server makes no network calls.
-FROM debian:bookworm-slim AS runtime
+FROM debian:bookworm-slim@sha256:3783cc01769c7b2b1b83a5c5ad96c815348e28ed7da68e2e3687004faa906251 AS runtime
 
 # Ownership marker that links this image to its entry in the official MCP registry.
 # The registry reads this label to verify `server.json` ↔ image ownership.

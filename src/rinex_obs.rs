@@ -192,7 +192,8 @@ fn parse_sat_record(line: &str, codes: &[String]) -> SatObs {
     SatObs { sat, obs }
 }
 
-/// Parse a RINEX 3.0x / 4.00 observation file into a [`RinexObs`]. The header is
+/// Parse a RINEX 3.0x observation file (4.00 expected, untested — see the module doc)
+/// into a [`RinexObs`]. The header is
 /// read up to and including `END OF HEADER`, then each `>`-prefixed epoch header
 /// is followed by its declared number of one-line-per-satellite records. Header
 /// records this engine does not use are skipped, so a richer real file still
