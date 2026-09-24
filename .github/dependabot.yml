@@ -38,6 +38,11 @@ updates:
       docker:
         patterns: ["*"]
     ignore:
+      # The builder image's Rust version must equal rust-toolchain.toml, or rustup quietly
+      # downloads a second toolchain inside the build (on both architectures, one under
+      # QEMU) — see the Dockerfile. The toolchain moves by hand, repo-wide, so the `rust`
+      # image does too; the debian runtime base still gets its digest and patch bumps.
+      - dependency-name: "rust"
       - dependency-name: "*"
         update-types: ["version-update:semver-major", "version-update:semver-minor"]
   # GitHub Actions: one grouped PR per month. Every action except dtolnay/rust-toolchain is
