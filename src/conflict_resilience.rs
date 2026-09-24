@@ -1536,33 +1536,22 @@ fn summary(c: &Computed) -> String {
 fn svg(c: &Computed) -> String {
     let (w, h) = (900.0_f64, 420.0_f64);
     let mut s = String::new();
-    s.push_str(&format!(
-        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" \
-         font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\">"
+    s.push_str(&crate::chart::frame_open(
+        w,
+        h,
+        "Layered-PNT conflict resilience (P7)",
+        "total-loss vs threat intensity (MC vs closed form) · resilience ratio vs denial correlation · MODELLED priors, VALIDATED MC-&gt;closed-form / copula marginals",
     ));
-    s.push_str(&format!(
-        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"
-    ));
-    s.push_str(
-        "<text x=\"24\" y=\"24\" font-size=\"15\" font-weight=\"bold\">Layered-PNT conflict resilience (P7)</text>",
-    );
-    s.push_str(
-        "<text x=\"24\" y=\"40\" font-size=\"11\" fill=\"#8a8172\">total-loss vs threat intensity (MC vs closed form) · resilience ratio vs denial correlation · MODELLED priors, VALIDATED MC-&gt;closed-form / copula marginals</text>",
-    );
 
     // ── Left panel: total-loss probability vs intensity ──
     let (lx, ly, lw, lh) = (60.0_f64, 76.0_f64, 360.0_f64, 288.0_f64);
     let axis_y = ly + lh;
-    s.push_str(&format!(
-        "<text x=\"{lx:.0}\" y=\"{:.0}\" font-size=\"12\" fill=\"#8a8172\">total-loss probability vs intensity</text>",
-        ly - 8.0
-    ));
-    s.push_str(&format!(
-        "<line x1=\"{lx:.0}\" y1=\"{ly:.0}\" x2=\"{lx:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>"
-    ));
-    s.push_str(&format!(
-        "<line x1=\"{lx:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>",
-        lx + lw
+    s.push_str(&crate::chart::panel_axes(
+        lx,
+        ly,
+        lw,
+        axis_y,
+        "total-loss probability vs intensity",
     ));
     // y is a probability in [0, 1].
     for g in 0..=4 {
@@ -1639,16 +1628,12 @@ fn svg(c: &Computed) -> String {
     // ── Right panel: resilience ratio vs correlation ──
     let (rx, ryy, rw, rh) = (520.0_f64, 76.0_f64, 340.0_f64, 288.0_f64);
     let raxis_y = ryy + rh;
-    s.push_str(&format!(
-        "<text x=\"{rx:.0}\" y=\"{:.0}\" font-size=\"12\" fill=\"#8a8172\">resilience ratio vs denial correlation</text>",
-        ryy - 8.0
-    ));
-    s.push_str(&format!(
-        "<line x1=\"{rx:.0}\" y1=\"{ryy:.0}\" x2=\"{rx:.0}\" y2=\"{raxis_y:.0}\" stroke=\"#342c21\"/>"
-    ));
-    s.push_str(&format!(
-        "<line x1=\"{rx:.0}\" y1=\"{raxis_y:.0}\" x2=\"{:.0}\" y2=\"{raxis_y:.0}\" stroke=\"#342c21\"/>",
-        rx + rw
+    s.push_str(&crate::chart::panel_axes(
+        rx,
+        ryy,
+        rw,
+        raxis_y,
+        "resilience ratio vs denial correlation",
     ));
     let ratio_max = c
         .correlation_sweep
