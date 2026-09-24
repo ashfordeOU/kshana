@@ -209,7 +209,7 @@ fn main() -> ExitCode {
                 );
             } else {
                 println!(
-                    "ok: {kind} — kind resolves and its {n_required} published required field(s) are present; field values are not checked"
+                    "ok: {kind} — kind resolves and all {n_required} of its published required-field entries are satisfied; field values are not checked"
                 );
             }
             return ExitCode::SUCCESS;

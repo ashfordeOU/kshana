@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-import init, { run, summary, chart_svg, version, export_sp3, export_omm, export_oem, table_csv } from "./pkg/kshana.js";
+import init, { run, run_all, summary, chart_svg, version, export_sp3, export_omm, export_oem, table_csv } from "./pkg/kshana.js";
 import { encodeFragment, decodeFragment, patchScalar } from "./share.mjs";
-import { chartFilename, svgSize, svgBlob, triggerDownload, svgToPngBlob } from "./chartdl.mjs";
+import { chartFilename, fileMeta, svgSize, svgBlob, triggerDownload, svgToPngBlob } from "./chartdl.mjs";
 import { attachChartHover, parsePolylineXs } from "./hover.mjs";
 import { knobsForToml, readKnob, patchSectionScalar } from "./guided.mjs";
 import { orbit3dSvg } from "./orbit3d.mjs";
@@ -11,6 +11,7 @@ import { overlayRows, overlaySeriesSvg, OVERLAY_COLORS } from "./overlay.mjs";
 import { isEmbed, embedConfig, embedClassList } from "./embed.mjs";
 import { buildReportHtml, reportFilename, fomTier } from "./report.mjs";
 import { TOUR_STEPS, clampStep, placeTooltip } from "./tour.mjs";
+import { createEngineClient, isCancelled, busyLabel, errorMessage } from "./engine.mjs";
 
 // Scenario catalogue: file in ./scenarios/ (copied from the repo at build) and a
 // friendly label. The first entry is also embedded below so the page works on
@@ -110,6 +111,8 @@ const SCENARIOS = [
     "Optical/RF hybrid", "What continuity and integrity does combining optical and RF PNT buy? (modelled)"],
   ["cislunar-observability.toml", "Cislunar observability — DRO constellation Gramian + SRIF",
     "Cislunar observability", "How much of a cislunar spacecraft's state does an inter-satellite arc make observable?"],
+  ["cislunar-arc-recovery.toml", "Cislunar arc recovery — batch least-squares estimator (slow: ~15 s in a browser)",
+    "Cislunar arc recovery", "Does an independent least-squares estimator actually recover the state from the arc length the rank test predicts? (modelled; slow — about 15 s in a browser, runs in the background)"],
   // Lunar-surface PNT suite
   ["lunar-time-offset.toml", "Lunar coordinate time — LTC/TCL secular offset",
     "Lunar time offset", "How fast does a lunar clock diverge from Earth time (~56–59 µs/day)?"],
@@ -188,6 +191,20 @@ const guidedEl = el("guided");
 const guidedKnobsEl = el("guided-knobs");
 const resultsEl = document.querySelector(".results");
 const errorEl = el("error");
+const cancelBtn = el("run-cancel");
+
+// The engine runs in a module Web Worker (engine-worker.mjs) so a heavy scenario no
+// longer freezes the page. If a worker cannot be started (an old browser, a file://
+// origin) the client falls back to these same functions on the main thread.
+const engine = createEngineClient({
+  spawn: typeof Worker === "function"
+    ? () => new Worker(new URL("./engine-worker.mjs", import.meta.url), { type: "module" })
+    : null,
+  local: { run, run_all, summary, chart_svg, table_csv, export_sp3, export_omm, export_oem },
+  // Main-thread fallback: give the busy state a moment to paint before the engine
+  // blocks the thread.
+  defer: (fn) => setTimeout(fn, 20),
+});
 
 let chartUrl = null;
 // Latest run's chart SVGs + a snapshot of the latest run, for the overlay compare.
@@ -196,6 +213,9 @@ let lastAllanSvg = null;
 let lastOrbit3dSvg = null;
 let lastSweepSvg = null;
 let lastRun = null;
+// The TOML of the run being rendered. The chart renderers run BEFORE lastRun is replaced,
+// so a download named from lastRun.toml would carry the previous scenario's fingerprint.
+let renderToml = null;
 // Up to four pinned runs for the multi-run overlay (generalises the old single
 // `compareA`).
 let compareRuns = [];
@@ -277,7 +297,7 @@ function renderChart(svgText, result) {
     chart.replaceChildren(img);
   }
   img.src = chartUrl;
-  const meta = result ? { ver: result.engine_version, hash: result.scenario_hash } : null;
+  const meta = result ? fileMeta(result, version(), renderToml) : null;
   mountChartTools("chart-tools", svgText, "holdover", meta);
   attachChartHover("chart", scenarioHoverModel(svgText, result));
 }
@@ -380,7 +400,7 @@ function renderAdev(result) {
     curves.push({ label: result.quantum.spec ? result.quantum.spec.id : "quantum", curve: result.quantum.adev_curve });
   if (result && result.classical && Array.isArray(result.classical.adev_curve) && result.classical.adev_curve.length)
     curves.push({ label: result.classical.spec ? result.classical.spec.id : "classical", curve: result.classical.adev_curve });
-  const meta = result ? { ver: result.engine_version, hash: result.scenario_hash } : null;
+  const meta = result ? fileMeta(result, version(), renderToml) : null;
   const svg = curves.length ? adevSvg(curves, meta) : null;
   lastAllanSvg = svg;
   if (!svg) { wrap.hidden = true; attachChartHover("adev", { fracs: [] }); return; }
@@ -626,7 +646,7 @@ function renderOrbit3d(result) {
     return;
   }
   const model = { trackKm: track, satsKm: [], view: { az_deg: 35, el_deg: 22 } };
-  const meta = result ? { ver: result.engine_version, hash: result.scenario_hash } : null;
+  const meta = result ? fileMeta(result, version(), renderToml) : null;
   const svg = orbit3dSvg(model, meta);
   lastOrbit3dSvg = svg;
   if (orbit3dUrl) URL.revokeObjectURL(orbit3dUrl);
@@ -717,7 +737,7 @@ function renderOverlay(runs) {
   charts.replaceChildren();
   // A single overlaid timeseries (one polyline per run) when the runs carry a
   // clock error series; otherwise per-run holdover thumbnails.
-  const meta = runs[0] ? { ver: runs[0].result.engine_version, hash: runs[0].result.scenario_hash } : null;
+  const meta = runs[0] ? fileMeta(runs[0].result, version(), runs[0].toml) : null;
   const overlaySvg = overlaySeriesSvg(runs, "error_ns", meta);
   const wrapCol = document.createElement("div");
   wrapCol.className = "overlay-chart";
@@ -794,19 +814,144 @@ function flash(node) {
   node.classList.add("updated");
 }
 
-function runScenario() {
+// --- Engine jobs: busy state, cancel, supersede ------------------------------
+// One engine job (a scenario run or a sweep) is active at a time. The busy state —
+// Run disabled, "Running… N s" in the status line, a Cancel button — is painted only
+// if the job outlives BUSY_PAINT_MS, so the usual sub-frame run does not flicker.
+// A new run requested while one is active (a slider drag, a scenario switch) either
+// waits and re-runs with the latest inputs, or — if the active job has already taken
+// longer than SUPERSEDE_MS — cancels it and starts at once.
+const BUSY_PAINT_MS = 150;
+const SUPERSEDE_MS = 300;
+const job = { gen: 0, active: false, startedAt: 0, verb: "", rerun: false, paintTimer: 0, tickTimer: 0 };
+
+function beginJob(verb) {
+  job.gen += 1;
+  job.active = true;
+  job.startedAt = performance.now();
+  job.verb = verb;
+  job.rerun = false;
+  clearTimeout(job.paintTimer);
+  clearInterval(job.tickTimer);
+  // On the main-thread fallback the engine blocks painting, so show it up front.
+  if (engine.canCancel) job.paintTimer = setTimeout(paintBusy, BUSY_PAINT_MS);
+  else paintBusy();
+  return job.gen;
+}
+
+function paintBusy() {
+  const sweepBtn = el("sweep-run");
+  const hadFocus = document.activeElement === runBtn;
+  runBtn.disabled = true;
+  if (sweepBtn) sweepBtn.disabled = true;
+  resultsEl.setAttribute("aria-busy", "true");
+  statusEl.classList.remove("ran");
+  statusEl.classList.add("busy");
+  if (cancelBtn) {
+    cancelBtn.hidden = !engine.canCancel;
+    // Disabling the focused Run button would drop keyboard focus to <body>.
+    if (hadFocus && !cancelBtn.hidden) cancelBtn.focus();
+  }
+  const tick = () => { statusEl.textContent = busyLabel(job.verb, performance.now() - job.startedAt); };
+  tick();
+  job.tickTimer = setInterval(tick, 250);
+}
+
+// Finish job `gen` if it is still the current one; returns whether it was.
+function endJob(gen) {
+  if (gen !== job.gen) return false;
+  const sweepBtn = el("sweep-run");
+  const cancelHadFocus = cancelBtn && document.activeElement === cancelBtn;
+  job.active = false;
+  clearTimeout(job.paintTimer);
+  clearInterval(job.tickTimer);
+  runBtn.disabled = false;
+  if (sweepBtn) sweepBtn.disabled = false;
+  resultsEl.removeAttribute("aria-busy");
+  statusEl.classList.remove("busy");
+  if (cancelBtn) cancelBtn.hidden = true;
+  if (cancelHadFocus) runBtn.focus();
+  return true;
+}
+
+function cancelJob() {
+  if (!job.active) return;
+  job.rerun = false; // an explicit cancel drops any queued re-run too
+  engine.cancel(); // the awaiting job settles with EngineCancelled and reports it
+}
+
+function elapsedNote(ms) {
+  return ms >= 1000 ? `, ${(ms / 1000).toFixed(1)} s` : "";
+}
+
+// Ask the engine for every standards-track export this scenario yields. A kind that
+// cannot produce a format throws (or returns nothing), and that format is skipped.
+async function collectExports(src, csv) {
+  const out = [];
+  for (const [label, fn, ext, title, mime] of EXPORTERS) {
+    let text;
+    try {
+      // The CSV table came back with the run itself; do not run the scenario again.
+      text = fn === "table_csv" ? csv : await engine.call(fn, src);
+    } catch (e) {
+      if (isCancelled(e)) throw e;
+      continue;
+    }
+    if (!text || !text.trim()) continue;
+    out.push({ label, ext, title, mime, text });
+  }
+  return out;
+}
+
+async function runScenario() {
+  if (job.active) {
+    if (engine.canCancel && performance.now() - job.startedAt > SUPERSEDE_MS) {
+      engine.cancel();
+    } else {
+      job.rerun = true; // re-run with the latest inputs once the active job finishes
+      return;
+    }
+  }
+  const gen = beginJob("Running");
   clearError();
   const src = tomlEl.value;
-  // The engine runs synchronously and in well under a frame, so there is no need
-  // to defer the call (deferring via requestAnimationFrame would also wedge the
-  // UI if the tab is backgrounded, since rAF does not fire there). The button's
-  // :active state gives the press feedback; the status line and the result flash
-  // below confirm completion — so every click is visible even when the output is
-  // byte-for-byte identical (the engine is deterministic).
+  // The engine runs in the worker, so the page stays responsive however long the
+  // scenario takes. Every click still gets visible feedback: the status line and the
+  // result flash below confirm completion even when the output is byte-for-byte
+  // identical (the engine is deterministic).
+  let summaryText, result, svg, exportsOut;
   try {
-    el("summary").textContent = summary(src);
-    const result = JSON.parse(run(src));
-    renderChart(chart_svg(src), result);
+    // One engine run for the result, chart, summary and table together (run_all);
+    // asking for each separately ran the whole scenario four times.
+    const all = JSON.parse(await engine.call("run_all", src));
+    summaryText = all.summary;
+    result = JSON.parse(all.json);
+    svg = all.svg;
+    exportsOut = await collectExports(src, all.csv);
+  } catch (e) {
+    if (gen !== job.gen) return; // superseded by a newer run
+    const rerun = job.rerun;
+    endJob(gen);
+    statusEl.classList.remove("ran");
+    if (isCancelled(e)) {
+      statusEl.textContent = lastRun ? "Run cancelled — the previous result is still shown." : "Run cancelled.";
+    } else {
+      showError(errorMessage(e));
+      statusEl.textContent = "Run failed — see the error below.";
+    }
+    if (rerun) runScenario();
+    return;
+  }
+  if (gen !== job.gen) return;
+  const ms = performance.now() - job.startedAt;
+  const rerun = job.rerun;
+  endJob(gen);
+  // The inputs changed while this ran; its result is already stale.
+  if (rerun) { runScenario(); return; }
+  renderToml = src;
+  try {
+    el("summary").textContent = summaryText;
+    renderChart(svg, result);
     renderAdev(result);
     renderFilterHealth(result);
     renderOrbit3d(result);
@@ -825,18 +970,18 @@ function runScenario() {
       orbit3dSvg: lastOrbit3dSvg,
     };
     mountTabs(result);
-    updateExportButtons();
+    updateExportButtons(exportsOut);
     if (compareRuns.length >= 2) renderOverlay(compareRuns);
     else exitCompareView();
     syncSweepControls();
     updateCompareControls();
     runCount += 1;
     const t = new Date().toLocaleTimeString();
-    statusEl.textContent = `Ran locally at ${t} — run ${runCount}.`;
+    statusEl.textContent = `Ran locally at ${t} — run ${runCount}${elapsedNote(ms)}.`;
     statusEl.classList.add("ran");
     flash(el("summary"));
   } catch (e) {
-    showError(String(e && e.message ? e.message : e));
+    showError(errorMessage(e));
     statusEl.textContent = "Run failed — see the error below.";
     statusEl.classList.remove("ran");
   }
@@ -951,7 +1096,8 @@ async function copyShareLink() {
 // --- Parameter sweep ------------------------------------------------------
 // Sweep one TOML scalar across an inclusive range, running the wasm engine for
 // each value and plotting one figure of merit. All purely client-side (no new
-// Rust), capped at MAX_SWEEP points so the synchronous loop stays sub-frame.
+// Rust), capped at MAX_SWEEP points; each point runs in the engine worker, so a
+// sweep of a slow scenario shows progress and can be cancelled like a run.
 
 // Populate the sweep knob + metric selects from the current scenario's knobs and
 // the last run's result. The metric list adapts to the scenario (clock FoMs, or
@@ -993,7 +1139,7 @@ function syncSweepControls() {
   }
 }
 
-function runSweep() {
+async function runSweep() {
   const knobSel = el("sweep-knob");
   const metricSel = el("sweep-metric");
   const status = el("sweep-status");
@@ -1007,25 +1153,47 @@ function runSweep() {
   const steps = parseInt(el("sweep-steps").value, 10);
   if (!isFinite(min) || !isFinite(max)) { status.textContent = "Enter a numeric from/to range."; return; }
 
+  if (job.active) { status.textContent = "Wait for the current run to finish, then sweep."; return; }
+
   const base = tomlEl.value;
   const knob = { key, section: section || "" };
-  const values = sweepValues(min, max, steps);
+  const def = knobsForToml(base).find((k) => k.key === key && (k.section || "") === knob.section);
+  const values = sweepValues(min, max, steps, Boolean(def && def.integer));
+  const gen = beginJob("Sweeping");
   status.textContent = `Sweeping ${values.length} runs…`;
   const points = [];
   try {
-    for (const v of values) {
-      const result = JSON.parse(run(sweepToml(base, knob, v)));
+    for (let i = 0; i < values.length; i++) {
+      status.textContent = `Sweeping run ${i + 1} of ${values.length}…`;
+      const result = JSON.parse(await engine.call("run", sweepToml(base, knob, values[i])));
       const fom = metric.get(result);
-      if (fom !== null) points.push({ x: v, y: fom });
+      if (fom !== null) points.push({ x: values[i], y: fom });
     }
   } catch (e) {
-    status.textContent = "Sweep failed — check the range.";
-    showError(String(e && e.message ? e.message : e));
+    if (gen !== job.gen) { status.textContent = "Sweep interrupted by a new run."; return; }
+    const rerun = job.rerun;
+    endJob(gen);
+    statusEl.classList.remove("ran");
+    if (isCancelled(e)) {
+      status.textContent = "Sweep cancelled.";
+      statusEl.textContent = "Sweep cancelled.";
+    } else {
+      status.textContent = "Sweep failed — check the range.";
+      statusEl.textContent = "Sweep failed — see the error below.";
+      showError(errorMessage(e));
+    }
+    if (rerun) runScenario();
     return;
   }
+  if (gen !== job.gen) return;
+  const sweepMs = performance.now() - job.startedAt;
+  const rerunAfterSweep = job.rerun;
+  endJob(gen);
+  statusEl.textContent = `Swept ${values.length} runs locally at ${new Date().toLocaleTimeString()}${elapsedNote(sweepMs)}.`;
+  statusEl.classList.add("ran");
   const knobLabel = knobSel.options[knobSel.selectedIndex].textContent;
   const metricLabel = metric.label;
-  const meta = lastRun ? { ver: lastRun.result.engine_version, hash: lastRun.result.scenario_hash } : null;
+  const meta = lastRun ? fileMeta(lastRun.result, version(), lastRun.toml) : null;
   const svg = sweepCurveSvg(points, { xLabel: knobLabel, yLabel: metricLabel, title: `${metricLabel} vs ${knobLabel}` }, meta);
   lastSweepSvg = svg;
   if (sweepChartUrl) URL.revokeObjectURL(sweepChartUrl);
@@ -1044,6 +1212,7 @@ function runSweep() {
   if (lastRun) mountTabs(lastRun.result);
   selectTab("sweep");
   status.textContent = `Swept ${points.length} of ${values.length} runs (max ${MAX_SWEEP}).`;
+  if (rerunAfterSweep) runScenario();
 }
 
 // --- Download report ------------------------------------------------------
@@ -1054,26 +1223,24 @@ function runSweep() {
 // for the current run. The engine serialises them client-side from the same scenario
 // TOML; a format button appears only when the run actually yields that artifact (orbit /
 // constellation scenarios for the ephemeris formats; the few kinds that publish a table
-// for CSV), so a clock or resilience run shows none. Nothing is uploaded.
+// for CSV), so a clock or resilience run shows none. Nothing is uploaded. The second
+// column names the engine function; runScenario asks the engine worker for each one
+// (collectExports) and hands the texts to updateExportButtons.
 const EXPORTERS = [
-  ["SP3", export_sp3, "sp3", "Export this constellation as SP3-c precise ephemeris", "text/plain"],
-  ["OMM", export_omm, "omm", "Export this constellation as a CCSDS OMM mean-element catalogue", "text/plain"],
-  ["OEM", export_oem, "oem", "Export this constellation as CCSDS OEM 2.0 ephemeris (GMAT / Orekit / STK)", "text/plain"],
-  ["CSV", table_csv, "csv", "Download this run's reproducibility table — the same bytes the CLI writes as <scenario>.table.csv", "text/csv"],
+  ["SP3", "export_sp3", "sp3", "Export this constellation as SP3-c precise ephemeris", "text/plain"],
+  ["OMM", "export_omm", "omm", "Export this constellation as a CCSDS OMM mean-element catalogue", "text/plain"],
+  ["OEM", "export_oem", "oem", "Export this constellation as CCSDS OEM 2.0 ephemeris (GMAT / Orekit / STK)", "text/plain"],
+  ["CSV", "table_csv", "csv", "Download this run's reproducibility table — the same bytes the CLI writes as <scenario>.table.csv", "text/csv"],
 ];
 
-function updateExportButtons() {
+function updateExportButtons(exportsOut) {
   const tools = el("export-tools");
   if (!tools) return;
   tools.replaceChildren();
-  const toml = lastRun && lastRun.toml;
-  if (!toml) { tools.hidden = true; return; }
-  const meta = { ver: lastRun.result.engine_version, hash: lastRun.result.scenario_hash };
+  if (!lastRun || !exportsOut) { tools.hidden = true; return; }
+  const meta = fileMeta(lastRun.result, version(), lastRun.toml);
   let any = false;
-  for (const [label, fn, ext, title, mime] of EXPORTERS) {
-    let text;
-    try { text = fn(toml); } catch { continue; }        // kind can't produce it → skip
-    if (!text || !text.trim()) continue;
+  for (const { label, ext, title, mime, text } of exportsOut) {
     any = true;
     const b = document.createElement("button");
     b.type = "button";
@@ -1089,7 +1256,7 @@ function updateExportButtons() {
 
 function downloadJson() {
   if (!lastRun) return;
-  const meta = { ver: lastRun.result.engine_version, hash: lastRun.result.scenario_hash };
+  const meta = fileMeta(lastRun.result, version(), lastRun.toml);
   triggerDownload(
     new Blob([el("json").textContent], { type: "application/json" }),
     chartFilename("result", meta, "json"));
@@ -1118,7 +1285,7 @@ function downloadReport() {
     svgs,
     generatedIso: new Date().toISOString(),
   });
-  const meta = { ver: r.engine_version, hash: r.scenario_hash };
+  const meta = fileMeta(r, version(), lastRun && lastRun.toml);
   triggerDownload(new Blob([html], { type: "text/html" }), reportFilename(meta));
 }
 
@@ -2282,6 +2449,7 @@ async function main() {
   }
 
   runBtn.addEventListener("click", runScenario);
+  if (cancelBtn) cancelBtn.addEventListener("click", cancelJob);
   shareBtn.addEventListener("click", copyShareLink);
   selectEl.addEventListener("change", () => loadScenario(selectEl.value));
   el("sweep-run").addEventListener("click", runSweep);
@@ -2312,7 +2480,7 @@ async function main() {
       tomlEl.value = patchScalar(tomlEl.value, key, val);
     }
     buildGuided();
-    runScenario();
+    await runScenario();
     if (cfg.tab) selectTab(cfg.tab);
   } else {
     buildGuided();

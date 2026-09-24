@@ -57,6 +57,19 @@ import assert from "node:assert/strict";
   assert.deepEqual(sweepValues(3, 9, 2), [3, 9], "2 steps -> endpoints");
 }
 
+// An integer knob (the seed, read by the engine as u64) sweeps integers only. The
+// default seed sweep 1..100 in 11 steps produced 10.9, 20.8, … and every run failed.
+{
+  const v = sweepValues(1, 100, 11, true);
+  assert.ok(v.every(Number.isInteger), "integer sweep yields integers only");
+  assert.equal(v[0], 1, "integer sweep keeps min");
+  assert.equal(v[v.length - 1], 100, "integer sweep keeps max");
+  // A range narrower than the step count collapses to its distinct integers.
+  assert.deepEqual(sweepValues(1, 3, 11, true), [1, 2, 3], "no repeated seeds");
+  // The float path is unchanged.
+  assert.ok(sweepValues(1, 100, 11).some((x) => !Number.isInteger(x)), "float sweep unchanged");
+}
+
 // sweepToml: patch a top-level scalar, round-trip via readScalar.
 {
   const base = "seed = 42\nthreshold_ns = 20.0\n[time]\nstep_s = 10.0\n";

@@ -29,7 +29,7 @@ fn every_coverage_surface_states_the_recorded_measurement() {
     );
     let n = pct.round() as u32;
     let badge = format!("badge/coverage-~{n}%25%20line");
-    let surfaces: [(&str, &str, String); 5] = [
+    let surfaces: [(&str, &str, String); 6] = [
         (
             "README.md badge",
             include_str!("../README.md"),
@@ -49,6 +49,11 @@ fn every_coverage_surface_states_the_recorded_measurement() {
             "README.pypi.md badge",
             include_str!("../README.pypi.md"),
             badge,
+        ),
+        (
+            "paper/kshana-technical-report.md",
+            include_str!("../paper/kshana-technical-report.md"),
+            format!("near {n} % line coverage"),
         ),
         (
             "web/index.html hero",

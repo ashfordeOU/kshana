@@ -47,6 +47,24 @@ pub fn table_csv(toml: &str) -> Result<Option<String>, JsValue> {
         .map_err(|e| JsValue::from_str(&e))
 }
 
+/// Run a scenario ONCE and return every output of that run as a JSON object string:
+/// `{"json": <result document string>, "svg": <chart>, "summary": <one line>,
+/// "csv": <table or null>}`. `run`, `chart_svg`, `summary` and `table_csv` each execute
+/// the scenario from scratch, so a page that wants all four paid for four full engine
+/// runs — about 12 s instead of 3 s for the heaviest kind in a browser. Throws a JS
+/// error if the scenario is invalid.
+#[wasm_bindgen]
+pub fn run_all(toml: &str) -> Result<String, JsValue> {
+    let o = crate::api::run_toml(toml).map_err(|e| JsValue::from_str(&e))?;
+    Ok(serde_json::json!({
+        "json": o.json,
+        "svg": o.svg,
+        "summary": o.summary,
+        "csv": o.csv,
+    })
+    .to_string())
+}
+
 /// List the available scenario kinds and their metadata as a JSON array (name,
 /// description, required and optional fields), for programmatic introspection.
 #[wasm_bindgen]
