@@ -36,7 +36,7 @@ jobs:
     # reveals its true runtime). No gate below is weakened.
     timeout-minutes: 240
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           # Full history so the repository-hygiene guard scans every commit message,
           # not just the shallow tip (default fetch-depth 1 silently blinds the scan).
@@ -45,7 +45,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@1.93.0
         with:
           components: rustfmt, clippy
-      - uses: Swatinem/rust-cache@v2
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
       - name: Toolchain pin guard
         run: ./scripts/check-toolchain.sh
       - name: Format
@@ -87,9 +87,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 45
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - uses: dtolnay/rust-toolchain@1.93.0
-      - uses: Swatinem/rust-cache@v2
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
       - run: cargo package --locked
   msrv:
     # Does the crate still build on the OLDEST compiler Cargo.toml promises? That promise
@@ -111,7 +111,7 @@ jobs:
       # job if the two disagree, so the pin cannot drift out from under the claim again.
       RUSTUP_TOOLCHAIN: 1.85.0
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - uses: dtolnay/rust-toolchain@1.85.0
       - name: Assert the compiler in use IS the declared MSRV
         # Grades both halves of what this job claims: that RUSTUP_TOOLCHAIN really did beat
@@ -133,14 +133,14 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       # Install cargo-deny as a prebuilt binary from its GitHub release rather
       # than via EmbarkStudios/cargo-deny-action, which builds a Docker image
       # `FROM rust:...-alpine` on every run and intermittently fails when the
       # Docker Hub registry pull times out ("dial tcp ...: i/o timeout"). The
       # binary install has no Docker Hub dependency. cargo-deny reads
       # Cargo.lock + deny.toml and needs no project compilation.
-      - uses: taiki-e/install-action@v2
+      - uses: taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5 # v2
         with:
           tool: cargo-deny
       - name: cargo-deny
@@ -176,14 +176,14 @@ jobs:
     # The measurement and the --fail-under 85 floor below are unchanged.
     timeout-minutes: 240
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - uses: dtolnay/rust-toolchain@1.93.0
         with:
           # The LLVM source-based coverage engine needs llvm-profdata/llvm-cov,
           # shipped by this component.
           components: llvm-tools-preview
-      - uses: Swatinem/rust-cache@v2
-      - uses: taiki-e/install-action@v2
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+      - uses: taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5 # v2
         with:
           tool: cargo-tarpaulin
       - name: Coverage (LLVM engine, enforced line floor)
@@ -222,7 +222,7 @@ jobs:
           --exclude-files 'web/*'
           --timeout 3600 --fail-under 85
       - name: Upload lcov report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: coverage-lcov
           path: coverage/lcov.info
@@ -242,9 +242,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - uses: dtolnay/rust-toolchain@1.93.0
-      - uses: Swatinem/rust-cache@v2
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
       - name: Cross-platform reproducibility tests
         run: >
           cargo test
@@ -256,8 +256,8 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
         with:
           python-version: "3.x"
       # Build the wheel with PyO3/maturin-action, which runs maturin inside a
@@ -268,7 +268,7 @@ jobs:
       # `~/.cargo/bin/cargo-fmt` ("detected conflict: 'bin/cargo-fmt'"). The
       # container ships its own clean toolchain, so the conflict cannot occur.
       - name: Build the Python wheel
-        uses: PyO3/maturin-action@v1
+        uses: PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b # v1
         with:
           command: build
           args: --features python --out dist
@@ -281,11 +281,21 @@ jobs:
         run: pip install --no-index --find-links dist kshana
       - name: Run binding smoke tests
         run: pytest -q tests/python
+      # kshana.pyi is hand-written, and nothing compared it to the extension it describes:
+      # `csv` and `write_csv` shipped on RunOutput without a stub. stubtest imports the
+      # INSTALLED wheel (it runs outside the checkout for that reason) and fails on a
+      # missing, extra or re-signatured attribute. The one allowlist entry is the compiled
+      # submodule itself, which has no stub of its own by design.
+      - name: Check the type stub against the built extension
+        run: |
+          pip install mypy
+          printf 'kshana\\.kshana\n' > "$RUNNER_TEMP/stubtest-allow.txt"
+          cd "$RUNNER_TEMP" && python -m mypy.stubtest kshana --allowlist "$RUNNER_TEMP/stubtest-allow.txt"
   test-wasm-bindings:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - uses: dtolnay/rust-toolchain@1.93.0
       - name: Install wasm-pack
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
@@ -295,7 +305,7 @@ jobs:
         # failure point). The build is functionally identical; the size-optimized
         # wasm-opt pass is kept for the deployed playground in pages.yml / publish.yml.
         run: wasm-pack build --target web --out-dir web/pkg --release --no-opt -- --features wasm
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: "20"
       - name: Assert every web test file has a step
@@ -353,9 +363,9 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - uses: dtolnay/rust-toolchain@1.93.0
-      - uses: Swatinem/rust-cache@v2
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
       - name: Build the public crate standalone
         run: cargo build -p kshana
       # Scope to the crate's unit tests plus the registry dispatch-seam suite. The
@@ -370,11 +380,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - uses: dtolnay/rust-toolchain@1.93.0
         with:
           targets: wasm32-unknown-unknown
-      - uses: Swatinem/rust-cache@v2
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
       - name: Build the public crate for wasm32-unknown-unknown
         # Proves the registry/assurance seam stays no_std/WASM-safe. Scoped to
         # --lib: the registry lives in the library, and the crate's native-only
@@ -403,11 +413,11 @@ jobs:
       run:
         working-directory: mcp/kshana-mcp
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       # Pinned to the repo toolchain like every other job. The crate is edition 2024
       # (the rmcp SDK), so it needs >= 1.85; 1.93.0 satisfies that.
       - uses: dtolnay/rust-toolchain@1.93.0
-      - uses: Swatinem/rust-cache@v2
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
         with:
           # The crate sits outside the root package and has its own lockfile and target
           # dir, so the cache key has to name it or every run is a cold build.
@@ -427,10 +437,10 @@ jobs:
       run:
         working-directory: mcp/kshana-mcp
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       # Prebuilt binary, same as the root `deny` job and for the same reason (no Docker
       # Hub dependency). cargo-deny reads Cargo.lock + deny.toml and compiles nothing.
-      - uses: taiki-e/install-action@v2
+      - uses: taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5 # v2
         with:
           tool: cargo-deny
       - name: cargo-deny over the MCP server's own lockfile

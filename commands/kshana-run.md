@@ -25,8 +25,12 @@ Do this:
    error, dead-reckoning error, DOP, protection levels) with their units, plus the
    `scenario + seed + engine version` provenance line so the run is reproducible. Do **not**
    invent numbers the tool didn't return.
-5. For orbit scenarios, offer `export_sp3` (precise ephemeris) or `export_omm` (CCSDS OMM
-   catalogue) if the user wants the constellation exported.
+5. For orbit scenarios, offer `export_sp3` (precise ephemeris), `export_omm` (CCSDS OMM
+   catalogue) or `export_oem` (CCSDS OEM 2.0 ephemeris carrying velocity, for GMAT /
+   Orekit / STK) if the user wants the constellation exported. For the kinds that publish
+   a reproducibility table (`realtime-frame-eop`, `lunar-time-budget`, `lunar-jamming`, and
+   `moonlight-service-volume` with an export site set), offer `export_table_csv` to return
+   it as CSV.
 
 If the `kshana` MCP tools aren't available, tell the user the server isn't connected and
 point them at installation: `cargo install kshana-mcp` (or the `ghcr.io/ashfordeou/kshana-mcp`

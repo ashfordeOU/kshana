@@ -87,6 +87,13 @@ let r_teme = prop.position_eci(tsince_s);
 If you do not align, say so when you report the number: it is a statement about orbital
 *shells*, not about a real sky.
 
+How much this matters is measured in `tests/araim_dual_real_data.rs`, which applies the
+same offsets (reference instant: the latest epoch in the combined GPS + Galileo fixtures,
+2026-06-07T07:21:04 UTC) through a 24 h dual-constellation ARAIM availability run. Under
+a 12 m VAL the aligned sky gives GPS-only 0.993, pooled GPS+Galileo 1.000 and
+constellation-fault-robust dual 0.990; the unaligned per-satellite-epoch convention gives
+0.208, 0.671 and 0.031 for the same inputs — a different conclusion, not a small error.
+
 ## See also
 
 - [`README.md`](../README.md) — the orbit scenarios and the `constellation` schema.

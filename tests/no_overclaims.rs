@@ -21,6 +21,12 @@ const SURFACES: &[(&str, &str)] = &[
         include_str!("../web/capabilities.json"),
     ),
     ("web/index.html", include_str!("../web/index.html")),
+    // The web README and the three registry front pages are public too, and web/README.md
+    // drifted precisely because it was the one web surface no gate read.
+    ("web/README.md", include_str!("../web/README.md")),
+    ("README.crates.md", include_str!("../README.crates.md")),
+    ("README.pypi.md", include_str!("../README.pypi.md")),
+    ("README.npm.md", include_str!("../README.npm.md")),
 ];
 
 /// Retired bare overclaim phrases that must never reappear in a live surface. Each maps to

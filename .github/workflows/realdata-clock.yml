@@ -1,0 +1,38 @@
+# Exercise the two real-hardware clock-stability ledger rows on a runner.
+#
+# WHY THIS EXISTS
+#   tests/cs5071a_reference.rs (a 5071A caesium clock against a hydrogen maser, 556,990
+#   samples) and tests/phasedat_reference.rs (the canonical Stable32 PHASE.DAT series)
+#   back two VALIDATED rows of the verification ledger. Neither raw series carries a
+#   redistribution licence, so neither is vendored: without the data both tests print a
+#   skip notice and stay green. That is honest for a contributor's `cargo test`, but it
+#   meant no automated run had ever executed either check. This job fetches both series
+#   (pinned to one allantools commit and checked by SHA-256 in the fetch scripts) and runs
+#   the tests with KSHANA_REQUIRE_REALDATA=1, which turns a missing input into a failure
+#   instead of a silent skip.
+#
+# Monthly, not per-push: the estimators it checks change rarely, and the fetch reaches a
+# third-party host, so a per-push job would turn an upstream outage into a red main.
+name: Real-data clock validation
+on:
+  schedule:
+    - cron: "17 4 3 * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  realdata-clock:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+      - name: Fetch the two raw series (pinned commit, SHA-256 checked)
+        run: |
+          sh scripts/fetch_cs5071a.sh
+          sh scripts/fetch_phasedat.sh
+      - name: Run both checks, data REQUIRED
+        env:
+          KSHANA_REQUIRE_REALDATA: "1"
+        run: cargo test --release --test cs5071a_reference --test phasedat_reference -- --nocapture

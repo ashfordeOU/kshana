@@ -26,7 +26,26 @@ updates:
     ignore:
       - dependency-name: "*"
         update-types: ["version-update:semver-major"]
-  # GitHub Actions: one grouped PR per month.
+  # The MCP server's OCI image. Both base images in mcp/kshana-mcp/Dockerfile are pinned
+  # by digest; without this entry a digest pin would freeze the OS layers against security
+  # fixes with nothing to nudge them. Major bumps (a new Debian release, a new Rust minor
+  # for the builder) stay deliberate, the same policy as the crates.
+  - package-ecosystem: docker
+    directory: "/mcp/kshana-mcp"
+    schedule:
+      interval: monthly
+    groups:
+      docker:
+        patterns: ["*"]
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major", "version-update:semver-minor"]
+  # GitHub Actions: one grouped PR per month. Every action except dtolnay/rust-toolchain is
+  # pinned by full commit SHA with its tag as a trailing comment (`@<sha> # v4`): a tag is a
+  # pointer its owner can move, and a moved tag in a job holding a token is how the
+  # tj-actions/changed-files compromise spread. Dependabot rewrites the SHA and the comment
+  # together. dtolnay/rust-toolchain stays on its tag because there the tag IS the
+  # toolchain selector — a SHA would silently install stable and void the MSRV job.
   - package-ecosystem: github-actions
     directory: "/"
     schedule:

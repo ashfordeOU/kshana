@@ -20,7 +20,9 @@
 //! WHAT THIS ASSERTS (live, on every CI run; no Python/Java/network needed)
 //! ----------------------------------------------------------------------
 //!   1. `scripts/gen-sbom.sh` runs and emits a CycloneDX 1.5 document.
-//!   2. component_count >= 50 (the full locked dependency graph; ~59 here).
+//!   2. component_count >= 50 (66 here: the shipped graph, i.e. normal + build
+//!      edges from the root under the default, `python` and `wasm` feature
+//!      union, dev-dependencies excluded — see the SCOPE block in the script).
 //!   3. Every ATOMIC `license.id` the SBOM reports is a member of the official
 //!      613-entry SPDX enum  ->  ZERO invalid atomic identifiers. (External check.)
 //!   4. After the documented SPDX/CycloneDX normalization (compound expression
@@ -34,18 +36,23 @@
 //!
 //! HONEST SCOPE — what this DOES and does NOT validate
 //! ---------------------------------------------------
-//! This is kept as a CHARACTERISATION, proposed status **Modelled**, because the
-//! `gen-sbom.sh` *fallback* path (the path that runs when `cargo-cyclonedx` is not
-//! installed — as on this CI) places Cargo's compound SPDX expressions
-//! (`MIT OR Apache-2.0`, ...) inside `license.id`, so the document AS EMITTED
-//! fails the official schema (`raw_schema_errors` = 52, recorded in the fixture).
-//! That misuse is **surfaced, not masked**: the test records the compound-in-id
-//! count and asserts it is the SAME divergence the pinned oracle saw, rather than
-//! pretending the raw output conforms. What is genuinely externally VALIDATED is
+//! This is kept as a CHARACTERISATION, proposed status **Modelled**, because
+//! `gen-sbom.sh` (a `cargo metadata` generator, its only path) places Cargo's
+//! compound SPDX expressions (`MIT OR Apache-2.0`, ...) inside `license.id`, so
+//! the document AS EMITTED fails the official schema (`raw_schema_errors` = 60,
+//! recorded in the fixture). That misuse is **surfaced, not masked**: the test
+//! records the compound-in-id count and asserts it is the SAME divergence the
+//! pinned oracle saw, rather than pretending the raw output conforms. What is genuinely externally VALIDATED is
 //! the ExternalDataset sub-claim: every atomic licence is a real SPDX identifier,
 //! and the document is schema-conformant once expressed per the standard's own
 //! rule. The reproducibility/determinism part is self-consistency (re-run
 //! stability), not an external check, and stays Modelled.
+//!
+//! RE-BASELINE (explained): the fixture previously pinned 60 components / 53
+//! compound ids from a default-feature resolve that included dev-dependencies
+//! (sgp4, chrono) and omitted the `--features python` pyo3 chain the PyPI wheel
+//! links. `gen-sbom.sh` now walks the shipped graph only; the counts moved to
+//! 66 / 60 through the committed generator, not by hand.
 //!
 //! One known list-version lag is recorded: `Unicode-3.0` (used inside one
 //! compound expression) is absent from this schema snapshot's SPDX enum
@@ -175,7 +182,7 @@ fn sbom_conforms_to_official_cyclonedx_1_5_and_spdx() {
             if let Some(id) = lic.get("id").and_then(|v| v.as_str()) {
                 if is_compound(id) {
                     // Standard rule: a compound expression is NOT a valid `id`.
-                    // gen-sbom.sh's fallback mis-places it here; the document only
+                    // gen-sbom.sh mis-places it here; the document only
                     // conforms once it is moved to `expression`. Count it (the
                     // known gap) rather than failing — the divergence is asserted
                     // against the pinned oracle below.
@@ -232,8 +239,8 @@ fn sbom_conforms_to_official_cyclonedx_1_5_and_spdx() {
     assert_eq!(
         components.len(),
         v_components,
-        "live component_count {} != pinned oracle {v_components} (Cargo.lock graph drifted; \
-         regenerate the fixture)",
+        "live component_count {} != pinned oracle {v_components} (Cargo.lock or shipped-feature \
+         graph drifted; regenerate the fixture)",
         components.len()
     );
     // The compound-in-id divergence we observe live must match the oracle's record
@@ -246,7 +253,7 @@ fn sbom_conforms_to_official_cyclonedx_1_5_and_spdx() {
     eprintln!(
         "reproducibility_software_assurance: {} components vs official CycloneDX 1.5 + SPDX enum \
          ({} ids); {atomic_ids} atomic ids ALL valid SPDX; {compound_in_id} compound exprs \
-         (gen-sbom.sh fallback places these in license.id — known gap, normalized to `expression` \
+         (gen-sbom.sh places these in license.id — known gap, normalized to `expression` \
          => 0 schema errors); byte-deterministic re-run.",
         components.len(),
         enum_set.len(),

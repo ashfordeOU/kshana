@@ -194,9 +194,24 @@ fn main() -> ExitCode {
             let kind = kshana::api::ScenarioKind::classify(&src)
                 .map(|k| k.as_str())
                 .unwrap_or("scenario");
-            println!(
-                "ok: {kind} — kind resolves and its published required fields are present; field values are not checked"
-            );
+            // For about two thirds of the catalogue the kind publishes NO required field:
+            // the pack runs its reference configuration from an empty body. "ok" is true
+            // there too, but it must not read as though fields were checked when there were
+            // none to check — say which of the two the caller got.
+            let n_required = kshana::api::list_scenario_kinds()
+                .into_iter()
+                .find(|m| m.name == kind)
+                .map(|m| m.required_fields.len())
+                .unwrap_or(0);
+            if n_required == 0 {
+                println!(
+                    "ok: {kind} — kind resolves; this kind requires no field (an empty body runs its reference configuration), so there was nothing further to check"
+                );
+            } else {
+                println!(
+                    "ok: {kind} — kind resolves and its {n_required} published required field(s) are present; field values are not checked"
+                );
+            }
             return ExitCode::SUCCESS;
         }
         for v in &violations {

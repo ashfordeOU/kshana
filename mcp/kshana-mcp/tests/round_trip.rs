@@ -71,6 +71,7 @@ async fn serves_exactly_the_expected_tool_set() {
         "export_sp3",
         "export_omm",
         "export_oem",
+        "export_table_csv",
     ]
     .into_iter()
     .collect();
@@ -234,5 +235,57 @@ async fn validate_scenario_classifies_a_valid_toml_and_rejects_garbage() {
         bad.is_err() || bad.unwrap().is_error == Some(true),
         "garbage scenario must be rejected"
     );
+    client.cancel().await.ok();
+}
+
+#[tokio::test]
+async fn export_table_csv_returns_the_golden_table_and_names_the_kinds_on_refusal() {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+    let client = connect().await;
+
+    // A kind that publishes a table: the tool must return the exact golden-pinned bytes
+    // the CLI writes as `<scenario>.table.csv`, not a re-rendering of them.
+    let toml = std::fs::read_to_string(root.join("scenarios/realtime-frame-eop.toml"))
+        .expect("read bundled realtime-frame-eop scenario");
+    let golden = std::fs::read_to_string(root.join("tests/golden/realtime-frame-eop.csv"))
+        .expect("read the realtime-frame-eop golden table");
+    let res = client
+        .call_tool(call(
+            "export_table_csv",
+            serde_json::json!({ "toml": toml }),
+        ))
+        .await
+        .expect("call export_table_csv");
+    assert_ne!(
+        res.is_error,
+        Some(true),
+        "export_table_csv returned an error"
+    );
+    assert_eq!(
+        first_text(&res),
+        golden,
+        "MCP CSV must equal the golden table byte for byte"
+    );
+
+    // A kind with no table must be refused with a message naming the kinds that have one,
+    // never answered with an empty success.
+    let clock = std::fs::read_to_string(root.join("scenarios/clock-holdover.toml"))
+        .expect("read bundled clock scenario");
+    let err = client
+        .call_tool(call(
+            "export_table_csv",
+            serde_json::json!({ "toml": clock }),
+        ))
+        .await
+        .expect_err("a kind with no CSV table must be a tool error");
+    let msg = err.to_string();
+    for kind in [
+        "realtime-frame-eop",
+        "lunar-time-budget",
+        "lunar-jamming",
+        "moonlight-service-volume",
+    ] {
+        assert!(msg.contains(kind), "refusal must name `{kind}`: {msg}");
+    }
     client.cancel().await.ok();
 }

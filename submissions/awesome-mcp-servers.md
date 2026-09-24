@@ -62,6 +62,9 @@ given a Dockerfile to build yet).
   handshake — the Glama-equivalent check passes end-to-end.
 - Round-trip integration test (`cargo test` in `mcp/kshana-mcp`): 4/4 green.
 
+That record is kept as it was verified; the tool set has since grown to seven (`export_oem`
+and `export_table_csv` were added), so the list under Notes below is the current one.
+
 Plain version (for lists without the emoji convention):
 
 ```markdown
@@ -82,7 +85,8 @@ Plain version (for lists without the emoji convention):
 
 - Keep the description honest and specific — these reviewers reward precision and
   penalize hype.
-- If a maintainer asks for a tool list: the server exposes `run_scenario`,
-  `list_scenario_kinds`, `validate_scenario`, `export_sp3`, `export_omm`.
+- If a maintainer asks for a tool list: the server exposes seven tools — `run_scenario`,
+  `list_scenario_kinds`, `validate_scenario`, `export_sp3`, `export_omm`, `export_oem`,
+  `export_table_csv`.
 - This file is the canonical draft; update it if the entry text changes so re-submission
   is copy-paste.

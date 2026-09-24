@@ -151,6 +151,37 @@ fn oracle_references_have_no_dead_entries() {
 }
 
 #[test]
+fn every_standard_card_states_its_proof_explicitly() {
+    // web/app.js renders the "validated" pill from `if (s.proof)`, and an absent field
+    // renders as no claim at all rather than as an error — so a card added without it
+    // silently publishes a standard with no statement either way. Require the field on
+    // every card, in one of the two shapes the site uses: `true`, or a non-empty string
+    // naming the independent oracle. `false` is allowed (an honestly-unproven card).
+    // (Deliberately NOT a count comparison against the matrix map: CCSDS TDM is proven
+    // but unmapped by design, see the test below.)
+    let caps_raw = std::fs::read_to_string(root().join("web/capabilities.json"))
+        .expect("read capabilities.json");
+    let caps: serde_json::Value = serde_json::from_str(&caps_raw).expect("parse capabilities.json");
+    let stds = caps["standards"]
+        .as_array()
+        .expect("capabilities.json has a standards array");
+    assert!(!stds.is_empty(), "capabilities.json standards[] is empty");
+    let bad: Vec<String> = stds
+        .iter()
+        .filter(|s| match &s["proof"] {
+            serde_json::Value::Bool(_) => false,
+            serde_json::Value::String(t) => t.trim().is_empty(),
+            _ => true,
+        })
+        .map(|s| s["name"].as_str().unwrap_or("<unnamed>").to_string())
+        .collect();
+    assert!(
+        bad.is_empty(),
+        "standards whose `proof` is absent, empty or not a bool/string: {bad:?}"
+    );
+}
+
+#[test]
 fn standards_matrix_map_references_real_rows_and_standards() {
     // The "Standards & interoperability" cards deep-link their VALIDATED badge into the
     // ledger via web/data/standards-matrix-map.json. Every key must be a real standard
