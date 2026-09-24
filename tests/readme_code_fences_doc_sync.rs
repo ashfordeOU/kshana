@@ -117,6 +117,10 @@ fn every_site_import_from_the_wasm_package_is_a_real_export() {
     let files = [
         ("web/app.js", include_str!("../web/app.js")),
         ("web/smoke.mjs", include_str!("../web/smoke.mjs")),
+        (
+            "web/engine-worker.mjs",
+            include_str!("../web/engine-worker.mjs"),
+        ),
     ];
     let mut checked = 0;
     let mut bad = Vec::new();

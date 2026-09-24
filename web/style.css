@@ -454,6 +454,21 @@ details#advanced summary { cursor: pointer; color: var(--fg-1); font-size: 0.85r
 
 .status { font-family: var(--mono); font-size: 0.78rem; color: var(--fg-2); margin: 0.3rem 0; }
 .status.ran { color: var(--ok); }
+/* Engine busy state: a slow scenario runs in a worker; the status line counts seconds. */
+.status.busy { color: var(--fg-1); }
+.status.busy::before {
+  content: "";
+  display: inline-block;
+  width: 0.55em;
+  height: 0.55em;
+  margin-right: 0.45em;
+  border-radius: 50%;
+  background: var(--accent, currentColor);
+  vertical-align: 0.05em;
+  animation: status-busy-pulse 1s ease-in-out infinite;
+}
+@keyframes status-busy-pulse { 50% { opacity: 0.25; } }
+@media (prefers-reduced-motion: reduce) { .status.busy::before { animation: none; } }
 .errbox {
   font-family: var(--mono);
   font-size: 0.8rem;

@@ -423,7 +423,8 @@ parameter to manufacture a sub-5 m number, in keeping with the honesty contract.
 Kshana is engineered as research software intended to be trusted and reused. The repository
 runs continuous integration on every change: formatting and linting gates, the full test
 suite, a cross-platform reproducibility matrix that compares results across operating
-systems, and a line-coverage gate (the engine sits near 97 % line coverage). Each release
+systems, and a line-coverage gate (the engine sits near 96 % line coverage — 95.63 % measured by CI, recorded in
+`docs/COVERAGE.md`). Each release
 ships prebuilt binaries, a CycloneDX Software Bill of Materials, SLSA build-provenance
 attestation, and an auto-generated validation summary, and is archived on Zenodo with a
 citable DOI. A repository-level policy and CI guard enforce that every reported figure

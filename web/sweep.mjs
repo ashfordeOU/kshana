@@ -20,13 +20,18 @@ export const SWEEP_GEOM = { wIntrinsic: 760, ml: 66, mr: 18 };
 /// Inclusive linear-spaced values v_i = min + (max-min)·i/(steps-1), i=0..steps-1.
 /// `steps` is clamped to ≥2 and ≤ MAX_SWEEP. The endpoints are exact (first===min,
 /// last===max) so an integer range like sweepValues(0,10,11) is [0,1,…,10].
-export function sweepValues(min, max, steps) {
+export function sweepValues(min, max, steps, integer = false) {
   const n = Math.max(2, Math.min(MAX_SWEEP, Math.round(steps)));
   const out = [];
   for (let i = 0; i < n; i++) {
     out.push(i === n - 1 ? max : min + ((max - min) * i) / (n - 1));
   }
-  return out;
+  if (!integer) return out;
+  // An integer knob (the seed) must be written as an integer: the engine reads it as
+  // u64, and a fractional step such as 10.9 failed the whole sweep. Round each value and
+  // drop repeats, so a range narrower than the step count yields fewer, distinct runs.
+  const seen = new Set();
+  return out.map(Math.round).filter((v) => (seen.has(v) ? false : (seen.add(v), true)));
 }
 
 /// Patch a single TOML scalar for one sweep step. `knob` = {key, section}; a

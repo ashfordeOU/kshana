@@ -4,12 +4,14 @@ The 61 built-in scenario kinds that `kshana::api::run_toml` dispatches over, eac
 
 This file is **generated** from `api::list_scenario_kinds()` — the single source of truth — by `cargo run --bin gen_validation_artifacts`; edit the source, not this file. Every binding (the Python package, the MCP server's `list_scenario_kinds` tool, and the WASM playground) exposes this same catalogue, so what is listed here is exactly what every surface can run.
 
+Every scenario except `clock` must also set `kind = "<name>"` at the top level: a document without `kind` runs as `clock`, which is why `kind` is not repeated in any kind's required fields below. A required entry may name alternatives: `|` separates forms of which at least one must be present and `+` joins fields that must appear together, so `tle|orbit+epoch` reads "a `tle`, or an `orbit` with an `epoch`".
+
 | # | Kind | Description |
 |--:|------|-------------|
 | 1 | [`clock`](#clock) | Clock holdover vs spec; optional Monte-Carlo ensemble (runs > 1). |
 | 2 | [`inertial`](#inertial) | 1-DOF inertial dead-reckoning during a GNSS outage. |
 | 3 | [`orbit`](#orbit) | GNSS availability + DOP from an orbital constellation (Walker / TLE / RINEX). |
-| 4 | [`ephemeris`](#ephemeris) | Ephemeris & ground track: propagate one satellite (TLE→SGP4 or analytic orbit) and emit its TEME/GCRS state (position + velocity), ITRF/ECEF position, WGS-84 sub-satellite lat/lon/alt, and per-step station az/el/range + range-rate (Doppler). |
+| 4 | [`ephemeris`](#ephemeris) | Ephemeris & ground track: propagate one satellite (TLE→SGP4 or analytic orbit) and emit its TEME/GCRS state (position + velocity), ITRF/ECEF position, WGS-84 sub-satellite lat/lon/alt, and per-step station az/el/range + range-rate (Doppler). The satellite comes from a `tle` or from an analytic `orbit` with its `epoch` (a `tle` wins when both are given); with a `tle`, an `epoch` overrides the TLE's own epoch as t = 0. |
 | 5 | [`integrity`](#integrity) | Snapshot / solution-separation / ARAIM RAIM with HPL/VPL and a Stanford diagram. |
 | 6 | [`lunar-integrity`](#lunar-integrity) | Lunar south-pole ARAIM protection-level pass vs a representative LunaNet relay set. sigma_ure_m exposes the signal-in-space ranging accuracy (protection levels scale linearly with it, so sweeping it answers what ranging accuracy an alert limit requires). Defaults to the historical LNIS-class south-pole case. |
 | 7 | [`lunar-time-offset`](#lunar-time-offset) | Modelled relativistic Earth–Moon clock rate (Lunar Coordinate Time, LTC/TCL): the secular LTC−TT rate from the self-potential difference and the Moon's kinetic term, reported with the published 56–59 µs/day band, plus the accumulated offset over a horizon. |
@@ -40,7 +42,7 @@ This file is **generated** from `api::list_scenario_kinds()` — the single sour
 | 32 | [`pvt`](#pvt) | Real-observation single-point positioning: solve a receiver's position from a RINEX 3 observation file and a broadcast-navigation file (code pseudoranges, broadcast ephemeris, Klobuchar iono, Saastamoinen/Niell tropo), optionally validated against a surveyed coordinate. |
 | 33 | [`mars-pnt`](#mars-pnt) | Deep-space Mars PNT: a simulated MARCONI relay constellation (areostationary + inclined relays broadcasting one-way + relaying two-way to a deep-space station) navigates a reference user (transfer \| lmo \| surface) through the joint one-way/two-way radiometric fusion estimator. Reports per-epoch geometry/visibility, achieved RMS vs truth, and the formal covariance (1σ / 3σ position) — an honest simulated FoM, NOT a certified protection level. |
 | 34 | [`impairment-eval`](#impairment-eval) | AI/ML RF-impairment detection evaluation testbed (13494): generate a labelled, parameter-grounded SYNTHETIC corpus (nominal/jamming/spoof-time/spoof-position/multipath), score a detector (energy\|agc\|sqm\|parity\|fused) with the detector-agnostic harness, and report AUC/ROC/confusion + per-class Pd at a target Pfa, plus the in- vs out-of-distribution optimism gap. MODELLED operating characteristics only — never field/IQ, no good/bad verdict. |
-| 35 | [`quantum-trade`](#quantum-trade) | Quantum-vs-classical PNT trade (13503): timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve — the defensibility hinge — or a quantum clock class) vs a classical baseline class, with the long-tau floor-assumption caveat carried on the artifact, plus a GNSS-denied resilience-vs-time envelope. MODELLED; quantifies (never validates) a partner device. |
+| 35 | [`quantum-trade`](#quantum-trade) | Quantum-vs-classical PNT trade (13503): timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve — the defensibility hinge — or a quantum clock class) vs a classical baseline class, with the long-tau floor-assumption caveat carried on the artifact, plus a GNSS-denied resilience-vs-time envelope. MODELLED; quantifies (never validates) a partner device. The candidate clock is a measured curve (`candidate_adev_taus` + `candidate_adev_values`, equal length, at least 2 points; it wins when both forms are given) or a `candidate_clock_class`. |
 | 36 | [`space-weather`](#space-weather) | Space-weather environment model: solar (F10.7/F10.7a) and geomagnetic (Kp, with the definitional Kp↔ap table) activity indices, the Jacchia-1971 exospheric temperature they drive (validated vs published solar-min/mean/max), and the activity-corrected vs static thermospheric neutral density at a set of altitudes — the solar-cycle density dependence the static USSA76 atmosphere omits. MODELLED: the density correction is a calibrated first-order scale-height coupling, NOT a data-validated (NRLMSISE) atmosphere. |
 | 37 | [`oem-interop`](#oem-interop) | CCSDS OEM interoperability bridge: import an Orbit Ephemeris Message produced by an external flight-dynamics tool (GMAT/Orekit/STK all emit OEM) and report its segments/objects/frames/epoch-span plus a velocity-consistency check; with no input it round-trips a generated reference orbit and reports the import↔export fidelity. MODELLED structural/physical ingest check, NOT an orbit-accuracy validation of the source. |
 | 38 | [`launch-window`](#launch-window) | Two-body launch & ascent geometry: launch azimuth(s) (sin Az = cos i / cos lat), minimum reachable inclination, circular velocity, the Earth-rotation eastward bonus, dogleg plane-change Δv when the target inclination is below the site latitude, and the number of daily launch opportunities. MODELLED spherical-Earth geometry (no rotating-Earth velocity-triangle correction, no ascent/drag-loss model). |
@@ -91,10 +93,10 @@ GNSS availability + DOP from an orbital constellation (Walker / TLE / RINEX).
 
 ## `ephemeris`
 
-Ephemeris & ground track: propagate one satellite (TLE→SGP4 or analytic orbit) and emit its TEME/GCRS state (position + velocity), ITRF/ECEF position, WGS-84 sub-satellite lat/lon/alt, and per-step station az/el/range + range-rate (Doppler).
+Ephemeris & ground track: propagate one satellite (TLE→SGP4 or analytic orbit) and emit its TEME/GCRS state (position + velocity), ITRF/ECEF position, WGS-84 sub-satellite lat/lon/alt, and per-step station az/el/range + range-rate (Doppler). The satellite comes from a `tle` or from an analytic `orbit` with its `epoch` (a `tle` wins when both are given); with a `tle`, an `epoch` overrides the TLE's own epoch as t = 0.
 
-- **Required fields:** *(none)*
-- **Optional fields:** `tle`, `orbit`, `epoch`, `step_s`, `duration_s`, `station`, `dut1_s`, `xp_arcsec`, `yp_arcsec`, `carrier_hz`, `eop_finals2000a`
+- **Required fields:** `tle|orbit+epoch`
+- **Optional fields:** `step_s`, `duration_s`, `station`, `dut1_s`, `xp_arcsec`, `yp_arcsec`, `carrier_hz`, `eop_finals2000a`
 
 ## `integrity`
 
@@ -129,7 +131,7 @@ Modelled lunar geodetic VLBI delay observable: an Earth baseline (two ground sta
 Modelled joint multi-technique lunar OD + clock batch estimator on a SIMULATED network: a Gauss-Newton snapshot fit that fuses Earth-baseline geodetic VLBI delays, lunar-local station↔satellite ranges and inter-satellite ranges to recover, together, a lunar surface station's 3-D position, a small constellation's positions and every asset's clock offset from an injected truth. The headline honest result — VLBI makes the station's full 3-D position observable where lunar-local ranging alone leaves a weakly-observed direction — is reported as the with-vs-without-VLBI station-error contrast. MODELLED simulated closed-loop recovery (truth shares the observation model), deterministic (seeded), NOT real-data validated; no force-model propagation inside the solver; no TRL/heritage/agency endorsement.
 
 - **Required fields:** *(none)*
-- **Optional fields:** `n_sat`, `n_earth`, `seed`, `sigma_vlbi_s`, `sigma_range_m`, `sigma_isl_m`, `station_lat_deg`, `station_lon_deg`, `station_alt_m`, `orbit_radius_km`, `epoch_year`, `epoch_month`, `epoch_day`
+- **Optional fields:** `n_sat`, `n_earth`, `seed`, `sigma_vlbi_s`, `sigma_range_m`, `sigma_isl_m`, `station_lat_deg`, `station_lon_deg`, `station_alt_m`, `orbit_radius_km`, `sigma_clock_s`, `orbit_ecc`, `orbit_inc_deg`, `orbit_argp_deg`, `orbit_planes`, `epoch_year`, `epoch_month`, `epoch_day`
 
 ## `lunar-frame-realisation`
 
@@ -290,7 +292,7 @@ GPS-denied combined gravity + magnetic + terrain navigator: three scalar field c
 Real-observation single-point positioning: solve a receiver's position from a RINEX 3 observation file and a broadcast-navigation file (code pseudoranges, broadcast ephemeris, Klobuchar iono, Saastamoinen/Niell tropo), optionally validated against a surveyed coordinate.
 
 - **Required fields:** `obs_rinex`, `nav_rinex`
-- **Optional fields:** `truth_ecef`, `apriori_ecef`, `mask_deg`
+- **Optional fields:** `truth_ecef`, `apriori_ecef`, `mask_deg`, `dual_frequency`
 
 ## `mars-pnt`
 
@@ -308,10 +310,10 @@ AI/ML RF-impairment detection evaluation testbed (13494): generate a labelled, p
 
 ## `quantum-trade`
 
-Quantum-vs-classical PNT trade (13503): timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve — the defensibility hinge — or a quantum clock class) vs a classical baseline class, with the long-tau floor-assumption caveat carried on the artifact, plus a GNSS-denied resilience-vs-time envelope. MODELLED; quantifies (never validates) a partner device.
+Quantum-vs-classical PNT trade (13503): timing-holdover + inertial-holdover benefit of a candidate clock (a measured-ADEV curve — the defensibility hinge — or a quantum clock class) vs a classical baseline class, with the long-tau floor-assumption caveat carried on the artifact, plus a GNSS-denied resilience-vs-time envelope. MODELLED; quantifies (never validates) a partner device. The candidate clock is a measured curve (`candidate_adev_taus` + `candidate_adev_values`, equal length, at least 2 points; it wins when both forms are given) or a `candidate_clock_class`.
 
-- **Required fields:** `timing_threshold_s`, `position_threshold_m`, `baseline_clock_class`
-- **Optional fields:** `candidate_clock_class`, `candidate_adev_taus`, `candidate_adev_values`, `baseline_ins`, `candidate_ins`, `resilience_times_s`, `alt_pnt_bound_m`
+- **Required fields:** `timing_threshold_s`, `position_threshold_m`, `baseline_clock_class`, `candidate_adev_taus+candidate_adev_values|candidate_clock_class`
+- **Optional fields:** `baseline_ins`, `candidate_ins`, `resilience_times_s`, `alt_pnt_bound_m`
 
 ## `space-weather`
 
@@ -486,7 +488,7 @@ Surface-beacon augmentation of a lunar orbital navigation service, as a runnable
 Earth-GNSS reception at lunar distance, the weak-signal layer the conflict-resilience paper names and the engine had no model for. A GNSS satellite points its antenna at the Earth; a receiver near the Moon sits about fifteen times the orbital radius away, so three things bite at once. The Earth OCCULTS THE BORESIGHT: from 26,560 km it subtends a 13.9 deg half-angle, so any lunar-bound ray must leave the transmitter at least that far off nadir, which removes the peak of the beam before any power is computed. What remains is the MAIN-LOBE EDGE AND THE SIDELOBES, the regime the LuGRE payload actually operated in during 2025. And the free-space loss is about 208 dB at L1, roughly 25 dB more than a terrestrial user pays. The report emits one row per satellite (off-boresight angle, Earth occultation, range, path loss, transmit gain at that angle, received power, carrier-to-noise density) and aggregates only the links clearing the tracking threshold. IT ALSO REPORTS THE CONDITIONING, because that is what defines this layer: every visible satellite lies inside a cone a couple of degrees wide as seen from the Moon, so the lines of sight are nearly parallel, the dilution of precision is enormous, and an Earth-GNSS fix at lunar distance is a TIMING-grade observation far more than a position-grade one. MODELLED, and the transmit pattern is the reason: the gain at angle is a uniform circular aperture (Airy), while a real GPS L1 antenna is a twelve-element helical array with a shaped main lobe and non-Airy sidelobes. Measured patterns exist and are not vendored here, so orderings and orders of magnitude are meaningful while the dB of any single satellite is not. Deliberately ABSENT, each making the budget optimistic: no ionospheric or tropospheric loss on the limb-grazing rays, no polarisation, pointing or implementation loss, and a spherical Earth with no refractive extension. The Moon position is an INPUT (range plus inertial direction) rather than an ephemeris lookup, because the quantity under test is the link and the beam geometry. Upgrading this row to Validated needs a measured transmit pattern and LuGRE normal points; neither is in the repository and neither is invented here.
 
 - **Required fields:** *(none)*
-- **Optional fields:** `altitude_km`, `inclination_deg`, `planes`, `sats_per_plane`, `phasing_f`, `epoch_s`, `receiver_range_m`, `receiver_ra_deg`, `receiver_dec_deg`, `tx_power_dbw`, `tx_diameter_m`, `tx_efficiency`, `freq_hz`, `rx_gain_dbi`, `system_temp_k`, `tracking_threshold_dbhz`
+- **Optional fields:** `altitude_km`, `inclination_deg`, `planes`, `sats_per_plane`, `phasing_f`, `epoch_s`, `receiver_range_m`, `receiver_ra_deg`, `receiver_dec_deg`, `tx_power_dbw`, `tx_diameter_m`, `tx_efficiency`, `freq_hz`, `rx_gain_dbi`, `system_temp_k`, `tracking_threshold_dbhz`, `back_lobe_suppression_db`, `epochs`, `span_s`
 
 ## `cislunar-arc-recovery`
 

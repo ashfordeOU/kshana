@@ -106,6 +106,28 @@ for rdm in README.md README.crates.md README.npm.md README.pypi.md; do
   done
 done
 
+# 8. JetBrains Marketplace change-notes — the listing text shipped with each version.
+#
+#    Checks 4 keeps the plugin's VERSION in lockstep, but the notes shown beside it on the
+#    Marketplace are hand-written in plugin.xml and nothing read them: seven published
+#    versions (0.23.0 through 0.27.2) served the byte-identical 0.22.0 notes. The newest
+#    entry — the first <b>x.y.z</b> inside <change-notes> — must name the version being
+#    shipped. When the plugin itself did not change, a one-line entry saying so is the
+#    honest note ("the plugin is unchanged since 0.22.0; republished to track the engine"),
+#    and it is still better than a listing that describes a release from months ago.
+#    Plain HTML only: <change-notes> renders as HTML, so Markdown from the changelog
+#    extractor would show literal ### and ** on the Marketplace.
+PLUGIN_XML="ide/jetbrains/src/main/resources/META-INF/plugin.xml"
+notes_ver="$(awk '/<change-notes>/{f=1} f' "$PLUGIN_XML" \
+  | grep -oE '<b>[0-9]+\.[0-9]+\.[0-9]+</b>' | head -1 | sed -E 's#</?b>##g')"
+if [ "$notes_ver" != "$ver" ]; then
+  echo "FAIL: JetBrains change-notes' newest entry is ${notes_ver:-<none>}, but the plugin ships as v${ver}." >&2
+  note "add a <b>${ver}</b> entry at the top of <change-notes> in ${PLUGIN_XML} — one line"
+  note "stating the plugin is unchanged is fine when it is — so the Marketplace listing for"
+  note "v${ver} does not describe an older release."
+  fail=1
+fi
+
 # 7. The release TAG against the manifest.
 #
 #    Checks 1-6 compare files in the tree to each other, so a tree that is internally
@@ -152,7 +174,8 @@ fi
 
 echo "OK: every surface this script checks is at v${ver} — root README \"Status:\" line \
 and release badge; README.crates.md / README.npm.md / README.pypi.md release badges; \
-mcp/kshana-mcp version and its kshana dependency requirement; JetBrains pluginVersion; \
+mcp/kshana-mcp version and its kshana dependency requirement; JetBrains pluginVersion \
+and the newest Marketplace change-notes entry; \
 web/index.html JSON-LD, version chip and 3 cache-busters; ${tag_checked}."
 echo "    Not checked here, and not drifting: crates.io / PyPI / npm read the version out \
 of Cargo.toml at build time; CITATION.cff, codemeta.json and .zenodo.json are pinned to \

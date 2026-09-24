@@ -223,7 +223,9 @@ impl ServerHandler for KshanaServer {
                  export_omm / export_oem emit standard GNSS/CCSDS products from an orbit \
                  scenario (export_oem is the one carrying velocity); export_table_csv returns the \
                  CSV reproducibility table for the kinds that publish one. Construct scenarios from \
-                 list_scenario_kinds metadata; do not invent fields."
+                 list_scenario_kinds metadata; do not invent fields. A required_fields entry is \
+                 usually one key; `a|b` means at least one of them and `a+b` means all of \
+                 them together (e.g. `tle|orbit+epoch`)."
                     .to_string(),
             )
     }

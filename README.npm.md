@@ -121,7 +121,9 @@ const svg = chart_svg(toml);                    // the same chart the CLI writes
 On the WebAssembly face every entry point is a separate call: `run` (the result
 document as a JSON string), `summary`, `chart_svg`, `table_csv` (the scenario's CSV
 table as a string, or `undefined` for kinds that publish no table; it throws on an
-invalid scenario), `version`, `list_kinds` /
+invalid scenario), `run_all` (one engine run returning `{json, svg, summary, csv}` as a
+JSON string — use it when you want more than one output, since every other call runs
+the scenario afresh), `version`, `list_kinds` /
 `error_kind` (introspection), `encode_permalink` / `decode_permalink` — the
 shareable-URL codec the [playground](https://kshana.dev) uses to round-trip a whole
 scenario through the address-bar fragment — and `export_sp3` / `export_omm` /
