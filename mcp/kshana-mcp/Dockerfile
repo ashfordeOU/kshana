@@ -27,7 +27,7 @@
 # cannot change what gets built. Dependabot's docker ecosystem (.github/dependabot.yml,
 # directory /mcp/kshana-mcp) proposes the digest bumps, so the OS layers still receive
 # security updates — through a reviewed PR instead of silently.
-FROM rust:1.93.0-slim-bookworm@sha256:776861219cd851131c1cec3bbd7cbeb16b99a794048097eb69ad9682a8ed0d57 AS build
+FROM rust:1.93.1-slim-bookworm@sha256:5b9332190bb3b9ece73b810cd1f1e9f06343b294ce184bcb067f0747d7d333ea AS build
 WORKDIR /src
 COPY . .
 WORKDIR /src/mcp/kshana-mcp
