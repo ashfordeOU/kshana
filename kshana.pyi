@@ -68,7 +68,9 @@ def run_typed(toml: str) -> RunOutput:
 
 def scenario_kinds() -> list[dict[str, Any]]:
     """The available scenario kinds and their metadata (name, description, required
-    and optional fields)."""
+    and optional fields). A required entry is usually one key; ``a|b`` means at
+    least one of them and ``a+b`` means all of them together (e.g.
+    ``tle|orbit+epoch``). Every kind except ``clock`` must also set ``kind``."""
 
 def validate_toml(toml: str) -> list[str]:
     """Validate a scenario TOML string without raising: a list of error messages,

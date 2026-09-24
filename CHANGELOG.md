@@ -11,6 +11,16 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **The playground runs the engine in a background Web Worker, so a slow scenario no
+  longer freezes the page.** `web/engine-worker.mjs` hosts the WebAssembly engine and
+  `web/engine.mjs` forwards every scenario execution to it — runs, parameter sweeps and
+  the SP3 / OMM / OEM / CSV exports. A run that outlives 150 ms shows a busy state
+  (Run disabled, "Running… N s") and a Cancel button that terminates and respawns
+  the worker; a browser that cannot start a module worker falls back to the old
+  main-thread path. `cislunar-arc-recovery`, left out of the catalogue because it
+  froze the page, is back in it, labelled as slow: it takes about 13 s in Chrome
+  (four engine calls of about 3 s each), during which the page stays responsive.
+
 - **Every reported quantity of `cislunar-observability` now carries a unit, a
   provenance class and a definition — the last kind on the crate-wide exemption
   list but one.** All 41 numeric fields of the RELEASED document are described, so
@@ -109,6 +119,13 @@ breaking changes are called out explicitly.
   kind without a table. Every surface that states the MCP tool count or lists the
   tools now says seven.
 
+- **`run_all` in the WebAssembly module: one engine run for every output.** `run`,
+  `chart_svg`, `summary` and `table_csv` each execute the scenario from scratch, so the
+  playground paid for four full runs per click — about 12 s instead of 3 s for
+  `cislunar-arc-recovery` in a browser. `run_all` returns `{json, svg, summary, csv}` from
+  one run, and the playground now uses it. It matches the four separate calls byte for
+  byte.
+
 ### Fixed
 
 - **Corrected a published figure: dual-constellation ARAIM availability on the
@@ -173,6 +190,15 @@ breaking changes are called out explicitly.
   study command overwrote them, dirtying the tree and blocking the push gate.
   `*.study.json` / `*.study.html` are now ignored like the other four engine outputs.
 
+- **A seed sweep in the playground no longer fails on every run.** The sweep stepped the
+  integer `seed` knob linearly (1, 10.9, 20.8, …), and the engine, reading it as `u64`,
+  rejected each fractional value. Integer knobs now sweep distinct whole numbers.
+
+- **Every playground download says which engine and which input made it.** A few kinds
+  (e.g. `realtime-frame-eop`) emit no `engine_version` or `scenario_hash`, so their
+  downloads were named plain `kshana-csv.csv`. The name now falls back to the loaded
+  engine's version and a 12-hex FNV-1a-64 fingerprint of the scenario text.
+
 ### Changed
 
 - **Line coverage has a measurement of record.** `docs/COVERAGE.md` records 95.63 %
@@ -198,6 +224,31 @@ breaking changes are called out explicitly.
 
 - **The glossary defines URE, EOP, FoM, CTI and TIB**, which the README and ledger used
   bare.
+
+- **Every kind's published field contract is now true, and a test holds it there.** Five
+  of the 61 kinds changed. Kinds with a non-empty `required_fields` go from 21 to 22:
+  `ephemeris` now requires `tle|orbit+epoch` (a bare `kind = "ephemeris"` used to pass
+  `--validate` and then fail the run), and `quantum-trade` adds
+  `candidate_adev_taus+candidate_adev_values|candidate_clock_class`, which its run
+  already demanded. A required entry may use `|` (one of these) and `+` (all of these
+  together); `--validate` understands both. `lunar-joint-od-clock`, `pvt` and
+  `earth-gnss-lunar` publish 9 real optional fields they had left out.
+  `docs/SCENARIOS.md` now says `kind` is required for every kind except `clock`.
+  `tests/required_fields_are_true.rs` checks every kind against its shipped scenario:
+  removing any required entry must make the run fail, and a document holding only the
+  required fields must run.
+
+- **The JetBrains Marketplace notes are gated.** `scripts/check-version-sync.sh` now fails
+  unless the newest `<change-notes>` entry in `plugin.xml` names the version being
+  shipped; seven published versions had served the 0.22.0 notes unchanged.
+
+- **The technical report's coverage figure is the measured one.**
+  `paper/kshana-technical-report.md` said "near 97 %"; it now says near 96 % (95.63 %
+  measured, `docs/COVERAGE.md`) and is the sixth surface the coverage test pins.
+
+- **The off-main-thread engine client is tested** (`web/engine.test.mjs`, in CI): dispatch
+  allowlist, cancel and respawn, the three main-thread fallback routes, and crash
+  recovery, against a fake worker.
 
 ### Security
 

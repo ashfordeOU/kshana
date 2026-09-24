@@ -4,7 +4,9 @@
 > **[Kshana — PNT simulator](https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator)**
 > (plugin id `32181`, `dev.kshana.ide`). The one-time manual listing (§1) and token (§2)
 > are done; CI now publishes every update automatically (§3). Bump `pluginVersion` in
-> `ide/jetbrains/gradle.properties` to ship a new version.
+> `ide/jetbrains/gradle.properties` to ship a new version, and add a `<b>x.y.z</b>` entry
+> at the top of `<change-notes>` in `plugin.xml` — `scripts/check-version-sync.sh` fails
+> until the newest entry names the version being shipped.
 
 How to publish the **Kshana** IDE plugin (`ide/jetbrains/`) and keep it updated on every
 release. The CI is already wired (`.github/workflows/jetbrains-plugin.yml`, job `publish`);

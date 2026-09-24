@@ -11,6 +11,25 @@
 /// Build a descriptive, provenance-stamped, filesystem-safe download name, e.g.
 /// `kshana-holdover-v0.12.0-820999dd0e8a.svg`. Version and hash are optional and
 /// omitted cleanly when absent so the name never ends up with empty segments.
+/// The {ver, hash} a download is named with. Most kinds stamp `engine_version` and
+/// `scenario_hash` into their result, but a few (e.g. `realtime-frame-eop`) emit neither,
+/// and their downloads were named plain `kshana-<base>.<ext>` — indistinguishable across
+/// runs. Fall back to the loaded engine's version and a 12-hex FNV-1a-64 fingerprint of
+/// the scenario TOML, so every download still says which engine and which input made it.
+export function fileMeta(result, engineVersion, toml) {
+  const ver = (result && result.engine_version) || engineVersion || "";
+  let hash = result && result.scenario_hash;
+  if (!hash && typeof toml === "string" && toml) {
+    let h = 0xcbf29ce484222325n;
+    for (const b of new TextEncoder().encode(toml)) {
+      h ^= BigInt(b);
+      h = (h * 0x100000001b3n) & 0xffffffffffffffffn;
+    }
+    hash = h.toString(16).padStart(16, "0").slice(0, 12);
+  }
+  return { ver, hash: hash || "" };
+}
+
 export function chartFilename(base, meta, ext) {
   const ver = meta && meta.ver ? `-v${meta.ver}` : "";
   const hash = meta && meta.hash ? `-${String(meta.hash).slice(0, 12)}` : "";

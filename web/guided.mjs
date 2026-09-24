@@ -65,7 +65,7 @@ const flt = (v) => parseFloat(v);
 /// scenarios show seed/threshold/duration/step/y0; orbit scenarios show
 /// seed/mask_deg/duration/step/inclination.
 export const GUIDED_KNOBS = [
-  { key: "seed", section: "", label: "Random seed", hint: "a different noise draw of the same physics", min: 1, max: 100, step: 1, parse: int, fmt: String },
+  { key: "seed", section: "", label: "Random seed", hint: "a different noise draw of the same physics", min: 1, max: 100, step: 1, parse: int, fmt: String, integer: true },
   { key: "threshold_ns", section: "", label: "Spec threshold (ns)", hint: 'in-spec budget; "available" while error stays under it', min: 1, max: 100, step: 1, parse: flt, fmt: String },
   { key: "step_s", section: "time", label: "Time step (s)", hint: "integration / sampling cadence", min: 1, max: 300, step: 1, parse: flt, fmt: String },
   { key: "duration_s", section: "time", label: "Duration (s)", hint: "total run length", min: 60, max: 86400, step: 60, parse: flt, fmt: String },

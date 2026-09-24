@@ -494,7 +494,9 @@ console.log(version(), result.classical.fom.timing_p95_ns);
 ```
 
 The module also exports `summary` (the one-line result string), `table_csv` (the
-scenario's CSV table, or `undefined` for kinds that publish none), `list_kinds` /
+scenario's CSV table, or `undefined` for kinds that publish none), `run_all` (all four
+from a single engine run, as a JSON object string — each of the others runs the scenario
+afresh), `list_kinds` /
 `error_kind` (introspection), and `encode_permalink` / `decode_permalink` — the
 shareable-URL codec the playground uses to round-trip a whole scenario through the
 address-bar fragment.
