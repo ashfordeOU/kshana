@@ -1401,33 +1401,22 @@ fn gdop_json(g: &CislunarGdop) -> serde_json::Value {
 fn svg(c: &Computed) -> String {
     let (w, h) = (900.0_f64, 420.0_f64);
     let mut s = String::new();
-    s.push_str(&format!(
-        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" \
-         font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\">"
+    s.push_str(&crate::chart::frame_open(
+        w,
+        h,
+        "Cislunar observability over a tracking arc (P6)",
+        "rank-vs-arc (range-only single link) · Gramian eigen-spectrum · differential-corrected DRO ICs + SRIF cross-check · MODELLED design, VALIDATED rank/STM/closure",
     ));
-    s.push_str(&format!(
-        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"
-    ));
-    s.push_str(
-        "<text x=\"24\" y=\"24\" font-size=\"15\" font-weight=\"bold\">Cislunar observability over a tracking arc (P6)</text>",
-    );
-    s.push_str(
-        "<text x=\"24\" y=\"40\" font-size=\"11\" fill=\"#8a8172\">rank-vs-arc (range-only single link) · Gramian eigen-spectrum · differential-corrected DRO ICs + SRIF cross-check · MODELLED design, VALIDATED rank/STM/closure</text>",
-    );
 
     // ── Left panel: rank vs arc length ──
     let (lx, ly, lw, lh) = (60.0_f64, 70.0_f64, 360.0_f64, 300.0_f64);
     let axis_y = ly + lh;
-    s.push_str(&format!(
-        "<text x=\"{lx:.0}\" y=\"{:.0}\" font-size=\"12\" fill=\"#8a8172\">observable rank vs arc length</text>",
-        ly - 8.0
-    ));
-    s.push_str(&format!(
-        "<line x1=\"{lx:.0}\" y1=\"{ly:.0}\" x2=\"{lx:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>"
-    ));
-    s.push_str(&format!(
-        "<line x1=\"{lx:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>",
-        lx + lw
+    s.push_str(&crate::chart::panel_axes(
+        lx,
+        ly,
+        lw,
+        axis_y,
+        "observable rank vs arc length",
     ));
     let rmax = c.state_dim as f64;
     let yof = |r: f64| axis_y - (r / rmax) * lh;
@@ -1479,16 +1468,12 @@ fn svg(c: &Computed) -> String {
     // ── Right panel: Gramian eigenvalue bars (log10) ──
     let (rx, ryy, rw, rh) = (520.0_f64, 70.0_f64, 340.0_f64, 300.0_f64);
     let raxis_y = ryy + rh;
-    s.push_str(&format!(
-        "<text x=\"{rx:.0}\" y=\"{:.0}\" font-size=\"12\" fill=\"#8a8172\">Gramian eigenvalues (log10)</text>",
-        ryy - 8.0
-    ));
-    s.push_str(&format!(
-        "<line x1=\"{rx:.0}\" y1=\"{ryy:.0}\" x2=\"{rx:.0}\" y2=\"{raxis_y:.0}\" stroke=\"#342c21\"/>"
-    ));
-    s.push_str(&format!(
-        "<line x1=\"{rx:.0}\" y1=\"{raxis_y:.0}\" x2=\"{:.0}\" y2=\"{raxis_y:.0}\" stroke=\"#342c21\"/>",
-        rx + rw
+    s.push_str(&crate::chart::panel_axes(
+        rx,
+        ryy,
+        rw,
+        raxis_y,
+        "Gramian eigenvalues (log10)",
     ));
     let logs: Vec<f64> = c
         .spectrum
