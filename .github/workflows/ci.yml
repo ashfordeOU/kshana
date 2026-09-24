@@ -417,7 +417,7 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       # Pinned to the repo toolchain like every other job. The crate is edition 2024
-      # (the rmcp SDK), so it needs >= 1.85; 1.93.0 satisfies that.
+      # (the rmcp SDK); rmcp 2.x needs >= 1.88 (darling 0.23); 1.93.0 satisfies both.
       - uses: dtolnay/rust-toolchain@1.93.0
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
         with:

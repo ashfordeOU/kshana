@@ -15,7 +15,7 @@
 use rmcp::handler::server::router::tool::ToolRouter;
 use rmcp::handler::server::wrapper::Parameters;
 use rmcp::model::{
-    CallToolResult, Content, Implementation, ProtocolVersion, ServerCapabilities, ServerInfo,
+    CallToolResult, ContentBlock, Implementation, ProtocolVersion, ServerCapabilities, ServerInfo,
 };
 use rmcp::{ErrorData as McpError, ServerHandler, schemars, tool, tool_handler, tool_router};
 
@@ -78,9 +78,12 @@ impl KshanaServer {
     ) -> Result<CallToolResult, McpError> {
         match kshana::api::run_toml(&toml) {
             Ok(out) => {
-                let mut contents = vec![Content::text(out.summary), Content::text(out.json)];
+                let mut contents = vec![
+                    ContentBlock::text(out.summary),
+                    ContentBlock::text(out.json),
+                ];
                 if include_chart {
-                    contents.push(Content::text(out.svg));
+                    contents.push(ContentBlock::text(out.svg));
                 }
                 Ok(CallToolResult::success(contents))
             }
@@ -95,7 +98,7 @@ impl KshanaServer {
         description = "List every built-in Kshana scenario kind with its description and required/optional TOML fields, as a JSON array. Use this to discover what scenarios can be run and how to construct a valid scenario TOML for run_scenario."
     )]
     fn list_scenario_kinds(&self) -> Result<CallToolResult, McpError> {
-        Ok(CallToolResult::success(vec![Content::text(
+        Ok(CallToolResult::success(vec![ContentBlock::text(
             kshana::api::list_scenario_kinds_json(),
         )]))
     }
@@ -115,7 +118,7 @@ impl KshanaServer {
         let kind = kshana::api::ScenarioKind::classify(&toml)
             .map(|k| k.as_str())
             .unwrap_or("clock");
-        Ok(CallToolResult::success(vec![Content::text(format!(
+        Ok(CallToolResult::success(vec![ContentBlock::text(format!(
             "valid: detected scenario kind `{kind}`"
         ))]))
     }
@@ -128,7 +131,7 @@ impl KshanaServer {
         Parameters(TomlRequest { toml }): Parameters<TomlRequest>,
     ) -> Result<CallToolResult, McpError> {
         match kshana::api::export_sp3(&toml) {
-            Ok(sp3) => Ok(CallToolResult::success(vec![Content::text(sp3)])),
+            Ok(sp3) => Ok(CallToolResult::success(vec![ContentBlock::text(sp3)])),
             Err(e) => Err(McpError::invalid_params(
                 format!("SP3 export failed: {e}"),
                 None,
@@ -144,7 +147,7 @@ impl KshanaServer {
         Parameters(TomlRequest { toml }): Parameters<TomlRequest>,
     ) -> Result<CallToolResult, McpError> {
         match kshana::api::export_omm(&toml) {
-            Ok(omm) => Ok(CallToolResult::success(vec![Content::text(omm)])),
+            Ok(omm) => Ok(CallToolResult::success(vec![ContentBlock::text(omm)])),
             Err(e) => Err(McpError::invalid_params(
                 format!("OMM export failed: {e}"),
                 None,
@@ -160,7 +163,7 @@ impl KshanaServer {
         Parameters(TomlRequest { toml }): Parameters<TomlRequest>,
     ) -> Result<CallToolResult, McpError> {
         match kshana::api::export_oem(&toml) {
-            Ok(oem) => Ok(CallToolResult::success(vec![Content::text(oem)])),
+            Ok(oem) => Ok(CallToolResult::success(vec![ContentBlock::text(oem)])),
             Err(e) => Err(McpError::invalid_params(
                 format!("OEM export failed: {e}"),
                 None,
@@ -178,7 +181,7 @@ impl KshanaServer {
         let out = kshana::api::run_toml(&toml)
             .map_err(|e| McpError::invalid_params(format!("scenario run failed: {e}"), None))?;
         match out.csv {
-            Some(csv) => Ok(CallToolResult::success(vec![Content::text(csv)])),
+            Some(csv) => Ok(CallToolResult::success(vec![ContentBlock::text(csv)])),
             None => {
                 let kind = kshana::api::ScenarioKind::classify(&toml)
                     .map(|k| k.as_str())

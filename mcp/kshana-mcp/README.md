@@ -45,7 +45,8 @@ cargo install --git https://github.com/AshfordeOU/kshana kshana-mcp
 
 `cargo install` puts `kshana-mcp` on your `PATH` (typically `~/.cargo/bin/kshana-mcp`).
 The server talks JSON-RPC over stdio; logs go to stderr. Building from source needs a Rust
-toolchain ≥ 1.85 (the `rmcp` SDK is edition 2024); the Docker image needs none.
+toolchain ≥ 1.88 (the patched `rmcp` 2.x SDK needs it; the `kshana` library itself needs
+only 1.85); the Docker image needs none.
 
 ## Register it with a client
 
@@ -105,7 +106,8 @@ The server is a **standalone, workspace-excluded crate** with its own `Cargo.loc
 official Rust MCP SDK `rmcp` and its async runtime never enter the published `kshana`
 crate's dependency graph: a library or Python user does not compile a server they do not
 run. (It was first split out because `rmcp` is **edition 2024**, needing rustc ≥ 1.85,
-while the main crate then promised 1.75; both now declare 1.85.) CI gates this crate on
+while the main crate then promised 1.75. The library now declares 1.85; this server
+declares 1.88, the floor of the security-patched `rmcp` 2.x.) CI gates this crate on
 its own — tests and `cargo deny` against its lockfile. rmcp's licence tree is clean
 (Apache-2.0/MIT/BSD), so, unlike the `xval/anise-frames` cross-validation crate it
 otherwise mirrors, the split is not about licensing.
