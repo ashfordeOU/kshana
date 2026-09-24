@@ -36,7 +36,7 @@ path = "src/main.rs"
 # resolving to the published `kshana` crate on crates.io (so `cargo install kshana-mcp`
 # works without this repo checked out).
 kshana = { path = "../..", version = "0.27" }
-rmcp = { version = "1.7", features = ["server", "macros", "transport-io"] }
+rmcp = { version = "2.1", features = ["server", "macros", "transport-io"] }
 tokio = { version = "1", features = ["macros", "rt-multi-thread", "io-std", "io-util"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
@@ -48,4 +48,4 @@ tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 
 [dev-dependencies]
 # The MCP client side, for the in-process (duplex) round-trip integration test.
-rmcp = { version = "1.7", features = ["client"] }
+rmcp = { version = "2.1", features = ["client"] }
