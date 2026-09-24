@@ -43,3 +43,29 @@ pub fn y_axis(ml: f64, mt: f64, pw: f64, ph: f64, y_max: f64, title: &str) -> St
     ));
     s
 }
+
+/// Opening of a dark two-panel chart: the `<svg>` element, its background, a bold title
+/// and a one-line subtitle. Both strings are written verbatim, so any markup in them must
+/// already be escaped.
+pub fn frame_open(w: f64, h: f64, title: &str, subtitle: &str) -> String {
+    format!(
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" \
+         font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\">\
+         <rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>\
+         <text x=\"24\" y=\"24\" font-size=\"15\" font-weight=\"bold\">{title}</text>\
+         <text x=\"24\" y=\"40\" font-size=\"11\" fill=\"#8a8172\">{subtitle}</text>"
+    )
+}
+
+/// A panel's caption, set 8 px above its top-left corner, and its left and bottom axis
+/// lines. The panel's left edge is `x`, it spans `width`, and its axes run from `top`
+/// down to `bottom`.
+pub fn panel_axes(x: f64, top: f64, width: f64, bottom: f64, caption: &str) -> String {
+    format!(
+        "<text x=\"{x:.0}\" y=\"{:.0}\" font-size=\"12\" fill=\"#8a8172\">{caption}</text>\
+         <line x1=\"{x:.0}\" y1=\"{top:.0}\" x2=\"{x:.0}\" y2=\"{bottom:.0}\" stroke=\"#342c21\"/>\
+         <line x1=\"{x:.0}\" y1=\"{bottom:.0}\" x2=\"{:.0}\" y2=\"{bottom:.0}\" stroke=\"#342c21\"/>",
+        top - 8.0,
+        x + width
+    )
+}

@@ -1035,7 +1035,7 @@ impl Sgp4 {
         let xnodce = (4.523_602_0 - 9.242_202_9e-4 * day) % TWO_PI;
         let stem = xnodce.sin();
         let ctem = xnodce.cos();
-        let zcosil = 0.913_751_64 - 0.035_680_96 * ctem;
+        let zcosil = 0.913_751_64_f64 - 0.035_680_96 * ctem;
         let zsinil = (1.0 - zcosil * zcosil).sqrt();
         let zsinhl = 0.089_683_511 * stem / zsinil;
         let zcoshl = (1.0 - zsinhl * zsinhl).sqrt();
