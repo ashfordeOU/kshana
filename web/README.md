@@ -1,8 +1,9 @@
 # Kshana browser playground
 
 A static, single-page playground that runs the Kshana engine entirely in the
-browser as WebAssembly — no server-side computation, nothing uploaded. Pick a
-reference scenario or edit the TOML and run it; the result panel shows the
+browser as WebAssembly (WASM) — no server-side computation, nothing uploaded. Pick a
+reference scenario or edit its TOML (Tom's Obvious, Minimal Language — the plain-text
+scenario format) and run it; the result panel shows the
 one-line summary, the figures of merit, time series, stability, a 3-D orbit
 view and the full JSON, plus an A/B compare, a parameter sweep, a downloadable
 report, an embeddable mode and a guided tour. The same page carries the
@@ -33,8 +34,8 @@ Two kinds of source file are worth calling out before editing the page:
   three files in `data/` are hand-maintained mappings that the same test checks
   against the generated matrix.
 
-Each `*.mjs` module is pure logic with a matching `*.test.mjs`; the DOM drivers
-live in `app.js`, which has no test of its own.
+Each `*.mjs` module is pure logic with a matching `*.test.mjs`; the DOM (Document Object Model, the
+page's element tree) drivers live in `app.js`, which has no test of its own.
 
 ## Deployment
 

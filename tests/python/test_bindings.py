@@ -6,8 +6,11 @@ run_full() -> (json, svg, summary), plus a JSON-parse round-trip. Run in CI by t
 `test-python-bindings` job.
 """
 import json
+from pathlib import Path
 
 import kshana
+
+REPO = Path(__file__).resolve().parents[2]
 
 CLOCK_SCENARIO = """
 seed = 42
@@ -138,3 +141,34 @@ def test_conflict_resilience_per_vector_survival_reachable_from_python():
     # The catalogue advertises the scenario.
     names = {k["name"] for k in kshana.scenario_kinds()}
     assert "conflict-resilience" in names
+
+
+def test_csv_table_matches_the_golden_bytes_and_write_csv_returns_bytes_written(tmp_path):
+    # A kind that publishes a reproducibility table: `.csv` must be the exact golden-pinned
+    # bytes the CLI writes as `<scenario>.table.csv`, and `write_csv` returns the number of
+    # BYTES written (the Rust `RunOutput::write_csv` contract), not characters or rows.
+    toml = (REPO / "scenarios" / "realtime-frame-eop.toml").read_text()
+    golden = (REPO / "tests" / "golden" / "realtime-frame-eop.csv").read_text()
+    out = kshana.run_typed(toml)
+    assert out.csv == golden
+    dest = tmp_path / "table.csv"
+    written = out.write_csv(str(dest))
+    assert written == len(golden.encode("utf-8")) == dest.stat().st_size
+    assert dest.read_text() == golden
+    assert "csv=" in repr(out)
+
+
+def test_csv_is_none_and_write_csv_is_a_no_op_for_a_kind_without_a_table(tmp_path):
+    out = kshana.run_typed(CLOCK_SCENARIO)
+    assert out.csv is None
+    dest = tmp_path / "table.csv"
+    assert out.write_csv(str(dest)) == 0
+    assert not dest.exists(), "no file may be created when the kind emits no table"
+
+
+def test_shipped_moonlight_scenario_emits_no_csv_without_an_export_site():
+    # moonlight-service-volume publishes its per-satellite table only when BOTH
+    # export_site_lat_deg and export_site_lon_deg are set; the shipped scenario leaves
+    # them commented out, so a plain run has no table.
+    toml = (REPO / "scenarios" / "moonlight-service-volume.toml").read_text()
+    assert kshana.run_typed(toml).csv is None

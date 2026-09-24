@@ -1,16 +1,17 @@
 # Standalone, workspace-EXCLUDED MCP server crate.
 #
-# Why a separate crate and not a `kshana` cargo feature: the official Rust MCP SDK
-# `rmcp` is built on **edition 2024** (needs rustc >= 1.85) and declares no MSRV.
-# `cargo` resolves edition for the whole graph at build time, so putting rmcp behind a
-# feature in the main crate would break the MSRV-1.75 `cargo build --all` job regardless
-# of feature gating. Isolating the server here (its OWN Cargo.lock, invisible to root
-# `cargo` — the root package declares no `[workspace]` and lists `/mcp` in its `exclude`)
-# keeps the published `kshana` crate lean and every default CI gate untouched.
+# Why a separate crate and not a `kshana` cargo feature: it keeps the MCP SDK (`rmcp`)
+# and its async runtime out of the published `kshana` crate's dependency graph, so a
+# library or Python user never compiles a server they do not run. It was originally
+# forced by the MSRV: rmcp is edition 2024 (rustc >= 1.85), and the root crate then
+# promised 1.75. That reason is gone — the root's `rust-version` is now 1.85 as well —
+# and the isolation stays for the graph-size reason alone.
 #
-# rmcp's license tree is clean (Apache-2.0 + MIT/BSD/Unicode-3.0 throughout), so unlike
-# the ANISE cross-validation crate this carries no license-gate concern — the edition is
-# the sole reason for isolation.
+# It is NOT outside CI: the root package declares no `[workspace]` and lists `/mcp` in
+# its `exclude`, so root `cargo` never sees this crate, and ci.yml therefore gates it
+# explicitly — `mcp-check` runs its tests and `mcp-deny` runs cargo-deny (advisories,
+# licences, bans, sources) against this crate's own Cargo.lock. Dependabot watches that
+# lockfile and this crate's Dockerfile through their own entries.
 [package]
 name = "kshana-mcp"
 version = "0.27.2"

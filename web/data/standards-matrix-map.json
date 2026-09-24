@@ -1,6 +1,6 @@
 {
   "TLE / SGP4": "Orbit propagation & determination",
-  "RINEX 3 / 4": "Broadcast-ephemeris satellite position (multi-GNSS RINEX)",
+  "RINEX 3": "Broadcast-ephemeris satellite position (multi-GNSS RINEX)",
   "SP3-c / d": "SP3 precise-ephemeris interpolation",
   "CCSDS OEM / OMM": "CCSDS OEM interoperability (GMAT/Orekit/STK ephemeris import)",
   "IS-GPS-200": "Broadcast-ephemeris satellite position (multi-GNSS RINEX)",

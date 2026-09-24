@@ -20,21 +20,33 @@
 # whole trigger. The branch is gone; this is the only path, and it is the path
 # CI has always taken.
 #
-# SCOPE — what this document actually covers, stated rather than implied. It
-# enumerates every package in the DEFAULT-feature resolution, which is not the
-# component set of any single shipped artifact:
-#   * it INCLUDES dev-only crates (sgp4, and chrono through it) that are
-#     compiled into no shipped library, CLI or binding;
-#   * it OMITS crates that only an optional feature resolves — notably the
-#     eight-crate pyo3 chain that `--features python` pulls in for the PyPI
-#     wheel, which is the FFI boundary of that artifact.
-# An earlier comment here claimed the opposite ("the resolved graph minus
-# dev-only deps"). That was never true of this script. Making the document
-# feature-exact (one SBOM per artifact, dev-kind edges dropped) changes its
-# component count, which is pinned as an external-oracle verdict in
+# SCOPE — what this document covers, stated rather than implied. It is the
+# union of the dependency graphs of every artifact this SBOM is shipped or
+# attested alongside, and nothing else:
+#   * the crate / CLI default build (the release binary, release.yml);
+#   * `--features python` — the PyPI wheel (publish.yml writes this document
+#     into dist/ next to the wheels and attests it). This brings in the pyo3
+#     chain, the FFI boundary of that artifact;
+#   * `--features wasm` — the npm package (publish.yml writes this document
+#     INSIDE web/pkg, so it ships in the published tarball of a
+#     `wasm-pack build -- --features wasm` build). wasm-bindgen and the
+#     wasm32-only getrandom/js-sys edges are therefore in scope.
+# The resolve is taken for all target platforms (no --filter-platform): the
+# wheels ship for several OSes and the npm package targets wasm32, so a
+# platform-conditional edge (libc, wasi, js-sys) is part of some shipped
+# artifact. Edges are walked from the root package through `normal` and
+# `build` dependency kinds only; `dev` edges are dropped, so test-only crates
+# (sgp4, and chrono through it) that are compiled into no shipped artifact are
+# excluded. Build-kind edges are kept because they generate code that is
+# compiled into the artifact (pyo3-build-config, target-lexicon).
+# One document is the UNION, so for any single artifact it is a superset (the
+# CLI does not link pyo3; the wheel does not link wasm-bindgen). The component
+# count is pinned as an external-oracle verdict in
 # tests/fixtures/reproducibility_software_assurance/ and quoted in the
-# verification matrix — so that is a deliberate change carrying a fixture
-# regeneration, not a quiet edit here.
+# verification matrix; changing SHIPPED_FEATURES or the kept edge kinds is a
+# deliberate change that carries a fixture regeneration.
+# The standalone kshana-mcp crate (mcp/kshana-mcp, its own manifest and lock)
+# is not described here.
 set -euo pipefail
 
 # The metadata JSON is large, so write it to a temp file and pass the *path* as
@@ -42,13 +54,37 @@ set -euo pipefail
 # stdin/pipe clash and the environment-size limit ("Argument list too long").
 meta_file="$(mktemp)"
 trap 'rm -f "$meta_file"' EXIT
-cargo metadata --format-version 1 --locked > "$meta_file"
+# The feature union of the shipped artifacts (see SCOPE above).
+SHIPPED_FEATURES="python,wasm"
+cargo metadata --format-version 1 --locked --features "$SHIPPED_FEATURES" > "$meta_file"
 python3 - "$meta_file" <<'PY'
 import json, sys, hashlib
 
 with open(sys.argv[1]) as fh:
     meta = json.load(fh)
-pkgs = sorted(meta["packages"], key=lambda p: (p["name"], p["version"]))
+
+# Walk the resolve graph from the root through normal/build edges only. A
+# `dep_kinds` entry has kind null (normal), "build" or "dev"; an edge is kept if
+# ANY of its kinds is normal or build (a crate can be both a dev- and a normal
+# dependency of the same parent).
+SHIPPED_KINDS = {None, "build"}
+nodes = {n["id"]: n for n in meta["resolve"]["nodes"]}
+root = meta["resolve"]["root"]
+if root is None:
+    sys.exit("gen-sbom.sh: cargo metadata resolve has no root package")
+reachable = {root}
+stack = [root]
+while stack:
+    for dep in nodes[stack.pop()]["deps"]:
+        if any(k.get("kind") in SHIPPED_KINDS for k in dep["dep_kinds"]):
+            if dep["pkg"] not in reachable:
+                reachable.add(dep["pkg"])
+                stack.append(dep["pkg"])
+
+pkgs = sorted(
+    (p for p in meta["packages"] if p["id"] in reachable),
+    key=lambda p: (p["name"], p["version"]),
+)
 
 def purl(p):
     return f"pkg:cargo/{p['name']}@{p['version']}"

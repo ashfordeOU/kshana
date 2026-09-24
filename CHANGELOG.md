@@ -82,6 +82,140 @@ breaking changes are called out explicitly.
   the antenna columns present only when an antenna was configured. A run with no
   export site is byte-unchanged and writes no file.
 
+- **The SBOM now describes what ships: 60 components became 66.**
+  `scripts/gen-sbom.sh` listed every package of the default-feature resolve,
+  dev-dependencies included. That put `sgp4` and `chrono` — test-only crates
+  compiled into no artifact — in the bill of materials, and left out the
+  `--features python` chain the PyPI wheel links (`pyo3`, `pyo3-ffi`,
+  `pyo3-macros`, `pyo3-macros-backend`, `pyo3-build-config`, `portable-atomic`,
+  `target-lexicon`, `heck`), which is that wheel's foreign-function boundary. The
+  script now walks the resolve graph from the kshana package through normal and
+  build edges only, over the union of the default, `python` and `wasm` feature
+  sets (the npm package carries this same SBOM), for every target platform. The
+  pinned CycloneDX conformance verdict is re-baselined through its committed
+  generator: 60 → 66 components, 53 → 60 compound licence expressions, and still
+  zero schema errors once those are placed in the standard `expression` form.
+
+- **The CSV reproducibility table reaches every front door, not only the CLI and
+  the Python wheel.** The MCP server gains a seventh tool, `export_table_csv`, which
+  runs a scenario and returns the byte-stable table the CLI writes as
+  `<scenario>.table.csv` — or an error naming the kinds that publish one
+  (`realtime-frame-eop`, `lunar-time-budget`, `lunar-jamming`, and
+  `moonlight-service-volume` only when `export_site_lat_deg` + `export_site_lon_deg`
+  are set). The WebAssembly module gains `table_csv`, returning the same text or
+  `undefined`. The MCP round-trip test and the Python binding tests now pin the
+  returned CSV byte-for-byte against `tests/golden/realtime-frame-eop.csv`, and pin
+  that `RunOutput.write_csv` returns bytes written, and 0 with no file created for a
+  kind without a table. Every surface that states the MCP tool count or lists the
+  tools now says seven.
+
+### Fixed
+
+- **Corrected a published figure: dual-constellation ARAIM availability on the
+  vendored Celestrak GPS + Galileo TLEs.** `docs/CAPABILITY.md` stated that pooling
+  Galileo lifts availability from 0.21 to 0.67 under a 12 m VAL and that the
+  constellation-fault-robust mode is limited with only two constellations. That came
+  from `tests/araim_dual_real_data.rs` propagating every satellite from its own TLE
+  epoch (`parse_propagators` drops the epoch), and the epochs in those files span
+  70.6 h (GPS) and 335.7 h (Galileo), so the satellites sat at mutually inconsistent
+  times. The test now keeps each epoch (`parse_tle`) and evaluates every satellite at
+  one common UTC instant, the latest TLE epoch in the set (2026-06-07T07:21:04). The
+  measured availability over the same 24 h, 289-sample grid becomes GPS-only 0.993
+  (was 0.208), pooled 1.000 (was 0.671) and constellation-fault-robust dual 0.990
+  (was 0.031); at the APV-I limit the dual mode goes from 0.180 to 1.000. The
+  conclusion inverts: on a consistent sky two constellations carry the
+  constellation-fault hypothesis at a 12 m VAL. The same figures result with the
+  earliest TLE epoch as the reference. A self-check in the test pins its availability
+  loop sample for sample to `araim_dual_constellation_availability`, so the only
+  difference is the time alignment. `docs/CAPABILITY.md` and
+  `docs/REAL_TLE_GUIDE.md` §3 carry the new numbers; the 0.13.0 entry below is left
+  as released.
+
+- **The public surfaces no longer advertise RINEX 4 as validated.** The engine now
+  refuses a RINEX 4 navigation file by name instead of mis-decoding it, but the
+  standards grid still showed a "RINEX 3 / 4" card with a *validated* pill, bound to
+  the navigation parser's RINEX-3 evidence. The card is now "RINEX 3", and README,
+  `docs/CAPABILITY.md`, `docs/STANDARDS.md`, `ROADMAP.md` and the capability summary
+  state what is true: RINEX 3.0x observation files parse, the 4.00 observation layout
+  is expected to but no 4.00 file has been read through the code, and RINEX 4
+  navigation files are refused.
+
+- **`--validate` says when "ok" means there was nothing to check.** About two thirds
+  of the catalogue publishes no required field — those packs run their reference
+  configuration from an empty body — so the lint could only ever print "ok" for them,
+  in the same words it used after checking six fields. The success line now states the
+  number of required fields it found present, or that the kind requires none.
+
+- **`scripts/gate.sh` refuses a non-numeric `REPEAT` or `TEST_THREADS`.** Under bash
+  3.2, `REPEAT=no` made the numeric comparison error and evaluate false, so the gate
+  announced "repeatability loop SKIPPED (REPEAT=0)" for a value that was not 0 and still
+  wrote a receipt. Both knobs now exit 2 unless they are plain integers.
+
+- **The MSRV is stated as 1.85 everywhere a person reads it.** `Cargo.toml` moved to
+  1.85 last release; the README badge, the install and troubleshooting text,
+  `codemeta.json` and the MCP crate's own rationale still said 1.75.
+
+- **`RunOutput.__repr__` in the Python binding reports bytes, not "chars".** It
+  printed `len()` of UTF-8 strings, which is a byte count: 710 "chars" for a
+  708-character table.
+
+- **The README no longer documents `--study --study-name` together.** `--study-name`
+  is a single-scenario flag, ignored with `--study` (the binary warns). The two
+  copy-paste examples in README.md and README.crates.md now show the study command
+  alone.
+
+- **The site's clock-stability evidence states both observed tolerances.** The 5071A
+  caesium series is reproduced to ≤ 3e-5 and PHASE.DAT to ≤ 5e-5; the paragraph gave
+  3e-5 for both.
+
+- **Two engine-output files are no longer tracked.** `scenarios/quantum-pnt-demonstrator.study.{json,html}`
+  were stamped by engine 0.20.0 with every figure of merit empty, and the README's own
+  study command overwrote them, dirtying the tree and blocking the push gate.
+  `*.study.json` / `*.study.html` are now ignored like the other four engine outputs.
+
+### Changed
+
+- **Line coverage has a measurement of record.** `docs/COVERAGE.md` records 95.63 %
+  (37,697 of 39,419 lines) from the CI `coverage` job on `b1d350d`, and
+  `tests/coverage_figure_doc_sync.rs` pins the five public "~96%" surfaces to it — the
+  one headline number that was hand-maintained, and had already moved once unnoticed.
+
+- **New doc-sync gates for surfaces nothing read.** `tests/readme_code_fences_doc_sync.rs`
+  checks every `import { … } from "kshana"` in a JavaScript fence against the
+  WebAssembly exports, and pins README.crates.md's Rust example byte-for-byte to a copy
+  the test binary compiles. `tests/security_md_doc_sync.rs` fails if `src/lib.rs` loses
+  `#![forbid(unsafe_code)]` or SECURITY.md stops stating it. `tests/no_overclaims.rs`
+  now also scans `web/README.md` and the three registry READMEs, and every standard on
+  the site must state its `proof` explicitly.
+
+- **The two real-hardware clock checks run on a runner.** `realdata-clock.yml` (monthly
+  and on dispatch) fetches the 5071A and PHASE.DAT series and runs both tests with
+  `KSHANA_REQUIRE_REALDATA=1`, so a missing input fails instead of skipping. Both fetch
+  scripts are pinned to one allantools commit and verify SHA-256.
+
+- **The Python type stub is checked against the built wheel** (`mypy.stubtest` in the
+  bindings job), which is how `csv`/`write_csv` shipped unstubbed.
+
+- **The glossary defines URE, EOP, FoM, CTI and TIB**, which the README and ledger used
+  bare.
+
+### Security
+
+- **Every third-party GitHub Action is pinned by commit SHA** — 93 references across
+  15 workflows, 92 of them newly — with the tag kept as a trailing comment for
+  Dependabot to update. The exception is `dtolnay/rust-toolchain`, whose tag is the
+  toolchain selector.
+
+- **The MCP server image's base layers are pinned by multi-arch digest**, and
+  Dependabot now watches `mcp/kshana-mcp`'s Dockerfile, so the OS layers still receive
+  security updates — through a reviewed PR.
+
+- **The tag-versus-manifest check runs in the two publish workflows that ship the tag's
+  version.** `mcp-publish.yml` (ghcr image, MCP registry) and `jetbrains-plugin.yml`
+  (Marketplace) race `publish.yml` rather than wait for it, so a mis-cut tag was gated
+  only in a sibling. Both now run `scripts/check-version-sync.sh` before building.
+
+
 ## [0.27.2] - 2026-09-22
 
 ### Added

@@ -117,7 +117,7 @@ A validated, fully reproducible engine spanning the PNT stack:
   P_fa/P_md, Security FoM = 1 − P_md); and a multi-layer spoof detector fusing a
   RAIM-consistency parity test (with the common-mode blind spot modelled honestly), an
   RF-layer AGC-power monitor, and a signal-quality (SQM Early-minus-Late) monitor.
-- **Interoperability** — RINEX-3/4, SP3-c/d, CCSDS OEM 2.0 (export **and** import via the
+- **Interoperability** — RINEX-3 (RINEX 4 navigation refused by name; 4.00 observation expected but untested), SP3-c/d, CCSDS OEM 2.0 (export **and** import via the
   `oem-interop` round-trip bridge) and OMM (mean-elements) export, plus CCSDS-TDM (503) and
   the `space-packet` (CCSDS 133.0-B) framer.
 - **Mission-analysis & environment (first-order, MODELLED)** — runnable `launch-window`

@@ -294,7 +294,7 @@
       "group": "Interop",
       "status": "modelled",
       "name": "RINEX, SP3 & CCSDS formats",
-      "summary": "Multi-GNSS RINEX-3 broadcast-ephemeris ingestion (GPS, Galileo, QZSS, BeiDou, GLONASS), a RINEX-3/4 observation parser, an SP3-c/d precise-ephemeris reader/writer with Lagrange interpolation, and CCSDS OEM 2.0 + OMM (mean-elements) export for flight-dynamics tools (GMAT, Orekit, STK), and CCSDS-TDM (503) tracking-data-message parse + emit for deep-space radiometric tracking.",
+      "summary": "Multi-GNSS RINEX-3 broadcast-ephemeris ingestion (GPS, Galileo, QZSS, BeiDou, GLONASS), a RINEX-3 observation parser (the RINEX 4.00 observation layout is expected to parse but no 4.00 file has been read through it; RINEX 4 navigation files are refused by name), an SP3-c/d precise-ephemeris reader/writer with Lagrange interpolation, and CCSDS OEM 2.0 + OMM (mean-elements) export for flight-dynamics tools (GMAT, Orekit, STK), and CCSDS-TDM (503) tracking-data-message parse + emit for deep-space radiometric tracking.",
       "proof": "broadcast-eph + SP3 interp vs RTKLIB; OEM vs an independent CCSDS parser",
       "run": "oem-interop.toml"
     },
@@ -406,7 +406,7 @@
       "proof": true
     },
     {
-      "name": "RINEX 3 / 4",
+      "name": "RINEX 3",
       "note": "real IGS data \u2192 surveyed coordinate",
       "proof": true
     },

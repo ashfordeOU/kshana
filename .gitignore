@@ -3,6 +3,12 @@
 *.chart.svg
 *.report.html
 *.table.csv
+# `kshana --study <suite>` writes <suite>.study.json + .study.html next to the manifest.
+# Engine output, like the four above: two such files were once committed under scenarios/
+# (stamped 0.20.0, every FoM empty), so following the README's own study command dirtied
+# the tree and blocked the push gate.
+*.study.json
+*.study.html
 
 # Compiled Java oracle drivers under test fixtures: the .java source IS committed
 # (it generates the pinned reference vectors); the .class build output is not.

@@ -67,7 +67,7 @@ jobs:
             echo "SONAR_TOKEN not set - skipping SonarQube Cloud analysis (inert until the maintainer adds the secret)."
           fi
       - if: steps.gate.outputs.go == 'true'
-        uses: actions/checkout@v4
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           # The exact commit the CI run tested, with full history so the scanner can
           # attribute lines (SCM blame) and compute the new-code period accurately.
@@ -75,7 +75,7 @@ jobs:
           fetch-depth: 0
       - name: Download the CI run's coverage report
         if: steps.gate.outputs.go == 'true'
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           name: coverage-lcov
           path: coverage
@@ -98,7 +98,7 @@ jobs:
           echo "version=$v" >> "$GITHUB_OUTPUT"
       - name: SonarQube Cloud scan
         if: steps.gate.outputs.go == 'true'
-        uses: SonarSource/sonarqube-scan-action@v5
+        uses: SonarSource/sonarqube-scan-action@2f77a1ec69fb1d595b06f35ab27e97605bdef703 # v5
         with:
           args: -Dsonar.projectVersion=${{ steps.ver.outputs.version }}
         env:

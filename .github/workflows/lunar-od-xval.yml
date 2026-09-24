@@ -23,10 +23,10 @@ jobs:
       run:
         working-directory: xval/anise-lunar-od
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       # Pinned to the repo toolchain; anise needs edition 2024 (>= 1.85), satisfied by 1.93.
       - uses: dtolnay/rust-toolchain@1.93.0
-      - uses: Swatinem/rust-cache@v2
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
         with:
           workspaces: xval/anise-lunar-od
       - name: Run the fast wiring gate (self-skips without kernels)
@@ -38,7 +38,7 @@ jobs:
         run: cargo run --release --bin lunar-od-xval
       - name: Upload the cross-validation report
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: lunar-od-xval-report
           path: |

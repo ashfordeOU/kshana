@@ -67,7 +67,9 @@ struct PyRunOutput {
     summary: String,
     /// The reproducibility table the CLI writes as `<scenario>.table.csv`, for
     /// the kinds that emit one (`realtime-frame-eop`, `lunar-time-budget`,
-    /// `lunar-jamming`, `moonlight-service-volume`); `None` otherwise. It is the
+    /// `lunar-jamming`, and `moonlight-service-volume` only when both
+    /// `export_site_lat_deg` and `export_site_lon_deg` are set — the shipped
+    /// scenario leaves them commented out, so it emits none); `None` otherwise. It is the
     /// byte-stable, golden-pinned form of the table the papers cite, so a
     /// reviewer reproducing one from the wheel needs it here and not only from
     /// the command line.
@@ -100,7 +102,7 @@ impl PyRunOutput {
 
     fn __repr__(&self) -> String {
         format!(
-            "RunOutput(json={} chars, svg={} chars, csv={} chars, summary={:?})",
+            "RunOutput(json={} bytes, svg={} bytes, csv={} bytes, summary={:?})",
             self.json.len(),
             self.svg.len(),
             self.csv.as_ref().map_or(0, |c| c.len()),

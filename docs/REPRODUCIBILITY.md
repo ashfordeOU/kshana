@@ -63,16 +63,31 @@ change), run each reference scenario and copy the printed FoM values into
 
 ## Software bill of materials (SBOM)
 
-`scripts/gen-sbom.sh` emits a CycloneDX 1.5 SBOM enumerating every crate in the
-locked dependency graph with its exact version, source, and license. It prefers
-`cargo cyclonedx` when installed and otherwise falls back to a dependency-free
-generator built on `cargo metadata --locked` (so it always works with just the
-toolchain). The output is deterministic — the same dependency set yields a
-byte-identical document, including a serial number derived from the sorted
-package list rather than a timestamp.
+`scripts/gen-sbom.sh` emits a CycloneDX 1.5 SBOM listing every crate that ships
+in a kshana artifact, with its exact version, source, and license. It is a
+dependency-free generator built on `cargo metadata --locked` (so it works with
+just the toolchain), and it walks the resolve graph from the kshana package
+through normal and build dependencies only. Dev-dependencies (test-only crates
+such as `sgp4`) are excluded because no artifact contains them.
+
+The graph is the union of the feature sets the shipped artifacts are built with:
+the default build (library and CLI), `--features python` (the PyPI wheel, whose
+`pyo3` chain is its foreign-function boundary) and `--features wasm` (the npm
+package, which carries this same SBOM inside its tarball). Platform-conditional
+dependencies for every target are included, since the wheels ship for several
+operating systems and the npm package targets WebAssembly. One document covers
+all three artifacts, so for any single one it is a superset. It currently lists
+66 components; the count is pinned in
+`tests/fixtures/reproducibility_software_assurance/`. The standalone
+`kshana-mcp` server has its own manifest and is not described by this SBOM.
+
+The output is deterministic — the same dependency set yields a byte-identical
+document, including a serial number derived from the sorted package list rather
+than a timestamp.
 
 The release workflow generates the SBOM (`kshana-sbom.cdx.json`) and attaches it
-to every tagged release.
+to every tagged release; the publish workflow also ships it beside the PyPI
+wheels and inside the npm package.
 
 ## Build provenance
 

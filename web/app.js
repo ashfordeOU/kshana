@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-import init, { run, summary, chart_svg, version, export_sp3, export_omm, export_oem } from "./pkg/kshana.js";
+import init, { run, summary, chart_svg, version, export_sp3, export_omm, export_oem, table_csv } from "./pkg/kshana.js";
 import { encodeFragment, decodeFragment, patchScalar } from "./share.mjs";
 import { chartFilename, svgSize, svgBlob, triggerDownload, svgToPngBlob } from "./chartdl.mjs";
 import { attachChartHover, parsePolylineXs } from "./hover.mjs";
@@ -1050,14 +1050,16 @@ function runSweep() {
 // Gather the current run's charts, FoM rows, summary, and scenario TOML into a
 // single self-contained, offline HTML report (report.mjs escapes every
 // scenario-derived string; only OUR renderer SVGs go in as raw markup).
-// Standards-track exports (SP3 / CCSDS OMM / OEM) for the current run. The engine
-// serialises them client-side from the same scenario TOML; a format button appears only
-// when the run actually yields that artifact (orbit/constellation scenarios), so a clock
-// or resilience run shows none. Nothing is uploaded.
+// Standards-track exports (SP3 / CCSDS OMM / OEM) and the reproducibility table (CSV)
+// for the current run. The engine serialises them client-side from the same scenario
+// TOML; a format button appears only when the run actually yields that artifact (orbit /
+// constellation scenarios for the ephemeris formats; the few kinds that publish a table
+// for CSV), so a clock or resilience run shows none. Nothing is uploaded.
 const EXPORTERS = [
-  ["SP3", export_sp3, "sp3", "SP3-c precise ephemeris"],
-  ["OMM", export_omm, "omm", "CCSDS OMM mean-element catalogue"],
-  ["OEM", export_oem, "oem", "CCSDS OEM 2.0 ephemeris (GMAT / Orekit / STK)"],
+  ["SP3", export_sp3, "sp3", "Export this constellation as SP3-c precise ephemeris", "text/plain"],
+  ["OMM", export_omm, "omm", "Export this constellation as a CCSDS OMM mean-element catalogue", "text/plain"],
+  ["OEM", export_oem, "oem", "Export this constellation as CCSDS OEM 2.0 ephemeris (GMAT / Orekit / STK)", "text/plain"],
+  ["CSV", table_csv, "csv", "Download this run's reproducibility table — the same bytes the CLI writes as <scenario>.table.csv", "text/csv"],
 ];
 
 function updateExportButtons() {
@@ -1068,7 +1070,7 @@ function updateExportButtons() {
   if (!toml) { tools.hidden = true; return; }
   const meta = { ver: lastRun.result.engine_version, hash: lastRun.result.scenario_hash };
   let any = false;
-  for (const [label, fn, ext, title] of EXPORTERS) {
+  for (const [label, fn, ext, title, mime] of EXPORTERS) {
     let text;
     try { text = fn(toml); } catch { continue; }        // kind can't produce it → skip
     if (!text || !text.trim()) continue;
@@ -1077,9 +1079,9 @@ function updateExportButtons() {
     b.type = "button";
     b.className = "chart-dl";
     b.textContent = `⤓ ${label}`;
-    b.title = `Export this constellation as ${title} — client-side, nothing uploaded`;
+    b.title = `${title} — client-side, nothing uploaded`;
     b.addEventListener("click", () => triggerDownload(
-      new Blob([text], { type: "text/plain" }), chartFilename(ext, meta, ext)));
+      new Blob([text], { type: mime }), chartFilename(ext, meta, ext)));
     tools.appendChild(b);
   }
   tools.hidden = !any;
