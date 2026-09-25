@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # DO-316 / DO-229E integrity compliance map
 
-This document maps the RTCA **DO-229E** (SBAS MOPS) and **DO-316** (GPS/SBAS airborne
+This document maps the RTCA (formerly the Radio Technical Commission for Aeronautics) **DO-229E** (SBAS (satellite-based augmentation system) MOPS (minimum operational performance standards)) and **DO-316** (GPS/SBAS (GPS: Global Positioning System) airborne
 equipment) protection-level and integrity-monitoring requirements to the Kshana functions that
 implement them. It is an **engineering traceability aid**, not a certified conformance
 statement — Kshana implements the published algorithms; it is not certified avionics.
@@ -12,13 +12,13 @@ companion (mirroring [`docs/ARAIM_REFERENCE.md`](ARAIM_REFERENCE.md)).
 ## Weighted-least-squares protection levels (DO-229E Appendix J)
 
 For each satellite *i* with elevation `Elᵢ` and azimuth `Azᵢ` at the user, the local-level
-(ENU + clock) observation row is
+(ENU (east-north-up) + clock) observation row is
 
 ```
 Gᵢ = [ −cos Elᵢ·sin Azᵢ,  −cos Elᵢ·cos Azᵢ,  −sin Elᵢ,  1 ]
 ```
 
-with weight `wᵢ = 1/σᵢ²`, `σᵢ² = σ_flt² + σ_uire² + σ_air² + σ_tropo²` (the UDRE/GIVE/airborne/
+with weight `wᵢ = 1/σᵢ²`, `σᵢ² = σ_flt² + σ_uire² + σ_air² + σ_tropo²` (the UDRE/GIVE/airborne/ (UDRE: user differential range error; GIVE: grid ionospheric vertical error)
 tropo budget). The position covariance is `D = (GᵀWG)⁻¹`; its ENU block gives
 
 ```
@@ -27,7 +27,7 @@ d_U     = √(d_U²)
 HPL = K_H · d_major        VPL = K_V · d_U
 ```
 
-Kshana computes `D` by inverting the 4×4 normal matrix with the same routine the RAIM stack uses
+Kshana computes `D` by inverting the 4×4 normal matrix with the same routine the RAIM (receiver autonomous integrity monitoring) stack uses
 (`orbit::invert4`), and validates the result two ways (the covariance route `D[2][2]` and the
 projection route `Σᵢ S_{U,i}²·σᵢ²` must agree) plus against an independent numpy `inv(GᵀG)`
 reference geometry.
@@ -54,16 +54,16 @@ c₁ = +2.260604,  c₅ = −1.260604   (c₁ + c₅ = 1, unit gain)
 ```
 
 The first-order ionospheric delay (`40.3·10¹⁶·TEC/f²`) cancels exactly — verified against the
-engine's independent `timetransfer_adv::iono_delay_m` physics for a range of TEC. The noise
+engine's independent `timetransfer_adv::iono_delay_m` physics for a range of TEC (total electron content). The noise
 amplification for equal-variance inputs is `√(c₁² + c₅²) = 2.588`.
 
 ## Validation status
 
 - **In-repo, automated** (every commit): the K-factors against their distributional definitions,
-  `γ₁₅` and the IF coefficients against the IS-GPS-705 frequencies, first-order iono cancellation
+  `γ₁₅` and the IF coefficients against the IS-GPS-705 (IS: Interface Specification) frequencies, first-order iono cancellation
   against the independent delay physics, and the WLS protection levels against a numpy `inv(GᵀG)`
   reference geometry.
-- **Founder-gated, external**: reproducing a *published* WAAS/EGNOS protection level from a real
-  RINEX-OBS + augmentation-message epoch (as RTKLIB `rtkpos` / ESA gLAB do) requires
-  Earthdata-authenticated CDDIS data and is tracked as a roadmap item. DO-229E/DO-316 themselves
-  are RTCA-paywalled; the open derivation source is ESA Navipedia's ICAO/EGNOS SBAS pages.
+- **Founder-gated, external**: reproducing a *published* WAAS/EGNOS (WAAS: Wide Area Augmentation System; EGNOS: European Geostationary Navigation Overlay Service) protection level from a real
+  RINEX-OBS (RINEX: Receiver Independent Exchange Format) + augmentation-message epoch (as RTKLIB (an open-source real-time kinematic positioning library) `rtkpos` / ESA (European Space Agency) gLAB do) requires
+  Earthdata-authenticated CDDIS (Crustal Dynamics Data Information System) data and is tracked as a roadmap item. DO-229E/DO-316 themselves
+  are RTCA-paywalled; the open derivation source is ESA Navipedia's ICAO/EGNOS (ICAO: International Civil Aviation Organization) SBAS pages.
