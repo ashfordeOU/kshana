@@ -1,3 +1,24 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# The release pipeline. One tag push, one workflow run, one order:
+#
+#   tag -> verify -> publish -> parity -> site
+#
+#   verify    fmt, clippy, the full `cargo test --all` suite (golden pins and the
+#             verification-matrix guards included) and the script guards, on the tagged
+#             commit. This is THE verdict; nothing below it runs unless it is green.
+#   release   the GitHub Release: Linux, macOS and Windows command-line binaries, the MCP
+#             server, the SBOM, the validation summary and a SHA256SUMS file, every one
+#             attested; `verify-release*` then pull them back down and check them.
+#   publish   crates.io, PyPI, npm (publish.yml), then the ghcr.io image and the MCP
+#             registry (mcp-publish.yml) and the JetBrains Marketplace
+#             (jetbrains-plugin.yml). Each is a reusable workflow called from here, so
+#             `needs: verify` holds them: before this, they were separate workflows on
+#             the same tag push and published while `verify` was still running.
+#   parity    asks crates.io, npm, PyPI and ghcr.io whether they really serve the version
+#             (scripts/check_channel_parity.py) and fails the run if one does not.
+#   site      redeploys kshana.dev from this tag (pages.yml), once every channel serves it.
+#
+# docs/RELEASING.md is the human-facing version of this, including how to retry.
 name: Release
 on:
   push:
@@ -30,10 +51,10 @@ jobs:
     # lottery — see ci.yml — but the cold-compile overhead on a tag ref is real either
     # way). A v0.25.0 tag at 90 could have timed this job out and skipped the
     # dependent `release` job (SBOM + SLSA provenance + GitHub Release) — while
-    # publish.yml, which carries no `needs:` on this verify, still published to
+    # publish.yml, which then carried no `needs:` on this verify, still published to
     # crates.io, PyPI and npm. Those publishes are irreversible (crates.io yanks, it
-    # does not delete), so a stale cap here does not merely fail a run: it ships a
-    # half-released version whose test suite was never observed to pass.
+    # does not delete). Every publish now `needs:` this job (see the header), so a job
+    # that times out here stops the release instead of half-shipping it.
     #
     # Kept in lockstep with ci.yml `check` at 240, under the 360 min GitHub hard cap.
     # (The prior comment here claimed this job had no build cache; it does — see the
@@ -65,8 +86,80 @@ jobs:
       - run: cargo test --all
       - run: ./scripts/check-reproducible.sh
       - run: ./scripts/check-no-attribution.sh
+  # Prebuilt command-line binaries for the platforms the Linux `release` job cannot build:
+  # macOS on Apple silicon and on Intel, and Windows on x86-64. Built from the tag with
+  # the pinned toolchain, in parallel with `verify` (building publishes nothing; only the
+  # `release` job, which `needs: verify`, attaches them). Target-suffixed names, so a
+  # download says what it runs on; the Linux asset keeps its historical bare name
+  # `kshana` so existing download links and scripts do not break.
+  binaries:
+    name: CLI binary (${{ matrix.target }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest # Apple-silicon runner
+            target: aarch64-apple-darwin
+            exe: ""
+          # Cross-compiled on the Apple-silicon runner, the same choice wheels.yml makes
+          # for the Intel wheel (the Intel macOS runners are scarce and deprecating).
+          - os: macos-latest
+            target: x86_64-apple-darwin
+            exe: ""
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            exe: ".exe"
+    defaults:
+      run:
+        shell: bash
+    env:
+      TARGET: ${{ matrix.target }}
+      EXE: ${{ matrix.exe }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+      - uses: dtolnay/rust-toolchain@1.93.0
+        with:
+          targets: ${{ matrix.target }}
+      - run: ./scripts/check-toolchain.sh
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+        with:
+          key: ${{ matrix.target }}
+      - name: Build the command-line binary
+        run: cargo build --release --locked --bin kshana --target "$TARGET"
+      - name: Stage it under its target-suffixed name
+        run: |
+          set -euo pipefail
+          mkdir -p out
+          cp "target/$TARGET/release/kshana$EXE" "out/kshana-$TARGET$EXE"
+          ls -l out
+      - name: Smoke-run it (usage banner, as verify-release does for Linux)
+        run: |
+          set -uo pipefail
+          bin="out/kshana-$TARGET$EXE"
+          if [ "$TARGET" = "x86_64-apple-darwin" ] && [ "$(uname -m)" = "arm64" ]; then
+            archs="$(lipo -archs "$bin")"
+            [ "$archs" = "x86_64" ] || { echo "::error::$bin is '$archs', not x86_64"; exit 1; }
+            if ! arch -x86_64 /usr/bin/true 2>/dev/null; then
+              echo "::notice::no x86-64 translation on this runner; checked the architecture ($archs) only"
+              exit 0
+            fi
+          fi
+          out="$("$bin" 2>&1)" || true
+          printf '%s\n' "$out"
+          printf '%s\n' "$out" | grep -q "usage: kshana" \
+            || { echo "::error::$bin did not run / print its usage banner"; exit 1; }
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: cli-${{ matrix.target }}
+          path: out
+          if-no-files-found: error
+
   release:
-    needs: verify
+    needs: [verify, binaries]
     runs-on: ubuntu-latest
     timeout-minutes: 90
     permissions:
@@ -94,27 +187,40 @@ jobs:
         env:
           TAG: ${{ inputs.tag || github.ref_name }}
         run: bash scripts/changelog-extract.sh "${TAG#v}" > RELEASE_NOTES.md
-      # Cryptographic build provenance (SLSA) for the binary and the SBOM, so a
-      # consumer can verify the artifacts were produced by this workflow.
+      - name: Collect the macOS and Windows binaries
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          pattern: cli-*
+          path: assets
+          merge-multiple: true
+      - name: Stage every asset and write SHA256SUMS
+        # One directory holding exactly the files the release carries, so the checksum
+        # file, the attestation and the upload all name the same set. SHA256SUMS is
+        # written outside the directory first, so it never lists itself.
+        run: |
+          set -euo pipefail
+          cp target/release/kshana assets/kshana
+          cp mcp/kshana-mcp/target/release/kshana-mcp assets/kshana-mcp
+          cp kshana-sbom.cdx.json kshana-validation-summary.html assets/
+          ( cd assets && sha256sum -- * > ../SHA256SUMS )
+          mv SHA256SUMS assets/SHA256SUMS
+          ls -l assets
+          cat assets/SHA256SUMS
+      # Cryptographic build provenance (SLSA) for every asset, so a consumer can verify
+      # the artifacts were produced by this workflow.
       - name: Attest build provenance
         uses: actions/attest-build-provenance@ef244123eb79f2f7a7e75d99086184180e6d0018 # v1
         with:
-          subject-path: |
-            target/release/kshana
-            mcp/kshana-mcp/target/release/kshana-mcp
-            kshana-sbom.cdx.json
-            kshana-validation-summary.html
+          subject-path: "assets/*"
       - uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2
         with:
           # Explicit so a workflow_dispatch run (whose github.ref is the branch) still
           # attaches to the right tag; on a tag push this equals the pushed tag.
           tag_name: ${{ inputs.tag || github.ref_name }}
           body_path: RELEASE_NOTES.md
-          files: |
-            target/release/kshana
-            mcp/kshana-mcp/target/release/kshana-mcp
-            kshana-sbom.cdx.json
-            kshana-validation-summary.html
+          files: assets/*
+          # The default (false) lets a missing file drop out of the release silently.
+          fail_on_unmatched_files: true
 
   # Post-release verification: pull the assets back DOWN from the just-created GitHub
   # release (i.e. the published bytes, not the in-job build dir) and prove each one
@@ -153,6 +259,17 @@ jobs:
           assert isinstance(doc.get("components"), list) and doc["components"], "no components"
           print(f"OK: CycloneDX {doc['specVersion']} with {len(doc['components'])} components")
           PY
+      - name: Verify every asset against SHA256SUMS
+        # --strict: a malformed line fails; every asset but SHA256SUMS itself must be
+        # listed, so a file that dropped out of the checksum list fails too.
+        run: |
+          set -euo pipefail
+          cd verify
+          sha256sum --strict -c SHA256SUMS
+          listed="$(awk '{print $2}' SHA256SUMS | sed 's/^\*//' | sort)"
+          present="$(find . -maxdepth 1 -type f ! -name SHA256SUMS | sed 's|^\./||' | sort)"
+          [ "$listed" = "$present" ] || { echo "::error::SHA256SUMS does not list exactly the published assets"; diff <(echo "$listed") <(echo "$present") || true; exit 1; }
+          echo "OK: $(echo "$listed" | wc -l | tr -d ' ') assets match SHA256SUMS"
       - name: Verify SLSA build-provenance attestation of every published asset
         # An absent asset used to emit `::warning::` and continue, which does not fail a
         # step — so this job could verify two, one or zero assets and still report that
@@ -163,17 +280,20 @@ jobs:
         # attestation. Absence is now fatal, and the count is asserted so a shortened list
         # cannot read as a full pass.
         #
-        # The list must stay equal to the `files:` block of the `release` job above.
+        # The list must stay equal to what the `release` job stages into assets/.
         # kshana-validation-summary.html was uploaded, attested and named in the release
         # notes' provenance claim (scripts/changelog-extract.sh) but verified by no step;
         # kshana-mcp is the only asset with no other check in this job (the SBOM has the
-        # CycloneDX step, the CLI has the smoke-run).
+        # CycloneDX step, the CLI has the smoke-run). The macOS and Windows binaries are
+        # also run on their own operating systems by `verify-release-binaries`.
         run: |
           set -euo pipefail
           cd verify
-          expected=4
+          expected=8
           n=0
-          for f in kshana kshana-mcp kshana-sbom.cdx.json kshana-validation-summary.html; do
+          for f in kshana kshana-mcp kshana-sbom.cdx.json kshana-validation-summary.html \
+                   kshana-aarch64-apple-darwin kshana-x86_64-apple-darwin \
+                   kshana-x86_64-pc-windows-msvc.exe SHA256SUMS; do
             [ -f "$f" ] || { echo "::error::$f is not among the published release assets"; exit 1; }
             echo "== gh attestation verify $f =="
             gh attestation verify "$f" --repo "$REPO"
@@ -194,3 +314,140 @@ jobs:
           printf '%s\n' "$out" | grep -q "usage: kshana" \
             || { echo "::error::binary did not run / print its usage banner"; exit 1; }
           echo "OK: binary runs"
+
+  # The macOS and Windows binaries, downloaded from the published release and run on the
+  # operating system they are for. The Intel macOS binary is not run here (there is no
+  # Intel macOS runner in this matrix); `binaries` checked its architecture.
+  verify-release-binaries:
+    name: verify-release (${{ matrix.target }})
+    needs: release
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            target: aarch64-apple-darwin
+            exe: ""
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            exe: ".exe"
+    permissions:
+      contents: read
+    defaults:
+      run:
+        shell: bash
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TAG: ${{ inputs.tag || github.ref_name }}
+      REPO: ${{ github.repository }}
+      ASSET: kshana-${{ matrix.target }}${{ matrix.exe }}
+    steps:
+      - name: Download the asset and the checksum file
+        run: |
+          set -euo pipefail
+          mkdir -p verify && cd verify
+          gh release download "$TAG" --repo "$REPO" --clobber --pattern "$ASSET" --pattern SHA256SUMS
+          ls -l
+      - name: Checksum, provenance and a run
+        run: |
+          set -euo pipefail
+          cd verify
+          python3 - "$ASSET" <<'PY'
+          import hashlib, sys
+          name = sys.argv[1]
+          want = {l.split()[1].lstrip("*"): l.split()[0] for l in open("SHA256SUMS") if l.strip()}
+          got = hashlib.sha256(open(name, "rb").read()).hexdigest()
+          assert want.get(name) == got, f"{name}: sha256 {got} != SHA256SUMS {want.get(name)}"
+          print(f"OK: {name} matches SHA256SUMS")
+          PY
+          gh attestation verify "$ASSET" --repo "$REPO"
+          chmod +x "$ASSET"
+          out="$("./$ASSET" 2>&1)" || true
+          printf '%s\n' "$out"
+          printf '%s\n' "$out" | grep -q "usage: kshana" \
+            || { echo "::error::$ASSET did not run / print its usage banner"; exit 1; }
+          echo "OK: $ASSET runs"
+
+  # ---------------------------------------------------------------------------------
+  # Publishing. Everything below `needs: verify` (directly or through `publish`), and
+  # runs only for a tag PUSH: a manual re-run of this workflow for an existing tag
+  # rebuilds the GitHub Release and publishes nothing (retry a publish with "Re-run
+  # failed jobs" on the original run, or by dispatching publish.yml on the tag — see
+  # docs/RELEASING.md).
+  #
+  # A called workflow can use only the permissions its caller grants, so each caller
+  # below lists what its workflow's jobs need. `actions: read` is for
+  # scripts/check-release-verdict.sh, which every publishing workflow runs first.
+  # ---------------------------------------------------------------------------------
+  publish:
+    needs: verify
+    if: github.event_name == 'push'
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+      attestations: write
+    uses: ./.github/workflows/publish.yml
+    secrets: inherit
+
+  mcp-publish:
+    # After crates.io, PyPI and npm, so a failure there stops the image too.
+    needs: [verify, publish]
+    if: github.event_name == 'push'
+    permissions:
+      contents: read
+      actions: read
+      packages: write
+      id-token: write
+      attestations: write
+    uses: ./.github/workflows/mcp-publish.yml
+    secrets: inherit
+
+  jetbrains:
+    needs: [verify, publish]
+    if: github.event_name == 'push'
+    permissions:
+      contents: read
+      actions: read
+    uses: ./.github/workflows/jetbrains-plugin.yml
+    secrets: inherit
+
+  # Every channel serves the version, or the run fails. The registries answer on their
+  # own schedule (crates.io's index, PyPI's CDN), so this polls until a deadline rather
+  # than reading once. docs.rs and the MCP registry are reported but never fatal.
+  parity:
+    name: channel parity
+    needs: [publish, mcp-publish]
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Poll crates.io, npm, PyPI and ghcr.io for this version
+        env:
+          TAG: ${{ github.ref_name }}
+          PARITY_TIMEOUT_SECONDS: "2700"
+        run: python3 scripts/check_channel_parity.py "${TAG#v}"
+
+  # kshana.dev is rebuilt from this tag only after every channel serves it, so the site
+  # never advertises a version a reader cannot install. pages.yml is dispatched on main
+  # because the github-pages environment deploys only from main; its `tag` input picks
+  # the content. (A dispatch is one of the two events a workflow token may start a run
+  # with.)
+  site:
+    name: deploy kshana.dev
+    needs: [parity, verify-release]
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      actions: write
+    steps:
+      - name: Dispatch pages.yml for this tag
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          TAG: ${{ github.ref_name }}
+        run: gh workflow run pages.yml --repo "$REPO" --ref main -f tag="$TAG"

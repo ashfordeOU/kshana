@@ -319,6 +319,48 @@ breaking changes are called out explicitly.
   allowlist, cancel and respawn, the three main-thread fallback routes, and crash
   recovery, against a fake worker.
 
+- **Nothing is published until the tagged commit has passed its tests, and a release is
+  not done until every registry serves it.** The order is now tag, verify, publish,
+  parity, site, in one run of `release.yml` ([`docs/RELEASING.md`](docs/RELEASING.md)).
+  - *Publish waits for the verdict.* `publish.yml`, `mcp-publish.yml` and
+    `jetbrains-plugin.yml` no longer start on the tag push; `release.yml` calls them from
+    jobs that `needs: verify`. Before, they raced it: on v0.27.2 crates.io, npm and the
+    Python Package Index (PyPI) had all published within 4.5 minutes of the tag, and
+    `verify` returned 84 minutes after it; on v0.27.0 npm and PyPI published while the
+    crates.io job failed. A manual retry on a tag is held by the new
+    `scripts/check-release-verdict.sh`, which requires a green `verify` for that exact
+    commit from the Actions interface and fails closed on anything else.
+  - *Everything is built before anything is uploaded*, and crates.io, whose packaging
+    step is the one that failed mid-release, publishes first.
+  - *A missing registry token fails the job* instead of skipping the upload and
+    reporting success.
+  - *A parity check after publishing.* `scripts/check_channel_parity.py` polls
+    crates.io (`kshana` and `kshana-mcp`), npm, PyPI (the source distribution and all six
+    platform wheels) and ghcr.io until each serves the version, or fails the run; docs.rs
+    and the Model Context Protocol (MCP) registry are reported, not required. Run against
+    past releases it finds 0.22.0 missing from npm and PyPI, 0.23.0 from PyPI and 0.27.0
+    from crates.io.
+  - *Prebuilt command-line binaries for macOS (Apple silicon and Intel) and Windows
+    x86-64*, named by target (`kshana-aarch64-apple-darwin` and so on), beside the Linux
+    `kshana`, whose name is unchanged. A `SHA256SUMS` file covers every asset, and
+    `verify-release` checks it and runs the macOS and Windows binaries on their own
+    systems.
+  - *kshana.dev shows a release, not `main`.* It used to redeploy on every push to `main`
+    while its pages named the last release. `pages.yml` now builds only a release tag:
+    the release dispatches it once every channel serves the version, and a manual
+    dispatch redeploys the latest release (or a named one).
+  - *One source of wheels.* `publish.yml`'s hand-copied six-target matrix is gone; it
+    calls `wheels.yml`, so the auditwheel tag gate and the byte-reproducibility check now
+    grade the wheels PyPI receives, and a failure in either stops the release.
+  - *Pinned build tools.* Every workflow requests Rust 1.93.0 (the msrv job its own
+    version); `publish.yml` and `pages.yml` had requested `@stable`, and the v0.27.2 log
+    shows rustup installing 1.98.1 and then compiling with 1.93.0 only because
+    `rust-toolchain.toml` outranks it. wasm-pack is pinned to 0.13.1 (the version that
+    built v0.27.2, which the unpinned installer script chose) with a checksum check, and
+    mcp-publisher to 1.8.1 with its published SHA-256. `scripts/check-toolchain.sh` now
+    fails if a workflow asks for another compiler or pipes a downloaded script into a
+    shell. No verification job, golden pin or local gate script was removed or loosened.
+
 ### Security
 
 - **Every third-party GitHub Action is pinned by commit SHA** — 93 references across
