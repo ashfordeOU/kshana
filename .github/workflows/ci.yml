@@ -349,6 +349,8 @@ jobs:
         run: node web/report.test.mjs
       - name: Test the guided-tour core
         run: node web/tour.test.mjs
+      - name: Test that the site's validation counts match the ledger and the READMEs
+        run: node web/counts.test.mjs
   # ---------------------------------------------------------------------------
   # Overlay-registry assurance gates (Phase 0).
   #
