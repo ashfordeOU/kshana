@@ -118,8 +118,8 @@ support, integration, and proprietary extensions available.*
 
 > **Try it in your browser:** the [playground](web/) runs the engine client-side as
 > WebAssembly — pick a scenario, edit the parameters, and see the result, with nothing
-> uploaded. Build it locally with `./web/build.sh` (see [`web/README.md`](web/README.md)),
-> or publish it to GitHub Pages via the `pages` workflow.
+> uploaded. Build it locally with `./web/build.sh` (see [`web/README.md`](web/README.md)).
+> The hosted copy at kshana.dev is rebuilt from each release tag by the `pages` workflow.
 
 > **New to this?** In plain terms: GPS-style (Global Positioning System) satellite signals tell things *where they
 > are* and *what time it is*. When those signals are lost (jammed, blocked, or out of
@@ -1232,7 +1232,10 @@ scenario/result schema may still change; breaking changes are called out explici
 the [`CHANGELOG.md`](CHANGELOG.md). Every result is reproducible from
 `scenario + seed + engine version`.
 
-**Every `vX.Y.Z` tag publishes all channels automatically** — one CI pipeline fans out to:
+**Every `vX.Y.Z` tag publishes all channels automatically, in one order** — the full
+test suite runs on the tagged commit first, nothing is published until it passes, and
+afterwards the pipeline checks that each registry really serves the new version
+([`docs/RELEASING.md`](docs/RELEASING.md)). The channels:
 
 | Channel | Install / get | Contents |
 |---------|---------------|----------|
@@ -1243,9 +1246,9 @@ the [`CHANGELOG.md`](CHANGELOG.md). Every result is reproducible from
 | [ghcr.io](https://github.com/ashfordeOU/kshana/pkgs/container/kshana-mcp) | `docker run -i ghcr.io/ashfordeou/kshana-mcp` | multi-arch OCI (Open Container Initiative) image — no toolchain needed |
 | official MCP registry | auto-discovered by MCP clients | `io.github.ashfordeOU/kshana-mcp` |
 | [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator) | IDE → Plugins → search "Kshana" | the **Kshana — PNT simulator** IDE plugin |
-| [GitHub Releases](https://github.com/ashfordeOU/kshana/releases) | download | `kshana` + `kshana-mcp` binaries, a CycloneDX **SBOM**, **SLSA** build provenance, and an HTML validation summary |
+| [GitHub Releases](https://github.com/ashfordeOU/kshana/releases) | download | the `kshana` command-line binary for Linux x86-64, macOS (Apple silicon and Intel) and Windows x86-64, the `kshana-mcp` binary, a CycloneDX **SBOM**, **SLSA** build provenance, an HTML validation summary and a `SHA256SUMS` checksum file |
 | [Zenodo](https://doi.org/10.5281/zenodo.20528627) | DOI | a citable archive of every release |
-| [kshana.dev](https://kshana.dev) | open in a browser | the WebAssembly playground (redeployed from `main`) |
+| [kshana.dev](https://kshana.dev) | open in a browser | the WebAssembly playground, rebuilt from each release tag (so the version it shows is the version it runs) |
 
 The MCP server's crate / image / registry version tracks the engine (it bundles the
 library); the JetBrains plugin versions independently (it shells out to your installed

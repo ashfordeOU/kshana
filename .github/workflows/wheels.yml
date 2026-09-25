@@ -1,5 +1,13 @@
-# Build Python wheels for the (optional) extension module. Runs on release tags
-# and on manual dispatch only, so the required CI gate on `main` is unaffected.
+# Build the Python wheels and source distribution for the (optional) extension module.
+#
+# THE ONE SOURCE OF WHEELS. publish.yml used to carry a second, hand-copied 6-target
+# matrix and uploaded THAT to PyPI, while this file built the same six wheels again and
+# ran the checks on its own copies — so the auditwheel tag gate and the rebuild-and-diff
+# check graded wheels that were never shipped, and the two matrices could drift apart
+# with nothing to notice. Now this file is called by publish.yml (`build-wheels`), its
+# `wheels-*` artifacts are exactly what the PyPI job uploads, and every check below runs
+# on the release path, ahead of any registry publish. It also runs on manual dispatch,
+# for a build without a release.
 #
 # Covers the full platform-tag matrix the PyPI release ships, including the ARM
 # targets (m37c34cfc): linux x86_64 + aarch64 (manylinux_2_28), macOS arm64 +
@@ -7,25 +15,25 @@
 # manylinux container via QEMU. abi3 (cp39-abi3) keeps one wheel per platform
 # across Python versions.
 #
+# Toolchain: maturin-action reads rust-toolchain.toml itself ("Found Rust toolchain
+# 1.93.0 in rust-toolchain.toml" in the v0.27.2 build log, on every leg), including
+# inside the manylinux container, so these wheels are built by the pinned compiler.
+#
 # Security: no untrusted input is interpolated into any run/step — only trusted
 # matrix values (x86_64 / aarch64 / x64) and github.ref — so there is no
 # workflow-injection surface.
 name: wheels
 
 on:
-  push:
-    tags: ["v*"]
+  workflow_call:
   workflow_dispatch:
 
 permissions:
   contents: read
 
-# Per-commit, not per-branch: see the note in ci.yml. A branch-wide group leaves every
-# superseded commit showing a cancelled wheel build it never actually failed.
-concurrency:
-  group: wheels-${{ github.ref }}-${{ github.sha }}
-  cancel-in-progress: true
-
+# No workflow-level concurrency group. On the release path this runs inside the Release
+# workflow's run, which carries its own per-tag group; a second group here could only
+# cancel a release build half-way. A manual dispatch is one run per click.
 jobs:
   wheels:
     name: wheels (${{ matrix.os }} / ${{ matrix.target }})
@@ -99,10 +107,35 @@ jobs:
             auditwheel show "$whl" | grep -q "manylinux_2_28_${ARCH}" \
               || { echo "ERROR: $whl is not tagged manylinux_2_28_${ARCH}"; exit 1; }
           done
+      - name: Generate the CycloneDX SBOM alongside the wheel
+        # Ship the SBOM beside the wheel/sdist in the same dist/ tree so publish.yml
+        # attests it and it is downloadable next to the release. Built once (on the linux
+        # x86_64 leg) from cargo metadata, which is platform-independent. gen-sbom.sh needs
+        # only the Rust toolchain, which rustup installs from rust-toolchain.toml.
+        if: matrix.os == 'ubuntu-latest' && matrix.target == 'x86_64'
+        shell: bash
+        run: |
+          set -euo pipefail
+          ./scripts/gen-sbom.sh > dist/kshana-sbom.cdx.json
+          # Assert the document before it is attested. attest-build-provenance signs
+          # whatever bytes it is given, so an empty or componentless SBOM would ship as
+          # a cryptographically verified bill of materials — the worst shape this
+          # failure can take, because the signature makes it look checked.
+          python3 - dist/kshana-sbom.cdx.json <<'PY'
+          import json, sys
+          doc = json.load(open(sys.argv[1]))
+          assert doc.get("bomFormat") == "CycloneDX", "not a CycloneDX document"
+          n = len(doc.get("components") or [])
+          assert n > 0, "SBOM carries no components"
+          print(f"OK: CycloneDX {doc.get('specVersion')} with {n} components")
+          PY
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
+          # publish.yml downloads `wheels-*` and merges them into one upload set; keep each
+          # platform's name distinct so that merge is lossless.
           name: wheels-${{ matrix.os }}-${{ matrix.target }}
           path: dist
+          if-no-files-found: error
 
   # Rebuild-and-diff reproducibility check for the wheel on an x86_64 runner: build
   # the abi3 wheel twice from the same checkout and assert the two are byte-identical.
@@ -124,11 +157,12 @@ jobs:
   # v0.27.0, v0.27.1 and v0.27.2. So this is a check that has caught a real regression
   # twice, not one that has never had anything to say.
   #
-  # Blocking here reds this verification workflow only: wheels.yml publishes nothing —
-  # the shipped wheels come from publish.yml's own build-wheels matrix — and no job
-  # `needs:` this one, so a failure does not stop a release. It does stop the repo
-  # asserting byte-reproducibility (Cargo.toml [profile.release]) behind a check that
-  # was allowed to fail.
+  # Since this file became the one source of the shipped wheels, a failure here DOES stop
+  # a release: publish.yml's registry jobs `needs:` the whole of this workflow, so a wheel
+  # that does not rebuild byte-identically holds every registry, not only PyPI. That is
+  # deliberate. The repository asserts byte-reproducibility (Cargo.toml
+  # [profile.release]); shipping while the check of that assertion is red would make the
+  # assertion decorative.
   wheel-repro:
     name: wheel rebuild-and-diff (x86_64, byte-identical)
     runs-on: ubuntu-latest
@@ -197,8 +231,10 @@ jobs:
           echo "OK: wheel is byte-reproducible ($h1)"
 
   # Best-effort smoke install on a native ARM64 Linux runner: proves the aarch64
-  # wheel installs without building from source. continue-on-error so an
-  # unavailable arm runner label never blocks the release.
+  # wheel installs without building from source. It must never block a release, and now
+  # that publish.yml `needs:` this whole workflow, the job itself has to finish green
+  # when the install does not: the steps carry continue-on-error (so a failed install is
+  # an annotation, not a failed job), and the job keeps its own for a runner problem.
   arm-install-smoke:
     name: pip install on ARM64 Linux (smoke)
     needs: wheels
@@ -207,13 +243,16 @@ jobs:
     continue-on-error: true
     steps:
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        continue-on-error: true
         with:
           name: wheels-ubuntu-latest-aarch64
           path: dist
       - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        continue-on-error: true
         with:
           python-version: "3.x"
       - name: Install the aarch64 wheel without building from source
+        continue-on-error: true
         run: |
           python -m pip install --only-binary :all: --no-index --find-links dist kshana
           python -c "import kshana, platform; print('kshana imported on', platform.machine())"
