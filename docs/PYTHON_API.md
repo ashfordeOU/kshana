@@ -41,7 +41,7 @@ adev = np.asarray([p["adev"] for p in data["quantum"]["adev_curve"]])
 | `run` | `(toml: str) -> str` | result document as a JSON string |
 | `run_full` | `(toml: str) -> tuple[str, str, str]` | `(json, svg, summary)` |
 | `scenario_kinds` | `() -> list[dict]` | available scenario kinds + metadata (parsed) |
-| `list_kinds` | `() -> str` | the same metadata as a JSON-array string |
+| `list_kinds` | `() -> str` | the same metadata as ONE JSON-array string, not a list (kept for existing callers; use `scenario_kinds` for the parsed list) |
 | `validate_toml` | `(toml: str) -> list[str]` | error messages (empty if valid) |
 | `error_kind` | `(toml: str) -> str \| None` | failure-category tag, or `None` on success |
 | `version` / `__version__` | `() -> str` / `str` | engine version |

@@ -4,10 +4,13 @@
 //! that way. Two checks, each over the fence as it is actually published:
 //!
 //! 1. Every name imported from `"kshana"` in a JavaScript fence is a `#[wasm_bindgen]`
-//!    function in `src/wasm.rs` (the `default` export is wasm-bindgen's `init`).
-//! 2. The Rust fence in `README.crates.md` is byte-identical to `readme_crates_example`
-//!    below, which this test binary compiles. A README edit that stops compiling therefore
-//!    fails here as a mismatch, and an API change that breaks the example fails the build.
+//!    function in `src/wasm.rs`, or one of the loaders wasm-bindgen generates beside them
+//!    (the `default` export `init`, and `initSync`, which the Node.js recipe uses).
+//! 2. The Rust fence in `README.crates.md` is byte-identical to the `readme_crates_example`
+//!    module below, which this test binary compiles. A README edit that stops compiling
+//!    therefore fails here as a mismatch, and an API change that breaks the example fails
+//!    the build. The fence is a complete program and carries its scenario inline, so it
+//!    runs as written in a fresh project with no scenario file on disk.
 //!    The example is compiled, never called: running it would write a result file into the
 //!    working directory on every `cargo test`.
 
@@ -29,10 +32,15 @@ fn fences<'a>(doc: &'a str, lang: &str) -> Vec<Vec<&'a str>> {
     out
 }
 
+/// The named loader wasm-bindgen writes into every `--target web` package beside the
+/// crate's own exports. `init` itself is the `default` export and is never imported by name.
+const GENERATED_LOADERS: &[&str] = &["initSync"];
+
 fn wasm_exports() -> std::collections::BTreeSet<String> {
     let src = include_str!("../src/wasm.rs");
     let lines: Vec<&str> = src.lines().collect();
-    let mut names = std::collections::BTreeSet::new();
+    let mut names: std::collections::BTreeSet<String> =
+        GENERATED_LOADERS.iter().map(|s| s.to_string()).collect();
     for (i, l) in lines.iter().enumerate() {
         if !l.trim_start().starts_with("#[wasm_bindgen") {
             continue;
@@ -58,7 +66,7 @@ fn wasm_exports() -> std::collections::BTreeSet<String> {
 fn every_js_import_from_kshana_is_a_real_wasm_export() {
     let exports = wasm_exports();
     assert!(
-        exports.contains("run") && exports.len() >= 5,
+        exports.contains("run") && exports.len() >= 6,
         "found only {exports:?} in src/wasm.rs — the export scan is broken, not the README"
     );
     let surfaces = [
@@ -170,19 +178,54 @@ fn every_site_import_from_the_wasm_package_is_a_real_export() {
 }
 
 // ---- README.crates.md example: the region between the markers is compared to the fence.
+// The fence is a whole program, so the compiled copy is a whole program too, inside a
+// module of its own: there its `main` is an ordinary function, compiled and never called.
 #[allow(dead_code)]
 #[rustfmt::skip] // the body must stay byte-identical to the published fence
-fn readme_crates_example() -> Result<(), Box<dyn std::error::Error>> {
+mod readme_crates_example {
     // README-EXAMPLE-BEGIN
 use kshana::api;
 
-// Run any scenario TOML through the engine; get a reproducible result back.
-let toml = std::fs::read_to_string("scenarios/clock-holdover.toml")?;
-let out = api::run_toml(&toml)?;    // RunOutput { json, svg, summary, csv }
-println!("{}", out.summary);        // the one-line result string
-std::fs::write("clock-holdover.result.json", &out.json)?;
-    // README-EXAMPLE-END
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // A complete scenario, not a sketch: scenarios/clock-holdover.toml without its
+    // comment lines. It runs 2 h, 10 min of GNSS then about 1.8 h with GNSS denied, and
+    // asks how long a strontium optical clock and a chip-scale atomic clock (CSAC) each
+    // hold time to within 20 ns. sigma_y(1s) is a clock's Allan deviation at an averaging
+    // time of one second; q_wf, the white-frequency-noise intensity, is its square.
+    let toml = r#"
+seed = 42
+threshold_ns = 20.0
+
+[time]
+step_s = 10.0
+duration_s = 7200.0
+
+[gnss]
+windows = [
+  { t0 = 0.0,    t1 = 600.0,  state = "nominal" },
+  { t0 = 600.0,  t1 = 7200.0, state = "denied" },
+]
+
+[clock_quantum]
+id = "optical-sr-lattice"
+provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (Origlia/Schiller/Bongs et al., arXiv:1503.08457); q_wf=sigma_y(1s)^2; ground-demonstrator maturity, not flown; flicker/aging not modeled"
+y0   = 5.0e-17
+q_wf = 1.0e-30
+q_rw = 0.0
+
+[clock_classical]
+id = "csac-sa45s"
+provenance = "Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_wf=sigma_y(1s)^2; flicker/aging not modeled"
+y0   = 5.0e-10
+q_wf = 9.0e-20
+q_rw = 0.0
+"#;
+    let out = api::run_toml(toml)?; // RunOutput { json, svg, summary, csv }
+    println!("{}", out.summary); // the one-line result string
+    std::fs::write("clock-holdover.result.json", &out.json)?; // the full result document
     Ok(())
+}
+    // README-EXAMPLE-END
 }
 
 #[test]
@@ -202,13 +245,19 @@ fn readme_crates_rust_fence_is_the_compiled_example() {
         1,
         "README.crates.md should carry exactly one ```rust fence"
     );
-    // Lines starting `# ` are rustdoc-hidden scaffolding (the `Ok::<…>` tail); the function
-    // above supplies its own.
-    let published: Vec<&str> = rust[0]
+    // No rustdoc-hidden `# ` lines: crates.io renders them, and a reader who pastes the
+    // fence gets a syntax error. The fence is a whole program instead, `main` and all.
+    let hidden: Vec<&str> = rust[0]
         .iter()
         .copied()
-        .filter(|l| !l.starts_with("# "))
+        .filter(|l| l.starts_with("# "))
         .collect();
+    assert!(
+        hidden.is_empty(),
+        "README.crates.md's Rust fence has rustdoc-hidden lines, which crates.io shows and \
+         which do not compile when pasted: {hidden:?}"
+    );
+    let published: Vec<&str> = rust[0].to_vec();
     assert_eq!(
         published, compiled,
         "README.crates.md's Rust example no longer matches the compiled copy in \
