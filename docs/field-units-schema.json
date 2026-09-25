@@ -1,11 +1,11 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 1742,
-    "fields_total": 1744,
+    "fields_described": 1788,
+    "fields_total": 1790,
     "fields_without_units": 2,
-    "kinds_complete": 60,
-    "kinds_total": 61,
+    "kinds_complete": 61,
+    "kinds_total": 62,
     "kinds_uncovered": 1,
     "uncovered_kind_ceiling": 1,
     "uncovered_kinds": [
@@ -10631,6 +10631,292 @@
       ],
       "label": null,
       "source": "scenarios/sweep-nd-inertial.toml"
+    },
+    "telecom-timing": {
+      "complete": true,
+      "fields": {
+        "budgets[].max_abs_te_ns": {
+          "definition": "the budget: a maximum absolute time error from the named source",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "ns"
+        },
+        "budgets[].time_to_exceed_s": {
+          "definition": "first time after the start of holdover (or of the record) at which |TE| is above the budget, at the sample resolution",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "holdover.aging_te_at_end_ns": {
+          "definition": "time error the aging alone accumulates by the end of the record, (1/2)·D·t^2",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "ns"
+        },
+        "holdover.deterministic_te_at_end_ns": {
+          "definition": "time error of the deterministic terms (offset, aging, temperature) at the end of the record, without noise",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "ns"
+        },
+        "holdover.gnss_loss_s": {
+          "definition": "time of the GNSS loss from the start of the record",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "holdover.holdover_duration_s": {
+          "definition": "record length after the GNSS loss",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "holdover.initial_frequency_offset": {
+          "definition": "residual fractional frequency offset at the moment of loss",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "holdover.locked_te_sigma_ns": {
+          "definition": "1 sigma white phase noise of the disciplined clock before the loss",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "ns"
+        },
+        "holdover.temperature_amplitude_k": {
+          "definition": "peak temperature swing of the sinusoidal profile about its value at the loss",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "K"
+        },
+        "holdover.temperature_period_s": {
+          "definition": "period of the sinusoidal temperature profile",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "holdover.temperature_te_peak_ns": {
+          "definition": "largest time error the temperature term alone reaches, k·A·P/pi",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "ns"
+        },
+        "holdover_envelope.holdover_period_s": {
+          "definition": "holdover period H G.8272.1 Table 3 assigns to that locked duration",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "s"
+        },
+        "holdover_envelope.locked_duration_days": {
+          "definition": "locked-mode duration before the loss, L in G.8272.1 Table 3",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "d"
+        },
+        "holdover_envelope.min_margin_ns": {
+          "definition": "smallest envelope minus |TE| inside the holdover period",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "holdover_envelope.time_to_exceed_s": {
+          "definition": "first time after the start of holdover at which |TE| is above the ePRTC-A envelope, at the sample resolution",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "masks[].checks[].limit_ns": {
+          "definition": "the limit the transcribed ITU-T table or clause states at the binding point",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "ns"
+        },
+        "masks[].checks[].margin_ns": {
+          "definition": "limit minus value at the binding point, the smallest over the curve; negative on a FAIL",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "masks[].checks[].points_evaluated": {
+          "definition": "curve points that fell inside the mask's observation-interval range",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "masks[].checks[].value_ns": {
+          "definition": "the measured quantity at the binding point (filtered where the mask says so)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "masks[].checks[].worst_tau_s": {
+          "definition": "observation interval of the binding point (for the holdover envelope, the time to exceed it)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "mtie[].mtie_ns": {
+          "definition": "maximum time interval error: the largest peak-to-peak time error in any window of that length",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "mtie[].tau_s": {
+          "definition": "observation interval of an MTIE point, m times the sample interval",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "oscillator.aging_per_day": {
+          "definition": "linear fractional-frequency aging per day used for the holdover (the datasheet figure, converted as the aging note states, unless the scenario overrides it)",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "1/d"
+        },
+        "oscillator.datasheet_adev[].adev": {
+          "definition": "the datasheet's maximum Allan deviation at that averaging time",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "1"
+        },
+        "oscillator.datasheet_adev[].model_adev": {
+          "definition": "Allan deviation of the fitted white + flicker + random-walk frequency-noise model at that averaging time",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "1"
+        },
+        "oscillator.datasheet_adev[].model_over_datasheet": {
+          "definition": "model Allan deviation divided by the datasheet figure; at least 1 because the model is scaled to envelope the datasheet maxima",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "oscillator.datasheet_adev[].tau_s": {
+          "definition": "averaging time of a datasheet Allan-deviation figure",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "s"
+        },
+        "oscillator.fitted.envelope_scale": {
+          "definition": "factor the least-squares fit was scaled up by so it lies at or above every datasheet point",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "oscillator.fitted.flicker_floor_adev": {
+          "definition": "flat Allan-deviation floor of the fitted flicker frequency noise",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "1"
+        },
+        "oscillator.fitted.random_walk_fm_adev_1s": {
+          "definition": "Allan deviation at 1 s of the fitted random-walk frequency noise (it grows as the square root of the averaging time)",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "1"
+        },
+        "oscillator.fitted.white_fm_adev_1s": {
+          "definition": "Allan deviation at 1 s of the fitted white frequency noise",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "1"
+        },
+        "oscillator.temperature_bound": {
+          "definition": "the datasheet's fractional-frequency change bound (±) over its operating temperature range",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "1"
+        },
+        "oscillator.temperature_coeff_per_k": {
+          "definition": "fractional frequency per kelvin: the stated bound over half the operating span, a linear worst-case reading",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "1/K"
+        },
+        "oscillator.temperature_max_c": {
+          "definition": "upper end of the datasheet operating temperature range",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "degC"
+        },
+        "oscillator.temperature_min_c": {
+          "definition": "lower end of the datasheet operating temperature range",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "degC"
+        },
+        "record.holdover_start_s": {
+          "definition": "time the holdover starts (the GNSS loss), from which budgets and the ePRTC-A holdover envelope are timed",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "record.n_samples": {
+          "definition": "number of time-error samples in the record",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "record.record_length_s": {
+          "definition": "time from the first to the last sample",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "record.sample_interval_s": {
+          "definition": "interval between consecutive time-error samples",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "record.start_s": {
+          "definition": "time stamp of the first sample",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "seed": {
+          "definition": "seed of the ChaCha8 random-number generator the synthetic holdover draws its noise from",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "tdev[].tau_s": {
+          "definition": "observation interval of a TDEV point; only intervals at most one twelfth of the record are reported",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "tdev[].tdev_ns": {
+          "definition": "time deviation, tau/sqrt(3) times the modified Allan deviation",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "time_error.max_abs_te_ns": {
+          "definition": "largest absolute time error in the record, unfiltered",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "time_error.mean_te_ns": {
+          "definition": "mean time error over the record",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "time_error.te_at_end_ns": {
+          "definition": "time error of the last sample",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        }
+      },
+      "fields_described": 46,
+      "fields_total": 46,
+      "fields_without_units": [],
+      "label": "MODELLED — time error, MTIE and TDEV checked against transcribed ITU-T masks. The estimators are validated against allantools; the mask tables are transcriptions of the named Recommendations; a synthetic holdover is a model built from public datasheet figures, not a measurement of any unit. Not a conformance test.",
+      "source": "scenarios/telecom-prtc-holdover-24h.toml"
     },
     "terrain-nav": {
       "complete": true,

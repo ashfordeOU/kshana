@@ -82,7 +82,6 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("pvt-abmf"),
     bundled!("quantum-anomaly-detect"),
     bundled!("quantum-gnss-free-nav"),
-    bundled!("quantum-pnt-demonstrator.suite"),
     bundled!("quantum-time-transfer"),
     bundled!("quantum-trade"),
     bundled!("realtime-frame-eop"),
@@ -94,6 +93,8 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("spoof-meaconing"),
     bundled!("sweep-clock-stability"),
     bundled!("sweep-nd-inertial"),
+    bundled!("telecom-prtc-holdover-24h"),
+    bundled!("telecom-tie-ingest"),
     bundled!("terrain-nav"),
     bundled!("terrain-slam"),
     bundled!("timetransfer"),
@@ -102,13 +103,23 @@ pub const BUNDLED: &[(&str, &str)] = &[
 
 /// Scenario files that are deliberately NOT bundled, each with the sentence the CLI prints
 /// when someone asks for one. They read data files that ship with the repository only.
-pub const REPO_ONLY: &[(&str, &str)] = &[(
-    "lunar-llr-datum",
-    "reads the archived lunar laser-ranging data slice under tests/fixtures/lunar_llr, \
-     which ships with the repository but not with the registry packages; clone \
-     https://github.com/ashfordeOU/kshana and run `kshana scenarios/lunar-llr-datum.toml` \
-     from the checkout, or set `data_dir` to a copy of that slice",
-)];
+pub const REPO_ONLY: &[(&str, &str)] = &[
+    (
+        "lunar-llr-datum",
+        "reads the archived lunar laser-ranging data slice under tests/fixtures/lunar_llr, \
+         which ships with the repository but not with the registry packages; clone \
+         https://github.com/ashfordeOU/kshana and run `kshana scenarios/lunar-llr-datum.toml` \
+         from the checkout, or set `data_dir` to a copy of that slice",
+    ),
+    (
+        "quantum-pnt-demonstrator.suite",
+        "is a study manifest, not a scenario: it runs three sibling scenario files \
+         (quantum-time-transfer, quantum-gnss-free-nav, quantum-anomaly-detect) resolved \
+         from its own directory with `--study`; clone \
+         https://github.com/ashfordeOU/kshana and run \
+         `kshana --study scenarios/quantum-pnt-demonstrator.suite.toml` from the checkout",
+    ),
+];
 
 /// The TOML text of a bundled scenario, by name. A trailing `.toml` is accepted.
 pub fn get(name: &str) -> Option<&'static str> {
