@@ -117,7 +117,7 @@ pub const REPO_ONLY: &[(&str, &str)] = &[
          (quantum-time-transfer, quantum-gnss-free-nav, quantum-anomaly-detect) resolved \
          from its own directory with `--study`; clone \
          https://github.com/ashfordeOU/kshana and run \
-         `kshana --study scenarios/quantum-pnt-demonstrator.suite.toml` from the checkout",
+         `kshana --study scenarios/quantum-pnt-demonstrator.suite.toml` from a checkout of the repository",
     ),
 ];
 
