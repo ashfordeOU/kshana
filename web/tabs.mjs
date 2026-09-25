@@ -34,10 +34,25 @@ export function tabModel(result, opts) {
   return tabs;
 }
 
-/// The single-run FoM table model: one `{clockLabel, metric, label, unit, value}`
-/// row per (clock, metric) that is present-and-numeric, in COMPARE_METRICS order.
-/// A missing or non-numeric metric is skipped (no half rows). app.js renders these
-/// with the same textContent-only `<table>` builder pattern as buildCompareTable.
+/// The run's own verdict on one figure, read from the result document's
+/// `figure_tiers` block (written by the engine from the verification matrix, see
+/// src/fom_label.rs): `{tier, applicable}` for `path` such as
+/// `quantum.fom.timing_p95_ns`, or null when the document carries no entry for it.
+export function figureTier(result, path) {
+  const figs = result && result.figure_tiers && result.figure_tiers.figures;
+  if (!Array.isArray(figs)) return null;
+  const f = figs.find((x) => x && x.path === path);
+  if (!f) return null;
+  return { tier: typeof f.tier === "string" ? f.tier : "", applicable: f.applicable !== false };
+}
+
+/// The single-run FoM table model: one `{clockLabel, metric, label, unit, value,
+/// tier, applicable}` row per (clock, metric) that is present-and-numeric, in
+/// COMPARE_METRICS order. `tier` and `applicable` come from the result's own
+/// `figure_tiers` block when it has one (`tier` is "" otherwise, and the renderers
+/// fall back to the report.mjs mirror). A missing or non-numeric metric is skipped
+/// (no half rows). app.js renders these with the same textContent-only `<table>`
+/// builder pattern as buildCompareTable.
 export function buildFomRows(result) {
   const rows = [];
   for (const clock of ["quantum", "classical"]) {
@@ -48,7 +63,17 @@ export function buildFomRows(result) {
     for (const m of COMPARE_METRICS) {
       const v = fom[m.key];
       if (typeof v !== "number" || !isFinite(v)) continue;
-      rows.push({ clock, clockLabel, metric: m.key, label: m.label, unit: m.unit, value: v });
+      const t = figureTier(result, `${clock}.fom.${m.key}`);
+      rows.push({
+        clock,
+        clockLabel,
+        metric: m.key,
+        label: m.label,
+        unit: m.unit,
+        value: v,
+        tier: t ? t.tier : "",
+        applicable: t ? t.applicable : true,
+      });
     }
   }
   return rows;
