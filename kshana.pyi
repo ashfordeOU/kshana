@@ -78,8 +78,12 @@ def validate_toml(toml: str) -> list[str]:
     runtime errors."""
 
 def list_kinds() -> str:
-    """The scenario kinds and metadata as a JSON-array string (see
-    :func:`scenario_kinds` for the parsed form)."""
+    """The scenario kinds and metadata as ONE JSON-array string, not a list.
+
+    It returns the same metadata as :func:`scenario_kinds`, serialised; iterating
+    the result walks characters, not kinds. It stays a string so existing callers
+    do not break. For a Python list of dictionaries call :func:`scenario_kinds`,
+    or ``json.loads(list_kinds())``."""
 
 def error_kind(toml: str) -> Optional[str]:
     """Run a scenario; on failure return the structured error *kind* tag

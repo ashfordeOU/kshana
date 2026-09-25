@@ -9,7 +9,7 @@
 
 <p align="center">
   <strong>क्षण</strong> — Sanskrit for <em>the precise instant</em>, the smallest measure of time.<br>
-  Open, reproducible PNT-resilience simulation with published quantum-sensor performance models.
+  Open, reproducible PNT (positioning, navigation and timing) resilience simulation with published quantum-sensor performance models.
 </p>
 
 <p align="center">
@@ -25,7 +25,7 @@
 **Kshana** is an open, reproducible **PNT-resilience simulator with quantum-sensor
 performance models** — PNT being positioning, navigation, and timing. This package is a thin
 [PyO3](https://pyo3.rs) (abi3, the stable Python binary interface) wrapper over the
-same Rust engine: you pass a scenario TOML (Tom's Obvious, Minimal Language) string in and get a reproducible JSON result back. It quantifies, in hard numbers,
+same Rust engine: you pass a scenario TOML (Tom's Obvious, Minimal Language) string in and get a reproducible JSON (JavaScript Object Notation) result back. It quantifies, in hard numbers,
 what quantum clocks, quantum inertial sensors, and optical time-transfer buy a
 navigation system over classical PNT. Every result is reproducible from
 `scenario + seed + engine version`, and every sensor parameter is traceable to a
@@ -46,7 +46,7 @@ published source.
   <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/diagrams/system-overview.png" alt="Kshana system overview: five front doors (command-line interface, Python wheel, WebAssembly playground, Model Context Protocol server, JetBrains plugin) converge on a single api::run_toml dispatch, through the engine, to a reproducible result.json + chart.svg" width="840">
 </p>
 
-### Validated against external oracles — every row CI-gated
+### Validated against external oracles — every row gated in continuous integration
 
 Each row is checked against an **independent external oracle** (real dataset,
 independent reference implementation, or published reference vectors) and re-checked in CI (continuous integration).
@@ -75,21 +75,66 @@ source instead, use [maturin](https://www.maturin.rs/): `pip install maturin && 
 
 ## Usage
 
+The example is complete: it carries its own scenario, so it runs as written with nothing
+else on disk.
+
 ```python
 import json, kshana
 
-result = json.loads(kshana.run(open("clock-holdover.toml").read()))
+# A complete scenario, not a sketch: scenarios/clock-holdover.toml without its comment
+# lines. It runs 2 h, 10 min of GNSS then about 1.8 h with GNSS denied, and asks how long
+# a strontium optical clock and a chip-scale atomic clock (CSAC) each hold time to within
+# 20 ns. sigma_y(1s) is a clock's Allan deviation at an averaging time of one second;
+# q_wf, the white-frequency-noise intensity, is its square.
+toml = """
+seed = 42
+threshold_ns = 20.0
+
+[time]
+step_s = 10.0
+duration_s = 7200.0
+
+[gnss]
+windows = [
+  { t0 = 0.0,    t1 = 600.0,  state = "nominal" },
+  { t0 = 600.0,  t1 = 7200.0, state = "denied" },
+]
+
+[clock_quantum]
+id = "optical-sr-lattice"
+provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (Origlia/Schiller/Bongs et al., arXiv:1503.08457); q_wf=sigma_y(1s)^2; ground-demonstrator maturity, not flown; flicker/aging not modeled"
+y0   = 5.0e-17
+q_wf = 1.0e-30
+q_rw = 0.0
+
+[clock_classical]
+id = "csac-sa45s"
+provenance = "Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_wf=sigma_y(1s)^2; flicker/aging not modeled"
+y0   = 5.0e-10
+q_wf = 9.0e-20
+q_rw = 0.0
+"""
+
+result = json.loads(kshana.run(toml))       # the full result document
 print(result["quantum"]["fom"]["integrity"])
 
-# JSON, SVG chart, and a one-line summary at once:
-result_json, chart_svg, summary = kshana.run_full(open("orbit-gnss-challenged.toml").read())
+# The JSON result, the chart as SVG (Scalable Vector Graphics) and a one-line summary,
+# all from one engine run:
+result_json, chart_svg, summary = kshana.run_full(toml)
 print(kshana.version(), summary)
 ```
 
+Every other reference scenario is a file under
+[`scenarios/`](https://github.com/AshfordeOU/kshana/tree/main/scenarios) in the repository;
+pass its text to `kshana.run` the same way. With the Rust command-line interface (CLI)
+installed, `kshana example <name>` prints any of them.
+
 Beyond `run` / `run_full` / `version`, the module exposes `run_typed` (a structured
-result object), `validate_toml` (lint → list of error strings), `list_kinds` /
-`scenario_kinds` (the dispatchable kinds), and `error_kind` (the `KshanaError` tag for
-a rejected scenario) — see
+result object), `validate_toml` (lint → list of error strings), `scenario_kinds` (the
+dispatchable kinds as a Python list of dictionaries), `list_kinds` (the same metadata as
+one JSON string — kept as a string so existing callers do not break; call
+`json.loads(kshana.list_kinds())`, or use `scenario_kinds()` for the parsed list), and
+`error_kind` (the `KshanaError` tag for a rejected scenario) — see
 [docs/PYTHON_API.md](https://github.com/AshfordeOU/kshana/blob/main/docs/PYTHON_API.md).
 
 Every figure of merit is labelled **validated** or **modelled**; optical-clock figures
@@ -101,7 +146,7 @@ navigation is simulation-validated; real-mission deep-space OD (orbit determinat
 
 - **Full README & validation matrix** → <https://github.com/AshfordeOU/kshana>
 - **Live playground** (runs in your browser as WebAssembly) → <https://kshana.dev>
-- **Python API** → [docs/PYTHON_API.md](https://github.com/AshfordeOU/kshana/blob/main/docs/PYTHON_API.md)
+- **Python application programming interface (API)** → [docs/PYTHON_API.md](https://github.com/AshfordeOU/kshana/blob/main/docs/PYTHON_API.md)
 - **Capabilities** → [docs/CAPABILITY.md](https://github.com/AshfordeOU/kshana/blob/main/docs/CAPABILITY.md)
 - **Validation & provenance** → [docs/VALIDATION.md](https://github.com/AshfordeOU/kshana/blob/main/docs/VALIDATION.md) · [docs/PROVENANCE.md](https://github.com/AshfordeOU/kshana/blob/main/docs/PROVENANCE.md)
 
