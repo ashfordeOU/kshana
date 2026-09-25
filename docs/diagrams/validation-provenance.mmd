@@ -26,8 +26,8 @@ flowchart LR
     EXT -.-> GUARD
     INT -.-> GUARD
 
-    EXT --> VAL["VALIDATED<br/>64 rows"]
-    REF --> MDL["MODELLED<br/>100 rows"]
+    EXT --> VAL["VALIDATED<br/>65 rows"]
+    REF --> MDL["MODELLED<br/>102 rows"]
     INT --> MDL
     NON --> PRT["PARTNER<br/>4 rows"]
     GUARD ==> VAL
@@ -43,7 +43,7 @@ flowchart LR
     E2 -.-> EXT
     E3 -.-> EXT
 
-    TOTAL["Total 168 capability rows<br/>web/data/verification-matrix.json"]
+    TOTAL["Total 171 capability rows<br/>web/data/verification-matrix.json"]
     VAL -.-> TOTAL
     MDL -.-> TOTAL
     PRT -.-> TOTAL

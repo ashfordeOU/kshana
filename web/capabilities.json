@@ -312,7 +312,7 @@
       "status": "modelled",
       "name": "Unit and provenance on every reported quantity",
       "summary": "Every numeric field a scenario emits carries a unit and a provenance class drawn from a closed vocabulary, with a definition where one exists, published as a machine-readable schema beside the engine. A ratcheted gate runs every built-in kind and fails on a field that carries none; the kinds not yet complete are named one by one with the reason each is still open, and the list can only shrink. Reports that state their own constants \u2014 the one-way link budget, the optical and RF budget \u2014 let a reader recompute the headline from the report alone.",
-      "proof": "60 of 61 kinds, 1742 of 1744 numeric fields"
+      "proof": "61 of 62 kinds, 1788 of 1790 numeric fields"
     },
     {
       "domain": "Mission analysis",

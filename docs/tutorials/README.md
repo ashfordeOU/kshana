@@ -85,7 +85,7 @@ scenario hash).
 
 The engine dispatches on the scenario’s `kind`. The table below lists the most
 commonly-used kinds (the eight tutorial domains above plus their nearest neighbours).
-It is **not** the complete set: `src/api.rs::list_scenario_kinds()` returns all **61**
+It is **not** the complete set: `src/api.rs::list_scenario_kinds()` returns all **62**
 built-in kinds — that function (exposed as `list_kinds()` in the Python/WASM bindings)
 is the authoritative, always-current catalogue, and
 [`SCENARIOS.md`](../SCENARIOS.md) is its generated enumeration, one section per kind

@@ -1635,6 +1635,34 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
+        // ── Telecom timing (ITU-T masks) ────────────────────────────────────────
+        VerificationItem {
+            requirement: "Telecom-timing MTIE and TDEV on a holdover time-error series",
+            capability: "The maximum time interval error and time deviation the `telecom-timing` scenario kind reports, on a telecom-scale holdover record: an O(n) monotonic-queue sliding-window MTIE (telecom_timing::mtie_sliding, needed so a day of one-second samples stays fast) and the engine's TDEV (allan::time_deviation), evaluated on the grid the kind reports and read back out of a full run that ingests the series",
+            module: "telecom_timing (mtie_sliding, mtie_curve_ns, tdev_curve_ns); allan (mtie, time_deviation)",
+            tests: "tests/telecom_timing_reference.rs (17 MTIE and 12 TDEV averaging factors on a committed 2 048-sample chip-scale-atomic-clock holdover series with aging, flicker and temperature, vs allantools 2024.06 to <1e-12 / <1e-9 relative, observed exact / 1.1e-15; the same curves read out of a full telecom-timing run that ingests the CSV); telecom_timing::tests (sliding MTIE equal to allan::mtie at every window; hand-derived MTIE and TDEV; monotone MTIE)",
+            oracle: "allantools 2024.06 — an independent third-party frequency-stability library — mtie() and tdev() on tests/fixtures/telecom_timing/holdover_te_series.csv, the series parsed from the same 17-significant-figure text on both sides; the reference records the series' SHA-256 and is regenerable offline via tests/fixtures/telecom_timing/generate_telecom_timing_reference.py. Validates the ESTIMATORS on this record, not the synthetic holdover that produced it",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
+            requirement: "ITU-T telecom synchronisation masks with PASS/FAIL and margin",
+            capability: "Transcribed limits of ITU-T G.8272 (07/2025) PRTC-A/B, G.8272.1 (2024) Amd. 1 (07/2025) ePRTC locked and ePRTC-A holdover (including the Table 3 time-error envelope), G.8273.2 (2023) Amd. 2 (11/2025) T-BC/T-TSC classes A-D and G.8271.1 (2022) Amd. 3 (05/2025) reference point C, each open or closed interval as the table states it, with every 'for further study' entry left out; a verdict and a margin at the binding point per check, and the time to exceed each budget. Runnable as the `telecom-timing` scenario kind",
+            module: "telecom_timing (MASKS, eprtc_a_holdover_limit_ns, check_curve, check_mask)",
+            tests: "telecom_timing::tests (mask_boundaries_follow_the_tables_exactly — open and closed ends, the τ = 400 s gap of G.8271.1 Table 7-3, continuity at every breakpoint the tables imply; a_curve_exactly_on_the_limit_passes_and_just_above_fails; eprtc_a_holdover_envelope_follows_table_3; a_coarse_record_is_not_evaluated_against_a_filtered_mask); tests/telecom_timing_reference.rs (telecom_timing_kind_round_trips_through_the_dispatch)",
+            oracle: "Transcription of the named Recommendations (freely downloadable from itu.int), each limit carrying its table or clause, listed with every unconfirmed or unimplemented item in docs/TELECOM-TIMING.md; the breakpoint-continuity identities the tables imply are checked in the tests. A standards transcription with internal consistency checks, not a conformance test and not an external validation",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
+            requirement: "Oscillator holdover presets from public datasheets",
+            capability: "Four presets — OCXO (Microchip OX-208), rubidium (Microchip 8040C), caesium (Microchip 5071A high-performance tube) and CSAC (Microchip SA.45s) — each carrying its datasheet's Allan-deviation maxima, aging and temperature bound; a non-negative least-squares white + flicker + random-walk frequency-noise fit scaled to envelope every datasheet point, a flicker floor never below the longest-τ figure, linear aging and a sinusoidal temperature term, synthesised as a seeded holdover after a GNSS loss",
+            module: "telecom_timing (PRESETS, fit_noise, with_flicker_floor, synthesize_holdover); models (ClockModel)",
+            tests: "telecom_timing::tests (every_preset_carries_a_named_datasheet_and_figures; the_noise_fit_envelopes_every_datasheet_point; pure_aging_matches_its_closed_form — the discrete aging ramp within 0.1 % of (1/2)·D·t² over a day; same_seed_same_series_and_hash_different_seed_different_series)",
+            oracle: "The four named Microchip datasheets (document numbers and URLs in each preset and in docs/TELECOM-TIMING.md) for the input figures; the closed-form aging ramp and the fit's envelope property as internal checks. How the figures become a noise model — the fit, the floor rule, the 30-day month, the linear temperature reading — is a modelling choice; no preset is a measurement of a unit",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
     ]
 }
 

@@ -46,7 +46,7 @@ fn temp_workdir(label: &str) -> std::path::PathBuf {
 
 /// Scenario files that need data shipped with the repository only. Each must be refused by
 /// `kshana example` with a reason rather than bundled.
-const REPO_ONLY: &[&str] = &["lunar-llr-datum"];
+const REPO_ONLY: &[&str] = &["lunar-llr-datum", "quantum-pnt-demonstrator.suite"];
 
 fn scenario_stems() -> Vec<String> {
     let dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("scenarios");

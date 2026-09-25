@@ -15,7 +15,7 @@
 
 <p align="center">
   <a href="https://github.com/AshfordeOU/kshana/blob/main/tests/sgp4_verification.rs"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%204.12mm-3fb950" alt="SGP4 validated against all 666 AIAA 2006-6753 vectors, worst 4.12 mm"></a>
-  <a href="https://github.com/AshfordeOU/kshana#validation-at-a-glance"><img src="https://img.shields.io/badge/validated-64%20external%20oracles-3fb950" alt="64 of 168 capabilities validated against independent external oracles"></a>
+  <a href="https://github.com/AshfordeOU/kshana#validation-at-a-glance"><img src="https://img.shields.io/badge/validated-65%20external%20oracles-3fb950" alt="65 of 171 capabilities validated against independent external oracles"></a>
   <a href="https://github.com/AshfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.27.2-c79e63" alt="Release v0.27.2"></a>
   <a href="https://kshana.dev"><img src="https://img.shields.io/badge/playground-try%20in%20browser-c79e63" alt="Live playground — run in your browser, no install"></a>
   <a href="https://github.com/AshfordeOU/kshana/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-AGPL_v3-blue.svg" alt="License: AGPL-3.0-only"></a>
@@ -37,8 +37,8 @@ parameter is traceable to a published source.
 > Terrestrial Reference System) bit-for-bit vs SOFA/ERFA (the International Astronomical
 > Union's Standards of Fundamental Astronomy library and its open port, Essential Routines
 > for Fundamental Astronomy) · ML (machine-learning) metrics exact
-> vs scikit-learn · **64 of 168** capabilities validated against independent external
-> oracles; 100 honestly labelled Modelled, 4 partner-owned.
+> vs scikit-learn · **65 of 171** capabilities validated against independent external
+> oracles; 102 honestly labelled Modelled, 4 partner-owned.
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/diagrams/system-overview.png" alt="Kshana system overview: five front doors (command-line interface, Python wheel, WebAssembly playground, Model Context Protocol server, JetBrains plugin) converge on a single api::run_toml dispatch, through the engine, to a reproducible result.json + chart.svg" width="840">
@@ -59,7 +59,7 @@ Each row is checked against an **independent external oracle** and re-checked in
 | ✅ | GNSS DOP (dilution of precision) · ML detector metrics | to **1e-6** · to **1e-9** | gnss_lib_py · scikit-learn |
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/figures/validation-breakdown.png" alt="Verification status across all 168 capabilities: 64 Validated, 100 Modelled, 4 Partner-owned" width="780">
+  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/figures/validation-breakdown.png" alt="Verification status across all 171 capabilities: 65 Validated, 102 Modelled, 4 Partner-owned" width="780">
 </p>
 
 ## Install

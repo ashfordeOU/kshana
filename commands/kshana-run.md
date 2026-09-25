@@ -14,7 +14,7 @@ Do this:
 
 1. If the request doesn't already map to a known scenario, call the **`list_scenario_kinds`**
    tool to see the built-in kinds and their required/optional fields, and pick the one that
-   fits. There are 61 built-in kinds (orbit, GNSS availability/DOP, ARAIM, clock-holdover,
+   fits. There are 62 built-in kinds (orbit, GNSS availability/DOP, ARAIM, clock-holdover,
    Allan/MTIE timing, GNSS-INS fusion, quantum dead-reckoning, lunar/cislunar navigation,
    and more); always call `list_scenario_kinds` rather than guessing from the handful this
    sentence names.
