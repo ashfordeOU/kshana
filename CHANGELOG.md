@@ -11,6 +11,18 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **`kshana example [<name>]` hands a registry user a scenario to run.** A
+  `cargo install kshana` user has the executable and no `scenarios/` directory, so the
+  first command every quickstart gave them failed. The command-line interface (CLI) now
+  carries the 73 reference scenarios that run on their own, byte for byte, compiled in
+  from `scenarios/` (`src/bundled_scenarios.rs`; the table lives in the CLI binary, so
+  the Python wheel and the WebAssembly module do not grow). `kshana example` lists them;
+  `kshana example clock-holdover > clock-holdover.toml` writes one. The 74th file,
+  `lunar-llr-datum`, reads archived lunar laser-ranging data that ships with the
+  repository only, and asking for it says so and exits 2 instead of printing a scenario
+  that cannot run. `tests/cli_first_run.rs` holds the table to the directory in both
+  directions, so a new scenario file that is neither bundled nor named repo-only fails.
+
 - **The playground runs the engine in a background Web Worker, so a slow scenario no
   longer freezes the page.** `web/engine-worker.mjs` hosts the WebAssembly engine and
   `web/engine.mjs` forwards every scenario execution to it — runs, parameter sweeps and
@@ -128,6 +140,47 @@ breaking changes are called out explicitly.
 
 ### Fixed
 
+- **Every registry quickstart now runs as written on a clean machine.** Measured before
+  this change, the crates.io and PyPI (Python Package Index) examples read
+  `scenarios/clock-holdover.toml`, which a registry install does not have, and the npm
+  example crashed under Node.js with `TypeError: fetch failed`, because the package's
+  `init()` fetches its WebAssembly binary and Node's `fetch` cannot read a local file.
+  Now:
+  - `README.crates.md` and `README.pypi.md` carry that scenario inline, as
+    `README.npm.md` already did. The Rust fence is a whole program with its own `main`,
+    since the rustdoc-hidden `# Ok::<…>` line it ended with is shown on crates.io and does
+    not compile when pasted. `tests/readme_code_fences_doc_sync.rs` still compiles it
+    byte for byte, and now also refuses a hidden line in the fence.
+  - `README.npm.md` separates the browser from Node.js and gives a Node recipe that reads
+    the binary from disk and passes it to `initSync`. The doc-sync test accepts
+    `initSync` as the loader wasm-bindgen generates.
+  - All three embed the scenario with its provenance strings unshortened, so the
+    scenario hash is `5ba83a232b94` on every surface. The npm example used to shorten
+    them, which gave it a different hash from the CLI.
+  - Reproduced from local builds of this tree: a fresh `cargo new` project with a path
+    dependency on the packaged crate built and ran the Rust example; a wheel built with
+    maturin from the packaged sources, installed into a new virtual environment, ran the
+    Python example; and the `wasm-pack --target web` package, packed and installed with
+    npm, ran the Node recipe. All three printed the same summary line.
+- **`cargo run -- <scenario.toml>` works from a clone.** `Cargo.toml` sets
+  `default-run = "kshana"`. Without it cargo refused with "could not determine which
+  binary to run", which every `cargo run --` line in the documentation hit.
+- **The CLI's first-minute errors say what to do next.** A scenario path that does not
+  exist now adds a hint pointing at `kshana example`, and a second positional argument
+  prints the usage text as well as naming the argument. `--help`, `--version`, the
+  unknown-option error (exit 2) and `--validate`'s one-line `ok:` on success were already
+  on main. `tests/cli_first_run.rs` now covers all of them, since no test ran the binary
+  for any of them before.
+- **`list_kinds()` in Python is documented as returning one JSON string, not a list.**
+  It returns the same metadata as `scenario_kinds()`, serialised, so iterating it walks
+  characters. It keeps its string return so existing callers do not break. `kshana.pyi`,
+  the binding's doc comment, `docs/PYTHON_API.md` and `README.pypi.md` now say so and
+  point to `scenario_kinds()`.
+- **The three registry READMEs spell out every abbreviation at first use.** PNT is now
+  expanded in the tagline, where it first appears, and CLI, TOML, JSON, SVG, CSV, CSAC,
+  HTML, URL and API are expanded in the files that use them. The oracle-table heading no
+  longer says "CI-gated" before CI is defined.
+
 - **Corrected a published figure: dual-constellation ARAIM availability on the
   vendored Celestrak GPS + Galileo TLEs.** `docs/CAPABILITY.md` stated that pooling
   Galileo lifts availability from 0.21 to 0.67 under a 12 m VAL and that the
@@ -200,6 +253,22 @@ breaking changes are called out explicitly.
   engine's version and a 12-hex FNV-1a-64 fingerprint of the scenario text.
 
 ### Changed
+
+- **The published crate is less than half its former size, and `cargo install kshana`
+  builds the CLI alone.** The package used to include the papers, their submission
+  packages, the paper-figure artifacts, the notebooks, `docs/`, the maintainer scripts
+  and the example programs. None of them is compiled by the library or the CLI. It also
+  included the three internal generators under `src/bin/` (`crossover_study`,
+  `gen_validation_artifacts`, `validation_report`), so a registry install compiled and
+  installed four executables, three of them useful only inside a checkout. Those trees
+  and the three generator sources are now excluded. Cargo lists a package's binaries
+  from the files it contains, so the published manifest names `kshana` only. In a clone
+  the generators are still found automatically, so `cargo run --bin <name>` and the
+  release job that runs `validation_report` are unchanged. Measured with
+  `cargo package`: 763 files, 16.7 MiB, 6.8 MiB compressed before; 591 files, 10.5 MiB,
+  3.0 MiB compressed after. Its verification build, which compiles only the packaged
+  files, passes. `cargo install --path` on the packaged crate installed
+  one executable, `kshana`.
 
 - **Line coverage has a measurement of record.** `docs/COVERAGE.md` records 95.63 %
   (37,697 of 39,419 lines) from the CI `coverage` job on `b1d350d`, and

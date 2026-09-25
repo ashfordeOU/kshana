@@ -164,9 +164,10 @@ fn run_full(toml: &str) -> PyResult<(String, String, String)> {
         .map_err(PyValueError::new_err)
 }
 
-/// List the available scenario kinds and their metadata as a JSON array (name,
-/// description, required and optional fields). Lets callers introspect the packs
-/// without reading the source — e.g. for notebook auto-complete.
+/// List the available scenario kinds and their metadata as ONE JSON-array string (name,
+/// description, required and optional fields) — a `str`, not a Python list. It predates
+/// [`scenario_kinds`], which returns the same metadata already parsed, and keeps its
+/// string return so existing callers do not break; new code should call `scenario_kinds`.
 #[pyfunction]
 fn list_kinds() -> String {
     crate::api::list_scenario_kinds_json()
