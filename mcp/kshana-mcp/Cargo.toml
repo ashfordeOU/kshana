@@ -15,7 +15,7 @@
 # lockfile and this crate's Dockerfile through their own entries.
 [package]
 name = "kshana-mcp"
-version = "0.27.2"
+version = "0.27.3"
 edition = "2024"
 # 1.88, three minors above the `kshana` library's 1.85. Three advisories against rmcp
 # < 2.1 (a Streamable-HTTP session-table leak, missing OAuth resource validation, and
