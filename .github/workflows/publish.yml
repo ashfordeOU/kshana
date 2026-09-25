@@ -1,74 +1,95 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 # Publish Kshana to crates.io, PyPI, and npm.
 #
-# Triggered by pushing a release tag (vX.Y.Z) or by manual dispatch. (The
-# `release: published` event is intentionally not used: releases created by the
-# Release workflow's GITHUB_TOKEN do not trigger downstream workflows, so that
-# trigger would never fire.) Each job is gated on its registry token — with the
-# token unset the publish step is skipped and the job still succeeds, so the
-# workflow is inert until the maintainer adds the secret. Every publish is
-# idempotent: re-running after a version is already live is a no-op success, so a
-# partial failure (one registry) can be retried safely without touching the others.
+# ORDER: tag -> verify -> publish -> parity (docs/RELEASING.md).
 #
-# PyPI works exactly like the other registry jobs: the wheels/sdist build as
-# artifacts first (each SLSA build-provenance attested), then a single publish job
-# uploads them, gated on the PYPI_API_TOKEN secret. With the token unset the upload
-# is skipped and the job still succeeds; with it set every tagged version uploads
-# automatically. (PEP 740 upload attestations require OIDC Trusted Publishing and are
-# therefore off under token auth — but the GitHub SLSA attestation of every uploaded
-# file is emitted regardless and is verifiable with `gh attestation verify`.)
+# This workflow no longer triggers on the tag push itself. release.yml calls it
+# (`workflow_call`) from a job that `needs: verify`, so no registry is touched until the
+# full verification of that exact tagged commit is green. That is the one mechanism
+# GitHub gives for "wait for a verdict" without polling: `needs:` only works inside one
+# workflow run, and a reusable workflow runs inside its caller's run. It replaces the
+# arrangement this file used to admit to in its own comments, where publish.yml was a
+# SEPARATE workflow on the same tag push and so raced the verification: on v0.27.2
+# (tag pushed 00:04:09) crates.io finished 00:05:03, npm 00:07:14 and PyPI 00:08:35,
+# while release.yml's `verify` did not return until 01:28:07 — the crate was public and
+# unrecallable for 83 minutes before anything said the suite passed. On v0.27.0 npm and
+# PyPI both published while the crates.io job FAILED, a half-release.
+#
+# The alternative considered was a gate job here that polls the Checks API for the
+# verdict. It was rejected: the verdict takes 80+ minutes, so the poller would hold a
+# runner for that long, and a timeout would have to be tuned against a suite whose
+# runtime moves. The Actions API is still read, once, by the `gates` job below
+# (scripts/check-release-verdict.sh), because it is the only thing that holds the
+# manual-retry path: a `workflow_dispatch` on a tag ref has no `needs:` edge, so the
+# script requires a green `verify` for that exact commit from the tag-push run of
+# release.yml, and FAILS CLOSED on anything else (no run, a red or cancelled one, an
+# unreadable API). On the normal path it restates what `needs:` already guarantees.
+#
+# Inside this workflow the publishes are ordered to make a half-release as unlikely as
+# the registries allow:
+#   gates -> build everything (wheels via wheels.yml, the npm tarball) -> crates.io
+#         -> PyPI, npm, kshana-mcp on crates.io
+# Every artifact is built and checked BEFORE the first irreversible upload, and crates.io
+# goes first because its `cargo package` verification build is the step that has failed
+# mid-release before (v0.27.0). After crates.io, what can still fail is a token or the
+# network, not the build.
+#
+# A missing registry token FAILS the job. It used to skip the upload and report success,
+# so a channel could silently miss a version with every job green (PyPI has no 0.22.0 or
+# 0.23.0, npm no 0.22.0). release.yml's `parity` job then asks every registry whether it
+# really serves the version.
+#
+# Every publish is idempotent: re-running after a version is already live is a no-op
+# success, so a failure on one registry can be retried without touching the others —
+# by "Re-run failed jobs" on the Release run (preferred; the verdict is already in that
+# run), or by dispatching this workflow on the tag.
 #
 # Every distributed artifact (crate tarball, wheels, sdist, npm tarball) gets a
 # cryptographic SLSA build-provenance attestation (actions/attest-build-provenance)
 # so a consumer can verify, with `gh attestation verify`, that the exact bytes they
-# downloaded were produced by this workflow from this repository.
+# downloaded were produced by this workflow from this repository. (PEP 740 upload
+# attestations need OIDC Trusted Publishing and are off under token auth; the GitHub
+# attestation of every uploaded file is emitted regardless.)
 #
-# Two guards sit in front of every publish, because these publishes cannot be taken
-# back: the `gates` job below (cheap script gates, see its own comment) which every
-# publishing job `needs:`, and `if: startsWith(github.ref, 'refs/tags/v')` on each of
-# them, so a manual dispatch from a branch is inert rather than publishing whatever is
-# on that branch. A dispatch can still select a tag ref, which is the documented retry
-# path, and that keeps working.
+# Toolchain: every job that compiles pins dtolnay/rust-toolchain to the channel in
+# rust-toolchain.toml (1.93.0) and runs scripts/check-toolchain.sh, which also fails if
+# any workflow asks for another channel. wasm-pack is installed at an exact version
+# (0.13.1, the version that built v0.27.2 per its publish log) with a checksum check.
 name: publish
 
 on:
-  push:
-    tags: ["v*"]
+  workflow_call:
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  # Cheap correctness gates, run before anything irreversible.
+  # Cheap correctness gates plus the verdict check, before anything irreversible.
   #
-  # crates.io yanks rather than deletes and PyPI refuses a re-upload of a filename, so
-  # a publish is final. release.yml does run the full fmt/clippy/`cargo test --all`
-  # suite on this same tag push, but it is a SEPARATE workflow and `needs:` is
-  # intra-workflow only, so the publishes never waited for it. Measured from the run
-  # history, v0.27.2 (tag pushed 00:04:09): crates.io finished 00:05:03, npm 00:07:14,
-  # PyPI 00:08:35 — while release.yml's `verify` did not return until 01:28:07. The
-  # crate was public and unrecallable for 83 minutes before anything said the suite
-  # passed. Same shape on v0.27.1 (PyPI 08:54:54, verdict 09:56:29) and on v0.27.0,
-  # where npm and PyPI both succeeded while the crates.io job FAILED at 07:38:22 — the
-  # half-release ci.yml's `package` job comment records.
-  #
-  # Re-running the 240-minute suite here would double the runner cost per release and
-  # add a second independent flake lottery that a tag must also win, so this job carries
-  # only the seconds-long script gates — the ones that catch a drifted or mis-tagged
-  # tree. The long suite stays where it is, in release.yml. This narrows the race; it
-  # does not close it.
+  # Every publishing job `needs:` this one (directly or through the build jobs), and each
+  # carries `if: startsWith(github.ref, 'refs/tags/v')`, so a manual dispatch from a
+  # branch is inert rather than publishing whatever is on that branch. A dispatch can
+  # still select a tag ref, which is the documented retry path.
   gates:
     name: pre-publish gates
     runs-on: ubuntu-latest
     timeout-minutes: 20
     if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: read
+      # scripts/check-release-verdict.sh reads the Release workflow's runs and jobs.
+      actions: read
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
           # Full history: check-no-attribution.sh scans every commit message, and the
           # default shallow checkout silently blinds that scan (same reason as ci.yml).
           fetch-depth: 0
+      - name: Require a green release verdict for this exact commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: ./scripts/check-release-verdict.sh "$GITHUB_SHA"
       # Pinned to rust-toolchain.toml rather than @stable, because check-toolchain.sh
       # asserts the active rustc equals the pinned channel — a floating stable fails it.
       - uses: dtolnay/rust-toolchain@1.93.0
@@ -79,11 +100,99 @@ jobs:
       - name: Repository hygiene guard
         run: ./scripts/check-no-attribution.sh
 
+  # The one source of the shipped wheels: wheels.yml, called here. Its artifacts are what
+  # the PyPI job uploads, and its auditwheel tag gate and byte-reproducibility check run
+  # on those same wheels before any registry is touched.
+  build-wheels:
+    name: wheels
+    needs: gates
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: read
+    uses: ./.github/workflows/wheels.yml
+
+  # Build, pack and attest the npm package; the `npm` job below only uploads it.
+  npm-build:
+    name: npm package (build)
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    needs: gates
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: read
+      # SLSA build-provenance attestation of the npm tarball. (npm-native provenance is
+      # generated by `npm publish --provenance` in the `npm` job; this attestation is the
+      # registry-neutral GitHub one, verifiable with `gh attestation verify`.)
+      id-token: write
+      attestations: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: dtolnay/rust-toolchain@1.93.0
+        with:
+          targets: wasm32-unknown-unknown
+      - name: Toolchain pin guard
+        run: ./scripts/check-toolchain.sh
+      - name: Install wasm-pack (pinned)
+        uses: taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5 # v2
+        with:
+          tool: wasm-pack@0.13.1
+      - name: Build module
+        run: wasm-pack build --target web --out-dir web/pkg --release -- --features wasm
+      - name: Stage npm package README
+        # wasm-pack copies the crate readme (README.crates.md); override with the
+        # npm-specific surface README so the registry page renders JS/WASM usage.
+        run: cp README.npm.md web/pkg/README.md
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "20"
+      - name: Ship the CycloneDX SBOM inside the npm package
+        # Generated into the package dir so it ships inside the published tarball, and
+        # listed in package.json "files" so `npm pack`/`npm publish` includes it. Runs
+        # after setup-node so the pinned Node interpreter drives the package.json patch.
+        run: |
+          set -euo pipefail
+          ./scripts/gen-sbom.sh > web/pkg/kshana-sbom.cdx.json
+          python3 - web/pkg/kshana-sbom.cdx.json <<'PY'
+          import json, sys
+          doc = json.load(open(sys.argv[1]))
+          assert doc.get("bomFormat") == "CycloneDX", "not a CycloneDX document"
+          n = len(doc.get("components") or [])
+          assert n > 0, "SBOM carries no components"
+          print(f"OK: CycloneDX {doc.get('specVersion')} with {n} components")
+          PY
+          node -e '
+            const fs = require("fs");
+            const p = "web/pkg/package.json";
+            const j = JSON.parse(fs.readFileSync(p, "utf8"));
+            j.files = Array.from(new Set([...(j.files || []), "kshana-sbom.cdx.json", "README.md"]));
+            fs.writeFileSync(p, JSON.stringify(j, null, 2) + "\n");
+          '
+          cat web/pkg/package.json
+      - name: Pack the npm tarball (the exact bytes npm publish uploads)
+        id: pack
+        run: |
+          set -euo pipefail
+          mkdir -p npm-dist
+          tarball="$(npm pack ./web/pkg --pack-destination npm-dist --silent)"
+          echo "tarball=$tarball" >> "$GITHUB_OUTPUT"
+          ls -l "npm-dist/$tarball"
+      - name: Attest build provenance (npm tarball)
+        uses: actions/attest-build-provenance@ef244123eb79f2f7a7e75d99086184180e6d0018 # v1
+        with:
+          subject-path: npm-dist/${{ steps.pack.outputs.tarball }}
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: npm-tarball
+          path: npm-dist
+          if-no-files-found: error
+
   crates:
     name: crates.io
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    needs: gates
+    # After EVERY artifact is built and checked, and before any other registry: see the
+    # ordering note at the top of this file.
+    needs: [gates, build-wheels, npm-build]
     if: startsWith(github.ref, 'refs/tags/v')
     environment:
       name: crates-io
@@ -95,25 +204,29 @@ jobs:
       attestations: write
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-      - uses: dtolnay/rust-toolchain@stable
+      - uses: dtolnay/rust-toolchain@1.93.0
+      - name: Toolchain pin guard
+        run: ./scripts/check-toolchain.sh
+      - name: Require the registry token
+        env:
+          TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo "::error::CARGO_REGISTRY_TOKEN is not set; a release tag cannot reach crates.io without it"
+            exit 1
+          fi
       - name: Package the crate (the exact tarball crates.io receives)
         # `cargo package` produces target/package/<name>-<ver>.crate — the byte-for-byte
-        # tarball `cargo publish` uploads. Attesting it (below) ties the published crate
-        # to this workflow run. --locked so the SBOM/graph matches Cargo.lock.
+        # tarball `cargo publish` uploads — and compiles it from ONLY the files it
+        # carries, which is the check that failed v0.27.0 mid-release. Attesting it
+        # (below) ties the published crate to this workflow run. --locked so the
+        # SBOM/graph matches Cargo.lock.
         run: cargo package --locked
       - name: Attest build provenance (.crate)
         uses: actions/attest-build-provenance@ef244123eb79f2f7a7e75d99086184180e6d0018 # v1
         with:
           subject-path: "target/package/*.crate"
-      - name: Gate on token
-        id: gate
-        env:
-          TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
-        run: |
-          if [ -n "$TOKEN" ]; then echo "go=true" >> "$GITHUB_OUTPUT";
-          else echo "CARGO_REGISTRY_TOKEN not set; skipping crates.io publish"; fi
       - name: Publish
-        if: steps.gate.outputs.go == 'true'
         env:
           # cargo reads CARGO_REGISTRY_TOKEN from the environment (no deprecated --token).
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
@@ -149,16 +262,19 @@ jobs:
         working-directory: mcp/kshana-mcp
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-      - uses: dtolnay/rust-toolchain@stable
-      - name: Gate on token
-        id: gate
+      - uses: dtolnay/rust-toolchain@1.93.0
+      - name: Toolchain pin guard
+        working-directory: .
+        run: ./scripts/check-toolchain.sh
+      - name: Require the registry token
         env:
           TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
         run: |
-          if [ -n "$TOKEN" ]; then echo "go=true" >> "$GITHUB_OUTPUT";
-          else echo "CARGO_REGISTRY_TOKEN not set; skipping kshana-mcp publish"; fi
+          if [ -z "$TOKEN" ]; then
+            echo "::error::CARGO_REGISTRY_TOKEN is not set; a release tag cannot reach crates.io without it"
+            exit 1
+          fi
       - name: Publish
-        if: steps.gate.outputs.go == 'true'
         env:
           CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_REGISTRY_TOKEN }}
         run: |
@@ -179,100 +295,9 @@ jobs:
           echo "::error::kshana-mcp publish failed — is the matching kshana version on crates.io? (check the kshana = \"${req:-?}\" requirement in mcp/kshana-mcp/Cargo.toml)"
           exit 1
 
-  build-wheels:
-    name: build wheels (${{ matrix.os }} / ${{ matrix.target }})
-    runs-on: ${{ matrix.os }}
-    timeout-minutes: 60
-    needs: gates
-    if: startsWith(github.ref, 'refs/tags/v')
-    permissions:
-      contents: read
-    env:
-      # Reproducible shipped wheels: a fixed timestamp strips embedded mtimes from
-      # the wheel zip; codegen-units=1 (Cargo.toml [profile.release]) makes the
-      # compiled extension byte-identical. Together these make the published wheel
-      # match the wheels.yml rebuild-and-diff check.
-      SOURCE_DATE_EPOCH: "1700000000"
-    # Full platform-tag matrix (m37c34cfc): linux x86_64 + aarch64 (manylinux_2_28),
-    # macOS arm64 + x86_64, Windows x64 + arm64 — the same matrix wheels.yml verifies.
-    # fail-fast:false so one platform's runner hiccup never blocks the rest.
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - os: ubuntu-latest
-            target: x86_64
-          - os: ubuntu-latest
-            target: aarch64
-          - os: macos-latest # macos-14 runner is arm64
-            target: aarch64
-          # Cross-build the Intel wheel on the arm64 runner instead of a (scarce,
-          # deprecating) macos-13 Intel runner that can queue indefinitely. maturin
-          # adds the x86_64-apple-darwin target; the abi3 wheel cross-compiles cleanly.
-          - os: macos-latest
-            target: x86_64
-          - os: windows-latest
-            target: x64
-          # Windows ARM64 builds natively on a windows-11-arm runner: maturin needs an
-          # interpreter whose architecture matches the target, so the native ARM64 runner
-          # (GA on GitHub-hosted public repos) ships an ARM64 Python and just works.
-          - os: windows-11-arm
-            target: aarch64
-    steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
-        with:
-          python-version: "3.x"
-      - name: Build abi3 wheel
-        uses: PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b # v1
-        with:
-          command: build
-          target: ${{ matrix.target }}
-          args: --release --features python --out dist
-          # Pin the manylinux container so every Linux wheel carries the same ABI floor
-          # (GLIBC 2.28). Ignored off-Linux. The aarch64 build runs under QEMU emulation.
-          manylinux: 2_28
-          # Forward the deterministic-timestamp knob into the manylinux container.
-          docker-options: -e SOURCE_DATE_EPOCH
-      - name: Build source distribution
-        if: matrix.os == 'ubuntu-latest' && matrix.target == 'x86_64'
-        uses: PyO3/maturin-action@e83996d129638aa358a18fbd1dfb82f0b0fb5d3b # v1
-        with:
-          command: sdist
-          args: --out dist
-      - name: Generate the CycloneDX SBOM alongside the wheel
-        # Ship the SBOM beside the wheel/sdist in the same dist/ tree so it is attested
-        # below and downloadable next to the release. Built once (on the linux x86_64
-        # leg) from cargo metadata, which is platform-independent. Bash is the action's
-        # default shell on every OS; gen-sbom.sh needs only the Rust toolchain.
-        if: matrix.os == 'ubuntu-latest' && matrix.target == 'x86_64'
-        shell: bash
-        run: |
-          set -euo pipefail
-          ./scripts/gen-sbom.sh > dist/kshana-sbom.cdx.json
-          # Assert the document before it is attested. attest-build-provenance signs
-          # whatever bytes it is given, so an empty or componentless SBOM would ship as
-          # a cryptographically verified bill of materials — the worst shape this
-          # failure can take, because the signature makes it look checked.
-          python3 - dist/kshana-sbom.cdx.json <<'PY'
-          import json, sys
-          doc = json.load(open(sys.argv[1]))
-          assert doc.get("bomFormat") == "CycloneDX", "not a CycloneDX document"
-          n = len(doc.get("components") or [])
-          assert n > 0, "SBOM carries no components"
-          print(f"OK: CycloneDX {doc.get('specVersion')} with {n} components")
-          PY
-      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: pypi-dist-${{ matrix.os }}-${{ matrix.target }}
-          path: dist
-          # Wheels are content-addressed by their filename; keep each platform's upload
-          # distinct so the merge in `pypi-publish` is lossless.
-          if-no-files-found: error
-
   pypi-publish:
     name: PyPI
-    needs: build-wheels
+    needs: [crates, build-wheels]
     runs-on: ubuntu-latest
     timeout-minutes: 20
     if: startsWith(github.ref, 'refs/tags/v')
@@ -287,10 +312,19 @@ jobs:
       id-token: write
       attestations: write
     steps:
+      - name: Require the registry token
+        env:
+          TOKEN: ${{ secrets.PYPI_API_TOKEN }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo "::error::PYPI_API_TOKEN is not set; a release tag cannot reach PyPI without it"
+            exit 1
+          fi
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
-          # Merge every platform's dist/ into one tree for a single atomic upload.
-          pattern: pypi-dist-*
+          # Merge every platform's dist/ (built by wheels.yml) into one tree for a single
+          # atomic upload.
+          pattern: wheels-*
           path: dist
           merge-multiple: true
       - name: List artifacts to publish
@@ -315,15 +349,7 @@ jobs:
           mkdir -p sbom
           mv dist/kshana-sbom.cdx.json sbom/ 2>/dev/null || true
           ls -l dist
-      - name: Gate on token
-        id: gate
-        env:
-          TOKEN: ${{ secrets.PYPI_API_TOKEN }}
-        run: |
-          if [ -n "$TOKEN" ]; then echo "go=true" >> "$GITHUB_OUTPUT";
-          else echo "PYPI_API_TOKEN not set; skipping PyPI publish"; fi
       - name: Publish to PyPI
-        if: steps.gate.outputs.go == 'true'
         # Pinned to a commit SHA, not the mutable `release/v1` branch: this step holds a
         # live PyPI API token and an OIDC identity, and a branch (or a force-moved tag)
         # can change under us with no review. Dependabot's github-actions ecosystem keeps
@@ -346,86 +372,43 @@ jobs:
   npm:
     name: npm
     runs-on: ubuntu-latest
-    timeout-minutes: 25
-    needs: gates
+    timeout-minutes: 20
+    needs: [crates, npm-build]
     if: startsWith(github.ref, 'refs/tags/v')
     environment:
       name: npm
       url: https://www.npmjs.com/package/kshana
     permissions:
       contents: read
-      # SLSA build-provenance attestation of the npm tarball. (npm-native provenance is
-      # generated by `npm publish --provenance`; this attestation is the registry-neutral
-      # GitHub one, verifiable with `gh attestation verify`.)
+      # `npm publish --provenance` signs npm-native provenance with this job's OIDC identity.
       id-token: write
-      attestations: write
     steps:
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-      - uses: dtolnay/rust-toolchain@stable
+      - name: Require the registry token
+        env:
+          TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo "::error::NPM_TOKEN is not set; a release tag cannot reach npm without it"
+            exit 1
+          fi
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
-          targets: wasm32-unknown-unknown
-      - name: Install wasm-pack
-        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-      - name: Build module
-        run: wasm-pack build --target web --out-dir web/pkg --release -- --features wasm
-      - name: Stage npm package README
-        # wasm-pack copies the crate readme (README.crates.md); override with the
-        # npm-specific surface README so the registry page renders JS/WASM usage.
-        run: cp README.npm.md web/pkg/README.md
+          name: npm-tarball
+          path: npm-dist
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: "20"
           registry-url: "https://registry.npmjs.org"
-      - name: Ship the CycloneDX SBOM inside the npm package
-        # Generated into the package dir so it ships inside the published tarball, and
-        # listed in package.json "files" so `npm pack`/`npm publish` includes it. Runs
-        # after setup-node so the pinned Node interpreter drives the package.json patch.
-        run: |
-          set -euo pipefail
-          ./scripts/gen-sbom.sh > web/pkg/kshana-sbom.cdx.json
-          python3 - web/pkg/kshana-sbom.cdx.json <<'PY'
-          import json, sys
-          doc = json.load(open(sys.argv[1]))
-          assert doc.get("bomFormat") == "CycloneDX", "not a CycloneDX document"
-          n = len(doc.get("components") or [])
-          assert n > 0, "SBOM carries no components"
-          print(f"OK: CycloneDX {doc.get('specVersion')} with {n} components")
-          PY
-          node -e '
-            const fs = require("fs");
-            const p = "web/pkg/package.json";
-            const j = JSON.parse(fs.readFileSync(p, "utf8"));
-            j.files = Array.from(new Set([...(j.files || []), "kshana-sbom.cdx.json", "README.md"]));
-            fs.writeFileSync(p, JSON.stringify(j, null, 2) + "\n");
-          '
-          cat web/pkg/package.json
-      - name: Pack the npm tarball (the exact bytes npm publish uploads)
-        id: pack
-        run: |
-          tarball="$(npm pack ./web/pkg --pack-destination . --silent)"
-          echo "tarball=$tarball" >> "$GITHUB_OUTPUT"
-          ls -l "$tarball"
-      - name: Attest build provenance (npm tarball)
-        uses: actions/attest-build-provenance@ef244123eb79f2f7a7e75d99086184180e6d0018 # v1
-        with:
-          subject-path: ${{ steps.pack.outputs.tarball }}
-      - name: Gate on token
-        id: gate
-        env:
-          TOKEN: ${{ secrets.NPM_TOKEN }}
-        run: |
-          if [ -n "$TOKEN" ]; then echo "go=true" >> "$GITHUB_OUTPUT";
-          else echo "NPM_TOKEN not set; skipping npm publish"; fi
       - name: Publish
-        if: steps.gate.outputs.go == 'true'
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          TARBALL: ${{ steps.pack.outputs.tarball }}
-        # Publish the already-packed tarball so the attested bytes are exactly what ships.
-        # --provenance records npm-native build provenance (id-token:write enables it).
+        # Publish the tarball npm-build packed and attested, so the attested bytes are
+        # exactly what ships. --provenance records npm-native build provenance.
         run: |
           set +e
-          out="$(npm publish "$TARBALL" --access public --provenance 2>&1)"; rc=$?
+          tarball="$(ls npm-dist/*.tgz)"
+          [ "$(printf '%s\n' "$tarball" | wc -l)" -eq 1 ] || { echo "::error::expected one tarball, found: $tarball"; exit 1; }
+          out="$(npm publish "$tarball" --access public --provenance 2>&1)"; rc=$?
           printf '%s\n' "$out"
           if [ "$rc" -ne 0 ]; then
             printf '%s\n' "$out" | grep -qiE "cannot publish over|previously published|EPUBLISHCONFLICT|cannot modify pre-existing version" \

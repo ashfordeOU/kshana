@@ -297,8 +297,13 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - uses: dtolnay/rust-toolchain@1.93.0
-      - name: Install wasm-pack
-        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+      # The same wasm-pack release the shipped npm package and kshana.dev are built with
+      # (publish.yml, pages.yml): an exact version, fetched as a prebuilt binary whose
+      # SHA-256 the install action checks against its own manifest.
+      - name: Install wasm-pack (pinned)
+        uses: taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5 # v2
+        with:
+          tool: wasm-pack@0.13.1
       - name: Build the WebAssembly module
         # --no-opt skips the wasm-opt pass so this CI verification job never has to
         # download binaryen from the GitHub release CDN (a recurring transient
