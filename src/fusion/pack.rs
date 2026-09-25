@@ -12,15 +12,23 @@
 //! horizontal residual of the fused solution against truth, and each run also
 //! carries the open-loop free-INS RMS so the filter's value is explicit.
 //!
-//! The two IMUs (quantum/classical) differ only in their *true* inertial biases.
-//! The robust, honest findings this pack demonstrates are (a) fusion bounds the
-//! error and beats unaided dead-reckoning over the outage for a meaningfully-biased
-//! sensor, and (b) a lower-bias (quantum-grade) sensor has a better *unaided* coast.
-//! It deliberately does **not** claim the fused outage error simply scales with
-//! bias: on this loosely-coupled trajectory the coast is floor-limited by the
-//! residual attitude error at hand-over (tilt and accelerometer bias are only
-//! weakly separable — see [`super::closed_loop`]), so for a near-perfect sensor the
-//! fused error is dominated by that floor, not the bias.
+//! The two IMUs (quantum/classical) differ only in their *true* inertial errors.
+//! The findings this pack demonstrates are (a) fusion bounds the error and beats
+//! unaided dead-reckoning over the outage for a biased sensor, and (b) a lower-bias
+//! sensor has the better unaided coast. With only constant biases and no noise the
+//! filter learns them during the aided arc, so the fused coast is a best case: what
+//! ends a real coast is error the filter has not seen, such as a bias that keeps
+//! drifting (the `error_model` rate-ramps; see `scenarios/small-uas-jammed-nav.toml`).
+//!
+//! **Revision, 0.27.3.** Until 0.27.3 the filter's gyro-bias coupling had the wrong
+//! sign (see [`super::gnss_ins_ekf`]), so every gyro-bias estimate pushed the wrong
+//! way and only the tight default prior kept the pack stable. The published outage
+//! figures then carried a floor of tens of metres, which this module's documentation
+//! read as a hand-over attitude floor. That reading was an artefact of the bug and is
+//! withdrawn; the CHANGELOG records the before and after figures.
+//!
+//! Each sensor may set its own filter prior (`[imu_*.filter_prior]`); without one the
+//! pack keeps its historical tactical-grade prior.
 //!
 //! Honest scope: loosely-coupled, single deterministic driving trajectory (a
 //! forward-acceleration and yaw square wave that gives the filter observability),
@@ -90,6 +98,46 @@ pub struct ImuCfg {
     /// absent the sensor is a pure constant-bias source (the historical default).
     #[serde(default)]
     pub error_model: Option<ImuErrorCfg>,
+    /// Optional filter prior for this sensor: the 1-sigma turn-on bias the error-state
+    /// filter starts out believing. When absent the filter uses the pack's historical
+    /// constants ([`DEFAULT_SIGMA_ACCEL_BIAS`], [`DEFAULT_SIGMA_GYRO_BIAS`]), which suit a
+    /// tactical-grade unit, and the run is byte-identical to before this field existed.
+    /// A consumer-grade sensor whose residual bias sits many sigma outside that prior
+    /// needs its own, or the filter never learns the bias and the coast is a
+    /// tuning artefact rather than a property of the sensor.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub filter_prior: Option<FilterPriorCfg>,
+}
+
+/// The pack's historical accelerometer-bias prior, 1-sigma (m/s²).
+pub const DEFAULT_SIGMA_ACCEL_BIAS: f64 = 0.05;
+/// The pack's historical gyro-bias prior, 1-sigma (rad/s).
+pub const DEFAULT_SIGMA_GYRO_BIAS: f64 = 1e-4;
+
+/// A sensor's filter prior on its own turn-on biases (1-sigma, per axis).
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+pub struct FilterPriorCfg {
+    /// Accelerometer-bias prior, 1-sigma (m/s²).
+    pub sigma_accel_bias: f64,
+    /// Gyro-bias prior, 1-sigma (rad/s).
+    pub sigma_gyro_bias: f64,
+}
+
+impl FilterPriorCfg {
+    fn validate(&self, slot: &str) -> Result<(), String> {
+        for (name, v) in [
+            ("sigma_accel_bias", self.sigma_accel_bias),
+            ("sigma_gyro_bias", self.sigma_gyro_bias),
+        ] {
+            if !(v.is_finite() && v > 0.0) {
+                return Err(format!(
+                    "{slot}.filter_prior.{name} must be finite and > 0, got {v}"
+                ));
+            }
+        }
+        Ok(())
+    }
 }
 
 impl ImuCfg {
@@ -164,6 +212,22 @@ pub const UNITS: &[crate::field_schema::FieldUnit] = {
             provenance: Input,
             definition: "the quantum-grade IMU's true constant gyro turn-on bias, body axes \
                          (x, y, z), echoed from imu_quantum.gyro_bias",
+        },
+        FieldUnit {
+            path: "quantum.spec.params.filter_prior.sigma_accel_bias",
+            unit: "m/s^2",
+            provenance: Input,
+            definition: "the filter's 1-sigma prior on this IMU's accelerometer turn-on bias, \
+                         echoed from imu_quantum.filter_prior; present only when the scenario \
+                         sets one (otherwise the pack default of 0.05 applies)",
+        },
+        FieldUnit {
+            path: "quantum.spec.params.filter_prior.sigma_gyro_bias",
+            unit: "rad/s",
+            provenance: Input,
+            definition: "the filter's 1-sigma prior on this IMU's gyro turn-on bias, echoed \
+                         from imu_quantum.filter_prior; present only when the scenario sets one \
+                         (otherwise the pack default of 1e-4 applies)",
         },
         FieldUnit {
             path: "quantum.series[].t",
@@ -246,6 +310,22 @@ pub const UNITS: &[crate::field_schema::FieldUnit] = {
             provenance: Input,
             definition: "the classical IMU's true constant gyro turn-on bias, body axes \
                          (x, y, z), echoed from imu_classical.gyro_bias",
+        },
+        FieldUnit {
+            path: "classical.spec.params.filter_prior.sigma_accel_bias",
+            unit: "m/s^2",
+            provenance: Input,
+            definition: "the filter's 1-sigma prior on this IMU's accelerometer turn-on bias, \
+                         echoed from imu_classical.filter_prior; present only when the scenario \
+                         sets one (otherwise the pack default of 0.05 applies)",
+        },
+        FieldUnit {
+            path: "classical.spec.params.filter_prior.sigma_gyro_bias",
+            unit: "rad/s",
+            provenance: Input,
+            definition: "the filter's 1-sigma prior on this IMU's gyro turn-on bias, echoed \
+                         from imu_classical.filter_prior; present only when the scenario sets one \
+                         (otherwise the pack default of 1e-4 applies)",
         },
         FieldUnit {
             path: "classical.series[].t",
@@ -431,13 +511,17 @@ fn true_imu(truth: &NavState, t: f64) -> (Vec3, Vec3) {
 /// A well-aligned loosely-coupled filter: tight (non-zero) attitude prior, modest
 /// position/velocity prior, generous bias prior, low process noise. These are
 /// filter-tuning constants, not scenario physics.
-fn build_ekf() -> GnssInsEkf {
+fn build_ekf(prior: Option<&FilterPriorCfg>) -> GnssInsEkf {
+    let (sigma_accel_bias, sigma_gyro_bias) = prior
+        .map_or((DEFAULT_SIGMA_ACCEL_BIAS, DEFAULT_SIGMA_GYRO_BIAS), |p| {
+            (p.sigma_accel_bias, p.sigma_gyro_bias)
+        });
     GnssInsEkf::new(
         5.0,
         0.5,
         1e-3,
-        0.05,
-        1e-4,
+        sigma_accel_bias,
+        sigma_gyro_bias,
         EkfNoise {
             vrw_psd: 1e-5,
             arw_psd: 1e-10,
@@ -454,10 +538,19 @@ fn imu_spec(cfg: &ImuCfg) -> ModelSpec {
         id: cfg.id.clone(),
         kind: "gnss-ins".into(),
         provenance: cfg.provenance.clone(),
-        params: serde_json::json!({
-            "accel_bias": cfg.accel_bias,
-            "gyro_bias": cfg.gyro_bias,
-        }),
+        params: {
+            let mut p = serde_json::json!({
+                "accel_bias": cfg.accel_bias,
+                "gyro_bias": cfg.gyro_bias,
+            });
+            if let Some(fp) = &cfg.filter_prior {
+                p["filter_prior"] = serde_json::json!({
+                    "sigma_accel_bias": fp.sigma_accel_bias,
+                    "sigma_gyro_bias": fp.sigma_gyro_bias,
+                });
+            }
+            p
+        },
     }
 }
 
@@ -475,7 +568,7 @@ fn run_one(scn: &GnssInsScenario, cfg: &ImuCfg, seed: u64) -> FusedRun {
     let mut free = NavState::new(Quaternion::identity(), [0.0; 3], origin);
     let mut nav = ClosedLoopInsGnss::new(
         NavState::new(Quaternion::identity(), [0.0; 3], origin),
-        build_ekf(),
+        build_ekf(cfg.filter_prior.as_ref()),
     );
 
     let dt = scn.time.step_s;
@@ -565,6 +658,21 @@ fn run_one(scn: &GnssInsScenario, cfg: &ImuCfg, seed: u64) -> FusedRun {
 }
 
 /// Run the loosely-coupled GNSS/INS scenario for the quantum and classical IMUs.
+impl GnssInsScenario {
+    /// Reject a filter prior that cannot seed a covariance.
+    pub fn validate(&self) -> Result<(), String> {
+        for (slot, imu) in [
+            ("imu_quantum", &self.imu_quantum),
+            ("imu_classical", &self.imu_classical),
+        ] {
+            if let Some(p) = &imu.filter_prior {
+                p.validate(slot)?;
+            }
+        }
+        Ok(())
+    }
+}
+
 pub fn run_gnss_ins(scn: &GnssInsScenario) -> GnssInsResult {
     let q_seed = scn.seed;
     let c_seed = scn.seed.wrapping_add(0x9e37_79b9_7f4a_7c15);
@@ -687,6 +795,7 @@ mod tests {
                 accel_bias: [0.015, 0.0, 0.0],
                 gyro_bias: [0.0, 0.0, 5e-5],
                 error_model: None,
+                filter_prior: None,
             },
             imu_classical: ImuCfg {
                 id: "classical-imu".into(),
@@ -694,6 +803,7 @@ mod tests {
                 accel_bias: [0.03, -0.02, 0.0],
                 gyro_bias: [0.0, 0.0, 1e-4],
                 error_model: None,
+                filter_prior: None,
             },
             fix_interval_s: 1.0,
             sigma_pos_m: 1.0,

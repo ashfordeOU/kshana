@@ -16,14 +16,17 @@
 //! ```
 //!
 //! position error (NED, m), velocity error (NED, m/s), attitude error angles
-//! (rad), accelerometer bias (m/s²), gyro bias (rad/s). The continuous
+//! (rad), accelerometer bias (m/s²), gyro bias (rad/s). Both bias states are the
+//! RESIDUAL biases, true minus the navigator's running estimate, which the closed
+//! loop feeds back by adding; relative to Groves' estimate-minus-truth bias errors
+//! this flips the sign of both bias columns together. The continuous
 //! error-state dynamics (Groves eq. 14.48–14.49, local-navigation frame,
 //! dropping the second-order gravity-gradient term) are
 //!
 //! ```text
 //! δṗ = δv
 //! δv̇ = −[f_n×] ψ − 2[ω_ie×] δv + C_b^n b_a
-//! ψ̇  = −[ω_in×] ψ − C_b^n b_g
+//! ψ̇  = −[ω_in×] ψ + C_b^n b_g
 //! ḃ_a = −(1/τ_a) b_a            (first-order Gauss–Markov; τ→∞ ⇒ random walk)
 //! ḃ_g = −(1/τ_g) b_g
 //! ```
@@ -306,6 +309,14 @@ impl GnssInsEkf {
         self.x
     }
 
+    /// Seed the gyro-bias block of the error-state mean (rad/s). For tests that
+    /// check the propagation against a strapdown run; a live navigator only ever
+    /// resets the mean to zero.
+    #[cfg(test)]
+    pub(crate) fn set_gyro_bias_state(&mut self, b: Vec3) {
+        self.x[12..15].copy_from_slice(&b);
+    }
+
     /// Trace of the position-error covariance block (m²) — a scalar uncertainty proxy.
     pub fn position_cov_trace(&self) -> f64 {
         self.p.at(0, 0) + self.p.at(1, 1) + self.p.at(2, 2)
@@ -343,9 +354,14 @@ impl GnssInsEkf {
         ];
         f.set_block3(3, 3, neg3(skew(two_wie)));
         f.set_block3(3, 9, c_bn);
-        // ψ̇ = −[ω_in×] ψ − C_b^n b_g
+        // ψ̇ = −[ω_in×] ψ + C_b^n b_g. The bias states are the RESIDUAL biases (true
+        // minus the running estimate, fed back by adding), so a positive residual
+        // gyro bias rotates the computed attitude by +C_b^n b_g, exactly as the
+        // accelerometer residual drives +C_b^n b_a above. This block was −C_b^n until
+        // 0.27.3, which made every gyro-bias estimate push the wrong way (see
+        // closed_loop::tests::gyro_bias_coupling_predicts_the_strapdown_attitude_error).
         f.set_block3(6, 6, neg3(skew(omega_in_n)));
-        f.set_block3(6, 12, neg3(c_bn));
+        f.set_block3(6, 12, c_bn);
         // Bias Gauss–Markov: ḃ = −(1/τ) b
         let ka = if self.noise.accel_bias_tau.is_finite() {
             -1.0 / self.noise.accel_bias_tau
