@@ -38,7 +38,7 @@ adev = np.asarray([p["adev"] for p in data["quantum"]["adev_curve"]])
 | Symbol | Signature | Returns |
 |--------|-----------|---------|
 | `run_typed` | `(toml: str) -> RunOutput` | typed result (`.json`, `.svg`, `.summary`, `.csv`, `.data()`, `.write_csv()`) |
-| `run` | `(toml: str) -> str` | result document as a JSON string |
+| `run` | `(toml: str) -> str` | result document as a JSON (JavaScript Object Notation) string |
 | `run_full` | `(toml: str) -> tuple[str, str, str]` | `(json, svg, summary)` |
 | `scenario_kinds` | `() -> list[dict]` | available scenario kinds + metadata (parsed) |
 | `list_kinds` | `() -> str` | the same metadata as ONE JSON-array string, not a list (kept for existing callers; use `scenario_kinds` for the parsed list) |
@@ -51,7 +51,7 @@ adev = np.asarray([p["adev"] for p in data["quantum"]["adev_curve"]])
 | Member | Type | Notes |
 |--------|------|-------|
 | `.json` | `str` | full result document (JSON) |
-| `.svg` | `str` | standalone chart SVG |
+| `.svg` | `str` | standalone chart SVG (Scalable Vector Graphics) |
 | `.summary` | `str` | one-line human summary |
 | `.csv` | `str \| None` | the reproducibility table, for the kinds that emit one (see below) |
 | `.data()` | `dict` | the result parsed into a Python dict (see the shape note below) |
@@ -62,7 +62,7 @@ adev = np.asarray([p["adev"] for p in data["quantum"]["adev_curve"]])
 `realtime-frame-eop`, `lunar-time-budget` and `lunar-jamming` always publish a table;
 `moonlight-service-volume` publishes one when an export site (`export_site_lat_deg` +
 `export_site_lon_deg`) is configured. Every other kind returns `csv = None`. The text is
-the same bytes the CLI writes as `<scenario>.table.csv`, so a reviewer reproducing a
+the same bytes the CLI (command-line interface) writes as `<scenario>.table.csv`, so a reviewer reproducing a
 published table from the wheel never has to drop to the command line:
 
 ```python

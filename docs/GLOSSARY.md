@@ -13,7 +13,7 @@ systems defined next); Kshana studies what happens to
 
 **GNSS — Global Navigation Satellite System.**
 The satellite constellations that provide PNT: GPS (the Global Positioning System,
-USA), Galileo (EU), GLONASS (Russia's Global Navigation Satellite System), BeiDou (China). A receiver that can see ≥ 4 satellites can compute a full
+USA (United States of America)), Galileo (EU), GLONASS (Russia's Global Navigation Satellite System), BeiDou (China). A receiver that can see ≥ 4 satellites can compute a full
 3D position and time fix.
 
 **GNSS outage / denied / degraded / jammed.**
@@ -140,6 +140,123 @@ uncertainty; the Integrity figure of merit counts how often the true error stays
 standard ways of stating 2-D horizontal accuracy: CEP is the radius holding 50 % of fixes;
 2DRMS is twice the root-mean-square horizontal error. Kshana does not report either yet.
 
+## Reading a result: the terms in the output
+
+These are the names you meet in a result file or the playground's summary, in plain
+terms first.
+
+**Holdover (`holdover_s`).** In plain terms: *how many seconds the system stayed inside
+its error limit after GNSS was lost.* Kshana reports the shortest such coast across all
+outages in the run, measured on the run's time grid, so it is a lower bound at the
+time-step resolution. A holdover equal to the outage length means the limit was never
+crossed.
+
+**p95 (`timing_p95_ns`).** In plain terms: *95 % of the time, the timing error was this
+small or smaller.* It is the 95th percentile of the error over the outage. A very small
+value can display as `0.0` in a short summary; the result JSON (JavaScript Object
+Notation) file holds the full-precision number.
+
+**Integrity (`integrity`).** In plain terms: *how often the system's own error estimate
+was honest.* It is the fraction of outage samples whose true error stayed inside the
+filter's k-sigma bound (defined below). A value near 1 means the estimator did not
+understate its error. It is not an aviation protection level; see "Integrity &
+augmentation" below and [`INTEGRITY.md`](INTEGRITY.md).
+
+**Security score (`security`).** In plain terms: *how likely a spoofing attack is to be
+caught.* It is the probability that the configured attack is detected — one minus the
+missed-detection probability `P_md` — derived from the clock's stability. It only means something when the scenario configures a spoofing
+attack; with no attack, read any value shown as "not applicable", not as "zero
+security".
+
+**PDOP — position dilution of precision (keys such as `pdop_min`).** In plain terms: *how much the
+satellite geometry magnifies ranging error into position error.* Position error is
+roughly PDOP times the ranging error, so lower is better. See **DOP** under "Estimation & geometry".
+
+**sigma_y (`σ_y(τ)`, the Allan deviation).** In plain terms: *how much a clock's rate
+wobbles when averaged over a time `τ`.* A datasheet line such as `sigma_y(1 s) = 3e-10`
+means the rate, averaged over one second, varies by about 3 parts in 10¹⁰. Smaller is a
+more stable clock. See "How stability is measured" above.
+
+**q_wf — white-frequency noise intensity.** In plain terms: *the strength of the fast,
+random jitter in a clock's rate.* It is the coefficient in `σ_y²(τ) = q_wf / τ` for white
+frequency noise, so a scenario sets `q_wf = sigma_y(1 s)²` from the datasheet's one-second
+Allan deviation. Its companions are `q_rw` (random-walk frequency noise) and `drift`
+(ageing); see "How errors are modelled" above.
+
+## Telecom timing terms
+
+Telecom networks distribute time over packet networks (Precision Time Protocol) from a
+GNSS-fed reference clock, and the International Telecommunication Union
+Telecommunication Standardization Sector (ITU-T) sets limits on the time error each clock
+may add. These terms appear in the `telecom-timing` kind; see
+[`TELECOM-TIMING.md`](TELECOM-TIMING.md).
+
+**TE — time error.** In plain terms: *how far a clock's time is from the reference time,
+at one instant.* Positive or negative, usually in nanoseconds.
+
+**max|TE| — maximum absolute time error.** In plain terms: *the worst time error seen
+over the measurement, ignoring its sign.* It is the headline limit most masks set.
+
+**cTE — constant time error.** In plain terms: *the steady offset part of the time
+error* — the average error that does not change over the measurement.
+
+**dTE — dynamic time error.** In plain terms: *the wobbling part of the time error* —
+what is left after the constant offset is removed. It is judged with MTIE and TDEV.
+
+**MTIE — maximum time interval error.** In plain terms: *the largest swing in time error
+seen within any window of a given length.* For each window length it slides a window
+along the record and takes the biggest peak-to-peak change; a mask gives the largest
+allowed value per window length.
+
+**TDEV — time deviation.** In plain terms: *the typical (root-mean-square) wander of the
+time error at a given averaging time,* after short-term jitter is averaged out. It is a
+time-domain cousin of the Allan deviation and, like MTIE, is checked against a mask.
+
+**PRTC — primary reference time clock.** The clock at the top of a telecom timing
+chain, normally steered by GNSS. Its performance limits are in ITU-T Recommendation
+G.8272.
+
+**ePRTC — enhanced primary reference time clock.** A PRTC with a tighter time-error
+limit, backed by a highly stable local atomic clock so it can hold time through a long
+GNSS loss. ITU-T Recommendation G.8272.1.
+
+**T-BC — telecom boundary clock.** A network clock that receives time from upstream and
+passes it on downstream, adding a little time error of its own. ITU-T Recommendation
+G.8273.2.
+
+**T-TSC — telecom time slave clock.** The clock at the end of the chain that receives
+time and serves it to the equipment that needs it (for example a radio base station).
+Also covered by ITU-T Recommendation G.8273.2.
+
+**OCXO — oven-controlled crystal oscillator.** A quartz oscillator kept at a constant
+temperature inside a small oven, which makes it much more stable than an ordinary
+quartz oscillator. A common holdover clock in network equipment; it ages (drifts)
+noticeably over days.
+
+**CSAC — chip-scale atomic clock.** A very small atomic clock (see "The sensors Kshana
+compares" above). More stable over long holdovers than an OCXO, at higher cost and power.
+
+## Evidence tiers: VALIDATED, MODELLED, PARTNER
+
+Every capability in the machine-checked verification matrix
+([`VERIFICATION-MATRIX.md`](VERIFICATION-MATRIX.md)) carries one of three tiers.
+
+**VALIDATED.** In plain terms: *checked against someone else's answer.* The capability's
+output was compared with an independent external oracle — real measured data, an
+independent library written by someone else, or published reference values — and
+agreed within a stated tolerance. A continuous-integration check refuses a VALIDATED
+row that names no external oracle.
+
+**MODELLED.** In plain terms: *built from sound physics and checked for internal
+consistency, but not yet compared with an outside answer.* The figures are meaningful
+for comparison and design trades; they are not evidence that a real device will perform
+that way. [`MODELLED-RATIONALE.md`](MODELLED-RATIONALE.md) explains why each such row
+is modelled.
+
+**PARTNER.** In plain terms: *this part belongs to a hardware or product-assurance
+partner, and Kshana claims nothing about it.* The row exists so the gap is visible
+rather than silent.
+
 ## Integrity & augmentation
 
 Integrity is the *trust* question: not "how big is my error?" but "can I bound it, and
@@ -243,7 +360,7 @@ Another CR3BP family: a large, stable orbit that circles the Moon backwards as s
 the rotating frame.
 
 **EOP — Earth Orientation Parameters.**
-The measured, slightly irregular wobble and spin of the Earth (polar motion, UT1−UTC —
+The measured, slightly irregular wobble and spin of the Earth (polar motion, UT1 (Universal Time 1, Earth-rotation time)−UTC —
 Earth-rotation time minus Coordinated Universal Time — and length of day) that is needed
 to turn an Earth-fixed position into an inertial one to better than metres. The IERS
 (International Earth Rotation and Reference Systems Service) publishes them; Kshana reads its `finals2000A` file via

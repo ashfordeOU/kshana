@@ -1,10 +1,10 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Using real constellation TLEs
 
-The bundled `scenarios/orbit-sgp4-gps.toml` uses **synthetic GPS-like Walker TLEs**
-(placeholder NORAD catalogue IDs starting at 80001) so the repository ships a
-self-contained, checksum-valid SGP4 example with no external dependency. The SGP4/SDP4
-propagator itself is validated against the official AIAA 2006-6753 vectors — but the
+The bundled `scenarios/orbit-sgp4-gps.toml` uses **synthetic GPS-like (GPS: Global Positioning System) Walker TLEs** (two-line element sets)
+(placeholder NORAD (North American Aerospace Defense Command) catalogue IDs starting at 80001) so the repository ships a
+self-contained, checksum-valid SGP4 (Simplified General Perturbations 4) example with no external dependency. The SGP4/SDP4 (SDP4: Simplified Deep-space Perturbations 4)
+propagator itself is validated against the official AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 vectors — but the
 *geometry* in that scenario is invented, not the live constellation.
 
 To study the **real** GPS constellation (or any other), drop in a current two-line
@@ -12,7 +12,7 @@ element snapshot.
 
 ## 1. Download a current snapshot
 
-[Celestrak](https://celestrak.org/NORAD/elements/) publishes daily TLE sets. For GPS:
+[Celestrak](https://celestrak.org/NORAD/elements/) publishes daily TLE (two-line element set) sets. For GPS:
 
 ```
 curl -o gps-ops.txt "https://celestrak.org/NORAD/elements/gp.php?GROUP=gps-ops&FORMAT=tle"
@@ -66,7 +66,7 @@ repository (line 1, columns 19–32):
 
 70.6 h is 5.9 GPS revolutions. Propagated as-is, the in-plane phasing is scrambled:
 the satellites are at the right altitudes and inclinations, but not where they were on
-any one day, so the visible set, the DOP and any availability computed from them
+any one day, so the visible set, the DOP (dilution of precision) and any availability computed from them
 describe a constellation that never existed. Nothing in the parser measures this spread
 for you.
 
@@ -89,8 +89,8 @@ If you do not align, say so when you report the number: it is a statement about 
 
 How much this matters is measured in `tests/araim_dual_real_data.rs`, which applies the
 same offsets (reference instant: the latest epoch in the combined GPS + Galileo fixtures,
-2026-06-07T07:21:04 UTC) through a 24 h dual-constellation ARAIM availability run. Under
-a 12 m VAL the aligned sky gives GPS-only 0.993, pooled GPS+Galileo 1.000 and
+2026-06-07T07:21:04 UTC (Coordinated Universal Time)) through a 24 h dual-constellation ARAIM (advanced receiver autonomous integrity monitoring) availability run. Under
+a 12 m VAL (vertical alert limit) the aligned sky gives GPS-only 0.993, pooled GPS+Galileo 1.000 and
 constellation-fault-robust dual 0.990; the unaligned per-satellite-epoch convention gives
 0.208, 0.671 and 0.031 for the same inputs — a different conclusion, not a small error.
 
