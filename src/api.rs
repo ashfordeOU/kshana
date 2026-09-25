@@ -150,6 +150,19 @@ const FOM_LABELS: &[(&str, &str, &str)] = &[
     ("security", "Security", ""),
 ];
 
+/// A figure-of-merit value for the report table: three decimals across the plain
+/// range, and three significant figures in exponent form outside it, so a small value
+/// such as a p95 of 1.2e-4 ns is not printed as `0.000`. The playground's table and
+/// its downloadable report use the same rule (`web/report.mjs`, `fmtVal`), and so does
+/// the study comparison table (`src/study.rs`).
+pub(crate) fn format_fom_value(v: f64) -> String {
+    if v != 0.0 && (v.abs() >= 1e4 || v.abs() < 1e-2) {
+        format!("{v:.2e}")
+    } else {
+        format!("{v:.3}")
+    }
+}
+
 /// Render a per-FoM validation-tier table from a run's JSON, walking it for any
 /// `fom` objects (e.g. `quantum.fom` / `classical.fom`) and emitting one row per
 /// present-and-numeric figure of merit with its value and its MODELLED/VALIDATED
@@ -161,7 +174,7 @@ fn fom_tier_table(json: &str) -> String {
         return String::new();
     };
     // Collect (clock-label, fom-object) pairs from the known result shapes.
-    let mut blocks: Vec<(String, &serde_json::Map<String, serde_json::Value>)> = Vec::new();
+    let mut blocks: Vec<(String, String, &serde_json::Map<String, serde_json::Value>)> = Vec::new();
     for clock in ["quantum", "classical"] {
         if let Some(fom) = root
             .get(clock)
@@ -175,21 +188,34 @@ fn fom_tier_table(json: &str) -> String {
                 .and_then(|v| v.as_str())
                 .unwrap_or(clock)
                 .to_string();
-            blocks.push((label, fom));
+            blocks.push((label, format!("{clock}.fom"), fom));
         }
     }
     // A single top-level `fom` block (some packs report one clock).
     if blocks.is_empty() {
         if let Some(fom) = root.get("fom").and_then(|f| f.as_object()) {
-            blocks.push((String::new(), fom));
+            blocks.push((String::new(), "fom".to_string(), fom));
         }
     }
     if blocks.is_empty() {
         return String::new();
     }
 
+    // Figures the run's own `figure_tiers` block marks not applicable (e.g. `security`
+    // with no attack configured) are shown as such, not as a number.
+    let not_applicable: std::collections::BTreeSet<String> = root
+        .get(FIGURE_TIERS_KEY)
+        .and_then(|b| b.get("figures"))
+        .and_then(|f| f.as_array())
+        .map(|figs| {
+            figs.iter()
+                .filter(|f| f.get("applicable").and_then(|a| a.as_bool()) == Some(false))
+                .filter_map(|f| f.get("path").and_then(|p| p.as_str()).map(str::to_string))
+                .collect()
+        })
+        .unwrap_or_default();
     let mut rows = String::new();
-    for (clock_label, fom) in &blocks {
+    for (clock_label, root_path, fom) in &blocks {
         for (key, label, unit) in FOM_LABELS {
             let Some(value) = fom.get(*key).and_then(|v| v.as_f64()) else {
                 continue;
@@ -207,10 +233,15 @@ fn fom_tier_table(json: &str) -> String {
             } else {
                 format!("<td>{}</td>", html_escape(clock_label))
             };
+            let shown = if not_applicable.contains(&format!("{root_path}.{key}")) {
+                "not applicable (no attack configured)".to_string()
+            } else {
+                format_fom_value(value)
+            };
             rows.push_str(&format!(
-                "<tr>{clock_cell}<td>{}</td><td class=\"num\">{:.3}</td><td><span class=\"tier\">{}</span></td></tr>",
+                "<tr>{clock_cell}<td>{}</td><td class=\"num\">{}</td><td><span class=\"tier\">{}</span></td></tr>",
                 html_escape(&metric),
-                value,
+                shown,
                 tier.tag(),
             ));
         }
@@ -218,7 +249,7 @@ fn fom_tier_table(json: &str) -> String {
     if rows.is_empty() {
         return String::new();
     }
-    let clock_header = if blocks.iter().any(|(l, _)| !l.is_empty()) {
+    let clock_header = if blocks.iter().any(|(l, _, _)| !l.is_empty()) {
         "<th>Clock</th>"
     } else {
         ""
@@ -330,6 +361,7 @@ fn json_of_with_units<T: serde::Serialize>(
     json_of(&Documented {
         report: v,
         units: crate::field_schema::units_block(units),
+        figure_tiers: None,
     })
 }
 
@@ -346,6 +378,64 @@ struct Documented<'a, T: serde::Serialize> {
     #[serde(flatten)]
     report: &'a T,
     units: serde_json::Value,
+    /// The per-figure verification tiers ([`crate::fom_label::figure_tiers`]), for the
+    /// kinds that report timing figures of merit. Appended after `units`, so it is the
+    /// last key of the document, and absent everywhere else.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    figure_tiers: Option<serde_json::Value>,
+}
+
+/// The top-level key of the per-figure verification-tier block.
+///
+/// It is an additive annotation: it restates, for each figure the document already
+/// reports, the tier the verification matrix gives it. It carries no number. The
+/// golden harnesses (`tests/registry_golden.rs`, `tests/cross_platform_golden.rs`)
+/// remove exactly this key, and only when it is the document's last key, before they
+/// hash, then compare against the constants frozen before the block existed, which
+/// proves the rest of the document did not move. The block's own content is pinned
+/// separately.
+pub const FIGURE_TIERS_KEY: &str = "figure_tiers";
+
+/// `json` with its trailing `figure_tiers` block removed, byte for byte as the document
+/// was before that block existed; `None` when the document has no such block, or has
+/// one that is not its last key (which this crate never emits, so a harness must treat
+/// it as a failure rather than strip something it cannot account for).
+///
+/// This is how the golden harnesses prove the block additive: strip it, hash what is
+/// left, and compare against the constant frozen before the block was added.
+pub fn without_figure_tiers(json: &str) -> Option<String> {
+    let marker = format!(",\n  \"{FIGURE_TIERS_KEY}\": ");
+    let at = json.rfind(&marker)?;
+    let tail = &json[at + marker.len()..];
+    // The block must be one JSON value followed only by the document's closing brace.
+    let body = tail.trim_end().strip_suffix('}')?.trim_end();
+    let _: serde_json::Map<String, serde_json::Value> = serde_json::from_str(body).ok()?;
+    let mut out = String::with_capacity(at + 2);
+    out.push_str(&json[..at]);
+    out.push_str("\n}");
+    // Preserve whatever followed the closing brace (the engine emits none).
+    let closing = json.trim_end().len();
+    out.push_str(&json[closing..]);
+    Some(out)
+}
+
+/// [`json_of_with_units`], plus the `figure_tiers` block computed from the report's own
+/// serialised form: `roots` are where its figures of merit sit and `fields` the pack
+/// family's figure names ([`crate::fom_label`]). No kind this is used for has an
+/// attack input, so `security` is always marked not applicable.
+fn json_of_with_units_and_tiers<T: serde::Serialize>(
+    v: &T,
+    units: &[crate::field_schema::FieldUnit],
+    roots: &[&str],
+    fields: &[&str],
+) -> Result<String, String> {
+    let doc =
+        serde_json::to_value(v).map_err(|e| format!("failed to serialise report to JSON: {e}"))?;
+    json_of(&Documented {
+        report: v,
+        units: crate::field_schema::units_block(units),
+        figure_tiers: Some(crate::fom_label::figure_tiers(&doc, roots, fields, false)),
+    })
 }
 
 /// A minimal one-line SVG banner for scenario kinds whose primary artifact is the
@@ -362,6 +452,26 @@ fn minimal_svg(summary: &str) -> String {
          <text x=\"10\" y=\"24\">{esc}</text></svg>"
     )
 }
+
+/// A timing figure in nanoseconds for a one-line summary. One decimal place, as
+/// before, for anything that one decimal can show; a non-zero value too small for it is
+/// printed with three significant figures in exponent form instead of rounding to a
+/// `0.0` that reads as "no error" (the quantum clock's p95 of 1.2e-4 ns printed as
+/// `0.0ns` beside a table showing 1.20e-4). An exact zero stays `0.0`.
+fn ns1(v: f64) -> String {
+    if v != 0.0 && v.abs() < 0.1 {
+        format!("{v:.2e}")
+    } else {
+        format!("{v:.1}")
+    }
+}
+
+/// The `security` segment of a summary for a scenario kind with no attack input: the
+/// figure is an analytic bound that only means something against a configured attack
+/// (docs/INTEGRITY.md), so the summary says it does not apply rather than printing a
+/// number, `0.000` included, that reads as a detection result. The value itself stays
+/// in the JSON, flagged `applicable: false` in `figure_tiers`.
+const SECURITY_NA: &str = "n/a (no attack)";
 
 fn integ(i: Option<f64>) -> String {
     i.map_or_else(|| "n/a".to_string(), |v| format!("{v:.3}"))
@@ -1593,11 +1703,16 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
             let summary = format!(
                 "scenario {} | quantum PNT-holdover {:.0}s (t {:.0}s/p {:.0}s) integrity {} security {} | classical PNT-holdover {:.0}s (t {:.0}s/p {:.0}s) integrity {} security {}",
                 &r.scenario_hash[..12],
-                r.quantum.fom.pnt_holdover_s, r.quantum.fom.timing_holdover_s, r.quantum.fom.position_holdover_s, integ(r.quantum.fom.integrity), integ(r.quantum.fom.security),
-                r.classical.fom.pnt_holdover_s, r.classical.fom.timing_holdover_s, r.classical.fom.position_holdover_s, integ(r.classical.fom.integrity), integ(r.classical.fom.security),
+                r.quantum.fom.pnt_holdover_s, r.quantum.fom.timing_holdover_s, r.quantum.fom.position_holdover_s, integ(r.quantum.fom.integrity), SECURITY_NA,
+                r.classical.fom.pnt_holdover_s, r.classical.fom.timing_holdover_s, r.classical.fom.position_holdover_s, integ(r.classical.fom.integrity), SECURITY_NA,
             );
             Ok(RunOutput {
-                json: json_of_with_units(&r, crate::hybrid::UNITS)?,
+                json: json_of_with_units_and_tiers(
+                    &r,
+                    crate::hybrid::UNITS,
+                    &["quantum.fom", "classical.fom"],
+                    crate::fom_label::HYBRID_FOM_FIELDS,
+                )?,
                 svg: crate::hybrid::to_svg(&r),
                 summary,
                 csv: None,
@@ -1611,11 +1726,16 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
             let summary = format!(
                 "scenario {} | fused | quantum PNT-holdover {:.0}s (t {:.0}s/p {:.0}s) integrity {} security {} | classical PNT-holdover {:.0}s (t {:.0}s/p {:.0}s) integrity {} security {}",
                 &r.scenario_hash[..12],
-                r.quantum.fom.pnt_holdover_s, r.quantum.fom.timing_holdover_s, r.quantum.fom.position_holdover_s, integ(r.quantum.fom.integrity), integ(r.quantum.fom.security),
-                r.classical.fom.pnt_holdover_s, r.classical.fom.timing_holdover_s, r.classical.fom.position_holdover_s, integ(r.classical.fom.integrity), integ(r.classical.fom.security),
+                r.quantum.fom.pnt_holdover_s, r.quantum.fom.timing_holdover_s, r.quantum.fom.position_holdover_s, integ(r.quantum.fom.integrity), SECURITY_NA,
+                r.classical.fom.pnt_holdover_s, r.classical.fom.timing_holdover_s, r.classical.fom.position_holdover_s, integ(r.classical.fom.integrity), SECURITY_NA,
             );
             Ok(RunOutput {
-                json: json_of_with_units(&r, crate::fusion::UNITS)?,
+                json: json_of_with_units_and_tiers(
+                    &r,
+                    crate::fusion::UNITS,
+                    &["quantum.fom", "classical.fom"],
+                    crate::fom_label::HYBRID_FOM_FIELDS,
+                )?,
                 svg: crate::hybrid::to_svg(&r),
                 summary,
                 csv: None,
@@ -1791,12 +1911,12 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 .filter(|s| s.gnss == GnssState::Nominal)
                 .count();
             let summary = format!(
-                "scenario {} | {}/{} samples GNSS-nominal | best PDOP {} pos {} | quantum holdover {:.0}s p95 {:.1}ns integrity {} security {} | classical holdover {:.0}s p95 {:.1}ns integrity {} security {}",
+                "scenario {} | {}/{} samples GNSS-nominal | best PDOP {} pos {} | quantum holdover {:.0}s p95 {}ns integrity {} security {} | classical holdover {:.0}s p95 {}ns integrity {} security {}",
                 &r.scenario_hash[..12],
                 nominal, r.quantum.series.len(),
                 fnum(geometry.best_pdop), posm(geometry.best_position_sigma_m),
-                r.quantum.fom.holdover_s, r.quantum.fom.timing_p95_ns, integ(r.quantum.fom.integrity), integ(r.quantum.fom.security),
-                r.classical.fom.holdover_s, r.classical.fom.timing_p95_ns, integ(r.classical.fom.integrity), integ(r.classical.fom.security),
+                r.quantum.fom.holdover_s, ns1(r.quantum.fom.timing_p95_ns), integ(r.quantum.fom.integrity), SECURITY_NA,
+                r.classical.fom.holdover_s, ns1(r.classical.fom.timing_p95_ns), integ(r.classical.fom.integrity), SECURITY_NA,
             );
             #[derive(serde::Serialize)]
             struct OrbitOutput<'a> {
@@ -1805,9 +1925,11 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 geometry: crate::orbit::DopSummary,
             }
             Ok(RunOutput {
-                json: json_of_with_units(
+                json: json_of_with_units_and_tiers(
                     &OrbitOutput { run: &r, geometry },
                     &[crate::orbit::UNITS, crate::report::UNITS].concat(),
+                    &["quantum.fom", "classical.fom"],
+                    crate::fom_label::CLOCK_FOM_FIELDS,
                 )?,
                 svg: crate::report::to_svg(&r),
                 summary,
@@ -2309,13 +2431,18 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 let q = &r.quantum;
                 let c = &r.classical;
                 let summary = format!(
-                    "scenario {} | {} runs | quantum holdover {:.0}s [{:.0}-{:.0}] p95 {:.1}ns security {} | classical holdover {:.0}s [{:.0}-{:.0}] p95 {:.1}ns security {}",
+                    "scenario {} | {} runs | quantum holdover {:.0}s [{:.0}-{:.0}] p95 {}ns security {} | classical holdover {:.0}s [{:.0}-{:.0}] p95 {}ns security {}",
                     &r.scenario_hash[..12], r.runs,
-                    q.holdover_s.mean, q.holdover_s.p05, q.holdover_s.p95, q.timing_p95_ns.mean, integ(q.security),
-                    c.holdover_s.mean, c.holdover_s.p05, c.holdover_s.p95, c.timing_p95_ns.mean, integ(c.security),
+                    q.holdover_s.mean, q.holdover_s.p05, q.holdover_s.p95, ns1(q.timing_p95_ns.mean), SECURITY_NA,
+                    c.holdover_s.mean, c.holdover_s.p05, c.holdover_s.p95, ns1(c.timing_p95_ns.mean), SECURITY_NA,
                 );
                 return Ok(RunOutput {
-                    json: json_of_with_units(&r, crate::ensemble::UNITS)?,
+                    json: json_of_with_units_and_tiers(
+                        &r,
+                        crate::ensemble::UNITS,
+                        &["quantum", "classical"],
+                        crate::fom_label::CLOCK_FOM_FIELDS,
+                    )?,
                     svg: crate::ensemble::to_svg(&r),
                     summary,
                     csv: None,
@@ -2323,13 +2450,18 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
             }
             let r = crate::run::run(&scn);
             let summary = format!(
-                "scenario {} | quantum holdover {:.0}s p95 {:.1}ns integrity {} security {} | classical holdover {:.0}s p95 {:.1}ns integrity {} security {}",
+                "scenario {} | quantum holdover {:.0}s p95 {}ns integrity {} security {} | classical holdover {:.0}s p95 {}ns integrity {} security {}",
                 &r.scenario_hash[..12],
-                r.quantum.fom.holdover_s, r.quantum.fom.timing_p95_ns, integ(r.quantum.fom.integrity), integ(r.quantum.fom.security),
-                r.classical.fom.holdover_s, r.classical.fom.timing_p95_ns, integ(r.classical.fom.integrity), integ(r.classical.fom.security),
+                r.quantum.fom.holdover_s, ns1(r.quantum.fom.timing_p95_ns), integ(r.quantum.fom.integrity), SECURITY_NA,
+                r.classical.fom.holdover_s, ns1(r.classical.fom.timing_p95_ns), integ(r.classical.fom.integrity), SECURITY_NA,
             );
             Ok(RunOutput {
-                json: json_of_with_units(&r, crate::report::UNITS)?,
+                json: json_of_with_units_and_tiers(
+                    &r,
+                    crate::report::UNITS,
+                    &["quantum.fom", "classical.fom"],
+                    crate::fom_label::CLOCK_FOM_FIELDS,
+                )?,
                 svg: crate::report::to_svg(&r),
                 summary,
                 csv: None,
@@ -2889,6 +3021,152 @@ mod tests {
         let html = out.html_report();
         assert!(html.contains("<title>My Study \u{2014} Kshana</title>"));
         assert!(html.contains("Study generated 2026-06-23T00:00:00Z"));
+    }
+
+    // The `figure_tiers` block is additive, proven byte for byte rather than asserted:
+    // for every kind that emits it, removing it leaves exactly the document the same
+    // run produced before the block existed (`json_of_with_units`, unchanged).
+    #[test]
+    fn figure_tiers_is_purely_additive_for_every_kind_that_emits_it() {
+        fn same(label: &str, new_doc: &str, old_doc: &str) {
+            let stripped = without_figure_tiers(new_doc)
+                .unwrap_or_else(|| panic!("{label}: no trailing figure_tiers block"));
+            assert_eq!(
+                stripped, old_doc,
+                "{label}: stripping figure_tiers is not byte-identical"
+            );
+        }
+        let clock_src = include_str!("../scenarios/clock-holdover.toml");
+        let scn: crate::scenario::Scenario = toml::from_str(clock_src).unwrap();
+        same(
+            "clock",
+            &run_toml(clock_src).unwrap().json,
+            &json_of_with_units(&crate::run::run(&scn), crate::report::UNITS).unwrap(),
+        );
+
+        let ens_src = include_str!("../scenarios/clock-ensemble.toml");
+        let scn: crate::scenario::Scenario = toml::from_str(ens_src).unwrap();
+        assert!(scn.runs > 1);
+        same(
+            "clock ensemble",
+            &run_toml(ens_src).unwrap().json,
+            &json_of_with_units(&crate::ensemble::run_ensemble(&scn), crate::ensemble::UNITS)
+                .unwrap(),
+        );
+
+        let hyb_src = include_str!("../scenarios/hybrid-pnt.toml");
+        let scn: crate::hybrid::HybridScenario = toml::from_str(hyb_src).unwrap();
+        same(
+            "hybrid",
+            &run_toml(hyb_src).unwrap().json,
+            &json_of_with_units(&crate::hybrid::run_hybrid(&scn), crate::hybrid::UNITS).unwrap(),
+        );
+
+        let fus_src = include_str!("../scenarios/fusion-pnt.toml");
+        let scn: crate::hybrid::HybridScenario = toml::from_str(fus_src).unwrap();
+        same(
+            "fusion",
+            &run_toml(fus_src).unwrap().json,
+            &json_of_with_units(&crate::fusion::run_fusion(&scn), crate::fusion::UNITS).unwrap(),
+        );
+
+        let orb_src = include_str!("../scenarios/orbit-multignss.toml");
+        let scn: crate::orbit::OrbitClockScenario = toml::from_str(orb_src).unwrap();
+        let r = crate::run::run_orbit_clock(&scn).unwrap();
+        let geometry = crate::orbit::summarize_dop(
+            &scn.user.to_orbit(),
+            &scn.all_satellites().unwrap(),
+            scn.time.step_s,
+            scn.time.duration_s,
+            scn.mask_deg,
+            scn.sigma_uere_m,
+        );
+        #[derive(serde::Serialize)]
+        struct OrbitOutput<'a> {
+            #[serde(flatten)]
+            run: &'a crate::report::RunResult,
+            geometry: crate::orbit::DopSummary,
+        }
+        same(
+            "orbit",
+            &run_toml(orb_src).unwrap().json,
+            &json_of_with_units(
+                &OrbitOutput { run: &r, geometry },
+                &[crate::orbit::UNITS, crate::report::UNITS].concat(),
+            )
+            .unwrap(),
+        );
+    }
+
+    // What the block says for the reference clock scenario: every figure the document
+    // reports, its tier and owning row from the matrix, and `security` flagged not
+    // applicable (this kind has no attack input) while its value stays in place.
+    #[test]
+    fn figure_tiers_labels_every_clock_figure_and_flags_security() {
+        let out = run_toml(include_str!("../scenarios/clock-holdover.toml")).unwrap();
+        let v: serde_json::Value = serde_json::from_str(&out.json).unwrap();
+        let figs = v[FIGURE_TIERS_KEY]["figures"].as_array().unwrap();
+        assert_eq!(figs.len(), 14, "7 figures x 2 clocks");
+        for f in figs {
+            let path = f["path"].as_str().unwrap();
+            let field = path.rsplit('.').next().unwrap();
+            let tier = crate::fom_label::tier_for(field).unwrap().tag();
+            assert_eq!(f["tier"], tier, "{path}");
+            assert_eq!(
+                f["requirement"],
+                crate::fom_label::requirement_for(field).unwrap(),
+                "{path}"
+            );
+            assert_eq!(f["applicable"], field != "security", "{path}");
+        }
+        assert!(v[FIGURE_TIERS_KEY].get("untiered").is_none());
+        // The number is still there, unchanged, for anyone who wants the bound.
+        assert!(v["classical"]["fom"]["security"].is_number());
+        // And the summary no longer prints it as though it were a detection result.
+        assert!(out.summary.contains("security n/a (no attack)"));
+        assert!(!out.summary.contains("security 0.000"));
+    }
+
+    // A block that is not the document's last key, or is not there, is never stripped.
+    #[test]
+    fn without_figure_tiers_refuses_what_it_cannot_account_for() {
+        assert_eq!(without_figure_tiers("{\n  \"a\": 1\n}"), None);
+        assert_eq!(
+            without_figure_tiers("{\n  \"a\": 1,\n  \"figure_tiers\": {},\n  \"b\": 2\n}"),
+            None
+        );
+        assert_eq!(
+            without_figure_tiers("{\n  \"a\": 1,\n  \"figure_tiers\": {\"x\": true}\n}").as_deref(),
+            Some("{\n  \"a\": 1\n}")
+        );
+    }
+
+    // The summary never prints a non-zero timing figure as 0.0.
+    #[test]
+    fn ns1_keeps_small_values_significant() {
+        assert_eq!(ns1(1.204_818_590_220_607_7e-4), "1.20e-4");
+        assert_eq!(ns1(19.674_897_980_377_633), "19.7");
+        assert_eq!(ns1(6.7), "6.7");
+        assert_eq!(ns1(0.0), "0.0");
+        assert_eq!(ns1(0.1), "0.1");
+        assert_eq!(ns1(0.0999), "9.99e-2");
+    }
+
+    // The report table gives small figures significant digits, and shows a figure the
+    // run marks not applicable as such.
+    #[test]
+    fn fom_tier_table_formats_small_values_and_not_applicable_security() {
+        let out = run_toml(include_str!("../scenarios/clock-holdover.toml")).unwrap();
+        let t = fom_tier_table(&out.json);
+        assert!(
+            t.contains("1.20e-4"),
+            "quantum p95 must keep its digits: {t}"
+        );
+        assert!(t.contains("not applicable (no attack configured)"));
+        assert!(
+            !t.contains(">0.000<"),
+            "no non-zero figure may print as 0.000: {t}"
+        );
     }
 
     #[test]

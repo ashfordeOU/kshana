@@ -384,18 +384,26 @@ NORAD (North American Aerospace Defense Command) catalogue number, COSPAR (Commi
 on Space Research) international designator, and epoch, for any
 OMM-aware consumer instead of a bespoke two-line element set.
 
-Example output (clock holdover — note the Integrity and Security figures of merit):
+Example output (clock holdover — note how the Integrity and Security figures of merit are reported):
 
 ```
-scenario 5ba83a232b94 | quantum holdover 6600s p95 0.0ns integrity 1.000 security 0.997 | classical holdover 2610s p95 19.7ns integrity 1.000 security 0.000
+scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity 1.000 security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity 1.000 security n/a (no attack)
 wrote scenarios/clock-holdover.result.json, scenarios/clock-holdover.chart.svg, and scenarios/clock-holdover.report.html
 ```
 
-The optical clock's tight detection floor keeps `security 0.997`; the chip-scale
-clock's own noise over the monitoring window exceeds the 20 ns spec, so it has no
-spoof-detection margin (`security 0.000`). The orbit scenario additionally reports a
-geometry block — fraction of samples with a fix, and best/median PDOP and position
-accuracy — alongside the clock result.
+The optical clock's 95th-percentile (p95) timing error is 1.20e-4 ns: the summary
+prints small values with significant digits rather than rounding them to `0.0`.
+`security` reads `n/a (no attack)` because this scenario configures no attack, so there
+is nothing to detect. The JSON result still carries each clock's analytic
+spoof-detectability bound in `fom.security` (0.997 for the optical clock, 0.000 for the
+chip-scale atomic clock, whose own noise over the monitoring window exceeds the 20 ns
+spec), and its `figure_tiers` block marks that figure `applicable: false`. The `spoof`
+scenario kind scores detection against an injected attack. `figure_tiers` also gives
+every reported figure its verification tier — VALIDATED (checked against an external
+oracle) or MODELLED — and the verification-matrix row the tier is read from. The orbit
+scenario additionally reports a geometry block — fraction of samples with a fix, and
+best/median position dilution of precision (PDOP) and position accuracy — alongside the
+clock result.
 
 > **Read these two numbers carefully.** `security` is an *analytic spoof-detectability
 > bound* derived from each clock's stability — it is meaningful only against a
