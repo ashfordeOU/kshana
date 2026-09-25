@@ -8,7 +8,7 @@ auditor (or a procurement reviewer) can read alongside the code.
 
 ARAIM is the dual-constellation, multi-frequency successor to classic RAIM that the
 GPS–Galileo Working Group C (WG-C) defined to support horizontal and vertical
-guidance down to LPV-200. It answers a single question for every epoch:
+guidance down to LPV-200 (LPV: localizer performance with vertical guidance). It answers a single question for every epoch:
 
 > How large must the position-error bound (the *protection level*) be so that the
 > residual probability of *hazardously misleading information* — an error larger
@@ -22,8 +22,8 @@ explicitly by [`IntegritySupportMessage`](../src/raim.rs):
 
 | Field | Symbol | Meaning |
 |------|--------|---------|
-| `sigma_ure_m` | σ_URE / SISE | range-error RMS used for **accuracy and continuity** |
-| `sigma_ura_m` | σ_URA / SISA | range-error bound used for **integrity** (≥ σ_URE) |
+| `sigma_ure_m` | σ_URE / SISE (signal-in-space error) | range-error RMS (root mean square) used for **accuracy and continuity** |
+| `sigma_ura_m` | σ_URA / SISA (signal-in-space accuracy) | range-error bound used for **integrity** (≥ σ_URE) |
 | `b_nom_m` | b_nom | maximum nominal range bias folded one-sided into the integrity bound (`b_k = Σ_i |s_i|·b_nom`); see §3 |
 | `p_sat` | P_sat | prior probability of an undetected single-satellite fault |
 | `p_const` | P_const | prior probability of a constellation-wide fault |
@@ -49,7 +49,7 @@ excludes the faulted set, and bounds the position error under that hypothesis:
   exclusion sub-solution. This is the classic single-fault ARAIM baseline,
   [`araim_raim`](../src/raim.rs).
 - **Constellation-wide faults** `H_c` (prior `P_const` each): the sub-solution that
-  removes *all* satellites of one constellation at once, the EU ARAIM TN / DO-316
+  removes *all* satellites of one constellation at once, the EU (European Union) ARAIM TN (technical note) / DO-316
   extension implemented in [`araim_dual_raim`](../src/raim.rs). With `P_const = 0`
   this reduces **bit-for-bit** to `araim_raim`.
 
@@ -77,7 +77,7 @@ smallest bound `PL` whose summed integrity risk
 > see [`INTEGRITY.md`](INTEGRITY.md).
 
 meets the allocated budget ([`araim_protection_level`] /
-[`araim_integrity_risk`](../src/raim.rs)). VPL and HPL are the vertical and
+[`araim_integrity_risk`](../src/raim.rs)). VPL (vertical protection level) and HPL (horizontal protection level) are the vertical and
 horizontal answers. The result also reports the integrity risk actually achieved
 (`≤` the allocation) and whether a sub-solution separated beyond its threshold.
 
@@ -92,7 +92,7 @@ fixed alert limit and [`classify_stanford`](../src/raim.rs) sorts each into
 information* (PL < error ≤ AL) or *hazardously misleading information* (error > AL
 and > PL). [`stanford_svg`](../src/raim.rs) renders the classic scatter — the
 `PL = error` integrity boundary, the alert-limit guides, and one colour-coded
-marker per epoch — as a self-contained SVG.
+marker per epoch — as a self-contained SVG (Scalable Vector Graphics).
 
 ## 5. The dual-constellation benefit
 
@@ -100,7 +100,7 @@ Two effects are demonstrated in
 `raim::tests::dual_constellation_improves_geometry_and_tolerates_a_constellation_fault`:
 
 1. **Geometry / redundancy** — pooling a second constellation's satellites tightens
-   the single-fault HPL: more measurements and a larger single-SV sub-solution set
+   the single-fault HPL: more measurements and a larger single-SV (SV: space vehicle, that is a satellite) sub-solution set
    give a strictly smaller bound.
 2. **Constellation-fault tolerance** — with `P_const` active, the dual user stays
    available when a whole constellation can fail (satellites of the *other*
@@ -119,7 +119,7 @@ locations, not a per-snapshot guarantee.
 
 - **In-repo, automated:** the MHSS algebra (`P_const = 0` ⇒ bit-for-bit
   single-fault; constellation-fault widens the PL; budget never exceeded), the
-  geometry and constellation-fault benefits above, and exercise on **real IGS
+  geometry and constellation-fault benefits above, and exercise on **real IGS (International GNSS Service; GNSS = global navigation satellite system)
   precise-orbit (SP3) geometry** (`tests/igs_real_data.rs`), not only synthetic
   constellations.
 - **External oracle — the published WG-C worked example:** the protection levels
@@ -127,11 +127,11 @@ locations, not a per-snapshot guarantee.
   [`src/araim_reference.rs`](../src/araim_reference.rs),
   `tests/araim_reference_vectors.rs` and the committed fixture
   `tests/fixtures/araim_reference/wgc_araim_reference_vectors.txt` (each vector
-  carries its retrieval URL, retrieval date, source-file SHA-256 and page). The
+  carries its retrieval URL (web address), retrieval date, source-file SHA-256 (SHA: Secure Hash Algorithm) and page). The
   acceptance tolerance is the reference's own `TOL_PL = 5 × 10⁻² m`. Against the
   Reference Airborne Algorithm Description Document v3.1 (2019), Appendix D:
   **VPL 18.2926 m vs 18.3 m published (Δ 0.0074 m)**, **HPL 13.4063 m vs 13.45 m
-  (Δ 0.0437 m)**, EMT 7.2997 m vs 7.2998 m, σ_v,acc 1.3694 m vs 1.3694 m, and all
+  (Δ 0.0437 m)**, EMT (effective monitor threshold) 7.2997 m vs 7.2998 m, σ_v,acc 1.3694 m vs 1.3694 m, and all
   six published constellation-fault intermediates (σ₃⁽ᵏ⁾, σ_ss,3⁽ᵏ⁾, b₃⁽ᵏ⁾) to
   within half a unit in their last printed decimal. The 2016 Milestone 3 Report
   states the same example but carries two internal defects — a sign typo in row 3
@@ -141,14 +141,14 @@ locations, not a per-snapshot guarantee.
   0.0171 m, HPL Δ 0.0842 m, EMT Δ 0.4806 m) and excluded from the acceptance
   figure. The check is reachable as the `araim-reference-check` scenario kind.
 - **Honest residual (external / founder-gated):** the 15–25 % availability figure
-  against a **version-locked real Celestrak TLE snapshot**, and depositing the
+  against a **version-locked real Celestrak TLE (two-line element set) snapshot**, and depositing the
   ARAIM test fixtures as a citable **Zenodo** record. The reference check above
   covers `N_fault,max = 1` (single-satellite and single-constellation fault modes)
   only; simultaneous multi-event fault subsets, fault exclusion, the χ²
   consistency check and the double-counting re-allocation step of the reference
   algorithm are not implemented, and a case whose priors would need them is
   refused rather than truncated. Wiring `araim_dual_raim` into the scenario-file
-  runner (today the TOML runner uses classic solution-separation RAIM) is a
+  runner (today the TOML (Tom's Obvious Minimal Language) runner uses classic solution-separation RAIM) is a
   further follow-on.
 
 ## References
@@ -161,9 +161,9 @@ locations, not a per-snapshot guarantee.
   Subgroup, *Reference Airborne Algorithm Description Document*, Version 3.1,
   20 June 2019 — Appendix D (numerical example for LPV-200).
   <https://web.stanford.edu/group/scpnt/gpslab/website_files/maast/ARAIM_TSG_Reference_ADD_v3.1.pdf>
-- EU–US Cooperation on Satellite Navigation, *ARAIM Technical Note*.
-- RTCA DO-316 / DO-229 MOPS; DO-316 ARAIM MASPS material.
+- EU–US (United States) Cooperation on Satellite Navigation, *ARAIM Technical Note*.
+- RTCA (formerly the Radio Technical Commission for Aeronautics) DO-316 / DO-229 MOPS (minimum operational performance standards); DO-316 ARAIM MASPS (minimum aviation system performance standards) material.
 - Blanch et al., *Baseline Advanced RAIM User Algorithm and Possible Improvements*,
-  IEEE TAES / ION ITM.
+  IEEE (Institute of Electrical and Electronics Engineers) TAES (Transactions on Aerospace and Electronic Systems) / ION (Institute of Navigation) ITM (International Technical Meeting).
 - Walter, Enge, Blanch, Pervan, *Worldwide Vertical Guidance of Aircraft Based on
   Modernized GPS and New Integrity Augmentations* (Stanford-diagram methodology).

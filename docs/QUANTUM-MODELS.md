@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Quantum-sensor models: what Kshana models, and what it does not
 
-Kshana is a **PNT-resilience simulator with quantum-sensor performance models**. It
+Kshana is a **PNT-resilience (PNT: positioning, navigation and timing) simulator with quantum-sensor performance models**. It
 is *not* a first-principles quantum-physics simulator. This page states exactly what
 that means so the "quantum" framing cannot be mistaken for more than it is.
 
@@ -10,11 +10,11 @@ that means so the "quantum" framing cannot be mistaken for more than it is.
 Each quantum (and classical) sensor is an **error model** driven by published
 noise-budget parameters:
 
-- **Clocks** — white-frequency and random-walk-frequency PSDs, a flicker (1/f) Allan
-  floor, and linear drift, sourced from datasheets and papers (CSAC SA.45s; strontium
-  optical-lattice goals; ACES/PHARAO). The Allan deviation these produce is validated
+- **Clocks** — white-frequency and random-walk-frequency PSDs (power spectral densities), a flicker (1/f) Allan
+  floor, and linear drift, sourced from datasheets and papers (CSAC (chip-scale atomic clock) SA.45s; strontium
+  optical-lattice goals; ACES/PHARAO (ACES: Atomic Clock Ensemble in Space; PHARAO: Projet d'Horloge Atomique par Refroidissement d'Atomes en Orbite)). The Allan deviation these produce is validated
   against the standard noise-type slopes (see [`VALIDATION.md`](VALIDATION.md)).
-- **Inertial sensors** — a single-axis (1-DOF) accelerometer/gyro error budget:
+- **Inertial sensors** — a single-axis (1-DOF (DOF: degree of freedom)) accelerometer/gyro error budget:
   velocity random walk, angular random walk, acceleration random walk, and an Allan
   bias-instability floor.
 - The engine is **neutral**: "quantum" and "classical" are the same code path with
@@ -32,16 +32,16 @@ remaining systematics are still coefficient-level or unmodelled:
   projection / shot noise** (`σ_Φ = 1/(C·√N)`), interferometer **contrast** decay,
   **cycle time**, and the **vibration-coupling transfer function** (`|H(ω)| =
   (4/ω²)sin²(ωT/2)`, white-PSD variance `σ_Φ² = k_eff²·S_a·T³/3`) *are now modelled from
-  first principles* for the CAI accelerometer (`src/inertial/quantum_imu.rs`), deriving
-  the white-acceleration PSD `q_va` the classical model consumes — see
+  first principles* for the CAI (cold-atom interferometer) accelerometer (`src/inertial/quantum_imu.rs`), deriving
+  the white-acceleration PSD (power spectral density) `q_va` the classical model consumes — see
   [`QUANTUM.md`](QUANTUM.md);
 - the **Coriolis** systematic (`coriolis_phase` / `coriolis_accel_bias`, the
-  `2·v⊥·Ω` cross-coupling) and the **AC-Stark / light-shift** systematic
+  `2·v⊥·Ω` cross-coupling) and the **AC-Stark (AC: alternating-current) / light-shift** systematic
   (`ac_stark_phase`, which cancels under a symmetric two-photon detuning) *are now
   modelled and unit-tested* in `src/inertial/quantum_imu.rs`;
 - still **not** modelled: **laser-phase noise** and clock-side first-principles
   physics;
-- no 3-axis mechanisation (the inertial model is 1-DOF — see the IMU note in the
+- no 3-axis mechanisation (the inertial model is 1-DOF — see the IMU (inertial measurement unit) note in the
   README and [`VALIDATION.md`](VALIDATION.md)).
 
 Completing the quantum-physics layer (laser-phase noise, and clock-side
@@ -53,7 +53,7 @@ Parameter tables mix maturity levels; treat them accordingly:
 
 | Sensor | Source figure | Maturity |
 |--------|---------------|----------|
-| CSAC (e.g. SA.45s) | datasheet σ_y(1 s) ≈ 3e-10 | **flight-qualified** (flown, incl. GPS-adjacent use) |
+| CSAC (e.g. SA.45s) | datasheet σ_y(1 s) ≈ 3e-10 | **flight-qualified** (flown, incl. GPS-adjacent (GPS: Global Positioning System) use) |
 | Strontium optical-lattice clock | σ_y(1 s) goal ≈ 1e-15 (arXiv:1503.08457) | **ground-lab only** — no strontium optical clock has flown |
 | Cold-atom accelerometer | published lab Allan figures | **ground-lab / sounding-rocket** |
 
@@ -62,8 +62,8 @@ clock exists; the README and result provenance say so explicitly.
 
 ## Benchmark: ACES/PHARAO on the ISS (operational since April 2025)
 
-The ESA **ACES/PHARAO** payload — a laser-cooled caesium clock plus an active hydrogen
-maser, operating on the ISS since April 2025 — is the current operational on-orbit
+The ESA (European Space Agency) **ACES/PHARAO** payload — a laser-cooled caesium clock plus an active hydrogen
+maser, operating on the ISS (International Space Station) since April 2025 — is the current operational on-orbit
 clock-stability benchmark (target fractional stability of order 1e-16 after a few days
 of integration). Kshana's optical-clock model represents a *more aggressive* ground-lab
 goal than ACES's flown caesium/maser performance; when comparing Kshana's optical

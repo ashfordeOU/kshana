@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Result schema — reading a Kshana `*.result.json`
 
-Every run writes a versioned, self-describing JSON artifact next to the scenario.
+Every run writes a versioned, self-describing JSON (JavaScript Object Notation) artifact next to the scenario.
 This page is the hand-written reader's guide to the interchange envelope and to the
 **clock and orbit** result shapes: each field's **unit**, where it is computed in the
 source, and how to read it. The canonical type is `RunResult` in
@@ -54,14 +54,14 @@ by design and are read as the raw `payload` JSON value.
 |-----|-------------|---------|--------|
 | `schema_version` | string | Result schema version (independent of engine version). | `report.rs` |
 | `engine_version` | string | Crate version (`Cargo.toml`) that produced the file. | `report.rs` |
-| `scenario_hash` | hex string | SHA-256 over the canonical scenario JSON — the run is reproducible from `scenario + seed + engine_version`. | `report.rs:hash_scenario` |
-| `seed` | u64 | RNG seed for the quantum run (classical uses `seed + 0x9e3779b97f4a7c15`). | `run.rs` |
+| `scenario_hash` | hex string | SHA-256 (SHA: Secure Hash Algorithm) over the canonical scenario JSON — the run is reproducible from `scenario + seed + engine_version`. | `report.rs:hash_scenario` |
+| `seed` | u64 | RNG (random-number generator) seed for the quantum run (classical uses `seed + 0x9e3779b97f4a7c15`). | `run.rs` |
 | `threshold_ns` | nanoseconds | The timing spec: an error within ±`threshold_ns` is "in spec". | scenario |
 | `quantum` | object (`ClockRun`) | The quantum sensor's run (see below). | `report.rs` |
 | `classical` | object (`ClockRun`) | The classical sensor's run, for comparison. | `report.rs` |
 | `units` | object | Per-field unit/provenance map for this document, keyed by field path. See §Units and provenance below. | `field_schema.rs:units_block` |
 | `figure_tiers` | object | The verification tier of each reported figure of merit, and always the document's last key. `figures` lists one entry per figure present: `path` (e.g. `quantum.fom.timing_p95_ns`), `tier` (`VALIDATED` = checked against an independent external oracle, `MODELLED` = first-principles, internally tested), `requirement` (the verification-matrix row the tier is read from) and `applicable`. `applicable` is `false`, with a `reason`, for `security` in every scenario with no attack configured: the bound stays in `fom.security`, but it does not answer a question the scenario asks. `untiered` lists any figure no matrix row owns (the `hybrid` and `fusion` position figures), instead of giving it a tier. Emitted by the `clock` (single run and Monte Carlo ensemble), `orbit`, `hybrid` and `fusion` kinds. Carries no numbers. | `fom_label.rs:figure_tiers` |
-| `geometry` | object, optional | Orbit-pack geometry summary: `samples_total`, `samples_with_fix`, `sigma_uere_m` (m, the modelled per-satellite range-error budget), `best_pdop` / `median_pdop` (dimensionless) and `best_position_sigma_m` / `median_position_sigma_m` (m, PDOP × `sigma_uere_m`). **Orbit pack only.** | `orbit.rs` |
+| `geometry` | object, optional | Orbit-pack geometry summary: `samples_total`, `samples_with_fix`, `sigma_uere_m` (m, the modelled per-satellite range-error budget), `best_pdop` / `median_pdop` (dimensionless) and `best_position_sigma_m` / `median_position_sigma_m` (m, PDOP (position dilution of precision) × `sigma_uere_m`). **Orbit pack only.** | `orbit.rs` |
 | `eci_track` | array of `[x, y, z]` km, optional | Propagated Earth-centred-inertial track of the user spacecraft, one entry per sampled time. **Orbit pack only**; omitted otherwise. Output-only — not hashed. | `report.rs` |
 | `meta` | object (`StudyMeta`), optional | Additive report metadata (study title, generation stamp, author, disclaimer). Omitted when absent, so a meta-less run is byte-identical to legacy output. Output-only — not hashed. | `report.rs` |
 
@@ -75,19 +75,19 @@ by design and are read as the raw `payload` JSON value.
 | `spec.params` | object | The raw model parameters used. |
 | `series` | array of `{t, error_ns, gnss}` | Per-step time series: `t` seconds, `error_ns` the timing error in **nanoseconds**, `gnss` one of `nominal`/`degraded`/`denied`. |
 | `fom` | object (`FoMScores`) | The scored figures of merit (below). |
-| `adev_curve` | array of `{tau_s, adev, n_samples, noise, edf, ci_lo, ci_hi}` | Overlapping Allan deviation: `tau_s` the averaging time (s), `adev` the dimensionless fractional-frequency stability σ_y(τ), `n_samples` the overlap count behind that point, `noise` the power-law type identified from the MDEV slope (e.g. `WhiteFm`), `edf` the noise-type-specific effective degrees of freedom, and `ci_lo`/`ci_hi` the χ²-based 95% confidence band on `adev` at that τ. Computed in `allan.rs:overlapping_adev_curve`. |
-| `filter_health` | object, optional | Kalman filter-consistency assessment (NIS/NEES against their χ² bands). `None` for runs that do not assess it. | `filter_health.rs` |
+| `adev_curve` | array of `{tau_s, adev, n_samples, noise, edf, ci_lo, ci_hi}` | Overlapping Allan deviation: `tau_s` the averaging time (s), `adev` the dimensionless fractional-frequency stability σ_y(τ), `n_samples` the overlap count behind that point, `noise` the power-law type identified from the MDEV (modified Allan deviation) slope (e.g. `WhiteFm`), `edf` the noise-type-specific effective degrees of freedom, and `ci_lo`/`ci_hi` the χ²-based 95% confidence band on `adev` at that τ. Computed in `allan.rs:overlapping_adev_curve`. |
+| `filter_health` | object, optional | Kalman filter-consistency assessment (NIS/NEES (NIS: normalised innovation squared; NEES: normalised estimation error squared) against their χ² bands). `None` for runs that do not assess it. | `filter_health.rs` |
 
 ## `FoMScores` (the `fom` object)
 
 | Field | Unit | Meaning | Source | Caveat |
 |-------|------|---------|--------|--------|
-| `timing_rms_ns` | ns | RMS clock-phase (timing) error over the outage. | `fom.rs:score` | a **timing** metric, not position |
+| `timing_rms_ns` | ns | RMS (root mean square) clock-phase (timing) error over the outage. | `fom.rs:score` | a **timing** metric, not position |
 | `timing_p95_ns` | ns | 95th-percentile timing error over the outage. | `fom.rs:score` | |
 | `holdover_s` | s | Worst-case (shortest) in-spec coast across outage segments. | `fom.rs:worst_case_holdover` | **grid-bounded** — a lower bound at the time-step resolution |
 | `resilience_slope_ns_per_s` | ns/s | Least-squares growth rate of \|error\| during the outage. | `fom.rs:score` | |
 | `availability` | fraction [0,1] | Fraction of the whole run with an in-spec solution. | `fom.rs:score` | |
-| `integrity` | fraction [0,1] or null | **Filter self-consistency**: fraction of outage samples whose true error stays inside the Kalman k-σ bound. | `run.rs` | **NOT** HPL/VPL/RAIM integrity — see [`INTEGRITY.md`](INTEGRITY.md) |
+| `integrity` | fraction [0,1] or null | **Filter self-consistency**: fraction of outage samples whose true error stays inside the Kalman k-σ bound. | `run.rs` | **NOT** HPL/VPL/RAIM (HPL: horizontal protection level; VPL: vertical protection level; RAIM: receiver autonomous integrity monitoring) integrity — see [`INTEGRITY.md`](INTEGRITY.md) |
 | `security` | fraction [0,1] or null | **Analytic spoof-detectability bound** from clock stability. | `run.rs` + `security.rs` | meaningful only with a configured attack, so the clock and orbit packs (which configure none) mark it `applicable: false` in `figure_tiers` and print it as `n/a (no attack)` in the summary; **not** a multi-satellite RAIM detector |
 
 ## What "good" looks like
@@ -105,7 +105,7 @@ The `inertial`, `hybrid`, `fusion`, and `spoof` scenario kinds emit related but
 distinct artifacts:
 
 - **inertial / hybrid**: position-domain FoMs in **metres** (`pos_rms_m`, `pos_p95_m`)
-  — single-axis (1-DOF), single-seed (see [`CAPABILITY.md`](CAPABILITY.md)).
+  — single-axis (1-DOF (DOF: degree of freedom)), single-seed (see [`CAPABILITY.md`](CAPABILITY.md)).
 - **spoof**: per-step spoof offset vs the clock's detection bound, plus whether the
   spoof reached the spec before detection (`src/spoof.rs`).
 

@@ -29,7 +29,7 @@ independently of Kshana for both x86_64 and aarch64.
 
 - The **aarch64 Linux** wheel cross-builds under QEMU inside the manylinux
   container, and a best-effort `arm-install-smoke` job (`runs-on: ubuntu-24.04-arm`, its steps
-  marked `continue-on-error` so it can never hold a release) `pip install`s it on a native ARM64
+  marked `continue-on-error` so it can never hold a release) `pip install`s it on a native ARM64 (64-bit Arm processor architecture)
   runner `--only-binary :all:` (no source build) and imports the module — proving the wheel is
   installable on real ARM hardware.
 - The **macOS arm64** wheel builds natively on the Apple-silicon `macos-latest` runner.

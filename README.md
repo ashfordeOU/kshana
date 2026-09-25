@@ -8,7 +8,7 @@
 
 <p align="center">
   <strong>क्षण</strong> — Sanskrit for <em>the precise instant</em>, the smallest measure of time.<br>
-  Open, reproducible PNT (positioning, navigation, and timing) resilience simulation with published quantum-sensor performance models.
+  Open, reproducible PNT (positioning, navigation, and timing) resilience evidence — critical-infrastructure timing and holdover first, every capability labelled VALIDATED or MODELLED.
 </p>
 
 <p align="center">
@@ -32,29 +32,62 @@
 
 <p align="center">
   <strong>Kshana</strong> (क्षण, Sanskrit: <em>"the precise instant"</em>) is an open, reproducible
-  <strong>PNT-resilience simulator with quantum-sensor performance models</strong> —
-  positioning, navigation, and timing. It compares quantum and classical sensors mostly
-  from published Allan/noise-budget coefficients, with a first-principles cold-atom-
-  interferometer accelerometer layer (Mach–Zehnder phase, quantum projection noise,
-  contrast decay, and vibration coupling) that <em>derives</em> the noise coefficient
-  rather than looking it up; it is not yet a full quantum-physics simulator (Coriolis and
-  light-shift systematics remain coefficient-level — see
-  <a href="docs/QUANTUM.md">docs/QUANTUM.md</a> and
-  <a href="docs/QUANTUM-MODELS.md">docs/QUANTUM-MODELS.md</a>).
+  <strong>PNT-resilience evidence engine</strong> — positioning, navigation, and timing. It answers
+  one question in numbers you can defend: <em>when GNSS (global navigation satellite system) signals
+  are jammed, spoofed or lost, how long does a system keep time and position inside its budget, and
+  which clock or sensor buys the most margin?</em> Every capability is labelled
+  <strong>VALIDATED</strong> (checked against an independent external oracle) or
+  <strong>MODELLED</strong> (internally consistent, not externally checked) in a machine-checked
+  matrix, so a reviewer can see which figures rest on outside evidence.
 </p>
 
-It quantifies, in hard and reproducible numbers, what quantum clocks, quantum
-inertial sensors, and optical time-transfer buy a navigation system over classical
-PNT — scored against the operational figures of merit that matter for resilient
-navigation. Every result is reproducible from `scenario + seed + engine version`,
-and every sensor parameter is traceable to a published source — consolidated in one
-citable table in [`docs/PROVENANCE.md`](docs/PROVENANCE.md).
+**Timing and holdover for critical infrastructure come first**, because that is the
+best-validated domain. The frequency-stability estimators a holdover answer rests on —
+Allan deviation (ADEV), modified Allan deviation (MDEV), time deviation (TDEV) and maximum
+time interval error (MTIE) — are VALIDATED against Stable32, the independent `allantools`
+library and a real measured caesium clock, and the holdover coast-variance inversion
+(how long a free-running clock stays inside a time-error budget) is VALIDATED against SciPy.
+The per-clock-class noise floors that dominate a real holdover figure stay MODELLED: supply
+measured floors for a number you intend to defend. The `telecom-timing` scenario kind
+applies this to telecom networks — it reports MTIE and TDEV, checks them against the masks of
+the International Telecommunication Union Telecommunication Standardization Sector (ITU-T)
+for a primary reference time clock (G.8272), an enhanced primary reference time clock
+(G.8272.1), a telecom boundary clock (G.8273.2) and the network limits at reference point C
+(G.8271.1), and reports how long a holdover stays inside each time-error budget; see
+[`docs/TELECOM-TIMING.md`](docs/TELECOM-TIMING.md).
 
-<p align="center"><em><strong>Validated, not asserted.</strong> &nbsp;666/666 AIAA SGP4 vectors to <strong>4.12&nbsp;mm</strong> · Cowell force model <strong>0.08&nbsp;m</strong> vs Orekit&nbsp;12.2 · Galileo <strong>0.61&nbsp;m</strong> / Swarm-A <strong>0.10&nbsp;m</strong> vs real ESA precise ephemerides · GCRS→ITRS bit-for-bit vs SOFA/ERFA · ML metrics exact vs scikit-learn · <strong>65 of 171</strong> capabilities validated against independent external oracles; 102 honestly labelled Modelled.</em></p>
+**What makes it different is not the physics — that is standard — but the evidence
+discipline.** It is open source, so anyone can rerun and read it; every result is
+reproducible bit for bit from `scenario + seed + engine version`; every sensor parameter is
+traceable to a published source, consolidated in one citable table in
+[`docs/PROVENANCE.md`](docs/PROVENANCE.md); and every capability carries its
+VALIDATED / MODELLED / PARTNER provenance tier (PARTNER: owned by a hardware partner),
+guarded in CI (continuous integration) so that no capability can be labelled VALIDATED
+without an independent external oracle behind it.
+
+**Quantum is a neutral trade method, not the headline.** Kshana compares quantum and
+classical clocks and inertial sensors on the same scenario with the same code, as a
+**neutral quantum-vs-classical trade method whose results are labelled MODELLED**. Most
+sensor inputs are published Allan/noise-budget coefficients; a first-principles
+cold-atom-interferometer accelerometer layer (Mach–Zehnder phase, quantum projection noise,
+contrast decay, vibration coupling) *derives* its noise coefficient rather than looking it
+up. It is not a full quantum-physics simulator — see [`docs/QUANTUM.md`](docs/QUANTUM.md)
+and [`docs/QUANTUM-MODELS.md`](docs/QUANTUM-MODELS.md). Lunar / cislunar and deep-space
+navigation, orbit propagation and integrity monitoring are maintained capabilities of the
+same engine, each carrying its own tier in the matrix.
+
+**What it is not.** Kshana is not a radio-frequency (RF) signal simulator or a
+hardware-in-the-loop test rig, not a GNSS receiver, and not a replacement for
+MATLAB/Simulink, STK (Systems Tool Kit) or Orekit. It sits next to them: it reads and
+writes their exchange formats, and its force model is cross-checked against Orekit rather
+than offered in its place. See [What it is / is not](#what-it-is--is-not) and
+[`docs/POSITIONING.md`](docs/POSITIONING.md).
+
+<p align="center"><em><strong>Validated, not asserted.</strong> &nbsp;666/666 AIAA (American Institute of Aeronautics and Astronautics) SGP4 (Simplified General Perturbations 4) vectors to <strong>4.12&nbsp;mm</strong> · Cowell force model <strong>0.08&nbsp;m</strong> vs Orekit&nbsp;12.2 · Galileo <strong>0.61&nbsp;m</strong> / Swarm-A <strong>0.10&nbsp;m</strong> vs real ESA (European Space Agency) precise ephemerides · GCRS→ITRS (GCRS: Geocentric Celestial Reference System; ITRS: International Terrestrial Reference System) bit-for-bit vs SOFA/ERFA (SOFA: Standards of Fundamental Astronomy; ERFA: Essential Routines for Fundamental Astronomy) · ML (machine learning) metrics exact vs scikit-learn · <strong>65 of 171</strong> capabilities validated against independent external oracles; 102 honestly labelled Modelled.</em></p>
 
 <p align="center">
   <img src="docs/assets/diagrams/system-overview.png" alt="Kshana system overview: five front doors (command-line interface, Python wheel, WebAssembly playground, Model Context Protocol server, JetBrains plugin) converge on a single api::run_toml dispatch over 62 scenario kinds, through the engine (shared core, sensor packs and astrodynamics, integrity/fusion/lunar/deep-space/resilience), to a reproducible result.json + chart.svg" width="840">
-  <br><sub>One engine, five front doors · <a href="docs/assets/diagrams/system-overview.svg">SVG</a></sub>
+  <br><sub>One engine, five front doors · <a href="docs/assets/diagrams/system-overview.svg">SVG (Scalable Vector Graphics)</a></sub>
 </p>
 
 ### Validated against external oracles — every row CI-gated
@@ -124,9 +157,10 @@ support, integration, and proprietary extensions available.*
 > **New to this?** In plain terms: GPS-style (Global Positioning System) satellite signals tell things *where they
 > are* and *what time it is*. When those signals are lost (jammed, blocked, or out of
 > view in space), a system has to keep going on its own onboard clock and motion
-> sensors — and they slowly drift. "Quantum" clocks and sensors drift far more slowly.
-> Kshana measures, in honest numbers, **how much longer a quantum-equipped system can
-> coast** before it exceeds its accuracy limits. New readers should start with the
+> sensors — and they slowly drift. A telecom network, a power grid or a trading venue
+> that takes its time from satellites has to ride through that loss on its own clock.
+> Kshana measures, in honest numbers, **how long a system can coast** before it exceeds
+> its accuracy limits, and how much a better clock or sensor — classical or quantum — buys. New readers should start with the
 > [plain-language primer](docs/CONCEPTS.md) and the [glossary](docs/GLOSSARY.md).
 
 ---
@@ -144,10 +178,13 @@ support, integration, and proprietary extensions available.*
 ## Why
 
 Resilient PNT depends on holding position and time when GNSS is denied or jammed.
-Quantum sensors promise far slower drift during those outages. There is no good
-**open** tool to quantify that advantage honestly and reproducibly — so primes,
-agencies, and labs each rebuild private one-offs. Kshana aims to be the neutral,
-citable reference for exactly this question.
+Critical infrastructure — telecom, power, finance — takes its time from GNSS and has to
+size holdover: how long a local clock can free-run before its time error breaks the
+budget. That sizing is usually done with vendor calculators or in-house spreadsheets
+whose assumptions are hard to inspect. Kshana's aim is to make the same answer **open,
+reproducible and provenance-labelled**, so it can be rerun and challenged by an assessor
+rather than taken on trust. The same machinery gives a neutral trade between classical
+and quantum clocks and inertial sensors, with those results labelled MODELLED.
 
 The engine knows nothing about "quantum" vs "classical": each sensor is an
 **error model** plugged into a common pipeline, so a quantum and a classical
@@ -160,21 +197,24 @@ noise realizations.
 geometry, inertial navigation, GNSS/INS fusion, integrity, clocks, and timing. It
 runs a scenario (often a GNSS outage), evolves calibrated sensor error models
 through the appropriate estimator, and scores the result against the operational
-figures of merit — emitting a reproducible JSON result and an SVG chart, from a
+figures of merit — emitting a reproducible JSON (JavaScript Object Notation) result and an SVG chart, from a
 Rust library, a command-line interface (CLI), a Python extension, an in-browser WebAssembly module, a
 **Model Context Protocol (MCP) server** for AI agents, or a **JetBrains IDE (integrated
 development environment) plugin**.
 
 **It is not:** flight hardware, a quantum-payload design, a full GNSS signal
-receiver, or a certified avionics product. Quantum-hardware fidelity comes from
+receiver, a radio-frequency (RF) signal simulator or hardware-in-the-loop rig, or a
+certified avionics product — and it does not replace MATLAB/Simulink, STK (Systems Tool
+Kit) or Orekit; it sits next to them and exchanges files with them. Quantum-hardware fidelity comes from
 published error models, not from this tool. The granular maturity of each
 capability is documented in [`docs/CAPABILITY.md`](docs/CAPABILITY.md).
 
 **It is not (yet):** a *full* atom-interferometry physics engine (most quantum sensors
 consume published Allan/noise-budget coefficients; the CAI (cold-atom interferometer) accelerometer has a
 first-principles layer — Mach–Zehnder phase, projection noise, contrast decay, and
-vibration coupling — but Coriolis and light-shift systematics remain a **P2** (roadmap
-phase 2, the quantum physics layer) roadmap layer, see [`ROADMAP.md`](ROADMAP.md) and [`docs/QUANTUM-MODELS.md`](docs/QUANTUM-MODELS.md));
+vibration coupling, plus Coriolis and light-shift systematics — but wavefront systematics and
+fringe-ambiguity resolution remain a **P2** (roadmap phase 2, the quantum physics layer)
+roadmap layer, see [`ROADMAP.md`](ROADMAP.md) and [`docs/QUANTUM-MODELS.md`](docs/QUANTUM-MODELS.md));
 a full GNSS *signal-acquisition* receiver (it now solves a single-point **PVT** (position, velocity and time) position
 fix from real RINEX (Receiver Independent Exchange Format) code observations — validated
 on real IGS (International GNSS Service) data — but does **not**
@@ -202,9 +242,9 @@ The full domain-by-domain detail follows; for a per-capability maturity ledger s
 | Domain | Capability |
 |--------|------------|
 | **Orbit & geometry** | SGP4/SDP4 propagation (validated to 4.12 mm against all 666 AIAA 2006-6753 vectors); real two-line elements (a committed, date-stamped Celestrak `gps-ops` snapshot) or synthetic Walker-delta constellations whose mean elements realise the `i:T/P/F` formula to under 1 km over a 24 h propagation; multi-constellation visibility, **dilution of precision — geometric, position, horizontal, vertical and time (GDOP/PDOP/HDOP/VDOP/TDOP), validated to 1e-6 against gnss_lib_py 1.0.4, Stanford NAV Lab** (Navigation and Autonomous Vehicles Laboratory), and GNSS availability; a gradient-free constellation-design optimiser, streets-of-coverage minimum-satellite sizing, a multi-constellation comparison tool, and a Walker **design sweep** that tabulates coverage / PDOP / revisit-time over a planes × satellites grid and reports the Pareto-optimal designs. |
-| **Numerical propagator** | A **Cowell** numerical propagator (`src/propagator.rs`) complementing the analytic SGP4/SDP4 path, with a hierarchical **seven-perturbation** force model (`src/forces.rs`): two-body + the full **J2–J6 zonal** field (the Earth-oblateness zonal harmonic coefficients J2 to J6; the exact analytic gradient of its disturbing potential), an optional **EGM2008 tesseral spherical-harmonic geopotential to degree/order 70** (Earth Gravitational Model 2008; `src/gravity_sh.rs`; real NGA — US National Geospatial-Intelligence Agency — coefficients, Holmes–Featherstone normalized-Legendre recurrence, cross-checked against the closed-form Legendre functions and the analytic ∇V identity), **epoch-driven Sun and Moon third-body** gravity (a built-in low-precision ephemeris, no DE/SPK — Development Ephemeris / SPICE Spacecraft and Planet Kernel — kernel), **solar-radiation pressure** (cannonball model with a conical umbra+penumbra shadow), **atmospheric drag** (Vallado piecewise-exponential density, co-rotating atmosphere), the **post-Newtonian Schwarzschild relativistic correction**, and the **Lense–Thirring frame-dragging** term (IERS — International Earth Rotation and Reference Systems Service — Conventions 2010 §10, linear in Earth's angular momentum, ~1–2 orders below Schwarzschild) — driven by a choice of two adaptive integrators (RK4 — fourth-order Runge–Kutta — step-doubling or the **Dormand–Prince RK5(4)** embedded pair). **Validated against Orekit 12.2** (CS GROUP, Apache-2.0) `NumericalPropagator`/`DormandPrince853` — 275 epochs across LEO (low Earth orbit) + GTO (geostationary transfer orbit), the conservative-force tiers agreeing to a worst-case **\|Δr\| 0.08 m over 24 h** (`tests/numerical_cowell_propagator_reference.rs`); the atmospheric-drag tier is characterised separately (≈ 333 m / 24 h) and the absolute Sun/Moon-ephemeris and density inputs stay honestly **Modelled**. Additional internal evidence (not external validation): the unperturbed orbit is checked against the exact universal-variable Kepler solution to **sub-metre over 24 h**, energy/angular-momentum conserve to ~1e-9, and each perturbation matches a hand-derived closed-form signature. |
+| **Numerical propagator** | A **Cowell** numerical propagator (`src/propagator.rs`) complementing the analytic SGP4/SDP4 path, with a hierarchical **seven-perturbation** force model (`src/forces.rs`): two-body + the full **J2–J6 zonal** field (the Earth-oblateness zonal harmonic coefficients J2 to J6; the exact analytic gradient of its disturbing potential), an optional **EGM2008 tesseral spherical-harmonic geopotential to degree/order 70** (Earth Gravitational Model 2008; `src/gravity_sh.rs`; real NGA — US (United States) National Geospatial-Intelligence Agency — coefficients, Holmes–Featherstone normalized-Legendre recurrence, cross-checked against the closed-form Legendre functions and the analytic ∇V identity), **epoch-driven Sun and Moon third-body** gravity (a built-in low-precision ephemeris, no DE/SPK — Development Ephemeris / SPICE Spacecraft and Planet Kernel — kernel), **solar-radiation pressure** (cannonball model with a conical umbra+penumbra shadow), **atmospheric drag** (Vallado piecewise-exponential density, co-rotating atmosphere), the **post-Newtonian Schwarzschild relativistic correction**, and the **Lense–Thirring frame-dragging** term (IERS — International Earth Rotation and Reference Systems Service — Conventions 2010 §10, linear in Earth's angular momentum, ~1–2 orders below Schwarzschild) — driven by a choice of two adaptive integrators (RK4 — fourth-order Runge–Kutta — step-doubling or the **Dormand–Prince RK5(4)** embedded pair). **Validated against Orekit 12.2** (CS GROUP, Apache-2.0) `NumericalPropagator`/`DormandPrince853` — 275 epochs across LEO (low Earth orbit) + GTO (geostationary transfer orbit), the conservative-force tiers agreeing to a worst-case **\|Δr\| 0.08 m over 24 h** (`tests/numerical_cowell_propagator_reference.rs`); the atmospheric-drag tier is characterised separately (≈ 333 m / 24 h) and the absolute Sun/Moon-ephemeris and density inputs stay honestly **Modelled**. Additional internal evidence (not external validation): the unperturbed orbit is checked against the exact universal-variable Kepler solution to **sub-metre over 24 h**, energy/angular-momentum conserve to ~1e-9, and each perturbation matches a hand-derived closed-form signature. |
 | **Maneuvers & trajectory design** | Impulsive ΔV nodes with 6×6 covariance propagation (ECI — Earth-centred inertial — / LVLH — local vertical, local horizontal — execution-error frames), finite-burn integration checked against the closed-form **Tsiolkovsky** rocket equation to < 0.01 %, an **Izzo-2015** single-revolution **Lambert** solver, an exact universal-variable **Kepler** propagator, and a **porkchop** (launch × arrival) C3 (launch energy) / arrival-V∞ sweep emitted as a JSON contour grid — the performance-simulation layer above GMAT/Orekit, with every Lambert output round-tripped against two-body truth and the porkchop minimum checked against the analytic Hohmann floor. |
-| **Time systems & reference frames** | IERS leap-second **UTC / TAI / TT / UT1** scales (Coordinated Universal Time, International Atomic Time, Terrestrial Time, and the Earth-rotation time Universal Time 1), a Julian-date API, the IAU-2000 (International Astronomical Union) **Earth Rotation Angle** (ERA), GMST-based (Greenwich Mean Sidereal Time) **TEME ↔ ECEF** (true equator, mean equinox ↔ Earth-centred, Earth-fixed) with WGS-84 (World Geodetic System 1984) geodetic frames, IAU 2006 precession (Fukushima–Williams), full **IAU 2000A/2000B nutation**, IERS **polar motion**, and the equinox-free **CIO-based IAU 2006/2000A GCRS↔ITRS** reduction (CIO = Celestial Intermediate Origin) — all validated **bit-for-bit** against the SOFA/ERFA vectors, and **independently cross-checked against ANISE** (the pure-Rust NAIF/SPICE reimplementation; NAIF = the Navigation and Ancillary Information Facility of NASA, the US National Aeronautics and Space Administration): kshana's GCRS→ITRS vs ANISE's ITRF93 (International Terrestrial Reference Frame 1993) from JPL's `earth_latest_high_prec.bpc`, the same IERS Earth-orientation parameters fed to both, agree to **≤ 0.86 m on the ground / ≤ 3.6 m at GNSS orbit** (max 0.028″) across eight epochs 2020–2023. |
+| **Time systems & reference frames** | IERS leap-second **UTC / TAI / TT / UT1** scales (Coordinated Universal Time, International Atomic Time, Terrestrial Time, and the Earth-rotation time Universal Time 1), a Julian-date API (application programming interface), the IAU-2000 (International Astronomical Union) **Earth Rotation Angle** (ERA), GMST-based (Greenwich Mean Sidereal Time) **TEME ↔ ECEF** (true equator, mean equinox ↔ Earth-centred, Earth-fixed) with WGS-84 (World Geodetic System 1984) geodetic frames, IAU 2006 precession (Fukushima–Williams), full **IAU 2000A/2000B nutation**, IERS **polar motion**, and the equinox-free **CIO-based IAU 2006/2000A GCRS↔ITRS** reduction (CIO = Celestial Intermediate Origin) — all validated **bit-for-bit** against the SOFA/ERFA vectors, and **independently cross-checked against ANISE** (the pure-Rust NAIF/SPICE reimplementation; NAIF = the Navigation and Ancillary Information Facility of NASA, the US National Aeronautics and Space Administration): kshana's GCRS→ITRS vs ANISE's ITRF93 (International Terrestrial Reference Frame 1993) from JPL's `earth_latest_high_prec.bpc`, the same IERS Earth-orientation parameters fed to both, agree to **≤ 0.86 m on the ground / ≤ 3.6 m at GNSS orbit** (max 0.028″) across eight epochs 2020–2023. |
 | **Inertial** | Three-axis strapdown INS — quaternion attitude, WGS-84 NED (north-east-down) mechanization, coning/sculling compensation, and a deterministic IMU error model (scale-factor, misalignment, g-sensitivity, quantization, drift); a **first-principles cold-atom-interferometer accelerometer** (Mach–Zehnder phase, quantum projection noise, contrast decay, vibration coupling) that *derives* the velocity-random-walk coefficient; and a sequential-importance-resampling **particle filter** for map-aided (terrain-/gravity-referenced) GPS-denied navigation. |
 | **Alt-PNT (GPS-denied)** | A cold-atom **gravimeter measurement model** whose white-noise floor (`σ = ASD/√τ`, ASD = amplitude spectral density) is derived from the CAI accelerometer physics; a low-degree, fully-normalised **spherical-harmonic gravity-anomaly field** (checked against the closed-form Legendre functions and a hand-derived single-term anomaly) plus synthetic mascons; the **gravity-functional synthesis kernel** (`gravity_sh::gravity_magnitude` / `gravity_disturbance_mgal`) — the "map reader" a gravity-aided navigator matches against — is validated against the **GRS80 normal-gravity standard** (Geodetic Reference System 1980), reproducing the closed-form Somigliana normal gravity and the published γ_e / γ_p to **3.5e-12** and producing a physically-bounded disturbance map from the real ICGEM (International Centre for Global Earth Models) **EGM2008** field (RMS — root mean square — ≈ 26 mGal, max ≈ 89 mGal at d/o 70; `tests/icgem_gravity_reference.rs`); and a **gravity-map-matching particle filter** that recovers a GPS-denied track from the anomaly sequence it flies through. It extends to **terrain-referenced navigation** (TERCOM/SITAN — terrain contour matching / Sandia Inertial Terrain-Aided Navigation — against an SRTM (Shuttle Radar Topography Mission) `.hgt` DEM (digital elevation model), `src/altpnt/terrain.rs`), an **IGRF-14 geomagnetic main field** (14th-generation International Geomagnetic Reference Field) to degree/order 13 (`src/igrf.rs`, checked against the tilted-dipole closed form and ∇V finite differences), and a **combined gravity + magnetic + terrain** navigator that fuses all three scalar channels through one particle filter (information is additive — no channel makes the fix worse). A **60-minute GPS-denied benchmark** (a ~700 km / one-hour outage where the inertial solution drifts to ~70 km) is recovered to **~145 m (< 500 m)** by a hierarchical coarse-to-fine matcher — the ESA NAVISP (Navigation Innovation and Support Programme) *Quantum Wayfarer* target. |
 | **Fusion** | Loosely-coupled 15-state GNSS/INS error-state EKF (extended Kalman filter) with closed-loop feedback (the `gnss-ins` pack); a **tightly-coupled** pseudorange update that keeps correcting with fewer than four satellites; a coupled **clock + position** filter; a general **unscented (sigma-point) Kalman** estimator for strongly nonlinear measurements; a tightly-coupled GNSS/INS **UKF navigator** (pseudorange + Doppler) whose force-model orbital coast is self-consistency-checked to **0.77 m RMS** over a 30-minute curving LEO pass that includes a 120-second GNSS outage (a filter-consistency figure, not an external-oracle validation — this navigator stays MODELLED); and a full **17-state tightly-coupled GNSS/INS UKF** (position, velocity, attitude error, accelerometer and gyro biases, clock bias and drift) whose **quantum-CAI dead-reckoning** coasts a 120-second outage on the cold-atom accelerometer's derived velocity-random-walk. |
@@ -213,7 +253,7 @@ The full domain-by-domain detail follows; for a per-capability maturity ledger s
 | **Lunar & cislunar** | An Earth–Moon **circular restricted three-body (CR3BP)** propagator in the rotating frame — conserved Jacobi constant and all five Lagrange points (`src/cr3bp.rs`) — now with a **6×6 state-transition matrix (STM) and a single-shooting differential corrector** (`cr3bp_jacobian`, `propagate_state_stm`, `differential_correct_halo`) that produces genuinely periodic **halo / NRHO** (near-rectilinear halo orbit) orbits: the STM is validated against finite differences, corrected orbits close to machine precision, and seeding the published apolune state reproduces the **L2 southern 9:2 NRHO** (L2 = the second Earth–Moon Lagrange point; the Gateway orbit) at period ≈ 6.57 d / perilune ≈ 3,250 km, consistent with the published ≈ 6.56 d / ≈ 3,370 km (a CR3BP — circular, Sun-free — solution, **not** validated against a real LANS (Lunar Augmented Navigation Service)/Gateway ephemeris; the selenocentric MCI/MCMF (Moon-centred inertial / Moon-centred, Moon-fixed) transform of the corrected orbit is a follow-on); plus **LunaNet / LNIS** (LunaNet Interoperability Specification) cislunar PNT geometry (MCI↔MCMF reduction, selenographic coordinates) with a **lunar south-pole ARAIM** pass that honestly surfaces the integrity gap: a ~30 m σ_URE (user range error) drives the protection level well above a 50 m alert limit (`src/lunar.rs`, `scenarios/lunanet-araim.toml`); and a **surface-beacon DOP augmentation** (`src/lunar_beacon.rs`) showing how a few surveyed surface ranging beacons supply the low-elevation, wide-azimuth line-of-sight rows an all-overhead orbit-only set lacks — collapsing the ill-conditioned south-polar GDOP and, via a root-sum-square error budget, the realized position accuracy in metres (reusing the gnss_lib_py-validated DOP kernel and the airless-horizon visibility closed form; the dilution-of-precision analysis is written up in [arXiv:2607.06212](https://arxiv.org/abs/2607.06212)). |
 | **Lunar PNT suite** | A modelled lunar/cislunar navigation suite layered on the CR3BP core, each a runnable `kind`: **Lunar Coordinate Time** (`lunar-time-offset`, `src/lunar_time.rs` — the secular LTC/TCL − TT rate (LTC = Lunar Coordinate Time; TCL = its French form, Temps-Coordonnée Lunaire) from the self-potential difference + kinetic term, reported with the published 56–59 µs/day band); a geodetic **lunar VLBI** (very-long-baseline interferometry) delay observable (`lunar-vlbi`, `src/lunar_vlbi.rs` — an Earth-baseline near-field two-range-difference delay + rate, cross-checked against the same-codebase plane-wave Δ-DOR (delta differential one-way ranging) in the far-field limit, partials finite-difference-verified); a **joint multi-technique OD + clock** batch estimator (`lunar-joint-od-clock`, `src/lunar_combination.rs` — a Gauss–Newton fit fusing VLBI + lunar-local ranges + inter-satellite ranges) carrying a **Fisher-information observability** result: internal ranging alone leaves a six-degree-of-freedom rigid-body **datum defect**, so a surface station's *absolute* position is unobservable until an Earth-frame tie is added — an Earth-baseline **VLBI** delay *restores* observability for a sparse constellation and *sharpens* the Cramér–Rao bound for a rich one, the absolute datum closing at **three** non-collinear Earth stations (the observability result written up in [arXiv:2607.02566](https://arxiv.org/abs/2607.02566)); **reference-frame realisation** (`lunar-frame-realisation`, `src/lunar_frame_realise.rs` — a 7-parameter Helmert datum fit + IAU 2015 WGCCRE orientation tie — WGCCRE = the IAU Working Group on Cartographic Coordinates and Rotational Elements); a **Moonlight/LCNS-class service-volume** analysis (LCNS = Lunar Communications and Navigation Services; `moonlight-service-volume`, `src/lunar_service.rs` — DOP / coverage / availability + a generalised lunar ARAIM HPL/VPL (horizontal/vertical protection level) envelope, reusing the gnss_lib_py-validated DOP kernel and the LunaNet σ_URE≈30 m machinery); **lunar differential PNT** (`lunar-differential-pnt`, `src/lunar_dpnt.rs` — a lunar differential-GNSS / satellite-based-augmentation-system (SBAS) analogue: exact common-mode clock cancellation + first-order spatial decorrelation vs baseline, reusing the DO-229E SBAS protection level — DO-229E being the RTCA (formerly the Radio Technical Commission for Aeronautics) minimum operational performance standard for SBAS receivers); and a **LunaNet/IOAG-aligned interoperability export** (IOAG = Interagency Operations Advisory Group; `lunar-interop-export`, `src/lunar_interop.rs` — CCSDS-OEM (Orbit Ephemeris Message) + lunar-time-scale round-trip in the IAU 2015 lunar body frame, wrapped in the KIF envelope). All **MODELLED** against internal consistency / reference implementations from **illustrative public-source parameters** — **not** validated against real VLBI/Gateway tracking, **not** affiliated with or endorsed by any agency, no TRL (technology readiness level) / heritage claim. |
 | **Deep-space & Mars PNT** | An open **radiometric navigation engine**: iterative light-time + **Shapiro** relativistic delay, two-/one-/three-way **Doppler & range** (Moyer two-leg), coherent transponder turnaround ratios, regenerative/PN (pseudo-noise) ranging (CCSDS 414, the pseudo-noise ranging standard), and **Δ-DOR** plane-of-sky (CCSDS 506, the Delta-DOR standard), with solar-plasma/tropo/iono media; **CCSDS-TDM (503)** tracking-data-message parse + emit; a **reduced-dynamic Square-Root Information Filter** (RTN — radial, transverse, normal — empirical accelerations + a 3-state onboard clock + Mars atmospheric drag) that does **Mars-LMO orbit determination to ≈ 0.2 m** in a synthetic closed loop; a joint **one-way + two-way fusion** estimator; a multi-body dynamics core (`Body{μ, re, zonals, gravity, IAU-pole}`, Mars GMM-3 (Goddard Mars Model 3) gravity, an IAU body-fixed Mars frame, a pluggable `EphemerisProvider` seam, two-part Julian dates + TT↔TDB (Barycentric Dynamical Time)); and the **`mars-pnt`** relay-PNT scenario (a MARCONI areostationary relay constellation) with an end-to-end **GSE performance simulator** (GSE = ground-support equipment) (geometry → link budget → observables → SRIF → covariance). **Simulation-validated** (covariance / closed-loop figures of merit); the Sun-central Mars dynamics are cross-checked against JPL **DE440** (137 m @ 1-day arc, `xval/anise-mars-od`). Real DSN/ESTRACK tracking-data validation is on the roadmap. |
-| **Integrity** | Snapshot and solution-separation (ARAIM-style) RAIM — receiver autonomous integrity monitoring — with horizontal/vertical protection levels (HPL/VPL), fault detection & exclusion, and Stanford integrity diagrams; an explicit integrity-risk-budget **multiple-hypothesis solution separation (MHSS)** protection level, including the **dual-/multi-constellation constellation-wide fault mode** (EU ARAIM / DO-316, the RTCA performance standard for GPS airborne equipment with aircraft-based augmentation), exercised on a real GPS + Galileo snapshot (`scenarios/araim-gps-galileo.toml`). The protection level applies the one-sided **nominal-bias** projection `b_k = Σ_i|s_i|·b_nom` per fault mode and the **integrity** sigma σ_URA (user range accuracy; distinct from the accuracy σ_URE, user range error) from the Integrity Support Message — see [`docs/ARAIM_REFERENCE.md`](docs/ARAIM_REFERENCE.md). The detection kernel (the χ²/non-central-χ²/normal thresholds and K-multipliers) is **externally validated against SciPy** across 171 cases (`tests/raim_reference.rs`); the geometry reuses the gnss_lib_py-validated DOP kernel. The ARAIM MHSS integrity-risk *budget allocation* itself has no published numeric oracle and stays honestly Modelled. |
+| **Integrity** | Snapshot and solution-separation (ARAIM-style) RAIM — receiver autonomous integrity monitoring — with horizontal/vertical protection levels (HPL/VPL), fault detection & exclusion, and Stanford integrity diagrams; an explicit integrity-risk-budget **multiple-hypothesis solution separation (MHSS)** protection level, including the **dual-/multi-constellation constellation-wide fault mode** (EU (European Union) ARAIM / DO-316, the RTCA performance standard for GPS airborne equipment with aircraft-based augmentation), exercised on a real GPS + Galileo snapshot (`scenarios/araim-gps-galileo.toml`). The protection level applies the one-sided **nominal-bias** projection `b_k = Σ_i|s_i|·b_nom` per fault mode and the **integrity** sigma σ_URA (user range accuracy; distinct from the accuracy σ_URE, user range error) from the Integrity Support Message — see [`docs/ARAIM_REFERENCE.md`](docs/ARAIM_REFERENCE.md). The detection kernel (the χ²/non-central-χ²/normal thresholds and K-multipliers) is **externally validated against SciPy** across 171 cases (`tests/raim_reference.rs`); the geometry reuses the gnss_lib_py-validated DOP kernel. The ARAIM MHSS integrity-risk *budget allocation* itself has no published numeric oracle and stays honestly Modelled. |
 | **Augmentation (SBAS)** | **SBAS / WAAS protection levels** (WAAS = the Wide Area Augmentation System) in the DO-229E weighted-least-squares form (precision-approach and en-route K-factors) and the **L1/L5 dual-frequency ionosphere-free** combination (L1 and L5 being two GPS civil signal bands; IS-GPS-705, the GPS interface specification for the L5 signal, γ₁₅ ≈ 1.793) that underpins DO-316 — `src/sbas.rs`. The protection-level algorithm is **externally validated against the RTKLIB SBAS-PL fork** (RTKLIB = the open real-time-kinematic positioning library; PL = protection level) (`zsiki/rtklib_ws` `waasprotlevels()`, Siki & Takács 2017, DO-229D — the previous revision of DO-229 — App. J) run on **real EGNOS data** (European Geostationary Navigation Overlay Service), reproducing its HPL to < 2e-3 m (`tests/sbas_reference.rs`); gLAB (the GNSS Laboratory tool suite) v6.0.0 confirmed the identical convention. |
 | **Clock & timing** | Two-state Kalman holdover (Joseph-form covariance, NIS/NEES — normalised innovation squared / normalised estimation error squared — consistency health); Allan-family stability (ADEV / MDEV / TDEV / HDEV / MTIE — Allan, modified Allan, time and Hadamard deviation, and maximum time interval error) with noise-type-specific confidence intervals and a full **IEEE-1139 five-coefficient power-law fit** (IEEE Std 1139, the Institute of Electrical and Electronics Engineers frequency-and-time metrology definitions) — the estimators are validated on real hardware against **Stable32**: a **real 5071A caesium primary standard vs a hydrogen maser** (556,990 phase samples, 16 averaging factors, OADEV/OHDEV — overlapping Allan/Hadamard deviation — to 1e-3; `tests/cs5071a_reference.rs`) and the **canonical Stable32 PHASE.DAT** regression series (139 averaging factors, OADEV/MDEV/TDEV to 1e-3; `tests/phasedat_reference.rs`); the ADEV/MDEV/TDEV estimators and the telecom **MTIE** wander metric are additionally cross-checked against the **independent allantools 2024.06** library to **< 1e-9** on the NIST SP 1065 series (`tests/mtie_reference.rs`, `tests/mdev_tdev_reference.rs`); geometric corrections (Sagnac, GNSS common-view); and the operational transfer methods — **TWSTFT** (two-way satellite time and frequency transfer) with the BIPM (International Bureau of Weights and Measures) Sagnac closed form, **GNSS common-view**, **PPP** (precise point positioning) ionosphere-free time transfer, a free-space **optical** link with turbulence scintillation, and an inverse-variance **clock-ensemble (paper) timescale** below the best contributing clock. A **GNSS-denied clock-holdover calculator** (`src/holdover.rs`) exposes the closed-form van-Loan coast-error growth as a *holdover-to-threshold* inversion — how long a clock free-runs before its timing error exceeds budget — across representative classical and quantum-clock classes; **modelled** (cross-checked against the multi-step `clock_state` covariance recursion), and honest that for a very stable clock the holdover to a tight threshold is set by the *assumed* long-tau noise floor, not the cited ADEV. A **conditional Timing Protection Level** (`src/tpl.rs`) extends holdover to spoofing: a bound on the *undetected* time error, given an independent cross-check, that composes a k-sigma monitor floor, the van-Loan coast variance over the detection latency, and a CUSUM (cumulative-sum) time-to-alarm. Calibrated on a real recorded spoof (JammerTest 2024) and reproducible via `cargo run --example tpl_jammertest`; **MODELLED** composition (no integrity-risk-per-hour budget), conditional on detection — there is no finite *unconditional* bound. |
 | **GNSS measurement domain** | Forward pseudorange / Doppler synthesis with **Klobuchar** (broadcast) and **IONEX / TEC-grid** (IONosphere map EXchange format / total electron content; measured) ionosphere — including an IONEX file parser, time interpolation between maps, and the thin-shell slant-obliquity mapping — **Saastamoinen + Niell** troposphere, and snapshot RAIM (HPL/VPL). |
@@ -502,11 +542,11 @@ console.log(version(), result.classical.fom.timing_p95_ns);
 ```
 
 The module also exports `summary` (the one-line result string), `table_csv` (the
-scenario's CSV table, or `undefined` for kinds that publish none), `run_all` (all four
+scenario's CSV (comma-separated values) table, or `undefined` for kinds that publish none), `run_all` (all four
 from a single engine run, as a JSON object string — each of the others runs the scenario
 afresh), `list_kinds` /
 `error_kind` (introspection), and `encode_permalink` / `decode_permalink` — the
-shareable-URL codec the playground uses to round-trip a whole scenario through the
+shareable-URL (URL: web address) codec the playground uses to round-trip a whole scenario through the
 address-bar fragment.
 
 ### AI agents (MCP)
@@ -560,7 +600,7 @@ plane-change / opportunities), `reentry` (Allen-Eggers ballistic re-entry corrid
 `passes` (ground-station rise/set pass prediction — AOS/TCA/LOS, max elevation,
 access), and `link-budget` (one-way CCSDS/DSN link equation — FSPL / Eb·N₀ /
 margin / closure); `telecom-timing` (holdover time error, MTIE and TDEV checked
-against International Telecommunication Union (ITU-T) masks); the **lunar-PNT suite** `lunar-vlbi`, `lunar-joint-od-clock`,
+against ITU-T masks); the **lunar-PNT suite** `lunar-vlbi`, `lunar-joint-od-clock`,
 `lunar-frame-realisation`, `moonlight-service-volume`, `lunar-differential-pnt`,
 `lunar-interop-export`; the **Quantum-Enabled PNT demonstrator**
 `quantum-time-transfer`, `quantum-gnss-free-nav`, `quantum-anomaly-detect`; and the
@@ -756,7 +796,7 @@ estimators; the exported result curve is the overlapping ADEV.) Every field, wit
 source pointer, is documented in [`docs/SCHEMA.md`](docs/SCHEMA.md).
 
 **Every chart is self-describing.** The browser playground, the CLI's `*.chart.svg`
-export, and the HTML scorecard all stamp each chart image with a footer reading
+export, and the HTML (HyperText Markup Language) scorecard all stamp each chart image with a footer reading
 `Kshana v<version> · scenario <hash> · kshana.dev`. The `scenario <hash>` is the first
 12 hex characters of the run's **scenario hash** — a SHA-256 (the 256-bit Secure Hash Algorithm) digest over the canonical scenario
 definition (seed, thresholds, model parameters, GNSS windows, …); the integrity and lunar
@@ -1114,7 +1154,7 @@ The **Status** column states the *kind* of evidence, matching the validation lad
 | **MODELLED** | Conditional Timing Protection Level (holdover-limited undetected time error under spoofing) | composition reproduces the multi-step `clock_state` covariance recursion; calibrated on a real recorded spoof | JammerTest 2024 (Zenodo 15911589) scalars + van-Loan / CUSUM closed forms (`examples/tpl_jammertest`) |
 | **MODELLED** | PNT-resilience scoring + decision-instability | 35 hand-derived oracle tests; byte-deterministic study artifact (fixed seed) | DHS RPCF v2.0 mapping + Dirichlet / Kendall-τ / Hill-N2 closed forms — synthetic architectures, not a certification |
 | **MODELLED** | RF-impairment optimism-gap study (scaling laws + leave-one-out predictor) | permutation-null significance; byte-deterministic artifact (5 seeds) | synthetic parameter-grounded corpus — the eval *metrics* are VALIDATED vs scikit-learn (above); the study is MODELLED |
-| CI | Cross-platform reproducibility | bit-identical input + shape goldens on 3 OSes | Linux / macOS / Windows CI matrix, SHA-256 goldens |
+| CI | Cross-platform reproducibility | bit-identical input + shape goldens on 3 OSes (operating systems) | Linux / macOS / Windows CI matrix, SHA-256 goldens |
 | CI | Test coverage | **~96 % line** on `src/` excluding `src/*_data.rs` and `src/main.rs`, gated ≥ 85 % | cargo-tarpaulin (LLVM engine) |
 
 ## FAQ
@@ -1179,7 +1219,11 @@ git-ignored by design.
 
 See [`ROADMAP.md`](ROADMAP.md) for the phased roadmap, [`CHANGELOG.md`](CHANGELOG.md)
 for released history, and [`docs/CAPABILITY.md`](docs/CAPABILITY.md) for the
-per-capability roadmap. The **ITRF-precise frame reduction** is now delivered — the
+per-capability roadmap. The priority order is: **timing and holdover evidence for
+critical infrastructure first** (telecom masks, longer holdover with ageing and flicker
+noise, ingestion of measured clock data); **the neutral quantum-vs-classical trade method
+second** (results labelled MODELLED until a partner's measured data promotes them); and
+**lunar / cislunar and deep-space navigation maintained**, not expanded as the lead. The **ITRF-precise frame reduction** is now delivered — the
 full CIO-based IAU 2006/2000A GCRS↔ITRS chain (polar motion + sub-arcsecond nutation),
 validated bit-for-bit against SOFA/ERFA and independently cross-checked against ANISE
 (pure-Rust SPICE) to ≤ 3.6 m at GNSS orbit. Near-term items include tightly-coupled carrier-phase fusion and surfacing the
@@ -1250,7 +1294,7 @@ afterwards the pipeline checks that each registry really serves the new version
 |---------|---------------|----------|
 | [crates.io](https://crates.io/crates/kshana) | `cargo install kshana` · `kshana = "0.27"` | Rust library + CLI |
 | [crates.io](https://crates.io/crates/kshana-mcp) | `cargo install kshana-mcp` | the MCP server |
-| [PyPI](https://pypi.org/project/kshana/) | `pip install kshana` | abi3 wheels (Linux/macOS/Windows) + sdist (source distribution) |
+| [PyPI (Python Package Index)](https://pypi.org/project/kshana/) | `pip install kshana` | abi3 wheels (Linux/macOS/Windows) + sdist (source distribution) |
 | [npm](https://www.npmjs.com/package/kshana) | `npm install kshana` | WebAssembly module + JS wrapper |
 | [ghcr.io](https://github.com/ashfordeOU/kshana/pkgs/container/kshana-mcp) | `docker run -i ghcr.io/ashfordeou/kshana-mcp` | multi-arch OCI (Open Container Initiative) image — no toolchain needed |
 | official MCP registry | auto-discovered by MCP clients | `io.github.ashfordeOU/kshana-mcp` |

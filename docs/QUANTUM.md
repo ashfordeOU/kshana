@@ -23,10 +23,10 @@ Peters, Chung & Chu 2001), the standard cold-atom accelerometer geometry:
 | Interferometer phase | `Φ = k_eff · a · T²` | Uniform specific force `a` along `k_eff`, pulse separation `T`. The `T²` scaling is the dominant sensitivity lever (microgravity buys long `T`). |
 | Quantum projection noise | `σ_Φ = 1/(C·√N)` | Per shot, fringe contrast `C`, atom number `N` — the shot-noise limit of a two-port population readout. |
 | Per-shot acceleration sensitivity | `σ_a = σ_Φ / (k_eff·T²)` | Phase noise referred to acceleration. |
-| Shot-noise-limited ASD | `n_a = σ_a·√T_c` | Sampling every cycle time `T_c`; units (m/s²)/√Hz. |
-| Velocity-random-walk PSD | `q_va = n_a²` | **The coefficient the classical `AccelModel` consumes** — now *derived*, not supplied. |
+| Shot-noise-limited ASD (amplitude spectral density) | `n_a = σ_a·√T_c` | Sampling every cycle time `T_c`; units (m/s²)/√Hz. |
+| Velocity-random-walk PSD (power spectral density) | `q_va = n_a²` | **The coefficient the classical `AccelModel` consumes** — now *derived*, not supplied. |
 | Contrast decay | `C(t) = C₀·exp(−t/τ_c)` | Decoherence over the interrogation. |
-| Vibration transfer function | `\|H(ω)\| = (4/ω²)·sin²(ωT/2)` | Acceleration→phase response of the ideal three-pulse geometry (Cheinet et al. 2008); DC limit `T²`. |
+| Vibration transfer function | `\|H(ω)\| = (4/ω²)·sin²(ωT/2)` | Acceleration→phase response of the ideal three-pulse geometry (Cheinet et al. 2008); DC (zero-frequency) limit `T²`. |
 | Vibration-limited phase | `σ_Φ² = k_eff²·S_a·T³/3` | Flat acceleration PSD `S_a` along the Raman axis; `∫₀^∞\|H\|²dω = (2π/3)T³`. |
 | Vibration-limited accel | `σ_a = √(S_a/(3T))` | Per shot; note `k_eff` cancels — set only by the platform PSD and interrogation time. |
 | Axis projection | `a_∥ = k̂_eff · a` | First-order coupling is rank-1: only the along-beam component enters the phase. |
@@ -57,10 +57,10 @@ remaining gap is systematics this layer still does not include:
 - **Mach–Zehnder fringe ambiguity** (the phase is periodic; large accelerations alias) —
   **not modelled**; the model returns the wrapped phase, not an unwrapped estimate.
 
-Mapping to the literature: Groves, *Principles of GNSS, Inertial, and Multisensor
-Integrated Navigation Systems* §12.5 (quantum technology); Cheinet et al., *IEEE Trans.
+Mapping to the literature: Groves, *Principles of GNSS (global navigation satellite system), Inertial, and Multisensor
+Integrated Navigation Systems* §12.5 (quantum technology); Cheinet et al., *IEEE (Institute of Electrical and Electronics Engineers) Trans.
 Instrum. Meas.* 57 (2008) for the interferometer sensitivity/transfer function; Freier et
-al., *J. Phys.: Conf. Ser.* 723 (2016) for the mobile-gravimeter error budget; CARIOQA-PMP
+al., *J. Phys.: Conf. Ser.* 723 (2016) for the mobile-gravimeter error budget; CARIOQA-PMP (CARIOQA: Cold Atom Rubidium Interferometer in Orbit for Quantum Accelerometry)
 for the space-accelerometer parameter regime.
 
 ## Status
@@ -92,6 +92,6 @@ vibration/technical-limited rather than at the standard quantum limit.
 
 The remaining follow-ons are wavefront/beam-pointing systematics, fringe-ambiguity
 resolution, a numerically exact reproduction of the CARIOQA-PMP Monte-Carlo and
-Boeing/AOSense GPS-denied flight-test budgets (which need the published platform PSDs and
-per-shot SNR), and a JS playground quantum-vs-classical comparison preset on top of
+Boeing/AOSense GPS-denied (GPS: Global Positioning System) flight-test budgets (which need the published platform PSDs (power spectral densities) and
+per-shot SNR (signal-to-noise ratio)), and a JS (JavaScript) playground quantum-vs-classical comparison preset on top of
 `cai_drift_sweep`.
