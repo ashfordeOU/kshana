@@ -8,7 +8,7 @@
 
 <p align="center">
   <strong>क्षण</strong> — Sanskrit for <em>the precise instant</em>, the smallest measure of time.<br>
-  Open, reproducible PNT (positioning, navigation, and timing) resilience simulation with published quantum-sensor performance models.
+  Open, reproducible PNT (positioning, navigation, and timing) resilience evidence — critical-infrastructure timing and holdover first, every capability labelled VALIDATED or MODELLED.
 </p>
 
 <p align="center">
@@ -32,23 +32,55 @@
 
 <p align="center">
   <strong>Kshana</strong> (क्षण, Sanskrit: <em>"the precise instant"</em>) is an open, reproducible
-  <strong>PNT-resilience simulator with quantum-sensor performance models</strong> —
-  positioning, navigation, and timing. It compares quantum and classical sensors mostly
-  from published Allan/noise-budget coefficients, with a first-principles cold-atom-
-  interferometer accelerometer layer (Mach–Zehnder phase, quantum projection noise,
-  contrast decay, and vibration coupling) that <em>derives</em> the noise coefficient
-  rather than looking it up; it is not yet a full quantum-physics simulator (Coriolis and
-  light-shift systematics remain coefficient-level — see
-  <a href="docs/QUANTUM.md">docs/QUANTUM.md</a> and
-  <a href="docs/QUANTUM-MODELS.md">docs/QUANTUM-MODELS.md</a>).
+  <strong>PNT-resilience evidence engine</strong> — positioning, navigation, and timing. It answers
+  one question in numbers you can defend: <em>when GNSS (global navigation satellite system) signals
+  are jammed, spoofed or lost, how long does a system keep time and position inside its budget, and
+  which clock or sensor buys the most margin?</em> Every capability is labelled
+  <strong>VALIDATED</strong> (checked against an independent external oracle) or
+  <strong>MODELLED</strong> (internally consistent, not externally checked) in a machine-checked
+  matrix, so a reviewer can see which figures rest on outside evidence.
 </p>
 
-It quantifies, in hard and reproducible numbers, what quantum clocks, quantum
-inertial sensors, and optical time-transfer buy a navigation system over classical
-PNT — scored against the operational figures of merit that matter for resilient
-navigation. Every result is reproducible from `scenario + seed + engine version`,
-and every sensor parameter is traceable to a published source — consolidated in one
-citable table in [`docs/PROVENANCE.md`](docs/PROVENANCE.md).
+**Timing and holdover for critical infrastructure come first**, because that is the
+best-validated domain. The frequency-stability estimators a holdover answer rests on —
+Allan deviation (ADEV), modified Allan deviation (MDEV), time deviation (TDEV) and maximum
+time interval error (MTIE) — are VALIDATED against Stable32, the independent `allantools`
+library and a real measured caesium clock, and the holdover coast-variance inversion
+(how long a free-running clock stays inside a time-error budget) is VALIDATED against SciPy.
+The per-clock-class noise floors that dominate a real holdover figure stay MODELLED: supply
+measured floors for a number you intend to defend. The `telecom-timing` scenario kind
+applies this to telecom networks — it reports MTIE and TDEV, checks them against the masks of
+the International Telecommunication Union Telecommunication Standardization Sector (ITU-T)
+for a primary reference time clock (G.8272), an enhanced primary reference time clock
+(G.8272.1) and a telecom boundary clock (G.8273.2), and sizes holdover; see
+[`docs/TELECOM-TIMING.md`](docs/TELECOM-TIMING.md).
+
+**What makes it different is not the physics — that is standard — but the evidence
+discipline.** It is open source, so anyone can rerun and read it; every result is
+reproducible bit for bit from `scenario + seed + engine version`; every sensor parameter is
+traceable to a published source, consolidated in one citable table in
+[`docs/PROVENANCE.md`](docs/PROVENANCE.md); and every capability carries its
+VALIDATED / MODELLED / PARTNER provenance tier (PARTNER: owned by a hardware partner),
+guarded in CI (continuous integration) so that no capability can be labelled VALIDATED
+without an independent external oracle behind it.
+
+**Quantum is a neutral trade method, not the headline.** Kshana compares quantum and
+classical clocks and inertial sensors on the same scenario with the same code, as a
+**neutral quantum-vs-classical trade method whose results are labelled MODELLED**. Most
+sensor inputs are published Allan/noise-budget coefficients; a first-principles
+cold-atom-interferometer accelerometer layer (Mach–Zehnder phase, quantum projection noise,
+contrast decay, vibration coupling) *derives* its noise coefficient rather than looking it
+up. It is not a full quantum-physics simulator — see [`docs/QUANTUM.md`](docs/QUANTUM.md)
+and [`docs/QUANTUM-MODELS.md`](docs/QUANTUM-MODELS.md). Lunar / cislunar and deep-space
+navigation, orbit propagation and integrity monitoring are maintained capabilities of the
+same engine, each carrying its own tier in the matrix.
+
+**What it is not.** Kshana is not a radio-frequency (RF) signal simulator or a
+hardware-in-the-loop test rig, not a GNSS receiver, and not a replacement for
+MATLAB/Simulink, STK (Systems Tool Kit) or Orekit. It sits next to them: it reads and
+writes their exchange formats, and its force model is cross-checked against Orekit rather
+than offered in its place. See [What it is / is not](#what-it-is--is-not) and
+[`docs/POSITIONING.md`](docs/POSITIONING.md).
 
 <p align="center"><em><strong>Validated, not asserted.</strong> &nbsp;666/666 AIAA SGP4 vectors to <strong>4.12&nbsp;mm</strong> · Cowell force model <strong>0.08&nbsp;m</strong> vs Orekit&nbsp;12.2 · Galileo <strong>0.61&nbsp;m</strong> / Swarm-A <strong>0.10&nbsp;m</strong> vs real ESA precise ephemerides · GCRS→ITRS bit-for-bit vs SOFA/ERFA · ML metrics exact vs scikit-learn · <strong>64 of 168</strong> capabilities validated against independent external oracles; 100 honestly labelled Modelled.</em></p>
 
@@ -124,9 +156,10 @@ support, integration, and proprietary extensions available.*
 > **New to this?** In plain terms: GPS-style (Global Positioning System) satellite signals tell things *where they
 > are* and *what time it is*. When those signals are lost (jammed, blocked, or out of
 > view in space), a system has to keep going on its own onboard clock and motion
-> sensors — and they slowly drift. "Quantum" clocks and sensors drift far more slowly.
-> Kshana measures, in honest numbers, **how much longer a quantum-equipped system can
-> coast** before it exceeds its accuracy limits. New readers should start with the
+> sensors — and they slowly drift. A telecom network, a power grid or a trading venue
+> that takes its time from satellites has to ride through that loss on its own clock.
+> Kshana measures, in honest numbers, **how long a system can coast** before it exceeds
+> its accuracy limits, and how much a better clock or sensor — classical or quantum — buys. New readers should start with the
 > [plain-language primer](docs/CONCEPTS.md) and the [glossary](docs/GLOSSARY.md).
 
 ---
@@ -144,10 +177,13 @@ support, integration, and proprietary extensions available.*
 ## Why
 
 Resilient PNT depends on holding position and time when GNSS is denied or jammed.
-Quantum sensors promise far slower drift during those outages. There is no good
-**open** tool to quantify that advantage honestly and reproducibly — so primes,
-agencies, and labs each rebuild private one-offs. Kshana aims to be the neutral,
-citable reference for exactly this question.
+Critical infrastructure — telecom, power, finance — takes its time from GNSS and has to
+size holdover: how long a local clock can free-run before its time error breaks the
+budget. That sizing is usually done with vendor calculators or in-house spreadsheets
+whose assumptions are hard to inspect. Kshana's aim is to make the same answer **open,
+reproducible and provenance-labelled**, so it can be rerun and challenged by an assessor
+rather than taken on trust. The same machinery gives a neutral trade between classical
+and quantum clocks and inertial sensors, with those results labelled MODELLED.
 
 The engine knows nothing about "quantum" vs "classical": each sensor is an
 **error model** plugged into a common pipeline, so a quantum and a classical
@@ -166,15 +202,18 @@ Rust library, a command-line interface (CLI), a Python extension, an in-browser 
 development environment) plugin**.
 
 **It is not:** flight hardware, a quantum-payload design, a full GNSS signal
-receiver, or a certified avionics product. Quantum-hardware fidelity comes from
+receiver, a radio-frequency (RF) signal simulator or hardware-in-the-loop rig, or a
+certified avionics product — and it does not replace MATLAB/Simulink, STK (Systems Tool
+Kit) or Orekit; it sits next to them and exchanges files with them. Quantum-hardware fidelity comes from
 published error models, not from this tool. The granular maturity of each
 capability is documented in [`docs/CAPABILITY.md`](docs/CAPABILITY.md).
 
 **It is not (yet):** a *full* atom-interferometry physics engine (most quantum sensors
 consume published Allan/noise-budget coefficients; the CAI (cold-atom interferometer) accelerometer has a
 first-principles layer — Mach–Zehnder phase, projection noise, contrast decay, and
-vibration coupling — but Coriolis and light-shift systematics remain a **P2** (roadmap
-phase 2, the quantum physics layer) roadmap layer, see [`ROADMAP.md`](ROADMAP.md) and [`docs/QUANTUM-MODELS.md`](docs/QUANTUM-MODELS.md));
+vibration coupling, plus Coriolis and light-shift systematics — but wavefront systematics and
+fringe-ambiguity resolution remain a **P2** (roadmap phase 2, the quantum physics layer)
+roadmap layer, see [`ROADMAP.md`](ROADMAP.md) and [`docs/QUANTUM-MODELS.md`](docs/QUANTUM-MODELS.md));
 a full GNSS *signal-acquisition* receiver (it now solves a single-point **PVT** (position, velocity and time) position
 fix from real RINEX (Receiver Independent Exchange Format) code observations — validated
 on real IGS (International GNSS Service) data — but does **not**
@@ -1170,7 +1209,11 @@ git-ignored by design.
 
 See [`ROADMAP.md`](ROADMAP.md) for the phased roadmap, [`CHANGELOG.md`](CHANGELOG.md)
 for released history, and [`docs/CAPABILITY.md`](docs/CAPABILITY.md) for the
-per-capability roadmap. The **ITRF-precise frame reduction** is now delivered — the
+per-capability roadmap. The priority order is: **timing and holdover evidence for
+critical infrastructure first** (telecom masks, longer holdover with ageing and flicker
+noise, ingestion of measured clock data); **the neutral quantum-vs-classical trade method
+second** (results labelled MODELLED until a partner's measured data promotes them); and
+**lunar / cislunar and deep-space navigation maintained**, not expanded as the lead. The **ITRF-precise frame reduction** is now delivered — the
 full CIO-based IAU 2006/2000A GCRS↔ITRS chain (polar motion + sub-arcsecond nutation),
 validated bit-for-bit against SOFA/ERFA and independently cross-checked against ANISE
 (pure-Rust SPICE) to ≤ 3.6 m at GNSS orbit. Near-term items include tightly-coupled carrier-phase fusion and surfacing the

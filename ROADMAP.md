@@ -4,12 +4,46 @@
 This is the phased, honest roadmap for Kshana. It complements two other sources of
 truth: [`CHANGELOG.md`](CHANGELOG.md) records *released* history, and
 [`docs/CAPABILITY.md`](docs/CAPABILITY.md) tracks the maturity of *each* capability
-(`validated` / `runnable` / `library` / `partial` / `not-modeled`). When those
-disagree with this file, the per-capability table in `docs/CAPABILITY.md` wins.
+(`full` / `partial` / `none`), while
+[`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md) grades the evidence behind
+each one (VALIDATED / MODELLED / PARTNER). When those disagree with this file, the
+per-capability table in `docs/CAPABILITY.md` wins.
 
-Horizons are indicative, not commitments. Kshana is pre-1.0; the public
-scenario/result schema may still change (breaking changes are called out in the
-[`CHANGELOG.md`](CHANGELOG.md)).
+Horizons are indicative, not commitments, and no item below carries a date. Kshana is
+pre-1.0; the public scenario/result schema may still change (breaking changes are called
+out in the [`CHANGELOG.md`](CHANGELOG.md)).
+
+## Priorities
+
+Work is ordered by where the evidence is strongest and where a user needs it, not by the
+size of the code. The phases further down (P1–P3) are the engineering history and backlog;
+this list says what comes first.
+
+1. **Timing and holdover evidence for critical infrastructure — first.** This is the
+   best-validated domain: the stability estimators (Allan deviation (ADEV), modified
+   Allan deviation (MDEV), time deviation (TDEV), maximum time interval error (MTIE)) and
+   the holdover coast-variance inversion are VALIDATED against external oracles. Next:
+   - answer telecom users in their own units — MTIE and TDEV checked against the
+     International Telecommunication Union Telecommunication Standardization Sector
+     (ITU-T) masks, starting with the `telecom-timing` kind
+     ([`docs/TELECOM-TIMING.md`](docs/TELECOM-TIMING.md));
+   - a longer reference holdover scenario that includes ageing and flicker noise, next to
+     the existing pinned two-hour example (which stays unchanged);
+   - ingestion of measured clock data (phase or time-interval-error logs) so a study can
+     run on the user's own clock rather than a representative one;
+   - a figure-by-figure VALIDATED / MODELLED label in the run output, not only in the
+     matrix;
+   - a data partner (a timing laboratory, test house or clock vendor) to promote the
+     per-clock-class floors from MODELLED to VALIDATED.
+2. **The neutral quantum-vs-classical trade method — second.** Quantum and classical
+   clocks and inertial sensors stay comparable on the same scenario, with results
+   labelled MODELLED. The route to stronger evidence is a partner's measured
+   Allan-deviation data through the `quantum-trade` kind, not more modelled physics.
+3. **Lunar / cislunar and deep-space navigation — maintained.** These capabilities stay
+   supported, tested and tiered in the matrix. New work there is driven by a concrete
+   user or a published result, and they are not the lead of the public description.
+4. **First-minute experience on every surface** — every registry quickstart and the
+   browser playground should give a first result without fetching extra files.
 
 ## Shipped (on `main`)
 
@@ -172,8 +206,10 @@ physics so error budgets can be *derived*, not just *supplied*:
   `|H(ω)| = (4/ω²)sin²(ωT/2)` and the white-PSD phase variance `σ_Φ² = k_eff²·S_a·T³/3`.
   *(Delivered — `src/inertial/quantum_imu.rs`; the dominant real-device term, so error
   budgets now span the shot-noise floor and the vibration-limited regime above it.)*
-- **Laser-phase noise** and remaining sensor systematics (Coriolis/rotation, light shift,
-  wavefront). *(Still to do.)*
+- **Coriolis/rotation and AC-Stark light-shift systematics.** *(Delivered —
+  `coriolis_phase` / `ac_stark_phase` in `src/inertial/quantum_imu.rs`.)*
+- **Laser-phase noise** and the remaining systematics (wavefront, fringe-ambiguity
+  resolution). *(Still to do.)*
 - Two-part JD-backed long-horizon timing; carrier-phase + explicit receiver-clock
   state in tight coupling; a trajectory library beyond the single deterministic path.
 
@@ -193,8 +229,10 @@ welcome collaboration: see [Support & professional services](README.md#support--
   quantifies the integrity gap against a 50 m alert limit. `src/cr3bp.rs` adds the
   Earth–Moon **CR3BP** (rotating-frame dynamics, RK4, Jacobi constant, Lagrange
   points — the three-body core a real NRHO needs). The differential-corrected 9:2
-  NRHO initial conditions, the DE/ephemeris model, the LANS signal-in-space error
-  budget, and a TOML scenario for the runner remain.)*
+  NRHO initial conditions are wired in and the south-pole pass runs as the
+  `lunar-integrity` scenario kind; a DE-grade ephemeris in the core, the de-normalised
+  selenocentric transform of the corrected orbit and family continuation remain. Lunar
+  work is maintained rather than expanded — see [Priorities](#priorities).)*
 - A numerical propagator: the adaptive integrator core (`src/integrator.rs`, RK4 step-doubling
   **and** the Dormand–Prince RK5(4) embedded pair `integrate_dopri`) plus a hierarchical force
   model — the two-body gravity, the analytic
