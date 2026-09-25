@@ -32,8 +32,13 @@ export function reportFilename(meta) {
   return `kshana-report${ver}${hash}.html`;
 }
 
+/// What a figure the run marks `applicable: false` shows instead of its value.
+export const NOT_APPLICABLE = "not applicable (no attack configured)";
+
 // Compact, human number for the FoM table (plain mid-range, exponential extremes).
-function fmtVal(x) {
+// The Rust report table (src/api.rs, fom_value) uses the same thresholds, so a small
+// figure such as a p95 of 1.2e-4 ns is never shown as 0.
+export function fmtVal(x) {
   if (typeof x !== "number" || !isFinite(x)) return "—";
   if (x !== 0 && (Math.abs(x) >= 1e4 || Math.abs(x) < 1e-2)) return x.toExponential(2);
   return String(Math.round(x * 1000) / 1000);
@@ -65,7 +70,9 @@ export function fomTier(metric) {
 
 /// Build a complete `<!doctype html>` report string from `payload`:
 ///   { engineVersion, scenarioHash, toml, summaryText, fomRows, svgs, generatedIso }
-/// where fomRows = [{clockLabel, label, unit, value}] and svgs = [{title, svg}].
+/// where fomRows = [{clockLabel, label, unit, value, tier?, applicable?}] (tier and
+/// applicable as buildFomRows reads them from the run's `figure_tiers`) and
+/// svgs = [{title, svg}].
 /// Every scenario-derived string (toml, summaryText, fomRows text) is escaped;
 /// the svgs are inlined as raw markup (OUR renderers). Carries a print stylesheet
 /// and a provenance line `Kshana v<ver> · scenario <hash> · generated <iso>`.
@@ -80,9 +87,10 @@ export function buildReportHtml(payload) {
   const rowsHtml = fomRows
     .map((r) => {
       const metric = r.unit ? `${escapeHtml(r.label)} (${escapeHtml(r.unit)})` : escapeHtml(r.label);
-      const tier = fomTier(r.metric);
+      const tier = r.tier || fomTier(r.metric);
       const tierCell = tier ? `<span class="tier">${escapeHtml(tier)}</span>` : "—";
-      return `<tr><td>${escapeHtml(r.clockLabel)}</td><td>${metric}</td><td class="num">${escapeHtml(fmtVal(r.value))}</td><td>${tierCell}</td></tr>`;
+      const shown = r.applicable === false ? NOT_APPLICABLE : fmtVal(r.value);
+      return `<tr><td>${escapeHtml(r.clockLabel)}</td><td>${metric}</td><td class="num">${escapeHtml(shown)}</td><td>${tierCell}</td></tr>`;
     })
     .join("\n");
 

@@ -48,7 +48,7 @@ orbit scenario.
 The deterministic run (seed = 17) prints:
 
 ```
-scenario 4c51512369a6 | 345/361 samples GNSS-nominal | best PDOP 1.07 pos 1.07m | quantum holdover 0s p95 0.0ns integrity 1.000 security 0.978 | classical holdover 0s p95 6.7ns integrity 1.000 security 0.000
+scenario 4c51512369a6 | 345/361 samples GNSS-nominal | best PDOP 1.07 pos 1.07m | quantum holdover 0s p95 2.59e-5ns integrity 1.000 security n/a (no attack) | classical holdover 0s p95 6.7ns integrity 1.000 security n/a (no attack)
 ```
 
 Field by field:
@@ -67,7 +67,8 @@ Field by field:
   position-sigma would be ~3.2 m. (See the pitfall at the end.)
 - The clock figures (`holdover`, `p95`, `integrity`, `security`) come along because
   the orbit pack also carries a clock through the pass; they’re the focus of
-  [Tutorial 2](02-clock-holdover.md), not this one.
+  [Tutorial 2](02-clock-holdover.md), not this one. (`security` reads
+  `n/a (no attack)` because no attack is configured.)
 
 The geometry block in the JSON has the underlying numbers:
 

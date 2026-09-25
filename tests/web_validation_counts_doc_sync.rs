@@ -135,3 +135,52 @@ fn the_social_card_image_states_the_matrixs_counts() {
          is not the card in the repository. Re-render with `python3 tools/gen_og_card.py`."
     );
 }
+
+/// The capability explorer's headline tally — the count a visitor reads first in the
+/// Capabilities section.
+///
+/// It used to be built in `web/app.js` from the curated card list alone: "46 capability
+/// cards … 17 backed by an external oracle", beside READMEs that say 64 of 168. Both
+/// were true of their own population, and together they read as the project giving two
+/// answers to one question. The tally now comes from `web/counts.mjs` over
+/// `web/data/verification-matrix.json` — generated from the matrix and pinned to it by
+/// `verification_artifacts_doc_sync.rs`, the same matrix the README counts are pinned to
+/// — with the cards named after it as the summary layer they are.
+///
+/// This test pins the wiring from the Rust side; `web/counts.test.mjs` (its own CI step)
+/// pins the arithmetic and cross-checks the README and the page descriptions.
+#[test]
+fn the_explorer_tally_is_the_matrixs_not_the_card_layers() {
+    let s = summarize(&verification_matrix());
+    let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR"));
+    let app = std::fs::read_to_string(root.join("web/app.js")).expect("web/app.js");
+    for needle in [
+        "from \"./counts.mjs\"",
+        "explorerTally(matrix, cardCounts)",
+        "buildExplorer(data.capabilities, ledger)",
+    ] {
+        assert!(
+            app.contains(needle),
+            "web/app.js must build the explorer tally from the ledger through counts.mjs; \
+             missing {needle:?}"
+        );
+    }
+    assert!(
+        !app.contains("backed by an external oracle`"),
+        "web/app.js still carries a card-only 'backed by an external oracle' headline"
+    );
+
+    let ledger: serde_json::Value = serde_json::from_str(
+        &std::fs::read_to_string(root.join("web/data/verification-matrix.json"))
+            .expect("web/data/verification-matrix.json"),
+    )
+    .expect("ledger is JSON");
+    assert_eq!(ledger["summary"]["total"], s.total);
+    assert_eq!(ledger["summary"]["validated"], s.validated);
+
+    let ci = std::fs::read_to_string(root.join(".github/workflows/ci.yml")).expect("ci.yml");
+    assert!(
+        ci.contains("run: node web/counts.test.mjs"),
+        "web/counts.test.mjs must have its own CI step"
+    );
+}

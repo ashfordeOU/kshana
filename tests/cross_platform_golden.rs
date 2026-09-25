@@ -26,9 +26,14 @@
 //!               nesting, leaf value types, array lengths). Held in `tests/golden/*.sha256`.
 //! PIN-EXCLUDES: every numeric VALUE. A model change that moves a number without moving a
 //!               key, a type or an array length does not trip these; that is what
-//!               `tests/golden.rs` and `tests/sgp4_verification.rs` are for. A
-//!               cross-cutting change that adds a field to every scenario document IS in
-//!               scope here, because it changes the shape.
+//!               `tests/golden.rs` and `tests/sgp4_verification.rs` are for. Also the
+//!               trailing `figure_tiers` block of the clock, orbit, hybrid and fusion
+//!               documents: it is removed by `kshana::api::without_figure_tiers` (which
+//!               refuses anything but a well-formed LAST key) before the shape is hashed,
+//!               and the committed hashes are the ones frozen before the block existed,
+//!               so they prove the rest of the shape did not move. `TIERED` pins which
+//!               scenarios carry it. Any other cross-cutting change that adds a field to
+//!               every scenario document IS in scope here, because it changes the shape.
 
 use std::fs;
 use std::path::Path;
@@ -50,6 +55,17 @@ const SCENARIOS: &[&str] = &[
     "jamming-demo",
     "integrity-raim",
     "araim-gps-galileo",
+];
+
+/// The scenarios whose document carries the trailing `figure_tiers` block, which is
+/// stripped before hashing. A listed scenario that stops emitting it, or an unlisted one
+/// that starts, fails the test, so the exclusion cannot silently widen.
+const TIERED: &[&str] = &[
+    "clock-holdover",
+    "clock-ensemble",
+    "orbit-sgp4-gps",
+    "orbit-molniya",
+    "hybrid-pnt",
 ];
 
 /// Append a cross-platform-invariant SHAPE descriptor of `v` to `out`: object keys
@@ -118,7 +134,23 @@ fn bundled_scenarios_match_cross_platform_goldens() {
         let src = fs::read_to_string(format!("scenarios/{name}.toml"))
             .unwrap_or_else(|e| panic!("read scenarios/{name}.toml: {e}"));
         let out = kshana::api::run_toml(&src).unwrap_or_else(|e| panic!("run {name}: {e}"));
-        let got = invariant_hash(&out.json);
+        let json = match kshana::api::without_figure_tiers(&out.json) {
+            Some(stripped) => {
+                assert!(
+                    TIERED.contains(name),
+                    "{name} emits a figure_tiers block but is not listed in TIERED"
+                );
+                stripped
+            }
+            None => {
+                assert!(
+                    !TIERED.contains(name),
+                    "{name} is listed in TIERED but emits no trailing figure_tiers block"
+                );
+                out.json
+            }
+        };
+        let got = invariant_hash(&json);
         let golden = dir.join(format!("{name}.sha256"));
 
         if regen {
