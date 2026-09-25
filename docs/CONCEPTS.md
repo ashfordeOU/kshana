@@ -9,7 +9,7 @@ precise relations for specialists. For word-by-word definitions see the
 
 Almost everything that needs to know *where it is* or *what time it is* — phones,
 aircraft, ships, satellites, power grids, financial systems — leans on signals from
-navigation satellites (GPS and its siblings, collectively **GNSS**). Those signals are
+navigation satellites (GPS (Global Positioning System) and its siblings, collectively **GNSS** (global navigation satellite system)). Those signals are
 weak and easily lost: jammed, blocked, or simply out of view in space. When that
 happens, a system has to **keep going on its own** using onboard sensors — a clock to
 hold time, and inertial sensors to track motion. The question Kshana answers is simple
@@ -21,7 +21,7 @@ Onboard sensors drift. A clock slowly loses time; an inertial sensor slowly lose
 of position. **Quantum** clocks and inertial sensors drift *far more slowly* than the
 classical parts in use today — so a vehicle could coast through a much longer GNSS
 outage while staying within its accuracy limits. That advantage is the entire promise of
-quantum PNT. But "far more slowly" needs to be turned into **numbers**: how many extra
+quantum PNT (positioning, navigation and timing). But "far more slowly" needs to be turned into **numbers**: how many extra
 minutes of holdover? how many fewer metres of drift? Those numbers decide whether a
 quantum payload is worth its cost, mass, and power.
 
@@ -49,7 +49,7 @@ is the difference in the published physics — nothing is hand-tuned to favour o
 |------|--------|-----------------|
 | Clock holdover | atomic clock | How long does *time* stay accurate without GNSS? |
 | Inertial dead-reckoning | accelerometer (+ gyro) | How fast does *position* drift without GNSS? |
-| Time transfer | optical / RF link | How precisely can two craft share time? |
+| Time transfer | optical / RF (radio-frequency) link | How precisely can two craft share time? |
 | Hybrid fusion | all of the above | Does the *combined* PNT solution hold? |
 
 The hybrid pack is the punchline: a navigation solution needs *both* good time *and*
@@ -80,7 +80,7 @@ The relations Kshana implements and tests (full detail and tolerances in
 - **Clock holdover.** Two-state phase/frequency model with white FM (PSD `q_wf`),
   random-walk FM (`q_rw`), flicker FM (a sum of log-spaced Ornstein–Uhlenbeck processes
   calibrated to a flat Allan floor), and deterministic aging. Validated by overlapping
-  Allan deviation against the published `σ_y(τ)` (Riley, NIST SP 1065).
+  Allan deviation against the published `σ_y(τ)` (Riley, NIST (National Institute of Standards and Technology) SP (Special Publication) 1065).
 - **Inertial dead-reckoning.** Residual accelerometer bias → `½·b·T²`; velocity random
   walk → `σ_x(T) = √(S_a·T³/3)`; optional gyro bias and angular random walk produce a
   tilt error that couples gravity (`g·θ`) into horizontal acceleration (Groves).

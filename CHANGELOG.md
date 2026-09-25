@@ -366,6 +366,47 @@ breaking changes are called out explicitly.
     arithmetic and cross-checks README.md and the page's descriptions;
     `tests/web_validation_counts_doc_sync.rs` pins the wiring from the Rust side.
 
+- **The public description now leads with timing and holdover, the best-validated
+  domain.** The README opening and `docs/POSITIONING.md` present Kshana as an open,
+  reproducible, provenance-labelled PNT-resilience evidence engine: critical-infrastructure
+  timing and holdover first (the Allan, modified Allan, time-deviation and maximum time
+  interval error estimators and the holdover coast-variance inversion are the VALIDATED
+  rows behind it), quantum as a neutral quantum-vs-classical trade method whose results
+  are labelled MODELLED, and lunar / cislunar and deep-space navigation as maintained
+  capabilities rather than the headline. Both pages now say what Kshana is not — not a
+  radio-frequency signal simulator or hardware-in-the-loop rig, not a replacement for
+  MATLAB/Simulink, STK or Orekit — and point to the new `telecom-timing` kind and
+  `docs/TELECOM-TIMING.md`. The old line "there is no good open tool" is gone: a search
+  that finds nothing is not evidence that nothing exists. `ROADMAP.md` gains an undated
+  priority order (timing first, the quantum trade second, lunar maintained) and drops
+  three stale items (Coriolis and light-shift systematics, the NRHO initial conditions
+  and the lunar scenario, all shipped); the README's "Coriolis and light-shift remain
+  roadmap" line is corrected the same way.
+
+- **`docs/CAPABILITY.md` stopped underclaiming.** The Earth-fixed frames row said
+  "none" while the matrix grades GCRS→ITRS VALIDATED; it is now "full", and the core
+  frames row records the ANISE cross-check as delivered. Guided mode was listed as
+  roadmap; the playground has shipped guided sliders and a guided tour. A sweep against
+  `src/verification.rs` corrected five more rows that predated their validations: the
+  Cowell force model and batch/sequential orbit determination against Orekit 12.2,
+  ground-station passes against Orekit's elevation detector, the dilution-of-precision
+  kernel against gnss_lib_py, and OEM import against the independent `oem` parser; the
+  verification-and-validation row now names the guards that check every cited test
+  exists.
+
+- **The glossary explains what a result file says.** `docs/GLOSSARY.md` gains
+  plain-language entries for the output terms (holdover, p95, integrity, the security
+  score, PDOP, `sigma_y`, `q_wf`), the telecom timing terms (time error, max|TE|, cTE,
+  dTE, MTIE, TDEV, PRTC, ePRTC, T-BC, T-TSC, OCXO, CSAC) and the three evidence tiers
+  (VALIDATED, MODELLED, PARTNER).
+
+- **Abbreviations are spelled out at first use in every hand-written public doc.** The
+  README and 24 files under `docs/` had several hundred abbreviations used before, or
+  without, their expansion; each is now expanded where it first appears in that file.
+  The three generated files (`docs/VERIFICATION-MATRIX.md`, `docs/MODELLED-RATIONALE.md`,
+  `docs/SCENARIOS.md`) are left alone: they are written from `src/verification.rs` and
+  `api::list_scenario_kinds()`, so their wording has to change at the source.
+
 - **Line coverage has a measurement of record.** `docs/COVERAGE.md` records 95.63 %
   (37,697 of 39,419 lines) from the CI `coverage` job on `b1d350d`, and
   `tests/coverage_figure_doc_sync.rs` pins the five public "~96%" surfaces to it — the

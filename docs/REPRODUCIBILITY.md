@@ -14,20 +14,20 @@ stream keyed by the scenario `seed`, drawn in a fixed order. Consequences:
 
 | Property | Guaranteed | Enforced by |
 |---|---|---|
-| Same scenario, same machine → byte-identical `result.json` | **Yes** | `scripts/check-reproducible.sh` (runs the reference scenario twice, compares the SHA-256) |
+| Same scenario, same machine → byte-identical `result.json` | **Yes** | `scripts/check-reproducible.sh` (runs the reference scenario twice, compares the SHA-256 (SHA: Secure Hash Algorithm)) |
 | Same scenario → identical figures of merit field-by-field | **Yes, per platform** | `tests/golden.rs` pins every FoM for the four reference scenarios |
 | Scenario input hash (`scenario_hash`) is platform-independent | **Yes** | content-addressed SHA-256 of the canonical scenario, pinned in `tests/golden.rs` |
-| Input fingerprint + output **shape** identical across OS | **Yes** | `tests/cross_platform_golden.rs` pins an exact SHA-256 per scenario in `tests/golden/`, checked on the 3-OS CI matrix |
+| Input fingerprint + output **shape** identical across OS (operating system) | **Yes** | `tests/cross_platform_golden.rs` pins an exact SHA-256 per scenario in `tests/golden/`, checked on the 3-OS CI (continuous integration) matrix |
 | Output **values** agree across OS (ubuntu/macOS/Windows) | **Yes, to 1e-6** | the `reproducibility-matrix` CI job runs `golden.rs` (1e-6), `sgp4_verification.rs` (2e-5 km), and `determinism.rs` on all three OS |
 | Same toolchain everywhere | **Yes** | `rust-toolchain.toml` pins the channel; `scripts/check-toolchain.sh` fails the build on drift; CI and release pin the same version |
-| Same dependency set | **Yes** | `Cargo.lock` is committed and `cargo metadata --locked` is used for the SBOM |
+| Same dependency set | **Yes** | `Cargo.lock` is committed and `cargo metadata --locked` is used for the SBOM (software bill of materials) |
 
 ## The cross-platform caveat (and how goldens handle it)
 
 The numerical results are **bit-identical on a given platform** but may differ
 in the last few units in the last place (ULP) **between** platforms. The cause
 is the platform math library: `sqrt`, `ln`, `exp` and friends are not required
-by IEEE-754 to be correctly rounded, so Linux glibc, macOS, and Windows can
+by IEEE-754 (IEEE: Institute of Electrical and Electronics Engineers) to be correctly rounded, so Linux glibc, macOS, and Windows can
 each return a different last bit. Over a long run these ~1e-16 differences
 accumulate to perhaps ~1e-12 relative.
 
@@ -54,7 +54,7 @@ builds on a different OS. Instead:
   (`cross_platform_golden`, `golden`, `determinism`, `sgp4_verification`) on
   **ubuntu-latest, macos-latest, and windows-latest**, so cross-platform
   reproducibility is asserted on every push — the shape/input goldens exactly,
-  the numerics to 1e-6, and the SGP4 states to 2e-5 km — rather than relying on a
+  the numerics to 1e-6, and the SGP4 (Simplified General Perturbations 4) states to 2e-5 km — rather than relying on a
   single OS.
 
 If you need to regenerate the pinned numbers (e.g. after an intentional model
@@ -71,7 +71,7 @@ through normal and build dependencies only. Dev-dependencies (test-only crates
 such as `sgp4`) are excluded because no artifact contains them.
 
 The graph is the union of the feature sets the shipped artifacts are built with:
-the default build (library and CLI), `--features python` (the PyPI wheel, whose
+the default build (library and CLI (command-line interface)), `--features python` (the PyPI (Python Package Index) wheel, whose
 `pyo3` chain is its foreign-function boundary) and `--features wasm` (the npm
 package, which carries this same SBOM inside its tarball). Platform-conditional
 dependencies for every target are included, since the wheels ship for several
@@ -91,7 +91,7 @@ wheels and inside the npm package.
 
 ## Build provenance
 
-The release workflow produces a SLSA build-provenance attestation
+The release workflow produces a SLSA (Supply-chain Levels for Software Artifacts) build-provenance attestation
 (`actions/attest-build-provenance`) covering both the release binary and the
 SBOM. A consumer can verify, with `gh attestation verify`, that the artifacts
 were built by this repository's release workflow from this source — closing the
