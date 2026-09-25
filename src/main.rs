@@ -3,6 +3,8 @@ use std::path::PathBuf;
 use std::process::ExitCode;
 use std::time::{SystemTime, UNIX_EPOCH};
 
+mod bundled_scenarios;
+
 /// The one usage text. Both the no-argument path and `--help` print this, so the two
 /// cannot drift apart (they were two separate copies before, one of them a comment).
 /// `.github/workflows/release.yml` greps the first line on the no-argument path, so
@@ -11,6 +13,7 @@ const USAGE: &str = "usage: kshana <scenario.toml> [--study-name <s>] [--eop <fi
    or: kshana --study <suite.toml>
    or: kshana --validate <scenario.toml>
    or: kshana kinds [--json]
+   or: kshana example [<name>]
    or: kshana --help | --version";
 
 /// Format the current system time as a UTC ISO-8601 second-precision stamp
@@ -54,6 +57,11 @@ fn main() -> ExitCode {
     // literally named `kinds` can no longer be run by that bare name; `./kinds` can.
     if args.get(1).map(String::as_str) == Some("kinds") {
         return print_kinds(&args[2..]);
+    }
+    // `kshana example [<name>]` is terminal for the same reason: a registry install has
+    // no scenarios/ directory, so this is how its user gets a scenario to run.
+    if args.get(1).map(String::as_str) == Some("example") {
+        return print_example(&args[2..]);
     }
     let mut positional: Option<String> = None;
     let mut export_sp3_path: Option<PathBuf> = None;
@@ -161,7 +169,8 @@ fn main() -> ExitCode {
             }
             other if positional.is_none() => positional = Some(other.to_string()),
             other => {
-                eprintln!("error: unexpected argument '{other}'");
+                eprintln!("error: unexpected argument '{other}'; one scenario file per run");
+                eprintln!("{USAGE}");
                 return ExitCode::from(2);
             }
         }
@@ -252,6 +261,13 @@ fn main() -> ExitCode {
         Ok(s) => s,
         Err(e) => {
             eprintln!("error: cannot read {}: {e}", path.display());
+            // A registry install has no scenarios/ directory; say where one comes from.
+            if e.kind() == std::io::ErrorKind::NotFound {
+                eprintln!(
+                    "hint: `kshana example` lists the bundled reference scenarios; \
+                     `kshana example clock-holdover > clock-holdover.toml` writes one"
+                );
+            }
             return ExitCode::FAILURE;
         }
     };
@@ -443,6 +459,54 @@ fn print_kinds(rest: &[String]) -> ExitCode {
         [other, ..] => {
             eprintln!(
                 "error: unexpected argument '{other}' after `kinds`; only --json is accepted"
+            );
+            ExitCode::from(2)
+        }
+    }
+}
+
+/// `kshana example [<name>]`: print a bundled reference scenario to stdout, or, with no
+/// name, list the bundled names one per line.
+///
+/// Every quickstart needs a scenario file, and a registry install ships none, so
+/// `kshana example clock-holdover > clock-holdover.toml` is the first command a new user
+/// types. The listing goes to stdout and its explanatory lines to stderr, so
+/// `kshana example | while read n; do …` sees names only.
+fn print_example(rest: &[String]) -> ExitCode {
+    match rest {
+        [] => {
+            eprintln!(
+                "Bundled reference scenarios ({}). Write one to a file and run it:\n  \
+                 kshana example clock-holdover > clock-holdover.toml\n  \
+                 kshana clock-holdover.toml",
+                bundled_scenarios::BUNDLED.len()
+            );
+            for (name, _) in bundled_scenarios::BUNDLED {
+                println!("{name}");
+            }
+            for (name, _) in bundled_scenarios::REPO_ONLY {
+                eprintln!("(not bundled: {name} — run `kshana example {name}` for why)");
+            }
+            ExitCode::SUCCESS
+        }
+        [name] => {
+            if let Some(toml) = bundled_scenarios::get(name) {
+                print!("{toml}");
+                return ExitCode::SUCCESS;
+            }
+            if let Some(why) = bundled_scenarios::repo_only_reason(name) {
+                eprintln!("error: '{name}' is not bundled: it {why}");
+                return ExitCode::from(2);
+            }
+            eprintln!(
+                "error: no bundled scenario named '{name}'; `kshana example` lists the {} that are",
+                bundled_scenarios::BUNDLED.len()
+            );
+            ExitCode::from(2)
+        }
+        [_, extra, ..] => {
+            eprintln!(
+                "error: unexpected argument '{extra}' after `example <name>`; it takes one name"
             );
             ExitCode::from(2)
         }

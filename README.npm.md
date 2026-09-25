@@ -10,7 +10,7 @@
 
 <p align="center">
   <strong>क्षण</strong> — Sanskrit for <em>the precise instant</em>, the smallest measure of time.<br>
-  Open, reproducible PNT-resilience simulation, compiled to WebAssembly — the whole engine, in the browser.
+  Open, reproducible PNT (positioning, navigation and timing) resilience simulation, compiled to WebAssembly — the whole engine, in the browser.
 </p>
 
 <p align="center">
@@ -25,7 +25,7 @@
 **Kshana** is an open, reproducible **PNT-resilience simulator with quantum-sensor
 performance models** — PNT being positioning, navigation, and timing. This package is the Rust
 engine compiled to **WebAssembly**: it runs entirely client-side — pass a scenario TOML
-(Tom's Obvious, Minimal Language) string in, get a reproducible JSON result and an SVG chart back, with nothing uploaded.
+(Tom's Obvious, Minimal Language) string in, get a reproducible JSON (JavaScript Object Notation) result and an SVG (Scalable Vector Graphics) chart back, with nothing uploaded.
 Every result is reproducible from `scenario + seed + engine version`, and every sensor
 parameter is traceable to a published source.
 
@@ -44,7 +44,7 @@ parameter is traceable to a published source.
   <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/diagrams/system-overview.png" alt="Kshana system overview: five front doors (command-line interface, Python wheel, WebAssembly playground, Model Context Protocol server, JetBrains plugin) converge on a single api::run_toml dispatch, through the engine, to a reproducible result.json + chart.svg" width="840">
 </p>
 
-### Validated against external oracles — every row CI-gated
+### Validated against external oracles — every row gated in continuous integration
 
 Each row is checked against an **independent external oracle** and re-checked in CI
 (continuous integration) on every change.
@@ -70,19 +70,41 @@ npm install kshana
 
 ## Usage
 
-The package is an ES (ECMAScript, standard JavaScript) module with a WebAssembly payload. Initialise it once, then call
-the engine synchronously:
+The package is an ES (ECMAScript, standard JavaScript) module with a WebAssembly payload,
+built for the browser. Initialise it once, then call the engine synchronously. The only
+difference between the browser and Node.js is how the WebAssembly binary is loaded.
+
+**In the browser** (through a bundler, or a page that serves `node_modules/kshana/`),
+`init()` fetches `kshana_bg.wasm` from beside the module:
 
 ```js
 import init, { run, summary, chart_svg, version } from "kshana";
 
-await init();                                   // load the wasm
+await init();                                   // fetch and compile the WebAssembly binary
+```
 
-// A complete scenario, not a sketch: 2 h run, 10 min of GNSS then ~1.8 h denied.
-// This is scenarios/clock-holdover.toml, with its kind stated explicitly (the file
-// omits it, and an absent kind means `clock`) and its provenance notes shortened.
+**In Node.js**, `init()` fails with `TypeError: fetch failed` (Node's `fetch` cannot read
+a local file), so read the binary from disk and hand it to `initSync`:
+
+```js
+import { readFileSync } from "node:fs";
+import { createRequire } from "node:module";
+import { initSync, run, summary, chart_svg, version } from "kshana";
+
+const wasmPath = createRequire(import.meta.url).resolve("kshana/kshana_bg.wasm");
+initSync({ module: readFileSync(wasmPath) });      // compile the WebAssembly binary
+```
+
+Save the Node.js version as a `.mjs` file (or set `"type": "module"` in your
+`package.json`) so that `import` works. From there both are the same:
+
+```js
+// A complete scenario, not a sketch: scenarios/clock-holdover.toml without its comment
+// lines. It runs 2 h, 10 min of GNSS then about 1.8 h with GNSS denied, and asks how long
+// a strontium optical clock and a chip-scale atomic clock (CSAC) each hold time to within
+// 20 ns. sigma_y(1s) is a clock's Allan deviation at an averaging time of one second;
+// q_wf, the white-frequency-noise intensity, is its square.
 const toml = `
-kind = "clock"
 seed = 42
 threshold_ns = 20.0
 
@@ -92,40 +114,41 @@ duration_s = 7200.0
 
 [gnss]
 windows = [
-  { t0 = 0.0,   t1 = 600.0,  state = "nominal" },
-  { t0 = 600.0, t1 = 7200.0, state = "denied" },
+  { t0 = 0.0,    t1 = 600.0,  state = "nominal" },
+  { t0 = 600.0,  t1 = 7200.0, state = "denied" },
 ]
 
 [clock_quantum]
 id = "optical-sr-lattice"
-provenance = "Sr optical lattice, space goal sigma_y(1s)=1e-15 (arXiv:1503.08457); not flown"
-y0 = 5.0e-17
+provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (Origlia/Schiller/Bongs et al., arXiv:1503.08457); q_wf=sigma_y(1s)^2; ground-demonstrator maturity, not flown; flicker/aging not modeled"
+y0   = 5.0e-17
 q_wf = 1.0e-30
 q_rw = 0.0
 
 [clock_classical]
 id = "csac-sa45s"
-provenance = "Microchip SA.45s CSAC datasheet sigma_y(1s)=3e-10"
-y0 = 5.0e-10
+provenance = "Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_wf=sigma_y(1s)^2; flicker/aging not modeled"
+y0   = 5.0e-10
 q_wf = 9.0e-20
 q_rw = 0.0
 `;
 
 const result = JSON.parse(run(toml));           // the full result document
+// timing_p95_ns: the 95th-percentile timing error over the GNSS outage, in nanoseconds
 console.log(version(), result.classical.fom.timing_p95_ns);
 
 console.log(summary(toml));                     // the one-line result string
-const svg = chart_svg(toml);                    // the same chart the CLI writes
+const svg = chart_svg(toml);                    // the same chart the command-line interface (CLI) writes
 ```
 
 On the WebAssembly face every entry point is a separate call: `run` (the result
 document as a JSON string), `summary`, `chart_svg`, `table_csv` (the scenario's CSV
-table as a string, or `undefined` for kinds that publish no table; it throws on an
+(comma-separated values) table as a string, or `undefined` for kinds that publish no table; it throws on an
 invalid scenario), `run_all` (one engine run returning `{json, svg, summary, csv}` as a
 JSON string — use it when you want more than one output, since every other call runs
 the scenario afresh), `version`, `list_kinds` /
 `error_kind` (introspection), `encode_permalink` / `decode_permalink` — the
-shareable-URL codec the [playground](https://kshana.dev) uses to round-trip a whole
+shareable-link (URL, uniform resource locator) codec the [playground](https://kshana.dev) uses to round-trip a whole
 scenario through the address-bar fragment — and `export_sp3` / `export_omm` /
 `export_oem`, the SP3-c (revision c of the Standard Product 3 format) and CCSDS
 (Consultative Committee for Space Data Systems) ephemeris artifacts — OMM, the Orbit

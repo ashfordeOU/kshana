@@ -12,6 +12,10 @@ repository = "https://github.com/ashfordeOU/kshana"
 homepage = "https://kshana.dev"
 documentation = "https://docs.rs/kshana"
 readme = "README.crates.md"
+# `cargo run -- <scenario.toml>` from a clone runs the CLI. Without this, cargo cannot tell
+# the CLI from the three internal generators under src/bin/ and refuses with "could not
+# determine which binary to run" — the error every `cargo run --` line in the README hit.
+default-run = "kshana"
 keywords = ["pnt", "navigation", "quantum", "gnss", "simulation"]
 categories = ["science", "simulation"]
 # Measured, not aspirational: 1.85 is the highest `rust-version` declared anywhere in
@@ -60,6 +64,33 @@ exclude = [
     # distro-rustc host ignores the file — the same command, two behaviours. The
     # floor consumers must meet is `rust-version` above, which is the field cargo reads.
     "/rust-toolchain.toml",
+    # The three internal generators under src/bin/ regenerate this repository's own
+    # evidence (the verification matrix and scenario reference, the paper's crossover
+    # study, the release validation summary). They read and write paths in a checkout, so
+    # they are useless to anyone who installed from the registry — yet while they shipped,
+    # `cargo install kshana` compiled and installed all four executables. Leaving their
+    # sources out of the package drops them from the published manifest (cargo lists a
+    # package's binaries from the files it contains), so the registry install builds the
+    # CLI alone. In a clone they are still auto-discovered: `cargo run --bin <name>` and
+    # the CI and release jobs that invoke them are unchanged.
+    "/src/bin/crossover_study.rs",
+    "/src/bin/gen_validation_artifacts.rs",
+    "/src/bin/validation_report.rs",
+    # Non-library trees. Nothing the library or the CLI compiles reads from them (the
+    # packaging job's `cargo package` verification build compiles exactly the packaged
+    # files, so a stray include_str! into any of them fails CI, not the publish): the
+    # papers and their submission packages, the paper-figure artifacts, the notebooks,
+    # the long-form documentation (it is read on GitHub; every registry README links there
+    # absolutely), the maintainer scripts and slash-commands, and the example programs,
+    # which are evidence generators for this repository rather than library usage samples.
+    "/paper",
+    "/paper-artifacts",
+    "/submissions",
+    "/notebooks",
+    "/docs",
+    "/scripts",
+    "/commands",
+    "/examples",
 ]
 
 [lib]

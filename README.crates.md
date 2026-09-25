@@ -9,7 +9,7 @@
 
 <p align="center">
   <strong>क्षण</strong> — Sanskrit for <em>the precise instant</em>, the smallest measure of time.<br>
-  Open, reproducible PNT-resilience simulation with published quantum-sensor performance models.
+  Open, reproducible PNT (positioning, navigation and timing) resilience simulation with published quantum-sensor performance models.
 </p>
 
 <p align="center">
@@ -45,7 +45,7 @@ traceable to a published source.
   <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/diagrams/system-overview.png" alt="Kshana system overview: five front doors (command-line interface, Python wheel, WebAssembly playground, Model Context Protocol server, JetBrains plugin) converge on a single api::run_toml dispatch, through the engine, to a reproducible result.json + chart.svg" width="840">
 </p>
 
-### Validated against external oracles — every row CI-gated
+### Validated against external oracles — every row gated in continuous integration
 
 Each row is checked against an **independent external oracle** (real dataset,
 independent reference implementation, or published reference vectors) and re-checked in CI (continuous integration).
@@ -67,32 +67,82 @@ independent reference implementation, or published reference vectors) and re-che
 
 ```bash
 cargo add kshana            # use the engine as a library
-cargo install kshana        # or install the CLI
+cargo install kshana        # or install the command-line interface (CLI)
 ```
 
 ## Usage — library
 
+The example is a complete program: it carries its own scenario, written in TOML (Tom's
+Obvious, Minimal Language), so it runs as `src/main.rs` of a fresh `cargo new` project
+after `cargo add kshana`, with nothing else on disk.
+
 ```rust
 use kshana::api;
 
-// Run any scenario TOML through the engine; get a reproducible result back.
-let toml = std::fs::read_to_string("scenarios/clock-holdover.toml")?;
-let out = api::run_toml(&toml)?;    // RunOutput { json, svg, summary, csv }
-println!("{}", out.summary);        // the one-line result string
-std::fs::write("clock-holdover.result.json", &out.json)?;
-# Ok::<(), Box<dyn std::error::Error>>(())
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // A complete scenario, not a sketch: scenarios/clock-holdover.toml without its
+    // comment lines. It runs 2 h, 10 min of GNSS then about 1.8 h with GNSS denied, and
+    // asks how long a strontium optical clock and a chip-scale atomic clock (CSAC) each
+    // hold time to within 20 ns. sigma_y(1s) is a clock's Allan deviation at an averaging
+    // time of one second; q_wf, the white-frequency-noise intensity, is its square.
+    let toml = r#"
+seed = 42
+threshold_ns = 20.0
+
+[time]
+step_s = 10.0
+duration_s = 7200.0
+
+[gnss]
+windows = [
+  { t0 = 0.0,    t1 = 600.0,  state = "nominal" },
+  { t0 = 600.0,  t1 = 7200.0, state = "denied" },
+]
+
+[clock_quantum]
+id = "optical-sr-lattice"
+provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (Origlia/Schiller/Bongs et al., arXiv:1503.08457); q_wf=sigma_y(1s)^2; ground-demonstrator maturity, not flown; flicker/aging not modeled"
+y0   = 5.0e-17
+q_wf = 1.0e-30
+q_rw = 0.0
+
+[clock_classical]
+id = "csac-sa45s"
+provenance = "Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_wf=sigma_y(1s)^2; flicker/aging not modeled"
+y0   = 5.0e-10
+q_wf = 9.0e-20
+q_rw = 0.0
+"#;
+    let out = api::run_toml(toml)?; // RunOutput { json, svg, summary, csv }
+    println!("{}", out.summary); // the one-line result string
+    std::fs::write("clock-holdover.result.json", &out.json)?; // the full result document
+    Ok(())
+}
 ```
+
+`out.json` is the result document in JSON (JavaScript Object Notation), `out.svg` the
+chart as SVG (Scalable Vector Graphics) and `out.csv`, for the kinds that publish a table,
+that table as CSV (comma-separated values).
 
 ## Usage — CLI
 
+A registry install has no `scenarios/` directory, so the CLI carries every reference
+scenario that runs on its own; `kshana example` lists them.
+
 ```bash
-# Dispatches on the scenario's `kind`; writes <scenario>.result.json, .chart.svg
-# and .report.html (plus .table.csv for the kinds that publish a table)
-kshana scenarios/clock-holdover.toml
-kshana scenarios/orbit-gnss-challenged.toml
-kshana --validate scenarios/integrity-raim.toml     # lint without running
-kshana --study scenarios/quantum-pnt-demonstrator.suite.toml
+kshana example clock-holdover > clock-holdover.toml   # write a bundled scenario to a file
+kshana clock-holdover.toml                            # run it
+kshana --validate clock-holdover.toml                 # lint it without running
+kshana example                                        # list every bundled scenario
+kshana kinds                                          # list every scenario kind
 ```
+
+A run dispatches on the scenario's `kind` and writes `<scenario>.result.json`,
+`.chart.svg` and `.report.html` (a report page in HTML, HyperText Markup Language) (plus `.table.csv` for the kinds that publish a table)
+next to the scenario file. From a clone of the repository the same commands take the files
+under `scenarios/` directly, including the multi-scenario studies
+(`kshana --study scenarios/quantum-pnt-demonstrator.suite.toml`) and `lunar-llr-datum`,
+the one scenario that reads real laser-ranging data shipped with the repository only.
 
 Every figure of merit is labelled **validated** or **modelled**; optical-clock figures
 are space goals on ground hardware (no strontium optical clock has flown). Maturity is
