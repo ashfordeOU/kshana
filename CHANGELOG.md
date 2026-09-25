@@ -13,10 +13,31 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **`scenarios/small-uas-jammed-nav.toml`: how long a small drone's navigation holds
+  after GNSS is jammed.** It runs a flight-controller-class micro-electro-mechanical
+  (MEMS) inertial unit, a Bosch BMI088, against a tactical-grade unit. The GNSS
+  (Global Navigation Satellite System) signal is nominal for 100 s, then denied for
+  60 s (`jamming-demo.toml` shows why a nearby jammer does that). The BMI088's biases
+  are the residuals left after start-up calibration, taken from the temperature
+  coefficients in its datasheet (BST-BMI088-DS000-19 rev 1.9): 0.015 °/s per K for the
+  gyro and < 0.2 mg per K for the accelerometer. Two assumptions are flagged in the
+  file: a 10 K warm-up after calibration, and continued warming of 1 K per minute in
+  flight. The in-flight drift is the error the filter cannot learn before the jamming
+  starts, and it is what ends the coast. Every figure is modelled; validating it needs
+  flight logs from a jammed environment. `kshana example small-uas-jammed-nav` prints
+  it.
+
+- **Each `gnss-ins` sensor can set its own filter prior** (`[imu_quantum.filter_prior]`
+  or `[imu_classical.filter_prior]`, with `sigma_accel_bias` and `sigma_gyro_bias`).
+  The default is unchanged, so every existing scenario gives the same result. A
+  consumer-grade unit's residual gyro bias sits about 26 sigma outside the
+  tactical-grade default, where the filter would never learn it. A prior that is not
+  finite and positive is rejected, and the result echoes the prior when one is set.
+
 - **`kshana example [<name>]` hands a registry user a scenario to run.** A
   `cargo install kshana` user has the executable and no `scenarios/` directory, so the
   first command every quickstart gave them failed. The command-line interface (CLI) now
-  carries the 74 reference scenarios that run on their own, byte for byte, compiled in
+  carries the 75 reference scenarios that run on their own, byte for byte, compiled in
   from `scenarios/` (`src/bundled_scenarios.rs`; the table lives in the CLI binary, so
   the Python wheel and the WebAssembly module do not grow). `kshana example` lists them;
   `kshana example clock-holdover > clock-holdover.toml` writes one. The other two files
@@ -198,6 +219,38 @@ breaking changes are called out explicitly.
   byte.
 
 ### Fixed
+
+- **REVISION: the GNSS/INS filter's gyro-bias coupling had the wrong sign, and the
+  `gnss-ins` outage figures change.** The error-state extended Kalman filter (EKF)
+  keeps both inertial biases as residuals (true minus the running estimate, fed back
+  by adding). The accelerometer column drove the velocity error with `+C_b^n b_a`, but
+  the gyro column drove the attitude error with `−C_b^n b_g`. A residual gyro bias
+  actually rotates the computed attitude by `+C_b^n b_g`, so every gyro-bias estimate
+  pushed the wrong way. The pack stayed stable only because its default gyro-bias prior
+  (1e-4 rad/s, 1-sigma) was tight enough to hold those states still. With a wider
+  prior the filter diverged even when the true gyro bias was zero: 93 m of fused
+  outage error became 4.3 km. The published figures for `scenarios/gnss-ins.toml`
+  change as follows:
+
+  | `gnss-ins.toml` | before (≤ 0.27.2) | after |
+  |---|---|---|
+  | cold-atom IMU, fused outage RMS | 96.1 m | 1.9 m |
+  | cold-atom IMU, in-spec coast (50 m) | 30 s | 60 s (the whole outage) |
+  | tactical IMU, fused outage RMS | 62.5 m | 3.1 m |
+  | tactical IMU, in-spec coast (50 m) | 37 s | 60 s (the whole outage) |
+
+  The free-running figures (130.7 m and 314.3 m) do not change; they never used the
+  filter. The pack's earlier reading, that the fused coast is limited by a hand-over
+  attitude floor and so does not improve with a better sensor, was an artefact of this
+  bug and is withdrawn. With constant, noise-free biases the filter now learns them
+  while GNSS is up, so the fused coast is a best case. The external filterpy reference
+  (`tests/gnss_ins_sensor_fusion_reference.rs`) checks only the measurement updates,
+  which is why it never saw the propagation. Two tests now check the sign directly and
+  both fail on the old one. The first, in `closed_loop.rs`, feeds a known residual gyro
+  bias through the strapdown and requires the filter to predict the resulting attitude
+  error to within 2 %. The second requires a wide prior to learn a 1e-3 rad/s gyro bias
+  and stay inside 6 m. The `gnss-ins` cross-platform golden is re-pinned for this
+  reason and no other.
 
 - **Every registry quickstart now runs as written on a clean machine.** Measured before
   this change, the crates.io and PyPI (Python Package Index) examples read

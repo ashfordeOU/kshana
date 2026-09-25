@@ -389,6 +389,118 @@ mod tests {
         assert!(free_err > 100.0, "free INS only diverged {free_err} m");
     }
 
+    /// The filter's gyro-bias coupling must have the sign the strapdown actually
+    /// produces. Drive a static strapdown with a known residual gyro bias `r`, read
+    /// the true attitude error off the two DCMs (C̃ Cᵀ ≈ I + [ψ×], the convention
+    /// `apply_feedback` corrects), and require the EKF's own mean propagation from
+    /// `b_g = r` to predict the same ψ. Until 0.27.3 the block was −C_b^n, so the
+    /// filter predicted the opposite rotation and every gyro-bias estimate pushed
+    /// the wrong way; a tight 1e-4 rad/s prior was all that kept the pack stable.
+    #[test]
+    fn gyro_bias_coupling_predicts_the_strapdown_attitude_error() {
+        let start = origin();
+        let (gyro, accel) = static_truth(start.lat_rad, start.alt_m);
+        let r = [2.0e-4, -3.0e-4, 1.0e-4];
+        let mut truth = NavState::new(Quaternion::identity(), [0.0; 3], start);
+        let mut biased = NavState::new(Quaternion::identity(), [0.0; 3], start);
+        let mut ekf = GnssInsEkf::new(1.0, 0.1, 1e-3, 0.01, 1e-3, EkfNoise::default());
+        ekf.set_gyro_bias_state(r);
+        let dt = 0.1;
+        for _ in 0..600 {
+            let c_bn = biased.q.to_dcm();
+            let f_n = biased.q.rotate(accel);
+            let ie = biased.omega_ie_n();
+            let en = biased.omega_en_n();
+            let omega_in = [ie[0] + en[0], ie[1] + en[1], ie[2] + en[2]];
+            ekf.predict(f_n, c_bn, ie, omega_in, dt);
+            truth.step(gyro, accel, dt);
+            biased.step([gyro[0] + r[0], gyro[1] + r[1], gyro[2] + r[2]], accel, dt);
+        }
+        let ct = truth.q.to_dcm();
+        let cb = biased.q.to_dcm();
+        // M = C̃ Cᵀ; ψ is its skew part.
+        let mut m = [[0.0; 3]; 3];
+        for (i, row) in m.iter_mut().enumerate() {
+            for (j, v) in row.iter_mut().enumerate() {
+                *v = (0..3).map(|k| cb[i][k] * ct[j][k]).sum();
+            }
+        }
+        let psi_true = [
+            0.5 * (m[2][1] - m[1][2]),
+            0.5 * (m[0][2] - m[2][0]),
+            0.5 * (m[1][0] - m[0][1]),
+        ];
+        let x = ekf.error_state();
+        let psi_ekf = [x[6], x[7], x[8]];
+        let mag = norm(psi_true);
+        assert!(
+            mag > 1e-2,
+            "the bias should have rotated the solution: |ψ| = {mag}"
+        );
+        let diff = norm([
+            psi_ekf[0] - psi_true[0],
+            psi_ekf[1] - psi_true[1],
+            psi_ekf[2] - psi_true[2],
+        ]);
+        assert!(
+            diff < 0.02 * mag,
+            "EKF predicted ψ = {psi_ekf:?}, the strapdown produced ψ = {psi_true:?}"
+        );
+    }
+
+    /// With the coupling sign right, a wide gyro-bias prior must help, not hurt: a
+    /// flight-controller-class residual gyro bias (1e-3 rad/s per axis) with a prior
+    /// that admits it stays metre-bounded under aiding, and the filter learns it.
+    #[test]
+    fn a_wide_gyro_prior_learns_a_large_gyro_bias_and_stays_bounded() {
+        let start = origin();
+        let ekf = GnssInsEkf::new(
+            5.0,
+            0.5,
+            1e-3,
+            0.05,
+            2e-3,
+            EkfNoise {
+                vrw_psd: 1e-5,
+                arw_psd: 1e-10,
+                accel_bias_rw_psd: 1e-12,
+                gyro_bias_rw_psd: 1e-16,
+                accel_bias_tau: f64::INFINITY,
+                gyro_bias_tau: f64::INFINITY,
+            },
+        );
+        let mut drv =
+            ClosedLoopInsGnss::new(NavState::new(Quaternion::identity(), [0.0; 3], start), ekf);
+        let mut truth = NavState::new(Quaternion::identity(), [0.0; 3], start);
+        let bg = [1.0e-3, -1.0e-3, 1.0e-3];
+        let mut max_aided = 0.0_f64;
+        for step in 0..1500 {
+            let (gyro, accel) = true_imu(&truth, step);
+            truth.step(gyro, accel, 0.1);
+            drv.propagate(
+                [gyro[0] + bg[0], gyro[1] + bg[1], gyro[2] + bg[2]],
+                accel,
+                0.1,
+            );
+            if step % 10 == 9 {
+                drv.fuse(project(start, truth.p_llh), truth.v_ned, 1.0, 0.05);
+            }
+            let de = project(start, drv.nav.p_llh);
+            let te = project(start, truth.p_llh);
+            max_aided = max_aided.max(((de[0] - te[0]).powi(2) + (de[1] - te[1]).powi(2)).sqrt());
+        }
+        assert!(max_aided < 6.0, "aided error reached {max_aided} m");
+        let est = drv.gyro_bias_estimate();
+        for k in 0..3 {
+            assert!(
+                (est[k] - bg[k]).abs() < 0.2 * bg[k].abs(),
+                "gyro bias axis {k}: estimated {} vs true {}",
+                est[k],
+                bg[k]
+            );
+        }
+    }
+
     /// Run one aided arc (`aided` steps) of the driving scenario with seeded GNSS
     /// noise, then a 600-step (60 s) outage. Returns the time-RMS position error
     /// over the outage for (fused navigator, free-running INS).

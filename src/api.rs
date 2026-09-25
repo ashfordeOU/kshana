@@ -1775,6 +1775,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
             let scn: crate::fusion::pack::GnssInsScenario =
                 toml::from_str(src).map_err(|e| format!("invalid gnss-ins scenario: {e}"))?;
             scn.time.validate()?;
+            scn.validate()?;
             let r = crate::fusion::pack::run_gnss_ins(&scn);
             let summary = format!(
                 "scenario {} | gnss-ins | quantum outage-RMS fused {:.1}m vs free {:.1}m (hold {:.0}s, avail {:.2}) | classical fused {:.1}m vs free {:.1}m (hold {:.0}s, avail {:.2})",
