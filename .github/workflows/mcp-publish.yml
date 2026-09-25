@@ -10,14 +10,17 @@
 #                   variable MCP_REGISTRY_PUBLISH=true so it stays inert until the
 #                   maintainer makes the ghcr package public and opts in.
 #
-# Triggered by a release tag (vX.Y.Z) or manual dispatch. (The `crates.io` publish of
-# the same crate lives in publish.yml — that is the `cargo install kshana-mcp` channel;
-# this workflow is the OCI / registry channel.)
+# Called by release.yml AFTER its `verify` job and after publish.yml (`needs:`), so the
+# image is never pushed for a commit whose verification is not green, and never ahead of
+# crates.io. It used to trigger on the tag push itself and race the verification. The
+# manual-dispatch path (a retry, on a tag ref) is held by scripts/check-release-verdict.sh
+# instead, and a dispatch from a branch is inert. (The `crates.io` publish of the same
+# crate lives in publish.yml — that is the `cargo install kshana-mcp` channel; this
+# workflow is the OCI / registry channel.)
 name: publish MCP server
 
 on:
-  push:
-    tags: ["v*"]
+  workflow_call:
   workflow_dispatch:
     inputs:
       version:
@@ -25,11 +28,15 @@ on:
         required: false
         type: string
 
+permissions:
+  contents: read
+
 jobs:
   image:
     name: OCI image (ghcr.io)
     runs-on: ubuntu-latest
     timeout-minutes: 45
+    if: startsWith(github.ref, 'refs/tags/v')
     environment:
       name: ghcr-image
       url: https://github.com/ashfordeOU/kshana/pkgs/container/kshana-mcp
@@ -41,11 +48,17 @@ jobs:
       # `gh attestation verify oci://ghcr.io/<owner>/kshana-mcp:<ver>` succeeds.
       id-token: write
       attestations: write
+      # scripts/check-release-verdict.sh reads the Release workflow's runs and jobs.
+      actions: read
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Require a green release verdict for this exact commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: ./scripts/check-release-verdict.sh "$GITHUB_SHA"
       # This workflow publishes the TAG's version (server.json and the ghcr image tag are
-      # stamped from it) and races publish.yml rather than waiting for it, so the tag-vs-
-      # manifest check has to run HERE, ahead of the push, not only in the sibling.
+      # stamped from it), so the tag-vs-manifest check runs HERE, ahead of the push, and
+      # not only in publish.yml.
       - name: Version sync (tag == manifest)
         run: ./scripts/check-version-sync.sh
       - name: Resolve version + owner
@@ -127,9 +140,21 @@ jobs:
              '.version = $v | .packages[0].identifier = $img' \
              server.json > server.tmp && mv server.tmp server.json
           cat server.json
-      - name: Install mcp-publisher
+      - name: Install mcp-publisher (pinned, checksum-verified)
+        # An exact release and its SHA-256, not `releases/latest`: this binary holds the
+        # workflow's OIDC identity for the registry, so what runs must be what was
+        # reviewed. The hash is the one the registry project publishes for this file in
+        # registry_1.8.1_checksums.txt. Bump both together.
+        env:
+          MCP_PUBLISHER_VERSION: "1.8.1"
+          MCP_PUBLISHER_SHA256: "a06c9096dcb9727c13555b6be26c7effa707b01f06a4c561ba7a3635443cf2cc"
         run: |
-          curl -L "https://github.com/modelcontextprotocol/registry/releases/latest/download/mcp-publisher_$(uname -s | tr '[:upper:]' '[:lower:]')_$(uname -m | sed 's/x86_64/amd64/;s/aarch64/arm64/').tar.gz" | tar xz mcp-publisher
+          set -euo pipefail
+          curl -fsSL -o mcp-publisher.tar.gz \
+            "https://github.com/modelcontextprotocol/registry/releases/download/v${MCP_PUBLISHER_VERSION}/mcp-publisher_linux_amd64.tar.gz"
+          echo "${MCP_PUBLISHER_SHA256}  mcp-publisher.tar.gz" | sha256sum -c -
+          tar xzf mcp-publisher.tar.gz mcp-publisher
+          rm mcp-publisher.tar.gz
       - name: Authenticate (GitHub OIDC)
         run: ./mcp-publisher login github-oidc
       - name: Publish to the MCP registry

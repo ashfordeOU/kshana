@@ -26,7 +26,8 @@ jobs:
     timeout-minutes: 60
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-      - uses: dtolnay/rust-toolchain@stable
+      # The pinned channel, like every other workflow (scripts/check-toolchain.sh enforces it).
+      - uses: dtolnay/rust-toolchain@1.93.0
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
       - name: Fetch the full-day Galileo orbit (ESA0MGNFIN, GPS week 2190 / 2022-001)
         run: |

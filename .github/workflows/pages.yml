@@ -1,11 +1,38 @@
 # SPDX-License-Identifier: AGPL-3.0-only
-# Build the WebAssembly playground and publish it to GitHub Pages.
+# Build the WebAssembly playground and publish it to GitHub Pages (kshana.dev).
+#
+# THE SITE SHOWS A RELEASE, NOT main. It used to deploy on every push to main while its
+# pages said "v0.27.2" (the version is written into web/index.html and only moves at a
+# release), so kshana.dev served unreleased engine code under a released version number.
+# A visitor could not tell which engine produced a result, which undercuts the one
+# promise the page makes ("reproducible from scenario + seed + engine version").
+#
+# Now it builds a RELEASE TAG and nothing else:
+#   * release.yml dispatches this workflow with `tag: vX.Y.Z` once the release has been
+#     verified, published and every registry serves it (its `site` job);
+#   * a manual dispatch with a blank `tag` redeploys the latest published release, and
+#     one with a tag deploys that release (a rollback is the same operation).
+# The tag is checked out and built with that tag's own build script, and
+# scripts/check-version-sync.sh confirms the tag and the manifest agree, so the version
+# the page states is the version it runs.
+#
+# Why a dispatch, not a `push: tags` trigger: the github-pages environment only allows
+# deployments from `main` (its deployment branch policy), and a tag-triggered run
+# deploys from the tag ref, which that policy refuses. Dispatching on main keeps the
+# policy as it is and still ships only tagged content.
+#
+# Nothing else depends on main being deployed: ci.yml runs the web tests from the
+# checkout, and publish.yml builds the npm package on its own. Site changes merged to
+# main go live with the next release, or with a manual dispatch naming a tag.
 name: pages
 
 on:
-  push:
-    branches: [main]
   workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to deploy, e.g. v0.27.3. Blank = the latest published release."
+        required: false
+        type: string
 
 permissions:
   contents: read
@@ -22,13 +49,47 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
+      - name: Resolve the release tag to deploy
+        id: t
+        env:
+          IN: ${{ inputs.tag }}
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          if [ "$GITHUB_REF" != "refs/heads/main" ]; then
+            echo "::error::dispatch this workflow on main (the github-pages environment deploys only from main); the tag input picks the content"
+            exit 1
+          fi
+          tag="$IN"
+          if [ -z "$tag" ]; then
+            tag="$(gh release view --repo "$REPO" --json tagName --jq .tagName)"
+          fi
+          if ! printf '%s' "$tag" | grep -qE '^v[0-9]+\.[0-9]+\.[0-9]+$'; then
+            echo "::error::'$tag' is not a release tag of the form vX.Y.Z"
+            exit 1
+          fi
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "Deploying kshana.dev from $tag"
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: refs/tags/${{ steps.t.outputs.tag }}
+      - name: The tag and the manifest agree
+        env:
+          TAG: ${{ steps.t.outputs.tag }}
+        # check-version-sync.sh compares the release tag with Cargo.toml when the ref is a
+        # tag. This run's own ref is main, so name the tag explicitly.
+        run: GITHUB_REF_TYPE=tag GITHUB_REF_NAME="$TAG" ./scripts/check-version-sync.sh
       - name: Install Rust (with wasm target)
-        uses: dtolnay/rust-toolchain@stable
+        uses: dtolnay/rust-toolchain@1.93.0
         with:
           targets: wasm32-unknown-unknown
-      - name: Install wasm-pack
-        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+      - name: Toolchain pin guard
+        run: ./scripts/check-toolchain.sh
+      - name: Install wasm-pack (pinned)
+        uses: taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5 # v2
+        with:
+          tool: wasm-pack@0.13.1
       - name: Build playground
         run: ./web/build.sh
       - name: Stage the deploy tree
