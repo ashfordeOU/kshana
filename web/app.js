@@ -1960,7 +1960,7 @@ const I18N = {
     "ledger.eyebrow": "Evidence ledger",
     "ledger.heading": "The complete validation matrix — every row, every proof",
     "ledger.intro":
-      'All <span id="ldg-total">168</span> capabilities, generated from ' +
+      'All <span id="ldg-total">171</span> capabilities, generated from ' +
       "<code>src/verification.rs</code> and pinned to it in CI. Each row links to the " +
       "<strong>test</strong> that enforces it, the <strong>module</strong> that " +
       "implements it, and any committed <strong>fixture/provenance</strong> — so every " +
@@ -2511,7 +2511,7 @@ async function main() {
 }
 
 // Every <details> on the page ships closed except the standards fold, so a printed
-// copy drops the 168-row ledger and all eight evidence panels — the substance a
+// copy drops the 171-row ledger and all eight evidence panels — the substance a
 // reviewer saves the PDF for. CSS cannot reach that content (Chrome keeps it in a
 // UA shadow slot), so open the folds for the duration of the print and put every
 // one of them back exactly as the reader left it.

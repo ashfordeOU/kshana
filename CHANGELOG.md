@@ -14,13 +14,14 @@ breaking changes are called out explicitly.
 - **`kshana example [<name>]` hands a registry user a scenario to run.** A
   `cargo install kshana` user has the executable and no `scenarios/` directory, so the
   first command every quickstart gave them failed. The command-line interface (CLI) now
-  carries the 73 reference scenarios that run on their own, byte for byte, compiled in
+  carries the 74 reference scenarios that run on their own, byte for byte, compiled in
   from `scenarios/` (`src/bundled_scenarios.rs`; the table lives in the CLI binary, so
   the Python wheel and the WebAssembly module do not grow). `kshana example` lists them;
-  `kshana example clock-holdover > clock-holdover.toml` writes one. The 74th file,
-  `lunar-llr-datum`, reads archived lunar laser-ranging data that ships with the
-  repository only, and asking for it says so and exits 2 instead of printing a scenario
-  that cannot run. `tests/cli_first_run.rs` holds the table to the directory in both
+  `kshana example clock-holdover > clock-holdover.toml` writes one. The other two files
+  are repository-only: `lunar-llr-datum` reads archived lunar laser-ranging data that
+  ships with the repository only, and `quantum-pnt-demonstrator.suite` is a study
+  manifest that runs three sibling files with `--study`. Asking for either says why and
+  exits 2 instead of printing something that cannot run on its own. `tests/cli_first_run.rs` holds the table to the directory in both
   directions, so a new scenario file that is neither bundled nor named repo-only fails.
 
 - **Every figure of merit in a clock, orbit, hybrid or fusion result now says whether
@@ -40,6 +41,44 @@ breaking changes are called out explicitly.
   now strip exactly this key, and only when it is the last one, then hash the rest
   against their **unchanged** frozen constants. A list in each harness pins which
   scenarios must carry the block, so the exclusion cannot quietly widen.
+
+- **A `telecom-timing` kind answers in a timing engineer's units: time error, maximum
+  time interval error (MTIE) and time deviation (TDEV), each with a PASS or FAIL and a
+  margin against the masks of the International Telecommunication Union
+  Telecommunication Standardization Sector (ITU-T).** The masks are transcribed from
+  the editions in force: G.8272 (07/2025) for the primary reference time clock (PRTC)
+  classes A and B, G.8272.1 (2024) Amd. 1 (07/2025) for the enhanced PRTC in locked mode
+  and in holdover (including its time-error envelope, which rises from 30 ns to 100 ns
+  over a holdover period set by how long the clock was locked), G.8273.2 (2023) Amd. 2
+  (11/2025) for telecom boundary and time slave clocks, classes A to D, and G.8271.1
+  (2022) Amd. 3 (05/2025) for the network limits at reference point C. Every entry those
+  Recommendations leave "for further study" is absent, not estimated, and
+  `docs/TELECOM-TIMING.md` lists each number with its table or clause and each item that
+  was left out. The report also gives the time to exceed each time-error budget: by
+  default the 100 ns ePRTC holdover default, a 400 ns network holdover allocation, the
+  1 100 ns point-C limit and the 1.5 microsecond class 4 end-to-end requirement.
+
+  The input is either a synthetic holdover or a series of your own. The synthetic one
+  uses one of four oscillator presets (an oven-controlled crystal oscillator, a
+  rubidium standard, a caesium standard and a chip-scale atomic clock), each carrying the
+  stability, aging and temperature figures of a named Microchip datasheet. How those
+  figures become white, flicker and random-walk frequency noise, aging and a temperature
+  term is stated in every report and labelled MODELLED. A series of your own is
+  `[time_s, time_error_ns]` pairs, inline (which is how it runs in the browser) or, on
+  native builds, from a comma-separated values file. The MTIE/TDEV table, with every
+  selected mask's limit beside it, is written as the run's CSV artifact.
+
+  `scenarios/telecom-prtc-holdover-24h.toml` is a 24-hour rubidium holdover with aging,
+  flicker and a daily temperature cycle: its largest time error is 603.2 ns, it crosses
+  100 ns 8 206 s after the loss and stays inside 1.5 microseconds all day, and it fails
+  the enhanced-PRTC holdover envelope, as a clock that is not caesium-class should.
+  `scenarios/telecom-tie-ingest.toml` shows the inline input. The MTIE and TDEV the kind
+  reports are checked against the allantools package on a committed 2 048-sample
+  holdover series, exactly for MTIE and to 1.1e-15 for TDEV, so the matrix gains one
+  VALIDATED row and two MODELLED ones (the mask transcription and the presets) and now
+  stands at **171 rows — 65 VALIDATED, 102 MODELLED, 4 PARTNER**. Field-units coverage
+  goes from 60 of 61 kinds to 61 of 62, and from 1,742 to 1,788 described fields. The
+  kind is new and additive: no existing scenario, pin or published figure moves.
 
 - **The playground runs the engine in a background Web Worker, so a slow scenario no
   longer freezes the page.** `web/engine-worker.mjs` hosts the WebAssembly engine and

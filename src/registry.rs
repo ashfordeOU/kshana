@@ -101,6 +101,7 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         TrackingLoop,
         AraimReferenceCheck,
         LunarLlrDatum,
+        TelecomTiming,
     ]
 };
 
@@ -190,6 +191,9 @@ pub mod ids {
     /// The seven-parameter Helmert lunar frame datum driven by archived ILRS lunar laser
     /// ranging normal points -- a real observing campaign rather than a simulated one.
     pub const LUNAR_LLR_DATUM: ScenarioId = ScenarioId::from_static("lunar-llr-datum");
+    /// Time error, MTIE and TDEV of a synthetic GNSS holdover or an ingested series,
+    /// checked against transcribed ITU-T G.8272 / G.8272.1 / G.8273.2 / G.8271.1 masks.
+    pub const TELECOM_TIMING: ScenarioId = ScenarioId::from_static("telecom-timing");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {
