@@ -43,6 +43,12 @@ the number is an analytic bound for a given clock, not an RAIM implementation, a
 it is meaningful only in the context of a configured spoofing scenario (see the
 `spoof` scenario kind, which injects an actual ramping attack).
 
+The output says so. The `clock`, `orbit`, `hybrid` and `fusion` kinds configure no
+attack, so their one-line summary prints `security n/a (no attack)` instead of a number,
+and their result document marks `fom.security` as `applicable: false`, with the reason,
+in its `figure_tiers` block. The value itself stays in the document for anyone who
+wants the bound.
+
 ## Real snapshot, solution-separation, and ARAIM RAIM (`src/raim.rs`)
 
 A genuine, position-domain RAIM is implemented in `src/raim.rs`, separate from the

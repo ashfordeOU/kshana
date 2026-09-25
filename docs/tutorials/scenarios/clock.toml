@@ -16,7 +16,7 @@
 # validates the ADEV against to ~2%). CSAC q_wf=9e-20 -> 1-sigma 20 ns crossing
 # at ~4444 s; the engine's k-sigma/p95 spec-cross at ~2610 s sits in that band.
 #
-# expected: scenario 5ba83a232b94 | quantum holdover 6600s p95 0.0ns integrity 1.000 security 0.997 | classical holdover 2610s p95 19.7ns integrity 1.000 security 0.000
+# expected: scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity 1.000 security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity 1.000 security n/a (no attack)
 # ============================================================================
 
 # Empty/omitted kind defaults to the clock pack; the parent omits `kind`, so do we.

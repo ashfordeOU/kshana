@@ -23,7 +23,7 @@
 # (Templier et al. 2022, arXiv:2209.13209) -> 100 m at 18,440 s >> 6600 s outage.
 # These two 0.5*b*T^2 values bracket the engine's 350 s / 6600 s split exactly.
 #
-# expected: scenario f33d734ecc51 | quantum PNT-holdover 6600s (t 6600s/p 6600s) integrity 0.998 security 0.997 | classical PNT-holdover 350s (t 6600s/p 350s) integrity 1.000 security 0.000
+# expected: scenario f33d734ecc51 | quantum PNT-holdover 6600s (t 6600s/p 6600s) integrity 0.998 security n/a (no attack) | classical PNT-holdover 350s (t 6600s/p 350s) integrity 1.000 security n/a (no attack)
 # ============================================================================
 
 kind = "hybrid"
