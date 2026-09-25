@@ -62,7 +62,7 @@ cargo run -- scenarios/hybrid-pnt.toml
 Summary:
 
 ```
-scenario f33d734ecc51 | quantum PNT-holdover 6600s (t 6600s/p 6600s) integrity 0.998 security 0.997 | classical PNT-holdover 350s (t 6600s/p 350s) integrity 1.000 security 0.000
+scenario f33d734ecc51 | quantum PNT-holdover 6600s (t 6600s/p 6600s) integrity 0.998 security n/a (no attack) | classical PNT-holdover 350s (t 6600s/p 350s) integrity 1.000 security n/a (no attack)
 ```
 
 Read the `(t …/p …)` split — timing holdover vs position holdover:
@@ -106,7 +106,7 @@ nav-grade sensor diverges to tens of kilometres.
 
 | Figure | What it means here | What it does **not** mean |
 |--------|--------------------|---------------------------|
-| **Security** | analytic spoof-*detectability* bound (`1 − P_md`) for a configured attack | not a multi-satellite RAIM detector |
+| **Security** | analytic spoof-*detectability* bound (`1 − P_md`) for a configured attack; the `hybrid` summary prints `n/a (no attack)` because that scenario configures none | not a multi-satellite RAIM detector |
 | **Integrity** | filter self-consistency (samples inside the k-σ bound) | not aviation HPL/VPL/RAIM integrity |
 | **PNT-holdover** | time in spec after GNSS loss, split into timing and position | not a 2-D CEP/2DRMS accuracy |
 

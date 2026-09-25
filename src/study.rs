@@ -65,6 +65,29 @@ struct Resolved {
     scenario_hash: String,
     /// The aggregated `foms` value (the clock FoM blocks).
     foms: serde_json::Value,
+    /// The figure names the run's own `figure_tiers` block marks `applicable: false`
+    /// (`security` in a scenario with no attack). The comparison table shows those as
+    /// not applicable instead of printing the number. Not part of the JSON artifact.
+    not_applicable: Vec<String>,
+}
+
+/// Figure names a run's `figure_tiers` block marks `applicable: false`.
+fn not_applicable_figures(root: &serde_json::Value) -> Vec<String> {
+    let mut out: Vec<String> = root
+        .get(crate::api::FIGURE_TIERS_KEY)
+        .and_then(|b| b.get("figures"))
+        .and_then(|f| f.as_array())
+        .map(|figs| {
+            figs.iter()
+                .filter(|f| f.get("applicable").and_then(|a| a.as_bool()) == Some(false))
+                .filter_map(|f| f.get("path").and_then(|p| p.as_str()))
+                .filter_map(|p| p.rsplit('.').next().map(str::to_string))
+                .collect()
+        })
+        .unwrap_or_default();
+    out.sort();
+    out.dedup();
+    out
 }
 
 /// Derive a column label for a scenario: the explicit suite label if given, else
@@ -131,6 +154,7 @@ pub fn run_suite(suite: &Suite, base_dir: &Path) -> Result<StudyOutput, String> 
             label: label_for(&entry.path, &entry.label),
             scenario_hash,
             foms,
+            not_applicable: not_applicable_figures(&root),
         });
     }
 
@@ -245,7 +269,13 @@ fn render_html(title: &str, description: Option<&str>, scenarios: &[Resolved]) -
         );
         for r in scenarios {
             match fom_value(&r.foms, key) {
-                Some(v) => row.push_str(&format!("<td class=\"num\">{v:.3}</td>")),
+                Some(_) if r.not_applicable.iter().any(|n| n == key) => {
+                    row.push_str("<td class=\"num\">n/a (no attack)</td>")
+                }
+                Some(v) => row.push_str(&format!(
+                    "<td class=\"num\">{}</td>",
+                    crate::api::format_fom_value(v)
+                )),
                 None => row.push_str("<td class=\"num\">&mdash;</td>"),
             }
         }
@@ -353,6 +383,7 @@ mod tests {
             label: "Alpha".to_string(),
             scenario_hash: "abc".to_string(),
             foms: serde_json::json!({ "quantum": {"holdover_s": 3.0, "availability": 1.0} }),
+            not_applicable: vec![],
         }];
         let html = render_html("My Study", Some("desc"), &scenarios);
         assert!(html.contains("My Study"));
@@ -361,5 +392,28 @@ mod tests {
         assert!(html.contains("Alpha"));
         assert!(html.contains("Holdover"));
         assert!(html.contains("MODELLED"));
+    }
+
+    // A small figure keeps its significant digits, and a figure the run marks not
+    // applicable is shown as such.
+    #[test]
+    fn render_html_formats_small_values_and_not_applicable_security() {
+        let scenarios = vec![Resolved {
+            label: "Clock".to_string(),
+            scenario_hash: "abc".to_string(),
+            foms: serde_json::json!({ "quantum": {"timing_p95_ns": 1.2048e-4, "security": 0.0} }),
+            not_applicable: vec!["security".to_string()],
+        }];
+        let html = render_html("S", None, &scenarios);
+        assert!(html.contains(">1.20e-4<"), "{html}");
+        assert!(html.contains(">n/a (no attack)<"), "{html}");
+        assert!(!html.contains(">0.000<"), "{html}");
+    }
+
+    #[test]
+    fn not_applicable_figures_reads_the_figure_tiers_block() {
+        let out = crate::api::run_toml(include_str!("../scenarios/clock-holdover.toml")).unwrap();
+        let root: serde_json::Value = serde_json::from_str(&out.json).unwrap();
+        assert_eq!(not_applicable_figures(&root), vec!["security".to_string()]);
     }
 }
