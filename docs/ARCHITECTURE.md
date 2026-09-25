@@ -2,12 +2,12 @@
 
 Kshana is **one engine** organised in layers over a shared core: the **sensor packs**
 (clock, inertial, time-transfer, hybrid); an **astrodynamics / numerical** layer (analytic
-SGP4/SDP4, a numerical Cowell propagator with its seven-perturbation force model, maneuver
+SGP4/SDP4 (SGP4: Simplified General Perturbations 4; SDP4: Simplified Deep-space Perturbations 4), a numerical Cowell propagator with its seven-perturbation force model, maneuver
 design, orbit determination from ground-station ranges, and the force-model fit against
-agency precise ephemerides); a **time & reference-frame** layer (IERS time scales, IAU
-2006/2000A precession–nutation, and the CIO GCRS↔ITRS reduction); a **fusion** layer (the
-GNSS/INS estimators); and the **integrity, resilience, alt-PNT and lunar** layers
-(RAIM/ARAIM/SBAS, jamming and multi-layer spoof detection, gravity/terrain/magnetic
+agency precise ephemerides); a **time & reference-frame** layer (IERS (International Earth Rotation and Reference Systems Service) time scales, IAU (International Astronomical Union)
+2006/2000A precession–nutation, and the CIO (Celestial Intermediate Origin) GCRS↔ITRS (GCRS: Geocentric Celestial Reference System; ITRS: International Terrestrial Reference System) reduction); a **fusion** layer (the
+GNSS/INS (GNSS: global navigation satellite system; INS: inertial navigation system) estimators); and the **integrity, resilience, alt-PNT (PNT: positioning, navigation and timing) and lunar** layers
+(RAIM/ARAIM/SBAS (RAIM: receiver autonomous integrity monitoring; ARAIM: advanced receiver autonomous integrity monitoring; SBAS: satellite-based augmentation system), jamming and multi-layer spoof detection, gravity/terrain/magnetic
 map-matching, and cislunar PNT). Across all of them the engine knows nothing about
 "quantum" vs "classical": it drives
 sensor *error models* through a GNSS-outage scenario, runs an estimator, and scores the
@@ -110,14 +110,14 @@ flowchart TD
     inertial --> allan
 ```
 
-The CLI and both bindings funnel through one `api::run_toml` entry point, so they
+The CLI (command-line interface) and both bindings funnel through one `api::run_toml` entry point, so they
 never drift. The packs reuse the shared core (`types`, `scenario`, `allan`); Pack 4
 (`hybrid`) composes the models and estimators of Packs 1–3 rather than reimplementing
 them; `orbit` derives a GNSS timeline from geometry that then feeds the Pack 1 run. The
 `navsignal` module sits at the signal level between the link budget and the measurement
 domain: it derives the spectral-separation coefficient `κ` from the actual signal and
 jammer power spectra, from which `jamming` now computes its anti-jam `Q = 1/(R_c·κ)`
-rather than taking a representative constant (cross-checked in CI); it also carries the
+rather than taking a representative constant (cross-checked in CI (continuous integration)); it also carries the
 ranging-code (m-sequence/Gold) design-trade.
 
 Three further modules form the **GNSS-denied resilience** spine. `holdover` answers the
@@ -137,9 +137,9 @@ cannot drift from the code.
 Beyond the sensor-pack core, three subsystems share the same shared core and feed (or
 are fed by) `orbit`. The **astrodynamics / numerical** layer adds a non-analytic Cowell
 propagator alongside the analytic SGP4/SDP4 path; the **fusion** layer carries the
-GNSS/INS estimators; and the **alt-PNT** layer is GPS-denied gravity-map matching. These
+GNSS/INS estimators; and the **alt-PNT** layer is GPS-denied (GPS: Global Positioning System) gravity-map matching. These
 are library/scenario capabilities (see [CAPABILITY](CAPABILITY.md) for which are wired to
-a scenario `kind` vs reachable as a Rust API).
+a scenario `kind` vs reachable as a Rust API (application programming interface)).
 
 ```mermaid
 flowchart TD
@@ -181,28 +181,28 @@ flowchart TD
 ```
 
 The numerical propagator's force terms are off by default, so enabling them never
-perturbs the released goldens. The 17-state tightly-coupled UKF coasts a GNSS outage on
+perturbs the released goldens. The 17-state tightly-coupled UKF (unscented Kalman filter) coasts a GNSS outage on
 the quantum-CAI accelerometer's derived velocity-random-walk; orbit determination reuses
 the same `forces`/`integrator` to propagate a candidate state across the tracking arc.
 
 The same shared core also carries four further subsystems not drawn above (their packs
 appear in the dispatch of §4): a **time & reference-frame** layer (`timescales`, `jd2`,
-`precession`, `nutation`, `cio`, `frames`, `eop`) reducing TEME↔GCRS↔ITRS and feeding the
+`precession`, `nutation`, `cio`, `frames`, `eop`) reducing TEME↔GCRS↔ITRS (TEME: true equator, mean equinox) and feeding the
 `ephemeris`/ground-track pack; an **integrity** layer (`raim`, `sbas`) for RAIM/ARAIM/SBAS;
 a **resilience** layer (`jamming`, `spoof`, `spoof_detect`, `spoof_monitors`, `detection`)
 for jamming and multi-layer spoof detection, with a **nav-signal** layer (`navsignal`) at
-the signal level — BPSK-R / sine-BOC power spectral densities, the spectral-separation
+the signal level — BPSK-R (BPSK: binary phase-shift keying) / sine-BOC (BOC: binary offset carrier) power spectral densities, the spectral-separation
 coefficient `κ` that now derives `jamming`'s anti-jam `Q`, the RMS (Gabor) ranging
-bandwidth, the coherent early–late DLL code-tracking jitter, and the multipath error
-envelope (signal-performance analysis, **not** RF-payload / antenna hardware design — a
+bandwidth, the coherent early–late DLL (delay-locked loop) code-tracking jitter, and the multipath error
+envelope (signal-performance analysis, **not** RF-payload (RF: radio-frequency) / antenna hardware design — a
 payload partner's role); and a **lunar / cislunar** layer (`lunar`,
-`lunar_frame`, `lunar_od`, `cr3bp`) for CR3BP dynamics — including the 6×6
+`lunar_frame`, `lunar_od`, `cr3bp`) for CR3BP (circular restricted three-body problem) dynamics — including the 6×6
 state-transition matrix and a single-shooting differential corrector (`cr3bp_jacobian`,
 `propagate_state_stm`, `differential_correct_halo`) that produces genuinely periodic
-halo/NRHO orbits, reproducing the published L2 southern 9:2 NRHO (the Gateway orbit) at
+halo/NRHO (NRHO: near-rectilinear halo orbit) orbits, reproducing the published L2 southern 9:2 NRHO (the Gateway orbit) at
 period ≈ 6.57 d / perilune ≈ 3,250 km (published ≈ 6.56 d / ≈ 3,370 km); the selenocentric
-MCI/MCMF transform of a corrected orbit and family-continuation remain follow-ons, and the
-NRHO is a CR3BP (circular, Sun-free) solution, not validated against a real LANS/Gateway
+MCI/MCMF (MCI: Moon-centred inertial; MCMF: Moon-centred, Moon-fixed) transform of a corrected orbit and family-continuation remain follow-ons, and the
+NRHO is a CR3BP (circular, Sun-free) solution, not validated against a real LANS/Gateway (LANS: Lunar Augmented Navigation Service)
 ephemeris — and LunaNet integrity. The
 agency-ephemeris force-model fit (`precise_od`, `lunar_od`, `tides`, `gravity_sh`) and the
 full alt-PNT field set (`igrf`, `altpnt/terrain`, `gravimeter`) round out the module list;
@@ -255,10 +255,10 @@ flowchart TD
 
 - **`tpl`** — the conditional Timing Protection Level: a holdover-limited bound on the
   *undetected* time error under spoofing, composing a k-σ monitor floor, the van-Loan
-  coast variance over the detection latency, and a CUSUM time-to-alarm; calibrated on a
+  coast variance over the detection latency, and a CUSUM (cumulative sum) time-to-alarm; calibrated on a
   real recorded spoof (JammerTest 2024). There is no finite *unconditional* bound — the
   TPL is conditional on an independent cross-check detecting the attack.
-- **`resilience/`** — a framework-aligned PNT-resilience scoring engine (DHS RPCF
+- **`resilience/`** — a framework-aligned PNT-resilience scoring engine (DHS (Department of Homeland Security) RPCF (Resilient PNT Conformance Framework)
   categories) plus a decision-instability study: a Dirichlet weighting simplex, Kendall-τ
   rank instability, top-1 winner flip rate, and common-mode **diversity collapse**
   (Hill-N2), with an integrity-hashed assurance report and 35 hand-derived oracle tests.
@@ -266,11 +266,11 @@ flowchart TD
   RPCF v2.0 — a self-assessment, not a certification.
 - **`impairment_eval` / `impairment_study` / `impairment_ml` / `eval_stats`** — the
   RF-impairment optimism-gap study: a labelled synthetic corpus and detector-agnostic
-  ROC/AUC harness, a 13-detector panel (energy/AGC/SQM/parity plus seeded
-  logistic-regression and one-hidden-layer-MLP detectors), in- vs out-of-distribution
+  ROC/AUC (ROC: receiver operating characteristic; AUC: area under the curve) harness, a 13-detector panel (energy/AGC/SQM/parity (AGC: automatic gain control; SQM: signal-quality monitoring) plus seeded
+  logistic-regression and one-hidden-layer-MLP (MLP: multi-layer perceptron) detectors), in- vs out-of-distribution
   scaling laws with a permutation null, and a leave-one-out predictor of out-of-distribution
   degradation. The eval metrics are validated bit-for-bit against scikit-learn.
-- **`sdr` / `realdata`** — a software-defined-receiver front end (raw IQ/IF → correlator
+- **`sdr` / `realdata`** — a software-defined-receiver front end (raw IQ/IF (IQ: in-phase/quadrature; IF: intermediate frequency) → correlator
   early/prompt/late taps → SQM) and ingest adapters (RINEX, u-blox UBX, GnssLogger,
   JammerTest, Yunnan, SatGrid) that let the same detectors run over recordings supplied
   locally; no datasets are committed to the repo.
@@ -282,9 +282,9 @@ flowchart TD
 
 The remaining domains plug into the same `api` dispatch and reuse the shared core,
 frames and geometry. Everything here is **MODELLED** unless a `verification`-matrix row
-cites an external oracle (RAIM kernel vs SciPy, SBAS vs the RTKLIB fork, the gnss_lib_py
-DOP kernel, the OPS-SAT eval) — the lunar suite and the quantum demonstrator are
-modelled, illustrative, public-source, and carry no TRL / heritage / agency-endorsement
+cites an external oracle (RAIM kernel vs SciPy, SBAS vs the RTKLIB (an open-source real-time kinematic positioning library) fork, the gnss_lib_py
+DOP (dilution of precision) kernel, the OPS-SAT eval) — the lunar suite and the quantum demonstrator are
+modelled, illustrative, public-source, and carry no TRL (technology readiness level) / heritage / agency-endorsement
 claim.
 
 ```mermaid
@@ -441,7 +441,7 @@ not a string typo. Three typed surfaces sit alongside the string-returning
   `error_kind(toml)`.
 - **`list_scenario_kinds() -> Vec<ScenarioMeta>`** (and `list_scenario_kinds_json()`,
   exposed in the bindings as `list_kinds()`) — programmatic introspection: each
-  kind's name, description, and required/optional fields, for UI and notebook
+  kind's name, description, and required/optional fields, for UI (user interface) and notebook
   auto-complete.
 
 ### Extending Kshana with an external pack
@@ -531,7 +531,7 @@ therefore *derived from geometry* rather than hand-authored, while the run, esti
 and scoring stay unchanged.
 
 A constellation supplied as full TLEs is propagated with the SGP4/SDP4 model in
-`sgp4.rs` (validated against the AIAA 2006-6753 vectors); line-2-only elements keep
+`sgp4.rs` (validated against the AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 vectors); line-2-only elements keep
 the analytic two-body path. The two can be mixed within one constellation block.
 
 ```mermaid
@@ -553,13 +553,13 @@ scan them. Both call `api::run_toml`, so every surface returns identical results
 WebAssembly module backs the browser playground in `web/` and exports thirteen
 functions: `run`, `run_all` (one engine run returning result, chart, summary and table
 together), `chart_svg`, `summary`, `table_csv`, `list_kinds`, `error_kind`, `version`, the
-`encode_permalink` / `decode_permalink` shareable-URL codec, and the three exporters
+`encode_permalink` / `decode_permalink` shareable-URL (URL: web address) codec, and the three exporters
 `export_sp3` / `export_omm` / `export_oem` that back the playground's export menu.
-Two further front doors reach the same `api`: the **MCP server** (`mcp/kshana-mcp`, a
+Two further front doors reach the same `api`: the **MCP (Model Context Protocol) server** (`mcp/kshana-mcp`, a
 workspace-excluded `rmcp` crate exposing seven tools — `run_scenario`,
 `list_scenario_kinds`, `validate_scenario`, `export_sp3`, `export_omm`, `export_oem`,
 `export_table_csv`)
-and the **JetBrains IDE plugin** (`ide/jetbrains`, a Kotlin project that shells out to
+and the **JetBrains IDE (integrated development environment) plugin** (`ide/jetbrains`, a Kotlin project that shells out to
 the `kshana` CLI rather than linking the library).
 
 ```mermaid
@@ -580,7 +580,7 @@ nothing — it runs the CLI.
 
 - All randomness flows through a single seeded `ChaCha8Rng` per run; the step order is
   fixed, so `(scenario, seed, engine version) → identical bits`.
-- The result carries a SHA-256 `scenario_hash`; `scripts/check-reproducible.sh` runs a
+- The result carries a SHA-256 (SHA: Secure Hash Algorithm) `scenario_hash`; `scripts/check-reproducible.sh` runs a
   reference scenario twice and asserts byte-identical output.
 - The same engine compiles to native, to a Python extension, and to
   `wasm32-unknown-unknown` for in-browser runs producing the same numbers.
@@ -592,21 +592,21 @@ the numerical Cowell propagator with its seven-perturbation force model and two 
 integrators, maneuver/trajectory design, orbit determination, the 15-/8-/17-state
 GNSS/INS estimators, the coupled clock+position filter, and gravity-map matching — have
 all shipped, alongside the Security FoM with an active spoof demonstrator, real
-TLE/multi-constellation geometry, Monte-Carlo bands, trade-study sweeps, the HTML
+TLE/multi-constellation geometry, Monte-Carlo bands, trade-study sweeps, the HTML (HyperText Markup Language)
 scorecard, and the publish/wheels/pages workflows.
 
 Several capabilities once listed here as future work have since **shipped** and are
 covered above or in [VALIDATION](VALIDATION.md): the full IAU 2000A nutation and the
-equinox-free CIO GCRS↔ITRS / ITRF reduction (validated bit-for-bit against SOFA/ERFA),
-the EGM2008 geopotential to degree/order 70, the **Lense–Thirring** frame-dragging term,
-solid/ocean/atmospheric tides, and a DE-grade (DE440/ANISE) ephemeris cross-validation.
+equinox-free CIO GCRS↔ITRS / ITRF (International Terrestrial Reference Frame) reduction (validated bit-for-bit against SOFA/ERFA (SOFA: Standards of Fundamental Astronomy; ERFA: Essential Routines for Fundamental Astronomy)),
+the EGM2008 (Earth Gravitational Model 2008) geopotential to degree/order 70, the **Lense–Thirring** frame-dragging term,
+solid/ocean/atmospheric tides, and a DE-grade (DE440/ANISE (DE440: Development Ephemeris 440; ANISE: Attitude, Navigation, Instrument, Spacecraft, Ephemeris — a pure-Rust planetary-geometry toolkit)) ephemeris cross-validation.
 
 The remaining follow-ons are tracked in [CHANGELOG](../CHANGELOG.md) `[Unreleased]` and the
-per-capability roadmap in [CAPABILITY](CAPABILITY.md): a higher-degree (e.g. 200×200) EGM
-**tesseral** field and loader beyond the shipped degree/order-70 path, the NRLMSISE-00
+per-capability roadmap in [CAPABILITY](CAPABILITY.md): a higher-degree (e.g. 200×200) EGM (Earth Gravitational Model)
+**tesseral** field and loader beyond the shipped degree/order-70 path, the NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model)
 thermospheric density, solar limb darkening / the oblate-Earth shadow, an external
-GMAT/Orekit cross-validation of a high-fidelity orbit run, carrier-phase tight coupling and
-surfacing the tight-coupled navigator in a scenario pack, and a real EGM2008/EIGEN gravity
+GMAT/Orekit (GMAT: General Mission Analysis Tool) cross-validation of a high-fidelity orbit run, carrier-phase tight coupling and
+surfacing the tight-coupled navigator in a scenario pack, and a real EGM2008/EIGEN (EIGEN: European Improved Gravity model of the Earth by New techniques) gravity
 map for the alt-PNT matcher.
 
 A private overlay repo holds export-sensitive resilience depth; it plugs in via the

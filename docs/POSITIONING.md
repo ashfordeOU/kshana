@@ -148,7 +148,7 @@ That zero-install tier is a deliberate position:
   engine from a link, on any device, with no setup.
 - **Reproducibility** — the same engine that ships in the browser is the library that
   ships on crates.io, the Python Package Index (PyPI) and npm; a result is reproducible
-  from `scenario + seed + engine version`, and a run is shareable as a URL.
+  from `scenario + seed + engine version`, and a run is shareable as a URL (web address).
 - **Honesty** — running the engine yourself, in the open, is the strongest
   counter to "trust the numbers": the browser tier *is* the audit surface.
 

@@ -18,7 +18,7 @@ integrity = (# outage samples with |error| <= k * phase_sigma) / (# outage sampl
 ```
 
 This measures whether the filter's *self-reported* uncertainty is honest about
-its *own* error during a GNSS outage. It is a useful internal consistency check.
+its *own* error during a GNSS (global navigation satellite system) outage. It is a useful internal consistency check.
 
 It is **not**:
 
@@ -30,13 +30,13 @@ It is **not**:
 
 ### Security FoM — analytic spoof-detectability bound
 The Security FoM is a **clock-stability-based spoof-detectability bound**: given a
-clock's noise (white-frequency and random-walk PSDs) and a monitoring window, it
+clock's noise (white-frequency and random-walk PSDs (power spectral densities)) and a monitoring window, it
 is the analytic detection margin of a single-clock consistency monitor against a
 slowly-ramping false-time spoof. A quieter clock (e.g. an optical clock) detects a
-smaller, slower spoof than a noisier one (e.g. a CSAC) — that contrast is the point
+smaller, slower spoof than a noisier one (e.g. a CSAC (chip-scale atomic clock)) — that contrast is the point
 of the demonstrator.
 
-It is **not** a multi-satellite RAIM detector. There are no cross-satellite
+It is **not** a multi-satellite RAIM (receiver autonomous integrity monitoring) detector. There are no cross-satellite
 pseudorange residuals, no protection level, and no P_HMI. The innovation-vs-sigma
 test has the same mathematical shape as classical RAIM fault detection (Brown), but
 the number is an analytic bound for a given clock, not an RAIM implementation, and
@@ -62,22 +62,22 @@ self-consistency FoM above:
   single-satellite exclusion sub-solution, the nested-estimator separation
   `Δ_k = x_k − x₀` both **detects and identifies** the faulted satellite and feeds
   the protection-level bound.
-- **ARAIM integrity-risk (P_HMI) budget** — `araim_raim` solves the smallest HPL/VPL
+- **ARAIM (advanced receiver autonomous integrity monitoring) integrity-risk (P_HMI) budget** — `araim_raim` solves the smallest HPL/VPL
   whose summed probability of hazardously-misleading information
   `P_HMI = Σ_k p_fault,k · Q((PL − T_k)/σ_k)` (Blanch et al., *Baseline ARAIM*) meets
   an explicit integrity-risk allocation, and reports the risk the levels achieve — so
   integrity can be traded against the alert limit directly, instead of leaving it
   implicit in a fixed `K_md` multiplier.
-- **Stanford(-ESA) integrity diagram** — a per-epoch accumulator classifies
+- **Stanford(-ESA, the European Space Agency) integrity diagram** — a per-epoch accumulator classifies
   `(error, PL)` into Available / System-Unavailable / Misleading / Hazardously-
   Misleading regions for an availability summary.
 - **Reachable end-to-end** — the `integrity` scenario kind runs the above over an
-  SGP4/Keplerian (or real TLE / RINEX) constellation and emits a per-epoch HPL/VPL
+  SGP4/Keplerian (or real TLE (two-line element set) / RINEX (Receiver Independent Exchange Format)) constellation and emits a per-epoch HPL/VPL
   availability map against the configured alert limits (`scenarios/integrity-raim.toml`).
   The same run **exports a vertical Stanford diagram**: at each protected epoch a
   seeded, reproducible no-fault range-error draw is mapped through the geometry to an
   actual vertical error and classified against the VPL and the vertical alert limit, so
-  the JSON result and CLI summary carry the region counts (integrity events, HMI) — not
+  the JSON (JavaScript Object Notation) result and CLI (command-line interface) summary carry the region counts (integrity events, HMI) — not
   only an availability fraction.
 
 ## The remaining gap (roadmap)
@@ -86,15 +86,15 @@ What `raim.rs` does **not** yet do:
 
 - it is **not folded into the clock/holdover scenario FoM** — those packs still report
   the filter self-consistency Integrity figure above, not an HPL/VPL;
-- the ARAIM budget is **single-fault MHSS** — simultaneous **multi-SV-subset faults**,
-  the **constellation-wide fault mode**, and a real **ISM / threat model** are not
+- the ARAIM budget is **single-fault MHSS** — simultaneous **multi-SV-subset (SV: space vehicle, that is a satellite) faults**,
+  the **constellation-wide fault mode**, and a real **ISM (integrity support message) / threat model** are not
   modelled, and **fault exclusion (FDE)** stops at identification.
 
-The snapshot, solution-separation, and ARAIM cores are exercised on **real IGS
+The snapshot, solution-separation, and ARAIM cores are exercised on **real IGS (International GNSS Service)
 precise-orbit (SP3) geometry**, not synthetic constellations alone: `tests/igs_real_data.rs`
 forms the line-of-sight geometry from the first epoch of a genuine IGS SP3 product at a
 real ground station, and checks that the protection levels are metre-level and
-APV-I-available, that a 60 m pseudorange bias trips the χ² monitor, that solution
+APV-I-available (APV: approach with vertical guidance), that a 60 m pseudorange bias trips the χ² monitor, that solution
 separation **identifies** the faulted satellite, and that ARAIM's levels meet the
 allocated `P_HMI`. (A deeper cross-check — diffing protection levels epoch-by-epoch
 against gLAB's own output over a full RINEX observation arc — would add receiver-domain

@@ -1,11 +1,11 @@
 # PNT-resilience framework cross-walk
 
 **Aligned to, not certified.** This maps Kshana's simulated capabilities to the
-published PNT-resilience frameworks. It is a *simulation-derived self-assessment
-aligned to* the DHS/CISA Resilient PNT Conformance Framework (RPCF) v2.0, the
+published PNT-resilience (PNT: positioning, navigation and timing) frameworks. It is a *simulation-derived self-assessment
+aligned to* the DHS/CISA (DHS: Department of Homeland Security; CISA: Cybersecurity and Infrastructure Security Agency) Resilient PNT Conformance Framework (RPCF) v2.0, the
 RethinkPNT/Firesmith Resist-Detect-Respond-Recover (RDRR) model, and Yang
 Yuanxi's resilient-PNT criteria. It is **not** a certification, accreditation, or
-compliance statement, and it carries no endorsement from DHS, IEEE, or any
+compliance statement, and it carries no endorsement from DHS, IEEE (Institute of Electrical and Electronics Engineers), or any
 authority. Every row is labelled with its honest verification status
 (`VALIDATED` against an external oracle, or `MODELLED` from first principles with
 tests); the resilience-scoring layer itself is **MODELLED**.
@@ -20,7 +20,7 @@ per-dimension sub-scores, never a single phantom number. See
 |---|---|---|---|
 | Obfuscate | Declared technique × source quality (no direct behavioural driver) | `resilience::score` | MODELLED |
 | Limit | Declared technique × source quality | `resilience::score` | MODELLED |
-| Verify | Impairment-detector AUC under the scenario (spoof/jam/meacon monitors) | `impairment_eval`, `resilience::score` | MODELLED |
+| Verify | Impairment-detector AUC (area under the curve) under the scenario (spoof/jam/meacon monitors) | `impairment_eval`, `resilience::score` | MODELLED |
 | Isolate | Declared technique × source quality | `resilience::score` | MODELLED |
 | Diversify | Independent-group count → inverse-Simpson effective diversity | `resilience::diversity` | MODELLED |
 | Mitigate | Availability under denial | `fom`, `resilience::score` | MODELLED |
@@ -49,7 +49,7 @@ per-dimension sub-scores, never a single phantom number. See
 - No certified RPCF Level. The assigned Level is a *tentative, simulation-derived*
   reading with an explicit bounded-degradation gate, not a conferred maturity.
 - No position-domain accuracy. Kshana's figures of merit are timing-domain and
-  detection metrics; position CEP/SEP/HPL require a multi-axis nav solution Kshana
+  detection metrics; position CEP/SEP/HPL (CEP: circular error probable; SEP: spherical error probable; HPL: horizontal protection level) require a multi-axis nav solution Kshana
   does not yet provide.
 - No field validation. The reference panel and threat ensemble are synthetic,
   parameter-grounded reductions (`resilience::panel`), stated as a first-class

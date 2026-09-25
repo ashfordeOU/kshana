@@ -47,36 +47,36 @@ this list says what comes first.
 
 ## Shipped (on `main`)
 
-A validated, fully reproducible engine spanning the PNT stack:
+A validated, fully reproducible engine spanning the PNT (positioning, navigation and timing) stack:
 
-- **Orbit & geometry** — SGP4/SDP4 propagation validated to 4.12 mm against all 666
-  AIAA 2006-6753 vectors; real-TLE (committed date-stamped Celestrak `gps-ops` snapshot)
+- **Orbit & geometry** — SGP4/SDP4 (SGP4: Simplified General Perturbations 4; SDP4: Simplified Deep-space Perturbations 4) propagation validated to 4.12 mm against all 666
+  AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 vectors; real-TLE (committed date-stamped Celestrak `gps-ops` snapshot)
   and synthetic Walker constellations whose mean elements realise the `i:T/P/F` formula to
-  under 1 km over 24 h; multi-constellation visibility, dilution of precision, and GNSS
+  under 1 km over 24 h; multi-constellation visibility, dilution of precision, and GNSS (global navigation satellite system)
   availability; a gradient-free constellation-design optimiser, streets-of-coverage
   minimum-satellite sizing, a multi-constellation comparison tool, and a Walker design sweep
-  that tabulates coverage / PDOP / revisit-time over a planes×satellites grid and reports the
-  Pareto-optimal designs as JSON.
+  that tabulates coverage / PDOP (position dilution of precision) / revisit-time over a planes×satellites grid and reports the
+  Pareto-optimal designs as JSON (JavaScript Object Notation).
 - **Maneuvers & trajectory design** — impulsive ΔV nodes with 6×6 covariance propagation
-  (ECI / LVLH execution-error frames), finite-burn integration checked against the closed-form
+  (ECI (Earth-centred inertial) / LVLH (local vertical, local horizontal) execution-error frames), finite-burn integration checked against the closed-form
   Tsiolkovsky rocket equation to < 0.01 %, an Izzo-2015 single-revolution Lambert solver and an
   exact universal-variable Kepler propagator, and a porkchop (launch × arrival) C3 / arrival-V∞
-  sweep emitted as a JSON contour grid — the performance-simulation layer above GMAT/Orekit, with
+  sweep emitted as a JSON contour grid — the performance-simulation layer above GMAT/Orekit (GMAT: General Mission Analysis Tool), with
   Lambert outputs round-tripped against two-body truth and the porkchop minimum checked against the
   analytic Hohmann floor.
 - **Numerical propagator** — a Cowell propagator (`src/propagator.rs`) integrating a configurable
-  zonal-gravity force model with a choice of adaptive driver — RK4 **step doubling** or the
+  zonal-gravity force model with a choice of adaptive driver — RK4 (fourth-order Runge–Kutta) **step doubling** or the
   **Dormand–Prince RK5(4)** embedded pair (`integrator::integrate_dopri` / `propagate_dopri`, a
   cheaper 7-eval embedded error estimate) — pinned against analytic truth:
   the unperturbed orbit matches the exact universal-variable Kepler solution to sub-metre over 24 h,
   energy/angular-momentum conserve to ~1e-9, and the J2 nodal regression reproduces the closed-form
   secular rate; plus a convergence-guarded Kepler-equation solver. The force model spans the **full
-  Earth zonal field through degree 6** (`forces::zonal_accel`, the published EGM-96 `J2..J6`): the
+  Earth zonal field through degree 6** (`forces::zonal_accel`, the published EGM-96 (EGM: Earth Gravitational Model) `J2..J6`): the
   acceleration is the exact analytic gradient of the zonal disturbing potential, validated against its
   own numerically-differentiated potential, against the 666-vector-validated J2 closed form, and via
   the odd/even zonals' characteristic north–south symmetry. **Epoch-driven third-body (Sun and Moon)**
   gravity is **wired into the time-varying integrator** (`ForceModel::third_body` / `accel_at`): each
-  RHS evaluation samples the built-in **low-precision analytical Sun and Moon ephemerides**
+  RHS (right-hand side) evaluation samples the built-in **low-precision analytical Sun and Moon ephemerides**
   (`src/ephem.rs`, Montenbruck & Gill) at the advanced epoch `epoch_jd_tt + t/86400`, so the perturbers
   move along their orbits during the integration. Validated as the exact gradient of its disturbing
   potential; the Sun ephemeris against hand-derived J2000 anchors (perihelion distance, solstice
@@ -86,8 +86,8 @@ A validated, fully reproducible engine spanning the PNT stack:
   producing a different trajectory. **Solar-radiation pressure** (`forces::srp_accel` /
   `ForceModel::solar_radiation`) is wired into the same epoch-driven RHS: the cannonball model
   `ν·P☉·cᵣ·(A/m)·(AU/d)²·d̂` with a **conical umbra+penumbra** shadow (`forces::conical_shadow`, a
-  smooth `ν ∈ [0,1]` from the Sun/Earth apparent-disk overlap), validated against the textbook 1-AU
-  pressure (≈ 4.54·10⁻⁶ N/m²), the ~1.36·10⁻⁷ m/s² LEO magnitude, the inverse-square fall-off, an
+  smooth `ν ∈ [0,1]` from the Sun/Earth apparent-disk overlap), validated against the textbook 1-AU (AU: astronomical unit)
+  pressure (≈ 4.54·10⁻⁶ N/m²), the ~1.36·10⁻⁷ m/s² LEO (low Earth orbit) magnitude, the inverse-square fall-off, an
   exactly-zero deep-umbra eclipse, a smooth monotonic penumbra that extends beyond the umbral
   cylinder, and a ~linear A/m scaling of the propagated displacement. **Atmospheric
   drag** (`forces::drag_accel` / `ForceModel::drag`) is wired in as the first velocity-dependent
@@ -97,51 +97,51 @@ A validated, fully reproducible engine spanning the PNT stack:
   signature (a 300 km orbit loses energy monotonically and its semi-major axis decays ~km/day where
   the vacuum orbit conserves energy). The **post-Newtonian (Schwarzschild) relativistic correction**
   (`forces::relativistic_accel` / `ForceModel::relativity`) is the second velocity-dependent term —
-  the IERS `β = γ = 1` form `a = (μ/c²r³)·{[4μ/r − v²]·r + 4(r·v)·v}`, the leading driver of the
+  the IERS (International Earth Rotation and Reference Systems Service) `β = γ = 1` form `a = (μ/c²r³)·{[4μ/r − v²]·r + 4(r·v)·v}`, the leading driver of the
   relativistic perigee advance — validated by its closed-form circular value `3μ²/(c²r³)·r̂`, its
   textbook `≈1.9·10⁻⁹` LEO ratio to two-body, and the conservative signature (it perturbs the orbit
   but, unlike drag, holds the semi-major axis to under a metre/day). High-degree tesseral gravity,
-  the NRLMSISE-00 thermospheric density, solar limb darkening / the oblate-Earth shadow, the
+  the NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model) thermospheric density, solar limb darkening / the oblate-Earth shadow, the
   Lense–Thirring frame-dragging term, and external GMAT/Orekit cross-validation remain follow-ons.
-- **Time systems** — IERS leap-second UTC/TAI/TT/UT1, Julian-date API, IAU-2000
-  Earth Rotation Angle; GMST-based TEME↔ECEF and WGS-84 geodetic frames.
-- **Inertial** — three-axis strapdown INS (quaternion attitude, NED mechanization,
-  coning/sculling, deterministic IMU error model), plus a sequential-importance-resampling
-  particle filter for map-aided (terrain-/gravity-referenced) GPS-denied navigation.
+- **Time systems** — IERS leap-second UTC/TAI/TT/UT1 (UTC: Coordinated Universal Time; TAI: International Atomic Time; TT: Terrestrial Time; UT1: Universal Time 1, Earth-rotation time), Julian-date API (application programming interface), IAU-2000 (IAU: International Astronomical Union)
+  Earth Rotation Angle; GMST-based (GMST: Greenwich mean sidereal time) TEME↔ECEF (TEME: true equator, mean equinox; ECEF: Earth-centred, Earth-fixed) and WGS-84 (WGS: World Geodetic System) geodetic frames.
+- **Inertial** — three-axis strapdown INS (quaternion attitude, NED (north-east-down) mechanization,
+  coning/sculling, deterministic IMU (inertial measurement unit) error model), plus a sequential-importance-resampling
+  particle filter for map-aided (terrain-/gravity-referenced) GPS-denied (GPS: Global Positioning System) navigation.
 - **Gravity-map / alt-PNT** — a cold-atom **gravimeter measurement model** (white-noise floor
-  `σ = ASD/√τ` derived from the CAI accelerometer physics), a low-degree fully-normalised
+  `σ = ASD/√τ` derived from the CAI (cold-atom interferometer) accelerometer physics), a low-degree fully-normalised
   **spherical-harmonic gravity-anomaly field** (validated against the closed-form Legendre
   functions and a hand-derived single-term anomaly) plus synthetic mascons, and a
   **gravity-map-matching particle filter** that recovers a GPS-denied track from the anomaly
   sequence it flies through. A **60-minute GPS-denied benchmark** flies a ~700 km / one-hour
   outage where the inertial solution drifts to ~70 km, and a **hierarchical coarse-to-fine**
   matcher with the gravimeter's deterministic seeded noise recovers it to **~145 m (< 500 m)** —
-  the ESA NAVISP *Quantum Wayfarer* target. Magnetic maps (IGRF-14 main field) and
+  the ESA (European Space Agency) NAVISP (Navigation Innovation and Support Programme) *Quantum Wayfarer* target. Magnetic maps (IGRF-14 (IGRF: International Geomagnetic Reference Field) main field) and
   terrain-referenced navigation are wired (`terrain-nav`, `combined-altpnt`), and
-  **sequential terrain-referenced navigation** — SITAN as a running particle filter that
+  **sequential terrain-referenced navigation** — SITAN (Sandia Inertial Terrain-Aided Navigation) as a running particle filter that
   tracks a *time-varying* INS drift epoch by epoch (`terrain-slam`) — is now built. The full
-  EGM2008 coefficient set, a map-error Monte-Carlo, a real high-frequency crustal magnetic
-  map, and joint map estimation (full SLAM) remain follow-ons.
-- **Fusion** — loosely-coupled 15-state GNSS/INS error-state EKF with closed-loop
+  EGM2008 (Earth Gravitational Model 2008) coefficient set, a map-error Monte-Carlo, a real high-frequency crustal magnetic
+  map, and joint map estimation (full SLAM (simultaneous localisation and mapping)) remain follow-ons.
+- **Fusion** — loosely-coupled 15-state GNSS/INS error-state EKF (extended Kalman filter) with closed-loop
   feedback, a tightly-coupled pseudorange update that corrects with fewer than four
   satellites, a coupled clock+position filter, a general unscented (sigma-point)
   Kalman estimator for strongly nonlinear measurement models, a tightly-coupled
   GNSS/INS UKF navigator (pseudorange + Doppler, force-model orbital coast validated to
-  0.77 m RMS over a 30-minute curving LEO pass including a 120-second GNSS outage), and a
+  0.77 m RMS (root mean square) over a 30-minute curving LEO pass including a 120-second GNSS outage), and a
   full 17-state tightly-coupled GNSS/INS UKF (position, velocity, attitude error, accelerometer
   and gyro biases, clock bias and drift) whose quantum-CAI dead-reckoning coasts a 120-second
   outage on the cold-atom accelerometer's derived velocity-random-walk.
-- **Integrity** — snapshot and solution-separation (ARAIM-style) RAIM with HPL/VPL,
-  FDE, and Stanford diagrams; an explicit integrity-risk-budget (MHSS) protection level,
-  including the dual-/multi-constellation constellation-wide fault mode (EU ARAIM / DO-316).
+- **Integrity** — snapshot and solution-separation (ARAIM-style (ARAIM: advanced receiver autonomous integrity monitoring)) RAIM (receiver autonomous integrity monitoring) with HPL/VPL (HPL: horizontal protection level; VPL: vertical protection level),
+  FDE (fault detection and exclusion), and Stanford diagrams; an explicit integrity-risk-budget (MHSS) protection level,
+  including the dual-/multi-constellation constellation-wide fault mode (EU (European Union) ARAIM / DO-316).
 - **Clock & timing** — two-state holdover Kalman, Allan-family stability with
-  confidence intervals, optical/RF two-way time transfer, and the geometric
+  confidence intervals, optical/RF (RF: radio-frequency) two-way time transfer, and the geometric
   time-transfer corrections (Sagnac effect, GNSS common-view single difference).
-  Operational transfer methods build on these: TWSTFT with the BIPM Sagnac closed
+  Operational transfer methods build on these: TWSTFT (two-way satellite time and frequency transfer) with the BIPM (International Bureau of Weights and Measures) Sagnac closed
   form `2·A·ω_E/c²` and a one-day `T_A−T_B`/TDEV campaign, GNSS common-view between
-  two synthetic ground stations, PPP ionosphere-free time transfer with a receiver-clock
+  two synthetic ground stations, PPP (precise point positioning) ionosphere-free time transfer with a receiver-clock
   solve, a free-space optical link with Rytov/Fried turbulence scintillation, a full
-  IEEE-1139 five-coefficient power-law noise fit, and an inverse-variance clock-ensemble
+  IEEE-1139 (IEEE: Institute of Electrical and Electronics Engineers) five-coefficient power-law noise fit, and an inverse-variance clock-ensemble
   (paper) timescale that beats the best contributing clock.
 - **GNSS measurement domain** — Klobuchar (broadcast) and IONEX/TEC-grid (measured)
   ionosphere, with an IONEX file parser, time interpolation between maps, and the slant
@@ -150,40 +150,40 @@ A validated, fully reproducible engine spanning the PNT stack:
   stochastic time-spoof detector (Neyman–Pearson / χ²₁ energy test, Monte-Carlo
   P_fa/P_md, Security FoM = 1 − P_md); and a multi-layer spoof detector fusing a
   RAIM-consistency parity test (with the common-mode blind spot modelled honestly), an
-  RF-layer AGC-power monitor, and a signal-quality (SQM Early-minus-Late) monitor.
-- **Interoperability** — RINEX-3 (RINEX 4 navigation refused by name; 4.00 observation expected but untested), SP3-c/d, CCSDS OEM 2.0 (export **and** import via the
+  RF-layer AGC-power (AGC: automatic gain control) monitor, and a signal-quality (SQM (signal-quality monitoring) Early-minus-Late) monitor.
+- **Interoperability** — RINEX-3 (RINEX 4 navigation refused by name; 4.00 observation expected but untested), SP3-c/d (SP3: Standard Product 3, the precise-orbit format), CCSDS (Consultative Committee for Space Data Systems) OEM (Orbit Ephemeris Message) 2.0 (export **and** import via the
   `oem-interop` round-trip bridge) and OMM (mean-elements) export, plus CCSDS-TDM (503) and
   the `space-packet` (CCSDS 133.0-B) framer.
 - **Mission-analysis & environment (first-order, MODELLED)** — runnable `launch-window`
   (azimuth / plane-change / opportunities), `reentry` (Allen-Eggers corridor),
-  `eo-coverage` (swath / GSD / access / revisit), `attitude-budget` (gravity-gradient torque
-  + RSS pointing budget), `passes` (ground-station rise/set prediction), `link-budget`
-  (CCSDS-401/DSN-810-005 link equation), and `space-weather` (Kp/ap/F10.7a + Jacchia-71
+  `eo-coverage` (swath / GSD (ground sample distance) / access / revisit), `attitude-budget` (gravity-gradient torque
+  + RSS (root-sum-square) pointing budget), `passes` (ground-station rise/set prediction), `link-budget`
+  (CCSDS-401/DSN-810-005 (DSN: Deep Space Network) link equation), and `space-weather` (Kp/ap/F10.7a + Jacchia-71
   exospheric temperature + activity-driven density). Plus the two-tender demonstrators
-  `impairment-eval` (AI/ML RF-impairment ROC/AUC harness) and `quantum-trade`. All are
-  first-order/MODELLED — the analysis layer above GMAT/STK, not a replacement, and never
+  `impairment-eval` (AI/ML (AI: artificial intelligence; ML: machine learning) RF-impairment ROC/AUC (ROC: receiver operating characteristic; AUC: area under the curve) harness) and `quantum-trade`. All are
+  first-order/MODELLED — the analysis layer above GMAT/STK (STK: Systems Tool Kit), not a replacement, and never
   validated flight tools. See [`docs/CAPABILITY.md`](docs/CAPABILITY.md) for per-kind scope.
-- **Surfaces** — Rust library, CLI, Python (PyO3) and WebAssembly (wasm-bindgen)
+- **Surfaces** — Rust library, CLI (command-line interface), Python (PyO3) and WebAssembly (wasm-bindgen)
   bindings, and an in-browser playground.
 
 ## P1 — surface and harden (near-term)
 
-- ITRF-precise frame reduction toward the GCRS/J2000 system on top of the shipped
+- ITRF-precise (ITRF: International Terrestrial Reference Frame) frame reduction toward the GCRS/J2000 (GCRS: Geocentric Celestial Reference System) system on top of the shipped
   GMST-based TEME↔ECEF. *(In progress — IAU 2006 precession (`src/precession.rs`), both
   the IAU 2000B and the **full IAU 2000A** (678 luni-solar + 687 planetary terms)
-  nutation series and the full TEME→TOD→MOD→GCRS chain (`src/nutation.rs`,
+  nutation series and the full TEME→TOD→MOD→GCRS (TOD: true of date; MOD: mean of date) chain (`src/nutation.rs`,
   `teme_to_gcrs`, `nutation_iau2000a` / `nutation_matrix_2000a`, both series validated
-  bit-for-bit against the SOFA/ERFA `nut00b`/`nut00a` vectors; the 2000A table is
-  machine-generated by `tools/gen_nut00a.py`), and IERS **polar motion** PEF→ITRF
+  bit-for-bit against the SOFA/ERFA (SOFA: Standards of Fundamental Astronomy; ERFA: Essential Routines for Fundamental Astronomy) `nut00b`/`nut00a` vectors; the 2000A table is
+  machine-generated by `tools/gen_nut00a.py`), and IERS **polar motion** PEF→ITRF (PEF: pseudo-Earth-fixed)
   (`src/frames.rs`, `teme_to_itrf` / `polar_motion_matrix` per SOFA `iauPom00`,
-  caller-supplied `x_p`/`y_p`) are delivered, **and the fully CIO-based IAU 2006/2000A
-  (X, Y, s) reduction** (`src/cio.rs`: GCRS↔CIRS↔ITRS via `eraXys06a`/`eraC2ixys`/
+  caller-supplied `x_p`/`y_p`) are delivered, **and the fully CIO-based (CIO: Celestial Intermediate Origin) IAU 2006/2000A
+  (X, Y, s) reduction** (`src/cio.rs`: GCRS↔CIRS↔ITRS (CIRS: Celestial Intermediate Reference System; ITRS: International Terrestrial Reference System) via `eraXys06a`/`eraC2ixys`/
   `eraEra00`/`eraC2tcio`, validated bit-for-bit against the SOFA vectors), **and the
-  independent ANISE/SPICE numerical cross-check is delivered** (`xval/anise-frames/`:
-  `gcrs_to_itrs_matrix` vs ANISE's GCRF→ITRF93 from JPL's `earth_latest_high_prec.bpc`,
-  the same IERS `finals2000A` EOP fed to both, eight epochs 2020–2023 — max 0.028″,
+  independent ANISE/SPICE (ANISE: Attitude, Navigation, Instrument, Spacecraft, Ephemeris — a pure-Rust planetary-geometry toolkit; SPICE: Spacecraft, Planet, Instrument, C-matrix, Events) numerical cross-check is delivered** (`xval/anise-frames/`:
+  `gcrs_to_itrs_matrix` vs ANISE's GCRF→ITRF93 (GCRF: Geocentric Celestial Reference Frame; ITRF93: International Terrestrial Reference Frame 1993) from JPL (Jet Propulsion Laboratory)'s `earth_latest_high_prec.bpc`,
+  the same IERS `finals2000A` EOP (Earth orientation parameters) fed to both, eight epochs 2020–2023 — max 0.028″,
   **≤ 0.86 m on the ground, ≤ 3.6 m at GNSS orbit**, inside the <10 m target). The
-  cross-check is a standalone, workspace-excluded crate so the MPL-2.0 / edition-2024
+  cross-check is a standalone, workspace-excluded crate so the MPL-2.0 (MPL: Mozilla Public License) / edition-2024
   `anise` dependency never touches the published `kshana` crate or any default CI gate.)*
 - Two-part Julian dates (the single-`f64` JD is ~50 µs near 2020). *(Delivered — `src/jd2.rs` `Jd2`; surfacing it through the time API and propagator epoch handling remains.)*
 - Surface the loosely-/tightly-coupled GNSS/INS navigator across more scenario packs.
@@ -194,19 +194,19 @@ A validated, fully reproducible engine spanning the PNT stack:
 ## P2 — Quantum physics layer
 
 Today Kshana's quantum sensors are driven by **published Allan/noise-budget
-coefficients** (ACES/SHM/CSAC/optical-clock datasheets), not simulated from first
+coefficients** (ACES/SHM/CSAC/optical-clock (ACES: Atomic Clock Ensemble in Space; SHM: Space Hydrogen Maser; CSAC: chip-scale atomic clock) datasheets), not simulated from first
 principles. The P2 layer adds first-principles cold-atom-interferometer (CAI)
 physics so error budgets can be *derived*, not just *supplied*:
 
 - **Mach–Zehnder CAI phase**, interferometer contrast, and cycle time. *(Delivered —
   `src/inertial/quantum_imu.rs`; see [`docs/QUANTUM.md`](docs/QUANTUM.md).)*
 - **Quantum projection / shot noise** from first principles (not only its net Allan
-  contribution). *(Delivered — derives the `q_va` PSD the classical model consumes.)*
+  contribution). *(Delivered — derives the `q_va` PSD (power spectral density) the classical model consumes.)*
 - **Vibration coupling** — the interferometer acceleration→phase transfer function
   `|H(ω)| = (4/ω²)sin²(ωT/2)` and the white-PSD phase variance `σ_Φ² = k_eff²·S_a·T³/3`.
   *(Delivered — `src/inertial/quantum_imu.rs`; the dominant real-device term, so error
   budgets now span the shot-noise floor and the vibration-limited regime above it.)*
-- **Coriolis/rotation and AC-Stark light-shift systematics.** *(Delivered —
+- **Coriolis/rotation and AC-Stark (AC: alternating-current) light-shift systematics.** *(Delivered —
   `coriolis_phase` / `ac_stark_phase` in `src/inertial/quantum_imu.rs`.)*
 - **Laser-phase noise** and the remaining systematics (wavefront, fringe-ambiguity
   resolution). *(Still to do.)*
@@ -215,22 +215,22 @@ physics so error budgets can be *derived*, not just *supplied*:
 
 See [`docs/QUANTUM-MODELS.md`](docs/QUANTUM-MODELS.md) for exactly what is and is not
 modelled today. If you need first-principles CAI error budgets (e.g.
-CARIOQA-PMP-grade or X-37B-style validation), the P2 layer is the path — and we
+CARIOQA-PMP-grade (CARIOQA: Cold Atom Rubidium Interferometer in Orbit for Quantum Accelerometry) or X-37B-style validation), the P2 layer is the path — and we
 welcome collaboration: see [Support & professional services](README.md#support--professional-services).
 
 ## P3 — interoperability & standards depth
 
-- Additional CCSDS message types (ODM/AEM/TDM) and SPICE interop.
+- Additional CCSDS message types (ODM/AEM/TDM (ODM: Orbit Data Message; AEM: Attitude Ephemeris Message)) and SPICE interop.
 - Receiver-domain parity (e.g. gLAB) for the GNSS measurement chain; multi-fault
   ARAIM.
 - Lunar / cislunar integrity (LunaNet). *(In progress — `src/lunar.rs`: the lunar
-  ARAIM engine (σ_URE = 30 m, P_sat = 1e-4), the MCI↔MCMF cislunar frame reduction
+  ARAIM engine (σ_URE = 30 m, P_sat = 1e-4), the MCI↔MCMF (MCI: Moon-centred inertial; MCMF: Moon-centred, Moon-fixed) cislunar frame reduction
   and selenographic lat/lon/alt, and a south-pole protection-level pass that
   quantifies the integrity gap against a 50 m alert limit. `src/cr3bp.rs` adds the
   Earth–Moon **CR3BP** (rotating-frame dynamics, RK4, Jacobi constant, Lagrange
-  points — the three-body core a real NRHO needs). The differential-corrected 9:2
+  points — the three-body core a real NRHO (near-rectilinear halo orbit) needs). The differential-corrected 9:2
   NRHO initial conditions are wired in and the south-pole pass runs as the
-  `lunar-integrity` scenario kind; a DE-grade ephemeris in the core, the de-normalised
+  `lunar-integrity` scenario kind; a DE-grade (DE: Development Ephemeris) ephemeris in the core, the de-normalised
   selenocentric transform of the corrected orbit and family continuation remain. Lunar
   work is maintained rather than expanded — see [Priorities](#priorities).)*
 - A numerical propagator: the adaptive integrator core (`src/integrator.rs`, RK4 step-doubling
@@ -254,9 +254,9 @@ welcome collaboration: see [Support & professional services](README.md#support--
   measurements and an analytic J2 state-transition matrix remain.
 - Alternative (GNSS-denied) PNT: the map-matching measurement model
   (`src/mapmatch.rs`, `field_likelihood` / `map_match_likelihood`) closes the loop on the
-  shipped particle filter for terrain-/gravity-referenced navigation. The real **SRTM
+  shipped particle filter for terrain-/gravity-referenced navigation. The real **SRTM (Shuttle Radar Topography Mission)
   elevation** reference map and its `.hgt` loader have shipped and are validated against a
-  vendored public-domain NASA/USGS SRTM v3 tile (`src/altpnt/terrain.rs`); the **EGM/EIGEN
+  vendored public-domain NASA/USGS (NASA: National Aeronautics and Space Administration; USGS: United States Geological Survey) SRTM v3 tile (`src/altpnt/terrain.rs`); the **EGM/EIGEN (EIGEN: European Improved Gravity model of the Earth by New techniques)
   gravity-anomaly** reference map and its loader remain.
 
 ---

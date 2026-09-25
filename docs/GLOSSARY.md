@@ -13,7 +13,7 @@ systems defined next); Kshana studies what happens to
 
 **GNSS — Global Navigation Satellite System.**
 The satellite constellations that provide PNT: GPS (the Global Positioning System,
-USA), Galileo (EU), GLONASS (Russia's Global Navigation Satellite System), BeiDou (China). A receiver that can see ≥ 4 satellites can compute a full
+USA (United States of America)), Galileo (EU), GLONASS (Russia's Global Navigation Satellite System), BeiDou (China). A receiver that can see ≥ 4 satellites can compute a full
 3D position and time fix.
 
 **GNSS outage / denied / degraded / jammed.**
@@ -360,7 +360,7 @@ Another CR3BP family: a large, stable orbit that circles the Moon backwards as s
 the rotating frame.
 
 **EOP — Earth Orientation Parameters.**
-The measured, slightly irregular wobble and spin of the Earth (polar motion, UT1−UTC —
+The measured, slightly irregular wobble and spin of the Earth (polar motion, UT1 (Universal Time 1, Earth-rotation time)−UTC —
 Earth-rotation time minus Coordinated Universal Time — and length of day) that is needed
 to turn an Earth-fixed position into an inertial one to better than metres. The IERS
 (International Earth Rotation and Reference Systems Service) publishes them; Kshana reads its `finals2000A` file via

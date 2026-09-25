@@ -3,7 +3,7 @@
 Kshana's full-force engine (`src/precise_od.rs`) fit to
 **real agency precise-orbit products**, with honest, citable, commit-hash-stamped
 residuals. This is the validation record for roadmap milestone P4 ("Precise
-astrodynamics: high-order gravity, SRP, validation vs agency datasets").
+astrodynamics: high-order gravity, SRP (solar-radiation pressure), validation vs agency datasets").
 
 ## What a validated residual means here
 
@@ -11,39 +11,39 @@ A residual is reported only when all of the following hold (design
 `docs/design/2026-06-09-precise-astrodynamics-design.md`):
 
 1. **Force model** includes every perturbation that matters at the target accuracy:
-   EGM2008 high-degree geopotential, solid + ocean + atmospheric **tides**
-   (`src/tides.rs`, IERS Conventions 2010 Ch. 6), Sun/Moon third body, cannonball SRP
-   with conical shadow + estimated `C_R`, drag (LEO only), Schwarzschild + Lense–Thirring
+   EGM2008 (Earth Gravitational Model 2008) high-degree geopotential, solid + ocean + atmospheric **tides**
+   (`src/tides.rs`, IERS (International Earth Rotation and Reference Systems Service) Conventions 2010 Ch. 6), Sun/Moon third body, cannonball SRP
+   with conical shadow + estimated `C_R`, drag (LEO (low Earth orbit) only), Schwarzschild + Lense–Thirring
    GR (`src/forces.rs`).
 2. **Estimator** is a real Gauss–Newton batch least squares with a variational
    **state-transition matrix** (cross-checked against whole-arc finite difference to
    < 1e-6), `1/σ²` observation weighting, and n-sigma outlier editing.
-3. **Frames/time** use **real IERS finals2000A EOP** (UT1−UTC, polar motion;
-   `src/eop.rs`) through the validated IAU 2006/2000A CIO chain (`src/cio.rs`). SP3 GPS
-   time → TT via the fixed 51.184 s offset (`timescales::gps_to_tt`).
+3. **Frames/time** use **real IERS finals2000A EOP** (UT1 (Universal Time 1, Earth-rotation time)−UTC (Coordinated Universal Time), polar motion;
+   `src/eop.rs`) through the validated IAU (International Astronomical Union) 2006/2000A CIO (Celestial Intermediate Origin) chain (`src/cio.rs`). SP3 (Standard Product 3, the precise-orbit format) GPS (Global Positioning System)
+   time → TT (Terrestrial Time) via the fixed 51.184 s offset (`timescales::gps_to_tt`).
 4. **Residuals** are reported in **RTN** (radial/along/cross-track) and 3-D, **with and
    without** empirical accelerations, alongside the raw (no-fit) overlap.
-5. Every number is **reproducible** (open-data CI gate) and **citable** (commit hash +
-   dataset reference + fixture SHA-256).
+5. Every number is **reproducible** (open-data CI (continuous integration) gate) and **citable** (commit hash +
+   dataset reference + fixture SHA-256 (SHA: Secure Hash Algorithm)).
 
 ## Method, per dataset
 
-1. Parse the SP3 precise orbit; for the chosen satellite, take each ITRF position fix.
+1. Parse the SP3 precise orbit; for the chosen satellite, take each ITRF (International Terrestrial Reference Frame) position fix.
 2. Convert the SP3 GPS epoch → TT; resolve `(UT1, xₚ, yₚ)` from finals2000A at that epoch.
-3. Rotate each ITRF fix into GCRS through the CIO chain with those EOP — the inertial
+3. Rotate each ITRF fix into GCRS (Geocentric Celestial Reference System) through the CIO chain with those EOP — the inertial
    position observations. The dynamics use the *same* EOP for the geopotential's
    Earth-fixed rotation, so observations and forces share one frame.
 4. Seed the epoch state (position = first fix; velocity = 2nd-order finite difference) and
    batch-fit `[r, v, C_R]` (Tier 1), then additionally the 9 RTN cycle-per-revolution
    empirical accelerations (Tier 2, a-priori constrained).
-5. Report post-fit RTN + 3-D RMS for both tiers and the raw overlap.
+5. Report post-fit RTN + 3-D RMS (root mean square) for both tiers and the raw overlap.
 
 ## Results
 
 ### Galileo MEO — **GREEN** (< 5 m bar)
 
-- **Dataset:** ESA/ESOC final multi-GNSS orbit `ESA0MGNFIN`, ITRF, 5-min sampling,
-  satellite **E11** (GSAT0101, Galileo IOV, nominal MEO), 2022-01-01.
+- **Dataset:** ESA/ESOC (ESA: European Space Agency; ESOC: European Space Operations Centre) final multi-GNSS (GNSS: global navigation satellite system) orbit `ESA0MGNFIN`, ITRF, 5-min sampling,
+  satellite **E11** (GSAT0101, Galileo IOV, nominal MEO (medium Earth orbit)), 2022-01-01.
 - **Open source (no login):** ESA Navigation Office mirror,
   `navigation-office.esa.int/products/gnss-products/2190/`. EOP: IERS
   `datacenter.iers.org/data/9/finals2000A.all`.
@@ -91,26 +91,26 @@ textbook drag signature at ~430 km. The empirical tier absorbs that along-track 
 (2.52 → 0.09 m), giving a **~10 cm** reduced-dynamic fit against ESA's own ~2 cm orbit. The
 full-day, full-degree run is the ignored `swarm_full_arc_dispatch` (the dissemination
 server serves the product through its file-browser session, so the founder downloads the
-day's SP3 and points `KSHANA_SWARM_SP3` at it). NRLMSISE-00 with space-weather drivers is
+day's SP3 and points `KSHANA_SWARM_SP3` at it). NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model) with space-weather drivers is
 the noted upgrade that would tighten the *dynamic* tier further.
 
 ### LRO lunar — validated, **above** the 5 m bar (honest) (P4 W4b)
 
-- **Dataset:** the real NASA/JPL **Lunar Reconnaissance Orbiter** (NAIF −85) reconstructed
-  trajectory from JPL Horizons, geometric Moon-centred state vectors in the ICRF, 2022-01-01,
+- **Dataset:** the real NASA/JPL (NASA: National Aeronautics and Space Administration; JPL: Jet Propulsion Laboratory) **Lunar Reconnaissance Orbiter** (NAIF (Navigation and Ancillary Information Facility) −85) reconstructed
+  trajectory from JPL Horizons, geometric Moon-centred state vectors in the ICRF (International Celestial Reference Frame), 2022-01-01,
   ~98 km altitude, 1-minute sampling (241 epochs, 4 h, ~2 revolutions). Using Horizons text
-  vectors needs **no SPK/SPICE reader**.
-- **Gravity:** the GRAIL **GRGM660PRIM** field (GSFC, degree 660), truncated to d/o 150 and
+  vectors needs **no SPK/SPICE (SPK: planetary ephemeris kernel; SPICE: Spacecraft, Planet, Instrument, C-matrix, Events) reader**.
+- **Gravity:** the GRAIL (Gravity Recovery and Interior Laboratory) **GRGM660PRIM** field (GSFC, degree 660), truncated to d/o 150 and
   fitted at d/o 100, evaluated in the lunar body-fixed **principal-axis** frame.
-- **Open source (no login):** Horizons API `ssd.jpl.nasa.gov/api/horizons.api`; gravity via
-  ICGEM `icgem.gfz-potsdam.de`.
+- **Open source (no login):** Horizons API (application programming interface) `ssd.jpl.nasa.gov/api/horizons.api`; gravity via
+  ICGEM (International Centre for Global Earth Models) `icgem.gfz-potsdam.de`.
 - **Validation commit:** `4fb82bb` (`tests/agency_lro.rs`).
 - **Fixtures (SHA-256):** LRO `574e3518…d100f0`; GRGM `0ff04184…f029977ae`
   (`tests/fixtures/agency/NOTICE.md`).
 
 This is **Moon-centred** dynamics — a distinct force model (`src/lunar_od.rs`): the GRGM field
 in the lunar body-fixed frame (the IAU 2015 mean-Earth orientation `src/lunar_frame.rs` composed
-with the fixed DE421 ME→PA offset), plus the Earth (the dominant lunar-orbit perturbation) and
+with the fixed DE421 (Development Ephemeris 421) ME→PA offset), plus the Earth (the dominant lunar-orbit perturbation) and
 Sun third bodies, fitted through the *same* generic precise Gauss–Newton estimator the
 Earth datasets use (the `precise_od::ForceModel` trait).
 
@@ -125,10 +125,10 @@ reported honestly.
 #### What actually sets the floor — a DE-grade cross-validation (and a correction)
 
 We hypothesised that the limiting factor was the fidelity of the **analytic lunar orientation and
-ephemeris** (the IAU libration series, accurate to tens of arc-seconds vs the JPL DE
+ephemeris** (the IAU libration series, accurate to tens of arc-seconds vs the JPL DE (Development Ephemeris)
 numerically-integrated `MOON_PA`, and the Montenbruck–Gill Earth/Sun ephemeris, ~0.3° vs a
 DE/SPICE kernel). To test that directly, the workspace-excluded cross-validation crate
-`xval/anise-lunar-od` swaps **only** those two inputs for **DE-grade** ones — the DE440 lunar
+`xval/anise-lunar-od` swaps **only** those two inputs for **DE-grade** ones — the DE440 (Development Ephemeris 440) lunar
 principal-axis orientation (`moon_pa_de440_200625.bpc`) and the DE440 ephemeris (`de440s.bsp`),
 read through ANISE — and re-runs the *same* estimator (commit `WE6`, kernel SHA-256
 `c1c7fee…` / `60cd55a…`):
