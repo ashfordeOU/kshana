@@ -3,7 +3,7 @@
 // must be HTML-escaped (the scenario TOML is attacker-controllable via shared
 // links); only OUR engine/renderer SVGs go in as raw markup. Pure logic; the
 // browser blob download is verified in the page. Run with `node web/report.test.mjs`.
-import { buildReportHtml, escapeHtml, fomTier, reportFilename } from "./report.mjs";
+import { buildReportHtml, escapeHtml, fomTier, reportFilename, fmtVal, NOT_APPLICABLE } from "./report.mjs";
 import assert from "node:assert/strict";
 
 // escapeHtml: the standard HTML-escape oracle for the five significant chars.
@@ -71,6 +71,22 @@ import assert from "node:assert/strict";
   // Self-contained + printable.
   assert.ok(html.includes("@media print"), "carries a print stylesheet");
   assert.ok(html.trim().endsWith("</html>"), "ends with </html>");
+}
+
+// buildReportHtml: a small figure keeps its significant digits, a figure the run marks
+// not applicable says so instead of printing its value, and the run's own tier wins.
+{
+  const html = buildReportHtml({
+    fomRows: [
+      { clockLabel: "optical", metric: "timing_p95_ns", label: "Timing p95", unit: "ns", value: 1.2048e-4, tier: "MODELLED" },
+      { clockLabel: "csac", metric: "security", label: "Security", unit: "", value: 0, applicable: false, tier: "MODELLED" },
+    ],
+  });
+  assert.ok(html.includes("1.20e-4"), "small p95 keeps its digits");
+  assert.ok(html.includes(NOT_APPLICABLE), "not-applicable figure is labelled");
+  assert.ok(!/<td class="num">0<\/td>/.test(html), "the not-applicable value is not printed");
+  assert.equal(fmtVal(1.2048e-4), "1.20e-4");
+  assert.equal(fmtVal(19.67), "19.67");
 }
 
 // buildReportHtml: tolerates a payload with no svgs / no fomRows (no throw).

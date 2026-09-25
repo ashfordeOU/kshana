@@ -4,7 +4,7 @@
 // eci_track exists; sweep only in sweep mode). buildFomRows is the single-run FoM
 // table model (reusing COMPARE_METRICS). Pure logic; the tab DOM lives in app.js.
 // Run with `node web/tabs.test.mjs`.
-import { tabModel, buildFomRows } from "./tabs.mjs";
+import { tabModel, buildFomRows, figureTier } from "./tabs.mjs";
 import assert from "node:assert/strict";
 
 const ids = (tabs) => tabs.map((t) => t.id);
@@ -103,6 +103,31 @@ const ids = (tabs) => tabs.map((t) => t.id);
   assert.ok(!rows.some((r) => r.metric === "availability" && r.clockLabel === "q"), "null availability skipped");
   assert.equal(rows.filter((r) => r.clockLabel === "q").length, 3, "3 valid quantum rows");
   assert.equal(rows.filter((r) => r.clockLabel === "c").length, 1, "1 valid classical row");
+}
+
+// buildFomRows: the tier and applicability come from the run's own figure_tiers
+// block (the engine writes it from the verification matrix); without one, the tier
+// is "" (the renderers fall back to the report.mjs mirror) and the row is applicable.
+{
+  const result = {
+    quantum: { spec: { id: "q" }, fom: { holdover_s: 1, timing_p95_ns: 1.2e-4 } },
+    figure_tiers: {
+      figures: [
+        { path: "quantum.fom.holdover_s", tier: "MODELLED", applicable: true },
+        { path: "quantum.fom.timing_p95_ns", tier: "VALIDATED", applicable: false },
+      ],
+    },
+  };
+  const rows = buildFomRows(result);
+  const by = (k) => rows.find((r) => r.metric === k);
+  assert.equal(by("holdover_s").tier, "MODELLED", "tier read from figure_tiers");
+  assert.equal(by("holdover_s").applicable, true);
+  assert.equal(by("timing_p95_ns").tier, "VALIDATED", "the block, not the mirror, decides");
+  assert.equal(by("timing_p95_ns").applicable, false, "applicability read from figure_tiers");
+  assert.equal(figureTier(result, "quantum.fom.nope"), null, "no entry -> null");
+  const bare = buildFomRows({ quantum: { spec: { id: "q" }, fom: { holdover_s: 1 } } });
+  assert.equal(bare[0].tier, "", "no block -> no tier from the result");
+  assert.equal(bare[0].applicable, true, "no block -> applicable");
 }
 
 console.log("tabs.test.mjs: all assertions passed");
