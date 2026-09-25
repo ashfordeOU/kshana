@@ -60,6 +60,7 @@ by design and are read as the raw `payload` JSON value.
 | `quantum` | object (`ClockRun`) | The quantum sensor's run (see below). | `report.rs` |
 | `classical` | object (`ClockRun`) | The classical sensor's run, for comparison. | `report.rs` |
 | `units` | object | Per-field unit/provenance map for this document, keyed by field path. See §Units and provenance below. | `field_schema.rs:units_block` |
+| `figure_tiers` | object | The verification tier of each reported figure of merit, and always the document's last key. `figures` lists one entry per figure present: `path` (e.g. `quantum.fom.timing_p95_ns`), `tier` (`VALIDATED` = checked against an independent external oracle, `MODELLED` = first-principles, internally tested), `requirement` (the verification-matrix row the tier is read from) and `applicable`. `applicable` is `false`, with a `reason`, for `security` in every scenario with no attack configured: the bound stays in `fom.security`, but it does not answer a question the scenario asks. `untiered` lists any figure no matrix row owns (the `hybrid` and `fusion` position figures), instead of giving it a tier. Emitted by the `clock` (single run and Monte Carlo ensemble), `orbit`, `hybrid` and `fusion` kinds. Carries no numbers. | `fom_label.rs:figure_tiers` |
 | `geometry` | object, optional | Orbit-pack geometry summary: `samples_total`, `samples_with_fix`, `sigma_uere_m` (m, the modelled per-satellite range-error budget), `best_pdop` / `median_pdop` (dimensionless) and `best_position_sigma_m` / `median_position_sigma_m` (m, PDOP × `sigma_uere_m`). **Orbit pack only.** | `orbit.rs` |
 | `eci_track` | array of `[x, y, z]` km, optional | Propagated Earth-centred-inertial track of the user spacecraft, one entry per sampled time. **Orbit pack only**; omitted otherwise. Output-only — not hashed. | `report.rs` |
 | `meta` | object (`StudyMeta`), optional | Additive report metadata (study title, generation stamp, author, disclaimer). Omitted when absent, so a meta-less run is byte-identical to legacy output. Output-only — not hashed. | `report.rs` |
@@ -87,7 +88,7 @@ by design and are read as the raw `payload` JSON value.
 | `resilience_slope_ns_per_s` | ns/s | Least-squares growth rate of \|error\| during the outage. | `fom.rs:score` | |
 | `availability` | fraction [0,1] | Fraction of the whole run with an in-spec solution. | `fom.rs:score` | |
 | `integrity` | fraction [0,1] or null | **Filter self-consistency**: fraction of outage samples whose true error stays inside the Kalman k-σ bound. | `run.rs` | **NOT** HPL/VPL/RAIM integrity — see [`INTEGRITY.md`](INTEGRITY.md) |
-| `security` | fraction [0,1] or null | **Analytic spoof-detectability bound** from clock stability. | `run.rs` + `security.rs` | meaningful only with a configured attack; **not** a multi-SV RAIM detector |
+| `security` | fraction [0,1] or null | **Analytic spoof-detectability bound** from clock stability. | `run.rs` + `security.rs` | meaningful only with a configured attack, so the clock and orbit packs (which configure none) mark it `applicable: false` in `figure_tiers` and print it as `n/a (no attack)` in the summary; **not** a multi-satellite RAIM detector |
 
 ## What "good" looks like
 

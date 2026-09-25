@@ -42,17 +42,21 @@ print(r["quantum"]["fom"]["holdover_s"], r["classical"]["fom"]["holdover_s"])
 With seed = 42, the 20 ns spec, and the 1.8 h outage:
 
 ```
-scenario 5ba83a232b94 | quantum holdover 6600s p95 0.0ns integrity 1.000 security 0.997 | classical holdover 2610s p95 19.7ns integrity 1.000 security 0.000
+scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity 1.000 security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity 1.000 security n/a (no attack)
 ```
 
 - **`quantum holdover 6600s`** — the optical clock holds the entire 6600 s outage
-  without breaching 20 ns. Its 95th-percentile phase error is 0.0 ns (rounded): it
-  barely moves.
+  without breaching 20 ns. Its 95th-percentile phase error is 1.20e-4 ns, about a
+  ten-thousandth of a nanosecond: it barely moves.
 - **`classical holdover 2610s`** — the CSAC breaches the 20 ns spec at ~2610 s, less
   than half the outage. Its p95 phase error (19.7 ns) sits right at the spec line.
-- **`security 0.997` vs `0.000`** — the optical clock’s tight detection floor gives it
-  spoof-detection margin; the CSAC’s own coast noise over the window already exceeds
-  20 ns, so it has none. (That’s the [Tutorial 3](03-quantum-vs-classical.md) story.)
+- **`security n/a (no attack)`** — this scenario configures no attack, so there is
+  nothing to detect and the summary does not print a number. The JSON still carries
+  each clock’s analytic spoof-detectability bound in `fom.security` (0.997 for the
+  optical clock; 0.000 for the CSAC, whose own coast noise over the window already
+  exceeds 20 ns), marked `applicable: false` in the `figure_tiers` block. Scoring
+  detection against a real attack is the [Tutorial 3](03-quantum-vs-classical.md)
+  story.
 - **`integrity 1.000`** — here this is *filter self-consistency* (the fraction of
   outage samples inside the Kalman filter’s own k-sigma bound), **not** an aviation
   HPL/VPL figure. See [`docs/INTEGRITY.md`](../INTEGRITY.md).

@@ -31,11 +31,19 @@
 //!               for byte.
 //! PIN-EXCLUDES: `engine_version`, normalised away so a version bump is not a document
 //!               change; full float precision in the canonical layer (given up for
-//!               cross-platform stability, and restored by the raw layer on Linux); and
-//!               the raw layer everywhere except x86-64 Linux. Nothing else: a
-//!               cross-cutting change that appends a block to every scenario document is
-//!               IN scope for every pin here and must re-baseline them — as the `units`
-//!               block did, per the note on `golden_clock`.
+//!               cross-platform stability, and restored by the raw layer on Linux); the
+//!               raw layer everywhere except x86-64 Linux; and the trailing
+//!               `figure_tiers` block, which carries no number — it restates the
+//!               verification tier of figures the document already reports. That block is
+//!               removed by `kshana::api::without_figure_tiers`, which refuses anything
+//!               but a well-formed LAST key, and the remainder is hashed against the
+//!               constants frozen before the block existed, so its addition is proven
+//!               additive rather than re-baselined. Which scenarios must carry it is
+//!               pinned by `TIERED`, and its content by the engine's own
+//!               `figure_tiers_*` tests. Nothing else: any other cross-cutting change that
+//!               appends a block to every scenario document is IN scope for every pin here
+//!               and must re-baseline them — as the `units` block did, per the note on
+//!               `golden_clock`.
 
 use serde_json::Value;
 use std::fs;
@@ -164,10 +172,34 @@ fn normalize_volatile(json: &str) -> String {
     )
 }
 
+/// The goldens whose document carries the trailing `figure_tiers` block. The harness
+/// strips it (and only it) before hashing; a scenario on this list that stops emitting
+/// it, or one off the list that starts, is a failure — the exclusion cannot silently
+/// widen.
+const TIERED: &[&str] = &[
+    "scenarios/clock-holdover.toml",
+    "scenarios/orbit-multignss.toml",
+];
+
 fn check(g: &Golden) {
     let src = fs::read_to_string(g.path).unwrap_or_else(|e| panic!("read {}: {e}", g.path));
-    let out =
+    let mut out =
         kshana::api::run_toml(&src).unwrap_or_else(|e| panic!("run_toml {} failed: {e}", g.path));
+    match kshana::api::without_figure_tiers(&out.json) {
+        Some(stripped) => {
+            assert!(
+                TIERED.contains(&g.path),
+                "{} emits a figure_tiers block but is not listed in TIERED",
+                g.path
+            );
+            out.json = stripped;
+        }
+        None => assert!(
+            !TIERED.contains(&g.path),
+            "{} is listed in TIERED but emits no trailing figure_tiers block",
+            g.path
+        ),
+    }
 
     // Layer 1 — rounded, human-meaningful, portable.
     assert_eq!(
@@ -219,11 +251,13 @@ fn zzz_emit_goldens() {
     ] {
         let src = fs::read_to_string(path).unwrap();
         let out = kshana::api::run_toml(&src).unwrap();
+        // Hash what `check` hashes: the document without its figure_tiers block.
+        let json = kshana::api::without_figure_tiers(&out.json).unwrap_or(out.json);
         println!(
             "EMIT {path}\n  summary    = {}\n  canonical  = 0x{:016x}\n  raw(local) = 0x{:016x}",
             out.summary,
-            canonical_fnv(&out.json),
-            raw_fnv(&out.json),
+            canonical_fnv(&json),
+            raw_fnv(&json),
         );
     }
 }
@@ -232,7 +266,13 @@ fn zzz_emit_goldens() {
 fn golden_clock() {
     check(&Golden {
         path: "scenarios/clock-holdover.toml",
-        expect_summary: "scenario 5ba83a232b94 | quantum holdover 6600s p95 0.0ns integrity 1.000 security 0.997 | classical holdover 2610s p95 19.7ns integrity 1.000 security 0.000",
+        // Display revision (CHANGELOG [Unreleased], "Output a timing engineer can read"):
+        // the quantum p95 is 1.2048e-4 ns (pinned exactly in tests/golden.rs) and printed
+        // with significant digits instead of rounding to 0.0; `security` is printed as not
+        // applicable because this kind configures no attack. Both values are unchanged in
+        // the JSON, which the two hashes below prove: they are the constants frozen before
+        // this change, over the document with its new figure_tiers block stripped.
+        expect_summary: "scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity 1.000 security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity 1.000 security n/a (no attack)",
         // Re-baselined when the report gained its `units` block (a unit and a
         // provenance class for every numeric field it emits, enforced by
         // tests/field_units_global.rs). Purely additive: the summary string above is
@@ -271,7 +311,12 @@ fn golden_jamming() {
 fn golden_orbit() {
     check(&Golden {
         path: "scenarios/orbit-multignss.toml",
-        expect_summary: "scenario 6fd3fe9f1ff5 | 1441/1441 samples GNSS-nominal | best PDOP 1.32 pos 1.32m | quantum holdover 0s p95 0.0ns integrity n/a security 0.968 | classical holdover 0s p95 0.0ns integrity n/a security 0.000",
+        // Display revision (CHANGELOG [Unreleased], "Output a timing engineer can read"):
+        // `security` is printed as not applicable because this kind configures no attack;
+        // the p95 values here are exactly zero (no outage) and still print as 0.0. The JSON
+        // values are unchanged, which the hashes below prove against their frozen
+        // constants once the new figure_tiers block is stripped.
+        expect_summary: "scenario 6fd3fe9f1ff5 | 1441/1441 samples GNSS-nominal | best PDOP 1.32 pos 1.32m | quantum holdover 0s p95 0.0ns integrity n/a security n/a (no attack) | classical holdover 0s p95 0.0ns integrity n/a security n/a (no attack)",
         // Re-baselined when the report gained its `units` block (a unit and a
         // provenance class for every numeric field it emits, enforced by
         // tests/field_units_global.rs). Purely additive: the summary string above is
