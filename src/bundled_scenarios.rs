@@ -86,6 +86,7 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("quantum-trade"),
     bundled!("realtime-frame-eop"),
     bundled!("reentry"),
+    bundled!("small-uas-jammed-nav"),
     bundled!("space-packet"),
     bundled!("space-weather"),
     bundled!("spoof-attack"),

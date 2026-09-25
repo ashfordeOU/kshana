@@ -8,9 +8,11 @@
 #
 # Honest framing: loosely-coupled, a single deterministic driving trajectory, a
 # flat-Earth tangent-plane INS<->GNSS comparison. The lower-bias (quantum-grade)
-# sensor has the better *unaided* coast; the fused outage error is floor-limited
-# by the residual attitude error at hand-over (tilt and accel bias are only weakly
-# separable), so it is not claimed to scale with bias.
+# sensor has the better unaided coast. Both biases here are constant and noise-free,
+# so the filter learns them while GNSS is up and the fused coast is a best case; a
+# bias that keeps drifting is what ends a real one (see small-uas-jammed-nav.toml).
+# Revised in 0.27.3: a sign error in the filter's gyro-bias coupling had put a floor
+# of tens of metres under the fused outage error; see the CHANGELOG.
 kind = "gnss-ins"
 seed = 7
 threshold_m = 50.0
