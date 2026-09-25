@@ -1,7 +1,7 @@
 # Line coverage — the measurement of record
 
-The "~96 % line coverage" on the README badge, the README CI table, the crates.io and
-PyPI front pages, the kshana.dev hero and the technical report is **this** measurement, rounded to the nearest
+The "~96 % line coverage" on the README badge, the README CI (continuous integration) table, the crates.io and
+PyPI (Python Package Index) front pages, the kshana.dev hero and the technical report is **this** measurement, rounded to the nearest
 whole percent. `tests/coverage_figure_doc_sync.rs` fails if any of those six surfaces
 states a different figure from the one recorded below, so the next re-measurement moves
 all of them together or none.
@@ -12,7 +12,7 @@ all of them together or none.
 | Commit | `b1d350d` (engine 0.27.2 + unreleased) |
 | Run | GitHub Actions, `ci.yml` job `coverage`, run 35934579709, 2026-09-24 |
 | Tool | `cargo tarpaulin --engine llvm` (LLVM source-based instrumentation) |
-| Scope | `src/`, excluding the generated data tables `src/*_data.rs` and the thin CLI entry point `src/main.rs`; `tests/` and `web/` are not measured |
+| Scope | `src/`, excluding the generated data tables `src/*_data.rs` and the thin CLI (command-line interface) entry point `src/main.rs`; `tests/` and `web/` are not measured |
 | Artifact | `coverage-lcov` (`lcov.info`, 239 source files) attached to that run |
 | Floor | the same job fails below **85 %** (`--fail-under 85`) — the floor is enforced on every push; the figure above is a record, not a gate |
 
