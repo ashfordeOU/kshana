@@ -9,6 +9,8 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.27.3] - 2026-09-25
+
 ### Added
 
 - **`kshana example [<name>]` hands a registry user a scenario to run.** A
@@ -3520,7 +3522,8 @@ Initial release.
   services, not license fees.
 - `CITATION.cff` so the software can be cited.
 
-[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.27.2...HEAD
+[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.27.3...HEAD
+[0.27.3]: https://github.com/AshfordeOU/kshana/compare/v0.27.2...v0.27.3
 [0.27.2]: https://github.com/AshfordeOU/kshana/compare/v0.27.1...v0.27.2
 [0.27.1]: https://github.com/AshfordeOU/kshana/compare/v0.27.0...v0.27.1
 [0.27.0]: https://github.com/AshfordeOU/kshana/compare/v0.26.0...v0.27.0
