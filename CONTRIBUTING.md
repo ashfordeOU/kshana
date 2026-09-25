@@ -103,10 +103,12 @@ before you open one simply means CI tells you nothing you did not already know.
 - **Conventional Commits** (`feat:`, `fix:`, `docs:`, `test:`, `chore:` …).
 - **Semantic Versioning.** Pre-1.0, the scenario/result schema may change; call out
   breaking changes.
-- **Publishing to crates.io is a manual maintainer step.** It requires a registry
-  token and is run by hand (`cargo publish`). The CI and Release pipelines never
-  publish to external registries automatically; the tag-gated Release workflow only
-  re-runs all checks and attaches a build artifact to a GitHub release.
+- **Releases are cut by pushing a `vX.Y.Z` tag, and publishing is automatic but
+  ordered.** The Release workflow runs the full verification on the tagged commit, and
+  only when it passes does it publish to crates.io, the Python Package Index (PyPI), npm,
+  ghcr.io, the Model Context Protocol (MCP) registry and the JetBrains Marketplace; it
+  then checks every channel serves the version and rebuilds kshana.dev from the tag. Nobody runs `cargo publish` by hand. The steps, and
+  how to retry a failed publish, are in [`docs/RELEASING.md`](docs/RELEASING.md).
 
 ## Changelog maintenance (required)
 

@@ -49,12 +49,16 @@ cat <<EOF
 SLSA build-provenance (verify with \`gh attestation verify <file> --repo AshfordeOU/kshana\`):
 
 - \`kshana\` — the simulator CLI / engine (Linux x86-64)
+- \`kshana-aarch64-apple-darwin\` · \`kshana-x86_64-apple-darwin\` — the same CLI for
+  macOS on Apple silicon and on Intel (releases after 0.27.2)
+- \`kshana-x86_64-pc-windows-msvc.exe\` — the same CLI for Windows x86-64 (releases after 0.27.2)
 - \`kshana-mcp\` — the Model Context Protocol server (Linux x86-64)
 - \`kshana-sbom.cdx.json\` — CycloneDX SBOM
 - \`kshana-validation-summary.html\` — the per-release validation summary
+- \`SHA256SUMS\` — a SHA-256 (Secure Hash Algorithm) checksum of every file above, so a
+  download can be checked with \`sha256sum -c SHA256SUMS --ignore-missing\` (releases after 0.27.2)
 
-On **macOS or Windows**, install from a registry below — the PyPI wheels, the npm/WASM
-package, and the Docker image are all cross-platform.
+The PyPI wheels, the npm/WASM package and the Docker image below are cross-platform too.
 
 **Install from a package registry:**
 
