@@ -23,6 +23,24 @@ breaking changes are called out explicitly.
   that cannot run. `tests/cli_first_run.rs` holds the table to the directory in both
   directions, so a new scenario file that is neither bundled nor named repo-only fails.
 
+- **Every figure of merit in a clock, orbit, hybrid or fusion result now says whether
+  it is VALIDATED or MODELLED, in the result itself.** The result document gains a
+  `figure_tiers` block, always its last key. It lists each reported figure (for example
+  `quantum.fom.timing_p95_ns`) with its tier — VALIDATED means checked against an
+  independent external oracle, MODELLED means a first-principles model that is tested
+  internally — and the verification-matrix row the tier is read from. The tier comes
+  from `src/verification.rs` through `src/fom_label.rs`, so there is no second table to
+  drift. Before this, the words "validated" and "modelled" appeared zero times in a
+  clock-holdover result, and a reader of the raw JSON (JavaScript Object Notation) had
+  no way to tell the two apart. The `hybrid` and `fusion` position figures have no
+  owning matrix row, so they are listed under `untiered` instead of being given a tier.
+  The block carries no numbers. It is proven additive, not assumed: removing it gives
+  back the pre-change document byte for byte, for all five kinds (an engine test), and
+  both golden harnesses (`tests/registry_golden.rs`, `tests/cross_platform_golden.rs`)
+  now strip exactly this key, and only when it is the last one, then hash the rest
+  against their **unchanged** frozen constants. A list in each harness pins which
+  scenarios must carry the block, so the exclusion cannot quietly widen.
+
 - **The playground runs the engine in a background Web Worker, so a slow scenario no
   longer freezes the page.** `web/engine-worker.mjs` hosts the WebAssembly engine and
   `web/engine.mjs` forwards every scenario execution to it — runs, parameter sweeps and
@@ -269,6 +287,45 @@ breaking changes are called out explicitly.
   3.0 MiB compressed after. Its verification build, which compiles only the packaged
   files, passes. `cargo install --path` on the packaged crate installed
   one executable, `kshana`.
+
+- **Output a timing engineer can read: no more `p95 0.0ns`, no more `security 0.000`
+  with no attack, and site counts that match the READMEs.** This is a display revision.
+  No published number changes; the JSON values are identical, which the golden hashes
+  above prove.
+  - The one-line summary printed the optical clock's 95th-percentile (p95) timing error
+    as `0.0ns` while the table beside it showed 1.20e-4 ns. A non-zero timing figure
+    too small for one decimal place is now printed with three significant figures
+    (`p95 1.20e-4ns`); an exact zero still prints as `0.0`. The HTML (HyperText Markup
+    Language) report, the study comparison table and the playground's downloadable
+    report use the same rule, so no non-zero figure prints as `0.000` either.
+  - `security` is an analytic spoof-detectability bound that means something only
+    against a configured attack. The `clock`, `orbit`, `hybrid` and `fusion` kinds
+    configure none, so their summary now prints `security n/a (no attack)` instead of a
+    number such as `0.000` that reads as a failed detection. The value stays in
+    `fom.security`, marked `applicable: false` with the reason in `figure_tiers`, and
+    the report tables show "not applicable". The `spoof` kind still scores detection.
+  - Two summary pins in `tests/registry_golden.rs` moved for exactly these two reasons
+    and no other: `golden_clock` (the quantum p95 and both `security` values) and
+    `golden_orbit` (both `security` values; its p95 values are exactly zero). Their
+    whole-document hashes did not move. The expected summaries in the README, the
+    three tutorials and their teaching scenarios are updated to match, and
+    `tests/tutorials.rs` checks the teaching copies against the engine.
+  - The playground's guided tour no longer opens on first load. Its modal caught the
+    first clicks and its spotlight scrolled the page away from where the visitor
+    landed. It starts from the "Take the 60-second tour" button or the floating Tour
+    button.
+  - The page no longer scrolls sideways on a phone. At 390 px the brand row and the
+    GitHub button came to about 410 px of content, a 4 px overflow; the header now fits
+    from 320 px up, and the figures-of-merit table scrolls inside its own box instead
+    of widening the page.
+  - The capability explorer led with its own card count ("46 capability cards … 17
+    backed by an external oracle") beside READMEs that say 64 of 168. It now leads with
+    the verification matrix, read from the generated `web/data/verification-matrix.json`
+    (the same matrix the README counts are pinned to), and names the cards afterwards
+    as the summary layer they are. `web/counts.test.mjs`, a new step in the
+    continuous-integration (CI) workflow, checks the
+    arithmetic and cross-checks README.md and the page's descriptions;
+    `tests/web_validation_counts_doc_sync.rs` pins the wiring from the Rust side.
 
 - **Line coverage has a measurement of record.** `docs/COVERAGE.md` records 95.63 %
   (37,697 of 39,419 lines) from the CI `coverage` job on `b1d350d`, and

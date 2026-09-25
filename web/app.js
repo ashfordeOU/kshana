@@ -9,8 +9,9 @@ import { tabModel, buildFomRows } from "./tabs.mjs";
 import { sweepValues, sweepToml, sweepMetrics, sweepCurveSvg, SWEEP_GEOM, MAX_SWEEP } from "./sweep.mjs";
 import { overlayRows, overlaySeriesSvg, OVERLAY_COLORS } from "./overlay.mjs";
 import { isEmbed, embedConfig, embedClassList } from "./embed.mjs";
-import { buildReportHtml, reportFilename, fomTier } from "./report.mjs";
+import { buildReportHtml, reportFilename, fomTier, NOT_APPLICABLE } from "./report.mjs";
 import { TOUR_STEPS, clampStep, placeTooltip } from "./tour.mjs";
+import { matrixCounts, explorerTally, explorerValidatedTally } from "./counts.mjs";
 import { createEngineClient, isCancelled, busyLabel, errorMessage } from "./engine.mjs";
 
 // Scenario catalogue: file in ./scenarios/ (copied from the repo at build) and a
@@ -539,7 +540,8 @@ function buildFomTable(result) {
   table.append(head);
   for (const r of rows) {
     const tr = document.createElement("tr");
-    const cells = [r.clockLabel, r.unit ? `${r.label} (${r.unit})` : r.label, fmtVal(r.value)];
+    const shown = r.applicable === false ? NOT_APPLICABLE : fmtVal(r.value);
+    const cells = [r.clockLabel, r.unit ? `${r.label} (${r.unit})` : r.label, shown];
     cells.forEach((c, i) => {
       const td = document.createElement("td");
       td.textContent = c;
@@ -548,7 +550,9 @@ function buildFomTable(result) {
     });
     // Tier pill: conservative by construction — an unmapped metric gets no halo.
     const tierTd = document.createElement("td");
-    const tier = fomTier(r.metric);
+    // The run's own figure_tiers entry first; the report.mjs mirror only for a
+    // result that predates the block.
+    const tier = r.tier || fomTier(r.metric);
     if (tier) {
       const pill = document.createElement("span");
       pill.className = tier === "VALIDATED" ? "pill validated" : "pill modelled";
@@ -1294,13 +1298,8 @@ function downloadReport() {
 // of the page (capabilities, the playground controls, the result tabs, validation,
 // agents) one step at a time, with a positioned tooltip. The ordered steps and the
 // tooltip geometry are the pure, unit-tested core in tour.mjs; the overlay DOM,
-// scrolling, and focus live here. "Seen" persists in localStorage so the tour
-// auto-runs once; the playground's "Take the tour" button replays it. Storage can be
-// blocked in an iframe (LMS) — reads/writes are wrapped so it degrades to "shows each
-// time" rather than throwing.
-const TOUR_KEY = "kshana_tour_seen";
-function tourSeen() { try { return localStorage.getItem(TOUR_KEY) === "1"; } catch { return false; } }
-function markTourSeen() { try { localStorage.setItem(TOUR_KEY, "1"); } catch { /* storage blocked */ } }
+// scrolling, and focus live here. It runs only when asked for — the playground's
+// "Take the tour" button or the floating Tour button — never on page load.
 
 const tourState = { steps: [], i: 0, on: false, overlay: null, refs: null, reposition: null, opener: null };
 
@@ -1456,8 +1455,8 @@ function startTour() {
   window.addEventListener("resize", tourState.reposition);
   window.addEventListener("scroll", tourState.reposition, { passive: true });
   tourState.overlay.setAttribute("tabindex", "-1");
-  // Remember where focus came from so closing can put it back; the auto-launch path
-  // starts from <body>, the #tour-fab / "Take the tour" paths from a real button.
+  // Remember where focus came from so closing can put it back: the #tour-fab or the
+  // "Take the tour" button that started it.
   tourState.opener = document.activeElement;
   tourState.overlay.focus();
   gotoStep(0);
@@ -1471,7 +1470,6 @@ function endTour() {
     window.removeEventListener("scroll", tourState.reposition);
     tourState.reposition = null;
   }
-  markTourSeen();
   // The overlay is display:none once "on" is dropped, so the browser would otherwise
   // strand focus on <body> and the keyboard user loses their place in the document.
   const opener = tourState.opener;
@@ -1735,7 +1733,7 @@ function revealIn(node) {
 // cards and the evidence together. The two nav doorways (Capabilities / Validation)
 // both land here; the Validation link additionally opens the active domain's evidence
 // and filters to the dataset-checked rows (wired in main()).
-function buildExplorer(caps) {
+function buildExplorer(caps, ledger) {
   const root = el("explore");
   const tabsEl = el("xp-tabs");
   const panelsEl = el("xp-panels");
@@ -1834,11 +1832,30 @@ function buildExplorer(caps) {
   // the modelled/info items and the counts retitle to validated-only totals).
   const totalV = caps.filter((c) => c.status === "validated").length;
   const tally = el("xp-tally");
-  // Worded as "capability cards", not "capabilities": this is the curated card layer,
-  // 46 of them, while the ledger below counts the 168 matrix rows. The two populations
-  // used to share the phrase "capabilities validated against external oracles", so the
-  // page appeared to give two different answers to the same question.
-  const baseTally = `${caps.length} capability cards · ${totalEv} evidence claims · ${order.length} domains · ${totalV} backed by an external oracle`;
+  // The tally leads with the verification matrix — the generated ledger file, the
+  // same source the READMEs' counts are pinned to — and names the cards as the
+  // summary layer they are (see counts.mjs). Without the ledger (fetch failed, or a
+  // file whose summary disagrees with its rows) it states the card layer alone, under
+  // its own name, rather than a matrix number it could not read.
+  let matrix = null;
+  try {
+    matrix = ledger ? matrixCounts(ledger) : null;
+  } catch (e) {
+    console.warn("[kshana] validation counts unavailable:", e);
+  }
+  const cardCounts = {
+    total: caps.length,
+    validated: totalV,
+    domains: order.length,
+    evidence: totalEv,
+    evidenceValidated: totalEvV,
+  };
+  const baseTally = matrix
+    ? explorerTally(matrix, cardCounts)
+    : `${caps.length} capability cards · ${totalEv} evidence claims · ${order.length} domains`;
+  const validatedTally = matrix
+    ? explorerValidatedTally(matrix, cardCounts)
+    : `${totalV} capability cards · ${totalEvV} evidence claims marked validated`;
   if (tally) tally.textContent = baseTally;
 
   const cb = el("xp-validated-only");
@@ -1848,9 +1865,7 @@ function buildExplorer(caps) {
       closeAllCaps(root);
       root.classList.toggle("validated-only", only);
       if (tally) {
-        tally.textContent = only
-          ? `${totalV} oracle-backed capability cards · ${totalEvV} external-oracle evidence claims · ${order.length} domains`
-          : baseTally;
+        tally.textContent = only ? validatedTally : baseTally;
       }
       for (const g of order) {
         const m = meta.get(g);
@@ -1881,10 +1896,10 @@ async function renderCapabilities() {
 
   // Load the ledger + card→matrix map first so each card can grow its own
   // machine-checked evidence deep-links (best-effort; cards still render without).
-  await Promise.all([loadLedger(), loadCardMap(), loadStandardsMap()]);
+  const [ledger] = await Promise.all([loadLedger(), loadCardMap(), loadStandardsMap()]);
 
   // Capability cards + per-domain evidence, unified into the explorer.
-  if (Array.isArray(data.capabilities)) buildExplorer(data.capabilities);
+  if (Array.isArray(data.capabilities)) buildExplorer(data.capabilities, ledger);
 
   // Standards the engine speaks — each card links its VALIDATED badge to the ledger
   // row that proves it (when one exists), so the claim is one click from its evidence.
@@ -2487,9 +2502,10 @@ async function main() {
     runScenario(); // show a result immediately
   }
 
-  // Auto-run the guided tour once (non-embed only); persists via localStorage. A
-  // short delay lets the first scenario render so the result tabs exist as targets.
-  if (!embed && !tourSeen()) setTimeout(startTour, 900);
+  // The guided tour never opens on its own. It used to auto-run on a first visit,
+  // where its modal overlay intercepted the first clicks and its spotlight scrolled
+  // the page away from where the reader had landed. It starts only from the
+  // "Take the 60-second tour" button or the floating Tour button.
 
   bindPrintExpansion();
 }
