@@ -40,6 +40,12 @@ breaking changes are called out explicitly.
   validated and stays MODELLED. The run also exposed a missing term: a crystal's
   frequency wanders, so the model now carries the uncertainty of the frequency known at
   the fix (`fix_frequency_sigma`); without it the prediction was optimistic by up to 2.5×.
+- **The same prediction on atomic clocks in orbit** (`tests/slot_timing_igs_holdout.rs`,
+  `scripts/fetch_igs_clocks.sh`): 14 days of International GNSS Service final clocks for
+  the GPS Block IIF satellites, with the protocol written down before the data was
+  downloaded. Eight of ten satellites land within the 1.5 bar; G25 and G30 predict
+  breaches up to about twice as late as measured. The protocol requires every satellite
+  to pass, so the orbital case is not validated and stays MODELLED; the outcome is pinned.
 - **Temperature-compensated crystal (TCXO), oven-controlled crystal (OCXO) and rubidium
   atomic frequency standard (RAFS) clock classes** (`ClockClass::Tcxo`, `Ocxo`, `Rafs`), the parts a
   commercial smallsat bus or a ground gateway flies, each citing one public datasheet
