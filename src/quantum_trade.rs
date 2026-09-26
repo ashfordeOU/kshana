@@ -201,7 +201,7 @@ pub enum Provenance {
 /// A clock under trade: a classical class, a quantum class, or measured PSDs.
 #[derive(Clone, Copy, Debug)]
 pub enum ClockSpec {
-    /// Classical clock class (CSAC/USO/DSAC) — synthesised floor.
+    /// Classical clock class (CSAC/USO/DSAC/TCXO/OCXO/RAFS) — synthesised floor.
     Classical(ClockClass),
     /// Quantum clock class (optical-lattice/trapped-ion/mercury-ion) — synthesised floor.
     Quantum(QuantumClockClass),
@@ -617,14 +617,12 @@ pub struct QuantumTradeScenario {
 }
 
 fn qt_classical_class(s: &str) -> Result<ClockClass, String> {
-    match s.to_ascii_lowercase().as_str() {
-        "csac" => Ok(ClockClass::Csac),
-        "uso" => Ok(ClockClass::Uso),
-        "dsac" => Ok(ClockClass::Dsac),
-        other => Err(format!(
-            "unknown baseline_clock_class '{other}' (csac|uso|dsac)"
-        )),
-    }
+    ClockClass::from_id(s).ok_or_else(|| {
+        format!(
+            "unknown baseline_clock_class '{}' (csac|uso|dsac|tcxo|ocxo|rafs)",
+            s.to_ascii_lowercase()
+        )
+    })
 }
 
 fn qt_quantum_class(s: &str) -> Result<QuantumClockClass, String> {

@@ -72,6 +72,18 @@ pub fn classical_clock_card(class: ClockClass) -> DeviceCard {
         ),
         ClockClass::Uso => ("ultra-stable oscillator (USO)", "space USO class default"),
         ClockClass::Dsac => ("deep-space atomic clock (DSAC)", "Burt et al. 2021"),
+        ClockClass::Tcxo => (
+            "temperature-compensated crystal oscillator (TCXO)",
+            "EndRun Technologies data sheet",
+        ),
+        ClockClass::Ocxo => (
+            "oven-controlled crystal oscillator (OCXO)",
+            "Microchip OX-208 datasheet",
+        ),
+        ClockClass::Rafs => (
+            "rubidium atomic frequency standard (RAFS)",
+            "Microchip 8040C datasheet",
+        ),
     };
     let adev = class.adev_1s();
     DeviceCard {
