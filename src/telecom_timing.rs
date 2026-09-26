@@ -57,11 +57,17 @@ use sha2::{Digest, Sha256};
 /// `slope_ns_per_s · τ + intercept_ns`.
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct Segment {
+    /// Lower end of the observation interval (s).
     pub lo_s: f64,
+    /// Whether `lo_s` itself belongs to the interval.
     pub lo_inclusive: bool,
+    /// Upper end of the observation interval (s); infinite when the piece is open-ended.
     pub hi_s: f64,
+    /// Whether `hi_s` itself belongs to the interval.
     pub hi_inclusive: bool,
+    /// Slope of the limit in the observation interval τ (ns per s).
     pub slope_ns_per_s: f64,
+    /// Intercept of the limit, its value extrapolated to τ = 0 (ns).
     pub intercept_ns: f64,
 }
 
@@ -117,14 +123,18 @@ pub fn limit_at(segments: &[Segment], tau_s: f64) -> Option<f64> {
 /// A piecewise MTIE or TDEV mask with the table it is transcribed from.
 #[derive(Clone, Copy, Debug)]
 pub struct CurveMask {
+    /// The pieces of the mask, each with its own observation interval.
     pub segments: &'static [Segment],
+    /// The table the mask is transcribed from.
     pub source: &'static str,
 }
 
 /// A single time-error limit with the table or clause it is transcribed from.
 #[derive(Clone, Copy, Debug)]
 pub struct Limit {
+    /// The limit (ns).
     pub value_ns: f64,
+    /// The table or clause the limit is transcribed from.
     pub source: &'static str,
 }
 
@@ -140,6 +150,7 @@ pub enum MeasurementFilter {
 }
 
 impl MeasurementFilter {
+    /// The filter as it is written in the report.
     pub fn as_str(self) -> &'static str {
         match self {
             MeasurementFilter::None => "none",
@@ -151,11 +162,14 @@ impl MeasurementFilter {
 /// The operating condition a mask is written for.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum MaskCondition {
+    /// The mask applies while the clock is locked to its reference.
     Locked,
+    /// The mask applies while the clock is in holdover.
     Holdover,
 }
 
 impl MaskCondition {
+    /// The condition as it is written in the report (`locked` or `holdover`).
     pub fn as_str(self) -> &'static str {
         match self {
             MaskCondition::Locked => "locked",
@@ -168,16 +182,23 @@ impl MaskCondition {
 /// reference point, and nothing it leaves for further study.
 #[derive(Clone, Copy, Debug)]
 pub struct TimingMask {
+    /// Identifier a scenario selects the mask by (for example `prtc-a`).
     pub id: &'static str,
+    /// Name of the clock type or reference point the mask is for.
     pub title: &'static str,
+    /// The ITU-T Recommendation, with its edition, the mask is transcribed from.
     pub recommendation: &'static str,
+    /// The operating condition the mask is written for.
     pub condition: MaskCondition,
+    /// The measurement filter the mask is defined through.
     pub filter: MeasurementFilter,
     /// Maximum absolute time error (after the filter, when there is one).
     pub max_abs_te: Option<Limit>,
     /// Permissible range of constant time error, ± this value.
     pub cte: Option<Limit>,
+    /// Maximum time interval error (MTIE) mask, when the Recommendation states one.
     pub mtie: Option<CurveMask>,
+    /// Time deviation (TDEV) mask, when the Recommendation states one.
     pub tdev: Option<CurveMask>,
     /// Whether the ITU-T G.8272.1 ePRTC-A holdover time-error envelope applies.
     pub holdover_envelope: bool,
@@ -544,9 +565,12 @@ pub fn eprtc_a_holdover_limit_ns(locked_days: f64, t_s: f64) -> Option<f64> {
 /// A maximum-absolute-time-error budget the report measures the time to exceed.
 #[derive(Clone, Debug, Deserialize, Serialize, PartialEq)]
 pub struct Budget {
+    /// Name of the budget, as reported.
     pub name: String,
+    /// The budget: a maximum absolute time error (ns).
     pub max_abs_te_ns: f64,
     #[serde(default)]
+    /// Where the budget comes from; empty when not given.
     pub source: String,
 }
 
@@ -593,20 +617,30 @@ pub fn default_budgets() -> Vec<Budget> {
 /// A named oscillator with the figures of one public datasheet.
 #[derive(Clone, Copy, Debug)]
 pub struct OscillatorPreset {
+    /// Identifier a scenario selects the preset by (`ocxo`, `rubidium`, `caesium` or
+    /// `csac`).
     pub id: &'static str,
+    /// The oscillator class, spelled out.
     pub class: &'static str,
+    /// Maker's model name of the oscillator.
     pub model: &'static str,
+    /// The datasheet the figures are read from, with its revision.
     pub document: &'static str,
+    /// Where the datasheet can be downloaded.
     pub url: &'static str,
     /// Datasheet Allan deviation `(τ in s, σ_y)` points (maximum values), τ ≥ 1 s.
     pub adev_points: &'static [(f64, f64)],
     /// Linear fractional-frequency aging per day, as stated or converted as noted.
     pub aging_per_day: f64,
+    /// The datasheet's aging statement and any conversion applied to it.
     pub aging_note: &'static str,
     /// Stated fractional-frequency change over the operating temperature range (±).
     pub temperature_bound: f64,
+    /// Lower end of the datasheet operating temperature range (°C).
     pub temperature_min_c: f64,
+    /// Upper end of the datasheet operating temperature range (°C).
     pub temperature_max_c: f64,
+    /// The datasheet's temperature statement, with its reference temperature.
     pub temperature_note: &'static str,
 }
 
@@ -891,7 +925,9 @@ pub fn tau_grid(max_m: usize) -> Vec<usize> {
 /// One point of a curve: observation interval and value, both as reported.
 #[derive(Clone, Copy, Debug, Serialize, PartialEq)]
 pub struct CurvePoint {
+    /// Observation interval (s).
     pub tau_s: f64,
+    /// Value of the curve at that observation interval (ns).
     pub value_ns: f64,
 }
 
@@ -1023,6 +1059,7 @@ pub struct HoldoverInput {
     #[serde(default)]
     pub aging_per_day: Option<f64>,
     #[serde(default)]
+    /// Override of the preset's fractional frequency per kelvin (1/K).
     pub temperature_coeff_per_k: Option<f64>,
 }
 
@@ -1058,8 +1095,11 @@ pub struct SeriesInput {
 #[serde(deny_unknown_fields)]
 pub struct TelecomTimingScenario {
     #[serde(default)]
+    /// Scenario kind (`telecom-timing`).
     pub kind: String,
     #[serde(default = "d_seed")]
+    /// Seed of the ChaCha8 random-number generator the synthetic holdover draws its
+    /// noise from.
     pub seed: u64,
     /// Mask ids from [`MASKS`].
     #[serde(default = "d_masks")]
@@ -1068,25 +1108,36 @@ pub struct TelecomTimingScenario {
     #[serde(default)]
     pub budgets: Option<Vec<Budget>>,
     #[serde(default)]
+    /// The synthetic-holdover input; give this or `series`, not both.
     pub holdover: Option<HoldoverInput>,
     #[serde(default)]
+    /// The ingested-series input; give this or `holdover`, not both.
     pub series: Option<SeriesInput>,
 }
 
 /// A time-error record: uniform samples starting at `t0_s`.
 #[derive(Clone, Debug)]
 pub struct TeRecord {
+    /// Time stamp of the first sample (s).
     pub t0_s: f64,
+    /// Interval between consecutive samples (s).
     pub dt_s: f64,
+    /// Time error of each sample (ns).
     pub te_ns: Vec<f64>,
 }
 
 /// The oscillator model a synthetic holdover ran with.
 #[derive(Clone, Debug)]
 pub struct HoldoverModel {
+    /// The oscillator preset the model starts from.
     pub preset: &'static OscillatorPreset,
+    /// The noise model fitted to the preset's datasheet Allan deviation.
     pub fit: NoiseFit,
+    /// Linear fractional-frequency aging per day used (1/d): the preset's figure unless
+    /// overridden.
     pub aging_per_day: f64,
+    /// Fractional frequency per kelvin used (1/K): the preset's figure unless
+    /// overridden.
     pub temperature_coeff_per_k: f64,
 }
 
@@ -1285,8 +1336,12 @@ fn read_csv(_path: &str) -> Result<Vec<[f64; 2]>, String> {
 /// The outcome of one check.
 #[derive(Clone, Debug, Serialize, PartialEq)]
 pub struct CheckResult {
+    /// The quantity checked: `max_abs_te`, `cte`, `mtie`, `tdev` or
+    /// `holdover_te_envelope`.
     pub metric: &'static str,
+    /// The ITU-T table or clause the limit is transcribed from.
     pub source: &'static str,
+    /// `PASS`, `FAIL`, `INCOMPLETE` or `NOT-EVALUATED`.
     pub verdict: &'static str,
     /// The limit at the binding point (ns); null when nothing was evaluated.
     pub limit_ns: Option<f64>,
@@ -1298,6 +1353,7 @@ pub struct CheckResult {
     pub worst_tau_s: Option<f64>,
     /// For a curve: how many points of the curve fell inside the mask's range.
     pub points_evaluated: usize,
+    /// Explanation of the result; empty when there is nothing to add.
     pub note: String,
 }
 
@@ -1391,13 +1447,22 @@ pub fn worst_cte_ns(te_ns: &[f64], dt_s: f64) -> Option<f64> {
 /// The result of checking one mask.
 #[derive(Clone, Debug, Serialize)]
 pub struct MaskResult {
+    /// Identifier of the mask checked.
     pub id: &'static str,
+    /// Name of the clock type or reference point the mask is for.
     pub title: &'static str,
+    /// The ITU-T Recommendation, with its edition, the mask is transcribed from.
     pub recommendation: &'static str,
+    /// The operating condition the mask is written for (`locked` or `holdover`).
     pub condition: &'static str,
+    /// The measurement filter the mask is defined through.
     pub measurement_filter: &'static str,
+    /// Overall verdict: `FAIL` if any check fails, else `INCOMPLETE`, `PASS` or
+    /// `NOT-EVALUATED`.
     pub verdict: &'static str,
+    /// One result per limit the mask states.
     pub checks: Vec<CheckResult>,
+    /// What the Recommendation leaves for further study for this clock or point.
     pub not_specified: &'static str,
 }
 
@@ -1416,14 +1481,21 @@ fn overall(checks: &[CheckResult]) -> &'static str {
 /// The ePRTC-A holdover envelope check.
 #[derive(Clone, Debug, Serialize)]
 pub struct EnvelopeResult {
+    /// The ITU-T clause and table the envelope is transcribed from.
     pub source: &'static str,
+    /// Locked-mode duration before the loss (days), L in G.8272.1 Table 3.
     pub locked_duration_days: f64,
+    /// Holdover period H that G.8272.1 Table 3 assigns to that locked duration (s).
     pub holdover_period_s: f64,
+    /// Whether the record reaches the end of the holdover period (within half a sample
+    /// interval).
     pub covers_holdover_period: bool,
     /// First time after the start of holdover at which `|TE|` is above the envelope (s).
     pub time_to_exceed_s: Option<f64>,
     /// Smallest `limit − |TE|` inside the holdover period (ns).
     pub min_margin_ns: Option<f64>,
+    /// `PASS`, `FAIL`, `INCOMPLETE` (the record ends before the holdover period does)
+    /// or `NOT-EVALUATED`.
     pub verdict: &'static str,
 }
 
@@ -1467,12 +1539,16 @@ pub fn check_envelope(rec: &TeRecord, start_s: f64, locked_days: f64) -> Envelop
 /// Time to exceed one budget.
 #[derive(Clone, Debug, Serialize)]
 pub struct BudgetResult {
+    /// Name of the budget.
     pub name: String,
+    /// Where the budget comes from.
     pub source: String,
+    /// The budget: a maximum absolute time error (ns).
     pub max_abs_te_ns: f64,
     /// First time after the start of holdover (or of the record) at which `|TE|` is
     /// above the budget (s); null when it never is.
     pub time_to_exceed_s: Option<f64>,
+    /// Whether `|TE|` goes above the budget at any sample from the start on.
     pub exceeded: bool,
 }
 
@@ -1615,13 +1691,22 @@ pub fn check_mask(
 /// Everything a run computes, before it is rendered.
 #[derive(Debug)]
 pub struct TelecomRun {
+    /// The time-error record checked.
     pub record: TeRecord,
+    /// The MTIE curve of the record.
     pub mtie: Vec<CurvePoint>,
+    /// The TDEV curve of the record.
     pub tdev: Vec<CurvePoint>,
+    /// One result per selected mask.
     pub masks: Vec<MaskResult>,
+    /// The ePRTC-A holdover envelope check; `None` when no holdover start is known.
     pub envelope: Option<EnvelopeResult>,
+    /// Time to exceed each budget.
     pub budgets: Vec<BudgetResult>,
+    /// Start of the holdover (s): the GNSS loss, or the series' `holdover_start_s`;
+    /// `None` when unknown.
     pub holdover_start_s: Option<f64>,
+    /// The oscillator model of a synthetic holdover; `None` for an ingested series.
     pub model: Option<HoldoverModel>,
 }
 
