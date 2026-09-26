@@ -32,6 +32,14 @@ breaking changes are called out explicitly.
   other two thirds, against a bar of 1.5 fixed before the test first ran. A control (the
   one-second Allan deviation read as white noise) misses by a factor of about 1 000 and
   fails the bar. New VALIDATED ledger row; the `realdata-clock` workflow now runs it.
+- **The same prediction on a real crystal oscillator** (`tests/slot_timing_ocxo_holdout.rs`,
+  `scripts/fetch_ocxo.sh`): on a measured oven-controlled crystal oscillator the held-out
+  prediction is conservative, at 0.59 to 0.70 of the measured breach and never later, and
+  mostly outside the 1.5 bar, because that oscillator's noise floor halved during the
+  5.5-hour record; fitted in sample it lands within 0.98 to 1.17. The crystal case is not
+  validated and stays MODELLED. The run also exposed a missing term: a crystal's
+  frequency wanders, so the model now carries the uncertainty of the frequency known at
+  the fix (`fix_frequency_sigma`); without it the prediction was optimistic by up to 2.5×.
 - **Temperature-compensated crystal (TCXO), oven-controlled crystal (OCXO) and rubidium
   atomic frequency standard (RAFS) clock classes** (`ClockClass::Tcxo`, `Ocxo`, `Rafs`), the parts a
   commercial smallsat bus or a ground gateway flies, each citing one public datasheet
