@@ -102,6 +102,7 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         AraimReferenceCheck,
         LunarLlrDatum,
         TelecomTiming,
+        SlotTiming,
     ]
 };
 
@@ -194,6 +195,9 @@ pub mod ids {
     /// Time error, MTIE and TDEV of a synthetic GNSS holdover or an ingested series,
     /// checked against transcribed ITU-T G.8272 / G.8272.1 / G.8273.2 / G.8271.1 masks.
     pub const TELECOM_TIMING: ScenarioId = ScenarioId::from_static("telecom-timing");
+    /// Seconds until a free-running clock leaves a time-indexed slot's guard, the fix
+    /// cadence that keeps it inside, and an optional orbital timing protection level.
+    pub const SLOT_TIMING: ScenarioId = ScenarioId::from_static("slot-timing");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {

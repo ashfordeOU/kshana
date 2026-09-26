@@ -9,6 +9,49 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+
+- **`slot-timing` scenario kind** (`src/slot_timing.rs`): seconds until a free-running
+  clock leaves the guard of a time-indexed routing or tasking slot, every contributing
+  term at that moment with the dominant one named, the time left since the last fix, and
+  the largest fix interval that keeps the clock inside, net of the fix latency. The clock
+  comes from a class default, a telecom-timing datasheet preset, an inline datasheet
+  (Allan-deviation maxima, ageing, temperature coefficient) or a measured phase record.
+  A breach beyond the longest averaging time the source supports is flagged as
+  extrapolated. Bundled example: `slot-timing-ocxo-leo`. See `docs/SLOT-TIMING.md`.
+- **Measured red-noise floor.** A phase record's overlapping Allan deviation is fitted by
+  weighted least squares in the white-phase and IEEE Std 1139 frequency-modulation basis
+  (`slot_timing::fit_weighted`), each point weighted by its equivalent degrees of freedom,
+  so a holdover answer can rest on the clock's own floor instead of the class
+  assumption. An unweighted fit put a spurious flicker floor on a white-noise test record
+  and shortened a 2 000 s breach by 30 %.
+- **Held-out validation of the holdover inversion on a real clock**
+  (`tests/slot_timing_cs5071a_holdout.rs`): fitted on the first third of the 5071A
+  caesium-versus-hydrogen-maser record, the predicted one-sigma breaches at six
+  thresholds from 0.5 to 2.5 ns land within 0.84 to 1.03 of the breaches measured on the
+  other two thirds, against a bar of 1.5 fixed before the test first ran. A control (the
+  one-second Allan deviation read as white noise) misses by a factor of about 1 000 and
+  fails the bar. New VALIDATED ledger row; the `realdata-clock` workflow now runs it.
+- **Temperature-compensated crystal (TCXO), oven-controlled crystal (OCXO) and rubidium
+  atomic frequency standard (RAFS) clock classes** (`ClockClass::Tcxo`, `Ocxo`, `Rafs`), the parts a
+  commercial smallsat bus or a ground gateway flies, each citing one public datasheet
+  (`ClockClass::source`). `ClockClass::ALL`, `id` and `from_id` added. `quantum-trade`'s
+  `baseline_clock_class` accepts the three new ids. Adding variants to a public enum is a
+  breaking change for a caller that matches it exhaustively.
+- **Timing protection level for a receiver in orbit** (`src/orbital_timing.rs`, the
+  `slot-timing` kind's optional `spoofing` section): how long a ground spoofer can reach
+  a low-Earth-orbit satellite per pass, the pull a spoofer at a stated maximum ramp rate
+  accumulates before the satellite leaves its reach or an independent check runs, and
+  whether each ground-contact or crosslink check is independent of that spoofer. Reduces
+  exactly to `tpl::timing_protection_level_ns` for a clock without flicker, white-phase or
+  random-run noise. MODELLED.
+- **Three notes**: `docs/SLOT-TIMING.md` (including which wander metric a slot should be
+  accepted against: maximum absolute time error, not maximum time interval error or time
+  deviation, and why),
+  `docs/DECEIVED-TIME.md` (a signed command applied at a deceived time still misroutes)
+  and `docs/DEPLOYMENT-TARGETS.md` (where Kshana runs; no `no_std` flight core is
+  offered).
+
 ## [0.27.4] - 2026-09-26
 
 The v0.27.3 release reached crates.io (`kshana` and `kshana-mcp`) and PyPI, then stopped

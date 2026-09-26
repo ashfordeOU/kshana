@@ -121,6 +121,7 @@ const RUNNERS: &[(&str, &str)] = &[
     ("araim-reference-check", ""),
     ("lunar-llr-datum", ""),
     ("telecom-timing", "scenarios/telecom-prtc-holdover-24h.toml"),
+    ("slot-timing", "scenarios/slot-timing-ocxo-leo.toml"),
 ];
 
 /// The kinds whose reports do not yet describe every numeric field they emit, each with

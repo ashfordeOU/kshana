@@ -311,12 +311,19 @@ pub fn q_from_allan(white_fm_adev_1s: f64, rw_fm_level: f64, drift_level: f64) -
 }
 
 /// Reference onboard-clock classes, by their τ = 1 s Allan deviation — the spaceborne
-/// oscillators a deep-space PNT estimator must model.
+/// oscillators a deep-space PNT estimator must model, and (since 0.28.0) the
+/// commercial parts a low-Earth-orbit smallsat bus or a ground gateway actually flies.
 ///
-/// Figures are representative order-of-magnitude values from the open literature
-/// (Riley, NIST SP 1065; the JPL Deep Space Atomic Clock results, Burt et al.,
-/// *Nature* 2021); they bracket the achievable one-way Doppler precision rather than
-/// specifying any one flight unit.
+/// Figures for CSAC, USO and DSAC are representative order-of-magnitude values from
+/// the open literature (Riley, NIST SP 1065; the JPL Deep Space Atomic Clock results,
+/// Burt et al., *Nature* 2021); they bracket the achievable one-way Doppler precision
+/// rather than specifying any one flight unit. The TCXO (temperature-compensated
+/// crystal oscillator), OCXO (oven-controlled crystal oscillator) and RAFS (rubidium
+/// atomic frequency standard) figures are each read from one named public datasheet,
+/// given on the variant and returned by [`ClockClass::source`]; they stand for their
+/// class, not for that part. For the part a customer actually flies, use
+/// [`crate::slot_timing::ClockNoise::from_datasheet`] or a measured phase record
+/// instead of any class default.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum ClockClass {
     /// **CSAC** — a chip-scale atomic clock, the small low-power class: white-FM ADEV
@@ -328,6 +335,20 @@ pub enum ClockClass {
     /// **DSAC** — a deep-space atomic clock (trapped-ion mercury), the most stable class:
     /// `σ_y(1 s) ≈ 1e-13` (reaching 1e-14…1e-15 at long tau; Burt et al., *Nature* 2021).
     Dsac,
+    /// **TCXO** — a temperature-compensated crystal oscillator, the default reference of
+    /// commercial receivers and low-cost smallsat buses: `σ_y(1 s) ≈ 2e-10`, the basic
+    /// TCXO column of the EndRun Technologies *Disciplined Oscillator Options* data
+    /// sheet. The least stable class here.
+    Tcxo,
+    /// **OCXO** — an oven-controlled crystal oscillator, the usual upgrade on a smallsat
+    /// bus or in a ground timing unit: `σ_y(1 s) ≈ 5e-12`, from the Microchip OX-208
+    /// datasheet (the same part as the `ocxo` telecom-timing preset).
+    Ocxo,
+    /// **RAFS** — a rubidium atomic frequency standard, the gateway-rack and navigation
+    /// satellite class: `σ_y(1 s) ≈ 3e-11`, from the Microchip 8040C datasheet (the same
+    /// part as the `rubidium` telecom-timing preset). Noisier than an OCXO at 1 s, far
+    /// better at long averaging times and in ageing.
+    Rafs,
 }
 
 impl ClockClass {
@@ -337,6 +358,57 @@ impl ClockClass {
             ClockClass::Csac => 3.0e-10,
             ClockClass::Uso => 1.0e-12,
             ClockClass::Dsac => 1.0e-13,
+            ClockClass::Tcxo => 2.0e-10,
+            ClockClass::Ocxo => 5.0e-12,
+            ClockClass::Rafs => 3.0e-11,
+        }
+    }
+
+    /// Every class, in declaration order.
+    pub const ALL: [ClockClass; 6] = [
+        ClockClass::Csac,
+        ClockClass::Uso,
+        ClockClass::Dsac,
+        ClockClass::Tcxo,
+        ClockClass::Ocxo,
+        ClockClass::Rafs,
+    ];
+
+    /// The lower-case identifier a scenario selects the class by.
+    pub fn id(self) -> &'static str {
+        match self {
+            ClockClass::Csac => "csac",
+            ClockClass::Uso => "uso",
+            ClockClass::Dsac => "dsac",
+            ClockClass::Tcxo => "tcxo",
+            ClockClass::Ocxo => "ocxo",
+            ClockClass::Rafs => "rafs",
+        }
+    }
+
+    /// The class with this identifier (case-insensitive), if any.
+    pub fn from_id(id: &str) -> Option<ClockClass> {
+        let id = id.to_ascii_lowercase();
+        ClockClass::ALL.into_iter().find(|c| c.id() == id)
+    }
+
+    /// Where the class's `σ_y(1 s)` comes from.
+    pub fn source(self) -> &'static str {
+        match self {
+            ClockClass::Csac => "Microchip SA.45s CSAC datasheet class, sigma_y(1 s) 3e-10",
+            ClockClass::Uso => "space USO class default (Riley, NIST SP 1065)",
+            ClockClass::Dsac => "Burt et al., Nature 595 (2021)",
+            ClockClass::Tcxo => {
+                "EndRun Technologies, Disciplined Oscillator Options data sheet, basic TCXO \
+                 column, Allan deviation at 1 s 2.0e-10"
+            }
+            ClockClass::Ocxo => {
+                "Microchip OX-208 OCXO datasheet, Rev 12-1-2021, Allan deviation at 1 s 5e-12"
+            }
+            ClockClass::Rafs => {
+                "Microchip 8040C Rubidium Frequency Standard datasheet, DS00003047A, Allan \
+                 deviation at 1 s 3e-11"
+            }
         }
     }
 

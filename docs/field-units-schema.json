@@ -1,11 +1,11 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 1788,
-    "fields_total": 1790,
+    "fields_described": 1822,
+    "fields_total": 1824,
     "fields_without_units": 2,
-    "kinds_complete": 61,
-    "kinds_total": 62,
+    "kinds_complete": 62,
+    "kinds_total": 63,
     "kinds_uncovered": 1,
     "uncovered_kind_ceiling": 1,
     "uncovered_kinds": [
@@ -10166,6 +10166,220 @@
       "fields_without_units": [],
       "label": "MODELLED — Allen–Eggers ballistic (no-lift) entry, exponential isothermal atmosphere, constant flight-path angle; peak-g is ballistic-coefficient-independent; heating is the peak-heating VELOCITY, NOT a heat-flux (no aerothermal/TPS model)",
       "source": "defaults"
+    },
+    "slot-timing": {
+      "complete": true,
+      "fields": {
+        "error_growth[].t_s": {
+          "definition": "time since the last fix",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "error_growth[].time_error_ns": {
+          "definition": "predicted time error at that time",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "ns"
+        },
+        "oscillator.aging_per_day": {
+          "definition": "linear fractional-frequency ageing per day, from the source or the scenario override",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "1/d"
+        },
+        "oscillator.flicker_avar": {
+          "definition": "flicker frequency-modulation floor of the Allan variance",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "1"
+        },
+        "oscillator.q_rr": {
+          "definition": "random-run frequency-modulation noise density",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "1/s^3"
+        },
+        "oscillator.q_rw": {
+          "definition": "random-walk frequency-modulation noise density",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "1/s"
+        },
+        "oscillator.q_wf": {
+          "definition": "white frequency-modulation phase noise density: the Allan variance at 1 s from white frequency noise",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "s"
+        },
+        "oscillator.sigma_y_1s": {
+          "definition": "model Allan deviation at an averaging time of 1 s",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "oscillator.support_tau_s": {
+          "definition": "longest averaging time the datasheet or record supports; null for a class default",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "oscillator.tempco_per_k": {
+          "definition": "fractional frequency change per kelvin, from the source or the scenario override",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "1/K"
+        },
+        "oscillator.white_pm_sigma_ns": {
+          "definition": "one-sigma white phase noise of the clock's time error: a constant floor under every coast",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "ns"
+        },
+        "result.breach_after_sync_s": {
+          "definition": "time from the last fix until the predicted error reaches the guard; null when it never does",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "s"
+        },
+        "result.fixes_per_day": {
+          "definition": "fixes per day at the resynchronisation interval",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "1/d"
+        },
+        "result.remaining_s": {
+          "definition": "time left before the guard breaks, net of the elapsed time",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "s"
+        },
+        "result.resync_interval_s": {
+          "definition": "largest interval between fixes that keeps the error inside the guard, net of the fix latency",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "s"
+        },
+        "slot.elapsed_since_sync_s": {
+          "definition": "time already elapsed since the last fix",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "slot.fix_latency_s": {
+          "definition": "time from taking a fix to it taking effect",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "slot.fix_sigma_ns": {
+          "definition": "one-sigma time error of the fix the coast starts from",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "ns"
+        },
+        "slot.guard_ns": {
+          "definition": "largest absolute time error the slot tolerates",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "ns"
+        },
+        "slot.k_sigma": {
+          "definition": "coverage factor on the stochastic error",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "slot.residual_frequency_offset": {
+          "definition": "residual fractional-frequency offset left after synchronisation",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "slot.temperature_excursion_k": {
+          "definition": "temperature excursion from the synchronisation temperature",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "K"
+        },
+        "spoofing.checks[].at_check_ns": {
+          "definition": "undetected error the cross-check allows when used: k times its one sigma",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "spoofing.checks[].revisit_s": {
+          "definition": "longest gap between two uses of the cross-check",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "spoofing.coast_over_latency_ns": {
+          "definition": "clock coast one sigma over the detection latency",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "ns"
+        },
+        "spoofing.conditional_tpl_ns": {
+          "definition": "conditional timing protection level: monitor floor plus coast; holds only given detection",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "ns"
+        },
+        "spoofing.detection_latency_s": {
+          "definition": "CUSUM time to alarm at the stated attack severity; null when it never alarms",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "s"
+        },
+        "spoofing.max_spoofer_exposure_s": {
+          "definition": "longest time one ground spoofer can reach the satellite in a pass",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "s"
+        },
+        "spoofing.monitor_floor_ns": {
+          "definition": "k times the one sigma of the clock-aided monitor over its window",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "ns"
+        },
+        "spoofing.orbital_period_s": {
+          "definition": "circular orbital period at the stated altitude",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "s"
+        },
+        "spoofing.orbital_speed_m_s": {
+          "definition": "circular orbital speed at the stated altitude",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m/s"
+        },
+        "spoofing.ramp_limited_pull_ns": {
+          "definition": "pull a spoofer at the assumed maximum ramp rate accumulates before the satellite leaves its footprint or an independent check runs",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "ns"
+        },
+        "spoofing.spoofer_footprint_radius_km": {
+          "definition": "surface radius of the region a ground spoofer must be in to reach the satellite above its minimum elevation",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "km"
+        },
+        "terms_at_breach[].time_error_ns": {
+          "definition": "one contribution to the predicted error at the breach: k times its own sigma for a stochastic term, its full value for a deterministic one",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "ns"
+        }
+      },
+      "fields_described": 34,
+      "fields_total": 34,
+      "fields_without_units": [],
+      "label": "MODELLED — time until a free-running clock leaves a routing slot's guard, and the fix cadence that keeps it inside, from a stationary power-law clock model. A datasheet source is an envelope of its maxima, not a measurement of any unit; a class source rests on an assumed red-noise floor.",
+      "source": "scenarios/slot-timing-ocxo-leo.toml"
     },
     "space-packet": {
       "complete": true,

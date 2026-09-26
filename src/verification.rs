@@ -1663,6 +1663,34 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
+        // ── Slot timing (time-indexed slots, fix cadence, orbital spoofing) ─────
+        VerificationItem {
+            requirement: "Holdover prediction from a measured clock record, checked on held-out data",
+            capability: "The `slot-timing` kind's measured-record path: the overlapping Allan deviation of a phase record fitted by edf-weighted non-negative least squares in the white-phase and IEEE Std 1139 frequency-modulation basis (slot_timing::fit_weighted), then inverted for the coast time at which the time error reaches a threshold (slot_timing::slot_budget). The red-noise floor is measured from the record instead of assumed",
+            module: "slot_timing (ClockNoise::from_phase_record, fit_weighted, slot_budget, breach_after_sync_s)",
+            tests: "tests/slot_timing_cs5071a_holdout.rs (holdover_inversion_predicts_the_held_out_caesium_record: fit on the first third of the record, predict the one-sigma breach at 0.5, 0.75, 1, 1.5, 2 and 2.5 ns, measure it on the other two thirds from a sync point every 997 s; bar, fixed before the first run, a factor of 1.5 either way; observed ratios 0.84 to 1.03; a control, the one-second Allan deviation read as white FM, misses by a factor of about 1 000 and must fail the bar; a mutation halving the white-FM level fails the test); slot_timing::tests (a_measured_white_fm_record_recovers_its_level; reduces_to_the_holdover_inversion; ieee1139_conversion_matches_the_powerlaw_module)",
+            oracle: "A real free-running atomic clock: 556 990 one-second phase samples of a 5071A caesium standard measured against a hydrogen maser (A. Wallin, distributed with allantools; pinned commit and SHA-256 in scripts/fetch_cs5071a.sh), the same record tests/cs5071a_reference.rs uses for the estimators. The held-out two thirds are an external measurement the prediction never saw. Data-gated: the realdata-clock workflow fetches the record and runs the test with KSHANA_REQUIRE_REALDATA=1. Validates the fit-then-invert path on a white-FM-dominated atomic standard over coasts up to about 50 000 s; not a crystal oscillator, not the datasheet or class sources, not the deterministic terms",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
+            requirement: "Seconds until a free-running clock leaves a time-indexed slot's guard, and the fix cadence that keeps it inside",
+            capability: "The `slot-timing` kind: the predicted error E(t) = k·√(σ₀² + σ_x²(t)) + (|y₀| + |c_T·ΔT|)·t + ½|D|t² inverted for the breach, the time left, the resynchronisation interval net of the fix latency and fixes per day, each term itemised with the dominant one named; clocks from the six ClockClass defaults (TCXO, OCXO and RAFS added, each citing one datasheet), the telecom-timing presets, an inline datasheet or a measured record; a breach beyond the source's longest averaging time flagged as extrapolated",
+            module: "slot_timing (predicted_error_s, breach_after_sync_s, terms_at, slot_budget, ClockNoise::from_datasheet, SlotTimingScenario); clock_state (ClockClass::Tcxo, Ocxo, Rafs, source)",
+            tests: "slot_timing::tests (reduces_to_the_holdover_inversion — every class against holdover::holdover_seconds to 1e-9; white_fm_with_fix_error_has_its_closed_form; flicker_floor_alone_is_linear_in_time; ageing_alone_is_quadratic_in_time; frequency_offsets_add_in_magnitude; the_error_at_the_breach_is_the_guard; datasheet_fit_envelopes_every_point; datasheet_classes_match_their_presets_at_one_second; a_breach_beyond_the_datasheet_is_flagged_as_extrapolated; the_report_carries_the_result_and_a_unit_for_each_field)",
+            oracle: "Closed forms for each term alone and the independent holdover::holdover_seconds root-find; the datasheet figures are the named documents (docs/SLOT-TIMING.md). A class default rests on an assumed red-noise floor and a datasheet source is an envelope of maxima, so neither is a measurement of any unit",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
+            requirement: "Timing protection level for a receiver in orbit under GNSS spoofing",
+            capability: "orbital_timing::orbital_timing, reachable as the `slot-timing` kind's spoofing section: circular-orbit speed and period, the longest time a ground spoofer can reach the satellite per pass, the clock-aided monitor floor and CUSUM detection latency, the conditional protection level (floor plus coast over the latency), the pull a spoofer at a stated maximum ramp rate accumulates before the satellite leaves its footprint or an independent check runs, and whether each ground-contact or crosslink check is independent of one ground spoofer",
+            module: "orbital_timing (orbital_timing, visibility_half_angle_rad, max_pass_s, crosslink_neighbour_is_outside_footprint)",
+            tests: "orbital_timing::tests (reduces_to_the_terrestrial_tpl — exactly tpl::timing_protection_level_ns when the clock has no flicker, white-phase or random-run term; leo_geometry_matches_its_closed_forms; crosslink_independence_follows_the_footprint; an_independent_check_caps_the_ramp_before_the_pass_ends; a_crosslink_inside_the_footprint_does_not_count; a_ramp_below_the_reference_is_never_detected)",
+            oracle: "Reduction to the existing timing protection level and the circular-orbit and spherical-Earth visibility closed forms. Conditional on detection, one terrestrial spoofer at a stated ramp rate, an overhead pass on a non-rotating Earth; not validated on a spoofed receiver in orbit",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
     ]
 }
 

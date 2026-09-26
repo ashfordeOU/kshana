@@ -11,6 +11,10 @@
 #   the tests with KSHANA_REQUIRE_REALDATA=1, which turns a missing input into a failure
 #   instead of a silent skip.
 #
+#   Since 0.28.0 the same caesium record also backs a third VALIDATED row:
+#   tests/slot_timing_cs5071a_holdout.rs fits a noise model on the first third of it and
+#   checks the predicted holdover breaches against the other two thirds.
+#
 # Monthly, not per-push: the estimators it checks change rarely, and the fetch reaches a
 # third-party host, so a per-push job would turn an upstream outage into a red main.
 name: Real-data clock validation
@@ -35,4 +39,4 @@ jobs:
       - name: Run both checks, data REQUIRED
         env:
           KSHANA_REQUIRE_REALDATA: "1"
-        run: cargo test --release --test cs5071a_reference --test phasedat_reference -- --nocapture
+        run: cargo test --release --test cs5071a_reference --test phasedat_reference --test slot_timing_cs5071a_holdout -- --nocapture
