@@ -21,7 +21,7 @@
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://sonarcloud.io/api/project_badges/measure?project=ashfordeOU_kshana&metric=security_rating" alt="SonarQube Cloud Security Rating"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://sonarcloud.io/api/project_badges/measure?project=ashfordeOU_kshana&metric=sqale_rating" alt="SonarQube Cloud Maintainability Rating"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://sonarcloud.io/api/project_badges/measure?project=ashfordeOU_kshana&metric=reliability_rating" alt="SonarQube Cloud Reliability Rating"></a>
-  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.27.3-c79e63" alt="Release v0.27.3"></a>
+  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.27.4-c79e63" alt="Release v0.27.4"></a>
   <a href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator"><img src="https://img.shields.io/badge/JetBrains-Marketplace-c79e63" alt="Kshana on the JetBrains Marketplace"></a>
   <a href="https://glama.ai/mcp/servers/ashfordeOU/kshana"><img src="https://glama.ai/mcp/servers/ashfordeOU/kshana/badges/score.svg" alt="kshana-mcp on Glama — MCP server quality score"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-AGPL_v3-blue.svg" alt="License: AGPL-3.0-only"></a>
@@ -115,7 +115,7 @@ company; OÜ = osaühing) for proprietary/closed integration (see [`LICENSING.md
 Professionally developed and maintained by [Ashforde OÜ](https://ashforde.org); commercial
 support, integration, and proprietary extensions available.*
 
-> **Status: v0.27.3 · a validated, reproducible simulation substrate for PNT resilience.**
+> **Status: v0.27.4 · a validated, reproducible simulation substrate for PNT resilience.**
 > A fully reproducible engine spanning the PNT stack — orbit geometry and constellation
 > design, a numerical (Cowell) propagator with a seven-perturbation force model, maneuver
 > and trajectory design, time systems, inertial navigation (incl. map-aided and
@@ -1259,7 +1259,7 @@ entry for every user-visible change. Participation is governed by our
 
 If you use Kshana in academic or technical work, please cite it. Machine-readable
 metadata is in [`CITATION.cff`](CITATION.cff) (GitHub renders a "Cite this repository"
-button from it); cite the version you used (e.g. `v0.27.3`) together with the
+button from it); cite the version you used (e.g. `v0.27.4`) together with the
 scenario and seed for full reproducibility. Every release is archived on Zenodo with
 a citable DOI (Digital Object Identifier) — the concept DOI [10.5281/zenodo.20528627](https://doi.org/10.5281/zenodo.20528627)
 always resolves to the latest version.

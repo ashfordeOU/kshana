@@ -19,7 +19,7 @@
     ]]></description>
 
     <change-notes><![CDATA[
-        <b>0.27.3</b> — the plugin itself is unchanged since 0.22.0; every release since
+        <b>0.27.4</b> — the plugin itself is unchanged since 0.22.0; every release since
         has been the same build republished so the Marketplace version keeps matching the
         <code>kshana</code> engine it targets. All the work is in the engine — update it
         separately with <code>cargo install kshana</code> and see the release notes at

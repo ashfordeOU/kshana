@@ -406,7 +406,11 @@ jobs:
         # exactly what ships. --provenance records npm-native build provenance.
         run: |
           set +e
-          tarball="$(ls npm-dist/*.tgz)"
+          # The leading ./ is load-bearing. npm reads a bare `dir/file.tgz` as the GitHub
+          # shorthand `owner/repo` and tries to clone github.com/npm-dist/...: v0.27.3's npm
+          # job failed exactly that way ("Permission denied (publickey)"), after crates.io
+          # and PyPI had published.
+          tarball="$(ls ./npm-dist/*.tgz)"
           [ "$(printf '%s\n' "$tarball" | wc -l)" -eq 1 ] || { echo "::error::expected one tarball, found: $tarball"; exit 1; }
           out="$(npm publish "$tarball" --access public --provenance 2>&1)"; rc=$?
           printf '%s\n' "$out"
