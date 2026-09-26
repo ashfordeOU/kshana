@@ -23,11 +23,15 @@
 //! The predicted time error after coasting `t` seconds from a fix is
 //!
 //! ```text
-//!   E(t) = k · √( σ₀² + σ_x²(t) )  +  (|y₀| + |c_T·ΔT|) · t  +  ½ · |D| · t²
+//!   E(t) = k · √( σ₀² + (σ_f·t)² + σ_x²(t) )  +  (|y₀| + |c_T·ΔT|) · t  +  ½ · |D| · t²
 //!   σ_x²(t) = σ_PM² + q_wf·t + h_F·t² + q_rw·t³/3 + q_rr·t⁵/20
 //! ```
 //!
-//! * `σ₀` is the one-sigma time error of the fix itself and `k` the coverage factor.
+//! * `σ₀` is the one-sigma time error of the fix itself, `σ_f` the one-sigma error of
+//!   the frequency known at the fix, and `k` the coverage factor. A frequency estimated
+//!   over a window `W` carries `σ_f ≈ σ_y(W)`; at a coast of `t = W` the two terms then
+//!   give the Allan identity `2·W²·σ_y²(W)` for that estimator. For a crystal oscillator,
+//!   whose frequency wanders, leaving `σ_f` at 0 is optimistic.
 //! * `σ_PM²` is the white phase-noise variance: jitter of the time error about the
 //!   underlying phase, which a measured record shows as an Allan deviation falling as
 //!   `1/τ` at short averaging times. It adds a constant floor, not a growth.
@@ -444,6 +448,11 @@ pub struct SlotConditions {
     pub k_sigma: f64,
     /// One-sigma time error of the fix the coast starts from (s).
     pub fix_sigma_s: f64,
+    /// One-sigma fractional-frequency error of the fix (dimensionless): how well the
+    /// clock's frequency is known when the coast starts. A frequency estimated over a
+    /// window `W` carries about `σ_y(W)` ([`ClockNoise::allan_deviation`]); 0 treats the
+    /// frequency as exactly known.
+    pub fix_frequency_sigma: f64,
     /// Time already elapsed since that fix (s).
     pub elapsed_since_sync_s: f64,
     /// Time from taking a fix to it taking effect (s); shortens the usable interval.
@@ -496,7 +505,9 @@ impl SlotBudget {
 /// The predicted time error `E(t)` (s) after coasting `t` seconds from a fix.
 pub fn predicted_error_s(noise: &ClockNoise, c: &SlotConditions, t: f64) -> f64 {
     let t = t.max(0.0);
-    let stoch = c.k_sigma * (c.fix_sigma_s * c.fix_sigma_s + noise.coast_variance(t)).sqrt();
+    let sf = c.fix_frequency_sigma * t;
+    let stoch =
+        c.k_sigma * (c.fix_sigma_s * c.fix_sigma_s + sf * sf + noise.coast_variance(t)).sqrt();
     let freq =
         c.residual_frequency_offset.abs() + (noise.tempco_per_k * c.temperature_excursion_k).abs();
     let aging = 0.5 * (noise.aging_per_day / DAY_S) * t * t;
@@ -546,6 +557,10 @@ pub fn terms_at(noise: &ClockNoise, c: &SlotConditions, t: f64) -> Vec<Term> {
             time_error_ns: k * c.fix_sigma_s * ns,
         },
         Term {
+            term: "fix frequency uncertainty",
+            time_error_ns: k * c.fix_frequency_sigma * t * ns,
+        },
+        Term {
             term: "white phase noise",
             time_error_ns: k * noise.white_pm_var.sqrt() * ns,
         },
@@ -591,6 +606,7 @@ pub fn check_conditions(c: &SlotConditions) -> Result<(), String> {
         return Err("k_sigma must be positive".into());
     }
     check_nonneg("fix_sigma", c.fix_sigma_s)?;
+    check_nonneg("fix_frequency_sigma", c.fix_frequency_sigma)?;
     check_nonneg("elapsed_since_sync_s", c.elapsed_since_sync_s)?;
     check_nonneg("fix_latency_s", c.fix_latency_s)?;
     if !c.residual_frequency_offset.is_finite() {
@@ -692,6 +708,9 @@ pub struct SlotInput {
     /// One-sigma time error of the fix (ns).
     #[serde(default)]
     pub fix_sigma_ns: f64,
+    /// One-sigma fractional-frequency error of the fix (dimensionless).
+    #[serde(default)]
+    pub fix_frequency_sigma: f64,
     /// Time already elapsed since the last fix (s).
     #[serde(default)]
     pub elapsed_since_sync_s: f64,
@@ -862,6 +881,7 @@ impl SlotTimingScenario {
             guard_s: s.guard_ns * 1e-9,
             k_sigma: s.k_sigma,
             fix_sigma_s: s.fix_sigma_ns * 1e-9,
+            fix_frequency_sigma: s.fix_frequency_sigma,
             elapsed_since_sync_s: s.elapsed_since_sync_s,
             fix_latency_s: s.fix_latency_s,
             residual_frequency_offset: s.residual_frequency_offset,
@@ -975,6 +995,7 @@ impl SlotTimingScenario {
                 "guard_ns": self.slot.guard_ns,
                 "k_sigma": c.k_sigma,
                 "fix_sigma_ns": self.slot.fix_sigma_ns,
+                "fix_frequency_sigma": c.fix_frequency_sigma,
                 "elapsed_since_sync_s": c.elapsed_since_sync_s,
                 "fix_latency_s": c.fix_latency_s,
                 "residual_frequency_offset": c.residual_frequency_offset,
@@ -1150,6 +1171,12 @@ pub const UNITS: &[FieldUnit] = {
             definition: "one-sigma time error of the fix the coast starts from",
         },
         FieldUnit {
+            path: "slot.fix_frequency_sigma",
+            unit: "1",
+            provenance: Input,
+            definition: "one-sigma fractional-frequency error of the fix",
+        },
+        FieldUnit {
             path: "slot.elapsed_since_sync_s",
             unit: "s",
             provenance: Input,
@@ -1307,6 +1334,7 @@ mod tests {
             guard_s,
             k_sigma: 1.0,
             fix_sigma_s: 0.0,
+            fix_frequency_sigma: 0.0,
             elapsed_since_sync_s: 0.0,
             fix_latency_s: 0.0,
             residual_frequency_offset: 0.0,
@@ -1389,6 +1417,21 @@ mod tests {
         c.temperature_excursion_k = -3.0;
         let t = breach_after_sync_s(&n, &c);
         assert!(rel(t, 1e-6 / (2e-11 + 3e-11)) < 1e-9);
+    }
+
+    // Frequency uncertainty alone: k·σ_f·t = g ⇒ t = g/(k·σ_f).
+    #[test]
+    fn fix_frequency_uncertainty_alone_is_linear_in_time() {
+        let n = explicit(0.0, 0.0, 0.0, 0.0);
+        let mut c = cond(10e-9);
+        c.k_sigma = 2.0;
+        c.fix_frequency_sigma = 5e-12;
+        let t = breach_after_sync_s(&n, &c);
+        assert!(rel(t, 10e-9 / (2.0 * 5e-12)) < 1e-9);
+        assert_eq!(
+            slot_budget(&n, &c).unwrap().dominant_term(),
+            "fix frequency uncertainty"
+        );
     }
 
     #[test]
@@ -1682,7 +1725,7 @@ mod tests {
         assert_eq!(v["oscillator"]["source"], "datasheet");
         let breach = v["result"]["breach_after_sync_s"].as_f64().unwrap();
         assert!(breach > 0.0);
-        assert!(v["terms_at_breach"].as_array().unwrap().len() == 9);
+        assert!(v["terms_at_breach"].as_array().unwrap().len() == 10);
         assert!(summary.contains("slot-timing (datasheet source)"));
         assert!(svg.starts_with("<svg"));
         // Same input, same bytes.

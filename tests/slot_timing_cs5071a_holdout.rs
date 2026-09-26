@@ -70,6 +70,10 @@ fn conditions(guard_s: f64, fix_sigma_s: f64) -> SlotConditions {
         guard_s,
         k_sigma: 1.0,
         fix_sigma_s,
+        // The protocol estimates frequency over the preceding third of a record, which for
+        // a white-FM caesium standard is the optimal estimator and leaves a negligible
+        // frequency error; the crystal-oscillator test needs this term, this one does not.
+        fix_frequency_sigma: 0.0,
         elapsed_since_sync_s: 0.0,
         fix_latency_s: 0.0,
         residual_frequency_offset: 0.0,

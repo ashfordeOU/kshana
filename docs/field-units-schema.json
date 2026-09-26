@@ -1,8 +1,8 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 1822,
-    "fields_total": 1824,
+    "fields_described": 1823,
+    "fields_total": 1825,
     "fields_without_units": 2,
     "kinds_complete": 62,
     "kinds_total": 63,
@@ -10266,6 +10266,12 @@
           "provenance": "input",
           "unit": "s"
         },
+        "slot.fix_frequency_sigma": {
+          "definition": "one-sigma fractional-frequency error of the fix",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
         "slot.fix_latency_s": {
           "definition": "time from taking a fix to it taking effect",
           "evidence_tier": "illustrative",
@@ -10375,8 +10381,8 @@
           "unit": "ns"
         }
       },
-      "fields_described": 34,
-      "fields_total": 34,
+      "fields_described": 35,
+      "fields_total": 35,
       "fields_without_units": [],
       "label": "MODELLED — time until a free-running clock leaves a routing slot's guard, and the fix cadence that keeps it inside, from a stationary power-law clock model. A datasheet source is an envelope of its maxima, not a measurement of any unit; a class source rests on an assumed red-noise floor.",
       "source": "scenarios/slot-timing-ocxo-leo.toml"

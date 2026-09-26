@@ -13,7 +13,9 @@
 #
 #   Since 0.28.0 the same caesium record also backs a third VALIDATED row:
 #   tests/slot_timing_cs5071a_holdout.rs fits a noise model on the first third of it and
-#   checks the predicted holdover breaches against the other two thirds.
+#   checks the predicted holdover breaches against the other two thirds; and
+#   tests/slot_timing_ocxo_holdout.rs runs the same idea on a measured crystal oscillator
+#   (scripts/fetch_ocxo.sh), where the prediction must never be optimistic.
 #
 # Monthly, not per-push: the estimators it checks change rarely, and the fetch reaches a
 # third-party host, so a per-push job would turn an upstream outage into a red main.
@@ -36,7 +38,8 @@ jobs:
         run: |
           sh scripts/fetch_cs5071a.sh
           sh scripts/fetch_phasedat.sh
+          sh scripts/fetch_ocxo.sh
       - name: Run both checks, data REQUIRED
         env:
           KSHANA_REQUIRE_REALDATA: "1"
-        run: cargo test --release --test cs5071a_reference --test phasedat_reference --test slot_timing_cs5071a_holdout -- --nocapture
+        run: cargo test --release --test cs5071a_reference --test phasedat_reference --test slot_timing_cs5071a_holdout --test slot_timing_ocxo_holdout -- --nocapture

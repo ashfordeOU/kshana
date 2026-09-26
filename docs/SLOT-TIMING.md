@@ -33,7 +33,7 @@ cumulative-sum change detector; TPL, timing protection level; LEO, low Earth orb
 The predicted time error after coasting `t` seconds from a fix is
 
 ```text
-E(t) = k·√(σ₀² + σ_x²(t))  +  (|y₀| + |c_T·ΔT|)·t  +  ½·|D|·t²
+E(t) = k·√(σ₀² + (σ_f·t)² + σ_x²(t))  +  (|y₀| + |c_T·ΔT|)·t  +  ½·|D|·t²
 σ_x²(t) = σ_PM² + q_wf·t + h_F·t² + q_rw·t³/3 + q_rr·t⁵/20
 ```
 
@@ -41,6 +41,7 @@ E(t) = k·√(σ₀² + σ_x²(t))  +  (|y₀| + |c_T·ΔT|)·t  +  ½·|D|·t²
 |---|---|
 | `k` | coverage factor (3 is about 99.7 % of a Gaussian error) |
 | `σ₀` | one-sigma time error of the fix |
+| `σ_f` | one-sigma error of the frequency known at the fix; a frequency estimated over a window `W` carries about `σ_y(W)` |
 | `σ_PM²` | white phase-noise variance: jitter of the time error, a constant floor |
 | `q_wf`, `q_rw`, `q_rr` | white, random-walk and random-run FM densities (the van Loan terms of `holdover::coast_phase_variance`) |
 | `h_F` | flicker-FM floor of the Allan variance |
@@ -108,14 +109,44 @@ workflow runs the test with `KSHANA_REQUIRE_REALDATA=1`, so a missing file fails
 rather than skipping.
 
 What this validates: the fit-then-invert path, on a white-FM-dominated atomic standard,
-over coasts up to about 50 000 s. What it does not: a crystal oscillator, whose flicker
-and random-walk terms and ageing dominate sooner (see the bench run below); the
-datasheet and class sources; the deterministic terms.
+over coasts up to about 50 000 s. What it does not: the datasheet and class sources, the
+deterministic terms, and a crystal oscillator (next section).
+
+### The same prediction on a real crystal oscillator: conservative, not validated
+
+`tests/slot_timing_ocxo_holdout.rs` uses a measured OCXO: 19 982 one-second frequency
+readings of the 10 MHz oscillator in an HP impedance analyser, against a hydrogen maser
+(A. Wallin, 2015, distributed with `allantools`; `scripts/fetch_ocxo.sh`). The noise
+model and a linear drift are fitted on the first third; each coast on the other two
+thirds starts from a frequency estimated over the preceding 100 s, and the model carries
+that estimate's uncertainty (`fix_frequency_sigma`, the model's own Allan deviation at
+100 s).
+
+| Fitted on | Predicted ÷ measured breach, 0.2 to 10 ns | Reading |
+|---|---|---|
+| the first third (held out) | 0.59 to 0.70 | conservative: never later than measured, mostly outside the 1.5 bar |
+| the evaluation segment itself (diagnostic) | 0.98 to 1.17 | the inversion is right; the held-out gap is the oscillator changing |
+
+The oscillator's noise floor halved during the record: the Allan deviation of the first
+third flattens near 7.5e-12, the rest near 3.5e-12. A model fitted early over-predicts
+the noise, which is the safe direction. **The crystal case is therefore not validated,
+and stays MODELLED.** For a crystal, fit on a settled record and re-fit as the part ages.
+
+**How the protocol was chosen, stated because it was not blind.** A first exploratory
+run reused the caesium protocol (frequency from the preceding third, no frequency term)
+and predicted breaches 1.4 to 2.5 times later than measured: optimistic, the dangerous
+direction. A crystal's frequency wanders, so a frequency estimated hours before the fix
+is stale, and the model had no term for how well the frequency is known at the fix. The
+`fix_frequency_sigma` term was added for that reason and this protocol fixed before the
+test was written; the pass bar was not moved. The test also checks that, without the
+term, the in-sample prediction is optimistic at every threshold, so the term is
+load-bearing.
 
 ### A bench run for a flight-representative part (scoped, not done)
 
-The caesium record proves the method, not the oscillator class a smallsat flies. The
-next step is a measured free run of an OCXO or a CSAC against a reference:
+The public OCXO record is 5.5 hours long, from one laboratory instrument, with the
+oscillator still settling. What would validate the crystal case is a longer measured
+free run of a flight-representative OCXO or a CSAC against a reference:
 
 - a time-interval counter comparing the oscillator's 1 PPS with a GNSS-disciplined
   or maser reference, at least 10 days at one sample per second, temperature logged;
