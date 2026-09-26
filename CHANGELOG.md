@@ -9,6 +9,8 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.28.0] - 2026-09-26
+
 ### Added
 
 - **`slot-timing` scenario kind** (`src/slot_timing.rs`): seconds until a free-running
@@ -3655,7 +3657,8 @@ Initial release.
   services, not license fees.
 - `CITATION.cff` so the software can be cited.
 
-[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.27.4...HEAD
+[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.28.0...HEAD
+[0.28.0]: https://github.com/AshfordeOU/kshana/compare/v0.27.4...v0.28.0
 [0.27.4]: https://github.com/AshfordeOU/kshana/compare/v0.27.3...v0.27.4
 [0.27.3]: https://github.com/AshfordeOU/kshana/compare/v0.27.2...v0.27.3
 [0.27.2]: https://github.com/AshfordeOU/kshana/compare/v0.27.1...v0.27.2
