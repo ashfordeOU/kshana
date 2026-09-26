@@ -92,7 +92,7 @@ than offered in its place. See [What it is / is not](#what-it-is--is-not) and
 
 ### Validated against external oracles — every row CI-gated
 
-Each row is checked against an **independent external oracle** (real dataset, independent reference implementation, or published reference vectors) and re-checked in CI (continuous integration). [Full 171-row matrix →](#validation-at-a-glance)
+Each row is checked against an **independent external oracle** (real dataset, independent reference implementation, or published reference vectors) and re-checked in CI (continuous integration). [Full 174-row matrix →](#validation-at-a-glance)
 
 | | Capability | Result | External oracle |
 |---|---|---|---|
