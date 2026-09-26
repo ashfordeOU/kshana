@@ -657,7 +657,6 @@ fn run_one(scn: &GnssInsScenario, cfg: &ImuCfg, seed: u64) -> FusedRun {
     }
 }
 
-/// Run the loosely-coupled GNSS/INS scenario for the quantum and classical IMUs.
 impl GnssInsScenario {
     /// Reject a filter prior that cannot seed a covariance.
     pub fn validate(&self) -> Result<(), String> {
@@ -673,6 +672,7 @@ impl GnssInsScenario {
     }
 }
 
+/// Run the loosely-coupled GNSS/INS scenario for the quantum and classical IMUs.
 pub fn run_gnss_ins(scn: &GnssInsScenario) -> GnssInsResult {
     let q_seed = scn.seed;
     let c_seed = scn.seed.wrapping_add(0x9e37_79b9_7f4a_7c15);
