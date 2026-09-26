@@ -9,6 +9,29 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.27.4] - 2026-09-26
+
+The v0.27.3 release reached crates.io (`kshana` and `kshana-mcp`) and PyPI, then stopped
+at npm, so npm, the ghcr.io MCP image, the MCP registry, the JetBrains Marketplace and
+kshana.dev never received it. 0.27.4 carries the same engine, with the release fix below,
+to every channel.
+
+### Fixed
+
+- **The npm publish step names the tarball by an explicit path.** npm reads a bare
+  `npm-dist/kshana-0.27.3.tgz` as the GitHub shorthand `owner/repo`, so v0.27.3's npm job
+  tried to clone `github.com/npm-dist/kshana-0.27.3.tgz` and failed with "Permission
+  denied (publickey)". The tarball itself had been built and attested. The step now
+  publishes `./npm-dist/*.tgz`. Everything after npm in the release order (the MCP image,
+  the JetBrains plugin, the channel-parity check and the site) was skipped, as designed.
+
+### Changed
+
+- **The telecom-timing and `gnss-ins` units catalogs are exempt from copy-paste
+  detection**, under the same policy and justification test as the other catalogs. The
+  SonarCloud quality gate had gone red on new-code duplication (4.0% against 3%), and
+  every duplicated block was a units row or an ITU-T mask entry.
+
 ## [0.27.3] - 2026-09-25
 
 ### Added
@@ -3575,7 +3598,8 @@ Initial release.
   services, not license fees.
 - `CITATION.cff` so the software can be cited.
 
-[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.27.3...HEAD
+[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.27.4...HEAD
+[0.27.4]: https://github.com/AshfordeOU/kshana/compare/v0.27.3...v0.27.4
 [0.27.3]: https://github.com/AshfordeOU/kshana/compare/v0.27.2...v0.27.3
 [0.27.2]: https://github.com/AshfordeOU/kshana/compare/v0.27.1...v0.27.2
 [0.27.1]: https://github.com/AshfordeOU/kshana/compare/v0.27.0...v0.27.1

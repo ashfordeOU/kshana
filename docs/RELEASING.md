@@ -63,6 +63,7 @@ version. Asking the registries today, with `scripts/check_channel_parity.py`:
 | 0.23.0 | PyPI |
 | 0.27.0 | crates.io (`kshana` and `kshana-mcp`) |
 | 0.27.1, 0.27.2 | nothing |
+| 0.27.3 | npm, ghcr.io (the MCP image), the MCP registry, the JetBrains Marketplace: the npm step failed on a path npm read as a GitHub shorthand, and the release stopped there by design; 0.27.4 carries the same engine to every channel |
 
 Part of the cause was that a missing registry token used to skip the upload and report
 success. It now fails the job. You can run the check yourself for any version; it only
