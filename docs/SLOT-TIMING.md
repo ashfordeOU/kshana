@@ -142,6 +142,30 @@ test was written; the pass bar was not moved. The test also checks that, without
 term, the in-sample prediction is optimistic at every threshold, so the term is
 load-bearing.
 
+### The same prediction on atomic clocks in orbit: 8 of 10, not validated
+
+`tests/slot_timing_igs_holdout.rs` uses International GNSS Service (IGS) final combined
+clocks at 30 s for 14 days (17 to 30 August 2025; `scripts/fetch_igs_clocks.sh`, every
+file pinned by SHA-256): each GPS Block IIF satellite clock against the IGS timescale.
+The protocol (satellite set, gap rule, fit window, a sync every 3 570 s with the
+frequency from the preceding hour, thresholds of 1 to 20 ns, the 1.5 bar, and the rule
+that the class passes only if every satellite does) was written down before any of the
+data was downloaded.
+
+| Satellites | Predicted ÷ measured breach | Verdict |
+|---|---|---|
+| G06, G08, G09, G10, G24, G26, G27, G32 | 0.76 to 1.46 | within the bar |
+| G25 | 1.51 to 1.99 | optimistic |
+| G30 | 1.20 to 1.61 | optimistic |
+| G03 | not evaluated | excluded by the gap rule (a missing day) |
+
+Eight of ten is useful evidence, but two satellites are predicted to hold longer than
+they did, which is the dangerous direction, and the protocol requires every satellite to
+pass. **The orbital case therefore stays MODELLED.** Block IIF satellites carry both
+rubidium and caesium standards and the IGS files do not say which is active, so the
+result is stated for the satellites, not for one clock type. Why G25 and G30 differ has
+not been investigated.
+
 ### A bench run for a flight-representative part (scoped, not done)
 
 The public OCXO record is 5.5 hours long, from one laboratory instrument, with the
