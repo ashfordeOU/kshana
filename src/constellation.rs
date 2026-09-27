@@ -66,11 +66,17 @@ const MAX_STATES: usize = 3 + MAX_CLOCKS;
 /// the ascending node at the scenario epoch (see the module's frame convention).
 #[derive(Clone, Copy, Debug, PartialEq, Serialize)]
 pub struct Elements {
+    /// Semi-major axis (m).
     pub a_m: f64,
+    /// Eccentricity.
     pub e: f64,
+    /// Inclination to the body equator (rad).
     pub i_rad: f64,
+    /// Node longitude in the body-fixed frame at the epoch (rad).
     pub raan_rad: f64,
+    /// Argument of periapsis (rad).
     pub argp_rad: f64,
+    /// Mean anomaly at the epoch (rad).
     pub m0_rad: f64,
 }
 
@@ -159,7 +165,9 @@ pub fn body_by_name(name: &str) -> Result<Body, String> {
 #[serde(rename_all = "kebab-case")]
 pub enum WalkerPattern {
     #[default]
+    /// Nodes spread over 360 deg.
     Delta,
+    /// Nodes spread over 180 deg.
     Star,
 }
 
@@ -168,15 +176,25 @@ pub enum WalkerPattern {
 /// inclination. `raan0`, `argp` and `m0` place the first satellite of the first plane.
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct WalkerSpec {
+    /// Delta or star.
     pub pattern: WalkerPattern,
+    /// Walker T: satellites in the shell.
     pub total: usize,
+    /// Walker P: equally spaced planes.
     pub planes: usize,
+    /// Walker F: inter-plane phasing factor, in 0..P.
     pub phasing: usize,
+    /// Semi-major axis (m).
     pub a_m: f64,
+    /// Eccentricity.
     pub e: f64,
+    /// Inclination to the body equator (rad).
     pub i_rad: f64,
+    /// Node longitude of the first plane at the epoch (rad).
     pub raan0_rad: f64,
+    /// Argument of periapsis (rad).
     pub argp_rad: f64,
+    /// Mean anomaly at the epoch (rad).
     pub m0_rad: f64,
 }
 
@@ -252,7 +270,7 @@ pub const GPS_GHA_DEG: f64 = 100.765;
 
 /// SPS PS 5th edition Table 3.2-1: `(slot, RAAN deg, argument of latitude deg, groundtrack
 /// equatorial crossing deg)`. RAAN is referenced to FK5/J2000 at the table epoch.
-pub const GPS_BASELINE_SLOTS: [(&str, f64, f64, f64); 24] = [
+pub const GPS_BASELINE_SLOTS: [GpsSlotRow; 24] = [
     ("A1", 288.85, 239.54, 127.85),
     ("A2", 288.85, 133.20, 74.68),
     ("A3", 288.85, 343.09, 179.63),
@@ -279,9 +297,13 @@ pub const GPS_BASELINE_SLOTS: [(&str, f64, f64, f64); 24] = [
     ("F4", 228.85, 106.76, 1.46),
 ];
 
+/// One slot row of an SPS PS slot table: `(slot, RAAN deg, argument of latitude deg,
+/// groundtrack equatorial crossing deg)`.
+pub type GpsSlotRow = (&'static str, f64, f64, f64);
+
 /// SPS PS 5th edition Table 3.2-2: each expandable slot and its fore (F) and aft (A)
 /// locations, `(slot, [(id, RAAN deg, argument of latitude deg, crossing deg); 2])`.
-pub const GPS_EXPANDABLE_SLOTS: [(&str, [(&str, f64, f64, f64); 2]); 6] = [
+pub const GPS_EXPANDABLE_SLOTS: [(&str, [GpsSlotRow; 2]); 6] = [
     (
         "B1",
         [
@@ -490,23 +512,34 @@ pub enum ClockModel {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct ShellCfg {
     #[serde(default)]
+    /// Delta or star.
     pub pattern: WalkerPattern,
+    /// Walker T: satellites in the shell.
     pub total: usize,
+    /// Walker P: equally spaced planes.
     pub planes: usize,
     #[serde(default)]
+    /// Walker F: inter-plane phasing factor, in 0..P.
     pub phasing: usize,
     #[serde(default)]
+    /// Altitude of the semi-major axis above the body radius (km); give this or semi_major_axis_km.
     pub altitude_km: Option<f64>,
     #[serde(default)]
+    /// Semi-major axis (km); give this or altitude_km.
     pub semi_major_axis_km: Option<f64>,
     #[serde(default)]
+    /// Eccentricity, in [0, 0.9).
     pub eccentricity: f64,
+    /// Inclination to the body equator (deg).
     pub inclination_deg: f64,
     #[serde(default)]
+    /// Node longitude of the first plane at the epoch (deg).
     pub raan0_deg: f64,
     #[serde(default)]
+    /// Argument of periapsis (deg).
     pub argp_deg: f64,
     #[serde(default)]
+    /// Mean anomaly of the first satellite of the first plane (deg).
     pub mean_anomaly0_deg: f64,
 }
 
@@ -514,19 +547,27 @@ pub struct ShellCfg {
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct SatelliteCfg {
     #[serde(default)]
+    /// Satellite label (defaults to X001, X002, ...).
     pub id: Option<String>,
     #[serde(default)]
+    /// Altitude of the semi-major axis above the body radius (km); give this or semi_major_axis_km.
     pub altitude_km: Option<f64>,
     #[serde(default)]
+    /// Semi-major axis (km); give this or altitude_km.
     pub semi_major_axis_km: Option<f64>,
     #[serde(default)]
+    /// Eccentricity, in [0, 0.9).
     pub eccentricity: f64,
+    /// Inclination to the body equator (deg).
     pub inclination_deg: f64,
     #[serde(default)]
+    /// Node longitude at the epoch (deg).
     pub raan_deg: f64,
     #[serde(default)]
+    /// Argument of periapsis (deg).
     pub argp_deg: f64,
     #[serde(default)]
+    /// Mean anomaly at the epoch (deg).
     pub mean_anomaly_deg: f64,
 }
 
@@ -534,6 +575,7 @@ pub struct SatelliteCfg {
 /// satellites (they are concatenated).
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct ConstellationCfg {
+    /// Constellation name, used in the report.
     pub name: String,
     /// `gps-baseline`, `gps-expandable`, `galileo`, `beidou`, `beidou-meo` or `glonass`.
     #[serde(default)]
@@ -542,8 +584,10 @@ pub struct ConstellationCfg {
     #[serde(default)]
     pub expanded: Option<Vec<String>>,
     #[serde(default)]
+    /// Walker shells.
     pub shell: Vec<ShellCfg>,
     #[serde(default)]
+    /// Explicit element sets.
     pub satellite: Vec<SatelliteCfg>,
 }
 
@@ -603,6 +647,7 @@ pub struct ConstellationDesignScenario {
     #[serde(default = "d_duration")]
     pub duration_s: f64,
     #[serde(default = "d_step")]
+    /// Epoch spacing (s).
     pub step_s: f64,
     /// Elevation mask (deg).
     #[serde(default = "d_mask")]
@@ -614,14 +659,19 @@ pub struct ConstellationDesignScenario {
     #[serde(default = "d_grid")]
     pub grid_step_deg: f64,
     #[serde(default = "d_lat_min")]
+    /// Southern edge of the grid (deg).
     pub lat_min_deg: f64,
     #[serde(default = "d_lat_max")]
+    /// Northern edge of the grid (deg).
     pub lat_max_deg: f64,
     #[serde(default = "d_lon_min")]
+    /// Western edge of the grid (deg).
     pub lon_min_deg: f64,
     #[serde(default = "d_lon_max")]
+    /// Eastern edge of the grid (deg).
     pub lon_max_deg: f64,
     #[serde(default)]
+    /// How receiver clocks enter the DOP solution.
     pub clock: ClockModel,
     /// Secular J2 drift of node and perigee from the body's second zonal harmonic.
     #[serde(default)]
@@ -633,16 +683,22 @@ pub struct ConstellationDesignScenario {
     #[serde(default = "d_max_tracks")]
     pub max_tracks: usize,
     #[serde(default = "d_constellations")]
+    /// The constellations of the run (default: the GPS baseline).
     pub constellation: Vec<ConstellationCfg>,
 }
 
 /// One built constellation: its satellites and a description of where they came from.
 #[derive(Clone, Debug)]
 pub struct BuiltConstellation {
+    /// Constellation name, used in the report.
     pub name: String,
+    /// Where the satellites came from (preset citation, Walker shells, explicit sets).
     pub source: String,
+    /// One label per satellite.
     pub ids: Vec<String>,
+    /// One element set per satellite, aligned with ids.
     pub elements: Vec<Elements>,
+    /// Description of each Walker shell for the report.
     pub shells: Vec<Value>,
 }
 
@@ -855,9 +911,13 @@ fn walker_shell_json(w: &WalkerSpec, body: &Body) -> Value {
 /// Dilution-of-precision factors at one time-space point.
 #[derive(Clone, Copy, Debug, PartialEq, Serialize)]
 pub struct DopValues {
+    /// Geometric DOP: position plus the reference clock.
     pub gdop: f64,
+    /// Position DOP.
     pub pdop: f64,
+    /// Horizontal DOP (east and north).
     pub hdop: f64,
+    /// Vertical DOP.
     pub vdop: f64,
     /// Time DOP of the reference clock (the first constellation with a satellite in view).
     pub tdop: f64,
@@ -1016,12 +1076,15 @@ pub fn dop_at(user: Vec3, sats: &[(Vec3, usize)]) -> Option<DopValues> {
 // ── Weighted histograms for global statistics ────────────────────────────────────
 
 const HIST_BIN: f64 = 0.005;
-const HIST_BINS: usize = 8000; // 0 .. 40, plus overflow
+const HIST_BINS: usize = 8000; // linear bins over 0 .. 40
+const HIST_LOG_BASE: f64 = 40.0;
+const HIST_LOG_STEP: f64 = 0.001; // log bins above 40: 0.1 % relative resolution
+const HIST_LOG_BINS: usize = 13_000; // 40 .. about 1.8e7, the last bin open-ended
 
 #[derive(Clone, Debug)]
 struct Hist {
     w: Vec<f64>,
-    over: f64,
+    over: Vec<f64>,
     total_w: f64,
     sum_wx: f64,
     max: f64,
@@ -1031,7 +1094,7 @@ impl Hist {
     fn new() -> Self {
         Self {
             w: vec![0.0; HIST_BINS],
-            over: 0.0,
+            over: vec![0.0; HIST_LOG_BINS],
             total_w: 0.0,
             sum_wx: 0.0,
             max: 0.0,
@@ -1042,13 +1105,15 @@ impl Hist {
         if b < HIST_BINS {
             self.w[b] += w;
         } else {
-            self.over += w;
+            let k = ((x / HIST_LOG_BASE).ln() / HIST_LOG_STEP.ln_1p()) as usize;
+            self.over[k.min(HIST_LOG_BINS - 1)] += w;
         }
         self.total_w += w;
         self.sum_wx += w * x;
         self.max = self.max.max(x);
     }
-    /// Weighted quantile, resolved to the bin's upper edge (0.005).
+    /// Weighted quantile, resolved to the upper edge of its bin: 0.005 below 40 and 0.1 %
+    /// relative above (capped at the largest value seen).
     fn quantile(&self, q: f64) -> Option<f64> {
         if self.total_w <= 0.0 {
             return None;
@@ -1058,7 +1123,14 @@ impl Hist {
         for (b, &w) in self.w.iter().enumerate() {
             cum += w;
             if cum >= target && w > 0.0 {
-                return Some((b + 1) as f64 * HIST_BIN);
+                return Some(round4((b + 1) as f64 * HIST_BIN).min(self.max));
+            }
+        }
+        for (k, &w) in self.over.iter().enumerate() {
+            cum += w;
+            if cum >= target && w > 0.0 {
+                let edge = HIST_LOG_BASE * (1.0 + HIST_LOG_STEP).powi(k as i32 + 1);
+                return Some(round4(edge.min(self.max)));
             }
         }
         Some(self.max)
@@ -1068,12 +1140,12 @@ impl Hist {
     }
     fn json(&self) -> Value {
         json!({
-            "mean": self.mean(),
+            "mean": self.mean().map(round4),
             "median": self.quantile(0.5),
             "p90": self.quantile(0.9),
             "p95": self.quantile(0.95),
             "p99": self.quantile(0.99),
-            "max": (self.total_w > 0.0).then_some(self.max),
+            "max": (self.total_w > 0.0).then_some(round4(self.max)),
         })
     }
 }
@@ -1083,8 +1155,11 @@ impl Hist {
 /// Work counters of one coverage run: how much the visibility prefilter saved.
 #[derive(Clone, Copy, Debug, Default, PartialEq, Serialize)]
 pub struct WorkCounters {
+    /// Epochs evaluated.
     pub epochs: usize,
+    /// Grid cells evaluated at every epoch.
     pub grid_points: usize,
+    /// Satellites propagated at every epoch.
     pub satellites: usize,
     /// Satellite × point × epoch pairs a brute-force scan would test.
     pub pair_tests_brute_force: u64,
@@ -1099,23 +1174,39 @@ pub struct WorkCounters {
 /// The per-cell and global result of a coverage run.
 #[derive(Clone, Debug)]
 pub struct CoverageResult {
+    /// Latitude of each grid row centre (deg).
     pub lats_deg: Vec<f64>,
+    /// Longitude of each grid column centre (deg).
     pub lons_deg: Vec<f64>,
+    /// Mean satellites above the mask per cell, rows by latitude.
     pub mean_visible: Vec<Vec<f64>>,
+    /// Fewest satellites above the mask per cell.
     pub min_visible: Vec<Vec<usize>>,
+    /// Most satellites above the mask per cell.
     pub max_visible: Vec<Vec<usize>>,
+    /// Share of epochs with a fix and PDOP at or below the threshold, per cell (%).
     pub availability_pct: Vec<Vec<f64>>,
+    /// Share of epochs with a non-singular fix, per cell (%).
     pub fix_pct: Vec<Vec<f64>>,
+    /// Mean PDOP per cell over epochs with a fix.
     pub mean_pdop: Vec<Vec<Option<f64>>>,
+    /// Mean HDOP per cell over epochs with a fix.
     pub mean_hdop: Vec<Vec<Option<f64>>>,
+    /// Mean VDOP per cell over epochs with a fix.
     pub mean_vdop: Vec<Vec<Option<f64>>>,
+    /// Mean GDOP per cell over epochs with a fix.
     pub mean_gdop: Vec<Vec<Option<f64>>>,
+    /// Largest PDOP per cell over epochs with a fix.
     pub max_pdop: Vec<Vec<Option<f64>>>,
     /// Area-weighted global statistics.
     pub global_availability_pct: f64,
+    /// Area-weighted share of time-space points with a fix (%).
     pub global_fix_pct: f64,
+    /// Availability of the worst grid cell (%).
     pub worst_site_availability_pct: f64,
+    /// Area-weighted mean satellites above the mask.
     pub global_mean_visible: f64,
+    /// Fewest satellites above the mask at any time-space point.
     pub global_min_visible: usize,
     /// Area-weighted mean number of satellites in view from each constellation.
     pub mean_visible_by_constellation: Vec<f64>,
@@ -1123,6 +1214,7 @@ pub struct CoverageResult {
     hist_hdop: Hist,
     hist_vdop: Hist,
     hist_gdop: Hist,
+    /// Work counters, including what the prefilter saved.
     pub work: WorkCounters,
 }
 
@@ -1154,16 +1246,27 @@ impl CoverageResult {
 /// Grid, window and mask of a coverage run.
 #[derive(Clone, Copy, Debug)]
 pub struct CoverageSpec {
+    /// Window length (s).
     pub duration_s: f64,
+    /// Epoch spacing (s).
     pub step_s: f64,
+    /// Elevation mask (deg).
     pub mask_deg: f64,
+    /// PDOP at or below which a point with a fix is available.
     pub pdop_threshold: f64,
+    /// Grid spacing (deg).
     pub grid_step_deg: f64,
+    /// Southern edge of the grid (deg).
     pub lat_min_deg: f64,
+    /// Northern edge of the grid (deg).
     pub lat_max_deg: f64,
+    /// Western edge of the grid (deg).
     pub lon_min_deg: f64,
+    /// Eastern edge of the grid (deg).
     pub lon_max_deg: f64,
+    /// How receiver clocks enter the DOP solution.
     pub clock: ClockModel,
+    /// Secular J2 drift of node and periapsis.
     pub j2: bool,
 }
 
@@ -1368,12 +1471,12 @@ pub fn coverage(
     let mut g_av = 0.0;
     let mut g_fix = 0.0;
     let mut g_vis = 0.0;
-    for a in 0..nla {
+    for (a, &wa) in weights.iter().enumerate() {
         for o in 0..nlo {
             let c = a * nlo + o;
-            g_av += weights[a] * n_avail[c] as f64 / fe;
-            g_fix += weights[a] * n_fix[c] as f64 / fe;
-            g_vis += weights[a] * sum_vis[c] / fe;
+            g_av += wa * n_avail[c] as f64 / fe;
+            g_fix += wa * n_fix[c] as f64 / fe;
+            g_vis += wa * sum_vis[c] / fe;
         }
     }
     let norm_w = if wsum > 0.0 { wsum } else { 1.0 };
@@ -1478,10 +1581,30 @@ const UNITS: &[crate::field_schema::FieldUnit] = {
         FieldUnit { path: "global.worst_site_availability_pct", unit: "%", provenance: Computed, definition: "availability of the grid cell with the lowest availability" },
         FieldUnit { path: "global.mean_visible", unit: "count", provenance: Computed, definition: "area-weighted mean number of satellites above the mask" },
         FieldUnit { path: "global.min_visible", unit: "count", provenance: Computed, definition: "fewest satellites above the mask at any time-space point" },
-        FieldUnit { path: "global.pdop.*", unit: "1", provenance: Computed, definition: "area-weighted statistic of position dilution of precision over the time-space points with a fix (quantiles resolved to 0.005)" },
-        FieldUnit { path: "global.hdop.*", unit: "1", provenance: Computed, definition: "area-weighted statistic of horizontal dilution of precision over the time-space points with a fix (quantiles resolved to 0.005)" },
-        FieldUnit { path: "global.vdop.*", unit: "1", provenance: Computed, definition: "area-weighted statistic of vertical dilution of precision over the time-space points with a fix (quantiles resolved to 0.005)" },
-        FieldUnit { path: "global.gdop.*", unit: "1", provenance: Computed, definition: "area-weighted statistic of geometric dilution of precision (position plus the reference clock) over the time-space points with a fix (quantiles resolved to 0.005)" },
+        FieldUnit { path: "global.pdop.mean", unit: "1", provenance: Computed, definition: "area-weighted mean of the position dilution of precision (PDOP) over the time-space points with a fix" },
+        FieldUnit { path: "global.pdop.median", unit: "1", provenance: Computed, definition: "area-weighted median of the position dilution of precision (PDOP) over the time-space points with a fix (quantiles resolved to 0.005)" },
+        FieldUnit { path: "global.pdop.p90", unit: "1", provenance: Computed, definition: "area-weighted 90th percentile of the position dilution of precision (PDOP) over the time-space points with a fix (quantiles resolved to 0.005)" },
+        FieldUnit { path: "global.pdop.p95", unit: "1", provenance: Computed, definition: "area-weighted 95th percentile of the position dilution of precision (PDOP) over the time-space points with a fix (quantiles resolved to 0.005)" },
+        FieldUnit { path: "global.pdop.p99", unit: "1", provenance: Computed, definition: "area-weighted 99th percentile of the position dilution of precision (PDOP) over the time-space points with a fix (quantiles resolved to 0.005)" },
+        FieldUnit { path: "global.pdop.max", unit: "1", provenance: Computed, definition: "largest value of the position dilution of precision (PDOP) over the time-space points with a fix" },
+        FieldUnit { path: "global.hdop.mean", unit: "1", provenance: Computed, definition: "area-weighted mean of the horizontal dilution of precision (HDOP) over the time-space points with a fix" },
+        FieldUnit { path: "global.hdop.median", unit: "1", provenance: Computed, definition: "area-weighted median of the horizontal dilution of precision (HDOP) over the time-space points with a fix (quantiles resolved to 0.005)" },
+        FieldUnit { path: "global.hdop.p90", unit: "1", provenance: Computed, definition: "area-weighted 90th percentile of the horizontal dilution of precision (HDOP) over the time-space points with a fix (quantiles resolved to 0.005)" },
+        FieldUnit { path: "global.hdop.p95", unit: "1", provenance: Computed, definition: "area-weighted 95th percentile of the horizontal dilution of precision (HDOP) over the time-space points with a fix (quantiles resolved to 0.005)" },
+        FieldUnit { path: "global.hdop.p99", unit: "1", provenance: Computed, definition: "area-weighted 99th percentile of the horizontal dilution of precision (HDOP) over the time-space points with a fix (quantiles resolved to 0.005)" },
+        FieldUnit { path: "global.hdop.max", unit: "1", provenance: Computed, definition: "largest value of the horizontal dilution of precision (HDOP) over the time-space points with a fix" },
+        FieldUnit { path: "global.vdop.mean", unit: "1", provenance: Computed, definition: "area-weighted mean of the vertical dilution of precision (VDOP) over the time-space points with a fix" },
+        FieldUnit { path: "global.vdop.median", unit: "1", provenance: Computed, definition: "area-weighted median of the vertical dilution of precision (VDOP) over the time-space points with a fix (quantiles resolved to 0.005)" },
+        FieldUnit { path: "global.vdop.p90", unit: "1", provenance: Computed, definition: "area-weighted 90th percentile of the vertical dilution of precision (VDOP) over the time-space points with a fix (quantiles resolved to 0.005)" },
+        FieldUnit { path: "global.vdop.p95", unit: "1", provenance: Computed, definition: "area-weighted 95th percentile of the vertical dilution of precision (VDOP) over the time-space points with a fix (quantiles resolved to 0.005)" },
+        FieldUnit { path: "global.vdop.p99", unit: "1", provenance: Computed, definition: "area-weighted 99th percentile of the vertical dilution of precision (VDOP) over the time-space points with a fix (quantiles resolved to 0.005)" },
+        FieldUnit { path: "global.vdop.max", unit: "1", provenance: Computed, definition: "largest value of the vertical dilution of precision (VDOP) over the time-space points with a fix" },
+        FieldUnit { path: "global.gdop.mean", unit: "1", provenance: Computed, definition: "area-weighted mean of the geometric dilution of precision (GDOP: position plus the reference clock) over the time-space points with a fix" },
+        FieldUnit { path: "global.gdop.median", unit: "1", provenance: Computed, definition: "area-weighted median of the geometric dilution of precision (GDOP: position plus the reference clock) over the time-space points with a fix (quantiles resolved to 0.005)" },
+        FieldUnit { path: "global.gdop.p90", unit: "1", provenance: Computed, definition: "area-weighted 90th percentile of the geometric dilution of precision (GDOP: position plus the reference clock) over the time-space points with a fix (quantiles resolved to 0.005)" },
+        FieldUnit { path: "global.gdop.p95", unit: "1", provenance: Computed, definition: "area-weighted 95th percentile of the geometric dilution of precision (GDOP: position plus the reference clock) over the time-space points with a fix (quantiles resolved to 0.005)" },
+        FieldUnit { path: "global.gdop.p99", unit: "1", provenance: Computed, definition: "area-weighted 99th percentile of the geometric dilution of precision (GDOP: position plus the reference clock) over the time-space points with a fix (quantiles resolved to 0.005)" },
+        FieldUnit { path: "global.gdop.max", unit: "1", provenance: Computed, definition: "largest value of the geometric dilution of precision (GDOP: position plus the reference clock) over the time-space points with a fix" },
         FieldUnit { path: "grid.lat_deg[]", unit: "deg", provenance: Computed, definition: "latitude of each grid row centre" },
         FieldUnit { path: "grid.lon_deg[]", unit: "deg", provenance: Computed, definition: "longitude of each grid column centre" },
         FieldUnit { path: "grid.mean_visible[][]", unit: "count", provenance: Computed, definition: "mean satellites above the mask in the cell over the window, rows by latitude" },
@@ -1547,7 +1670,7 @@ impl ConstellationDesignScenario {
         if !(0.0..90.0).contains(&self.mask_deg) {
             return Err("mask_deg must lie in [0, 90)".into());
         }
-        if !(self.pdop_threshold > 0.0) {
+        if self.pdop_threshold.is_nan() || self.pdop_threshold <= 0.0 {
             return Err("pdop_threshold must be positive".into());
         }
         if !(self.grid_step_deg >= 0.25 && self.grid_step_deg <= 90.0) {
@@ -1745,6 +1868,17 @@ impl ConstellationDesignScenario {
 
 // ── Chart ────────────────────────────────────────────────────────────────────────
 
+/// One map panel: caption, cell value in `[0, 1]` (`None` = no fix), the two colour ends
+/// and the two key labels.
+type Panel<'a> = (
+    &'static str,
+    Box<dyn Fn(usize, usize) -> Option<f64> + 'a>,
+    [u8; 3],
+    [u8; 3],
+    String,
+    String,
+);
+
 fn lerp_colour(a: [u8; 3], b: [u8; 3], t: f64) -> String {
     let t = t.clamp(0.0, 1.0);
     let c = |i: usize| (a[i] as f64 + (b[i] as f64 - a[i] as f64) * t).round() as u8;
@@ -1761,15 +1895,22 @@ fn esc(s: &str) -> String {
 /// with the Natural Earth land outline when the body is the Earth.
 fn to_svg(cov: &CoverageResult, body: &Body, summary: &str, thr: f64) -> String {
     let (mw, mh) = (720.0, 300.0);
-    let (x0, top) = (60.0, 70.0);
+    let (x0, top) = (60.0, 84.0);
     let gap = 60.0;
     let (w, h) = (x0 + mw + 120.0, top + 2.0 * mh + gap + 40.0);
+    // The one-line summary is too long for the frame; its first clause is the subtitle and
+    // the rest goes on a second line.
+    let (head, tail) = summary.split_once("; ").unwrap_or((summary, ""));
     let mut s = crate::chart::frame_open(
         w,
         h,
         &format!("Constellation coverage over the {}", body.name),
-        &esc(summary),
+        &esc(head),
     );
+    s.push_str(&format!(
+        "<text x=\"24\" y=\"54\" font-size=\"11\" fill=\"#8a8172\">{}</text>",
+        esc(tail)
+    ));
     let (lat_lo, lat_hi) = (
         cov.lats_deg.first().copied().unwrap_or(-90.0),
         cov.lats_deg.last().copied().unwrap_or(90.0),
@@ -1790,14 +1931,19 @@ fn to_svg(cov: &CoverageResult, body: &Body, summary: &str, thr: f64) -> String 
     };
     let (la0, la1) = (lat_lo - dlat / 2.0, lat_hi + dlat / 2.0);
     let (lo0, lo1) = (lon_lo - dlon / 2.0, lon_hi + dlon / 2.0);
-    let panels: [(
-        &str,
-        Box<dyn Fn(usize, usize) -> Option<f64>>,
-        [u8; 3],
-        [u8; 3],
-        String,
-        String,
-    ); 2] = [
+    // The PDOP colour scale spans the cell means actually present (at least 0.5 wide and
+    // never beyond the availability threshold), so a map that is good everywhere still shows
+    // where it is better.
+    let means: Vec<f64> = cov.mean_pdop.iter().flatten().flatten().copied().collect();
+    let p_lo = means.iter().copied().fold(f64::INFINITY, f64::min);
+    let p_lo = if p_lo.is_finite() { p_lo } else { 1.0 };
+    let p_hi = means
+        .iter()
+        .copied()
+        .fold(f64::NEG_INFINITY, f64::max)
+        .min(thr.max(p_lo + 0.5))
+        .max(p_lo + 0.5);
+    let panels: [Panel; 2] = [
         (
             "availability (%)",
             Box::new(|a, o| Some(cov.availability_pct[a][o] / 100.0)),
@@ -1808,11 +1954,11 @@ fn to_svg(cov: &CoverageResult, body: &Body, summary: &str, thr: f64) -> String 
         ),
         (
             "mean PDOP",
-            Box::new(|a, o| cov.mean_pdop[a][o].map(|p| 1.0 - ((p - 1.0) / (thr - 1.0)))),
+            Box::new(move |a, o| cov.mean_pdop[a][o].map(|p| 1.0 - (p - p_lo) / (p_hi - p_lo))),
             [0x2a, 0x1f, 0x14],
             [0x9f, 0xd4, 0xc6],
-            format!("{thr:.0}+"),
-            "1".into(),
+            format!("{p_hi:.2}+"),
+            format!("{p_lo:.2}"),
         ),
     ];
     for (pi, (caption, val, c_lo, c_hi, l_lo, l_hi)) in panels.iter().enumerate() {
