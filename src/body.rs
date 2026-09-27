@@ -196,6 +196,249 @@ impl Body {
             prime_w_dot: 14.1844 * DEG,
         }
     }
+
+    // ------------------------------------------------------------------------
+    // The rest of the solar system. Gravitational parameters: the JPL Horizons
+    // body records (planets, DE440-series values) and the JPL Solar System
+    // Dynamics planetary-satellite physical-parameter table (moons). Radii: the
+    // JPL planetary physical-parameter table (IAU WGCCRE 2015, Archinal et al.
+    // 2018). Pole, prime meridian and rate: IAU WGCCRE 2015 mean values (2009
+    // for Phobos and Deimos), without the T-rate and periodic terms. A negative
+    // prime-meridian rate (and rotation rate) marks retrograde rotation.
+    // ------------------------------------------------------------------------
+
+    /// **Mercury** — `μ = 2.203186855e13 m³/s²`, equatorial radius 2 440 530 m,
+    /// `J2 = 5.03e-5` (Smith et al. 2012, MESSENGER, reference radius 2 440 km),
+    /// IAU pole (281.0103°, 61.4155°), `W = 329.5988° + 6.1385108°/day`.
+    pub fn mercury() -> Self {
+        Self::point(
+            "Mercury",
+            2.203_186_855e13,
+            2_440_530.0,
+            &MERCURY_ZONALS_J2,
+            [281.0103, 61.4155, 329.5988, 6.138_510_8],
+        )
+    }
+
+    /// **Venus** — `μ = 3.24858592e14 m³/s²`, radius 6 051 800 m, no zonal field
+    /// carried, IAU pole (272.76°, 67.16°), `W = 160.20° − 1.4813688°/day`
+    /// (retrograde).
+    pub fn venus() -> Self {
+        Self::point(
+            "Venus",
+            3.248_585_92e14,
+            6_051_800.0,
+            &[],
+            [272.76, 67.16, 160.20, -1.481_368_8],
+        )
+    }
+
+    /// **Jupiter** — `μ = 1.266865319e17 m³/s²` (the planet, without its moons),
+    /// reference radius 71 492 km, `J2 = 1.46965063e-2` (Iess et al. 2018, Juno,
+    /// same reference radius), IAU pole (268.056595°, 64.495303°), System III
+    /// `W = 284.95° + 870.5360000°/day`.
+    pub fn jupiter() -> Self {
+        Self::point(
+            "Jupiter",
+            1.266_865_319e17,
+            71_492_000.0,
+            &JUPITER_ZONALS_J2,
+            [268.056_595, 64.495_303, 284.95, 870.536_000_0],
+        )
+    }
+
+    /// **Saturn** — `μ = 3.7931206234e16 m³/s²`, reference radius **60 330 km**
+    /// (the radius Iess et al. 2019 reference their Cassini `J2 = 1.6290573e-2`
+    /// to; the 1-bar equatorial radius, 60 268 km, is in [`BodyFacts`]), IAU pole
+    /// (40.589°, 83.537°), `W = 38.90° + 810.7939024°/day`.
+    pub fn saturn() -> Self {
+        Self::point(
+            "Saturn",
+            3.793_120_623_4e16,
+            60_330_000.0,
+            &SATURN_ZONALS_J2,
+            [40.589, 83.537, 38.90, 810.793_902_4],
+        )
+    }
+
+    /// **Uranus** — `μ = 5.7939506103e15 m³/s²`, reference radius 25 559 km,
+    /// `J2 = 3.5107e-3` (Jacobson 2014, same reference radius), IAU pole
+    /// (257.311°, −15.175°), `W = 203.81° − 501.1600928°/day` (retrograde).
+    pub fn uranus() -> Self {
+        Self::point(
+            "Uranus",
+            5.793_950_610_3e15,
+            25_559_000.0,
+            &URANUS_ZONALS_J2,
+            [257.311, -15.175, 203.81, -501.160_092_8],
+        )
+    }
+
+    /// **Neptune** — `μ = 6.83509997e15 m³/s²`, reference radius **25 225 km**
+    /// (the radius Jacobson 2009 references `J2 = 3.4084e-3` to; the 1-bar
+    /// equatorial radius, 24 764 km, is in [`BodyFacts`]), IAU pole (299.36°,
+    /// 43.46°, without the Neptune-node terms), `W = 249.978° + 541.1397757°/day`.
+    pub fn neptune() -> Self {
+        Self::point(
+            "Neptune",
+            6.835_099_97e15,
+            25_225_000.0,
+            &NEPTUNE_ZONALS_J2,
+            [299.36, 43.46, 249.978, 541.139_775_7],
+        )
+    }
+
+    /// **Pluto** — `μ = 8.69326e11 m³/s²` (Pluto alone), radius 1 188 300 m, IAU
+    /// 2015 pole (132.993°, −6.163°), `W = 302.695° + 56.3625225°/day`.
+    pub fn pluto() -> Self {
+        Self::point(
+            "Pluto",
+            8.693_26e11,
+            1_188_300.0,
+            &[],
+            [132.993, -6.163, 302.695, 56.362_522_5],
+        )
+    }
+
+    /// **Phobos** — `μ = 7.087e5 m³/s²`, mean radius 11 080 m, IAU 2009 pole
+    /// (317.68°, 52.90°), synchronous `W = 35.06° + 1128.8445850°/day`.
+    pub fn phobos() -> Self {
+        Self::point(
+            "Phobos",
+            7.087e5,
+            11_080.0,
+            &[],
+            [317.68, 52.90, 35.06, 1128.844_585_0],
+        )
+    }
+
+    /// **Deimos** — `μ = 9.62e4 m³/s²`, mean radius 6 200 m, IAU 2009 pole
+    /// (316.65°, 53.52°), synchronous `W = 79.41° + 285.1618970°/day`.
+    pub fn deimos() -> Self {
+        Self::point(
+            "Deimos",
+            9.62e4,
+            6_200.0,
+            &[],
+            [316.65, 53.52, 79.41, 285.161_897_0],
+        )
+    }
+
+    /// **Io** — `μ = 5.95991547e12 m³/s²`, mean radius 1 821 490 m, IAU pole
+    /// (268.05°, 64.50°), synchronous `W = 200.39° + 203.4889538°/day`.
+    pub fn io() -> Self {
+        Self::point(
+            "Io",
+            5.959_915_47e12,
+            1_821_490.0,
+            &[],
+            [268.05, 64.50, 200.39, 203.488_953_8],
+        )
+    }
+
+    /// **Europa** — `μ = 3.2027121e12 m³/s²`, mean radius 1 560 800 m, IAU pole
+    /// (268.08°, 64.51°), synchronous `W = 36.022° + 101.3747235°/day`.
+    pub fn europa() -> Self {
+        Self::point(
+            "Europa",
+            3.202_712_10e12,
+            1_560_800.0,
+            &[],
+            [268.08, 64.51, 36.022, 101.374_723_5],
+        )
+    }
+
+    /// **Ganymede** — `μ = 9.88783275e12 m³/s²`, mean radius 2 631 200 m, IAU
+    /// pole (268.20°, 64.57°), synchronous `W = 44.064° + 50.3176081°/day`.
+    pub fn ganymede() -> Self {
+        Self::point(
+            "Ganymede",
+            9.887_832_75e12,
+            2_631_200.0,
+            &[],
+            [268.20, 64.57, 44.064, 50.317_608_1],
+        )
+    }
+
+    /// **Callisto** — `μ = 7.1792834e12 m³/s²`, mean radius 2 410 300 m, IAU
+    /// pole (268.72°, 64.83°), synchronous `W = 259.51° + 21.5710715°/day`.
+    pub fn callisto() -> Self {
+        Self::point(
+            "Callisto",
+            7.179_283_40e12,
+            2_410_300.0,
+            &[],
+            [268.72, 64.83, 259.51, 21.571_071_5],
+        )
+    }
+
+    /// **Titan** — `μ = 8.9781371e12 m³/s²`, mean radius 2 574 760 m, IAU pole
+    /// (39.4827°, 83.4279°), synchronous `W = 186.5855° + 22.5769768°/day`.
+    pub fn titan() -> Self {
+        Self::point(
+            "Titan",
+            8.978_137_10e12,
+            2_574_760.0,
+            &[],
+            [39.4827, 83.4279, 186.5855, 22.576_976_8],
+        )
+    }
+
+    /// A body with no tesseral field, from its `μ`, reference radius, zonals and
+    /// IAU `[α₀, δ₀, W₀, Ẇ]` (degrees and degrees per day). The spin rate is `Ẇ`
+    /// in rad/s.
+    fn point(name: &'static str, mu: f64, re: f64, zonals: &'static [f64], iau: [f64; 4]) -> Self {
+        Self {
+            name,
+            mu,
+            re,
+            zonals,
+            gravity: None,
+            rotation_rate: iau[3] * DEG / 86_400.0,
+            pole_ra0: iau[0] * DEG,
+            pole_dec0: iau[1] * DEG,
+            prime_w0: iau[2] * DEG,
+            prime_w_dot: iau[3] * DEG,
+        }
+    }
+
+    /// Look a body up by name (case-insensitive): every body in [`SOLAR_SYSTEM`].
+    pub fn by_name(name: &str) -> Option<Self> {
+        let n = name.trim().to_ascii_lowercase();
+        let b = match n.as_str() {
+            "sun" => Self::sun(),
+            "mercury" => Self::mercury(),
+            "venus" => Self::venus(),
+            "earth" => Self::earth(),
+            "moon" => Self::moon(),
+            "mars" => Self::mars(),
+            "phobos" => Self::phobos(),
+            "deimos" => Self::deimos(),
+            "jupiter" => Self::jupiter(),
+            "io" => Self::io(),
+            "europa" => Self::europa(),
+            "ganymede" => Self::ganymede(),
+            "callisto" => Self::callisto(),
+            "saturn" => Self::saturn(),
+            "titan" => Self::titan(),
+            "uranus" => Self::uranus(),
+            "neptune" => Self::neptune(),
+            "pluto" => Self::pluto(),
+            _ => return None,
+        };
+        Some(b)
+    }
+
+    /// The physical record of this body, when it is one of [`SOLAR_SYSTEM`].
+    pub fn facts(&self) -> Option<&'static BodyFacts> {
+        SOLAR_SYSTEM.iter().find(|f| f.name == self.name)
+    }
+
+    /// IAU prime-meridian angle `W` (radians, wrapped to `[0, 2π)`) at `jd_tdb`.
+    pub fn prime_meridian(&self, jd_tdb: f64) -> f64 {
+        (self.prime_w0 + self.prime_w_dot * (jd_tdb - 2_451_545.0))
+            .rem_euclid(2.0 * std::f64::consts::PI)
+    }
 }
 
 impl Default for Body {
@@ -232,6 +475,232 @@ const MARS_SBAR32: f64 = 0.836_142_557_919_300_3e-5;
 /// Moon low-degree unnormalised zonals `[J2, J3]` (GRAIL/LP-derived). The lunar field is far
 /// less oblate than Earth's; `J2` ≈ 2e-4.
 pub const MOON_ZONALS_J2_J3: [f64; 2] = [2.0321e-4, 8.476e-6];
+
+/// Mercury unnormalised `J2` (Smith et al. 2012, *Gravity field and internal structure of
+/// Mercury from MESSENGER*, Science 336:214; reference radius 2 440 km).
+pub const MERCURY_ZONALS_J2: [f64; 1] = [5.03e-5];
+/// Jupiter unnormalised `J2` (Iess et al. 2018, *Measurement of Jupiter's asymmetric gravity
+/// field*, Nature 555:220; reference radius 71 492 km).
+pub const JUPITER_ZONALS_J2: [f64; 1] = [14_696.506_3e-6];
+/// Saturn unnormalised `J2` (Iess et al. 2019, *Measurement and implications of Saturn's
+/// gravity field and ring mass*, Science 364:eaat2965; reference radius 60 330 km).
+pub const SATURN_ZONALS_J2: [f64; 1] = [16_290.573e-6];
+/// Uranus unnormalised `J2` (Jacobson 2014, AJ 148:76; reference radius 25 559 km).
+pub const URANUS_ZONALS_J2: [f64; 1] = [3_510.7e-6];
+/// Neptune unnormalised `J2` (Jacobson 2009, AJ 137:4322; reference radius 25 225 km).
+pub const NEPTUNE_ZONALS_J2: [f64; 1] = [3_408.4e-6];
+
+/// What kind of body a [`BodyFacts`] record describes.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, serde::Serialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum BodyClass {
+    Star,
+    Planet,
+    DwarfPlanet,
+    Moon,
+}
+
+/// The physical record of one solar-system body: what a report or a drawing of the
+/// solar system needs beyond the dynamics constants in [`Body`].
+#[derive(Clone, Copy, Debug)]
+pub struct BodyFacts {
+    /// Name, matching [`Body::name`].
+    pub name: &'static str,
+    /// NAIF (Navigation and Ancillary Information Facility) integer code.
+    pub naif_id: i32,
+    pub class: BodyClass,
+    /// The body it orbits (`None` for the Sun).
+    pub parent: Option<&'static str>,
+    /// Equatorial radius (m); for the giant planets the 1-bar level.
+    pub radius_equatorial_m: f64,
+    /// Volumetric mean radius (m).
+    pub radius_mean_m: f64,
+    /// Unnormalised `J2` where one is carried, and the radius it is referenced to (m).
+    pub j2: Option<(f64, f64)>,
+}
+
+impl BodyFacts {
+    /// The [`Body`] this record describes.
+    pub fn body(&self) -> Body {
+        Body::by_name(self.name).expect("every SOLAR_SYSTEM record names a Body::by_name body")
+    }
+}
+
+/// Every body [`Body::by_name`] knows, Sun first, each planet followed by its moons. Radii:
+/// JPL planetary and satellite physical-parameter tables (IAU WGCCRE 2015).
+pub const SOLAR_SYSTEM: [BodyFacts; 18] = [
+    facts("Sun", 10, BodyClass::Star, None, 695_700.0, 695_700.0, None),
+    facts(
+        "Mercury",
+        199,
+        BodyClass::Planet,
+        Some("Sun"),
+        2_440.53,
+        2_439.4,
+        Some((5.03e-5, 2_440.0)),
+    ),
+    facts(
+        "Venus",
+        299,
+        BodyClass::Planet,
+        Some("Sun"),
+        6_051.8,
+        6_051.8,
+        None,
+    ),
+    facts(
+        "Earth",
+        399,
+        BodyClass::Planet,
+        Some("Sun"),
+        6_378.137,
+        6_371.0084,
+        Some((1.082_626_68e-3, 6_378.137)),
+    ),
+    facts(
+        "Moon",
+        301,
+        BodyClass::Moon,
+        Some("Earth"),
+        1_737.4,
+        1_737.4,
+        Some((2.0321e-4, 1_737.4)),
+    ),
+    facts(
+        "Mars",
+        499,
+        BodyClass::Planet,
+        Some("Sun"),
+        3_396.19,
+        3_389.50,
+        Some((1.960_45e-3, 3_396.2)),
+    ),
+    facts(
+        "Phobos",
+        401,
+        BodyClass::Moon,
+        Some("Mars"),
+        13.1,
+        11.08,
+        None,
+    ),
+    facts("Deimos", 402, BodyClass::Moon, Some("Mars"), 7.8, 6.2, None),
+    facts(
+        "Jupiter",
+        599,
+        BodyClass::Planet,
+        Some("Sun"),
+        71_492.0,
+        69_911.0,
+        Some((14_696.506_3e-6, 71_492.0)),
+    ),
+    facts(
+        "Io",
+        501,
+        BodyClass::Moon,
+        Some("Jupiter"),
+        1_829.4,
+        1_821.49,
+        None,
+    ),
+    facts(
+        "Europa",
+        502,
+        BodyClass::Moon,
+        Some("Jupiter"),
+        1_562.6,
+        1_560.8,
+        None,
+    ),
+    facts(
+        "Ganymede",
+        503,
+        BodyClass::Moon,
+        Some("Jupiter"),
+        2_631.2,
+        2_631.2,
+        None,
+    ),
+    facts(
+        "Callisto",
+        504,
+        BodyClass::Moon,
+        Some("Jupiter"),
+        2_410.3,
+        2_410.3,
+        None,
+    ),
+    facts(
+        "Saturn",
+        699,
+        BodyClass::Planet,
+        Some("Sun"),
+        60_268.0,
+        58_232.0,
+        Some((16_290.573e-6, 60_330.0)),
+    ),
+    facts(
+        "Titan",
+        606,
+        BodyClass::Moon,
+        Some("Saturn"),
+        2_575.15,
+        2_574.76,
+        None,
+    ),
+    facts(
+        "Uranus",
+        799,
+        BodyClass::Planet,
+        Some("Sun"),
+        25_559.0,
+        25_362.0,
+        Some((3_510.7e-6, 25_559.0)),
+    ),
+    facts(
+        "Neptune",
+        899,
+        BodyClass::Planet,
+        Some("Sun"),
+        24_764.0,
+        24_622.0,
+        Some((3_408.4e-6, 25_225.0)),
+    ),
+    facts(
+        "Pluto",
+        999,
+        BodyClass::DwarfPlanet,
+        Some("Sun"),
+        1_188.3,
+        1_188.3,
+        None,
+    ),
+];
+
+/// A [`BodyFacts`] record from radii in km (and a `J2` reference radius in km).
+const fn facts(
+    name: &'static str,
+    naif_id: i32,
+    class: BodyClass,
+    parent: Option<&'static str>,
+    radius_equatorial_km: f64,
+    radius_mean_km: f64,
+    j2_km: Option<(f64, f64)>,
+) -> BodyFacts {
+    let j2 = match j2_km {
+        Some((j, r)) => Some((j, r * 1e3)),
+        None => None,
+    };
+    BodyFacts {
+        name,
+        naif_id,
+        class,
+        parent,
+        radius_equatorial_m: radius_equatorial_km * 1e3,
+        radius_mean_m: radius_mean_km * 1e3,
+        j2,
+    }
+}
 
 #[cfg(test)]
 mod tests {
