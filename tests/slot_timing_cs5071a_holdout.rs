@@ -130,6 +130,11 @@ fn holdover_inversion_predicts_the_held_out_caesium_record() {
         );
         return;
     };
+    // PIN-SCOPE:    the length of the fetched Cs5071A phase record (556 990 one-second
+    //               samples), so a truncated or re-cut download cannot change the split
+    //               the held-out comparison is run over.
+    // PIN-EXCLUDES: every kshana result document; this is the length of a third-party
+    //               reference input, not of anything the engine emits.
     assert_eq!(x.len(), 556_990, "unexpected Cs5071A record length");
     let split = x.len() / 3;
 

@@ -157,6 +157,11 @@ fn ocxo_holdover_prediction_is_conservative_held_out_and_right_in_sample() {
         );
         return;
     };
+    // PIN-SCOPE:    the length of the fetched OCXO frequency record (19 982 one-second
+    //               readings), so a truncated or re-cut download cannot change the split
+    //               the held-out comparison is run over.
+    // PIN-EXCLUDES: every kshana result document; this is the length of a third-party
+    //               reference input, not of anything the engine emits.
     assert_eq!(y.len(), 19_982, "unexpected OCXO record length");
     // Phase (s) at one-second spacing: x[0] = 0, x[k] = sum of the first k readings.
     let mut x = Vec::with_capacity(y.len() + 1);
