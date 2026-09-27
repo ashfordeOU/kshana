@@ -11,6 +11,34 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Campaigns: many scenarios composed into one run.** A new `campaign` kind
+  (`src/campaign.rs`, documented in `docs/CAMPAIGNS.md`) runs members of existing kinds
+  through the same dispatch as the command line and reads numbers back out of their
+  results. Four sections, in any combination:
+  - `[[phases]]`: a chained mission on one timeline. Per-kind presets read clock time
+    error against its guard, the mean effective carrier-to-noise density ratio (C/N0)
+    against the tracking floor, the vertical protection level against the alert limit,
+    position error, satellites tracking and alarm flags, held onto a common grid with phase
+    boundaries and events. State is handed on by `carry`, `handoff` and `end_at`.
+  - `[sweep]`: one to three dotted keys of any kind, optionally with a seeded ensemble at
+    every node.
+  - `[monte_carlo]`: realisation k at base seed + k, with mean, spread, percentiles and a
+    fixed-seed bootstrap 95% confidence interval.
+  - `[compose]`: shared values bound into several members, with a combined best and worst
+    summary.
+  Every result carries a campaign hash and a digest over every member result. Four bundled
+  scenarios: `campaign-jam-spoof-holdover-integrity` (nominal, jamming, spoofing ended at
+  the clock monitor's 370 s detection, holdover carrying the 37.0 ns spoofed offset with
+  an inertial unit coasting, an integrity alarm, recovery), `campaign-sweep-jammer-power`,
+  `campaign-shared-jammer-sea-road` and `campaign-monte-carlo-clock-holdover`.
+  `tests/campaign_composition_reference.rs` pins the composition identities: a one-phase
+  campaign reproduces the stand-alone run bit for bit on three kinds, a fixed-seed
+  ensemble is byte-stable, and on a white-frequency-noise clock the ensemble mean lies
+  inside the reported interval with the spread inside the chi-square interval of
+  sqrt(q_wf * tau) = 16.459 ns. Three new MODELLED matrix rows (177 rows: 66 validated,
+  107 modelled, 4 partner-owned). The kind count moves from 63 to 64 and the README
+  scenario-file count from 82 to 86.
+
 - **Maritime, road and rail scenarios.** Five bundled examples on existing kinds, so
   ships, road vehicles and trains each have a worked case. Every figure is MODELLED; none
   is validated against measured data.
