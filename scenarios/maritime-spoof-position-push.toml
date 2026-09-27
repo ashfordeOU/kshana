@@ -1,0 +1,43 @@
+# Maritime GNSS spoofing: detecting a transmitter that drags a ship's reported position.
+#
+# The mission question: a spoofer near a shipping lane broadcasts counterfeit Global
+# Navigation Satellite System (GNSS) signals slightly stronger than the real ones and
+# pulls the ship's position fix several hundred metres off its true track. Position
+# spoofing affecting ships has been publicly reported, for example vessels whose
+# reported positions appeared on land; this file describes that pattern generically and
+# models no particular incident. Would the receiver's own monitors catch it?
+#
+# The pack runs the combined spoof detector (`spoof-detect`): receiver autonomous
+# integrity monitoring (RAIM) parity across satellites, automatic gain control (AGC)
+# power monitoring and signal quality monitoring (SQM) of correlation distortion, fused
+# into one decision. The attack is described in the parameters of the public TEXBAT test
+# battery (Humphreys et al., ION GNSS 2012): the spoofer's power advantage, whether it
+# is carrier-phase aligned, and whether it pushes position (a subset of satellites,
+# visible to RAIM) or time.
+#
+# Here: a +2 dB power advantage (under the 3 dB AGC margin, so power alone misses it),
+# not carrier aligned, pushing four satellites to drag the fix by 500 m. Try
+# `carrier_aligned = true`, `push = "time"` and a smaller `power_advantage_db` to see
+# the hard case that defeats these receiver-level layers.
+#
+# Honest scope: parameterised receiver observables, not raw signal samples; Kshana is a
+# simulator, not a receiver. MODELLED: every figure is modelled, not validated against
+# recorded maritime spoofing.
+
+kind = "spoof-detect"
+
+[attack]
+power_advantage_db = 2.0
+carrier_aligned = false
+push = "position"
+push_magnitude_m = 500.0
+num_biased = 4
+el_imbalance = 0.12
+
+[detector]
+sat_power_dbm = -130.0
+agc_margin_db = 3.0
+sqm_tolerance = 0.10
+raim_p_fa = 1.0e-3
+sigma_m = 5.0
+fusion_threshold = 0.5
