@@ -1,11 +1,11 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 1823,
-    "fields_total": 1825,
+    "fields_described": 1843,
+    "fields_total": 1845,
     "fields_without_units": 2,
-    "kinds_complete": 62,
-    "kinds_total": 63,
+    "kinds_complete": 63,
+    "kinds_total": 64,
     "kinds_uncovered": 1,
     "uncovered_kind_ceiling": 1,
     "uncovered_kinds": [
@@ -468,6 +468,136 @@
       "fields_without_units": [],
       "label": "MODELLED — scalar 3-DOF AOCS error budget: gravity-gradient worst-case disturbance torque + RSS pointing budget; NOT a control-loop / 6-DoF / flexible-mode simulation (a pre-hardware complement to Basilisk/42, not a replacement)",
       "source": "defaults"
+    },
+    "campaign": {
+      "complete": true,
+      "fields": {
+        "reproducibility.runs_total": {
+          "definition": "member scenario runs the campaign dispatched",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "seed": {
+          "definition": "campaign seed: the default Monte Carlo base seed and the seed of every bootstrap resampling",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "timeline.channels.alarm.values[]": {
+          "definition": "alarm flag: 1 while any monitor of the phase alarms on the timeline grid: the latest sample of the owning phase's run at or before each grid time (zero-order hold); null where no run of that phase provides it",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "timeline.channels.alert_limit_m.values[]": {
+          "definition": "vertical alert limit on the timeline grid: the latest sample of the owning phase's run at or before each grid time (zero-order hold); null where no run of that phase provides it",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "timeline.channels.cn0_dbhz.values[]": {
+          "definition": "mean effective carrier-to-noise density ratio over the visible satellites on the timeline grid: the latest sample of the owning phase's run at or before each grid time (zero-order hold); null where no run of that phase provides it",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "timeline.channels.cn0_floor_dbhz.values[]": {
+          "definition": "tracking-loss floor of the receiver on the timeline grid: the latest sample of the owning phase's run at or before each grid time (zero-order hold); null where no run of that phase provides it",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "timeline.channels.guard_ns.values[]": {
+          "definition": "time-error guard (the run's own threshold) on the timeline grid: the latest sample of the owning phase's run at or before each grid time (zero-order hold); null where no run of that phase provides it",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "timeline.channels.position_error_m.values[]": {
+          "definition": "position error on the timeline grid: the latest sample of the owning phase's run at or before each grid time (zero-order hold); null where no run of that phase provides it",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "timeline.channels.position_threshold_m.values[]": {
+          "definition": "position-error threshold (the run's own) on the timeline grid: the latest sample of the owning phase's run at or before each grid time (zero-order hold); null where no run of that phase provides it",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "timeline.channels.protection_level_m.values[]": {
+          "definition": "vertical protection level on the timeline grid: the latest sample of the owning phase's run at or before each grid time (zero-order hold); null where no run of that phase provides it",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "timeline.channels.time_error_ns.values[]": {
+          "definition": "clock time error on the timeline grid: the latest sample of the owning phase's run at or before each grid time (zero-order hold); null where no run of that phase provides it",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "timeline.channels.tracking.values[]": {
+          "definition": "satellites still tracking on the timeline grid: the latest sample of the owning phase's run at or before each grid time (zero-order hold); null where no run of that phase provides it",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "timeline.duration_s": {
+          "definition": "mission length: the sum of the phase lengths as run",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "timeline.events[].t_s": {
+          "definition": "mission time of the event, read from the run that raised it",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "timeline.phases[].carried.time_error_ns": {
+          "definition": "value of time_error_ns at the end of the previous phase, added to this phase's time_error_ns",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "timeline.phases[].runs[].skip_s": {
+          "definition": "seconds of the run's own timeline dropped before phase time zero",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "timeline.phases[].t0_s": {
+          "definition": "mission time at which the phase starts (the previous phase's end)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "timeline.phases[].t1_s": {
+          "definition": "mission time at which the phase ends: t0_s plus duration_s, or earlier when end_at fired",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "timeline.step_s": {
+          "definition": "grid spacing of the aligned mission timeline",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "timeline.t_s[]": {
+          "definition": "mission time of each grid sample",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        }
+      },
+      "fields_described": 20,
+      "fields_total": 20,
+      "fields_without_units": [],
+      "label": "MODELLED composition of existing scenario kinds. Every number is read from a real run of the named kind; the chaining (additive carry of a channel across a phase boundary, zero-order hold onto the timeline grid, a phase ended at a computed time) is a modelling choice, and each phase carries the label of the kind that produced it.",
+      "source": "scenarios/campaign-jam-spoof-holdover-integrity.toml"
     },
     "cislunar-arc-recovery": {
       "complete": true,
