@@ -320,7 +320,7 @@ fn circular_state(body: &Body, r: f64, lon: f64, inc: f64) -> (Vec3, Vec3) {
 /// origin: `true` if the chord's minimum distance to the origin is ≥ `radius`, or if the closest
 /// approach lies outside the segment (the endpoints are on the same side of the body). Used for the
 /// Mars-occultation visibility test.
-fn chord_clears_sphere(a: Vec3, b: Vec3, radius: f64) -> bool {
+pub(crate) fn chord_clears_sphere(a: Vec3, b: Vec3, radius: f64) -> bool {
     let ab = [b[0] - a[0], b[1] - a[1], b[2] - a[2]];
     let ab2 = ab[0] * ab[0] + ab[1] * ab[1] + ab[2] * ab[2];
     if ab2 <= 0.0 {

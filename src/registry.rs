@@ -103,6 +103,8 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         LunarLlrDatum,
         TelecomTiming,
         SlotTiming,
+        SolarSystem,
+        BodyPnt,
     ]
 };
 
@@ -198,6 +200,12 @@ pub mod ids {
     /// Seconds until a free-running clock leaves a time-indexed slot's guard, the fix
     /// cadence that keeps it inside, and an optional orbital timing protection level.
     pub const SLOT_TIMING: ScenarioId = ScenarioId::from_static("slot-timing");
+    /// The whole solar system at one epoch: positions, constants, light times and orbit
+    /// tracks from the Standish elements and the major-moon models.
+    pub const SOLAR_SYSTEM: ScenarioId = ScenarioId::from_static("solar-system");
+    /// Positioning around any solar-system body with a local navigation constellation and
+    /// an optional deep-space ranging link from Earth.
+    pub const BODY_PNT: ScenarioId = ScenarioId::from_static("body-pnt");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {
