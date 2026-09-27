@@ -11,6 +11,37 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Solar-system ephemeris and positioning around any body.** Two new scenario kinds.
+  - `solar-system`: the Sun, the eight planets, Pluto, the Moon, Phobos, Deimos, Io, Europa,
+    Ganymede, Callisto and Titan at one epoch: heliocentric position and velocity in the
+    International Celestial Reference Frame (ICRF), gravitational parameter, radii, J2 (the
+    second zonal harmonic) where published, sidereal rotation, the International Astronomical Union (IAU) pole and prime
+    meridian, an orbit track over one revolution, and the light time, one-way and two-way
+    range, solar Shapiro delay and Sun separation from an observer body and for any extra
+    link. Planets come from the Jet Propulsion Laboratory (JPL) Keplerian elements of Standish and Williams (Table 1,
+    1800 AD to 2050 AD; Tables 2a/2b, 3000 BC to 3000 AD); the moons from JPL mean elements
+    with the IAU synchronous rotation rate, and Titan from the IAU rotation model.
+    Example: `scenarios/solar-system-tour.toml`.
+  - `body-pnt`: an orbiter or a surface lander around any of those bodies, navigating with
+    pseudoranges from a Walker constellation around the body and a clock-free two-way range
+    from Earth; dilution of precision, formal uncertainty and seeded least-squares fixes with
+    and without the Earth link. Examples: `scenarios/mars-orbit-pnt.toml`,
+    `scenarios/europa-surface-pnt.toml`.
+  - `Body` gains Mercury, Venus, Jupiter, Saturn, Uranus, Neptune, Pluto and the seven moons,
+    a name lookup and a physical record; `AnalyticSolarSystem` gives any body relative to any
+    other through the existing `EphemerisProvider` seam.
+  - VALIDATED against JPL Horizons (Development Ephemeris DE441; fixtures and queries in
+    `tests/fixtures/solar_system/`): Mercury to Saturn and the Earth from Table 1 within twice
+    the stated nominal error (worst 1.87 times), all eight planets from Tables 2a/2b (worst
+    1.71 times), and the Earth to Mars and Jupiter light time. MODELLED: Uranus and Neptune
+    from Table 1, which exceed the stated error against DE441 (2.0 and 5.2 times), Pluto, the
+    moons, the body constants and the `body-pnt` results.
+  - Finding: the Montenbruck & Gill lunar series in `src/ephem.rs` is already referred to the
+    J2000 equinox by its own precession term (0.05 degrees from Horizons), so it is used
+    without a further precession rotation.
+  The kind count moves from 63 to 65, the scenario-file count from 82 to 85, and the matrix
+  from 174 to 180 rows (68 VALIDATED, 108 MODELLED).
+
 - **Maritime, road and rail scenarios.** Five bundled examples on existing kinds, so
   ships, road vehicles and trains each have a worked case. Every figure is MODELLED; none
   is validated against measured data.

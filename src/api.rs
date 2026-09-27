@@ -631,6 +631,12 @@ pub enum ScenarioKind {
     /// guard, the dominant term, the fix cadence that keeps it inside, and an optional
     /// timing protection level for a receiver in orbit.
     SlotTiming,
+    /// The whole solar system at one epoch: positions, velocities, constants, light times
+    /// and orbit tracks of the Sun, planets, Pluto and seven major moons.
+    SolarSystem,
+    /// Positioning around any solar-system body: a navigation constellation around the
+    /// body and an optional deep-space ranging link from Earth.
+    BodyPnt,
 }
 
 impl ScenarioKind {
@@ -700,6 +706,8 @@ impl ScenarioKind {
             ScenarioKind::AraimReferenceCheck => "araim-reference-check",
             ScenarioKind::TelecomTiming => "telecom-timing",
             ScenarioKind::SlotTiming => "slot-timing",
+            ScenarioKind::SolarSystem => "solar-system",
+            ScenarioKind::BodyPnt => "body-pnt",
         }
     }
 
@@ -773,6 +781,8 @@ impl ScenarioKind {
             "araim-reference-check" => ScenarioKind::AraimReferenceCheck,
             "telecom-timing" => ScenarioKind::TelecomTiming,
             "slot-timing" => ScenarioKind::SlotTiming,
+            "solar-system" => ScenarioKind::SolarSystem,
+            "body-pnt" => ScenarioKind::BodyPnt,
             // The clock pack, named explicitly. It had no arm of its own before, because
             // it was reached through the catch-all below — so removing that catch-all
             // orphaned the one kind the engine has always had. The round-trip test found
@@ -964,6 +974,8 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "cislunar-arc-recovery", description: "MODELLED independent-estimator test of the cislunar arc-length observability threshold. That threshold is a RANK read on the observability matrix assembled from the ANALYTIC range Jacobian rows and the ANALYTIC variational state-transition matrix, and its square-root-information-filter cross-check folds those same rows — a consistency check between two numerical machines, not corroboration. This kind supplies the missing arbiter: a batch least-squares estimator that actually RECOVERS the chief's initial state from simulated measurements, with the measurement partials taken as CENTRAL FINITE DIFFERENCES of the composed forward model. It calls no analytic Jacobian row, no variational STM, no singular-value or eigen decomposition, no rank tolerance and no square-root information filter — a source-text guard in tests/cislunar_arc_recovery_reference.rs makes that enforceable — while the dynamics (the same RK4 CR3BP flow), the initial conditions (the same differential-corrected constellation), the scalar observable and the epoch grid are shared deliberately and named in the emitted `independence` block, because two analyses of one physical problem must agree about the physics to be comparable. Two criteria, each swept over five decades of its own bound: NOISE-FREE RECOVERY (every seeded trial's final state error at most recovery_factor times its a-priori displacement — the rank analogue, with no singular-value tolerance in it) and MONTE-CARLO ESTIMABILITY (the measured RMS position error over a seeded noise ensemble below a stated bound — the estimability analogue, measured rather than predicted). Supports the planar four-state and the spatial six-state, the DRO / L2 halo / L2 NRHO families, range and range-rate observables, and a Moon-centred polar parameterisation in which the transformation is applied to the STATE and the forward model re-differenced there. MEASURED on the published planar DRO grid: the estimator recovers the four-state from 0.782609 h against the rank criterion's 2.086957 h at rel_tol 1e-6 (ratio 0.375) — the rank threshold is NOT corroborated as a recoverability boundary — while the measured estimability boundary lands in the same grid cell as the formal one, 5.739130 h, and the measured error curve reproduces the formal 1-sigma over 21 arc lengths to a geometric-mean ratio of 0.98. MODELLED: the constellation design, the epoch grid, the single tracked link, the displacement magnitude, the measurement sigma and the two stated bounds. Not a certified navigation-performance product.", required_fields: &[], optional_fields: &["mu", "arc_hours", "epochs", "steps", "spatial", "family", "n_spacecraft", "observable", "coordinates", "trials", "seed", "displacement_nd", "recovery_factor", "sigma_range_m", "sigma_range_rate_mm_s", "error_bound_km", "max_iterations", "rel_tol"] },
         ScenarioMeta { name: "telecom-timing", description: "Telecom timing: time error, maximum time interval error (MTIE) and time deviation (TDEV) of a GNSS holdover, checked against ITU-T masks with a PASS or FAIL and a margin per mask. Input is either a SYNTHETIC HOLDOVER (an oscillator preset -- ocxo, rubidium, caesium or csac, each carrying the stability, aging and temperature figures of a named public Microchip datasheet -- plus the GNSS-loss time, record length and sample interval; the free-running clock carries white, flicker and, where the datasheet fit needs it, random-walk frequency noise, linear aging and a sinusoidal temperature term) or an INGESTED SERIES of [time_s, time_error_ns] pairs given inline (and, on native builds only, a CSV file). Masks: ITU-T G.8272 (07/2025) PRTC-A and PRTC-B (max|TE| 100 / 40 ns, MTIE Tables 1-2, TDEV Tables 3-4); G.8272.1 (2024) Amd. 1 (07/2025) ePRTC locked (30 ns, Tables 1-2) and ePRTC-A holdover (the Table 3 time-error envelope rising from 30 ns to 100 ns over the holdover period H set by the locked duration, MTIE Table 4, TDEV Table 5); G.8273.2 (2023) Amd. 2 (11/2025) T-BC/T-TSC classes A-C (max|TE|, constant time error, low-pass-filtered MTIE and TDEV) and class D (max|TE_L| 5 ns, the only class D figure not left for further study); G.8271.1 (2022) Amd. 3 (05/2025) reference point C (max|TE_L| 1100 / 600 / 100 ns with MTIE Tables 7-1 to 7-3). Every entry a Recommendation marks for further study is absent rather than filled in, and each report lists what is not implemented. Also reports the time to exceed each maximum-time-error budget (defaults: 100 ns ePRTC max|TE_HO|, 400 ns network holdover allocation, 1100 ns point C, 1.5 us class 4), the MTIE/TDEV curves as a CSV table with each mask limit, and a units-and-provenance entry per numeric field. VALIDATED: the MTIE and TDEV estimators against the allantools package on a committed holdover series. MODELLED: the mask tables are transcriptions, and a synthetic holdover is a model built from datasheet maxima, not a measurement of any unit. Not a conformance test.", required_fields: &[], optional_fields: &["seed", "masks", "budgets", "holdover", "series"] },
         ScenarioMeta { name: "slot-timing", description: "Slot timing: seconds until a free-running clock leaves the guard of a time-indexed routing or tasking slot (the largest absolute time error the slot tolerates), the contribution of every term at that moment with the dominant one named (fix uncertainty, white phase noise, white, flicker, random-walk and random-run frequency noise, residual frequency offset, temperature, ageing), the time left since the last fix, and the largest fix interval that keeps the clock inside, net of the fix latency. The oscillator is a CLASS default (csac, uso, dsac, tcxo, ocxo or rafs: one cited one-second Allan deviation and an assumed red-noise floor), a telecom-timing DATASHEET PRESET or an inline DATASHEET (Allan-deviation maxima fitted as an envelope, plus ageing and a temperature coefficient), or an inline MEASURED PHASE RECORD (its overlapping Allan deviation fitted by weighted least squares in the white-phase and IEEE Std 1139 frequency-modulation basis, so the red-noise floor is measured rather than assumed). A breach beyond the longest averaging time the datasheet or record supports is flagged as extrapolated. An optional spoofing section adds the timing protection level for a receiver in orbit: orbital speed and period, how long a single ground spoofer can reach the satellite per pass, the clock-aided monitor floor and CUSUM detection latency, the conditional bound, the pull a spoofer at a stated maximum ramp rate accumulates before the satellite leaves its reach or an independent check runs, and whether each ground-contact or crosslink check is independent of that spoofer. VALIDATED: the holdover inversion from a fitted record, held out on a real caesium clock measured against a hydrogen maser (tests/slot_timing_cs5071a_holdout.rs, data-gated); on a measured crystal oscillator the held-out prediction is conservative but not within the bar, so the crystal case is MODELLED. MODELLED: class and datasheet sources, the deterministic terms and the spoofing assessment.", required_fields: &["oscillator", "slot"], optional_fields: &["spoofing"] },
+        ScenarioMeta { name: "solar-system", description: "The whole solar system at one epoch, for PNT (positioning, navigation and timing) around any body. For the Sun, the eight planets, Pluto, the Moon, Phobos, Deimos, Io, Europa, Ganymede, Callisto and Titan it reports the heliocentric position and velocity in the ICRF (International Celestial Reference Frame, equatorial J2000), the heliocentric distance and J2000 ecliptic longitude and latitude, the gravitational parameter, equatorial and mean radius, J2 where published and its reference radius, the sidereal rotation period, the IAU pole and the prime meridian at the epoch, an orbit track sampled over one revolution (heliocentric for planets, parent-centred for moons), and the light time, one-way and two-way range, solar Shapiro delay and Sun separation from an observer body (default Earth); extra from/to links get the same treatment. Positions: the JPL Keplerian elements of Standish and Williams (Table 1 for 1800 AD to 2050 AD, Tables 2a/2b for 3000 BC to 3000 AD) with each planet's nominal error, the Montenbruck & Gill lunar series for the Earth-Moon split, JPL mean elements with the IAU synchronous rotation rate for the Martian and Galilean moons, and the IAU rotation model for Titan. Light time: the radiometric fixed-point solve, transmitter at its retarded position; Newtonian, with the Shapiro delay reported separately. VALIDATED against JPL Horizons (DE441) within twice the nominal error: Mercury to Saturn and the Earth from Table 1 (worst 1.87 times nominal) and all eight planets from Tables 2a/2b (worst 1.71 times), and the Earth to Mars and Jupiter light time. MODELLED, each row labelled: Uranus and Neptune from Table 1 (2.0 and 5.2 times the nominal error against DE441), Pluto (the 1992 row; no stated error), the Moon and the seven moons (measured against Horizons, no published bound).", required_fields: &[], optional_fields: &["epoch", "epoch_jd_tdb", "bodies", "observer", "track_points", "table", "links"] },
+        ScenarioMeta { name: "body-pnt", description: "Positioning around any solar-system body: an orbiter or a surface lander around a central body chosen by name (Mars, the Moon, Europa, Ganymede, Titan and the rest of the solar-system catalogue), navigating with one-way pseudoranges from a small Walker navigation constellation around the body (two-body orbits with the body's own J2 secular drift, an unknown user clock) and optionally a clock-free deep-space two-way range from the Earth, whose direction and distance come from the analytic solar-system ephemeris at every epoch. Lines of sight are blocked by the body's mean sphere, and a surface user also needs the elevation mask. Per epoch: relays in view, whether the Earth is above the limb, the constellation-only GDOP and PDOP (geometric and position dilution of precision), the formal one-sigma position uncertainty with and without the Earth row, and the error of a seeded Gauss-Newton least-squares fix each way; over the run: availability, Earth visibility, median PDOP, RMS error and median formal sigma, plus the Earth-to-body light time, round trip, Shapiro delay and Sun separation at the epoch. MODELLED: the relay orbits, the noise levels and the instantaneous measurement model are modelling choices, not validated against a mission's navigation data; the body constants are the published values cited in body.rs, and the Earth geometry inherits the solar-system ephemeris labels.", required_fields: &[], optional_fields: &["body", "epoch", "epoch_jd_tdb", "duration_s", "step_s", "seed", "table", "user", "constellation", "earth_link"] },
     ]
 }
 
@@ -2396,6 +2408,28 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 svg,
                 summary,
                 csv,
+            })
+        }
+        ScenarioKind::SolarSystem => {
+            let scn: crate::solar_system::SolarSystemScenario =
+                toml::from_str(src).map_err(|e| format!("invalid solar-system scenario: {e}"))?;
+            let (json, summary, svg) = scn.run_output()?;
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
+        }
+        ScenarioKind::BodyPnt => {
+            let scn: crate::body_pnt::BodyPntScenario =
+                toml::from_str(src).map_err(|e| format!("invalid body-pnt scenario: {e}"))?;
+            let (json, summary, svg) = scn.run_output()?;
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
             })
         }
         ScenarioKind::SlotTiming => {

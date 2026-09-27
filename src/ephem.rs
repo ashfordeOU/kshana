@@ -571,13 +571,97 @@ pub fn solve_kepler(m_rad: f64, e: f64) -> f64 {
 /// `ω = ϖ − Ω`, `M = L − ϖ + bT² + c·cos(fT) + s·sin(fT)` wrapped to ±180°,
 /// Kepler's equation, the orbital-plane coordinates and the rotation
 /// `R_z(−Ω)·R_x(−I)·R_z(−ω)`. The velocity is the two-body derivative with the
-/// mean motion `dM/dt` the same elements imply (the slow rates of `a, e, I, ϖ, Ω`
-/// are left out of the velocity, a relative effect below 1e-4).
+/// mean motion `dM/dt` the same elements imply, plus the turning of the ellipse by the
+/// `ω, I, Ω` rates (the `a` and `e` rates are left out: at most 3.5e-5 of the speed, Saturn).
 pub fn standish_state(
     planet: Planet,
     t_tdb_jc: f64,
     table: StandishTable,
 ) -> Option<EclipticState> {
+    let el = standish_elements(planet, t_tdb_jc, table)?;
+    Some(el.state_at_mean_anomaly(el.mean_anomaly_rad))
+}
+
+/// A planet's osculating-style ellipse at one epoch from the Standish elements: semi-major
+/// axis (m), eccentricity, inclination, argument of perihelion and node (rad), the mean
+/// anomaly at the epoch (rad, wrapped to ±π) and the mean motion `dM/dt` (rad/s).
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct StandishElements {
+    pub a_m: f64,
+    pub e: f64,
+    pub inc_rad: f64,
+    pub omega_rad: f64,
+    pub node_rad: f64,
+    pub mean_anomaly_rad: f64,
+    pub mean_motion_rad_s: f64,
+    /// Rates of the argument of perihelion, inclination and node (rad/s): the turning of the
+    /// ellipse, which the velocity includes.
+    pub omega_rate_rad_s: f64,
+    pub inc_rate_rad_s: f64,
+    pub node_rate_rad_s: f64,
+}
+
+impl StandishElements {
+    /// The position and two-body velocity on this ellipse at mean anomaly `m_rad`, in the
+    /// J2000 ecliptic.
+    pub fn state_at_mean_anomaly(&self, m_rad: f64) -> EclipticState {
+        let (a, e) = (self.a_m, self.e);
+        let ecc_anom = solve_kepler(m_rad, e);
+        let (se, ce) = ecc_anom.sin_cos();
+        let root = (1.0 - e * e).sqrt();
+        let edot = self.mean_motion_rad_s / (1.0 - e * ce);
+        let rot = orbit_to_ecliptic(self.omega_rad, self.inc_rad, self.node_rad);
+        let (xp, yp) = (a * (ce - e), a * root * se);
+        let mut vel = apply_plane(&rot, -a * se * edot, a * root * ce * edot);
+        // The turning ellipse, Ṙ·r′: the angles are linear in time, so a central difference of
+        // the rotation over ±1 day is exact to O((rate·day)²), far below 1e-12.
+        let h = 86_400.0;
+        let at = |k: f64| {
+            orbit_to_ecliptic(
+                self.omega_rad + k * self.omega_rate_rad_s * h,
+                self.inc_rad + k * self.inc_rate_rad_s * h,
+                self.node_rad + k * self.node_rate_rad_s * h,
+            )
+        };
+        let (fwd, back) = (
+            apply_plane(&at(1.0), xp, yp),
+            apply_plane(&at(-1.0), xp, yp),
+        );
+        for k in 0..3 {
+            vel[k] += (fwd[k] - back[k]) / (2.0 * h);
+        }
+        EclipticState {
+            pos_m: apply_plane(&rot, xp, yp),
+            vel_m_s: vel,
+        }
+    }
+
+    /// The anomalistic period `2π / (dM/dt)` (s).
+    pub fn period_s(&self) -> f64 {
+        2.0 * std::f64::consts::PI / self.mean_motion_rad_s
+    }
+
+    /// `n` points evenly spaced in mean anomaly around this ellipse, starting at the
+    /// epoch's own position: the orbit a drawing of the solar system traces.
+    pub fn track(&self, n: usize) -> Vec<Vec3> {
+        (0..n)
+            .map(|k| {
+                let m =
+                    self.mean_anomaly_rad + 2.0 * std::f64::consts::PI * (k as f64) / (n as f64);
+                self.state_at_mean_anomaly(m).pos_m
+            })
+            .collect()
+    }
+}
+
+/// The Standish elements of `planet` at `t_tdb_jc` from `table`, following the page's steps
+/// (elements at `T`, `ω = ϖ − Ω`, `M = L − ϖ + bT² + c·cos(fT) + s·sin(fT)` wrapped to
+/// ±180°). `None` for Pluto from Tables 2a/2b.
+pub fn standish_elements(
+    planet: Planet,
+    t_tdb_jc: f64,
+    table: StandishTable,
+) -> Option<StandishElements> {
     let (row, extra) = match table {
         StandishTable::Table1 => (TABLE1[planet.index()], [0.0; 4]),
         StandishTable::Table2 => {
@@ -591,34 +675,26 @@ pub fn standish_state(
     };
     let t = t_tdb_jc;
     let deg = std::f64::consts::PI / 180.0;
-    let a = (row[0] + row[6] * t) * AU_M;
-    let e = row[1] + row[7] * t;
-    let inc = (row[2] + row[8] * t) * deg;
     let l = row[3] + row[9] * t;
     let varpi = row[4] + row[10] * t;
     let node = row[5] + row[11] * t;
     let [b, c, s, f] = extra;
-    let omega = (varpi - node) * deg;
     let m_deg = l - varpi + b * t * t + c * (f * t * deg).cos() + s * (f * t * deg).sin();
     let m_wrapped = (m_deg + 180.0).rem_euclid(360.0) - 180.0;
     // dM/dt in degrees per century: the L and ϖ rates plus the Table 2b terms' derivative.
     let m_dot_deg_cy = row[9] - row[10] + 2.0 * b * t - c * f * deg * (f * t * deg).sin()
         + s * f * deg * (f * t * deg).cos();
-    let n = m_dot_deg_cy * deg / SECONDS_PER_JULIAN_CENTURY;
-
-    let ecc_anom = solve_kepler(m_wrapped * deg, e);
-    let (se, ce) = ecc_anom.sin_cos();
-    let root = (1.0 - e * e).sqrt();
-    let xp = a * (ce - e);
-    let yp = a * root * se;
-    let edot = n / (1.0 - e * ce);
-    let vxp = -a * se * edot;
-    let vyp = a * root * ce * edot;
-
-    let rot = orbit_to_ecliptic(omega, inc, node * deg);
-    Some(EclipticState {
-        pos_m: apply_plane(&rot, xp, yp),
-        vel_m_s: apply_plane(&rot, vxp, vyp),
+    Some(StandishElements {
+        a_m: (row[0] + row[6] * t) * AU_M,
+        e: row[1] + row[7] * t,
+        inc_rad: (row[2] + row[8] * t) * deg,
+        omega_rad: (varpi - node) * deg,
+        node_rad: node * deg,
+        mean_anomaly_rad: m_wrapped * deg,
+        mean_motion_rad_s: m_dot_deg_cy * deg / SECONDS_PER_JULIAN_CENTURY,
+        omega_rate_rad_s: (row[10] - row[11]) * deg / SECONDS_PER_JULIAN_CENTURY,
+        inc_rate_rad_s: row[8] * deg / SECONDS_PER_JULIAN_CENTURY,
+        node_rate_rad_s: row[11] * deg / SECONDS_PER_JULIAN_CENTURY,
     })
 }
 
@@ -798,7 +874,7 @@ impl Satellite {
                 pole_ra_deg: 317.68,
                 pole_dec_deg: 52.90,
                 w0_deg: 35.06,
-                w_dot_deg_day: 1128.844_585_0,
+                w_dot_deg_day: 1_128.844_585_0,
             },
             Satellite::Deimos => SatRow {
                 a_km: 23_457.0,
@@ -1196,5 +1272,113 @@ mod tests {
             (4.0e-7..2.5e-6).contains(&a),
             "Lunar perturbation on LEO = {a} m/s² (expected ≈ 1.1e-6)"
         );
+    }
+
+    // ---- Standish planets and the major moons ----------------------------------------
+
+    #[test]
+    fn solve_kepler_inverts_keplers_equation() {
+        for &e in &[0.0, 0.0167, 0.2056, 0.2488, 0.7] {
+            for k in 0..24 {
+                let m = -std::f64::consts::PI + k as f64 * 0.27;
+                let big_e = solve_kepler(m, e);
+                assert!((big_e - e * big_e.sin() - m).abs() < 1e-12, "e {e}, M {m}");
+            }
+        }
+    }
+
+    #[test]
+    fn standish_periods_obey_keplers_third_law() {
+        // The anomalistic period from the tables' mean motion against 2π√(a³/GM☉): the two
+        // come from independent columns of the table (L-rate against a), so agreement to
+        // 0.5 % catches a transcription error in either. The planet's own mass and the
+        // perihelion drift account for the residual.
+        for p in Planet::ALL {
+            let el = standish_elements(p, 0.0, StandishTable::Table1).unwrap();
+            let kepler =
+                2.0 * std::f64::consts::PI * (el.a_m.powi(3) / crate::forces::MU_SUN).sqrt();
+            let rel = el.period_s() / kepler - 1.0;
+            assert!(rel.abs() < 5e-3, "{p:?}: period off Kepler by {rel:e}");
+        }
+        for p in &Planet::ALL[..8] {
+            let el = standish_elements(*p, 0.0, StandishTable::Table2).unwrap();
+            let kepler =
+                2.0 * std::f64::consts::PI * (el.a_m.powi(3) / crate::forces::MU_SUN).sqrt();
+            assert!((el.period_s() / kepler - 1.0).abs() < 5e-3, "{p:?} table 2");
+        }
+    }
+
+    #[test]
+    fn pluto_has_no_table2_row_and_no_stated_error() {
+        assert!(standish_state(Planet::Pluto, 0.0, StandishTable::Table2).is_none());
+        assert!(standish_nominal_error(Planet::Pluto, StandishTable::Table1).is_none());
+        assert!(standish_state(Planet::Pluto, 0.0, StandishTable::Table1).is_some());
+    }
+
+    #[test]
+    fn the_table_follows_the_fit_intervals() {
+        assert_eq!(StandishTable::for_epoch(0.0), Some(StandishTable::Table1));
+        assert_eq!(StandishTable::for_epoch(0.6), Some(StandishTable::Table2));
+        assert_eq!(StandishTable::for_epoch(-30.0), Some(StandishTable::Table2));
+        assert_eq!(StandishTable::for_epoch(-60.0), None);
+    }
+
+    #[test]
+    fn ecliptic_and_icrf_rotations_are_inverse() {
+        let v = [1.2e11, -3.4e10, 5.6e9];
+        let back = icrf_to_ecliptic(ecliptic_to_icrf(v));
+        for k in 0..3 {
+            assert!((back[k] - v[k]).abs() < 1e-3);
+        }
+        // The ecliptic pole maps to (0, −sin ε, cos ε) in the ICRF.
+        let pole = ecliptic_to_icrf([0.0, 0.0, 1.0]);
+        let eps = STANDISH_OBLIQUITY_DEG.to_radians();
+        assert!((pole[1] + eps.sin()).abs() < 1e-15 && (pole[2] - eps.cos()).abs() < 1e-15);
+    }
+
+    #[test]
+    fn a_planet_track_is_one_closed_ellipse() {
+        let el = standish_elements(Planet::Mercury, 0.26, StandishTable::Table1).unwrap();
+        let track = el.track(360);
+        let rmin = track.iter().map(|p| norm(*p)).fold(f64::MAX, f64::min);
+        let rmax = track.iter().map(|p| norm(*p)).fold(0.0, f64::max);
+        assert!((rmin / (el.a_m * (1.0 - el.e)) - 1.0).abs() < 1e-4);
+        assert!((rmax / (el.a_m * (1.0 + el.e)) - 1.0).abs() < 1e-4);
+    }
+
+    #[test]
+    fn standish_velocity_is_the_derivative_of_the_position() {
+        // Central difference of the position over ±1 h against the analytic velocity.
+        let h_cy = 3600.0 / (36_525.0 * 86_400.0);
+        for p in Planet::ALL {
+            let t = 0.2;
+            let v = standish_state(p, t, StandishTable::Table1).unwrap().vel_m_s;
+            let a = standish_state(p, t + h_cy, StandishTable::Table1)
+                .unwrap()
+                .pos_m;
+            let b = standish_state(p, t - h_cy, StandishTable::Table1)
+                .unwrap()
+                .pos_m;
+            let fd = [
+                (a[0] - b[0]) / 7200.0,
+                (a[1] - b[1]) / 7200.0,
+                (a[2] - b[2]) / 7200.0,
+            ];
+            let d = [v[0] - fd[0], v[1] - fd[1], v[2] - fd[2]];
+            // Only the a and e rates are left out of the analytic velocity.
+            assert!(norm(d) / norm(v) < 5e-5, "{p:?}: {}", norm(d) / norm(v));
+        }
+    }
+
+    #[test]
+    fn moons_sit_at_their_mean_distance_and_move_at_their_mean_speed() {
+        for sat in Satellite::ALL {
+            let s = satellite_state(sat, 2_461_311.5);
+            let a = sat.semi_major_axis_m();
+            let r = norm(s.pos_m);
+            assert!((r / a - 1.0).abs() < 0.035, "{sat:?}: r/a = {}", r / a);
+            let v_mean = 2.0 * std::f64::consts::PI * a / sat.period_s();
+            assert!((norm(s.vel_m_s) / v_mean - 1.0).abs() < 0.035, "{sat:?}");
+        }
     }
 }

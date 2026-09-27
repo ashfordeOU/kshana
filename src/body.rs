@@ -207,14 +207,15 @@ impl Body {
     // prime-meridian rate (and rotation rate) marks retrograde rotation.
     // ------------------------------------------------------------------------
 
-    /// **Mercury** — `μ = 2.203186855e13 m³/s²`, equatorial radius 2 440 530 m,
-    /// `J2 = 5.03e-5` (Smith et al. 2012, MESSENGER, reference radius 2 440 km),
+    /// **Mercury** — `μ = 2.203186855e13 m³/s²`, reference radius 2 440 000 m (the radius
+    /// `J2 = 5.03e-5` is referenced to: Smith et al. 2012, MESSENGER; the equatorial radius,
+    /// 2 440 530 m, is in [`BodyFacts`]),
     /// IAU pole (281.0103°, 61.4155°), `W = 329.5988° + 6.1385108°/day`.
     pub fn mercury() -> Self {
         Self::point(
             "Mercury",
             2.203_186_855e13,
-            2_440_530.0,
+            2_440_000.0,
             &MERCURY_ZONALS_J2,
             [281.0103, 61.4155, 329.5988, 6.138_510_8],
         )
@@ -308,7 +309,7 @@ impl Body {
             7.087e5,
             11_080.0,
             &[],
-            [317.68, 52.90, 35.06, 1128.844_585_0],
+            [317.68, 52.90, 35.06, 1_128.844_585_0],
         )
     }
 
@@ -554,7 +555,7 @@ pub const SOLAR_SYSTEM: [BodyFacts; 18] = [
         BodyClass::Planet,
         Some("Sun"),
         6_378.137,
-        6_371.0084,
+        6_371.008_4,
         Some((1.082_626_68e-3, 6_378.137)),
     ),
     facts(
@@ -755,5 +756,52 @@ mod tests {
         let sun = Body::sun();
         assert_eq!(sun.mu, forces::MU_SUN);
         assert!(sun.zonals.is_empty(), "the Sun is a point mass here");
+    }
+
+    #[test]
+    fn every_catalogue_body_resolves_by_name_and_carries_its_record() {
+        assert_eq!(SOLAR_SYSTEM.len(), 18);
+        for f in SOLAR_SYSTEM.iter() {
+            let b = Body::by_name(f.name).expect(f.name);
+            assert_eq!(b.name, f.name);
+            assert_eq!(b.facts().map(|x| x.naif_id), Some(f.naif_id));
+            assert!(
+                b.mu > 0.0 && f.radius_mean_m > 0.0 && f.radius_equatorial_m >= f.radius_mean_m
+            );
+            if let Some(p) = f.parent {
+                assert!(Body::by_name(p).is_some(), "{} parent {p}", f.name);
+            }
+            // Case-insensitive lookup.
+            assert!(Body::by_name(&f.name.to_ascii_uppercase()).is_some());
+        }
+        assert!(Body::by_name("Vulcan").is_none());
+    }
+
+    #[test]
+    fn a_zonal_field_is_referenced_to_its_sources_radius() {
+        // Where a body carries J2, its Body::re is the radius that J2 is referenced to, and
+        // the record states the same J2 and radius.
+        for f in SOLAR_SYSTEM.iter() {
+            let b = f.body();
+            if let (Some((j2, r)), Some(z)) = (f.j2, b.zonals.first()) {
+                assert_eq!(*z, j2, "{}", f.name);
+                assert!((b.re - r).abs() < 1.0, "{}: re {} vs {r}", f.name, b.re);
+            }
+        }
+        assert_eq!(Body::saturn().re, 60_330_000.0);
+        assert_eq!(Body::neptune().re, 25_225_000.0);
+    }
+
+    #[test]
+    fn retrograde_rotators_have_negative_rates_and_periods_match_the_iau_rate() {
+        for n in ["Venus", "Uranus"] {
+            assert!(Body::by_name(n).unwrap().rotation_rate < 0.0, "{n}");
+        }
+        // Jupiter System III: 870.536 deg/day is a 9 h 55 m 29.7 s sidereal day.
+        let j = Body::jupiter();
+        let period_s = 2.0 * std::f64::consts::PI / j.rotation_rate;
+        assert!((period_s - 35_729.7).abs() < 0.5, "{period_s}");
+        let w = j.prime_meridian(2_451_545.0).to_degrees();
+        assert!((w - 284.95).abs() < 1e-9);
     }
 }
