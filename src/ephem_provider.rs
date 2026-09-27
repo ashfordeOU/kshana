@@ -392,4 +392,46 @@ mod tests {
             .relative_position(&Body::sun(), &Body::earth(), PROBE_JD)
             .is_some());
     }
+
+    #[test]
+    fn analytic_solar_system_is_antisymmetric_and_rejects_unknown_bodies() {
+        let e = AnalyticSolarSystem::default();
+        let a = e
+            .relative_position(&Body::jupiter(), &Body::mars(), PROBE_JD)
+            .unwrap();
+        let b = e
+            .relative_position(&Body::mars(), &Body::jupiter(), PROBE_JD)
+            .unwrap();
+        for k in 0..3 {
+            assert_eq!(a[k], -b[k]);
+        }
+        assert!(e.heliocentric_state("Vulcan", PROBE_JD).is_none());
+        // Outside 3000 BC to 3000 AD there is no table and no position.
+        assert!(e
+            .heliocentric_state("Mars", 2_451_545.0 + 20.0 * 36_525.0)
+            .is_none());
+    }
+
+    #[test]
+    fn earth_and_moon_balance_about_their_barycentre() {
+        // μ_E·r_E + μ_M·r_M = (μ_E + μ_M)·r_EMB: the split must conserve the barycentre.
+        let e = AnalyticSolarSystem::default();
+        let (re, _) = e.heliocentric_state("Earth", PROBE_JD).unwrap();
+        let (rm, _) = e.heliocentric_state("Moon", PROBE_JD).unwrap();
+        let t = (PROBE_JD - 2_451_545.0) / 36_525.0;
+        let bary = crate::ephem::ecliptic_to_icrf(
+            standish_state(Planet::EarthMoonBarycentre, t, StandishTable::Table1)
+                .unwrap()
+                .pos_m,
+        );
+        let (me, mm) = (crate::forces::MU_EARTH, crate::forces::MU_MOON);
+        for k in 0..3 {
+            let w = (me * re[k] + mm * rm[k]) / (me + mm);
+            assert!((w - bary[k]).abs() < 1e-3, "component {k}");
+        }
+        // And the Earth-Moon distance is the lunar series' own.
+        let d = [rm[0] - re[0], rm[1] - re[1], rm[2] - re[2]];
+        let r = (d[0] * d[0] + d[1] * d[1] + d[2] * d[2]).sqrt();
+        assert!((3.5e8..4.1e8).contains(&r));
+    }
 }

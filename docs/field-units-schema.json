@@ -1,11 +1,11 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 1823,
-    "fields_total": 1825,
+    "fields_described": 1900,
+    "fields_total": 1902,
     "fields_without_units": 2,
-    "kinds_complete": 62,
-    "kinds_total": 63,
+    "kinds_complete": 64,
+    "kinds_total": 65,
     "kinds_uncovered": 1,
     "uncovered_kind_ceiling": 1,
     "uncovered_kinds": [
@@ -468,6 +468,256 @@
       "fields_without_units": [],
       "label": "MODELLED — scalar 3-DOF AOCS error budget: gravity-gradient worst-case disturbance torque + RSS pointing budget; NOT a control-loop / 6-DoF / flexible-mode simulation (a pre-hardware complement to Basilisk/42, not a replacement)",
       "source": "defaults"
+    },
+    "body-pnt": {
+      "complete": true,
+      "fields": {
+        "body.gm_m3_s2": {
+          "definition": "central body's gravitational parameter GM, cited in body.rs",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "m^3/s^2"
+        },
+        "body.j2": {
+          "definition": "central body's unnormalised J2 where one is carried; drives the relay and user secular drift",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "1"
+        },
+        "body.j2_reference_radius_m": {
+          "definition": "the radius the J2 value is referenced to",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "m"
+        },
+        "body.radius_mean_m": {
+          "definition": "central body's mean radius: the occultation sphere and the surface",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "m"
+        },
+        "body.sidereal_rotation_period_h": {
+          "definition": "360 degrees over the IAU prime-meridian rate; negative for retrograde rotation",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "derived",
+          "unit": "h"
+        },
+        "earth_to_body.geometric_distance_m": {
+          "definition": "Earth-to-body distance at the epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "earth_to_body.one_way_light_time_s": {
+          "definition": "Newtonian light time from the body (retarded) to the Earth at the epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "earth_to_body.one_way_range_m": {
+          "definition": "speed of light times the one-way light time",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "earth_to_body.shapiro_delay_s": {
+          "definition": "the Sun's one-way Shapiro delay on the Earth-to-body path",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "s"
+        },
+        "earth_to_body.sun_separation_deg": {
+          "definition": "Sun-Earth-body angle at the Earth; small near a solar conjunction, where plasma and Shapiro delay grow",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "earth_to_body.two_way_light_time_s": {
+          "definition": "round-trip light time",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "earth_to_body.two_way_range_m": {
+          "definition": "round-trip path length received at the epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "epoch.jd_tdb": {
+          "definition": "scenario epoch as a Julian date in Barycentric Dynamical Time (TDB)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "day"
+        },
+        "epochs[].earth_range_m": {
+          "definition": "geometric Earth-to-user range",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "epochs[].error_relays_m": {
+          "definition": "position error of the seeded Gauss-Newton fix, constellation only",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "epochs[].error_with_earth_m": {
+          "definition": "position error of the seeded Gauss-Newton fix with the Earth range",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "epochs[].formal_sigma_relays_m": {
+          "definition": "formal one-sigma position uncertainty from the weighted relay geometry",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "epochs[].formal_sigma_with_earth_m": {
+          "definition": "formal one-sigma position uncertainty with the clock-free Earth row added",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "epochs[].gdop": {
+          "definition": "constellation-only geometric dilution of precision",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "epochs[].n_relays_visible": {
+          "definition": "relays whose line of sight clears the body (and the mask, for a surface user)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "epochs[].pdop": {
+          "definition": "constellation-only position dilution of precision",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "epochs[].t_s": {
+          "definition": "seconds after the epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "epochs[].user_radius_m": {
+          "definition": "user distance from the body's centre",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "fom.availability_relays": {
+          "definition": "fraction of epochs with a converged constellation-only fix (at least four relays)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "fom.availability_with_earth": {
+          "definition": "fraction of epochs with a converged fix once the Earth range is added",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "fom.earth_visibility": {
+          "definition": "fraction of epochs the Earth is above the body's limb for the user",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "fom.mean_relays_visible": {
+          "definition": "mean number of relays in view",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "fom.median_formal_sigma_relays_m": {
+          "definition": "median formal one-sigma position uncertainty, constellation only",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "fom.median_formal_sigma_with_earth_m": {
+          "definition": "median formal one-sigma position uncertainty with the Earth range",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "fom.median_pdop": {
+          "definition": "median constellation-only position dilution of precision over epochs with four or more relays",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "fom.n_epochs": {
+          "definition": "epochs in the run",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "fom.rms_error_relays_m": {
+          "definition": "root-mean-square position error of the seeded constellation-only fixes",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "fom.rms_error_with_earth_m": {
+          "definition": "root-mean-square position error of the seeded fixes with the Earth range",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "fom.rms_normalised_error_relays": {
+          "definition": "root-mean-square of fix error over formal sigma, constellation only; near 1 when noise and covariance agree",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "fom.rms_normalised_error_with_earth": {
+          "definition": "root-mean-square of fix error over formal sigma with the Earth range",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "n_relays": {
+          "definition": "navigation satellites in the Walker pattern",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "relay_altitude_m": {
+          "definition": "relay altitude above the mean radius",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "relay_period_s": {
+          "definition": "two-body period of the relay orbit, 2 pi sqrt(a^3/GM)",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "s"
+        },
+        "sigma_earth_range_m": {
+          "definition": "one-sigma one-way range noise of the two-way Earth measurement",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "m"
+        },
+        "sigma_relay_range_m": {
+          "definition": "one-sigma pseudorange noise of a relay measurement",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "m"
+        }
+      },
+      "fields_described": 40,
+      "fields_total": 40,
+      "fields_without_units": [],
+      "label": "MODELLED: two-body relay orbits with J2 secular drift, geometric visibility, Gaussian range noise and an instantaneous measurement model around a body from the published constants; not validated against a mission's navigation data. The Earth-to-body geometry inherits the solar-system ephemeris labels.",
+      "source": "scenarios/mars-orbit-pnt.toml"
     },
     "cislunar-arc-recovery": {
       "complete": true,
@@ -10386,6 +10636,238 @@
       "fields_without_units": [],
       "label": "MODELLED — time until a free-running clock leaves a routing slot's guard, and the fix cadence that keeps it inside, from a stationary power-law clock model. A datasheet source is an envelope of its maxima, not a measurement of any unit; a class source rests on an assumed red-noise floor.",
       "source": "scenarios/slot-timing-ocxo-leo.toml"
+    },
+    "solar-system": {
+      "complete": true,
+      "fields": {
+        "bodies[].ecliptic_latitude_deg": {
+          "definition": "heliocentric latitude in the J2000 ecliptic",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "bodies[].ecliptic_longitude_deg": {
+          "definition": "heliocentric longitude in the J2000 ecliptic",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "bodies[].gm_m3_s2": {
+          "definition": "gravitational parameter GM: JPL Horizons body records for the planets, the JPL satellite physical-parameter table for the moons",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "m^3/s^2"
+        },
+        "bodies[].heliocentric_distance_au": {
+          "definition": "distance from the Sun in astronomical units (1 au = 149 597 870 700 m)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "au"
+        },
+        "bodies[].j2": {
+          "definition": "unnormalised second zonal harmonic where one is carried, cited in body.rs",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "1"
+        },
+        "bodies[].j2_reference_radius_m": {
+          "definition": "the radius the J2 value is referenced to",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "m"
+        },
+        "bodies[].naif_id": {
+          "definition": "NAIF (Navigation and Ancillary Information Facility) integer code of the body",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "1"
+        },
+        "bodies[].nominal_error.distance_m": {
+          "definition": "the Standish page's nominal error in heliocentric distance",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "m"
+        },
+        "bodies[].nominal_error.latitude_arcsec": {
+          "definition": "the Standish page's nominal error in heliocentric latitude",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "arcsec"
+        },
+        "bodies[].nominal_error.longitude_arcsec": {
+          "definition": "the Standish page's nominal error in heliocentric longitude for this planet and table",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "arcsec"
+        },
+        "bodies[].observer_link.geometric_distance_m": {
+          "definition": "straight-line distance to the observer at the epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "bodies[].observer_link.one_way_light_time_s": {
+          "definition": "Newtonian down-leg light time to the observer, body at its retarded position",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "bodies[].observer_link.one_way_range_m": {
+          "definition": "speed of light times the one-way light time",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "bodies[].observer_link.shapiro_delay_s": {
+          "definition": "the Sun's one-way Shapiro (gravitational) delay on the path, Moyer form with gamma = 1",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "s"
+        },
+        "bodies[].observer_link.sun_separation_deg": {
+          "definition": "angle at the observer between the Sun and the body",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "bodies[].observer_link.two_way_light_time_s": {
+          "definition": "round-trip light time",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "bodies[].observer_link.two_way_range_m": {
+          "definition": "round-trip path length, observer to body and back, received at the epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "bodies[].orbital_period_d": {
+          "definition": "orbital period about the parent: the Standish anomalistic period for planets, the IAU synchronous period for the moons",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "day"
+        },
+        "bodies[].parent_relative_position_m[]": {
+          "definition": "position relative to the parent body in the ICRF, x y z",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "bodies[].pole_dec_deg": {
+          "definition": "IAU pole declination at J2000 (WGCCRE mean value)",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "deg"
+        },
+        "bodies[].pole_ra_deg": {
+          "definition": "IAU pole right ascension at J2000 (WGCCRE mean value, without T-rate or periodic terms)",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "deg"
+        },
+        "bodies[].position_m[]": {
+          "definition": "heliocentric position in the ICRF, x y z",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "bodies[].prime_meridian_deg": {
+          "definition": "IAU prime-meridian angle W at the epoch, W0 plus the rate times days from J2000",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "bodies[].radius_equatorial_m": {
+          "definition": "equatorial radius (1-bar level for the giant planets; largest semi-axis for Phobos and Deimos), JPL physical-parameter tables",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "m"
+        },
+        "bodies[].radius_mean_m": {
+          "definition": "volumetric mean radius, JPL physical-parameter tables",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "m"
+        },
+        "bodies[].sidereal_rotation_period_h": {
+          "definition": "360 degrees over the IAU prime-meridian rate; negative for retrograde rotation",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "derived",
+          "unit": "h"
+        },
+        "bodies[].track_m[][]": {
+          "definition": "one revolution sampled evenly (planets in mean anomaly on the epoch's Standish ellipse, moons in time), ICRF, in track_frame",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "bodies[].velocity_m_s[]": {
+          "definition": "heliocentric velocity in the ICRF, x y z (two-body derivative for the planets)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m/s"
+        },
+        "epoch.jd_tdb": {
+          "definition": "scenario epoch as a Julian date in Barycentric Dynamical Time (TDB)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "day"
+        },
+        "links[].geometric_distance_m": {
+          "definition": "straight-line distance between the two bodies at the epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "links[].one_way_light_time_s": {
+          "definition": "Newtonian light time from the transmitter (retarded) to the receiver at the epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "links[].one_way_range_m": {
+          "definition": "speed of light times the one-way light time",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "links[].shapiro_delay_s": {
+          "definition": "the Sun's one-way Shapiro delay on the path",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "s"
+        },
+        "links[].sun_separation_deg": {
+          "definition": "angle at the receiver between the Sun and the transmitter",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "links[].two_way_light_time_s": {
+          "definition": "round-trip light time",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "links[].two_way_range_m": {
+          "definition": "round-trip path length received at the epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "n_bodies": {
+          "definition": "bodies in the report",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        }
+      },
+      "fields_described": 37,
+      "fields_total": 37,
+      "fields_without_units": [],
+      "label": "MIXED: each body carries its own label. Planet positions are VALIDATED against JPL Horizons within twice the Standish nominal error (Mercury to Saturn and the Earth from Table 1; all eight planets from Tables 2a/2b); Uranus and Neptune from Table 1, Pluto, the Moon and the seven moons are MODELLED. Light times are Newtonian, from the same positions.",
+      "source": "scenarios/solar-system-tour.toml"
     },
     "space-packet": {
       "complete": true,
