@@ -31,7 +31,10 @@
 //! to the lunar environment.
 
 use crate::body::Body;
-use crate::ephem::{moon_position, sun_position};
+use crate::ephem::{
+    ecliptic_to_icrf, moon_icrf, moon_icrf_velocity, moon_position, satellite_state,
+    standish_state, sun_position, Planet, Satellite, StandishTable,
+};
 
 type Vec3 = [f64; 3];
 
@@ -110,6 +113,141 @@ impl EphemerisProvider for BuiltinEphemeris {
             _ => None,
         }
     }
+}
+
+/// A kernel-free **whole-solar-system** ephemeris: any body of [`crate::body::SOLAR_SYSTEM`]
+/// relative to any other, in the ICRF (equatorial J2000), metres.
+///
+/// Built from published analytic sources only, composed through heliocentric positions:
+///
+/// * the planets (and the Earth-Moon barycentre) from the JPL Standish Keplerian elements
+///   ([`crate::ephem::standish_state`]), rotated from the J2000 ecliptic to the ICRF;
+/// * the Earth and the Moon from the barycentre and the geocentric Moon series
+///   ([`crate::ephem::moon_icrf`]), split by the mass ratio `μ_Moon / (μ_Earth + μ_Moon)`;
+/// * Phobos, Deimos, the Galilean moons and Titan from [`crate::ephem::satellite_state`],
+///   added to their planet.
+///
+/// The Standish elements give a planetary *system*, which is used for the planet itself: the
+/// offset of a planet from its system barycentre (about 200 km for Jupiter) is far below the
+/// Standish error at that planet. The Sun is the origin: the Standish positions are heliocentric.
+/// The epoch is TDB; the geocentric Moon series takes TT, within 2 ms of it.
+#[derive(Debug, Clone, Copy, Default)]
+pub struct AnalyticSolarSystem {
+    /// The Standish table to use, or `None` for the table whose fit interval contains the epoch
+    /// ([`StandishTable::for_epoch`]).
+    pub table: Option<StandishTable>,
+}
+
+impl AnalyticSolarSystem {
+    /// The Standish table used at `jd_tdb`: the forced one, else the one whose fit interval
+    /// contains the epoch. `None` outside 3000 BC to 3000 AD.
+    pub fn table_at(&self, jd_tdb: f64) -> Option<StandishTable> {
+        match self.table {
+            Some(t) => Some(t),
+            None => StandishTable::for_epoch(Self::t_tdb_jc(jd_tdb)),
+        }
+    }
+
+    fn t_tdb_jc(jd_tdb: f64) -> f64 {
+        (jd_tdb - JD_J2000) / DAYS_PER_JULIAN_CENTURY
+    }
+
+    fn planet_icrf(&self, p: Planet, jd_tdb: f64) -> Option<(Vec3, Vec3)> {
+        let table = self.table_at(jd_tdb)?;
+        let s = standish_state(p, Self::t_tdb_jc(jd_tdb), table)?;
+        Some((ecliptic_to_icrf(s.pos_m), ecliptic_to_icrf(s.vel_m_s)))
+    }
+
+    /// Heliocentric ICRF position (m) and velocity (m/s) of the body called `name` (as in
+    /// [`Body::name`]) at `jd_tdb`. `None` for an unknown name, outside the Standish tables'
+    /// interval, or for Pluto outside 1800 AD to 2050 AD.
+    pub fn heliocentric_state(&self, name: &str, jd_tdb: f64) -> Option<(Vec3, Vec3)> {
+        let planet = |p| self.planet_icrf(p, jd_tdb);
+        let with_moon = |sat: Satellite| -> Option<(Vec3, Vec3)> {
+            let (pp, pv) = self.planet_icrf(sat.parent(), jd_tdb)?;
+            let s = satellite_state(sat, jd_tdb);
+            Some((add(pp, s.pos_m), add(pv, s.vel_m_s)))
+        };
+        match name {
+            "Sun" => Some(([0.0; 3], [0.0; 3])),
+            "Mercury" => planet(Planet::Mercury),
+            "Venus" => planet(Planet::Venus),
+            "Earth" | "Moon" => {
+                let (bp, bv) = planet(Planet::EarthMoonBarycentre)?;
+                let mp = moon_icrf(jd_tdb);
+                let mv = moon_icrf_velocity(jd_tdb);
+                let mu_e = crate::forces::MU_EARTH;
+                let mu_m = crate::forces::MU_MOON;
+                // Earth sits μ_M/(μ_E+μ_M) of the way from the barycentre towards minus the Moon.
+                let k = if name == "Earth" {
+                    -mu_m / (mu_e + mu_m)
+                } else {
+                    mu_e / (mu_e + mu_m)
+                };
+                Some((add(bp, scale(mp, k)), add(bv, scale(mv, k))))
+            }
+            "Mars" => planet(Planet::Mars),
+            "Jupiter" => planet(Planet::Jupiter),
+            "Saturn" => planet(Planet::Saturn),
+            "Uranus" => planet(Planet::Uranus),
+            "Neptune" => planet(Planet::Neptune),
+            "Pluto" => planet(Planet::Pluto),
+            "Phobos" => with_moon(Satellite::Phobos),
+            "Deimos" => with_moon(Satellite::Deimos),
+            "Io" => with_moon(Satellite::Io),
+            "Europa" => with_moon(Satellite::Europa),
+            "Ganymede" => with_moon(Satellite::Ganymede),
+            "Callisto" => with_moon(Satellite::Callisto),
+            "Titan" => with_moon(Satellite::Titan),
+            _ => None,
+        }
+    }
+
+    /// One line naming the model behind the body called `name` at `jd_tdb`.
+    pub fn method(&self, name: &str, jd_tdb: f64) -> String {
+        let table = self
+            .table_at(jd_tdb)
+            .map(|t| t.label())
+            .unwrap_or("outside every Standish table");
+        match name {
+            "Sun" => "origin of the heliocentric frame".to_string(),
+            "Earth" | "Moon" => format!(
+                "Earth-Moon barycentre from {table}, split by the Montenbruck & Gill lunar series \
+                 precessed to J2000"
+            ),
+            "Phobos" | "Deimos" | "Io" | "Europa" | "Ganymede" | "Callisto" => format!(
+                "JPL mean elements in the Laplace plane, mean-longitude rate from the IAU \
+                 synchronous rotation rate, added to its planet from {table}"
+            ),
+            "Titan" => format!(
+                "IAU synchronous-rotation direction at the JPL mean distance, added to Saturn \
+                 from {table}"
+            ),
+            "Pluto" => "the 1992 Standish Table 1 Pluto row (1800 AD to 2050 AD)".to_string(),
+            _ => table.to_string(),
+        }
+    }
+}
+
+impl EphemerisProvider for AnalyticSolarSystem {
+    /// `target` relative to `center` in the ICRF (m): the difference of their heliocentric
+    /// positions. `None` when either body is unknown or outside the model's interval.
+    fn relative_position(&self, target: &Body, center: &Body, jd_tdb: f64) -> Option<Vec3> {
+        if target.name == center.name {
+            return Some([0.0, 0.0, 0.0]);
+        }
+        let (t, _) = self.heliocentric_state(target.name, jd_tdb)?;
+        let (c, _) = self.heliocentric_state(center.name, jd_tdb)?;
+        Some([t[0] - c[0], t[1] - c[1], t[2] - c[2]])
+    }
+}
+
+fn add(a: Vec3, b: Vec3) -> Vec3 {
+    [a[0] + b[0], a[1] + b[1], a[2] + b[2]]
+}
+
+fn scale(a: Vec3, k: f64) -> Vec3 {
+    [a[0] * k, a[1] * k, a[2] * k]
 }
 
 /// Negate a 3-vector (the reverse relative-position direction).
