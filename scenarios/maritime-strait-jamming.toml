@@ -1,0 +1,55 @@
+# Maritime GNSS jamming: a shore- or vessel-borne broadband jammer denying the Global
+# Navigation Satellite System (GNSS) to a ship crossing open water.
+#
+# The mission question a ship's navigator or a coastal authority asks: how far across
+# the water does a modest jammer take GNSS away? Over the sea there is no terrain or
+# clutter between the jammer and the ship's antenna, so free-space path loss is the
+# only thing that weakens the jammer, and a low-power device reaches a long way.
+# Widespread GNSS interference affecting shipping has been publicly reported in several
+# sea areas; this file does not model any particular incident.
+#
+# The chain is the one in `jamming-demo.toml` (Kaplan & Hegarty, Understanding GPS/GNSS,
+# 3rd ed., §9.4): jammer received power sets the jammer-to-signal ratio J/S, despreading
+# and the spectral-separation factor turn it into an effective carrier-to-noise density
+# C/N0 per satellite, and a satellite is lost below the 25 dB-Hz tracking threshold.
+# Here a 50 W (17 dBW) broadband jammer on a 30 m mast sits 30 km from a ship at sea
+# level. Free-space loss over 30 km at the L1 frequency (1575.42 MHz) is about 126 dB,
+# which leaves a mean J/S of about 48 dB, well past the roughly 35 dB a coarse/acquisition (C/A)
+# code tracking loop tolerates, so the receiver loses every satellite. Move the jammer
+# out or cut its power to find the range at which tracking returns (J/S falls about
+# 20 dB per decade of range).
+#
+# Assumptions: 0 dBi jammer and ship antennas toward each other (a ship's GNSS antenna
+# is not a controlled-reception pattern antenna (CRPA)), free-space propagation with no
+# sea-surface multipath, a GPS-like 24-satellite Walker shell. The receiver position is
+# a generic point in the northern Baltic Sea. MODELLED: every figure is modelled, not
+# validated against measured maritime interference.
+kind = "jamming"
+seed = 1
+mask_deg = 5.0
+tracking_threshold_dbhz = 25.0
+
+[time]
+step_s = 30.0
+duration_s = 1800.0
+
+[receiver]
+lat_deg = 59.80
+lon_deg = 24.90
+alt_m = 0.0
+
+# A GPS-like 24-satellite Walker shell (6 planes x 4), propagated through the SGP4 core.
+[constellation]
+altitude_km = 20200.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
+
+# 50 W broadband jammer on a 30 m mast, 30 km due east of the ship (ECEF, metres).
+[jammer]
+position_ecef_m = [2904623.523, 1381438.498, 5489328.347]
+power_dbw = 17.0
+gain_dbi = 0.0
+jammer_type = "broadband"
+bandwidth_mhz = 20.0

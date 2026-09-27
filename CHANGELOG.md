@@ -9,6 +9,36 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+
+- **Maritime, road and rail scenarios.** Five bundled examples on existing kinds, so
+  ships, road vehicles and trains each have a worked case. Every figure is MODELLED; none
+  is validated against measured data.
+  - `scenarios/maritime-strait-jamming.toml` (`jamming`): a 50 W broadband jammer on a
+    30 m mast, 30 km across open water from a ship. Mean jammer-to-signal ratio (J/S)
+    about 48 dB, and availability falls from 1.00 to 0.00.
+  - `scenarios/maritime-port-approach-coast.toml` (`ins-trn-coast`): a navigation-grade
+    inertial navigation system (INS) at 12 knots with GNSS lost and no aiding. It crosses
+    10 m after 281 s and 100 m after 833 s, the harbour-approach and ocean-waters figures
+    of International Maritime Organization (IMO) Resolution A.1046(27), used here as
+    budgets.
+  - `scenarios/maritime-spoof-position-push.toml` (`spoof-detect`): a +2 dB,
+    non-carrier-aligned spoofer pushing four satellites to drag a ship 500 m. The fused
+    monitor detects it (score 0.70 against a 0.50 threshold) on receiver autonomous
+    integrity monitoring (RAIM) and signal quality monitoring (SQM); power monitoring
+    alone misses it.
+  - `scenarios/automotive-urban-canyon.toml` (`gnss-ins`): a car through a 15 s
+    underpass and a 60 s roadside-jammer outage, against a 1.5 m half-lane budget.
+    Fused outage root-mean-square (RMS) error is 1.9 m for an automotive-class
+    micro-electro-mechanical system (MEMS) unit and 0.7 m for a tactical-grade
+    comparator; free-running, the MEMS unit drifts to 850.8 m.
+  - `scenarios/rail-tunnel-coast.toml` (`ins-trn-coast`): a tactical-grade INS on a
+    train at 160 km/h in a tunnel. It crosses 2 m (track discrimination) after 35.8 s,
+    about 1.6 km in, and 20 m after 107.3 s. This is INS only: the engine has no
+    odometer model, so it is the pessimistic bound.
+  The README scenario-file count moves from 77 to 82. All five are bundled for
+  `kshana example` and listed in the browser playground.
+
 ## [0.28.0] - 2026-09-26
 
 ### Added
