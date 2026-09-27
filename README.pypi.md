@@ -40,7 +40,7 @@ published source.
 > Union's Standards of Fundamental Astronomy library and its open port, Essential Routines
 > for Fundamental Astronomy) · ML (machine-learning) metrics exact
 > vs scikit-learn · **66 of 174** capabilities validated against independent external
-> oracles; 102 honestly labelled Modelled, 4 partner-owned.
+> oracles; 104 honestly labelled Modelled, 4 partner-owned.
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/diagrams/system-overview.png" alt="Kshana system overview: five front doors (command-line interface, Python wheel, WebAssembly playground, Model Context Protocol server, JetBrains plugin) converge on a single api::run_toml dispatch, through the engine, to a reproducible result.json + chart.svg" width="840">
