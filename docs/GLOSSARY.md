@@ -257,6 +257,36 @@ is modelled.
 partner, and Kshana claims nothing about it.* The row exists so the gap is visible
 rather than silent.
 
+## Spectrum and interference terms
+
+These terms appear in the `spectrum` kind; see [`SPECTRUM.md`](SPECTRUM.md).
+
+- **BPSK(n) — binary phase-shift keying at n × 1.023 Mchip/s.** The rectangular-chip
+  modulation of GPS L1 coarse/acquisition (C/A) and L2 civil (L2C) (n = 1) and GPS L5 and Galileo E5a (n = 10). Its
+  spectrum is a sinc² with nulls every n × 1.023 MHz.
+- **BOC(m, n) — binary offset carrier.** A spreading code at n × 1.023 Mchip/s
+  multiplied by a square-wave subcarrier at m × 1.023 MHz, which splits the spectrum
+  into two lobes either side of the carrier.
+- **MBOC(6,1,1/11) — multiplexed binary offset carrier.** The power spectral density
+  10/11 × BOC(1,1) + 1/11 × BOC(6,1), agreed for Galileo E1 open service and GPS L1C;
+  Galileo transmits it as composite BOC (CBOC).
+- **CW — continuous wave.** An unmodulated carrier: a single tone.
+- **J/S — jammer-to-signal ratio.** Received jammer power over received signal power,
+  in decibels.
+- **SSC — spectral separation coefficient.** κ = ∫ G_s(f) G_j(f) df over the receiver
+  band: how much of a unit-power interferer's spectrum lands where the signal's does.
+  The effective carrier-to-noise density is [1/(C/N₀) + (J/S)·κ]⁻¹.
+- **Noise figure.** How much a receiver adds to the thermal noise, as a ratio F in
+  decibels; the system noise temperature is T_ant + 290 K × (F − 1).
+- **Waterfall.** A time-frequency picture of a spectrum: frequency across, time down,
+  colour for power.
+- **Welch estimate.** A power spectral density estimated by averaging windowed,
+  overlapping periodograms (Welch 1967).
+- **SigMF — Signal Metadata Format.** An open recording format: a JSON `.sigmf-meta`
+  file describing a raw `.sigmf-data` file of samples (here complex `cf32_le`,
+  `ci16_le` or `ci8`).
+- **IQ — in-phase and quadrature.** The two components of a complex baseband sample.
+
 ## Integrity & augmentation
 
 Integrity is the *trust* question: not "how big is my error?" but "can I bound it, and
