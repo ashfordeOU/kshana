@@ -1691,6 +1691,34 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
+        // ── Campaigns (composition of existing kinds) ───────────────────────────
+        VerificationItem {
+            requirement: "A chained mission across scenario kinds on one shared timeline",
+            capability: "The `campaign` kind's phases: each phase runs one or more scenarios of existing kinds through run_toml, reads their outputs into named channels (clock time error and guard, mean effective carrier-to-noise density ratio and tracking floor, vertical protection level and alert limit, position error, satellites tracking, alarm flags) by per-kind presets or explicit result paths, places them at the phase start and holds them onto a common grid, with phase boundaries and events; state is handed on by carry (a channel continues from the previous phase's end value), handoff (a previous phase's number written into the next scenario) and end_at (a phase ends at a time a run computed, such as a spoofing monitor's detection time); a campaign hash and a digest over every member result",
+            module: "campaign (run_campaign_detailed, run_chain, presets, extract, to_svg)",
+            tests: "tests/campaign_composition_reference.rs (a_one_phase_clock_campaign_reproduces_the_standalone_run_bit_for_bit, a_one_phase_integrity_campaign_reproduces_the_standalone_run_bit_for_bit, a_one_phase_jamming_campaign_reproduces_the_standalone_run_bit_for_bit — the member result byte-identical to the stand-alone run and every aligned value equal to the stand-alone series; the_chained_mission_hands_state_on_and_ends_the_spoofing_phase_on_detection; a_handoff_writes_the_previous_phase_number_into_the_next_scenario; malformed_campaigns_fail_loudly)",
+            oracle: "Composition identities against the stand-alone runs of the same kinds: a one-phase campaign reproduces the stand-alone output bit for bit, the carried offset equals the previous run's own last sample, and the phase ended by end_at has exactly the run's detection time as its length. The additive carry across a phase boundary and the zero-order hold are modelling choices, and each phase is as good as the kind that ran it; no chained mission has been checked against a measured one",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
+            requirement: "Parameter sweeps and seeded Monte Carlo ensembles over any scenario kind",
+            capability: "The `campaign` kind's sweep (one to three dotted keys of any kind, on the generic sweep's axis values, optionally an ensemble at every node) and monte_carlo sections: realisation k runs at base_seed + k; each metric reports mean, standard deviation, nearest-rank 5th/50th/95th percentiles and a fixed-seed percentile-bootstrap 95% confidence interval on the mean (inertial::metric_stat); metric units read from the swept kind's own units block",
+            module: "campaign (run_sweep, run_monte_carlo, ensemble); sweep (GenericAxis, coords_of, set_dotted_value); inertial (metric_stat)",
+            tests: "tests/campaign_composition_reference.rs (a_fixed_seed_ensemble_is_byte_stable_and_each_realisation_is_the_standalone_run; the_ensemble_mean_and_spread_match_the_white_fm_closed_form — 200 seeds of a white-frequency-noise clock coasting tau = 3010 s: the true mean 0 inside the reported interval, the interval half-width within 25% of 1.96 sigma/sqrt(n), and the sample variance inside the two-sided 99% chi-square interval of sigma = sqrt(q_wf tau) = 16.459 ns; a_one_node_sweep_and_a_one_member_composition_read_the_standalone_number)",
+            oracle: "The closed form of the phase random walk under white frequency noise, variance q_wf tau (NIST Technical Note 1337), for the statistics machinery, and byte equality with the stand-alone runs for the seeding. It checks the ensemble arithmetic on the engine's own clock model, not an external dataset",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
+            requirement: "Several scenarios under shared conditions, with a combined summary",
+            capability: "The `campaign` kind's compose section: named shared values (for example one jammer's power and position) written into each member at the keys it binds them to, every member run, and per metric the smallest, largest and mean value across the members with the member named; metric units must agree across members",
+            module: "campaign (run_compose)",
+            tests: "tests/campaign_composition_reference.rs (a_one_node_sweep_and_a_one_member_composition_read_the_standalone_number — a one-member composition reads the stand-alone number and result digest)",
+            oracle: "Composition identity against the stand-alone run. The shared-condition arithmetic is bookkeeping; the physics is that of the member kinds, each with its own row",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
     ]
 }
 

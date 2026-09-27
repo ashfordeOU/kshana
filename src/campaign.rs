@@ -175,6 +175,24 @@ pub struct RunCfg {
     /// Explicit events; replaces the kind's preset events when given.
     #[serde(default)]
     pub events: Option<Vec<EventSpec>>,
+    /// Explicit alarm rules over this phase's channels; replaces the kind's preset
+    /// rules when given.
+    #[serde(default)]
+    pub alarms: Option<Vec<AlarmRule>>,
+}
+
+/// An alarm raised from a channel of the phase, evaluated after `carry`, so a carried
+/// clock error is compared against its guard as the mission sees it.
+#[derive(Clone, Debug, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+pub struct AlarmRule {
+    /// The channel compared.
+    pub channel: String,
+    /// `below`, `above` or `abs_above`.
+    pub compare: String,
+    /// A number, `channel:<name>` for another channel of the phase at the same time,
+    /// or a result path of the run.
+    pub threshold: Threshold,
 }
 
 /// A threshold: a number, or a result path (prefix `input:` for a scenario key).
@@ -892,6 +910,27 @@ fn alarm_spec(t: &str, y: &str, compare: &str, thr: Threshold) -> SeriesSpec {
     }
 }
 
+fn rule(channel: &str, compare: &str, against: &str) -> AlarmRule {
+    AlarmRule {
+        channel: channel.into(),
+        compare: compare.into(),
+        threshold: Threshold::Path(format!("channel:{against}")),
+    }
+}
+
+/// The preset alarm rules of a kind: the ones compared on a channel after `carry`.
+fn preset_rules(kind: &str) -> Vec<AlarmRule> {
+    match kind {
+        "clock" => vec![rule("time_error_ns", "abs_above", "guard_ns")],
+        "gnss-ins" => vec![rule(
+            "position_error_m",
+            "abs_above",
+            "position_threshold_m",
+        )],
+        _ => vec![],
+    }
+}
+
 /// The preset series and events of a kind, reading clock or sensor `side`.
 fn presets(kind: &str, side: &str) -> (Vec<SeriesSpec>, Vec<EventSpec>) {
     let st = format!("{side}.series[].t");
@@ -900,12 +939,6 @@ fn presets(kind: &str, side: &str) -> (Vec<SeriesSpec>, Vec<EventSpec>) {
             vec![
                 spec("time_error_ns", &st, &format!("{side}.series[].error_ns")),
                 spec("guard_ns", &st, "threshold_ns"),
-                alarm_spec(
-                    &st,
-                    &format!("{side}.series[].error_ns"),
-                    "abs_above",
-                    Threshold::Path("threshold_ns".into()),
-                ),
             ],
             vec![],
         ),
@@ -925,12 +958,6 @@ fn presets(kind: &str, side: &str) -> (Vec<SeriesSpec>, Vec<EventSpec>) {
             vec![
                 spec("position_error_m", &st, &format!("{side}.series[].error_m")),
                 spec("position_threshold_m", &st, "threshold_m"),
-                alarm_spec(
-                    &st,
-                    &format!("{side}.series[].error_m"),
-                    "abs_above",
-                    Threshold::Path("threshold_m".into()),
-                ),
             ],
             vec![],
         ),
@@ -1104,6 +1131,12 @@ fn extract(m: &Member, s: &SeriesSpec) -> Result<Option<Vec<(f64, f64)>>, String
 // The chain
 // ---------------------------------------------------------------------------
 
+/// The threshold of an alarm rule, resolved.
+enum RuleThreshold {
+    Value(f64),
+    Channel(String),
+}
+
 /// One channel's samples within one phase, on mission time.
 #[derive(Clone, Debug)]
 struct ChanSamples {
@@ -1257,6 +1290,7 @@ fn run_chain(
             alarm_events: Vec::new(),
         };
         let mut runs_out = Vec::with_capacity(members.len());
+        let mut rules: Vec<(String, String, RuleThreshold)> = Vec::new();
         for (rc, m) in ph.runs.iter().zip(&members) {
             let side = rc.side.as_deref().unwrap_or("classical");
             if !matches!(side, "classical" | "quantum") {
@@ -1271,6 +1305,24 @@ fn run_chain(
             let (pre_s, pre_e) = presets(&m.kind, side);
             let specs = rc.series.clone().unwrap_or(pre_s);
             let evs = rc.events.clone().unwrap_or(pre_e);
+            for r in rc.alarms.clone().unwrap_or_else(|| preset_rules(&m.kind)) {
+                if !matches!(r.compare.as_str(), "below" | "above" | "abs_above") {
+                    return Err(format!(
+                        "phase `{}`: alarm compare `{}` is not below, above or abs_above",
+                        ph.name, r.compare
+                    ));
+                }
+                let thr = match &r.threshold {
+                    Threshold::Value(v) => RuleThreshold::Value(*v),
+                    Threshold::Path(p) => match p.strip_prefix("channel:") {
+                        Some(c) => RuleThreshold::Channel(c.to_string()),
+                        None => RuleThreshold::Value(eval_scalar(&m.doc, p)?.ok_or_else(|| {
+                            format!("phase `{}`: alarm threshold `{p}` is null", ph.name)
+                        })?),
+                    },
+                };
+                rules.push((r.channel.clone(), r.compare.clone(), thr));
+            }
             let in_phase = |tl: f64| tl >= -T_EPS && (tl <= dur || close(tl, dur));
             let mut chans = Vec::new();
             for s in &specs {
@@ -1375,6 +1427,34 @@ fn run_chain(
                 s.1 += offset;
             }
             carried.insert(ch.clone(), *offset);
+        }
+        // Alarm rules compare channels as the mission sees them, after the carry.
+        for (ch, compare, thr) in &rules {
+            let Some(c) = state.channels.get(ch) else {
+                continue;
+            };
+            let mut flags = Vec::with_capacity(c.samples.len());
+            for &(t, v) in &c.samples {
+                let th = match thr {
+                    RuleThreshold::Value(x) => Some(*x),
+                    RuleThreshold::Channel(o) => {
+                        state.channels.get(o).and_then(|oc| hold(&oc.samples, t))
+                    }
+                };
+                let f = match th {
+                    Some(th) if v.is_finite() && th.is_finite() => {
+                        let up = match compare.as_str() {
+                            "below" => v < th,
+                            "above" => v > th,
+                            _ => v.abs() > th,
+                        };
+                        f64::from(u8::from(up))
+                    }
+                    _ => f64::NAN,
+                };
+                flags.push((t, f));
+            }
+            state.alarm_series.push(flags);
         }
         prev_end = state
             .channels
@@ -2754,4 +2834,43 @@ pub fn to_svg(r: &CampaignResult) -> String {
 pub fn run_all(src: &str) -> Result<(String, String, String), String> {
     let r = run_campaign(src)?;
     Ok((to_json(&r)?, summary(&r), to_svg(&r)))
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use serde_json::json;
+
+    #[test]
+    fn paths_index_rows_and_the_last_element() {
+        let d = json!({"a": {"rows": [{"t": 0.0, "v": [1.0, 3.0]}, {"t": 10.0, "v": [5.0]}]},
+                       "flag": true, "n": null});
+        assert_eq!(eval_scalar(&d, "a.rows[-1].t").unwrap(), Some(10.0));
+        assert_eq!(eval_scalar(&d, "a.rows[0].v[1]").unwrap(), Some(3.0));
+        assert_eq!(eval_scalar(&d, "flag").unwrap(), Some(1.0));
+        assert_eq!(eval_scalar(&d, "n").unwrap(), None);
+        assert!(eval_scalar(&d, "a.rows[].t").is_err());
+        assert!(eval_scalar(&d, "a.rows[2].t").is_err());
+        match eval_rows(&d, "a.rows[].v").unwrap() {
+            Rows::Rows(r) => assert_eq!(r, vec![vec![1.0, 3.0], vec![5.0]]),
+            Rows::Scalar(_) => panic!("expected rows"),
+        }
+        assert_eq!(canonical_path("a.rows[-1].v[0]"), "a.rows[].v[]");
+    }
+
+    #[test]
+    fn hold_takes_the_latest_sample_at_or_before() {
+        let s = [(0.0, 1.0), (30.0, 2.0), (60.0, 3.0)];
+        assert_eq!(hold(&s, -1.0), None);
+        assert_eq!(hold(&s, 0.0), Some(1.0));
+        assert_eq!(hold(&s, 59.0), Some(2.0));
+        assert_eq!(hold(&s, 60.0), Some(3.0));
+    }
+
+    #[test]
+    fn names_are_restricted_to_path_safe_characters() {
+        assert!(check_name("x", "ship-strait_2").is_ok());
+        assert!(check_name("x", "a.b").is_err());
+        assert!(check_name("x", "").is_err());
+    }
 }
