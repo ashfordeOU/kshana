@@ -90,6 +90,17 @@ const SCENARIOS = [
     "Multi-layer spoof detect", "Can a fused RF + measurement monitor catch a coordinated spoof?"],
   ["conflict-resilience.toml", "Conflict resilience — layered-PNT Monte-Carlo + per-vector survival (modelled)",
     "Conflict resilience", "How does a layered PNT architecture degrade under jamming / spoofing / kinetic / cyber threats? (modelled)"],
+  // Maritime, road and rail
+  ["maritime-strait-jamming.toml", "Maritime jamming — a 50 W jammer 30 km across open water (modelled)",
+    "Maritime jamming", "How far across the sea does a modest jammer take GNSS away from a ship? (modelled)"],
+  ["maritime-port-approach-coast.toml", "Maritime port approach — INS coast against the 10 m / 100 m budgets (modelled)",
+    "Port approach coast", "With GNSS jammed, how long does a ship's INS stay inside the harbour-approach budget? (modelled)"],
+  ["maritime-spoof-position-push.toml", "Maritime spoofing — a 500 m position push on a ship (modelled)",
+    "Maritime spoofing", "Would a ship's receiver monitors catch a spoofer dragging its position? (modelled)"],
+  ["automotive-urban-canyon.toml", "Road vehicle — GNSS/INS through an underpass and a roadside jammer (modelled)",
+    "Urban canyon drive", "Does a car's GNSS/INS solution stay inside half a lane through two outages? (modelled)"],
+  ["rail-tunnel-coast.toml", "Rail tunnel — INS-only coast against track discrimination (modelled)",
+    "Rail tunnel coast", "How long a tunnel can a train's INS bridge before it cannot tell parallel tracks apart? (modelled)"],
   // Alt-PNT (GPS-denied)
   ["terrain-nav.toml", "Terrain-referenced nav — TERCOM/SITAN batch match",
     "Terrain nav", "Can an altimeter fix INS drift by matching a terrain elevation profile?"],
