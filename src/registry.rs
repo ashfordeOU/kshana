@@ -103,6 +103,7 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         LunarLlrDatum,
         TelecomTiming,
         SlotTiming,
+        Campaign,
     ]
 };
 
@@ -198,6 +199,9 @@ pub mod ids {
     /// Seconds until a free-running clock leaves a time-indexed slot's guard, the fix
     /// cadence that keeps it inside, and an optional orbital timing protection level.
     pub const SLOT_TIMING: ScenarioId = ScenarioId::from_static("slot-timing");
+    /// Existing kinds composed into a chained mission timeline, a parameter grid, a
+    /// seeded Monte Carlo ensemble, or members run under shared conditions.
+    pub const CAMPAIGN: ScenarioId = ScenarioId::from_static("campaign");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {
