@@ -103,6 +103,7 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         LunarLlrDatum,
         TelecomTiming,
         SlotTiming,
+        ConstellationDesign,
     ]
 };
 
@@ -198,6 +199,9 @@ pub mod ids {
     /// Seconds until a free-running clock leaves a time-indexed slot's guard, the fix
     /// cadence that keeps it inside, and an optional orbital timing protection level.
     pub const SLOT_TIMING: ScenarioId = ScenarioId::from_static("slot-timing");
+    /// Walker, explicit and preset constellations around any body, with a coverage and
+    /// dilution-of-precision grid map.
+    pub const CONSTELLATION_DESIGN: ScenarioId = ScenarioId::from_static("constellation-design");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {
