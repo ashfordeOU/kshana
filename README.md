@@ -405,7 +405,19 @@ cargo run -- scenarios/orbit-sgp4-gps.toml --eop tests/fixtures/agency/eop/final
 # Run a SUITE of scenarios into one aggregated, stamped study artifact
 # (writes <suite>.study.json + <suite>.study.html next to the manifest):
 cargo run -- --study scenarios/quantum-pnt-demonstrator.suite.toml
+
+# Animate a run's time series: an animated SVG, a self-contained HTML player, and a
+# numbered SVG frame sequence with manifest.json (see docs/ANIMATION.md):
+cargo run -- scenarios/campaign-jam-spoof-holdover-integrity.toml --animate all
 ```
+
+**Animation export.** `--animate svg|html|frames|all` writes `<scenario>.animation.svg`
+(Cascading Style Sheets (CSS) keyframes, no script), `<scenario>.animation.html` (play, pause, scrub, speed and
+synced panels, with no external asset) and `<scenario>.frames/` (`frame_0000.svg`, … plus
+`manifest.json` with the frames per second and duration). A campaign plays its phases and
+alarms, a spectrum run its waterfall; the theme follows `prefers-color-scheme` and
+`prefers-reduced-motion` shows the finished picture. It renders the run's own samples,
+byte-identical on a re-run, and adds no evidence. See [docs/ANIMATION.md](docs/ANIMATION.md).
 
 A **suite** manifest is a small TOML (Tom's Obvious, Minimal Language) file — a `title` and a `scenarios = [ … ]` array of
 scenario paths — that the engine runs in turn, folding every result (with its
