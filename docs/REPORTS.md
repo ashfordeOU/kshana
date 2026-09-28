@@ -55,6 +55,16 @@ ran; `sweep-nd` carries the rows of the kind it swept. Every run also carries th
 "Reproducibility & software assurance" row, which is what the reproducibility record
 rests on.
 
+A row that grades only one input path of a kind is listed only when the run took that
+path (`advanced_report::PATH_GATED_CAPABILITIES`): `orbit` and `ephemeris` carry the
+"Orbit propagation & determination" row only with a `tle` (the Simplified General
+Perturbations 4 (SGP4) path; an analytic orbit is a two-body propagation), and
+`slot-timing` carries the measured-record row only with an `oscillator.record`. The
+Shuttle Radar Topography Mission (SRTM) reader row is carried by no kind: `terrain-nav`
+and `terrain-slam` run on a synthetic digital elevation model (DEM), and no scenario field
+reads an SRTM tile. A VALIDATED row the run never touched would otherwise claim evidence
+the run does not have.
+
 ## Reproducing a run from its report
 
 `report.json` → `reproducibility` holds everything needed:

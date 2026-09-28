@@ -105,8 +105,8 @@ pub const KIND_CAPABILITIES: &[(&str, &[&str])] = &[
     ("earth-gnss-lunar", &["Earth-GNSS at lunar distance", "Navigation RF payload & antenna hardware design"]),
     ("lunar-interop-export", &["Lunar interoperability export"]),
     ("gravity-map", &["Alternative / complementary PNT"]),
-    ("terrain-nav", &["Alternative / complementary PNT", "SRTM digital-elevation reader on real terrain"]),
-    ("terrain-slam", &["Alternative / complementary PNT", "SRTM digital-elevation reader on real terrain"]),
+    ("terrain-nav", &["Alternative / complementary PNT"]),
+    ("terrain-slam", &["Alternative / complementary PNT"]),
     ("combined-altpnt", &["Alternative / complementary PNT"]),
     ("pvt", &["Broadcast-ephemeris satellite position (multi-GNSS RINEX)"]),
     ("mars-pnt", &["Batch & sequential orbit determination", "Onboard clock state estimation"]),
@@ -142,6 +142,41 @@ pub const KIND_CAPABILITIES: &[(&str, &[&str])] = &[
     ("constellation-design", &["Walker constellation geometry and the published nominal slots of GPS, Galileo and GLONASS", "Global dilution of precision of the GPS baseline constellation", "Coverage and dilution-of-precision maps for arbitrary multi-constellation designs at scale, around any central body"]),
     ("campaign", &[]),
 ];
+
+/// Rows a kind exercises only on one input path, as (kind, matrix `requirement`, scenario
+/// key). The row is listed for that kind only when the scenario carries the key somewhere
+/// in its tree; otherwise the run took another path and the row, often a VALIDATED one,
+/// would claim evidence the run never touched.
+///
+/// * `orbit` and `ephemeris` reach SGP4 only through a `tle`; an analytic orbit is a
+///   two-body (optionally J2) propagation, which the SGP4-anchored row does not grade.
+/// * `slot-timing` reaches the measured-record path only through `oscillator.record`; a
+///   class, preset or datasheet oscillator is the modelled path.
+///
+/// The SRTM reader row ("SRTM digital-elevation reader on real terrain") is mapped to no
+/// kind at all: `terrain-nav` and `terrain-slam` run on the synthetic DEM
+/// (`DemGrid::synthetic_fixture`, keyed by `dem_seed`) and no scenario field reaches
+/// `DemGrid::from_srtm_hgt`.
+pub const PATH_GATED_CAPABILITIES: &[(&str, &str, &str)] = &[
+    ("orbit", "Orbit propagation & determination", "tle"),
+    ("ephemeris", "Orbit propagation & determination", "tle"),
+    (
+        "slot-timing",
+        "Holdover prediction from a measured clock record, checked on held-out data",
+        "record",
+    ),
+];
+
+/// Whether `key` names a field anywhere in the scenario tree.
+fn scenario_has_key(v: &Value, key: &str) -> bool {
+    match v {
+        Value::Object(m) => m
+            .iter()
+            .any(|(k, val)| k == key || scenario_has_key(val, key)),
+        Value::Array(a) => a.iter().any(|e| scenario_has_key(e, key)),
+        _ => false,
+    }
+}
 
 /// The matrix row every run exercises: the result hashing, seeding and determinism
 /// discipline this report's reproducibility record rests on.
@@ -1274,6 +1309,7 @@ fn status_tag(s: VerificationStatus) -> &'static str {
 fn build_capabilities(
     kind: &str,
     members: &BTreeSet<String>,
+    scn: &Value,
     doc: &Value,
     matrix: &[VerificationItem],
 ) -> Capabilities {
@@ -1290,6 +1326,14 @@ fn build_capabilities(
     for k in &kinds {
         if let Some(reqs) = capabilities_for_kind(k) {
             for r in reqs {
+                let gated = PATH_GATED_CAPABILITIES
+                    .iter()
+                    .find(|(gk, gr, _)| gk == k && gr == r);
+                if let Some((_, _, key)) = gated {
+                    if !scenario_has_key(scn, key) {
+                        continue;
+                    }
+                }
                 add(r, k);
             }
         }
@@ -2109,7 +2153,7 @@ pub fn build(out: &crate::api::RunOutput, src: &str, inv: &Invocation) -> Result
         .unwrap_or_else(|| format!("A `{kind}` scenario."));
 
     let members = member_kinds(&scn, &doc, &known);
-    let caps = build_capabilities(&kind, &members, &doc, &matrix);
+    let caps = build_capabilities(&kind, &members, &scn, &doc, &matrix);
 
     let mut charts = vec![ChartRef {
         id: "primary".to_string(),
@@ -2415,7 +2459,7 @@ svg .ax{stroke:var(--line)}svg .bar{fill:var(--accent);opacity:.8}svg .pt{fill:v
 footer{margin-top:36px;padding-top:10px;border-top:1px solid var(--line);font-size:.8rem;color:var(--muted)}
 @page{margin:15mm 14mm 16mm}
 @media print{
-:root,:root[data-theme="dark"]{--bg:#fff;--fg:#000;--muted:#444;--line:#999;--card:#f2f2f2;--accent:#000;--val:#000;--mod:#000;--par:#000;color-scheme:light}
+:root,:root:not([data-theme="light"]),:root[data-theme="dark"]{--bg:#fff;--fg:#000;--muted:#444;--line:#999;--card:#f2f2f2;--accent:#000;--val:#000;--mod:#000;--par:#000;color-scheme:light}
 body{max-width:none;padding:0 1px;font-size:9.5pt;background:#fff}
 nav.toc{display:none}
 h1{font-size:18pt}h2{font-size:12.5pt;break-after:avoid-page;page-break-after:avoid}h3{break-after:avoid-page;page-break-after:avoid}
@@ -2976,6 +3020,32 @@ fn render_html(r: &Report, chart_svg: &str) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn every_path_gate_names_a_row_its_kind_maps_to() {
+        for (k, r, key) in PATH_GATED_CAPABILITIES {
+            let reqs = capabilities_for_kind(k).expect("gated kind is built in");
+            assert!(
+                reqs.contains(r),
+                "gate ({k}, {r:?}, {key}) names an unmapped row"
+            );
+        }
+        // No scenario field reaches the SRTM reader, so no kind may claim it.
+        for (k, reqs) in KIND_CAPABILITIES {
+            assert!(
+                !reqs.contains(&"SRTM digital-elevation reader on real terrain"),
+                "kind {k} claims the SRTM reader row, which no scenario path reaches"
+            );
+        }
+    }
+
+    #[test]
+    fn the_print_palette_overrides_the_dark_palette() {
+        // The dark palette's selector is `:root:not([data-theme="light"])`; a print rule
+        // with a lower specificity would print light text on the white print background.
+        let print = &STYLE[STYLE.find("@media print").expect("print block")..];
+        assert!(print.contains(r#":root:not([data-theme="light"])"#));
+    }
 
     #[test]
     fn every_builtin_kind_has_a_crosswalk_entry_and_every_requirement_resolves() {

@@ -23,7 +23,11 @@ breaking changes are called out explicitly.
   chain phase table, or the composition's members and combined summary (and the grid of a
   `sweep` or `sweep-nd` run); an events timeline; the VALIDATED / MODELLED / PARTNER label,
   oracle and test evidence of every verification-matrix row the run's kinds exercise, read
-  from the matrix through a kind-to-row crosswalk; the not-modelled statements and
+  from the matrix through a kind-to-row crosswalk (a row that grades one input path, such
+  as the Simplified General Perturbations 4 (SGP4) path of `orbit` or the measured-record
+  path of `slot-timing`, is listed only when the run took that path, and the Shuttle
+  Radar Topography Mission (SRTM) reader row is listed for no kind, since no scenario
+  field reads an SRTM tile); the not-modelled statements and
   assumptions, each quoted with its source; and a reproducibility record (engine version,
   the source commit when the build sets `KSHANA_GIT_COMMIT`, Secure Hash Algorithm 256-bit
   (SHA-256) digests of the scenario file and the result document, seed, platform and the
