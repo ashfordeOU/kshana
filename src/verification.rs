@@ -65,6 +65,29 @@ pub enum OracleKind {
     NoneKind,
 }
 
+impl OracleKind {
+    /// Why a MODELLED row backed by this oracle kind is not an external validation: the
+    /// sentence `docs/MODELLED-RATIONALE.md` prints for each such row, and the advanced
+    /// run report quotes.
+    pub fn modelled_reason(self) -> &'static str {
+        match self {
+            OracleKind::ReferenceImpl => {
+                "checked against a separate implementation in this same codebase — \
+                 independent of the unit under test, but not externally authoritative"
+            }
+            OracleKind::InternalConsistency => {
+                "checked against its own closed-form / analytic identity — catches \
+                 transcription and coefficient errors, but is not an external oracle"
+            }
+            OracleKind::ExternalDataset => {
+                "a sub-claim is externally checked, but the whole capability composes \
+                 modelled pieces, so the capability stays Modelled"
+            }
+            OracleKind::NoneKind => "no oracle",
+        }
+    }
+}
+
 /// Verification status of a capability row, with the evidence each level requires.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, serde::Serialize)]
 pub enum VerificationStatus {
@@ -2133,23 +2156,7 @@ mod artifacts {
     /// Render the Modelled rows as a rationale table: each carries the honest reason
     /// it is *not* externally validated (its [`OracleKind`] + the oracle text).
     pub fn to_modelled_rationale_md(items: &[VerificationItem]) -> String {
-        let why = |k: OracleKind| -> &'static str {
-            match k {
-                OracleKind::ReferenceImpl => {
-                    "checked against a separate implementation in this same codebase — \
-                     independent of the unit under test, but not externally authoritative"
-                }
-                OracleKind::InternalConsistency => {
-                    "checked against its own closed-form / analytic identity — catches \
-                     transcription and coefficient errors, but is not an external oracle"
-                }
-                OracleKind::ExternalDataset => {
-                    "a sub-claim is externally checked, but the whole capability composes \
-                     modelled pieces, so the capability stays Modelled"
-                }
-                OracleKind::NoneKind => "no oracle",
-            }
-        };
+        let why = |k: OracleKind| -> &'static str { k.modelled_reason() };
         let mut out = String::new();
         out.push_str("# Modelled capabilities — rationale\n\n");
         out.push_str(
