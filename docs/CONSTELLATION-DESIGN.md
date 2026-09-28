@@ -1,7 +1,9 @@
 # Constellation design
 
 The `constellation-design` kind builds one or more satellite constellations around the
-Earth, the Moon or Mars and maps their coverage and dilution of precision (DOP) over a
+Earth, the Moon, Mars or any other body in the solar-system catalogue (`src/body.rs`: every
+planet, Pluto and the major moons, with the same constants the `solar-system` and `body-pnt`
+kinds use) and maps their coverage and dilution of precision (DOP) over a
 latitude/longitude grid. Source: `src/constellation.rs`.
 
 ## What goes in
