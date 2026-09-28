@@ -4331,7 +4331,7 @@
       "oracle_kind": "ExternalDataset",
       "oracle": "Published figures reproduced from the stated orbit and carrier: Iridium Doppler up to plus or minus 36 kHz (Resilient Navigation and Timing Foundation, Recent PNT improvements and test results based on LEO satellites) and Xona Pulsar X1 maximum Doppler 32 to 34 kHz (Leclère, Marathe and Reid, ION GNSS+ 2025, arXiv:2509.19551). The Iridium figure is a rounded upper bound, hence the 5% bar. The Doppler rate and jerk are reported but not validated: the modelled overhead-pass jerk of Pulsar X1 is about 1.0 Hz/s^2 against the published 1.26",
       "module": "leo_fusion::geom (EarthOrbit); leo_fusion::doppler (range_rate, doppler_envelope)",
-      "tests": "tests/leo_doppler_reference.rs (iridium_doppler_reaches_the_published_36_khz: one satellite at 780 km and 86.4 deg flown for a day at 1621 MHz over four latitudes, maximum within 5% of 36 kHz; xona_pulsar_x1_doppler_lies_in_the_published_32_to_34_khz: 1080 km, 1593.3225 MHz, maximum inside 32 to 34 kHz widened by 2%); leo_fusion::geom::tests (velocity_is_the_time_derivative_of_the_position)",
+      "tests": "tests/leo_doppler_reference.rs (iridium_doppler_reaches_the_published_36_khz: one satellite at 780 km and 86.4 deg flown for a day at 1621 MHz over four latitudes, maximum within 5% of 36 kHz; xona_pulsar_x1_doppler_lies_in_the_published_32_to_34_khz: one satellite of each published shell, 1080 km at 53 and 97 deg, 1593.3225 MHz, the constellation maximum inside 32 to 34 kHz with no widening (33.6 kHz, set by the 97 deg shell; the 53 deg shell alone peaks at 31.8 kHz)); leo_fusion::geom::tests (velocity_is_the_time_derivative_of_the_position)",
       "module_links": [
         {
           "path": "src/leo_fusion/geom.rs",
