@@ -92,6 +92,24 @@ The integrity runs use the `integrity` example's own user track (a 0.4 km-altitu
 circular track), not the jamming receiver's fixed site, and the 25 deg mask stands in for
 the partial sky of a reacquiring receiver. Those are scenario choices, stated in the file.
 
+### A mission driven by the L-band spectrum
+
+`scenarios/campaign-spectrum-holdover-integrity.toml` runs 8 member scenarios over three
+phases on a 1 s grid, with the C/N0 of GPS L1 C/A and Galileo E1 read from the `spectrum`
+kind (see [SPECTRUM.md](SPECTRUM.md)) rather than from the `jamming` kind's per-satellite
+table. The jammers are the ones in `scenarios/l-band-waterfall-jamming.toml`.
+
+| Phase | Runs | What the timeline shows |
+|---|---|---|
+| onset, ended at 10 s by `end_at` | `clock`, `spectrum` (chirp from 10 s), `integrity` | L1 C/A 43.48 and E1 44.98 dB-Hz; the phase ends at the spectrum run's own first loss of L1 C/A (`timeline.bands[0].first_loss_t_s`); protection level 21.6 m against 50 m |
+| holdover, 600 s | `clock` (denied, carries the onset error, 0 ns here), `spectrum` (chirp on) | L1 C/A 3.38 and E1 4.69 dB-Hz, both below the 25 dB-Hz floor; time error -0.07 to 5.06 ns against the 50 ns guard; alarm up |
+| galileo-fallback, 300 s | `clock` (re-synchronised), `spectrum` (CW tone on the L1 carrier), `integrity` on a Galileo-like Walker 24/3/1 | L1 C/A held at 17.98 dB-Hz, E1 back to 44.98 dB-Hz; protection level 6.1 to 17.7 m; alarm quiet |
+
+E1 recovering under the CW tone rests on the spectrum kind's continuous-spectrum
+treatment: the tone sits in the null of the MBOC spectrum and couples nothing. A real tone
+would couple through the code's spectral lines; that is stated in the file and in
+SPECTRUM.md.
+
 ## `[sweep]`: a parameter grid over any kind
 
 One to three dotted scenario keys, each over a linear or logarithmic range, on the same
@@ -157,6 +175,10 @@ WebAssembly build. Campaigns may not contain campaigns.
   standard deviation, 14.93 ns, gives a chi-square statistic of 164.5 on 199 degrees of
   freedom, inside the two-sided 99% interval [151.37, 254.14]. At 3000 seeds the same
   scenario gives 16.31 ns.
+- **The spectrum-driven chain** reads the stand-alone numbers: the onset phase lasts
+  exactly the spectrum run's first-loss time, and every L1 C/A and E1 value on the
+  timeline equals, to 1e-9 dB, the stand-alone waterfall example's row for the same
+  jammer state (nominal, chirp alone, CW tone alone).
 - **The chain** hands state on as documented: the spoofing phase lasts exactly the spoof
   run's detection time, the holdover carries exactly the spoof run's offset at detection,
   recovery carries nothing, and the alarm is up wherever the protection level is missing or

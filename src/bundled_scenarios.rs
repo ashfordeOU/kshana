@@ -33,6 +33,7 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("campaign-jam-spoof-holdover-integrity"),
     bundled!("campaign-monte-carlo-clock-holdover"),
     bundled!("campaign-shared-jammer-sea-road"),
+    bundled!("campaign-spectrum-holdover-integrity"),
     bundled!("campaign-sweep-jammer-power"),
     bundled!("cislunar-arc-recovery"),
     bundled!("cislunar-observability"),

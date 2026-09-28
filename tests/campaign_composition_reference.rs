@@ -422,6 +422,101 @@ fn the_chained_mission_hands_state_on_and_ends_the_spoofing_phase_on_detection()
 }
 
 #[test]
+fn the_spectrum_campaign_reads_the_standalone_spectrum_numbers_and_ends_onset_at_first_loss() {
+    // Cross-kind chain: the `spectrum` kind drives the mission's C/N0 channels. The
+    // onset phase must end at the spectrum run's own first loss of L1 C/A, and every
+    // C/N0 value on the timeline must equal what the stand-alone waterfall example
+    // (scenarios/l-band-waterfall-jamming.toml, the same jammers) computes for the
+    // same jammer state: chirp alone (its row at 15 s) and CW tone alone on L1 (its
+    // row at 50 s, where the L2 narrowband jammer touches neither L1 C/A nor E1).
+    let src = read("scenarios/campaign-spectrum-holdover-integrity.toml");
+    let run = kshana::campaign::run_campaign_detailed(&src).unwrap();
+    let t = run.result.timeline.as_ref().unwrap();
+    let names: Vec<&str> = t.phases.iter().map(|p| p.name.as_str()).collect();
+    assert_eq!(names, ["onset", "holdover", "galileo-fallback"]);
+    for w in t.phases.windows(2) {
+        assert_eq!(w[0].t1_s, w[1].t0_s);
+    }
+    let onset_spec: Value = run
+        .member_results
+        .iter()
+        .find(|(l, _)| l == "phase onset/run 1")
+        .map(|(_, j)| serde_json::from_str(j).unwrap())
+        .unwrap();
+    assert_eq!(onset_spec["kind"], "spectrum");
+    let first_loss = onset_spec["timeline"]["bands"][0]["first_loss_t_s"]
+        .as_f64()
+        .unwrap();
+    assert_eq!(first_loss, 10.0);
+    assert_eq!(t.phases[0].t1_s - t.phases[0].t0_s, first_loss);
+    assert!(t.phases[0].ended_by.starts_with("end_at"));
+
+    let alone: Value = serde_json::from_str(
+        &kshana::api::run_toml(&read("scenarios/l-band-waterfall-jamming.toml"))
+            .unwrap()
+            .json,
+    )
+    .unwrap();
+    let row = |band: usize, at_s: f64| -> f64 {
+        let ts = alone["timeline"]["t_s"].as_array().unwrap();
+        let k = ts.iter().position(|x| x.as_f64().unwrap() == at_s).unwrap();
+        let b = &alone["timeline"]["bands"][band];
+        b["cn0_effective_dbhz"][k].as_f64().unwrap()
+    };
+    let (l1_nominal, e1_nominal) = (row(0, 0.0), row(1, 0.0));
+    let (l1_chirp, e1_chirp) = (row(0, 15.0), row(1, 15.0));
+    let (l1_cw, e1_cw) = (row(0, 50.0), row(1, 50.0));
+    // The picture the campaign is built to show: the chirp takes both bands below the
+    // 25 dB-Hz floor, and the CW tone keeps L1 C/A below it while E1 recovers.
+    assert!(l1_chirp < 25.0 && e1_chirp < 25.0);
+    assert!(l1_cw < 25.0 && e1_cw > 25.0);
+
+    let l1 = &t.channels["cn0_l1ca_dbhz"].values;
+    let e1 = &t.channels["cn0_e1_dbhz"].values;
+    let alarm = &t.channels["alarm"].values;
+    let close = |a: Option<f64>, b: f64| (a.unwrap() - b).abs() < 1e-9;
+    for (i, (want_l1, want_e1, want_alarm)) in [
+        (l1_nominal, e1_nominal, 0.0),
+        (l1_chirp, e1_chirp, 1.0),
+        (l1_cw, e1_cw, 0.0),
+    ]
+    .into_iter()
+    .enumerate()
+    {
+        let p = &t.phases[i];
+        let mut n = 0;
+        for (k, &x) in t.t_s.iter().enumerate() {
+            if x >= p.t0_s && x < p.t1_s {
+                n += 1;
+                assert!(close(l1[k], want_l1), "L1 C/A at {x} s in {}", p.name);
+                assert!(close(e1[k], want_e1), "E1 at {x} s in {}", p.name);
+                assert_eq!(alarm[k], Some(want_alarm), "alarm at {x} s in {}", p.name);
+            }
+        }
+        assert!(n > 0, "phase {} has no grid samples", p.name);
+    }
+    // Holdover carries the onset clock error; the Galileo fallback re-synchronises.
+    assert!(t.phases[1].carried.contains_key("time_error_ns"));
+    assert!(t.phases[2].carried.is_empty());
+    // The fallback's integrity monitor runs on the Galileo-like sky and forms a
+    // protection level inside the alert limit.
+    let pl = &t.channels["protection_level_m"].values;
+    let al = &t.channels["alert_limit_m"].values;
+    let p = &t.phases[2];
+    for (k, &x) in t.t_s.iter().enumerate() {
+        if x >= p.t0_s && x < p.t1_s {
+            assert!(pl[k].unwrap() < al[k].unwrap(), "PL above AL at {x} s");
+        }
+    }
+    let doc: Value =
+        serde_json::from_str(&kshana::campaign::to_json(&run.result).unwrap()).unwrap();
+    let audit = kshana::field_schema::audit_document(&doc);
+    assert!(audit.missing.is_empty(), "undescribed: {:?}", audit.missing);
+    assert!(audit.malformed.is_empty());
+    assert_eq!(run.result.reproducibility.runs_total, 8);
+}
+
+#[test]
 fn a_handoff_writes_the_previous_phase_number_into_the_next_scenario() {
     let clock = |seed: u64, denied: bool| {
         format!(
