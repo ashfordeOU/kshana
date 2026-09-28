@@ -50,6 +50,9 @@ to `t_start + (t_end − t_start) × i / (n − 1)`, so the first frame is the s
 last is the finished picture. `manifest.json` records `fps`, `duration_s`,
 `frame_count`, `frame_pattern` (`frame_%04d.svg`), the pixel size, `t_start`, `t_end`,
 the mission time of every frame (`frame_times`), the phases, the events and the sources.
+A re-export into the same directory first removes every `frame_NNNN.svg` already there
+(and nothing else), so a shorter sequence never leaves frames of a longer one behind for
+the encoder to read.
 
 The frames are SVG, not Portable Network Graphics (PNG). An `ffmpeg` built with the
 `librsvg` library reads them directly:

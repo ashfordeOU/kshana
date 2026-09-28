@@ -575,6 +575,21 @@ fn write_animation(
     match anim.format {
         kshana::animation::AnimationFormat::Frames => {
             std::fs::create_dir_all(target)?;
+            // A shorter re-export must not leave frames of an earlier one behind: a
+            // `frame_%04d.svg` encoder reads on through every contiguous number, so a
+            // stale tail would play after the new frames. Only frame files are removed.
+            for entry in std::fs::read_dir(target)? {
+                let entry = entry?;
+                let name = entry.file_name();
+                let name = name.to_string_lossy();
+                let is_frame = name.len() == "frame_0000.svg".len()
+                    && name.starts_with("frame_")
+                    && name.ends_with(".svg")
+                    && name[6..10].bytes().all(|b| b.is_ascii_digit());
+                if is_frame && entry.file_type()?.is_file() {
+                    std::fs::remove_file(entry.path())?;
+                }
+            }
             for f in &anim.files {
                 std::fs::write(target.join(&f.name), &f.content)?;
             }
