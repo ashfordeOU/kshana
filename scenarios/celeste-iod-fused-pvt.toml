@@ -1,0 +1,44 @@
+# GNSS positioning joined by the two ESA Celeste in-orbit demonstration satellites.
+#
+# The `celeste-iod` preset is the ONLY place in the engine that uses parameters presented at
+# the ESA NAVISP LEO-PNT workshop, 2026 (the E5 pilot signal of IOD configuration #1 and its
+# pass C/N0 range); the orbit (510 km, near-polar sun-synchronous) is public (ION GNSS+ 2026
+# abstract 16907). This file and src/leo_fusion/presets/celeste_iod.rs can be deleted
+# together to publish without those parameters. The IOD signals are an experiment vehicle,
+# not the design of any future system.
+#
+# A receiver in Noordwijk tracks GPS and Galileo; when a Celeste IOD satellite is above the
+# mask its pseudorange joins the fix. The IOD signals are synchronised to GNSS time with a
+# broadcast time-of-transmission correction, so the LEO system is declared on the reference
+# time scale (`clock = "known"`): a single LEO satellite then adds a measurement instead of
+# only an inter-system bias. MODELLED.
+kind = "leo-pvt"
+mode = "joint"
+seed = 4
+duration_s = 5700.0
+step_s = 30.0
+
+[user]
+lat_deg = 52.22
+lon_deg = 4.42
+height_m = 5.0
+
+[joint]
+max_leo_sweep = 2
+
+[[system]]
+name = "GPS"
+preset = "gps-baseline"
+cn0_dbhz = [38.0, 48.0]
+
+[[system]]
+name = "Galileo"
+preset = "galileo"
+cn0_dbhz = [38.0, 48.0]
+isb_ns = 12.0
+
+[[system]]
+name = "Celeste IOD"
+leo_preset = "celeste-iod"
+signal = "E5"
+clock = "known"

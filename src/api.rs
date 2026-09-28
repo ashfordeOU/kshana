@@ -646,6 +646,13 @@ pub enum ScenarioKind {
     /// Campaign: existing kinds composed into a chained mission timeline, a parameter
     /// grid, a seeded Monte Carlo ensemble, or members run under shared conditions.
     Campaign,
+    /// Fused MEO and LEO position, velocity and time: Doppler positioning, joint
+    /// pseudorange fixes with inter-system biases, polar coverage and LEO time transfer.
+    LeoPvt,
+    /// Precise point positioning convergence with GNSS only and with LEO augmentation.
+    LeoPpp,
+    /// Positioning from a 5G non-terrestrial-network downlink via the Cramér-Rao bound.
+    NtnPositioning,
 }
 
 impl ScenarioKind {
@@ -720,6 +727,9 @@ impl ScenarioKind {
             ScenarioKind::BodyPnt => "body-pnt",
             ScenarioKind::ConstellationDesign => "constellation-design",
             ScenarioKind::Campaign => "campaign",
+            ScenarioKind::LeoPvt => "leo-pvt",
+            ScenarioKind::LeoPpp => "leo-ppp",
+            ScenarioKind::NtnPositioning => "ntn-positioning",
         }
     }
 
@@ -798,6 +808,9 @@ impl ScenarioKind {
             "body-pnt" => ScenarioKind::BodyPnt,
             "constellation-design" => ScenarioKind::ConstellationDesign,
             "campaign" => ScenarioKind::Campaign,
+            "leo-pvt" => ScenarioKind::LeoPvt,
+            "leo-ppp" => ScenarioKind::LeoPpp,
+            "ntn-positioning" => ScenarioKind::NtnPositioning,
             // The clock pack, named explicitly. It had no arm of its own before, because
             // it was reached through the catch-all below — so removing that catch-all
             // orphaned the one kind the engine has always had. The round-trip test found
@@ -994,6 +1007,9 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "body-pnt", description: "Positioning around any solar-system body: an orbiter or a surface lander around a central body chosen by name (Mars, the Moon, Europa, Ganymede, Titan and the rest of the solar-system catalogue), navigating with one-way pseudoranges from a small Walker navigation constellation around the body (two-body orbits with the body's own J2 secular drift, an unknown user clock) and optionally a clock-free deep-space two-way range from the Earth, whose direction and distance come from the analytic solar-system ephemeris at every epoch. Lines of sight are blocked by the body's mean sphere, and a surface user also needs the elevation mask. Per epoch: relays in view, whether the Earth is above the limb, the constellation-only GDOP and PDOP (geometric and position dilution of precision), the formal one-sigma position uncertainty with and without the Earth row, and the error of a seeded Gauss-Newton least-squares fix each way; over the run: availability, Earth visibility, median PDOP, RMS error and median formal sigma, plus the Earth-to-body light time, round trip, Shapiro delay and Sun separation at the epoch. MODELLED: the relay orbits, the noise levels and the instantaneous measurement model are modelling choices, not validated against a mission's navigation data; the body constants are the published values cited in body.rs, and the Earth geometry inherits the solar-system ephemeris labels.", required_fields: &[], optional_fields: &["body", "epoch", "epoch_jd_tdb", "duration_s", "step_s", "seed", "table", "user", "constellation", "earth_link"] },
         ScenarioMeta { name: "constellation-design", description: "Constellation design at scale: Walker DELTA and Walker STAR patterns in the i: T/P/F convention (nodes spread over 360 or 180 deg, in-plane spacing 360*P/T, inter-plane phase offset 360*F/T), explicit element lists and multi-shell designs, several constellations in one run, around the Earth, the Moon, Mars or any other planet, Pluto or major moon using the constants in the body module (the same ones the solar-system and body-pnt kinds use). PRESETS from published nominal elements: gps-baseline and gps-expandable (the 24 slots and the six fore/aft expandable pairs of the GPS Standard Positioning Service Performance Standard, 5th edition 2020, Tables 3.2-1 to 3.2-3), galileo (Walker 24/3/1 at 29 599.801 km and 56 deg, Galileo Open Service Service Definition Document issue 1.1 Tables 1 and 23), beidou and beidou-meo (Walker 24/3/1 at 21 528 km and 55 deg plus three geostationary satellites at 80, 110.5 and 140 deg E and three inclined geosynchronous satellites at 55 deg, BeiDou Open Service Performance Standard 3.0 section 4.1; the MEO phase and the 118 deg E inclined-geosynchronous crossing are modelled because the standard does not state them) and glonass (24/3/1 at 19 100 km and 64.8 deg from the slot formula of the GLONASS Interface Control Document edition 5.1 section 5.2). COVERAGE AND DILUTION OF PRECISION: over a latitude/longitude grid and a sampled window with an elevation mask, the number of satellites in view, GDOP, PDOP, HDOP and VDOP per cell, the availability (a fix with PDOP at or below a threshold, 6 by default) per cell, globally (area-weighted) and at the worst site, with one receiver clock per constellation unless clock = \"common\". It scales to thousands of satellites: visibility is a dot product against each satellite's coverage half-angle, and satellites are banded by sub-satellite latitude each epoch so a grid row tests only those that can be in view; the report counts the pair tests saved. The JSON carries the grid maps and downsampled per-satellite ground tracks. VALIDATED: the Walker generator against Galileo OS SDD Table 23 and the GLONASS ICD slot formula, the GPS preset against the published equatorial-crossing column of SPS PS Table 3.2-1, and the GPS baseline global HDOP distribution against SPS PS Appendix B (median 0.94, 95% 1.25, mean 0.96, tolerance 0.03). MODELLED: two-body orbits with optional secular J2, a spherical body, geometric visibility only (no signal power, health or terrain), and the relative phase between different systems, which is not a snapshot of any real date.", required_fields: &[], optional_fields: &["body", "duration_s", "step_s", "mask_deg", "pdop_threshold", "grid_step_deg", "lat_min_deg", "lat_max_deg", "lon_min_deg", "lon_max_deg", "clock", "j2", "track_points", "max_tracks", "constellation"] },
         ScenarioMeta { name: "campaign", description: "Campaign: existing scenario kinds composed into one run, with every number read from a real run of the named kind. Four sections, in any combination. PHASES: a chained mission on one shared timeline -- each phase runs one or more scenarios (for example jamming, then spoofing, then a clock in holdover with an inertial navigation system coasting beside it, then an integrity alarm, then recovery), their outputs are read into named channels (clock time error against its guard, carrier-to-noise density ratio against the tracking floor, protection level against the alert limit, position error, satellites tracking, alarm flags) by a per-kind preset or by explicit result paths, and resampled onto a common grid by zero-order hold, with phase boundaries and events; state is handed on by carry (a channel continues from the previous phase's end value), handoff (a previous phase's number written into this phase's scenario) and end_at (a phase ends at a time a run computed, such as a spoofing monitor's detection time). SWEEP: a grid over one to three dotted scenario keys of any kind, with metrics read by result path and, with runs above one, a seeded Monte Carlo ensemble at every node. MONTE_CARLO: realisation k runs at base_seed + k; each metric reports mean, standard deviation, nearest-rank 5th/50th/95th percentiles and a fixed-seed bootstrap 95% confidence interval on the mean. COMPOSE: several scenarios under shared values (one jammer's power and position written into a maritime and a road receiver), with a combined best/worst summary. The result carries a campaign hash, a digest over every member result, and a units entry for every emitted number. Composition identities are tested: a one-phase campaign reproduces the stand-alone run bit for bit, a fixed-seed ensemble is byte-stable, and on a white-frequency-noise clock the ensemble mean falls inside the reported interval with the spread matching sqrt(q_wf * tau). MODELLED: the additive carry and the zero-order hold are modelling choices, and each phase carries the label of the kind that ran it.", required_fields: &[], optional_fields: &["title", "seed", "timeline", "phases", "sweep", "monte_carlo", "compose"] },
+        ScenarioMeta { name: "leo-pvt", description: "Fused medium-Earth-orbit (MEO) and low-Earth-orbit (LEO) positioning, navigation and timing (PNT) over ANY constellations: each [[system]] is a GNSS preset of the constellation-design kind, a LEO preset (xona-pulsar, iridium-stl, starlink-sop, centispace, generic-c-band, the atomic-zero-clock ephemeris model, or another preset file, each in its own file with its sources marked PUBLIC, WORKSHOP or DERIVED), Walker shells or explicit element sets, with a carrier, a chip rate, a carrier-to-noise density (C/N0) envelope from the elevation mask to the zenith, a signal-in-space range error (SISRE), a Doppler sigma and a clock model (its own receiver clock, so the inter-system bias is estimated, or a known broadcast offset). Four modes. DOPPLER: batch Gauss-Newton positioning from range rate with analytic partials, clock-drift and optional velocity states and an optional height constraint, single- or multi-satellite, the error against window length, the Doppler, Doppler-rate and jerk envelope of each LEO system, and the single-pass along-track and cross-track accuracy against the cross-track offset (the cross-track error grows without bound as the pass goes overhead; a single pass also has a mirror solution across the ground track). A Doppler-only signal of opportunity (starlink-sop) runs here. JOINT: per-epoch weighted least-squares pseudorange fixes from GNSS alone, LEO alone and both, per-measurement sigmas from a delay-lock-loop thermal-noise model at C/N0 plus the SISRE (or a fixed sigma, so a signal model can feed them), the estimated inter-system biases, and PDOP/HDOP/VDOP against the number of LEO satellites added. POLAR: satellites in view and DOP against latitude for GNSS, LEO and both. TIMING: time transfer to Coordinated Universal Time (UTC) from LEO satellites at a known position with a two-state clock filter whose process noise comes from the engine's oscillator classes, against C/N0 and the oscillator, and the IS-GPS-200 system-time-to-UTC expression. VALIDATED: the largest Doppler of an overhead-to-horizon pass against the published Iridium (up to 36 kHz) and Xona Pulsar X1 (32 to 34 kHz) figures. MODELLED: everything else; the DOP is checked against a hand-derived case, the fixes against their covariance, and the Doppler model against the range-acceleration identity.", required_fields: &[], optional_fields: &["mode", "seed", "duration_s", "step_s", "user", "dll", "doppler", "joint", "polar", "timing", "system"] },
+        ScenarioMeta { name: "leo-ppp", description: "Precise point positioning (PPP) convergence with GNSS only and with LEO augmentation: a float extended Kalman filter on ionosphere-free code and carrier phase with the static station coordinates, a white receiver clock, one inter-system bias per extra system, a random-walk zenith wet delay mapped by 1/sin(elevation) and a float ambiguity per satellite arc; the precise orbit-and-clock error is white and common to the code and phase of a satellite, so each satellite is one correlated two-row update in a Joseph-stabilised form. Measurements are simulated from the same model with seeded noise over several sites and seeds, and each case (GNSS only first, then each [[case]] of LEO systems, any constellation or preset) reports the median convergence time (the first epoch after which the horizontal and vertical errors stay below the thresholds, 10 cm by default), the fraction converged, the median error curves and the filter consistency (the run-averaged position NEES against the two-sided 95% chi-square band). Optionally beside the published Li et al. (2019, J. Geod. 93:749, doi 10.1007/s00190-018-1195-2) mid-latitude figures: 9.6 min for multi-GNSS shortened to 7.0, 3.2, 2.1 and 1.3 min with 60, 96, 192 and 288 LEO satellites. MODELLED: a consistency comparison of the trend, not a reproduction of that study's constellations, noise or stations; no ambiguity resolution, cycle slips, phase wind-up, tides or time-correlated product errors.", required_fields: &[], optional_fields: &["seed", "duration_s", "step_s", "runs", "criterion_horizontal_m", "criterion_vertical_m", "compare_li_2019", "noise", "site", "gnss", "case"] },
+        ScenarioMeta { name: "ntn-positioning", description: "Positioning from a 5G non-terrestrial network (NTN) downlink in the mobile-satellite service (MSS) S band (3GPP band n256, downlink 2170 to 2200 MHz; default carrier 2172.5 MHz): the Cramér-Rao bound (CRB) on time of arrival, c / (2 pi beta sqrt(2 (C/N0) T)) with beta the root-mean-square (Gabor) bandwidth of the flat OFDM spectrum (B/sqrt(12)), and on the Doppler of a complex tone, sqrt(3 / (2 pi^2 (C/N0) T^3)), for each signal (default a 5 MHz New Radio channel with 4.5 MHz occupied and a 200 kHz narrowband channel with 180 kHz occupied); then, over any LEO constellation, downlink time-of-arrival fixes with an unknown receiver clock (seeded, with the bound plus a network synchronisation error as the sigma), their PDOP and formal 3D sigma, and a single-satellite Doppler fix over the longest pass with the height held. MODELLED: the bandwidth-to-bound step is the textbook closed form, checked against numerical integration of the flat and band-limited BPSK spectra (internal consistency, no published worked figure pinned), and the positioning accuracy is a bound on a multipath-free channel with a stated synchronisation error, not an achieved result.", required_fields: &[], optional_fields: &["seed", "carrier_hz", "signal", "integration_s", "doppler_integration_s", "cn0_dbhz", "sync_error_m", "user", "duration_s", "step_s", "system"] },
     ]
 }
 
@@ -2465,6 +2481,39 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
             let scn: crate::constellation::ConstellationDesignScenario = toml::from_str(src)
                 .map_err(|e| format!("invalid constellation-design scenario: {e}"))?;
             let (json, summary, svg) = scn.run_all()?;
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
+        }
+        ScenarioKind::LeoPvt => {
+            let scn: crate::leo_fusion::pvt_kind::LeoPvtScenario =
+                toml::from_str(src).map_err(|e| format!("invalid leo-pvt scenario: {e}"))?;
+            let (json, summary, svg) = scn.run_output()?;
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
+        }
+        ScenarioKind::LeoPpp => {
+            let scn: crate::leo_fusion::ppp::PppScenario =
+                toml::from_str(src).map_err(|e| format!("invalid leo-ppp scenario: {e}"))?;
+            let (json, summary, svg) = scn.run_output()?;
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
+        }
+        ScenarioKind::NtnPositioning => {
+            let scn: crate::leo_fusion::ntn::NtnScenario = toml::from_str(src)
+                .map_err(|e| format!("invalid ntn-positioning scenario: {e}"))?;
+            let (json, summary, svg) = scn.run_output()?;
             Ok(RunOutput {
                 json,
                 svg,

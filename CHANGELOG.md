@@ -11,6 +11,42 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Fused MEO + LEO positioning, navigation and timing: `leo-pvt`, `leo-ppp` and
+  `ntn-positioning`.** Three new scenario kinds in `src/leo_fusion/`, system-agnostic: every
+  constellation is Walker shells, element sets or a GNSS preset, every signal a carrier, a
+  chip rate and a carrier-to-noise density (C/N0) envelope, every error budget an explicit
+  one-sigma, and named low-Earth-orbit (LEO) systems are optional presets, one file each with
+  their sources marked public, workshop or derived (Xona Pulsar X1/X5, Iridium STL, Starlink
+  signals of opportunity, CentiSpace, a representative C-band system, the ATOMIC zero-clock
+  ephemeris model, and one ESA Celeste in-orbit-demonstration preset whose workshop-derived
+  parameters live in one file and one scenario so they can be withheld).
+  - `leo-pvt` has four modes: Doppler positioning (batch least squares on range rate with
+    clock-drift and velocity states, a Doppler-only signals-of-opportunity mode, the
+    single-pass along-track and cross-track accuracy, and the Doppler, Doppler-rate and jerk
+    envelope); joint GNSS + LEO weighted least squares with one clock per system (the
+    inter-system bias) or a known offset, per-measurement sigmas as inputs, and the DOP
+    against the number of LEO satellites; polar and Arctic coverage against latitude; and LEO
+    time transfer to Coordinated Universal Time (UTC) against C/N0 and the receiver
+    oscillator with the IS-GPS-200 system-time-to-UTC expression.
+  - `leo-ppp`: a float precise point positioning (PPP) extended Kalman filter on
+    ionosphere-free code and phase, GNSS only and with LEO augmentation, with its
+    convergence time and a Monte Carlo NEES (normalised estimation error squared)
+    consistency test. The bundled scenario gives 7.4 min with four MEO systems and 4.8, 3.2,
+    2.7 and 2.3 min with 60, 96, 192 and 288 LEO satellites, beside the 9.6, 7.0, 3.2, 2.1 and
+    1.3 min of Li et al. (J. Geod. 93:749, 2019) as a MODELLED comparison of the trend.
+  - `ntn-positioning`: 5G non-terrestrial network (NTN) positioning in the 3GPP n256
+    mobile-satellite S band from the Cramér-Rao bound on time of arrival and Doppler.
+  - Scenarios: `leo-doppler-positioning`, `starlink-sop-doppler-positioning`,
+    `meo-leo-fused-pvt`, `leo-ppp-convergence`, `ntn-5g-positioning`,
+    `polar-arctic-leo-coverage`, `leo-timing-utc` and `celeste-iod-fused-pvt`, all bundled.
+  - Eight matrix rows: the LEO Doppler envelope VALIDATED against the published Iridium
+    (±36 kHz, within 5%) and Xona Pulsar X1 (32 to 34 kHz) figures
+    (`tests/leo_doppler_reference.rs`); Doppler positioning, joint pseudorange positioning,
+    PPP convergence, NTN bounds, LEO timing, polar coverage and the presets MODELLED. The
+    kind count moves from 68 to 71, the scenario-file count from 94 to 102, and the matrix
+    from 189 to **197 rows — 72 VALIDATED, 121 MODELLED, 4 PARTNER**. Documentation:
+    `docs/LEO-PNT-FUSION.md`.
+
 - **Four new engine areas in one release: `spectrum`, `solar-system` and `body-pnt`,
   `constellation-design`, and `campaign`.** The kind count moves from 63 to 68, the
   scenario-file count from 82 to 94, and the verification matrix from 174 to
