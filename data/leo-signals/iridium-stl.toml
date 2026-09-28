@@ -1,0 +1,46 @@
+# Iridium Satellite Time and Location (STL, now Iridium PNT): positioning and timing
+# bursts from the 66-satellite Iridium constellation, used for Doppler and timing.
+#
+# Source (PUBLIC): Resilient Navigation and Timing Foundation (RNTF), "Recent PNT
+# Improvements and Test Results Based on Low Earth Orbit Satellites",
+# https://rntfnd.org/wp-content/uploads/Recent-PNT-Improvements-and-Test-Results-Based-on-Low-Earth-Orbit-Satellites.pdf
+# Published there: 1616 to 1626 MHz, quadrature phase-shift keying (QPSK) at 25 000
+# symbols/s, PNT bursts inside one 90 ms frame, Doppler up to +/-36 kHz, 48 spot beams,
+# raw power 300 to 2400 times GPS, reception through up to 39 dB of attenuation.
+#
+# Modelling choices, stated: the carrier is set at 1621 MHz, the middle of the published
+# band (REPRESENTATIVE: each burst uses one channel of that band); the rectangular-pulse
+# QPSK spectrum is the BPSK-R envelope at the symbol rate, 25 000 / 1 023 000 = 0.0244379
+# of the 1.023 MHz unit; the transmit bandwidth is that main lobe, 50 kHz. The received
+# powers are DERIVED from the published 300 to 2400 times GPS against the GPS L1 C/A
+# minimum of -158.5 dBW (IS-GPS-200): -158.5 + 24.8 = -133.7 dBW and -158.5 + 33.8 =
+# -124.7 dBW. The orbit altitude, about 780 km, is the public Iridium figure. Code-phase
+# ranging parameters are not public, so the preset is Doppler and timing only
+# (ranging = false).
+
+[preset]
+name = "iridium-stl"
+title = "Iridium STL / Iridium PNT bursts"
+source = "PUBLIC"
+url = "https://rntfnd.org/wp-content/uploads/Recent-PNT-Improvements-and-Test-Results-Based-on-Low-Earth-Orbit-Satellites.pdf"
+notes = "QPSK 25 ksym/s bursts in 1616-1626 MHz; carrier at the band middle and received power derived from the published ratio to GPS."
+
+[[signals]]
+name = "iridium-stl"
+system = "Iridium"
+source = "PUBLIC"
+source_ref = "https://rntfnd.org/wp-content/uploads/Recent-PNT-Improvements-and-Test-Results-Based-on-Low-Earth-Orbit-Satellites.pdf"
+centre_mhz = 1621.0
+tx_bandwidth_mhz = 0.05
+allocation = "mss"
+received_power_dbw = -133.7
+received_power_max_dbw = -124.7
+orbit_altitude_km = 780.0
+ranging = false
+notes = "Carrier at the middle of 1616-1626 MHz (representative channel); QPSK drawn as the BPSK-R envelope at 25 ksym/s; received power derived from 300-2400 x GPS; Doppler and timing only."
+
+[[signals.components]]
+role = "pilot"
+modulation = "BPSK(0.02443793)"
+power_fraction = 1.0
+note = "PNT burst, QPSK at 25 000 symbols/s"

@@ -1,11 +1,11 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 2080,
-    "fields_total": 2082,
+    "fields_described": 2167,
+    "fields_total": 2169,
     "fields_without_units": 2,
-    "kinds_complete": 67,
-    "kinds_total": 68,
+    "kinds_complete": 68,
+    "kinds_total": 69,
     "kinds_uncovered": 1,
     "uncovered_kind_ceiling": 1,
     "uncovered_kinds": [
@@ -5789,6 +5789,532 @@
       "fields_without_units": [],
       "label": "MODELLED — two-body spherical-Earth launch geometry; azimuth is the geometric sin(Az)=cos(i)/cos(lat) relation (no rotating-Earth velocity-triangle correction, no ascent/drag-loss model)",
       "source": "defaults"
+    },
+    "leo-signal": {
+      "complete": true,
+      "fields": {
+        "receiver.antenna_temp_k": {
+          "definition": "antenna noise temperature",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "K"
+        },
+        "receiver.cn0_dbhz[]": {
+          "definition": "total in-band C/N0 values of the jitter sweep",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "dB-Hz"
+        },
+        "receiver.correlator_spacings_chips[]": {
+          "definition": "early-late correlator spacings of the jitter sweep, in chips of the tracked component",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "chip"
+        },
+        "receiver.integration_time_s": {
+          "definition": "predetection integration time T",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "receiver.loop_bandwidth_hz": {
+          "definition": "delay lock loop noise bandwidth B_L",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "Hz"
+        },
+        "receiver.noise_density_dbw_per_hz": {
+          "definition": "thermal noise floor 10 log10(k T_sys)",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "dBW/Hz"
+        },
+        "receiver.noise_figure_db": {
+          "definition": "receiver noise figure",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "dB"
+        },
+        "receiver.reference_cn0_dbhz": {
+          "definition": "total in-band C/N0 used when a signal publishes no received power, and for the equal-C/N0 trade columns",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "dB-Hz"
+        },
+        "receiver.reference_spacing_chips": {
+          "definition": "early-late spacing of the headline ranging accuracy",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "chip"
+        },
+        "receiver.system_temp_k": {
+          "definition": "T_ant + 290 K x (F - 1)",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "K"
+        },
+        "receiver.tracking_threshold_dbhz": {
+          "definition": "C/N0 below which the tracked component is lost",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "dB-Hz"
+        },
+        "signals[].acquisition.acquisition_cn0_dbhz": {
+          "definition": "C/N0 of the acquired component's in-band power",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "signals[].acquisition.cells": {
+          "definition": "Doppler bins x code bins",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "signals[].acquisition.code_bin_chips": {
+          "definition": "code-bin spacing",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "chip"
+        },
+        "signals[].acquisition.code_bins": {
+          "definition": "code bins over one code period; null without a code length",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "signals[].acquisition.coherent_s": {
+          "definition": "coherent integration per look",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "signals[].acquisition.coherent_snr_db": {
+          "definition": "C/N0 x T_coh",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "signals[].acquisition.doppler_bin_hz": {
+          "definition": "Doppler bin width 2/(3 T_coh)",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "Hz"
+        },
+        "signals[].acquisition.doppler_bins": {
+          "definition": "Doppler bins across the search range",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "signals[].acquisition.dwell_s": {
+          "definition": "dwell per cell (serial) or per Doppler bin (code-parallel)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "signals[].acquisition.elevation_mask_deg": {
+          "definition": "elevation mask of the Doppler bound",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "signals[].acquisition.max_doppler_satellite_hz": {
+          "definition": "largest satellite Doppler on an overhead pass at the mask, circular orbit, no Earth rotation",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "Hz"
+        },
+        "signals[].acquisition.mean_time_code_parallel_s": {
+          "definition": "mean acquisition time when every code phase is tested at once per Doppler bin",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "signals[].acquisition.mean_time_serial_s": {
+          "definition": "mean acquisition time of a serial single-dwell search at the worst-case straddle (Holmes)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "signals[].acquisition.noncoherent": {
+          "definition": "non-coherent looks per dwell",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "signals[].acquisition.orbit_altitude_m": {
+          "definition": "orbit altitude of the Doppler bound (preset or acquisition.altitude_km)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "signals[].acquisition.oscillator_doppler_hz": {
+          "definition": "carrier x oscillator uncertainty",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "Hz"
+        },
+        "signals[].acquisition.pd_no_straddle": {
+          "definition": "detection probability with the signal centred in its cell (generalised Marcum Q)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "signals[].acquisition.pd_worst_straddle": {
+          "definition": "detection probability at a quarter-bin code offset and a half-bin Doppler offset",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "signals[].acquisition.pfa_cell": {
+          "definition": "false-alarm probability per cell",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "signals[].acquisition.pfa_dwell_code_parallel": {
+          "definition": "false-alarm probability of one code-parallel dwell over every code bin",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "signals[].acquisition.search_half_range_hz": {
+          "definition": "half-width of the Doppler search: satellite + oscillator + user",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "Hz"
+        },
+        "signals[].acquisition.threshold_over_noise": {
+          "definition": "square-law threshold over the noise power for the per-cell false-alarm probability",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "signals[].acquisition.user_doppler_hz": {
+          "definition": "carrier x user speed / c",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "Hz"
+        },
+        "signals[].centre_hz": {
+          "definition": "centre frequency of the signal design (its preset's source class says whether published)",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "Hz"
+        },
+        "signals[].compatibility[].gnss_centre_hz": {
+          "definition": "GNSS signal carrier",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "Hz"
+        },
+        "signals[].compatibility[].gnss_received_power_dbw": {
+          "definition": "GNSS minimum received power from its interface specification",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "dBW"
+        },
+        "signals[].compatibility[].gnss_rx_bandwidth_hz": {
+          "definition": "GNSS receiver bandwidth of the SSC integral",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "Hz"
+        },
+        "signals[].compatibility[].leo_cn0_degradation_db": {
+          "definition": "LEO C/N0 loss from the GNSS signal at its minimum power, times the aggregate satellite count",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "signals[].compatibility[].ssc_gnss_into_leo_db_per_hz": {
+          "definition": "SSC of the GNSS signal (unit power) into the LEO tracked component over the LEO receiver band",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB(1/Hz)"
+        },
+        "signals[].compatibility[].ssc_leo_into_gnss_db_per_hz": {
+          "definition": "SSC of the band-limited LEO signal (unit power) into the GNSS signal over the GNSS receiver band; null when the bands do not overlap",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB(1/Hz)"
+        },
+        "signals[].components[].chip_rate_hz": {
+          "definition": "spreading-code chip rate; null for a flat (OFDM-like) spectrum",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "Hz"
+        },
+        "signals[].components[].code_length_chips": {
+          "definition": "spreading-code length",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "chip"
+        },
+        "signals[].components[].code_period_s": {
+          "definition": "code length over chip rate",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "s"
+        },
+        "signals[].components[].data_rate_sps": {
+          "definition": "data (symbol) rate",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "symbol/s"
+        },
+        "signals[].components[].first_null_hz": {
+          "definition": "first positive null of the unfiltered unit-area PSD, located numerically (half the width for a flat spectrum)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "Hz"
+        },
+        "signals[].components[].gabor_bandwidth_closed_form_hz": {
+          "definition": "BPSK closed form sqrt([B/2 - sin(pi B Tc)/(2 pi Tc)]/(pi^2 Tc eta)); null otherwise",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "Hz"
+        },
+        "signals[].components[].gabor_bandwidth_hz": {
+          "definition": "RMS (Gabor) bandwidth of the component's baseband spectrum inside the transmit band",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "Hz"
+        },
+        "signals[].components[].in_band_power_fraction": {
+          "definition": "fraction of the component's power the transmit band passes, integrated numerically over every sub-carrier",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "signals[].components[].in_band_power_fraction_closed_form": {
+          "definition": "BPSK closed form (2/pi)[Si(pi B Tc) - sin^2(pi B Tc/2)/(pi B Tc/2)], for a BPSK component at the centre; null otherwise",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "1"
+        },
+        "signals[].components[].power_fraction": {
+          "definition": "component share of the unfiltered power",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "1"
+        },
+        "signals[].in_band_power_fraction": {
+          "definition": "fraction eta of the unfiltered power inside the transmit band, sum of share x component fraction",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "signals[].jammer_tolerance.cw_js_max_db": {
+          "definition": "largest J/S of a CW tone at the carrier before the tracked component reaches the threshold (J over the tracked power)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "signals[].jammer_tolerance.matched_js_max_db": {
+          "definition": "the same for noise matched to the tracked component's spectrum",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "signals[].jammer_tolerance.reference_cn0_dbhz": {
+          "definition": "total in-band C/N0 the tolerance starts from",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "signals[].jammer_tolerance.tracking_threshold_dbhz": {
+          "definition": "threshold the tolerance runs to",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "dB-Hz"
+        },
+        "signals[].jammer_tolerance.wideband_js_max_db": {
+          "definition": "the same for flat noise over the transmit band",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "signals[].psd.db_per_hz[]": {
+          "definition": "band-limited composite PSD, unit area inside the transmit band; null outside it",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB(1/Hz)"
+        },
+        "signals[].psd.offset_hz[]": {
+          "definition": "offset from the centre of each PSD sample",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "Hz"
+        },
+        "signals[].reference_cn0_dbhz": {
+          "definition": "total in-band C/N0: received power minus the noise density, or the receiver's reference C/N0",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "signals[].tracking.chip_length_m": {
+          "definition": "c / chip rate",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m"
+        },
+        "signals[].tracking.cn0_dbhz[]": {
+          "definition": "total in-band C/N0, one column of jitter_m each",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "dB-Hz"
+        },
+        "signals[].tracking.component_cn0_offset_db": {
+          "definition": "10 log10(share/eta): the tracked component's C/N0 relative to the total in-band C/N0, in the convention the tracking formula takes",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "dB"
+        },
+        "signals[].tracking.jitter_m[][]": {
+          "definition": "band-limited early-late code-tracking thermal-noise jitter (Betz & Kolodziejski 2009), 1-sigma, per spacing and C/N0",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "signals[].tracking.jitter_unlimited_band_m[][]": {
+          "definition": "the same with an unlimited front end, the textbook BPSK form sqrt(B_L(1 - B_L T/2) d/(2 C/N0)) chips (with the non-coherent squaring loss when selected); null for non-BPSK",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m"
+        },
+        "signals[].tracking.ranging_accuracy_m": {
+          "definition": "code-tracking thermal-noise ranging accuracy (1-sigma) at the reference C/N0 and spacing",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "signals[].tracking.reference_cn0_dbhz": {
+          "definition": "C/N0 of the headline ranging accuracy",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "signals[].tracking.reference_spacing_chips": {
+          "definition": "spacing of the headline ranging accuracy",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "chip"
+        },
+        "signals[].tracking.small_spacing_limit_m[]": {
+          "definition": "vanishing-spacing (Gabor bandwidth) bound on the coherent early-late jitter, per C/N0",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m"
+        },
+        "signals[].tracking.spacings_chips[]": {
+          "definition": "early-late spacings, one row of jitter_m each",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "chip"
+        },
+        "signals[].tx_bandwidth_hz": {
+          "definition": "transmit bandwidth; the spectrum is zero outside it",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "Hz"
+        },
+        "trade.rows[].centre_hz": {
+          "definition": "centre frequency",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "Hz"
+        },
+        "trade.rows[].cn0_equal_eirp_dbhz": {
+          "definition": "C/N0 if every signal left the satellite at the reference signal's EIRP with isotropic antennas: reference C/N0 minus the free-space loss difference",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "trade.rows[].cw_js_max_equal_eirp_db": {
+          "definition": "CW J/S tolerance at the equal-EIRP C/N0",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "trade.rows[].free_space_loss_db": {
+          "definition": "free-space path loss 20 log10(4 pi d f / c) at the slant range",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "dB"
+        },
+        "trade.rows[].free_space_loss_vs_reference_db": {
+          "definition": "free-space loss minus the reference signal's, 20 log10(f/f_ref)",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "dB"
+        },
+        "trade.rows[].gabor_bandwidth_hz": {
+          "definition": "Gabor bandwidth of the tracked component inside the transmit band",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "Hz"
+        },
+        "trade.rows[].iono_delay_m": {
+          "definition": "first-order ionospheric group delay 40.3 TEC / f^2",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m"
+        },
+        "trade.rows[].iono_delay_ratio": {
+          "definition": "ionospheric delay over the reference signal's, (f_ref/f)^2",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "1"
+        },
+        "trade.rows[].jitter_equal_cn0_m": {
+          "definition": "ranging accuracy at the receiver's reference C/N0 for every signal",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "trade.rows[].jitter_equal_eirp_m": {
+          "definition": "ranging accuracy at that C/N0",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "trade.rows[].matched_js_max_equal_eirp_db": {
+          "definition": "matched-noise J/S tolerance at the equal-EIRP C/N0",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "trade.rows[].tx_bandwidth_hz": {
+          "definition": "transmit bandwidth",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "Hz"
+        },
+        "trade.rows[].wideband_js_max_equal_eirp_db": {
+          "definition": "wideband-noise J/S tolerance at the equal-EIRP C/N0",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "trade.slant_range_km": {
+          "definition": "slant range of the free-space loss",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "km"
+        },
+        "trade.slant_tec_tecu": {
+          "definition": "slant total electron content, 1 TECU = 1e16 electrons/m^2",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "TECU"
+        }
+      },
+      "fields_described": 86,
+      "fields_total": 86,
+      "fields_without_units": [],
+      "label": "MODELLED: parameterised low Earth orbit (LEO) positioning, navigation and timing (PNT) signal designs, band-limited to their transmit bandwidth. The closed forms underneath are VALIDATED (BPSK power in band and Gabor bandwidth, the band-limited early-late code-tracking jitter reducing to the textbook forms, the offset spectral separation coefficient, and the maximum LEO Doppler against Xona Pulsar and Iridium figures); every signal design, power split, C/N0 and jammer level is an input, and a preset marked WORKSHOP or REPRESENTATIVE is not a published specification.",
+      "source": "scenarios/leo-band-trade.toml"
     },
     "link-budget": {
       "complete": true,
@@ -11645,7 +12171,7 @@
           "unit": "Hz"
         },
         "bands[].nominal_cn0_dbhz": {
-          "definition": "un-jammed C/N0: signal power minus the noise density",
+          "definition": "un-jammed C/N0 of the tracked component: its power minus the noise density",
           "evidence_tier": "validated",
           "provenance": "closed-form",
           "unit": "dB-Hz"
@@ -11672,6 +12198,12 @@
           "definition": "received signal power: the interface-specification minimum unless the scenario overrides it",
           "evidence_tier": "validated",
           "provenance": "spec",
+          "unit": "dBW"
+        },
+        "bands[].tracked_power_dbw": {
+          "definition": "power the C/N0 and J/S are referred to: the signal power for a plain band; for a designed signal the tracked component's share of the unfiltered power, P s / eta",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
           "unit": "dBW"
         },
         "duration_s": {
@@ -12107,8 +12639,8 @@
           "unit": "s"
         }
       },
-      "fields_described": 80,
-      "fields_total": 80,
+      "fields_described": 81,
+      "fields_total": 81,
       "fields_without_units": [],
       "label": "MODELLED: an L-band power spectral density built from closed-form signal spectra (VALIDATED against the textbook main-lobe widths and spectral separation coefficients), jammer spectra and a kT noise floor, reduced to J/S and effective C/N0 by the spectral separation coefficient. The jammer powers, timeline and front-end bandwidths are scenario inputs, not measurements.",
       "source": "scenarios/l-band-waterfall-jamming.toml"

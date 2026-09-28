@@ -35,6 +35,7 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("campaign-shared-jammer-sea-road"),
     bundled!("campaign-spectrum-holdover-integrity"),
     bundled!("campaign-sweep-jammer-power"),
+    bundled!("celeste-iod-classical-pilot-signals"),
     bundled!("cislunar-arc-recovery"),
     bundled!("cislunar-observability"),
     bundled!("clock-ensemble"),
@@ -62,6 +63,7 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("jamming-demo"),
     bundled!("l-band-waterfall-jamming"),
     bundled!("launch-window"),
+    bundled!("leo-band-trade"),
     bundled!("leo-pnt-mega-shell"),
     bundled!("link-budget"),
     bundled!("lunanet-araim"),
@@ -86,6 +88,7 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("mars-pnt-surface"),
     bundled!("mars-pnt-transfer"),
     bundled!("moonlight-service-volume"),
+    bundled!("multi-band-jamming-waterfall"),
     bundled!("oem-interop"),
     bundled!("orbit-gnss-challenged"),
     bundled!("orbit-molniya"),
@@ -118,6 +121,7 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("terrain-slam"),
     bundled!("timetransfer"),
     bundled!("tracking-loop"),
+    bundled!("xona-pulsar-signals"),
 ];
 
 /// Scenario files that are deliberately NOT bundled, each with the sentence the CLI prints

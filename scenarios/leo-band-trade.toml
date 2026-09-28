@@ -1,0 +1,51 @@
+# LEO-PNT band trade, UHF to wide C band: what a low Earth orbit (LEO) positioning,
+# navigation and timing (PNT) signal gains and loses in each band, independent of any
+# particular system.
+#
+# Five REPRESENTATIVE designs from the compiled-in `generic-bands` preset, each a pilot
+# and data pair with a 50/50 power split sized to its band:
+#   UHF   465 MHz,      BPSK(5) in 10 MHz
+#   L     1191.795 MHz, BPSK(10) in 20.46 MHz (the Galileo E5 centre)
+#   S     2492.028 MHz, BPSK(5) in 16.5 MHz (the NavIC S-band carrier, in the RDSS band)
+#   C     5020 MHz,     BPSK(10) in 20 MHz (the middle of the 5010-5030 MHz RNSS band)
+#   wide C 5100 MHz,    BPSK(50) in 120 MHz
+# (BPSK binary phase-shift keying; RDSS Radio Determination Satellite Service; RNSS Radio
+# Navigation Satellite Service.)
+#
+# The trade table puts four things side by side:
+#   * ionospheric delay: first order, 40.3 TEC / f^2, for a 50 TECU slant total electron
+#     content: UHF carries (1191.795/465)^2 = 6.6 times the L-band delay, C band 0.056;
+#   * free-space loss at a 1000 km slant range: +20 log10(f/f_L) dB relative to L;
+#   * ranging accuracy (delay-lock-loop thermal-noise jitter, 0.5 chip coherent
+#     early-late spacing, 1 Hz loop) at equal C/N0 (45 dB-Hz for all), and at equal
+#     radiated power (C/N0 falls with the free-space loss: isotropic antennas at both
+#     ends, so the higher band's smaller receive aperture is charged in full);
+#   * the J/S a CW tone, wideband noise and matched noise may reach before the tracked
+#     pilot falls below 25 dB-Hz, at the equal-power C/N0.
+# MODELLED: the closed forms are validated; the designs, the TEC, the range and the
+# equal-power assumption are inputs. No rain or atmospheric loss (it matters at C band).
+kind = "leo-signal"
+presets = ["generic-bands"]
+
+[receiver]
+noise_figure_db = 2.0
+antenna_temp_k = 290.0
+cn0_dbhz = [30.0, 35.0, 40.0, 45.0, 50.0, 55.0]
+reference_cn0_dbhz = 45.0
+loop_bandwidth_hz = 1.0
+integration_time_s = 0.02
+correlator_spacings_chips = [1.0, 0.5, 0.2, 0.1]
+reference_spacing_chips = 0.5
+tracking_threshold_dbhz = 25.0
+
+[acquisition]
+altitude_km = 550.0
+oscillator_ppm = 0.5
+coherent_ms = 1.0
+noncoherent = 1
+pfa_cell = 1e-4
+
+[trade]
+reference_signal = "generic-l"
+slant_tec_tecu = 50.0
+slant_range_km = 1000.0
