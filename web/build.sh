@@ -9,7 +9,7 @@ here="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$here"
 
 if ! command -v wasm-pack >/dev/null 2>&1; then
-  echo "wasm-pack not found. Install it: https://rustwasm.github.io/wasm-pack/installer/" >&2
+  echo "wasm-pack not found. Install it: https://drager.github.io/wasm-pack/ (or: cargo install wasm-pack)" >&2
   exit 1
 fi
 
