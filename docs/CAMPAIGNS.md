@@ -17,7 +17,8 @@ kshana scenarios/campaign-jam-spoof-holdover-integrity.toml
 # writes .result.json, .chart.svg and .report.html next to the file
 ```
 
-A campaign may contain any combination of four sections.
+A campaign may contain any combination of four sections; one with none runs and its
+summary says it composed nothing.
 
 ## `[[phases]]`: a chained mission on one timeline
 

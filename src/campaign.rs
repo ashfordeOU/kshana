@@ -1940,16 +1940,8 @@ pub fn campaign_hash(src: &str) -> Result<String, String> {
 pub fn run_campaign_detailed(src: &str) -> Result<CampaignRun, String> {
     let cfg: CampaignScenario =
         toml::from_str(src).map_err(|e| format!("invalid campaign scenario: {e}"))?;
-    if cfg.phases.is_empty()
-        && cfg.sweep.is_none()
-        && cfg.monte_carlo.is_none()
-        && cfg.compose.is_none()
-    {
-        return Err(
-            "a campaign needs at least one of [[phases]], [sweep], [monte_carlo] or [compose]"
-                .into(),
-        );
-    }
+    // A campaign with no section composes nothing and says so (its summary names it);
+    // like every other kind, the bare `kind = "campaign"` document runs.
     let hash = campaign_hash(src)?;
     let mut ledger = Ledger { runs: Vec::new() };
     let timeline = if cfg.phases.is_empty() {
@@ -2308,6 +2300,11 @@ pub fn summary(r: &CampaignResult) -> String {
     }
     if let Some(c) = &r.compose {
         parts.push(format!("compose: {} members", c.members.len()));
+    }
+    if r.timeline.is_none() && r.sweep.is_none() && r.monte_carlo.is_none() && r.compose.is_none() {
+        parts.push(
+            "no [[phases]], [sweep], [monte_carlo] or [compose] section: nothing composed".into(),
+        );
     }
     parts.push(format!(
         "{} member runs (MODELLED)",
@@ -2851,7 +2848,7 @@ mod tests {
         assert_eq!(eval_scalar(&d, "n").unwrap(), None);
         assert!(eval_scalar(&d, "a.rows[].t").is_err());
         assert!(eval_scalar(&d, "a.rows[2].t").is_err());
-        match eval_rows(&d, "a.rows[].v").unwrap() {
+        match eval_rows(&d, "a.rows[].v[]").unwrap() {
             Rows::Rows(r) => assert_eq!(r, vec![vec![1.0, 3.0], vec![5.0]]),
             Rows::Scalar(_) => panic!("expected rows"),
         }
