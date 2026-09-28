@@ -155,7 +155,7 @@ WebAssembly build. Campaigns may not contain campaigns.
   16.459 ns (the random walk of phase under white frequency noise, NIST Technical Note
   1337). The reported interval, [-2.52, 1.59] ns, contains the true mean 0; the sample
   standard deviation, 14.93 ns, gives a chi-square statistic of 164.5 on 199 degrees of
-  freedom, inside the two-sided 99% interval [149.25, 256.10]. At 3000 seeds the same
+  freedom, inside the two-sided 99% interval [151.37, 254.14]. At 3000 seeds the same
   scenario gives 16.31 ns.
 - **The chain** hands state on as documented: the spoofing phase lasts exactly the spoof
   run's detection time, the holdover carries exactly the spoof run's offset at detection,
