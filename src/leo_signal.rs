@@ -2480,6 +2480,64 @@ mod tests {
         assert_eq!(v["sources"][0]["preset"], "generic-bands");
     }
 
+    // ── Detection probability with several non-coherent looks, against an independent
+    // evaluation of the non-central chi-square tail. With N looks of unit-power complex
+    // noise and per-look coherent SNR `snr`, the detector statistic is half a
+    // non-central chi-square with 2N degrees of freedom and non-centrality 2N·snr, so
+    // P_d = P(χ'²(2N, 2N·snr) > 2γ). Reference values from SciPy 1.x
+    // (`scipy.special.gammainccinv(N, 1e-3)` for γ, `scipy.stats.ncx2.sf(2γ, 2N, 2N·snr)`
+    // for P_d). The N = 1 test above cannot see an error in how the looks combine.
+    #[test]
+    fn detection_probability_with_several_looks_matches_the_noncentral_chi_square() {
+        let g4 = threshold_for_pfa(1e-3, 4);
+        assert!((g4 - 13.062_240_779_188_071).abs() < 1e-9, "{g4}");
+        for (snr, want) in [
+            (1.0, 0.084_925_087_405_210_85),
+            (2.0, 0.368_805_341_807_539_77),
+            (5.0, 0.966_470_579_217_159_8),
+        ] {
+            let pd = detection_probability(snr, 4, g4);
+            assert!((pd - want).abs() < 1e-9, "N 4, snr {snr}: {pd} vs {want}");
+        }
+        let g1 = threshold_for_pfa(1e-3, 1);
+        let pd = detection_probability(5.0, 1, g1);
+        assert!((pd - 0.342_062_813_861_983).abs() < 1e-9, "N 1: {pd}");
+    }
+
+    // ── The compatibility SSCs pin their magnitudes, not only their symmetry ──────
+    // A BPSK(10) signal at the Galileo E5 centre (1191.795 MHz, 51.15 MHz transmit band)
+    // against Galileo E5a (BPSK(10) at 1176.45 MHz, 20.46 MHz receiver band), 15.345 MHz
+    // apart. LEO into E5a: ∫ over the overlap of G(f − f_L)·G(f − f_V) / η, η the in-band
+    // fraction; E5a into LEO: the same product over the whole transmit band, unfiltered.
+    // Reference values by adaptive quadrature in SciPy (`scipy.integrate.quad`, relative
+    // tolerance 1e-13, split at every spectral null): η = 0.959157, −86.2139 dB/Hz and
+    // −83.5744 dB/Hz. The second sits within 0.011 dB of the infinite-band offset closed
+    // form, −83.5636 dB/Hz, as it should for a band this wide.
+    #[test]
+    fn compatibility_ssc_magnitudes_match_independent_quadrature() {
+        let cfg: SignalCfg = toml::from_str(
+            r#"
+name = "e5-centred-bpsk10"
+source = "REPRESENTATIVE"
+centre_mhz = 1191.795
+tx_bandwidth_mhz = 51.15
+allocation = "rnss"
+[[components]]
+role = "pilot"
+modulation = "BPSK(10)"
+"#,
+        )
+        .unwrap();
+        let d = SignalDesign::from_cfg(&cfg).unwrap();
+        let eta = d.in_band_fraction();
+        assert!((eta - 0.959_157_381_468_747).abs() < 1e-7, "{eta}");
+        let v = gnss_victim("galileo-e5a").unwrap();
+        let into = lin_db(ssc_leo_into_gnss(&d, eta, &v));
+        assert!((into - (-86.213_914_5)).abs() < 0.01, "LEO into E5a {into}");
+        let from = lin_db(ssc_gnss_into_leo(&d, 0, &v));
+        assert!((from - (-83.574_350_9)).abs() < 0.01, "E5a into LEO {from}");
+    }
+
     // ── Inline signals, bad inputs refused ──────────────────────────────────────
     #[test]
     fn inline_signal_and_bad_inputs() {

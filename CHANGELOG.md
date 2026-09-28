@@ -13,7 +13,7 @@ breaking changes are called out explicitly.
 
 - **LEO-PNT signal designs and a multi-band spectrum.** A new `leo-signal` kind and a
   `spectrum` kind that reaches beyond the L band. The kind count moves from 68 to 69, the
-  scenario-file count from 94 to 98 (97 bundled for `kshana example`), and the
+  scenario-file count from 94 to 98 (96 bundled for `kshana example`; the workshop-parameter file is repository-only, so deleting it withholds it), and the
   verification matrix from 189 to **193 rows — 73 VALIDATED, 116 MODELLED, 4 PARTNER**.
   - `leo-signal`: parameterised low Earth orbit (LEO) positioning, navigation and timing
     (PNT) signal designs for any system (band, transmit bandwidth, ITU allocation;
@@ -46,9 +46,10 @@ breaking changes are called out explicitly.
     Gabor bound, the offset BPSK SSC closed form, the Galileo E5 AltBOC(15,10) spectrum
     and a modulation-label parser; `Modulation::label` prints BPSK(1/3) as a fraction.
   - Four matrix rows: VALIDATED band-limited closed forms (90.3 % of BPSK power in the
-    main lobe, Gabor closed form, the jitter reducing to Kaplan & Hegarty's coherent form,
-    0.0039564 chips at 45 dB-Hz, B_L 1 Hz, d 1 chip, T 20 ms, and to its Gabor bound, the
-    offset SSC against its Parseval form); VALIDATED maximum LEO Doppler (Xona X1 33.2 kHz
+    main lobe, the jitter reducing to Kaplan & Hegarty's coherent form, 0.0039564 chips at
+    45 dB-Hz, B_L 1 Hz, d 1 chip, T 20 ms, and to its Gabor bound, and the BPSK self-SSC
+    2/(3 R_c); the Gabor closed form and the offset SSC against its Parseval form are
+    stated as internal cross-checks); VALIDATED maximum LEO Doppler (Xona X1 33.2 kHz
     inside the published 32 to 34 kHz, Iridium within 0.5 kHz of 36 kHz); MODELLED
     `leo-signal`; MODELLED multi-band spectrum.
 - **Four new engine areas in one release: `spectrum`, `solar-system` and `body-pnt`,
