@@ -10,6 +10,7 @@ mod bundled_scenarios;
 /// `.github/workflows/release.yml` greps the first line on the no-argument path, so
 /// that line stays verbatim.
 const USAGE: &str = "usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>]
+   or: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
    or: kshana --study <suite.toml>
    or: kshana --validate <scenario.toml>
    or: kshana kinds [--json]
@@ -71,6 +72,9 @@ fn main() -> ExitCode {
     let mut study_name: Option<String> = None;
     let mut study_suite_path: Option<PathBuf> = None;
     let mut validate_path: Option<PathBuf> = None;
+    let mut animate_formats: Vec<kshana::animation::AnimationFormat> = Vec::new();
+    let mut animate_opts = kshana::animation::AnimationOptions::default();
+    let mut animate_tuned = false;
     let mut i = 1;
     while i < args.len() {
         match args[i].as_str() {
@@ -147,6 +151,54 @@ fn main() -> ExitCode {
                     }
                 }
             }
+            // `--animate <svg|html|frames|all>`: also export the run's time series as an
+            // animation. Repeatable, and a comma list works (`--animate svg,html`).
+            "--animate" => {
+                i += 1;
+                let Some(v) = args.get(i) else {
+                    eprintln!("error: --animate needs a format: svg, html, frames or all");
+                    return ExitCode::from(2);
+                };
+                match kshana::animation::AnimationFormat::parse_list(v) {
+                    Ok(list) => {
+                        for f in list {
+                            if !animate_formats.contains(&f) {
+                                animate_formats.push(f);
+                            }
+                        }
+                    }
+                    Err(e) => {
+                        eprintln!("error: --animate: {e}");
+                        return ExitCode::from(2);
+                    }
+                }
+            }
+            "--animate-fps" => {
+                i += 1;
+                match args.get(i).and_then(|v| v.parse::<u32>().ok()) {
+                    Some(n) => {
+                        animate_opts.fps = n;
+                        animate_tuned = true;
+                    }
+                    None => {
+                        eprintln!("error: --animate-fps needs a whole number of frames per second");
+                        return ExitCode::from(2);
+                    }
+                }
+            }
+            "--animate-duration" => {
+                i += 1;
+                match args.get(i).and_then(|v| v.parse::<f64>().ok()) {
+                    Some(d) => {
+                        animate_opts.duration_s = d;
+                        animate_tuned = true;
+                    }
+                    None => {
+                        eprintln!("error: --animate-duration needs a length in seconds");
+                        return ExitCode::from(2);
+                    }
+                }
+            }
             "--eop" => {
                 i += 1;
                 match args.get(i) {
@@ -176,6 +228,21 @@ fn main() -> ExitCode {
         }
         i += 1;
     }
+    // The animation options are checked before anything runs, so a bad `--animate-fps`
+    // costs nothing. Tuning them without `--animate` would do nothing; say so.
+    if !animate_formats.is_empty() {
+        if let Err(e) = animate_opts.validate() {
+            eprintln!("error: {e}");
+            return ExitCode::from(2);
+        }
+    } else if animate_tuned {
+        eprintln!("warning: --animate-fps and --animate-duration do nothing without --animate");
+    }
+    if !animate_formats.is_empty() && (validate_path.is_some() || study_suite_path.is_some()) {
+        eprintln!("error: --animate exports one scenario run; it does not combine with --validate or --study");
+        return ExitCode::from(2);
+    }
+
     // `--validate <scenario.toml>`: lint a scenario against the crate's own
     // introspection (kind + required fields) and report problems WITHOUT running it,
     // so a user catches a misconfigured scenario before a (possibly long) run. This
@@ -315,6 +382,59 @@ fn main() -> ExitCode {
         None => path.clone(),
     };
 
+    // `--animate`: render every requested format from the run's own result before
+    // anything is written, so a kind with no time series fails without leaving a
+    // half-written set of outputs. The result JSON then gains an `animation` block
+    // naming what was drawn; without `--animate` it stays byte-identical.
+    let mut animations: Vec<(PathBuf, kshana::animation::Animation)> = Vec::new();
+    if !animate_formats.is_empty() {
+        let kind = kshana::api::ScenarioKind::classify(&src)
+            .map(|k| k.as_str().to_string())
+            .ok();
+        let mut written: Vec<String> = Vec::new();
+        for f in &animate_formats {
+            match kshana::animation::animate_result(&out.json, kind.as_deref(), *f, &animate_opts) {
+                Ok(a) => {
+                    let target = match f {
+                        kshana::animation::AnimationFormat::Svg => {
+                            output_base.with_extension("animation.svg")
+                        }
+                        kshana::animation::AnimationFormat::Html => {
+                            output_base.with_extension("animation.html")
+                        }
+                        kshana::animation::AnimationFormat::Frames => {
+                            output_base.with_extension("frames")
+                        }
+                    };
+                    written.push(
+                        target
+                            .file_name()
+                            .map(|n| n.to_string_lossy().into_owned())
+                            .unwrap_or_default(),
+                    );
+                    animations.push((target, a));
+                }
+                Err(e) => {
+                    eprintln!("error: --animate {}: {e}", f.as_str());
+                    return ExitCode::FAILURE;
+                }
+            }
+        }
+        match kshana::animation::animation_meta(
+            &out.json,
+            kind.as_deref(),
+            &animate_formats,
+            &animate_opts,
+            &written,
+        ) {
+            Ok(meta) => out.json = kshana::animation::with_animation_meta(&out.json, &meta),
+            Err(e) => {
+                eprintln!("error: --animate: {e}");
+                return ExitCode::FAILURE;
+            }
+        }
+    }
+
     let json_path = output_base.with_extension("result.json");
     if let Err(e) = std::fs::write(&json_path, &out.json) {
         eprintln!("error: cannot write {}: {e}", json_path.display());
@@ -358,6 +478,16 @@ fn main() -> ExitCode {
             svg_path.display(),
             html_path.display()
         );
+    }
+
+    for (target, anim) in &animations {
+        match write_animation(target, anim) {
+            Ok(()) => println!("wrote {}", target.display()),
+            Err(e) => {
+                eprintln!("error: cannot write {}: {e}", target.display());
+                return ExitCode::FAILURE;
+            }
+        }
     }
 
     // SP3 export: an explicit `--export-sp3 <path>`, or the scenario's `export_sp3`
@@ -434,6 +564,27 @@ fn main() -> ExitCode {
         }
     }
     ExitCode::SUCCESS
+}
+
+/// Write one animation export: a single file for `svg` and `html`, or a directory of
+/// numbered frames plus `manifest.json` for `frames`.
+fn write_animation(
+    target: &std::path::Path,
+    anim: &kshana::animation::Animation,
+) -> std::io::Result<()> {
+    match anim.format {
+        kshana::animation::AnimationFormat::Frames => {
+            std::fs::create_dir_all(target)?;
+            for f in &anim.files {
+                std::fs::write(target.join(&f.name), &f.content)?;
+            }
+            Ok(())
+        }
+        _ => match anim.files.first() {
+            Some(f) => std::fs::write(target, &f.content),
+            None => Ok(()),
+        },
+    }
 }
 
 /// `kshana kinds [--json]`: list the built-in scenario kinds.
