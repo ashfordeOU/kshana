@@ -14,7 +14,7 @@ breaking changes are called out explicitly.
 - **LEO-PNT signal designs and a multi-band spectrum.** A new `leo-signal` kind and a
   `spectrum` kind that reaches beyond the L band. The kind count moves from 68 to 69, the
   scenario-file count from 94 to 98 (97 bundled for `kshana example`), and the
-  verification matrix from 189 to **193 rows: 73 VALIDATED, 116 MODELLED, 4 PARTNER**.
+  verification matrix from 189 to **193 rows — 73 VALIDATED, 116 MODELLED, 4 PARTNER**.
   - `leo-signal`: parameterised low Earth orbit (LEO) positioning, navigation and timing
     (PNT) signal designs for any system (band, transmit bandwidth, ITU allocation;
     acquisition, data and pilot components with BPSK(n), BOC(m,n), MBOC or flat spectra,
@@ -54,7 +54,8 @@ breaking changes are called out explicitly.
 - **Four new engine areas in one release: `spectrum`, `solar-system` and `body-pnt`,
   `constellation-design`, and `campaign`.** The kind count moves from 63 to 68, the
   scenario-file count from 82 to 94, and the verification matrix from 174 to
-  **189 rows — 71 VALIDATED, 114 MODELLED, 4 PARTNER**. Each area is described below.
+  189 rows (71 validated, 114 modelled, 4 partner-owned at that step; the LEO-PNT entry
+  above brings the live totals to 193). Each area is described below.
   - Across the areas: `scenarios/campaign-spectrum-holdover-integrity.toml` chains the
     `spectrum` kind with a clock holdover and an integrity monitor (a chirp takes L1 C/A
     and E1; a CW tone then keeps C/A down while E1 recovers and the receiver falls back to
