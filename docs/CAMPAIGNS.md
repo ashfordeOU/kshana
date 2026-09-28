@@ -14,7 +14,7 @@ Run one like any other scenario:
 
 ```bash
 kshana scenarios/campaign-jam-spoof-holdover-integrity.toml
-# writes .result.json, .chart.svg and .report.html next to the file
+# writes .result.json, .chart.svg, .report.html and .report.json next to the file
 ```
 
 A campaign may contain any combination of four sections; one with none runs and its
