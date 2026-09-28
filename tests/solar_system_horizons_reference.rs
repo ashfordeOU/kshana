@@ -18,8 +18,8 @@
 //! * **Uranus and Neptune from Table 1 do not meet the page's figures** against DE441, by up
 //!   to 2.0 and 5.2 times; that is pinned here so it cannot be hidden, and those two series
 //!   are labelled MODELLED.
-//! * **Light time** Earth to Mars and Jupiter: the one-way light time solved by
-//!   `radiometric::light_time_solution` on the analytic ephemeris against the Horizons
+//! * **Light time** Earth to Mars and Jupiter: the one-way light time from
+//!   `solar_system::link` (`radiometric::light_time_solution`, heliocentric) against the Horizons
 //!   light-time-corrected `LT`, within the Standish position bound divided by `c`.
 //! * The Earth, the geocentric Moon, the velocities, Pluto and the seven moons are measured
 //!   against Horizons with bars stated in each test. They have no published error bound, so
@@ -31,8 +31,7 @@ use kshana::ephem::{
     StandishTable,
 };
 use kshana::ephem_provider::AnalyticSolarSystem;
-use kshana::radiometric::light_time_solution;
-use kshana::timescales::TwoPartJd;
+use kshana::solar_system::link;
 
 const ARCSEC_PER_RAD: f64 = 206_264.806_247_096_36;
 const C_M_S: f64 = 299_792_458.0;
@@ -357,10 +356,13 @@ fn geocentric_moon_tracks_horizons() {
     assert!(worst < 0.1, "Moon {worst:.3} deg");
 }
 
-/// One-way light time from Mars and Jupiter to the Earth's centre, solved by the existing
-/// radiometric light-time solver on the analytic ephemeris, against the Horizons `LT`. Bar:
-/// twice the Standish distance bounds of the target and the barycentre, plus the longitude
-/// bound's cross-range projection, over `c` (a conservative ceiling on the range error).
+/// One-way light time from Mars and Jupiter to the Earth's centre, through
+/// `solar_system::link`, the path the `solar-system` and `body-pnt` kinds ship: the existing
+/// radiometric light-time solver in the heliocentric frame (the Sun as centre, the Earth's
+/// heliocentric position as the receiver), against the Horizons `LT`. The solver treats its
+/// centre as inertial, so the Earth must not be the centre: an Earth-centred solve moves the
+/// receiver with the Earth over the light time, about 0.08 s at Mars. Bar: twice the Standish
+/// distance bounds of the target and the barycentre, over `c`.
 #[test]
 fn light_time_matches_horizons_within_the_position_bound() {
     let eph = AnalyticSolarSystem::default();
@@ -373,23 +375,16 @@ fn light_time_matches_horizons_within_the_position_bound() {
         let jd = f(&r[2]);
         let lt_oracle = f(&r[7]);
         let range_m = f(&r[8]) * 1e3;
-        let lt = light_time_solution(
-            [0.0; 3],
-            TwoPartJd::from_f64(jd),
-            &body,
-            &Body::earth(),
-            &eph,
-        )
-        .expect("light time");
+        let lt = link(&eph, &body, &Body::earth(), jd).expect("light time");
         let n_t = standish_nominal_error(planet, StandishTable::Table1).expect("nominal");
         let n_e = standish_nominal_error(Planet::EarthMoonBarycentre, StandishTable::Table1)
             .expect("nominal");
         let bound_m = 2.0 * (n_t[2] + n_e[2]);
         let bar_s = bound_m / C_M_S;
-        let err = lt.tau_s - lt_oracle;
+        let err = lt.one_way_light_time_s - lt_oracle;
         println!(
             "{} at JD {jd}: light time {:.3} s vs Horizons {:.3} s, error {:+.3} s (bar {:.3} s), range {:.4e} m",
-            body.name, lt.tau_s, lt_oracle, err, bar_s, range_m
+            body.name, lt.one_way_light_time_s, lt_oracle, err, bar_s, range_m
         );
         assert!(
             err.abs() <= bar_s,
