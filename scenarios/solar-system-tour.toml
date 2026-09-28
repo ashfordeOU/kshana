@@ -5,7 +5,7 @@
 # heliocentric position and velocity in the ICRF (International Celestial Reference
 # Frame, equatorial J2000), its physical constants (gravitational parameter, radii, J2 — the
 # second zonal harmonic — where published, sidereal rotation, International Astronomical
-# Union (IAU) pole and prime meridian at the epoch), the light time and one-way and
+# Union (IAU) pole, its J2000 mean value, and prime meridian at the epoch), the light time and one-way and
 # two-way range from the Earth, and an orbit track sampled over one revolution.
 # result.json carries enough to draw an interactive solar system.
 #
