@@ -47,8 +47,9 @@ breaking changes are called out explicitly.
     withheld).
 - **Four new engine areas in one release: `spectrum`, `solar-system` and `body-pnt`,
   `constellation-design`, and `campaign`.** The kind count moves from 63 to 68, the
-  scenario-file count from 82 to 94, and the verification matrix from 174 to
-  **189 rows — 71 VALIDATED, 114 MODELLED, 4 PARTNER**. Each area is described below.
+  scenario-file count from 82 to 94, and the verification matrix from 174 to 189 rows
+  (the release totals, with `leo-navmsg`, are stated in the entry above). Each area is
+  described below.
   - Across the areas: `scenarios/campaign-spectrum-holdover-integrity.toml` chains the
     `spectrum` kind with a clock holdover and an integrity monitor (a chirp takes L1 C/A
     and E1; a CW tone then keeps C/A down while E1 recovers and the receiver falls back to
