@@ -108,6 +108,7 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         BodyPnt,
         ConstellationDesign,
         Campaign,
+        LeoPass,
     ]
 };
 
@@ -218,6 +219,8 @@ pub mod ids {
     /// Existing kinds composed into a chained mission timeline, a parameter grid, a
     /// seeded Monte Carlo ensemble, or members run under shared conditions.
     pub const CAMPAIGN: ScenarioId = ScenarioId::from_static("campaign");
+    /// A LEO pass and its per-band link budget beside the MEO GNSS satellites in view.
+    pub const LEO_PASS: ScenarioId = ScenarioId::from_static("leo-pass");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {
