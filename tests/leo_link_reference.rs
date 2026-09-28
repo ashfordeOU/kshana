@@ -16,6 +16,12 @@
 //!   (1080 km, 53°) and GPS (20180 km, 55°).
 //!
 //! The fixtures under `tests/fixtures/leo_link/` carry their source URLs and retrieval date.
+//!
+//! PIN-SCOPE:    the row counts of the four committed fixtures in `tests/fixtures/leo_link/`
+//!               (115 P.838-3 rows, 56 rain and 42 scintillation cases, 568 P.2109 values), so
+//!               a truncated or duplicated fixture cannot pass by comparing fewer rows
+//! PIN-EXCLUDES: the `#` source-comment lines and the header row of each fixture, and every
+//!               file outside those four fixtures
 
 use kshana::leo_link::geometry::max_static_user_range_rate;
 use kshana::leo_link::iono::{group_delay_m, iono_free_noise_amplification, TECU};
