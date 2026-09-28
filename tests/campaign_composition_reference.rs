@@ -469,9 +469,15 @@ fn a_handoff_writes_the_previous_phase_number_into_the_next_scenario() {
 }
 
 #[test]
+fn an_empty_campaign_runs_and_says_it_composed_nothing() {
+    let out = kshana::api::run_toml("kind = \"campaign\"\n").unwrap();
+    assert!(out.summary.contains("nothing composed"), "{}", out.summary);
+    assert!(out.summary.contains("0 member runs"));
+}
+
+#[test]
 fn malformed_campaigns_fail_loudly() {
     let bad = [
-        ("kind = \"campaign\"\n", "at least one of"),
         ("kind = \"campaign\"\n[sweeep]\nx = 1\n", "unknown field"),
         (
             "kind = \"campaign\"\n[[phases]]\nname = \"a\"\nduration_s = 10.0\n[[phases.runs]]\n[phases.runs.scenario]\nkind = \"spoof-detect\"\n",
