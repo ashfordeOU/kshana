@@ -72,9 +72,10 @@ VALIDATED, against published documents:
   90 % 1.165, 95 % 1.255, 98 % 1.370 and mean 0.965, against the published 0.94, 1.16,
   1.25, 1.37 and 0.96 (bar 0.03, fixed before the first run). PDOP median 1.795 is below the
   1.815 of Table B.3-1, which describes a degraded 20-24 satellite mix. PDOP of 6 or less
-  holds 100 % of the time, against 98 % global and 88 % worst site in Table 3.8-1;
-- a single-epoch DOP matches a hand-derived closed form (a zenith satellite and three at
-  30 deg elevation: PDOP 8/3, GDOP 3.0732).
+  holds 100 % of the time, against 98 % global and 88 % worst site in Table 3.8-1.
+
+Checked against a hand derivation, not an external document: a single-epoch DOP matches the
+closed form for a zenith satellite and three at 30 deg elevation (PDOP 8/3, GDOP 3.0732).
 
 MODELLED: two-body orbits with an optional secular J2 drift; a spherical body; geometric
 visibility only (no signal power, satellite health or terrain); no third-body perturbation,
