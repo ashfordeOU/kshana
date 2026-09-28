@@ -1096,8 +1096,10 @@ mod band_limited_tests {
             EarlyLate::Coherent,
         );
         let chips = s * rc;
+        // 0.25 %: tight enough that dropping the (1 − B_L T/2) factor (0.5 %) fails here,
+        // loose enough for the 400 R_c band's own 0.1 % truncation.
         assert!(
-            (chips - 0.003_956_4).abs() < 0.01 * 0.003_956_4,
+            (chips - 0.003_956_4).abs() < 0.0025 * 0.003_956_4,
             "coherent {chips}"
         );
         assert!((chips * C_LIGHT_M_PER_S / rc - 1.1594).abs() < 0.012);

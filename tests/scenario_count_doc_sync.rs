@@ -71,6 +71,10 @@ fn readme_dispatch_counts_match_the_api() {
     );
 }
 
+/// Scenario files a release may withhold by deleting them: the workshop-parameter preset,
+/// the only file with workshop-derived numbers (see docs/LEO-SIGNAL.md).
+const WITHHOLDABLE_SCENARIOS: &[&str] = &["celeste-iod-classical-pilot-signals.toml"];
+
 /// The README also states how many scenario FILES ship, and nothing pinned that.
 ///
 /// The kind count above is read from `api::list_scenario_kinds()`, so it cannot drift. The
@@ -92,7 +96,14 @@ fn readme_scenario_file_count_matches_the_directory() {
         .map(|e| e.file_name().to_string_lossy().into_owned())
         .filter(|f| f.ends_with(".toml"))
         .collect();
-    let n = names.iter().filter(|f| !f.ends_with(".suite.toml")).count();
+    // A release may withhold the workshop-parameter preset by deleting that one file
+    // (docs/LEO-SIGNAL.md). The README states the repository's count, so a withheld file
+    // is counted as if present rather than turning this guard red in that release.
+    let withheld = WITHHOLDABLE_SCENARIOS
+        .iter()
+        .filter(|f| !names.iter().any(|n| n == *f))
+        .count();
+    let n = names.iter().filter(|f| !f.ends_with(".suite.toml")).count() + withheld;
     let suites = names.iter().filter(|f| f.ends_with(".suite.toml")).count();
 
     // A directory read that matched nothing would satisfy the assertion below vacuously

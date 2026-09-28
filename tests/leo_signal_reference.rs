@@ -181,3 +181,39 @@ fn workshop_e5_design_is_consistent_with_its_described_shape_when_present() {
         }
     }
 }
+
+// Withholding the workshop-parameter preset must take deleting that one file. An
+// `include_str!` (directly or through the `bundled!` table) of it anywhere in the engine
+// would stop the crate compiling the moment the file is withheld, so no source file may
+// embed it; the command-line interface names it only as a repository-only scenario.
+#[test]
+fn the_workshop_preset_is_not_compiled_into_any_source_file() {
+    let stem = "celeste-iod-classical-pilot-signals";
+    let mut stack = vec![std::path::PathBuf::from("src")];
+    let mut seen = 0;
+    while let Some(dir) = stack.pop() {
+        for e in std::fs::read_dir(&dir).unwrap() {
+            let p = e.unwrap().path();
+            if p.is_dir() {
+                stack.push(p);
+            } else if p.extension().is_some_and(|x| x == "rs") {
+                seen += 1;
+                let text = std::fs::read_to_string(&p).unwrap();
+                for (i, line) in text.lines().enumerate() {
+                    if line.contains(stem) {
+                        assert!(
+                            !line.contains("include_str!")
+                                && !line.contains("include_bytes!")
+                                && !line.contains("bundled!("),
+                            "{}:{}: {stem} is compiled in, so deleting the file would break \
+                             the build",
+                            p.display(),
+                            i + 1
+                        );
+                    }
+                }
+            }
+        }
+    }
+    assert!(seen > 50, "walked only {seen} source files");
+}
