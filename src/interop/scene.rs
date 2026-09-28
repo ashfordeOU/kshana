@@ -228,11 +228,18 @@ fn time_grid(step_s: f64, duration_s: f64) -> Result<Vec<f64>, ExportError> {
 }
 
 /// Sample propagators on the grid. The TEME→GCRS rotation depends only on the instant,
-/// so it is built once per sample and shared by every object.
+/// so it is built once per sample and shared by every object dated by the scene epoch.
+///
+/// With `own_dates`, an object whose data carry their own epoch (an SGP4 satellite's
+/// TLE epoch, a broadcast ephemeris's `Toe`, an SP3 file's start; see
+/// [`Propagator::own_jd_utc`]) is rotated into the GCRS and Earth-fixed frames at its
+/// own instant, since that is the date its TEME position belongs to, while its time tag
+/// stays the scene's.
 fn sample(
     items: Vec<(String, MoverRole, String, Propagator)>,
     epoch: &UtcEpoch,
     times: &[f64],
+    own_dates: bool,
 ) -> Result<Vec<Mover>, ExportError> {
     if items.len().saturating_mul(times.len()) > MAX_SAMPLES {
         return Err(ExportError::Failed(format!(
@@ -254,15 +261,22 @@ fn sample(
         .collect();
     for &t in times {
         let jd_utc = epoch.jd_utc(t);
-        let jd_tt = crate::timescales::utc_to_tt(jd_utc);
-        let m = crate::nutation::teme_to_gcrs_matrix(jd_tt);
+        let m = crate::nutation::teme_to_gcrs_matrix(crate::timescales::utc_to_tt(jd_utc));
         for (k, (_, _, _, p)) in items.iter().enumerate() {
             let s = p.state_eci(t);
+            let own = if own_dates { p.own_jd_utc(t) } else { None };
+            let (jd, mk) = match own {
+                Some(jd) => (
+                    jd,
+                    crate::nutation::teme_to_gcrs_matrix(crate::timescales::utc_to_tt(jd)),
+                ),
+                None => (jd_utc, m),
+            };
             let mv = &mut movers[k];
-            mv.gcrs_r_m.push(crate::precession::mat_vec(&m, s.r_m));
-            mv.gcrs_v_m_s.push(crate::precession::mat_vec(&m, s.v_m_s));
+            mv.gcrs_r_m.push(crate::precession::mat_vec(&mk, s.r_m));
+            mv.gcrs_v_m_s.push(crate::precession::mat_vec(&mk, s.v_m_s));
             // UT1 is taken equal to UTC, as in the SP3 export.
-            mv.ecef_r_m.push(teme_to_ecef(s.r_m, jd_utc));
+            mv.ecef_r_m.push(teme_to_ecef(s.r_m, jd));
         }
     }
     Ok(movers)
@@ -459,20 +473,14 @@ pub fn scene_of(src: &str) -> Result<Scene, ExportError> {
     match kind {
         ScenarioKind::Orbit => {
             let scn: crate::orbit::OrbitClockScenario = toml::from_str(src).map_err(bad)?;
-            let (epoch, note) = match &scn.epoch {
-                Some(e) => (
+            let sats = scn.all_satellites().map_err(ExportError::Failed)?;
+            let given = scn.epoch.as_ref().map(|e| {
+                (
                     UtcEpoch::from_epoch_utc(e),
                     "the scenario's `epoch`, read as UTC".to_string(),
-                ),
-                None => (
-                    UtcEpoch::from_epoch_utc(&default_orbit_epoch()),
-                    "the scenario gives no `epoch`; t = 0 is labelled 2000-01-01T00:00:00Z, the \
-                     default the SP3 and OEM exports use"
-                        .to_string(),
-                ),
-            };
-            let sats = scn.all_satellites().map_err(ExportError::Failed)?;
-            orbit_like(&mut scene, epoch, note, &scn.time, &scn.user, sats)?;
+                )
+            });
+            orbit_like(&mut scene, given, &scn.time, &scn.user, sats)?;
         }
         ScenarioKind::Integrity => {
             let scn: crate::raim::IntegrityScenario = toml::from_str(src).map_err(bad)?;
@@ -483,16 +491,9 @@ pub fn scene_of(src: &str) -> Result<Scene, ExportError> {
             for c in &scn.constellations {
                 sats.extend(c.satellites().map_err(ExportError::Failed)?);
             }
-            orbit_like(
-                &mut scene,
-                UtcEpoch::from_epoch_utc(&default_orbit_epoch()),
-                "the integrity kind has no calendar epoch; t = 0 is labelled \
-                 2000-01-01T00:00:00Z, as for an orbit scenario without one"
-                    .to_string(),
-                &scn.time,
-                &scn.user,
-                sats,
-            )?;
+            // The integrity kind has no `epoch` of its own, so t = 0 is dated as for an
+            // orbit scenario without one.
+            orbit_like(&mut scene, None, &scn.time, &scn.user, sats)?;
         }
         ScenarioKind::Jamming => {
             let scn: crate::jamming::JammingScenario = toml::from_str(src).map_err(bad)?;
@@ -583,6 +584,7 @@ pub fn scene_of(src: &str) -> Result<Scene, ExportError> {
                 )],
                 &epoch,
                 &scene.times_s,
+                false,
             )?;
             scene.sites.push(Site {
                 id: "station".into(),
@@ -765,18 +767,61 @@ fn walker_scene(
         .zip(sats)
         .map(|(id, p)| (id, MoverRole::Satellite, desc.clone(), p))
         .collect();
-    scene.movers = sample(items, &epoch, &scene.times_s)?;
+    scene.movers = sample(items, &epoch, &scene.times_s, false)?;
     Ok(())
+}
+
+/// The UTC instant of `t = 0` when a scenario gives no `epoch`, with the note written
+/// into each export: the earliest epoch the satellites' own data carry, or, when no
+/// satellite carries one (Keplerian elements only), 2000-01-01T00:00:00Z, the label the
+/// SP3 and OEM exports give `t = 0`.
+fn default_epoch(sats: &[Propagator]) -> (UtcEpoch, String) {
+    let own: Vec<f64> = sats.iter().filter_map(|p| p.own_jd_utc(0.0)).collect();
+    let Some(first) = own.iter().copied().reduce(f64::min) else {
+        return (
+            UtcEpoch::from_epoch_utc(&default_orbit_epoch()),
+            "the scenario gives no `epoch` and its satellites carry none (Keplerian \
+             elements); t = 0 is labelled 2000-01-01T00:00:00Z, the default the SP3 and OEM \
+             exports use"
+                .to_string(),
+        );
+    };
+    let last = own.iter().copied().reduce(f64::max).unwrap_or(first);
+    let epoch = UtcEpoch::from_jd_utc(first);
+    let spread_h = (last - first) * 24.0;
+    let note = if spread_h > 0.0 {
+        format!(
+            "the scenario gives no `epoch`; t = 0 is {}, the earliest epoch the satellites' \
+             own data carry (TLE, broadcast-ephemeris or SP3 epoch). Each satellite is \
+             propagated from its own epoch, and those span {:.3} h: the time tags follow the \
+             engine's premise that every satellite starts at t = 0, while each position is \
+             rotated into the GCRS and Earth-fixed frames at that satellite's own instant. \
+             The SP3 and OEM exports label t = 0 as 2000-01-01T00:00:00Z instead",
+            epoch.iso(0.0),
+            spread_h
+        )
+    } else {
+        format!(
+            "the scenario gives no `epoch`; t = 0 is {}, the epoch the satellites' own data \
+             carry (TLE, broadcast-ephemeris or SP3 epoch). The SP3 and OEM exports label t = \
+             0 as 2000-01-01T00:00:00Z instead",
+            epoch.iso(0.0)
+        )
+    };
+    (epoch, note)
 }
 
 fn orbit_like(
     scene: &mut Scene,
-    epoch: UtcEpoch,
-    note: String,
+    given: Option<(UtcEpoch, String)>,
     time: &crate::scenario::TimeCfg,
     user: &crate::orbit::OrbitCfg,
     sats: Vec<Propagator>,
 ) -> Result<(), ExportError> {
+    // A satellite is dated by its own data only when the scenario names no epoch; an
+    // explicit `epoch` labels t = 0 for every object, as the engine's other exports read it.
+    let own_dates = given.is_none();
+    let (epoch, note) = given.unwrap_or_else(|| default_epoch(&sats));
     scene.epoch = Some(epoch);
     scene.epoch_note = note;
     scene.times_s = time_grid(time.step_s, time.duration_s)?;
@@ -805,6 +850,6 @@ fn orbit_like(
         ),
         Propagator::Kepler(user.to_orbit()),
     ));
-    scene.movers = sample(items, &epoch, &scene.times_s)?;
+    scene.movers = sample(items, &epoch, &scene.times_s, own_dates)?;
     Ok(())
 }

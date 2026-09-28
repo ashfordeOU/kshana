@@ -24,6 +24,7 @@
 
 use kshana::cio::gcrs_to_itrs;
 use kshana::frames::{arcsec, ecef_to_geodetic, teme_to_ecef, teme_to_itrf};
+use kshana::nutation::teme_to_gcrs;
 use kshana::timescales::{julian_date, utc_to_tt, utc_to_ut1};
 
 /// Euclidean distance (metres) between two metre-vectors.
@@ -90,6 +91,23 @@ fn teme_to_itrf_matches_vallado_with_polar_motion() {
     eprintln!("TEME→ITRF residual vs Vallado: {:.4} m", d);
     // Measured ~0.6 mm; 50 mm bound leaves ~80× headroom.
     assert!(d < 0.05, "TEME→ITRF off by {d:.4} m (> 50 mm)");
+}
+
+#[test]
+fn teme_to_gcrs_matches_vallado_gcrf() {
+    // The equinox chain TEME→TOD→MOD→GCRS (equation of the equinoxes, IAU 2000B
+    // nutation, IAU 2006 bias-precession) must map Vallado's TEME state onto his
+    // GCRF state. Vallado's GCRF applies the observed celestial-pole offsets dX/dY
+    // and the full IAU 2000A series, which this chain leaves out (~1 mas, ~5 cm at
+    // this radius); ERFA's own IAU 2006/2000A reduction of the same TEME vector
+    // lands 0.11 m from the published GCRF. A sign slip in the nutation matrix turns
+    // the result by 2·Δψ (~25 arcsec) and misses by 1.1 km, so the 0.5 m bound
+    // separates the two by more than three orders of magnitude.
+    let (_jd_ut1, jd_tt) = vallado_jds();
+    let (got, _) = teme_to_gcrs(km(R_TEME_KM), [0.0; 3], jd_tt);
+    let d = dist_m(got, km(R_GCRF_KM));
+    eprintln!("TEME→GCRS residual vs Vallado: {:.4} m", d);
+    assert!(d < 0.5, "TEME→GCRS off by {d:.4} m (> 0.5 m)");
 }
 
 #[test]

@@ -33,15 +33,19 @@
 //! * Moving objects are propagated in the engine's native frame, TEME (true equator,
 //!   mean equinox of date), and written in two frames: the Geocentric Celestial Reference
 //!   System (GCRS, whose axes are the International Celestial Reference Frame axes) via
-//!   the validated [`crate::nutation::teme_to_gcrs`] reduction, for CZML (`INERTIAL`) and
+//!   the [`crate::nutation::teme_to_gcrs`] reduction (0.11 m from Vallado's published
+//!   TEME-to-GCRF example, `tests/frame_reference_vectors.rs`), for CZML (`INERTIAL`) and
 //!   STK (`ICRF`); and Earth-fixed via [`crate::frames::teme_to_ecef`] (Greenwich mean
 //!   sidereal rotation, polar motion and UT1−UTC not applied, the same reduction the SP3
 //!   export uses), for KML and GeoJSON longitude, latitude and height. The `ephemeris`
 //!   kind is the exception: its engine output already carries GCRS and Earth-fixed
 //!   positions (with its own UT1 and polar motion), and those are written unchanged.
 //! * Every time is Coordinated Universal Time (UTC), written as ISO 8601 with a `Z`
-//!   suffix to the microsecond. Where a kind has no calendar epoch of its own, the
-//!   epoch the engine uses is named in the output (see [`scene::Scene::epoch_note`]).
+//!   suffix to the microsecond. Where a scenario gives no calendar epoch, `t = 0` is the
+//!   earliest epoch its satellites' own data carry (TLE, broadcast ephemeris, SP3), and
+//!   each such satellite is rotated into the GCRS and Earth-fixed frames at its own
+//!   instant; the output names the epoch and where it came from (see
+//!   [`scene::Scene::epoch_note`]).
 //!
 //! ## Determinism
 //!

@@ -121,9 +121,10 @@ result document, and the data file has the `iq.sigmf.data_bytes` length. The wri
 ## Frames and time
 
 - The engine propagates in TEME (true equator, mean equinox of date), its native frame.
-  Moving objects are rotated to the GCRS by the validated
-  `nutation::teme_to_gcrs` reduction (IAU 2006 precession and IAU 2000A nutation, where
-  IAU is the International Astronomical Union) for CZML and STK, and to the Earth-fixed
+  Moving objects are rotated to the GCRS by the `nutation::teme_to_gcrs` reduction
+  (IAU 2006 precession and IAU 2000B nutation, where IAU is the International
+  Astronomical Union), which reproduces Vallado's published TEME-to-GCRF example to
+  0.11 m, for CZML and STK, and to the Earth-fixed
   frame by `frames::teme_to_ecef` for KML and GeoJSON. The Earth-fixed rotation is the
   Greenwich mean sidereal angle with UT1 (Universal Time, Earth-rotation angle) taken
   equal to UTC and polar motion not applied — the same reduction the SP3 (Standard
@@ -137,13 +138,21 @@ result document, and the data file has the `iq.sigmf.data_bytes` length. The wri
 - Every time is UTC. Leap seconds are not modelled: an offset across a leap second is
   counted as if every day had 86 400 s, as the engine's time grids count.
 - The epoch of `t = 0` is the one the kind's run uses, and each file names it:
-  the `orbit` kind's `epoch` (2000-01-01T00:00:00Z when absent, as for the SP3 and OEM
-  (Orbit Ephemeris Message) exports); the SGP4 (Simplified General Perturbations 4)
+  the `orbit` kind's `epoch`; when it is absent, the earliest epoch the satellites' own
+  data carry (a TLE epoch, a broadcast ephemeris's reference time, an SP3 file's start),
+  and 2000-01-01T00:00:00Z only when no satellite carries one (Keplerian elements). The
+  SP3 and OEM (Orbit Ephemeris Message) exports keep 2000-01-01T00:00:00Z for a scenario
+  without an `epoch`, so for such a scenario their dates differ from these files'. With
+  no scenario `epoch`, each satellite that carries its own epoch is rotated into the GCRS
+  and Earth-fixed frames at its own instant (its epoch plus `t`), since that is the date
+  its TEME position belongs to; where the satellites' epochs differ, the shared time tags
+  follow the engine's premise that every satellite starts at `t = 0`, and the file says
+  by how many hours they differ. The SGP4 (Simplified General Perturbations 4)
   element epoch of the `jamming` and `gnss-sim` kinds' Walker constellations
   (2018-06-12T00:00:00Z), which their runs also use for the Earth rotation; the
   `passes` kind's `epoch`; the `ephemeris` kind's `epoch` or two-line element (TLE)
-  epoch. The `integrity` kind has no calendar epoch; its export labels `t = 0` as
-  2000-01-01T00:00:00Z, as for an orbit scenario without one.
+  epoch. The `integrity` kind has no calendar epoch; its export dates `t = 0` as for an
+  orbit scenario without one.
 - Satellites keep the positional identifiers `G01`, `G02`, ... the SP3 and OEM exports
   give them, because the propagators do not carry the TLE name lines.
 
@@ -191,7 +200,13 @@ format's specification, not with the writer's own code:
 Beyond structure, a satellite exported to CZML and to STK is compared with the engine's
 own state after the same frame reduction, and agrees to 1 mm in position (the files carry
 0.1 mm): against the `ephemeris` kind's own GCRS output, and against an independent
-TEME-to-GCRS propagation of the `orbit-sgp4-gps` constellation. The `jamming` export's
+TEME-to-GCRS propagation of the `orbit-sgp4-gps` constellation, each satellite dated by
+its own TLE epoch read from the scenario text. Two checks go outside the engine: the first
+`orbit-sgp4-gps` satellite's CZML positions agree to 0.1 m (measured 2.3 cm) with the same
+TLE propagated by the `sgp4` Python package and reduced to the GCRS by ERFA (Essential
+Routines for Fundamental Astronomy, the open implementation of the IAU's SOFA library),
+and the `orbit-rinex` satellites' Earth-fixed positions equal the broadcast-ephemeris
+positions of the Global Positioning System interface specification to 1 mm. The `jamming` export's
 Earth-fixed positions are compared with the positions the jamming run scores, to 5 mm.
 The GeoJSON route round-trips through a track scenario, the SigMF pair reads back to the
 same bytes, and every export is byte-deterministic.
