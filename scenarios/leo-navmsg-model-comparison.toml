@@ -1,0 +1,38 @@
+# LEO navigation message: four ephemeris models on one orbit, and the Liu et al. 2025
+# SISRE-versus-altitude table.
+#
+# Models: the Galileo 16-parameter Keplerian set; that set plus along/cross/radial
+# polynomials; the 22-parameter extension of Liu, Su, Xie, Zhou and Qu (2025, Remote
+# Sensing 17(16):2894, doi 10.3390/rs17162894), which adds a semi-major-axis rate, a
+# mean-motion rate and once- and three-per-revolution radius harmonics; and the Earth-
+# centred Earth-fixed (ECEF) 6th-order polynomial with no clock terms that the ATOMIC
+# payload flew ("zero-clock": the satellite clock is steered to system time, and the
+# message is scored against a steered clock with a 0.24 m residual). Each at fit
+# intervals of 1, 5 and 10 minutes, with its parameter count and its size in Kshana's
+# binary encoding.
+#
+# The Liu table fits Kshana's 22-parameter model over 20-minute arcs at the five
+# altitudes of the paper (320, 475, 786, 966, 1336 km) and prints the published SISRE
+# beside it. The paper fitted real precise science orbits of named satellites; Kshana
+# fits its own integrated orbit at the same altitude and inclination, so the comparison
+# is MODELLED, not VALIDATED.
+kind = "leo-navmsg"
+name = "LEO message model comparison"
+seed = 12
+analysis = ["model-comparison"]
+
+[orbit]
+altitude_km = 550.0
+inclination_deg = 97.6
+gravity_degree = 20
+
+[message]
+model = "kepler-rac"
+rac_degrees = [7, 5, 6]
+
+[comparison]
+models = ["kepler16", "kepler-rac", "liu22", "ecef-poly"]
+fit_intervals_s = [60, 300, 600]
+span_s = 1200
+liu_table = true
+liu_arcs = 3

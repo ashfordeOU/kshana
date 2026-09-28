@@ -1,0 +1,35 @@
+# LEO navigation message: Kshana's binary encoding, its quantisation budget, and the
+# RINEX-style and CSV exports.
+#
+# The binary frame is Kshana's own documented encoding (preamble, version, model, length,
+# payload, CRC-24Q). It carries the published components of a LEO message (a Galileo-
+# style Keplerian set with along/cross/radial corrections, a second-order clock
+# polynomial, SVID, issue of data, band and health, a Klobuchar and a NeQuick-G
+# ionospheric set, and UTC parameters) with steps sized so that every field's half-step
+# error stays under a millimetre over the validity window. It is not the bit layout of
+# any operational or demonstration system; none is public.
+#
+# The run fits three consecutive messages, encodes the first, decodes it, checks the
+# CRC (and that a flipped bit is rejected), prints the per-field half-step budget and
+# the SISRE of the exact and decoded message against the truth, then writes all three as
+# a RINEX-4-style block (a documented Kshana extension: RINEX 4.02 has no LEO records;
+# prior art arXiv 2401.17767) and as a CSV table, and reads both back.
+kind = "leo-navmsg"
+name = "LEO message encode and decode"
+seed = 14
+analysis = ["encode-decode"]
+
+[orbit]
+altitude_km = 550.0
+inclination_deg = 97.6
+gravity_degree = 20
+
+[message]
+model = "kepler-rac"
+rac_degrees = [7, 5, 6]
+fit_interval_s = 300
+update_period_s = 300
+svid = 4
+klobuchar = true
+nequick = true
+utc = true
