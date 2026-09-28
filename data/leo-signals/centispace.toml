@@ -1,0 +1,53 @@
+# CentiSpace (Beijing Future Navigation Technology): experimental low Earth orbit
+# navigation augmentation satellites broadcasting binary phase-shift keying (BPSK)
+# signals near the GPS L1 and L5 bands.
+#
+# Source (PUBLIC): https://pmc.ncbi.nlm.nih.gov/articles/PMC10301026/
+# Published there: four experimental satellites launched September to December 2022;
+# BPSK augmentation signals near 157x MHz and 117x MHz at a 2.046 Mchip/s code rate;
+# orbit determination 0.89 cm radial, 2.35 cm along-track, 1.26 cm cross-track.
+#
+# Modelling choices, stated: the exact carriers are not given in the source, so the
+# signals are placed at 1575.42 MHz and 1176.45 MHz (REPRESENTATIVE: "near" the L1 and
+# L5 carriers; a real offset from those carriers would lower the compatibility figures);
+# one component each, BPSK(2), with a 1 ms code (2046 chips, REPRESENTATIVE) and the main
+# lobe as transmit bandwidth. No received power is published.
+
+[preset]
+name = "centispace"
+title = "CentiSpace L1-band and L5-band BPSK signals"
+source = "PUBLIC"
+url = "https://pmc.ncbi.nlm.nih.gov/articles/PMC10301026/"
+notes = "BPSK 2.046 Mchip/s near L1 and L5; carriers placed at the GPS carriers (representative); code length representative."
+
+[[signals]]
+name = "centispace-l1"
+system = "CentiSpace"
+source = "PUBLIC"
+source_ref = "https://pmc.ncbi.nlm.nih.gov/articles/PMC10301026/"
+centre_mhz = 1575.42
+tx_bandwidth_mhz = 4.092
+allocation = "rnss"
+notes = "BPSK(2) near 157x MHz; carrier placed at 1575.42 MHz (representative); 1 ms code (representative)."
+
+[[signals.components]]
+role = "data"
+modulation = "BPSK(2)"
+power_fraction = 1.0
+code_length_chips = 2046
+
+[[signals]]
+name = "centispace-l5"
+system = "CentiSpace"
+source = "PUBLIC"
+source_ref = "https://pmc.ncbi.nlm.nih.gov/articles/PMC10301026/"
+centre_mhz = 1176.45
+tx_bandwidth_mhz = 4.092
+allocation = "rnss"
+notes = "BPSK(2) near 117x MHz; carrier placed at 1176.45 MHz (representative); 1 ms code (representative)."
+
+[[signals.components]]
+role = "data"
+modulation = "BPSK(2)"
+power_fraction = 1.0
+code_length_chips = 2046

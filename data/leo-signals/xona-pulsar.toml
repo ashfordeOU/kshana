@@ -1,0 +1,77 @@
+# Xona Pulsar: the X1 (L1 band) and X5 (L5 band) signals of a commercial low Earth orbit
+# (LEO) positioning, navigation and timing (PNT) constellation.
+#
+# Source (PUBLIC): Leclère, Marathe and Reid, ION GNSS+ 2025, https://arxiv.org/abs/2509.19551
+# Published there: carriers, modulation (enhanced Feher quadrature phase-shift keying,
+# EFQPSK; X5 adds code shift keying, CSK, at 8 bits per symbol), chip rates, 1 ms code
+# periods, data rates, minimum and maximum received powers, data and pilot in quadrature
+# with a 50/50 power split, 100 ms pilot overlay codes, and a constellation of 258
+# satellites in 18 planes at about 1080 km (53 and 97 degree inclinations).
+#
+# Modelling choices, stated: EFQPSK is drawn with the rectangular-chip envelope of
+# BPSK(n) at the same chip rate (EFQPSK's main lobe is somewhat narrower and its sidelobes
+# fall faster, so this is conservative on spectral occupancy and slightly optimistic on
+# Gabor bandwidth); CSK and the overlay codes are not modelled. The transmit bandwidths
+# are not published: the BPSK(n) main lobe (2n x 1.023 MHz) is used and labelled as such.
+
+[preset]
+name = "xona-pulsar"
+title = "Xona Pulsar X1 and X5"
+source = "PUBLIC"
+url = "https://arxiv.org/abs/2509.19551"
+notes = "Published signal table; EFQPSK approximated by a rectangular-chip BPSK envelope; transmit bandwidth set to the main lobe (not published)."
+
+[[signals]]
+name = "xona-x1"
+system = "Xona Pulsar"
+source = "PUBLIC"
+source_ref = "https://arxiv.org/abs/2509.19551"
+centre_mhz = 1593.3225
+tx_bandwidth_mhz = 2.046
+allocation = "rnss"
+received_power_dbw = -148.2
+received_power_max_dbw = -139.1
+orbit_altitude_km = 1080.0
+notes = "EFQPSK at 1.023 Mchip/s, small-set Kasami code of 1 ms, 1000 symbols/s; transmit bandwidth is the BPSK(1) main lobe (not published)."
+
+[[signals.components]]
+role = "pilot"
+modulation = "BPSK(1)"
+power_fraction = 0.5
+code_length_chips = 1023
+note = "quadrature pilot with a 100 ms overlay code (overlay not modelled)"
+
+[[signals.components]]
+role = "data"
+modulation = "BPSK(1)"
+power_fraction = 0.5
+code_length_chips = 1023
+data_rate_sps = 1000.0
+
+[[signals]]
+name = "xona-x5"
+system = "Xona Pulsar"
+source = "PUBLIC"
+source_ref = "https://arxiv.org/abs/2509.19551"
+centre_mhz = 1190.51625
+tx_bandwidth_mhz = 20.46
+allocation = "rnss"
+received_power_dbw = -144.9
+received_power_max_dbw = -136.2
+orbit_altitude_km = 1080.0
+notes = "EFQPSK plus code shift keying (8 bits/symbol) at 10.23 Mchip/s, extended Gold code of 1 ms, 500 symbols/s = 4000 bit/s; transmit bandwidth is the BPSK(10) main lobe (not published)."
+
+[[signals.components]]
+role = "pilot"
+modulation = "BPSK(10)"
+power_fraction = 0.5
+code_length_chips = 10230
+note = "quadrature pilot with a 100 ms overlay code (overlay not modelled)"
+
+[[signals.components]]
+role = "data"
+modulation = "BPSK(10)"
+power_fraction = 0.5
+code_length_chips = 10230
+data_rate_sps = 500.0
+note = "code shift keying carries 8 bits per symbol (not modelled)"

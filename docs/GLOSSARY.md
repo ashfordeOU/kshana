@@ -287,6 +287,35 @@ These terms appear in the `spectrum` kind; see [`SPECTRUM.md`](SPECTRUM.md).
   `ci16_le` or `ci8`).
 - **IQ — in-phase and quadrature.** The two components of a complex baseband sample.
 
+## LEO-PNT signal terms
+
+These terms appear in the `leo-signal` kind and the multi-band `spectrum` scenarios; see
+[`LEO-SIGNAL.md`](LEO-SIGNAL.md).
+
+- **LEO-PNT — low Earth orbit positioning, navigation and timing.** Navigation signals
+  broadcast from satellites a few hundred to about 1200 km up: stronger and faster-moving
+  than GNSS from medium Earth orbit.
+- **RNSS, RDSS, MSS, EESS — Radio Navigation Satellite Service, Radio Determination
+  Satellite Service, Mobile Satellite Service, Earth Exploration-Satellite Service.** ITU
+  (International Telecommunication Union) service allocations a band can sit in.
+- **Pilot, data and acquisition components.** The parts of one signal: a data-free pilot
+  for ranging, a data component that carries the navigation message, and a short,
+  low-rate acquisition component that is easy to find.
+- **FDMA — frequency-division multiple access.** Components or satellites separated by
+  carrier frequency rather than by code.
+- **Gabor (RMS) bandwidth.** β = √(∫ f² G df / ∫ G df) over the receiver band: the spread
+  of a signal's power in frequency, which sets how finely it can range.
+- **DLL — delay lock loop.** The code-tracking loop; its early-late correlator spacing and
+  noise bandwidth set the thermal-noise ranging jitter.
+- **EFQPSK — enhanced Feher quadrature phase-shift keying.** A constant-envelope
+  modulation (Xona Pulsar); approximated here by a rectangular-chip spectrum.
+- **OFDM — orthogonal frequency-division multiplexing.** A multicarrier waveform
+  (the Starlink downlink); drawn here as a flat band.
+- **TEC — total electron content.** Electrons per square metre along the path;
+  1 TECU = 10¹⁶ el/m². The first-order ionospheric delay is 40.3·TEC/f² metres.
+- **EIRP — effective isotropic radiated power.** Transmit power times antenna gain toward
+  the receiver.
+
 ## Integrity & augmentation
 
 Integrity is the *trust* question: not "how big is my error?" but "can I bound it, and
