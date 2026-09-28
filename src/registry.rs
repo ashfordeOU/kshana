@@ -103,6 +103,7 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         LunarLlrDatum,
         TelecomTiming,
         SlotTiming,
+        Spectrum,
     ]
 };
 
@@ -198,6 +199,9 @@ pub mod ids {
     /// Seconds until a free-running clock leaves a time-indexed slot's guard, the fix
     /// cadence that keeps it inside, and an optional orbital timing protection level.
     pub const SLOT_TIMING: ScenarioId = ScenarioId::from_static("slot-timing");
+    /// L-band power spectral density waterfall under a scripted jammer timeline, with
+    /// per-band J/S and effective C/N₀ from the spectral separation coefficient.
+    pub const SPECTRUM: ScenarioId = ScenarioId::from_static("spectrum");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {

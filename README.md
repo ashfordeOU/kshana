@@ -14,7 +14,7 @@
 <p align="center">
   <a href="https://kshana.dev"><img src="https://img.shields.io/badge/playground-try%20in%20browser-c79e63" alt="Live playground — run in your browser, no install"></a>
   <a href="tests/sgp4_verification.rs"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%204.12mm-3fb950" alt="SGP4 validated against all 666 AIAA 2006-6753 vectors, worst 4.12 mm"></a>
-  <a href="#validation-at-a-glance"><img src="https://img.shields.io/badge/validated-66%20external%20oracles-3fb950" alt="66 capabilities validated against independent external oracles (real data, independent libraries, or published reference vectors); 104 more are honestly labelled MODELLED and 4 are PARTNER-owned — see Validation at a glance"></a>
+  <a href="#validation-at-a-glance"><img src="https://img.shields.io/badge/validated-67%20external%20oracles-3fb950" alt="67 capabilities validated against independent external oracles (real data, independent libraries, or published reference vectors); 106 more are honestly labelled MODELLED and 4 are PARTNER-owned — see Validation at a glance"></a>
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/coverage-~96%25%20line-3fb950" alt="~96% line coverage on src/ excluding the generated data tables and the CLI entrypoint (cargo-tarpaulin LLVM engine), gated at 85% in CI"></a>
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://sonarcloud.io/api/project_badges/measure?project=ashfordeOU_kshana&metric=alert_status" alt="SonarQube Cloud Quality Gate status"></a>
@@ -83,16 +83,16 @@ writes their exchange formats, and its force model is cross-checked against Orek
 than offered in its place. See [What it is / is not](#what-it-is--is-not) and
 [`docs/POSITIONING.md`](docs/POSITIONING.md).
 
-<p align="center"><em><strong>Validated, not asserted.</strong> &nbsp;666/666 AIAA (American Institute of Aeronautics and Astronautics) SGP4 (Simplified General Perturbations 4) vectors to <strong>4.12&nbsp;mm</strong> · Cowell force model <strong>0.08&nbsp;m</strong> vs Orekit&nbsp;12.2 · Galileo <strong>0.61&nbsp;m</strong> / Swarm-A <strong>0.10&nbsp;m</strong> vs real ESA (European Space Agency) precise ephemerides · GCRS→ITRS (GCRS: Geocentric Celestial Reference System; ITRS: International Terrestrial Reference System) bit-for-bit vs SOFA/ERFA (SOFA: Standards of Fundamental Astronomy; ERFA: Essential Routines for Fundamental Astronomy) · ML (machine learning) metrics exact vs scikit-learn · <strong>66 of 174</strong> capabilities validated against independent external oracles; 104 honestly labelled Modelled.</em></p>
+<p align="center"><em><strong>Validated, not asserted.</strong> &nbsp;666/666 AIAA (American Institute of Aeronautics and Astronautics) SGP4 (Simplified General Perturbations 4) vectors to <strong>4.12&nbsp;mm</strong> · Cowell force model <strong>0.08&nbsp;m</strong> vs Orekit&nbsp;12.2 · Galileo <strong>0.61&nbsp;m</strong> / Swarm-A <strong>0.10&nbsp;m</strong> vs real ESA (European Space Agency) precise ephemerides · GCRS→ITRS (GCRS: Geocentric Celestial Reference System; ITRS: International Terrestrial Reference System) bit-for-bit vs SOFA/ERFA (SOFA: Standards of Fundamental Astronomy; ERFA: Essential Routines for Fundamental Astronomy) · ML (machine learning) metrics exact vs scikit-learn · <strong>67 of 177</strong> capabilities validated against independent external oracles; 106 honestly labelled Modelled.</em></p>
 
 <p align="center">
-  <img src="docs/assets/diagrams/system-overview.png" alt="Kshana system overview: five front doors (command-line interface, Python wheel, WebAssembly playground, Model Context Protocol server, JetBrains plugin) converge on a single api::run_toml dispatch over 63 scenario kinds, through the engine (shared core, sensor packs and astrodynamics, integrity/fusion/lunar/deep-space/resilience), to a reproducible result.json + chart.svg" width="840">
+  <img src="docs/assets/diagrams/system-overview.png" alt="Kshana system overview: five front doors (command-line interface, Python wheel, WebAssembly playground, Model Context Protocol server, JetBrains plugin) converge on a single api::run_toml dispatch over 64 scenario kinds, through the engine (shared core, sensor packs and astrodynamics, integrity/fusion/lunar/deep-space/resilience), to a reproducible result.json + chart.svg" width="840">
   <br><sub>One engine, five front doors · <a href="docs/assets/diagrams/system-overview.svg">SVG (Scalable Vector Graphics)</a></sub>
 </p>
 
 ### Validated against external oracles — every row CI-gated
 
-Each row is checked against an **independent external oracle** (real dataset, independent reference implementation, or published reference vectors) and re-checked in CI (continuous integration). [Full 174-row matrix →](#validation-at-a-glance)
+Each row is checked against an **independent external oracle** (real dataset, independent reference implementation, or published reference vectors) and re-checked in CI (continuous integration). [Full 177-row matrix →](#validation-at-a-glance)
 
 | | Capability | Result | External oracle |
 |---|---|---|---|
@@ -105,8 +105,8 @@ Each row is checked against an **independent external oracle** (real dataset, in
 | ✅ | Fisher information · CRLB (Cramér–Rao lower bound) · observability | eigh / CRLB / DOP to **1e-9** | NumPy 2.4.1 (LAPACK, the Linear Algebra PACKage) + Kay (1993) closed forms |
 
 <p align="center">
-  <img src="docs/assets/figures/validation-breakdown.png" alt="Verification status across all 174 capabilities: 66 Validated (checked vs external oracle), 104 Modelled, 4 Partner-owned" width="780">
-  <br><sub>66 Validated · 104 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
+  <img src="docs/assets/figures/validation-breakdown.png" alt="Verification status across all 177 capabilities: 67 Validated (checked vs external oracle), 106 Modelled, 4 Partner-owned" width="780">
+  <br><sub>67 Validated · 106 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
 </p>
 
 *Free and open source under the GNU AGPL-3.0 (GNU Affero General Public License, version 3)
@@ -600,7 +600,13 @@ plane-change / opportunities), `reentry` (Allen-Eggers ballistic re-entry corrid
 `passes` (ground-station rise/set pass prediction — AOS/TCA/LOS, max elevation,
 access), and `link-budget` (one-way CCSDS/DSN link equation — FSPL / Eb·N₀ /
 margin / closure); `telecom-timing` (holdover time error, MTIE and TDEV checked
-against ITU-T masks); the **lunar-PNT suite** `lunar-vlbi`, `lunar-joint-od-clock`,
+against ITU-T masks); `spectrum` (the whole GNSS L band as one power spectral density:
+a frequency-by-time waterfall under a scripted continuous-wave, narrowband, chirp or
+matched-noise jammer timeline, per-band jammer-to-signal ratio and effective
+carrier-to-noise density from the spectral separation coefficient, and Signal Metadata
+Format (SigMF) recording input and output with Welch spectral estimates; the signal
+spectra VALIDATED against textbook values, the jammer scenario MODELLED; see
+[`docs/SPECTRUM.md`](docs/SPECTRUM.md)); the **lunar-PNT suite** `lunar-vlbi`, `lunar-joint-od-clock`,
 `lunar-frame-realisation`, `moonlight-service-volume`, `lunar-differential-pnt`,
 `lunar-interop-export`; the **Quantum-Enabled PNT demonstrator**
 `quantum-time-transfer`, `quantum-gnss-free-nav`, `quantum-anomaly-detect`; and the
@@ -774,7 +780,7 @@ paper-clock). **MODELLED** — the headline figure is *reference-dependent* (Ear
 vs lunar selenoid, averaging window), which is why a band, not a single certified
 number, is reported (`scenarios/lunar-time-offset.toml`).
 
-See `scenarios/` for at least one worked example of every kind (63 kinds, 82 scenario
+See `scenarios/` for at least one worked example of every kind (64 kinds, 83 scenario
 `.toml` files + 1 suite manifest — several kinds ship more than one example). Not every
 kind has a file named after it: `lunar-integrity` → `scenarios/lunanet-araim.toml` and
 `gravity-map` → `scenarios/gps-denied-gravity-nav.toml` are two of several such.
@@ -875,7 +881,7 @@ flowchart LR
 
 ```mermaid
 flowchart TD
-    cli["CLI · Python · WebAssembly<br/>MCP server · JetBrains plugin"] --> api["api — run_toml<br/>typed dispatch over 63 kinds"]
+    cli["CLI · Python · WebAssembly<br/>MCP server · JetBrains plugin"] --> api["api — run_toml<br/>typed dispatch over 64 kinds"]
     subgraph shared["Shared core"]
       types["types · scenario<br/>GNSS timeline"]
       allan["allan — ADEV/MDEV/TDEV/HDEV"]
@@ -987,7 +993,7 @@ flowchart LR
 ```
 kshana/
 ├── src/                                       # the kshana core crate (library + CLI)
-│   ├── api.rs · main.rs · lib.rs              # typed dispatch (63 kinds) + CLI + crate root
+│   ├── api.rs · main.rs · lib.rs              # typed dispatch (64 kinds) + CLI + crate root
 │   ├── python.rs · wasm.rs                    # optional PyO3 / wasm-bindgen bindings
 │   ├── types.rs · scenario.rs · allan.rs      # shared core (time grid, GNSS timeline, Allan)
 │   │
@@ -1096,19 +1102,19 @@ kshana/
 ### Validation at a glance
 
 <p align="center">
-  <img src="docs/assets/diagrams/validation-provenance.png" alt="How a capability earns its label: Requirement maps to a module in src, to a test in tests, to an external oracle (real dataset, independent reference implementation, or published vectors), to a status — with a CI-enforced guard that no capability can be Validated without an external oracle. Live counts: 66 Validated, 104 Modelled, 4 Partner, 174 total" width="900">
+  <img src="docs/assets/diagrams/validation-provenance.png" alt="How a capability earns its label: Requirement maps to a module in src, to a test in tests, to an external oracle (real dataset, independent reference implementation, or published vectors), to a status — with a CI-enforced guard that no capability can be Validated without an external oracle. Live counts: 67 Validated, 106 Modelled, 4 Partner, 177 total" width="900">
   <br><sub>How a capability earns its label — the CI-enforced invariant: no external oracle ⇒ cannot be Validated · <a href="docs/assets/diagrams/validation-provenance.svg">SVG</a></sub>
 </p>
 
 <p align="center">
-  <img src="docs/assets/figures/oracle-kind-stacked.png" alt="How each claim is backed: the Validated column is 66 of 66 ExternalDataset by construction (CI-enforced); Modelled rows are honestly tagged InternalConsistency, ReferenceImpl, or ExternalDataset; Partner rows have no Kshana oracle" width="62%">
+  <img src="docs/assets/figures/oracle-kind-stacked.png" alt="How each claim is backed: the Validated column is 67 of 67 ExternalDataset by construction (CI-enforced); Modelled rows are honestly tagged InternalConsistency, ReferenceImpl, or ExternalDataset; Partner rows have no Kshana oracle" width="62%">
   <br>
   <img src="docs/assets/figures/sgp4-regime-bars.png" alt="SGP4/SDP4 worst-case position error vs the AIAA 2006-6753 reference by regime, log scale: every regime is far below the AIAA tolerance, worst case 4.12 mm in the deep-space non-resonant regime" width="96%">
   <br><sub>Top: every Validated row is backed by an external dataset, by construction. Bottom: SGP4 matches the official reference in every regime (worst 4.12 mm). <a href="docs/assets/figures/oracle-kind-stacked.svg">SVG</a> · <a href="docs/assets/figures/sgp4-regime-bars.svg">SVG</a></sub>
 </p>
 
 Every row is enforced by a named test in CI. This table is a **curated highlight**;
-the full machine-checked matrix is **174 rows — 66 VALIDATED, 104 MODELLED, 4 PARTNER**
+the full machine-checked matrix is **177 rows — 67 VALIDATED, 106 MODELLED, 4 PARTNER**
 (`src/verification.rs`), with the complete evidence (and what is honestly *not* yet
 validated) in [`docs/VALIDATION.md`](docs/VALIDATION.md) and the per-release
 [`kshana-validation-summary.html`](https://github.com/ashfordeOU/kshana/releases)
