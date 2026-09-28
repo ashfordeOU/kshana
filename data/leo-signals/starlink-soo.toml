@@ -1,0 +1,40 @@
+# Starlink as a signal of opportunity: the Ku-band downlink's orthogonal
+# frequency-division multiplexing (OFDM) beacon, used for Doppler positioning.
+#
+# Source (PUBLIC): Kozhaya, Saroufim and Kassas, NAVIGATION 72(1), 2025,
+# https://navi.ion.org/content/72/1/navi.685
+# Published there: a 4/3 ms frame carrying a 240 MHz OFDM beacon (using all of it gives
+# about 18 dB more processing gain), C/N0 about 57 dB-Hz, Doppler error sigma about 30 Hz,
+# 2 m three-dimensional positioning in 20 s with 3 satellites; code and carrier phase
+# are not usable for ranging.
+#
+# Modelling choices, stated: the beacon is a flat 240 MHz spectrum; the channel centre
+# 11 325 MHz is REPRESENTATIVE (one 240 MHz channel inside the 10.7 to 12.7 GHz Ku-band
+# downlink); the 550 km shell altitude is REPRESENTATIVE. No received power is given:
+# a scenario sets the published C/N0 through receiver.reference_cn0_dbhz = 57. Doppler
+# only (ranging = false).
+
+[preset]
+name = "starlink-soo"
+title = "Starlink Ku-band OFDM beacon (signal of opportunity)"
+source = "PUBLIC"
+url = "https://navi.ion.org/content/72/1/navi.685"
+notes = "Doppler-only signal of opportunity; flat 240 MHz beacon; channel centre and shell altitude representative."
+
+[[signals]]
+name = "starlink-ku-beacon"
+system = "Starlink"
+source = "PUBLIC"
+source_ref = "https://navi.ion.org/content/72/1/navi.685"
+centre_mhz = 11325.0
+tx_bandwidth_mhz = 240.0
+allocation = "other"
+orbit_altitude_km = 550.0
+ranging = false
+notes = "240 MHz OFDM beacon, C/N0 about 57 dB-Hz (published); channel centre and altitude representative; Doppler only."
+
+[[signals.components]]
+role = "pilot"
+modulation = "FLAT(240)"
+power_fraction = 1.0
+note = "the OFDM beacon's known symbols, as a flat spectrum"
