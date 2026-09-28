@@ -1484,7 +1484,15 @@ impl SpectrumScenario {
         Ok((json, summary, svg))
     }
 
-    fn run_iq(&self, model: &SpectrumModel, c: &IqCfg) -> Result<serde_json::Value, String> {
+    /// The `[iq]` snapshot as a SigMF recording, with the full-scale magnitude the
+    /// integer encodings map to the largest code. The one synthesis both the run's SigMF
+    /// round trip and the `--export sigmf` files come from, so the exported pair is the
+    /// recording the result document describes.
+    fn iq_recording(
+        &self,
+        model: &SpectrumModel,
+        c: &IqCfg,
+    ) -> Result<(crate::sigmf::Recording, f64), String> {
         if c.log2_samples < 10 || c.log2_samples > 20 {
             return Err("iq.log2_samples must be between 10 and 20".into());
         }
@@ -1508,6 +1516,29 @@ impl SpectrumScenario {
             ),
             samples: x,
         };
+        Ok((rec, full_scale))
+    }
+
+    /// The `[iq]` snapshot written as a SigMF pair: the `.sigmf-meta` JSON and the
+    /// `.sigmf-data` bytes, exactly as the run writes and reads them back for its own
+    /// round trip. `None` when the scenario has no `[iq]` block. This is the
+    /// `--export sigmf` path; it reads no file and no clock.
+    pub fn export_sigmf(&self) -> Result<Option<(String, Vec<u8>)>, String> {
+        let Some(c) = &self.iq else {
+            return Ok(None);
+        };
+        let model = self.model()?;
+        let (rec, full_scale) = self.iq_recording(&model, c)?;
+        let (meta_json, bytes, _clipped) = crate::sigmf::write(&rec, full_scale)?;
+        Ok(Some((meta_json, bytes)))
+    }
+
+    fn run_iq(&self, model: &SpectrumModel, c: &IqCfg) -> Result<serde_json::Value, String> {
+        let (rec, full_scale) = self.iq_recording(model, c)?;
+        let n = rec.samples.len();
+        let fs = c.sample_rate_mhz * 1e6;
+        let fc = c.centre_mhz * 1e6;
+        let dtype = rec.meta.datatype()?;
         let (meta_json, bytes, clipped) = crate::sigmf::write(&rec, full_scale)?;
         let back = crate::sigmf::read(&meta_json, &bytes, full_scale)?;
         let w = welch_psd(&back.samples, back.sample_rate_hz()?, c.nfft, c.overlap)?;
