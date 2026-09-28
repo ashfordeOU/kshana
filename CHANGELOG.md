@@ -16,7 +16,7 @@ breaking changes are called out explicitly.
   constellation is Walker shells, element sets or a GNSS preset, every signal a carrier, a
   chip rate and a carrier-to-noise density (C/N0) envelope, every error budget an explicit
   one-sigma, and named low-Earth-orbit (LEO) systems are optional presets, one file each with
-  their sources marked public, workshop or derived (Xona Pulsar X1/X5, Iridium STL, Starlink
+  their sources marked public, workshop or derived (Xona Pulsar X1/X5, Iridium Satellite Time and Location (STL), Starlink
   signals of opportunity, CentiSpace, a representative C-band system, the ATOMIC zero-clock
   ephemeris model, and one ESA Celeste in-orbit-demonstration preset whose workshop-derived
   parameters live in one file and one scenario so they can be withheld).
@@ -49,8 +49,9 @@ breaking changes are called out explicitly.
 
 - **Four new engine areas in one release: `spectrum`, `solar-system` and `body-pnt`,
   `constellation-design`, and `campaign`.** The kind count moves from 63 to 68, the
-  scenario-file count from 82 to 94, and the verification matrix from 174 to
-  **189 rows — 71 VALIDATED, 114 MODELLED, 4 PARTNER**. Each area is described below.
+  scenario-file count from 82 to 94, and the verification matrix from 174 to 189 rows
+  (71 validated, 114 modelled, 4 partner-owned; the entry above gives the live totals).
+  Each area is described below.
   - Across the areas: `scenarios/campaign-spectrum-holdover-integrity.toml` chains the
     `spectrum` kind with a clock holdover and an integrity monitor (a chirp takes L1 C/A
     and E1; a CW tone then keeps C/A down while E1 recovers and the receiver falls back to
