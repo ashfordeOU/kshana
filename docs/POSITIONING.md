@@ -111,7 +111,7 @@ user the wrong-tool disappointment.
 
 ## Complementary, not competing — RTKLIB and gLAB
 
-[RTKLIB](https://www.rtklib.com/) and [gLAB](https://gage.upc.edu/en/learning-materials/software-tools/glab-tool-suite)
+[RTKLIB](https://github.com/tomojitakasu/RTKLIB) and [gLAB](https://gage.upc.edu/en/learning-materials/software-tools/glab-tool-suite)
 are mature, widely used GNSS processing suites. They take real measurements and
 produce a positioning solution (SPP/PPP/RTK; gLAB is also a superb teaching
 tool with strong heritage at the European Space Agency (ESA) and the European
