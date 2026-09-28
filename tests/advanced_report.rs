@@ -353,6 +353,32 @@ fn a_monte_carlo_campaign_reports_its_percentiles_as_the_result_states_them() {
         }
     }
     assert_eq!(a.distributions.len(), table.rows.len());
+    // The drawn distributions carry the result's own percentiles and span its samples.
+    for d in &a.distributions {
+        let m = &doc["monte_carlo"]["metrics"][d.metric.as_str()];
+        assert_eq!(d.p05, m["p05"].as_f64(), "{}.p05", d.metric);
+        assert_eq!(d.p50, m["p50"].as_f64(), "{}.p50", d.metric);
+        assert_eq!(d.p95, m["p95"].as_f64(), "{}.p95", d.metric);
+        let s: Vec<f64> = m["samples"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .filter_map(Value::as_f64)
+            .collect();
+        assert_eq!(d.n, s.len(), "{}.n", d.metric);
+        let lo = s.iter().cloned().fold(f64::INFINITY, f64::min);
+        let hi = s.iter().cloned().fold(f64::NEG_INFINITY, f64::max);
+        assert!(
+            d.edges.first().is_some_and(|e| *e <= lo),
+            "{} lower edge",
+            d.metric
+        );
+        assert!(
+            d.edges.last().is_some_and(|e| *e >= hi),
+            "{} upper edge",
+            d.metric
+        );
+    }
 }
 
 /// A row that grades one input path is listed only when the run took that path: a
