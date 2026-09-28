@@ -1,0 +1,35 @@
+# Satellites in view and dilution of precision from the equator to the pole: MEO GNSS alone,
+# a near-polar LEO constellation alone, and both.
+#
+# GPS and Galileo orbit at 55 and 56 deg inclination, so north of about 70 deg every MEO
+# satellite is on the equatorward half of the sky at low elevation and the vertical geometry
+# weakens. The Iridium constellation (six near-polar planes of 11 at 780 km and 86.4 deg, the
+# `iridium-stl` preset) converges over the poles. The sweep samples eight longitudes and
+# thirteen epochs over two hours at each latitude and reports the mean satellites in view,
+# the median PDOP, HDOP and VDOP and the availability (PDOP at or below 6) for each group.
+#
+# MODELLED: geometry only; ionospheric scintillation, strong at high latitude, is not modelled.
+kind = "leo-pvt"
+mode = "polar"
+duration_s = 7200.0
+step_s = 600.0
+
+[polar]
+lat_step_deg = 10.0
+lon_step_deg = 45.0
+pdop_threshold = 6.0
+
+[[system]]
+name = "GPS"
+preset = "gps-baseline"
+mask_deg = 10.0
+
+[[system]]
+name = "Galileo"
+preset = "galileo"
+mask_deg = 10.0
+
+[[system]]
+name = "Iridium"
+leo_preset = "iridium-stl"
+mask_deg = 10.0

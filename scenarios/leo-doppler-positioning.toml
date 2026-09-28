@@ -1,0 +1,39 @@
+# Positioning from LEO Doppler alone, over a generic LEO navigation constellation.
+#
+# A receiver near Munich measures the Doppler shift of every satellite of a 258-satellite
+# LEO navigation constellation (the public Xona Pulsar X1 signal table and constellation,
+# arXiv:2509.19551; the split between its two inclinations is representative) for ten
+# minutes and solves for its position and clock drift by batch least squares. Doppler gives
+# range rate, and only the part of the satellite velocity across the line of sight carries
+# position information, so the geometry is the change of the lines of sight over the pass,
+# not the spread of satellites at one instant.
+#
+# The report gives the full-window error, the error against window length (how quickly a
+# Doppler fix forms), the Doppler, Doppler-rate and jerk envelope of the system over an
+# overhead pass, and a single-pass table: the formal along-track and cross-track errors of a
+# fix from ONE satellite pass against the user's distance from the ground track. The
+# cross-track error grows without bound as the pass goes overhead, where the Doppler curve
+# stops depending on the cross-track distance (and the mirror image across the track fits
+# almost as well).
+#
+# MODELLED. Doppler noise 1 Hz one sigma (0.19 m/s at 1593 MHz), perfect ephemeris, no
+# ionosphere or troposphere rate, a height-free three-dimensional fit.
+kind = "leo-pvt"
+mode = "doppler"
+seed = 7
+duration_s = 600.0
+step_s = 10.0
+
+[user]
+lat_deg = 48.14
+lon_deg = 11.58
+height_m = 520.0
+
+[doppler]
+pass_offsets_km = [25.0, 100.0, 250.0, 500.0, 1000.0, 1500.0]
+
+[[system]]
+name = "Pulsar X1"
+leo_preset = "xona-pulsar"
+signal = "X1"
+sigma_doppler_hz = 1.0
