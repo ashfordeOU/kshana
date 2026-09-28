@@ -364,6 +364,8 @@ fn unit_from_name(field: &str) -> String {
     const SUFFIXES: &[(&str, &str)] = &[
         ("_dbhz", "dB-Hz"),
         ("_dbw_per_hz", "dBW/Hz"),
+        // Before `_s`, which would otherwise claim every speed in metres per second.
+        ("_m_s", "m/s"),
         ("_dbw", "dBW"),
         ("_dbi", "dBi"),
         ("_db", "dB"),
@@ -375,7 +377,6 @@ fn unit_from_name(field: &str) -> String {
         ("_s", "s"),
         ("_deg", "deg"),
         ("_hz", "Hz"),
-        ("_m_s", "m/s"),
     ];
     for (suf, u) in SUFFIXES {
         if field.ends_with(suf) {
@@ -774,6 +775,7 @@ fn humanise(field: &str, unit: &str) -> String {
     let mut f = field.to_string();
     for suf in [
         "_dbw_per_hz",
+        "_m_s",
         "_dbhz",
         "_dbw",
         "_dbi",
@@ -2034,6 +2036,25 @@ mod tests {
     fn a_scalar_result_is_refused_as_no_time_series() {
         let e = extract_timeline("{\"kind\":\"link-budget\",\"margin_db\":3.0}", None).unwrap_err();
         assert_eq!(e, AnimationError::NoTimeSeries("link-budget".into()));
+    }
+
+    #[test]
+    fn a_speed_in_metres_per_second_is_not_read_as_seconds() {
+        assert_eq!(unit_from_name("speed_m_s"), "m/s");
+        assert_eq!(unit_from_name("range_m"), "m");
+        assert_eq!(unit_from_name("t_s"), "s");
+        assert_eq!(humanise("speed_m_s", "m/s"), "speed [m/s]");
+    }
+
+    #[test]
+    fn a_label_cannot_close_the_player_script() {
+        let doc = "{\"kind\":\"clock\",\"title\":\"a</script><p>b\",\
+                   \"s\":{\"t_s\":[0,1,2],\"x_m\":[1,2,3]}}";
+        let tl = extract_timeline(doc, None).unwrap();
+        let html = render_html(&tl, &AnimationOptions::default());
+        // One closing tag for the JSON block, one for the player code.
+        assert_eq!(html.matches("</script>").count(), 2);
+        assert!(html.contains("<h1>a&lt;/script&gt;&lt;p&gt;b</h1>"));
     }
 
     #[test]
