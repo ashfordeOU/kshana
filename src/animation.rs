@@ -2022,8 +2022,12 @@ mod tests {
 
     #[test]
     fn nice_ticks_cover_the_range() {
+        // Span 9.4 over 4 intervals is 2.35; the next of 1, 2, 5, 10 at or above it is
+        // 5, and 0.3..9.7 widens to the multiples of 5 around it.
         let (lo, hi, step) = nice_ticks(0.3, 9.7, 4);
-        assert_eq!((lo, hi, step), (0.0, 10.0, 5.0 / 2.0));
+        assert_eq!((lo, hi, step), (0.0, 10.0, 5.0));
+        // Span 90 over 4 is 22.5: magnitude 10, normalised 2.25, so the step is 50.
+        assert_eq!(nice_ticks(-5.0, 85.0, 4), (-50.0, 100.0, 50.0));
     }
 
     #[test]
