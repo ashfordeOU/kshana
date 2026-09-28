@@ -41,6 +41,35 @@ breaking changes are called out explicitly.
     without a further precession rotation.
   The kind count moves from 63 to 65, the scenario-file count from 82 to 85, and the matrix
   from 174 to 180 rows (68 VALIDATED, 108 MODELLED).
+- **Constellation design at scale (`constellation-design` kind, `src/constellation.rs`).**
+  Walker delta and Walker star patterns (T/P/F), explicit element lists and multi-shell
+  designs, several constellations per run, around the Earth, the Moon or Mars from the
+  body constants. Presets from published nominal elements: the Global Positioning System
+  (GPS) baseline and expandable 24-slot constellation (Standard Positioning Service
+  Performance Standard, SPS PS, 2020), Galileo Walker 24/3/1 (Open Service Service
+  Definition Document issue 1.1), BeiDou medium Earth orbit Walker 24/3/1 plus
+  geostationary and inclined geosynchronous satellites (Open Service Performance Standard
+  3.0) and GLONASS 24/3/1 (Interface Control Document 5.1). Coverage and dilution of
+  precision (DOP) over a latitude/longitude grid: satellites in view, GDOP, PDOP, HDOP and
+  VDOP (geometric, position, horizontal, vertical) and availability per cell, globally and
+  at the worst site, with one receiver clock per constellation. A visibility prefilter
+  (coverage half-angle plus a sub-satellite latitude band, exact on a spherical body) runs
+  5 000 satellites on a 10 deg grid in about 0.13 s in a debug build.
+  - VALIDATED: the Walker generator reproduces Galileo OS SDD Table 23 and the GLONASS ICD
+    slot formula; the GPS preset reproduces the SPS PS equatorial-crossing column (35 of
+    36 locations within 0.0108 deg; E3F within 0.06 deg, the table's own row being
+    inconsistent); the GPS baseline global HDOP distribution matches SPS PS Appendix B
+    (median 0.940 against 0.94, 95 % 1.255 against 1.25, mean 0.965 against 0.96; bar 0.03).
+  - MODELLED: arbitrary designs, other bodies, the BeiDou phase and inclined-geosynchronous
+    nodes, two-body orbits with optional J2, geometry only.
+  - Scenarios: `constellation-multi-gnss-coverage` (102 satellites, availability 100 %,
+    median PDOP 0.95, 31.0 in view above 10 deg), `leo-pnt-mega-shell` (5 000 satellites,
+    availability 99.22 % at PDOP 3 or less above 20 deg, 0 % at the polar caps, prefilter
+    keeps 11.5 % of the pair tests), `lunar-relay-constellation` (14 satellites around the
+    Moon, availability 21.33 % overall and highest over the south polar region). All three
+    are bundled for `kshana example`. Notes: `docs/CONSTELLATION-DESIGN.md`.
+  The kind count moves from 63 to 64, the scenario-file count from 82 to 85, and the
+  verification matrix from 174 to 177 rows (68 VALIDATED, 105 MODELLED, 4 partner-owned).
 
 - **Maritime, road and rail scenarios.** Five bundled examples on existing kinds, so
   ships, road vehicles and trains each have a worked case. Every figure is MODELLED; none

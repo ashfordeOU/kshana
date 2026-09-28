@@ -106,6 +106,7 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         Spectrum,
         SolarSystem,
         BodyPnt,
+        ConstellationDesign,
     ]
 };
 
@@ -210,6 +211,9 @@ pub mod ids {
     /// Positioning around any solar-system body with a local navigation constellation and
     /// an optional deep-space ranging link from Earth.
     pub const BODY_PNT: ScenarioId = ScenarioId::from_static("body-pnt");
+    /// Walker, explicit and preset constellations around any body, with a coverage and
+    /// dilution-of-precision grid map.
+    pub const CONSTELLATION_DESIGN: ScenarioId = ScenarioId::from_static("constellation-design");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {

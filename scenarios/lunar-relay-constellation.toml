@@ -1,0 +1,53 @@
+# A lunar relay and navigation constellation: satellites in elliptical lunar frozen orbits
+# (ELFO) plus a circular low-lunar-orbit shell, scored as a coverage and dilution-of-precision
+# (DOP) map over the whole Moon for one day.
+#
+# The central body is the Moon: gravitational parameter, 1 737.4 km radius and spin rate come
+# from the body module (the DE and IAU values cited there). The design is illustrative, not
+# any agency's:
+#   - an ELFO shell: 8 satellites as a Walker 8/4/1 with perilune about 720 km and apolune
+#     about 7 500 km (semi-major axis 5 847.4 km, eccentricity 0.58), 57.8 deg inclination
+#     and argument of perilune 90 deg, so every satellite lingers at apolune over the south
+#     polar region;
+#   - a circular shell: 6 satellites as a Walker 6/3/1 at 1 500 km and 85 deg.
+#
+# One receiver clock is shared (clock = "common"): the relay set is one system on one time
+# scale. Latitude is lunar body-fixed; the map is an equirectangular projection with no land
+# outline.
+#
+# What the run answers: where on the Moon four or more of these satellites are in view above
+# a 10 deg mask, the PDOP/HDOP/VDOP/GDOP per 10 deg cell, and the share of the day with PDOP
+# at or below 6. MODELLED: two-body orbits around a spherical Moon (no Earth third-body
+# perturbation, which a real frozen-orbit design depends on), geometry only.
+
+kind = "constellation-design"
+body = "moon"
+duration_s = 86400.0
+step_s = 1800.0
+mask_deg = 10.0
+pdop_threshold = 6.0
+grid_step_deg = 10.0
+clock = "common"
+track_points = 49
+max_tracks = 14
+
+[[constellation]]
+name = "Lunar relay"
+
+[[constellation.shell]]
+pattern = "delta"
+total = 8
+planes = 4
+phasing = 1
+semi_major_axis_km = 5847.4
+eccentricity = 0.58
+inclination_deg = 57.8
+argp_deg = 90.0
+
+[[constellation.shell]]
+pattern = "delta"
+total = 6
+planes = 3
+phasing = 1
+altitude_km = 1500.0
+inclination_deg = 85.0

@@ -125,6 +125,10 @@ const RUNNERS: &[(&str, &str)] = &[
     ("spectrum", "scenarios/l-band-waterfall-jamming.toml"),
     ("solar-system", "scenarios/solar-system-tour.toml"),
     ("body-pnt", "scenarios/mars-orbit-pnt.toml"),
+    (
+        "constellation-design",
+        "scenarios/constellation-multi-gnss-coverage.toml",
+    ),
 ];
 
 /// The kinds whose reports do not yet describe every numeric field they emit, each with
