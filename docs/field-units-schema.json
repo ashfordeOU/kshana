@@ -1,11 +1,11 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 2080,
-    "fields_total": 2082,
+    "fields_described": 2168,
+    "fields_total": 2170,
     "fields_without_units": 2,
-    "kinds_complete": 67,
-    "kinds_total": 68,
+    "kinds_complete": 68,
+    "kinds_total": 69,
     "kinds_uncovered": 1,
     "uncovered_kind_ceiling": 1,
     "uncovered_kinds": [
@@ -5789,6 +5789,544 @@
       "fields_without_units": [],
       "label": "MODELLED — two-body spherical-Earth launch geometry; azimuth is the geometric sin(Az)=cos(i)/cos(lat) relation (no rotating-Earth velocity-triangle correction, no ascent/drag-loss model)",
       "source": "defaults"
+    },
+    "leo-navmsg": {
+      "complete": true,
+      "fields": {
+        "encode_decode.csv_round_trip_max_pos_m": {
+          "definition": "largest position difference after CSV export and import",
+          "evidence_tier": "validated",
+          "provenance": "internal-consistency",
+          "unit": "m"
+        },
+        "encode_decode.ephemeris_clock_bits": {
+          "definition": "ephemeris and clock bits",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "bit"
+        },
+        "encode_decode.field_table[].fields[].bits": {
+          "definition": "field width in Kshana's encoding",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "bit"
+        },
+        "encode_decode.field_table[].fields[].lsb": {
+          "definition": "field step in its stated unit",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "per unit"
+        },
+        "encode_decode.frame_bytes": {
+          "definition": "encoded frame length",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "byte"
+        },
+        "encode_decode.messages[].band": {
+          "definition": "band identifier",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "encode_decode.messages[].clock.af0": {
+          "definition": "clock bias",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "encode_decode.messages[].clock.af1": {
+          "definition": "clock drift",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s/s"
+        },
+        "encode_decode.messages[].clock.af2": {
+          "definition": "clock drift rate",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s/s^2"
+        },
+        "encode_decode.messages[].clock.toc": {
+          "definition": "clock reference time of week",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "encode_decode.messages[].ephemeris.kepler.cic": {
+          "definition": "inclination cosine harmonic",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "rad"
+        },
+        "encode_decode.messages[].ephemeris.kepler.cis": {
+          "definition": "inclination sine harmonic",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "rad"
+        },
+        "encode_decode.messages[].ephemeris.kepler.crc": {
+          "definition": "radius cosine harmonic",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "encode_decode.messages[].ephemeris.kepler.crs": {
+          "definition": "radius sine harmonic",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "encode_decode.messages[].ephemeris.kepler.cuc": {
+          "definition": "argument-of-latitude cosine harmonic",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "rad"
+        },
+        "encode_decode.messages[].ephemeris.kepler.cus": {
+          "definition": "argument-of-latitude sine harmonic",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "rad"
+        },
+        "encode_decode.messages[].ephemeris.kepler.delta_n": {
+          "definition": "mean-motion difference",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "rad/s"
+        },
+        "encode_decode.messages[].ephemeris.kepler.e": {
+          "definition": "eccentricity",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "encode_decode.messages[].ephemeris.kepler.i0": {
+          "definition": "inclination at toe",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "rad"
+        },
+        "encode_decode.messages[].ephemeris.kepler.i_dot": {
+          "definition": "inclination rate",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "rad/s"
+        },
+        "encode_decode.messages[].ephemeris.kepler.m0": {
+          "definition": "mean anomaly at toe",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "rad"
+        },
+        "encode_decode.messages[].ephemeris.kepler.omega": {
+          "definition": "argument of perigee",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "rad"
+        },
+        "encode_decode.messages[].ephemeris.kepler.omega0": {
+          "definition": "node longitude at the weekly epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "rad"
+        },
+        "encode_decode.messages[].ephemeris.kepler.omega_dot": {
+          "definition": "node rate",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "rad/s"
+        },
+        "encode_decode.messages[].ephemeris.kepler.sqrt_a": {
+          "definition": "square root of the semi-major axis",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m^0.5"
+        },
+        "encode_decode.messages[].ephemeris.kepler.toe": {
+          "definition": "ephemeris reference time of week",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "encode_decode.messages[].ephemeris.rac.along[]": {
+          "definition": "along-track correction coefficients in tau = tk/tau_s",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "encode_decode.messages[].ephemeris.rac.cross[]": {
+          "definition": "cross-track correction coefficients",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "encode_decode.messages[].ephemeris.rac.radial[]": {
+          "definition": "radial correction coefficients",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "encode_decode.messages[].ephemeris.rac.tau_s": {
+          "definition": "time scale of the correction polynomials: the power of two at or above half the fit interval",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "encode_decode.messages[].health": {
+          "definition": "signal health status",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "encode_decode.messages[].iod": {
+          "definition": "issue of data",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "encode_decode.messages[].services.klobuchar.alpha[]": {
+          "definition": "Klobuchar amplitude coefficients",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "s/semicircle^n"
+        },
+        "encode_decode.messages[].services.klobuchar.beta[]": {
+          "definition": "Klobuchar period coefficients",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "s/semicircle^n"
+        },
+        "encode_decode.messages[].services.nequick.ai0": {
+          "definition": "NeQuick-G ai0",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "sfu"
+        },
+        "encode_decode.messages[].services.nequick.ai1": {
+          "definition": "NeQuick-G ai1",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "sfu/deg"
+        },
+        "encode_decode.messages[].services.nequick.ai2": {
+          "definition": "NeQuick-G ai2",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "sfu/deg^2"
+        },
+        "encode_decode.messages[].services.utc.a0": {
+          "definition": "UTC offset constant term",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "s"
+        },
+        "encode_decode.messages[].services.utc.a1": {
+          "definition": "UTC offset rate term",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "s/s"
+        },
+        "encode_decode.messages[].services.utc.dn": {
+          "definition": "day of the leap-second event",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "day"
+        },
+        "encode_decode.messages[].services.utc.dt_ls": {
+          "definition": "leap seconds before the event",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "s"
+        },
+        "encode_decode.messages[].services.utc.dt_lsf": {
+          "definition": "leap seconds after the event",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "s"
+        },
+        "encode_decode.messages[].services.utc.t_ot": {
+          "definition": "UTC data reference time of week",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "s"
+        },
+        "encode_decode.messages[].services.utc.wn_lsf": {
+          "definition": "week of the next leap-second event",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "week"
+        },
+        "encode_decode.messages[].services.utc.wn_ot": {
+          "definition": "UTC data reference week",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "week"
+        },
+        "encode_decode.messages[].svid": {
+          "definition": "space-vehicle identifier",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "encode_decode.messages[].tow": {
+          "definition": "transmission time of week",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "encode_decode.messages[].week": {
+          "definition": "message week",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "week"
+        },
+        "encode_decode.payload_bits": {
+          "definition": "payload bits before padding",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "bit"
+        },
+        "encode_decode.quantisation_budget[].bits": {
+          "definition": "field width",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "bit"
+        },
+        "encode_decode.quantisation_budget[].half_lsb_clock_m": {
+          "definition": "largest clock change times c from a half-step change of the field",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "encode_decode.quantisation_budget[].half_lsb_pos_m": {
+          "definition": "largest position change from a half-step change of the field",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "encode_decode.quantisation_budget[].lsb": {
+          "definition": "field step in its stated unit",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "per unit"
+        },
+        "encode_decode.quantised_max_clock_m": {
+          "definition": "largest clock change from quantisation times c",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "encode_decode.quantised_max_pos_m": {
+          "definition": "largest position change from quantisation over the usage period",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "encode_decode.rinex_round_trip_max_clock_m": {
+          "definition": "largest clock difference after RINEX-style export and import",
+          "evidence_tier": "validated",
+          "provenance": "internal-consistency",
+          "unit": "m"
+        },
+        "encode_decode.rinex_round_trip_max_pos_m": {
+          "definition": "largest position difference after RINEX-style export and import",
+          "evidence_tier": "validated",
+          "provenance": "internal-consistency",
+          "unit": "m"
+        },
+        "encode_decode.round_trip_max_pos_m": {
+          "definition": "largest position difference decoded minus exact",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "encode_decode.sequence_stats.along_rms_m": {
+          "definition": "RMS along-track error",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "encode_decode.sequence_stats.clock_rms_m": {
+          "definition": "RMS clock error times c",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "encode_decode.sequence_stats.cross_rms_m": {
+          "definition": "RMS cross-track error",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "encode_decode.sequence_stats.n": {
+          "definition": "epochs evaluated",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "encode_decode.sequence_stats.pos3d_max_m": {
+          "definition": "largest 3D position error",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "encode_decode.sequence_stats.radial_rms_m": {
+          "definition": "RMS radial error",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "encode_decode.sequence_stats.sisre_max_m": {
+          "definition": "largest SISRE with the clock",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "encode_decode.sequence_stats.sisre_orb_max_m": {
+          "definition": "largest orbit-only SISRE",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "encode_decode.sequence_stats.sisre_orb_rms_m": {
+          "definition": "RMS orbit-only SISRE of the sequence",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "encode_decode.sequence_stats.sisre_rms_m": {
+          "definition": "RMS SISRE with the clock",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "encode_decode.sisre_exact_rms_m": {
+          "definition": "RMS SISRE of the exact first message over its usage period",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "encode_decode.sisre_quantised_rms_m": {
+          "definition": "RMS SISRE of the decoded first message",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "message_config.carrier_hz": {
+          "definition": "carrier the ionospheric service is scaled to",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "Hz"
+        },
+        "message_config.fit_interval_s": {
+          "definition": "fit interval of each message",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "message_config.poly_degree": {
+          "definition": "ECEF polynomial degree",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "message_config.rac_degrees[]": {
+          "definition": "correction polynomial degrees along, cross, radial",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "message_config.update_period_s": {
+          "definition": "message update period",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "orbit.altitude_m": {
+          "definition": "altitude of the initial semi-major axis above the WGS 84 equatorial radius",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "orbit.cd_area_over_mass_m2_kg": {
+          "definition": "drag ballistic term C_D A/m",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m^2/kg"
+        },
+        "orbit.eccentricity": {
+          "definition": "initial eccentricity",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "orbit.epoch_tow_s": {
+          "definition": "epoch time of week",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "orbit.epoch_week": {
+          "definition": "epoch week number (GPS origin)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "week"
+        },
+        "orbit.gravity_degree": {
+          "definition": "gravity field degree of the truth integration",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "orbit.inclination_deg": {
+          "definition": "orbit inclination",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "orbit.period_s": {
+          "definition": "two-body period of the initial semi-major axis",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "s"
+        },
+        "sisre_weights.inverse_w_ac2": {
+          "definition": "reciprocal of w_ac2, the form the published table uses",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "sisre_weights.mask_deg": {
+          "definition": "user elevation mask of the SISRE average",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "sisre_weights.max_nadir_deg": {
+          "definition": "nadir angle of a user at the elevation mask",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "deg"
+        },
+        "sisre_weights.w_ac2": {
+          "definition": "global-average squared along/cross-track SISRE weight",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "sisre_weights.w_r": {
+          "definition": "global-average radial SISRE weight",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        }
+      },
+      "fields_described": 88,
+      "fields_total": 88,
+      "fields_without_units": [],
+      "label": "MIXED — VALIDATED building blocks, MODELLED results. The SISRE weights reproduce the published MEO/GEO table (Montenbruck et al. 2018), the Galileo ICD user algorithm reproduces RTKLIB on real Galileo broadcast ephemerides, and CRC-24Q reproduces its catalogue check value and the RTCM 1005 example frame. Every fit, SISRE, continuity and quantisation figure is MODELLED: the representation error of a message against a Kshana-integrated truth orbit and clock, with no orbit determination or prediction error. The binary frame and the RINEX-style block are Kshana's own documented formats, not any system's layout.",
+      "source": "scenarios/leo-navmsg-encode-decode.toml"
     },
     "link-budget": {
       "complete": true,

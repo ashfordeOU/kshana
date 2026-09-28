@@ -108,6 +108,7 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         BodyPnt,
         ConstellationDesign,
         Campaign,
+        LeoNavmsg,
     ]
 };
 
@@ -218,6 +219,9 @@ pub mod ids {
     /// Existing kinds composed into a chained mission timeline, a parameter grid, a
     /// seeded Monte Carlo ensemble, or members run under shared conditions.
     pub const CAMPAIGN: ScenarioId = ScenarioId::from_static("campaign");
+    /// LEO navigation message: fitter, user algorithm, mid-pass update, binary and text
+    /// encodings.
+    pub const LEO_NAVMSG: ScenarioId = ScenarioId::from_static("leo-navmsg");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {

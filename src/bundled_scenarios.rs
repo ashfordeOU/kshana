@@ -62,6 +62,12 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("jamming-demo"),
     bundled!("l-band-waterfall-jamming"),
     bundled!("launch-window"),
+    // Workshop-derived preset scenario: remove this line with the file to withhold it.
+    bundled!("leo-navmsg-celeste-iod"),
+    bundled!("leo-navmsg-encode-decode"),
+    bundled!("leo-navmsg-fit-interval-trade"),
+    bundled!("leo-navmsg-midpass-update"),
+    bundled!("leo-navmsg-model-comparison"),
     bundled!("leo-pnt-mega-shell"),
     bundled!("link-budget"),
     bundled!("lunanet-araim"),
