@@ -97,6 +97,11 @@ null of the MBOC spectrum, so Galileo E1 returns to its nominal C/N₀ when the 
 The signals themselves sit about 20 dB below the noise floor, so the waterfall shows the
 floor and the jammers; the C/N₀ bars show what despreading recovers.
 
+The same jammers drive a chained mission in
+`scenarios/campaign-spectrum-holdover-integrity.toml` (see [CAMPAIGNS.md](CAMPAIGNS.md)):
+the clock holds over while the chirp is on, and the receiver falls back to Galileo E1
+under the CW tone.
+
 ## IQ, SigMF and Welch
 
 `[iq]` draws the model at one instant as complex in-phase and quadrature (IQ) samples,

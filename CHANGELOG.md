@@ -13,8 +13,15 @@ breaking changes are called out explicitly.
 
 - **Four new engine areas in one release: `spectrum`, `solar-system` and `body-pnt`,
   `constellation-design`, and `campaign`.** The kind count moves from 63 to 68, the
-  scenario-file count from 82 to 93, and the verification matrix from 174 to
+  scenario-file count from 82 to 94, and the verification matrix from 174 to
   **189 rows — 71 VALIDATED, 114 MODELLED, 4 PARTNER**. Each area is described below.
+  - Across the areas: `scenarios/campaign-spectrum-holdover-integrity.toml` chains the
+    `spectrum` kind with a clock holdover and an integrity monitor (a chirp takes L1 C/A
+    and E1; a CW tone then keeps C/A down while E1 recovers and the receiver falls back to
+    a Galileo-only sky), pinned against the stand-alone waterfall example in
+    `tests/campaign_composition_reference.rs`. `constellation-design` now resolves its
+    central body through `Body::by_name`, so a constellation can be laid around any planet,
+    Pluto or major moon with the constants the `solar-system` kind uses.
 - **Solar-system ephemeris and positioning around any body.** Two new scenario kinds.
   - `solar-system`: the Sun, the eight planets, Pluto, the Moon, Phobos, Deimos, Io, Europa,
     Ganymede, Callisto and Titan at one epoch: heliocentric position and velocity in the
@@ -46,8 +53,8 @@ breaking changes are called out explicitly.
   Six new matrix rows: two validated (planet positions, light time) and four modelled.
 - **Constellation design at scale (`constellation-design` kind, `src/constellation.rs`).**
   Walker delta and Walker star patterns (T/P/F), explicit element lists and multi-shell
-  designs, several constellations per run, around the Earth, the Moon or Mars from the
-  body constants. Presets from published nominal elements: the Global Positioning System
+  designs, several constellations per run, around the Earth, the Moon, Mars or any other planet, Pluto or major moon
+  from the body constants the `solar-system` kind added. Presets from published nominal elements: the Global Positioning System
   (GPS) baseline and expandable 24-slot constellation (Standard Positioning Service
   Performance Standard, SPS PS, 2020), Galileo Walker 24/3/1 (Open Service Service
   Definition Document issue 1.1), BeiDou medium Earth orbit Walker 24/3/1 plus

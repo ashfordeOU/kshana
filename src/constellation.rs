@@ -145,14 +145,18 @@ fn norm(a: Vec3) -> f64 {
     dot(a, a).sqrt()
 }
 
-/// Resolve a body name (`earth`, `moon`, `mars`, case-insensitive) to its constants.
+/// Resolve a central-body name (case-insensitive) to its constants: any planet, Pluto,
+/// the Moon or one of the major moons in [`crate::body::SOLAR_SYSTEM`], through
+/// [`Body::by_name`], so a constellation around Europa or Titan uses the same published
+/// gravitational parameter, radius, J2 and IAU spin rate as the `solar-system` and
+/// `body-pnt` kinds. The Sun is refused: it is not a body a coverage grid is laid on.
 pub fn body_by_name(name: &str) -> Result<Body, String> {
-    match name.to_ascii_lowercase().as_str() {
-        "earth" => Ok(Body::earth()),
-        "moon" => Ok(Body::moon()),
-        "mars" => Ok(Body::mars()),
-        other => Err(format!(
-            "unknown central body {other:?}: expected \"earth\", \"moon\" or \"mars\""
+    match Body::by_name(name) {
+        Some(b) if b.name != "Sun" => Ok(b),
+        _ => Err(format!(
+            "unknown central body {:?}: expected a planet, Pluto, the Moon or a major moon \
+             (earth, moon, mars, europa, titan, ...; see crate::body::SOLAR_SYSTEM)",
+            name.trim().to_ascii_lowercase()
         )),
     }
 }
@@ -640,7 +644,8 @@ fn d_constellations() -> Vec<ConstellationCfg> {
 /// The `constellation-design` scenario.
 #[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct ConstellationDesignScenario {
-    /// Central body: `earth`, `moon` or `mars`.
+    /// Central body: any planet, Pluto, the Moon or a major moon (`earth`, `moon`, `mars`,
+    /// `europa`, `titan`, ...), with the constants of [`crate::body`].
     #[serde(default = "d_body")]
     pub body: String,
     /// Window length (s); epochs are `k·step_s` for `k = 0..⌊duration_s/step_s⌋ − 1`.
@@ -2568,6 +2573,55 @@ inclination_deg = 60
         assert_eq!(v["total_satellites"], 12);
         assert_eq!(v["body"]["name"], "Moon");
         assert_eq!(v["grid"]["lat_deg"].as_array().unwrap().len(), 6);
+    }
+
+    #[test]
+    fn any_solar_system_body_uses_the_body_module_constants() {
+        // A relay shell around Europa: the body block, the orbital period and the
+        // spin rate come from crate::body (Europa: mu 3.2027121e12 m^3/s^2, mean
+        // radius 1 560 800 m, synchronous W-dot 101.3747235 deg/day).
+        let src = r#"
+kind = "constellation-design"
+body = "Europa"
+duration_s = 7200
+step_s = 1200
+grid_step_deg = 30
+mask_deg = 10
+[[constellation]]
+name = "relay"
+[[constellation.shell]]
+total = 6
+planes = 3
+phasing = 1
+altitude_km = 1500
+inclination_deg = 70
+"#;
+        let scn: ConstellationDesignScenario = toml::from_str(src).unwrap();
+        let (json, summary, _svg) = scn.run_all().unwrap();
+        assert!(summary.contains("Europa"));
+        let v: Value = serde_json::from_str(&json).unwrap();
+        let europa = Body::by_name("europa").unwrap();
+        assert_eq!(v["body"]["name"], "Europa");
+        assert_eq!(europa.mu, 3.202_712_10e12);
+        assert_eq!(europa.re, 1_560_800.0);
+        let rate = v["body"]["rotation_rate_deg_s"].as_f64().unwrap();
+        assert!((rate - 101.374_723_5 / 86_400.0).abs() < 1e-12);
+        let (body, built) = scn.build().unwrap();
+        assert_eq!((body.mu, body.re), (europa.mu, europa.re));
+        assert_eq!(body.rotation_rate, europa.rotation_rate);
+        assert_eq!(built[0].elements.len(), 6);
+        assert!(built[0]
+            .elements
+            .iter()
+            .all(|e| (e.a_m - (europa.re + 1_500_000.0)).abs() < 1e-6));
+        // Every body in the catalogue but the Sun resolves; the Sun and nonsense do not.
+        for f in crate::body::SOLAR_SYSTEM {
+            let r = body_by_name(f.name);
+            assert_eq!(r.is_ok(), f.name != "Sun", "{}", f.name);
+        }
+        assert!(body_by_name("vulcan")
+            .unwrap_err()
+            .contains("unknown central body"));
     }
 
     #[test]
