@@ -13,9 +13,10 @@ Run the bundled examples:
 - `kshana example xona-pulsar-signals`: the published Xona Pulsar X1 and X5 signals;
 - `kshana example multi-band-jamming-waterfall`: UHF, L, S and C panels under per-band
   jammers (a `spectrum` scenario);
-- `kshana example celeste-iod-classical-pilot-signals`: the Celeste In-Orbit Demonstration
-  (IOD) bands and signal configuration presented at the ESA NAVISP LEO-PNT workshop, 2026
-  (see [Workshop parameters](#workshop-parameters) below).
+- `kshana scenarios/celeste-iod-classical-pilot-signals.toml`, from a checkout of the
+  repository (not bundled): the Celeste In-Orbit Demonstration (IOD) bands and signal
+  configuration presented at the ESA NAVISP LEO-PNT workshop, 2026 (see
+  [Workshop parameters](#workshop-parameters) below).
 
 Code: `src/leo_signal.rs` (signal designs, the kind), `src/navsignal.rs` (the closed forms),
 `src/spectrum.rs` (the multi-band waterfall), preset files under `data/leo-signals/`.
@@ -171,16 +172,18 @@ lengths, FDMA offsets, and a representative modulation for the bands whose modul
 not presented). The shape check is MODELLED consistency: it compares shapes, not
 calibrated levels.
 
-To withhold it from a release: delete that file and its `bundled!` line in
-`src/bundled_scenarios.rs`, then regenerate the scenario counts. Every other scenario,
-test and oracle runs without it; the one test that reads it passes with a note when it is
-absent.
+To withhold it from a release, delete that one file. Nothing compiles it in: the
+command-line interface lists it as a repository-only scenario (`kshana example` names it
+and explains, rather than printing it), and a test refuses any `include_str!` of it. Every
+other scenario, test and oracle runs without it; the test that reads it passes with a note
+when it is absent, and the README's scenario-file count still counts it.
 
 ## Evidence
 
 | Claim | Label | Oracle |
 |---|---|---|
-| BPSK power in band (90.3 % in the main lobe) and band-limited Gabor bandwidth closed forms; band-limited early-late jitter reducing to the textbook coherent and non-coherent forms and to its Gabor bound; offset BPSK SSC; AltBOC unit area | VALIDATED | Kaplan & Hegarty, Betz & Kolodziejski 2009, Betz 2001, Abramowitz & Stegun Table 5.1 |
+| BPSK power in band (90.3 % in the main lobe); band-limited early-late jitter reducing to the textbook coherent and non-coherent forms and to its Gabor bound; BPSK self-SSC 2/(3 R_c) | VALIDATED | Kaplan & Hegarty, Betz & Kolodziejski 2009, Betz 2001, Abramowitz & Stegun Table 5.1 |
+| Band-limited Gabor bandwidth closed form; offset BPSK SSC at non-zero offset; AltBOC unit area (all within the row above, as cross-checks) | internal consistency | derived here, checked against quadrature |
 | Maximum LEO Doppler | VALIDATED | Xona Pulsar X1 32 to 34 kHz (arXiv 2509.19551); Iridium ±36 kHz (RNTF) |
 | `leo-signal` designs, acquisition, compatibility, jammer tolerance, trade, shape checks | MODELLED | the validated closed forms, the detector identity P_d(0) = P_fa, Holmes's mean time, the spectrum kind's own SSC chain |
 | Multi-band spectrum | MODELLED | reduction to the unchanged spectrum and jamming chains |

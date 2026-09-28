@@ -6,9 +6,10 @@
 # Every carrier, bandwidth, allocation, component structure and shape target below
 # marked WORKSHOP was presented at the ESA NAVISP LEO-PNT workshop, 2026 (the
 # Navigation Innovation and Support Programme), and cleared for use; no Celeste signal
-# specification is public. Nothing else in the engine depends on this file: deleting it
-# (and its one line in src/bundled_scenarios.rs) removes Celeste from a release, and
-# every other scenario, test and oracle still runs. See docs/LEO-SIGNAL.md.
+# specification is public. Nothing else in the engine depends on this file, and nothing
+# compiles it in (it is a repository-only scenario, not bundled into the binary):
+# deleting it removes Celeste from a release, and every other scenario, test and oracle
+# still runs. See docs/LEO-SIGNAL.md.
 #
 # What the IOD is for, in ESA's own public words: an in-orbit demonstration of 11
 # satellites plus a spare that tests radionavigation signals in several bands
