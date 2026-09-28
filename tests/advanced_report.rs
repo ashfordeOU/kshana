@@ -354,3 +354,53 @@ fn a_monte_carlo_campaign_reports_its_percentiles_as_the_result_states_them() {
     }
     assert_eq!(a.distributions.len(), table.rows.len());
 }
+
+/// A row that grades one input path is listed only when the run took that path: a
+/// VALIDATED row the run never touched would claim evidence it does not have.
+#[test]
+fn a_path_specific_validated_row_is_listed_only_when_the_run_takes_that_path() {
+    let rows = |name: &str| -> Vec<String> {
+        let (_, _, r) = report_of(std::path::Path::new(name));
+        r.capabilities
+            .rows
+            .iter()
+            .map(|c| c.requirement.clone())
+            .collect()
+    };
+    let has = |name: &str, req: &str| rows(name).iter().any(|r| r == req);
+    let srtm = "SRTM digital-elevation reader on real terrain";
+    let orbit = "Orbit propagation & determination";
+    let record = "Holdover prediction from a measured clock record, checked on held-out data";
+    // Synthetic DEM: the SRTM reader is never read.
+    assert!(!has("scenarios/terrain-nav.toml", srtm));
+    assert!(!has("scenarios/terrain-slam.toml", srtm));
+    // An analytic Walker/Kepler constellation is not SGP4; a TLE constellation is.
+    assert!(!has("scenarios/orbit-molniya.toml", orbit));
+    assert!(has("scenarios/orbit-sgp4-gps.toml", orbit));
+    assert!(has("scenarios/ephemeris.toml", orbit));
+    // A preset oscillator is the modelled path, not the measured-record one.
+    assert!(!has("scenarios/slot-timing-ocxo-leo.toml", record));
+    let with_record = std::fs::read_to_string("scenarios/slot-timing-ocxo-leo.toml")
+        .unwrap()
+        .replace(
+            "preset = \"ocxo\"",
+            "record = { tau0_s = 1.0, time_error_ns = [PHASE] }",
+        );
+    let phase: Vec<String> = (0..600)
+        .map(|i| {
+            let x = i as f64;
+            format!("{:.6}", 0.02 * (x * 0.37).sin() + 1e-4 * x * x / 600.0)
+        })
+        .collect();
+    let with_record = with_record.replace("PHASE", &phase.join(", "));
+    let out = kshana::api::run_toml(&with_record).expect("record path runs");
+    let inv = Invocation {
+        scenario_arg: "record.toml".to_string(),
+        ..Default::default()
+    };
+    let r = build(&out, &with_record, &inv).expect("report");
+    assert!(
+        r.capabilities.rows.iter().any(|c| c.requirement == record),
+        "a measured-record run must carry the measured-record row"
+    );
+}
