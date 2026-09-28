@@ -1,0 +1,53 @@
+# A seeded Monte Carlo ensemble through a campaign, on a case with a closed form.
+#
+# A chip-scale atomic clock (Microchip SA.45s datasheet sigma_y(1 s) = 3e-10, so a
+# white-frequency-noise intensity q_wf = 9e-20 s^2/s and nothing else stochastic) is
+# disciplined to GNSS for 600 s and then coasts to 3600 s. The holdover predictor
+# removes the deterministic frequency offset exactly, so the time error at the end
+# of the run is the accumulated white-frequency noise since the last synchronisation
+# at 590 s: Gaussian, mean zero, variance q_wf * tau with tau = 3010 s, a standard
+# deviation of sqrt(9e-20 * 3010) s = 16.46 ns (NIST Technical Note 1337, the random
+# walk of phase under white frequency noise).
+#
+# Realisation k runs the scenario with `seed = 42 + k`, so the ensemble reproduces
+# exactly. The campaign reports, per metric, the mean, the standard deviation, the
+# 5th, 50th and 95th percentiles and a fixed-seed bootstrap 95% confidence interval
+# on the mean. The test suite checks that the mean falls inside that interval around
+# zero and that the spread matches 16.46 ns.
+#
+# MODELLED: the clock is a datasheet-level model, not a measurement of any unit.
+kind = "campaign"
+title = "Monte Carlo: free-running clock error against its closed form"
+seed = 20260928
+
+[monte_carlo]
+runs = 200
+seed_key = "seed"
+metrics = [
+  { name = "final_error", path = "classical.series[-1].error_ns" },
+  { name = "timing_rms", path = "classical.fom.timing_rms_ns" },
+]
+
+[monte_carlo.scenario]
+seed = 42
+threshold_ns = 20.0
+[monte_carlo.scenario.time]
+step_s = 10.0
+duration_s = 3600.0
+[monte_carlo.scenario.gnss]
+windows = [
+  { t0 = 0.0, t1 = 600.0, state = "nominal" },
+  { t0 = 600.0, t1 = 3600.0, state = "denied" },
+]
+[monte_carlo.scenario.clock_quantum]
+id = "optical-sr-lattice"
+provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (arXiv:1503.08457); not flown."
+y0 = 5.0e-17
+q_wf = 1.0e-30
+q_rw = 0.0
+[monte_carlo.scenario.clock_classical]
+id = "csac-sa45s"
+provenance = "Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_wf=sigma_y(1s)^2."
+y0 = 5.0e-10
+q_wf = 9.0e-20
+q_rw = 0.0

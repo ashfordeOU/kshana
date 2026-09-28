@@ -581,7 +581,17 @@ pub struct GenericNdSweepResult {
 /// Set a dotted key of a TOML table to a float. Errors if any path segment is
 /// missing or not a table — a mistyped sweep key must fail loudly, never
 /// silently create a field the scenario will ignore.
-fn set_dotted(root: &mut toml::Value, key: &str, value: f64) -> Result<(), String> {
+pub(crate) fn set_dotted(root: &mut toml::Value, key: &str, value: f64) -> Result<(), String> {
+    set_dotted_value(root, key, toml::Value::Float(value))
+}
+
+/// [`set_dotted`] for any TOML value: an integer seed, an array, a string. The same
+/// rule holds: every segment must already exist, so a mistyped key fails loudly.
+pub(crate) fn set_dotted_value(
+    root: &mut toml::Value,
+    key: &str,
+    value: toml::Value,
+) -> Result<(), String> {
     let parts: Vec<&str> = key.split('.').collect();
     if parts.iter().any(|p| p.is_empty()) {
         return Err(format!("sweep key `{key}` is malformed"));
@@ -602,7 +612,7 @@ fn set_dotted(root: &mut toml::Value, key: &str, value: f64) -> Result<(), Strin
     let slot = tbl
         .get_mut(last)
         .ok_or_else(|| format!("sweep key `{key}`: no field `{last}`"))?;
-    *slot = toml::Value::Float(value);
+    *slot = value;
     Ok(())
 }
 
@@ -619,7 +629,7 @@ fn get_dotted_json(root: &serde_json::Value, path: &str) -> Result<f64, String> 
 }
 
 /// Decode a flat row-major index into per-axis coordinates (last axis fastest).
-fn coords_of(flat: usize, axis_values: &[Vec<f64>], shape: &[usize]) -> Vec<f64> {
+pub(crate) fn coords_of(flat: usize, axis_values: &[Vec<f64>], shape: &[usize]) -> Vec<f64> {
     let mut idx = flat;
     let mut coords = vec![0.0_f64; axis_values.len()];
     for d in (0..axis_values.len()).rev() {

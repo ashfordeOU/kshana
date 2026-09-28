@@ -129,6 +129,10 @@ const RUNNERS: &[(&str, &str)] = &[
         "constellation-design",
         "scenarios/constellation-multi-gnss-coverage.toml",
     ),
+    (
+        "campaign",
+        "scenarios/campaign-jam-spoof-holdover-integrity.toml",
+    ),
 ];
 
 /// The kinds whose reports do not yet describe every numeric field they emit, each with

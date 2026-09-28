@@ -1,0 +1,57 @@
+# A parameter sweep through a campaign: the jamming example's receiver (52 N, 4 E,
+# GPS-like 24-satellite Walker shell) under a broadband jammer 1 km away, with the
+# jammer's transmit power swept from -50 dBW (10 nW) to +10 dBW (10 W) in 5 dB
+# steps. Each node is an ordinary `jamming` run; the campaign records, per node,
+# the fraction of epochs with at least four satellites still tracking, the mean
+# jammer-to-signal ratio (J/S), and the fewest satellites tracking.
+#
+# The jamming chain (Kaplan and Hegarty, Understanding GPS/GNSS, 3rd ed., section
+# 9.4) is deterministic, so one run per node is the whole answer; add `runs` and a
+# `seed_key` to make every node a Monte Carlo ensemble for a stochastic kind.
+# J/S moves exactly 1 dB per dB of transmit power; availability falls from 1 to 0
+# where the effective carrier-to-noise density ratio crosses the 25 dB-Hz floor.
+#
+# MODELLED: as the `jamming` kind is.
+kind = "campaign"
+title = "Jammer power sweep: availability and J/S against transmit power"
+seed = 20260928
+
+[sweep]
+metrics = [
+  { name = "availability", path = "fom.availability_under_jamming" },
+  { name = "mean_js", path = "fom.mean_js_db" },
+  { name = "min_tracking", path = "fom.min_tracking" },
+]
+
+[[sweep.axes]]
+name = "jammer_power"
+key = "jammer.power_dbw"
+unit = "dBW"
+start = -50.0
+stop = 10.0
+steps = 13
+
+[sweep.scenario]
+kind = "jamming"
+seed = 1
+mask_deg = 5.0
+tracking_threshold_dbhz = 25.0
+[sweep.scenario.time]
+step_s = 60.0
+duration_s = 1800.0
+[sweep.scenario.receiver]
+lat_deg = 52.0
+lon_deg = 4.0
+alt_m = 0.0
+[sweep.scenario.constellation]
+altitude_km = 20200.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
+[sweep.scenario.jammer]
+position_ecef_m = [3926375.101, 274488.966, 5002803.345]
+power_dbw = 10.0
+gain_dbi = 0.0
+jammer_type = "broadband"
+bandwidth_mhz = 20.0
