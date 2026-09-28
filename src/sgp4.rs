@@ -165,6 +165,9 @@ pub fn gstime(jdut1: f64) -> f64 {
 pub struct Sgp4 {
     grav: GravConst,
     afspc: bool,
+    /// The element epoch as a UTC Julian Date (`epoch` days since 1950 Jan 0.0 plus
+    /// 2 433 281.5): the instant `tsince = 0` names.
+    epoch_jd_utc: f64,
     deep: bool,
     isimp: bool,
 
@@ -281,6 +284,7 @@ impl Sgp4 {
         let mut s = Sgp4 {
             grav,
             afspc,
+            epoch_jd_utc: epoch + 2_433_281.5,
             deep: false,
             isimp: false,
             bstar,
@@ -546,6 +550,12 @@ impl Sgp4 {
                         + 15.0 * cc1sq * (2.0 * self.d2 + cc1sq));
             }
         }
+    }
+
+    /// The element epoch as a UTC Julian Date: the instant `tsince = 0` names, and the
+    /// date of the TEME (true equator, mean equinox) frame at that instant.
+    pub fn epoch_jd_utc(&self) -> f64 {
+        self.epoch_jd_utc
     }
 
     /// Nominal orbital period (s) from the un-Kozai'd mean motion.

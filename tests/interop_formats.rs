@@ -918,21 +918,44 @@ fn ephemeris_export_equals_the_engines_own_states_to_a_millimetre() {
     }
 }
 
+/// UTC Julian Date of a two-line element set's epoch, read straight from columns 19-32
+/// of line 1 (two-digit year, day of year with fraction), not through the engine.
+fn tle_epoch_jd_utc(line1: &str) -> f64 {
+    let yy: i32 = line1[18..20].trim().parse().unwrap();
+    let doy: f64 = line1[20..32].trim().parse().unwrap();
+    let year = if yy < 57 { 2000 + yy } else { 1900 + yy };
+    kshana::timescales::julian_date(year, 1, 1, 0, 0, 0.0) + doy - 1.0
+}
+
 #[test]
 fn orbit_export_equals_an_independent_propagation_to_a_millimetre() {
     let src = scenario("orbit-sgp4-gps.toml");
     let scn: kshana::orbit::OrbitClockScenario = toml::from_str(&src).unwrap();
+    assert!(
+        scn.epoch.is_none(),
+        "the scenario dates itself from its TLEs"
+    );
     let sats = scn.all_satellites().unwrap();
-    let e = scn.epoch.unwrap_or(kshana::rinex::EpochUtc {
-        year: 2000,
-        month: 1,
-        day: 1,
-        hour: 0,
-        minute: 0,
-        second: 0.0,
-    });
-    let jd0 = kshana::timescales::julian_date(e.year, e.month, e.day, e.hour, e.minute, e.second);
+    // Each satellite's t = 0 is its own TLE epoch, read from the scenario text.
+    let v: toml::Value = toml::from_str(&src).unwrap();
+    let tle = v["constellation"]["tle"].as_str().unwrap();
+    let epochs: Vec<f64> = tle
+        .lines()
+        .filter(|l| l.starts_with("1 "))
+        .map(tle_epoch_jd_utc)
+        .collect();
+    assert_eq!(epochs.len(), sats.len());
     let czml = validate_czml(&one(&src, Format::Czml)).unwrap();
+    // The export's t = 0 is the earliest TLE epoch, not a placeholder date.
+    let earliest = epochs.iter().copied().fold(f64::INFINITY, f64::min);
+    let (_, c0) = czml.iter().find(|(i, _)| i == "satellite/G01").unwrap();
+    let earliest_unix = (earliest - 2_440_587.5) * 86_400.0;
+    assert!(
+        (c0.epoch_s - earliest_unix).abs() < 1e-3,
+        "CZML epoch {} s vs earliest TLE epoch {} s",
+        c0.epoch_s,
+        earliest_unix
+    );
     let stk_files = interop::export(&src, Format::Stk).unwrap();
     assert_eq!(
         stk_files.len(),
@@ -955,7 +978,9 @@ fn orbit_export_equals_an_independent_propagation_to_a_millimetre() {
         for (s, row) in c.samples.iter().zip(&stk.rows).step_by(7) {
             let t = s[0];
             let st = p.state_eci(t);
-            let jd_tt = kshana::timescales::utc_to_tt(jd0 + t / 86_400.0);
+            // The TEME position belongs to the satellite's own instant: its TLE epoch
+            // plus t.
+            let jd_tt = kshana::timescales::utc_to_tt(epochs[k] + t / 86_400.0);
             let (r, v) = kshana::nutation::teme_to_gcrs(st.r_m, st.v_m_s, jd_tt);
             worst = worst.max(dist([s[1], s[2], s[3]], r));
             worst = worst.max(dist([row[1], row[2], row[3]], r));
@@ -963,6 +988,86 @@ fn orbit_export_equals_an_independent_propagation_to_a_millimetre() {
         }
     }
     assert!(worst < 1e-3, "export vs engine TEME->GCRS: {worst} m");
+}
+
+#[test]
+fn sgp4_export_matches_an_external_erfa_reduction() {
+    // External oracle: the first satellite of `orbit-sgp4-gps` (GPS PRN 13, TLE epoch
+    // 2021-07-28T06:49:56.822 UTC) propagated by the `sgp4` 2.27 Python package (WGS 72),
+    // and its TEME position reduced to the GCRS by ERFA 2.0.1.5 (pyerfa): TT from
+    // `utctai`/`taitt`, then `pnm06a`ᵀ · R3(−`ee06a`), the IAU 2006/2000A equinox-based
+    // chain. Seconds after the satellite's own TLE epoch, metres.
+    const ERFA_GCRS_M: [(f64, [f64; 3]); 3] = [
+        (0.0, [-25905790.1884, 5488874.7823, 53509.6931]),
+        (3600.0, [-23867973.0030, -2668910.3051, 11046364.0900]),
+        (21600.0, [26133517.8355, -5145761.3669, -617533.3208]),
+    ];
+    let src = scenario("orbit-sgp4-gps.toml");
+    let czml = validate_czml(&one(&src, Format::Czml)).unwrap();
+    let (_, g01) = czml.iter().find(|(i, _)| i == "satellite/G01").unwrap();
+    for (t, want) in ERFA_GCRS_M {
+        let s = g01
+            .samples
+            .iter()
+            .find(|s| (s[0] - t).abs() < 1e-9)
+            .unwrap();
+        let d = dist([s[1], s[2], s[3]], want);
+        // Measured 2.3 cm: the engine's equinox chain uses IAU 2000B nutation and the
+        // two leading complementary terms of the equation of the equinoxes, ERFA the
+        // full IAU 2000A. A wrong frame date (J2000 for a 2021 TLE) misses by 135 km,
+        // a sign slip in the nutation matrix by 3.7 km.
+        assert!(d < 0.1, "t = {t} s: CZML vs ERFA GCRS {d} m");
+    }
+}
+
+#[test]
+fn rinex_export_places_each_satellite_at_its_broadcast_earth_fixed_position() {
+    // A broadcast ephemeris gives the satellite's Earth-fixed position directly
+    // (IS-GPS-200). The export's Earth-fixed track must be that position, and its t = 0
+    // the ephemeris's own date, not a placeholder.
+    let src = scenario("orbit-rinex.toml");
+    let scn: kshana::orbit::OrbitClockScenario = toml::from_str(&src).unwrap();
+    let sats = scn.all_satellites().unwrap();
+    let sc = scene::scene_of(&src).unwrap();
+    let epoch = sc.epoch.unwrap();
+    assert!(
+        epoch.iso(0.0).starts_with("2023-"),
+        "t = 0 is {}",
+        epoch.iso(0.0)
+    );
+    let gj = validate_geojson(&one(&src, Format::GeoJson)).unwrap();
+    let mut worst = 0.0f64;
+    let mut worst_gj = 0.0f64;
+    let mut n = 0;
+    for (k, p) in sats.iter().enumerate() {
+        let kshana::orbit::Propagator::Rinex(e) = p else {
+            continue;
+        };
+        let id = format!("G{:02}", k + 1);
+        let m = sc.movers.iter().find(|m| m.id == id).unwrap();
+        let f = gj
+            .iter()
+            .find(|f| f["id"] == format!("satellite/{id}"))
+            .unwrap();
+        let coords = f["geometry"]["coordinates"].as_array().unwrap();
+        for (i, &t) in sc.times_s.iter().enumerate() {
+            let truth = e.sv_position_ecef(e.toe + t);
+            worst = worst.max(dist(m.ecef_r_m[i], truth));
+            if f["geometry"]["type"] == "LineString" {
+                let c = &coords[i];
+                let back = kshana::frames::geodetic_to_ecef(kshana::frames::Geodetic {
+                    lat_rad: c[1].as_f64().unwrap().to_radians(),
+                    lon_rad: c[0].as_f64().unwrap().to_radians(),
+                    alt_m: c[2].as_f64().unwrap(),
+                });
+                worst_gj = worst_gj.max(dist(back, truth));
+            }
+        }
+        n += 1;
+    }
+    assert!(n >= 4, "{n} broadcast satellites");
+    assert!(worst < 1e-3, "scene Earth-fixed vs broadcast: {worst} m");
+    assert!(worst_gj < 2e-3, "GeoJSON vs broadcast: {worst_gj} m");
 }
 
 #[test]

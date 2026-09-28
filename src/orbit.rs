@@ -406,6 +406,22 @@ impl Propagator {
         StateEci { r_m: r, v_m_s: v }
     }
 
+    /// The absolute instant of time `t` (s), as the UTC (UT1 taken equal to UTC)
+    /// Julian Date the propagator itself dates it by, for a propagator whose data
+    /// carry their own epoch: an SGP4 satellite's TLE epoch plus `t`, a broadcast
+    /// ephemeris's `Toe` plus `t` (the same date its Earth-fixed position is rotated
+    /// into TEME with), an SP3 file's start plus `t`. `None` for a Keplerian orbit,
+    /// whose `t = 0` is only what the scenario calls it.
+    pub fn own_jd_utc(&self, t: f64) -> Option<f64> {
+        match self {
+            Propagator::Kepler(_) => None,
+            Propagator::Sgp4(s) => Some(s.epoch_jd_utc() + t / 86_400.0),
+            Propagator::Rinex(e) => Some(e.jd_ut1(e.toe + t)),
+            Propagator::Glonass(e) => Some(e.jd_ut1(t)),
+            Propagator::Sp3Precise(e) => Some(e.jd_ut1(t)),
+        }
+    }
+
     /// Nominal orbital period (s).
     pub fn period_s(&self) -> f64 {
         match self {

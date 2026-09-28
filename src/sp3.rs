@@ -390,6 +390,12 @@ impl Sp3Interpolator {
         ]
     }
 
+    /// The UT1 Julian Date of `t` (s) after the file start: the Earth-rotation date
+    /// [`Self::position_teme`] rotates the tabulated Earth-fixed position through.
+    pub fn jd_ut1(&self, t: f64) -> f64 {
+        self.start_jd_ut1 + t / 86_400.0
+    }
+
     /// Interpolated position (m) in the shared TEME inertial frame at `t`.
     pub fn position_teme(&self, t: f64) -> [f64; 3] {
         crate::frames::ecef_to_teme(self.position_ecef(t), self.start_jd_ut1 + t / 86_400.0)
