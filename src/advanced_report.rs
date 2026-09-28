@@ -1660,7 +1660,10 @@ fn histogram(samples: &[f64], bins: usize) -> (Vec<f64>, Vec<usize>) {
         (lo - 0.5, hi + 0.5)
     };
     let w = (hi - lo) / bins as f64;
-    let edges: Vec<f64> = (0..=bins).map(|i| lo + w * i as f64).collect();
+    let mut edges: Vec<f64> = (0..=bins).map(|i| lo + w * i as f64).collect();
+    // `lo + w * bins` can round a unit in the last place below `hi`; the last edge is the
+    // largest sample exactly, so the drawn range always contains every sample.
+    edges[bins] = hi;
     let mut counts = vec![0usize; bins];
     for &s in samples {
         let mut b = ((s - lo) / w).floor() as isize;
