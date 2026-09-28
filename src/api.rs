@@ -634,6 +634,12 @@ pub enum ScenarioKind {
     /// L-band spectrum: signal and jammer power spectral densities, a time-frequency
     /// waterfall, per-band J/S and effective C/N₀, and SigMF/Welch spectral estimates.
     Spectrum,
+    /// The whole solar system at one epoch: positions, velocities, constants, light times
+    /// and orbit tracks of the Sun, planets, Pluto and seven major moons.
+    SolarSystem,
+    /// Positioning around any solar-system body: a navigation constellation around the
+    /// body and an optional deep-space ranging link from Earth.
+    BodyPnt,
 }
 
 impl ScenarioKind {
@@ -704,6 +710,8 @@ impl ScenarioKind {
             ScenarioKind::TelecomTiming => "telecom-timing",
             ScenarioKind::SlotTiming => "slot-timing",
             ScenarioKind::Spectrum => "spectrum",
+            ScenarioKind::SolarSystem => "solar-system",
+            ScenarioKind::BodyPnt => "body-pnt",
         }
     }
 
@@ -778,6 +786,8 @@ impl ScenarioKind {
             "telecom-timing" => ScenarioKind::TelecomTiming,
             "slot-timing" => ScenarioKind::SlotTiming,
             "spectrum" => ScenarioKind::Spectrum,
+            "solar-system" => ScenarioKind::SolarSystem,
+            "body-pnt" => ScenarioKind::BodyPnt,
             // The clock pack, named explicitly. It had no arm of its own before, because
             // it was reached through the catch-all below — so removing that catch-all
             // orphaned the one kind the engine has always had. The round-trip test found
@@ -970,6 +980,8 @@ pub fn list_scenario_kinds() -> Vec<ScenarioMeta> {
         ScenarioMeta { name: "telecom-timing", description: "Telecom timing: time error, maximum time interval error (MTIE) and time deviation (TDEV) of a GNSS holdover, checked against ITU-T masks with a PASS or FAIL and a margin per mask. Input is either a SYNTHETIC HOLDOVER (an oscillator preset -- ocxo, rubidium, caesium or csac, each carrying the stability, aging and temperature figures of a named public Microchip datasheet -- plus the GNSS-loss time, record length and sample interval; the free-running clock carries white, flicker and, where the datasheet fit needs it, random-walk frequency noise, linear aging and a sinusoidal temperature term) or an INGESTED SERIES of [time_s, time_error_ns] pairs given inline (and, on native builds only, a CSV file). Masks: ITU-T G.8272 (07/2025) PRTC-A and PRTC-B (max|TE| 100 / 40 ns, MTIE Tables 1-2, TDEV Tables 3-4); G.8272.1 (2024) Amd. 1 (07/2025) ePRTC locked (30 ns, Tables 1-2) and ePRTC-A holdover (the Table 3 time-error envelope rising from 30 ns to 100 ns over the holdover period H set by the locked duration, MTIE Table 4, TDEV Table 5); G.8273.2 (2023) Amd. 2 (11/2025) T-BC/T-TSC classes A-C (max|TE|, constant time error, low-pass-filtered MTIE and TDEV) and class D (max|TE_L| 5 ns, the only class D figure not left for further study); G.8271.1 (2022) Amd. 3 (05/2025) reference point C (max|TE_L| 1100 / 600 / 100 ns with MTIE Tables 7-1 to 7-3). Every entry a Recommendation marks for further study is absent rather than filled in, and each report lists what is not implemented. Also reports the time to exceed each maximum-time-error budget (defaults: 100 ns ePRTC max|TE_HO|, 400 ns network holdover allocation, 1100 ns point C, 1.5 us class 4), the MTIE/TDEV curves as a CSV table with each mask limit, and a units-and-provenance entry per numeric field. VALIDATED: the MTIE and TDEV estimators against the allantools package on a committed holdover series. MODELLED: the mask tables are transcriptions, and a synthetic holdover is a model built from datasheet maxima, not a measurement of any unit. Not a conformance test.", required_fields: &[], optional_fields: &["seed", "masks", "budgets", "holdover", "series"] },
         ScenarioMeta { name: "slot-timing", description: "Slot timing: seconds until a free-running clock leaves the guard of a time-indexed routing or tasking slot (the largest absolute time error the slot tolerates), the contribution of every term at that moment with the dominant one named (fix uncertainty, white phase noise, white, flicker, random-walk and random-run frequency noise, residual frequency offset, temperature, ageing), the time left since the last fix, and the largest fix interval that keeps the clock inside, net of the fix latency. The oscillator is a CLASS default (csac, uso, dsac, tcxo, ocxo or rafs: one cited one-second Allan deviation and an assumed red-noise floor), a telecom-timing DATASHEET PRESET or an inline DATASHEET (Allan-deviation maxima fitted as an envelope, plus ageing and a temperature coefficient), or an inline MEASURED PHASE RECORD (its overlapping Allan deviation fitted by weighted least squares in the white-phase and IEEE Std 1139 frequency-modulation basis, so the red-noise floor is measured rather than assumed). A breach beyond the longest averaging time the datasheet or record supports is flagged as extrapolated. An optional spoofing section adds the timing protection level for a receiver in orbit: orbital speed and period, how long a single ground spoofer can reach the satellite per pass, the clock-aided monitor floor and CUSUM detection latency, the conditional bound, the pull a spoofer at a stated maximum ramp rate accumulates before the satellite leaves its reach or an independent check runs, and whether each ground-contact or crosslink check is independent of that spoofer. VALIDATED: the holdover inversion from a fitted record, held out on a real caesium clock measured against a hydrogen maser (tests/slot_timing_cs5071a_holdout.rs, data-gated); on a measured crystal oscillator the held-out prediction is conservative but not within the bar, so the crystal case is MODELLED. MODELLED: class and datasheet sources, the deterministic terms and the spoofing assessment.", required_fields: &["oscillator", "slot"], optional_fields: &["spoofing"] },
         ScenarioMeta { name: "spectrum", description: "L-band spectrum model and waterfall: the whole GNSS L band as one power spectral density (PSD), frequency across, time down, over a scripted jammer timeline. SIGNALS: GPS L1 C/A and L2C (BPSK(1)), Galileo E1 open service (MBOC(6,1,1/11), or BOC(1,1)), GPS L5 and Galileo E5a (BPSK(10)), each at its carrier with the interface-specification minimum received power (IS-GPS-200, IS-GPS-705, Galileo OS SIS ICD) unless overridden; GLONASS, BeiDou and Galileo E6 are not modelled. JAMMERS: continuous-wave tone, flat narrowband noise, linear sawtooth chirp and broadband noise matched to a band's own modulation, each with a centre, a bandwidth, a received power (direct, or EIRP and range through the jamming kind's free-space path loss) and on/off times. Each jammer is scored against each band by its spectral separation coefficient kappa over the receiver bandwidth, and (C/N0)_eff = [1/(C/N0) + sum (J/S) kappa]^-1; for one jammer this equals the jamming kind's anti-jam equation with Q = 1/(R_c kappa), and the report carries that cross-check (and the jamming kind's representative-Q figure beside it). The noise floor is k T_sys with T_sys = T_ant + 290 K (F - 1). The waterfall averages each cell over its bin and its row (chirps exactly, whole sweeps plus the partial one; jammers switching mid-row by their duty), so the C/N0 timeline and the picture come from the same numbers; result.json carries the grid block-averaged in power, per-band C/N0 and J/S per row, and per jammer per band the SSC, Q, J/S, in-band J/S and steady C/N0. Optional [iq]: the model drawn as complex IQ at one instant, written to and read back from a SigMF recording (cf32_le or ci16_le), and compared with a Welch estimate. Optional [recording] (native builds): a real SigMF recording's Welch PSD beside the model. VALIDATED: the signal PSDs against the textbook main-lobe widths (BPSK(n) 2n x 1.023 MHz null to null; BOC(1,1) lobes centred at +/-1.023 MHz) and the spectral separation coefficients against their Parseval closed forms and Kaplan & Hegarty's Q = 1 (CW) and 1.5 (matched). MODELLED: jammer powers, timeline, front-end bandwidths, the continuous-spectrum (no code lines) treatment and the absence of AGC, blanking and antenna pattern.", required_fields: &[], optional_fields: &["seed", "duration_s", "step_s", "receiver", "grid", "bands", "jammers", "iq", "recording"] },
+        ScenarioMeta { name: "solar-system", description: "The whole solar system at one epoch, for PNT (positioning, navigation and timing) around any body. For the Sun, the eight planets, Pluto, the Moon, Phobos, Deimos, Io, Europa, Ganymede, Callisto and Titan it reports the heliocentric position and velocity in the ICRF (International Celestial Reference Frame, equatorial J2000), the heliocentric distance and J2000 ecliptic longitude and latitude, the gravitational parameter, equatorial and mean radius, J2 where published and its reference radius, the sidereal rotation period, the IAU pole and the prime meridian at the epoch, an orbit track sampled over one revolution (heliocentric for planets, parent-centred for moons), and the light time, one-way and two-way range, solar Shapiro delay and Sun separation from an observer body (default Earth); extra from/to links get the same treatment. Positions: the JPL Keplerian elements of Standish and Williams (Table 1 for 1800 AD to 2050 AD, Tables 2a/2b for 3000 BC to 3000 AD) with each planet's nominal error, the Montenbruck & Gill lunar series for the Earth-Moon split, JPL mean elements with the IAU synchronous rotation rate for the Martian and Galilean moons, and the IAU rotation model for Titan. Light time: the radiometric fixed-point solve, transmitter at its retarded position; Newtonian, with the Shapiro delay reported separately. VALIDATED against JPL Horizons (DE441) within twice the nominal error: Mercury to Saturn and the Earth from Table 1 (worst 1.87 times nominal) and all eight planets from Tables 2a/2b (worst 1.71 times), and the Earth to Mars and Jupiter light time. MODELLED, each row labelled: Uranus and Neptune from Table 1 (2.0 and 5.2 times the nominal error against DE441), Pluto (the 1992 row; no stated error), the Moon and the seven moons (measured against Horizons, no published bound).", required_fields: &[], optional_fields: &["epoch", "epoch_jd_tdb", "bodies", "observer", "track_points", "table", "links"] },
+        ScenarioMeta { name: "body-pnt", description: "Positioning around any solar-system body: an orbiter or a surface lander around a central body chosen by name (Mars, the Moon, Europa, Ganymede, Titan and the rest of the solar-system catalogue), navigating with one-way pseudoranges from a small Walker navigation constellation around the body (two-body orbits with the body's own J2 secular drift, an unknown user clock) and optionally a clock-free deep-space two-way range from the Earth, whose direction and distance come from the analytic solar-system ephemeris at every epoch. Lines of sight are blocked by the body's mean sphere, and a surface user also needs the elevation mask. Per epoch: relays in view, whether the Earth is above the limb, the constellation-only GDOP and PDOP (geometric and position dilution of precision), the formal one-sigma position uncertainty with and without the Earth row, and the error of a seeded Gauss-Newton least-squares fix each way; over the run: availability, Earth visibility, median PDOP, RMS error and median formal sigma, plus the Earth-to-body light time, round trip, Shapiro delay and Sun separation at the epoch. MODELLED: the relay orbits, the noise levels and the instantaneous measurement model are modelling choices, not validated against a mission's navigation data; the body constants are the published values cited in body.rs, and the Earth geometry inherits the solar-system ephemeris labels.", required_fields: &[], optional_fields: &["body", "epoch", "epoch_jd_tdb", "duration_s", "step_s", "seed", "table", "user", "constellation", "earth_link"] },
     ]
 }
 
@@ -2408,6 +2420,28 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
             let scn: crate::spectrum::SpectrumScenario =
                 toml::from_str(src).map_err(|e| format!("invalid spectrum scenario: {e}"))?;
             let (json, summary, svg) = scn.run_all()?;
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
+        }
+        ScenarioKind::SolarSystem => {
+            let scn: crate::solar_system::SolarSystemScenario =
+                toml::from_str(src).map_err(|e| format!("invalid solar-system scenario: {e}"))?;
+            let (json, summary, svg) = scn.run_output()?;
+            Ok(RunOutput {
+                json,
+                svg,
+                summary,
+                csv: None,
+            })
+        }
+        ScenarioKind::BodyPnt => {
+            let scn: crate::body_pnt::BodyPntScenario =
+                toml::from_str(src).map_err(|e| format!("invalid body-pnt scenario: {e}"))?;
+            let (json, summary, svg) = scn.run_output()?;
             Ok(RunOutput {
                 json,
                 svg,

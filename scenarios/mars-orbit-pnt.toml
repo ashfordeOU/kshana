@@ -1,0 +1,44 @@
+# Positioning a low Mars orbiter with a Mars navigation constellation and a deep-space link.
+#
+# A 300 km near-polar orbiter navigates around Mars for one sol (88 775 s) from the
+# 2027-02-19 opposition, when the Earth is closest and far from a solar conjunction. Two
+# kinds of measurement:
+#
+#   1. ONE-WAY PSEUDORANGES from twelve navigation satellites at 10 000 km in three planes
+#      inclined 60 deg (a Walker delta, phasing 1), flown as two-body orbits with the secular
+#      drift from Mars' J2 (the second zonal harmonic, its oblateness). The user clock is
+#      unknown, so these rows carry a clock column.
+#   2. A TWO-WAY RANGE FROM EARTH, clock-free, whenever the Earth is above the Mars limb
+#      for the orbiter. The Earth's direction and distance come from the analytic
+#      solar-system ephemeris at every epoch.
+#
+# The report gives, per epoch, the relays in view, the constellation-only dilution of
+# precision, the formal position uncertainty with and without the Earth row, and the
+# error of a seeded least-squares fix each way; over the sol, the availability and the
+# root-mean-square errors, and the Earth-Mars light time and round trip.
+#
+# MODELLED. The relay orbits, the 1 m range noise and the instantaneous measurement model
+# are modelling choices; nothing here is validated against a mission's navigation data.
+# The Mars constants are the published values cited in src/body.rs.
+kind = "body-pnt"
+body = "Mars"
+epoch = "2027-02-19T00:00:00"
+duration_s = 88775.0
+step_s = 300.0
+seed = 7
+
+[user]
+kind = "orbiter"
+altitude_km = 300.0
+inclination_deg = 93.0
+
+[constellation]
+planes = 3
+sats_per_plane = 4
+altitude_km = 10000.0
+inclination_deg = 60.0
+sigma_range_m = 1.0
+
+[earth_link]
+enabled = true
+sigma_range_m = 1.0
