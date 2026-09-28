@@ -38,6 +38,35 @@ breaking changes are called out explicitly.
     odometer model, so it is the pessimistic bound.
   The README scenario-file count moves from 77 to 82. All five are bundled for
   `kshana example` and listed in the browser playground.
+- **`spectrum` scenario kind: an L-band spectrum model and waterfall**
+  (`src/spectrum.rs`, `src/sigmf.rs`, `docs/SPECTRUM.md`). The whole GNSS L band as one
+  power spectral density (PSD): GPS L1 coarse/acquisition (C/A) and L2 civil (L2C)
+  (BPSK(1)), Galileo E1 (multiplexed binary offset carrier, MBOC(6,1,1/11), or BOC(1,1)),
+  GPS L5 and Galileo E5a (BPSK(10)), a kT noise floor with a receiver noise figure, and
+  continuous-wave (CW), narrowband, chirp and matched-noise jammers on a scripted
+  timeline. Each jammer is scored per band by its spectral separation coefficient (SSC),
+  giving the jammer-to-signal ratio (J/S) and effective carrier-to-noise density (C/N0)
+  per band per row. The chart is an SVG waterfall with C/N0 bars; result.json carries the
+  grid block-averaged in power. Optional `[iq]` draws the model as IQ samples, writes and
+  reads a Signal Metadata Format (SigMF) recording (`cf32_le`, `ci16_le`) and compares a
+  Welch estimate with the model; optional `[recording]` estimates a real SigMF file.
+  Bundled example `scenarios/l-band-waterfall-jamming.toml`: a chirp takes L1 C/A and E1
+  at 10 s, a CW tone on the L1 carrier holds C/A at 17.98 dB-Hz after the chirp stops
+  while E1, whose spectrum has a null there, recovers; L5 and E5a are untouched.
+  - New VALIDATED row: the signal PSDs and SSCs, against the BPSK(n) main lobe of
+    2n x 1.023 MHz, the BOC(1,1) lobes centred at +/-1.023 MHz, the Parseval closed forms
+    behind the published -61.8 / -64.8 / -67.8 dB/Hz SSCs, and the textbook Q = 1 (CW)
+    and 1.5 (matched). The BOC(1,1) PSD maximum is at +/-0.759 MHz, not at the lobe
+    centre; the test pins both.
+  - Two new MODELLED rows: the waterfall and C/N0 timeline, which reduce exactly to the
+    `jamming` kind's chain (cross-checked in every report), and the SigMF codec and Welch
+    estimator. No third-party recording is in the repository.
+  - `navsignal`: an MBOC variant and `spectral_separation_coeff_offset`.
+  - The report prints the C/N0 the `jamming` kind's representative Q table would give
+    beside the spectrum-derived one; for a CW tone on the C/A carrier they differ by
+    1.8 dB.
+  The kind count moves from 63 to 64, the scenario-file count from 82 to 83, and the
+  matrix from 174 to 177 rows (67 VALIDATED, 106 MODELLED, 4 PARTNER).
 
 ## [0.28.0] - 2026-09-26
 

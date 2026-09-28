@@ -43,6 +43,18 @@ pub enum Modulation {
     /// **Sine-phased BOC(m, n)** — a square-wave subcarrier at `m · 1.023` MHz on
     /// a code at `n · 1.023` Mcps (Galileo E1 OS is `BocSin { m: 1.0, n: 1.0 }`).
     BocSin { m: f64, n: f64 },
+    /// **MBOC(6, 1, p)** — the multiplexed BOC power spectral density
+    /// `(1 − p)·G_BOC(1,1)(f) + p·G_BOC(6,1)(f)` on a 1.023 Mcps code. With
+    /// `p = 1/11` this is the spectrum agreed for Galileo E1 OS and GPS L1C (Hein et
+    /// al., *MBOC: The New Optimized Spreading Modulation Recommended for Galileo L1 OS
+    /// and GPS L1C*, Inside GNSS, May/June 2006). The Galileo E1 OS composite binary
+    /// offset carrier (CBOC) data and pilot components add to exactly this density
+    /// (Galileo Open Service Signal-in-Space Interface Control Document), so it is the
+    /// spectrum a receiver sees for E1 as a whole.
+    Mboc {
+        /// Fraction of the power in the BOC(6,1) component (1/11 for E1 OS and L1C).
+        p: f64,
+    },
 }
 
 impl Modulation {
@@ -51,6 +63,7 @@ impl Modulation {
         match *self {
             Modulation::BpskR { n } => n * F0_HZ,
             Modulation::BocSin { n, .. } => n * F0_HZ,
+            Modulation::Mboc { .. } => F0_HZ,
         }
     }
 
@@ -89,6 +102,30 @@ impl Modulation {
                 let factor = num_code * arg_sub.sin() / (PI * f_hz * cos_sub);
                 fc * factor.powi(2)
             }
+            Modulation::Mboc { p } => {
+                let p = p.clamp(0.0, 1.0);
+                (1.0 - p) * Modulation::BocSin { m: 1.0, n: 1.0 }.psd(f_hz)
+                    + p * Modulation::BocSin { m: 6.0, n: 1.0 }.psd(f_hz)
+            }
+        }
+    }
+
+    /// A short, stable label: `BPSK(1)`, `BOC(1,1)`, `MBOC(6,1,1/11)`.
+    pub fn label(&self) -> String {
+        let num = |v: f64| {
+            if (v - v.round()).abs() < 1e-9 {
+                format!("{}", v.round() as i64)
+            } else {
+                format!("{v}")
+            }
+        };
+        match *self {
+            Modulation::BpskR { n } => format!("BPSK({})", num(n)),
+            Modulation::BocSin { m, n } => format!("BOC({},{})", num(m), num(n)),
+            Modulation::Mboc { p } if (p - 1.0 / 11.0).abs() < 1e-12 => {
+                "MBOC(6,1,1/11)".to_string()
+            }
+            Modulation::Mboc { p } => format!("MBOC(6,1,{p})"),
         }
     }
 }
@@ -125,6 +162,24 @@ pub fn rms_bandwidth_hz(m: &Modulation, band_hz: f64) -> f64 {
 pub fn spectral_separation_coeff(sig: &Modulation, intf: &Modulation, band_hz: f64) -> f64 {
     let half = band_hz / 2.0;
     integrate(half, 40_000, |f| sig.psd(f) * intf.psd(f))
+}
+
+/// Spectral separation coefficient with the interferer's spectrum **centred
+/// `offset_hz` away from the signal's carrier**:
+/// `κ = ∫_{−band/2}^{band/2} G_s(f) · G_i(f − offset) df` (1/Hz), the interferer's
+/// density normalised to unit power over all frequencies (Betz 2001, Eq. 1). With
+/// `offset_hz = 0` this is [`spectral_separation_coeff`]. The integration grid is
+/// refined so each chip-rate lobe of either spectrum gets at least ~40 Simpson panels.
+pub fn spectral_separation_coeff_offset(
+    sig: &Modulation,
+    intf: &Modulation,
+    offset_hz: f64,
+    band_hz: f64,
+) -> f64 {
+    let half = band_hz / 2.0;
+    let lobe = sig.chip_rate_hz().min(intf.chip_rate_hz());
+    let n = ((band_hz / lobe) * 80.0).ceil().clamp(2_000.0, 400_000.0) as usize;
+    integrate(half, n, |f| sig.psd(f) * intf.psd(f - offset_hz))
 }
 
 /// Spectral separation coefficient against **matched wideband (white) noise**

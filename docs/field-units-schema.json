@@ -1,11 +1,11 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 1823,
-    "fields_total": 1825,
+    "fields_described": 1903,
+    "fields_total": 1905,
     "fields_without_units": 2,
-    "kinds_complete": 62,
-    "kinds_total": 63,
+    "kinds_complete": 63,
+    "kinds_total": 64,
     "kinds_uncovered": 1,
     "uncovered_kind_ceiling": 1,
     "uncovered_kinds": [
@@ -10520,6 +10520,496 @@
       "fields_without_units": [],
       "label": "MODELLED — solar/geomagnetic indices + Jacchia-71 exospheric temperature; density is a calibrated first-order activity correction, NOT a data-validated (NRLMSISE) atmosphere",
       "source": "defaults"
+    },
+    "spectrum": {
+      "complete": true,
+      "fields": {
+        "bands[].centre_hz": {
+          "definition": "carrier frequency from the signal's interface specification",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "Hz"
+        },
+        "bands[].chip_rate_hz": {
+          "definition": "spreading-code chip rate",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "Hz"
+        },
+        "bands[].first_null_hz": {
+          "definition": "first positive-frequency null of the unit-area PSD, located numerically",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "Hz"
+        },
+        "bands[].nominal_cn0_dbhz": {
+          "definition": "un-jammed C/N0: signal power minus the noise density",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "dB-Hz"
+        },
+        "bands[].psd_peak_dbw_per_hz": {
+          "definition": "signal PSD at its maximum",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dBW/Hz"
+        },
+        "bands[].psd_peak_offset_hz": {
+          "definition": "offset from the carrier of the PSD maximum, located numerically",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "Hz"
+        },
+        "bands[].rx_bandwidth_hz": {
+          "definition": "double-sided front-end bandwidth over which the spectral separation coefficient is integrated",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "Hz"
+        },
+        "bands[].signal_power_dbw": {
+          "definition": "received signal power: the interface-specification minimum unless the scenario overrides it",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "dBW"
+        },
+        "duration_s": {
+          "definition": "timeline length",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "iq.centre_hz": {
+          "definition": "front-end centre frequency of the synthetic snapshot",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "Hz"
+        },
+        "iq.comparison.bins_compared": {
+          "definition": "Welch bins compared with the model: away from tones and inside 90 % of the Nyquist band",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "iq.comparison.integrated_power_ratio": {
+          "definition": "Welch total power over model total power across the band, tones included",
+          "evidence_tier": "validated",
+          "provenance": "internal-consistency",
+          "unit": "1"
+        },
+        "iq.comparison.mean_abs_difference_db": {
+          "definition": "mean absolute Welch-minus-model difference over the compared bins",
+          "evidence_tier": "validated",
+          "provenance": "internal-consistency",
+          "unit": "dB"
+        },
+        "iq.comparison.median_difference_db": {
+          "definition": "median Welch-minus-model difference; the estimator's bias, near zero",
+          "evidence_tier": "validated",
+          "provenance": "internal-consistency",
+          "unit": "dB"
+        },
+        "iq.enbw_hz": {
+          "definition": "equivalent noise bandwidth of one Welch bin, f_s sum(w^2)/sum(w)^2",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "Hz"
+        },
+        "iq.freq_offset_hz[]": {
+          "definition": "Welch bin frequency relative to the centre, decimated for the report",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "Hz"
+        },
+        "iq.model_dbw_per_hz[]": {
+          "definition": "model PSD averaged over the same bin",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dBW/Hz"
+        },
+        "iq.n_samples": {
+          "definition": "complex samples synthesised",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "iq.nfft": {
+          "definition": "Welch segment length",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "iq.sample_rate_hz": {
+          "definition": "complex sample rate",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "Hz"
+        },
+        "iq.segments": {
+          "definition": "Welch segments averaged",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "iq.sigmf.clipped_components": {
+          "definition": "integer components saturated on encoding",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "iq.sigmf.data_bytes": {
+          "definition": "size of the .sigmf-data buffer written and read back",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "byte"
+        },
+        "iq.sigmf.full_scale": {
+          "definition": "sample magnitude mapped to the largest integer code: four times the RMS",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "sqrt(W)"
+        },
+        "iq.sigmf.meta.captures[].core:frequency": {
+          "definition": "core:frequency of the capture",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "Hz"
+        },
+        "iq.sigmf.meta.captures[].core:sample_start": {
+          "definition": "core:sample_start of the capture",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "iq.sigmf.meta.global.core:sample_rate": {
+          "definition": "core:sample_rate written to the SigMF metadata",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "Hz"
+        },
+        "iq.t_s": {
+          "definition": "timeline instant of the snapshot",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "iq.welch_dbw_per_hz[]": {
+          "definition": "Welch estimate of the read-back IQ",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dBW/Hz"
+        },
+        "jammers[].bandwidth_hz": {
+          "definition": "occupied or swept bandwidth; zero for a tone; the matched modulation's main-lobe null-to-null width for matched noise",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "Hz"
+        },
+        "jammers[].centre_hz": {
+          "definition": "jammer centre frequency",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "Hz"
+        },
+        "jammers[].eirp_dbw": {
+          "definition": "effective isotropic radiated power toward the receiver",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "dBW"
+        },
+        "jammers[].off_s": {
+          "definition": "switch-off time; null when on to the end",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "jammers[].on_s": {
+          "definition": "switch-on time",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "jammers[].per_band[].cn0_effective_dbhz": {
+          "definition": "effective C/N0 with only this jammer, continuously on",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "jammers[].per_band[].in_band_power_fraction": {
+          "definition": "fraction of the jammer's power inside the band's receiver bandwidth",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "jammers[].per_band[].js_db": {
+          "definition": "total received jammer power over the band's received signal power",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "jammers[].per_band[].js_in_band_db": {
+          "definition": "J/S counting only the jammer power inside the receiver bandwidth",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "jammers[].per_band[].q": {
+          "definition": "equivalent anti-jam coefficient Q = 1/(R_c kappa)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "jammers[].per_band[].ssc_db_per_hz": {
+          "definition": "spectral separation coefficient of the continuously-on jammer against the band, 10 log10 of the integral of G_s G_j over the receiver band; null when no jammer power reaches the band",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB(1/Hz)"
+        },
+        "jammers[].range_m": {
+          "definition": "jammer-to-receiver range",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "jammers[].received_power_dbw": {
+          "definition": "received jammer power at the antenna output, total over its spectrum: the input, or EIRP + receive gain - free-space path loss",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dBW"
+        },
+        "jammers[].rx_gain_dbi": {
+          "definition": "receive-antenna gain toward the jammer",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "dBi"
+        },
+        "jammers[].sweep_period_s": {
+          "definition": "chirp sweep period",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "jamming_kind_cross_check[].abs_difference_db": {
+          "definition": "larger of the J/S and C/N0 differences between the two chains; zero to rounding",
+          "evidence_tier": "validated",
+          "provenance": "internal-consistency",
+          "unit": "dB"
+        },
+        "jamming_kind_cross_check[].cn0_jamming_kind_q_from_ssc_dbhz": {
+          "definition": "effective C/N0 from jamming::effective_cn0_dbhz with Q = 1/(R_c kappa)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "jamming_kind_cross_check[].cn0_jamming_kind_table_q_dbhz": {
+          "definition": "effective C/N0 the jamming kind reports with its representative Q, for comparison",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "jamming_kind_cross_check[].cn0_spectrum_dbhz": {
+          "definition": "effective C/N0 from this kind's spectral separation coefficient",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "jamming_kind_cross_check[].jamming_kind_table_q": {
+          "definition": "the jamming kind's representative Q for this jammer type, jamming::q_factor",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "1"
+        },
+        "jamming_kind_cross_check[].js_jamming_kind_db": {
+          "definition": "J/S from jamming::j_over_s_db on the same link inputs",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "jamming_kind_cross_check[].js_spectrum_db": {
+          "definition": "J/S from this kind",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "receiver.antenna_temp_k": {
+          "definition": "antenna noise temperature",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "K"
+        },
+        "receiver.degraded_margin_db": {
+          "definition": "margin above the threshold reported as degraded",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "dB"
+        },
+        "receiver.noise_density_dbw_per_hz": {
+          "definition": "thermal noise floor 10 log10(k T_sys)",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "dBW/Hz"
+        },
+        "receiver.noise_figure_db": {
+          "definition": "receiver noise figure",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "dB"
+        },
+        "receiver.system_temp_k": {
+          "definition": "T_ant + 290 K x (F - 1), F the noise figure as a ratio",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "K"
+        },
+        "receiver.tracking_threshold_dbhz": {
+          "definition": "effective C/N0 below which a band is reported lost",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "dB-Hz"
+        },
+        "seed": {
+          "definition": "random seed of the IQ synthesis; the spectrum and C/N0 timeline draw no random numbers",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "step_s": {
+          "definition": "duration of one waterfall row; every row is averaged over it",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "timeline.bands[].cn0_effective_dbhz[]": {
+          "definition": "effective C/N0 of the band over each row, every active jammer duty-weighted",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "timeline.bands[].first_loss_t_s": {
+          "definition": "start of the first row below the tracking threshold; null if never",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "timeline.bands[].js_db[]": {
+          "definition": "in-band J/S over each row: the duty-weighted power of the active jammers inside the receiver bandwidth over the signal power; null when none reaches the band",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "timeline.bands[].min_cn0_dbhz": {
+          "definition": "lowest row C/N0",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "timeline.bands[].min_cn0_t_s": {
+          "definition": "start of the row with the lowest C/N0",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "timeline.bands[].tracking_fraction": {
+          "definition": "fraction of rows at or above the tracking threshold",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "timeline.bands[].worst_js_db": {
+          "definition": "largest row in-band J/S; null when no jammer reaches the band",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "timeline.t_s[]": {
+          "definition": "start of each row",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "waterfall.bin_width_hz": {
+          "definition": "width of one emitted frequency column after downsampling",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "Hz"
+        },
+        "waterfall.f_max_hz": {
+          "definition": "upper edge of the frequency grid",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "Hz"
+        },
+        "waterfall.f_min_hz": {
+          "definition": "lower edge of the frequency grid",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "Hz"
+        },
+        "waterfall.freq_hz[]": {
+          "definition": "centre of each emitted column",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "Hz"
+        },
+        "waterfall.n_freq": {
+          "definition": "frequency columns emitted",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "waterfall.n_time": {
+          "definition": "rows emitted",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "waterfall.noise_floor_dbw_per_hz": {
+          "definition": "thermal noise density",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "dBW/Hz"
+        },
+        "waterfall.peak_dbw_per_hz": {
+          "definition": "largest cell of the full-resolution grid",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dBW/Hz"
+        },
+        "waterfall.psd_dbw_per_hz[][]": {
+          "definition": "power spectral density averaged over the cell in power: noise floor, signals and duty-weighted jammers",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dBW/Hz"
+        },
+        "waterfall.row_duration_s": {
+          "definition": "duration of one emitted row after downsampling",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "waterfall.source_n_freq": {
+          "definition": "frequency bins computed",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "waterfall.source_n_time": {
+          "definition": "rows computed",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "waterfall.t_s[]": {
+          "definition": "start of each emitted row",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        }
+      },
+      "fields_described": 80,
+      "fields_total": 80,
+      "fields_without_units": [],
+      "label": "MODELLED: an L-band power spectral density built from closed-form signal spectra (VALIDATED against the textbook main-lobe widths and spectral separation coefficients), jammer spectra and a kT noise floor, reduced to J/S and effective C/N0 by the spectral separation coefficient. The jammer powers, timeline and front-end bandwidths are scenario inputs, not measurements.",
+      "source": "scenarios/l-band-waterfall-jamming.toml"
     },
     "spoof": {
       "complete": true,
