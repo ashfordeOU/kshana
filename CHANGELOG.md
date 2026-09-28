@@ -11,6 +11,28 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Interoperability exports and imports (`--export`, `src/interop/`, docs/INTEROP.md).**
+  `kshana <scenario.toml> --export <format>` writes the scenario's geometry as CZML (the
+  Cesium Language), KML (Keyhole Markup Language 2.2, an Open Geospatial Consortium
+  standard, with `gx:Track` time-tagged tracks), GeoJSON (Internet Engineering Task Force
+  Request for Comments 7946) and Ansys STK (Systems Tool Kit) `.e` ephemerides
+  (`EphemerisTimePosVel`, metres, one file per moving object), and the `spectrum` kind's
+  synthesised IQ (in-phase and quadrature) snapshot as a SigMF (Signal Metadata Format)
+  pair through the existing `src/sigmf.rs`. `--export all` writes every format that
+  applies and prints why the others do not; `--export list` reports without running.
+  Moving objects are written in the Geocentric Celestial Reference System (CZML
+  `INERTIAL`, STK `ICRF`) and Earth-fixed WGS 84 (World Geodetic System 1984) longitude,
+  latitude and height (KML, GeoJSON); fixed sites in CZML are `FIXED`. The `jamming` kind
+  adds two jammer footprints from its own link equations. `--import-route <file.geojson>`
+  writes a GeoJSON `LineString` into the track inputs of `terrain-nav`, `terrain-slam`,
+  `gravity-map` and `combined-altpnt`. Exports are byte-deterministic and carry no
+  timestamp. `tests/interop_formats.rs` validates every export against its published
+  specification, compares exported satellite states with the engine's own to 1 mm, and
+  runs every bundled scenario through every format, each either exporting or stating why
+  not (the table in docs/INTEROP.md). No published number changes: the `spectrum` kind's
+  IQ synthesis moved into one shared function and its result document is byte-identical,
+  and `PassesScenario` gains `propagator()` and `epoch_calendar()` used by its own run.
+  Kind, scenario-file and verification-matrix counts are unchanged.
 - **Four new engine areas in one release: `spectrum`, `solar-system` and `body-pnt`,
   `constellation-design`, and `campaign`.** The kind count moves from 63 to 68, the
   scenario-file count from 82 to 94, and the verification matrix from 174 to
