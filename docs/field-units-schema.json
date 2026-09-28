@@ -1,11 +1,11 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 2080,
-    "fields_total": 2082,
+    "fields_described": 2165,
+    "fields_total": 2167,
     "fields_without_units": 2,
-    "kinds_complete": 67,
-    "kinds_total": 68,
+    "kinds_complete": 70,
+    "kinds_total": 71,
     "kinds_uncovered": 1,
     "uncovered_kind_ceiling": 1,
     "uncovered_kinds": [
@@ -5790,6 +5790,416 @@
       "label": "MODELLED — two-body spherical-Earth launch geometry; azimuth is the geometric sin(Az)=cos(i)/cos(lat) relation (no rotating-Earth velocity-triangle correction, no ascent/drag-loss model)",
       "source": "defaults"
     },
+    "leo-ppp": {
+      "complete": true,
+      "fields": {
+        "cases[].convergence_min[]": {
+          "definition": "convergence time of each run",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "min"
+        },
+        "cases[].fraction_converged": {
+          "definition": "fraction of runs converged within the run",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "1"
+        },
+        "cases[].mean_sats": {
+          "definition": "mean satellites in view",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "cases[].median_convergence_min": {
+          "definition": "median convergence time over converged runs",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "min"
+        },
+        "cases[].median_horizontal_error_m[]": {
+          "definition": "median horizontal error across runs, one value per minute",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "cases[].median_vertical_error_m[]": {
+          "definition": "median absolute vertical error across runs, one value per minute",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "cases[].n_leo": {
+          "definition": "LEO satellites added",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "cases[].nees_fraction_in_band": {
+          "definition": "fraction of epochs whose run-averaged position NEES is inside the two-sided 95% chi-square band",
+          "evidence_tier": "validated",
+          "provenance": "internal-consistency",
+          "unit": "1"
+        },
+        "cases[].nees_mean": {
+          "definition": "mean run-averaged position NEES; 3 for a consistent filter",
+          "evidence_tier": "validated",
+          "provenance": "internal-consistency",
+          "unit": "1"
+        },
+        "criterion_horizontal_m": {
+          "definition": "horizontal convergence threshold",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "criterion_vertical_m": {
+          "definition": "vertical convergence threshold",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "duration_s": {
+          "definition": "span of each run",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "n_gnss": {
+          "definition": "GNSS satellites",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "nees_band[]": {
+          "definition": "two-sided 95% band of the run-averaged NEES, chi-square(3R)/R quantiles",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "1"
+        },
+        "noise.amb0_sigma_m": {
+          "definition": "float ambiguity prior one-sigma",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "m"
+        },
+        "noise.clock_sigma_m": {
+          "definition": "receiver clock one-sigma, white each epoch",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "m"
+        },
+        "noise.isb0_sigma_m": {
+          "definition": "inter-system bias prior one-sigma",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "m"
+        },
+        "noise.pos0_sigma_m": {
+          "definition": "initial position one-sigma per axis",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "m"
+        },
+        "noise.sigma_code_m": {
+          "definition": "ionosphere-free code noise at the zenith",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "m"
+        },
+        "noise.sigma_phase_m": {
+          "definition": "ionosphere-free phase noise at the zenith",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "m"
+        },
+        "noise.zwd0_sigma_m": {
+          "definition": "zenith wet delay prior one-sigma",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "m"
+        },
+        "noise.zwd_q_m2_s": {
+          "definition": "zenith wet delay random-walk density",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "m^2/s"
+        },
+        "runs_per_case": {
+          "definition": "seeded runs per case (sites times seeds)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "step_s": {
+          "definition": "epoch spacing",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        }
+      },
+      "fields_described": 24,
+      "fields_total": 24,
+      "fields_without_units": [],
+      "label": "MODELLED float PPP (ionosphere-free code and phase, white clock, random-walk wet delay, float ambiguities per arc) on simulated measurements from the same model; the Li et al. (2019) figures are a comparison of trend, not a reproduction",
+      "source": "defaults"
+    },
+    "leo-pvt": {
+      "complete": true,
+      "fields": {
+        "duration_s": {
+          "definition": "span of the run",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "joint.dop_sweep[].median_hdop": {
+          "definition": "median HDOP",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "joint.dop_sweep[].median_pdop": {
+          "definition": "median PDOP over epochs with that many LEO satellites in view",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "joint.dop_sweep[].median_vdop": {
+          "definition": "median VDOP",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "joint.dop_sweep[].n_epochs": {
+          "definition": "epochs contributing",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "joint.dop_sweep[].n_leo": {
+          "definition": "LEO satellites added to the GNSS geometry, highest elevation first",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "joint.epochs[].error_fused_m": {
+          "definition": "3D error of the fused fix",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "joint.epochs[].error_gnss_m": {
+          "definition": "3D error of the GNSS-only fix",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "joint.epochs[].error_leo_m": {
+          "definition": "3D error of the LEO-only fix",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "joint.epochs[].n_gnss": {
+          "definition": "GNSS satellites in view",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "joint.epochs[].n_leo": {
+          "definition": "LEO ranging satellites in view",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "joint.epochs[].pdop_fused": {
+          "definition": "PDOP of the fused fix",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "joint.epochs[].pdop_gnss": {
+          "definition": "PDOP of the GNSS-only fix",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "joint.epochs[].t_s": {
+          "definition": "time from the start",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "joint.fraction_epochs_with_leo": {
+          "definition": "fraction of epochs with at least one LEO ranging satellite in view",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "joint.fused.availability": {
+          "declared_as": "joint.*.availability",
+          "definition": "fraction of epochs with a fix",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "joint.fused.median_pdop": {
+          "declared_as": "joint.*.median_pdop",
+          "definition": "median position dilution of precision",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "joint.fused.median_sigma_3d_m": {
+          "declared_as": "joint.*.median_sigma_3d_m",
+          "definition": "median formal 3D one-sigma",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "joint.fused.rms_error_3d_m": {
+          "declared_as": "joint.*.rms_error_3d_m",
+          "definition": "RMS 3D error of the seeded fixes",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "joint.gnss.availability": {
+          "declared_as": "joint.*.availability",
+          "definition": "fraction of epochs with a fix",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "joint.gnss.median_pdop": {
+          "declared_as": "joint.*.median_pdop",
+          "definition": "median position dilution of precision",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "joint.gnss.median_sigma_3d_m": {
+          "declared_as": "joint.*.median_sigma_3d_m",
+          "definition": "median formal 3D one-sigma",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "joint.gnss.rms_error_3d_m": {
+          "declared_as": "joint.*.rms_error_3d_m",
+          "definition": "RMS 3D error of the seeded fixes",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "joint.isb_estimates[][]": {
+          "definition": "median estimated inter-system bias of each system with its own clock, fused fix",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "joint.isb_truth[][]": {
+          "definition": "true inter-system bias used to simulate each system's pseudoranges",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "joint.leo.availability": {
+          "declared_as": "joint.*.availability",
+          "definition": "fraction of epochs with a fix",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "joint.leo.median_pdop": {
+          "declared_as": "joint.*.median_pdop",
+          "definition": "median position dilution of precision",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "joint.leo.median_sigma_3d_m": {
+          "declared_as": "joint.*.median_sigma_3d_m",
+          "definition": "median formal 3D one-sigma",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "joint.leo.rms_error_3d_m": {
+          "declared_as": "joint.*.rms_error_3d_m",
+          "definition": "RMS 3D error of the seeded fixes",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "step_s": {
+          "definition": "epoch spacing",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "systems[].carrier_hz": {
+          "definition": "carrier frequency (preset or scenario)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "Hz"
+        },
+        "systems[].cn0_dbhz[]": {
+          "definition": "C/N0 at the elevation mask and at the zenith",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "dB-Hz"
+        },
+        "systems[].mean_altitude_km": {
+          "definition": "mean altitude of the semi-major axes",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "km"
+        },
+        "systems[].n_satellites": {
+          "definition": "satellites of the system",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "systems[].sigma_pr_30deg_m": {
+          "definition": "pseudorange one-sigma at 30 deg elevation: loop noise at C/N0 combined with the SISRE",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "systems[].sigma_range_rate_mps": {
+          "definition": "range-rate one-sigma: wavelength times the Doppler one-sigma",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m/s"
+        },
+        "systems[].sisre_m": {
+          "definition": "signal-in-space range error of orbit and clock, one sigma",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "m"
+        },
+        "user_lat_deg": {
+          "definition": "user geodetic latitude",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "user_lon_deg": {
+          "definition": "user east longitude",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        }
+      },
+      "fields_described": 39,
+      "fields_total": 39,
+      "fields_without_units": [],
+      "label": "MODELLED joint weighted least-squares pseudorange positioning with one clock per system or a known offset; noise from the delay-lock-loop model at the C/N0 envelope plus the signal-in-space range error",
+      "source": "scenarios/meo-leo-fused-pvt.toml"
+    },
     "link-budget": {
       "complete": true,
       "fields": {
@@ -8966,6 +9376,148 @@
       "fields_without_units": [],
       "label": null,
       "source": "defaults"
+    },
+    "ntn-positioning": {
+      "complete": true,
+      "fields": {
+        "carrier_hz": {
+          "definition": "downlink carrier",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "Hz"
+        },
+        "cn0_dbhz[]": {
+          "definition": "carrier-to-noise density at the elevation mask and at the zenith",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "dB-Hz"
+        },
+        "doppler_integration_s": {
+          "definition": "integration per Doppler measurement",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "doppler_pass.duration_s": {
+          "definition": "pass duration used",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "doppler_pass.horizontal_error_m": {
+          "definition": "horizontal error of the seeded one-satellite Doppler fix",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "doppler_pass.n_obs": {
+          "definition": "Doppler measurements over the pass",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "doppler_pass.satellite": {
+          "definition": "satellite whose pass is used",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "index"
+        },
+        "doppler_pass.sigma_enu_m[]": {
+          "definition": "formal one-sigma east, north, up of the one-satellite Doppler fix, height held to 10 m",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "doppler_pass.sigma_range_rate_mps": {
+          "definition": "range-rate one-sigma: wavelength times the Doppler bound at the mask C/N0 (at least 1 mm/s)",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m/s"
+        },
+        "doppler_sigma_zenith_hz": {
+          "definition": "Cramér-Rao bound on the tone frequency at the zenith C/N0, sqrt(3/(2 pi^2 C/N0 T^3))",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "Hz"
+        },
+        "integration_s": {
+          "definition": "integration per time-of-arrival measurement",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "mean_in_view": {
+          "definition": "mean satellites above the mask",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "n_satellites": {
+          "definition": "satellites in the constellation",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "signals[].bandwidth_hz": {
+          "definition": "occupied bandwidth of the flat (OFDM) spectrum",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "Hz"
+        },
+        "signals[].median_pdop": {
+          "definition": "median position dilution of precision",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "signals[].range_sigma_mask_m": {
+          "definition": "Cramér-Rao range bound at the mask C/N0",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m"
+        },
+        "signals[].range_sigma_zenith_m": {
+          "definition": "Cramér-Rao range bound at the zenith C/N0",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m"
+        },
+        "signals[].rms_bandwidth_hz": {
+          "definition": "root-mean-square (Gabor) bandwidth, B/sqrt(12) for a flat spectrum",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "Hz"
+        },
+        "signals[].toa_availability": {
+          "definition": "fraction of epochs with four or more satellites and a fix",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "signals[].toa_median_sigma_3d_m": {
+          "definition": "median formal 3D one-sigma of the time-of-arrival fix",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "signals[].toa_rms_error_3d_m": {
+          "definition": "RMS 3D error of the seeded time-of-arrival fixes",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "sync_error_m": {
+          "definition": "network synchronisation and ephemeris range error added to each time of arrival",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "m"
+        }
+      },
+      "fields_described": 22,
+      "fields_total": 22,
+      "fields_without_units": [],
+      "label": "MODELLED positioning from Cramér-Rao bounds: the bandwidth-to-bound step is a textbook closed form (checked against numerical integration, not against a published worked figure); the accuracy is a bound on a multipath-free channel with a stated synchronisation error, not an achieved result",
+      "source": "scenarios/ntn-5g-positioning.toml"
     },
     "oem-interop": {
       "complete": true,

@@ -108,6 +108,9 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         BodyPnt,
         ConstellationDesign,
         Campaign,
+        LeoPvt,
+        LeoPpp,
+        NtnPositioning,
     ]
 };
 
@@ -218,6 +221,13 @@ pub mod ids {
     /// Existing kinds composed into a chained mission timeline, a parameter grid, a
     /// seeded Monte Carlo ensemble, or members run under shared conditions.
     pub const CAMPAIGN: ScenarioId = ScenarioId::from_static("campaign");
+    /// Fused MEO and LEO positioning: Doppler, joint pseudorange, polar coverage and LEO
+    /// time transfer over any constellations.
+    pub const LEO_PVT: ScenarioId = ScenarioId::from_static("leo-pvt");
+    /// Precise point positioning convergence with GNSS only and with LEO augmentation.
+    pub const LEO_PPP: ScenarioId = ScenarioId::from_static("leo-ppp");
+    /// Positioning from a 5G non-terrestrial-network downlink via the Cramér-Rao bound.
+    pub const NTN_POSITIONING: ScenarioId = ScenarioId::from_static("ntn-positioning");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {

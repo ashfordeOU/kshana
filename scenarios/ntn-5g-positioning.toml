@@ -1,0 +1,46 @@
+# Positioning from a 5G non-terrestrial network (NTN) downlink in the mobile-satellite S band.
+#
+# 3GPP band n256 (downlink 2170 to 2200 MHz, 3GPP TS 38.101-5) serves handsets from
+# satellites. A positioning reference signal in a 5 MHz New Radio channel (4.5 MHz occupied)
+# or a 200 kHz narrowband channel (180 kHz occupied) bounds the time-of-arrival accuracy
+# through its root-mean-square bandwidth: the Cramér-Rao bound is c / (2 pi beta
+# sqrt(2 (C/N0) T)), with beta = B / sqrt(12) for a flat spectrum. The scenario compares the
+# two channels over a representative NTN shell (324 satellites at 600 km, 55 deg, 10 deg mask), adds a
+# 1 m network synchronisation and ephemeris error, and runs downlink time-of-arrival fixes and
+# a single-satellite Doppler fix over the longest pass (height held to 10 m).
+#
+# The bandwidth-to-bound step is a textbook closed form; the positioning accuracy is MODELLED
+# (a bound on a multipath-free channel, not an achieved result).
+kind = "ntn-positioning"
+seed = 5
+carrier_hz = 2172.5e6
+integration_s = 0.1
+doppler_integration_s = 1.0
+cn0_dbhz = [38.0, 50.0]
+sync_error_m = 1.0
+duration_s = 600.0
+step_s = 10.0
+
+[user]
+lat_deg = 52.5
+lon_deg = 13.4
+height_m = 40.0
+
+[[signal]]
+name = "NR 5 MHz"
+bandwidth_hz = 4.5e6
+
+[[signal]]
+name = "NB 200 kHz"
+bandwidth_hz = 180e3
+
+[[system]]
+name = "NTN shell"
+role = "leo"
+mask_deg = 10.0
+[[system.shell]]
+total = 324
+planes = 18
+phasing = 1
+altitude_km = 600.0
+inclination_deg = 55.0
