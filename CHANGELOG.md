@@ -40,7 +40,8 @@ breaking changes are called out explicitly.
     `meo-leo-fused-pvt`, `leo-ppp-convergence`, `ntn-5g-positioning`,
     `polar-arctic-leo-coverage`, `leo-timing-utc` and `celeste-iod-fused-pvt`, all bundled.
   - Eight matrix rows: the LEO Doppler envelope VALIDATED against the published Iridium
-    (±36 kHz, within 5%) and Xona Pulsar X1 (32 to 34 kHz) figures
+    (±36 kHz: 35.9 kHz, within 5%) and Xona Pulsar X1 (32 to 34 kHz: 33.6 kHz from the
+    97 deg shell, with no widening) figures
     (`tests/leo_doppler_reference.rs`); Doppler positioning, joint pseudorange positioning,
     PPP convergence, NTN bounds, LEO timing, polar coverage and the presets MODELLED. The
     kind count moves from 68 to 71, the scenario-file count from 94 to 102, and the matrix

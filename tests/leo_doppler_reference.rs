@@ -14,8 +14,11 @@
 //! flown for a day with the engine's orbit model (two-body with the J2 drift, Earth rotation)
 //! and the largest absolute Doppler above the horizon is taken over users at several
 //! latitudes. The bars are stated in each test; the Iridium figure is a rounded upper bound,
-//! so the modelled maximum must fall within 5% of 36 kHz at the band centre, and the Xona
-//! maximum must fall inside the published 32 to 34 kHz interval widened by 2%.
+//! so the modelled maximum must fall within 5% of 36 kHz at the band centre. The Xona figure
+//! describes the constellation, which flies shells at 53 and 97 deg, so one satellite of
+//! each shell is flown and the larger maximum must fall inside the published 32 to 34 kHz
+//! with no widening. The 53 deg shell alone peaks near 31.8 kHz, below the interval: a
+//! prograde orbit sees its ground-relative speed reduced by the Earth's rotation.
 
 use kshana::leo_fusion::doppler::doppler_envelope;
 use kshana::leo_fusion::geom::{EarthOrbit, Site, DEG};
@@ -46,9 +49,17 @@ fn iridium_doppler_reaches_the_published_36_khz() {
 
 #[test]
 fn xona_pulsar_x1_doppler_lies_in_the_published_32_to_34_khz() {
-    let f = max_doppler(1080.0, 53.0, 1_593.322_5e6);
+    let prograde = max_doppler(1080.0, 53.0, 1_593.322_5e6);
+    let polar = max_doppler(1080.0, 97.0, 1_593.322_5e6);
+    let f = prograde.max(polar);
     assert!(
-        (32_000.0 * 0.98..=34_000.0 * 1.02).contains(&f),
-        "Pulsar X1 maximum Doppler {f:.0} Hz vs the published 32 to 34 kHz"
+        (32_000.0..=34_000.0).contains(&f),
+        "Pulsar X1 maximum Doppler {f:.0} Hz (53 deg {prograde:.0}, 97 deg {polar:.0}) vs the published 32 to 34 kHz"
+    );
+    // The Earth's rotation lowers the ground-relative speed of the prograde shell, so the
+    // near-polar shell sets the constellation's maximum.
+    assert!(
+        polar > prograde,
+        "97 deg {polar:.0} Hz should exceed 53 deg {prograde:.0} Hz"
     );
 }
