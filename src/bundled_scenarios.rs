@@ -53,6 +53,7 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("ins-trn-coast"),
     bundled!("integrity-raim"),
     bundled!("jamming-demo"),
+    bundled!("l-band-waterfall-jamming"),
     bundled!("launch-window"),
     bundled!("link-budget"),
     bundled!("lunanet-araim"),
