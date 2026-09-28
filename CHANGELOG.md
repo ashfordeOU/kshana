@@ -11,6 +11,10 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Four new engine areas in one release: `spectrum`, `solar-system` and `body-pnt`,
+  `constellation-design`, and `campaign`.** The kind count moves from 63 to 68, the
+  scenario-file count from 82 to 93, and the verification matrix from 174 to
+  **189 rows — 71 VALIDATED, 114 MODELLED, 4 PARTNER**. Each area is described below.
 - **Solar-system ephemeris and positioning around any body.** Two new scenario kinds.
   - `solar-system`: the Sun, the eight planets, Pluto, the Moon, Phobos, Deimos, Io, Europa,
     Ganymede, Callisto and Titan at one epoch: heliocentric position and velocity in the
@@ -39,8 +43,7 @@ breaking changes are called out explicitly.
   - Finding: the Montenbruck & Gill lunar series in `src/ephem.rs` is already referred to the
     J2000 equinox by its own precession term (0.05 degrees from Horizons), so it is used
     without a further precession rotation.
-  The kind count moves from 63 to 65, the scenario-file count from 82 to 85, and the matrix
-  from 174 to 180 rows (68 VALIDATED, 108 MODELLED).
+  Six new matrix rows: two validated (planet positions, light time) and four modelled.
 - **Constellation design at scale (`constellation-design` kind, `src/constellation.rs`).**
   Walker delta and Walker star patterns (T/P/F), explicit element lists and multi-shell
   designs, several constellations per run, around the Earth, the Moon or Mars from the
@@ -68,8 +71,8 @@ breaking changes are called out explicitly.
     keeps 11.5 % of the pair tests), `lunar-relay-constellation` (14 satellites around the
     Moon, availability 21.33 % overall and highest over the south polar region). All three
     are bundled for `kshana example`. Notes: `docs/CONSTELLATION-DESIGN.md`.
-  The kind count moves from 63 to 64, the scenario-file count from 82 to 85, and the
-  verification matrix from 174 to 177 rows (68 VALIDATED, 105 MODELLED, 4 partner-owned).
+  Three new matrix rows: two validated (Walker generator and GNSS presets, GPS global
+  DOP) and one modelled.
 - **Campaigns: many scenarios composed into one run.** A new `campaign` kind
   (`src/campaign.rs`, documented in `docs/CAMPAIGNS.md`) runs members of existing kinds
   through the same dispatch as the command line and reads numbers back out of their
@@ -94,9 +97,7 @@ breaking changes are called out explicitly.
   campaign reproduces the stand-alone run bit for bit on three kinds, a fixed-seed
   ensemble is byte-stable, and on a white-frequency-noise clock the ensemble mean lies
   inside the reported interval with the spread inside the chi-square interval of
-  sqrt(q_wf * tau) = 16.459 ns. Three new MODELLED matrix rows (177 rows: 66 validated,
-  107 modelled, 4 partner-owned). The kind count moves from 63 to 64 and the README
-  scenario-file count from 82 to 86.
+  sqrt(q_wf * tau) = 16.459 ns. Three new modelled matrix rows.
 
 - **Maritime, road and rail scenarios.** Five bundled examples on existing kinds, so
   ships, road vehicles and trains each have a worked case. Every figure is MODELLED; none
@@ -152,8 +153,8 @@ breaking changes are called out explicitly.
   - The report prints the C/N0 the `jamming` kind's representative Q table would give
     beside the spectrum-derived one; for a CW tone on the C/A carrier they differ by
     1.8 dB.
-  The kind count moves from 63 to 64, the scenario-file count from 82 to 83, and the
-  matrix from 174 to 177 rows (67 VALIDATED, 106 MODELLED, 4 PARTNER).
+  Three new matrix rows: one validated (signal spectra and spectral separation
+  coefficients) and two modelled.
 
 ## [0.28.0] - 2026-09-26
 
