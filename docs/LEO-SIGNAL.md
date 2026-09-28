@@ -4,7 +4,7 @@ The `leo-signal` scenario kind analyses low Earth orbit (LEO) positioning, navig
 timing (PNT) signals. It is not tied to one system. A signal is a parameterised design
 (data, not code), so the same kind analyses a published commercial signal, a
 representative design for a band nobody has published, or any design a scenario writes
-inline. The `spectrum` kind now draws those designs too, in any band from UHF to C, each
+inline. The `spectrum` kind now draws those designs too, in any band from ultra high frequency (UHF) to C, each
 band with its own jammers.
 
 Run the bundled examples:
@@ -15,7 +15,8 @@ Run the bundled examples:
   jammers (a `spectrum` scenario);
 - `kshana scenarios/celeste-iod-classical-pilot-signals.toml`, from a checkout of the
   repository (not bundled): the Celeste In-Orbit Demonstration (IOD) bands and signal
-  configuration presented at the ESA NAVISP LEO-PNT workshop, 2026 (see
+  configuration presented at the European Space Agency (ESA) Navigation Innovation and
+  Support Programme (NAVISP) LEO-PNT workshop, 2026 (see
   [Workshop parameters](#workshop-parameters) below).
 
 Code: `src/leo_signal.rs` (signal designs, the kind), `src/navsignal.rs` (the closed forms),
@@ -41,9 +42,9 @@ the source does not publish is labelled REPRESENTATIVE in the file and in the re
 | Preset | Signals | Source | Stated approximations |
 |---|---|---|---|
 | `xona-pulsar` | `xona-x1` (1593.3225 MHz, 1.023 Mchip/s), `xona-x5` (1190.51625 MHz, 10.23 Mchip/s); minimum and maximum received power; 1080 km | PUBLIC, [arXiv 2509.19551](https://arxiv.org/abs/2509.19551) | enhanced Feher quadrature phase-shift keying (EFQPSK) drawn with the rectangular-chip BPSK envelope; code shift keying and overlay codes not modelled; transmit bandwidth = main lobe (not published) |
-| `iridium-stl` | `iridium-stl` bursts, QPSK at 25 ksymbol/s, 780 km, Doppler and timing only | PUBLIC, [RNTF report](https://rntfnd.org/wp-content/uploads/Recent-PNT-Improvements-and-Test-Results-Based-on-Low-Earth-Orbit-Satellites.pdf) | carrier at the middle of 1616 to 1626 MHz; received power derived from the published 300 to 2400 times GPS |
-| `starlink-soo` | `starlink-ku-beacon`, a 240 MHz OFDM beacon, Doppler only | PUBLIC, [NAVIGATION 72(1)](https://navi.ion.org/content/72/1/navi.685) | flat spectrum; channel centre and shell altitude REPRESENTATIVE; the published C/N₀ of about 57 dB-Hz is set through the receiver |
-| `centispace` | `centispace-l1`, `centispace-l5`, BPSK at 2.046 Mchip/s | PUBLIC, [PMC10301026](https://pmc.ncbi.nlm.nih.gov/articles/PMC10301026/) | carriers placed at the GPS L1 and L5 carriers ("near" in the source); code length REPRESENTATIVE |
+| `iridium-stl` | `iridium-stl` Satellite Time and Location (STL) bursts, quadrature phase-shift keying (QPSK) at 25 ksymbol/s, 780 km, Doppler and timing only | PUBLIC, [Resilient Navigation and Timing Foundation (RNTF) report](https://rntfnd.org/wp-content/uploads/Recent-PNT-Improvements-and-Test-Results-Based-on-Low-Earth-Orbit-Satellites.pdf) | carrier at the middle of 1616 to 1626 MHz; received power derived from the published 300 to 2400 times the Global Positioning System (GPS) |
+| `starlink-soo` | `starlink-ku-beacon`, a 240 MHz OFDM beacon, Doppler only | PUBLIC, [NAVIGATION 72(1)](https://navi.ion.org/content/72/1/navi.685) | flat spectrum; channel centre and shell altitude REPRESENTATIVE; the published carrier-to-noise-density ratio (C/N₀) of about 57 dB-Hz is set through the receiver |
+| `centispace` | `centispace-l1`, `centispace-l5`, BPSK at 2.046 Mchip/s | PUBLIC, [PubMed Central PMC10301026](https://pmc.ncbi.nlm.nih.gov/articles/PMC10301026/) | carriers placed at the GPS L1 and L5 carriers ("near" in the source); code length REPRESENTATIVE |
 | `generic-c-band` | `generic-c-band-leo`, 5020 MHz, BPSK(10) in 20 MHz | REPRESENTATIVE, for C-band systems whose parameters are not public (such as TrustPoint) | the whole design |
 | `generic-bands` | `generic-uhf`, `generic-l`, `generic-s`, `generic-c`, `generic-c-wide` | REPRESENTATIVE, allocations from the [ITU Radio Regulations](https://www.itu.int/pub/R-REG-RR) | the whole design |
 
@@ -73,10 +74,11 @@ design, and lives with the navigation-message work, not here.
   false-alarm probability, centred and at the worst-case straddle; and the mean
   acquisition time of a serial and a code-parallel single-dwell search (Holmes).
 - **Compatibility**: the spectral separation coefficient (SSC) of the band-limited signal
-  into GPS L1 C/A, Galileo E1, GPS L5, Galileo E5a, E5b and the E5 AltBOC signal over each
-  GNSS receiver band, the C/N₀ loss it causes at its received power, and the SSC and C/N₀
+  into GPS L1 coarse/acquisition (C/A), Galileo E1, GPS L5, Galileo E5a, E5b and the E5
+  alternative BOC (AltBOC) signal over each global navigation satellite system (GNSS)
+  receiver band, the C/N₀ loss it causes at its received power, and the SSC and C/N₀
   loss of each GNSS signal into the LEO tracked component.
-- **Jammer tolerance**: the J/S of a continuous-wave (CW) tone at the carrier, flat noise
+- **Jammer tolerance**: the jammer-to-signal power ratio (J/S) of a continuous-wave (CW) tone at the carrier, flat noise
   over the transmit band and noise matched to the tracked component that brings the
   tracked component to the tracking threshold, from the `spectrum` kind's own SSC code
   (`spectrum::Jammer::ssc`).
