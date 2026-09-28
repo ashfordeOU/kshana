@@ -22,6 +22,12 @@ stream keyed by the scenario `seed`, drawn in a fixed order. Consequences:
 | Same toolchain everywhere | **Yes** | `rust-toolchain.toml` pins the channel; `scripts/check-toolchain.sh` fails the build on drift; CI and release pin the same version |
 | Same dependency set | **Yes** | `Cargo.lock` is committed and `cargo metadata --locked` is used for the SBOM (software bill of materials) |
 
+Every command-line run also writes a reproducibility record into its report
+(`<scenario>.report.json` and `.report.html`): the engine version, the SHA-256 of the
+scenario file and of the result document, the seed, the platform and the exact command,
+which `tests/advanced_report_cli.rs` re-runs to a byte-identical result. See
+[REPORTS.md](REPORTS.md).
+
 ## The cross-platform caveat (and how goldens handle it)
 
 The numerical results are **bit-identical on a given platform** but may differ

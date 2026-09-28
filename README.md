@@ -369,8 +369,16 @@ cargo test          # all tests pass
 ## Usage
 
 Run any scenario; the CLI dispatches on the scenario's `kind` field and writes
-`<scenario>.result.json`, `<scenario>.chart.svg` and `<scenario>.report.html` next to
-it — plus `<scenario>.table.csv` for the kinds that publish a table:
+`<scenario>.result.json`, `<scenario>.chart.svg`, `<scenario>.report.html` and
+`<scenario>.report.json` next to it — plus `<scenario>.table.csv` for the kinds that
+publish a table. The report (a HyperText Markup Language (HTML) page and a JSON document
+with the same content) carries an executive summary, every input with its unit, the
+results and charts, a campaign's sweep, Monte Carlo or chain tables, an events timeline,
+the VALIDATED / MODELLED / PARTNER label and source of every capability the run used,
+what is not modelled, and a reproducibility record (engine version, Secure Hash
+Algorithm 256-bit (SHA-256) digests, seed, platform and the exact command). It prints to
+a clean PDF (Portable Document Format) file from the browser on A4 or Letter paper; the
+engine writes no PDF itself. See [`docs/REPORTS.md`](docs/REPORTS.md).
 
 ```bash
 cargo run -- scenarios/clock-holdover.toml
@@ -429,7 +437,7 @@ Example output (clock holdover — note how the Integrity and Security figures o
 
 ```
 scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity 1.000 security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity 1.000 security n/a (no attack)
-wrote scenarios/clock-holdover.result.json, scenarios/clock-holdover.chart.svg, and scenarios/clock-holdover.report.html
+wrote scenarios/clock-holdover.result.json, scenarios/clock-holdover.chart.svg, scenarios/clock-holdover.report.html, and scenarios/clock-holdover.report.json
 ```
 
 The optical clock's 95th-percentile (p95) timing error is 1.20e-4 ns: the summary
@@ -1229,7 +1237,8 @@ CPython versions).
 `rustup target add wasm32-unknown-unknown`, then `wasm-pack build --target web -- --features wasm`.
 
 **Where did my output go?** Each run writes `<scenario>.result.json`,
-`<scenario>.chart.svg` and `<scenario>.report.html` next to the input `.toml`, and
+`<scenario>.chart.svg`, `<scenario>.report.html` and `<scenario>.report.json` next to
+the input `.toml`, and
 `<scenario>.table.csv` too for the kinds that publish a table. All of them are
 git-ignored by design.
 
