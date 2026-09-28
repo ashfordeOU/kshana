@@ -320,16 +320,14 @@ mod tests {
     #[test]
     fn cio_chain_is_consistent_with_the_equinox_teme_chain() {
         // The rigorous (SOFA-validated) CIO GCRS→ITRS and the legacy equinox/GMST
-        // TEME→ITRF reduction reach the SAME Earth-fixed frame *up to their differing
-        // sidereal-time conventions*: the TEME path rotates by the SGP4 IAU-1982 GMST
-        // (`sgp4::gstime`) with the 2-term equation of the equinoxes and IAU 2000B
-        // nutation, whereas the CIO path uses the IAU-2006 Earth Rotation Angle with
-        // the full 2000A model. The residual is therefore a small about-pole rotation
-        // of ≈ 2·(equation of equinoxes) ≈ 3.6 arcsec at this epoch (verified by
-        // decomposing M_cio·M_eqᵀ), i.e. a few hundred metres at LEO — NOT a defect in
-        // the CIO chain, which is anchored bit-for-bit to the eraXys06a/eraC2ixys/
-        // eraEra00 vectors above. This is a consistency sanity check, not a precision
-        // assertion; the rigorous frame is the CIO one.
+        // TEME→ITRF reduction reach the SAME Earth-fixed frame up to their differing
+        // conventions: the TEME path rotates by the SGP4 IAU-1982 GMST (`sgp4::gstime`)
+        // with the 2-term equation of the equinoxes and IAU 2000B nutation, whereas the
+        // CIO path uses the IAU-2006 Earth Rotation Angle with the full 2000A model. At
+        // this radius those conventions differ by about 5 cm (ERFA's `gmst82` +
+        // `numat(obl06, nut00b)` + `pmat06` against `c2t06a` gives 0.055 m). An earlier
+        // version of this note put a ~130 m residual down to "≈ 2·EE"; it was the sign
+        // of Δψ in the nutation matrix, which turned the equinox chain by 2·Δψ.
         let (jd_tt, jd_ut1) = (JD_TT_REF, JD_TT_REF);
         let r_gcrs = [6500.0e3, 2300.0e3, -1800.0e3];
         let (r_teme, _) = crate::nutation::gcrs_to_teme(r_gcrs, [0.0; 3], jd_tt);
@@ -339,12 +337,11 @@ mod tests {
             + (r_itrf_equinox[1] - r_itrs_cio[1]).powi(2)
             + (r_itrf_equinox[2] - r_itrs_cio[2]).powi(2))
         .sqrt();
-        // ≈ 2·EE about the pole ⇒ ~130 m at this radius; bound generously at the
-        // few-arcsec (≈ 250 m) sidereal-convention scale, and confirm it is NOT a
-        // gross (km-level) frame disagreement.
+        // A 1 m bound: twenty times the convention gap, and two orders of magnitude
+        // below what a nutation-matrix sign slip produces.
         assert!(
-            sep < 250.0,
-            "CIO vs equinox-TEME ITRS separation = {sep} m (expected ≈ 2·EE convention gap, < 250 m)"
+            sep < 1.0,
+            "CIO vs equinox-TEME ITRS separation = {sep} m (expected ~5 cm convention gap, < 1 m)"
         );
         // Magnitude is preserved by both (pure rotations) — the difference is purely
         // angular, confirming a shared pole + sidereal-origin offset, not a scaling bug.

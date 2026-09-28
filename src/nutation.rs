@@ -320,10 +320,11 @@ pub fn mean_obliquity(jd_tt: f64) -> f64 {
     fw_angles(jd_tt).eps_a
 }
 
-/// SOFA `iauNumat`: build the nutation matrix `N = Rx(−(ε̄+Δε)) · Rz(Δψ) · Rx(ε̄)`
-/// from a mean obliquity and a nutation `(Δψ, Δε)`.
+/// SOFA `iauNumat`: build the nutation matrix `N = Rx(−(ε̄+Δε)) · Rz(−Δψ) · Rx(ε̄)`
+/// from a mean obliquity and a nutation `(Δψ, Δε)`, with SOFA's `iauRz`/`iauRx`
+/// conventions (the ones [`rz`] and [`rx`] follow).
 fn numat(eps: f64, n: Nutation) -> Mat3 {
-    let r = matmul(&rz(n.dpsi), &rx(eps));
+    let r = matmul(&rz(-n.dpsi), &rx(eps));
     matmul(&rx(-(eps + n.deps)), &r)
 }
 
@@ -497,6 +498,43 @@ mod tests {
             (1.0..60.0).contains(&theta_arcsec),
             "nutation angle = {theta_arcsec}″ (want tens of arcsec)"
         );
+    }
+
+    #[test]
+    fn nutation_matrix_matches_erfa_numat() {
+        // ERFA 2.0.1.5 (pyerfa) `numat(obl06, nut00b)` at the SOFA reference epoch
+        // (date1 = 2400000.5, date2 = 53736.0). The off-diagonal terms carry the sign
+        // of Δψ, so a sign slip in the Rz(−Δψ) factor flips four of them and turns
+        // the TEME→GCRS chain by 2·Δψ, about 25 arcsec, while every proper-rotation
+        // check still passes.
+        const ERFA: [[f64; 3]; 3] = [
+            [
+                0.999999999953607,
+                8.837746921149883e-06,
+                3.83148704768297e-06,
+            ],
+            [
+                -8.837591232983694e-06,
+                0.9999999991354693,
+                -4.063198798554837e-05,
+            ],
+            [
+                -3.8318461395972515e-06,
+                4.0631954122603236e-05,
+                0.9999999991671806,
+            ],
+        ];
+        let n = nutation_matrix(JD_TT_REF);
+        for i in 0..3 {
+            for j in 0..3 {
+                assert!(
+                    (n[i][j] - ERFA[i][j]).abs() < 1e-14,
+                    "N[{i}][{j}] = {:e}, ERFA {:e}",
+                    n[i][j],
+                    ERFA[i][j]
+                );
+            }
+        }
     }
 
     #[test]
