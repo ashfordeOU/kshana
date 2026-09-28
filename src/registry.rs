@@ -104,6 +104,8 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         TelecomTiming,
         SlotTiming,
         Spectrum,
+        SolarSystem,
+        BodyPnt,
     ]
 };
 
@@ -202,6 +204,12 @@ pub mod ids {
     /// L-band power spectral density waterfall under a scripted jammer timeline, with
     /// per-band J/S and effective C/N₀ from the spectral separation coefficient.
     pub const SPECTRUM: ScenarioId = ScenarioId::from_static("spectrum");
+    /// The whole solar system at one epoch: positions, constants, light times and orbit
+    /// tracks from the Standish elements and the major-moon models.
+    pub const SOLAR_SYSTEM: ScenarioId = ScenarioId::from_static("solar-system");
+    /// Positioning around any solar-system body with a local navigation constellation and
+    /// an optional deep-space ranging link from Earth.
+    pub const BODY_PNT: ScenarioId = ScenarioId::from_static("body-pnt");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {
