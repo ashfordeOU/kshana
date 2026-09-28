@@ -8,7 +8,9 @@
 //!   - `docs/VERIFICATION-MATRIX.md` — the full per-capability table (its row count is in the generated header);
 //!   - `docs/MODELLED-RATIONALE.md` — why each Modelled row is not externally validated;
 //!   - `docs/SCENARIOS.md` — the per-kind reference, generated from
-//!     `api::list_scenario_kinds()` so it can never drift from the dispatcher.
+//!     `api::list_scenario_kinds()` so it can never drift from the dispatcher;
+//!   - the per-scenario export table in `docs/INTEROP.md`, between its
+//!     `interop-table` markers, from `interop::scenario_table_md` over `scenarios/`.
 //!
 //! Run from anywhere: `cargo run --bin gen_validation_artifacts` (paths are resolved
 //! against `CARGO_MANIFEST_DIR`). The matrix is the single source of truth; these are
@@ -41,4 +43,41 @@ fn main() {
         std::fs::write(&path, content).unwrap_or_else(|e| panic!("write {rel}: {e}"));
         eprintln!("wrote {rel}");
     }
+    write_interop_table(root);
+}
+
+/// Refresh the export table in `docs/INTEROP.md`: every bundled scenario (suites
+/// excluded) against every format, between the `interop-table` markers.
+fn write_interop_table(root: &Path) {
+    let mut scenarios: Vec<(String, String)> = std::fs::read_dir(root.join("scenarios"))
+        .unwrap_or_else(|e| panic!("read scenarios/: {e}"))
+        .filter_map(|e| e.ok().map(|e| e.path()))
+        .filter(|p| p.extension().is_some_and(|x| x == "toml"))
+        .filter(|p| !p.to_string_lossy().ends_with(".suite.toml"))
+        .map(|p| {
+            let name = p
+                .file_name()
+                .map(|n| n.to_string_lossy().into_owned())
+                .unwrap_or_default();
+            let src = std::fs::read_to_string(&p).unwrap_or_else(|e| panic!("read {name}: {e}"));
+            (name, src)
+        })
+        .collect();
+    scenarios.sort();
+    let table = kshana::interop::scenario_table_md(&scenarios);
+    let path = root.join("docs/INTEROP.md");
+    let doc =
+        std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("read docs/INTEROP.md: {e}"));
+    let start = "<!-- interop-table:start -->\n";
+    let end = "<!-- interop-table:end -->";
+    let a = doc
+        .find(start)
+        .expect("docs/INTEROP.md has the table start marker")
+        + start.len();
+    let b = doc
+        .find(end)
+        .expect("docs/INTEROP.md has the table end marker");
+    let updated = format!("{}{}{}", &doc[..a], table, &doc[b..]);
+    std::fs::write(&path, updated).unwrap_or_else(|e| panic!("write docs/INTEROP.md: {e}"));
+    eprintln!("wrote docs/INTEROP.md (export table)");
 }
