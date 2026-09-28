@@ -1774,6 +1774,34 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
+        // ── Constellation design (Walker, presets, coverage and DOP maps) ─────
+        VerificationItem {
+            requirement: "Walker constellation geometry and the published nominal slots of GPS, Galileo and GLONASS",
+            capability: "The `constellation-design` kind's generators: Walker delta and star patterns in the T/P/F convention (node spacing 360/P or 180/P, in-plane spacing 360·P/T, inter-plane phase offset 360·F/T), and the GPS baseline and expandable 24-slot, Galileo and GLONASS presets built from their published nominal elements, placed in an Earth-fixed frame by the Greenwich hour angle their documents state",
+            module: "constellation (WalkerSpec::elements, gps_slots, galileo_walker, glonass_slots, GPS_BASELINE_SLOTS, GPS_EXPANDABLE_SLOTS)",
+            tests: "constellation::tests::walker_24_3_1_reproduces_galileo_os_sdd_table_23 (all 24 RAAN and mean-anomaly rows to 1e-9 deg); constellation::tests::glonass_icd_slot_formula_is_a_walker_24_3_1 (the ICD slot formula and a Walker 24/3/1 are the same 24 node and argument-of-latitude pairs); constellation::tests::gps_presets_reproduce_the_published_equatorial_crossings (the groundtrack equatorial crossing of all 36 GPS locations from RAAN, argument of latitude and the 100.765 deg hour angle: 35 within 0.0108 deg against a 0.015 deg rounding bar, and E3F within 0.06 deg because the table's own E3F row is inconsistent with its RAAN and argument of latitude by about 0.06 deg; the secular nodal regression within 5 % of the table's -0.0402 deg/day); constellation::tests::walker_geometry_identities_are_exact (the three spacing identities for delta and star patterns up to 1 584 satellites, to 1e-9 deg)",
+            oracle: "Published agency documents: Galileo Open Service Service Definition Document issue 1.1 (European GNSS Service Centre) Tables 1 and 23, the reference constellation at 2016-11-21 00:00 UTC; GLONASS Interface Control Document edition 5.1 (2008) section 5.2, the slot formula for node longitude and argument of latitude; GPS Standard Positioning Service Performance Standard 5th edition (April 2020) Tables 3.2-1, 3.2-2 and 3.2-3, including the groundtrack equatorial crossing column, which is an independent statement of the Earth-fixed geometry the preset must reproduce. Validates the generators and the transcription; the BeiDou medium-orbit phase and inclined-geosynchronous nodes are not published and are not covered",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
+            requirement: "Global dilution of precision of the GPS baseline constellation",
+            capability: "The `constellation-design` coverage engine on the GPS baseline 24-slot preset under the GPS Standard Positioning Service Performance Standard (SPS PS) Appendix B conditions (one sidereal day, 287 five-minute steps, a 4 x 4 deg global grid weighted by the cosine of latitude, all in view, 5 deg mask, one receiver clock): the global HDOP distribution, the PDOP median and the PDOP-at-most-6 availability, globally and at the worst site",
+            module: "constellation (coverage, dop_at, NormalAccum)",
+            tests: "constellation::tests::gps_baseline_global_dop_matches_the_sps_performance_standard (HDOP median 0.940, 90 % 1.165, 95 % 1.255, 98 % 1.370, mean 0.965 against 0.94, 1.16, 1.25, 1.37 and 0.96, bar 0.03 on each fixed before the first run; PDOP median 1.795 at or below Table B.3-1's 1.815 for a degraded 20-24 satellite mix; availability 100 % global and at the worst site against Table 3.8-1's 98 % and 88 %); constellation::tests::single_epoch_dop_matches_the_hand_computation (zenith plus three satellites at 30 deg elevation: HDOP 4/3, VDOP 2.3094, PDOP 8/3, TDOP 1.5275, GDOP 3.0732 to 1e-9, and equal to orbit::dop with a common clock)",
+            oracle: "GPS SPS PS 5th edition (April 2020) Appendix B sections B.3.2.2 and B.3.2.3, the published global-average HDOP distribution of the fully occupied baseline 24-slot constellation (median 0.94, 90 % 1.16, 95 % 1.25, 98 % 1.37, mean 0.96), Table 3.8-1 (PDOP availability) and Table B.3-1 (ensemble PDOP of a degraded constellation, used only as an upper bound), plus a hand-derived closed form for one epoch. The VDOP and PDOP distributions of the full constellation are published only as a figure, so PDOP is pinned one-sided; the worst time-space point (HDOP 2.40 and VDOP 5.22 here, 2.49 and 5.43 published) depends on the grid and is reported, not pinned",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
+            requirement: "Coverage and dilution-of-precision maps for arbitrary multi-constellation designs at scale, around any central body",
+            capability: "The `constellation-design` kind beyond the two pinned cases: explicit and multi-shell designs, several constellations per run with one receiver clock per constellation, the Earth, the Moon and Mars from the body constants, the BeiDou preset (medium-orbit phase and 118 deg E inclined-geosynchronous crossing modelled), per-cell satellites in view, GDOP, PDOP, HDOP, VDOP and availability, downsampled ground tracks, and a sub-satellite-latitude visibility prefilter that runs a 5 000-satellite design on a 10 deg grid in a fraction of a second",
+            module: "constellation (coverage, ConstellationDesignScenario, beidou_slots, body_by_name)",
+            tests: "constellation::tests (prefilter_matches_brute_force_exactly — every map and counter equals a scan with the direct elevation test; five_thousand_satellites_on_a_coarse_grid — 5 000 satellites, prints the run time and the pair tests kept; a_clock_per_constellation_needs_one_more_satellite; beidou_geo_and_igso_geometry; lunar_shell_runs_around_the_moon; presets_are_earth_only_and_errors_are_clear; preset_counts)",
+            oracle: "Internal consistency: the brute-force elevation scan, the hand-computed and orbit::dop reductions, and the closed-form Walker and geosynchronous geometry. Two-body orbits with an optional secular J2, a spherical body with the local vertical along the radius, geometric visibility only (no signal power, satellite health, terrain or third-body perturbation), and the relative phase between systems taken from different reference epochs, so it is not a snapshot of any date",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
     ]
 }
 

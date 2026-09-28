@@ -1971,7 +1971,7 @@ const I18N = {
     "ledger.eyebrow": "Evidence ledger",
     "ledger.heading": "The complete validation matrix — every row, every proof",
     "ledger.intro":
-      'All <span id="ldg-total">174</span> capabilities, generated from ' +
+      'All <span id="ldg-total">177</span> capabilities, generated from ' +
       "<code>src/verification.rs</code> and pinned to it in CI. Each row links to the " +
       "<strong>test</strong> that enforces it, the <strong>module</strong> that " +
       "implements it, and any committed <strong>fixture/provenance</strong> — so every " +
