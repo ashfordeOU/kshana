@@ -1,11 +1,11 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 2080,
-    "fields_total": 2082,
+    "fields_described": 2190,
+    "fields_total": 2192,
     "fields_without_units": 2,
-    "kinds_complete": 67,
-    "kinds_total": 68,
+    "kinds_complete": 68,
+    "kinds_total": 69,
     "kinds_uncovered": 1,
     "uncovered_kind_ceiling": 1,
     "uncovered_kinds": [
@@ -5789,6 +5789,676 @@
       "fields_without_units": [],
       "label": "MODELLED — two-body spherical-Earth launch geometry; azimuth is the geometric sin(Az)=cos(i)/cos(lat) relation (no rotating-Earth velocity-triangle correction, no ascent/drag-loss model)",
       "source": "defaults"
+    },
+    "leo-pass": {
+      "complete": true,
+      "fields": {
+        "comparison.gnss_max_cn0_dbhz": {
+          "definition": "highest GNSS C/N0",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "comparison.gnss_median_cn0_dbhz": {
+          "definition": "median GNSS C/N0",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "comparison.leo_pass_duration_s": {
+          "definition": "LEO time above the mask",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "comparison.leo_peak_above_gnss_median_db": {
+          "definition": "LEO peak minus GNSS median",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "comparison.leo_peak_cn0_dbhz": {
+          "definition": "peak C/N0 of the first LEO satellite's first band",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "comparison.leo_seconds_above_gnss_max": {
+          "definition": "time the LEO C/N0 exceeds the strongest GNSS carrier",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "duration_s": {
+          "definition": "window length",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "epoch_jd_utc": {
+          "definition": "scenario epoch as a UTC Julian date",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "day"
+        },
+        "gnss.excess_power_db": {
+          "definition": "received power above the specified minimum before range scaling",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "dB"
+        },
+        "gnss.frequency_hz": {
+          "definition": "GNSS carrier",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "Hz"
+        },
+        "gnss.max_abs_doppler_hz": {
+          "definition": "largest GNSS Doppler magnitude above the mask",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "Hz"
+        },
+        "gnss.max_cn0_dbhz": {
+          "definition": "highest GNSS C/N0",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "gnss.max_power_dbw": {
+          "definition": "interface-document maximum received power into 0 dBi",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "dBW"
+        },
+        "gnss.median_cn0_dbhz": {
+          "definition": "median GNSS C/N0 over the reported satellites and epochs",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "gnss.min_cn0_dbhz": {
+          "definition": "lowest GNSS C/N0",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "gnss.min_power_dbw": {
+          "definition": "interface-document minimum received power into 0 dBi",
+          "evidence_tier": "validated",
+          "provenance": "spec",
+          "unit": "dBW"
+        },
+        "gnss.satellites[].max_elevation_deg": {
+          "definition": "highest elevation of the GNSS satellite in the window",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "gnss.satellites[].series[].cn0_dbhz": {
+          "definition": "GNSS C/N0 with the same user antenna and noise model",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "gnss.satellites[].series[].doppler_hz": {
+          "definition": "GNSS carrier Doppler",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "Hz"
+        },
+        "gnss.satellites[].series[].elevation_deg": {
+          "definition": "GNSS satellite elevation",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "gnss.satellites[].series[].t_s": {
+          "definition": "seconds after the epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "gnss.satellites_in_view": {
+          "definition": "GNSS satellites above the mask at some epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "iono_free[].a1": {
+          "definition": "ionosphere-free coefficient f1^2/(f1^2 - f2^2)",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "1"
+        },
+        "iono_free[].a2": {
+          "definition": "ionosphere-free coefficient -f2^2/(f1^2 - f2^2)",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "1"
+        },
+        "iono_free[].code_noise_1_m": {
+          "definition": "thermal code noise of band 1 at the pass peak (early-minus-late power DLL, 1 Hz, 0.5 chip, 20 ms)",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "iono_free[].code_noise_2_m": {
+          "definition": "thermal code noise of band 2 at the pass peak",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "iono_free[].iono_delay_1_m": {
+          "definition": "first-order delay on band 1 at the peak",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "iono_free[].iono_delay_2_m": {
+          "definition": "first-order delay on band 2 at the peak",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "iono_free[].iono_free_code_noise_m": {
+          "definition": "code noise of the ionosphere-free combination at the pass peak",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "m"
+        },
+        "iono_free[].noise_amplification_equal": {
+          "definition": "sqrt(a1^2 + a2^2): amplification of equal independent noise",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "1"
+        },
+        "iot.active_power_mw": {
+          "definition": "receiver power while acquiring and tracking",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "mW"
+        },
+        "iot.battery_mwh": {
+          "definition": "battery capacity",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "mWh"
+        },
+        "iot.rows[].cn0_dbhz": {
+          "definition": "C/N0 the acquisition uses",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "iot.rows[].cold.acquisition_s": {
+          "definition": "acquisition time",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "s"
+        },
+        "iot.rows[].cold.coherent_s": {
+          "definition": "coherent integration",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "s"
+        },
+        "iot.rows[].cold.doppler_bins": {
+          "definition": "Doppler bins searched",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "count"
+        },
+        "iot.rows[].cold.energy_per_fix_mj": {
+          "definition": "energy per fix",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "mJ"
+        },
+        "iot.rows[].cold.message_s": {
+          "definition": "navigation-message demodulation time",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "s"
+        },
+        "iot.rows[].cold.noncoherent_sums": {
+          "definition": "non-coherent sums per dwell",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "count"
+        },
+        "iot.rows[].cold.ttff_s": {
+          "definition": "time to first fix",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "s"
+        },
+        "iot.rows[].doppler_rate_hz_s": {
+          "definition": "worst-case Doppler rate over the pass",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "Hz/s"
+        },
+        "iot.rows[].doppler_uncertainty_cold_hz": {
+          "definition": "cold-start Doppler search half-width",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "Hz"
+        },
+        "iot.rows[].duty_cycle_hot[].average_power_mw": {
+          "definition": "average power",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "mW"
+        },
+        "iot.rows[].duty_cycle_hot[].battery_life_days": {
+          "definition": "battery life at that interval",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "day"
+        },
+        "iot.rows[].duty_cycle_hot[].duty_cycle": {
+          "definition": "fraction of time active",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "1"
+        },
+        "iot.rows[].duty_cycle_hot[].fix_interval_s": {
+          "definition": "fix interval",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "iot.rows[].hot.acquisition_s": {
+          "definition": "acquisition time",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "s"
+        },
+        "iot.rows[].hot.coherent_s": {
+          "definition": "coherent integration",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "s"
+        },
+        "iot.rows[].hot.doppler_bins": {
+          "definition": "Doppler bins searched",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "count"
+        },
+        "iot.rows[].hot.energy_per_fix_mj": {
+          "definition": "energy per fix",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "mJ"
+        },
+        "iot.rows[].hot.message_s": {
+          "definition": "zero on a hot start",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "s"
+        },
+        "iot.rows[].hot.noncoherent_sums": {
+          "definition": "non-coherent sums per dwell",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "count"
+        },
+        "iot.rows[].hot.ttff_s": {
+          "definition": "time to first fix",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "s"
+        },
+        "iot.sleep_power_uw": {
+          "definition": "receiver power asleep",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "uW"
+        },
+        "n_wet": {
+          "definition": "wet term of the surface refractivity in N-units (given, or from the meteorology through ITU-R P.453)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "rain_height_km": {
+          "definition": "rain height h_R, the ITU-R P.839 value at the site",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "km"
+        },
+        "rain_rate_mm_h": {
+          "definition": "rain rate exceeded 0.01 % of an average year, R0.01",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "mm/h"
+        },
+        "satellites[].altitude_m": {
+          "definition": "satellite height above the equatorial radius at the epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "satellites[].bands[].bandwidth_hz": {
+          "definition": "transmitted bandwidth",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "Hz"
+        },
+        "satellites[].bands[].chip_rate_hz": {
+          "definition": "ranging-code chip rate",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "Hz"
+        },
+        "satellites[].bands[].data_rate_bps": {
+          "definition": "navigation data rate",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "bit/s"
+        },
+        "satellites[].bands[].doppler_envelope_hz": {
+          "definition": "largest Doppler a static user on a 6371 km sphere sees from this circular orbit at 0 deg elevation",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "Hz"
+        },
+        "satellites[].bands[].eirp_dbw": {
+          "definition": "peak EIRP (published received power turned into an EIRP, or representative)",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "dBW"
+        },
+        "satellites[].bands[].frequency_hz": {
+          "definition": "carrier frequency (preset or scenario)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "Hz"
+        },
+        "satellites[].bands[].iono_delay_at_peak_m": {
+          "definition": "first-order ionospheric group delay at the epoch of peak C/N0",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "satellites[].bands[].max_abs_doppler_hz": {
+          "definition": "largest Doppler magnitude over the visible epochs",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "Hz"
+        },
+        "satellites[].bands[].max_abs_doppler_rate_hz_s": {
+          "definition": "largest Doppler-rate magnitude over the visible epochs",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "Hz/s"
+        },
+        "satellites[].bands[].median_cn0_dbhz": {
+          "definition": "median C/N0 over the visible epochs",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "satellites[].bands[].min_cn0_dbhz": {
+          "definition": "lowest C/N0 over the visible epochs",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "satellites[].bands[].peak_cn0_dbhz": {
+          "definition": "highest C/N0 over the visible epochs",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "satellites[].doppler_check.max_doppler_diff_hz": {
+          "definition": "the range-rate difference expressed at the highest band carrier",
+          "evidence_tier": "validated",
+          "provenance": "internal-consistency",
+          "unit": "Hz"
+        },
+        "satellites[].doppler_check.max_doppler_rate_diff_hz_s": {
+          "definition": "the range-acceleration difference expressed at the highest band carrier",
+          "evidence_tier": "validated",
+          "provenance": "internal-consistency",
+          "unit": "Hz/s"
+        },
+        "satellites[].doppler_check.max_range_accel_diff_m_s2": {
+          "definition": "largest difference between the closed-form range acceleration and a central difference of the range rate",
+          "evidence_tier": "validated",
+          "provenance": "internal-consistency",
+          "unit": "m/s^2"
+        },
+        "satellites[].doppler_check.max_range_rate_diff_m_s": {
+          "definition": "largest difference between the closed-form range rate and a central difference of the range",
+          "evidence_tier": "validated",
+          "provenance": "internal-consistency",
+          "unit": "m/s"
+        },
+        "satellites[].inclination_deg": {
+          "definition": "orbit inclination from the epoch state",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "satellites[].pass.aos_s": {
+          "definition": "first epoch above the mask",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "satellites[].pass.duration_above_mask_s": {
+          "definition": "epochs above the mask times the step",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "satellites[].pass.los_s": {
+          "definition": "last epoch above the mask",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "satellites[].pass.max_elevation_deg": {
+          "definition": "highest elevation in the window",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "satellites[].pass.tca_s": {
+          "definition": "time of the highest elevation",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "satellites[].series[].azimuth_deg": {
+          "definition": "azimuth clockwise from true north",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "satellites[].series[].bands[].building_entry_db": {
+          "definition": "building entry loss, ITU-R P.2109-2",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "satellites[].series[].bands[].cn0_dbhz": {
+          "definition": "carrier-to-noise density",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "satellites[].series[].bands[].doppler_hz": {
+          "definition": "carrier Doppler -f rho_dot / c",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "Hz"
+        },
+        "satellites[].series[].bands[].doppler_rate_hz_s": {
+          "definition": "carrier Doppler rate -f rho_ddot / c",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "Hz/s"
+        },
+        "satellites[].series[].bands[].fspl_db": {
+          "definition": "free-space path loss 20 log10(4 pi R f / c)",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "dB"
+        },
+        "satellites[].series[].bands[].gas_db": {
+          "definition": "gaseous attenuation, ITU-R P.676-10 Annex 2",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "dB"
+        },
+        "satellites[].series[].bands[].iono_delay_m": {
+          "definition": "first-order ionospheric group delay 40.3 STEC / f^2",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m"
+        },
+        "satellites[].series[].bands[].polarisation_db": {
+          "definition": "polarisation mismatch loss averaged over ellipse orientation",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "dB"
+        },
+        "satellites[].series[].bands[].rain_db": {
+          "definition": "rain attenuation, ITU-R P.618-14 with P.838-3 coefficients",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "satellites[].series[].bands[].received_power_dbw": {
+          "definition": "received carrier power at the antenna output",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dBW"
+        },
+        "satellites[].series[].bands[].sat_gain_db": {
+          "definition": "satellite pattern gain toward the user relative to its peak",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "dB"
+        },
+        "satellites[].series[].bands[].scintillation_db": {
+          "definition": "tropospheric scintillation fade, ITU-R P.618-14 section 2.4.1",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB"
+        },
+        "satellites[].series[].bands[].tsys_k": {
+          "definition": "system noise temperature",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "K"
+        },
+        "satellites[].series[].bands[].user_gain_dbi": {
+          "definition": "user antenna gain at the satellite's elevation",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "dBi"
+        },
+        "satellites[].series[].elevation_deg": {
+          "definition": "geodetic elevation of the satellite",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "satellites[].series[].nadir_angle_deg": {
+          "definition": "nadir angle at the satellite toward the user",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "satellites[].series[].range_accel_m_s2": {
+          "definition": "range acceleration (|dv|^2 - rho_dot^2 + d.da)/rho",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m/s^2"
+        },
+        "satellites[].series[].range_m": {
+          "definition": "slant range",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "satellites[].series[].range_rate_m_s": {
+          "definition": "range rate d.dv/rho, positive receding",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "m/s"
+        },
+        "satellites[].series[].stec_tecu": {
+          "definition": "slant total electron content below the satellite, in TEC units (1e16 electrons/m^2)",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "1"
+        },
+        "satellites[].series[].t_s": {
+          "definition": "seconds after the epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "step_s": {
+          "definition": "epoch spacing",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "user.height_m": {
+          "definition": "user height above the WGS-84 ellipsoid",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "user.implementation_loss_db": {
+          "definition": "receiver implementation loss",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "dB"
+        },
+        "user.lat_deg": {
+          "definition": "user geodetic latitude",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "user.lon_deg": {
+          "definition": "user longitude, east positive",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "user.mask_deg": {
+          "definition": "elevation mask",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "user.noise_figure_db": {
+          "definition": "receiver noise figure",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "dB"
+        },
+        "user.speed_m_s": {
+          "definition": "user ground speed",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m/s"
+        }
+      },
+      "fields_described": 110,
+      "fields_total": 110,
+      "fields_without_units": [],
+      "label": "MODELLED: LEO pass geometry and per-band link budget from stated EIRPs and idealised antenna patterns with ITU-R propagation terms; component models carry their own labels in the verification matrix. Not a measurement of any satellite.",
+      "source": "scenarios/leo-iot-energy.toml"
     },
     "link-budget": {
       "complete": true,

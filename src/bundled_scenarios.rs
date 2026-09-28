@@ -62,6 +62,13 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("jamming-demo"),
     bundled!("l-band-waterfall-jamming"),
     bundled!("launch-window"),
+    bundled!("leo-indoor-uhf"),
+    bundled!("leo-iot-energy"),
+    // WORKSHOP-PRESET: delete this line with src/leo_link/presets/celeste_iod.rs.
+    bundled!("leo-pass-celeste-iod-multiband"),
+    bundled!("leo-pass-iridium"),
+    bundled!("leo-pass-vs-gnss-cn0"),
+    bundled!("leo-pass-xona-pulsar"),
     bundled!("leo-pnt-mega-shell"),
     bundled!("link-budget"),
     bundled!("lunanet-araim"),
