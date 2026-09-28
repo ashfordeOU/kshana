@@ -304,6 +304,33 @@ support message stating each satellite's assumed error and fault probability, an
 returns protection levels rather than a pass/fail flag. Full treatment, with every
 assumption, in [`ARAIM_REFERENCE.md`](ARAIM_REFERENCE.md).
 
+**SISRE — Signal-in-Space Range Error.**
+In plain terms: *how far off a satellite's broadcast orbit and clock make the range a
+typical user measures.* The orbit error is split into radial, along-track and cross-track
+parts and weighted by how much each shows up along an average line of sight, then
+combined with the clock error (Montenbruck et al. 2018). For a low Earth orbit satellite
+the along- and cross-track parts weigh far more than for GPS, because users see it from
+far off nadir. Used by the `leo-navmsg` kind.
+
+**RAC — Radial, Along-track, Cross-track.**
+The three directions an orbit error is resolved into: out from the Earth's centre, along
+the direction of flight, and perpendicular to the orbit plane. The `leo-navmsg` kind's
+`kepler-rac` model adds a correction polynomial in each.
+
+**SVID — Space-Vehicle Identifier.** The number a navigation message uses to name the
+satellite that sent it.
+
+**IOD — Issue of Data.** A counter that changes whenever a satellite's navigation message
+content changes, so a receiver can tell a new message from a repeat. (Not to be confused
+with an in-orbit demonstration, also abbreviated IOD, as in ESA's Celeste IOD.)
+
+**TOW — Time of Week.** Seconds since the start of the current GNSS week (Sunday 00:00).
+
+**CRC-24Q — 24-bit cyclic redundancy check (Qualcomm polynomial).** The error-detecting
+check RTCM 10403 and Galileo messages carry: a 24-bit remainder of the message bits
+divided by the polynomial `0x1864CFB`. A receiver recomputes it and discards a message
+that does not match.
+
 **URE — User Range Error.**
 In plain terms: *how wrong a satellite's own broadcast orbit and clock make every range
 to it.* Also called the signal-in-space error (SISE); it is the per-satellite error
