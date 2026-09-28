@@ -14,7 +14,7 @@
 <p align="center">
   <a href="https://kshana.dev"><img src="https://img.shields.io/badge/playground-try%20in%20browser-c79e63" alt="Live playground — run in your browser, no install"></a>
   <a href="tests/sgp4_verification.rs"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%204.12mm-3fb950" alt="SGP4 validated against all 666 AIAA 2006-6753 vectors, worst 4.12 mm"></a>
-  <a href="#validation-at-a-glance"><img src="https://img.shields.io/badge/validated-68%20external%20oracles-3fb950" alt="68 capabilities validated against independent external oracles (real data, independent libraries, or published reference vectors); 105 more are honestly labelled MODELLED and 4 are PARTNER-owned — see Validation at a glance"></a>
+  <a href="#validation-at-a-glance"><img src="https://img.shields.io/badge/validated-66%20external%20oracles-3fb950" alt="66 capabilities validated against independent external oracles (real data, independent libraries, or published reference vectors); 107 more are honestly labelled MODELLED and 4 are PARTNER-owned — see Validation at a glance"></a>
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/coverage-~96%25%20line-3fb950" alt="~96% line coverage on src/ excluding the generated data tables and the CLI entrypoint (cargo-tarpaulin LLVM engine), gated at 85% in CI"></a>
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://sonarcloud.io/api/project_badges/measure?project=ashfordeOU_kshana&metric=alert_status" alt="SonarQube Cloud Quality Gate status"></a>
@@ -83,7 +83,7 @@ writes their exchange formats, and its force model is cross-checked against Orek
 than offered in its place. See [What it is / is not](#what-it-is--is-not) and
 [`docs/POSITIONING.md`](docs/POSITIONING.md).
 
-<p align="center"><em><strong>Validated, not asserted.</strong> &nbsp;666/666 AIAA (American Institute of Aeronautics and Astronautics) SGP4 (Simplified General Perturbations 4) vectors to <strong>4.12&nbsp;mm</strong> · Cowell force model <strong>0.08&nbsp;m</strong> vs Orekit&nbsp;12.2 · Galileo <strong>0.61&nbsp;m</strong> / Swarm-A <strong>0.10&nbsp;m</strong> vs real ESA (European Space Agency) precise ephemerides · GCRS→ITRS (GCRS: Geocentric Celestial Reference System; ITRS: International Terrestrial Reference System) bit-for-bit vs SOFA/ERFA (SOFA: Standards of Fundamental Astronomy; ERFA: Essential Routines for Fundamental Astronomy) · ML (machine learning) metrics exact vs scikit-learn · <strong>68 of 177</strong> capabilities validated against independent external oracles; 105 honestly labelled Modelled.</em></p>
+<p align="center"><em><strong>Validated, not asserted.</strong> &nbsp;666/666 AIAA (American Institute of Aeronautics and Astronautics) SGP4 (Simplified General Perturbations 4) vectors to <strong>4.12&nbsp;mm</strong> · Cowell force model <strong>0.08&nbsp;m</strong> vs Orekit&nbsp;12.2 · Galileo <strong>0.61&nbsp;m</strong> / Swarm-A <strong>0.10&nbsp;m</strong> vs real ESA (European Space Agency) precise ephemerides · GCRS→ITRS (GCRS: Geocentric Celestial Reference System; ITRS: International Terrestrial Reference System) bit-for-bit vs SOFA/ERFA (SOFA: Standards of Fundamental Astronomy; ERFA: Essential Routines for Fundamental Astronomy) · ML (machine learning) metrics exact vs scikit-learn · <strong>66 of 177</strong> capabilities validated against independent external oracles; 107 honestly labelled Modelled.</em></p>
 
 <p align="center">
   <img src="docs/assets/diagrams/system-overview.png" alt="Kshana system overview: five front doors (command-line interface, Python wheel, WebAssembly playground, Model Context Protocol server, JetBrains plugin) converge on a single api::run_toml dispatch over 64 scenario kinds, through the engine (shared core, sensor packs and astrodynamics, integrity/fusion/lunar/deep-space/resilience), to a reproducible result.json + chart.svg" width="840">
@@ -105,8 +105,8 @@ Each row is checked against an **independent external oracle** (real dataset, in
 | ✅ | Fisher information · CRLB (Cramér–Rao lower bound) · observability | eigh / CRLB / DOP to **1e-9** | NumPy 2.4.1 (LAPACK, the Linear Algebra PACKage) + Kay (1993) closed forms |
 
 <p align="center">
-  <img src="docs/assets/figures/validation-breakdown.png" alt="Verification status across all 177 capabilities: 68 Validated (checked vs external oracle), 105 Modelled, 4 Partner-owned" width="780">
-  <br><sub>68 Validated · 105 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
+  <img src="docs/assets/figures/validation-breakdown.png" alt="Verification status across all 177 capabilities: 66 Validated (checked vs external oracle), 107 Modelled, 4 Partner-owned" width="780">
+  <br><sub>66 Validated · 107 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
 </p>
 
 *Free and open source under the GNU AGPL-3.0 (GNU Affero General Public License, version 3)
@@ -610,7 +610,14 @@ spectra VALIDATED against textbook values, the jammer scenario MODELLED; see
 [`docs/SPECTRUM.md`](docs/SPECTRUM.md)); `solar-system` (the Sun, planets, Pluto, the Moon and seven major
 moons at one epoch — positions, constants, light times and orbit tracks; planet positions
 VALIDATED against JPL Horizons) and `body-pnt` (positioning around any of those bodies with a
-local navigation constellation and a deep-space link from Earth; MODELLED); the **lunar-PNT suite** `lunar-vlbi`, `lunar-joint-od-clock`,
+local navigation constellation and a deep-space link from Earth; MODELLED); `campaign` (existing kinds composed into a chained mission timeline
+with state handed between phases, a parameter sweep, a seeded Monte Carlo ensemble, or
+several scenarios under one shared condition; MODELLED, see
+[docs/CAMPAIGNS.md](docs/CAMPAIGNS.md)); `constellation-design` (Walker delta and star
+patterns, element lists and multi-shell designs with GPS, Galileo, BeiDou and GLONASS
+presets, and coverage and dilution of precision over a latitude/longitude grid; the
+generator and GPS global DOP VALIDATED against the published service documents, see
+[`docs/CONSTELLATION-DESIGN.md`](docs/CONSTELLATION-DESIGN.md)); the **lunar-PNT suite** `lunar-vlbi`, `lunar-joint-od-clock`,
 `lunar-frame-realisation`, `moonlight-service-volume`, `lunar-differential-pnt`,
 `lunar-interop-export`; the **Quantum-Enabled PNT demonstrator**
 `quantum-time-transfer`, `quantum-gnss-free-nav`, `quantum-anomaly-detect`; and the
@@ -784,7 +791,7 @@ paper-clock). **MODELLED** — the headline figure is *reference-dependent* (Ear
 vs lunar selenoid, averaging window), which is why a band, not a single certified
 number, is reported (`scenarios/lunar-time-offset.toml`).
 
-See `scenarios/` for at least one worked example of every kind (64 kinds, 85 scenario
+See `scenarios/` for at least one worked example of every kind (64 kinds, 86 scenario
 `.toml` files + 1 suite manifest — several kinds ship more than one example). Not every
 kind has a file named after it: `lunar-integrity` → `scenarios/lunanet-araim.toml` and
 `gravity-map` → `scenarios/gps-denied-gravity-nav.toml` are two of several such.
@@ -1078,6 +1085,7 @@ kshana/
 | [Quantum models](docs/QUANTUM.md) · [details](docs/QUANTUM-MODELS.md) | reviewers | the cold-atom-interferometer physics layer, and where coefficients are still looked up |
 | [Compliance](docs/COMPLIANCE.md) | evaluators | DO-229E / DO-316 algorithm scope, and what is **not** a conformance claim |
 | [Standards &amp; interoperability](docs/STANDARDS.md) | integrators | the GNSS / flight-dynamics / agency interchange formats Kshana reads and writes (RINEX, SP3, CCSDS OEM/OMM/TDM/Space-Packet, …) |
+| [Campaigns](docs/CAMPAIGNS.md) | users / evaluators | composing scenarios: chained mission timelines, parameter sweeps, Monte Carlo ensembles and shared-condition runs, with the composition identities the tests pin |
 | [Scenario catalogue](docs/SCENARIOS.md) | users / integrators | every dispatchable kind with its required and optional TOML fields — generated from `api::list_scenario_kinds()` |
 | [Result schema](docs/SCHEMA.md) | integrators | every field of the result JSON, with units and a source pointer |
 | [Python API](docs/PYTHON_API.md) | Python users | the PyO3 binding surface — calling the engine, the scenario/result types, and examples |
@@ -1106,7 +1114,7 @@ kshana/
 ### Validation at a glance
 
 <p align="center">
-  <img src="docs/assets/diagrams/validation-provenance.png" alt="How a capability earns its label: Requirement maps to a module in src, to a test in tests, to an external oracle (real dataset, independent reference implementation, or published vectors), to a status — with a CI-enforced guard that no capability can be Validated without an external oracle. Live counts: 68 Validated, 105 Modelled, 4 Partner, 177 total" width="900">
+  <img src="docs/assets/diagrams/validation-provenance.png" alt="How a capability earns its label: Requirement maps to a module in src, to a test in tests, to an external oracle (real dataset, independent reference implementation, or published vectors), to a status — with a CI-enforced guard that no capability can be Validated without an external oracle. Live counts: 66 Validated, 107 Modelled, 4 Partner, 177 total" width="900">
   <br><sub>How a capability earns its label — the CI-enforced invariant: no external oracle ⇒ cannot be Validated · <a href="docs/assets/diagrams/validation-provenance.svg">SVG</a></sub>
 </p>
 
@@ -1118,7 +1126,7 @@ kshana/
 </p>
 
 Every row is enforced by a named test in CI. This table is a **curated highlight**;
-the full machine-checked matrix is **177 rows — 68 VALIDATED, 105 MODELLED, 4 PARTNER**
+the full machine-checked matrix is **177 rows — 66 VALIDATED, 107 MODELLED, 4 PARTNER**
 (`src/verification.rs`), with the complete evidence (and what is honestly *not* yet
 validated) in [`docs/VALIDATION.md`](docs/VALIDATION.md) and the per-release
 [`kshana-validation-summary.html`](https://github.com/ashfordeOU/kshana/releases)

@@ -77,6 +77,7 @@ pub mod benchmark;
 pub mod body;
 pub mod body_pnt;
 pub mod bplane;
+pub mod campaign;
 pub mod ccsds_tdm;
 pub mod chart;
 pub mod cio;

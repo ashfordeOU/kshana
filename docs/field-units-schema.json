@@ -1,8 +1,8 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 1903,
-    "fields_total": 1905,
+    "fields_described": 1843,
+    "fields_total": 1845,
     "fields_without_units": 2,
     "kinds_complete": 63,
     "kinds_total": 64,
@@ -468,6 +468,136 @@
       "fields_without_units": [],
       "label": "MODELLED — scalar 3-DOF AOCS error budget: gravity-gradient worst-case disturbance torque + RSS pointing budget; NOT a control-loop / 6-DoF / flexible-mode simulation (a pre-hardware complement to Basilisk/42, not a replacement)",
       "source": "defaults"
+    },
+    "campaign": {
+      "complete": true,
+      "fields": {
+        "reproducibility.runs_total": {
+          "definition": "member scenario runs the campaign dispatched",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "seed": {
+          "definition": "campaign seed: the default Monte Carlo base seed and the seed of every bootstrap resampling",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "1"
+        },
+        "timeline.channels.alarm.values[]": {
+          "definition": "alarm flag: 1 while any monitor of the phase alarms on the timeline grid: the latest sample of the owning phase's run at or before each grid time (zero-order hold); null where no run of that phase provides it",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "timeline.channels.alert_limit_m.values[]": {
+          "definition": "vertical alert limit on the timeline grid: the latest sample of the owning phase's run at or before each grid time (zero-order hold); null where no run of that phase provides it",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "timeline.channels.cn0_dbhz.values[]": {
+          "definition": "mean effective carrier-to-noise density ratio over the visible satellites on the timeline grid: the latest sample of the owning phase's run at or before each grid time (zero-order hold); null where no run of that phase provides it",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "timeline.channels.cn0_floor_dbhz.values[]": {
+          "definition": "tracking-loss floor of the receiver on the timeline grid: the latest sample of the owning phase's run at or before each grid time (zero-order hold); null where no run of that phase provides it",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "dB-Hz"
+        },
+        "timeline.channels.guard_ns.values[]": {
+          "definition": "time-error guard (the run's own threshold) on the timeline grid: the latest sample of the owning phase's run at or before each grid time (zero-order hold); null where no run of that phase provides it",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "timeline.channels.position_error_m.values[]": {
+          "definition": "position error on the timeline grid: the latest sample of the owning phase's run at or before each grid time (zero-order hold); null where no run of that phase provides it",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "timeline.channels.position_threshold_m.values[]": {
+          "definition": "position-error threshold (the run's own) on the timeline grid: the latest sample of the owning phase's run at or before each grid time (zero-order hold); null where no run of that phase provides it",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "timeline.channels.protection_level_m.values[]": {
+          "definition": "vertical protection level on the timeline grid: the latest sample of the owning phase's run at or before each grid time (zero-order hold); null where no run of that phase provides it",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "timeline.channels.time_error_ns.values[]": {
+          "definition": "clock time error on the timeline grid: the latest sample of the owning phase's run at or before each grid time (zero-order hold); null where no run of that phase provides it",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "timeline.channels.tracking.values[]": {
+          "definition": "satellites still tracking on the timeline grid: the latest sample of the owning phase's run at or before each grid time (zero-order hold); null where no run of that phase provides it",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "timeline.duration_s": {
+          "definition": "mission length: the sum of the phase lengths as run",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "timeline.events[].t_s": {
+          "definition": "mission time of the event, read from the run that raised it",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "timeline.phases[].carried.time_error_ns": {
+          "definition": "value of time_error_ns at the end of the previous phase, added to this phase's time_error_ns",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "ns"
+        },
+        "timeline.phases[].runs[].skip_s": {
+          "definition": "seconds of the run's own timeline dropped before phase time zero",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "timeline.phases[].t0_s": {
+          "definition": "mission time at which the phase starts (the previous phase's end)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "timeline.phases[].t1_s": {
+          "definition": "mission time at which the phase ends: t0_s plus duration_s, or earlier when end_at fired",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "timeline.step_s": {
+          "definition": "grid spacing of the aligned mission timeline",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "s"
+        },
+        "timeline.t_s[]": {
+          "definition": "mission time of each grid sample",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        }
+      },
+      "fields_described": 20,
+      "fields_total": 20,
+      "fields_without_units": [],
+      "label": "MODELLED composition of existing scenario kinds. Every number is read from a real run of the named kind; the chaining (additive carry of a channel across a phase boundary, zero-order hold onto the timeline grid, a phase ended at a computed time) is a modelling choice, and each phase carries the label of the kind that produced it.",
+      "source": "scenarios/campaign-jam-spoof-holdover-integrity.toml"
     },
     "cislunar-arc-recovery": {
       "complete": true,
@@ -1706,496 +1836,6 @@
       "fields_without_units": [],
       "label": "MODELLED layered-PNT conflict resilience (P7). VALIDATED core: the Monte-Carlo total-loss probability converges to the closed-form independent product Pi_i p_deny_i (asserted within Monte-Carlo standard error at a fixed seed and large N); the inverse-variance position fuse sigma_fused = (sum_i 1/sigma_i^2)^(-1/2) is a closed-form identity; at correlation rho=0 the Gaussian copula reduces exactly to the independent model (agreeing within MC error for the same seed) and preserves each layer's marginal denial rate at every rho. MODELLED: the per-layer vulnerability / availability / accuracy magnitudes are sourced-but-Modelled inputs (see crate::conflict_threat_params — JammerTest 2024, TEXBAT, EASA SIB, LunaNet/IOAG); the ~7x headline resilience ratio and the ratio-vs-correlation curve shape are properties of that Modelled parameterisation, not certified figures. Not a certified navigation-availability product.",
       "source": "defaults"
-    },
-    "constellation-design": {
-      "complete": true,
-      "fields": {
-        "body.mu_km3_s2": {
-          "definition": "gravitational parameter of the central body (crate::body)",
-          "evidence_tier": "validated",
-          "provenance": "constant",
-          "unit": "km^3/s^2"
-        },
-        "body.radius_km": {
-          "definition": "reference radius of the central body (crate::body)",
-          "evidence_tier": "validated",
-          "provenance": "constant",
-          "unit": "km"
-        },
-        "body.rotation_rate_deg_s": {
-          "definition": "sidereal spin rate of the central body (crate::body)",
-          "evidence_tier": "validated",
-          "provenance": "constant",
-          "unit": "deg/s"
-        },
-        "constellations[].mean_visible": {
-          "definition": "area-weighted mean over the grid and the window of this constellation's satellites above the mask",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "count"
-        },
-        "constellations[].satellites": {
-          "definition": "satellites in this constellation",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "count"
-        },
-        "constellations[].shells[].altitude_km": {
-          "definition": "semi-major axis minus the body radius",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "km"
-        },
-        "constellations[].shells[].in_plane_spacing_deg": {
-          "definition": "mean-anomaly spacing within a plane: 360*P/T",
-          "evidence_tier": "validated",
-          "provenance": "closed-form",
-          "unit": "deg"
-        },
-        "constellations[].shells[].inclination_deg": {
-          "definition": "orbital inclination to the body equator",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "deg"
-        },
-        "constellations[].shells[].period_min": {
-          "definition": "two-body period 2*pi*sqrt(a^3/mu)",
-          "evidence_tier": "validated",
-          "provenance": "closed-form",
-          "unit": "min"
-        },
-        "constellations[].shells[].phase_offset_deg": {
-          "definition": "mean-anomaly offset between corresponding satellites of adjacent planes: 360*F/T",
-          "evidence_tier": "validated",
-          "provenance": "closed-form",
-          "unit": "deg"
-        },
-        "constellations[].shells[].phasing": {
-          "definition": "Walker F: inter-plane phasing factor in 0..P",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "count"
-        },
-        "constellations[].shells[].planes": {
-          "definition": "Walker P: equally spaced orbital planes",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "count"
-        },
-        "constellations[].shells[].raan_spacing_deg": {
-          "definition": "node spacing between adjacent planes: 360/P for a delta pattern, 180/P for a star",
-          "evidence_tier": "validated",
-          "provenance": "closed-form",
-          "unit": "deg"
-        },
-        "constellations[].shells[].total": {
-          "definition": "Walker T: satellites in the shell",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "count"
-        },
-        "global.availability_pct": {
-          "definition": "area-weighted share of time-space points with a fix and PDOP at or below pdop_threshold",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "%"
-        },
-        "global.fix_pct": {
-          "definition": "area-weighted share of time-space points with enough satellites in view for a non-singular fix",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "%"
-        },
-        "global.gdop.max": {
-          "definition": "largest value of the geometric dilution of precision (GDOP: position plus the reference clock) over the time-space points with a fix",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "global.gdop.mean": {
-          "definition": "area-weighted mean of the geometric dilution of precision (GDOP: position plus the reference clock) over the time-space points with a fix",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "global.gdop.median": {
-          "definition": "area-weighted median of the geometric dilution of precision (GDOP: position plus the reference clock) over the time-space points with a fix (quantiles resolved to 0.005)",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "global.gdop.p90": {
-          "definition": "area-weighted 90th percentile of the geometric dilution of precision (GDOP: position plus the reference clock) over the time-space points with a fix (quantiles resolved to 0.005)",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "global.gdop.p95": {
-          "definition": "area-weighted 95th percentile of the geometric dilution of precision (GDOP: position plus the reference clock) over the time-space points with a fix (quantiles resolved to 0.005)",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "global.gdop.p99": {
-          "definition": "area-weighted 99th percentile of the geometric dilution of precision (GDOP: position plus the reference clock) over the time-space points with a fix (quantiles resolved to 0.005)",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "global.hdop.max": {
-          "definition": "largest value of the horizontal dilution of precision (HDOP) over the time-space points with a fix",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "global.hdop.mean": {
-          "definition": "area-weighted mean of the horizontal dilution of precision (HDOP) over the time-space points with a fix",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "global.hdop.median": {
-          "definition": "area-weighted median of the horizontal dilution of precision (HDOP) over the time-space points with a fix (quantiles resolved to 0.005)",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "global.hdop.p90": {
-          "definition": "area-weighted 90th percentile of the horizontal dilution of precision (HDOP) over the time-space points with a fix (quantiles resolved to 0.005)",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "global.hdop.p95": {
-          "definition": "area-weighted 95th percentile of the horizontal dilution of precision (HDOP) over the time-space points with a fix (quantiles resolved to 0.005)",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "global.hdop.p99": {
-          "definition": "area-weighted 99th percentile of the horizontal dilution of precision (HDOP) over the time-space points with a fix (quantiles resolved to 0.005)",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "global.mean_visible": {
-          "definition": "area-weighted mean number of satellites above the mask",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "count"
-        },
-        "global.min_visible": {
-          "definition": "fewest satellites above the mask at any time-space point",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "count"
-        },
-        "global.pdop.max": {
-          "definition": "largest value of the position dilution of precision (PDOP) over the time-space points with a fix",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "global.pdop.mean": {
-          "definition": "area-weighted mean of the position dilution of precision (PDOP) over the time-space points with a fix",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "global.pdop.median": {
-          "definition": "area-weighted median of the position dilution of precision (PDOP) over the time-space points with a fix (quantiles resolved to 0.005)",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "global.pdop.p90": {
-          "definition": "area-weighted 90th percentile of the position dilution of precision (PDOP) over the time-space points with a fix (quantiles resolved to 0.005)",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "global.pdop.p95": {
-          "definition": "area-weighted 95th percentile of the position dilution of precision (PDOP) over the time-space points with a fix (quantiles resolved to 0.005)",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "global.pdop.p99": {
-          "definition": "area-weighted 99th percentile of the position dilution of precision (PDOP) over the time-space points with a fix (quantiles resolved to 0.005)",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "global.vdop.max": {
-          "definition": "largest value of the vertical dilution of precision (VDOP) over the time-space points with a fix",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "global.vdop.mean": {
-          "definition": "area-weighted mean of the vertical dilution of precision (VDOP) over the time-space points with a fix",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "global.vdop.median": {
-          "definition": "area-weighted median of the vertical dilution of precision (VDOP) over the time-space points with a fix (quantiles resolved to 0.005)",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "global.vdop.p90": {
-          "definition": "area-weighted 90th percentile of the vertical dilution of precision (VDOP) over the time-space points with a fix (quantiles resolved to 0.005)",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "global.vdop.p95": {
-          "definition": "area-weighted 95th percentile of the vertical dilution of precision (VDOP) over the time-space points with a fix (quantiles resolved to 0.005)",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "global.vdop.p99": {
-          "definition": "area-weighted 99th percentile of the vertical dilution of precision (VDOP) over the time-space points with a fix (quantiles resolved to 0.005)",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "global.worst_site_availability_pct": {
-          "definition": "availability of the grid cell with the lowest availability",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "%"
-        },
-        "grid.availability_pct[][]": {
-          "definition": "share of epochs with a fix and PDOP at or below pdop_threshold in the cell",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "%"
-        },
-        "grid.fix_pct[][]": {
-          "definition": "share of epochs with a non-singular fix in the cell",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "%"
-        },
-        "grid.lat_deg[]": {
-          "definition": "latitude of each grid row centre",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "deg"
-        },
-        "grid.lon_deg[]": {
-          "definition": "longitude of each grid column centre",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "deg"
-        },
-        "grid.max_pdop[][]": {
-          "definition": "largest PDOP in the cell over epochs with a fix; null when the cell never has a fix",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "grid.max_visible[][]": {
-          "definition": "most satellites above the mask in the cell over the window",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "count"
-        },
-        "grid.mean_gdop[][]": {
-          "definition": "mean geometric DOP in the cell over epochs with a fix; null when the cell never has a fix",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "grid.mean_hdop[][]": {
-          "definition": "mean horizontal DOP in the cell over epochs with a fix; null when the cell never has a fix",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "grid.mean_pdop[][]": {
-          "definition": "mean PDOP in the cell over epochs with a fix; null when the cell never has a fix",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "grid.mean_vdop[][]": {
-          "definition": "mean vertical DOP in the cell over epochs with a fix; null when the cell never has a fix",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "grid.mean_visible[][]": {
-          "definition": "mean satellites above the mask in the cell over the window, rows by latitude",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "count"
-        },
-        "grid.min_visible[][]": {
-          "definition": "fewest satellites above the mask in the cell over the window",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "count"
-        },
-        "inputs.duration_s": {
-          "definition": "length of the sampled window",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "s"
-        },
-        "inputs.epochs": {
-          "definition": "epochs sampled, floor(duration_s / step_s), the window being half-open",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "count"
-        },
-        "inputs.grid_step_deg": {
-          "definition": "latitude and longitude spacing of the grid cells",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "deg"
-        },
-        "inputs.lat_max_deg": {
-          "definition": "northern edge of the grid",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "deg"
-        },
-        "inputs.lat_min_deg": {
-          "definition": "southern edge of the grid",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "deg"
-        },
-        "inputs.lon_max_deg": {
-          "definition": "eastern edge of the grid",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "deg"
-        },
-        "inputs.lon_min_deg": {
-          "definition": "western edge of the grid",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "deg"
-        },
-        "inputs.mask_deg": {
-          "definition": "elevation mask above the local horizontal of a spherical body",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "deg"
-        },
-        "inputs.pdop_threshold": {
-          "definition": "position dilution of precision (PDOP) at or below which a time-space point with a fix counts as available",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "1"
-        },
-        "inputs.step_s": {
-          "definition": "spacing of the sampled epochs",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "s"
-        },
-        "total_satellites": {
-          "definition": "satellites across every constellation of the run",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "count"
-        },
-        "tracks.satellites[].lat_deg[]": {
-          "definition": "geocentric latitude of the sub-satellite point",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "deg"
-        },
-        "tracks.satellites[].lon_deg[]": {
-          "definition": "body-fixed longitude of the sub-satellite point",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "deg"
-        },
-        "tracks.shown": {
-          "definition": "satellites whose tracks are emitted",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "count"
-        },
-        "tracks.stride": {
-          "definition": "every stride-th satellite of the run is emitted",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "count"
-        },
-        "tracks.times_s[]": {
-          "definition": "epochs of the downsampled ground-track samples",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "s"
-        },
-        "tracks.total": {
-          "definition": "satellites in the run",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "count"
-        },
-        "work.dop_solutions": {
-          "definition": "time-space points with a non-singular DOP solution",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "count"
-        },
-        "work.epochs": {
-          "definition": "epochs evaluated",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "count"
-        },
-        "work.grid_points": {
-          "definition": "grid cells evaluated at every epoch",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "count"
-        },
-        "work.pair_tests_after_prefilter": {
-          "definition": "visibility tests made after the sub-satellite latitude band removed the satellites that cannot be in view",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "count"
-        },
-        "work.pair_tests_brute_force": {
-          "definition": "satellite-point-epoch visibility tests a scan without the prefilter would make",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "count"
-        },
-        "work.prefilter_ratio": {
-          "definition": "pair_tests_after_prefilter / pair_tests_brute_force",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "work.satellites": {
-          "definition": "satellites propagated at every epoch",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "count"
-        },
-        "work.visible_pairs": {
-          "definition": "satellite-point-epoch pairs above the mask",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "count"
-        }
-      },
-      "fields_described": 80,
-      "fields_total": 80,
-      "fields_without_units": [],
-      "label": "MODELLED - two-body Keplerian orbits (optional secular J2) around a spherical body, geometric visibility above an elevation mask, all-in-view dilution of precision with one receiver clock per constellation unless clock = \"common\"; no signal power, health or terrain. The Walker geometry and the published presets are checked against the Galileo OS SDD, the GLONASS ICD and the GPS SPS Performance Standard slot tables, and the GPS baseline global DOP statistics against SPS PS Appendix B (see docs/VERIFICATION-MATRIX.md)",
-      "source": "scenarios/constellation-multi-gnss-coverage.toml"
     },
     "earth-gnss-lunar": {
       "complete": true,
