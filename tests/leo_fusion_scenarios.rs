@@ -1,9 +1,9 @@
 //! The bundled LEO fusion scenarios run through the public dispatcher, describe every number
 //! they emit, repeat bit for bit, and show the behaviour each one exists to show.
 //!
-//! None of them needs the workshop-derived preset: every scenario here except
-//! `celeste-iod-fused-pvt` uses public presets or inline parameters only (a source-text test
-//! in `leo_fusion::presets` enforces that no other file names it).
+//! None of them needs the workshop-derived preset: every scenario here uses public presets or
+//! inline parameters only (a source-text test in `leo_fusion::presets` enforces that no file
+//! outside that preset, its one scenario and the two registration lists names it).
 
 use serde_json::Value;
 
