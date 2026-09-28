@@ -77,9 +77,10 @@ never a claim about a real system) or WORKSHOP.
 presented at the ESA NAVISP (Navigation Innovation and Support Programme) LEO-PNT workshop,
 2026, and have no public source yet; every one of them lives in
 `src/leo_link/presets/celeste_iod.rs` and `scenarios/leo-pass-celeste-iod-multiband.toml`.
-Deleting those two files and the two lines marked `WORKSHOP-PRESET` (in
-`src/leo_link/presets/mod.rs` and `src/bundled_scenarios.rs`) removes it; every test, oracle
-and other scenario runs without it. Its EIRP and beam are calibrated to a C/N0 trace shown at
+Deleting those two files and the three lines marked `WORKSHOP-PRESET` (two in
+`src/leo_link/presets/mod.rs`, one in `src/bundled_scenarios.rs`) removes it; every `leo-pass`
+test, oracle and other scenario runs without it (the scenario and matrix count surfaces then
+need their usual regeneration). Its EIRP and beam are calibrated to a C/N0 trace shown at
 the workshop, so that scenario reproduces the trace by construction.
 
 The ATOMIC "zero-clock" polynomial broadcast-ephemeris model is a navigation-message preset
@@ -97,7 +98,7 @@ the generic preset radiates 1 W.
 
 | Oracle | Test | Result |
 |---|---|---|
-| ITU-R P.838-3 Table 5, 115 frequencies | `p838_coefficients_reproduce_table5_to_its_printed_digits` | every coefficient within 0.51 of its last printed digit |
+| ITU-R P.838-3 Table 5, 115 frequencies | `p838_coefficients_reproduce_table5_to_its_printed_digits` | every coefficient within 0.6 of its last printed digit (worst observed 0.51) |
 | ITU-R Study Group 3 validation examples (CG-3M3J-13-ValEx-Rev8.3.0), P.618-14 rain | `p618_rain_attenuation_matches_the_itu_validation_examples` | 56 cases within 1e-4 dB (observed 5e-6 dB) |
 | Same examples, P.618-14 scintillation | `p618_scintillation_matches_the_itu_validation_examples` | 42 cases within 1e-5 dB |
 | ITU-R Study Group 3 Clutter and BEL workbook, P.2109 | `p2109_building_entry_loss_matches_the_itu_workbook` | 568 values within 0.001 dB |
