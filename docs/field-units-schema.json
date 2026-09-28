@@ -1,11 +1,11 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 1903,
-    "fields_total": 1905,
+    "fields_described": 1900,
+    "fields_total": 1902,
     "fields_without_units": 2,
-    "kinds_complete": 63,
-    "kinds_total": 64,
+    "kinds_complete": 64,
+    "kinds_total": 65,
     "kinds_uncovered": 1,
     "uncovered_kind_ceiling": 1,
     "uncovered_kinds": [
@@ -468,6 +468,256 @@
       "fields_without_units": [],
       "label": "MODELLED — scalar 3-DOF AOCS error budget: gravity-gradient worst-case disturbance torque + RSS pointing budget; NOT a control-loop / 6-DoF / flexible-mode simulation (a pre-hardware complement to Basilisk/42, not a replacement)",
       "source": "defaults"
+    },
+    "body-pnt": {
+      "complete": true,
+      "fields": {
+        "body.gm_m3_s2": {
+          "definition": "central body's gravitational parameter GM, cited in body.rs",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "m^3/s^2"
+        },
+        "body.j2": {
+          "definition": "central body's unnormalised J2 where one is carried; drives the relay and user secular drift",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "1"
+        },
+        "body.j2_reference_radius_m": {
+          "definition": "the radius the J2 value is referenced to",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "m"
+        },
+        "body.radius_mean_m": {
+          "definition": "central body's mean radius: the occultation sphere and the surface",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "m"
+        },
+        "body.sidereal_rotation_period_h": {
+          "definition": "360 degrees over the IAU prime-meridian rate; negative for retrograde rotation",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "derived",
+          "unit": "h"
+        },
+        "earth_to_body.geometric_distance_m": {
+          "definition": "Earth-to-body distance at the epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "earth_to_body.one_way_light_time_s": {
+          "definition": "Newtonian light time from the body (retarded) to the Earth at the epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "earth_to_body.one_way_range_m": {
+          "definition": "speed of light times the one-way light time",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "earth_to_body.shapiro_delay_s": {
+          "definition": "the Sun's one-way Shapiro delay on the Earth-to-body path",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "s"
+        },
+        "earth_to_body.sun_separation_deg": {
+          "definition": "Sun-Earth-body angle at the Earth; small near a solar conjunction, where plasma and Shapiro delay grow",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "earth_to_body.two_way_light_time_s": {
+          "definition": "round-trip light time",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "earth_to_body.two_way_range_m": {
+          "definition": "round-trip path length received at the epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "epoch.jd_tdb": {
+          "definition": "scenario epoch as a Julian date in Barycentric Dynamical Time (TDB)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "day"
+        },
+        "epochs[].earth_range_m": {
+          "definition": "geometric Earth-to-user range",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "epochs[].error_relays_m": {
+          "definition": "position error of the seeded Gauss-Newton fix, constellation only",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "epochs[].error_with_earth_m": {
+          "definition": "position error of the seeded Gauss-Newton fix with the Earth range",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "epochs[].formal_sigma_relays_m": {
+          "definition": "formal one-sigma position uncertainty from the weighted relay geometry",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "epochs[].formal_sigma_with_earth_m": {
+          "definition": "formal one-sigma position uncertainty with the clock-free Earth row added",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "epochs[].gdop": {
+          "definition": "constellation-only geometric dilution of precision",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "epochs[].n_relays_visible": {
+          "definition": "relays whose line of sight clears the body (and the mask, for a surface user)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "epochs[].pdop": {
+          "definition": "constellation-only position dilution of precision",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "epochs[].t_s": {
+          "definition": "seconds after the epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "epochs[].user_radius_m": {
+          "definition": "user distance from the body's centre",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "fom.availability_relays": {
+          "definition": "fraction of epochs with a converged constellation-only fix (at least four relays)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "fom.availability_with_earth": {
+          "definition": "fraction of epochs with a converged fix once the Earth range is added",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "fom.earth_visibility": {
+          "definition": "fraction of epochs the Earth is above the body's limb for the user",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "fom.mean_relays_visible": {
+          "definition": "mean number of relays in view",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "fom.median_formal_sigma_relays_m": {
+          "definition": "median formal one-sigma position uncertainty, constellation only",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "fom.median_formal_sigma_with_earth_m": {
+          "definition": "median formal one-sigma position uncertainty with the Earth range",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "fom.median_pdop": {
+          "definition": "median constellation-only position dilution of precision over epochs with four or more relays",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "fom.n_epochs": {
+          "definition": "epochs in the run",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        },
+        "fom.rms_error_relays_m": {
+          "definition": "root-mean-square position error of the seeded constellation-only fixes",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "fom.rms_error_with_earth_m": {
+          "definition": "root-mean-square position error of the seeded fixes with the Earth range",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "fom.rms_normalised_error_relays": {
+          "definition": "root-mean-square of fix error over formal sigma, constellation only; near 1 when noise and covariance agree",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "fom.rms_normalised_error_with_earth": {
+          "definition": "root-mean-square of fix error over formal sigma with the Earth range",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "n_relays": {
+          "definition": "navigation satellites in the Walker pattern",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "count"
+        },
+        "relay_altitude_m": {
+          "definition": "relay altitude above the mean radius",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "relay_period_s": {
+          "definition": "two-body period of the relay orbit, 2 pi sqrt(a^3/GM)",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "s"
+        },
+        "sigma_earth_range_m": {
+          "definition": "one-sigma one-way range noise of the two-way Earth measurement",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "m"
+        },
+        "sigma_relay_range_m": {
+          "definition": "one-sigma pseudorange noise of a relay measurement",
+          "evidence_tier": "modelled",
+          "provenance": "modelled-input",
+          "unit": "m"
+        }
+      },
+      "fields_described": 40,
+      "fields_total": 40,
+      "fields_without_units": [],
+      "label": "MODELLED: two-body relay orbits with J2 secular drift, geometric visibility, Gaussian range noise and an instantaneous measurement model around a body from the published constants; not validated against a mission's navigation data. The Earth-to-body geometry inherits the solar-system ephemeris labels.",
+      "source": "scenarios/mars-orbit-pnt.toml"
     },
     "cislunar-arc-recovery": {
       "complete": true,
@@ -10387,6 +10637,238 @@
       "label": "MODELLED — time until a free-running clock leaves a routing slot's guard, and the fix cadence that keeps it inside, from a stationary power-law clock model. A datasheet source is an envelope of its maxima, not a measurement of any unit; a class source rests on an assumed red-noise floor.",
       "source": "scenarios/slot-timing-ocxo-leo.toml"
     },
+    "solar-system": {
+      "complete": true,
+      "fields": {
+        "bodies[].ecliptic_latitude_deg": {
+          "definition": "heliocentric latitude in the J2000 ecliptic",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "bodies[].ecliptic_longitude_deg": {
+          "definition": "heliocentric longitude in the J2000 ecliptic",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "bodies[].gm_m3_s2": {
+          "definition": "gravitational parameter GM: JPL Horizons body records for the planets, the JPL satellite physical-parameter table for the moons",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "m^3/s^2"
+        },
+        "bodies[].heliocentric_distance_au": {
+          "definition": "distance from the Sun in astronomical units (1 au = 149 597 870 700 m)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "au"
+        },
+        "bodies[].j2": {
+          "definition": "unnormalised second zonal harmonic where one is carried, cited in body.rs",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "1"
+        },
+        "bodies[].j2_reference_radius_m": {
+          "definition": "the radius the J2 value is referenced to",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "m"
+        },
+        "bodies[].naif_id": {
+          "definition": "NAIF (Navigation and Ancillary Information Facility) integer code of the body",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "1"
+        },
+        "bodies[].nominal_error.distance_m": {
+          "definition": "the Standish page's nominal error in heliocentric distance",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "m"
+        },
+        "bodies[].nominal_error.latitude_arcsec": {
+          "definition": "the Standish page's nominal error in heliocentric latitude",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "arcsec"
+        },
+        "bodies[].nominal_error.longitude_arcsec": {
+          "definition": "the Standish page's nominal error in heliocentric longitude for this planet and table",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "arcsec"
+        },
+        "bodies[].observer_link.geometric_distance_m": {
+          "definition": "straight-line distance to the observer at the epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "bodies[].observer_link.one_way_light_time_s": {
+          "definition": "Newtonian down-leg light time to the observer, body at its retarded position",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "bodies[].observer_link.one_way_range_m": {
+          "definition": "speed of light times the one-way light time",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "bodies[].observer_link.shapiro_delay_s": {
+          "definition": "the Sun's one-way Shapiro (gravitational) delay on the path, Moyer form with gamma = 1",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "s"
+        },
+        "bodies[].observer_link.sun_separation_deg": {
+          "definition": "angle at the observer between the Sun and the body",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "bodies[].observer_link.two_way_light_time_s": {
+          "definition": "round-trip light time",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "bodies[].observer_link.two_way_range_m": {
+          "definition": "round-trip path length, observer to body and back, received at the epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "bodies[].orbital_period_d": {
+          "definition": "orbital period about the parent: the Standish anomalistic period for planets, the IAU synchronous period for the moons",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "day"
+        },
+        "bodies[].parent_relative_position_m[]": {
+          "definition": "position relative to the parent body in the ICRF, x y z",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "bodies[].pole_dec_deg": {
+          "definition": "IAU pole declination at J2000 (WGCCRE mean value)",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "deg"
+        },
+        "bodies[].pole_ra_deg": {
+          "definition": "IAU pole right ascension at J2000 (WGCCRE mean value, without T-rate or periodic terms)",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "deg"
+        },
+        "bodies[].position_m[]": {
+          "definition": "heliocentric position in the ICRF, x y z",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "bodies[].prime_meridian_deg": {
+          "definition": "IAU prime-meridian angle W at the epoch, W0 plus the rate times days from J2000",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "bodies[].radius_equatorial_m": {
+          "definition": "equatorial radius (1-bar level for the giant planets; largest semi-axis for Phobos and Deimos), JPL physical-parameter tables",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "m"
+        },
+        "bodies[].radius_mean_m": {
+          "definition": "volumetric mean radius, JPL physical-parameter tables",
+          "evidence_tier": "validated",
+          "provenance": "published",
+          "unit": "m"
+        },
+        "bodies[].sidereal_rotation_period_h": {
+          "definition": "360 degrees over the IAU prime-meridian rate; negative for retrograde rotation",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "derived",
+          "unit": "h"
+        },
+        "bodies[].track_m[][]": {
+          "definition": "one revolution sampled evenly (planets in mean anomaly on the epoch's Standish ellipse, moons in time), ICRF, in track_frame",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "bodies[].velocity_m_s[]": {
+          "definition": "heliocentric velocity in the ICRF, x y z (two-body derivative for the planets)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m/s"
+        },
+        "epoch.jd_tdb": {
+          "definition": "scenario epoch as a Julian date in Barycentric Dynamical Time (TDB)",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "day"
+        },
+        "links[].geometric_distance_m": {
+          "definition": "straight-line distance between the two bodies at the epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "links[].one_way_light_time_s": {
+          "definition": "Newtonian light time from the transmitter (retarded) to the receiver at the epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "links[].one_way_range_m": {
+          "definition": "speed of light times the one-way light time",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "links[].shapiro_delay_s": {
+          "definition": "the Sun's one-way Shapiro delay on the path",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "s"
+        },
+        "links[].sun_separation_deg": {
+          "definition": "angle at the receiver between the Sun and the transmitter",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "links[].two_way_light_time_s": {
+          "definition": "round-trip light time",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
+        "links[].two_way_range_m": {
+          "definition": "round-trip path length received at the epoch",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "n_bodies": {
+          "definition": "bodies in the report",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "count"
+        }
+      },
+      "fields_described": 37,
+      "fields_total": 37,
+      "fields_without_units": [],
+      "label": "MIXED: each body carries its own label. Planet positions are VALIDATED against JPL Horizons within twice the Standish nominal error (Mercury to Saturn and the Earth from Table 1; all eight planets from Tables 2a/2b); Uranus and Neptune from Table 1, Pluto, the Moon and the seven moons are MODELLED. Light times are Newtonian, from the same positions.",
+      "source": "scenarios/solar-system-tour.toml"
+    },
     "space-packet": {
       "complete": true,
       "fields": {
@@ -10520,496 +11002,6 @@
       "fields_without_units": [],
       "label": "MODELLED — solar/geomagnetic indices + Jacchia-71 exospheric temperature; density is a calibrated first-order activity correction, NOT a data-validated (NRLMSISE) atmosphere",
       "source": "defaults"
-    },
-    "spectrum": {
-      "complete": true,
-      "fields": {
-        "bands[].centre_hz": {
-          "definition": "carrier frequency from the signal's interface specification",
-          "evidence_tier": "validated",
-          "provenance": "spec",
-          "unit": "Hz"
-        },
-        "bands[].chip_rate_hz": {
-          "definition": "spreading-code chip rate",
-          "evidence_tier": "validated",
-          "provenance": "spec",
-          "unit": "Hz"
-        },
-        "bands[].first_null_hz": {
-          "definition": "first positive-frequency null of the unit-area PSD, located numerically",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "Hz"
-        },
-        "bands[].nominal_cn0_dbhz": {
-          "definition": "un-jammed C/N0: signal power minus the noise density",
-          "evidence_tier": "validated",
-          "provenance": "closed-form",
-          "unit": "dB-Hz"
-        },
-        "bands[].psd_peak_dbw_per_hz": {
-          "definition": "signal PSD at its maximum",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "dBW/Hz"
-        },
-        "bands[].psd_peak_offset_hz": {
-          "definition": "offset from the carrier of the PSD maximum, located numerically",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "Hz"
-        },
-        "bands[].rx_bandwidth_hz": {
-          "definition": "double-sided front-end bandwidth over which the spectral separation coefficient is integrated",
-          "evidence_tier": "modelled",
-          "provenance": "modelled-input",
-          "unit": "Hz"
-        },
-        "bands[].signal_power_dbw": {
-          "definition": "received signal power: the interface-specification minimum unless the scenario overrides it",
-          "evidence_tier": "validated",
-          "provenance": "spec",
-          "unit": "dBW"
-        },
-        "duration_s": {
-          "definition": "timeline length",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "s"
-        },
-        "iq.centre_hz": {
-          "definition": "front-end centre frequency of the synthetic snapshot",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "Hz"
-        },
-        "iq.comparison.bins_compared": {
-          "definition": "Welch bins compared with the model: away from tones and inside 90 % of the Nyquist band",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "count"
-        },
-        "iq.comparison.integrated_power_ratio": {
-          "definition": "Welch total power over model total power across the band, tones included",
-          "evidence_tier": "validated",
-          "provenance": "internal-consistency",
-          "unit": "1"
-        },
-        "iq.comparison.mean_abs_difference_db": {
-          "definition": "mean absolute Welch-minus-model difference over the compared bins",
-          "evidence_tier": "validated",
-          "provenance": "internal-consistency",
-          "unit": "dB"
-        },
-        "iq.comparison.median_difference_db": {
-          "definition": "median Welch-minus-model difference; the estimator's bias, near zero",
-          "evidence_tier": "validated",
-          "provenance": "internal-consistency",
-          "unit": "dB"
-        },
-        "iq.enbw_hz": {
-          "definition": "equivalent noise bandwidth of one Welch bin, f_s sum(w^2)/sum(w)^2",
-          "evidence_tier": "validated",
-          "provenance": "closed-form",
-          "unit": "Hz"
-        },
-        "iq.freq_offset_hz[]": {
-          "definition": "Welch bin frequency relative to the centre, decimated for the report",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "Hz"
-        },
-        "iq.model_dbw_per_hz[]": {
-          "definition": "model PSD averaged over the same bin",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "dBW/Hz"
-        },
-        "iq.n_samples": {
-          "definition": "complex samples synthesised",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "count"
-        },
-        "iq.nfft": {
-          "definition": "Welch segment length",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "count"
-        },
-        "iq.sample_rate_hz": {
-          "definition": "complex sample rate",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "Hz"
-        },
-        "iq.segments": {
-          "definition": "Welch segments averaged",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "count"
-        },
-        "iq.sigmf.clipped_components": {
-          "definition": "integer components saturated on encoding",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "count"
-        },
-        "iq.sigmf.data_bytes": {
-          "definition": "size of the .sigmf-data buffer written and read back",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "byte"
-        },
-        "iq.sigmf.full_scale": {
-          "definition": "sample magnitude mapped to the largest integer code: four times the RMS",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "sqrt(W)"
-        },
-        "iq.sigmf.meta.captures[].core:frequency": {
-          "definition": "core:frequency of the capture",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "Hz"
-        },
-        "iq.sigmf.meta.captures[].core:sample_start": {
-          "definition": "core:sample_start of the capture",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "count"
-        },
-        "iq.sigmf.meta.global.core:sample_rate": {
-          "definition": "core:sample_rate written to the SigMF metadata",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "Hz"
-        },
-        "iq.t_s": {
-          "definition": "timeline instant of the snapshot",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "s"
-        },
-        "iq.welch_dbw_per_hz[]": {
-          "definition": "Welch estimate of the read-back IQ",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "dBW/Hz"
-        },
-        "jammers[].bandwidth_hz": {
-          "definition": "occupied or swept bandwidth; zero for a tone; the matched modulation's main-lobe null-to-null width for matched noise",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "Hz"
-        },
-        "jammers[].centre_hz": {
-          "definition": "jammer centre frequency",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "Hz"
-        },
-        "jammers[].eirp_dbw": {
-          "definition": "effective isotropic radiated power toward the receiver",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "dBW"
-        },
-        "jammers[].off_s": {
-          "definition": "switch-off time; null when on to the end",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "s"
-        },
-        "jammers[].on_s": {
-          "definition": "switch-on time",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "s"
-        },
-        "jammers[].per_band[].cn0_effective_dbhz": {
-          "definition": "effective C/N0 with only this jammer, continuously on",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "dB-Hz"
-        },
-        "jammers[].per_band[].in_band_power_fraction": {
-          "definition": "fraction of the jammer's power inside the band's receiver bandwidth",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "jammers[].per_band[].js_db": {
-          "definition": "total received jammer power over the band's received signal power",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "dB"
-        },
-        "jammers[].per_band[].js_in_band_db": {
-          "definition": "J/S counting only the jammer power inside the receiver bandwidth",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "dB"
-        },
-        "jammers[].per_band[].q": {
-          "definition": "equivalent anti-jam coefficient Q = 1/(R_c kappa)",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "jammers[].per_band[].ssc_db_per_hz": {
-          "definition": "spectral separation coefficient of the continuously-on jammer against the band, 10 log10 of the integral of G_s G_j over the receiver band; null when no jammer power reaches the band",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "dB(1/Hz)"
-        },
-        "jammers[].range_m": {
-          "definition": "jammer-to-receiver range",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "m"
-        },
-        "jammers[].received_power_dbw": {
-          "definition": "received jammer power at the antenna output, total over its spectrum: the input, or EIRP + receive gain - free-space path loss",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "dBW"
-        },
-        "jammers[].rx_gain_dbi": {
-          "definition": "receive-antenna gain toward the jammer",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "dBi"
-        },
-        "jammers[].sweep_period_s": {
-          "definition": "chirp sweep period",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "s"
-        },
-        "jamming_kind_cross_check[].abs_difference_db": {
-          "definition": "larger of the J/S and C/N0 differences between the two chains; zero to rounding",
-          "evidence_tier": "validated",
-          "provenance": "internal-consistency",
-          "unit": "dB"
-        },
-        "jamming_kind_cross_check[].cn0_jamming_kind_q_from_ssc_dbhz": {
-          "definition": "effective C/N0 from jamming::effective_cn0_dbhz with Q = 1/(R_c kappa)",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "dB-Hz"
-        },
-        "jamming_kind_cross_check[].cn0_jamming_kind_table_q_dbhz": {
-          "definition": "effective C/N0 the jamming kind reports with its representative Q, for comparison",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "dB-Hz"
-        },
-        "jamming_kind_cross_check[].cn0_spectrum_dbhz": {
-          "definition": "effective C/N0 from this kind's spectral separation coefficient",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "dB-Hz"
-        },
-        "jamming_kind_cross_check[].jamming_kind_table_q": {
-          "definition": "the jamming kind's representative Q for this jammer type, jamming::q_factor",
-          "evidence_tier": "modelled",
-          "provenance": "modelled-input",
-          "unit": "1"
-        },
-        "jamming_kind_cross_check[].js_jamming_kind_db": {
-          "definition": "J/S from jamming::j_over_s_db on the same link inputs",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "dB"
-        },
-        "jamming_kind_cross_check[].js_spectrum_db": {
-          "definition": "J/S from this kind",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "dB"
-        },
-        "receiver.antenna_temp_k": {
-          "definition": "antenna noise temperature",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "K"
-        },
-        "receiver.degraded_margin_db": {
-          "definition": "margin above the threshold reported as degraded",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "dB"
-        },
-        "receiver.noise_density_dbw_per_hz": {
-          "definition": "thermal noise floor 10 log10(k T_sys)",
-          "evidence_tier": "validated",
-          "provenance": "closed-form",
-          "unit": "dBW/Hz"
-        },
-        "receiver.noise_figure_db": {
-          "definition": "receiver noise figure",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "dB"
-        },
-        "receiver.system_temp_k": {
-          "definition": "T_ant + 290 K x (F - 1), F the noise figure as a ratio",
-          "evidence_tier": "validated",
-          "provenance": "closed-form",
-          "unit": "K"
-        },
-        "receiver.tracking_threshold_dbhz": {
-          "definition": "effective C/N0 below which a band is reported lost",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "dB-Hz"
-        },
-        "seed": {
-          "definition": "random seed of the IQ synthesis; the spectrum and C/N0 timeline draw no random numbers",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "1"
-        },
-        "step_s": {
-          "definition": "duration of one waterfall row; every row is averaged over it",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "s"
-        },
-        "timeline.bands[].cn0_effective_dbhz[]": {
-          "definition": "effective C/N0 of the band over each row, every active jammer duty-weighted",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "dB-Hz"
-        },
-        "timeline.bands[].first_loss_t_s": {
-          "definition": "start of the first row below the tracking threshold; null if never",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "s"
-        },
-        "timeline.bands[].js_db[]": {
-          "definition": "in-band J/S over each row: the duty-weighted power of the active jammers inside the receiver bandwidth over the signal power; null when none reaches the band",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "dB"
-        },
-        "timeline.bands[].min_cn0_dbhz": {
-          "definition": "lowest row C/N0",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "dB-Hz"
-        },
-        "timeline.bands[].min_cn0_t_s": {
-          "definition": "start of the row with the lowest C/N0",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "s"
-        },
-        "timeline.bands[].tracking_fraction": {
-          "definition": "fraction of rows at or above the tracking threshold",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "1"
-        },
-        "timeline.bands[].worst_js_db": {
-          "definition": "largest row in-band J/S; null when no jammer reaches the band",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "dB"
-        },
-        "timeline.t_s[]": {
-          "definition": "start of each row",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "s"
-        },
-        "waterfall.bin_width_hz": {
-          "definition": "width of one emitted frequency column after downsampling",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "Hz"
-        },
-        "waterfall.f_max_hz": {
-          "definition": "upper edge of the frequency grid",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "Hz"
-        },
-        "waterfall.f_min_hz": {
-          "definition": "lower edge of the frequency grid",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "Hz"
-        },
-        "waterfall.freq_hz[]": {
-          "definition": "centre of each emitted column",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "Hz"
-        },
-        "waterfall.n_freq": {
-          "definition": "frequency columns emitted",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "count"
-        },
-        "waterfall.n_time": {
-          "definition": "rows emitted",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "count"
-        },
-        "waterfall.noise_floor_dbw_per_hz": {
-          "definition": "thermal noise density",
-          "evidence_tier": "validated",
-          "provenance": "closed-form",
-          "unit": "dBW/Hz"
-        },
-        "waterfall.peak_dbw_per_hz": {
-          "definition": "largest cell of the full-resolution grid",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "dBW/Hz"
-        },
-        "waterfall.psd_dbw_per_hz[][]": {
-          "definition": "power spectral density averaged over the cell in power: noise floor, signals and duty-weighted jammers",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "dBW/Hz"
-        },
-        "waterfall.row_duration_s": {
-          "definition": "duration of one emitted row after downsampling",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "s"
-        },
-        "waterfall.source_n_freq": {
-          "definition": "frequency bins computed",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "count"
-        },
-        "waterfall.source_n_time": {
-          "definition": "rows computed",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "count"
-        },
-        "waterfall.t_s[]": {
-          "definition": "start of each emitted row",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
-          "unit": "s"
-        }
-      },
-      "fields_described": 80,
-      "fields_total": 80,
-      "fields_without_units": [],
-      "label": "MODELLED: an L-band power spectral density built from closed-form signal spectra (VALIDATED against the textbook main-lobe widths and spectral separation coefficients), jammer spectra and a kT noise floor, reduced to J/S and effective C/N0 by the spectral separation coefficient. The jammer powers, timeline and front-end bandwidths are scenario inputs, not measurements.",
-      "source": "scenarios/l-band-waterfall-jamming.toml"
     },
     "spoof": {
       "complete": true,
