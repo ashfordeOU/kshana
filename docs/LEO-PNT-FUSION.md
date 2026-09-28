@@ -133,8 +133,8 @@ Doppler fix over a pass.
 
 | Figure | Source | Kshana | Label |
 |---|---|---|---|
-| Iridium Doppler up to ±36 kHz | RNTF | maximum over a day of passes within 5% | VALIDATED (`tests/leo_doppler_reference.rs`) |
-| Xona Pulsar X1 maximum Doppler 32 to 34 kHz | arXiv:2509.19551 | inside the interval | VALIDATED (same test) |
+| Iridium Doppler up to ±36 kHz | RNTF | 35.9 kHz, the maximum over a day of passes, within 5% | VALIDATED (`tests/leo_doppler_reference.rs`) |
+| Xona Pulsar X1 maximum Doppler 32 to 34 kHz | arXiv:2509.19551 | 33.6 kHz from one satellite of each published shell (1080 km, 53 and 97 deg), inside the interval with no widening; the 53 deg shell alone peaks at 31.8 kHz, since the Earth's rotation slows a prograde orbit relative to the ground | VALIDATED (same test) |
 | Xona Pulsar X1 jerk ±1.26 Hz/s² | arXiv:2509.19551 | about 1.0 Hz/s² on an overhead pass | reported, not validated |
 | PPP convergence 9.6 → 7.0, 3.2, 2.1, 1.3 min with 60/96/192/288 LEO | Li et al., J. Geod. 93:749 (2019), [doi 10.1007/s00190-018-1195-2](https://link.springer.com/article/10.1007/s00190-018-1195-2) | 7.4 → 4.8, 3.2, 2.7, 2.3 min, monotone | MODELLED consistency of the trend (constellations, noise and stations not reproduced) |
 | Starlink about 2 m in 20 s with three satellites | Kozhaya, Saroufim and Kassas 2025 | formal horizontal one-sigma about 10 m after 20 s with 12 satellites, with a perfect ephemeris and every error in a 30 Hz Doppler sigma at 10 Hz | MODELLED comparison (receiver and measurement rate not reproduced) |
