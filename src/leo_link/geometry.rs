@@ -267,27 +267,42 @@ pub struct UserState {
 }
 
 impl UserMotion {
-    /// State at `t` seconds after the epoch. The track follows the local east and north
-    /// directions on a sphere of the local radius (adequate over a pass of minutes); the
-    /// acceleration is the Earth-rotation part only.
+    /// State at `t` seconds after the epoch. Latitude and longitude advance at the constant
+    /// rates that give the stated ground speed and heading on the WGS-84 ellipsoid at the
+    /// start (adequate over a pass of minutes), and the Earth-fixed velocity is the exact time
+    /// derivative of that track, so a numerical derivative of the range agrees with the
+    /// closed-form range rate for a moving user too. The acceleration is the Earth-rotation
+    /// part only.
     pub fn state(&self, t: f64) -> UserState {
         let (sh, ch) = self.heading_rad.sin_cos();
-        let vn = self.speed_m_s * ch;
-        let ve = self.speed_m_s * sh;
-        let rloc = RE_EARTH + self.start.alt_m;
-        let lat = self.start.lat_rad + vn * t / rloc;
-        let lon = self.start.lon_rad + ve * t / (rloc * lat.cos().max(1e-6));
+        let h = self.start.alt_m;
+        let e2 = crate::frames::wgs84_e2();
+        // Meridian (M) and prime-vertical (N) radii of curvature of the WGS-84 ellipsoid.
+        let radii = |lat: f64| {
+            let w = 1.0 - e2 * lat.sin().powi(2);
+            let n = crate::frames::WGS84_A / w.sqrt();
+            (n * (1.0 - e2) / w, n)
+        };
+        let (m0, n0) = radii(self.start.lat_rad);
+        let lat_rate = self.speed_m_s * ch / (m0 + h);
+        let lon_rate = self.speed_m_s * sh / ((n0 + h) * self.start.lat_rad.cos().max(1e-6));
+        let lat = self.start.lat_rad + lat_rate * t;
+        let lon = self.start.lon_rad + lon_rate * t;
         let geo = Geodetic {
             lat_rad: lat,
             lon_rad: lon,
-            alt_m: self.start.alt_m,
+            alt_m: h,
         };
         let r_ecef = geodetic_to_ecef(geo);
         let (sl, cl) = lat.sin_cos();
         let (so, co) = lon.sin_cos();
         let east = [-so, co, 0.0];
         let north = [-sl * co, -sl * so, cl];
-        let v_ecef = add(scale(east, ve), scale(north, vn));
+        let (m, n) = radii(lat);
+        let v_ecef = add(
+            scale(east, (n + h) * cl * lon_rate),
+            scale(north, (m + h) * lat_rate),
+        );
         let w = [0.0, 0.0, OMEGA_EARTH];
         let v_in = add(v_ecef, cross(w, r_ecef));
         let a_in = add(cross(w, cross(w, r_ecef)), scale(cross(w, v_ecef), 2.0));
@@ -698,6 +713,37 @@ mod tests {
             // Central-difference truncation over 0.05 s stays below 1e-3 (0.017 Hz at 5 GHz).
             assert!(d1 < 1e-3, "range rate {d1}");
             assert!(d2 < 1e-3, "range accel {d2}");
+        }
+    }
+
+    #[test]
+    fn a_moving_user_velocity_is_the_derivative_of_its_position() {
+        // An aircraft at 10 km, 230 m/s on several headings: the Earth-fixed velocity must be
+        // the time derivative of the Earth-fixed track, and its size the stated ground speed.
+        for heading in [0.0_f64, 45.0, 270.0] {
+            let user = UserMotion {
+                start: Geodetic {
+                    lat_rad: 50f64.to_radians(),
+                    lon_rad: (-30f64).to_radians(),
+                    alt_m: 10_000.0,
+                },
+                speed_m_s: 230.0,
+                heading_rad: heading.to_radians(),
+            };
+            for t in [0.0, 300.0, 600.0] {
+                let h = 0.05;
+                let p = user.state(t + h).kin.r;
+                let q = user.state(t - h).kin.r;
+                let vn = scale(sub(p, q), 0.5 / h);
+                let v = user.state(t).kin.v;
+                assert!(
+                    norm(sub(v, vn)) < 1e-4,
+                    "heading {heading} t {t}: {v:?} vs {vn:?}"
+                );
+            }
+            let u0 = user.state(0.0);
+            let v_ecef = sub(u0.kin.v, cross([0.0, 0.0, OMEGA_EARTH], u0.kin.r));
+            assert!((norm(v_ecef) - 230.0).abs() < 1e-6, "{}", norm(v_ecef));
         }
     }
 
