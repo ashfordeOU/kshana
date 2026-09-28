@@ -11,7 +11,7 @@
 //!   public (or for a generic design); never a claim about a real system.
 //! * **WORKSHOP**: parameters presented at the ESA NAVISP LEO-PNT workshop, 2026, with no public
 //!   source yet. Only the Celeste IOD (in-orbit demonstration) preset uses them, and all of them
-//!   live in `celeste_iod.rs`, so that file (with its one scenario and the two lines marked
+//!   live in `celeste_iod.rs`, so that file (with its one scenario and the three lines marked
 //!   `WORKSHOP-PRESET` below and in `bundled_scenarios.rs`) can be withheld from a release
 //!   without touching anything else.
 //!

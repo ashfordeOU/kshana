@@ -40,7 +40,8 @@ fn decimals(s: &str) -> i32 {
 #[test]
 fn p838_coefficients_reproduce_table5_to_its_printed_digits() {
     // Table 5 rounds each entry to its printed digits; the equations reproduce every entry of
-    // the 115 rows (1 GHz to 1000 GHz) to within 0.51 of the last printed digit.
+    // the 115 rows (1 GHz to 1000 GHz) within a tolerance of 0.6 of the last printed digit
+    // (worst observed 0.51).
     let data = rows(include_str!("fixtures/leo_link/p838_3_table5.csv"));
     assert_eq!(data.len(), 115);
     let mut worst = 0.0_f64;
