@@ -276,12 +276,12 @@ fn the_ensemble_mean_and_spread_match_the_white_fm_closed_form() {
     let se = 1.959_964 * sigma_ns / n.sqrt();
     assert!((half / se - 1.0).abs() < 0.25, "half-width {half} vs {se}");
     // Sample variance inside the two-sided 99% chi-square interval (199 degrees of
-    // freedom: 0.5% and 99.5% quantiles 149.25 and 256.10).
+    // freedom: 0.5% and 99.5% quantiles 151.37 and 254.14).
     let std = m["std"].as_f64().unwrap(); // population form, divisor n
     let s2 = std * std * n / (n - 1.0);
     let stat = (n - 1.0) * s2 / (sigma_ns * sigma_ns);
     assert!(
-        (149.25..=256.10).contains(&stat),
+        (151.37..=254.14).contains(&stat),
         "chi-square statistic {stat} outside the 99% interval (std {std} ns vs {sigma_ns} ns)"
     );
     // Percentiles are ordered and bracket the median of a zero-mean Gaussian.
