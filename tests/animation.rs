@@ -496,6 +496,43 @@ fn the_cli_writes_every_format_and_records_it_in_the_result() {
         serde_json::json!(["svg", "html", "frames"])
     );
 
+    // A shorter re-export into the same directory leaves no frame of the earlier one
+    // behind, so `frame_%04d.svg` reads exactly the new sequence; other files stay.
+    std::fs::write(frames.join("notes.txt"), "kept").unwrap();
+    let shorter = Command::new(env!("CARGO_BIN_EXE_kshana"))
+        .arg(&scn)
+        .args([
+            "--animate",
+            "frames",
+            "--animate-fps",
+            "2",
+            "--animate-duration",
+            "2",
+        ])
+        .output()
+        .unwrap();
+    assert!(
+        shorter.status.success(),
+        "{}",
+        String::from_utf8_lossy(&shorter.stderr)
+    );
+    let mut left: Vec<String> = std::fs::read_dir(&frames)
+        .unwrap()
+        .map(|e| e.unwrap().file_name().to_string_lossy().into_owned())
+        .collect();
+    left.sort();
+    assert_eq!(
+        left,
+        vec![
+            "frame_0000.svg",
+            "frame_0001.svg",
+            "frame_0002.svg",
+            "frame_0003.svg",
+            "manifest.json",
+            "notes.txt",
+        ]
+    );
+
     // Without --animate the result carries no animation block at all.
     let plain = Command::new(env!("CARGO_BIN_EXE_kshana"))
         .arg(&scn)
