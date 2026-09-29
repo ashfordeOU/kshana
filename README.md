@@ -106,7 +106,7 @@ Each row is checked against an **independent external oracle** (real dataset, in
 
 <p align="center">
   <img src="docs/assets/figures/validation-breakdown.png" alt="Verification status across all 220 capabilities: 83 Validated (checked vs external oracle), 133 Modelled, 4 Partner-owned" width="780">
-  <br><sub>73 Validated · 133 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
+  <br><sub>83 Validated · 133 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
 </p>
 
 *Free and open source under the GNU AGPL-3.0 (GNU Affero General Public License, version 3)
@@ -1182,7 +1182,7 @@ kshana/
 ### Validation at a glance
 
 <p align="center">
-  <img src="docs/assets/diagrams/validation-provenance.png" alt="How a capability earns its label: Requirement maps to a module in src, to a test in tests, to an external oracle (real dataset, independent reference implementation, or published vectors), to a status — with a CI-enforced guard that no capability can be Validated without an external oracle. Live counts: 83 Validated, 133 Modelled, 4 Partner, 193 total" width="900">
+  <img src="docs/assets/diagrams/validation-provenance.png" alt="How a capability earns its label: Requirement maps to a module in src, to a test in tests, to an external oracle (real dataset, independent reference implementation, or published vectors), to a status — with a CI-enforced guard that no capability can be Validated without an external oracle. Live counts: 83 Validated, 133 Modelled, 4 Partner, 220 total" width="900">
   <br><sub>How a capability earns its label — the CI-enforced invariant: no external oracle ⇒ cannot be Validated · <a href="docs/assets/diagrams/validation-provenance.svg">SVG</a></sub>
 </p>
 

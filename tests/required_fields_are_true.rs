@@ -37,7 +37,9 @@ fn shipped() -> BTreeMap<String, (String, toml::Table)> {
             name.ends_with(".toml") && !name.ends_with(".suite.toml")
         })
         .collect();
-    files.sort();
+    // The optional Celeste IOD preset's scenarios (withheld with `src/celeste_iod.rs`) are
+    // taken last, so a kind is graded on a scenario every build ships.
+    files.sort_by_key(|p| (p.to_string_lossy().contains("celeste-iod"), p.clone()));
     let mut out = BTreeMap::new();
     for path in files {
         let src = std::fs::read_to_string(&path).expect("read scenario");

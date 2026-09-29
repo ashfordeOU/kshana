@@ -16,11 +16,11 @@ breaking changes are called out explicitly.
   68 to 75, the scenario-file count from 94 to 120 (114 bundled for `kshana example`, plus
   one suite manifest), and the verification matrix from 189 to
   **220 rows — 83 VALIDATED, 133 MODELLED, 4 PARTNER**. Per area: animation, reports and
-  exports add no kind and no row; `leo-signal` +1 kind, +4 files, +4 rows (2 VALIDATED,
-  2 MODELLED); `leo-pass` +1 kind, +6 files, +9 rows (6 VALIDATED, 3 MODELLED);
-  `leo-navmsg` +1 kind, +5 files, +9 rows (3 VALIDATED, 6 MODELLED); `leo-pvt`, `leo-ppp`
-  and `ntn-positioning` +3 kinds, +8 files, +8 rows (1 VALIDATED, 7 MODELLED);
-  `leo-pnt-chain` +1 kind, +3 files, +1 row (MODELLED). Each area is described below.
+  exports add no kind and no row; `leo-signal` +1 kind, +4 files, +4 rows (2 validated,
+  2 modelled); `leo-pass` +1 kind, +6 files, +9 rows (6 validated, 3 modelled);
+  `leo-navmsg` +1 kind, +5 files, +9 rows (3 validated, 6 modelled); `leo-pvt`, `leo-ppp`
+  and `ntn-positioning` +3 kinds, +8 files, +8 rows (1 validated, 7 modelled);
+  `leo-pnt-chain` +1 kind, +3 files, +1 row (modelled). Each area is described below.
 - **LEO-PNT end to end: the `leo-pnt-chain` kind, and the LEO stages wired together.**
   One low Earth orbit (LEO) positioning, navigation and timing (PNT) system followed from
   its signal design to the user's position, each stage the engine's own kind on its own
@@ -291,7 +291,7 @@ breaking changes are called out explicitly.
 - **Four new engine areas in one release: `spectrum`, `solar-system` and `body-pnt`,
   `constellation-design`, and `campaign`.** The kind count moves from 63 to 68, the
   scenario-file count from 82 to 94, and the verification matrix from 174 to 189 rows
-  (71 VALIDATED, 114 MODELLED, 4 PARTNER at that step; the combined statement at the top
+  (71 validated, 114 modelled, 4 partner at that step; the combined statement at the top
   of this section gives the release totals). Each area is described below.
   - Across the areas: `scenarios/campaign-spectrum-holdover-integrity.toml` chains the
     `spectrum` kind with a clock holdover and an integrity monitor (a chirp takes L1 C/A
