@@ -4,6 +4,9 @@
 # REPRESENTATIVE designs. Each is a pilot and data pair with a 50/50 split, a
 # rectangular-chip BPSK(n) sized to its band and 1 ms codes. Carriers:
 # * UHF 465 MHz, 10 MHz band: a representative UHF placement; no allocation is claimed.
+#   The 465 MHz carrier follows the public open-receiver.com survey of LEO-PNT signals,
+#   https://open-receiver.com/blogs/leo-pnt-signals-celeste/ (which gives 465 MHz for a UHF
+#   LEO-PNT downlink); bandwidth, modulation and power remain representative choices.
 # * L 1191.795 MHz, BPSK(10) in 20.46 MHz: the Galileo E5 centre (116.5 x 10.23 MHz,
 #   Galileo Open Service Signal-in-Space Interface Control Document), in the RNSS band.
 # * S 2492.028 MHz, BPSK(5) in 16.5 MHz: the NavIC S-band carrier (NavIC Signal in Space
@@ -25,11 +28,11 @@ notes = "One representative pilot-and-data design per band for a system-agnostic
 name = "generic-uhf"
 system = "generic LEO-PNT"
 source = "REPRESENTATIVE"
-source_ref = "https://www.itu.int/pub/R-REG-RR"
+source_ref = "https://open-receiver.com/blogs/leo-pnt-signals-celeste/"
 centre_mhz = 465.0
 tx_bandwidth_mhz = 10.0
 allocation = "other"
-notes = "Representative UHF placement; no allocation claimed."
+notes = "Representative UHF placement; no allocation claimed. The 465 MHz carrier is the UHF LEO-PNT frequency given at https://open-receiver.com/blogs/leo-pnt-signals-celeste/; the 10 MHz band and BPSK(5) are representative."
 
 [[signals.components]]
 role = "pilot"
