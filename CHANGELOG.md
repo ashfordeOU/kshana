@@ -31,6 +31,38 @@ breaking changes are called out explicitly.
   verification-matrix row; no published number changes. Tests: `tests/animation.rs`
   (determinism, frame count, no external address, well-formed XML, the reduced-motion
   path, and every bundled scenario with a time series animating).
+- **Advanced run reports (`src/advanced_report.rs`, [docs/REPORTS.md](docs/REPORTS.md)).**
+  Every command-line interface (CLI) run now writes `<scenario>.report.html`, a printable
+  HyperText Markup Language (HTML) report, and `<scenario>.report.json`, the same content
+  as a machine-readable JavaScript Object Notation (JSON) document. Sections: an executive
+  summary; every scenario input with its unit, read from the field-units schema (the
+  result's `units` block), else the field-name suffix, else stated as not stated; the
+  results with the run's chart, every scalar and a summary of every numeric column; for a
+  campaign, the sweep node table, the Monte Carlo mean, standard deviation, 5th / 50th /
+  95th percentiles and bootstrap confidence interval with a histogram per metric, the
+  chain phase table, or the composition's members and combined summary (and the grid of a
+  `sweep` or `sweep-nd` run); an events timeline; the VALIDATED / MODELLED / PARTNER label,
+  oracle and test evidence of every verification-matrix row the run's kinds exercise, read
+  from the matrix through a kind-to-row crosswalk (a row that grades one input path, such
+  as the Simplified General Perturbations 4 (SGP4) path of `orbit` or the measured-record
+  path of `slot-timing`, is listed only when the run took that path, and the Shuttle
+  Radar Topography Mission (SRTM) reader row is listed for no kind, since no scenario
+  field reads an SRTM tile); the not-modelled statements and
+  assumptions, each quoted with its source; and a reproducibility record (engine version,
+  the source commit when the build sets `KSHANA_GIT_COMMIT`, Secure Hash Algorithm 256-bit
+  (SHA-256) digests of the scenario file and the result document, seed, platform and the
+  exact command). The report reads no clock: same scenario, seed and engine build give a
+  byte-identical report, and the only timestamp it can show is the one `--study-name`
+  already writes. A print stylesheet fits A4 and US Letter, repeats table headers and keeps
+  rows and figures whole across pages; a Portable Document Format (PDF) file is made with
+  the browser's "Save as PDF". There is no `--report pdf` option, because rendering the
+  charts into a PDF would need a new, heavy dependency. Tests: `tests/advanced_report.rs`
+  reports every bundled scenario (no empty section, no placeholder text, labels equal to
+  the matrix, the scenario digest equal to the file's, byte-identical on a re-run) and
+  `tests/advanced_report_cli.rs` re-runs the recorded command in a fresh directory and
+  requires a byte-identical `result.json`. No published number changes, and the kind,
+  scenario-file and matrix-row counts are unchanged.
+
 - **Four new engine areas in one release: `spectrum`, `solar-system` and `body-pnt`,
   `constellation-design`, and `campaign`.** The kind count moves from 63 to 68, the
   scenario-file count from 82 to 94, and the verification matrix from 174 to
@@ -182,6 +214,14 @@ breaking changes are called out explicitly.
     1.8 dB.
   Three new matrix rows: one validated (signal spectra and spectral separation
   coefficients) and two modelled.
+
+### Changed
+
+- **`<scenario>.report.html` is now the advanced run report** described under Added, and
+  the CLI's `wrote …` line names `<scenario>.report.json` as well. The one-page scorecard
+  it replaced is unchanged as `RunOutput::html_report()`, which the Python and WebAssembly
+  bindings still return. `OracleKind::modelled_reason()` exposes the sentence
+  `docs/MODELLED-RATIONALE.md` prints for each MODELLED row; that document is unchanged.
 
 ## [0.28.0] - 2026-09-26
 

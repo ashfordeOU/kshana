@@ -62,6 +62,7 @@
 //! [`docs/EQUATIONS.md`]: https://github.com/AshfordeOU/kshana/blob/main/docs/EQUATIONS.md
 
 pub mod acquisition;
+pub mod advanced_report;
 pub mod allan;
 pub mod altpnt;
 pub mod animation;
