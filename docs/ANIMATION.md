@@ -4,7 +4,8 @@
 Vector Graphics (SVG) file, a single self-contained HyperText Markup Language (HTML)
 player, or a numbered sequence of SVG frames for a video encoder. A campaign plays as its
 phases (jamming, spoofing, holdover, integrity alarm) with its alarms marked; a spectrum
-run plays its waterfall row by row.
+run plays its waterfall row by row; a low Earth orbit (LEO) pass plays its per-band link
+and, with a spoofer, the monitor statistics epoch by epoch.
 
 ```bash
 kshana scenarios/campaign-jam-spoof-holdover-integrity.toml --animate all
@@ -61,14 +62,20 @@ A re-export into the same directory first removes every `frame_NNNN.svg` already
 the encoder to read.
 
 The frames are SVG, not Portable Network Graphics (PNG). An `ffmpeg` built with the
-`librsvg` library reads them directly:
+`librsvg` library reads them directly, at the rate the sequence was written with (24 in
+the example above; the manifest's `fps`):
 
 ```bash
-ffmpeg -framerate 12 -i clock-holdover.frames/frame_%04d.svg -pix_fmt yuv420p clock-holdover.mp4
+ffmpeg -framerate 24 -i clock-holdover.frames/frame_%04d.svg -pix_fmt yuv420p clock-holdover.mp4
 ```
 
-Without `librsvg`, rasterise the frames first (for example with `rsvg-convert` or a
-browser) and encode the PNGs.
+An `ffmpeg` without `librsvg` stops with "no decoder found for: svg". Rasterise the
+frames first, for example with `rsvg-convert`, and encode the PNGs:
+
+```bash
+for f in clock-holdover.frames/frame_*.svg; do rsvg-convert "$f" -o "${f%.svg}.png"; done
+ffmpeg -framerate 24 -i clock-holdover.frames/frame_%04d.png -pix_fmt yuv420p clock-holdover.mp4
+```
 
 ## Accessibility and theme
 
@@ -111,8 +118,16 @@ power, for decibel cells, so a narrow jammer is not diluted).
 A kind whose result carries none of these shapes (a link budget, a single-epoch geometry,
 a statistics-only Monte Carlo summary, or the telecom holdover, whose result publishes the
 record's hash but not the record) is refused with `no time series to animate`, and nothing
-is written. Over the bundled scenarios, the count of each is printed by
+is written. With kshana 0.28.0, 68 of the 132 bundled scenarios animate and 64 are
+refused (over all 138 scenario files, 71 and 67). The same census is printed by
 `cargo test --test animation -- --nocapture`.
+
+Among the LEO kinds, every bundled `leo-pass`, `leo-pnt-chain` and `leo-ppp` scenario
+animates. `leo-pvt` animates in its Doppler, joint-positioning and timing modes (a timing
+run needs `trace = true`, which makes every row report its time error and predicted sigma
+at every epoch) and is refused in its polar-coverage mode. `leo-navmsg` animates its
+mid-pass update and is refused for the encoding, fit-interval and model-comparison
+analyses. `leo-signal` and `ntn-positioning` results carry no time axis and are refused.
 
 ## Determinism
 
@@ -142,5 +157,6 @@ std::fs::write("run.html", &anim.files[0].content)?;
 - The animated SVG relies on CSS animation of a clip rectangle; current Chromium, Firefox
   and Safari engines play it, while a viewer without CSS animation shows the finished
   picture.
-- Scenario-sweep and Monte Carlo campaigns animate only when their result carries a time
-  axis; the summary statistics of a sweep are not a time series.
+- Sweep, Monte Carlo and compose campaigns carry no time axis and are refused; the summary
+  statistics of a sweep or an ensemble are not a time series. A chained campaign
+  animates.
