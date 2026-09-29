@@ -9,7 +9,7 @@ mod bundled_scenarios;
 /// cannot drift apart (they were two separate copies before, one of them a comment).
 /// `.github/workflows/release.yml` greps the first line on the no-argument path, so
 /// that line stays verbatim.
-const USAGE: &str = "usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>]
+const USAGE: &str = "usage: kshana <scenario.toml> [--study-name <s>] [--eop <finals2000A>] [--export-sp3 <out.sp3>] [--export-omm <out.omm>] [--export-oem <out.oem>] [--export <czml|kml|geojson|stk|sigmf|all|list>]... [--import-route <route.geojson>]
    or: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
    or: kshana --study <suite.toml>
    or: kshana --validate <scenario.toml>
@@ -69,6 +69,10 @@ fn main() -> ExitCode {
     let mut export_omm_path: Option<PathBuf> = None;
     let mut export_oem_path: Option<PathBuf> = None;
     let mut eop_path: Option<PathBuf> = None;
+    // `--export <fmt>` may be given more than once; `all` asks for every format that
+    // applies and `list` only reports which apply.
+    let mut exports: Vec<String> = Vec::new();
+    let mut route_path: Option<PathBuf> = None;
     let mut study_name: Option<String> = None;
     let mut study_suite_path: Option<PathBuf> = None;
     let mut validate_path: Option<PathBuf> = None;
@@ -186,6 +190,18 @@ fn main() -> ExitCode {
                     }
                 }
             }
+            "--export" => {
+                i += 1;
+                match args.get(i) {
+                    Some(f) => exports.push(f.to_string()),
+                    None => {
+                        eprintln!(
+                            "error: --export needs a format: czml, kml, geojson, stk, sigmf, all or list"
+                        );
+                        return ExitCode::from(2);
+                    }
+                }
+            }
             "--animate-duration" => {
                 i += 1;
                 match args.get(i).and_then(|v| v.parse::<f64>().ok()) {
@@ -195,6 +211,16 @@ fn main() -> ExitCode {
                     }
                     None => {
                         eprintln!("error: --animate-duration needs a length in seconds");
+                        return ExitCode::from(2);
+                    }
+                }
+            }
+            "--import-route" => {
+                i += 1;
+                match args.get(i) {
+                    Some(p) => route_path = Some(PathBuf::from(p)),
+                    None => {
+                        eprintln!("error: --import-route needs a GeoJSON file path");
                         return ExitCode::from(2);
                     }
                 }
@@ -372,6 +398,55 @@ fn main() -> ExitCode {
             }
         }
     }
+    // `--import-route <route.geojson>`: write a GeoJSON LineString into the scenario's
+    // straight-track inputs before the run, so the run and every export use it.
+    if let Some(route_file) = &route_path {
+        let body = match std::fs::read_to_string(route_file) {
+            Ok(b) => b,
+            Err(e) => {
+                eprintln!("error: cannot read {}: {e}", route_file.display());
+                return ExitCode::FAILURE;
+            }
+        };
+        match kshana::interop::geojson::apply_route(&src, &body) {
+            Ok(merged) => src = merged,
+            Err(e) => {
+                eprintln!("error: --import-route: {e}");
+                return ExitCode::FAILURE;
+            }
+        }
+    }
+
+    // Resolve the `--export` requests before the run, so a misspelt format fails fast.
+    let mut export_all = false;
+    let mut export_formats: Vec<kshana::interop::Format> = Vec::new();
+    for f in &exports {
+        match f.to_ascii_lowercase().as_str() {
+            "all" => export_all = true,
+            "list" => {
+                // Terminal: report which formats apply and why the others do not.
+                for (fmt, r) in kshana::interop::plan(&src) {
+                    match r {
+                        Ok(()) => println!("{}: applies", fmt.as_str()),
+                        Err(why) => println!("{}: does not apply: {why}", fmt.as_str()),
+                    }
+                }
+                return ExitCode::SUCCESS;
+            }
+            other => match kshana::interop::Format::parse(other) {
+                Ok(fmt) => {
+                    if !export_formats.contains(&fmt) {
+                        export_formats.push(fmt)
+                    }
+                }
+                Err(e) => {
+                    eprintln!("error: --export: {e}");
+                    return ExitCode::from(2);
+                }
+            },
+        }
+    }
+
     let mut out = match kshana::api::run_toml(&src) {
         Ok(o) => o,
         Err(e) => {
@@ -603,6 +678,42 @@ fn main() -> ExitCode {
                 return ExitCode::FAILURE;
             }
         }
+    }
+    // Interoperability exports (`--export`): CZML, KML, GeoJSON, STK `.e` and SigMF.
+    // An explicitly named format that does not apply is an error that names the reason;
+    // under `all` it is reported and skipped.
+    let mut export_failed = false;
+    let requested: Vec<(kshana::interop::Format, bool)> = if export_all {
+        kshana::interop::Format::ALL
+            .iter()
+            .map(|&f| (f, false))
+            .collect()
+    } else {
+        export_formats.iter().map(|&f| (f, true)).collect()
+    };
+    for (fmt, explicit) in requested {
+        match kshana::interop::export(&src, fmt) {
+            Ok(files) => {
+                for f in files {
+                    let target = output_base.with_extension(f.suffix.trim_start_matches('.'));
+                    if let Err(e) = std::fs::write(&target, &f.bytes) {
+                        eprintln!("error: cannot write {}: {e}", target.display());
+                        return ExitCode::FAILURE;
+                    }
+                    println!("wrote {}", target.display());
+                }
+            }
+            Err(kshana::interop::ExportError::NotApplicable(why)) if !explicit => {
+                println!("skipped {}: {why}", fmt.as_str());
+            }
+            Err(e) => {
+                eprintln!("error: {} export: {e}", fmt.as_str());
+                export_failed = true;
+            }
+        }
+    }
+    if export_failed {
+        return ExitCode::FAILURE;
     }
     ExitCode::SUCCESS
 }

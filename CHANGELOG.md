@@ -63,6 +63,36 @@ breaking changes are called out explicitly.
   requires a byte-identical `result.json`. No published number changes, and the kind,
   scenario-file and matrix-row counts are unchanged.
 
+- **Interoperability exports and imports (`--export`, `src/interop/`, docs/INTEROP.md).**
+  `kshana <scenario.toml> --export <format>` writes the scenario's geometry as CZML (the
+  Cesium Language), KML (Keyhole Markup Language 2.2, an Open Geospatial Consortium
+  standard, with `gx:Track` time-tagged tracks), GeoJSON (Internet Engineering Task Force
+  Request for Comments 7946) and Ansys STK (Systems Tool Kit) `.e` ephemerides
+  (`EphemerisTimePosVel`, metres, one file per moving object), and the `spectrum` kind's
+  synthesised IQ (in-phase and quadrature) snapshot as a SigMF (Signal Metadata Format)
+  pair through the existing `src/sigmf.rs`. `--export all` writes every format that
+  applies and prints why the others do not; `--export list` reports without running.
+  Moving objects are written in the Geocentric Celestial Reference System (CZML
+  `INERTIAL`, STK `ICRF`) and Earth-fixed WGS 84 (World Geodetic System 1984) longitude,
+  latitude and height (KML, GeoJSON); fixed sites in CZML are `FIXED`. The `jamming` kind
+  adds two jammer footprints from its own link equations. `--import-route <file.geojson>`
+  writes a GeoJSON `LineString` into the track inputs of `terrain-nav`, `terrain-slam`,
+  `gravity-map` and `combined-altpnt`. Exports are byte-deterministic and carry no
+  timestamp. `tests/interop_formats.rs` validates every export against its published
+  specification, compares exported satellite states with the engine's own to 1 mm, and
+  runs every bundled scenario through every format, each either exporting or stating why
+  not (the table in docs/INTEROP.md). No published number changes: the `spectrum` kind's
+  IQ synthesis moved into one shared function and its result document is byte-identical,
+  and `PassesScenario` gains `propagator()` and `epoch_calendar()` used by its own run.
+  Kind, scenario-file and verification-matrix counts are unchanged.
+  An orbit or integrity scenario with no `epoch` is dated by its satellites' own data:
+  `t = 0` is the earliest TLE (two-line element set), broadcast-ephemeris or SP3
+  (Standard Product 3) epoch, and each such satellite is rotated into the GCRS and
+  Earth-fixed frames at its own instant; 2000-01-01T00:00:00Z is used only when no
+  satellite carries an epoch. The SP3 and OEM (Orbit Ephemeris Message) exports keep
+  their 2000-01-01 label. To support this, `Sgp4::epoch_jd_utc`,
+  `Sp3Interpolator::jd_ut1` and `Propagator::own_jd_utc` are added; nothing that existed
+  reads them.
 - **Four new engine areas in one release: `spectrum`, `solar-system` and `body-pnt`,
   `constellation-design`, and `campaign`.** The kind count moves from 63 to 68, the
   scenario-file count from 82 to 94, and the verification matrix from 174 to
@@ -222,6 +252,31 @@ breaking changes are called out explicitly.
   it replaced is unchanged as `RunOutput::html_report()`, which the Python and WebAssembly
   bindings still return. `OracleKind::modelled_reason()` exposes the sentence
   `docs/MODELLED-RATIONALE.md` prints for each MODELLED row; that document is unchanged.
+
+### Fixed
+
+- **The TEME→GCRS reduction turned by 2·Δψ: the nutation matrix had the sign of Δψ
+  reversed.** `nutation::numat` built `Rx(−(ε̄+Δε))·Rz(Δψ)·Rx(ε̄)` where SOFA's `iauNumat`
+  builds `Rx(−(ε̄+Δε))·Rz(−Δψ)·Rx(ε̄)`, so `nutation_matrix`, `nutation_matrix_2000a`,
+  `teme_to_gcrs` and `gcrs_to_teme` rotated by twice the nutation in longitude, about
+  25 arcseconds. Every check on the chain was a property test (proper rotation, round
+  trip, a non-zero nutation contribution) that a sign slip passes; the end-to-end
+  Vallado test covered TEME→PEF, TEME→ITRF and GCRS→ITRS but not TEME→GCRS. On the
+  Vallado example (AIAA 2006-6753, 2004-04-06) the chain missed the published GCRF by
+  1 145 m; it now lands 0.11 m from it, and the matrix equals ERFA's `numat` to 1e-14.
+  `tests/frame_reference_vectors.rs::teme_to_gcrs_matches_vallado_gcrf` and
+  `nutation::tests::nutation_matrix_matches_erfa_numat` both fail on the old sign. The
+  CIO (Celestial Intermediate Origin) consistency test in `src/cio.rs` had put the
+  resulting ~130 m disagreement down to "≈ 2·EE"; the residual is now 5 cm and its bound
+  is tightened from 250 m to 1 m.
+  **This moves published numbers, recorded here as a revision:** the `ephemeris` kind's
+  `gcrs_r_m` and `gcrs_v_m_s` columns (about 0.8–1.0 km for the bundled ISS (International
+  Space Station) scenario; its TEME, Earth-fixed, ground-track, look-angle and Doppler
+  columns do not change), and `Propagator::position_in_frame` / `state_gcrs` for the GCRS
+  and ITRS frames. No bundled scenario's summary line, chart or golden hash reads these
+  columns. The new interoperability exports use the corrected chain: the first
+  `orbit-sgp4-gps` satellite's CZML position agrees with an ERFA reduction of the same TLE
+  (propagated by the `sgp4` Python package) to 2.3 cm.
 
 ## [0.28.0] - 2026-09-26
 
