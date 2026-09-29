@@ -24,15 +24,21 @@ row in [`VERIFICATION-MATRIX.md`](VERIFICATION-MATRIX.md) instead.
 | **RINEX (Receiver Independent Exchange Format) 3** (broadcast navigation) | read | [`src/rinex.rs`](../src/rinex.rs) | RINEX 3.x NAV (IS-GPS-200, Galileo ICD (interface control document), BeiDou ICD, GLONASS (Russia's Global Navigation Satellite System) ICD) | Multi-GNSS NAV ingestion (GPS LNAV (legacy navigation message), Galileo F/NAV, QZSS (Japan's Quasi-Zenith Satellite System), BeiDou MEO/IGSO (MEO: medium Earth orbit; IGSO: inclined geosynchronous orbit), GLONASS state vector); usable as a first-class `Propagator` source. |
 | **TLE / 3LE** (two-/three-line elements) | read | [`src/tle.rs`](../src/tle.rs) | NORAD / Celestrak, AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 | Propagated by the validated SGP4/SDP4 (SDP4: Simplified Deep-space Perturbations 4) core (4.12 mm vs the 666 official AIAA vectors). |
 | **RINEX 3.0x** (observation) | read | [`src/rinex_obs.rs`](../src/rinex_obs.rs) | RINEX 3.0x OBS (4.00 expected to parse, never exercised on a 4.00 file) | The other half of RINEX: the receiver's own code/carrier/Doppler/SNR (SNR: signal-to-noise ratio) records (`parse_obs`). This is the input the `pvt` single-point-positioning solver consumes alongside the broadcast navigation file ([`tests/pvt_abmf.rs`](../tests/pvt_abmf.rs), real IGS station ABMF). |
-| **IONEX** (global TEC maps) | read | [`src/ionex.rs`](../src/ionex.rs) | IONEX 1.x (IGS ionosphere product) | `parse_ionex` reads the IGS global total-electron-content grids — the *measured* alternative to the broadcast Klobuchar correction — with bilinear spatial and temporal interpolation and the obliquity mapping to slant delay. |
+| **IONEX** (IONosphere map EXchange format; global TEC (total electron content) maps) | read | [`src/ionex.rs`](../src/ionex.rs) | IONEX 1.x (IGS ionosphere product) | `parse_ionex` reads the IGS global total-electron-content grids — the *measured* alternative to the broadcast Klobuchar correction — with bilinear spatial and temporal interpolation and the obliquity mapping to slant delay. |
 | **IERS (International Earth Rotation and Reference Systems Service) `finals2000A` / Bulletin B** (Earth orientation) | read | [`src/eop.rs`](../src/eop.rs), [`src/frame_eop.rs`](../src/frame_eop.rs) | IERS Conventions; IERS EOP (Earth orientation parameters) 14 C04 / `finals2000A.all` | UT1 (Universal Time 1, Earth-rotation time)−UTC (Coordinated Universal Time) and polar motion from the official product, including the **predicted** rows, so the frame reduction can be run in real time and its prediction-error growth budgeted ([`tests/operational_eop_predictor_reference.rs`](../tests/operational_eop_predictor_reference.rs)). |
-| **KIF** (Kshana Interchange Format) | read **and** write | [`src/interchange.rs`](../src/interchange.rs) | this repository — see the envelope table above | The neutral, versioned envelope every artifact can be wrapped in: `format` / `schema_version` / `kind` / `engine_version` / `payload`, with an explicit major-minor compatibility verdict for a consumer. Not an external standard; documented here because a foreign tool has to recognise it. |
+| **KIF** (Kshana Interchange Format) | read **and** write | [`src/interchange.rs`](../src/interchange.rs) | this repository — see [`SCHEMA.md`](SCHEMA.md) | The neutral, versioned envelope every artifact can be wrapped in: `format` / `schema_version` / `kind` / `engine_version` / `payload`, with an explicit major-minor compatibility verdict for a consumer. Not an external standard; documented here because a foreign tool has to recognise it. |
 | **LunaNet / IOAG (Interagency Operations Advisory Group) lunar interchange** | write (time metadata also read) | [`src/lunar_interop.rs`](../src/lunar_interop.rs) | LunaNet interoperability specification / IOAG lunar communications architecture, over CCSDS 502.0 | The lunar frame, lunar time scale and lunar ephemeris emitted in LunaNet/IOAG-aligned CCSDS forms (`export_lunar_oem`, `export_kif_lunar`, `export_lunar_time_metadata`), with a field-conformance check on the emitted OEM ([`tests/lunar_interoperability_export_reference.rs`](../tests/lunar_interoperability_export_reference.rs)). |
+| **CZML** (Cesium Language) | write | [`src/interop/czml.rs`](../src/interop/czml.rs) | CesiumJS CZML packet format | A JSON stream of time-tagged packets for the CesiumJS globe; moving objects written in GCRS (`INERTIAL`). `--export czml` on any kind that places objects on the Earth. |
+| **KML** (Keyhole Markup Language) | write | [`src/interop/kml.rs`](../src/interop/kml.rs) | OGC (Open Geospatial Consortium) KML 2.2 | Earth-fixed longitude, latitude and height for Google Earth and GIS (geographic information system) tools. `--export kml`. |
+| **GeoJSON** | write **and** read (route) | [`src/interop/geojson.rs`](../src/interop/geojson.rs) | IETF (Internet Engineering Task Force) RFC 7946 | Earth-fixed geometry for web maps and GIS tools (`--export geojson`); a `LineString` is read back as the straight-track input of the kinds that fly one (`--import-route <route.geojson>`). |
+| **STK ephemeris** (`.e`, `EphemerisTimePosVel`) | write | [`src/interop/stk.rs`](../src/interop/stk.rs) | Ansys STK ephemeris file format | Inertial (`ICRF`) position and velocity for STK and tools that read its ephemeris format. `--export stk`. |
+| **SigMF** (Signal Metadata Format) | read **and** write | [`src/sigmf.rs`](../src/sigmf.rs) | SigMF specification | Complex baseband recordings plus JSON metadata: the `spectrum` kind writes its synthesised in-phase/quadrature (IQ) samples (`--export sigmf`) and reads a recording through its `[recording]` block. |
+| **LEO navigation message text** (RINEX-4-style and CSV (comma-separated values)) | read **and** write | [`src/leo_navmsg/text.rs`](../src/leo_navmsg/text.rs) | RINEX 4 navigation layout, adapted | The `leo-navmsg` kind's broadcast ephemeris and clock for a low Earth orbit (LEO) satellite, exported and re-imported; a documented adaptation, not a registered RINEX message type (MODELLED in the verification matrix). |
 
 ## Reference frames & time
 
 The frame the engine emits is explicit, not implicit. The CIO-based (CIO: Celestial Intermediate Origin) IAU (International Astronomical Union)
-2006/2000A reduction ([`src/cio.rs`](../src/cio.rs)) and the equinox/GMST (GMST: Greenwich mean sidereal time) TEME
+2006/2000A reduction ([`src/cio.rs`](../src/cio.rs)) and the equinox/GMST (GMST: Greenwich mean sidereal time) TEME (true equator, mean equinox)
 reduction ([`src/frames.rs`](../src/frames.rs), [`src/nutation.rs`](../src/nutation.rs))
 are validated bit-for-bit against the SOFA/ERFA (SOFA: Standards of Fundamental Astronomy; ERFA: Essential Routines for Fundamental Astronomy) reference vectors (see
 [`VALIDATION.md`](VALIDATION.md)).
@@ -42,7 +48,7 @@ are validated bit-for-bit against the SOFA/ERFA (SOFA: Standards of Fundamental 
 | **TEME** | SGP4 native | True equator, mean equinox — the SGP4/SDP4 output frame. |
 | **GCRS (Geocentric Celestial Reference System) / J2000** | IAU 2006 precession + IAU 2000A/2000B nutation | `teme_to_gcrs` (equinox chain). |
 | **CIRS** (Celestial Intermediate Reference System) | IAU 2006/2000A CIO (X, Y, s) | `gcrs_to_cirs_matrix` (`eraC2ixys`). |
-| **ITRS (International Terrestrial Reference System) / ECEF** | ERA + IERS polar motion (CIO) or GMST + polar motion (equinox) | `gcrs_to_itrs_matrix` (CIO, `eraC2tcio`) / `teme_to_itrf` (equinox). |
+| **ITRS (International Terrestrial Reference System) / ECEF** | ERA (Earth rotation angle) + IERS polar motion (CIO) or GMST + polar motion (equinox) | `gcrs_to_itrs_matrix` (CIO, `eraC2tcio`) / `teme_to_itrf` (equinox). |
 | **WGS-84 (WGS: World Geodetic System) geodetic** | exact + iterative inverse | `ecef_to_geodetic` / `geodetic_to_ecef`. |
 
 | Time scale | Use |
@@ -53,25 +59,37 @@ are validated bit-for-bit against the SOFA/ERFA (SOFA: Standards of Fundamental 
 
 ## Output-field → standard mapping (CCSDS 502.0)
 
-For an orbit scenario, the result JSON (JavaScript Object Notation) / OEM correspondence is:
+What the two orbit-message writers put in each CCSDS ODM (Orbit Data Messages, 502.0)
+field, read from a run of `scenarios/orbit-sgp4-gps.toml` with `--export-oem` and
+`--export-omm`:
 
-| Kshana field | CCSDS ODM (502.0) | Unit |
-|--------------|-------------------|------|
-| epoch (UTC/TT) | `EPOCH` | ISO-8601 (ISO: International Organization for Standardization) |
-| `coordinate_system` (TEME/ECEF/ITRF/GCRS (ITRF: International Terrestrial Reference Frame)) | `REF_FRAME` | — |
-| `time_scale` | `TIME_SYSTEM` | — |
-| position `x,y,z` | `X / Y / Z` | km |
-| velocity `vx,vy,vz` | `X_DOT / Y_DOT / Z_DOT` | km/s |
-| mean elements (OMM) | `MEAN_MOTION / ECCENTRICITY / INCLINATION / RA_OF_ASC_NODE / ARG_OF_PERICENTER / MEAN_ANOMALY` | rev/day, –, deg |
+| Kshana output | CCSDS ODM field | Value / unit |
+|---------------|-----------------|--------------|
+| OEM segment metadata | `CENTER_NAME` / `REF_FRAME` / `TIME_SYSTEM` | `EARTH` / `TEME` / `GPS` — the frame the propagators integrate in and the time scale of the epoch grid, not relabelled |
+| OEM state epoch | first column of each data line | ISO-8601 (ISO: International Organization for Standardization) calendar time, GPS time scale |
+| OEM position, velocity | `X Y Z X_DOT Y_DOT Z_DOT` data columns | km, km/s |
+| OMM metadata | `REF_FRAME` / `TIME_SYSTEM` / `MEAN_ELEMENT_THEORY` | `TEME` / `UTC` / `SGP4` |
+| OMM epoch | `EPOCH` | ISO-8601 day-of-year form (the TLE epoch) |
+| OMM mean elements | `MEAN_MOTION / ECCENTRICITY / INCLINATION / RA_OF_ASC_NODE / ARG_OF_PERICENTER / MEAN_ANOMALY / BSTAR` | rev/day, –, deg, 1/Earth radii |
+
+The `ephemeris` kind's result JSON (JavaScript Object Notation) carries the same state in
+SI units per sample: `jd_utc`, `teme_r_m` / `teme_v_m_s`, `gcrs_r_m` / `gcrs_v_m_s`,
+`ecef_r_m` (m, m/s), plus `lat_deg`, `lon_deg`, `alt_km`.
 
 ## Honest scope
 
-- OEM, TDM, Space Packet and KIF are **read and write**; OMM is a **writer** (an OMM
-  reader and the XML serialization are follow-ons); RINEX NAV, RINEX OBS, IONEX, the
-  IERS EOP products and TLE are **readers**; the LunaNet/IOAG lunar export is a writer
-  whose time metadata round-trips.
+- OEM, TDM, Space Packet, KIF, SigMF and the LEO navigation-message text are **read and
+  write**; OMM, CZML, KML and STK ephemeris are **writers** (an OMM reader and the XML
+  serialization are follow-ons); GeoJSON is written and read back as a route; RINEX NAV,
+  RINEX OBS, IONEX, the IERS EOP products and TLE are **readers**; the LunaNet/IOAG lunar
+  export is a writer whose time metadata round-trips. [`INTEROP.md`](INTEROP.md) lists
+  which export applies to every bundled scenario.
 - The CCSDS/IGS field mapping above is documentation, not a certified conformance
   statement; formal conformance (and registration in the ESA (European Space Agency) ESSR (European Space Software Repository) / NASA (National Aeronautics and Space Administration) open
   catalogue) is tracked separately and is founder-gated.
-- A live SPICE/ANISE (SPICE: Spacecraft, Planet, Instrument, C-matrix, Events; ANISE: Attitude, Navigation, Instrument, Spacecraft, Ephemeris — a pure-Rust planetary-geometry toolkit) numerical cross-check of the frame reduction to the < 10 m
-  level is a planned follow-on (needs SPICE kernels).
+- The independent SPICE/ANISE (SPICE: Spacecraft, Planet, Instrument, C-matrix, Events; ANISE: Attitude, Navigation, Instrument, Spacecraft, Ephemeris — a pure-Rust planetary-geometry toolkit) numerical cross-check of the frame reduction is
+  delivered in the standalone, workspace-excluded crate `xval/anise-frames/`:
+  `gcrs_to_itrs_matrix` against ANISE's GCRF→ITRF93 rotation over eight epochs
+  2020–2023 agrees to ≤ 0.86 m on the ground and ≤ 3.6 m at GNSS orbit (see
+  [`VALIDATION.md`](VALIDATION.md)). It needs SPICE kernels, so it is not a default CI
+  gate.
