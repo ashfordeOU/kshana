@@ -18,18 +18,18 @@
 //! | `centispace` | `centispace.rs` | public |
 //! | `generic-c-band` | `generic_cband.rs` | representative, one public allocation |
 //! | `atomic-zero-clock` | `atomic_zero_clock.rs` | public (ephemeris and clock model only) |
-//! | `celeste-iod` | `celeste_iod.rs` | public orbit, workshop signal parameters |
+//! | `celeste-iod` | `src/celeste_iod.rs` (`fusion`) | public orbit, workshop signal parameters |
 //!
 //! ## Withholding the workshop preset
 //!
-//! Every workshop-derived number sits in `celeste_iod.rs` and in the one scenario that uses
-//! it, `scenarios/celeste-iod-fused-pvt.toml`. To publish without it: delete those two files,
-//! the `mod celeste_iod;` line and the `&celeste_iod::PRESET` entry below, and the scenario's
-//! line in `src/bundled_scenarios.rs`. No other code, test or scenario refers to it (a
-//! source-text test in this module enforces that).
+//! Every workshop-derived number sits in `src/celeste_iod.rs` and in the scenarios named
+//! `scenarios/*celeste-iod*.toml`. The preset is compiled in only when that file exists (see
+//! `build.rs`), so deleting it with those scenarios publishes without it, with no source
+//! edit. `tests/workshop_preset_isolation.rs` checks which files may name it.
 
 mod atomic_zero_clock;
-mod celeste_iod;
+#[cfg(kshana_celeste)]
+use crate::celeste_iod::fusion as celeste_iod;
 mod centispace;
 mod generic_cband;
 mod iridium_stl;
@@ -163,6 +163,7 @@ pub fn all() -> Vec<&'static LeoPreset> {
         &centispace::PRESET,
         &generic_cband::PRESET,
         &atomic_zero_clock::PRESET,
+        #[cfg(kshana_celeste)]
         &celeste_iod::PRESET,
     ]
 }
@@ -237,50 +238,6 @@ mod tests {
                 p.id
             );
         }
-    }
-
-    /// The workshop preset must be removable by deleting its file and the scenario that
-    /// uses it: no other source file of the pack and no other scenario may name it.
-    #[test]
-    fn nothing_else_refers_to_the_workshop_preset() {
-        let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR"));
-        let mut offenders = Vec::new();
-        for dir in ["src", "scenarios", "tests"] {
-            let mut stack = vec![root.join(dir)];
-            while let Some(d) = stack.pop() {
-                for e in std::fs::read_dir(&d).unwrap().flatten() {
-                    let p = e.path();
-                    if p.is_dir() {
-                        stack.push(p);
-                        continue;
-                    }
-                    let rel = p
-                        .strip_prefix(root)
-                        .unwrap()
-                        .to_string_lossy()
-                        .replace('\\', "/");
-                    let allowed = [
-                        "src/leo_fusion/presets/celeste_iod.rs",
-                        "src/leo_fusion/presets/mod.rs",
-                        "scenarios/celeste-iod-fused-pvt.toml",
-                        "src/bundled_scenarios.rs",
-                    ];
-                    if allowed.contains(&rel.as_str()) {
-                        continue;
-                    }
-                    let Ok(text) = std::fs::read_to_string(&p) else {
-                        continue;
-                    };
-                    if text.contains("celeste-iod") || text.contains("celeste_iod") {
-                        offenders.push(rel);
-                    }
-                }
-            }
-        }
-        assert!(
-            offenders.is_empty(),
-            "files naming the workshop preset: {offenders:?}"
-        );
     }
 
     #[test]

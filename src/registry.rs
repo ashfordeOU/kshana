@@ -114,6 +114,7 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         LeoPvt,
         LeoPpp,
         NtnPositioning,
+        LeoPntChain,
     ]
 };
 
@@ -239,6 +240,8 @@ pub mod ids {
     pub const LEO_PPP: ScenarioId = ScenarioId::from_static("leo-ppp");
     /// Positioning from a 5G non-terrestrial-network downlink via the Cramér-Rao bound.
     pub const NTN_POSITIONING: ScenarioId = ScenarioId::from_static("ntn-positioning");
+    /// One LEO-PNT system end to end: signal, pass, navigation message and fused fix.
+    pub const LEO_PNT_CHAIN: ScenarioId = ScenarioId::from_static("leo-pnt-chain");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {

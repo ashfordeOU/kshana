@@ -11,9 +11,9 @@
 //!   public (or for a generic design); never a claim about a real system.
 //! * **WORKSHOP**: parameters presented at the ESA NAVISP LEO-PNT workshop, 2026, with no public
 //!   source yet. Only the Celeste IOD (in-orbit demonstration) preset uses them, and all of them
-//!   live in `celeste_iod.rs`, so that file (with its one scenario and the three lines marked
-//!   `WORKSHOP-PRESET` below and in `bundled_scenarios.rs`) can be withheld from a release
-//!   without touching anything else.
+//!   live in `src/celeste_iod.rs` (its [`crate::celeste_iod::link`] module), which is compiled
+//!   in only when that file exists, so deleting it (with the `scenarios/*celeste-iod*.toml`
+//!   files) withholds the preset from a release without touching anything else.
 //!
 //! The ATOMIC "zero-clock" polynomial broadcast-ephemeris model is a navigation-message preset
 //! and belongs with the navigation-message code, not here.
@@ -27,8 +27,9 @@ pub mod gnss_meo;
 pub mod iridium;
 pub mod starlink;
 pub mod xona_pulsar;
-// WORKSHOP-PRESET: delete this line (and the file) to withhold the Celeste IOD preset.
-pub mod celeste_iod;
+/// The Celeste IOD preset, compiled in only when `src/celeste_iod.rs` exists (see `build.rs`).
+#[cfg(kshana_celeste)]
+pub use crate::celeste_iod::link as celeste_iod;
 
 /// Where a preset's numbers come from.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
@@ -150,7 +151,7 @@ pub fn all() -> Vec<&'static SystemPreset> {
         &iridium::PRESET,
         &starlink::PRESET,
         &centispace::PRESET,
-        // WORKSHOP-PRESET: delete this line with celeste_iod.rs.
+        #[cfg(kshana_celeste)]
         &celeste_iod::PRESET,
     ]
 }

@@ -127,7 +127,8 @@ pub enum Role {
 }
 
 impl Role {
-    fn as_str(self) -> &'static str {
+    /// The role's lowercase name.
+    pub fn as_str(self) -> &'static str {
         match self {
             Role::Acquisition => "acquisition",
             Role::Data => "data",

@@ -48,13 +48,24 @@ fn temp_workdir(label: &str) -> std::path::PathBuf {
 /// `kshana example` with a reason rather than bundled.
 const REPO_ONLY: &[&str] = &[
     "celeste-iod-classical-pilot-signals",
+    "celeste-iod-end-to-end",
+    "celeste-iod-fused-pvt",
+    "leo-navmsg-celeste-iod",
+    "leo-pass-celeste-iod-multiband",
     "lunar-llr-datum",
     "quantum-pnt-demonstrator.suite",
 ];
 
-/// Repo-only files a release may withhold by deleting them (the workshop-parameter
-/// preset). The CLI must still refuse the name with its reason, but the file may be absent.
-const WITHHOLDABLE: &[&str] = &["celeste-iod-classical-pilot-signals"];
+/// Repo-only files a release may withhold by deleting them (the Celeste IOD preset's
+/// scenarios, withheld with `src/celeste_iod.rs`). The CLI must still refuse the name with
+/// its reason, but the file may be absent.
+const WITHHOLDABLE: &[&str] = &[
+    "celeste-iod-classical-pilot-signals",
+    "celeste-iod-end-to-end",
+    "celeste-iod-fused-pvt",
+    "leo-navmsg-celeste-iod",
+    "leo-pass-celeste-iod-multiband",
+];
 
 fn scenario_stems() -> Vec<String> {
     let dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("scenarios");

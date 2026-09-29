@@ -71,9 +71,15 @@ fn readme_dispatch_counts_match_the_api() {
     );
 }
 
-/// Scenario files a release may withhold by deleting them: the workshop-parameter preset,
-/// the only file with workshop-derived numbers (see docs/LEO-SIGNAL.md).
-const WITHHOLDABLE_SCENARIOS: &[&str] = &["celeste-iod-classical-pilot-signals.toml"];
+/// Scenario files a release may withhold by deleting them: the Celeste IOD preset's
+/// scenarios, withheld together with `src/celeste_iod.rs` (see docs/LEO-PNT.md).
+const WITHHOLDABLE_SCENARIOS: &[&str] = &[
+    "celeste-iod-classical-pilot-signals.toml",
+    "celeste-iod-end-to-end.toml",
+    "celeste-iod-fused-pvt.toml",
+    "leo-navmsg-celeste-iod.toml",
+    "leo-pass-celeste-iod-multiband.toml",
+];
 
 /// The README also states how many scenario FILES ship, and nothing pinned that.
 ///
@@ -96,8 +102,8 @@ fn readme_scenario_file_count_matches_the_directory() {
         .map(|e| e.file_name().to_string_lossy().into_owned())
         .filter(|f| f.ends_with(".toml"))
         .collect();
-    // A release may withhold the workshop-parameter preset by deleting that one file
-    // (docs/LEO-SIGNAL.md). The README states the repository's count, so a withheld file
+    // A release may withhold the Celeste IOD preset by deleting src/celeste_iod.rs and its
+    // scenario files (docs/LEO-PNT.md). The README states the repository's count, so a withheld file
     // is counted as if present rather than turning this guard red in that release.
     let withheld = WITHHOLDABLE_SCENARIOS
         .iter()
