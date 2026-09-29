@@ -16,8 +16,10 @@ the new version.
 1. In [`CHANGELOG.md`](../CHANGELOG.md), rename `[Unreleased]` to `[X.Y.Z] - YYYY-MM-DD`
    and start a fresh `[Unreleased]` section.
 2. Bump `version` in `Cargo.toml`, and every surface `scripts/check-version-sync.sh`
-   lists (the MCP server crate, the JetBrains plugin, the README status line and the
-   registry front pages). Run the script; it must say OK.
+   lists (the Model Context Protocol (MCP) server crate and its `kshana` dependency, the
+   JetBrains plugin and its newest change-notes entry, the README status line and release
+   badge, the three registry front pages, and the kshana.dev front page,
+   `web/index.html`). Run the script; it must say OK.
 3. Merge to `main` and wait for continuous integration (CI, `ci.yml`) to pass on that
    commit. Tag only a commit that is already green on `main`.
 4. Push the tag: `git tag vX.Y.Z <commit> && git push origin vX.Y.Z`.
@@ -30,7 +32,7 @@ All of it runs inside one run of the Release workflow (`.github/workflows/releas
 | --- | --- | --- | --- |
 | verify | `release.yml` job `verify` | Formatting, lint (clippy), the full `cargo test --all` suite (golden pins and verification-matrix guards included), the reproducibility guard and the script guards, on the tagged commit | Nothing is published. Fix, re-tag. |
 | release | `release.yml` jobs `binaries`, `release`, `verify-release*` | Builds the command-line binary for Linux x86-64, macOS (Apple silicon and Intel) and Windows x86-64, the MCP server binary, the software bill of materials (SBOM) and the validation summary; writes `SHA256SUMS`; attests every file with SLSA (Supply-chain Levels for Software Artifacts) build provenance; attaches them to the GitHub Release; then downloads them again and checks each one, running the macOS and Windows binaries on their own systems | The GitHub Release is incomplete; the registries are unaffected |
-| publish | `publish.yml`, then `mcp-publish.yml` and `jetbrains-plugin.yml`, all called from `release.yml` | Builds every artifact first (the six Python wheels and the source distribution through `wheels.yml`, the npm package), then publishes crates.io, then the Python Package Index (PyPI), npm and `kshana-mcp` on crates.io, then the ghcr.io container image and the Model Context Protocol (MCP) registry, and the JetBrains Marketplace | See "Retrying" below |
+| publish | `publish.yml`, then `mcp-publish.yml` and `jetbrains-plugin.yml`, all called from `release.yml` | Builds every artifact first (the six Python wheels and the source distribution through `wheels.yml`, the npm package), then publishes crates.io, then the Python Package Index (PyPI), npm and `kshana-mcp` on crates.io, then the container image on ghcr.io (the GitHub Container Registry) and the MCP registry, and the JetBrains Marketplace | See "Retrying" below |
 | parity | `release.yml` job `parity` | Polls crates.io (`kshana`, `kshana-mcp`), npm, PyPI (the source distribution and one wheel for each of the six platforms) and ghcr.io until each serves the version, for up to 45 minutes. docs.rs and the MCP registry are reported but never fatal | The run is red and names the channel that is missing |
 | site | `release.yml` job `site` | Dispatches `pages.yml`, which rebuilds kshana.dev from the tag | The site still shows the previous release |
 
@@ -64,6 +66,7 @@ version. Asking the registries today, with `scripts/check_channel_parity.py`:
 | 0.27.0 | crates.io (`kshana` and `kshana-mcp`) |
 | 0.27.1, 0.27.2 | nothing |
 | 0.27.3 | npm, ghcr.io (the MCP image), the MCP registry, the JetBrains Marketplace: the npm step failed on a path npm read as a GitHub shorthand, and the release stopped there by design; 0.27.4 carries the same engine to every channel |
+| 0.27.4, 0.28.0 | nothing |
 
 Part of the cause was that a missing registry token used to skip the upload and report
 success. It now fails the job. You can run the check yourself for any version; it only
@@ -83,8 +86,8 @@ so a retry never double-publishes.
   failed jobs run again.
 - **The Release run is gone or unusable:** dispatch `publish` (or `publish MCP server`,
   or `JetBrains plugin`) from the Actions tab **on the tag**, not on a branch. Before it
-  publishes, `scripts/check-release-verdict.sh` asks the GitHub Actions interface (API)
-  for a green `verify` job from the tag-push run of `release.yml` on exactly that
+  publishes, `scripts/check-release-verdict.sh` asks the GitHub Actions application
+  programming interface (API) for a green `verify` job from the tag-push run of `release.yml` on exactly that
   commit, and refuses if there is none, if it is red or still running, or if the API
   cannot be read. Dispatched on a branch, these workflows publish nothing.
 - **Re-running `release.yml` by hand** (its `tag` input) rebuilds and re-attaches the
@@ -101,7 +104,7 @@ same tools:
 
 - **Rust 1.93.0**, from `rust-toolchain.toml`. Every workflow asks
   `dtolnay/rust-toolchain` for that exact version (the `msrv` job alone asks for the
-  minimum supported version), and `scripts/check-toolchain.sh` fails if any workflow asks
+  minimum supported Rust version, the `rust-version` 1.85 that `Cargo.toml` declares), and `scripts/check-toolchain.sh` fails if any workflow asks
   for anything else, or pipes a downloaded install script into a shell. To move to a new
   compiler, change `rust-toolchain.toml` and every workflow reference together. If the
   new compiler moves a golden value, the build fails, and that is the intended outcome:
