@@ -13,8 +13,8 @@ validate against, so agreement here is agreement with the de-facto standard.
 | Quantity | Value |
 |---|---|
 | Reference states compared | **666** (all rows in `tcppver.out`, pinned in the test) |
-| Worst position error | **≈ 4 mm** (< `2e-5` km tolerance) |
-| Worst velocity error | **≈ 1.85e-9 km/s** (< `1e-6` km/s tolerance) |
+| Worst position error | **4.12 mm** (4.120e-6 km, satellite 23333; < `2e-5` km tolerance) |
+| Worst velocity error | **1.85e-9 km/s** (satellite 23333; < `1e-6` km/s tolerance) |
 | Cases covered | near-Earth SGP4, deep-space SDP4 (lunar-solar + 12 h/24 h resonance), and the deliberate error-code cases |
 
 The deep-space and resonant cases matter specifically for this project: GNSS (global navigation satellite system)
@@ -47,8 +47,8 @@ deterministic.
 
 Matching the published reference proves correctness against a *table*. To also
 prove correctness against an *independent implementation*, `tests/sgp4_crate_comparison.rs`
-runs the most widely used Rust SGP4 library — the
-[`sgp4`](https://crates.io/crates/sgp4) crate (neuromorphicsystems/sgp4) — over
+runs a widely used independent Rust SGP4 library, the
+[`sgp4`](https://crates.io/crates/sgp4) crate (neuromorphicsystems/sgp4, version 2.4), over
 the same 666 AIAA vectors and compares the two codebases head-to-head. Both are
 driven with the **WGS72** (World Geodetic System 1972) gravity model the vectors are defined in (the crate's
 default `from_elements` uses WGS84 (World Geodetic System 1984), which differs from the WGS72 reference by
