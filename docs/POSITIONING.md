@@ -123,8 +123,10 @@ light-time solver).
 
 ## What Kshana is, and is not, next to a GNSS processing engine
 
-Kshana is **not** a carrier-phase GNSS *processing* engine — there is no ambiguity
-resolution, no carrier smoothing and no inter-epoch filter, so precise point positioning
+Kshana is **not** a carrier-phase GNSS *processing* engine — no scenario kind resolves
+ambiguities on observations (a LAMBDA (least-squares ambiguity decorrelation adjustment) integer least-squares kernel, `src/lambda.rs`, is in
+the library and MODELLED, but nothing feeds it real data), and there is no carrier
+smoothing and no inter-epoch filter on real observations, so precise point positioning
 (PPP) and real-time kinematic (RTK) positioning of real observations are out of scope.
 The `leo-ppp` kind runs a float PPP filter on code and carrier phase, but on measurements
 it simulates itself, to study convergence time with and without LEO augmentation; it does
