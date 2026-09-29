@@ -4,9 +4,9 @@
   "repo_blob_base": "https://github.com/AshfordeOU/kshana/blob/main/",
   "summary": {
     "validated": 83,
-    "modelled": 133,
+    "modelled": 136,
     "partner_owned": 4,
-    "total": 220
+    "total": 223
   },
   "rows": [
     {
@@ -4961,6 +4961,72 @@
         {
           "path": "tests/leo_pnt_chain.rs",
           "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/leo_pnt_chain.rs"
+        }
+      ],
+      "fixture": null
+    },
+    {
+      "requirement": "Spoofing detection by LEO Doppler and pass-geometry consistency",
+      "capability": "The `leo-pass` kind's `[spoofer]` section: a spoofer counterfeits, self-consistently in range and range rate, the signals seen at a claimed position that jumps and/or is pushed from the true one after an onset (per LEO band and for the MEO GNSS signal); the receiver predicts every range rate from the broadcast orbit and an independent prior position and velocity, and tests the measured range rates with a generalised least-squares chi-square statistic over a window of epochs (clock drift a nuisance or with a prior), on the GNSS channels, the LEO channels and all channels, with frequency-lock-loop thermal noise from C/N0 (Kaplan & Hegarty 2006, section 5.6.2); detection probability from the non-central chi-square law at a stated false-alarm probability, detection declared at a stated missed-detection probability",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "Closed forms and identities, not an external measurement: the range-rate gradient against a central difference, the information-form statistic against the dense covariance form, a pure clock drift giving zero, a prior-explained push giving at most |dx|^2/sigma_p^2, the statistic quadratic in a jump. No detection figure is compared with a measured attack; the spoofer is idealised (no power, angle-of-arrival or correlation-peak signature)",
+      "module": "leo_link::spoof (range_rate_position_gradient, line_of_sight, fll_frequency_jitter_hz, doppler_consistency_window, doppler_consistency); leo_pass (SpooferCfg, spoof_section)",
+      "tests": "leo_link::spoof::tests (the_gradient_is_the_derivative_of_the_range_rate; fll_jitter_matches_the_formula_by_hand; a_common_mode_residual_is_a_clock_drift_and_is_not_detected; with_no_prior_and_equal_noise_the_statistic_is_the_scatter_about_the_mean; a_push_the_prior_explains_is_not_detected; a_velocity_push_is_hidden_by_a_loose_velocity_prior_only; the_information_form_equals_the_covariance_form); tests/leo_resilience_verticals.rs (the_monitors_are_silent_before_the_onset; the_doppler_statistic_is_quadratic_in_the_jump; leo_range_rates_see_a_jump_that_gnss_range_rates_do_not)",
+      "module_links": [
+        {
+          "path": "src/leo_link/spoof.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/leo_link/spoof.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/leo_resilience_verticals.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/leo_resilience_verticals.rs"
+        }
+      ],
+      "fixture": null
+    },
+    {
+      "requirement": "Spoofing detection by cross-band consistency of a multi-band LEO signal",
+      "capability": "For every LEO satellite and pair of ranging bands the `[spoofer]` section forms the geometry-free pseudorange combination, removes the receiver's ionospheric model and tests its epoch-to-epoch step against the two bands' code noise and a stated tolerated unmodelled ionospheric rate (two-sided Gaussian, exact detection probability); a spoofer that counterfeits some bands and not others, or every band without the ionosphere, is seen at its onset; one that counterfeits every band and simulates the ionosphere is not, which the result states",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "Identities: the onset step of an ionosphere-free spoofer equals the pair's modelled ionospheric delay difference, the threshold is the two-sided normal quantile times the step's standard deviation plus the rate bound. The receiver's ionospheric model is the engine's, so the authentic residual is zero in the mean by construction; no external oracle",
+      "module": "leo_link::spoof (cross_band_step); leo_pass (spoof_section: pairs, cross_band)",
+      "tests": "leo_link::spoof::tests (the_cross_band_threshold_and_power); tests/leo_resilience_verticals.rs (a_ground_spoofer_leaves_the_ionospheric_step_and_an_ionosphere_aware_one_does_not; a_one_band_spoofer_is_seen_by_the_cross_band_monitor_at_the_onset; the_monitors_are_silent_before_the_onset)",
+      "module_links": [
+        {
+          "path": "src/leo_link/spoof.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/leo_link/spoof.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/leo_resilience_verticals.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/leo_resilience_verticals.rs"
+        }
+      ],
+      "fixture": null
+    },
+    {
+      "requirement": "Ionosphere sounding: slant TEC from the dual-band delay of a LEO pass",
+      "capability": "For every band pair of a `leo-pass` satellite the report gives the slant total electron content the geometry-free code combination recovers at the pass peak, (P2 - P1) f1^2 f2^2 / (40.3 (f1^2 - f2^2)), and its 1-sigma from the two bands' thermal code noise, so any multi-band LEO-PNT design can be traded as an ionosphere sounder",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "The first-order dispersion identity, exact by construction against the engine's own first-order delay (whose 1/f^2 scaling is VALIDATED against IS-GPS-200 in its own row); the precision is thermal code noise only, without multipath or inter-frequency biases",
+      "module": "leo_pass (IonoFreePair::geometry_free_stec_tecu, geometry_free_stec_sigma_tecu)",
+      "tests": "tests/leo_resilience_verticals.rs (the_geometry_free_tec_is_the_pass_slant_tec: equals the pass's slant TEC at the peak to 1e-9 and its sigma equals the RSS code noise over 40.3 (1/f1^2 - 1/f2^2))",
+      "module_links": [
+        {
+          "path": "src/leo_pass.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/leo_pass.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/leo_resilience_verticals.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/leo_resilience_verticals.rs"
         }
       ],
       "fixture": null

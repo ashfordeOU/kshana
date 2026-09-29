@@ -257,11 +257,11 @@ stale.
 | `araim-reference-check.toml` | `araim-reference-check` | no [1] | no [1] | no [1] | no [1] | no [2] |
 | `attitude-budget.toml` | `attitude-budget` | no [1] | no [1] | no [1] | no [1] | no [2] |
 | `automotive-urban-canyon.toml` | `gnss-ins` | yes | yes | yes | no [3] | no [2] |
-| `campaign-jam-spoof-holdover-integrity.toml` | `campaign` | no [4] | no [4] | no [4] | no [4] | no [2] |
-| `campaign-monte-carlo-clock-holdover.toml` | `campaign` | no [4] | no [4] | no [4] | no [4] | no [2] |
-| `campaign-shared-jammer-sea-road.toml` | `campaign` | no [4] | no [4] | no [4] | no [4] | no [2] |
-| `campaign-spectrum-holdover-integrity.toml` | `campaign` | no [4] | no [4] | no [4] | no [4] | no [2] |
-| `campaign-sweep-jammer-power.toml` | `campaign` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `campaign-jam-spoof-holdover-integrity.toml` | `campaign` | yes | yes | yes | yes | no [4] |
+| `campaign-monte-carlo-clock-holdover.toml` | `campaign` | no [4] | no [4] | no [4] | no [4] | no [4] |
+| `campaign-shared-jammer-sea-road.toml` | `campaign` | yes | yes | yes | yes | no [4] |
+| `campaign-spectrum-holdover-integrity.toml` | `campaign` | yes | yes | yes | yes | no [4] |
+| `campaign-sweep-jammer-power.toml` | `campaign` | yes | yes | yes | yes | no [4] |
 | `celeste-iod-classical-pilot-signals.toml` | `leo-signal` | no [5] | no [5] | no [5] | no [5] | no [2] |
 | `celeste-iod-end-to-end.toml` | `leo-pnt-chain` | yes | yes | yes | yes | no [2] |
 | `celeste-iod-fused-pvt.toml` | `leo-pvt` | no [6] | no [6] | no [6] | no [6] | no [2] |
@@ -294,6 +294,13 @@ stale.
 | `launch-window.toml` | `launch-window` | no [10] | no [10] | no [10] | no [10] | no [2] |
 | `leo-band-trade.toml` | `leo-signal` | no [5] | no [5] | no [5] | no [5] | no [2] |
 | `leo-doppler-positioning.toml` | `leo-pvt` | no [6] | no [6] | no [6] | no [6] | no [2] |
+| `leo-focus-data-services.toml` | `campaign` | no [4] | no [4] | no [4] | no [4] | no [4] |
+| `leo-focus-fused-pnt-sisre.toml` | `campaign` | no [4] | no [4] | no [4] | no [4] | no [4] |
+| `leo-focus-indoor-uhf.toml` | `campaign` | yes | yes | yes | yes | no [4] |
+| `leo-focus-iot-eirp.toml` | `campaign` | yes | yes | yes | yes | no [4] |
+| `leo-focus-ntn-bandwidth.toml` | `campaign` | no [4] | no [4] | no [4] | no [4] | no [4] |
+| `leo-focus-ppp-altitude.toml` | `campaign` | no [4] | no [4] | no [4] | no [4] | no [4] |
+| `leo-focus-science-iono-sounding.toml` | `leo-pass` | yes | yes | yes | yes | no [2] |
 | `leo-indoor-uhf.toml` | `leo-pass` | yes | yes | yes | yes | no [2] |
 | `leo-iot-energy.toml` | `leo-pass` | yes | yes | yes | yes | no [2] |
 | `leo-navmsg-celeste-iod.toml` | `leo-navmsg` | no [11] | no [11] | no [11] | no [11] | no [2] |
@@ -308,7 +315,18 @@ stale.
 | `leo-pnt-end-to-end.toml` | `leo-pnt-chain` | yes | yes | yes | yes | no [2] |
 | `leo-pnt-mega-shell.toml` | `constellation-design` | no [8] | no [8] | no [8] | no [8] | no [2] |
 | `leo-ppp-convergence.toml` | `leo-ppp` | no [6] | no [6] | no [6] | no [6] | no [2] |
+| `leo-resilience-gnss-jammed-leo-carries.toml` | `campaign` | yes | yes | yes | yes | no [4] |
+| `leo-resilience-js-margin.toml` | `spectrum` | no [1] | no [1] | no [1] | no [1] | no [12] |
+| `leo-resilience-multiband-diversity.toml` | `campaign` | no [4] | no [4] | no [4] | no [4] | no [4] |
+| `leo-resilience-spoof-doppler.toml` | `leo-pass` | yes | yes | yes | yes | no [2] |
+| `leo-resilience-spoof-monitors.toml` | `campaign` | yes | yes | yes | yes | no [4] |
 | `leo-timing-utc.toml` | `leo-pvt` | no [6] | no [6] | no [6] | no [6] | no [2] |
+| `leo-vertical-5g-network-timing.toml` | `campaign` | yes | yes | yes | yes | no [4] |
+| `leo-vertical-asset-tracking-iot.toml` | `campaign` | yes | yes | yes | yes | no [4] |
+| `leo-vertical-autonomous-vehicle.toml` | `campaign` | yes | yes | yes | yes | no [4] |
+| `leo-vertical-critical-infrastructure-timing.toml` | `campaign` | yes | yes | yes | yes | no [4] |
+| `leo-vertical-polar-arctic.toml` | `campaign` | yes | yes | yes | yes | no [4] |
+| `leo-vertical-rail-maritime.toml` | `campaign` | yes | yes | yes | yes | no [4] |
 | `link-budget.toml` | `link-budget` | no [1] | no [1] | no [1] | no [1] | no [2] |
 | `lunanet-araim.toml` | `lunar-integrity` | no [7] | no [7] | no [7] | no [7] | no [2] |
 | `lunar-attack-surface.toml` | `lunar-attack-surface` | no [7] | no [7] | no [7] | no [7] | no [2] |
@@ -362,8 +380,8 @@ stale.
 | `spoof-detect.toml` | `spoof-detect` | no [1] | no [1] | no [1] | no [1] | no [2] |
 | `spoof-meaconing.toml` | `spoof` | no [1] | no [1] | no [1] | no [1] | no [2] |
 | `starlink-sop-doppler-positioning.toml` | `leo-pvt` | no [6] | no [6] | no [6] | no [6] | no [2] |
-| `sweep-clock-stability.toml` | `sweep` | no [4] | no [4] | no [4] | no [4] | no [2] |
-| `sweep-nd-inertial.toml` | `sweep-nd` | no [4] | no [4] | no [4] | no [4] | no [2] |
+| `sweep-clock-stability.toml` | `sweep` | no [14] | no [14] | no [14] | no [14] | no [2] |
+| `sweep-nd-inertial.toml` | `sweep-nd` | no [14] | no [14] | no [14] | no [14] | no [2] |
 | `telecom-prtc-holdover-24h.toml` | `telecom-timing` | no [1] | no [1] | no [1] | no [1] | no [2] |
 | `telecom-tie-ingest.toml` | `telecom-timing` | no [1] | no [1] | no [1] | no [1] | no [2] |
 | `terrain-nav.toml` | `terrain-nav` | yes | yes | yes | no [3] | no [2] |
@@ -378,7 +396,7 @@ Why a format does not apply:
 1. the scenario input carries no horizontal position (no latitude and longitude, no Earth-centred coordinates, no orbital elements beyond at most an altitude), so there is nothing to place on the Earth
 2. SigMF holds complex baseband samples, which only the `spectrum` kind synthesises
 3. an STK ephemeris describes a vehicle's position and velocity against time; this scene has only fixed points or untimed tracks (a fixed point is an STK Facility, not an ephemeris)
-4. the scenario composes or sweeps other scenarios; export one member scenario on its own
+4. no member scenario of the campaign has anything this format describes; export a member on its own to see its reason
 5. the `leo-signal` kind analyses signal designs (spectra, tracking, acquisition, compatibility) with no satellite or user position; export the `leo-pass` or `leo-pnt-chain` scenario that flies the design
 6. not exported in this release: the fused positioning kinds place their satellites in an Earth-fixed frame relative to an epoch they never name, so a time-tagged export would have to invent the calendar date (export the `leo-pass` or `leo-pnt-chain` scenario instead)
 7. the kind's geometry is centred on the Moon, Mars or another solar-system body; CZML, KML and GeoJSON describe positions on or about the Earth, and this release writes STK ephemerides with CentralBody Earth only
@@ -389,4 +407,5 @@ Why a format does not apply:
 11. not exported in this release: the `leo-navmsg` truth orbit is a fitting reference whose Earth rotation angle at the epoch is an input (`theta0_deg`, default 0), not derived from the calendar date, so its Earth-fixed positions are not tied to a date
 12. this spectrum scenario has no [iq] block, so no samples are synthesised to record
 13. not exported in this release: `oem-interop` reads and writes a CCSDS (Consultative Committee for Space Data Systems) Orbit Ephemeris Message, which is itself the ephemeris interchange file
+14. the scenario sweeps another scenario over a grid; export the swept scenario on its own
 <!-- interop-table:end -->

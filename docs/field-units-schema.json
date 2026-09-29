@@ -1,8 +1,8 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 2516,
-    "fields_total": 2518,
+    "fields_described": 2518,
+    "fields_total": 2520,
     "fields_without_units": 2,
     "kinds_complete": 74,
     "kinds_total": 75,
@@ -6487,6 +6487,18 @@
           "provenance": "modelled",
           "unit": "m"
         },
+        "iono_free[].geometry_free_stec_sigma_tecu": {
+          "definition": "1-sigma of that slant TEC from the two bands' code noise at the peak, in TEC units",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
+          "unit": "1"
+        },
+        "iono_free[].geometry_free_stec_tecu": {
+          "definition": "slant TEC from the pair's geometry-free code combination at the peak, in TEC units (1e16 electrons/m^2): ionosphere sounding",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "1"
+        },
         "iono_free[].iono_delay_1_m": {
           "definition": "first-order delay on band 1 at the peak",
           "evidence_tier": "inherits-scenario-label",
@@ -6992,8 +7004,8 @@
           "unit": "m/s"
         }
       },
-      "fields_described": 110,
-      "fields_total": 110,
+      "fields_described": 112,
+      "fields_total": 112,
       "fields_without_units": [],
       "label": "MODELLED: LEO pass geometry and per-band link budget from stated EIRPs and idealised antenna patterns with ITU-R propagation terms; component models carry their own labels in the verification matrix. Not a measurement of any satellite.",
       "source": "scenarios/leo-iot-energy.toml"
