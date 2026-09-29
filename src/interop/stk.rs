@@ -100,17 +100,49 @@ pub fn write_one(scene: &Scene, index: usize) -> Result<String, ExportError> {
     Ok(o)
 }
 
+/// A mover id as a file-name part: every character other than an ASCII letter, digit,
+/// `-` or `_` becomes `-` (an id such as `Pulsar inclined/S1-0163` names a constellation
+/// shell and a satellite, and a `/` or a space cannot sit in a file suffix).
+pub fn file_part(id: &str) -> String {
+    id.chars()
+        .map(|c| {
+            if c.is_ascii_alphanumeric() || c == '-' || c == '_' {
+                c
+            } else {
+                '-'
+            }
+        })
+        .collect()
+}
+
 /// Every moving object of the scene as an STK `.e` file: suffix `.e` when there is one,
-/// `.<id>.e` for each when there are several.
+/// `.<id>.e` for each when there are several, the id passed through [`file_part`] and
+/// numbered `-2`, `-3`, ... if two ids come out the same.
 pub fn write_all(scene: &Scene) -> Result<Vec<ExportFile>, ExportError> {
     applicability(scene).map_err(ExportError::NotApplicable)?;
     let single = scene.movers.len() == 1;
+    let mut used: Vec<String> = Vec::new();
+    let parts: Vec<String> = scene
+        .movers
+        .iter()
+        .map(|m| {
+            let base = file_part(&m.id);
+            let mut p = base.clone();
+            let mut k = 2;
+            while used.contains(&p) {
+                p = format!("{base}-{k}");
+                k += 1;
+            }
+            used.push(p.clone());
+            p
+        })
+        .collect();
     (0..scene.movers.len())
         .map(|i| {
             let suffix = if single {
                 ".e".to_string()
             } else {
-                format!(".{}.e", scene.movers[i].id)
+                format!(".{}.e", parts[i])
             };
             Ok(ExportFile {
                 suffix,
@@ -118,4 +150,18 @@ pub fn write_all(scene: &Scene) -> Result<Vec<ExportFile>, ExportError> {
             })
         })
         .collect()
+}
+
+#[cfg(test)]
+mod tests {
+    use super::file_part;
+
+    #[test]
+    fn a_mover_id_becomes_a_safe_file_part() {
+        assert_eq!(
+            file_part("Pulsar inclined/S1-0163"),
+            "Pulsar-inclined-S1-0163"
+        );
+        assert_eq!(file_part("G01"), "G01");
+    }
 }

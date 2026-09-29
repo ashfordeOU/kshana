@@ -419,13 +419,22 @@ pub fn reason_for_kind(kind: ScenarioKind) -> Option<String> {
         | K::AraimReferenceCheck
         | K::TelecomTiming
         | K::SlotTiming
-        | K::Spectrum
-        | K::LeoSignal
-        | K::LeoPass
-        | K::LeoNavmsg
-        | K::LeoPvt
-        | K::LeoPpp
-        | K::NtnPositioning => no_position,
+        | K::Spectrum => no_position,
+        K::LeoPass | K::LeoPntChain => return None,
+        K::LeoSignal => "the `leo-signal` kind analyses signal designs (spectra, tracking, \
+             acquisition, compatibility) with no satellite or user position; export the \
+             `leo-pass` or `leo-pnt-chain` scenario that flies the design"
+            .to_string(),
+        K::LeoNavmsg => "not exported in this release: the `leo-navmsg` truth orbit is a fitting \
+             reference whose Earth rotation angle at the epoch is an input (`theta0_deg`, default \
+             0), not derived from the calendar date, so its Earth-fixed positions are not tied to \
+             a date"
+            .to_string(),
+        K::LeoPvt | K::LeoPpp | K::NtnPositioning => "not exported in this release: the fused \
+             positioning kinds place their satellites in an Earth-fixed frame relative to an \
+             epoch they never name, so a time-tagged export would have to invent the calendar \
+             date (export the `leo-pass` or `leo-pnt-chain` scenario instead)"
+            .to_string(),
         K::LaunchWindow => "the `launch-window` scenario gives the launch site's latitude but no
              longitude, so the site cannot be placed"
             .to_string(),
@@ -560,6 +569,21 @@ pub fn scene_of(src: &str) -> Result<Scene, ExportError> {
                 scn.receiver.lon_deg,
                 scn.receiver.alt_m,
             ));
+        }
+        ScenarioKind::LeoPass => {
+            let scn: crate::leo_pass::LeoPassScenario = toml::from_str(src).map_err(bad)?;
+            leo_pass_scene(&mut scene, &scn)?;
+        }
+        ScenarioKind::LeoPntChain => {
+            let scn: crate::leo_pnt_chain::LeoPntChainScenario =
+                toml::from_str(src).map_err(bad)?;
+            let pass: crate::leo_pass::LeoPassScenario = scn
+                .pass
+                .clone()
+                .try_into()
+                .map_err(|e| ExportError::Failed(format!("invalid [pass] table: {e}")))?;
+            leo_pass_scene(&mut scene, &pass)?;
+            scene.epoch_note = format!("{} (the chain's [pass] stage)", scene.epoch_note);
         }
         ScenarioKind::Passes => {
             let scn: crate::passes::PassesScenario = toml::from_str(src).map_err(bad)?;
@@ -815,6 +839,80 @@ fn default_epoch(sats: &[Propagator]) -> (UtcEpoch, String) {
         )
     };
     (epoch, note)
+}
+
+/// A `leo-pass` scene: every LEO satellite and the user, from the kind's own propagators
+/// and time grid. The kind works in ECI0, the inertial frame aligned with the Earth-fixed
+/// frame at the epoch; each sample is turned into the Earth-fixed frame at its own time
+/// by the kind's Earth rotation, and from there into the GCRS through TEME at that
+/// instant (UT1 taken equal to UTC, polar motion neglected, as in the other exports).
+fn leo_pass_scene(
+    scene: &mut Scene,
+    scn: &crate::leo_pass::LeoPassScenario,
+) -> Result<(), ExportError> {
+    use crate::leo_link::geometry::{eci0_to_ecef, Kinematics};
+    let tr = scn.tracks().map_err(ExportError::Failed)?;
+    if tr.satellites.len().saturating_mul(tr.times_s.len()) > MAX_SAMPLES {
+        return Err(ExportError::Failed(format!(
+            "{} objects x {} samples is more than an export writes ({MAX_SAMPLES})",
+            tr.satellites.len(),
+            tr.times_s.len()
+        )));
+    }
+    let epoch = UtcEpoch::from_jd_utc(tr.epoch_jd_utc);
+    scene.epoch = Some(epoch);
+    scene.epoch_note = tr.epoch_label.clone();
+    scene.times_s = tr.times_s.clone();
+    let times = tr.times_s.clone();
+    let mover = |id: String, role: MoverRole, description: String, st: &[Kinematics]| {
+        let mut m = Mover {
+            id,
+            role,
+            description,
+            gcrs_r_m: Vec::with_capacity(times.len()),
+            gcrs_v_m_s: Vec::with_capacity(times.len()),
+            ecef_r_m: Vec::with_capacity(times.len()),
+        };
+        for (k, &t) in times.iter().enumerate() {
+            let jd = epoch.jd_utc(t);
+            let mk = crate::nutation::teme_to_gcrs_matrix(crate::timescales::utc_to_tt(jd));
+            let r_ecef = eci0_to_ecef(st[k].r, t);
+            let v_axes = eci0_to_ecef(st[k].v, t);
+            let r_teme = crate::frames::ecef_to_teme(r_ecef, jd);
+            let v_teme = crate::frames::ecef_to_teme(v_axes, jd);
+            m.gcrs_r_m.push(crate::precession::mat_vec(&mk, r_teme));
+            m.gcrs_v_m_s.push(crate::precession::mat_vec(&mk, v_teme));
+            m.ecef_r_m.push(r_ecef);
+        }
+        m
+    };
+    for (id, d, st) in &tr.satellites {
+        scene
+            .movers
+            .push(mover(id.clone(), MoverRole::Satellite, d.clone(), st));
+    }
+    let (lat, lon, h) = tr.user_start;
+    if tr.user_moving {
+        scene.movers.push(mover(
+            "user".into(),
+            MoverRole::User,
+            format!(
+                "{} user, moving (the kind's constant speed and heading)",
+                tr.user_environment
+            ),
+            &tr.user,
+        ));
+    } else {
+        scene.sites.push(Site {
+            id: "user".into(),
+            role: SiteRole::Receiver,
+            description: format!("{} user (receiver)", tr.user_environment),
+            lat_deg: round_dp(lat, 9),
+            lon_deg: round_dp(lon, 9),
+            h_m: round_dp(h, 4),
+        });
+    }
+    Ok(())
 }
 
 fn orbit_like(

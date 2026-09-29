@@ -81,6 +81,9 @@ pub mod body_pnt;
 pub mod bplane;
 pub mod campaign;
 pub mod ccsds_tdm;
+/// The optional Celeste IOD preset: compiled in only when `src/celeste_iod.rs` exists.
+#[cfg(kshana_celeste)]
+pub mod celeste_iod;
 pub mod chart;
 pub mod cio;
 mod cio_s06_data;
@@ -150,11 +153,12 @@ pub mod jd2;
 pub mod kalman;
 pub mod lambda;
 pub mod launch;
-pub mod leo_signal;
-pub mod leo_link;
-pub mod leo_pass;
-pub mod leo_navmsg;
 pub mod leo_fusion;
+pub mod leo_link;
+pub mod leo_navmsg;
+pub mod leo_pass;
+pub mod leo_pnt_chain;
+pub mod leo_signal;
 pub mod linkbudget;
 pub mod lunar;
 pub mod lunar_beacon;
