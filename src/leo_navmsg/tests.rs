@@ -445,3 +445,33 @@ fn worst_case_jump_bounds_every_line_of_sight() {
     }
     assert!(wc >= best - 1e-12 && wc < best + 1e-4, "{wc} vs {best}");
 }
+
+#[test]
+fn the_binary_frame_carries_equatorial_and_twenty_minute_fits() {
+    // Fits the field ranges once refused: an equatorial orbit's 16-parameter set over
+    // 15 minutes (deltaN about 1.7e-6 semicircle/s, the J2 drift of the argument of
+    // latitude that a node-less orbit folds into the mean motion), and the Liu et al.
+    // 22-parameter model over the paper's 20-minute arc at 300 km (aDot about 18 m/s) and
+    // 510 km (nDot about 1.7e-10 semicircle/s^2) and at 800 km on an equatorial orbit
+    // (deltaN about 2.3e-5 semicircle/s).
+    for (alt, inc, model, fit) in [
+        (510.0, 0.0, "kepler16", 900.0),
+        (300.0, 97.6, "liu22", 1200.0),
+        (510.0, 97.6, "liu22", 1200.0),
+        (800.0, 0.0, "liu22", 1200.0),
+    ] {
+        let src = format!(
+            "kind = \"leo-navmsg\"\nanalysis = [\"encode-decode\"]\n[orbit]\naltitude_km = {alt}\n\
+             inclination_deg = {inc}\ngravity_degree = 20\n[message]\nmodel = \"{model}\"\n\
+             fit_interval_s = {fit}\n"
+        );
+        let scn: LeoNavmsgScenario = toml::from_str(&src).unwrap();
+        let (doc, _, _, _) = scn
+            .compute()
+            .unwrap_or_else(|e| panic!("{alt} km {inc} deg {model} {fit} s: {e}"));
+        let ed = &doc["encode_decode"];
+        assert_eq!(ed["corrupted_frame_rejected"], true);
+        let q = ed["quantised_max_pos_m"].as_f64().unwrap();
+        assert!(q < 3e-3, "{alt} km {inc} deg {model}: quantised {q} m");
+    }
+}
