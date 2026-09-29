@@ -885,11 +885,13 @@ pub struct SpoofOut {
     pub iono_rate_bound_m_s: f64,
     /// Length of the Doppler test's window as used, a whole number of steps (s).
     pub window_s: f64,
-    /// Median range-rate jitter of the tracked LEO and GNSS channels (m/s, 1-sigma).
+    /// Median range-rate jitter of the tracked LEO channels (m/s, 1-sigma).
     pub median_leo_sigma_m_s: Option<f64>,
+    /// Median range-rate jitter of the tracked GNSS channels (m/s, 1-sigma).
     pub median_gnss_sigma_m_s: Option<f64>,
-    /// Median size of the range-rate position gradient (range rate per metre of push, 1/s).
+    /// Median size of the LEO range-rate position gradient (range rate per metre, 1/s).
     pub median_leo_gradient_per_s: Option<f64>,
+    /// Median size of the GNSS range-rate position gradient (range rate per metre, 1/s).
     pub median_gnss_gradient_per_s: Option<f64>,
     /// Detection by the Doppler test on the GNSS channels.
     pub gnss: SpoofDetection,
@@ -927,6 +929,7 @@ pub struct LeoPassReport {
     pub comparison: Option<ComparisonOut>,
     pub iono_free: Vec<IonoFreePair>,
     pub iot: Option<IotOut>,
+    /// The spoofing monitors, when the scenario has a `[spoofer]` section.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub spoof: Option<SpoofOut>,
     pub notes: Vec<String>,
