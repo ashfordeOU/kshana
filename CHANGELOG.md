@@ -11,6 +11,26 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Animation export (`--animate svg|html|frames|all`, `src/animation.rs`,
+  [`docs/ANIMATION.md`](docs/ANIMATION.md)).** Any run whose result carries a time series
+  can now be written as an animated Scalable Vector Graphics (SVG) file (Cascading Style
+  Sheets keyframes, no script: the traces draw in behind a moving time cursor), a single
+  self-contained HyperText Markup Language (HTML) player (play and pause, scrub, speed,
+  every panel on one synced cursor, event markers that seek on click; no external asset),
+  or a numbered SVG frame sequence with a `manifest.json` stating frames per second,
+  duration and frame times for a video encoder. A campaign plays as its phases with its
+  alarms marked; a spectrum run animates its waterfall row by row. The player follows
+  `prefers-color-scheme`, and under `prefers-reduced-motion` both the SVG and the player
+  show the finished picture instead of moving. `--animate-fps` and `--animate-duration`
+  set the playback; `kshana::api::animate_toml` and `kshana::animation::animate_result`
+  are the library entry points, and `result.json` gains an `animation` block only when
+  `--animate` runs. Output is a pure function of the result and the options, byte-identical
+  on a re-run, with no timestamp. A kind with no sampled time axis is refused with
+  "no time series to animate" and nothing is written. The exporter draws the run's own
+  samples and adds no number, so it is MODELLED (internal consistency) and carries no
+  verification-matrix row; no published number changes. Tests: `tests/animation.rs`
+  (determinism, frame count, no external address, well-formed XML, the reduced-motion
+  path, and every bundled scenario with a time series animating).
 - **Four new engine areas in one release: `spectrum`, `solar-system` and `body-pnt`,
   `constellation-design`, and `campaign`.** The kind count moves from 63 to 68, the
   scenario-file count from 82 to 94, and the verification matrix from 174 to
