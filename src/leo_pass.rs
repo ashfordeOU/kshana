@@ -734,6 +734,12 @@ pub struct IonoFreePair {
     /// First-order delay at the peak on each band (m), which the combination removes.
     pub iono_delay_1_m: Option<f64>,
     pub iono_delay_2_m: Option<f64>,
+    /// Ionosphere sounding: the slant TEC the pair's geometry-free code combination gives at
+    /// the peak, `(P₂ − P₁)·f₁²f₂² / (40.3·(f₁² − f₂²))`, in TEC units (equal to the model's
+    /// slant TEC by construction: the combination is exact at first order).
+    pub geometry_free_stec_tecu: Option<f64>,
+    /// Its 1-sigma from the two bands' code noise at the peak, in TEC units.
+    pub geometry_free_stec_sigma_tecu: Option<f64>,
 }
 
 /// Low-energy positioning for one signal.
@@ -2254,7 +2260,8 @@ impl LeoPassScenario {
         for k in 0..n_epochs {
             let t = k as f64 * step;
             let us = env.user.state(t);
-            let (off, offdot) = if t >= onset {
+            let active = t >= onset;
+            let (off, offdot) = if active {
                 (offset0 + rate * (t - onset), rate)
             } else {
                 (0.0, 0.0)
@@ -2306,7 +2313,7 @@ impl LeoPassScenario {
                     leo_sig.push(sig);
                     leo_grad.push(norm3(grad));
                     leo_ch.push(sp::DopplerChannel {
-                        residual_m_s: if is_spoofed(&b.name) {
+                        residual_m_s: if active && is_spoofed(&b.name) {
                             rr_c - rr_t
                         } else {
                             0.0
@@ -2333,7 +2340,11 @@ impl LeoPassScenario {
                 gnss_sig.push(sig);
                 gnss_grad.push(norm3(grad));
                 gnss_ch.push(sp::DopplerChannel {
-                    residual_m_s: if spoofs_gnss { rr_c - rr_t } else { 0.0 },
+                    residual_m_s: if active && spoofs_gnss {
+                        rr_c - rr_t
+                    } else {
+                        0.0
+                    },
                     sigma_m_s: sig,
                     gradient: grad,
                     los: sp::line_of_sight(&st, &us.kin),
@@ -2362,7 +2373,7 @@ impl LeoPassScenario {
                 let rho_t = e.range_m;
                 let pr = |bi: usize| {
                     let iono = e.bands[bi].iono_delay_m;
-                    if is_spoofed(&s.bands[bi].name) {
+                    if active && is_spoofed(&s.bands[bi].name) {
                         rho_c + if sim_iono { iono } else { 0.0 }
                     } else {
                         rho_t + iono
@@ -2658,6 +2669,9 @@ impl LeoPassScenario {
             .map(|(i, j)| {
                 let (bi, bj) = (&s.bands[i], &s.bands[j]);
                 let (a1, a2) = iono::iono_free_coefficients(bi.frequency_hz, bj.frequency_hz);
+                // Electrons/m^2 per metre of delay difference: d1 - d2 = 40.3 STEC (1/f1^2 - 1/f2^2).
+                let (f1, f2) = (bi.frequency_hz, bj.frequency_hz);
+                let k_gf = 1.0 / (40.3 * (1.0 / (f1 * f1) - 1.0 / (f2 * f2)));
                 let noise = |k: usize, b: &BandOut| {
                     // A band with a signal design uses its own band-limited jitter.
                     peak.map(|e| {
@@ -2692,6 +2706,15 @@ impl LeoPassScenario {
                     },
                     iono_delay_1_m: peak.map(|e| e.bands[i].iono_delay_m),
                     iono_delay_2_m: peak.map(|e| e.bands[j].iono_delay_m),
+                    geometry_free_stec_tecu: peak.map(|e| {
+                        (e.bands[i].iono_delay_m - e.bands[j].iono_delay_m) * k_gf / iono::TECU
+                    }),
+                    geometry_free_stec_sigma_tecu: match (n1, n2) {
+                        (Some(x), Some(y)) => {
+                            Some((x * x + y * y).sqrt() * k_gf.abs() / iono::TECU)
+                        }
+                        _ => None,
+                    },
                 }
             })
             .collect())
@@ -2943,6 +2966,8 @@ const UNITS: &[(&str, &str, &str, &str)] = &[
     ("iono_free[].iono_free_code_noise_m", "m", "modelled", "code noise of the ionosphere-free combination at the pass peak"),
     ("iono_free[].iono_delay_1_m", "m", "computed", "first-order delay on band 1 at the peak"),
     ("iono_free[].iono_delay_2_m", "m", "computed", "first-order delay on band 2 at the peak"),
+    ("iono_free[].geometry_free_stec_tecu", "1", "closed-form", "slant TEC from the pair's geometry-free code combination at the peak, in TEC units (1e16 electrons/m^2): ionosphere sounding"),
+    ("iono_free[].geometry_free_stec_sigma_tecu", "1", "modelled", "1-sigma of that slant TEC from the two bands' code noise at the peak, in TEC units"),
     ("iot.active_power_mw", "mW", "modelled-input", "receiver power while acquiring and tracking"),
     ("iot.sleep_power_uw", "uW", "modelled-input", "receiver power asleep"),
     ("iot.battery_mwh", "mWh", "modelled-input", "battery capacity"),
