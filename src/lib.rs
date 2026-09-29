@@ -154,6 +154,7 @@ pub mod leo_signal;
 pub mod leo_link;
 pub mod leo_pass;
 pub mod leo_navmsg;
+pub mod leo_fusion;
 pub mod linkbudget;
 pub mod lunar;
 pub mod lunar_beacon;

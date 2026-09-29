@@ -1,0 +1,38 @@
+# Doppler-only positioning from a broadband constellation used as a signal of opportunity.
+#
+# The Starlink downlink carries no navigation message and its code and carrier phase are not
+# usable for ranging, but its Doppler is: Kozhaya, Saroufim and Kassas ("Unveiling Starlink
+# for PNT", NAVIGATION 72(1), 2025, https://navi.ion.org/content/72/1/navi.685) track the
+# 240 MHz OFDM beacon at 11.325 GHz with a Doppler error of about 30 Hz (one sigma) and report
+# about 2 m three-dimensional error in 20 s with three satellites. This scenario uses the
+# `starlink-sop` preset: the first shell of 1584 satellites at 550 km and 53 deg (FCC 21-48;
+# the Walker phasing is representative) with that Doppler error, a stationary receiver in
+# Columbus, Ohio, a window of one minute, and one Doppler measurement per satellite every
+# 0.1 s (the beacon repeats every 4/3 ms, so a receiver can form Doppler far faster; whether
+# faster estimates are independent is not known, so the rate is a modelling input).
+#
+# The error-against-window table is the comparison with the published figure. It is a
+# MODELLED consistency check, not a reproduction: the paper's receiver estimated the
+# satellite states and oscillator offsets from real captures, while this model has a perfect
+# ephemeris and puts every error into the 30 Hz Doppler sigma.
+kind = "leo-pvt"
+mode = "doppler"
+seed = 11
+duration_s = 60.0
+step_s = 0.1
+
+[user]
+lat_deg = 40.0
+lon_deg = -83.0
+height_m = 220.0
+
+[doppler]
+# The receiver knows its height to 5 m (a barometer or a terrain model): Doppler from one
+# shell at 53 deg constrains the vertical weakly over a short window.
+height_sigma_m = 5.0
+windows_s = [5.0, 10.0, 20.0, 40.0, 60.0]
+
+[[system]]
+name = "Starlink SoP"
+leo_preset = "starlink-sop"
+mask_deg = 25.0
