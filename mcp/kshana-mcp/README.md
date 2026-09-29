@@ -103,7 +103,7 @@ Once registered, ask your assistant things like:
 - *"List the Kshana scenario kinds."* → `list_scenario_kinds`
 - *"Run the Kshana clock-holdover scenario with a 20 ns threshold and a 2-hour GNSS
   outage; what's the quantum-vs-classical holdover?"* → `run_scenario`
-- *"Export that GPS constellation as SP3."* → `export_sp3`
+- *"Export that GPS (Global Positioning System) constellation as SP3."* → `export_sp3`
 - *"Give me the realtime-frame-eop table as CSV."* → `export_table_csv`
 
 ## Design note — why a separate crate
