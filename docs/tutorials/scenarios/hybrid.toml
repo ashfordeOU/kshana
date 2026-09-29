@@ -4,9 +4,10 @@
 # Provenance: a comment-annotated copy of scenarios/hybrid-pnt.toml. Field values
 # are byte-for-byte identical to the parent (comments never change a hash).
 #
-# What it does: fuses an all-quantum suite (optical clock + cold-atom IMU +
-# optical inter-satellite time-transfer aiding) vs an all-classical suite (CSAC +
-# nav-grade IMU + RF), through a 1.8 h GNSS outage, against a 20 ns timing spec
+# What it does: fuses a quantum suite (optical clock + cold-atom IMU) vs a
+# classical suite (CSAC + nav-grade IMU); both re-anchor their clocks over the same
+# optical inter-satellite time-transfer link ([resync] below), through a 6600 s
+# (1.83 h) GNSS outage, against a 20 ns timing spec
 # and a 100 m position spec. Reports PNT-holdover split into timing (t) and
 # position (p) holdover.
 #
