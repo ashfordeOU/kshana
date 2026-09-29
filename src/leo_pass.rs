@@ -2161,18 +2161,22 @@ impl LeoPassScenario {
         let wn = ((window / step).round() as usize).max(1);
         let sim_iono = c.simulate_iono.unwrap_or(false);
         let spoofs_gnss = c.gnss.unwrap_or(true);
-        if !(0.0..=duration).contains(&onset)
-            || !(0.0..=1.0e6).contains(&offset0)
-            || !(0.0..=1000.0).contains(&rate)
-            || !(prior_p > 0.0 && prior_p.is_finite())
-            || !(prior_v >= 0.0 && prior_v.is_finite())
-            || !(bn > 0.0 && tint > 0.0)
-            || !(p_fa > 0.0 && p_fa < 0.5)
-            || !(p_md > 0.0 && p_md < 0.5)
-            || !(bound >= 0.0)
-            || c.drift_sigma_m_s
-                .is_some_and(|d| !(d > 0.0 && d.is_finite()))
-        {
+        let valid = (0.0..=duration).contains(&onset)
+            && (0.0..=1.0e6).contains(&offset0)
+            && (0.0..=1000.0).contains(&rate)
+            && prior_p > 0.0
+            && prior_p.is_finite()
+            && prior_v >= 0.0
+            && prior_v.is_finite()
+            && bn > 0.0
+            && tint > 0.0
+            && p_fa > 0.0
+            && p_fa < 0.5
+            && p_md > 0.0
+            && p_md < 0.5
+            && bound >= 0.0
+            && c.drift_sigma_m_s.is_none_or(|d| d > 0.0 && d.is_finite());
+        if !valid {
             return Err(
                 "spoofer: onset_s within the window, offset_m in [0, 1e6], push_rate_m_s in \
                  [0, 1000], positive prior_sigma_m, drift_sigma_m_s, fll_bandwidth_hz and \
@@ -2281,11 +2285,9 @@ impl LeoPassScenario {
                 },
             }
         };
-        let (mut hist_g, mut hist_l, mut hist_f): (
-            Vec<Vec<sp::DopplerChannel>>,
-            Vec<Vec<sp::DopplerChannel>>,
-            Vec<Vec<sp::DopplerChannel>>,
-        ) = (Vec::new(), Vec::new(), Vec::new());
+        let mut hist_g: Vec<Vec<sp::DopplerChannel>> = Vec::new();
+        let mut hist_l: Vec<Vec<sp::DopplerChannel>> = Vec::new();
+        let mut hist_f: Vec<Vec<sp::DopplerChannel>> = Vec::new();
         for k in 0..n_epochs {
             let t = k as f64 * step;
             let us = env.user.state(t);
