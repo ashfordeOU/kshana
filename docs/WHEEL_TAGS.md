@@ -1,10 +1,11 @@
 # Python wheel platform tags
 
-Kshana's optional Python extension (`pip install kshana`, from the Python Package Index, PyPI) ships **abi3** wheels — one wheel per
-platform, valid across CPython ≥ 3.9 — built by `.github/workflows/wheels.yml`, the one source of
+Kshana's optional Python extension (`pip install kshana`, from the Python Package Index, PyPI) ships **abi3** wheels — built
+against the stable Python application binary interface (ABI), so one wheel per platform is
+valid across CPython ≥ 3.9 — built by `.github/workflows/wheels.yml`, the one source of
 the shipped wheels. The release pipeline calls it on every `v*` tag once the tagged commit has
 passed verification (it can also be dispatched by hand for a build without a release). The build
-matrix and the resulting platform tags:
+matrix and the resulting platform tags, which are the six wheels PyPI serves for 0.28.0:
 
 | Platform | Runner | maturin `--target` | Wheel platform tag |
 |----------|--------|--------------------|--------------------|
@@ -15,7 +16,7 @@ matrix and the resulting platform tags:
 | Windows x64 | `windows-latest` | `x64` | `win_amd64` |
 | **Windows arm64** | `windows-11-arm` (native) | `aarch64` | `win_arm64` |
 
-The Python ABI (application binary interface) tag is `cp39-abi3` everywhere (PyO3 `abi3-py39`), so a single wheel per row covers
+The Python ABI tag is `cp39-abi3` everywhere (PyO3 `abi3-py39`), so a single wheel per row covers
 all supported interpreter versions.
 
 ## ABI floor (Linux)
