@@ -2522,7 +2522,7 @@ async function main() {
 }
 
 // Every <details> on the page ships closed except the standards fold, so a printed
-// copy drops the 220-row ledger and all eight evidence panels — the substance a
+// copy drops the 223-row ledger and all eight evidence panels — the substance a
 // reviewer saves the PDF for. CSS cannot reach that content (Chrome keeps it in a
 // UA shadow slot), so open the folds for the duration of the print and put every
 // one of them back exactly as the reader left it.
