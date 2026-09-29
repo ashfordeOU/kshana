@@ -98,7 +98,10 @@ fn the_monitors_are_silent_before_the_onset() {
     let v = run(&spoof_src(30.0, ""));
     let p_fa = v["spoof"]["p_fa"].as_f64().unwrap();
     let mut checked = 0;
-    for e in series(&v).iter().filter(|e| e["t_s"].as_f64().unwrap() < 150.0) {
+    for e in series(&v)
+        .iter()
+        .filter(|e| e["t_s"].as_f64().unwrap() < 150.0)
+    {
         assert_eq!(e["offset_m"].as_f64(), Some(0.0));
         for test in ["gnss", "leo", "fused"] {
             if let Some(l) = e[test]["noncentrality"].as_f64() {
@@ -152,7 +155,9 @@ fn leo_range_rates_see_a_jump_that_gnss_range_rates_do_not() {
     // Transverse speed over range: about 7 km/s over ~2000 km against 3 km/s over ~22 000 km.
     assert!(gl / gg > 10.0, "{gl} / {gg}");
     assert!(s["gnss"]["detect_time_s"].is_null(), "GNSS-only detected");
-    let t = s["fused"]["detect_time_s"].as_f64().expect("fused detection");
+    let t = s["fused"]["detect_time_s"]
+        .as_f64()
+        .expect("fused detection");
     assert!(t >= 300.0);
     // Where the fused test detects, its probability is at least 1 - p_md and the GNSS-only
     // test's is below it.
@@ -173,7 +178,9 @@ fn a_ground_spoofer_leaves_the_ionospheric_step_and_an_ionosphere_aware_one_does
     // minus its ionospheric delay difference: find the satellites tracked on both bands at
     // 140 s and 150 s and check the pair's largest step is at least that difference.
     let sats = no_iono["satellites"].as_array().unwrap();
-    let thr = no_iono["spoof"]["tracking_threshold_dbhz"].as_f64().unwrap();
+    let thr = no_iono["spoof"]["tracking_threshold_dbhz"]
+        .as_f64()
+        .unwrap();
     let pairs = no_iono["spoof"]["pairs"].as_array().unwrap();
     let mut checked = 0;
     for sat in sats {
@@ -190,10 +197,7 @@ fn a_ground_spoofer_leaves_the_ionospheric_step_and_an_ionosphere_aware_one_does
         }
         let d = e1["bands"][0]["iono_delay_m"].as_f64().unwrap()
             - e1["bands"][1]["iono_delay_m"].as_f64().unwrap();
-        let p = pairs
-            .iter()
-            .find(|p| p["satellite"] == sat["id"])
-            .unwrap();
+        let p = pairs.iter().find(|p| p["satellite"] == sat["id"]).unwrap();
         let step = p["max_abs_step_m"].as_f64().unwrap();
         assert!(step >= d.abs() - 1e-6, "{}: step {step} < {d}", sat["id"]);
         checked += 1;
@@ -214,7 +218,10 @@ fn a_ground_spoofer_leaves_the_ionospheric_step_and_an_ionosphere_aware_one_does
 #[test]
 fn a_one_band_spoofer_is_seen_by_the_cross_band_monitor_at_the_onset() {
     let v = run(&spoof_src(30.0, "bands = [\"L\"]"));
-    assert_eq!(v["spoof"]["cross_band"]["detect_time_s"].as_f64(), Some(150.0));
+    assert_eq!(
+        v["spoof"]["cross_band"]["detect_time_s"].as_f64(),
+        Some(150.0)
+    );
     for p in v["spoof"]["pairs"].as_array().unwrap() {
         assert_eq!(p["spoofed_1"].as_bool(), Some(true));
         assert_eq!(p["spoofed_2"].as_bool(), Some(false));
@@ -261,8 +268,8 @@ fn the_geometry_free_tec_is_the_pass_slant_tec() {
             p["code_noise_1_m"].as_f64().unwrap(),
             p["code_noise_2_m"].as_f64().unwrap(),
         );
-        let want = (n1 * n1 + n2 * n2).sqrt() / (40.3 * (1.0 / (f1 * f1) - 1.0 / (f2 * f2))).abs()
-            / 1e16;
+        let want =
+            (n1 * n1 + n2 * n2).sqrt() / (40.3 * (1.0 / (f1 * f1) - 1.0 / (f2 * f2))).abs() / 1e16;
         let got = p["geometry_free_stec_sigma_tecu"].as_f64().unwrap();
         assert!((got - want).abs() < 1e-9 * want, "{got} vs {want}");
     }
@@ -270,22 +277,32 @@ fn the_geometry_free_tec_is_the_pass_slant_tec() {
 
 #[test]
 fn the_timing_trace_carries_the_row_statistics() {
-    let src = scenario("leo-timing-utc").replace("tow0_s = 172800.0", "tow0_s = 172800.0\ntrace = true");
+    let src =
+        scenario("leo-timing-utc").replace("tow0_s = 172800.0", "tow0_s = 172800.0\ntrace = true");
     let v = run(&src);
     let plain = run(&scenario("leo-timing-utc"));
     let rows = v["timing"]["rows"].as_array().unwrap();
     for (row, prow) in rows.iter().zip(plain["timing"]["rows"].as_array().unwrap()) {
-        assert_eq!(row["stats"], prow["stats"], "the trace changed the statistics");
+        assert_eq!(
+            row["stats"], prow["stats"],
+            "the trace changed the statistics"
+        );
         assert!(prow.get("series").is_none());
         let ser = row["series"].as_array().unwrap();
-        let errs: Vec<f64> = ser.iter().map(|e| e["error_ns"].as_f64().unwrap()).collect();
+        let errs: Vec<f64> = ser
+            .iter()
+            .map(|e| e["error_ns"].as_f64().unwrap())
+            .collect();
         let rms = (errs.iter().map(|e| e * e).sum::<f64>() / errs.len() as f64).sqrt();
         let want = row["stats"]["rms_s"].as_f64().unwrap() * 1e9;
         assert!((rms - want).abs() < 1e-9 * want, "{rms} vs {want}");
         let max = errs.iter().fold(0.0_f64, |m, e| m.max(e.abs()));
         let want_max = row["stats"]["max_abs_s"].as_f64().unwrap() * 1e9;
         assert!((max - want_max).abs() < 1e-9 * want_max);
-        let in_view = ser.iter().filter(|e| e["in_view"].as_bool() == Some(true)).count();
+        let in_view = ser
+            .iter()
+            .filter(|e| e["in_view"].as_bool() == Some(true))
+            .count();
         assert!(in_view > 0 && in_view <= ser.len());
     }
 }
@@ -297,7 +314,12 @@ fn a_campaign_exports_each_member_as_the_member_exports_alone() {
     let labels: Vec<&str> = members.iter().map(|(l, _)| l.as_str()).collect();
     assert_eq!(
         labels,
-        ["strait-jammed-0", "strait-jammed-1", "rail-tunnel", "rail-open"]
+        [
+            "strait-jammed-0",
+            "strait-jammed-1",
+            "rail-tunnel",
+            "rail-open"
+        ]
     );
     let files = interop::export(&src, Format::Czml).unwrap();
     let mut n = 0;
@@ -340,5 +362,33 @@ fn every_new_scenario_is_system_agnostic() {
             "{name} names the optional preset"
         );
         kshana::api::ScenarioKind::classify(&src).unwrap_or_else(|e| panic!("{name}: {e}"));
+    }
+}
+
+#[test]
+fn the_new_fields_carry_units() {
+    // The field-units gate runs one scenario per kind (`tests/field_units_global.rs`), none
+    // of which takes the spoofer, the sounding pairs or the timing trace: audit those
+    // documents here with the same audit.
+    let trace =
+        scenario("leo-timing-utc").replace("tow0_s = 172800.0", "tow0_s = 172800.0\ntrace = true");
+    for (name, src) in [
+        (
+            "leo-resilience-spoof-doppler",
+            scenario("leo-resilience-spoof-doppler"),
+        ),
+        (
+            "leo-focus-science-iono-sounding",
+            scenario("leo-focus-science-iono-sounding"),
+        ),
+        ("leo-timing-utc with trace", trace),
+    ] {
+        let doc = run(&src);
+        let audit = kshana::field_schema::audit_document(&doc);
+        assert!(
+            audit.missing.is_empty(),
+            "{name}: fields without units: {:?}",
+            audit.missing
+        );
     }
 }
