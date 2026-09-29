@@ -21,7 +21,7 @@
 //! and an EU LEO-PNT system will have their own designs, which is why this is one named,
 //! replaceable preset of a parameterised signal design and never "the Celeste signal".
 
-/// The `leo-pass` system preset (was `src/leo_link/presets/celeste_iod.rs`).
+// The `leo-pass` system preset.
 pub mod link {
     //! ESA Celeste IOD (in-orbit demonstration), signal configuration #1 ("Classical Pilot").
     //! **WORKSHOP** signal parameters, **PUBLIC** orbit.
@@ -179,7 +179,7 @@ pub mod link {
     }
 }
 
-/// The `leo-navmsg` preset and CSV schema (was `src/leo_navmsg/presets/celeste_iod.rs`).
+// The `leo-navmsg` preset and decoded-CSV column schema.
 pub mod navmsg {
     //! ESA Celeste in-orbit demonstration (IOD). This is the one preset that uses material
     //! presented at the ESA Navigation Innovation and Support Programme (NAVISP) LEO-PNT
@@ -358,7 +358,7 @@ pub mod navmsg {
     }
 }
 
-/// The `leo-pvt` LEO preset (was `src/leo_fusion/presets/celeste_iod.rs`).
+// The `leo-pvt` LEO preset.
 pub mod fusion {
     //! ESA Celeste in-orbit demonstration (IOD), satellites IOD-1 and IOD-2: one preset of a
     //! parameterised signal design, never "the Celeste signal". The IOD signals are a vehicle for
