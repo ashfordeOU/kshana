@@ -62,6 +62,7 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("jamming-demo"),
     bundled!("l-band-waterfall-jamming"),
     bundled!("launch-window"),
+    bundled!("leo-band-trade"),
     bundled!("leo-pnt-mega-shell"),
     bundled!("link-budget"),
     bundled!("lunanet-araim"),
@@ -86,6 +87,7 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("mars-pnt-surface"),
     bundled!("mars-pnt-transfer"),
     bundled!("moonlight-service-volume"),
+    bundled!("multi-band-jamming-waterfall"),
     bundled!("oem-interop"),
     bundled!("orbit-gnss-challenged"),
     bundled!("orbit-molniya"),
@@ -118,11 +120,21 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("terrain-slam"),
     bundled!("timetransfer"),
     bundled!("tracking-loop"),
+    bundled!("xona-pulsar-signals"),
 ];
 
 /// Scenario files that are deliberately NOT bundled, each with the sentence the CLI prints
-/// when someone asks for one. They read data files that ship with the repository only.
+/// when someone asks for one. They read data files that ship with the repository only, or
+/// (the workshop-parameter preset) must stay removable by deleting that one file: an
+/// `include_str!` of it would stop the binary compiling the moment it is withheld.
 pub const REPO_ONLY: &[(&str, &str)] = &[
+    (
+        "celeste-iod-classical-pilot-signals",
+        "carries signal parameters presented at the ESA NAVISP LEO-PNT workshop, 2026, and \
+         is kept out of the binary so a release can withhold it by deleting that one file; \
+         run `kshana scenarios/celeste-iod-classical-pilot-signals.toml` from a checkout of \
+         the repository",
+    ),
     (
         "lunar-llr-datum",
         "reads the archived lunar laser-ranging data slice under tests/fixtures/lunar_llr, \
