@@ -501,6 +501,16 @@ breaking changes are called out explicitly.
   it replaced is unchanged as `RunOutput::html_report()`, which the Python and WebAssembly
   bindings still return. `OracleKind::modelled_reason()` exposes the sentence
   `docs/MODELLED-RATIONALE.md` prints for each MODELLED row; that document is unchanged.
+- **Documentation audit of the spectrum, constellation, campaign, animation, report and
+  interoperability pages, and a new `docs/SOLAR-SYSTEM.md`.** Every figure was re-run with
+  this engine. Two published numbers move, recorded here as a revision:
+  `docs/CONSTELLATION-DESIGN.md` gave the 5 000-satellite coverage test as "about 0.13 s in
+  a debug build"; that did not reproduce (1.24 s on a loaded laptop), so the page now gives
+  the prefilter share the test prints (9.9 % of 19 440 000 pair tests) and the release
+  binary's 0.14 s for the bundled `leo-pnt-mega-shell`. The same page gave E3F's crossing
+  as "off by 0.050 deg"; no test prints that figure, so the page now states only the
+  0.06 deg bar the test enforces and the 7.30 against 7.36 deg derivation behind it. No
+  engine output changes.
 
 ### Fixed
 
