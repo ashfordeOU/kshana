@@ -83,7 +83,7 @@ removes it only when its degree exceeds what the Keplerian set already spans: al
 millimetre, while cross-track degrees 2 to 4 remove almost nothing (the cross-track
 residual is odd about the window centre). A system that derives its Keplerian part some
 other way leaves a residual of a different shape, and the degrees it needs follow from
-that. The Celeste preset's degrees 5, 2, 4 run here on Kshana's least-squares base, which
+that. The Celeste preset's own correction degrees (lower than these) run here on Kshana's least-squares base, which
 is why its cross-track terms contribute little in this engine: a statement about Kshana's
 fitter, not about any real system. `toe` and `toc` are whole seconds, as the binary format
 carries them.
@@ -390,7 +390,7 @@ The engine and every bundled scenario except the Celeste one run without them.
 | `centispace` | PUBLIC, [Sensors 2023](https://pmc.ncbi.nlm.nih.gov/articles/PMC10301026/), [Satellite Navigation 2026](https://link.springer.com/article/10.1186/s43020-026-00212-0) | 700 km, 55° | near B1 (masked in the source; L1 as stand-in) | not published |
 | `cband-generic` | REPRESENTATIVE | 600 km, 97.8° | 5020 MHz (RNSS C-band centre) | not published |
 | `atomic` | PUBLIC, [InsideGNSS](https://insidegnss.com/first-steps-toward-a-fully-operational-leo-pnt-payload/) | 500 km (representative) | L1 (representative) | `ecef-poly`, degree 6, 60 s, refreshed every 30 s, zero clock, 0.24 m steering residual |
-| `celeste-iod` | WORKSHOP and PUBLIC | 510 km, 97.4° | 1191.795 MHz | `kepler-rac` with degrees 5, 2, 4, 300 s records |
+| `celeste-iod` | WORKSHOP and PUBLIC | 510 km, 97.4° | 1191.795 MHz | `kepler-rac`, degrees and record spacing in the preset file |
 
 RNSS is the radionavigation-satellite service; RNTF the Resilient Navigation and Timing
 Foundation.
@@ -398,8 +398,8 @@ Foundation.
 **Celeste IOD.** The European Space Agency's (ESA's) Celeste in-orbit demonstration (IOD) preset is the only one that
 uses material presented at the ESA Navigation Innovation and Support Programme (NAVISP)
 LEO-PNT workshop, 2026: the message structure (Galileo Keplerian set plus
-along/cross/radial polynomials `a0..a5`, `c0..c2`, `r0..r4`, clock polynomial, SVID,
-health, IOD, ionospheric and UTC parameters), the 5-minute record spacing and the CSV
+along/cross/radial correction polynomials, clock polynomial, SVID,
+health, IOD, ionospheric and UTC parameters), the record spacing and the CSV
 column names. The orbit (510 km, near-polar sun-synchronous) and carrier come from
 public sources cited in the file. The Celeste bit layout is not public and is not
 reproduced; later Celeste phases and the EU LEO-PNT system may differ. Every

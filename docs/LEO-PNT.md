@@ -243,7 +243,7 @@ Scenarios:
 |---|---|---|
 | `leo-pnt-end-to-end` | generic: the representative `generic-l` design, a 1080 km, 53° pass over Madrid, a 240-satellite Walker layer | tracked C/N0 peak 58.2 dB-Hz, median code jitter 0.050 m; SISRE 0.250 m handed on; GNSS-only root-mean-square (RMS) 3D error 1.60 m, GNSS + LEO 0.43 m; precise point positioning (PPP) convergence 11.5 min GNSS only, 7.5 min with the LEO layer |
 | `xona-pulsar-end-to-end` | Xona Pulsar X5 (arXiv 2509.19551), the inclined shell for positioning and both shells for PPP | tracked C/N0 peak 66.3 dB-Hz, median code jitter 0.018 m; GNSS-only RMS 3D error 1.49 m, GNSS + LEO 0.68 m; PPP convergence 20.6 min GNSS only, 5.9 min with Pulsar |
-| `celeste-iod-end-to-end` (optional) | Celeste IOD E5 configuration #1 with the Celeste message preset (withheld with the preset) | peak total C/N0 57.5 dB-Hz (the preset's calibration); two satellites barely move a 95-minute fused fix (1.50 m to 1.48 m RMS 3D) |
+| `celeste-iod-end-to-end` (optional) | Celeste IOD E5 configuration #1 with the Celeste message preset (withheld with the preset) | the pass reproduces the peak total C/N0 the preset is calibrated to (the value lives in the preset file); two satellites barely move a 95-minute fused fix (1.50 m to 1.48 m RMS 3D) |
 
 ```
 kshana scenarios/leo-pnt-end-to-end.toml --animate html --export all

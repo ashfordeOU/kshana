@@ -20,6 +20,9 @@
 #   in view.
 #
 # MODELLED: every stage keeps its own label.
+#
+# calibrated_peak_cn0_dbhz = 57.5  (the peak of the pass shown at the workshop; read by
+# tests/leo_pnt_chain.rs so that no withholdable number lives outside the preset files)
 kind = "leo-pnt-chain"
 name = "Celeste IOD end to end"
 seed = 4
