@@ -9,9 +9,9 @@
 # 324-satellite NTN shell at 600 km, and records the CRB range sigma at the zenith and the
 # resulting root-mean-square 3D TOA position error.
 #
-# The range sigma falls as 1/(RMS bandwidth), so the position error falls by about a
-# factor of 100 from 180 kHz to 20 MHz until the 1 m network synchronisation error
-# (a scenario input) sets the floor.
+# The range sigma falls as 1/(RMS bandwidth), about 6.5 m at the zenith for 180 kHz and
+# 6 cm for 20 MHz; the 3D error falls from about 30 m to about 2 m, where the 1 m network
+# synchronisation error (a scenario input) sets the floor.
 #
 # MODELLED: positioning from Cramer-Rao bounds with a stated synchronisation error; no
 # multipath, no 3GPP (Third Generation Partnership Project) waveform detail beyond the
