@@ -168,17 +168,18 @@ until its own jammer starts.
 `scenarios/celeste-iod-classical-pilot-signals.toml` holds the Celeste IOD frequency bands
 and the "Classical Pilot" signal configuration #1 as presented at the ESA NAVISP LEO-PNT
 workshop, 2026, with a shape check of one design against the measured spectrum shown
-there. It is the **only** file in the repository with workshop-derived numbers; no Celeste
-signal specification is public. Its components carry their assumptions (power splits, code
+there. It is one of the Celeste IOD preset's files (the others are `src/celeste_iod.rs` and
+the other `scenarios/*celeste-iod*.toml`); no Celeste signal specification is public. Its components carry their assumptions (power splits, code
 lengths, FDMA offsets, and a representative modulation for the bands whose modulation was
 not presented). The shape check is MODELLED consistency: it compares shapes, not
 calibrated levels.
 
-To withhold it from a release, delete that one file. Nothing compiles it in: the
-command-line interface lists it as a repository-only scenario (`kshana example` names it
-and explains, rather than printing it), and a test refuses any `include_str!` of it. Every
-other scenario, test and oracle runs without it; the test that reads it passes with a note
-when it is absent, and the README's scenario-file count still counts it.
+It is withheld with the rest of the preset: delete `src/celeste_iod.rs` and the
+`scenarios/*celeste-iod*.toml` files. Nothing compiles the scenario in: the command-line
+interface lists it as a repository-only scenario (`kshana example` names it and explains,
+rather than printing it), and a test refuses any `include_str!` of it. Every other
+scenario, test and oracle runs without it; the test that reads it passes with a note when
+it is absent, and the README's scenario-file count still counts it.
 
 ## Evidence
 

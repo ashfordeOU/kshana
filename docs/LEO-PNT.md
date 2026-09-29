@@ -75,12 +75,12 @@ never a claim about a real system) or WORKSHOP.
 
 **The Celeste IOD (in-orbit demonstration) preset is optional.** Its signal parameters were
 presented at the ESA NAVISP (Navigation Innovation and Support Programme) LEO-PNT workshop,
-2026, and have no public source yet; every one of them lives in
-`src/leo_link/presets/celeste_iod.rs` and `scenarios/leo-pass-celeste-iod-multiband.toml`.
-Deleting those two files and the three lines marked `WORKSHOP-PRESET` (two in
-`src/leo_link/presets/mod.rs`, one in `src/bundled_scenarios.rs`) removes it; every `leo-pass`
-test, oracle and other scenario runs without it (the scenario and matrix count surfaces then
-need their usual regeneration). Its EIRP and beam are calibrated to a C/N0 trace shown at
+2026, and have no public source yet; they live in the `link` module of
+`src/celeste_iod.rs`, used by `scenarios/leo-pass-celeste-iod-multiband.toml`. How the preset is withheld: every workshop-derived number of the engine lives in one file,
+`src/celeste_iod.rs`, which `build.rs` compiles in only when it exists, and in the
+repository-only scenarios `scenarios/*celeste-iod*.toml`. Deleting that file and those
+scenarios withholds the preset with no source edit; every other test, oracle and scenario
+runs without it, and the README's scenario-file count still counts the withheld files. Its EIRP and beam are calibrated to a C/N0 trace shown at
 the workshop, so that scenario reproduces the trace by construction.
 
 The ATOMIC "zero-clock" polynomial broadcast-ephemeris model is a navigation-message preset
@@ -123,3 +123,49 @@ validation examples give them: the engine carries neither the ITU-R P.839 nor th
   numerical check reports what that costs for a moving user).
 - RINEX 4.02 has no LEO navigation records; any RINEX-style LEO export belongs to the
   navigation-message code and is a documented Kshana extension (prior art: arXiv 2401.17767).
+
+## End-to-end LEO-PNT chain
+
+The `leo-pnt-chain` kind ([`src/leo_pnt_chain.rs`](../src/leo_pnt_chain.rs)) follows one
+LEO-PNT system from its signal design to the user's position. Each stage is the engine's own
+kind, run on its own table of the chain scenario, and the chain hands values from one stage
+to the next in code:
+
+| From | To | What is handed on |
+|---|---|---|
+| `leo-signal` (`[signal]`, `signal_design`) | `leo-pass` | the tracked component's power share, the in-band fraction and the tracked chip rate (the band's EIRP split and its C/N0 offset) |
+| `leo-pass` (`[pass]`) | `leo-navmsg` | the chain satellite's altitude and inclination (the message's truth orbit), unless `[navmsg.orbit]` states them |
+| `leo-pass` | `leo-pvt` (`[fusion]`) | the tracked C/N0 at the positioning mask and at the zenith, from a least-squares line in sin(elevation) fitted to the pass |
+| `leo-navmsg` (`[navmsg]`) | `leo-pvt`, `leo-ppp` (`[ppp]`) | the signal-in-space range error (SISRE): the message's representation error (root mean square, orbit and clock) with the scenario's `od_sisre_m` orbit-determination term in root-sum-square |
+| `leo-signal` | `leo-pvt` | the carrier frequency and the tracked chip rate |
+
+A value is handed on only where the downstream table leaves it unset, and every hand-off is
+listed in the result's `handoffs` array with its value, unit and target. A band of `[pass]`
+must name the design (`signal = "<design>"`); that is how a `leo-pass` band carries any
+`leo-signal` design on its own too: it takes the design's centre frequency, transmit
+bandwidth and tracked chip rate, splits its EIRP across the components, and reports the
+tracked-component C/N0 and the band-limited coherent early-late code-tracking jitter
+(Betz and Kolodziejski 2009; half-chip spacing, 1 Hz loop, 20 ms) at every epoch.
+
+Scenarios:
+
+| Scenario | System | Result of one run |
+|---|---|---|
+| `leo-pnt-end-to-end` | generic: the representative `generic-l` design, a 1080 km, 53° pass over Madrid, a 240-satellite Walker layer | tracked C/N0 peak 58.2 dB-Hz, median code jitter 0.050 m; SISRE 0.250 m handed on; GNSS-only root-mean-square (RMS) 3D error 1.60 m, GNSS + LEO 0.43 m; precise point positioning (PPP) convergence 11.5 min GNSS only, 7.5 min with the LEO layer |
+| `xona-pulsar-end-to-end` | Xona Pulsar X5 (arXiv 2509.19551), the inclined shell for positioning and both shells for PPP | tracked C/N0 peak 66.3 dB-Hz, median code jitter 0.018 m; GNSS-only RMS 3D error 1.49 m, GNSS + LEO 0.68 m; PPP convergence 20.6 min GNSS only, 5.9 min with Pulsar |
+| `celeste-iod-end-to-end` (optional) | Celeste IOD E5 configuration #1 with the Celeste message preset (withheld with the preset) | peak total C/N0 57.5 dB-Hz (the preset's calibration); two satellites barely move a 95-minute fused fix (1.50 m to 1.48 m RMS 3D) |
+
+```
+kshana scenarios/leo-pnt-end-to-end.toml --animate html --export all
+```
+
+writes the result, the chart, the advanced report (which embeds the animated pass and links
+the exports), the interactive player, and CZML (the Cesium Language), KML (Keyhole Markup Language),
+GeoJSON and STK (Systems Tool Kit) ephemeris files of the pass geometry.
+
+The chain is MODELLED: it adds no physics, and each stage keeps its own labels. The
+positioning stage's C/N0 model is a straight line in sin(elevation), so a pass-specific
+shape is reduced to two numbers; the message stage models no orbit determination, which is
+why `od_sisre_m` is a stated input (0.25 m in the bundled scenarios, representative of the
+decimetre-level on-board orbit determination and steered chip-scale clock the ATOMIC payload
+reports: <https://insidegnss.com/first-steps-toward-a-fully-operational-leo-pnt-payload/>).

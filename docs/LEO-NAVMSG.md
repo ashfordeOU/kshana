@@ -403,11 +403,12 @@ health, IOD, ionospheric and UTC parameters), the 5-minute record spacing and th
 column names. The orbit (510 km, near-polar sun-synchronous) and carrier come from
 public sources cited in the file. The Celeste bit layout is not public and is not
 reproduced; later Celeste phases and the EU LEO-PNT system may differ. Every
-workshop-derived value sits in `src/leo_navmsg/presets/celeste_iod.rs` and
-`scenarios/leo-navmsg-celeste-iod.toml`. To withhold it from a release, delete those two
-files and remove the four lines that name them: `mod celeste_iod;`, its push in `all()`
-and its arm in `csv_schema()` in `presets/mod.rs`, and its line in
-`src/bundled_scenarios.rs`.
+workshop-derived value sits in the `navmsg` module of `src/celeste_iod.rs`, used by
+`scenarios/leo-navmsg-celeste-iod.toml`. How the preset is withheld: every workshop-derived number of the engine lives in one file,
+`src/celeste_iod.rs`, which `build.rs` compiles in only when it exists, and in the
+repository-only scenarios `scenarios/*celeste-iod*.toml`. Deleting that file and those
+scenarios withholds the preset with no source edit; every other test, oracle and scenario
+runs without it, and the README's scenario-file count still counts the withheld files.
 
 ## Verification
 
