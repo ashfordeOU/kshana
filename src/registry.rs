@@ -109,6 +109,7 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         ConstellationDesign,
         Campaign,
         LeoSignal,
+        LeoPass,
     ]
 };
 
@@ -222,6 +223,8 @@ pub mod ids {
     /// Low Earth orbit positioning, navigation and timing signal designs: band-limited
     /// spectra, code tracking, acquisition, GNSS compatibility and a band trade.
     pub const LEO_SIGNAL: ScenarioId = ScenarioId::from_static("leo-signal");
+    /// A LEO pass and its per-band link budget beside the MEO GNSS satellites in view.
+    pub const LEO_PASS: ScenarioId = ScenarioId::from_static("leo-pass");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {

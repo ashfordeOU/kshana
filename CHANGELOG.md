@@ -139,6 +139,46 @@ breaking changes are called out explicitly.
   scenario-file count from 82 to 94, and the verification matrix from 174 to
   189 rows (71 validated, 114 modelled, 4 partner-owned at that step; the LEO-PNT entry
   above brings the live totals to 193). Each area is described below.
+- **LEO-PNT pass and per-band link budget: the `leo-pass` kind.** LEO-PNT is positioning,
+  navigation and timing from satellites in low Earth orbit (LEO). A user (ground, maritime,
+  air or indoor, static or moving) and one or more LEO satellites from a designed pass,
+  explicit elements, a two-line element set (TLE) through SGP4, or a Walker constellation
+  from the `constellation-design` code. Per satellite, band and epoch: look angles, range,
+  closed-form range rate and range acceleration (checked every run against central
+  differences), Doppler and Doppler rate, free-space loss, EIRP (equivalent isotropically
+  radiated power) with an isoflux, Gaussian-beam or flat satellite pattern, a patch user
+  antenna, ITU-R P.676 gaseous attenuation, ITU-R P.838/P.618 rain attenuation, P.618
+  tropospheric scintillation, ITU-R P.2109 building entry loss for an indoor user,
+  polarisation mismatch, system noise temperature and C/N0 (carrier-to-noise density); the
+  first-order ionospheric delay per band from a Klobuchar or vertical-TEC (total electron
+  content) slant TEC below the satellite, and ionosphere-free band pairs with their noise
+  amplification. Galileo or GPS satellites are evaluated with the same receiver from their
+  interface-document received powers, so the bell-shaped LEO pass and the flat MEO (medium
+  Earth orbit) carriers share one plot. An `[iot]` section gives time to first fix, energy
+  per fix and battery life against duty cycle (MODELLED).
+  - System-agnostic: the engine needs no preset. Optional presets, each in its own file and
+    marked PUBLIC (with URL), REPRESENTATIVE or WORKSHOP: generic multi-band (UHF, L, S, C),
+    generic C band, Xona Pulsar X1/X5 (arXiv 2509.19551), Iridium STL, Starlink as a
+    Doppler-only signal of opportunity, CentiSpace, and Celeste IOD (in-orbit
+    demonstration), whose signal parameters were presented at the ESA NAVISP LEO-PNT
+    workshop, 2026, and live in one preset file and one scenario so they can be withheld.
+  - Public building blocks in `src/leo_link/` (geometry, antenna, itu, iono, energy,
+    presets) for other modules to call.
+  - Scenarios: `leo-pass-vs-gnss-cn0`, `leo-indoor-uhf`, `leo-iot-energy`,
+    `leo-pass-xona-pulsar`, `leo-pass-iridium`, `leo-pass-celeste-iod-multiband`.
+  - Nine matrix rows. VALIDATED (6): ITU-R P.838-3 coefficients against its Table 5; P.618-14
+    rain attenuation and scintillation against the ITU-R Study Group 3 validation examples;
+    P.2109 building entry loss against the Study Group 3 workbook; first-order ionospheric
+    scaling against the IS-GPS-200 group-delay ratio, with the free-space loss; the static-user
+    maximum Doppler of a circular orbit against arXiv 2509.19551 Table 1. MODELLED (3): the
+    pass and link budget, the presets, and the low-energy fix budget. With this branch the
+    counts move to 69 kinds, 100 scenario files and 198 matrix rows (77 VALIDATED,
+    117 MODELLED, 4 PARTNER). Notes in `docs/LEO-PNT.md`.
+- **Four new engine areas in one release: `spectrum`, `solar-system` and `body-pnt`,
+  `constellation-design`, and `campaign`.** The kind count moves from 63 to 68, the
+  scenario-file count from 82 to 94, and the verification matrix from 174 to 189 rows;
+  with the `leo-pass` entry above it holds
+  **198 rows — 77 VALIDATED, 117 MODELLED, 4 PARTNER**. Each area is described below.
   - Across the areas: `scenarios/campaign-spectrum-holdover-integrity.toml` chains the
     `spectrum` kind with a clock holdover and an integrity monitor (a chirp takes L1 C/A
     and E1; a CW tone then keeps C/A down while E1 recovers and the receiver falls back to
