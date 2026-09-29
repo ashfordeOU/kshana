@@ -421,7 +421,8 @@ pub fn reason_for_kind(kind: ScenarioKind) -> Option<String> {
         | K::SlotTiming
         | K::Spectrum
         | K::LeoSignal
-        | K::LeoPass => no_position,
+        | K::LeoPass
+        | K::LeoNavmsg => no_position,
         K::LaunchWindow => "the `launch-window` scenario gives the launch site's latitude but no
              longitude, so the site cannot be placed"
             .to_string(),
