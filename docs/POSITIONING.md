@@ -74,16 +74,49 @@ engine are maintained capabilities. Most of their rows are MODELLED, and dedicat
 already serve lunar navigation, so they are offered as capabilities of the same engine,
 each with its own tier, rather than as the lead.
 
+## The rest of the engine
+
+The same engine, with the same tiers, also covers:
+
+- **Low Earth orbit (LEO) PNT, end to end.** Signal design (`leo-signal`), pass and
+  per-band link budget (`leo-pass`), broadcast navigation message (`leo-navmsg`), fused
+  medium- and low-Earth-orbit positioning (`leo-pvt`), precise point positioning (PPP)
+  convergence with LEO augmentation (`leo-ppp`), positioning from a 5G non-terrestrial
+  network (`ntn-positioning`), and `leo-pnt-chain`, which hands each stage's output to the
+  next for one system.
+- **Spectrum.** An L-band (and ultra-high-frequency (UHF), S- and C-band) power-spectral-density waterfall under
+  a scripted jammer timeline, with per-band jammer-to-signal ratio and effective
+  carrier-to-noise density (`spectrum`), and Signal Metadata Format (SigMF) recording in
+  and out.
+- **The solar system and any central body.** Positions and physical constants of the
+  planets and major moons (`solar-system`), positioning around any of those bodies
+  (`body-pnt`), and Walker and published-slot constellation design with coverage and
+  dilution-of-precision maps around any of them (`constellation-design`).
+- **Campaigns.** Existing kinds chained on one shared timeline, swept, run as seeded Monte
+  Carlo ensembles, or run side by side under shared conditions (`campaign`).
+- **Outputs.** Every run writes a result document, a chart and a report in HTML
+  (HyperText Markup Language) and JSON (JavaScript Object Notation); `--animate` writes
+  an SVG (Scalable Vector Graphics), HTML or frame-sequence animation; `--export` writes
+  CZML (Cesium Language), KML (Keyhole Markup Language), GeoJSON or STK (Systems Tool
+  Kit) ephemeris for the kinds that place things on the Earth, and SigMF for `spectrum`.
+
+Most of these rows are MODELLED; the verification matrix names the few that are
+VALIDATED (for example the International Telecommunication Union rain and scintillation
+recommendations, the Galileo broadcast-ephemeris algorithm, the CRC-24Q (24-bit cyclic redundancy check) frame check and the planetary
+light-time solver).
+
 ## What Kshana is not
 
 - **Not a radio-frequency (RF) signal simulator or hardware-in-the-loop (HIL) rig.**
   Generating real signals and testing receivers is the job of RF simulators; Kshana works
   at the level of error models and link budgets, before hardware or lab time is bought.
-- **Not a replacement for MATLAB/Simulink, STK (Systems Tool Kit) or Orekit.** It sits
+- **Not a replacement for MATLAB/Simulink, STK or Orekit.** It sits
   next to them. It reads and writes the exchange formats they use — CCSDS (Consultative
   Committee for Space Data Systems) Orbit Ephemeris Messages, SP3 (Standard Product 3)
-  precise orbits, RINEX (Receiver Independent Exchange Format) — and its numerical force
-  model is cross-checked against Orekit rather than offered in its place.
+  precise orbits, RINEX (Receiver Independent Exchange Format) — writes CZML, KML,
+  GeoJSON and STK ephemeris for their viewers,
+  and its numerical force model is cross-checked against Orekit rather than offered in
+  its place.
 - **Not a carrier-phase GNSS processing engine** (see below).
 - **Not a certification authority.** A VALIDATED label means a capability matches an
   external oracle; it is not a certification of any product or operator.
@@ -92,7 +125,10 @@ each with its own tier, rather than as the lead.
 
 Kshana is **not** a carrier-phase GNSS *processing* engine — there is no ambiguity
 resolution, no carrier smoothing and no inter-epoch filter, so precise point positioning
-(PPP) and real-time kinematic (RTK) positioning are out of scope. It does have one foot in
+(PPP) and real-time kinematic (RTK) positioning of real observations are out of scope.
+The `leo-ppp` kind runs a float PPP filter on code and carrier phase, but on measurements
+it simulates itself, to study convergence time with and without LEO augmentation; it does
+not process an observation file. It does have one foot in
 the measurement domain: the `pvt` kind (position, velocity and time) solves a receiver
 position from real RINEX code pseudoranges plus broadcast ephemeris, validated against a
 surveyed coordinate of the International GNSS Service (IGS) (station ABMF, 2018-05-13) to
@@ -100,7 +136,7 @@ surveyed coordinate of the International GNSS Service (IGS) (station ABMF, 2018-
 study, not the positioning service, and the framing below is meant to save a prospective
 user the wrong-tool disappointment.
 
-| | Kshana | A GNSS processing engine (RTKLIB, gLAB) |
+| | Kshana | A GNSS processing engine (RTKLIB, an open-source real-time kinematic positioning library; gLAB, the GNSS laboratory tool suite of the gAGE group at the Technical University of Catalonia) |
 |---|---|---|
 | Input | a scenario: sensor error models, outage windows, geometry — or, for `pvt`, a real RINEX observation file plus broadcast navigation | real GNSS observations (RINEX), ephemerides, corrections |
 | Output | performance FoMs: holdover, timing/position error, availability, integrity/security bounds — plus a code single-point-positioning (SPP) position from the `pvt` kind | a position/velocity/time **solution** (SPP, PPP, RTK) |
