@@ -4577,7 +4577,7 @@
     },
     {
       "requirement": "Named LEO-PNT system presets with stated sources, and a system-agnostic engine",
-      "capability": "leo_link::presets: generic multi-band (UHF, L, S, C), generic C band, Xona Pulsar X1/X5, Iridium STL, Starlink as a Doppler-only signal of opportunity, CentiSpace and an optional Celeste IOD preset, each with its source marked PUBLIC (with URL), REPRESENTATIVE or WORKSHOP, the workshop one in src/celeste_iod.rs, compiled in only when that file exists; every band and orbit overridable in a scenario, and a scenario may name no preset at all",
+      "capability": "leo_link::presets: generic multi-band (UHF, L, S, C), generic C band, Xona Pulsar X1/X5, Iridium STL, Starlink as a Doppler-only signal of opportunity, CentiSpace and an optional Celeste IOD preset, each with its source marked PUBLIC (with URL), REPRESENTATIVE or WORKSHOP, the workshop one in the optional Celeste IOD preset file, compiled in only when that file exists; every band and orbit overridable in a scenario, and a scenario may name no preset at all",
       "status": "MODELLED",
       "oracle_kind": "InternalConsistency",
       "oracle": "Transcription of the cited public figures and a consistency check: an EIRP set from a published minimum received power predicts the published maximum within 0.5 dB with a flat pattern. That is a check of the range spread, not a validation of any satellite's antenna; representative presets make no claim about a real system",
@@ -4923,7 +4923,7 @@
     },
     {
       "requirement": "Named LEO PNT systems as optional data presets, each with its source",
-      "capability": "System-agnostic inputs: every system is Walker shells, explicit elements or a GNSS preset, a signal (carrier, chip rate, bandwidth, received power or C/N0 range), a SISRE, a Doppler sigma and a clock model; presets fill only what a scenario leaves out, one file each with sources marked PUBLIC (with a URL), WORKSHOP or DERIVED and the unpublished values listed as representative: Xona Pulsar X1/X5, Iridium STL, Starlink signals of opportunity, CentiSpace, a representative C-band system, the ATOMIC zero-clock ephemeris model, and one workshop-derived preset in src/celeste_iod.rs that is withheld by deleting that file and its scenarios",
+      "capability": "System-agnostic inputs: every system is Walker shells, explicit elements or a GNSS preset, a signal (carrier, chip rate, bandwidth, received power or C/N0 range), a SISRE, a Doppler sigma and a clock model; presets fill only what a scenario leaves out, one file each with sources marked PUBLIC (with a URL), WORKSHOP or DERIVED and the unpublished values listed as representative: Xona Pulsar X1/X5, Iridium STL, Starlink signals of opportunity, CentiSpace, a representative C-band system, the ATOMIC zero-clock ephemeris model, and one workshop-derived preset in the optional Celeste IOD preset file, withheld by deleting that file and its scenarios",
       "status": "MODELLED",
       "oracle_kind": "InternalConsistency",
       "oracle": "Transcription of the cited public values, checked for structure (every public source has a URL, Walker patterns divide evenly, the C/N0 from received power over kT at 290 K), not against an external oracle. Representative values are named in each preset and are illustrative",
