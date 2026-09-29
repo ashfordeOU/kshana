@@ -136,6 +136,9 @@ const RUNNERS: &[(&str, &str)] = &[
     ("leo-signal", "scenarios/leo-band-trade.toml"),
     ("leo-pass", "scenarios/leo-iot-energy.toml"),
     ("leo-navmsg", "scenarios/leo-navmsg-encode-decode.toml"),
+    ("leo-pvt", "scenarios/meo-leo-fused-pvt.toml"),
+    ("leo-ppp", ""),
+    ("ntn-positioning", "scenarios/ntn-5g-positioning.toml"),
 ];
 
 /// The kinds whose reports do not yet describe every numeric field they emit, each with

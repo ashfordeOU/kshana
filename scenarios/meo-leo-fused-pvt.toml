@@ -1,0 +1,46 @@
+# Fused MEO and LEO pseudorange positioning: GPS and Galileo with a LEO navigation layer.
+#
+# A receiver in Madrid tracks the GPS baseline constellation (GPS SPS Performance Standard,
+# 5th edition), Galileo (Walker 24/3/1, Galileo OS SDD) and a LEO navigation constellation
+# (the public Xona Pulsar X5 signal: 10.23 Mchip/s in the L5 band, received power -144.9 to
+# -136.2 dBW, arXiv:2509.19551). Each system carries its own receiver clock, so the
+# inter-system bias of Galileo and of the LEO layer is estimated with the position; the LEO
+# pseudoranges are simulated with a 40 ns bias to show it recovered. Every pseudorange's
+# sigma is the delay-lock-loop thermal noise at the C/N0 of its elevation combined with the
+# system's signal-in-space range error.
+#
+# The report compares GNSS-only, LEO-only and fused fixes epoch by epoch and gives the PDOP,
+# HDOP and VDOP against the number of LEO satellites added to the GNSS geometry (highest
+# elevation first). MODELLED.
+kind = "leo-pvt"
+mode = "joint"
+seed = 3
+duration_s = 1800.0
+step_s = 30.0
+
+[user]
+lat_deg = 40.42
+lon_deg = -3.70
+height_m = 650.0
+
+[joint]
+max_leo_sweep = 12
+
+[[system]]
+name = "GPS"
+preset = "gps-baseline"
+cn0_dbhz = [38.0, 48.0]
+sisre_m = 0.6
+
+[[system]]
+name = "Galileo"
+preset = "galileo"
+cn0_dbhz = [38.0, 48.0]
+sisre_m = 0.3
+isb_ns = 12.0
+
+[[system]]
+name = "Pulsar X5"
+leo_preset = "xona-pulsar"
+signal = "X5"
+isb_ns = 40.0
