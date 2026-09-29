@@ -189,8 +189,11 @@ What applies depends on the kind:
 
 - a run with a time axis animates: `leo-pass` epochs, the `spoof.series` of a spoofing run,
   `spectrum` timelines, `leo-pvt` joint epochs and timing traces, `leo-ppp` error curves
-  and every campaign chain; a sweep or a composition has no time axis, so `--animate`
-  reports that and writes nothing;
+  and every campaign chain. A sweep or a composition has no time axis: `--animate` refuses
+  it with exit status 1 and then the command writes nothing at all, so run the eight
+  sweeps and compositions above (`leo-resilience-multiband-diversity`,
+  `leo-resilience-spoof-monitors` and every `leo-focus-*` scenario except
+  `leo-focus-science-iono-sounding`) without `--animate`;
 - `leo-pass` and `leo-pnt-chain` export CZML (the Cesium Language), KML (Keyhole Markup
   Language), GeoJSON and STK (Systems Tool Kit) ephemerides of the pass geometry; a
   campaign exports each member that has geometry as its own file set, the member label in
