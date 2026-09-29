@@ -376,7 +376,7 @@ pub fn reason_for_kind(kind: ScenarioKind) -> Option<String> {
          STK ephemerides with CentralBody Earth only",
     );
     let composite = String::from(
-        "the scenario composes or sweeps other scenarios; export one member scenario on its own",
+        "the scenario sweeps another scenario over a grid; export the swept scenario on its own",
     );
     let r = match kind {
         K::Orbit
@@ -458,7 +458,10 @@ pub fn reason_for_kind(kind: ScenarioKind) -> Option<String> {
         | K::MarsPnt
         | K::SolarSystem
         | K::BodyPnt => off_earth,
-        K::Sweep | K::SweepNd | K::Campaign => composite,
+        K::Sweep | K::SweepNd => composite,
+        K::Campaign => "a campaign has no scene of its own: each member scenario is exported \
+             as its own file set (see `interop::export_campaign`)"
+            .to_string(),
         K::ConstellationDesign => "not exported in this release: `constellation-design` places its \
              satellites in a body-fixed frame relative to an epoch it never names, so a time-tagged \
              export would have to invent the calendar date"

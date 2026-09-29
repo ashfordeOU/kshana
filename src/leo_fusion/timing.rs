@@ -91,6 +91,19 @@ pub struct TimeTransferStats {
     pub rms_normalised: f64,
 }
 
+/// One epoch of a time-transfer run, after the first fix.
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+pub struct TimeTransferEpoch {
+    /// Seconds after the start of the run.
+    pub t_s: f64,
+    /// Time error against UTC (ns), the UTC-offset error included.
+    pub error_ns: f64,
+    /// The filter's predicted one-sigma, UTC-offset term included (ns).
+    pub sigma_ns: f64,
+    /// Whether a satellite was in view at this epoch.
+    pub in_view: bool,
+}
+
 /// Simulate LEO time transfer over epochs spaced `dt` seconds. `meas_sigma_s[k]` is the
 /// combined clock-measurement one-sigma at epoch `k` (`None` when no satellite is in view).
 pub fn simulate(
@@ -100,6 +113,18 @@ pub fn simulate(
     sigma_utc_s: f64,
     seed: u64,
 ) -> Result<TimeTransferStats, String> {
+    simulate_traced(meas_sigma_s, dt, clock, sigma_utc_s, seed).map(|(s, _)| s)
+}
+
+/// [`simulate`], also returning the time error and predicted sigma at every epoch from the
+/// first fix on. The random draws are the same, so the statistics are identical.
+pub fn simulate_traced(
+    meas_sigma_s: &[Option<f64>],
+    dt: f64,
+    clock: &ClockNoise,
+    sigma_utc_s: f64,
+    seed: u64,
+) -> Result<(TimeTransferStats, Vec<TimeTransferEpoch>), String> {
     if !(dt.is_finite() && dt > 0.0) {
         return Err("the epoch spacing must be positive".into());
     }
@@ -127,6 +152,7 @@ pub fn simulate(
     let mut errs = Vec::new();
     let mut sig = Vec::new();
     let mut norm_sq = Vec::new();
+    let mut trace = Vec::new();
     let (mut in_view, mut gap, mut longest_gap) = (0usize, 0.0_f64, 0.0_f64);
     for (k, m) in meas_sigma_s.iter().enumerate() {
         if k > 0 {
@@ -165,6 +191,12 @@ pub fn simulate(
         if started {
             let e = truth[0] - x[0] + utc_bias;
             let s = (p[0][0].max(0.0) + sigma_utc_s * sigma_utc_s).sqrt();
+            trace.push(TimeTransferEpoch {
+                t_s: k as f64 * dt,
+                error_ns: e * 1e9,
+                sigma_ns: s * 1e9,
+                in_view: m.is_some_and(|s| s.is_finite() && s > 0.0),
+            });
             errs.push(e);
             sig.push(s);
             if s > 0.0 {
@@ -178,16 +210,19 @@ pub fn simulate(
     let mut abs: Vec<f64> = errs.iter().map(|e| e.abs()).collect();
     abs.sort_by(|a, b| a.total_cmp(b));
     let p95 = abs[((abs.len() as f64 * 0.95).ceil() as usize).clamp(1, abs.len()) - 1];
-    Ok(TimeTransferStats {
-        rms_s: super::geom::rms(&errs).unwrap_or(0.0),
-        p95_s: p95,
-        max_abs_s: *abs.last().unwrap_or(&0.0),
-        median_predicted_sigma_s: super::geom::median(sig.clone()).unwrap_or(0.0),
-        max_predicted_sigma_s: sig.iter().copied().fold(0.0, f64::max),
-        fraction_in_view: in_view as f64 / meas_sigma_s.len() as f64,
-        longest_gap_s: longest_gap,
-        rms_normalised: (norm_sq.iter().sum::<f64>() / norm_sq.len().max(1) as f64).sqrt(),
-    })
+    Ok((
+        TimeTransferStats {
+            rms_s: super::geom::rms(&errs).unwrap_or(0.0),
+            p95_s: p95,
+            max_abs_s: *abs.last().unwrap_or(&0.0),
+            median_predicted_sigma_s: super::geom::median(sig.clone()).unwrap_or(0.0),
+            max_predicted_sigma_s: sig.iter().copied().fold(0.0, f64::max),
+            fraction_in_view: in_view as f64 / meas_sigma_s.len() as f64,
+            longest_gap_s: longest_gap,
+            rms_normalised: (norm_sq.iter().sum::<f64>() / norm_sq.len().max(1) as f64).sqrt(),
+        },
+        trace,
+    ))
 }
 
 #[cfg(test)]
