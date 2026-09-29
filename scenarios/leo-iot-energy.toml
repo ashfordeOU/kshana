@@ -1,0 +1,50 @@
+# Low-energy LEO-PNT for an IoT (Internet of Things) tracker: energy per fix against duty cycle.
+#
+# A static asset tracker in Hamburg with a patch antenna sees one pass of a generic LEO
+# satellite (the representative generic-leo preset, UHF and L bands) and the GPS L1 C/A
+# carriers. From the pass it takes the median C/N0 of each signal, the worst-case Doppler rate
+# and the orbit's static-user Doppler envelope, and budgets a receiver that draws 20 mW awake
+# and 5 microwatts asleep from a 2000 mWh battery: acquisition time (coherent integration capped
+# by the Doppler rate, non-coherent sums to a 16 dB detection threshold, a parallel code
+# search over a Doppler window), the navigation-message time on a cold start, time to first
+# fix, energy per fix, and battery life at fix intervals from one second to one day for a hot
+# start (Doppler known to +/-500 Hz from an almanac and a coarse position).
+#
+# The LEO signal is stronger, so each dwell is shorter, but its Doppler window is about ten
+# times wider than GPS's on a cold start; with aiding the stronger signal wins. Every power,
+# threshold and search choice is a stated input.
+#
+# MODELLED. The receiver is a design assumption, not a measured chip. No workshop data is used.
+kind = "leo-pass"
+name = "IoT energy per fix"
+epoch = "2026-09-28T06:00:00"
+duration_s = 900.0
+step_s = 5.0
+
+[user]
+environment = "ground"
+lat_deg = 53.55
+lon_deg = 9.99
+height_m = 10.0
+
+[[satellite]]
+id = "LEO-1"
+system = "generic-leo"
+bands = ["UHF", "L"]
+max_elevation_deg = 55.0
+tca_s = 450.0
+
+[gnss]
+constellation = "gps-baseline"
+band = "L1"
+
+[iot]
+active_power_mw = 20.0
+sleep_power_uw = 5.0
+battery_mwh = 2000.0
+detection_snr_db = 16.0
+max_coherent_ms = 20.0
+parallel_code_search = true
+aided_doppler_uncertainty_hz = 500.0
+fix_intervals_s = [1.0, 10.0, 60.0, 600.0, 3600.0, 86400.0]
+cn0_from = "median"

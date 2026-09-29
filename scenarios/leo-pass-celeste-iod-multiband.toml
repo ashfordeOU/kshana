@@ -1,0 +1,42 @@
+# ESA Celeste IOD, signal configuration #1, all bands over one pass. WORKSHOP PRESET.
+#
+# This scenario uses the celeste-iod preset, whose signal parameters were presented at the
+# ESA NAVISP (Navigation Innovation and Support Programme) LEO-PNT workshop, 2026, and have no
+# public source yet. It can be withheld with src/leo_link/presets/celeste_iod.rs (see that
+# file). Every other leo-pass scenario runs without it.
+#
+# A user near ESTEC in Noordwijk sees one pass of a Celeste in-orbit demonstration satellite
+# (510 km sun-synchronous, public) peaking at 75 deg, on every band of the preset, next to
+# Galileo E1. The preset's EIRP and beam are calibrated to the C/N0 trace shown at the workshop
+# (a bell of a few minutes peaking near 57.5 dB-Hz, several dB above Galileo), so this
+# scenario reproduces that trace by construction; the other bands follow from the same EIRP
+# and beam at their own frequencies, with rain (20 mm/h exceeded 0.01 % of the year) and the
+# first-order ionosphere on each.
+#
+# MODELLED (workshop-calibrated). Not a measurement of any Celeste satellite.
+kind = "leo-pass"
+name = "Celeste IOD multi-band pass"
+epoch = "2026-09-28T08:00:00"
+duration_s = 600.0
+step_s = 2.0
+iono_free_pairs = [["E5", "C"], ["UHF", "C"], ["E5", "SR"]]
+
+[user]
+environment = "ground"
+lat_deg = 52.218
+lon_deg = 4.420
+height_m = 5.0
+
+[atmosphere]
+rain_rate_mm_h = 20.0
+rain_height_km = 2.4
+
+[[satellite]]
+id = "Celeste-IOD"
+system = "celeste-iod"
+max_elevation_deg = 75.0
+tca_s = 300.0
+
+[gnss]
+constellation = "galileo"
+band = "E1"

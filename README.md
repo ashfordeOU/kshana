@@ -654,7 +654,13 @@ several scenarios under one shared condition; MODELLED, see
 patterns, element lists and multi-shell designs with GPS, Galileo, BeiDou and GLONASS
 presets, and coverage and dilution of precision over a latitude/longitude grid; the
 generator and GPS global DOP VALIDATED against the published service documents, see
-[`docs/CONSTELLATION-DESIGN.md`](docs/CONSTELLATION-DESIGN.md)); the **lunar-PNT suite** `lunar-vlbi`, `lunar-joint-od-clock`,
+[`docs/CONSTELLATION-DESIGN.md`](docs/CONSTELLATION-DESIGN.md)); `leo-pass` (a low Earth
+orbit (LEO) positioning, navigation and timing (PNT) satellite pass and its link budget band by
+band, from any constellation and any signal design: look angles, Doppler and Doppler rate,
+ITU-R rain, gas, scintillation and building entry loss, carrier-to-noise density against the
+MEO GNSS satellites in view, the first-order ionosphere and ionosphere-free pairs, and a
+low-energy fix budget; the ITU-R terms and the static-user Doppler envelope VALIDATED, the
+pass MODELLED, see [`docs/LEO-PNT.md`](docs/LEO-PNT.md)); the **lunar-PNT suite** `lunar-vlbi`, `lunar-joint-od-clock`,
 `lunar-frame-realisation`, `moonlight-service-volume`, `lunar-differential-pnt`,
 `lunar-interop-export`; the **Quantum-Enabled PNT demonstrator**
 `quantum-time-transfer`, `quantum-gnss-free-nav`, `quantum-anomaly-detect`; and the

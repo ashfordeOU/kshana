@@ -134,6 +134,7 @@ const RUNNERS: &[(&str, &str)] = &[
         "scenarios/campaign-jam-spoof-holdover-integrity.toml",
     ),
     ("leo-signal", "scenarios/leo-band-trade.toml"),
+    ("leo-pass", "scenarios/leo-iot-energy.toml"),
 ];
 
 /// The kinds whose reports do not yet describe every numeric field they emit, each with
