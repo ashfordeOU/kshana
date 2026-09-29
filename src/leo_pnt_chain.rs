@@ -203,6 +203,15 @@ impl LeoPntChainScenario {
         Ok((sig, designs, chosen))
     }
 
+    /// The `[pass]` stage as a `leo-pass` scenario, with the chain's signal designs handed
+    /// in (the interoperability exports read its geometry from here).
+    pub fn pass_scenario(&self) -> Result<LeoPassScenario, String> {
+        let (_, designs, _) = self.designs()?;
+        let mut pass: LeoPassScenario = table(&self.pass, "pass")?;
+        pass.signal_designs = designs;
+        Ok(pass)
+    }
+
     /// Run the chain: the result document, the text summary and the SVG chart.
     pub fn compute(&self) -> Result<(Value, String, String), String> {
         if let Some(k) = &self.kind {

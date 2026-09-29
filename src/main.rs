@@ -525,6 +525,57 @@ fn main() -> ExitCode {
         }
     }
 
+    // Interoperability exports (`--export`): CZML, KML, GeoJSON, STK `.e` and SigMF. They
+    // are rendered here, before anything is written, so the report and the animation
+    // player can name the files; they are written after the other outputs. An explicitly
+    // named format that does not apply is an error that names the reason; under `all` it
+    // is reported and skipped.
+    let mut export_outputs: Vec<(PathBuf, Vec<u8>, String)> = Vec::new();
+    let mut export_skipped: Vec<String> = Vec::new();
+    let mut export_errors: Vec<String> = Vec::new();
+    let requested: Vec<(kshana::interop::Format, bool)> = if export_all {
+        kshana::interop::Format::ALL
+            .iter()
+            .map(|&f| (f, false))
+            .collect()
+    } else {
+        export_formats.iter().map(|&f| (f, true)).collect()
+    };
+    for (fmt, explicit) in requested {
+        match kshana::interop::export(&src, fmt) {
+            Ok(files) => {
+                for f in files {
+                    let target = output_base.with_extension(f.suffix.trim_start_matches('.'));
+                    export_outputs.push((target, f.bytes, fmt.as_str().to_string()));
+                }
+            }
+            Err(kshana::interop::ExportError::NotApplicable(why)) if !explicit => {
+                export_skipped.push(format!("skipped {}: {why}", fmt.as_str()));
+            }
+            Err(e) => export_errors.push(format!("error: {} export: {e}", fmt.as_str())),
+        }
+    }
+    let base_name = |p: &std::path::Path| {
+        p.file_name()
+            .map(|n| n.to_string_lossy().into_owned())
+            .unwrap_or_default()
+    };
+    let export_files: Vec<(String, String)> = export_outputs
+        .iter()
+        .map(|(t, _, f)| (f.clone(), base_name(t)))
+        .collect();
+    let animation_files: Vec<String> = animations.iter().map(|(t, _)| base_name(t)).collect();
+    // The HTML player offers the export files written beside it.
+    if !export_files.is_empty() {
+        for (_, anim) in animations.iter_mut() {
+            if anim.format == kshana::animation::AnimationFormat::Html {
+                for f in anim.files.iter_mut() {
+                    f.content = kshana::animation::with_companion_links(&f.content, &export_files);
+                }
+            }
+        }
+    }
+
     let json_path = output_base.with_extension("result.json");
     if let Err(e) = std::fs::write(&json_path, &out.json) {
         eprintln!("error: cannot write {}: {e}", json_path.display());
@@ -548,6 +599,8 @@ fn main() -> ExitCode {
         input_files: report_input_files,
         result_file: file_name(&json_path),
         chart_file: file_name(&svg_path),
+        animation_files,
+        export_files,
     };
     let report = match kshana::advanced_report::build(&out, &scenario_src, &invocation) {
         Ok(r) => r,
@@ -679,40 +732,21 @@ fn main() -> ExitCode {
             }
         }
     }
-    // Interoperability exports (`--export`): CZML, KML, GeoJSON, STK `.e` and SigMF.
-    // An explicitly named format that does not apply is an error that names the reason;
-    // under `all` it is reported and skipped.
-    let mut export_failed = false;
-    let requested: Vec<(kshana::interop::Format, bool)> = if export_all {
-        kshana::interop::Format::ALL
-            .iter()
-            .map(|&f| (f, false))
-            .collect()
-    } else {
-        export_formats.iter().map(|&f| (f, true)).collect()
-    };
-    for (fmt, explicit) in requested {
-        match kshana::interop::export(&src, fmt) {
-            Ok(files) => {
-                for f in files {
-                    let target = output_base.with_extension(f.suffix.trim_start_matches('.'));
-                    if let Err(e) = std::fs::write(&target, &f.bytes) {
-                        eprintln!("error: cannot write {}: {e}", target.display());
-                        return ExitCode::FAILURE;
-                    }
-                    println!("wrote {}", target.display());
-                }
-            }
-            Err(kshana::interop::ExportError::NotApplicable(why)) if !explicit => {
-                println!("skipped {}: {why}", fmt.as_str());
-            }
-            Err(e) => {
-                eprintln!("error: {} export: {e}", fmt.as_str());
-                export_failed = true;
-            }
+    // Interoperability exports, rendered above, are written last.
+    for (target, bytes, _) in &export_outputs {
+        if let Err(e) = std::fs::write(target, bytes) {
+            eprintln!("error: cannot write {}: {e}", target.display());
+            return ExitCode::FAILURE;
         }
+        println!("wrote {}", target.display());
     }
-    if export_failed {
+    for m in &export_skipped {
+        println!("{m}");
+    }
+    for m in &export_errors {
+        eprintln!("{m}");
+    }
+    if !export_errors.is_empty() {
         return ExitCode::FAILURE;
     }
     ExitCode::SUCCESS
