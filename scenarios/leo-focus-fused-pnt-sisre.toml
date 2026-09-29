@@ -1,0 +1,68 @@
+# LEO-PNT focus area: MEO + LEO fused PNT.
+#
+# A receiver in Madrid fuses GPS, Galileo and the Xona Pulsar X5 signal (public signal
+# table, arXiv 2509.19551; the inclined 1080 km shell) in one weighted least-squares
+# pseudorange solution with an inter-system bias per system. How good must the LEO orbit
+# and clock be for the LEO layer to help? The campaign sweeps the LEO signal-in-space
+# range error (SISRE) from 5 cm to 5 m and records the root-mean-square (RMS) 3D error of
+# the GNSS-only, LEO-only and fused solutions over half an hour, and the fused median
+# position dilution of precision (PDOP).
+#
+# The GNSS-only solution does not change; the fused one approaches it when the LEO SISRE
+# is metres and improves on it by the LEO geometry when the SISRE is decimetres: the
+# broadcast-message and orbit-determination quality (see `leo-pnt-end-to-end`, which
+# hands the navigation message's SISRE to this stage) decides whether fusing pays.
+#
+# MODELLED: stated per-system SISRE and loop noise from C/N0; no multipath.
+kind = "campaign"
+title = "Fused MEO + LEO positioning against the LEO SISRE"
+seed = 20260929
+
+[sweep]
+metrics = [
+  { name = "gnss_rms_3d", path = "joint.gnss.rms_error_3d_m" },
+  { name = "leo_rms_3d", path = "joint.leo.rms_error_3d_m" },
+  { name = "fused_rms_3d", path = "joint.fused.rms_error_3d_m" },
+  { name = "fused_median_pdop", path = "joint.fused.median_pdop" },
+]
+
+[[sweep.axes]]
+name = "leo_sisre"
+key = "system.2.sisre_m"
+unit = "m"
+start = 0.05
+stop = 5.0
+steps = 7
+scale = "log"
+
+[sweep.scenario]
+kind = "leo-pvt"
+mode = "joint"
+seed = 3
+duration_s = 1800.0
+step_s = 30.0
+
+[sweep.scenario.user]
+lat_deg = 40.42
+lon_deg = -3.70
+height_m = 650.0
+
+[[sweep.scenario.system]]
+name = "GPS"
+preset = "gps-baseline"
+cn0_dbhz = [38.0, 48.0]
+sisre_m = 0.6
+
+[[sweep.scenario.system]]
+name = "Galileo"
+preset = "galileo"
+cn0_dbhz = [38.0, 48.0]
+sisre_m = 0.3
+isb_ns = 12.0
+
+[[sweep.scenario.system]]
+name = "Pulsar X5"
+leo_preset = "xona-pulsar"
+signal = "X5"
+sisre_m = 0.5
+isb_ns = 40.0

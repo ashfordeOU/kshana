@@ -1,0 +1,123 @@
+# LEO-PNT resilience from received power: the jammer-to-signal (J/S) margin.
+#
+# A jammer denies a signal when the jammer power it lets through, relative to the signal's
+# own received power, pushes the effective carrier-to-noise density (C/N0) below the
+# tracking threshold. A low Earth orbit (LEO) satellite is about 20 to 40 times closer than
+# a medium Earth orbit (MEO) GNSS satellite, so the same transmitter delivers 26 to 32 dB
+# more power, and every dB of received power is a dB of J/S margin.
+#
+# One wideband (barrage) noise jammer, 40 MHz wide at 1185 MHz, covers GPS L5, Galileo E5a
+# and two LEO signals in the same band. Its received power steps up by 5 dB every 10 s
+# from -125 dBW at 10 s to -90 dBW at 80 s. The `spectrum` kind's first-loss time of
+# each band is where the jammer takes it:
+#   gps-l5       interface-document minimum, -157.9 dBW
+#   galileo-e5a  interface-document minimum, -155.0 dBW
+#   xona-x5      the published minimum received power, -144.9 dBW (arXiv 2509.19551)
+#   generic-l    a representative LEO L-band signal at -135 dBW, 1191.795 MHz
+# The LEO signals survive 10 to 20 dB more jammer power than the GNSS signals beside them.
+# Received powers are those at the stated minimum; a real pass varies over it (see the
+# leo-pass scenarios).
+#
+# MODELLED: the signal spectra are validated closed forms; the jammer steps and the
+# received powers are scenario inputs.
+kind = "spectrum"
+seed = 12
+duration_s = 100.0
+step_s = 1.0
+
+[receiver]
+noise_figure_db = 2.0
+antenna_temp_k = 290.0
+tracking_threshold_dbhz = 25.0
+
+[grid]
+f_min_mhz = 1150.0
+f_max_mhz = 1220.0
+n_freq = 140
+
+[[bands]]
+name = "gps-l5"
+
+[[bands]]
+name = "galileo-e5a"
+
+[[bands]]
+name = "xona-x5"
+signal = "xona-x5"
+
+[[bands]]
+name = "generic-l"
+signal = "generic-l"
+signal_power_dbw = -135.0
+
+[[jammers]]
+name = "barrage -125 dBW"
+waveform = "wideband"
+centre_mhz = 1185.0
+bandwidth_mhz = 40.0
+received_power_dbw = -125.0
+on_s = 10.0
+off_s = 20.0
+
+[[jammers]]
+name = "barrage -120 dBW"
+waveform = "wideband"
+centre_mhz = 1185.0
+bandwidth_mhz = 40.0
+received_power_dbw = -120.0
+on_s = 20.0
+off_s = 30.0
+
+[[jammers]]
+name = "barrage -115 dBW"
+waveform = "wideband"
+centre_mhz = 1185.0
+bandwidth_mhz = 40.0
+received_power_dbw = -115.0
+on_s = 30.0
+off_s = 40.0
+
+[[jammers]]
+name = "barrage -110 dBW"
+waveform = "wideband"
+centre_mhz = 1185.0
+bandwidth_mhz = 40.0
+received_power_dbw = -110.0
+on_s = 40.0
+off_s = 50.0
+
+[[jammers]]
+name = "barrage -105 dBW"
+waveform = "wideband"
+centre_mhz = 1185.0
+bandwidth_mhz = 40.0
+received_power_dbw = -105.0
+on_s = 50.0
+off_s = 60.0
+
+[[jammers]]
+name = "barrage -100 dBW"
+waveform = "wideband"
+centre_mhz = 1185.0
+bandwidth_mhz = 40.0
+received_power_dbw = -100.0
+on_s = 60.0
+off_s = 70.0
+
+[[jammers]]
+name = "barrage -95 dBW"
+waveform = "wideband"
+centre_mhz = 1185.0
+bandwidth_mhz = 40.0
+received_power_dbw = -95.0
+on_s = 70.0
+off_s = 80.0
+
+[[jammers]]
+name = "barrage -90 dBW"
+waveform = "wideband"
+centre_mhz = 1185.0
+bandwidth_mhz = 40.0
+received_power_dbw = -90.0
+on_s = 80.0
+off_s = 90.0
