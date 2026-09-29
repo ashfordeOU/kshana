@@ -172,15 +172,15 @@ Kshana's encoding:
 
 | Model | Fit interval | Parameters | Ephemeris + clock bits | SISRE orbit RMS | SISRE with clock RMS |
 |---|---|---|---|---|---|
-| `kepler16` | 60 s | 16 | 560 | 0.023 cm | 0.063 cm |
-| `kepler16` | 300 s | 16 | 560 | 0.230 cm | 0.253 cm |
-| `kepler16` | 600 s | 16 | 560 | 3.061 cm | 3.052 cm |
-| `kepler-rac` | 60 s | 37 | 1035 | 0.000 cm | 0.052 cm |
-| `kepler-rac` | 300 s | 37 | 1035 | 0.005 cm | 0.113 cm |
-| `kepler-rac` | 600 s | 37 | 1035 | 0.160 cm | 0.218 cm |
-| `liu22` | 60 s | 22 | 716 | 0.012 cm | 0.052 cm |
-| `liu22` | 300 s | 22 | 716 | 0.070 cm | 0.132 cm |
-| `liu22` | 600 s | 22 | 716 | 0.270 cm | 0.303 cm |
+| `kepler16` | 60 s | 16 | 570 | 0.023 cm | 0.063 cm |
+| `kepler16` | 300 s | 16 | 570 | 0.230 cm | 0.253 cm |
+| `kepler16` | 600 s | 16 | 570 | 3.061 cm | 3.052 cm |
+| `kepler-rac` | 60 s | 37 | 1045 | 0.000 cm | 0.052 cm |
+| `kepler-rac` | 300 s | 37 | 1045 | 0.005 cm | 0.113 cm |
+| `kepler-rac` | 600 s | 37 | 1045 | 0.160 cm | 0.218 cm |
+| `liu22` | 60 s | 22 | 730 | 0.012 cm | 0.052 cm |
+| `liu22` | 300 s | 22 | 730 | 0.070 cm | 0.132 cm |
+| `liu22` | 600 s | 22 | 730 | 0.270 cm | 0.303 cm |
 | `ecef-poly` (zero clock) | 60 s | 22 | 750 | 0.000 cm | 25.119 cm |
 | `ecef-poly` (zero clock) | 300 s | 22 | 750 | 0.005 cm | 25.119 cm |
 | `ecef-poly` (zero clock) | 600 s | 22 | 750 | 0.561 cm | 25.113 cm |
@@ -195,10 +195,10 @@ satellite's inclination:
 | Satellite | Altitude | Inclination | Liu et al. 2025 | Kshana (orbit-only RMS) | ratio |
 |---|---|---|---|---|---|
 | GRACE-A | 320 km | 89.00° | 8.88 cm | 5.39 cm | 0.61 |
-| GRACE-C | 475 km | 89.00° | 6.21 cm | 4.12 cm | 0.66 |
+| GRACE-C | 475 km | 89.00° | 6.21 cm | 4.11 cm | 0.66 |
 | Sentinel-2A | 786 km | 98.57° | 2.87 cm | 2.95 cm | 1.03 |
 | HY-2A | 966 km | 99.34° | 2.11 cm | 2.38 cm | 1.13 |
-| Sentinel-6A | 1336 km | 66.04° | 0.75 cm | 0.70 cm | 0.94 |
+| Sentinel-6A | 1336 km | 66.04° | 0.75 cm | 0.71 cm | 0.94 |
 
 This is **not** a validation. The paper fitted real precise science orbits of the named
 satellites (with their full gravity, drag and non-gravitational history); Kshana fits its
@@ -230,7 +230,7 @@ Largest user range jump 0.40 mm against a 5 cm threshold: **PASS**.
 it, checks the CRC and rejects a corrupted copy, prints the quantisation budget, and
 writes and reads back the RINEX-style block and the CSV table:
 
-- frame: 170 bytes (1300 payload bits, of which 1035 are ephemeris and clock), CRC-24Q `0xB8D51D`;
+- frame: 171 bytes (1310 payload bits, of which 1045 are ephemeris and clock), CRC-24Q `0x110315`;
 - largest half-step effect of any single field: `af0`, 0.545 mm;
 - whole message after quantisation: position within 0.662 mm and clock within 0.451 mm of the exact message; SISRE 0.107 cm exact, 0.119 cm decoded;
 - a frame with one flipped bit is rejected: true;
@@ -277,8 +277,8 @@ and widens the fields to keep the ranges a LEO fit needs:
 | Keplerian (models 1-3) | `Omega0` | 36 | 2^-35 | semicircle |
 | Keplerian (models 1-3) | `i0` | 36 | 2^-35 | semicircle |
 | Keplerian (models 1-3) | `omega` | 36 | 2^-35 | semicircle |
-| Keplerian (models 1-3) | `deltaN` | 24 | 2^-43 | semicircle/s |
-| Keplerian (models 1-3) | `OmegaDot` | 24 | 2^-43 | semicircle/s |
+| Keplerian (models 1-3) | `deltaN` | 29 | 2^-43 | semicircle/s |
+| Keplerian (models 1-3) | `OmegaDot` | 29 | 2^-43 | semicircle/s |
 | Keplerian (models 1-3) | `iDot` | 22 | 2^-43 | semicircle/s |
 | Keplerian (models 1-3) | `Cuc` | 26 | 2^-34 | rad |
 | Keplerian (models 1-3) | `Cus` | 26 | 2^-34 | rad |
@@ -291,8 +291,8 @@ and widens the fields to keep the ranges a LEO fit needs:
 | along/cross/radial corrections (model 2) | `degR` | 3 | 1 | - |
 | along/cross/radial corrections (model 2) | `racTauExp` | 4 | 1 | log2(s) |
 | along/cross/radial corrections (model 2) | `a_k, c_k, r_k` | 22 | 2^-14 | m |
-| Liu et al. 2025 extras (model 3) | `aDot` | 24 | 2^-20 | m/s |
-| Liu et al. 2025 extras (model 3) | `nDot` | 28 | 2^-60 | semicircle/s^2 |
+| Liu et al. 2025 extras (model 3) | `aDot` | 26 | 2^-20 | m/s |
+| Liu et al. 2025 extras (model 3) | `nDot` | 30 | 2^-60 | semicircle/s^2 |
 | Liu et al. 2025 extras (model 3) | `Crs3` | 26 | 2^-10 | m |
 | Liu et al. 2025 extras (model 3) | `Crc3` | 26 | 2^-10 | m |
 | Liu et al. 2025 extras (model 3) | `Crs1` | 26 | 2^-10 | m |
@@ -322,7 +322,14 @@ and widens the fields to keep the ranges a LEO fit needs:
 | UTC (flag bit 3) | `DN` | 3 | 1 | day |
 | UTC (flag bit 3) | `dtLSF` | 8 | 1 | s |
 
-A value outside its field's range is refused, not wrapped. `quantisation_budget` reports,
+A value outside its field's range is refused, not wrapped. The ranges were checked by
+encoding fits at 300 to 2000 km, inclinations from 0° to 140° and fit intervals up to
+20 minutes: `deltaN` and `OmegaDot` are wide because on a near-equatorial orbit the node
+is poorly defined and the fit shares the J2 drift of the argument of latitude between
+them, and `aDot` and `nDot` because the 22-parameter fit over 20 minutes absorbs part of
+the short-period oscillation of the semi-major axis. The degree-7 along-track
+corrections of `kepler-rac` fit the 22-bit coefficient range up to 15 minutes; a longer
+fit can exceed it and is then refused. `quantisation_budget` reports,
 for every ephemeris and clock field, the largest position and range change a half-step
 change makes over the usage period, and the whole-message change after quantisation.
 
