@@ -509,6 +509,8 @@ pub struct PppCaseOut {
     pub convergence_min: Vec<Option<f64>>,
     /// Mean satellites in view.
     pub mean_sats: f64,
+    /// Time of each per-minute value (min after the start).
+    pub t_min: Vec<f64>,
     /// Median horizontal error across runs, one value per minute (m).
     pub median_horizontal_error_m: Vec<f64>,
     /// Median vertical error across runs, one value per minute (m).
@@ -696,6 +698,7 @@ impl PppScenario {
                     / conv.len() as f64,
                 convergence_min: conv,
                 mean_sats: n_sats as f64 / (results.len() * n_ep) as f64,
+                t_min: idx.iter().map(|&k| k as f64 * step / 60.0).collect(),
                 median_horizontal_error_m: idx.iter().map(|&k| med_at(k, true)).collect(),
                 median_vertical_error_m: idx.iter().map(|&k| med_at(k, false)).collect(),
                 nees_fraction_in_band: in_band as f64 / n_ep as f64,
@@ -870,6 +873,7 @@ pub const PPP_UNITS: &[FieldUnit] = &[
     FieldUnit { path: "cases[].fraction_converged", unit: "1", provenance: Modelled, definition: "fraction of runs converged within the run" },
     FieldUnit { path: "cases[].convergence_min[]", unit: "min", provenance: Modelled, definition: "convergence time of each run" },
     FieldUnit { path: "cases[].mean_sats", unit: "count", provenance: Computed, definition: "mean satellites in view" },
+    FieldUnit { path: "cases[].t_min[]", unit: "min", provenance: Computed, definition: "time of each per-minute value after the start of the run" },
     FieldUnit { path: "cases[].median_horizontal_error_m[]", unit: "m", provenance: Modelled, definition: "median horizontal error across runs, one value per minute" },
     FieldUnit { path: "cases[].median_vertical_error_m[]", unit: "m", provenance: Modelled, definition: "median absolute vertical error across runs, one value per minute" },
     FieldUnit { path: "cases[].nees_fraction_in_band", unit: "1", provenance: InternalConsistency, definition: "fraction of epochs whose run-averaged position NEES is inside the two-sided 95% chi-square band" },

@@ -1887,6 +1887,45 @@ pub fn render_html(tl: &Timeline, opts: &AnimationOptions) -> String {
     )
 }
 
+/// The HTML player with a list of the files a run wrote beside it (its interoperability
+/// exports), as `(format, file name)`. Each becomes a relative link to a sibling file;
+/// a name with anything but letters, digits, `.`, `-` and `_` (or starting with `.`) is
+/// shown without a link, so no link can leave the player's folder or reach the network.
+/// With no files the player is returned unchanged.
+pub fn with_companion_links(html: &str, files: &[(String, String)]) -> String {
+    if files.is_empty() {
+        return html.to_string();
+    }
+    let bare = |n: &str| {
+        !n.is_empty()
+            && !n.starts_with('.')
+            && n.bytes()
+                .all(|b| b.is_ascii_alphanumeric() || matches!(b, b'.' | b'-' | b'_'))
+    };
+    let items: Vec<String> = files
+        .iter()
+        .map(|(fmt, name)| {
+            if bare(name) {
+                format!(
+                    "<li>{} <a href=\"{n}\">{n}</a></li>",
+                    esc(fmt),
+                    n = esc(name)
+                )
+            } else {
+                format!("<li>{} {}</li>", esc(fmt), esc(name))
+            }
+        })
+        .collect();
+    let block = format!(
+        "<h2 id=\"kx-files-h\" style=\"font-size:1rem;margin-top:22px\">Exports written beside this player</h2>\n<ul id=\"kx-files\" class=\"events\">{}</ul>\n<footer>",
+        items.join("")
+    );
+    match html.find("<footer>") {
+        Some(i) => format!("{}{}{}", &html[..i], block, &html[i + "<footer>".len()..]),
+        None => html.to_string(),
+    }
+}
+
 // ---------------------------------------------------------------------------
 // Entry points
 // ---------------------------------------------------------------------------
@@ -1977,6 +2016,20 @@ mod tests {
         crate::api::run_toml(include_str!("../scenarios/clock-holdover.toml"))
             .expect("clock runs")
             .json
+    }
+
+    #[test]
+    fn the_player_links_only_bare_sibling_file_names() {
+        let html = "<main>x</main><footer>f</footer>";
+        let files = vec![
+            ("czml".to_string(), "run.czml".to_string()),
+            ("kml".to_string(), "../escape.kml".to_string()),
+        ];
+        let out = with_companion_links(html, &files);
+        assert!(out.contains("<a href=\"run.czml\">run.czml</a>"));
+        assert!(!out.contains("href=\"../escape.kml\""));
+        assert!(out.contains("../escape.kml"));
+        assert_eq!(with_companion_links(html, &[]), html);
     }
 
     #[test]

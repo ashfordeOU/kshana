@@ -136,11 +136,18 @@ pub const KIND_CAPABILITIES: &[(&str, &[&str])] = &[
     ("araim-reference-check", &["ARAIM MHSS protection levels against published reference vectors"]),
     ("telecom-timing", &["Telecom-timing MTIE and TDEV on a holdover time-error series", "ITU-T telecom synchronisation masks with PASS/FAIL and margin", "Oscillator holdover presets from public datasheets"]),
     ("slot-timing", &["Holdover prediction from a measured clock record, checked on held-out data", "Seconds until a free-running clock leaves a time-indexed slot's guard, and the fix cadence that keeps it inside", "Timing protection level for a receiver in orbit under GNSS spoofing"]),
-    ("spectrum", &["Closed-form L-band signal power spectral densities and spectral separation coefficients", "L-band spectrum waterfall with per-band J/S and effective C/N0 under a scripted jammer timeline", "SigMF recording input and output, and Welch spectral estimates of complex IQ", "Navigation RF payload & antenna hardware design"]),
+    ("spectrum", &["Closed-form L-band signal power spectral densities and spectral separation coefficients", "L-band spectrum waterfall with per-band J/S and effective C/N0 under a scripted jammer timeline", "SigMF recording input and output, and Welch spectral estimates of complex IQ", "Navigation RF payload & antenna hardware design", "Multi-band spectrum waterfall (UHF, L, S, C) with designed signals and per-band jammers"]),
     ("solar-system", &["Planet positions across the solar system from the JPL Standish Keplerian elements", "Light time between solar-system bodies", "Uranus and Neptune from Standish Table 1, Pluto, and planetary velocities", "Positions of the Moon and seven major moons (Phobos, Deimos, the Galilean moons, Titan)", "Physical constants of every solar-system body and the whole-system report"]),
     ("body-pnt", &["Positioning around any solar-system body with a local constellation and a deep-space link from Earth"]),
     ("constellation-design", &["Walker constellation geometry and the published nominal slots of GPS, Galileo and GLONASS", "Global dilution of precision of the GPS baseline constellation", "Coverage and dilution-of-precision maps for arbitrary multi-constellation designs at scale, around any central body"]),
     ("campaign", &[]),
+    ("leo-signal", &["Band-limited closed forms for any ranging signal: power in band and early-late code-tracking jitter against published values, with the Gabor bandwidth and offset spectral separation cross-checked", "Maximum Doppler of a low Earth orbit navigation satellite, which sizes the acquisition search", "Low Earth orbit positioning, navigation and timing signal designs: code tracking, acquisition, GNSS compatibility and a band trade for any system"]),
+    ("leo-pass", &["A LEO-PNT pass and its per-band link budget against the MEO GNSS satellites in view", "First-order ionospheric delay per band, the ionosphere-free combination and free-space loss", "Maximum Doppler a static user sees from a LEO or MEO orbit", "Tropospheric amplitude scintillation on an Earth-space link", "Rain specific-attenuation coefficients for any band a LEO-PNT link uses", "Long-term slant-path rain attenuation on an Earth-space link", "Building entry loss for an indoor LEO-PNT user", "Named LEO-PNT system presets with stated sources, and a system-agnostic engine", "Low-energy positioning: time to first fix and energy per fix against duty cycle"]),
+    ("leo-navmsg", &["Global-average signal-in-space range error weights for any orbit altitude", "Galileo ICD broadcast-ephemeris user algorithm as the base of a LEO navigation message", "LEO broadcast-ephemeris fitter and signal-in-space range error versus fit interval and update period", "Selectable LEO ephemeris models: the Liu et al. 2025 22-parameter model and the ATOMIC zero-clock polynomial", "Single-frequency ionospheric and UTC services of a LEO navigation message", "Mid-pass LEO navigation message update with a continuity check at the switch", "CRC-24Q frame check for the LEO navigation message", "Documented binary encoding of the LEO navigation message with a quantisation-error budget", "RINEX-4-style and CSV exports of LEO navigation messages"]),
+    ("leo-pvt", &["Positioning from LEO Doppler, single- and multi-satellite, with clock-drift and velocity states", "Doppler a ground receiver must handle from a LEO navigation satellite", "Joint GNSS and LEO pseudorange positioning with inter-system biases and per-signal error models", "LEO-assisted time transfer to UTC against C/N0 and the receiver oscillator", "LEO coverage and dilution of precision for polar and Arctic users against MEO GNSS", "Named LEO PNT systems as optional data presets, each with its source"]),
+    ("leo-ppp", &["Precise point positioning convergence with GNSS only and with LEO augmentation"]),
+    ("ntn-positioning", &["5G non-terrestrial-network positioning accuracy from signal bandwidth"]),
+    ("leo-pnt-chain", &["One LEO-PNT system end to end: signal design, pass link budget, navigation message and fused positioning, each stage's output handed to the next", "Band-limited closed forms for any ranging signal: power in band and early-late code-tracking jitter against published values, with the Gabor bandwidth and offset spectral separation cross-checked", "Low Earth orbit positioning, navigation and timing signal designs: code tracking, acquisition, GNSS compatibility and a band trade for any system", "A LEO-PNT pass and its per-band link budget against the MEO GNSS satellites in view", "First-order ionospheric delay per band, the ionosphere-free combination and free-space loss", "Maximum Doppler a static user sees from a LEO or MEO orbit", "Tropospheric amplitude scintillation on an Earth-space link", "Rain specific-attenuation coefficients for any band a LEO-PNT link uses", "Long-term slant-path rain attenuation on an Earth-space link", "Building entry loss for an indoor LEO-PNT user", "Named LEO-PNT system presets with stated sources, and a system-agnostic engine", "Global-average signal-in-space range error weights for any orbit altitude", "Galileo ICD broadcast-ephemeris user algorithm as the base of a LEO navigation message", "LEO broadcast-ephemeris fitter and signal-in-space range error versus fit interval and update period", "Joint GNSS and LEO pseudorange positioning with inter-system biases and per-signal error models", "Precise point positioning convergence with GNSS only and with LEO augmentation", "Named LEO PNT systems as optional data presets, each with its source"]),
 ];
 
 /// Rows a kind exercises only on one input path, as (kind, matrix `requirement`, scenario
@@ -158,6 +165,30 @@ pub const KIND_CAPABILITIES: &[(&str, &[&str])] = &[
 /// (`DemGrid::synthetic_fixture`, keyed by `dem_seed`) and no scenario field reaches
 /// `DemGrid::from_srtm_hgt`.
 pub const PATH_GATED_CAPABILITIES: &[(&str, &str, &str)] = &[
+    ("spectrum", "Multi-band spectrum waterfall (UHF, L, S, C) with designed signals and per-band jammers", "doc:panels"),
+    ("leo-pass", "Tropospheric amplitude scintillation on an Earth-space link", "!scintillation=false"),
+    ("leo-pass", "Rain specific-attenuation coefficients for any band a LEO-PNT link uses", "rain_rate_mm_h"),
+    ("leo-pass", "Long-term slant-path rain attenuation on an Earth-space link", "rain_rate_mm_h"),
+    ("leo-pass", "Building entry loss for an indoor LEO-PNT user", "building"),
+    ("leo-pass", "Low-energy positioning: time to first fix and energy per fix against duty cycle", "iot"),
+    ("leo-navmsg", "LEO broadcast-ephemeris fitter and signal-in-space range error versus fit interval and update period", "doc:fit_interval_trade"),
+    ("leo-navmsg", "Selectable LEO ephemeris models: the Liu et al. 2025 22-parameter model and the ATOMIC zero-clock polynomial", "doc:model_comparison"),
+    ("leo-navmsg", "Mid-pass LEO navigation message update with a continuity check at the switch", "doc:midpass_update"),
+    ("leo-navmsg", "CRC-24Q frame check for the LEO navigation message", "doc:encode_decode"),
+    ("leo-navmsg", "Documented binary encoding of the LEO navigation message with a quantisation-error budget", "doc:encode_decode"),
+    ("leo-navmsg", "RINEX-4-style and CSV exports of LEO navigation messages", "doc:encode_decode"),
+    ("leo-pvt", "Positioning from LEO Doppler, single- and multi-satellite, with clock-drift and velocity states", "doc:doppler"),
+    ("leo-pvt", "Doppler a ground receiver must handle from a LEO navigation satellite", "doc:doppler"),
+    ("leo-pvt", "Joint GNSS and LEO pseudorange positioning with inter-system biases and per-signal error models", "doc:joint"),
+    ("leo-pvt", "LEO-assisted time transfer to UTC against C/N0 and the receiver oscillator", "doc:timing"),
+    ("leo-pvt", "LEO coverage and dilution of precision for polar and Arctic users against MEO GNSS", "doc:polar"),
+    ("leo-pvt", "Named LEO PNT systems as optional data presets, each with its source", "leo_preset"),
+    ("leo-pnt-chain", "Tropospheric amplitude scintillation on an Earth-space link", "!scintillation=false"),
+    ("leo-pnt-chain", "Rain specific-attenuation coefficients for any band a LEO-PNT link uses", "rain_rate_mm_h"),
+    ("leo-pnt-chain", "Long-term slant-path rain attenuation on an Earth-space link", "rain_rate_mm_h"),
+    ("leo-pnt-chain", "Building entry loss for an indoor LEO-PNT user", "building"),
+    ("leo-pnt-chain", "Precise point positioning convergence with GNSS only and with LEO augmentation", "doc:ppp"),
+    ("leo-pnt-chain", "Named LEO PNT systems as optional data presets, each with its source", "leo_preset"),
     ("orbit", "Orbit propagation & determination", "tle"),
     ("ephemeris", "Orbit propagation & determination", "tle"),
     (
@@ -166,6 +197,45 @@ pub const PATH_GATED_CAPABILITIES: &[(&str, &str, &str)] = &[
         "record",
     ),
 ];
+
+/// Whether a path gate holds. A plain `key` must name a field anywhere in the scenario
+/// tree; `doc:key` must name a non-null field anywhere in the result document (the run
+/// took that analysis or mode); `!key=false` holds unless the scenario sets `key` to
+/// `false` anywhere (a term that is on by default).
+fn gate_holds(gate: &str, scn: &Value, doc: &Value) -> bool {
+    if let Some(k) = gate.strip_prefix("doc:") {
+        doc_has_value(doc, k)
+    } else if let Some(k) = gate
+        .strip_prefix('!')
+        .and_then(|g| g.strip_suffix("=false"))
+    {
+        !scenario_sets_false(scn, k)
+    } else {
+        scenario_has_key(scn, gate)
+    }
+}
+
+/// Whether `key` names a non-null field anywhere in the document.
+fn doc_has_value(v: &Value, key: &str) -> bool {
+    match v {
+        Value::Object(m) => m
+            .iter()
+            .any(|(k, val)| (k == key && !val.is_null()) || doc_has_value(val, key)),
+        Value::Array(a) => a.iter().any(|e| doc_has_value(e, key)),
+        _ => false,
+    }
+}
+
+/// Whether the scenario sets `key = false` anywhere.
+fn scenario_sets_false(v: &Value, key: &str) -> bool {
+    match v {
+        Value::Object(m) => m.iter().any(|(k, val)| {
+            (k == key && val == &Value::Bool(false)) || scenario_sets_false(val, key)
+        }),
+        Value::Array(a) => a.iter().any(|e| scenario_sets_false(e, key)),
+        _ => false,
+    }
+}
 
 /// Whether `key` names a field anywhere in the scenario tree.
 fn scenario_has_key(v: &Value, key: &str) -> bool {
@@ -217,6 +287,52 @@ pub struct Invocation {
     pub result_file: Option<String>,
     /// File name of the chart written beside the report.
     pub chart_file: Option<String>,
+    /// File names of the animation exports this run wrote beside the report (`--animate`).
+    pub animation_files: Vec<String>,
+    /// `(format, file name)` of every interoperability export this run wrote beside the
+    /// report (`--export`).
+    pub export_files: Vec<(String, String)>,
+}
+
+/// The run's animation as the report carries it.
+#[derive(Clone, Debug, Serialize)]
+pub struct AnimationCompanion {
+    /// Whether the result carries a time series the animation exporter can draw.
+    pub available: bool,
+    /// Whether the HTML report embeds the animated drawing.
+    pub embedded: bool,
+    /// Why there is no animation, when there is none.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub reason: Option<String>,
+    /// Animation files this run wrote beside the report.
+    pub files: Vec<String>,
+    /// The command that writes the stand-alone player.
+    pub command: String,
+}
+
+/// One interoperability format as the report lists it.
+#[derive(Clone, Debug, Serialize)]
+pub struct ExportRow {
+    /// Format name as `--export` takes it.
+    pub format: String,
+    /// Whether the format applies to this scenario.
+    pub applies: bool,
+    /// Why it does not, when it does not.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub reason: Option<String>,
+    /// The format's published specification.
+    pub spec_url: String,
+    /// Files of this format this run wrote beside the report.
+    pub files: Vec<String>,
+}
+
+/// The files that accompany a run: its animation and its interoperability exports.
+#[derive(Clone, Debug, Serialize)]
+pub struct Companions {
+    pub animation: AnimationCompanion,
+    pub exports: Vec<ExportRow>,
+    /// The command that writes every applicable export.
+    pub export_command: String,
 }
 
 /// A section: its rows, how many rows the cap left out, and a sentence when there is
@@ -490,7 +606,11 @@ pub struct Report {
     pub events: Section<EventRow>,
     pub capabilities: Capabilities,
     pub not_modelled: Section<NoteRow>,
+    pub companions: Companions,
     pub reproducibility: Reproducibility,
+    /// The animated drawing the HTML report embeds (not part of `report.json`).
+    #[serde(skip)]
+    pub animation_svg: Option<String>,
 }
 
 // ---------------------------------------------------------------------------------------
@@ -1330,7 +1450,7 @@ fn build_capabilities(
                     .iter()
                     .find(|(gk, gr, _)| gk == k && gr == r);
                 if let Some((_, _, key)) = gated {
-                    if !scenario_has_key(scn, key) {
+                    if !gate_holds(key, scn, doc) {
                         continue;
                     }
                 }
@@ -2173,6 +2293,7 @@ pub fn build(out: &crate::api::RunOutput, src: &str, inv: &Invocation) -> Result
             });
         }
     }
+    let (companions, animation_svg) = build_companions(out, src, &kind, inv);
     let events = build_events(&kind, &scn, &doc);
     if events.items.iter().any(|e| e.t_end_s.is_some()) {
         charts.push(ChartRef {
@@ -2397,8 +2518,71 @@ pub fn build(out: &crate::api::RunOutput, src: &str, inv: &Invocation) -> Result
         events,
         capabilities: caps,
         not_modelled,
+        companions,
         reproducibility,
+        animation_svg,
     })
+}
+
+/// Only a bare file name may become a link: nothing that could leave the report's folder.
+fn is_bare_file_name(n: &str) -> bool {
+    !n.is_empty()
+        && !n.starts_with('.')
+        && n.bytes()
+            .all(|b| b.is_ascii_alphanumeric() || matches!(b, b'.' | b'-' | b'_'))
+}
+
+fn build_companions(
+    out: &crate::api::RunOutput,
+    src: &str,
+    kind: &str,
+    inv: &Invocation,
+) -> (Companions, Option<String>) {
+    let q = shell_quote(&inv.scenario_arg);
+    let (available, svg, reason) = match crate::animation::animate_result(
+        &out.json,
+        Some(kind),
+        crate::animation::AnimationFormat::Svg,
+        &crate::animation::AnimationOptions::default(),
+    ) {
+        Ok(a) => (true, a.files.into_iter().next().map(|f| f.content), None),
+        Err(e) => (false, None, Some(e.to_string())),
+    };
+    let animation = AnimationCompanion {
+        available,
+        embedded: svg.is_some(),
+        reason,
+        files: inv
+            .animation_files
+            .iter()
+            .filter(|n| is_bare_file_name(n))
+            .cloned()
+            .collect(),
+        command: format!("kshana {q} --animate html"),
+    };
+    let exports = crate::interop::plan(src)
+        .into_iter()
+        .map(|(fmt, r)| ExportRow {
+            format: fmt.as_str().to_string(),
+            applies: r.is_ok(),
+            reason: r.err(),
+            spec_url: fmt.spec_url().to_string(),
+            files: inv
+                .export_files
+                .iter()
+                .filter(|(f, n)| f == fmt.as_str() && is_bare_file_name(n))
+                .map(|(_, n)| n.clone())
+                .collect(),
+        })
+        .collect();
+    (
+        Companions {
+            animation,
+            exports,
+            export_command: format!("kshana {q} --export all"),
+        },
+        svg,
+    )
 }
 
 impl Report {
@@ -2661,6 +2845,9 @@ fn render_html(r: &Report, chart_svg: &str) -> String {
     if r.aggregation.is_some() {
         h.push_str("<a href=\"#aggregation\">3a Aggregation</a>");
     }
+    {
+        h.push_str("<a href=\"#companions\">3b Animation and exports</a>");
+    }
     h.push_str("<a href=\"#events\">4 Events</a><a href=\"#labels\">5 Verification labels</a><a href=\"#not-modelled\">6 Not modelled</a><a href=\"#reproducibility\">7 Reproducibility</a></nav>\n");
 
     // 1 Executive summary.
@@ -2843,6 +3030,61 @@ fn render_html(r: &Report, chart_svg: &str) -> String {
         }
         h.push_str("</section>\n");
     }
+
+    // 3b Animation and exports.
+    let c = &r.companions;
+    h.push_str("<section id=\"companions\">\n<h2>3b. Animation and exports</h2>\n");
+    match &r.animation_svg {
+        Some(svg) => h.push_str(&format!(
+            "<figure><img src=\"{}\" alt=\"Animation of the run's time series\"/><figcaption>The run's own samples drawing in behind a moving time cursor (the animated drawing of <code>--animate svg</code>; it shows the finished picture under reduced motion and in print).</figcaption></figure>\n",
+            svg_data_uri(svg)
+        )),
+        None => h.push_str(&format!(
+            "<p class=\"note\">No animation: {}</p>\n",
+            esc(c.animation.reason.as_deref().unwrap_or("the result carries no time series"))
+        )),
+    }
+    if c.animation.available {
+        if c.animation.files.is_empty() {
+            h.push_str(&format!(
+                "<p>The interactive player is written by <code>{}</code>.</p>\n",
+                esc(&c.animation.command)
+            ));
+        } else {
+            let links: Vec<String> = c
+                .animation
+                .files
+                .iter()
+                .map(|n| format!("<a href=\"{0}\">{0}</a>", esc(n)))
+                .collect();
+            h.push_str(&format!(
+                "<p>Written beside this report: {}.</p>\n",
+                links.join(", ")
+            ));
+        }
+    }
+    h.push_str("<div class=\"wrap\"><table><thead><tr><th>Export</th><th>Applies</th><th>Files or reason</th></tr></thead><tbody>");
+    for e in &c.exports {
+        let detail = if !e.files.is_empty() {
+            e.files
+                .iter()
+                .map(|n| format!("<a href=\"{0}\">{0}</a>", esc(n)))
+                .collect::<Vec<_>>()
+                .join(", ")
+        } else if e.applies {
+            format!("written by <code>{}</code>", esc(&c.export_command))
+        } else {
+            esc(e.reason.as_deref().unwrap_or("does not apply"))
+        };
+        h.push_str(&format!(
+            "<tr><td>{}<br/><span class=\"note\">{}</span></td><td>{}</td><td>{}</td></tr>",
+            esc(&e.format),
+            esc(&e.spec_url),
+            if e.applies { "yes" } else { "no" },
+            detail
+        ));
+    }
+    h.push_str("</tbody></table></div>\n</section>\n");
 
     // 4 Events.
     h.push_str("<section id=\"events\">\n<h2>4. Events timeline</h2>\n");
