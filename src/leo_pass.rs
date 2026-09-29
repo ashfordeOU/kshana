@@ -797,6 +797,7 @@ pub struct SpoofTestEpoch {
 /// One epoch of the spoofing monitors.
 #[derive(Clone, Debug, Serialize)]
 pub struct SpoofEpoch {
+    /// Seconds after the epoch.
     pub t_s: f64,
     /// Horizontal distance of the claimed position from the true one (m).
     pub offset_m: f64,
@@ -816,11 +817,15 @@ pub struct SpoofEpoch {
 /// One cross-band pair over the run.
 #[derive(Clone, Debug, Serialize)]
 pub struct CrossBandPairOut {
+    /// The LEO satellite.
     pub satellite: String,
+    /// The pair's first band.
     pub band_1: String,
+    /// The pair's second band.
     pub band_2: String,
-    /// Whether the spoofer counterfeits each band.
+    /// Whether the spoofer counterfeits the first band.
     pub spoofed_1: bool,
+    /// Whether the spoofer counterfeits the second band.
     pub spoofed_2: bool,
     /// Largest `|step|` of the model-corrected geometry-free combination (m).
     pub max_abs_step_m: Option<f64>,
@@ -844,22 +849,39 @@ pub struct SpoofDetection {
 /// The spoofing section of the report.
 #[derive(Clone, Debug, Serialize)]
 pub struct SpoofOut {
+    /// The honesty label.
     pub label: String,
+    /// Spoofing onset (s after the epoch).
     pub onset_s: f64,
+    /// Jump of the claimed position at the onset (m).
     pub offset_m: f64,
+    /// Horizontal push speed after the onset (m/s).
     pub push_rate_m_s: f64,
+    /// Direction of the push, clockwise from north (deg).
     pub push_azimuth_deg: f64,
+    /// The LEO bands the spoofer counterfeits.
     pub spoofed_bands: Vec<String>,
+    /// Whether the spoofer counterfeits the MEO GNSS signal.
     pub spoofs_gnss: bool,
+    /// Whether the counterfeit pseudoranges carry the ionospheric delay.
     pub simulates_iono: bool,
+    /// 1-sigma of the receiver's prior position, per axis (m).
     pub prior_sigma_m: f64,
+    /// 1-sigma of the receiver's prior velocity, per axis (m/s).
     pub prior_velocity_sigma_m_s: f64,
+    /// 1-sigma clock-drift prior (m/s); absent when the drift is a nuisance.
     pub drift_sigma_m_s: Option<f64>,
+    /// Frequency-lock-loop noise bandwidth (Hz).
     pub fll_bandwidth_hz: f64,
+    /// Frequency-lock-loop predetection time (s).
     pub fll_integration_s: f64,
+    /// Channels below this C/N0 are not tracked (dB-Hz).
     pub tracking_threshold_dbhz: f64,
+    /// False-alarm probability of each test at each epoch.
     pub p_fa: f64,
+    /// Missed-detection probability defining detection.
     pub p_md: f64,
+    /// Unmodelled ionospheric rate the cross-band monitor tolerates (m/s).
     pub iono_rate_bound_m_s: f64,
     /// Length of the Doppler test's window as used, a whole number of steps (s).
     pub window_s: f64,
@@ -869,14 +891,21 @@ pub struct SpoofOut {
     /// Median size of the range-rate position gradient (range rate per metre of push, 1/s).
     pub median_leo_gradient_per_s: Option<f64>,
     pub median_gnss_gradient_per_s: Option<f64>,
+    /// Detection by the Doppler test on the GNSS channels.
     pub gnss: SpoofDetection,
+    /// Detection by the Doppler test on the LEO channels.
     pub leo: SpoofDetection,
+    /// Detection by the Doppler test on every channel.
     pub fused: SpoofDetection,
+    /// Detection by the cross-band test.
     pub cross_band: SpoofDetection,
     /// First detection by any monitor.
     pub first: SpoofDetection,
+    /// Every LEO band pair over the run.
     pub pairs: Vec<CrossBandPairOut>,
+    /// The monitors at every epoch.
     pub series: Vec<SpoofEpoch>,
+    /// Assumptions stated with the result.
     pub notes: Vec<String>,
 }
 

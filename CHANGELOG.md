@@ -13,14 +13,67 @@ breaking changes are called out explicitly.
 
 - **Batch B and batch C in one release: animation, advanced reports, interoperability
   exports and a complete LEO-PNT capability.** Across the release the kind count moves from
-  68 to 75, the scenario-file count from 94 to 120 (114 bundled for `kshana example`, plus
+  68 to 75, the scenario-file count from 94 to 138 (132 bundled for `kshana example`, plus
   one suite manifest), and the verification matrix from 189 to
-  **220 rows — 83 VALIDATED, 133 MODELLED, 4 PARTNER**. Per area: animation, reports and
+  **223 rows — 83 VALIDATED, 136 MODELLED, 4 PARTNER**. Per area: animation, reports and
   exports add no kind and no row; `leo-signal` +1 kind, +4 files, +4 rows (2 validated,
   2 modelled); `leo-pass` +1 kind, +6 files, +9 rows (6 validated, 3 modelled);
   `leo-navmsg` +1 kind, +5 files, +9 rows (3 validated, 6 modelled); `leo-pvt`, `leo-ppp`
   and `ntn-positioning` +3 kinds, +8 files, +8 rows (1 validated, 7 modelled);
-  `leo-pnt-chain` +1 kind, +3 files, +1 row (modelled). Each area is described below.
+  `leo-pnt-chain` +1 kind, +3 files, +1 row (modelled); LEO-PNT resilience, focus areas
+  and verticals no kind, +18 files, +3 rows (modelled). Each area is described below.
+- **LEO-PNT resilience, one scenario per experiment focus area and one per end-user
+  vertical, and `docs/LEO-PNT.md` as the overview of every LEO kind and scenario.** Every
+  scenario runs without any Celeste data and is bundled.
+  - `leo-pass` gains a `[spoofer]` section: a spoofer counterfeits, self-consistently in
+    range and range rate, the signals of a claimed position that jumps and/or is pushed
+    from the true one after an onset (per LEO band, and the MEO GNSS signal), with or
+    without the ionosphere. Two monitors run at a stated false-alarm probability: Doppler
+    and pass-geometry consistency (measured range rates against those predicted from the
+    orbits and an independent prior position and velocity; a generalised least-squares
+    chi-square over a window, on the GNSS, LEO and all channels, frequency-lock-loop noise
+    from C/N0) and cross-band consistency (the step of each LEO band pair's
+    model-corrected geometry-free combination). The result gives the statistics per epoch
+    (so it animates), each pair, and when each monitor detects. Building blocks in
+    `leo_link::spoof`. Absent section, unchanged output.
+  - Every `leo-pass` band pair also reports the slant total electron content (TEC) its
+    geometry-free combination recovers at the pass peak and that estimate's code-noise
+    sigma (ionosphere sounding). This adds two fields to every multi-band `leo-pass`
+    result; no existing number changes.
+  - `leo-pvt` timing mode takes `trace = true`: every row then reports its time error and
+    predicted sigma at every epoch, with the same draws, so the row statistics are
+    unchanged and the run animates and chains in a campaign.
+  - A campaign now exports each member scenario that has geometry (phase runs, the sweep
+    and Monte Carlo base scenarios, composed members with their shared values bound) as
+    its own file set, the member label in the file name; before, a campaign exported
+    nothing. The interoperability table in `docs/INTEROP.md` changes accordingly.
+  - A campaign sweep key may index an array of tables by position (`system.2.sisre_m`).
+  - Resilience scenarios: `leo-resilience-multiband-diversity` (a 50 MHz L5-band barrage
+    swept in power: every L-band signal falls, the UHF, S- and C-band LEO signals keep
+    their C/N0), `leo-resilience-js-margin` (J/S margin from received power: GPS L5,
+    Galileo E5a and Xona X5 lost at -105, -100 and -95 dBW, a -135 dBW generic LEO signal
+    still tracking at -90 dBW), `leo-resilience-spoof-doppler` (a 30 m jump missed by the
+    GNSS-only Doppler test and detected by the test on every channel 105 s after the
+    onset), `leo-resilience-spoof-monitors` (four spoofers against both monitors) and
+    `leo-resilience-gnss-jammed-leo-carries` (GNSS jammed, the S- and C-band LEO layer
+    tracked, receiver autonomous integrity monitoring on the LEO layer alone alarming at 2
+    of 30 epochs).
+  - Focus-area scenarios: `leo-focus-ppp-altitude`, `leo-focus-ntn-bandwidth`,
+    `leo-focus-iot-eirp`, `leo-focus-science-iono-sounding`, `leo-focus-data-services`,
+    `leo-focus-indoor-uhf`, `leo-focus-fused-pnt-sisre` (resilience in L, S and C is
+    `leo-resilience-multiband-diversity`).
+  - Vertical campaigns, each animated and exporting its LEO passes:
+    `leo-vertical-autonomous-vehicle`, `leo-vertical-rail-maritime` (the bundled maritime
+    and rail scenarios plus LEO), `leo-vertical-critical-infrastructure-timing`,
+    `leo-vertical-polar-arctic`, `leo-vertical-5g-network-timing`,
+    `leo-vertical-asset-tracking-iot`. One-line results in `docs/LEO-PNT.md`.
+  - Three MODELLED matrix rows: the Doppler and pass-geometry spoofing monitor, the
+    cross-band spoofing monitor, and ionosphere sounding. `tests/leo_resilience_verticals.rs`
+    checks the monitors (silent before the onset, the Doppler statistic quadratic in a
+    jump, the ionospheric step of a ground spoofer and none from an ionosphere-aware one),
+    the sounding identity, the timing trace against the row statistics, and that a
+    campaign's export equals each member's own.
+  - The `leo-pass` page moves to `docs/LEO-PASS.md`; `docs/LEO-PNT.md` is the overview.
 - **LEO-PNT end to end: the `leo-pnt-chain` kind, and the LEO stages wired together.**
   One low Earth orbit (LEO) positioning, navigation and timing (PNT) system followed from
   its signal design to the user's position, each stage the engine's own kind on its own
@@ -220,7 +273,7 @@ breaking changes are called out explicitly.
     scaling against the IS-GPS-200 group-delay ratio, with the free-space loss; the static-user
     maximum Doppler of a circular orbit against arXiv 2509.19551 Table 1. MODELLED (3): the
     pass and link budget, the presets, and the low-energy fix budget. One kind and six
-    scenario files. Notes in `docs/LEO-PNT.md`.
+    scenario files. Notes in `docs/LEO-PASS.md`.
 - **LEO navigation message (`leo-navmsg` kind, `src/leo_navmsg/`).** The broadcast
   ephemeris and clock message of a low Earth orbit (LEO) positioning, navigation and
   timing (PNT) satellite, for any orbit, carrier and model; named presets are optional

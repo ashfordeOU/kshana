@@ -5,7 +5,9 @@
 # positioning, navigation and timing (PNT) layer (240 satellites at 1080 km, 53 deg; the
 # 16 highest passes of the half hour). At 300 s a spoofer captures every channel and
 # presents a position 30 m east of the true one, self-consistently in range and range
-# rate: the counterfeit signals are what a receiver 30 m away would see.
+# rate: the counterfeit signals are what a receiver 30 m away would see, the ionospheric
+# delay included (so the cross-band monitor has nothing to see; `leo-resilience-spoof-
+# monitors` shows the spoofers it does catch).
 #
 # The receiver predicts each satellite's range rate from the broadcast orbit and its
 # surveyed position and tests the measured range rates (chi-square, false-alarm
@@ -58,6 +60,7 @@ onset_s = 300.0
 offset_m = 30.0
 push_rate_m_s = 0.0
 push_azimuth_deg = 90.0
+simulate_iono = true
 prior_sigma_m = 1.0
 prior_velocity_sigma_m_s = 0.002
 p_fa = 1.0e-5
