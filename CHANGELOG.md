@@ -179,6 +179,45 @@ breaking changes are called out explicitly.
   scenario-file count from 82 to 94, and the verification matrix from 174 to 189 rows;
   with the `leo-pass` entry above it holds
   **198 rows — 77 VALIDATED, 117 MODELLED, 4 PARTNER**. Each area is described below.
+- **LEO navigation message (`leo-navmsg` kind, `src/leo_navmsg/`).** The broadcast
+  ephemeris and clock message of a low Earth orbit (LEO) positioning, navigation and
+  timing (PNT) satellite, for any orbit, carrier and model; named presets are optional
+  data and every capability runs without them. The kind count moves from 68 to 69, the
+  scenario-file count from 94 to 99, and the verification matrix from 189 to
+  **198 rows — 74 VALIDATED, 120 MODELLED, 4 PARTNER** (three validated rows, six
+  modelled). See `docs/LEO-NAVMSG.md`.
+  - Message content: SVID, issue of data, band and signal health; week, time of week and
+    a second-order clock polynomial; the ephemeris in one of four models — the Galileo
+    OS SIS ICD 16-parameter Keplerian set, that set plus along-track, cross-track and
+    radial correction polynomials, the Liu et al. 2025 22-parameter model
+    (doi 10.3390/rs17162894), or the ATOMIC zero-clock ECEF polynomial — and a Klobuchar
+    set, NeQuick-G coefficients with the effective ionisation level, and
+    system-time-to-UTC parameters with the ICD leap-second cases.
+  - Fitter: a truth orbit integrated with zonal J2–J6 or EGM2008 gravity and drag, a
+    seeded free or steered clock, a Levenberg–Marquardt fit on non-singular elements, then
+    linear least-squares correction polynomials and a clock fitted net of the user's
+    relativistic term.
+  - Four analyses and scenarios: `leo-navmsg-fit-interval-trade` (signal-in-space range
+    error (SISRE) versus fit interval and update period), `leo-navmsg-model-comparison`
+    (four models, bits, and Kshana's 22-parameter fit at the Liu et al. altitudes beside
+    the published figures, MODELLED), `leo-navmsg-midpass-update` (continuity at each
+    message switch in a pass) and `leo-navmsg-encode-decode` (Kshana's own documented
+    binary frame with CRC-24Q and a quantisation budget, a RINEX-4-style block labelled a
+    Kshana extension, and a CSV table).
+  - VALIDATED: the global-average SISRE weights against the published medium-orbit and
+    geostationary table of Montenbruck et al. 2018; the Galileo user algorithm against
+    RTKLIB on four real Galileo broadcast ephemerides (`tests/leo_navmsg_reference.rs`);
+    CRC-24Q against the catalogue check value and the RTCM 10403 1005 example frame.
+  - Presets, one file each with sources: Xona Pulsar and Pulsar-0, Iridium, Starlink,
+    CentiSpace, a representative C-band system, ATOMIC, and Celeste IOD (the only preset
+    using material presented at the ESA NAVISP LEO-PNT workshop, 2026, kept in
+    `presets/celeste_iod.rs` and `scenarios/leo-navmsg-celeste-iod.toml` so it can be
+    withheld).
+- **Four new engine areas in one release: `spectrum`, `solar-system` and `body-pnt`,
+  `constellation-design`, and `campaign`.** The kind count moves from 63 to 68, the
+  scenario-file count from 82 to 94, and the verification matrix from 174 to 189 rows
+  (the release totals, with `leo-navmsg`, are stated in the entry above). Each area is
+  described below.
   - Across the areas: `scenarios/campaign-spectrum-holdover-integrity.toml` chains the
     `spectrum` kind with a clock holdover and an integrity monitor (a chirp takes L1 C/A
     and E1; a CW tone then keeps C/A down while E1 recovers and the receiver falls back to

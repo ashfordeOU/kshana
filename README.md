@@ -660,7 +660,17 @@ band, from any constellation and any signal design: look angles, Doppler and Dop
 ITU-R rain, gas, scintillation and building entry loss, carrier-to-noise density against the
 MEO GNSS satellites in view, the first-order ionosphere and ionosphere-free pairs, and a
 low-energy fix budget; the ITU-R terms and the static-user Doppler envelope VALIDATED, the
-pass MODELLED, see [`docs/LEO-PNT.md`](docs/LEO-PNT.md)); the **lunar-PNT suite** `lunar-vlbi`, `lunar-joint-od-clock`,
+pass MODELLED, see [`docs/LEO-PNT.md`](docs/LEO-PNT.md)); `leo-navmsg` (the broadcast
+ephemeris and clock message of a low Earth orbit (LEO) PNT satellite, for any orbit and
+carrier: a fitter from an integrated truth orbit to the Galileo Keplerian set, that set
+with along-track, cross-track and radial correction polynomials, the Liu et al. 2025
+22-parameter model or the ATOMIC zero-clock ECEF polynomial; signal-in-space range error
+(SISRE) versus fit interval and update period, a mid-pass update continuity check,
+Kshana's own documented binary frame with a CRC-24Q cyclic redundancy check and a quantisation budget, and a
+RINEX-4-style block labelled a Kshana extension; the SISRE weights, the Galileo user
+algorithm and CRC-24Q VALIDATED, the fits MODELLED; optional presets for Xona Pulsar,
+Iridium, Starlink, CentiSpace, a representative C-band system, ATOMIC and Celeste IOD; see
+[`docs/LEO-NAVMSG.md`](docs/LEO-NAVMSG.md)); the **lunar-PNT suite** `lunar-vlbi`, `lunar-joint-od-clock`,
 `lunar-frame-realisation`, `moonlight-service-volume`, `lunar-differential-pnt`,
 `lunar-interop-export`; the **Quantum-Enabled PNT demonstrator**
 `quantum-time-transfer`, `quantum-gnss-free-nav`, `quantum-anomaly-detect`; and the
