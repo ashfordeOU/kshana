@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-//! The `body-pnt` scenario kind: positioning around any solar-system body.
+//! The `body-pnt` scenario kind: positioning, navigation and timing (PNT) around any
+//! solar-system body.
 //!
 //! A user — an orbiter or a surface lander — navigates around a central body chosen by name
 //! from [`crate::body::SOLAR_SYSTEM`] (Mars, the Moon, Europa, Ganymede, Titan, …), with two
@@ -19,19 +20,19 @@
 //! radius (the same chord test the `mars-pnt` kind uses), and a surface user also needs the
 //! elevation mask.
 //!
-//! At every epoch the pack forms the dilution of precision from the constellation alone
-//! ([`crate::orbit::dop`]), the formal position uncertainty of the weighted geometry with the
-//! Earth row folded in, and a seeded least-squares fix through the crate's Gauss-Newton solver
-//! ([`crate::batch_ls::gauss_newton`]) — once from the constellation alone and once with the
-//! Earth link — so the report shows what the deep-space link adds.
+//! At every epoch the pack forms the dilution of precision (DOP; GDOP geometric, PDOP position)
+//! from the constellation alone ([`crate::orbit::dop`]), the formal position uncertainty of the
+//! weighted geometry with the Earth row folded in, and a seeded least-squares fix through the
+//! crate's Gauss-Newton solver ([`crate::batch_ls::gauss_newton`]) — once from the constellation
+//! alone and once with the Earth link — so the report shows what the deep-space link adds.
 //!
 //! ## Label
 //!
 //! **MODELLED.** The geometry, the two-body relay orbits, the Gaussian noise levels and the
-//! instantaneous (not light-time-retarded) measurement model are modelling choices; the pack
-//! is not validated against any mission's navigation data. The body constants are published
-//! values (cited in [`crate::body`]), and the Earth-to-body geometry inherits the ephemeris
-//! labels of the `solar-system` kind.
+//! instantaneous (not light-time-retarded) measurement model are modelling choices; the pack is not
+//! validated against any mission's navigation data. The body constants are published values (cited
+//! in [`crate::body`]; IAU = International Astronomical Union), and the Earth-to-body geometry
+//! inherits the ephemeris labels of the `solar-system` kind.
 
 use crate::body::Body;
 use crate::ephem_provider::{AnalyticSolarSystem, EphemerisProvider};
@@ -149,10 +150,13 @@ pub struct BodyPntScenario {
     /// Standish table for the Earth-to-body geometry: `auto`, `table1` or `table2`.
     #[serde(default)]
     pub table: Option<String>,
+    /// The navigating user (orbiter or surface lander); defaults apply when absent.
     #[serde(default)]
     pub user: Option<UserCfg>,
+    /// The navigation relay constellation around the body; defaults apply when absent.
     #[serde(default)]
     pub constellation: Option<ConstellationCfg>,
+    /// The deep-space ranging link from Earth; defaults apply when absent.
     #[serde(default)]
     pub earth_link: Option<EarthLinkCfg>,
 }
@@ -160,22 +164,33 @@ pub struct BodyPntScenario {
 /// The central body as used.
 #[derive(Clone, Debug, Serialize)]
 pub struct BodyOut {
+    /// Body name as listed in [`crate::body::SOLAR_SYSTEM`].
     pub name: String,
+    /// Gravitational parameter GM of the body (m³/s²).
     pub gm_m3_s2: f64,
+    /// Volumetric mean radius (m): the occultation sphere and the surface for a lander.
     pub radius_mean_m: f64,
+    /// Unnormalised second zonal harmonic `J2`, where one is carried (dimensionless).
     pub j2: Option<f64>,
+    /// Reference radius the `J2` value is referenced to (m).
     pub j2_reference_radius_m: Option<f64>,
+    /// Sidereal rotation period (h) from the IAU prime-meridian rate; negative for retrograde
+    /// rotation.
     pub sidereal_rotation_period_h: f64,
 }
 
 /// One epoch of the run.
 #[derive(Clone, Debug, Serialize)]
 pub struct EpochRow {
+    /// Time since the scenario epoch (s).
     pub t_s: f64,
+    /// Relays whose line of sight clears the body (and the elevation mask, for a surface user).
     pub n_relays_visible: usize,
+    /// `true` when the Earth's centre is above the body's limb for the user at this epoch.
     pub earth_visible: bool,
     /// Constellation-only dilution of precision; absent below four relays.
     pub gdop: Option<f64>,
+    /// Constellation-only position dilution of precision (PDOP); absent below four relays.
     pub pdop: Option<f64>,
     /// Formal one-sigma position uncertainty of the constellation alone (m).
     pub formal_sigma_relays_m: Option<f64>,
@@ -194,15 +209,25 @@ pub struct EpochRow {
 /// Figures of merit over the run.
 #[derive(Clone, Debug, Serialize)]
 pub struct Fom {
+    /// Epochs in the run.
     pub n_epochs: usize,
+    /// Fraction of epochs (0 to 1) with a converged constellation-only fix (at least four relays).
     pub availability_relays: f64,
+    /// Fraction of epochs (0 to 1) with a converged fix once the Earth range is added.
     pub availability_with_earth: f64,
+    /// Fraction of epochs (0 to 1) with the Earth above the body's limb for the user.
     pub earth_visibility: f64,
+    /// Mean number of relays in view over the epochs.
     pub mean_relays_visible: f64,
+    /// Median constellation-only PDOP over epochs with four or more relays.
     pub median_pdop: Option<f64>,
+    /// Root-mean-square position error of the seeded constellation-only fixes (m).
     pub rms_error_relays_m: Option<f64>,
+    /// Root-mean-square position error of the seeded fixes with the Earth range (m).
     pub rms_error_with_earth_m: Option<f64>,
+    /// Median formal one-sigma position uncertainty, constellation only (m).
     pub median_formal_sigma_relays_m: Option<f64>,
+    /// Median formal one-sigma position uncertainty with the Earth range (m).
     pub median_formal_sigma_with_earth_m: Option<f64>,
     /// Root-mean-square of each fix error over its own formal sigma, constellation only: near 1
     /// when the noise and the covariance describe the same model.
@@ -214,20 +239,32 @@ pub struct Fom {
 /// The `body-pnt` report.
 #[derive(Clone, Debug, Serialize)]
 pub struct BodyPntReport {
+    /// Provenance label of the whole report (MODELLED), with what the model assumes.
     pub label: String,
+    /// The scenario epoch as given and as a Julian date in Barycentric Dynamical Time (TDB).
     pub epoch: EpochOut,
+    /// The central body and the published constants used for it.
     pub body: BodyOut,
+    /// `orbiter` or `surface`.
     pub user_kind: String,
+    /// Navigation satellites in the Walker pattern (planes × satellites per plane).
     pub n_relays: usize,
+    /// Relay altitude above the body's mean radius (m).
     pub relay_altitude_m: f64,
+    /// Two-body period of the relay orbit, `2π·sqrt(a³/GM)` (s).
     pub relay_period_s: f64,
+    /// One-sigma pseudorange noise of a relay measurement (m).
     pub sigma_relay_range_m: f64,
+    /// One-sigma one-way range noise of the two-way Earth measurement (m).
     pub sigma_earth_range_m: f64,
+    /// `true` when the Earth range was folded into the second fix.
     pub earth_link_used: bool,
     /// The body-to-Earth downlink at the epoch: light time, round trip, Shapiro delay, and the
     /// Sun-Earth-body angle at the Earth (small near a solar conjunction).
     pub earth_to_body: LinkOut,
+    /// Figures of merit over the whole run.
     pub fom: Fom,
+    /// Per-epoch rows, one every `step_s` seconds from the epoch.
     pub epochs: Vec<EpochRow>,
 }
 

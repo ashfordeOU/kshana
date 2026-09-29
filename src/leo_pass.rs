@@ -1,19 +1,23 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! The `leo-pass` scenario kind: a LEO (low Earth orbit) satellite pass and its link budget,
-//! band by band, next to the MEO (medium Earth orbit) GNSS satellites in view.
+//! band by band, next to the MEO (medium Earth orbit) GNSS (global navigation satellite
+//! system) satellites in view.
 //!
 //! A user (ground, maritime, air or indoor) watches one or more LEO satellites over a window.
 //! The satellites come from any of four sources: a **designed pass** (a circular orbit placed
 //! so the user sees one pass of a chosen maximum elevation at a chosen time), explicit
-//! **elements**, a **TLE** through the engine's SGP4, or a **Walker constellation** built by
+//! **elements**, a **TLE** (two-line element set) through the engine's SGP4 (Simplified General
+//! Perturbations 4) propagator, or a **Walker constellation** built by
 //! the `constellation-design` code ([`crate::constellation::ConstellationCfg`]). Bands come from
 //! a named preset in [`crate::leo_link::presets`] or are written into the scenario; the engine
 //! needs no preset at all.
 //!
 //! For every satellite, band and epoch the report gives the look angles, range, range rate and
-//! range acceleration; the free-space path loss; the transmit EIRP and the satellite pattern
-//! gain toward the user (isoflux, Gaussian beam or flat); the user antenna gain against
-//! elevation (patch, hemispherical or isotropic); gaseous attenuation (ITU-R P.676), rain
+//! range acceleration; the free-space path loss; the transmit EIRP (effective isotropic
+//! radiated power) and the satellite pattern gain toward the user (isoflux, Gaussian beam or
+//! flat); the user antenna gain against elevation (patch, hemispherical or isotropic); gaseous
+//! attenuation (ITU-R P.676, ITU-R being the International Telecommunication Union
+//! Radiocommunication Sector), rain
 //! attenuation (ITU-R P.838 and P.618), tropospheric scintillation (ITU-R P.618), building entry
 //! loss for an indoor user (ITU-R P.2109) and polarisation mismatch; the system noise
 //! temperature and the resulting C/N0 (carrier-to-noise density); the Doppler shift and Doppler
@@ -524,24 +528,42 @@ pub struct LeoPassScenario {
 /// A band as used.
 #[derive(Clone, Debug, Serialize)]
 pub struct BandOut {
+    /// Band name, as in the preset or the scenario `[[satellite.band]]`.
     pub name: String,
+    /// Carrier frequency (Hz).
     pub frequency_hz: f64,
+    /// Peak EIRP toward the pattern maximum (dBW).
     pub eirp_dbw: f64,
+    /// Satellite transmit pattern: `isoflux`, `gaussian` or `flat`.
     pub pattern: String,
+    /// Transmit polarisation label (for example `rhcp`, `lhcp`, `linear`).
     pub polarisation: String,
+    /// Ranging-code chip rate (chip/s).
     pub chip_rate_hz: f64,
+    /// Transmitted bandwidth (Hz).
     pub bandwidth_hz: f64,
+    /// Navigation-message data rate (bit/s).
     pub data_rate_bps: f64,
+    /// Whether the band supports code ranging.
     pub ranging: bool,
+    /// Provenance: `<system name> (<PUBLIC|REPRESENTATIVE|WORKSHOP>)` for a preset band, `scenario`
+    /// for one written into the scenario.
     pub source: String,
     /// Largest Doppler (Hz) any static user on a 6371 km sphere can see from this orbit at 0°
     /// elevation; absent for a non-circular orbit.
     pub doppler_envelope_hz: Option<f64>,
+    /// Highest C/N0 over the epochs above the elevation mask (dB-Hz); absent when the satellite
+    /// never clears the mask.
     pub peak_cn0_dbhz: Option<f64>,
+    /// Median C/N0 over the epochs above the elevation mask (dB-Hz).
     pub median_cn0_dbhz: Option<f64>,
+    /// Lowest C/N0 over the epochs above the elevation mask (dB-Hz).
     pub min_cn0_dbhz: Option<f64>,
+    /// Largest absolute carrier Doppler shift over the epochs above the mask (Hz).
     pub max_abs_doppler_hz: Option<f64>,
+    /// Largest absolute Doppler rate over the epochs above the mask (Hz/s).
     pub max_abs_doppler_rate_hz_s: Option<f64>,
+    /// First-order ionospheric group delay at the epoch of peak C/N0 on this band (m).
     pub iono_delay_at_peak_m: Option<f64>,
     /// The `leo-signal` design the band carries, when it names one.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -576,37 +598,60 @@ pub struct EirpShare {
 /// The `leo-signal` design a band carries.
 #[derive(Clone, Debug, Serialize)]
 pub struct SignalDesignOut {
+    /// Design name, as looked up by the band's `signal`.
     pub name: String,
+    /// Provenance of the design: its source reference, or `scenario` when it has none.
     pub source: String,
+    /// Role of the component the receiver tracks (`acquisition`, `data` or `pilot`); absent when
+    /// the design names none.
     pub tracked_component: Option<String>,
     /// Fraction of the transmitted power inside the transmit bandwidth.
     pub in_band_fraction: f64,
     /// Offset from the band's total C/N0 to the tracked component's (dB).
     pub tracked_cn0_offset_db: f64,
+    /// Each component's power share and EIRP.
     pub eirp_split: Vec<EirpShare>,
     /// Delay-lock-loop settings of the jitter: spacing (chips), loop bandwidth (Hz),
     /// predetection time (s), coherent early-late.
     pub dll_spacing_chips: f64,
+    /// Delay-lock-loop noise bandwidth used for the jitter (Hz).
     pub dll_loop_bandwidth_hz: f64,
+    /// Delay-lock-loop predetection (coherent integration) time used for the jitter (s).
     pub dll_integration_s: f64,
 }
 
 /// Per-band terms at one epoch.
 #[derive(Clone, Debug, Serialize)]
 pub struct BandEpoch {
+    /// Carrier-to-noise density of the whole band after every loss and the implementation loss
+    /// (dB-Hz).
     pub cn0_dbhz: f64,
+    /// Received carrier power at the user antenna output (dBW): EIRP plus pattern and user gains,
+    /// less path, atmospheric, building and polarisation losses.
     pub received_power_dbw: f64,
+    /// Free-space path loss at this epoch (dB).
     pub fspl_db: f64,
+    /// Satellite pattern gain toward the user relative to the pattern peak (dB, zero or negative).
     pub sat_gain_db: f64,
+    /// User antenna gain at the satellite's elevation (dBi).
     pub user_gain_dbi: f64,
+    /// Gaseous (oxygen and water-vapour) attenuation, ITU-R P.676 (dB); zero when disabled.
     pub gas_db: f64,
+    /// Rain attenuation, ITU-R P.838 and P.618 (dB); zero in clear sky or below 1 GHz.
     pub rain_db: f64,
+    /// Tropospheric scintillation fade, ITU-R P.618 (dB); zero when disabled.
     pub scintillation_db: f64,
+    /// Building entry loss for an indoor user, ITU-R P.2109 (dB); zero outdoors.
     pub building_entry_db: f64,
+    /// Polarisation mismatch loss between transmit and receive antennas (dB).
     pub polarisation_db: f64,
+    /// System noise temperature at the antenna terminals (K).
     pub tsys_k: f64,
+    /// Carrier Doppler shift (Hz), positive when the satellite approaches.
     pub doppler_hz: f64,
+    /// Carrier Doppler rate (Hz/s).
     pub doppler_rate_hz_s: f64,
+    /// First-order ionospheric group delay on this carrier (m).
     pub iono_delay_m: f64,
     /// Tracked-component C/N0 (dB-Hz), when the band carries a signal design.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -620,14 +665,23 @@ pub struct BandEpoch {
 /// One epoch of one satellite.
 #[derive(Clone, Debug, Serialize)]
 pub struct SatEpoch {
+    /// Time since the scenario epoch (s).
     pub t_s: f64,
+    /// Geodetic elevation of the satellite above the user's local horizon (deg).
     pub elevation_deg: f64,
+    /// Azimuth of the satellite, clockwise from true north (deg).
     pub azimuth_deg: f64,
+    /// Slant range from user to satellite (m).
     pub range_m: f64,
+    /// Range rate (m/s), positive when receding.
     pub range_rate_m_s: f64,
+    /// Range acceleration (m/s²).
     pub range_accel_m_s2: f64,
+    /// Off-nadir angle at the satellite toward the user (deg), the pattern's input.
     pub nadir_angle_deg: f64,
+    /// Slant TEC along the user-satellite path below the satellite (TEC units, 1e16 electrons/m²).
     pub stec_tecu: f64,
+    /// Whether the satellite is at or above the elevation mask.
     pub visible: bool,
     /// Per band, in the order of the satellite's `bands`; empty below the mask.
     pub bands: Vec<BandEpoch>,
@@ -636,17 +690,26 @@ pub struct SatEpoch {
 /// The pass as seen from the user.
 #[derive(Clone, Debug, Serialize)]
 pub struct PassOut {
+    /// Maximum elevation of the pass (deg).
     pub max_elevation_deg: f64,
+    /// Time of closest approach (maximum elevation), seconds since the epoch.
     pub tca_s: f64,
+    /// Acquisition of signal: first epoch at or above the mask, seconds since the epoch; absent if
+    /// never visible.
     pub aos_s: Option<f64>,
+    /// Loss of signal: last epoch at or above the mask, seconds since the epoch; absent if never
+    /// visible.
     pub los_s: Option<f64>,
+    /// Time above the elevation mask: visible epochs times the step (s).
     pub duration_above_mask_s: f64,
 }
 
 /// Closed form against central differences over the run.
 #[derive(Clone, Debug, Serialize)]
 pub struct DopplerCheck {
+    /// Largest difference between the closed-form and central-difference range rate (m/s).
     pub max_range_rate_diff_m_s: f64,
+    /// Largest difference between the closed-form and central-difference range acceleration (m/s²).
     pub max_range_accel_diff_m_s2: f64,
     /// The range-rate difference at the highest band carrier (Hz).
     pub max_doppler_diff_hz: f64,
@@ -657,82 +720,131 @@ pub struct DopplerCheck {
 /// One LEO satellite.
 #[derive(Clone, Debug, Serialize)]
 pub struct SatOut {
+    /// Satellite label.
     pub id: String,
+    /// Preset system id, or `none` when the scenario names no system.
     pub system: String,
+    /// Provenance class of the preset: `PUBLIC`, `REPRESENTATIVE`, `WORKSHOP`, or `SCENARIO`
+    /// without a preset.
     pub source_kind: String,
+    /// How the orbit was obtained: `designed pass`, `elements`, `TLE through SGP4` or `Walker
+    /// (<source>)`.
     pub orbit_source: String,
+    /// Altitude above the equatorial Earth radius at the epoch (m).
     pub altitude_m: f64,
+    /// Orbit inclination at the epoch, from the angular-momentum vector (deg).
     pub inclination_deg: f64,
+    /// The pass as seen from the user.
     pub pass: PassOut,
+    /// Closed-form range rate and acceleration against central differences.
     pub doppler_check: DopplerCheck,
+    /// The bands as used, with their pass summaries.
     pub bands: Vec<BandOut>,
+    /// Every epoch of the window.
     pub series: Vec<SatEpoch>,
 }
 
 /// One GNSS epoch.
 #[derive(Clone, Debug, Serialize)]
 pub struct GnssEpoch {
+    /// Time since the scenario epoch (s).
     pub t_s: f64,
+    /// Geodetic elevation above the user's local horizon (deg).
     pub elevation_deg: f64,
+    /// C/N0 of the GNSS signal (dB-Hz); absent below the elevation mask.
     pub cn0_dbhz: Option<f64>,
+    /// Carrier Doppler shift (Hz), positive when the satellite approaches.
     pub doppler_hz: f64,
 }
 
 /// One GNSS satellite.
 #[derive(Clone, Debug, Serialize)]
 pub struct GnssSatOut {
+    /// Satellite id within the constellation preset.
     pub id: String,
+    /// Highest elevation over the window (deg).
     pub max_elevation_deg: f64,
+    /// Every epoch of the window.
     pub series: Vec<GnssEpoch>,
 }
 
 /// The MEO GNSS comparison.
 #[derive(Clone, Debug, Serialize)]
 pub struct GnssOut {
+    /// Constellation preset name (for example `galileo`, `gps-baseline`).
     pub constellation: String,
+    /// Signal name (for example `E1`, `L1`).
     pub band: String,
+    /// Carrier frequency (Hz).
     pub frequency_hz: f64,
+    /// Interface-document minimum received power into a 0 dBi antenna (dBW).
     pub min_power_dbw: f64,
+    /// Interface-document maximum received power into a 0 dBi antenna, the cap on the modelled
+    /// power (dBW).
     pub max_power_dbw: f64,
+    /// Received power assumed above the specified minimum before range scaling (dB).
     pub excess_power_db: f64,
+    /// Reference for the specified received powers.
     pub source: String,
+    /// Satellites that clear the elevation mask at some epoch, before truncation to
+    /// `max_satellites`.
     pub satellites_in_view: usize,
+    /// Median C/N0 over every reported satellite and epoch above the mask (dB-Hz).
     pub median_cn0_dbhz: Option<f64>,
+    /// Lowest C/N0 over the reported satellites above the mask (dB-Hz).
     pub min_cn0_dbhz: Option<f64>,
+    /// Highest C/N0 over the reported satellites above the mask (dB-Hz).
     pub max_cn0_dbhz: Option<f64>,
+    /// Largest absolute Doppler shift over the reported satellites above the mask (Hz).
     pub max_abs_doppler_hz: Option<f64>,
+    /// Reported satellites, highest maximum elevation first.
     pub satellites: Vec<GnssSatOut>,
 }
 
 /// LEO against GNSS in one line.
 #[derive(Clone, Debug, Serialize)]
 pub struct ComparisonOut {
+    /// The first LEO satellite's label.
     pub leo_satellite: String,
+    /// Its first band's name.
     pub leo_band: String,
+    /// Peak C/N0 of that LEO band over the pass (dB-Hz).
     pub leo_peak_cn0_dbhz: f64,
+    /// Median GNSS C/N0 (dB-Hz).
     pub gnss_median_cn0_dbhz: f64,
+    /// Highest GNSS C/N0 (dB-Hz).
     pub gnss_max_cn0_dbhz: f64,
+    /// LEO peak C/N0 minus GNSS median C/N0 (dB).
     pub leo_peak_above_gnss_median_db: f64,
+    /// Time the LEO band's C/N0 exceeds the highest GNSS C/N0 (s).
     pub leo_seconds_above_gnss_max: f64,
+    /// Time the LEO satellite is above the elevation mask (s).
     pub leo_pass_duration_s: f64,
 }
 
 /// One ionosphere-free band pair.
 #[derive(Clone, Debug, Serialize)]
 pub struct IonoFreePair {
+    /// First band's name.
     pub band_1: String,
+    /// Second band's name.
     pub band_2: String,
+    /// Ionosphere-free coefficient of the first band, `f₁²/(f₁² − f₂²)` (dimensionless).
     pub a1: f64,
+    /// Ionosphere-free coefficient of the second band, `−f₂²/(f₁² − f₂²)` (dimensionless).
     pub a2: f64,
     /// `√(a₁² + a₂²)`: amplification of equal, independent noise.
     pub noise_amplification_equal: f64,
     /// Thermal code noise of each band at the pass peak (m).
     pub code_noise_1_m: Option<f64>,
+    /// Thermal code noise of the second band at the pass peak (m); the first band's is
+    /// `code_noise_1_m`.
     pub code_noise_2_m: Option<f64>,
     /// Code noise of the combination at the pass peak (m).
     pub iono_free_code_noise_m: Option<f64>,
     /// First-order delay at the peak on each band (m), which the combination removes.
     pub iono_delay_1_m: Option<f64>,
+    /// First-order delay at the peak on the second band (m).
     pub iono_delay_2_m: Option<f64>,
     /// Ionosphere sounding: the slant TEC the pair's geometry-free code combination gives at
     /// the peak, `(P₂ − P₁)·f₁²f₂² / (40.3·(f₁² − f₂²))`, in TEC units (equal to the model's
@@ -745,39 +857,63 @@ pub struct IonoFreePair {
 /// Low-energy positioning for one signal.
 #[derive(Clone, Debug, Serialize)]
 pub struct IotRow {
+    /// Signal label: `<satellite> <band>` for LEO, `<constellation> <band>` for GNSS.
     pub signal: String,
+    /// C/N0 used for the budget, the pass median or peak (dB-Hz).
     pub cn0_dbhz: f64,
+    /// Half-width of the Doppler search for a cold start (Hz).
     pub doppler_uncertainty_cold_hz: f64,
+    /// Worst-case Doppler rate over the pass, which caps the coherent integration (Hz/s).
     pub doppler_rate_hz_s: f64,
+    /// Acquisition, time to first fix and energy for a cold start.
     pub cold: FixBudget,
+    /// Acquisition, time to first fix and energy for a hot (almanac-aided) start.
     pub hot: FixBudget,
+    /// Hot-start duty cycle, average power and battery life against fix interval.
     pub duty_cycle_hot: Vec<DutyPoint>,
 }
 
 /// The low-energy section.
 #[derive(Clone, Debug, Serialize)]
 pub struct IotOut {
+    /// The honesty label.
     pub label: String,
+    /// Receiver power while active (mW).
     pub active_power_mw: f64,
+    /// Receiver power while asleep (µW).
     pub sleep_power_uw: f64,
+    /// Battery capacity (mWh).
     pub battery_mwh: f64,
+    /// Receiver assumptions stated with the result.
     pub assumptions: Vec<String>,
+    /// One row per LEO band of the first satellite, then the GNSS signal.
     pub rows: Vec<IotRow>,
 }
 
 /// The user as used.
 #[derive(Clone, Debug, Serialize)]
 pub struct UserOut {
+    /// `ground`, `maritime`, `air` or `indoor`.
     pub environment: String,
+    /// Geodetic latitude (deg).
     pub lat_deg: f64,
+    /// Longitude (deg east).
     pub lon_deg: f64,
+    /// Height above the ellipsoid (m).
     pub height_m: f64,
+    /// Ground speed (m/s).
     pub speed_m_s: f64,
+    /// Elevation mask (deg).
     pub mask_deg: f64,
+    /// User antenna model: `patch`, `hemispherical` or `isotropic`.
     pub antenna: String,
+    /// Receiver noise figure (dB).
     pub noise_figure_db: f64,
+    /// Implementation loss applied to C/N0 (dB).
     pub implementation_loss_db: f64,
+    /// Indoor building class (`traditional` or `thermally-efficient`); absent outdoors.
     pub building: Option<String>,
+    /// Indoor probability that the building entry loss is not exceeded; absent outdoors.
     pub building_probability: Option<f64>,
 }
 
@@ -914,24 +1050,40 @@ pub struct SpoofOut {
 /// The `leo-pass` report.
 #[derive(Clone, Debug, Serialize)]
 pub struct LeoPassReport {
+    /// The honesty label.
     pub label: String,
+    /// Scenario epoch as given, ISO 8601 UTC.
     pub epoch: String,
+    /// Scenario epoch as a Julian date, UTC (days).
     pub epoch_jd_utc: f64,
+    /// Window length (s).
     pub duration_s: f64,
+    /// Epoch step (s).
     pub step_s: f64,
+    /// The user as used.
     pub user: UserOut,
+    /// Wet term of the surface refractivity (N-units).
     pub n_wet: f64,
+    /// Rain rate exceeded 0.01 % of an average year, R0.01 (mm/h).
     pub rain_rate_mm_h: f64,
+    /// Rain height (km).
     pub rain_height_km: f64,
+    /// Ionosphere model: `klobuchar`, `vtec` or `none`.
     pub ionosphere_model: String,
+    /// Every LEO satellite.
     pub satellites: Vec<SatOut>,
+    /// The MEO GNSS comparison, unless disabled.
     pub gnss: Option<GnssOut>,
+    /// First LEO band against GNSS, when both have C/N0.
     pub comparison: Option<ComparisonOut>,
+    /// Ionosphere-free band pairs on the first LEO satellite.
     pub iono_free: Vec<IonoFreePair>,
+    /// The low-energy section, when the scenario has an `[iot]` section.
     pub iot: Option<IotOut>,
     /// The spoofing monitors, when the scenario has a `[spoofer]` section.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub spoof: Option<SpoofOut>,
+    /// Caveats stated with the result.
     pub notes: Vec<String>,
 }
 

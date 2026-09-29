@@ -1,18 +1,20 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! The `solar-system` scenario kind: the whole solar system at one epoch.
 //!
-//! For every body of [`crate::body::SOLAR_SYSTEM`] (the Sun, the eight planets, Pluto, the
-//! Moon, Phobos, Deimos, the four Galilean moons and Titan) the report gives the heliocentric
-//! position and velocity in the ICRF (International Celestial Reference Frame, equatorial
-//! J2000), the physical constants (gravitational parameter, radii, `J2` where published,
-//! sidereal rotation period, the IAU pole and the prime meridian at the epoch), the light
-//! time and one-way and two-way range from an observer body, and an orbit track sampled over
-//! one revolution — enough for a page to draw an interactive solar system from the numbers
-//! alone. Any number of extra links (`from` → `to`) get the same light-time treatment.
+//! For every body of [`crate::body::SOLAR_SYSTEM`] (the Sun, the eight planets, Pluto, the Moon,
+//! Phobos, Deimos, the four Galilean moons and Titan) the report gives the heliocentric position
+//! and velocity in the ICRF (International Celestial Reference Frame, equatorial J2000), the
+//! physical constants (gravitational parameter, radii, `J2` where published, sidereal rotation
+//! period, the IAU (International Astronomical Union) pole and the prime meridian at the epoch),
+//! the light time and one-way and two-way range from an observer body, and an orbit track sampled
+//! over one revolution — enough for a page to draw an interactive solar system from the numbers
+//! alone. Any number of extra links (`from` → `to`) get the same light-time treatment. The epoch is
+//! carried as a Julian date in TDB (Barycentric Dynamical Time).
 //!
 //! ## Where each number comes from
 //!
-//! * Positions and velocities: [`crate::ephem_provider::AnalyticSolarSystem`] — the JPL
+//! * Positions and velocities: [`crate::ephem_provider::AnalyticSolarSystem`] — the JPL (Jet
+//!   Propulsion Laboratory)
 //!   Standish Keplerian elements for the planets, the Montenbruck & Gill lunar series for the
 //!   Earth-Moon split, and JPL mean elements with the IAU rotation model for the seven moons.
 //! * Light time: [`crate::radiometric::light_time_solution`], the fixed-point down-leg solve
@@ -95,21 +97,27 @@ pub struct SolarSystemScenario {
 pub struct EpochOut {
     /// The epoch as given, or the TDB Julian date as text when only that was given.
     pub input: String,
+    /// The epoch as a Julian date in Barycentric Dynamical Time (TDB), days.
     pub jd_tdb: f64,
 }
 
 /// The Standish page's nominal error for a planet row.
 #[derive(Clone, Debug, Serialize)]
 pub struct NominalError {
+    /// Nominal error in heliocentric longitude (arcsec).
     pub longitude_arcsec: f64,
+    /// Nominal error in heliocentric latitude (arcsec).
     pub latitude_arcsec: f64,
+    /// Nominal error in heliocentric distance (m).
     pub distance_m: f64,
 }
 
 /// Light time and range from one body to the observer.
 #[derive(Clone, Debug, Serialize)]
 pub struct LinkOut {
+    /// Transmitting body.
     pub from: String,
+    /// Receiving body; the link is received at the scenario epoch.
     pub to: String,
     /// Geometric distance at the epoch (m).
     pub geometric_distance_m: f64,
@@ -131,34 +139,53 @@ pub struct LinkOut {
 /// One body at the epoch.
 #[derive(Clone, Debug, Serialize)]
 pub struct BodyOut {
+    /// Body name as listed in [`crate::body::SOLAR_SYSTEM`].
     pub name: String,
+    /// NAIF (Navigation and Ancillary Information Facility) integer code of the body.
     pub naif_id: i32,
+    /// Star, planet, dwarf planet or moon.
     pub class: crate::body::BodyClass,
+    /// The body it orbits; `None` for the Sun.
     pub parent: Option<String>,
     /// VALIDATED or MODELLED (or `origin` for the Sun).
     pub label: String,
+    /// Name of the ephemeris model that produced the position (Standish table, lunar series, mean
+    /// elements, …).
     pub method: String,
+    /// Gravitational parameter GM (m³/s²).
     pub gm_m3_s2: f64,
+    /// Equatorial radius (m); the 1-bar level for the giant planets, largest semi-axis for Phobos
+    /// and Deimos.
     pub radius_equatorial_m: f64,
+    /// Volumetric mean radius (m).
     pub radius_mean_m: f64,
+    /// Unnormalised second zonal harmonic `J2`, where one is carried (dimensionless).
     pub j2: Option<f64>,
+    /// Reference radius the `J2` value is referenced to (m).
     pub j2_reference_radius_m: Option<f64>,
     /// Sidereal rotation period (h); negative for retrograde rotation.
     pub sidereal_rotation_period_h: f64,
+    /// IAU pole right ascension at J2000, ICRF (deg; mean value, no rate or periodic terms).
     pub pole_ra_deg: f64,
+    /// IAU pole declination at J2000, ICRF (deg; mean value).
     pub pole_dec_deg: f64,
+    /// IAU prime-meridian angle `W` at the epoch (deg).
     pub prime_meridian_deg: f64,
     /// Heliocentric ICRF position (m).
     pub position_m: Vec3,
     /// Heliocentric ICRF velocity (m/s).
     pub velocity_m_s: Vec3,
+    /// Distance from the Sun (au, 1 au = 149 597 870 700 m).
     pub heliocentric_distance_au: f64,
+    /// Heliocentric longitude in the J2000 ecliptic (deg).
     pub ecliptic_longitude_deg: f64,
+    /// Heliocentric latitude in the J2000 ecliptic (deg).
     pub ecliptic_latitude_deg: f64,
     /// Position relative to the parent body, ICRF (m).
     pub parent_relative_position_m: Vec3,
     /// Orbital period about the parent (days); `None` for the Sun.
     pub orbital_period_d: Option<f64>,
+    /// The Standish page's nominal error for this planet and table; `None` where none is published.
     pub nominal_error: Option<NominalError>,
     /// Light time and range to the observer; `None` for the observer itself.
     pub observer_link: Option<LinkOut>,
@@ -171,13 +198,21 @@ pub struct BodyOut {
 /// The `solar-system` report.
 #[derive(Clone, Debug, Serialize)]
 pub struct SolarSystemReport {
+    /// Provenance label of the whole report (MIXED: each body carries its own label).
     pub label: String,
+    /// The scenario epoch as given and as a TDB Julian date.
     pub epoch: EpochOut,
+    /// Reference frame and units of the positions and velocities (heliocentric ICRF, m and m/s).
     pub frame: String,
+    /// Standish table used for the planets (Table 1 or Tables 2a/2b).
     pub standish_table: String,
+    /// Name of the body light times and ranges are measured to.
     pub observer: String,
+    /// Number of bodies in `bodies`.
     pub n_bodies: usize,
+    /// One row per reported body, in the requested order.
     pub bodies: Vec<BodyOut>,
+    /// The extra links requested in the scenario, each received at the epoch.
     pub links: Vec<LinkOut>,
 }
 

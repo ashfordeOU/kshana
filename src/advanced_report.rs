@@ -332,7 +332,11 @@ pub struct ExportRow {
 /// The files that accompany a run: its animation and its interoperability exports.
 #[derive(Clone, Debug, Serialize)]
 pub struct Companions {
+    /// The run's animation: whether the result can be drawn, whether the HTML report embeds
+    /// it, the files written and the command that writes the player.
     pub animation: AnimationCompanion,
+    /// One row per interoperability export format: whether it applies to this scenario, its
+    /// specification and the files this run wrote.
     pub exports: Vec<ExportRow>,
     /// The command that writes every applicable export.
     pub export_command: String,
@@ -342,9 +346,12 @@ pub struct Companions {
 /// nothing to list (so an empty list always says why it is empty).
 #[derive(Clone, Debug, Serialize)]
 pub struct Section<T> {
+    /// The rows kept, at most the section's row cap, in document order.
     pub items: Vec<T>,
+    /// Number of rows the row cap left out (a count; 0 when every row is shown).
     pub omitted: usize,
     #[serde(skip_serializing_if = "Option::is_none")]
+    /// Why the section lists nothing; present only when `items` is empty.
     pub statement: Option<String>,
 }
 
@@ -368,9 +375,17 @@ impl<T> Section<T> {
 /// One headline figure.
 #[derive(Clone, Debug, Serialize)]
 pub struct Figure {
+    /// Where the figure comes from: its dotted path in the result document (`[]` marks an
+    /// array level), or, for the aggregate fallback, the table title followed by ` (rows)`.
     pub path: String,
+    /// The figure's raw JSON value as the result document states it, in `unit`.
     pub value: Value,
+    /// The value as the report prints it (see [`display_value`]), or a not-applicable
+    /// sentence when the figure's tier marks it inapplicable.
     pub display: String,
+    /// The figure's unit: from the result's `units` block (the field-units schema), else
+    /// the field-name suffix; `count` for run and row counts; `not stated` when nothing
+    /// gives one.
     pub unit: String,
     /// The per-figure verification tier, when the result's own `figure_tiers` block
     /// states one.
@@ -381,8 +396,12 @@ pub struct Figure {
 /// Label counts over the capability rows the run used.
 #[derive(Clone, Debug, Default, Serialize)]
 pub struct LabelCounts {
+    /// Number of capability rows the verification matrix labels VALIDATED (a count).
     pub validated: usize,
+    /// Number of capability rows the verification matrix labels MODELLED (a count).
     pub modelled: usize,
+    /// Number of PARTNER rows: disciplines the run relies on that Kshana does not provide
+    /// (a count). Any label other than VALIDATED or MODELLED is counted here.
     pub partner: usize,
 }
 
@@ -397,7 +416,12 @@ pub struct ExecutiveSummary {
     pub label: String,
     /// Where `label` came from.
     pub label_source: String,
+    /// The headline figures: the result's tiered figures, else a Monte Carlo campaign's
+    /// 5th/50th/95th percentiles, else its figure-of-merit (`fom`) scalars, else its first
+    /// numeric scalars, else an aggregation row count; a campaign's total run count is
+    /// appended.
     pub key_figures: Vec<Figure>,
+    /// Counts of the verification labels over the capability rows this run used.
     pub capability_labels: LabelCounts,
     /// Member scenario runs, for a campaign.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -407,39 +431,68 @@ pub struct ExecutiveSummary {
 /// One scenario input.
 #[derive(Clone, Debug, Serialize)]
 pub struct InputRow {
+    /// Dotted path of the input in the scenario file, with array indices (`a.b[2].c`); `[]`
+    /// marks a numeric or text column summarised over an array of objects.
     pub path: String,
+    /// The raw JSON value the scenario sets; for a summarised numeric column, an object
+    /// with `rows`, `min` and `max`.
     pub value: Value,
+    /// The value as the report prints it (see [`display_value`]), or the column summary
+    /// sentence.
     pub display: String,
+    /// The input's unit: from the result's field-units schema, else the field-name suffix;
+    /// `text` for a string, `flag` for a boolean, `not stated` when nothing gives one.
     pub unit: String,
+    /// Where `unit` was read from (the units entry key or the field-name suffix), or why
+    /// the input carries none.
     pub unit_source: String,
 }
 
 /// One scalar of the result document.
 #[derive(Clone, Debug, Serialize)]
 pub struct ValueRow {
+    /// Dotted path of the scalar in the result document; metadata root keys (`units`,
+    /// `meta`, `label`, ...) and array elements are excluded.
     pub path: String,
+    /// The raw JSON value as the result document states it, in `unit`.
     pub value: Value,
+    /// The value as the report prints it (see [`display_value`]).
     pub display: String,
+    /// The scalar's unit: from the result's field-units schema, else the field-name suffix;
+    /// `text` for a string, `flag` for a boolean, `not stated` when nothing gives one.
     pub unit: String,
+    /// Where `unit` was read from (the units entry key or the field-name suffix), or why
+    /// the result carries none.
     pub unit_source: String,
 }
 
 /// A summary of one numeric column of the result document.
 #[derive(Clone, Debug, Serialize)]
 pub struct SeriesRow {
+    /// Path of the numeric column in the result document, with `[]` marking each array
+    /// level (`epochs[].err_m`).
     pub path: String,
+    /// Number of numeric values in the column (a count).
     pub n: usize,
+    /// Smallest value in the column, in `unit`.
     pub min: f64,
+    /// Largest value in the column, in `unit`.
     pub max: f64,
+    /// First value of the column in document order, in `unit`.
     pub first: f64,
+    /// Last value of the column in document order, in `unit`.
     pub last: f64,
+    /// The column's unit: from the result's field-units schema, else the field-name suffix;
+    /// `not stated` when neither gives one.
     pub unit: String,
 }
 
 /// A chart the report shows.
 #[derive(Clone, Debug, Serialize)]
 pub struct ChartRef {
+    /// Stable chart identifier: `primary`, `distribution-<metric>` or `timeline`.
     pub id: String,
+    /// The chart caption as the report prints it.
     pub title: String,
     /// The file the chart is also written to, when it has one.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -449,36 +502,55 @@ pub struct ChartRef {
 /// The results section.
 #[derive(Clone, Debug, Serialize)]
 pub struct Results {
+    /// Every scalar of the result document outside its arrays, capped at 150 rows.
     pub scalars: Section<ValueRow>,
+    /// A summary of every numeric column (numbers inside arrays), capped at 60 rows.
     pub series: Section<SeriesRow>,
+    /// The charts the report shows: the run's primary chart, one per Monte Carlo
+    /// distribution, and the events timeline when any window has an end time.
     pub charts: Vec<ChartRef>,
 }
 
 /// One entry of the events timeline. A window has `t_end_s`; a point event does not.
 #[derive(Clone, Debug, Serialize)]
 pub struct EventRow {
+    /// Start time of the event or window, in seconds (s) on the run's own time axis, as the
+    /// scenario or result states it (not a calendar time).
     pub t_s: f64,
     #[serde(skip_serializing_if = "Option::is_none")]
+    /// End time of a window, in seconds (s) on the same axis as `t_s`; absent for a point
+    /// event.
     pub t_end_s: Option<f64>,
+    /// Human-readable name of the entry: a scenario window's path and name fields, a
+    /// result event's own name field, or a campaign phase or handoff.
     pub label: String,
+    /// Where the entry was read from: the scenario path and keys, a result `events`
+    /// array, or a campaign's `timeline.phases` or `timeline.handoffs`.
     pub source: String,
 }
 
 /// One verification-matrix row the run used.
 #[derive(Clone, Debug, Serialize)]
 pub struct CapabilityRow {
+    /// The matrix row's `requirement` text, the key [`KIND_CAPABILITIES`] maps kinds to.
     pub requirement: String,
+    /// The capability the matrix row describes.
     pub capability: String,
     /// VALIDATED, MODELLED or PARTNER, read from the matrix.
     pub label: String,
     /// "exercised" for a row the run's code implements, "relied on, not provided" for
     /// a PARTNER row.
     pub role: String,
+    /// The oracle class the matrix gives the row, as the variant name of
+    /// [`crate::verification::OracleKind`] (`ExternalDataset`, `ReferenceImpl`,
+    /// `InternalConsistency` or `NoneKind`).
     pub oracle_kind: String,
     /// The oracle the row names: the source of its label.
     pub oracle: String,
     /// The test evidence the row names.
     pub tests: String,
+    /// The source module the matrix names for the row, or `none` for a partner-owned
+    /// discipline.
     pub module: String,
     /// The kinds of this run that map to the row ("every run" for the common row).
     pub used_by: Vec<String>,
@@ -487,24 +559,36 @@ pub struct CapabilityRow {
 /// One per-figure tier from the result's own `figure_tiers` block.
 #[derive(Clone, Debug, Serialize)]
 pub struct FigureTierRow {
+    /// Path of the figure in the result document, as the `figure_tiers` block states it.
     pub path: String,
+    /// The matrix `requirement` the tier cites; empty when the block names none.
     pub requirement: String,
+    /// The verification tier the result states for the figure, as text.
     pub tier: String,
+    /// Whether the figure applies to this configuration (false, for example, when no attack
+    /// is configured); true when the block does not say.
     pub applicable: bool,
 }
 
 /// The verification-labels section.
 #[derive(Clone, Debug, Serialize)]
 pub struct Capabilities {
+    /// A fixed sentence saying what a label grades and what it does not.
     pub statement: String,
+    /// The verification-matrix rows this run's kinds exercise or rely on, in matrix order.
     pub rows: Vec<CapabilityRow>,
+    /// The per-figure tiers from the result's `figure_tiers` block; empty when the result
+    /// carries none.
     pub figure_tiers: Vec<FigureTierRow>,
 }
 
 /// One not-modelled item or assumption, with where it was read from.
 #[derive(Clone, Debug, Serialize)]
 pub struct NoteRow {
+    /// The limitation or assumption, as its source words it.
     pub text: String,
+    /// Where the text was read from: a result path, the kind catalogue, a scenario comment
+    /// or a matrix row.
     pub source: String,
 }
 
@@ -512,23 +596,38 @@ pub struct NoteRow {
 /// member value.
 #[derive(Clone, Debug, Serialize)]
 pub struct Table {
+    /// The table caption as the report prints it.
     pub title: String,
+    /// Column headers, left to right.
     pub columns: Vec<String>,
+    /// Unit of each column, parallel to `columns`; an empty string where no unit applies or
+    /// none is stated.
     pub units: Vec<String>,
+    /// Rows of raw JSON cells, each parallel to `columns`.
     pub rows: Vec<Vec<Value>>,
 }
 
 /// A Monte Carlo metric's samples, for the distribution chart.
 #[derive(Clone, Debug, Serialize)]
 pub struct Distribution {
+    /// The metric's name, as the Monte Carlo `metrics` block keys it.
     pub metric: String,
+    /// The metric's unit as the campaign states it; empty when it states none.
     pub unit: String,
+    /// Number of numeric samples in the histogram (a count).
     pub n: usize,
     /// Histogram bin edges (`bins + 1` of them) and counts.
     pub edges: Vec<f64>,
+    /// Number of samples in each histogram bin (20 bins: one fewer entry than `edges`).
     pub counts: Vec<usize>,
+    /// 5th percentile of the metric as the campaign states it, in `unit`; `None` when not
+    /// stated.
     pub p05: Option<f64>,
+    /// 50th percentile (median) of the metric as the campaign states it, in `unit`; `None`
+    /// when not stated.
     pub p50: Option<f64>,
+    /// 95th percentile of the metric as the campaign states it, in `unit`; `None` when not
+    /// stated.
     pub p95: Option<f64>,
 }
 
@@ -538,37 +637,58 @@ pub struct Aggregation {
     /// `chain`, `sweep`, `monte-carlo` or `compose`.
     pub mode: String,
     #[serde(skip_serializing_if = "Option::is_none")]
+    /// The scenario kind every member run executes (a campaign's `scenario_kind`, or the
+    /// kind a built-in sweep drives), when the result states one.
     pub member_kind: Option<String>,
     #[serde(skip_serializing_if = "Option::is_none")]
+    /// Total member scenario runs, from the result's `reproducibility.runs_total` (a
+    /// count).
     pub runs_total: Option<u64>,
     #[serde(skip_serializing_if = "Option::is_none")]
+    /// Digest over the member runs, from the result's `reproducibility.run_digest`, as the
+    /// result states it.
     pub run_digest: Option<String>,
+    /// The aggregation tables: sweep nodes, the Monte Carlo summary, chain phases, composed
+    /// members or a sweep grid.
     pub tables: Vec<Table>,
+    /// Per-metric sample histograms of a Monte Carlo campaign; empty for any other mode.
     pub distributions: Vec<Distribution>,
 }
 
 /// The build platform.
 #[derive(Clone, Debug, Serialize)]
 pub struct Platform {
+    /// Target operating system of the engine build (`std::env::consts::OS`, e.g. `linux`,
+    /// `macos`, `windows`).
     pub os: String,
+    /// Target processor architecture of the engine build (`std::env::consts::ARCH`, e.g.
+    /// `x86_64`, `aarch64`, `wasm32`).
     pub arch: String,
+    /// Target operating-system family of the engine build (`std::env::consts::FAMILY`:
+    /// `unix`, `windows` or empty).
     pub family: String,
 }
 
 /// A further input file and its digest.
 #[derive(Clone, Debug, Serialize)]
 pub struct InputFile {
+    /// The file path exactly as it was given on the command line.
     pub path: String,
+    /// SHA-256 of the file's exact bytes, as a hexadecimal string.
     pub sha256: String,
 }
 
 /// The reproducibility record.
 #[derive(Clone, Debug, Serialize)]
 pub struct Reproducibility {
+    /// The Kshana engine version that produced the result (the crate's
+    /// `CARGO_PKG_VERSION`).
     pub engine_version: String,
     /// The source commit recorded at build time, if the build recorded one.
     pub git_commit: Option<String>,
+    /// How `git_commit` was recorded, or why it was not.
     pub git_commit_note: String,
+    /// The scenario's file name without its directory, taken from the path as passed.
     pub scenario_file: String,
     /// SHA-256 of the scenario file's exact bytes.
     pub scenario_sha256: String,
@@ -578,38 +698,66 @@ pub struct Reproducibility {
     /// SHA-256 of the result document's exact bytes.
     pub result_sha256: String,
     #[serde(skip_serializing_if = "Option::is_none")]
+    /// File name of the result document written beside the report, when the caller wrote
+    /// one.
     pub result_file: Option<String>,
+    /// The random seed: the scenario's `seed`, else the result's `seed`; `None` when
+    /// neither carries one.
     pub seed: Option<u64>,
+    /// Where `seed` was read from, or why the run needs none.
     pub seed_source: String,
+    /// The target platform of the engine build; floating-point results are pinned per
+    /// platform.
     pub platform: Platform,
     /// The command that reproduces the result document, shell-quoted.
     pub command: String,
     /// The same command as an argument vector.
     pub argv: Vec<String>,
+    /// Which directory to run `command` from, so the scenario path and any relative data
+    /// path resolve as in the original run.
     pub working_directory: String,
+    /// Every further input file the run read (the `--eop` file) with its digest.
     pub input_files: Vec<InputFile>,
     /// The generation stamp the result carries (only with `--study-name`).
     #[serde(skip_serializing_if = "Option::is_none")]
     pub generated_utc: Option<String>,
+    /// What the reproducibility guarantee covers, including whether a `meta.generated_utc`
+    /// stamp keeps the output from being byte-identical.
     pub determinism: String,
 }
 
 /// The whole report. Field order is the document order of `report.json`.
 #[derive(Clone, Debug, Serialize)]
 pub struct Report {
+    /// Always [`REPORT_SCHEMA`]: identifies the document as a Kshana report.
     pub report_schema: String,
+    /// Always [`REPORT_SCHEMA_VERSION`]: the version of the report document shape.
     pub report_schema_version: String,
+    /// The scenario kind that ran (the scenario's `kind`, e.g. `orbit` or `campaign`).
     pub kind: String,
+    /// The report title: the study title (`--study-name`), else the result's or scenario's
+    /// title or name, else the scenario file stem.
     pub title: String,
+    /// What ran, its summary, honesty label, headline figures and label counts.
     pub executive_summary: ExecutiveSummary,
+    /// Every scenario input, flattened to one row per field, capped at 400 rows.
     pub inputs: Section<InputRow>,
+    /// The result document's scalars, numeric-column summaries and charts.
     pub results: Results,
     #[serde(skip_serializing_if = "Option::is_none")]
+    /// The aggregation of a campaign or sweep; absent for a single-scenario run.
     pub aggregation: Option<Aggregation>,
+    /// The events timeline from the scenario, the result and a campaign's phases, capped at
+    /// 200 rows.
     pub events: Section<EventRow>,
+    /// The verification labels of the matrix rows this run used, and the result's
+    /// per-figure tiers.
     pub capabilities: Capabilities,
+    /// What the run leaves out or assumes, each with its source; not capped.
     pub not_modelled: Section<NoteRow>,
+    /// The run's animation and interoperability exports.
     pub companions: Companions,
+    /// What is needed to regenerate the same result bytes.
     pub reproducibility: Reproducibility,
     /// The animated drawing the HTML report embeds (not part of `report.json`).
     #[serde(skip)]

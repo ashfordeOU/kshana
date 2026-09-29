@@ -3,10 +3,10 @@
 //! file, a self-contained HyperText Markup Language (HTML) player, or a numbered
 //! sequence of SVG frames with a manifest for a video encoder.
 //!
-//! The exporter reads the result document a run already wrote; it never re-runs the
-//! physics and it adds no number of its own. Every point it draws is a sample from the
-//! result JSON, so an animation is exactly as good as the run behind it: MODELLED where
-//! the run is modelled, and never evidence of anything the run does not already say.
+//! The exporter reads the result document a run already wrote; it never re-runs the physics and it
+//! adds no number of its own. Every point it draws is a sample from the result JSON (JavaScript
+//! Object Notation), so an animation is exactly as good as the run behind it: MODELLED where the
+//! run is modelled, and never evidence of anything the run does not already say.
 //!
 //! **What counts as a time series.** The result documents differ kind by kind, so the
 //! extractor recognises the shapes the engine actually emits rather than a list of kinds:
@@ -188,59 +188,93 @@ impl std::error::Error for AnimationError {}
 /// as `None`.
 #[derive(Debug, Clone, PartialEq)]
 pub struct Trace {
+    /// Legend text for the line: the series name as read from the result, cleaned for display.
     pub label: String,
+    /// Sample times, strictly increasing: seconds (scaled from `t_hours`, `t_min`, `t_days`, …) or
+    /// epoch indices, as the owning [`Timeline::t_unit`] says.
     pub t: Vec<f64>,
+    /// Sampled values in the chart's unit, one per entry of `t`; `None` marks a gap or a non-finite
+    /// sample.
     pub y: Vec<Option<f64>>,
 }
 
 /// One panel: traces that share a quantity and unit.
 #[derive(Debug, Clone, PartialEq)]
 pub struct Chart {
+    /// Panel heading: the field name (or up to three names) with the unit in brackets.
     pub title: String,
+    /// Unit shared by every trace of the panel, as the result's `units` block states it (`1` when
+    /// dimensionless).
     pub unit: String,
+    /// The lines drawn on this panel, at most [`MAX_TRACES`].
     pub traces: Vec<Trace>,
 }
 
 /// A named interval of the timeline (a campaign phase).
 #[derive(Debug, Clone, PartialEq)]
 pub struct Phase {
+    /// Phase name as the result gives it (for example jamming, spoofing, holdover).
     pub name: String,
+    /// Start of the phase, seconds on the timeline's time axis (from `t0_s`).
     pub t0: f64,
+    /// End of the phase, seconds on the timeline's time axis (from `t1_s`).
     pub t1: f64,
 }
 
 /// A marked instant (a campaign alarm, a first loss of lock).
 #[derive(Debug, Clone, PartialEq)]
 pub struct Event {
+    /// Instant of the event, seconds on the timeline's time axis (from `t_s`).
     pub t: f64,
+    /// Text shown beside the marker.
     pub label: String,
+    /// `true` when the event is an alarm or loss (drawn as an alarm marker), `false` for an
+    /// ordinary event.
     pub alarm: bool,
 }
 
 /// Rows of a time-frequency grid, revealed in time order.
 #[derive(Debug, Clone, PartialEq)]
 pub struct Waterfall {
+    /// Name of the result field the grid was read from.
     pub title: String,
+    /// Unit of the grid values (from the `units` block; `dB` when none is stated).
     pub unit: String,
+    /// Time of each row, seconds, strictly increasing (decimated to at most 120 rows).
     pub t: Vec<f64>,
+    /// Centre frequency of each column (Hz), from the sibling `*_hz` array (decimated to at most 96
+    /// bins).
     pub freq_hz: Vec<f64>,
+    /// Grid values, one row per entry of `t` and one column per entry of `freq_hz`; `None` for a
+    /// missing cell.
     pub rows: Vec<Vec<Option<f64>>>,
+    /// Lowest finite value in the grid, in `unit`: the bottom of the colour scale.
     pub lo: f64,
+    /// Highest finite value in the grid, in `unit` (at least `lo + 1` so the colour scale never
+    /// collapses).
     pub hi: f64,
 }
 
 /// Everything the renderers draw, extracted from one result document.
 #[derive(Debug, Clone, PartialEq)]
 pub struct Timeline {
+    /// Heading: the result's `title` or `label`, else the scenario kind.
     pub title: String,
+    /// Scenario kind the result came from (given explicitly or read from the result's `kind`).
     pub kind: String,
     /// `s` for physical time, `epoch` for an epoch index.
     pub t_unit: String,
+    /// Start of the drawn time axis, in `t_unit`: earliest sample, waterfall row or phase start.
     pub t0: f64,
+    /// End of the drawn time axis, in `t_unit`: latest sample, waterfall row or phase end.
     pub t1: f64,
+    /// Panels to draw, at most [`MAX_CHARTS`], in order of first appearance in the result.
     pub charts: Vec<Chart>,
+    /// Named intervals drawn on the phase strip.
     pub phases: Vec<Phase>,
+    /// Marked instants inside `[t0, t1]`, sorted by time, duplicates removed.
     pub events: Vec<Event>,
+    /// The time-frequency grid, when the result carries one.
     pub waterfall: Option<Waterfall>,
     /// JSON paths the traces were read from, in drawing order.
     pub sources: Vec<String>,
@@ -253,14 +287,18 @@ pub struct Timeline {
 pub struct AnimationFile {
     /// Name relative to the export's directory (`animation.svg`, `frame_0000.svg`, …).
     pub name: String,
+    /// Complete file content (SVG, HTML or the frames manifest), UTF-8 text.
     pub content: String,
 }
 
 /// The files of one export plus the summary the CLI splices into `result.json`.
 #[derive(Debug, Clone, PartialEq)]
 pub struct Animation {
+    /// Format the export was rendered in.
     pub format: AnimationFormat,
+    /// The written files: one for SVG or HTML; the numbered frames plus a manifest for frames.
     pub files: Vec<AnimationFile>,
+    /// Number of SVG frames written (the files minus the manifest); 0 for the SVG and HTML formats.
     pub frame_count: usize,
 }
 
