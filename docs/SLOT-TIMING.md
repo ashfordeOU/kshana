@@ -26,7 +26,12 @@ the clock's frequency); PM, phase modulation (noise on its phase); IEEE, Institu
 Electrical and Electronics Engineers; ITU-T, the Telecommunication Standardization Sector
 of the International Telecommunication Union; TIE, time interval error; MTIE, maximum
 time interval error; TDEV, time deviation; max|TE|, maximum absolute time error; CUSUM,
-cumulative-sum change detector; TPL, timing protection level; LEO, low Earth orbit.
+cumulative-sum change detector; TPL, timing protection level; LEO, low Earth orbit; NIST
+SP, National Institute of Standards and Technology Special Publication; UFFC,
+Ultrasonics, Ferroelectrics, and Frequency Control (an IEEE Transactions); IGS,
+International GNSS Service; GPS, Global Positioning System; Block IIF, the GPS Block II
+Follow-on satellites; SHA-256, the 256-bit Secure Hash Algorithm; PPS, pulse per
+second.
 
 ## The error model
 
@@ -75,8 +80,9 @@ The three classes added in 0.28.0 each cite one public datasheet:
 | `ocxo` | 5e-12 | Microchip OX-208 datasheet, Rev 12-1-2021 |
 | `rafs` | 3e-11 | Microchip 8040C Rubidium Frequency Standard datasheet, DS00003047A |
 
-The EndRun long-averaging-time rows (10 000 s and 100 000 s) converge for every
-oscillator in that table, which suggests they describe the disciplined product rather
+The EndRun long-averaging-time rows converge across that table (4e-13 for every
+oscillator but the TCXO, 8e-13, at 10 000 s, and 6e-14 for all of them at 100 000 s),
+which suggests they describe the disciplined product rather
 than the free-running oscillator, so they are not used.
 
 **The record fit is weighted.** An Allan-variance estimate with `edf` equivalent degrees
@@ -144,7 +150,7 @@ load-bearing.
 
 ### The same prediction on atomic clocks in orbit: 8 of 10, not validated
 
-`tests/slot_timing_igs_holdout.rs` uses International GNSS Service (IGS) final combined
+`tests/slot_timing_igs_holdout.rs` uses IGS final combined
 clocks at 30 s for 14 days (17 to 30 August 2025; `scripts/fetch_igs_clocks.sh`, every
 file pinned by SHA-256): each GPS Block IIF satellite clock against the IGS timescale.
 The protocol (satellite set, gap rule, fit window, a sync every 3 570 s with the
