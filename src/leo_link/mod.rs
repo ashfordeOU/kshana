@@ -27,6 +27,7 @@ pub mod geometry;
 pub mod iono;
 pub mod itu;
 pub mod presets;
+pub mod spoof;
 
 /// Speed of light (m/s).
 pub const C_M_S: f64 = 299_792_458.0;
