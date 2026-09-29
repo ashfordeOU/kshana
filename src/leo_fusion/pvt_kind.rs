@@ -217,6 +217,9 @@ pub struct SystemOut {
 pub struct WindowRow {
     /// Window (s).
     pub window_s: f64,
+    /// Time of the fix (s after the start): the window's end, so the rows read as the
+    /// solution improving while measurements accumulate (the animation's time axis).
+    pub t_s: f64,
     /// Measurements used.
     pub n_obs: usize,
     /// Distinct satellites used.
@@ -637,6 +640,7 @@ impl LeoPvtScenario {
                 let f = fit(&sel).ok().filter(|f| f.converged);
                 WindowRow {
                     window_s: w,
+                    t_s: w,
                     n_obs: sel.len(),
                     n_sats: n_sats(&sel),
                     error_3d_m: f.as_ref().map(|f| norm(sub(f.position, r0))),
@@ -1345,6 +1349,12 @@ pub const PVT_UNITS: &[FieldUnit] = &[
         unit: "s",
         provenance: Input,
         definition: "window length from the start of the run",
+    },
+    FieldUnit {
+        path: "doppler.windows[].t_s",
+        unit: "s",
+        provenance: Input,
+        definition: "time of the fix after the start of the run: the window's end",
     },
     FieldUnit {
         path: "doppler.windows[].n_obs",

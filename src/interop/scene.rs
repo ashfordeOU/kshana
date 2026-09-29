@@ -577,11 +577,7 @@ pub fn scene_of(src: &str) -> Result<Scene, ExportError> {
         ScenarioKind::LeoPntChain => {
             let scn: crate::leo_pnt_chain::LeoPntChainScenario =
                 toml::from_str(src).map_err(bad)?;
-            let pass: crate::leo_pass::LeoPassScenario = scn
-                .pass
-                .clone()
-                .try_into()
-                .map_err(|e| ExportError::Failed(format!("invalid [pass] table: {e}")))?;
+            let pass = scn.pass_scenario().map_err(ExportError::Failed)?;
             leo_pass_scene(&mut scene, &pass)?;
             scene.epoch_note = format!("{} (the chain's [pass] stage)", scene.epoch_note);
         }
