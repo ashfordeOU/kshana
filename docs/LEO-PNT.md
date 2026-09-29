@@ -12,8 +12,8 @@ scenario. The kind pages go deeper:
 | [LEO-SIGNAL.md](LEO-SIGNAL.md) | `leo-signal` (signal designs) and the multi-band `spectrum` panels |
 | [LEO-PASS.md](LEO-PASS.md) | `leo-pass` (pass geometry and link budget per band, low-energy fixes, ionosphere sounding, spoofing monitors) |
 | [LEO-NAVMSG.md](LEO-NAVMSG.md) | `leo-navmsg` (the broadcast message: fitter, user algorithm, binary and text formats) |
-| [LEO-PNT-FUSION.md](LEO-PNT-FUSION.md) | `leo-pvt`, `leo-ppp`, `ntn-positioning` (fused positioning, precise point positioning, 5G NTN, timing, polar coverage) |
-| [SPECTRUM.md](SPECTRUM.md) | `spectrum` (jamming waterfalls and J/S per band) |
+| [LEO-PNT-FUSION.md](LEO-PNT-FUSION.md) | `leo-pvt`, `leo-ppp`, `ntn-positioning` (fused positioning, precise point positioning, 5G non-terrestrial network (NTN) positioning, timing, polar coverage) |
+| [SPECTRUM.md](SPECTRUM.md) | `spectrum` (jamming waterfalls and the jammer-to-signal ratio (J/S) per band) |
 | [CAMPAIGNS.md](CAMPAIGNS.md) | `campaign` (chains, sweeps, Monte Carlo and compositions of any kinds) |
 
 ## System-agnostic first
@@ -41,12 +41,12 @@ name it). This page gives none of its numbers.
 | Kind | What one run computes | Label |
 |---|---|---|
 | `leo-signal` | a signal design's band-limited power spectral density (PSD), power in band, root-mean-square (Gabor) bandwidth, code-tracking jitter against carrier-to-noise density (C/N0), acquisition search, and spectral separation coefficients (SSC) against GNSS signals; a band trade (ultra high frequency (UHF), L, S, C) | closed forms VALIDATED, designs and trade MODELLED |
-| `spectrum` (multi-band panels) | per-band waterfalls with per-band jammers (continuous wave (CW), chirp, narrowband, wideband, matched), each signal's jammer-to-signal ratio (J/S) and effective C/N0 over a timeline | spectra VALIDATED, jammers MODELLED |
+| `spectrum` (multi-band panels) | per-band waterfalls with per-band jammers (continuous wave (CW), chirp, narrowband, wideband, matched), each signal's J/S and effective C/N0 over a timeline | spectra VALIDATED, jammers MODELLED |
 | `leo-pass` | pass geometry, Doppler and Doppler rate, free-space loss, satellite and user antennas, ITU-R (International Telecommunication Union, Radiocommunication Sector) gaseous, rain, scintillation and building entry loss, C/N0 per band and epoch beside the MEO GNSS carriers; ionosphere per band and the ionosphere-free pairs; low-energy fixes; ionosphere sounding; spoofing monitors | components VALIDATED, pass MODELLED |
 | `leo-navmsg` | the broadcast ephemeris and clock message: fitter, signal-in-space range error (SISRE) against fit interval and update period, mid-pass update continuity, user algorithm, binary frame with a 24-bit cyclic redundancy check (CRC-24Q), exports in the style of RINEX 4 (Receiver Independent Exchange Format) and as comma-separated values (CSV) | user algorithm, weights and CRC VALIDATED, fits MODELLED |
 | `leo-pvt` | Doppler positioning, joint GNSS + LEO pseudorange fixes with inter-system biases, polar and Arctic geometry, time transfer to Coordinated Universal Time (UTC), with an optional per-epoch time-error trace | maximum Doppler VALIDATED, rest MODELLED |
 | `leo-ppp` | precise point positioning (PPP) convergence with GNSS only and with LEO layers | MODELLED |
-| `ntn-positioning` | 5G non-terrestrial network (NTN) positioning accuracy from the downlink bandwidth (Cramér-Rao bound) | MODELLED |
+| `ntn-positioning` | 5G NTN positioning accuracy from the downlink bandwidth (Cramér-Rao bound) | MODELLED |
 | `leo-pnt-chain` | one system end to end: signal design, pass, message, fused fix and PPP, every hand-off listed | MODELLED |
 | `campaign` | any of the above chained on one timeline, swept, run as a Monte Carlo ensemble or composed under shared conditions | MODELLED |
 
@@ -79,8 +79,8 @@ range (−8.2 dB at UHF, +6.4 dB at S, +12.5 dB at C).
 |---|---|---|
 | `generic-bands`, `generic-leo` | REPRESENTATIVE, band centres from the ITU Radio Regulations | the band table above; a 550 km sun-synchronous Walker layer at 0 dBW per band |
 | `generic-c-band` | REPRESENTATIVE, for C-band systems whose parameters are not public (for example TrustPoint) | BPSK(10) at 5020 MHz, isoflux beam |
-| `xona-pulsar` | PUBLIC: Leclère, Marathe and Reid, ION GNSS+ 2025, [arXiv 2509.19551](https://arxiv.org/abs/2509.19551) | X1 at 1593.3225 MHz (1.023 Mchip/s) and X5 at 1190.51625 MHz (10.23 Mchip/s), the published minimum and maximum received powers, 258 satellites at about 1080 km (53 and 97 deg shells) |
-| `iridium-stl` | PUBLIC: [RNTF briefing](https://rntfnd.org/wp-content/uploads/Recent-PNT-Improvements-and-Test-Results-Based-on-Low-Earth-Orbit-Satellites.pdf) | bursts in 1616–1626 MHz, Doppler up to ±36 kHz, 66 satellites at 780 km, received power "300 to 2400 times GPS" |
+| `xona-pulsar` | PUBLIC: Leclère, Marathe and Reid, Institute of Navigation (ION) GNSS+ 2025, [arXiv 2509.19551](https://arxiv.org/abs/2509.19551) | X1 at 1593.3225 MHz (1.023 Mchip/s) and X5 at 1190.51625 MHz (10.23 Mchip/s), the published minimum and maximum received powers, 258 satellites at about 1080 km (53 and 97 deg shells) |
+| `iridium-stl` | PUBLIC: [Resilient Navigation and Timing Foundation (RNTF) briefing](https://rntfnd.org/wp-content/uploads/Recent-PNT-Improvements-and-Test-Results-Based-on-Low-Earth-Orbit-Satellites.pdf) | bursts in 1616–1626 MHz, Doppler up to ±36 kHz, 66 satellites at 780 km, received power "300 to 2400 times GPS" |
 | `starlink-soo` / `starlink-sop` | PUBLIC signal figures: Kozhaya, Saroufim and Kassas, [NAVIGATION 72(1)](https://navi.ion.org/content/72/1/navi.685); REPRESENTATIVE orbit | a 240 MHz Ku-band beacon used for Doppler only, C/N0 about 57 dB-Hz |
 | `centispace` | PUBLIC signal structure: [PMC10301026](https://pmc.ncbi.nlm.nih.gov/articles/PMC10301026/); REPRESENTATIVE orbit and power | BPSK at 2.046 Mchip/s near L1 and L5 |
 | `atomic-zero-clock` | PUBLIC: [InsideGNSS, ATOMIC payload](https://insidegnss.com/first-steps-toward-a-fully-operational-leo-pnt-payload/) | a 6th-order polynomial ephemeris with no clock terms (the clock is steered to GNSS time) |
