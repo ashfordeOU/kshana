@@ -5,11 +5,10 @@
 //! (presented at the ESA Navigation Innovation and Support Programme (NAVISP) LEO
 //! positioning, navigation and timing (PNT) workshop, 2026).
 //!
-//! **To withhold the workshop-derived preset** from a release, delete `celeste_iod.rs` and
-//! `scenarios/leo-navmsg-celeste-iod.toml`, then remove the four lines that name them:
-//! `mod celeste_iod;`, its push in [`all`] and its arm in [`csv_schema`] below, and its line
-//! in `src/bundled_scenarios.rs`. Every other capability, test and bundled scenario runs
-//! without it.
+//! **The workshop-derived preset** lives in `src/celeste_iod.rs` (its `navmsg` module) and
+//! is compiled in only when that file exists (see `build.rs`): deleting it, with the
+//! `scenarios/*celeste-iod*.toml` files, withholds it from a release with no source edit.
+//! Every other capability, test and bundled scenario runs without it.
 
 use serde::Serialize;
 
@@ -19,8 +18,8 @@ mod centispace;
 mod iridium;
 mod starlink;
 mod xona_pulsar;
-// Workshop-derived: remove this line, the entry in `all()`, and the file to withhold it.
-mod celeste_iod;
+#[cfg(kshana_celeste)]
+use crate::celeste_iod::navmsg as celeste_iod;
 
 /// Where a preset's numbers come from.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
@@ -90,6 +89,7 @@ pub fn all() -> Vec<Preset> {
         cband_generic::CBAND,
         atomic::ATOMIC,
     ];
+    #[cfg(kshana_celeste)]
     v.push(celeste_iod::CELESTE_IOD);
     v
 }
@@ -102,6 +102,7 @@ pub fn by_key(key: &str) -> Option<Preset> {
 /// Named CSV column schemas that presets supply (key, headers).
 pub fn csv_schema(name: &str) -> Option<crate::leo_navmsg::text::CsvSchema> {
     match name {
+        #[cfg(kshana_celeste)]
         "celeste-iod" => Some(celeste_iod::csv_schema()),
         _ => None,
     }

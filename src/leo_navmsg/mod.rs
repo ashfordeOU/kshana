@@ -721,6 +721,41 @@ impl LeoNavmsgScenario {
         Ok((orbit, free, steered))
     }
 
+    /// The broadcast signal-in-space range error of the scenario's own message
+    /// configuration: its model, fit interval, update period and clock choice, over
+    /// `span_s` of usage (the trade section's span, default 1800 s), with the SISRE
+    /// weights of the orbit altitude at a 0° mask. This is the figure the `leo-pnt-chain`
+    /// kind hands to the positioning stages as the LEO orbit-and-clock error. It is the
+    /// message's representation error only (no orbit determination or prediction error).
+    pub fn broadcast_sisre(&self) -> Result<(sisre::ErrorStats, Resolved), String> {
+        let res = self.resolve()?;
+        let span = self.trade.as_ref().and_then(|t| t.span_s).unwrap_or(1800.0);
+        if !(60.0..=86_400.0).contains(&span) {
+            return Err("trade.span_s must be 60-86400 s".to_string());
+        }
+        let r = sisre::EARTH_RADIUS_M + res.orbit.altitude_m;
+        let w = sisre_weights(r, 0.0);
+        let l = res.fit_interval_s;
+        let (orbit, free, steered) = self.truth(&res, span + l + 60.0)?;
+        let clock = if res.zero_clock { &steered } else { &free };
+        let start = res.orbit.epoch.plus(l / 2.0 + 30.0);
+        let (stats, _) = sequence_stats(
+            &orbit,
+            Some(clock),
+            res.model,
+            res.zero_clock,
+            &res.template,
+            &w,
+            &start,
+            span,
+            l,
+            res.update_period_s,
+            res.fit_sample_s,
+            res.eval_step_s,
+        )?;
+        Ok((stats, res))
+    }
+
     fn trade(
         &self,
         res: &Resolved,

@@ -35,7 +35,6 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("campaign-shared-jammer-sea-road"),
     bundled!("campaign-spectrum-holdover-integrity"),
     bundled!("campaign-sweep-jammer-power"),
-    bundled!("celeste-iod-fused-pvt"),
     bundled!("cislunar-arc-recovery"),
     bundled!("cislunar-observability"),
     bundled!("clock-ensemble"),
@@ -66,18 +65,16 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("leo-band-trade"),
     bundled!("leo-indoor-uhf"),
     bundled!("leo-iot-energy"),
-    // WORKSHOP-PRESET: delete this line with src/leo_link/presets/celeste_iod.rs.
-    bundled!("leo-pass-celeste-iod-multiband"),
     bundled!("leo-pass-iridium"),
     bundled!("leo-pass-vs-gnss-cn0"),
     bundled!("leo-pass-xona-pulsar"),
     // Workshop-derived preset scenario: remove this line with the file to withhold it.
-    bundled!("leo-navmsg-celeste-iod"),
     bundled!("leo-navmsg-encode-decode"),
     bundled!("leo-navmsg-fit-interval-trade"),
     bundled!("leo-navmsg-midpass-update"),
     bundled!("leo-navmsg-model-comparison"),
     bundled!("leo-doppler-positioning"),
+    bundled!("leo-pnt-end-to-end"),
     bundled!("leo-pnt-mega-shell"),
     bundled!("leo-ppp-convergence"),
     bundled!("leo-timing-utc"),
@@ -141,6 +138,7 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("terrain-slam"),
     bundled!("timetransfer"),
     bundled!("tracking-loop"),
+    bundled!("xona-pulsar-end-to-end"),
     bundled!("xona-pulsar-signals"),
 ];
 
@@ -151,10 +149,38 @@ pub const BUNDLED: &[(&str, &str)] = &[
 pub const REPO_ONLY: &[(&str, &str)] = &[
     (
         "celeste-iod-classical-pilot-signals",
-        "carries signal parameters presented at the ESA NAVISP LEO-PNT workshop, 2026, and \
-         is kept out of the binary so a release can withhold it by deleting that one file; \
-         run `kshana scenarios/celeste-iod-classical-pilot-signals.toml` from a checkout of \
-         the repository",
+        "carries signal parameters presented at the ESA NAVISP LEO-PNT workshop, 2026, and is kept out of the \
+         binary so a release can withhold the Celeste IOD preset by deleting \
+         src/celeste_iod.rs and the scenarios/*celeste-iod*.toml files; run \
+         `kshana scenarios/celeste-iod-classical-pilot-signals.toml` from a checkout of the repository",
+    ),
+    (
+        "celeste-iod-end-to-end",
+        "follows the Celeste IOD preset end to end, with signal parameters presented at the ESA NAVISP LEO-PNT workshop, 2026, and is kept out of the \
+         binary so a release can withhold the Celeste IOD preset by deleting \
+         src/celeste_iod.rs and the scenarios/*celeste-iod*.toml files; run \
+         `kshana scenarios/celeste-iod-end-to-end.toml` from a checkout of the repository",
+    ),
+    (
+        "celeste-iod-fused-pvt",
+        "uses the Celeste IOD preset, with signal parameters presented at the ESA NAVISP LEO-PNT workshop, 2026, and is kept out of the \
+         binary so a release can withhold the Celeste IOD preset by deleting \
+         src/celeste_iod.rs and the scenarios/*celeste-iod*.toml files; run \
+         `kshana scenarios/celeste-iod-fused-pvt.toml` from a checkout of the repository",
+    ),
+    (
+        "leo-navmsg-celeste-iod",
+        "uses the Celeste IOD preset, with message content presented at the ESA NAVISP LEO-PNT workshop, 2026, and is kept out of the \
+         binary so a release can withhold the Celeste IOD preset by deleting \
+         src/celeste_iod.rs and the scenarios/*celeste-iod*.toml files; run \
+         `kshana scenarios/leo-navmsg-celeste-iod.toml` from a checkout of the repository",
+    ),
+    (
+        "leo-pass-celeste-iod-multiband",
+        "uses the Celeste IOD preset, with band parameters presented at the ESA NAVISP LEO-PNT workshop, 2026, and is kept out of the \
+         binary so a release can withhold the Celeste IOD preset by deleting \
+         src/celeste_iod.rs and the scenarios/*celeste-iod*.toml files; run \
+         `kshana scenarios/leo-pass-celeste-iod-multiband.toml` from a checkout of the repository",
     ),
     (
         "lunar-llr-datum",

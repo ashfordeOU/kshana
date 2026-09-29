@@ -235,6 +235,15 @@ pub struct BandCfg {
     /// Whether the band supports code ranging.
     #[serde(default)]
     pub ranging: Option<bool>,
+    /// A `leo-signal` design by name (for example `xona-x5`, from the public presets under
+    /// `data/leo-signals/`, or a design handed in by the `leo-pnt-chain` kind). The band then
+    /// takes the design's centre frequency (unless `frequency_mhz` is given), transmit
+    /// bandwidth and tracked-component chip rate; its EIRP is split across the design's
+    /// components by their power shares; and every epoch reports the tracked component's
+    /// C/N0 and its band-limited code-tracking jitter (Betz & Kolodziejski 2009, the
+    /// `leo-signal` kind's formula) as the ranging error.
+    #[serde(default)]
+    pub signal: Option<String>,
 }
 
 /// One LEO satellite.
@@ -431,6 +440,10 @@ pub struct LeoPassScenario {
     /// The low-energy receiver.
     #[serde(default)]
     pub iot: Option<IotCfg>,
+    /// Signal designs handed in by a caller (the `leo-pnt-chain` kind), looked up by a band's
+    /// `signal` name before the public presets. Not a scenario field.
+    #[serde(skip)]
+    pub signal_designs: Vec<crate::leo_signal::SignalDesign>,
 }
 
 // ── Report ───────────────────────────────────────────────────────────────────────────────
@@ -457,6 +470,52 @@ pub struct BandOut {
     pub max_abs_doppler_hz: Option<f64>,
     pub max_abs_doppler_rate_hz_s: Option<f64>,
     pub iono_delay_at_peak_m: Option<f64>,
+    /// The `leo-signal` design the band carries, when it names one.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub signal_design: Option<SignalDesignOut>,
+    /// Tracked-component C/N0 at the pass peak (dB-Hz), with a signal design.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub peak_tracked_cn0_dbhz: Option<f64>,
+    /// Smallest code-tracking jitter over the pass (m, 1-sigma), with a signal design.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub min_code_jitter_m: Option<f64>,
+    /// Median code-tracking jitter over the pass (m, 1-sigma), with a signal design.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub median_code_jitter_m: Option<f64>,
+    /// Largest code-tracking jitter over the pass (m, 1-sigma), with a signal design.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub max_code_jitter_m: Option<f64>,
+}
+
+/// One component of a band's signal design and its share of the EIRP.
+#[derive(Clone, Debug, Serialize)]
+pub struct EirpShare {
+    /// `acquisition`, `data` or `pilot`.
+    pub role: String,
+    /// Modulation label, e.g. `BPSK(10)`.
+    pub modulation: String,
+    /// Share of the transmitted power.
+    pub share: f64,
+    /// The component's EIRP (dBW): the band EIRP plus `10 log10(share)`.
+    pub eirp_dbw: f64,
+}
+
+/// The `leo-signal` design a band carries.
+#[derive(Clone, Debug, Serialize)]
+pub struct SignalDesignOut {
+    pub name: String,
+    pub source: String,
+    pub tracked_component: Option<String>,
+    /// Fraction of the transmitted power inside the transmit bandwidth.
+    pub in_band_fraction: f64,
+    /// Offset from the band's total C/N0 to the tracked component's (dB).
+    pub tracked_cn0_offset_db: f64,
+    pub eirp_split: Vec<EirpShare>,
+    /// Delay-lock-loop settings of the jitter: spacing (chips), loop bandwidth (Hz),
+    /// predetection time (s), coherent early-late.
+    pub dll_spacing_chips: f64,
+    pub dll_loop_bandwidth_hz: f64,
+    pub dll_integration_s: f64,
 }
 
 /// Per-band terms at one epoch.
@@ -476,6 +535,13 @@ pub struct BandEpoch {
     pub doppler_hz: f64,
     pub doppler_rate_hz_s: f64,
     pub iono_delay_m: f64,
+    /// Tracked-component C/N0 (dB-Hz), when the band carries a signal design.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub tracked_cn0_dbhz: Option<f64>,
+    /// Code-tracking jitter of the tracked component (m, 1-sigma): the ranging error, when
+    /// the band carries a signal design.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub code_jitter_m: Option<f64>,
 }
 
 /// One epoch of one satellite.
@@ -701,6 +767,64 @@ struct Band {
     data_rate_bps: f64,
     ranging: bool,
     source: String,
+    design: Option<crate::leo_signal::SignalDesign>,
+}
+
+/// Delay-lock-loop settings of a signal design's ranging jitter: half-chip coherent
+/// early-late, 1 Hz loop bandwidth, 20 ms predetection (the settings `iono_free` uses).
+const DLL_SPACING_CHIPS: f64 = 0.5;
+const DLL_LOOP_BW_HZ: f64 = 1.0;
+const DLL_INTEGRATION_S: f64 = 0.02;
+
+/// Tracked-component C/N0 (dB-Hz) and code jitter (m) of a design at total in-band C/N0.
+fn design_tracking(
+    d: &crate::leo_signal::SignalDesign,
+    cn0_dbhz: f64,
+) -> (Option<f64>, Option<f64>) {
+    let Some(i) = d.tracked_index() else {
+        return (None, None);
+    };
+    let eta = d.in_band_fraction();
+    let tracked = cn0_dbhz + d.component_cn0_offset_db(i, eta);
+    let jitter = crate::leo_signal::code_jitter_m(
+        d,
+        i,
+        eta,
+        cn0_dbhz,
+        DLL_SPACING_CHIPS,
+        DLL_LOOP_BW_HZ,
+        DLL_INTEGRATION_S,
+        crate::navsignal::EarlyLate::Coherent,
+    );
+    (Some(tracked), jitter)
+}
+
+fn design_out(d: &crate::leo_signal::SignalDesign, eirp_dbw: f64) -> SignalDesignOut {
+    let eta = d.in_band_fraction();
+    let ti = d.tracked_index();
+    SignalDesignOut {
+        name: d.name.clone(),
+        source: d
+            .source_ref
+            .clone()
+            .unwrap_or_else(|| "scenario".to_string()),
+        tracked_component: ti.map(|i| d.components[i].role.as_str().to_string()),
+        in_band_fraction: eta,
+        tracked_cn0_offset_db: ti.map_or(0.0, |i| d.component_cn0_offset_db(i, eta)),
+        eirp_split: d
+            .components
+            .iter()
+            .map(|c| EirpShare {
+                role: c.role.as_str().to_string(),
+                modulation: c.shape.label(),
+                share: c.share,
+                eirp_dbw: eirp_dbw + 10.0 * c.share.max(1e-300).log10(),
+            })
+            .collect(),
+        dll_spacing_chips: DLL_SPACING_CHIPS,
+        dll_loop_bandwidth_hz: DLL_LOOP_BW_HZ,
+        dll_integration_s: DLL_INTEGRATION_S,
+    }
 }
 
 fn band_from_preset(b: &BandPreset, source: &str) -> Band {
@@ -717,19 +841,44 @@ fn band_from_preset(b: &BandPreset, source: &str) -> Band {
         data_rate_bps: b.data_rate_bps,
         ranging: b.ranging,
         source: source.to_string(),
+        design: None,
     }
 }
 
-fn apply_band_cfg(base: Option<Band>, c: &BandCfg) -> Result<Band, String> {
+fn apply_band_cfg(
+    base: Option<Band>,
+    c: &BandCfg,
+    designs: &[crate::leo_signal::SignalDesign],
+) -> Result<Band, String> {
+    let design = match &c.signal {
+        Some(n) => Some(
+            designs
+                .iter()
+                .find(|d| d.name == *n)
+                .cloned()
+                .or_else(|| crate::leo_signal::public_signal(n))
+                .ok_or_else(|| {
+                    format!(
+                        "band '{}': unknown signal design '{n}'; public designs: {}",
+                        c.name,
+                        crate::leo_signal::public_signal_names().join(", ")
+                    )
+                })?,
+        ),
+        None => None,
+    };
     let mut b = match base {
         Some(b) => b,
         None => {
-            let f = c.frequency_mhz.ok_or_else(|| {
-                format!(
-                    "band '{}' is not in the system preset: give frequency_mhz and eirp_dbw",
-                    c.name
-                )
-            })?;
+            let f = c
+                .frequency_mhz
+                .or_else(|| design.as_ref().map(|d| d.centre_hz / 1e6))
+                .ok_or_else(|| {
+                    format!(
+                        "band '{}' is not in the system preset: give frequency_mhz and eirp_dbw",
+                        c.name
+                    )
+                })?;
             let e = c
                 .eirp_dbw
                 .ok_or_else(|| format!("band '{}' needs eirp_dbw", c.name))?;
@@ -746,9 +895,22 @@ fn apply_band_cfg(base: Option<Band>, c: &BandCfg) -> Result<Band, String> {
                 data_rate_bps: 0.0,
                 ranging: true,
                 source: "scenario".to_string(),
+                design: None,
             }
         }
     };
+    if let Some(d) = design {
+        b.f_hz = d.centre_hz;
+        b.bandwidth_hz = d.tx_bandwidth_hz;
+        if let Some(r) = d
+            .tracked_index()
+            .and_then(|i| d.components[i].shape.chip_rate_hz())
+        {
+            b.chip_rate_hz = r;
+        }
+        b.ranging = d.ranging;
+        b.design = Some(d);
+    }
     if let Some(f) = c.frequency_mhz {
         b.f_hz = f * 1e6;
     }
@@ -822,6 +984,7 @@ fn resolve_bands(
     system: Option<&'static SystemPreset>,
     subset: &Option<Vec<String>>,
     extra: &[BandCfg],
+    designs: &[crate::leo_signal::SignalDesign],
 ) -> Result<Vec<Band>, String> {
     let mut bands: Vec<Band> = Vec::new();
     if let Some(p) = system {
@@ -844,10 +1007,10 @@ fn resolve_bands(
             .position(|b| b.name.eq_ignore_ascii_case(&c.name));
         match idx {
             Some(i) => {
-                let nb = apply_band_cfg(Some(bands[i].clone()), c)?;
+                let nb = apply_band_cfg(Some(bands[i].clone()), c, designs)?;
                 bands[i] = nb;
             }
-            None => bands.push(apply_band_cfg(None, c)?),
+            None => bands.push(apply_band_cfg(None, c, designs)?),
         }
     }
     if bands.is_empty() {
@@ -1002,8 +1165,15 @@ impl Env {
         let pol = polarisation_loss_db(b.pol, b.ar_db, self.rx_pol, self.rx_ar_db);
         let tsys = system_noise_temperature_k(self.floor_k, gas + rain, T_MR_K, self.nf_db);
         let c = b.eirp_dbw + g_sat - fspl - gas - rain - scint - bel - pol + g_user;
+        let cn0 = cn0_dbhz(c, tsys, self.impl_db);
+        let (tracked_cn0_dbhz, code_jitter_m) = match &b.design {
+            Some(d) => design_tracking(d, cn0),
+            None => (None, None),
+        };
         BandEpoch {
-            cn0_dbhz: cn0_dbhz(c, tsys, self.impl_db),
+            cn0_dbhz: cn0,
+            tracked_cn0_dbhz,
+            code_jitter_m,
             received_power_dbw: c,
             fspl_db: fspl,
             sat_gain_db: g_sat,
@@ -1058,7 +1228,85 @@ fn inclination_for(
     Ok(i.to_radians())
 }
 
+/// The satellites and the user of a pass on the run's own time grid, in ECI0 (see
+/// [`crate::leo_link::geometry`]), for the interoperability exports.
+#[derive(Clone, Debug)]
+pub struct PassTracks {
+    /// The scenario epoch as a UTC Julian date.
+    pub epoch_jd_utc: f64,
+    /// Where the epoch comes from.
+    pub epoch_label: String,
+    /// Sample times (s after the epoch).
+    pub times_s: Vec<f64>,
+    /// Satellite id, a one-line description, and the ECI0 state at every sample.
+    pub satellites: Vec<(String, String, Vec<crate::leo_link::geometry::Kinematics>)>,
+    /// The user's ECI0 state at every sample.
+    pub user: Vec<crate::leo_link::geometry::Kinematics>,
+    /// Whether the user moves.
+    pub user_moving: bool,
+    /// The user's geodetic latitude (deg), longitude (deg) and height (m) at the epoch.
+    pub user_start: (f64, f64, f64),
+    /// The user's environment (`ground`, `maritime`, `air` or `indoor`).
+    pub user_environment: String,
+}
+
 impl LeoPassScenario {
+    /// The satellites and the user on the run's time grid, from the same propagators the
+    /// run uses.
+    pub fn tracks(&self) -> Result<PassTracks, String> {
+        let epoch = self
+            .epoch
+            .clone()
+            .unwrap_or_else(|| "2026-09-28T08:00:00".to_string());
+        let jd0 = parse_epoch_jd(&epoch)?;
+        let duration = self.duration_s.unwrap_or(900.0);
+        let step = self.step_s.unwrap_or(5.0);
+        if !(duration > 0.0 && step > 0.0) || duration / step > 20_000.0 || duration > 86_400.0 {
+            return Err(format!(
+                "duration_s (at most 86400) and step_s must be positive with at most 20000 \
+                 epochs; got {duration} and {step}"
+            ));
+        }
+        let (env, user_out) = self.env(jd0)?;
+        let sats = self.leo_sats(&env, duration)?;
+        let n = (duration / step).floor() as usize + 1;
+        let times: Vec<f64> = (0..n).map(|k| k as f64 * step).collect();
+        let mut out = Vec::new();
+        for s in &sats {
+            let mut st = Vec::with_capacity(n);
+            for &t in &times {
+                st.push(s.motion.state(t)?);
+            }
+            out.push((
+                s.id.clone(),
+                format!(
+                    "{} LEO satellite, {:.0} km, {:.1} deg ({})",
+                    s.system,
+                    s.altitude_m / 1e3,
+                    s.inclination_deg,
+                    s.orbit_source
+                ),
+                st,
+            ));
+        }
+        let user: Vec<crate::leo_link::geometry::Kinematics> =
+            times.iter().map(|&t| env.user.state(t).kin).collect();
+        Ok(PassTracks {
+            epoch_jd_utc: jd0,
+            epoch_label: if self.epoch.is_some() {
+                format!("the scenario's `epoch` {epoch}, read as UTC")
+            } else {
+                format!("the kind's default epoch {epoch} UTC (the scenario gives none)")
+            },
+            times_s: times,
+            satellites: out,
+            user,
+            user_moving: user_out.speed_m_s > 0.0,
+            user_start: (user_out.lat_deg, user_out.lon_deg, user_out.height_m),
+            user_environment: user_out.environment,
+        })
+    }
+
     /// Run and render: JSON with a units block, a text summary and the SVG chart.
     pub fn run_output(&self) -> Result<(String, String, String), String> {
         let r = self.compute()?;
@@ -1214,7 +1462,7 @@ impl LeoPassScenario {
             };
         for (k, s) in sats.iter().enumerate() {
             let system = system_by_name(Some(s.system.as_deref().unwrap_or("generic-leo")))?;
-            let bands = resolve_bands(system, &s.bands, &s.band)?;
+            let bands = resolve_bands(system, &s.bands, &s.band, &self.signal_designs)?;
             let id = s.id.clone().unwrap_or_else(|| format!("LEO-{}", k + 1));
             let j2 = s.j2.unwrap_or(true);
             let alt_m = s
@@ -1311,7 +1559,7 @@ impl LeoPassScenario {
         }
         for c in &self.leo_constellation {
             let system = system_by_name(Some(c.system.as_deref().unwrap_or("generic-leo")))?;
-            let bands = resolve_bands(system, &c.bands, &c.band)?;
+            let bands = resolve_bands(system, &c.bands, &c.band, &self.signal_designs)?;
             let j2 = c.j2.unwrap_or(true);
             let body = crate::body::Body::earth();
             let design = match &c.design {
@@ -1523,6 +1771,20 @@ impl LeoPassScenario {
                             vis.iter().map(|e| e.bands[bi].doppler_rate_hz_s.abs()),
                         ),
                         iono_delay_at_peak_m: peak_idx.map(|i| vis[i].bands[bi].iono_delay_m),
+                        signal_design: b.design.as_ref().map(|d| design_out(d, b.eirp_dbw)),
+                        peak_tracked_cn0_dbhz: peak_idx
+                            .and_then(|i| vis[i].bands[bi].tracked_cn0_dbhz),
+                        min_code_jitter_m: min_of(
+                            vis.iter().filter_map(|e| e.bands[bi].code_jitter_m),
+                        ),
+                        median_code_jitter_m: median(
+                            vis.iter()
+                                .filter_map(|e| e.bands[bi].code_jitter_m)
+                                .collect(),
+                        ),
+                        max_code_jitter_m: max_of(
+                            vis.iter().filter_map(|e| e.bands[bi].code_jitter_m),
+                        ),
                     }
                 })
                 .collect();
@@ -1793,8 +2055,17 @@ impl LeoPassScenario {
                 let (bi, bj) = (&s.bands[i], &s.bands[j]);
                 let (a1, a2) = iono::iono_free_coefficients(bi.frequency_hz, bj.frequency_hz);
                 let noise = |k: usize, b: &BandOut| {
+                    // A band with a signal design uses its own band-limited jitter.
                     peak.map(|e| {
-                        iono::dll_code_noise_m(b.chip_rate_hz, e.bands[k].cn0_dbhz, 1.0, 0.5, 0.02)
+                        e.bands[k].code_jitter_m.unwrap_or_else(|| {
+                            iono::dll_code_noise_m(
+                                b.chip_rate_hz,
+                                e.bands[k].cn0_dbhz,
+                                1.0,
+                                0.5,
+                                0.02,
+                            )
+                        })
                     })
                 };
                 let (n1, n2) = (noise(i, bi), noise(j, bj));
@@ -2005,6 +2276,17 @@ const UNITS: &[(&str, &str, &str, &str)] = &[
     ("satellites[].bands[].max_abs_doppler_hz", "Hz", "computed", "largest Doppler magnitude over the visible epochs"),
     ("satellites[].bands[].max_abs_doppler_rate_hz_s", "Hz/s", "computed", "largest Doppler-rate magnitude over the visible epochs"),
     ("satellites[].bands[].iono_delay_at_peak_m", "m", "computed", "first-order ionospheric group delay at the epoch of peak C/N0"),
+    ("satellites[].bands[].signal_design.in_band_fraction", "1", "computed", "fraction of the design's transmitted power inside its transmit bandwidth"),
+    ("satellites[].bands[].signal_design.tracked_cn0_offset_db", "dB", "computed", "offset from the band's total C/N0 to the tracked component's, 10 log10(share / in-band fraction)"),
+    ("satellites[].bands[].signal_design.eirp_split[].share", "1", "input", "the component's share of the transmitted power, from the signal design"),
+    ("satellites[].bands[].signal_design.eirp_split[].eirp_dbw", "dBW", "computed", "the component's EIRP: band EIRP plus 10 log10(share)"),
+    ("satellites[].bands[].signal_design.dll_spacing_chips", "chip", "input", "early-late spacing of the ranging jitter"),
+    ("satellites[].bands[].signal_design.dll_loop_bandwidth_hz", "Hz", "input", "delay-lock-loop bandwidth of the ranging jitter"),
+    ("satellites[].bands[].signal_design.dll_integration_s", "s", "input", "predetection integration time of the ranging jitter"),
+    ("satellites[].bands[].peak_tracked_cn0_dbhz", "dB-Hz", "computed", "tracked-component C/N0 at the epoch of peak C/N0"),
+    ("satellites[].bands[].min_code_jitter_m", "m", "computed", "smallest code-tracking jitter over the pass (1-sigma)"),
+    ("satellites[].bands[].median_code_jitter_m", "m", "computed", "median code-tracking jitter over the pass (1-sigma)"),
+    ("satellites[].bands[].max_code_jitter_m", "m", "computed", "largest code-tracking jitter over the pass (1-sigma)"),
     ("satellites[].series[].t_s", "s", "computed", "seconds after the epoch"),
     ("satellites[].series[].elevation_deg", "deg", "computed", "geodetic elevation of the satellite"),
     ("satellites[].series[].azimuth_deg", "deg", "computed", "azimuth clockwise from true north"),
@@ -2027,6 +2309,8 @@ const UNITS: &[(&str, &str, &str, &str)] = &[
     ("satellites[].series[].bands[].doppler_hz", "Hz", "closed-form", "carrier Doppler -f rho_dot / c"),
     ("satellites[].series[].bands[].doppler_rate_hz_s", "Hz/s", "closed-form", "carrier Doppler rate -f rho_ddot / c"),
     ("satellites[].series[].bands[].iono_delay_m", "m", "closed-form", "first-order ionospheric group delay 40.3 STEC / f^2"),
+    ("satellites[].series[].bands[].tracked_cn0_dbhz", "dB-Hz", "computed", "tracked-component C/N0: total C/N0 plus the design's component offset"),
+    ("satellites[].series[].bands[].code_jitter_m", "m", "modelled", "band-limited coherent early-late code-tracking jitter of the tracked component (Betz & Kolodziejski 2009), the ranging error"),
     ("gnss.frequency_hz", "Hz", "spec", "GNSS carrier"),
     ("gnss.min_power_dbw", "dBW", "spec", "interface-document minimum received power into 0 dBi"),
     ("gnss.max_power_dbw", "dBW", "spec", "interface-document maximum received power into 0 dBi"),
