@@ -52,6 +52,10 @@
 //!
 //! The core is sequential and touches no filesystem, so it runs unchanged in the
 //! WebAssembly build.
+//!
+//! Campaigns are written in TOML (Tom's Obvious, Minimal Language) and results are
+//! JSON (JavaScript Object Notation) documents. Every hash is SHA-256 (Secure Hash
+//! Algorithm 2 with a 256-bit digest), written as lowercase hexadecimal.
 
 use crate::field_schema::{lookup, ProvenanceClass};
 use serde::{Deserialize, Serialize};
@@ -397,22 +401,32 @@ pub struct ComposeCfg {
 /// The campaign result document.
 #[derive(Clone, Debug, Serialize)]
 pub struct CampaignResult {
+    /// Interchange schema version of this document ([`crate::interchange::SCHEMA_VERSION`]).
     pub schema_version: String,
+    /// Version of the engine that produced the document (the crate version).
     pub engine_version: String,
     /// The campaign hash: SHA-256 of the canonical JSON form of the campaign document.
     pub scenario_hash: String,
+    /// The campaign seed from the document (dimensionless); echoed for reproducibility.
     pub seed: u64,
+    /// Always `"campaign"`.
     pub kind: String,
+    /// Display title: the document's `title`, or `"campaign"` when it has none.
     pub title: String,
+    /// The honesty label ([`LABEL`]): what is modelled and what is read from real runs.
     pub label: String,
     /// Reproducibility stamp over every member run.
     pub reproducibility: Reproducibility,
+    /// The chained mission timeline; present when the campaign has `[[phases]]`.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub timeline: Option<TimelineOut>,
+    /// The parameter-grid results; present when the campaign has `[sweep]`.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub sweep: Option<SweepOut>,
+    /// The seeded-ensemble results; present when the campaign has `[monte_carlo]`.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub monte_carlo: Option<MonteCarloOut>,
+    /// The shared-conditions results; present when the campaign has `[compose]`.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub compose: Option<ComposeOut>,
 }
@@ -432,78 +446,118 @@ pub struct Reproducibility {
 /// The aligned mission timeline.
 #[derive(Clone, Debug, Serialize)]
 pub struct TimelineOut {
+    /// Grid spacing of the aligned series (s), from `[timeline] step_s`.
     pub step_s: f64,
+    /// Mission length (s): the sum of the phase lengths as run.
     pub duration_s: f64,
+    /// Mission time of each grid sample (s from mission start, the start of the first phase).
     pub t_s: Vec<f64>,
+    /// Every phase as it ran, in order.
     pub phases: Vec<PhaseOut>,
+    /// Every event raised on the timeline, sorted by mission time.
     pub events: Vec<EventOut>,
+    /// Every value handed from one phase into the next phase's scenario, in order.
     pub handoffs: Vec<HandoffOut>,
+    /// Each aligned channel by name, sampled on the `t_s` grid by zero-order hold.
     pub channels: BTreeMap<String, ChannelOut>,
 }
 
 /// One phase as it ran.
 #[derive(Clone, Debug, Serialize)]
 pub struct PhaseOut {
+    /// Phase name from the document.
     pub name: String,
+    /// Mission time at which the phase starts (s): the previous phase's end.
     pub t0_s: f64,
+    /// Mission time at which the phase ends (s): `t0_s` plus `duration_s`, or earlier
+    /// when `end_at` fired.
     pub t1_s: f64,
+    /// Why the phase ended where it did: `duration_s`, or the `end_at` path and the time it read.
     pub ended_by: String,
+    /// Each carried channel and the value (in that channel's unit) added from the end of
+    /// the previous phase.
     pub carried: BTreeMap<String, f64>,
+    /// The member runs of the phase, in document order.
     pub runs: Vec<RunOut>,
 }
 
 /// One member run of a phase.
 #[derive(Clone, Debug, Serialize)]
 pub struct RunOut {
+    /// The scenario kind that ran (`clock` when the table named none).
     pub kind: String,
+    /// The member result's own `scenario_hash`, when its kind reports one.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub scenario_hash: Option<String>,
+    /// Lowercase hex SHA-256 of the member's result JSON.
     pub result_sha256: String,
+    /// Seconds of the run's own timeline dropped before phase time zero (s).
     pub skip_s: f64,
+    /// Names of the channels this run provided, in series order.
     pub channels: Vec<String>,
 }
 
 /// An event on the mission timeline.
 #[derive(Clone, Debug, Serialize)]
 pub struct EventOut {
+    /// Mission time of the event (s from mission start).
     pub t_s: f64,
+    /// Name of the phase whose run raised the event.
     pub phase: String,
+    /// What happened, from the event specification.
     pub label: String,
+    /// Whether the event raises the alarm channel from its time until the phase ends.
     pub alarm: bool,
 }
 
 /// A handed-on value.
 #[derive(Clone, Debug, Serialize)]
 pub struct HandoffOut {
+    /// Name of the phase the value was written into.
     pub phase: String,
+    /// The source: `channel:<name>` or a result path of a previous-phase run.
     pub from: String,
+    /// The dotted scenario key written.
     pub to: String,
+    /// Index of the receiving run within the phase (zero-based).
     pub run: usize,
+    /// The number written, after scale and offset, in `unit`.
     pub value: f64,
+    /// Unit of `value`: the handoff's declared unit, or the source's unit.
     pub unit: String,
 }
 
 /// One aligned channel.
 #[derive(Clone, Debug, Serialize)]
 pub struct ChannelOut {
+    /// Unit of the channel's values (for example ns, dB-Hz, m, or `1` for a flag).
     pub unit: String,
+    /// Human-readable description of the channel.
     pub label: String,
+    /// Value at each timeline grid time, in `unit`; null where no run of the owning phase
+    /// provides it.
     pub values: Vec<Option<f64>>,
 }
 
 /// A sweep axis as run.
 #[derive(Clone, Debug, Serialize)]
 pub struct AxisOut {
+    /// Dotted scenario key the axis varies.
     pub key: String,
+    /// Unit of the key, as declared on the axis.
     pub unit: String,
+    /// Spacing of the values: `lin` or `log`.
     pub scale: String,
+    /// The key's values along the axis, endpoints included, in `unit`.
     pub values: Vec<f64>,
 }
 
 /// A metric's definition as run.
 #[derive(Clone, Debug, Serialize)]
 pub struct MetricInfo {
+    /// Result path the metric is read from.
     pub path: String,
+    /// Unit of the metric: declared, or looked up in the result's units block.
     pub unit: String,
 }
 
@@ -511,37 +565,54 @@ pub struct MetricInfo {
 #[derive(Clone, Debug, Serialize)]
 #[serde(untagged)]
 pub enum NodeMetric {
+    /// The metric of a single run; `None` when the result value is null.
     Value(Option<f64>),
+    /// Ensemble statistics of the metric when the node runs several realisations.
     Stat(crate::inertial::MetricStat),
 }
 
 /// One sweep node.
 #[derive(Clone, Debug, Serialize)]
 pub struct NodeOut {
+    /// The node's value on each axis, by axis name, in that axis's unit.
     pub coords: BTreeMap<String, f64>,
+    /// Each recorded metric at this node, by metric name, in the metric's unit.
     pub metrics: BTreeMap<String, NodeMetric>,
 }
 
 /// The sweep section.
 #[derive(Clone, Debug, Serialize)]
 pub struct SweepOut {
+    /// Kind of the swept base scenario (`clock` when it names none).
     pub scenario_kind: String,
+    /// Realisations per node (count); above one each node is an ensemble.
     pub runs: usize,
+    /// Axis names in document order; the node order runs over them.
     pub axis_order: Vec<String>,
+    /// Each axis as run, by axis name.
     pub axes: BTreeMap<String, AxisOut>,
+    /// Each recorded metric's definition, by metric name.
     pub metrics: BTreeMap<String, MetricInfo>,
+    /// Number of values along each axis, in `axis_order` (count).
     pub shape: Vec<usize>,
+    /// Every grid node in flattened `axis_order` order.
     pub nodes: Vec<NodeOut>,
 }
 
 /// One Monte Carlo metric.
 #[derive(Clone, Debug, Serialize)]
 pub struct McMetric {
+    /// Result path the metric is read from.
     pub path: String,
+    /// Unit of the metric: declared, or looked up in the result's units block.
     pub unit: String,
+    /// Number of realisations aggregated (count).
     pub n: usize,
+    /// Mean, spread, percentiles and bootstrap 95% confidence interval, in `unit`.
     #[serde(flatten)]
     pub stat: crate::inertial::MetricStat,
+    /// The metric from each realisation in seed order, in `unit`; present when
+    /// `keep_samples` is set.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub samples: Option<Vec<f64>>,
 }
@@ -549,49 +620,72 @@ pub struct McMetric {
 /// The Monte Carlo section.
 #[derive(Clone, Debug, Serialize)]
 pub struct MonteCarloOut {
+    /// Kind of the ensemble scenario (`clock` when it names none).
     pub scenario_kind: String,
+    /// Number of realisations (count).
     pub runs: usize,
+    /// Integer scenario key the seed is written to.
     pub seed_key: String,
+    /// Seed of realisation zero; realisation `k` runs at `base_seed + k`.
     pub base_seed: u64,
+    /// Each recorded metric's statistics, by metric name.
     pub metrics: BTreeMap<String, McMetric>,
 }
 
 /// A shared value as applied.
 #[derive(Clone, Debug, Serialize)]
 pub struct SharedOut {
+    /// Unit of the shared value.
     pub unit: String,
+    /// The shared value as written into members: a number or an array of numbers, in `unit`.
     pub value: Value,
 }
 
 /// One composed member as run.
 #[derive(Clone, Debug, Serialize)]
 pub struct MemberOut {
+    /// The scenario kind that ran (`clock` when the table named none).
     pub kind: String,
+    /// The member result's own `scenario_hash`, when its kind reports one.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub scenario_hash: Option<String>,
+    /// Lowercase hex SHA-256 of the member's result JSON.
     pub result_sha256: String,
+    /// Shared value name to the dotted scenario key of this member it was written to.
     pub bound: BTreeMap<String, String>,
+    /// Each recorded metric by name, in the unit listed in `metric_units`; `None` when null.
     pub metrics: BTreeMap<String, Option<f64>>,
 }
 
 /// A metric across the composed members.
 #[derive(Clone, Debug, Serialize)]
 pub struct CombinedOut {
+    /// Unit of the metric.
     pub unit: String,
+    /// Number of members reporting a finite value (count).
     pub members: usize,
+    /// Smallest value across the members, in `unit`.
     pub min: f64,
+    /// Label of the member with the smallest value.
     pub min_member: String,
+    /// Largest value across the members, in `unit`.
     pub max: f64,
+    /// Label of the member with the largest value.
     pub max_member: String,
+    /// Arithmetic mean across the members reporting a finite value, in `unit`.
     pub mean: f64,
 }
 
 /// The compose section.
 #[derive(Clone, Debug, Serialize)]
 pub struct ComposeOut {
+    /// Each shared value as applied, by name.
     pub shared: BTreeMap<String, SharedOut>,
+    /// Each member as run, by label.
     pub members: BTreeMap<String, MemberOut>,
+    /// Unit of each metric name, the same for every member reporting it.
     pub metric_units: BTreeMap<String, String>,
+    /// Each metric across the members: extremes, their members, and the mean.
     pub combined: BTreeMap<String, CombinedOut>,
 }
 
@@ -599,6 +693,7 @@ pub struct ComposeOut {
 /// (so a caller can check a member against its stand-alone run).
 #[derive(Clone, Debug)]
 pub struct CampaignRun {
+    /// The campaign result document.
     pub result: CampaignResult,
     /// `(member label, result JSON)` for every dispatched run, in order.
     pub member_results: Vec<(String, String)>,
@@ -1928,8 +2023,6 @@ fn run_compose(cfg: &ComposeCfg, ledger: &mut Ledger) -> Result<ComposeOut, Stri
 // Entry points
 // ---------------------------------------------------------------------------
 
-/// The campaign hash: SHA-256 of the canonical JSON form of the campaign document
-/// (keys sorted), so formatting and key order in the TOML do not change it.
 /// The member scenarios of a campaign, each with a label, as the campaign would dispatch
 /// them before any run: every phase run (`<phase>`, or `<phase>-<k>` when the phase has
 /// several runs), the sweep's base scenario (`sweep`), the Monte Carlo scenario
@@ -1972,6 +2065,8 @@ pub fn member_scenarios(src: &str) -> Result<Vec<(String, toml::Value)>, String>
     Ok(out)
 }
 
+/// The campaign hash: SHA-256 of the canonical JSON form of the campaign document
+/// (keys sorted), so formatting and key order in the TOML do not change it.
 pub fn campaign_hash(src: &str) -> Result<String, String> {
     let v: toml::Value = toml::from_str(src).map_err(|e| format!("invalid campaign: {e}"))?;
     let canon = serde_json::to_string(&v).map_err(|e| e.to_string())?;

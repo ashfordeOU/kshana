@@ -1,18 +1,19 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Built-in **low-precision analytical ephemerides** for the third-body perturbing bodies, so
 //! the numerical propagator's third-body force ([`crate::forces::third_body_accel`]) needs no
-//! external DE/SPK kernel for a low-fidelity run.
+//! external DE/SPK kernel (JPL Development Ephemeris in the Spacecraft and Planet Kernel format;
+//! JPL = Jet Propulsion Laboratory) for a low-fidelity run.
 //!
-//! Both models are the closed-form series of Montenbruck & Gill, *Satellite Orbits* (§3.3.2):
-//! the Sun to ~0.005° in geocentric ecliptic longitude and ~few·10⁻⁴ AU in distance, the Moon
-//! to ~0.3° / ~few·10² km over a few decades around J2000. That is ample for the third-body
-//! *perturbation* on a near-Earth orbit (only ~5·10⁻⁷ m/s² for the Sun, ~1·10⁻⁶ m/s² for the
-//! Moon), where the body direction matters far more than sub-arcsecond position. For
-//! DE405/DE440-grade positions (a high-fidelity run) an external ephemeris kernel is the path
-//! (see `ROADMAP.md`).
+//! Both models are the closed-form series of Montenbruck & Gill, *Satellite Orbits* (§3.3.2): the
+//! Sun to ~0.005° in geocentric ecliptic longitude and ~few·10⁻⁴ AU (astronomical unit) in
+//! distance, the Moon to ~0.3° / ~few·10² km over a few decades around J2000. That is ample for the
+//! third-body *perturbation* on a near-Earth orbit (only ~5·10⁻⁷ m/s² for the Sun, ~1·10⁻⁶ m/s² for
+//! the Moon), where the body direction matters far more than sub-arcsecond position. For
+//! DE405/DE440-grade positions (a high-fidelity run) an external ephemeris kernel is the path (see
+//! `ROADMAP.md`).
 //!
-//! Positions are returned in metres in the **geocentric mean-equator/equinox of date** frame,
-//! a close approximation to the ECI frame the propagator integrates in (the
+//! Positions are returned in metres in the **geocentric mean-equator/equinox of date** frame, a
+//! close approximation to the ECI (Earth-centred inertial) frame the propagator integrates in (the
 //! precession/nutation difference is well below the model's own truncation error). The lunar
 //! series' mean longitude carries the `−1.3972°·T` precession term, so its longitude is in fact
 //! referred to the J2000 equinox; against JPL Horizons it lands within 0.05° of the J2000
@@ -24,10 +25,12 @@
 //!
 //! * [`standish_state`]: every planet (and the Earth-Moon barycentre) from the JPL Keplerian
 //!   elements of Standish & Williams, Table 1 (1800 AD to 2050 AD) and Tables 2a/2b (3000 BC to
-//!   3000 AD), heliocentric in the J2000 ecliptic, with the page's nominal error per planet in
+//!   3000 AD), with TDB (Barycentric Dynamical Time) as the time argument, heliocentric in the
+//!   J2000 ecliptic, with the page's nominal error per planet in
 //!   [`standish_nominal_error`];
 //! * [`satellite_state`]: Phobos, Deimos, Io, Europa, Ganymede, Callisto and Titan,
-//!   planetocentric in the ICRF, from JPL mean elements and the IAU rotation model.
+//!   planetocentric in the ICRF (International Celestial Reference Frame), from JPL mean elements
+//!   and the IAU (International Astronomical Union) rotation model.
 //!
 //! [`crate::ephem_provider::AnalyticSolarSystem`] composes them into any body relative to any
 //! other; `tests/solar_system_horizons_reference.rs` checks them against JPL Horizons.
@@ -143,15 +146,22 @@ pub const STANDISH_OBLIQUITY_DEG: f64 = 23.439_28;
 /// current page no longer lists).
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum Planet {
+    /// Mercury.
     Mercury,
+    /// Venus.
     Venus,
     /// The Earth-Moon barycentre: the Standish tables give its orbit, not the
     /// Earth's.
     EarthMoonBarycentre,
+    /// Mars.
     Mars,
+    /// Jupiter.
     Jupiter,
+    /// Saturn.
     Saturn,
+    /// Uranus.
     Uranus,
+    /// Neptune.
     Neptune,
     /// Pluto, from the 1992 Table 1 row (1800 AD to 2050 AD only). The current
     /// JPL page removed it and states no error for it, so a Pluto position is
@@ -542,7 +552,9 @@ pub fn standish_nominal_error(p: Planet, table: StandishTable) -> Option<[f64; 3
 /// (m/s) in the mean ecliptic and equinox of J2000.
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct EclipticState {
+    /// Heliocentric position, J2000 mean ecliptic and equinox, x y z (m).
     pub pos_m: Vec3,
+    /// Heliocentric velocity, J2000 mean ecliptic and equinox, x y z (m/s).
     pub vel_m_s: Vec3,
 }
 
@@ -587,17 +599,26 @@ pub fn standish_state(
 /// anomaly at the epoch (rad, wrapped to ±π) and the mean motion `dM/dt` (rad/s).
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct StandishElements {
+    /// Semi-major axis (m).
     pub a_m: f64,
+    /// Eccentricity (dimensionless).
     pub e: f64,
+    /// Inclination to the J2000 ecliptic (rad).
     pub inc_rad: f64,
+    /// Argument of perihelion `ω = ϖ − Ω` (rad).
     pub omega_rad: f64,
+    /// Longitude of the ascending node `Ω`, J2000 ecliptic and equinox (rad).
     pub node_rad: f64,
+    /// Mean anomaly at the epoch (rad, wrapped to ±π).
     pub mean_anomaly_rad: f64,
+    /// Mean motion `dM/dt` the elements imply (rad/s).
     pub mean_motion_rad_s: f64,
     /// Rates of the argument of perihelion, inclination and node (rad/s): the turning of the
     /// ellipse, which the velocity includes.
     pub omega_rate_rad_s: f64,
+    /// Rate of the inclination (rad/s).
     pub inc_rate_rad_s: f64,
+    /// Rate of the longitude of the ascending node (rad/s).
     pub node_rate_rad_s: f64,
 }
 
@@ -755,12 +776,19 @@ pub fn icrf_to_ecliptic(v: Vec3) -> Vec3 {
 /// A natural satellite with a built-in position model.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub enum Satellite {
+    /// Phobos, inner moon of Mars.
     Phobos,
+    /// Deimos, outer moon of Mars.
     Deimos,
+    /// Io, Galilean moon of Jupiter.
     Io,
+    /// Europa, Galilean moon of Jupiter.
     Europa,
+    /// Ganymede, Galilean moon of Jupiter.
     Ganymede,
+    /// Callisto, Galilean moon of Jupiter.
     Callisto,
+    /// Titan, moon of Saturn (placed by the IAU synchronous rotation model).
     Titan,
 }
 

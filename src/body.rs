@@ -5,7 +5,8 @@
 //! [`Body`] gathers everything a propagator's central-gravity path needs (the gravitational
 //! parameter `μ`, the reference radius `Re`, the zonal field, an optional full tesseral
 //! [`crate::gravity_sh::SphericalHarmonicField`]) together with the body's rotation and IAU
-//! pole — the orientation data a body-fixed gravity field or a deep-space ground track needs.
+//! (International Astronomical Union) pole — the orientation data a body-fixed gravity field or a
+//! deep-space ground track needs.
 //!
 //! ## The Earth path stays byte-identical
 //!
@@ -18,10 +19,11 @@
 //! ## Scope (honest)
 //!
 //! This is a parameter record, not a dynamics engine: it holds the constants the force model
-//! consumes. The Mars/Moon/Sun entries carry the standard published constants (IAU/DE values,
-//! cited inline); the non-Earth gravity fields here are the low-degree zonal sets, not full
-//! tesseral models (those load through [`crate::gravity_sh::SphericalHarmonicField::from_gfc`] and
-//! can be attached via [`Body::gravity`]).
+//! consumes. The Mars/Moon/Sun entries carry the standard published constants (IAU/DE values, DE
+//! being the JPL Development Ephemeris of the Jet Propulsion Laboratory; cited inline); the
+//! non-Earth gravity fields here are the low-degree zonal sets, not full tesseral models (those
+//! load through [`crate::gravity_sh::SphericalHarmonicField::from_gfc`] and can be attached via
+//! [`Body::gravity`]).
 
 use crate::gravity_sh::SphericalHarmonicField;
 
@@ -495,9 +497,13 @@ pub const NEPTUNE_ZONALS_J2: [f64; 1] = [3_408.4e-6];
 #[derive(Clone, Copy, Debug, PartialEq, Eq, serde::Serialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum BodyClass {
+    /// The Sun.
     Star,
+    /// One of the eight planets.
     Planet,
+    /// A dwarf planet (Pluto).
     DwarfPlanet,
+    /// A natural satellite of a planet.
     Moon,
 }
 
@@ -509,6 +515,7 @@ pub struct BodyFacts {
     pub name: &'static str,
     /// NAIF (Navigation and Ancillary Information Facility) integer code.
     pub naif_id: i32,
+    /// Star, planet, dwarf planet or moon.
     pub class: BodyClass,
     /// The body it orbits (`None` for the Sun).
     pub parent: Option<&'static str>,

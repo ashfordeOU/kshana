@@ -391,6 +391,7 @@ pub mod fusion {
         LeoPreset, PresetShell, PresetSignal, PresetSource, SourceKind,
     };
 
+    /// The Celeste IOD-1/IOD-2 preset (configuration #1, classical pilot) of the `leo-pvt` kind.
     pub const PRESET: LeoPreset = LeoPreset {
         id: "celeste-iod",
         name: "ESA Celeste IOD-1/IOD-2, configuration #1 (classical pilot)",
