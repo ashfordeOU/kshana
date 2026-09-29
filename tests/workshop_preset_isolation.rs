@@ -153,3 +153,38 @@ fn the_build_script_gates_the_preset_on_its_file() {
     let lib = std::fs::read_to_string(root.join("src/lib.rs")).expect("lib.rs");
     assert!(lib.contains("#[cfg(kshana_celeste)]\npub mod celeste_iod;"));
 }
+
+#[test]
+fn a_build_without_the_preset_has_nothing_left_unused() {
+    // A cfg-gated statement that mutates a collection (`v.push(preset)`) leaves the
+    // collection's `mut` unused when the preset file is withheld: a warning, and a clippy
+    // failure under `-D warnings`. The preset must be a cfg-gated element or item instead.
+    let root = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let mut offenders = Vec::new();
+    for (rel, p) in files(root) {
+        if !rel.ends_with(".rs") || rel == "tests/workshop_preset_isolation.rs" {
+            continue;
+        }
+        let Ok(text) = std::fs::read_to_string(&p) else {
+            continue;
+        };
+        let lines: Vec<&str> = text.lines().collect();
+        for (i, l) in lines.iter().enumerate() {
+            if l.trim() != "#[cfg(kshana_celeste)]" {
+                continue;
+            }
+            if let Some(next) = lines.get(i + 1) {
+                if [".push(", ".insert(", ".extend("]
+                    .iter()
+                    .any(|m| next.contains(m))
+                {
+                    offenders.push(format!("{rel}:{}", i + 2));
+                }
+            }
+        }
+    }
+    assert!(
+        offenders.is_empty(),
+        "cfg-gated mutations that leave a `mut` unused without the preset: {offenders:?}"
+    );
+}

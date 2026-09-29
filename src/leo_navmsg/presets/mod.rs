@@ -80,7 +80,9 @@ pub struct Preset {
 
 /// Every preset.
 pub fn all() -> Vec<Preset> {
-    let mut v = vec![
+    // The optional preset is an element under `cfg`, so a build without its file has no
+    // unused `mut` (a warning, and a clippy failure under `-D warnings`).
+    vec![
         xona_pulsar::PULSAR,
         xona_pulsar::PULSAR_0,
         iridium::IRIDIUM,
@@ -88,10 +90,9 @@ pub fn all() -> Vec<Preset> {
         centispace::CENTISPACE,
         cband_generic::CBAND,
         atomic::ATOMIC,
-    ];
-    #[cfg(kshana_celeste)]
-    v.push(celeste_iod::CELESTE_IOD);
-    v
+        #[cfg(kshana_celeste)]
+        celeste_iod::CELESTE_IOD,
+    ]
 }
 
 /// A preset by key.
