@@ -73,7 +73,7 @@ point at. Each is a real run of the named kind; every one is **MODELLED** (no fi
 | Scenario (`scenarios/`) | Kind | What it shows |
 |---|---|---|
 | `conflict-resilience.toml` | `conflict-resilience` | Layered PNT under a shared jamming/spoofing threat: a seeded Monte Carlo of layer denial, inverse-variance fusion of the survivors, the single-layer vs layered total-loss ratio, and how correlated denial collapses that ratio. Its Monte-Carlo-to-closed-form and fusion identities are checked by in-crate tests; the kind has no verification-matrix row, so it is graded MODELLED here. |
-| `leo-resilience-gnss-jammed-leo-carries.toml` | `campaign` | GNSS jammed, a low Earth orbit (LEO) PNT layer carries the user, integrity kept (three phases on one timeline). |
+| `leo-resilience-gnss-jammed-leo-carries.toml` | `campaign` | GNSS (global navigation satellite system) jammed, a low Earth orbit (LEO) PNT layer carries the user, integrity kept (three phases on one timeline). |
 | `leo-resilience-multiband-diversity.toml`, `leo-resilience-spoof-monitors.toml` | `campaign` | One jammer against a four-band receiver; which spoofing monitor sees which spoofer. |
 | `leo-resilience-js-margin.toml` | `spectrum` | The jammer-to-signal (J/S) margin from received power. |
 | `leo-resilience-spoof-doppler.toml` | `leo-pass` | Spoofing detection by Doppler and pass-geometry consistency. |
