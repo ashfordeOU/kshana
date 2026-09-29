@@ -354,7 +354,7 @@ impl LeoPntChainScenario {
             });
         }
         let mut n_leo_systems = 0usize;
-        let mut cn0_ends = [0.0f64; 2];
+        let mut cn0_ends: Option<[f64; 2]> = None;
         let mut first_leo = true;
         for s in fusion.system.iter_mut() {
             if s.build()?.role != "leo" {
@@ -369,7 +369,7 @@ impl LeoPntChainScenario {
             if s.cn0_dbhz.is_none() {
                 s.cn0_dbhz = Some([lo, hi]);
                 if first_leo {
-                    cn0_ends = [lo, hi];
+                    cn0_ends = Some([lo, hi]);
                 }
                 hand(
                     "leo-pass",
@@ -536,8 +536,8 @@ impl LeoPntChainScenario {
             },
             "fusion": {
                 "leo_systems_fed": n_leo_systems,
-                "leo_cn0_mask_dbhz": cn0_ends[0],
-                "leo_cn0_zenith_dbhz": cn0_ends[1],
+                "leo_cn0_mask_dbhz": cn0_ends.map(|c| c[0]),
+                "leo_cn0_zenith_dbhz": cn0_ends.map(|c| c[1]),
                 "gnss": fom(&joint.gnss),
                 "leo": fom(&joint.leo),
                 "fused": fom(&joint.fused),
