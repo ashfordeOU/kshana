@@ -393,6 +393,76 @@ pub struct IotCfg {
     pub cn0_from: Option<String>,
 }
 
+/// A spoofer and the receiver's consistency monitors (`[spoofer]`).
+///
+/// The spoofer counterfeits the signals a receiver would see at a *claimed* position that
+/// leaves the true position at `onset_s` (an initial `offset_m` jump, then `push_rate_m_s`
+/// horizontally toward `push_azimuth_deg`), self-consistently in range and range rate. The
+/// receiver predicts from its own independent prior position (the true track, with a stated
+/// 1-sigma uncertainty) and runs the monitors of [`crate::leo_link::spoof`].
+#[derive(Clone, Debug, Default, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct SpooferCfg {
+    /// Spoofing onset (s after the epoch). Default a quarter of the window.
+    #[serde(default)]
+    pub onset_s: Option<f64>,
+    /// Jump of the claimed position at the onset (m). Default 0.
+    #[serde(default)]
+    pub offset_m: Option<f64>,
+    /// Horizontal push speed after the onset (m/s). Default 1.
+    #[serde(default)]
+    pub push_rate_m_s: Option<f64>,
+    /// Direction of the push, clockwise from north (deg). Default 0.
+    #[serde(default)]
+    pub push_azimuth_deg: Option<f64>,
+    /// LEO bands the spoofer counterfeits, by name. Default every band.
+    #[serde(default)]
+    pub bands: Option<Vec<String>>,
+    /// Whether the spoofer also counterfeits the MEO GNSS signal. Default true.
+    #[serde(default)]
+    pub gnss: Option<bool>,
+    /// Whether the spoofer adds the model ionospheric delay to its counterfeit signals (a
+    /// ground transmitter's signal crosses no ionosphere). Default false.
+    #[serde(default)]
+    pub simulate_iono: Option<bool>,
+    /// 1-sigma uncertainty of the receiver's independent prior position, per axis (m).
+    /// Default 10.
+    #[serde(default)]
+    pub prior_sigma_m: Option<f64>,
+    /// 1-sigma uncertainty of the receiver's independent prior velocity, per axis (m/s).
+    /// Default 0.5.
+    #[serde(default)]
+    pub prior_velocity_sigma_m_s: Option<f64>,
+    /// 1-sigma prior on the receiver's clock drift (m/s); absent means unknown, removed as a
+    /// nuisance parameter.
+    #[serde(default)]
+    pub drift_sigma_m_s: Option<f64>,
+    /// Length of the Doppler test's window (s): the channels of every epoch in the last
+    /// `window_s` share one position and velocity error, so an abrupt change inside the
+    /// window is seen as well as the error itself. Default one step: the snapshot test.
+    #[serde(default)]
+    pub window_s: Option<f64>,
+    /// Frequency-lock-loop noise bandwidth (Hz). Default 2.
+    #[serde(default)]
+    pub fll_bandwidth_hz: Option<f64>,
+    /// Frequency-lock-loop predetection time (s). Default 0.02.
+    #[serde(default)]
+    pub fll_integration_s: Option<f64>,
+    /// Channels below this C/N0 are not tracked (dB-Hz). Default 25.
+    #[serde(default)]
+    pub tracking_threshold_dbhz: Option<f64>,
+    /// False-alarm probability of each test at each epoch. Default 1e-5.
+    #[serde(default)]
+    pub p_fa: Option<f64>,
+    /// Missed-detection probability: a test is declared to detect at the first epoch its
+    /// detection probability reaches `1 − p_md`. Default 1e-3.
+    #[serde(default)]
+    pub p_md: Option<f64>,
+    /// Unmodelled ionospheric rate the cross-band monitor tolerates (m/s). Default 0.01.
+    #[serde(default)]
+    pub iono_rate_bound_m_s: Option<f64>,
+}
+
 /// The `leo-pass` scenario.
 #[derive(Clone, Debug, Default, Deserialize)]
 #[serde(deny_unknown_fields)]
@@ -440,6 +510,9 @@ pub struct LeoPassScenario {
     /// The low-energy receiver.
     #[serde(default)]
     pub iot: Option<IotCfg>,
+    /// A spoofer and the receiver's consistency monitors.
+    #[serde(default)]
+    pub spoofer: Option<SpooferCfg>,
     /// Signal designs handed in by a caller (the `leo-pnt-chain` kind), looked up by a band's
     /// `signal` name before the public presets. Not a scenario field.
     #[serde(skip)]
@@ -702,6 +775,105 @@ pub struct UserOut {
     pub building_probability: Option<f64>,
 }
 
+/// One consistency test at one epoch.
+#[derive(Clone, Debug, Serialize)]
+pub struct SpoofTestEpoch {
+    /// Channels tracked.
+    pub n: usize,
+    /// Non-centrality of the statistic (zero when authentic); absent with no degree of freedom.
+    pub noncentrality: Option<f64>,
+    /// Chi-square threshold.
+    pub threshold: Option<f64>,
+    /// Probability of an alarm at this epoch.
+    pub p_detect: Option<f64>,
+}
+
+/// One epoch of the spoofing monitors.
+#[derive(Clone, Debug, Serialize)]
+pub struct SpoofEpoch {
+    pub t_s: f64,
+    /// Horizontal distance of the claimed position from the true one (m).
+    pub offset_m: f64,
+    /// Doppler test on the MEO GNSS channels alone.
+    pub gnss: SpoofTestEpoch,
+    /// Doppler test on the LEO channels alone.
+    pub leo: SpoofTestEpoch,
+    /// Doppler test on every channel.
+    pub fused: SpoofTestEpoch,
+    /// Largest `|step|` over threshold of the cross-band tests (1 is the alarm line);
+    /// absent when no band pair is tracked on consecutive epochs.
+    pub cross_band_ratio: Option<f64>,
+    /// Largest detection probability of the cross-band tests.
+    pub cross_band_p_detect: Option<f64>,
+}
+
+/// One cross-band pair over the run.
+#[derive(Clone, Debug, Serialize)]
+pub struct CrossBandPairOut {
+    pub satellite: String,
+    pub band_1: String,
+    pub band_2: String,
+    /// Whether the spoofer counterfeits each band.
+    pub spoofed_1: bool,
+    pub spoofed_2: bool,
+    /// Largest `|step|` of the model-corrected geometry-free combination (m).
+    pub max_abs_step_m: Option<f64>,
+    /// Smallest alarm threshold over the run (m).
+    pub min_threshold_m: Option<f64>,
+    /// First epoch the detection probability reaches `1 − p_md` (s).
+    pub detect_time_s: Option<f64>,
+}
+
+/// When each monitor detects.
+#[derive(Clone, Debug, Serialize)]
+pub struct SpoofDetection {
+    /// First epoch at or after the onset with detection probability at least `1 − p_md` (s).
+    pub detect_time_s: Option<f64>,
+    /// Seconds from the onset to detection.
+    pub delay_s: Option<f64>,
+    /// Claimed-position offset at detection (m).
+    pub offset_at_detection_m: Option<f64>,
+}
+
+/// The spoofing section of the report.
+#[derive(Clone, Debug, Serialize)]
+pub struct SpoofOut {
+    pub label: String,
+    pub onset_s: f64,
+    pub offset_m: f64,
+    pub push_rate_m_s: f64,
+    pub push_azimuth_deg: f64,
+    pub spoofed_bands: Vec<String>,
+    pub spoofs_gnss: bool,
+    pub simulates_iono: bool,
+    pub prior_sigma_m: f64,
+    pub prior_velocity_sigma_m_s: f64,
+    pub drift_sigma_m_s: Option<f64>,
+    pub fll_bandwidth_hz: f64,
+    pub fll_integration_s: f64,
+    pub tracking_threshold_dbhz: f64,
+    pub p_fa: f64,
+    pub p_md: f64,
+    pub iono_rate_bound_m_s: f64,
+    /// Length of the Doppler test's window as used, a whole number of steps (s).
+    pub window_s: f64,
+    /// Median range-rate jitter of the tracked LEO and GNSS channels (m/s, 1-sigma).
+    pub median_leo_sigma_m_s: Option<f64>,
+    pub median_gnss_sigma_m_s: Option<f64>,
+    /// Median size of the range-rate position gradient (range rate per metre of push, 1/s).
+    pub median_leo_gradient_per_s: Option<f64>,
+    pub median_gnss_gradient_per_s: Option<f64>,
+    pub gnss: SpoofDetection,
+    pub leo: SpoofDetection,
+    pub fused: SpoofDetection,
+    pub cross_band: SpoofDetection,
+    /// First detection by any monitor.
+    pub first: SpoofDetection,
+    pub pairs: Vec<CrossBandPairOut>,
+    pub series: Vec<SpoofEpoch>,
+    pub notes: Vec<String>,
+}
+
 /// The `leo-pass` report.
 #[derive(Clone, Debug, Serialize)]
 pub struct LeoPassReport {
@@ -720,6 +892,8 @@ pub struct LeoPassReport {
     pub comparison: Option<ComparisonOut>,
     pub iono_free: Vec<IonoFreePair>,
     pub iot: Option<IotOut>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub spoof: Option<SpoofOut>,
     pub notes: Vec<String>,
 }
 
@@ -1848,6 +2022,13 @@ impl LeoPassScenario {
             None => None,
         };
 
+        let spoof = match &self.spoofer {
+            Some(c) => {
+                Some(self.spoof_section(c, &env, &sats, &sat_out, gnss.as_ref(), duration, step)?)
+            }
+            None => None,
+        };
+
         if env.scint && sats.iter().any(|s| s.bands.iter().any(|b| b.f_hz < 4e9)) {
             notes.push(
                 "Tropospheric scintillation below 4 GHz extrapolates ITU-R P.618 § 2.4.1 beyond \
@@ -1903,7 +2084,430 @@ impl LeoPassScenario {
             comparison,
             iono_free,
             iot,
+            spoof,
             notes,
+        })
+    }
+
+    #[allow(clippy::too_many_arguments)]
+    fn spoof_section(
+        &self,
+        c: &SpooferCfg,
+        env: &Env,
+        sats: &[LeoSat],
+        out: &[SatOut],
+        gnss: Option<&GnssOut>,
+        duration: f64,
+        step: f64,
+    ) -> Result<SpoofOut, String> {
+        use crate::leo_link::geometry::{ecef_to_eci0, Kinematics};
+        use crate::leo_link::spoof as sp;
+        let onset = c.onset_s.unwrap_or(0.25 * duration);
+        let offset0 = c.offset_m.unwrap_or(0.0);
+        let rate = c.push_rate_m_s.unwrap_or(1.0);
+        let az = c.push_azimuth_deg.unwrap_or(0.0);
+        let prior_p = c.prior_sigma_m.unwrap_or(10.0);
+        let prior_v = c.prior_velocity_sigma_m_s.unwrap_or(0.5);
+        let prior = sp::Prior {
+            position_sigma_m: prior_p,
+            velocity_sigma_m_s: prior_v,
+            drift_sigma_m_s: c.drift_sigma_m_s,
+        };
+        let bn = c.fll_bandwidth_hz.unwrap_or(2.0);
+        let tint = c.fll_integration_s.unwrap_or(0.02);
+        let thr = c.tracking_threshold_dbhz.unwrap_or(25.0);
+        let p_fa = c.p_fa.unwrap_or(1e-5);
+        let p_md = c.p_md.unwrap_or(1e-3);
+        let bound = c.iono_rate_bound_m_s.unwrap_or(0.01);
+        let window = c.window_s.unwrap_or(step);
+        if !(window > 0.0 && window <= 3600.0) {
+            return Err("spoofer.window_s must be in (0, 3600]".into());
+        }
+        let wn = ((window / step).round() as usize).max(1);
+        let sim_iono = c.simulate_iono.unwrap_or(false);
+        let spoofs_gnss = c.gnss.unwrap_or(true);
+        if !(0.0..=duration).contains(&onset)
+            || !(0.0..=1.0e6).contains(&offset0)
+            || !(0.0..=1000.0).contains(&rate)
+            || !(prior_p > 0.0 && prior_p.is_finite())
+            || !(prior_v >= 0.0 && prior_v.is_finite())
+            || !(bn > 0.0 && tint > 0.0)
+            || !(p_fa > 0.0 && p_fa < 0.5)
+            || !(p_md > 0.0 && p_md < 0.5)
+            || !(bound >= 0.0)
+            || c.drift_sigma_m_s
+                .is_some_and(|d| !(d > 0.0 && d.is_finite()))
+        {
+            return Err(
+                "spoofer: onset_s within the window, offset_m in [0, 1e6], push_rate_m_s in \
+                 [0, 1000], positive prior_sigma_m, drift_sigma_m_s, fll_bandwidth_hz and \
+                 fll_integration_s, p_fa and p_md in (0, 0.5), iono_rate_bound_m_s >= 0"
+                    .into(),
+            );
+        }
+        let mut names: Vec<String> = Vec::new();
+        for s in sats {
+            for b in &s.bands {
+                if !names.iter().any(|n| n.eq_ignore_ascii_case(&b.name)) {
+                    names.push(b.name.clone());
+                }
+            }
+        }
+        let spoofed: Vec<String> = match &c.bands {
+            Some(list) => {
+                for b in list {
+                    if !names.iter().any(|n| n.eq_ignore_ascii_case(b)) {
+                        return Err(format!(
+                            "spoofer.bands: '{b}' is not a band of any LEO satellite ({})",
+                            names.join(", ")
+                        ));
+                    }
+                }
+                list.clone()
+            }
+            None => names.clone(),
+        };
+        let is_spoofed = |b: &str| spoofed.iter().any(|n| n.eq_ignore_ascii_case(b));
+
+        // The MEO GNSS satellites the comparison reports, rebuilt from their preset.
+        let mut gnss_sats: Vec<(SatMotion, &GnssSatOut, f64)> = Vec::new();
+        if let Some(g) = gnss {
+            let cfg = ConstellationCfg {
+                name: g.constellation.clone(),
+                preset: Some(g.constellation.clone()),
+                expanded: None,
+                shell: Vec::new(),
+                satellite: Vec::new(),
+            };
+            let built = cfg.build(&crate::body::Body::earth())?;
+            for gs in &g.satellites {
+                if let Some(i) = built.ids.iter().position(|id| *id == gs.id) {
+                    gnss_sats.push((
+                        SatMotion::kepler(built.elements[i], false),
+                        gs,
+                        g.frequency_hz,
+                    ));
+                }
+            }
+        }
+
+        let n_epochs = out.first().map_or(0, |s| s.series.len());
+        let (sa, ca) = az.to_radians().sin_cos();
+        let w = [0.0, 0.0, crate::leo_link::OMEGA_EARTH];
+        let mut series = Vec::with_capacity(n_epochs);
+        // Band pairs per satellite, with the previous epoch's model-corrected combination.
+        struct Pair {
+            sat: usize,
+            i: usize,
+            j: usize,
+            prev: Option<f64>,
+            max_step: Option<f64>,
+            min_thr: Option<f64>,
+            detect: Option<f64>,
+        }
+        let mut pairs: Vec<Pair> = Vec::new();
+        for (si, s) in sats.iter().enumerate() {
+            for i in 0..s.bands.len() {
+                for j in i + 1..s.bands.len() {
+                    if s.bands[i].ranging && s.bands[j].ranging {
+                        pairs.push(Pair {
+                            sat: si,
+                            i,
+                            j,
+                            prev: None,
+                            max_step: None,
+                            min_thr: None,
+                            detect: None,
+                        });
+                    }
+                }
+            }
+        }
+        let (mut leo_sig, mut gnss_sig, mut leo_grad, mut gnss_grad) =
+            (Vec::new(), Vec::new(), Vec::new(), Vec::new());
+        let norm3 = |g: [f64; 3]| (g[0] * g[0] + g[1] * g[1] + g[2] * g[2]).sqrt();
+        let test_out = |hist: &[Vec<sp::DopplerChannel>]| -> SpoofTestEpoch {
+            let from = hist.len().saturating_sub(wn);
+            let win: Vec<&[sp::DopplerChannel]> =
+                hist[from..].iter().map(|v| v.as_slice()).collect();
+            let n_now = hist.last().map_or(0, |v| v.len());
+            match sp::doppler_consistency_window(&win, &prior, p_fa) {
+                Some(t) => SpoofTestEpoch {
+                    n: n_now,
+                    noncentrality: Some(t.noncentrality),
+                    threshold: Some(t.threshold),
+                    p_detect: Some(t.p_detect),
+                },
+                None => SpoofTestEpoch {
+                    n: n_now,
+                    noncentrality: None,
+                    threshold: None,
+                    p_detect: None,
+                },
+            }
+        };
+        let (mut hist_g, mut hist_l, mut hist_f): (
+            Vec<Vec<sp::DopplerChannel>>,
+            Vec<Vec<sp::DopplerChannel>>,
+            Vec<Vec<sp::DopplerChannel>>,
+        ) = (Vec::new(), Vec::new(), Vec::new());
+        for k in 0..n_epochs {
+            let t = k as f64 * step;
+            let us = env.user.state(t);
+            let (off, offdot) = if t >= onset {
+                (offset0 + rate * (t - onset), rate)
+            } else {
+                (0.0, 0.0)
+            };
+            let (sl, cl) = us.geo.lat_rad.sin_cos();
+            let (so, co) = us.geo.lon_rad.sin_cos();
+            let h = [-sl * co * ca - so * sa, -sl * so * ca + co * sa, cl * ca];
+            let d = [h[0] * off, h[1] * off, h[2] * off];
+            let dd = [h[0] * offdot, h[1] * offdot, h[2] * offdot];
+            let wxd = [
+                w[1] * d[2] - w[2] * d[1],
+                w[2] * d[0] - w[0] * d[2],
+                w[0] * d[1] - w[1] * d[0],
+            ];
+            let dr = ecef_to_eci0(d, t);
+            let dv = ecef_to_eci0([dd[0] + wxd[0], dd[1] + wxd[1], dd[2] + wxd[2]], t);
+            let claimed = Kinematics {
+                r: [
+                    us.kin.r[0] + dr[0],
+                    us.kin.r[1] + dr[1],
+                    us.kin.r[2] + dr[2],
+                ],
+                v: [
+                    us.kin.v[0] + dv[0],
+                    us.kin.v[1] + dv[1],
+                    us.kin.v[2] + dv[2],
+                ],
+                a: us.kin.a,
+            };
+            let mut leo_ch = Vec::new();
+            let mut states = Vec::with_capacity(sats.len());
+            for (si, s) in sats.iter().enumerate() {
+                let st = s.motion.state(t)?;
+                states.push(st);
+                let e = &out[si].series[k];
+                if !e.visible {
+                    continue;
+                }
+                let rr_t = sp::range_rate(&st, &us.kin);
+                let rr_c = sp::range_rate(&st, &claimed);
+                let grad = sp::range_rate_position_gradient(&st, &us.kin);
+                let los = sp::line_of_sight(&st, &us.kin);
+                for (bi, b) in s.bands.iter().enumerate() {
+                    let cn0 = e.bands[bi].cn0_dbhz;
+                    if cn0 < thr {
+                        continue;
+                    }
+                    let sig = sp::range_rate_jitter_m_s(b.f_hz, cn0, bn, tint);
+                    leo_sig.push(sig);
+                    leo_grad.push(norm3(grad));
+                    leo_ch.push(sp::DopplerChannel {
+                        residual_m_s: if is_spoofed(&b.name) {
+                            rr_c - rr_t
+                        } else {
+                            0.0
+                        },
+                        sigma_m_s: sig,
+                        gradient: grad,
+                        los,
+                    });
+                }
+            }
+            let mut gnss_ch = Vec::new();
+            for (m, gs, f_hz) in &gnss_sats {
+                let Some(cn0) = gs.series[k].cn0_dbhz else {
+                    continue;
+                };
+                if cn0 < thr {
+                    continue;
+                }
+                let st = m.state(t)?;
+                let rr_t = sp::range_rate(&st, &us.kin);
+                let rr_c = sp::range_rate(&st, &claimed);
+                let grad = sp::range_rate_position_gradient(&st, &us.kin);
+                let sig = sp::range_rate_jitter_m_s(*f_hz, cn0, bn, tint);
+                gnss_sig.push(sig);
+                gnss_grad.push(norm3(grad));
+                gnss_ch.push(sp::DopplerChannel {
+                    residual_m_s: if spoofs_gnss { rr_c - rr_t } else { 0.0 },
+                    sigma_m_s: sig,
+                    gradient: grad,
+                    los: sp::line_of_sight(&st, &us.kin),
+                });
+            }
+            let fused_ch: Vec<sp::DopplerChannel> =
+                gnss_ch.iter().chain(leo_ch.iter()).copied().collect();
+
+            let (mut cb_ratio, mut cb_p): (Option<f64>, Option<f64>) = (None, None);
+            for p in pairs.iter_mut() {
+                let s = &sats[p.sat];
+                let e = &out[p.sat].series[k];
+                let tracked =
+                    e.visible && e.bands[p.i].cn0_dbhz >= thr && e.bands[p.j].cn0_dbhz >= thr;
+                if !tracked {
+                    p.prev = None;
+                    continue;
+                }
+                let st = &states[p.sat];
+                let rc = [
+                    st.r[0] - claimed.r[0],
+                    st.r[1] - claimed.r[1],
+                    st.r[2] - claimed.r[2],
+                ];
+                let rho_c = norm3(rc);
+                let rho_t = e.range_m;
+                let pr = |bi: usize| {
+                    let iono = e.bands[bi].iono_delay_m;
+                    if is_spoofed(&s.bands[bi].name) {
+                        rho_c + if sim_iono { iono } else { 0.0 }
+                    } else {
+                        rho_t + iono
+                    }
+                };
+                let g =
+                    (pr(p.i) - pr(p.j)) - (e.bands[p.i].iono_delay_m - e.bands[p.j].iono_delay_m);
+                if let Some(prev) = p.prev {
+                    let sig = |bi: usize| {
+                        e.bands[bi].code_jitter_m.unwrap_or_else(|| {
+                            iono::dll_code_noise_m(
+                                s.bands[bi].chip_rate_hz,
+                                e.bands[bi].cn0_dbhz,
+                                1.0,
+                                0.5,
+                                0.02,
+                            )
+                        })
+                    };
+                    let tst = sp::cross_band_step(g - prev, sig(p.i), sig(p.j), bound, step, p_fa);
+                    let ratio = tst.step_m.abs() / tst.threshold_m;
+                    cb_ratio = Some(cb_ratio.map_or(ratio, |r: f64| r.max(ratio)));
+                    cb_p = Some(cb_p.map_or(tst.p_detect, |q: f64| q.max(tst.p_detect)));
+                    p.max_step = Some(
+                        p.max_step
+                            .map_or(tst.step_m.abs(), |m: f64| m.max(tst.step_m.abs())),
+                    );
+                    p.min_thr = Some(
+                        p.min_thr
+                            .map_or(tst.threshold_m, |m: f64| m.min(tst.threshold_m)),
+                    );
+                    if p.detect.is_none() && t >= onset && tst.p_detect >= 1.0 - p_md {
+                        p.detect = Some(t);
+                    }
+                }
+                p.prev = Some(g);
+            }
+            hist_g.push(gnss_ch);
+            hist_l.push(leo_ch);
+            hist_f.push(fused_ch);
+            series.push(SpoofEpoch {
+                t_s: t,
+                offset_m: off,
+                gnss: test_out(&hist_g),
+                leo: test_out(&hist_l),
+                fused: test_out(&hist_f),
+                cross_band_ratio: cb_ratio,
+                cross_band_p_detect: cb_p,
+            });
+        }
+        let detection = |f: &dyn Fn(&SpoofEpoch) -> Option<f64>| -> SpoofDetection {
+            let hit = series
+                .iter()
+                .find(|e| e.t_s >= onset && f(e).is_some_and(|p| p >= 1.0 - p_md));
+            SpoofDetection {
+                detect_time_s: hit.map(|e| e.t_s),
+                delay_s: hit.map(|e| e.t_s - onset),
+                offset_at_detection_m: hit.map(|e| e.offset_m),
+            }
+        };
+        let gnss_d = detection(&|e| e.gnss.p_detect);
+        let leo_d = detection(&|e| e.leo.p_detect);
+        let fused_d = detection(&|e| e.fused.p_detect);
+        let cb_d = detection(&|e| e.cross_band_p_detect);
+        let first = [&gnss_d, &leo_d, &fused_d, &cb_d]
+            .into_iter()
+            .filter(|d| d.detect_time_s.is_some())
+            .min_by(|a, b| {
+                a.detect_time_s
+                    .unwrap_or(f64::INFINITY)
+                    .total_cmp(&b.detect_time_s.unwrap_or(f64::INFINITY))
+            })
+            .cloned()
+            .unwrap_or(SpoofDetection {
+                detect_time_s: None,
+                delay_s: None,
+                offset_at_detection_m: None,
+            });
+        let pairs_out = pairs
+            .iter()
+            .map(|p| {
+                let s = &sats[p.sat];
+                CrossBandPairOut {
+                    satellite: s.id.clone(),
+                    band_1: s.bands[p.i].name.clone(),
+                    band_2: s.bands[p.j].name.clone(),
+                    spoofed_1: is_spoofed(&s.bands[p.i].name),
+                    spoofed_2: is_spoofed(&s.bands[p.j].name),
+                    max_abs_step_m: p.max_step,
+                    min_threshold_m: p.min_thr,
+                    detect_time_s: p.detect,
+                }
+            })
+            .collect();
+        Ok(SpoofOut {
+            label: "MODELLED: Doppler and pass-geometry consistency and cross-band consistency \
+                    monitors against an idealised position-push spoofer; detection \
+                    probabilities are exact for the stated Gaussian noise, evaluated on the \
+                    noise-free mean residual. Not a measured attack."
+                .into(),
+            onset_s: onset,
+            offset_m: offset0,
+            push_rate_m_s: rate,
+            push_azimuth_deg: az,
+            spoofed_bands: spoofed,
+            spoofs_gnss,
+            simulates_iono: sim_iono,
+            prior_sigma_m: prior_p,
+            prior_velocity_sigma_m_s: prior_v,
+            drift_sigma_m_s: c.drift_sigma_m_s,
+            fll_bandwidth_hz: bn,
+            fll_integration_s: tint,
+            tracking_threshold_dbhz: thr,
+            p_fa,
+            p_md,
+            iono_rate_bound_m_s: bound,
+            window_s: wn as f64 * step,
+            median_leo_sigma_m_s: median(leo_sig),
+            median_gnss_sigma_m_s: median(gnss_sig),
+            median_leo_gradient_per_s: median(leo_grad),
+            median_gnss_gradient_per_s: median(gnss_grad),
+            gnss: gnss_d,
+            leo: leo_d,
+            fused: fused_d,
+            cross_band: cb_d,
+            first,
+            pairs: pairs_out,
+            series,
+            notes: vec![
+                "The spoofer is self-consistent in range and range rate at the claimed \
+                 position and compensates its own path to the receiver; its power, angle of \
+                 arrival and correlation-peak signatures are not modelled."
+                    .into(),
+                "The receiver predicts from an independent prior position (the true track with \
+                 the stated uncertainty); a receiver whose prior follows its own spoofed fixes \
+                 does not have this test."
+                    .into(),
+                "The receiver's ionosphere model is the engine's, so the authentic cross-band \
+                 residual is zero in the mean; iono_rate_bound_m_s stands for the rate of the \
+                 model's error."
+                    .into(),
+                "A spoofer that counterfeits every band and simulates the ionosphere passes the \
+                 cross-band monitor; only the Doppler monitor sees it."
+                    .into(),
+            ],
         })
     }
 
@@ -2363,6 +2967,58 @@ const UNITS: &[(&str, &str, &str, &str)] = &[
     ("iot.rows[].duty_cycle_hot[].duty_cycle", "1", "modelled", "fraction of time active"),
     ("iot.rows[].duty_cycle_hot[].average_power_mw", "mW", "modelled", "average power"),
     ("iot.rows[].duty_cycle_hot[].battery_life_days", "day", "modelled", "battery life at that interval"),
+    ("spoof.onset_s", "s", "input", "spoofing onset"),
+    ("spoof.offset_m", "m", "input", "jump of the claimed position at the onset"),
+    ("spoof.push_rate_m_s", "m/s", "input", "horizontal push speed of the claimed position after the onset"),
+    ("spoof.push_azimuth_deg", "deg", "input", "direction of the push, clockwise from north"),
+    ("spoof.prior_sigma_m", "m", "input", "1-sigma uncertainty of the receiver's independent prior position, per axis"),
+    ("spoof.prior_velocity_sigma_m_s", "m/s", "input", "1-sigma uncertainty of the receiver's independent prior velocity, per axis"),
+    ("spoof.drift_sigma_m_s", "m/s", "input", "1-sigma prior on the receiver clock drift (absent: unknown)"),
+    ("spoof.fll_bandwidth_hz", "Hz", "input", "frequency-lock-loop noise bandwidth"),
+    ("spoof.fll_integration_s", "s", "input", "frequency-lock-loop predetection time"),
+    ("spoof.tracking_threshold_dbhz", "dB-Hz", "input", "channels below this C/N0 are not tracked"),
+    ("spoof.p_fa", "1", "input", "false-alarm probability of each test at each epoch"),
+    ("spoof.p_md", "1", "input", "missed-detection probability defining detection"),
+    ("spoof.iono_rate_bound_m_s", "m/s", "input", "unmodelled ionospheric rate the cross-band monitor tolerates"),
+    ("spoof.window_s", "s", "input", "length of the Doppler test window, a whole number of steps"),
+    ("spoof.median_leo_sigma_m_s", "m/s", "modelled", "median range-rate jitter of the tracked LEO channels (frequency-lock-loop thermal noise, Kaplan & Hegarty 2006)"),
+    ("spoof.median_gnss_sigma_m_s", "m/s", "modelled", "median range-rate jitter of the tracked GNSS channels"),
+    ("spoof.median_leo_gradient_per_s", "1/s", "closed-form", "median size of the LEO range-rate gradient with respect to the user position: range rate per metre of push"),
+    ("spoof.median_gnss_gradient_per_s", "1/s", "closed-form", "median size of the GNSS range-rate gradient with respect to the user position"),
+    ("spoof.gnss.detect_time_s", "s", "computed", "first epoch the GNSS-only Doppler test detects"),
+    ("spoof.gnss.delay_s", "s", "computed", "onset to GNSS-only detection"),
+    ("spoof.gnss.offset_at_detection_m", "m", "computed", "claimed-position offset at GNSS-only detection"),
+    ("spoof.leo.detect_time_s", "s", "computed", "first epoch the LEO-only Doppler test detects"),
+    ("spoof.leo.delay_s", "s", "computed", "onset to LEO-only detection"),
+    ("spoof.leo.offset_at_detection_m", "m", "computed", "claimed-position offset at LEO-only detection"),
+    ("spoof.fused.detect_time_s", "s", "computed", "first epoch the Doppler test on every channel detects"),
+    ("spoof.fused.delay_s", "s", "computed", "onset to fused detection"),
+    ("spoof.fused.offset_at_detection_m", "m", "computed", "claimed-position offset at fused detection"),
+    ("spoof.cross_band.detect_time_s", "s", "computed", "first epoch a cross-band test detects"),
+    ("spoof.cross_band.delay_s", "s", "computed", "onset to cross-band detection"),
+    ("spoof.cross_band.offset_at_detection_m", "m", "computed", "claimed-position offset at cross-band detection"),
+    ("spoof.first.detect_time_s", "s", "computed", "first detection by any monitor"),
+    ("spoof.first.delay_s", "s", "computed", "onset to the first detection"),
+    ("spoof.first.offset_at_detection_m", "m", "computed", "claimed-position offset at the first detection"),
+    ("spoof.pairs[].max_abs_step_m", "m", "computed", "largest step of the model-corrected geometry-free combination"),
+    ("spoof.pairs[].min_threshold_m", "m", "computed", "smallest cross-band alarm threshold over the run"),
+    ("spoof.pairs[].detect_time_s", "s", "computed", "first epoch this pair's test detects"),
+    ("spoof.series[].t_s", "s", "computed", "seconds after the epoch"),
+    ("spoof.series[].offset_m", "m", "computed", "horizontal distance of the claimed position from the true one"),
+    ("spoof.series[].gnss.n", "count", "computed", "GNSS channels tracked"),
+    ("spoof.series[].gnss.noncentrality", "1", "computed", "non-centrality of the GNSS-only Doppler statistic"),
+    ("spoof.series[].gnss.threshold", "1", "computed", "chi-square threshold of the GNSS-only test"),
+    ("spoof.series[].gnss.p_detect", "1", "computed", "probability the GNSS-only test alarms at this epoch"),
+    ("spoof.series[].leo.n", "count", "computed", "LEO channels tracked"),
+    ("spoof.series[].leo.noncentrality", "1", "computed", "non-centrality of the LEO-only Doppler statistic"),
+    ("spoof.series[].leo.threshold", "1", "computed", "chi-square threshold of the LEO-only test"),
+    ("spoof.series[].leo.p_detect", "1", "computed", "probability the LEO-only test alarms at this epoch"),
+    ("spoof.series[].fused.n", "count", "computed", "channels tracked"),
+    ("spoof.series[].fused.noncentrality", "1", "computed", "non-centrality of the Doppler statistic on every channel"),
+    ("spoof.series[].fused.threshold", "1", "computed", "chi-square threshold of the fused test"),
+    ("spoof.series[].fused.p_detect", "1", "computed", "probability the fused test alarms at this epoch"),
+    ("spoof.series[].cross_band_ratio", "1", "computed", "largest |step| over threshold of the cross-band tests (1 is the alarm line)"),
+    ("spoof.series[].cross_band_p_detect", "1", "computed", "largest detection probability of the cross-band tests"),
 ];
 
 fn report_json(r: &LeoPassReport) -> Result<String, String> {
@@ -2448,6 +3104,23 @@ pub fn summary(r: &LeoPassReport) -> String {
                 row.hot.energy_per_fix_mj
             ));
         }
+    }
+    if let Some(sp) = &r.spoof {
+        let t = |d: &SpoofDetection| match (d.detect_time_s, d.offset_at_detection_m) {
+            (Some(t), Some(o)) => format!("{t:.0} s ({o:.1} m)"),
+            _ => "not detected".to_string(),
+        };
+        s.push_str(&format!(
+            "  Spoofer from {:.0} s (jump {:.1} m, push {:.3} m/s): Doppler test GNSS {}, LEO \
+             {}, fused {}; cross-band {}\n",
+            sp.onset_s,
+            sp.offset_m,
+            sp.push_rate_m_s,
+            t(&sp.gnss),
+            t(&sp.leo),
+            t(&sp.fused),
+            t(&sp.cross_band)
+        ));
     }
     s
 }
