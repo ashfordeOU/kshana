@@ -259,8 +259,16 @@ fn the_celeste_chain_runs_when_the_preset_is_present() {
         eprintln!("the Celeste IOD preset is withheld: nothing to check");
         return;
     };
+    // The calibration target is stated in the withholdable scenario itself, so this file
+    // carries no workshop-derived number.
+    let target: f64 = src
+        .lines()
+        .find_map(|l| l.strip_prefix("# calibrated_peak_cn0_dbhz = "))
+        .and_then(|r| r.split_whitespace().next())
+        .and_then(|x| x.parse().ok())
+        .expect("the scenario states its calibrated peak C/N0");
     let v = run(&src);
-    // The pass reproduces the peak total C/N0 the preset was calibrated to (57.5 dB-Hz).
-    assert!((f(&v, "/pass/peak_cn0_dbhz") - 57.5).abs() < 0.5);
+    // The pass reproduces the peak total C/N0 the preset was calibrated to.
+    assert!((f(&v, "/pass/peak_cn0_dbhz") - target).abs() < 0.5);
     assert!(f(&v, "/navmsg/sisre_rms_m") > 0.0);
 }
