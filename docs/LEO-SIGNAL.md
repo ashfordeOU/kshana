@@ -46,7 +46,7 @@ the source does not publish is labelled REPRESENTATIVE in the file and in the re
 | `starlink-soo` | `starlink-ku-beacon`, a 240 MHz OFDM beacon, Doppler only | PUBLIC, [NAVIGATION 72(1)](https://navi.ion.org/content/72/1/navi.685) | flat spectrum; channel centre and shell altitude REPRESENTATIVE; the published carrier-to-noise-density ratio (C/N₀) of about 57 dB-Hz is set through the receiver |
 | `centispace` | `centispace-l1`, `centispace-l5`, BPSK at 2.046 Mchip/s | PUBLIC, [PubMed Central PMC10301026](https://pmc.ncbi.nlm.nih.gov/articles/PMC10301026/) | carriers placed at the GPS L1 and L5 carriers ("near" in the source); code length REPRESENTATIVE |
 | `generic-c-band` | `generic-c-band-leo`, 5020 MHz, BPSK(10) in 20 MHz | REPRESENTATIVE, for C-band systems whose parameters are not public (such as TrustPoint) | the whole design |
-| `generic-bands` | `generic-uhf`, `generic-l`, `generic-s`, `generic-c`, `generic-c-wide` | REPRESENTATIVE, allocations from the [ITU Radio Regulations](https://www.itu.int/pub/R-REG-RR) | the whole design |
+| `generic-bands` | `generic-uhf`, `generic-l`, `generic-s`, `generic-c`, `generic-c-wide` | REPRESENTATIVE, allocations from the [ITU Radio Regulations](https://www.itu.int/pub/R-REG-RR); the 465 MHz UHF carrier from the public [openRECEIVER survey of LEO-PNT signals](https://open-receiver.com/blogs/leo-pnt-signals-celeste/) | the whole design (the UHF bandwidth and modulation too) |
 
 The ATOMIC "zero-clock" polynomial ephemeris is a navigation-message model, not a signal
 design, and lives with the navigation-message work, not here.
@@ -227,3 +227,5 @@ it is absent, and the README's scenario-file count still counts it.
 - ESA Celeste IOD facts:
   <https://www.esa.int/Applications/Satellite_navigation/Celeste/Celeste_IOD_-_Facts_and_figures>.
 - ITU Radio Regulations: <https://www.itu.int/pub/R-REG-RR>.
+- openRECEIVER, *LEO-PNT Signals: Inside CELESTE's Four Bands* (the public source of the
+  465 MHz UHF carrier of `generic-uhf`): <https://open-receiver.com/blogs/leo-pnt-signals-celeste/>.
