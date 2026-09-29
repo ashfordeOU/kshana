@@ -8,7 +8,8 @@
 #   gnss-locked  (10 min) the `clock` kind's TCXO tracks GNSS: time error near zero.
 #   gnss-denied  (24 h) the same TCXO coasts on its own: its random-walk frequency noise
 #                makes the time error grow as t^1.5, through the 1000 ns guard a little
-#                minutes after the loss and to about 29 microseconds by the end of the day. Beside it, a `leo-pvt` timing run disciplines the same TCXO class
+#                over an hour after the loss and to about 29 microseconds by the end of
+#                the day. Beside it, a `leo-pvt` timing run disciplines the same TCXO class
 #                to the Iridium constellation (the public `iridium-stl` preset: 66
 #                satellites at 780 km, L-band bursts 25 to 34 dB above GPS), holding
 #                between passes, and converts system time to UTC (Coordinated Universal
