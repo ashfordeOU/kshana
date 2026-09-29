@@ -11,14 +11,14 @@ A residual is reported only when all of the following hold (design
 `docs/design/2026-06-09-precise-astrodynamics-design.md`):
 
 1. **Force model** includes every perturbation that matters at the target accuracy:
-   EGM2008 (Earth Gravitational Model 2008) high-degree geopotential, solid + ocean + atmospheric **tides**
+   EGM2008 (Earth Gravitational Model 2008) high-degree geopotential (truncated at a stated degree/order, d/o), solid + ocean + atmospheric **tides**
    (`src/tides.rs`, IERS (International Earth Rotation and Reference Systems Service) Conventions 2010 Ch. 6), Sun/Moon third body, cannonball SRP
    with conical shadow + estimated `C_R`, drag (LEO (low Earth orbit) only), Schwarzschild + Lense–Thirring
-   GR (`src/forces.rs`).
+   general relativity (GR) terms (`src/forces.rs`).
 2. **Estimator** is a real Gauss–Newton batch least squares with a variational
    **state-transition matrix** (cross-checked against whole-arc finite difference to
    < 1e-6), `1/σ²` observation weighting, and n-sigma outlier editing.
-3. **Frames/time** use **real IERS finals2000A EOP** (UT1 (Universal Time 1, Earth-rotation time)−UTC (Coordinated Universal Time), polar motion;
+3. **Frames/time** use **real IERS finals2000A Earth-orientation parameters (EOP)** (UT1 (Universal Time 1, Earth-rotation time)−UTC (Coordinated Universal Time), polar motion;
    `src/eop.rs`) through the validated IAU (International Astronomical Union) 2006/2000A CIO (Celestial Intermediate Origin) chain (`src/cio.rs`). SP3 (Standard Product 3, the precise-orbit format) GPS (Global Positioning System)
    time → TT (Terrestrial Time) via the fixed 51.184 s offset (`timescales::gps_to_tt`).
 4. **Residuals** are reported in **RTN** (radial/along/cross-track) and 3-D, **with and
@@ -34,16 +34,16 @@ A residual is reported only when all of the following hold (design
    position observations. The dynamics use the *same* EOP for the geopotential's
    Earth-fixed rotation, so observations and forces share one frame.
 4. Seed the epoch state (position = first fix; velocity = 2nd-order finite difference) and
-   batch-fit `[r, v, C_R]` (Tier 1), then additionally the 9 RTN cycle-per-revolution
+   batch-fit `[r, v, C_R]` (Tier 1), then additionally the 9 RTN cycle-per-revolution (CPR)
    empirical accelerations (Tier 2, a-priori constrained).
 5. Report post-fit RTN + 3-D RMS (root mean square) for both tiers and the raw overlap.
 
 ## Results
 
-### Galileo MEO — **GREEN** (< 5 m bar)
+### Galileo medium Earth orbit — **GREEN** (< 5 m bar)
 
 - **Dataset:** ESA/ESOC (ESA: European Space Agency; ESOC: European Space Operations Centre) final multi-GNSS (GNSS: global navigation satellite system) orbit `ESA0MGNFIN`, ITRF, 5-min sampling,
-  satellite **E11** (GSAT0101, Galileo IOV, nominal MEO (medium Earth orbit)), 2022-01-01.
+  satellite **E11** (GSAT0101, Galileo In-Orbit Validation (IOV), nominal MEO (medium Earth orbit)), 2022-01-01.
 - **Open source (no login):** ESA Navigation Office mirror,
   `navigation-office.esa.int/products/gnss-products/2190/`. EOP: IERS
   `datacenter.iers.org/data/9/finals2000A.all`.
@@ -66,7 +66,7 @@ is **61 cm** — all far inside the 5 m bar.
 ### Swarm-A LEO — **GREEN** (< 5 m bar)
 
 - **Dataset:** ESA Swarm Level-2 reduced-dynamic precise science orbit
-  `SW_OPER_SP3ACOM_2_` (`RDOD_AR`, GPS-derived, ITRF / IGb14, ~2 cm, TU Delft
+  `SW_OPER_SP3ACOM_2_` (`RDOD_AR`, GPS-derived, ITRF / IGb14, ~2 cm, Delft University of Technology
   processing), satellite **Swarm-A** (SP3 id `L47`, ~430 km LEO), 2022-01-01.
 - **Open source (no login):** ESA Swarm dissemination server
   `https://swarm-diss.eo.esa.int/` → `Level2daily/Latest_baselines/POD/RD/Sat_A/`
@@ -100,7 +100,7 @@ the noted upgrade that would tighten the *dynamic* tier further.
   trajectory from JPL Horizons, geometric Moon-centred state vectors in the ICRF (International Celestial Reference Frame), 2022-01-01,
   ~98 km altitude, 1-minute sampling (241 epochs, 4 h, ~2 revolutions). Using Horizons text
   vectors needs **no SPK/SPICE (SPK: planetary ephemeris kernel; SPICE: Spacecraft, Planet, Instrument, C-matrix, Events) reader**.
-- **Gravity:** the GRAIL (Gravity Recovery and Interior Laboratory) **GRGM660PRIM** field (GSFC, degree 660), truncated to d/o 150 and
+- **Gravity:** the GRAIL (Gravity Recovery and Interior Laboratory) **GRGM660PRIM** field (NASA Goddard Space Flight Center, degree 660), truncated to d/o 150 and
   fitted at d/o 100, evaluated in the lunar body-fixed **principal-axis** frame.
 - **Open source (no login):** Horizons API (application programming interface) `ssd.jpl.nasa.gov/api/horizons.api`; gravity via
   ICGEM (International Centre for Global Earth Models) `icgem.gfz-potsdam.de`.
@@ -110,7 +110,7 @@ the noted upgrade that would tighten the *dynamic* tier further.
 
 This is **Moon-centred** dynamics — a distinct force model (`src/lunar_od.rs`): the GRGM field
 in the lunar body-fixed frame (the IAU 2015 mean-Earth orientation `src/lunar_frame.rs` composed
-with the fixed DE421 (Development Ephemeris 421) ME→PA offset), plus the Earth (the dominant lunar-orbit perturbation) and
+with the fixed DE421 (Development Ephemeris 421) mean-Earth → principal-axis (ME→PA) offset), plus the Earth (the dominant lunar-orbit perturbation) and
 Sun third bodies, fitted through the *same* generic precise Gauss–Newton estimator the
 Earth datasets use (the `precise_od::ForceModel` trait).
 
@@ -130,7 +130,7 @@ numerically-integrated `MOON_PA`, and the Montenbruck–Gill Earth/Sun ephemeris
 DE/SPICE kernel). To test that directly, the workspace-excluded cross-validation crate
 `xval/anise-lunar-od` swaps **only** those two inputs for **DE-grade** ones — the DE440 (Development Ephemeris 440) lunar
 principal-axis orientation (`moon_pa_de440_200625.bpc`) and the DE440 ephemeris (`de440s.bsp`),
-read through ANISE — and re-runs the *same* estimator (commit `WE6`, kernel SHA-256
+read through ANISE (Attitude, Navigation, Instrument, Spacecraft, Ephemeris — a pure-Rust SPICE-kernel reader) — and re-runs the *same* estimator (commit `ae96a29`, kernel SHA-256
 `c1c7fee…` / `60cd55a…`):
 
 | Tier | analytic | **DE-grade** |
