@@ -1,0 +1,314 @@
+# Celeste IOD signal designs: the frequency bands and the "Classical Pilot" signal
+# configuration #1 of ESA's Celeste In-Orbit Demonstration (IOD) low Earth orbit (LEO)
+# positioning, navigation and timing (PNT) mission, as parameterised signal designs.
+#
+# THIS FILE IS THE ONLY PLACE IN THE REPOSITORY THAT HOLDS WORKSHOP-DERIVED NUMBERS.
+# Every carrier, bandwidth, allocation, component structure and shape target below
+# marked WORKSHOP was presented at the ESA NAVISP LEO-PNT workshop, 2026 (the
+# Navigation Innovation and Support Programme), and cleared for use; no Celeste signal
+# specification is public. Nothing else in the engine depends on this file, and nothing
+# compiles it in (it is a repository-only scenario, not bundled into the binary):
+# deleting it removes Celeste from a release, and every other scenario, test and oracle
+# still runs. See docs/LEO-SIGNAL.md.
+#
+# What the IOD is for, in ESA's own public words: an in-orbit demonstration of 11
+# satellites plus a spare that tests radionavigation signals in several bands
+# (https://www.esa.int/Applications/Satellite_navigation/Celeste/Celeste_IOD_-_Facts_and_figures).
+# The IOD signals are a vehicle for experiments; later phases (Celeste In-Orbit
+# Pathfinder, a European Union LEO-PNT layer) will use their own signal designs, which
+# is why these are presets of a general signal model, not "the Celeste signal".
+#
+# Bands presented (WORKSHOP), with the ITU service allocation:
+#   E5    1191.795 MHz  RNSS      51.15 MHz  (the Galileo E5 centre; 5 x 10.23 MHz wide)
+#   SR    2492.028 MHz  RDSS      15 MHz
+#   SM    2170.00 MHz   MSS       0.2 MHz and 5 MHz (for 5G non-terrestrial-network terminals)
+#   UHF   465.465 MHz   EESS      10 MHz
+#   C     5019.861 MHz  RNSS      19.7 MHz
+#   Cext  5071.011 MHz (B1) and 5122.161 MHz (B2), non-RNSS, 120 MHz and 240 MHz
+# (RNSS Radio Navigation Satellite Service, RDSS Radio Determination Satellite Service,
+# MSS Mobile Satellite Service, EESS Earth Exploration-Satellite Service.)
+#
+# Configuration #1, "Classical Pilot" (WORKSHOP), BPSK(n) = binary phase-shift keying at
+# n x 1.023 Mchip/s, FDMA = frequency-division multiple access:
+#   E5#1   pilot BPSK(10); data PfA BPSK(1) or PfB BPSK(10); no acquisition component
+#   S#1    pilot BPSK(5);  data BPSK(1) FDMA; acquisition BPSK(1/3) FDMA
+#   UHF#1  as S#1
+#   CR#1   pilot BPSK(10); data BPSK(10); acquisition BPSK(1/3)
+#
+# ASSUMPTIONS (not presented, each labelled on its component): the power splits (pilot
+# 50 %, the rest shared equally); the code lengths (one 1 ms period; BPSK(1/3) over 1 ms
+# is 341 chips); the FDMA sub-carrier offsets (S#1 at -6.0 and -3.3 MHz, where the
+# measured IOD S-band spectrum shown at the workshop has narrow components, which
+# component sits on which being an assumption; UHF#1 at -4.0 and -2.2 MHz, scaled to the
+# 10 MHz band); and, for the SM and Cext bands, whose modulation was not presented, a
+# REPRESENTATIVE single BPSK component sized to the band. The orbit altitude, 510 km,
+# is public (GMV, https://www.ion.org/gnss/abstracts.cfm?paperID=16907; Thales Alenia
+# Space press release).
+#
+# The [[shape_checks]] entry holds the E5#1 PfA design's band-limited spectrum against
+# the measured IOD E5 spectrum shown at the workshop: a narrow central BPSK(1)-like peak
+# on a BPSK(10)-like main lobe with nulls near +/-10 MHz, and sidelobes near +/-15 MHz
+# some 22 to 25 dB below the peak (IOD-1 peaked near -133 dBW/Hz, sidelobes about -155 to
+# -158 dBW/Hz). MODELLED consistency only: the measurement has no published calibration,
+# so shapes are compared, not levels.
+#
+# The C/N0 sweep reaches 57.5 dB-Hz, the peak of the IOD pass shown at the workshop
+# (a bell-shaped pass from about 41 to 57.5 dB-Hz over some 200 s, 7 to 10 dB above the
+# Galileo satellites tracked beside it).
+kind = "leo-signal"
+
+[receiver]
+noise_figure_db = 2.0
+antenna_temp_k = 290.0
+cn0_dbhz = [40.0, 45.0, 50.0, 55.0, 57.5]
+reference_cn0_dbhz = 50.0
+loop_bandwidth_hz = 1.0
+integration_time_s = 0.02
+correlator_spacings_chips = [1.0, 0.5, 0.2, 0.1]
+reference_spacing_chips = 0.5
+tracking_threshold_dbhz = 25.0
+
+[acquisition]
+altitude_km = 510.0
+oscillator_ppm = 0.5
+coherent_ms = 1.0
+noncoherent = 1
+pfa_cell = 1e-4
+
+[trade]
+reference_signal = "celeste-iod-e5-1-pfa"
+slant_tec_tecu = 50.0
+slant_range_km = 1000.0
+
+[[signals]]
+name = "celeste-iod-e5-1-pfa"
+system = "Celeste IOD"
+source = "WORKSHOP"
+source_ref = "presented at the ESA NAVISP LEO-PNT workshop, 2026"
+centre_mhz = 1191.795
+tx_bandwidth_mhz = 51.15
+allocation = "rnss"
+orbit_altitude_km = 510.0
+notes = "E5#1 Classical Pilot, data option PfA."
+
+[[signals.components]]
+role = "pilot"
+modulation = "BPSK(10)"
+power_fraction = 0.5
+code_length_chips = 10230
+note = "power split and code length assumed"
+
+[[signals.components]]
+role = "data"
+modulation = "BPSK(1)"
+power_fraction = 0.5
+code_length_chips = 1023
+note = "PfA; power split and code length assumed"
+
+[[signals]]
+name = "celeste-iod-e5-1-pfb"
+system = "Celeste IOD"
+source = "WORKSHOP"
+source_ref = "presented at the ESA NAVISP LEO-PNT workshop, 2026"
+centre_mhz = 1191.795
+tx_bandwidth_mhz = 51.15
+allocation = "rnss"
+orbit_altitude_km = 510.0
+notes = "E5#1 Classical Pilot, data option PfB."
+
+[[signals.components]]
+role = "pilot"
+modulation = "BPSK(10)"
+power_fraction = 0.5
+code_length_chips = 10230
+note = "power split and code length assumed"
+
+[[signals.components]]
+role = "data"
+modulation = "BPSK(10)"
+power_fraction = 0.5
+code_length_chips = 10230
+note = "PfB; power split and code length assumed"
+
+[[signals]]
+name = "celeste-iod-s-1"
+system = "Celeste IOD"
+source = "WORKSHOP"
+source_ref = "presented at the ESA NAVISP LEO-PNT workshop, 2026"
+centre_mhz = 2492.028
+tx_bandwidth_mhz = 15.0
+allocation = "rdss"
+orbit_altitude_km = 510.0
+notes = "S#1 (SR band) Classical Pilot."
+
+[[signals.components]]
+role = "pilot"
+modulation = "BPSK(5)"
+power_fraction = 0.5
+code_length_chips = 5115
+note = "power split and code length assumed"
+
+[[signals.components]]
+role = "data"
+modulation = "BPSK(1)"
+power_fraction = 0.25
+fdma_offsets_mhz = [-6.0]
+code_length_chips = 1023
+note = "FDMA offset read from the measured S-band spectrum (assignment assumed); split and code length assumed"
+
+[[signals.components]]
+role = "acquisition"
+modulation = "BPSK(1/3)"
+power_fraction = 0.25
+fdma_offsets_mhz = [-3.3]
+code_length_chips = 341
+note = "FDMA offset read from the measured S-band spectrum (assignment assumed); split assumed; 341 chips = 1 ms"
+
+[[signals]]
+name = "celeste-iod-uhf-1"
+system = "Celeste IOD"
+source = "WORKSHOP"
+source_ref = "presented at the ESA NAVISP LEO-PNT workshop, 2026"
+centre_mhz = 465.465
+tx_bandwidth_mhz = 10.0
+allocation = "eess"
+orbit_altitude_km = 510.0
+notes = "UHF#1 Classical Pilot (same structure as S#1)."
+
+[[signals.components]]
+role = "pilot"
+modulation = "BPSK(5)"
+power_fraction = 0.5
+code_length_chips = 5115
+note = "power split and code length assumed"
+
+[[signals.components]]
+role = "data"
+modulation = "BPSK(1)"
+power_fraction = 0.25
+fdma_offsets_mhz = [-4.0]
+code_length_chips = 1023
+note = "FDMA offset assumed (S#1 offsets scaled to the 10 MHz band); split and code length assumed"
+
+[[signals.components]]
+role = "acquisition"
+modulation = "BPSK(1/3)"
+power_fraction = 0.25
+fdma_offsets_mhz = [-2.2]
+code_length_chips = 341
+note = "FDMA offset assumed (S#1 offsets scaled to the 10 MHz band); split assumed"
+
+[[signals]]
+name = "celeste-iod-c-1"
+system = "Celeste IOD"
+source = "WORKSHOP"
+source_ref = "presented at the ESA NAVISP LEO-PNT workshop, 2026"
+centre_mhz = 5019.861
+tx_bandwidth_mhz = 19.7
+allocation = "rnss"
+orbit_altitude_km = 510.0
+notes = "CR#1 Classical Pilot (C band); BPSK(10) is 20.46 MHz null to null, so the 19.7 MHz band edge cuts its main lobe."
+
+[[signals.components]]
+role = "pilot"
+modulation = "BPSK(10)"
+power_fraction = 0.5
+code_length_chips = 10230
+note = "power split and code length assumed"
+
+[[signals.components]]
+role = "data"
+modulation = "BPSK(10)"
+power_fraction = 0.25
+code_length_chips = 10230
+note = "power split and code length assumed"
+
+[[signals.components]]
+role = "acquisition"
+modulation = "BPSK(1/3)"
+power_fraction = 0.25
+code_length_chips = 341
+note = "power split assumed; 341 chips = 1 ms"
+
+[[signals]]
+name = "celeste-iod-sm-narrow"
+system = "Celeste IOD"
+source = "WORKSHOP"
+source_ref = "presented at the ESA NAVISP LEO-PNT workshop, 2026"
+centre_mhz = 2170.0
+tx_bandwidth_mhz = 0.2
+allocation = "mss"
+orbit_altitude_km = 510.0
+notes = "SM band, 0.2 MHz option; the band is WORKSHOP, the modulation REPRESENTATIVE (not presented)."
+
+[[signals.components]]
+role = "pilot"
+modulation = "BPSK(0.1)"
+power_fraction = 1.0
+code_length_chips = 102
+note = "REPRESENTATIVE: modulation not presented; BPSK(0.1) fills 0.2 MHz"
+
+[[signals]]
+name = "celeste-iod-sm-wide"
+system = "Celeste IOD"
+source = "WORKSHOP"
+source_ref = "presented at the ESA NAVISP LEO-PNT workshop, 2026"
+centre_mhz = 2170.0
+tx_bandwidth_mhz = 5.0
+allocation = "mss"
+orbit_altitude_km = 510.0
+notes = "SM band, 5 MHz option; the band is WORKSHOP, the modulation REPRESENTATIVE (not presented)."
+
+[[signals.components]]
+role = "pilot"
+modulation = "BPSK(2)"
+power_fraction = 1.0
+code_length_chips = 2046
+note = "REPRESENTATIVE: modulation not presented; BPSK(2) is 4.09 MHz null to null"
+
+[[signals]]
+name = "celeste-iod-cext-b1"
+system = "Celeste IOD"
+source = "WORKSHOP"
+source_ref = "presented at the ESA NAVISP LEO-PNT workshop, 2026"
+centre_mhz = 5071.011
+tx_bandwidth_mhz = 120.0
+allocation = "non-rnss"
+orbit_altitude_km = 510.0
+notes = "Cext B1; the band is WORKSHOP, the modulation REPRESENTATIVE (not presented)."
+
+[[signals.components]]
+role = "pilot"
+modulation = "BPSK(50)"
+power_fraction = 1.0
+code_length_chips = 51150
+note = "REPRESENTATIVE: modulation not presented; BPSK(50) is 102.3 MHz null to null"
+
+[[signals]]
+name = "celeste-iod-cext-b2"
+system = "Celeste IOD"
+source = "WORKSHOP"
+source_ref = "presented at the ESA NAVISP LEO-PNT workshop, 2026"
+centre_mhz = 5122.161
+tx_bandwidth_mhz = 240.0
+allocation = "non-rnss"
+orbit_altitude_km = 510.0
+notes = "Cext B2; the band is WORKSHOP, the modulation REPRESENTATIVE (not presented)."
+
+[[signals.components]]
+role = "pilot"
+modulation = "BPSK(100)"
+power_fraction = 1.0
+code_length_chips = 102300
+note = "REPRESENTATIVE: modulation not presented; BPSK(100) is 204.6 MHz null to null"
+
+[[shape_checks]]
+signal = "celeste-iod-e5-1-pfa"
+description = "Measured Celeste IOD E5 spectrum shown at the ESA NAVISP LEO-PNT workshop, 2026: a narrow central BPSK(1)-like peak on a broad BPSK(10)-like main lobe with nulls near +/-10 MHz, sidelobes near +/-15 MHz about 22 to 25 dB below the peak (IOD-1 peak near -133 dBW/Hz, sidelobes -155 to -158 dBW/Hz); uncalibrated, so shapes only."
+central_peak_min_db = 6.0
+central_peak_ref_offset_mhz = 2.0
+nulls_mhz = [10.0]
+null_tolerance_mhz = 1.0
+null_depth_db = 6.0
+sidelobe_window_mhz = [13.0, 17.0]
+sidelobe_below_peak_db = [20.0, 27.0]

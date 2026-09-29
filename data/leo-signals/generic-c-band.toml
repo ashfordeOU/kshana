@@ -1,0 +1,39 @@
+# A generic C-band low Earth orbit (LEO) positioning, navigation and timing (PNT) signal,
+# for C-band systems whose signal parameters are not public (TrustPoint, for one, flies
+# a C-band PNT constellation: https://spacenews.com/trustpoint-sets-2027-target-for-initial-rollout-of-leo-based-navigation-services/ ).
+#
+# REPRESENTATIVE throughout: centred in the 5010 to 5030 MHz Radio Navigation Satellite
+# Service (RNSS, space-to-Earth) allocation of the ITU Radio Regulations
+# (https://www.itu.int/pub/R-REG-RR), a 20 MHz transmit band, a BPSK(10) pilot and data
+# pair with a 50/50 split and 1 ms codes. It is a stand-in for the band, not any
+# operator's design.
+
+[preset]
+name = "generic-c-band"
+title = "Generic C-band LEO-PNT signal (representative)"
+source = "REPRESENTATIVE"
+url = "https://www.itu.int/pub/R-REG-RR"
+notes = "Representative C-band design in the 5010-5030 MHz RNSS allocation; not any operator's signal."
+
+[[signals]]
+name = "generic-c-band-leo"
+system = "generic C-band LEO-PNT"
+source = "REPRESENTATIVE"
+source_ref = "https://www.itu.int/pub/R-REG-RR"
+centre_mhz = 5020.0
+tx_bandwidth_mhz = 20.0
+allocation = "rnss"
+notes = "Representative: centre of the 5010-5030 MHz RNSS allocation, BPSK(10) pilot and data."
+
+[[signals.components]]
+role = "pilot"
+modulation = "BPSK(10)"
+power_fraction = 0.5
+code_length_chips = 10230
+
+[[signals.components]]
+role = "data"
+modulation = "BPSK(10)"
+power_fraction = 0.5
+code_length_chips = 10230
+data_rate_sps = 250.0

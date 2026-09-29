@@ -115,6 +115,9 @@ impl Modulation {
         let num = |v: f64| {
             if (v - v.round()).abs() < 1e-9 {
                 format!("{}", v.round() as i64)
+            } else if ((3.0 * v) - (3.0 * v).round()).abs() < 1e-9 {
+                // Thirds (BPSK(1/3), 341 kchip/s) print as the fraction they were written as.
+                format!("{}/3", (3.0 * v).round() as i64)
             } else {
                 format!("{v}")
             }
@@ -127,6 +130,56 @@ impl Modulation {
             }
             Modulation::Mboc { p } => format!("MBOC(6,1,{p})"),
         }
+    }
+}
+
+/// Parse a number that may be written as a fraction: `10`, `0.5`, `1/3`.
+fn parse_ratio(s: &str) -> Result<f64, String> {
+    let s = s.trim();
+    let v = match s.split_once('/') {
+        Some((a, b)) => {
+            let a: f64 = a.trim().parse().map_err(|_| format!("bad number {s:?}"))?;
+            let b: f64 = b.trim().parse().map_err(|_| format!("bad number {s:?}"))?;
+            a / b
+        }
+        None => s.parse().map_err(|_| format!("bad number {s:?}"))?,
+    };
+    if v.is_finite() && v > 0.0 {
+        Ok(v)
+    } else {
+        Err(format!("{s:?} must be a positive number"))
+    }
+}
+
+/// **Parse a modulation label** as written in a scenario: `BPSK(n)` (n may be a
+/// fraction, `BPSK(1/3)` is 341 kchip/s), `BOC(m,n)` (sine-phased), or
+/// `MBOC(6,1,p)`. Case-insensitive; `BPSK-R(n)` is accepted for `BPSK(n)`. The inverse
+/// of [`Modulation::label`] for every label it prints.
+pub fn parse_modulation(label: &str) -> Result<Modulation, String> {
+    let t = label.trim().to_ascii_uppercase().replace(' ', "");
+    let (head, rest) = t
+        .split_once('(')
+        .ok_or_else(|| format!("modulation {label:?}: expected NAME(args), e.g. BPSK(10)"))?;
+    let args = rest
+        .strip_suffix(')')
+        .ok_or_else(|| format!("modulation {label:?}: missing closing parenthesis"))?;
+    let parts: Vec<&str> = args.split(',').collect();
+    match (head, parts.len()) {
+        ("BPSK" | "BPSK-R", 1) => Ok(Modulation::BpskR {
+            n: parse_ratio(parts[0])?,
+        }),
+        ("BOC" | "BOCSIN", 2) => Ok(Modulation::BocSin {
+            m: parse_ratio(parts[0])?,
+            n: parse_ratio(parts[1])?,
+        }),
+        ("MBOC", 3) if parse_ratio(parts[0])? == 6.0 && parse_ratio(parts[1])? == 1.0 => {
+            Ok(Modulation::Mboc {
+                p: parse_ratio(parts[2])?,
+            })
+        }
+        _ => Err(format!(
+            "modulation {label:?} is not one of BPSK(n), BOC(m,n) or MBOC(6,1,p)"
+        )),
     }
 }
 
@@ -461,6 +514,228 @@ pub fn code_length_for_ambiguity(chip_rate_hz: f64, required_range_m: f64) -> u6
     l.ceil().max(1.0) as u64
 }
 
+// ───────────────── band-limited closed forms and generic code tracking ─────────────────
+//
+// The functions below serve any signal design, not only the GNSS ones above: a low Earth
+// orbit (LEO) positioning, navigation and timing (PNT) signal, a UHF or C-band ranging
+// signal, or a filtered composite. They take either a [`Modulation`] or any unit-area
+// power spectral density (PSD) closure, so a caller can hand them a spectrum this module
+// does not name.
+
+/// The **sine integral** `Si(x) = ∫₀ˣ sin(t)/t dt`. Power series for `|x| ≤ 20`, the
+/// auxiliary-function asymptotic expansion `Si(x) = π/2 − f(x)·cos x − g(x)·sin x` beyond
+/// (Abramowitz & Stegun 5.2.8 and 5.2.34–35). Absolute error below 1e-8 everywhere.
+pub fn sine_integral(x: f64) -> f64 {
+    if x < 0.0 {
+        return -sine_integral(-x);
+    }
+    if x <= 20.0 {
+        // Σ (−1)^k x^(2k+1) / ((2k+1)·(2k+1)!)
+        let mut term = x; // x^(2k+1)/(2k+1)!
+        let mut sum = x;
+        let mut k = 0usize;
+        loop {
+            k += 1;
+            let a = (2 * k) as f64;
+            let b = (2 * k + 1) as f64;
+            term *= -x * x / (a * b);
+            let add = term / b;
+            sum += add;
+            if add.abs() < 1e-17 * sum.abs().max(1.0) || k > 200 {
+                break;
+            }
+        }
+        return sum;
+    }
+    // f(x) ~ (1/x) Σ (−1)^k (2k)!/x^(2k),  g(x) ~ (1/x²) Σ (−1)^k (2k+1)!/x^(2k);
+    // truncated at the smallest term.
+    let inv2 = 1.0 / (x * x);
+    let (mut f, mut g) = (0.0, 0.0);
+    let (mut tf, mut tg) = (1.0_f64, 1.0_f64);
+    let mut prev_f = f64::INFINITY;
+    for k in 0..60usize {
+        if tf.abs() > prev_f {
+            break;
+        }
+        prev_f = tf.abs();
+        f += tf;
+        g += tg;
+        let kk = k as f64;
+        tf *= -(2.0 * kk + 1.0) * (2.0 * kk + 2.0) * inv2;
+        tg *= -(2.0 * kk + 2.0) * (2.0 * kk + 3.0) * inv2;
+    }
+    let f = f / x;
+    let g = g * inv2;
+    PI / 2.0 - f * x.cos() - g * x.sin()
+}
+
+/// **Fraction of a BPSK-R signal's power inside a double-sided bandwidth `band_hz`**
+/// centred on its carrier, in closed form: with `a = π·B·T_c`,
+/// `η = (2/π)·[Si(a) − sin²(a/2)/(a/2)]`, the integral of `T_c·sinc²(π f T_c)` over
+/// `|f| ≤ B/2`. At `B = 2R_c` (the main lobe) this is the textbook 90.3 %.
+pub fn bpsk_power_in_band_closed_form(chip_rate_hz: f64, band_hz: f64) -> f64 {
+    if !(chip_rate_hz > 0.0 && band_hz > 0.0) {
+        return 0.0;
+    }
+    let a = PI * band_hz / chip_rate_hz;
+    let h = a / 2.0;
+    (2.0 / PI) * (sine_integral(a) - h.sin().powi(2) / h)
+}
+
+/// **Band-limited RMS (Gabor) bandwidth of a BPSK-R signal**, closed form (Hz):
+/// `β² = [B/2 − sin(πBT_c)/(2πT_c)] / (π² T_c η)` with `η` from
+/// [`bpsk_power_in_band_closed_form`]. For `B → ∞` it grows as `√(B R_c / (2π²))`, the
+/// statement that a rectangular chip's ranging information is set by the front end, not
+/// by the chip (Betz & Kolodziejski 2009, Part I).
+pub fn bpsk_gabor_bandwidth_closed_form_hz(chip_rate_hz: f64, band_hz: f64) -> f64 {
+    let tc = 1.0 / chip_rate_hz;
+    let eta = bpsk_power_in_band_closed_form(chip_rate_hz, band_hz);
+    let num = band_hz / 2.0 - (PI * band_hz * tc).sin() / (2.0 * PI * tc);
+    (num / (PI * PI * tc * eta.max(1e-300))).sqrt()
+}
+
+/// **Offset BPSK-on-BPSK spectral separation coefficient, closed form** (1/Hz), over an
+/// infinite band: two BPSK-R spectra of the same chip period `T_c` whose carriers are
+/// `Δ` apart overlap by `κ(Δ) = ∫ G(f) G(f − Δ) df`, the Fourier transform of the squared
+/// triangular autocorrelation at `Δ` (Parseval), which integrates to
+/// `κ(Δ) = 4/((2πΔ)² T_c) · [1 − sin(2πΔT_c)/(2πΔT_c)]`, and `2T_c/3` at `Δ = 0`.
+pub fn bpsk_offset_ssc_closed_form(chip_rate_hz: f64, offset_hz: f64) -> f64 {
+    let tc = 1.0 / chip_rate_hz;
+    let x = 2.0 * PI * offset_hz * tc;
+    if x.abs() < 1e-4 {
+        return 2.0 * tc / 3.0 * (1.0 - x * x / 20.0);
+    }
+    4.0 / (x * x / tc) * (1.0 - x.sin() / x)
+}
+
+/// Composite Simpson integral of `g` over `[a, b]` with at least `n` panels (forced even).
+pub fn simpson(a: f64, b: f64, n: usize, g: impl Fn(f64) -> f64) -> f64 {
+    if b <= a {
+        return 0.0;
+    }
+    let n = if n % 2 == 0 { n.max(2) } else { n + 1 };
+    let h = (b - a) / n as f64;
+    let mut s = g(a) + g(b);
+    for i in 1..n {
+        s += if i % 2 == 1 { 4.0 } else { 2.0 } * g(a + i as f64 * h);
+    }
+    s * h / 3.0
+}
+
+/// Simpson panel count that gives every lobe of width `lobe_hz` at least ~40 panels over
+/// a span `span_hz`, bounded to `[2 000, 400 000]`.
+pub fn panels_for(span_hz: f64, lobe_hz: f64) -> usize {
+    ((span_hz / lobe_hz.max(1.0)) * 40.0)
+        .ceil()
+        .clamp(2_000.0, 400_000.0) as usize
+}
+
+/// Early-minus-late processing for [`dll_jitter_bandlimited_s`].
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum EarlyLate {
+    /// Coherent early-minus-late (the carrier is tracked, the discriminator is linear).
+    Coherent,
+    /// Non-coherent early-minus-late power, with its squaring loss.
+    NonCoherent,
+}
+
+/// **Code-tracking thermal-noise jitter of an early-late delay lock loop (DLL) for any
+/// band-limited spectrum** (seconds, 1-σ), after Betz & Kolodziejski, "Generalized Theory
+/// of Code Tracking with an Early-Late Discriminator, Part I," IEEE Trans. Aerospace and
+/// Electronic Systems 45(4), 2009:
+///
+/// `σ² = B_L(1 − ½B_L T) ∫ G sin²(πfΔ) df / [(2π)² (C/N₀) (∫ f G sin(πfΔ) df)²]`
+///
+/// times, for non-coherent processing, the squaring loss
+/// `1 + ∫ G cos²(πfΔ) df / [T (C/N₀) (∫ G cos(πfΔ) df)²]`. All integrals run over the
+/// double-sided front-end band `|f| ≤ band_hz/2`; `psd` is the tracked component's
+/// spectrum normalised to unit area over all frequencies; `c_n0_dbhz` is the carrier
+/// power of that component over `N₀`; `spacing_s` is the early-late spacing `Δ` in
+/// seconds; `lobe_hz` sets the integration resolution (the narrowest feature of `psd`).
+///
+/// For an infinite-band BPSK-R the coherent form reduces to the textbook
+/// `σ² = B_L d T_c² / (2 C/N₀)` (d the spacing in chips; Kaplan & Hegarty, 3rd ed., §8),
+/// and as `Δ → 0` to the Gabor-bandwidth bound [`dll_jitter_small_spacing_limit_s`].
+#[allow(clippy::too_many_arguments)]
+pub fn dll_jitter_bandlimited_s(
+    psd: impl Fn(f64) -> f64,
+    band_hz: f64,
+    lobe_hz: f64,
+    c_n0_dbhz: f64,
+    loop_bw_hz: f64,
+    integ_time_s: f64,
+    spacing_s: f64,
+    mode: EarlyLate,
+) -> f64 {
+    let cn0 = 10f64.powf(c_n0_dbhz / 10.0);
+    let half = band_hz / 2.0;
+    let n = panels_for(band_hz, lobe_hz.min(1.0 / spacing_s.max(1e-15)));
+    let num = simpson(-half, half, n, |f| {
+        psd(f) * (PI * f * spacing_s).sin().powi(2)
+    });
+    let slope = simpson(-half, half, n, |f| f * psd(f) * (PI * f * spacing_s).sin());
+    let bl = loop_bw_hz * (1.0 - 0.5 * loop_bw_hz * integ_time_s).max(0.0);
+    let mut var = bl * num / ((2.0 * PI).powi(2) * cn0 * slope * slope).max(1e-300);
+    if mode == EarlyLate::NonCoherent {
+        let c2 = simpson(-half, half, n, |f| {
+            psd(f) * (PI * f * spacing_s).cos().powi(2)
+        });
+        let c1 = simpson(-half, half, n, |f| psd(f) * (PI * f * spacing_s).cos());
+        var *= 1.0 + c2 / (integ_time_s * cn0 * c1 * c1).max(1e-300);
+    }
+    var.sqrt()
+}
+
+/// The vanishing-spacing limit of [`dll_jitter_bandlimited_s`] (coherent), seconds:
+/// `σ² = B_L(1 − ½B_L T) / [(2π)² (C/N₀) ∫ f² G df]` over the band, the bound set by the
+/// Gabor bandwidth (Betz & Kolodziejski 2009, Part I). No early-late spacing does better.
+pub fn dll_jitter_small_spacing_limit_s(
+    psd: impl Fn(f64) -> f64,
+    band_hz: f64,
+    lobe_hz: f64,
+    c_n0_dbhz: f64,
+    loop_bw_hz: f64,
+    integ_time_s: f64,
+) -> f64 {
+    let cn0 = 10f64.powf(c_n0_dbhz / 10.0);
+    let half = band_hz / 2.0;
+    let f2 = simpson(-half, half, panels_for(band_hz, lobe_hz), |f| {
+        f * f * psd(f)
+    });
+    let bl = loop_bw_hz * (1.0 - 0.5 * loop_bw_hz * integ_time_s).max(0.0);
+    (bl / ((2.0 * PI).powi(2) * cn0 * f2).max(1e-300)).sqrt()
+}
+
+/// **Galileo E5 AltBOC(15,10) unit-area PSD** (1/Hz) at offset `f_hz` from 1191.795 MHz:
+/// the constant-envelope AltBOC spectrum of the Galileo Open Service Signal-in-Space
+/// Interface Control Document (OS SIS ICD), with `f_c = 10.23 MHz` and `f_s = 15.345 MHz`,
+/// `S(f) = 4f_c/(π²f²) · cos²(πf/f_c)/cos²(πf/(2f_s)) ·
+/// [cos²(πf/(2f_s)) − cos(πf/(2f_s)) − 2cos(πf/(2f_s))cos(πf/(4f_s)) + 2]`.
+/// That expression integrates to 8 over all frequencies (checked numerically in the
+/// tests, with the 1/f² tail added analytically), so it is divided by 8 here to give the
+/// unit-area density every other spectrum in this module uses.
+pub fn altboc_15_10_psd(f_hz: f64) -> f64 {
+    let fc = 10.0 * F0_HZ;
+    let fs = 15.0 * F0_HZ;
+    let eval = |f: f64| -> f64 {
+        let u = PI * f / (2.0 * fs);
+        let cu = u.cos();
+        let bracket = cu * cu - cu - 2.0 * cu * (u / 2.0).cos() + 2.0;
+        0.5 * fc / (PI * PI * f * f) * (PI * f / fc).cos().powi(2) / (cu * cu) * bracket
+    };
+    if f_hz.abs() < 1.0 {
+        // The removable singularity at the carrier: (0.75 f_c / f_s²) / 8.
+        return 0.75 * fc / (fs * fs) / 8.0;
+    }
+    let u = PI * f_hz / (2.0 * fs);
+    if u.cos().abs() < 1e-6 {
+        // cos(πf/(2f_s)) = 0 is a removable 0/0 point: average its two neighbours.
+        let e = 1e-3 * fs;
+        return 0.5 * (eval(f_hz - e) + eval(f_hz + e));
+    }
+    eval(f_hz)
+}
+
 #[cfg(test)]
 mod code_tests {
     use super::*;
@@ -731,5 +1006,205 @@ mod tests {
             mx * mn < 0.0,
             "in/anti-phase should straddle zero ({mx},{mn})"
         );
+    }
+}
+
+#[cfg(test)]
+mod band_limited_tests {
+    use super::*;
+
+    // ── Sine integral against tabulated values (Abramowitz & Stegun Table 5.1) ─────
+    #[test]
+    fn sine_integral_matches_tables_and_its_limit() {
+        assert!((sine_integral(1.0) - 0.946_083_070_367_183).abs() < 1e-12);
+        assert!((sine_integral(PI) - 1.851_937_051_982_466).abs() < 1e-12);
+        assert!((sine_integral(2.0 * PI) - 1.418_151_576_132_628).abs() < 1e-12);
+        assert!((sine_integral(-1.0) + 0.946_083_070_367_183).abs() < 1e-12);
+        // Across the series/asymptotic switch at 20, against a direct quadrature.
+        for x in [19.9, 20.1, 35.0, 150.0] {
+            let q = simpson(
+                0.0,
+                x,
+                200_000,
+                |t| if t == 0.0 { 1.0 } else { t.sin() / t },
+            );
+            assert!((sine_integral(x) - q).abs() < 1e-8, "Si({x})");
+        }
+        assert!((sine_integral(1e6) - PI / 2.0).abs() < 1e-5);
+    }
+
+    // ── ORACLE: 90.3 % of BPSK power in the main lobe; closed form = numeric ──────
+    // Kaplan & Hegarty, Understanding GPS/GNSS, 3rd ed.: about 90 % of a BPSK-R
+    // signal's power lies in the main lobe (±R_c); the closed form gives 0.9028.
+    #[test]
+    fn bpsk_power_in_band_closed_form_matches_textbook_and_numeric() {
+        for n in [1.0 / 3.0, 1.0, 5.0, 10.0] {
+            let rc = n * F0_HZ;
+            let eta = bpsk_power_in_band_closed_form(rc, 2.0 * rc);
+            assert!((eta - 0.902_8).abs() < 1e-4, "BPSK({n}) main lobe {eta}");
+        }
+        let m = Modulation::BpskR { n: 10.0 };
+        for b in [10.0e6, 15.0e6, 20.0e6, 51.15e6] {
+            let num = simpson(-b / 2.0, b / 2.0, 20_000, |f| m.psd(f));
+            let cf = bpsk_power_in_band_closed_form(m.chip_rate_hz(), b);
+            assert!((num - cf).abs() < 1e-7, "B {b}: {num} vs {cf}");
+        }
+    }
+
+    // ── ORACLE: band-limited Gabor bandwidth closed form = numeric; √(B·R_c/2π²) ──
+    #[test]
+    fn bpsk_gabor_closed_form_matches_numeric_and_asymptote() {
+        for (n, b) in [
+            (10.0, 20.0e6),
+            (5.0, 10.0e6),
+            (1.0, 24.0e6),
+            (1.0 / 3.0, 15.0e6),
+        ] {
+            let m = Modulation::BpskR { n };
+            let num = rms_bandwidth_hz(&m, b);
+            let cf = bpsk_gabor_bandwidth_closed_form_hz(m.chip_rate_hz(), b);
+            assert!(
+                (num / cf - 1.0).abs() < 1e-4,
+                "BPSK({n}) in {b}: {num} vs {cf}"
+            );
+        }
+        let rc = F0_HZ;
+        let b = 2000.0 * rc;
+        let asym = (b * rc / (2.0 * PI * PI)).sqrt();
+        let cf = bpsk_gabor_bandwidth_closed_form_hz(rc, b);
+        assert!((cf / asym - 1.0).abs() < 2e-3, "{cf} vs {asym}");
+    }
+
+    // ── ORACLE: band-limited early-late jitter reduces to Kaplan & Hegarty ─────────
+    // Coherent early-late, BPSK(1), unlimited band: σ² = B_L(1 − B_L T/2)·d/(2 C/N₀)
+    // chips². Operating point C/N₀ = 45 dB-Hz, B_L = 1 Hz, d = 1 chip, T = 20 ms:
+    // σ = 0.0039564 chips = 1.1594 m (0.003976 chips, 1.165 m without the (1 − B_L T/2)
+    // factor Kaplan & Hegarty omit).
+    #[test]
+    fn bandlimited_dll_reduces_to_the_textbook_forms() {
+        let m = Modulation::BpskR { n: 1.0 };
+        let rc = F0_HZ;
+        let psd = |f: f64| m.psd(f);
+        let s = dll_jitter_bandlimited_s(
+            psd,
+            400.0 * rc,
+            rc,
+            45.0,
+            1.0,
+            0.02,
+            1.0 / rc,
+            EarlyLate::Coherent,
+        );
+        let chips = s * rc;
+        // 0.25 %: tight enough that dropping the (1 − B_L T/2) factor (0.5 %) fails here,
+        // loose enough for the 400 R_c band's own 0.1 % truncation.
+        assert!(
+            (chips - 0.003_956_4).abs() < 0.0025 * 0.003_956_4,
+            "coherent {chips}"
+        );
+        assert!((chips * C_LIGHT_M_PER_S / rc - 1.1594).abs() < 0.012);
+        // Non-coherent: the existing Kaplan & Hegarty implementation, times √(1 − B_L T/2).
+        let s_nc = dll_jitter_bandlimited_s(
+            psd,
+            400.0 * rc,
+            rc,
+            45.0,
+            1.0,
+            0.02,
+            0.5 / rc,
+            EarlyLate::NonCoherent,
+        );
+        let kh = dll_code_jitter_chips(45.0, 1.0, 0.5, 0.02) * 0.99f64.sqrt();
+        assert!((s_nc * rc / kh - 1.0).abs() < 0.01, "{} vs {kh}", s_nc * rc);
+        // Vanishing spacing in a 2R_c band approaches the Gabor bound, which equals
+        // B_L'/((2π)² C/N₀ η β²) with the closed-form η and β.
+        let b = 2.0 * rc;
+        let tiny =
+            dll_jitter_bandlimited_s(psd, b, rc, 45.0, 1.0, 0.02, 0.005 / rc, EarlyLate::Coherent);
+        let lim = dll_jitter_small_spacing_limit_s(psd, b, rc, 45.0, 1.0, 0.02);
+        assert!((tiny / lim - 1.0).abs() < 1e-3, "{tiny} vs {lim}");
+        let eta = bpsk_power_in_band_closed_form(rc, b);
+        let beta = bpsk_gabor_bandwidth_closed_form_hz(rc, b);
+        let cf = (0.99 / ((2.0 * PI).powi(2) * 10f64.powf(4.5) * eta * beta * beta)).sqrt();
+        assert!((lim / cf - 1.0).abs() < 1e-5, "{lim} vs {cf}");
+        // Band-limiting floors the jitter: at 0.1 chip spacing the 2R_c front end is worse
+        // than an unlimited one.
+        let wide = dll_jitter_bandlimited_s(
+            psd,
+            400.0 * rc,
+            rc,
+            45.0,
+            1.0,
+            0.02,
+            0.1 / rc,
+            EarlyLate::Coherent,
+        );
+        let narrow =
+            dll_jitter_bandlimited_s(psd, b, rc, 45.0, 1.0, 0.02, 0.1 / rc, EarlyLate::Coherent);
+        assert!(narrow > wide);
+    }
+
+    // ── ORACLE: offset BPSK SSC against its Parseval closed form ──────────────────
+    #[test]
+    fn offset_bpsk_ssc_matches_parseval_closed_form() {
+        let m = Modulation::BpskR { n: 10.0 };
+        let rc = m.chip_rate_hz();
+        for off in [0.0, 0.5 * rc, 1.5 * rc, 15.345e6, 3.2 * rc] {
+            let num = spectral_separation_coeff_offset(&m, &m, off, 200.0 * rc);
+            let cf = bpsk_offset_ssc_closed_form(rc, off);
+            assert!(
+                (10.0 * (num / cf).log10()).abs() < 0.01,
+                "offset {off}: {num:e} vs {cf:e}"
+            );
+        }
+        // Zero offset: 2/(3 R_c) = −71.86 dB/Hz for BPSK(10).
+        let z = 10.0 * bpsk_offset_ssc_closed_form(rc, 0.0).log10();
+        assert!((z - (-71.86)).abs() < 0.01, "{z}");
+    }
+
+    // ── AltBOC(15,10): unit area (tail added analytically), lobes near ±15.345 MHz ──
+    #[test]
+    fn altboc_psd_is_unit_area_with_lobes_at_e5a_and_e5b() {
+        let half = 400e6;
+        let body = simpson(-half, half, 400_000, altboc_15_10_psd);
+        // Beyond |f| = half the envelope averages 4f_c/(π²f²)·(mean bracket/cos² term)/8;
+        // estimate the tail from the local mean of f²·G over a few periods.
+        let mean_f2g = simpson(half - 61.38e6, half, 20_000, |f| {
+            f * f * altboc_15_10_psd(f)
+        }) / 61.38e6;
+        let tail = 2.0 * mean_f2g / half;
+        let area = body + tail;
+        assert!((area - 1.0).abs() < 5e-3, "AltBOC area {area}");
+        let pk = (0..30_000)
+            .map(|k| k as f64 * 1e3)
+            .max_by(|a, b| {
+                altboc_15_10_psd(*a)
+                    .partial_cmp(&altboc_15_10_psd(*b))
+                    .unwrap()
+            })
+            .unwrap();
+        assert!((pk - 15.345e6).abs() < 0.3e6, "AltBOC peak at {pk}");
+        assert!(altboc_15_10_psd(0.0) < 0.2 * altboc_15_10_psd(pk));
+    }
+
+    // ── Parsing: every label the engine prints parses back ─────────────────────────
+    #[test]
+    fn modulation_labels_round_trip() {
+        for m in [
+            Modulation::BpskR { n: 1.0 / 3.0 },
+            Modulation::BpskR { n: 10.0 },
+            Modulation::BocSin { m: 1.0, n: 1.0 },
+            Modulation::Mboc { p: 1.0 / 11.0 },
+        ] {
+            let back = parse_modulation(&m.label()).unwrap();
+            assert!(
+                (back.chip_rate_hz() - m.chip_rate_hz()).abs() < 1e-6,
+                "{}",
+                m.label()
+            );
+        }
+        assert_eq!(Modulation::BpskR { n: 1.0 / 3.0 }.label(), "BPSK(1/3)");
+        assert!(parse_modulation("QPSK(1)").is_err());
+        assert!(parse_modulation("BPSK(-1)").is_err());
     }
 }
