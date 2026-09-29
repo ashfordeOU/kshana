@@ -60,6 +60,7 @@ fn only_the_listed_files_name_the_workshop_preset() {
         "tests/workshop_preset_isolation.rs",
         "tests/leo_pnt_chain.rs",
         "tests/interop_formats.rs",
+        "tests/required_fields_are_true.rs",
     ];
     let mut offenders = Vec::new();
     for (rel, p) in files(root) {

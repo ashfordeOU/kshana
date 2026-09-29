@@ -607,5 +607,5 @@ Positioning from a 5G non-terrestrial network (NTN) downlink in the mobile-satel
 One LEO-PNT (positioning, navigation and timing from low Earth orbit) system end to end, for any constellation and signal: the leo-signal design named by signal_design (a public preset or an inline [signal] design) sets a [pass] band's centre, bandwidth, chip rate and EIRP split, the leo-pass link budget gives the tracked C/N0 and band-limited code jitter over the pass, a C/N0 line in sin(elevation) and the [navmsg] message's broadcast SISRE (fitted at the pass satellite's altitude) feed every LEO system of the [fusion] leo-pvt joint fix, and optionally the [ppp] leo-ppp cases; every hand-off is listed with its value and unit. MODELLED.
 
 - **Required fields:** `signal_design`, `pass`, `fusion`
-- **Optional fields:** `name`, `description`, `seed`, `signal`, `navmsg`, `ppp`
+- **Optional fields:** `name`, `description`, `seed`, `signal`, `navmsg`, `od_sisre_m`, `ppp`
 
