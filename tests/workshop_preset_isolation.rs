@@ -94,10 +94,36 @@ fn workshop_numbers_live_only_in_the_preset_file_and_its_scenarios() {
         "5_071.011",
         "5122.161",
         "5_122.161",
+        // The peak of the pass C/N0 shown at the workshop, the preset's calibration target.
+        "57.5 dB-Hz",
     ];
     let root = Path::new(env!("CARGO_MANIFEST_DIR"));
     let mut offenders = Vec::new();
-    for (rel, p) in files(root) {
+    // The public documents stay with a withholding release too, so they are scanned as well.
+    let mut scanned = files(root);
+    for top in ["README.md", "CHANGELOG.md"] {
+        scanned.push((top.into(), root.join(top)));
+    }
+    let mut stack = vec![root.join("docs")];
+    while let Some(d) = stack.pop() {
+        let Ok(rd) = std::fs::read_dir(&d) else {
+            continue;
+        };
+        for e in rd.flatten() {
+            let p = e.path();
+            if p.is_dir() {
+                stack.push(p);
+            } else if p.extension().is_some_and(|x| x == "md") {
+                let rel = p
+                    .strip_prefix(root)
+                    .unwrap()
+                    .to_string_lossy()
+                    .replace('\\', "/");
+                scanned.push((rel, p));
+            }
+        }
+    }
+    for (rel, p) in scanned {
         if rel == "src/celeste_iod.rs"
             || rel == "tests/workshop_preset_isolation.rs"
             || is_preset_scenario(&rel)
