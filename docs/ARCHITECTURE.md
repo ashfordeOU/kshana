@@ -8,7 +8,10 @@ agency precise ephemerides); a **time & reference-frame** layer (IERS (Internati
 2006/2000A precession–nutation, and the CIO (Celestial Intermediate Origin) GCRS↔ITRS (GCRS: Geocentric Celestial Reference System; ITRS: International Terrestrial Reference System) reduction); a **fusion** layer (the
 GNSS/INS (GNSS: global navigation satellite system; INS: inertial navigation system) estimators); and the **integrity, resilience, alt-PNT (PNT: positioning, navigation and timing) and lunar** layers
 (RAIM/ARAIM/SBAS (RAIM: receiver autonomous integrity monitoring; ARAIM: advanced receiver autonomous integrity monitoring; SBAS: satellite-based augmentation system), jamming and multi-layer spoof detection, gravity/terrain/magnetic
-map-matching, and cislunar PNT). Across all of them the engine knows nothing about
+map-matching, and cislunar PNT); and the newer **LEO-PNT** (low Earth orbit PNT),
+**spectrum**, **solar-system and constellation-design**, **network-timing** and
+**campaign** layers, with the report, animation and interoperability writers that every
+run can use (§1d). Across all of them the engine knows nothing about
 "quantum" vs "classical": it drives
 sensor *error models* through a GNSS-outage scenario, runs an estimator, and scores the
 outcome. A quantum and a classical device are therefore compared on the same scenario,
@@ -16,10 +19,37 @@ differing only in their (published, cited) error parameters and their independen
 seeds.
 
 This document collects the structural and behavioural diagrams. §1 is the sensor-pack
-core; §1a maps the astrodynamics, fusion, and alt-PNT layers added since. For usage see
+core; §1a maps the astrodynamics, fusion, and alt-PNT layers added since; §1b–§1d the
+study, domain and output layers. For usage see
 the [README](../README.md); for what is and isn't validated see
 [VALIDATION](VALIDATION.md); for the per-capability maturity table see
 [CAPABILITY](CAPABILITY.md).
+
+Abbreviations used in the diagrams and not spelled out where they appear: ADEV, Allan
+deviation; AI/ML, artificial intelligence / machine learning; BW, bandwidth; CAI,
+cold-atom interferometer; CZML, the Cesium Language; Δ-DOR, delta differential one-way
+ranging; DO-229E, the RTCA (Radio Technical Commission for Aeronautics) SBAS receiver
+standard; EKF, extended Kalman filter; FM, frequency modulation; GSE, ground support
+equipment; HPL/VPL, horizontal/vertical protection level; IMU, inertial measurement unit;
+IOAG, Interagency Operations Advisory Group; IQ, in-phase/quadrature samples; ISL,
+inter-satellite link; ITU-T, the Telecommunication Standardization Sector of the
+International Telecommunication Union; J2–J6, the Earth's zonal gravity harmonics of
+degree 2 to 6; KIF, the Kshana Interchange Format; KML, Keyhole Markup Language; KPI, key
+performance indicator; L1/L5, GNSS carrier bands (the L2 of the CR3BP halo orbits is
+instead the Earth–Moon Lagrange point 2); LEO, low Earth orbit; LOO, leave-one-out; LTC,
+Coordinated Lunar Time; MEO, medium Earth orbit; MTIE, maximum time interval error; N2,
+the order-2 Hill diversity number; NED, north-east-down; NTN, non-terrestrial network;
+OD, orbit determination; OPS-SAT, the European Space Agency's in-orbit software
+laboratory satellite; PPP, precise point positioning; PSD, power spectral density; PVT,
+position, velocity and time; RINEX, Receiver Independent Exchange Format; RK4 / RK5(4),
+fourth-order and embedded fifth(fourth)-order Runge–Kutta integrators; SH, spherical
+harmonic; SigMF, Signal Metadata Format; SIR, sampling importance resampling; SRIF,
+square-root information filter; SRP, solar radiation pressure; SSC, spectral separation
+coefficient; STK, Systems Tool Kit; SVG, Scalable Vector Graphics; TDEV, time deviation;
+TDM, the CCSDS (Consultative Committee for Space Data Systems) Tracking Data Message; TLE,
+two-line element set; TPL, Timing Protection Level; UBX, the u-blox binary protocol; UHF,
+ultra high frequency; VLBI, very-long-baseline interferometry; VRW / ARW, velocity /
+angle random walk; WASM, WebAssembly.
 
 ---
 
@@ -48,10 +78,10 @@ flowchart TD
       run["run.rs<br/>run / run_clock / run_orbit_clock"]
     end
 
-    inertial["inertial.rs<br/>Pack 2 · AccelModel (accel + gyro + bias instability/RW) · run_inertial · quantum_imu CAI + QuantumNavBudget dead-reckoning-over-holdover"]
+    inertial["inertial/<br/>Pack 2 · AccelModel (accel + gyro + bias instability/RW) · run_inertial · quantum_imu CAI + QuantumNavBudget dead-reckoning-over-holdover"]
     timetransfer["timetransfer.rs<br/>Pack 3 · TimeTransferLink · run_timetransfer"]
     hybrid["hybrid.rs<br/>Pack 4 · run_suite · score_hybrid · run_hybrid (+ integrity/security)"]
-    fusion["fusion.rs<br/>joint Kalman PNT estimator · run_fusion"]
+    fusion["fusion/<br/>joint Kalman PNT estimator · run_fusion"]
     orbit["orbit.rs<br/>Propagator (Kepler | SGP4) · Walker / TLE / multi-constellation · visibility · DOP"]
     tle["tle.rs<br/>two-line element parsing (line 2 → Kepler, full TLE → SGP4)"]
     sgp4mod["sgp4.rs<br/>SGP4 / SDP4 propagator (deep-space + resonance)"]
@@ -283,9 +313,10 @@ flowchart TD
 The remaining domains plug into the same `api` dispatch and reuse the shared core,
 frames and geometry. Everything here is **MODELLED** unless a `verification`-matrix row
 cites an external oracle (RAIM kernel vs SciPy, SBAS vs the RTKLIB (an open-source real-time kinematic positioning library) fork, the gnss_lib_py
-DOP (dilution of precision) kernel, the OPS-SAT eval) — the lunar suite and the quantum demonstrator are
-modelled, illustrative, public-source, and carry no TRL (technology readiness level) / heritage / agency-endorsement
-claim.
+DOP (dilution of precision) kernel, the OPS-SAT eval, the lunar ARAIM protection-level
+kernel, the cross-provider lunar ephemeris consistency) — the rest of the lunar suite and
+the quantum demonstrator are modelled, illustrative, public-source, and carry no TRL
+(technology readiness level) / heritage / agency-endorsement claim.
 
 ```mermaid
 flowchart TD
@@ -327,6 +358,62 @@ flowchart TD
     suite -. reuses validated DOP / SBAS kernels .-> gnss
     qt -. rides validated kernels (scipy / sklearn) .-> quantum
 ```
+
+## 1d. LEO PNT, spectrum, solar system, network timing, campaigns & outputs
+
+The newest layers follow the same pattern: each is one or more scenario `kind`s
+dispatched from `api`, built on the shared core, and MODELLED unless a matrix row names
+an external oracle.
+
+```mermaid
+flowchart TD
+    api["api.rs — run_toml / run_scenario"]
+
+    subgraph leo["LEO PNT (low Earth orbit positioning, navigation and timing)"]
+      lsig["leo_signal — signal design: acquisition, code tracking, GNSS compatibility, band trade"]
+      lpass["leo_pass · leo_link (geometry · antenna · itu · iono · energy · spoof · presets) — pass and per-band link budget"]
+      lnav["leo_navmsg (elements · fit · codec · sisre · services · text) — broadcast ephemeris and clock message"]
+      lfus["leo_fusion (doppler · joint_pvt · ppp · ntn · timing · polar · presets) — fused MEO+LEO PVT · PPP · 5G NTN"]
+      lchain["leo_pnt_chain — one system end to end, each stage handing its output to the next"]
+    end
+
+    subgraph rf["Spectrum"]
+      spec["spectrum · navsignal — L-band (and UHF/S/C) PSD waterfall under a jammer timeline"]
+      sig["sigmf — SigMF recording read/write · Welch PSD of complex IQ"]
+    end
+
+    subgraph sky["Solar system & constellations"]
+      ss["solar_system · body · ephem · ephem_provider — bodies, constants, light time at one epoch"]
+      bp["body_pnt — positioning around any body with a local constellation"]
+      cd["constellation · walker — Walker delta/star, multi-shell, published GNSS slots, coverage/DOP maps"]
+    end
+
+    subgraph net["Network timing"]
+      tel["telecom_timing — time error, MTIE, TDEV vs ITU-T masks"]
+      slot["slot_timing — seconds until a free-running clock leaves a slot guard"]
+    end
+
+    subgraph comp["Composition & outputs"]
+      camp["campaign · study · suite — chained phases, sweeps, Monte Carlo, shared conditions"]
+      rep["advanced_report — report.html + report.json with a reproducibility record"]
+      anim["animation — SVG / HTML / frame animations"]
+      iop["interop (czml · kml · geojson · stk) · sigmf — exchange files for --export"]
+    end
+
+    api --> leo & rf & sky & net & comp
+    lchain -. composes .-> lsig & lpass & lnav & lfus
+    lsig -. SSC chain .-> spec
+    lfus -. GNSS presets .-> cd
+    bp -. reuses .-> ss
+    camp -. runs other kinds through .-> api
+```
+
+The per-kind detail is in [LEO-PNT](LEO-PNT.md), [LEO-SIGNAL](LEO-SIGNAL.md),
+[LEO-PASS](LEO-PASS.md), [LEO-NAVMSG](LEO-NAVMSG.md), [LEO-PNT-FUSION](LEO-PNT-FUSION.md),
+[SPECTRUM](SPECTRUM.md), [CONSTELLATION-DESIGN](CONSTELLATION-DESIGN.md),
+[TELECOM-TIMING](TELECOM-TIMING.md), [SLOT-TIMING](SLOT-TIMING.md),
+[CAMPAIGNS](CAMPAIGNS.md), [REPORTS](REPORTS.md), [ANIMATION](ANIMATION.md) and
+[INTEROP](INTEROP.md).
 
 ## 2. Engine pipeline (per run)
 
@@ -400,38 +487,42 @@ error stays inside the k-σ bound).
 
 `api::run_toml(src)` is the single entry point: it peeks the top-level `kind`,
 deserializes the matching scenario, runs the pack, and returns `{ json, svg,
-summary }`. The CLI writes those to files; the Python and WebAssembly bindings
-return them to the host. One dispatch, no drift.
+summary, csv }` (`csv` is present only for the kinds that publish a reproducibility
+table). The CLI writes those to files, plus the report (`report.html`, `report.json`)
+and any `--export` / `--animate` output; the Python and WebAssembly bindings return them
+to the host. One dispatch, no drift.
 
 ```mermaid
 flowchart TD
-    F["api::run_toml(src) · run_scenario(src)"] --> K{"ScenarioKind::classify<br/>typed · exhaustive · 75 kinds<br/>(absent/unknown kind → clock)"}
-    K --> G1["Timing<br/>clock · timetransfer · quantum-time-transfer"]
-    K --> G2["Inertial & fusion<br/>inertial · hybrid · hybrid-ukf · fusion · gnss-ins · quantum-gnss-free-nav"]
-    K --> G3["Orbit, geometry & positioning<br/>orbit · ephemeris · gnss-sim · pvt"]
-    K --> G4["Integrity<br/>integrity · lunar-integrity"]
-    K --> G5["Resilience<br/>jamming · spoof · spoof-detect · quantum-anomaly-detect"]
+    F["api::run_toml(src) · run_scenario(src)"] --> K{"ScenarioKind::classify<br/>typed · exhaustive · 75 kinds<br/>(absent kind → clock; unknown kind → InvalidInput)"}
+    K --> G1["Timing<br/>clock · timetransfer · quantum-time-transfer · telecom-timing · slot-timing"]
+    K --> G2["Inertial & fusion<br/>inertial · hybrid · hybrid-ukf · fusion · gnss-ins · quantum-gnss-free-nav · ins-trn-coast · hybrid-optical-rf"]
+    K --> G3["Orbit, geometry & positioning<br/>orbit · ephemeris · constellation-design · gnss-sim · pvt"]
+    K --> G4["Integrity<br/>integrity · lunar-integrity · araim-reference-check"]
+    K --> G5["Resilience & spectrum<br/>jamming · spoof · spoof-detect · quantum-anomaly-detect · tracking-loop · spectrum · conflict-resilience"]
     K --> G6["Alt-PNT (GPS-denied)<br/>gravity-map · terrain-nav · terrain-slam · combined-altpnt"]
-    K --> G7["Lunar / cislunar suite (MODELLED)<br/>lunar-time-offset · lunar-vlbi · lunar-joint-od-clock · lunar-frame-realisation<br/>moonlight-service-volume · lunar-differential-pnt · lunar-interop-export"]
-    K --> G8["Deep-space<br/>mars-pnt"]
-    K --> G9["AI/ML & trade<br/>impairment-eval · quantum-trade"]
-    K --> G10["Mission analysis & environment<br/>launch-window · reentry · eo-coverage · attitude-budget<br/>passes · link-budget · space-packet · space-weather"]
-    K --> G11["Trade studies & interop<br/>sweep · sweep-nd · oem-interop"]
-    G1 & G2 & G3 & G4 & G5 & G6 & G7 & G8 & G9 & G10 & G11 --> W["RunOutput { json, svg, summary }<br/>+ SHA-256 scenario_hash"]
+    K --> G7["LEO PNT<br/>leo-signal · leo-pass · leo-navmsg · leo-pvt · leo-ppp · ntn-positioning · leo-pnt-chain"]
+    K --> G8["Lunar / cislunar suite (MODELLED)<br/>lunar-time-offset · lunar-time-budget · lunar-vlbi · lunar-vlbi-fim · lunar-joint-od-clock<br/>lunar-frame-realisation · lunar-frame-campaign · lunar-llr-datum · realtime-frame-eop<br/>moonlight-service-volume · lunar-differential-pnt · lunar-interop-export · lunar-beacon<br/>lunar-jamming · lunar-attack-surface · earth-gnss-lunar · cislunar-observability · cislunar-arc-recovery"]
+    K --> G9["Deep space & solar system<br/>mars-pnt · solar-system · body-pnt"]
+    K --> G10["AI/ML & trade<br/>impairment-eval · quantum-trade"]
+    K --> G11["Mission analysis & environment<br/>launch-window · reentry · eo-coverage · attitude-budget · aperture-duty-cycle<br/>passes · link-budget · space-packet · space-weather"]
+    K --> G12["Trade studies, campaigns & interop<br/>sweep · sweep-nd · campaign · oem-interop"]
+    G1 & G2 & G3 & G4 & G5 & G6 & G7 & G8 & G9 & G10 & G11 & G12 --> W["RunOutput { json, svg, summary, csv }<br/>+ SHA-256 scenario_hash"]
 ```
 
 Dispatch is on a typed `ScenarioKind` enum, matched exhaustively (see the next
-subsection), so adding a pack is a compile-checked change. An absent or
-unrecognised `kind` falls back to the `clock` pack, and `serde` ignores the
-`kind` field on each scenario struct, so existing single-kind scenarios
-deserialize unchanged.
+subsection), so adding a pack is a compile-checked change. An absent `kind` falls
+back to the `clock` pack, so existing single-kind scenarios deserialize unchanged
+(`serde` ignores the `kind` field on each scenario struct). An unrecognised `kind` is
+refused with `KshanaError::InvalidInput`, which names the nearest built-in kind when
+the name looks like a typo.
 
 ### Typed dispatch and the structured API
 
 Dispatch is on a typed `ScenarioKind` enum, not a raw string match:
 `ScenarioKind::classify(src)` resolves the `kind` field to a variant, and the
 dispatcher matches on it exhaustively — adding a pack is a compile-checked change,
-not a string typo. Three typed surfaces sit alongside the string-returning
+not a string typo. Two typed surfaces sit alongside the string-returning
 `run_toml` (kept for the CLI and existing bindings):
 
 - **`run_scenario(src) -> Result<RunOutput, KshanaError>`** — the typed entry, with
@@ -449,24 +540,42 @@ not a string typo. Three typed surfaces sit alongside the string-returning
 A third-party pack implements two small, semver-stable traits from `api`:
 
 ```rust
-use kshana::api::{Scenario, ExternalPack, RunOutput, KshanaError, ScenarioMeta};
+use kshana::api::{ExternalPack, KshanaError, RunOutput, Scenario, ScenarioMeta};
 
-struct MyPack { /* deserialized scenario fields */ }
+struct MyPack {
+    threshold: f64, // the deserialized scenario fields
+}
 
 impl Scenario for MyPack {
     fn run(&self) -> Result<RunOutput, KshanaError> {
-        // run the model; build { json, svg, summary }
-        # unimplemented!()
+        // Run the model, then build the unified output envelope.
+        Ok(RunOutput {
+            json: format!("{{\"threshold\": {}}}", self.threshold),
+            svg: String::from("<svg xmlns=\"http://www.w3.org/2000/svg\"/>"),
+            summary: format!("my-pack | threshold {}", self.threshold),
+            csv: None,
+        })
     }
 }
 
 impl ExternalPack for MyPack {
-    fn kind_name(&self) -> &'static str { "my-pack" }
-    fn meta(&self) -> ScenarioMeta { /* name, description, fields */ }
+    fn kind_name(&self) -> &'static str {
+        "my-pack"
+    }
+    fn meta(&self) -> ScenarioMeta {
+        ScenarioMeta {
+            name: "my-pack",
+            description: "An out-of-tree example pack.",
+            required_fields: &["threshold"],
+            optional_fields: &[],
+        }
+    }
 }
 ```
 
-The built-in `jamming` pack is wired through `Scenario` as the worked example;
+`ExternalPack` also has a default `register_into(&mut PackRegistry)` method, a no-op
+unless a pack opts into the registry dispatch seam in `src/registry.rs`. The built-in
+`jamming` pack is wired through `Scenario` as the worked example;
 out-of-tree packs follow the same contract without forking core (mirroring the
 `ErrorModel` extension point in §3, which the private resilience overlay uses).
 
@@ -548,8 +657,9 @@ flowchart LR
 The core compiles unchanged to native, to a Python extension, and to WebAssembly.
 The Python (`python.rs`, PyO3 abi3) and WebAssembly (`wasm.rs`, wasm-bindgen) modules
 are optional, feature-gated dependencies (`--features python` / `--features wasm`):
-the default build, the test suite, and the dependency-audit gate never compile or
-scan them. Both call `api::run_toml`, so every surface returns identical results. The
+the default build and the test suite never compile them, while the dependency-audit
+gate (`cargo deny --all-features`) does inspect their dependency trees, because those
+crates ship inside the wheel and the npm package. Both call `api::run_toml`, so every surface returns identical results. The
 WebAssembly module backs the browser playground in `web/` and exports thirteen
 functions: `run`, `run_all` (one engine run returning result, chart, summary and table
 together), `chart_svg`, `summary`, `table_csv`, `list_kinds`, `error_kind`, `version`, the
@@ -592,22 +702,27 @@ the numerical Cowell propagator with its seven-perturbation force model and two 
 integrators, maneuver/trajectory design, orbit determination, the 15-/8-/17-state
 GNSS/INS estimators, the coupled clock+position filter, and gravity-map matching — have
 all shipped, alongside the Security FoM with an active spoof demonstrator, real
-TLE/multi-constellation geometry, Monte-Carlo bands, trade-study sweeps, the HTML (HyperText Markup Language)
-scorecard, and the publish/wheels/pages workflows.
+TLE/multi-constellation geometry, Monte-Carlo bands, trade-study sweeps, the printable
+HTML (HyperText Markup Language) report with its machine-readable twin, and the
+release/publish/wheels/pages workflows.
 
 Several capabilities once listed here as future work have since **shipped** and are
 covered above or in [VALIDATION](VALIDATION.md): the full IAU 2000A nutation and the
 equinox-free CIO GCRS↔ITRS / ITRF (International Terrestrial Reference Frame) reduction (validated bit-for-bit against SOFA/ERFA (SOFA: Standards of Fundamental Astronomy; ERFA: Essential Routines for Fundamental Astronomy)),
 the EGM2008 (Earth Gravitational Model 2008) geopotential to degree/order 70, the **Lense–Thirring** frame-dragging term,
-solid/ocean/atmospheric tides, and a DE-grade (DE440/ANISE (DE440: Development Ephemeris 440; ANISE: Attitude, Navigation, Instrument, Spacecraft, Ephemeris — a pure-Rust planetary-geometry toolkit)) ephemeris cross-validation.
+solid/ocean/atmospheric tides, a DE-grade (DE440/ANISE (DE440: Development Ephemeris 440; ANISE: Attitude, Navigation, Instrument, Spacecraft, Ephemeris — a pure-Rust planetary-geometry toolkit)) ephemeris cross-validation,
+the external Orekit 12.2 cross-validation of the numerical Cowell propagator (0.08 m
+over 24 h) and of batch and sequential orbit determination, and the 17-state
+tightly-coupled navigator surfaced as the `hybrid-ukf` scenario kind.
 
 The remaining follow-ons are tracked in [CHANGELOG](../CHANGELOG.md) `[Unreleased]` and the
 per-capability roadmap in [CAPABILITY](CAPABILITY.md): a higher-degree (e.g. 200×200) EGM (Earth Gravitational Model)
 **tesseral** field and loader beyond the shipped degree/order-70 path, the NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model)
-thermospheric density, solar limb darkening / the oblate-Earth shadow, an external
-GMAT/Orekit (GMAT: General Mission Analysis Tool) cross-validation of a high-fidelity orbit run, carrier-phase tight coupling and
-surfacing the tight-coupled navigator in a scenario pack, and a real EGM2008/EIGEN (EIGEN: European Improved Gravity model of the Earth by New techniques) gravity
-map for the alt-PNT matcher.
+thermospheric density (the propagator's drag uses a static exponential density, and the
+`space-weather` kind's Jacchia-71 density is characterised against NRLMSISE-00 but not
+replaced by it), solar limb darkening / the oblate-Earth shadow, carrier-phase GNSS/INS
+tight coupling, and a real EGM2008/EIGEN (EIGEN: European Improved Gravity model of the
+Earth by New techniques) gravity map for the alt-PNT matcher.
 
 A private overlay repo holds export-sensitive resilience depth; it plugs in via the
 same `ErrorModel` interface (and the `ExternalPack` contract in §4) without changing
