@@ -62,7 +62,7 @@ signal (`data/leo-signals/generic-bands.toml`, `generic-c-band.toml`).
 
 | Band | Allocation | Generic design | Centre | Transmit bandwidth | Components | First-order ionospheric delay relative to L |
 |---|---|---|---|---|---|---|
-| UHF | not a radionavigation allocation (representative) | `generic-uhf` | 465 MHz | 10 MHz | BPSK(5) pilot and data | 6.6 × |
+| UHF | not a radionavigation allocation (representative); carrier from the public [openRECEIVER survey](https://open-receiver.com/blogs/leo-pnt-signals-celeste/) | `generic-uhf` | 465 MHz | 10 MHz | BPSK(5) pilot and data | 6.6 × |
 | L | radionavigation-satellite service (RNSS), the Galileo E5 centre | `generic-l` | 1191.795 MHz | 20.46 MHz | BPSK(10) pilot and data | 1 |
 | S | radiodetermination-satellite service (RDSS), the S carrier of NavIC (Navigation with Indian Constellation) | `generic-s` | 2492.028 MHz | 16.5 MHz | BPSK(5) pilot and data | 0.23 × |
 | C | RNSS, centre of the 5010–5030 MHz allocation | `generic-c`, `generic-c-band-leo` | 5020 MHz | 20 MHz | BPSK(10) pilot and data | 0.056 × |
