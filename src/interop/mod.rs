@@ -156,8 +156,12 @@ impl std::fmt::Display for ExportError {
     }
 }
 
-/// Export a scenario (TOML source) to one format.
+/// Export a scenario (TOML source) to one format. A campaign exports each of its member
+/// scenarios that the format applies to (see [`export_campaign`]).
 pub fn export(src: &str, fmt: Format) -> Result<Vec<ExportFile>, ExportError> {
+    if crate::api::ScenarioKind::classify(src).ok() == Some(crate::api::ScenarioKind::Campaign) {
+        return export_campaign(src, fmt);
+    }
     if fmt == Format::Sigmf {
         return export_sigmf(src);
     }
@@ -189,10 +193,94 @@ pub fn export_scene(scene: &scene::Scene, fmt: Format) -> Result<Vec<ExportFile>
     }
 }
 
+/// The member scenarios of a campaign that an export would write, as `(label, TOML
+/// source)`: phase runs, the sweep and Monte Carlo base scenarios and composed members (with
+/// their shared values bound), in campaign order, a member identical to an earlier one left
+/// out. Hand-offs applied at run time are not in them.
+pub fn campaign_members(src: &str) -> Result<Vec<(String, String)>, ExportError> {
+    let members = crate::campaign::member_scenarios(src).map_err(ExportError::Failed)?;
+    let mut out: Vec<(String, String)> = Vec::new();
+    for (label, scn) in members {
+        let text = toml::to_string(&scn)
+            .map_err(|e| ExportError::Failed(format!("member {label}: {e}")))?;
+        if !out.iter().any(|(_, t)| *t == text) {
+            out.push((label, text));
+        }
+    }
+    Ok(out)
+}
+
+/// Export a campaign: every member scenario (see [`campaign_members`]) the format applies to
+/// is written as its own file set, each suffix prefixed with `.<member label>` made safe for
+/// a file name (for example `.strait-jammed.czml`). A campaign none of whose members the
+/// format applies to is [`ExportError::NotApplicable`].
+pub fn export_campaign(src: &str, fmt: Format) -> Result<Vec<ExportFile>, ExportError> {
+    let mut files = Vec::new();
+    for (label, text) in campaign_members(src)? {
+        if crate::api::ScenarioKind::classify(&text).ok()
+            == Some(crate::api::ScenarioKind::Campaign)
+        {
+            continue;
+        }
+        match export(&text, fmt) {
+            Ok(fs) => {
+                let part = stk::file_part(&label);
+                files.extend(fs.into_iter().map(|f| ExportFile {
+                    suffix: format!(".{part}{}", f.suffix),
+                    bytes: f.bytes,
+                }))
+            }
+            Err(ExportError::NotApplicable(_)) => {}
+            Err(ExportError::Failed(e)) => {
+                return Err(ExportError::Failed(format!("member {label}: {e}")))
+            }
+        }
+    }
+    if files.is_empty() {
+        return Err(ExportError::NotApplicable(CAMPAIGN_NONE.into()));
+    }
+    Ok(files)
+}
+
+const CAMPAIGN_NONE: &str = "no member scenario of the campaign has anything this format \
+     describes; export a member on its own to see its reason";
+
 /// Whether each format applies to a scenario, without writing anything large: `Ok(())`
 /// when it applies, the reason otherwise. The geospatial formats share one scene, so it
-/// is built once.
+/// is built once. A campaign applies when any member does.
 pub fn plan(src: &str) -> Vec<(Format, Result<(), String>)> {
+    if crate::api::ScenarioKind::classify(src).ok() == Some(crate::api::ScenarioKind::Campaign) {
+        let members = match campaign_members(src) {
+            Ok(m) => m,
+            Err(e) => {
+                let why = reason_of(&e);
+                return Format::ALL.iter().map(|&f| (f, Err(why.clone()))).collect();
+            }
+        };
+        let plans: Vec<Vec<(Format, Result<(), String>)>> = members
+            .iter()
+            .filter(|(_, t)| {
+                crate::api::ScenarioKind::classify(t).ok()
+                    != Some(crate::api::ScenarioKind::Campaign)
+            })
+            .map(|(_, t)| plan(t))
+            .collect();
+        return Format::ALL
+            .iter()
+            .enumerate()
+            .map(|(i, &f)| {
+                let ok = plans.iter().any(|p| p[i].1.is_ok());
+                (
+                    f,
+                    if ok {
+                        Ok(())
+                    } else {
+                        Err(CAMPAIGN_NONE.to_string())
+                    },
+                )
+            })
+            .collect();
+    }
     let scene = scene::scene_of(src);
     Format::ALL
         .iter()

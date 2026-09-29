@@ -1930,6 +1930,48 @@ fn run_compose(cfg: &ComposeCfg, ledger: &mut Ledger) -> Result<ComposeOut, Stri
 
 /// The campaign hash: SHA-256 of the canonical JSON form of the campaign document
 /// (keys sorted), so formatting and key order in the TOML do not change it.
+/// The member scenarios of a campaign, each with a label, as the campaign would dispatch
+/// them before any run: every phase run (`<phase>`, or `<phase>-<k>` when the phase has
+/// several runs), the sweep's base scenario (`sweep`), the Monte Carlo scenario
+/// (`monte-carlo`), and each composed member (its label) with the shared values it binds
+/// written in. Phase hand-offs and sweep or seed values are applied at run time and are not
+/// in these tables. The interoperability exports use this list.
+pub fn member_scenarios(src: &str) -> Result<Vec<(String, toml::Value)>, String> {
+    let cfg: CampaignScenario =
+        toml::from_str(src).map_err(|e| format!("invalid campaign scenario: {e}"))?;
+    let mut out = Vec::new();
+    for p in &cfg.phases {
+        for (k, r) in p.runs.iter().enumerate() {
+            let label = if p.runs.len() == 1 {
+                p.name.clone()
+            } else {
+                format!("{}-{}", p.name, k)
+            };
+            out.push((label, r.scenario.clone()));
+        }
+    }
+    if let Some(sw) = &cfg.sweep {
+        out.push(("sweep".to_string(), sw.scenario.clone()));
+    }
+    if let Some(mc) = &cfg.monte_carlo {
+        out.push(("monte-carlo".to_string(), mc.scenario.clone()));
+    }
+    if let Some(c) = &cfg.compose {
+        for mem in &c.members {
+            let mut scn = mem.scenario.clone();
+            for (name, key) in &mem.bind {
+                let s = c.shared.iter().find(|s| &s.name == name).ok_or_else(|| {
+                    format!("member `{}` binds unknown shared `{name}`", mem.label)
+                })?;
+                crate::sweep::set_dotted_value(&mut scn, key, s.value.clone())
+                    .map_err(|e| format!("member `{}`: {e}", mem.label))?;
+            }
+            out.push((mem.label.clone(), scn));
+        }
+    }
+    Ok(out)
+}
+
 pub fn campaign_hash(src: &str) -> Result<String, String> {
     let v: toml::Value = toml::from_str(src).map_err(|e| format!("invalid campaign: {e}"))?;
     let canon = serde_json::to_string(&v).map_err(|e| e.to_string())?;
