@@ -110,6 +110,7 @@ const BUILTIN_KINDS: &[crate::api::ScenarioKind] = {
         Campaign,
         LeoSignal,
         LeoPass,
+        LeoNavmsg,
     ]
 };
 
@@ -225,6 +226,9 @@ pub mod ids {
     pub const LEO_SIGNAL: ScenarioId = ScenarioId::from_static("leo-signal");
     /// A LEO pass and its per-band link budget beside the MEO GNSS satellites in view.
     pub const LEO_PASS: ScenarioId = ScenarioId::from_static("leo-pass");
+    /// LEO navigation message: fitter, user algorithm, mid-pass update, binary and text
+    /// encodings.
+    pub const LEO_NAVMSG: ScenarioId = ScenarioId::from_static("leo-navmsg");
 
     /// Every built-in scenario id, in the engine's canonical order.
     pub fn all() -> Vec<ScenarioId> {

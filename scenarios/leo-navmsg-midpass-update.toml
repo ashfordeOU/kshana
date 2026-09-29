@@ -1,0 +1,34 @@
+# LEO navigation message: a message update in the middle of a pass, and whether the user
+# sees a jump.
+#
+# A LEO pass lasts minutes, so a satellite may switch to a new message while a user is
+# tracking it. At each switch the user's modelled pseudorange changes by the difference
+# of the two messages' positions projected on the line of sight, minus the difference of
+# their clocks. This run finds the highest pass over a user at 45 deg N, 10 deg E within
+# a day, fits messages every 150 s (each over a 300 s interval centred on its
+# usage period) and reports every switch in the pass: the 3D position jump, the clock
+# jump, the user's range jump, the largest jump any visible user could see, and a PASS or
+# FAIL against a 5 cm continuity threshold. A range-error series along the pass shows the
+# message error itself around each switch. No preset; MODELLED.
+kind = "leo-navmsg"
+name = "LEO message mid-pass update"
+seed = 13
+analysis = ["midpass-update"]
+
+[orbit]
+altitude_km = 550.0
+inclination_deg = 97.6
+gravity_degree = 20
+
+[message]
+model = "kepler-rac"
+rac_degrees = [7, 5, 6]
+fit_interval_s = 300
+update_period_s = 150
+
+[midpass]
+user_lat_deg = 45.0
+user_lon_deg = 10.0
+mask_deg = 10.0
+search_s = 86400
+threshold_m = 0.05
