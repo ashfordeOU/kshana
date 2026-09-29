@@ -504,6 +504,15 @@ breaking changes are called out explicitly.
 
 ### Fixed
 
+- **Tutorials, the worked pipeline example and the `/kshana-run` command, audited
+  against kshana 0.28.0.** Revisions to published figures, old → new: the kinds that
+  write `<scenario>.table.csv` are six, not four (`leo-navmsg` and `telecom-timing`
+  were missing; `docs/tutorials/README.md`, `commands/kshana-run.md`); the cold-atom
+  ½bT² crossing in Tutorial 3 is 18,443 s, not 18,440 s; the `oem-interop` round-trip
+  error in `docs/examples/multi-tool-pipeline.md` is the measured 4.88e-7 km, not
+  "~1e-7 km"; the Tutorial 2 CSAC holdover band is the 2000–3200 s the test asserts,
+  not "~2600–4400 s"; Tutorial 1 quotes the SP3 rows and geometry block at the
+  precision the engine writes them. No engine output changed.
 - **STK ephemeris file names from mover ids.** A mover id holding a `/` or a space (a
   constellation shell and a satellite, `Pulsar inclined/S1-0163`) made the CLI panic on
   `--export stk`; each id now passes through a safe file part (letters, digits, `-`, `_`).
