@@ -1295,7 +1295,31 @@ fn the_interop_doc_table_is_current() {
     let end = "<!-- interop-table:end -->";
     let a = doc.find(start).expect("table start marker") + start.len();
     let b = doc.find(end).expect("table end marker");
-    let want = interop::scenario_table_md(&scenario_files());
+    // A release that withholds the Celeste IOD preset deletes its scenario files; the
+    // committed table still lists them (and numbers its footnotes with them), so there the
+    // check is that every present scenario keeps its row.
+    const WITHHOLDABLE: &[&str] = &[
+        "celeste-iod-classical-pilot-signals.toml",
+        "celeste-iod-end-to-end.toml",
+        "celeste-iod-fused-pvt.toml",
+        "leo-navmsg-celeste-iod.toml",
+        "leo-pass-celeste-iod-multiband.toml",
+    ];
+    let files = scenario_files();
+    if WITHHOLDABLE
+        .iter()
+        .any(|w| !files.iter().any(|(n, _)| n == w))
+    {
+        for (n, _) in &files {
+            assert!(
+                doc[a..b].contains(&format!("| `{n}` |")),
+                "docs/INTEROP.md's table has no row for {n}"
+            );
+        }
+        eprintln!("the Celeste IOD preset is withheld: checked the present rows only");
+        return;
+    }
+    let want = interop::scenario_table_md(&files);
     assert!(
         doc[a..b] == want,
         "docs/INTEROP.md's table is stale; regenerate with `cargo run --bin gen_validation_artifacts`"
