@@ -1422,7 +1422,7 @@ fn run_chain(
             let mut chans = Vec::new();
             for s in &specs {
                 let (unit, label) = match (channel_meta(&s.channel), &s.unit) {
-                    (Some((u, l)), Some(du)) if du != u => {
+                    (Some((u, _)), Some(du)) if du != u => {
                         return Err(format!(
                             "phase `{}`: channel `{}` is in {u}, not {du}",
                             ph.name, s.channel
