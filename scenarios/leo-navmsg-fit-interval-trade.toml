@@ -12,7 +12,7 @@
 # 7 (along), 5 (cross) and 6 (radial). Why so high: the least-squares Keplerian residual
 # is what the 16 parameters cannot span, so it oscillates across the window, and only a
 # polynomial of higher degree than the Keplerian set already spans removes it (a
-# cross-track polynomial of degree 2 to 4 removes almost nothing). SISRE uses the
+# cross-track polynomial of lower degree removes almost nothing). SISRE uses the
 # global-average weights for the
 # orbit altitude (Montenbruck et al. 2018 method): at 550 km the radial weight is about
 # 0.47 and the transverse weight squared about 1/2.6, so along- and cross-track errors

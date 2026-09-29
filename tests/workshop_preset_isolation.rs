@@ -146,6 +146,72 @@ fn workshop_numbers_live_only_in_the_preset_file_and_its_scenarios() {
 }
 
 #[test]
+fn the_generic_documents_carry_no_workshop_message_cadence() {
+    // The Celeste message model's correction-polynomial degrees and its record spacing were
+    // presented at the workshop; they live in `src/celeste_iod.rs` alone. A document that
+    // survives withholding (docs, README, CHANGELOG, every non-preset scenario) may point at
+    // the preset file but must not repeat them, so deleting the preset leaves none behind.
+    let phrases = [
+        "5, 2, 4",
+        "5, 2 and 4",
+        "5/2/4",
+        "degrees 2 to 4",
+        "degree 2 to 4",
+        "5-minute record",
+        "5-minute spacing",
+        "five-minute record",
+        "300 s record",
+        "records every 300 s",
+    ];
+    let root = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let mut scanned: Vec<(String, PathBuf)> = ["README.md", "CHANGELOG.md"]
+        .iter()
+        .map(|t| (t.to_string(), root.join(t)))
+        .collect();
+    for dir in ["docs", "scenarios"] {
+        let mut stack = vec![root.join(dir)];
+        while let Some(d) = stack.pop() {
+            let Ok(rd) = std::fs::read_dir(&d) else {
+                continue;
+            };
+            for e in rd.flatten() {
+                let p = e.path();
+                if p.is_dir() {
+                    stack.push(p);
+                } else if p.extension().is_some_and(|x| x == "md" || x == "toml") {
+                    let rel = p
+                        .strip_prefix(root)
+                        .unwrap()
+                        .to_string_lossy()
+                        .replace('\\', "/");
+                    scanned.push((rel, p));
+                }
+            }
+        }
+    }
+    // Guard the guard: the scan reached the navigation-message page it exists for.
+    assert!(scanned.iter().any(|(r, _)| r == "docs/LEO-NAVMSG.md"));
+    let mut offenders = Vec::new();
+    for (rel, p) in scanned {
+        if is_preset_scenario(&rel) {
+            continue;
+        }
+        let Ok(text) = std::fs::read_to_string(&p) else {
+            continue;
+        };
+        for ph in phrases {
+            if text.contains(ph) {
+                offenders.push(format!("{rel}: {ph}"));
+            }
+        }
+    }
+    assert!(
+        offenders.is_empty(),
+        "workshop message cadence outside the preset file: {offenders:?}"
+    );
+}
+
+#[test]
 fn the_build_script_gates_the_preset_on_its_file() {
     let root = Path::new(env!("CARGO_MANIFEST_DIR"));
     let b = std::fs::read_to_string(root.join("build.rs")).expect("build.rs");

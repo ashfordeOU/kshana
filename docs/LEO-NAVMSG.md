@@ -80,10 +80,11 @@ construction what the 16 parameters cannot span, so it oscillates across the win
 (several zero crossings in each component) rather than drifting. A correction polynomial
 removes it only when its degree exceeds what the Keplerian set already spans: along-track
 7, cross-track 5 and radial 6 take a 15-minute residual of centimetres to about a
-millimetre, while cross-track degrees 2 to 4 remove almost nothing (the cross-track
+millimetre, while lower cross-track degrees remove almost nothing (the cross-track
 residual is odd about the window centre). A system that derives its Keplerian part some
 other way leaves a residual of a different shape, and the degrees it needs follow from
-that. The Celeste preset's own correction degrees (lower than these) run here on Kshana's least-squares base, which
+that. The Celeste preset's own correction degrees (lower than these; they live only in the
+preset file, `src/celeste_iod.rs`) run here on Kshana's least-squares base, which
 is why its cross-track terms contribute little in this engine: a statement about Kshana's
 fitter, not about any real system. `toe` and `toc` are whole seconds, as the binary format
 carries them.
