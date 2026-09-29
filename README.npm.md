@@ -62,6 +62,38 @@ Each row is checked against an **independent external oracle** and re-checked in
   <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/figures/validation-breakdown.png" alt="Verification status across all 223 capabilities: 83 Validated, 136 Modelled, 4 Partner-owned" width="780">
 </p>
 
+## What it simulates
+
+Each run is one scenario *kind*; `kshana kinds` lists every kind with its fields. Between
+them they cover:
+
+- **Timing** — clock holdover against a threshold, optical and radio time transfer, telecom
+  holdover checked against ITU-T (the Telecommunication Standardization Sector of the
+  International Telecommunication Union) masks for MTIE (maximum time interval error) and
+  TDEV (time deviation), and slot timing for time-indexed schedules.
+- **Orbits and geometry** — SGP4 and numerical propagation, ground tracks and station
+  passes, Walker and multi-shell constellation design around the Earth, the Moon or another
+  body, and the positions of the solar-system bodies at one epoch.
+- **GNSS and integrity** — availability and DOP, a measurement-domain simulator,
+  single-point positioning from real observation files, and RAIM (receiver autonomous
+  integrity monitoring), ARAIM (advanced RAIM) and SBAS (satellite-based augmentation
+  system) protection levels.
+- **Resilience** — jamming, spoofing and spoof detection, tracking-loop loss of lock, an
+  L-band spectrum waterfall, and campaigns that chain, sweep or share one timeline across
+  other kinds.
+- **Alternative PNT** — inertial dead-reckoning, GNSS/INS (inertial navigation system)
+  fusion, gravity- and terrain-map matching, and quantum-sensor trades.
+- **LEO PNT** — positioning, navigation and timing from low Earth orbit (LEO): signal
+  design, pass and link budget, the broadcast navigation message, fused medium- and
+  low-Earth-orbit positioning, precise point positioning convergence, 5G non-terrestrial
+  network positioning, and one system end to end.
+- **Lunar, cislunar and Mars** — lunar time and reference frames, lunar service volumes,
+  cislunar orbit determination, and relay-based Mars navigation.
+
+The [verification matrix](https://github.com/AshfordeOU/kshana/blob/main/docs/VERIFICATION-MATRIX.md)
+states, capability by capability, which figures are VALIDATED against an independent
+external oracle and which are MODELLED.
+
 ## Install
 
 ```bash
@@ -155,10 +187,13 @@ scenario through the address-bar fragment — and `export_sp3` / `export_omm` /
 Mean-elements Message, and OEM, the Orbit Ephemeris Message — the CLI writes. There is no
 one-call `run_full` here; that binding exists only on the Python wheel.
 
-Every figure of merit is labelled **validated** or **modelled**; optical-clock figures
+Every capability in the verification matrix is labelled **validated** (checked against
+an independent external oracle), **modelled** or **partner-owned**; optical-clock figures
 are space goals on ground hardware (no strontium optical clock has flown). Maturity is
-*not* uniform across domains — Earth PNT is real-data validated; deep-space / Mars
-navigation is simulation-validated; real-mission deep-space OD (orbit determination) is on the roadmap.
+*not* uniform across domains — Earth PNT is validated against real data; deep-space and
+Mars navigation is modelled, with only its building blocks (light time, planet positions)
+validated against external oracles; real-mission deep-space OD (orbit determination) is
+on the roadmap.
 
 ## Learn more
 
