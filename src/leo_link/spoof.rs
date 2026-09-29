@@ -342,14 +342,14 @@ mod tests {
         let sat = kin([7.0e6, 1.0e6, 2.0e5], [100.0, 7400.0, 900.0]);
         let user = kin([6.37e6, 0.0, 1.0e5], [0.0, 465.0, 0.0]);
         let g = range_rate_position_gradient(&sat, &user);
-        for k in 0..3 {
+        for (k, gk) in g.iter().enumerate() {
             let h = 1.0;
             let mut up = user;
             let mut dn = user;
             up.r[k] += h;
             dn.r[k] -= h;
             let num = (range_rate(&sat, &up) - range_rate(&sat, &dn)) / (2.0 * h);
-            assert!((num - g[k]).abs() < 1e-9, "axis {k}: {num} vs {}", g[k]);
+            assert!((num - gk).abs() < 1e-9, "axis {k}: {num} vs {gk}");
         }
     }
 
@@ -536,8 +536,9 @@ mod tests {
     fn the_cross_band_threshold_and_power() {
         // p_fa 1e-3: z = 3.2905; sigma = sqrt(2 (0.3^2 + 0.4^2)) = 0.7071; b dt = 0.05.
         let t = cross_band_step(0.0, 0.3, 0.4, 0.01, 5.0, 1e-3);
-        assert!((t.sigma_m - 0.707_107).abs() < 1e-6);
-        assert!((t.threshold_m - (3.290_527 * 0.707_107 + 0.05)).abs() < 1e-5);
+        let sig = 0.5_f64.sqrt();
+        assert!((t.sigma_m - sig).abs() < 1e-12);
+        assert!((t.threshold_m - (3.290_527 * sig + 0.05)).abs() < 1e-5);
         // With no step the probability is the false-alarm probability less the rate margin.
         assert!(t.p_detect < 1e-3);
         let big = cross_band_step(10.0, 0.3, 0.4, 0.01, 5.0, 1e-3);
