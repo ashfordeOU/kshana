@@ -7,9 +7,10 @@
 # per ITU-R P.2109 building class (median loss, 50 % probability), and records the peak
 # carrier-to-noise density (C/N0) of each band.
 #
-# UHF keeps the highest indoor C/N0 in both buildings; in the thermally efficient
-# building the S and C bands fall toward or below a 25 dB-Hz tracking threshold. The
-# building class is the shared condition, so the two members differ in nothing else.
+# UHF keeps the highest indoor C/N0 in both buildings and is the only band above a
+# 25 dB-Hz tracking threshold in the traditional one (about 34 dB-Hz, against 24 for L,
+# 16 for S and 9 for C). The thermally efficient building takes every band below it, UHF
+# least (about 15 dB-Hz). The two members differ only in the building class.
 #
 # MODELLED: ITU-R P.2109-2 building entry loss (VALIDATED against the ITU workbook) on
 # representative EIRPs; no indoor multipath or fading beyond the P.2109 statistics.

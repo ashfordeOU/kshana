@@ -12,7 +12,9 @@
 # vertical content on a 350 km shell, scaled by the fraction of a Chapman layer below the
 # satellite. For every band pair the report gives the slant TEC the geometry-free
 # combination recovers at the pass peak and its 1-sigma from the two bands' code noise.
-# The widest frequency ratio (UHF with C) sounds best; two close bands (S with C) worst.
+# Pairs with UHF sound best (UHF with L to about 0.02 TEC units): UHF carries the largest
+# delay and, here, the strongest signal. The close S and C bands sound worst (about 3 TEC
+# units): their delay difference is small against their code noise.
 #
 # MODELLED: the recovered TEC equals the model's by construction (the combination is exact
 # at first order); the precision is the thermal code noise alone, without multipath or

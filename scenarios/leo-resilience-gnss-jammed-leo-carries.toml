@@ -14,8 +14,11 @@
 #   recovery  the jammers stop; both layers again.
 #
 # The alarm channel is the integrity kind's own: raised at epochs where the protection
-# level cannot be formed or exceeds the alert limit. It stays down through the jamming:
-# the LEO layer alone keeps the vertical protection level under the alert limit.
+# level cannot be formed or exceeds the alert limit. With GNSS jammed the LEO layer alone
+# still forms a protection level at every epoch; it is under the 50 m alert limit at 28
+# of the 30 grid times and the alarm is raised at the other two. That is integrity
+# working: the user is warned whenever the bound is too large, and availability, not
+# integrity, is what the jamming costs.
 #
 # The integrity runs use that kind's own user track (a circular track 0.4 km up, the
 # convention of the other bundled integrity runs), not the spectrum receiver's site, and

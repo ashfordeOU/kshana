@@ -13,8 +13,9 @@
 # changes a MEO GNSS range rate by about 4 mm/s, inside the frequency-lock-loop noise;
 # it changes a LEO range rate by about 10 cm/s, because a LEO satellite's transverse
 # velocity over its range is about 25 times larger. The GNSS-only test never sees the
-# spoofer; the test on every channel (GNSS and LEO, sharing one receiver clock drift)
-# sees it at the first epoch.
+# spoofer; the test on every channel (GNSS and LEO, sharing one receiver clock drift, which
+# the GNSS channels pin) detects it once enough LEO satellites are in view, 105 s after
+# the onset.
 #
 # MODELLED: the monitor's statistics are exact for the stated Gaussian noise; the spoofer
 # is an idealised position jump (its power, angle of arrival and correlation-peak

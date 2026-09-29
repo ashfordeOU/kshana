@@ -9,7 +9,10 @@
 # per hour (20 mW active, 5 microwatt asleep, 2000 mWh battery; all stated inputs).
 #
 # Higher received power shortens the acquisition dwell the receiver needs to reach its
-# detection threshold, and energy per fix follows the time the receiver is awake.
+# detection threshold, and energy per fix follows the time the receiver is awake. Below
+# a median C/N0 of about 35 dB-Hz the receiver needs non-coherent sums and the energy per
+# fix grows steeply; above it one coherent dwell suffices and the battery life at one fix
+# per hour is set by the sleep current.
 #
 # MODELLED: acquisition, TTFF and energy from stated receiver assumptions; not a measured
 # receiver. The UHF EIRP of the generic preset is representative, not a real system's.
