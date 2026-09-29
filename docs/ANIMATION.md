@@ -38,6 +38,12 @@ Each format is written next to the scenario, beside the usual `result.json`,
 `--animate-fps` (1 to 60, default 12) and `--animate-duration` (0.5 s to 600 s, default
 8 s) set the playback; the frame sequence is capped at 7,200 frames.
 
+When `--export` runs in the same command, the HTML player lists the export files written
+beside it (CZML, KML, GeoJSON, STK, SigMF) as relative links to those sibling files; a link
+is written only for a bare file name, so none can leave the folder or reach the network.
+The advanced report (`report.html`) embeds the animated drawing whenever the result has a
+time series, whether or not `--animate` ran.
+
 When `--animate` runs, `result.json` gains an `animation` block: the formats, frames per
 second (fps), duration, frame count, the time span, the panel titles, the JSON paths every
 trace was read from (`sources`) and any series found but not drawn (`omitted`). Without
