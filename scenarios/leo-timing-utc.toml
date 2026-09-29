@@ -16,6 +16,8 @@
 # NIST measured Iridium PNT timing receivers with a miniature atomic clock within 40 ns of
 # UTC(NIST) over 40 days (https://www.nist.gov/publications/validating-timing-performance-improvement-ionospheric-corrections-iridium-pnt-receivers).
 # The modelled figures are a consistency comparison with that, not a reproduction of the test.
+# `trace = true` adds each row's time error at every epoch, so the run animates
+# (`--animate html`); the row statistics are the same with or without it.
 # MODELLED.
 kind = "leo-pvt"
 mode = "timing"
@@ -33,6 +35,7 @@ clocks = ["tcxo", "ocxo", "csac", "rafs"]
 cn0_offsets_db = [-30.0, -20.0, -10.0, 0.0]
 week = 2436
 tow0_s = 172800.0
+trace = true
 
 [timing.utc]
 a0_s = 4.0e-9

@@ -277,10 +277,14 @@ fn the_geometry_free_tec_is_the_pass_slant_tec() {
 
 #[test]
 fn the_timing_trace_carries_the_row_statistics() {
-    let src =
-        scenario("leo-timing-utc").replace("tow0_s = 172800.0", "tow0_s = 172800.0\ntrace = true");
+    // The bundled scenario sets `trace = true` so it animates; the plain run strips it.
+    let src = scenario("leo-timing-utc");
+    assert!(
+        src.contains("\ntrace = true\n"),
+        "the bundled scenario traces"
+    );
     let v = run(&src);
-    let plain = run(&scenario("leo-timing-utc"));
+    let plain = run(&src.replace("\ntrace = true\n", "\n"));
     let rows = v["timing"]["rows"].as_array().unwrap();
     for (row, prow) in rows.iter().zip(plain["timing"]["rows"].as_array().unwrap()) {
         assert_eq!(
@@ -370,8 +374,11 @@ fn the_new_fields_carry_units() {
     // The field-units gate runs one scenario per kind (`tests/field_units_global.rs`), none
     // of which takes the spoofer, the sounding pairs or the timing trace: audit those
     // documents here with the same audit.
-    let trace =
-        scenario("leo-timing-utc").replace("tow0_s = 172800.0", "tow0_s = 172800.0\ntrace = true");
+    let trace = scenario("leo-timing-utc");
+    assert!(
+        trace.contains("\ntrace = true\n"),
+        "the bundled scenario traces"
+    );
     for (name, src) in [
         (
             "leo-resilience-spoof-doppler",
