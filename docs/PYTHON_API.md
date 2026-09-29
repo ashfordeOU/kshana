@@ -1,12 +1,12 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Python API
 
-Kshana ships first-class Python bindings (built with [PyO3](https://pyo3.rs) and
-[maturin](https://www.maturin.rs)), with `abi3` wheels (built against the stable
-Python application binary interface, ABI) that work across CPython ≥ 3.9: one wheel per
-platform for Linux, macOS and Windows, each on x86-64 and 64-bit ARM (see
-[WHEEL_TAGS.md](WHEEL_TAGS.md)). A bundled type stub (`kshana.pyi` + `py.typed`) gives editors and
-`mypy`/`pyright` full type information.
+Kshana ships a first-class Python application programming interface (API), built with
+[PyO3](https://pyo3.rs) and [maturin](https://www.maturin.rs). Its `abi3` wheels are
+built against the stable Python application binary interface (ABI), so one wheel per
+platform works across CPython ≥ 3.9; wheels cover Linux, macOS and Windows, each on
+x86-64 and 64-bit ARM (see [WHEEL_TAGS.md](WHEEL_TAGS.md)). A bundled type stub
+(`kshana.pyi` + `py.typed`) gives editors and `mypy`/`pyright` full type information.
 
 ```bash
 pip install kshana            # from the Python Package Index, PyPI (release wheels)
