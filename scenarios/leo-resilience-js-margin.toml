@@ -14,7 +14,8 @@
 #   galileo-e5a  interface-document minimum, -155.0 dBW
 #   xona-x5      the published minimum received power, -144.9 dBW (arXiv 2509.19551)
 #   generic-l    a representative LEO L-band signal at -135 dBW, 1191.795 MHz
-# The LEO signals survive 10 to 20 dB more jammer power than the GNSS signals beside them.
+# GPS L5 is lost at the -105 dBW step, Galileo E5a at -100 dBW, Xona X5 at -95 dBW; the
+# generic signal still tracks at -90 dBW. Received power buys J/S margin dB for dB.
 # Received powers are those at the stated minimum; a real pass varies over it (see the
 # leo-pass scenarios).
 #

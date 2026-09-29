@@ -20,8 +20,9 @@
 #                        zero at the onset, a step of the L-minus-C ionospheric delay;
 #   all-bands-with-iono  counterfeits every band and simulates the ionosphere: the
 #                        cross-band monitor cannot see it, the Doppler monitor can;
-#   gnss-only            counterfeits GNSS alone: the authentic LEO range rates disagree
-#                        with the counterfeit GNSS ones.
+#   gnss-only            counterfeits GNSS alone: a 30 m push moves GNSS range rates by
+#                        millimetres per second, which neither monitor sees; a cross-check
+#                        of the GNSS and LEO pseudorange positions would (not modelled).
 #
 # MODELLED: the monitors' statistics are exact for the stated Gaussian noise; each
 # spoofer is an idealised position jump, and the receiver's ionosphere model is the

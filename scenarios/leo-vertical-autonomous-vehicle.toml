@@ -8,9 +8,10 @@
 # and a `leo-pass` run of one LEO pass seen from the moving car (its geometry is what the
 # campaign exports).
 #
-# In the canyon the GNSS-only solution loses satellites and geometry; the LEO layer,
-# denser in the sky, keeps more satellites above 35 deg and holds the fused error lower.
-# The alarm is raised whenever the fused error exceeds the threshold.
+# In the canyon GPS and Galileo keep 8 satellites above 35 deg and their geometry turns
+# poor; the LEO layer adds 4 to 5 more and cuts the mean error from about 5.8 m to about
+# 2.1 m, but a single elevation cut-off still leaves the fused error above the lane-level
+# threshold at about half the canyon epochs, where the alarm is raised.
 #
 # MODELLED: a building mask as a single elevation cut-off (no multipath, no
 # non-line-of-sight signals); representative LEO signal and range error. The
