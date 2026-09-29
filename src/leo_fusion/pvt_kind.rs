@@ -139,6 +139,10 @@ pub struct TimingCfg {
     /// System time of week at the start of the run (s). Default 0.
     #[serde(default)]
     pub tow0_s: f64,
+    /// Also report every row's time error and predicted sigma at every epoch (`series`), so
+    /// the run has a time axis to animate and chain. Default false.
+    #[serde(default)]
+    pub trace: bool,
 }
 
 /// The `leo-pvt` scenario.
@@ -362,6 +366,9 @@ pub struct TimingRow {
     pub cn0_offset_db: f64,
     /// Statistics.
     pub stats: TimeTransferStats,
+    /// Time error and predicted sigma at every epoch from the first fix, with `trace`.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub series: Option<Vec<timing::TimeTransferEpoch>>,
 }
 
 /// Timing-mode block.
@@ -961,10 +968,13 @@ impl LeoPvtScenario {
                 // One seed for every row: the rows then share the noise and the UTC-offset
                 // draw, so their differences are the C/N0 and the oscillator alone.
                 let s = seed;
+                let (stats, trace) =
+                    timing::simulate_traced(&meas, step, &noise, tc.utc.sigma_s, s)?;
                 rows.push(TimingRow {
                     clock: class.id().to_string(),
                     cn0_offset_db: off,
-                    stats: timing::simulate(&meas, step, &noise, tc.utc.sigma_s, s)?,
+                    stats,
+                    series: tc.trace.then_some(trace),
                 });
             }
         }
@@ -1686,6 +1696,24 @@ pub const PVT_UNITS: &[FieldUnit] = &[
         unit: "1",
         provenance: InternalConsistency,
         definition: "RMS of the error over its predicted sigma; near 1 when consistent",
+    },
+    FieldUnit {
+        path: "timing.rows[].series[].t_s",
+        unit: "s",
+        provenance: Computed,
+        definition: "seconds after the start of the run",
+    },
+    FieldUnit {
+        path: "timing.rows[].series[].error_ns",
+        unit: "ns",
+        provenance: Computed,
+        definition: "time error against UTC at this epoch, the UTC-offset error included",
+    },
+    FieldUnit {
+        path: "timing.rows[].series[].sigma_ns",
+        unit: "ns",
+        provenance: Computed,
+        definition: "the filter's predicted one-sigma at this epoch, UTC-offset term included",
     },
 ];
 
