@@ -150,6 +150,7 @@ pub mod jd2;
 pub mod kalman;
 pub mod lambda;
 pub mod launch;
+pub mod leo_signal;
 pub mod linkbudget;
 pub mod lunar;
 pub mod lunar_beacon;

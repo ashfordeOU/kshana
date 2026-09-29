@@ -93,10 +93,52 @@ breaking changes are called out explicitly.
   their 2000-01-01 label. To support this, `Sgp4::epoch_jd_utc`,
   `Sp3Interpolator::jd_ut1` and `Propagator::own_jd_utc` are added; nothing that existed
   reads them.
+- **LEO-PNT signal designs and a multi-band spectrum.** A new `leo-signal` kind and a
+  `spectrum` kind that reaches beyond the L band. The kind count moves from 68 to 69, the
+  scenario-file count from 94 to 98 (96 bundled for `kshana example`; the workshop-parameter file is repository-only, so deleting it withholds it), and the
+  verification matrix from 189 to **193 rows — 73 VALIDATED, 116 MODELLED, 4 PARTNER**.
+  - `leo-signal`: parameterised low Earth orbit (LEO) positioning, navigation and timing
+    (PNT) signal designs for any system (band, transmit bandwidth, ITU allocation;
+    acquisition, data and pilot components with BPSK(n), BOC(m,n), MBOC or flat spectra,
+    power shares, FDMA sub-carriers, code lengths and data rates), from compiled-in public
+    preset files under `data/leo-signals/` (Xona Pulsar X1/X5, Iridium STL, a Starlink
+    signal of opportunity, CentiSpace, a representative C-band design and representative
+    UHF/L/S/C/wide-C designs, each citing its source URL) or written inline. Per signal:
+    the band-limited PSD and in-band power fractions, Gabor bandwidth, band-limited
+    early-late code-tracking jitter against C/N0 and spacing (Betz & Kolodziejski 2009)
+    and the ranging accuracy, the acquisition search space, detection probability and
+    mean serial and code-parallel acquisition time, the SSC into and from GPS L1 C/A,
+    Galileo E1, GPS L5, Galileo E5a, E5b and AltBOC with the C/N0 loss, CW, wideband and
+    matched J/S tolerance from the spectrum kind's SSC code, a band trade (ionospheric
+    delay, free-space loss, ranging at equal C/N0 and equal EIRP, jammer tolerance), and
+    optional shape checks against a described measurement. Examples:
+    `scenarios/leo-band-trade.toml`, `scenarios/xona-pulsar-signals.toml`,
+    `scenarios/celeste-iod-classical-pilot-signals.toml` (the Celeste IOD bands and
+    signal configuration presented at the ESA NAVISP LEO-PNT workshop, 2026; the only file
+    carrying workshop parameters, removable on its own). Notes in `docs/LEO-SIGNAL.md`.
+  - `spectrum`: bands may now be a preset signal design (every component drawn,
+    band-limited, C/N0 and J/S referred to the tracked component) or a custom carrier and
+    modulation; `[[panels]]` add waterfalls over other frequency ranges on one timeline; a
+    `wideband` (barrage) jammer joins the four waveforms. The report adds
+    `bands[].tracked_power_dbw`, `bands[].design` and `panels`, and one `not_modelled`
+    entry. Plain bands give the same numbers as before. Example:
+    `scenarios/multi-band-jamming-waterfall.toml`.
+  - `navsignal` gains the sine integral, the BPSK power-in-band and band-limited Gabor
+    bandwidth closed forms, the band-limited early-late jitter for any spectrum and its
+    Gabor bound, the offset BPSK SSC closed form, the Galileo E5 AltBOC(15,10) spectrum
+    and a modulation-label parser; `Modulation::label` prints BPSK(1/3) as a fraction.
+  - Four matrix rows: VALIDATED band-limited closed forms (90.3 % of BPSK power in the
+    main lobe, the jitter reducing to Kaplan & Hegarty's coherent form, 0.0039564 chips at
+    45 dB-Hz, B_L 1 Hz, d 1 chip, T 20 ms, and to its Gabor bound, and the BPSK self-SSC
+    2/(3 R_c); the Gabor closed form and the offset SSC against its Parseval form are
+    stated as internal cross-checks); VALIDATED maximum LEO Doppler (Xona X1 33.2 kHz
+    inside the published 32 to 34 kHz, Iridium within 0.5 kHz of 36 kHz); MODELLED
+    `leo-signal`; MODELLED multi-band spectrum.
 - **Four new engine areas in one release: `spectrum`, `solar-system` and `body-pnt`,
   `constellation-design`, and `campaign`.** The kind count moves from 63 to 68, the
   scenario-file count from 82 to 94, and the verification matrix from 174 to
-  **189 rows — 71 VALIDATED, 114 MODELLED, 4 PARTNER**. Each area is described below.
+  189 rows (71 validated, 114 modelled, 4 partner-owned at that step; the LEO-PNT entry
+  above brings the live totals to 193). Each area is described below.
   - Across the areas: `scenarios/campaign-spectrum-holdover-integrity.toml` chains the
     `spectrum` kind with a clock holdover and an integrity monitor (a chirp takes L1 C/A
     and E1; a CW tone then keeps C/A down while E1 recovers and the receiver falls back to

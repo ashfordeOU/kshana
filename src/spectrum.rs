@@ -79,6 +79,30 @@ pub struct Band {
     pub signal_power_dbw: f64,
     /// Double-sided receiver front-end bandwidth (Hz) over which the SSC is integrated.
     pub rx_bandwidth_hz: f64,
+    /// For a designed multi-component signal (a low Earth orbit signal from
+    /// [`crate::leo_signal`], or any band outside the GNSS L band built from one): its
+    /// other components and its transmit band limit. `None` for a plain one-component
+    /// band, whose spectrum is `modulation` alone.
+    pub design: Option<BandDesign>,
+}
+
+/// The multi-component, band-limited part of a designed signal. `modulation` on the
+/// [`Band`] is the **tracked** component (the pilot, usually); this holds every component
+/// (tracked one included) so the drawn spectrum is the whole signal.
+#[derive(Clone, Debug, PartialEq)]
+pub struct BandDesign {
+    /// Every component: unit-area modulation, offset from the carrier (Hz; non-zero for a
+    /// frequency-division multiple access (FDMA) sub-carrier), and share of the unfiltered
+    /// power. The shares sum to one.
+    pub components: Vec<(Modulation, f64, f64)>,
+    /// Share of the unfiltered power in the tracked component.
+    pub tracked_share: f64,
+    /// Transmit bandwidth (Hz, double-sided): the spectrum is zero outside it.
+    pub tx_bandwidth_hz: f64,
+    /// Fraction of the unfiltered power inside the transmit bandwidth, `η`; the received
+    /// power `signal_power_dbw` is the in-band power, so the drawn density is the
+    /// unfiltered one divided by `η` inside the band.
+    pub in_band_fraction: f64,
 }
 
 /// The band identifiers the engine models, in frequency order from the top.
@@ -109,18 +133,54 @@ pub fn default_band(name: &str) -> Option<Band> {
         modulation,
         signal_power_dbw: p,
         rx_bandwidth_hz: bw_mhz * 1e6,
+        design: None,
     })
 }
 
 impl Band {
-    /// Signal PSD (W/Hz) at absolute frequency `f_hz`.
-    pub fn psd_w_per_hz(&self, f_hz: f64) -> f64 {
-        db_to_lin(self.signal_power_dbw) * self.modulation.psd(f_hz - self.centre_hz)
+    /// The signal's spectrum (1/Hz) at offset `f_off_hz` from the carrier, normalised so
+    /// `signal_power_dbw` times it is the PSD: the modulation's unit-area density for a
+    /// plain band; for a designed signal the sum of its components, zero outside the
+    /// transmit band and divided by the in-band fraction inside it.
+    pub fn unit_psd(&self, f_off_hz: f64) -> f64 {
+        match &self.design {
+            None => self.modulation.psd(f_off_hz),
+            Some(d) => {
+                if f_off_hz.abs() > d.tx_bandwidth_hz / 2.0 {
+                    return 0.0;
+                }
+                d.components
+                    .iter()
+                    .map(|(m, off, share)| share * m.psd(f_off_hz - off))
+                    .sum::<f64>()
+                    / d.in_band_fraction.max(1e-300)
+            }
+        }
     }
 
-    /// Nominal C/N₀ (dB-Hz) against a thermal floor `n0_dbw_per_hz`.
+    /// Signal PSD (W/Hz) at absolute frequency `f_hz`.
+    pub fn psd_w_per_hz(&self, f_hz: f64) -> f64 {
+        db_to_lin(self.signal_power_dbw) * self.unit_psd(f_hz - self.centre_hz)
+    }
+
+    /// Power (dBW) the tracking loop's C/N₀ and J/S are referred to. For a plain band this
+    /// is `signal_power_dbw`. For a designed signal it is the tracked component's share of
+    /// the unfiltered power, `P·s/η`, whose unit-area modulation integrated over the
+    /// receiver band gives the tracked power actually received: the same convention as a
+    /// plain band, whose modulation's power outside the receiver band is lost the same way.
+    pub fn tracked_power_dbw(&self) -> f64 {
+        match &self.design {
+            None => self.signal_power_dbw,
+            Some(d) => {
+                self.signal_power_dbw + lin_to_db(d.tracked_share / d.in_band_fraction.max(1e-300))
+            }
+        }
+    }
+
+    /// Nominal C/N₀ (dB-Hz) of the tracked component against a thermal floor
+    /// `n0_dbw_per_hz`.
     pub fn nominal_cn0_dbhz(&self, n0_dbw_per_hz: f64) -> f64 {
-        self.signal_power_dbw - n0_dbw_per_hz
+        self.tracked_power_dbw() - n0_dbw_per_hz
     }
 }
 
@@ -200,6 +260,10 @@ pub enum Waveform {
     Cw,
     /// Flat (band-limited white) noise over `bandwidth_mhz` about the centre.
     Narrowband,
+    /// Flat noise over a wide `bandwidth_mhz`, typically a whole band or more (a barrage
+    /// jammer). The same density as `narrowband`; named apart because the `jamming` kind
+    /// scores it as broadband.
+    Wideband,
     /// Linear sawtooth chirp sweeping `bandwidth_mhz` about the centre every
     /// `sweep_period_us`.
     Chirp,
@@ -213,6 +277,7 @@ impl Waveform {
         match self {
             Waveform::Cw => "cw",
             Waveform::Narrowband => "narrowband",
+            Waveform::Wideband => "wideband",
             Waveform::Chirp => "chirp",
             Waveform::Matched => "matched",
         }
@@ -224,6 +289,7 @@ impl Waveform {
         match self {
             Waveform::Cw => "cw",
             Waveform::Narrowband => "narrowband",
+            Waveform::Wideband => "broadband",
             Waveform::Chirp => "swept",
             Waveform::Matched => "broadband",
         }
@@ -322,6 +388,7 @@ impl JammerCfg {
         let (bandwidth_hz, sweep_period_s, matched) = match self.waveform {
             Waveform::Cw => (0.0, 0.0, None),
             Waveform::Narrowband => (bw("narrowband")?, 0.0, None),
+            Waveform::Wideband => (bw("wideband")?, 0.0, None),
             Waveform::Chirp => {
                 let t = match self.sweep_period_us {
                     Some(t) if t.is_finite() && t > 0.0 => t * 1e-6,
@@ -413,7 +480,9 @@ impl Jammer {
         let lo = self.centre_hz - self.bandwidth_hz / 2.0;
         match self.waveform {
             Waveform::Cw => Spread::Tone(self.centre_hz),
-            Waveform::Narrowband => Spread::Flat(vec![(lo, lo + self.bandwidth_hz, 1.0)]),
+            Waveform::Narrowband | Waveform::Wideband => {
+                Spread::Flat(vec![(lo, lo + self.bandwidth_hz, 1.0)])
+            }
             Waveform::Matched => Spread::Shaped(
                 self.matched.unwrap_or(Modulation::BpskR { n: 1.0 }),
                 self.centre_hz,
@@ -515,10 +584,16 @@ impl Jammer {
     /// `jamming` kind's own [`crate::jamming::j_over_s_db`].
     pub fn js_db(&self, band: &Band) -> f64 {
         match self.link {
-            Some((eirp, r, g)) => {
-                j_over_s_db(eirp, 0.0, g, r, self.centre_hz, band.signal_power_dbw, 0.0)
-            }
-            None => self.received_power_dbw - band.signal_power_dbw,
+            Some((eirp, r, g)) => j_over_s_db(
+                eirp,
+                0.0,
+                g,
+                r,
+                self.centre_hz,
+                band.tracked_power_dbw(),
+                0.0,
+            ),
+            None => self.received_power_dbw - band.tracked_power_dbw(),
         }
     }
 }
@@ -590,7 +665,7 @@ impl SpectrumModel {
         for b in &self.bands {
             let pw = db_to_lin(b.signal_power_dbw);
             let frac = integrate_range(f_lo - b.centre_hz, f_hi - b.centre_hz, 16, |f| {
-                b.modulation.psd(f)
+                b.unit_psd(f)
             });
             p += pw * frac / width;
         }
@@ -780,9 +855,12 @@ pub fn synthesise_iq(
     let df = fs_hz / n as f64;
     // Noise-like part: thermal floor, signals, and the active flat/matched jammers.
     let mut noise_only = model.clone();
-    noise_only
-        .jammers
-        .retain(|j| matches!(j.waveform, Waveform::Narrowband | Waveform::Matched));
+    noise_only.jammers.retain(|j| {
+        matches!(
+            j.waveform,
+            Waveform::Narrowband | Waveform::Wideband | Waveform::Matched
+        )
+    });
     let mut spec = vec![Cf64::default(); n];
     for (k, s) in spec.iter_mut().enumerate() {
         let off = if k < n / 2 {
@@ -950,21 +1028,57 @@ impl Default for GridCfg {
     }
 }
 
-/// A band entry: a name from [`BAND_NAMES`] with optional overrides.
+/// A band entry. Three forms:
+///
+/// * a name from [`BAND_NAMES`], with optional overrides;
+/// * `signal = "<name>"`: a published signal design from the [`crate::leo_signal`] preset
+///   library (any band: UHF, L, S, C), drawn with all its components and band-limited to
+///   its transmit bandwidth; `name` then only labels it;
+/// * a custom band: any `name` with `centre_mhz`, `modulation` (`BPSK(n)`, `BOC(m,n)` or
+///   `MBOC(6,1,p)`) and `signal_power_dbw`.
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct BandCfg {
-    /// Band name.
+    /// Band name (or label, with `signal`).
     pub name: String,
-    /// Received signal power (dBW), overriding the specification minimum.
+    /// Received signal power (dBW), overriding the specification minimum or the preset's
+    /// reference received power; required for a custom band.
     #[serde(default)]
     pub signal_power_dbw: Option<f64>,
     /// Receiver front-end bandwidth (MHz).
     #[serde(default)]
     pub rx_bandwidth_mhz: Option<f64>,
-    /// For `galileo-e1`: `mboc` (default) or `boc11`.
+    /// For `galileo-e1`: `mboc` (default) or `boc11`. For a custom band: the modulation
+    /// label.
     #[serde(default)]
     pub modulation: Option<String>,
+    /// Carrier (MHz) of a custom band.
+    #[serde(default)]
+    pub centre_mhz: Option<f64>,
+    /// A signal design from the [`crate::leo_signal`] preset library, by name.
+    #[serde(default)]
+    pub signal: Option<String>,
+}
+
+/// One more waterfall over its own frequency range, for a spectrum that spans several
+/// bands (UHF, L, S, C): each panel is drawn and reported on its own grid, on the same
+/// timeline, beside the main `[grid]` waterfall.
+#[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct PanelCfg {
+    /// Panel label, e.g. `S band`.
+    pub name: String,
+    /// Lower edge (MHz).
+    pub f_min_mhz: f64,
+    /// Upper edge (MHz).
+    pub f_max_mhz: f64,
+    /// Frequency bins across.
+    #[serde(default = "d_panel_nfreq")]
+    pub n_freq: usize,
+}
+
+fn d_panel_nfreq() -> usize {
+    200
 }
 
 /// Synthesise a snapshot of the model as IQ, write and read it back as SigMF, and
@@ -1043,6 +1157,9 @@ pub struct SpectrumScenario {
     /// Jammers.
     #[serde(default)]
     pub jammers: Vec<JammerCfg>,
+    /// Extra waterfall panels over other frequency ranges (multi-band spectra).
+    #[serde(default)]
+    pub panels: Vec<PanelCfg>,
     /// Optional synthetic IQ snapshot with a SigMF round trip.
     #[serde(default)]
     pub iq: Option<IqCfg>,
@@ -1123,6 +1240,8 @@ impl SpectrumScenario {
                     signal_power_dbw: None,
                     rx_bandwidth_mhz: None,
                     modulation: None,
+                    centre_mhz: None,
+                    signal: None,
                 })
                 .collect()
         } else {
@@ -1130,9 +1249,13 @@ impl SpectrumScenario {
         };
         let mut out = Vec::new();
         for c in cfgs {
+            if c.signal.is_some() || c.centre_mhz.is_some() {
+                out.push(Self::resolve_designed_band(&c)?);
+                continue;
+            }
             let mut b = default_band(&c.name).ok_or_else(|| {
                 format!(
-                    "unknown band {:?}: the spectrum model has {}",
+                    "unknown band {:?}: the spectrum model has {}; any other band takes                      `signal = \"<preset signal>\"` or `centre_mhz` with `modulation` and                      `signal_power_dbw`",
                     c.name,
                     BAND_NAMES.join(", ")
                 )
@@ -1162,6 +1285,81 @@ impl SpectrumScenario {
             out.push(b);
         }
         Ok(out)
+    }
+
+    /// A band given by a preset signal design or as a custom carrier and modulation.
+    fn resolve_designed_band(c: &BandCfg) -> Result<Band, String> {
+        let mut b = match (&c.signal, c.centre_mhz) {
+            (Some(sig), None) => {
+                let design = crate::leo_signal::public_signal(sig).ok_or_else(|| {
+                    format!(
+                        "{}: signal {sig:?} is not in the signal preset library ({})",
+                        c.name,
+                        crate::leo_signal::public_signal_names().join(", ")
+                    )
+                })?;
+                if c.modulation.is_some() {
+                    return Err(format!(
+                        "{}: a preset signal carries its own modulation; drop `modulation`",
+                        c.name
+                    ));
+                }
+                let p = c
+                    .signal_power_dbw
+                    .or(design.received_power_dbw)
+                    .ok_or_else(|| {
+                        format!(
+                            "{}: signal {sig:?} publishes no received power; give signal_power_dbw",
+                            c.name
+                        )
+                    })?;
+                design.to_spectrum_band(&c.name, p)?
+            }
+            (None, Some(fc)) => {
+                if !(fc.is_finite() && fc > 0.0) {
+                    return Err(format!("{}: centre_mhz must be positive", c.name));
+                }
+                let m = crate::navsignal::parse_modulation(c.modulation.as_deref().ok_or_else(
+                    || {
+                        format!(
+                            "{}: a custom band needs `modulation`, e.g. \"BPSK(10)\"",
+                            c.name
+                        )
+                    },
+                )?)
+                .map_err(|e| format!("{}: {e}", c.name))?;
+                let p = c
+                    .signal_power_dbw
+                    .ok_or_else(|| format!("{}: a custom band needs signal_power_dbw", c.name))?;
+                Band {
+                    name: c.name.clone(),
+                    centre_hz: fc * 1e6,
+                    modulation: m,
+                    signal_power_dbw: p,
+                    rx_bandwidth_hz: main_lobe_null_to_null_hz(&m),
+                    design: None,
+                }
+            }
+            _ => {
+                return Err(format!(
+                    "{}: give either `signal` or `centre_mhz`, not both",
+                    c.name
+                ))
+            }
+        };
+        if let Some(bw) = c.rx_bandwidth_mhz {
+            if !(bw.is_finite() && bw > 0.0) {
+                return Err(format!("{}: rx_bandwidth_mhz must be positive", c.name));
+            }
+            b.rx_bandwidth_hz = bw * 1e6;
+        }
+        if !b.rx_bandwidth_hz.is_finite() || b.rx_bandwidth_hz <= 0.0 {
+            return Err(format!(
+                "{}: give rx_bandwidth_mhz (no main lobe could be located)",
+                c.name
+            ));
+        }
+        Ok(b)
     }
 
     /// Build the model.
@@ -1194,6 +1392,22 @@ impl SpectrumScenario {
         let rows = (self.duration_s / self.step_s).round() as usize;
         if rows > 5000 {
             return Err(format!("{rows} time rows is more than the 5000 allowed"));
+        }
+        if self.panels.len() > 8 {
+            return Err("at most 8 extra panels".into());
+        }
+        for p in &self.panels {
+            if p.f_max_mhz.partial_cmp(&p.f_min_mhz) != Some(std::cmp::Ordering::Greater)
+                || !p.f_min_mhz.is_finite()
+                || !p.f_max_mhz.is_finite()
+                || p.n_freq < 2
+                || p.n_freq > 4096
+            {
+                return Err(format!(
+                    "panel {:?}: need f_max_mhz > f_min_mhz and 2 ≤ n_freq ≤ 4096",
+                    p.name
+                ));
+            }
         }
         let g = &self.grid;
         if g.f_max_mhz.partial_cmp(&g.f_min_mhz) != Some(std::cmp::Ordering::Greater)
@@ -1288,6 +1502,17 @@ impl SpectrumScenario {
                 "psd_peak_offset_hz": pk,
                 "psd_peak_dbw_per_hz": lin_to_db(b.psd_w_per_hz(b.centre_hz + pk)),
                 "nominal_cn0_dbhz": cn0_nom,
+                "tracked_power_dbw": b.tracked_power_dbw(),
+                "design": b.design.as_ref().map(|d| serde_json::json!({
+                    "tx_bandwidth_hz": d.tx_bandwidth_hz,
+                    "in_band_power_fraction": d.in_band_fraction,
+                    "tracked_share": d.tracked_share,
+                    "components": d.components.iter().map(|(m, off, share)| serde_json::json!({
+                        "modulation": m.label(),
+                        "offset_hz": off,
+                        "power_fraction": share,
+                    })).collect::<Vec<_>>(),
+                })),
             }));
         }
 
@@ -1329,7 +1554,8 @@ impl SpectrumScenario {
                     // The jamming kind's own chain on the same inputs: its J/S, its
                     // anti-jam equation with Q taken from this spectrum, and with its
                     // representative Q table.
-                    let js_k = j_over_s_db(eirp, 0.0, g, r, j.centre_hz, b.signal_power_dbw, 0.0);
+                    let js_k =
+                        j_over_s_db(eirp, 0.0, g, r, j.centre_hz, b.tracked_power_dbw(), 0.0);
                     let cn0_k = effective_cn0_dbhz(cn0_nom, js_k, q, rc);
                     let q_tab = q_factor(j.waveform.jamming_kind_type(), None);
                     cross.push(serde_json::json!({
@@ -1396,6 +1622,59 @@ impl SpectrumScenario {
             .fold(0.0, f64::max)
             .max(1e-300);
 
+        // Extra panels: each its own grid on the same timeline.
+        let mut panel_grids: Vec<PanelGrid> = Vec::new();
+        let mut panel_json = Vec::new();
+        for p in &self.panels {
+            let (pf0, pf1) = (p.f_min_mhz * 1e6, p.f_max_mhz * 1e6);
+            let pbin = (pf1 - pf0) / p.n_freq as f64;
+            let pfreq: Vec<f64> = (0..p.n_freq)
+                .map(|c| pf0 + (c as f64 + 0.5) * pbin)
+                .collect();
+            let pgrid: Vec<Vec<f64>> = t_rows
+                .iter()
+                .map(|&t| {
+                    (0..p.n_freq)
+                        .map(|c| {
+                            let lo = pf0 + c as f64 * pbin;
+                            model.bin_psd_w_per_hz(lo, lo + pbin, t, dt)
+                        })
+                        .collect()
+                })
+                .collect();
+            let (pfx, pty, pjf, pjt, pwf) = downsample_grid(
+                &pgrid,
+                pf0,
+                pbin,
+                dt,
+                self.grid.json_max_freq,
+                self.grid.json_max_rows,
+            );
+            let ppeak = pgrid.iter().flatten().cloned().fold(0.0, f64::max);
+            let in_panel: Vec<&str> = model
+                .bands
+                .iter()
+                .filter(|b| b.centre_hz >= pf0 && b.centre_hz <= pf1)
+                .map(|b| b.name.as_str())
+                .collect();
+            panel_json.push(serde_json::json!({
+                "name": p.name,
+                "f_min_hz": pf0,
+                "f_max_hz": pf1,
+                "bin_width_hz": pbin * pfx as f64,
+                "row_duration_s": dt * pty as f64,
+                "source_n_freq": p.n_freq,
+                "n_freq": pjf.len(),
+                "n_time": pjt.len(),
+                "bands": in_panel,
+                "peak_dbw_per_hz": lin_to_db(ppeak.max(1e-300)),
+                "freq_hz": pjf,
+                "t_s": pjt,
+                "psd_dbw_per_hz": pwf,
+            }));
+            panel_grids.push((p.name.clone(), pfreq, pgrid));
+        }
+
         let iq = match &self.iq {
             None => serde_json::Value::Null,
             Some(c) => self.run_iq(&model, c)?,
@@ -1448,6 +1727,7 @@ impl SpectrumScenario {
                 "t_s": jt,
                 "psd_dbw_per_hz": wf,
             },
+            "panels": panel_json,
             "iq": iq,
             "recording": recording,
             "not_modelled": NOT_MODELLED,
@@ -1472,15 +1752,21 @@ impl SpectrumScenario {
                 "scenario spectrum | no bands | noise floor {n0_db:.1} dBW/Hz"
             ),
         };
-        let svg = waterfall_svg(
-            &model,
-            &freq,
-            &t_rows,
-            &grid,
-            n0_db,
-            thr,
-            &doc["timeline"]["bands"],
-        );
+        let svg = if panel_grids.is_empty() {
+            waterfall_svg(
+                &model,
+                &freq,
+                &t_rows,
+                &grid,
+                n0_db,
+                thr,
+                &doc["timeline"]["bands"],
+            )
+        } else {
+            let mut all = vec![("main grid".to_string(), freq.clone(), grid.clone())];
+            all.extend(panel_grids);
+            multi_band_svg(&model, &all, &t_rows, n0_db, thr, &doc["timeline"]["bands"])
+        };
         Ok((json, summary, svg))
     }
 
@@ -1661,6 +1947,50 @@ impl SpectrumScenario {
     }
 }
 
+/// Block-average a `rows x cols` grid (W/Hz) in power for the JSON report: returns the
+/// column and row decimation factors, the emitted column centres and row starts, and the
+/// cells in dBW/Hz.
+#[allow(clippy::type_complexity)]
+fn downsample_grid(
+    grid: &[Vec<f64>],
+    f0: f64,
+    bin: f64,
+    dt: f64,
+    max_freq: usize,
+    max_rows: usize,
+) -> (usize, usize, Vec<f64>, Vec<f64>, Vec<Vec<f64>>) {
+    let rows = grid.len();
+    let cols = grid.first().map(|r| r.len()).unwrap_or(0);
+    let fx = cols.div_ceil(max_freq.max(1)).max(1);
+    let ty = rows.div_ceil(max_rows.max(1)).max(1);
+    let jcols = cols.div_ceil(fx);
+    let jrows = rows.div_ceil(ty);
+    let mut wf = Vec::with_capacity(jrows);
+    for r in 0..jrows {
+        let mut row = Vec::with_capacity(jcols);
+        for c in 0..jcols {
+            let (mut sum, mut n) = (0.0, 0usize);
+            for grow in grid.iter().take(((r + 1) * ty).min(rows)).skip(r * ty) {
+                for v in grow.iter().take(((c + 1) * fx).min(cols)).skip(c * fx) {
+                    sum += v;
+                    n += 1;
+                }
+            }
+            row.push(round2(lin_to_db(sum / n.max(1) as f64)));
+        }
+        wf.push(row);
+    }
+    let jfreq: Vec<f64> = (0..jcols)
+        .map(|c| {
+            let a = f0 + (c * fx) as f64 * bin;
+            let b = f0 + (((c + 1) * fx).min(cols)) as f64 * bin;
+            0.5 * (a + b)
+        })
+        .collect();
+    let jt: Vec<f64> = (0..jrows).map(|r| (r * ty) as f64 * dt).collect();
+    (fx, ty, jfreq, jt, wf)
+}
+
 /// What the report states the model leaves out.
 pub const NOT_MODELLED: &[&str] = &[
     "spreading-code line structure (for example the 1 kHz lines of C/A): tones are scored \
@@ -1669,6 +1999,8 @@ pub const NOT_MODELLED: &[&str] = &[
     "the receive-antenna pattern toward the jammer beyond one gain figure",
     "intra-system multiple-access interference between satellites of one band",
     "GLONASS G1/G2, BeiDou B1/B2 and Galileo E6",
+    "a designed signal's emissions outside its transmit bandwidth: its spectrum is \
+     truncated there, so no out-of-band emission reaches a neighbouring band",
     "a chirp's effect on the loop at sweep rates comparable with the loop bandwidth: its \
      C/N0 uses the row-averaged spectrum",
 ];
@@ -1896,6 +2228,212 @@ fn waterfall_svg(
     s
 }
 
+/// One waterfall panel: its label, bin-centre frequencies (Hz) and grid (W/Hz), rows by
+/// columns.
+type PanelGrid = (String, Vec<f64>, Vec<Vec<f64>>);
+
+/// Waterfall cells of one grid into the rectangle `(x0, y0, pw, ph)`, run-length merged
+/// per row on the quantised colour of the shared scale `[lo_db, hi_db]`.
+#[allow(clippy::too_many_arguments)]
+fn draw_cells(
+    s: &mut String,
+    grid: &[Vec<f64>],
+    x0: f64,
+    y0: f64,
+    pw: f64,
+    ph: f64,
+    lo_db: f64,
+    hi_db: f64,
+    levels: usize,
+) {
+    let rows = grid.len().max(1);
+    let cols = grid.first().map(|r| r.len()).unwrap_or(1).max(1);
+    let cw = pw / cols as f64;
+    let rh = ph / rows as f64;
+    let q = |p: f64| {
+        let u = (lin_to_db(p) - lo_db) / (hi_db - lo_db).max(1e-9);
+        ((u * levels as f64).floor() as isize).clamp(0, levels as isize - 1) as usize
+    };
+    s.push_str("<g shape-rendering=\"crispEdges\">");
+    for (r, row) in grid.iter().enumerate() {
+        let y = y0 + r as f64 * rh;
+        let mut c = 0;
+        while c < row.len() {
+            let lvl = q(row[c]);
+            let mut e = c + 1;
+            while e < row.len() && q(row[e]) == lvl {
+                e += 1;
+            }
+            s.push_str(&format!(
+                "<rect x=\"{:.2}\" y=\"{:.2}\" width=\"{:.2}\" height=\"{:.2}\" fill=\"{}\"/>",
+                x0 + c as f64 * cw,
+                y,
+                (e - c) as f64 * cw + 0.3,
+                rh + 0.3,
+                ramp_colour((lvl as f64 + 0.5) / levels as f64)
+            ));
+            c = e;
+        }
+    }
+    s.push_str("</g>");
+}
+
+/// The multi-band chart: the main `[grid]` waterfall and each extra panel side by side on
+/// one colour scale and one timeline, band markers on each, and the per-band C/N₀ bars.
+fn multi_band_svg(
+    model: &SpectrumModel,
+    panels: &[PanelGrid],
+    t_rows: &[f64],
+    n0_db: f64,
+    thr: f64,
+    timeline_bands: &serde_json::Value,
+) -> String {
+    let (w, h) = (1100.0_f64, 560.0_f64);
+    let (x0, y0, total_w, ph) = (60.0, 90.0, 700.0, 400.0);
+    let levels = 24usize;
+    let lo_db = n0_db - 1.0;
+    let hi_db = panels
+        .iter()
+        .flat_map(|p| p.2.iter().flatten())
+        .map(|p| lin_to_db(*p))
+        .fold(lo_db + 10.0, f64::max);
+    let k = panels.len().max(1) as f64;
+    let gap = 16.0;
+    let pw = (total_w - gap * (k - 1.0)) / k;
+    let mut s = crate::chart::frame_open(
+        w,
+        h,
+        "Multi-band spectrum waterfall",
+        &format!(
+            "each panel its own frequency range, one timeline down, one colour scale (dBW/Hz); noise floor {n0_db:.1} dBW/Hz"
+        ),
+    );
+    for (i, (name, freq, grid)) in panels.iter().enumerate() {
+        let px = x0 + i as f64 * (pw + gap);
+        draw_cells(&mut s, grid, px, y0, pw, ph, lo_db, hi_db, levels);
+        s.push_str(&crate::chart::panel_axes(px, y0, pw, y0 + ph, ""));
+        let cols = freq.len();
+        let step = if cols > 1 { freq[1] - freq[0] } else { 1.0 };
+        let (fa, fb) = (freq[0] - step / 2.0, freq[cols - 1] + step / 2.0);
+        let xf = |f: f64| px + (f - fa) / (fb - fa) * pw;
+        s.push_str(&format!(
+            "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"12\" fill=\"#bcb3a3\">{}</text>",
+            px + pw / 2.0,
+            y0 + ph + 34.0,
+            esc(name)
+        ));
+        for (t, anchor) in ["start", "middle", "end"].iter().enumerate() {
+            let f = fa + (fb - fa) * t as f64 / 2.0;
+            s.push_str(&format!(
+                "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"{anchor}\" font-size=\"10\" fill=\"#8a8172\">{:.1}</text>",
+                xf(f),
+                y0 + ph + 16.0,
+                f / 1e6
+            ));
+        }
+        let mut row = 0usize;
+        for b in &model.bands {
+            if b.centre_hz < fa || b.centre_hz > fb {
+                continue;
+            }
+            let x = xf(b.centre_hz);
+            s.push_str(&format!(
+                "<line x1=\"{x:.1}\" y1=\"{:.1}\" x2=\"{x:.1}\" y2=\"{y0:.1}\" stroke=\"#bcb3a3\"/>\
+                 <text x=\"{x:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"9\" fill=\"#bcb3a3\">{}</text>",
+                y0 - 4.0,
+                y0 - 7.0 - 10.0 * (row % 3) as f64,
+                esc(&b.name)
+            ));
+            row += 1;
+        }
+    }
+    s.push_str(&format!(
+        "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"12\" fill=\"#8a8172\">frequency (MHz)</text>",
+        x0 + total_w / 2.0,
+        y0 + ph + 52.0
+    ));
+    let t_end =
+        t_rows.last().copied().unwrap_or(0.0) + (t_rows.get(1).copied().unwrap_or(1.0) - t_rows[0]);
+    for q in 0..=4 {
+        let t = t_end * q as f64 / 4.0;
+        s.push_str(&format!(
+            "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"11\" fill=\"#8a8172\">{:.0}</text>",
+            x0 - 6.0,
+            y0 + ph * q as f64 / 4.0 + 4.0,
+            t
+        ));
+    }
+    s.push_str(&format!(
+        "<text x=\"16\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"12\" fill=\"#8a8172\" transform=\"rotate(-90 16 {:.1})\">time (s)</text>",
+        y0 + ph / 2.0,
+        y0 + ph / 2.0
+    ));
+    // Colour bar.
+    let (bx, by, bw_, bh) = (x0, h - 18.0, 240.0, 8.0);
+    for q in 0..levels {
+        s.push_str(&format!(
+            "<rect x=\"{:.1}\" y=\"{by:.1}\" width=\"{:.2}\" height=\"{bh:.1}\" fill=\"{}\"/>",
+            bx + bw_ * q as f64 / levels as f64,
+            bw_ / levels as f64 + 0.3,
+            ramp_colour((q as f64 + 0.5) / levels as f64)
+        ));
+    }
+    s.push_str(&format!(
+        "<text x=\"{:.1}\" y=\"{:.1}\" font-size=\"11\" fill=\"#8a8172\">{lo_db:.0}</text>\
+         <text x=\"{:.1}\" y=\"{:.1}\" font-size=\"11\" fill=\"#8a8172\">{hi_db:.0} dBW/Hz</text>",
+        bx - 28.0,
+        by + 8.0,
+        bx + bw_ + 4.0,
+        by + 8.0
+    ));
+    // Bars: nominal and minimum effective C/N0 per band.
+    let (bx0, bpw) = (810.0, 260.0);
+    s.push_str(&crate::chart::panel_axes(
+        bx0,
+        y0,
+        bpw,
+        y0 + ph,
+        "C/N0 (dB-Hz): nominal (grey) / minimum",
+    ));
+    let cmax = 60.0;
+    let xb = |c: f64| bx0 + (c.clamp(0.0, cmax) / cmax) * bpw;
+    let slot = ph / model.bands.len().max(1) as f64;
+    for (i, b) in model.bands.iter().enumerate() {
+        let yc = y0 + slot * (i as f64 + 0.5);
+        let nom = b.nominal_cn0_dbhz(n0_db);
+        let min_c = timeline_bands[i]["min_cn0_dbhz"].as_f64().unwrap_or(nom);
+        let col = if min_c < thr {
+            "#e5645a"
+        } else if min_c < thr + 6.0 {
+            "#e0a64a"
+        } else {
+            "#46b67e"
+        };
+        s.push_str(&format!(
+            "<rect x=\"{bx0:.1}\" y=\"{:.1}\" width=\"{:.1}\" height=\"8\" fill=\"#5a5245\"/>\
+             <rect x=\"{bx0:.1}\" y=\"{:.1}\" width=\"{:.1}\" height=\"8\" fill=\"{col}\"/>\
+             <text x=\"{bx0:.1}\" y=\"{:.1}\" font-size=\"10\" fill=\"#bcb3a3\">{} {:.1} / {:.1}</text>",
+            yc - 9.0,
+            (xb(nom) - bx0).max(0.5),
+            yc,
+            (xb(min_c) - bx0).max(0.5),
+            yc - 12.0,
+            esc(&b.name),
+            nom,
+            min_c
+        ));
+    }
+    let xt = xb(thr);
+    s.push_str(&format!(
+        "<line x1=\"{xt:.1}\" y1=\"{y0:.1}\" x2=\"{xt:.1}\" y2=\"{:.1}\" stroke=\"#e5645a\" stroke-dasharray=\"5 4\"/>\
+         <text x=\"{xt:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e5645a\">threshold {thr:.0}</text>",
+        y0 + ph,
+        y0 + ph + 16.0
+    ));
+    s.push_str("</svg>");
+    s
+}
+
 /// Unit and provenance class for every numeric field the report emits.
 pub const UNITS: &[crate::field_schema::FieldUnit] = {
     use crate::field_schema::{FieldUnit, ProvenanceClass::*};
@@ -1916,7 +2454,13 @@ pub const UNITS: &[crate::field_schema::FieldUnit] = {
         FieldUnit { path: "bands[].first_null_hz", unit: "Hz", provenance: Computed, definition: "first positive-frequency null of the unit-area PSD, located numerically" },
         FieldUnit { path: "bands[].psd_peak_offset_hz", unit: "Hz", provenance: Computed, definition: "offset from the carrier of the PSD maximum, located numerically" },
         FieldUnit { path: "bands[].psd_peak_dbw_per_hz", unit: "dBW/Hz", provenance: Computed, definition: "signal PSD at its maximum" },
-        FieldUnit { path: "bands[].nominal_cn0_dbhz", unit: "dB-Hz", provenance: ClosedForm, definition: "un-jammed C/N0: signal power minus the noise density" },
+        FieldUnit { path: "bands[].nominal_cn0_dbhz", unit: "dB-Hz", provenance: ClosedForm, definition: "un-jammed C/N0 of the tracked component: its power minus the noise density" },
+        FieldUnit { path: "bands[].tracked_power_dbw", unit: "dBW", provenance: ClosedForm, definition: "power the C/N0 and J/S are referred to: the signal power for a plain band; for a designed signal the tracked component's share of the unfiltered power, P s / eta" },
+        FieldUnit { path: "bands[].design.tx_bandwidth_hz", unit: "Hz", provenance: Spec, definition: "transmit bandwidth of a designed signal; its spectrum is zero outside it" },
+        FieldUnit { path: "bands[].design.in_band_power_fraction", unit: "1", provenance: Computed, definition: "fraction eta of the unfiltered power inside the transmit bandwidth, integrated numerically" },
+        FieldUnit { path: "bands[].design.tracked_share", unit: "1", provenance: Spec, definition: "share of the unfiltered power in the tracked component" },
+        FieldUnit { path: "bands[].design.components[].offset_hz", unit: "Hz", provenance: Spec, definition: "component offset from the carrier (a frequency-division multiple access sub-carrier when non-zero)" },
+        FieldUnit { path: "bands[].design.components[].power_fraction", unit: "1", provenance: Spec, definition: "component share of the unfiltered power" },
         FieldUnit { path: "jammers[].centre_hz", unit: "Hz", provenance: Input, definition: "jammer centre frequency" },
         FieldUnit { path: "jammers[].bandwidth_hz", unit: "Hz", provenance: Input, definition: "occupied or swept bandwidth; zero for a tone; the matched modulation's main-lobe null-to-null width for matched noise" },
         FieldUnit { path: "jammers[].sweep_period_s", unit: "s", provenance: Input, definition: "chirp sweep period" },
@@ -1960,6 +2504,17 @@ pub const UNITS: &[crate::field_schema::FieldUnit] = {
         FieldUnit { path: "waterfall.freq_hz[]", unit: "Hz", provenance: Computed, definition: "centre of each emitted column" },
         FieldUnit { path: "waterfall.t_s[]", unit: "s", provenance: Computed, definition: "start of each emitted row" },
         FieldUnit { path: "waterfall.psd_dbw_per_hz[][]", unit: "dBW/Hz", provenance: Computed, definition: "power spectral density averaged over the cell in power: noise floor, signals and duty-weighted jammers" },
+        FieldUnit { path: "panels[].f_min_hz", unit: "Hz", provenance: Input, definition: "lower edge of the panel's frequency grid" },
+        FieldUnit { path: "panels[].f_max_hz", unit: "Hz", provenance: Input, definition: "upper edge of the panel's frequency grid" },
+        FieldUnit { path: "panels[].bin_width_hz", unit: "Hz", provenance: Computed, definition: "width of one emitted panel column after downsampling" },
+        FieldUnit { path: "panels[].row_duration_s", unit: "s", provenance: Computed, definition: "duration of one emitted panel row after downsampling" },
+        FieldUnit { path: "panels[].source_n_freq", unit: "count", provenance: Input, definition: "panel frequency bins computed" },
+        FieldUnit { path: "panels[].n_freq", unit: "count", provenance: Computed, definition: "panel frequency columns emitted" },
+        FieldUnit { path: "panels[].n_time", unit: "count", provenance: Computed, definition: "panel rows emitted" },
+        FieldUnit { path: "panels[].peak_dbw_per_hz", unit: "dBW/Hz", provenance: Computed, definition: "largest cell of the panel's full-resolution grid" },
+        FieldUnit { path: "panels[].freq_hz[]", unit: "Hz", provenance: Computed, definition: "centre of each emitted panel column" },
+        FieldUnit { path: "panels[].t_s[]", unit: "s", provenance: Computed, definition: "start of each emitted panel row" },
+        FieldUnit { path: "panels[].psd_dbw_per_hz[][]", unit: "dBW/Hz", provenance: Computed, definition: "panel power spectral density averaged over the cell in power: noise floor, signals and duty-weighted jammers" },
         FieldUnit { path: "iq.centre_hz", unit: "Hz", provenance: Input, definition: "front-end centre frequency of the synthetic snapshot" },
         FieldUnit { path: "iq.sample_rate_hz", unit: "Hz", provenance: Input, definition: "complex sample rate" },
         FieldUnit { path: "iq.t_s", unit: "s", provenance: Input, definition: "timeline instant of the snapshot" },

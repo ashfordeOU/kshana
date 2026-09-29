@@ -1,0 +1,137 @@
+# Generic low Earth orbit (LEO) positioning, navigation and timing (PNT) signals, one per
+# band from UHF to wide C band, for a band trade that depends on no particular system.
+#
+# REPRESENTATIVE designs. Each is a pilot and data pair with a 50/50 split, a
+# rectangular-chip BPSK(n) sized to its band and 1 ms codes. Carriers:
+# * UHF 465 MHz, 10 MHz band: a representative UHF placement; no allocation is claimed.
+# * L 1191.795 MHz, BPSK(10) in 20.46 MHz: the Galileo E5 centre (116.5 x 10.23 MHz,
+#   Galileo Open Service Signal-in-Space Interface Control Document), in the RNSS band.
+# * S 2492.028 MHz, BPSK(5) in 16.5 MHz: the NavIC S-band carrier (NavIC Signal in Space
+#   ICD for the Standard Positioning Service), in the 2483.5 to 2500 MHz Radio
+#   Determination Satellite Service (RDSS) allocation.
+# * C 5020 MHz, BPSK(10) in 20 MHz: the middle of the 5010 to 5030 MHz RNSS allocation.
+# * wide C 5100 MHz, BPSK(50) in 120 MHz: a representative wideband ranging signal
+#   outside the RNSS allocation, for the question "what does bandwidth buy?".
+# Allocations: ITU Radio Regulations, https://www.itu.int/pub/R-REG-RR
+
+[preset]
+name = "generic-bands"
+title = "Generic UHF, L, S, C and wide-C LEO-PNT signals (representative)"
+source = "REPRESENTATIVE"
+url = "https://www.itu.int/pub/R-REG-RR"
+notes = "One representative pilot-and-data design per band for a system-agnostic band trade."
+
+[[signals]]
+name = "generic-uhf"
+system = "generic LEO-PNT"
+source = "REPRESENTATIVE"
+source_ref = "https://www.itu.int/pub/R-REG-RR"
+centre_mhz = 465.0
+tx_bandwidth_mhz = 10.0
+allocation = "other"
+notes = "Representative UHF placement; no allocation claimed."
+
+[[signals.components]]
+role = "pilot"
+modulation = "BPSK(5)"
+power_fraction = 0.5
+code_length_chips = 5115
+
+[[signals.components]]
+role = "data"
+modulation = "BPSK(5)"
+power_fraction = 0.5
+code_length_chips = 5115
+data_rate_sps = 250.0
+
+[[signals]]
+name = "generic-l"
+system = "generic LEO-PNT"
+source = "REPRESENTATIVE"
+source_ref = "https://www.itu.int/pub/R-REG-RR"
+centre_mhz = 1191.795
+tx_bandwidth_mhz = 20.46
+allocation = "rnss"
+notes = "At the Galileo E5 centre frequency, BPSK(10)."
+
+[[signals.components]]
+role = "pilot"
+modulation = "BPSK(10)"
+power_fraction = 0.5
+code_length_chips = 10230
+
+[[signals.components]]
+role = "data"
+modulation = "BPSK(10)"
+power_fraction = 0.5
+code_length_chips = 10230
+data_rate_sps = 250.0
+
+[[signals]]
+name = "generic-s"
+system = "generic LEO-PNT"
+source = "REPRESENTATIVE"
+source_ref = "https://www.itu.int/pub/R-REG-RR"
+centre_mhz = 2492.028
+tx_bandwidth_mhz = 16.5
+allocation = "rdss"
+notes = "At the NavIC S-band carrier, BPSK(5), inside 2483.5-2500 MHz."
+
+[[signals.components]]
+role = "pilot"
+modulation = "BPSK(5)"
+power_fraction = 0.5
+code_length_chips = 5115
+
+[[signals.components]]
+role = "data"
+modulation = "BPSK(5)"
+power_fraction = 0.5
+code_length_chips = 5115
+data_rate_sps = 250.0
+
+[[signals]]
+name = "generic-c"
+system = "generic LEO-PNT"
+source = "REPRESENTATIVE"
+source_ref = "https://www.itu.int/pub/R-REG-RR"
+centre_mhz = 5020.0
+tx_bandwidth_mhz = 20.0
+allocation = "rnss"
+notes = "Middle of the 5010-5030 MHz RNSS allocation, BPSK(10)."
+
+[[signals.components]]
+role = "pilot"
+modulation = "BPSK(10)"
+power_fraction = 0.5
+code_length_chips = 10230
+
+[[signals.components]]
+role = "data"
+modulation = "BPSK(10)"
+power_fraction = 0.5
+code_length_chips = 10230
+data_rate_sps = 250.0
+
+[[signals]]
+name = "generic-c-wide"
+system = "generic LEO-PNT"
+source = "REPRESENTATIVE"
+source_ref = "https://www.itu.int/pub/R-REG-RR"
+centre_mhz = 5100.0
+tx_bandwidth_mhz = 120.0
+allocation = "non-rnss"
+notes = "Representative wideband ranging signal outside the RNSS allocation, BPSK(50)."
+
+[[signals.components]]
+role = "pilot"
+modulation = "BPSK(50)"
+power_fraction = 0.5
+code_length_chips = 51150
+
+[[signals.components]]
+role = "data"
+modulation = "BPSK(50)"
+power_fraction = 0.5
+code_length_chips = 51150
+data_rate_sps = 250.0

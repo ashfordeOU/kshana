@@ -46,7 +46,15 @@ fn temp_workdir(label: &str) -> std::path::PathBuf {
 
 /// Scenario files that need data shipped with the repository only. Each must be refused by
 /// `kshana example` with a reason rather than bundled.
-const REPO_ONLY: &[&str] = &["lunar-llr-datum", "quantum-pnt-demonstrator.suite"];
+const REPO_ONLY: &[&str] = &[
+    "celeste-iod-classical-pilot-signals",
+    "lunar-llr-datum",
+    "quantum-pnt-demonstrator.suite",
+];
+
+/// Repo-only files a release may withhold by deleting them (the workshop-parameter
+/// preset). The CLI must still refuse the name with its reason, but the file may be absent.
+const WITHHOLDABLE: &[&str] = &["celeste-iod-classical-pilot-signals"];
 
 fn scenario_stems() -> Vec<String> {
     let dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("scenarios");
@@ -152,7 +160,7 @@ fn every_scenario_file_is_bundled_byte_for_byte_or_refused_with_a_reason() {
 
     for stem in REPO_ONLY {
         assert!(
-            stems.iter().any(|s| s == stem),
+            stems.iter().any(|s| s == stem) || WITHHOLDABLE.contains(stem),
             "{stem} is listed as repo-only but no scenarios/{stem}.toml exists"
         );
         let o = kshana(&["example", stem]);
