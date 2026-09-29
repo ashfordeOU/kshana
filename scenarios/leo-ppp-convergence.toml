@@ -1,0 +1,100 @@
+# Precise point positioning (PPP) convergence with LEO augmentation.
+#
+# A float PPP filter on ionosphere-free code and phase runs at three mid-latitude sites with
+# GPS, Galileo, BeiDou (medium Earth orbit) and GLONASS, and then with each of four LEO
+# constellations added. Li et al. ("LEO constellation-augmented multi-GNSS for rapid PPP
+# convergence", Journal of Geodesy 93:749-764, 2019, doi 10.1007/s00190-018-1195-2) report
+# multi-GNSS convergence shortened from 9.6 min to 7.0, 3.2, 2.1 and 1.3 min with 60, 96, 192
+# and 288 LEO satellites; `compare_li_2019` puts those figures beside the modelled ones.
+#
+# The four LEO constellations here are representative Walker delta shells at 1000 km and
+# 60 deg with 60, 96, 192 and 288 satellites; they are NOT the paper's designs, and the noise,
+# stations and convergence definition (horizontal and vertical errors below 10 cm until the
+# end of the run) are this model's. The comparison is therefore a MODELLED consistency check
+# on the trend: convergence must shorten monotonically with the number of LEO satellites.
+kind = "leo-ppp"
+seed = 20
+duration_s = 1800.0
+step_s = 10.0
+runs = 4
+compare_li_2019 = true
+
+[[site]]
+lat_deg = 30.5
+lon_deg = 114.4
+
+[[site]]
+lat_deg = 48.1
+lon_deg = 11.6
+
+[[site]]
+lat_deg = 39.0
+lon_deg = -77.0
+
+[[gnss]]
+name = "GPS"
+preset = "gps-baseline"
+mask_deg = 7.0
+
+[[gnss]]
+name = "Galileo"
+preset = "galileo"
+mask_deg = 7.0
+
+[[gnss]]
+name = "BeiDou"
+preset = "beidou-meo"
+mask_deg = 7.0
+
+[[gnss]]
+name = "GLONASS"
+preset = "glonass"
+mask_deg = 7.0
+
+[[case]]
+name = "60 LEO"
+[[case.system]]
+name = "LEO-60"
+mask_deg = 7.0
+[[case.system.shell]]
+total = 60
+planes = 6
+phasing = 1
+altitude_km = 1000.0
+inclination_deg = 60.0
+
+[[case]]
+name = "96 LEO"
+[[case.system]]
+name = "LEO-96"
+mask_deg = 7.0
+[[case.system.shell]]
+total = 96
+planes = 8
+phasing = 1
+altitude_km = 1000.0
+inclination_deg = 60.0
+
+[[case]]
+name = "192 LEO"
+[[case.system]]
+name = "LEO-192"
+mask_deg = 7.0
+[[case.system.shell]]
+total = 192
+planes = 12
+phasing = 1
+altitude_km = 1000.0
+inclination_deg = 60.0
+
+[[case]]
+name = "288 LEO"
+[[case.system]]
+name = "LEO-288"
+mask_deg = 7.0
+[[case.system.shell]]
+total = 288
+planes = 16
+phasing = 1
+altitude_km = 1000.0
+inclination_deg = 60.0
