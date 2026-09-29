@@ -62,7 +62,7 @@ signal (`data/leo-signals/generic-bands.toml`, `generic-c-band.toml`).
 
 | Band | Allocation | Generic design | Centre | Transmit bandwidth | Components | First-order ionospheric delay relative to L |
 |---|---|---|---|---|---|---|
-| UHF | not a radionavigation allocation (representative); carrier from the public [openRECEIVER survey](https://open-receiver.com/blogs/leo-pnt-signals-celeste/) | `generic-uhf` | 465 MHz | 10 MHz | BPSK(5) pilot and data | 6.6 × |
+| UHF | not a radionavigation allocation (representative); carrier from the public [openRECEIVER survey](https://open-receiver.com/blogs/leo-pnt-signals-celeste/) (page since withdrawn; see [LEO-SIGNAL.md](LEO-SIGNAL.md#references)) | `generic-uhf` | 465 MHz | 10 MHz | BPSK(5) pilot and data | 6.6 × |
 | L | radionavigation-satellite service (RNSS), the Galileo E5 centre | `generic-l` | 1191.795 MHz | 20.46 MHz | BPSK(10) pilot and data | 1 |
 | S | radiodetermination-satellite service (RDSS), the S carrier of NavIC (Navigation with Indian Constellation) | `generic-s` | 2492.028 MHz | 16.5 MHz | BPSK(5) pilot and data | 0.23 × |
 | C | RNSS, centre of the 5010–5030 MHz allocation | `generic-c`, `generic-c-band-leo` | 5020 MHz | 20 MHz | BPSK(10) pilot and data | 0.056 × |
@@ -77,13 +77,13 @@ range (−8.2 dB at UHF, +6.4 dB at S, +12.5 dB at C).
 
 | Preset | Source | What it carries |
 |---|---|---|
-| `generic-bands`, `generic-leo` | REPRESENTATIVE, band centres from the ITU Radio Regulations | the band table above; a 550 km sun-synchronous Walker layer at 0 dBW per band |
+| `generic-bands`, `generic-leo` | REPRESENTATIVE, band centres from the ITU Radio Regulations | `generic-bands` (signal designs): the band table above; `generic-leo` (the `leo-pass` default): UHF at 450 MHz, L, S and C at the centres above, 0 dBW EIRP per band, a 550 km sun-synchronous Walker 240/12/1 layer |
 | `generic-c-band` | REPRESENTATIVE, for C-band systems whose parameters are not public (for example TrustPoint) | BPSK(10) at 5020 MHz, isoflux beam |
 | `xona-pulsar` | PUBLIC: Leclère, Marathe and Reid, Institute of Navigation (ION) GNSS+ 2025, [arXiv 2509.19551](https://arxiv.org/abs/2509.19551) | X1 at 1593.3225 MHz (1.023 Mchip/s) and X5 at 1190.51625 MHz (10.23 Mchip/s), the published minimum and maximum received powers, 258 satellites at about 1080 km (53 and 97 deg shells) |
-| `iridium-stl` | PUBLIC: [Resilient Navigation and Timing Foundation (RNTF) briefing](https://rntfnd.org/wp-content/uploads/Recent-PNT-Improvements-and-Test-Results-Based-on-Low-Earth-Orbit-Satellites.pdf) | bursts in 1616–1626 MHz, Doppler up to ±36 kHz, 66 satellites at 780 km, received power "300 to 2400 times GPS" |
-| `starlink-soo` / `starlink-sop` | PUBLIC signal figures: Kozhaya, Saroufim and Kassas, [NAVIGATION 72(1)](https://navi.ion.org/content/72/1/navi.685); REPRESENTATIVE orbit | a 240 MHz Ku-band beacon used for Doppler only, C/N0 about 57 dB-Hz |
+| `iridium-stl` | PUBLIC: [Resilient Navigation and Timing Foundation (RNTF) briefing](https://rntfnd.org/wp-content/uploads/Recent-PNT-Improvements-and-Test-Results-Based-on-Low-Earth-Orbit-Satellites.pdf) | bursts in 1616–1626 MHz, Doppler up to ±36 kHz, 66 satellites at 780 km (781 km in the `leo-pass` preset), received power "300 to 2400 times GPS" |
+| `starlink-soo` / `starlink-soop` / `starlink-sop` (signal, pass and positioning kinds) | PUBLIC signal figures: Kozhaya, Saroufim and Kassas, [NAVIGATION 72(1)](https://navi.ion.org/content/72/1/navi.685); REPRESENTATIVE orbit | a 240 MHz Ku-band beacon used for Doppler only, C/N0 about 57 dB-Hz |
 | `centispace` | PUBLIC signal structure: [PMC10301026](https://pmc.ncbi.nlm.nih.gov/articles/PMC10301026/); REPRESENTATIVE orbit and power | BPSK at 2.046 Mchip/s near L1 and L5 |
-| `atomic-zero-clock` | PUBLIC: [InsideGNSS, ATOMIC payload](https://insidegnss.com/first-steps-toward-a-fully-operational-leo-pnt-payload/) | a 6th-order polynomial ephemeris with no clock terms (the clock is steered to GNSS time) |
+| `atomic-zero-clock` (`atomic` in the message kind) | PUBLIC: [InsideGNSS, ATOMIC (Autonomous Time and Orbit Determination for Microsatellite Constellations) payload](https://insidegnss.com/first-steps-toward-a-fully-operational-leo-pnt-payload/) | a 6th-order polynomial ephemeris with no clock terms (the clock is steered to GNSS time) |
 | `celeste-iod` (optional) | WORKSHOP: presented at the ESA NAVISP LEO-PNT workshop, 2026 | the in-orbit demonstration's signal configuration #1 and message layout, in the one withholdable file |
 
 Every preset marks its numbers PUBLIC (with a URL), REPRESENTATIVE (a documented design
@@ -112,7 +112,7 @@ export is a documented Kshana extension (prior art: [arXiv 2401.17767](https://a
 | Scenario | Kind | Result of one run |
 |---|---|---|
 | `leo-resilience-multiband-diversity` | `campaign` sweep of `spectrum` | a 50 MHz barrage at 1185 MHz swept from −140 to −80 dBW: GPS L5 is lost at −105 dBW, Galileo E5a and the LEO L-band signal at −100 dBW; the UHF, S- and C-band LEO signals keep 49.4, 49.2 and 47.4 dB-Hz at every power |
-| `leo-resilience-js-margin` | `spectrum` | the same kind of jammer stepping up 5 dB every 10 s: GPS L5 lost at −105 dBW, Galileo E5a at −100 dBW, Xona X5 (at its published minimum, −144.9 dBW) at −95 dBW; a generic LEO signal at −135 dBW still tracks at −90 dBW (28.9 dB-Hz). Received power buys J/S margin dB for dB |
+| `leo-resilience-js-margin` | `spectrum` | a 40 MHz barrage at 1185 MHz stepping up 5 dB every 10 s from −125 dBW: GPS L5 lost at −105 dBW, Galileo E5a at −100 dBW, Xona X5 (at its published minimum, −144.9 dBW) at −95 dBW; a generic LEO signal at −135 dBW still tracks at −90 dBW (28.9 dB-Hz). Received power buys J/S margin dB for dB |
 | `leo-resilience-spoof-doppler` | `leo-pass` `[spoofer]` | a 30 m position jump at a surveyed site: the GNSS-only Doppler test never detects it; the test on every channel does, 105 s after the onset (see [LEO-PASS.md](LEO-PASS.md#spoofing-monitors-spoofer)) |
 | `leo-resilience-spoof-monitors` | `campaign` compose of `leo-pass` | four spoofers, both monitors: an L-band-only spoofer and an all-band spoofer without ionosphere are caught by the cross-band monitor at the onset (300 s) and by the Doppler monitor at 420 s and 395 s; an ionosphere-aware all-band spoofer only by the Doppler monitor (395 s); a GNSS-only 30 m push by neither |
 | `leo-resilience-gnss-jammed-leo-carries` | `campaign` chain (`spectrum`, `integrity`) | GNSS jammed for 15 minutes (GPS L1 coarse/acquisition (C/A) code to about 10 dB-Hz, E5a to 17.4 dB-Hz against a 25 dB-Hz floor) while the S- and C-band LEO signals hold 49.2 and 47.4 dB-Hz; receiver autonomous integrity monitoring (RAIM) on the LEO layer alone forms a protection level at every epoch, under the 50 m vertical alert limit at 28 of 30 grid times, with the alarm raised at the other two; nominal and recovery phases 5.4 to 15.6 m |
@@ -147,7 +147,7 @@ Each vertical is a `campaign` chain on one timeline, so it animates, and each ha
 |---|---|---|
 | Autonomous vehicles | `leo-vertical-autonomous-vehicle` | a car in Munich: open road, fused error 0.30 m mean; in a 35 deg urban canyon GPS and Galileo keep 8 satellites and a 5.8 m mean error, the generic LEO layer adds 4 to 5 and brings it to 2.1 m, still above the 1.5 m lane-level threshold at about half the canyon epochs |
 | Railway and maritime | `leo-vertical-rail-maritime` | the bundled `maritime-strait-jamming` ship loses every GNSS satellite (12.1 dB-Hz) while its S- and C-band LEO pass reaches 44.2 and 38.1 dB-Hz; the bundled `rail-tunnel-coast` train reaches 2 m of inertial error 35.8 s into the tunnel; in the open its LEO pass gives 35 to 50 dB-Hz in L |
-| Critical infrastructure | `leo-vertical-critical-infrastructure-timing` | a substation time server's TCXO-class oscillator (temperature-compensated crystal) free-running through a day without GNSS reaches 29 µs, past the 1 µs guard a little over an hour after the loss; the same class disciplined to Iridium stays within −40 to +11 ns |
+| Critical infrastructure | `leo-vertical-critical-infrastructure-timing` | a substation time server's TCXO-class oscillator (temperature-compensated crystal) free-running through a day without GNSS reaches 29 µs, past the 1 µs guard between 75 and 80 minutes after the loss (on the 5-minute grid); the same class disciplined to Iridium stays within −40 to +11 ns |
 | Polar and Arctic users | `leo-vertical-polar-arctic` | GPS + Galileo mean position dilution of precision (PDOP) 1.38, 1.57 and 1.62 at Tromsø, Svalbard and the North Pole; with Iridium 1.29, 1.34 and 1.26, from 3.0, 5.5 and 6.8 Iridium satellites in view |
 | Wireless networks 5G/6G | `leo-vertical-5g-network-timing` | a base station's oven-controlled crystal oscillator (OCXO) in holdover crosses the 1.1 µs network limit after 8863 s and the 1.5 µs end-application limit after 10006 s (the `telecom-timing` kind's analysis); disciplined to Xona X5 its time error stays between −0.7 and +0.3 ns all day, with a predicted 1-sigma of 5 ns, the broadcast UTC offset's stated uncertainty |
 | Asset tracking and IoT | `leo-vertical-asset-tracking-iot` | a container tag's hot UHF fix costs 18 mJ on the quay and at sea (8334 days of battery at one fix an hour) and 34 mJ in a warehouse (5770 days), where L band falls to 20 to 24 dB-Hz |
@@ -216,6 +216,14 @@ The remaining LEO scenarios, by kind (details on each kind's page):
 | `slot-timing` | `slot-timing-ocxo-leo` |
 
 The optional scenarios are repository-only and are withheld with the Celeste preset file.
+
+Two of them sit in other kinds. `leo-pnt-mega-shell` (`constellation-design`) sizes a
+5000-satellite LEO-PNT constellation in four illustrative Walker shells: availability
+99.22 % at a PDOP of 3 or less above a 20° mask, median PDOP 1.11 and 39.4 satellites in
+view on average over 648 grid points and 12 epochs. `slot-timing-ocxo-leo` (`slot-timing`)
+asks how long the datasheet OCXO of a LEO smallsat stays inside a 100 ns slot guard at k = 3
+after its last GNSS fix: the guard breaks 650.8 s after a fix, so it needs a fix at least
+every 645.8 s (133.8 a day), with random-walk frequency noise the dominant term.
 
 ## End-to-end LEO-PNT chain
 

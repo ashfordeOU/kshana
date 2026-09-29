@@ -504,6 +504,13 @@ breaking changes are called out explicitly.
 
 ### Fixed
 
+- **LEO-PNT documents: revised published figures (re-run on engine 0.28.0).**
+  `docs/LEO-SIGNAL.md` band trade: the first-order ionospheric delay of `generic-s` is
+  3.24 m (was printed 3.25 m) and of `generic-c-wide` 0.77 m (was 0.78 m).
+  `docs/LEO-NAVMSG.md` encode and decode: the decoded message's SISRE is 0.122 cm (was
+  printed 0.119 cm). `docs/LEO-PASS.md` LEO-versus-GNSS pass: 32 dB less free-space loss at
+  the pass peak (was "26 to 32 dB"). The engine output did not change; the documents had
+  misread or mis-rounded it.
 - **STK ephemeris file names from mover ids.** A mover id holding a `/` or a space (a
   constellation shell and a satellite, `Pulsar inclined/S1-0163`) made the CLI panic on
   `--export stk`; each id now passes through a safe file part (letters, digits, `-`, `_`).
