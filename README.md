@@ -399,7 +399,18 @@ cargo run -- scenarios/orbit-sgp4-gps.toml --export-omm gps.omm
 
 # Export the velocity-carrying state to a CCSDS OEM 2.0 ephemeris (GMAT/Orekit/STK):
 cargo run -- scenarios/orbit-sgp4-gps.toml --export-oem gps.oem
+
+# Export the geometry for a globe, a map or a mission-analysis tool: CZML, KML,
+# GeoJSON, STK .e, or SigMF for the spectrum kind (every format that applies):
+cargo run -- scenarios/jamming-demo.toml --export all
 ```
+
+`--export <czml|kml|geojson|stk|sigmf|all|list>` writes CZML (the Cesium Language), KML
+(Keyhole Markup Language), GeoJSON (Request for Comments 7946), Ansys STK (Systems Tool Kit) `.e`
+ephemerides and SigMF (Signal Metadata Format) recordings next to the scenario, and
+`--import-route <route.geojson>` feeds a GeoJSON line into the track-flying kinds. Each
+format is validated against its published specification, and a scenario a format does
+not apply to says why: see [docs/INTEROP.md](docs/INTEROP.md).
 
 **Other CLI modes** — lint a scenario, feed real Earth-orientation data, or run a whole suite:
 

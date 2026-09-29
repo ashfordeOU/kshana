@@ -300,6 +300,23 @@ pub struct PassesScenario {
 }
 
 impl PassesScenario {
+    /// The satellite this scenario predicts passes of: a circular Keplerian orbit at
+    /// `altitude_km` above the equatorial radius, in the engine's inertial frame.
+    pub fn propagator(&self) -> Propagator {
+        Propagator::Kepler(Orbit::new(
+            R_EARTH_EQUATORIAL_M + self.altitude_km * 1000.0,
+            self.inclination_deg.to_radians(),
+            self.raan_deg.to_radians(),
+            self.arg_lat_deg.to_radians(),
+        ))
+    }
+
+    /// The window-start epoch as `[year, month, day, hour, minute, second]`: the
+    /// scenario's `epoch`, or 2024-01-01 00:00:00 when it gives none.
+    pub fn epoch_calendar(&self) -> [f64; 6] {
+        self.epoch.unwrap_or([2024.0, 1.0, 1.0, 0.0, 0.0, 0.0])
+    }
+
     /// Run the scenario, returning `(json, summary)`.
     pub fn run_json(&self) -> Result<(String, String), String> {
         if !self.altitude_km.is_finite() || self.altitude_km <= 0.0 {
@@ -317,19 +334,13 @@ impl PassesScenario {
         if !self.step_s.is_finite() || self.step_s <= 0.0 {
             return Err("step_s must be finite and positive".to_string());
         }
-        let radius_m = R_EARTH_EQUATORIAL_M + self.altitude_km * 1000.0;
-        let orbit = Propagator::Kepler(Orbit::new(
-            radius_m,
-            self.inclination_deg.to_radians(),
-            self.raan_deg.to_radians(),
-            self.arg_lat_deg.to_radians(),
-        ));
+        let orbit = self.propagator();
         let station = Geodetic {
             lat_rad: self.station_lat_deg.to_radians(),
             lon_rad: self.station_lon_deg.to_radians(),
             alt_m: self.station_alt_m,
         };
-        let e = self.epoch.unwrap_or([2024.0, 1.0, 1.0, 0.0, 0.0, 0.0]);
+        let e = self.epoch_calendar();
         let jd0 = crate::timescales::julian_date(
             e[0] as i32,
             e[1] as u32,
