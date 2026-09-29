@@ -51,10 +51,13 @@ model can feed it without the positioning code knowing where it came from.
 | `atomic-zero-clock` | An ephemeris-and-clock model: sixth-order polynomial ephemeris, 30 s refresh, clock steered to GNSS time; SISRE 0.26 m | PUBLIC: [InsideGNSS](https://insidegnss.com/first-steps-toward-a-fully-operational-leo-pnt-payload/). DERIVED: the SISRE. Combine with any constellation through `ephemeris_preset` |
 | `celeste-iod` | European Space Agency (ESA) Celeste in-orbit demonstration (IOD), one configuration of a parameterised signal design | PUBLIC orbit ([ESA](https://www.esa.int/Applications/Satellite_navigation/Celeste/Celeste_IOD_-_Facts_and_figures), [Institute of Navigation (ION) abstract 16907](https://www.ion.org/gnss/abstracts.cfm?paperID=16907)); WORKSHOP signal parameters, presented at the ESA Navigation Innovation and Support Programme (NAVISP) LEO-PNT workshop, 2026 |
 
-Every workshop-derived number is in `src/leo_fusion/presets/celeste_iod.rs` and
-`scenarios/celeste-iod-fused-pvt.toml`, and nowhere else (a source-text test enforces it).
-To publish without them, delete those two files, the two lines that name the preset in
-`src/leo_fusion/presets/mod.rs`, the scenario's line in `src/bundled_scenarios.rs`, and its rows in the tables of this page.
+Every workshop-derived number is in the `fusion` module of `src/celeste_iod.rs`, used by
+`scenarios/celeste-iod-fused-pvt.toml` (`tests/workshop_preset_isolation.rs` enforces
+where they may appear). How the preset is withheld: every workshop-derived number of the engine lives in one file,
+`src/celeste_iod.rs`, which `build.rs` compiles in only when it exists, and in the
+repository-only scenarios `scenarios/*celeste-iod*.toml`. Deleting that file and those
+scenarios withholds the preset with no source edit; every other test, oracle and scenario
+runs without it, and the README's scenario-file count still counts the withheld files.
 
 ## `leo-pvt`
 

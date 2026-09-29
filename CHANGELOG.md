@@ -11,6 +11,58 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Batch B and batch C in one release: animation, advanced reports, interoperability
+  exports and a complete LEO-PNT capability.** Across the release the kind count moves from
+  68 to 75, the scenario-file count from 94 to 120 (114 bundled for `kshana example`, plus
+  one suite manifest), and the verification matrix from 189 to
+  **220 rows — 83 VALIDATED, 133 MODELLED, 4 PARTNER**. Per area: animation, reports and
+  exports add no kind and no row; `leo-signal` +1 kind, +4 files, +4 rows (2 VALIDATED,
+  2 MODELLED); `leo-pass` +1 kind, +6 files, +9 rows (6 VALIDATED, 3 MODELLED);
+  `leo-navmsg` +1 kind, +5 files, +9 rows (3 VALIDATED, 6 MODELLED); `leo-pvt`, `leo-ppp`
+  and `ntn-positioning` +3 kinds, +8 files, +8 rows (1 VALIDATED, 7 MODELLED);
+  `leo-pnt-chain` +1 kind, +3 files, +1 row (MODELLED). Each area is described below.
+- **LEO-PNT end to end: the `leo-pnt-chain` kind, and the LEO stages wired together.**
+  One low Earth orbit (LEO) positioning, navigation and timing (PNT) system followed from
+  its signal design to the user's position, each stage the engine's own kind on its own
+  scenario table, with values handed on in code
+  ([`docs/LEO-PNT.md`](docs/LEO-PNT.md#end-to-end-leo-pnt-chain)):
+  - `leo-pass` bands may name a `leo-signal` design (`signal = "xona-x5"`): the band takes
+    the design's centre, transmit bandwidth and tracked-component chip rate, splits its
+    EIRP (equivalent isotropically radiated power) across the design's components, and
+    reports every epoch's tracked-component C/N0 (carrier-to-noise density) and
+    band-limited code-tracking jitter (the ranging error; the `iono_free` pair noise uses
+    it too). A band without a design gives the same output as before.
+  - `leo-pnt-chain` runs signal -> pass -> navigation message -> fused `leo-pvt` joint fix
+    -> optional `leo-ppp`. Every LEO system of the positioning stage that leaves them unset
+    takes a C/N0 line in sin(elevation) fitted to the pass, the message's signal-in-space
+    range error (SISRE: its representation error at the pass satellite's orbit, with a
+    stated `od_sisre_m` orbit-determination term in root-sum-square), and the design's
+    carrier and chip rate; the precise point positioning (PPP) cases take the SISRE. Every
+    hand-off is listed with its value and unit, and `tests/leo_pnt_chain.rs` checks that
+    each equals the upstream output and that upstream changes move the downstream figures.
+    `LeoNavmsgScenario::broadcast_sisre` is the new message entry point.
+  - Scenarios: `leo-pnt-end-to-end` (a generic 1080 km constellation and the representative
+    `generic-l` signal), `xona-pulsar-end-to-end` (the public X5 signal), both bundled, and
+    the optional, repository-only `celeste-iod-end-to-end`.
+  - The Celeste IOD (in-orbit demonstration) presets of the pass, message and fused
+    positioning areas now live in one file, `src/celeste_iod.rs`, which `build.rs` compiles
+    in only when it exists (the `kshana_celeste` configuration flag). Its five scenarios
+    (`scenarios/*celeste-iod*.toml`) are repository-only, so deleting that file and those
+    scenarios withholds every number presented at the ESA NAVISP LEO-PNT workshop, 2026,
+    with no source edit; `tests/workshop_preset_isolation.rs` checks which files may name
+    the preset or carry its band-plan numbers.
+  - Every LEO kind in the advanced report's crosswalk, with its path-specific rows listed
+    only when the run took that path (a rain rate, a building, an analysis or mode that ran).
+    `leo-pvt` Doppler windows gain `t_s` and `leo-ppp` cases gain `t_min`, so both animate;
+    `leo-pass` and `leo-pnt-chain` export CZML, KML, GeoJSON and STK ephemerides, and the
+    other LEO kinds state why a format does not apply.
+- **The report, the animation and the exports work together.** The advanced report gains an
+  "Animation and exports" section: the run's animated drawing embedded as an inert image (or
+  the reason there is none), links to the animation and export files written beside it,
+  and every interoperability format with whether it applies, why not, and its
+  specification; `report.json` carries the same `companions` block. The HTML animation
+  player lists the export files written beside it. The command-line interface (CLI) now
+  renders the exports before it writes the report, so both can name the files.
 - **Animation export (`--animate svg|html|frames|all`, `src/animation.rs`,
   [`docs/ANIMATION.md`](docs/ANIMATION.md)).** Any run whose result carries a time series
   can now be written as an animated Scalable Vector Graphics (SVG) file (Cascading Style
@@ -94,9 +146,9 @@ breaking changes are called out explicitly.
   `Sp3Interpolator::jd_ut1` and `Propagator::own_jd_utc` are added; nothing that existed
   reads them.
 - **LEO-PNT signal designs and a multi-band spectrum.** A new `leo-signal` kind and a
-  `spectrum` kind that reaches beyond the L band. The kind count moves from 68 to 69, the
-  scenario-file count from 94 to 98 (96 bundled for `kshana example`; the workshop-parameter file is repository-only, so deleting it withholds it), and the
-  verification matrix from 189 to **193 rows — 73 VALIDATED, 116 MODELLED, 4 PARTNER**.
+  `spectrum` kind that reaches beyond the L band: one kind, four scenario files (three
+  bundled; the Celeste IOD file is repository-only) and four matrix rows (two VALIDATED,
+  two MODELLED).
   - `leo-signal`: parameterised low Earth orbit (LEO) positioning, navigation and timing
     (PNT) signal designs for any system (band, transmit bandwidth, ITU allocation;
     acquisition, data and pilot components with BPSK(n), BOC(m,n), MBOC or flat spectra,
@@ -114,8 +166,8 @@ breaking changes are called out explicitly.
     optional shape checks against a described measurement. Examples:
     `scenarios/leo-band-trade.toml`, `scenarios/xona-pulsar-signals.toml`,
     `scenarios/celeste-iod-classical-pilot-signals.toml` (the Celeste IOD bands and
-    signal configuration presented at the ESA NAVISP LEO-PNT workshop, 2026; the only file
-    carrying workshop parameters, removable on its own). Notes in `docs/LEO-SIGNAL.md`.
+    signal configuration presented at the ESA NAVISP LEO-PNT workshop, 2026; withheld with
+    the Celeste IOD preset, see "LEO-PNT end to end" above). Notes in `docs/LEO-SIGNAL.md`.
   - `spectrum`: bands may now be a preset signal design (every component drawn,
     band-limited, C/N0 and J/S referred to the tracked component) or a custom carrier and
     modulation; `[[panels]]` add waterfalls over other frequency ranges on one timeline; a
@@ -134,11 +186,6 @@ breaking changes are called out explicitly.
     stated as internal cross-checks); VALIDATED maximum LEO Doppler (Xona X1 33.2 kHz
     inside the published 32 to 34 kHz, Iridium within 0.5 kHz of 36 kHz); MODELLED
     `leo-signal`; MODELLED multi-band spectrum.
-- **Four new engine areas in one release: `spectrum`, `solar-system` and `body-pnt`,
-  `constellation-design`, and `campaign`.** The kind count moves from 63 to 68, the
-  scenario-file count from 82 to 94, and the verification matrix from 174 to
-  189 rows (71 validated, 114 modelled, 4 partner-owned at that step; the LEO-PNT entry
-  above brings the live totals to 193). Each area is described below.
 - **LEO-PNT pass and per-band link budget: the `leo-pass` kind.** LEO-PNT is positioning,
   navigation and timing from satellites in low Earth orbit (LEO). A user (ground, maritime,
   air or indoor, static or moving) and one or more LEO satellites from a designed pass,
@@ -161,7 +208,8 @@ breaking changes are called out explicitly.
     generic C band, Xona Pulsar X1/X5 (arXiv 2509.19551), Iridium STL, Starlink as a
     Doppler-only signal of opportunity, CentiSpace, and Celeste IOD (in-orbit
     demonstration), whose signal parameters were presented at the ESA NAVISP LEO-PNT
-    workshop, 2026, and live in one preset file and one scenario so they can be withheld.
+    workshop, 2026, and live in `src/celeste_iod.rs` so they can be withheld (see "LEO-PNT
+    end to end" above).
   - Public building blocks in `src/leo_link/` (geometry, antenna, itu, iono, energy,
     presets) for other modules to call.
   - Scenarios: `leo-pass-vs-gnss-cn0`, `leo-indoor-uhf`, `leo-iot-energy`,
@@ -171,21 +219,13 @@ breaking changes are called out explicitly.
     P.2109 building entry loss against the Study Group 3 workbook; first-order ionospheric
     scaling against the IS-GPS-200 group-delay ratio, with the free-space loss; the static-user
     maximum Doppler of a circular orbit against arXiv 2509.19551 Table 1. MODELLED (3): the
-    pass and link budget, the presets, and the low-energy fix budget. With this branch the
-    counts move to 69 kinds, 100 scenario files and 198 matrix rows (77 VALIDATED,
-    117 MODELLED, 4 PARTNER). Notes in `docs/LEO-PNT.md`.
-- **Four new engine areas in one release: `spectrum`, `solar-system` and `body-pnt`,
-  `constellation-design`, and `campaign`.** The kind count moves from 63 to 68, the
-  scenario-file count from 82 to 94, and the verification matrix from 174 to 189 rows;
-  with the `leo-pass` entry above it holds
-  **198 rows — 77 VALIDATED, 117 MODELLED, 4 PARTNER**. Each area is described below.
+    pass and link budget, the presets, and the low-energy fix budget. One kind and six
+    scenario files. Notes in `docs/LEO-PNT.md`.
 - **LEO navigation message (`leo-navmsg` kind, `src/leo_navmsg/`).** The broadcast
   ephemeris and clock message of a low Earth orbit (LEO) positioning, navigation and
   timing (PNT) satellite, for any orbit, carrier and model; named presets are optional
-  data and every capability runs without them. The kind count moves from 68 to 69, the
-  scenario-file count from 94 to 99, and the verification matrix from 189 to
-  **198 rows — 74 VALIDATED, 120 MODELLED, 4 PARTNER** (three validated rows, six
-  modelled). See `docs/LEO-NAVMSG.md`.
+  data and every capability runs without them. One kind, five scenario files and
+  nine matrix rows (three VALIDATED, six MODELLED). See `docs/LEO-NAVMSG.md`.
   - Message content: SVID, issue of data, band and signal health; week, time of week and
     a second-order clock polynomial; the ephemeris in one of four models — the Galileo
     OS SIS ICD 16-parameter Keplerian set, that set plus along-track, cross-track and
@@ -211,13 +251,7 @@ breaking changes are called out explicitly.
   - Presets, one file each with sources: Xona Pulsar and Pulsar-0, Iridium, Starlink,
     CentiSpace, a representative C-band system, ATOMIC, and Celeste IOD (the only preset
     using material presented at the ESA NAVISP LEO-PNT workshop, 2026, kept in
-    `presets/celeste_iod.rs` and `scenarios/leo-navmsg-celeste-iod.toml` so it can be
-    withheld).
-- **Four new engine areas in one release: `spectrum`, `solar-system` and `body-pnt`,
-  `constellation-design`, and `campaign`.** The kind count moves from 63 to 68, the
-  scenario-file count from 82 to 94, and the verification matrix from 174 to 189 rows
-  (the release totals, with `leo-navmsg`, are stated in the entry above). Each area is
-  described below.
+    `src/celeste_iod.rs` with its scenarios so it can be withheld).
 - **Fused MEO + LEO positioning, navigation and timing: `leo-pvt`, `leo-ppp` and
   `ntn-positioning`.** Three new scenario kinds in `src/leo_fusion/`, system-agnostic: every
   constellation is Walker shells, element sets or a GNSS preset, every signal a carrier, a
@@ -226,7 +260,7 @@ breaking changes are called out explicitly.
   their sources marked public, workshop or derived (Xona Pulsar X1/X5, Iridium Satellite Time and Location (STL), Starlink
   signals of opportunity, CentiSpace, a representative C-band system, the ATOMIC zero-clock
   ephemeris model, and one ESA Celeste in-orbit-demonstration preset whose workshop-derived
-  parameters live in one file and one scenario so they can be withheld).
+  parameters live in `src/celeste_iod.rs` so they can be withheld).
   - `leo-pvt` has four modes: Doppler positioning (batch least squares on range rate with
     clock-drift and velocity states, a Doppler-only signals-of-opportunity mode, the
     single-pass along-track and cross-track accuracy, and the Doppler, Doppler-rate and jerk
@@ -245,21 +279,20 @@ breaking changes are called out explicitly.
     mobile-satellite S band from the Cramér-Rao bound on time of arrival and Doppler.
   - Scenarios: `leo-doppler-positioning`, `starlink-sop-doppler-positioning`,
     `meo-leo-fused-pvt`, `leo-ppp-convergence`, `ntn-5g-positioning`,
-    `polar-arctic-leo-coverage`, `leo-timing-utc` and `celeste-iod-fused-pvt`, all bundled.
+    `polar-arctic-leo-coverage`, `leo-timing-utc` (bundled) and `celeste-iod-fused-pvt`
+    (repository-only, withheld with the Celeste IOD preset).
   - Eight matrix rows: the LEO Doppler envelope VALIDATED against the published Iridium
     (±36 kHz: 35.9 kHz, within 5%) and Xona Pulsar X1 (32 to 34 kHz: 33.6 kHz from the
     97 deg shell, with no widening) figures
     (`tests/leo_doppler_reference.rs`); Doppler positioning, joint pseudorange positioning,
-    PPP convergence, NTN bounds, LEO timing, polar coverage and the presets MODELLED. The
-    kind count moves from 68 to 71, the scenario-file count from 94 to 102, and the matrix
-    from 189 to **197 rows — 72 VALIDATED, 121 MODELLED, 4 PARTNER**. Documentation:
-    `docs/LEO-PNT-FUSION.md`.
+    PPP convergence, NTN bounds, LEO timing, polar coverage and the presets MODELLED. Three
+    kinds and eight scenario files. Documentation: `docs/LEO-PNT-FUSION.md`.
 
 - **Four new engine areas in one release: `spectrum`, `solar-system` and `body-pnt`,
   `constellation-design`, and `campaign`.** The kind count moves from 63 to 68, the
   scenario-file count from 82 to 94, and the verification matrix from 174 to 189 rows
-  (71 validated, 114 modelled, 4 partner-owned; the entry above gives the live totals).
-  Each area is described below.
+  (71 VALIDATED, 114 MODELLED, 4 PARTNER at that step; the combined statement at the top
+  of this section gives the release totals). Each area is described below.
   - Across the areas: `scenarios/campaign-spectrum-holdover-integrity.toml` chains the
     `spectrum` kind with a clock holdover and an integrity monitor (a chirp takes L1 C/A
     and E1; a CW tone then keeps C/A down while E1 recovers and the receiver falls back to
@@ -418,6 +451,9 @@ breaking changes are called out explicitly.
 
 ### Fixed
 
+- **STK ephemeris file names from mover ids.** A mover id holding a `/` or a space (a
+  constellation shell and a satellite, `Pulsar inclined/S1-0163`) made the CLI panic on
+  `--export stk`; each id now passes through a safe file part (letters, digits, `-`, `_`).
 - **The TEME→GCRS reduction turned by 2·Δψ: the nutation matrix had the sign of Δψ
   reversed.** `nutation::numat` built `Rx(−(ε̄+Δε))·Rz(Δψ)·Rx(ε̄)` where SOFA's `iauNumat`
   builds `Rx(−(ε̄+Δε))·Rz(−Δψ)·Rx(ε̄)`, so `nutation_matrix`, `nutation_matrix_2000a`,
