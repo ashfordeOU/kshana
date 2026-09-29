@@ -4,8 +4,9 @@ The `leo-signal` scenario kind analyses low Earth orbit (LEO) positioning, navig
 timing (PNT) signals. It is not tied to one system. A signal is a parameterised design
 (data, not code), so the same kind analyses a published commercial signal, a
 representative design for a band nobody has published, or any design a scenario writes
-inline. The `spectrum` kind now draws those designs too, in any band from ultra high frequency (UHF) to C, each
-band with its own jammers.
+inline. The `spectrum` kind draws those designs too, in any band from ultra high frequency
+(UHF) to C, each band with its own jammers, and a `leo-pass` band or a `leo-pnt-chain` run
+can carry any of them (see [Where the designs are used](#where-the-designs-are-used)).
 
 Run the bundled examples:
 
@@ -57,7 +58,7 @@ design, and lives with the navigation-message work, not here.
   power the transmit band passes. For a BPSK component at the centre the closed form
   `η = (2/π)[Si(πBT_c) − sin²(πBT_c/2)/(πBT_c/2)]` sits beside the numeric value (90.3 %
   for the main lobe).
-- **RMS (Gabor) bandwidth** of the tracked component inside the band, with the BPSK closed
+- **Root-mean-square (RMS, Gabor) bandwidth** of the tracked component inside the band, with the BPSK closed
   form `β² = [B/2 − sin(πBT_c)/(2πT_c)] / (π² T_c η)`.
 - **Code-tracking thermal-noise jitter** of a delay lock loop (DLL) against C/N₀ and
   early-late correlator spacing, from the band-limited early-late formula of Betz and
@@ -91,8 +92,8 @@ for a plain band, whose modulation's power outside the receiver band is lost the
 ## The band trade
 
 `[trade]` puts every signal beside a reference signal: first-order ionospheric group delay
-`40.3·TEC/f²` for a slant total electron content (TEC) you give (1 TECU = 10¹⁶
-electrons/m²), free-space loss at a slant range, ranging accuracy at **equal C/N₀** and at
+`40.3·TEC/f²` for a slant total electron content (TEC) you give (1 TEC unit, TECU, = 10¹⁶
+electrons/m²), free-space path loss (FSPL) at a slant range, ranging accuracy at **equal C/N₀** and at
 **equal effective isotropic radiated power (EIRP)** (C/N₀ minus the free-space-loss
 difference, isotropic antennas at both ends), and the jammer tolerance at the equal-EIRP
 C/N₀.
@@ -104,9 +105,9 @@ C/N₀.
 |---|---|---|---|---|---|---|---|
 | generic-uhf | 465 MHz, BPSK(5) | 93.19 m (×6.57) | −8.17 dB | 0.221 m | 53.17 dB-Hz | 0.086 m | 42.1 dB |
 | generic-l | 1191.795 MHz, BPSK(10) | 14.19 m | 0 | 0.111 m | 45.00 dB-Hz | 0.111 m | 45.0 dB |
-| generic-s | 2492.028 MHz, BPSK(5) | 3.25 m (×0.229) | +6.41 dB | 0.185 m | 38.59 dB-Hz | 0.388 m | 41.7 dB |
+| generic-s | 2492.028 MHz, BPSK(5) | 3.24 m (×0.229) | +6.41 dB | 0.185 m | 38.59 dB-Hz | 0.388 m | 41.7 dB |
 | generic-c | 5020 MHz, BPSK(10) | 0.80 m (×0.056) | +12.49 dB | 0.111 m | 32.51 dB-Hz | 0.465 m | 43.4 dB |
-| generic-c-wide | 5100 MHz, BPSK(50) | 0.78 m (×0.055) | +12.63 dB | 0.022 m | 32.37 dB-Hz | 0.093 m | 50.3 dB |
+| generic-c-wide | 5100 MHz, BPSK(50) | 0.77 m (×0.055) | +12.63 dB | 0.022 m | 32.37 dB-Hz | 0.093 m | 50.3 dB |
 
 The trade reads both ways. At equal C/N₀, ranging accuracy is set by the chip rate and the
 band (wide C ranges five times finer than L). At equal radiated power the free-space loss
@@ -136,7 +137,8 @@ Doppler row below).
 
 ## The multi-band spectrum
 
-The `spectrum` kind's `[[bands]]` now take, besides the five named GNSS bands:
+The `spectrum` kind's `[[bands]]` take, besides the five named GNSS bands (`gps-l1ca`,
+`galileo-e1`, `gps-l2c`, `gps-l5`, `galileo-e5a`):
 
 - `signal = "<preset signal>"`: a preset design, drawn with every component, band-limited
   to its transmit bandwidth, received at the preset's reference power or
@@ -146,8 +148,9 @@ The `spectrum` kind's `[[bands]]` now take, besides the five named GNSS bands:
 
 `[[panels]]` add waterfalls over other frequency ranges on the same timeline and colour
 scale, and a `wideband` (barrage) jammer joins CW, narrowband, chirp and matched noise.
-A plain band behaves exactly as before: the bundled L-band example still gives 43.48 and
-3.23 dB-Hz for L1 C/A (pinned in `tests/leo_signal_reference.rs`).
+A plain band behaves exactly as before: the bundled `l-band-waterfall-jamming` example
+still gives 43.48 dB-Hz nominal and 3.23 dB-Hz minimum for L1 C/A (pinned in
+`tests/leo_signal_reference.rs`).
 
 `scenarios/multi-band-jamming-waterfall.toml` (60 s, one row per second):
 
@@ -162,6 +165,22 @@ A plain band behaves exactly as before: the bundled L-band example still gives 4
 
 Each jammer takes only its own band; the test holds every other band at its nominal C/N₀
 until its own jammer starts.
+
+## Where the designs are used
+
+A design is looked up by name wherever a band can name one:
+
+- a `spectrum` band (`signal = "<design>"`, above): `multi-band-jamming-waterfall`,
+  `leo-resilience-js-margin` and the `leo-resilience-multiband-diversity` and
+  `leo-resilience-gnss-jammed-leo-carries` campaigns;
+- a `leo-pass` band (`signal = "<design>"`): the band takes the design's centre frequency
+  (unless `frequency_mhz` is given), transmit bandwidth and tracked chip rate, splits its
+  EIRP across the components by their power shares, and reports the tracked component's
+  C/N₀ and band-limited code-tracking jitter at every epoch
+  ([LEO-PASS.md](LEO-PASS.md#bands-and-signal-designs));
+- the `leo-pnt-chain` kind, which hands a design's power split and chip rate to the pass and
+  its carrier and chip rate to the fused fix (`leo-pnt-end-to-end`,
+  `xona-pulsar-end-to-end`; [LEO-PNT.md](LEO-PNT.md#end-to-end-leo-pnt-chain)).
 
 ## Workshop parameters
 
@@ -207,8 +226,8 @@ it is absent, and the README's scenario-file count still counts it.
 ## References
 
 - J. W. Betz and K. R. Kolodziejski, "Generalized Theory of Code Tracking with an
-  Early-Late Discriminator, Part I," *IEEE Transactions on Aerospace and Electronic
-  Systems* 45(4), 2009.
+  Early-Late Discriminator, Part I," *IEEE (Institute of Electrical and Electronics
+  Engineers) Transactions on Aerospace and Electronic Systems* 45(4), 2009.
 - J. W. Betz, "Binary Offset Carrier Modulations for Radionavigation," *NAVIGATION* 48(4),
   2001.
 - E. D. Kaplan and C. J. Hegarty (eds.), *Understanding GPS/GNSS*, 3rd ed., Artech House,
@@ -217,7 +236,8 @@ it is absent, and the README's scenario-file count still counts it.
 - M. Abramowitz and I. A. Stegun, *Handbook of Mathematical Functions*, 1964, §5.2 and
   Table 5.1.
 - Galileo Open Service Signal-in-Space Interface Control Document; IS-GPS-200; IS-GPS-705.
-- Leclère, Marathe and Reid, ION GNSS+ 2025, <https://arxiv.org/abs/2509.19551>.
+- Leclère, Marathe and Reid, Institute of Navigation (ION) GNSS+ 2025,
+  <https://arxiv.org/abs/2509.19551>.
 - Resilient Navigation and Timing Foundation, *Recent PNT Improvements and Test Results
   Based on Low Earth Orbit Satellites*,
   <https://rntfnd.org/wp-content/uploads/Recent-PNT-Improvements-and-Test-Results-Based-on-Low-Earth-Orbit-Satellites.pdf>.
@@ -227,5 +247,8 @@ it is absent, and the README's scenario-file count still counts it.
 - ESA Celeste IOD facts:
   <https://www.esa.int/Applications/Satellite_navigation/Celeste/Celeste_IOD_-_Facts_and_figures>.
 - ITU Radio Regulations: <https://www.itu.int/pub/R-REG-RR>.
-- openRECEIVER, *LEO-PNT Signals: Inside CELESTE's Four Bands* (the public source of the
-  465 MHz UHF carrier of `generic-uhf`): <https://open-receiver.com/blogs/leo-pnt-signals-celeste/>.
+- openRECEIVER, *LEO-PNT Signals: Inside CELESTE's Four Bands*, 1 August 2026 (the public
+  source of the 465 MHz UHF carrier of `generic-uhf`):
+  <https://open-receiver.com/blogs/leo-pnt-signals-celeste/>. The page has been withdrawn
+  from the site (HTTP 404 and gone from its blog index on 2026-09-29); search engines still
+  list it under that title.
