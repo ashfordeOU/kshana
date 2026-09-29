@@ -339,6 +339,12 @@ fn main() -> ExitCode {
         }
     };
 
+    // The scenario file's exact bytes, before any `--eop` injection: the report's
+    // reproducibility record digests these, because they are what a reader re-runs.
+    let scenario_src = src.clone();
+    let mut report_extra_args: Vec<String> = Vec::new();
+    let mut report_input_files: Vec<(String, String)> = Vec::new();
+
     // `--eop <finals2000A>`: inline a real IERS Earth-orientation file into the
     // scenario so the ephemeris ground track is reduced through real UT1/pole rather
     // than the nominal scalars. The data travels in the scenario, keeping the run
@@ -351,6 +357,13 @@ fn main() -> ExitCode {
                 return ExitCode::FAILURE;
             }
         };
+        let eop_arg = eop_file.display().to_string();
+        report_extra_args.push("--eop".to_string());
+        report_extra_args.push(eop_arg.clone());
+        report_input_files.push((
+            eop_arg,
+            kshana::advanced_report::sha256_hex(body.as_bytes()),
+        ));
         match kshana::api::inject_eop(&src, &body) {
             Ok(merged) => src = merged,
             Err(e) => {
@@ -373,6 +386,8 @@ fn main() -> ExitCode {
     // no `--study-name`, nothing below runs and the output stays byte-identical.
     let output_base: PathBuf = match &study_name {
         Some(name) => {
+            report_extra_args.push("--study-name".to_string());
+            report_extra_args.push(name.clone());
             let meta = kshana::report::study_meta_with_title(name, &utc_iso8601_now());
             out.json = kshana::api::with_study_meta(&out.json, &meta);
             // Write the study-named outputs in the scenario file's directory.
@@ -445,9 +460,33 @@ fn main() -> ExitCode {
         eprintln!("error: cannot write {}: {e}", svg_path.display());
         return ExitCode::FAILURE;
     }
+    // The advanced report: report.html (printable) and report.json (the same content,
+    // machine-readable). Both are pure functions of the run, the scenario bytes and the
+    // invocation, so a re-run writes them byte for byte.
     let html_path = output_base.with_extension("report.html");
-    if let Err(e) = std::fs::write(&html_path, out.html_report()) {
+    let report_json_path = output_base.with_extension("report.json");
+    let file_name =
+        |p: &std::path::Path| p.file_name().and_then(|n| n.to_str()).map(str::to_string);
+    let invocation = kshana::advanced_report::Invocation {
+        scenario_arg: scenario_arg.clone(),
+        extra_args: report_extra_args,
+        input_files: report_input_files,
+        result_file: file_name(&json_path),
+        chart_file: file_name(&svg_path),
+    };
+    let report = match kshana::advanced_report::build(&out, &scenario_src, &invocation) {
+        Ok(r) => r,
+        Err(e) => {
+            eprintln!("error: cannot build the report: {e}");
+            return ExitCode::FAILURE;
+        }
+    };
+    if let Err(e) = std::fs::write(&html_path, report.to_html(&out.svg)) {
         eprintln!("error: cannot write {}: {e}", html_path.display());
+        return ExitCode::FAILURE;
+    }
+    if let Err(e) = std::fs::write(&report_json_path, report.to_json()) {
+        eprintln!("error: cannot write {}: {e}", report_json_path.display());
         return ExitCode::FAILURE;
     }
     // CSV reproducibility artifact, when the scenario publishes one (e.g.
@@ -465,18 +504,20 @@ fn main() -> ExitCode {
     println!("{}", out.summary);
     if wrote_csv {
         println!(
-            "wrote {}, {}, {}, and {}",
+            "wrote {}, {}, {}, {}, and {}",
             json_path.display(),
             svg_path.display(),
             html_path.display(),
+            report_json_path.display(),
             csv_path.display()
         );
     } else {
         println!(
-            "wrote {}, {}, and {}",
+            "wrote {}, {}, {}, and {}",
             json_path.display(),
             svg_path.display(),
-            html_path.display()
+            html_path.display(),
+            report_json_path.display()
         );
     }
 
