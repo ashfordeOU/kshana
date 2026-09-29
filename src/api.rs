@@ -1215,6 +1215,23 @@ pub fn auto_export_omm(src: &str) -> Result<Option<String>, String> {
     }
 }
 
+/// Run a scenario and animate its time series in one format (see
+/// [`crate::animation`] and `docs/ANIMATION.md`): an animated SVG, a self-contained
+/// HTML player, or a numbered SVG frame sequence with `manifest.json`. The result is a
+/// pure function of the scenario and the options, so the same inputs give
+/// byte-identical files. A kind whose result carries no sampled time axis is refused
+/// with a message that says so.
+pub fn animate_toml(
+    src: &str,
+    format: crate::animation::AnimationFormat,
+    opts: &crate::animation::AnimationOptions,
+) -> Result<crate::animation::Animation, String> {
+    let kind = ScenarioKind::classify(src).map_err(|e| e.to_string())?;
+    let out = run_toml(src)?;
+    crate::animation::animate_result(&out.json, Some(kind.as_str()), format, opts)
+        .map_err(|e| e.to_string())
+}
+
 /// Export an orbit scenario's propagated constellation as CCSDS OEM text — the
 /// inertial (TEME) state time series, position AND velocity, in the spacecraft-
 /// ephemeris interchange format flight-dynamics tools (GMAT/Orekit/STK) read. This
