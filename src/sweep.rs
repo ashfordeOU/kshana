@@ -586,7 +586,9 @@ pub(crate) fn set_dotted(root: &mut toml::Value, key: &str, value: f64) -> Resul
 }
 
 /// [`set_dotted`] for any TOML value: an integer seed, an array, a string. The same
-/// rule holds: every segment must already exist, so a mistyped key fails loudly.
+/// rule holds: every segment must already exist, so a mistyped key fails loudly. A
+/// segment that is a whole number indexes an array (an array of tables such as
+/// `[[system]]`), so `system.2.sisre_m` is the third system's `sisre_m`.
 pub(crate) fn set_dotted_value(
     root: &mut toml::Value,
     key: &str,
@@ -598,6 +600,17 @@ pub(crate) fn set_dotted_value(
     }
     let mut cur = root;
     for part in &parts[..parts.len() - 1] {
+        if cur.is_array() {
+            let i: usize = part.parse().map_err(|_| {
+                format!("sweep key `{key}`: `{part}` follows an array, so it must be an index")
+            })?;
+            let arr = cur.as_array_mut().ok_or("unreachable")?;
+            let n = arr.len();
+            cur = arr.get_mut(i).ok_or_else(|| {
+                format!("sweep key `{key}`: index {i} is past the {n} entries of the array")
+            })?;
+            continue;
+        }
         let tbl = cur
             .as_table_mut()
             .ok_or_else(|| format!("sweep key `{key}`: `{part}`'s parent is not a table"))?;
@@ -885,6 +898,19 @@ pub fn generic_to_svg(result: &GenericNdSweepResult) -> String {
 
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn a_numeric_segment_indexes_an_array_of_tables() {
+        let mut v: toml::Value =
+            toml::from_str("[[system]]\nsisre_m = 1.0\n[[system]]\nsisre_m = 2.0\n").unwrap();
+        set_dotted(&mut v, "system.1.sisre_m", 0.5).unwrap();
+        assert_eq!(v["system"][1]["sisre_m"].as_float(), Some(0.5));
+        assert_eq!(v["system"][0]["sisre_m"].as_float(), Some(1.0));
+        assert!(set_dotted(&mut v, "system.2.sisre_m", 0.5).is_err());
+        assert!(set_dotted(&mut v, "system.x.sisre_m", 0.5).is_err());
+        assert!(set_dotted(&mut v, "system.0.missing", 0.5).is_err());
+    }
+
     use super::*;
     use crate::scenario::*;
 
