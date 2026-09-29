@@ -107,7 +107,17 @@ gives `NumberOfEphemerisPoints` (equal to the number of data rows), `ScenarioEpo
 `DistanceUnit Meters`; the rows under `EphemerisTimePosVel` are seconds after the epoch,
 position in metres and velocity in metres per second, in the GCRS. A scene with only fixed
 sites or untimed tracks writes no `.e` file: a fixed point is an STK Facility, not an
-ephemeris.
+ephemeris. An id that is not a plain file-name part (a constellation shell and a satellite,
+`Pulsar inclined/S1-0163`) is written with every other character as `-`, numbered if two
+ids then coincide.
+
+The `leo-pass` kind and the `leo-pnt-chain` kind (through its `[pass]` stage) export every
+LEO satellite and the user from the kind's own propagators and time grid. The kind works in
+ECI0, the inertial frame aligned with the Earth-fixed frame at the epoch; each sample is
+turned into the Earth-fixed frame at its own time by the kind's Earth rotation and from
+there into the GCRS through TEME (the frame SGP4 outputs in) at that instant, with UT1
+taken equal to UTC and polar motion neglected, as for the other exports. The other LEO
+kinds state why a format does not apply (the table below).
 
 ### SigMF
 
