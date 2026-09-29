@@ -1,128 +1,218 @@
-# LEO-PNT pass and link budget (`leo-pass`)
+# LEO-PNT in Kshana
 
-LEO-PNT is positioning, navigation and timing (PNT) from satellites in low Earth orbit (LEO).
-The `leo-pass` kind simulates one or more LEO satellite passes over a user and works out the
-link budget band by band, next to the medium Earth orbit (MEO) GNSS (global navigation
-satellite system) satellites in view. The engine is **system-agnostic**: any constellation,
-any signal design and any band, written straight into a scenario. Named systems are optional
-presets, each in its own file with its source.
+LEO-PNT is positioning, navigation and timing (PNT) from satellites in low Earth orbit
+(LEO), alongside or instead of the medium Earth orbit (MEO) global navigation satellite
+systems (GNSS) such as the Global Positioning System (GPS) and Galileo. This page ties together every LEO-PNT kind and scenario of the engine: what
+each computes, the bands and signal presets and where their numbers come from, what the
+navigation message carries, what is VALIDATED and what is MODELLED, and how to run each
+scenario. The kind pages go deeper:
 
-- Code: [`src/leo_pass.rs`](../src/leo_pass.rs) (the kind) and
-  [`src/leo_link/`](../src/leo_link/) (public building blocks other modules can call).
-- Scenarios: `leo-pass-vs-gnss-cn0`, `leo-indoor-uhf`, `leo-iot-energy`,
-  `leo-pass-xona-pulsar`, `leo-pass-iridium`, and the optional `leo-pass-celeste-iod-multiband`.
-- Oracles: [`tests/leo_link_reference.rs`](../tests/leo_link_reference.rs), fixtures in
-  `tests/fixtures/leo_link/` with their source URLs.
+| Page | Kinds |
+|---|---|
+| [LEO-SIGNAL.md](LEO-SIGNAL.md) | `leo-signal` (signal designs) and the multi-band `spectrum` panels |
+| [LEO-PASS.md](LEO-PASS.md) | `leo-pass` (pass geometry and link budget per band, low-energy fixes, ionosphere sounding, spoofing monitors) |
+| [LEO-NAVMSG.md](LEO-NAVMSG.md) | `leo-navmsg` (the broadcast message: fitter, user algorithm, binary and text formats) |
+| [LEO-PNT-FUSION.md](LEO-PNT-FUSION.md) | `leo-pvt`, `leo-ppp`, `ntn-positioning` (fused positioning, precise point positioning, 5G NTN, timing, polar coverage) |
+| [SPECTRUM.md](SPECTRUM.md) | `spectrum` (jamming waterfalls and J/S per band) |
+| [CAMPAIGNS.md](CAMPAIGNS.md) | `campaign` (chains, sweeps, Monte Carlo and compositions of any kinds) |
 
-## What one run computes
+## System-agnostic first
 
-For every LEO satellite, band and epoch:
+The engine is a generic LEO-PNT simulator. Any constellation (a Walker pattern, explicit
+orbital elements, a two-line element set (TLE) through the Simplified General Perturbations 4 (SGP4) propagator, or a designed single pass), any
+signal design (any band, any mix of binary phase-shift keying (BPSK), binary offset carrier
+(BOC) and frequency-division multiple access (FDMA) components), any navigation-message
+model. Named systems are optional presets: data files, each with its source, which fill
+only what a scenario leaves out. Every capability, test, oracle and bundled scenario runs
+with no Celeste data present.
 
-| Term | Model | Label |
+The Celeste IOD (in-orbit demonstration) preset is one optional preset among them. Its
+signal parameters were presented at the ESA NAVISP (European Space Agency Navigation
+Innovation and Support Programme) LEO-PNT workshop, 2026, and have no public source yet.
+Every workshop-derived number of the engine lives in one file,
+[`src/celeste_iod.rs`](../src/celeste_iod.rs), which `build.rs` compiles in only when it
+exists, and in the repository-only scenarios `scenarios/*celeste-iod*.toml`. Deleting that
+file and those scenarios withholds the preset with no source edit; every other test, oracle
+and scenario runs without it (`tests/workshop_preset_isolation.rs` guards which files may
+name it). This page gives none of its numbers.
+
+## The kinds and how they connect
+
+| Kind | What one run computes | Label |
 |---|---|---|
-| Elevation, azimuth, range | WGS-84 (World Geodetic System 1984) user, satellite in an inertial frame aligned with the Earth-fixed frame at the epoch | computed |
-| Range rate `ρ̇ = d·Δv/ρ`, range acceleration `ρ̈ = (|Δv|² − ρ̇² + d·Δa)/ρ` | closed form; every run checks both against central differences of the propagated range and reports the largest difference | closed form |
-| Doppler `−f·ρ̇/c`, Doppler rate `−f·ρ̈/c` | first order, per band | closed form |
-| Free-space path loss | Friis, `20·log10(4πRf/c)` | VALIDATED |
-| Satellite EIRP (equivalent isotropically radiated power) and pattern | isoflux to an edge elevation, Gaussian main lobe `−12(η/θ₃)²` dB, or flat | MODELLED |
-| User antenna | patch `G_z + 10·q·log10(sin el)` dBic, hemispherical or isotropic | MODELLED |
-| Gaseous attenuation | ITU-R (International Telecommunication Union, Radiocommunication Sector) P.676-10 Annex 2 simplified expressions (superseded by P.676-13, whose tabulated coefficients the engine does not carry) | MODELLED |
-| Rain attenuation | ITU-R P.838-3 coefficients and the P.618-14 § 2.2.1.1 procedure, from a rain rate R0.01 and a rain height | VALIDATED |
-| Tropospheric scintillation | ITU-R P.618-14 § 2.4.1; below 4 GHz an extrapolation, flagged in the report | VALIDATED (4–55 GHz) |
-| Building entry loss (indoor user) | ITU-R P.2109-2, traditional or thermally-efficient, at the elevation of the path at the facade | VALIDATED |
-| Polarisation mismatch | polarisation loss factor from axial ratios and senses, averaged over ellipse orientation | closed form |
-| System noise temperature | antenna floor + sky emission of the absorbing path (275 K) + cosmic 2.7 K + receiver `290(10^(NF/10) − 1)` | MODELLED |
-| C/N0 (carrier-to-noise density) | `EIRP + G_sat − L_fs − L_gas − L_rain − L_scint − L_BEL − L_pol + G_user − 10·log10(kT) − L_impl` | MODELLED |
-| Ionospheric group delay | `40.3·STEC/f²`, STEC (slant total electron content) from the Klobuchar model or a vertical TEC, scaled by the fraction of a Chapman layer below the satellite | scaling VALIDATED, TEC MODELLED |
+| `leo-signal` | a signal design's band-limited power spectral density (PSD), power in band, root-mean-square (Gabor) bandwidth, code-tracking jitter against carrier-to-noise density (C/N0), acquisition search, and spectral separation coefficients (SSC) against GNSS signals; a band trade (ultra high frequency (UHF), L, S, C) | closed forms VALIDATED, designs and trade MODELLED |
+| `spectrum` (multi-band panels) | per-band waterfalls with per-band jammers (continuous wave (CW), chirp, narrowband, wideband, matched), each signal's jammer-to-signal ratio (J/S) and effective C/N0 over a timeline | spectra VALIDATED, jammers MODELLED |
+| `leo-pass` | pass geometry, Doppler and Doppler rate, free-space loss, satellite and user antennas, ITU-R (International Telecommunication Union, Radiocommunication Sector) gaseous, rain, scintillation and building entry loss, C/N0 per band and epoch beside the MEO GNSS carriers; ionosphere per band and the ionosphere-free pairs; low-energy fixes; ionosphere sounding; spoofing monitors | components VALIDATED, pass MODELLED |
+| `leo-navmsg` | the broadcast ephemeris and clock message: fitter, signal-in-space range error (SISRE) against fit interval and update period, mid-pass update continuity, user algorithm, binary frame with a 24-bit cyclic redundancy check (CRC-24Q), exports in the style of RINEX 4 (Receiver Independent Exchange Format) and as comma-separated values (CSV) | user algorithm, weights and CRC VALIDATED, fits MODELLED |
+| `leo-pvt` | Doppler positioning, joint GNSS + LEO pseudorange fixes with inter-system biases, polar and Arctic geometry, time transfer to Coordinated Universal Time (UTC), with an optional per-epoch time-error trace | maximum Doppler VALIDATED, rest MODELLED |
+| `leo-ppp` | precise point positioning (PPP) convergence with GNSS only and with LEO layers | MODELLED |
+| `ntn-positioning` | 5G non-terrestrial network (NTN) positioning accuracy from the downlink bandwidth (Cramér-Rao bound) | MODELLED |
+| `leo-pnt-chain` | one system end to end: signal design, pass, message, fused fix and PPP, every hand-off listed | MODELLED |
+| `campaign` | any of the above chained on one timeline, swept, run as a Monte Carlo ensemble or composed under shared conditions | MODELLED |
 
-Per band pair: the ionosphere-free coefficients, the noise amplification `√(a₁² + a₂²)` and
-the thermal code noise of each band and of the combination at the pass peak. The MEO GNSS
-comparison uses the same user antenna and receiver, with each signal's interface-document
-minimum received power (Galileo OS SIS ICD Issue 2.1 Table 12; GPS from IS-GPS-200 and
-IS-GPS-705), plus a stated excess, scaled by range. The optional `[iot]` section gives time to
-first fix, energy per fix and battery life against duty cycle for a stated receiver power
-budget (MODELLED, every assumption an input and listed in the report).
+The chain hands values in code (see [End-to-end LEO-PNT chain](#end-to-end-leo-pnt-chain)
+below): the signal design sets the pass band's EIRP (equivalent isotropically radiated
+power) split and tracked chip rate; the pass gives the tracked C/N0 and code jitter; the
+navigation message's SISRE and the pass C/N0 weight the LEO measurements of the fused fix.
 
-## Satellites
+## Bands
 
-- `orbit = "pass"` (default): a circular orbit placed so the user sees one pass with a chosen
-  maximum elevation at a chosen time, ascending or descending, east or west of the user; the
-  inclination can be sun-synchronous.
-- `orbit = "elements"`: explicit Keplerian elements.
-- `orbit = "tle"`: a two-line element set (TLE) through the engine's SGP4.
-- `[[leo_constellation]]`: a Walker constellation built by the `constellation-design` code
-  (its `ConstellationCfg`, or the preset's shells); the highest passes in the window are
-  reported.
+The generic designs use public band centres; each is REPRESENTATIVE, not any system's
+signal (`data/leo-signals/generic-bands.toml`, `generic-c-band.toml`).
 
-Bands: `system = "<preset>"` with an optional `bands` subset, and `[[satellite.band]]` entries
-that add a band or override any field of a preset band. `system = "none"` with only
-`[[satellite.band]]` entries uses no preset at all.
+| Band | Allocation | Generic design | Centre | Transmit bandwidth | Components | First-order ionospheric delay relative to L |
+|---|---|---|---|---|---|---|
+| UHF | not a radionavigation allocation (representative) | `generic-uhf` | 465 MHz | 10 MHz | BPSK(5) pilot and data | 6.6 × |
+| L | radionavigation-satellite service (RNSS), the Galileo E5 centre | `generic-l` | 1191.795 MHz | 20.46 MHz | BPSK(10) pilot and data | 1 |
+| S | radiodetermination-satellite service (RDSS), the S carrier of NavIC (Navigation with Indian Constellation) | `generic-s` | 2492.028 MHz | 16.5 MHz | BPSK(5) pilot and data | 0.23 × |
+| C | RNSS, centre of the 5010–5030 MHz allocation | `generic-c`, `generic-c-band-leo` | 5020 MHz | 20 MHz | BPSK(10) pilot and data | 0.056 × |
+| C extended | outside the RNSS allocation (representative) | `generic-c-wide` | 5100 MHz | 120 MHz | BPSK(50) pilot and data | 0.055 × |
+| S (mobile-satellite service, MSS) | MSS downlink, 3GPP (Third Generation Partnership Project) band n256 | used by `ntn-positioning` | 2172.5 MHz | 0.18 to 20 MHz | 5G New Radio positioning signals | 0.30 × |
 
-## Presets
+BPSK(n) is binary phase-shift keying at n × 1.023 Mchip/s. The delay ratio is `(f_L/f)²`
+with `f_L` = 1191.795 MHz. The free-space loss grows by `20·log10(f/f_L)` at the same
+range (−8.2 dB at UHF, +6.4 dB at S, +12.5 dB at C).
 
-Each preset marks its numbers PUBLIC (with URL), REPRESENTATIVE (a documented design choice,
-never a claim about a real system) or WORKSHOP.
+## Signal and system presets
 
-| Preset | Source | Bands | Orbit |
+| Preset | Source | What it carries |
+|---|---|---|
+| `generic-bands`, `generic-leo` | REPRESENTATIVE, band centres from the ITU Radio Regulations | the band table above; a 550 km sun-synchronous Walker layer at 0 dBW per band |
+| `generic-c-band` | REPRESENTATIVE, for C-band systems whose parameters are not public (for example TrustPoint) | BPSK(10) at 5020 MHz, isoflux beam |
+| `xona-pulsar` | PUBLIC: Leclère, Marathe and Reid, ION GNSS+ 2025, [arXiv 2509.19551](https://arxiv.org/abs/2509.19551) | X1 at 1593.3225 MHz (1.023 Mchip/s) and X5 at 1190.51625 MHz (10.23 Mchip/s), the published minimum and maximum received powers, 258 satellites at about 1080 km (53 and 97 deg shells) |
+| `iridium-stl` | PUBLIC: [RNTF briefing](https://rntfnd.org/wp-content/uploads/Recent-PNT-Improvements-and-Test-Results-Based-on-Low-Earth-Orbit-Satellites.pdf) | bursts in 1616–1626 MHz, Doppler up to ±36 kHz, 66 satellites at 780 km, received power "300 to 2400 times GPS" |
+| `starlink-soo` / `starlink-sop` | PUBLIC signal figures: Kozhaya, Saroufim and Kassas, [NAVIGATION 72(1)](https://navi.ion.org/content/72/1/navi.685); REPRESENTATIVE orbit | a 240 MHz Ku-band beacon used for Doppler only, C/N0 about 57 dB-Hz |
+| `centispace` | PUBLIC signal structure: [PMC10301026](https://pmc.ncbi.nlm.nih.gov/articles/PMC10301026/); REPRESENTATIVE orbit and power | BPSK at 2.046 Mchip/s near L1 and L5 |
+| `atomic-zero-clock` | PUBLIC: [InsideGNSS, ATOMIC payload](https://insidegnss.com/first-steps-toward-a-fully-operational-leo-pnt-payload/) | a 6th-order polynomial ephemeris with no clock terms (the clock is steered to GNSS time) |
+| `celeste-iod` (optional) | WORKSHOP: presented at the ESA NAVISP LEO-PNT workshop, 2026 | the in-orbit demonstration's signal configuration #1 and message layout, in the one withholdable file |
+
+Every preset marks its numbers PUBLIC (with a URL), REPRESENTATIVE (a documented design
+choice, never a claim about a real system) or WORKSHOP, and the result of every run that
+uses one says which.
+
+## The navigation message
+
+A LEO navigation message ([LEO-NAVMSG.md](LEO-NAVMSG.md)) carries four parts, the
+structure the Galileo Open Service Signal-in-Space Interface Control Document (OS SIS ICD)
+and the published LEO proposals share:
+
+| Part | Content |
+|---|---|
+| Ephemeris | the Galileo ICD 16-parameter Keplerian set (square root of the semi-major axis, eccentricity, inclination and its rate, right ascension of the node and its rate, argument of perigee, mean anomaly, mean-motion correction, six harmonic corrections, reference time), plus along-track, cross-track and radial correction polynomials; or the Liu et al. 2025 22-parameter model ([doi 10.3390/rs17162894](https://doi.org/10.3390/rs17162894)); or the ATOMIC zero-clock polynomial |
+| Synchronisation | week number and time of week (TOW), and a second-order clock polynomial (af0, af1, af2 about toc) |
+| Auxiliary | space-vehicle identifier (SVID), issue of data (IOD), signal health |
+| Other services | ionospheric corrections for single-frequency users (a Klobuchar-style set and NeQuick-G ai0–ai2) and the system-time-to-UTC offset (A0, A1, leap seconds and their schedule) |
+
+The binary frame is Kshana's own documented encoding modelled on these components, not any
+system's bit layout. RINEX 4.02 defines no LEO navigation records, so the RINEX-style
+export is a documented Kshana extension (prior art: [arXiv 2401.17767](https://arxiv.org/abs/2401.17767)).
+
+## Resilience
+
+| Scenario | Kind | Result of one run |
+|---|---|---|
+| `leo-resilience-multiband-diversity` | `campaign` sweep of `spectrum` | a 50 MHz barrage at 1185 MHz swept from −140 to −80 dBW: GPS L5 is lost at −105 dBW, Galileo E5a and the LEO L-band signal at −100 dBW; the UHF, S- and C-band LEO signals keep 49.4, 49.2 and 47.4 dB-Hz at every power |
+| `leo-resilience-js-margin` | `spectrum` | the same kind of jammer stepping up 5 dB every 10 s: GPS L5 lost at −105 dBW, Galileo E5a at −100 dBW, Xona X5 (at its published minimum, −144.9 dBW) at −95 dBW; a generic LEO signal at −135 dBW still tracks at −90 dBW (28.9 dB-Hz). Received power buys J/S margin dB for dB |
+| `leo-resilience-spoof-doppler` | `leo-pass` `[spoofer]` | a 30 m position jump at a surveyed site: the GNSS-only Doppler test never detects it; the test on every channel does, 105 s after the onset (see [LEO-PASS.md](LEO-PASS.md#spoofing-monitors-spoofer)) |
+| `leo-resilience-spoof-monitors` | `campaign` compose of `leo-pass` | four spoofers, both monitors: an L-band-only spoofer and an all-band spoofer without ionosphere are caught by the cross-band monitor at the onset (300 s) and by the Doppler monitor at 420 s and 395 s; an ionosphere-aware all-band spoofer only by the Doppler monitor (395 s); a GNSS-only 30 m push by neither |
+| `leo-resilience-gnss-jammed-leo-carries` | `campaign` chain (`spectrum`, `integrity`) | GNSS jammed for 15 minutes (GPS L1 coarse/acquisition (C/A) code to about 10 dB-Hz, E5a to 17.4 dB-Hz against a 25 dB-Hz floor) while the S- and C-band LEO signals hold 49.2 and 47.4 dB-Hz; receiver autonomous integrity monitoring (RAIM) on the LEO layer alone forms a protection level at every epoch, under the 50 m vertical alert limit at 28 of 30 grid times, with the alarm raised at the other two; nominal and recovery phases 5.4 to 15.6 m |
+
+The spoofing monitors, their statistics and their limits are on
+[LEO-PASS.md](LEO-PASS.md#spoofing-monitors-spoofer). The multi-band waterfall with a
+different jammer per band is `multi-band-jamming-waterfall` ([LEO-SIGNAL.md](LEO-SIGNAL.md)).
+
+## One scenario per experiment focus area
+
+The eight experiment focus areas of the Celeste IOD call for third-party experimentation
+(ESA Open Space Innovation Platform, OSIP) are generic LEO-PNT questions; each has a
+system-agnostic scenario:
+
+| Focus area | Scenario | Kind | Result of one run |
 |---|---|---|---|
-| `generic-leo` (default) | REPRESENTATIVE; carriers from public documents | UHF 450 MHz, L 1191.795 MHz (Galileo E5 centre), S 2492.028 MHz (NavIC S), C 5020 MHz (centre of the 5010–5030 MHz RNSS (radionavigation-satellite service) allocation), each 0 dBW | 550 km sun-synchronous, Walker 240/12/1 |
-| `generic-c-band` | REPRESENTATIVE, for C-band systems whose parameters are not public (for example TrustPoint) | C 5020 MHz, BPSK(10) (binary phase-shift keying at 10 × 1.023 Mchip/s), isoflux | 550 km, 53° |
-| `xona-pulsar` | PUBLIC, [arXiv 2509.19551](https://arxiv.org/abs/2509.19551) Tables 1–2 | X1 1593.3225 MHz, X5 1190.51625 MHz; EIRP from the published minimum received power at 10° | 1080 km, 53° (192) and 97° (66) |
-| `iridium-stl` | PUBLIC, [RNTF](https://rntfnd.org/wp-content/uploads/Recent-PNT-Improvements-and-Test-Results-Based-on-Low-Earth-Orbit-Satellites.pdf) and the published orbit | STL at 1621 MHz (middle of 1616–1626 MHz); EIRP from "300 times GPS" | 781 km, 86.4°, 66 in 6 planes |
-| `starlink-soop` | PUBLIC signal figures ([NAVIGATION 72(1)](https://navi.ion.org/content/72/1/navi.685)), REPRESENTATIVE orbit and EIRP | Ku 240 MHz beacon, Doppler-only | 550 km, 53° |
-| `centispace` | PUBLIC signal structure ([PMC10301026](https://pmc.ncbi.nlm.nih.gov/articles/PMC10301026/)), REPRESENTATIVE orbit and EIRP | BPSK 2.046 Mchip/s near L1 and L5 | 1000 km, 55° |
-| `celeste-iod` (optional) | WORKSHOP signal parameters, PUBLIC orbit | seven bands of configuration #1 | 510 km sun-synchronous |
+| High-accuracy positioning (PPP) | `leo-focus-ppp-altitude` | `campaign` sweep of `leo-ppp` | a 192-satellite layer at 500, 1000 and 1500 km cuts multi-GNSS float PPP convergence at Munich from 13.0 min to 3.25, 3.25 and 3.5 min (six realisations, 30 s epochs) |
+| PNT resilience (L, S, C) | `leo-resilience-multiband-diversity` | `campaign` sweep of `spectrum` | see Resilience |
+| 5G/6G NTN compatibility | `leo-focus-ntn-bandwidth` | `campaign` sweep of `ntn-positioning` | positioning-reference bandwidth 180 kHz to 20 MHz: zenith range sigma 6.5 m to 5.8 cm, time-of-arrival 3D error 30.1 m to 2.1 m, floored by the 1 m network synchronisation error |
+| Low-energy PNT for the Internet of Things (IoT) and mobile | `leo-focus-iot-eirp` | `campaign` sweep of `leo-pass` `[iot]` | UHF EIRP −35 to +5 dBW: below a median C/N0 of about 35 dB-Hz the hot-start energy per fix climbs from 18 mJ to 55 J; above it the battery life at one fix per hour is 8334 days, set by the sleep current |
+| LEO-PNT science | `leo-focus-science-iono-sounding` | `leo-pass` | slant total electron content (TEC) from every band pair of a four-band pass over Tromsø: 18.85 TEC units recovered by each pair, 1-sigma 0.017 (UHF with L) to 2.9 TEC units (S with C) |
+| Additional PNT data services | `leo-focus-data-services` | `campaign` compose of `leo-navmsg` | the Kshana message frame grows from 146 bytes (ephemeris and clock, 1045 bits) to 154 with the Klobuchar set, 159 with NeQuick-G and 171 with the UTC parameters |
+| Indoor navigation (UHF) | `leo-focus-indoor-uhf` | `campaign` compose of `leo-pass` | peak indoor C/N0 in a traditional building: UHF 34.1, L 24.2, S 16.5, C 9.0 dB-Hz; in a thermally efficient one UHF 15.3 dB-Hz and every other band lower |
+| MEO + LEO fused PNT | `leo-focus-fused-pnt-sisre` | `campaign` sweep of `leo-pvt` | Xona X5 fused with GPS and Galileo over Madrid: GNSS-only 3D error 1.06 m root mean square (RMS); fused 0.08 m at a 5 cm LEO SISRE, 0.57 m at 0.5 m and 1.01 m at 5 m |
 
-**The Celeste IOD (in-orbit demonstration) preset is optional.** Its signal parameters were
-presented at the ESA NAVISP (Navigation Innovation and Support Programme) LEO-PNT workshop,
-2026, and have no public source yet; they live in the `link` module of
-`src/celeste_iod.rs`, used by `scenarios/leo-pass-celeste-iod-multiband.toml`. How the preset is withheld: every workshop-derived number of the engine lives in one file,
-`src/celeste_iod.rs`, which `build.rs` compiles in only when it exists, and in the
-repository-only scenarios `scenarios/*celeste-iod*.toml`. Deleting that file and those
-scenarios withholds the preset with no source edit; every other test, oracle and scenario
-runs without it, and the README's scenario-file count still counts the withheld files. Its EIRP and beam are calibrated to a C/N0 trace shown at
-the workshop, so that scenario reproduces the trace by construction.
+## One scenario per end-user vertical
 
-The ATOMIC "zero-clock" polynomial broadcast-ephemeris model is a navigation-message preset
-and is not part of this kind.
+Each vertical is a `campaign` chain on one timeline, so it animates, and each has a
+`leo-pass` member, so it exports geometry (see [Running](#running-a-scenario)).
 
-## The LEO-versus-GNSS observation
-
-`scenarios/leo-pass-vs-gnss-cn0.toml` reproduces qualitatively what LEO-PNT demonstrations
-show: the LEO C/N0 rises and falls in a bell a few minutes long and peaks several dB above
-the flat MEO GNSS carriers in the mid-40s to about 50 dB-Hz. The margin comes from the range
-(about 40 times shorter, 26 to 32 dB less free-space loss), not from a stronger transmitter:
-the generic preset radiates 1 W.
-
-## Validation
-
-| Oracle | Test | Result |
+| Vertical | Scenario | Result of one run |
 |---|---|---|
-| ITU-R P.838-3 Table 5, 115 frequencies | `p838_coefficients_reproduce_table5_to_its_printed_digits` | every coefficient within 0.6 of its last printed digit (worst observed 0.51) |
-| ITU-R Study Group 3 validation examples (CG-3M3J-13-ValEx-Rev8.3.0), P.618-14 rain | `p618_rain_attenuation_matches_the_itu_validation_examples` | 56 cases within 1e-4 dB (observed 5e-6 dB) |
-| Same examples, P.618-14 scintillation | `p618_scintillation_matches_the_itu_validation_examples` | 42 cases within 1e-5 dB |
-| ITU-R Study Group 3 Clutter and BEL workbook, P.2109 | `p2109_building_entry_loss_matches_the_itu_workbook` | 568 values within 0.001 dB |
-| IS-GPS-200 group-delay ratio `γ = (77/60)²` | `first_order_iono_reproduces_the_is_gps_200_group_delay_ratio` | to 1e-12; L1/L2 and L1/L5 amplification 2.978 and 2.588 |
-| Friis kilometre–megahertz form | `free_space_loss_is_the_friis_kilometre_megahertz_form` | to 1e-4 dB |
-| arXiv 2509.19551 Table 1 (Pulsar IOV, FOC polar, FOC inclined, GPS) | `doppler_envelope_reproduces_the_pulsar_paper_table_1` | 20 speeds and Doppler maxima within 0.05 % |
+| Autonomous vehicles | `leo-vertical-autonomous-vehicle` | a car in Munich: open road, fused error 0.30 m mean; in a 35 deg urban canyon GPS and Galileo keep 8 satellites and a 5.8 m mean error, the generic LEO layer adds 4 to 5 and brings it to 2.1 m, still above the 1.5 m lane-level threshold at about half the canyon epochs |
+| Railway and maritime | `leo-vertical-rail-maritime` | the bundled `maritime-strait-jamming` ship loses every GNSS satellite (12.1 dB-Hz) while its S- and C-band LEO pass reaches 44.2 and 38.1 dB-Hz; the bundled `rail-tunnel-coast` train reaches 2 m of inertial error 35.8 s into the tunnel; in the open its LEO pass gives 35 to 50 dB-Hz in L |
+| Critical infrastructure | `leo-vertical-critical-infrastructure-timing` | a substation time server's TCXO-class oscillator (temperature-compensated crystal) free-running through a day without GNSS reaches 29 µs, past the 1 µs guard a little over an hour after the loss; the same class disciplined to Iridium stays within −40 to +11 ns |
+| Polar and Arctic users | `leo-vertical-polar-arctic` | GPS + Galileo mean position dilution of precision (PDOP) 1.38, 1.57 and 1.62 at Tromsø, Svalbard and the North Pole; with Iridium 1.29, 1.34 and 1.26, from 3.0, 5.5 and 6.8 Iridium satellites in view |
+| Wireless networks 5G/6G | `leo-vertical-5g-network-timing` | a base station's oven-controlled crystal oscillator (OCXO) in holdover crosses the 1.1 µs network limit after 8863 s and the 1.5 µs end-application limit after 10006 s (the `telecom-timing` kind's analysis); disciplined to Xona X5 its time error stays between −0.7 and +0.3 ns all day, with a predicted 1-sigma of 5 ns, the broadcast UTC offset's stated uncertainty |
+| Asset tracking and IoT | `leo-vertical-asset-tracking-iot` | a container tag's hot UHF fix costs 18 mJ on the quay and at sea (8334 days of battery at one fix an hour) and 34 mJ in a warehouse (5770 days), where L band falls to 20 to 24 dB-Hz |
 
-The rain and scintillation oracles take the rain height and the wet refractivity as the
-validation examples give them: the engine carries neither the ITU-R P.839 nor the P.453 map.
+## VALIDATED and MODELLED
 
-## Limitations
+A row is VALIDATED only when a test reproduces a published setup and pins the published
+figure within a stated tolerance; everything else is MODELLED with its rationale
+([VERIFICATION-MATRIX.md](VERIFICATION-MATRIX.md), [MODELLED-RATIONALE.md](MODELLED-RATIONALE.md)).
 
-- EIRPs and patterns are published received powers turned into an EIRP, or representative
-  choices; no satellite's measured pattern is used and no LEO C/N0 is compared with a
-  measurement.
-- The gaseous term is the superseded P.676-10 simplified method; below 1 GHz it is the 1 GHz
-  value scaled by f², and rain is taken as zero there.
-- The fraction of TEC below a LEO satellite comes from a single Chapman layer (no
-  plasmasphere), overridable by a stated fraction.
-- The designed-pass and Walker orbits are two-body with an optional secular J2; the TLE path
-  uses SGP4. The user's own acceleration is left out of the closed-form Doppler rate (the
-  numerical check reports what that costs for a moving user).
-- RINEX 4.02 has no LEO navigation records; any RINEX-style LEO export belongs to the
-  navigation-message code and is a documented Kshana extension (prior art: arXiv 2401.17767).
+VALIDATED LEO-PNT rows:
+
+- closed-form band-limited signal power and early-late code-tracking jitter at published operating points (Betz and Kolodziejski 2009), with the Gabor bandwidth and SSC cross-checked;
+- the maximum Doppler of a LEO navigation satellite (Xona Pulsar X1 32–34 kHz, Iridium ±36 kHz), and the static-user Doppler envelope against arXiv 2509.19551 Table 1;
+- ITU-R P.838-3 rain coefficients, P.618-14 rain attenuation and tropospheric scintillation, and P.2109-2 building entry loss against the ITU-R Study Group 3 validation data;
+- the first-order ionospheric delay scaling and free-space loss (IS-GPS-200 group-delay ratio, the Friis form);
+- the global-average SISRE weights (Montenbruck et al. 2018), the Galileo ICD user algorithm against RTKLIB on real broadcast ephemerides, and CRC-24Q against its catalogue check value.
+
+MODELLED LEO-PNT rows: every signal design and band trade, the multi-band waterfall, every
+pass and link budget as a whole, the presets, low-energy fixes, the message fitter and
+formats, Doppler and joint positioning, PPP convergence, NTN positioning, time transfer,
+polar coverage, the end-to-end chain, the spoofing monitors and ionosphere sounding, and
+every campaign (a campaign composes kinds and adds no physics; its composition identities
+are tested, [CAMPAIGNS.md](CAMPAIGNS.md)). No LEO C/N0, ranging error or positioning figure
+is compared with a measurement of any satellite.
+
+## Running a scenario
+
+Every scenario above is bundled: `kshana example <name>` prints it, and
+
+```
+kshana scenarios/<name>.toml --animate html --export all
+```
+
+writes, next to the file, the result (`.result.json`), the chart (`.chart.svg`), the
+advanced report (`.report.html` and `.report.json`, with a section that embeds the animated
+run and lists the exports), the interactive player (`.animation.html`) and the exports.
+What applies depends on the kind:
+
+- a run with a time axis animates: `leo-pass` epochs, the `spoof.series` of a spoofing run,
+  `spectrum` timelines, `leo-pvt` joint epochs and timing traces, `leo-ppp` error curves
+  and every campaign chain; a sweep or a composition has no time axis, so `--animate`
+  reports that and writes nothing;
+- `leo-pass` and `leo-pnt-chain` export CZML (the Cesium Language), KML (Keyhole Markup
+  Language), GeoJSON and STK (Systems Tool Kit) ephemerides of the pass geometry; a
+  campaign exports each member that has geometry as its own file set, the member label in
+  the file name (`<name>.<member>.czml`), so every vertical exports its LEO passes; the
+  other LEO kinds state why a format does not apply ([INTEROP.md](INTEROP.md)).
+
+The remaining LEO scenarios, by kind (details on each kind's page):
+
+| Kind | Scenarios |
+|---|---|
+| `leo-signal` | `leo-band-trade`, `xona-pulsar-signals`, optional `celeste-iod-classical-pilot-signals` |
+| `spectrum` | `multi-band-jamming-waterfall` |
+| `leo-pass` | `leo-pass-vs-gnss-cn0`, `leo-pass-xona-pulsar`, `leo-pass-iridium`, `leo-indoor-uhf`, `leo-iot-energy`, optional `leo-pass-celeste-iod-multiband` |
+| `leo-navmsg` | `leo-navmsg-fit-interval-trade`, `leo-navmsg-model-comparison`, `leo-navmsg-midpass-update`, `leo-navmsg-encode-decode`, optional `leo-navmsg-celeste-iod` |
+| `leo-pvt` | `leo-doppler-positioning`, `starlink-sop-doppler-positioning`, `meo-leo-fused-pvt`, `polar-arctic-leo-coverage`, `leo-timing-utc`, optional `celeste-iod-fused-pvt` |
+| `leo-ppp` | `leo-ppp-convergence` |
+| `ntn-positioning` | `ntn-5g-positioning` |
+| `leo-pnt-chain` | `leo-pnt-end-to-end`, `xona-pulsar-end-to-end`, optional `celeste-iod-end-to-end` |
+| `constellation-design` | `leo-pnt-mega-shell` |
+| `slot-timing` | `slot-timing-ocxo-leo` |
+
+The optional scenarios are repository-only and are withheld with the Celeste preset file.
 
 ## End-to-end LEO-PNT chain
 
