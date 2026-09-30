@@ -190,10 +190,11 @@ had misread, mis-rounded or outlived it.
 - **LEO-PNT documents: revised published figures (re-run on this release's engine).**
   `docs/LEO-SIGNAL.md` band trade: the first-order ionospheric delay of `generic-s` is
   3.24 m (was printed 3.25 m) and of `generic-c-wide` 0.77 m (was 0.78 m).
-  `docs/LEO-NAVMSG.md` encode and decode: the decoded message's SISRE is 0.122 cm (was
-  printed 0.119 cm). `docs/LEO-PASS.md` LEO-versus-GNSS pass: 32 dB less free-space loss at
-  the pass peak (was "26 to 32 dB"). The engine output did not change; the documents had
-  misread or mis-rounded it.
+  `docs/LEO-NAVMSG.md` encode and decode: the decoded message's SISRE was printed
+  0.119 cm where the run gave 0.122 cm; the page now prints 0.128 cm, the figure after the
+  platform-independence fix under Fixed below. `docs/LEO-PASS.md` LEO-versus-GNSS pass:
+  32 dB less free-space loss at the pass peak (was "26 to 32 dB"). For the signal and pass
+  figures the engine output did not change; the documents had misread or mis-rounded it.
 - **Tutorials, the worked pipeline example and the `/kshana-run` command, audited
   against this release's engine.** Revisions to published figures, old → new: the kinds that
   write `<scenario>.table.csv` are six, not four (`leo-navmsg` and `telecom-timing`
