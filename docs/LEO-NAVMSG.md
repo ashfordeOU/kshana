@@ -140,20 +140,20 @@ interval:
 
 | Model | Fit interval | SISRE orbit RMS | SISRE orbit max | SISRE with clock RMS | radial / along / cross RMS |
 |---|---|---|---|---|---|
-| `kepler16` | 60 s | 0.041 cm | 0.179 cm | 0.062 cm | 0.09 / 0.01 / 0.00 cm |
-| `kepler16` | 120 s | 0.032 cm | 0.160 cm | 0.080 cm | 0.06 / 0.01 / 0.01 cm |
+| `kepler16` | 60 s | 0.041 cm | 0.179 cm | 0.069 cm | 0.09 / 0.01 / 0.00 cm |
+| `kepler16` | 120 s | 0.032 cm | 0.160 cm | 0.079 cm | 0.06 / 0.01 / 0.01 cm |
 | `kepler16` | 180 s | 0.093 cm | 0.540 cm | 0.134 cm | 0.18 / 0.06 / 0.00 cm |
-| `kepler16` | 300 s | 0.310 cm | 1.033 cm | 0.335 cm | 0.09 / 0.49 / 0.02 cm |
-| `kepler16` | 450 s | 1.690 cm | 7.542 cm | 1.694 cm | 0.72 / 2.65 / 0.04 cm |
-| `kepler16` | 600 s | 2.875 cm | 10.219 cm | 2.889 cm | 1.72 / 4.42 / 0.26 cm |
-| `kepler16` | 900 s | 9.345 cm | 34.032 cm | 9.340 cm | 6.46 / 14.14 / 0.91 cm |
-| `kepler-rac` | 60 s | 0.000 cm | 0.000 cm | 0.046 cm | 0.00 / 0.00 / 0.00 cm |
-| `kepler-rac` | 120 s | 0.000 cm | 0.000 cm | 0.077 cm | 0.00 / 0.00 / 0.00 cm |
-| `kepler-rac` | 180 s | 0.000 cm | 0.001 cm | 0.088 cm | 0.00 / 0.00 / 0.00 cm |
-| `kepler-rac` | 300 s | 0.004 cm | 0.014 cm | 0.123 cm | 0.00 / 0.00 / 0.01 cm |
-| `kepler-rac` | 450 s | 0.037 cm | 0.176 cm | 0.138 cm | 0.05 / 0.01 / 0.04 cm |
-| `kepler-rac` | 600 s | 0.214 cm | 0.643 cm | 0.268 cm | 0.28 / 0.09 / 0.26 cm |
-| `kepler-rac` | 900 s | 1.015 cm | 3.695 cm | 1.027 cm | 1.52 / 0.70 / 0.91 cm |
+| `kepler16` | 300 s | 0.310 cm | 1.033 cm | 0.329 cm | 0.09 / 0.49 / 0.02 cm |
+| `kepler16` | 450 s | 1.690 cm | 7.542 cm | 1.696 cm | 0.72 / 2.65 / 0.04 cm |
+| `kepler16` | 600 s | 2.875 cm | 10.219 cm | 2.866 cm | 1.72 / 4.42 / 0.26 cm |
+| `kepler16` | 900 s | 9.345 cm | 34.032 cm | 9.349 cm | 6.46 / 14.14 / 0.91 cm |
+| `kepler-rac` | 60 s | 0.000 cm | 0.000 cm | 0.057 cm | 0.00 / 0.00 / 0.00 cm |
+| `kepler-rac` | 120 s | 0.000 cm | 0.000 cm | 0.074 cm | 0.00 / 0.00 / 0.00 cm |
+| `kepler-rac` | 180 s | 0.000 cm | 0.001 cm | 0.090 cm | 0.00 / 0.00 / 0.00 cm |
+| `kepler-rac` | 300 s | 0.004 cm | 0.014 cm | 0.106 cm | 0.00 / 0.00 / 0.01 cm |
+| `kepler-rac` | 450 s | 0.037 cm | 0.176 cm | 0.127 cm | 0.05 / 0.01 / 0.04 cm |
+| `kepler-rac` | 600 s | 0.214 cm | 0.643 cm | 0.229 cm | 0.28 / 0.09 / 0.26 cm |
+| `kepler-rac` | 900 s | 1.015 cm | 3.695 cm | 1.062 cm | 1.52 / 0.70 / 0.91 cm |
 
 And with a 300 s fit, varying how often a new message takes over:
 
@@ -178,18 +178,18 @@ Kshana's encoding:
 
 | Model | Fit interval | Parameters | Ephemeris + clock bits | SISRE orbit RMS | SISRE with clock RMS |
 |---|---|---|---|---|---|
-| `kepler16` | 60 s | 16 | 570 | 0.022 cm | 0.060 cm |
-| `kepler16` | 300 s | 16 | 570 | 0.230 cm | 0.253 cm |
-| `kepler16` | 600 s | 16 | 570 | 3.061 cm | 3.052 cm |
-| `kepler-rac` | 60 s | 37 | 1045 | 0.000 cm | 0.052 cm |
-| `kepler-rac` | 300 s | 37 | 1045 | 0.005 cm | 0.113 cm |
-| `kepler-rac` | 600 s | 37 | 1045 | 0.160 cm | 0.218 cm |
-| `liu22` | 60 s | 22 | 730 | 0.011 cm | 0.052 cm |
-| `liu22` | 300 s | 22 | 730 | 0.068 cm | 0.131 cm |
-| `liu22` | 600 s | 22 | 730 | 0.269 cm | 0.302 cm |
-| `ecef-poly` (zero clock) | 60 s | 22 | 750 | 0.000 cm | 25.119 cm |
-| `ecef-poly` (zero clock) | 300 s | 22 | 750 | 0.005 cm | 25.119 cm |
-| `ecef-poly` (zero clock) | 600 s | 22 | 750 | 0.561 cm | 25.113 cm |
+| `kepler16` | 60 s | 16 | 570 | 0.022 cm | 0.049 cm |
+| `kepler16` | 300 s | 16 | 570 | 0.230 cm | 0.260 cm |
+| `kepler16` | 600 s | 16 | 570 | 3.061 cm | 3.071 cm |
+| `kepler-rac` | 60 s | 37 | 1045 | 0.000 cm | 0.044 cm |
+| `kepler-rac` | 300 s | 37 | 1045 | 0.005 cm | 0.120 cm |
+| `kepler-rac` | 600 s | 37 | 1045 | 0.160 cm | 0.208 cm |
+| `liu22` | 60 s | 22 | 730 | 0.011 cm | 0.046 cm |
+| `liu22` | 300 s | 22 | 730 | 0.068 cm | 0.139 cm |
+| `liu22` | 600 s | 22 | 730 | 0.269 cm | 0.299 cm |
+| `ecef-poly` (zero clock) | 60 s | 22 | 750 | 0.000 cm | 28.784 cm |
+| `ecef-poly` (zero clock) | 300 s | 22 | 750 | 0.005 cm | 28.784 cm |
+| `ecef-poly` (zero clock) | 600 s | 22 | 750 | 0.561 cm | 28.774 cm |
 
 The zero-clock row is scored against a clock steered with a 0.24 m residual (the ATOMIC
 figure), the others against the free-running clock they fit.
@@ -224,11 +224,11 @@ The highest pass in a day reaches 43.7° and lasts 455 s. Its switches:
 
 | Switch | Elevation | Position jump | Clock jump | User range jump | Worst-geometry jump |
 |---|---|---|---|---|---|
-| IOD 270 → 271 | 12.7° | 0.07 mm | -0.38 mm | 0.40 mm | 0.43 mm |
-| IOD 271 → 272 | 37.4° | 0.14 mm | -0.02 mm | -0.07 mm | 0.15 mm |
-| IOD 272 → 273 | 28.2° | 0.27 mm | 0.48 mm | -0.35 mm | 0.72 mm |
+| IOD 270 → 271 | 12.7° | 0.07 mm | 0.19 mm | -0.17 mm | 0.27 mm |
+| IOD 271 → 272 | 37.4° | 0.14 mm | 0.14 mm | -0.24 mm | 0.27 mm |
+| IOD 272 → 273 | 28.2° | 0.27 mm | -0.22 mm | 0.35 mm | 0.48 mm |
 
-Largest user range jump 0.40 mm against a 5 cm threshold: **PASS**.
+Largest user range jump 0.35 mm against a 5 cm threshold: **PASS**.
 
 ### Encode and decode
 
@@ -237,26 +237,31 @@ it, checks the CRC and rejects a corrupted copy, prints the quantisation budget,
 writes and reads back the RINEX-style block and the CSV table:
 
 - frame: 171 bytes (1310 payload bits, of which 1045 are ephemeris and clock), 24-bit cyclic
-  redundancy check (CRC-24Q) `0x6A82D9`;
+  redundancy check (CRC-24Q) `0x19105F`;
 - largest half-step effect of any single field: `af0`, 0.545 mm;
-- whole message after quantisation: position within 1.126 mm and clock within 0.459 mm of the exact message; SISRE 0.107 cm exact, 0.128 cm decoded;
+- whole message after quantisation: position within 1.126 mm and clock within 0.185 mm of the exact message; SISRE 0.113 cm exact, 0.129 cm decoded;
 - a frame with one flipped bit is rejected: true;
 - RINEX-style round trip within 5.0e-06 m, CSV round trip within 0.0e+00 m.
 
 ## Platform independence
 
-A frame is transmitted integers, so it has to be the same integers wherever the scenario
-runs: the native binary on any operating system and the WebAssembly (WASM) build in a
-browser. The sine, cosine, arctangent and exponential of a host's mathematics library
-are not required to be correctly rounded and differ between hosts in the last place;
-the fit turns a difference that small into different quantised fields. The whole kind
-(truth orbit, fit, user algorithm, signal-in-space range error (SISRE), codec) therefore
-computes every such function with the pure-Rust `libm` crate through
-`src/portable_math.rs`, and integer powers as explicit products.
+A frame is transmitted integers, so it has to be the same integers wherever and however
+the scenario runs: the native binary on any operating system, a debug or a release
+build, and the WebAssembly (WASM) build in a browser. Three things stood in the way.
+The sine, cosine, arctangent and exponential of a host's mathematics library are not
+required to be correctly rounded and differ between hosts in the last place. An optimised
+build on macOS takes a sine and a cosine of one argument from the system's combined
+routine, which does not always return the lone sine's value, so a debug and a release
+build differed too. And the usual normal sampler calls the host exponential and logarithm
+in its rare branches. The fit turns a difference that small into different quantised
+fields. The whole kind (truth orbit and clock, fit, user algorithm, signal-in-space range
+error (SISRE), codec) therefore computes every such function with the pure-Rust `libm`
+crate through `src/portable_math.rs`, integer powers as explicit products, and normal
+deviates by the polar method on the generator's raw output.
 `leo_navmsg::tests::the_encoded_frame_is_the_same_bytes_on_every_platform` pins the
 171-byte frame of the encode-and-decode scenario below and one check value per ephemeris
-model; the native build and the WASM build give byte-identical result documents for
-all five bundled `leo-navmsg` scenarios.
+model; a debug build, a release build and the WASM build give byte-identical result
+documents for all five bundled `leo-navmsg` scenarios.
 
 ## Binary format
 
