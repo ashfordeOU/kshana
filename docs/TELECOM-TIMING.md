@@ -19,7 +19,9 @@ clock and T-TSC is telecom time slave clock. PTP is the Precision Time Protocol.
 PPS is pulse per second. OCXO is oven-controlled crystal oscillator. CSAC is chip-scale
 atomic clock. CSV is comma-separated values. ADEV is Allan deviation (σ_y), the
 standard measure of frequency stability. ns is nanoseconds and µs is microseconds. ppb
-is parts per billion (a fractional frequency of 1e-9), and MHz is megahertz.
+is parts per billion (a fractional frequency of 1e-9), and MHz is megahertz. Amd. is an
+amendment to a Recommendation, and Y.1367 and the like are the same Recommendation's
+number in the ITU-T Y series.
 
 **What this is.** The estimators (MTIE and TDEV) are checked against the third-party
 `allantools` package and are VALIDATED for that. The mask tables are transcriptions of
