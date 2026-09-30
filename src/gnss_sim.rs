@@ -25,6 +25,7 @@
 //! sub-millimetre.
 
 use crate::frames::{geodetic_to_ecef, is_visible, look_angles, teme_to_ecef, Geodetic, Vec3};
+use crate::portable_math::{Maths, Platform, Portable};
 use crate::scenario::TimeCfg;
 use crate::walker::{walker_epoch_jd, WalkerSgp4};
 use rand::SeedableRng;
@@ -74,6 +75,33 @@ pub fn klobuchar_delay_m(
     az_rad: f64,
     gps_sod: f64,
 ) -> f64 {
+    klobuchar_delay_m_with::<Platform>(coeffs, lat_rad, lon_rad, el_rad, az_rad, gps_sod)
+}
+
+/// [`klobuchar_delay_m`] evaluated with the platform-independent mathematics library
+/// ([`crate::portable_math`]): the same formula and operation order, the same bits on every
+/// platform.
+pub(crate) fn klobuchar_delay_m_portable(
+    coeffs: &KlobucharCoeffs,
+    lat_rad: f64,
+    lon_rad: f64,
+    el_rad: f64,
+    az_rad: f64,
+    gps_sod: f64,
+) -> f64 {
+    klobuchar_delay_m_with::<Portable>(coeffs, lat_rad, lon_rad, el_rad, az_rad, gps_sod)
+}
+
+/// The Klobuchar delay, written once for both mathematics libraries. With `M = Platform`
+/// this is the historical arithmetic, unchanged to the last bit.
+fn klobuchar_delay_m_with<M: Maths>(
+    coeffs: &KlobucharCoeffs,
+    lat_rad: f64,
+    lon_rad: f64,
+    el_rad: f64,
+    az_rad: f64,
+    gps_sod: f64,
+) -> f64 {
     // Work in semicircles.
     let phi_u = lat_rad / PI;
     let lambda_u = lon_rad / PI;
@@ -83,32 +111,32 @@ pub fn klobuchar_delay_m(
     // Earth-centred angle (semicircles).
     let psi = 0.0137 / (e + 0.11) - 0.022;
     // Sub-ionospheric latitude (semicircles), clamped to ±0.416.
-    let mut phi_i = phi_u + psi * a.cos();
+    let mut phi_i = phi_u + psi * M::cos(a);
     phi_i = phi_i.clamp(-0.416, 0.416);
     // Sub-ionospheric longitude (semicircles).
-    let lambda_i = lambda_u + psi * a.sin() / (phi_i * PI).cos();
+    let lambda_i = lambda_u + psi * M::sin(a) / M::cos(phi_i * PI);
     // Geomagnetic latitude (semicircles).
-    let phi_m = phi_i + 0.064 * ((lambda_i - 1.617) * PI).cos();
+    let phi_m = phi_i + 0.064 * M::cos((lambda_i - 1.617) * PI);
 
     // Local time (s), wrapped to [0, 86400).
     let mut t = 43_200.0 * lambda_i + gps_sod;
     t = t.rem_euclid(86_400.0);
 
     // Obliquity (slant) factor.
-    let f = 1.0 + 16.0 * (0.53 - e).powi(3);
+    let f = 1.0 + 16.0 * M::powi(0.53 - e, 3);
 
     // Amplitude and period of the cosine model.
     let mut amp = coeffs.alpha[0]
         + coeffs.alpha[1] * phi_m
         + coeffs.alpha[2] * phi_m * phi_m
-        + coeffs.alpha[3] * phi_m.powi(3);
+        + coeffs.alpha[3] * M::powi(phi_m, 3);
     if amp < 0.0 {
         amp = 0.0;
     }
     let mut per = coeffs.beta[0]
         + coeffs.beta[1] * phi_m
         + coeffs.beta[2] * phi_m * phi_m
-        + coeffs.beta[3] * phi_m.powi(3);
+        + coeffs.beta[3] * M::powi(phi_m, 3);
     if per < 72_000.0 {
         per = 72_000.0;
     }
@@ -116,7 +144,7 @@ pub fn klobuchar_delay_m(
     let x = 2.0 * PI * (t - 50_400.0) / per;
     // Delay in seconds (night term 5 ns plus the daytime cosine), then to metres.
     let t_iono = if x.abs() < 1.57 {
-        f * (5e-9 + amp * (1.0 - x * x / 2.0 + x.powi(4) / 24.0))
+        f * (5e-9 + amp * (1.0 - x * x / 2.0 + M::powi(x, 4) / 24.0))
     } else {
         f * 5e-9
     };
