@@ -381,6 +381,10 @@ jobs:
         run: node web/playground/lib/stages.test.mjs
       - name: Test the reader of recorded runs, one file per scenario or packed
         run: node web/playground/lib/packs.test.mjs
+      - name: Test the key-figure strip over recorded runs
+        run: node web/playground/lib/kpi.test.mjs
+      - name: Test the field finder against the bundled scenario files
+        run: node web/playground/lib/finder.test.mjs
   # ---------------------------------------------------------------------------
   # Overlay-registry assurance gates (Phase 0).
   #

@@ -47,7 +47,7 @@
 <div class="bg-field" aria-hidden="true"></div>
 <header class="nav" id="nav">
   <div class="nav-in">
-    <a class="brand" href="../index.html" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.28.0</small></a>
+    <a class="brand" href="../index.html" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.29.0</small></a>
     <nav class="nav-links" id="navLinks" aria-label="Primary">
       <a href="../missions.html">Missions</a>
       <a href="../capabilities.html">Capabilities</a>
@@ -183,7 +183,7 @@ power, for decibel cells, so a narrow jammer is not diluted).</p>
 <p>A kind whose result carries none of these shapes (a link budget, a single-epoch geometry,
 a statistics-only Monte Carlo summary, or the telecom holdover, whose result publishes the
 record&#39;s hash but not the record) is refused with <code>no time series to animate</code>, and nothing
-is written. With kshana 0.28.0, 68 of the 132 bundled scenarios animate and 64 are
+is written. With kshana 0.29.0, 68 of the 132 bundled scenarios animate and 64 are
 refused (over all 138 scenario files, 71 and 67). <code>cargo test --test animation -- --nocapture</code> prints the census over all 138 files.</p>
 <p>Among the LEO kinds, every bundled <code>leo-pass</code>, <code>leo-pnt-chain</code> and <code>leo-ppp</code> scenario
 animates. <code>leo-pvt</code> animates in its Doppler, joint-positioning and timing modes (a timing
@@ -204,9 +204,9 @@ std::fs::<span class="hljs-title function_ invoke__">write</span>(<span class="h
 <code>extract_timeline</code> returns what would be drawn without rendering it.</p>
 <h2 id="limits">Limits<a class="anchor" href="#limits" aria-label="Link to this section">#</a></h2>
 <ul>
-<li>The Python wheel, the WebAssembly module and the Model Context Protocol (MCP) server do
-not expose the exporter yet; it is reachable from the command line and the Rust
-library.</li>
+<li>The Python wheel and the WebAssembly module do not expose the exporter yet; it is
+reachable from the command line, the Rust library and the Model Context Protocol (MCP)
+server&#39;s <code>animate_scenario</code> tool (which returns at most 120 frames in one reply).</li>
 <li>Axes are linear. A series spanning many decades (a clock&#39;s error growth from 0.1 ns to
 a microsecond) reads as flat until late in the run.</li>
 <li>The animated SVG relies on CSS animation of a clip rectangle; current Chromium, Firefox
@@ -232,8 +232,8 @@ animates.</li>
       <div><h2>Company</h2><a href="../editions.html">Editions</a><a href="../editions.html#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
     </div>
     <div class="foot-bottom">
-      <span>Kshana v0.28.0 · by Ashforde OÜ · AGPL-3.0, with a commercial licence option</span>
-      <span>Every chart is drawn from a recorded run of engine v0.28.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
+      <span>Kshana v0.29.0 · by Ashforde OÜ · AGPL-3.0, with a commercial licence option</span>
+      <span>Every chart is drawn from a recorded run of engine v0.29.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
     </div>
   </div>
 </footer>
@@ -246,7 +246,7 @@ animates.</li>
   </div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script>window.KSITE={root:"../",page:"docs",version:"0.28.0",studio:"Kshana Studio"};</script>
+<script>window.KSITE={root:"../",page:"docs",version:"0.29.0",studio:"Kshana Studio"};</script>
 <script src="../site.js" defer></script>
 <script src="docs.js" defer></script>
 </body>

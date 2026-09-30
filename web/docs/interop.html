@@ -47,7 +47,7 @@
 <div class="bg-field" aria-hidden="true"></div>
 <header class="nav" id="nav">
   <div class="nav-in">
-    <a class="brand" href="../index.html" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.28.0</small></a>
+    <a class="brand" href="../index.html" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.29.0</small></a>
     <nav class="nav-links" id="navLinks" aria-label="Primary">
       <a href="../missions.html">Missions</a>
       <a href="../capabilities.html">Capabilities</a>
@@ -94,7 +94,9 @@ take the study&#39;s name instead, as the other outputs do.</p>
 reason; under <code>all</code> the reason is printed and the format skipped. The library entry
 points are <code>kshana::interop::export(src, format)</code>, <code>kshana::interop::plan(src)</code> and
 <code>kshana::interop::geojson::apply_route(src, geojson)</code>; they take the scenario text and
-return bytes, touching no file, so they run in the WebAssembly build too.</p>
+return bytes, touching no file, so they run in the WebAssembly build too. The Model
+Context Protocol (MCP) server serves the same three as the tools <code>export_interop</code>,
+<code>list_export_formats</code> and <code>import_route</code> (see <code>mcp/kshana-mcp/README.md</code>).</p>
 <p>Code: <code>src/interop/</code> (<code>scene.rs</code> builds one geometric description of the scenario,
 <code>czml.rs</code>, <code>kml.rs</code>, <code>geojson.rs</code> and <code>stk.rs</code> write it), <code>src/sigmf.rs</code> and
 <code>src/spectrum.rs</code> for the signal. Tests: <code>tests/interop_formats.rs</code>.</p>
@@ -1622,8 +1624,8 @@ stale.</p>
       <div><h2>Company</h2><a href="../editions.html">Editions</a><a href="../editions.html#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
     </div>
     <div class="foot-bottom">
-      <span>Kshana v0.28.0 · by Ashforde OÜ · AGPL-3.0, with a commercial licence option</span>
-      <span>Every chart is drawn from a recorded run of engine v0.28.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
+      <span>Kshana v0.29.0 · by Ashforde OÜ · AGPL-3.0, with a commercial licence option</span>
+      <span>Every chart is drawn from a recorded run of engine v0.29.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
     </div>
   </div>
 </footer>
@@ -1636,7 +1638,7 @@ stale.</p>
   </div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script>window.KSITE={root:"../",page:"docs",version:"0.28.0",studio:"Kshana Studio"};</script>
+<script>window.KSITE={root:"../",page:"docs",version:"0.29.0",studio:"Kshana Studio"};</script>
 <script src="../site.js" defer></script>
 <script src="docs.js" defer></script>
 </body>

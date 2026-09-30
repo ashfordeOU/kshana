@@ -479,3 +479,8 @@ a.sc:hover,a.sc:focus-visible{border-color:color-mix(in oklab,var(--c) 55%,trans
   .mm-t thead th i{margin:0 auto 5px}
   .ow-hud{right:10px;flex-direction:row;flex-wrap:wrap;gap:4px 10px;padding:6px 8px;font-size:9px}
 }
+
+/* "With Pro" line: the same quiet note as on Capabilities (capabilities.css), linking the matching Editions section */
+.pro-note{margin-top:14px;padding:11px 14px;border-radius:12px;border:1px solid color-mix(in oklab,var(--magenta) 32%,transparent);background:var(--magenta-soft);font-size:14px;line-height:1.5;color:var(--ink-2)}
+.pro-note b{color:var(--ink)}
+.pro-note a{color:var(--ink);font-weight:600;text-decoration:underline;text-underline-offset:2px}

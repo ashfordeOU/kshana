@@ -10,6 +10,7 @@
 <link href="../fonts/bricolage-grotesque-geist-geist-mono.css" rel="stylesheet">
 <link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="dash.css">
 <script type="importmap">
 { "imports": {
   "three": "../vendor/three@0.160.0/build/three.module.js",
@@ -62,6 +63,28 @@
   <symbol id="i-pause" viewBox="0 0 16 16"><path d="M4 2.5h3v11H4zM9 2.5h3v11H9z" fill="currentColor"/></symbol>
   <symbol id="i-open" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9m0 0L8.5 4.5M12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-max" viewBox="0 0 24 24"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-min" viewBox="0 0 24 24"><path d="M9 4v5H4M15 4v5h5M9 20v-5H4M15 20v-5h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 17h4M12 17h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="16" cy="7" r="2.3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="10" cy="17" r="2.3" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.6" fill="none" stroke="currentColor" stroke-width="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6" fill="none" stroke="currentColor" stroke-width="2"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6" fill="none" stroke="currentColor" stroke-width="2"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h12M8 12h12M8 18h12M4 6h.01M4 12h.01M4 18h.01" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+  <symbol id="i-compare" viewBox="0 0 24 24"><path d="M8 4v16M16 4v16M4 8h4M16 16h4M4 14h4M16 10h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="d-interference" viewBox="0 0 24 24"><path d="M2 12c2-6 3-6 5 0s3 6 5 0 3-6 5 0 3 6 5 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="d-spectrum" viewBox="0 0 24 24"><path d="M4 20V13M8 20V7M12 20v-9M16 20V4M20 20v-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+  <symbol id="d-spoofing" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 12h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="d-timing" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 7v5l3.5 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="d-navigation" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="m15.5 8.5-2 5-5 2 2-5z" fill="currentColor"/></symbol>
+  <symbol id="d-integrity" viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 5-3 8-7 10-4-2-7-5-7-10V6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="m8.5 12 2.5 2.5 4.5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="d-orbits" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3" fill="currentColor"/><ellipse cx="12" cy="12" rx="9.5" ry="4.5" fill="none" stroke="currentColor" stroke-width="1.8" transform="rotate(-25 12 12)"/></symbol>
+  <symbol id="d-constellations" viewBox="0 0 24 24"><circle cx="5" cy="6" r="2" fill="currentColor"/><circle cx="12" cy="4" r="2" fill="currentColor"/><circle cx="19" cy="7" r="2" fill="currentColor"/><circle cx="7" cy="14" r="2" fill="currentColor"/><circle cx="17" cy="15" r="2" fill="currentColor"/><path d="M3 21c4-4 14-4 18 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="d-leo" viewBox="0 0 24 24"><rect x="9" y="9" width="6" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="2" transform="rotate(45 12 12)"/><path d="M4 4l4 4M20 20l-4-4M3 9l6-6M15 21l6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="d-leo-missions" viewBox="0 0 24 24"><path d="M5 21V4M5 4h11l-2 4 2 4H5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+  <symbol id="d-campaigns" viewBox="0 0 24 24"><path d="M3 12h18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="6" cy="12" r="2.4" fill="currentColor"/><circle cx="12" cy="12" r="2.4" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="18" cy="12" r="2.4" fill="currentColor"/><path d="M6 5v3M18 16v3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="d-spaceops" viewBox="0 0 24 24"><path d="M12 3c3 2 4.5 5.5 4.5 9L12 19l-4.5-7C7.5 8.5 9 5 12 3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><circle cx="12" cy="10" r="1.8" fill="currentColor"/><path d="M8 17l-2 4M16 17l2 4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="d-deepspace" viewBox="0 0 24 24"><path d="M15 4a8 8 0 1 0 5 11A7 7 0 0 1 15 4z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="d-solar" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" fill="currentColor"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1 7 17M17 7l2.1-2.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="d-studies" viewBox="0 0 24 24"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.8 3h10.4a2 2 0 0 0 1.8-3l-5-9V3" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+  <symbol id="d-optional" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="3 3"/><circle cx="12" cy="12" r="2.5" fill="currentColor"/></symbol>
 </svg>
 
 <a class="skip" href="#results">Skip to results</a>
@@ -69,109 +92,118 @@
 <header class="bar" id="bar">
   <a class="brand" href="../index.html" aria-label="Kshana home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:radial-gradient(circle at 46.5% 49.5%,var(--cyan,#0795BA) 0 5%,transparent 11%),radial-gradient(circle at 87.5% 12%,var(--cyan,#0795BA) 0 4%,transparent 8%),var(--ink);-webkit-mask:url(../assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(../assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span>Kshana <span class="brand-tag" data-studio-short>Studio</span></a>
   <nav class="site-links" aria-label="Site"><a href="../missions.html">Missions</a><a href="../capabilities.html">Capabilities</a><a href="../evidence.html">Evidence</a><a href="../developers.html">Developers</a><a href="../docs/index.html">Docs</a><a href="../editions.html">Editions</a></nav>
-  <div class="crumb" id="crumb" aria-live="polite"><i class="dot" id="crumb-dot"></i><span id="crumb-title">Loading…</span></div>
+  <nav class="crumbs" id="crumbs" aria-label="Where you are"></nav>
   <div class="bar-right">
     <span class="engine-chip" id="engine-chip" data-mode="loading" title="Where the engine is running"><i></i><span id="engine-label">Loading engine…</span></span>
-    <button class="k-btn" id="cmdk-btn" aria-haspopup="dialog" aria-controls="palette"><svg width="14" height="14" aria-hidden="true"><use href="#i-search"/></svg><span class="lbl">Search &amp; commands</span><kbd class="kmod">⌘K</kbd></button>
-    <button class="icon-btn" id="btn-history" aria-haspopup="dialog" aria-controls="history" title="Run history (this session)" aria-label="Run history"><svg aria-hidden="true"><use href="#i-history"/></svg><span class="count" id="history-count" hidden>0</span></button>
-    <button class="icon-btn" id="btn-tour" title="Guided tour" aria-label="Start the guided tour"><svg aria-hidden="true"><use href="#i-tour"/></svg></button>
-    <div class="menu-wrap">
-      <button class="icon-btn" id="btn-share" aria-haspopup="menu" aria-expanded="false" aria-controls="share-menu" title="Share this run" aria-label="Share"><svg aria-hidden="true"><use href="#i-share"/></svg></button>
-      <div class="menu" id="share-menu" role="menu" hidden>
-        <button role="menuitem" data-act="share-link">Copy share link <small>the exact scenario, in the link</small></button>
-        <button role="menuitem" data-act="embed-code">Copy embed code <small>an iframe for a course page or wiki</small></button>
-        <button role="menuitem" data-act="embed-open">Preview embed mode <small>opens in a new tab</small></button>
-      </div>
-    </div>
-    <button class="icon-btn" id="btn-theme" aria-label="Toggle colour theme" title="Toggle colour theme"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
+    <button class="k-btn" id="cmdk-btn" aria-haspopup="dialog" aria-controls="palette" title="Find a scenario, a domain, a field or a command"><svg width="14" height="14" aria-hidden="true"><use href="#i-search"/></svg><span class="lbl">Find anything</span><kbd class="kmod">⌘K</kbd></button>
+    <button class="t-btn" id="btn-history" aria-haspopup="dialog" aria-controls="history" title="The runs you made in this session"><svg aria-hidden="true"><use href="#i-history"/></svg><span class="lbl">History</span><span class="count" id="history-count" hidden>0</span></button>
+    <button class="t-btn" id="btn-tour" title="A short tour of the Studio"><svg aria-hidden="true"><use href="#i-tour"/></svg><span class="lbl">Tour</span></button>
+    <button class="t-btn" id="btn-theme" aria-label="Toggle colour theme" title="Switch between light and dark"><svg aria-hidden="true"><use href="#i-theme"/></svg><span class="lbl">Theme</span></button>
     <a class="pill" href="../editions.html#pro">Kshana Pro</a>
   </div>
 </header>
 
-<div class="app" id="app" data-pane="results">
-  <!-- ============ LIBRARY ============ -->
+<div class="app" id="app" data-pane="results" data-drawer="closed">
+  <!-- ============ 1 CHOOSE: the library rail ============ -->
   <aside class="lib" id="library" aria-label="Scenario library">
     <div class="lib-head">
-      <label class="search"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="lib-search" type="search" placeholder="Search scenarios" aria-label="Search scenarios" autocomplete="off"><kbd>/</kbd></label>
+      <div class="rail-title"><span class="stepno" aria-hidden="true">1</span><h2>Choose a scenario</h2><button class="btn-quiet small lib-close" id="lib-close" title="Close the library"><svg aria-hidden="true"><use href="#i-x"/></svg>Close</button></div>
+      <label class="search"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="lib-search" type="search" placeholder="Scenario, domain or field" aria-label="Find a scenario, a domain or a field" autocomplete="off"><kbd>/</kbd></label>
+      <div class="lib-domains" id="lib-domains" role="group" aria-label="Filter by domain"></div>
       <p class="lib-count" id="lib-count"></p>
     </div>
     <nav class="lib-list" id="lib-list" aria-label="Scenarios by mission domain"></nav>
     <div class="lib-foot">
+      <button class="btn-quiet small" id="btn-start" type="button"><svg aria-hidden="true"><use href="#i-grid"/></svg>All domains, as tiles</button>
       <p id="matrix-line" class="matrix-line"></p>
       <a href="../evidence.html#ledger">Open the validation ledger <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
     </div>
   </aside>
 
-  <!-- ============ EDITOR ============ -->
-  <section class="edit" id="editor-pane" aria-label="Scenario and parameters">
-    <div class="edit-head">
-      <p class="eyebrow" id="sc-domain"><i></i><span></span></p>
-      <h1 id="sc-title">Scenario</h1>
-      <p class="question" id="sc-question"></p>
-      <p class="sc-file"><code id="sc-file"></code><span id="sc-kind"></span></p>
-    </div>
-
-    <div class="runbar" id="runbar">
-      <button class="btn-run" id="run" disabled><svg aria-hidden="true"><use href="#i-play"/></svg><span>Run</span><kbd>⌘↵</kbd></button>
-      <button class="btn-quiet" id="run-cancel" hidden>Cancel</button>
-      <button class="btn-quiet" id="pin" title="Pin this run to compare with others (up to 4)"><svg aria-hidden="true"><use href="#i-pin"/></svg>Pin</button>
-      <p class="status" id="status" role="status" aria-live="polite">Loading engine…</p>
-    </div>
-    <p class="notice" id="notice" hidden></p>
-
-    <div class="panel" id="params">
-      <div class="panel-head">
-        <h2>Parameters</h2>
-        <div class="seg" role="tablist" aria-label="Parameter view">
-          <button role="tab" aria-selected="true" data-pview="guided" id="pv-guided">Guided</button>
-          <button role="tab" aria-selected="false" data-pview="all" id="pv-all">All fields <span id="field-count"></span></button>
-        </div>
-      </div>
-      <p class="hint" id="params-hint">Drag a slider and the scenario re-runs. Every control writes straight into the scenario text below.</p>
-      <div class="knobs" id="knobs"></div>
-      <div class="fields" id="fields" hidden></div>
-    </div>
-
-    <details class="panel src" id="source" open>
-      <summary><h2>Scenario source <small>TOML (Tom's Obvious, Minimal Language)</small></h2>
-        <span class="src-tools"><button class="btn-mini" id="src-reset" title="Restore the bundled scenario"><svg aria-hidden="true"><use href="#i-reset"/></svg>Reset</button><button class="btn-mini" id="src-copy" title="Copy the scenario text"><svg aria-hidden="true"><use href="#i-copy"/></svg>Copy</button></span>
-      </summary>
-      <div class="code" id="code">
-        <pre class="code-hl" id="code-hl" aria-hidden="true" tabindex="-1"></pre>
-        <textarea id="toml" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Scenario source (TOML)" aria-describedby="toml-kbd"></textarea>
-      </div>
-      <p class="hint" id="toml-kbd">In the editor, Tab indents by two spaces. Press Escape, then Tab, to move on.</p>
-    </details>
-  </section>
-
-  <!-- ============ RESULTS ============ -->
+  <!-- ============ RESULTS: start screen, then the dashboard ============ -->
   <main class="res" id="results" aria-label="Results" tabindex="-1">
-    <div class="progress" id="progress" hidden><i></i></div>
-    <div class="error" id="error" role="alert" hidden></div>
-
-    <section class="headline" id="headline" hidden>
-      <div class="hl-top">
-        <p class="eyebrow"><i style="--c:var(--itg)"></i><span id="hl-eyebrow">Result</span></p>
-        <div class="hl-badges" id="hl-badges"></div>
+    <section class="start" id="start" aria-labelledby="start-h" hidden>
+      <p class="eyebrow"><i style="--c:var(--tim)"></i><span>Kshana Studio</span></p>
+      <h1 id="start-h">What do you want to do?</h1>
+      <p class="lede">Pick a domain and a scenario, set it up, run the engine in your browser, then read, compare and export the results. Nothing is uploaded.</p>
+      <ol class="flow" aria-label="How the Studio works">
+        <li><b>1</b><span><strong>Choose</strong> a domain and a scenario</span></li>
+        <li><b>2</b><span><strong>Set</strong> its parameters</span></li>
+        <li><b>3</b><span><strong>Run</strong> the engine, locally</span></li>
+        <li><b>4</b><span><strong>Read</strong> the key figures and panels</span></li>
+        <li><b>5</b><span><strong>Share or export</strong> the run</span></li>
+      </ol>
+      <label class="search big"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="start-search" type="search" placeholder="Search scenarios, domains or fields, for example elevation mask" aria-label="Search scenarios, domains or fields" autocomplete="off"></label>
+      <div class="start-results" id="start-results" aria-live="polite"></div>
+      <div class="start-block" id="start-suggest-block">
+        <h2>Good first runs</h2>
+        <div class="start-suggest" id="start-suggest"></div>
       </div>
-      <p class="summary" id="summary"></p>
-      <dl class="meta" id="run-meta"></dl>
+      <div class="start-block">
+        <h2>Domains</h2>
+        <div class="start-tiles" id="start-tiles"></div>
+      </div>
     </section>
 
-    <section class="figs" id="figs" aria-label="Key figures" hidden></section>
+    <div class="dash" id="dash">
+      <section class="dhead" id="dhead" aria-label="Scenario">
+        <div class="dh-id">
+          <p class="eyebrow" id="sc-domain"><i></i><span></span></p>
+          <h1 id="sc-title">Scenario</h1>
+          <div class="chips"><span class="chip" id="sc-kind" title="The engine kind this scenario runs"></span><span class="chip honesty" id="sc-honesty" hidden></span><code class="chip file" id="sc-file"></code></div>
+          <p class="question" id="sc-question"></p>
+        </div>
+        <div class="dh-act runbar" id="runbar">
+          <button class="btn-quiet" id="btn-lib" type="button" title="Open the scenario library"><svg aria-hidden="true"><use href="#i-list"/></svg><span>Library</span></button>
+          <button class="btn-quiet" id="btn-params" type="button" aria-controls="editor-pane" aria-expanded="false" title="Show the parameters and the scenario source"><svg aria-hidden="true"><use href="#i-sliders"/></svg><span>Parameters</span></button>
+          <button class="btn-run" id="run" disabled><svg aria-hidden="true"><use href="#i-play"/></svg><span>Run</span><kbd>⌘↵</kbd></button>
+          <button class="btn-quiet" id="run-cancel" hidden>Cancel</button>
+          <button class="btn-quiet" id="pin" title="Keep this run to compare with another (up to 4)"><svg aria-hidden="true"><use href="#i-pin"/></svg><span>Pin run</span></button>
+          <button class="btn-quiet" id="btn-compare" type="button" title="Compare the pinned runs"><svg aria-hidden="true"><use href="#i-compare"/></svg><span>Compare</span><span class="count" id="pin-count" hidden>0</span></button>
+          <div class="menu-wrap">
+            <button class="btn-quiet" id="btn-share" aria-haspopup="menu" aria-expanded="false" aria-controls="share-menu" title="Share this run, or download it"><svg aria-hidden="true"><use href="#i-share"/></svg><span>Share or export</span></button>
+            <div class="menu" id="share-menu" role="menu" hidden>
+              <button role="menuitem" data-act="exports">Download results <small>report, JSON, scenario, tables and exports</small></button>
+              <button role="menuitem" data-act="share-link">Copy share link <small>the exact scenario, in the link</small></button>
+              <button role="menuitem" data-act="embed-code">Copy embed code <small>an iframe for a course page or wiki</small></button>
+              <button role="menuitem" data-act="embed-open">Preview embed mode <small>opens in a new tab</small></button>
+            </div>
+          </div>
+        </div>
+        <ol class="steps" id="steps" aria-label="Steps">
+          <li><button type="button" data-step="choose"><b>1</b>Choose</button></li>
+          <li><button type="button" data-step="set"><b>2</b>Set</button></li>
+          <li><button type="button" data-step="run"><b>3</b>Run</button></li>
+          <li><button type="button" data-step="read"><b>4</b>Read results</button></li>
+          <li><button type="button" data-step="share"><b>5</b>Share or export</button></li>
+        </ol>
+        <p class="status" id="status" role="status" aria-live="polite">Loading engine…</p>
+      </section>
+      <div class="first-hint" id="first-hint" hidden><p><b>New here?</b> Follow the numbered steps: 1 choose a scenario, 2 set its parameters, 3 run it, 4 read the key figures and panels, 5 share or export. Every number is the engine's own output.</p><button class="btn-mini" id="first-hint-close" type="button">Got it</button></div>
+      <p class="notice" id="notice" hidden></p>
+      <div class="progress" id="progress" hidden><i></i></div>
+      <div class="error" id="error" role="alert" hidden></div>
 
-    <div class="tabs-wrap" id="tabs-wrap" hidden>
-      <div class="tabs" id="tabs" role="tablist" aria-label="Result views"></div>
-    </div>
+      <section class="kpis-wrap" id="kpis-wrap" aria-labelledby="kpis-h" hidden>
+        <div class="sec-head"><h2 id="kpis-h">Key figures</h2><p>Headline numbers from the engine's result, with the change since your previous run of this scenario, and a pass or fail where the run states a threshold.</p></div>
+        <div class="figs kpis" id="figs" role="list"></div>
+      </section>
 
-    <div class="views" id="views">
+
+
+      <div class="tabs-wrap" id="tabs-wrap" hidden>
+        <p class="tabs-lbl" id="tabs-lbl">Panels</p>
+        <div class="tabs" id="tabs" role="tablist" aria-label="Result panels" aria-describedby="tabs-lbl"></div>
+      </div>
+
+      <div class="views" id="views">
       <section class="view" id="v-overview" role="tabpanel" aria-label="Figures of merit" hidden>
         <div class="card" id="fom-card" hidden>
           <div class="card-head"><h3>Figures of merit</h3><p class="card-note">The tier is each figure's validation status, read from the engine's own <code>figure_tiers</code> block: <b>validated</b> means checked against an independent external oracle; <b>modelled</b> means first-principles physics with tests, not yet oracle-checked.</p></div>
           <div class="table-scroll"><table class="tbl" id="fom-table"></table></div>
         </div>
         <div class="card" id="kf-card" hidden>
-          <div class="card-head"><h3>Every published figure</h3><p class="card-note">Read from the result document with the unit, note and provenance the engine records for each one.</p></div>
+          <div class="card-head"><h3>Every published figure</h3><p class="card-note">Read from the result document with the unit, note and provenance the engine records for each one.</p><label class="search small"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="kf-find" type="search" placeholder="Find a result field" aria-label="Find a result field" autocomplete="off"></label></div>
           <div class="table-scroll"><table class="tbl" id="kf-table"></table></div>
         </div>
         <div class="card" id="health-card" hidden>
@@ -191,6 +223,7 @@
           <div class="card-head row"><h3 id="ts-title">Time series</h3>
             <div class="seg dark" role="tablist" aria-label="Chart source"><button role="tab" data-ts="live" aria-selected="true" id="ts-live-btn">Interactive</button><button role="tab" data-ts="engine" aria-selected="false" id="ts-engine-btn">Engine chart</button></div>
           </div>
+          <p class="card-note on-space pnote">Each series this run publishes, against time. Hover or drag across the chart to read the values.</p>
           <div class="chart-box" id="ts-live"></div>
           <div class="chart-box img" id="ts-engine" hidden></div>
           <div class="chart-tools" id="ts-tools"></div>
@@ -280,11 +313,13 @@
 
       <section class="view" id="v-compare" role="tabpanel" aria-label="Compare runs" hidden>
         <div class="card">
-          <div class="card-head row"><h3>Compare runs</h3><button class="btn-mini" id="compare-clear">Clear pins</button></div>
+          <div class="card-head row"><h3>Compare runs <small>pinned runs side by side</small></h3><button class="btn-mini" id="compare-clear">Clear pins</button></div>
           <div class="pins" id="pins"></div>
           <p class="card-note" id="compare-note"></p>
           <div class="table-scroll"><table class="tbl" id="compare-table"></table></div>
         </div>
+        <div class="card" id="compare-kpi-card" hidden><div class="card-head"><h3>Key figures, run against run</h3><p class="card-note">The headline readouts of each pinned run; the change is against run A.</p></div><div class="table-scroll"><table class="tbl" id="compare-kpi"></table></div></div>
+        <div class="compare-overlays" id="compare-overlays"></div>
         <div class="card scope" id="compare-chart-card" hidden><div class="card-head"><h3 id="compare-chart-title">Overlay</h3></div><div class="chart-box" id="compare-chart"></div><div class="chart-tools" id="compare-tools"></div></div>
       </section>
 
@@ -326,28 +361,73 @@
           <pre class="json" id="json" tabindex="0"></pre>
         </div>
       </section>
-    </div>
+      </div>
 
-    <footer class="res-foot" id="res-foot">
+      <section class="headline" id="headline" aria-label="Run summary" hidden>
+        <div class="hl-top">
+          <p class="eyebrow"><i style="--c:var(--itg)"></i><span id="hl-eyebrow">Result</span></p>
+          <div class="hl-badges" id="hl-badges"></div>
+        </div>
+        <p class="summary" id="summary"></p>
+        <dl class="meta" id="run-meta"></dl>
+      </section>
+
+      <footer class="res-foot" id="res-foot">
       <p>Kshana is open source under the AGPL-3.0 (GNU Affero General Public License), with a commercial licence available. By Ashforde. Every figure is labelled with its evidence tier; the <span data-studio-name>Kshana Studio</span>'s timing, integrity and security figures are modelled unless marked validated.</p>
       <p class="pro-line">Need a clock digital twin calibrated to your device, a trade study with an audit-grade evidence pack, or closed-source integration? That is Kshana Pro, available under contract. <a href="mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation">Request an evaluation</a> · <a href="mailto:contact@ashforde.org?subject=Kshana%20commercial%20licence">Talk to us about a commercial licence</a> · <a href="mailto:contact@ashforde.org?subject=Kshana%20study%20request">Request a study</a></p>
       <div class="install-line" id="install-line" aria-label="Install the engine"></div>
       <p class="credit">Imagery: NASA Visible Earth (Blue Marble). Coastlines: Natural Earth. Every chart here is drawn from an engine run; a run, report, animation or export made by the native command-line engine is labelled as recorded.</p>
       <p class="embed-only"><a href="index.html" target="_blank" rel="noopener">Open in <span data-studio-name>Kshana Studio</span></a></p>
-    </footer>
+      </footer>
+    </div>
   </main>
+
+  <!-- ============ 2 SET: parameters and source, a side drawer (a sheet on phones) ============ -->
+  <section class="edit" id="editor-pane" aria-label="Parameters and scenario source" tabindex="-1">
+    <div class="drawer-top">
+      <div class="rail-title"><span class="stepno" aria-hidden="true">2</span><h2>Set parameters</h2><button class="btn-quiet small" id="params-close" title="Close the parameters and show the results"><svg aria-hidden="true"><use href="#i-x"/></svg>Done</button></div>
+      <p class="hint">Every change re-runs the engine and updates the key figures and panels.</p>
+      <label class="search"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="field-find" type="search" placeholder="Find a field, for example mask" aria-label="Find a field of this scenario" autocomplete="off"></label>
+      <p class="hint" id="field-find-note" hidden></p>
+    </div>
+    <div class="panel" id="params">
+      <div class="panel-head">
+        <h2>Parameters</h2>
+        <div class="seg" role="tablist" aria-label="Parameter view">
+          <button role="tab" aria-selected="true" data-pview="guided" id="pv-guided">Guided</button>
+          <button role="tab" aria-selected="false" data-pview="all" id="pv-all">All fields <span id="field-count"></span></button>
+        </div>
+      </div>
+      <p class="hint" id="params-hint">Drag a slider and the scenario re-runs. Every control writes straight into the scenario text below.</p>
+      <div class="knobs" id="knobs"></div>
+      <div class="fields" id="fields" hidden></div>
+    </div>
+
+    <details class="panel src" id="source">
+      <summary><h2>Scenario source <small>TOML (Tom's Obvious, Minimal Language)</small></h2>
+        <span class="src-tools"><button class="btn-mini" id="src-reset" title="Restore the bundled scenario"><svg aria-hidden="true"><use href="#i-reset"/></svg>Reset</button><button class="btn-mini" id="src-copy" title="Copy the scenario text"><svg aria-hidden="true"><use href="#i-copy"/></svg>Copy</button></span>
+      </summary>
+      <div class="code" id="code">
+        <pre class="code-hl" id="code-hl" aria-hidden="true" tabindex="-1"></pre>
+        <textarea id="toml" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Scenario source (TOML)" aria-describedby="toml-kbd"></textarea>
+      </div>
+      <p class="hint" id="toml-kbd">In the editor, Tab indents by two spaces. Press Escape, then Tab, to move on.</p>
+    </details>
+  </section>
+  <div class="scrim" id="scrim" hidden></div>
 </div>
 
-<nav class="mob" id="mob" aria-label="Studio panes">
-  <button data-pane="library" aria-pressed="false">Library</button>
-  <button data-pane="editor" aria-pressed="false">Scenario</button>
-  <button data-pane="results" aria-pressed="true">Results</button>
+<nav class="mob" id="mob" aria-label="Steps">
+  <button type="button" data-mstep="choose" aria-pressed="false"><svg aria-hidden="true"><use href="#i-list"/></svg><span>Choose</span></button>
+  <button type="button" data-mstep="set" aria-pressed="false"><svg aria-hidden="true"><use href="#i-sliders"/></svg><span>Set</span></button>
+  <button type="button" data-mstep="run" aria-pressed="false"><svg aria-hidden="true"><use href="#i-play"/></svg><span>Run</span></button>
+  <button type="button" data-mstep="results" aria-pressed="true"><svg aria-hidden="true"><use href="#i-grid"/></svg><span>Results</span></button>
 </nav>
 
 <!-- Command palette -->
 <div class="pal" id="palette" role="dialog" aria-modal="true" aria-label="Search scenarios and commands" hidden>
   <div class="pal-box">
-    <div class="pal-in"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="pal-input" placeholder="Search scenarios, views and commands" aria-label="Search" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="pal-list"><kbd>esc</kbd></div>
+    <div class="pal-in"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="pal-input" placeholder="Find a scenario, domain, field, panel or command" aria-label="Search" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="pal-list"><kbd>esc</kbd></div>
     <div class="pal-list" id="pal-list" role="listbox"></div>
     <div class="pal-foot"><span><kbd>↑</kbd><kbd>↓</kbd> move</span><span><kbd>↵</kbd> open</span><span><kbd>⌘↵</kbd> run</span></div>
   </div>
