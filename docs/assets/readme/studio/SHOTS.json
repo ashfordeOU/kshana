@@ -1,12 +1,56 @@
 {
   "tool": "tools/capture_studio_shots.mjs",
-  "note": "Real screenshots of Kshana Studio running each bundled scenario in the browser engine (WebAssembly); the crop is the tab row plus the first card of the named tab. Nothing is drawn or edited.",
+  "note": "Real screenshots of Kshana Studio running in the browser engine (WebAssembly): two flow shots (the start screen, and the dashboard after a run) and three panel shots (the panel row plus the first visual card of the named panel). Nothing is drawn or edited.",
   "shots": [
     {
-      "file": "studio-lband-light.jpg",
-      "studio_url": "http://127.0.0.1:8851/?scenario=l-band-waterfall-jamming&tab=spectrum",
+      "file": "studio-start-light.jpg",
+      "studio_url": "http://127.0.0.1:8853/?start=1",
+      "scenario": null,
+      "view": "Start screen: the five steps, search across scenarios, domains and fields, good first runs and domain tiles",
+      "tab": null,
+      "replay_frame": null,
+      "theme": "light",
+      "viewport_css_px": {
+        "width": 1440,
+        "height": 1000
+      },
+      "device_scale_factor": 2,
+      "crop_css_px": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 1000
+      },
+      "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
+      "captured": "2026-10-01"
+    },
+    {
+      "file": "studio-dashboard-light.jpg",
+      "studio_url": "http://127.0.0.1:8853/?scenario=l-band-waterfall-jamming&tab=spectrum",
       "scenario": "l-band-waterfall-jamming",
-      "view": "Spectrum tab: Waterfall card",
+      "view": "Dashboard after a run of l-band-waterfall-jamming: breadcrumb, the five numbered steps, key figures with PASS and FAIL chips, the panel row",
+      "tab": null,
+      "replay_frame": null,
+      "theme": "light",
+      "viewport_css_px": {
+        "width": 1440,
+        "height": 1000
+      },
+      "device_scale_factor": 2,
+      "crop_css_px": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 1060
+      },
+      "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
+      "captured": "2026-10-01"
+    },
+    {
+      "file": "studio-lband-light.jpg",
+      "studio_url": "http://127.0.0.1:8853/?scenario=l-band-waterfall-jamming&tab=spectrum",
+      "scenario": "l-band-waterfall-jamming",
+      "view": "Spectrum panel: Waterfall card",
       "tab": "spectrum",
       "replay_frame": 31,
       "theme": "light",
@@ -16,19 +60,19 @@
       },
       "device_scale_factor": 2,
       "crop_css_px": {
-        "x": 706,
-        "y": 477,
-        "width": 1200,
-        "height": 705
+        "x": 270,
+        "y": 448,
+        "width": 1623,
+        "height": 678
       },
-      "output": "scaled to 1600 px wide, JPEG quality 82, no metadata",
-      "captured": "2026-09-30"
+      "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
+      "captured": "2026-10-01"
     },
     {
       "file": "studio-coverage-light.jpg",
-      "studio_url": "http://127.0.0.1:8851/?scenario=constellation-multi-gnss-coverage&tab=coverage",
+      "studio_url": "http://127.0.0.1:8853/?scenario=constellation-multi-gnss-coverage&tab=coverage",
       "scenario": "constellation-multi-gnss-coverage",
-      "view": "Coverage tab: Coverage map card (Mean PDOP)",
+      "view": "Coverage panel: Coverage map card",
       "tab": "coverage",
       "replay_frame": 12,
       "theme": "light",
@@ -38,19 +82,19 @@
       },
       "device_scale_factor": 2,
       "crop_css_px": {
-        "x": 706,
-        "y": 470,
-        "width": 1200,
-        "height": 916
+        "x": 270,
+        "y": 448,
+        "width": 1623,
+        "height": 884
       },
-      "output": "scaled to 1600 px wide, JPEG quality 82, no metadata",
-      "captured": "2026-09-30"
+      "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
+      "captured": "2026-10-01"
     },
     {
       "file": "studio-leo-chain-light.jpg",
-      "studio_url": "http://127.0.0.1:8851/?scenario=leo-pnt-end-to-end&tab=leo-chain",
+      "studio_url": "http://127.0.0.1:8853/?scenario=leo-pnt-end-to-end&tab=leo-chain",
       "scenario": "leo-pnt-end-to-end",
-      "view": "End-to-end chain tab: The chain card",
+      "view": "End-to-end chain panel: The chain card",
       "tab": "leo-chain",
       "replay_frame": null,
       "theme": "light",
@@ -60,19 +104,63 @@
       },
       "device_scale_factor": 2,
       "crop_css_px": {
-        "x": 706,
-        "y": 475,
-        "width": 1200,
-        "height": 463
+        "x": 270,
+        "y": 392,
+        "width": 1640,
+        "height": 460
       },
-      "output": "scaled to 1600 px wide, JPEG quality 82, no metadata",
-      "captured": "2026-09-30"
+      "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
+      "captured": "2026-10-01"
+    },
+    {
+      "file": "studio-start-dark.jpg",
+      "studio_url": "http://127.0.0.1:8853/?start=1",
+      "scenario": null,
+      "view": "Start screen: the five steps, search across scenarios, domains and fields, good first runs and domain tiles",
+      "tab": null,
+      "replay_frame": null,
+      "theme": "dark",
+      "viewport_css_px": {
+        "width": 1440,
+        "height": 1000
+      },
+      "device_scale_factor": 2,
+      "crop_css_px": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 1000
+      },
+      "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
+      "captured": "2026-10-01"
+    },
+    {
+      "file": "studio-dashboard-dark.jpg",
+      "studio_url": "http://127.0.0.1:8853/?scenario=l-band-waterfall-jamming&tab=spectrum",
+      "scenario": "l-band-waterfall-jamming",
+      "view": "Dashboard after a run of l-band-waterfall-jamming: breadcrumb, the five numbered steps, key figures with PASS and FAIL chips, the panel row",
+      "tab": null,
+      "replay_frame": null,
+      "theme": "dark",
+      "viewport_css_px": {
+        "width": 1440,
+        "height": 1000
+      },
+      "device_scale_factor": 2,
+      "crop_css_px": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 1060
+      },
+      "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
+      "captured": "2026-10-01"
     },
     {
       "file": "studio-lband-dark.jpg",
-      "studio_url": "http://127.0.0.1:8851/?scenario=l-band-waterfall-jamming&tab=spectrum",
+      "studio_url": "http://127.0.0.1:8853/?scenario=l-band-waterfall-jamming&tab=spectrum",
       "scenario": "l-band-waterfall-jamming",
-      "view": "Spectrum tab: Waterfall card",
+      "view": "Spectrum panel: Waterfall card",
       "tab": "spectrum",
       "replay_frame": 31,
       "theme": "dark",
@@ -82,19 +170,19 @@
       },
       "device_scale_factor": 2,
       "crop_css_px": {
-        "x": 706,
-        "y": 477,
-        "width": 1200,
-        "height": 705
+        "x": 270,
+        "y": 448,
+        "width": 1623,
+        "height": 678
       },
-      "output": "scaled to 1600 px wide, JPEG quality 82, no metadata",
-      "captured": "2026-09-30"
+      "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
+      "captured": "2026-10-01"
     },
     {
       "file": "studio-coverage-dark.jpg",
-      "studio_url": "http://127.0.0.1:8851/?scenario=constellation-multi-gnss-coverage&tab=coverage",
+      "studio_url": "http://127.0.0.1:8853/?scenario=constellation-multi-gnss-coverage&tab=coverage",
       "scenario": "constellation-multi-gnss-coverage",
-      "view": "Coverage tab: Coverage map card (Mean PDOP)",
+      "view": "Coverage panel: Coverage map card",
       "tab": "coverage",
       "replay_frame": 12,
       "theme": "dark",
@@ -104,19 +192,19 @@
       },
       "device_scale_factor": 2,
       "crop_css_px": {
-        "x": 706,
-        "y": 470,
-        "width": 1200,
-        "height": 916
+        "x": 270,
+        "y": 448,
+        "width": 1623,
+        "height": 884
       },
-      "output": "scaled to 1600 px wide, JPEG quality 82, no metadata",
-      "captured": "2026-09-30"
+      "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
+      "captured": "2026-10-01"
     },
     {
       "file": "studio-leo-chain-dark.jpg",
-      "studio_url": "http://127.0.0.1:8851/?scenario=leo-pnt-end-to-end&tab=leo-chain",
+      "studio_url": "http://127.0.0.1:8853/?scenario=leo-pnt-end-to-end&tab=leo-chain",
       "scenario": "leo-pnt-end-to-end",
-      "view": "End-to-end chain tab: The chain card",
+      "view": "End-to-end chain panel: The chain card",
       "tab": "leo-chain",
       "replay_frame": null,
       "theme": "dark",
@@ -126,13 +214,13 @@
       },
       "device_scale_factor": 2,
       "crop_css_px": {
-        "x": 706,
-        "y": 475,
-        "width": 1200,
-        "height": 463
+        "x": 270,
+        "y": 392,
+        "width": 1640,
+        "height": 460
       },
-      "output": "scaled to 1600 px wide, JPEG quality 82, no metadata",
-      "captured": "2026-09-30"
+      "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
+      "captured": "2026-10-01"
     }
   ]
 }
