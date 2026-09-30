@@ -118,7 +118,7 @@ power, for decibel cells, so a narrow jammer is not diluted).
 A kind whose result carries none of these shapes (a link budget, a single-epoch geometry,
 a statistics-only Monte Carlo summary, or the telecom holdover, whose result publishes the
 record's hash but not the record) is refused with `no time series to animate`, and nothing
-is written. With kshana 0.28.0, 68 of the 132 bundled scenarios animate and 64 are
+is written. With kshana 0.29.0, 68 of the 132 bundled scenarios animate and 64 are
 refused (over all 138 scenario files, 71 and 67). `cargo test --test animation --
 --nocapture` prints the census over all 138 files.
 
