@@ -9,6 +9,16 @@ and the released result tables can check each one without running anything.
 **Rule R1** is additive-only. This change is the single, founder-authorised exception to
 it, and its whole extent is enumerated here.
 
+**Abbreviations** (added in a 2026-09-29 docs audit; the record is otherwise
+unchanged). EOP: Earth orientation parameters. IERS: International Earth Rotation and
+Reference Systems Service. MJD: Modified Julian Date. UT1: Universal Time 1, the
+Earth-rotation angle expressed as time. mas: milliarcseconds. RMS: root mean square.
+OD: orbit determination. CSV: comma-separated values. P4: the programme paper on the
+real-time lunar frame and Earth-orientation budget
+(`arxiv-papers-v3/P4-realtime-frame-eop/`). G11, G12, G13: numbered items of the
+programme’s engineering work list, as tagged in code comments such as
+`src/realtime_frame_eop.rs`.
+
 ---
 
 ## 1. What changed in the engine
