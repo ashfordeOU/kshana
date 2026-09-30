@@ -9,9 +9,13 @@ and how many bits does it take to carry it to the centimetre.
 It is system-agnostic. Any orbit, any carrier and any of four ephemeris models run with
 no preset at all; the named presets are optional data (see [Presets](#presets)).
 
-Run the bundled examples with `kshana example leo-navmsg-fit-interval-trade`,
-`leo-navmsg-model-comparison`, `leo-navmsg-midpass-update` and
-`leo-navmsg-encode-decode`.
+Print a bundled example with `kshana example <name>` (one name per call) and run it with
+`kshana scenarios/<name>.toml`: `leo-navmsg-fit-interval-trade`,
+`leo-navmsg-model-comparison`, `leo-navmsg-midpass-update` and `leo-navmsg-encode-decode`.
+The kind is also the message stage of the `leo-pnt-chain` kind
+([LEO-PNT.md](LEO-PNT.md#end-to-end-leo-pnt-chain)) and the member of the
+`leo-focus-data-services` campaign, which composes four message configurations and reports
+the frame length of each (146, 154, 159 and 171 bytes).
 
 Code: `src/leo_navmsg/` — `elements.rs` (records and user algorithm), `truth.rs` (truth
 orbit and clock), `fit.rs` (fitter), `sisre.rs` (signal-in-space range error),
@@ -34,7 +38,7 @@ Independent Exchange Format (RINEX)-style and comma-separated values (CSV) expor
 | `kepler16` | the Galileo Open Service Signal-in-Space Interface Control Document (OS SIS ICD) Keplerian set: `√A, e, i0, Ω0, ω, M0, Δn, Ω̇, i̇, Cuc, Cus, Crc, Crs, Cic, Cis, toe` | 16 |
 | `kepler-rac` | the same, plus along-track, cross-track and radial (RAC) correction polynomials `a0…`, `c0…`, `r0…` in `τ = tk / tau_s`, coefficients in metres, `tau_s` the power of two at or above half the fit interval (transmitted), degrees set by `rac_degrees` (default 7, 5, 6) | 16 + 21 by default, plus the time scale |
 | `liu22` | the 22-parameter model of Liu, Su, Xie, Zhou and Qu (2025, *Remote Sensing* 17(16):2894, doi [10.3390/rs17162894](https://doi.org/10.3390/rs17162894)): the 16 plus `ȧ, ṅ, Crs3, Crc3, Crs1, Crc1` | 22 |
-| `ecef-poly` | the ATOMIC "zero-clock" model: an Earth-centred Earth-fixed (ECEF) polynomial per axis in `τ = (t − t_ref) / 64 s` (default degree 6), no clock terms because the satellite clock is steered to system time ([InsideGNSS](https://insidegnss.com/first-steps-toward-a-fully-operational-leo-pnt-payload/)) | 22 by default |
+| `ecef-poly` | the ATOMIC (Autonomous Time and Orbit Determination for Microsatellite Constellations) "zero-clock" model: an Earth-centred Earth-fixed (ECEF) polynomial per axis in `τ = (t − t_ref) / 64 s` (default degree 6), no clock terms because the satellite clock is steered to system time ([InsideGNSS](https://insidegnss.com/first-steps-toward-a-fully-operational-leo-pnt-payload/)) | 22 by default |
 
 The user algorithm (`elements::sat_state`) is the Galileo ICD sequence (Kepler's
 equation, second-harmonic corrections, Earth-fixed node) followed, for `kepler-rac`, by
@@ -60,7 +64,7 @@ Three readings are Kshana's own and are stated as such:
 `truth.rs` integrates the orbit with a fixed-step fourth-order Runge–Kutta in a frame
 that turns into Earth-fixed axes by one rotation, `θ(t) = θ0 + Ω̇e·t`, the same single
 rotation a broadcast user algorithm applies. Gravity is two-body (`gravity_degree = 0`),
-the zonal harmonics J2 to J6 (2 to 6), or the EGM2008 field to degree and order 7 to 70,
+the zonal harmonics J2 to J6 (2 to 6), or the Earth Gravitational Model 2008 (EGM2008) field to degree and order 7 to 70,
 whose tesseral terms carry the short-period signature that makes a LEO fit hard. Drag is
 optional (static exponential density). The clock is free-running (bias, drift, drift
 rate and white frequency noise at a stated one-second Allan deviation, plus the periodic
@@ -91,7 +95,8 @@ carries them.
 
 Each message is used over a period centred in its fit window (the first trade table uses
 the whole window). What the signal-in-space range error (SISRE) figures measure is the **representation error** of the
-message against the truth it was fitted to. The error of orbit determination and orbit
+message against the truth it was fitted to, as a root mean square (RMS) and a maximum over
+the span. The error of orbit determination and orbit
 prediction, which a real ground or on-board segment adds on top, is not modelled.
 
 ## Signal-in-space range error
@@ -231,9 +236,10 @@ Largest user range jump 0.40 mm against a 5 cm threshold: **PASS**.
 it, checks the CRC and rejects a corrupted copy, prints the quantisation budget, and
 writes and reads back the RINEX-style block and the CSV table:
 
-- frame: 171 bytes (1310 payload bits, of which 1045 are ephemeris and clock), CRC-24Q `0x110315`;
+- frame: 171 bytes (1310 payload bits, of which 1045 are ephemeris and clock), 24-bit cyclic
+  redundancy check (CRC-24Q) `0x110315`;
 - largest half-step effect of any single field: `af0`, 0.545 mm;
-- whole message after quantisation: position within 0.662 mm and clock within 0.451 mm of the exact message; SISRE 0.107 cm exact, 0.119 cm decoded;
+- whole message after quantisation: position within 0.662 mm and clock within 0.451 mm of the exact message; SISRE 0.107 cm exact, 0.122 cm decoded;
 - a frame with one flipped bit is rejected: true;
 - RINEX-style round trip within 6.6e-06 m, CSV round trip within 0.0e+00 m.
 
@@ -403,7 +409,7 @@ along/cross/radial correction polynomials, clock polynomial, SVID,
 health, IOD, ionospheric and UTC parameters), the record spacing and the CSV
 column names. The orbit (510 km, near-polar sun-synchronous) and carrier come from
 public sources cited in the file. The Celeste bit layout is not public and is not
-reproduced; later Celeste phases and the EU LEO-PNT system may differ. Every
+reproduced; later Celeste phases and the European Union (EU) LEO-PNT system may differ. Every
 workshop-derived value sits in the `navmsg` module of `src/celeste_iod.rs`, used by
 `scenarios/leo-navmsg-celeste-iod.toml`. How the preset is withheld: every workshop-derived number of the engine lives in one file,
 `src/celeste_iod.rs`, which `build.rs` compiles in only when it exists, and in the
