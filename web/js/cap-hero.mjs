@@ -6,7 +6,9 @@
 // revolution). Nothing is propagated here; positions between two samples are interpolated.
 // Distances are compressed on a log scale (directions are true), body sizes are enlarged and the
 // spin is a display rate; the page says so. Reduced motion: the complete frame at the epoch.
+import { studioHref } from "./studio-links.mjs";
 const ROOT = (window.KSITE && window.KSITE.root) || "";
+const STUDIO = (window.KSITE && window.KSITE.studio) || "Kshana Studio";
 const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const $ = (s) => document.querySelector(s);
 const win = $("#chWin");
@@ -61,7 +63,11 @@ function init(d) {
   const fileB = el("button", "prov-x", "TOML"); fileB.type = "button"; fileB.title = "The scenario file that ran";
   fileB.addEventListener("click", () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([sol.toml], { type: "application/toml" })); a.download = sol.file; document.body.append(a); a.click(); setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 500); });
   const cmd = el("button", "prov-x", "Copy command"); cmd.type = "button"; cmd.dataset.copy = `kshana ${sol.file}`; cmd.title = "Copy the command that reproduces it";
-  tools.append(fileB, cmd); pv.append(src, more, tools);
+  // The Studio view that reproduces this run (js/studio-links.mjs, from the Studio's own link list).
+  const view = studioHref(ROOT, sol.file);
+  const open = view ? el("a", "prov-open", `Open in ${STUDIO}`) : null;
+  if (open) open.href = view;
+  tools.append(fileB, cmd); pv.append(...[src, open, more, tools].filter(Boolean));
   const cred = {};
   for (const b of [B.Sun, ...bodies]) { const c = img.bodies[b.name]; if (c) (cred[`${c.credit} (${c.licence})`] ||= []).push(b.name); }
   const det = el("details", "hx-note"); det.append(el("summary", null, "Scale and imagery credits"));

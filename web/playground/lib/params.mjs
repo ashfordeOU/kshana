@@ -1,10 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-// Inline parameter controls: every numeric scalar in a scenario TOML that the shared
-// patch helpers can rewrite safely, so the editor and the steppers stay in sync both
-// ways. A field is offered only when patchScalar / patchSectionScalar would hit that
-// exact line: keys under an array-of-tables header ([[...]]) are excluded (the patch
-// helpers do not treat [[...]] as a section boundary), and so is any (section, key)
-// that appears more than once in their view. Pure; tested in params.test.mjs.
+// Inline parameter controls: every numeric scalar in a scenario TOML, so the editor and the
+// steppers stay in sync both ways. A field under a plain [section] is offered when the shared
+// patch helpers would hit that exact line (a (section, key) that appears once). A field under an
+// array-of-tables header ([[jammers]], [[constellation.shell]]) is offered too, under a section
+// name that carries the table's position, such as `jammers[1]` or `constellation.shell[0]`, and
+// is always rewritten by its line (the shared helpers do not see [[...]] as a boundary).
+// Pure; tested in params.test.mjs.
 import { patchScalar } from "./share.mjs";
 import { patchSectionScalar } from "./guided.mjs";
 
@@ -13,24 +14,44 @@ const aotRe = /^\s*\[\[/;
 const kvRe = /^\s*([A-Za-z0-9_-]+)\s*=\s*([^#]*?)\s*(?:#(.*))?$/;
 const numRe = /^[+-]?(?:\d+\.?\d*|\.\d+)(?:[eE][+-]?\d+)?$/;
 
+const aotHeadRe = /^\s*\[\[([^\]]+)\]\]\s*(?:#.*)?$/;
+
 export function numericFields(toml) {
   const lines = String(toml).split("\n");
   let section = "";
   let aot = false;
+  let owner = null; // the array-of-tables element the following [owner.sub] headers belong to
+  const aotCount = new Map();
   const seen = new Map();
   const fields = [];
   lines.forEach((line, i) => {
-    if (aotRe.test(line)) { aot = true; return; }
+    const a = line.match(aotHeadRe);
+    if (a) {
+      const name = a[1].trim();
+      const n = aotCount.get(name) || 0;
+      aotCount.set(name, n + 1);
+      section = `${name}[${n}]`;
+      owner = { name, section };
+      aot = true;
+      return;
+    }
+    if (aotRe.test(line)) { aot = true; section = ""; owner = null; return; }
     const h = line.match(headerRe);
-    if (h) { section = h[1].trim(); aot = false; return; }
+    if (h) {
+      const name = h[1].trim();
+      // [jammers.waveform] after [[jammers]] is a sub-table of that element.
+      if (owner && name.startsWith(owner.name + ".")) { section = owner.section + name.slice(owner.name.length); aot = true; }
+      else { section = name; aot = false; owner = null; }
+      return;
+    }
     const m = line.match(kvRe);
     if (!m) return;
     const id = `${section}::${m[1]}`;
     seen.set(id, (seen.get(id) || 0) + 1);
-    if (aot || !numRe.test(m[2])) return;
+    if ((aot && !section) || !numRe.test(m[2])) return;
     const raw = m[2];
     const value = parseFloat(raw);
-    fields.push({ id, section, key: m[1], raw, value, integer: /^[+-]?\d+$/.test(raw), line: i, comment: (m[3] || "").trim() });
+    fields.push({ id, section, key: m[1], raw, value, integer: /^[+-]?\d+$/.test(raw), line: i, comment: (m[3] || "").trim(), aot });
   });
   return fields.filter((f) => seen.get(f.id) === 1);
 }
@@ -73,6 +94,11 @@ export function patchField(toml, f, v) {
     const lead = rest.match(/^\s*/)[0];
     lines[f.line] = line.slice(0, at) + lead + text + rest.slice(lead.length + m[2].length);
     return lines.join("\n");
+  }
+  // An array-of-tables field has no line-free address the shared helpers understand: find it again.
+  if (f.aot) {
+    const again = numericFields(toml).find((x) => x.id === f.id);
+    return again && again.line !== f.line ? patchField(toml, again, v) : String(toml);
   }
   return f.section ? patchSectionScalar(toml, f.section, f.key, text) : patchScalar(toml, f.key, text);
 }

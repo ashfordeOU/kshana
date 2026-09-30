@@ -1,0 +1,126 @@
+# LEO-PNT focus area: additional PNT data services in the navigation message.
+#
+# A low Earth orbit (LEO) navigation message carries, besides the ephemeris and clock,
+# service data: ionospheric corrections for single-frequency users (a Klobuchar-style set
+# and a NeQuick-G-style set) and the system-time-to-UTC (Coordinated Universal Time)
+# offset. Each service costs bits in every frame. The campaign composes four
+# `leo-navmsg` encode-and-decode runs of the engine's documented Kshana LEO message frame
+# (its own encoding modelled on the published message components, not any system's bit
+# layout), from ephemeris and clock only to every service, and records the frame length
+# and the ephemeris-and-clock share of it. A frame of B bytes takes 8*B/R seconds to
+# broadcast at R bit/s, so each service's bytes are airtime on the data channel.
+#
+# Every frame is checked by the kind itself: a CRC-24Q (the 24-bit cyclic redundancy
+# check of RTCM and SBAS) against its published check value, a decode round trip and a
+# corrupted frame that must be rejected.
+#
+# MODELLED: bit counts of the Kshana frame; broadcast integrity flags and differential
+# corrections beyond these services are not modelled.
+kind = "campaign"
+title = "Navigation-message service data against frame length"
+seed = 20260929
+
+[[compose.shared]]
+name = "fit_interval"
+unit = "s"
+value = 300.0
+
+[[compose.members]]
+label = "ephemeris-clock"
+bind = { fit_interval = "message.fit_interval_s" }
+metrics = [
+  { name = "frame_bytes", path = "encode_decode.frame_bytes", unit = "byte" },
+  { name = "ephemeris_clock_bits", path = "encode_decode.ephemeris_clock_bits", unit = "bit" },
+]
+[compose.members.scenario]
+kind = "leo-navmsg"
+seed = 14
+analysis = ["encode-decode"]
+[compose.members.scenario.orbit]
+altitude_km = 550.0
+inclination_deg = 97.6
+gravity_degree = 20
+[compose.members.scenario.message]
+model = "kepler-rac"
+rac_degrees = [7, 5, 6]
+fit_interval_s = 300
+update_period_s = 300
+svid = 4
+klobuchar = false
+nequick = false
+utc = false
+
+[[compose.members]]
+label = "plus-klobuchar"
+bind = { fit_interval = "message.fit_interval_s" }
+metrics = [
+  { name = "frame_bytes", path = "encode_decode.frame_bytes", unit = "byte" },
+  { name = "ephemeris_clock_bits", path = "encode_decode.ephemeris_clock_bits", unit = "bit" },
+]
+[compose.members.scenario]
+kind = "leo-navmsg"
+seed = 14
+analysis = ["encode-decode"]
+[compose.members.scenario.orbit]
+altitude_km = 550.0
+inclination_deg = 97.6
+gravity_degree = 20
+[compose.members.scenario.message]
+model = "kepler-rac"
+rac_degrees = [7, 5, 6]
+fit_interval_s = 300
+update_period_s = 300
+svid = 4
+klobuchar = true
+nequick = false
+utc = false
+
+[[compose.members]]
+label = "plus-nequick"
+bind = { fit_interval = "message.fit_interval_s" }
+metrics = [
+  { name = "frame_bytes", path = "encode_decode.frame_bytes", unit = "byte" },
+  { name = "ephemeris_clock_bits", path = "encode_decode.ephemeris_clock_bits", unit = "bit" },
+]
+[compose.members.scenario]
+kind = "leo-navmsg"
+seed = 14
+analysis = ["encode-decode"]
+[compose.members.scenario.orbit]
+altitude_km = 550.0
+inclination_deg = 97.6
+gravity_degree = 20
+[compose.members.scenario.message]
+model = "kepler-rac"
+rac_degrees = [7, 5, 6]
+fit_interval_s = 300
+update_period_s = 300
+svid = 4
+klobuchar = true
+nequick = true
+utc = false
+
+[[compose.members]]
+label = "all-services"
+bind = { fit_interval = "message.fit_interval_s" }
+metrics = [
+  { name = "frame_bytes", path = "encode_decode.frame_bytes", unit = "byte" },
+  { name = "ephemeris_clock_bits", path = "encode_decode.ephemeris_clock_bits", unit = "bit" },
+]
+[compose.members.scenario]
+kind = "leo-navmsg"
+seed = 14
+analysis = ["encode-decode"]
+[compose.members.scenario.orbit]
+altitude_km = 550.0
+inclination_deg = 97.6
+gravity_degree = 20
+[compose.members.scenario.message]
+model = "kepler-rac"
+rac_degrees = [7, 5, 6]
+fit_interval_s = 300
+update_period_s = 300
+svid = 4
+klobuchar = true
+nequick = true
+utc = true

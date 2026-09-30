@@ -375,6 +375,12 @@ jobs:
         run: node web/playground/lib/params.test.mjs
       - name: Test the result views over recorded runs
         run: node web/playground/lib/views.test.mjs
+      - name: Test the capability views of every scenario kind over recorded runs
+        run: node web/playground/lib/kinds.test.mjs
+      - name: Test the staged replays (waterfall, timeline, coverage map, solar system)
+        run: node web/playground/lib/stages.test.mjs
+      - name: Test the reader of recorded runs, one file per scenario or packed
+        run: node web/playground/lib/packs.test.mjs
   # ---------------------------------------------------------------------------
   # Overlay-registry assurance gates (Phase 0).
   #

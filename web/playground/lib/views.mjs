@@ -41,7 +41,7 @@ export function niceTicks(lo, hi, n = 5) {
   return out;
 }
 
-const SERIES_COLORS = ["var(--s-tim)", "var(--s-nav)", "var(--s-orb)", "var(--s-spf)"];
+export const SERIES_COLORS = ["var(--s-tim)", "var(--s-nav)", "var(--s-orb)", "var(--s-spf)", "var(--s-itg)", "var(--s-int)"];
 
 // The plotted field of a clock/inertial series sample, with its unit and label.
 const SERIES_FIELDS = [
@@ -368,7 +368,14 @@ export function keyFigures(result, max = 12) {
   return out;
 }
 
-const ACRONYMS = { js: "J/S", te: "TE", cn0: "C/N0", pdop: "PDOP", hdop: "HDOP", vdop: "VDOP", gdop: "GDOP", dop: "DOP", rms: "RMS", hpl: "HPL", vpl: "VPL", mtie: "MTIE", tdev: "TDEV", auc: "AUC", roc: "ROC", nis: "NIS", nees: "NEES", gnss: "GNSS", ins: "INS", ltc: "LTC", tcl: "TCL", eop: "EOP", od: "OD", vlbi: "VLBI", fom: "FoM", eirp: "EIRP", snr: "SNR", tpl: "TPL", p95: "p95", db: "(dB)", dbm: "(dBm)", dbhz: "(dB-Hz)", dbw: "(dBW)", dbi: "(dBi)" };
+const ACRONYMS = { js: "J/S", te: "TE", cn0: "C/N0", pdop: "PDOP", hdop: "HDOP", vdop: "VDOP", gdop: "GDOP", dop: "DOP", rms: "RMS", hpl: "HPL", vpl: "VPL", mtie: "MTIE", tdev: "TDEV", auc: "AUC", roc: "ROC", nis: "NIS", nees: "NEES", gnss: "GNSS", ins: "INS", ltc: "LTC", tcl: "TCL", eop: "EOP", od: "OD", vlbi: "VLBI", fom: "FoM", eirp: "EIRP", snr: "SNR", tpl: "TPL", p95: "p95", db: "(dB)", dbm: "(dBm)", dbhz: "(dB-Hz)", dbw: "(dBW)", dbi: "(dBi)",
+  // Keys of the newer kinds (spectrum, low Earth orbit navigation, laser-ranging datum). An acronym keeps its
+  // capitals; the ones a reader is least likely to know are written out.
+  leo: "LEO", meo: "MEO", geo: "GEO", uhf: "UHF", utc: "UTC", sisre: "SISRE", rinex: "RINEX", csv: "CSV", cw: "CW", iq: "IQ", psd: "PSD",
+  aos: "AOS", tca: "TCA", los: "LOS", rac: "RAC", iod: "IOD", itrf: "ITRF", ilrs: "ILRS", crd: "CRD", mer: "MER", domes: "DOMES", ssc: "SSC",
+  lsb: "LSB", gm: "GM", jd: "JD", tec: "TEC", stec: "slant TEC", tecu: "TECU", ecef: "ECEF", enu: "ENU", tdb: "TDB", tow: "TOW", url: "URL", id: "ID",
+  ppp: "PPP", pvt: "PVT", ntn: "NTN", crc24q: "CRC-24Q", sha256: "SHA-256", tx: "transmit", enbw: "equivalent noise bandwidth", nfft: "FFT length",
+  ttff: "time to first fix", toa: "time of arrival", zwd: "zenith wet delay" };
 export function humanKey(k) {
   const words = String(k).split("_").map((w) => ACRONYMS[w.toLowerCase()] || w).join(" ")
     .replace(/\b(dbhz)\b/gi, "dB-Hz").replace(/\b(db)\b/gi, "dB").replace(/\bns\b/g, "(ns)").replace(/\bm s\b/g, "(m/s)")
@@ -387,12 +394,28 @@ export function resultLabel(result) {
 
 // ---------------------------------------------------------------- SVG builders
 
-// Line chart. model = { series:[{label,color,points}], threshold?, thresholdLabel?, outages?,
-// xLabel, yLabel }. opts = { w, h, logX, logY, marks:[{x,y,label,color}] }.
-// Returns { svg, hover } where hover = { W, ml, mr, samples:[x...], label(i) }.
+// Line chart. model = { series:[{label,color,points,dash?}], threshold?, thresholdLabel?, outages?,
+// xLabel, yLabel, xName?, xUnit? }. opts = { w, h, logX, logY, marks:[{x,y,label,color}],
+// bands:[{x0,x1,label}] (named spans of the x axis, such as campaign phases),
+// vlines:[{x,label,alarm}] (instants, such as events) }.
+// A point whose y is not a finite number breaks the line there (a gap in the record is drawn
+// as a gap, never bridged).
+// Returns { svg, hover } where hover = { W, H, ml, mr, mt, mb, samples:[x...], label(i), xOf(x) }.
 export function lineChartSvg(model, opts = {}) {
-  const W = opts.w || 760, H = opts.h || 340, ml = 64, mr = 20, mb = 46;
+  const W = opts.w || 760, H = opts.h || 340, mr = 20, mb = 46;
   opts = { ...opts, logX: opts.logX ?? model.logX, logY: opts.logY ?? model.logY };
+  // The left margin grows with the longest y tick label, so a label never reaches the axis title.
+  let ml = 64;
+  {
+    const fyp = opts.logY ? (v) => Math.log10(Math.abs(v)) : (v) => v;
+    const yv = model.series.flatMap((x) => x.points).map((p) => fyp(p[1])).filter(Number.isFinite);
+    if (yv.length && !opts.logY) {
+      if (Number.isFinite(model.threshold)) yv.push(model.threshold);
+      const lo = Math.min(0, ...yv), hi = Math.max(...yv);
+      const longest = Math.max(0, ...niceTicks(lo, hi + ((hi - lo) * 0.08 || 1), 5).map((v) => fmt(v).length));
+      ml = Math.max(64, Math.round(34 + longest * 6.4));
+    }
+  }
   // Legend rows sit above the plot area, packed to the chart width, so a legend never covers
   // a line, a threshold label or an outage label.
   const legendRows = [[]];
@@ -403,13 +426,14 @@ export function lineChartSvg(model, opts = {}) {
     legendRows[legendRows.length - 1].push({ ser, x: ml + rowW });
     rowW += w + 12;
   }
-  const mt = 14 + legendRows.length * 16;
+  // Named spans (campaign phases) are labelled in their own strip above the plot, clear of the lines.
+  const mt = 14 + legendRows.length * 16 + ((opts.bands || []).some((b) => b.label) ? 13 : 0);
   const pts = model.series.flatMap((s) => s.points);
   const fx = opts.logX ? (v) => Math.log10(v) : (v) => v;
   const fy = opts.logY ? (v) => Math.log10(Math.abs(v)) : (v) => v;
   const ok = (p) => Number.isFinite(fx(p[0])) && Number.isFinite(fy(p[1]));
   const good = pts.filter(ok);
-  if (good.length < 2) return { svg: "", hover: null };
+  if (good.length < 2 || !model.series.some((x) => x.points.filter(ok).length > 1)) return { svg: "", hover: null };
   let x0 = Math.min(...good.map((p) => fx(p[0]))), x1 = Math.max(...good.map((p) => fx(p[0])));
   const ys = good.map((p) => fy(p[1]));
   if (Number.isFinite(model.threshold) && !opts.logY) ys.push(model.threshold);
@@ -422,6 +446,13 @@ export function lineChartSvg(model, opts = {}) {
   const py = (v) => mt + (1 - (fy(v) - y0) / (y1 - y0)) * (H - mt - mb);
   let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${esc(model.title || "chart")}" xmlns="http://www.w3.org/2000/svg">`;
   s += `<rect class="c-bg" width="${W}" height="${H}" rx="0"/>`;
+  // Named spans of the x axis (campaign phases): alternate shading and a label along the top.
+  (opts.bands || []).forEach((b, i) => {
+    const xa = Math.max(ml, px(b.x0)), xb = Math.min(W - mr, px(b.x1));
+    if (!(xb > xa)) return;
+    s += `<rect class="c-band${i % 2 ? " alt" : ""}" x="${xa.toFixed(1)}" y="${mt}" width="${(xb - xa).toFixed(1)}" height="${H - mt - mb}"/>`;
+    if (b.label && xb - xa >= String(b.label).length * 7.2 + 6) s += `<text class="c-note" x="${(xa + 2).toFixed(1)}" y="${mt - 5}">${esc(b.label)}</text>`;
+  });
   let noted = false;
   for (const [a, b] of model.outages || []) {
     const xa = px(a), xb = px(b);
@@ -429,12 +460,14 @@ export function lineChartSvg(model, opts = {}) {
     // Label one outage only, and only where the band is wide enough to hold the words.
     if (!noted && xb - xa >= 84) { s += `<text class="c-note" x="${(xa + 6).toFixed(1)}" y="${mt + 14}">GNSS denied</text>`; noted = true; }
   }
-  if (!noted && (model.outages || []).length) s += `<text class="c-note" x="${W - mr - 4}" y="${mt + 14}" text-anchor="end">shaded: GNSS denied</text>`;
+  if (!noted && (model.outages || []).length) s += `<text class="c-note" x="${ml + 6}" y="${mt + 14}">shaded: GNSS denied</text>`;
   const xt = opts.logX ? decades(x0, x1) : niceTicks(x0, x1, 6);
   for (const v of xt) {
     const x = opts.logX ? ml + ((v - x0) / (x1 - x0)) * (W - ml - mr) : px(v);
     s += `<line class="c-grid" x1="${x.toFixed(1)}" y1="${mt}" x2="${x.toFixed(1)}" y2="${H - mb}"/>`;
-    s += `<text class="c-tick" x="${x.toFixed(1)}" y="${H - mb + 16}" text-anchor="middle">${opts.logX ? `10<tspan dy="-5" font-size="8">${v}</tspan>` : esc(fmt(v))}</text>`;
+    // A label that would run past the right edge is set against it instead of centred on its tick.
+    const lab = opts.logX ? "" : fmt(v), over = !opts.logX && x + lab.length * 3.3 > W - 2;
+    s += `<text class="c-tick" x="${(over ? W - 2 : x).toFixed(1)}" y="${H - mb + 18}" text-anchor="${over ? "end" : "middle"}">${opts.logX ? `10<tspan dy="-5" font-size="8">${v}</tspan>` : esc(lab)}</text>`;
   }
   const yt = opts.logY ? decades(y0, y1) : niceTicks(y0, y1, 5);
   for (const v of yt) {
@@ -451,18 +484,34 @@ export function lineChartSvg(model, opts = {}) {
   const hasTim = model.series.some((x) => /--s-tim\b/.test(String(x.color)));
   const dashed = (ser) => !!ser.dash || (hasTim && /--s-spf\b/.test(String(ser.color)));
   model.series.forEach((ser, i) => {
-    const p = ser.points.filter(ok);
-    if (p.length < 2) return;
-    const step = Math.max(1, Math.floor(p.length / 1400));
-    const poly = p.filter((_, j) => j % step === 0 || j === p.length - 1).map((q) => `${px(q[0]).toFixed(1)},${py(q[1]).toFixed(1)}`).join(" ");
-    s += dashed(ser) ? `<polyline class="c-line c-line-d" stroke-dasharray="6 4" style="stroke:${ser.color}" points="${poly}"/>` : `<polyline class="c-line" style="stroke:${ser.color}" points="${poly}"/>`;
+    // Runs of drawable points; a missing value ends a run.
+    const runs = [[]];
+    for (const q of ser.points) { if (ok(q)) runs[runs.length - 1].push(q); else if (runs[runs.length - 1].length) runs.push([]); }
+    const total = runs.reduce((n, r) => n + r.length, 0);
+    const step = Math.max(1, Math.floor(total / 1400));
+    for (const p of runs) {
+      if (!p.length) continue;
+      if (p.length === 1) { s += `<circle r="1.6" cx="${px(p[0][0]).toFixed(1)}" cy="${py(p[0][1]).toFixed(1)}" style="fill:${ser.color}"/>`; continue; }
+      const poly = p.filter((_, j) => j % step === 0 || j === p.length - 1).map((q) => `${px(q[0]).toFixed(1)},${py(q[1]).toFixed(1)}`).join(" ");
+      s += dashed(ser) ? `<polyline class="c-line c-line-d" stroke-dasharray="6 4" style="stroke:${ser.color}" points="${poly}"/>` : `<polyline class="c-line" style="stroke:${ser.color}" points="${poly}"/>`;
+    }
   });
+  // Instants (campaign events, message switches): a vertical rule with a short label.
+  for (const v of opts.vlines || []) {
+    if (!Number.isFinite(v.x)) continue;
+    const x = px(v.x);
+    if (x < ml - 0.5 || x > W - mr + 0.5) continue;
+    s += `<line class="c-vline${v.alarm ? " alarm" : ""}" x1="${x.toFixed(1)}" y1="${mt}" x2="${x.toFixed(1)}" y2="${H - mb}"><title>${esc(v.label || "")}</title></line>`;
+  }
   // The threshold label is drawn over the series, so its halo keeps it readable where a line crosses.
   // A knock-out box behind it too: a series running along the threshold would otherwise show
   // through the letters (a halo only covers the glyph edges).
+  // Label boxes already on the chart, [x0, y0, x1, y1]: a mark's label moves or is left out rather than sit on one.
+  const placed = [];
   if (thrY != null) {
     const lbl = `${model.thresholdLabel || "threshold"} ${fmt(model.threshold)}${model.unit ? " " + model.unit : ""}`;
     const tw = lbl.length * 6.5 + 8;
+    placed.push([W - mr - tw, thrY - 17, W - mr, thrY]);
     s += `<rect class="c-thr-bg" x="${(W - mr - tw).toFixed(1)}" y="${(thrY - 17).toFixed(1)}" width="${tw.toFixed(1)}" height="15" rx="3"/>`;
     s += `<text class="c-thr-t" x="${W - mr - 4}" y="${(thrY - 6).toFixed(1)}" text-anchor="end">${esc(lbl)}</text>`;
   }
@@ -472,20 +521,30 @@ export function lineChartSvg(model, opts = {}) {
   for (const m of opts.marks || []) {
     if (!Number.isFinite(m.x) || !Number.isFinite(m.y)) continue;
     s += `<circle class="c-mark" cx="${px(m.x).toFixed(1)}" cy="${py(m.y).toFixed(1)}" r="5" style="stroke:${m.color || "var(--s-int)"}"/>`;
-    if (m.label) s += `<text class="c-mark-t" x="${(px(m.x) + 8).toFixed(1)}" y="${(py(m.y) - 8).toFixed(1)}">${esc(m.label)}</text>`;
+    if (!m.label) continue;
+    const w = String(m.label).length * 6 + 2, x = px(m.x), y = py(m.y);
+    for (const [dx, dy, anchor] of [[8, -8, "start"], [-8, -8, "end"], [8, 16, "start"], [-8, 16, "end"]]) {
+      const x0 = anchor === "start" ? x + dx : x + dx - w;
+      const box = [x0 - 1, y + dy - 10, x0 + w + 1, y + dy + 3];
+      if (box[0] < ml || box[2] > W - 2 || box[1] < mt || box[3] > H - mb || placed.some((a) => box[0] < a[2] && box[2] > a[0] && box[1] < a[3] && box[3] > a[1])) continue;
+      placed.push(box);
+      s += `<text class="c-mark-t" x="${(x + dx).toFixed(1)}" y="${(y + dy).toFixed(1)}" text-anchor="${anchor}">${esc(m.label)}</text>`;
+      break;
+    }
   }
   s += `</svg>`;
   const base = model.series.find((x) => x.points.filter(ok).length > 1).points.filter(ok);
   const samples = base.map((p) => px(p[0]));
+  const xName = model.xName || (opts.logX ? "τ" : "t"), xUnit = model.xUnit === undefined ? " s" : model.xUnit ? " " + model.xUnit : "";
   const hover = {
-    W, ml, mr, samples,
+    W, H, ml, mr, mt, mb, samples, xOf: px,
     label: (i) => {
       const t = base[i][0];
       const parts = model.series.map((ser) => {
         const q = nearestByX(ser.points, t);
-        return q ? `${ser.label} ${fmt(q[1])}${model.unit ? " " + model.unit : ""}` : null;
+        return q && Number.isFinite(q[1]) ? `${ser.label} ${fmt(q[1])}${model.unit ? " " + model.unit : ""}` : null;
       }).filter(Boolean);
-      return `${opts.logX ? "τ" : "t"} = ${fmt(t)}${opts.logX ? " s" : " s"} · ${parts.join(" · ")}`;
+      return `${xName} = ${fmt(t)}${xUnit} · ${parts.join(" · ")}`;
     },
   };
   return { svg: s, hover };

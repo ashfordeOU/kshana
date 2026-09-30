@@ -1,0 +1,186 @@
+# LEO-PNT vertical: autonomous vehicles, an urban canyon with a LEO layer.
+#
+# A car drives east through Munich. On the open road every satellite above 10 deg is
+# usable; in the urban canyon the buildings hide everything below 35 deg. Each phase runs
+# a `leo-pvt` joint fix (GPS, Galileo and a generic low Earth orbit (LEO) layer of 240
+# satellites at 1080 km, 53 deg, with a 0.25 m signal-in-space range error), comparing the
+# GNSS-only error with the fused GNSS + LEO error against a 1.5 m lane-level threshold,
+# and a `leo-pass` run of one LEO pass seen from the moving car (its geometry is what the
+# campaign exports).
+#
+# In the canyon GPS and Galileo keep 8 satellites above 35 deg and their geometry turns
+# poor; the LEO layer adds 4 to 5 more and cuts the mean error from about 5.8 m to about
+# 2.1 m, but a single elevation cut-off still leaves the fused error above the lane-level
+# threshold at about half the canyon epochs, where the alarm is raised.
+#
+# MODELLED: a building mask as a single elevation cut-off (no multipath, no
+# non-line-of-sight signals); representative LEO signal and range error. The
+# `automotive-urban-canyon` scenario covers the inertial side of the same drive.
+kind = "campaign"
+title = "Autonomous vehicle in an urban canyon with a LEO layer"
+seed = 20260929
+
+[timeline]
+step_s = 10.0
+
+[[phases]]
+name = "open-road"
+duration_s = 600.0
+
+[[phases.runs]]
+series = [
+  { channel = "gnss_error_m", unit = "m", t = "joint.epochs[].t_s", y = "joint.epochs[].error_gnss_m" },
+  { channel = "position_error_m", t = "joint.epochs[].t_s", y = "joint.epochs[].error_fused_m" },
+  { channel = "gnss_in_view", unit = "count", t = "joint.epochs[].t_s", y = "joint.epochs[].n_gnss" },
+  { channel = "leo_in_view", unit = "count", t = "joint.epochs[].t_s", y = "joint.epochs[].n_leo" },
+]
+alarms = [{ channel = "position_error_m", compare = "above", threshold = 1.5 }]
+[phases.runs.scenario]
+kind = "leo-pvt"
+mode = "joint"
+seed = 3
+duration_s = 600.0
+step_s = 10.0
+[phases.runs.scenario.user]
+lat_deg = 48.137
+lon_deg = 11.575
+height_m = 520.0
+[[phases.runs.scenario.system]]
+name = "GPS"
+preset = "gps-baseline"
+cn0_dbhz = [35.0, 45.0]
+sisre_m = 0.6
+mask_deg = 10.0
+[[phases.runs.scenario.system]]
+name = "Galileo"
+preset = "galileo"
+cn0_dbhz = [35.0, 45.0]
+sisre_m = 0.3
+isb_ns = 12.0
+mask_deg = 10.0
+[[phases.runs.scenario.system]]
+name = "Generic LEO"
+role = "leo"
+carrier_hz = 1191.795e6
+chip_rate_hz = 10.23e6
+cn0_dbhz = [45.0, 58.0]
+sisre_m = 0.25
+isb_ns = 25.0
+mask_deg = 10.0
+[[phases.runs.scenario.system.shell]]
+total = 240
+planes = 12
+phasing = 1
+altitude_km = 1080.0
+inclination_deg = 53.0
+
+[[phases.runs]]
+series = [
+  { channel = "leo_pass_elevation_deg", unit = "deg", t = "satellites[0].series[].t_s", y = "satellites[0].series[].elevation_deg" },
+]
+[phases.runs.scenario]
+kind = "leo-pass"
+epoch = "2026-09-28T08:00:00"
+duration_s = 600.0
+step_s = 10.0
+[phases.runs.scenario.user]
+environment = "ground"
+lat_deg = 48.137
+lon_deg = 11.575
+height_m = 520.0
+speed_m_s = 14.0
+heading_deg = 90.0
+mask_deg = 10.0
+antenna = "patch"
+[[phases.runs.scenario.satellite]]
+id = "LEO-1"
+system = "generic-leo"
+bands = ["L"]
+max_elevation_deg = 75.0
+tca_s = 300.0
+altitude_km = 1080.0
+inclination_deg = 53.0
+[phases.runs.scenario.gnss]
+constellation = "galileo"
+band = "E1"
+
+[[phases]]
+name = "urban-canyon"
+duration_s = 900.0
+
+[[phases.runs]]
+series = [
+  { channel = "gnss_error_m", unit = "m", t = "joint.epochs[].t_s", y = "joint.epochs[].error_gnss_m" },
+  { channel = "position_error_m", t = "joint.epochs[].t_s", y = "joint.epochs[].error_fused_m" },
+  { channel = "gnss_in_view", unit = "count", t = "joint.epochs[].t_s", y = "joint.epochs[].n_gnss" },
+  { channel = "leo_in_view", unit = "count", t = "joint.epochs[].t_s", y = "joint.epochs[].n_leo" },
+]
+alarms = [{ channel = "position_error_m", compare = "above", threshold = 1.5 }]
+[phases.runs.scenario]
+kind = "leo-pvt"
+mode = "joint"
+seed = 3
+duration_s = 900.0
+step_s = 10.0
+[phases.runs.scenario.user]
+lat_deg = 48.137
+lon_deg = 11.575
+height_m = 520.0
+[[phases.runs.scenario.system]]
+name = "GPS"
+preset = "gps-baseline"
+cn0_dbhz = [35.0, 45.0]
+sisre_m = 0.6
+mask_deg = 35.0
+[[phases.runs.scenario.system]]
+name = "Galileo"
+preset = "galileo"
+cn0_dbhz = [35.0, 45.0]
+sisre_m = 0.3
+isb_ns = 12.0
+mask_deg = 35.0
+[[phases.runs.scenario.system]]
+name = "Generic LEO"
+role = "leo"
+carrier_hz = 1191.795e6
+chip_rate_hz = 10.23e6
+cn0_dbhz = [45.0, 58.0]
+sisre_m = 0.25
+isb_ns = 25.0
+mask_deg = 35.0
+[[phases.runs.scenario.system.shell]]
+total = 240
+planes = 12
+phasing = 1
+altitude_km = 1080.0
+inclination_deg = 53.0
+
+[[phases.runs]]
+series = [
+  { channel = "leo_pass_elevation_deg", unit = "deg", t = "satellites[0].series[].t_s", y = "satellites[0].series[].elevation_deg" },
+]
+[phases.runs.scenario]
+kind = "leo-pass"
+epoch = "2026-09-28T08:00:00"
+duration_s = 900.0
+step_s = 10.0
+[phases.runs.scenario.user]
+environment = "ground"
+lat_deg = 48.137
+lon_deg = 11.575
+height_m = 520.0
+speed_m_s = 14.0
+heading_deg = 90.0
+mask_deg = 35.0
+antenna = "patch"
+[[phases.runs.scenario.satellite]]
+id = "LEO-1"
+system = "generic-leo"
+bands = ["L"]
+max_elevation_deg = 80.0
+tca_s = 450.0
+altitude_km = 1080.0
+inclination_deg = 53.0
+[phases.runs.scenario.gnss]
+constellation = "galileo"
+band = "E1"

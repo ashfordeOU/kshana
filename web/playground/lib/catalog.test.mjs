@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import assert from "node:assert/strict";
 import { readdirSync, readFileSync } from "node:fs";
-import { SCENARIOS, DOMAINS, NOT_IN_BROWSER, groupedLibrary, entryFor, DEFAULT_SCENARIO } from "./catalog.mjs";
+import { SCENARIOS, DOMAINS, NOT_IN_BROWSER, RECORDED_NATIVELY, groupedLibrary, entryFor, DEFAULT_SCENARIO, registerGroup, dirOf } from "./catalog.mjs";
 
 const files = readdirSync(new URL("../scenarios/", import.meta.url)).filter((f) => f.endsWith(".toml")).sort();
 const listed = SCENARIOS.map((s) => s[0]);
@@ -12,12 +12,22 @@ assert.ok(entryFor(DEFAULT_SCENARIO));
 // The files the library marks as not runnable in the browser are exactly the ones the
 // recorder could not run through the WASM engine.
 const idx = JSON.parse(readFileSync(new URL("../recorded/index.json", import.meta.url), "utf8"));
-const failed = Object.entries(idx.runs).filter(([, r]) => r.error).map(([f]) => f).sort();
+const failed = Object.entries(idx.runs).filter(([, r]) => r.error || r.source === "native").map(([f]) => f).sort();
 assert.deepEqual(Object.keys(NOT_IN_BROWSER).sort(), failed);
+// Those shown as a run recorded by the native engine are exactly the ones recorded that way.
+assert.deepEqual([...RECORDED_NATIVELY].sort(), Object.entries(idx.runs).filter(([, r]) => r.source === "native").map(([f]) => f).sort());
 // Search narrows and keeps domain order.
 const all = groupedLibrary("");
 assert.equal(all.reduce((n, g) => n + g.items.length, 0), files.length);
 const j = groupedLibrary("jamm");
 assert.ok(j.length >= 1 && j.every((g) => g.items.length));
 assert.ok(j.flatMap((g) => g.items).some((e) => e.file === "jamming-demo.toml"));
+// An optional group adds its own domain and entries, and says which folder they live in.
+const before = SCENARIOS.length;
+assert.equal(registerGroup({ dir: "extra/", domain: { id: "extra", label: "Extra" }, scenarios: [["extra-one.toml", "One", "A question?"], ["jamming-demo.toml", "dup", "ignored"]] }), 1);
+assert.equal(SCENARIOS.length, before + 1);
+assert.equal(dirOf("extra-one.toml"), "extra/");
+assert.equal(dirOf("jamming-demo.toml"), "");
+assert.equal(entryFor("extra-one.toml").domain, "extra");
+assert.equal(registerGroup(null), 0);
 console.log("catalog.test.mjs: all assertions passed");
