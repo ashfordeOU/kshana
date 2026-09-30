@@ -13,8 +13,16 @@ Abbreviations used on this page, in full:
 
 | Abbreviation | Meaning |
 |---|---|
+| AltBOC | alternative binary offset carrier (the Galileo E5 wideband signal) |
+| C/A | coarse/acquisition (the GPS L1 civil signal) |
+| C/N0 | carrier-to-noise density ratio |
 | CSV | comma-separated values |
+| dB | decibel |
+| dB-Hz | decibel-hertz (the unit of C/N0) |
+| dBW | decibels relative to one watt |
 | EIRP | effective isotropic radiated power |
+| GNSS | global navigation satellite system |
+| GPS | Global Positioning System |
 | HTML | HyperText Markup Language |
 | HTTP | Hypertext Transfer Protocol |
 | JSON | JavaScript Object Notation |
@@ -24,7 +32,9 @@ Abbreviations used on this page, in full:
 | PNT | positioning, navigation and timing |
 | ReqIF | Requirements Interchange Format |
 | SHA-256 | Secure Hash Algorithm, 256-bit |
+| SVG | Scalable Vector Graphics |
 | SysML v2 | Systems Modeling Language, version 2 |
+| TLS | Transport Layer Security |
 | TOML | Tom's Obvious, Minimal Language (the scenario file format) |
 | VCRM | verification cross-reference matrix |
 
@@ -52,6 +62,9 @@ Abbreviations used on this page, in full:
 | Which design should we fly? | [Design optimiser](#design-optimiser) | the Pareto front of a design space, its knee, and each front design as a plain scenario file |
 | How sure are we, and what drives the result? | [Uncertainty and sensitivity](#uncertainty-and-sensitivity) | confidence bands, the probability of meeting a limit, and a ranking of the inputs that drive the result |
 | Does the mission meet its requirements, and can we hand that over? | [Mission dossier](#mission-dossier) | one dossier (PDF, HTML, JSON) with a verification matrix, open items and a reproducibility record |
+| Did the last change make a figure we care about worse? | [Campaign watch](#campaign-watch) | a pass or fail on named figures and requirements, a hash-chained history of every run, a trend page and a figure-by-figure diff |
+| Will our signal plan interfere with GNSS, or suffer from it? | [Spectrum coexistence](#spectrum-coexistence) | a verdict per candidate plan and GNSS signal, in both directions, over a worldwide grid, with the plans ranked |
+| Can the team queue studies on its own network and prove what was delivered? | [On-premises job service](#on-premises-job-service) | a job queue that survives a restart, a stored result per job and a hash-chained delivery ledger |
 | Which requirements does this run verify, and what changes if a design changes? | [Requirements and traceability](#requirements-and-traceability) | a VCRM, a SysML v2 model, a change-impact report and an offline evidence pack |
 | Which architecture wins, and on what evidence? | [Trade studies](#trade-studies) | the options ranked on a figure of merit, with an evidence pack of reproducible scenario hashes |
 | Does it still pass after the next engine release? | [Scenario regression check](#scenario-regression-check) | a pass or fail verdict against the previous run's figures, and an HTML report |
@@ -152,6 +165,130 @@ re-check repeated the five runs and the trade study and got the same result byte
 they are not a signature and do not prove who issued it. Simulation evidence counts as
 analysis and does not replace a test, an inspection or a demonstration. A dossier is not a
 certification, a qualification or an acceptance by any authority.
+
+## Campaign watch
+
+**The question.** A free user runs a campaign and reads the result. A Pro user names the
+figures that matter in a set of scenarios, says what worse means for each, and gets a
+pipeline that fails when a change to a scenario, a model or the engine makes one of them
+worse, or stops meeting its requirement.
+
+**How it works.** It extends the [scenario regression check](#scenario-regression-check).
+A pack of scenarios of any open kind carries watch tables. Each watch names a figure (a
+result field, an aggregate such as the largest value of a time series, a campaign figure
+such as a channel's value at the end of a phase, or the point where a sweep crosses a
+threshold), says whether higher, lower or a target value is better, and sets a tolerance
+and, optionally, a requirement checked with its unit. A Monte Carlo figure is judged with
+statistics instead of a tolerance: a Welch t-test on the means and an F-test on the spreads,
+at a significance level fixed before the first run (0.01 by default), so a new set of
+random seeds is not called a regression and a doubled spread is. Every run is appended to a
+history in which each record carries the hash of the one before, and a check reports
+whether that chain is intact. A pack without watch tables runs exactly as before.
+
+**What it produces.** A JSON file with every figure, every watch and its verdict (the next
+run's baseline); an HTML report; the hash-chained history; a trend page with one small
+chart per watched figure; a figure-by-figure diff of any two runs; and an exit code of 0
+when every watch holds and 1 otherwise, so a continuous-integration pipeline can stop on it.
+
+**Worked examples.** The campaign pack watches three open campaigns (a chained jamming,
+spoofing, holdover and integrity mission, a 200-seed Monte Carlo clock ensemble and a
+jammer-power sweep) on 10 figures, with the requirements taken from the open campaign
+documentation. Run twice, it passed both times; the second run found 0 changed results, the
+history check reported 2 records with the chain intact, and the diff reported 0 of 125
+figures moved. For the clock ensemble the statistical gate reported t = 0.000 and p = 1.0,
+as it must for the same seeds. A six-revision demonstration sequence of the chained mission
+shows a regression caught: raising the jammer from -33 to -24 dBW drops C/N0 at the end of
+the jamming phase from 30.60 to 21.82 dB-Hz, below the 25 dB-Hz floor, and the satellites
+tracking from 8 to 0; three watches regressed, the requirement was not met, and the run
+exited 1. Withdrawing that revision passed again, and a faster spoofer was detected at
+310 s instead of 370 s and reported as an improvement. The history of the six runs checked
+intact.
+
+**What it does not do.** A watch proves that a MODELLED figure stayed stable or moved; it
+does not prove the figure is true. The statistical gate uses the ensemble's mean, standard
+deviation and count only: it has no test for correlated runs or for percentiles, and the
+F-test assumes roughly normal samples. A figure with no stated direction is reported and
+never fails a run. Requirements compare values; there is no arithmetic between fields.
+
+## Spectrum coexistence
+
+**The question.** A free user checks one satellite's signal against one GNSS signal. A Pro
+user tests one or more candidate signal plans, each a signal design and a constellation,
+against every open-service GNSS signal the engine models, with every satellite of the plan
+in view at once, and gets a verdict per plan and signal against a limit the study states.
+
+**How it works.** The victim signals are GPS L1 C/A and L5, and Galileo E1, E5a, E5b and
+E5 AltBOC. Both directions are tested: the loss of C/N0 each plan causes to each GNSS
+signal, and the loss the GNSS signals cause to the plan. Every physical number comes from
+open-engine runs (the signal model of the open `leo-signal` kind and the coverage grid of
+the open `constellation-design` kind); Pro adds only the sum over the satellites in view
+at each cell of a worldwide grid and the ranking of the plans. The limit and its source are
+inputs; no limit is built in. The plans are ranked on ranging accuracy, worst loss caused
+and number of satellites with the open engine's Pareto routine.
+
+**What it produces.** A result file that gives every open run with the SHA-256 of its
+scenario and result and a unit for every number; a matrix chart of plans against signals;
+a world map of the worst loss; a chart of the ranked plans (all three SVG); and a
+self-contained HTML report.
+
+**Worked example.** Four illustrative plans on the open engine's generic signal designs,
+against an illustrative limit of 0.1 dB chosen for the example only: an L-band signal on
+Walker constellations of 288 and 144 satellites at 1,000 km, and two C-band signals on
+288 satellites. The study ran 10 open-engine runs, and all 4 plans were compatible. The
+worst loss caused was 0.00544 dB, by the 288-satellite L-band plan to the Galileo E5 AltBOC
+signal at a cell with 17 of its satellites in view, a margin of 0.0946 dB to the limit.
+The 144-satellite plan caused at most 0.00288 dB, with 9 in view. Neither C-band plan
+overlaps any GNSS signal in frequency. In the other direction, the GNSS signals cost the
+L-band plans at most 0.00908 dB. Two plans form the ranked front: the 144-satellite L-band
+plan and the wide C-band plan.
+
+**What it does not do.** The result is an upper bound: every satellite in view is taken at
+the maximum received power, with no power that varies with elevation and no receive-antenna
+pattern. Only the open-service signals the open engine models are covered (not GPS L2C),
+with smooth spectra and no spreading-code lines. Other systems are left out of the sum:
+other GNSS, other low-Earth-orbit systems and services on the ground. It is not a
+coordination filing and not a regulatory finding.
+
+## On-premises job service
+
+**The question.** A free user runs one scenario at a time on one machine. A Pro team queues
+studies on its own network, lets them run while no one watches, and can show afterwards
+exactly which result was delivered for which request.
+
+**How it works.** It extends the [on-premises service](#on-premises-service). Started with a
+data directory, the service keeps a queue of jobs on disk and runs them on a set number of
+workers. Three operations ship: run a scenario of any open or Pro kind, build a study
+dossier, and run a scenario regression check. A job's identifier is the SHA-256 of the
+operation and the request, so the same request is the same job and is not run twice. Each
+delivery is recorded in a ledger in which each record carries the hash of the one before,
+and a route re-checks the chain and the stored results against it. After a stop or a
+crash, every unfinished job is queued again and no finished job is run again. The
+licence is checked when a job is submitted and again when it runs. The interface is
+described by an OpenAPI 3.1 document generated from the service's own route table, and a
+job board page lists the jobs. The service contains no network client: its only outbound
+connection is a health probe to its own address.
+
+**What it produces.** For each job, the request, its status, its result and its files,
+under the data directory; the delivery ledger; the ledger check; the OpenAPI document; and
+the job board page.
+
+**Worked example.** A service with two workers took a link-budget run: the submission was
+accepted and queued, and the job succeeded on its first attempt. Its result is the same JSON
+document as the command-line run of the same file (the command line prints it formatted, so
+the bytes differ). Submitting the same request again returned the same job, already
+finished. The ledger check verified 3 records and 1 delivered job with no mismatch, the
+OpenAPI document listed 13 paths, and the job board page loaded nothing from outside.
+After a restart the finished job still showed one attempt. In a second test three jobs were
+queued on one worker and the service was killed while the third was running; after the
+restart that job ran again and succeeded, the two finished jobs were not run again, and the
+ledger verified 9 records and 3 delivered jobs. Without a licence, a job for a Pro scenario
+was refused on submission and nothing was queued, while an open scenario was accepted.
+
+**What it does not do.** One request per connection, with no streaming: a client polls. One
+licence for the whole service and one shared access token, not user management. Plain HTTP
+only: encryption with TLS belongs in the site's own reverse proxy. One service per data
+directory, and nothing locks it. No cancellation, time limit, priority or retention policy.
+The data directory is the only copy of the results and the ledger, so it must be backed up.
 
 ## Requirements and traceability
 
