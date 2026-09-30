@@ -191,7 +191,7 @@ had misread, mis-rounded or outlived it.
   `docs/LEO-SIGNAL.md` band trade: the first-order ionospheric delay of `generic-s` is
   3.24 m (was printed 3.25 m) and of `generic-c-wide` 0.77 m (was 0.78 m).
   `docs/LEO-NAVMSG.md` encode and decode: the decoded message's SISRE was printed
-  0.119 cm where the run gave 0.122 cm; the page now prints 0.128 cm, the figure after the
+  0.119 cm where the run gave 0.122 cm; the page now prints 0.129 cm, the figure after the
   platform-independence fix under Fixed below. `docs/LEO-PASS.md` LEO-versus-GNSS pass:
   32 dB less free-space loss at the pass peak (was "26 to 32 dB"). For the signal and pass
   figures the engine output did not change; the documents had misread or mis-rounded it.
@@ -794,41 +794,58 @@ had misread, mis-rounded or outlived it.
   out, so an agent was told not to ask. They are named now, and a round-trip test fetches
   both tables.
 - **The low Earth orbit (LEO) navigation-message frame was not the same bytes on every
-  platform.** `scenarios/leo-navmsg-encode-decode.toml` encoded a frame with cyclic
-  redundancy check `0x110315` in the native build on aarch64 macOS and `0x6A82D9` in the
-  WebAssembly (WASM) build; `leo-navmsg-celeste-iod.toml` gave `0x6EDB2D` against
-  `0xC6E4F0`. Traced to the first diverging value: the truth orbit was bit-identical on
-  both, and the fit's starting point was not. `truth::state_to_elements` takes the
-  osculating inclination from an `acos` and the argument of perigee from an `atan2`, the
-  two platforms' mathematics libraries round those differently in the last place (over
-  20 000 arguments they disagree for 781 sines, 858 cosines, 1 931 exponentials and
-  1 899 two-argument arctangents), and the Levenberg–Marquardt fit, which on this arc
-  stops at its 80-iteration limit and not at a minimum, carried that one unit in the last
-  place into different quantised fields. The kind now computes every transcendental
-  through the new `src/portable_math.rs`, which calls the pure-Rust `libm` crate (already
-  in the dependency tree, now named in `Cargo.toml`), compiled from one source for every
-  target: `leo_navmsg::{truth, fit, elements, codec, sisre, services}` and the scenario
-  code. The shared routines the truth orbit integrates through are written once, generic
-  over the mathematics library, with a `_portable` entry point beside the existing one:
-  `gravity_sh::SphericalHarmonicField::acceleration_portable`,
-  `forces::{zonal_accel_portable, drag_accel_portable, j2_secular_rates_portable}` and
-  `gnss_sim::klobuchar_delay_m_portable`. The existing entry points are unchanged to the
-  last bit, so no other kind's number moves. Integer powers on that path are spelt out as
-  square-and-multiply, because `f64::powi` has unspecified precision.
+  platform, nor in every build of one platform.** `scenarios/leo-navmsg-encode-decode.toml`
+  encoded a frame with cyclic redundancy check `0x110315` in the release build on aarch64
+  macOS, `0x898BD8` in a debug build of the same source on the same machine, and
+  `0x6A82D9` in the WebAssembly (WASM) build; `leo-navmsg-celeste-iod.toml` gave
+  `0x6EDB2D` natively against `0xC6E4F0` in the browser. Three causes, each traced to
+  the first diverging value:
+  - *Between platforms.* The truth orbit was bit-identical on both; the fit's starting
+    point was not. `truth::state_to_elements` takes the osculating inclination from an
+    `acos` and the argument of perigee from an `atan2`, and the two mathematics libraries
+    round those differently in the last place (over 20 000 arguments they disagree for
+    781 sines, 858 cosines, 1 931 exponentials and 1 899 two-argument arctangents).
+  - *Between build profiles.* An optimised build on macOS merges a sine and a cosine of
+    one argument into a single call to the system's combined routine, and its sine is
+    not the lone `sin`'s for 379 of 200 000 arguments; an unoptimised build makes the
+    two calls. The kind takes a sine and a cosine together in thirteen places.
+  - *In the clock.* The normal sampler of `rand_distr` calls the host `exp` and `ln` in
+    its two rare branches: of four million seeded draws, three differed in the last bit
+    between the native and the WASM build.
+
+  The Levenberg–Marquardt fit, which on this arc stops at its 80-iteration limit and not
+  at a minimum, carries one unit in the last place into different quantised fields. The
+  kind now computes every transcendental through the new `src/portable_math.rs`, which
+  calls the pure-Rust `libm` crate (already in the dependency tree, now named in
+  `Cargo.toml`), compiled from one source for every target and not a library call the
+  optimiser rewrites: `leo_navmsg::{truth, fit, elements, codec, sisre, services}` and
+  the scenario code. Integer powers on that path are spelt out as square-and-multiply,
+  because `f64::powi` has unspecified precision, and the truth clock draws its normal
+  deviates from `portable_math::standard_normal` (Marsaglia's polar method on the
+  generator's raw output). The shared routines the truth orbit integrates through are
+  written once, generic over the mathematics library, with a crate-internal `_portable`
+  entry point beside the existing one: the spherical-harmonic acceleration, the zonal and
+  drag accelerations, the J2 secular rates and the Klobuchar delay. The existing entry
+  points are unchanged to the last bit, so no other kind's number moves.
   `leo_navmsg::tests::the_encoded_frame_is_the_same_bytes_on_every_platform` pins the
-  whole 171-byte frame and one check value per ephemeris model, on every platform and
-  with no baseline-host gate; `the_kind_never_calls_the_host_mathematics_library` reads
-  the kind's sources from disk and fails on an inherent transcendental call or on a call
-  into a module that has not been reviewed. After the change the native build and the
-  WASM build produce byte-identical result documents for all five `leo-navmsg` scenarios.
-  **This moves native numbers, recorded here as a revision.** The `leo-navmsg` kind is new
-  in this release, so nothing published moves, but every native `leo-navmsg` figure
-  quoted during development does, and the `navmsg` stage of `leo-pnt-chain` with it: the
-  native values are now the ones the WASM build already gave. `docs/LEO-NAVMSG.md` is
-  regenerated from the new results (for the encode-decode scenario: check value
-  `0x6A82D9`, position within 1.126 mm of the exact message where it was 0.665 mm).
-  The size of that last change is the fit's sensitivity, not an error in either figure:
-  the fit is unchanged and still stops at its iteration limit.
+  whole 171-byte frame and one check value per ephemeris model, in the ordinary
+  (unoptimised) test profile, on every platform and with no baseline-host gate;
+  `the_kind_never_calls_the_host_mathematics_library` reads the kind's sources from disk
+  and fails on an inherent transcendental call, on a `rand_distr` sampler, or on a call
+  into a module that has not been reviewed. After the change a debug build, a release
+  build and the WASM build produce byte-identical result documents for all five
+  `leo-navmsg` scenarios.
+  **This moves numbers, recorded here as a revision.** The `leo-navmsg` kind is new in
+  this release, so nothing published in an earlier release moves, but every `leo-navmsg`
+  figure does, natively and in the WASM build, and the `navmsg` stage of `leo-pnt-chain`
+  with it: the orbit figures because the fit now starts from the portable elements, the
+  clock figures because the truth clock is a different realisation of the same process.
+  `docs/LEO-NAVMSG.md` is regenerated from the new results; its published check value
+  for the encode-and-decode scenario was `0x110315` and is `0x19105F` (position within
+  1.126 mm of the exact message where it was 0.665 mm, clock within 0.185 mm where it
+  was 0.451 mm).
+  The size of the changes in the sub-millimetre figures is the fit's sensitivity, not an
+  error in either set: the fit is unchanged and still stops at its iteration limit.
 - **Seeded resampling drew different indices on a 32-bit target.** `Rng::gen_range` over
   `usize` takes 64 bits from the generator on a 64-bit host and 32 bits on a 32-bit one,
   so the same seed gave other indices, and left the stream elsewhere, in the WASM build.
