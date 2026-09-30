@@ -31,6 +31,7 @@
 //! ([`crate::cio`]) before calling and rotates the acceleration back.
 
 use crate::egm2008_data::{EGM2008_COEFFS, EGM2008_GM, EGM2008_NMAX, EGM2008_RE};
+use crate::portable_math::{Maths, Platform, Portable};
 
 type Vec3 = [f64; 3];
 
@@ -239,15 +240,29 @@ impl SphericalHarmonicField {
 
     /// Gravitational acceleration `∇U` (m/s², Earth-fixed) — the **total** field, central term
     /// included, so a point-mass field returns `−μr/|r|³`.
-    #[allow(clippy::needless_range_loop)]
     pub fn acceleration(&self, r: Vec3) -> Vec3 {
+        self.acceleration_with::<Platform>(r)
+    }
+
+    /// [`Self::acceleration`] evaluated with the platform-independent mathematics library
+    /// ([`crate::portable_math`]): the same formula, the same operation order, and the same
+    /// bits on every platform. For callers whose output is discrete, such as the low Earth
+    /// orbit navigation message, whose truth orbit is integrated through this field.
+    pub(crate) fn acceleration_portable(&self, r: Vec3) -> Vec3 {
+        self.acceleration_with::<Portable>(r)
+    }
+
+    /// The acceleration, written once for both mathematics libraries. With `M = Platform`
+    /// this is the historical arithmetic, unchanged to the last bit.
+    #[allow(clippy::needless_range_loop)]
+    fn acceleration_with<M: Maths>(&self, r: Vec3) -> Vec3 {
         let r2 = r[0] * r[0] + r[1] * r[1] + r[2] * r[2];
         let rn = r2.sqrt();
         let rxy = (r[0] * r[0] + r[1] * r[1]).sqrt();
         let rxy_f = rxy.max(1e-6 * self.re); // pole floor
         let t = r[2] / rn; // sin φ
         let u = (rxy / rn).max(0.0); // cos φ
-        let lambda = r[1].atan2(r[0]);
+        let lambda = M::atan2(r[1], r[0]);
         let (p, dp) = self.legendre(t, u);
         let ror = self.re / rn;
 
@@ -262,7 +277,7 @@ impl SphericalHarmonicField {
             let mut alam_n = 0.0; // Σ_m P̄·m·(−C sin + S cos)
             for m in 0..=nn {
                 let mf = m as f64;
-                let (cl, sl) = ((mf * lambda).cos(), (mf * lambda).sin());
+                let (cl, sl) = (M::cos(mf * lambda), M::sin(mf * lambda));
                 let cs = self.c[nn][m] * cl + self.s[nn][m] * sl;
                 a_n += p[nn][m] * cs;
                 aphi_n += dp[nn][m] * cs;

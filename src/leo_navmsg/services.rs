@@ -4,7 +4,8 @@
 //!
 //! * **Klobuchar-style broadcast set** (IS-GPS-200 §20.3.3.5.2.5): the delay is the
 //!   engine's existing L1 model ([`crate::gnss_sim::klobuchar_delay_m`], checked against
-//!   RTKLIB), scaled to the signal's carrier by the first-order `(f_L1 / f)²` law.
+//!   RTKLIB), evaluated with the platform-independent mathematics library and scaled to
+//!   the signal's carrier by the first-order `(f_L1 / f)²` law.
 //! * **NeQuick-G coefficients** (Galileo OS SIS ICD §5.1.6; European Commission, "Ionospheric
 //!   Correction Algorithm for Galileo Single Frequency Users", issue 1.2, 2016): the
 //!   message carries `ai0, ai1, ai2` and the five storm flags, and
@@ -24,6 +25,7 @@
 //! either broadcast algorithm and is not applied here.
 
 use super::elements::{KlobucharSet, NequickSet, UtcOffset, WEEK_S};
+use crate::portable_math::PortableFloat;
 
 /// GPS L1 carrier (Hz), the frequency the Klobuchar delay is defined at.
 pub const L1_HZ: f64 = 1_575_420_000.0;
@@ -44,8 +46,8 @@ pub fn klobuchar_delay_m(
         alpha: set.alpha,
         beta: set.beta,
     };
-    let d_l1 = crate::gnss_sim::klobuchar_delay_m(&c, lat, lon, el, az, sod);
-    d_l1 * (L1_HZ / f_hz).powi(2)
+    let d_l1 = crate::gnss_sim::klobuchar_delay_m_portable(&c, lat, lon, el, az, sod);
+    d_l1 * (L1_HZ / f_hz).ppowi(2)
 }
 
 /// NeQuick-G effective ionisation level `Az` (sfu) at modified dip latitude `modip_deg`.
@@ -181,6 +183,6 @@ mod tests {
         // RTKLIB ionmodel() gives 6.1278 m for this case (see gnss_sim).
         assert!((l1 - 6.1278).abs() < 1e-3, "{l1}");
         let c = klobuchar_delay_m(&set, 5_020e6, args.0, args.1, args.2, args.3, args.4);
-        assert!((c / l1 - (L1_HZ / 5_020e6).powi(2)).abs() < 1e-12);
+        assert!((c / l1 - (L1_HZ / 5_020e6).ppowi(2)).abs() < 1e-12);
     }
 }

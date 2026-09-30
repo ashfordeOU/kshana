@@ -1,6 +1,6 @@
 {
   "generator": "tools/gen_readme_assets.py",
-  "engine_version": "0.28.0",
+  "engine_version": "0.29.0",
   "scenario_kinds": 75,
   "matrix": {
     "validated": 83,
@@ -173,6 +173,69 @@
           "source": "web/data/verification-matrix.json"
         }
       ]
+    },
+    "architecture": {
+      "files": [
+        "architecture-light.svg",
+        "architecture-dark.svg"
+      ],
+      "drawn_from": [
+        {
+          "source": "kshana kinds --json"
+        },
+        {
+          "source": "web/data/verification-matrix.json"
+        },
+        {
+          "source": "mcp/kshana-mcp/src/server.rs"
+        },
+        {
+          "source": "docs/PRO.md"
+        }
+      ]
+    },
+    "research": {
+      "files": [
+        "research-light.svg",
+        "research-dark.svg"
+      ],
+      "drawn_from": [
+        {
+          "source": "export.arxiv.org/api/query (titles, dates, categories, 2026-09-30)"
+        }
+      ]
+    }
+  },
+  "mcp_tools": [
+    "animate_scenario",
+    "export_interop",
+    "export_oem",
+    "export_omm",
+    "export_sp3",
+    "export_table_csv",
+    "get_example_scenario",
+    "import_route",
+    "list_example_scenarios",
+    "list_export_formats",
+    "list_scenario_kinds",
+    "report_scenario",
+    "run_scenario",
+    "validate_scenario"
+  ],
+  "studio_screenshots": {
+    "captured_by": "tools/capture_studio_shots.mjs",
+    "record": "studio/SHOTS.json",
+    "files": {
+      "studio-coverage-dark.jpg": "b3fa95f6ab60714fdf17636af688cf72c70e4972dc915fe806a430e58b648bf8",
+      "studio-coverage-light.jpg": "d5aaf6cfd8836b87de1a60a2e1cc9fd66202ae0e3229bdebff29124721831c1f",
+      "studio-dashboard-dark.jpg": "82aba00b19641b36122b8d2701ac811c36d760f4cde2b5fee0fa20fbef07eb40",
+      "studio-dashboard-light.jpg": "1fd90ffb9ea1c40b14b7537b5c771e42f07a1cee26d3ebe572f5156265196983",
+      "studio-lband-dark.jpg": "2dfb28a3df8acd2a33e392a90c422f66f9af65fe85a580883791e6a158db2f83",
+      "studio-lband-light.jpg": "166185f10975aaaf4b220827f8dbd2cb6da1deefabbdcf1ad1b1ac48a1ba5466",
+      "studio-leo-chain-dark.jpg": "203462048031d06d6e710405dacafc66fc63ebd68e0052f67512cc0da78b75c6",
+      "studio-leo-chain-light.jpg": "d19def7214380d10ad186742a8e159cc0302f2d58943d59021c5dad5de6ab3e8",
+      "studio-start-dark.jpg": "da5aef042888bb022788575ddd5b5b9638b1a04898601ca5557570795dc4d4e4",
+      "studio-start-light.jpg": "0de6afc64e587b81a18ad05e3d90d3fb2adb681f02c41c13f7a6356d2b3d1026"
     }
   }
 }

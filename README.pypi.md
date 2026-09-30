@@ -1,7 +1,7 @@
-<!-- Surface README for PyPI. Images/links are ABSOLUTE (pinned to /main) because PyPI
-     does not rewrite relative paths and does not render Mermaid. The canonical, full
-     README lives at README.md on GitHub. To re-pin images to an immutable release tag
-     at publish time, replace `/main/` with `/vX.Y.Z/` across this file (one sed). -->
+<!-- Surface README for PyPI. Images and links are ABSOLUTE (pinned to /main)
+     because PyPI does not rewrite relative paths. The canonical, full README is README.md on
+     GitHub. To re-pin images to an immutable release tag at publish time, replace `/main/`
+     with `/vX.Y.Z/` across this file (one sed). -->
 
 <p align="center">
   <picture>
@@ -11,100 +11,49 @@
 </p>
 
 <p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/hero-dark.svg">
-    <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/hero-light.svg" alt="Rehearse the minute GNSS goes dark: Kshana's mission console, drawn from a real run of the engine: a chained jamming, spoofing, holdover and integrity campaign over the 102 satellites of GPS, Galileo, BeiDou and GLONASS" width="100%">
-  </picture>
+  <strong>क्षण</strong>, Sanskrit for <em>the precise instant</em>.<br>
+  An open-source simulator for PNT (positioning, navigation and timing) resilience.
 </p>
 
 <p align="center">
-  <strong>क्षण</strong> — Sanskrit for <em>the precise instant</em>, the smallest measure of time.<br>
-  Open, reproducible PNT (positioning, navigation and timing) resilience simulation with published quantum-sensor performance models.
+  <a href="https://github.com/AshfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.29.0-066A86?style=flat-square&labelColor=0A1226" alt="Release v0.29.0"></a>
+  <a href="https://github.com/AshfordeOU/kshana/blob/main/docs/VERIFICATION-MATRIX.md"><img src="https://img.shields.io/badge/validated-83%20external%20oracles-377D0C?style=flat-square&labelColor=0A1226" alt="83 of 223 capabilities validated against independent external oracles"></a>
+  <a href="https://github.com/AshfordeOU/kshana/blob/main/docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~96%25%20line-377D0C?style=flat-square&labelColor=0A1226" alt="About 96% line coverage, gated at 85% in continuous integration"></a>
+  <a href="https://github.com/AshfordeOU/kshana/blob/main/LICENSE"><img src="https://img.shields.io/badge/licence-AGPL--3.0--only-3F4B67?style=flat-square&labelColor=0A1226" alt="Licence: AGPL-3.0-only, or a commercial licence"></a>
+  <a href="https://doi.org/10.5281/zenodo.20528627"><img src="https://img.shields.io/badge/DOI-10.5281%2Fzenodo.20528627-7E4B00?style=flat-square&labelColor=0A1226" alt="DOI 10.5281/zenodo.20528627"></a>
 </p>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/hero-dark.svg">
+  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/hero-light.svg" alt="Rehearse the minute GNSS goes dark: Kshana's mission console, drawn from a real run of the engine, a chained jamming, spoofing, holdover and integrity campaign over the 102 satellites of GPS, Galileo, BeiDou and GLONASS" width="100%">
+</picture>
+
+## Rehearse the minute GNSS goes dark
+
+Kshana replays jamming, spoofing and clock holdover when GNSS (Global Navigation Satellite
+System) signals fail, and tells you how long a system keeps time and position inside its
+budget, and which clock or sensor buys the most margin. This is the Python package: the engine in a notebook or a script. Every run is
+reproducible bit for bit from the scenario, the seed and the engine version.
+
+Try it first with nothing to install: [Kshana Studio](https://kshana.dev) runs the whole
+engine in your browser, compiled to WebAssembly, and uploads nothing.
+
+## Evidence
+
+**83 of 223** capabilities validated against independent external oracles; 136 honestly labelled Modelled, 4 partner-owned.
+Each capability carries one label in a machine-checked ledger: VALIDATED (an independent
+external oracle agrees: real data, an independent implementation or published reference
+vectors), MODELLED (internally consistent, and said out loud) or PARTNER (a hardware partner
+owns it). Among the checks: all 666 SGP4 (Simplified General Perturbations 4) vectors of
+AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 to 4.12 mm, and the
+Cowell force model to 0.08 m against Orekit 12.2.
 
 <p align="center">
-  <a href="https://github.com/AshfordeOU/kshana/blob/main/tests/sgp4_verification.rs"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%204.12mm-3fb950" alt="SGP4 validated against all 666 AIAA 2006-6753 vectors, worst 4.12 mm"></a>
-  <a href="https://github.com/AshfordeOU/kshana#validation-at-a-glance"><img src="https://img.shields.io/badge/validated-83%20external%20oracles-3fb950" alt="83 of 223 capabilities validated against independent external oracles"></a>
-  <a href="https://github.com/AshfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/coverage-~96%25%20line-3fb950" alt="~96% line coverage, gated at 85% in CI"></a>
-  <a href="https://github.com/AshfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.28.0-c79e63" alt="Release v0.28.0"></a>
-  <a href="https://kshana.dev"><img src="https://img.shields.io/badge/playground-try%20in%20browser-c79e63" alt="Live playground — run in your browser, no install"></a>
-  <a href="https://github.com/AshfordeOU/kshana/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-AGPL_v3-blue.svg" alt="License: AGPL-3.0-only"></a>
-  <a href="https://doi.org/10.5281/zenodo.20528627"><img src="https://img.shields.io/badge/DOI-10.5281%2Fzenodo.20528627-blue.svg" alt="DOI 10.5281/zenodo.20528627"></a>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/flow-verification-dark.svg">
+  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/flow-verification-light.svg" alt="How a capability earns its label: capability, oracle, test, ledger label. The verification status across all 223 capabilities: 83 Validated, 136 Modelled, 4 Partner-owned" width="100%">
+</picture>
 </p>
-
-**Kshana** is an open, reproducible **PNT-resilience simulator with quantum-sensor
-performance models** — PNT being positioning, navigation, and timing. This package is a thin
-[PyO3](https://pyo3.rs) (abi3, the stable Python binary interface) wrapper over the
-same Rust engine: you pass a scenario TOML (Tom's Obvious, Minimal Language) string in and get a reproducible JSON (JavaScript Object Notation) result back. It quantifies, in hard numbers,
-what quantum clocks, quantum inertial sensors, and optical time-transfer buy a
-navigation system over classical PNT. Every result is reproducible from
-`scenario + seed + engine version`, and every sensor parameter is traceable to a
-published source.
-
-> ***Validated, not asserted.*** 666/666 AIAA (American Institute of Aeronautics and
-> Astronautics) SGP4 (Simplified General Perturbations 4, the standard satellite-orbit
-> propagator) vectors to **4.12 mm** · Cowell force model **0.08 m** vs Orekit 12.2 ·
-> Galileo **0.61 m** / Swarm-A **0.10 m** vs real ESA (European Space Agency) precise
-> ephemerides · GCRS→ITRS (Geocentric Celestial Reference System to International
-> Terrestrial Reference System) bit-for-bit vs SOFA/ERFA (the International Astronomical
-> Union's Standards of Fundamental Astronomy library and its open port, Essential Routines
-> for Fundamental Astronomy) · ML (machine-learning) metrics exact
-> vs scikit-learn · **83 of 223** capabilities validated against independent external
-> oracles; 136 honestly labelled Modelled, 4 partner-owned.
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/diagrams/system-overview.png" alt="Kshana system overview: five front doors (command-line interface, Python wheel, WebAssembly playground, Model Context Protocol server, JetBrains plugin) converge on a single api::run_toml dispatch, through the engine, to a reproducible result.json + chart.svg" width="840">
-</p>
-
-### Validated against external oracles — every row gated in continuous integration
-
-Each row is checked against an **independent external oracle** (real dataset,
-independent reference implementation, or published reference vectors) and re-checked in CI (continuous integration).
-
-| | Capability | Result | External oracle |
-|---|---|---|---|
-| ✅ | SGP4/SDP4 (Simplified Deep-space Perturbations 4) propagation | 666/666 vectors, worst **4.12 mm** | AIAA 2006-6753 (Vallado) + independent `sgp4` crate |
-| ✅ | Numerical Cowell force model | **0.08 m** / 24 h, 275 epochs | Orekit 12.2 `DormandPrince853` (CS GROUP) |
-| ✅ | Orbit fit vs precise ephemeris | Galileo **0.61 m** · Swarm-A **0.10 m** | ESA/ESOC (European Space Operations Centre) SP3 (the Standard Product 3 precise-orbit format of the International GNSS Service, GNSS being Global Navigation Satellite System) precise orbits |
-| ✅ | GCRS→ITRS frame chain | bit-for-bit vs SOFA; ≤ 0.86 m vs SPICE (Spacecraft, Planet, Instrument, C-matrix, Events — the planetary-geometry toolkit) | ERFA/SOFA + ANISE (Attitude, Navigation, Instrument, Spacecraft, Ephemeris — a pure-Rust SPICE) |
-| ✅ | Allan deviations | reproduce reference deviations | NIST SP 1065 (National Institute of Standards and Technology Special Publication 1065) + Stable32 on a real Cs (caesium) clock |
-| ✅ | GNSS DOP (dilution of precision) · ML detector metrics | to **1e-6** · to **1e-9** | gnss_lib_py · scikit-learn |
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/figures/validation-breakdown.png" alt="Verification status across all 223 capabilities: 83 Validated, 136 Modelled, 4 Partner-owned" width="780">
-</p>
-
-## What it simulates
-
-Each run is one scenario *kind*; `kshana kinds` lists every kind with its fields. Between
-them they cover:
-
-- **Timing** — clock holdover against a threshold, optical and radio time transfer, telecom
-  holdover checked against ITU-T (the Telecommunication Standardization Sector of the
-  International Telecommunication Union) masks for MTIE (maximum time interval error) and
-  TDEV (time deviation), and slot timing for time-indexed schedules.
-- **Orbits and geometry** — SGP4 and numerical propagation, ground tracks and station
-  passes, Walker and multi-shell constellation design around the Earth, the Moon or another
-  body, and the positions of the solar-system bodies at one epoch.
-- **GNSS and integrity** — availability and DOP, a measurement-domain simulator,
-  single-point positioning from real observation files, and RAIM (receiver autonomous
-  integrity monitoring), ARAIM (advanced RAIM) and SBAS (satellite-based augmentation
-  system) protection levels.
-- **Resilience** — jamming, spoofing and spoof detection, tracking-loop loss of lock, an
-  L-band spectrum waterfall, and campaigns that chain, sweep or share one timeline across
-  other kinds.
-- **Alternative PNT** — inertial dead-reckoning, GNSS/INS (inertial navigation system)
-  fusion, gravity- and terrain-map matching, and quantum-sensor trades.
-- **LEO PNT** — positioning, navigation and timing from low Earth orbit (LEO): signal
-  design, pass and link budget, the broadcast navigation message, fused medium- and
-  low-Earth-orbit positioning, precise point positioning convergence, 5G non-terrestrial
-  network positioning, and one system end to end.
-- **Lunar, cislunar and Mars** — lunar time and reference frames, lunar service volumes,
-  cislunar orbit determination, and relay-based Mars navigation.
-
-The [verification matrix](https://github.com/AshfordeOU/kshana/blob/main/docs/VERIFICATION-MATRIX.md)
-states, capability by capability, which figures are VALIDATED against an independent
-external oracle and which are MODELLED.
 
 ## Install
 
@@ -189,19 +138,66 @@ Mars navigation is modelled, with only its building blocks (light time, planet p
 validated against external oracles; real-mission deep-space OD (orbit determination) is
 on the roadmap.
 
+## Capabilities
+
+The engine has 75 scenario kinds; `kshana kinds` lists them with their fields.
+
+- **Spectrum**: how a jammer takes the GNSS L band, band by band.
+- **Clocks and timing**: holdover against a threshold, time transfer, and telecom holdover
+  against the masks of the International Telecommunication Union's standardization sector
+  (ITU-T).
+- **Constellations around any body**: coverage, dilution of precision and availability
+  around the Earth, the Moon or Mars, and the solar system at one epoch.
+- **Low-Earth-orbit navigation**: signal, pass and link, navigation message, and a fused fix,
+  stage by stage.
+- **Campaigns**: a chained mission, a sweep or a Monte Carlo ensemble in one scenario.
+- **Reports, animation and exports**: every figure with its unit and label; an animated
+  drawing of a run; SP3 (Standard Product 3), CCSDS (Consultative Committee for Space Data
+  Systems) orbit messages, CZML (Cesium Language), KML (Keyhole Markup Language), GeoJSON,
+  STK (Systems Tool Kit) and SigMF (Signal Metadata Format) files.
+
+## Architecture
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/architecture-dark.svg">
+  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/architecture-light.svg" alt="One open engine at the centre, kshana 0.29.0, with a typed dispatch over 75 kinds; around it the command line, the Rust library, Python, WebAssembly and Kshana Studio, the MCP server, the Docker image and the JetBrains plugin; below it Kshana Pro, a proprietary overlay that depends on the open engine and never forks it" width="100%">
+</picture>
+
+The same scenario file gives the same bytes on every surface. MCP is the Model Context
+Protocol: [`kshana-mcp`](https://github.com/AshfordeOU/kshana/blob/main/mcp/kshana-mcp/README.md) lets an AI (artificial
+intelligence) assistant run the engine.
+
+## Research
+
+Five papers on arXiv are built on the open engine, each with the command behind it:
+[arXiv:2606.22054](https://arxiv.org/abs/2606.22054) (the optimism gap of interference
+detectors), [arXiv:2606.24210](https://arxiv.org/abs/2606.24210) (a conditional timing
+protection level), [arXiv:2607.05415](https://arxiv.org/abs/2607.05415) (how stable a PNT
+resilience score is), [arXiv:2607.02566](https://arxiv.org/abs/2607.02566) (lunar surface
+station observability with very-long-baseline interferometry) and
+[arXiv:2607.06212](https://arxiv.org/abs/2607.06212) (lunar south-polar geometry and surface
+beacons). See [Research](https://github.com/AshfordeOU/kshana#research).
+
+## Editions
+
+The whole engine is free under the AGPL-3.0. Kshana Pro, a proprietary overlay that depends
+on the open engine and never forks it, and custom studies are available under contract from
+Ashforde OÜ: [contact@ashforde.org](mailto:contact@ashforde.org). There are no prices; see
+[docs/PRO.md](https://github.com/AshfordeOU/kshana/blob/main/docs/PRO.md).
+
 ## Learn more
 
-- **Full README & validation matrix** → <https://github.com/AshfordeOU/kshana>
-- **Live playground** (runs in your browser as WebAssembly) → <https://kshana.dev>
-- **Python application programming interface (API)** → [docs/PYTHON_API.md](https://github.com/AshfordeOU/kshana/blob/main/docs/PYTHON_API.md)
+- **The full README** → <https://github.com/AshfordeOU/kshana>
+- **Kshana Studio** (the engine in your browser, as WebAssembly) → <https://kshana.dev>
 - **Capabilities** → [docs/CAPABILITY.md](https://github.com/AshfordeOU/kshana/blob/main/docs/CAPABILITY.md)
-- **Validation & provenance** → [docs/VALIDATION.md](https://github.com/AshfordeOU/kshana/blob/main/docs/VALIDATION.md) · [docs/PROVENANCE.md](https://github.com/AshfordeOU/kshana/blob/main/docs/PROVENANCE.md)
+- **Validation and provenance** → [docs/VALIDATION.md](https://github.com/AshfordeOU/kshana/blob/main/docs/VALIDATION.md) · [docs/PROVENANCE.md](https://github.com/AshfordeOU/kshana/blob/main/docs/PROVENANCE.md)
+- **Verification matrix** → [docs/VERIFICATION-MATRIX.md](https://github.com/AshfordeOU/kshana/blob/main/docs/VERIFICATION-MATRIX.md)
+- **Cite** → [CITATION.cff](https://github.com/AshfordeOU/kshana/blob/main/CITATION.cff) · DOI [10.5281/zenodo.20528627](https://doi.org/10.5281/zenodo.20528627)
 
 ## Licence
 
-Free and open source under the **GNU AGPL-3.0-only** (the GNU Affero General Public License, version 3 only). A **commercial licence** is
-available from [Ashforde OÜ](https://ashforde.org) (an Estonian private limited company;
-OÜ = osaühing) for proprietary/closed integration
-— see [LICENSING.md](https://github.com/AshfordeOU/kshana/blob/main/LICENSING.md).
-Professionally developed and maintained by Ashforde OÜ; commercial support, integration,
-and proprietary extensions available.
+Free and open source under the **GNU AGPL-3.0-only** (the GNU Affero General Public
+License, version 3 only). A **commercial licence** is available from
+[Ashforde OÜ](https://ashforde.org) (an Estonian private limited company; OÜ = osaühing) for
+closed integration; see [LICENSING.md](https://github.com/AshfordeOU/kshana/blob/main/LICENSING.md). Professionally developed
+and maintained by Ashforde OÜ.

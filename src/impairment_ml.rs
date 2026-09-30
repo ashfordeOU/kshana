@@ -258,7 +258,7 @@ impl Mlp {
         lr: f64,
         seed: u64,
     ) -> (Self, Vec<f64>) {
-        use rand::{Rng, SeedableRng};
+        use rand::SeedableRng;
         use rand_chacha::ChaCha8Rng;
         use rand_distr::{Distribution, Normal};
 
@@ -306,7 +306,7 @@ impl Mlp {
 
             // Seeded Fisher–Yates shuffle, then a per-sample SGD pass.
             for i in (1..n).rev() {
-                order.swap(i, rng.gen_range(0..=i));
+                order.swap(i, crate::portable_math::uniform_index(&mut rng, i + 1));
             }
             for &idx in &order {
                 let x = &xs[idx];
