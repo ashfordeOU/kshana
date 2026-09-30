@@ -4181,10 +4181,6 @@
         {
           "path": "src/body.rs",
           "url": "https://github.com/AshfordeOU/kshana/blob/main/src/body.rs"
-        },
-        {
-          "path": "src/SOLAR_SYSTEM.rs",
-          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/SOLAR_SYSTEM.rs"
         }
       ],
       "test_links": [],
