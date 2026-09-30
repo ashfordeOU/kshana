@@ -39,6 +39,7 @@
 //!   the polynomial and its derivative (`r·v` is the same in ECEF and in inertial axes
 //!   because the Earth rotates about `z`).
 
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 
 /// Galileo gravitational constant `μ` (m³/s²), Galileo OS SIS ICD.
@@ -183,7 +184,7 @@ impl Default for RacPoly {
 /// The correction time scale for a fit interval: the power of two at or above half of it.
 pub fn rac_tau_for(interval_s: f64) -> f64 {
     let half = (interval_s / 2.0).max(1.0);
-    2f64.powi(half.log2().ceil() as i32).clamp(1.0, 32768.0)
+    2f64.ppowi(half.plog2().ceil() as i32).clamp(1.0, 32768.0)
 }
 
 /// An ECEF polynomial per axis in `τ = (t − t_ref) / 64 s`, coefficients in metres.
@@ -465,31 +466,31 @@ pub fn kepler_point(k: &Keplerian, extra: Option<&Liu22Extra>, tk: f64) -> Keple
     let mk = k.m0 + n * tk;
     let mut ek = mk;
     for _ in 0..30 {
-        let d = (ek - k.e * ek.sin() - mk) / (1.0 - k.e * ek.cos());
+        let d = (ek - k.e * ek.psin() - mk) / (1.0 - k.e * ek.pcos());
         ek -= d;
         if d.abs() < 1e-15 {
             break;
         }
     }
-    let nu = ((1.0 - k.e * k.e).sqrt() * ek.sin()).atan2(ek.cos() - k.e);
+    let nu = ((1.0 - k.e * k.e).sqrt() * ek.psin()).patan2(ek.pcos() - k.e);
     let phi = nu + k.omega;
-    let (s2, c2) = (2.0 * phi).sin_cos();
+    let (s2, c2) = (2.0 * phi).psin_cos();
     let du = k.cus * s2 + k.cuc * c2;
     let mut dr = k.crs * s2 + k.crc * c2;
     if let Some(x) = extra {
-        let (s1, c1) = phi.sin_cos();
-        let (s3, c3) = (3.0 * phi).sin_cos();
+        let (s1, c1) = phi.psin_cos();
+        let (s3, c3) = (3.0 * phi).psin_cos();
         dr += x.crs1 * s1 + x.crc1 * c1 + x.crs3 * s3 + x.crc3 * c3;
     }
     let di = k.cis * s2 + k.cic * c2;
     let u = phi + du;
-    let r = a * (1.0 - k.e * ek.cos()) + dr;
+    let r = a * (1.0 - k.e * ek.pcos()) + dr;
     let i = k.i0 + di + k.i_dot * tk;
-    let (su, cu) = u.sin_cos();
+    let (su, cu) = u.psin_cos();
     let (xp, yp) = (r * cu, r * su);
     let node = k.omega0 + (k.omega_dot - OMEGA_E) * tk - OMEGA_E * k.toe;
-    let (so, co) = node.sin_cos();
-    let (si, ci) = i.sin_cos();
+    let (so, co) = node.psin_cos();
+    let (si, ci) = i.psin_cos();
     KeplerPoint {
         pos: [xp * co - yp * ci * so, xp * so + yp * ci * co, yp * si],
         ecc_anomaly: ek,
@@ -501,9 +502,9 @@ pub fn kepler_point(k: &Keplerian, extra: Option<&Liu22Extra>, tk: f64) -> Keple
 
 /// The along, cross, radial frame of a Keplerian point.
 pub fn kepler_frame(ev: &KeplerPoint) -> RacFrame {
-    let (su, cu) = ev.u.sin_cos();
-    let (si, ci) = ev.i.sin_cos();
-    let (so, co) = ev.node.sin_cos();
+    let (su, cu) = ev.u.psin_cos();
+    let (si, ci) = ev.i.psin_cos();
+    let (so, co) = ev.node.psin_cos();
     RacFrame {
         radial: [cu * co - su * ci * so, cu * so + su * ci * co, su * si],
         along: [-su * co - cu * ci * so, -su * so + cu * ci * co, cu * si],
@@ -513,7 +514,7 @@ pub fn kepler_frame(ev: &KeplerPoint) -> RacFrame {
 
 /// The ICD relativistic clock term `F·e·√A·sin E` (s).
 pub fn kepler_relativistic_s(k: &Keplerian, ecc_anomaly: f64) -> f64 {
-    F_REL * k.e * k.sqrt_a * ecc_anomaly.sin()
+    F_REL * k.e * k.sqrt_a * ecc_anomaly.psin()
 }
 
 /// An ephemeris at `t`: ECEF position (m), the along/cross/radial frame, and the

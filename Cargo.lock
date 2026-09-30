@@ -173,6 +173,7 @@ version = "0.28.0"
 dependencies = [
  "getrandom",
  "hex",
+ "libm",
  "pyo3",
  "rand",
  "rand_chacha",

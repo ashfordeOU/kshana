@@ -32,6 +32,7 @@ use super::elements::{
     Liu22Extra, RacPoly, SysTime, OMEGA_E, POLY_TAU_S,
 };
 use super::truth::{state_to_elements, TruthClock, TruthOrbit};
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 
 /// Which ephemeris model to fit.
@@ -190,7 +191,7 @@ pub fn lstsq(a: &[Vec<f64>], b: &[f64]) -> Option<Vec<f64>> {
 pub fn polyfit(xs: &[f64], ys: &[f64], deg: usize) -> Option<Vec<f64>> {
     let rows: Vec<Vec<f64>> = xs
         .iter()
-        .map(|&x| (0..=deg).map(|k| x.powi(k as i32)).collect())
+        .map(|&x| (0..=deg).map(|k| x.ppowi(k as i32)).collect())
         .collect();
     lstsq(&rows, ys)
 }
@@ -205,8 +206,8 @@ fn n_params(liu: bool) -> usize {
 }
 
 fn to_kepler(p: &[f64], toe: f64) -> (Keplerian, Option<Liu22Extra>) {
-    let e = p[1].hypot(p[2]);
-    let omega = if e > 0.0 { p[2].atan2(p[1]) } else { 0.0 };
+    let e = p[1].phypot(p[2]);
+    let omega = if e > 0.0 { p[2].patan2(p[1]) } else { 0.0 };
     let k = Keplerian {
         sqrt_a: p[0],
         e,
@@ -421,11 +422,11 @@ fn initial_params(truth: &TruthOrbit, reft: &SysTime, liu: bool) -> Vec<f64> {
     let dt = truth.dt_of(reft);
     let (r, v) = truth.state_inertial(dt);
     let (a, e, i, raan, argp, m) = state_to_elements(r, v);
-    let rates = crate::forces::j2_secular_rates(a, e, i);
+    let rates = crate::forces::j2_secular_rates_portable(a, e, i);
     let mut p = vec![0.0; n_params(liu)];
     p[0] = a.sqrt();
-    p[1] = e * argp.cos();
-    p[2] = e * argp.sin();
+    p[1] = e * argp.pcos();
+    p[2] = e * argp.psin();
     p[3] = i;
     p[4] = wrap_pi(raan - truth.theta(dt) + OMEGA_E * reft.tow);
     p[5] = wrap_pi(m + argp);
