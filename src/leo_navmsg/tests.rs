@@ -478,23 +478,37 @@ fn the_binary_frame_carries_equatorial_and_twenty_minute_fits() {
 
 // ── Platform independence ─────────────────────────────────────────────────────────────
 //
-// A frame is transmitted integers. It has to be the same integers on every machine that
-// runs the scenario: the native binary on any operating system and the WebAssembly build
-// in a browser. It once was not (`0x110315` native on aarch64 macOS, `0x6A82D9` in the
-// browser, for the scenario below), because the fit started from an `acos` and an `atan2`
-// that the two platforms round differently in the last place, and eighty
-// Levenberg–Marquardt iterations turned that into different quantised fields. The kind now
-// computes every transcendental with `crate::portable_math`. These two tests keep it so.
+// A frame is transmitted integers. It has to be the same integers wherever and however
+// the scenario is run: the native binary on any operating system, a debug build or a
+// release build, and the WebAssembly build in a browser. It once was none of these. The
+// scenario below encoded to check value `0x110315` in a release build on aarch64 macOS,
+// `0x898BD8` in a debug build of the same source on the same machine, and `0x6A82D9` in
+// the browser.
+//
+// * Between platforms: the fit starts from osculating elements that come out of an `acos`
+//   and an `atan2`, which two mathematics libraries round differently in the last place.
+// * Between build profiles: an optimised build on macOS merges a sine and a cosine of one
+//   argument into a single call to the system's combined routine, whose sine is not always
+//   the lone `sin`'s; an unoptimised build makes the two calls.
+// * In the clock: the normal sampler of `rand_distr` calls the host `exp` and `ln` in its
+//   rare branches, and about one draw in a million differs in the last bit.
+//
+// Eighty Levenberg–Marquardt iterations turn a difference that small into different
+// quantised fields. The kind now computes every transcendental and every normal deviate
+// with `crate::portable_math`. These tests keep it so. They run in the ordinary
+// (unoptimised) test profile; the release binary and the WebAssembly package were checked
+// to give the same result document, byte for byte, for all five bundled scenarios.
 
 /// The whole encoded frame of `scenarios/leo-navmsg-encode-decode.toml`, as hexadecimal.
 /// Deliberately asserted on every platform, with no baseline-host gate: the claim is that
-/// the host does not matter. The same bytes were read back from the WebAssembly build.
+/// neither the host nor the build profile matters. The same bytes were read back from a
+/// debug build, a release build and the WebAssembly build.
 const ENCODE_DECODE_FRAME_HEX: &str = "\
-     A7120A400400004C30A91A78A965000A7CC08000513A00CDA2A5941CBAF3B4402DFE200A4ACFABF8\
+     A7120A400400004C30A91A78A965000A7CBFC00050CA022C42A5941CBAF3B4402DFE200A4ACFABF8\
      01687EA568ACF15210809D49AD9FF116E3003E1307F5167FEE07303C6DAA0BF9C17FDEC9C0065318\
      02CA85EE8FFFE040009200378FFF819FF3F80016C5002077FF811FFFFFFFFFFFFFFFFC0000700000\
      FFFFEE000074000CAFFFBD7FF693001A9401688FFD4D833FFFC08E7CBF840F285A06E40000000040\
-     0000424310D35C486A82D9";
+     0000424310D35C4819105F";
 
 #[test]
 fn the_encoded_frame_is_the_same_bytes_on_every_platform() {
@@ -505,14 +519,14 @@ fn the_encoded_frame_is_the_same_bytes_on_every_platform() {
     let (doc, _, _, _) = scn.compute().unwrap();
     let ed = &doc["encode_decode"];
     assert_eq!(ed["frame_hex"], ENCODE_DECODE_FRAME_HEX);
-    assert_eq!(ed["crc24q"], "0x6A82D9");
+    assert_eq!(ed["crc24q"], "0x19105F");
     assert_eq!(ed["frame_bytes"], 171);
 
     // One frame per ephemeris model on the same orbit, by its check value.
     for (model, extra, crc) in [
-        ("kepler16", "", "0x3A936F"),
-        ("kepler-rac", "rac_degrees = [7, 5, 6]\n", "0x6A82D9"),
-        ("liu22", "", "0x4BF9EC"),
+        ("kepler16", "", "0x50D072"),
+        ("kepler-rac", "rac_degrees = [7, 5, 6]\n", "0x19105F"),
+        ("liu22", "", "0x62373A"),
         (
             "ecef-poly",
             "poly_degree = 6\nfit_interval_s = 60\nupdate_period_s = 60\n",
@@ -566,8 +580,9 @@ const PLATFORM_METHODS: [&str; 27] = [
 /// Every other module of the crate this kind reaches, each one read and found to be either
 /// free of host-dependent mathematics on the path taken or a `_portable` entry point. A new
 /// name fails the scan until it has been read the same way and added.
-const REVIEWED_CRATE_PATHS: [&str; 15] = [
+const REVIEWED_CRATE_PATHS: [&str; 16] = [
     "crate::portable_math::PortableFloat",
+    "crate::portable_math",
     "crate::gravity_sh::SphericalHarmonicField",
     "crate::egm2008_data::EGM2008_NMAX",
     "crate::forces::EARTH_ZONALS_J2_J6",
@@ -599,6 +614,13 @@ fn platform_calls(text: &str) -> Vec<String> {
                     found.push(format!("{}: `{call}` is the host library's", n + 1));
                 }
             }
+        }
+        if code.contains("rand_distr") {
+            found.push(format!(
+                "{}: `rand_distr` samplers call the host `exp` and `ln` in their rare branches; \
+                 use `portable_math::standard_normal`",
+                n + 1
+            ));
         }
         if code.contains(".acceleration(") {
             found.push(format!(
@@ -659,9 +681,10 @@ fn the_scan_for_host_mathematics_sees_what_it_is_meant_to() {
     // A scan that matches nothing reads as clean, so it is shown the things it must catch.
     let bad = "let a = x.sin();\nlet b = (y / z).atan2(w);\nlet c = f64::exp(q);\n\
                let g = field.acceleration(r);\nlet d = crate::forces::zonal_accel(r, jn);\n\
-               let e = crate::frames::gmst(t);\n// a comment may say x.cos() freely\n";
+               let e = crate::frames::gmst(t);\n// a comment may say x.cos() freely\n\
+               use rand_distr::{Distribution, Normal};\n";
     let found = platform_calls(bad);
-    assert_eq!(found.len(), 6, "{found:?}");
+    assert_eq!(found.len(), 7, "{found:?}");
     // And it does not mistake the portable spellings for the host ones.
     let good = "let a = x.psin();\nlet b = y.patan2(w);\nlet c = q.pexp().plog10();\n\
                 let g = field.acceleration_portable(r);\nlet s = v.sqrt().abs().round();\n\

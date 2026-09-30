@@ -26,10 +26,9 @@
 
 use super::elements::{cross3, dot, RacFrame, SysTime, C_LIGHT, OMEGA_E};
 use crate::gravity_sh::SphericalHarmonicField;
-use crate::portable_math::PortableFloat;
+use crate::portable_math::{standard_normal, PortableFloat};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
 
 /// Orbit set-up for the truth propagation.
 #[derive(Clone, Debug)]
@@ -396,9 +395,8 @@ impl TruthClock {
                 let mut x = 0.0;
                 walk.push(0.0);
                 if adev_1s > 0.0 {
-                    let nd = Normal::new(0.0, adev_1s).map_err(|e| e.to_string())?;
                     for _ in 1..n {
-                        x += nd.sample(&mut rng);
+                        x += adev_1s * standard_normal(&mut rng);
                         walk.push(x);
                     }
                 } else {
@@ -418,11 +416,10 @@ impl TruthClock {
                 let mut rng = ChaCha8Rng::seed_from_u64(seed);
                 let phi = (-1.0 / tau_s).pexp();
                 let q = sigma_s * (1.0 - phi * phi).sqrt();
-                let nd = Normal::new(0.0, 1.0).map_err(|e| e.to_string())?;
-                let mut x = sigma_s * nd.sample(&mut rng);
+                let mut x = sigma_s * standard_normal(&mut rng);
                 for _ in 0..n {
                     walk.push(x);
-                    x = phi * x + q * nd.sample(&mut rng);
+                    x = phi * x + q * standard_normal(&mut rng);
                 }
             }
         }
