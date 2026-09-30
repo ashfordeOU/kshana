@@ -60,7 +60,13 @@ A row that grades only one input path of a kind is listed only when the run took
 path (`advanced_report::PATH_GATED_CAPABILITIES`): `orbit` and `ephemeris` carry the
 "Orbit propagation & determination" row only with a `tle` (the Simplified General
 Perturbations 4 (SGP4) path; an analytic orbit is a two-body propagation), and
-`slot-timing` carries the measured-record row only with an `oscillator.record`. The
+`slot-timing` carries the measured-record row only with an `oscillator.record`. The same
+table gates the `spectrum` multi-band row on the run drawing `[[panels]]`, and the rows
+of the low Earth orbit (LEO) kinds on the path each run took: a `leo-pass` or
+`leo-pnt-chain` rain, building-entry, low-energy or spoofer row only when the scenario sets
+that term, the scintillation row unless the scenario switches it off, a `leo-navmsg`,
+`leo-pvt` or chain precise-point-positioning row only for the analysis or mode the result
+carries, and the LEO system-preset row only when a named preset is used. The
 Shuttle Radar Topography Mission (SRTM) reader row is carried by no kind: `terrain-nav`
 and `terrain-slam` run on a synthetic digital elevation model (DEM), and no scenario field
 reads an SRTM tile. A VALIDATED row the run never touched would otherwise claim evidence
@@ -118,7 +124,8 @@ Same scenario bytes, seed and engine build give a byte-identical `report.json` a
 crate is the one `--study-name` makes, which stamps `meta.generated_utc` into the result
 document; the report then shows that stamp and says it is the one field a reproduction
 will not match. To avoid it, run without `--study-name`. `tests/advanced_report.rs`
-builds the report of every bundled scenario twice, and re-runs six scenarios (among them
+builds the report of every scenario file under `scenarios/` (the suite manifest aside)
+twice, and re-runs six scenarios (among them
 one campaign of each of the chain, sweep and compose modes) to check this end to end.
 
 ## Printing to PDF
@@ -138,9 +145,10 @@ navigation bar is hidden in print.
 ## The JSON document
 
 `report.json` has `report_schema = "kshana-report"` and `report_schema_version = "1.0"`,
-then one key per section in page order: `executive_summary`, `inputs`, `results`,
-`aggregation` (campaigns and sweeps only), `events`, `capabilities`, `not_modelled`,
-`reproducibility`. A list section has `items`, `omitted` (the rows the page cap left out;
+then `kind` and `title` and one key per section: `executive_summary`, `inputs`,
+`results`, `aggregation` (campaigns and sweeps only), `events`, `capabilities`,
+`not_modelled`, `companions` (section 3b: `animation`, `exports` and `export_command`)
+and `reproducibility`. A list section has `items`, `omitted` (the rows the page cap left out;
 the result document carries every value) and, when `items` is empty, a `statement` saying
 why. A value keeps its raw JSON form in `value` and the text the page shows in `display`;
 a missing value is `null` in `value` and "no value" in `display`.
