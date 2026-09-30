@@ -82,7 +82,8 @@ Abbreviations used on this page, in full:
 The numbers below come from real runs of the worked examples that ship with Pro. Each one
 is a modelled result of an illustrative study, not a statement about any real mission. The
 design, uncertainty and mission-dossier examples were run with Pro 0.1.0, a development
-build, on open engine 0.28.0. Each design and uncertainty result records a digest of its
+build, on open engine 0.28.0, and so were the campaign-watch, spectrum-coexistence and
+job-service examples. Each design and uncertainty result records a digest of its
 runs: the SHA-256 over the SHA-256 of every run's result document, in order.
 
 | Worked example | Open-engine runs | Run digest (SHA-256) |
@@ -114,17 +115,22 @@ the result the free engine gives for it.
 **Worked examples.** A lunar navigation constellation, fewest satellites against
 availability over the whole Moon: 608 designs, all run, give a front of 12 designs at six
 points, from 8 satellites at 19.5446 % availability to 24 satellites at 100 %, with the
-knee at 16 satellites and 85.0404 %. The knee design is 16 satellites in 2 orbital planes
-at 8,000 km altitude and 45° inclination, with phasing 1. The bundled lunar relay design
+knee at 16 satellites and 85.0404 %. The six points are 8 satellites at 19.5446 %, 12 at
+55.4222 %, 14 at 73.5637 %, 16 at 85.0404 %, 20 at 93.2496 % and 24 at 100 % (seven front
+designs reach 100 %). The knee design is 16 satellites in 2 orbital planes at 8,000 km
+altitude and 45° inclination, with phasing 1. The bundled lunar relay design
 (8 + 6 satellites), scored as the reference, reaches 21.3286 % with 14 satellites, and 2
 front designs are at least as good on both objectives and better on one. Scored over the
 south polar cap instead, the same 608 designs give a front of 9 designs at four points,
 from 8 satellites at 24.5261 % to 16 satellites at 100 %, with the knee at 14 satellites
-and 91.6739 % (2 planes at 8,000 km and 75° inclination, phasing 0). There the bundled
+and 91.6739 % (2 planes at 8,000 km and 75° inclination, phasing 0); the four points are
+8 satellites at 24.5261 %, 12 at 69.5825 %, 14 at 91.6739 % and 16 at 100 %. There the bundled
 design reaches 96.7241 % with 14 satellites: no front design dominates it, because it lies
 outside the stated design space. Each study made 609 open-engine runs (the 608 designs and
 the reference). Every front design was re-run in the free engine (open Kshana 0.28.0),
-and 12 of 12 and 9 of 9 gave a result whose SHA-256 equals the one in the index.
+and 12 of 12 and 9 of 9 gave a result whose SHA-256 equals the one in the index. For the
+whole-Moon knee design that SHA-256 is
+`89882372b381f75bd091e6acaed01e17a979a14723294c10e4a55fca4936a61f`.
 
 **What it does not do.** It has no cost model, so a variable no objective penalises drifts
 to the edge of its range. Constellation studies score geometry only: no signal power,
@@ -266,12 +272,16 @@ documentation. Run twice, it passed both times; the second run found 0 changed r
 history check reported 2 records with the chain intact, and the diff reported 0 of 125
 figures moved. For the clock ensemble the statistical gate reported t = 0.000 and p = 1.0,
 as it must for the same seeds. A six-revision demonstration sequence of the chained mission
-shows a regression caught: raising the jammer from -33 to -24 dBW drops C/N0 at the end of
-the jamming phase from 30.60 to 21.82 dB-Hz, below the 25 dB-Hz floor, and the satellites
+shows a regression caught. A revision that changed only a comment moved no watched figure,
+and a weaker jammer was reported as an improvement of C/N0. Then raising the jammer from
+-33 to -24 dBW drops C/N0 at the end of the jamming phase from 30.60 to 21.82 dB-Hz, below
+the 25 dB-Hz floor, and the satellites
 tracking from 8 to 0; three watches regressed, the requirement was not met, and the run
 exited 1. Withdrawing that revision passed again, and a faster spoofer was detected at
-310 s instead of 370 s and reported as an improvement. The history of the six runs checked
-intact.
+310 s instead of 370 s and reported as an improvement, as was the smaller share of the
+mission under alarm, while two time-error figures moved within their tolerances. The
+history of the six runs checked intact; its last record's hash is
+`71397c3eee5b8822cf4b2109e135576fda9fef44c63201d049835d48dac67c2c`.
 
 **What it does not do.** A watch proves that a MODELLED figure stayed stable or moved; it
 does not prove the figure is true. The statistical gate uses the ensemble's mean, standard
@@ -309,7 +319,8 @@ signal at a cell with 17 of its satellites in view, a margin of 0.0946 dB to the
 The 144-satellite plan caused at most 0.00288 dB, with 9 in view. Neither C-band plan
 overlaps any GNSS signal in frequency. In the other direction, the GNSS signals cost the
 L-band plans at most 0.00908 dB. Two plans form the ranked front: the 144-satellite L-band
-plan and the wide C-band plan.
+plan and the wide C-band plan. The study's scenario hash (the SHA-256 of its canonical
+JSON) is `479364bde54004a2300562d7468c9accb53b87ac7408982de86d810aadf985d4`.
 
 **What it does not do.** The result is an upper bound: every satellite in view is taken at
 the maximum received power, with no power that varies with elevation and no receive-antenna
@@ -342,8 +353,9 @@ under the data directory; the delivery ledger; the ledger check; the OpenAPI doc
 the job board page.
 
 **Worked example.** A service with two workers took a link-budget run: the submission was
-accepted and queued, and the job succeeded on its first attempt. Its result is the same JSON
-document as the command-line run of the same file (the command line prints it formatted, so
+accepted and queued (HTTP status 202), and the job succeeded on its first attempt. Its
+identifier was `fb6e50fffa53fc97135885c9a42f8de0c175d803181af99dcc94e14de5aa0004`. Its
+result is the same JSON document as the command-line run of the same file (the command line prints it formatted, so
 the bytes differ). Submitting the same request again returned the same job, already
 finished. The ledger check verified 3 records and 1 delivered job with no mismatch, the
 OpenAPI document listed 13 paths, and the job board page loaded nothing from outside.
@@ -351,7 +363,9 @@ After a restart the finished job still showed one attempt. In a second test thre
 queued on one worker and the service was killed while the third was running; after the
 restart that job ran again and succeeded, the two finished jobs were not run again, and the
 ledger verified 9 records and 3 delivered jobs. Without a licence, a job for a Pro scenario
-was refused on submission and nothing was queued, while an open scenario was accepted.
+was refused on submission (status 403) and nothing was queued, while an open scenario was
+accepted (status 202). The status, result, repeated submission, ledger check, OpenAPI
+document and job board requests were answered with status 200.
 
 **What it does not do.** One request per connection, with no streaming: a client polls. One
 licence for the whole service and one shared access token, not user management. Plain HTTP
