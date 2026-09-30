@@ -1,0 +1,16 @@
+# Ballistic re-entry corridor demonstrator (Allen-Eggers, mission analysis).
+#
+# Closed-form analytic entry of a non-lifting body through an exponential
+# atmosphere at constant flight-path angle: peak deceleration (independent of the
+# ballistic coefficient), the velocity and altitude at peak-g, and the
+# peak-heating velocity.
+#
+# HONEST SCOPE: MODELLED ballistic (no-lift), exponential isothermal atmosphere,
+# constant flight-path angle. No aerothermal/TPS model -- the heating output is the
+# peak-heating VELOCITY, not a heat-flux. Not a 3-/6-DoF trajectory.
+# Run:  kshana scenarios/reentry.toml
+kind = "reentry"
+
+entry_velocity_m_s = 7800.0      # near-circular LEO entry interface speed
+flight_path_angle_deg = 6.0      # below local horizontal
+ballistic_coeff_kg_m2 = 100.0    # m / (C_D * A)

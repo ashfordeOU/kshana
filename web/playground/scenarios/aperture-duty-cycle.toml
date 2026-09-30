@@ -1,0 +1,73 @@
+# Aperture duty-cycle demonstrator (ground segment & operations).
+#
+# How a contact plan divides a pool of steerable apertures between navigation
+# (ranging / tracking) and communications (data), and what each session loses when
+# more sessions are active than there are apertures.
+#
+# THE ARBITRATION POLICY IS AN INPUT. A duty figure is only meaningful relative to
+# a stated rule for who wins the aperture, so the policy is declared here, echoed
+# back in the report with its full definition, and named in the one-line summary.
+#   navigation-priority       (default) navigation preempts communications
+#   communications-priority             communications preempts navigation
+#   first-come-first-served             non-preemptive; the holder keeps the aperture
+#
+# Re-run with `apertures = 1` to see the one-aperture time-share: on this plan
+# navigation is served in full either way and the whole contention loss lands on
+# the communications sessions.
+#
+# HONEST SCOPE: MODELLED scheduling arithmetic over the supplied windows. No slew /
+# retune / changeover time is charged when an aperture changes service or session;
+# no data volume, buffer state, energy budget or link closure enters the decision;
+# and the contact windows are inputs -- their geometry is whatever produced them
+# (the `passes` scenario emits the same aos_s / los_s vocabulary). Not a
+# ground-segment scheduling product.
+# Run:  kshana scenarios/aperture-duty-cycle.toml
+kind = "aperture-duty-cycle"
+
+apertures = 2
+arbitration = "navigation-priority"
+
+# The reporting horizon defaults to the plan envelope (earliest aos_s -> latest
+# los_s), which is what sets the duty denominator (apertures * horizon_s). Override
+# it to score the plan over a fixed operational day instead:
+#   horizon_start_s = 0.0
+#   horizon_end_s = 86400.0
+
+# The contact plan. ILLUSTRATIVE: three navigation sessions and three
+# communications sessions over a 9 000 s envelope, each navigation session
+# overlapping a communications one.
+[[contacts]]
+name = "nav-1"
+service = "navigation"
+aos_s = 0.0
+los_s = 600.0
+
+[[contacts]]
+name = "comms-1"
+service = "communications"
+aos_s = 300.0
+los_s = 1500.0
+
+[[contacts]]
+name = "nav-2"
+service = "navigation"
+aos_s = 3600.0
+los_s = 4500.0
+
+[[contacts]]
+name = "comms-2"
+service = "communications"
+aos_s = 4200.0
+los_s = 6000.0
+
+[[contacts]]
+name = "nav-3"
+service = "navigation"
+aos_s = 7200.0
+los_s = 7800.0
+
+[[contacts]]
+name = "comms-3"
+service = "communications"
+aos_s = 7200.0
+los_s = 9000.0

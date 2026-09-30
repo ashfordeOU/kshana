@@ -1,0 +1,69 @@
+# LEO-PNT focus area: 5G/6G non-terrestrial network (NTN) compatibility.
+#
+# A 5G NTN user terminal can position itself from the downlink of a low Earth orbit (LEO)
+# NTN constellation: time of arrival (TOA) from the positioning reference signal, whose
+# ranging precision is set by its bandwidth through the Cramer-Rao bound (CRB), and
+# Doppler over a pass. The campaign sweeps the reference signal's occupied bandwidth from
+# 180 kHz (one narrowband-IoT resource block, as in 5G NR NTN narrowband) to 20 MHz, in
+# the S-band mobile-satellite-service (MSS) downlink around 2172.5 MHz, over a generic
+# 324-satellite NTN shell at 600 km, and records the CRB range sigma at the zenith and the
+# resulting root-mean-square 3D TOA position error.
+#
+# The range sigma falls as 1/(RMS bandwidth), about 6.5 m at the zenith for 180 kHz and
+# 6 cm for 20 MHz; the 3D error falls from about 30 m to about 2 m, where the 1 m network
+# synchronisation error (a scenario input) sets the floor.
+#
+# MODELLED: positioning from Cramer-Rao bounds with a stated synchronisation error; no
+# multipath, no 3GPP (Third Generation Partnership Project) waveform detail beyond the
+# bandwidth.
+kind = "campaign"
+title = "NTN positioning against reference-signal bandwidth"
+seed = 20260929
+
+[sweep]
+metrics = [
+  { name = "range_sigma_zenith", path = "signals[0].range_sigma_zenith_m" },
+  { name = "toa_rms_error_3d", path = "signals[0].toa_rms_error_3d_m" },
+  { name = "toa_availability", path = "signals[0].toa_availability" },
+]
+
+[[sweep.axes]]
+name = "bandwidth"
+key = "signal.0.bandwidth_hz"
+unit = "Hz"
+start = 180000.0
+stop = 20000000.0
+steps = 9
+scale = "log"
+
+[sweep.scenario]
+kind = "ntn-positioning"
+seed = 5
+carrier_hz = 2172.5e6
+integration_s = 0.1
+doppler_integration_s = 1.0
+cn0_dbhz = [38.0, 50.0]
+sync_error_m = 1.0
+duration_s = 600.0
+step_s = 30.0
+
+[sweep.scenario.user]
+lat_deg = 52.5
+lon_deg = 13.4
+height_m = 40.0
+
+[[sweep.scenario.signal]]
+name = "NTN positioning reference signal"
+bandwidth_hz = 4.5e6
+
+[[sweep.scenario.system]]
+name = "NTN shell"
+role = "leo"
+mask_deg = 10.0
+
+[[sweep.scenario.system.shell]]
+total = 324
+planes = 18
+phasing = 1
+altitude_km = 600.0
+inclination_deg = 55.0

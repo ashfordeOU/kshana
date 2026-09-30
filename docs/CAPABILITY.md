@@ -71,7 +71,7 @@ adjacent models are deliberately first-order and MODELLED, never validated fligh
 | Area | Status | Note |
 |------|--------|------|
 | Language bindings & packaging | partial | Rust + Python (abi3) + WASM on three registries; string-in/string-out bindings |
-| Education / onboarding UX (user experience) | partial | Browser playground with **guided mode shipped**: scenario-adaptive guided sliders (`web/guided.mjs`, up to six knobs per scenario) and an interactive guided tour (`web/tour.mjs`, replayable from the playground). Missing: guided explanations of the output figures inside the playground (the plain-language [`GLOSSARY.md`](GLOSSARY.md) covers them) |
+| Education / onboarding UX (user experience) | partial | Browser playground with **guided mode shipped**: scenario-adaptive guided sliders (`web/playground/lib/guided.mjs`, up to six knobs per scenario) and an interactive guided tour (`web/playground/lib/tour.mjs`, replayable from the playground). Missing: guided explanations of the output figures inside the playground (the plain-language [`GLOSSARY.md`](GLOSSARY.md) covers them) |
 | Community / governance | partial | Governance scaffolding present — `GOVERNANCE.md` (benevolent-maintainer model + technical bar + open/closed boundary), `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, `SECURITY.md`, issue/PR (PR: pull request) templates, `FUNDING.yml`, dependabot. Single-founder; an **active external community** (contributors, citations) is people/time-dependent and still building (outreach founder-gated) |
 | Funding & procurement readiness | none | TRL ~3; no agency citations/contracts yet (see strategy notes) |
 

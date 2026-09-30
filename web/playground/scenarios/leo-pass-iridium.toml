@@ -1,0 +1,38 @@
+# Iridium STL (satellite time and location) bursts seen from an aircraft.
+#
+# An airliner at 10 km over the Atlantic, flying at 230 m/s heading west, sees a designed
+# Iridium pass (781 km, 86.4 deg, peaking at 65 deg) on the STL band at 1621 MHz, and GPS L1
+# C/A. Iridium's 66 satellites transmit PNT bursts inside one 90 ms frame at 1616-1626 MHz,
+# with Doppler up to +/-36 kHz and a raw power 300 to 2400 times that of GPS (Resilient
+# Navigation and Timing Foundation,
+# https://rntfnd.org/wp-content/uploads/Recent-PNT-Improvements-and-Test-Results-Based-on-Low-Earth-Orbit-Satellites.pdf).
+# The preset turns "300 times GPS" into an EIRP at 10 deg elevation with a flat pattern; the
+# zenith then lands near the published "2400 times". The aircraft's own motion adds to the
+# Doppler, and the report checks the closed-form Doppler and Doppler rate against a numerical
+# derivative of the range.
+#
+# MODELLED. The spot beams, the burst schedule and the STL waveform are not modelled.
+kind = "leo-pass"
+name = "Iridium STL from an aircraft"
+epoch = "2026-09-28T14:00:00"
+duration_s = 900.0
+step_s = 5.0
+
+[user]
+environment = "air"
+lat_deg = 50.0
+lon_deg = -30.0
+height_m = 10000.0
+speed_m_s = 230.0
+heading_deg = 270.0
+
+[[satellite]]
+id = "Iridium-pass"
+system = "iridium-stl"
+max_elevation_deg = 65.0
+tca_s = 450.0
+direction = "descending"
+
+[gnss]
+constellation = "gps-baseline"
+band = "L1"

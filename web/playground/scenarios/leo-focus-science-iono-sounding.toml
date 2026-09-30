@@ -1,0 +1,48 @@
+# LEO-PNT focus area: LEO-PNT science, ionosphere sounding from the dual-band delay.
+#
+# The first-order ionospheric group delay is 40.3*STEC/f^2 (STEC slant total electron
+# content), so the difference of two bands' pseudoranges to one satellite measures the
+# slant TEC below the satellite: STEC = (P2 - P1)*f1^2*f2^2 / (40.3*(f1^2 - f2^2)). A low
+# Earth orbit (LEO) positioning, navigation and timing (PNT) satellite transmitting in
+# several bands is therefore also an ionosphere sounder, and one below most of the
+# plasmasphere: it sees only the electron content under its own altitude.
+#
+# One generic LEO satellite at 550 km passes 70 deg over the Tromso ionospheric
+# observatory region (69.66 N) in UHF, L, S and C bands; the ionosphere is a 25 TEC-unit
+# vertical content on a 350 km shell, scaled by the fraction of a Chapman layer below the
+# satellite. For every band pair the report gives the slant TEC the geometry-free
+# combination recovers at the pass peak and its 1-sigma from the two bands' code noise.
+# Pairs with UHF sound best (UHF with L to about 0.02 TEC units): UHF carries the largest
+# delay and, here, the strongest signal. The close S and C bands sound worst (about 3 TEC
+# units): their delay difference is small against their code noise.
+#
+# MODELLED: the recovered TEC equals the model's by construction (the combination is exact
+# at first order); the precision is the thermal code noise alone, without multipath or
+# inter-frequency biases, which a real sounder must calibrate.
+kind = "leo-pass"
+name = "LEO ionosphere sounding from multi-band delays"
+epoch = "2026-09-28T11:00:00"
+duration_s = 900.0
+step_s = 5.0
+
+[user]
+environment = "ground"
+lat_deg = 69.66
+lon_deg = 18.94
+height_m = 20.0
+mask_deg = 10.0
+
+[ionosphere]
+model = "vtec"
+vtec_tecu = 25.0
+
+[[satellite]]
+id = "LEO-1"
+system = "generic-leo"
+bands = ["UHF", "L", "S", "C"]
+max_elevation_deg = 70.0
+tca_s = 450.0
+
+[gnss]
+constellation = "galileo"
+band = "E1"

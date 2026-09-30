@@ -1,0 +1,272 @@
+# A chained mission driven by the L-band spectrum: a chirp jammer takes GPS L1 C/A and
+# Galileo E1, the clock holds over, and a continuous-wave (CW) tone left on the L1
+# carrier keeps C/A down while E1 recovers, so the receiver falls back to Galileo and
+# its integrity monitor runs on a Galileo-only sky.
+#
+# Every phase runs ordinary scenarios of existing kinds, each dispatched exactly as
+# `kshana <file>.toml` would run it. The carrier-to-noise density ratio (C/N0) of each
+# band comes from the `spectrum` kind: the jammer's spectral separation coefficient
+# against that band's own modulation, through (C/N0)_eff = [1/(C/N0) + sum (J/S) kappa]^-1
+# (see docs/SPECTRUM.md). The campaign reads the L1 C/A and E1 rows of the spectrum
+# timeline into two channels on one mission timeline (a 1 s grid, zero-order hold).
+#
+# State is handed on between phases in two ways here:
+# - `end_at`: the onset phase ends when the spectrum run first loses L1 C/A
+#   (`timeline.bands[0].first_loss_t_s`, 10 s here), not at a fixed time; the clock's
+#   holdover starts at that instant.
+# - `carry`: the holdover phase continues the clock time error from the end of the
+#   onset phase. The fallback phase re-synchronises the clock to Galileo, so it
+#   carries nothing.
+#
+# The jammers are the ones in scenarios/l-band-waterfall-jamming.toml: a 16 MHz chirp
+# privacy device at -13 dBW EIRP, 100 m away, and a CW tone on 1575.42 MHz at -20 dBW
+# EIRP, 1 km away, both through the jamming kind's free-space path loss. The clock is
+# a chip-scale atomic clock (Microchip SA.45s datasheet sigma_y(1 s) = 3e-10). The
+# integrity monitor is the integrity example's snapshot receiver autonomous integrity
+# monitoring (RAIM) with the approach-with-vertical-guidance (APV-I) alert limits, on
+# a GPS-like 24-satellite Walker shell during onset and on a Galileo-like Walker
+# 24/3/1 (29 599.8 km semi-major axis, 56 deg; Galileo OS SDD 1.1) during fallback.
+#
+# MODELLED: the chaining is a modelling choice (additive carry, zero-order hold), and
+# each phase is as good as the kind that ran it. E1 recovering under the CW tone rests
+# on the spectrum kind's continuous-spectrum treatment (a CW tone on the MBOC carrier
+# null couples nothing); a real tone would couple through the code's spectral lines.
+kind = "campaign"
+title = "L-band jamming from the spectrum, clock holdover and a Galileo-only fallback"
+seed = 20260928
+
+[timeline]
+step_s = 1.0
+
+# ---------------------------------------------------------------- onset
+# All bands nominal until the chirp switches on at 10 s. The phase ends at the first
+# loss of L1 C/A that the spectrum run computes.
+[[phases]]
+name = "onset"
+duration_s = 60.0
+end_at = "timeline.bands[0].first_loss_t_s"
+end_at_run = 1
+
+[[phases.runs]]
+[phases.runs.scenario]
+seed = 42
+threshold_ns = 50.0
+[phases.runs.scenario.time]
+step_s = 1.0
+duration_s = 60.0
+[phases.runs.scenario.gnss]
+windows = [{ t0 = 0.0, t1 = 60.0, state = "nominal" }]
+[phases.runs.scenario.clock_quantum]
+id = "optical-sr-lattice"
+provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (arXiv:1503.08457); not flown."
+y0 = 5.0e-17
+q_wf = 1.0e-30
+q_rw = 0.0
+[phases.runs.scenario.clock_classical]
+id = "csac-sa45s"
+provenance = "Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_wf=sigma_y(1s)^2."
+y0 = 5.0e-10
+q_wf = 9.0e-20
+q_rw = 0.0
+
+[[phases.runs]]
+series = [
+  { channel = "cn0_l1ca_dbhz", unit = "dB-Hz", t = "timeline.t_s[]", y = "timeline.bands[0].cn0_effective_dbhz[]" },
+  { channel = "cn0_e1_dbhz", unit = "dB-Hz", t = "timeline.t_s[]", y = "timeline.bands[1].cn0_effective_dbhz[]" },
+  { channel = "cn0_floor_dbhz", t = "timeline.t_s[]", y = "receiver.tracking_threshold_dbhz" },
+  { channel = "alarm", t = "timeline.t_s[]", y = "timeline.bands[0].cn0_effective_dbhz[]", compare = "below", threshold = 25.0 },
+]
+[phases.runs.scenario]
+kind = "spectrum"
+seed = 7
+duration_s = 60.0
+step_s = 1.0
+[phases.runs.scenario.receiver]
+noise_figure_db = 2.0
+antenna_temp_k = 290.0
+tracking_threshold_dbhz = 25.0
+[phases.runs.scenario.grid]
+f_min_mhz = 1160.0
+f_max_mhz = 1590.0
+n_freq = 430
+[[phases.runs.scenario.jammers]]
+name = "chirp privacy device"
+waveform = "chirp"
+centre_mhz = 1575.42
+bandwidth_mhz = 16.0
+sweep_period_us = 9.0
+eirp_dbw = -13.0
+range_m = 100.0
+on_s = 10.0
+
+[[phases.runs]]
+[phases.runs.scenario]
+kind = "integrity"
+seed = 7
+mask_deg = 5.0
+sigma_uere_m = 1.0
+p_fa = 1.0e-5
+p_md = 1.0e-3
+al_h_m = 40.0
+al_v_m = 50.0
+[phases.runs.scenario.time]
+step_s = 10.0
+duration_s = 60.0
+[phases.runs.scenario.user]
+altitude_km = 0.4
+inclination_deg = 45.0
+raan_deg = 10.0
+u0_deg = 0.0
+[phases.runs.scenario.constellation]
+altitude_km = 20200.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
+
+# ---------------------------------------------------------------- holdover
+# The chirp stays on: L1 C/A and E1 are both below the 25 dB-Hz tracking floor, and
+# the clock free-runs from its last synchronisation, continuing the onset error.
+[[phases]]
+name = "holdover"
+duration_s = 600.0
+carry = ["time_error_ns"]
+
+[[phases.runs]]
+[phases.runs.scenario]
+seed = 43
+threshold_ns = 50.0
+[phases.runs.scenario.time]
+step_s = 10.0
+duration_s = 600.0
+[phases.runs.scenario.gnss]
+windows = [
+  { t0 = 0.0, t1 = 1.0, state = "nominal" },
+  { t0 = 1.0, t1 = 600.0, state = "denied" },
+]
+[phases.runs.scenario.clock_quantum]
+id = "optical-sr-lattice"
+provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (arXiv:1503.08457); not flown."
+y0 = 5.0e-17
+q_wf = 1.0e-30
+q_rw = 0.0
+[phases.runs.scenario.clock_classical]
+id = "csac-sa45s"
+provenance = "Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_wf=sigma_y(1s)^2."
+y0 = 5.0e-10
+q_wf = 9.0e-20
+q_rw = 0.0
+
+[[phases.runs]]
+series = [
+  { channel = "cn0_l1ca_dbhz", unit = "dB-Hz", t = "timeline.t_s[]", y = "timeline.bands[0].cn0_effective_dbhz[]" },
+  { channel = "cn0_e1_dbhz", unit = "dB-Hz", t = "timeline.t_s[]", y = "timeline.bands[1].cn0_effective_dbhz[]" },
+  { channel = "cn0_floor_dbhz", t = "timeline.t_s[]", y = "receiver.tracking_threshold_dbhz" },
+  { channel = "alarm", t = "timeline.t_s[]", y = "timeline.bands[1].cn0_effective_dbhz[]", compare = "below", threshold = 25.0 },
+]
+[phases.runs.scenario]
+kind = "spectrum"
+seed = 7
+duration_s = 600.0
+step_s = 10.0
+[phases.runs.scenario.receiver]
+noise_figure_db = 2.0
+antenna_temp_k = 290.0
+tracking_threshold_dbhz = 25.0
+[phases.runs.scenario.grid]
+f_min_mhz = 1160.0
+f_max_mhz = 1590.0
+n_freq = 430
+[[phases.runs.scenario.jammers]]
+name = "chirp privacy device"
+waveform = "chirp"
+centre_mhz = 1575.42
+bandwidth_mhz = 16.0
+sweep_period_us = 9.0
+eirp_dbw = -13.0
+range_m = 100.0
+on_s = 0.0
+
+# ---------------------------------------------------------------- fallback
+# The chirp is gone; the CW tone on the L1 carrier remains. L1 C/A stays below the
+# floor; E1, whose MBOC spectrum has a null at its carrier, recovers. The receiver
+# re-synchronises the clock on Galileo and runs RAIM on a Galileo-only sky. The alarm
+# channel follows E1, the band the receiver now navigates on.
+[[phases]]
+name = "galileo-fallback"
+duration_s = 300.0
+
+[[phases.runs]]
+[phases.runs.scenario]
+seed = 44
+threshold_ns = 50.0
+[phases.runs.scenario.time]
+step_s = 10.0
+duration_s = 300.0
+[phases.runs.scenario.gnss]
+windows = [{ t0 = 0.0, t1 = 300.0, state = "nominal" }]
+[phases.runs.scenario.clock_quantum]
+id = "optical-sr-lattice"
+provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (arXiv:1503.08457); not flown."
+y0 = 5.0e-17
+q_wf = 1.0e-30
+q_rw = 0.0
+[phases.runs.scenario.clock_classical]
+id = "csac-sa45s"
+provenance = "Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_wf=sigma_y(1s)^2."
+y0 = 5.0e-10
+q_wf = 9.0e-20
+q_rw = 0.0
+
+[[phases.runs]]
+series = [
+  { channel = "cn0_l1ca_dbhz", unit = "dB-Hz", t = "timeline.t_s[]", y = "timeline.bands[0].cn0_effective_dbhz[]" },
+  { channel = "cn0_e1_dbhz", unit = "dB-Hz", t = "timeline.t_s[]", y = "timeline.bands[1].cn0_effective_dbhz[]" },
+  { channel = "cn0_floor_dbhz", t = "timeline.t_s[]", y = "receiver.tracking_threshold_dbhz" },
+  { channel = "alarm", t = "timeline.t_s[]", y = "timeline.bands[1].cn0_effective_dbhz[]", compare = "below", threshold = 25.0 },
+]
+[phases.runs.scenario]
+kind = "spectrum"
+seed = 7
+duration_s = 300.0
+step_s = 10.0
+[phases.runs.scenario.receiver]
+noise_figure_db = 2.0
+antenna_temp_k = 290.0
+tracking_threshold_dbhz = 25.0
+[phases.runs.scenario.grid]
+f_min_mhz = 1160.0
+f_max_mhz = 1590.0
+n_freq = 430
+[[phases.runs.scenario.jammers]]
+name = "CW tone on L1"
+waveform = "cw"
+centre_mhz = 1575.42
+eirp_dbw = -20.0
+range_m = 1000.0
+on_s = 0.0
+
+[[phases.runs]]
+[phases.runs.scenario]
+kind = "integrity"
+seed = 7
+mask_deg = 5.0
+sigma_uere_m = 1.0
+p_fa = 1.0e-5
+p_md = 1.0e-3
+al_h_m = 40.0
+al_v_m = 50.0
+[phases.runs.scenario.time]
+step_s = 30.0
+duration_s = 300.0
+[phases.runs.scenario.user]
+altitude_km = 0.4
+inclination_deg = 45.0
+raan_deg = 10.0
+u0_deg = 0.0
+[phases.runs.scenario.constellation]
+altitude_km = 23221.664
+inclination_deg = 56.0
+planes = 3
+sats_per_plane = 8
+phasing_f = 1.0

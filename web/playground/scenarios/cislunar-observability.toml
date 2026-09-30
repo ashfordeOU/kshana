@@ -1,0 +1,33 @@
+# Planar cislunar constellation observability over a tracking arc (P6).
+#
+# A small four-spacecraft near-DRO planar constellation near the Moon is tracked by
+# inter-satellite ranging. The scenario answers the batch-estimator question: how much of a
+# spacecraft's four-state [x, y, xdot, ydot] does the arc actually make observable, and how
+# does that grow with arc length? It assembles the observability structure from the crate's
+# finite-difference-validated CR3BP variational STM (src/cr3bp.rs) and the analytic
+# inter-satellite range / range-rate Jacobians (src/intersat_range.rs), and emits:
+#   1. the rank-vs-arc-length table for a single range-only link -- instantaneously rank-1,
+#      growing toward the full four-state as the arc lengthens (P6 Table 1);
+#   2. the observability-Gramian eigen-spectrum + condition number over the arc; and
+#   3. the range-only vs range+range-rate instantaneous-rank comparison (the Doppler design
+#      lever) plus range-only-singular / range+rate-defined GDOP reporting.
+# (src/cislunar_observability.rs, src/observability_gramian.rs)
+#
+# Honesty: MODELLED. VALIDATED core -- the observable RANK is a rank-revealing
+# singular-value threshold cross-checked against the Gramian eigen-rank; the eigen-spectrum
+# obeys the spectral invariants (trace = sum eig, det = prod eig, Frobenius^2 = sum eig^2);
+# the variational STM is the finite-difference-validated CR3BP STM; the range / range-rate
+# Jacobian rows are finite-difference-validated analytic partials (cross-checked against the
+# crate's 3-D range-rate observable); a rank-deficient snapshot is flagged GDOP-undefined
+# (fim condition = inf), never a bogus finite value -- the same singular-geometry guard
+# pvt::solve_spp applies. MODELLED -- the four near-DRO planar initial conditions (a
+# differential-corrected DRO seeder is a follow-on) and the specific rank progression they
+# produce. Not a certified navigation-performance product.
+kind = "cislunar-observability"
+
+# Every field is optional and shown at its default. Uncomment to override.
+# mu        = 0.012150585609624   # Earth-Moon mass ratio
+# arc_hours = 6.0                 # tracking-arc length (hours)
+# epochs    = 24                  # epochs sampled along the arc
+# steps     = 2000                # RK4 sub-steps per STM propagation
+# rel_tol   = 1.0e-6              # singular-value threshold for the observable-rank read

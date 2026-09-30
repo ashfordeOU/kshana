@@ -1,0 +1,45 @@
+# LEO navigation message: signal-in-space range error (SISRE) versus fit interval.
+#
+# A low Earth orbit (LEO) positioning, navigation and timing (PNT) satellite broadcasts
+# its orbit as a compact parameter set fitted to a short arc. The question: how long can
+# one message cover before its representation error outgrows the target, and what does a
+# set of along-track, cross-track and radial (RAC) correction polynomials buy?
+#
+# Truth: a 550 km, 97.6 deg orbit integrated with the EGM2008 gravity field to degree 20
+# and drag. Each message is fitted over its interval and used over a period centred in
+# it. Two models: the Galileo Open Service Signal-in-Space Interface Control Document
+# (OS SIS ICD) 16-parameter Keplerian set, and that set plus RAC polynomials of degree
+# 7 (along), 5 (cross) and 6 (radial). Why so high: the least-squares Keplerian residual
+# is what the 16 parameters cannot span, so it oscillates across the window, and only a
+# polynomial of higher degree than the Keplerian set already spans removes it (a
+# cross-track polynomial of lower degree removes almost nothing). SISRE uses the
+# global-average weights for the
+# orbit altitude (Montenbruck et al. 2018 method): at 550 km the radial weight is about
+# 0.47 and the transverse weight squared about 1/2.6, so along- and cross-track errors
+# count far more than for medium Earth orbit.
+#
+# The first table sets the usage period equal to the fit interval (1 to 15 minutes);
+# the second holds a 5-minute fit and shortens the update period. No preset is used: the
+# numbers are Kshana's own truth and fit, the representation error only (no orbit
+# determination or prediction error). MODELLED.
+kind = "leo-navmsg"
+name = "LEO message fit-interval trade"
+seed = 11
+analysis = ["fit-interval-trade"]
+
+[orbit]
+altitude_km = 550.0
+inclination_deg = 97.6
+gravity_degree = 20
+cd_area_over_mass = 0.005
+
+[message]
+model = "kepler-rac"
+rac_degrees = [7, 5, 6]
+
+[trade]
+span_s = 1800
+fit_intervals_s = [60, 120, 180, 300, 450, 600, 900]
+update_periods_s = [30, 60, 150, 300]
+update_fit_interval_s = 300
+models = ["kepler16", "kepler-rac"]

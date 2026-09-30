@@ -1,0 +1,126 @@
+# Multi-band jamming waterfall: low Earth orbit (LEO) positioning, navigation and timing
+# (PNT) signals in four bands (UHF, L, S and C) beside GPS and Galileo, each band with
+# its own jammer, drawn as one waterfall per band on one timeline.
+#
+# A LEO-PNT system that spreads its signals over several bands is harder to deny than a
+# single L-band system: a jammer built for one band leaves the others alone. This
+# scenario shows that with the `spectrum` kind's spectral separation coefficient (SSC)
+# chain, band by band. Every signal is public or representative; none depends on a
+# particular LEO system:
+#   UHF  generic-uhf (465 MHz, BPSK(5) pilot and data, 10 MHz), -150 dBW   [representative]
+#   L    xona-x5 (1190.51625 MHz, published), at its -144.9 dBW minimum; GPS L1 C/A and
+#        Galileo E5a at their specification minimums
+#   S    generic-s (2492.028 MHz, BPSK(5), 16.5 MHz), -150 dBW              [representative]
+#   C    generic-c-band-leo (5020 MHz, BPSK(10), 20 MHz), -152 dBW          [representative]
+# (BPSK binary phase-shift keying.) The LEO designs are drawn with every component,
+# band-limited to their transmit bandwidth.
+#
+# Timeline (60 s, one row per second):
+#   10 s  a continuous-wave (CW) tone at the UHF carrier, -120 dBW received.
+#   20 s  a chirp (swept) jammer 16 MHz wide around L1, 9 microsecond sweeps, 50 mW at
+#         100 m: it takes GPS L1 C/A and leaves the L5-band signals alone.
+#   30 s  wideband (barrage) noise, 40 MHz around 1185 MHz, -118 dBW: it hits Galileo E5a
+#         and Xona X5 together.
+#   40 s  narrowband noise, 2 MHz at the S carrier, -128 dBW.
+#   50 s  noise matched to the C-band signal's own spectrum, -124 dBW.
+# The [grid] waterfall is the L band; three [[panels]] add UHF, S and C.
+# MODELLED: the signal spectra are validated closed forms; every jammer, power and
+# timing here is a scenario input.
+kind = "spectrum"
+seed = 11
+duration_s = 60.0
+step_s = 1.0
+
+[receiver]
+noise_figure_db = 2.0
+antenna_temp_k = 290.0
+tracking_threshold_dbhz = 25.0
+
+[grid]
+f_min_mhz = 1160.0
+f_max_mhz = 1600.0
+n_freq = 440
+
+[[panels]]
+name = "UHF"
+f_min_mhz = 455.0
+f_max_mhz = 475.0
+n_freq = 200
+
+[[panels]]
+name = "S band"
+f_min_mhz = 2482.0
+f_max_mhz = 2502.0
+n_freq = 200
+
+[[panels]]
+name = "C band"
+f_min_mhz = 5005.0
+f_max_mhz = 5035.0
+n_freq = 200
+
+[[bands]]
+name = "generic-uhf"
+signal = "generic-uhf"
+signal_power_dbw = -150.0
+
+[[bands]]
+name = "gps-l1ca"
+
+[[bands]]
+name = "galileo-e5a"
+
+[[bands]]
+name = "xona-x5"
+signal = "xona-x5"
+
+[[bands]]
+name = "generic-s"
+signal = "generic-s"
+signal_power_dbw = -150.0
+
+[[bands]]
+name = "generic-c-band-leo"
+signal = "generic-c-band-leo"
+signal_power_dbw = -152.0
+
+[[jammers]]
+name = "UHF CW tone"
+waveform = "cw"
+centre_mhz = 465.0
+received_power_dbw = -120.0
+on_s = 10.0
+
+[[jammers]]
+name = "L1 chirp privacy device"
+waveform = "chirp"
+centre_mhz = 1575.42
+bandwidth_mhz = 16.0
+sweep_period_us = 9.0
+eirp_dbw = -13.0
+range_m = 100.0
+on_s = 20.0
+
+[[jammers]]
+name = "L5-band barrage"
+waveform = "wideband"
+centre_mhz = 1185.0
+bandwidth_mhz = 40.0
+received_power_dbw = -118.0
+on_s = 30.0
+
+[[jammers]]
+name = "S narrowband noise"
+waveform = "narrowband"
+centre_mhz = 2492.028
+bandwidth_mhz = 2.0
+received_power_dbw = -128.0
+on_s = 40.0
+
+[[jammers]]
+name = "C matched noise"
+waveform = "matched"
+centre_mhz = 5020.0
+matched_to = "generic-c-band-leo"
+received_power_dbw = -124.0
+on_s = 50.0

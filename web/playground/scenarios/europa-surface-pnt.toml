@@ -1,0 +1,46 @@
+# Positioning a lander on Europa: the Jovian-moon case.
+#
+# A lander at 20 deg north, 60 deg east on Europa's surface navigates for one Europan day
+# (3.55 Earth days, the synchronous rotation period) with twelve navigation satellites at
+# 4 500 km in three planes inclined 55 deg, under a 10 deg elevation mask, and a two-way
+# range from Earth whenever the Earth is above the lander's horizon. Europa is tidally
+# locked, so from a fixed site Jupiter never moves in the sky, while the Earth, riding
+# with Jupiter, rises and sets once per Europan day: the Earth link is available only for
+# part of the run, and the report shows what the local constellation must carry alone.
+#
+# The Europa constants (gravitational parameter, mean radius, International Astronomical
+# Union (IAU) pole and prime meridian)
+# are the published values cited in src/body.rs; no J2 (second zonal harmonic) is carried
+# for Europa, so the relay
+# orbits are two-body. The Earth-Europa light time is about 36 minutes one way at this
+# epoch, near a Jupiter opposition.
+#
+# One simplification matters more here than at Mars: the relays orbit inside Europa's Hill
+# sphere (about 13 700 km) but Jupiter's pull on them is not modelled, so their orbits are
+# idealised. The run shows the geometry and what the Earth link adds (availability rises
+# from about half the Europan day to about three quarters), not a flyable design.
+#
+# MODELLED: the constellation, the noise and the measurement model are modelling choices.
+kind = "body-pnt"
+body = "Europa"
+epoch = "2027-02-19T00:00:00"
+duration_s = 306822.0
+step_s = 1800.0
+seed = 11
+
+[user]
+kind = "surface"
+lat_deg = 20.0
+lon_deg = 60.0
+
+[constellation]
+planes = 3
+sats_per_plane = 4
+altitude_km = 4500.0
+inclination_deg = 55.0
+sigma_range_m = 1.0
+mask_deg = 10.0
+
+[earth_link]
+enabled = true
+sigma_range_m = 1.0

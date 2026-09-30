@@ -1,0 +1,448 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Spectrum model and waterfall · Kshana docs</title>
+<meta name="description" content="Spectrum model and waterfall. Kshana documentation, generated from the repository.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 64 64'%3E%3Cstyle%3E.d%7Bdisplay:none%7D%40media (prefers-color-scheme:dark)%7B.l%7Bdisplay:none%7D.d%7Bdisplay:inline%7D%7D%3C/style%3E%3Cimage class='l' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMFElEQVR42qWbaaxdVRXHf3vf84Y%2BqC1tqS2UFCwUAko1UqMgEhIcMEoc0DgkDkiiET6oERFwilMCipioifBBgyZqFNREFA1OiaLEOiGKRAaFliqTrS2P17737tl%2B4L/rYncP5%2BFNTu65555hr3mt/1rHzazaTOPj9B0K/wV9x/3A8E/r3hT%2Bd4Vj6bk%2BWZNL9vGFB7vkWMj8nzsnmOOucu90sU5r8cnCa0yprTd%2B%2BgIdznKIBrGh8oBQOZZjRkqwZZyVVF94Rnpvl7lHjiEuw7AA0A3gssuoel9Qx9y%2BGyAZKqZTMpMhgqldCxD8gIvjgl2yn5Nqbj9ng88FTh6g1qHgV1xFYOm5vsAkDzhf4WBOlUPFCYUBdhmfdypwSsMMQ8Peo59IBeKAkb4ngMMisRmTYTSxbLUb4GiG/u8KzPEJcf8E7gT2JOf7RhRxA6NCEBM2AWcAfwf2527YLdEWW2EuFJiQmtVRwCKwo%2BJL0numpuQK2uKBGWANcBnwCmAa%2BAHwoJ57wJd1FZVeSqwOhf0SYSNg0iykyxDTVzSq5Ejt%2BT0wC9wNPALM5QTZZcKVK/iAGpN8wQ%2Bk%2B/F7NfCYzh9XNGpkiClJP13HWN/PB64E1gK/B/blaOgaHjunYi2vm2NWDJ0L%2Bh1V8SRFhLHOmZN/2A7co3MwTqzPJFyWWWPgSOB84MvAfcBDhviDaIhOMOe1fUXlS%2BoeCils0P3WaaHH6rwdIniXtmXACcDpwNnan9c5wXj3VEidiD8ReD9wtRxfJ%2BcXSg7TmVrAVZKIIWHQHveSVgcsB46QZAJwB/Bx2ec7K%2Bp/uLTjDN3v%2B8BPEmnHkLcIbAU%2BIgbcZtbga4mbG1AMLaWwsUw5WhKfBh6VROakjlu0qD8l/sMV0uETgVfpXl%2BSeVjizwI%2BDbxODO6Mty8JEcB1hZQ1JMfDAK8f9OBJ4FkiYDuwWwyIqtoD66Xaltj0Gd7kBbdr2wq8BfgF8HP5lNeI%2BJclxOfM8CBt7yoqPsSureSn5XFPkITubiQ4LXMKGSe4Dfgd8FpghWL8Z%2BUzbjO%2BYEhJfUADaBQMrTohyHkdJTvfJoeWS1ZS6VJzUMmxXioP8A3gA8CHgWcCf8lIvpZSH6DDDyQ%2BVBa2TCq9DrjFEB8KdUVkwKiQ47tKhhnzhiuBj8nmNyc%2BI6e9xYjmB%2Bb/pbR3QoRvBH4tJ%2BcKBLskxI4G1hkhqUQ/D7wHeClwvfzNeYmGDMkaswtzSyyKDpXa32zUr5RZpgzJaVifATW8OfY14ALg5cCNcrgfBV4CvMCExhoQ8oRn%2Bga44DIwljNq9XTgD8aju4L6t2p6KslYLwd7HfB64FzgBmlfL8Z/EvigzHEotJf1zqEARqQE9HI%2B9ymu%2B0oqXZNAqZawydQK4LvAK4E3SO0nFAIXtf9H4Fbg4sQUQiFqkTpB1/DEqdSO1IMekdrV6nOXASR8ZpEhk9evlaq/GHgb8HVDfPws6n6fkWlsMDYfKlVtERXuG8RHxzenBMcnmpODxlJvPGEYMJEwJxK/EbgJeB5woTLAkYh3maRpJ/Ar4B2mbmiV88Fnyl/fyPFXaNF/TQDSUIjpXudPaYtET%2Bi/eHykY2MhOT8Sbngh8AVj8yWQ1QHXyiEeYhxiqAGnfkAiYm0yquXeDIdz1WInBzYpAmbkqCa1P2V%2BP0XSPUlFz/HAe0X8qJLeWlzwt/JJp5s116KY9wNzgMiYFVrov43th0rY7LRNSSrLRPihYsyMtuXCB0%2BT5Dcq1l9ptCJUsABrXtuAMxtRLDKv94V8gALgEI8/PACbmxDxE4bwGaG0a8SQFfq9qMTme3KwFwNXZSSfC8fps3%2BqoikHq6VMcD4TKkroT6%2B6flXB2aWLGZnqcFoEr5YDXS7i1%2Buac5TkHAZcAlwhZvUNGw5GePG8O4GV5noy5hBsNUgD5UmZsNPgbiVm%2BYT45TKdNTpvrX6vBp4NXKrzPyQ0Z60Ak1FGKKHSd3DAvdKaDcDfjO8KmQSLrtIMKTnCfQ0gE/0fuT8p5zaSKWwRYDkr1Ods3fMS4Cti2H8UZsOT6EnOCQZbmcEaDrq%2ByxA4MhLstD8polYp7T3axPLOXGND3rS2qI5HybmdITtHnr6X7f9LoMZubfMiZEHnjJNtUdvYMLw3/mqlGB7LZItAR41wXSGERc89YUJYJCp69N6EuciEkbl2ShKOTFgtJqzLSG9CQKkXI9aI%2BFlD4H4xJabAC0Yb5w0TYl0SzS/SNE5CZoiNkTT3n9c2W4gK80J7Wp9J2f6MbHqVGLBTah%2BAfyjZOUsx/GrjX3b9H/jkgtL05j26JQwhkKSuvjItYrVluek/LEjdpyXF74gpF6iiO0XI7j26Lko6DLB/C9BMKVeptemwnaHW%2BEv8f4%2Bkae3KVXA%2BJ03qje2N1RjZJXW/VyDnWwVsbAVerYRmslBs1TpTh8sUdzacerV3XsIIZhW%2BukIOYKNArNRm1QbbLbV8UIzco4bHvI5dJCZMA78B3m7s2Tc008b5TWLu3oQ%2Bt1QG5BgyqxvNFKo9O0Eyb5zWPl27V62qB7TI3VLVOd3zWkFcNwJfVIk7SjI6V%2BlWOTVT/pzQ50r5g2/cLEV0x1rwdCZ/SHsJYxG/IEbMSRP2alvQd9SQWdnv/UqL3we8W7XBcgN0hELuEk3lVNNB6luAb2tCJFW/XhI81pS2roAlBMOAfQpj8XtRWEIkfl7f%2B83zPgW8EHiGurubdF1X0IZeecYK%2BZTawJfLIUIlCKtPsIIHRNQhjbmASMiiCIxmEAzBYx3fl8TyGG1%2BrDD5kJhwsoHBchjGeeoY7S1oy0G%2Bw1e6PVTUbQdwjFlIqU63v8emsps3hC4WGhoxfX5A9f31YsKZuj7NYqdUTl%2BbADWuMFZXhcVzdb79b6cqt/WZerw02mI9dT8gtDnT3Q2S7mWy73OMJkSk6HxBYnclMB1DfYBrTIOm0rxdOf2ogSSViqVcCe4zDOxNeX058Gbgm8AbjY85AniRMARXGLQMrWKoHzD5YY9FLdiqrpBPYnIotL1Lrbac%2BfXJ/iTwVeUP15hw%2Bhx1jHZl5gFKWncAEgsDZnBdQUvu0f5xpjiiQLwrSMMP6OJavxCd47lqjl6hOuOmDEIdEka6EiRWcn6tenxObenD1CVayJhVSLpJNRg%2BNDpHGEZH4h4DnpZp9NRadAfWlhuUzCVFoXDMK3bvlx2ulWmU/EhUzxPkxO40md4QYNaZuv9Eo3G7dOzuwv2KeGdXKXxcwZvnmPCwCDpOTcptJq57Q7gNfaEyYttnzM3rukngXUqjL9X/pylMnq1e5cjUI77ic5wf2LujMJpuJbtb5rBdqM9Gk8KmUxsTA2b8rdnEJugpPD4RcpecYMQdb%2Bbx0ZnrhAWODYrd1ybNu8JUtjNg4lLeztinhuku%2BYT1Ona/St/4jEf539wQhQzSOq91wJt0v8%2BpKzUyzJ0EfqgO8beULO0v2b097mZWbc6NkdVmg2qDDD6BnI5RE%2BRw09C8QwVLEDhSm0HeLJxwE/AzSTgdkwsmdV6QeWxVnmBnhkKuPzB0TK42REXDb0Ss8KmKFrslqQeV2UViOmENG1QAxYLrFs0D9A21xgA1V8kvfaIwO0SNAa4yBucqLyW5Ss8/XewWha8FEevFIGcAkttkTiQjdqHhp6IWXgN8W9iCzzjWkIsCpcSolBfUwk2fAV9ie3ujnn2D8IU4y7%2B/MCwdElWumWFk0kXqLd6q0Jx9L8EXpjPDgHhcwxBCobCx948w916TS2BMxmWaork154a0Y1S6XICrLwgniweEAa/BhIGpsiuYz9jA7qPk3HEDCA2FdaXvGozUGvulqsc%2B9%2BpMrb8XBjx8yHBl7r/7TYe5r2hOzcGWSndvmDySDzhEZtfn5gTdwBw8VCRN5UXK3Ls8qxQeHUt7NykMQIf7xOwcjw9ZbVKoLE6I1KQw5EWJ1psi1kMfrxi/lJcyQ%2BUt1VbWOqsUeSo9t/a%2BwFLH42k0V6wGjJ/EvWpNm1ZzppQIBd8YhK5FgNBwfKV54XEyLO0KpevQ94MZMKqTY1KgULu3HthSzSHmkJtFKFWdtcmV1subzbHfVufELUFNSxOmbgBzfAFUrYG2ruGb%2BsL7hk9Y738BiK3K27ls0kUAAAAASUVORK5CYII='/%3E%3Cimage class='d' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMDUlEQVR42qWbaaxeVRWGn32%2Bcwc6UNrS0kJJwTIYUKqRGgSREHGMEgc0DokDkmiEH2pERJzilAAiJmoi/NBUEzVKlShaDU6JoERURBSJQBVKKy1Dr5TLHb%2Bz/dF3Xxe7ezi33uTkO/eMe81rvWsdt3fCU/lz%2BvWZc16/Yb/6wEU8m8x5lzkWX9tEa3LRPk3mxS465hPnU9d4c9wVnh0v1mktTbTwElNK6w1/XYYOZzlEhVhfeIEvHEsxIybYMs5Kqsu8I362SzwjxRCXYJgHaHtw2SVUvcuoY2rf9ZAMBdPJmUkfwZTuBfBNj5vDgl20n5Jqaj9lg2cAp/VQa5/xK64gsPjaJsOkBnBNgYMpVfYFJ%2BR72GV435nA6RUz9BV7D34iFogDBvodAVYGYhMmQ5sgJpYehfM5de0ShFuivg/MZ7x21yN61HzPUEw4HtgC/BB4InV9u0hbrIW5OCTmzOpYMeChgi%2BJnxmbkstoSwMsAY4ErgBeA4wDPwH26r0LvqxdhFR95ZzLOKcUYQNg1CykTRDTZZhZcqT2%2Bg6YBO4HHgOmUoJsE%2BHKZXxAiUlNxlTi/fC7GnjKqGvub2CIyUk/XsdQvy8ErgHWAn8CplM0tBWPnVKxmtd1Gb/SAXP6P6jiqYoIQ10zBfwb2AnsMH6iMc/wmRA40HOOAS4Cvg48CDxiiD%2BIBrd3wudSzqZAvMssxBdS2AY4SpI/S4u6B1gKLAPGgPXARkltVAT8BrgjoRF2Ha2YdQrwPuBq4F4d7wp5C87UAq6QRPQJg/Z48OYtsBw4WpLxIvozss/3FtR/jbTjHD3vx8AvImmHkDcvb/9J4MPAXWYNTSlxcz2KocUUNvZhxwHr5IGfBP4pFZ8GNmtRf4n8h8ukw6cAr9OzvibzsMSfB3weeJMY3BpvnxMigGszKauPjvseXj%2Bo4ijwXBGwE5gQAzAquR6YjYiN39EYM7xb2xbgHTKLX8unvEHEvyoinkouA%2BDbgorX7Do2h3HZ7jMlofvNNU0hc3SFxCZ2grcDfwTeCKxQjP8icLbUvo2iiqvkN64tXOB71gkeOEzJzTFa5L5MshJLt0%2BWaeP6QMe%2BA3wU%2BATwHOBvCcmXUuoFOpqexPvCwg6TSq8DbjPE%2B0xdERgwyOT4rpBhhrzhGuDTsvmTIp%2BR0t4c7rFwwh2C0/MqNtYpdP1OTs5lCHZRSBz0BDx8VGN8GfgA8Epgm/zNhZGG9MkakwtzlcXEi10mtb81Km5cJinymQrQRxlfqupzwLeAi4FXA9vlcD8FvBx4kQmNJSDkae9sKuCCS8BYzqjVs5SkzGZSZt%2Bzps%2BV0CGGjwM3AG8GLgBukvZ1YvzngI/JHPtCe0nv7DNgRExAJ%2BfzoOJ6U0ilSxLI1RI2mVoB3Ai8FniL1H5EIXBe%2B38G7gQui0zBZ6IWsRN0i6z3j9GLHpPalVBblwAkmsQifSKvXytVfxnwLuDbhvjwN6/nfUGmscHYvC9UtVlUuKsQHxzflBKcJtKcFDQWe%2BMRw4CRiDmB%2BI3AzcALgEuUAQ5EvEskTbuB3wLv0fsGPcp53yTK36aS46/Qov8eAaQ%2BE9MbXT%2BmLRA9onPh%2BEDHhsAm4GfCDS8BvmJsPgeyOmCrHOJS4xB9CVVqesJd3tTaa4H9CQ6n6v5WDmxUBCyRoxrV/pj5/3BJ91QVPScDHxTxg0J6a3HBP8gnnW3WXIpiTdMzBwiMWaGFPm5s3xfCZqttTFI5TIQvE2OWaFsuzO4sSX6jYv01Rit8AQuw5nU7cG4ligXmdU0mHyADOITjj/bA5kZE/IghfIlQ2iPFkBX6f16JzY/kYC8Drk1IPhWO43f/UkVTClaLmeCaRKjIoT%2Bd6vpVGWcXL2ZgqsNxEbxaDnS5iF%2Bve85XkrMSuBy4SszqKjbsjfDCdfcCR5j7SZiDt9VgCeBMMWG3wd1yzGoi4pfLdI7UdWv1/2rgecBHdP3Hget0ftIgQLlcJWWqD0hrNgD/ML4rCb%2B3hWZIzhFOV4BMdD5wf1TObSBT2CzAclKozyv0zMuBb4hh/1GY9YfQF5gCZqQFZLTIWycVEzgwEmy1PyqiVintPc7E8tbcY0PeuLagjsfKuZ0jO0eevpPtPyxQY0LbrAiZ0zXDaJvXNjQM74y/OkIMD2WyRaCDRrg2E8KC5x4xISwQFTx6Z8JcYMLA3DsmCQcmrBYT1iWkNwKcIAY%2BLFOZkZYEAmfElJACzxltnDVMCHVJML9A0zAKmT40RuLcf1bbZCYqzArtqf2NyvaXyKZXiQG7pfYe%2BJeSnfMUw68z/mXf/4FPzilNrz6jXcQQAlHq2hSmRay2LDf9hzmp%2B7ik%2BAMx5WJVdKcL2d2h%2B4KkfQ/7twDNmHKVUpsO2xmqjb%2BE809ImtauXAHnc9KkztjeUI2RfVL3BwRyvlPAxhbg9UpoRjPFVqkztUamuLvi1Iu98xxGMKnw1WZyABsFQqU2qWbIhNRyrxj5hLpAszp2qZgwDvweeLex56aimTbObxJz90f0ucUyIMWQST1oSabasxMks8ZpTeve/WpV7dEiJ6SqU3rmVkFc24GvqsQdRBldLmMN584A/hrR53L5Q1N5WIzoDrXg8UT%2BEPcShiJ%2BToyYkibs1zan36Ahk7LfXUqLPwS8X7XBcgN0%2BEzuEkzlTNNB6mqAb21CJFa/ThI8wZS2LoMleMOAaYWx8DsvLCEQP6vfGfO%2Bq4GXAM9Wd3eT7msz2tApz1ghn1Ia%2BHIpRCgHYXURVrBHRC2tzAUEQuZFYDADbwge6vh0FMtDtPm5wuQjYsJpBgZLYRgXqmO0P6MtB/mOptDtoaBuD3Fg/GSkMMbmE2Mr8yaX6IyjTDU0Qvq8R/X9NjHhXN0fZ7FjKqe3RkCNy4zVFWHxVJ1vz%2B1W5bY%2BUY/nRlusp%2B56hDZnurte0r1C9n2%2B0YSAFF0kSOy%2BCKajrw9wlWnQWJp3K6cfVJCkXLGUKsGbBAM7U15fCbwd%2BC7wVuNjjgZeKgzBZQYtfa0Y6npMfthjQQu2qCvURDHZZ9reuVZbyvy6aH8U%2BKbyh%2BtNOH2%2BOkb7EvMAOa1bgMR8jxlcl9GSHdo/0RRHZIh3GWk0Pbq41i8E53iBmqNXqc64OYFQ%2B8RESRISyzm/Wj0%2Bpbb0SnWJ5hJm5aNuUgmG95XOEYbRgbingGckGj2lFt3C2vpw31Ug7yelCYcL3ekKQ9EUxmf7ToqGaLISuEVm8DjwYh0fFCC%2Bg8J1Wyh8XMabuwQTHtXLT1ST8nYT1xtjlzb0%2BcKIbZcwt0b3jXJgEGpCUBoKf9tUZt9hmiu5Ya8FupqevTsyo%2BnWjidkDjuF%2Bmw0KWw8tTHSY8bfmk1ogp7OgYmQ%2B%2BQEA%2B54KwdGZ24QFjg0KHZX0oI2M5XtDJi4mK8zptUw3SefsF7Hdqn0De94kv/NDZHJIK3zWge8Tc/7krpSA8PcUeCn6hB/T8nSTGEOeuG42zvhU2NktZk/VwBNLeR0vJoga0xD8x4VLF7gSGkG%2BSThhJuAX0nC8ZicN6nznMxji/IEOzPkU/2BvmNypSEqKn4jYIVHyXFNSFJ7ldkFYlo50g0qgELBdZvmAbqKWmOAmmvllz6bmR2ixABXGINzhWlSV%2Bj5xy/ZrPA1J2LDFKkzAMldMieiETtf8VNBC6/nwFj%2B9kgzk%2BPyLsrgXGEWv9RKd4VzjWlvb9S7b1IIm9E1M5lhaR%2BpcskMA5MuVW/xTmWtLjW212SmM33FHFwFQ/CZwsY%2BP8Dc%2B7U/Y4geRFC2TwxclYa0Q1S6UoBrkxFOEg/wPT6D8T1TZZcxn6GB3QfRtcMKEOoz64q/NRioNXaLqscu9elMqb/ne7y8z3Bl6twu02HuCppTcrC50r0xTB7IByyV2XWpOUHXMwf3BUlT%2BJAyZthAxcuyymyC64lU5ypIm1HeqFA6UpoQKUmhz4cStS9FrIc%2BWTF%2BMR9l%2BsJXqrWsdVIp8lh8bel7gcWOx1NprlgNGB7Cs0pNm1pzJpcI%2BaYyCF2KAL7i%2BHLzwsNoWNplSte%2B3wfTY1QnxSRPpnavvbCmmn3MITWL4Cuf4vien9Muauy31jlxi1DT3ISp68GcJgOqlkBbV/FNXeZ7w6et978oq/I35bE6mwAAAABJRU5ErkJggg=='/%3E%3C/svg%3E">
+<script>try{var t=localStorage.getItem('kshana-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link href="../fonts/geist-geist-mono-unbounded.css" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../theme.css">
+<link rel="stylesheet" href="../site.css">
+<link rel="stylesheet" href="../css/docs.css">
+<link rel="canonical" href="https://kshana.dev/docs/spectrum.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kshana">
+<meta property="og:url" content="https://kshana.dev/docs/spectrum.html">
+<meta property="og:title" content="Spectrum model and waterfall · Kshana docs">
+<meta property="og:description" content="Spectrum model and waterfall. Kshana documentation, generated from the repository.">
+<meta property="og:image" content="https://kshana.dev/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 83 of 223 capabilities validated against external oracles.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Spectrum model and waterfall · Kshana docs">
+<meta name="twitter:description" content="Spectrum model and waterfall. Kshana documentation, generated from the repository.">
+<meta name="twitter:image" content="https://kshana.dev/og-card.png">
+<meta name="twitter:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 83 of 223 capabilities validated against external oracles.">
+</head>
+<body data-page="docs">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-copy" viewBox="0 0 16 16"><rect x="5" y="5" width="9" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-play" viewBox="0 0 12 12"><path d="M3 1.5v9l7.5-4.5Z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 12 12"><path d="M3 1.5h2v9H3zM7 1.5h2v9H7z" fill="currentColor"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 16 16"><path d="M9 3h4v4M13 3 7.5 8.5M12 9.5V13H3V4h3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-theme" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 16 16"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to content</a>
+<div class="bg-field" aria-hidden="true"></div>
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="../index.html" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.29.0</small></a>
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a href="../missions.html">Missions</a>
+      <a href="../capabilities.html">Capabilities</a>
+      <a href="../evidence.html">Evidence</a>
+      <a href="../developers.html">Developers</a>
+      <a href="../docs/index.html" aria-current="page">Docs</a>
+      <a href="../editions.html">Editions</a>
+    </nav>
+    <div class="nav-right">
+      <button class="k-btn" id="kbtn" type="button" aria-haspopup="dialog" aria-controls="palette"><svg width="14" height="14" aria-hidden="true"><use href="#i-search"/></svg><span class="lbl">Search</span><kbd class="kmod">⌘K</kbd></button>
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch between light and dark theme" title="Switch theme"><svg class="moon" aria-hidden="true"><use href="#i-moon"/></svg><svg class="sun" aria-hidden="true"><use href="#i-sun"/></svg></button>
+      <a class="pill" href="../playground/index.html"><span class="pill-l">Launch&nbsp;</span>Kshana Studio</a>
+      <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Open the menu" aria-expanded="false" aria-controls="navLinks"><svg aria-hidden="true"><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div class="docs docs-page">
+  <aside class="docs-side" aria-label="Documentation">
+    <div class="docs-search"><label class="vh" for="docsQ">Search the docs</label><input id="docsQ" type="search" placeholder="Search the docs" autocomplete="off" aria-keyshortcuts="/" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="docsR"><div class="docs-results" id="docsR" role="listbox" aria-label="Search results"></div><p class="vh" id="docsCount" aria-live="polite"></p></div>
+    <details class="docs-nav-d" open><summary>All docs pages</summary><nav class="docs-nav" aria-label="Docs pages"><div><h2>Get started</h2><a href="overview.html">Overview</a><a href="concepts.html">Concepts primer</a><a href="studio.html">Studio guide</a><a href="tutorials.html">Tutorials</a><a href="tutorial-first-orbit.html">1 · Your first orbit</a><a href="tutorial-clock-holdover.html">2 · Clock holdover</a><a href="tutorial-quantum-vs-classical.html">3 · Quantum against classical</a><a href="example-multi-tool.html">Worked example: multi-tool pipeline</a></div><div><h2>Scenarios</h2><a href="scenarios.html">Scenario kinds</a><a href="scenario-reference.html">Scenario reference</a><a href="schema.html">Result schema</a><a href="real-tle-guide.html">Using real TLEs</a><a href="campaigns.html">Campaigns</a></div><div><h2>Outputs and exports</h2><a href="reports.html">Run reports</a><a href="animation.html">Animation export</a><a href="interop.html">Interoperability exports and imports</a></div><div><h2>Validation and evidence</h2><a href="validation.html">Validation status</a><a href="verification-matrix.html">Verification matrix</a><a href="capability-reference.html">Capability reference</a><a href="modelled-rationale.html">Why rows stay Modelled</a><a href="claims-vs-reality.html">Claims against reality</a><a href="provenance.html">Provenance</a><a href="reproducibility.html">Reproducibility</a><a href="capability-map.html">Capability map</a><a href="standards.html">Standards and interoperability</a><a href="line-coverage.html">Line coverage</a></div><div><h2>Timing</h2><a href="slot-timing.html">Slot timing</a><a href="telecom-timing.html">Telecom timing</a><a href="deceived-time.html">Deceived time</a></div><div><h2>Integrity and interference</h2><a href="integrity.html">Integrity and security</a><a href="spectrum.html" aria-current="page">Spectrum and waterfall</a><a href="araim-reference.html">ARAIM reference</a><a href="compliance.html">DO-316 / DO-229E map</a><a href="resilience-crosswalk.html">Resilience cross-walk</a></div><div><h2>Orbits</h2><a href="sgp4-validation.html">SGP4 validation</a><a href="agency-orbit-validation.html">Force-model validation</a><a href="solar-system.html">Solar system and other bodies</a></div><div><h2>Low Earth orbit (LEO) navigation</h2><a href="leo-pnt.html">LEO positioning, navigation and timing</a><a href="leo-signal.html">LEO signal designs</a><a href="leo-pass.html">LEO pass and link budget</a><a href="leo-navmsg.html">LEO navigation message</a><a href="leo-pnt-fusion.html">Fused MEO and LEO positioning</a><a href="constellation-design.html">Constellation design</a></div><div><h2>Quantum sensors</h2><a href="quantum-models.html">Quantum-sensor models</a><a href="quantum-physics.html">Cold-atom interferometer</a></div><div><h2>APIs and integrations</h2><a href="python-api.html">Python API</a><a href="npm.html">npm and WebAssembly</a><a href="rust.html">Rust crate</a><a href="mcp.html">MCP server</a><a href="jetbrains.html">JetBrains plugin</a><a href="deployment-targets.html">Where Kshana runs</a><a href="architecture.html">Architecture</a><a href="positioning.html">Where Kshana sits</a></div><div><h2>Project</h2><a href="glossary.html">Glossary</a><a href="changelog.html">Changelog</a><a href="roadmap.html">Roadmap</a><a href="licensing.html">Licensing</a><a href="security.html">Security</a><a href="contributing.html">Contributing</a><a href="governance.html">Governance</a><a href="code-of-conduct.html">Code of conduct</a></div></nav></details>
+  </aside>
+  <article class="docs-main">
+    <div class="docs-meta"><span>Integrity and interference</span><span class="not-pushed">Not yet on GitHub</span><span>Source: <code>docs/SPECTRUM.md</code></span></div>
+    <div class="prose"><h1 id="spectrum-model-and-waterfall">Spectrum model and waterfall</h1>
+<p>The <code>spectrum</code> scenario kind builds the Global Navigation Satellite System (GNSS) L band,
+and any other band a designed signal occupies (ultra-high frequency (UHF), S band, C band),
+as one power spectral density (PSD), lets it change over a scripted jammer timeline, and reduces it to what a tracking loop cares about: the jammer-to-signal ratio
+(J/S) and the effective carrier-to-noise density ratio (C/N₀) of each band. It draws the
+result as a waterfall (frequency across, time down, colour for power) beside per-band
+C/N₀ bars, and it reads and writes Signal Metadata Format (SigMF) recordings so a real
+capture can be estimated and plotted beside the model.</p>
+<p>Write the bundled example to a file and run it:</p>
+<pre data-lang="shell"><code class="hljs language-bash">kshana example l-band-waterfall-jamming &gt; l-band-waterfall-jamming.toml
+kshana l-band-waterfall-jamming.toml
+<span class="hljs-comment"># writes .result.json, .chart.svg, .report.html and .report.json next to the file</span></code></pre>
+<p>In a checkout, <code>kshana scenarios/l-band-waterfall-jamming.toml</code> runs the same file.</p>
+<p>Code: <code>src/spectrum.rs</code> (the model, the kind, the Welch estimator), <code>src/sigmf.rs</code> (the
+recording codec), <code>src/navsignal.rs</code> (the unit-area signal spectra and the spectral
+separation coefficient) and <code>src/leo_signal.rs</code> (the signal-design presets a band can
+name).</p>
+<h2 id="what-is-modelled">What is modelled<a class="anchor" href="#what-is-modelled" aria-label="Link to this section">#</a></h2>
+<div class="tbl"><table><thead><tr>
+<th>Band</th>
+<th>Carrier</th>
+<th>Modulation</th>
+<th>Default received power</th>
+<th>Default receiver bandwidth</th>
+</tr>
+</thead><tbody><tr>
+<td><code>gps-l1ca</code></td>
+<td>1575.42 MHz</td>
+<td>binary phase-shift keying, BPSK(1)</td>
+<td>−158.5 dBW (IS-GPS-200)</td>
+<td>2.046 MHz</td>
+</tr>
+<tr>
+<td><code>galileo-e1</code></td>
+<td>1575.42 MHz</td>
+<td>multiplexed binary offset carrier, MBOC(6,1,1/11), or binary offset carrier BOC(1,1)</td>
+<td>−157.0 dBW (Galileo OS SIS ICD)</td>
+<td>14.322 MHz</td>
+</tr>
+<tr>
+<td><code>gps-l2c</code></td>
+<td>1227.60 MHz</td>
+<td>BPSK(1) (CM and CL codes time-multiplexed)</td>
+<td>−160.0 dBW (IS-GPS-200)</td>
+<td>2.046 MHz</td>
+</tr>
+<tr>
+<td><code>gps-l5</code></td>
+<td>1176.45 MHz</td>
+<td>BPSK(10)</td>
+<td>−157.9 dBW (IS-GPS-705)</td>
+<td>20.46 MHz</td>
+</tr>
+<tr>
+<td><code>galileo-e5a</code></td>
+<td>1176.45 MHz</td>
+<td>BPSK(10)</td>
+<td>−155.0 dBW (Galileo OS SIS ICD)</td>
+<td>20.46 MHz</td>
+</tr>
+</tbody></table></div>
+<p>GPS (Global Positioning System) L1 C/A is the coarse/acquisition code; L2C is the L2
+civil signal; IS-GPS-200 and IS-GPS-705 are the GPS interface specifications; Galileo OS
+SIS ICD is the Galileo Open Service Signal-in-Space Interface Control Document. The
+received powers are the specification minimums; the bandwidths are modelling choices. Both
+can be overridden per band. With no <code>[[bands]]</code> table the run uses these five. GLONASS
+G1/G2, BeiDou B1/B2 and Galileo E6 are <strong>not</strong> among the named bands.</p>
+<p>A <code>[[bands]]</code> entry takes one of three forms:</p>
+<ul>
+<li>a name from the table above, with optional <code>signal_power_dbw</code>, <code>rx_bandwidth_mhz</code> and,
+for <code>galileo-e1</code>, <code>modulation = &quot;boc11&quot;</code>;</li>
+<li><code>signal = &quot;&lt;preset&gt;&quot;</code>: a low Earth orbit (LEO) or representative signal design from the
+preset library of the <code>leo-signal</code> kind (<a href="leo-signal.html">LEO-SIGNAL.md</a>), in any band, drawn with every component (acquisition,
+data, pilot, frequency-division sub-carriers) and band-limited to its transmit bandwidth;
+C/N₀ and J/S are referred to the tracked component, and <code>name</code> only labels it. The
+presets are <code>xona-x1</code>, <code>xona-x5</code>, <code>iridium-stl</code>, <code>starlink-ku-beacon</code>, <code>centispace-l1</code>,
+<code>centispace-l5</code>, <code>generic-c-band-leo</code>, <code>generic-uhf</code>, <code>generic-l</code>, <code>generic-s</code>,
+<code>generic-c</code> and <code>generic-c-wide</code>;</li>
+<li>a custom band: any <code>name</code> with <code>centre_mhz</code>, <code>modulation</code> (<code>BPSK(n)</code>, <code>BOC(m,n)</code> or
+<code>MBOC(6,1,p)</code>) and <code>signal_power_dbw</code>.</li>
+</ul>
+<p>Jammers (<code>[[jammers]]</code>) take a <code>waveform</code>:</p>
+<ul>
+<li><code>cw</code> — a continuous-wave (CW) tone at <code>centre_mhz</code>;</li>
+<li><code>narrowband</code> — flat noise over <code>bandwidth_mhz</code>;</li>
+<li><code>wideband</code> — flat noise over a wide <code>bandwidth_mhz</code> (a barrage jammer): the same
+density as <code>narrowband</code>, named apart because the <code>jamming</code> kind scores it as broadband;</li>
+<li><code>chirp</code> — a linear sawtooth sweep of <code>bandwidth_mhz</code> every <code>sweep_period_us</code>;</li>
+<li><code>matched</code> — broadband noise whose spectrum is the <code>matched_to</code> band&#39;s own modulation.</li>
+</ul>
+<p>Each gives either <code>received_power_dbw</code>, or an effective isotropic radiated power
+<code>eirp_dbw</code> with a <code>range_m</code> (and optionally <code>rx_gain_dbi</code>), which goes through the
+<code>jamming</code> kind&#39;s free-space path loss. <code>on_s</code> and <code>off_s</code> script the timeline.</p>
+<p>The receiver (<code>[receiver]</code>) sets the noise floor, <code>N₀ = k·T_sys</code> with
+<code>T_sys = T_ant + 290 K × (F − 1)</code> for antenna temperature <code>T_ant</code> and noise figure <code>F</code>,
+and the tracking threshold.</p>
+<p>The main waterfall covers <code>[grid]</code> (default 1160 to 1590 MHz in 430 bins). Each
+<code>[[panels]]</code> entry (<code>name</code>, <code>f_min_mhz</code>, <code>f_max_mhz</code>, <code>n_freq</code>, default 200 bins) adds
+another waterfall over its own frequency range on the same timeline, for a spectrum that
+spans several bands.</p>
+<h2 id="the-interference-chain">The interference chain<a class="anchor" href="#the-interference-chain" aria-label="Link to this section">#</a></h2>
+<p>For a signal of unit-area spectrum <code>G_s</code> and a jammer of unit-power spectrum <code>G_j</code>, the
+spectral separation coefficient (SSC) over the receiver band <code>B</code> is
+<code>κ = ∫_B G_s(f) G_j(f) df</code>, and the effective carrier-to-noise density with several
+jammers is</p>
+<pre data-lang="text"><code class="hljs">(C/N₀)_eff = [ 1/(C/N₀) + Σ_j (J/S)_j · κ_j ]⁻¹</code></pre>
+<p>(Betz 2001; Kaplan &amp; Hegarty, <em>Understanding GPS/GNSS</em>, 3rd ed., §9.4). For one jammer
+this is exactly the <code>jamming</code> kind&#39;s anti-jam equation with <code>Q = 1/(R_c κ)</code>; the report&#39;s
+<code>jamming_kind_cross_check</code> block runs the <code>jamming</code> kind&#39;s own functions on the same link
+inputs and prints the difference, which is zero to rounding.</p>
+<p>The report also prints the C/N₀ the <code>jamming</code> kind gives with its representative Q table.
+That table (broadband 1.0, CW 1.5) is not what the spectra give: a CW tone on the C/A
+carrier has <code>κ = T_c</code>, so <code>Q = 1</code>, and noise matched to C/A has <code>κ = 2/(3R_c)</code>, so
+<code>Q = 1.5</code>, the textbook values. In the bundled example the difference is 1.8 dB of C/N₀
+for the tone (17.98 against 19.74 dB-Hz).</p>
+<p>Each waterfall cell is the PSD averaged over its frequency bin and its row. A chirp is
+averaged exactly over the row, whole sweeps plus the partial one; a jammer switching on
+or off mid-row is weighted by its duty. The C/N₀ timeline uses the same averages, so the
+picture and the numbers agree. Per band, the timeline reports the in-band J/S (jammer
+power inside the receiver bandwidth over the signal power). Per jammer and band, the
+report gives the SSC, <code>Q</code>, total J/S, in-band J/S and the steady C/N₀.</p>
+<h2 id="the-bundled-example">The bundled example<a class="anchor" href="#the-bundled-example" aria-label="Link to this section">#</a></h2>
+<p><code>scenarios/l-band-waterfall-jamming.toml</code>: a 60 s timeline, one row per second, a 290 K
+antenna and a 2 dB noise figure (floor −201.98 dBW/Hz).</p>
+<ul>
+<li>10 s to 40 s: a 16 MHz chirp around L1, 9 µs sweeps, 50 mW at 100 m.</li>
+<li>From 30 s: a CW tone on the L1 carrier, 10 mW at 1 km.</li>
+<li>From 45 s: flat 2 MHz noise on L2 received at −135 dBW.</li>
+</ul>
+<p>What the run computes:</p>
+<div class="tbl"><table><thead><tr>
+<th>Band</th>
+<th>Nominal C/N₀</th>
+<th>Minimum C/N₀</th>
+<th>First loss</th>
+<th>Rows tracking</th>
+</tr>
+</thead><tbody><tr>
+<td>gps-l1ca</td>
+<td>43.48 dB-Hz</td>
+<td>3.23 dB-Hz</td>
+<td>10 s</td>
+<td>17 %</td>
+</tr>
+<tr>
+<td>galileo-e1</td>
+<td>44.98 dB-Hz</td>
+<td>4.69 dB-Hz</td>
+<td>10 s</td>
+<td>50 %</td>
+</tr>
+<tr>
+<td>gps-l2c</td>
+<td>41.98 dB-Hz</td>
+<td>36.86 dB-Hz</td>
+<td>never</td>
+<td>100 %</td>
+</tr>
+<tr>
+<td>gps-l5</td>
+<td>44.08 dB-Hz</td>
+<td>44.08 dB-Hz</td>
+<td>never</td>
+<td>100 %</td>
+</tr>
+<tr>
+<td>galileo-e5a</td>
+<td>46.98 dB-Hz</td>
+<td>46.98 dB-Hz</td>
+<td>never</td>
+<td>100 %</td>
+</tr>
+</tbody></table></div>
+<p>The CW tone is why the two L1 signals part company at 40 s. It lands on the peak of the
+C/A spectrum and holds C/A at 17.98 dB-Hz, below the 25 dB-Hz threshold. It lands in the
+null of the MBOC spectrum, so Galileo E1 returns to its nominal C/N₀ when the chirp stops.</p>
+<p>The signals themselves sit about 20 dB below the noise floor, so the waterfall shows the
+floor and the jammers; the C/N₀ bars show what despreading recovers.</p>
+<p>The same jammers drive a chained mission in
+<code>scenarios/campaign-spectrum-holdover-integrity.toml</code> (see <a href="campaigns.html">CAMPAIGNS.md</a>):
+the clock holds over while the chirp is on, and the receiver falls back to Galileo E1
+under the CW tone.</p>
+<h2 id="beyond-the-l-band">Beyond the L band<a class="anchor" href="#beyond-the-l-band" aria-label="Link to this section">#</a></h2>
+<p><code>scenarios/multi-band-jamming-waterfall.toml</code> puts LEO positioning, navigation and timing
+(PNT) signals in four bands beside GPS L1 C/A and Galileo E5a, each
+band with its own jammer, on a 60 s timeline. The <code>[grid]</code> waterfall is the L band; three
+<code>[[panels]]</code> add UHF (455 to 475 MHz), S (2482 to 2502 MHz) and C (5005 to 5035 MHz).</p>
+<ul>
+<li>10 s: a CW tone at the UHF carrier, −120 dBW received.</li>
+<li>20 s: the chirp of the L-band example (16 MHz around L1, 9 µs sweeps, 50 mW at 100 m).</li>
+<li>30 s: wideband noise, 40 MHz around 1185 MHz, −118 dBW.</li>
+<li>40 s: narrowband noise, 2 MHz at the S carrier, −128 dBW.</li>
+<li>50 s: noise matched to the C-band signal&#39;s own spectrum, −124 dBW.</li>
+</ul>
+<p>What the run computes (the designed signals&#39; C/N₀ is that of the tracked component, so the
+nominal value sits below the total received power by the tracked share):</p>
+<div class="tbl"><table><thead><tr>
+<th>Band</th>
+<th>Signal</th>
+<th>Carrier</th>
+<th>Nominal C/N₀</th>
+<th>Minimum C/N₀</th>
+<th>Rows tracking</th>
+</tr>
+</thead><tbody><tr>
+<td>generic-uhf</td>
+<td>representative, BPSK(5), −150 dBW</td>
+<td>465 MHz</td>
+<td>49.41 dB-Hz</td>
+<td>34.38 dB-Hz</td>
+<td>100 %</td>
+</tr>
+<tr>
+<td>gps-l1ca</td>
+<td>specification minimum</td>
+<td>1575.42 MHz</td>
+<td>43.48 dB-Hz</td>
+<td>3.38 dB-Hz</td>
+<td>33 %</td>
+</tr>
+<tr>
+<td>galileo-e5a</td>
+<td>specification minimum</td>
+<td>1176.45 MHz</td>
+<td>46.98 dB-Hz</td>
+<td>38.76 dB-Hz</td>
+<td>100 %</td>
+</tr>
+<tr>
+<td>xona-x5</td>
+<td>published design, −144.9 dBW</td>
+<td>1190.51625 MHz</td>
+<td>54.51 dB-Hz</td>
+<td>46.29 dB-Hz</td>
+<td>100 %</td>
+</tr>
+<tr>
+<td>generic-s</td>
+<td>representative, BPSK(5), −150 dBW</td>
+<td>2492.028 MHz</td>
+<td>49.23 dB-Hz</td>
+<td>41.69 dB-Hz</td>
+<td>100 %</td>
+</tr>
+<tr>
+<td>generic-c-band-leo</td>
+<td>representative, BPSK(10), −152 dBW</td>
+<td>5020 MHz</td>
+<td>47.41 dB-Hz</td>
+<td>40.35 dB-Hz</td>
+<td>100 %</td>
+</tr>
+</tbody></table></div>
+<p>Only the chirp takes a signal away (GPS L1 C/A, from 20 s). Each other jammer degrades only
+the band its spectrum reaches: the C-band matched noise, for instance, has an SSC of
+−71.87 dB/Hz with the C-band signal and below −133 dB/Hz with every other band.</p>
+<p>The same machinery drives the LEO-PNT resilience scenarios (<a href="leo-pnt.html#resilience">LEO-PNT.md</a>):</p>
+<ul>
+<li><code>scenarios/leo-resilience-js-margin.toml</code> steps one 40 MHz barrage jammer at 1185 MHz by
+5 dB every 10 s from −125 dBW. GPS L5 is lost at the −105 dBW step, Galileo E5a at
+−100 dBW and Xona X5 at −95 dBW, while a representative LEO L-band signal received at
+−135 dBW still tracks at −90 dBW: received power buys J/S margin dB for dB.</li>
+<li><code>scenarios/leo-resilience-multiband-diversity.toml</code> is a campaign sweep of a <code>spectrum</code>
+run over the power of an L5-band barrage (<a href="campaigns.html">CAMPAIGNS.md</a>).</li>
+<li><code>scenarios/leo-resilience-gnss-jammed-leo-carries.toml</code> is a chained campaign whose
+phases read the GNSS and LEO C/N₀ from <code>spectrum</code> runs, with S- and C-band panels.</li>
+</ul>
+<h2 id="iq-sigmf-and-welch">IQ, SigMF and Welch<a class="anchor" href="#iq-sigmf-and-welch" aria-label="Link to this section">#</a></h2>
+<p><code>[iq]</code> draws the model at one instant as complex in-phase and quadrature (IQ) samples,
+writes them as a SigMF recording (<code>cf32_le</code> or <code>ci16_le</code>), reads the recording back and
+estimates its PSD by Welch&#39;s method (Hann window, 50 % overlap, averaged periodograms,
+density-scaled). Thermal noise, signals and noise-like jammers are drawn bin by bin from
+the model&#39;s own density; a tone and a chirp are drawn as real waveforms. With only
+noise-like jammers the Welch estimate sits within 0.1 dB of the model (median). A
+periodic chirp is a line spectrum at its sweep rate, with ripple and tails past its band
+edges that the smooth model omits: in the bundled example total power agrees within 0.02 %
+and the median bin differs by 0.5 dB.</p>
+<p><code>[recording]</code> (native builds only) reads a real SigMF recording from <code>meta_path</code> (the
+data file defaults to the same stem with <code>.sigmf-data</code>), estimates its PSD and prints it
+beside the model at the recording&#39;s frequencies. A SigMF file has no absolute power
+calibration, so the report gives the median offset and the shape, not a level.</p>
+<p>In the WebAssembly build the file reads are unavailable; <code>kshana::sigmf::read</code> and
+<code>kshana::spectrum::welch_psd</code> work on bytes the page supplies.</p>
+<h2 id="evidence">Evidence<a class="anchor" href="#evidence" aria-label="Link to this section">#</a></h2>
+<div class="tbl"><table><thead><tr>
+<th>Claim</th>
+<th>Label</th>
+<th>Oracle</th>
+</tr>
+</thead><tbody><tr>
+<td>Signal PSDs and SSCs</td>
+<td>VALIDATED</td>
+<td>BPSK(n) main lobe 2n × 1.023 MHz null to null; BOC(1,1) lobes centred at ±1.023 MHz (Betz 2001); SSCs −61.86 / −64.87 / −67.88 dB/Hz for C/A×C/A, BOC(1,1)×BOC(1,1), C/A×BOC(1,1) from their Parseval closed forms, the values behind the published −61.8 / −64.8 / −67.8 dB/Hz; Q = 1 (CW) and 1.5 (matched) (Kaplan &amp; Hegarty §9.4)</td>
+</tr>
+<tr>
+<td>Waterfall, J/S and C/N₀ timeline</td>
+<td>MODELLED</td>
+<td>Reduces exactly to the <code>jamming</code> kind&#39;s chain; the jammer powers, timeline and bandwidths are inputs</td>
+</tr>
+<tr>
+<td>SigMF codec and Welch estimate</td>
+<td>MODELLED</td>
+<td>Round trips, a direct discrete Fourier transform, white-noise and Parseval identities; no third-party recording is in the repository</td>
+</tr>
+<tr>
+<td>Multi-band waterfall with designed signals and per-band jammers</td>
+<td>MODELLED</td>
+<td>Reduces to the L-band chain (a single-component band gives the same numbers as before the extension) and to the validated signal spectra; the designed signals, jammers and bandwidths are inputs</td>
+</tr>
+</tbody></table></div>
+<p>One correction to a common shorthand: the BOC(1,1) spectrum&#39;s lobes are <em>centred</em> at
+±1.023 MHz (between the carrier null and the null at 2.046 MHz), but the maximum of the
+PSD is at ±0.759 MHz, where <code>tan y = 2y</code> with <code>y = πf/(2R_c)</code>. The tests pin both.</p>
+<h2 id="not-modelled">Not modelled<a class="anchor" href="#not-modelled" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Spreading-code line structure (the 1 kHz lines of C/A): a tone is scored against the
+smooth envelope, not the nearest code line.</li>
+<li>Automatic gain control, quantisation, pulse blanking and notch filtering.</li>
+<li>The receive-antenna pattern toward the jammer beyond one gain figure.</li>
+<li>Multiple-access interference between satellites of one band.</li>
+<li>A designed signal&#39;s emissions outside its transmit bandwidth: its spectrum is truncated
+there, so no out-of-band emission reaches a neighbouring band.</li>
+<li>A chirp&#39;s effect on the loop at sweep rates comparable with the loop bandwidth: its
+C/N₀ uses the row-averaged spectrum.</li>
+</ul>
+<h2 id="references">References<a class="anchor" href="#references" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>J. W. Betz, &quot;Binary Offset Carrier Modulations for Radionavigation,&quot; <em>NAVIGATION</em>
+48(4), 2001.</li>
+<li>E. D. Kaplan and C. J. Hegarty (eds.), <em>Understanding GPS/GNSS: Principles and
+Applications</em>, 3rd ed., Artech House, 2017, §9.4.</li>
+<li>G. W. Hein et al., &quot;MBOC: The New Optimized Spreading Modulation Recommended for
+Galileo L1 OS and GPS L1C,&quot; <em>Inside GNSS</em>, May/June 2006.</li>
+<li>P. D. Welch, &quot;The Use of Fast Fourier Transform for the Estimation of Power Spectra,&quot;
+<em>IEEE Transactions on Audio and Electroacoustics</em> 15(2), 1967.</li>
+<li>IS-GPS-200, IS-GPS-705; Galileo OS SIS ICD.</li>
+<li>SigMF specification, <a href="https://sigmf.org/">https://sigmf.org/</a> (source: <a href="https://github.com/sigmf/SigMF">https://github.com/sigmf/SigMF</a>).</li>
+</ul>
+</div>
+    <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="integrity.html"><small>Previous</small>Integrity and security</a><a class="next" href="araim-reference.html"><small>Next</small>ARAIM reference</a></nav>
+  </article>
+  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#what-is-modelled">What is modelled</a><a class="l2" href="#the-interference-chain">The interference chain</a><a class="l2" href="#the-bundled-example">The bundled example</a><a class="l2" href="#beyond-the-l-band">Beyond the L band</a><a class="l2" href="#iq-sigmf-and-welch">IQ, SigMF and Welch</a><a class="l2" href="#evidence">Evidence</a><a class="l2" href="#not-modelled">Not modelled</a><a class="l2" href="#references">References</a></nav>
+</div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand"><a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true"></span>kshana</a><p>Open-source PNT (positioning, navigation and timing) resilience simulator. Not an RF (radio-frequency) signal simulator, not a GNSS receiver and not a flight product.</p><div class="foot-by">by Ashforde</div></div>
+      <div><h2>Product</h2><a href="../playground/index.html">Kshana Studio</a><a href="../missions.html">Missions</a><a href="../capabilities.html">Capabilities</a><a href="../evidence.html">Evidence</a></div>
+      <div><h2>Developers</h2><a href="../developers.html#install">Install</a><a href="../developers.html#mcp">MCP server</a><a href="../docs/index.html">Docs</a><a href="https://github.com/ashfordeOU/kshana">GitHub</a></div>
+      <div><h2>Company</h2><a href="../editions.html">Editions</a><a href="../editions.html#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
+    </div>
+    <div class="foot-bottom">
+      <span>Kshana v0.29.0 · by Ashforde OÜ · AGPL-3.0, with a commercial licence option</span>
+      <span>Every chart is drawn from a recorded run of engine v0.29.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="pal" id="palette" role="dialog" aria-modal="true" aria-label="Search pages, sections, scenarios and docs" hidden>
+  <div class="pal-box">
+    <div class="pal-in"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="palInput" type="text" placeholder="Search pages, scenarios, docs and actions…" autocomplete="off" spellcheck="false" aria-controls="palList" aria-label="Search"><kbd>esc</kbd></div>
+    <div class="pal-list" id="palList" role="listbox" aria-label="Results"></div>
+    <div class="pal-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> move</span><span><kbd>↵</kbd> open</span><span class="pal-count" id="palCount"></span></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>window.KSITE={root:"../",page:"docs",version:"0.29.0",studio:"Kshana Studio"};</script>
+<script src="../site.js" defer></script>
+<script src="docs.js" defer></script>
+</body>
+</html>

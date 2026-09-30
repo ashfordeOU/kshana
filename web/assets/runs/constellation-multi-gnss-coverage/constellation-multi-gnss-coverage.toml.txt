@@ -1,0 +1,51 @@
+# Multi-constellation coverage: the four global navigation satellite systems (GNSS) together,
+# as a map of satellites in view, dilution of precision (DOP) and availability over the whole
+# Earth for one day.
+#
+# Each system is a preset built from its operator's published nominal elements:
+#   - GPS: the baseline 24-slot constellation, GPS Standard Positioning Service Performance
+#     Standard, 5th edition (2020), Tables 3.2-1 and 3.2-3;
+#   - Galileo: the Walker 24/3/1 reference constellation at 29 599.801 km semi-major axis and
+#     56 deg, Galileo Open Service Service Definition Document issue 1.1, Tables 1 and 23;
+#   - BeiDou: 24 medium Earth orbit satellites in a Walker 24/3/1 at 21 528 km and 55 deg,
+#     3 geostationary and 3 inclined geosynchronous satellites, BeiDou Open Service
+#     Performance Standard 3.0, section 4.1 (the medium-orbit phase and the inclined
+#     geosynchronous crossing longitude are modelled, the standard does not state them);
+#   - GLONASS: 24 satellites, 3 planes, 19 100 km, 64.8 deg, from the slot formula of the
+#     GLONASS Interface Control Document edition 5.1, section 5.2.
+#
+# The receiver estimates one clock per system (clock = "per-constellation"), so a fix needs
+# three position unknowns plus one clock for every system in view. The four systems' slot
+# tables come from different reference epochs, so their relative phase is not a snapshot of
+# any real date; the statistics over a day are what the run is for.
+#
+# What the run answers: how many satellites are in view, the position, horizontal, vertical
+# and geometric DOP per 10 deg cell, and the share of time the position DOP (PDOP) is at or
+# below 6 above a 10 deg mask. MODELLED: two-body orbits, a spherical Earth, geometry only.
+
+kind = "constellation-design"
+body = "earth"
+duration_s = 86164.0
+step_s = 900.0
+mask_deg = 10.0
+pdop_threshold = 6.0
+grid_step_deg = 10.0
+clock = "per-constellation"
+track_points = 25
+max_tracks = 102
+
+[[constellation]]
+name = "GPS"
+preset = "gps-baseline"
+
+[[constellation]]
+name = "Galileo"
+preset = "galileo"
+
+[[constellation]]
+name = "BeiDou"
+preset = "beidou"
+
+[[constellation]]
+name = "GLONASS"
+preset = "glonass"

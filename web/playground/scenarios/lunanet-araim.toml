@@ -1,0 +1,19 @@
+# Lunar south-pole integrity: an Artemis-region landed receiver against a
+# representative LunaNet relay set, ARAIM protection levels over a 24 h pass.
+#
+# The lunar navigation signal is far weaker and the relay constellation far sparser
+# than GPS (LunaNet LNIS: σ_URE ≈ 30 m vs GPS ≈ 0.6 m), and the protection level
+# scales linearly with σ_URE — so this honestly surfaces the integrity gap: with
+# 30 m ranging the HPL is finite but exceeds a 50 m surface-ops alert limit, i.e. the
+# surface user is not yet "available". This is the quantitative statement that lunar
+# PNT integrity is hard, not a claim that it is met.
+#
+# Scope: a representative selenocentric relay sky (src/lunar.rs south_pole_hpl_pass),
+# not the precise differential-corrected 9:2 LANS NRHO — the CR3BP three-body core is
+# in src/cr3bp.rs; wiring real NRHO relay ephemerides + DE421 libration are follow-ons.
+kind = "lunar-integrity"
+
+step_s = 3600.0        # 1 h samples
+duration_s = 86400.0   # 24 h pass
+alert_limit_m = 50.0   # LunaNet surface-ops alert limit
+p_hmi = 1.0e-4         # lunar surface integrity-risk budget (not aviation 1e-7)
