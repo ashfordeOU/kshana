@@ -140,6 +140,11 @@ getrandom = { version = "0.2", features = ["js"] }
 python = ["dep:pyo3"]
 # WebAssembly module, built with wasm-pack (`wasm-pack build -- --features wasm`).
 wasm = ["dep:wasm-bindgen"]
+# The bundled reference scenarios (`kshana example`) as a library module,
+# `kshana::bundled_scenarios`. Off by default, so the Python wheel and the WebAssembly
+# module do not carry the scenario text; the MCP (Model Context Protocol) server turns it
+# on to hand an agent a runnable example of every kind.
+bundled-scenarios = []
 
 [dev-dependencies]
 # Independent SGP4 implementation for the head-to-head accuracy cross-check

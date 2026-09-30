@@ -589,9 +589,12 @@ address-bar fragment.
 Kshana ships an [MCP](https://modelcontextprotocol.io) server, [`kshana-mcp`](mcp/kshana-mcp/),
 so AI assistants and agents can run the **actual** engine instead of guessing the
 math — usable from **Cursor, JetBrains AI Assistant / Junie, and any MCP-compatible
-assistant or agent**. It exposes seven tools — `run_scenario`, `list_scenario_kinds`,
-`validate_scenario`, `export_sp3`, `export_omm`, `export_oem` and `export_table_csv`
-(each a thin wrapper over `kshana::api`).
+assistant or agent**. It exposes fourteen tools (each a thin wrapper over the `kshana`
+library): `run_scenario`, `list_scenario_kinds`, `validate_scenario`,
+`list_example_scenarios`, `get_example_scenario`, `report_scenario`, `animate_scenario`,
+`list_export_formats`, `export_interop`, `import_route`, `export_sp3`, `export_omm`,
+`export_oem` and `export_table_csv`. Every scenario kind runs through `run_scenario`, and
+the example tools hand an agent a complete scenario of any kind to start from.
 
 ```bash
 cargo install kshana-mcp                          # crates.io

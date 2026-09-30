@@ -6,11 +6,29 @@ intelligence) agent. MCP is the shared plugin protocol, so the *same* server
 plugs into Claude Code, Claude Desktop, Codex, Cursor, VS Code, Windsurf, and JetBrains — the
 agent calls the real, externally-validated engine instead of guessing the math.
 
-Tools exposed (seven): `run_scenario`, `list_scenario_kinds`, `validate_scenario`,
-`export_sp3`, `export_omm`, `export_oem`, `export_table_csv` — each a thin, faithful wrapper
-over a public `kshana::api` function. `export_table_csv` returns the CSV (comma-separated values) reproducibility
-table for the kinds that publish one (`realtime-frame-eop`, `lunar-time-budget`,
-`lunar-jamming`, and `moonlight-service-volume` with an export site set).
+Tools exposed (fourteen), each a thin, faithful wrapper over a public function of the
+`kshana` library:
+
+- **Run and discover:** `run_scenario`, `list_scenario_kinds`, `validate_scenario`,
+  `list_example_scenarios`, `get_example_scenario`. Every scenario kind runs through
+  `run_scenario`: spectrum and waterfall, the solar system, constellations around any
+  body, campaigns and the low Earth orbit (LEO) navigation kinds included. The two example
+  tools hand the agent a complete, runnable scenario of a kind.
+- **Views of a run:** `report_scenario` (the run's report as JSON, JavaScript Object
+  Notation, or as a printable HTML, HyperText Markup Language, page), `animate_scenario`
+  (the run's time series as an animated SVG, Scalable Vector Graphics, drawing, an HTML
+  player or numbered frames).
+- **Interoperability:** `list_export_formats` and `export_interop` (CZML, the Cesium
+  Language; KML, the Keyhole Markup Language; GeoJSON; the STK, Systems Tool Kit,
+  ephemeris `.e`; SigMF, the Signal Metadata Format), `import_route` (a GeoJSON route into
+  a track-flying scenario), and `export_sp3`, `export_omm`, `export_oem` for an `orbit`
+  scenario.
+- **Tables:** `export_table_csv` returns the CSV (comma-separated values) reproducibility
+  table for the kinds that publish one (`realtime-frame-eop`, `lunar-time-budget`,
+  `lunar-jamming`, `telecom-timing`, `leo-navmsg` for its `encode-decode` analysis, and
+  `moonlight-service-volume` with an export site set).
+
+The full table is in [`mcp/kshana-mcp/README.md`](../mcp/kshana-mcp/README.md).
 
 ## 1. Install the server (once)
 
