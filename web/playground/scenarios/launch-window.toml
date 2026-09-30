@@ -1,0 +1,16 @@
+# Launch-window & ascent geometry demonstrator (mission analysis, trade-study tier).
+#
+# Two-body spherical-Earth geometry: launch azimuth(s) from site latitude + target
+# inclination (sin Az = cos i / cos lat), minimum reachable inclination, circular
+# velocity, the Earth-rotation eastward bonus, dogleg plane-change Dv when the
+# target inclination is below the site latitude, and daily launch opportunities.
+#
+# HONEST SCOPE: MODELLED. Geometric azimuth only -- no rotating-Earth
+# velocity-triangle correction (the bonus is reported separately to fold in), no
+# ascent trajectory / drag-loss / steering model. Pre-Phase-A geometry.
+# Run:  kshana scenarios/launch-window.toml
+kind = "launch-window"
+
+site_lat_deg = 28.5             # Kennedy Space Center
+target_inclination_deg = 51.6   # ISS inclination
+altitude_km = 400.0

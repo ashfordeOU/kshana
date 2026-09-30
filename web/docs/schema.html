@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Result schema — reading a Kshana *.result.json · Kshana docs</title>
+<meta name="description" content="Result schema — reading a Kshana *.result.json. Kshana documentation, generated from the repository.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 64 64'%3E%3Cstyle%3E.d%7Bdisplay:none%7D%40media (prefers-color-scheme:dark)%7B.l%7Bdisplay:none%7D.d%7Bdisplay:inline%7D%7D%3C/style%3E%3Cimage class='l' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMFElEQVR42qWbaaxdVRXHf3vf84Y%2BqC1tqS2UFCwUAko1UqMgEhIcMEoc0DgkDkiiET6oERFwilMCipioifBBgyZqFNREFA1OiaLEOiGKRAaFliqTrS2P17737tl%2B4L/rYncP5%2BFNTu65555hr3mt/1rHzazaTOPj9B0K/wV9x/3A8E/r3hT%2Bd4Vj6bk%2BWZNL9vGFB7vkWMj8nzsnmOOucu90sU5r8cnCa0yprTd%2B%2BgIdznKIBrGh8oBQOZZjRkqwZZyVVF94Rnpvl7lHjiEuw7AA0A3gssuoel9Qx9y%2BGyAZKqZTMpMhgqldCxD8gIvjgl2yn5Nqbj9ng88FTh6g1qHgV1xFYOm5vsAkDzhf4WBOlUPFCYUBdhmfdypwSsMMQ8Peo59IBeKAkb4ngMMisRmTYTSxbLUb4GiG/u8KzPEJcf8E7gT2JOf7RhRxA6NCEBM2AWcAfwf2527YLdEWW2EuFJiQmtVRwCKwo%2BJL0numpuQK2uKBGWANcBnwCmAa%2BAHwoJ57wJd1FZVeSqwOhf0SYSNg0iykyxDTVzSq5Ejt%2BT0wC9wNPALM5QTZZcKVK/iAGpN8wQ%2Bk%2B/F7NfCYzh9XNGpkiClJP13HWN/PB64E1gK/B/blaOgaHjunYi2vm2NWDJ0L%2Bh1V8SRFhLHOmZN/2A7co3MwTqzPJFyWWWPgSOB84MvAfcBDhviDaIhOMOe1fUXlS%2BoeCils0P3WaaHH6rwdIniXtmXACcDpwNnan9c5wXj3VEidiD8ReD9wtRxfJ%2BcXSg7TmVrAVZKIIWHQHveSVgcsB46QZAJwB/Bx2ec7K%2Bp/uLTjDN3v%2B8BPEmnHkLcIbAU%2BIgbcZtbga4mbG1AMLaWwsUw5WhKfBh6VROakjlu0qD8l/sMV0uETgVfpXl%2BSeVjizwI%2BDbxODO6Mty8JEcB1hZQ1JMfDAK8f9OBJ4FkiYDuwWwyIqtoD66Xaltj0Gd7kBbdr2wq8BfgF8HP5lNeI%2BJclxOfM8CBt7yoqPsSureSn5XFPkITubiQ4LXMKGSe4Dfgd8FpghWL8Z%2BUzbjO%2BYEhJfUADaBQMrTohyHkdJTvfJoeWS1ZS6VJzUMmxXioP8A3gA8CHgWcCf8lIvpZSH6DDDyQ%2BVBa2TCq9DrjFEB8KdUVkwKiQ47tKhhnzhiuBj8nmNyc%2BI6e9xYjmB%2Bb/pbR3QoRvBH4tJ%2BcKBLskxI4G1hkhqUQ/D7wHeClwvfzNeYmGDMkaswtzSyyKDpXa32zUr5RZpgzJaVifATW8OfY14ALg5cCNcrgfBV4CvMCExhoQ8oRn%2Bga44DIwljNq9XTgD8aju4L6t2p6KslYLwd7HfB64FzgBmlfL8Z/EvigzHEotJf1zqEARqQE9HI%2B9ymu%2B0oqXZNAqZawydQK4LvAK4E3SO0nFAIXtf9H4Fbg4sQUQiFqkTpB1/DEqdSO1IMekdrV6nOXASR8ZpEhk9evlaq/GHgb8HVDfPws6n6fkWlsMDYfKlVtERXuG8RHxzenBMcnmpODxlJvPGEYMJEwJxK/EbgJeB5woTLAkYh3maRpJ/Ar4B2mbmiV88Fnyl/fyPFXaNF/TQDSUIjpXudPaYtET%2Bi/eHykY2MhOT8Sbngh8AVj8yWQ1QHXyiEeYhxiqAGnfkAiYm0yquXeDIdz1WInBzYpAmbkqCa1P2V%2BP0XSPUlFz/HAe0X8qJLeWlzwt/JJp5s116KY9wNzgMiYFVrov43th0rY7LRNSSrLRPihYsyMtuXCB0%2BT5Dcq1l9ptCJUsABrXtuAMxtRLDKv94V8gALgEI8/PACbmxDxE4bwGaG0a8SQFfq9qMTme3KwFwNXZSSfC8fps3%2BqoikHq6VMcD4TKkroT6%2B6flXB2aWLGZnqcFoEr5YDXS7i1%2Buac5TkHAZcAlwhZvUNGw5GePG8O4GV5noy5hBsNUgD5UmZsNPgbiVm%2BYT45TKdNTpvrX6vBp4NXKrzPyQ0Z60Ak1FGKKHSd3DAvdKaDcDfjO8KmQSLrtIMKTnCfQ0gE/0fuT8p5zaSKWwRYDkr1Ods3fMS4Cti2H8UZsOT6EnOCQZbmcEaDrq%2ByxA4MhLstD8polYp7T3axPLOXGND3rS2qI5HybmdITtHnr6X7f9LoMZubfMiZEHnjJNtUdvYMLw3/mqlGB7LZItAR41wXSGERc89YUJYJCp69N6EuciEkbl2ShKOTFgtJqzLSG9CQKkXI9aI%2BFlD4H4xJabAC0Yb5w0TYl0SzS/SNE5CZoiNkTT3n9c2W4gK80J7Wp9J2f6MbHqVGLBTah%2BAfyjZOUsx/GrjX3b9H/jkgtL05j26JQwhkKSuvjItYrVluek/LEjdpyXF74gpF6iiO0XI7j26Lko6DLB/C9BMKVeptemwnaHW%2BEv8f4%2Bkae3KVXA%2BJ03qje2N1RjZJXW/VyDnWwVsbAVerYRmslBs1TpTh8sUdzacerV3XsIIZhW%2BukIOYKNArNRm1QbbLbV8UIzco4bHvI5dJCZMA78B3m7s2Tc008b5TWLu3oQ%2Bt1QG5BgyqxvNFKo9O0Eyb5zWPl27V62qB7TI3VLVOd3zWkFcNwJfVIk7SjI6V%2BlWOTVT/pzQ50r5g2/cLEV0x1rwdCZ/SHsJYxG/IEbMSRP2alvQd9SQWdnv/UqL3we8W7XBcgN0hELuEk3lVNNB6luAb2tCJFW/XhI81pS2roAlBMOAfQpj8XtRWEIkfl7f%2B83zPgW8EHiGurubdF1X0IZeecYK%2BZTawJfLIUIlCKtPsIIHRNQhjbmASMiiCIxmEAzBYx3fl8TyGG1%2BrDD5kJhwsoHBchjGeeoY7S1oy0G%2Bw1e6PVTUbQdwjFlIqU63v8emsps3hC4WGhoxfX5A9f31YsKZuj7NYqdUTl%2BbADWuMFZXhcVzdb79b6cqt/WZerw02mI9dT8gtDnT3Q2S7mWy73OMJkSk6HxBYnclMB1DfYBrTIOm0rxdOf2ogSSViqVcCe4zDOxNeX058Gbgm8AbjY85AniRMARXGLQMrWKoHzD5YY9FLdiqrpBPYnIotL1Lrbac%2BfXJ/iTwVeUP15hw%2Bhx1jHZl5gFKWncAEgsDZnBdQUvu0f5xpjiiQLwrSMMP6OJavxCd47lqjl6hOuOmDEIdEka6EiRWcn6tenxObenD1CVayJhVSLpJNRg%2BNDpHGEZH4h4DnpZp9NRadAfWlhuUzCVFoXDMK3bvlx2ulWmU/EhUzxPkxO40md4QYNaZuv9Eo3G7dOzuwv2KeGdXKXxcwZvnmPCwCDpOTcptJq57Q7gNfaEyYttnzM3rukngXUqjL9X/pylMnq1e5cjUI77ic5wf2LujMJpuJbtb5rBdqM9Gk8KmUxsTA2b8rdnEJugpPD4RcpecYMQdb%2Bbx0ZnrhAWODYrd1ybNu8JUtjNg4lLeztinhuku%2BYT1Ona/St/4jEf539wQhQzSOq91wJt0v8%2BpKzUyzJ0EfqgO8beULO0v2b097mZWbc6NkdVmg2qDDD6BnI5RE%2BRw09C8QwVLEDhSm0HeLJxwE/AzSTgdkwsmdV6QeWxVnmBnhkKuPzB0TK42REXDb0Ss8KmKFrslqQeV2UViOmENG1QAxYLrFs0D9A21xgA1V8kvfaIwO0SNAa4yBucqLyW5Ss8/XewWha8FEevFIGcAkttkTiQjdqHhp6IWXgN8W9iCzzjWkIsCpcSolBfUwk2fAV9ie3ujnn2D8IU4y7%2B/MCwdElWumWFk0kXqLd6q0Jx9L8EXpjPDgHhcwxBCobCx948w916TS2BMxmWaork154a0Y1S6XICrLwgniweEAa/BhIGpsiuYz9jA7qPk3HEDCA2FdaXvGozUGvulqsc%2B9%2BpMrb8XBjx8yHBl7r/7TYe5r2hOzcGWSndvmDySDzhEZtfn5gTdwBw8VCRN5UXK3Ls8qxQeHUt7NykMQIf7xOwcjw9ZbVKoLE6I1KQw5EWJ1psi1kMfrxi/lJcyQ%2BUt1VbWOqsUeSo9t/a%2BwFLH42k0V6wGjJ/EvWpNm1ZzppQIBd8YhK5FgNBwfKV54XEyLO0KpevQ94MZMKqTY1KgULu3HthSzSHmkJtFKFWdtcmV1subzbHfVufELUFNSxOmbgBzfAFUrYG2ruGb%2BsL7hk9Y738BiK3K27ls0kUAAAAASUVORK5CYII='/%3E%3Cimage class='d' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMDUlEQVR42qWbaaxeVRWGn32%2Bcwc6UNrS0kJJwTIYUKqRGgSREHGMEgc0DokDkmiEH2pERJzilAAiJmoi/NBUEzVKlShaDU6JoERURBSJQBVKKy1Dr5TLHb%2Bz/dF3Xxe7ezi33uTkO/eMe81rvWsdt3fCU/lz%2BvWZc16/Yb/6wEU8m8x5lzkWX9tEa3LRPk3mxS465hPnU9d4c9wVnh0v1mktTbTwElNK6w1/XYYOZzlEhVhfeIEvHEsxIybYMs5Kqsu8I362SzwjxRCXYJgHaHtw2SVUvcuoY2rf9ZAMBdPJmUkfwZTuBfBNj5vDgl20n5Jqaj9lg2cAp/VQa5/xK64gsPjaJsOkBnBNgYMpVfYFJ%2BR72GV435nA6RUz9BV7D34iFogDBvodAVYGYhMmQ5sgJpYehfM5de0ShFuivg/MZ7x21yN61HzPUEw4HtgC/BB4InV9u0hbrIW5OCTmzOpYMeChgi%2BJnxmbkstoSwMsAY4ErgBeA4wDPwH26r0LvqxdhFR95ZzLOKcUYQNg1CykTRDTZZhZcqT2%2Bg6YBO4HHgOmUoJsE%2BHKZXxAiUlNxlTi/fC7GnjKqGvub2CIyUk/XsdQvy8ErgHWAn8CplM0tBWPnVKxmtd1Gb/SAXP6P6jiqYoIQ10zBfwb2AnsMH6iMc/wmRA40HOOAS4Cvg48CDxiiD%2BIBrd3wudSzqZAvMssxBdS2AY4SpI/S4u6B1gKLAPGgPXARkltVAT8BrgjoRF2Ha2YdQrwPuBq4F4d7wp5C87UAq6QRPQJg/Z48OYtsBw4WpLxIvozss/3FtR/jbTjHD3vx8AvImmHkDcvb/9J4MPAXWYNTSlxcz2KocUUNvZhxwHr5IGfBP4pFZ8GNmtRf4n8h8ukw6cAr9OzvibzsMSfB3weeJMY3BpvnxMigGszKauPjvseXj%2Bo4ijwXBGwE5gQAzAquR6YjYiN39EYM7xb2xbgHTKLX8unvEHEvyoinkouA%2BDbgorX7Do2h3HZ7jMlofvNNU0hc3SFxCZ2grcDfwTeCKxQjP8icLbUvo2iiqvkN64tXOB71gkeOEzJzTFa5L5MshJLt0%2BWaeP6QMe%2BA3wU%2BATwHOBvCcmXUuoFOpqexPvCwg6TSq8DbjPE%2B0xdERgwyOT4rpBhhrzhGuDTsvmTIp%2BR0t4c7rFwwh2C0/MqNtYpdP1OTs5lCHZRSBz0BDx8VGN8GfgA8Epgm/zNhZGG9MkakwtzlcXEi10mtb81Km5cJinymQrQRxlfqupzwLeAi4FXA9vlcD8FvBx4kQmNJSDkae9sKuCCS8BYzqjVs5SkzGZSZt%2Bzps%2BV0CGGjwM3AG8GLgBukvZ1YvzngI/JHPtCe0nv7DNgRExAJ%2BfzoOJ6U0ilSxLI1RI2mVoB3Ai8FniL1H5EIXBe%2B38G7gQui0zBZ6IWsRN0i6z3j9GLHpPalVBblwAkmsQifSKvXytVfxnwLuDbhvjwN6/nfUGmscHYvC9UtVlUuKsQHxzflBKcJtKcFDQWe%2BMRw4CRiDmB%2BI3AzcALgEuUAQ5EvEskTbuB3wLv0fsGPcp53yTK36aS46/Qov8eAaQ%2BE9MbXT%2BmLRA9onPh%2BEDHhsAm4GfCDS8BvmJsPgeyOmCrHOJS4xB9CVVqesJd3tTaa4H9CQ6n6v5WDmxUBCyRoxrV/pj5/3BJ91QVPScDHxTxg0J6a3HBP8gnnW3WXIpiTdMzBwiMWaGFPm5s3xfCZqttTFI5TIQvE2OWaFsuzO4sSX6jYv01Rit8AQuw5nU7cG4ligXmdU0mHyADOITjj/bA5kZE/IghfIlQ2iPFkBX6f16JzY/kYC8Drk1IPhWO43f/UkVTClaLmeCaRKjIoT%2Bd6vpVGWcXL2ZgqsNxEbxaDnS5iF%2Bve85XkrMSuBy4SszqKjbsjfDCdfcCR5j7SZiDt9VgCeBMMWG3wd1yzGoi4pfLdI7UdWv1/2rgecBHdP3Hget0ftIgQLlcJWWqD0hrNgD/ML4rCb%2B3hWZIzhFOV4BMdD5wf1TObSBT2CzAclKozyv0zMuBb4hh/1GY9YfQF5gCZqQFZLTIWycVEzgwEmy1PyqiVintPc7E8tbcY0PeuLagjsfKuZ0jO0eevpPtPyxQY0LbrAiZ0zXDaJvXNjQM74y/OkIMD2WyRaCDRrg2E8KC5x4xISwQFTx6Z8JcYMLA3DsmCQcmrBYT1iWkNwKcIAY%2BLFOZkZYEAmfElJACzxltnDVMCHVJML9A0zAKmT40RuLcf1bbZCYqzArtqf2NyvaXyKZXiQG7pfYe%2BJeSnfMUw68z/mXf/4FPzilNrz6jXcQQAlHq2hSmRay2LDf9hzmp%2B7ik%2BAMx5WJVdKcL2d2h%2B4KkfQ/7twDNmHKVUpsO2xmqjb%2BE809ImtauXAHnc9KkztjeUI2RfVL3BwRyvlPAxhbg9UpoRjPFVqkztUamuLvi1Iu98xxGMKnw1WZyABsFQqU2qWbIhNRyrxj5hLpAszp2qZgwDvweeLex56aimTbObxJz90f0ucUyIMWQST1oSabasxMks8ZpTeve/WpV7dEiJ6SqU3rmVkFc24GvqsQdRBldLmMN584A/hrR53L5Q1N5WIzoDrXg8UT%2BEPcShiJ%2BToyYkibs1zan36Ahk7LfXUqLPwS8X7XBcgN0%2BEzuEkzlTNNB6mqAb21CJFa/ThI8wZS2LoMleMOAaYWx8DsvLCEQP6vfGfO%2Bq4GXAM9Wd3eT7msz2tApz1ghn1Ia%2BHIpRCgHYXURVrBHRC2tzAUEQuZFYDADbwge6vh0FMtDtPm5wuQjYsJpBgZLYRgXqmO0P6MtB/mOptDtoaBuD3Fg/GSkMMbmE2Mr8yaX6IyjTDU0Qvq8R/X9NjHhXN0fZ7FjKqe3RkCNy4zVFWHxVJ1vz%2B1W5bY%2BUY/nRlusp%2B56hDZnurte0r1C9n2%2B0YSAFF0kSOy%2BCKajrw9wlWnQWJp3K6cfVJCkXLGUKsGbBAM7U15fCbwd%2BC7wVuNjjgZeKgzBZQYtfa0Y6npMfthjQQu2qCvURDHZZ9reuVZbyvy6aH8U%2BKbyh%2BtNOH2%2BOkb7EvMAOa1bgMR8jxlcl9GSHdo/0RRHZIh3GWk0Pbq41i8E53iBmqNXqc64OYFQ%2B8RESRISyzm/Wj0%2Bpbb0SnWJ5hJm5aNuUgmG95XOEYbRgbingGckGj2lFt3C2vpw31Ug7yelCYcL3ekKQ9EUxmf7ToqGaLISuEVm8DjwYh0fFCC%2Bg8J1Wyh8XMabuwQTHtXLT1ST8nYT1xtjlzb0%2BcKIbZcwt0b3jXJgEGpCUBoKf9tUZt9hmiu5Ya8FupqevTsyo%2BnWjidkDjuF%2Bmw0KWw8tTHSY8bfmk1ogp7OgYmQ%2B%2BQEA%2B54KwdGZ24QFjg0KHZX0oI2M5XtDJi4mK8zptUw3SefsF7Hdqn0De94kv/NDZHJIK3zWge8Tc/7krpSA8PcUeCn6hB/T8nSTGEOeuG42zvhU2NktZk/VwBNLeR0vJoga0xD8x4VLF7gSGkG%2BSThhJuAX0nC8ZicN6nznMxji/IEOzPkU/2BvmNypSEqKn4jYIVHyXFNSFJ7ldkFYlo50g0qgELBdZvmAbqKWmOAmmvllz6bmR2ixABXGINzhWlSV%2Bj5xy/ZrPA1J2LDFKkzAMldMieiETtf8VNBC6/nwFj%2B9kgzk%2BPyLsrgXGEWv9RKd4VzjWlvb9S7b1IIm9E1M5lhaR%2BpcskMA5MuVW/xTmWtLjW212SmM33FHFwFQ/CZwsY%2BP8Dc%2B7U/Y4geRFC2TwxclYa0Q1S6UoBrkxFOEg/wPT6D8T1TZZcxn6GB3QfRtcMKEOoz64q/NRioNXaLqscu9elMqb/ne7y8z3Bl6twu02HuCppTcrC50r0xTB7IByyV2XWpOUHXMwf3BUlT%2BJAyZthAxcuyymyC64lU5ypIm1HeqFA6UpoQKUmhz4cStS9FrIc%2BWTF%2BMR9l%2BsJXqrWsdVIp8lh8bel7gcWOx1NprlgNGB7Cs0pNm1pzJpcI%2BaYyCF2KAL7i%2BHLzwsNoWNplSte%2B3wfTY1QnxSRPpnavvbCmmn3MITWL4Cuf4vien9Muauy31jlxi1DT3ISp68GcJgOqlkBbV/FNXeZ7w6et978oq/I35bE6mwAAAABJRU5ErkJggg=='/%3E%3C/svg%3E">
+<script>try{var t=localStorage.getItem('kshana-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;600&family=Unbounded:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../theme.css">
+<link rel="stylesheet" href="../site.css">
+<link rel="stylesheet" href="../css/docs.css">
+<link rel="canonical" href="https://kshana.dev/docs/schema.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kshana">
+<meta property="og:url" content="https://kshana.dev/docs/schema.html">
+<meta property="og:title" content="Result schema — reading a Kshana *.result.json · Kshana docs">
+<meta property="og:description" content="Result schema — reading a Kshana *.result.json. Kshana documentation, generated from the repository.">
+<meta property="og:image" content="https://kshana.dev/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 83 of 223 capabilities validated against external oracles.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Result schema — reading a Kshana *.result.json · Kshana docs">
+<meta name="twitter:description" content="Result schema — reading a Kshana *.result.json. Kshana documentation, generated from the repository.">
+<meta name="twitter:image" content="https://kshana.dev/og-card.png">
+<meta name="twitter:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 83 of 223 capabilities validated against external oracles.">
+</head>
+<body data-page="docs">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-copy" viewBox="0 0 16 16"><rect x="5" y="5" width="9" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-play" viewBox="0 0 12 12"><path d="M3 1.5v9l7.5-4.5Z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 12 12"><path d="M3 1.5h2v9H3zM7 1.5h2v9H7z" fill="currentColor"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 16 16"><path d="M9 3h4v4M13 3 7.5 8.5M12 9.5V13H3V4h3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-theme" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 16 16"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to content</a>
+<div class="bg-field" aria-hidden="true"></div>
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="../index.html" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.28.0</small></a>
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a href="../missions.html">Missions</a>
+      <a href="../capabilities.html">Capabilities</a>
+      <a href="../evidence.html">Evidence</a>
+      <a href="../developers.html">Developers</a>
+      <a href="../docs/index.html" aria-current="page">Docs</a>
+      <a href="../editions.html">Editions</a>
+    </nav>
+    <div class="nav-right">
+      <button class="k-btn" id="kbtn" type="button" aria-haspopup="dialog" aria-controls="palette"><svg width="14" height="14" aria-hidden="true"><use href="#i-search"/></svg><span class="lbl">Search</span><kbd class="kmod">⌘K</kbd></button>
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch between light and dark theme" title="Switch theme"><svg class="moon" aria-hidden="true"><use href="#i-moon"/></svg><svg class="sun" aria-hidden="true"><use href="#i-sun"/></svg></button>
+      <a class="pill" href="../playground/index.html"><span class="pill-l">Launch&nbsp;</span>Kshana Studio</a>
+      <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Open the menu" aria-expanded="false" aria-controls="navLinks"><svg aria-hidden="true"><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div class="docs docs-page">
+  <aside class="docs-side" aria-label="Documentation">
+    <div class="docs-search"><label class="vh" for="docsQ">Search the docs</label><input id="docsQ" type="search" placeholder="Search the docs" autocomplete="off" aria-keyshortcuts="/" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="docsR"><div class="docs-results" id="docsR" role="listbox" aria-label="Search results"></div><p class="vh" id="docsCount" aria-live="polite"></p></div>
+    <details class="docs-nav-d" open><summary>All docs pages</summary><nav class="docs-nav" aria-label="Docs pages"><div><h2>Get started</h2><a href="overview.html">Overview</a><a href="concepts.html">Concepts primer</a><a href="studio.html">Studio guide</a><a href="tutorials.html">Tutorials</a><a href="tutorial-first-orbit.html">1 · Your first orbit</a><a href="tutorial-clock-holdover.html">2 · Clock holdover</a><a href="tutorial-quantum-vs-classical.html">3 · Quantum against classical</a><a href="example-multi-tool.html">Worked example: multi-tool pipeline</a></div><div><h2>Scenarios</h2><a href="scenarios.html">Scenario kinds</a><a href="scenario-reference.html">Scenario reference</a><a href="schema.html" aria-current="page">Result schema</a><a href="real-tle-guide.html">Using real TLEs</a><a href="campaigns.html">Campaigns</a></div><div><h2>Outputs and exports</h2><a href="reports.html">Run reports</a><a href="animation.html">Animation export</a><a href="interop.html">Interoperability exports and imports</a></div><div><h2>Validation and evidence</h2><a href="validation.html">Validation status</a><a href="verification-matrix.html">Verification matrix</a><a href="capability-reference.html">Capability reference</a><a href="modelled-rationale.html">Why rows stay Modelled</a><a href="claims-vs-reality.html">Claims against reality</a><a href="provenance.html">Provenance</a><a href="reproducibility.html">Reproducibility</a><a href="capability-map.html">Capability map</a><a href="standards.html">Standards and interoperability</a><a href="line-coverage.html">Line coverage</a></div><div><h2>Timing</h2><a href="slot-timing.html">Slot timing</a><a href="telecom-timing.html">Telecom timing</a><a href="deceived-time.html">Deceived time</a></div><div><h2>Integrity and interference</h2><a href="integrity.html">Integrity and security</a><a href="spectrum.html">Spectrum and waterfall</a><a href="araim-reference.html">ARAIM reference</a><a href="compliance.html">DO-316 / DO-229E map</a><a href="resilience-crosswalk.html">Resilience cross-walk</a></div><div><h2>Orbits</h2><a href="sgp4-validation.html">SGP4 validation</a><a href="agency-orbit-validation.html">Force-model validation</a><a href="solar-system.html">Solar system and other bodies</a></div><div><h2>Low Earth orbit (LEO) navigation</h2><a href="leo-pnt.html">LEO positioning, navigation and timing</a><a href="leo-signal.html">LEO signal designs</a><a href="leo-pass.html">LEO pass and link budget</a><a href="leo-navmsg.html">LEO navigation message</a><a href="leo-pnt-fusion.html">Fused MEO and LEO positioning</a><a href="constellation-design.html">Constellation design</a></div><div><h2>Quantum sensors</h2><a href="quantum-models.html">Quantum-sensor models</a><a href="quantum-physics.html">Cold-atom interferometer</a></div><div><h2>APIs and integrations</h2><a href="python-api.html">Python API</a><a href="npm.html">npm and WebAssembly</a><a href="rust.html">Rust crate</a><a href="mcp.html">MCP server</a><a href="jetbrains.html">JetBrains plugin</a><a href="deployment-targets.html">Where Kshana runs</a><a href="architecture.html">Architecture</a><a href="positioning.html">Where Kshana sits</a></div><div><h2>Project</h2><a href="glossary.html">Glossary</a><a href="changelog.html">Changelog</a><a href="roadmap.html">Roadmap</a><a href="licensing.html">Licensing</a><a href="security.html">Security</a><a href="contributing.html">Contributing</a><a href="governance.html">Governance</a><a href="code-of-conduct.html">Code of conduct</a></div></nav></details>
+  </aside>
+  <article class="docs-main">
+    <div class="docs-meta"><span>Scenarios</span><a href="https://github.com/ashfordeOU/kshana/blob/main/docs/SCHEMA.md">Edit on GitHub</a><span>Source: <code>docs/SCHEMA.md</code></span></div>
+    <div class="prose"><!-- SPDX-License-Identifier: AGPL-3.0-only -->
+<h1 id="result-schema--reading-a-kshana-resultjson">Result schema — reading a Kshana <code>*.result.json</code></h1>
+<p>Every run writes a versioned, self-describing JSON (JavaScript Object Notation) artifact next to the scenario.
+This page is the hand-written reader&#39;s guide to the interchange envelope and to the
+<strong>clock and orbit</strong> result shapes: each field&#39;s <strong>unit</strong>, where it is computed in the
+source, and how to read it. The canonical type is <code>RunResult</code> in
+<a href="https://github.com/ashfordeOU/kshana/blob/main/src/report.rs"><code>src/report.rs</code></a>; the figures of merit are <code>FoMScores</code> in
+<a href="https://github.com/ashfordeOU/kshana/blob/main/src/fom.rs"><code>src/fom.rs</code></a>.</p>
+<p>It is <strong>not</strong> the complete field reference. The engine dispatches over far more kinds
+than these two, and each emits its own pack. The complete reference — unit, provenance
+class and definition for every numeric field of every built-in kind — is generated, not
+hand-written: see
+<a href="#units-and-provenance-per-field-for-every-kind">Units and provenance, per field, for every kind</a>
+below.</p>
+<h2 id="interchange-envelope-kif-the-kshana-interchange-format--recognising-and-version-checking-an-artifact">Interchange envelope (KIF, the Kshana Interchange Format) — recognising and version-checking an artifact<a class="anchor" href="#interchange-envelope-kif-the-kshana-interchange-format--recognising-and-version-checking-an-artifact" aria-label="Link to this section">#</a></h2>
+<p>Kshana artifacts can be wrapped in a neutral, self-describing <strong>interchange
+envelope</strong> so a third-party tool can recognise the file and decide whether it
+can read it <em>before</em> it commits to a payload schema. The canonical type is
+<code>Envelope</code> in <a href="https://github.com/ashfordeOU/kshana/blob/main/src/interchange.rs"><code>src/interchange.rs</code></a>.</p>
+<div class="tbl"><table><thead><tr>
+<th>Key</th>
+<th>Type</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody><tr>
+<td><code>format</code></td>
+<td>string</td>
+<td>Always <code>&quot;kshana-interchange&quot;</code> (<code>FORMAT_TAG</code>) — how a foreign tool recognises a Kshana artifact.</td>
+</tr>
+<tr>
+<td><code>schema_version</code></td>
+<td>string</td>
+<td>The <code>MAJOR.MINOR</code> schema version (<code>SCHEMA_VERSION</code>, the single source of truth for the whole crate).</td>
+</tr>
+<tr>
+<td><code>kind</code></td>
+<td>string</td>
+<td>Artifact kind, e.g. <code>&quot;scenario&quot;</code>, <code>&quot;run-result&quot;</code>, <code>&quot;trade-study&quot;</code> — lets a consumer route without parsing the body.</td>
+</tr>
+<tr>
+<td><code>engine_version</code></td>
+<td>string</td>
+<td>Crate version (<code>Cargo.toml</code>) that produced the payload.</td>
+</tr>
+<tr>
+<td><code>payload</code></td>
+<td>object</td>
+<td>The wrapped artifact as canonical JSON (a <code>Scenario</code>, a <code>RunResult</code>, …).</td>
+</tr>
+</tbody></table></div>
+<p><strong>Compatibility contract.</strong> Versions are <code>MAJOR.MINOR</code>. New fields are added with
+<code>#[serde(default)]</code> (the <em>additive discipline</em>), so a reader can parse any
+artifact of the <strong>same major and an equal-or-older minor</strong> (<code>Compatible</code>). A
+strictly <strong>newer minor</strong> (<code>ForwardIncompatible</code>) may carry fields this reader
+cannot honour, and a <strong>different major</strong> (<code>MajorIncompatible</code>) is a structural
+break — both are refused by <code>Envelope::parse</code>, which validates the format tag and
+version on the boundary rather than silently mis-parsing foreign input.</p>
+<p><strong>Determinism.</strong> The envelope carries <strong>no timestamp</strong> — Kshana&#39;s reproducibility
+promise (<code>scenario + seed + engine_version</code> reproduces a run) requires it.
+Provenance lives in <code>engine_version</code> and the payload&#39;s own <code>scenario_hash</code>.</p>
+<p>A typed read-back (<code>Envelope::payload_as::&lt;T&gt;()</code>) works for any payload that
+implements <code>Deserialize</code> (e.g. <code>Scenario</code>). Result artifacts are serialize-only
+by design and are read as the raw <code>payload</code> JSON value.</p>
+<h2 id="top-level-clock-and-orbit-packs">Top level (clock and orbit packs)<a class="anchor" href="#top-level-clock-and-orbit-packs" aria-label="Link to this section">#</a></h2>
+<div class="tbl"><table><thead><tr>
+<th>Key</th>
+<th>Type / unit</th>
+<th>Meaning</th>
+<th>Source</th>
+</tr>
+</thead><tbody><tr>
+<td><code>schema_version</code></td>
+<td>string</td>
+<td>Result schema version (independent of engine version).</td>
+<td><code>report.rs</code></td>
+</tr>
+<tr>
+<td><code>engine_version</code></td>
+<td>string</td>
+<td>Crate version (<code>Cargo.toml</code>) that produced the file.</td>
+<td><code>report.rs</code></td>
+</tr>
+<tr>
+<td><code>scenario_hash</code></td>
+<td>hex string</td>
+<td>SHA-256 (SHA: Secure Hash Algorithm) over the canonical scenario JSON — the run is reproducible from <code>scenario + seed + engine_version</code>.</td>
+<td><code>report.rs:hash_scenario</code></td>
+</tr>
+<tr>
+<td><code>seed</code></td>
+<td>u64</td>
+<td>RNG (random-number generator) seed for the quantum run (classical uses <code>seed + 0x9e3779b97f4a7c15</code>).</td>
+<td><code>run.rs</code></td>
+</tr>
+<tr>
+<td><code>threshold_ns</code></td>
+<td>nanoseconds</td>
+<td>The timing spec: an error within ±<code>threshold_ns</code> is &quot;in spec&quot;.</td>
+<td>scenario</td>
+</tr>
+<tr>
+<td><code>quantum</code></td>
+<td>object (<code>ClockRun</code>)</td>
+<td>The quantum sensor&#39;s run (see below).</td>
+<td><code>report.rs</code></td>
+</tr>
+<tr>
+<td><code>classical</code></td>
+<td>object (<code>ClockRun</code>)</td>
+<td>The classical sensor&#39;s run, for comparison.</td>
+<td><code>report.rs</code></td>
+</tr>
+<tr>
+<td><code>units</code></td>
+<td>object</td>
+<td>Per-field unit/provenance map for this document, keyed by field path. See §Units and provenance below.</td>
+<td><code>field_schema.rs:units_block</code></td>
+</tr>
+<tr>
+<td><code>figure_tiers</code></td>
+<td>object</td>
+<td>The verification tier of each reported figure of merit, and always the document&#39;s last key. <code>figures</code> lists one entry per figure present: <code>path</code> (e.g. <code>quantum.fom.timing_p95_ns</code>), <code>tier</code> (<code>VALIDATED</code> = checked against an independent external oracle, <code>MODELLED</code> = first-principles, internally tested), <code>requirement</code> (the verification-matrix row the tier is read from) and <code>applicable</code>. <code>applicable</code> is <code>false</code>, with a <code>reason</code>, for <code>security</code> in every scenario with no attack configured: the bound stays in <code>fom.security</code>, but it does not answer a question the scenario asks. <code>untiered</code> lists any figure no matrix row owns (the <code>hybrid</code> and <code>fusion</code> position figures), instead of giving it a tier. Emitted by the <code>clock</code> (single run and Monte Carlo ensemble), <code>orbit</code>, <code>hybrid</code> and <code>fusion</code> kinds. Carries no numbers.</td>
+<td><code>fom_label.rs:figure_tiers</code></td>
+</tr>
+<tr>
+<td><code>geometry</code></td>
+<td>object, optional</td>
+<td>Orbit-pack geometry summary: <code>samples_total</code>, <code>samples_with_fix</code>, <code>sigma_uere_m</code> (m, the modelled per-satellite range-error budget), <code>best_pdop</code> / <code>median_pdop</code> (dimensionless) and <code>best_position_sigma_m</code> / <code>median_position_sigma_m</code> (m, PDOP (position dilution of precision) × <code>sigma_uere_m</code>). <strong>Orbit pack only.</strong></td>
+<td><code>orbit.rs</code></td>
+</tr>
+<tr>
+<td><code>eci_track</code></td>
+<td>array of <code>[x, y, z]</code> km, optional</td>
+<td>Propagated Earth-centred-inertial track of the user spacecraft, one entry per sampled time. <strong>Orbit pack only</strong>; omitted otherwise. Output-only — not hashed.</td>
+<td><code>report.rs</code></td>
+</tr>
+<tr>
+<td><code>meta</code></td>
+<td>object (<code>StudyMeta</code>), optional</td>
+<td>Additive report metadata (study title, generation stamp, author, disclaimer). Omitted when absent, so a meta-less run is byte-identical to legacy output. Output-only — not hashed.</td>
+<td><code>report.rs</code></td>
+</tr>
+</tbody></table></div>
+<h2 id="clockrun-each-of-quantum--classical"><code>ClockRun</code> (each of <code>quantum</code> / <code>classical</code>)<a class="anchor" href="#clockrun-each-of-quantum--classical" aria-label="Link to this section">#</a></h2>
+<div class="tbl"><table><thead><tr>
+<th>Key</th>
+<th>Type / unit</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody><tr>
+<td><code>spec.id</code></td>
+<td>string</td>
+<td>Sensor identifier (e.g. <code>optical-sr-lattice</code>).</td>
+</tr>
+<tr>
+<td><code>spec.kind</code></td>
+<td>string</td>
+<td>Model kind (e.g. <code>clock</code>).</td>
+</tr>
+<tr>
+<td><code>spec.provenance</code></td>
+<td>string</td>
+<td>Citation/source for the sensor&#39;s parameters.</td>
+</tr>
+<tr>
+<td><code>spec.params</code></td>
+<td>object</td>
+<td>The raw model parameters used.</td>
+</tr>
+<tr>
+<td><code>series</code></td>
+<td>array of <code>{t, error_ns, gnss}</code></td>
+<td>Per-step time series: <code>t</code> seconds, <code>error_ns</code> the timing error in <strong>nanoseconds</strong>, <code>gnss</code> one of <code>nominal</code>/<code>degraded</code>/<code>denied</code>.</td>
+</tr>
+<tr>
+<td><code>fom</code></td>
+<td>object (<code>FoMScores</code>)</td>
+<td>The scored figures of merit (below).</td>
+</tr>
+<tr>
+<td><code>adev_curve</code></td>
+<td>array of <code>{tau_s, adev, n_samples, noise, edf, ci_lo, ci_hi}</code></td>
+<td>Overlapping Allan deviation: <code>tau_s</code> the averaging time (s), <code>adev</code> the dimensionless fractional-frequency stability σ_y(τ), <code>n_samples</code> the overlap count behind that point, <code>noise</code> the power-law type identified from the MDEV (modified Allan deviation) slope (e.g. <code>WhiteFm</code>), <code>edf</code> the noise-type-specific effective degrees of freedom, and <code>ci_lo</code>/<code>ci_hi</code> the χ²-based 95% confidence band on <code>adev</code> at that τ. Computed in <code>allan.rs:overlapping_adev_curve</code>.</td>
+</tr>
+<tr>
+<td><code>filter_health</code></td>
+<td>object, optional</td>
+<td>Kalman filter-consistency assessment (NIS/NEES (NIS: normalised innovation squared; NEES: normalised estimation error squared) against their χ² bands), computed in <code>filter_health.rs</code>; omitted for runs that do not assess it.</td>
+</tr>
+</tbody></table></div>
+<h2 id="fomscores-the-fom-object"><code>FoMScores</code> (the <code>fom</code> object)<a class="anchor" href="#fomscores-the-fom-object" aria-label="Link to this section">#</a></h2>
+<div class="tbl"><table><thead><tr>
+<th>Field</th>
+<th>Unit</th>
+<th>Meaning</th>
+<th>Source</th>
+<th>Caveat</th>
+</tr>
+</thead><tbody><tr>
+<td><code>timing_rms_ns</code></td>
+<td>ns</td>
+<td>RMS (root mean square) clock-phase (timing) error over the outage.</td>
+<td><code>fom.rs:score</code></td>
+<td>a <strong>timing</strong> metric, not position</td>
+</tr>
+<tr>
+<td><code>timing_p95_ns</code></td>
+<td>ns</td>
+<td>95th-percentile timing error over the outage.</td>
+<td><code>fom.rs:score</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>holdover_s</code></td>
+<td>s</td>
+<td>Worst-case (shortest) in-spec coast across outage segments.</td>
+<td><code>fom.rs:worst_case_holdover</code></td>
+<td><strong>grid-bounded</strong> — a lower bound at the time-step resolution</td>
+</tr>
+<tr>
+<td><code>resilience_slope_ns_per_s</code></td>
+<td>ns/s</td>
+<td>Least-squares growth rate of |error| during the outage.</td>
+<td><code>fom.rs:score</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>availability</code></td>
+<td>fraction [0,1]</td>
+<td>Fraction of the whole run with an in-spec solution.</td>
+<td><code>fom.rs:score</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>integrity</code></td>
+<td>fraction [0,1] or null</td>
+<td><strong>Filter self-consistency</strong>: fraction of outage samples whose true error stays inside the Kalman k-σ bound.</td>
+<td><code>run.rs</code></td>
+<td><strong>NOT</strong> HPL/VPL/RAIM (HPL: horizontal protection level; VPL: vertical protection level; RAIM: receiver autonomous integrity monitoring) integrity — see <a href="integrity.html"><code>INTEGRITY.md</code></a></td>
+</tr>
+<tr>
+<td><code>security</code></td>
+<td>fraction [0,1] or null</td>
+<td><strong>Analytic spoof-detectability bound</strong> from clock stability.</td>
+<td><code>run.rs</code> + <code>security.rs</code></td>
+<td>meaningful only with a configured attack, so the clock and orbit packs (which configure none) mark it <code>applicable: false</code> in <code>figure_tiers</code> and print it as <code>n/a (no attack)</code> in the summary; <strong>not</strong> a multi-satellite RAIM detector</td>
+</tr>
+</tbody></table></div>
+<h2 id="what-good-looks-like">What &quot;good&quot; looks like<a class="anchor" href="#what-good-looks-like" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>A <strong>quieter clock</strong> (lower <code>adev_curve</code>) gives a longer <code>holdover_s</code> and a higher
+<code>security</code> detectability bound — that is the quantum-vs-classical contrast.</li>
+<li><code>availability</code> near 1.0 means the system stayed in spec almost the whole run; during a
+long outage it drops for the noisier clock.</li>
+<li><code>integrity</code> near 1.0 means the filter&#39;s own uncertainty bound was honest about its
+error — a <em>self-consistency</em> statement, not a safety-of-life guarantee.</li>
+</ul>
+<h2 id="other-scenario-kinds">Other scenario kinds<a class="anchor" href="#other-scenario-kinds" aria-label="Link to this section">#</a></h2>
+<p>Every other kind emits its own result shape. A few of the common ones:</p>
+<ul>
+<li><strong>inertial</strong>: position-domain figures of merit in <strong>metres</strong> (<code>pos_rms_m</code>,
+<code>pos_p95_m</code>) — single-axis (1-DOF (DOF: degree of freedom)), single-seed (see
+<a href="capability-map.html"><code>CAPABILITY.md</code></a>).</li>
+<li><strong>hybrid / fusion</strong>: <code>timing_spec_ns</code> and <code>position_spec_m</code> at the top level, and per
+side the timing and position figures of one sensor suite (<code>position_p95_m</code>,
+<code>position_holdover_s</code>, and <code>pnt_holdover_s</code>, the time until either spec breaches), with
+a <code>figure_tiers</code> block like the clock pack&#39;s in which the position figures are listed
+as <code>untiered</code>.</li>
+<li><strong>spoof</strong>: per-step spoof offset vs the clock&#39;s detection bound, plus whether the
+spoof reached the spec before detection (<code>src/spoof.rs</code>).</li>
+</ul>
+<p>For the precise field set of any kind, read its entry in
+<a href="https://github.com/ashfordeOU/kshana/blob/main/docs/field-units-schema.json"><code>field-units-schema.json</code></a> (below), the kind&#39;s section of
+<a href="scenarios.html"><code>SCENARIOS.md</code></a>, or the corresponding <code>*Result</code> struct in <code>src/</code>.</p>
+<h2 id="other-files-a-run-writes">Other files a run writes<a class="anchor" href="#other-files-a-run-writes" aria-label="Link to this section">#</a></h2>
+<p>Beside <code>&lt;scenario&gt;.result.json</code> the CLI (command-line interface) writes
+<code>&lt;scenario&gt;.chart.svg</code>, a printable <code>&lt;scenario&gt;.report.html</code> and the same report as
+<code>&lt;scenario&gt;.report.json</code>, whose <code>reproducibility</code> block records the engine version, the
+SHA-256 of the scenario file, the seed, the platform and the exact command (see
+<a href="reports.html"><code>REPORTS.md</code></a> and <a href="reproducibility.html"><code>REPRODUCIBILITY.md</code></a>). Kinds that
+publish a reproducibility table also write <code>&lt;scenario&gt;.table.csv</code> (CSV: comma-separated
+values). <code>--export</code> writes exchange files (see <a href="interop.html"><code>INTEROP.md</code></a>) and
+<code>--animate</code> an animation (see <a href="animation.html"><code>ANIMATION.md</code></a>).</p>
+<h2 id="units-and-provenance-per-field-for-every-kind">Units and provenance, per field, for every kind<a class="anchor" href="#units-and-provenance-per-field-for-every-kind" aria-label="Link to this section">#</a></h2>
+<p>This page is hand-written and covers the clock and orbit packs. The machine-readable
+counterpart covers <strong>every</strong> built-in kind:</p>
+<ul>
+<li><strong>In the result itself.</strong> Each scenario&#39;s result document carries a top-level <code>units</code>
+object mapping an emitted field&#39;s path to <code>{&quot;unit&quot;, &quot;provenance&quot;, &quot;note&quot;}</code>. The path
+grammar (an array contributes one <code>[]</code>-suffixed segment shared by its rows; <code>*</code> is a
+single-segment wildcard for data-keyed objects) and the closed provenance vocabulary
+are defined in <a href="https://github.com/ashfordeOU/kshana/blob/main/src/field_schema.rs"><code>src/field_schema.rs</code></a>.</li>
+<li><strong>As one file.</strong> <a href="https://github.com/ashfordeOU/kshana/blob/main/docs/field-units-schema.json"><code>field-units-schema.json</code></a> is the harvested
+union: for every kind, every numeric field it emits at a stated source, with its unit,
+provenance class, evidence tier and definition — and, named rather than omitted, every
+field that does not have one yet. Its <code>coverage</code> block carries the counts.</li>
+</ul>
+<p>Both are enforced by <code>tests/field_units_global.rs</code>, which runs every registered kind and
+fails if an emitted numeric field lacks a unit and a provenance class. Kinds not yet
+covered are named individually in that file&#39;s <code>UNCOVERED_KINDS</code> with the reason each is
+open, and the count is pinned so the list can only shrink.</p>
+<p>Regenerate the JSON after any change to a report&#39;s shape or to a <code>units</code> block:</p>
+<pre data-lang="text"><code class="hljs">cargo test --test field_units_global zzz_emit_field_units_schema -- --ignored</code></pre>
+</div>
+    <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="scenario-reference.html"><small>Previous</small>Scenario reference</a><a class="next" href="real-tle-guide.html"><small>Next</small>Using real TLEs</a></nav>
+  </article>
+  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#interchange-envelope-kif-the-kshana-interchange-format--recognising-and-version-checking-an-artifact">Interchange envelope (KIF, the Kshana Interchange Format) — recognising and version-checking an artifact</a><a class="l2" href="#top-level-clock-and-orbit-packs">Top level (clock and orbit packs)</a><a class="l2" href="#clockrun-each-of-quantum--classical">ClockRun (each of quantum / classical)</a><a class="l2" href="#fomscores-the-fom-object">FoMScores (the fom object)</a><a class="l2" href="#what-good-looks-like">What &quot;good&quot; looks like</a><a class="l2" href="#other-scenario-kinds">Other scenario kinds</a><a class="l2" href="#other-files-a-run-writes">Other files a run writes</a><a class="l2" href="#units-and-provenance-per-field-for-every-kind">Units and provenance, per field, for every kind</a></nav>
+</div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand"><a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true"></span>kshana</a><p>Open-source PNT (positioning, navigation and timing) resilience simulator. Not an RF (radio-frequency) signal simulator, not a GNSS receiver and not a flight product.</p><div class="foot-by">by Ashforde</div></div>
+      <div><h2>Product</h2><a href="../playground/index.html">Kshana Studio</a><a href="../missions.html">Missions</a><a href="../capabilities.html">Capabilities</a><a href="../evidence.html">Evidence</a></div>
+      <div><h2>Developers</h2><a href="../developers.html#install">Install</a><a href="../developers.html#mcp">MCP server</a><a href="../docs/index.html">Docs</a><a href="https://github.com/ashfordeOU/kshana">GitHub</a></div>
+      <div><h2>Company</h2><a href="../editions.html">Editions</a><a href="../editions.html#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
+    </div>
+    <div class="foot-bottom">
+      <span>Kshana v0.28.0 · by Ashforde OÜ · AGPL-3.0, with a commercial licence option</span>
+      <span>Every chart is drawn from a recorded run of engine v0.28.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="pal" id="palette" role="dialog" aria-modal="true" aria-label="Search pages, sections, scenarios and docs" hidden>
+  <div class="pal-box">
+    <div class="pal-in"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="palInput" type="text" placeholder="Search pages, scenarios, docs and actions…" autocomplete="off" spellcheck="false" aria-controls="palList" aria-label="Search"><kbd>esc</kbd></div>
+    <div class="pal-list" id="palList" role="listbox" aria-label="Results"></div>
+    <div class="pal-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> move</span><span><kbd>↵</kbd> open</span><span class="pal-count" id="palCount"></span></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>window.KSITE={root:"../",page:"docs",version:"0.28.0",studio:"Kshana Studio"};</script>
+<script src="../site.js" defer></script>
+<script src="docs.js" defer></script>
+</body>
+</html>

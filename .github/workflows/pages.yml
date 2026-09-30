@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-only
-# Build the WebAssembly playground and publish it to GitHub Pages (kshana.dev).
+# Build the WebAssembly engine, stage it beside the committed site, and publish to GitHub Pages (kshana.dev).
 #
 # THE SITE SHOWS A RELEASE, NOT main. It used to deploy on every push to main while its
 # pages said "v0.27.2" (the version is written into web/index.html and only moves at a
@@ -90,24 +90,24 @@ jobs:
         uses: taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5 # v2
         with:
           tool: wasm-pack@0.13.1
-      - name: Build playground
+      - name: Build the WebAssembly engine and stage it for the Studio
         run: ./web/build.sh
       - name: Stage the deploy tree
         # upload-pages-artifact used to be pointed at web/ itself, so the whole build
         # directory was the production origin: https://kshana.dev/build.sh,
-        # /smoke.mjs, /README.md and each of the twelve *.test.mjs files all returned
-        # 200, and robots.txt is allow-all, so they were crawlable too. None of them is
-        # site content. rsync into a staging tree and upload that instead.
+        # /smoke.mjs, /README.md and each *.test.mjs file all returned 200, and
+        # robots.txt is allow-all, so they were crawlable too. None of them is site
+        # content. rsync into a staging tree and upload that instead.
         #
-        # This must run AFTER build.sh, which is what creates web/pkg, web/scenarios and
-        # web/assets. Nothing depends on the dropped files being served: ci.yml runs the
-        # node tests from the checkout, and publish.yml rebuilds web/pkg for npm on its
-        # own. The README exclude is anchored (`/README.md`) so it drops only the
-        # top-level one — web/pkg/README.md is staged by build.sh for the npm package and
-        # an unanchored pattern would take it too.
-        #
-        # Measured on this tree: 124 files in web/, 109 staged — exactly the 12 test
-        # files plus smoke.mjs, build.sh and README.md.
+        # This must run AFTER build.sh, which is what creates web/pkg, web/playground/pkg
+        # and web/scenarios. Nothing depends on the dropped files being served: ci.yml
+        # runs the node tests from the checkout, and publish.yml rebuilds web/pkg for npm
+        # on its own. Dropped: every *.test.mjs (at any depth, so the Studio's module
+        # tests in playground/lib/ go too), the smoke test, the build script, the port
+        # tool and its manifest, and the top-level README. The README, tools and manifest
+        # excludes are anchored with a leading slash so they drop only the top-level
+        # ones: web/pkg/README.md is staged by build.sh for the npm package and an
+        # unanchored pattern would take it too.
         run: |
           set -euo pipefail
           rsync -a --delete \
@@ -115,8 +115,15 @@ jobs:
             --exclude 'smoke.mjs' \
             --exclude 'build.sh' \
             --exclude '/README.md' \
+            --exclude '/tools/' \
+            --exclude '/PORT-MANIFEST.json' \
             web/ site/
           echo "staged $(find site -type f | wc -l | tr -d ' ') of $(find web -type f | wc -l | tr -d ' ') file(s)"
+          # The deploy is useless without these: fail here, not on a blank page.
+          for f in index.html playground/index.html playground/pkg/kshana.js playground/pkg/kshana_bg.wasm \
+                   pkg/kshana.js docs/index.html CNAME robots.txt sitemap.xml og-card.png legacy-redirects.js; do
+            [ -f "site/$f" ] || { echo "::error::the staged site is missing $f"; exit 1; }
+          done
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
         with:

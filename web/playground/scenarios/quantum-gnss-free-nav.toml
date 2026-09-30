@@ -1,0 +1,9 @@
+# GNSS-free quantum navigation — quantum (cold-atom interferometer) vs classical
+# navigation-grade INS dead-reckoning over a GNSS outage. MODELLED; illustrative,
+# public-source device parameters; models the class, no TRL/flight claim.
+kind = "quantum-gnss-free-nav"
+
+outage_s = 300.0
+threshold_m = 100.0
+quantum_bias_m_s2 = 1.0e-7
+classical_bias_m_s2 = 5.0e-5

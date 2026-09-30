@@ -1,0 +1,1345 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LEO navigation message · Kshana docs</title>
+<meta name="description" content="LEO navigation message. Kshana documentation, generated from the repository.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 64 64'%3E%3Cstyle%3E.d%7Bdisplay:none%7D%40media (prefers-color-scheme:dark)%7B.l%7Bdisplay:none%7D.d%7Bdisplay:inline%7D%7D%3C/style%3E%3Cimage class='l' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMFElEQVR42qWbaaxdVRXHf3vf84Y%2BqC1tqS2UFCwUAko1UqMgEhIcMEoc0DgkDkiiET6oERFwilMCipioifBBgyZqFNREFA1OiaLEOiGKRAaFliqTrS2P17737tl%2B4L/rYncP5%2BFNTu65555hr3mt/1rHzazaTOPj9B0K/wV9x/3A8E/r3hT%2Bd4Vj6bk%2BWZNL9vGFB7vkWMj8nzsnmOOucu90sU5r8cnCa0yprTd%2B%2BgIdznKIBrGh8oBQOZZjRkqwZZyVVF94Rnpvl7lHjiEuw7AA0A3gssuoel9Qx9y%2BGyAZKqZTMpMhgqldCxD8gIvjgl2yn5Nqbj9ng88FTh6g1qHgV1xFYOm5vsAkDzhf4WBOlUPFCYUBdhmfdypwSsMMQ8Peo59IBeKAkb4ngMMisRmTYTSxbLUb4GiG/u8KzPEJcf8E7gT2JOf7RhRxA6NCEBM2AWcAfwf2527YLdEWW2EuFJiQmtVRwCKwo%2BJL0numpuQK2uKBGWANcBnwCmAa%2BAHwoJ57wJd1FZVeSqwOhf0SYSNg0iykyxDTVzSq5Ejt%2BT0wC9wNPALM5QTZZcKVK/iAGpN8wQ%2Bk%2B/F7NfCYzh9XNGpkiClJP13HWN/PB64E1gK/B/blaOgaHjunYi2vm2NWDJ0L%2Bh1V8SRFhLHOmZN/2A7co3MwTqzPJFyWWWPgSOB84MvAfcBDhviDaIhOMOe1fUXlS%2BoeCils0P3WaaHH6rwdIniXtmXACcDpwNnan9c5wXj3VEidiD8ReD9wtRxfJ%2BcXSg7TmVrAVZKIIWHQHveSVgcsB46QZAJwB/Bx2ec7K%2Bp/uLTjDN3v%2B8BPEmnHkLcIbAU%2BIgbcZtbga4mbG1AMLaWwsUw5WhKfBh6VROakjlu0qD8l/sMV0uETgVfpXl%2BSeVjizwI%2BDbxODO6Mty8JEcB1hZQ1JMfDAK8f9OBJ4FkiYDuwWwyIqtoD66Xaltj0Gd7kBbdr2wq8BfgF8HP5lNeI%2BJclxOfM8CBt7yoqPsSureSn5XFPkITubiQ4LXMKGSe4Dfgd8FpghWL8Z%2BUzbjO%2BYEhJfUADaBQMrTohyHkdJTvfJoeWS1ZS6VJzUMmxXioP8A3gA8CHgWcCf8lIvpZSH6DDDyQ%2BVBa2TCq9DrjFEB8KdUVkwKiQ47tKhhnzhiuBj8nmNyc%2BI6e9xYjmB%2Bb/pbR3QoRvBH4tJ%2BcKBLskxI4G1hkhqUQ/D7wHeClwvfzNeYmGDMkaswtzSyyKDpXa32zUr5RZpgzJaVifATW8OfY14ALg5cCNcrgfBV4CvMCExhoQ8oRn%2Bga44DIwljNq9XTgD8aju4L6t2p6KslYLwd7HfB64FzgBmlfL8Z/EvigzHEotJf1zqEARqQE9HI%2B9ymu%2B0oqXZNAqZawydQK4LvAK4E3SO0nFAIXtf9H4Fbg4sQUQiFqkTpB1/DEqdSO1IMekdrV6nOXASR8ZpEhk9evlaq/GHgb8HVDfPws6n6fkWlsMDYfKlVtERXuG8RHxzenBMcnmpODxlJvPGEYMJEwJxK/EbgJeB5woTLAkYh3maRpJ/Ar4B2mbmiV88Fnyl/fyPFXaNF/TQDSUIjpXudPaYtET%2Bi/eHykY2MhOT8Sbngh8AVj8yWQ1QHXyiEeYhxiqAGnfkAiYm0yquXeDIdz1WInBzYpAmbkqCa1P2V%2BP0XSPUlFz/HAe0X8qJLeWlzwt/JJp5s116KY9wNzgMiYFVrov43th0rY7LRNSSrLRPihYsyMtuXCB0%2BT5Dcq1l9ptCJUsABrXtuAMxtRLDKv94V8gALgEI8/PACbmxDxE4bwGaG0a8SQFfq9qMTme3KwFwNXZSSfC8fps3%2BqoikHq6VMcD4TKkroT6%2B6flXB2aWLGZnqcFoEr5YDXS7i1%2Buac5TkHAZcAlwhZvUNGw5GePG8O4GV5noy5hBsNUgD5UmZsNPgbiVm%2BYT45TKdNTpvrX6vBp4NXKrzPyQ0Z60Ak1FGKKHSd3DAvdKaDcDfjO8KmQSLrtIMKTnCfQ0gE/0fuT8p5zaSKWwRYDkr1Ods3fMS4Cti2H8UZsOT6EnOCQZbmcEaDrq%2ByxA4MhLstD8polYp7T3axPLOXGND3rS2qI5HybmdITtHnr6X7f9LoMZubfMiZEHnjJNtUdvYMLw3/mqlGB7LZItAR41wXSGERc89YUJYJCp69N6EuciEkbl2ShKOTFgtJqzLSG9CQKkXI9aI%2BFlD4H4xJabAC0Yb5w0TYl0SzS/SNE5CZoiNkTT3n9c2W4gK80J7Wp9J2f6MbHqVGLBTah%2BAfyjZOUsx/GrjX3b9H/jkgtL05j26JQwhkKSuvjItYrVluek/LEjdpyXF74gpF6iiO0XI7j26Lko6DLB/C9BMKVeptemwnaHW%2BEv8f4%2Bkae3KVXA%2BJ03qje2N1RjZJXW/VyDnWwVsbAVerYRmslBs1TpTh8sUdzacerV3XsIIZhW%2BukIOYKNArNRm1QbbLbV8UIzco4bHvI5dJCZMA78B3m7s2Tc008b5TWLu3oQ%2Bt1QG5BgyqxvNFKo9O0Eyb5zWPl27V62qB7TI3VLVOd3zWkFcNwJfVIk7SjI6V%2BlWOTVT/pzQ50r5g2/cLEV0x1rwdCZ/SHsJYxG/IEbMSRP2alvQd9SQWdnv/UqL3we8W7XBcgN0hELuEk3lVNNB6luAb2tCJFW/XhI81pS2roAlBMOAfQpj8XtRWEIkfl7f%2B83zPgW8EHiGurubdF1X0IZeecYK%2BZTawJfLIUIlCKtPsIIHRNQhjbmASMiiCIxmEAzBYx3fl8TyGG1%2BrDD5kJhwsoHBchjGeeoY7S1oy0G%2Bw1e6PVTUbQdwjFlIqU63v8emsps3hC4WGhoxfX5A9f31YsKZuj7NYqdUTl%2BbADWuMFZXhcVzdb79b6cqt/WZerw02mI9dT8gtDnT3Q2S7mWy73OMJkSk6HxBYnclMB1DfYBrTIOm0rxdOf2ogSSViqVcCe4zDOxNeX058Gbgm8AbjY85AniRMARXGLQMrWKoHzD5YY9FLdiqrpBPYnIotL1Lrbac%2BfXJ/iTwVeUP15hw%2Bhx1jHZl5gFKWncAEgsDZnBdQUvu0f5xpjiiQLwrSMMP6OJavxCd47lqjl6hOuOmDEIdEka6EiRWcn6tenxObenD1CVayJhVSLpJNRg%2BNDpHGEZH4h4DnpZp9NRadAfWlhuUzCVFoXDMK3bvlx2ulWmU/EhUzxPkxO40md4QYNaZuv9Eo3G7dOzuwv2KeGdXKXxcwZvnmPCwCDpOTcptJq57Q7gNfaEyYttnzM3rukngXUqjL9X/pylMnq1e5cjUI77ic5wf2LujMJpuJbtb5rBdqM9Gk8KmUxsTA2b8rdnEJugpPD4RcpecYMQdb%2Bbx0ZnrhAWODYrd1ybNu8JUtjNg4lLeztinhuku%2BYT1Ona/St/4jEf539wQhQzSOq91wJt0v8%2BpKzUyzJ0EfqgO8beULO0v2b097mZWbc6NkdVmg2qDDD6BnI5RE%2BRw09C8QwVLEDhSm0HeLJxwE/AzSTgdkwsmdV6QeWxVnmBnhkKuPzB0TK42REXDb0Ss8KmKFrslqQeV2UViOmENG1QAxYLrFs0D9A21xgA1V8kvfaIwO0SNAa4yBucqLyW5Ss8/XewWha8FEevFIGcAkttkTiQjdqHhp6IWXgN8W9iCzzjWkIsCpcSolBfUwk2fAV9ie3ujnn2D8IU4y7%2B/MCwdElWumWFk0kXqLd6q0Jx9L8EXpjPDgHhcwxBCobCx948w916TS2BMxmWaork154a0Y1S6XICrLwgniweEAa/BhIGpsiuYz9jA7qPk3HEDCA2FdaXvGozUGvulqsc%2B9%2BpMrb8XBjx8yHBl7r/7TYe5r2hOzcGWSndvmDySDzhEZtfn5gTdwBw8VCRN5UXK3Ls8qxQeHUt7NykMQIf7xOwcjw9ZbVKoLE6I1KQw5EWJ1psi1kMfrxi/lJcyQ%2BUt1VbWOqsUeSo9t/a%2BwFLH42k0V6wGjJ/EvWpNm1ZzppQIBd8YhK5FgNBwfKV54XEyLO0KpevQ94MZMKqTY1KgULu3HthSzSHmkJtFKFWdtcmV1subzbHfVufELUFNSxOmbgBzfAFUrYG2ruGb%2BsL7hk9Y738BiK3K27ls0kUAAAAASUVORK5CYII='/%3E%3Cimage class='d' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMDUlEQVR42qWbaaxeVRWGn32%2Bcwc6UNrS0kJJwTIYUKqRGgSREHGMEgc0DokDkmiEH2pERJzilAAiJmoi/NBUEzVKlShaDU6JoERURBSJQBVKKy1Dr5TLHb%2Bz/dF3Xxe7ezi33uTkO/eMe81rvWsdt3fCU/lz%2BvWZc16/Yb/6wEU8m8x5lzkWX9tEa3LRPk3mxS465hPnU9d4c9wVnh0v1mktTbTwElNK6w1/XYYOZzlEhVhfeIEvHEsxIybYMs5Kqsu8I362SzwjxRCXYJgHaHtw2SVUvcuoY2rf9ZAMBdPJmUkfwZTuBfBNj5vDgl20n5Jqaj9lg2cAp/VQa5/xK64gsPjaJsOkBnBNgYMpVfYFJ%2BR72GV435nA6RUz9BV7D34iFogDBvodAVYGYhMmQ5sgJpYehfM5de0ShFuivg/MZ7x21yN61HzPUEw4HtgC/BB4InV9u0hbrIW5OCTmzOpYMeChgi%2BJnxmbkstoSwMsAY4ErgBeA4wDPwH26r0LvqxdhFR95ZzLOKcUYQNg1CykTRDTZZhZcqT2%2Bg6YBO4HHgOmUoJsE%2BHKZXxAiUlNxlTi/fC7GnjKqGvub2CIyUk/XsdQvy8ErgHWAn8CplM0tBWPnVKxmtd1Gb/SAXP6P6jiqYoIQ10zBfwb2AnsMH6iMc/wmRA40HOOAS4Cvg48CDxiiD%2BIBrd3wudSzqZAvMssxBdS2AY4SpI/S4u6B1gKLAPGgPXARkltVAT8BrgjoRF2Ha2YdQrwPuBq4F4d7wp5C87UAq6QRPQJg/Z48OYtsBw4WpLxIvozss/3FtR/jbTjHD3vx8AvImmHkDcvb/9J4MPAXWYNTSlxcz2KocUUNvZhxwHr5IGfBP4pFZ8GNmtRf4n8h8ukw6cAr9OzvibzsMSfB3weeJMY3BpvnxMigGszKauPjvseXj%2Bo4ijwXBGwE5gQAzAquR6YjYiN39EYM7xb2xbgHTKLX8unvEHEvyoinkouA%2BDbgorX7Do2h3HZ7jMlofvNNU0hc3SFxCZ2grcDfwTeCKxQjP8icLbUvo2iiqvkN64tXOB71gkeOEzJzTFa5L5MshJLt0%2BWaeP6QMe%2BA3wU%2BATwHOBvCcmXUuoFOpqexPvCwg6TSq8DbjPE%2B0xdERgwyOT4rpBhhrzhGuDTsvmTIp%2BR0t4c7rFwwh2C0/MqNtYpdP1OTs5lCHZRSBz0BDx8VGN8GfgA8Epgm/zNhZGG9MkakwtzlcXEi10mtb81Km5cJinymQrQRxlfqupzwLeAi4FXA9vlcD8FvBx4kQmNJSDkae9sKuCCS8BYzqjVs5SkzGZSZt%2Bzps%2BV0CGGjwM3AG8GLgBukvZ1YvzngI/JHPtCe0nv7DNgRExAJ%2BfzoOJ6U0ilSxLI1RI2mVoB3Ai8FniL1H5EIXBe%2B38G7gQui0zBZ6IWsRN0i6z3j9GLHpPalVBblwAkmsQifSKvXytVfxnwLuDbhvjwN6/nfUGmscHYvC9UtVlUuKsQHxzflBKcJtKcFDQWe%2BMRw4CRiDmB%2BI3AzcALgEuUAQ5EvEskTbuB3wLv0fsGPcp53yTK36aS46/Qov8eAaQ%2BE9MbXT%2BmLRA9onPh%2BEDHhsAm4GfCDS8BvmJsPgeyOmCrHOJS4xB9CVVqesJd3tTaa4H9CQ6n6v5WDmxUBCyRoxrV/pj5/3BJ91QVPScDHxTxg0J6a3HBP8gnnW3WXIpiTdMzBwiMWaGFPm5s3xfCZqttTFI5TIQvE2OWaFsuzO4sSX6jYv01Rit8AQuw5nU7cG4ligXmdU0mHyADOITjj/bA5kZE/IghfIlQ2iPFkBX6f16JzY/kYC8Drk1IPhWO43f/UkVTClaLmeCaRKjIoT%2Bd6vpVGWcXL2ZgqsNxEbxaDnS5iF%2Bve85XkrMSuBy4SszqKjbsjfDCdfcCR5j7SZiDt9VgCeBMMWG3wd1yzGoi4pfLdI7UdWv1/2rgecBHdP3Hget0ftIgQLlcJWWqD0hrNgD/ML4rCb%2B3hWZIzhFOV4BMdD5wf1TObSBT2CzAclKozyv0zMuBb4hh/1GY9YfQF5gCZqQFZLTIWycVEzgwEmy1PyqiVintPc7E8tbcY0PeuLagjsfKuZ0jO0eevpPtPyxQY0LbrAiZ0zXDaJvXNjQM74y/OkIMD2WyRaCDRrg2E8KC5x4xISwQFTx6Z8JcYMLA3DsmCQcmrBYT1iWkNwKcIAY%2BLFOZkZYEAmfElJACzxltnDVMCHVJML9A0zAKmT40RuLcf1bbZCYqzArtqf2NyvaXyKZXiQG7pfYe%2BJeSnfMUw68z/mXf/4FPzilNrz6jXcQQAlHq2hSmRay2LDf9hzmp%2B7ik%2BAMx5WJVdKcL2d2h%2B4KkfQ/7twDNmHKVUpsO2xmqjb%2BE809ImtauXAHnc9KkztjeUI2RfVL3BwRyvlPAxhbg9UpoRjPFVqkztUamuLvi1Iu98xxGMKnw1WZyABsFQqU2qWbIhNRyrxj5hLpAszp2qZgwDvweeLex56aimTbObxJz90f0ucUyIMWQST1oSabasxMks8ZpTeve/WpV7dEiJ6SqU3rmVkFc24GvqsQdRBldLmMN584A/hrR53L5Q1N5WIzoDrXg8UT%2BEPcShiJ%2BToyYkibs1zan36Ahk7LfXUqLPwS8X7XBcgN0%2BEzuEkzlTNNB6mqAb21CJFa/ThI8wZS2LoMleMOAaYWx8DsvLCEQP6vfGfO%2Bq4GXAM9Wd3eT7msz2tApz1ghn1Ia%2BHIpRCgHYXURVrBHRC2tzAUEQuZFYDADbwge6vh0FMtDtPm5wuQjYsJpBgZLYRgXqmO0P6MtB/mOptDtoaBuD3Fg/GSkMMbmE2Mr8yaX6IyjTDU0Qvq8R/X9NjHhXN0fZ7FjKqe3RkCNy4zVFWHxVJ1vz%2B1W5bY%2BUY/nRlusp%2B56hDZnurte0r1C9n2%2B0YSAFF0kSOy%2BCKajrw9wlWnQWJp3K6cfVJCkXLGUKsGbBAM7U15fCbwd%2BC7wVuNjjgZeKgzBZQYtfa0Y6npMfthjQQu2qCvURDHZZ9reuVZbyvy6aH8U%2BKbyh%2BtNOH2%2BOkb7EvMAOa1bgMR8jxlcl9GSHdo/0RRHZIh3GWk0Pbq41i8E53iBmqNXqc64OYFQ%2B8RESRISyzm/Wj0%2Bpbb0SnWJ5hJm5aNuUgmG95XOEYbRgbingGckGj2lFt3C2vpw31Ug7yelCYcL3ekKQ9EUxmf7ToqGaLISuEVm8DjwYh0fFCC%2Bg8J1Wyh8XMabuwQTHtXLT1ST8nYT1xtjlzb0%2BcKIbZcwt0b3jXJgEGpCUBoKf9tUZt9hmiu5Ya8FupqevTsyo%2BnWjidkDjuF%2Bmw0KWw8tTHSY8bfmk1ogp7OgYmQ%2B%2BQEA%2B54KwdGZ24QFjg0KHZX0oI2M5XtDJi4mK8zptUw3SefsF7Hdqn0De94kv/NDZHJIK3zWge8Tc/7krpSA8PcUeCn6hB/T8nSTGEOeuG42zvhU2NktZk/VwBNLeR0vJoga0xD8x4VLF7gSGkG%2BSThhJuAX0nC8ZicN6nznMxji/IEOzPkU/2BvmNypSEqKn4jYIVHyXFNSFJ7ldkFYlo50g0qgELBdZvmAbqKWmOAmmvllz6bmR2ixABXGINzhWlSV%2Bj5xy/ZrPA1J2LDFKkzAMldMieiETtf8VNBC6/nwFj%2B9kgzk%2BPyLsrgXGEWv9RKd4VzjWlvb9S7b1IIm9E1M5lhaR%2BpcskMA5MuVW/xTmWtLjW212SmM33FHFwFQ/CZwsY%2BP8Dc%2B7U/Y4geRFC2TwxclYa0Q1S6UoBrkxFOEg/wPT6D8T1TZZcxn6GB3QfRtcMKEOoz64q/NRioNXaLqscu9elMqb/ne7y8z3Bl6twu02HuCppTcrC50r0xTB7IByyV2XWpOUHXMwf3BUlT%2BJAyZthAxcuyymyC64lU5ypIm1HeqFA6UpoQKUmhz4cStS9FrIc%2BWTF%2BMR9l%2BsJXqrWsdVIp8lh8bel7gcWOx1NprlgNGB7Cs0pNm1pzJpcI%2BaYyCF2KAL7i%2BHLzwsNoWNplSte%2B3wfTY1QnxSRPpnavvbCmmn3MITWL4Cuf4vien9Muauy31jlxi1DT3ISp68GcJgOqlkBbV/FNXeZ7w6et978oq/I35bE6mwAAAABJRU5ErkJggg=='/%3E%3C/svg%3E">
+<script>try{var t=localStorage.getItem('kshana-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;600&family=Unbounded:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../theme.css">
+<link rel="stylesheet" href="../site.css">
+<link rel="stylesheet" href="../css/docs.css">
+<link rel="canonical" href="https://kshana.dev/docs/leo-navmsg.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kshana">
+<meta property="og:url" content="https://kshana.dev/docs/leo-navmsg.html">
+<meta property="og:title" content="LEO navigation message · Kshana docs">
+<meta property="og:description" content="LEO navigation message. Kshana documentation, generated from the repository.">
+<meta property="og:image" content="https://kshana.dev/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 83 of 223 capabilities validated against external oracles.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="LEO navigation message · Kshana docs">
+<meta name="twitter:description" content="LEO navigation message. Kshana documentation, generated from the repository.">
+<meta name="twitter:image" content="https://kshana.dev/og-card.png">
+<meta name="twitter:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 83 of 223 capabilities validated against external oracles.">
+</head>
+<body data-page="docs">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-copy" viewBox="0 0 16 16"><rect x="5" y="5" width="9" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-play" viewBox="0 0 12 12"><path d="M3 1.5v9l7.5-4.5Z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 12 12"><path d="M3 1.5h2v9H3zM7 1.5h2v9H7z" fill="currentColor"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 16 16"><path d="M9 3h4v4M13 3 7.5 8.5M12 9.5V13H3V4h3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-theme" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 16 16"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to content</a>
+<div class="bg-field" aria-hidden="true"></div>
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="../index.html" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.28.0</small></a>
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a href="../missions.html">Missions</a>
+      <a href="../capabilities.html">Capabilities</a>
+      <a href="../evidence.html">Evidence</a>
+      <a href="../developers.html">Developers</a>
+      <a href="../docs/index.html" aria-current="page">Docs</a>
+      <a href="../editions.html">Editions</a>
+    </nav>
+    <div class="nav-right">
+      <button class="k-btn" id="kbtn" type="button" aria-haspopup="dialog" aria-controls="palette"><svg width="14" height="14" aria-hidden="true"><use href="#i-search"/></svg><span class="lbl">Search</span><kbd class="kmod">⌘K</kbd></button>
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch between light and dark theme" title="Switch theme"><svg class="moon" aria-hidden="true"><use href="#i-moon"/></svg><svg class="sun" aria-hidden="true"><use href="#i-sun"/></svg></button>
+      <a class="pill" href="../playground/index.html"><span class="pill-l">Launch&nbsp;</span>Kshana Studio</a>
+      <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Open the menu" aria-expanded="false" aria-controls="navLinks"><svg aria-hidden="true"><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div class="docs docs-page">
+  <aside class="docs-side" aria-label="Documentation">
+    <div class="docs-search"><label class="vh" for="docsQ">Search the docs</label><input id="docsQ" type="search" placeholder="Search the docs" autocomplete="off" aria-keyshortcuts="/" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="docsR"><div class="docs-results" id="docsR" role="listbox" aria-label="Search results"></div><p class="vh" id="docsCount" aria-live="polite"></p></div>
+    <details class="docs-nav-d" open><summary>All docs pages</summary><nav class="docs-nav" aria-label="Docs pages"><div><h2>Get started</h2><a href="overview.html">Overview</a><a href="concepts.html">Concepts primer</a><a href="studio.html">Studio guide</a><a href="tutorials.html">Tutorials</a><a href="tutorial-first-orbit.html">1 · Your first orbit</a><a href="tutorial-clock-holdover.html">2 · Clock holdover</a><a href="tutorial-quantum-vs-classical.html">3 · Quantum against classical</a><a href="example-multi-tool.html">Worked example: multi-tool pipeline</a></div><div><h2>Scenarios</h2><a href="scenarios.html">Scenario kinds</a><a href="scenario-reference.html">Scenario reference</a><a href="schema.html">Result schema</a><a href="real-tle-guide.html">Using real TLEs</a><a href="campaigns.html">Campaigns</a></div><div><h2>Outputs and exports</h2><a href="reports.html">Run reports</a><a href="animation.html">Animation export</a><a href="interop.html">Interoperability exports and imports</a></div><div><h2>Validation and evidence</h2><a href="validation.html">Validation status</a><a href="verification-matrix.html">Verification matrix</a><a href="capability-reference.html">Capability reference</a><a href="modelled-rationale.html">Why rows stay Modelled</a><a href="claims-vs-reality.html">Claims against reality</a><a href="provenance.html">Provenance</a><a href="reproducibility.html">Reproducibility</a><a href="capability-map.html">Capability map</a><a href="standards.html">Standards and interoperability</a><a href="line-coverage.html">Line coverage</a></div><div><h2>Timing</h2><a href="slot-timing.html">Slot timing</a><a href="telecom-timing.html">Telecom timing</a><a href="deceived-time.html">Deceived time</a></div><div><h2>Integrity and interference</h2><a href="integrity.html">Integrity and security</a><a href="spectrum.html">Spectrum and waterfall</a><a href="araim-reference.html">ARAIM reference</a><a href="compliance.html">DO-316 / DO-229E map</a><a href="resilience-crosswalk.html">Resilience cross-walk</a></div><div><h2>Orbits</h2><a href="sgp4-validation.html">SGP4 validation</a><a href="agency-orbit-validation.html">Force-model validation</a><a href="solar-system.html">Solar system and other bodies</a></div><div><h2>Low Earth orbit (LEO) navigation</h2><a href="leo-pnt.html">LEO positioning, navigation and timing</a><a href="leo-signal.html">LEO signal designs</a><a href="leo-pass.html">LEO pass and link budget</a><a href="leo-navmsg.html" aria-current="page">LEO navigation message</a><a href="leo-pnt-fusion.html">Fused MEO and LEO positioning</a><a href="constellation-design.html">Constellation design</a></div><div><h2>Quantum sensors</h2><a href="quantum-models.html">Quantum-sensor models</a><a href="quantum-physics.html">Cold-atom interferometer</a></div><div><h2>APIs and integrations</h2><a href="python-api.html">Python API</a><a href="npm.html">npm and WebAssembly</a><a href="rust.html">Rust crate</a><a href="mcp.html">MCP server</a><a href="jetbrains.html">JetBrains plugin</a><a href="deployment-targets.html">Where Kshana runs</a><a href="architecture.html">Architecture</a><a href="positioning.html">Where Kshana sits</a></div><div><h2>Project</h2><a href="glossary.html">Glossary</a><a href="changelog.html">Changelog</a><a href="roadmap.html">Roadmap</a><a href="licensing.html">Licensing</a><a href="security.html">Security</a><a href="contributing.html">Contributing</a><a href="governance.html">Governance</a><a href="code-of-conduct.html">Code of conduct</a></div></nav></details>
+  </aside>
+  <article class="docs-main">
+    <div class="docs-meta"><span>Low Earth orbit (LEO) navigation</span><span class="not-pushed">Not yet on GitHub</span><span>Source: <code>docs/LEO-NAVMSG.md</code></span></div>
+    <div class="prose"><h1 id="leo-navigation-message">LEO navigation message</h1>
+<p>The <code>leo-navmsg</code> scenario kind builds the broadcast ephemeris and clock message of a low
+Earth orbit (LEO) positioning, navigation and timing (PNT) satellite, and answers the
+questions a message designer asks: how long can one message cover, what does each extra
+parameter buy, what does a user see when the message changes in the middle of a pass,
+and how many bits does it take to carry it to the centimetre.</p>
+<p>It is system-agnostic. Any orbit, any carrier and any of four ephemeris models run with
+no preset at all; the named presets are optional data (see <a href="#presets">Presets</a>).</p>
+<p>Print a bundled example with <code>kshana example &lt;name&gt;</code> (one name per call) and run it with
+<code>kshana scenarios/&lt;name&gt;.toml</code>: <code>leo-navmsg-fit-interval-trade</code>,
+<code>leo-navmsg-model-comparison</code>, <code>leo-navmsg-midpass-update</code> and <code>leo-navmsg-encode-decode</code>.
+The kind is also the message stage of the <code>leo-pnt-chain</code> kind
+(<a href="leo-pnt.html#end-to-end-leo-pnt-chain">LEO-PNT.md</a>) and the member of the
+<code>leo-focus-data-services</code> campaign, which composes four message configurations and reports
+the frame length of each (146, 154, 159 and 171 bytes).</p>
+<p>Code: <code>src/leo_navmsg/</code> — <code>elements.rs</code> (records and user algorithm), <code>truth.rs</code> (truth
+orbit and clock), <code>fit.rs</code> (fitter), <code>sisre.rs</code> (signal-in-space range error),
+<code>services.rs</code> (ionosphere and Coordinated Universal Time (UTC)), <code>codec.rs</code> (binary format), <code>text.rs</code> (Receiver
+Independent Exchange Format (RINEX)-style and comma-separated values (CSV) exports), <code>presets/</code> (one file per preset), <code>mod.rs</code> (the kind).</p>
+<h2 id="what-a-message-carries">What a message carries<a class="anchor" href="#what-a-message-carries" aria-label="Link to this section">#</a></h2>
+<div class="tbl"><table><thead><tr>
+<th>Part</th>
+<th>Content</th>
+</tr>
+</thead><tbody><tr>
+<td>Auxiliary</td>
+<td>space-vehicle identifier (SVID), issue of data (IOD), band identifier, signal health status (Galileo convention: 0 OK, 1 out of service, 2 extended operations, 3 in test)</td>
+</tr>
+<tr>
+<td>Synchronisation</td>
+<td>week number, time of week (TOW) of transmission, and a second-order clock polynomial <code>af0 + af1·(t − toc) + af2·(t − toc)²</code></td>
+</tr>
+<tr>
+<td>Ephemeris</td>
+<td>one of the four models below</td>
+</tr>
+<tr>
+<td>Other services</td>
+<td>a Klobuchar broadcast ionospheric set, Galileo NeQuick-G coefficients <code>ai0, ai1, ai2</code> with five storm flags, and system-time-to-UTC parameters <code>A0, A1, ΔtLS, t0t, WNot, WNLSF, DN, ΔtLSF</code></td>
+</tr>
+</tbody></table></div>
+<h3 id="ephemeris-models">Ephemeris models<a class="anchor" href="#ephemeris-models" aria-label="Link to this section">#</a></h3>
+<div class="tbl"><table><thead><tr>
+<th>Code</th>
+<th>Model</th>
+<th>Parameters</th>
+</tr>
+</thead><tbody><tr>
+<td><code>kepler16</code></td>
+<td>the Galileo Open Service Signal-in-Space Interface Control Document (OS SIS ICD) Keplerian set: <code>√A, e, i0, Ω0, ω, M0, Δn, Ω̇, i̇, Cuc, Cus, Crc, Crs, Cic, Cis, toe</code></td>
+<td>16</td>
+</tr>
+<tr>
+<td><code>kepler-rac</code></td>
+<td>the same, plus along-track, cross-track and radial (RAC) correction polynomials <code>a0…</code>, <code>c0…</code>, <code>r0…</code> in <code>τ = tk / tau_s</code>, coefficients in metres, <code>tau_s</code> the power of two at or above half the fit interval (transmitted), degrees set by <code>rac_degrees</code> (default 7, 5, 6)</td>
+<td>16 + 21 by default, plus the time scale</td>
+</tr>
+<tr>
+<td><code>liu22</code></td>
+<td>the 22-parameter model of Liu, Su, Xie, Zhou and Qu (2025, <em>Remote Sensing</em> 17(16):2894, doi <a href="https://doi.org/10.3390/rs17162894">10.3390/rs17162894</a>): the 16 plus <code>ȧ, ṅ, Crs3, Crc3, Crs1, Crc1</code></td>
+<td>22</td>
+</tr>
+<tr>
+<td><code>ecef-poly</code></td>
+<td>the ATOMIC (Autonomous Time and Orbit Determination for Microsatellite Constellations) &quot;zero-clock&quot; model: an Earth-centred Earth-fixed (ECEF) polynomial per axis in <code>τ = (t − t_ref) / 64 s</code> (default degree 6), no clock terms because the satellite clock is steered to system time (<a href="https://insidegnss.com/first-steps-toward-a-fully-operational-leo-pnt-payload/">InsideGNSS</a>)</td>
+<td>22 by default</td>
+</tr>
+</tbody></table></div>
+<p>The user algorithm (<code>elements::sat_state</code>) is the Galileo ICD sequence (Kepler&#39;s
+equation, second-harmonic corrections, Earth-fixed node) followed, for <code>kepler-rac</code>, by
+the three polynomials along the Keplerian orbit&#39;s own frame: radial along the evaluated
+position, cross-track along the orbit normal from the corrected inclination and node,
+along-track completing the triad. The clock adds the ICD relativistic term
+<code>F·e·√A·sin E</code>; for <code>ecef-poly</code> it is the general form <code>−2 r·v / c²</code> from the polynomial
+and its derivative.</p>
+<p>Three readings are Kshana&#39;s own and are stated as such:</p>
+<ul>
+<li>The RAC frame and the <code>τ = tk / tau_s</code> normalisation. No public document defines a LEO
+correction frame for a broadcast message.</li>
+<li>The Liu et al. terms. The paper&#39;s full text was not accessible, so Kshana evaluates
+<code>A = A0 + ȧ·tk</code>, <code>n = n0 + Δn + ½·ṅ·tk</code> (the Global Positioning System (GPS) civil-navigation convention) and adds
+<code>Crs1·sin Φ + Crc1·cos Φ + Crs3·sin 3Φ + Crc3·cos 3Φ</code> to the radius, <code>Φ</code> the argument
+of latitude.</li>
+<li>A zero-clock message&#39;s clock is zero in total: the steering loop is taken to hold the
+apparent clock, relativistic term included, to system time.</li>
+</ul>
+<h2 id="the-fitter">The fitter<a class="anchor" href="#the-fitter" aria-label="Link to this section">#</a></h2>
+<p><code>truth.rs</code> integrates the orbit with a fixed-step fourth-order Runge–Kutta in a frame
+that turns into Earth-fixed axes by one rotation, <code>θ(t) = θ0 + Ω̇e·t</code>, the same single
+rotation a broadcast user algorithm applies. Gravity is two-body (<code>gravity_degree = 0</code>),
+the zonal harmonics J2 to J6 (2 to 6), or the Earth Gravitational Model 2008 (EGM2008) field to degree and order 7 to 70,
+whose tesseral terms carry the short-period signature that makes a LEO fit hard. Drag is
+optional (static exponential density). The clock is free-running (bias, drift, drift
+rate and white frequency noise at a stated one-second Allan deviation, plus the periodic
+relativistic term) or steered (a first-order Gauss–Markov residual).</p>
+<p><code>fit.rs</code> fits the Keplerian set with Levenberg–Marquardt on non-singular elements
+(<code>e·cos ω</code>, <code>e·sin ω</code>, <code>λ0 = M0 + ω</code>): a LEO orbit is almost circular, so <code>ω</code> and <code>M0</code>
+alone are nearly indistinguishable. It starts from the osculating state at <code>toe</code> with
+the J2 node rate. Weak zero-centred priors bound the rates and harmonics that a short
+arc cannot resolve; with a 1 cm observation weight they act only in those null
+directions. The RAC polynomials are then fitted to the along/cross/radial residuals by
+linear least squares, and the clock polynomial to the truth clock minus the relativistic
+term the user will add back.</p>
+<p>A finding the defaults encode: after a least-squares Keplerian fit, the residual is by
+construction what the 16 parameters cannot span, so it oscillates across the window
+(several zero crossings in each component) rather than drifting. A correction polynomial
+removes it only when its degree exceeds what the Keplerian set already spans: along-track
+7, cross-track 5 and radial 6 take a 15-minute residual of centimetres to about a
+millimetre, while lower cross-track degrees remove almost nothing (the cross-track
+residual is odd about the window centre). A system that derives its Keplerian part some
+other way leaves a residual of a different shape, and the degrees it needs follow from
+that. The Celeste preset&#39;s own correction degrees (lower than these; they live only in the
+preset file, <code>src/celeste_iod.rs</code>) run here on Kshana&#39;s least-squares base, which
+is why its cross-track terms contribute little in this engine: a statement about Kshana&#39;s
+fitter, not about any real system. <code>toe</code> and <code>toc</code> are whole seconds, as the binary format
+carries them.</p>
+<p>Each message is used over a period centred in its fit window (the first trade table uses
+the whole window). What the signal-in-space range error (SISRE) figures measure is the <strong>representation error</strong> of the
+message against the truth it was fitted to, as a root mean square (RMS) and a maximum over
+the span. The error of orbit determination and orbit
+prediction, which a real ground or on-board segment adds on top, is not modelled.</p>
+<h2 id="signal-in-space-range-error">Signal-in-space range error<a class="anchor" href="#signal-in-space-range-error" aria-label="Link to this section">#</a></h2>
+<p><code>sisre.rs</code> uses the global-average SISRE of Montenbruck, Steigenberger and Hauschild
+(2018, <em>Advances in Space Research</em> 61(12):3020–3038,
+doi <a href="https://doi.org/10.1016/j.asr.2018.03.041">10.1016/j.asr.2018.03.041</a>):</p>
+<pre data-lang="text"><code class="hljs">SISRE_orb = sqrt( w_R² R² + w_AC² (A² + C²) )
+SISRE     = sqrt( (w_R R − c·dT)² + w_AC² (A² + C²) )</code></pre>
+<p>The weights are the averages over users spread uniformly on the visible Earth cap of
+<code>cos² η</code> and <code>½ sin² η</code>, with <code>η</code> the nadir angle of the line of sight at the satellite,
+computed for the orbit&#39;s own radius and elevation mask. At a 0° mask the computation
+reproduces the paper&#39;s table for medium Earth orbit (GPS 0.98 and 1/49, GLONASS 1/45,
+Galileo 1/61, BeiDou 1/54) and geostationary orbit (0.99 and 1/126): that is the
+<strong>VALIDATED</strong> check. At LEO the same average gives</p>
+<div class="tbl"><table><thead><tr>
+<th>Altitude</th>
+<th><code>w_R</code></th>
+<th><code>1 / w_AC²</code></th>
+<th>horizon nadir angle</th>
+</tr>
+</thead><tbody><tr>
+<td>320 km</td>
+<td>0.384</td>
+<td>2.35</td>
+<td>72.2°</td>
+</tr>
+<tr>
+<td>510 km</td>
+<td>0.459</td>
+<td>2.53</td>
+<td>67.8°</td>
+</tr>
+<tr>
+<td>550 km</td>
+<td>0.472</td>
+<td>2.57</td>
+<td>67.0°</td>
+</tr>
+<tr>
+<td>786 km</td>
+<td>0.536</td>
+<td>2.81</td>
+<td>62.9°</td>
+</tr>
+<tr>
+<td>1080 km</td>
+<td>0.597</td>
+<td>3.11</td>
+<td>58.8°</td>
+</tr>
+<tr>
+<td>1336 km</td>
+<td>0.638</td>
+<td>3.37</td>
+<td>55.8°</td>
+</tr>
+</tbody></table></div>
+<p>so a LEO user, who sees the satellite far from nadir, feels along- and cross-track
+errors much more than a medium-orbit user does.</p>
+<h2 id="analyses">Analyses<a class="anchor" href="#analyses" aria-label="Link to this section">#</a></h2>
+<p><code>analysis = [...]</code> picks any of the four (default all).</p>
+<h3 id="fit-interval-trade">Fit-interval trade<a class="anchor" href="#fit-interval-trade" aria-label="Link to this section">#</a></h3>
+<p><code>[trade]</code> sets the span, the fit intervals, the update periods and the models.
+<code>scenarios/leo-navmsg-fit-interval-trade.toml</code> (550 km, 97.6°, EGM2008 to degree 20
+and drag, 30 minutes of messages) gives, with the usage period equal to the fit
+interval:</p>
+<div class="tbl"><table><thead><tr>
+<th>Model</th>
+<th>Fit interval</th>
+<th>SISRE orbit RMS</th>
+<th>SISRE orbit max</th>
+<th>SISRE with clock RMS</th>
+<th>radial / along / cross RMS</th>
+</tr>
+</thead><tbody><tr>
+<td><code>kepler16</code></td>
+<td>60 s</td>
+<td>0.039 cm</td>
+<td>0.215 cm</td>
+<td>0.060 cm</td>
+<td>0.08 / 0.01 / 0.00 cm</td>
+</tr>
+<tr>
+<td><code>kepler16</code></td>
+<td>120 s</td>
+<td>0.031 cm</td>
+<td>0.151 cm</td>
+<td>0.080 cm</td>
+<td>0.06 / 0.01 / 0.01 cm</td>
+</tr>
+<tr>
+<td><code>kepler16</code></td>
+<td>180 s</td>
+<td>0.094 cm</td>
+<td>0.541 cm</td>
+<td>0.136 cm</td>
+<td>0.18 / 0.06 / 0.01 cm</td>
+</tr>
+<tr>
+<td><code>kepler16</code></td>
+<td>300 s</td>
+<td>0.310 cm</td>
+<td>1.033 cm</td>
+<td>0.335 cm</td>
+<td>0.09 / 0.49 / 0.02 cm</td>
+</tr>
+<tr>
+<td><code>kepler16</code></td>
+<td>450 s</td>
+<td>1.690 cm</td>
+<td>7.536 cm</td>
+<td>1.694 cm</td>
+<td>0.72 / 2.65 / 0.04 cm</td>
+</tr>
+<tr>
+<td><code>kepler16</code></td>
+<td>600 s</td>
+<td>2.875 cm</td>
+<td>10.219 cm</td>
+<td>2.889 cm</td>
+<td>1.72 / 4.42 / 0.26 cm</td>
+</tr>
+<tr>
+<td><code>kepler16</code></td>
+<td>900 s</td>
+<td>9.345 cm</td>
+<td>34.032 cm</td>
+<td>9.340 cm</td>
+<td>6.46 / 14.14 / 0.91 cm</td>
+</tr>
+<tr>
+<td><code>kepler-rac</code></td>
+<td>60 s</td>
+<td>0.000 cm</td>
+<td>0.000 cm</td>
+<td>0.046 cm</td>
+<td>0.00 / 0.00 / 0.00 cm</td>
+</tr>
+<tr>
+<td><code>kepler-rac</code></td>
+<td>120 s</td>
+<td>0.000 cm</td>
+<td>0.000 cm</td>
+<td>0.077 cm</td>
+<td>0.00 / 0.00 / 0.00 cm</td>
+</tr>
+<tr>
+<td><code>kepler-rac</code></td>
+<td>180 s</td>
+<td>0.000 cm</td>
+<td>0.001 cm</td>
+<td>0.088 cm</td>
+<td>0.00 / 0.00 / 0.00 cm</td>
+</tr>
+<tr>
+<td><code>kepler-rac</code></td>
+<td>300 s</td>
+<td>0.004 cm</td>
+<td>0.014 cm</td>
+<td>0.123 cm</td>
+<td>0.00 / 0.00 / 0.01 cm</td>
+</tr>
+<tr>
+<td><code>kepler-rac</code></td>
+<td>450 s</td>
+<td>0.037 cm</td>
+<td>0.176 cm</td>
+<td>0.138 cm</td>
+<td>0.05 / 0.01 / 0.04 cm</td>
+</tr>
+<tr>
+<td><code>kepler-rac</code></td>
+<td>600 s</td>
+<td>0.214 cm</td>
+<td>0.643 cm</td>
+<td>0.268 cm</td>
+<td>0.28 / 0.09 / 0.26 cm</td>
+</tr>
+<tr>
+<td><code>kepler-rac</code></td>
+<td>900 s</td>
+<td>1.015 cm</td>
+<td>3.695 cm</td>
+<td>1.027 cm</td>
+<td>1.52 / 0.70 / 0.91 cm</td>
+</tr>
+</tbody></table></div>
+<p>And with a 300 s fit, varying how often a new message takes over:</p>
+<div class="tbl"><table><thead><tr>
+<th>Model</th>
+<th>Update period</th>
+<th>SISRE orbit RMS</th>
+<th>SISRE orbit max</th>
+</tr>
+</thead><tbody><tr>
+<td><code>kepler16</code></td>
+<td>30 s</td>
+<td>0.314 cm</td>
+<td>0.850 cm</td>
+</tr>
+<tr>
+<td><code>kepler16</code></td>
+<td>60 s</td>
+<td>0.288 cm</td>
+<td>0.859 cm</td>
+</tr>
+<tr>
+<td><code>kepler16</code></td>
+<td>150 s</td>
+<td>0.219 cm</td>
+<td>0.830 cm</td>
+</tr>
+<tr>
+<td><code>kepler16</code></td>
+<td>300 s</td>
+<td>0.310 cm</td>
+<td>1.033 cm</td>
+</tr>
+<tr>
+<td><code>kepler-rac</code></td>
+<td>30 s</td>
+<td>0.004 cm</td>
+<td>0.009 cm</td>
+</tr>
+<tr>
+<td><code>kepler-rac</code></td>
+<td>60 s</td>
+<td>0.004 cm</td>
+<td>0.009 cm</td>
+</tr>
+<tr>
+<td><code>kepler-rac</code></td>
+<td>150 s</td>
+<td>0.004 cm</td>
+<td>0.010 cm</td>
+</tr>
+<tr>
+<td><code>kepler-rac</code></td>
+<td>300 s</td>
+<td>0.004 cm</td>
+<td>0.014 cm</td>
+</tr>
+</tbody></table></div>
+<p>The 16-parameter Keplerian set degrades from 0.04 cm at 60 s to 9.35 cm at 900 s: one Keplerian set with twice-per-revolution harmonics cannot follow the higher-frequency gravity terms and the drag of a LEO arc for more than a few minutes, and its least-squares residual oscillates across the window. The along/cross/radial polynomials (degrees 7, 5, 6) absorb what is left: 1.01 cm at 900 s, 0.21 cm at 600 s. At the shortest intervals the Keplerian figures are sub-millimetre and no longer strictly ordered (the fit is then limited by conditioning, not by the model).</p>
+<h3 id="model-comparison">Model comparison<a class="anchor" href="#model-comparison" aria-label="Link to this section">#</a></h3>
+<p><code>scenarios/leo-navmsg-model-comparison.toml</code> runs the four models at 1, 5 and 10 minutes
+on the same orbit, with the number of parameters and the ephemeris-and-clock bits in
+Kshana&#39;s encoding:</p>
+<div class="tbl"><table><thead><tr>
+<th>Model</th>
+<th>Fit interval</th>
+<th>Parameters</th>
+<th>Ephemeris + clock bits</th>
+<th>SISRE orbit RMS</th>
+<th>SISRE with clock RMS</th>
+</tr>
+</thead><tbody><tr>
+<td><code>kepler16</code></td>
+<td>60 s</td>
+<td>16</td>
+<td>570</td>
+<td>0.023 cm</td>
+<td>0.063 cm</td>
+</tr>
+<tr>
+<td><code>kepler16</code></td>
+<td>300 s</td>
+<td>16</td>
+<td>570</td>
+<td>0.230 cm</td>
+<td>0.253 cm</td>
+</tr>
+<tr>
+<td><code>kepler16</code></td>
+<td>600 s</td>
+<td>16</td>
+<td>570</td>
+<td>3.061 cm</td>
+<td>3.052 cm</td>
+</tr>
+<tr>
+<td><code>kepler-rac</code></td>
+<td>60 s</td>
+<td>37</td>
+<td>1045</td>
+<td>0.000 cm</td>
+<td>0.052 cm</td>
+</tr>
+<tr>
+<td><code>kepler-rac</code></td>
+<td>300 s</td>
+<td>37</td>
+<td>1045</td>
+<td>0.005 cm</td>
+<td>0.113 cm</td>
+</tr>
+<tr>
+<td><code>kepler-rac</code></td>
+<td>600 s</td>
+<td>37</td>
+<td>1045</td>
+<td>0.160 cm</td>
+<td>0.218 cm</td>
+</tr>
+<tr>
+<td><code>liu22</code></td>
+<td>60 s</td>
+<td>22</td>
+<td>730</td>
+<td>0.012 cm</td>
+<td>0.052 cm</td>
+</tr>
+<tr>
+<td><code>liu22</code></td>
+<td>300 s</td>
+<td>22</td>
+<td>730</td>
+<td>0.070 cm</td>
+<td>0.132 cm</td>
+</tr>
+<tr>
+<td><code>liu22</code></td>
+<td>600 s</td>
+<td>22</td>
+<td>730</td>
+<td>0.270 cm</td>
+<td>0.303 cm</td>
+</tr>
+<tr>
+<td><code>ecef-poly</code> (zero clock)</td>
+<td>60 s</td>
+<td>22</td>
+<td>750</td>
+<td>0.000 cm</td>
+<td>25.119 cm</td>
+</tr>
+<tr>
+<td><code>ecef-poly</code> (zero clock)</td>
+<td>300 s</td>
+<td>22</td>
+<td>750</td>
+<td>0.005 cm</td>
+<td>25.119 cm</td>
+</tr>
+<tr>
+<td><code>ecef-poly</code> (zero clock)</td>
+<td>600 s</td>
+<td>22</td>
+<td>750</td>
+<td>0.561 cm</td>
+<td>25.113 cm</td>
+</tr>
+</tbody></table></div>
+<p>The zero-clock row is scored against a clock steered with a 0.24 m residual (the ATOMIC
+figure), the others against the free-running clock they fit.</p>
+<p><strong>Liu et al. 2025, SISRE versus altitude (MODELLED).</strong> The same scenario fits Kshana&#39;s
+22-parameter model over 20-minute arcs at the five altitudes of the paper, at each
+satellite&#39;s inclination:</p>
+<div class="tbl"><table><thead><tr>
+<th>Satellite</th>
+<th>Altitude</th>
+<th>Inclination</th>
+<th>Liu et al. 2025</th>
+<th>Kshana (orbit-only RMS)</th>
+<th>ratio</th>
+</tr>
+</thead><tbody><tr>
+<td>GRACE-A</td>
+<td>320 km</td>
+<td>89.00°</td>
+<td>8.88 cm</td>
+<td>5.39 cm</td>
+<td>0.61</td>
+</tr>
+<tr>
+<td>GRACE-C</td>
+<td>475 km</td>
+<td>89.00°</td>
+<td>6.21 cm</td>
+<td>4.11 cm</td>
+<td>0.66</td>
+</tr>
+<tr>
+<td>Sentinel-2A</td>
+<td>786 km</td>
+<td>98.57°</td>
+<td>2.87 cm</td>
+<td>2.95 cm</td>
+<td>1.03</td>
+</tr>
+<tr>
+<td>HY-2A</td>
+<td>966 km</td>
+<td>99.34°</td>
+<td>2.11 cm</td>
+<td>2.38 cm</td>
+<td>1.13</td>
+</tr>
+<tr>
+<td>Sentinel-6A</td>
+<td>1336 km</td>
+<td>66.04°</td>
+<td>0.75 cm</td>
+<td>0.71 cm</td>
+<td>0.94</td>
+</tr>
+</tbody></table></div>
+<p>This is <strong>not</strong> a validation. The paper fitted real precise science orbits of the named
+satellites (with their full gravity, drag and non-gravitational history); Kshana fits its
+own integrated orbit, reads the six added parameters as described above, and uses its
+own SISRE weights. The comparison shows the trend and the order of magnitude.</p>
+<h3 id="mid-pass-update">Mid-pass update<a class="anchor" href="#mid-pass-update" aria-label="Link to this section">#</a></h3>
+<p><code>[midpass]</code> places a user (default 45° N, 10° E), finds the highest pass above the mask
+within <code>search_s</code>, and schedules messages every <code>update_period_s</code>. At each switch inside
+the pass it reports the position jump, the clock jump, the user&#39;s pseudorange jump (new
+message minus old), the largest jump any visible user could see (closed form over the
+nadir cone), the range error before and after, and PASS or FAIL against <code>threshold_m</code>.
+<code>scenarios/leo-navmsg-midpass-update.toml</code> (300 s fits updated every 150 s):</p>
+<p>The highest pass in a day reaches 43.7° and lasts 455 s. Its switches:</p>
+<div class="tbl"><table><thead><tr>
+<th>Switch</th>
+<th>Elevation</th>
+<th>Position jump</th>
+<th>Clock jump</th>
+<th>User range jump</th>
+<th>Worst-geometry jump</th>
+</tr>
+</thead><tbody><tr>
+<td>IOD 270 → 271</td>
+<td>12.7°</td>
+<td>0.07 mm</td>
+<td>-0.38 mm</td>
+<td>0.40 mm</td>
+<td>0.43 mm</td>
+</tr>
+<tr>
+<td>IOD 271 → 272</td>
+<td>37.4°</td>
+<td>0.14 mm</td>
+<td>-0.02 mm</td>
+<td>-0.07 mm</td>
+<td>0.15 mm</td>
+</tr>
+<tr>
+<td>IOD 272 → 273</td>
+<td>28.2°</td>
+<td>0.27 mm</td>
+<td>0.48 mm</td>
+<td>-0.35 mm</td>
+<td>0.72 mm</td>
+</tr>
+</tbody></table></div>
+<p>Largest user range jump 0.40 mm against a 5 cm threshold: <strong>PASS</strong>.</p>
+<h3 id="encode-and-decode">Encode and decode<a class="anchor" href="#encode-and-decode" aria-label="Link to this section">#</a></h3>
+<p><code>scenarios/leo-navmsg-encode-decode.toml</code> encodes the first of three messages, decodes
+it, checks the CRC and rejects a corrupted copy, prints the quantisation budget, and
+writes and reads back the RINEX-style block and the CSV table:</p>
+<ul>
+<li>frame: 171 bytes (1310 payload bits, of which 1045 are ephemeris and clock), 24-bit cyclic
+redundancy check (CRC-24Q) <code>0x110315</code>;</li>
+<li>largest half-step effect of any single field: <code>af0</code>, 0.545 mm;</li>
+<li>whole message after quantisation: position within 0.662 mm and clock within 0.451 mm of the exact message; SISRE 0.107 cm exact, 0.122 cm decoded;</li>
+<li>a frame with one flipped bit is rejected: true;</li>
+<li>RINEX-style round trip within 6.6e-06 m, CSV round trip within 0.0e+00 m.</li>
+</ul>
+<h2 id="binary-format">Binary format<a class="anchor" href="#binary-format" aria-label="Link to this section">#</a></h2>
+<p><strong>This is Kshana&#39;s own documented encoding.</strong> It carries the components the published
+descriptions of LEO navigation messages name, modelled on the Galileo ICD field set. It
+is <strong>not</strong> the bit layout of Celeste or of any other system: none is public.</p>
+<p>Frame: preamble <code>0xA7</code> (8 bits), version 1 (4), model (4: 1 <code>kepler16</code>, 2
+<code>kepler-rac</code>, 3 <code>liu22</code>, 4 <code>ecef-poly</code>), payload length in bytes (12), payload
+zero-padded to a byte, CRC-24Q (a 24-bit cyclic redundancy check, 24 bits) over every
+preceding byte. CRC-24Q is the check of the Radio Technical Commission for Maritime
+Services standard RTCM 10403 and the Galileo ICD (polynomial <code>0x1864CFB</code>, initial value 0); the code
+reproduces the catalogue check value <code>0xCDE703</code> for <code>123456789</code> and the check bytes of
+the RTCM 10403 message-type 1005 example frame (<strong>VALIDATED</strong>).</p>
+<p>The Galileo ICD steps were chosen for medium Earth orbit and are too coarse for a
+centimetre-level LEO message: <code>Crs</code> in steps of 2⁻⁵ m (3.1 cm), <code>Cuc</code> 2⁻²⁹ rad (1.3 cm at
+LEO radius), the angles 2⁻³¹ semicircles (1.0 cm) and <code>af0</code> 2⁻³⁴ s (1.7 cm). Kshana
+keeps the ICD units and the semicircle convention, refines the steps so that every
+field&#39;s half-step error stays below 1 mm of position or range over a 15-minute window,
+and widens the fields to keep the ranges a LEO fit needs:</p>
+<div class="tbl"><table><thead><tr>
+<th>Block</th>
+<th>Field</th>
+<th>Bits</th>
+<th>Step</th>
+<th>Unit</th>
+</tr>
+</thead><tbody><tr>
+<td>auxiliary and synchronisation</td>
+<td><code>SVID</code></td>
+<td>8</td>
+<td>1</td>
+<td>-</td>
+</tr>
+<tr>
+<td>auxiliary and synchronisation</td>
+<td><code>IOD</code></td>
+<td>10</td>
+<td>1</td>
+<td>-</td>
+</tr>
+<tr>
+<td>auxiliary and synchronisation</td>
+<td><code>Band</code></td>
+<td>4</td>
+<td>1</td>
+<td>-</td>
+</tr>
+<tr>
+<td>auxiliary and synchronisation</td>
+<td><code>Health</code></td>
+<td>2</td>
+<td>1</td>
+<td>-</td>
+</tr>
+<tr>
+<td>auxiliary and synchronisation</td>
+<td><code>WeekNumber</code></td>
+<td>13</td>
+<td>1</td>
+<td>week</td>
+</tr>
+<tr>
+<td>auxiliary and synchronisation</td>
+<td><code>ToW</code></td>
+<td>20</td>
+<td>1</td>
+<td>s</td>
+</tr>
+<tr>
+<td>auxiliary and synchronisation</td>
+<td><code>Flags</code></td>
+<td>4</td>
+<td>1</td>
+<td>-</td>
+</tr>
+<tr>
+<td>clock (flag bit 0)</td>
+<td><code>toc</code></td>
+<td>20</td>
+<td>1</td>
+<td>s</td>
+</tr>
+<tr>
+<td>clock (flag bit 0)</td>
+<td><code>af0</code></td>
+<td>34</td>
+<td>2^-38</td>
+<td>s</td>
+</tr>
+<tr>
+<td>clock (flag bit 0)</td>
+<td><code>af1</code></td>
+<td>28</td>
+<td>2^-50</td>
+<td>s/s</td>
+</tr>
+<tr>
+<td>clock (flag bit 0)</td>
+<td><code>af2</code></td>
+<td>20</td>
+<td>2^-62</td>
+<td>s/s^2</td>
+</tr>
+<tr>
+<td>Keplerian (models 1-3)</td>
+<td><code>toe</code></td>
+<td>20</td>
+<td>1</td>
+<td>s</td>
+</tr>
+<tr>
+<td>Keplerian (models 1-3)</td>
+<td><code>M0</code></td>
+<td>36</td>
+<td>2^-35</td>
+<td>semicircle</td>
+</tr>
+<tr>
+<td>Keplerian (models 1-3)</td>
+<td><code>e</code></td>
+<td>32</td>
+<td>2^-33</td>
+<td>-</td>
+</tr>
+<tr>
+<td>Keplerian (models 1-3)</td>
+<td><code>sqrtA</code></td>
+<td>36</td>
+<td>2^-23</td>
+<td>m^0.5</td>
+</tr>
+<tr>
+<td>Keplerian (models 1-3)</td>
+<td><code>Omega0</code></td>
+<td>36</td>
+<td>2^-35</td>
+<td>semicircle</td>
+</tr>
+<tr>
+<td>Keplerian (models 1-3)</td>
+<td><code>i0</code></td>
+<td>36</td>
+<td>2^-35</td>
+<td>semicircle</td>
+</tr>
+<tr>
+<td>Keplerian (models 1-3)</td>
+<td><code>omega</code></td>
+<td>36</td>
+<td>2^-35</td>
+<td>semicircle</td>
+</tr>
+<tr>
+<td>Keplerian (models 1-3)</td>
+<td><code>deltaN</code></td>
+<td>29</td>
+<td>2^-43</td>
+<td>semicircle/s</td>
+</tr>
+<tr>
+<td>Keplerian (models 1-3)</td>
+<td><code>OmegaDot</code></td>
+<td>29</td>
+<td>2^-43</td>
+<td>semicircle/s</td>
+</tr>
+<tr>
+<td>Keplerian (models 1-3)</td>
+<td><code>iDot</code></td>
+<td>22</td>
+<td>2^-43</td>
+<td>semicircle/s</td>
+</tr>
+<tr>
+<td>Keplerian (models 1-3)</td>
+<td><code>Cuc</code></td>
+<td>26</td>
+<td>2^-34</td>
+<td>rad</td>
+</tr>
+<tr>
+<td>Keplerian (models 1-3)</td>
+<td><code>Cus</code></td>
+<td>26</td>
+<td>2^-34</td>
+<td>rad</td>
+</tr>
+<tr>
+<td>Keplerian (models 1-3)</td>
+<td><code>Crc</code></td>
+<td>26</td>
+<td>2^-10</td>
+<td>m</td>
+</tr>
+<tr>
+<td>Keplerian (models 1-3)</td>
+<td><code>Crs</code></td>
+<td>26</td>
+<td>2^-10</td>
+<td>m</td>
+</tr>
+<tr>
+<td>Keplerian (models 1-3)</td>
+<td><code>Cic</code></td>
+<td>26</td>
+<td>2^-34</td>
+<td>rad</td>
+</tr>
+<tr>
+<td>Keplerian (models 1-3)</td>
+<td><code>Cis</code></td>
+<td>26</td>
+<td>2^-34</td>
+<td>rad</td>
+</tr>
+<tr>
+<td>along/cross/radial corrections (model 2)</td>
+<td><code>degA</code></td>
+<td>3</td>
+<td>1</td>
+<td>-</td>
+</tr>
+<tr>
+<td>along/cross/radial corrections (model 2)</td>
+<td><code>degC</code></td>
+<td>3</td>
+<td>1</td>
+<td>-</td>
+</tr>
+<tr>
+<td>along/cross/radial corrections (model 2)</td>
+<td><code>degR</code></td>
+<td>3</td>
+<td>1</td>
+<td>-</td>
+</tr>
+<tr>
+<td>along/cross/radial corrections (model 2)</td>
+<td><code>racTauExp</code></td>
+<td>4</td>
+<td>1</td>
+<td>log2(s)</td>
+</tr>
+<tr>
+<td>along/cross/radial corrections (model 2)</td>
+<td><code>a_k, c_k, r_k</code></td>
+<td>22</td>
+<td>2^-14</td>
+<td>m</td>
+</tr>
+<tr>
+<td>Liu et al. 2025 extras (model 3)</td>
+<td><code>aDot</code></td>
+<td>26</td>
+<td>2^-20</td>
+<td>m/s</td>
+</tr>
+<tr>
+<td>Liu et al. 2025 extras (model 3)</td>
+<td><code>nDot</code></td>
+<td>30</td>
+<td>2^-60</td>
+<td>semicircle/s^2</td>
+</tr>
+<tr>
+<td>Liu et al. 2025 extras (model 3)</td>
+<td><code>Crs3</code></td>
+<td>26</td>
+<td>2^-10</td>
+<td>m</td>
+</tr>
+<tr>
+<td>Liu et al. 2025 extras (model 3)</td>
+<td><code>Crc3</code></td>
+<td>26</td>
+<td>2^-10</td>
+<td>m</td>
+</tr>
+<tr>
+<td>Liu et al. 2025 extras (model 3)</td>
+<td><code>Crs1</code></td>
+<td>26</td>
+<td>2^-10</td>
+<td>m</td>
+</tr>
+<tr>
+<td>Liu et al. 2025 extras (model 3)</td>
+<td><code>Crc1</code></td>
+<td>26</td>
+<td>2^-10</td>
+<td>m</td>
+</tr>
+<tr>
+<td>ECEF polynomial (model 4)</td>
+<td><code>tref</code></td>
+<td>20</td>
+<td>1</td>
+<td>s</td>
+</tr>
+<tr>
+<td>ECEF polynomial (model 4)</td>
+<td><code>degP</code></td>
+<td>4</td>
+<td>1</td>
+<td>-</td>
+</tr>
+<tr>
+<td>ECEF polynomial (model 4)</td>
+<td><code>x0, y0, z0</code></td>
+<td>38</td>
+<td>2^-11</td>
+<td>m</td>
+</tr>
+<tr>
+<td>ECEF polynomial (model 4)</td>
+<td><code>x_k, y_k, z_k (k &gt;= 1)</code></td>
+<td>34</td>
+<td>2^-12</td>
+<td>m</td>
+</tr>
+<tr>
+<td>Klobuchar (flag bit 1)</td>
+<td><code>alpha0</code></td>
+<td>8</td>
+<td>2^-30</td>
+<td>s</td>
+</tr>
+<tr>
+<td>Klobuchar (flag bit 1)</td>
+<td><code>alpha1</code></td>
+<td>8</td>
+<td>2^-27</td>
+<td>s/semicircle</td>
+</tr>
+<tr>
+<td>Klobuchar (flag bit 1)</td>
+<td><code>alpha2</code></td>
+<td>8</td>
+<td>2^-24</td>
+<td>s/semicircle^2</td>
+</tr>
+<tr>
+<td>Klobuchar (flag bit 1)</td>
+<td><code>alpha3</code></td>
+<td>8</td>
+<td>2^-24</td>
+<td>s/semicircle^3</td>
+</tr>
+<tr>
+<td>Klobuchar (flag bit 1)</td>
+<td><code>beta0</code></td>
+<td>8</td>
+<td>2^11</td>
+<td>s</td>
+</tr>
+<tr>
+<td>Klobuchar (flag bit 1)</td>
+<td><code>beta1</code></td>
+<td>8</td>
+<td>2^14</td>
+<td>s/semicircle</td>
+</tr>
+<tr>
+<td>Klobuchar (flag bit 1)</td>
+<td><code>beta2</code></td>
+<td>8</td>
+<td>2^16</td>
+<td>s/semicircle^2</td>
+</tr>
+<tr>
+<td>Klobuchar (flag bit 1)</td>
+<td><code>beta3</code></td>
+<td>8</td>
+<td>2^16</td>
+<td>s/semicircle^3</td>
+</tr>
+<tr>
+<td>NeQuick-G (flag bit 2)</td>
+<td><code>ai0</code></td>
+<td>11</td>
+<td>2^-2</td>
+<td>sfu</td>
+</tr>
+<tr>
+<td>NeQuick-G (flag bit 2)</td>
+<td><code>ai1</code></td>
+<td>11</td>
+<td>2^-8</td>
+<td>sfu/deg</td>
+</tr>
+<tr>
+<td>NeQuick-G (flag bit 2)</td>
+<td><code>ai2</code></td>
+<td>14</td>
+<td>2^-15</td>
+<td>sfu/deg^2</td>
+</tr>
+<tr>
+<td>NeQuick-G (flag bit 2)</td>
+<td><code>SF1-5</code></td>
+<td>5</td>
+<td>1</td>
+<td>-</td>
+</tr>
+<tr>
+<td>UTC (flag bit 3)</td>
+<td><code>A0</code></td>
+<td>32</td>
+<td>2^-30</td>
+<td>s</td>
+</tr>
+<tr>
+<td>UTC (flag bit 3)</td>
+<td><code>A1</code></td>
+<td>24</td>
+<td>2^-50</td>
+<td>s/s</td>
+</tr>
+<tr>
+<td>UTC (flag bit 3)</td>
+<td><code>dtLS</code></td>
+<td>8</td>
+<td>1</td>
+<td>s</td>
+</tr>
+<tr>
+<td>UTC (flag bit 3)</td>
+<td><code>t0t</code></td>
+<td>8</td>
+<td>3600</td>
+<td>s</td>
+</tr>
+<tr>
+<td>UTC (flag bit 3)</td>
+<td><code>WNot</code></td>
+<td>8</td>
+<td>1</td>
+<td>week</td>
+</tr>
+<tr>
+<td>UTC (flag bit 3)</td>
+<td><code>WNLSF</code></td>
+<td>8</td>
+<td>1</td>
+<td>week</td>
+</tr>
+<tr>
+<td>UTC (flag bit 3)</td>
+<td><code>DN</code></td>
+<td>3</td>
+<td>1</td>
+<td>day</td>
+</tr>
+<tr>
+<td>UTC (flag bit 3)</td>
+<td><code>dtLSF</code></td>
+<td>8</td>
+<td>1</td>
+<td>s</td>
+</tr>
+</tbody></table></div>
+<p>A value outside its field&#39;s range is refused, not wrapped. The ranges were checked by
+encoding fits at 300 to 2000 km, inclinations from 0° to 140° and fit intervals up to
+20 minutes: <code>deltaN</code> and <code>OmegaDot</code> are wide because on a near-equatorial orbit the node
+is poorly defined and the fit shares the J2 drift of the argument of latitude between
+them, and <code>aDot</code> and <code>nDot</code> because the 22-parameter fit over 20 minutes absorbs part of
+the short-period oscillation of the semi-major axis. The degree-7 along-track
+corrections of <code>kepler-rac</code> fit the 22-bit coefficient range up to 15 minutes; a longer
+fit can exceed it and is then refused. <code>quantisation_budget</code> reports,
+for every ephemeris and clock field, the largest position and range change a half-step
+change makes over the usage period, and the whole-message change after quantisation.</p>
+<h2 id="text-exports">Text exports<a class="anchor" href="#text-exports" aria-label="Link to this section">#</a></h2>
+<p><strong>RINEX 4.02 defines no LEO navigation records</strong> (its system letters are G, R, E, J, C, I
+and S; <a href="https://files.igs.org/pub/data/format/rinex_4.02.pdf">International Global Navigation Satellite System (GNSS) Service (IGS) RINEX 4.02</a>). The
+block <code>text.rs</code> writes borrows the RINEX 4 shape — a <code>&gt; EPH</code> record header, a satellite
+and epoch line with three clock terms, broadcast-orbit lines of four <code>D19.12</code> fields —
+and is a <strong>documented Kshana extension</strong>: system letter <code>L</code>, record types <code>KP16</code>, <code>KRAC</code>,
+<code>LU22</code>, <code>APOL</code>, and three header comments that say so. Prior art for LEO orbits in
+RINEX-4-style navigation records: <a href="https://arxiv.org/abs/2401.17767">arXiv 2401.17767</a>.</p>
+<pre data-lang="text"><code class="hljs">&gt; EPH L04 KRAC
+L04 yyyy mm dd hh mm ss  af0 af1 af2
+     IOD      Crs      deltaN   M0
+     Cuc      e        Cus      sqrtA
+     toe      Cic      Omega0   Cis
+     i0       Crc      omega    OmegaDot
+     IDOT     Band     Week     Health
+     txTOW    clock    degA     degC
+     degR     tau_s    a0       a1         then the rest of a_k, c_k and r_k, four per line</code></pre>
+<p>The CSV table carries <code>kepler16</code> and <code>kepler-rac</code> messages one per row. The default
+columns use the Galileo ICD names (<code>SVID, IOD, Band, WeekNumber, ToW, Health, toc, af0, af1, af2, toe, M0, sqrtA, e, deltaN, Omega0, OmegaDot, iDot, i0, omega, Crc, Crs, Cic, Cis, Cuc, Cus, a0…, c0…, r0…, racTau</code>); <code>csv_schema</code> selects a preset&#39;s spelling instead. Both
+formats read back.</p>
+<h2 id="ionosphere-and-utc">Ionosphere and UTC<a class="anchor" href="#ionosphere-and-utc" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>Klobuchar</strong>: the engine&#39;s L1 model (<code>gnss_sim::klobuchar_delay_m</code>, checked against
+RTKLIB) scaled to the carrier by the first-order <code>(f_L1 / f)²</code> law.</li>
+<li><strong>NeQuick-G</strong>: the coefficients travel in the message and <code>effective_ionisation_level</code>
+returns <code>Az = ai0 + ai1·μ + ai2·μ²</code> for a modified dip latitude <code>μ</code>, with the
+algorithm&#39;s rules (all-zero coefficients give 63.7 solar flux units, sfu; the result is clamped to
+[0, 400] sfu). The NeQuick electron-density model and its slant integration, which turn
+<code>Az</code> into a delay, are <strong>not</strong> implemented.</li>
+<li>A satellite at a few hundred kilometres flies inside the ionosphere. Neither broadcast
+model accounts for the electron content above the satellite, and no correction for it
+is applied.</li>
+<li><strong>UTC</strong>: <code>system_to_utc</code> applies the three cases of the Galileo ICD §5.1.7 (before,
+within six hours of, and after a leap-second event); an inserted second reads 86400.</li>
+</ul>
+<h2 id="presets">Presets<a class="anchor" href="#presets" aria-label="Link to this section">#</a></h2>
+<p>Presets are data, one file each under <code>src/leo_navmsg/presets/</code>, with their sources.
+The engine and every bundled scenario except the Celeste one run without them.</p>
+<div class="tbl"><table><thead><tr>
+<th>Key</th>
+<th>Source</th>
+<th>Orbit</th>
+<th>Carrier</th>
+<th>Message model</th>
+</tr>
+</thead><tbody><tr>
+<td><code>xona-pulsar</code></td>
+<td>PUBLIC, <a href="https://arxiv.org/abs/2509.19551">arXiv 2509.19551</a></td>
+<td>1080 km, 53°</td>
+<td>X1 1593.3225 MHz</td>
+<td>not published</td>
+</tr>
+<tr>
+<td><code>xona-pulsar-0</code></td>
+<td>PUBLIC, arXiv 2509.19551</td>
+<td>520 km, 97°</td>
+<td>X1</td>
+<td>not published</td>
+</tr>
+<tr>
+<td><code>iridium</code></td>
+<td>PUBLIC, <a href="https://rntfnd.org/wp-content/uploads/Recent-PNT-Improvements-and-Test-Results-Based-on-Low-Earth-Orbit-Satellites.pdf">RNTF report</a>, constellation description</td>
+<td>781 km, 86.4°</td>
+<td>1621 MHz (1616–1626 MHz band)</td>
+<td>none broadcast</td>
+</tr>
+<tr>
+<td><code>starlink</code></td>
+<td>PUBLIC, <a href="https://navi.ion.org/content/72/1/navi.685">NAVIGATION 72(1)</a>, constellation description</td>
+<td>550 km, 53°</td>
+<td>Ku band, mid-band value (representative)</td>
+<td>none (signals of opportunity)</td>
+</tr>
+<tr>
+<td><code>centispace</code></td>
+<td>PUBLIC, <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10301026/">Sensors 2023</a>, <a href="https://link.springer.com/article/10.1186/s43020-026-00212-0">Satellite Navigation 2026</a></td>
+<td>700 km, 55°</td>
+<td>near B1 (masked in the source; L1 as stand-in)</td>
+<td>not published</td>
+</tr>
+<tr>
+<td><code>cband-generic</code></td>
+<td>REPRESENTATIVE</td>
+<td>600 km, 97.8°</td>
+<td>5020 MHz (RNSS C-band centre)</td>
+<td>not published</td>
+</tr>
+<tr>
+<td><code>atomic</code></td>
+<td>PUBLIC, <a href="https://insidegnss.com/first-steps-toward-a-fully-operational-leo-pnt-payload/">InsideGNSS</a></td>
+<td>500 km (representative)</td>
+<td>L1 (representative)</td>
+<td><code>ecef-poly</code>, degree 6, 60 s, refreshed every 30 s, zero clock, 0.24 m steering residual</td>
+</tr>
+<tr>
+<td><code>celeste-iod</code></td>
+<td>WORKSHOP and PUBLIC</td>
+<td>510 km, 97.4°</td>
+<td>1191.795 MHz</td>
+<td><code>kepler-rac</code>, degrees and record spacing in the preset file</td>
+</tr>
+</tbody></table></div>
+<p>RNSS is the radionavigation-satellite service; RNTF the Resilient Navigation and Timing
+Foundation.</p>
+<p><strong>Celeste IOD.</strong> The European Space Agency&#39;s (ESA&#39;s) Celeste in-orbit demonstration (IOD) preset is the only one that
+uses material presented at the ESA Navigation Innovation and Support Programme (NAVISP)
+LEO-PNT workshop, 2026: the message structure (Galileo Keplerian set plus
+along/cross/radial correction polynomials, clock polynomial, SVID,
+health, IOD, ionospheric and UTC parameters), the record spacing and the CSV
+column names. The orbit (510 km, near-polar sun-synchronous) and carrier come from
+public sources cited in the file. The Celeste bit layout is not public and is not
+reproduced; later Celeste phases and the European Union (EU) LEO-PNT system may differ. Every
+workshop-derived value sits in the <code>navmsg</code> module of <code>src/celeste_iod.rs</code>, used by
+<code>scenarios/leo-navmsg-celeste-iod.toml</code>. How the preset is withheld: every workshop-derived number of the engine lives in one file,
+<code>src/celeste_iod.rs</code>, which <code>build.rs</code> compiles in only when it exists, and in the
+repository-only scenarios <code>scenarios/*celeste-iod*.toml</code>. Deleting that file and those
+scenarios withholds the preset with no source edit; every other test, oracle and scenario
+runs without it, and the README&#39;s scenario-file count still counts the withheld files.</p>
+<h2 id="verification">Verification<a class="anchor" href="#verification" aria-label="Link to this section">#</a></h2>
+<div class="tbl"><table><thead><tr>
+<th>Row</th>
+<th>Label</th>
+<th>Oracle</th>
+</tr>
+</thead><tbody><tr>
+<td>SISRE weights</td>
+<td>VALIDATED</td>
+<td>Montenbruck et al. 2018 table (GPS, GLONASS, Galileo, BeiDou, geostationary)</td>
+</tr>
+<tr>
+<td>Galileo ICD user algorithm</td>
+<td>VALIDATED</td>
+<td>RTKLIB <code>eph2pos</code> on four real Galileo broadcast ephemerides, 1 mm per axis (<code>tests/leo_navmsg_reference.rs</code>)</td>
+</tr>
+<tr>
+<td>CRC-24Q</td>
+<td>VALIDATED</td>
+<td>catalogue check value <code>0xCDE703</code>; RTCM 10403 1005 example frame</td>
+</tr>
+<tr>
+<td>Fitter and SISRE trade</td>
+<td>MODELLED</td>
+<td>two-body truth recovered to 1 mm; corrected J2–J6 fit to 1 mm; monotonic growth with interval</td>
+</tr>
+<tr>
+<td>Mid-pass continuity</td>
+<td>MODELLED</td>
+<td>jump identity; closed-form cone bound against sampling</td>
+</tr>
+<tr>
+<td>Binary format and budget</td>
+<td>MODELLED</td>
+<td>round trips; every field&#39;s half step under 1 mm</td>
+</tr>
+<tr>
+<td>RINEX-style and CSV</td>
+<td>MODELLED</td>
+<td>round trips</td>
+</tr>
+<tr>
+<td>Liu 22-parameter and ATOMIC models</td>
+<td>MODELLED</td>
+<td>published Liu table printed beside Kshana&#39;s, not pinned</td>
+</tr>
+<tr>
+<td>Ionosphere and UTC</td>
+<td>MODELLED</td>
+<td>ICD closed forms; the RTKLIB-checked Klobuchar model</td>
+</tr>
+</tbody></table></div>
+<h2 id="limitations">Limitations<a class="anchor" href="#limitations" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>SISRE is representation error only: no orbit determination or prediction error.</li>
+<li>The truth is a Kshana integration (no third body, solar radiation pressure or tides),
+not a real satellite&#39;s precise orbit.</li>
+<li>The binary format and the RINEX-style block are Kshana&#39;s own.</li>
+<li>NeQuick-G is carried, not integrated into a delay; no correction for a satellite inside
+the ionosphere.</li>
+<li>The Liu et al. comparison differs in orbits, parameter reading and weights.</li>
+</ul>
+</div>
+    <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="leo-pass.html"><small>Previous</small>LEO pass and link budget</a><a class="next" href="leo-pnt-fusion.html"><small>Next</small>Fused MEO and LEO positioning</a></nav>
+  </article>
+  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#what-a-message-carries">What a message carries</a><a class="l3" href="#ephemeris-models">Ephemeris models</a><a class="l2" href="#the-fitter">The fitter</a><a class="l2" href="#signal-in-space-range-error">Signal-in-space range error</a><a class="l2" href="#analyses">Analyses</a><a class="l3" href="#fit-interval-trade">Fit-interval trade</a><a class="l3" href="#model-comparison">Model comparison</a><a class="l3" href="#mid-pass-update">Mid-pass update</a><a class="l3" href="#encode-and-decode">Encode and decode</a><a class="l2" href="#binary-format">Binary format</a><a class="l2" href="#text-exports">Text exports</a><a class="l2" href="#ionosphere-and-utc">Ionosphere and UTC</a><a class="l2" href="#presets">Presets</a><a class="l2" href="#verification">Verification</a><a class="l2" href="#limitations">Limitations</a></nav>
+</div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand"><a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true"></span>kshana</a><p>Open-source PNT (positioning, navigation and timing) resilience simulator. Not an RF (radio-frequency) signal simulator, not a GNSS receiver and not a flight product.</p><div class="foot-by">by Ashforde</div></div>
+      <div><h2>Product</h2><a href="../playground/index.html">Kshana Studio</a><a href="../missions.html">Missions</a><a href="../capabilities.html">Capabilities</a><a href="../evidence.html">Evidence</a></div>
+      <div><h2>Developers</h2><a href="../developers.html#install">Install</a><a href="../developers.html#mcp">MCP server</a><a href="../docs/index.html">Docs</a><a href="https://github.com/ashfordeOU/kshana">GitHub</a></div>
+      <div><h2>Company</h2><a href="../editions.html">Editions</a><a href="../editions.html#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
+    </div>
+    <div class="foot-bottom">
+      <span>Kshana v0.28.0 · by Ashforde OÜ · AGPL-3.0, with a commercial licence option</span>
+      <span>Every chart is drawn from a recorded run of engine v0.28.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="pal" id="palette" role="dialog" aria-modal="true" aria-label="Search pages, sections, scenarios and docs" hidden>
+  <div class="pal-box">
+    <div class="pal-in"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="palInput" type="text" placeholder="Search pages, scenarios, docs and actions…" autocomplete="off" spellcheck="false" aria-controls="palList" aria-label="Search"><kbd>esc</kbd></div>
+    <div class="pal-list" id="palList" role="listbox" aria-label="Results"></div>
+    <div class="pal-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> move</span><span><kbd>↵</kbd> open</span><span class="pal-count" id="palCount"></span></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>window.KSITE={root:"../",page:"docs",version:"0.28.0",studio:"Kshana Studio"};</script>
+<script src="../site.js" defer></script>
+<script src="docs.js" defer></script>
+</body>
+</html>

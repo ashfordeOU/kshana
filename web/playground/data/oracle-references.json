@@ -1,0 +1,221 @@
+[
+  {
+    "match": [
+      "Orekit"
+    ],
+    "label": "Orekit",
+    "url": "https://www.orekit.org/"
+  },
+  {
+    "match": [
+      "ANISE"
+    ],
+    "label": "ANISE",
+    "url": "https://github.com/nyx-space/anise"
+  },
+  {
+    "match": [
+      "RTKLIB"
+    ],
+    "label": "RTKLIB",
+    "url": "https://github.com/tomojitakasu/RTKLIB"
+  },
+  {
+    "match": [
+      "filterpy"
+    ],
+    "label": "filterpy",
+    "url": "https://github.com/rlabbe/filterpy"
+  },
+  {
+    "match": [
+      "lamberthub"
+    ],
+    "label": "lamberthub",
+    "url": "https://github.com/jorgepiloto/lamberthub"
+  },
+  {
+    "match": [
+      "ppigrf"
+    ],
+    "label": "ppigrf",
+    "url": "https://github.com/IAGA-VMOD/ppigrf"
+  },
+  {
+    "match": [
+      "NaveGo"
+    ],
+    "label": "NaveGo",
+    "url": "https://github.com/rodralez/NaveGo"
+  },
+  {
+    "match": [
+      "scikit-learn"
+    ],
+    "label": "scikit-learn",
+    "url": "https://scikit-learn.org/"
+  },
+  {
+    "match": [
+      "scikit-bio"
+    ],
+    "label": "scikit-bio",
+    "url": "https://scikit.bio/"
+  },
+  {
+    "match": [
+      "scipy",
+      "SciPy"
+    ],
+    "label": "SciPy",
+    "url": "https://scipy.org/"
+  },
+  {
+    "match": [
+      "allantools"
+    ],
+    "label": "allantools",
+    "url": "https://github.com/aewallin/allantools"
+  },
+  {
+    "match": [
+      "gnss_lib_py"
+    ],
+    "label": "gnss_lib_py",
+    "url": "https://github.com/Stanford-NavLab/gnss_lib_py"
+  },
+  {
+    "match": [
+      "spacepackets"
+    ],
+    "label": "spacepackets",
+    "url": "https://github.com/us-irs/spacepackets-py"
+  },
+  {
+    "match": [
+      "B. Sease"
+    ],
+    "label": "oem (Python)",
+    "url": "https://github.com/bradsease/oem"
+  },
+  {
+    "match": [
+      "AIAA 2006-6753"
+    ],
+    "label": "AIAA 2006-6753 (Vallado)",
+    "url": "https://celestrak.org/publications/AIAA/2006-6753/"
+  },
+  {
+    "match": [
+      "NIST SP 1065",
+      "SP 1065"
+    ],
+    "label": "NIST SP 1065",
+    "url": "https://www.nist.gov/publications/handbook-frequency-stability-analysis"
+  },
+  {
+    "match": [
+      "Stable32"
+    ],
+    "label": "Stable32 (IEEE UFFC)",
+    "url": "https://github.com/IEEE-UFFC/stable32"
+  },
+  {
+    "match": [
+      "IGS"
+    ],
+    "label": "IGS",
+    "url": "https://igs.org/"
+  },
+  {
+    "match": [
+      "ICGEM"
+    ],
+    "label": "ICGEM",
+    "url": "http://icgem.gfz-potsdam.de/"
+  },
+  {
+    "match": [
+      "EGM2008"
+    ],
+    "label": "EGM2008 (Pavlis et al. 2012)",
+    "url": "https://doi.org/10.1029/2011JB008916"
+  },
+  {
+    "match": [
+      "DE440"
+    ],
+    "label": "JPL DE440",
+    "url": "https://ssd.jpl.nasa.gov/planets/eph_export.html"
+  },
+  {
+    "match": [
+      "OPS-SAT"
+    ],
+    "label": "OPS-SAT-AD",
+    "url": "https://github.com/kplabs-pl/OPS-SAT-AD"
+  },
+  {
+    "match": [
+      "JammerTest"
+    ],
+    "label": "JammerTest 2024 (Zenodo)",
+    "url": "https://doi.org/10.5281/zenodo.15910563"
+  },
+  {
+    "match": [
+      "IS-GPS-200"
+    ],
+    "label": "IS-GPS-200",
+    "url": "https://www.gps.gov/technical/icwg/"
+  },
+  {
+    "match": [
+      "DO-229"
+    ],
+    "label": "RTCA DO-229E",
+    "url": "https://www.rtca.org/"
+  },
+  {
+    "match": [
+      "CCSDS"
+    ],
+    "label": "CCSDS Blue Books",
+    "url": "https://public.ccsds.org/Publications/BlueBooks.aspx"
+  },
+  {
+    "match": [
+      "BIPM"
+    ],
+    "label": "BIPM",
+    "url": "https://www.bipm.org/"
+  },
+  {
+    "match": [
+      "SOFA"
+    ],
+    "label": "IAU SOFA",
+    "url": "https://www.iausofa.org/"
+  },
+  {
+    "match": [
+      "ERFA"
+    ],
+    "label": "ERFA",
+    "url": "https://github.com/liberfa/erfa"
+  },
+  {
+    "match": [
+      "IGRF"
+    ],
+    "label": "IGRF-14 (NOAA NCEI)",
+    "url": "https://www.ncei.noaa.gov/products/international-geomagnetic-reference-field"
+  },
+  {
+    "match": [
+      "Umeyama"
+    ],
+    "label": "Umeyama 1991",
+    "url": "https://doi.org/10.1109/34.88573"
+  }
+]

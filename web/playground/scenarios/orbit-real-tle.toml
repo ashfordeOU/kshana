@@ -1,0 +1,52 @@
+# GNSS availability from REAL satellite geometry, via two-line element sets.
+#
+# Instead of a synthetic Walker pattern, the constellation is parsed from a block
+# of TLEs (the standard NORAD/Celestrak format) given inline below. Drop in the
+# current GPS/Galileo/etc. element sets from celestrak.org to study coverage for
+# an actual constellation. Here a small GPS-like MEO set (i = 55 deg, ~12 h orbit,
+# six planes) is seen by a low-Earth-orbit user.
+#
+# Scope: the engine reads each TLE's mean Keplerian elements and propagates them
+# two-body — it is NOT an SGP4 propagator (accurate near epoch; use elements from
+# a common epoch). Vendor-neutral.
+
+kind = "orbit"
+seed = 13
+threshold_ns = 10.0
+mask_deg = 5.0
+sigma_uere_m = 1.0
+
+[time]
+step_s = 120.0
+duration_s = 43200.0   # ~ one GPS revolution
+
+# Low-Earth-orbit user (~500 km), looking up at the MEO constellation.
+[user]
+altitude_km = 500.0
+inclination_deg = 51.6
+u0_deg = 0.0
+
+# Real-format TLEs: six GPS-like satellites spread over six orbital planes.
+[constellation]
+tle = """
+2 41001  55.0000   0.0000 0073892 201.7677   0.0000  2.00568623 70561
+2 41002  55.0000  60.0000 0073892 201.7677  60.0000  2.00568623 70561
+2 41003  55.0000 120.0000 0073892 201.7677 120.0000  2.00568623 70561
+2 41004  55.0000 180.0000 0073892 201.7677 180.0000  2.00568623 70561
+2 41005  55.0000 240.0000 0073892 201.7677 240.0000  2.00568623 70561
+2 41006  55.0000 300.0000 0073892 201.7677 300.0000  2.00568623 70561
+"""
+
+[clock_quantum]
+id = "optical-sr-lattice"
+provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (arXiv:1503.08457); not flown."
+y0 = 1.0e-15
+q_wf = 1.0e-30
+q_rw = 1.0e-40
+
+[clock_classical]
+id = "csac-sa45s"
+provenance = "Microchip SA.45s / SA65 chip-scale atomic clock, sigma_y(1s)=3.0e-10 (datasheet); deployed commercial part."
+y0 = 1.0e-11
+q_wf = 9.0e-20
+q_rw = 1.0e-28

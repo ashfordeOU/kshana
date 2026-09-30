@@ -100,7 +100,7 @@ fn no_published_surface_states_a_stale_matrix_total() {
     let readme = include_str!("../README.md");
     let mmd = include_str!("../docs/diagrams/validation-provenance.mmd");
     let svg = include_str!("../docs/assets/diagrams/validation-provenance.svg");
-    let app_js = include_str!("../web/app.js");
+    let evidence_html = include_str!("../web/evidence.html");
     let index_html = include_str!("../web/index.html");
 
     // (surface, every stated total found on it). Each entry is a phrase that, wherever it
@@ -117,22 +117,40 @@ fn no_published_surface_states_a_stale_matrix_total() {
             "docs/assets/diagrams/validation-provenance.svg",
             counts_between(svg, "Total ", " capability rows"),
         ),
-        // The ledger strapline's pre-hydration value. JS overwrites it from the JSON at
-        // runtime, so a reader with JS sees the right number — but this is what ships in the
-        // bundle, what a no-JS reader sees, and what a scraper indexes.
+        // The redesigned site states the total as static text, written by the site build
+        // from web/data/verification-matrix.json and ported into web/ by
+        // web/tools/port_site.py: the ledger heading and the hero's provenance line on the
+        // evidence page, and the home page's stat strip. No script sets them at runtime,
+        // so what is committed is what a reader, a no-JS reader and a scraper all see.
         (
-            "web/app.js",
-            counts_between(app_js, "<span id=\"ldg-total\">", "</span>"),
+            "web/evidence.html (ledger heading)",
+            counts_between(evidence_html, "All ", " rows, one line each"),
         ),
         (
-            "web/index.html",
-            counts_between(index_html, "<span id=\"ldg-total\">", "</span>"),
+            "web/evidence.html (provenance line)",
+            counts_between(evidence_html, " · ", " rows · no scenario or seed"),
+        ),
+        (
+            "web/index.html (stat strip)",
+            counts_between(
+                index_html,
+                "<span class=\"n\">",
+                "</span><span class=\"l\">capabilities in the verification matrix",
+            ),
         ),
     ];
 
     let mut stale: Vec<String> = Vec::new();
     let mut checked = 0usize;
     for (surface, hits) in &found {
+        // Each site surface must yield a total. A reworded page would otherwise drop out
+        // of the scan silently and leave the site ungraded while the bound below still
+        // holds on the README and the diagrams alone.
+        assert!(
+            !surface.starts_with("web/") || !hits.is_empty(),
+            "{surface}: the scanner found no stated matrix total there. The site's wording \
+             changed; update the phrase this test looks for."
+        );
         for (n, ctx) in hits {
             checked += 1;
             if *n != total {

@@ -1,0 +1,43 @@
+# Slot timing: how long an oven-controlled crystal oscillator (OCXO) on a low-Earth-orbit
+# smallsat stays inside the guard of a time-indexed routing slot after its last Global
+# Navigation Satellite System (GNSS) fix, and how often it needs a fix.
+#
+# The oscillator figures are the Allan-deviation maxima, ageing and temperature bound of
+# the Microchip OX-208 datasheet (Rev 12-1-2021), the telecom-timing `ocxo` preset. The
+# noise model is fitted to lie at or above every datasheet point, so it is an envelope of
+# maxima, not a measurement of any unit. The slot figures below are illustrative choices,
+# not a requirement from any operator:
+#   - a 100 ns guard at k = 3 (about 99.7 % of a Gaussian error inside the guard);
+#   - a 10 ns one-sigma fix, taken 10 minutes ago, applied 5 s after it is taken;
+#   - a 2 K temperature change since the fix, read through the datasheet bound.
+#
+# The optional [spoofing] section adds the timing protection level for the same clock
+# in a 550 km orbit, with a ground-station two-way time transfer every 45 minutes as the
+# only independent timing cross-check.
+#
+# What the run answers: seconds until the guard breaks, the term that breaks it, the fix
+# cadence that keeps the clock inside, and how far a single ground spoofer can pull the
+# clock before the satellite leaves its reach. MODELLED throughout.
+kind = "slot-timing"
+
+[oscillator]
+preset = "ocxo"
+
+[slot]
+guard_ns = 100.0
+k_sigma = 3.0
+fix_sigma_ns = 10.0
+elapsed_since_sync_s = 600.0
+fix_latency_s = 5.0
+temperature_excursion_k = 2.0
+
+[spoofing]
+altitude_km = 550.0
+spoofer_min_elevation_deg = 0.0
+receiver_time_sigma_ns = 10.0
+max_ramp_rate_ns_per_s = 10.0
+
+[[spoofing.checks]]
+kind = "ground-contact"
+revisit_s = 2700.0
+sigma_ns = 2.0

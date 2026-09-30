@@ -1,0 +1,92 @@
+# Combined gravity + magnetic + terrain GPS-denied navigator — fused alt-PNT.
+#
+# The capstone alternative-PNT demo: a vehicle flying with no GNSS takes THREE scalar
+# measurements at each waypoint — gravity anomaly (mGal), magnetic-anomaly total intensity
+# (nT), and ground elevation (m). For a candidate constant drift offset the joint likelihood
+# is the PRODUCT of the three field likelihoods, so the information adds: the joint posterior
+# is sharper (a lower CRLB) than any single field. The demo shows a bounded error under 500 m
+# over the outage that is never worse than the best single channel — exactly why sensor fusion
+# is the path where any one weak field alone would struggle.
+#
+# Consumed by `kshana::altpnt::terrain::run_combined_altpnt` (and its unit tests), dispatched
+# as `kind = "combined-altpnt"`. The gravity field is a low-degree spherical-harmonic trend +
+# synthetic mascons; the magnetic channel is the smooth IGRF-14 main field minus its regional
+# mean PLUS synthetic crustal-anomaly mascons (the IGRF main field alone is too smooth to
+# localise — the real crustal map is a follow-on, see docs/CAPABILITY.md); the terrain channel
+# is the self-contained synthetic DEM. Recovery is checked against the INDEPENDENTLY injected
+# drift, never any field's own value (non-circular).
+#
+# NOTE: every top-level scalar key precedes the `[[...]]` array-of-tables blocks — a scalar
+# after an array-of-table would be absorbed into that table by TOML.
+kind = "combined-altpnt"
+
+# Track + drift + search (shared across the three channels).
+start_lat_deg = 12.05
+start_lon_deg = 20.05
+step_lat_deg = 0.004
+step_lon_deg = 0.003
+waypoints = 60
+
+drift_lat_deg = 0.5
+drift_lon_deg = -0.4
+
+search_half_deg = 0.8
+search_step_deg = 0.08
+refine_stages = 3
+refine_factor = 8.0
+noise_seed = 1
+
+# ---- Gravity channel ----
+# Each single-channel σ is set so that channel ALONE recovers only to ~600–900 m (well above
+# the ~140 m grid floor), making the fusion gain visible: the three-channel product collapses
+# to ~250 m (< 500 m), no worse than the best single channel.
+nmax = 3
+gravity_sigma_mgal = 3.0
+
+# ---- Magnetic channel (IGRF main field + synthetic crustal anomaly mascons, nT) ----
+igrf_year = 2025.0
+igrf_alt_km = 0.0
+magnetic_sigma_nt = 30.0
+
+# ---- Terrain channel (synthetic DEM) ----
+dem_seed = 1
+terrain_sigma_m = 40.0
+
+# Low-degree anomalous gravity coefficients (the regional trend).
+[[coeffs]]
+n = 2
+m = 0
+cbar = 6.0e-6
+sbar = 0.0
+
+[[coeffs]]
+n = 3
+m = 1
+cbar = 3.0e-6
+sbar = 2.0e-6
+
+# Localized gravity mascons (mGal) the track crosses.
+[[mascons]]
+lat_deg = 12.18
+lon_deg = 20.16
+amp_mgal = 45.0
+sigma_deg = 0.05
+
+[[mascons]]
+lat_deg = 12.26
+lon_deg = 20.22
+amp_mgal = -38.0
+sigma_deg = 0.045
+
+# Synthetic crustal magnetic-anomaly mascons (nT) the track crosses.
+[[magnetic_mascons]]
+lat_deg = 12.20
+lon_deg = 20.18
+amp_mgal = 250.0
+sigma_deg = 0.05
+
+[[magnetic_mascons]]
+lat_deg = 12.24
+lon_deg = 20.20
+amp_mgal = -200.0
+sigma_deg = 0.045

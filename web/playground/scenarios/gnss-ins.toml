@@ -1,0 +1,60 @@
+# Loosely-coupled GNSS/INS: the three-axis strapdown navigator disciplined by a
+# 15-state error-state EKF, then coasting through a 60 s GNSS outage. Unlike the
+# `inertial` pack (a 1-DOF scalar dead-reckoner with a truth-snap reset at every
+# fix), this runs the genuine closed-loop filter: it learns from noisy fixes while
+# GNSS is up and coasts on the corrected state during the gap. The reported error
+# is the real horizontal residual against truth; each sensor also carries its
+# open-loop free-INS RMS so the filter's value is explicit.
+#
+# Honest framing: loosely-coupled, a single deterministic driving trajectory, a
+# flat-Earth tangent-plane INS<->GNSS comparison. The lower-bias (quantum-grade)
+# sensor has the better unaided coast. Both biases here are constant and noise-free,
+# so the filter learns them while GNSS is up and the fused coast is a best case; a
+# bias that keeps drifting is what ends a real one (see small-uas-jammed-nav.toml).
+# Revised in 0.27.3: a sign error in the filter's gyro-bias coupling had put a floor
+# of tens of metres under the fused outage error; see the CHANGELOG.
+kind = "gnss-ins"
+seed = 7
+threshold_m = 50.0
+fix_interval_s = 1.0
+sigma_pos_m = 1.0
+sigma_vel_mps = 0.05
+lat_deg = 45.0
+lon_deg = -57.3
+alt_m = 50.0
+
+[time]
+step_s = 0.1
+duration_s = 160.0
+
+[gnss]
+windows = [
+  { t0 = 0.0,   t1 = 100.0, state = "nominal" },
+  { t0 = 100.0, t1 = 160.0, state = "denied" },
+]
+
+[imu_quantum]
+id = "cold-atom-imu"
+provenance = "Quantum-grade inertial unit: low residual accelerometer/gyro bias (cold-atom-class); the better unaided coast"
+accel_bias = [0.015, 0.0, 0.0]
+gyro_bias = [0.0, 0.0, 5.0e-5]
+
+[imu_classical]
+id = "tactical-imu"
+provenance = "Tactical-grade MEMS/quartz inertial unit: larger residual bias; the free-running INS diverges much faster"
+accel_bias = [0.03, -0.02, 0.0]
+gyro_bias = [0.0, 0.0, 1.0e-4]
+
+# Optional: layer the full deterministic IMU error chain on top of the constant
+# biases above. Every field defaults to zero, so omitting this block leaves the
+# sensor a pure constant-bias source (the run is then identical to before this
+# schema existed). The terms drive the three-axis strapdown mechanization through
+# the IMU error model (IEEE Std 952-1997 §A.2; Groves 2013 §4.3). Scale-factor is
+# in ppm; misalignment in rad (off-diagonal); g-sensitivity in (rad/s)/(m/s²);
+# quantization in the sensor's output units; rate-ramp is a linear-in-time drift.
+# [imu_classical.error_model]
+# scale_gyro_ppm  = [1500.0, 1500.0, 1500.0]
+# scale_accel_ppm = [1000.0, 1000.0, 1000.0]
+# g_sensitivity   = [5.0e-5, 5.0e-5, 5.0e-5]
+# rate_ramp_gyro  = [0.0, 1.0e-6, 0.0]
+# quant_gyro      = [1.0e-5, 1.0e-5, 1.0e-5]

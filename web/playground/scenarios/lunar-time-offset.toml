@@ -1,0 +1,22 @@
+# Lunar coordinate time (LTC/TCL): the relativistic Earth-Moon clock rate.
+#
+# A clock on the lunar surface ticks faster than an Earth-geoid (TT) clock. A
+# first-principles post-Newtonian identity (src/lunar_time.rs) sums two named terms:
+#   - self-potential difference: the IAU L_G geoid potential (W0 = L_G*c^2) minus the
+#     Moon's surface self-potential GM_moon/R_moon -> the dominant ~ +57.5 us/day; and
+#   - kinetic (second-order Doppler): -<v^2>/2c^2 from the geocentric Moon velocity
+#     (finite-differenced from the Montenbruck-Gill lunar series) -> ~ -0.5 us/day.
+# The total secular rate ~ 57 us/day is reported with the published 56-59 us/day band.
+#
+# Honesty: MODELLED, not certified. The headline us/day figure is reference-dependent
+# (Earth geoid W0 vs a lunar selenoid, the time-averaging window, neglected sub-us/day
+# centrifugal/J2 corrections) -> a band, not a single number, is the honest output.
+# Nothing here is validated to sub-nanosecond absolute accuracy or certified for
+# operational timekeeping. The report also gives the accumulated LTC-TT offset over the
+# horizon and supports an inverse-variance ensemble (a minimal lunar paper-clock).
+kind = "lunar-time-offset"
+
+epoch_year = 2000    # LTC origin epoch (UTC); rate varies < 1e-3 us/day over the J2000 era
+epoch_month = 1
+epoch_day = 1
+horizon_days = 1.0   # accumulate the LTC-TT offset over one day (~57 us)

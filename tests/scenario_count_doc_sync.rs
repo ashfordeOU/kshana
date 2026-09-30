@@ -454,6 +454,73 @@ fn no_surface_states_a_stale_scenario_kind_count() {
     );
 }
 
+/// The redesigned site states the kind count on several pages ("75 scenario kinds" in the
+/// home page's stat strip, the capabilities and developers heroes, the editions table).
+/// Those pages are written by the site build from an engine checkout and ported into
+/// `web/` by `web/tools/port_site.py`, so a site built from an older engine carries an
+/// older count. Pin each page to the dispatcher. A failure means: rebuild the site from
+/// this checkout and rerun the port; do not edit the pages.
+#[test]
+fn the_site_pages_state_the_dispatchers_kind_count() {
+    let n = kshana::api::list_scenario_kinds().len();
+    let pages: [(&str, &str); 4] = [
+        ("web/index.html", include_str!("../web/index.html")),
+        (
+            "web/capabilities.html",
+            include_str!("../web/capabilities.html"),
+        ),
+        (
+            "web/developers.html",
+            include_str!("../web/developers.html"),
+        ),
+        ("web/editions.html", include_str!("../web/editions.html")),
+    ];
+    let mut problems: Vec<String> = Vec::new();
+    for (name, html) in pages {
+        let text = site_visible_text(html);
+        let mut hits = 0usize;
+        for marker in [" kinds", " scenario kinds"] {
+            for (found, ctx) in counts_before(&text, marker) {
+                hits += 1;
+                if found != n {
+                    problems.push(format!(
+                        "  {name}: states {found}, the dispatcher has {n}\n      {ctx}"
+                    ));
+                }
+            }
+        }
+        if hits == 0 {
+            problems.push(format!(
+                "  {name}: states no scenario-kind count at all — the page was reworded, so \
+                 this guard silently stopped watching it"
+            ));
+        }
+    }
+    assert!(
+        problems.is_empty(),
+        "A site page states a scenario-kind count that is not the dispatcher's \
+         (api::list_scenario_kinds() = {n}):\n{}",
+        problems.join("\n")
+    );
+}
+
+/// What a reader sees of a site page: scripts, styles and inline drawings dropped, tags
+/// turned into spaces, whitespace collapsed (`<b>75</b> scenario kinds` reads
+/// "75 scenario kinds").
+fn site_visible_text(html: &str) -> String {
+    let mut s = html.to_string();
+    for tag in ["script", "style", "svg"] {
+        let (open, close) = (format!("<{tag}"), format!("</{tag}>"));
+        while let Some(a) = s.find(&open) {
+            match s[a..].find(&close) {
+                Some(b) => s.replace_range(a..a + b + close.len(), " "),
+                None => break,
+            }
+        }
+    }
+    collapse_ws(&strip_xml_tags(&s.replace('<', " <")))
+}
+
 /// The published MCP-server README lists the served tools in a table, and that table is a
 /// hand-maintained copy of a fact the server source already holds.
 ///

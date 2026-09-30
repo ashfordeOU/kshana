@@ -1,0 +1,56 @@
+# Generic N-D parameter sweep over ANY scenario kind. Unlike the clock-only
+# `sweep` kind, `sweep-nd` varies dotted TOML keys of the `[base]` scenario over
+# the Cartesian product of the axes, re-runs each grid node, and reads the chosen
+# metrics out of the result by dotted JSON path. It works for every pack
+# (inertial, gnss-ins, integrity, spoof, …) because it operates at the
+# TOML/result boundary, not on a per-pack Rust type. Native runs evaluate the
+# grid in parallel (no extra dependency); wasm falls back to sequential. The
+# output grid is deterministic and row-major (the last axis varies fastest).
+#
+# This example sweeps the inertial dead-reckoning pack over the GNSS-outage alert
+# threshold and the classical accelerometer bias, recording the holdover and the
+# drift RMS for the classical sensor at every node.
+kind = "sweep-nd"
+metrics = ["classical.fom.holdover_s", "classical.fom.pos_rms_m"]
+
+[[axes]]
+key = "threshold_m"
+start = 100.0
+stop = 500.0
+steps = 5
+
+[[axes]]
+key = "accel_classical.bias"
+start = 1.0e-3
+stop = 3.0e-3
+steps = 3
+scale = "log"
+
+[base]
+kind = "inertial"
+seed = 42
+threshold_m = 100.0
+
+[base.time]
+step_s = 10.0
+duration_s = 7200.0
+
+[base.gnss]
+windows = [
+  { t0 = 0.0,   t1 = 600.0,  state = "nominal" },
+  { t0 = 600.0, t1 = 7200.0, state = "denied" },
+]
+
+[base.accel_quantum]
+id = "cold-atom-quat"
+provenance = "Cold-atom quantum accelerometer: low residual bias"
+bias = 5.88e-7
+q_va = 4.6656e-8
+
+[base.accel_classical]
+id = "nav-grade-quartz"
+provenance = "Navigation-grade quartz accelerometer: larger residual bias"
+bias = 1.57e-3
+q_va = 3.8416e-8
+bias_instability = 1.0e-5
+q_aa = 1.0e-13

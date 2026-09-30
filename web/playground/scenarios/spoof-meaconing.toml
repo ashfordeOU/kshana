@@ -1,0 +1,53 @@
+# Time-spoof detection with an explicit attack shape and a stochastic detector.
+#
+# The clock-aided monitor forms the GNSS-vs-clock time discrepancy y over a 600 s
+# window with 1σ uncertainty σ set by the clock's noise PSD. A spoof shifts y's
+# mean to the spoof offset μ. The detector is a two-sided χ²₁ energy test
+# (y/σ)² > λ, with λ read off the inverse χ²₁ CDF at the target false-alarm
+# probability. The Security figure of merit is 1 − P_md, the probability of
+# correctly detecting a spec-sized spoof; both the closed-form P_md and a
+# Monte-Carlo estimate (mc_runs trials per hypothesis) are reported.
+#
+# Here the attack is a meaconing (delayed re-broadcast) shape rather than the
+# default linear ramp: a constant delay with a sinusoidal component from the relay
+# geometry. Switch `kind` to `linear_ramp`, `step_jump`, or `replay` for the other
+# shapes.
+# The timing spec is deliberately tight (0.5 ns) so the chip-scale clock sits at a
+# stressed operating point (its ~0.24 ns monitor noise puts a spec-sized spoof at
+# only ~2σ → it is missed most of the time), while the optical clock — ~50× quieter
+# — still catches it with near-certainty. A looser spec is caught by both.
+kind = "spoof"
+threshold_ns = 0.5
+
+[time]
+step_s = 1.0
+duration_s = 1200.0
+
+[attack]
+start_s = 100.0
+target_pfa = 0.001
+mc_runs = 20000
+
+[attack.shape]
+kind = "meaconing"
+delay_ns = 8.0
+oscillation_hz = 0.01
+
+# An optical clock (quiet) vs a chip-scale atomic clock (noisier short-term).
+[clock_quantum]
+id = "optical-lattice"
+provenance = "Optical lattice clock: ADEV ~1e-16/sqrt(tau); laboratory maturity"
+y0 = 0.0
+q_wf = 1.0e-26
+q_rw = 1.0e-34
+drift = 0.0
+flicker_floor = 0.0
+
+[clock_classical]
+id = "csac"
+provenance = "Chip-scale atomic clock (Microsemi SA.45s class): ADEV ~3e-10/sqrt(tau)"
+y0 = 0.0
+q_wf = 1.0e-22
+q_rw = 1.0e-30
+drift = 0.0
+flicker_floor = 0.0

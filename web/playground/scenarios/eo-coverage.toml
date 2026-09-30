@@ -1,0 +1,16 @@
+# Earth-observation payload footprint & coverage demonstrator (SMAD space triangle).
+#
+# Turns an orbit altitude + sensor field of view into the Earth angular radius,
+# swath width, nadir ground sample distance, maximum off-nadir access, circular
+# period and equatorial ground-track spacing (with a contiguous-coverage flag).
+#
+# HONEST SCOPE: MODELLED spherical-Earth geometry only -- no radiometry / MTF /
+# atmosphere / pointing-jitter / sun-glint model; ground-track spacing is the
+# simple nodal R_e*omega*T (no J2 nodal regression).
+# Run:  kshana scenarios/eo-coverage.toml
+kind = "eo-coverage"
+
+altitude_km = 700.0
+half_fov_deg = 7.5               # nadir half-angle from boresight
+ifov_microrad = 14.0             # per-pixel IFOV for the nadir GSD
+max_off_nadir_deg = 45.0         # slewable field of regard

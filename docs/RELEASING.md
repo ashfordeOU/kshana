@@ -18,8 +18,11 @@ the new version.
 2. Bump `version` in `Cargo.toml`, and every surface `scripts/check-version-sync.sh`
    lists (the Model Context Protocol (MCP) server crate and its `kshana` dependency, the
    JetBrains plugin and its newest change-notes entry, the README status line and release
-   badge, the three registry front pages, and the kshana.dev front page,
-   `web/index.html`). Run the script; it must say OK.
+   badge, the three registry front pages, and the kshana.dev site under `web/`: its
+   front page, the Studio's install panel and the port manifest). The site's version is
+   written by the site build, so rebuild the site from the bumped checkout and rerun
+   `web/tools/port_site.py` rather than editing `web/` by hand. Run the script; it must
+   say OK.
 3. Merge to `main` and wait for continuous integration (CI, `ci.yml`) to pass on that
    commit. Tag only a commit that is already green on `main`.
 4. Push the tag: `git tag vX.Y.Z <commit> && git push origin vX.Y.Z`.

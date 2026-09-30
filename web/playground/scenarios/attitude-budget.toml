@@ -1,0 +1,31 @@
+# 3-DOF attitude & pointing error budget demonstrator (pre-hardware AOCS/GNC).
+#
+# The worst-case gravity-gradient disturbance torque ((3/2)(mu/R^3)*dI) and a
+# root-sum-square pointing-error budget over named 1-sigma contributors, with the
+# dominant term -- a scalar pointing figure of merit to bracket before committing
+# to a control design.
+#
+# HONEST SCOPE: MODELLED scalar error budget -- a pre-hardware complement to
+# Basilisk/42, NOT a control-loop / 6-DoF / flexible-mode simulation. The
+# gravity-gradient term is reported as a torque (mapping it to pointing needs a
+# control stiffness the caller owns); the budget is the quadrature sum of the
+# supplied 1-sigma contributors.
+# Run:  kshana scenarios/attitude-budget.toml
+kind = "attitude-budget"
+
+altitude_km = 600.0
+i_max_kg_m2 = 100.0
+i_min_kg_m2 = 60.0
+
+[[contributors]]
+name = "star_tracker_noise"
+sigma_arcsec = 5.0
+[[contributors]]
+name = "reaction_wheel_jitter"
+sigma_arcsec = 8.0
+[[contributors]]
+name = "thermal_distortion"
+sigma_arcsec = 4.0
+[[contributors]]
+name = "alignment"
+sigma_arcsec = 3.0
