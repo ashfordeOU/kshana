@@ -1,5 +1,5 @@
 {
-  "note": "Every URL of the single-page kshana.dev (v0.28.0 and earlier) that published material uses, or that the old page itself handed out (share links, embed links, ledger-row links), and where it lands on the multi-page site. port_site.py generates web/legacy-redirects.js from the redirects block and refuses to port if a target is missing; web/legacy-urls.test.mjs replays every case. A fragment never reaches the server, so the fragment and query cases are redirected by that script on the home page; the path cases are files that stay where they were.",
+  "note": "Every URL of the single-page kshana.dev (v0.28.0 and earlier) that published material uses, or that the old page itself handed out (share links, embed links, ledger-row links), and where it lands on the multi-page site. port_site.py generates web/legacy-redirects.js from the redirects block and refuses to port if a target is missing; web/legacy-urls.test.mjs replays every case. A fragment never reaches the server, so the fragment and query cases are redirected by that script on the home page; the path cases are files that stay where they were. embedTabs maps a result tab the single-page site had and the Studio renamed (fom, the figures-of-merit table, is now part of overview; orbit3d is now orbit); timeseries, stability and sweep kept their names.",
   "origin": "https://kshana.dev",
   "redirects": {
     "embed": "playground/index.html",
@@ -17,37 +17,187 @@
       "mcp": "developers.html#mcp",
       "editions": "editions.html",
       "ashforde": "editions.html#contact"
+    },
+    "embedTabs": {
+      "fom": "overview",
+      "orbit3d": "orbit"
     }
   },
-  "keptAnchors": ["capabilities"],
+  "keptAnchors": [
+    "capabilities"
+  ],
   "cases": [
-    {"url": "/", "to": null, "file": "index.html", "cited": "README.md, README.crates.md, README.npm.md, README.pypi.md, Cargo.toml homepage, package metadata, CITATION.cff"},
-    {"url": "/#top", "to": null, "file": "index.html", "cited": "the old page's own skip link; a browser scrolls to the top for #top with no element"},
-    {"url": "/#capabilities", "to": null, "file": "index.html", "id": "capabilities", "cited": "the old page's navigation; the new home keeps the anchor"},
-    {"url": "/#playground", "to": "playground/index.html", "cited": "docs/tutorials/README.md, docs/tutorials/01-first-orbit.md"},
-    {"url": "/#ledger", "to": "evidence.html#ledger", "cited": "the old page's navigation and the Studio's own footer link"},
-    {"url": "/#ldg-sgp4-propagation", "to": "evidence.html#ledger", "cited": "ledger-row links the old page generated for every row (#ldg-<slug>)"},
-    {"url": "/#validation", "to": "evidence.html#matrix", "cited": "the old page's capability explorer"},
-    {"url": "/#standards", "to": "evidence.html#standards", "cited": "the old page's navigation"},
-    {"url": "/#cite", "to": "evidence.html#cite", "cited": "the old page's navigation"},
-    {"url": "/#explore", "to": "capabilities.html#explorer", "cited": "the old page's capability explorer"},
-    {"url": "/#mcp", "to": "developers.html#mcp", "cited": "the old page's navigation"},
-    {"url": "/#editions", "to": "editions.html", "cited": "the old page's navigation"},
-    {"url": "/#ashforde", "to": "editions.html#contact", "cited": "the old page's footer"},
-    {"url": "/#s=c2VlZCA9IDQyCg", "to": "playground/index.html#s=c2VlZCA9IDQyCg", "cited": "share links the old playground's Share button produced (the scenario travels in the fragment)"},
-    {"url": "/?embed=1&scenario=integrity-raim.toml&seed=7&tab=fom", "to": "playground/index.html?embed=1&scenario=integrity-raim.toml&seed=7&tab=fom", "cited": "embed links for course pages, as documented in the old embed.mjs and web/README.md"},
-    {"url": "/?lang=de", "to": null, "file": "index.html", "cited": "the old page's language switch; the new site is English only, so the page loads and the parameter is ignored"},
-    {"url": "/index.html", "to": null, "file": "index.html", "cited": "direct links"},
-    {"url": "/og-card.png", "to": null, "file": "og-card.png", "cited": "every link preview already cached by social platforms; og:image on every page"},
-    {"url": "/og-card.svg", "to": null, "file": "og-card.svg", "cited": "source of the social card"},
-    {"url": "/favicon.svg", "to": null, "file": "favicon.svg", "cited": "bookmarks and feed readers that stored the old icon URL"},
-    {"url": "/robots.txt", "to": null, "file": "robots.txt", "cited": "crawlers"},
-    {"url": "/sitemap.xml", "to": null, "file": "sitemap.xml", "cited": "robots.txt, search consoles"},
-    {"url": "/.well-known/security.txt", "to": null, "file": ".well-known/security.txt", "cited": "CHANGELOG.md, the file's own Canonical line"},
-    {"url": "/capabilities.json", "to": null, "file": "capabilities.json", "cited": "the old page fetched it; docs name it as the capability source"},
-    {"url": "/data/verification-matrix.json", "to": null, "file": "data/verification-matrix.json", "cited": "the validation ledger as data; docs and the evidence page name it"},
-    {"url": "/pkg/kshana.js", "to": null, "built": "pkg/kshana.js", "cited": "the WebAssembly package the old page loaded; web/build.sh still builds it there"},
-    {"url": "/pkg/kshana_bg.wasm", "to": null, "built": "pkg/kshana_bg.wasm", "cited": "the WebAssembly binary"},
-    {"url": "/scenarios/clock-holdover.toml", "to": null, "built": "scenarios/clock-holdover.toml", "cited": "the old page fetched scenarios/<file>; web/build.sh still stages every scenario there"}
+    {
+      "url": "/",
+      "to": null,
+      "file": "index.html",
+      "cited": "README.md, README.crates.md, README.npm.md, README.pypi.md, Cargo.toml homepage, package metadata, CITATION.cff"
+    },
+    {
+      "url": "/#top",
+      "to": null,
+      "file": "index.html",
+      "cited": "the old page's own skip link; a browser scrolls to the top for #top with no element"
+    },
+    {
+      "url": "/#capabilities",
+      "to": null,
+      "file": "index.html",
+      "id": "capabilities",
+      "cited": "the old page's navigation; the new home keeps the anchor"
+    },
+    {
+      "url": "/#playground",
+      "to": "playground/index.html",
+      "cited": "docs/tutorials/README.md, docs/tutorials/01-first-orbit.md"
+    },
+    {
+      "url": "/#ledger",
+      "to": "evidence.html#ledger",
+      "cited": "the old page's navigation and the Studio's own footer link"
+    },
+    {
+      "url": "/#ldg-sgp4-propagation",
+      "to": "evidence.html#ledger",
+      "cited": "ledger-row links the old page generated for every row (#ldg-<slug>)"
+    },
+    {
+      "url": "/#validation",
+      "to": "evidence.html#matrix",
+      "cited": "the old page's capability explorer"
+    },
+    {
+      "url": "/#standards",
+      "to": "evidence.html#standards",
+      "cited": "the old page's navigation"
+    },
+    {
+      "url": "/#cite",
+      "to": "evidence.html#cite",
+      "cited": "the old page's navigation"
+    },
+    {
+      "url": "/#explore",
+      "to": "capabilities.html#explorer",
+      "cited": "the old page's capability explorer"
+    },
+    {
+      "url": "/#mcp",
+      "to": "developers.html#mcp",
+      "cited": "the old page's navigation"
+    },
+    {
+      "url": "/#editions",
+      "to": "editions.html",
+      "cited": "the old page's navigation"
+    },
+    {
+      "url": "/#ashforde",
+      "to": "editions.html#contact",
+      "cited": "the old page's footer"
+    },
+    {
+      "url": "/#s=c2VlZCA9IDQyCg",
+      "to": "playground/index.html#s=c2VlZCA9IDQyCg",
+      "cited": "share links the old playground's Share button produced (the scenario travels in the fragment)"
+    },
+    {
+      "url": "/?embed=1&scenario=integrity-raim.toml&seed=7&tab=fom",
+      "to": "playground/index.html?embed=1&scenario=integrity-raim.toml&seed=7&tab=overview",
+      "cited": "embed links for course pages, as documented in the old embed.mjs and web/README.md of every release since embed mode shipped (the documented example, tab=fom)"
+    },
+    {
+      "url": "/?embed=1&scenario=orbit-sgp4-gps.toml&tab=orbit3d",
+      "to": "playground/index.html?embed=1&scenario=orbit-sgp4-gps.toml&tab=orbit",
+      "cited": "embed links naming the old 3D-orbit tab (tab ids of the single-page site's tabs.mjs: fom, timeseries, stability, orbit3d, sweep)"
+    },
+    {
+      "url": "/?embed=1&scenario=clock-holdover.toml&tab=stability",
+      "to": "playground/index.html?embed=1&scenario=clock-holdover.toml&tab=stability",
+      "cited": "embed links naming a tab that kept its name (timeseries, stability, sweep)"
+    },
+    {
+      "url": "/?tab=fom&embed=1",
+      "to": "playground/index.html?tab=overview&embed=1",
+      "cited": "the same embed link with its parameters in another order"
+    },
+    {
+      "url": "/?lang=de",
+      "to": null,
+      "file": "index.html",
+      "cited": "the old page's language switch; the new site is English only, so the page loads and the parameter is ignored"
+    },
+    {
+      "url": "/index.html",
+      "to": null,
+      "file": "index.html",
+      "cited": "direct links"
+    },
+    {
+      "url": "/og-card.png",
+      "to": null,
+      "file": "og-card.png",
+      "cited": "every link preview already cached by social platforms; og:image on every page"
+    },
+    {
+      "url": "/og-card.svg",
+      "to": null,
+      "file": "og-card.svg",
+      "cited": "source of the social card"
+    },
+    {
+      "url": "/favicon.svg",
+      "to": null,
+      "file": "favicon.svg",
+      "cited": "bookmarks and feed readers that stored the old icon URL"
+    },
+    {
+      "url": "/robots.txt",
+      "to": null,
+      "file": "robots.txt",
+      "cited": "crawlers"
+    },
+    {
+      "url": "/sitemap.xml",
+      "to": null,
+      "file": "sitemap.xml",
+      "cited": "robots.txt, search consoles"
+    },
+    {
+      "url": "/.well-known/security.txt",
+      "to": null,
+      "file": ".well-known/security.txt",
+      "cited": "CHANGELOG.md, the file's own Canonical line"
+    },
+    {
+      "url": "/capabilities.json",
+      "to": null,
+      "file": "capabilities.json",
+      "cited": "the old page fetched it; docs name it as the capability source"
+    },
+    {
+      "url": "/data/verification-matrix.json",
+      "to": null,
+      "file": "data/verification-matrix.json",
+      "cited": "the validation ledger as data; docs and the evidence page name it"
+    },
+    {
+      "url": "/pkg/kshana.js",
+      "to": null,
+      "built": "pkg/kshana.js",
+      "cited": "the WebAssembly package the old page loaded; web/build.sh still builds it there"
+    },
+    {
+      "url": "/pkg/kshana_bg.wasm",
+      "to": null,
+      "built": "pkg/kshana_bg.wasm",
+      "cited": "the WebAssembly binary"
+    },
+    {
+      "url": "/scenarios/clock-holdover.toml",
+      "to": null,
+      "built": "scenarios/clock-holdover.toml",
+      "cited": "the old page fetched scenarios/<file>; web/build.sh still stages every scenario there"
+    }
   ]
 }

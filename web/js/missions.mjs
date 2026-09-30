@@ -1037,7 +1037,7 @@ async function orbitConsole() {
     if (started) return; started = true;
     let THREE;
     try { const c = document.createElement("canvas"); if (!(c.getContext("webgl2") || c.getContext("webgl"))) return; } catch (e) { return; }
-    try { THREE = await import("https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"); } catch (e) { console.warn("missions: three.js unavailable", e); return; }
+    try { THREE = await import("../vendor/three@0.160.0/build/three.module.js"); } catch (e) { console.warn("missions: three.js unavailable", e); return; }
     const span = () => d.duration_s || d.t[d.t.length - 1];
     globe = makeGlobe(THREE, canvas, stage, hud, {
       onTick(dt) {

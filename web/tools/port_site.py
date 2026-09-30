@@ -22,9 +22,18 @@ What it writes (and records, with a SHA-256 each, in web/PORT-MANIFEST.json):
     the home page, with the version from Cargo.toml and the counts from the ledger;
   * sitemap.xml and legacy-redirects.js (from web/tools/legacy-urls.json).
 
-What it never touches: the files web/ owns (OWNED below), anything under web/tools/, the
-repository's own *.test.mjs files at web/'s top level, and build outputs (pkg/, scenarios/).
-A file the previous port wrote and this one does not is removed.
+  * no third-party requests: each page's Google Fonts stylesheet link becomes a link to
+    the local copy under fonts/, and script-host addresses become paths under vendor/
+    (both fetched once by web/tools/fetch_third_party.py and committed); a font set or a
+    library that is not there refuses the port, as does any other third-party script,
+    style or font address;
+  * 404.html, the page GitHub Pages serves for an address that does not exist, made from
+    the home page's own shell.
+
+What it never touches: the files web/ owns (OWNED below), anything under web/tools/,
+web/fonts/ and web/vendor/, the repository's own *.test.mjs files at web/'s top level, and
+build outputs (pkg/, scenarios/). A file the previous port wrote and this one does not is
+removed. The port needs no network.
 """
 import argparse
 import hashlib
@@ -48,6 +57,8 @@ OWNED = {
     "data/card-matrix-map.json", "data/oracle-references.json", "data/standards-matrix-map.json",
     "data/verification-matrix.json", MANIFEST,
 }
+# Folders web/ owns outright: the tools, and the third-party files fetched once and committed.
+OWNED_DIRS = ("tools/", "fonts/", "vendor/")
 # Build outputs of web/build.sh; never written here, never removed here.
 BUILT_DIRS = ("pkg/", "scenarios/", STUDIO_DIR + "/pkg/")
 # The single-page front end this port replaces. Removed on the first port.
@@ -146,6 +157,135 @@ def scrub(out):
         note(f"source comments named a developer checkout (~/Code/kshana); reworded. Fix the source: {', '.join(fixed_comments)}")
 
 
+FONT_HREF = re.compile(r'href="(https://fonts\.googleapis\.com/css2\?[^"]+)"')
+FONT_PRECONNECT = re.compile(r'<link\b[^>]*href="https://fonts\.(?:googleapis|gstatic)\.com/?"[^>]*>\n?')
+_third = {}
+
+
+def third_party():
+    """The registries fetch_third_party.py wrote, checked against the files beside them."""
+    if _third:
+        return _third
+    for key, rel in (("fonts", "fonts/FONTS.json"), ("vendor", "vendor/VENDOR.json")):
+        path = os.path.join(WEB, rel)
+        if not os.path.isfile(path):
+            sys.exit(f"web/{rel} is missing: run web/tools/fetch_third_party.py once (it needs the network; the port does not)")
+        _third[key] = json.load(open(path, encoding="utf-8"))
+    for name, meta in _third["fonts"]["files"].items():
+        f = os.path.join(WEB, "fonts", "files", name)
+        if not os.path.isfile(f) or sha(rb(f)) != meta["sha256"]:
+            fail(f"web/fonts/files/{name} is missing or is not the file FONTS.json records")
+    for pkg, files in _third["vendor"]["packages"].items():
+        for path_in, meta in files.items():
+            f = os.path.join(WEB, "vendor", pkg, path_in)
+            if not os.path.isfile(f) or sha(rb(f)) != meta["sha256"]:
+                fail(f"web/vendor/{pkg}/{path_in} is missing or is not the file VENDOR.json records")
+    return _third
+
+
+def localise(rel, text):
+    """Point a ported file at web/'s own copies of what it would load from another host."""
+    tp = third_party()
+    depth = rel.count("/")
+    if rel.endswith((".html", ".css")):  # a stylesheet may quote the link in a comment
+        def font(m):
+            url = html.unescape(m.group(1))
+            entry = tp["fonts"]["stylesheets"].get(url)
+            if not entry:
+                fail(f"{rel}: asks Google Fonts for a font set that is not under web/fonts/ ({url}); "
+                     "run web/tools/fetch_third_party.py, commit what it writes, and port again")
+                return m.group(0)
+            return f'href="{"../" * depth}fonts/{entry["css"]}"'
+        text = FONT_PRECONNECT.sub("", FONT_HREF.sub(font, text))
+    cdn = tp["vendor"]["cdn"]
+    if cdn in text:
+        for pkg, files in tp["vendor"]["packages"].items():
+            # "./" or "../": an import map and a module import both need an explicitly relative address
+            text = text.replace(f"{cdn}{pkg}/", f'{"../" * depth or "./"}vendor/{pkg}/')
+            for m in re.finditer(r"vendor/" + re.escape(pkg) + r"/([A-Za-z0-9_./-]+\.[a-z]+)", text):
+                if m.group(1) not in files:
+                    fail(f"{rel}: loads {pkg}/{m.group(1)}, which is not under web/vendor/; run web/tools/fetch_third_party.py")
+    for m in re.finditer(r'["\']three/addons/([A-Za-z0-9_./-]+\.js)["\']', text):
+        three = [files for pkg, files in tp["vendor"]["packages"].items() if pkg.startswith("three@")]
+        if not three or f"examples/jsm/{m.group(1)}" not in three[0]:
+            fail(f"{rel}: imports three/addons/{m.group(1)}, which is not under web/vendor/; run web/tools/fetch_third_party.py")
+    return text
+
+
+# What makes a browser fetch from another host: a resource tag, a stylesheet url() or @import,
+# a module import, a fetch or a worker. A link a reader clicks (<a href>) is not one, and
+# neither is the canonical link or a social-card address (metadata a crawler reads).
+_TAG = re.compile(r"<(link|script|img|source|iframe|video|audio|embed|object|use|image|track|input)\b[^>]*>", re.I)
+_ATTR = re.compile(r'\b(?:href|src|srcset|data|poster|xlink:href)\s*=\s*"((?:https?:)?//[^"]*)"', re.I)
+_CSS = re.compile(r"url\(\s*['\"]?((?:https?:)?//[^)'\"]+)|@import\s+(?:url\()?['\"]?((?:https?:)?//[^'\");]+)", re.I)
+_JS = re.compile(r"(?:\bfrom\s*|\bimport\s*\(\s*|\bfetch\s*\(\s*|\bWorker\s*\(\s*|\bimportScripts\s*\(\s*|\bEventSource\s*\(\s*|\bWebSocket\s*\(\s*)[\"'`]((?:https?:|wss?:)?//[^\"'`]+)", re.I)
+_IMPORTMAP = re.compile(r'<script type="importmap">([\s\S]*?)</script>', re.I)
+
+
+def third_party_requests(rel, text):
+    """Addresses on another host that loading this file would make a browser request."""
+    found = []
+    if rel.endswith(".html"):
+        for tag in _TAG.finditer(text):
+            if re.search(r'\brel="canonical"', tag.group(0)):
+                continue
+            found += [m.group(1) for m in _ATTR.finditer(tag.group(0))]
+        for im in _IMPORTMAP.finditer(text):
+            found += re.findall(r'"((?:https?:)?//[^"]+)"', im.group(1))
+        for style in re.findall(r"<style\b[^>]*>([\s\S]*?)</style>", text, re.I):
+            found += [a or b for a, b in _CSS.findall(style)]
+        for script in re.findall(r"<script\b(?![^>]*\bsrc=)(?![^>]*application/(?:ld\+)?json)[^>]*>([\s\S]*?)</script>", text, re.I):
+            found += _JS.findall(script)
+    elif rel.endswith(".css"):
+        found += [a or b for a, b in _CSS.findall(text)]
+    elif rel.endswith((".js", ".mjs")) and not rel.endswith(".test.mjs"):
+        found += _JS.findall(text)
+    return found
+
+
+def not_found_page(index_text, studio_name):
+    """404.html: the home page's shell (head, navigation, footer, search) around a short message.
+
+    GitHub Pages serves /404.html, with status 404, for any address that does not exist, at
+    any depth, so every relative address in it is written from the site root ("/site.css").
+    A <base href="/"> would do the same for links but would also re-point the page's own
+    fragment references (the skip link, every <use href="#icon">) at the home page.
+    """
+    text = index_text
+    esc = html.escape(studio_name, quote=True)
+
+    def one(pattern, repl, what, flags=0):
+        nonlocal text
+        text, n = re.subn(pattern, repl, text, count=1, flags=flags)
+        if n != 1:
+            fail(f"404.html: the home page has no {what}; its shell changed, update not_found_page()")
+
+    one(r'<meta charset="utf-8">', '<meta charset="utf-8">\n<meta name="robots" content="noindex">', "charset tag")
+    one(r"<title>[^<]*</title>", "<title>Page not found · Kshana</title>", "<title>")
+    one(r'(<meta name="description" content=")[^"]*(")',
+        r"\g<1>There is no page at this address on kshana.dev. Start from the home page, the docs or the Studio.\g<2>", "meta description")
+    one(r'<link rel="stylesheet" href="css/home\.css">\n?', "", "home stylesheet link")
+    one(r'<body data-page="index">', '<body data-page="404">', "body tag")
+    one(r'root:"",page:"index"', 'root:"/",page:"404"', "KSITE root and page name")
+    main = f"""<main id="main">
+<section class="page-hero nf">
+  <div class="wrap">
+    <span class="eyebrow" style="--c:var(--coral)"><i></i>Error 404 · page not found</span>
+    <h1 class="h1">No page at this address. <span class="soft">The rest is where it was.</span></h1>
+    <p class="lede">The address may be mistyped, or it may be from the earlier single-page site. Start from the home page, read the docs, or run a scenario in {esc}. Search finds every page, scenario and doc.</p>
+    <div class="ctas"><a class="btn btn-ink" href="index.html">Home <svg aria-hidden="true"><use href="#i-arrow"/></svg></a><a class="btn btn-ghost" href="docs/index.html">Docs</a><a class="btn btn-ghost" href="playground/index.html">Launch {esc}</a></div>
+  </div>
+</section>
+</main>"""
+    one(r'<main id="main">[\s\S]*</main>', lambda m: main, "<main> element")
+    one(r'(<script src="site\.js" defer></script>)[\s\S]*?(</body>)', r"\1\n\2", "site.js script tag")
+    # Every relative address from the site root. Left alone: fragments, absolute and
+    # scheme addresses (https:, mailto:, data:).
+    text = re.sub(r'(\s(?:href|src)=")(?![#/]|[a-zA-Z][a-zA-Z0-9+.-]*:)([^"]+")', r"\1/\2", text)
+    text = text.replace("</head>", "<style>.nf{min-height:62vh;display:flex;align-items:center}.nf .lede{margin-top:22px}.nf .ctas{margin-top:30px}</style>\n</head>", 1)
+    return text
+
+
 def is_page(rel):
     """A site page, as opposed to an engine report shipped as an asset (those stay byte-for-byte)."""
     return rel.endswith(".html") and not rel.startswith("assets/")
@@ -204,7 +344,7 @@ def head_block(rel, text, version, summ):
 
 
 def page(rel, data, version, summ):
-    text = data.decode("utf-8")
+    text = localise(rel, data.decode("utf-8"))
     if 'rel="canonical"' in text or 'property="og:' in text:
         fail(f"{rel}: already carries canonical or Open Graph tags; the port adds them, so the source must not")
         return data
@@ -233,7 +373,13 @@ def legacy_js(legacy):
   function legacyTarget(search, hash) {{
     var q = search || "";
     var h = (hash || "").replace(/^#/, "");
-    if (/(^\\?|&)embed=1(&|$)/.test(q)) return RULES.embed + q + (h ? "#" + h : "");
+    if (/(^\\?|&)embed=1(&|$)/.test(q)) {{
+      // A tab the single-page site had and the Studio renamed opens its nearest current tab.
+      q = q.replace(/([?&]tab=)([^&]*)/, function (all, key, tab) {{
+        return key + (Object.prototype.hasOwnProperty.call(RULES.embedTabs, tab) ? RULES.embedTabs[tab] : tab);
+      }});
+      return RULES.embed + q + (h ? "#" + h : "");
+    }}
     if (!h) return null;
     for (var p in RULES.hashPrefix) {{
       if (Object.prototype.hasOwnProperty.call(RULES.hashPrefix, p) && h.indexOf(p) === 0) {{
@@ -251,7 +397,8 @@ def legacy_js(legacy):
 """.encode("utf-8")
 
 
-def collect_site(site, version, summ, out):
+def collect_site(site, version, summ, out, studio_name):
+    index_src = None
     listing = os.path.join(site, "PUBLISH.txt")
     if not os.path.isfile(listing):
         sys.exit(f"{site}: no PUBLISH.txt. Build the site first (build.py writes it).")
@@ -264,11 +411,25 @@ def collect_site(site, version, summ, out):
         if not os.path.isfile(src):
             fail(f"site: PUBLISH.txt lists {rel}, which is not on disk (rebuild the site)")
             continue
-        if rel in OWNED or rel.startswith("tools/") or rel.startswith(BUILT_DIRS) or ("/" not in rel and rel.endswith(".test.mjs")):
+        if rel in OWNED or rel.startswith(OWNED_DIRS) or rel.startswith(BUILT_DIRS) or ("/" not in rel and rel.endswith(".test.mjs")):
             fail(f"site: {rel} collides with a file web/ owns")
             continue
         data = rb(src)
-        out[rel] = page(rel, data, version, summ) if is_page(rel) else data
+        if rel == "404.html":
+            fail("site: 404.html is written by the port; the site must not publish its own")
+            continue
+        if rel == "index.html":
+            index_src = data.decode("utf-8")
+        if is_page(rel):
+            data = page(rel, data, version, summ)
+        elif rel.endswith((".js", ".mjs", ".css")):
+            data = localise(rel, data.decode("utf-8")).encode("utf-8")
+        out[rel] = data
+        n += 1
+    if index_src is None:
+        fail("site: no index.html")
+    else:
+        out["404.html"] = not_found_page(localise("404.html", index_src), studio_name).encode("utf-8")
         n += 1
     return n
 
@@ -341,6 +502,8 @@ def collect_studio(studio, site, version, summ, out, skip):
                     stale_toml.append(rel)
             else:
                 data = rb(src)
+                if fn.endswith((".js", ".mjs", ".css")) and not fn.endswith(".test.mjs"):
+                    data = localise(dst, data.decode("utf-8")).encode("utf-8")
                 if fn == "index.json":
                     try:
                         doc = json.loads(data)
@@ -353,7 +516,7 @@ def collect_studio(studio, site, version, summ, out, skip):
             n += 1
             sizes[top if rel_dir != "." else "."] = sizes.get(top if rel_dir != "." else ".", 0) + len(data)
     out[f"{STUDIO_DIR}/channels.json"] = rb(ch_path)
-    out[f"{STUDIO_DIR}/tokens.css"] = rb(os.path.join(site, "tokens.css"))
+    out[f"{STUDIO_DIR}/tokens.css"] = localise(f"{STUDIO_DIR}/tokens.css", rb(os.path.join(site, "tokens.css")).decode("utf-8")).encode("utf-8")
     n += 2
     for d in bundles:
         prefix = f"{STUDIO_DIR}/{d}/"
@@ -399,6 +562,16 @@ def check_legacy(legacy, out):
             fail(f"legacy redirect target {path} is not in the ported site")
         elif frag and frag not in ids_of(out[path].decode("utf-8")):
             fail(f"legacy redirect target {t}: no element with id=\"{frag}\" on {path}")
+    app = out.get(f"{STUDIO_DIR}/app.js", b"").decode("utf-8")
+    defs = re.search(r"const TAB_DEFS = \[([\s\S]*?)\n\];", app)
+    tabs = set(re.findall(r'\{ id: "([a-z0-9-]+)"', defs.group(1))) if defs else set()
+    if not tabs:
+        fail("the Studio's tab list (const TAB_DEFS in app.js) was not found, so old embed links' tab names cannot be checked")
+    for old_tab, new_tab in red.get("embedTabs", {}).items():
+        if new_tab not in tabs:
+            fail(f"old embed tab {old_tab!r} maps to {new_tab!r}, which is not a Studio tab ({', '.join(sorted(tabs))})")
+        if old_tab in tabs:
+            fail(f"old embed tab {old_tab!r} is a Studio tab again; remove its mapping from legacy-urls.json")
     for h in red["hash"]:
         if h in home_ids:
             fail(f"legacy redirect for #{h} would hijack a live anchor on the new home page; move it to keptAnchors")
@@ -408,7 +581,7 @@ def check_legacy(legacy, out):
 
 
 def sitemap(out):
-    pages = sorted(p for p in out if is_page(p))
+    pages = sorted(p for p in out if is_page(p) and p != "404.html")
     pages.sort(key=lambda p: (p != "index.html", p.count("/"), p))
     body = "".join(f"  <url><loc>{canonical(p)}</loc></url>\n" for p in pages)
     return ('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
@@ -430,14 +603,21 @@ def main():
     legacy = json.load(open(os.path.join(TOOLS, "legacy-urls.json"), encoding="utf-8"))
 
     out = {}
-    n_site = collect_site(site, version, summ, out)
+    ch = os.path.join(site, STUDIO_DIR, "channels.json")
+    if not os.path.isfile(ch):
+        sys.exit(f"{site}: no {STUDIO_DIR}/channels.json. Build the site first.")
+    n_site = collect_site(site, version, summ, out, json.load(open(ch, encoding="utf-8"))["studio"])
     n_studio = collect_studio(studio, site, version, summ, out, a.studio_skip)
     scrub(out)
+    for rel in sorted(out):
+        if rel.endswith((".html", ".css", ".js", ".mjs")):
+            for addr in third_party_requests(rel, out[rel].decode("utf-8")):
+                fail(f"{rel}: would make a browser fetch from another host ({addr[:90]}); kshana.dev serves its own fonts, styles and scripts")
     out["legacy-redirects.js"] = legacy_js(legacy)
     out["sitemap.xml"] = sitemap(out)
     check_legacy(legacy, out)
     for rel in out:
-        if rel in OWNED or rel.startswith(BUILT_DIRS) or rel.startswith("tools/"):
+        if rel in OWNED or rel.startswith(BUILT_DIRS) or rel.startswith(OWNED_DIRS):
             fail(f"{rel}: the port would overwrite a file web/ owns")
 
     manifest = {

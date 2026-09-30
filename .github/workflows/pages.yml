@@ -121,7 +121,8 @@ jobs:
           echo "staged $(find site -type f | wc -l | tr -d ' ') of $(find web -type f | wc -l | tr -d ' ') file(s)"
           # The deploy is useless without these: fail here, not on a blank page.
           for f in index.html playground/index.html playground/pkg/kshana.js playground/pkg/kshana_bg.wasm \
-                   pkg/kshana.js docs/index.html CNAME robots.txt sitemap.xml og-card.png legacy-redirects.js; do
+                   pkg/kshana.js docs/index.html 404.html CNAME robots.txt sitemap.xml og-card.png legacy-redirects.js \
+                   fonts/FONTS.json vendor/VENDOR.json; do
             [ -f "site/$f" ] || { echo "::error::the staged site is missing $f"; exit 1; }
           done
       - name: Upload Pages artifact

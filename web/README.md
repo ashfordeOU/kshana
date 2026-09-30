@@ -24,7 +24,8 @@ Three kinds of file live here, and they are changed in three different ways.
 
    The port is deterministic: a second run writes nothing, and `--check` exits 1 if `web/`
    is not what the port would write. It also writes the canonical link and social-card
-   tags of every page, `sitemap.xml`, and `legacy-redirects.js`.
+   tags of every page, `sitemap.xml`, `legacy-redirects.js` and `404.html`, and points
+   every page at the local fonts and script libraries (below).
 
 2. **Files `web/` owns.** These are sources in their own right and the port never
    touches them:
@@ -39,6 +40,8 @@ Three kinds of file live here, and they are changed in three different ways.
    - `og-card.svg`, `og-card.png` and `og-card.rendered-from.json` are the social card
      (`python3 tools/gen_og_card.py`).
    - `CNAME`, `robots.txt`, `.well-known/security.txt`, `favicon.svg`.
+   - `fonts/` and `vendor/`: the font files and the script library the pages use, fetched
+     once by `tools/fetch_third_party.py` and committed (see "No third-party requests").
    - `build.sh`, `smoke.mjs`, `site.test.mjs`, `legacy-urls.test.mjs` and `tools/`.
 
 3. **Build outputs**, git-ignored and produced by `build.sh`: `pkg/` (the `wasm-pack`
@@ -71,10 +74,36 @@ DOM (Document Object Model, the page's element tree) driver is `playground/app.j
 Continuous integration runs every one of these as its own step and fails if a test file
 under `web/` has no step.
 
+## No third-party requests
+
+kshana.dev serves its own fonts, styles and scripts. A page makes no request to a font
+host or a script host, so a visitor's address is not handed to one.
+
+The site and the Studio are written against Google Fonts and a script host. The port
+replaces each page's Google Fonts link with the matching stylesheet in `fonts/` (the same
+`@font-face` rules and the same font files, every subset, so text renders as before) and
+each script-host address with the file under `vendor/`. `fonts/FONTS.json` and
+`vendor/VENDOR.json` record where each file came from and its checksum; the fonts are
+under the SIL Open Font License (`fonts/OFL-*.txt`) and three.js under the MIT licence
+(`vendor/three@…/LICENSE`).
+
+`tools/fetch_third_party.py --from <site folder> --from <Studio folder>` is the only step
+that uses the network. Run it again only when a page asks for a font set or a library
+version that is not here: the port refuses and says so. `site.test.mjs` fails if any
+ported page, stylesheet or script names a font host or loads anything from another host.
+
+## The 404 page
+
+GitHub Pages answers a missing address with `/404.html` and status 404. The port makes
+that page from the home page's own shell (navigation, footer, search) around a short
+message with links to Home, Docs and the Studio. Every address in it is written from the
+site root, because it is served at any depth.
+
 ## Old addresses
 
 Until v0.28.0 the site was a single page, and everything lived behind a fragment on `/`
-(`/#playground`, `/#ledger`, share links as `/#s=…`, embeds as `/?embed=1&…`).
+(`/#playground`, `/#ledger`, share links as `/#s=…`, embeds as `/?embed=1&…`; an embed
+link's old tab name, such as `tab=fom`, opens the Studio tab that replaced it).
 `tools/legacy-urls.json` lists every such address that published material uses and where
 it lands now; the home page loads `legacy-redirects.js`, generated from that list, to send
 them there. Add a case to the list before retiring any address.
