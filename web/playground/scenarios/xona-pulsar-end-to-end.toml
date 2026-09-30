@@ -1,0 +1,147 @@
+# Xona Pulsar end to end: the public X5 signal -> a Pulsar pass -> a LEO navigation message
+# -> GPS + Galileo + Pulsar fused fix and precise point positioning convergence.
+#
+# Every Pulsar number is public: Leclere, Marathe and Reid, "Insights into Xona Pulsar LEO
+# PNT", ION GNSS+ 2025, https://arxiv.org/abs/2509.19551 (X5 at 1190.51625 MHz, 10.23 Mchip/s,
+# data and pilot in quadrature with a 50/50 split, received power -144.9 to -136.2 dBW;
+# 258 satellites in 18 planes at about 1080 km, inclined 53 deg and polar 97 deg shells).
+#
+# - Signal: the `xona-x5` design from data/leo-signals/xona-pulsar.toml.
+# - Pass: a maritime user in the Bay of Biscay watches a Pulsar satellite of the inclined
+#   shell peak at 70 deg. The band is the link preset's X5 (flat pattern, the EIRP that
+#   delivers the published minimum power at 10 deg), carrying the X5 design.
+# - Navigation message: the Pulsar broadcast-ephemeris model is not public (the brief marks
+#   it UNCONFIRMED), so the message is Kshana's Galileo Keplerian set with along-track,
+#   cross-track and radial corrections, fitted every 300 s; 0.25 m of orbit-determination and
+#   clock error is added as a representative decimetre-level figure (not a Xona figure).
+# - Positioning: GPS and Galileo with the Pulsar inclined shell (192 satellites, 12 planes).
+# - Precise point positioning (PPP): GPS and Galileo alone and with both Pulsar shells.
+#
+# MODELLED: every stage keeps its own label.
+kind = "leo-pnt-chain"
+name = "Xona Pulsar end to end"
+seed = 9
+signal_design = "xona-x5"
+od_sisre_m = 0.25
+
+[signal]
+presets = ["xona-pulsar"]
+
+[pass]
+epoch = "2026-09-28T10:00:00"
+duration_s = 1200.0
+step_s = 5.0
+
+[pass.user]
+environment = "maritime"
+lat_deg = 45.5
+lon_deg = -5.0
+height_m = 10.0
+speed_m_s = 8.0
+heading_deg = 90.0
+
+[[pass.satellite]]
+id = "Pulsar-pass"
+system = "xona-pulsar"
+bands = ["X5"]
+altitude_km = 1080.0
+inclination_deg = 53.0
+max_elevation_deg = 70.0
+tca_s = 600.0
+
+[[pass.satellite.band]]
+name = "X5"
+signal = "xona-x5"
+
+[pass.gnss]
+constellation = "gps-baseline"
+band = "L1"
+
+[navmsg.message]
+model = "kepler-rac"
+fit_interval_s = 300.0
+
+[navmsg.trade]
+span_s = 1200.0
+
+[fusion]
+mode = "joint"
+duration_s = 1800.0
+step_s = 30.0
+
+[fusion.user]
+lat_deg = 45.5
+lon_deg = -5.0
+height_m = 10.0
+
+[fusion.joint]
+max_leo_sweep = 8
+
+[[fusion.system]]
+name = "GPS"
+preset = "gps-baseline"
+cn0_dbhz = [38.0, 48.0]
+sisre_m = 0.6
+
+[[fusion.system]]
+name = "Galileo"
+preset = "galileo"
+cn0_dbhz = [38.0, 48.0]
+sisre_m = 0.3
+isb_ns = 12.0
+
+[[fusion.system]]
+name = "Pulsar X5"
+role = "leo"
+isb_ns = 40.0
+
+[[fusion.system.shell]]
+total = 192
+planes = 12
+phasing = 1
+altitude_km = 1080.0
+inclination_deg = 53.0
+
+[ppp]
+duration_s = 1800.0
+step_s = 10.0
+runs = 2
+
+[[ppp.site]]
+lat_deg = 45.5
+lon_deg = -5.0
+
+[[ppp.gnss]]
+name = "GPS"
+preset = "gps-baseline"
+mask_deg = 7.0
+
+[[ppp.gnss]]
+name = "Galileo"
+preset = "galileo"
+mask_deg = 7.0
+
+[[ppp.case]]
+name = "Pulsar 258"
+
+[[ppp.case.system]]
+name = "Pulsar inclined"
+mask_deg = 7.0
+
+[[ppp.case.system.shell]]
+total = 192
+planes = 12
+phasing = 1
+altitude_km = 1080.0
+inclination_deg = 53.0
+
+[[ppp.case.system]]
+name = "Pulsar polar"
+mask_deg = 7.0
+
+[[ppp.case.system.shell]]
+total = 66
+planes = 6
+phasing = 1
+altitude_km = 1080.0
+inclination_deg = 97.0

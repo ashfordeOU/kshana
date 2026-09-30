@@ -1,0 +1,95 @@
+# Cross-domain composition: one jammer, two platforms. A ship in the Gulf of Finland
+# (59.80 N, 24.90 E, the maritime-strait-jamming example's receiver) and a car on a
+# Helsinki coast road (60.17 N, 24.94 E) sit under the same broadband jammer, placed
+# at 59.80 N, 25.44 E, 30 m up (about 30 km from the ship and 50 km from the car).
+#
+# At 8 dBW (6.3 W) the ship loses every satellite (mean jammer-to-signal ratio,
+# J/S, about 39 dB) while the car, 20 km further off, keeps at least four (about
+# 35 dB): the combined summary names the ship as the worst platform.
+#
+# The jammer's power and position are declared once under [[compose.shared]] and
+# written into each member at the keys it binds them to, so the two runs cannot
+# disagree about the threat. Each member is an ordinary `jamming` run; the combined
+# summary names the best and worst platform for each metric.
+#
+# MODELLED: as the `jamming` kind is. The car is modelled with the same open-sky
+# receiver as the ship; urban masking and the vehicle antenna are not.
+kind = "campaign"
+title = "One jammer, a ship and a car"
+seed = 20260928
+
+[[compose.shared]]
+name = "jammer_power"
+unit = "dBW"
+value = 8.0
+
+[[compose.shared]]
+name = "jammer_position"
+unit = "m"
+value = [2904623.523, 1381438.498, 5489328.347]
+
+[[compose.members]]
+label = "ship-strait"
+bind = { jammer_power = "jammer.power_dbw", jammer_position = "jammer.position_ecef_m" }
+metrics = [
+  { name = "availability", path = "fom.availability_under_jamming" },
+  { name = "mean_js", path = "fom.mean_js_db" },
+  { name = "min_tracking", path = "fom.min_tracking" },
+]
+[compose.members.scenario]
+kind = "jamming"
+seed = 1
+mask_deg = 5.0
+tracking_threshold_dbhz = 25.0
+[compose.members.scenario.time]
+step_s = 30.0
+duration_s = 1800.0
+[compose.members.scenario.receiver]
+lat_deg = 59.80
+lon_deg = 24.90
+alt_m = 0.0
+[compose.members.scenario.constellation]
+altitude_km = 20200.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
+[compose.members.scenario.jammer]
+position_ecef_m = [0.0, 0.0, 0.0]
+power_dbw = 0.0
+gain_dbi = 0.0
+jammer_type = "broadband"
+bandwidth_mhz = 20.0
+
+[[compose.members]]
+label = "car-coast-road"
+bind = { jammer_power = "jammer.power_dbw", jammer_position = "jammer.position_ecef_m" }
+metrics = [
+  { name = "availability", path = "fom.availability_under_jamming" },
+  { name = "mean_js", path = "fom.mean_js_db" },
+  { name = "min_tracking", path = "fom.min_tracking" },
+]
+[compose.members.scenario]
+kind = "jamming"
+seed = 1
+mask_deg = 5.0
+tracking_threshold_dbhz = 25.0
+[compose.members.scenario.time]
+step_s = 30.0
+duration_s = 1800.0
+[compose.members.scenario.receiver]
+lat_deg = 60.17
+lon_deg = 24.94
+alt_m = 0.0
+[compose.members.scenario.constellation]
+altitude_km = 20200.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
+[compose.members.scenario.jammer]
+position_ecef_m = [0.0, 0.0, 0.0]
+power_dbw = 0.0
+gain_dbi = 0.0
+jammer_type = "broadband"
+bandwidth_mhz = 20.0

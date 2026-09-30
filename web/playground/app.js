@@ -21,10 +21,15 @@ const STUDIO_NAME = (document.querySelector("title")?.textContent || "").trim();
 import { clampStep, placeTooltip } from "./lib/tour.mjs";
 import { matrixCounts } from "./lib/counts.mjs";
 import { createEngineClient, isCancelled, busyLabel, errorMessage } from "./lib/engine.mjs";
-import { SCENARIOS, NOT_IN_BROWSER, DEFAULT_SCENARIO, entryFor, domainOf, groupedLibrary } from "./lib/catalog.mjs";
+import { SCENARIOS, NOT_IN_BROWSER, RECORDED_NATIVELY, DEFAULT_SCENARIO, entryFor, domainOf, groupedLibrary, registerGroup, dirOf } from "./lib/catalog.mjs";
 import { numericFields, stepValue, patchField, isLogScale } from "./lib/params.mjs";
 import * as V from "./lib/views.mjs";
+import * as K from "./lib/kinds.mjs";
+import * as G from "./lib/stages.mjs";
+import { createPackReader } from "./lib/packs.mjs";
 
+// Recorded runs and native recordings, from one file per scenario or from packs.
+const PACKS = createPackReader();
 const $ = (id) => document.getElementById(id);
 const h = (tag, props = {}, ...kids) => {
   const n = document.createElement(tag);
@@ -66,7 +71,9 @@ const S = {
   run: null,          // the run on screen: {id, file, title, toml, result, svg, summary, csv, ms, at, mode}
   pins: [], history: [], runCount: 0,
   activeTab: null, tabRequest: null, pview: "guided", exportsCache: new Map(), sweepSvg: null, tsMode: "live",
-  embed: false, ho: null, orbitDirty: true,
+  embed: false, ho: null, orbitDirty: true, capDirty: true,
+  nat: new Map(),     // folder -> index of the native engine's recordings (reports, animations, exports)
+  link: {},           // what the page link asked for beyond scenario and tab: play, view, field, frame
 };
 const tomlEl = $("toml");
 
@@ -90,21 +97,28 @@ async function bootEngine() {
       S.liveError = errorMessage(e);
     }
   }
-  const res = await fetch("recorded/index.json");
-  if (!res.ok) throw new Error(`the engine could not load (${S.liveError || "WebAssembly unavailable"}) and no recorded runs were found`);
-  S.recIndex = await res.json();
+  S.recIndex = await recordedIndex("");
+  if (!S.recIndex) throw new Error(`the engine could not load (${S.liveError || "WebAssembly unavailable"}) and no recorded runs were found`);
   S.version = S.recIndex.engine_version;
   S.mode = "recorded";
   S.engine = recordedEngine();
 }
 
+// The index of recorded runs in a folder ("" or an optional group's folder), fetched once.
+const recIdx = new Map();
+function recordedIndex(dir = "") {
+  if (!recIdx.has(dir)) recIdx.set(dir, fetch(`${dir}recorded/index.json`).then((r) => (r.ok ? r.json() : null)).catch(() => null));
+  return recIdx.get(dir);
+}
 async function loadRecorded(file) {
   if (S.recCache.has(file)) return S.recCache.get(file);
-  const entry = S.recIndex && S.recIndex.runs[file];
+  const dir = dirOf(file);
+  const idx = await recordedIndex(dir);
+  const entry = idx && idx.runs[file];
   if (!entry || entry.error) return null;
-  const res = await fetch(`recorded/${entry.file}`);
-  if (!res.ok) return null;
-  const rec = await res.json();
+  // One file per scenario, or a pack of several: the index entry says which (lib/packs.mjs).
+  const rec = await PACKS.load(`${dir}recorded/`, entry).catch(() => null);
+  if (!rec) return null;
   S.recCache.set(file, rec);
   return rec;
 }
@@ -120,7 +134,7 @@ function recordedEngine() {
       const rec = S.file ? await loadRecorded(S.file) : null;
       if (!rec) throw new Error("There is no recorded run for this scenario. It needs the live engine.");
       if (toml !== rec.toml) throw new Error("EDITED");
-      if (fn === "run_all") return JSON.stringify({ json: rec.json, svg: rec.svg, summary: rec.summary, csv: rec.csv });
+      if (fn === "run_all") return JSON.stringify({ json: rec.json, svg: rec.svg, summary: rec.summary, csv: rec.csv, source: rec.source || "", platform: rec.platform || "", command: rec.command || "" });
       if (fn === "run") return rec.json;
       if (fn === "table_csv") return rec.csv;
       if (fn.startsWith("export_")) {
@@ -177,11 +191,7 @@ function setStatus(text, cls = "") {
 // ------------------------------------------------------------------ run
 async function runScenario() {
   if (!S.engine) return;
-  if (NOT_IN_BROWSER[S.file] && !S.shared) {
-    showError(NOT_IN_BROWSER[S.file]);
-    setStatus("This scenario does not run in the browser.");
-    return;
-  }
+  if (NOT_IN_BROWSER[S.file] && !S.shared) { await showNativeRun(); return; }
   if (job.active) {
     if (S.engine.canCancel && performance.now() - job.startedAt > SUPERSEDE_MS) S.engine.cancel();
     else { job.rerun = true; return; }
@@ -215,7 +225,8 @@ async function runScenario() {
   const entry = entryFor(S.file);
   const run = {
     id: S.runCount, file: S.file, title: S.shared ? "Shared scenario" : entry ? entry.title : S.file,
-    toml: src, result, svg: all.svg || "", summary: all.summary || "", csv: all.csv || null, ms, at: new Date(), mode: S.mode,
+    toml: src, result, svg: all.svg || "", summary: all.summary || "", csv: all.csv || null, ms, at: new Date(),
+    mode: all.source === "native" ? "native" : S.mode, platform: all.platform || "", command: all.command || "",
   };
   S.history.unshift(run);
   if (S.history.length > 25) S.history.pop();
@@ -224,6 +235,37 @@ async function runScenario() {
   setStatus(`${S.mode === "live" ? "Ran locally" : "Recorded run shown"} at ${run.at.toLocaleTimeString()}, run ${S.runCount}${ms >= 1000 ? `, ${(ms / 1000).toFixed(1)} s` : ""}.`, "ran");
   const sum = $("summary");
   sum.classList.remove("flash"); void sum.offsetWidth; sum.classList.add("flash");
+}
+
+// A scenario the browser build cannot run: show the run the native command-line engine
+// recorded for the bundled file, labelled as recorded, or say why there is none.
+async function showNativeRun() {
+  clearError();
+  const rec = RECORDED_NATIVELY.includes(S.file) ? await loadRecorded(S.file) : null;
+  if (!rec || rec.source !== "native") {
+    showError(NOT_IN_BROWSER[S.file]);
+    setStatus("This scenario does not run in the browser.");
+    return;
+  }
+  if (tomlEl.value !== rec.toml) {
+    showNotice(`${NOT_IN_BROWSER[S.file]} The recorded run is of the bundled file, so an edited copy cannot be shown here: run it with the command-line tool, or use Reset to see the recording.`);
+    setStatus("Edited: this scenario runs only in the command-line engine.");
+    return;
+  }
+  let result;
+  try { result = JSON.parse(rec.json); } catch (e) { showError(errorMessage(e)); return; }
+  S.runCount += 1;
+  const entry = entryFor(S.file);
+  const run = { id: S.runCount, file: S.file, title: entry ? entry.title : S.file, toml: rec.toml, result, svg: rec.svg || "", summary: rec.summary || "", csv: rec.csv || null, ms: 0, at: new Date(), mode: "native", platform: rec.platform || "", command: rec.command || "" };
+  S.history.unshift(run);
+  if (S.history.length > 25) S.history.pop();
+  showNotice(nativeNotice(run));
+  renderRun(run);
+  renderHistory();
+  setStatus(`Recorded run shown at ${run.at.toLocaleTimeString()} (native engine).`, "ran");
+}
+function nativeNotice(run) {
+  return `${NOT_IN_BROWSER[run.file] || "The browser build cannot run this scenario."} What you see is a run recorded with the native command-line engine v${run.result.engine_version || S.version}${run.platform ? ` (${run.platform})` : ""}${run.command ? ` by running ${run.command}` : ""}, shown unchanged. It does not re-run when you edit.`;
 }
 
 function showError(msg) {
@@ -254,7 +296,7 @@ function renderRun(run) {
   $("summary").textContent = run.summary || "(this scenario publishes no one-line summary)";
   const b = $("hl-badges");
   b.replaceChildren();
-  b.append(h("span", { class: `badge ${run.mode === "live" ? "live" : "recorded"}`, text: run.mode === "live" ? "Live engine" : `Recorded run, engine v${r.engine_version || S.version}` }));
+  b.append(h("span", { class: `badge ${run.mode === "live" ? "live" : "recorded"}`, text: run.mode === "live" ? "Live engine" : run.mode === "native" ? `Recorded run, native engine v${r.engine_version || S.version}` : `Recorded run, engine v${r.engine_version || S.version}` }));
   const lab = V.resultLabel(r);
   const tiers = tierCounts(r);
   if (tiers.validated) b.append(h("span", { class: "badge validated", text: `${tiers.validated} validated` }));
@@ -269,7 +311,7 @@ function renderRun(run) {
   if (typeof r.seed === "number") add("seed", String(r.seed));
   add("file", run.file || "shared link");
   if (run.mode === "live") add("time", `${Math.max(1, Math.round(run.ms))} ms`);
-  renderFigures(r);
+  renderFigures(r, run.toml);
   renderOverview(r);
   buildTabs();
   $("json").replaceChildren(...jsonNodes(r));
@@ -288,12 +330,16 @@ function tierPill(tier) {
 
 // Key figure cards: the clock-style figures of merit when the result has them, else the
 // numeric figures the engine documents in `units`.
-function renderFigures(r) {
+function renderFigures(r, toml = "") {
   const host = $("figs");
   host.replaceChildren();
   const rows = buildFomRows(r);
+  const capFigs = K.capabilityFigures(r, toml, 8);
   let cards;
-  if (rows.length) {
+  if (capFigs.length) {
+    // A newer kind names its own headline figures; each card records the path it shows.
+    cards = capFigs.map((x) => { const ft = figureTier(r, x.path); return { k: x.label, sub: x.sub, text: x.text, v: x.value, unit: x.unit, tier: ft ? ft.tier : "", note: "", title: x.note, path: x.path }; });
+  } else if (rows.length) {
     cards = rows.filter((x) => x.applicable !== false).slice(0, 8).map((x) => ({ k: x.label, sub: x.clockLabel, v: x.value, unit: x.unit, tier: x.tier || fomTier(x.metric), note: "" }));
   } else {
     cards = V.keyFigures(r, 8).map((x) => {
@@ -302,10 +348,10 @@ function renderFigures(r) {
     });
   }
   for (const c of cards) {
-    host.append(h("div", { class: "fig" },
+    host.append(h("div", { class: "fig", title: c.title || null },
       h("div", { class: "k" }, h("span", { text: c.unit ? c.k.replace(/\s*\([^)]*\)$/, "") : c.k }), tierPill(c.tier)),
       c.sub ? h("div", { class: "s", text: c.sub }) : null,
-      h("div", { class: "v", title: String(c.v) }, V.fmt(c.v), c.unit ? h("small", { text: c.unit }) : null),
+      h("div", { class: "v", title: String(c.v), "data-path": c.path || null, "data-raw": c.path ? JSON.stringify(c.v) : null }, c.text !== undefined ? c.text : V.fmt(c.v), c.unit ? h("small", { text: c.unit }) : null),
       c.note ? h("div", { class: "c", text: c.note.length > 96 ? c.note.slice(0, 94) + "…" : c.note }) : null));
   }
   host.hidden = cards.length === 0;
@@ -376,6 +422,8 @@ function renderOverview(r) {
 // ------------------------------------------------------------------ tabs
 const TAB_DEFS = [
   { id: "overview", label: "Overview", c: "var(--itg)" },
+  // One view per newer kind (spectrum, solar system, coverage, campaign, the LEO kinds): lib/kinds.mjs.
+  ...K.capabilityTabs().map((t) => ({ id: t.tab, label: t.label, c: t.c, view: "v-cap" })),
   { id: "timeseries", label: "Time series", c: "var(--tim)" },
   { id: "signal", label: "Signal & band", c: "var(--int)" },
   { id: "holdover", label: "Holdover", c: "var(--tim)" },
@@ -385,38 +433,27 @@ const TAB_DEFS = [
   { id: "ground", label: "Ground track", c: "var(--orb)" },
   { id: "sweep", label: "Sweep", c: "var(--nav)" },
   { id: "compare", label: "Compare", c: "var(--spf)" },
+  { id: "animation", label: "Animation", c: "var(--spf)" },
+  { id: "report", label: "Engine report", c: "var(--ink-2)" },
   { id: "exports", label: "Exports & report", c: "var(--ink-2)" },
   { id: "json", label: "JSON", c: "var(--ink-3)" },
 ];
-const VIEW_ID = { overview: "v-overview", timeseries: "v-timeseries", signal: "v-signal", holdover: "v-holdover", masks: "v-masks", stability: "v-stability", orbit: "v-orbit", ground: "v-ground", sweep: "v-sweep", compare: "v-compare", exports: "v-exports", json: "v-json" };
+const VIEW_ID = Object.fromEntries(TAB_DEFS.map((t) => [t.id, t.view || `v-${t.id}`]));
 let available = [];
 
 function availableTabs(run) {
-  const r = run.result;
-  const out = ["overview"];
-  if (V.seriesModel(r, run.toml) || (run.svg && run.svg.length > 200)) out.push("timeseries");
-  if (V.signalModel(r, run.toml)) out.push("signal");
-  if (V.holdoverModel(r)) out.push("holdover");
-  if (V.masksModel(r)) out.push("masks");
-  if (V.adevCurves(r).length) out.push("stability");
-  if (V.orbitTrackKm(r)) out.push("orbit");
-  if (V.groundTrack(r)) out.push("ground");
-  if (S.mode === "live" && sweepKnobs(run.toml).length && sweepMetricList(r).length) out.push("sweep");
-  if (S.pins.length) out.push("compare");
-  out.push("exports", "json");
-  return out;
+  // The rule lives in lib/kinds.mjs (resultTabs), shared with the deep-link list.
+  return K.resultTabs(run.result, run.toml, {
+    svg: run.svg,
+    // The engine's own animation and report, recorded with the native engine for the bundled files.
+    native: nativeEntry(run.file),
+    sweep: S.mode === "live" && sweepKnobs(run.toml).length > 0 && sweepMetricList(run.result).length > 0,
+    compare: S.pins.length > 0,
+  });
 }
 
-// The most telling first view for a kind of result.
-function preferredTab(run) {
-  const r = run.result;
-  if (V.signalModel(r, run.toml)) return "signal";
-  if (V.masksModel(r)) return "masks";
-  if (V.holdoverModel(r)) return "holdover";
-  if (V.seriesModel(r, run.toml)) return "timeseries";
-  if (V.groundTrack(r)) return "ground";
-  return "overview";
-}
+// The most telling first view for a kind of result (lib/kinds.mjs).
+const preferredTab = (run) => K.preferredTab(run.result, run.toml);
 
 function buildTabs() {
   const run = S.run;
@@ -441,13 +478,15 @@ function buildTabs() {
   S.tabRequest = null;
   renderTimeseries(); renderSignal(); renderHoldover(); renderMasks(); renderStability(); renderGround(); syncSweepControls(); renderCompare();
   S.orbitDirty = true;
+  S.capDirty = true;
+  stopPlayers();
   selectTab(S.activeTab);
 }
 
 function selectTab(id) {
   if (!available.includes(id)) id = available[0];
   S.activeTab = id;
-  for (const [tid, vid] of Object.entries(VIEW_ID)) $(vid).hidden = tid !== id;
+  for (const vid of new Set(Object.values(VIEW_ID))) $(vid).hidden = vid !== VIEW_ID[id];
   for (const b of $("tabs").children) {
     const sel = b.dataset.tab === id;
     b.setAttribute("aria-selected", sel ? "true" : "false");
@@ -456,6 +495,10 @@ function selectTab(id) {
   const btn = $(`tab-${id}`);
   if (btn && btn.scrollIntoView) btn.scrollIntoView({ block: "nearest", inline: "nearest" });
   if (id === "orbit" && S.orbitDirty) renderOrbit();
+  if (VIEW_ID[id] === "v-cap" && S.capDirty) renderCapability();
+  if (VIEW_ID[id] !== "v-cap") for (const p of players) p.stop();
+  if (id === "animation") renderAnimation();
+  if (id === "report") renderEngineReport();
   if (id === "exports") renderExports();
 }
 
@@ -512,7 +555,7 @@ function bindHover(box, hover) {
 
 // A downloadable, self-contained copy of an inline chart: theme colours resolved,
 // styles embedded, a title band and the provenance line added.
-const CHART_CSS = `svg{font-family:ui-monospace,Menlo,monospace;font-size:10.5px}.c-bg{fill:var(--space)}.c-grid{stroke:rgba(255,255,255,.08)}.c-eq{stroke:rgba(255,255,255,.18);stroke-dasharray:4 4}.c-tick{fill:var(--space-ink-3)}.c-axis{fill:var(--space-ink-2);font-size:11px}.c-note{fill:var(--space-ink-3);font-size:10px}.c-outage{fill:rgba(255,91,84,.08)}.c-line{fill:none;stroke-width:1.8}.c-legend text{fill:var(--space-ink-2);font-size:11px}.c-thr{stroke:var(--s-int);stroke-dasharray:6 4}.c-thr-bg{fill:var(--space);fill-opacity:.88}.c-thr-t{fill:var(--s-int);paint-order:stroke;stroke:var(--space);stroke-width:3.5px;stroke-linejoin:round}.c-mark{fill:none;stroke-width:1.6}.c-mark-t{fill:var(--space-ink-2);font-size:10px}.c-lost{stroke:rgba(0,0,0,.55);stroke-dasharray:2 2}.c-land{fill:rgba(106,152,255,.10);stroke:rgba(163,170,194,.72);stroke-width:.7}.c-track{fill:none;stroke:var(--s-orb);stroke-width:1.6}.c-track-vis{fill:none;stroke:var(--s-nav);stroke-width:3}`;
+const CHART_CSS = `svg{font-family:ui-monospace,Menlo,monospace;font-size:10.5px}.c-bg{fill:var(--space)}.c-grid{stroke:rgba(255,255,255,.08)}.c-eq{stroke:rgba(255,255,255,.18);stroke-dasharray:4 4}.c-tick{fill:var(--space-ink-3)}.c-axis{fill:var(--space-ink-2);font-size:11px}.c-note{fill:var(--space-ink-3);font-size:10px}.c-outage{fill:rgba(255,91,84,.08)}.c-line{fill:none;stroke-width:1.8}.c-legend text{fill:var(--space-ink-2);font-size:11px}.c-thr{stroke:var(--s-int);stroke-dasharray:6 4}.c-thr-bg{fill:var(--space);fill-opacity:.88}.c-thr-t{fill:var(--s-int);paint-order:stroke;stroke:var(--space);stroke-width:3.5px;stroke-linejoin:round}.c-mark{fill:none;stroke-width:1.6}.c-mark-t{fill:var(--space-ink-2);font-size:10px}.c-lost{stroke:rgba(0,0,0,.55);stroke-dasharray:2 2}.c-land{fill:rgba(106,152,255,.10);stroke:rgba(163,170,194,.72);stroke-width:.7}.c-track{fill:none;stroke:var(--s-orb);stroke-width:1.6}.c-track-vis{fill:none;stroke:var(--s-nav);stroke-width:3}.c-band{fill:rgba(255,255,255,.035)}.c-band.alt{fill:rgba(255,255,255,0)}.c-vline{stroke:var(--space-ink-2);stroke-dasharray:3 3}.c-vline.alarm{stroke:var(--s-int)}.c-tickm{stroke:var(--space-ink-3)}.wf-band{fill:var(--space-ink-2)}.wf-curtain,.wf-cursor,.play-cursor{display:none}.or-track{fill:none;stroke-width:1.1;opacity:.7}.or-ring{stroke-dasharray:2 4}.or-link{stroke:var(--s-nav);stroke-dasharray:4 3}.or-centre{fill:var(--s-nav)}.or-name{fill:var(--space-ink);font-size:11px}.cov-trail{fill:none;stroke-width:1;opacity:.6}.cov-sat{stroke:var(--space);stroke-width:.6}.h-bar{fill:var(--s-tim)}.gj-line{fill:none;stroke-width:1.4}.gj-pt{fill:var(--s-nav)}`;
 function tokenValue(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
 function exportSvg(svg, title) {
   const vb = (svg.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/) || []).slice(1).map(Number);
@@ -525,7 +568,7 @@ function exportSvg(svg, title) {
 }
 
 function mountTools(toolsId, getSvg, base) {
-  const host = $(toolsId);
+  const host = typeof toolsId === "string" ? $(toolsId) : toolsId;
   if (!host) return;
   host.replaceChildren(h("span", { class: "lbl", text: "Download" }));
   const meta = () => (S.run ? fileMeta(S.run.result, S.version, S.run.toml) : null);
@@ -1054,6 +1097,7 @@ async function renderExports() {
   ];
   if (run.csv) items.push(card("CSV", "Reproducibility table", "The same bytes the command-line tool writes as <scenario>.table.csv.", "var(--itg)", () => triggerDownload(new Blob([run.csv], { type: "text/csv" }), chartFilename("table", meta, "csv"))));
   grid.replaceChildren(...items);
+  renderInterop(run);
   // Standards-track ephemeris exports: asked of the engine once per run, when this tab opens.
   if (!(run.result && Array.isArray(run.result.eci_track))) return;
   let ex = S.exportsCache.get(run.id);
@@ -1093,12 +1137,455 @@ function downloadReport() {
   const gt = V.groundTrack(r);
   if (gt) svgs.push({ title: "Ground track", svg: exportSvg(V.groundTrackSvg(gt), "Ground track") });
   if (S.sweepSvg) svgs.push({ title: S.sweepSvg.title, svg: exportSvg(S.sweepSvg.svg, S.sweepSvg.title) });
+  for (const c of capabilityCharts(run)) svgs.push({ title: c.title, svg: exportSvg(c.svg, c.title) });
   let fomRows = buildFomRows(r);
   if (!fomRows.length) fomRows = V.keyFigures(r, 24).map((k) => { const ft = figureTier(r, k.path); return { clockLabel: "", label: k.label, unit: k.unit, value: k.value, tier: ft ? ft.tier : "", metric: k.path }; });
   const meta = fileMeta(r, S.version, run.toml);
   const html = buildReportHtml({ engineVersion: meta.ver, scenarioHash: meta.hash, toml: run.toml, summaryText: run.summary, fomRows, svgs, generatedIso: new Date().toISOString() });
   triggerDownload(new Blob([html], { type: "text/html" }), reportFilename(meta));
   toast("Report downloaded.");
+}
+
+// ------------------------------------------------------------------ capability views (the newer kinds)
+// lib/kinds.mjs turns a result into panels that name the PATH of every value they show;
+// lib/stages.mjs draws the interactive stage above them. Each value element records its path
+// (data-path) and the value as the engine wrote it (data-raw), so what is on screen can be
+// checked against the result document.
+const players = [];
+function stopPlayers() { for (const p of players.splice(0)) p.stop(); }
+
+// Play / scrub control over n frames. onFrame(k) draws frame k; label(k) names it.
+function makePlayer({ n, label, onFrame, rate = 6, name = "replay" }) {
+  let k = n - 1, timer = 0;
+  const btn = h("button", { class: "play-btn", type: "button", "aria-label": `Play the ${name}`, "aria-pressed": "false" }, icon("i-play"));
+  const range = h("input", { type: "range", min: "0", max: String(Math.max(0, n - 1)), step: "1", "aria-label": `Position in the ${name}` });
+  const out = h("output", { class: "play-out" });
+  const paint = () => { range.value = String(k); range.style.setProperty("--p", `${n > 1 ? (k / (n - 1)) * 100 : 100}%`); out.textContent = label(k); onFrame(k); };
+  const stop = () => { if (!timer) return; clearInterval(timer); timer = 0; btn.replaceChildren(icon("i-play")); btn.setAttribute("aria-pressed", "false"); btn.setAttribute("aria-label", `Play the ${name}`); };
+  const play = () => {
+    if (timer || n < 2) return;
+    if (k >= n - 1) k = 0;
+    btn.replaceChildren(icon("i-pause")); btn.setAttribute("aria-pressed", "true"); btn.setAttribute("aria-label", `Pause the ${name}`);
+    paint();
+    timer = setInterval(() => { if (k >= n - 1) { stop(); return; } k += 1; paint(); }, 1000 / rate);
+  };
+  btn.addEventListener("click", () => (timer ? stop() : play()));
+  range.addEventListener("input", () => { stop(); k = parseInt(range.value, 10) || 0; paint(); });
+  const api = { el: h("div", { class: "player" }, btn, range, out), stop, play, set: (i) => { k = Math.max(0, Math.min(n - 1, i)); paint(); }, get k() { return k; } };
+  players.push(api);
+  return api;
+}
+// A link with play=1 starts the first replay once (never under reduced motion).
+function autoPlay(player) {
+  if (!S.link.play || reducedMotion()) return;
+  S.link.play = false;
+  player.play();
+}
+
+// A value read from the result at `path`, written with its unit.
+function bound(tag, r, path, opts = {}) {
+  const v = K.resolve(r, path);
+  const n = h(tag, { class: opts.class || null, "data-path": path, "data-raw": v === undefined ? "" : JSON.stringify(v) });
+  let text = K.leafText(r, path, v, opts.unit);
+  if (opts.hash && typeof v === "string" && v.length > 16) { text = `${v.slice(0, 12)}…`; n.title = v; }
+  n.textContent = text;
+  const u = K.unitOf(r, path);
+  if (u && u.note && !n.title) n.title = u.note;
+  return n;
+}
+const slug = (t) => String(t).toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40) || "chart";
+const svgEl = (tag, attrs) => { const n = document.createElementNS("http://www.w3.org/2000/svg", tag); for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v); return n; };
+
+function panelNode(p, r) {
+  if (p.type === "line") {
+    const chart = V.lineChartSvg(p.model, p.opts || {});
+    if (!chart.svg) return null;
+    const box = h("div", { class: "chart-box" }), tools = h("div", { class: "chart-tools" });
+    setSvg(box, chart.svg);
+    bindHover(box, chart.hover);
+    mountTools(tools, () => exportSvg(chart.svg, p.title), slug(p.title));
+    return h("div", { class: "card scope span-2", "data-panel": "line", "data-src": (p.src || []).map((x) => x.path).join(" ") }, h("div", { class: "card-head" }, h("h3", { text: p.title })), box, p.note ? h("p", { class: "card-note on-space", text: p.note }) : null, tools);
+  }
+  if (p.type === "hist") {
+    const hs = G.histogramSvg(K.resolve(r, p.path), { unit: p.unit, title: p.title, xLabel: p.unit && p.unit !== "1" ? p.unit : "value", marks: (p.marks || []).map((m) => ({ label: m.label, value: K.resolve(r, m.path) })) });
+    if (!hs.svg) return null;
+    const box = h("div", { class: "chart-box" }), tools = h("div", { class: "chart-tools" });
+    setSvg(box, hs.svg);
+    mountTools(tools, () => exportSvg(hs.svg, p.title), slug(p.title));
+    const marks = h("p", { class: "card-note on-space" }, `${(K.resolve(r, p.path) || []).length} runs. `, ...(p.marks || []).flatMap((m) => [`${m.label} `, bound("b", r, m.path, { unit: p.unit }), "  "]));
+    return h("div", { class: "card scope span-2", "data-panel": "hist", "data-src": p.path }, h("div", { class: "card-head" }, h("h3", { text: p.title })), box, marks, tools);
+  }
+  const card = h("div", { class: `card${p.wide ? " span-2" : ""}`, "data-panel": p.type }, h("div", { class: "card-head" }, h("h3", { text: p.title }), p.note ? h("p", { class: "card-note", text: p.note }) : null));
+  if (p.type === "table") {
+    const pathOf = (c, row, i) => (c.path ? c.path(row, i) : `${row.path}.${c.key}`);
+    // A column with no value in any row is left out.
+    const cols = p.cols.filter((c) => p.rows.some((row, i) => { const v = K.resolve(r, pathOf(c, row, i)); return v !== undefined && v !== null; }));
+    if (!cols.length) return null;
+    const t = h("table", { class: "tbl" }, h("thead", {}, h("tr", {}, p.rowHead ? h("th", { text: p.rowHead }) : null, cols.map((c) => h("th", { text: c.label })))));
+    const tb = h("tbody");
+    p.rows.forEach((row, i) => {
+      const tr = h("tr", {}, p.rowHead ? h("td", { text: row.label }) : null);
+      for (const c of cols) {
+        const path = pathOf(c, row, i), v = K.resolve(r, path);
+        const unit = c.unit !== undefined ? c.unit : c.unitFrom ? K.resolve(r, `${row.path}.${c.unitFrom}`) : undefined;
+        const td = bound("td", r, path, { unit, hash: c.hash, class: typeof v === "number" ? "num" : c.note ? "note" : c.hash ? "mono" : null });
+        if (c.link && typeof v === "string" && /^https?:\/\//.test(v)) td.replaceChildren(h("a", { href: v, target: "_blank", rel: "noopener", class: "ext", text: v.replace(/^https?:\/\/(www\.)?/, "") }));
+        tr.append(td);
+      }
+      tb.append(tr);
+    });
+    t.append(tb);
+    card.append(h("div", { class: "table-scroll" }, t));
+  } else if (p.type === "kv") {
+    const dl = h("dl", { class: "kv" });
+    for (const it of p.items) { const u = K.unitOf(r, it.path); dl.append(h("dt", { text: it.label, title: (u && u.note) || null }), bound("dd", r, it.path, { hash: p.hash })); }
+    card.append(dl);
+  } else if (p.type === "list") {
+    card.append(h("ul", { class: "plain" }, p.items.map((it) => bound("li", r, it.path))));
+  } else if (p.type === "note") {
+    card.append(bound("p", r, p.path, { class: "label-text" }));
+  } else if (p.type === "mono") {
+    card.append(bound("pre", r, p.path, { class: `mono${p.wrap ? " wrap" : ""}` }));
+  } else if (p.type === "chips") {
+    card.append(h("div", { class: "mask-verdicts" }, p.items.map((it) => h("div", { class: `verdict ${it.pass ? "pass" : "fail"}`, "data-path": it.path, "data-raw": JSON.stringify(K.resolve(r, it.path)) }, h("b", { text: it.pass ? "PASS" : "FAIL" }), h("span", { text: it.label })))));
+  } else return null;
+  return card;
+}
+
+function renderCapability() {
+  S.capDirty = false;
+  stopPlayers();
+  const run = S.run, stage = $("cap-stage"), grid = $("cap-panels");
+  stage.replaceChildren(); grid.replaceChildren();
+  const cap = run ? K.capabilityView(run.result, run.toml) : null;
+  if (!cap) return;
+  $("v-cap").setAttribute("aria-label", cap.label);
+  const r = run.result;
+  if (cap.stage === "spectrum") stageSpectrum(stage, r);
+  else if (cap.stage === "solar") stageSolar(stage, r);
+  else if (cap.stage === "coverage") stageCoverage(stage, r);
+  else if (cap.stage === "timeline") stageTimeline(stage, r);
+  else if (cap.stage === "chain") stageChain(stage, r);
+  stage.hidden = !stage.children.length;
+  for (const p of cap.panels) { const n = panelNode(p, r); if (n) grid.append(n); }
+}
+
+// Spectrum: the waterfall with a replay, the receiver's bands at the replay time, and the
+// spectrum along the row on show.
+function stageSpectrum(host, r) {
+  const frames = G.waterfallFrames(r);
+  if (!frames.length) return;
+  let fi = Math.max(0, frames.findIndex((f) => f.id === S.link.frame));
+  const box = h("div", { class: "chart-box wf-box" }), side = h("div", { class: "wf-side", "aria-live": "off" });
+  const tip = h("div", { class: "hover-tip", hidden: true });
+  const tools = h("div", { class: "chart-tools" }), legend = h("div", { class: "legend-heat" }), playerHost = h("div");
+  const seg = frames.length > 1 ? h("div", { class: "seg dark wrap", role: "group", "aria-label": "Which part of the spectrum" }, frames.map((f, i) => h("button", { type: "button", "data-frame": f.id, text: f.name, onclick: () => { fi = i; draw(); } }))) : null;
+  const sliceBox = h("div", { class: "chart-box" }), sliceTools = h("div", { class: "chart-tools" }), sliceTitle = h("h3", { text: "Spectrum along the row on show" });
+  host.append(
+    h("div", { class: "card scope", "data-stage": "spectrum" },
+      h("div", { class: "card-head row" }, h("h3", {}, "Waterfall ", h("small", { text: "power spectral density: frequency across, time down" })), seg, legend),
+      h("div", { class: "wf-grid" }, box, side), playerHost,
+      h("p", { class: "card-note on-space", text: "Colour is power above the receiver's noise floor. The navigation signals sit under that floor, so what lights up is the jammers. Play the replay or drag it, and the bands on the right show what the receiver still tracks at that moment." }),
+      tools),
+    h("div", { class: "card scope" }, h("div", { class: "card-head" }, sliceTitle), sliceBox, sliceTools));
+  const tl = r.timeline, thr = K.resolve(r, "receiver.tracking_threshold_dbhz");
+  const top = Math.max(...(r.bands || []).map((b) => b.nominal_cn0_dbhz).filter(Number.isFinite), Number.isFinite(thr) ? thr : 0, 1);
+  let frame, geo, player;
+  const paint = (k) => {
+    const svg = box.querySelector("svg.chart");
+    if (svg && geo) {
+      const cur = svg.querySelector(".wf-curtain"), line = svg.querySelector(".wf-cursor");
+      const y = geo.mt + (k + 1) * geo.rh;
+      cur.setAttribute("y", y.toFixed(2)); cur.setAttribute("height", Math.max(0, geo.mt + geo.ph - y).toFixed(2));
+      line.setAttribute("y1", y.toFixed(2)); line.setAttribute("y2", y.toFixed(2));
+      line.setAttribute("visibility", k < geo.nT - 1 ? "visible" : "hidden");
+    }
+    side.replaceChildren();
+    if (tl && Array.isArray(tl.t_s) && Array.isArray(tl.bands)) {
+      const kt = G.nearestIndex(tl.t_s, frame.t[k]);
+      side.append(h("p", { class: "wf-k" }, "Receiver at t = ", bound("b", r, `timeline.t_s[${kt}]`, { unit: "s" })));
+      const list = h("ul", { class: "wf-bands" });
+      tl.bands.forEach((b, i) => {
+        const cn0 = b.cn0_effective_dbhz[kt], lost = Number.isFinite(thr) && Number.isFinite(cn0) ? cn0 < thr : b.status[kt] !== "LOCKED";
+        list.append(h("li", { class: lost ? "lost" : "" },
+          bound("span", r, `timeline.bands[${i}].name`, { class: "nm" }),
+          h("span", { class: "cbar", style: `--w:${Math.max(0, Math.min(100, (cn0 / top) * 100)).toFixed(1)}%;--f:${Number.isFinite(thr) ? ((thr / top) * 100).toFixed(1) : 0}%` }, h("i"), Number.isFinite(thr) ? h("u") : null),
+          bound("span", r, `timeline.bands[${i}].cn0_effective_dbhz[${kt}]`, { class: "v", unit: "dB-Hz" }),
+          bound("span", r, `timeline.bands[${i}].status[${kt}]`, { class: "st" })));
+      });
+      side.append(list);
+      if (Number.isFinite(thr)) side.append(h("p", { class: "wf-k" }, "Tracking threshold ", bound("b", r, "receiver.tracking_threshold_dbhz")));
+    }
+    const sm = G.spectrumSlice(frame, k);
+    const chart = V.lineChartSvg(sm, { h: 250 });
+    sliceTitle.textContent = sm.title;
+    sliceBox.dataset.src = `${frame.path}.psd_dbw_per_hz[${k}]`;
+    setSvg(sliceBox, chart.svg);
+    bindHover(sliceBox, chart.hover);
+    mountTools(sliceTools, () => exportSvg(chart.svg, sm.title), "spectrum-row");
+  };
+  const draw = () => {
+    frame = frames[fi];
+    if (seg) for (const b of seg.children) b.setAttribute("aria-pressed", b.dataset.frame === frame.id ? "true" : "false");
+    const wf = G.waterfallSvg(frame, { bands: r.bands || [] });
+    geo = wf.geo;
+    setSvg(box, wf.svg);
+    box.append(tip);
+    box.dataset.src = `${frame.path}.psd_dbw_per_hz`;
+    legend.replaceChildren(h("span", { text: `noise floor ${V.fmt(frame.floor, 4)}` }), h("i", { style: `background:linear-gradient(90deg,${Array.from({ length: 9 }, (_, i) => G.wfColor(Math.pow(i / 8, G.WF_GAMMA))).join(",")})` }), h("span", { text: `${V.fmt(frame.peak, 4)} dBW/Hz` }));
+    mountTools(tools, () => exportSvg(wf.svg, `Waterfall, ${frame.name}`), "waterfall");
+    if (player) { player.stop(); players.splice(players.indexOf(player), 1); }
+    player = makePlayer({ n: frame.t.length, name: "waterfall replay", label: (k) => `t = ${V.fmt(frame.t[k])} s`, onFrame: paint });
+    playerHost.replaceChildren(player.el);
+    player.set(frame.t.length - 1);
+    autoPlay(player);
+  };
+  // The cell under the pointer: its frequency, time and power, read from the result.
+  box.addEventListener("pointermove", (e) => {
+    const svg = box.querySelector("svg.chart");
+    if (!svg || !geo) return;
+    const rect = svg.getBoundingClientRect(), br = box.getBoundingClientRect(), sc = rect.width / geo.W;
+    const c = Math.floor(((e.clientX - rect.left) / sc - geo.ml) / geo.cw), row = Math.floor(((e.clientY - rect.top) / sc - geo.mt) / geo.rh);
+    if (c < 0 || c >= geo.nF || row < 0 || row >= geo.nT) { tip.hidden = true; return; }
+    tip.textContent = `f = ${V.fmt(frame.freq[c] / 1e6, 6)} MHz · t = ${V.fmt(frame.t[row])} s · ${V.fmt(frame.psd[row][c], 4)} dBW/Hz`;
+    tip.hidden = false;
+    const x = e.clientX - br.left + box.scrollLeft;
+    tip.style.left = `${x + 14 + tip.offsetWidth > br.width + box.scrollLeft ? x - tip.offsetWidth - 12 : x + 12}px`;
+    tip.style.top = `${Math.max(6, e.clientY - br.top + 12)}px`;
+  });
+  box.addEventListener("pointerleave", () => { tip.hidden = true; });
+  draw();
+}
+
+// Solar system: a plan view of the bodies and their orbit tracks, as the engine placed them.
+function stageSolar(host, r) {
+  const views = G.orreryViews(r);
+  if (!(r.bodies || []).length) return;
+  let view = views.some((v) => v.id === S.link.view) ? S.link.view : views[0].id;
+  const box = h("div", { class: "chart-box" }), tools = h("div", { class: "chart-tools" }), table = h("table", { class: "tbl on-space" });
+  const seg = h("div", { class: "seg dark wrap", role: "group", "aria-label": "Which bodies to draw" }, views.map((v) => h("button", { type: "button", "data-view": v.id, title: v.label, text: v.id.startsWith("moons:") ? v.id.slice(6) : v.label, onclick: () => { view = v.id; draw(); } })));
+  host.append(h("div", { class: "card scope", "data-stage": "solar" },
+    h("div", { class: "card-head row" }, h("h3", {}, "Plan view ", h("small", {}, "at ", bound("span", r, "epoch.input"))), seg),
+    box, h("div", { class: "table-scroll" }, table),
+    h("p", { class: "card-note on-space", text: "Each dot is a body at the run's epoch and each curve is the orbit track the engine computed for it. A dashed line is a link the scenario asks for. Pick a planet to see its moons about it." }),
+    tools));
+  const draw = () => {
+    for (const b of seg.children) b.setAttribute("aria-pressed", b.dataset.view === view ? "true" : "false");
+    const o = G.orrerySvg(r, { view });
+    setSvg(box, o.svg);
+    box.dataset.view = view;
+    mountTools(tools, () => exportSvg(o.svg, views.find((v) => v.id === view).label), "solar-system");
+    const bodies = o.shown.filter((x) => x.path.startsWith("bodies"));
+    table.replaceChildren(h("thead", {}, h("tr", {}, ["Body", "Distance from the Sun", "Orbital period", `One-way light time from ${r.observer || "the observer"}`].map((t) => h("th", { text: t })))),
+      h("tbody", {}, bodies.map((x) => h("tr", {}, bound("td", r, `${x.path}.name`), bound("td", r, `${x.path}.heliocentric_distance_au`, { class: "num" }), bound("td", r, `${x.path}.orbital_period_d`, { class: "num" }), bound("td", r, `${x.path}.observer_link.one_way_light_time_s`, { class: "num" })))));
+  };
+  draw();
+}
+
+// Constellation design: one gridded field as a map, with the satellites flown over it.
+function stageCoverage(host, r) {
+  const fields = G.coverageFields(r);
+  if (!fields.length) return;
+  let field = fields.some((f) => f.key === S.link.field) ? S.link.field : fields[0].key;
+  const box = h("div", { class: "chart-box" }), tools = h("div", { class: "chart-tools" }), legend = h("div", { class: "legend-heat" }), playerHost = h("div");
+  const sel = h("select", { class: "sel dark", "aria-label": "Field to map", onchange: () => { field = sel.value; draw(player ? player.k : 0); } }, fields.map((f) => h("option", { value: f.key, text: f.label })));
+  sel.value = field;
+  const body = (r.body && r.body.name) || "the body";
+  const tr = r.tracks && Array.isArray(r.tracks.times_s) && r.tracks.times_s.length ? r.tracks : null;
+  const names = G.coverageLegend(r);
+  host.append(h("div", { class: "card scope", "data-stage": "coverage" },
+    h("div", { class: "card-head row" }, h("h3", {}, "Coverage map ", h("small", {}, "over ", bound("span", r, "body.name"))), h("label", { class: "sel-lbl" }, "Map ", sel), legend),
+    box, playerHost,
+    names.length ? h("div", { class: "cov-legend" }, names.map((n) => h("span", { style: `--c:${n.color}` }, h("i"), n.name))) : null,
+    h("p", { class: "card-note on-space" }, `Each cell is one grid point on ${body}, scored over every epoch of the run. `, tr ? h("span", {}, "The dots are ", bound("b", r, "tracks.shown"), " of ", bound("b", r, "tracks.total"), " satellites, flown along their ground tracks; play the replay to move them.") : null),
+    tools));
+  let player = null;
+  const draw = (k) => {
+    const c = G.coverageSvg(r, { field, k, land: /^earth$/i.test(body) ? S.land || [] : [] });
+    setSvg(box, c.svg);
+    box.dataset.src = `grid.${c.field.key}`;
+    const ends = c.field.lowerBetter ? [1, .75, .5, .25, 0] : [0, .25, .5, .75, 1];
+    legend.replaceChildren(h("span", { text: V.fmt(c.range[0], 4) }), h("i", { style: `background:linear-gradient(90deg,${ends.map(V.heat).join(",")})` }), h("span", { text: `${V.fmt(c.range[1], 4)}${c.field.unit}` }));
+    mountTools(tools, () => exportSvg(c.svg, `${c.field.label} over ${body}`), "coverage");
+  };
+  if (tr) {
+    player = makePlayer({ n: tr.times_s.length, name: "orbit replay", rate: 4, label: (k) => `t = ${V.fmtDuration(tr.times_s[k])}`, onFrame: draw });
+    playerHost.append(player.el);
+    player.set(0);
+    autoPlay(player);
+  } else draw(0);
+}
+
+// Campaign: every channel on the mission time axis, scrubbed by one replay control.
+function stageTimeline(host, r) {
+  const charts = G.timelineCharts(r), tl = r.timeline;
+  if (!charts.length) return;
+  const phase = h("span", { class: "tl-phase" }), readout = h("dl", { class: "kv on-space tl-read" }), playerHost = h("div"), eventLine = h("p", { class: "card-note on-space tl-event" });
+  const boxes = charts.map((c) => {
+    const box = h("div", { class: "chart-box", "data-unit": c.unit, "data-src": c.keys.map((k) => `timeline.channels.${k}.values`).join(" ") });
+    const chart = V.lineChartSvg(c.model, c.opts);
+    setSvg(box, chart.svg);
+    bindHover(box, chart.hover);
+    const svg = box.querySelector("svg.chart");
+    const cur = svg ? svg.appendChild(svgEl("line", { class: "play-cursor", y1: chart.hover.mt, y2: chart.hover.H - chart.hover.mb, x1: 0, x2: 0 })) : null;
+    return { c, box, chart, cur };
+  });
+  host.append(h("div", { class: "card scope", "data-stage": "timeline" },
+    h("div", { class: "card-head row" }, h("h3", {}, "Mission timeline ", h("small", {}, bound("span", r, "timeline.duration_s"), " on one clock")), h("p", { class: "tl-now" }, "Phase: ", phase)),
+    playerHost, readout,
+    ...boxes.flatMap((b) => [h("h4", { class: "tl-h", text: b.c.title }), b.box]),
+    eventLine,
+    h("p", { class: "card-note on-space", text: "Every phase runs ordinary scenarios; the campaign reads their outputs onto one time grid. Shaded bands are the phases, vertical rules the events. Play or drag the replay: the values above are the campaign's channels at that instant." })));
+  const paint = (k) => {
+    const t = tl.t_s[k];
+    for (const b of boxes) if (b.cur) { const x = b.chart.hover.xOf(t).toFixed(1); b.cur.setAttribute("x1", x); b.cur.setAttribute("x2", x); }
+    const pi = G.phaseAt(r, t);
+    phase.replaceChildren(pi >= 0 ? bound("b", r, `timeline.phases[${pi}].name`) : "—");
+    readout.replaceChildren();
+    for (const c of charts) for (const key of c.keys) {
+      readout.append(h("div", {}, h("dt", { title: tl.channels[key].label, text: V.humanKey(key).replace(/\s*\([^)]*\)$/, "") }), bound("dd", r, `timeline.channels.${key}.values[${k}]`, { unit: tl.channels[key].unit })));
+    }
+    const past = (tl.events || []).map((e, i) => ({ e, i })).filter((o) => o.e.t_s <= t).pop();
+    eventLine.replaceChildren(...(past ? ["Latest event, at ", bound("b", r, `timeline.events[${past.i}].t_s`), ": ", bound("span", r, `timeline.events[${past.i}].label`)] : ["No event yet at this time."]));
+  };
+  const player = makePlayer({ n: tl.t_s.length, name: "mission replay", rate: 24, label: (k) => `T+${V.fmtDuration(tl.t_s[k])}`, onFrame: paint });
+  playerHost.append(player.el);
+  player.set(tl.t_s.length - 1);
+  autoPlay(player);
+}
+
+// End-to-end chain: the stages in hand-off order with each one's headline figures.
+function stageChain(host, r) {
+  const m = G.chainModel(r);
+  if (!m.length) return;
+  const row = h("div", { class: "chain" });
+  m.forEach((st, i) => {
+    const dl = h("dl", { class: "kv" });
+    for (const path of st.items) dl.append(h("dt", { text: K.keyLabel(path) }), bound("dd", r, path));
+    row.append(h("div", { class: "chain-stage", "data-kind": st.kind }, h("p", { class: "chain-n", text: `Stage ${i + 1}` }), h("h4", { text: st.name }), h("code", { text: st.kind }), dl));
+    if (i < m.length - 1) row.append(h("div", { class: "chain-arrow", "aria-hidden": "true" }, icon("i-arrow"), h("span", { text: `${st.out} value${st.out === 1 ? "" : "s"} handed on` })));
+  });
+  host.append(h("div", { class: "card", "data-stage": "chain" }, h("div", { class: "card-head" }, h("h3", {}, "The chain ", h("small", { text: "each stage's output feeds the next" })), h("p", { class: "card-note", text: "One system followed through every stage of the engine. The table below lists each number a stage computed and the next stage used." })), row));
+}
+
+// Every chart of the capability view as SVG, for the downloadable report.
+function capabilityCharts(run) {
+  const r = run.result, cap = K.capabilityView(r, run.toml), out = [];
+  if (!cap) return out;
+  if (cap.stage === "spectrum") for (const f of G.waterfallFrames(r)) out.push({ title: `Waterfall, ${f.name}`, svg: G.waterfallSvg(f, { bands: r.bands || [] }).svg });
+  if (cap.stage === "solar") for (const v of G.orreryViews(r).slice(0, 2)) out.push({ title: v.label, svg: G.orrerySvg(r, { view: v.id }).svg });
+  if (cap.stage === "coverage") { const c = G.coverageSvg(r, { land: /^earth$/i.test((r.body && r.body.name) || "") ? S.land || [] : [] }); out.push({ title: `${c.field.label} over ${(r.body && r.body.name) || "the body"}`, svg: c.svg }); }
+  if (cap.stage === "timeline") for (const c of G.timelineCharts(r)) out.push({ title: `Mission timeline: ${c.title}`, svg: V.lineChartSvg(c.model, c.opts).svg });
+  for (const p of cap.panels) {
+    if (p.type === "line") { const c = V.lineChartSvg(p.model, p.opts || {}); if (c.svg) out.push({ title: p.title, svg: c.svg }); }
+    if (p.type === "hist") { const c = G.histogramSvg(K.resolve(r, p.path), { unit: p.unit, title: p.title, marks: (p.marks || []).map((m) => ({ label: m.label, value: K.resolve(r, m.path) })) }); if (c.svg) out.push({ title: p.title, svg: c.svg }); }
+  }
+  return out;
+}
+
+// ------------------------------------------------------------------ the native engine's recordings
+// The browser build has no writer for the engine's run report, its animation or its
+// interoperability exports, so for each bundled scenario the Studio carries the files the
+// native command-line engine wrote (tools_native.mjs), and labels them as recorded.
+function nativeEntry(file) {
+  if (!file) return null;
+  const idx = S.nat.get(dirOf(file));
+  const e = idx && idx.runs[file];
+  return e && !e.error ? e : null;
+}
+const natCache = new Map();
+async function loadNative(file) {
+  if (natCache.has(file)) return natCache.get(file);
+  const e = nativeEntry(file);
+  if (!e) return null;
+  const pack = await PACKS.load(`${dirOf(file)}native/`, e);
+  if (!pack) return null;
+  natCache.set(file, pack);
+  return pack;
+}
+// "Recorded with the native engine … by running <command>", plus a warning when the text was edited.
+function recordedLine(el, pack, command, run) {
+  el.hidden = false;
+  el.replaceChildren(h("span", { class: "badge recorded", text: "Recorded" }), " ",
+    `Written by the native command-line engine v${pack.engine_version} (${pack.platform}) with `, h("code", { text: command }), ". Shown unchanged.",
+    ...(run.toml !== pack.toml ? [h("b", { class: "rec-warn", text: " You have edited the scenario: this recording is of the bundled file, not of your edit. Run the command on your own file to get yours." })] : []));
+}
+const textBlob = (text, type) => new Blob([text], { type });
+const prettyBytes = (n) => (n >= 1e6 ? `${(n / 1e6).toFixed(1)} MB` : n >= 1e3 ? `${(n / 1e3).toFixed(1)} kB` : `${n} bytes`);
+const toolButton = (text, title, onclick) => h("button", { type: "button", title, onclick, text });
+
+async function renderAnimation() {
+  const run = S.run, box = $("anim-box"), tools = $("anim-tools"), prov = $("anim-prov");
+  $("anim-note").textContent = "The engine writes an animation of any run that has a time axis: a self-playing SVG and a single-file HTML player with its own play and scrub controls. The browser build does not carry that writer, so this is the file the native command-line engine wrote for the bundled scenario.";
+  if (box.dataset.for === String(run.id)) return;
+  box.dataset.for = String(run.id);
+  box.replaceChildren(h("p", { class: "card-note", text: "Loading the recorded animation…" }));
+  tools.replaceChildren(); prov.hidden = true;
+  let pack = null, err = "";
+  try { pack = await loadNative(run.file); } catch (e) { err = errorMessage(e); }
+  if (S.run !== run) return;
+  const a = pack && pack.animation;
+  if (!a || !(a.html || a.svg)) { box.replaceChildren(h("p", { class: "card-note", text: err ? `The recorded animation could not be loaded (${err}).` : "There is no recorded animation for this scenario." })); return; }
+  recordedLine(prov, pack, a.command, run);
+  const name = run.file.replace(/\.toml$/, "");
+  if (a.html) box.replaceChildren(h("iframe", { class: "frame", sandbox: "allow-scripts", title: "Animation of this run, written by the engine", srcdoc: a.html }));
+  else box.replaceChildren(h("img", { alt: "Animation of this run, written by the engine", src: URL.createObjectURL(svgBlob(a.svg)) }));
+  tools.replaceChildren(h("span", { class: "lbl", text: "Download" }));
+  if (a.html) tools.append(toolButton("HTML player", "The single-file player, as the engine wrote it", () => triggerDownload(textBlob(a.html, "text/html"), `${name}.animation.html`)));
+  if (a.svg) tools.append(toolButton("Animated SVG", "The self-playing SVG, as the engine wrote it", () => triggerDownload(svgBlob(a.svg), `${name}.animation.svg`)));
+}
+
+async function renderEngineReport() {
+  const run = S.run, box = $("report-box"), tools = $("report-tools"), prov = $("report-prov");
+  $("report-note").textContent = "Every command-line run writes a report: summary, inputs, results, the chart, what is validated and what is modelled, and a reproducibility record. The browser build does not carry that writer, so this is the report the native command-line engine wrote for the bundled scenario. The Studio's own report of the run on screen is under Exports.";
+  if (box.dataset.for === String(run.id)) return;
+  box.dataset.for = String(run.id);
+  box.replaceChildren(h("p", { class: "card-note", text: "Loading the recorded report…" }));
+  tools.replaceChildren(); prov.hidden = true;
+  let pack = null, err = "";
+  try { pack = await loadNative(run.file); } catch (e) { err = errorMessage(e); }
+  if (S.run !== run) return;
+  if (!pack || !pack.report_html) { box.replaceChildren(h("p", { class: "card-note", text: err ? `The recorded report could not be loaded (${err}).` : "There is no recorded report for this scenario." })); return; }
+  recordedLine(prov, pack, pack.command, run);
+  const name = run.file.replace(/\.toml$/, "");
+  box.replaceChildren(h("iframe", { class: "frame", sandbox: "", title: "Run report written by the engine", srcdoc: pack.report_html }));
+  tools.replaceChildren(h("span", { class: "lbl", text: "Download" }),
+    toolButton("Report (HTML)", "The report file, as the engine wrote it", () => triggerDownload(textBlob(pack.report_html, "text/html"), `${name}.report.html`)),
+    toolButton("Open in a new tab", "Open the report on its own", () => window.open(URL.createObjectURL(textBlob(pack.report_html, "text/html")), "_blank", "noopener")));
+}
+
+const FORMAT_NAME = { czml: "CZML", kml: "KML", geojson: "GeoJSON", stk: "STK ephemeris", sigmf: "SigMF" };
+async function renderInterop(run) {
+  const card = $("interop-card"), geo = $("geo-card"), prov = $("interop-prov"), t = $("interop-table");
+  card.hidden = true; geo.hidden = true;
+  let pack = null;
+  try { pack = await loadNative(run.file); } catch { /* no recording: the card stays hidden */ }
+  if (S.run !== run || !pack || !Array.isArray(pack.export_plan)) return;
+  card.hidden = false;
+  $("interop-note").textContent = "The engine writes a run's geometry and signal samples in formats other tools open: CZML for Cesium, KML (Keyhole Markup Language) for Google Earth, GeoJSON for maps, STK ephemeris (.e) files, and SigMF (Signal Metadata Format) recordings. The browser build does not carry these writers, so the files below are the ones the native command-line engine wrote for the bundled scenario.";
+  recordedLine(prov, pack, pack.exports.command, run);
+  t.replaceChildren(h("thead", {}, h("tr", {}, ["Format", "File", "Size", ""].map((x) => h("th", { text: x })))));
+  const tb = h("tbody");
+  for (const p of pack.export_plan) {
+    const files = pack.exports.files.filter((f) => f.format === p.format);
+    const label = FORMAT_NAME[p.format] || p.format;
+    if (!p.applies || !files.length) { tb.append(h("tr", { "data-format": p.format }, h("td", { text: label }), h("td", { class: "note", colspan: "3", text: p.applies ? "The engine wrote no file of this format for this run." : `Does not apply to this scenario: ${p.reason}.` }))); continue; }
+    for (const f of files) {
+      const stored = "text" in f || "base64" in f;
+      const dl = () => triggerDownload("text" in f ? textBlob(f.text, "text/plain") : new Blob([Uint8Array.from(atob(f.base64), (c) => c.charCodeAt(0))], { type: "application/octet-stream" }), f.name);
+      tb.append(h("tr", { "data-format": p.format }, h("td", { text: label }), h("td", {}, h("code", { text: f.name })), h("td", { class: "num", "data-bytes": String(f.bytes), text: prettyBytes(f.bytes) }),
+        h("td", {}, stored ? h("button", { class: "btn-mini", type: "button", onclick: dl }, icon("i-down"), "Download") : h("span", { class: "note", text: "Not bundled here (size): the command above writes it." }))));
+    }
+  }
+  t.append(tb);
+  const gj = pack.exports.files.find((f) => f.format === "geojson" && f.text);
+  const map = gj ? G.geojsonSvg(gj.text, { land: S.land || [] }) : null;
+  if (map) {
+    geo.hidden = false;
+    $("geo-sub").textContent = `${gj.name} · ${map.features} of ${map.total} features drawn · recorded with the native engine`;
+    setSvg($("geo-chart"), map.svg);
+    mountTools("geo-tools", () => exportSvg(map.svg, `GeoJSON export: ${gj.name}`), "geojson");
+  }
 }
 
 // ------------------------------------------------------------------ JSON view
@@ -1180,8 +1667,36 @@ function buildParams() {
     });
     kh.append(h("div", { class: "knob" }, h("label", { for: id }, k.label, out), input, h("p", { class: "knob-hint", text: k.hint })));
   }
-  if (!knobs.length) kh.append(h("p", { class: "hint", text: "This scenario has none of the guided controls. Use All fields, or edit the source." }));
+  // A newer kind has its own guided sliders (lib/kinds.mjs), each bound to one field of the scenario.
+  const kind = (toml.match(/^\s*kind\s*=\s*"([^"]+)"/m) || [])[1];
+  const capKnobs = kind && K.hasCapability(kind) ? K.guidedFor(kind, numericFields(toml)) : [];
+  if (K.hasCapability(kind)) kh.replaceChildren();
+  for (const k of capKnobs) {
+    const id = `k-${k.id.replace(/[^a-z0-9]+/gi, "-")}`;
+    const input = h("input", { type: "range", id, min: String(k.min), max: String(k.max), step: String(k.step) });
+    input.value = String(k.field.value);
+    const out = h("output", { for: id, text: k.field.raw });
+    const paint = () => input.style.setProperty("--p", `${((parseFloat(input.value) - k.min) / (k.max - k.min || 1)) * 100}%`);
+    paint();
+    input.addEventListener("input", () => {
+      const cur = numericFields(tomlEl.value).find((x) => x.id === k.id);
+      if (!cur) return;
+      const val = Number(parseFloat(input.value).toPrecision(12));
+      tomlEl.value = patchField(tomlEl.value, cur, val);
+      const now = numericFields(tomlEl.value).find((x) => x.id === k.id);
+      out.textContent = now ? now.raw : String(val);
+      paint();
+      refreshEditor();
+      buildFields();
+      runScenario();
+    });
+    kh.append(h("div", { class: "knob" }, h("label", { for: id }, k.label, out), input, h("p", { class: "knob-hint", text: k.hint })));
+  }
+  const anyKnob = K.hasCapability(kind) ? capKnobs.length : knobs.length;
+  if (!anyKnob) kh.append(h("p", { class: "hint", text: "This scenario has none of the guided controls. Use All fields, or edit the source." }));
   buildFields();
+  // A kind with no guided sliders opens on its full field list (unless the reader chose a view).
+  if (!S.pviewChosen) setPview(anyKnob ? "guided" : "all");
 }
 function buildFields() {
   const fields = numericFields(tomlEl.value);
@@ -1239,8 +1754,9 @@ async function loadScenario(file, { run = true } = {}) {
   let text = null;
   const bundle = await scenarioBundle();
   if (bundle && typeof bundle[file] === "string") text = bundle[file];
-  if (text === null) try { const res = await fetch(`scenarios/${file}`, { cache: "no-store" }); if (res.ok) text = await res.text(); } catch { /* offline host */ }
-  if (text === null && S.recIndex) { const rec = await loadRecorded(file); if (rec) text = rec.toml; }
+  const dir = dirOf(file);
+  if (text === null) try { const res = await fetch(dir ? `${dir}${file}` : `scenarios/${file}`, { cache: "no-store" }); if (res.ok) text = await res.text(); } catch { /* offline host */ }
+  if (text === null) { const rec = await loadRecorded(file); if (rec) text = rec.toml; }
   if (text === null) { showError(`Could not load ${file}.`); return; }
   S.baseToml = text;
   tomlEl.value = text;
@@ -1250,9 +1766,9 @@ async function loadScenario(file, { run = true } = {}) {
   renderLibrary();
   seedSweepRange(true);
   clearError();
-  if (NOT_IN_BROWSER[file]) showNotice(NOT_IN_BROWSER[file]);
+  if (NOT_IN_BROWSER[file] && !RECORDED_NATIVELY.includes(file)) showNotice(NOT_IN_BROWSER[file]);
   else if (S.mode !== "recorded") showNotice("");
-  if (run && !NOT_IN_BROWSER[file]) runScenario();
+  if (run) runScenario();
 }
 function paintScenarioHeader(entry) {
   const dom = entry ? domainOf(entry.domain) : null;
@@ -1261,7 +1777,7 @@ function paintScenarioHeader(entry) {
   eb.querySelector("span").textContent = dom ? dom.label : "Shared scenario";
   $("sc-title").textContent = entry ? entry.title : "Shared scenario";
   $("sc-question").textContent = entry ? entry.question : "A scenario opened from a share link. It runs exactly as it was shared.";
-  $("sc-file").textContent = entry ? `scenarios/${entry.file}` : "from the link";
+  $("sc-file").textContent = entry ? `${dirOf(entry.file) ? "optional preset: " : ""}scenarios/${entry.file}` : "from the link";
   const kind = (tomlEl.value.match(/^\s*kind\s*=\s*"([^"]+)"/m) || [])[1];
   $("sc-kind").textContent = kind ? `kind: ${kind}` : "kind: clock holdover (the default)";
   $("crumb-title").textContent = entry ? entry.title : "Shared scenario";
@@ -1282,7 +1798,7 @@ function renderLibrary() {
       n++;
       const na = NOT_IN_BROWSER[e.file];
       sec.append(h("button", { class: `lib-item${na ? " na" : ""}`, type: "button", style: `--c:${g.domain.color}`, "aria-current": e.file === S.file && !S.shared ? "true" : "false", onclick: () => { closeLibDrawer(); setPane("results"); loadScenario(e.file); } },
-        h("b", { text: e.title }), h("span", { text: e.question }), na ? h("span", { class: "tag", text: "command line only" }) : null));
+        h("b", { text: e.title }), h("span", { text: e.question }), na ? h("span", { class: "tag", text: RECORDED_NATIVELY.includes(e.file) ? "recorded run, native engine" : "command line only" }) : null));
     }
     host.append(sec);
   }
@@ -1314,7 +1830,7 @@ async function restoreRun(run) {
   if (run.file) {
     const bundle = await scenarioBundle();
     if (bundle && typeof bundle[run.file] === "string") S.baseToml = bundle[run.file];
-    else try { const res = await fetch(`scenarios/${run.file}`); if (res.ok) S.baseToml = await res.text(); } catch { /* keep */ }
+    else try { const res = await fetch(dirOf(run.file) ? `${dirOf(run.file)}${run.file}` : `scenarios/${run.file}`); if (res.ok) S.baseToml = await res.text(); } catch { /* keep */ }
     const rec = S.recCache.get(run.file);
     if (rec) S.baseToml = rec.toml;
   }
@@ -1322,6 +1838,7 @@ async function restoreRun(run) {
   refreshEditor();
   buildParams();
   renderLibrary();
+  if (run.mode === "native") showNotice(nativeNotice(run));
   renderRun(run);
   renderHistory();
   setStatus(`Restored run ${run.id}.`, "ran");
@@ -1406,12 +1923,12 @@ function selPal(i) {
 
 // ------------------------------------------------------------------ tour
 const TOUR = [
-  { target: "#library", title: "Pick a mission", body: "Every bundled scenario, grouped by mission domain: jamming, spoofing, clocks, navigation, integrity, orbits, the Moon and Mars. Search with /.", side: "right" },
+  { target: "#library", title: "Pick a mission", body: "Every bundled scenario, grouped by mission domain: jamming, spectrum, spoofing, clocks, navigation, integrity, orbits, constellation design, low Earth orbit navigation, campaigns, the Moon, Mars and the solar system. Search with /.", side: "right" },
   { target: "#run", title: "Run it, locally", body: "The Rust engine runs in your browser as WebAssembly. Nothing is uploaded. ⌘↵ runs from anywhere.", side: "bottom" },
   { target: "#params", title: "Tune it", body: "Guided sliders for the common knobs, or every numeric field in the scenario. Each change re-runs.", side: "right" },
   { target: "#source", title: "Or edit anything", body: "The full scenario in TOML. What you run is exactly what you can share and reproduce.", side: "right" },
   { target: "#headline", title: "Read the answer", body: "The one-line summary, the engine version and the scenario fingerprint, and whether each figure is validated or modelled.", side: "bottom" },
-  { target: "#tabs", title: "Every view of the run", body: "Views appear when the result supports them: signal and band for jamming, holdover for clocks, masks for telecom timing, 3-D orbits, ground tracks, sweeps.", side: "bottom" },
+  { target: "#tabs", title: "Every view of the run", body: "Views appear when the result supports them: signal and band for jamming, the waterfall for spectrum, the mission timeline for campaigns, coverage maps for constellations, holdover for clocks, masks for telecom timing, 3-D orbits, ground tracks, sweeps, and the engine's own animation and report.", side: "bottom" },
   { target: "#pin", title: "Compare runs", body: "Pin up to four runs and see them side by side, with deltas and a difference trace.", side: "bottom" },
   { target: "#btn-share", title: "Share or embed", body: "A link that carries the exact scenario, or an iframe for a course page or wiki.", side: "bottom" },
   { target: "#cmdk-btn", title: "Everything from the keyboard", body: "⌘K finds any scenario, view or command. [ and ] move between views.", side: "bottom" },
@@ -1533,7 +2050,7 @@ function bindUi() {
   });
   $("src-reset").addEventListener("click", resetSource);
   $("src-copy").addEventListener("click", async () => { try { await navigator.clipboard.writeText(tomlEl.value); toast("Scenario copied."); } catch { toast("Copy is blocked here."); } });
-  for (const b of document.querySelectorAll("[data-pview]")) b.addEventListener("click", () => setPview(b.dataset.pview));
+  for (const b of document.querySelectorAll("[data-pview]")) b.addEventListener("click", () => { S.pviewChosen = true; setPview(b.dataset.pview); });
   for (const b of document.querySelectorAll("[data-ts]")) b.addEventListener("click", () => { S.tsMode = b.dataset.ts; setTsMode(b.dataset.ts); });
   $("ho-thr").addEventListener("input", drawHoldover);
   $("ho-thr-reset").addEventListener("click", () => { if (S.ho && Number.isFinite(S.ho.threshold)) { $("ho-thr").value = String(S.ho.threshold); drawHoldover(); } });
@@ -1615,6 +2132,20 @@ async function main() {
   renderLibrary();
   loadCounts();
   const params = new URLSearchParams(location.search);
+  S.link = { play: params.get("play") === "1", view: params.get("view"), field: params.get("field"), frame: params.get("frame") };
+  // An optional group of scenarios in its own folder, and the native engine's recordings.
+  // Both are fetched once; the Studio works the same without either.
+  const getJson = (url) => fetch(url).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  const dirs = [""];
+  for (const dir of ((await getJson("groups.json")) || {}).groups || []) {
+    const group = await getJson(`${dir}index.json`);
+    if (group && registerGroup({ ...group, dir })) dirs.push(dir);
+  }
+  if (dirs.length > 1) renderLibrary();
+  for (const dir of dirs) {
+    const idx = await fetch(`${dir}native/index.json`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+    if (idx) S.nat.set(dir, idx);
+  }
   S.embed = isEmbed(location.search);
   const cfg = S.embed ? embedConfig(location.search) : null;
   if (S.embed) for (const c of embedClassList(cfg)) document.body.classList.add(c);

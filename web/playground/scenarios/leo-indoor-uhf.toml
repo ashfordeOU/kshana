@@ -1,0 +1,53 @@
+# Indoor LEO-PNT: why a UHF carrier reaches inside a building when L, S and C bands struggle.
+#
+# A user inside a traditional building in Rome receives one pass of a generic multi-band LEO
+# satellite (the representative generic-leo preset: UHF 450 MHz, L 1191.795 MHz, S 2492.028 MHz
+# and C 5020 MHz, each 0 dBW EIRP, 550 km sun-synchronous) and the Galileo E1 carriers. The
+# building entry loss is the ITU-R P.2109-2 median (probability 0.5) for a traditional
+# building, evaluated at each satellite's elevation, which is also the elevation of the path
+# at the facade. Outdoors, a 30 mm/h rain rate exceeded 0.01 % of the year (at a 3.5 km rain
+# height) adds ITU-R P.618 rain attenuation, which matters at C band and not at UHF.
+#
+# UHF enters the building with several dB less loss than C band and loses less to free space
+# at the same range, while its first-order ionospheric delay is about 125 times that at C band
+# (the 1/f^2 law): the report lists both, and the ionosphere-free combination of each band pair
+# with its noise amplification.
+#
+# MODELLED. The building model is statistical (ITU-R P.2109 is not site-specific); the EIRPs
+# and beams are representative. No workshop data is used.
+kind = "leo-pass"
+name = "Indoor UHF LEO-PNT"
+epoch = "2026-09-28T12:00:00"
+duration_s = 900.0
+step_s = 5.0
+
+[user]
+environment = "indoor"
+lat_deg = 41.9
+lon_deg = 12.49
+height_m = 50.0
+building = "traditional"
+building_probability = 0.5
+antenna = "hemispherical"
+gain_dbi = 0.0
+polarisation = "linear"
+
+[atmosphere]
+rain_rate_mm_h = 30.0
+rain_height_km = 3.5
+rain_exceedance_percent = 0.01
+
+[ionosphere]
+model = "vtec"
+vtec_tecu = 30.0
+
+[[satellite]]
+id = "LEO-1"
+system = "generic-leo"
+bands = ["UHF", "L", "S", "C"]
+max_elevation_deg = 60.0
+tca_s = 450.0
+
+[gnss]
+constellation = "galileo"
+band = "E1"

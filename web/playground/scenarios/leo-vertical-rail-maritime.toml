@@ -1,0 +1,140 @@
+# LEO-PNT vertical: railway and maritime, the bundled maritime and rail scenarios plus LEO.
+#
+# Three phases reuse the engine's own maritime and rail scenarios unchanged and add a low
+# Earth orbit (LEO) positioning, navigation and timing (PNT) pass for the same platform:
+#
+#   strait-jammed  `maritime-strait-jamming` (a ship in the Gulf of Finland, a 17 dBW
+#                  broadband L1 jammer about 30 km away): the GNSS carriers fall below
+#                  the 25 dB-Hz floor. A `leo-pass` run of the same ship (maritime user,
+#                  8 m/s) tracks a generic LEO satellite (1080 km, 97 deg polar orbit)
+#                  in its S and C bands, which the L1 jammer does not reach.
+#   rail-tunnel    `rail-tunnel-coast` (a train at 44.4 m/s coasting on a tactical inertial
+#                  unit in a tunnel, no aiding): the event marks the moment its position
+#                  error reaches 2 m, the kind's own crossing time.
+#   rail-open      back in the open, a `leo-pass` run of the train (160 km/h east of
+#                  Hamburg) tracks a generic LEO satellite (1080 km, 97 deg) in its L
+#                  and S bands, the signals a re-acquiring receiver would use to end
+#                  the coast.
+#
+# The alarm follows the jamming kind's own rule (fewer than four GNSS satellites
+# tracking) in the strait. The jamming and LEO runs do not share a model: the leo-pass kind
+# has no jammer, and the S and C bands are outside the L1 jammer's 20 MHz by construction.
+# MODELLED.
+kind = "campaign"
+title = "Railway and maritime with a LEO layer"
+seed = 20260929
+
+[timeline]
+step_s = 10.0
+
+[[phases]]
+name = "strait-jammed"
+duration_s = 1800.0
+
+[[phases.runs]]
+[phases.runs.scenario]
+kind = "jamming"
+seed = 1
+mask_deg = 5.0
+tracking_threshold_dbhz = 25.0
+[phases.runs.scenario.time]
+step_s = 30.0
+duration_s = 1800.0
+[phases.runs.scenario.receiver]
+lat_deg = 59.80
+lon_deg = 24.90
+alt_m = 0.0
+[phases.runs.scenario.constellation]
+altitude_km = 20200.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
+[phases.runs.scenario.jammer]
+position_ecef_m = [2904623.523, 1381438.498, 5489328.347]
+power_dbw = 17.0
+gain_dbi = 0.0
+jammer_type = "broadband"
+bandwidth_mhz = 20.0
+
+[[phases.runs]]
+series = [
+  { channel = "leo_cn0_s_dbhz", unit = "dB-Hz", t = "satellites[0].series[].t_s", y = "satellites[0].series[].bands[0].cn0_dbhz" },
+  { channel = "leo_cn0_c_dbhz", unit = "dB-Hz", t = "satellites[0].series[].t_s", y = "satellites[0].series[].bands[1].cn0_dbhz" },
+]
+[phases.runs.scenario]
+kind = "leo-pass"
+name = "Ship in the Gulf of Finland"
+epoch = "2026-09-28T08:00:00"
+duration_s = 900.0
+step_s = 10.0
+[phases.runs.scenario.user]
+environment = "maritime"
+lat_deg = 59.8
+lon_deg = 24.9
+height_m = 10.0
+speed_m_s = 8.0
+heading_deg = 45.0
+mask_deg = 5.0
+[[phases.runs.scenario.satellite]]
+id = "LEO-1"
+system = "generic-leo"
+bands = ["S", "C"]
+max_elevation_deg = 75.0
+tca_s = 450.0
+altitude_km = 1080.0
+inclination_deg = 97.0
+[phases.runs.scenario.gnss]
+enabled = false
+
+[[phases]]
+name = "rail-tunnel"
+duration_s = 120.0
+
+[[phases.runs]]
+events = [{ label = "inertial coast error reaches 2 m", at = "crossings[0].coast_s" }]
+[phases.runs.scenario]
+kind = "ins-trn-coast"
+imu_grade = "tactical"
+speed_m_s = 44.4
+ref_accel_m_s2 = 0.0
+combination = "rss"
+crossing_thresholds_m = [2.0, 20.0]
+drift_band_lo_m_per_s = 0.001
+drift_band_hi_m_per_s = 0.050
+trn_fix_mode = "none"
+mission_duration_s = 600.0
+
+[[phases]]
+name = "rail-open"
+duration_s = 600.0
+
+[[phases.runs]]
+series = [
+  { channel = "leo_cn0_l_dbhz", unit = "dB-Hz", t = "satellites[0].series[].t_s", y = "satellites[0].series[].bands[0].cn0_dbhz" },
+  { channel = "leo_cn0_s_dbhz", unit = "dB-Hz", t = "satellites[0].series[].t_s", y = "satellites[0].series[].bands[1].cn0_dbhz" },
+]
+[phases.runs.scenario]
+kind = "leo-pass"
+name = "Train east of Hamburg"
+epoch = "2026-09-28T08:00:00"
+duration_s = 600.0
+step_s = 10.0
+[phases.runs.scenario.user]
+environment = "ground"
+lat_deg = 53.55
+lon_deg = 10.3
+height_m = 20.0
+speed_m_s = 44.4
+heading_deg = 90.0
+mask_deg = 5.0
+[[phases.runs.scenario.satellite]]
+id = "LEO-1"
+system = "generic-leo"
+bands = ["L", "S"]
+max_elevation_deg = 70.0
+tca_s = 300.0
+altitude_km = 1080.0
+inclination_deg = 97.0
+[phases.runs.scenario.gnss]
+enabled = false

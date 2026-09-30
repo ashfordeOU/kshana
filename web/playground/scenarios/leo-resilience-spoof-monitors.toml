@@ -1,0 +1,217 @@
+# LEO-PNT resilience against spoofing: which monitor sees which spoofer.
+#
+# Four spoofers attack the same receiver (Frankfurt, surveyed position known to 1 m,
+# static), which tracks Galileo E1 and a generic low Earth orbit (LEO) layer in its L
+# and C bands (240 satellites at 1080 km). Each spoofer moves the position the receiver
+# computes 30 m east at 300 s (a shared value, so the four cannot disagree). Two monitors
+# run on every member (the `leo-pass` kind's `[spoofer]` section):
+#   * Doppler and pass-geometry consistency: measured range rates against those predicted
+#     from the broadcast orbits and the surveyed position (chi-square, false-alarm
+#     probability 1e-5 per epoch);
+#   * cross-band consistency: the step of each LEO satellite's L-minus-C geometry-free
+#     pseudorange combination, which should hold only the slowly changing ionospheric
+#     delay.
+# The members:
+#   l-band-only          counterfeits GNSS and the LEO L band, not the C band (a spoofer
+#                        built for the GNSS band): the L and C pseudoranges of one
+#                        satellite disagree by the push, so both monitors see it;
+#   all-bands-no-iono    counterfeits every band from the ground, where no ionosphere
+#                        delays its signals: the geometry-free combination collapses to
+#                        zero at the onset, a step of the L-minus-C ionospheric delay;
+#   all-bands-with-iono  counterfeits every band and simulates the ionosphere: the
+#                        cross-band monitor cannot see it, the Doppler monitor can;
+#   gnss-only            counterfeits GNSS alone: a 30 m push moves GNSS range rates by
+#                        millimetres per second, which neither monitor sees; a cross-check
+#                        of the GNSS and LEO pseudorange positions would (not modelled).
+#
+# MODELLED: the monitors' statistics are exact for the stated Gaussian noise; each
+# spoofer is an idealised position jump, and the receiver's ionosphere model is the
+# engine's, so only the tolerated unmodelled rate (1 cm/s) stands for its error.
+kind = "campaign"
+title = "Spoofing monitors against four spoofers"
+seed = 20260929
+
+[[compose.shared]]
+name = "jump"
+unit = "m"
+value = 30.0
+
+[[compose.members]]
+label = "l-band-only"
+bind = { jump = "spoofer.offset_m" }
+metrics = [
+  { name = "doppler_gnss_detect", path = "spoof.gnss.detect_time_s" },
+  { name = "doppler_all_detect", path = "spoof.fused.detect_time_s" },
+  { name = "cross_band_detect", path = "spoof.cross_band.detect_time_s" },
+  { name = "first_detect", path = "spoof.first.detect_time_s" },
+]
+[compose.members.scenario]
+kind = "leo-pass"
+epoch = "2026-09-28T08:00:00"
+duration_s = 900.0
+step_s = 5.0
+[compose.members.scenario.user]
+environment = "ground"
+lat_deg = 50.11
+lon_deg = 8.68
+height_m = 110.0
+mask_deg = 10.0
+[[compose.members.scenario.leo_constellation]]
+system = "generic-leo"
+bands = ["L", "C"]
+max_satellites = 12
+[compose.members.scenario.leo_constellation.design]
+name = "Generic 1080 km"
+[[compose.members.scenario.leo_constellation.design.shell]]
+total = 240
+planes = 12
+phasing = 1
+altitude_km = 1080.0
+inclination_deg = 53.0
+[compose.members.scenario.gnss]
+constellation = "galileo"
+band = "E1"
+max_satellites = 8
+[compose.members.scenario.spoofer]
+onset_s = 300.0
+offset_m = 0.0
+push_rate_m_s = 0.0
+push_azimuth_deg = 90.0
+prior_sigma_m = 1.0
+prior_velocity_sigma_m_s = 0.002
+bands = ["L"]
+
+[[compose.members]]
+label = "all-bands-no-iono"
+bind = { jump = "spoofer.offset_m" }
+metrics = [
+  { name = "doppler_gnss_detect", path = "spoof.gnss.detect_time_s" },
+  { name = "doppler_all_detect", path = "spoof.fused.detect_time_s" },
+  { name = "cross_band_detect", path = "spoof.cross_band.detect_time_s" },
+  { name = "first_detect", path = "spoof.first.detect_time_s" },
+]
+[compose.members.scenario]
+kind = "leo-pass"
+epoch = "2026-09-28T08:00:00"
+duration_s = 900.0
+step_s = 5.0
+[compose.members.scenario.user]
+environment = "ground"
+lat_deg = 50.11
+lon_deg = 8.68
+height_m = 110.0
+mask_deg = 10.0
+[[compose.members.scenario.leo_constellation]]
+system = "generic-leo"
+bands = ["L", "C"]
+max_satellites = 12
+[compose.members.scenario.leo_constellation.design]
+name = "Generic 1080 km"
+[[compose.members.scenario.leo_constellation.design.shell]]
+total = 240
+planes = 12
+phasing = 1
+altitude_km = 1080.0
+inclination_deg = 53.0
+[compose.members.scenario.gnss]
+constellation = "galileo"
+band = "E1"
+max_satellites = 8
+[compose.members.scenario.spoofer]
+onset_s = 300.0
+offset_m = 0.0
+push_rate_m_s = 0.0
+push_azimuth_deg = 90.0
+prior_sigma_m = 1.0
+prior_velocity_sigma_m_s = 0.002
+simulate_iono = false
+
+[[compose.members]]
+label = "all-bands-with-iono"
+bind = { jump = "spoofer.offset_m" }
+metrics = [
+  { name = "doppler_gnss_detect", path = "spoof.gnss.detect_time_s" },
+  { name = "doppler_all_detect", path = "spoof.fused.detect_time_s" },
+  { name = "cross_band_detect", path = "spoof.cross_band.detect_time_s" },
+  { name = "first_detect", path = "spoof.first.detect_time_s" },
+]
+[compose.members.scenario]
+kind = "leo-pass"
+epoch = "2026-09-28T08:00:00"
+duration_s = 900.0
+step_s = 5.0
+[compose.members.scenario.user]
+environment = "ground"
+lat_deg = 50.11
+lon_deg = 8.68
+height_m = 110.0
+mask_deg = 10.0
+[[compose.members.scenario.leo_constellation]]
+system = "generic-leo"
+bands = ["L", "C"]
+max_satellites = 12
+[compose.members.scenario.leo_constellation.design]
+name = "Generic 1080 km"
+[[compose.members.scenario.leo_constellation.design.shell]]
+total = 240
+planes = 12
+phasing = 1
+altitude_km = 1080.0
+inclination_deg = 53.0
+[compose.members.scenario.gnss]
+constellation = "galileo"
+band = "E1"
+max_satellites = 8
+[compose.members.scenario.spoofer]
+onset_s = 300.0
+offset_m = 0.0
+push_rate_m_s = 0.0
+push_azimuth_deg = 90.0
+prior_sigma_m = 1.0
+prior_velocity_sigma_m_s = 0.002
+simulate_iono = true
+
+[[compose.members]]
+label = "gnss-only"
+bind = { jump = "spoofer.offset_m" }
+metrics = [
+  { name = "doppler_gnss_detect", path = "spoof.gnss.detect_time_s" },
+  { name = "doppler_all_detect", path = "spoof.fused.detect_time_s" },
+  { name = "cross_band_detect", path = "spoof.cross_band.detect_time_s" },
+  { name = "first_detect", path = "spoof.first.detect_time_s" },
+]
+[compose.members.scenario]
+kind = "leo-pass"
+epoch = "2026-09-28T08:00:00"
+duration_s = 900.0
+step_s = 5.0
+[compose.members.scenario.user]
+environment = "ground"
+lat_deg = 50.11
+lon_deg = 8.68
+height_m = 110.0
+mask_deg = 10.0
+[[compose.members.scenario.leo_constellation]]
+system = "generic-leo"
+bands = ["L", "C"]
+max_satellites = 12
+[compose.members.scenario.leo_constellation.design]
+name = "Generic 1080 km"
+[[compose.members.scenario.leo_constellation.design.shell]]
+total = 240
+planes = 12
+phasing = 1
+altitude_km = 1080.0
+inclination_deg = 53.0
+[compose.members.scenario.gnss]
+constellation = "galileo"
+band = "E1"
+max_satellites = 8
+[compose.members.scenario.spoofer]
+onset_s = 300.0
+offset_m = 0.0
+push_rate_m_s = 0.0
+push_azimuth_deg = 90.0
+prior_sigma_m = 1.0
+prior_velocity_sigma_m_s = 0.002
+bands = []

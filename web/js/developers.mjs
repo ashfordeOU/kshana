@@ -4,6 +4,7 @@
 // js/developers-data.mjs (src/tools/gen_developers_data.py) is kept only as a fallback.
 import { mountPlayer } from "./mcp-player.mjs";
 import GEN from "./developers-data.mjs";
+import { studioHref } from "./studio-links.mjs";
 
 let D = GEN;
 try { const k = document.getElementById("kpage"); if (k) { const j = JSON.parse(k.textContent); if (j && j.mcp) D = j; } } catch (e) { /* keep the generated module */ }
@@ -36,7 +37,10 @@ function init(C) {
   const pv = $("#dtProv"), src = document.createElement("span"); src.className = "prov-src";
   const cd = (t) => { const c = document.createElement("code"); c.textContent = t; return c; };
   src.append(`Engine v${C.engine.version}, build `, cd(C.engine.commit), ` · captured ${C.recorded} from `, cd(C.engine.binary), " · ");
-  Object.entries(C.scenarios).forEach(([f, s], i) => { if (i) src.append(", "); src.append(cd(f), ` (${s.seed == null ? "deterministic, no seed" : "seed " + s.seed})`); });
+  // Each scenario the session runs opens in the Studio, on the view that reproduces it.
+  const STUDIO = (window.KSITE && window.KSITE.studio) || "Kshana Studio";
+  const inStudio = (f) => { const h = studioHref((window.KSITE && window.KSITE.root) || "", f); if (!h) return cd(f); const a = document.createElement("a"); a.className = "prov-file"; a.href = h; a.title = `Open in ${STUDIO}`; a.setAttribute("aria-label", `${f}: open in ${STUDIO}`); a.append(cd(f)); return a; };
+  Object.entries(C.scenarios).forEach(([f, s], i) => { if (i) src.append(", "); src.append(inStudio(f), ` (${s.seed == null ? "deterministic, no seed" : "seed " + s.seed})`); });
   const more = document.createElement("a"); more.className = "prov-open"; more.href = "#cli"; more.textContent = "What every run writes";
   pv.append(src, more);
 

@@ -1,0 +1,146 @@
+# LEO-PNT end to end on a generic constellation: signal design -> pass link budget ->
+# navigation message -> fused MEO + LEO fix and precise point positioning convergence.
+#
+# One low Earth orbit (LEO) positioning, navigation and timing (PNT) system is followed
+# through every stage of the engine, with no named system's data at all:
+#
+# - Signal: the representative L-band design `generic-l` (binary phase-shift keying at
+#   10.23 Mchip/s, pilot and data halves, 20.46 MHz transmit bandwidth) from the public
+#   preset file data/leo-signals/generic-bands.toml.
+# - Pass: a user in Madrid watches a designed pass of a 1080 km, 53 deg satellite peaking at
+#   75 deg. The band takes the design's centre, bandwidth and chip rate and splits its
+#   EIRP (equivalent isotropically radiated power) across the design's components; every
+#   epoch gives the tracked (pilot) component's C/N0 (carrier-to-noise density) and its
+#   band-limited code-tracking jitter.
+# - Navigation message: the Galileo Keplerian set with along-track, cross-track and radial
+#   correction polynomials, fitted every 300 s to a truth orbit at the pass satellite's
+#   altitude and inclination; its broadcast signal-in-space range error (SISRE) is the LEO
+#   orbit-and-clock error downstream.
+# - Positioning: GPS and Galileo with a generic 240-satellite LEO layer (Walker 240/12/1
+#   at 1080 km, 53 deg). The LEO system takes the pass's C/N0 line, the message's SISRE
+#   and the design's carrier and chip rate.
+# - Precise point positioning (PPP): GPS and Galileo alone and with the same LEO layer, the
+#   LEO orbit-and-clock error taken from the message.
+#
+# MODELLED: every stage keeps its own label; the chain adds no physics.
+kind = "leo-pnt-chain"
+name = "LEO-PNT end to end, generic 1080 km constellation"
+seed = 5
+signal_design = "generic-l"
+# Orbit determination and clock prediction, as a range error (m): representative of on-board
+# GNSS orbit determination with a steered chip-scale clock at the decimetre level (the ATOMIC
+# payload reports under 10 cm per axis in orbit and 24 cm in clock: InsideGNSS,
+# https://insidegnss.com/first-steps-toward-a-fully-operational-leo-pnt-payload/).
+od_sisre_m = 0.25
+
+[signal]
+presets = ["generic-bands"]
+
+[pass]
+epoch = "2026-09-28T08:00:00"
+duration_s = 1200.0
+step_s = 5.0
+
+[pass.user]
+environment = "ground"
+lat_deg = 40.42
+lon_deg = -3.70
+height_m = 650.0
+mask_deg = 10.0
+
+[[pass.satellite]]
+id = "LEO-1"
+system = "generic-leo"
+bands = ["L"]
+orbit = "pass"
+altitude_km = 1080.0
+inclination_deg = 53.0
+max_elevation_deg = 75.0
+tca_s = 600.0
+
+[[pass.satellite.band]]
+name = "L"
+signal = "generic-l"
+eirp_dbw = 10.0
+
+[pass.gnss]
+constellation = "gps-baseline"
+band = "L1"
+
+[navmsg.message]
+model = "kepler-rac"
+fit_interval_s = 300.0
+
+[navmsg.trade]
+span_s = 1200.0
+
+[fusion]
+mode = "joint"
+duration_s = 1800.0
+step_s = 30.0
+
+[fusion.user]
+lat_deg = 40.42
+lon_deg = -3.70
+height_m = 650.0
+
+[fusion.joint]
+max_leo_sweep = 8
+
+[[fusion.system]]
+name = "GPS"
+preset = "gps-baseline"
+cn0_dbhz = [38.0, 48.0]
+sisre_m = 0.6
+
+[[fusion.system]]
+name = "Galileo"
+preset = "galileo"
+cn0_dbhz = [38.0, 48.0]
+sisre_m = 0.3
+isb_ns = 12.0
+
+[[fusion.system]]
+name = "Generic LEO"
+role = "leo"
+isb_ns = 25.0
+
+[[fusion.system.shell]]
+total = 240
+planes = 12
+phasing = 1
+altitude_km = 1080.0
+inclination_deg = 53.0
+
+[ppp]
+duration_s = 1800.0
+step_s = 10.0
+runs = 2
+
+[[ppp.site]]
+lat_deg = 40.42
+lon_deg = -3.70
+
+[[ppp.gnss]]
+name = "GPS"
+preset = "gps-baseline"
+mask_deg = 7.0
+
+[[ppp.gnss]]
+name = "Galileo"
+preset = "galileo"
+mask_deg = 7.0
+
+[[ppp.case]]
+name = "240 LEO"
+
+[[ppp.case.system]]
+name = "Generic LEO"
+mask_deg = 7.0
+
+[[ppp.case.system.shell]]
+total = 240
+planes = 12
+phasing = 1
+altitude_km = 1080.0
+inclination_deg = 53.0

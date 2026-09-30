@@ -1,0 +1,69 @@
+# A low-Earth-orbit positioning, navigation and timing (PNT) mega-constellation: 5 000
+# satellites in four Walker shells, scored as a coverage and dilution-of-precision (DOP) map.
+#
+# The shells are an illustrative design, not any operator's filing:
+#   - 1 600 satellites, Walker delta 1600/32/1 at 550 km and 53 deg;
+#   - 1 600 satellites, Walker delta 1600/32/7 at 540 km and 53.2 deg;
+#   - 1 000 satellites, Walker delta 1000/20/3 at 570 km and 70 deg;
+#   -   800 satellites, Walker star 800/16/1 at 560 km and 97.6 deg (near-polar, planes
+#       spread over 180 deg) to fill the high latitudes.
+#
+# At this size the visibility prefilter matters: each epoch the satellites are sorted by
+# sub-satellite latitude and a grid row only tests those within one coverage half-angle of
+# it. The `work` block of the result states how many satellite-point pair tests a brute-force
+# scan would have made and how many were made. The secular J2 drift of the nodes is on, and
+# the tracks are downsampled to 120 satellites.
+#
+# What the run answers: satellites in view, PDOP/HDOP/VDOP/GDOP per 10 deg cell, and the
+# share of time with PDOP at or below 3 above a 20 deg mask over two hours. The weak spot the
+# map shows is the polar caps: no shell reaches above about 82 deg latitude, so a user near a
+# pole sees every satellite on one side of the sky and the vertical geometry degrades. MODELLED: an
+# illustrative design, two-body orbits with J2, a spherical Earth, geometry only.
+
+kind = "constellation-design"
+body = "earth"
+duration_s = 7200.0
+step_s = 600.0
+mask_deg = 20.0
+pdop_threshold = 3.0
+grid_step_deg = 10.0
+clock = "common"
+j2 = true
+track_points = 13
+max_tracks = 120
+
+[[constellation]]
+name = "LEO-PNT"
+
+[[constellation.shell]]
+pattern = "delta"
+total = 1600
+planes = 32
+phasing = 1
+altitude_km = 550.0
+inclination_deg = 53.0
+
+[[constellation.shell]]
+pattern = "delta"
+total = 1600
+planes = 32
+phasing = 7
+altitude_km = 540.0
+inclination_deg = 53.2
+raan0_deg = 5.625
+
+[[constellation.shell]]
+pattern = "delta"
+total = 1000
+planes = 20
+phasing = 3
+altitude_km = 570.0
+inclination_deg = 70.0
+
+[[constellation.shell]]
+pattern = "star"
+total = 800
+planes = 16
+phasing = 1
+altitude_km = 560.0
+inclination_deg = 97.6

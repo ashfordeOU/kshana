@@ -1,0 +1,75 @@
+# LEO-PNT focus area: low-energy positioning for the Internet of Things (IoT) and mobile.
+#
+# A battery-powered tag in Hamburg takes a hot-start fix from a generic low Earth orbit
+# (LEO) UHF signal (465 MHz) during a 55 deg pass. How much transmit power does the
+# satellite need for the tag to last? The campaign sweeps the UHF band's equivalent
+# isotropically radiated power (EIRP) from -35 to +5 dBW and records, from the
+# `leo-pass` kind's `[iot]` section, the median carrier-to-noise density (C/N0), the
+# hot-start time to first fix (TTFF), the energy per fix and the battery life at one fix
+# per hour (20 mW active, 5 microwatt asleep, 2000 mWh battery; all stated inputs).
+#
+# Higher received power shortens the acquisition dwell the receiver needs to reach its
+# detection threshold, and energy per fix follows the time the receiver is awake. Below
+# a median C/N0 of about 35 dB-Hz the receiver needs non-coherent sums and the energy per
+# fix grows steeply; above it one coherent dwell suffices and the battery life at one fix
+# per hour is set by the sleep current.
+#
+# MODELLED: acquisition, TTFF and energy from stated receiver assumptions; not a measured
+# receiver. The UHF EIRP of the generic preset is representative, not a real system's.
+kind = "campaign"
+title = "IoT energy per fix against LEO UHF transmit power"
+seed = 20260929
+
+[sweep]
+metrics = [
+  { name = "uhf_median_cn0", path = "iot.rows[0].cn0_dbhz" },
+  { name = "hot_ttff", path = "iot.rows[0].hot.ttff_s" },
+  { name = "hot_energy_per_fix", path = "iot.rows[0].hot.energy_per_fix_mj" },
+  { name = "battery_life_hourly", path = "iot.rows[0].duty_cycle_hot[4].battery_life_days" },
+]
+
+[[sweep.axes]]
+name = "uhf_eirp"
+key = "satellite.0.band.0.eirp_dbw"
+unit = "dBW"
+start = -35.0
+stop = 5.0
+steps = 9
+
+[sweep.scenario]
+kind = "leo-pass"
+name = "IoT energy per fix"
+epoch = "2026-09-28T06:00:00"
+duration_s = 900.0
+step_s = 10.0
+
+[sweep.scenario.user]
+environment = "ground"
+lat_deg = 53.55
+lon_deg = 9.99
+height_m = 10.0
+
+[[sweep.scenario.satellite]]
+id = "LEO-1"
+system = "generic-leo"
+bands = ["UHF"]
+max_elevation_deg = 55.0
+tca_s = 450.0
+
+[[sweep.scenario.satellite.band]]
+name = "UHF"
+eirp_dbw = 0.0
+
+[sweep.scenario.gnss]
+enabled = false
+
+[sweep.scenario.iot]
+active_power_mw = 20.0
+sleep_power_uw = 5.0
+battery_mwh = 2000.0
+detection_snr_db = 16.0
+max_coherent_ms = 20.0
+parallel_code_search = true
+aided_doppler_uncertainty_hz = 500.0
+fix_intervals_s = [1.0, 10.0, 60.0, 600.0, 3600.0, 86400.0]
+cn0_from = "median"

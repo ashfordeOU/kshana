@@ -15,6 +15,7 @@
 // Sector tabs and #hash deep links are site.js.
 // SVG is built as markup from engine numbers (escaped) and parsed with DOMParser.
 import RUNS from "./missions-runs.mjs";
+import { studioHref, studioHas } from "./studio-links.mjs";
 
 const ROOT = "";
 const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -31,10 +32,12 @@ const fmt = (v, d = 3) => {
 };
 
 // ------------------------------------------------------------------ data
+const STUDIO_DATA = import("../playground/lib/packs.mjs").then((m) => m.createPackReader());
 const recs = new Map();
 function rec(file) {
   if (!recs.has(file)) {
-    recs.set(file, fetch(`${ROOT}playground/recorded/${file}.json`).then((r) => { if (!r.ok) throw new Error(file); return r.json(); })
+    // The Studio's own reader: one file per scenario, or a pack of several, whichever it is served as.
+    recs.set(file, STUDIO_DATA.then((d) => d.run(`${ROOT}playground/recorded/`, file)).then((a) => { if (!a) throw new Error(file); return a; })
       .then((a) => ({ a, r: typeof a.json === "string" ? JSON.parse(a.json) : a.json })));
   }
   return recs.get(file);
@@ -460,8 +463,12 @@ document.addEventListener("click", (e) => {
 // The routes to check and reproduce a run: the engine's report, its result, the TOML, the command.
 function tools(name) {
   const c = RUNS.cards[name], p = c.pub, out = [];
-  if (p) out.push(el("a", { class: "prov-open", href: ROOT + p.report, text: "Open the engine's report" }));
+  // The Studio view that reproduces the run (js/studio-links.mjs, generated from the Studio's own link list).
+  const view = studioHref(ROOT, name);
+  if (view) out.push(el("a", { class: "prov-open", href: view, text: `Open in ${STUDIO}` }));
+  else if (p) out.push(el("a", { class: "prov-open", href: ROOT + p.report, text: "Open the engine's report" }));
   const box = el("span", { class: "prov-tools" });
+  if (view) box.append(el("a", { class: "prov-x", href: p ? ROOT + p.report : studioHref(ROOT, name, "report"), title: "The engine's own report of this run", text: "Report" }));
   if (p && !p.bundle) box.append(el("a", { class: "prov-x", href: ROOT + p.json, title: "The engine's result, unmodified", text: "JSON" }));
   else if (p) box.append(el("button", { class: "prov-x", type: "button", "data-dl-json": name, title: "The engine's result, unmodified", text: "JSON" }));
   box.append(p && p.toml ? el("a", { class: "prov-x", href: ROOT + p.toml, title: "The scenario file that ran", text: "TOML" })
@@ -566,7 +573,11 @@ function nextCards() {
     f.replaceChildren(...chips.map(([v, l]) => el("span", {}, el("b", { text: v }), ` ${l}`)));
     if (chips.length === 1 && chips[0][0] === "Engine:") f.classList.add("sum");
     const p = c.pub;
-    if (p) a.append(el("a", { class: "prov-x", href: ROOT + p.report, text: "Report" }));
+    // Every engine-run card opens in the Studio on the view that reproduces it; its report is the
+    // engine's own, published here or shown by the Studio (recorded with the native engine).
+    const view = studioHref(ROOT, n), rep = p ? ROOT + p.report : (studioHas(n, "report") ? studioHref(ROOT, n, "report") : null);
+    if (view) a.append(el("a", { class: "prov-x sa-open", href: view, text: `Open in ${STUDIO}` }));
+    if (rep) a.append(el("a", { class: "prov-x", href: rep, text: "Report" }));
     a.append(p && p.toml ? el("a", { class: "prov-x", href: ROOT + p.toml, text: "TOML" }) : el("button", { class: "prov-x", type: "button", "data-dl-toml": n, text: "TOML" }));
     a.append(el("button", { class: "prov-x", type: "button", "data-copy": `kshana ${c.file}`, text: "Copy command" }));
     a.append(el("span", { class: "sa-note", text: `Engine v${ENG.version}, build ${ENG.commit}${c.seed != null ? ` · seed ${c.seed}` : ""}` }));
