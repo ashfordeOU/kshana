@@ -511,6 +511,13 @@ breaking changes are called out explicitly.
   as "off by 0.050 deg"; no test prints that figure, so the page now states only the
   0.06 deg bar the test enforces and the 7.30 against 7.36 deg derivation behind it. No
   engine output changes.
+- **The README says what Kshana Pro builds on.** The Editions section and the Kshana Pro
+  line under "Support & professional services" now state what Pro's model-based
+  systems-engineering (MBSE) and programme tooling does and which of the open engine's
+  published outputs it reads (each run's `result.json` and `report.json`, the scenario
+  file, the field-units schema and the verification matrix's labels), and what the clock
+  digital twins, trade studies and evidence packs rest on in the open engine. Wording
+  only: no engine output and no published number changes.
 
 ### Fixed
 
