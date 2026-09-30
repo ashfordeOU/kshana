@@ -188,7 +188,7 @@ section.block{padding:clamp(88px,10vw,140px) 0}
 .viz-ob .viz-plot svg.ob-svg{min-width:0}
 .ob-svg text{font-size:9.5px;fill:var(--ink-3)}
 .ob-svg .ob-k{font-size:12px;fill:var(--ink);font-weight:500}
-.ob-svg .ob-s{font-size:9.5px}
+.ob-svg .ob-s{font-size:9.5px;fill:var(--ink-2)}
 .ob-svg .ob-halo{paint-order:stroke;stroke:var(--panel-solid);stroke-width:3.5px;stroke-linejoin:round}
 .ob-grid{stroke:var(--line)}
 .ob-axis{stroke:var(--line-2)}

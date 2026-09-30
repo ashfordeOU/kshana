@@ -409,7 +409,7 @@ details.lg-row>summary{grid-template-columns:max-content minmax(0,1fr) auto 16px
 .lg-mod{font-size:12px;color:var(--ink-3);max-width:24ch;white-space:normal;overflow-wrap:normal;word-break:normal;text-align:right;justify-self:end}
 .lg-mod .nw{white-space:nowrap}
 /* phones: the module line has the full width; a piece breaks inside only if it cannot fit at all */
-@media (max-width:620px){.lg-mod,.lg-mod .nw{white-space:normal;overflow-wrap:break-word}}
+@media (max-width:620px){.lg-mod,.lg-mod .nw{white-space:normal;overflow-wrap:anywhere;min-width:0}}
 @media (max-width:620px){details.lg-row>summary{grid-template-columns:max-content minmax(0,1fr) 16px}.lg-mod{grid-column:2;grid-row:2;max-width:none;white-space:normal;text-align:left;justify-self:start}}
 .lg-body{display:grid;grid-template-columns:auto minmax(0,1fr);gap:6px 14px;margin:0;padding:4px 4px 14px;font-size:14px}
 .lg-body dt{font:600 11px/1.6 var(--f-mono);letter-spacing:.05em;text-transform:uppercase;color:var(--ink-3)}
