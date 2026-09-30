@@ -18,19 +18,20 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml/badge.svg" alt="Continuous integration status"></a>
-  <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~96%25%20line-377D0C" alt="Line coverage near 96 % of src/, measured in docs/COVERAGE.md and gated at 85 % in continuous integration"></a>
-  <a href="#evidence"><img src="https://img.shields.io/badge/validated-83%20of%20223-377D0C" alt="83 of 223 capabilities VALIDATED against an independent external oracle, from the verification matrix"></a>
-  <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://sonarcloud.io/api/project_badges/measure?project=ashfordeOU_kshana&metric=alert_status" alt="SonarQube Cloud quality gate status"></a>
-  <a href="https://doi.org/10.5281/zenodo.20528627"><img src="https://img.shields.io/badge/DOI-10.5281%2Fzenodo.20528627-3F4B67" alt="DOI 10.5281/zenodo.20528627, the Zenodo concept record of every release"></a>
+  <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/ashfordeOU/kshana/ci.yml?branch=main&label=CI&style=flat-square&labelColor=0A1226" alt="Continuous integration status on main"></a>
+  <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~96%25%20line-377D0C?style=flat-square&labelColor=0A1226" alt="Line coverage near 96 % of src/, measured in docs/COVERAGE.md and gated at 85 % in continuous integration"></a>
+  <a href="#evidence"><img src="https://img.shields.io/badge/validated-83%20of%20223-377D0C?style=flat-square&labelColor=0A1226" alt="83 of 223 capabilities VALIDATED against an independent external oracle, from the verification matrix"></a>
+  <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality%20gate&style=flat-square&labelColor=0A1226" alt="SonarQube Cloud quality gate status"></a>
+  <a href="https://doi.org/10.5281/zenodo.20528627"><img src="https://img.shields.io/badge/DOI-10.5281%2Fzenodo.20528627-7E4B00?style=flat-square&labelColor=0A1226" alt="DOI 10.5281/zenodo.20528627, the Zenodo concept record of every release"></a>
 </p>
 
 <p align="center">
-  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.29.0-066A86" alt="Release v0.29.0"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/licence-AGPL--3.0--only-3F4B67" alt="Licence: AGPL-3.0-only"></a><a href="#editions"><img src="https://img.shields.io/badge/commercial-available-3F4B67" alt="A commercial licence is available from Ashforde OÜ, see Editions"></a>
-  <a href="https://crates.io/crates/kshana"><img src="https://img.shields.io/crates/v/kshana?label=crates.io&color=066A86" alt="kshana on crates.io, the current published version"></a>
-  <a href="https://pypi.org/project/kshana/"><img src="https://img.shields.io/pypi/v/kshana?label=PyPI&color=066A86" alt="kshana on PyPI, the current published version"></a>
-  <a href="https://www.npmjs.com/package/kshana"><img src="https://img.shields.io/npm/v/kshana?label=npm&color=066A86" alt="kshana on npm, the current published version"></a>
+  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.29.0-066A86?style=flat-square&labelColor=0A1226" alt="Release v0.29.0"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/licence-AGPL--3.0--only-3F4B67?style=flat-square&labelColor=0A1226" alt="Licence: AGPL-3.0-only"></a>
+  <a href="#editions"><img src="https://img.shields.io/badge/commercial-available-B8288F?style=flat-square&labelColor=0A1226" alt="A commercial licence is available from Ashforde OÜ, see Editions"></a>
+  <a href="https://crates.io/crates/kshana"><img src="https://img.shields.io/crates/v/kshana?label=crates.io&color=066A86&style=flat-square&labelColor=0A1226" alt="kshana on crates.io, the current published version"></a>
+  <a href="https://pypi.org/project/kshana/"><img src="https://img.shields.io/pypi/v/kshana?label=PyPI&color=066A86&style=flat-square&labelColor=0A1226" alt="kshana on PyPI, the current published version"></a>
+  <a href="https://www.npmjs.com/package/kshana"><img src="https://img.shields.io/npm/v/kshana?label=npm&color=066A86&style=flat-square&labelColor=0A1226" alt="kshana on npm, the current published version"></a>
 </p>
 
 <p align="center">
@@ -417,7 +418,7 @@ start from.
 
 ## Evidence
 
-<p><a href="docs/SGP4-VALIDATION.md"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%20worst%204.12%20mm-377D0C" alt="SGP4 checked against all 666 AIAA 2006-6753 reference vectors, worst position error 4.12 mm"></a></p>
+<p><a href="docs/SGP4-VALIDATION.md"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%20worst%204.12%20mm-377D0C?style=flat-square&labelColor=0A1226" alt="SGP4 checked against all 666 AIAA 2006-6753 reference vectors, worst position error 4.12 mm"></a></p>
 
 <strong>83 of 223</strong> capabilities validated against independent external oracles; 136 honestly labelled Modelled.
 Each row of the verification matrix names a capability, the oracle it is checked against,
@@ -550,7 +551,7 @@ v0.29.0 from the same tagged commit.
 | Docker image | `docker run --rm -i ghcr.io/ashfordeou/kshana-mcp` | [MCP server](mcp/kshana-mcp/README.md) |
 | JetBrains IDE plugin | Settings → Plugins → Marketplace → "Kshana" | [JetBrains plugin](ide/jetbrains/README.md) |
 
-<p><a href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator"><img src="https://img.shields.io/badge/JetBrains-Marketplace-066A86" alt="Kshana on the JetBrains Marketplace"></a> <a href="Cargo.toml"><img src="https://img.shields.io/badge/rust-1.85%2B-3F4B67" alt="Builds with Rust 1.85 or newer, the rust-version in Cargo.toml"></a></p>
+<p><a href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator"><img src="https://img.shields.io/badge/JetBrains-Marketplace-066A86?style=flat-square&labelColor=0A1226" alt="Kshana on the JetBrains Marketplace"></a> <a href="Cargo.toml"><img src="https://img.shields.io/badge/rust-1.85%2B-3F4B67?style=flat-square&labelColor=0A1226" alt="Builds with Rust 1.85 or newer, the rust-version in Cargo.toml"></a></p>
 
 MCP is the Model Context Protocol. Pin a release with `cargo install kshana --version 0.29.0`,
 `pip install kshana==0.29.0` or `npm install kshana@0.29.0`. To build from source, see
