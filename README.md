@@ -721,7 +721,10 @@ Pro answers a programme's next questions: which design to fly (a design optimise
 Pareto front), how sure the answer is (uncertainty and sensitivity), and whether the mission
 meets its requirements (a mission dossier, requirements traceability, trade studies, a
 scenario regression check, clock digital twins, a study dossier and an on-premises
-service). Each is described, with what it produces and what it does not do, in
+service). It also watches a campaign of figures and fails a pipeline when one gets worse,
+tests candidate signal plans against the open satellite-navigation signals in both
+directions (spectrum coexistence), and queues studies in an on-premises job service with a
+hash-chained delivery ledger. Each is described, with what it produces and what it does not do, in
 [`docs/PRO.md`](docs/PRO.md). Nothing Pro produces is a certification, and a custom study is
 not a certification either.
 
@@ -742,6 +745,13 @@ it unchanged:
   estimating the twin's Allan deviation with the open estimator.
 - **Trade studies** run every architecture option as an open-engine scenario, unchanged,
   and rank the options on a figure of merit read from each run's result.
+- **Campaign watch** reads its figures from the results of open-engine runs of the
+  scenarios in a pack, and compares them with the previous passing run.
+- **Spectrum coexistence** reads every physical number from open-engine runs of the
+  `leo-signal` and `constellation-design` kinds, and adds only the sum over the satellites
+  in view and the ranking of the plans.
+- **The on-premises job service** runs open and Pro scenarios through the same engine and
+  stores each result as the run returned it.
 - **Evidence packs** record, for each run, the scenario hash the open engine stamps on
   its result, so a figure in a pack can be reproduced by re-running its scenario.
 - **Systems-engineering and programme tooling.** Kshana Pro's model-based
@@ -779,6 +789,10 @@ own. For organisations that need more, Ashforde OÜ offers:
 - **Kshana Pro design, uncertainty and mission tooling** — the Pareto front of a design
   space, uncertainty and sensitivity over thousands of runs, and a one-command mission
   dossier with a verification matrix and a PDF; see [`docs/PRO.md`](docs/PRO.md).
+- **Kshana Pro campaign watch, spectrum coexistence and job service** — a pipeline that
+  fails when a watched figure gets worse, signal plans tested against the open
+  satellite-navigation signals in both directions, and an on-premises job queue with a
+  hash-chained delivery ledger; see [`docs/PRO.md`](docs/PRO.md).
 - **Training & consulting** on quantum/classical PNT performance analysis.
 
 This is the open-core model: the engine is, and stays, openly licensed; the sustaining
@@ -1576,7 +1590,7 @@ entry for every user-visible change. Participation is governed by our
 | [Reproducibility &amp; provenance](docs/REPRODUCIBILITY.md) | reviewers / packagers | determinism guarantees, golden-pinning, SBOM (software bill of materials), build provenance |
 | [Wheel platform tags](docs/WHEEL_TAGS.md) | packagers | the abi3 Python wheel matrix — which platform tag `pip install kshana` resolves |
 | [Positioning](docs/POSITIONING.md) | evaluators | where Kshana sits vs RTKLIB/gLAB (complementary), and the zero-install browser tier |
-| [Kshana Pro](docs/PRO.md) | evaluators / programme managers | what the proprietary Pro overlay adds over the same engine: design optimiser, uncertainty and sensitivity, mission dossier, requirements traceability; what each produces and what it does not do |
+| [Kshana Pro](docs/PRO.md) | evaluators / programme managers | what the proprietary Pro overlay adds over the same engine: design optimiser, uncertainty and sensitivity, mission dossier, campaign watch, spectrum coexistence, on-premises job service, requirements traceability; what each produces and what it does not do |
 | [Technical report](paper/kshana-technical-report.md) · [JOSS paper](paper/paper.md) | reviewers / citers / evaluators | the full extended research paper — architecture, per-domain models, validation, case studies, and limitations — plus the concise JOSS (Journal of Open Source Software) submission |
 | [SGP4 validation](docs/SGP4-VALIDATION.md) | reviewers / citers | agreement with the AIAA 2006-6753 reference (666 states, ~4 mm) **and** a head-to-head against the independent `sgp4` crate (agree to sub-micron / 4.12 mm) |
 | [Force-model validation](docs/AGENCY-ORBIT-VALIDATION.md) | reviewers / citers | the full-force engine (`src/precise_od.rs`) fit to agency ephemerides — methodology and validated residuals |
