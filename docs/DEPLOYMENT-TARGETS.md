@@ -5,14 +5,16 @@ A scope boundary, written down so that nobody discovers it as a commitment in a 
 Abbreviations: CPU, central processing unit; GPU, graphics processing unit; NPU, neural
 processing unit; FPGA, field-programmable gate array; MCU, microcontroller unit; RTOS,
 real-time operating system; OPS-SAT, the European Space Agency's in-orbit software
-laboratory satellite.
+laboratory satellite; PyPI, the Python Package Index; MCP, the Model Context Protocol;
+AI, artificial intelligence; JSON, JavaScript Object Notation.
 
 ## Runs
 
 | Target | How | Notes |
 |---|---|---|
-| Linux, macOS and Windows workstations and servers, x86-64 and 64-bit ARM | the `kshana` binary, or the Rust crate | the release binaries and the channel-parity check cover these |
-| Python 3 | the `kshana` wheel on PyPI (`--features python`) | wheels for Linux, macOS and Windows, x86-64 and 64-bit ARM |
+| Linux, macOS and Windows workstations and servers, x86-64 and 64-bit ARM | the `kshana` binary, or the Rust crate | release binaries for Linux x86-64, macOS (Apple silicon and Intel) and Windows x86-64; on the other targets `cargo install kshana` builds it |
+| Python 3.9 or newer | the `kshana` wheel on PyPI (`--features python`) | wheels for Linux, macOS and Windows, x86-64 and 64-bit ARM |
+| MCP clients (AI agents) | the `kshana-mcp` server: `cargo install kshana-mcp`, or the container image | image for linux/amd64 and linux/arm64 |
 | Browsers and JavaScript runtimes | the WebAssembly package on npm (`--features wasm`) | the same engine, compiled to WebAssembly |
 | Linux-class payload computers | the Rust crate or the binary, cross-compiled | OPS-SAT-class payload computers and similar |
 | Edge nodes with a GPU, NPU or FPGA beside a Linux CPU | on the Linux CPU | Kshana uses none of the accelerators; it runs beside them |

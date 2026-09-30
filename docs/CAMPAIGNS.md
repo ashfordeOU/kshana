@@ -121,6 +121,10 @@ the campaign declares one. With `runs > 1` every node is a seeded Monte Carlo en
 -50 to +10 dBW: the mean jammer-to-signal ratio moves exactly 1 dB per dB (12.2 to
 72.2 dB), and availability falls from 1 to 0 between -30 and -25 dBW.
 
+A dotted key may index an array of tables by position: `system.2.sisre_m` is the
+`sisre_m` of the third `[[system]]` table, and
+`case.0.system.0.shell.0.altitude_km` reaches three levels down.
+
 ## `[monte_carlo]`: a seeded ensemble
 
 Realisation `k` runs the scenario with its seed key set to `base_seed + k`, the convention
@@ -143,8 +147,9 @@ at least four (34.6 dB).
 
 ## Reproducibility
 
-Every campaign result carries `scenario_hash`, the SHA-256 of the canonical JSON form of
-the campaign document (key order and formatting do not change it), and a
+Every campaign result carries `scenario_hash`, the SHA-256 (Secure Hash Algorithm 2,
+256-bit digest) of the canonical JavaScript Object Notation (JSON) form of the campaign
+document (key order and formatting do not change it), and a
 `reproducibility` block with the number of member runs and `run_digest`, a SHA-256 over
 every member result's digest in dispatch order. Two runs with the same digest produced
 byte-identical member results. Each phase run also records its kind, its own
@@ -153,6 +158,52 @@ number in the document has a units entry.
 
 The core is sequential and reads no files, so a campaign runs unchanged in the
 WebAssembly build. Campaigns may not contain campaigns.
+
+## Exports
+
+`--export` on a campaign writes each member scenario that has geometry as its own file
+set, the member's label inserted before the format suffix: every phase run (`<phase>`, or
+`<phase>-<k>` when the phase has several runs), the sweep's base scenario (`sweep`), the
+Monte Carlo scenario (`monte-carlo`) and each composed member (its own label, with the
+shared values it binds written in). A member identical to an earlier one is written once;
+hand-offs and sweep or seed values applied at run time are not in the exported scenarios.
+
+```bash
+kshana scenarios/campaign-shared-jammer-sea-road.toml --export kml
+# after the usual result, chart and report files:
+# wrote scenarios/campaign-shared-jammer-sea-road.ship-strait.kml
+# wrote scenarios/campaign-shared-jammer-sea-road.car-coast-road.kml
+```
+
+A format none of the members can describe is refused with that reason. The per-scenario
+table is in [INTEROP.md](INTEROP.md).
+
+## LEO-PNT campaigns
+
+Fifteen bundled campaigns frame low Earth orbit (LEO) positioning, navigation and timing
+(PNT) questions; [LEO-PNT.md](LEO-PNT.md) describes what each one shows. What each runs,
+as the command line summarises it:
+
+| Scenario | Mode | Question |
+|---|---|---|
+| `leo-focus-data-services.toml` | compose, 4 members | navigation-message service data against frame length |
+| `leo-focus-fused-pnt-sisre.toml` | sweep of `leo-pvt`, 7 nodes | fused MEO and LEO positioning against the LEO signal-in-space range error (SISRE) |
+| `leo-focus-indoor-uhf.toml` | compose, 2 members | indoor LEO-PNT by band and building class |
+| `leo-focus-iot-eirp.toml` | sweep of `leo-pass`, 9 nodes | Internet of Things (IoT) energy per fix against the LEO UHF transmit power |
+| `leo-focus-ntn-bandwidth.toml` | sweep of `ntn-positioning`, 9 nodes | non-terrestrial-network (NTN) positioning against reference-signal bandwidth |
+| `leo-focus-ppp-altitude.toml` | sweep of `leo-ppp`, 3 nodes | precise point positioning (PPP) convergence against the altitude of a 192-satellite LEO layer |
+| `leo-resilience-gnss-jammed-leo-carries.toml` | chain, 3 phases over 2100 s | Global Navigation Satellite System (GNSS) jammed, the LEO layer carries the user, integrity maintained |
+| `leo-resilience-multiband-diversity.toml` | sweep of `spectrum`, 13 nodes | LEO band diversity against an L-band barrage jammer |
+| `leo-resilience-spoof-monitors.toml` | compose, 4 members | the spoofing monitors against four spoofers |
+| `leo-vertical-5g-network-timing.toml` | chain, 1 phase over 86 400 s | 5G base-station timing: holdover and LEO time |
+| `leo-vertical-asset-tracking-iot.toml` | chain, 3 phases over 1440 s | container tracking with LEO UHF: energy per fix along a journey |
+| `leo-vertical-autonomous-vehicle.toml` | chain, 2 phases over 1500 s | an autonomous vehicle in an urban canyon with a LEO layer |
+| `leo-vertical-critical-infrastructure-timing.toml` | chain, 2 phases over 87 000 s | critical-infrastructure timing: holdover with LEO time |
+| `leo-vertical-polar-arctic.toml` | chain, 3 phases over 10 800 s | polar and Arctic users with a polar LEO layer |
+| `leo-vertical-rail-maritime.toml` | chain, 3 phases over 2520 s | railway and maritime users with a LEO layer |
+
+MEO is medium Earth orbit, UHF ultra-high frequency and 5G the fifth generation of mobile
+networks.
 
 ## What is checked
 
@@ -170,8 +221,8 @@ WebAssembly build. Campaigns may not contain campaigns.
   of a chip-scale atomic clock with only white frequency noise (q_wf = 9e-20 s^2/s,
   Microchip SA.45s sigma_y(1 s) = 3e-10), synchronised to 590 s and coasting to 3600 s. The
   final time error is Gaussian with mean 0 and standard deviation sqrt(q_wf * 3010 s) =
-  16.459 ns (the random walk of phase under white frequency noise, NIST Technical Note
-  1337). The reported interval, [-2.52, 1.59] ns, contains the true mean 0; the sample
+  16.459 ns (the random walk of phase under white frequency noise, National Institute of Standards
+  and Technology (NIST) Technical Note 1337). The reported interval, [-2.52, 1.59] ns, contains the true mean 0; the sample
   standard deviation, 14.93 ns, gives a chi-square statistic of 164.5 on 199 degrees of
   freedom, inside the two-sided 99% interval [151.37, 254.14]. At 3000 seeds the same
   scenario gives 16.31 ns.

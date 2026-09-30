@@ -48,7 +48,9 @@ Four measures, each quantified by the `slot-timing` scenario kind
    operations one.
 3. **Geometry.** A ground spoofer reaches a low-Earth-orbit satellite only while it is
    above the spoofer's horizon, so the pull is capped by the spoofer's ramp rate times
-   that window. As arithmetic: a ramp of 10 ns/s held for 600 s is 6 µs.
+   that window. As arithmetic: a ramp of 10 ns/s held for 600 s is 6 µs. The bundled
+   example (`kshana example slot-timing-ocxo-leo`: 550 km orbit, 10 ns/s maximum ramp)
+   reports a 732 s spoofer exposure and a ramp-limited pull of 7 321 ns.
 4. **A guard sized from the bound, and a safe action on alarm.** The slot guard should
    cover the largest undetected error the monitor and checks allow, not only the
    clock's free-running noise. On alarm, a node should hold its last good schedule on

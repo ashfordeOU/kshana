@@ -36,8 +36,8 @@ Kshana is a **simulator**, not hardware and not a hardware design. It:
    error exactly as the physics says it should.
 3. **Scores** the result against operational figures of merit (how big the error gets,
    how long it stays in spec, how trustworthy the estimate is).
-4. Does this **twice** — once for a quantum sensor, once for its classical counterpart —
-   on the *same* scenario, so the comparison is apples-to-apples.
+4. For the sensor packs, does this **twice** — once for a quantum sensor, once for its
+   classical counterpart — on the *same* scenario, so the comparison is apples-to-apples.
 
 Crucially, the engine knows nothing about "quantum" vs "classical". Both are just error
 models with different (published, cited) parameters. The difference you see in the output
@@ -57,28 +57,53 @@ good position. It shows that an optical timing link can keep even a modest clock
 locked — which means the **inertial** sensor becomes the weakest link, and that is
 exactly where a quantum accelerometer pays off.
 
+### Beyond the four packs
+
+The same engine runs many more scenario *kinds*; `kshana kinds` lists them all. They
+reach past the sensors to the signals and the geometry the sensors depend on:
+
+- **Where the satellites are** — orbit propagation, constellation design around the
+  Earth, the Moon or another body, and the positions of the solar-system bodies.
+- **What the receiver hears** — the L-band spectrum under a jammer, jamming and spoofing,
+  and tracking-loop loss of lock.
+- **Whether the answer can be trusted** — integrity monitoring (RAIM, receiver autonomous
+  integrity monitoring, and its advanced form ARAIM) with protection levels.
+- **Alternatives to GNSS** — gravity and terrain map matching, and positioning,
+  navigation and timing from low Earth orbit (LEO) satellites, from the signal design
+  through the link budget and the navigation message to the position fix.
+- **Timing for networks** — telecom holdover checked against the international masks,
+  and slot timing for time-indexed schedules.
+- **Beyond Earth** — lunar time and reference frames, lunar service volumes and
+  Mars relay navigation.
+- **Many runs at once** — campaigns chain kinds on one timeline, sweep a parameter or
+  run a Monte Carlo ensemble.
+
 ## 5. Honesty by construction
 
 A simulator is only useful if you can trust it. Kshana is built so that you can:
 
 - **Every parameter is cited.** Each sensor figure carries a `provenance` string naming
   the datasheet or paper it came from. No anonymous constants.
-- **Every model is validated against a textbook relation,** not just against itself —
+- **Every model is checked against a textbook relation,** not just against itself —
   e.g. the simulated clock's Allan deviation must match the published stability figure,
-  and the inertial drift must match the standard error-growth law.
-- **Maturity is labelled.** [VALIDATION.md](VALIDATION.md) marks each effect `validated`
-  or `not modeled`, and states plainly that the optical-clock figures are *laboratory /
-  space-goal* numbers — no strontium optical clock has flown.
+  and the inertial drift must match the standard error-growth law. A capability is
+  called *validated* only where an independent external oracle (a real dataset, an
+  independent implementation or published reference vectors) agrees; the rest is
+  *modelled*, and the [verification matrix](VERIFICATION-MATRIX.md) says which is which.
+- **Maturity is labelled.** [VALIDATION.md](VALIDATION.md) marks each effect `validated`,
+  `modelled` or `not modeled`, and states plainly that the optical-clock figures are
+  *laboratory / space-goal* numbers — no strontium optical clock has flown.
 - **Results are reproducible to the bit:** the same scenario, seed, and version always
-  produce the identical answer.
+  produce the identical answer on the same platform; across operating systems the
+  figures agree to 1e-6 relative (see [REPRODUCIBILITY.md](REPRODUCIBILITY.md)).
 
 ## 6. The physics, for specialists
 
 The relations Kshana implements and tests (full detail and tolerances in
 [VALIDATION.md](VALIDATION.md)):
 
-- **Clock holdover.** Two-state phase/frequency model with white FM (PSD `q_wf`),
-  random-walk FM (`q_rw`), flicker FM (a sum of log-spaced Ornstein–Uhlenbeck processes
+- **Clock holdover.** Two-state phase/frequency model with white frequency modulation
+  (white FM, power spectral density `q_wf`), random-walk FM (`q_rw`), flicker FM (a sum of log-spaced Ornstein–Uhlenbeck processes
   calibrated to a flat Allan floor), and deterministic aging. Validated by overlapping
   Allan deviation against the published `σ_y(τ)` (Riley, NIST (National Institute of Standards and Technology) SP (Special Publication) 1065).
 - **Inertial dead-reckoning.** Residual accelerometer bias → `½·b·T²`; velocity random
@@ -90,9 +115,10 @@ The relations Kshana implements and tests (full detail and tolerances in
   truth model; coasting, its phase-error variance grows to exactly `q_wf·T + q_rw·T³/3`
   — the analytic holdover relation — and its 1-σ bound feeds the Integrity figure of
   merit.
-- **Geometry.** Circular two-body propagation, a Walker-delta constellation, and
-  line-of-sight visibility (Earth occultation + elevation mask) derive GNSS availability
-  from real orbital geometry rather than hand-authored windows.
+- **Geometry.** Keplerian two-body propagation (optionally with secular J2) or SGP4
+  (Simplified General Perturbations 4) from real two-line element sets, Walker
+  constellations, and line-of-sight visibility (Earth occultation + elevation mask)
+  derive GNSS availability from orbital geometry rather than hand-authored windows.
 
 ## 7. Where to go next
 

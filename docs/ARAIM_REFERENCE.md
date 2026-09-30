@@ -7,7 +7,7 @@ support message it consumes, and the validation status. The implementation lives
 auditor (or a procurement reviewer) can read alongside the code.
 
 ARAIM is the dual-constellation, multi-frequency successor to classic RAIM that the
-GPS–Galileo Working Group C (WG-C) defined to support horizontal and vertical
+GPS (Global Positioning System)–Galileo Working Group C (WG-C) defined to support horizontal and vertical
 guidance down to LPV-200 (LPV: localizer performance with vertical guidance). It answers a single question for every epoch:
 
 > How large must the position-error bound (the *protection level*) be so that the
@@ -87,7 +87,7 @@ the implicit, geometry-dependent risk of a fixed-multiplier classic RAIM.
 ## 4. Stanford diagram
 
 [`StanfordDiagram`](../src/raim.rs) accumulates `(error, PL)` per epoch against a
-fixed alert limit and [`classify_stanford`](../src/raim.rs) sorts each into
+fixed alert limit (AL) and [`classify_stanford`](../src/raim.rs) sorts each into
 *available*, *system-unavailable* (PL > AL, conservative), *misleading
 information* (PL < error ≤ AL) or *hazardously misleading information* (error > AL
 and > PL). [`stanford_svg`](../src/raim.rs) renders the classic scatter — the
@@ -120,7 +120,7 @@ locations, not a per-snapshot guarantee.
 - **In-repo, automated:** the MHSS algebra (`P_const = 0` ⇒ bit-for-bit
   single-fault; constellation-fault widens the PL; budget never exceeded), the
   geometry and constellation-fault benefits above, and exercise on **real IGS (International GNSS Service; GNSS = global navigation satellite system)
-  precise-orbit (SP3) geometry** (`tests/igs_real_data.rs`), not only synthetic
+  precise-orbit (SP3, Standard Product 3) geometry** (`tests/igs_real_data.rs`), not only synthetic
   constellations.
 - **External oracle — the published WG-C worked example:** the protection levels
   are checked against the ARAIM Technical Subgroup's own numerical example, in
@@ -147,9 +147,14 @@ locations, not a per-snapshot guarantee.
   only; simultaneous multi-event fault subsets, fault exclusion, the χ²
   consistency check and the double-counting re-allocation step of the reference
   algorithm are not implemented, and a case whose priors would need them is
-  refused rather than truncated. Wiring `araim_dual_raim` into the scenario-file
-  runner (today the TOML (Tom's Obvious Minimal Language) runner uses classic solution-separation RAIM) is a
-  further follow-on.
+  refused rather than truncated.
+- **Scenario-file reach:** the `integrity` scenario kind runs `araim_dual_raim` at
+  every epoch when its TOML (Tom's Obvious Minimal Language) file sets
+  `araim_dual = true` (optional `p_hmi`); the bundled
+  [`scenarios/araim-gps-galileo.toml`](../scenarios/araim-gps-galileo.toml) does so
+  over a pooled GPS + Galileo geometry, and `tests/araim_dual_real_data.rs` runs the
+  same engine on real Celestrak GPS and Galileo TLEs propagated to one common epoch.
+  Without the flag the runner uses classic solution-separation RAIM.
 
 ## References
 

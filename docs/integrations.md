@@ -3,22 +3,24 @@
 Kshana ships a Model Context Protocol ([MCP](https://modelcontextprotocol.io)) server,
 **`kshana-mcp`**, that exposes the validated engine as tools for an AI (artificial
 intelligence) agent. MCP is the shared plugin protocol, so the *same* server
-plugs into Claude Code, Claude Desktop, Codex, Cursor, VS Code, Windsurf, and JetBrains — the
+plugs into Claude Code, Claude Desktop, Codex, Cursor, Visual Studio Code (VS Code), Windsurf, and JetBrains — the
 agent calls the real, externally-validated engine instead of guessing the math.
 
 Tools exposed (seven): `run_scenario`, `list_scenario_kinds`, `validate_scenario`,
 `export_sp3`, `export_omm`, `export_oem`, `export_table_csv` — each a thin, faithful wrapper
 over a public `kshana::api` function. `export_table_csv` returns the CSV (comma-separated values) reproducibility
 table for the kinds that publish one (`realtime-frame-eop`, `lunar-time-budget`,
-`lunar-jamming`, and `moonlight-service-volume` with an export site set).
+`lunar-jamming`, `telecom-timing`, `leo-navmsg`, and `moonlight-service-volume` with an
+export site set).
 
 ## 1. Install the server (once)
 
 ```sh
-# crates.io — a Rust toolchain builds the prebuilt source onto your PATH (~/.cargo/bin):
+# crates.io — a Rust toolchain builds it from source onto your PATH (~/.cargo/bin):
 cargo install kshana-mcp
 
-# …or Docker / OCI — no Rust toolchain, amd64 + Apple Silicon:
+# …or the Docker / OCI (Open Container Initiative) image — no Rust toolchain;
+# published for linux/amd64 and linux/arm64, so Apple silicon runs it natively:
 docker run --rm -i ghcr.io/ashfordeou/kshana-mcp
 ```
 
@@ -60,7 +62,7 @@ Edit `claude_desktop_config.json` (Settings → Developer → Edit Config):
 }
 ```
 
-### Codex CLI
+### Codex command-line interface (CLI)
 
 Add to `~/.codex/config.toml`:
 
@@ -115,7 +117,7 @@ Settings → Tools → AI Assistant → MCP → add a stdio server with command 
 Ask the agent something the engine is validated for, e.g.:
 
 > "Use kshana: run a clock-holdover scenario with an optical clock through a 1-hour GNSS (global navigation satellite system)
-> outage and report the p95 timing error and availability."
+> outage and report the 95th-percentile timing error and availability."
 
 The agent calls `list_scenario_kinds` → builds the TOML (Tom's Obvious Minimal Language) → `run_scenario`, and reports figures
 of merit with a `scenario + seed + engine version` provenance line — reproducible, not guessed.

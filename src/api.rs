@@ -1079,12 +1079,15 @@ pub fn scenarios_reference_md() -> String {
     s.push_str("# Scenario kinds\n\n");
     s.push_str(&format!(
         "The {} built-in scenario kinds that `kshana::api::run_toml` dispatches over, \
-each with its one-line description and its required / optional TOML fields.\n\n\
+each with its one-line description and its required / optional TOML (Tom's Obvious, \
+Minimal Language) fields.\n\n\
 This file is **generated** from `api::list_scenario_kinds()` — the single source of \
 truth — by `cargo run --bin gen_validation_artifacts`; edit the source, not this file. \
-Every binding (the Python package, the MCP server's `list_scenario_kinds` tool, and \
-the WASM playground) exposes this same catalogue, so what is listed here is exactly \
-what every surface can run.\n\n\
+Every binding (the Python package, the MCP (Model Context Protocol) server's \
+`list_scenario_kinds` tool, and the WebAssembly (WASM) playground) exposes this same \
+catalogue, so what is listed here is exactly what every surface can run. The \
+descriptions are terse and do not always expand their abbreviations; every one is \
+spelled out in [GLOSSARY.md](GLOSSARY.md).\n\n\
 Every scenario except `clock` must also set `kind = \"<name>\"` at the top level: a \
 document without `kind` runs as `clock`, which is why `kind` is not repeated in any \
 kind's required fields below. A required entry may name alternatives: `|` separates \

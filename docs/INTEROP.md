@@ -36,10 +36,10 @@ Code: `src/interop/` (`scene.rs` builds one geometric description of the scenari
 | Format | What it is | Specification followed |
 |---|---|---|
 | CZML | Cesium Language: a JSON (JavaScript Object Notation) array of time-tagged packets, read by CesiumJS | <https://github.com/AnalyticalGraphicsInc/czml-writer/wiki/CZML-Structure> |
-| KML | Keyhole Markup Language 2.2, an Open Geospatial Consortium (OGC) standard, read by Google Earth and most GIS tools; time-tagged tracks use the Google extension `gx:Track` | <https://www.ogc.org/standard/kml/> (schema namespace `http://www.opengis.net/kml/2.2`; extension namespace `http://www.google.com/kml/ext/2.2`) |
-| GeoJSON | geographic JSON, Internet Engineering Task Force (IETF) Request for Comments (RFC) 7946 | <https://www.rfc-editor.org/rfc/rfc7946> |
-| STK `.e` | the ephemeris file of Ansys Systems Tool Kit (STK), time-position-velocity form `EphemerisTimePosVel` | <https://help.agi.com/stk/#stk/importfiles-02.htm> |
-| SigMF | Signal Metadata Format: a JSON metadata file and a raw file of complex in-phase and quadrature (IQ) samples | <https://github.com/sigmf/SigMF/blob/main/sigmf-spec.md> |
+| KML | Keyhole Markup Language 2.2, an Open Geospatial Consortium (OGC) standard, read by Google Earth and most GIS tools; time-tagged tracks use the Google extension `gx:Track` | <https://www.ogc.org/standards/kml/> (schema namespace `http://www.opengis.net/kml/2.2`; extension namespace `http://www.google.com/kml/ext/2.2`) |
+| GeoJSON | geographic JSON, Internet Engineering Task Force (IETF) Request for Comments (RFC) 7946 | <https://www.rfc-editor.org/rfc/rfc7946.html> |
+| STK `.e` | the ephemeris file of Ansys Systems Tool Kit (STK), time-position-velocity form `EphemerisTimePosVel` | <https://help.agi.com/stk/Content/stk/importfiles-02.htm> |
+| SigMF | Signal Metadata Format: a JSON metadata file and a raw file of complex in-phase and quadrature (IQ) samples | <https://sigmf.org/> |
 
 ## What each file holds
 
@@ -57,7 +57,8 @@ where anything is. A scene has up to four kinds of object:
   ground range inside which a satellite at the zenith (the strongest) falls below the
   tracking threshold, so every satellite is lost, and the range inside which a satellite
   at the elevation mask (the weakest) does, so tracking starts to fail. Both come from
-  the kind's own link equations (Kaplan and Hegarty, *Understanding GPS/GNSS*, 3rd ed.,
+  the kind's own link equations (Kaplan and Hegarty, *Understanding GPS/GNSS* (Global Positioning System / Global
+  Navigation Satellite Systems), 3rd ed.,
   §9.4) with the jammer at the receiver's horizon and free-space loss, and the test
   suite checks that the effective carrier-to-noise density ratio at each radius equals
   the threshold to 1e-6 dB. The circle is drawn on a sphere of the Earth's mean radius.
@@ -112,12 +113,28 @@ ephemeris. An id that is not a plain file-name part (a constellation shell and a
 ids then coincide.
 
 The `leo-pass` kind and the `leo-pnt-chain` kind (through its `[pass]` stage) export every
-LEO satellite and the user from the kind's own propagators and time grid. The kind works in
-ECI0, the inertial frame aligned with the Earth-fixed frame at the epoch; each sample is
-turned into the Earth-fixed frame at its own time by the kind's Earth rotation and from
-there into the GCRS through TEME (the frame SGP4 outputs in) at that instant, with UT1
-taken equal to UTC and polar motion neglected, as for the other exports. The other LEO
+low Earth orbit (LEO) satellite and the user from the kind's own propagators and time grid.
+The kind works in ECI0, the Earth-centred inertial frame aligned with the Earth-fixed frame
+at the epoch; each sample is turned into the Earth-fixed frame at its own time by the kind's
+Earth rotation and from there into the GCRS through the true equator, mean equinox (TEME)
+frame that the Simplified General Perturbations 4 (SGP4) propagator outputs in, at that
+instant, with UT1 (Universal Time, the Earth-rotation angle) taken equal to UTC and polar
+motion neglected, as for the other exports. The other LEO
 kinds state why a format does not apply (the table below).
+
+### Campaigns
+
+A `campaign` exports each member scenario that has geometry as its own file set, the
+member's label inserted before the format suffix: every phase run (`<phase>`, or
+`<phase>-<k>` when the phase has several runs), the sweep's base scenario (`sweep`), the
+Monte Carlo scenario (`monte-carlo`) and each composed member (its label, with the shared
+values it binds written in). `campaign-shared-jammer-sea-road.toml --export kml` writes
+`campaign-shared-jammer-sea-road.ship-strait.kml` and
+`campaign-shared-jammer-sea-road.car-coast-road.kml`. A member identical to an earlier one
+is written once, and values a campaign applies at run time (hand-offs, sweep values, seeds)
+are not in the exported member. A format applies to a campaign when it applies to any
+member; otherwise the reason is note 4 of the table below. See
+[CAMPAIGNS.md](CAMPAIGNS.md#exports).
 
 ### SigMF
 
@@ -133,14 +150,13 @@ result document, and the data file has the `iq.sigmf.data_bytes` length. The wri
 - The engine propagates in TEME (true equator, mean equinox of date), its native frame.
   Moving objects are rotated to the GCRS by the `nutation::teme_to_gcrs` reduction
   (IAU 2006 precession and IAU 2000B nutation, where IAU is the International
-  Astronomical Union), which reproduces Vallado's published TEME-to-GCRF example to
-  0.11 m, for CZML and STK, and to the Earth-fixed
+  Astronomical Union), which reproduces Vallado's published TEME-to-GCRF (Geocentric
+  Celestial Reference Frame) example to 0.11 m, for CZML and STK, and to the Earth-fixed
   frame by `frames::teme_to_ecef` for KML and GeoJSON. The Earth-fixed rotation is the
-  Greenwich mean sidereal angle with UT1 (Universal Time, Earth-rotation angle) taken
-  equal to UTC and polar motion not applied — the same reduction the SP3 (Standard
-  Product 3) export uses. At a GPS (Global Positioning System) orbit radius the neglected
-  UT1−UTC of up to 0.9 s moves a satellite's longitude by up to about 1.7 km; ground
-  sites are unaffected, since they are given in latitude and longitude.
+  Greenwich mean sidereal angle with UT1 taken equal to UTC and polar motion not applied —
+  the same reduction the SP3 (Standard Product 3) export uses. At a GPS orbit radius the
+  neglected UT1−UTC of up to 0.9 s moves a satellite's longitude by up to about 1.7 km;
+  ground sites are unaffected, since they are given in latitude and longitude.
 - The `ephemeris` kind is the exception: its engine output already carries GCRS and
   Earth-fixed positions (with the scenario's UT1−UTC and polar motion, or a real
   International Earth Rotation and Reference Systems Service (IERS) series), and those
@@ -149,7 +165,7 @@ result document, and the data file has the `iq.sigmf.data_bytes` length. The wri
   counted as if every day had 86 400 s, as the engine's time grids count.
 - The epoch of `t = 0` is the one the kind's run uses, and each file names it:
   the `orbit` kind's `epoch`; when it is absent, the earliest epoch the satellites' own
-  data carry (a TLE epoch, a broadcast ephemeris's reference time, an SP3 file's start),
+  data carry (a two-line element set (TLE) epoch, a broadcast ephemeris's reference time, an SP3 file's start),
   and 2000-01-01T00:00:00Z only when no satellite carries one (Keplerian elements). The
   SP3 and OEM (Orbit Ephemeris Message) exports keep 2000-01-01T00:00:00Z for a scenario
   without an `epoch`, so for such a scenario their dates differ from these files'. With
@@ -157,10 +173,10 @@ result document, and the data file has the `iq.sigmf.data_bytes` length. The wri
   and Earth-fixed frames at its own instant (its epoch plus `t`), since that is the date
   its TEME position belongs to; where the satellites' epochs differ, the shared time tags
   follow the engine's premise that every satellite starts at `t = 0`, and the file says
-  by how many hours they differ. The SGP4 (Simplified General Perturbations 4)
+  by how many hours they differ. The SGP4
   element epoch of the `jamming` and `gnss-sim` kinds' Walker constellations
   (2018-06-12T00:00:00Z), which their runs also use for the Earth rotation; the
-  `passes` kind's `epoch`; the `ephemeris` kind's `epoch` or two-line element (TLE)
+  `passes` kind's `epoch`; the `ephemeris` kind's `epoch` or TLE
   epoch. The `integrity` kind has no calendar epoch; its export dates `t = 0` as for an
   orbit scenario without one.
 - Satellites keep the positional identifiers `G01`, `G02`, ... the SP3 and OEM exports
@@ -241,7 +257,7 @@ tested here.
 - Footprints assume free-space propagation, a jammer at the receiver's horizon and a
   spherical Earth for the circle.
 
-## Every bundled scenario
+## Every scenario file
 
 What `kshana <scenario> --export <format>` does for each file in `scenarios/` (the suite
 manifest is not a scenario and is left out). "yes" means the format is written and
