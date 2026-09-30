@@ -31,9 +31,10 @@ fn every_coverage_surface_states_the_recorded_measurement() {
     let badge = format!("badge/coverage-~{n}%25%20line");
     let surfaces: [(&str, &str, String); 6] = [
         (
-            "README.md badge",
+            // The README's badge row carries no coverage shield; its Evidence section states it.
+            "README.md Evidence section",
             include_str!("../README.md"),
-            badge.clone(),
+            format!("near {n} % line coverage"),
         ),
         (
             "README.md CI table",

@@ -34,6 +34,7 @@ from __future__ import annotations
 
 import argparse
 import base64
+import hashlib
 import io
 import json
 import math
@@ -56,6 +57,7 @@ DEFAULT_OUT = ROOT / "docs" / "assets" / "readme"
 MASK = ROOT / "tools" / "readme-src" / "kshana-mark-mask.png"
 LAND = ROOT / "tools" / "ne_110m_land.geojson"
 MATRIX = ROOT / "web" / "data" / "verification-matrix.json"
+STUDIO_DIR = DEFAULT_OUT / "studio"
 
 # --------------------------------------------------------------------------------------
 # Theme: the site's Observatory tokens (kshana-site-next .../src/theme.css), both themes.
@@ -924,10 +926,13 @@ def hero(t: dict, camp: dict, cov: dict, version: str) -> Svg:
             f"ground track, radii compressed for display. Clock time error peaks at {max(te):.1f} ns against a "
             f"{guard:.0f} ns guard, carrier-to-noise density falls to {min(cn):.1f} dB-Hz against a {floor:.0f} dB-Hz floor, "
             f"and the vertical protection level reaches {max(pl):.1f} m against a {al:.0f} m alert limit.")
-    s = Svg(W, H, "Rehearse the minute GNSS goes dark.", desc)
+    NAV = 64
+    s = Svg(W, H + NAV, "Rehearse the minute GNSS goes dark.", desc)
     card(s, t)
+    site_nav(s, t, version, NAV)
+    s.add(f'<g transform="translate(0 {NAV})">')
     cid = s.uid("clip")
-    s.defs.append(f'<clipPath id="{cid}"><rect x="1" y="1" width="{W - 2}" height="{H - 2}" rx="22"/></clipPath>')
+    s.defs.append(f'<clipPath id="{cid}"><rect x="1" y="0" width="{W - 2}" height="{H - 1}" rx="22"/></clipPath>')
     # globe first, so the copy and panels sit over its orbit cloud (as on the site)
     orbits = fit_orbits(cov)
     cam = Camera(24, 8, 770, 382, 136)
@@ -981,13 +986,18 @@ def hero(t: dict, camp: dict, cov: dict, version: str) -> Svg:
             "Replay jamming, spoofing and clock holdover when GNSS (Global Navigation Satellite System) "
             "signals fail, and see exactly which results were checked against independent references.")
     ly = paragraph(s, lede, x0, hy + 2 * lh + 52, 480, 16.5, t["ink2"], lh=1.55)
-    # install pill
+    # the site's two calls to action: the Studio, then the one-line install
+    by = ly + 14
+    cta = "Launch Kshana Studio  →"
+    ctw = Face.get("sans", 500).width(cta, 15.5) + 40
+    s.rect(x0, by, ctw, 42, fill=t["btn_bg"], r=12)
+    s.text(cta, x0 + 20, by + 26.5, 15.5, t["btn_ink"], "sans", 500)
     cmd = "cargo install kshana"
     cw_ = Face.get("mono", 500).width(cmd, 15)
-    by = ly + 14
-    s.rect(x0, by, cw_ + 52, 42, fill=t["panel"], stroke=line(t, 1, t["panel"]), r=12)
-    s.text("$", x0 + 16, by + 26.5, 15, t["ink3"], "mono", 500)
-    s.text(cmd, x0 + 34, by + 26.5, 15, t["ink"], "mono", 500)
+    ix = x0 + ctw + 12
+    s.rect(ix, by, cw_ + 52, 42, fill=t["panel"], stroke=line(t, 1, t["panel"]), r=12)
+    s.text("$", ix + 16, by + 26.5, 15, t["ink3"], "mono", 500)
+    s.text(cmd, ix + 34, by + 26.5, 15, t["ink"], "mono", 500)
     # event log: the run's own alarm events
     lx, lyy, lw = x0, by + 62, 500
     evs = tl["events"]
@@ -1024,7 +1034,27 @@ def hero(t: dict, camp: dict, cov: dict, version: str) -> Svg:
     lx_, ly_ = rxp[0] - lw_ - 22, rxp[1] - 11
     s.rect(lx_, ly_, lw_, 22, fill=blend(t["panel"], t["bg"], 0.85), stroke=line(t, 1, t["panel"]), r=6)
     s.text(lab, lx_ + 8, ly_ + 15, 10.5, t["lime"], "mono", 500, ls=0.08, upper=True)
+    s.add("</g>")
     return s
+
+
+NAV_ITEMS = ("Missions", "Capabilities", "Evidence", "Developers", "Docs", "Editions")
+
+
+def site_nav(s: Svg, t: dict, version: str, nav_h: float) -> None:
+    """The site's top bar: the mark and wordmark, the version, the page links, the Studio button."""
+    cy = nav_h / 2 + 6
+    mk = 40
+    s.add(f'<image href="{png_data_uri(mark_image(t, 96))}" x="36" y="{f(cy - mk / 2)}" width="{mk}" height="{mk}"/>')
+    x = 36 + mk - 2
+    x += s.text("kshana", x, cy + 7, 20, t["ink"], "display", 500, ls=-0.01) + 12
+    x += s.text(f"v{version}", x, cy + 4, 11.5, t["ink3"], "mono", 400) + 40
+    for item in NAV_ITEMS:
+        x += s.text(item, x, cy + 5, 14, t["ink2"], "sans", 400) + 26
+    lab = "Launch Kshana Studio"
+    bw = Face.get("sans", 500).width(lab, 13.5) + 30
+    s.rect(s.w - 40 - bw, cy - 17, bw, 34, fill=t["btn_bg"], r=9)
+    s.text(lab, s.w - 40 - bw + 15, cy + 5, 13.5, t["btn_ink"], "sans", 500)
 
 
 # --------------------------------------------------------------------------------------
@@ -1695,7 +1725,7 @@ def chip(s: Svg, t: dict, x, y, label: str, color: str | None = None, size=11.5,
 def flow_pipeline(t: dict, n_kinds: int, version: str) -> Svg:
     W, H = 1280, 636
     desc = (f"How a run flows. A scenario TOML file (a kind, a seed and its parameters) goes into the engine, kshana {version}, "
-            f"through api::run_toml, a typed dispatch over {n_kinds} kinds, deterministic from scenario, seed and engine version. "
+            f"through the api::run_toml dispatch over {n_kinds} scenario kinds, deterministic from scenario, seed and engine version. "
             "The engine writes result.json, chart.svg, report.html and report.json, a table.csv for the kinds that define one, "
             "and on request SP3, CCSDS OMM and OEM, CZML, KML, GeoJSON, STK and SigMF exports; a suite writes study.json and study.html. "
             "Those files feed Kshana Studio in the browser, an AI assistant through the kshana-mcp server, and continuous integration.")
@@ -1970,6 +2000,190 @@ def flow_verification(t: dict, matrix: dict) -> Svg:
     return s
 
 
+def mcp_tools() -> list[str]:
+    """The tools the MCP server serves: each `fn` after a `#[tool(` attribute in its source."""
+    names, in_attr = [], False
+    for ln in (ROOT / "mcp" / "kshana-mcp" / "src" / "server.rs").read_text().splitlines():
+        tt = ln.strip()
+        if tt.startswith("#[tool("):
+            in_attr = True
+        elif in_attr and tt.startswith("fn "):
+            names.append(tt[3:].split("(")[0])
+            in_attr = False
+    return sorted(names)
+
+
+def surface_card(s: Svg, t: dict, x, y, w, h, kicker: str, title: str, cmd: str, note: str, color: str) -> None:
+    glass(s, t, x, y, w, h, r=14)
+    s.rect(x + 16, y + 17, 8, 8, fill=color, r=2)
+    s.text(kicker, x + 32, y + 25, 10.5, t["ink3"], "mono", 500, ls=0.12, upper=True)
+    s.text(title, x + 16, y + 50, 16, t["ink"], "sans", 600, ls=-0.01)
+    s.text(fit_text(cmd, w - 32, 11.5, "mono"), x + 16, y + 72, 11.5, t["cyan"], "mono", 500)
+    s.text(fit_text(note, w - 32, 11.5, "mono"), x + 16, y + 90, 11.5, t["ink3"], "mono")
+
+
+def architecture(t: dict, n_kinds: int, summary: dict, n_tools: int, version: str) -> Svg:
+    """The open engine at the centre, every surface around it, the Pro overlay depending on it."""
+    W, H = 1280, 840
+    left = [
+        ("Terminal", "Command line", "cargo install kshana", "kshana scenario.toml", t["cyan"]),
+        ("Rust", "Rust library", "cargo add kshana", "kshana::api::run_toml", t["cyan"]),
+        ("Notebooks", "Python", "pip install kshana", "kshana.run(toml)", t["lime"]),
+        ("Browser", "WebAssembly + Kshana Studio", "npm install kshana", "Studio: kshana.dev, nothing uploaded", t["lime"]),
+    ]
+    right = [
+        ("AI assistant", "MCP server", "cargo install kshana-mcp", f"{n_tools} tools over the same library", t["magenta"]),
+        ("Container", "Docker image", "ghcr.io/ashfordeou/kshana-mcp", "the MCP server, no Rust toolchain", t["magenta"]),
+        ("IDE", "JetBrains plugin", "Marketplace: \"Kshana\"", "right-click a .toml, run it", t["amber"]),
+    ]
+    domains = ["Signals and spectrum", "Clocks and timing", "Inertial and fusion", "GNSS and integrity",
+               "Orbits and constellations", "Low-Earth-orbit PNT", "Moon, Mars, deep space", "Campaigns and studies"]
+    desc = (f"Kshana's architecture: one open engine at the centre, kshana {version} under the AGPL-3.0, with api::run_toml, a "
+            f"typed dispatch over {n_kinds} kinds, and the verification ledger of {summary['total']} capabilities "
+            f"({summary['validated']} VALIDATED, {summary['modelled']} MODELLED, {summary['partner_owned']} PARTNER). Around it, every "
+            "surface runs the same engine: " + "; ".join(f"{b} ({c})" for _, b, c, _, _ in left + right)
+            + ". Below it, Kshana Pro, a proprietary overlay that depends on the open engine as a library and never forks it, "
+            "and adds no physical model.")
+    s = Svg(W, H, "Architecture: one open engine, every surface around it, Pro on top", desc)
+    card(s, t)
+    eyebrow(s, t, 40, 50, "Architecture")
+    s.text("One open engine. Every surface runs it.", 40, 92, 32, t["ink"], "sans", 600, ls=-0.03)
+    cw_, ch_, gap = 300, 104, 14
+    y0 = 136
+    ex0, ex1 = 40 + cw_ + 60, W - 40 - cw_ - 60
+    ey0, ey1 = y0, y0 + 4 * ch_ + 3 * gap
+    # engine
+    glass(s, t, ex0, ey0, ex1 - ex0, ey1 - ey0, r=16, fill=soft(t, "cyan", t["panel"], 0.07))
+    s.rect(ex0, ey0, ex1 - ex0, ey1 - ey0, stroke=t["cyan"], sw=1.4, r=16)
+    s.rect(ex0 + 18, ey0 + 19, 8, 8, fill=t["cyan"], r=2)
+    s.text("Open engine · AGPL-3.0", ex0 + 34, ey0 + 27, 10.5, t["ink3"], "mono", 500, ls=0.12, upper=True)
+    s.text("kshana", ex0 + 18, ey0 + 68, 30, t["ink"], "display", 500, ls=-0.01)
+    s.text(f"v{version}", ex1 - 18, ey0 + 27, 11.5, t["ink3"], "mono", anchor="end")
+    yy = ey0 + 100
+    for ln, col in ((f"api::run_toml", t["ink"]), (f"typed dispatch over {n_kinds} kinds", t["ink2"]),
+                    ("scenario + seed + version → the same bytes", t["ink2"])):
+        s.text(ln, ex0 + 18, yy, 12.5, col, "mono", 500 if col == t["ink"] else 400)
+        yy += 20
+    # domain chips, two columns
+    yy += 8
+    dw = (ex1 - ex0 - 36 - 8) / 2
+    for i, d in enumerate(domains):
+        r_, c_ = divmod(i, 2)
+        dx, dy = ex0 + 18 + c_ * (dw + 8), yy + r_ * 32
+        s.rect(dx, dy, dw, 26, fill=t["panel"], stroke=line(t, 1, t["panel"]), r=8)
+        s.text(fit_text(d, dw - 16, 11, "mono"), dx + 10, dy + 17, 11, t["ink2"], "mono", 400)
+    yy += 4 * 32 + 10
+    s.line(ex0 + 18, yy, ex1 - 18, yy, line(t, 0, t["panel"]))
+    yy += 24
+    x = ex0 + 18
+    for lab, key, col in (("VALIDATED", "validated", t["lime"]), ("MODELLED", "modelled", t["modelled"]), ("PARTNER", "partner_owned", t["amber"])):
+        x += s.text(f"{summary[key]}", x, yy + 4, 20, col, "mono", 500) + 6
+        x += s.text(lab, x, yy + 2, 10, t["ink2"], "mono", 500, ls=0.1) + 16
+    s.text(f"ledger of {summary['total']}", ex1 - 18, yy + 2, 11, t["ink3"], "mono", anchor="end")
+    # surfaces
+    for i, (k, ti, cmd, note, col) in enumerate(left):
+        y = y0 + i * (ch_ + gap)
+        surface_card(s, t, 40, y, cw_, ch_, k, ti, cmd, note, col)
+        arrow(s, t, [(40 + cw_ + 2, y + ch_ / 2), (ex0 - 3, y + ch_ / 2)], t["ink4"], 1.2)
+    rx0 = W - 40 - cw_
+    for i, (k, ti, cmd, note, col) in enumerate(right):
+        y = y0 + i * (ch_ + gap)
+        surface_card(s, t, rx0, y, cw_, ch_, k, ti, cmd, note, col)
+        arrow(s, t, [(rx0 - 2, y + ch_ / 2), (ex1 + 3, y + ch_ / 2)], t["ink4"], 1.2)
+    # the fourth right slot: scenario files, the one input every surface shares
+    y = y0 + 3 * (ch_ + gap)
+    glass(s, t, rx0, y, cw_, ch_, r=14)
+    s.rect(rx0, y, cw_, ch_, stroke=line(t, 2, t["panel"]), sw=1, r=14, extra='stroke-dasharray="4 4"')
+    s.rect(rx0 + 16, y + 17, 8, 8, fill=t["ink3"], r=2)
+    s.text("One input", rx0 + 32, y + 25, 10.5, t["ink3"], "mono", 500, ls=0.12, upper=True)
+    s.text("Scenario files", rx0 + 16, y + 50, 16, t["ink"], "sans", 600, ls=-0.01)
+    s.text("the same .toml runs on", rx0 + 16, y + 72, 11.5, t["ink2"], "mono")
+    s.text("every surface, same bytes out", rx0 + 16, y + 90, 11.5, t["ink2"], "mono")
+    # Pro overlay, below, depending on the engine
+    py0 = ey1 + 56
+    ph = 150
+    px0, px1 = 40, W - 40
+    glass(s, t, px0, py0, px1 - px0, ph, r=16, fill=soft(t, "magenta", t["panel"], 0.05))
+    s.rect(px0, py0, px1 - px0, ph, stroke=t["magenta"], sw=1.2, r=16, extra='stroke-dasharray="6 5"')
+    s.rect(px0 + 18, py0 + 19, 8, 8, fill=t["magenta"], r=2)
+    s.text("Proprietary overlay · under contract", px0 + 34, py0 + 27, 10.5, t["ink3"], "mono", 500, ls=0.12, upper=True)
+    s.text("Kshana Pro: the same engine, amplified", px0 + 18, py0 + 60, 20, t["ink"], "sans", 600, ls=-0.02)
+    pro = [("Depends on the open engine", "as a library; never forks it"),
+           ("No new physics", "adds no physical model, changes none"),
+           ("Re-derivable", "every Pro number from open runs")]
+    cw3 = (px1 - px0 - 36 - 24) / 3
+    for i, (a, b) in enumerate(pro):
+        bx = px0 + 18 + i * (cw3 + 12)
+        s.rect(bx, py0 + 80, cw3, 52, fill=t["panel"], stroke=line(t, 1, t["panel"]), r=10)
+        s.text(a, bx + 14, py0 + 101, 13, t["ink"], "sans", 500)
+        s.text(b, bx + 14, py0 + 121, 11, t["ink3"], "mono")
+    mid = (ex0 + ex1) / 2
+    arrow(s, t, [(mid, py0 - 2), (mid, ey1 + 4)], t["magenta"], 1.6)
+    s.text("depends on, never forks", mid + 12, (py0 + ey1) / 2 + 4, 11, t["magenta"], "mono", 500)
+    s.text("MCP: Model Context Protocol · PNT: positioning, navigation and timing · AGPL-3.0: GNU Affero General Public License v3 · "
+           "Pro wording from docs/PRO.md", 40, H - 18, 11, t["ink3"], "mono")
+    return s
+
+
+# The five papers live on arXiv (checked against export.arxiv.org/api/query on 2026-09-30),
+# each with the engine command behind it: the study example that regenerates its artifact, or
+# the scenario kind the paper is built on. Titles, dates and categories are arXiv's.
+PAPERS = [
+    ("2606.22054", "2026-06-20", "eess.SP", "Anticipating the Optimism Gap: Predicting Distribution-Shift Degradation of "
+     "RF-Impairment Detectors from In-Distribution Statistics", "cargo run --release --example optimism_study", "amber", "Regenerate"),
+    ("2606.24210", "2026-06-23", "eess.SP", "A Conditional Timing Protection Level: Holdover-Limited Undetected Time Error "
+     "Under GNSS Spoofing", "cargo run --release --example tpl_jammertest", "coral", "Regenerate"),
+    ("2607.05415", "2026-06-22", "cs.CR", "How Stable Is a PNT Resilience Score? Decision-Instability of Single-Number "
+     "Resilience Ratings under Framework-Aligned Weighting", "cargo run --release --example resilience_report", "lime", "Regenerate"),
+    ("2607.02566", "2026-06-29", "eess.SP", "Earth-baseline VLBI restores the observability of a lunar surface station in "
+     "joint orbit-and-clock determination", "kshana example lunar-joint-od-clock", "modelled", "Engine kind"),
+    ("2607.06212", "2026-07-07", "astro-ph.EP", "The Cost of Lunar South-Polar Geometry, and Surface Beacons as the Efficient "
+     "Fix: A Dilution-of-Precision Analysis", "kshana example lunar-beacon", "cyan", "Engine kind"),
+]
+
+
+def research(t: dict) -> Svg:
+    W = 1280
+    desc = ("Research built on the open engine: five papers on arXiv, each with the command that regenerates its numbers. "
+            + " ".join(f"arXiv:{i} ({d}, {c}): {ti}; {lab.lower()}: {cmd}." for i, d, c, ti, cmd, _, lab in PAPERS))
+    gap = 16
+    cols = [3, 2]
+    heights, i = [], 0
+    for n in cols:
+        cw = (W - 80 - gap * (n - 1)) / n
+        heights.append(56 + 22 * max(len(wrap(PAPERS[i + c][3], cw - 32, 16, "sans", 600)) for c in range(n)) + 78)
+        i += n
+    H = 128 + sum(heights) + gap * (len(cols) - 1) + 50
+    s = Svg(W, H, "Research: five papers on arXiv, each with the engine command behind it", desc)
+    card(s, t)
+    eyebrow(s, t, 40, 50, "Research")
+    s.text("Published, and built on the open engine.", 40, 92, 32, t["ink"], "sans", 600, ls=-0.03)
+    s.text(f"{len(PAPERS)} papers on arXiv", W - 40, 50, 12.5, t["ink3"], "mono", anchor="end")
+    y = 128
+    i = 0
+    for n, chh in zip(cols, heights):
+        cw = (W - 80 - gap * (n - 1)) / n
+        for c in range(n):
+            aid, date, cat, title, cmd, key, lab = PAPERS[i]
+            x = 40 + c * (cw + gap)
+            glass(s, t, x, y, cw, chh, r=14)
+            s.rect(x + 16, y + 17, 8, 8, fill=t[key], r=2)
+            s.text(f"arXiv:{aid}", x + 32, y + 25, 11, t["ink2"], "mono", 500, ls=0.04)
+            s.text(f"{cat} · {date}", x + cw - 16, y + 25, 10.5, t["ink3"], "mono", anchor="end")
+            yy = y + 56
+            for ln in wrap(title, cw - 32, 16, "sans", 600)[:4]:
+                s.text(ln, x + 16, yy, 16, t["ink"], "sans", 600, ls=-0.01)
+                yy += 22
+            s.line(x + 16, y + chh - 58, x + cw - 16, y + chh - 58, line(t, 0, t["panel"]))
+            s.text(lab, x + 16, y + chh - 36, 10, t["ink3"], "mono", 500, ls=0.12, upper=True)
+            s.text(fit_text(cmd, cw - 32, 11.5, "mono"), x + 16, y + chh - 16, 11.5, t["cyan"], "mono", 500)
+            i += 1
+        y += chh + gap
+    s.text("DOI 10.48550/arXiv.<id> for each · titles as listed on arXiv · VLBI: very-long-baseline interferometry",
+           40, H - 18, 11, t["ink3"], "mono")
+    return s
+
+
 # --------------------------------------------------------------------------------------
 # Driver
 # --------------------------------------------------------------------------------------
@@ -2026,6 +2240,22 @@ def build(engine: Engine) -> dict[str, bytes]:
     put("flow-architecture", lambda t: flow_architecture(t, n_kinds, matrix["summary"]), ["kshana kinds --json", "web/data/verification-matrix.json"])
     put("flow-leo-chain", lambda t: flow_leo_chain(t, runs["leo_chain"]), ["leo_chain"])
     put("flow-verification", lambda t: flow_verification(t, matrix), ["web/data/verification-matrix.json"])
+    tools = mcp_tools()
+    put("architecture", lambda t: architecture(t, n_kinds, matrix["summary"], len(tools), version),
+        ["kshana kinds --json", "web/data/verification-matrix.json", "mcp/kshana-mcp/src/server.rs", "docs/PRO.md"])
+    put("research", lambda t: research(t), ["export.arxiv.org/api/query (titles, dates, categories, 2026-09-30)"])
+    manifest["mcp_tools"] = tools
+    # Kshana Studio screenshots: taken from the running Studio by tools/capture_studio_shots.mjs,
+    # not drawn here. They are recorded (hash and the capture record in studio/SHOTS.json) so a
+    # changed or missing screenshot changes this manifest and fails --check.
+    shots = STUDIO_DIR / "SHOTS.json"
+    if shots.exists():
+        rec = json.loads(shots.read_text())
+        entries = rec.get("shots", rec) if isinstance(rec, dict) else rec
+        manifest["studio_screenshots"] = {
+            "captured_by": "tools/capture_studio_shots.mjs", "record": "studio/SHOTS.json",
+            "files": {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(STUDIO_DIR.glob("*.jpg")) + sorted(STUDIO_DIR.glob("*.png"))},
+        }
     out["MANIFEST.json"] = (json.dumps(manifest, indent=2, ensure_ascii=False) + "\n").encode()
     return out
 
