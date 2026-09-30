@@ -1,0 +1,85 @@
+# LEO-PNT focus area: indoor navigation with UHF.
+#
+# Building entry loss grows with frequency, and modern thermally efficient buildings
+# (metallised glass, foil-backed insulation) add far more than traditional ones. The
+# campaign composes two `leo-pass` runs of one generic low Earth orbit (LEO) satellite
+# passing 60 deg over a user inside a building in Rome, in the UHF, L, S and C bands, one
+# per ITU-R P.2109 building class (median loss, 50 % probability), and records the peak
+# carrier-to-noise density (C/N0) of each band.
+#
+# UHF keeps the highest indoor C/N0 in both buildings and is the only band above a
+# 25 dB-Hz tracking threshold in the traditional one (about 34 dB-Hz, against 24 for L,
+# 16 for S and 9 for C). The thermally efficient building takes every band below it, UHF
+# least (about 15 dB-Hz). The two members differ only in the building class.
+#
+# MODELLED: ITU-R P.2109-2 building entry loss (VALIDATED against the ITU workbook) on
+# representative EIRPs; no indoor multipath or fading beyond the P.2109 statistics.
+kind = "campaign"
+title = "Indoor LEO-PNT by band and building class"
+seed = 20260929
+
+[[compose.members]]
+label = "traditional-building"
+metrics = [
+  { name = "uhf_peak_cn0", path = "satellites[0].bands[0].peak_cn0_dbhz" },
+  { name = "l_peak_cn0", path = "satellites[0].bands[1].peak_cn0_dbhz" },
+  { name = "s_peak_cn0", path = "satellites[0].bands[2].peak_cn0_dbhz" },
+  { name = "c_peak_cn0", path = "satellites[0].bands[3].peak_cn0_dbhz" },
+]
+[compose.members.scenario]
+kind = "leo-pass"
+epoch = "2026-09-28T12:00:00"
+duration_s = 900.0
+step_s = 10.0
+[compose.members.scenario.user]
+environment = "indoor"
+lat_deg = 41.9
+lon_deg = 12.49
+height_m = 50.0
+building_probability = 0.5
+antenna = "hemispherical"
+gain_dbi = 0.0
+polarisation = "linear"
+building = "traditional"
+[[compose.members.scenario.satellite]]
+id = "LEO-1"
+system = "generic-leo"
+bands = ["UHF", "L", "S", "C"]
+max_elevation_deg = 60.0
+tca_s = 450.0
+[compose.members.scenario.gnss]
+constellation = "galileo"
+band = "E1"
+
+[[compose.members]]
+label = "thermally-efficient-building"
+metrics = [
+  { name = "uhf_peak_cn0", path = "satellites[0].bands[0].peak_cn0_dbhz" },
+  { name = "l_peak_cn0", path = "satellites[0].bands[1].peak_cn0_dbhz" },
+  { name = "s_peak_cn0", path = "satellites[0].bands[2].peak_cn0_dbhz" },
+  { name = "c_peak_cn0", path = "satellites[0].bands[3].peak_cn0_dbhz" },
+]
+[compose.members.scenario]
+kind = "leo-pass"
+epoch = "2026-09-28T12:00:00"
+duration_s = 900.0
+step_s = 10.0
+[compose.members.scenario.user]
+environment = "indoor"
+lat_deg = 41.9
+lon_deg = 12.49
+height_m = 50.0
+building_probability = 0.5
+antenna = "hemispherical"
+gain_dbi = 0.0
+polarisation = "linear"
+building = "thermally-efficient"
+[[compose.members.scenario.satellite]]
+id = "LEO-1"
+system = "generic-leo"
+bands = ["UHF", "L", "S", "C"]
+max_elevation_deg = 60.0
+tca_s = 450.0
+[compose.members.scenario.gnss]
+constellation = "galileo"
+band = "E1"

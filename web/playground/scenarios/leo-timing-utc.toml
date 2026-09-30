@@ -1,0 +1,51 @@
+# Time transfer to UTC from LEO satellites, against C/N0 and the receiver oscillator.
+#
+# A timing receiver at a surveyed site in Boulder, Colorado recovers its clock from the
+# Iridium constellation (the `iridium-stl` preset: 66 satellites at 780 km, L-band bursts,
+# received power 300 to 2400 times GPS), holds time with its own oscillator when no
+# satellite is in view, and converts the system time to UTC with the broadcast offset
+# (IS-GPS-200 expression; the parameters below are illustrative, with a 5 ns uncertainty).
+# Four oscillator classes (TCXO, OCXO, chip-scale atomic clock, rubidium) and four C/N0
+# offsets are compared over six hours, every row with the same seed so the rows differ only
+# in C/N0 and oscillator. The Iridium bursts arrive 25 to 34 dB above GPS, so the loop noise
+# of the 25 000 symbol/s ranging signal matters only when the C/N0 is cut by 20 dB or more;
+# at nominal power the 5 m representative signal-in-space range error and the UTC-offset
+# uncertainty set the floor, and with a satellite in view about 93% of the time the
+# oscillator matters little.
+#
+# NIST measured Iridium PNT timing receivers with a miniature atomic clock within 40 ns of
+# UTC(NIST) over 40 days (https://www.nist.gov/publications/validating-timing-performance-improvement-ionospheric-corrections-iridium-pnt-receivers).
+# The modelled figures are a consistency comparison with that, not a reproduction of the test.
+# `trace = true` adds each row's time error at every epoch, so the run animates
+# (`--animate html`); the row statistics are the same with or without it.
+# MODELLED.
+kind = "leo-pvt"
+mode = "timing"
+seed = 9
+duration_s = 21600.0
+step_s = 10.0
+
+[user]
+lat_deg = 39.99
+lon_deg = -105.26
+height_m = 1655.0
+
+[timing]
+clocks = ["tcxo", "ocxo", "csac", "rafs"]
+cn0_offsets_db = [-30.0, -20.0, -10.0, 0.0]
+week = 2436
+tow0_s = 172800.0
+trace = true
+
+[timing.utc]
+a0_s = 4.0e-9
+a1_s_per_s = 1.0e-14
+t_ot_s = 147456.0
+wn_t = 2436
+delta_t_ls_s = 18.0
+sigma_s = 5.0e-9
+
+[[system]]
+name = "Iridium"
+leo_preset = "iridium-stl"
+mask_deg = 15.0

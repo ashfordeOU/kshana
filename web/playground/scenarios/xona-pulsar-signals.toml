@@ -1,0 +1,44 @@
+# Xona Pulsar signals: the X1 (L1 band) and X5 (L5 band) signals of a commercial low
+# Earth orbit (LEO) positioning, navigation and timing (PNT) constellation, from their
+# published signal table (Leclère, Marathe and Reid, ION GNSS+ 2025,
+# https://arxiv.org/abs/2509.19551), as the compiled-in `xona-pulsar` preset.
+#
+# The questions: how precisely can a receiver range on each signal at its minimum
+# received power; how large is the acquisition search from 1080 km, where the Doppler
+# reaches the 32 to 34 kHz the paper reports; and how much does each signal overlap the
+# GNSS signals near it? X5 sits at 1190.51625 MHz, inside the Galileo E5 band, so its
+# spectral separation coefficient (SSC) into Galileo E5a, E5b and AltBOC and into GPS L5
+# is the compatibility figure that matters; X1 sits 17.9 MHz above the GPS L1 carrier.
+#
+# Received power: the published minimum (X1 -148.2 dBW, X5 -144.9 dBW) against a 290 K
+# antenna and a 2 dB noise figure (floor -201.98 dBW/Hz), so the reference
+# carrier-to-noise density (C/N0) is about 53.8 and 57.1 dB-Hz. The enhanced Feher QPSK
+# spectrum is drawn with the rectangular-chip BPSK envelope, as the preset states.
+# MODELLED: the closed forms underneath are validated; the design approximations are not.
+kind = "leo-signal"
+presets = ["xona-pulsar"]
+
+[receiver]
+noise_figure_db = 2.0
+antenna_temp_k = 290.0
+cn0_dbhz = [35.0, 40.0, 45.0, 50.0, 55.0, 60.0]
+reference_cn0_dbhz = 45.0
+loop_bandwidth_hz = 1.0
+integration_time_s = 0.02
+correlator_spacings_chips = [1.0, 0.5, 0.2, 0.1]
+reference_spacing_chips = 0.5
+
+[acquisition]
+elevation_mask_deg = 0.0
+oscillator_ppm = 0.5
+coherent_ms = 1.0
+noncoherent = 1
+pfa_cell = 1e-4
+
+[compatibility]
+gnss_aggregate_satellites = 1.0
+
+[trade]
+reference_signal = "xona-x5"
+slant_tec_tecu = 50.0
+slant_range_km = 1500.0

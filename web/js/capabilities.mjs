@@ -6,6 +6,7 @@
 // Sections: shared helpers · L-band waterfall · six ways · integrity and coasting · constellation
 // designer · campaigns · solar system · kept modules (holdover reader, one block, Studio loader).
 import { fmt, nearestByX } from "../playground/lib/views.mjs";
+import { studioHref } from "./studio-links.mjs";
 
 const D = JSON.parse(document.getElementById("kpage").textContent);
 const ROOT = (window.KSITE && window.KSITE.root) || "";
@@ -77,11 +78,15 @@ function prov(p, m, eng, { lead = null, studioTab = null } = {}) {
   p.append(src);
   const stem = m.file.replace(/\.toml$/, "");
   if (studioTab) {
-    const a = el("a", "prov-open", `Open in ${STUDIO}`); a.href = `${ROOT}playground/index.html?scenario=${stem}&tab=${studioTab}`; p.append(a);
+    const a = el("a", "prov-open", `Open in ${STUDIO}`); a.href = studioHref(ROOT, stem, studioTab) || `${ROOT}playground/index.html?scenario=${stem}&tab=${studioTab}`; p.append(a);
     const r = el("a", null, "Report and data"); r.href = `${ROOT}playground/index.html?scenario=${stem}&tab=exports`; p.append(r);
     return;
   }
-  if (m.report) { const a = el("a", "prov-open", "Open the engine's report"); a.href = ROOT + m.report; p.append(a); }
+  // An engine-run visual: the Studio view that reproduces it (js/studio-links.mjs, generated from
+  // the Studio's own link list), then the engine's report, the scenario file, the result and the command.
+  const view = studioHref(ROOT, stem);
+  if (view) { const a = el("a", "prov-open", `Open in ${STUDIO}`); a.href = view; p.append(a); }
+  if (m.report) { const a = el("a", view ? null : "prov-open", view ? "Engine report" : "Open the engine's report"); a.href = ROOT + m.report; p.append(a); }
   if (m.toml_url) { const a = el("a", null, "Scenario file"); a.href = ROOT + m.toml_url; p.append(a); }
   else if (m.toml) { const b = el("button", "cap-cmd", "Scenario file"); b.type = "button"; b.addEventListener("click", () => download(m.file, m.toml, "application/toml")); p.append(b); }
   if (m.result_url) { const a = el("a", null, "Result data"); a.href = ROOT + m.result_url; p.append(a); }
@@ -1310,7 +1315,7 @@ async function loadDemo() {
   let runs;
   try {
     runs = await Promise.all(cols.map((c) => (D.orbits && D.orbits[c.dataset.run]) ? Promise.resolve(D.orbits[c.dataset.run])
-      : fetch(`${ROOT}playground/recorded/${c.dataset.run}.json`).then((r) => { if (!r.ok) throw new Error(r.status); return r.json(); })
+      : import("../playground/lib/packs.mjs").then((m) => (loadDemo.reader ||= m.createPackReader()).run(`${ROOT}playground/recorded/`, c.dataset.run)).then((r) => { if (!r) throw new Error("not recorded"); return r; })
         .then((r) => ({ toml: r.toml, geometry: (typeof r.json === "string" ? JSON.parse(r.json) : r.json).geometry }))));
   } catch (e) {
     for (const c of cols) c.querySelector('[data-cz="toml"]').textContent = "The recorded run could not be loaded here; open it in the Studio instead.";

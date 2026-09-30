@@ -1,0 +1,222 @@
+# LEO-PNT vertical: polar and Arctic users.
+#
+# GNSS medium Earth orbit (MEO) planes are inclined 55 to 56 deg, so from the Arctic every
+# GNSS satellite sits in the southern half of the sky at low elevation, and the vertical
+# geometry suffers. A polar low Earth orbit (LEO) constellation passes overhead there
+# most often. A user travels north through three phases of an hour each, Tromso (69.7 N),
+# Longyearbyen on Svalbard (78.2 N) and the North Pole drift ice (89.5 N); each phase runs
+# a `leo-pvt` joint fix of GPS and Galileo, with and without the Iridium constellation (the
+# public `iridium-stl` preset: 66 satellites at 780 km, 86.4 deg, with its representative
+# 5 m signal-in-space range error), and a `leo-pass` run of the three highest Iridium
+# passes of a quarter hour over the site, whose geometry the campaign exports.
+#
+# Channels: the GNSS-only and fused 3D errors, their position dilution of precision
+# (PDOP) and the satellites in view. The alarm is raised where the fused error exceeds
+# 3 m. `polar-arctic-leo-coverage` gives the same comparison as a table over latitude.
+#
+# MODELLED: two-body orbits with J2 from each constellation preset; no ionospheric
+# scintillation, which the auroral zone would add.
+kind = "campaign"
+title = "Polar and Arctic users with a polar LEO layer"
+seed = 20260929
+
+[timeline]
+step_s = 60.0
+
+[[phases]]
+name = "tromso"
+duration_s = 3600.0
+
+[[phases.runs]]
+series = [
+  { channel = "gnss_error_m", unit = "m", t = "joint.epochs[].t_s", y = "joint.epochs[].error_gnss_m" },
+  { channel = "position_error_m", t = "joint.epochs[].t_s", y = "joint.epochs[].error_fused_m" },
+  { channel = "pdop_gnss", unit = "1", t = "joint.epochs[].t_s", y = "joint.epochs[].pdop_gnss" },
+  { channel = "pdop_fused", unit = "1", t = "joint.epochs[].t_s", y = "joint.epochs[].pdop_fused" },
+  { channel = "gnss_in_view", unit = "count", t = "joint.epochs[].t_s", y = "joint.epochs[].n_gnss" },
+  { channel = "leo_in_view", unit = "count", t = "joint.epochs[].t_s", y = "joint.epochs[].n_leo" },
+]
+alarms = [{ channel = "position_error_m", compare = "above", threshold = 3.0 }]
+[phases.runs.scenario]
+kind = "leo-pvt"
+mode = "joint"
+seed = 4
+duration_s = 3600.0
+step_s = 60.0
+[phases.runs.scenario.user]
+lat_deg = 69.65
+lon_deg = 18.96
+height_m = 20.0
+[[phases.runs.scenario.system]]
+name = "GPS"
+preset = "gps-baseline"
+cn0_dbhz = [38.0, 48.0]
+sisre_m = 0.6
+mask_deg = 10.0
+[[phases.runs.scenario.system]]
+name = "Galileo"
+preset = "galileo"
+cn0_dbhz = [38.0, 48.0]
+sisre_m = 0.3
+isb_ns = 12.0
+mask_deg = 10.0
+[[phases.runs.scenario.system]]
+name = "Iridium"
+leo_preset = "iridium-stl"
+isb_ns = 30.0
+mask_deg = 10.0
+
+[[phases.runs]]
+series = [
+  { channel = "iridium_pass_elevation_deg", unit = "deg", t = "satellites[0].series[].t_s", y = "satellites[0].series[].elevation_deg" },
+]
+[phases.runs.scenario]
+kind = "leo-pass"
+name = "Iridium pass, tromso"
+epoch = "2026-09-28T08:00:00"
+duration_s = 900.0
+step_s = 10.0
+[phases.runs.scenario.user]
+environment = "ground"
+lat_deg = 69.65
+lon_deg = 18.96
+height_m = 20.0
+mask_deg = 10.0
+[[phases.runs.scenario.leo_constellation]]
+system = "iridium-stl"
+max_satellites = 3
+[phases.runs.scenario.gnss]
+constellation = "gps-baseline"
+band = "L1"
+
+[[phases]]
+name = "svalbard"
+duration_s = 3600.0
+
+[[phases.runs]]
+series = [
+  { channel = "gnss_error_m", unit = "m", t = "joint.epochs[].t_s", y = "joint.epochs[].error_gnss_m" },
+  { channel = "position_error_m", t = "joint.epochs[].t_s", y = "joint.epochs[].error_fused_m" },
+  { channel = "pdop_gnss", unit = "1", t = "joint.epochs[].t_s", y = "joint.epochs[].pdop_gnss" },
+  { channel = "pdop_fused", unit = "1", t = "joint.epochs[].t_s", y = "joint.epochs[].pdop_fused" },
+  { channel = "gnss_in_view", unit = "count", t = "joint.epochs[].t_s", y = "joint.epochs[].n_gnss" },
+  { channel = "leo_in_view", unit = "count", t = "joint.epochs[].t_s", y = "joint.epochs[].n_leo" },
+]
+alarms = [{ channel = "position_error_m", compare = "above", threshold = 3.0 }]
+[phases.runs.scenario]
+kind = "leo-pvt"
+mode = "joint"
+seed = 4
+duration_s = 3600.0
+step_s = 60.0
+[phases.runs.scenario.user]
+lat_deg = 78.22
+lon_deg = 15.65
+height_m = 10.0
+[[phases.runs.scenario.system]]
+name = "GPS"
+preset = "gps-baseline"
+cn0_dbhz = [38.0, 48.0]
+sisre_m = 0.6
+mask_deg = 10.0
+[[phases.runs.scenario.system]]
+name = "Galileo"
+preset = "galileo"
+cn0_dbhz = [38.0, 48.0]
+sisre_m = 0.3
+isb_ns = 12.0
+mask_deg = 10.0
+[[phases.runs.scenario.system]]
+name = "Iridium"
+leo_preset = "iridium-stl"
+isb_ns = 30.0
+mask_deg = 10.0
+
+[[phases.runs]]
+series = [
+  { channel = "iridium_pass_elevation_deg", unit = "deg", t = "satellites[0].series[].t_s", y = "satellites[0].series[].elevation_deg" },
+]
+[phases.runs.scenario]
+kind = "leo-pass"
+name = "Iridium pass, svalbard"
+epoch = "2026-09-28T08:00:00"
+duration_s = 900.0
+step_s = 10.0
+[phases.runs.scenario.user]
+environment = "ground"
+lat_deg = 78.22
+lon_deg = 15.65
+height_m = 10.0
+mask_deg = 10.0
+[[phases.runs.scenario.leo_constellation]]
+system = "iridium-stl"
+max_satellites = 3
+[phases.runs.scenario.gnss]
+constellation = "gps-baseline"
+band = "L1"
+
+[[phases]]
+name = "north-pole"
+duration_s = 3600.0
+
+[[phases.runs]]
+series = [
+  { channel = "gnss_error_m", unit = "m", t = "joint.epochs[].t_s", y = "joint.epochs[].error_gnss_m" },
+  { channel = "position_error_m", t = "joint.epochs[].t_s", y = "joint.epochs[].error_fused_m" },
+  { channel = "pdop_gnss", unit = "1", t = "joint.epochs[].t_s", y = "joint.epochs[].pdop_gnss" },
+  { channel = "pdop_fused", unit = "1", t = "joint.epochs[].t_s", y = "joint.epochs[].pdop_fused" },
+  { channel = "gnss_in_view", unit = "count", t = "joint.epochs[].t_s", y = "joint.epochs[].n_gnss" },
+  { channel = "leo_in_view", unit = "count", t = "joint.epochs[].t_s", y = "joint.epochs[].n_leo" },
+]
+alarms = [{ channel = "position_error_m", compare = "above", threshold = 3.0 }]
+[phases.runs.scenario]
+kind = "leo-pvt"
+mode = "joint"
+seed = 4
+duration_s = 3600.0
+step_s = 60.0
+[phases.runs.scenario.user]
+lat_deg = 89.5
+lon_deg = 0.0
+height_m = 0.0
+[[phases.runs.scenario.system]]
+name = "GPS"
+preset = "gps-baseline"
+cn0_dbhz = [38.0, 48.0]
+sisre_m = 0.6
+mask_deg = 10.0
+[[phases.runs.scenario.system]]
+name = "Galileo"
+preset = "galileo"
+cn0_dbhz = [38.0, 48.0]
+sisre_m = 0.3
+isb_ns = 12.0
+mask_deg = 10.0
+[[phases.runs.scenario.system]]
+name = "Iridium"
+leo_preset = "iridium-stl"
+isb_ns = 30.0
+mask_deg = 10.0
+
+[[phases.runs]]
+series = [
+  { channel = "iridium_pass_elevation_deg", unit = "deg", t = "satellites[0].series[].t_s", y = "satellites[0].series[].elevation_deg" },
+]
+[phases.runs.scenario]
+kind = "leo-pass"
+name = "Iridium pass, north-pole"
+epoch = "2026-09-28T08:00:00"
+duration_s = 900.0
+step_s = 10.0
+[phases.runs.scenario.user]
+environment = "ground"
+lat_deg = 89.5
+lon_deg = 0.0
+height_m = 0.0
+mask_deg = 10.0
+[[phases.runs.scenario.leo_constellation]]
+system = "iridium-stl"
+max_satellites = 3
+[phases.runs.scenario.gnss]
+constellation = "gps-baseline"
+band = "L1"

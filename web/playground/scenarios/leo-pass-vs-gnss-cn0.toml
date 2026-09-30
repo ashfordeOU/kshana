@@ -1,0 +1,44 @@
+# A LEO-PNT pass against the Galileo satellites in view: C/N0 over one pass.
+#
+# LEO-PNT is positioning, navigation and timing from satellites in low Earth orbit (LEO). A
+# ground user near Munich watches one pass of a generic LEO navigation satellite (the
+# representative generic-leo preset: 550 km sun-synchronous, an L-band carrier at the Galileo
+# E5 centre frequency of 1191.795 MHz, 0 dBW EIRP from a nadir-pointing 110 deg Gaussian beam)
+# and the Galileo satellites above a 5 deg mask on E1, all through the same patch antenna and
+# receiver noise model. The pass is designed to peak at 80 deg elevation mid-window.
+#
+# The result reproduces, qualitatively, what LEO-PNT demonstrations show: the LEO carrier-to-
+# noise density (C/N0) rises and falls in a bell a few minutes long, peaking several dB above
+# the flat MEO (medium Earth orbit) GNSS carriers, which sit in the mid-40s to about 50 dB-Hz.
+# The larger LEO signal comes from a range some forty times shorter than to a MEO satellite
+# (about 26 to 32 dB less free-space loss), not from a stronger transmitter. The Galileo
+# carriers use the minimum received power of the Galileo OS SIS ICD Issue 2.1 Table 12, plus
+# 2 dB, scaled by range.
+#
+# MODELLED. No Celeste or other workshop data is used: every LEO number here comes from the
+# representative preset in src/leo_link/presets/generic.rs.
+kind = "leo-pass"
+name = "LEO pass versus MEO GNSS C/N0"
+epoch = "2026-09-28T08:00:00"
+duration_s = 900.0
+step_s = 2.0
+
+[user]
+environment = "ground"
+lat_deg = 48.137
+lon_deg = 11.575
+height_m = 520.0
+mask_deg = 5.0
+
+[[satellite]]
+id = "LEO-1"
+system = "generic-leo"
+bands = ["L"]
+orbit = "pass"
+max_elevation_deg = 80.0
+tca_s = 450.0
+
+[gnss]
+constellation = "galileo"
+band = "E1"
+max_satellites = 8

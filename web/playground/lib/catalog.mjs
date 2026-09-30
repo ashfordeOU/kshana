@@ -8,13 +8,19 @@
 // Each domain carries the design-token colour it is drawn in (tokens.css).
 export const DOMAINS = [
   { id: "interference", label: "Jamming & interference", color: "var(--int)" },
+  { id: "spectrum", label: "Spectrum", color: "var(--int)" },
   { id: "spoofing", label: "Spoofing & signal security", color: "var(--spf)" },
   { id: "timing", label: "Clocks & timing", color: "var(--tim)" },
   { id: "navigation", label: "Inertial & alternative navigation", color: "var(--nav)" },
   { id: "integrity", label: "Integrity & positioning", color: "var(--itg)" },
   { id: "orbits", label: "Orbits & GNSS geometry", color: "var(--orb)" },
+  { id: "constellations", label: "Constellation design", color: "var(--orb)" },
+  { id: "leo", label: "Low Earth orbit (LEO) navigation", color: "var(--tim)" },
+  { id: "leo-missions", label: "LEO missions & studies", color: "var(--tim)" },
+  { id: "campaigns", label: "Campaigns", color: "var(--itg)" },
   { id: "spaceops", label: "Mission analysis & space operations", color: "var(--orb)" },
   { id: "deepspace", label: "Moon, cislunar & Mars", color: "var(--ink-2)" },
+  { id: "solar", label: "Solar system", color: "var(--orb)" },
   { id: "studies", label: "Quantum, trade studies & interoperability", color: "var(--spf)" },
 ];
 
@@ -97,7 +103,7 @@ export const SCENARIOS = [
   ["lunar-joint-od-clock.toml", "deepspace", "Lunar joint OD+clock", "Does an Earth-baseline VLBI tie make a lunar station's absolute position observable? (modelled)"],
   ["lunar-frame-realisation.toml", "deepspace", "Lunar frame", "Can a Helmert datum fit recover a lunar reference-frame transform? (modelled)"],
   ["lunar-frame-campaign.toml", "deepspace", "Lunar frame campaign", "What datum accuracy comes out of an observing campaign rather than an injected transform? (modelled)"],
-  ["lunar-llr-datum.toml", "deepspace", "Lunar LLR datum", "What does the lunar datum look like when the campaign is real archived laser ranging? (modelled)"],
+  ["lunar-llr-datum.toml", "deepspace", "Lunar laser-ranging datum", "What does the lunar datum look like when the campaign is real archived lunar laser ranging (LLR)? (modelled; a run recorded with the native engine)"],
   ["lunar-interop-export.toml", "deepspace", "Lunar interop export", "Can lunar frame / time / ephemeris round-trip through CCSDS OEM + a KIF envelope?"],
   ["realtime-frame-eop.toml", "deepspace", "Real-time frame/EOP", "How much frame error does real-time (predicted) Earth-orientation introduce? (modelled)"],
   ["cislunar-observability.toml", "deepspace", "Cislunar observability", "How much of a cislunar spacecraft's state does an inter-satellite arc make observable?"],
@@ -105,6 +111,63 @@ export const SCENARIOS = [
   ["mars-pnt-lmo.toml", "deepspace", "Mars PNT, low orbit", "Can a MARCONI relay constellation navigate a user at Mars? (covariance FoM, not a certified PL)"],
   ["mars-pnt-surface.toml", "deepspace", "Mars PNT, surface", "How well can a lander or rover on the rotating Mars surface be navigated against the relay constellation?"],
   ["mars-pnt-transfer.toml", "deepspace", "Mars PNT, transfer", "How well is a vehicle on a high, eccentric approach or capture arc navigated at Mars?"],
+  // Spectrum
+  ["l-band-waterfall-jamming.toml", "spectrum", "L-band waterfall under jamming", "What does the whole GNSS L band look like while a chirp, a tone and a noise jammer switch on, and which signals does each one take away? (modelled)"],
+  ["multi-band-jamming-waterfall.toml", "spectrum", "Multi-band jamming waterfall", "With navigation signals spread over four bands, what does a jammer built for one band leave standing? (modelled)"],
+  ["leo-resilience-js-margin.toml", "spectrum", "Jammer margin from received power", "How much more jamming does a stronger low-orbit signal survive than a GNSS signal from medium orbit? (modelled)"],
+  // Constellation design
+  ["constellation-multi-gnss-coverage.toml", "constellations", "Four GNSS constellations, one map", "With the four global systems together, how many satellites are in view and how good is the geometry, everywhere on Earth? (modelled)"],
+  ["leo-pnt-mega-shell.toml", "constellations", "5,000-satellite low-orbit design", "What coverage and geometry does a 5,000-satellite navigation constellation in low Earth orbit give? (modelled; an example design)"],
+  ["lunar-relay-constellation.toml", "constellations", "Lunar relay constellation", "What coverage does a relay and navigation constellation in frozen and low lunar orbits give over the whole Moon? (modelled; an example design)"],
+  // Low Earth orbit (LEO) navigation
+  ["leo-band-trade.toml", "leo", "Band trade, UHF to C band", "What does a low-orbit navigation signal gain and lose in each band, from ultra high frequency (UHF) to C band? (representative designs)"],
+  ["xona-pulsar-signals.toml", "leo", "Xona Pulsar signals", "How precisely can a receiver range on the published X1 and X5 signals, and how large is the acquisition search? (public signal table)"],
+  ["leo-pass-vs-gnss-cn0.toml", "leo", "One pass against GNSS", "How does the signal strength of one low-orbit pass compare with the Galileo satellites in view? (modelled)"],
+  ["leo-pass-xona-pulsar.toml", "leo", "Xona Pulsar pass", "What do the X1 and X5 signals look like over one pass, for a ship in the Bay of Biscay? (modelled)"],
+  ["leo-pass-iridium.toml", "leo", "Iridium bursts from an aircraft", "What signal strength and Doppler does an airliner see over one Iridium pass? (modelled)"],
+  ["leo-indoor-uhf.toml", "leo", "Indoors on UHF", "Why does a UHF carrier reach inside a building when the L, S and C bands struggle? (modelled)"],
+  ["leo-iot-energy.toml", "leo", "Energy per fix for a tracker", "How much energy does a battery tag spend on each position fix from a low-orbit signal? (modelled)"],
+  ["leo-focus-science-iono-sounding.toml", "leo", "Ionosphere sounding from two bands", "How well does the delay difference between two bands measure the electron content below a low-orbit satellite? (modelled)"],
+  ["leo-resilience-spoof-doppler.toml", "leo", "Spoofing caught by Doppler", "When a spoofer moves the computed position 30 m, how quickly does a Doppler and pass-geometry check catch it? (modelled)"],
+  ["leo-navmsg-fit-interval-trade.toml", "leo", "Navigation message: fit interval", "How long can one broadcast message cover before its orbit error outgrows the target? (modelled; slow, about 30 s in a browser)"],
+  ["leo-navmsg-model-comparison.toml", "leo", "Navigation message: four models", "Which ephemeris model represents a low orbit best, and how does it sit beside a published table? (modelled)"],
+  ["leo-navmsg-midpass-update.toml", "leo", "Navigation message: mid-pass update", "When a satellite switches to a new message in the middle of a pass, does the user see a jump? (modelled)"],
+  ["leo-navmsg-encode-decode.toml", "leo", "Navigation message: binary frame", "What does each field's quantisation cost, and does the frame survive encoding, decoding and a corrupted bit? (modelled)"],
+  ["meo-leo-fused-pvt.toml", "leo", "Fused GNSS and low-orbit fix", "What does adding a low-orbit layer to GPS and Galileo do to position error and geometry? (modelled)"],
+  ["leo-doppler-positioning.toml", "leo", "Positioning from Doppler alone", "How good is a fix from ten minutes of Doppler on a low-orbit navigation constellation? (modelled)"],
+  ["starlink-sop-doppler-positioning.toml", "leo", "Broadband signals of opportunity", "How well can a receiver position itself from the Doppler of a broadband constellation that sends no navigation message? (modelled)"],
+  ["leo-timing-utc.toml", "leo", "Time transfer to UTC", "How closely can a receiver recover Coordinated Universal Time (UTC) from low-orbit satellites, by oscillator and signal level? (modelled)"],
+  ["polar-arctic-leo-coverage.toml", "leo", "Equator to pole", "From the equator to the pole, how do satellites in view and geometry change with GNSS alone, a polar low-orbit layer alone, and both? (modelled)"],
+  ["leo-ppp-convergence.toml", "leo", "Precise positioning convergence", "How much faster does precise point positioning (PPP) converge when a low-orbit layer is added? (modelled; slow, about 30 s in a browser)"],
+  ["ntn-5g-positioning.toml", "leo", "5G satellite downlink positioning", "How precisely can a handset position itself from a 5G non-terrestrial network downlink, by signal bandwidth? (modelled)"],
+  ["leo-pnt-end-to-end.toml", "leo", "End to end, generic constellation", "From signal design to the final fix, what does each stage hand to the next? (modelled)"],
+  ["xona-pulsar-end-to-end.toml", "leo", "End to end, Xona Pulsar", "The same chain on public Xona Pulsar numbers: signal, pass, message, fused fix and precise positioning. (modelled)"],
+  // LEO missions & studies (campaigns built from the LEO kinds)
+  ["leo-focus-data-services.toml", "leo-missions", "Service data against frame length", "What does each extra data service cost in navigation-message bits? (modelled)"],
+  ["leo-focus-fused-pnt-sisre.toml", "leo-missions", "Fused fix against orbit and clock error", "How good must the low-orbit signal-in-space range error be before the low-orbit layer helps a fused fix? (modelled)"],
+  ["leo-focus-indoor-uhf.toml", "leo-missions", "Indoor reception by band and building", "Which band still reaches a user inside a traditional and a thermally efficient building? (modelled)"],
+  ["leo-focus-iot-eirp.toml", "leo-missions", "Tracker energy against transmit power", "How much satellite transmit power does a battery tag need to last? (modelled)"],
+  ["leo-focus-ntn-bandwidth.toml", "leo-missions", "5G downlink positioning against bandwidth", "How does the positioning error fall as the reference signal widens from 180 kHz to 20 MHz? (modelled)"],
+  ["leo-focus-ppp-altitude.toml", "leo-missions", "Precise positioning against layer altitude", "Does a lower or a higher low-orbit layer shorten convergence more? (modelled; slow, about a minute in a browser)"],
+  ["leo-resilience-gnss-jammed-leo-carries.toml", "leo-missions", "GNSS jammed, low orbit carries on", "When GNSS is jammed, can a low-orbit layer in other bands keep the fix and its integrity? (modelled)"],
+  ["leo-resilience-multiband-diversity.toml", "leo-missions", "Band diversity under a barrage jammer", "As one L-band jammer is turned up, which of four bands keep tracking? (modelled)"],
+  ["leo-resilience-spoof-monitors.toml", "leo-missions", "Spoofing monitors against four spoofers", "Which monitor sees which kind of spoofer? (modelled)"],
+  ["leo-vertical-5g-network-timing.toml", "leo-missions", "5G base-station timing", "When GNSS is lost for a day, does low-orbit time keep a base station inside its timing limit? (modelled)"],
+  ["leo-vertical-asset-tracking-iot.toml", "leo-missions", "Container tracking", "Along a container's journey, what does each position fix cost a battery tag? (modelled)"],
+  ["leo-vertical-autonomous-vehicle.toml", "leo-missions", "Vehicle in an urban canyon", "When buildings hide the low satellites, does a low-orbit layer keep a car inside a lane-level error? (modelled)"],
+  ["leo-vertical-critical-infrastructure-timing.toml", "leo-missions", "Substation timing", "When GNSS is lost, does low-orbit time hold a substation's synchronisation? (modelled)"],
+  ["leo-vertical-polar-arctic.toml", "leo-missions", "Arctic journey", "From Tromsø to the North Pole, what does a polar low-orbit layer add to GNSS? (modelled)"],
+  ["leo-vertical-rail-maritime.toml", "leo-missions", "Rail and maritime with a low-orbit layer", "When the bundled ship and train scenarios lose GNSS, does a low-orbit pass still reach them? (modelled)"],
+  // Campaigns
+  ["campaign-jam-spoof-holdover-integrity.toml", "campaigns", "Chained mission: jam, spoof, hold over, alarm", "What happens to one receiver through jamming, spoofing, GNSS loss, an integrity alarm and recovery, on one timeline? (modelled)"],
+  ["campaign-spectrum-holdover-integrity.toml", "campaigns", "Spectrum-driven mission", "A jammer takes two L-band signals, the clock holds over and the receiver falls back to Galileo alone: does integrity monitoring still hold? (modelled)"],
+  ["campaign-sweep-jammer-power.toml", "campaigns", "Jammer power sweep", "As a jammer 1 km away is turned up from 10 nW to 10 W, when does the receiver lose its fix? (modelled)"],
+  ["campaign-monte-carlo-clock-holdover.toml", "campaigns", "Monte Carlo clock holdover", "Over many seeded runs, does a free-running clock's time error match its closed-form spread?"],
+  ["campaign-shared-jammer-sea-road.toml", "campaigns", "One jammer, a ship and a car", "Under one jammer, which platform loses its fix: the ship 30 km away or the car 50 km away? (modelled)"],
+  // Solar system
+  ["solar-system-tour.toml", "solar", "Solar system at one epoch", "Where is every body the engine knows, from the Sun to Pluto and the large moons, and how long does light take between them?"],
+  ["mars-orbit-pnt.toml", "solar", "Mars orbiter with relays and an Earth link", "How well is a low Mars orbiter positioned from twelve navigation relays, and what does a range from Earth add? (modelled)"],
+  ["europa-surface-pnt.toml", "solar", "Lander on Europa", "Can a lander on Jupiter's moon Europa be positioned from a small relay constellation and a range from Earth? (modelled)"],
   // Quantum, trade studies & interoperability
   ["quantum-trade.toml", "studies", "Quantum PNT trade", "What timing / inertial holdover does a candidate clock buy over a classical baseline? (modelled)"],
   ["quantum-anomaly-detect.toml", "studies", "Quantum anomaly detect", "How well are quantum-system faults detected at a fixed false-alarm rate? (modelled)"],
@@ -116,11 +179,35 @@ export const SCENARIOS = [
 
 // Files the browser engine cannot run, with the reason shown in the library.
 export const NOT_IN_BROWSER = {
-  "lunar-llr-datum.toml": "Needs the archived laser-ranging data slice that ships with the repository, not with the browser build. Run it from the command line.",
+  "lunar-llr-datum.toml": "Needs the archived laser-ranging data slice that ships with the repository, not with the browser build.",
   "quantum-pnt-demonstrator.suite.toml": "A study suite, not a single scenario. Run it with the command-line tool: kshana --study.",
 };
+// Of those, the files the Studio shows as a run recorded with the native command-line engine.
+export const RECORDED_NATIVELY = ["lunar-llr-datum.toml"];
 
 export const DEFAULT_SCENARIO = "clock-holdover.toml";
+
+// Folder a scenario's files live under ("" for the bundled set, the group's own folder for an optional group).
+const DIRS = new Map();
+export function dirOf(file) {
+  return DIRS.get(file) || "";
+}
+
+// Add an optional group of scenarios that ships in its own folder (so it can be left out by
+// deleting that folder): { dir, domain: { id, label, color }, scenarios: [[file, title, question]] }.
+// Returns how many entries were added.
+export function registerGroup(group) {
+  if (!group || !group.domain || !Array.isArray(group.scenarios)) return 0;
+  if (!DOMAINS.some((d) => d.id === group.domain.id)) DOMAINS.push({ id: group.domain.id, label: String(group.domain.label), color: group.domain.color || "var(--ink-2)" });
+  let n = 0;
+  for (const s of group.scenarios) {
+    if (!Array.isArray(s) || typeof s[0] !== "string" || SCENARIOS.some((x) => x[0] === s[0])) continue;
+    SCENARIOS.push([s[0], group.domain.id, String(s[1]), String(s[2])]);
+    DIRS.set(s[0], group.dir || "");
+    n++;
+  }
+  return n;
+}
 
 export function domainOf(id) {
   return DOMAINS.find((d) => d.id === id) || null;

@@ -7,6 +7,32 @@ import { seriesModel, holdoverModel, signalModel, masksModel, adevCurves, ground
 
 const rec = (f) => { const r = JSON.parse(readFileSync(new URL(`../recorded/${f}.json`, import.meta.url), "utf8")); return { toml: r.toml, result: JSON.parse(r.json) }; };
 
+// A label made from a result key keeps an acronym's capitals ("Leo pass duration" and "Crc24q" were
+// on screen), and writes out the ones a reader is least likely to know.
+{
+  const { humanKey } = await import("./views.mjs");
+  assert.equal(humanKey("leo_pass_duration_s"), "LEO pass duration (s)");
+  assert.equal(humanKey("crc24q"), "CRC-24Q");
+  assert.equal(humanKey("enbw_hz"), "Equivalent noise bandwidth (Hz)");
+  assert.equal(humanKey("nfft"), "FFT length");
+  assert.equal(humanKey("tx_bandwidth_hz"), "Transmit bandwidth (Hz)");
+  assert.equal(humanKey("ttff_s"), "Time to first fix (s)");
+  assert.equal(humanKey("utc_offset_ns"), "UTC offset (ns)");
+  assert.equal(humanKey("sisre_orb_rms_m"), "SISRE orb RMS (m)");
+  assert.equal(humanKey("result_sha256"), "Result SHA-256");
+  // The older keys read as before.
+  assert.equal(humanKey("gnss_max_cn0_dbhz"), "GNSS max C/N0 (dB-Hz)");
+  assert.equal(humanKey("holdover_s"), "Holdover (s)");
+  // No label made from a real result of the newer kinds shows a mis-cased acronym.
+  const bad = /\b(Leo|Uhf|Utc|Sisre|Rinex|Crc24q|Enbw|Nfft|Ttff|Aos|Tca|Itrf|Ilrs|Csv|Iod|Lsb)\b/;
+  for (const f of ["leo-pass-vs-gnss-cn0", "leo-navmsg-encode-decode", "l-band-waterfall-jamming", "leo-band-trade", "lunar-llr-datum", "leo-pnt-end-to-end", "leo-timing-utc"]) {
+    const seen = new Set();
+    const walk = (o) => { if (!o || typeof o !== "object") return; if (Array.isArray(o)) return o.slice(0, 3).forEach(walk); for (const [k, v] of Object.entries(o)) { seen.add(k); walk(v); } };
+    walk(rec(f).result);
+    for (const k of seen) assert.ok(!bad.test(humanKey(k)), `${f}: key ${k} reads "${humanKey(k)}"`);
+  }
+}
+
 // Clock holdover: series, outage window, holdover read-off agrees with the engine figure.
 {
   const { result, toml } = rec("clock-holdover");

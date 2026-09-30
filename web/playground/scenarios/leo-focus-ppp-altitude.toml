@@ -1,0 +1,81 @@
+# LEO-PNT focus area: high-accuracy positioning (precise point positioning, PPP).
+#
+# Adding a low Earth orbit (LEO) layer shortens PPP convergence because the LEO geometry
+# changes in minutes rather than hours, which separates the float ambiguities from the
+# position quickly. The trade: a lower orbit changes geometry faster but puts fewer
+# satellites in view. The campaign sweeps the altitude of a 192-satellite Walker layer
+# (12 planes, 60 deg) at 500, 1000 and 1500 km over a multi-GNSS float PPP (GPS, Galileo,
+# BeiDou and GLONASS, ionosphere-free code and phase) at one mid-latitude site, and
+# records the median time for the horizontal and vertical errors to stay under 10 cm
+# (six noise realisations per altitude, 30 s epochs, so times come in half minutes).
+#
+# Reference trend: Li et al. 2019 (J Geodesy, doi 10.1007/s00190-018-1195-2) simulated
+# 60, 96, 192 and 288 LEO satellites at 1000 km cutting multi-GNSS convergence from 9.6
+# to 7.0, 3.2, 2.1 and 1.3 min; `leo-ppp-convergence` compares the engine with that
+# table. This sweep is a design study around it, not a reproduction.
+#
+# MODELLED: float PPP with white code and phase noise and a random-walk zenith wet
+# delay; no ambiguity resolution, no multipath.
+kind = "campaign"
+title = "PPP convergence against the altitude of a 192-satellite LEO layer"
+seed = 20260929
+
+[sweep]
+metrics = [
+  { name = "gnss_only_convergence", path = "cases[0].median_convergence_min" },
+  { name = "gnss_leo_convergence", path = "cases[1].median_convergence_min" },
+  { name = "mean_sats_in_view", path = "cases[1].mean_sats" },
+]
+
+[[sweep.axes]]
+name = "leo_altitude"
+key = "case.0.system.0.shell.0.altitude_km"
+unit = "km"
+start = 500.0
+stop = 1500.0
+steps = 3
+
+[sweep.scenario]
+kind = "leo-ppp"
+seed = 20
+duration_s = 1800.0
+step_s = 30.0
+runs = 6
+
+[[sweep.scenario.site]]
+lat_deg = 48.1
+lon_deg = 11.6
+
+[[sweep.scenario.gnss]]
+name = "GPS"
+preset = "gps-baseline"
+mask_deg = 7.0
+
+[[sweep.scenario.gnss]]
+name = "Galileo"
+preset = "galileo"
+mask_deg = 7.0
+
+[[sweep.scenario.gnss]]
+name = "BeiDou"
+preset = "beidou-meo"
+mask_deg = 7.0
+
+[[sweep.scenario.gnss]]
+name = "GLONASS"
+preset = "glonass"
+mask_deg = 7.0
+
+[[sweep.scenario.case]]
+name = "192 LEO"
+
+[[sweep.scenario.case.system]]
+name = "LEO-192"
+mask_deg = 7.0
+
+[[sweep.scenario.case.system.shell]]
+total = 192
+planes = 12
+phasing = 1
+altitude_km = 1000.0
+inclination_deg = 60.0

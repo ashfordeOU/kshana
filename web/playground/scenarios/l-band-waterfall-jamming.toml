@@ -1,0 +1,85 @@
+# L-band waterfall under jamming: the whole Global Navigation Satellite System (GNSS)
+# L band as one power spectral density (PSD), frequency across, time down, while a
+# scripted sequence of jammers switches on.
+#
+# The question a spectrum monitor or a receiver designer asks: what does the band look
+# like while this happens, and which signals does each jammer actually take away? The
+# navigation signals sit about 20 dB below the thermal noise floor, so the picture shows
+# the floor and the jammers; the per-band carrier-to-noise density (C/N0) bars show what
+# despreading recovers. Each jammer is scored against each band by its spectral
+# separation coefficient (SSC), the overlap of the two spectra over the receiver band
+# (Betz 2001; Kaplan & Hegarty, Understanding GPS/GNSS, 3rd ed., section 9.4), so a
+# jammer only hurts the bands its spectrum reaches.
+#
+# Timeline (60 s, one row per second):
+#   10 s  a swept (chirp) jammer, 16 MHz wide around L1, a 9 microsecond sawtooth, the
+#         shape of a car-cigarette-lighter privacy device: 50 mW (-13 dBW) at 100 m.
+#         It takes GPS L1 coarse/acquisition (C/A) and Galileo E1 away together.
+#   30 s  a continuous-wave (CW) tone exactly on the L1 carrier, 10 mW at 1 km. On C/A
+#         it lands on the peak of the binary phase-shift keying (BPSK) spectrum; on
+#         Galileo E1 it lands in the null of the multiplexed binary offset carrier (MBOC)
+#         spectrum, so E1 recovers when the chirp stops at 40 s while C/A stays lost.
+#   45 s  flat 2 MHz noise on the L2 carrier, received at -135 dBW: GPS L2 civil (L2C)
+#         is degraded but keeps tracking.
+# GPS L5 and Galileo E5a, at 1176.45 MHz, are outside every jammer's spectrum.
+#
+# The [iq] section draws the model at 35 s as complex IQ samples (20.48 MHz around L1),
+# writes them as a Signal Metadata Format (SigMF) recording and reads them back, and
+# compares a Welch estimate with the model: a check of the synthesis, the SigMF codec and
+# the estimator, not a measurement. A real recording can be compared instead with a
+# [recording] section (meta_path = "capture.sigmf-meta"), native builds only.
+#
+# Assumptions: signal powers are the interface-specification minimum received powers
+# (IS-GPS-200, IS-GPS-705, Galileo Open Service Signal-in-Space Interface Control
+# Document); a 290 K antenna and a 2 dB receiver noise figure; free-space propagation
+# to the jammers, 0 dBi receive gain toward them. MODELLED: the signal spectra are
+# validated closed forms, but every jammer, power and timing here is a scenario input.
+kind = "spectrum"
+seed = 7
+duration_s = 60.0
+step_s = 1.0
+
+[receiver]
+noise_figure_db = 2.0
+antenna_temp_k = 290.0
+tracking_threshold_dbhz = 25.0
+
+[grid]
+f_min_mhz = 1160.0
+f_max_mhz = 1590.0
+n_freq = 430
+
+[[jammers]]
+name = "chirp privacy device"
+waveform = "chirp"
+centre_mhz = 1575.42
+bandwidth_mhz = 16.0
+sweep_period_us = 9.0
+eirp_dbw = -13.0
+range_m = 100.0
+on_s = 10.0
+off_s = 40.0
+
+[[jammers]]
+name = "CW tone on L1"
+waveform = "cw"
+centre_mhz = 1575.42
+eirp_dbw = -20.0
+range_m = 1000.0
+on_s = 30.0
+
+[[jammers]]
+name = "L2 narrowband noise"
+waveform = "narrowband"
+centre_mhz = 1227.60
+bandwidth_mhz = 2.0
+received_power_dbw = -135.0
+on_s = 45.0
+
+[iq]
+centre_mhz = 1575.42
+sample_rate_mhz = 20.48
+t_s = 35.0
+log2_samples = 16
+nfft = 1024
+datatype = "cf32_le"
