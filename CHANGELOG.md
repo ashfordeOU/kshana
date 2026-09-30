@@ -501,9 +501,42 @@ breaking changes are called out explicitly.
   it replaced is unchanged as `RunOutput::html_report()`, which the Python and WebAssembly
   bindings still return. `OracleKind::modelled_reason()` exposes the sentence
   `docs/MODELLED-RATIONALE.md` prints for each MODELLED row; that document is unchanged.
+- **Documentation audit of the spectrum, constellation, campaign, animation, report and
+  interoperability pages, and a new `docs/SOLAR-SYSTEM.md`.** Every figure was re-run with
+  this engine. Two published numbers move, recorded here as a revision:
+  `docs/CONSTELLATION-DESIGN.md` gave the 5 000-satellite coverage test as "about 0.13 s in
+  a debug build"; that did not reproduce (1.24 s on a loaded laptop), so the page now gives
+  the prefilter share the test prints (9.9 % of 19 440 000 pair tests) and the release
+  binary's 0.14 s for the bundled `leo-pnt-mega-shell`. The same page gave E3F's crossing
+  as "off by 0.050 deg"; no test prints that figure, so the page now states only the
+  0.06 deg bar the test enforces and the 7.30 against 7.36 deg derivation behind it. No
+  engine output changes.
+- **The README says what Kshana Pro builds on.** The Editions section and the Kshana Pro
+  line under "Support & professional services" now state what Pro's model-based
+  systems-engineering (MBSE) and programme tooling does and which of the open engine's
+  published outputs it reads (each run's `result.json` and `report.json`, the scenario
+  file, the field-units schema and the verification matrix's labels), and what the clock
+  digital twins, trade studies and evidence packs rest on in the open engine. Wording
+  only: no engine output and no published number changes.
 
 ### Fixed
 
+- **LEO-PNT documents: revised published figures (re-run on engine 0.28.0).**
+  `docs/LEO-SIGNAL.md` band trade: the first-order ionospheric delay of `generic-s` is
+  3.24 m (was printed 3.25 m) and of `generic-c-wide` 0.77 m (was 0.78 m).
+  `docs/LEO-NAVMSG.md` encode and decode: the decoded message's SISRE is 0.122 cm (was
+  printed 0.119 cm). `docs/LEO-PASS.md` LEO-versus-GNSS pass: 32 dB less free-space loss at
+  the pass peak (was "26 to 32 dB"). The engine output did not change; the documents had
+  misread or mis-rounded it.
+- **Tutorials, the worked pipeline example and the `/kshana-run` command, audited
+  against kshana 0.28.0.** Revisions to published figures, old → new: the kinds that
+  write `<scenario>.table.csv` are six, not four (`leo-navmsg` and `telecom-timing`
+  were missing; `docs/tutorials/README.md`, `commands/kshana-run.md`); the cold-atom
+  ½bT² crossing in Tutorial 3 is 18,443 s, not 18,440 s; the `oem-interop` round-trip
+  error in `docs/examples/multi-tool-pipeline.md` is the measured 4.88e-7 km, not
+  "~1e-7 km"; the Tutorial 2 CSAC holdover band is the 2000–3200 s the test asserts,
+  not "~2600–4400 s"; Tutorial 1 quotes the SP3 rows and geometry block at the
+  precision the engine writes them. No engine output changed.
 - **STK ephemeris file names from mover ids.** A mover id holding a `/` or a space (a
   constellation shell and a satellite, `Pulsar inclined/S1-0163`) made the CLI panic on
   `--export stk`; each id now passes through a safe file part (letters, digits, `-`, `_`).

@@ -10,13 +10,29 @@ that means so the "quantum" framing cannot be mistaken for more than it is.
 Each quantum (and classical) sensor is an **error model** driven by published
 noise-budget parameters:
 
-- **Clocks** — white-frequency and random-walk-frequency PSDs (power spectral densities), a flicker (1/f) Allan
-  floor, and linear drift, sourced from datasheets and papers (CSAC (chip-scale atomic clock) SA.45s; strontium
-  optical-lattice goals; ACES/PHARAO (ACES: Atomic Clock Ensemble in Space; PHARAO: Projet d'Horloge Atomique par Refroidissement d'Atomes en Orbite)). The Allan deviation these produce is validated
-  against the standard noise-type slopes (see [`VALIDATION.md`](VALIDATION.md)).
-- **Inertial sensors** — a single-axis (1-DOF (DOF: degree of freedom)) accelerometer/gyro error budget:
-  velocity random walk, angular random walk, acceleration random walk, and an Allan
-  bias-instability floor.
+- **Clocks** — white-frequency and random-walk-frequency PSDs (power spectral densities),
+  a flicker (1/f) Allan floor, and linear drift, sourced from datasheets and papers: the
+  CSAC (chip-scale atomic clock) Microchip SA.45s; the strontium optical-lattice clock of
+  Origlia et al. (arXiv:1503.08457), a space-oriented goal; and the six `ClockClass`
+  defaults (CSAC; USO, ultra-stable oscillator; DSAC, Deep Space Atomic Clock; TCXO,
+  temperature-compensated crystal oscillator; OCXO, oven-controlled crystal oscillator;
+  RAFS, rubidium atomic frequency standard), each citing one source. The Allan deviation
+  these produce is validated against the standard noise-type slopes (see
+  [`VALIDATION.md`](VALIDATION.md)). One optical-clock curve is real: the measured
+  ⁸⁸Sr tweezer-clock Allan deviation of Norcia et al. (*Science* 2019) is reproduced by the
+  noise fit, a VALIDATED row in [`VERIFICATION-MATRIX.md`](VERIFICATION-MATRIX.md); the
+  holdover figures built on the optical class stay MODELLED.
+- **Inertial sensors** — in the `inertial` and hybrid packs, a single-axis (1-DOF, one
+  degree of freedom) accelerometer/gyro error budget: velocity random walk, angular random
+  walk, acceleration random walk, and an Allan bias-instability floor. The `gnss-ins` and
+  `hybrid-ukf` kinds instead run the three-axis strapdown mechanisation in
+  `src/inertial/` (quaternion attitude, north-east-down navigation equations, a
+  deterministic IMU error model).
+- The quantum scenario kinds — `quantum-trade`, `quantum-time-transfer`,
+  `quantum-anomaly-detect`, `quantum-gnss-free-nav` and `hybrid-ukf` — are built from
+  these error models and are MODELLED; `quantum-time-transfer`, `quantum-anomaly-detect`
+  and `quantum-gnss-free-nav` also report a representativeness record with the gaps to
+  flight.
 - The engine is **neutral**: "quantum" and "classical" are the same code path with
   different coefficients. The contrast in the figures of merit comes entirely from the
   input noise parameters, each traceable to a cited source.
@@ -32,20 +48,23 @@ remaining systematics are still coefficient-level or unmodelled:
   projection / shot noise** (`σ_Φ = 1/(C·√N)`), interferometer **contrast** decay,
   **cycle time**, and the **vibration-coupling transfer function** (`|H(ω)| =
   (4/ω²)sin²(ωT/2)`, white-PSD variance `σ_Φ² = k_eff²·S_a·T³/3`) *are now modelled from
-  first principles* for the CAI (cold-atom interferometer) accelerometer (`src/inertial/quantum_imu.rs`), deriving
-  the white-acceleration PSD (power spectral density) `q_va` the classical model consumes — see
-  [`QUANTUM.md`](QUANTUM.md);
+  first principles* for the CAI (cold-atom interferometer) accelerometer
+  (`src/inertial/quantum_imu.rs`), deriving the white-acceleration PSD `q_va` the
+  classical model consumes, together with the **fringe-ambiguity dynamic range**
+  (`a_max = π/(k_eff·T²)`) — see [`QUANTUM.md`](QUANTUM.md);
 - the **Coriolis** systematic (`coriolis_phase` / `coriolis_accel_bias`, the
   `2·v⊥·Ω` cross-coupling) and the **AC-Stark (AC: alternating-current) / light-shift** systematic
   (`ac_stark_phase`, which cancels under a symmetric two-photon detuning) *are now
   modelled and unit-tested* in `src/inertial/quantum_imu.rs`;
-- still **not** modelled: **laser-phase noise** and clock-side first-principles
-  physics;
-- no 3-axis mechanisation (the inertial model is 1-DOF — see the IMU (inertial measurement unit) note in the
-  README and [`VALIDATION.md`](VALIDATION.md)).
+- still **not** modelled: **laser-phase noise**, **wavefront aberration**, unwrapping a
+  fringe reading beyond ±`a_max`, and clock-side first-principles physics;
+- the quantum-versus-classical `inertial` pack is single-axis; the three-axis strapdown
+  path runs only in `gnss-ins` and `hybrid-ukf` (see the IMU, inertial measurement unit,
+  note in the README and [`VALIDATION.md`](VALIDATION.md)).
 
-Completing the quantum-physics layer (laser-phase noise, and clock-side
-first-principles physics) is the remaining P2 roadmap work.
+Completing the quantum-physics layer (laser-phase noise, wavefront aberration and
+clock-side first-principles physics) is the remaining P2 work in
+[`ROADMAP.md`](../ROADMAP.md).
 
 ## Ground-lab vs. flight-qualified figures
 
@@ -53,8 +72,8 @@ Parameter tables mix maturity levels; treat them accordingly:
 
 | Sensor | Source figure | Maturity |
 |--------|---------------|----------|
-| CSAC (e.g. SA.45s) | datasheet σ_y(1 s) ≈ 3e-10 | **flight-qualified** (flown, incl. GPS-adjacent (GPS: Global Positioning System) use) |
-| Strontium optical-lattice clock | σ_y(1 s) goal ≈ 1e-15 (arXiv:1503.08457) | **ground-lab only** — no strontium optical clock has flown |
+| CSAC (e.g. SA.45s) | datasheet σ_y(1 s) ≈ 3e-10 | **deployed** commercial part (radiation-tolerant space variants exist) |
+| Strontium optical-lattice clock | σ_y(1 s) goal ≈ 1e-15 (arXiv:1503.08457) | **ground-lab** — Kshana knows of no published in-orbit performance for one |
 | Cold-atom accelerometer | published lab Allan figures | **ground-lab / sounding-rocket** |
 
 Optical-clock figures in Kshana are *space goals on ground hardware*. No flown optical
@@ -62,7 +81,8 @@ clock exists; the README and result provenance say so explicitly.
 
 ## Benchmark: ACES/PHARAO on the ISS (operational since April 2025)
 
-The ESA (European Space Agency) **ACES/PHARAO** payload — a laser-cooled caesium clock plus an active hydrogen
+The ESA (European Space Agency) **ACES/PHARAO** payload (ACES: Atomic Clock Ensemble in
+Space; PHARAO: Projet d'Horloge Atomique par Refroidissement d'Atomes en Orbite) — a laser-cooled caesium clock plus an active hydrogen
 maser, operating on the ISS (International Space Station) since April 2025 — is the current operational on-orbit
 clock-stability benchmark (target fractional stability of order 1e-16 after a few days
 of integration). Kshana's optical-clock model represents a *more aggressive* ground-lab
@@ -77,5 +97,6 @@ is a microwave/maser system, not an optical-lattice clock.
 ## See also
 
 - [`VALIDATION.md`](VALIDATION.md) — per-parameter `validated` / `not modeled` labels.
-- [`GLOSSARY.md`](GLOSSARY.md) — FoM definitions.
+- [`GLOSSARY.md`](GLOSSARY.md) — figure-of-merit (FoM) definitions and every abbreviation.
 - [`INTEGRITY.md`](INTEGRITY.md) — what the Integrity and Security FoMs are and are not.
+- [`QUANTUM.md`](QUANTUM.md) — the first-principles cold-atom accelerometer.

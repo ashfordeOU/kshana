@@ -15,7 +15,7 @@ hand-written: see
 [Units and provenance, per field, for every kind](#units-and-provenance-per-field-for-every-kind)
 below.
 
-## Interchange envelope (KIF) — recognising and version-checking an artifact
+## Interchange envelope (KIF, the Kshana Interchange Format) — recognising and version-checking an artifact
 
 Kshana artifacts can be wrapped in a neutral, self-describing **interchange
 envelope** so a third-party tool can recognise the file and decide whether it
@@ -76,7 +76,7 @@ by design and are read as the raw `payload` JSON value.
 | `series` | array of `{t, error_ns, gnss}` | Per-step time series: `t` seconds, `error_ns` the timing error in **nanoseconds**, `gnss` one of `nominal`/`degraded`/`denied`. |
 | `fom` | object (`FoMScores`) | The scored figures of merit (below). |
 | `adev_curve` | array of `{tau_s, adev, n_samples, noise, edf, ci_lo, ci_hi}` | Overlapping Allan deviation: `tau_s` the averaging time (s), `adev` the dimensionless fractional-frequency stability σ_y(τ), `n_samples` the overlap count behind that point, `noise` the power-law type identified from the MDEV (modified Allan deviation) slope (e.g. `WhiteFm`), `edf` the noise-type-specific effective degrees of freedom, and `ci_lo`/`ci_hi` the χ²-based 95% confidence band on `adev` at that τ. Computed in `allan.rs:overlapping_adev_curve`. |
-| `filter_health` | object, optional | Kalman filter-consistency assessment (NIS/NEES (NIS: normalised innovation squared; NEES: normalised estimation error squared) against their χ² bands). `None` for runs that do not assess it. | `filter_health.rs` |
+| `filter_health` | object, optional | Kalman filter-consistency assessment (NIS/NEES (NIS: normalised innovation squared; NEES: normalised estimation error squared) against their χ² bands), computed in `filter_health.rs`; omitted for runs that do not assess it. |
 
 ## `FoMScores` (the `fom` object)
 
@@ -101,16 +101,33 @@ by design and are read as the raw `payload` JSON value.
 
 ## Other scenario kinds
 
-The `inertial`, `hybrid`, `fusion`, and `spoof` scenario kinds emit related but
-distinct artifacts:
+Every other kind emits its own result shape. A few of the common ones:
 
-- **inertial / hybrid**: position-domain FoMs in **metres** (`pos_rms_m`, `pos_p95_m`)
-  — single-axis (1-DOF (DOF: degree of freedom)), single-seed (see [`CAPABILITY.md`](CAPABILITY.md)).
+- **inertial**: position-domain figures of merit in **metres** (`pos_rms_m`,
+  `pos_p95_m`) — single-axis (1-DOF (DOF: degree of freedom)), single-seed (see
+  [`CAPABILITY.md`](CAPABILITY.md)).
+- **hybrid / fusion**: `timing_spec_ns` and `position_spec_m` at the top level, and per
+  side the timing and position figures of one sensor suite (`position_p95_m`,
+  `position_holdover_s`, and `pnt_holdover_s`, the time until either spec breaches), with
+  a `figure_tiers` block like the clock pack's in which the position figures are listed
+  as `untiered`.
 - **spoof**: per-step spoof offset vs the clock's detection bound, plus whether the
   spoof reached the spec before detection (`src/spoof.rs`).
 
-For the precise field set of each, run the scenario and read the emitted JSON, or see
-the corresponding `*Result` struct in `src/`.
+For the precise field set of any kind, read its entry in
+[`field-units-schema.json`](field-units-schema.json) (below), the kind's section of
+[`SCENARIOS.md`](SCENARIOS.md), or the corresponding `*Result` struct in `src/`.
+
+## Other files a run writes
+
+Beside `<scenario>.result.json` the CLI (command-line interface) writes
+`<scenario>.chart.svg`, a printable `<scenario>.report.html` and the same report as
+`<scenario>.report.json`, whose `reproducibility` block records the engine version, the
+SHA-256 of the scenario file, the seed, the platform and the exact command (see
+[`REPORTS.md`](REPORTS.md) and [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)). Kinds that
+publish a reproducibility table also write `<scenario>.table.csv` (CSV: comma-separated
+values). `--export` writes exchange files (see [`INTEROP.md`](INTEROP.md)) and
+`--animate` an animation (see [`ANIMATION.md`](ANIMATION.md)).
 
 ## Units and provenance, per field, for every kind
 
